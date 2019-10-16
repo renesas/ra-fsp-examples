@@ -1,21 +1,21 @@
-
-
 /***********************************************************************************************************************
-* Copyright [2015] Renesas Electronics Corporation and/or its licensors. All Rights Reserved.
-*
-* The contents of this file (the "contents") are proprietary and confidential to Renesas Electronics Corporation
-* and/or its licensors ("Renesas") and subject to statutory and contractual protections.
-*
-* Unless otherwise expressly agreed in writing between Renesas and you: 1) you may not use, copy, modify, distribute,
-* display, or perform the contents; 2) you may not use any name or mark of Renesas for advertising or publicity
-* purposes or in connection with your use of the contents; 3) RENESAS MAKES NO WARRANTY OR REPRESENTATIONS ABOUT THE
-* SUITABILITY OF THE CONTENTS FOR ANY PURPOSE; THE CONTENTS ARE PROVIDED ÅeAS ISÅf WITHOUT ANY EXPRESS OR IMPLIED
-* WARRANTY, INCLUDING THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND
-* NON-INFRINGEMENT; AND 4) RENESAS SHALL NOT BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, OR CONSEQUENTIAL DAMAGES,
-* INCLUDING DAMAGES RESULTING FROM LOSS OF USE, DATA, OR PROJECTS, WHETHER IN AN ACTION OF CONTRACT OR TORT, ARISING
-* OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THE CONTENTS. Third-party contents included in this file may
-* be subject to different terms.
-**********************************************************************************************************************/
+ * DISCLAIMER
+ * This software is supplied by Renesas Electronics Corporation and is only intended for use with Renesas products. No
+ * other uses are authorized. This software is owned by Renesas Electronics Corporation and is protected under all
+ * applicable laws, including copyright laws.
+ * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
+ * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED. TO THE MAXIMUM
+ * EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES
+ * SHALL BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR ANY REASON RELATED TO THIS
+ * SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+ * Renesas reserves the right, without notice, to make changes to this software and to discontinue the availability of
+ * this software. By using this software, you agree to the additional terms and conditions found by accessing the
+ * following link:
+ * http://www.renesas.com/disclaimer
+ *
+ * Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
+ ***********************************************************************************************************************/
 
 /*
 *  Framed protocol support for the host
@@ -28,7 +28,6 @@
 #include <stdlib.h>
 
 #include "serial.h"
-#include "tcpServer.h"
 #include "framedProtocolCommon.h"
 #include "framedProtocolHost.h"
 #include "memoryMap.h"
@@ -719,7 +718,6 @@ static bool writeFlashRegion(const HANDLE handle, const FlashDescriptionRecord *
 void fpInitialise(void)
 {
 	InitializeCriticalSection(&fpContextAllocCriticalSection);
-	tcpServerInitialise();
 
 	fpInitialised = true;
 }
@@ -858,31 +856,7 @@ void fpCloseCommPort(const HANDLE handle)
 	}
 }
 
-// Start a listening TCP server. Only one such server instance is supported.
-// Input: pAddr; ASCII string of IP address to bind to or NULL if the should bind to all available interfaces
-// Input: pServiceNameOrPort; ASCII string of service name (e.g. 'http') or TCP/IP port number to listen on for incoming connections
-// Returning true on success, false otherwise.
-bool fpStartTcpServer(const char *pAddr, const char *pServiceNameOrPort)
-{
-	bool success = false;
 
-	if (fpInitialised)
-	{
-		success = tcpServerStartServer(pAddr, pServiceNameOrPort);
-	}
-	else
-	{
-		fprintf(stderr, "Framed protocol module has not been initialised!\n");
-	}
-
-	return success;
-}
-
-// Shutdown any running TCP/IP server
-void fpStopTcpServer(void)
-{
-	tcpServerStopServer();
-}
 
 /**************************************************************
 * Application API for all transports
@@ -1675,37 +1649,5 @@ void fpReceiveByte(const HANDLE handle, const uint8_t byte)
 	}
 }
 
-// A TCP/IP client has connected
-// Input: hComm; the TCP connection handle
-// Input: pRemoteAddr; the remote client IP address
-// Returns: the framed protocol handle to use or INVALID_HANDLE_VALUE on failure to accept the new connection
-HANDLE fpTcpClientConnected(const HANDLE hComm, const char *pRemoteAddr)
-{
-	HANDLE handle = INVALID_HANDLE_VALUE;
 
-	FpContext *pContext = allocateContext(TCP_CLIENT);
-	if (pContext)
-	{
-		handle = pContext->handle;
-		// Setup TCP transmit function
-		pContext->pBlockingTransmitFn = &tcpBlockingSendByteArray;
-		// Store TCP connection handle and remote address
-		pContext->hComm = hComm;
-		sprintf_s(pContext->u.tcpIp.remoteAddress, sizeof(pContext->u.tcpIp.remoteAddress), "%s", pRemoteAddr);
-		fprintf(stdout, "TCP/IP client at %s connected\n", pRemoteAddr);
-	}
 
-	return handle;
-}
-
-// A TCP/IP client has disconnected
-// Input: handle; the framed protocol handle to the connection which has been terminated
-void fpTcpClientDisconnected(const HANDLE handle)
-{
-	FpContext *pContext = getContext(handle);
-	if (pContext)
-	{
-		fprintf(stdout, "TCP/IP client at %s disconnected\n", pContext->u.tcpIp.remoteAddress);
-		freeContext(pContext);
-	}
-}
