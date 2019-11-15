@@ -50,10 +50,12 @@
 /* Led toggle delay */
 #define TOGGLE_DELAY       0x15E
 
-#define EP_INFO  "\r\nThis Example Project demonstrates SCI_I2C Master operation through loop-back with IIC Slave driver.\r\n"\
-                  "On pressing user push button, 6 bytes of data will be transmitted and received. The transmitted data is compared with the received data.\r\n"\
-                  "If the data matches, on-board LED starts blinking. On a data mismatch, LED stays ON.\r\n"\
-                  "Failure messages and status is displayed on RTTViewer.\r\n\n\n"
+#define EP_INFO  "\r\nThis Example Project demonstrates SCI_I2C Master operation through\r\n"\
+                  "loop-back with IIC Slave driver. On pressing user push button, 6 bytes\r\n"\
+                  "of data will be transmitted and received. The transmitted data is\r\n"\
+                  "compared with the received data. If the data matches, on-board LED\r\n"\
+                  "starts blinking. On a data mismatch, LED stays ON. Failure messages\r\n"\
+                  "and status is displayed on RTTViewer.\r\n\n\n"
 /*
  *  Global functions
  */

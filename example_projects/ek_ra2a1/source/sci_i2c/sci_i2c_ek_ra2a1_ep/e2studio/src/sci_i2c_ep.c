@@ -71,7 +71,7 @@ static void toggle_led(void);
  * @brief     Initializes SCI_I2C_MASTER and IIC_SLAVE driver.
  * @param[IN] None
  * @retval    FSP_SUCCESS       SCI_I2C_MASTER and IIC_SLAVE driver opened successfully.
- * @retval    err               Any Other Error code apart from FSP_SUCCES like Unsuccessful Open.
+ * @retval    err               Any Other Error code apart from FSP_SUCCESS like Unsuccessful Open.
  **********************************************************************************************************************/
 fsp_err_t init_i2c_driver(void)
 {
