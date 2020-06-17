@@ -47,7 +47,7 @@ static fsp_err_t blankcheck_event_flag(void);
 fsp_err_t flash_hp_code_flash_operations(void)
 {
     fsp_err_t err = FSP_SUCCESS;
-    flash_result_t blank_check_result = RESET_VALUE;
+    flash_result_t blank_check_result = FLASH_RESULT_BLANK;
     uint8_t write_buffer[BLOCK_SIZE] = {RESET_VALUE};
     uint8_t read_buffer[BLOCK_SIZE] = {RESET_VALUE};
 
@@ -175,7 +175,7 @@ fsp_err_t flash_hp_code_flash_operations(void)
 fsp_err_t flash_hp_data_flash_operations(void)
 {
     fsp_err_t err = FSP_SUCCESS;
-    flash_result_t blank_check_result = RESET_VALUE;
+    flash_result_t blank_check_result = FLASH_RESULT_BLANK;
     uint8_t write_buffer[BLOCK_SIZE] = {RESET_VALUE};
     uint8_t read_buffer[BLOCK_SIZE]= {RESET_VALUE};
 

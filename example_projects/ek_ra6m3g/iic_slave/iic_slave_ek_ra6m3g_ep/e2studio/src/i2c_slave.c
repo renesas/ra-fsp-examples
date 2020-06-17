@@ -50,8 +50,8 @@ static uint8_t g_slave_rx_buf[BUF_LEN];
 static uint8_t g_master_buf[BUF_LEN];
 
 /* capture callback event for Slave and master module */
-static volatile i2c_master_event_t g_master_event = RESET_VALUE;
-static volatile i2c_slave_event_t  g_slave_event  = RESET_VALUE;
+static volatile i2c_master_event_t g_master_event = (i2c_master_event_t)RESET_VALUE;
+static volatile i2c_slave_event_t  g_slave_event  = (i2c_slave_event_t)RESET_VALUE;
 
 /* Capture return value from slave read and write API */
 static volatile fsp_err_t g_slave_api_ret_err = FSP_SUCCESS;
@@ -242,8 +242,8 @@ static fsp_err_t iic_slave_write(void)
     memcpy(g_slave_tx_buf, write_buffer, BUF_LEN);
 
     /* resetting callback event */
-    g_master_event = RESET_VALUE;
-    g_slave_event  = RESET_VALUE;
+    g_master_event = (i2c_master_event_t)RESET_VALUE;
+    g_slave_event  = (i2c_slave_event_t)RESET_VALUE;
 
     /* Start master read.  Master has to initiate the transfer. */
     write_err = R_IIC_MASTER_Read(&g_i2c_master_ctrl, g_master_buf, BUF_LEN, false);
@@ -327,8 +327,8 @@ static fsp_err_t iic_slave_read(void)
     memcpy(g_master_buf, read_buffer, BUF_LEN);
 
     /* resetting callback event */
-    g_master_event = RESET_VALUE;
-    g_slave_event  = RESET_VALUE;
+    g_master_event = (i2c_master_event_t)RESET_VALUE;
+    g_slave_event  = (i2c_slave_event_t)RESET_VALUE;
 
     /* Master write to slave  */
     read_err = R_IIC_MASTER_Write(&g_i2c_master_ctrl, g_master_buf, BUF_LEN, false);
@@ -488,26 +488,26 @@ static void toggle_led(void)
 
     for(uint8_t cnt = RESET_VALUE; leds.led_count > cnt; cnt++)
     {
-        R_IOPORT_PinWrite(g_ioport.p_ctrl,leds.p_leds[cnt], LED_ON);
+        R_IOPORT_PinWrite(g_ioport.p_ctrl,(bsp_io_port_pin_t)leds.p_leds[cnt], LED_ON);
         R_BSP_SoftwareDelay(TOGGLE_DELAY, BSP_DELAY_UNITS_MILLISECONDS);
 
-        R_IOPORT_PinWrite(g_ioport.p_ctrl,leds.p_leds[cnt], LED_OFF);
+        R_IOPORT_PinWrite(g_ioport.p_ctrl,(bsp_io_port_pin_t)leds.p_leds[cnt], LED_OFF);
     }
 }
 
 /*******************************************************************************************************************//**
  *  @brief       Turn on_board LED ON or OFF.
- *  @param[in]   b_value     LED_ON or LED_OFF
+ *  @param[in]   led_state     LED_ON or LED_OFF
  *  @retval      None
  **********************************************************************************************************************/
-void set_led(bool b_value)
+void set_led(bsp_io_level_t led_state)
 {
     /* Get LED information (pins) for this board */
     bsp_leds_t leds = g_bsp_leds;
 
     for(uint8_t cnt = RESET_VALUE ; leds.led_count > cnt; cnt++)
     {
-       R_IOPORT_PinWrite(g_ioport.p_ctrl,leds.p_leds[cnt], b_value);
+       R_IOPORT_PinWrite(g_ioport.p_ctrl,(bsp_io_port_pin_t)leds.p_leds[cnt], led_state);
     }
 }
 

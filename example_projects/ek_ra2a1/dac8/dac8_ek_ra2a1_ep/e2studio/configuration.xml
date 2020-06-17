@@ -8,7 +8,7 @@
     <option key="#DeviceCommand#" value="R7FA2A1AB"/>
     <option key="#RTOS#" value="_none"/>
     <option key="#pinconfiguration#" value="RA2A1-EK.pincfg"/>
-    <option key="#FSPVersion#" value="1.0.0"/>
+    <option key="#FSPVersion#" value="1.1.0"/>
     <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra2a1_ek##"/>
     <option key="#SELECTED_TOOLCHAIN#" value="gcc-arm-embedded"/>
     <option key="#ToolchainVersion#" value="9.2.1.20191025"/>
@@ -113,41 +113,41 @@
     <node id="board.clock.clkout.display" option="board.clock.clkout.display.value"/>
   </raClockConfiguration>
   <raComponentSelection>
-    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra2a1_ek" variant="" vendor="Renesas" version="1.0.0">
-      <description>RA2A1-EK Board Support Files</description>
-      <originalPack>Renesas.RA_board_ra2a1_ek.1.0.0.pack</originalPack>
-    </component>
     <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="5.6.0">
       <description>Arm CMSIS Version 5 - Core (M)</description>
       <originalPack>Arm.CMSIS5.5.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra2a1" subgroup="device" variant="R7FA2A1AB3CFM" vendor="Renesas" version="1.0.0">
+    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra2a1_ek" variant="" vendor="Renesas" version="1.1.0">
+      <description>RA2A1-EK Board Support Files</description>
+      <originalPack>Renesas.RA_board_ra2a1_ek.1.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra2a1" subgroup="device" variant="R7FA2A1AB3CFM" vendor="Renesas" version="1.1.0">
       <description>Board support package for R7FA2A1AB3CFM</description>
-      <originalPack>Renesas.RA_mcu_ra2a1.1.0.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra2a1.1.1.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra2a1" subgroup="device" variant="" vendor="Renesas" version="1.0.0">
+    <component apiversion="" class="BSP" condition="" group="ra2a1" subgroup="device" variant="" vendor="Renesas" version="1.1.0">
       <description>Board support package for RA2A1</description>
-      <originalPack>Renesas.RA_mcu_ra2a1.1.0.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra2a1.1.1.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra2a1" subgroup="fsp" variant="" vendor="Renesas" version="1.0.0">
+    <component apiversion="" class="BSP" condition="" group="ra2a1" subgroup="fsp" variant="" vendor="Renesas" version="1.1.0">
       <description>Board support package for RA2A1 - FSP Data</description>
-      <originalPack>Renesas.RA_mcu_ra2a1.1.0.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra2a1.1.1.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="1.0.0">
+    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="1.1.0">
       <description>Board Support Package Common Files</description>
-      <originalPack>Renesas.RA.1.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.1.1.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="1.0.0">
-      <description>I/O Port</description>
-      <originalPack>Renesas.RA.1.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_adc" variant="" vendor="Renesas" version="1.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_adc" variant="" vendor="Renesas" version="1.1.0">
       <description>A/D Converter</description>
-      <originalPack>Renesas.RA.1.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.1.1.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_dac8" variant="" vendor="Renesas" version="1.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_dac8" variant="" vendor="Renesas" version="1.1.0">
       <description>8-bit D/A Converter</description>
-      <originalPack>Renesas.RA.1.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.1.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="1.1.0">
+      <description>I/O Port</description>
+      <originalPack>Renesas.RA.1.1.0.pack</originalPack>
     </component>
   </raComponentSelection>
   <raElcConfiguration/>
@@ -172,7 +172,7 @@
       <property id="module.driver.adc.name" value="g_adc"/>
       <property id="module.driver.adc.unit" value="0"/>
       <property id="module.driver.adc.resolution" value="module.driver.adc.resolution.resolution_16_bit"/>
-      <property id="module.driver.adc.alignment" value="module.driver.adc.alignment.alignment_right"/>
+      <property id="module.driver.adc.alignment" value="module.driver.adc.alignment.alignment_unsupported"/>
       <property id="module.driver.adc.clearing" value="module.driver.adc.clearing.clear_after_read_on"/>
       <property id="module.driver.adc.mode" value="module.driver.adc.mode.mode_single_scan"/>
       <property id="module.driver.adc.mode.dt" value="module.driver.adc.mode.dt.disabled"/>

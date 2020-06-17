@@ -100,7 +100,7 @@ fsp_err_t set_timer_duty_cycle(uint8_t duty_cycle_percent)
     fsp_err_t err                           = FSP_SUCCESS;
     uint32_t duty_cycle_counts              = RESET_VALUE;
     uint32_t current_period_counts          = RESET_VALUE;
-    timer_info_t info                       = {RESET_VALUE, RESET_VALUE, RESET_VALUE};
+    timer_info_t info                       = {(timer_direction_t)RESET_VALUE, RESET_VALUE, RESET_VALUE};
 
     /* Get the current period setting. */
     err = R_GPT_InfoGet(&g_timer_pwm_ctrl, &info);

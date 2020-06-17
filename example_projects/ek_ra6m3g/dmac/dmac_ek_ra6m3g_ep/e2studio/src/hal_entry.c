@@ -49,7 +49,7 @@ void hal_entry(void)
     APP_PRINT(BANNER_5);
     APP_PRINT(BANNER_6);
 
-    APP_PRINT("\r\nProject initializes 3 DMAC transfer instances, AGT generates 100ms interrupt \
+    APP_PRINT("\r\nProject initializes 3 DMAC tranfser instances, AGT generates 100ms interrupt \
             \rto g_transfer_led_blink. g_transfer_led_blink sends data to LED.\
             \rg_transfer_gpt_value transfer, send's current GPT timer value on every user pushbutton press.\
             \rg_transfer_write_ioport writes data to LED. User can provide input on JlinkRTTViewer\

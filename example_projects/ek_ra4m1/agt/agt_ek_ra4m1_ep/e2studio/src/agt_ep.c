@@ -137,7 +137,7 @@ void one_shot_timer_callback(timer_callback_args_t *p_args)
  **********************************************************************************************************************/
 void periodic_timer_callback(timer_callback_args_t *p_args)
 {
-    static volatile uint8_t led_level = BSP_IO_LEVEL_HIGH;
+    static volatile bsp_io_level_t led_level = BSP_IO_LEVEL_HIGH;
 
     /* If this board has no LEDs then trap here */
     if (LED_COUNT_ZERO == g_bsp_leds.led_count)
@@ -153,7 +153,7 @@ void periodic_timer_callback(timer_callback_args_t *p_args)
     if(TIMER_EVENT_CYCLE_END == p_args->event)
     {
         /* Change LED state */
-        fsp_err_t err = R_IOPORT_PinWrite(&g_ioport_ctrl, g_bsp_leds.p_leds[RESET_FLAG], led_level);
+        fsp_err_t err = R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t) g_bsp_leds.p_leds[RESET_FLAG], led_level);
         /* Handle error */
         if (FSP_SUCCESS != err)
         {

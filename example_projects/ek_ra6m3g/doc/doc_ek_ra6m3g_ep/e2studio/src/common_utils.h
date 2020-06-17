@@ -29,8 +29,6 @@
 #include <string.h>
 #include <stdlib.h>
 #include "hal_data.h"
-#include "bsp_pin_cfg.h"
-#include "r_ioport.h"
 /* SEGGER RTT and error related headers */
 #include "SEGGER_RTT/SEGGER_RTT.h"
 

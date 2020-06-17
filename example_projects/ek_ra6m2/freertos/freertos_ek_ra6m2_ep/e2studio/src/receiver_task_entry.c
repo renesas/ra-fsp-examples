@@ -38,7 +38,7 @@ void receiver_task_entry(void *pvParameters)
     FSP_PARAMETER_NOT_USED (pvParameters);
 
     /* Message variable to receive message */
-    msg_t message_from_task = {RESET_VALUE};
+    msg_t message_from_task = {RESET_VALUE, (char *)NULL};
 
     while (true)
     {

@@ -41,7 +41,7 @@ void sender_task_entry(void *pvParameters)
     FSP_PARAMETER_NOT_USED (pvParameters);
 
     /* Variable to store task state */
-    eTaskState Task_State = RESET_VALUE;
+    eTaskState Task_State = (eTaskState) RESET_VALUE;
 
     fsp_pack_version_t version = {RESET_VALUE};
 

@@ -63,7 +63,7 @@ RA Configuration
     Main Oscillator Wait Time: 32768 us
     Main Oscillator Clock Source: Crystal or Resonator
     Subclock Populated: Populated
-    Subclock Drive: Standard (12.5pf)
+    Subclock Drive: Standard
     Subclock Stabilization Time (ms): 1000
     
   Clocks
@@ -324,7 +324,7 @@ RA Configuration
     JITP Certificate: JITP Cert
     Default User PIN: 0000
     
-  Module "AWS PKCS11 PAL"
+  Module "AWS PKCS11 PAL (Deprecated)"
   Module "Mbed Crypto"
     Hardware Acceleration: TRNG: Enabled
     Hardware Acceleration: Key Format: AES: Plaintext Only
@@ -743,6 +743,7 @@ RA Configuration
     Linker section to keep DTC vector table: .fsp_dtc_vector_table
     
   Module "Heap 5"
+  Module "MbedTLS FSP Port"
   FreeRTOS
     General: Custom FreeRTOSConfig.h: 
     General: Use Preemption: Enabled
@@ -759,7 +760,7 @@ RA Configuration
     General: Max Task Name Len: 16
     Stats: Use Trace Facility: Disabled
     Stats: Use Stats Formatting Functions: Disabled
-    General: Use 16 Bit Ticks: Disabled
+    General: Use 16-bit Ticks: Disabled
     General: Idle Should Yield: Enabled
     General: Use Task Notifications: Enabled
     General: Use Mutexes: Enabled
@@ -830,7 +831,7 @@ RA Configuration
       Instance "Secure Sockets TLS Support"
         Instance "FreeRTOS+TLS"
           Instance "AWS PKCS11 to MbedTLS3"
-            Instance "AWS PKCS11 PAL"
+            Instance "AWS PKCS11 PAL (Deprecated)"
               Instance "Mbed Crypto"
                 Instance "Mbed Crypto HW Acceleration"
                   Instance "SCE7"
@@ -846,6 +847,7 @@ RA Configuration
                 Instance "Mbed Crypto"
                   Instance "Mbed Crypto HW Acceleration"
                     Instance "SCE7"
+                Instance "MbedTLS FSP Port"
         Instance "AWS C SDK Logging"
           Instance "AWS IoT Common"
         Instance "AWS Demo dev_mode_key_provisioning"

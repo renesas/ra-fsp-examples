@@ -50,13 +50,13 @@ void hal_entry(void)
     timer_info_t  one_shot_info =
     {
      .clock_frequency = RESET_VALUE,
-     .count_direction = RESET_VALUE,
+     .count_direction = (timer_direction_t) RESET_VALUE,
      .period_counts = RESET_VALUE,
     };
     timer_info_t periodic_info =
     {
      .clock_frequency = RESET_VALUE,
-     .count_direction = RESET_VALUE,
+     .count_direction = (timer_direction_t) RESET_VALUE,
      .period_counts = RESET_VALUE,
     };
     uint32_t clock_freq = RESET_VALUE;
@@ -260,12 +260,12 @@ static fsp_err_t timer_status_check (void)
     timer_status_t periodic_timer_status =
     {
      .counter = RESET_VALUE,
-     .state = RESET_VALUE,
+     .state = (timer_state_t) RESET_VALUE,
     };
     timer_status_t oneshot_timer_status =
     {
      .counter = RESET_VALUE,
-     .state = RESET_VALUE,
+     .state = (timer_state_t) RESET_VALUE,
     };
 
     /* Retrieve the status of timer running in periodic mode */

@@ -39,6 +39,7 @@ void usb_hmsc_thread_entry(void *pvParameters)
 {
     FSP_PARAMETER_NOT_USED (pvParameters);
 
+    memset(&my_disk, RESET_VALUE, sizeof(my_disk));
     fsp_pack_version_t version = { RESET_VALUE };
 
     /* version get API for FLEX pack information */
@@ -147,10 +148,12 @@ void process_usb_operation(uint8_t input_buffer)
 void usb_write_operation(void)
 {
     FF_FILE *file_pointer = NULL;
-    FF_Stat_t file_details = {RESET_VALUE};
+    FF_Stat_t file_details;
     int32_t file_error = SUCCESS;
     /* Capture the number of bytes written in the variable to check write status. */
     size_t bytes_written = RESET_VALUE;
+
+    memset(&file_details, RESET_VALUE, sizeof(file_details));
 
     /* Double check the connection again to ensure the USB device is still mounted */
     if ((true == check_usb_connection()) && (true != b_usb_hmsc_close))
@@ -240,8 +243,10 @@ void usb_write_operation(void)
 void usb_read_operation(void)
 {
     FF_FILE *file_pointer = NULL;
-    FF_Stat_t file_details = {RESET_VALUE};
+    FF_Stat_t file_details;
     int32_t file_error = SUCCESS;
+
+    memset(&file_details, RESET_VALUE, sizeof(file_details));
 
     /* Double check the connection again to ensure the USB device is still mounted */
     if ((true == check_usb_connection()) && (true != b_usb_hmsc_close))
@@ -454,7 +459,9 @@ fsp_err_t usb_init(void)
 {
     fsp_err_t freertos_fat_error = FSP_SUCCESS;
     int32_t file_error = SUCCESS;
-    rm_freertos_plus_fat_device_t device = {RESET_VALUE};
+    rm_freertos_plus_fat_device_t device;
+
+    memset(&device, RESET_VALUE, sizeof(device));
 
     /* Open FreeRTOS PLUS FAT  */
     freertos_fat_error = RM_FREERTOS_PLUS_FAT_Open(&g_rm_freertos_plus_fat_ctrl, &g_rm_freertos_plus_fat_cfg);

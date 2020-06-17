@@ -41,9 +41,9 @@
 #define CS_DE_ASSERT(x)	 R_IOPORT_PinWrite(&g_ioport_ctrl, x, BSP_IO_LEVEL_LOW);
 
 #define EP_INFO                "\r\nThis Example Project demonstrates the basic usage of SCI_SPI driver."\
-                               "\r\nThe project writes commands to the slave sensor and reads the temperature"\
+		                       "\r\nThe project writes commands to the slave sensor and reads the temperature"\
                                "\r\nvalue using SCI_SPI bus configured as master.The temperature values are"\
-                               "\r\ncontinuously printed on JLink RTT Viewer.\r\n"
+				               "\r\ncontinuously printed on JLink RTT Viewer.\r\n"
 
 #define STABILIZATION_DELAY (100U)  //Delay value for stabilization of slave select pin
 #define PRINT_DELAY         (2U)    //Delay for RTT viewer prints

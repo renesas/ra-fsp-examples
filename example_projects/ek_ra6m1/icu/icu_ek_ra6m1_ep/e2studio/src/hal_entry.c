@@ -43,7 +43,7 @@ void R_BSP_WarmStart(bsp_warm_start_event_t event);
 void hal_entry(void)
 {
     fsp_err_t err                           = FSP_SUCCESS;
-    bsp_io_level_t led_current_state        = RESET_VALUE;
+    bsp_io_level_t led_current_state        = (bsp_io_level_t) RESET_VALUE;
     fsp_pack_version_t version              = {RESET_VALUE};
 
     /* LED type structure */
@@ -106,7 +106,7 @@ void hal_entry(void)
             APP_PRINT("\r\nUser Pushbutton Pressed\r\n");
 
             /* Read user LED  pin */
-            err = R_IOPORT_PinRead(&g_ioport_ctrl, leds.p_leds[RESET_VALUE], &led_current_state);
+            err = R_IOPORT_PinRead(&g_ioport_ctrl, (bsp_io_port_pin_t)leds.p_leds[RESET_VALUE], &led_current_state);
             /* Handle error */
             if (FSP_SUCCESS != err)
             {
@@ -120,7 +120,7 @@ void hal_entry(void)
             led_current_state ^= BSP_IO_LEVEL_HIGH;
 
             /* Toggle user LED */
-            err = R_IOPORT_PinWrite(&g_ioport_ctrl, leds.p_leds[RESET_VALUE], led_current_state);
+            err = R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t)leds.p_leds[RESET_VALUE], led_current_state);
             /* Handle error */
             if (FSP_SUCCESS != err)
             {

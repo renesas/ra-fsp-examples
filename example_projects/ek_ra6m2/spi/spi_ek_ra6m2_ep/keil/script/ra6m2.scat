@@ -1,0 +1,120 @@
+; This scatter-file places the vector table, application code, data, stacks and heap at suitable addresses in the memory map.
+
+LOAD_REGION_FLASH 0x00000000 0x100000
+{
+  VECTORS +0 FIXED PADVALUE 0xFFFFFFFF   ; maximum of 256 exceptions (256*4 bytes == 0x400)
+  {
+    *(.fixed_vectors, +FIRST)
+    *(.application_vectors)
+  }
+
+  VECTORS_FILL +0 FIXED FILL 0xFFFFFFFF (0x400 - ImageLength(VECTORS))
+  {
+  }
+
+  ROM_REGISTERS 0x400 FIXED PADVALUE 0xFFFFFFFF
+  {
+    bsp_rom_registers.o (.rom_registers)
+  }
+
+  ROM_REGISTERS_FILL +0 FIXED FILL 0xFFFFFFFF (0x100 - ImageLength(ROM_REGISTERS))
+  {
+  }
+
+  INIT_ARRAY +0 FIXED
+  {
+    *(.init_array)
+  }
+
+  USB_DESC_FS +0 FIXED
+  {
+    *(.usb_device_desc_fs*)
+    *(.usb_config_desc_fs*)
+    *(.usb_interface_desc_fs*)
+  }
+
+  RO_CODE_DATA +0 FIXED
+  {
+    *(.text*,.rodata*,.constdata*)
+    .ANY(+RO)
+  }
+
+  DTC_VECTOR_TABLE 0x1FFE0000 UNINIT NOCOMPRESS 0x60000
+  {
+    ; If DTC is used, put the DTC vector table at the start of SRAM.
+    ; This avoids memory holes due to 1K alignment required by it.
+    *(.fsp_dtc_vector_table)
+  }
+
+  DATA +0 NOCOMPRESS
+  {
+    ; Don't use *(.data*) because it will place data meant for .data_flash in this section.
+    *(.data.*)
+    *(.data)
+    *(.code_in_ram)
+    .ANY(+RW)
+  }
+
+  BSS +0 NOCOMPRESS
+  {
+    *(+ZI)
+  }
+
+  NOINIT +0 UNINIT NOCOMPRESS
+  {
+    *(.noinit)
+  }
+
+  ARM_LIB_HEAP +0 ALIGN 8 UNINIT NOCOMPRESS
+  {
+    *(.bss.heap)
+  }
+
+  ; ARM_LIB_STACK is not used in FSP, but it must be in the scatter file to avoid a linker error
+  ARM_LIB_STACK +0 ALIGN 8 UNINIT NOCOMPRESS EMPTY 0
+  {
+  }
+
+  STACK +0 ALIGN 8 UNINIT NOCOMPRESS
+  {
+    *(.stack*)
+  }
+
+  RAM_END +0 EMPTY 4
+  {
+  }
+}
+
+LOAD_REGION_ID_CODE 0x0100A150 0x10
+{
+  ID_CODE +0 FIXED
+  {
+    *(.id_code*)
+  }
+}
+
+LOAD_REGION_DATA_FLASH 0x40100000 0x8000
+{
+  DATA_FLASH +0 FIXED
+  {
+    *(.data_flash*)
+  }
+}
+
+LOAD_REGION_QSPI_FLASH 0x60000000 0x4000000
+{
+  QSPI_FLASH +0 FIXED
+  {
+    *(.qspi_flash*)
+    *(.code_in_qspi*)
+  }
+}
+
+LOAD_REGION_SDRAM 0x90000000 0x8000000
+{
+  SDRAM +0 FIXED
+  {
+    *(.sdram*)
+    *(.frame*)
+  }
+}

@@ -159,8 +159,8 @@ fsp_err_t spi_write_and_read(void)
     }
     g_wait_count = MAX_COUNT;
 
-    g_master_event_flag = RESET_VALUE; // Reseting master_event flag
-    g_slave_event_flag = RESET_VALUE;  // Reseting slave_event flag
+    g_master_event_flag = (spi_event_t) RESET_VALUE;  // Reseting master_event flag
+    g_slave_event_flag  = (spi_event_t) RESET_VALUE;  // Reseting slave_event flag
 
     /* Display Master to Slave transmission */
     APP_PRINT("\r\nMaster transmitted user input data to Slave \r\n");
@@ -209,8 +209,8 @@ fsp_err_t spi_write_and_read(void)
     }
     g_wait_count = MAX_COUNT;
 
-    g_master_event_flag = RESET_VALUE;  // Reseting master_event flag
-    g_slave_event_flag = RESET_VALUE;   // Reseting slave_event flag
+    g_master_event_flag = (spi_event_t) RESET_VALUE;  // Reseting master_event flag
+    g_slave_event_flag  = (spi_event_t) RESET_VALUE;  // Reseting slave_event flag
 
     /* Display Slave to Master transmission */
     APP_PRINT("\r\nSlave transmitted the data back to Master \r\n");
@@ -326,8 +326,8 @@ fsp_err_t spi_write_read(void)
     }
     g_wait_count = MAX_COUNT;
 
-    g_master_event_flag = RESET_VALUE;  // Reseting master_event flag
-    g_slave_event_flag = RESET_VALUE;  // Reseting master_event flag
+    g_master_event_flag = (spi_event_t) RESET_VALUE;  // Reseting master_event flag
+    g_slave_event_flag  = (spi_event_t) RESET_VALUE;  // Reseting slave_event flag
 
     /* Display Master to Slave and Slave to Master transmission */
     APP_PRINT("\r\nMaster buffer data transmitted to Slave \r\n");

@@ -73,8 +73,7 @@ uint32_t g_source_data[SOURCE_DATA_SIZE]=
  0x00000040,0x00400040
 };
 #else
-//defined(BOARD_RA6M3_EK)
-/* LED Port data array for EK-RA6M3 board */
+/* LED Port data array for EK-RA6M3 and EK-RA6M3G board */
 uint32_t g_source_data[SOURCE_DATA_SIZE]=
 {
  0x00000007,0x00070007,

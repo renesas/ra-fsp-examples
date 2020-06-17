@@ -74,7 +74,7 @@ fsp_err_t flash_lp_data_flash_operations(uint8_t block_num)
     fsp_err_t err = FSP_SUCCESS;	// error status
     uint8_t read_buff[BLOCK_SIZE] = {RESET_VALUE};	// read data buffer
     uint8_t write_buff[BLOCK_SIZE] = {RESET_VALUE};	// write data buffer
-    flash_result_t blankCheck = RESET_VALUE;	// out parameter for BlankCheck()
+    flash_result_t blankCheck = FLASH_RESULT_BLANK ; 	// out parameter for BlankCheck()
 
     /* Set write buffer and clear read buffer */
     for(uint8_t index = RESET_VALUE; BLOCK_SIZE > index; index++)
@@ -260,7 +260,7 @@ fsp_err_t flash_lp_code_flash_operations(uint8_t block_num)
     fsp_err_t err = FSP_SUCCESS;	// error status
     uint8_t read_buff[BLOCK_SIZE] = {RESET_VALUE};	// read data buffer
     uint8_t write_buff[BLOCK_SIZE] = {RESET_VALUE};	// write data buffer
-    flash_result_t blankCheck = RESET_VALUE;	//	Out parameter for BlankCheck()
+    flash_result_t blankCheck = FLASH_RESULT_BLANK ; 	// out parameter for BlankCheck()
 
     /* Set write buffer and clear read buffer */
     for(uint8_t index = RESET_VALUE; BLOCK_SIZE > index; index++)

@@ -1,5 +1,5 @@
 /*
-                  Linker File for RA2A1 MCU
+                  Linker File for S124 MCU
 */
 
 /* Linker script to configure memory regions. */
@@ -166,9 +166,7 @@ SECTIONS
     {
         __data_start__ = .;
         *(vtable)
-        /* Don't use *(.data*) because it will place data meant for .data_flash in this section. */
         *(.data.*)
-        *(.data)
 
         . = ALIGN(4);
         /* preinit data */
@@ -210,9 +208,6 @@ SECTIONS
         . = ALIGN(4);
         __noinit_start = .;
         KEEP(*(.noinit*))
-        . = ALIGN(8);
-        /* Place the FreeRTOS heap here so that the __HeapLimit calculation does not include the freertos heap. */
-        KEEP(*(.heap.*))
         __noinit_end = .;
     } > RAM
 
@@ -232,8 +227,7 @@ SECTIONS
         __HeapBase = .;
         __end__ = .;
         end = __end__;
-        /* Place the STD heap here. */
-        KEEP(*(.heap))
+        KEEP(*(.heap*))
         __HeapLimit = .;
     } > RAM
 

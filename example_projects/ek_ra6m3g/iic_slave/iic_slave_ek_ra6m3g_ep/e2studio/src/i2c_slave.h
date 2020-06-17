@@ -38,8 +38,8 @@
 #endif
 
 /* for on board LED */
-#define LED_ON             (bool)BSP_IO_LEVEL_HIGH
-#define LED_OFF            (bool)BSP_IO_LEVEL_LOW
+#define LED_ON             BSP_IO_LEVEL_HIGH
+#define LED_OFF            BSP_IO_LEVEL_LOW
 
 /* MACRO for checking if two buffers are equal */
 #define BUFF_EQUAL (0)
@@ -60,7 +60,7 @@ fsp_err_t init_ext_irq(void);
 fsp_err_t init_i2C_driver(void);
 fsp_err_t process_slave_WriteRead(void);
 void deinit_i2c_driver(void);
-void set_led(bool b_value);
+void set_led(bsp_io_level_t led_state);
 void deinit_external_irq(void);
 
 

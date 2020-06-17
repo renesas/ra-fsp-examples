@@ -1,0 +1,98 @@
+/* Revision History
+   v1.00 - First version.
+   v1.10 - Added SDRAM section
+   v1.20 - Added QSPI section, section name cleanup
+   v1.30 - Added qspi_flash_init section in FLASH
+*/
+
+/*-Memory Regions-*/
+define symbol region_VECT_start    = 0x00000000;
+define symbol region_VECT_end      = 0x000003FF;
+define symbol region_ROMREG_start  = 0x00000400;
+define symbol region_ROMREG_end    = 0x000004FF;
+define symbol region_FLASH_start   = 0x00000500;
+define symbol region_FLASH_end     = 0x001FFFFF;
+define symbol region_RAM_start     = 0x1FFE0000;
+define symbol region_RAM_end       = 0x2007FFFF;
+define symbol region_DF_start      = 0x40100000;
+define symbol region_DF_end        = 0x4010FFFF;
+define symbol region_SDRAM_start   = 0x90000000;
+define symbol region_SDRAM_end     = 0x91FFFFFF;
+define symbol region_QSPI_start    = 0x60000000;
+define symbol region_QSPI_end      = 0x63FFFFFF;
+
+define symbol region_ID_CODES_start    = 0x0100A150;
+define symbol region_ID_CODES_end      = 0x0100A15F;
+
+/* Stack and heap sizes are defined in bsp_cfg.h */
+
+define memory mem with size     = 4G;
+define region VECT_region       = mem:[from region_VECT_start    to region_VECT_end];
+define region ROMREG_region     = mem:[from region_ROMREG_start  to region_ROMREG_end];
+define region FLASH_region      = mem:[from region_FLASH_start   to region_FLASH_end];
+define region RAM_region        = mem:[from region_RAM_start     to region_RAM_end];
+define region DF_region         = mem:[from region_DF_start      to region_DF_end];
+define region SDRAM_region      = mem:[from region_SDRAM_start   to region_SDRAM_end];
+define region QSPI_region       = mem:[from region_QSPI_start    to region_QSPI_end];
+
+define region ID_CODE_region    = mem:[from region_ID_CODES_start   to region_ID_CODES_end];
+
+initialize manually { readwrite };
+initialize manually { section .qspi_non_retentive };
+do not initialize   { section .qspi_flash };
+do not initialize   { section .code_in_qspi };
+do not initialize   { zeroinit };
+initialize manually { section .code_in_ram };
+/* Main thread local storage */
+initialize manually { section __DLIB_PERTHREAD };
+
+define block RAM_INIT_CODE   { section .code_in_ram_init };
+define block RAM_CODE        { section .code_in_ram };
+
+define block QSPI_NON_RETENTIVE_INIT_BLOCK { section .qspi_non_retentive_init };
+define block QSPI_NON_RETENTIVE_BLOCK      { section .qspi_non_retentive };
+keep                                       { section .vector*};
+
+define block USB_DEV_DESC_BLK with fixed order, alignment = 1
+                                           { ro data section .usb_device_desc_fs,
+                                             ro data section .usb_config_desc_fs,
+                                             ro data section .usb_interface_desc_fs,
+                                             ro data section .usb_device_desc_hs,
+                                             ro data section .usb_config_desc_hs,
+                                             ro data section .usb_interface_desc_hs,
+                                             ro data section .usb_dev_descriptor_start_fs,
+                                             ro data section .usb_descriptor_end_fs };
+keep                                       { section .usb_*};
+
+place at start of VECT_region  { ro section .fixed_vectors* };
+place in VECT_region           { ro section .application_vectors* };
+place in ROMREG_region         { ro section .rom_registers };
+place in FLASH_region   { ro,
+                          ro section .rodata,
+                          block QSPI_NON_RETENTIVE_INIT_BLOCK,
+                          block RAM_INIT_CODE,
+                          block USB_DEV_DESC_BLK };
+/* If DTC is used, put the DTC vector table at the start of SRAM.
+This avoids memory holes due to 1K alignment required by it. */
+define block START_OF_RAM with fixed order { rw section .fsp_dtc_vector_table,
+                                             block RAM_CODE };
+place at start of RAM_region { block START_OF_RAM };
+
+place in RAM_region     { rw,
+                          rw section .noinit,
+                          rw section .bss,
+                          rw section .data,
+                          rw section HEAP,
+                          rw section .stack };
+place in DF_region      { ro section .data_flash };
+place in SDRAM_region   { rw section .sdram, rw section .frame };
+place in QSPI_region    { section .qspi_flash  };
+place in QSPI_region    { section .code_in_qspi  };
+place in QSPI_region    { block QSPI_NON_RETENTIVE_BLOCK};
+place in RAM_region     { last section FREE_MEM };
+
+place in ID_CODE_region  { ro section .id_code };
+
+define exported symbol __qspi_region_max_size__ = size(QSPI_region);
+define exported symbol __qspi_region_start_address__ = region_QSPI_start;
+define exported symbol __qspi_region_end_address__ = region_QSPI_end;

@@ -122,7 +122,7 @@ void hal_entry(void)
         if (SET_FLAG == g_periodic_irq_flag)
         {
             /* Toggle LED on occurrence of periodic interrupt */
-            err = R_IOPORT_PinRead(&g_ioport_ctrl, g_bsp_leds.p_leds[RESET_VALUE] , &Led_level);
+            err = R_IOPORT_PinRead(&g_ioport_ctrl, (bsp_io_port_pin_t)(g_bsp_leds.p_leds[RESET_VALUE]) , &Led_level);
             if(FSP_SUCCESS != err)
             {
                 rtc_deinit();
@@ -250,7 +250,7 @@ static void led_level_set(bsp_io_level_t led_level)
 {
     fsp_err_t err = FSP_SUCCESS;
     /* Set LED status */
-    err = R_IOPORT_PinWrite(&g_ioport_ctrl, g_bsp_leds.p_leds[RESET_VALUE], led_level);
+    err = R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t) g_bsp_leds.p_leds[RESET_VALUE], led_level);
     if(FSP_SUCCESS != err)
     {
         rtc_deinit();

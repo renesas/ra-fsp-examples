@@ -42,7 +42,7 @@
 *                                                                    *
 **********************************************************************
 *                                                                    *
-*       RTT version: 6.64b                                           *
+*       RTT version: 6.70e                                           *
 *                                                                    *
 **********************************************************************
 
@@ -51,7 +51,7 @@ File    : SEGGER_RTT_Conf.h
 Purpose : Implementation of SEGGER real-time transfer (RTT) which
           allows real-time communication on targets which support
           debugger memory accesses while the CPU is running.
-Revision: $Rev: 17698 $
+Revision: $Rev: 18601 $
 
 */
 
@@ -77,7 +77,7 @@ Revision: $Rev: 17698 $
 #endif
 
 #ifndef   BUFFER_SIZE_UP
-  #define BUFFER_SIZE_UP                            (2048)  // Size of the buffer for terminal output of target, up to host (Default: 1k)
+  #define BUFFER_SIZE_UP                            (1024)  // Size of the buffer for terminal output of target, up to host (Default: 1k)
 #endif
 
 #ifndef   BUFFER_SIZE_DOWN
@@ -137,7 +137,7 @@ Revision: $Rev: 17698 $
 *       RTT lock configuration for SEGGER Embedded Studio,
 *       Rowley CrossStudio and GCC
 */
-#if ((defined(__SES_ARM) || defined(__SES_RISCV) || defined(__CROSSWORKS_ARM) || defined(__GNUC__) || defined(__clang__)) && !defined (__CC_ARM))
+#if ((defined(__SES_ARM) || defined(__SES_RISCV) || defined(__CROSSWORKS_ARM) || defined(__GNUC__) || defined(__clang__)) && !defined (__CC_ARM) && !defined(WIN32))
   #if (defined(__ARM_ARCH_6M__) || defined(__ARM_ARCH_8M_BASE__))
     #define SEGGER_RTT_LOCK()   {                                                                   \
                                     unsigned int LockState;                                         \

@@ -29,8 +29,6 @@
 #include <string.h>
 #include <stdlib.h>
 #include "hal_data.h"
-#include "bsp_pin_cfg.h"
-#include "r_ioport.h"
 /* SEGGER RTT and error related headers */
 #include "SEGGER_RTT/SEGGER_RTT.h"
 
@@ -47,7 +45,7 @@
 #define BANNER_INFO	            "\r\n******************************************************************"\
                                 "\r\n*   Renesas FSP Example Project for "MODULE_NAME" Module               *"\
                                 "\r\n*   Example Project Version %s                                  *"\
-                                "\r\n*   Flex Software Pack Version  %d.%d.%d                           *"\
+                                "\r\n*   Flex Software Pack Version  %d.%d.%d                            *"\
                                 "\r\n******************************************************************"\
                                 "\r\nRefer to readme.txt file for more details on Example Project and" \
                                 "\r\nFSP User's Manual for more information about "MODULE_NAME" driver\r\n"
