@@ -109,6 +109,12 @@ void application_thread_entry(void *pvParameters)
         IotLogError("** HAL Initialization failed **\r\n");
         IotLogErrorTrap(err);
     }
+    err = config_littlFs_flash();
+	if(FSP_SUCCESS != err)
+	{
+        IotLogError("** littleFs flash config failed **\r\n");
+	    IotLogErrorTrap(err);
+	}
 #if 0
     bt_status = xLoggingTaskInitialize(LOGGING_TASK_STACK_SIZE, LOGGING_TASK_STACK_PRIORITY, LOGGING_TASK_QUEUE_SIZE);
     if (pdPASS != bt_status)
@@ -487,6 +493,41 @@ uint32_t get_mqtt_fail_count(void)
 {
     return mqtt_fail_count;
 }
+
+/*********************************************************************************************************************
+ * @brief	configures the littleFS Flash.
+ *
+ * This function sets up the littleFS Flash for Data storage.
+ * @param[in]   None
+ * @retval      FSP_SUCCESS             If both the connectivity checks are success.
+ * @retval      Any other error         If one of the connectivity check fails.
+ *********************************************************************************************************************/
+
+fsp_err_t config_littlFs_flash(void)
+{
+    fsp_err_t err = FSP_SUCCESS;
+
+    err = RM_LITTLEFS_FLASH_Open(&g_rm_littlefs0_ctrl, &g_rm_littlefs0_cfg);
+    if(FSP_SUCCESS != err)
+    {
+        FAILURE_INDICATION
+        IotLogError("** littleFs Initialization failed **\r\n");
+    }
+    err = lfs_format(&g_rm_littlefs0_lfs, &g_rm_littlefs0_lfs_cfg);
+    if(FSP_SUCCESS != err)
+    {
+        FAILURE_INDICATION
+        IotLogError("** littleFs Flash Format failed **\r\n");
+    }
+    err=lfs_mount(&g_rm_littlefs0_lfs, &g_rm_littlefs0_lfs_cfg);
+    if(FSP_SUCCESS != err)
+    {
+        FAILURE_INDICATION
+        IotLogError("** littleFs Mount failed **\r\n");
+    }
+    return err;
+}
+
 
 /*********************************************************************************************************************
  * convert float to string format and store it in buffer

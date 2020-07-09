@@ -58,4 +58,5 @@ extern void print_float(char *buffer, size_t buflen, double value);
 extern int parse_led_actuation_message(mqtt_rx_payload_t *lmq_data);
 extern fsp_err_t connect_wifi(void);
 extern void check_network_status(void);
+extern fsp_err_t config_littlFs_flash(void);
 #endif /* USR_APP_H_ */

@@ -8,7 +8,7 @@
     <option key="#DeviceCommand#" value="R7FA6M3AH"/>
     <option key="#RTOS#" value="rtos.awsfreertos"/>
     <option key="#pinconfiguration#" value="RA6M3-EK.pincfg"/>
-    <option key="#FSPVersion#" value="1.0.0"/>
+    <option key="#FSPVersion#" value="1.1.0"/>
     <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra6m3_ek##"/>
     <option key="#SELECTED_TOOLCHAIN#" value="gcc-arm-embedded"/>
     <option key="#ToolchainVersion#" value="8.3.1.20190703"/>
@@ -125,10 +125,6 @@
     <node id="board.clock.clkout.display" option="board.clock.clkout.display.value"/>
   </raClockConfiguration>
   <raComponentSelection>
-    <component apiversion="" class="mbed" condition="" group="Security" subgroup="mbedTLS" variant="" vendor="Arm" version="3.0.0">
-      <description>Arm mbed TLS</description>
-      <originalPack>Arm.MbedTLS.3.0.0.pack</originalPack>
-    </component>
     <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="5.6.0">
       <description>Arm CMSIS Version 5 - Core (M)</description>
       <originalPack>Arm.CMSIS5.5.6.0.pack</originalPack>
@@ -137,137 +133,153 @@
       <description>Arm PSA Crypto Implementation</description>
       <originalPack>Arm.MbedCrypto.3.1.0+renesas.1.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra6m3" subgroup="device" variant="R7FA6M3AH3CFC" vendor="Renesas" version="1.0.0">
-      <description>Board support package for R7FA6M3AH3CFC</description>
-      <originalPack>Renesas.RA_mcu_ra6m3.1.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra6m3" subgroup="device" variant="" vendor="Renesas" version="1.0.0">
-      <description>Board support package for RA6M3</description>
-      <originalPack>Renesas.RA_mcu_ra6m3.1.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra6m3" subgroup="fsp" variant="" vendor="Renesas" version="1.0.0">
-      <description>Board support package for RA6M3 - FSP Data</description>
-      <originalPack>Renesas.RA_mcu_ra6m3.1.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="RTOS" condition="" group="FreeRTOS" subgroup="all" variant="" vendor="AWS" version="1.0.0">
-      <description>FreeRTOS</description>
-      <originalPack>Amazon.AWS.1.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Heaps" condition="" group="FreeRTOS" subgroup="heap_4" variant="" vendor="AWS" version="1.0.0">
-      <description>FreeRTOS - Memory Management - Heap 4</description>
-      <originalPack>Amazon.AWS.1.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="FreeRTOS" condition="" group="demo" subgroup="dev_mode_key_provisioning" variant="" vendor="AWS" version="1.0.0">
-      <description>AWS Demo dev_mode_key_provisioning</description>
-      <originalPack>Amazon.AWS.1.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Abstractions" condition="" group="Secure_Sockets" subgroup="tls_support" variant="" vendor="AWS" version="1.0.0">
-      <description>Secure Socket TLS Support</description>
-      <originalPack>Amazon.AWS.1.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="FreeRTOS" condition="" group="IoT" subgroup="common" variant="" vendor="AWS" version="1.0.0">
-      <description>AWS IoT Common</description>
-      <originalPack>Amazon.AWS.1.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="c_sdk" condition="" group="standard" subgroup="mqtt" variant="" vendor="AWS" version="1.0.0">
-      <description>AWS c_sdk MQTT</description>
-      <originalPack>Amazon.AWS.1.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="c_sdk" condition="" group="standard" subgroup="taskpool" variant="" vendor="AWS" version="1.0.0">
-      <description>AWS c_sdk Standard Taskpool</description>
-      <originalPack>Amazon.AWS.1.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="c_sdk" condition="" group="standard" subgroup="iotsdk_init" variant="" vendor="AWS" version="1.0.0">
-      <description>AWS Platform IoT SDK Initialization</description>
-      <originalPack>Amazon.AWS.1.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Abstractions" condition="" group="Platform" subgroup="network_afr" variant="" vendor="AWS" version="1.0.0">
-      <description>AWS Platform Network Abstraction</description>
-      <originalPack>Amazon.AWS.1.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Abstractions" condition="" group="Platform" subgroup="threads_afr" variant="" vendor="AWS" version="1.0.0">
-      <description>AWS Platform Threads Abstraction</description>
-      <originalPack>Amazon.AWS.1.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Abstractions" condition="" group="Platform" subgroup="clock_afr" variant="" vendor="AWS" version="1.0.0">
-      <description>AWS Platform Clock Abstraction</description>
-      <originalPack>Amazon.AWS.1.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="c_sdk" condition="" group="standard" subgroup="logging" variant="" vendor="AWS" version="1.0.0">
-      <description>AWS c_sdk Logging</description>
-      <originalPack>Amazon.AWS.1.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Abstractions" condition="" group="Secure_Sockets" subgroup="common" variant="" vendor="AWS" version="1.0.0">
-      <description>AWS Secure Sockets Common</description>
-      <originalPack>Amazon.AWS.1.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="FreeRTOS_Plus" condition="" group="standard" subgroup="tls" variant="" vendor="AWS" version="1.0.0">
-      <description>AWS TLS</description>
-      <originalPack>Amazon.AWS.1.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="FreeRTOS_Plus" condition="" group="standard" subgroup="crypto" variant="" vendor="AWS" version="1.0.0">
-      <description>AWS Crypto</description>
-      <originalPack>Amazon.AWS.1.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Abstractions" condition="" group="PKCS11" subgroup="mbedtls" variant="" vendor="AWS" version="1.0.0">
-      <description>AWS PKCS11 to mbedTLS</description>
-      <originalPack>Amazon.AWS.1.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra6m3_ek" variant="" vendor="Renesas" version="1.0.0">
+    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra6m3_ek" variant="" vendor="Renesas" version="1.1.0">
       <description>RA6M3-EK Board Support Files</description>
-      <originalPack>Renesas.RA_board_ra6m3_ek.1.0.0.pack</originalPack>
+      <originalPack>Renesas.RA_board_ra6m3_ek.1.1.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="1.0.0">
+    <component apiversion="" class="RTOS" condition="" group="FreeRTOS" subgroup="all" variant="" vendor="AWS" version="1.1.0">
+      <description>FreeRTOS</description>
+      <originalPack>Amazon.AWS.1.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Heaps" condition="" group="FreeRTOS" subgroup="heap_4" variant="" vendor="AWS" version="1.1.0">
+      <description>FreeRTOS - Memory Management - Heap 4</description>
+      <originalPack>Amazon.AWS.1.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="FreeRTOS" condition="" group="demo" subgroup="dev_mode_key_provisioning" variant="" vendor="AWS" version="1.1.0">
+      <description>AWS Demo dev_mode_key_provisioning</description>
+      <originalPack>Amazon.AWS.1.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Abstractions" condition="" group="Secure_Sockets" subgroup="tls_support" variant="" vendor="AWS" version="1.1.0">
+      <description>Secure Socket TLS Support</description>
+      <originalPack>Amazon.AWS.1.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="FreeRTOS" condition="" group="IoT" subgroup="common" variant="" vendor="AWS" version="1.1.0">
+      <description>AWS IoT Common</description>
+      <originalPack>Amazon.AWS.1.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="c_sdk" condition="" group="standard" subgroup="mqtt" variant="" vendor="AWS" version="1.1.0">
+      <description>AWS c_sdk MQTT</description>
+      <originalPack>Amazon.AWS.1.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="c_sdk" condition="" group="standard" subgroup="taskpool" variant="" vendor="AWS" version="1.1.0">
+      <description>AWS c_sdk Standard Taskpool</description>
+      <originalPack>Amazon.AWS.1.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="c_sdk" condition="" group="standard" subgroup="iotsdk_init" variant="" vendor="AWS" version="1.1.0">
+      <description>AWS Platform IoT SDK Initialization</description>
+      <originalPack>Amazon.AWS.1.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Abstractions" condition="" group="Platform" subgroup="network_afr" variant="" vendor="AWS" version="1.1.0">
+      <description>AWS Platform Network Abstraction</description>
+      <originalPack>Amazon.AWS.1.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Abstractions" condition="" group="Platform" subgroup="threads_afr" variant="" vendor="AWS" version="1.1.0">
+      <description>AWS Platform Threads Abstraction</description>
+      <originalPack>Amazon.AWS.1.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Abstractions" condition="" group="Platform" subgroup="clock_afr" variant="" vendor="AWS" version="1.1.0">
+      <description>AWS Platform Clock Abstraction</description>
+      <originalPack>Amazon.AWS.1.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="c_sdk" condition="" group="standard" subgroup="logging" variant="" vendor="AWS" version="1.1.0">
+      <description>AWS c_sdk Logging</description>
+      <originalPack>Amazon.AWS.1.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Abstractions" condition="" group="Secure_Sockets" subgroup="common" variant="" vendor="AWS" version="1.1.0">
+      <description>AWS Secure Sockets Common</description>
+      <originalPack>Amazon.AWS.1.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="FreeRTOS_Plus" condition="" group="standard" subgroup="tls" variant="" vendor="AWS" version="1.1.0">
+      <description>AWS TLS</description>
+      <originalPack>Amazon.AWS.1.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="FreeRTOS_Plus" condition="" group="standard" subgroup="crypto" variant="" vendor="AWS" version="1.1.0">
+      <description>AWS Crypto</description>
+      <originalPack>Amazon.AWS.1.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Abstractions" condition="" group="PKCS11" subgroup="mbedtls" variant="" vendor="AWS" version="1.1.0">
+      <description>AWS PKCS11 to mbedTLS</description>
+      <originalPack>Amazon.AWS.1.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="mbed" condition="" group="Security" subgroup="mbedTLS" variant="" vendor="Arm" version="3.0.0+renesas.0">
+      <description>Arm mbed TLS</description>
+      <originalPack>Arm.MbedTLS.3.0.0+renesas.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra6m3" subgroup="device" variant="R7FA6M3AH3CFC" vendor="Renesas" version="1.1.0">
+      <description>Board support package for R7FA6M3AH3CFC</description>
+      <originalPack>Renesas.RA_mcu_ra6m3.1.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra6m3" subgroup="device" variant="" vendor="Renesas" version="1.1.0">
+      <description>Board support package for RA6M3</description>
+      <originalPack>Renesas.RA_mcu_ra6m3.1.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra6m3" subgroup="fsp" variant="" vendor="Renesas" version="1.1.0">
+      <description>Board support package for RA6M3 - FSP Data</description>
+      <originalPack>Renesas.RA_mcu_ra6m3.1.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="1.1.0">
       <description>Board Support Package Common Files</description>
-      <originalPack>Renesas.RA.1.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.1.1.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_adc" variant="" vendor="Renesas" version="1.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_adc" variant="" vendor="Renesas" version="1.1.0">
       <description>A/D Converter</description>
-      <originalPack>Renesas.RA.1.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.1.1.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_dtc" variant="" vendor="Renesas" version="1.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_dtc" variant="" vendor="Renesas" version="1.1.0">
       <description>Data Transfer Controller</description>
-      <originalPack>Renesas.RA.1.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.1.1.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_elc" variant="" vendor="Renesas" version="1.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_elc" variant="" vendor="Renesas" version="1.1.0">
       <description>Event Link Controller</description>
-      <originalPack>Renesas.RA.1.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.1.1.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_flash_hp" variant="" vendor="Renesas" version="1.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_flash_hp" variant="" vendor="Renesas" version="1.1.0">
       <description>Flash Memory High Performance</description>
-      <originalPack>Renesas.RA.1.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.1.1.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_gpt" variant="" vendor="Renesas" version="1.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_gpt" variant="" vendor="Renesas" version="1.1.0">
       <description>General PWM Timer</description>
-      <originalPack>Renesas.RA.1.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.1.1.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_icu" variant="" vendor="Renesas" version="1.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_icu" variant="" vendor="Renesas" version="1.1.0">
       <description>External Interrupt</description>
-      <originalPack>Renesas.RA.1.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.1.1.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="1.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="1.1.0">
       <description>I/O Port</description>
-      <originalPack>Renesas.RA.1.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.1.1.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_sce_ra6" variant="" vendor="Renesas" version="1.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_sce_ra6" variant="" vendor="Renesas" version="1.1.0">
       <description>Secure Cryptography Engine on RA6</description>
-      <originalPack>Renesas.RA.1.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.1.1.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_sci_uart" variant="" vendor="Renesas" version="1.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_sci_uart" variant="" vendor="Renesas" version="1.1.0">
       <description>SCI UART</description>
-      <originalPack>Renesas.RA.1.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.1.1.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_aws_pkcs11_pal" variant="" vendor="Renesas" version="1.0.0">
-      <description>AWS PCKS11 PAL</description>
-      <originalPack>Renesas.RA.1.0.0.pack</originalPack>
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_aws_pkcs11_pal_littlefs" variant="" vendor="Renesas" version="1.1.0">
+      <description>AWS PCKS11 PAL on LittleFS</description>
+      <originalPack>Renesas.RA.1.1.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="rm_psa_crypto" variant="" vendor="Renesas" version="1.0.0">
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_littlefs_flash" variant="" vendor="Renesas" version="1.1.0">
+      <description>LittleFS Flash Port</description>
+      <originalPack>Renesas.RA.1.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_mbedtls" variant="" vendor="Renesas" version="1.1.0">
+      <description>Modified mbedTLS</description>
+      <originalPack>Renesas.RA.1.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="rm_psa_crypto" variant="" vendor="Renesas" version="1.1.0">
       <description>MbedCrypto H/W Acceleration</description>
-      <originalPack>Renesas.RA.1.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.1.1.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="rm_wifi_onchip_silex" variant="" vendor="Renesas" version="1.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="rm_wifi_onchip_silex" variant="" vendor="Renesas" version="1.1.0">
       <description>WiFi Onchip Silex</description>
-      <originalPack>Renesas.RA.1.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.1.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Mbed" condition="" group="Library" subgroup="LittleFS" variant="" vendor="Arm" version="2.2.1">
+      <description>Arm Mbed LittleFS</description>
+      <originalPack>Arm.LittleFS.2.2.1.pack</originalPack>
     </component>
   </raComponentSelection>
   <raElcConfiguration/>
@@ -290,14 +302,6 @@
     <module id="module.driver.psa_crypto.1356791408"/>
     <module id="module.driver.rm_psa_crypto.809833167"/>
     <module id="module.driver.sce7.1227825127"/>
-    <module id="module.driver.rm_aws_pkcs11_pal.1219325387"/>
-    <module id="module.driver.flash_on_flash_hp.1185562755">
-      <property id="module.driver.flash.name" value="g_flash0"/>
-      <property id="module.driver.flash.data_flash_bgo" value="module.driver.flash.data_flash_bgo.enabled"/>
-      <property id="module.driver.flash.p_callback" value="NULL"/>
-      <property id="module.driver.flash.ipl" value="_disabled"/>
-      <property id="module.driver.flash.err_ipl" value="_disabled"/>
-    </module>
     <module id="module.aws.freertosplus.crypto.1898370718"/>
     <module id="module.aws.c_sdk.logging.274425333"/>
     <module id="module.aws.freertos.dev_mode_key_provisioning.1773033408"/>
@@ -483,6 +487,26 @@
       <property id="module.driver.timer.gtioca_disable_setting" value="module.driver.timer.gtioca_disable_setting.gtioc_disable_prohibited"/>
       <property id="module.driver.timer.gtiocb_disable_setting" value="module.driver.timer.gtiocb_disable_setting.gtioc_disable_prohibited"/>
     </module>
+    <module id="module.driver.rm_mbedtls.1673687036"/>
+    <module id="module.arm.mbed.littlefs.2042830017"/>
+    <module id="module.middleware.rm_littlefs.1721742584">
+      <property id="module.middleware.rm_littlefs.name" value="g_rm_littlefs0"/>
+      <property id="module.middleware.rm_littlefs.read_size" value="1"/>
+      <property id="module.middleware.rm_littlefs.prog_size" value="4"/>
+      <property id="module.middleware.rm_littlefs.block_size" value="128"/>
+      <property id="module.middleware.rm_littlefs.block_count" value="(BSP_DATA_FLASH_SIZE_BYTES/128)"/>
+      <property id="module.middleware.rm_littlefs.block_cycles" value="1024"/>
+      <property id="module.middleware.rm_littlefs.cache_size" value="64"/>
+      <property id="module.middleware.rm_littlefs.lookahead_size" value="16"/>
+    </module>
+    <module id="module.driver.flash_on_flash_hp.1067975496">
+      <property id="module.driver.flash.name" value="g_flash1"/>
+      <property id="module.driver.flash.data_flash_bgo" value="module.driver.flash.data_flash_bgo.enabled"/>
+      <property id="module.driver.flash.p_callback" value="NULL"/>
+      <property id="module.driver.flash.ipl" value="_disabled"/>
+      <property id="module.driver.flash.err_ipl" value="_disabled"/>
+    </module>
+    <module id="module.driver.rm_aws_pkcs11_pal_littlefs.1165714089"/>
     <object id="rtos.awsfreertos.object.queue.788551009">
       <property id="rtos.awsfreertos.object.queue.symbol" value="g_topic_queue"/>
       <property id="rtos.awsfreertos.object.queue.item_size" value="72"/>
@@ -516,13 +540,12 @@
             <stack module="module.aws.secure_sockets.tls_support.234282439" requires="module.aws.secure_sockets.wifi_onchip_silex.requires.tls_support">
               <stack module="module.aws.freertosplus.tls.466473047" requires="module.aws.secure_sockets.tls_support.requires.freertosplus_tls">
                 <stack module="module.aws.pkcs11.mbedtls.215694350" requires="module.aws.freertosplus.tls.requires.pkcs11">
-                  <stack module="module.driver.rm_aws_pkcs11_pal.1219325387" requires="module.aws.pkcs11.mbedtls.requires.pal">
-                    <stack module="module.driver.psa_crypto.1356791408" requires="module.driver.rm_aws_pkcs11_pal.requires.psa_crypto">
-                      <stack module="module.driver.rm_psa_crypto.809833167" requires="module.driver.rm_psa_crypto">
-                        <stack module="module.driver.sce7.1227825127" requires="module.driver.rm_psa_crypto.requires.sce"/>
+                  <stack module="module.driver.rm_aws_pkcs11_pal_littlefs.1165714089" requires="module.aws.pkcs11.mbedtls.requires.pal">
+                    <stack module="module.arm.mbed.littlefs.2042830017" requires="module.driver.rm_aws_pkcs11_pal_littlefs.requires.littlefs">
+                      <stack module="module.middleware.rm_littlefs.1721742584" requires="module.arm.mbed.littlefs.requires.littlefs_port">
+                        <stack module="module.driver.flash_on_flash_hp.1067975496" requires="module.middleware.rm_littlefs.requires.r_flash"/>
                       </stack>
                     </stack>
-                    <stack module="module.driver.flash_on_flash_hp.1185562755" requires="module.driver.rm_aws_pkcs11_pal.requires.flash"/>
                   </stack>
                   <stack module="module.aws.freertosplus.crypto.1898370718" requires="module.aws.pkcs11.mbedtls.requires.freertospluscrypto">
                     <stack module="module.arm.mbedtls.1102680602" requires="module.driver.freertos_plus_tcp_on_ether.requires.mbedtls">
@@ -530,7 +553,13 @@
                         <stack module="module.driver.rm_psa_crypto.809833167" requires="module.driver.rm_psa_crypto">
                           <stack module="module.driver.sce7.1227825127" requires="module.driver.rm_psa_crypto.requires.sce"/>
                         </stack>
+                        <stack module="module.arm.mbed.littlefs.2042830017" requires="module.driver.rm_psa_crypto.requires.middleware.stdio_wrapper">
+                          <stack module="module.middleware.rm_littlefs.1721742584" requires="module.arm.mbed.littlefs.requires.littlefs_port">
+                            <stack module="module.driver.flash_on_flash_hp.1067975496" requires="module.middleware.rm_littlefs.requires.r_flash"/>
+                          </stack>
+                        </stack>
                       </stack>
+                      <stack module="module.driver.rm_mbedtls.1673687036" requires="module.driver.rm_mbedtls.requires.rm_mbedtls"/>
                     </stack>
                   </stack>
                 </stack>
@@ -778,7 +807,7 @@
       <property id="config.driver.psa_crypto.mbedtls_pk_parse_ec_extended" value="config.driver.psa_crypto.mbedtls_pk_parse_ec_extended.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_error_strerror_dummy" value="config.driver.psa_crypto.mbedtls_error_strerror_dummy.enabled"/>
       <property id="config.driver.psa_crypto.mbedtls_genprime" value="config.driver.psa_crypto.mbedtls_genprime.enabled"/>
-      <property id="config.driver.psa_crypto.mbedtls_fs_io" value="config.driver.psa_crypto.mbedtls_fs_io.disabled"/>
+      <property id="config.driver.psa_crypto.mbedtls_fs_io" value="config.driver.psa_crypto.mbedtls_fs_io.enabled"/>
       <property id="config.driver.psa_crypto.mbedtls_no_default_entropy_sources" value="config.driver.psa_crypto.mbedtls_no_default_entropy_sources.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_no_platform_entropy" value="config.driver.psa_crypto.mbedtls_no_platform_entropy.enabled"/>
       <property id="config.driver.psa_crypto.mbedtls_entropy_force_sha256" value="config.driver.psa_crypto.mbedtls_entropy_force_sha256.disabled"/>
@@ -845,8 +874,8 @@
       <property id="config.driver.psa_crypto.mbedtls_poly1305_c" value="config.driver.psa_crypto.mbedtls_poly1305_c.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_psa_crypto_c" value="config.driver.psa_crypto.mbedtls_psa_crypto_c.enabled"/>
       <property id="config.driver.psa_crypto.mbedtls_psa_crypto_se_c" value="config.driver.psa_crypto.mbedtls_psa_crypto_se_c.disabled"/>
-      <property id="config.driver.psa_crypto.mbedtls_psa_crypto_storage_c" value="config.driver.psa_crypto.mbedtls_psa_crypto_storage_c.disabled"/>
-      <property id="config.driver.psa_crypto.mbedtls_psa_its_file_c" value="config.driver.psa_crypto.mbedtls_psa_its_file_c.disabled"/>
+      <property id="config.driver.psa_crypto.mbedtls_psa_crypto_storage_c" value="config.driver.psa_crypto.mbedtls_psa_crypto_storage_c.enabled"/>
+      <property id="config.driver.psa_crypto.mbedtls_psa_its_file_c" value="config.driver.psa_crypto.mbedtls_psa_its_file_c.enabled"/>
       <property id="config.driver.psa_crypto.mbedtls_ripemd160_c" value="config.driver.psa_crypto.mbedtls_ripemd160_c.enabled"/>
       <property id="config.driver.psa_crypto.mbedtls_rsa_c" value="config.driver.psa_crypto.mbedtls_rsa_c.enabled"/>
       <property id="config.driver.psa_crypto.mbedtls_sha1_c" value="config.driver.psa_crypto.mbedtls_sha1_c.enabled"/>
@@ -944,6 +973,17 @@
       <property id="config.driver.psa_crypto.mbedtls_platform_gmtime_r_alt" value="config.driver.psa_crypto.mbedtls_platform_gmtime_r_alt.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_ecdh_variant_everest_enabled" value="config.driver.psa_crypto.mbedtls_ecdh_variant_everest_enabled.disabled"/>
     </config>
+    <config id="config.arm.mbed.littlefs">
+      <property id="config.arm.mbed.littlefs.custom_lfs_util" value=""/>
+      <property id="config.arm.mbed.littlefs.no_malloc" value="config.arm.mbed.littlefs.no_malloc.enabled"/>
+      <property id="config.arm.mbed.littlefs.no_assert" value="config.arm.mbed.littlefs.no_assert.enabled"/>
+      <property id="config.arm.mbed.littlefs.no_debug" value="config.arm.mbed.littlefs.no_debug.enabled"/>
+      <property id="config.arm.mbed.littlefs.no_warning" value="config.arm.mbed.littlefs.no_warning.enabled"/>
+      <property id="config.arm.mbed.littlefs.no_error" value="config.arm.mbed.littlefs.no_error.enabled"/>
+      <property id="config.arm.mbed.littlefs.yes_trace" value="config.arm.mbed.littlefs.yes_trace.disabled"/>
+      <property id="config.arm.mbed.littlefs.no_intrinsics" value="config.arm.mbed.littlefs.no_intrinsics.enabled"/>
+      <property id="config.arm.mbed.littlefs.instance_name" value="g_rm_littlefs0"/>
+    </config>
     <config id="config.aws.iot.common">
       <property id="config.aws.iot.common.custom_iot_config" value=""/>
       <property id="config.aws.iot.common.iotlogging_puts" value="configPRINTF( ( &quot;%s\r\n&quot;, str ) )"/>
@@ -991,6 +1031,9 @@
       <property id="config.driver.sci_uart.dtc_support" value="config.driver.sci_uart.dtc_support.enabled"/>
       <property id="config.driver.sci_uart.flow_control" value="config.driver.sci_uart.flow_control.disabled"/>
     </config>
+    <config id="config.middleware.rm_littlefs_flash">
+      <property id="config.middleware.rm_littlefs_flash.param_checking_enable" value="config.middleware.rm_littlefs_flash.param_checking_enable.bsp"/>
+    </config>
     <config id="config.aws.pkcs11.mbedtls">
       <property id="config.aws.pkcs11.mbedtls.custom_pkcs11_config" value=""/>
       <property id="config.aws.pkcs11.mbedtls.max_label_length" value="32"/>
@@ -1016,7 +1059,7 @@
       <property id="config.awsfreertos.thread.configtick_rate_hz" value="1000"/>
       <property id="config.awsfreertos.thread.configmax_priorities" value="5"/>
       <property id="config.awsfreertos.thread.configminimal_stack_size" value="0x1000"/>
-      <property id="config.awsfreertos.thread.configmax_task_name_len" value="16"/>
+      <property id="config.awsfreertos.thread.configmax_task_name_len" value="32"/>
       <property id="config.awsfreertos.thread.configuse_trace_facility" value="config.awsfreertos.thread.configuse_trace_facility.disabled"/>
       <property id="config.awsfreertos.thread.configuse_stats_formatting_functions" value="config.awsfreertos.thread.configuse_stats_formatting_functions.disabled"/>
       <property id="config.awsfreertos.thread.configuse_16_bit_ticks" value="config.awsfreertos.thread.configuse_16_bit_ticks.disabled"/>
