@@ -5,7 +5,7 @@ Examples for Renesas RA MCU family include Example Projects and Application Proj
 Example projects demonstrate the basic usage of FSP in user applications
 
 #### Instructions For Running Example Projects
-1. Refer to the **_'Example Project Usage Guide'_** document in the **_'example_projects'_** folder for steps on importing and running the projects.
+1. Refer to the **_'Example Project Usage Guide'_** document in the **_'example_projects'_** folder or in the **_'Assets'_** section of **_'releases'_** for steps on importing and running the projects.
 2. Example Projects source code for modules supported on each kit is in **_\example_projects\kit\module_** folder.
 3. Projects for each of the kits can be downloaded from **_'Assets'_** section of **_'releases'_**. 
    **_e2studio_** folder includes pre-compiled binary and source code.
@@ -25,5 +25,7 @@ Application Projects illustrate solutions in various core technologies
 3. FSP Releases: https://github.com/renesas/fsp/releases
 4. FSP Documentation: https://renesas.github.io/fsp
 5. RA Product Information: www.renesas.com/ra
+6. Keil MDK Application Note: http://www.keil.com/appnotes/docs/apnt_330.asp
+7. RA/FSP Knowledge Base: https://en-support.renesas.com/knowledgeBase/category/31087
 6. Support: www.renesas.com/support
 
