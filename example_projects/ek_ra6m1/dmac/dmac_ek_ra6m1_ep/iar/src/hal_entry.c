@@ -1,28 +1,30 @@
 /***********************************************************************************************************************
- * Copyright [2015-2017] Renesas Electronics Corporation and/or its licensors. All Rights Reserved.
- *
- * This file is part of Renesas RA Flex Software Package (FSP)
- *
- * The contents of this file (the "contents") are proprietary and confidential to Renesas Electronics Corporation
- * and/or its licensors ("Renesas") and subject to statutory and contractual protections.
- *
- * This file is subject to a Renesas FSP license agreement. Unless otherwise agreed in an FSP license agreement with
- * Renesas: 1) you may not use, copy, modify, distribute, display, or perform the contents; 2) you may not use any name
- * or mark of Renesas for advertising or publicity purposes or in connection with your use of the contents; 3) RENESAS
- * MAKES NO WARRANTY OR REPRESENTATIONS ABOUT THE SUITABILITY OF THE CONTENTS FOR ANY PURPOSE; THE CONTENTS ARE PROVIDED
- * "AS IS" WITHOUT ANY EXPRESS OR IMPLIED WARRANTY, INCLUDING THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
- * PARTICULAR PURPOSE, AND NON-INFRINGEMENT; AND 4) RENESAS SHALL NOT BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, OR
- * CONSEQUENTIAL DAMAGES, INCLUDING DAMAGES RESULTING FROM LOSS OF USE, DATA, OR PROJECTS, WHETHER IN AN ACTION OF
- * CONTRACT OR TORT, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THE CONTENTS. Third-party contents
- * included in this file may be subject to different terms.
+ * File Name    : hal_entry.c
+ * Description  : Contains data structures and functions used in hal_entry.c.
  **********************************************************************************************************************/
+/***********************************************************************************************************************
+ * DISCLAIMER
+ * This software is supplied by Renesas Electronics Corporation and is only intended for use with Renesas products. No
+ * other uses are authorized. This software is owned by Renesas Electronics Corporation and is protected under all
+ * applicable laws, including copyright laws.
+ * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
+ * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED. TO THE MAXIMUM
+ * EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES
+ * SHALL BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR ANY REASON RELATED TO THIS
+ * SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+ * Renesas reserves the right, without notice, to make changes to this software and to discontinue the availability of
+ * this software. By using this software, you agree to the additional terms and conditions found by accessing the
+ * following link:
+ * http://www.renesas.com/disclaimer
+ *
+ * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
+ ***********************************************************************************************************************/
 
 #include "common_utils.h"
 #include "dmac_transfers.h"
 #include "timer_initialise.h"
 #include "transfer_initialise.h"
-#include "external_irq_initialise.h"
-
 
 void R_BSP_WarmStart(bsp_warm_start_event_t event);
 
@@ -42,43 +44,24 @@ void hal_entry(void)
     /* Fetch FSP version to display on RTT */
     R_FSP_VersionGet (&version);
     /* Example Project information printed on the Console */
-    APP_PRINT(BANNER_1);
-    APP_PRINT(BANNER_2);
-    APP_PRINT(BANNER_3,EP_VERSION);
-    APP_PRINT(BANNER_4,version.major, version.minor, version.patch );
-    APP_PRINT(BANNER_5);
-    APP_PRINT(BANNER_6);
+    APP_PRINT(BANNER_INFO,EP_VERSION,version.major, version.minor, version.patch);
 
-    APP_PRINT("\r\nProject initializes 3 DMAC tranfser instances, AGT generates 100ms interrupt \
-            \rto g_transfer_led_blink. g_transfer_led_blink sends data to LED.\
-            \rg_transfer_gpt_value transfer, send's current GPT timer value on every user pushbutton press.\
-            \rg_transfer_write_ioport writes data to LED. User can provide input on JlinkRTTViewer\
-            \rto displays stored GPT counter value from buffer.\n");
-
-    /* DMAC g_transfer_led_blink (runs in Normal mode) transfers data
-     * from source array to port control register(LED) for specified
-     * number of counts(60).DMAC g_transfer_led_blink alters the state
-     * of the LED and stops. */
-    transfer_led_blink_operation();
+    APP_PRINT(EP_INFO);
 
     /* DMAC g_transfer_gpt_timer is configured to transfer 32-bit data
-     * from a GPT counter register to the destination array. Interrupt
-     * generated when user pushbutton is pressed, triggers the IRQ and
-     * initiates DMAC g_transfer_gpt_timer . GPT timer continuous to run. */
+     * from a GPT counter register to the destination array. DAMC
+     * transfer happens when 2 is pressed. GPT timer continuous to run. */
     transfer_gpt_timer_operation();
 
     /* DMAC g_transfer_write_ioport is configured to transfer 32-bit
      * data(in repeat mode) from the source array to port control
-     * register(LED). As a result, pressing the user pushbutton changes
-     * the state of the LED.  */
+     * register(LED). As a  result, when 3 is pressed, LED state
+     * changes */
     transfer_write_ioport_operation();
 
-    /* Transfer is no more required as it is used only for writing data on ioport pin */
-    dmac_transfer_deinit(&g_transfer_led_blink_ctrl, TRANSFER_LED_BLINK);
 
-    APP_PRINT("\r\n***  Press user push-button to transfer GPT current timer value. ***");
     APP_PRINT("\r\n*** The GPT timer value will be updated in Round-Robin fashion. ***\r\n");
-    APP_PRINT("\r\nPress 1 to view the buffer data \n");
+    APP_PRINT(MENU);
 
     while(true)
     {
@@ -92,33 +75,60 @@ void hal_entry(void)
             /* Considering both input sending type from RTT and checking for valid input */
             if((NEW_LINE != rtt_input_data[EXPECTED_CHAR_END_INDEX]) && (NULL_CHAR != rtt_input_data[EXPECTED_CHAR_END_INDEX]))
             {
-                APP_PRINT("\r\nProvide a valid input. To view the buffer data, provide 1 as RTT input\n");
+                APP_PRINT("\r\nProvide a valid input.\n");
             }
             else
             {
                 converted_rtt_input = (uint8_t)atoi((char *)rtt_input_data);
-                if( START_TRANSFER_GPT_VALUE != converted_rtt_input )
+                if( START_TRANSFER_ON_LED_PORT == converted_rtt_input )
                 {
-                    APP_PRINT("\r\nProvide a valid input. To view the buffer data, provide 1 as RTT input\n");
+                    /* DMAC g_transfer_led_blink (runs in Normal mode) transfers data
+                     * from source array to port control register(LED) for specified
+                     * number of counts(60).DMAC g_transfer_led_blink alters the state
+                     * of the LED and stops. */
+                    transfer_led_blink_operation();
+
+                    /* De-initialize g_transfer_led_blink */
+                    dmac_transfer_deinit(&g_transfer_led_blink_ctrl, TRANSFER_LED_BLINK);
+                    /* De-initialize AGT */
+                    agt_timer_deinit();
                 }
-                else
+                /* check for user input to transfer current gpt value to destination array */
+                else if(START_TRANSFER_GPT_VALUE == converted_rtt_input)
                 {
-                    fsp_err = transfer_ioport_write_software_start(converted_rtt_input);
+                    /* Start DMAC transfer from gpt counter register to destination array */
+                    fsp_err = dmac_transfer_software_start(&g_transfer_gpt_value_ctrl);
                     /* Handle error in-case of failure */
                     if (FSP_SUCCESS != fsp_err)
                     {
                         dmac_transfer_deinit(&g_transfer_write_ioport_ctrl, TRANSFER_WRITE_IOPORT);
                         gpt_timer_deinit();
                         dmac_transfer_deinit(&g_transfer_gpt_value_ctrl, TRANSFER_GPT_TIMER_VALUE);
-                        external_irq_deinit();
                         agt_timer_deinit();
                         APP_ERR_TRAP(fsp_err);
                     }
-                    else
-                    {
-                        dmac_transfer_print_data();
-                    }
+                    dmac_transfer_print_data();
                 }
+                else if(START_TRANSFER_TOGGLE_LED == converted_rtt_input)
+                {
+                    /* start the dmac tranfer_write_ioport */
+                    fsp_err = dmac_transfer_software_start(&g_transfer_write_ioport_ctrl);
+                    /* Handle error in-case of failure */
+                    if (FSP_SUCCESS != fsp_err)
+                    {
+                        dmac_transfer_deinit(&g_transfer_write_ioport_ctrl, TRANSFER_WRITE_IOPORT);
+                        gpt_timer_deinit();
+                        dmac_transfer_deinit(&g_transfer_gpt_value_ctrl, TRANSFER_GPT_TIMER_VALUE);
+                        agt_timer_deinit();
+                        APP_ERR_TRAP(fsp_err);
+                    }
+                    APP_PRINT("\r\n Data successfully transferred on LED PORT\r\n")
+                }
+                else
+                {
+                    APP_PRINT("\r\nProvide a valid input.\n");
+                }
+                APP_PRINT(MENU);
             }
         }
     }

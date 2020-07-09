@@ -18,7 +18,7 @@
  * following link:
  * http://www.renesas.com/disclaimer
  *
- * Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
+ * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
  ***********************************************************************************************************************/
 
 #ifndef COMMON_UTILS_H_
@@ -41,7 +41,7 @@
 
 #define RESET_VALUE             (0x00)
 
-#define EP_VERSION              ("1.0")
+#define EP_VERSION              ("1.1")
 #define MODULE_NAME             "r_crc"
 #define BANNER_INFO             "\r\n******************************************************************"\
                                 "\r\n*   Renesas FSP Example Project for "MODULE_NAME" Module                 *"\

@@ -18,7 +18,7 @@
  * following link:
  * http://www.renesas.com/disclaimer
  *
- * Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
+ * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
  ***********************************************************************************************************************/
 #include "common_utils.h"
 #include "timer_initialise.h"
@@ -29,7 +29,7 @@
  **********************************************************************************************************************/
 
 /*******************************************************************************************************************//**
- *  @brief    GPT timer initialisation function
+ *  @brief       GPT timer initialisation function
  *  @param[IN]   None
  *  @retval      FSP_SUCCESS                  Upon successful open and start of timer
  *  @retval      Any Other Error code apart from FSP_SUCCESS is  Unsuccessful open or start
@@ -69,7 +69,7 @@ fsp_err_t gpt_timer_init(void)
 
 
 /*******************************************************************************************************************//**
- *  @brief    AGT timer initialisation function
+ *  @brief       AGT timer initialization function
  *  @param[IN]   None
  *  @retval      FSP_SUCCESS                  Upon successful open and start of timer
  *  @retval      Any Other Error code apart from FSP_SUCCESS is  Unsuccessful open or start
@@ -110,7 +110,7 @@ fsp_err_t agt_timer_init(void)
 }
 
 /*******************************************************************************************************************//**
- *  @brief    GPT timer deinitialisation function
+ *  @brief       GPT timer deinitialisation function
  *  @param[IN]   None
  *  @retval      None
  **********************************************************************************************************************/
@@ -130,7 +130,7 @@ void gpt_timer_deinit(void)
 }
 
 /*******************************************************************************************************************//**
- *  @brief    AGT timer deinitialisation function
+ *  @brief       AGT timer deinitialisation function
  *  @param[IN]   None
  *  @retval      None
  **********************************************************************************************************************/

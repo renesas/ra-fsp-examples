@@ -18,7 +18,7 @@
  * following link:
  * http://www.renesas.com/disclaimer
  *
- * Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
+ * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
  ***********************************************************************************************************************/
 
 #ifndef COMMON_UTILS_H_
@@ -64,6 +64,5 @@
 #define APP_READ(read_data)     SEGGER_RTT_Read (SEGGER_INDEX, read_data, sizeof(read_data));
 
 #define APP_CHECK_DATA          SEGGER_RTT_HasKey()
-
 
 #endif /* COMMON_UTILS_H_ */

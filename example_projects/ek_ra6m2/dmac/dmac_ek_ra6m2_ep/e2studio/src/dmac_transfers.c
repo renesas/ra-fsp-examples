@@ -18,13 +18,12 @@
  * following link:
  * http://www.renesas.com/disclaimer
  *
- * Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
+ * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
  ***********************************************************************************************************************/
 #include "common_utils.h"
 #include "dmac_transfers.h"
 #include "transfer_initialise.h"
 #include "timer_initialise.h"
-#include "external_irq_initialise.h"
 
 /*******************************************************************************************************************//**
  * @addtogroup dmac_transfers
@@ -35,7 +34,7 @@
 extern uint32_t g_source_data[SOURCE_DATA_SIZE];
 extern uint32_t g_dest_data[DEST_DATA_SIZE];
 
-/* Boolean flag to determine if push button(Switch) has been pressed */
+/* Boolean flag to determine if transfer is complete */
 volatile bool b_is_transfer_complete  = false;
 
 /* LED port pin control register for port1(common for all the boards) */
@@ -45,7 +44,7 @@ static volatile uint32_t *p_ioport_pnctrl_register = &R_PORT1->PCNTR1;
 static volatile uint32_t *p_gpt_counter_register = &R_GPT0->GTCNT;
 
 /*******************************************************************************************************************//**
- *  @brief     Perform transfer led blink operation
+ *  @brief       Perform transfer led blink operation
  *  @param[IN]   None
  *  @retval      None
  **********************************************************************************************************************/
@@ -64,7 +63,7 @@ void transfer_led_blink_operation(void)
     /* Handle error in-case of failure */
     if (FSP_SUCCESS != fsp_err)
     {
-        /* Necessary cleanup is already taken care in init function hence no cleanuo is required here*/
+        /* Necessary cleanup is already taken care in init function hence no cleanup is required here*/
         APP_ERR_PRINT("** DMAC TRANSFER_LED_BLINK INIT failed ** \r\n");
         APP_ERR_TRAP(fsp_err);
     }
@@ -78,31 +77,29 @@ void transfer_led_blink_operation(void)
         dmac_transfer_deinit(&g_transfer_led_blink_ctrl, TRANSFER_LED_BLINK);
         APP_ERR_TRAP(fsp_err);
     }
-
     /* Display information about g_transfer_led_blink  transfer on RTT display and view on-board LED */
-    APP_PRINT("\r\nDMAC g_transfer_led_blink transfer initiated. Data transfer can be verified through on-board LED \n");
+    APP_PRINT("\r\nDMAC g_transfer_led_blink transfer in progress. Wait for 6 second \n");
 
+    /* Wait for g_transfer_led_blink to complete.
+     * This boolean flag is set in transfer_agt_timer_callback
+     */
+    while(false == b_is_transfer_complete)
+    {
+        ;
+    }
+    /* Reset the flag */
+    b_is_transfer_complete = false;
+    APP_PRINT("\r\nDMAC g_transfer_led_blink transfer completed.\n");
 }
 
 /*******************************************************************************************************************//**
- *  @brief     Perform transfer gpt timer operation
+ *  @brief       Perform transfer gpt timer operation
  *  @param[IN]   None
  *  @retval      None
  **********************************************************************************************************************/
 void transfer_gpt_timer_operation(void)
 {
     fsp_err_t fsp_err = FSP_SUCCESS;    // Variable to help handle error codes from functions
-
-    /* Initialize External IRQ module */
-    fsp_err = external_irq_init();
-    /* Handle error in-case of failure */
-    if (FSP_SUCCESS != fsp_err)
-    {
-        APP_ERR_PRINT("** External IRQ INIT failed ** \r\n");
-        agt_timer_deinit();
-        dmac_transfer_deinit(&g_transfer_led_blink_ctrl, TRANSFER_LED_BLINK);
-        APP_ERR_TRAP(fsp_err);
-    }
 
     /* Set the Source and Destination Addresses for DMAC transfer_gpt_value.
      * NOTE: If the source and destination addresses are not set prior to
@@ -116,7 +113,6 @@ void transfer_gpt_timer_operation(void)
     if (FSP_SUCCESS != fsp_err)
     {
         APP_ERR_PRINT("** DMAC TRANSFER_GPT_TIMER_VALUE INIT failed ** \r\n");
-        external_irq_deinit();
         agt_timer_deinit();
         dmac_transfer_deinit(&g_transfer_led_blink_ctrl,TRANSFER_LED_BLINK);
         APP_ERR_TRAP(fsp_err);
@@ -129,7 +125,6 @@ void transfer_gpt_timer_operation(void)
     {
         APP_ERR_PRINT("** GPT timer INIT failed ** \r\n");
         dmac_transfer_deinit(&g_transfer_gpt_value_ctrl, TRANSFER_GPT_TIMER_VALUE);
-        external_irq_deinit();
         agt_timer_deinit();
         dmac_transfer_deinit(&g_transfer_led_blink_ctrl, TRANSFER_LED_BLINK);
         APP_ERR_TRAP(fsp_err);
@@ -137,7 +132,7 @@ void transfer_gpt_timer_operation(void)
 }
 
 /*******************************************************************************************************************//**
- *  @brief     Perform transfer write ioport operation
+ *  @brief       Perform transfer write ioport operation
  *  @param[IN]   None
  *  @retval      None
  **********************************************************************************************************************/
@@ -146,15 +141,15 @@ void transfer_write_ioport_operation(void)
     fsp_err_t fsp_err = FSP_SUCCESS;    // Variable to help handle error codes from functions
 
     /* Set the source and destination addresses DMAC, g_transfer_write_ioport
-     * is configured to transfer 8 packets of data, in repeat mode,
-     * from g_source_data[2] to R_IOPORT6->PCNTR1
+     * is configured to transfer in repeat mode,
+     * from g_source_data to R_IOPORT1->PCNTR1
      * This is similar to DMAC g_transfer_led_blink
      * However, g_transfer_led_blink  was triggered by a peripheral interrupt (AGT0)
      * Here, DMAC g_transfer_write_ioport is configured for Software Activation.
      */
     set_transfer_dst_src_address(&g_transfer_write_ioport_cfg,(void *) g_source_data ,(void *) p_ioport_pnctrl_register);
 
-    /* Open and enable dmac g_transfer_gpt_value */
+    /* Open and enable dmac g_transfer_write_ioport */
     fsp_err = dmac_transfer_init( &g_transfer_write_ioport_ctrl, &g_transfer_write_ioport_cfg, TRANSFER_WRITE_IOPORT );
     /* Handle error in-case of failure */
     if (FSP_SUCCESS != fsp_err)
@@ -162,27 +157,17 @@ void transfer_write_ioport_operation(void)
         APP_ERR_PRINT("** DMAC TRANSFER_WRITE_IOPORT INIT failed ** \r\n");
         gpt_timer_deinit();
         dmac_transfer_deinit(&g_transfer_gpt_value_ctrl, TRANSFER_GPT_TIMER_VALUE);
-        external_irq_deinit();
         agt_timer_deinit();
         dmac_transfer_deinit(&g_transfer_led_blink_ctrl, TRANSFER_LED_BLINK);
         APP_ERR_TRAP(fsp_err);
     }
-
-    /* Wait for g_transfer_led_blink to complete.
-     * This boolean flag is set in transfer_gpt_timer_callback
-     */
-    while(false == b_is_transfer_complete)
-    {
-        ;
-    }
-    APP_PRINT("\r\nDMAC g_transfer_led_blink transmission completed \n");
 }
 
 /*******************************************************************************************************************//**
- *  @brief     transfer_gpt_timer_callback function
+ *  @brief      transfer_agt_timer_callback function
  *  @param[in]  callback arguments
  **********************************************************************************************************************/
-void transfer_gpt_timer_callback (dmac_callback_args_t * p_args)
+void transfer_agt_timer_callback (dmac_callback_args_t * p_args)
 {
     FSP_PARAMETER_NOT_USED(p_args);
 

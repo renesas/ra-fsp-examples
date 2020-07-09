@@ -18,7 +18,7 @@
  * following link:
  * http://www.renesas.com/disclaimer
  *
- * Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
+ * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
  ***********************************************************************************************************************/
 
 #include "common_utils.h"
@@ -196,7 +196,7 @@ uint8_t block_num_input_and_validation(uint8_t flash_type)
             }
 
             /* Checking whether input is numerical value or not */
-            if(('0' <= rByte[ARRAY_INDEX]) && ('9' >= rByte[ARRAY_INDEX]) && ('\n' == rByte[ARRAY_INDEX + 1]))
+            if(('0' <= rByte[ARRAY_INDEX]) && ('9' >= rByte[ARRAY_INDEX]))
             {
                 /* Converting block number string to integer */
                 block_num = (uint8_t)atoi(rByte);
@@ -243,8 +243,7 @@ uint8_t block_num_input_and_validation(uint8_t flash_type)
             /* Checking whether input is numerical value or not */
             if(('0' <= rByte[ARRAY_INDEX]) && ('9' >= rByte[ARRAY_INDEX]))
             {
-                if(('.' != rByte[ARRAY_INDEX + 2]) && ('.' != rByte[ARRAY_INDEX + 3]) &&
-                        (('\n' == rByte[ARRAY_INDEX + 2]) || ('\n' == rByte[ARRAY_INDEX + 3])))
+                if(('.' != rByte[ARRAY_INDEX + 2]) && ('.' != rByte[ARRAY_INDEX + 3]))
                 {
                     /* Converting block number string to integer */
                     block_num = (uint8_t)atoi(rByte);

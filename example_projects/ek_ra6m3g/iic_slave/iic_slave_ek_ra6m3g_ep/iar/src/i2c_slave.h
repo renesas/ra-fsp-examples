@@ -18,50 +18,41 @@
  * following link:
  * http://www.renesas.com/disclaimer
  *
- * Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
+ * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
  ***********************************************************************************************************************/
 
 #ifndef I2C_SLAVE_H_
 #define I2C_SLAVE_H_
 
 
-/* external IRQ channel */
-/* board specific */
-#if defined (BOARD_RA6M3_EK) || defined (BOARD_RA6M3G_EK)
-#define IRQ_CHANNEL        0x0D
-#elif defined (BOARD_RA2A1_EK)
-#define IRQ_CHANNEL        0x06
-#elif defined (BOARD_RA6M1_EK)
-#define IRQ_CHANNEL        0x08
-#elif defined (BOARD_RA6M2_EK) || defined (BOARD_RA4M1_EK)
-#define IRQ_CHANNEL        0x00
-#endif
-
+/* macro definition */
 /* for on board LED */
 #define LED_ON             BSP_IO_LEVEL_HIGH
 #define LED_OFF            BSP_IO_LEVEL_LOW
 
 /* MACRO for checking if two buffers are equal */
-#define BUFF_EQUAL (0)
+#define BUFF_EQUAL         (0U)
 
 /* buffer size for slave and master data */
 #define BUF_LEN            0x06
 
-/* I2C transaction failure count on slave read write operation */
-#define FAIL_THRESOLD_CNT  0x05
-
 /* Human eye noticeable LED toggle delay */
 #define TOGGLE_DELAY       0x3E8
+
+#define EP_INFO    "\r\nThis EP demonstrates IIC slave operation using two I2C channels." \
+        "\r\nIt performs Slave read and write operation continuously once initialization  " \
+        "\r\nis successful. On successful I2C transaction(6 bytes), Data transceived is  "\
+        "\r\ncompared. Led blinks on data match else it is turned ON as sign of failure. " \
+        "\r\nFor both cases corresponding slave operation message is displayed on RTT. "\
+        "\r\nAny API/event failure message is also displayed.\n\n\n\n"
 
 /*
  *  Global functions
  */
-fsp_err_t init_ext_irq(void);
 fsp_err_t init_i2C_driver(void);
 fsp_err_t process_slave_WriteRead(void);
 void deinit_i2c_driver(void);
 void set_led(bsp_io_level_t led_state);
-void deinit_external_irq(void);
 
 
 #endif /* I2C_SLAVE_H_ */

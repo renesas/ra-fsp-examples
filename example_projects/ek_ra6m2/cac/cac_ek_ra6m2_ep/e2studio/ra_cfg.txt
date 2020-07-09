@@ -101,9 +101,6 @@ RA Configuration
   Module "CGC Driver on r_cgc"
     Parameter Checking: Default (BSP)
     
-  Module "External IRQ Driver on r_icu"
-    Parameter Checking: Default (BSP)
-    
   HAL
     Instance "g_ioport I/O Port Driver on r_ioport"
       Name: g_ioport
@@ -130,13 +127,4 @@ RA Configuration
     Instance "g_cgc CGC Driver on r_cgc"
       Name: g_cgc
       NMI Callback: NULL
-      
-    Instance "g_external_irq External IRQ Driver on r_icu"
-      Name: g_external_irq
-      Channel: 0
-      Trigger: Rising
-      Digital Filtering: Enabled
-      Digital Filtering Sample Clock (Only valid when Digital Filtering is Enabled): PCLK / 64
-      Callback: external_irq_cb
-      Pin Interrupt Priority: Priority 2
       

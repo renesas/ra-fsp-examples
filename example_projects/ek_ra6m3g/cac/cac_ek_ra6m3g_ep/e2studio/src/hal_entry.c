@@ -18,7 +18,7 @@
  * following link:
  * http://www.renesas.com/disclaimer
  *
- * Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
+ * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
  ***********************************************************************************************************************/
 
 #include "common_utils.h"
@@ -31,10 +31,8 @@
 
 /* Global variable */
 /* variable to capture CAC events. */
-static volatile cac_event_t g_cac_event = CAC_EVENT_VALUE;
+static volatile cac_event_t g_cac_event = (cac_event_t)CAC_EVENT_VALUE;
 static volatile bool b_cac_status_flag  = false;
-/* Boolean flag to determine switch is pressed or not.*/
-static volatile bool b_sw_press = false;
 
 /* Private function*/
 static fsp_err_t cac_measurement_process(void);
@@ -51,10 +49,11 @@ void hal_entry(void)
     fsp_err_t err                                  = FSP_SUCCESS;
     fsp_pack_version_t version                     = {RESET_VALUE};
     uint16_t cgc_time_out                          = UINT16_MAX;
+    uint8_t rtt_input_buf[BUFFER_SIZE_DOWN]        = {RESET_VALUE};
     /* used to get reference clock from CAC configurable property "Reference clock source".*/
-    cac_clock_source_t ref_clk                     = RESET_VALUE;
+    cac_clock_source_t ref_clk                     = (cac_clock_source_t)RESET_VALUE;
     /* used to get target clock from CAC configurable property "measurement clock source".*/
-    cac_clock_source_t target_clk                  = RESET_VALUE;
+    cac_clock_source_t target_clk                  = (cac_clock_source_t)RESET_VALUE;
     /* Supported clocks in this EP */
     uint8_t target_cgc_clk_src[TARGET_CGC_CLK_CNT] = {TARGET_CLOCK_SOURCE_MAIN_OSC,
                                                       TARGET_CLOCK_SOURCE_SUBCLOCK,
@@ -91,20 +90,6 @@ void hal_entry(void)
         APP_ERR_TRAP(err);
     }
 
-    /* Open ICU module */
-    err = R_ICU_ExternalIrqOpen(&g_external_irq_ctrl, &g_external_irq_cfg);
-    /* Handle error */
-    if (FSP_SUCCESS != err)
-    {
-        /* ICU Open failure message */
-        APP_ERR_PRINT ("\r\n** R_ICU_ExternalIrqOpen API FAILED **\r\n");
-
-        /* de-initialize all the opened modules before trap*/
-        deinit_cac();
-        deinit_cgc();
-        APP_ERR_TRAP(err);
-    }
-
     /* copy the reference clock selected from configurator to local buffer*/
     ref_clk = g_cac_cfg.cac_ref_clock.clock;
 
@@ -112,7 +97,7 @@ void hal_entry(void)
     if (CAC_CLOCK_SOURCE_IWDT != ref_clk)
     {
         /* Start selected target clock. */
-        err = R_CGC_ClockStart(&g_cgc_ctrl, target_cgc_clk_src[ref_clk], NULL);
+        err = R_CGC_ClockStart(&g_cgc_ctrl, (cgc_clock_t)target_cgc_clk_src[ref_clk], NULL);
         if(FSP_SUCCESS != err)
         {
             APP_ERR_PRINT("\r\n** R_CGC_ClockStart API FAILED ** \r\n");
@@ -127,7 +112,7 @@ void hal_entry(void)
             /*start checking for timeout to avoid infinite loop*/
             --cgc_time_out;
 
-            err = R_CGC_ClockCheck(&g_cgc_ctrl, target_cgc_clk_src[ref_clk]);
+            err = R_CGC_ClockCheck(&g_cgc_ctrl, (cgc_clock_t)target_cgc_clk_src[ref_clk]);
 
             /*check for time elapse*/
             if ((RESET_VALUE == cgc_time_out) || (FSP_ERR_CLOCK_INACTIVE == err))
@@ -149,7 +134,7 @@ void hal_entry(void)
     if (CAC_CLOCK_SOURCE_IWDT != target_clk)
     {
         /* Start selected target clock. */
-        err = R_CGC_ClockStart(&g_cgc_ctrl, target_cgc_clk_src[target_clk], NULL);
+        err = R_CGC_ClockStart(&g_cgc_ctrl, (cgc_clock_t)target_cgc_clk_src[target_clk], NULL);
         if(FSP_SUCCESS != err)
         {
             APP_ERR_PRINT("\r\n** R_CGC_ClockStart API FAILED ** \r\n");
@@ -164,7 +149,7 @@ void hal_entry(void)
             /*start checking for timeout to avoid infinite loop*/
             --cgc_time_out;
 
-            err = R_CGC_ClockCheck(&g_cgc_ctrl, target_cgc_clk_src[target_clk]);
+            err = R_CGC_ClockCheck(&g_cgc_ctrl, (cgc_clock_t)target_cgc_clk_src[target_clk]);
 
             /*check for time elapse*/
             if ((RESET_VALUE == cgc_time_out) || (FSP_ERR_CLOCK_INACTIVE == err))
@@ -179,24 +164,17 @@ void hal_entry(void)
         APP_PRINT("\r\nSelected CGC Target clock started and stabilized.\r\n");
     }
 
-    /* Enable ICU module */
-    err = R_ICU_ExternalIrqEnable(&g_external_irq_ctrl);
-    /* Handle error */
-    if (FSP_SUCCESS != err)
-    {
-        /* ICU Enable failure message */
-        APP_ERR_PRINT ("\r\n**R_ICU_ExternalIrqEnable API FAILED**\r\n");
-        /* close all the opened modules before trap*/
-        clean_up();
-        APP_ERR_TRAP(err);
-    }
+    APP_PRINT("\r\nEnter any key to perform CAC measurement operation\r\n");
 
     while (true)
     {
-        if(true == b_sw_press)
+        /* Reset buffer*/
+        memset(rtt_input_buf, RESET_VALUE, BUFFER_SIZE_DOWN);
+        /* Process RTT input provided by user */
+        if (APP_CHECK_DATA)
         {
-            /* Clear user pushbutton flag */
-            b_sw_press = false;
+            /* Read First byte of data provided by user */
+            APP_READ(rtt_input_buf);
 
             APP_PRINT("\r\nStart CAC measurement operation\r\n");
             /* process cac measurement operation.*/
@@ -208,6 +186,7 @@ void hal_entry(void)
                 clean_up();
                 APP_ERR_TRAP(err);
             }
+            APP_PRINT("\r\nEnter any key to perform CAC measurement operation\r\n");
         }
     }
 }
@@ -225,7 +204,7 @@ static fsp_err_t cac_measurement_process(void)
     uint16_t cac_time_out             = UINT16_MAX;
 
     /* Reset flags before starting CAC measurement*/
-    g_cac_event = CAC_EVENT_VALUE;
+    g_cac_event = (cac_event_t) CAC_EVENT_VALUE;
     b_cac_status_flag = false;
 
     /* Begin a measurement */
@@ -316,20 +295,6 @@ void cac_callback(cac_callback_args_t *p_args)
     }
 }
 
-/*******************************************************************************************************************//**
- * @brief      User defined external irq callback.
- * @param[IN]  p_args
- * @retval     None
- **********************************************************************************************************************/
-void external_irq_cb(external_irq_callback_args_t *p_args)
-{
-    /* Make sure it's the right interrupt*/
-    if ( (NULL != p_args) && (USER_SW_IRQ_NUMBER == p_args->channel) )
-    {
-        b_sw_press = true;
-    }
-}
-
 /*****************************************************************************************************************
  * @brief      Close the CAC HAL driver.
  * @param[IN]  None
@@ -366,24 +331,6 @@ void deinit_cgc(void)
     }
 }
 
-/*******************************************************************************************************************//**
- * @brief       This function closes opened ICU module before the project ends up in an Error Trap.
- * @param[IN]   None
- * @retval      None
- **********************************************************************************************************************/
-void deinit_external_irq(void)
-{
-    fsp_err_t err = FSP_SUCCESS;
-
-    /* close opened external interrupt module */
-    err = R_ICU_ExternalIrqClose(&g_external_irq_ctrl);
-    /* Handle error */
-    if(FSP_SUCCESS != err)
-    {
-        APP_ERR_PRINT ("** R_ICU_ExternalIrqClose API FAILED **\r\n");
-    }
-}
-
 /*****************************************************************************************************************
  *  @brief      Close all modules.
  *  @param[in] 	None
@@ -394,7 +341,6 @@ void clean_up(void)
     /* de-initialize all the opened modules before trap*/
     deinit_cac();
     deinit_cgc();
-    deinit_external_irq();
 }
 
 /*******************************************************************************************************************//**

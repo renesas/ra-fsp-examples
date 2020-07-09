@@ -18,7 +18,7 @@
  * following link:
  * http://www.renesas.com/disclaimer
  *
- * Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
+ * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
  ***********************************************************************************************************************/
 #ifndef ICU_EP_H_
 #define ICU_EP_H_
@@ -32,6 +32,8 @@
 #define USER_SW_IRQ_NUMBER        (0x08)
 #elif defined (BOARD_RA6M2_EK) || defined (BOARD_RA4M1_EK)
 #define USER_SW_IRQ_NUMBER        (0x00)
+#elif defined (BOARD_RA4W1_EK)
+#define USER_SW_IRQ_NUMBER        (0x04)
 #endif
 
 #define EP_INFO    "\r\nThis Example Project demonstrates the functionality of ICU driver.\r\n" \

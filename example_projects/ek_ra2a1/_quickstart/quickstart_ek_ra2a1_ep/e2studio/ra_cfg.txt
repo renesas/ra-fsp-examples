@@ -101,23 +101,23 @@ RA Configuration
     Parameter Checking: Default (BSP)
     
   Module "USB PCDC driver on r_usb_pcdc"
-    Pipe to use for Bulk IN transfer.: USB PIPE4
-    Pipe to use for Bulk OUT transfer.: USB PIPE5
-    Pipe to use for Interrupt IN transfer.: USB PIPE6
+    Bulk Input Transfer Pipe: USB PIPE4
+    Bulk Output Transfer Pipe: USB PIPE5
+    Interrupt Output Pipe: USB PIPE6
     
   Module "USB Driver on r_usb_basic"
     Parameter Checking: Default (BSP)
-    PLL clock frequency setting: Other than 24/20/12MHz
-    CPU bus access wait setting: 9 access cycles
-    Setting the battery charging function: Enable
-    Setting the power source IC: High assert
-    Setting USB port operation when using the battery charging function: DCP disabled
-    Setting whether to notify the application when receiving the request(SET_INTERFACE/SET_FEATURE/CLEAR_FEATURE): Notifying
-    Select whether to use the double buffer function.: Enable
-    Select whether to use the continuous transfer mode.: Enable
-    DMA Support.: Disable
-    Transfer source address when DMA is supported.: DMA not support.
-    Transfer destination address when DMA is supported.: DMA not support.
+    PLL Frequency: Other
+    CPU Bus Access Wait Cycles: 9 cycles
+    Battery Charging: Enabled
+    Power IC Shutdown Polarity: Active High
+    Dedicated Charging Port (DCP) Mode: Disabled
+    Notifications for SET_INTERFACE/SET_FEATURE/CLEAR_FEATURE: Enabled
+    Double Buffering: Enabled
+    Continuous Transfer Mode: Enabled
+    DMA Support: Disable
+    DMA Source Address: DMA Disabled
+    DMA Destination Address: DMA Disabled
     
   HAL
     Instance "g_ioport I/O Port Driver on r_ioport"
@@ -246,11 +246,11 @@ RA Configuration
         USB Mode: Peri mode
         USB Speed: Full Speed
         USB Module Number: USB_IP0 Port
-        USB Class Type: Peripheral communication device class
+        USB Device Class: Peripheral Communications Device Class
         USB Descriptor: usb_descriptor
-        USB Complience CallBack: NULL
-        USBFS USBI Interrupt Priority: Priority 2
-        USBFS USBR Interrupt Priority: Priority 2
-        USB RTOS CallBack: NULL
-        USB Other Context: NULL
+        USB Compliance Callback: NULL
+        USBFS Interrupt Priority: Priority 2
+        USBFS Resume Priority: Priority 2
+        USB RTOS Callback: NULL
+        USB Callback Context: NULL
         

@@ -1,6 +1,6 @@
 /***********************************************************************************************************************
  * File Name    : transfer_initialise.h
- * Description  : Contains data structures and functions used in transfer_initialise.h/c
+ * Description  : Contains data structures and functions used in transfer_initialise.c
  **********************************************************************************************************************/
 /***********************************************************************************************************************
  * DISCLAIMER
@@ -18,7 +18,7 @@
  * following link:
  * http://www.renesas.com/disclaimer
  *
- * Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
+ * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
  ***********************************************************************************************************************/
 
 
@@ -37,7 +37,9 @@
 
 
 /* Macro for RTT input to software start DMAC transfer_gpt_value transfer */
-#define START_TRANSFER_GPT_VALUE (1u)
+#define START_TRANSFER_ON_LED_PORT (1u)
+#define START_TRANSFER_GPT_VALUE   (2u)
+#define START_TRANSFER_TOGGLE_LED  (3u)
 
 
 /* Function initialises the transfer unit module */
@@ -48,8 +50,8 @@ fsp_err_t dmac_transfer_init(dmac_instance_ctrl_t *const g_transfer_ctl,
 /* Function deinitialises the transfer unit module */
 void dmac_transfer_deinit(dmac_instance_ctrl_t *const p_transfer_ctl, uint8_t transfer_unit);
 
-/* Function performs software start for transfer_write_ioport instance */
-fsp_err_t transfer_ioport_write_software_start(uint8_t key);
+/* Function performs software start for dmac transfer instance */
+fsp_err_t dmac_transfer_software_start(transfer_ctrl_t * const p_transfer_ctrl);
 
 /* Function to print the data transfered by transfer_write_ioport */
 void dmac_transfer_print_data(void);

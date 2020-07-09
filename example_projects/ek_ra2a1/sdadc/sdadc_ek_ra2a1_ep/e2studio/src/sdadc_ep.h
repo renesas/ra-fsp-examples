@@ -1,5 +1,5 @@
 /***********************************************************************************************************************
- * File Name    : dac8_ep.h
+ * File Name    : sdadc_ep.h
  * Description  : Contains declarations of data structures and functions used in hal_entry.c.
  **********************************************************************************************************************/
 /***********************************************************************************************************************
@@ -18,7 +18,7 @@
  * following link:
  * http://www.renesas.com/disclaimer
  *
- * Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
+ * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
  ***********************************************************************************************************************/
 
 #ifndef SDADC_EP_H_
@@ -31,11 +31,13 @@
                             "\r\nData read from both the channels is displayed on JLink RTT Viewer.\r\n"
 
 
-#define SDADC_READ_DELAY      (500U)  //Delay for user convenience to see the data
+#define SDADC_READ_DELAY      (500U)      //Delay for user convenience to see the data
 #define SDADC_RESOLUTION      (16777216U) // 24-bit SDADC i.e 2 power 24
 #define REF_VOLTAGE           (float)(1.6)
 #define OFFSET_VOLTAGE        (float)(0.2)
-#define GAIN_TOTAL            (1U)  //Stage 1 gain * Stage 2 gain which is 1 here
+#define GAIN_TOTAL            (1U)        //Stage 1 gain * Stage 2 gain which is 1 here
 #define BUFF_SIZE             (30U)
+#define MASK                  (0x00FFFFFF)
+#define SHIFT                 (8U)
 
 #endif /* SDADC_EP_H_ */

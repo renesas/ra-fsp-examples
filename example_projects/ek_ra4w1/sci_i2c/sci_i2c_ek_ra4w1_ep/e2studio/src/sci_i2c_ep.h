@@ -18,26 +18,11 @@
  * following link:
  * http://www.renesas.com/disclaimer
  *
- * Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
+ * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
  ***********************************************************************************************************************/
 
 #ifndef SCI_I2C_EP_H_
 #define SCI_I2C_EP_H_
-
-
-/* External IRQ channel */
-/* board specific */
-#if defined (BOARD_RA6M3_EK) || defined (BOARD_RA6M3G_EK)
-#define IRQ_CHANNEL        0x0D
-#elif defined (BOARD_RA2A1_EK)
-#define IRQ_CHANNEL        0x06
-#elif defined (BOARD_RA6M1_EK)
-#define IRQ_CHANNEL        0x08
-#elif defined (BOARD_RA6M2_EK) || defined (BOARD_RA4M1_EK)
-#define IRQ_CHANNEL        0x00
-#elif defined (BOARD_RA4W1_EK)
-#define IRQ_CHANNEL        0x04
-#endif
 
 /* for on board LED */
 #define LED_ON             (bool)BSP_IO_LEVEL_HIGH
@@ -52,21 +37,33 @@
 /* Led toggle delay */
 #define TOGGLE_DELAY       0x15E
 
-#define EP_INFO  "\r\nThis Example Project demonstrates SCI_I2C Master operation through\r\n"\
-                  "loop-back with IIC Slave driver. On pressing user push button, 6 bytes\r\n"\
-                  "of data will be transmitted and received. The transmitted data is\r\n"\
-                  "compared with the received data. If the data matches, on-board LED\r\n"\
-                  "starts blinking. On a data mismatch, LED stays ON. Failure messages\r\n"\
-                  "and status is displayed on RTTViewer.\r\n\n\n"
+/*Delay added to recognise LED toggling after wrie/read operation */
+#define DELAY_OPERATION  (1U)
+
+#define EP_INFO  "\r\n  This Example Project demonstrates SCI_I2C Master operation through"\
+                  "\r\n loop-back with IIC Slave driver. 6 bytes of data will be transmitted"\
+                  "\r\n and received continuously on successful initialization."\
+                  "\r\n The transmitted data is compared with the received data. If the data matches, on-board LED"\
+                  "\r\n starts blinking. On a data mismatch, LED stays ON."\
+                  "\r\n Failure messages and status is displayed on RTTViewer.\r\n"
+
+
+/* enumerators to identify Master event to be processed */
+typedef enum e_master
+{
+    MASTER_READ  = 1U,
+    MASTER_WRITE = 2U
+}master_transfer_mode_t;
+
+
+
 /*
  *  Global functions
  */
-fsp_err_t init_ext_irq(void);
 fsp_err_t init_i2c_driver(void);
 fsp_err_t process_master_WriteRead(void);
 void deinit_i2c_driver(void);
 void set_led(bool b_value);
-void deinit_external_irq(void);
 
 
 #endif /* SCI_I2C_EP_H_ */

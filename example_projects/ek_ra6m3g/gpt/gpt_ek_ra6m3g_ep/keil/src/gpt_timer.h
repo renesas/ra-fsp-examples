@@ -18,7 +18,7 @@
  * following link:
  * http://www.renesas.com/disclaimer
  *
- * Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
+ * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
  ***********************************************************************************************************************/
 #ifndef GPT_TIMER_H_
 #define GPT_TIMER_H_
@@ -36,7 +36,7 @@
 /* GPT Timer Pin for boards */
 #define TIMER_PIN           GPT_IO_PIN_GTIOCB
 
-#ifdef BOARD_RA2A1_EK
+#if defined (BOARD_RA2A1_EK) || defined (BOARD_RA4W1_EK)
 #define GPT_MAX_PERIOD_COUNT     (0XFFFF)        /* Max Period Count for 16-bit Timer*/
 #else
 #define GPT_MAX_PERIOD_COUNT     (0XFFFFFFFF)    /* Max Period Count for 32-bit Timer*/

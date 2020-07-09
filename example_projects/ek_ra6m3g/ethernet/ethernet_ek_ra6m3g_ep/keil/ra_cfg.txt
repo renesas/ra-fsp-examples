@@ -285,17 +285,17 @@ RA Configuration
     Stack size in words (not bytes): configMINIMAL_STACK_SIZE * 10
     Network Events call vApplicationIPNetworkEventHook: Disable
     Max UDP send block time: 15000 / portTICK_PERIOD_MS
-    Use DHCP: Enable 
-    DHCP Register Hostname: Enable 
-    DHCP Uses Unicast: Enable 
-    DHCP Send Discover After Auto IP: Enable 
-    DHCP callback function: Enable 
+    Use DHCP: Disable
+    DHCP Register Hostname: Disable
+    DHCP Uses Unicast: Disable
+    DHCP Send Discover After Auto IP: Disable
+    DHCP callback function: Disable
     Interval between transmissions: 120000 / portTICK_PERIOD_MS
     ARP Cache Entries: 6
     ARP Request Retransmissions: 5
     Maximum time before ARP table entry becomes stale: 150
     Use string for IP Address: Enable 
-    Total number of avaiable network buffers: 10
+    Total number of avaiable network buffers: 16
     Set the maximum number of events: ipconfigNUM_NETWORK_BUFFER_DESCRIPTORS + 5
     Enable FreeRTOS_sendto() without calling Bind: Disable
     TTL values for UDP packets: 128
@@ -369,7 +369,7 @@ RA Configuration
     General: Message Buffer Length Type: size_t
     Memory Allocation: Support Static Allocation: Enabled
     Memory Allocation: Support Dynamic Allocation: Enabled
-    Memory Allocation: Total Heap Size: 0x6900
+    Memory Allocation: Total Heap Size: 0x8000
     Memory Allocation: Application Allocated Heap: Disabled
     Stats: Generate Run Time Stats: Disabled
     Timers: Use Timers: Enabled
@@ -428,8 +428,8 @@ RA Configuration
           Filters: Multicast Mode: Enable
           Filters: Promiscuous Mode: Disable
           Filters: Broadcast filter: 0
-          Buffers: Number of TX buffer: 1
-          Buffers: Number of RX buffer: 1
+          Buffers: Number of TX buffer: 4
+          Buffers: Number of RX buffer: 4
           Buffers: Buffer size: 1514
           Interrupts: Interrupt priority: Priority 12
           Interrupts: Callback: vEtherISRCallback

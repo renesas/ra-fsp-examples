@@ -18,7 +18,7 @@
  * following link:
  * http://www.renesas.com/disclaimer
  *
- * Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
+ * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
  ***********************************************************************************************************************/
 #include "common_utils.h"
 #include "sdadc_ep.h"
@@ -44,7 +44,7 @@ void hal_entry(void)
 {
     fsp_err_t err = FSP_SUCCESS;
     fsp_pack_version_t version = {RESET_VALUE};
-    uint32_t channel_conversion_result = RESET_VALUE;
+    int32_t channel_conversion_result = RESET_VALUE;
     uint32_t timeout_value = UINT32_MAX;
     float voltageOut = RESET_VALUE;
     char dataBuff[BUFF_SIZE] = {RESET_VALUE};
@@ -148,7 +148,7 @@ void hal_entry(void)
     {
 
         /* Read converted data from channel 0. */
-        err = R_SDADC_Read32(&g_sdadc_ctrl, ADC_CHANNEL_0, &channel_conversion_result);
+        err = R_SDADC_Read32(&g_sdadc_ctrl, ADC_CHANNEL_0, (uint32_t*)&channel_conversion_result);
 
         /* handle error */
         if (FSP_SUCCESS != err)
@@ -175,7 +175,7 @@ void hal_entry(void)
         APP_PRINT("\r\nVoltage at Channel 0:  %s\r\n",dataBuff);
 
         /* Read converted data from channel 2 */
-        err = R_SDADC_Read32 (&g_sdadc_ctrl, ADC_CHANNEL_2, &channel_conversion_result);
+        err = R_SDADC_Read32 (&g_sdadc_ctrl, ADC_CHANNEL_2,(uint32_t*) &channel_conversion_result);
 
         /* handle error */
         if (FSP_SUCCESS != err)
@@ -188,6 +188,9 @@ void hal_entry(void)
             }
             APP_ERR_TRAP(err);
         }
+
+        /* mask off any unwanted data from the result and sign extend the result */
+        channel_conversion_result = ((channel_conversion_result & MASK) << SHIFT) >> SHIFT;
 
         /*
          * Input voltage for the SDADC24(differential ended) = (1.6 V / GTOTAL) × (ADCDATA1 / 2^24)

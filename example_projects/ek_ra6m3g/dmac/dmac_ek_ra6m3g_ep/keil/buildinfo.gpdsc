@@ -13,8 +13,6 @@
         <file category="header" name="src/common_utils.h"/>
         <file category="source" name="src/dmac_transfers.c"/>
         <file category="header" name="src/dmac_transfers.h"/>
-        <file category="source" name="src/external_irq_initialise.c"/>
-        <file category="header" name="src/external_irq_initialise.h"/>
         <file category="source" name="src/hal_entry.c"/>
         <file category="source" name="src/SEGGER_RTT/SEGGER_RTT.c"/>
         <file category="header" name="src/SEGGER_RTT/SEGGER_RTT.h"/>
@@ -30,6 +28,7 @@
   <components generator="Renesas RA Smart Configurator">
     <component Cclass="Flex Software" Cgroup="Components" Csub="ra">
       <files>
+        <file category="header" name="ra/arm/CMSIS_5/CMSIS/Core/Include/cachel1_armv7.h"/>
         <file category="header" name="ra/arm/CMSIS_5/CMSIS/Core/Include/cmsis_armcc.h"/>
         <file category="header" name="ra/arm/CMSIS_5/CMSIS/Core/Include/cmsis_armclang.h"/>
         <file category="header" name="ra/arm/CMSIS_5/CMSIS/Core/Include/cmsis_armclang_ltm.h"/>
@@ -48,11 +47,13 @@
         <file category="header" name="ra/arm/CMSIS_5/CMSIS/Core/Include/core_cm33.h"/>
         <file category="header" name="ra/arm/CMSIS_5/CMSIS/Core/Include/core_cm35p.h"/>
         <file category="header" name="ra/arm/CMSIS_5/CMSIS/Core/Include/core_cm4.h"/>
+        <file category="header" name="ra/arm/CMSIS_5/CMSIS/Core/Include/core_cm55.h"/>
         <file category="header" name="ra/arm/CMSIS_5/CMSIS/Core/Include/core_cm7.h"/>
         <file category="header" name="ra/arm/CMSIS_5/CMSIS/Core/Include/core_sc000.h"/>
         <file category="header" name="ra/arm/CMSIS_5/CMSIS/Core/Include/core_sc300.h"/>
         <file category="header" name="ra/arm/CMSIS_5/CMSIS/Core/Include/mpu_armv7.h"/>
         <file category="header" name="ra/arm/CMSIS_5/CMSIS/Core/Include/mpu_armv8.h"/>
+        <file category="header" name="ra/arm/CMSIS_5/CMSIS/Core/Include/pmu_armv8.h"/>
         <file category="header" name="ra/arm/CMSIS_5/CMSIS/Core/Include/tz_context.h"/>
         <file category="header" name="ra/board/ra6m3g_ek/board.h"/>
         <file category="header" name="ra/board/ra6m3g_ek/board_ethernet_phy.h"/>
@@ -61,7 +62,6 @@
         <file category="source" name="ra/board/ra6m3g_ek/board_leds.c"/>
         <file category="header" name="ra/board/ra6m3g_ek/board_leds.h"/>
         <file category="header" name="ra/fsp/inc/api/bsp_api.h"/>
-        <file category="header" name="ra/fsp/inc/api/r_external_irq_api.h"/>
         <file category="header" name="ra/fsp/inc/api/r_ioport_api.h"/>
         <file category="header" name="ra/fsp/inc/api/r_timer_api.h"/>
         <file category="header" name="ra/fsp/inc/api/r_transfer_api.h"/>
@@ -71,7 +71,6 @@
         <file category="header" name="ra/fsp/inc/instances/r_agt.h"/>
         <file category="header" name="ra/fsp/inc/instances/r_dmac.h"/>
         <file category="header" name="ra/fsp/inc/instances/r_gpt.h"/>
-        <file category="header" name="ra/fsp/inc/instances/r_icu.h"/>
         <file category="header" name="ra/fsp/inc/instances/r_ioport.h"/>
         <file category="header" name="ra/fsp/src/bsp/cmsis/Device/RENESAS/Include/renesas.h"/>
         <file category="header" name="ra/fsp/src/bsp/cmsis/Device/RENESAS/Include/system.h"/>
@@ -103,7 +102,6 @@
         <file category="source" name="ra/fsp/src/r_agt/r_agt.c"/>
         <file category="source" name="ra/fsp/src/r_dmac/r_dmac.c"/>
         <file category="source" name="ra/fsp/src/r_gpt/r_gpt.c"/>
-        <file category="source" name="ra/fsp/src/r_icu/r_icu.c"/>
         <file category="source" name="ra/fsp/src/r_ioport/r_ioport.c"/>
       </files>
     </component>
@@ -117,7 +115,6 @@
         <file category="header" name="ra_cfg/fsp_cfg/r_agt_cfg.h"/>
         <file category="header" name="ra_cfg/fsp_cfg/r_dmac_cfg.h"/>
         <file category="header" name="ra_cfg/fsp_cfg/r_gpt_cfg.h"/>
-        <file category="header" name="ra_cfg/fsp_cfg/r_icu_cfg.h"/>
         <file category="header" name="ra_cfg/fsp_cfg/r_ioport_cfg.h"/>
       </files>
     </component>

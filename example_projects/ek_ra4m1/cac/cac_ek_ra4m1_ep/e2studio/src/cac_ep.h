@@ -18,30 +18,19 @@
  * following link:
  * http://www.renesas.com/disclaimer
  *
- * Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
+ * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
  ***********************************************************************************************************************/
 #ifndef CAC_EP_H_
 #define CAC_EP_H_
 
 /* Macro definition */
-/* External IRQ channel for specific boards*/
-#if defined (BOARD_RA6M3_EK) || defined (BOARD_RA6M3G_EK)
-#define USER_SW_IRQ_NUMBER        (0x0D)
-#elif defined (BOARD_RA6M2_EK) || defined (BOARD_RA4M1_EK)
-#define USER_SW_IRQ_NUMBER        (0x00)
-#elif defined (BOARD_RA2A1_EK)
-#define USER_SW_IRQ_NUMBER        (0x06)
-#else
-#define USER_SW_IRQ_NUMBER        (0x08)
-#endif
-
 /* Event flag to identify CAC events */
 #define CAC_EVENT_VALUE       0XFF
 /* To determine number of measurement clocks(CGC) available in CAC configurator */
 #define TARGET_CGC_CLK_CNT    0x06
 
 #define EP_INFO       "\r\nThis example project demonstrates basic functionalities of CAC driver."\
-        "\r\nOn pressing the user push button, CAC module starts measuring the \r\naccuracy of selected target clock"\
+        "\r\nOn any key press from RTT viewer, CAC module starts measuring the \r\naccuracy of selected target clock"\
         " against the selected reference clock."\
         "\r\nResult of the measurement is displayed on RTTViewer.\r\n"
 
@@ -60,7 +49,6 @@ typedef enum e_target_clk_src
 /* Function declaration */
 void deinit_cac(void);
 void deinit_cgc(void);
-void deinit_external_irq(void);
 void clean_up(void);
 
 #endif /* CAC_EP_H_ */

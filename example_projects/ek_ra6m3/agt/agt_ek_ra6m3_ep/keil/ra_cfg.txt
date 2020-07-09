@@ -100,9 +100,6 @@ RA Configuration
     Pin Output Support: Disabled
     Pin Input Support: Disabled
     
-  Module "External IRQ Driver on r_icu"
-    Parameter Checking: Default (BSP)
-    
   HAL
     Instance "g_ioport I/O Port Driver on r_ioport"
       Name: g_ioport
@@ -123,7 +120,7 @@ RA Configuration
       Output: AGTOB Output: Disabled
       Output: AGTO Output: Disabled
       Input: Measurement Mode: Measure Disabled
-      Input: AGTIO Filter: No Filter
+      Input: Input Filter: No Filter
       Input: Enable Pin: Enable Pin Not Used
       Input: Trigger Edge: Trigger Edge Rising
       Interrupts: Callback: one_shot_timer_callback
@@ -141,18 +138,9 @@ RA Configuration
       Output: AGTOB Output: Disabled
       Output: AGTO Output: Disabled
       Input: Measurement Mode: Measure Disabled
-      Input: AGTIO Filter: No Filter
+      Input: Input Filter: No Filter
       Input: Enable Pin: Enable Pin Not Used
       Input: Trigger Edge: Trigger Edge Rising
       Interrupts: Callback: periodic_timer_callback
       Interrupts: Underflow Interrupt Priority: Priority 2
-      
-    Instance "g_external_irq External IRQ Driver on r_icu"
-      Name: g_external_irq
-      Channel: 13
-      Trigger: Falling
-      Digital Filtering: Enabled
-      Digital Filtering Sample Clock (Only valid when Digital Filtering is Enabled): PCLK / 64
-      Callback: ext_irq_callback
-      Pin Interrupt Priority: Priority 2
       

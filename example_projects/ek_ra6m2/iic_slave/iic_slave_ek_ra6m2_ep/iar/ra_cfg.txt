@@ -103,9 +103,6 @@ RA Configuration
     DTC on Transmission and Reception: Disabled
     10-bit slave addressing: Disabled
     
-  Module "External IRQ Driver on r_icu"
-    Parameter Checking: Default (BSP)
-    
   HAL
     Instance "g_ioport I/O Port Driver on r_ioport"
       Name: g_ioport
@@ -138,13 +135,4 @@ RA Configuration
       Timeout Mode: Short Mode
       Callback: i2c_master_callback
       Interrupt Priority Level: Priority 2
-      
-    Instance "g_external_irq External IRQ Driver on r_icu"
-      Name: g_external_irq
-      Channel: 0
-      Trigger: Rising
-      Digital Filtering: Disabled
-      Digital Filtering Sample Clock (Only valid when Digital Filtering is Enabled): PCLK / 64
-      Callback: ext_irq_cb
-      Pin Interrupt Priority: Priority 2
       

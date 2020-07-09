@@ -18,7 +18,7 @@
  * following link:
  * http://www.renesas.com/disclaimer
  *
- * Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
+ * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
  ***********************************************************************************************************************/
 #include "common_utils.h"
 #include "elc_ep.h"
@@ -41,27 +41,14 @@ void hal_entry(void)
 {
     fsp_err_t err = FSP_SUCCESS;
     fsp_pack_version_t version = {RESET_VALUE};
+    unsigned char user_input[BUFFER_SIZE_DOWN] = {NULL_CHAR};
 
     /* version get API for FLEX pack information */
     R_FSP_VersionGet(&version);
 
     /* Example Project information printed on the Console */
-    APP_PRINT(BANNER_1);
-	APP_PRINT(BANNER_2);
-	APP_PRINT(BANNER_3, EP_VERSION);
-	APP_PRINT(BANNER_4, version.major, version.minor, version.patch);
-	APP_PRINT(BANNER_5);
-	APP_PRINT(BANNER_6);
+    APP_PRINT(BANNER_INFO, EP_VERSION, version.major, version.minor, version.patch);
     APP_PRINT(EP_INFO);
-
-    /* Configure User push button to generate events */
-    err = R_IOPORT_PinCfg(&g_ioport_ctrl, USER_PUSH_BUTTON_IOPORT, IOPORT_FALLING_EDGE_DETECT);
-    /* Handle error */
-    if (FSP_SUCCESS != err)
-    {
-        APP_ERR_PRINT("\r\n ** IOPORT Pin Config failed ** \r\n");
-        APP_ERR_TRAP(err);
-    }
 
     /* Open ELC driver */
     err = R_ELC_Open(&g_elc_ctrl, &g_elc_cfg);
@@ -73,8 +60,8 @@ void hal_entry(void)
         APP_ERR_TRAP(err);
     }
 
-    /* Enable Links between IOPORT and GPT modules:
-     * 1. IOPORT event as start source for GPT0 and GPT1
+    /* Enable Links between modules:
+     * 1. ELC Software event as start source for GPT0 and GPT1
      * 2. GPT1 counter overflow event as stop source for GPT0 */
     err = R_ELC_Enable(&g_elc_ctrl);
     /* Handle error */
@@ -129,8 +116,26 @@ void hal_entry(void)
         APP_ERR_TRAP(err);
     }
 
-    /* On successful operations on ELC and GPT modules, user is asked to press the push-button */
-    APP_PRINT("\r\nPlease press the user push-button. LED blinks for 5 seconds and stops");
+    /* On successful operations on ELC and GPT modules, user is asked enter any key as RTT input */
+    APP_PRINT("\r\nEnter any key as RTT input. LED blinks for 5 seconds and stops");
+
+    /* Wait until data is available in RTT */
+    while (true)
+    {
+        if (APP_CHECK_DATA)
+        {
+        	memset(&user_input[0], NULL_CHAR, BUFFER_SIZE_DOWN);
+            APP_READ(user_input);
+            err = R_ELC_SoftwareEventGenerate(&g_elc_ctrl, ELC_SOFTWARE_EVENT_0);
+            if (FSP_SUCCESS != err)
+            {
+                elc_deinit();
+                APP_ERR_PRINT("\r\n ** ELC Software event generation failed ** \r\n");
+                APP_ERR_TRAP(err);
+            }
+            APP_PRINT("\r\nEnter any key as RTT input. LED blinks for 5 seconds and stops");
+        }
+    }
 }
 
 /*******************************************************************************************************************//**

@@ -18,11 +18,10 @@
  * following link:
  * http://www.renesas.com/disclaimer
  *
- * Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
+ * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
  ***********************************************************************************************************************/#include "common_utils.h"
 
 #include "agt_ep.h"
-#include "icu_ep.h"
 
 void R_BSP_WarmStart(bsp_warm_start_event_t event);
 
@@ -65,13 +64,11 @@ void hal_entry(void)
     R_FSP_VersionGet(&version);
 
     /* Example Project information printed on the Console */
-    APP_PRINT(BANNER_1);
-    APP_PRINT(BANNER_2);
-    APP_PRINT(BANNER_3,EP_VERSION);
-    APP_PRINT(BANNER_4,version.major, version.minor, version.patch );
-    APP_PRINT(BANNER_5);
-    APP_PRINT(BANNER_6);
-    APP_PRINT(BANNER_7);
+    APP_PRINT(BANNER_INFO,EP_VERSION,version.major, version.minor, version.patch );
+    APP_PRINT("\r\nThis Example Project demonstrates the functionality of AGT in periodic mode and one-shot mode. "\
+            "\r\nOn providing any input on the RTTviewer, AGT channel 0 starts in one-shot mode. AGT channel 1 "\
+            "\r\nstarts in periodic mode when AGT channel 0 expires. Timer in periodic mode expires periodically"\
+            "\r\nat a time period specified by user and toggles the on-board LED.\r\n");
 
     /* Initialize AGT driver */
     err = agt_init();
@@ -79,27 +76,6 @@ void hal_entry(void)
     if (FSP_SUCCESS != err)
     {   /* AGT module init failed */
         APP_ERR_PRINT("\r\n ** AGT INIT FAILED ** \r\n");
-        APP_ERR_TRAP(err);
-    }
-
-    /* Initialize ICU driver */
-    err = ext_irq_init();
-    /* Handle error */
-    if (FSP_SUCCESS != err)
-    {   /* ICU module init failed */
-        agt_deinit();
-        APP_ERR_PRINT("\r\n ** ICU INIT FAILED ** \r\n");
-        APP_ERR_TRAP(err);
-    }
-
-    /* Enable Push button */
-    err = ext_irq_enable();
-    /* Handle error */
-    if (FSP_SUCCESS != err)
-    {
-        ext_irq_deinit();
-        agt_deinit();
-        APP_ERR_PRINT("\r\nEnabling external IRQ failed.Closing all drivers. Restart the Application\r\n");
         APP_ERR_TRAP(err);
     }
 
@@ -154,11 +130,9 @@ void hal_entry(void)
     /* Handle error */
     if(FSP_SUCCESS != err)
     {
-        ext_irq_deinit();
         agt_deinit();
         APP_ERR_PRINT("\r\nInfoGet API failed.Closing all drivers. Restart the Application\r\n");
         APP_ERR_TRAP(err);
-
     }
     /* Depending on the user selected clock source, raw counts value can be calculated
      * for the user given time-period values */
@@ -169,7 +143,6 @@ void hal_entry(void)
     /* Handle error */
     if (FSP_SUCCESS != err)
     {
-        ext_irq_deinit();
         agt_deinit();
         APP_ERR_PRINT("\r\nPeriodSet API failed.Closing all drivers. Restart the Application\r\n");
         APP_ERR_TRAP(err);
@@ -180,11 +153,9 @@ void hal_entry(void)
     /* Handle error */
     if(FSP_SUCCESS != err)
     {
-        ext_irq_deinit();
         agt_deinit();
         APP_ERR_PRINT("\r\nInfoGet API failed.Closing all drivers. Restart the Application\r\n");
         APP_ERR_TRAP(err);
-
     }
     /* Depending on the user selected clock source, raw counts value can be calculated
      * for the user given time-period values */
@@ -195,17 +166,24 @@ void hal_entry(void)
     /* Handle error */
     if (FSP_SUCCESS != err)
     {
-        ext_irq_deinit();
         agt_deinit();
         APP_ERR_PRINT("\r\nPeriodSet API failed. Closing all drivers.Restart the Application\r\n");
         APP_ERR_TRAP(err);
     }
 
-    APP_PRINT("\r\nPress user push-button to start or stop the timers");
+    APP_PRINT("\r\nEnter any key to start or stop the timers");
 
 
     while(true)
     {
+        if (APP_CHECK_DATA)
+        {
+            /* Cleaning buffer */
+            memset (&rByte[0], NULL_CHAR, BUFFER_SIZE_DOWN);
+            APP_READ(rByte);
+            g_status_check_flag = SET_FLAG;
+        }
+
         if (SET_FLAG == g_status_check_flag)
         {
             /* Check the status of timers and perform operation accordingly */
@@ -215,7 +193,6 @@ void hal_entry(void)
             if (FSP_SUCCESS != err)
             {
                 agt_deinit();
-                ext_irq_deinit();
                 APP_ERR_PRINT("\r\nTimer start/stop failed");
                 APP_ERR_TRAP(err);
             }
@@ -235,7 +212,7 @@ void hal_entry(void)
             APP_PRINT ("\r\n\r\nOne-shot mode AGT timer elapsed");
             APP_PRINT ("\r\n\r\nAGT1 is Enabled in Periodic mode");
             APP_PRINT ("\r\nLED will toggle for set time period");
-            APP_PRINT ("\r\nPress user push-button to stop timers\r\n");
+            APP_PRINT ("\r\nEnter any key to stop timers\r\n");
         }
 
         /* Check if AGT1 is already running in Periodic mode */
@@ -244,7 +221,7 @@ void hal_entry(void)
             g_periodic_timer_flag = RESET_FLAG;
             APP_PRINT ("\r\n\r\nOne-shot mode AGT timer elapsed\n");
             APP_PRINT ("\r\n\r\nAGT1 is already running in Periodic mode");
-            APP_PRINT ("\r\nPress 1 to stop the timer\r\n");
+            APP_PRINT ("\r\nEnter any key to stop the timer\r\n");
         }
     }
 }
@@ -297,7 +274,7 @@ static fsp_err_t timer_status_check (void)
         else
         {
             APP_PRINT("\r\nOne-shot timer stopped. "
-                    "Please press the push button to start timers.\r\n");
+                    "Enter any key to start timers.\r\n");
         }
     }
     else if (TIMER_STATE_STOPPED != periodic_timer_status.state)
@@ -311,7 +288,7 @@ static fsp_err_t timer_status_check (void)
         else
         {
             APP_PRINT("\r\nPeriodic timer stopped. "
-                    "Please press the push button to start timers.\r\n");
+                    "Enter any key to start timers.\r\n");
         }
     }
     else

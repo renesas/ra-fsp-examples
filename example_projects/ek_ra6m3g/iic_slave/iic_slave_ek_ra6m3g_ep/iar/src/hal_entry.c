@@ -18,7 +18,7 @@
  * following link:
  * http://www.renesas.com/disclaimer
  *
- * Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
+ * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
  ***********************************************************************************************************************/
 
 
@@ -39,25 +39,15 @@ void R_BSP_WarmStart(bsp_warm_start_event_t event);
  **********************************************************************************************************************/
 void hal_entry(void)
 {
-    fsp_err_t          err        = FSP_SUCCESS;
-    fsp_pack_version_t version    = {RESET_VALUE};
+    fsp_err_t          err                  =  FSP_SUCCESS;
+    fsp_pack_version_t version              = {RESET_VALUE};
 
     /* version get API for FLEX pack information */
     R_FSP_VersionGet(&version);
 
-    /* Project information printed on the Console */
-    APP_PRINT(BANNER_1);
-    APP_PRINT(BANNER_2);
-    APP_PRINT(BANNER_3,EP_VERSION);
-    APP_PRINT(BANNER_4,version.major, version.minor, version.patch );
-    APP_PRINT(BANNER_5);
-    APP_PRINT(BANNER_6);
-    APP_PRINT("\nThis EP demonstrates iic slave device operation through loop back.\n");
-    APP_PRINT("Press on board switch to perform Slave I2C transfer: On successful\n"
-    		  "i2c transaction(6 bytes), Data transceived is compared. "
-    		  "Led blinks\non data match else it is turned ON as sign of failure.\n"
-    		  "For both cases corresponding slave operation message is displayed\n"
-    		  "on RTT. Any API/event failure message is also displayed(if any occurred)\n\n\n\n");
+    /* Example Project information printed on the Console */
+    APP_PRINT(BANNER_INFO, EP_VERSION, version.major, version.minor, version.patch);
+    APP_PRINT(EP_INFO);
 
     /*  I2C master and slave driver initialization */
     err = init_i2C_driver();
@@ -66,23 +56,6 @@ void hal_entry(void)
     {
         /* IIC Master and Slave initialization failed  */
         APP_ERR_PRINT("\r\n ** IIC driver initialization FAILED ** \r\n");
-
-        /* Turn ON LED */
-        set_led(LED_ON);
-
-        APP_ERR_TRAP(err);
-    }
-
-    /* Initialize external IRQ for push button detection */
-    err = init_ext_irq();
-    /* Handle error */
-    if(FSP_SUCCESS != err)
-    {
-        /* IIC Master and Slave initialization failed  */
-    	APP_ERR_PRINT("\r\n ** External IRQ initialization FAILED ** \r\n");
-
-        /* de-initialize opened IIC module */
-        deinit_i2c_driver();
 
         /* Turn ON LED */
         set_led(LED_ON);
@@ -107,12 +80,11 @@ void hal_entry(void)
 
             /* de-initialize opened IIC module */
             deinit_i2c_driver();
-
-            /* de-initialize opened external irq module */
-            deinit_external_irq();
-
             APP_ERR_TRAP(err);
         }
+
+        /* 1 Seconds Wait time to recognize LED toggling between successive Read and Write operations. */
+        R_BSP_SoftwareDelay(TOGGLE_DELAY, BSP_DELAY_UNITS_MILLISECONDS);
     }
 }
 

@@ -120,7 +120,7 @@ void hal_entry(void)
             if(APP_LPM_DEEP_SW_STANDBY_STATE != g_lpm_transition_sequence[g_lpm_transition_pos])
             {
                 /* Disable ioport before going to LPM mode*/
-                err = R_IOPORT_PinsCfg(&g_ioport_ctrl, &g_bsp_pin_cfg);
+                err = R_IOPORT_PinsCfg(&g_ioport_ctrl, &g_bsp_pin_lpm_cfg);
                 /* Handle error */
                 if(FSP_SUCCESS != err)
                 {

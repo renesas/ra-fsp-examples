@@ -104,9 +104,6 @@ RA Configuration
   Module "CRC Driver on r_crc"
     Parameter Checking: Default (BSP)
     
-  Module "External IRQ Driver on r_icu"
-    Parameter Checking: Default (BSP)
-    
   HAL
     Instance "g_ioport I/O Port Driver on r_ioport"
       Name: g_ioport
@@ -144,13 +141,4 @@ RA Configuration
       CRC Polynomial: CRC-8
       Bit Order: MSB
       Snoop Address: SCI3_FRDRL
-      
-    Instance "g_external_irq External IRQ Driver on r_icu"
-      Name: g_external_irq
-      Channel: 0
-      Trigger: Rising
-      Digital Filtering: Enabled
-      Digital Filtering Sample Clock (Only valid when Digital Filtering is Enabled): PCLK / 64
-      Callback: ext_irq_cb
-      Pin Interrupt Priority: Priority 2
       

@@ -1,6 +1,6 @@
 /***********************************************************************************************************************
  * File Name    : timer_initialise.h
- * Description  : Contains data structures and functions used in timer_initialise.h/c
+ * Description  : Contains data structures and functions used in timer_initialise.c
  **********************************************************************************************************************/
 /***********************************************************************************************************************
  * DISCLAIMER
@@ -18,18 +18,18 @@
  * following link:
  * http://www.renesas.com/disclaimer
  *
- * Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
+ * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
  ***********************************************************************************************************************/
 #ifndef TIMER_INITIALISE_H_
 #define TIMER_INITIALISE_H_
 
-/* GPT timer initialisation function */
+/* GPT timer initialization function */
 fsp_err_t gpt_timer_init(void);
 
 /* GPT timer deinitialisation function */
 void gpt_timer_deinit(void);
 
-/* AGT timer initialisation function */
+/* AGT timer initialization function */
 fsp_err_t agt_timer_init(void);
 
 /* AGT timer deinitialisation function */

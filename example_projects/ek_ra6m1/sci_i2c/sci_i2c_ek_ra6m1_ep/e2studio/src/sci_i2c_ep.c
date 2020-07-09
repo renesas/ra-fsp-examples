@@ -18,7 +18,7 @@
  * following link:
  * http://www.renesas.com/disclaimer
  *
- * Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
+ * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
  ***********************************************************************************************************************/
 
 #include "common_utils.h"
@@ -30,14 +30,9 @@
  * @{
  **********************************************************************************************************************/
 
-/* enumerators to identify Master event to be processed when on board push button is pressed */
-typedef enum e_master
-{
-    MASTER_READ  = 1U,
-    MASTER_WRITE = 2U,
-    MASTER_NO_RW = 3U
-}master_transfer_mode_t;
 
+/* Event flag to identify the Master event */
+static volatile master_transfer_mode_t g_master_RW  = MASTER_WRITE;
 /* Slave transmit buffer */
 static uint8_t g_slave_tx_buf[BUF_LEN];
 /* Slave receive buffer */
@@ -46,16 +41,12 @@ static uint8_t g_slave_rx_buf[BUF_LEN];
 /* Private Global Variables */
 
 /* capture callback event for Slave and master module */
-static volatile i2c_master_event_t g_master_event = RESET_VALUE;
-static volatile i2c_slave_event_t g_slave_event  = RESET_VALUE;
+static volatile i2c_master_event_t g_master_event = (i2c_master_event_t)RESET_VALUE;
+static volatile i2c_slave_event_t g_slave_event  = (i2c_slave_event_t)RESET_VALUE;
 
 /* Capture return value from slave read and write API */
 static volatile fsp_err_t g_slave_api_ret_err = FSP_SUCCESS;
 
-/* IRQ callback */
-static volatile uint8_t g_switch_count = false;
-/* Event flag to identify the Master event when on board push button is pressed  */
-static volatile master_transfer_mode_t g_master_RW  = MASTER_NO_RW;
 
 /* for on board LEDs */
 extern bsp_leds_t g_bsp_leds;
@@ -103,39 +94,6 @@ fsp_err_t init_i2c_driver(void)
     return err;
 }
 
-/*******************************************************************************************************************//**
- *  @brief     Initialize and enable External IRQ on pin connected to on board push button
- *  @param[IN] None
- *  @retval    FSP_SUCCESS       External IRQ driver opened and enabled successfully.
- *  @retval    err               Any Other Error code apart from FSP_SUCCES  Unsuccessful initialization.
- **********************************************************************************************************************/
-fsp_err_t init_ext_irq(void)
-{
-    fsp_err_t err = FSP_SUCCESS;
-
-    /* Open External IRQ module for on board Switch detection */
-    err = R_ICU_ExternalIrqOpen(&g_external_irq_ctrl, &g_external_irq_cfg);
-    /* handle error */
-    if (FSP_SUCCESS != err)
-    {
-        /* Display failure message in RTT */
-        APP_ERR_PRINT ("R_ICU_ExternalIrqOpen API FAILED \r\n");
-        return err;
-    }
-
-    /* Enable External interrupt for specified pin */
-    err = R_ICU_ExternalIrqEnable(&g_external_irq_ctrl);
-    /* handle error */
-    if (FSP_SUCCESS != err)
-    {
-        /* close opened External IRQ module since module is in open state now  */
-        deinit_external_irq();
-
-        /* Display failure message in RTT */
-        APP_ERR_PRINT ("R_ICU_ExternalIrqEnable API FAILED \r\n");
-    }
-    return err;
-}
 
 /*******************************************************************************************************************//**
  *  @brief      Performs Master write read operations and toggle LED on successful operation
@@ -154,8 +112,8 @@ fsp_err_t process_master_WriteRead(void)
     {
         case MASTER_WRITE:
         {
-            /* Reset variable value */
-            g_master_RW = MASTER_NO_RW;
+            /* Change master event so that relevant operation can be performed following the current one */
+            g_master_RW = MASTER_READ;
 
             /* Before beginning the operation turn off LED */
             set_led(LED_OFF);
@@ -180,8 +138,8 @@ fsp_err_t process_master_WriteRead(void)
         }
         case MASTER_READ:
         {
-            /* Reset variable value */
-            g_master_RW = MASTER_NO_RW;
+            /* Change master event so that relevant operation can be performed following the current one */
+            g_master_RW = MASTER_WRITE;
 
             /* Before beginning the operation turn off LED */
             set_led(LED_OFF);
@@ -231,8 +189,8 @@ static fsp_err_t sci_i2c_master_read(void)
     memcpy(g_slave_tx_buf, g_slave_rx_buf, BUF_LEN);
 
     /* resetting callback event */
-    g_master_event = RESET_VALUE;
-    g_slave_event  = RESET_VALUE;
+    g_master_event = (i2c_master_event_t)RESET_VALUE;
+    g_slave_event  = (i2c_slave_event_t)RESET_VALUE;
 
     /* Start master read. Master has to initiate the transfer. */
     read_err = R_SCI_I2C_Read(&g_sci_i2c_master_ctrl, read_buffer, BUF_LEN, false);
@@ -316,8 +274,8 @@ static fsp_err_t sci_i2c_master_write(void)
     memset(g_slave_rx_buf, RESET_VALUE, BUF_LEN);
 
     /* resetting callback event */
-    g_master_event = RESET_VALUE;
-    g_slave_event  = RESET_VALUE;
+    g_master_event = (i2c_master_event_t)RESET_VALUE;
+    g_slave_event  = (i2c_slave_event_t)RESET_VALUE;
 
     /* Start master Write operation */
     write_err = R_SCI_I2C_Write(&g_sci_i2c_master_ctrl, write_buffer, BUF_LEN, false);
@@ -442,29 +400,7 @@ void i2c_slave_callback(i2c_slave_callback_args_t * p_args)
         }
     }
 }
-/*******************************************************************************************************************//**
- *  @brief           User defined External IRQ driver callback function
- *  @param[IN]       p_args
- *  @retval          None
- **********************************************************************************************************************/
-void ext_irq_cb(external_irq_callback_args_t *p_args)
-{
-    /* on a push button press output is displayed to RTT and can be viewed as LED status  */
-    if ( (NULL != p_args) && (IRQ_CHANNEL == p_args->channel) )
-    {
-        /* toggle master read write operation */
-        if(false == g_switch_count)
-        {
-            g_master_RW = MASTER_WRITE;
-            g_switch_count = true;
-        }
-        else
-        {
-            g_master_RW = MASTER_READ;
-            g_switch_count = false;
-        }
-    }
-}
+
 
 /*******************************************************************************************************************//**
  * @brief     Toggle on board LED, which are connected and supported by BSP
@@ -478,10 +414,10 @@ static void toggle_led(void)
 
     for(uint8_t cnt = RESET_VALUE; leds.led_count > cnt; cnt++)
     {
-        R_IOPORT_PinWrite(g_ioport.p_ctrl,leds.p_leds[cnt], LED_ON);
+        R_IOPORT_PinWrite(g_ioport.p_ctrl, (bsp_io_port_pin_t)leds.p_leds[cnt], (bsp_io_level_t)LED_ON);
         R_BSP_SoftwareDelay(TOGGLE_DELAY, BSP_DELAY_UNITS_MILLISECONDS);
 
-        R_IOPORT_PinWrite(g_ioport.p_ctrl,leds.p_leds[cnt], LED_OFF);
+        R_IOPORT_PinWrite(g_ioport.p_ctrl, (bsp_io_port_pin_t)leds.p_leds[cnt], (bsp_io_level_t)LED_OFF);
     }
 }
 
@@ -497,7 +433,7 @@ void set_led(bool b_value)
 
     for(uint8_t cnt = RESET_VALUE ; leds.led_count > cnt; cnt++)
     {
-        R_IOPORT_PinWrite(g_ioport.p_ctrl,leds.p_leds[cnt], b_value);
+        R_IOPORT_PinWrite(g_ioport.p_ctrl, (bsp_io_port_pin_t)leds.p_leds[cnt], (bsp_io_level_t)b_value);
     }
 }
 
@@ -527,25 +463,7 @@ void deinit_i2c_driver(void)
     }
 }
 
-/*******************************************************************************************************************//**
- * This function is called to do closing of external irq module using its HAL level API.
- * @brief     Close the external irq module. Handle the Error internally with Proper Message.
- *            Application handles the rest.
- * @param[IN] None
- * @retval    None
- **********************************************************************************************************************/
-void deinit_external_irq(void)
-{
-    fsp_err_t err = FSP_SUCCESS;
 
-    /* close opened External IRQ module */
-    err = R_ICU_ExternalIrqClose(&g_external_irq_ctrl);
-    /* Handle error */
-    if(FSP_SUCCESS != err)
-    {
-        APP_ERR_PRINT ("** R_ICU_ExternalIrqClose API FAILED **\r\n");
-    }
-}
 
 /*******************************************************************************************************************//**
  * @} (end addtogroup sci_i2c_ep)

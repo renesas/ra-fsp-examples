@@ -18,27 +18,15 @@
  * following link:
  * http://www.renesas.com/disclaimer
  *
- * Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
+ * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
  ***********************************************************************************************************************/
 
 #ifndef CRC_EP_H_
 #define CRC_EP_H_
 
-/* External IRQ channel */
-/* board specific */
-#if defined (BOARD_RA6M3_EK) || defined (BOARD_RA6M3G_EK)
-#define IRQ_CHANNEL        0x0D
-#elif defined (BOARD_RA6M2_EK) || defined (BOARD_RA4M1_EK)
-#define IRQ_CHANNEL        0x00
-#elif defined (BOARD_RA2A1_EK)
-#define IRQ_CHANNEL        0x06
-#else
-#define IRQ_CHANNEL        0x08
-#endif
-
 /* for on board LED */
-#define LED_ON             (bool)BSP_IO_LEVEL_HIGH
-#define LED_OFF            (bool)BSP_IO_LEVEL_LOW
+#define LED_ON             BSP_IO_LEVEL_HIGH
+#define LED_OFF            BSP_IO_LEVEL_LOW
 
 /*Length of input buffer to calculate CRC in normal mode*/
 #define NUM_BYTES          (4U)
@@ -55,15 +43,16 @@
 #define EIGHT_BIT_DATA_LEN     (5U)
 #define SIXTEEN_BIT_DATA_LEN   (6U)
 
+
 #define EP_INFO  "\r\nThis Example Project demonstrates CRC operation for transmission\r\n"\
-				  "in normal mode and reception in snoop mode. On pressing user\r\n"\
-				  "push-button, CRC value in normal mode is calculated for 4 bytes\r\n"\
-				  "of data. The calculated CRC value along with the data is\r\n"\
-				  "trans-received on sci_uart through loop-back.\r\n"\
+				  "in normal mode and reception in snoop mode. On any key press through\r\n"\
+				  "RTT Viewer CRC value in normal mode is calculated for 4 bytes of data\r\n"\
+				  "The calculated CRC value along with the data is trans-received on\r\n"\
+				  "sci_uart through loop-back.\r\n"\
 				  "\r\nIf the CRC value for snoop mode is zero and transmit and receive\r\n"\
-				  "buffer are equal then On-board LED blink as sign of successful\r\n"\
+				  "buffer are equal then On-board LED blinks as sign of successful\r\n"\
 				  "CRC operation. On a data mismatch, LED stays ON. Failure messages\r\n"\
-				  "and status is displayed on RTTViewer.\r\n\n\n"
+				  "and status is displayed on RTTViewer.\r\n"
 
 /* Check IO-port API return and trap error(if any error occurs) cleans up and display failure details on RTT viewer */
 #define VALIDATE_IO_PORT_API(API)	if (FSP_SUCCESS != API)\
@@ -77,7 +66,6 @@
 void toggle_led(void);
 void cleanup(void);
 void deinit_crc(void);
-void deinit_external_irq(void);
 void deinit_uart(void);
 
 

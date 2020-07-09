@@ -29,6 +29,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "hal_data.h"
+
 /* SEGGER RTT and error related headers */
 #include "SEGGER_RTT/SEGGER_RTT.h"
 
@@ -40,10 +41,10 @@
 
 #define RESET_VALUE             (0x00)
 
-#define EP_VERSION              ("1.0")
-#define MODULE_NAME             "r_iic_master"
+#define EP_VERSION              ("1.1")
+#define MODULE_NAME             "r_sci_i2c"
 #define BANNER_INFO             "\r\n******************************************************************"\
-                                "\r\n*   Renesas FSP Example Project for "MODULE_NAME" Module          *"\
+                                "\r\n*   Renesas FSP Example Project for "MODULE_NAME" Module             *"\
                                 "\r\n*   Example Project Version %s                                  *"\
                                 "\r\n*   Flex Software Pack Version  %d.%d.%d                            *"\
                                 "\r\n******************************************************************"\

@@ -102,9 +102,6 @@ RA Configuration
   Module "Transfer Driver on r_dmac"
     Parameter Checking: Default (BSP)
     
-  Module "External IRQ Driver on r_icu"
-    Parameter Checking: Default (BSP)
-    
   Module "Timer Driver on r_gpt"
     Parameter Checking: Default (BSP)
     Pin Output Support: Disabled
@@ -130,7 +127,7 @@ RA Configuration
       Output: AGTOB Output: Disabled
       Output: AGTO Output: Disabled
       Input: Measurement Mode: Measure Disabled
-      Input: AGTIO Filter: No Filter
+      Input: Input Filter: No Filter
       Input: Enable Pin: Enable Pin Not Used
       Input: Trigger Edge: Trigger Edge Rising
       Interrupts: Callback: NULL
@@ -149,21 +146,13 @@ RA Configuration
       Number of Transfers: 60
       Number of Blocks (Valid only in Repeat and Block Mode): 0
       Activation Source: AGT0 INT (AGT interrupt)
-      Callback: transfer_gpt_timer_callback
+      Callback: transfer_agt_timer_callback
+      Context: NULL
       Transfer End Interrupt Priority: Priority 1
       Interrupt Frequency: Interrupt after all transfers have completed
       Offset value (Valid only when address mode is \'Offset\'): 1
       
-    Instance "g_external_irq External IRQ Driver on r_icu"
-      Name: g_external_irq
-      Channel: 8
-      Trigger: Falling
-      Digital Filtering: Enabled
-      Digital Filtering Sample Clock (Only valid when Digital Filtering is Enabled): PCLK / 64
-      Callback: NULL
-      Pin Interrupt Priority: Priority 2
-      
-    Instance "g_transfer_gpt_value Transfer Driver on r_dmac ICU IRQ8 (External pin interrupt 8)"
+    Instance "g_transfer_gpt_value Transfer Driver on r_dmac No ELC Trigger"
       Name: g_transfer_gpt_value
       Channel: 1
       Mode: Repeat
@@ -175,8 +164,9 @@ RA Configuration
       Source Pointer: NULL
       Number of Transfers: 8
       Number of Blocks (Valid only in Repeat and Block Mode): 0
-      Activation Source: ICU IRQ8 (External pin interrupt 8)
+      Activation Source: No ELC Trigger
       Callback: NULL
+      Context: NULL
       Transfer End Interrupt Priority: Priority 3
       Interrupt Frequency: Interrupt after all transfers have completed
       Offset value (Valid only when address mode is \'Offset\'): 1
@@ -231,10 +221,11 @@ RA Configuration
       Repeat Area (Unused in Normal Mode): Source
       Destination Pointer: NULL
       Source Pointer: NULL
-      Number of Transfers: 1
+      Number of Transfers: 2
       Number of Blocks (Valid only in Repeat and Block Mode): 0
       Activation Source: No ELC Trigger
       Callback: NULL
+      Context: NULL
       Transfer End Interrupt Priority: Priority 3
       Interrupt Frequency: Interrupt after all transfers have completed
       Offset value (Valid only when address mode is \'Offset\'): 1

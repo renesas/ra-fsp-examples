@@ -18,7 +18,7 @@
  * following link:
  * http://www.renesas.com/disclaimer
  *
- * Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
+ * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
  ***********************************************************************************************************************/
 
 
@@ -62,24 +62,9 @@ void hal_entry(void)
         APP_ERR_TRAP(err);
     }
 
-    /* Initialize external IRQ for push button detection */
-    err = init_ext_irq();
-    /* Handle error */
-    if(FSP_SUCCESS != err)
-    {
-        /*Print RTT message*/
-    	APP_ERR_PRINT("\r\n ** External IRQ initialization FAILED ** \r\n");
-
-        /* de-initialize opened SCI I2C master and IIC slave modules */
-        deinit_i2c_driver();
-
-        /* Turn ON LED */
-        set_led(LED_ON);
-        APP_ERR_TRAP(err);
-    }
-
     while(true)
     {
+
         /* Performs SCI_I2C write/read operation */
         err = process_master_WriteRead();
 
@@ -101,11 +86,12 @@ void hal_entry(void)
             /* de-initialize opened SCI I2C master and IIC slave modules */
             deinit_i2c_driver();
 
-            /* de-initialize opened External IRQ module */
-            deinit_external_irq();
-
             APP_ERR_TRAP(err);
         }
+		
+		/* 1 Seconds Wait time to recognize LED toggling between successive Write and Read operations. */
+        R_BSP_SoftwareDelay(DELAY_OPERATION, BSP_DELAY_UNITS_SECONDS);
+
     }
 }
 

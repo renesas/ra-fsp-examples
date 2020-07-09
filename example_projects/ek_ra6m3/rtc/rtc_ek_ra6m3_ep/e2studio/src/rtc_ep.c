@@ -3,7 +3,7 @@
  * Description  : Contains data structures and functions used in rtc_ep.c.
  **********************************************************************************************************************/
 /***********************************************************************************************************************
- * Copyright [2015-2017] Renesas Electronics Corporation and/or its licensors. All Rights Reserved.
+ * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
  *
  * This file is part of Renesas RA Flex Software Package (FSP)
  *

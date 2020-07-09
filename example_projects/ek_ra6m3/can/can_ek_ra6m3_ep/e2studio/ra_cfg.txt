@@ -98,9 +98,6 @@ RA Configuration
   Module "CAN Driver on r_can"
     Parameter Checking: Default (BSP)
     
-  Module "External IRQ Driver on r_icu"
-    Parameter Checking: Default (BSP)
-    
   HAL
     Instance "g_ioport I/O Port Driver on r_ioport"
       Name: g_ioport
@@ -224,13 +221,4 @@ RA Configuration
       Input: Mailbox 24-27 Group: Mailbox 24-27 Group Mask: 0x1FFFFFFF
       Input: Mailbox 28-31 Group: Mailbox 28-31 Group Mask: 0x1FFFFFFF
       Interrupts: Interrupt Priority Level: Priority 2
-      
-    Instance "g_external_irq External IRQ Driver on r_icu"
-      Name: g_external_irq
-      Channel: 12
-      Trigger: Rising
-      Digital Filtering: Enabled
-      Digital Filtering Sample Clock (Only valid when Digital Filtering is Enabled): PCLK / 64
-      Callback: irq_callback
-      Pin Interrupt Priority: Priority 3
       

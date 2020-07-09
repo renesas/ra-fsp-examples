@@ -18,7 +18,7 @@
  * following link:
  * http://www.renesas.com/disclaimer
  *
- * Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
+ * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
  ***********************************************************************************************************************/
 #include "common_utils.h"
 #include "transfer_initialise.h"
@@ -58,8 +58,8 @@ uint32_t g_source_data[SOURCE_DATA_SIZE]=
  0x00001000,0x10001000,0x00001000,0x10001000,0x00001000,0x10001000,0x00001000,0x10001000,
  0x00001000,0x10001000
 };
-#elif defined(BOARD_RA4M1_EK) || defined(BOARD_RA6M2_EK)
-/* LED Port data array for EK-RA4M1 and EK-RA6M2 */
+#elif defined(BOARD_RA4M1_EK) || defined(BOARD_RA6M2_EK) || defined(BOARD_RA4W1_EK)
+/* LED Port data array for EK-RA4M1, EK-RA4W1 and EK-RA6M2 */
 uint32_t g_source_data[SOURCE_DATA_SIZE]=
 {
  0x00000040,0x00400040,
@@ -73,7 +73,7 @@ uint32_t g_source_data[SOURCE_DATA_SIZE]=
  0x00000040,0x00400040
 };
 #else
-/* LED Port data array for EK-RA6M3 and EK-RA6M3G board */
+/* LED Port data array for EK-RA6M3 and Ek-RA6M3G board */
 uint32_t g_source_data[SOURCE_DATA_SIZE]=
 {
  0x00000007,0x00070007,
@@ -89,14 +89,13 @@ uint32_t g_source_data[SOURCE_DATA_SIZE]=
 #endif
 
 
-
 /*******************************************************************************************************************//**
- *  @brief    Initializing dmac transfer instance based on transfer unit and enable for transfer
+ *  @brief      Initializing dmac transfer instance based on transfer unit and enable for transfer
  *  @param[in]  p_transfer_ctl       Transfer instance control structure
  *  @param[in]  p_transfer_cfg       Transfer instance configuration structure
  *  @param[in]  transfer_unit        DMAC transfer unit
  *  @retval     FSP_SUCCESS          On successful initialization of dmac_tranfer
- *  @retval     Any Other Error code apart from FSP_SUCCESS if Unsuccessful open or start
+ *  @retval     Any Other Error code apart from FSP_SUCCESS if Unsuccessful open or enable
  **********************************************************************************************************************/
 fsp_err_t dmac_transfer_init(dmac_instance_ctrl_t *const p_transfer_ctl,
         transfer_cfg_t const *const p_transfer_cfg, uint8_t transfer_unit)
@@ -133,7 +132,7 @@ fsp_err_t dmac_transfer_init(dmac_instance_ctrl_t *const p_transfer_ctl,
 }
 
 /*******************************************************************************************************************//**
- *  @brief    Deinitializing dmac transfer instance based on transfer unit and enable for transfer
+ *  @brief     Deinitializing dmac transfer instance based on transfer unit and enable for transfer
  *  @param[in] p_transfer_ctl       Transfer instance control structure
  *  @param[in] transfer_unit        DMAC transfer unit
  *  @retval    None
@@ -154,66 +153,51 @@ void dmac_transfer_deinit(dmac_instance_ctrl_t *const p_transfer_ctl, uint8_t tr
 
 
 /*******************************************************************************************************************//**
- *  @brief     initialize dmac g_transfer_led_blink and enable for transfer_gpt_value
- *  @param[in]      key              RTT input from user input to software start
- *  @retval         FSP_SUCCESS      Upon successful open and start of the GPT timer
- *  @retval         Any Other Error code apart from FSP_SUCCESS is  Unsuccessful open or start
+ *  @brief          start dmac transfer
+ *  @param[in]      transfer_ctrl_t
+ *  @retval         FSP_SUCCESS      Upon successful start of dmac
+ *  @retval         Any Other Error code apart from FSP_SUCCESS is  Unsuccessful  start
  **********************************************************************************************************************/
-fsp_err_t transfer_ioport_write_software_start(uint8_t key)
+fsp_err_t dmac_transfer_software_start(transfer_ctrl_t * const p_transfer_ctrl)
 {
 
     /* Variable to help handle error codes from functions */
     fsp_err_t fsp_err = FSP_SUCCESS;
 
-    if(START_TRANSFER_GPT_VALUE == key)
+    /* Start DMAC transfer by software */
+    fsp_err = R_DMAC_SoftwareStart(p_transfer_ctrl, TRANSFER_START_MODE_SINGLE);
+    /* Handle error in-case of failure */
+    if (FSP_SUCCESS != fsp_err)
     {
-        /* Start DMAC g_transfer_write_ioport by software */
-        fsp_err = R_DMAC_SoftwareStart(&g_transfer_write_ioport_ctrl, TRANSFER_START_MODE_SINGLE);
-        /* Handle error in-case of failure */
-        if (FSP_SUCCESS != fsp_err)
-        {
-            APP_ERR_PRINT("\r\nDMAC g_transfer_gpt_timer software start failed.\n");
-            return fsp_err;
-        }
-        /* Set the flag to true to display the data on RTT console */
-        send_data_to_console_flag = true;
-    }
-    else
-    {
-        APP_PRINT("\r\nProvide a valid input. To view the buffer data, provide 1 as RTT input\r\n");
+        APP_ERR_PRINT("\r\nDMAC dmac transfer software start failed.\n");
     }
     return fsp_err;
 }
 
 /*******************************************************************************************************************//**
- *  @brief    Print dmac data transfered by g_transfer_write_ioport on User Pushbutton press
+ *  @brief       Print dmac data transfered by g_transfer_write_ioport on User RTT input
  *  @param[IN]   None
  *  @retval      None
  **********************************************************************************************************************/
 void dmac_transfer_print_data(void)
 {
-    /* Display the data on RTT console */
-    if (true == send_data_to_console_flag)
-    {
-        APP_PRINT("\r\n*** Data transfered through g_transfer_gpt_timer *** \n");
-        APP_PRINT("data[0]=%05d\n", (int)g_dest_data[0]);
-        APP_PRINT("data[1]=%05d\n", (int)g_dest_data[1]);
-        APP_PRINT("data[2]=%05d\n", (int)g_dest_data[2]);
-        APP_PRINT("data[3]=%05d\n", (int)g_dest_data[3]);
-        APP_PRINT("data[4]=%05d\n", (int)g_dest_data[4]);
-        APP_PRINT("data[5]=%05d\n", (int)g_dest_data[5]);
-        APP_PRINT("data[6]=%05d\n", (int)g_dest_data[6]);
-        APP_PRINT("data[7]=%05d\n", (int)g_dest_data[7]);
-        APP_PRINT("-------------\n");
 
-        /* Set the flag to false for next transfer  */
-        send_data_to_console_flag = false;
-    }
+    APP_PRINT("\r\n*** Data transfered through g_transfer_gpt_timer *** \n");
+    APP_PRINT("data[0]=%05d\n", (int)g_dest_data[0]);
+    APP_PRINT("data[1]=%05d\n", (int)g_dest_data[1]);
+    APP_PRINT("data[2]=%05d\n", (int)g_dest_data[2]);
+    APP_PRINT("data[3]=%05d\n", (int)g_dest_data[3]);
+    APP_PRINT("data[4]=%05d\n", (int)g_dest_data[4]);
+    APP_PRINT("data[5]=%05d\n", (int)g_dest_data[5]);
+    APP_PRINT("data[6]=%05d\n", (int)g_dest_data[6]);
+    APP_PRINT("data[7]=%05d\n", (int)g_dest_data[7]);
+    APP_PRINT("-------------\n");
+
+
 }
 
-
 /*******************************************************************************************************************//**
- *  @brief    Set the source and destination address for the DMAC transfer instance
+ *  @brief       Set the source and destination address for the DMAC transfer instance
  *  @param[IN]   p_config       Transfer instance configuration structure
  *  @param[IN]   p_src          Source address
  *  @param[IN]   p_dest         Destination address
