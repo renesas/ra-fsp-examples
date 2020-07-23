@@ -41,7 +41,8 @@ usb_descriptor_t g_usb_descriptor =
         sizeof(g_apl_string_table[0]) // Size of string descriptor table
 };
 extern usb_instance_ctrl_t g_usb_ctrl;
-extern usb_cfg_t g_usb_cfg;
+//extern usb_cfg_t g_usb_cfg;
+static bool start_AP = true;
 
 static usb_setup_t                  g_usb_setup;
 static usb_pcdc_linecoding_t        g_usb_lc;
@@ -84,15 +85,7 @@ void main_thread_entry(void *pvParameters)
 {
     fsp_err_t status = FSP_SUCCESS;;
 
-    #ifdef SWO_PRINTF
-        printf("Enabling framed data protocol over USB\r\n");
-    #endif
-
     fpInitialise(usbTransmit);
-
-    #ifdef SWO_PRINTF
-        printf("Connecting the kit to Host PC...\r\n");
-    #endif
 
     status = R_USB_Open(&g_usb_ctrl, &g_usb_cfg);
     if (FSP_SUCCESS != status)
@@ -100,16 +93,24 @@ void main_thread_entry(void *pvParameters)
         /* Fatal error */
         APP_ERR_TRAP(status);
     }
-    #ifdef SWO_PRINTF
-            printf("USB CDC instance created. Run the Device Id Host application!!!\r\n");
-    #endif
+
 
     while(true)
     {
+
         /* Delay task for 250 ms */
         vTaskDelay(250);
+
         if(data_ready == true)
         {
+            if (start_AP == true)
+                {
+                  #ifdef SWO_PRINTF
+                      printf("Framed data protocol over USB is established!\r\n");
+                      printf("USB CDC instance created. Device ID application running!\r\n");
+                  #endif
+                      start_AP = false;
+                }
             for(uint32_t index = 0; index < data_size; index++)
             {
                fpReceiveByte(g_usb_buf[index]);
