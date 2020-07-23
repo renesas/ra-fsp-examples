@@ -93,7 +93,7 @@ fsp_err_t spi_init(void)
 fsp_err_t spi_write_and_read(void)
 {
     fsp_err_t err = FSP_SUCCESS;     // Error status
-    unsigned num_bytes = RESET_VALUE;  // Number of bytes read by SEGGER real-time-terminal
+    uint32_t num_bytes = RESET_VALUE;  // Number of bytes read by SEGGER real-time-terminal
 
     /* Cleaning buffers */
     memset(&g_master_tx_buff[0], NULL_CHAR, BUFF_LEN);
@@ -101,7 +101,7 @@ fsp_err_t spi_write_and_read(void)
     memset(&g_slave_rx_buff[0], NULL_CHAR, BUFF_LEN);
 
     /* Input to master buffer */
-    APP_PRINT("\r\nEnter text input for Master buffer. Data size should not exceed 20 bytes. \r\n");
+    APP_PRINT("\r\nEnter text input for Master buffer. Data size should not exceed 64 bytes. \r\n");
     while (BYTES_RECEIVED_ZERO == num_bytes)
     {
         if (APP_CHECK_DATA)
@@ -114,8 +114,23 @@ fsp_err_t spi_write_and_read(void)
         }
     }
 
+    /* Remove new line character */
+    num_bytes -= 1U;
+
+    /* RTT Reads user input data 1 byte at a time. SPI transfers the data 4 bytes at a time.
+     * With the below logic, we will calculate how many length of data has to be transferred. */
+    if(num_bytes % BITS_TO_BYTES != RESET_VALUE)
+    {
+        num_bytes = (num_bytes/BITS_TO_BYTES) + 1U;
+    }
+    else
+    {
+        num_bytes = num_bytes/BITS_TO_BYTES;
+        g_master_tx_buff[num_bytes] = RESET_VALUE;
+    }
+
     /* Slave receive data from Master */
-    err = R_SPI_Read(&g_spi_slave_ctrl, g_slave_rx_buff, (uint32_t) num_bytes, SPI_BIT_WIDTH_32_BITS);
+    err = R_SPI_Read(&g_spi_slave_ctrl, g_slave_rx_buff, num_bytes, SPI_BIT_WIDTH_32_BITS);
     /* Error handle */
     if(err != FSP_SUCCESS)
     {
@@ -124,7 +139,7 @@ fsp_err_t spi_write_and_read(void)
     }
 
     /* Master send data to Slave */
-    err = R_SPI_Write(&g_spi_master_ctrl, g_master_tx_buff, (uint32_t) num_bytes, SPI_BIT_WIDTH_32_BITS);
+    err = R_SPI_Write(&g_spi_master_ctrl, g_master_tx_buff, num_bytes, SPI_BIT_WIDTH_32_BITS);
     /* Error handle */
     if(FSP_SUCCESS != err)
     {
@@ -166,7 +181,7 @@ fsp_err_t spi_write_and_read(void)
     APP_PRINT("\r\nMaster transmitted user input data to Slave \r\n");
 
     /* Slave send data to Master */
-    err = R_SPI_Write(&g_spi_slave_ctrl, g_slave_rx_buff, (uint32_t) num_bytes, SPI_BIT_WIDTH_32_BITS);
+    err = R_SPI_Write(&g_spi_slave_ctrl, g_slave_rx_buff, num_bytes, SPI_BIT_WIDTH_32_BITS);
     /* Error handle */
     if(FSP_SUCCESS != err)
     {
@@ -175,7 +190,7 @@ fsp_err_t spi_write_and_read(void)
     }
 
     /* Master receive data from Slave */
-    err = R_SPI_Read(&g_spi_master_ctrl, g_master_rx_buff, (uint32_t) num_bytes, SPI_BIT_WIDTH_32_BITS);
+    err = R_SPI_Read(&g_spi_master_ctrl, g_master_rx_buff, num_bytes, SPI_BIT_WIDTH_32_BITS);
     /* Error handle */
     if(FSP_SUCCESS != err)
     {
@@ -216,7 +231,7 @@ fsp_err_t spi_write_and_read(void)
     APP_PRINT("\r\nSlave transmitted the data back to Master \r\n");
 
     /* Check whether transmitted data is equal to received data */
-    if(BUFF_EQUAL == memcmp(g_master_tx_buff, g_master_rx_buff, sizeof(g_master_tx_buff)))
+    if(BUFF_EQUAL == memcmp(g_master_tx_buff, g_master_rx_buff, num_bytes))
     {
         /* Display Master's received data on RTT */
         APP_PRINT("\r\nMaster received data:" RTT_CTRL_TEXT_BRIGHT_GREEN " %s \r\n" RTT_CTRL_RESET, g_master_rx_buff);
@@ -245,8 +260,8 @@ fsp_err_t spi_write_read(void)
 {
     fsp_err_t err = FSP_SUCCESS;     // Error status
     /* Number of bytes read by SEGGER real-time-terminal for master and slave inputs */
-    unsigned num_bytes_master = RESET_VALUE;
-    unsigned num_bytes_slave = RESET_VALUE;
+    uint32_t num_bytes_master = RESET_VALUE;
+    uint32_t num_bytes_slave = RESET_VALUE;
 
     /* Cleaning buffers */
     memset(&g_master_tx_buff[0], NULL_CHAR, BUFF_LEN);
@@ -255,7 +270,7 @@ fsp_err_t spi_write_read(void)
     memset(&g_slave_rx_buff[0], NULL_CHAR, BUFF_LEN);
 
     /* Input to master buffer */
-    APP_PRINT("\r\nEnter text input for Master buffer. Data size should not exceed 20 bytes.\r\n");
+    APP_PRINT("\r\nEnter text input for Master buffer. Data size should not exceed 64 bytes.\r\n");
     while (BYTES_RECEIVED_ZERO == num_bytes_master)
     {
         if (APP_CHECK_DATA)
@@ -268,8 +283,23 @@ fsp_err_t spi_write_read(void)
         }
     }
 
+    /* Remove new line character */
+    num_bytes_master -= 1U;
+
+    /* RTT Reads user input data 1 byte at a time. SPI transfers the data 4 bytes at a time.
+     * With the below logic, we will calculate how many length of data has to be transferred. */
+    if(num_bytes_master % BITS_TO_BYTES != RESET_VALUE)
+    {
+        num_bytes_master = (num_bytes_master/BITS_TO_BYTES) + 1U;
+    }
+    else
+    {
+        num_bytes_master = num_bytes_master/BITS_TO_BYTES;
+        g_master_tx_buff[num_bytes_master] = RESET_VALUE;
+    }
+
     /* Input to slave buffer */
-    APP_PRINT("\r\nEnter text input for Slave buffer. Data size should not exceed 20 bytes.\r\n");
+    APP_PRINT("\r\nEnter text input for Slave buffer. Data size should not exceed 64 bytes.\r\n");
     while (BYTES_RECEIVED_ZERO == num_bytes_slave)
     {
         if (APP_CHECK_DATA)
@@ -282,8 +312,23 @@ fsp_err_t spi_write_read(void)
         }
     }
 
+    /* Remove new line character */
+    num_bytes_slave -= 1U;
+
+    /* RTT Reads user input data 1 byte at a time. SPI transfers the data 4 bytes at a time.
+     * With the below logic, we will calculate how many length of data has to be transferred. */
+    if(num_bytes_slave % BITS_TO_BYTES != RESET_VALUE)
+    {
+        num_bytes_slave = (num_bytes_slave/BITS_TO_BYTES) + 1U;
+    }
+    else
+    {
+        num_bytes_slave = num_bytes_slave/BITS_TO_BYTES;
+        g_slave_tx_buff[num_bytes_slave] = RESET_VALUE;
+    }
+
     /* Slave send data to Master and receive data from Master */
-    err = R_SPI_WriteRead(&g_spi_slave_ctrl, g_slave_tx_buff, g_slave_rx_buff, (uint32_t) num_bytes_master, SPI_BIT_WIDTH_32_BITS);
+    err = R_SPI_WriteRead(&g_spi_slave_ctrl, g_slave_tx_buff, g_slave_rx_buff, num_bytes_master, SPI_BIT_WIDTH_32_BITS);
     /* Error handle */
     if (FSP_SUCCESS != err)
     {
@@ -292,7 +337,7 @@ fsp_err_t spi_write_read(void)
     }
 
     /* Master send data to Slave and receive data from Slave */
-    err = R_SPI_WriteRead(&g_spi_master_ctrl, g_master_tx_buff, g_master_rx_buff, (uint32_t) num_bytes_master, SPI_BIT_WIDTH_32_BITS);
+    err = R_SPI_WriteRead(&g_spi_master_ctrl, g_master_tx_buff, g_master_rx_buff, num_bytes_master, SPI_BIT_WIDTH_32_BITS);
     /* Error handle */
     if(FSP_SUCCESS != err)
     {
@@ -334,7 +379,7 @@ fsp_err_t spi_write_read(void)
     APP_PRINT("\r\nSlave buffer data transmitted to Master \r\n");
 
     /* Check whether Slave transmitted data is equal to Master received data */
-    if(BUFF_EQUAL == memcmp(g_slave_tx_buff, g_master_rx_buff, sizeof(g_slave_tx_buff)))
+    if(BUFF_EQUAL == memcmp(g_slave_tx_buff, g_master_rx_buff, num_bytes_master))
     {
         /* Display Master's received data on RTT */
         APP_PRINT("\r\nMaster received data:" RTT_CTRL_TEXT_BRIGHT_GREEN " %s\r\n" RTT_CTRL_RESET, g_master_rx_buff);
@@ -349,7 +394,7 @@ fsp_err_t spi_write_read(void)
     }
 
     /* Check whether Master transmitted data is equal to Slave received data */
-    if(BUFF_EQUAL == memcmp(g_master_tx_buff, g_slave_rx_buff, sizeof(g_master_tx_buff)))
+    if(BUFF_EQUAL == memcmp(g_master_tx_buff, g_slave_rx_buff, num_bytes_master))
     {
         /* Display Slave's received data on RTT */
         APP_PRINT("\r\nSlave received data:" RTT_CTRL_TEXT_BRIGHT_GREEN " %s\r\n" RTT_CTRL_RESET, g_slave_rx_buff);

@@ -93,7 +93,7 @@ void hal_entry(void)
                     }
                     else
                     {
-                        APP_PRINT("\r\n** SPI WRITE AND READ Demo Successful**  \r\n")
+                        APP_PRINT("\r\n** SPI WRITE AND READ Demo Successful**  \r\n");
                     }
                     break;
                 case WRITE_READ:
@@ -106,7 +106,7 @@ void hal_entry(void)
                     }
                     else
                     {
-                        APP_PRINT("** SPI WRITE AND READ Demo Successful**  \r\n")
+                        APP_PRINT("** SPI WRITE AND READ Demo Successful**  \r\n");
                     }
                     break;
                 case EXIT:
