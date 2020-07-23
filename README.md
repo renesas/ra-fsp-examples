@@ -28,7 +28,6 @@ Keil MDK App Note: http://www.keil.com/appnotes/docs/apnt_330.asp
 3. FSP Releases: https://github.com/renesas/fsp/releases
 4. FSP Documentation: https://renesas.github.io/fsp
 5. RA Product Information: www.renesas.com/ra
-6. Keil MDK Application Note: http://www.keil.com/appnotes/docs/apnt_330.asp
-7. RA/FSP Knowledge Base: https://en-support.renesas.com/knowledgeBase/category/31087
-6. Support: www.renesas.com/support
+6. RA/FSP Knowledge Base: https://en-support.renesas.com/knowledgeBase/category/31087
+7. Support: www.renesas.com/support
 
