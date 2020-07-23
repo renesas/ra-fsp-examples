@@ -19,6 +19,9 @@ Application Projects illustrate solutions in various core technologies
 2. Application Projects source code is in **_\application_projects\technology_** folder.
 3. Projects can be downloaded from **_'Assets'_** section of **_'releases'_**.
 
+##Third Party App Notes
+Keil MDK App Note: http://www.keil.com/appnotes/docs/apnt_330.asp
+
 ## References
 1. FSP Webpage: www.renesas.com/ra/fsp
 2. FSP GitHub: https://github.com/renesas/fsp
