@@ -273,8 +273,7 @@ static bool genAndProgramDevCert(DeviceContext *pContext)
 
 	// The raw device Key has a 1 byte header with the format.  Prepend that as it is not supplied by the RA device. 
 	uint8_t *deviceKey = (uint8_t *)malloc(65);
-	/* The first byte defines the form of the conversion. For details, refer to the OpenSSL source code of EC_POINT_oct2point*/
-	deviceKey[0] = POINT_CONVERSION_UNCOMPRESSED;
+	deviceKey[0] = 4;
 	memcpy(&deviceKey[1], dk, 64);
 	//dumpKey(deviceKey, 65);
 
