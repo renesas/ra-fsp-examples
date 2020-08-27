@@ -42,7 +42,7 @@
 *                                                                    *
 **********************************************************************
 *                                                                    *
-*       RTT version: 6.70e                                           *
+*       RTT version: 6.82d                                           *
 *                                                                    *
 **********************************************************************
 
@@ -51,7 +51,7 @@ File    : SEGGER_RTT.h
 Purpose : Implementation of SEGGER real-time transfer which allows
           real-time communication on targets which support debugger 
           memory accesses while the CPU is running.
-Revision: $Rev: 17697 $
+Revision: $Rev: 20159 $
 ----------------------------------------------------------------------
 */
 
@@ -73,45 +73,96 @@ Revision: $Rev: 17697 $
     #define _CC_HAS_RTT_ASM_SUPPORT 1
   #elif (defined __CROSSWORKS_ARM)              // Rowley Crossworks
     #define _CC_HAS_RTT_ASM_SUPPORT 1
+	#elif (defined __ARMCC_VERSION)
+	  #define _CC_HAS_RTT_ASM_SUPPORT 0
   #elif (defined __GNUC__)                      // GCC
     #define _CC_HAS_RTT_ASM_SUPPORT 1
   #elif (defined __clang__)                     // Clang compiler
     #define _CC_HAS_RTT_ASM_SUPPORT 1
-  #elif (defined __IASMARM__)                   // IAR assembler
-    #define _CC_HAS_RTT_ASM_SUPPORT 1
-  #elif (defined __ICCARM__)                    // IAR compiler
+  #elif ((defined __IASMARM__) || (defined __ICCARM__))  // IAR assembler/compiler
     #define _CC_HAS_RTT_ASM_SUPPORT 1
   #else
     #define _CC_HAS_RTT_ASM_SUPPORT 0
   #endif
-  #if (defined __ARM_ARCH_7M__)                 // Cortex-M3/4
-    #define _CORE_HAS_RTT_ASM_SUPPORT 1
-  #elif (defined __ARM_ARCH_7EM__)              // Cortex-M7
-    #define _CORE_HAS_RTT_ASM_SUPPORT 1
-  #elif (defined __ARM_ARCH_8M_MAIN__)          // Cortex-M33
-    #define _CORE_HAS_RTT_ASM_SUPPORT 1
-  #elif (defined __ARM7M__)                     // IAR Cortex-M3/4
-    #if (__CORE__ == __ARM7M__)
-      #define _CORE_HAS_RTT_ASM_SUPPORT 1
-    #else
-      #define _CORE_HAS_RTT_ASM_SUPPORT 0
+  #if ((defined __IASMARM__) || (defined __ICCARM__))  // IAR assembler/compiler
+    //
+    // IAR assembler / compiler
+    //
+    #if (defined __ARM7M__)                            // Needed for old versions that do not know the define yet
+      #if (__CORE__ == __ARM7M__)                      // Cortex-M3
+        #define _CORE_HAS_RTT_ASM_SUPPORT 1
+      #endif
     #endif
-  #elif (defined __ARM7EM__)                    // IAR Cortex-M7
-    #if (__CORE__ == __ARM7EM__)
-      #define _CORE_HAS_RTT_ASM_SUPPORT 1
-    #else
-      #define _CORE_HAS_RTT_ASM_SUPPORT 0
+    #if (defined __ARM7EM__)                           // Needed for old versions that do not know the define yet
+      #if (__CORE__ == __ARM7EM__)                     // Cortex-M4/M7
+        #define _CORE_HAS_RTT_ASM_SUPPORT 1
+        #define _CORE_NEEDS_DMB 1
+        #define RTT__DMB() asm("DMB");
+      #endif
+    #endif
+    #if (defined __ARM8M_BASELINE__)                   // Needed for old versions that do not know the define yet
+      #if (__CORE__ == __ARM8M_BASELINE__)             // Cortex-M23
+        #define _CORE_HAS_RTT_ASM_SUPPORT 1
+        #define _CORE_NEEDS_DMB 1
+        #define RTT__DMB() asm("DMB");
+      #endif
+    #endif
+    #if (defined __ARM8M_MAINLINE__)                   // Needed for old versions that do not know the define yet
+      #if (__CORE__ == __ARM8M_MAINLINE__)             // Cortex-M33
+        #define _CORE_HAS_RTT_ASM_SUPPORT 1
+        #define _CORE_NEEDS_DMB 1
+        #define RTT__DMB() asm("DMB");
+      #endif
     #endif
   #else
-    #define _CORE_HAS_RTT_ASM_SUPPORT 0
+    //
+    // GCC / Clang
+    //
+    #if (defined __ARM_ARCH_7M__)                 // Cortex-M3
+      #define _CORE_HAS_RTT_ASM_SUPPORT 1
+    #elif (defined __ARM_ARCH_7EM__)              // Cortex-M4/M7
+      #define _CORE_HAS_RTT_ASM_SUPPORT 1
+      #define _CORE_NEEDS_DMB           1
+      #define RTT__DMB() __asm volatile ("dmb\n" : : :);
+    #elif (defined __ARM_ARCH_8M_BASE__)          // Cortex-M23
+      #define _CORE_HAS_RTT_ASM_SUPPORT 1
+      #define _CORE_NEEDS_DMB           1
+      #define RTT__DMB() __asm volatile ("dmb\n" : : :);
+    #elif (defined __ARM_ARCH_8M_MAIN__)          // Cortex-M33
+      #define _CORE_HAS_RTT_ASM_SUPPORT 1
+      #define _CORE_NEEDS_DMB           1
+      #define RTT__DMB() __asm volatile ("dmb\n" : : :);
+    #else
+      #define _CORE_HAS_RTT_ASM_SUPPORT 0
+    #endif
   #endif
   //
   // If IDE and core support the ASM version, enable ASM version by default
   //
+  #ifndef _CORE_HAS_RTT_ASM_SUPPORT
+    #define _CORE_HAS_RTT_ASM_SUPPORT 0              // Default for unknown cores
+  #endif
   #if (_CC_HAS_RTT_ASM_SUPPORT && _CORE_HAS_RTT_ASM_SUPPORT)
     #define RTT_USE_ASM                           (1)
   #else
     #define RTT_USE_ASM                           (0)
+  #endif
+#endif
+
+//
+// We need to know if a DMB is needed to make sure that on Cortex-M7 etc.
+// the order of accesses to the ring buffers is guaranteed
+// Needed for: Cortex-M7, Cortex-M23, Cortex-M33
+//
+#ifndef _CORE_NEEDS_DMB
+  #define _CORE_NEEDS_DMB 0
+#endif
+
+#ifndef RTT__DMB
+  #if _CORE_NEEDS_DMB
+    #error "Don't know how to place inline assembly for DMB"
+  #else
+    #define RTT__DMB()
   #endif
 #endif
 

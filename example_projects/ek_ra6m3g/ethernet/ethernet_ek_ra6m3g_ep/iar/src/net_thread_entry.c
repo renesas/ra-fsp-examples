@@ -56,10 +56,10 @@ char *remote_ip_address = USR_TEST_PING_IP;
      * get the Address using the PC IPconfig details.
      */
     static  uint8_t ucMACAddress[ 6 ]       = {0x00, 0x11, 0x22, 0x33, 0x44, 0x55};
-    static  uint8_t ucIPAddress[ 4 ]        = {192, 168, 0, 20};
+    static  uint8_t ucIPAddress[ 4 ]        = {192, 168, 0, 52};
     static  uint8_t ucNetMask[ 4 ]          = {255, 255, 255, 0};
     static  uint8_t ucGatewayAddress[ 4 ]   = {192, 168, 0, 3};
-    static  uint8_t ucDNSServerAddress[ 4 ] = {192, 168, 0, 3};
+    static  uint8_t ucDNSServerAddress[ 4 ] = {10, 60, 1, 2};
 #endif
 
 
@@ -321,7 +321,7 @@ eDHCPCallbackAnswer_t eReturn = eDHCPContinue;
 void print_pingResult(void)
 {
     APP_PRINT("\r\n \r\nPing Statistics for %s :\r\n",(char *)remote_ip_address);
-    APP_PRINT("\tPackets: Sent  = %02d, Received = %02d, Lost = %02d \r\n",ping_data.sent,ping_data.received,ping_data.lost);
+    APP_PRINT("\r\nPackets: Sent  = %02d, Received = %02d, Lost = %02d \r\n",ping_data.sent,ping_data.received,ping_data.lost);
 }
 
 /*******************************************************************************************************************//**

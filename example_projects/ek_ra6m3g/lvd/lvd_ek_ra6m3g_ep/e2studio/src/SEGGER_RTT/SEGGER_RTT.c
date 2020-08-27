@@ -42,7 +42,7 @@
 *                                                                    *
 **********************************************************************
 *                                                                    *
-*       RTT version: 6.70e                                           *
+*       RTT version: 6.82d                                           *
 *                                                                    *
 **********************************************************************
 
@@ -51,7 +51,7 @@ File    : SEGGER_RTT.c
 Purpose : Implementation of SEGGER real-time transfer (RTT) which
           allows real-time communication on targets which support
           debugger memory accesses while the CPU is running.
-Revision: $Rev: 17697 $
+Revision: $Rev: 19464 $
 
 Additional information:
           Type "int" is assumed to be 32-bits in size
@@ -304,8 +304,11 @@ static void _DoInit(void) {
   // in initializer memory (usually flash) by J-Link
   //
   STRCPY(&p->acID[7], "RTT", 9);
+  RTT__DMB();
   STRCPY(&p->acID[0], "SEGGER", 7);
+  RTT__DMB();
   p->acID[6] = ' ';
+  RTT__DMB();
 }
 
 /*********************************************************************
@@ -367,6 +370,7 @@ static unsigned _WriteBlocking(SEGGER_RTT_BUFFER_UP* pRing, const char* pBuffer,
     if (WrOff == pRing->SizeOfBuffer) {
       WrOff = 0u;
     }
+    RTT__DMB();
     pRing->WrOff = WrOff;
   } while (NumBytes);
   //
@@ -411,9 +415,11 @@ static void _WriteNoCheck(SEGGER_RTT_BUFFER_UP* pRing, const char* pData, unsign
     while (NumBytes--) {
       *pDst++ = *pData++;
     };
+    RTT__DMB();
     pRing->WrOff = WrOff;
 #else
     SEGGER_RTT_MEMCPY(pRing->pBuffer + WrOff, pData, NumBytes);
+    RTT__DMB();
     pRing->WrOff = WrOff + NumBytes;
 #endif
   } else {
@@ -431,12 +437,14 @@ static void _WriteNoCheck(SEGGER_RTT_BUFFER_UP* pRing, const char* pData, unsign
     while (NumBytesAtOnce--) {
       *pDst++ = *pData++;
     };
+    RTT__DMB();
     pRing->WrOff = NumBytes - Rem;
 #else
     NumBytesAtOnce = Rem;
     SEGGER_RTT_MEMCPY(pRing->pBuffer + WrOff, pData, NumBytesAtOnce);
     NumBytesAtOnce = NumBytes - Rem;
     SEGGER_RTT_MEMCPY(pRing->pBuffer, pData + Rem, NumBytesAtOnce);
+    RTT__DMB();
     pRing->WrOff = NumBytesAtOnce;
 #endif
   }
@@ -831,9 +839,11 @@ void SEGGER_RTT_WriteWithOverwriteNoLock(unsigned BufferIndex, const void* pBuff
       while (NumBytes--) {
         *pDst++ = *pData++;
       };
+      RTT__DMB();
       pRing->WrOff += Avail;
 #else
       SEGGER_RTT_MEMCPY(pRing->pBuffer + pRing->WrOff, pData, NumBytes);
+      RTT__DMB();
       pRing->WrOff += NumBytes;
 #endif
       break;
@@ -847,10 +857,12 @@ void SEGGER_RTT_WriteWithOverwriteNoLock(unsigned BufferIndex, const void* pBuff
       while (Avail--) {
         *pDst++ = *pData++;
       };
+      RTT__DMB();
       pRing->WrOff = 0;
 #else
       SEGGER_RTT_MEMCPY(pRing->pBuffer + pRing->WrOff, pData, Avail);
       pData += Avail;
+      RTT__DMB();
       pRing->WrOff = 0;
       NumBytes -= Avail;
 #endif
@@ -913,6 +925,7 @@ unsigned SEGGER_RTT_WriteSkipNoLock(unsigned BufferIndex, const void* pBuffer, u
     if (Avail >= NumBytes) {                            // Case 1)?
 CopyStraight:
       memcpy(pRing->pBuffer + WrOff, pData, NumBytes);
+      RTT__DMB();
       pRing->WrOff = WrOff + NumBytes;
       return 1;
     }
@@ -930,6 +943,7 @@ CopyStraight:
       if (NumBytes) {
         memcpy(pRing->pBuffer, pData + Rem, NumBytes);
       }
+      RTT__DMB();
       pRing->WrOff = NumBytes;
       return 1;
     }
@@ -1247,6 +1261,7 @@ unsigned SEGGER_RTT_PutCharSkipNoLock(unsigned BufferIndex, char c) {
   //
   if (WrOff != pRing->RdOff) {
     pRing->pBuffer[pRing->WrOff] = c;
+    RTT__DMB();
     pRing->WrOff = WrOff;
     Status = 1;
   } else {
@@ -1299,6 +1314,7 @@ unsigned SEGGER_RTT_PutCharSkip(unsigned BufferIndex, char c) {
   //
   if (WrOff != pRing->RdOff) {
     pRing->pBuffer[pRing->WrOff] = c;
+    RTT__DMB();
     pRing->WrOff = WrOff;
     Status = 1;
   } else {
@@ -1363,6 +1379,7 @@ unsigned SEGGER_RTT_PutChar(unsigned BufferIndex, char c) {
   //
   if (WrOff != pRing->RdOff) {
     pRing->pBuffer[pRing->WrOff] = c;
+    RTT__DMB();
     pRing->WrOff = WrOff;
     Status = 1;
   } else {
@@ -1536,6 +1553,7 @@ int SEGGER_RTT_AllocDownBuffer(const char* sName, void* pBuffer, unsigned Buffer
     _SEGGER_RTT.aDown[BufferIndex].RdOff        = 0u;
     _SEGGER_RTT.aDown[BufferIndex].WrOff        = 0u;
     _SEGGER_RTT.aDown[BufferIndex].Flags        = Flags;
+    RTT__DMB();
   } else {
     BufferIndex = -1;
   }
@@ -1581,6 +1599,7 @@ int SEGGER_RTT_AllocUpBuffer(const char* sName, void* pBuffer, unsigned BufferSi
     _SEGGER_RTT.aUp[BufferIndex].RdOff        = 0u;
     _SEGGER_RTT.aUp[BufferIndex].WrOff        = 0u;
     _SEGGER_RTT.aUp[BufferIndex].Flags        = Flags;
+    RTT__DMB();
   } else {
     BufferIndex = -1;
   }
@@ -1674,6 +1693,7 @@ int SEGGER_RTT_ConfigDownBuffer(unsigned BufferIndex, const char* sName, void* p
       _SEGGER_RTT.aDown[BufferIndex].WrOff        = 0u;
     }
     _SEGGER_RTT.aDown[BufferIndex].Flags          = Flags;
+    RTT__DMB();
     SEGGER_RTT_UNLOCK();
     r =  0;
   } else {

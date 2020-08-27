@@ -1,4 +1,4 @@
-RA Configuration
+FSP Configuration
   Board "EK-RA6M3"
   R7FA6M3AH3CFC
     part_number: R7FA6M3AH3CFC
@@ -63,7 +63,7 @@ RA Configuration
     Main Oscillator Wait Time: 32768 us
     Main Oscillator Clock Source: Crystal or Resonator
     Subclock Populated: Populated
-    Subclock Drive: Standard
+    Subclock Drive (Drive capacitance availability varies by MCU): Standard/Normal mode
     Subclock Stabilization Time (ms): 1000
     
   Clocks
@@ -547,7 +547,7 @@ RA Configuration
     Semaphore maximum timeout: 10000
     Number of retries for AT commands: 10
     Module Reset Port: 08
-    Module Reset Pin: 03
+    Module Reset Pin: 00
     
   Module "AWS WiFi Common"
     Max Sockets: 1
@@ -687,7 +687,7 @@ RA Configuration
         Instance "AWS WiFi Common"
         Instance "g_uart0 UART Driver on r_sci_uart"
           General: Name: g_uart0
-          General: Channel: 8
+          General: Channel: 9
           General: Data Bits: 8bits
           General: Parity: None
           General: Stop Bits: 1bit
@@ -709,7 +709,7 @@ RA Configuration
           Interrupts: Transmit End Interrupt Priority: Priority 12
           Interrupts: Error Interrupt Priority: Priority 12
           
-          Instance "g_transfer0 Transfer Driver on r_dtc SCI8 TXI (Transmit data empty)"
+          Instance "g_transfer0 Transfer Driver on r_dtc SCI9 TXI (Transmit data empty)"
             Name: g_transfer0
             Mode: Normal
             Transfer Size: 1 Byte
@@ -719,9 +719,9 @@ RA Configuration
             Interrupt Frequency: After all transfers have completed
             Number of Transfers: 0
             Number of Blocks (Valid only in Block Mode): 0
-            Activation Source: SCI8 TXI (Transmit data empty)
+            Activation Source: SCI9 TXI (Transmit data empty)
             
-          Instance "g_transfer1 Transfer Driver on r_dtc SCI8 RXI (Received data full)"
+          Instance "g_transfer1 Transfer Driver on r_dtc SCI9 RXI (Received data full)"
             Name: g_transfer1
             Mode: Normal
             Transfer Size: 1 Byte
@@ -731,6 +731,6 @@ RA Configuration
             Interrupt Frequency: After all transfers have completed
             Number of Transfers: 0
             Number of Blocks (Valid only in Block Mode): 0
-            Activation Source: SCI8 RXI (Received data full)
+            Activation Source: SCI9 RXI (Received data full)
             
     Instance "Heap 5"

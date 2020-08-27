@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<raConfiguration version="5">
+<raConfiguration version="6">
   <generalSettings>
     <option key="#Board#" value="board.ra4m1ek"/>
     <option key="CPU" value="RA4M1"/>
@@ -8,7 +8,7 @@
     <option key="#DeviceCommand#" value="R7FA4M1AB"/>
     <option key="#RTOS#" value="_none"/>
     <option key="#pinconfiguration#" value="RA4M1-EK.pincfg"/>
-    <option key="#FSPVersion#" value="1.2.0"/>
+    <option key="#FSPVersion#" value="1.3.0"/>
     <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra4m1_ek##"/>
   </generalSettings>
   <raBspConfiguration>
@@ -64,6 +64,7 @@
       <property id="config.bsp.fsp.mcu.sci_uart.max_baud" value="6666666"/>
       <property id="config.bsp.fsp.mcu.adc.sample_and_hold" value="0"/>
       <property id="config.bsp.fsp.mcu.sci_spi.max_bitrate" value="12000000"/>
+      <property id="config.bsp.fsp.mcu.spi.max_bitrate" value="24000000"/>
     </config>
     <config id="config.bsp.ra">
       <property id="config.bsp.common.main" value="0x400"/>
@@ -119,41 +120,41 @@
     <node id="board.clock.uclk.display" option="board.clock.clkout.display.value"/>
   </raClockConfiguration>
   <raComponentSelection>
-    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra4m1_ek" variant="" vendor="Renesas" version="1.2.0">
-      <description>RA4M1-EK Board Support Files</description>
-      <originalPack>Renesas.RA_board_ra4m1_ek.1.2.0.pack</originalPack>
-    </component>
     <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="5.7.0">
       <description>Arm CMSIS Version 5 - Core (M)</description>
       <originalPack>Arm.CMSIS5.5.7.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="1.2.0">
+    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra4m1_ek" variant="" vendor="Renesas" version="1.3.0">
+      <description>RA4M1-EK Board Support Files</description>
+      <originalPack>Renesas.RA_board_ra4m1_ek.1.3.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="1.3.0">
       <description>Board Support Package Common Files</description>
-      <originalPack>Renesas.RA.1.2.0.pack</originalPack>
+      <originalPack>Renesas.RA.1.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_agt" variant="" vendor="Renesas" version="1.2.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_agt" variant="" vendor="Renesas" version="1.3.0">
       <description>Asynchronous General Purpose Timer</description>
-      <originalPack>Renesas.RA.1.2.0.pack</originalPack>
+      <originalPack>Renesas.RA.1.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_icu" variant="" vendor="Renesas" version="1.2.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_icu" variant="" vendor="Renesas" version="1.3.0">
       <description>External Interrupt</description>
-      <originalPack>Renesas.RA.1.2.0.pack</originalPack>
+      <originalPack>Renesas.RA.1.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="1.2.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="1.3.0">
       <description>I/O Port</description>
-      <originalPack>Renesas.RA.1.2.0.pack</originalPack>
+      <originalPack>Renesas.RA.1.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra4m1" subgroup="device" variant="R7FA4M1AB3CFP" vendor="Renesas" version="1.2.0">
+    <component apiversion="" class="BSP" condition="" group="ra4m1" subgroup="device" variant="R7FA4M1AB3CFP" vendor="Renesas" version="1.3.0">
       <description>Board support package for R7FA4M1AB3CFP</description>
-      <originalPack>Renesas.RA_mcu_ra4m1.1.2.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra4m1.1.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra4m1" subgroup="device" variant="" vendor="Renesas" version="1.2.0">
+    <component apiversion="" class="BSP" condition="" group="ra4m1" subgroup="device" variant="" vendor="Renesas" version="1.3.0">
       <description>Board support package for RA4M1</description>
-      <originalPack>Renesas.RA_mcu_ra4m1.1.2.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra4m1.1.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra4m1" subgroup="fsp" variant="" vendor="Renesas" version="1.2.0">
+    <component apiversion="" class="BSP" condition="" group="ra4m1" subgroup="fsp" variant="" vendor="Renesas" version="1.3.0">
       <description>Board support package for RA4M1 - FSP Data</description>
-      <originalPack>Renesas.RA_mcu_ra4m1.1.2.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra4m1.1.3.0.pack</originalPack>
     </component>
   </raComponentSelection>
   <raElcConfiguration/>

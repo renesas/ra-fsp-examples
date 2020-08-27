@@ -1,4 +1,4 @@
-RA Configuration
+FSP Configuration
   Board "EK-RA6M3"
   R7FA6M3AH3CFC
     part_number: R7FA6M3AH3CFC
@@ -63,7 +63,7 @@ RA Configuration
     Main Oscillator Wait Time: 32768 us
     Main Oscillator Clock Source: Crystal or Resonator
     Subclock Populated: Populated
-    Subclock Drive: Standard
+    Subclock Drive (Drive capacitance availability varies by MCU): Standard/Normal mode
     Subclock Stabilization Time (ms): 1000
     
   Clocks
@@ -361,7 +361,7 @@ RA Configuration
     Optional Functions: xTaskGetIdleTaskHandle() Function: Disabled
     Optional Functions: eTaskGetState() Function: Disabled
     Optional Functions: xEventGroupSetBitFromISR() Function: Enabled
-    Optional Functions: xTimerPendFunctionCall() Function: Enabled
+    Optional Functions: xTimerPendFunctionCall() Function: Disabled
     Optional Functions: xTaskAbortDelay() Function: Disabled
     Optional Functions: xTaskGetHandle() Function: Disabled
     Optional Functions: xTaskResumeFromISR() Function: Enabled
@@ -420,7 +420,7 @@ RA Configuration
             Activation Source: SDHIMMC0 DMA REQ (DMA transfer request)
             Callback: g_sdmmc_dmac_callback
             Context: NULL
-            Transfer End Interrupt Priority: Priority 1
+            Transfer End Interrupt Priority: Priority 12
             Interrupt Frequency: Interrupt after all transfers have completed
             Offset value (Valid only when address mode is \'Offset\'): 1
             

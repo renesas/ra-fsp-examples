@@ -94,6 +94,10 @@ void pmsc_thread_entry(void *pvParameters)
                 break;
             }
         }
+        /* Clear the event flag */
+        p_usb_event = RESET_VALUE;
+        /* Add delay so that while loop won't get optimized out */
+        vTaskDelay(1);
     }
 }
 
