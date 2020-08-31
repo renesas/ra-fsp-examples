@@ -52,7 +52,7 @@ bool hwSignData(uint8_t * hash_buffer, uint8_t sig_buffer[], psa_key_handle_t *k
 
     if(PSA_SUCCESS != status )
     {
-        printf("R_SCE_HRK_ECC_256PrivateKeySign failed: %x \n\r", (unsigned int)status);
+        printf("R_SCE_Wrapped_ECC_256PrivateKeySign failed: %x \n\r", (unsigned int)status);
         status = false;
     }
     else
@@ -79,6 +79,7 @@ bool hwCreatekey(uint8_t * pubkey_buffer, psa_key_handle_t *key_handle )
     volatile psa_status_t psa_status = PSA_SUCCESS;
     size_t publickey_size = 0;
     bool ret = true;
+
 
     status = mbedtls_platform_setup(&ctx);
     if(FSP_SUCCESS == status)

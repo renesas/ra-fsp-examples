@@ -189,6 +189,19 @@ void target_setup(void)
 		v = JLINK_CORESIGHT_ReadAP(JLINK_CORESIGHT_AP_REG_DATA);
 		
 		Report1("MCUCTRL: ", v);
+		
+			JLINK_CORESIGHT_WriteAP(JLINK_CORESIGHT_AP_REG_ADDR, 0x80000410); //MCUCTRL register
+	JLINK_CORESIGHT_WriteAP(JLINK_CORESIGHT_AP_REG_DATA, 0x00000101); //Set DBIRQ bit and EDBGRQ bit
+	
+			JLINK_CORESIGHT_WriteAP(JLINK_CORESIGHT_AP_REG_ADDR, 0x80000410); //MCUCTRL register
+		v = JLINK_CORESIGHT_ReadAP(JLINK_CORESIGHT_AP_REG_DATA);
+		
+			Report1("MCUCTRL: ", v);
+	
+	JLINK_CORESIGHT_WriteAP(JLINK_CORESIGHT_AP_REG_ADDR, 0x80000400); //MCUSTAT register
+	v = JLINK_CORESIGHT_ReadAP(JLINK_CORESIGHT_AP_REG_DATA);
+	
+	Report1("MCUSTAT: ", v);
 	
 
 		JLINK_MEM_WriteU16(0x4001E3FE, 0xA502);  // PRCR register. Enable access to SYOCDCR register
@@ -217,12 +230,13 @@ void target_setup(void)
 	{
 
 	}
+	
 }
 
 
 void InitTarget(void) 
 {	
-	Report("\r\nSynergy ALeRASE J-Link script InitTarget\r\n\r\n");
+	Report("\r\nRA ALeRASE J-Link script InitTarget\r\n\r\n");
 
 	wake_and_authenticate();
 
@@ -232,7 +246,7 @@ void InitTarget(void)
 
 void SetupTarget(void)
 {
-	Report("\r\nSynergy ALeRASE J-Link script SetupTarget\r\n\r\n");
+	Report("\r\nRA ALeRASE J-Link script SetupTarget\r\n\r\n");
 	
 	target_setup();
 }

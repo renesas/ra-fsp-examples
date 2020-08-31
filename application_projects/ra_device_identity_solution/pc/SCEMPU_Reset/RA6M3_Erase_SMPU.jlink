@@ -1,0 +1,135 @@
+Device R7FA6M3AH
+si SWD
+speed 2000
+connect
+
+
+/* Reset the device */
+r
+
+/* Enable CGC register write */
+w2 0x4001E3FE, 0xA501
+
+/* write SCKDIVCR ICK and FCLK /1, so 8MHz*/
+w4 0x4001E020, 0x00000000
+
+/* Read SCKDIVCR */
+mem32 0x4001E020, 1
+
+/* Sleep for 10ms to allow things to settle */
+sleep 10
+
+
+/***** Clear out the AWS bits ***************/
+
+/* FPCKAR PCKA for default of 2MHz PCKA (MOCO/4) as set by default values of SCKSCR and SCKDIVCR after reset*/
+w2 0x407FE0E4, 0x1E02 
+
+/*FWEPROP set to 1, Allow access to the flash registers */
+w1 0x4001E416, 0x01 
+
+/* FENTRYR = 0xAA01, code flash, RV40 Phase 2 */
+w2 0x407FE084, 0xAA01
+
+/* FSADDR = 0x0000A160U, RV40 Phase 2 */
+w4 0x407FE030, 0x0000A160
+
+/* Write 40h to the FACI command issuing area */
+w1 0x407E0000, 0x40
+
+/* Write 08h to the FACI command issuing area */
+w1 0x407E0000, 0x08
+
+/* Write WD0 to the FACI command issuing area */
+w2 0x407E0000, 0xffff
+
+/* Write WD1 to the FACI command issuing area */
+w2 0x407E0000, 0xffff
+
+/* Write WD2 to the FACI command issuing area */
+w2 0x407E0000, 0xffff
+
+/* Write WD3 to the FACI command issuing area */
+w2 0x407E0000, 0xffff
+
+/* Write WD4 to the FACI command issuing area */
+w2 0x407E0000, 0xffff
+
+/* Write WD5 to the FACI command issuing area */
+w2 0x407E0000, 0xffff
+
+/* Write WD6 to the FACI command issuing area */
+w2 0x407E0000, 0xffff
+
+/* Write WD7 to the FACI command issuing area */
+w2 0x407E0000, 0xffff
+
+/* Write D0h to the FACI command issuing area - final access, start FACI processing the command */
+w1 0x407E0000, 0xD0
+
+/* Read the FSTATR Reg, is FRDY bit 1 yet (probably not) */
+ mem32 0x407FE080, 1
+
+/* wait for 1sec, more than enough time for the operation! */
+sleep 1000
+
+/* Read the FSTATR Reg, FRDY bit should be 1 by now (register should read 0x00008000) */
+ mem32 0x407FE080, 1
+
+/* FENTRYR = AA01H - return to ROM read mode */
+w2 0x407FE084, 0xAA00
+
+/* Read the AWS area*/
+mem32 0x0010A160,16
+
+/***** Erase first block to clear out the SecureMPU bits ***************/
+* Reset the device */
+r
+
+/* Sleep for 10ms to allow things to settle */
+sleep 10
+
+/* FPCKAR PCKA for FCLK of 8Mhz */
+w2 0x407FE0E4, 0x1E08 
+
+/*FWEPROP set to 1, Allow access to the flash registers */
+w1 0x4001E416, 0x01 
+
+/* FENTRYR = 0xAA01, code flash, RV40 Phase 2 */
+w2 0x407FE084, 0xAA01
+
+/* FSADDR = Start address of the flash block */
+w4 0x407FE030, 0x00000000
+
+/* Write 20h to the FACI command issuing area */
+w1 0x407E0000, 0x20
+
+/* Write D0h to the FACI command issuing area - final access, start FACI processing the command */
+w1 0x407E0000, 0xD0
+
+/* Read the FSTATR Reg, is FRDY bit 1 yet (probably not) */
+ mem32 0x407FE080, 1
+
+/* wait for 1sec, more than enough time for the operation! */
+sleep 1000
+
+/* Read the FSTATR Reg, FRDY bit should be 1 by now (register should read 0x00008000) */
+ mem32 0x407FE080, 1
+
+/* FENTRYR = AA01H - return to ROM read mode */
+w2 0x407FE084, 0xAA00
+
+/* Read the security MPU area*/
+mem32 0x00000000,16
+
+/* wait for 100ms */
+sleep 100
+
+/* Erase the device */
+erase
+
+/* Reset the device */
+r
+
+q
+
