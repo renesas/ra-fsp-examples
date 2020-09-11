@@ -38,8 +38,7 @@
 #define TOGGLE_DELAY       (0x15E)
 
 /* 8 and 16 bit seed value and data length */
-#define EIGHT_BIT_SEED         (0xff)
-#define SIXTEEN_BIT_SEED       (0xffff)
+#define SEED_VALUE             (0x00000000)
 #define EIGHT_BIT_DATA_LEN     (5U)
 #define SIXTEEN_BIT_DATA_LEN   (6U)
 

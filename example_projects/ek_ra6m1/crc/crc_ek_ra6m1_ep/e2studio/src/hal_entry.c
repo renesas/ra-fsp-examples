@@ -126,7 +126,6 @@ static fsp_err_t crc_operation (void)
 	uint32_t normal_crc_value      = RESET_VALUE;
 	uint32_t snoop_crc_value       = RESET_VALUE;
 	uint32_t uart_time_out         = UINT32_MAX;
-	uint32_t seed_value            = RESET_VALUE;
 	uint8_t input_buffer[BUF_LEN]  = {0x05,0x02,0x03,0x04};
 	uint8_t dest_buffer[BUF_LEN]   = {RESET_VALUE};
 	uint8_t  uart_data_len         = RESET_VALUE;
@@ -141,12 +140,10 @@ static fsp_err_t crc_operation (void)
 	/* update seed value and transfer uart_data_len as per the polynomial used */
 	if(CRC_POLYNOMIAL_CRC_8 == g_crc_cfg.polynomial)
 	{
-		seed_value      = EIGHT_BIT_SEED;     //seed value for 8 bit polynomial
 		uart_data_len   = EIGHT_BIT_DATA_LEN; //Data length for 8 bit polynomial operation
 	}
 	else if ((CRC_POLYNOMIAL_CRC_16 == g_crc_cfg.polynomial) || (CRC_POLYNOMIAL_CRC_CCITT == g_crc_cfg.polynomial))
 	{
-		seed_value      = SIXTEEN_BIT_SEED;      //seed value for 16 bit polynomial
 		uart_data_len   = SIXTEEN_BIT_DATA_LEN;  //Data length for 16 bit polynomial operation
 	}
 	else
@@ -158,7 +155,7 @@ static fsp_err_t crc_operation (void)
 
 	/* update CRC input structure for normal mode */
 	input_data.num_bytes      = NUM_BYTES;
-	input_data.crc_seed       = seed_value;
+	input_data.crc_seed       = SEED_VALUE;
 	input_data.p_input_buffer = &input_buffer;
 
 	/* calculate crc value for input data in Normal mode */
@@ -197,7 +194,7 @@ static fsp_err_t crc_operation (void)
 	}
 
 	/*Enable snoop mode*/
-	err = R_CRC_SnoopEnable(&g_crc_ctrl , seed_value);
+	err = R_CRC_SnoopEnable(&g_crc_ctrl, SEED_VALUE);
 	if (FSP_SUCCESS != err)
 	{
 		/* Display failure message in RTT */
