@@ -43,12 +43,24 @@
 #define FLASH_HP_CF_BLOCK_9               0x00018000U  /*   32 KB: 0x00018000 - 0x0001FFFF */
 #define FLASH_HP_CF_BLCOK_10              0x00020000U  /*   32 KB: 0x00020000 - 0x0004FFFF */
 
-/* Data Flash */
 #define FLASH_HP_DF_BLOCK_SIZE            (64)
+/* Data Flash */
+#if defined (BOARD_RA6M4_EK)
+
+#define FLASH_HP_DF_BLOCK_0               0x08000000U /*   64 B:  0x40100000 - 0x4010003F */
+#define FLASH_HP_DF_BLOCK_1               0x08000040U /*   64 B:  0x40100040 - 0x4010007F */
+#define FLASH_HP_DF_BLOCK_2               0x08000080U /*   64 B:  0x40100080 - 0x401000BF */
+#define FLASH_HP_DF_BLOCK_3               0x080000C0U /*   64 B:  0x401000C0 - 0x401000FF */
+
+
+#else
+
 #define FLASH_HP_DF_BLOCK_0               0x40100000U /*   64 B:  0x40100000 - 0x4010003F */
 #define FLASH_HP_DF_BLOCK_1               0x40100040U /*   64 B:  0x40100040 - 0x4010007F */
 #define FLASH_HP_DF_BLOCK_2               0x40100080U /*   64 B:  0x40100080 - 0x401000BF */
 #define FLASH_HP_DF_BLOCK_3               0x401000C0U /*   64 B:  0x401000C0 - 0x401000FF */
+
+#endif
 
 #define BLOCK_SIZE                        (128)
 #define BLOCK_NUM						  (2)

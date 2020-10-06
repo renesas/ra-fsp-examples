@@ -100,14 +100,14 @@ static void sendResponse(const CommandCode commandCode, const uint8_t *pPayload,
 }
 
 /*****************************************************************************************************************
- *  @brief      handleWrappedKeyCreation: function to be called from the command handler function in order to
+ *  @brief      handleHrkKeyCreation: function to be called from the command handler function in order to
  *              ask the MCU to generate the hardware root key pair.
  *  @param[in]  cmdCode: command code
  *  @param[in]  pBuffer: pointer to the buffer holding the public key
  *  @param[in]  numBytes: number of bytes of the public key
  *  @retval     none
  *  ****************************************************************************************************************/
-static void handleWrappedKeyCreation(const CommandCode cmdCode __attribute__((unused)),
+static void handleHrkKeyCreation(const CommandCode cmdCode __attribute__((unused)),
                                  const uint8_t *pBuffer __attribute__((unused)),
                                  const uint32_t numBytes __attribute__((unused)))
 {
@@ -116,7 +116,7 @@ static void handleWrappedKeyCreation(const CommandCode cmdCode __attribute__((un
     uint8_t *devPubKeyPtr = devKey.pubKey;
 
     #ifdef SWO_PRINTF
-        printf("\r\nReceived WRAPPED_KEY_REQUEST request\r\n");
+        printf("\r\n Received WRAPPED_KEY_REQUEST request\r\n");
     #endif
     ret = hwCreatekey(devPubKeyPtr, &(devKey.key_handle));
     if (false == ret)
@@ -138,7 +138,7 @@ static void handleWrappedKeyCreation(const CommandCode cmdCode __attribute__((un
 }
 
 /*****************************************************************************************************************
- *  @brief      handleWrappedKeyCreation: function to be called from the command handler function in order to
+ *  @brief      handleHrkKeyCreation: function to be called from the command handler function in order to
  *              ask the MCU to generate the hardware root key pair.
  *  @param[in]  cmdCode: command code
  *  @param[in]  pBuffer: pointer to the buffer holding the public key
@@ -146,7 +146,7 @@ static void handleWrappedKeyCreation(const CommandCode cmdCode __attribute__((un
  *  @retval     none
  *  ****************************************************************************************************************/
 
-static void handleCertProgram(const CommandCode cmdCode __attribute__((unused)),
+static void handleHrkCertProgram(const CommandCode cmdCode __attribute__((unused)),
                                  const uint8_t *pBuffer, const uint32_t numBytes)
 {
     ResponseCode status = OK;
@@ -154,7 +154,7 @@ static void handleCertProgram(const CommandCode cmdCode __attribute__((unused)),
     const DevCertificatePEM_t *devCertPtr = (const DevCertificatePEM_t *) pBuffer;
 
     #ifdef SWO_PRINTF
-        printf("\r\nWRAPPED_KEY_CERT_PROGRAM request received \r\n");
+        printf("\r\n WRAPPED_KEY_CERT_PROGRAM request received \r\n");
     #endif
     if(0 == numBytes || NULL == pBuffer)
     {
@@ -184,7 +184,7 @@ static void handleCertProgram(const CommandCode cmdCode __attribute__((unused)),
     if (OK == status)
     {
         #ifdef SWO_PRINTF
-                printf("WRAPPED_KEY_CERT_PROGRAM cmd successful !!!\r\n");
+                printf("WRAPPED_KEY_CERT_PROGRAM cmd successful !!!\r\n ");
         #endif
         sendResponse(WRAPPED_KEY_CERT_PROGRAM, &status, 1);
     }
@@ -219,14 +219,14 @@ static void handleCertProgram(const CommandCode cmdCode __attribute__((unused)),
 
 
 /*****************************************************************************************************************
- *  @brief      handleCertChallengeResp: function to be called from the command handler function in order to
+ *  @brief      handleHrkCertChallengeResp: function to be called from the command handler function in order to
  *              ask the MCU to sign the hash buffer and return the signature to the caller.
  *  @param[in]  cmdCode: command code
  *  @param[in]  pBuffer: pointer to the buffer holding the signature
  *  @param[in]  numBytes: number of bytes of the signature
  *  @retval     none
  *  ****************************************************************************************************************/
-static void handleCertChallengeResp(const CommandCode cmdCode __attribute__((unused)),
+static void handleHrkCertChallengeResp(const CommandCode cmdCode __attribute__((unused)),
                                        const uint8_t *pBuffer,
                                        const uint32_t numBytes)
 {
@@ -236,7 +236,7 @@ static void handleCertChallengeResp(const CommandCode cmdCode __attribute__((unu
     EccSignature   sig;
 
     #ifdef SWO_PRINTF
-            printf("\r\nReceived WRAPPED_KEY_CHALLENGE_RESP command\r\n");
+            printf("\r\n Received WRAPPED_KEY_CHALLENGE_RESP command\r\n");
     #endif
     if (sizeof(Sha256) != numBytes)
     {
@@ -276,9 +276,9 @@ static void handleCertChallengeResp(const CommandCode cmdCode __attribute__((unu
 /* Framed protocol command handler callback table */
 #define NUM_COMMAND_HANDLERS 4
 const CommandHandlerConfigEntry commandHandlerTable[NUM_COMMAND_HANDLERS] = {
-    { WRAPPER_KEY_REQUEST,         handleWrappedKeyCreation },
-    { WRAPPED_KEY_CERT_PROGRAM,    handleCertProgram },
-    { WRAPPED_KEY_CHALLENGE_RESP,  handleCertChallengeResp},
+    { WRAPPER_KEY_REQUEST,         handleHrkKeyCreation },
+    { WRAPPED_KEY_CERT_PROGRAM,    handleHrkCertProgram },
+    { WRAPPED_KEY_CHALLENGE_RESP,  handleHrkCertChallengeResp},
 };
 
 /*****************************************************************************************************************

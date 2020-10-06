@@ -37,8 +37,12 @@ extern uint32_t g_dest_data[DEST_DATA_SIZE];
 /* Boolean flag to determine if transfer is complete */
 volatile bool b_is_transfer_complete  = false;
 
-/* LED port pin control register for port1(common for all the boards) */
-static volatile uint32_t *p_ioport_pnctrl_register = &R_PORT1->PCNTR1;
+/* LED port pin control register for port*/
+#if defined (BOARD_RA6M4_EK)
+	static volatile uint32_t *p_ioport_pnctrl_register = &R_PORT4->PCNTR1;
+#else
+	static volatile uint32_t *p_ioport_pnctrl_register = &R_PORT1->PCNTR1;
+#endif
 
 /* GPT counter register */
 static volatile uint32_t *p_gpt_counter_register = &R_GPT0->GTCNT;

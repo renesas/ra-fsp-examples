@@ -32,8 +32,10 @@
 #define CS_PIN  BSP_IO_PORT_01_PIN_03
 #elif defined(BOARD_RA6M3_EK) || defined(BOARD_RA6M3G_EK)
 #define CS_PIN  BSP_IO_PORT_02_PIN_05
-#else
+#elif defined(BOARD_RA2A1_EK)
 #define CS_PIN  BSP_IO_PORT_04_PIN_10
+#else
+#define CS_PIN  BSP_IO_PORT_04_PIN_13
 #endif
 
 /* Function macros to assert and de-assert Slave Select pins */

@@ -29,6 +29,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "hal_data.h"
+
 /* SEGGER RTT and error related headers */
 #include "SEGGER_RTT/SEGGER_RTT.h"
 
@@ -39,7 +40,12 @@
 #define LVL_ERR      (1u)       /* error conditions   */
 
 #define RESET_VALUE             (0x00)
+
+#if defined (BOARD_RA6M3) || defined (BOARD_RA6M3G_EK)
 #define KIT_NAME                "EK-RA6M3"
+#else
+#define KIT_NAME                "EK-RA6M4"
+#endif
 
 #define EP_VERSION              ("1.0")
 #define MODULE_NAME             "Ethernet using FreeRTOS+TCP"

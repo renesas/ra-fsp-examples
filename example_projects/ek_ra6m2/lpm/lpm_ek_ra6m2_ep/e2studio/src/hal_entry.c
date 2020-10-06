@@ -9,7 +9,7 @@ extern bsp_leds_t g_bsp_leds;
 /* Boolean flag to determine user push-button/switch is pressed or not. */
 volatile bool g_user_sw_press                 = false;
 /* This keeps transition position of LPM sequence*/
-static volatile uint8_t g_lpm_transition_pos  = 0;
+static uint8_t g_lpm_transition_pos  = 0;
 
 void R_BSP_WarmStart(bsp_warm_start_event_t event);
 
@@ -22,7 +22,7 @@ void hal_entry(void)
     fsp_err_t err                                   = FSP_SUCCESS;
     /* ctrl and cfg instances of LPM modes; these should be initialized following the order of LPM transition sequence
      * in lpm_ep_transition_sequence_config.h */
-#if defined (BOARD_RA6M3_EK) || defined (BOARD_RA6M3G_EK) || defined (BOARD_RA6M2_EK) || defined (BOARD_RA6M1_EK)
+#if defined (BOARD_RA6M4_EK) || defined (BOARD_RA6M3_EK) || defined (BOARD_RA6M3G_EK) || defined (BOARD_RA6M2_EK) || defined (BOARD_RA6M1_EK)
     lpm_instance_ctrl_t g_lpm_ctrl_instance_ctrls[] = {g_lpm_sleep_ctrl,
                                                        g_lpm_sw_standby_ctrl,
                                                        g_lpm_sw_standby_with_snooze_ctrl,
@@ -140,7 +140,7 @@ void hal_entry(void)
             if (FSP_SUCCESS != err)
             {
                 /* Turn on user LED to indicate error occurred*/
-                R_IOPORT_PinWrite(&g_ioport_ctrl, leds.p_leds[LED_NO_0], BSP_IO_LEVEL_HIGH);
+                R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t)leds.p_leds[LED_NO_0], BSP_IO_LEVEL_HIGH);
                 APP_ERR_TRAP(err);
             }
             else

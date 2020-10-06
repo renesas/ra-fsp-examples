@@ -34,6 +34,8 @@
 #define USER_SW_IRQ_NUMBER        (0x00)
 #elif defined (BOARD_RA4W1_EK)
 #define USER_SW_IRQ_NUMBER        (0x04)
+#elif defined (BOARD_RA6M4_EK)
+#define USER_SW_IRQ_NUMBER        (0x0A)
 #endif
 
 #define EP_INFO    "\r\nThis Example Project demonstrates the functionality of ICU driver.\r\n" \

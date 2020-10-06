@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-/W3C/DTD XHTML 1.0 Transitional/EN"	"http:/www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http:/www.w3.org/1999/xhtml" lang="en"	xml:lang="en"><head><meta http-equiv="Content-Type"	content="text/html;	charset=UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Page-Enter" content="revealtrans(duration=0.01, transition(8))" />
+    <meta http-equiv="Page-Exit" content="revealtrans(duration=0.01, transition(8))" />
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<meta http-equiv="Content-Style-Type" content="text/css">
+	<meta http-equiv="Content-Script-Type" content="text/javascript">
+    <title>EK/RA6M4 Quick Start Example Project | Renesas Electronics</title>
+	<link rel="shortcut	icon" type="image/x-icon" href="images/favicon.ico">
+	<link rel="icon" type="image/x-icon" href="images/favicon.ico">
+	<link rel="stylesheet" type="text/css" href="scripts/base.css">
+	<link rel="stylesheet" type="text/css" href="scripts/structure.css">
+	<link rel="stylesheet" type="text/css" href="scripts/module.css">
+	<link rel="stylesheet" type="text/css" href="scripts/highslide.css">
+	<link rel="stylesheet" type="text/css" href="scripts/hs_custom.css">
+	<script	src="scripts/callFunc.js"></script>
+	<script	src="scripts/dateStamp.js"></script>
+	<!--[if	IE]><script	language="javascript" type="text/javascript" src="scripts/excanvas.min.js"></script><![endif]-->
+
+	<style>
+		.button {
+		  background-color: #1077aa; /* Blue */
+		  border: none;
+		  color: white;
+		  padding: 4px;
+		  text-align: center;
+		  text-decoration: none;
+		  display: inline-block;
+		  font-size: 10px;
+		  margin: 4px 4px;
+		  cursor: pointer;
+		}
+		
+		.button1 {border-radius: 15px;}
+	</style>
+	
+	<script	type="text/javascript">
+	function pageLoad()
+	{
+		// Load the LED content
+		callFunc('ledCheckBox', 'led_ctrl.cgi', 'onLoad');
+		// Start the date stamp
+		DateStampScreenUpdate();
+	}
+	</script>
+</head>
+<body onLoad="pageLoad()">
+<div id="allWrap">
+	<div id="siteHeader">
+	<!-- headerNav -->
+	<div id="headerNav">
+		<div class="corpInfoNav">
+			<ul>
+				<li><a href="http://www.renesas.com/ra/ek-ra6m4">EK-RA6M4 Resources</a></li>
+				<li><a href="http://www.renesas.com/ra/fsp">Flexible Software Package</a></li>
+				<li><a href="http://www.renesas.com/ra/forum">Help & Support</a></li>				
+			</ul>
+		</div>
+	</div>
+	<!-- /headerNav	-->
+	<!-- logoSearch	-->
+	<div id="logoSearch">
+		<div class="companyLogo"><a><img src="images/logo.jpg" width="192" height="32" alt="Renesas"></a></div>
+		<div align="right" class="boxTitle">
+        <h1 class="companyLogoText"><strong></strong></h1> <!Heading>
+		</div>
+	</div>
+	<!-- /logoSearch -->
+	<div id="globalNav">
+		<ul>
+		<li	class="selected"><a	href="index.html">Welcome</a></li>
+		</ul>
+	</div>
+	<!-- contentsHeader	-->
+	<div id="contentsHeader">
+		<div id="contentsTitle">
+			<div class="breadcrumbs">
+			<div class="breadcrumb_link"><font size="4"><strong><b>EK-RA6M4 - Evaluation Kit for RA6M4 MCU Group</b></strong></font></div>
+		</div>
+			<h1><span class="selected"><font size="3">Quick Start Example Project</font></span></h1>
+		</div>
+	</div>
+	<!-- /contentsHeader -->
+	</div>
+	<div id="contentsWrap">
+	<div id="mainBody">
+		<div class="body_container"><div class="body_box">
+	<div class="clear"></div>
+	</div></div>
+	<!-- contentsLeft -->
+	<div id="contentsLeft">
+		<!-- localNav -->
+		<div id="localNav">
+			<ul>
+				<li	class="selected"><font size="3">Web Server</font></li>
+			</ul>
+		</div>
+		<!-- /localNav -->
+		
+		<div class="rcBox_grayBorder">
+			<div class="boxTop"></div>
+			<div class="innerBox">
+			<p class="boxTitle pb05">Display Console</p>
+			<p class="dotLineTop"></p>
+			<div id="realTimeClock">	
+					<p class="boxTitle pb01">Device ID</p>
+					<p style="margin-left: 44px;">  -  <br>  -  </right></p><br>
+					<p class="boxTitle pb01">MCU Temperature (F): --.--</p>			
+					<p class="boxTitle pb01">MCU Temperature (C): --.--</p>			
+					<p class="boxTitle pb01">Blue LED Attributes </p>
+					<p class="boxTitle pb01">Frequency (Hz): 1</p>			
+					<p class="boxTitle pb01">Intensity (%): 10</p>
+	  		    </div>
+            </div>            
+			<div class="boxBottom"></div>
+		</div>
+		
+<div class="rcBox_grayBorder">
+			<div class="boxTop"></div>
+			<div class="innerBox">
+			<p class="boxTitle">Control Panel</p>
+			<p class="dotLineTop"></p>
+			<p class="boxTitle pb01"><button class="button button1" onclick="sw2()">S2</button>  User Switch 2<br></p>
+            <p id="sw2"></p>
+			<p class="boxTitle pb01"><button class="button button1" onclick="sw1()">S1</button>  User Switch 1<br></p>
+            <p id="sw1"></p>
+			</div>
+			<div class="boxBottom"></div>
+		</div>
+
+
+	
+	</div>
+	<!-- contentsLeft -->
+
+	<!-- contentsMain -->
+	<div id="contentsMain">
+
+		<p><table width="58%"  border="0" cellpadding="0">
+            
+	  <tr>
+            <td>
+	<b>Introduction</b>
+
+<p>This embedded web server is running on the RA6M4 MCU and is implemented using Renesas Flexible Software Package, FreeRTOS+TCP, and open source Webio. </p>
+
+<p>This web server demonstrates how users can easily create a professional, user-friendly, and platform-independent user interface for products/applications that require remote control and monitoring.</p>
+
+<br>
+<b>Instructions</b>
+<ol type="1">
+<li>Press the physical user buttons S1 and/or S2 on the EK-RA6M4 board. The blue user LED's intensity and/or frequency will change. The intensity and/or frequency will refresh in the Display Console. This demostrates the communication from the server to the client.</li>
+<li>Press the software user buttons S1 and/or S2 on the web server Control Panel. The blue user LED's intensity and/or frequency will change. The intensity and/or frequency will refresh in the Display Console. This demostrates the communication from the client to the server. </li>
+</ol>
+
+<p>Please refer to the EK-RA6M4 Quick Start Guide and Quick Start Example Project source code for more details. 
+</p>
+
+
+</td>
+            <td><div align="center"><img src="images/EK-RA6M4_Top.jpg" width="500%" height="500%" /></div></td>
+          </tr>
+
+        </table></p>
+
+
+<script>
+function sw1() 
+  {
+     callFunc('ledCheckBox', 'sw1_ctrl.cgi', 'onLoad');
+  }
+  
+function sw2() 
+  {
+     callFunc('ledCheckBox', 'sw2_ctrl.cgi', 'onLoad');
+  }
+  
+</script>
+
+
+<div class="backToTop mt30"><!-- /contentsMain -->
+	<!-- contentsRight --><!-- /contentsRight --> </div>
+	</div>
+	</div>
+	</div>
+	<div id="footer">
+		<p>&copy; 2020 Renesas Electronics Corporation.	All	rights reserved.</p>
+	</div>
+</div>
+</body>

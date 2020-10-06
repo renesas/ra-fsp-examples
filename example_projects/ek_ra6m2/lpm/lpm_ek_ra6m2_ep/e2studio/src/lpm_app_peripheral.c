@@ -35,7 +35,7 @@ fsp_err_t user_led_toggle(bsp_leds_t leds)
 {
     fsp_err_t err = FSP_SUCCESS;
     /* Toggle user LED */
-    err = R_IOPORT_PinWrite(&g_ioport_ctrl, leds.p_leds[LED_NO_0], BSP_IO_LEVEL_HIGH);
+    err = R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t)leds.p_leds[LED_NO_0], BSP_IO_LEVEL_HIGH);
     /* Handle error */
     if (FSP_SUCCESS == err)
     {
@@ -43,7 +43,7 @@ fsp_err_t user_led_toggle(bsp_leds_t leds)
         R_BSP_SoftwareDelay(250, BSP_DELAY_UNITS_MILLISECONDS);
 
         /* Toggle user LED */
-        err = R_IOPORT_PinWrite(&g_ioport_ctrl, leds.p_leds[LED_NO_0], BSP_IO_LEVEL_LOW);
+        err = R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t)leds.p_leds[LED_NO_0], BSP_IO_LEVEL_LOW);
     }
 
     return err;
@@ -59,7 +59,7 @@ fsp_err_t user_led_on(bsp_leds_t leds)
     fsp_err_t err = FSP_SUCCESS;
 
     /* Toggle user LED */
-    err = R_IOPORT_PinWrite(&g_ioport_ctrl, leds.p_leds[LED_NO_0], BSP_IO_LEVEL_HIGH);
+    err = R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t)leds.p_leds[LED_NO_0], BSP_IO_LEVEL_HIGH);
 
     return err;
 }

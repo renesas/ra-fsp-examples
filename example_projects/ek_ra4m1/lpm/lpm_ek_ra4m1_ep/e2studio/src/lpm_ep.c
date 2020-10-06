@@ -37,7 +37,7 @@ fsp_err_t user_clocks_set(void)
 {
     fsp_err_t err = FSP_SUCCESS;
 
-    cgc_clock_t       		 sys_clock_source = {0};
+    cgc_clock_t       		 sys_clock_source = {(cgc_clock_t)0};
     cgc_divider_cfg_t 		 sys_divider_cf   = {0};
     agt_extended_cfg_t const *p_agt1_extend	  = agt_timer1_snooze_trg_source_cfg.p_extend;
 
@@ -219,7 +219,7 @@ fsp_err_t lpm_mode_enter(app_lpm_states_t lpm_mode,lpm_instance_ctrl_t * const p
 
     switch(lpm_mode)
     {
-#if defined (BOARD_RA6M3_EK) || defined (BOARD_RA6M3G_EK) || defined (BOARD_RA6M2_EK) || defined (BOARD_RA6M1_EK)
+#if defined (BOARD_RA6M3_EK) || defined (BOARD_RA6M3G_EK) || defined (BOARD_RA6M2_EK) || defined (BOARD_RA6M1_EK) || defined (BOARD_RA6M4_EK)
         case APP_LPM_DEEP_SW_STANDBY_STATE:
             /* Enter Deep SW standby mode */
             err = R_LPM_LowPowerModeEnter(p_current_ctrl);
