@@ -47,6 +47,8 @@ FSP Configuration
     MPU: Enable or disable Memory Region 3: Disabled
     MPU: Memory Region 3 Start: 0x400DFFFC
     MPU: Memory Region 3 End: 0x400DFFFF
+    ID Code Mode: Unlocked (Ignore ID)
+    ID Code (32 Hex Characters): FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
     
   RA Common
     Main stack size (bytes): 0x1000
@@ -55,11 +57,10 @@ FSP Configuration
     Parameter checking: Enabled
     Assert Failures: Return FSP_ERR_ASSERTION
     Error Log: No Error Log
-    ID Code Mode: Unlocked (Ignore ID)
-    ID Code (32 Hex Characters): FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
     Soft Reset: Disabled
     Main Oscillator Populated: Populated
     PFS Protect: Enabled
+    C Runtime Initialization : Enabled
     Main Oscillator Wait Time: 32768 us
     Main Oscillator Clock Source: Crystal or Resonator
     Subclock Populated: Populated
@@ -134,7 +135,7 @@ FSP Configuration
     AWS IoT Defender Format: AWS_IOT_DEFENDER_FORMAT_CBOR
     AWS IoT Defender Use Long Tag: Enabled
     
-  Module "Secure Sockets TLS Support"
+  Module "Secure Sockets TLS Support [Optional for Wifi]"
   Module "FreeRTOS+TLS"
     Header file to #include in ra_cfg/aws/aws_clientcredential_keys.h: 
     
@@ -142,6 +143,7 @@ FSP Configuration
     Custom iot_pkcs11_config.h: 
     PKCS11 Configuration Max Label Length: 32
     PKCS11 Configuration Max Number Of Objects: 6
+    PKCS11 Configuration Max Number Of Sessions: 10
     Device Private Key For TLS: Device Priv TLS Key
     Device Public Key For TLS: Device Pub TLS Key
     Device Certificate For TLS: Device Cert
@@ -150,7 +152,6 @@ FSP Configuration
     JITP Certificate: JITP Cert
     Default User PIN: 0000
     
-  Module "AWS PKCS11 PAL (Deprecated)"
   Module "Mbed Crypto"
     Hardware Acceleration: TRNG: Enabled
     Hardware Acceleration: Key Format: AES: Plaintext Only
@@ -161,6 +162,8 @@ FSP Configuration
     Hardware Acceleration: Public Key Cryptography (PKC): ECC: Use Hardware
     Hardware Acceleration: Public Key Cryptography (PKC): ECDSA : Use Hardware
     Hardware Acceleration: Public Key Cryptography (PKC): RSA: Use Hardware
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA 3072 Verify: Disabled
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA 4096 Verify: Disabled
     Hardware Acceleration: Secure Crypto Engine Initialization: Enabled
     Platform: MBEDTLS_HAVE_ASM: Undefine
     Platform: MBEDTLS_NO_UDBL_DIVISION: Undefine
@@ -177,6 +180,7 @@ FSP Configuration
     Platform: Alternate: MBEDTLS_PLATFORM_SNPRINTF_ALT: Undefine
     Platform: Alternate: MBEDTLS_PLATFORM_VSNPRINTF_ALT: Undefine
     Platform: Alternate: MBEDTLS_PLATFORM_NV_SEED_ALT: Undefine
+    General: PSA_CRYPTO_SECURE: Undefine
     General: MBEDTLS_DEPRECATED_WARNING: Undefine
     General: MBEDTLS_DEPRECATED_REMOVED: Undefine
     General: MBEDTLS_CHECK_PARAMS: Undefine
@@ -295,6 +299,7 @@ FSP Configuration
     Cipher: MBEDTLS_CIPHER_C: Define
     Message Authentication Code (MAC): MBEDTLS_CMAC_C: Undefine
     RNG: MBEDTLS_CTR_DRBG_C: Define
+    RNG: MBEDTLS_CTR_DRBG_C_ALT: Define
     Cipher: MBEDTLS_DES_C: Undefine
     Public Key Cryptography (PKC): DHM: MBEDTLS_DHM_C: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECDH_C: Define
@@ -426,11 +431,6 @@ FSP Configuration
     
   Module "Mbed Crypto HW Acceleration"
   Module "SCE7"
-  Module "Flash Driver on r_flash_hp"
-    Parameter Checking: Default (BSP)
-    Code Flash Programming Enable: Disabled
-    Data Flash Programming Enable: Enabled
-    
   Module "FreeRTOS+Crypto"
   Module "MbedTLS"
     General: MBEDTLS_CHECK_PARAMS_ASSERT: Undefine
@@ -653,25 +653,15 @@ FSP Configuration
     Priority: 1
     Thread Context: NULL
     Memory Allocation: Static
+    Allocate Secure Context: Enable
     
     Instance "Secure Sockets on WiFi"
       Instance "Secure Sockets Common"
         Instance "AWS IoT Common"
           Instance "AWS Client Credentials"
-      Instance "Secure Sockets TLS Support"
+      Instance "Secure Sockets TLS Support [Optional for Wifi]"
         Instance "FreeRTOS+TLS"
           Instance "AWS PKCS11 to MbedTLS3"
-            Instance "AWS PKCS11 PAL (Deprecated)"
-              Instance "Mbed Crypto"
-                Instance "Mbed Crypto HW Acceleration"
-                  Instance "SCE7"
-              Instance "g_flash0 Flash Driver on r_flash_hp"
-                Name: g_flash0
-                Data Flash Background Operation: Disabled
-                Callback: NULL
-                Flash Ready Interrupt Priority: Disabled
-                Flash Error Interrupt Priority: Disabled
-                
             Instance "FreeRTOS+Crypto"
               Instance "MbedTLS"
                 Instance "Mbed Crypto"

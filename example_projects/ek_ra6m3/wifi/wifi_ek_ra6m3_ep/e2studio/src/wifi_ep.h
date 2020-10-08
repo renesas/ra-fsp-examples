@@ -82,6 +82,13 @@
 #define INDEX_THREE     (3U)
 #define IP_BUFF_LEN     (4U)
 
+/* user LED*/
+#if defined (BOARD_RA6M4_EK)
+#define USER_LED   (BSP_IO_PORT_04_PIN_00)
+#else
+#define USER_LED   (BSP_IO_PORT_04_PIN_03)
+#endif
+
 /* Structure for WiFi parameters */
 typedef struct
 {

@@ -307,7 +307,7 @@ void wifi_thread_entry(void *pvParameters)
             {
                 APP_PRINT("\r\nReceived: %s", g_socket.recv_buff);
                 APP_PRINT("\r\nUser LED ON.\r\n");
-                R_IOPORT_PinWrite(&g_ioport_ctrl, BSP_IO_PORT_04_PIN_03, BSP_IO_LEVEL_HIGH);
+                R_IOPORT_PinWrite(&g_ioport_ctrl, USER_LED, BSP_IO_LEVEL_HIGH);
 
                 /* Sending acknowledgement to server */
                 strcpy((char *) g_socket.send_buff, "Success");
@@ -327,7 +327,7 @@ void wifi_thread_entry(void *pvParameters)
             {
                 APP_PRINT("\r\nReceived: %s", g_socket.recv_buff);
                 APP_PRINT("\r\nUser LED OFF.\r\n");
-                R_IOPORT_PinWrite(&g_ioport_ctrl, BSP_IO_PORT_04_PIN_03, BSP_IO_LEVEL_LOW);
+                R_IOPORT_PinWrite(&g_ioport_ctrl, USER_LED, BSP_IO_LEVEL_LOW);
 
                 /* Sending acknowledgement to server */
                 strcpy((char *) g_socket.send_buff, "Success");
