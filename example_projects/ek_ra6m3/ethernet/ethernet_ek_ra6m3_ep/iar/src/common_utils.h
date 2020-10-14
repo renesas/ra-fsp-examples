@@ -41,7 +41,7 @@
 
 #define RESET_VALUE             (0x00)
 
-#if defined (BOARD_RA6M3) || defined (BOARD_RA6M3G_EK)
+#if defined (BOARD_RA6M3_EK) || defined (BOARD_RA6M3G_EK)
 #define KIT_NAME                "EK-RA6M3"
 #else
 #define KIT_NAME                "EK-RA6M4"
