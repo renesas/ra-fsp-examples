@@ -530,6 +530,7 @@ void R_BLE_SERVS_VsCb(uint16_t type, ble_status_t result, st_ble_vs_evt_data_t *
 ble_status_t R_BLE_SERVS_Init(void)
 {
     R_BLE_VS_StartTxFlowEvtNtf();
+    gs_num_of_servs = 0;
 
     return BLE_SUCCESS;
 }
@@ -572,10 +573,6 @@ ble_status_t R_BLE_SERVS_SendHdlVal(const st_ble_servs_char_info_t *p_attr, uint
     /* Check CCCD */
     uint16_t cccd = 0;
     R_BLE_SERVS_GetDesc(p_attr->pp_descs[0], conn_hdl, &cccd);
-    if(0 == cccd)
-    {
-        return BLE_ERR_INVALID_OPERATION;
-    }
 
     void *p_gatt_value = malloc(p_attr->db_size);
 
@@ -594,13 +591,17 @@ ble_status_t R_BLE_SERVS_SendHdlVal(const st_ble_servs_char_info_t *p_attr, uint
 
     if (BLE_SUCCESS == ret)
     {
-        if (is_notify)
+        if ((is_notify == true) && (cccd & BLE_GATTS_CLI_CNFG_NOTIFICATION))
         {
             ret = R_BLE_GATTS_Notification(conn_hdl, &hdl_val_data);
         }
-        else
+        else if ((is_notify == false) && (cccd & BLE_GATTS_CLI_CNFG_INDICATION))
         {
             ret = R_BLE_GATTS_Indication(conn_hdl, &hdl_val_data);
+        }
+        else 
+        {
+            ret = BLE_ERR_INVALID_OPERATION;
         }
     }
 

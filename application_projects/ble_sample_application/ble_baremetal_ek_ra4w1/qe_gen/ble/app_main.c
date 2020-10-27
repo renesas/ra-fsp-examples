@@ -61,14 +61,6 @@ EventGroupHandle_t  g_ble_event_group_handle;
  User macro definitions
 *******************************************************************************/
 /* Start user code for macro definitions. Do not edit comment generated here */
-#define BLE_CFG_BOARD_TYPE 1
-
-#define BLE_BOARD_SW1_PIN   BSP_IO_PORT_04_PIN_02
-#undef  BLE_BOARD_SW2_PIN
-#define BLE_BOARD_SW1_IRQ   ELC_EVENT_ICU_IRQ4
-#undef  BLE_BOARD_SW2_IRQ
-#define BLE_BOARD_LED1_PIN  BSP_IO_PORT_01_PIN_06
-#define BLE_BOARD_LED2_PIN  BSP_IO_PORT_04_PIN_04
 /* End user code. Do not edit comment generated here */
 
 /******************************************************************************
@@ -86,34 +78,8 @@ void app_main(void);
  User function prototype declarations
 *******************************************************************************/
 /* Start user code for function prototype declarations. Do not edit comment generated here */
-typedef enum
-{
-    BLE_BOARD_LED1, /**< LED1 */
-    BLE_BOARD_LED2, /**< LED2 */
-
-    BLE_BOARD_LED_MAX
-} e_ble_led_t;
-
-/*******************************************************************************************************************//**
- * @brief Switch number.
-***********************************************************************************************************************/
-typedef enum
-{
-    BLE_BOARD_SW1, /**< Switch1 */
-    BLE_BOARD_SW2, /**< Switch2 */
-
-    BLE_BOARD_SW_MAX
-} e_ble_sw_t;
-
-
-typedef void (*ble_sw_cb_t)(void);
-static void timer_update();
+static void timer_update(void);
 static void sw_cb(void);
-static void R_BLE_BOARD_Init(void);
-static void R_BLE_BOARD_ToggleLEDState(e_ble_led_t led);
-static void R_BLE_BOARD_SetLEDState(e_ble_led_t led, bool onoff);
-static void R_BLE_BOARD_RegisterSwitchCb(e_ble_sw_t sw, ble_sw_cb_t cb);
-static ble_sw_cb_t gs_sw_cb[BLE_BOARD_SW_MAX];
 /* End user code. Do not edit comment generated here */
 
 /******************************************************************************
@@ -125,7 +91,7 @@ static uint8_t gs_advertising_data[] =
     /* Flags */
     0x02, /**< Data Size */
     0x01, /**< Data Type */
-    ( 0x1a ), /**< Data Value */
+    ( 0x06 ), /**< Data Value */
 
     /* Shortened Local Name */
     0x05, /**< Data Size */
@@ -145,7 +111,7 @@ static uint8_t gs_scan_response_data[] =
 ble_abs_legacy_advertising_parameter_t g_ble_advertising_parameter =
 {
  .p_peer_address             = NULL,       ///< Peer address.
- .slow_advertising_interval  = 0x00000060, ///< Slow advertising interval. 60.0(ms)
+ .slow_advertising_interval  = 0x00000640, ///< Slow advertising interval. 1,000.0(ms)
  .slow_advertising_period    = 0x0000,     ///< Slow advertising period.
  .p_advertising_data         = gs_advertising_data,             ///< Advertising data. If p_advertising_data is specified as NULL, advertising data is not set.
  .advertising_data_length    = ARRAY_SIZE(gs_advertising_data), ///< Advertising data length (in bytes).
@@ -202,6 +168,18 @@ uint16_t g_conn_hdl;
 /* Start user code for global variables. Do not edit comment generated here */
 static bool g_interval_update_flag = true;
 static uint8_t g_current_blinky_interval = 0x88;
+static bool g_led_blink_active = false;
+
+st_ble_gap_conn_param_t g_conn_updt_param =
+{
+ .conn_intv_min = 0x0050,
+ .conn_intv_max = 0x0050,
+ .conn_latency = 0x0000,
+ .sup_to = 0x0C80,
+ .min_ce_length = 0x0000,
+ .max_ce_length = 0x0000,
+};
+
 /* End user code. Do not edit comment generated here */
 
 /******************************************************************************
@@ -239,6 +217,12 @@ void gap_cb(uint16_t type, ble_status_t result, st_ble_evt_data_t *p_data)
                 /* Store connection handle */
                 st_ble_gap_conn_evt_t *p_gap_conn_evt_param = (st_ble_gap_conn_evt_t *)p_data->p_param;
                 g_conn_hdl = p_gap_conn_evt_param->conn_hdl;
+
+                /* Send Connection update to ensure RF Low Power */
+                R_BLE_GAP_UpdConn(p_gap_conn_evt_param->conn_hdl,
+                                    BLE_GAP_CONN_UPD_MODE_REQ,
+                                    BLE_GAP_CONN_UPD_ACCEPT,
+                                    &g_conn_updt_param);
             }
             else
             {
@@ -249,6 +233,10 @@ void gap_cb(uint16_t type, ble_status_t result, st_ble_evt_data_t *p_data)
 
         case BLE_GAP_EVENT_DISCONN_IND:
         {
+            /* LED OFF */
+            g_ioport.p_api->pinWrite(g_ioport.p_ctrl, BSP_IO_PORT_04_PIN_04, BSP_IO_LEVEL_HIGH);
+            g_led_blink_active = false;
+
             /* Restart advertising when disconnected */
             g_conn_hdl = BLE_GAP_INVALID_CONN_HDL;
             RM_BLE_ABS_StartLegacyAdvertising(&g_ble_abs0_ctrl, &g_ble_advertising_parameter);
@@ -380,25 +368,34 @@ static void lss_cb(uint16_t type, ble_status_t result, st_ble_servs_evt_data_t *
 {
 /* Hint: Input common process of callback function such as variable definitions */
 /* Start user code for LED Switch Service Server callback function common process. Do not edit comment generated here */
+    FSP_PARAMETER_NOT_USED(result);
 /* End user code. Do not edit comment generated here */
 
     switch(type)
     {
 /* Hint: Add cases of LED Switch Service server events defined in e_ble_lss_event_t */
 /* Start user code for LED Switch Service Server callback function event process. Do not edit comment generated here */
-    	case BLE_LSS_EVENT_BLINK_RATE_WRITE_REQ:
+        case BLE_LSS_EVENT_BLINK_RATE_WRITE_REQ:
         {
             g_current_blinky_interval = *(uint8_t *)p_data->p_param;
 
             if (g_current_blinky_interval == 0x00)
             {
-                R_BLE_BOARD_SetLEDState(BLE_BOARD_LED1, true);  //  LED OFF
+                /* LED OFF */
+                g_ioport.p_api->pinWrite(g_ioport.p_ctrl, BSP_IO_PORT_01_PIN_06, BSP_IO_LEVEL_HIGH);
+                g_led_blink_active = false;
             }
             else if (g_current_blinky_interval == 0xFF)
             {
-                R_BLE_BOARD_SetLEDState(BLE_BOARD_LED1, false);  //  LED ON
+                /* LED ON */
+                g_ioport.p_api->pinWrite(g_ioport.p_ctrl, BSP_IO_PORT_01_PIN_06, BSP_IO_LEVEL_LOW);
+                g_led_blink_active = false;
             }
-            g_interval_update_flag = true;
+            else
+            {
+                g_led_blink_active = true;
+                g_interval_update_flag = true;
+            }
         } break;
 
         default:
@@ -474,13 +471,22 @@ void app_main(void)
     assert(g_ble_event_group_handle);
 #endif
 
+    /* Initialize Low Power Module */
+    g_lpm0.p_api->open(g_lpm0.p_ctrl, g_lpm0.p_cfg);
+
     /* Initialize BLE and profiles */
     ble_init();
 
 /* Hint: Input process that should be done before main loop such as calling initial function or variable definitions */
 /* Start user code for process before main loop. Do not edit comment generated here */
-   R_BLE_BOARD_Init();
-   R_BLE_BOARD_RegisterSwitchCb(BLE_BOARD_SW1, sw_cb);
+
+    /* Open IO port */
+    g_ioport.p_api->open(g_ioport.p_ctrl, g_ioport.p_cfg);
+
+    /* Enable Interrupt (push switch) */
+    g_ble_sw_irq.p_api->open(g_ble_sw_irq.p_ctrl, g_ble_sw_irq.p_cfg);
+    g_ble_sw_irq.p_api->enable(g_ble_sw_irq.p_ctrl);
+
 /* End user code. Do not edit comment generated here */
 
     /* main loop */
@@ -504,12 +510,43 @@ void app_main(void)
 
 /* Hint: Input process that should be done during main loop such as calling processing functions */
 /* Start user code for process during main loop. Do not edit comment generated here */
-	    timer_update();
+
+        /* Disable IRQ */
+        __disable_irq();
+
+        /* Check whether there are executable BLE task or not */
+        /* LED does not blink */
+        if (0 != R_BLE_IsTaskFree() && false == g_led_blink_active)
+        {
+            /* There are no executable BLE task */
+            /* Enter low power mode */
+            g_lpm0.p_api->lowPowerModeEnter(g_lpm0.p_ctrl);
+
+            /* Enable interrupt for processing interrupt handler after wake up */
+            __enable_irq();
+        }
+        else
+        {
+            /* There is BLE related task or LED blinking */
+            __enable_irq();
+        }
+        timer_update();
 /* End user code. Do not edit comment generated here */
     }
 
 /* Hint: Input process that should be done after main loop such as calling closing functions */
 /* Start user code for process after main loop. Do not edit comment generated here */
+
+    /* Close Low Power Module */
+    g_lpm0.p_api->close(g_lpm0.p_ctrl);
+
+    /* Disable Interrupt (push switch) */
+    g_ble_sw_irq.p_api->disable(g_ble_sw_irq.p_ctrl);
+    g_ble_sw_irq.p_api->close(g_ble_sw_irq.p_ctrl);
+
+    /* Close IO port */
+    g_ioport.p_api->close(g_ioport.p_ctrl);
+
 /* End user code. Do not edit comment generated here */
 
     /* Terminate BLE */
@@ -521,164 +558,53 @@ void app_main(void)
 *******************************************************************************/
 /* Start user code for function definitions. Do not edit comment generated here */
 /******************************************************************************
- * Function Name: timer_cb
- * Description  : Callback function for timer for LED blink.
- * Arguments    : uint32_t timer_hdl -
- *                  Timer handle identifying a expired timer.
+ * Function Name: timer_update
+ * Description  : Decrement counter for measuring LED blink interval.
+ * Arguments    : none
  * Return Value : none
  ******************************************************************************/
-static void timer_update()
+static void timer_update(void)
 {
     static uint32_t remain_time;
+    bsp_io_level_t  level;
 
     if(true == g_interval_update_flag){
-        remain_time = 1 + (uint32_t) g_current_blinky_interval * 50000 / 0xFF;
+        remain_time = (uint32_t) g_current_blinky_interval * (uint32_t)(BSP_HOCO_HZ / 5000);
         g_interval_update_flag = false;
     }else if ((0 == remain_time)&&(0 != g_current_blinky_interval)&&(0xFF != g_current_blinky_interval))
     {
-        R_BLE_BOARD_ToggleLEDState (BLE_BOARD_LED1);
-        remain_time = 1 + (uint32_t) g_current_blinky_interval * 50000 / 0xFF;
+        /* Toggle LED */
+        g_ioport.p_api->pinRead(g_ioport.p_ctrl, BSP_IO_PORT_01_PIN_06, &level);
+        g_ioport.p_api->pinWrite(g_ioport.p_ctrl, BSP_IO_PORT_01_PIN_06,
+                                 (level == BSP_IO_LEVEL_HIGH)   ?   BSP_IO_LEVEL_LOW : BSP_IO_LEVEL_HIGH);
+
+        remain_time = (uint32_t) g_current_blinky_interval * (uint32_t)(BSP_HOCO_HZ / 5000);
     }
 
     remain_time--;
-
 }
 
+/******************************************************************************
+ * Function Name: sw_cb
+ * Description  : Send notification when pushing switch.
+ * Arguments    : none
+ * Return Value : none
+ ******************************************************************************/
 static void sw_cb(void)
 {
     uint8_t state = 1;
-
-#if (BLE_CFG_BOARD_TYPE == 1)
-#endif
     R_BLE_LSS_NotifySwitchState(g_conn_hdl, &state);
 }
 
-static void R_BLE_BOARD_SetLEDState(e_ble_led_t led, bool onoff)
-{
-    FSP_PARAMETER_NOT_USED (onoff);
-
-    if (led == BLE_BOARD_LED1)
-    {
-#ifdef BLE_BOARD_LED1_PIN
-        g_ioport.p_api->open(g_ioport.p_ctrl, g_ioport.p_cfg);
-#if (BLE_CFG_BOARD_TYPE == 1)
-        g_ioport.p_api->pinWrite(g_ioport.p_ctrl, BLE_BOARD_LED1_PIN, (onoff)   ?   BSP_IO_LEVEL_HIGH : BSP_IO_LEVEL_LOW);
-#else
-        g_ioport.p_api->pinWrite(g_ioport.p_ctrl, BLE_BOARD_LED1_PIN, (onoff)   ?   BSP_IO_LEVEL_LOW : BSP_IO_LEVEL_HIGH);
-#endif
-        g_ioport.p_api->close(g_ioport.p_ctrl);
-#endif /* BLE_BOARD_LED1_PIN */
-    }
-    else if (led == BLE_BOARD_LED2)
-    {
-#ifdef BLE_BOARD_LED2_PIN
-        g_ioport.p_api->open(g_ioport.p_ctrl, g_ioport.p_cfg);
-#if (BLE_CFG_BOARD_TYPE == 1)
-        g_ioport.p_api->pinWrite(g_ioport.p_ctrl, BLE_BOARD_LED2_PIN, (onoff)   ?   BSP_IO_LEVEL_HIGH : BSP_IO_LEVEL_LOW);
-#else
-        g_ioport.p_api->pinWrite(g_ioport.p_ctrl, BLE_BOARD_LED2_PIN, (onoff)   ?   BSP_IO_LEVEL_LOW : BSP_IO_LEVEL_HIGH);
-#endif
-        g_ioport.p_api->close(g_ioport.p_ctrl);
-#endif /* BLE_BOARD_LED1_PIN */
-    }
-}
-
-static void R_BLE_BOARD_ToggleLEDState(e_ble_led_t led)
-{
-    bsp_io_level_t    level;
-
-    if (led == BLE_BOARD_LED1)
-    {
-#ifdef BLE_BOARD_LED1_PIN
-        g_ioport.p_api->open(g_ioport.p_ctrl, g_ioport.p_cfg);
-        g_ioport.p_api->pinRead(g_ioport.p_ctrl, BLE_BOARD_LED1_PIN, &level);
-        g_ioport.p_api->pinWrite(g_ioport.p_ctrl, BLE_BOARD_LED1_PIN, (level == BSP_IO_LEVEL_HIGH)   ?   BSP_IO_LEVEL_LOW : BSP_IO_LEVEL_HIGH);
-        g_ioport.p_api->close(g_ioport.p_ctrl);
-#endif /* BLE_BOARD_LED1_PIN */
-    }
-    else if (led == BLE_BOARD_LED2)
-    {
-#ifdef BLE_BOARD_LED2_PIN
-        g_ioport.p_api->open(g_ioport.p_ctrl, g_ioport.p_cfg);
-        g_ioport.p_api->pinRead(g_ioport.p_ctrl, BLE_BOARD_LED2_PIN, &level);
-        g_ioport.p_api->pinWrite(g_ioport.p_ctrl, BLE_BOARD_LED2_PIN, (level == BSP_IO_LEVEL_HIGH)   ?   BSP_IO_LEVEL_LOW : BSP_IO_LEVEL_HIGH);
-        g_ioport.p_api->close(g_ioport.p_ctrl);
-#endif /* BLE_BOARD_LED1_PIN */
-    }
-}
-
-static void R_BLE_BOARD_RegisterSwitchCb(e_ble_sw_t sw, ble_sw_cb_t cb)
-{
-    FSP_PARAMETER_NOT_USED (cb);
-
-    if (sw == BLE_BOARD_SW1)
-    {
-#ifdef BLE_BOARD_SW1_IRQ
-        gs_sw_cb[0] = cb;
-        g_ble_sw_irq.p_api->open(g_ble_sw_irq.p_ctrl, g_ble_sw_irq.p_cfg);
-        g_ble_sw_irq.p_api->enable(g_ble_sw_irq.p_ctrl);
-#endif
-    }
-    else if (sw == BLE_BOARD_SW2)
-    {
-#ifdef BLE_BOARD_SW2_IRQ
-        R_BSP_GroupIrqWrite(BSP_GRP_IRQ_NMI_PIN, cb);
-        R_ICU->NMIER_b.NMIEN = 1;
-#endif
-    }
-}
-
-static void irq_pin_set(void)
-{
-    g_ioport.p_api->open(g_ioport.p_ctrl, g_ioport.p_cfg);
-
-#if (BLE_CFG_BOARD_TYPE == 0)           /* for customer board */
-
-#elif (BLE_CFG_BOARD_TYPE == 1)         /* Promotion board */
-    g_ioport.p_api->pinCfg(g_ioport.p_ctrl, BLE_BOARD_SW1_PIN,
-                           IOPORT_CFG_PORT_DIRECTION_INPUT|IOPORT_CFG_IRQ_ENABLE|IOPORT_CFG_EVENT_FALLING_EDGE|IOPORT_CFG_PULLUP_ENABLE);
-
-#elif (BLE_CFG_BOARD_TYPE == 2)         /* Reserve */
-
-#elif (BLE_CFG_BOARD_TYPE == 3)         /* RF Evaluation board */
-    g_ioport.p_api->pinCfg(g_ioport.p_ctrl, BLE_BOARD_SW1_PIN,
-                           IOPORT_CFG_PORT_DIRECTION_INPUT|IOPORT_CFG_IRQ_ENABLE|IOPORT_CFG_EVENT_FALLING_EDGE|IOPORT_CFG_PULLUP_ENABLE);
-    g_ioport.p_api->pinCfg(g_ioport.p_ctrl, BLE_BOARD_SW2_PIN,
-                           IOPORT_CFG_PORT_DIRECTION_INPUT|IOPORT_CFG_IRQ_ENABLE|IOPORT_CFG_EVENT_FALLING_EDGE|IOPORT_CFG_PULLUP_ENABLE);
-
-#endif                                  /* BLE_CFG_BOARD_TYPE == x */
-
-    g_ioport.p_api->close(g_ioport.p_ctrl);
-}
-
-static void R_BLE_BOARD_Init(void)
-{
-    g_ioport.p_api->open(g_ioport.p_ctrl, g_ioport.p_cfg);
-
-#ifdef BLE_BOARD_LED1_PIN
-    g_ioport.p_api->pinCfg(g_ioport.p_ctrl, BLE_BOARD_LED1_PIN,
-                           IOPORT_CFG_PORT_DIRECTION_OUTPUT|IOPORT_CFG_PORT_OUTPUT_HIGH);
-#endif
-#if BLE_BOARD_LED2_PIN
-    g_ioport.p_api->pinCfg(g_ioport.p_ctrl, BLE_BOARD_LED2_PIN,
-                           IOPORT_CFG_PORT_DIRECTION_OUTPUT|IOPORT_CFG_PORT_OUTPUT_LOW);
-#endif
-
-    g_ioport.p_api->close(g_ioport.p_ctrl);
-
-    irq_pin_set();
-
-    /* Set wake up trigger */
-#if (BLE_CFG_BOARD_TYPE == 1)   /* Promotion board */
-#elif (BLE_CFG_BOARD_TYPE == 2) /* RSSK */
-#elif (BLE_CFG_BOARD_TYPE == 3) /* Evaluation boars */
-    R_BLE_BOARD_RegisterSwitchCb(BLE_BOARD_SW2, ble_sw_cb);
-#endif
-}
-
+/******************************************************************************
+ * Function Name: Callback_ble_sw_irq
+ * Description  : Callback for push switch interrupt.
+ * Arguments    : external_irq_callback_args_t *p_args
+ * Return Value : none
+ ******************************************************************************/
 void Callback_ble_sw_irq(external_irq_callback_args_t *p_args)
 {
     FSP_PARAMETER_NOT_USED(p_args);
-    gs_sw_cb[0]();
+    R_BLE_SetEvent(sw_cb);
 }
 /* End user code. Do not edit comment generated here */
