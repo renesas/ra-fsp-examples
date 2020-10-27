@@ -28,7 +28,7 @@
  **********************************************************************************************************************/
 
 /* Slave Select pin for all boards to enable data transfer */
-#if defined(BOARD_RA6M2_EK) || defined(BOARD_RA6M1_EK) || defined(BOARD_RA4M1_EK)
+#if defined(BOARD_RA6M2_EK) || defined(BOARD_RA6M1_EK) || defined(BOARD_RA4M1_EK) || defined(BOARD_RA6T1_RSSK)
 #define CS_PIN  BSP_IO_PORT_01_PIN_03
 #elif defined(BOARD_RA6M3_EK) || defined(BOARD_RA6M3G_EK)
 #define CS_PIN  BSP_IO_PORT_02_PIN_05

@@ -42,7 +42,7 @@
 *                                                                    *
 **********************************************************************
 *                                                                    *
-*       RTT version: 6.86                                           *
+*       RTT version: 6.82d                                           *
 *                                                                    *
 **********************************************************************
 
@@ -51,7 +51,7 @@ File    : SEGGER_RTT.h
 Purpose : Implementation of SEGGER real-time transfer which allows
           real-time communication on targets which support debugger 
           memory accesses while the CPU is running.
-Revision: $Rev: 20869 $
+Revision: $Rev: 20159 $
 ----------------------------------------------------------------------
 */
 
@@ -59,6 +59,8 @@ Revision: $Rev: 20869 $
 #define SEGGER_RTT_H
 
 #include "SEGGER_RTT_Conf.h"
+
+
 
 /*********************************************************************
 *
@@ -71,12 +73,8 @@ Revision: $Rev: 20869 $
     #define _CC_HAS_RTT_ASM_SUPPORT 1
   #elif (defined __CROSSWORKS_ARM)              // Rowley Crossworks
     #define _CC_HAS_RTT_ASM_SUPPORT 1
-  #elif (defined __ARMCC_VERSION)               // ARM compiler
-		#if (__ARMCC_VERSION >= 6000000)						// ARM compiler V6.0 and later is clang based
-      #define _CC_HAS_RTT_ASM_SUPPORT 1
-		#else
-      #define _CC_HAS_RTT_ASM_SUPPORT 0
-		#endif
+	#elif (defined __ARMCC_VERSION)
+	  #define _CC_HAS_RTT_ASM_SUPPORT 0
   #elif (defined __GNUC__)                      // GCC
     #define _CC_HAS_RTT_ASM_SUPPORT 1
   #elif (defined __clang__)                     // Clang compiler
@@ -90,11 +88,6 @@ Revision: $Rev: 20869 $
     //
     // IAR assembler / compiler
     //
-    #if (__VER__ < 6300000)
-      #define VOLATILE
-    #else
-      #define VOLATILE volatile
-    #endif
     #if (defined __ARM7M__)                            // Needed for old versions that do not know the define yet
       #if (__CORE__ == __ARM7M__)                      // Cortex-M3
         #define _CORE_HAS_RTT_ASM_SUPPORT 1
@@ -104,21 +97,21 @@ Revision: $Rev: 20869 $
       #if (__CORE__ == __ARM7EM__)                     // Cortex-M4/M7
         #define _CORE_HAS_RTT_ASM_SUPPORT 1
         #define _CORE_NEEDS_DMB 1
-        #define RTT__DMB() asm VOLATILE ("DMB");
+        #define RTT__DMB() asm("DMB");
       #endif
     #endif
     #if (defined __ARM8M_BASELINE__)                   // Needed for old versions that do not know the define yet
       #if (__CORE__ == __ARM8M_BASELINE__)             // Cortex-M23
-        #define _CORE_HAS_RTT_ASM_SUPPORT 0
+        #define _CORE_HAS_RTT_ASM_SUPPORT 1
         #define _CORE_NEEDS_DMB 1
-        #define RTT__DMB() asm VOLATILE ("DMB");
+        #define RTT__DMB() asm("DMB");
       #endif
     #endif
     #if (defined __ARM8M_MAINLINE__)                   // Needed for old versions that do not know the define yet
       #if (__CORE__ == __ARM8M_MAINLINE__)             // Cortex-M33
         #define _CORE_HAS_RTT_ASM_SUPPORT 1
         #define _CORE_NEEDS_DMB 1
-        #define RTT__DMB() asm VOLATILE ("DMB");
+        #define RTT__DMB() asm("DMB");
       #endif
     #endif
   #else
@@ -132,7 +125,7 @@ Revision: $Rev: 20869 $
       #define _CORE_NEEDS_DMB           1
       #define RTT__DMB() __asm volatile ("dmb\n" : : :);
     #elif (defined __ARM_ARCH_8M_BASE__)          // Cortex-M23
-      #define _CORE_HAS_RTT_ASM_SUPPORT 0
+      #define _CORE_HAS_RTT_ASM_SUPPORT 1
       #define _CORE_NEEDS_DMB           1
       #define RTT__DMB() __asm volatile ("dmb\n" : : :);
     #elif (defined __ARM_ARCH_8M_MAIN__)          // Cortex-M33
@@ -173,23 +166,6 @@ Revision: $Rev: 20869 $
   #endif
 #endif
 
-#ifndef SEGGER_RTT_CPU_CACHE_LINE_SIZE
-  #define SEGGER_RTT_CPU_CACHE_LINE_SIZE (0)   // On most target systems where RTT is used, we do not have a CPU cache, therefore 0 is a good default here
-#endif
-
-#ifndef SEGGER_RTT_UNCACHED_OFF
-  #if SEGGER_RTT_CPU_CACHE_LINE_SIZE
-    #error "SEGGER_RTT_UNCACHED_OFF must be defined when setting SEGGER_RTT_CPU_CACHE_LINE_SIZE != 0"
-  #else
-    #define SEGGER_RTT_UNCACHED_OFF (0)
-  #endif
-#endif
-#if RTT_USE_ASM
-  #if SEGGER_RTT_CPU_CACHE_LINE_SIZE
-    #error "RTT_USE_ASM is not available if SEGGER_RTT_CPU_CACHE_LINE_SIZE != 0"
-  #endif
-#endif
-
 #ifndef SEGGER_RTT_ASM  // defined when SEGGER_RTT.h is included from assembly file
 #include <stdlib.h>
 #include <stdarg.h>
@@ -200,21 +176,6 @@ Revision: $Rev: 20869 $
 *
 **********************************************************************
 */
-
-//
-// Determine how much we must pad the control block to make it a multiple of a cache line in size
-// Assuming: U8 = 1B
-//           U16 = 2B
-//           U32 = 4B
-//           U8/U16/U32* = 4B
-//
-#if SEGGER_RTT_CPU_CACHE_LINE_SIZE    // Avoid division by zero in case we do not have any cache
-  #define SEGGER_RTT__ROUND_UP_2_CACHE_LINE_SIZE(NumBytes) (((NumBytes + SEGGER_RTT_CPU_CACHE_LINE_SIZE - 1) / SEGGER_RTT_CPU_CACHE_LINE_SIZE) * SEGGER_RTT_CPU_CACHE_LINE_SIZE)
-#else
-  #define SEGGER_RTT__ROUND_UP_2_CACHE_LINE_SIZE(NumBytes) (NumBytes)
-#endif
-#define SEGGER_RTT__CB_SIZE                              (16 + 4 + 4 + (SEGGER_RTT_MAX_NUM_UP_BUFFERS * 24) + (SEGGER_RTT_MAX_NUM_DOWN_BUFFERS * 24))
-#define SEGGER_RTT__CB_PADDING                           (SEGGER_RTT__ROUND_UP_2_CACHE_LINE_SIZE(SEGGER_RTT__CB_SIZE) - SEGGER_RTT__CB_SIZE)
 
 /*********************************************************************
 *
@@ -260,9 +221,6 @@ typedef struct {
   int                     MaxNumDownBuffers;                        // Initialized to SEGGER_RTT_MAX_NUM_DOWN_BUFFERS (type. 2)
   SEGGER_RTT_BUFFER_UP    aUp[SEGGER_RTT_MAX_NUM_UP_BUFFERS];       // Up buffers, transferring information up from target via debug probe to host
   SEGGER_RTT_BUFFER_DOWN  aDown[SEGGER_RTT_MAX_NUM_DOWN_BUFFERS];   // Down buffers, transferring information down from host via debug probe to target
-#if SEGGER_RTT__CB_PADDING
-  unsigned char           aDummy[SEGGER_RTT__CB_PADDING];
-#endif
 } SEGGER_RTT_CB;
 
 /*********************************************************************
@@ -312,7 +270,7 @@ unsigned     SEGGER_RTT_GetBytesInBuffer        (unsigned BufferIndex);
 //
 // Function macro for performance optimization
 //
-#define      SEGGER_RTT_HASDATA(n)       (((SEGGER_RTT_BUFFER_DOWN*)((char*)&_SEGGER_RTT.aDown[n] + SEGGER_RTT_UNCACHED_OFF))->WrOff - ((SEGGER_RTT_BUFFER_DOWN*)((char*)&_SEGGER_RTT.aDown[n] + SEGGER_RTT_UNCACHED_OFF))->RdOff)
+#define      SEGGER_RTT_HASDATA(n)       (_SEGGER_RTT.aDown[n].WrOff - _SEGGER_RTT.aDown[n].RdOff)
 
 #if RTT_USE_ASM
   #define SEGGER_RTT_WriteSkipNoLock  SEGGER_RTT_ASM_WriteSkipNoLock
@@ -329,7 +287,7 @@ unsigned     SEGGER_RTT_ReadUpBufferNoLock      (unsigned BufferIndex, void* pDa
 unsigned     SEGGER_RTT_WriteDownBuffer         (unsigned BufferIndex, const void* pBuffer, unsigned NumBytes);
 unsigned     SEGGER_RTT_WriteDownBufferNoLock   (unsigned BufferIndex, const void* pBuffer, unsigned NumBytes);
 
-#define      SEGGER_RTT_HASDATA_UP(n)    (((SEGGER_RTT_BUFFER_UP*)((char*)&_SEGGER_RTT.aUp[n] + SEGGER_RTT_UNCACHED_OFF))->WrOff - ((SEGGER_RTT_BUFFER_UP*)((char*)&_SEGGER_RTT.aUp[n] + SEGGER_RTT_UNCACHED_OFF))->RdOff)   // Access uncached to make sure we see changes made by the J-Link side and all of our changes go into HW directly
+#define      SEGGER_RTT_HASDATA_UP(n)    (_SEGGER_RTT.aUp[n].WrOff - _SEGGER_RTT.aUp[n].RdOff)
 
 /*********************************************************************
 *

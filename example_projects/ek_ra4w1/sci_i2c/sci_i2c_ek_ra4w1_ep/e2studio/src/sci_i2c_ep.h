@@ -25,8 +25,13 @@
 #define SCI_I2C_EP_H_
 
 /* for on board LED */
+#if defined (BOARD_RA4W1_EK) || defined (BOARD_RA6T1_RSSK)
+#define LED_ON             (bool)BSP_IO_LEVEL_LOW
+#define LED_OFF            (bool)BSP_IO_LEVEL_HIGH
+#else
 #define LED_ON             (bool)BSP_IO_LEVEL_HIGH
 #define LED_OFF            (bool)BSP_IO_LEVEL_LOW
+#endif
 
 /* MACRO for checking if two buffers are equal */
 #define BUFF_EQUAL (0U)
@@ -45,7 +50,7 @@
                   "\r\n and received continuously on successful initialization."\
                   "\r\n The transmitted data is compared with the received data. If the data matches, on-board LED"\
                   "\r\n starts blinking. On a data mismatch, LED stays ON."\
-                  "\r\n Failure messages and status is displayed on RTTViewer.\r\n"
+                  "\r\n Failure messages and status is displayed on RTTViewer.\r\n\n"
 
 
 /* enumerators to identify Master event to be processed */

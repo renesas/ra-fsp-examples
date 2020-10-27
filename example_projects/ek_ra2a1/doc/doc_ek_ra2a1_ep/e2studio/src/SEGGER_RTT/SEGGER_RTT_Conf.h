@@ -42,7 +42,7 @@
 *                                                                    *
 **********************************************************************
 *                                                                    *
-*       RTT version: 6.86                                           *
+*       RTT version: 6.82d                                           *
 *                                                                    *
 **********************************************************************
 
@@ -51,7 +51,7 @@ File    : SEGGER_RTT_Conf.h
 Purpose : Implementation of SEGGER real-time transfer (RTT) which
           allows real-time communication on targets which support
           debugger memory accesses while the CPU is running.
-Revision: $Rev: 20878 $
+Revision: $Rev: 18601 $
 
 */
 
@@ -68,25 +68,10 @@ Revision: $Rev: 20878 $
 *
 **********************************************************************
 */
-
-//
-// Take in and set to correct values for Cortex-A systems with CPU cache
-//
-//#define SEGGER_RTT_CPU_CACHE_LINE_SIZE            (32)          // Largest cache line size (in bytes) in the current system
-//#define SEGGER_RTT_UNCACHED_OFF                   (0xFB000000)  // Address alias where RTT CB and buffers can be accessed uncached
-//
-// Most common case:
-// Up-channel 0: RTT
-// Up-channel 1: SystemView
-//
 #ifndef   SEGGER_RTT_MAX_NUM_UP_BUFFERS
   #define SEGGER_RTT_MAX_NUM_UP_BUFFERS             (3)     // Max. number of up-buffers (T->H) available on this target    (Default: 3)
 #endif
-//
-// Most common case:
-// Down-channel 0: RTT
-// Down-channel 1: SystemView
-//
+
 #ifndef   SEGGER_RTT_MAX_NUM_DOWN_BUFFERS
   #define SEGGER_RTT_MAX_NUM_DOWN_BUFFERS           (3)     // Max. number of down-buffers (H->T) available on this target  (Default: 3)
 #endif
@@ -157,11 +142,11 @@ Revision: $Rev: 20878 $
     #define SEGGER_RTT_LOCK()   {                                                                   \
                                     unsigned int LockState;                                         \
                                   __asm volatile ("mrs   %0, primask  \n\t"                         \
-                                                  "movs  r1, #1       \n\t"                         \
+                                                  "movs  r1, $1       \n\t"                         \
                                                   "msr   primask, r1  \n\t"                         \
                                                   : "=r" (LockState)                                \
                                                   :                                                 \
-                                                  : "r1", "cc"                                      \
+                                                  : "r1"                                            \
                                                   );
 
     #define SEGGER_RTT_UNLOCK()   __asm volatile ("msr   primask, %0  \n\t"                         \
@@ -181,7 +166,7 @@ Revision: $Rev: 20878 $
                                                   "msr   basepri, r1  \n\t"                         \
                                                   : "=r" (LockState)                                \
                                                   : "i"(SEGGER_RTT_MAX_INTERRUPT_PRIORITY)          \
-                                                  : "r1", "cc"                                      \
+                                                  : "r1"                                            \
                                                   );
 
     #define SEGGER_RTT_UNLOCK()   __asm volatile ("msr   basepri, %0  \n\t"                         \
@@ -200,7 +185,7 @@ Revision: $Rev: 20878 $
                                                  "msr CPSR_c, r1 \n\t"         \
                                                  : "=r" (LockState)            \
                                                  :                             \
-                                                 : "r1", "cc"                  \
+                                                 : "r1"                        \
                                                  );
 
     #define SEGGER_RTT_UNLOCK() __asm volatile ("mov r0, %0 \n\t"              \
@@ -211,7 +196,7 @@ Revision: $Rev: 20878 $
                                                 "msr CPSR_c, r1 \n\t"          \
                                                 :                              \
                                                 : "r" (LockState)              \
-                                                : "r0", "r1", "cc"             \
+                                                : "r0", "r1"                   \
                                                 );                             \
                             }
   #elif defined(__riscv) || defined(__riscv_xlen)
@@ -362,7 +347,6 @@ Revision: $Rev: 20878 $
 *       RTT lock configuration for CCRX
 */
 #ifdef __RX
-  #include <machine.h>
   #define SEGGER_RTT_LOCK()   {                                                                     \
                                 unsigned long LockState;                                            \
                                 LockState = get_psw() & 0x010000;                                   \

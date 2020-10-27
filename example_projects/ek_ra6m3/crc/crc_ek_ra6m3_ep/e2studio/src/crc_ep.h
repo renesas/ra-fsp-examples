@@ -25,8 +25,13 @@
 #define CRC_EP_H_
 
 /* for on board LED */
+#if defined (BOARD_RA4W1_EK) || defined (BOARD_RA6T1_RSSK)
+#define LED_ON             BSP_IO_LEVEL_LOW
+#define LED_OFF            BSP_IO_LEVEL_HIGH
+#else
 #define LED_ON             BSP_IO_LEVEL_HIGH
 #define LED_OFF            BSP_IO_LEVEL_LOW
+#endif
 
 /*Length of input buffer to calculate CRC in normal mode*/
 #define NUM_BYTES          (4U)

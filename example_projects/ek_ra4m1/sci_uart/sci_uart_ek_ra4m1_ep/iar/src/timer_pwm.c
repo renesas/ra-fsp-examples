@@ -83,7 +83,9 @@ fsp_err_t set_intensity(uint32_t raw_count, uint8_t pin)
 {
     fsp_err_t err = FSP_SUCCESS;
     raw_count *= STEP;
-
+#if defined(BOARD_RA4W1_EK) || defined (BOARD_RA6T1_RSSK)
+    raw_count = (MAX_DUTY_CYCLE - raw_count);
+#endif
     /* Set GPT timer's DutyCycle as per user input */
     err = R_GPT_DutyCycleSet (&g_timer_ctrl, raw_count, pin);
     if (FSP_SUCCESS != err)

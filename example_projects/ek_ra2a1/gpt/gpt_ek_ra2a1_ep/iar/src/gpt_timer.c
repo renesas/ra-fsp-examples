@@ -119,6 +119,9 @@ fsp_err_t set_timer_duty_cycle(uint8_t duty_cycle_percent)
          * not required for 16-bit timers. */
         duty_cycle_counts =(uint32_t) ((uint64_t) (current_period_counts * duty_cycle_percent) /
                 GPT_MAX_PERCENT);
+#if defined(BOARD_RA4W1_EK) || defined (BOARD_RA6T1_RSSK)
+        duty_cycle_counts = (current_period_counts - duty_cycle_counts);
+#endif
 
         /* Duty Cycle Set API set the desired intensity on the on-board LED */
         err = R_GPT_DutyCycleSet(&g_timer_pwm_ctrl, duty_cycle_counts, TIMER_PIN);

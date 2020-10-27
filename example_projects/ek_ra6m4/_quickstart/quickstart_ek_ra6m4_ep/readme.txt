@@ -1,4 +1,4 @@
-/***********************************************************************************************************************
+﻿/***********************************************************************************************************************
 * Copyright [2020] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
 *
 * This software is supplied by Renesas Electronics America Inc. and may only be used with products of Renesas Electronics Corp.
@@ -16,10 +16,10 @@
 * **********************************************************************************************************************/
 
 1. Project Overview:
-        The example project the capability of the EK and FSP by usign multiple preipherals.
-        The project initializes the Ethernet, USB,ADC and GPIO modules to create a simple web server, web client with
-        contro via a USB Comm Device class Termial.
-        Once programmed the user can control the board by simulating button presses on a web browser and see regulaly
+        The example project demonstrates the capability of EK and FSP by using multiple peripherals.
+        The project initializes the Ethernet, USB, ADC and GPIO modules to create a simple web server, web client with
+        control via a USB Comm Device class Terminal.
+        Once programmed the user can control the board by simulating button presses on a web browser and see regularly
         updated board configuration on the screen.
 
 2. Hardware settings for the project:

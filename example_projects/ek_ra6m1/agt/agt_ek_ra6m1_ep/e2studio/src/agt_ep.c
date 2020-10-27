@@ -136,8 +136,11 @@ void one_shot_timer_callback(timer_callback_args_t *p_args)
  **********************************************************************************************************************/
 void periodic_timer_callback(timer_callback_args_t *p_args)
 {
+#if defined (BOARD_RA4W1_EK) || defined (BOARD_RA6T1_RSSK)
+    static volatile bsp_io_level_t led_level = BSP_IO_LEVEL_LOW;
+#else
     static volatile bsp_io_level_t led_level = BSP_IO_LEVEL_HIGH;
-
+#endif
     /* If this board has no LEDs then trap here */
     if (LED_COUNT_ZERO == g_bsp_leds.led_count)
     {

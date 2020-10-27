@@ -30,6 +30,7 @@
 /* Macros definition */
 #define MAX_INTENISTY       (100u)        /* Maximum intensity 100 */
 #define STEP                (10u)         /* Step increment/decrement */
+#define MAX_DUTY_CYCLE      (1000u)       /* Max duty cycle count */
 
 /* Function declaration */
 fsp_err_t gpt_initialize(void);

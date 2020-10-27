@@ -48,7 +48,7 @@
 #define USER_SW_IRQ_NUMBER        (0x0A)
 #elif defined (BOARD_RA6M3_EK) || defined (BOARD_RA6M3G_EK)
 #define USER_SW_IRQ_NUMBER        (0x0D)
-#elif defined (BOARD_RA2A1_EK)
+#elif defined (BOARD_RA2A1_EK) || defined (BOARD_RA6T1_RSSK)
 #define USER_SW_IRQ_NUMBER        (0x06)
 #elif defined (BOARD_RA6M2_EK) || defined (BOARD_RA6M1_EK) || defined (BOARD_RA4M1_EK)
 #define USER_SW_IRQ_NUMBER        (0x00)

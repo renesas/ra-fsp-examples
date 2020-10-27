@@ -127,6 +127,7 @@ void hal_entry(void)
 
             /* Toggle user LED */
             err = R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t)leds.p_leds[RESET_VALUE], led_current_state);
+
             /* Handle error */
             if (FSP_SUCCESS != err)
             {
@@ -136,16 +137,20 @@ void hal_entry(void)
                 APP_ERR_TRAP(err);
             }
 
-            if(BSP_IO_LEVEL_HIGH == led_current_state)
-            {
-                /* Print LED Pin state */
-                APP_PRINT("LED State: High{ON}\r\n");
-            }
-            else
-            {
-                /* Print LED Pin state */
-                APP_PRINT("LED State: Low{OFF}\r\n");
-            }
+#if defined (BOARD_RA6T1_RSSK) || defined (BOARD_RA4W1_EK)
+            if(BSP_IO_LEVEL_LOW == led_current_state)
+#else
+                if(BSP_IO_LEVEL_HIGH == led_current_state)
+#endif
+                {
+                    /* Print LED Pin state */
+                    APP_PRINT("LED State: High{ON}\r\n");
+                }
+                else
+                {
+                    /* Print LED Pin state */
+                    APP_PRINT("LED State: Low{OFF}\r\n");
+                }
         }
     }
 }
@@ -157,23 +162,23 @@ void hal_entry(void)
  * @param[in]  event    Where at in the start up process the code is currently at
  **********************************************************************************************************************/
 void R_BSP_WarmStart(bsp_warm_start_event_t event) {
-	if (BSP_WARM_START_RESET == event) {
+    if (BSP_WARM_START_RESET == event) {
 #if BSP_FEATURE_FLASH_LP_VERSION != 0
 
-		/* Enable reading from data flash. */
-		R_FACI_LP->DFLCTL = 1U;
+        /* Enable reading from data flash. */
+        R_FACI_LP->DFLCTL = 1U;
 
-		/* Would normally have to wait tDSTOP(6us) for data flash recovery. Placing the enable here, before clock and
-		 * C runtime initialization, should negate the need for a delay since the initialization will typically take more than 6us. */
+        /* Would normally have to wait tDSTOP(6us) for data flash recovery. Placing the enable here, before clock and
+         * C runtime initialization, should negate the need for a delay since the initialization will typically take more than 6us. */
 #endif
-	}
+    }
 
-	if (BSP_WARM_START_POST_C == event) {
-		/* C runtime environment and system clocks are setup. */
+    if (BSP_WARM_START_POST_C == event) {
+        /* C runtime environment and system clocks are setup. */
 
-		/* Configure pins. */
-		R_IOPORT_Open(&g_ioport_ctrl, &g_bsp_pin_cfg);
-	}
+        /* Configure pins. */
+        R_IOPORT_Open(&g_ioport_ctrl, &g_bsp_pin_cfg);
+    }
 }
 
 /*******************************************************************************************************************//**

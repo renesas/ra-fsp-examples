@@ -119,8 +119,11 @@ void gpt_callback(timer_callback_args_t *p_args)
     if (FSP_SUCCESS != err)
     {
         /* Turn ON LED to indicate error, along with output on RTT*/
+#if defined (BOARD_RA6T1_RSSK) || defined (BOARD_RA4W1_EK)
+        R_IOPORT_PinWrite(&g_ioport_ctrl, g_bsp_leds.p_leds[0], BSP_IO_LEVEL_LOW);
+#else
         R_IOPORT_PinWrite(&g_ioport_ctrl, g_bsp_leds.p_leds[0], BSP_IO_LEVEL_HIGH);
-
+#endif
         /* Print Error on RTT console */
         APP_ERR_PRINT ("\r\n ** R_WDT_Refresh API failed ** \r\n");
     }
@@ -130,7 +133,11 @@ void gpt_callback(timer_callback_args_t *p_args)
         g_timer_overflow_counter++;
 
         /* Toggle LED */
+#if defined (BOARD_RA6T1_RSSK) || defined (BOARD_RA4W1_EK)
+        level_led ^= BSP_IO_LEVEL_LOW;
+#else
         level_led ^= BSP_IO_LEVEL_HIGH;
+#endif
         R_IOPORT_PinWrite(&g_ioport_ctrl, g_bsp_leds.p_leds[0], level_led);
     }
 }

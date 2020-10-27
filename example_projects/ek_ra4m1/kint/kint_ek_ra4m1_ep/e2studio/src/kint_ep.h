@@ -77,6 +77,21 @@ typedef enum
 #define ROW_A_BIT                   1U  /* P301 */
 #define ROW_B_BIT                   2U  /* P302 */
 
+#elif defined (BOARD_RA6T1_RSSK)
+#define KEYPAD_PORT                 (bsp_io_port_t)BSP_IO_PORT_01
+
+/* Keypad Pin details */
+#define ROW_A                       (bsp_io_port_pin_t) BSP_IO_PORT_01_PIN_01
+#define ROW_B                       (bsp_io_port_pin_t) BSP_IO_PORT_01_PIN_02
+#define COL_A                       (bsp_io_port_pin_t) BSP_IO_PORT_01_PIN_00
+#define COL_B                       (bsp_io_port_pin_t) BSP_IO_PORT_01_PIN_03
+
+/* Row and column bit position */
+#define COL_A_BIT                   0U  /* P100 */
+#define COL_B_BIT                   3U  /* P103 */
+#define ROW_A_BIT                   1U  /* P101 */
+#define ROW_B_BIT                   2U  /* P102 */
+
 #else
 #define KEYPAD_PORT                 (bsp_io_port_t)BSP_IO_PORT_01
 
@@ -93,6 +108,7 @@ typedef enum
 #define ROW_B_BIT                   2U  /* P102 */
 
 #endif
+
 
 
 /* Row pins set as low */

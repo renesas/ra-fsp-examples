@@ -27,8 +27,13 @@
 
 /* macro definition */
 /* for on board LED */
+#if defined (BOARD_RA6T1_RSSK) || defined (BOARD_RA4W1_EK)
+#define LED_ON             BSP_IO_LEVEL_LOW
+#define LED_OFF            BSP_IO_LEVEL_HIGH
+#else
 #define LED_ON             BSP_IO_LEVEL_HIGH
 #define LED_OFF            BSP_IO_LEVEL_LOW
+#endif
 
 /* MACRO for checking if two buffers are equal */
 #define BUFF_EQUAL         (0U)

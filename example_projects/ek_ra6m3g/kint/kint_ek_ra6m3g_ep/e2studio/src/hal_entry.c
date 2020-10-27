@@ -83,56 +83,63 @@ void hal_entry(void)
 
     while (true)
     {
-    	if (RESET_VALUE != g_kint_signal)
-    	{
-    		/*
-    		 * Enter critical section to
-    		 * Get local copy of KINT channel mask which contain the KINT information.
-    		 *
-    		 * Reason : -
-    	     * For instance  - CPU is currently processing the keypad signal and if interrupt happens,
-    	     * the CPU jumps to kint_callback_event() and sets the new value
-    	     * to g_kint_signal variable.
-    	     * After processing interrupts, the CPU returns to the previous
-    	     * routine where the keypad signal was being processed and continue with the previous KINT event without losing it.
-    	     */
-    		FSP_CRITICAL_SECTION_DEFINE;
-    		FSP_CRITICAL_SECTION_ENTER;
+        if (RESET_VALUE != g_kint_signal)
+        {
+            /*
+             * Enter critical section to
+             * Get local copy of KINT channel mask which contain the KINT information.
+             *
+             * Reason : -
+             * For instance  - CPU is currently processing the keypad signal and if interrupt happens,
+             * the CPU jumps to kint_callback_event() and sets the new value
+             * to g_kint_signal variable.
+             * After processing interrupts, the CPU returns to the previous
+             * routine where the keypad signal was being processed and continue with the previous KINT event without losing it.
+             */
+            FSP_CRITICAL_SECTION_DEFINE;
+            FSP_CRITICAL_SECTION_ENTER;
 
-    		/* get the KINT channel mask information */
-    		captured_kint_sig = g_kint_signal;
-    		g_kint_signal = RESET_VALUE;
+            /* get the KINT channel mask information */
+            captured_kint_sig = g_kint_signal;
+            g_kint_signal = RESET_VALUE;
 
-    		/* exit critical section */
-    		FSP_CRITICAL_SECTION_EXIT;
+            /* exit critical section */
+            FSP_CRITICAL_SECTION_EXIT;
 
-    		switch (captured_kint_sig)
-    		{
-    			case CH_MASK_6:
-    			{
-    				process_row_identification(COL_A_BIT);
-    			}
-    			break;
+            switch (captured_kint_sig)
+            {
+#if defined (BOARD_RA6T1_RSSK)
+                case CH_MASK_0:
+#else
+                case CH_MASK_6:
+#endif
+                {
+                    process_row_identification(COL_A_BIT);
+                }
+                break;
+#if defined (BOARD_RA6T1_RSSK)
+                case CH_MASK_3:
+#else
+                case CH_MASK_7:
+#endif
+                {
+                    process_row_identification(COL_B_BIT);
+                }
+                break;
 
-    			case CH_MASK_7:
-    			{
-    				process_row_identification(COL_B_BIT);
-       			}
-    			break;
+                default:
+                    break;
+            }
 
-    			default:
-    			break;
-    		}
+            /* restore initial Row pins level, API return check performed within the macro */
+            ROW_INIT_LEVEL_SET();
 
-    		/* restore initial Row pins level, API return check performed within the macro */
-    		ROW_INIT_LEVEL_SET();
+            captured_kint_sig = RESET_VALUE;
 
-    		captured_kint_sig = RESET_VALUE;
+        }	// end if statement
 
-    	}	// end if statement
-
-    	/* Wait time for key processing */
-    	R_BSP_SoftwareDelay(400U, BSP_DELAY_UNITS_MILLISECONDS);
+        /* Wait time for key processing */
+        R_BSP_SoftwareDelay(400U, BSP_DELAY_UNITS_MILLISECONDS);
     }
 }
 

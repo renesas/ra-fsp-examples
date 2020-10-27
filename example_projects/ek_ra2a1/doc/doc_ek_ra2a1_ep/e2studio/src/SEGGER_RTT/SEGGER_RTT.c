@@ -42,7 +42,7 @@
 *                                                                    *
 **********************************************************************
 *                                                                    *
-*       RTT version: 6.86                                           *
+*       RTT version: 6.82d                                           *
 *                                                                    *
 **********************************************************************
 
@@ -51,7 +51,7 @@ File    : SEGGER_RTT.c
 Purpose : Implementation of SEGGER real-time transfer (RTT) which
           allows real-time communication on targets which support
           debugger memory accesses while the CPU is running.
-Revision: $Rev: 20869 $
+Revision: $Rev: 19464 $
 
 Additional information:
           Type "int" is assumed to be 32-bits in size
@@ -85,27 +85,6 @@ Additional information:
 **********************************************************************
 */
 
-#if SEGGER_RTT_CPU_CACHE_LINE_SIZE
-  #ifdef SEGGER_RTT_CB_ALIGN
-    #error "Custom SEGGER_RTT_CB_ALIGN() is not supported for SEGGER_RTT_CPU_CACHE_LINE_SIZE != 0"
-  #endif
-  #ifdef SEGGER_RTT_BUFFER_ALIGN
-    #error "Custom SEGGER_RTT_BUFFER_ALIGN() is not supported for SEGGER_RTT_CPU_CACHE_LINE_SIZE != 0"
-  #endif
-  #ifdef SEGGER_RTT_PUT_CB_SECTION
-    #error "Custom SEGGER_RTT_PUT_CB_SECTION() is not supported for SEGGER_RTT_CPU_CACHE_LINE_SIZE != 0"
-  #endif
-  #ifdef SEGGER_RTT_PUT_BUFFER_SECTION
-    #error "Custom SEGGER_RTT_PUT_BUFFER_SECTION() is not supported for SEGGER_RTT_CPU_CACHE_LINE_SIZE != 0"
-  #endif
-  #ifdef SEGGER_RTT_BUFFER_ALIGNMENT
-    #error "Custom SEGGER_RTT_BUFFER_ALIGNMENT is not supported for SEGGER_RTT_CPU_CACHE_LINE_SIZE != 0"
-  #endif
-  #ifdef SEGGER_RTT_ALIGNMENT
-    #error "Custom SEGGER_RTT_ALIGNMENT is not supported for SEGGER_RTT_CPU_CACHE_LINE_SIZE != 0"
-  #endif
-#endif
-
 #ifndef   BUFFER_SIZE_UP
   #define BUFFER_SIZE_UP                                  1024  // Size of the buffer for terminal output of target, up to host
 #endif
@@ -129,11 +108,11 @@ Additional information:
 #endif
 
 #ifndef   SEGGER_RTT_ALIGNMENT
-  #define SEGGER_RTT_ALIGNMENT                            SEGGER_RTT_CPU_CACHE_LINE_SIZE
+  #define SEGGER_RTT_ALIGNMENT                            0
 #endif
 
 #ifndef   SEGGER_RTT_BUFFER_ALIGNMENT
-  #define SEGGER_RTT_BUFFER_ALIGNMENT                     SEGGER_RTT_CPU_CACHE_LINE_SIZE
+  #define SEGGER_RTT_BUFFER_ALIGNMENT                     0
 #endif
 
 #ifndef   SEGGER_RTT_MODE_DEFAULT
@@ -153,7 +132,7 @@ Additional information:
 #endif
 
 #ifndef   STRCPY
-  #define STRCPY(pDest, pSrc)                             strcpy((pDest), (pSrc))
+  #define STRCPY(pDest, pSrc, NumBytes)                   strcpy((pDest), (pSrc))
 #endif
 
 #ifndef   SEGGER_RTT_MEMCPY_USE_BYTELOOP
@@ -223,6 +202,7 @@ Additional information:
   #define SEGGER_RTT_PUT_SECTION(Var, Section) Var
 #endif
 
+
 #if SEGGER_RTT_ALIGNMENT
   #define SEGGER_RTT_CB_ALIGN(Var)  SEGGER_RTT_ALIGN(Var, SEGGER_RTT_ALIGNMENT)
 #else
@@ -263,13 +243,13 @@ static unsigned char _aTerminalId[16] = { '0', '1', '2', '3', '4', '5', '6', '7'
 *
 **********************************************************************
 */
-
 //
 // RTT Control Block and allocate buffers for channel 0
 //
 SEGGER_RTT_PUT_CB_SECTION(SEGGER_RTT_CB_ALIGN(SEGGER_RTT_CB _SEGGER_RTT));
-SEGGER_RTT_PUT_BUFFER_SECTION(SEGGER_RTT_BUFFER_ALIGN(static char _acUpBuffer  [SEGGER_RTT__ROUND_UP_2_CACHE_LINE_SIZE(BUFFER_SIZE_UP)]));
-SEGGER_RTT_PUT_BUFFER_SECTION(SEGGER_RTT_BUFFER_ALIGN(static char _acDownBuffer[SEGGER_RTT__ROUND_UP_2_CACHE_LINE_SIZE(BUFFER_SIZE_DOWN)]));
+
+SEGGER_RTT_PUT_BUFFER_SECTION(SEGGER_RTT_BUFFER_ALIGN(static char _acUpBuffer  [BUFFER_SIZE_UP]));
+SEGGER_RTT_PUT_BUFFER_SECTION(SEGGER_RTT_BUFFER_ALIGN(static char _acDownBuffer[BUFFER_SIZE_DOWN]));
 
 static unsigned char _ActiveTerminal;
 
@@ -289,22 +269,15 @@ static unsigned char _ActiveTerminal;
 *    May only be called via INIT() to avoid overriding settings.
 *
 */
-#define INIT()  {                                                                                    \
-                  volatile SEGGER_RTT_CB* pRTTCBInit;                                                \
-                  pRTTCBInit = (volatile SEGGER_RTT_CB*)((char*)&_SEGGER_RTT + SEGGER_RTT_UNCACHED_OFF); \
-                  do {                                                                               \
-                    if (pRTTCBInit->acID[0] == '\0') {                                               \
-                      _DoInit();                                                                     \
-                    }                                                                                \
-                  } while (0);                                                                       \
-                }
-
+#define INIT()  do {                                            \
+                  if (_SEGGER_RTT.acID[0] == '\0') { _DoInit(); }  \
+                } while (0)
 static void _DoInit(void) {
-  volatile SEGGER_RTT_CB* p;   // Volatile to make sure that compiler cannot change the order of accesses to the control block
+  SEGGER_RTT_CB* p;
   //
   // Initialize control block
   //
-  p                     = (volatile SEGGER_RTT_CB*)((char*)&_SEGGER_RTT + SEGGER_RTT_UNCACHED_OFF);  // Access control block uncached so that nothing in the cache ever becomes dirty and all changes are visible in HW directly
+  p = &_SEGGER_RTT;
   p->MaxNumUpBuffers    = SEGGER_RTT_MAX_NUM_UP_BUFFERS;
   p->MaxNumDownBuffers  = SEGGER_RTT_MAX_NUM_DOWN_BUFFERS;
   //
@@ -312,7 +285,7 @@ static void _DoInit(void) {
   //
   p->aUp[0].sName         = "Terminal";
   p->aUp[0].pBuffer       = _acUpBuffer;
-  p->aUp[0].SizeOfBuffer  = BUFFER_SIZE_UP;
+  p->aUp[0].SizeOfBuffer  = sizeof(_acUpBuffer);
   p->aUp[0].RdOff         = 0u;
   p->aUp[0].WrOff         = 0u;
   p->aUp[0].Flags         = SEGGER_RTT_MODE_DEFAULT;
@@ -321,7 +294,7 @@ static void _DoInit(void) {
   //
   p->aDown[0].sName         = "Terminal";
   p->aDown[0].pBuffer       = _acDownBuffer;
-  p->aDown[0].SizeOfBuffer  = BUFFER_SIZE_DOWN;
+  p->aDown[0].SizeOfBuffer  = sizeof(_acDownBuffer);
   p->aDown[0].RdOff         = 0u;
   p->aDown[0].WrOff         = 0u;
   p->aDown[0].Flags         = SEGGER_RTT_MODE_DEFAULT;
@@ -330,12 +303,12 @@ static void _DoInit(void) {
   // Copy Id string in three steps to make sure "SEGGER RTT" is not found
   // in initializer memory (usually flash) by J-Link
   //
-  STRCPY((char*)&p->acID[7], "RTT");
-  RTT__DMB();                       // Force order of memory accessed inside core for cores that allow to change the order
-  STRCPY((char*)&p->acID[0], "SEGGER");
-  RTT__DMB();                       // Force order of memory accessed inside core for cores that allow to change the order
+  STRCPY(&p->acID[7], "RTT", 9);
+  RTT__DMB();
+  STRCPY(&p->acID[0], "SEGGER", 7);
+  RTT__DMB();
   p->acID[6] = ' ';
-  RTT__DMB();                       // Force order of memory accessed inside core for cores that allow to change the order
+  RTT__DMB();
 }
 
 /*********************************************************************
@@ -362,7 +335,9 @@ static unsigned _WriteBlocking(SEGGER_RTT_BUFFER_UP* pRing, const char* pBuffer,
   unsigned NumBytesWritten;
   unsigned RdOff;
   unsigned WrOff;
-  volatile char* pDst;
+#if SEGGER_RTT_MEMCPY_USE_BYTELOOP
+  char*    pDst;
+#endif
   //
   // Write data to buffer and handle wrap-around if necessary
   //
@@ -377,8 +352,8 @@ static unsigned _WriteBlocking(SEGGER_RTT_BUFFER_UP* pRing, const char* pBuffer,
     }
     NumBytesToWrite = MIN(NumBytesToWrite, (pRing->SizeOfBuffer - WrOff));      // Number of bytes that can be written until buffer wrap-around
     NumBytesToWrite = MIN(NumBytesToWrite, NumBytes);
-    pDst = (pRing->pBuffer + WrOff) + SEGGER_RTT_UNCACHED_OFF;
 #if SEGGER_RTT_MEMCPY_USE_BYTELOOP
+    pDst = pRing->pBuffer + WrOff;
     NumBytesWritten += NumBytesToWrite;
     NumBytes        -= NumBytesToWrite;
     WrOff           += NumBytesToWrite;
@@ -386,7 +361,7 @@ static unsigned _WriteBlocking(SEGGER_RTT_BUFFER_UP* pRing, const char* pBuffer,
       *pDst++ = *pBuffer++;
     };
 #else
-    SEGGER_RTT_MEMCPY((void*)pDst, pBuffer, NumBytesToWrite);
+    SEGGER_RTT_MEMCPY(pRing->pBuffer + WrOff, pBuffer, NumBytesToWrite);
     NumBytesWritten += NumBytesToWrite;
     pBuffer         += NumBytesToWrite;
     NumBytes        -= NumBytesToWrite;
@@ -395,9 +370,10 @@ static unsigned _WriteBlocking(SEGGER_RTT_BUFFER_UP* pRing, const char* pBuffer,
     if (WrOff == pRing->SizeOfBuffer) {
       WrOff = 0u;
     }
-    RTT__DMB();                     // Force data write to be complete before writing the <WrOff>, in case CPU is allowed to change the order of memory accesses
+    RTT__DMB();
     pRing->WrOff = WrOff;
   } while (NumBytes);
+  //
   return NumBytesWritten;
 }
 
@@ -423,7 +399,9 @@ static void _WriteNoCheck(SEGGER_RTT_BUFFER_UP* pRing, const char* pData, unsign
   unsigned NumBytesAtOnce;
   unsigned WrOff;
   unsigned Rem;
-  volatile char* pDst;
+#if SEGGER_RTT_MEMCPY_USE_BYTELOOP
+  char*    pDst;
+#endif
 
   WrOff = pRing->WrOff;
   Rem = pRing->SizeOfBuffer - WrOff;
@@ -431,17 +409,17 @@ static void _WriteNoCheck(SEGGER_RTT_BUFFER_UP* pRing, const char* pData, unsign
     //
     // All data fits before wrap around
     //
-    pDst = (pRing->pBuffer + WrOff) + SEGGER_RTT_UNCACHED_OFF;
 #if SEGGER_RTT_MEMCPY_USE_BYTELOOP
+    pDst = pRing->pBuffer + WrOff;
     WrOff += NumBytes;
     while (NumBytes--) {
       *pDst++ = *pData++;
     };
-    RTT__DMB();                     // Force data write to be complete before writing the <WrOff>, in case CPU is allowed to change the order of memory accesses
+    RTT__DMB();
     pRing->WrOff = WrOff;
 #else
-    SEGGER_RTT_MEMCPY((void*)pDst, pData, NumBytes);
-    RTT__DMB();                     // Force data write to be complete before writing the <WrOff>, in case CPU is allowed to change the order of memory accesses
+    SEGGER_RTT_MEMCPY(pRing->pBuffer + WrOff, pData, NumBytes);
+    RTT__DMB();
     pRing->WrOff = WrOff + NumBytes;
 #endif
   } else {
@@ -449,26 +427,24 @@ static void _WriteNoCheck(SEGGER_RTT_BUFFER_UP* pRing, const char* pData, unsign
     // We reach the end of the buffer, so need to wrap around
     //
 #if SEGGER_RTT_MEMCPY_USE_BYTELOOP
-    pDst = (pRing->pBuffer + WrOff) + SEGGER_RTT_UNCACHED_OFF;
+    pDst = pRing->pBuffer + WrOff;
     NumBytesAtOnce = Rem;
     while (NumBytesAtOnce--) {
       *pDst++ = *pData++;
     };
-    pDst = pRing->pBuffer + SEGGER_RTT_UNCACHED_OFF;
+    pDst = pRing->pBuffer;
     NumBytesAtOnce = NumBytes - Rem;
     while (NumBytesAtOnce--) {
       *pDst++ = *pData++;
     };
-    RTT__DMB();                     // Force data write to be complete before writing the <WrOff>, in case CPU is allowed to change the order of memory accesses
+    RTT__DMB();
     pRing->WrOff = NumBytes - Rem;
 #else
     NumBytesAtOnce = Rem;
-    pDst = (pRing->pBuffer + WrOff) + SEGGER_RTT_UNCACHED_OFF;
-    SEGGER_RTT_MEMCPY((void*)pDst, pData, NumBytesAtOnce);
+    SEGGER_RTT_MEMCPY(pRing->pBuffer + WrOff, pData, NumBytesAtOnce);
     NumBytesAtOnce = NumBytes - Rem;
-    pDst = pRing->pBuffer + SEGGER_RTT_UNCACHED_OFF;
-    SEGGER_RTT_MEMCPY((void*)pDst, pData + Rem, NumBytesAtOnce);
-    RTT__DMB();                     // Force data write to be complete before writing the <WrOff>, in case CPU is allowed to change the order of memory accesses
+    SEGGER_RTT_MEMCPY(pRing->pBuffer, pData + Rem, NumBytesAtOnce);
+    RTT__DMB();
     pRing->WrOff = NumBytesAtOnce;
 #endif
   }
@@ -533,7 +509,6 @@ static unsigned _GetAvailWriteSpace(SEGGER_RTT_BUFFER_UP* pRing) {
 *
 **********************************************************************
 */
-
 /*********************************************************************
 *
 *       SEGGER_RTT_ReadUpBufferNoLock()
@@ -563,10 +538,12 @@ unsigned SEGGER_RTT_ReadUpBufferNoLock(unsigned BufferIndex, void* pData, unsign
   unsigned                WrOff;
   unsigned char*          pBuffer;
   SEGGER_RTT_BUFFER_UP*   pRing;
-  volatile char*          pSrc;
-
+#if SEGGER_RTT_MEMCPY_USE_BYTELOOP
+  const char*             pSrc;
+#endif
+  //
   INIT();
-  pRing = (SEGGER_RTT_BUFFER_UP*)((char*)&_SEGGER_RTT.aUp[BufferIndex] + SEGGER_RTT_UNCACHED_OFF);  // Access uncached to make sure we see changes made by the J-Link side and all of our changes go into HW directly
+  pRing = &_SEGGER_RTT.aUp[BufferIndex];
   pBuffer = (unsigned char*)pData;
   RdOff = pRing->RdOff;
   WrOff = pRing->WrOff;
@@ -577,8 +554,8 @@ unsigned SEGGER_RTT_ReadUpBufferNoLock(unsigned BufferIndex, void* pData, unsign
   if (RdOff > WrOff) {
     NumBytesRem = pRing->SizeOfBuffer - RdOff;
     NumBytesRem = MIN(NumBytesRem, BufferSize);
-    pSrc = (pRing->pBuffer + RdOff) + SEGGER_RTT_UNCACHED_OFF;
 #if SEGGER_RTT_MEMCPY_USE_BYTELOOP
+    pSrc = pRing->pBuffer + RdOff;
     NumBytesRead += NumBytesRem;
     BufferSize   -= NumBytesRem;
     RdOff        += NumBytesRem;
@@ -586,7 +563,7 @@ unsigned SEGGER_RTT_ReadUpBufferNoLock(unsigned BufferIndex, void* pData, unsign
       *pBuffer++ = *pSrc++;
     };
 #else
-    SEGGER_RTT_MEMCPY(pBuffer, (void*)pSrc, NumBytesRem);
+    SEGGER_RTT_MEMCPY(pBuffer, pRing->pBuffer + RdOff, NumBytesRem);
     NumBytesRead += NumBytesRem;
     pBuffer      += NumBytesRem;
     BufferSize   -= NumBytesRem;
@@ -605,8 +582,8 @@ unsigned SEGGER_RTT_ReadUpBufferNoLock(unsigned BufferIndex, void* pData, unsign
   NumBytesRem = WrOff - RdOff;
   NumBytesRem = MIN(NumBytesRem, BufferSize);
   if (NumBytesRem > 0u) {
-    pSrc = (pRing->pBuffer + RdOff) + SEGGER_RTT_UNCACHED_OFF;
 #if SEGGER_RTT_MEMCPY_USE_BYTELOOP
+    pSrc = pRing->pBuffer + RdOff;
     NumBytesRead += NumBytesRem;
     BufferSize   -= NumBytesRem;
     RdOff        += NumBytesRem;
@@ -614,7 +591,7 @@ unsigned SEGGER_RTT_ReadUpBufferNoLock(unsigned BufferIndex, void* pData, unsign
       *pBuffer++ = *pSrc++;
     };
 #else
-    SEGGER_RTT_MEMCPY(pBuffer, (void*)pSrc, NumBytesRem);
+    SEGGER_RTT_MEMCPY(pBuffer, pRing->pBuffer + RdOff, NumBytesRem);
     NumBytesRead += NumBytesRem;
     pBuffer      += NumBytesRem;
     BufferSize   -= NumBytesRem;
@@ -655,10 +632,12 @@ unsigned SEGGER_RTT_ReadNoLock(unsigned BufferIndex, void* pData, unsigned Buffe
   unsigned                WrOff;
   unsigned char*          pBuffer;
   SEGGER_RTT_BUFFER_DOWN* pRing;
-  volatile char*          pSrc;
+#if SEGGER_RTT_MEMCPY_USE_BYTELOOP
+  const char*             pSrc;
+#endif
   //
   INIT();
-  pRing = (SEGGER_RTT_BUFFER_DOWN*)((char*)&_SEGGER_RTT.aDown[BufferIndex] + SEGGER_RTT_UNCACHED_OFF);  // Access uncached to make sure we see changes made by the J-Link side and all of our changes go into HW directly
+  pRing = &_SEGGER_RTT.aDown[BufferIndex];
   pBuffer = (unsigned char*)pData;
   RdOff = pRing->RdOff;
   WrOff = pRing->WrOff;
@@ -669,8 +648,8 @@ unsigned SEGGER_RTT_ReadNoLock(unsigned BufferIndex, void* pData, unsigned Buffe
   if (RdOff > WrOff) {
     NumBytesRem = pRing->SizeOfBuffer - RdOff;
     NumBytesRem = MIN(NumBytesRem, BufferSize);
-    pSrc = (pRing->pBuffer + RdOff) + SEGGER_RTT_UNCACHED_OFF;
 #if SEGGER_RTT_MEMCPY_USE_BYTELOOP
+    pSrc = pRing->pBuffer + RdOff;
     NumBytesRead += NumBytesRem;
     BufferSize   -= NumBytesRem;
     RdOff        += NumBytesRem;
@@ -678,7 +657,7 @@ unsigned SEGGER_RTT_ReadNoLock(unsigned BufferIndex, void* pData, unsigned Buffe
       *pBuffer++ = *pSrc++;
     };
 #else
-    SEGGER_RTT_MEMCPY(pBuffer, (void*)pSrc, NumBytesRem);
+    SEGGER_RTT_MEMCPY(pBuffer, pRing->pBuffer + RdOff, NumBytesRem);
     NumBytesRead += NumBytesRem;
     pBuffer      += NumBytesRem;
     BufferSize   -= NumBytesRem;
@@ -697,8 +676,8 @@ unsigned SEGGER_RTT_ReadNoLock(unsigned BufferIndex, void* pData, unsigned Buffe
   NumBytesRem = WrOff - RdOff;
   NumBytesRem = MIN(NumBytesRem, BufferSize);
   if (NumBytesRem > 0u) {
-    pSrc = (pRing->pBuffer + RdOff) + SEGGER_RTT_UNCACHED_OFF;
 #if SEGGER_RTT_MEMCPY_USE_BYTELOOP
+    pSrc = pRing->pBuffer + RdOff;
     NumBytesRead += NumBytesRem;
     BufferSize   -= NumBytesRem;
     RdOff        += NumBytesRem;
@@ -706,7 +685,7 @@ unsigned SEGGER_RTT_ReadNoLock(unsigned BufferIndex, void* pData, unsigned Buffe
       *pBuffer++ = *pSrc++;
     };
 #else
-    SEGGER_RTT_MEMCPY(pBuffer, (void*)pSrc, NumBytesRem);
+    SEGGER_RTT_MEMCPY(pBuffer, pRing->pBuffer + RdOff, NumBytesRem);
     NumBytesRead += NumBytesRem;
     pBuffer      += NumBytesRem;
     BufferSize   -= NumBytesRem;
@@ -747,7 +726,7 @@ unsigned SEGGER_RTT_ReadNoLock(unsigned BufferIndex, void* pData, unsigned Buffe
 */
 unsigned SEGGER_RTT_ReadUpBuffer(unsigned BufferIndex, void* pBuffer, unsigned BufferSize) {
   unsigned NumBytesRead;
-
+  //
   SEGGER_RTT_LOCK();
   //
   // Call the non-locking read function
@@ -779,7 +758,7 @@ unsigned SEGGER_RTT_ReadUpBuffer(unsigned BufferIndex, void* pBuffer, unsigned B
 */
 unsigned SEGGER_RTT_Read(unsigned BufferIndex, void* pBuffer, unsigned BufferSize) {
   unsigned NumBytesRead;
-
+  //
   SEGGER_RTT_LOCK();
   //
   // Call the non-locking read function
@@ -820,12 +799,15 @@ void SEGGER_RTT_WriteWithOverwriteNoLock(unsigned BufferIndex, const void* pBuff
   const char*           pData;
   SEGGER_RTT_BUFFER_UP* pRing;
   unsigned              Avail;
-  volatile char*        pDst;
+#if SEGGER_RTT_MEMCPY_USE_BYTELOOP
+  char*                 pDst;
+#endif
+
+  pData = (const char *)pBuffer;
   //
   // Get "to-host" ring buffer and copy some elements into local variables.
   //
-  pData = (const char *)pBuffer;
-  pRing = (SEGGER_RTT_BUFFER_UP*)((char*)&_SEGGER_RTT.aUp[BufferIndex] + SEGGER_RTT_UNCACHED_OFF);  // Access uncached to make sure we see changes made by the J-Link side and all of our changes go into HW directly
+  pRing = &_SEGGER_RTT.aUp[BufferIndex];
   //
   // Check if we will overwrite data and need to adjust the RdOff.
   //
@@ -851,17 +833,17 @@ void SEGGER_RTT_WriteWithOverwriteNoLock(unsigned BufferIndex, const void* pBuff
       //
       // Last round
       //
-      pDst = (pRing->pBuffer + pRing->WrOff) + SEGGER_RTT_UNCACHED_OFF;
 #if SEGGER_RTT_MEMCPY_USE_BYTELOOP
+      pDst = pRing->pBuffer + pRing->WrOff;
       Avail = NumBytes;
       while (NumBytes--) {
         *pDst++ = *pData++;
       };
-      RTT__DMB();                     // Force data write to be complete before writing the <WrOff>, in case CPU is allowed to change the order of memory accesses
+      RTT__DMB();
       pRing->WrOff += Avail;
 #else
-      SEGGER_RTT_MEMCPY((void*)pDst, pData, NumBytes);
-      RTT__DMB();                     // Force data write to be complete before writing the <WrOff>, in case CPU is allowed to change the order of memory accesses
+      SEGGER_RTT_MEMCPY(pRing->pBuffer + pRing->WrOff, pData, NumBytes);
+      RTT__DMB();
       pRing->WrOff += NumBytes;
 #endif
       break;
@@ -869,18 +851,18 @@ void SEGGER_RTT_WriteWithOverwriteNoLock(unsigned BufferIndex, const void* pBuff
       //
       //  Wrap-around necessary, write until wrap-around and reset WrOff
       //
-      pDst = (pRing->pBuffer + pRing->WrOff) + SEGGER_RTT_UNCACHED_OFF;
 #if SEGGER_RTT_MEMCPY_USE_BYTELOOP
+      pDst = pRing->pBuffer + pRing->WrOff;
       NumBytes -= Avail;
       while (Avail--) {
         *pDst++ = *pData++;
       };
-      RTT__DMB();                     // Force data write to be complete before writing the <WrOff>, in case CPU is allowed to change the order of memory accesses
+      RTT__DMB();
       pRing->WrOff = 0;
 #else
-      SEGGER_RTT_MEMCPY((void*)pDst, pData, Avail);
+      SEGGER_RTT_MEMCPY(pRing->pBuffer + pRing->WrOff, pData, Avail);
       pData += Avail;
-      RTT__DMB();                     // Force data write to be complete before writing the <WrOff>, in case CPU is allowed to change the order of memory accesses
+      RTT__DMB();
       pRing->WrOff = 0;
       NumBytes -= Avail;
 #endif
@@ -924,7 +906,6 @@ unsigned SEGGER_RTT_WriteSkipNoLock(unsigned BufferIndex, const void* pBuffer, u
   unsigned              RdOff;
   unsigned              WrOff;
   unsigned              Rem;
-  volatile char*        pDst;
   //
   // Cases:
   //   1) RdOff <= WrOff => Space until wrap-around is sufficient
@@ -936,24 +917,22 @@ unsigned SEGGER_RTT_WriteSkipNoLock(unsigned BufferIndex, const void* pBuffer, u
   // 1) is the most common case for large buffers and assuming that J-Link reads the data fast enough
   //
   pData = (const char *)pBuffer;
-  pRing = (SEGGER_RTT_BUFFER_UP*)((char*)&_SEGGER_RTT.aUp[BufferIndex] + SEGGER_RTT_UNCACHED_OFF);  // Access uncached to make sure we see changes made by the J-Link side and all of our changes go into HW directly
+  pRing = &_SEGGER_RTT.aUp[BufferIndex];
   RdOff = pRing->RdOff;
   WrOff = pRing->WrOff;
   if (RdOff <= WrOff) {                                 // Case 1), 2) or 3)
     Avail = pRing->SizeOfBuffer - WrOff - 1u;           // Space until wrap-around (assume 1 byte not usable for case that RdOff == 0)
     if (Avail >= NumBytes) {                            // Case 1)?
 CopyStraight:
-      pDst = (pRing->pBuffer + WrOff) + SEGGER_RTT_UNCACHED_OFF;
-      memcpy((void*)pDst, pData, NumBytes);
-      RTT__DMB();                     // Force data write to be complete before writing the <WrOff>, in case CPU is allowed to change the order of memory accesses
+      memcpy(pRing->pBuffer + WrOff, pData, NumBytes);
+      RTT__DMB();
       pRing->WrOff = WrOff + NumBytes;
       return 1;
     }
     Avail += RdOff;                                     // Space incl. wrap-around
     if (Avail >= NumBytes) {                            // Case 2? => If not, we have case 3) (does not fit)
       Rem = pRing->SizeOfBuffer - WrOff;                // Space until end of buffer
-      pDst = (pRing->pBuffer + WrOff) + SEGGER_RTT_UNCACHED_OFF;
-      memcpy((void*)pDst, pData, Rem);                  // Copy 1st chunk
+      memcpy(pRing->pBuffer + WrOff, pData, Rem);       // Copy 1st chunk
       NumBytes -= Rem;
       //
       // Special case: First check that assumed RdOff == 0 calculated that last element before wrap-around could not be used
@@ -962,10 +941,9 @@ CopyStraight:
       // Therefore, check if 2nd memcpy is necessary at all
       //
       if (NumBytes) {
-        pDst = pRing->pBuffer + SEGGER_RTT_UNCACHED_OFF;
-        memcpy((void*)pDst, pData + Rem, NumBytes);
+        memcpy(pRing->pBuffer, pData + Rem, NumBytes);
       }
-      RTT__DMB();                     // Force data write to be complete before writing the <WrOff>, in case CPU is allowed to change the order of memory accesses
+      RTT__DMB();
       pRing->WrOff = NumBytes;
       return 1;
     }
@@ -1012,12 +990,13 @@ unsigned SEGGER_RTT_WriteDownBufferNoLock(unsigned BufferIndex, const void* pBuf
   unsigned                Avail;
   const char*             pData;
   SEGGER_RTT_BUFFER_UP*   pRing;
+
+  pData = (const char *)pBuffer;
   //
   // Get "to-target" ring buffer.
   // It is save to cast that to a "to-host" buffer. Up and Down buffer differ in volatility of offsets that might be modified by J-Link.
   //
-  pData = (const char *)pBuffer;
-  pRing = (SEGGER_RTT_BUFFER_UP*)((char*)&_SEGGER_RTT.aDown[BufferIndex] + SEGGER_RTT_UNCACHED_OFF);  // Access uncached to make sure we see changes made by the J-Link side and all of our changes go into HW directly
+  pRing = (SEGGER_RTT_BUFFER_UP*)&_SEGGER_RTT.aDown[BufferIndex];
   //
   // How we output depends upon the mode...
   //
@@ -1087,11 +1066,12 @@ unsigned SEGGER_RTT_WriteNoLock(unsigned BufferIndex, const void* pBuffer, unsig
   unsigned              Avail;
   const char*           pData;
   SEGGER_RTT_BUFFER_UP* pRing;
+
+  pData = (const char *)pBuffer;
   //
   // Get "to-host" ring buffer.
   //
-  pData = (const char *)pBuffer;
-  pRing = (SEGGER_RTT_BUFFER_UP*)((char*)&_SEGGER_RTT.aUp[BufferIndex] + SEGGER_RTT_UNCACHED_OFF);  // Access uncached to make sure we see changes made by the J-Link side and all of our changes go into HW directly
+  pRing = &_SEGGER_RTT.aUp[BufferIndex];
   //
   // How we output depends upon the mode...
   //
@@ -1160,11 +1140,18 @@ unsigned SEGGER_RTT_WriteNoLock(unsigned BufferIndex, const void* pBuffer, unsig
 */
 unsigned SEGGER_RTT_WriteDownBuffer(unsigned BufferIndex, const void* pBuffer, unsigned NumBytes) {
   unsigned Status;
-
+  //
   INIT();
   SEGGER_RTT_LOCK();
-  Status = SEGGER_RTT_WriteDownBufferNoLock(BufferIndex, pBuffer, NumBytes);  // Call the non-locking write function
+  //
+  // Call the non-locking write function
+  //
+  Status = SEGGER_RTT_WriteDownBufferNoLock(BufferIndex, pBuffer, NumBytes);
+  //
+  // Finish up.
+  //
   SEGGER_RTT_UNLOCK();
+  //
   return Status;
 }
 
@@ -1189,11 +1176,18 @@ unsigned SEGGER_RTT_WriteDownBuffer(unsigned BufferIndex, const void* pBuffer, u
 */
 unsigned SEGGER_RTT_Write(unsigned BufferIndex, const void* pBuffer, unsigned NumBytes) {
   unsigned Status;
-
+  //
   INIT();
   SEGGER_RTT_LOCK();
-  Status = SEGGER_RTT_WriteNoLock(BufferIndex, pBuffer, NumBytes);  // Call the non-locking write function
+  //
+  // Call the non-locking write function
+  //
+  Status = SEGGER_RTT_WriteNoLock(BufferIndex, pBuffer, NumBytes);
+  //
+  // Finish up.
+  //
   SEGGER_RTT_UNLOCK();
+  //
   return Status;
 }
 
@@ -1251,11 +1245,10 @@ unsigned SEGGER_RTT_PutCharSkipNoLock(unsigned BufferIndex, char c) {
   SEGGER_RTT_BUFFER_UP* pRing;
   unsigned              WrOff;
   unsigned              Status;
-  volatile char*        pDst;
   //
   // Get "to-host" ring buffer.
   //
-  pRing = (SEGGER_RTT_BUFFER_UP*)((char*)&_SEGGER_RTT.aUp[BufferIndex] + SEGGER_RTT_UNCACHED_OFF);  // Access uncached to make sure we see changes made by the J-Link side and all of our changes go into HW directly
+  pRing = &_SEGGER_RTT.aUp[BufferIndex];
   //
   // Get write position and handle wrap-around if necessary
   //
@@ -1267,9 +1260,8 @@ unsigned SEGGER_RTT_PutCharSkipNoLock(unsigned BufferIndex, char c) {
   // Output byte if free space is available
   //
   if (WrOff != pRing->RdOff) {
-    pDst = (pRing->pBuffer + pRing->WrOff) + SEGGER_RTT_UNCACHED_OFF;
-    *pDst = c;
-    RTT__DMB();                     // Force data write to be complete before writing the <WrOff>, in case CPU is allowed to change the order of memory accesses
+    pRing->pBuffer[pRing->WrOff] = c;
+    RTT__DMB();
     pRing->WrOff = WrOff;
     Status = 1;
   } else {
@@ -1301,7 +1293,6 @@ unsigned SEGGER_RTT_PutCharSkip(unsigned BufferIndex, char c) {
   SEGGER_RTT_BUFFER_UP* pRing;
   unsigned              WrOff;
   unsigned              Status;
-  volatile char*        pDst;
   //
   // Prepare
   //
@@ -1310,7 +1301,7 @@ unsigned SEGGER_RTT_PutCharSkip(unsigned BufferIndex, char c) {
   //
   // Get "to-host" ring buffer.
   //
-  pRing = (SEGGER_RTT_BUFFER_UP*)((char*)&_SEGGER_RTT.aUp[BufferIndex] + SEGGER_RTT_UNCACHED_OFF);  // Access uncached to make sure we see changes made by the J-Link side and all of our changes go into HW directly
+  pRing = &_SEGGER_RTT.aUp[BufferIndex];
   //
   // Get write position and handle wrap-around if necessary
   //
@@ -1322,9 +1313,8 @@ unsigned SEGGER_RTT_PutCharSkip(unsigned BufferIndex, char c) {
   // Output byte if free space is available
   //
   if (WrOff != pRing->RdOff) {
-    pDst  = (pRing->pBuffer + pRing->WrOff) + SEGGER_RTT_UNCACHED_OFF;
-    *pDst = c;
-    RTT__DMB();                     // Force data write to be complete before writing the <WrOff>, in case CPU is allowed to change the order of memory accesses
+    pRing->pBuffer[pRing->WrOff] = c;
+    RTT__DMB();
     pRing->WrOff = WrOff;
     Status = 1;
   } else {
@@ -1360,7 +1350,6 @@ unsigned SEGGER_RTT_PutChar(unsigned BufferIndex, char c) {
   SEGGER_RTT_BUFFER_UP* pRing;
   unsigned              WrOff;
   unsigned              Status;
-  volatile char*        pDst;
   //
   // Prepare
   //
@@ -1369,7 +1358,7 @@ unsigned SEGGER_RTT_PutChar(unsigned BufferIndex, char c) {
   //
   // Get "to-host" ring buffer.
   //
-  pRing = (SEGGER_RTT_BUFFER_UP*)((char*)&_SEGGER_RTT.aUp[BufferIndex] + SEGGER_RTT_UNCACHED_OFF);  // Access uncached to make sure we see changes made by the J-Link side and all of our changes go into HW directly
+  pRing = &_SEGGER_RTT.aUp[BufferIndex];
   //
   // Get write position and handle wrap-around if necessary
   //
@@ -1389,9 +1378,8 @@ unsigned SEGGER_RTT_PutChar(unsigned BufferIndex, char c) {
   // Output byte if free space is available
   //
   if (WrOff != pRing->RdOff) {
-    pDst  = (pRing->pBuffer + pRing->WrOff) + SEGGER_RTT_UNCACHED_OFF;
-    *pDst = c;
-    RTT__DMB();                     // Force data write to be complete before writing the <WrOff>, in case CPU is allowed to change the order of memory accesses
+    pRing->pBuffer[pRing->WrOff] = c;
+    RTT__DMB();
     pRing->WrOff = WrOff;
     Status = 1;
   } else {
@@ -1401,6 +1389,7 @@ unsigned SEGGER_RTT_PutChar(unsigned BufferIndex, char c) {
   // Finish up.
   //
   SEGGER_RTT_UNLOCK();
+  //
   return Status;
 }
 
@@ -1471,14 +1460,12 @@ int SEGGER_RTT_WaitKey(void) {
 *    (1) This function is only specified for accesses to RTT buffer 0
 */
 int SEGGER_RTT_HasKey(void) {
-  SEGGER_RTT_BUFFER_DOWN* pRing;
   unsigned RdOff;
   int r;
 
   INIT();
-  pRing = (SEGGER_RTT_BUFFER_DOWN*)((char*)&_SEGGER_RTT.aDown[0] + SEGGER_RTT_UNCACHED_OFF);  // Access uncached to make sure we see changes made by the J-Link side and all of our changes go into HW directly
-  RdOff = pRing->RdOff;
-  if (RdOff != pRing->WrOff) {
+  RdOff = _SEGGER_RTT.aDown[0].RdOff;
+  if (RdOff != _SEGGER_RTT.aDown[0].WrOff) {
     r = 1;
   } else {
     r = 0;
@@ -1502,7 +1489,7 @@ unsigned SEGGER_RTT_HasData(unsigned BufferIndex) {
   SEGGER_RTT_BUFFER_DOWN* pRing;
   unsigned                v;
 
-  pRing = (SEGGER_RTT_BUFFER_DOWN*)((char*)&_SEGGER_RTT.aDown[BufferIndex] + SEGGER_RTT_UNCACHED_OFF);  // Access uncached to make sure we see changes made by the J-Link side and all of our changes go into HW directly
+  pRing = &_SEGGER_RTT.aDown[BufferIndex];
   v = pRing->WrOff;
   return v - pRing->RdOff;
 }
@@ -1523,7 +1510,7 @@ unsigned SEGGER_RTT_HasDataUp(unsigned BufferIndex) {
   SEGGER_RTT_BUFFER_UP* pRing;
   unsigned                v;
 
-  pRing = (SEGGER_RTT_BUFFER_UP*)((char*)&_SEGGER_RTT.aUp[BufferIndex] + SEGGER_RTT_UNCACHED_OFF);  // Access uncached to make sure we see changes made by the J-Link side and all of our changes go into HW directly
+  pRing = &_SEGGER_RTT.aUp[BufferIndex];
   v = pRing->RdOff;
   return pRing->WrOff - v;
 }
@@ -1549,26 +1536,24 @@ unsigned SEGGER_RTT_HasDataUp(unsigned BufferIndex) {
 */
 int SEGGER_RTT_AllocDownBuffer(const char* sName, void* pBuffer, unsigned BufferSize, unsigned Flags) {
   int BufferIndex;
-  volatile SEGGER_RTT_CB* pRTTCB;
 
   INIT();
   SEGGER_RTT_LOCK();
-  pRTTCB = (volatile SEGGER_RTT_CB*)((unsigned char*)&_SEGGER_RTT + SEGGER_RTT_UNCACHED_OFF);  // Access RTTCB uncached to make sure we see changes made by the J-Link side and all of our changes go into HW directly
   BufferIndex = 0;
   do {
-    if (pRTTCB->aDown[BufferIndex].pBuffer == NULL) {
+    if (_SEGGER_RTT.aDown[BufferIndex].pBuffer == NULL) {
       break;
     }
     BufferIndex++;
-  } while (BufferIndex < pRTTCB->MaxNumDownBuffers);
-  if (BufferIndex < pRTTCB->MaxNumDownBuffers) {
-    pRTTCB->aDown[BufferIndex].sName        = sName;
-    pRTTCB->aDown[BufferIndex].pBuffer      = (char*)pBuffer;
-    pRTTCB->aDown[BufferIndex].SizeOfBuffer = BufferSize;
-    pRTTCB->aDown[BufferIndex].RdOff        = 0u;
-    pRTTCB->aDown[BufferIndex].WrOff        = 0u;
-    pRTTCB->aDown[BufferIndex].Flags        = Flags;
-    RTT__DMB();                     // Force data write to be complete before writing the <WrOff>, in case CPU is allowed to change the order of memory accesses
+  } while (BufferIndex < _SEGGER_RTT.MaxNumDownBuffers);
+  if (BufferIndex < _SEGGER_RTT.MaxNumDownBuffers) {
+    _SEGGER_RTT.aDown[BufferIndex].sName        = sName;
+    _SEGGER_RTT.aDown[BufferIndex].pBuffer      = (char*)pBuffer;
+    _SEGGER_RTT.aDown[BufferIndex].SizeOfBuffer = BufferSize;
+    _SEGGER_RTT.aDown[BufferIndex].RdOff        = 0u;
+    _SEGGER_RTT.aDown[BufferIndex].WrOff        = 0u;
+    _SEGGER_RTT.aDown[BufferIndex].Flags        = Flags;
+    RTT__DMB();
   } else {
     BufferIndex = -1;
   }
@@ -1597,26 +1582,24 @@ int SEGGER_RTT_AllocDownBuffer(const char* sName, void* pBuffer, unsigned Buffer
 */
 int SEGGER_RTT_AllocUpBuffer(const char* sName, void* pBuffer, unsigned BufferSize, unsigned Flags) {
   int BufferIndex;
-  volatile SEGGER_RTT_CB* pRTTCB;
 
   INIT();
   SEGGER_RTT_LOCK();
-  pRTTCB = (volatile SEGGER_RTT_CB*)((unsigned char*)&_SEGGER_RTT + SEGGER_RTT_UNCACHED_OFF);  // Access RTTCB uncached to make sure we see changes made by the J-Link side and all of our changes go into HW directly
   BufferIndex = 0;
   do {
-    if (pRTTCB->aUp[BufferIndex].pBuffer == NULL) {
+    if (_SEGGER_RTT.aUp[BufferIndex].pBuffer == NULL) {
       break;
     }
     BufferIndex++;
-  } while (BufferIndex < pRTTCB->MaxNumUpBuffers);
-  if (BufferIndex < pRTTCB->MaxNumUpBuffers) {
-    pRTTCB->aUp[BufferIndex].sName        = sName;
-    pRTTCB->aUp[BufferIndex].pBuffer      = (char*)pBuffer;
-    pRTTCB->aUp[BufferIndex].SizeOfBuffer = BufferSize;
-    pRTTCB->aUp[BufferIndex].RdOff        = 0u;
-    pRTTCB->aUp[BufferIndex].WrOff        = 0u;
-    pRTTCB->aUp[BufferIndex].Flags        = Flags;
-    RTT__DMB();                     // Force data write to be complete before writing the <WrOff>, in case CPU is allowed to change the order of memory accesses
+  } while (BufferIndex < _SEGGER_RTT.MaxNumUpBuffers);
+  if (BufferIndex < _SEGGER_RTT.MaxNumUpBuffers) {
+    _SEGGER_RTT.aUp[BufferIndex].sName        = sName;
+    _SEGGER_RTT.aUp[BufferIndex].pBuffer      = (char*)pBuffer;
+    _SEGGER_RTT.aUp[BufferIndex].SizeOfBuffer = BufferSize;
+    _SEGGER_RTT.aUp[BufferIndex].RdOff        = 0u;
+    _SEGGER_RTT.aUp[BufferIndex].WrOff        = 0u;
+    _SEGGER_RTT.aUp[BufferIndex].Flags        = Flags;
+    RTT__DMB();
   } else {
     BufferIndex = -1;
   }
@@ -1651,20 +1634,18 @@ int SEGGER_RTT_AllocUpBuffer(const char* sName, void* pBuffer, unsigned BufferSi
 */
 int SEGGER_RTT_ConfigUpBuffer(unsigned BufferIndex, const char* sName, void* pBuffer, unsigned BufferSize, unsigned Flags) {
   int r;
-  volatile SEGGER_RTT_CB* pRTTCB;
 
   INIT();
-  pRTTCB = (volatile SEGGER_RTT_CB*)((unsigned char*)&_SEGGER_RTT + SEGGER_RTT_UNCACHED_OFF);  // Access RTTCB uncached to make sure we see changes made by the J-Link side and all of our changes go into HW directly
-  if (BufferIndex < (unsigned)pRTTCB->MaxNumUpBuffers) {
+  if (BufferIndex < (unsigned)_SEGGER_RTT.MaxNumUpBuffers) {
     SEGGER_RTT_LOCK();
     if (BufferIndex > 0u) {
-      pRTTCB->aUp[BufferIndex].sName        = sName;
-      pRTTCB->aUp[BufferIndex].pBuffer      = (char*)pBuffer;
-      pRTTCB->aUp[BufferIndex].SizeOfBuffer = BufferSize;
-      pRTTCB->aUp[BufferIndex].RdOff        = 0u;
-      pRTTCB->aUp[BufferIndex].WrOff        = 0u;
+      _SEGGER_RTT.aUp[BufferIndex].sName        = sName;
+      _SEGGER_RTT.aUp[BufferIndex].pBuffer      = (char*)pBuffer;
+      _SEGGER_RTT.aUp[BufferIndex].SizeOfBuffer = BufferSize;
+      _SEGGER_RTT.aUp[BufferIndex].RdOff        = 0u;
+      _SEGGER_RTT.aUp[BufferIndex].WrOff        = 0u;
     }
-    pRTTCB->aUp[BufferIndex].Flags          = Flags;
+    _SEGGER_RTT.aUp[BufferIndex].Flags          = Flags;
     SEGGER_RTT_UNLOCK();
     r =  0;
   } else {
@@ -1700,21 +1681,19 @@ int SEGGER_RTT_ConfigUpBuffer(unsigned BufferIndex, const char* sName, void* pBu
 */
 int SEGGER_RTT_ConfigDownBuffer(unsigned BufferIndex, const char* sName, void* pBuffer, unsigned BufferSize, unsigned Flags) {
   int r;
-  volatile SEGGER_RTT_CB* pRTTCB;
 
   INIT();
-  pRTTCB = (volatile SEGGER_RTT_CB*)((unsigned char*)&_SEGGER_RTT + SEGGER_RTT_UNCACHED_OFF);  // Access RTTCB uncached to make sure we see changes made by the J-Link side and all of our changes go into HW directly
-  if (BufferIndex < (unsigned)pRTTCB->MaxNumDownBuffers) {
+  if (BufferIndex < (unsigned)_SEGGER_RTT.MaxNumDownBuffers) {
     SEGGER_RTT_LOCK();
     if (BufferIndex > 0u) {
-      pRTTCB->aDown[BufferIndex].sName        = sName;
-      pRTTCB->aDown[BufferIndex].pBuffer      = (char*)pBuffer;
-      pRTTCB->aDown[BufferIndex].SizeOfBuffer = BufferSize;
-      pRTTCB->aDown[BufferIndex].RdOff        = 0u;
-      pRTTCB->aDown[BufferIndex].WrOff        = 0u;
+      _SEGGER_RTT.aDown[BufferIndex].sName        = sName;
+      _SEGGER_RTT.aDown[BufferIndex].pBuffer      = (char*)pBuffer;
+      _SEGGER_RTT.aDown[BufferIndex].SizeOfBuffer = BufferSize;
+      _SEGGER_RTT.aDown[BufferIndex].RdOff        = 0u;
+      _SEGGER_RTT.aDown[BufferIndex].WrOff        = 0u;
     }
-    pRTTCB->aDown[BufferIndex].Flags          = Flags;
-    RTT__DMB();                     // Force data write to be complete before writing the <WrOff>, in case CPU is allowed to change the order of memory accesses
+    _SEGGER_RTT.aDown[BufferIndex].Flags          = Flags;
+    RTT__DMB();
     SEGGER_RTT_UNLOCK();
     r =  0;
   } else {
@@ -1741,13 +1720,11 @@ int SEGGER_RTT_ConfigDownBuffer(unsigned BufferIndex, const char* sName, void* p
 */
 int SEGGER_RTT_SetNameUpBuffer(unsigned BufferIndex, const char* sName) {
   int r;
-  volatile SEGGER_RTT_CB* pRTTCB;
 
   INIT();
-  pRTTCB = (volatile SEGGER_RTT_CB*)((unsigned char*)&_SEGGER_RTT + SEGGER_RTT_UNCACHED_OFF);  // Access RTTCB uncached to make sure we see changes made by the J-Link side and all of our changes go into HW directly
-  if (BufferIndex < (unsigned)pRTTCB->MaxNumUpBuffers) {
+  if (BufferIndex < (unsigned)_SEGGER_RTT.MaxNumUpBuffers) {
     SEGGER_RTT_LOCK();
-    pRTTCB->aUp[BufferIndex].sName = sName;
+    _SEGGER_RTT.aUp[BufferIndex].sName = sName;
     SEGGER_RTT_UNLOCK();
     r =  0;
   } else {
@@ -1774,13 +1751,11 @@ int SEGGER_RTT_SetNameUpBuffer(unsigned BufferIndex, const char* sName) {
 */
 int SEGGER_RTT_SetNameDownBuffer(unsigned BufferIndex, const char* sName) {
   int r;
-  volatile SEGGER_RTT_CB* pRTTCB;
 
   INIT();
-  pRTTCB = (volatile SEGGER_RTT_CB*)((unsigned char*)&_SEGGER_RTT + SEGGER_RTT_UNCACHED_OFF);  // Access RTTCB uncached to make sure we see changes made by the J-Link side and all of our changes go into HW directly
-  if (BufferIndex < (unsigned)pRTTCB->MaxNumDownBuffers) {
+  if (BufferIndex < (unsigned)_SEGGER_RTT.MaxNumDownBuffers) {
     SEGGER_RTT_LOCK();
-    pRTTCB->aDown[BufferIndex].sName = sName;
+    _SEGGER_RTT.aDown[BufferIndex].sName = sName;
     SEGGER_RTT_UNLOCK();
     r =  0;
   } else {
@@ -1807,13 +1782,11 @@ int SEGGER_RTT_SetNameDownBuffer(unsigned BufferIndex, const char* sName) {
 */
 int SEGGER_RTT_SetFlagsUpBuffer(unsigned BufferIndex, unsigned Flags) {
   int r;
-  volatile SEGGER_RTT_CB* pRTTCB;
 
   INIT();
-  pRTTCB = (volatile SEGGER_RTT_CB*)((unsigned char*)&_SEGGER_RTT + SEGGER_RTT_UNCACHED_OFF);  // Access RTTCB uncached to make sure we see changes made by the J-Link side and all of our changes go into HW directly
-  if (BufferIndex < (unsigned)pRTTCB->MaxNumUpBuffers) {
+  if (BufferIndex < (unsigned)_SEGGER_RTT.MaxNumUpBuffers) {
     SEGGER_RTT_LOCK();
-    pRTTCB->aUp[BufferIndex].Flags = Flags;
+    _SEGGER_RTT.aUp[BufferIndex].Flags = Flags;
     SEGGER_RTT_UNLOCK();
     r =  0;
   } else {
@@ -1840,13 +1813,11 @@ int SEGGER_RTT_SetFlagsUpBuffer(unsigned BufferIndex, unsigned Flags) {
 */
 int SEGGER_RTT_SetFlagsDownBuffer(unsigned BufferIndex, unsigned Flags) {
   int r;
-  volatile SEGGER_RTT_CB* pRTTCB;
 
   INIT();
-  pRTTCB = (volatile SEGGER_RTT_CB*)((unsigned char*)&_SEGGER_RTT + SEGGER_RTT_UNCACHED_OFF);  // Access RTTCB uncached to make sure we see changes made by the J-Link side and all of our changes go into HW directly
-  if (BufferIndex < (unsigned)pRTTCB->MaxNumDownBuffers) {
+  if (BufferIndex < (unsigned)_SEGGER_RTT.MaxNumDownBuffers) {
     SEGGER_RTT_LOCK();
-    pRTTCB->aDown[BufferIndex].Flags = Flags;
+    _SEGGER_RTT.aDown[BufferIndex].Flags = Flags;
     SEGGER_RTT_UNLOCK();
     r =  0;
   } else {
@@ -1881,23 +1852,21 @@ void SEGGER_RTT_Init (void) {
 *  Return value
 *    >= 0  O.K.
 *     < 0  Error (e.g. if RTT is configured for non-blocking mode and there was no space in the buffer to set the new terminal Id)
-*
-*  Notes
-*    (1) Buffer 0 is always reserved for terminal I/O, so we can use index 0 here, fixed
 */
 int SEGGER_RTT_SetTerminal (unsigned char TerminalId) {
   unsigned char         ac[2];
   SEGGER_RTT_BUFFER_UP* pRing;
   unsigned Avail;
   int r;
-
+  //
   INIT();
+  //
   r = 0;
   ac[0] = 0xFFu;
   if (TerminalId < sizeof(_aTerminalId)) { // We only support a certain number of channels
     ac[1] = _aTerminalId[TerminalId];
-    pRing = (SEGGER_RTT_BUFFER_UP*)((char*)&_SEGGER_RTT.aUp[0] + SEGGER_RTT_UNCACHED_OFF);  // Access uncached to make sure we see changes made by the J-Link side and all of our changes go into HW directly
-    SEGGER_RTT_LOCK();                     // Lock to make sure that no other task is writing into buffer, while we are and number of free bytes in buffer does not change downwards after checking and before writing
+    pRing = &_SEGGER_RTT.aUp[0];    // Buffer 0 is always reserved for terminal I/O, so we can use index 0 here, fixed
+    SEGGER_RTT_LOCK();    // Lock to make sure that no other task is writing into buffer, while we are and number of free bytes in buffer does not change downwards after checking and before writing
     if ((pRing->Flags & SEGGER_RTT_MODE_MASK) == SEGGER_RTT_MODE_BLOCK_IF_FIFO_FULL) {
       _ActiveTerminal = TerminalId;
       _WriteBlocking(pRing, (const char*)ac, 2u);
@@ -1948,7 +1917,7 @@ int SEGGER_RTT_TerminalOut (unsigned char TerminalId, const char* s) {
     //
     // Get "to-host" ring buffer.
     //
-    pRing = (SEGGER_RTT_BUFFER_UP*)((char*)&_SEGGER_RTT.aUp[0] + SEGGER_RTT_UNCACHED_OFF);  // Access uncached to make sure we see changes made by the J-Link side and all of our changes go into HW directly
+    pRing = &_SEGGER_RTT.aUp[0];
     //
     // Need to be able to change terminal, write data, change back.
     // Compute the fixed and variable sizes.
@@ -2022,11 +1991,8 @@ int SEGGER_RTT_TerminalOut (unsigned char TerminalId, const char* s) {
 *  Return value
 *    Number of bytes that are free in the selected up buffer.
 */
-unsigned SEGGER_RTT_GetAvailWriteSpace (unsigned BufferIndex) {
-  SEGGER_RTT_BUFFER_UP* pRing;
-
-  pRing = (SEGGER_RTT_BUFFER_UP*)((char*)&_SEGGER_RTT.aUp[BufferIndex] + SEGGER_RTT_UNCACHED_OFF);  // Access uncached to make sure we see changes made by the J-Link side and all of our changes go into HW directly
-  return _GetAvailWriteSpace(pRing);
+unsigned SEGGER_RTT_GetAvailWriteSpace (unsigned BufferIndex){
+  return _GetAvailWriteSpace(&_SEGGER_RTT.aUp[BufferIndex]);
 }
 
 
@@ -2047,18 +2013,16 @@ unsigned SEGGER_RTT_GetBytesInBuffer(unsigned BufferIndex) {
   unsigned RdOff;
   unsigned WrOff;
   unsigned r;
-  volatile SEGGER_RTT_CB* pRTTCB;
   //
   // Avoid warnings regarding volatile access order.  It's not a problem
   // in this case, but dampen compiler enthusiasm.
   //
-  pRTTCB = (volatile SEGGER_RTT_CB*)((unsigned char*)&_SEGGER_RTT + SEGGER_RTT_UNCACHED_OFF);  // Access RTTCB uncached to make sure we see changes made by the J-Link side and all of our changes go into HW directly
-  RdOff = pRTTCB->aUp[BufferIndex].RdOff;
-  WrOff = pRTTCB->aUp[BufferIndex].WrOff;
+  RdOff = _SEGGER_RTT.aUp[BufferIndex].RdOff;
+  WrOff = _SEGGER_RTT.aUp[BufferIndex].WrOff;
   if (RdOff <= WrOff) {
     r = WrOff - RdOff;
   } else {
-    r = pRTTCB->aUp[BufferIndex].SizeOfBuffer - (WrOff - RdOff);
+    r = _SEGGER_RTT.aUp[BufferIndex].SizeOfBuffer - (WrOff - RdOff);
   }
   return r;
 }
