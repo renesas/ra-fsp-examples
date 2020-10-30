@@ -58,6 +58,7 @@ FSP Configuration
     Soft Reset: Disabled
     Main Oscillator Populated: Populated
     PFS Protect: Enabled
+    C Runtime Initialization : Enabled
     Main Oscillator Wait Time: 32768 us
     Main Oscillator Clock Source: Crystal or Resonator
     Subclock Populated: Populated
@@ -67,7 +68,7 @@ FSP Configuration
   Clocks
     XTAL 24000000Hz
     HOCO 20MHz
-    PLL Src: XTAL
+    PLL Src: HOCO
     PLL Div /3
     PLL Mul x25.0
     PLL2 Src: XTAL
@@ -389,9 +390,9 @@ FSP Configuration
     Parameter Checking: Default (BSP)
     
   Module "USB PCDC driver on r_usb_pcdc"
-    Bulk Input Transfer Pipe: USB PIPE1
-    Bulk Output Transfer Pipe: USB PIPE2
-    Interrupt Output Pipe: USB PIPE6
+    Bulk In Pipe: USB PIPE1
+    Bulk Out Pipe: USB PIPE2
+    Interrupt Out Pipe: USB PIPE6
     
   Module "USB Driver on r_usb_basic"
     Parameter Checking: Default (BSP)

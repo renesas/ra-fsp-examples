@@ -42,7 +42,7 @@
 *                                                                    *
 **********************************************************************
 *                                                                    *
-*       RTT version: 6.86                                           *
+*       RTT version: 6.86d                                           *
 *                                                                    *
 **********************************************************************
 
@@ -51,7 +51,7 @@ File    : SEGGER_RTT_Conf.h
 Purpose : Implementation of SEGGER real-time transfer (RTT) which
           allows real-time communication on targets which support
           debugger memory accesses while the CPU is running.
-Revision: $Rev: 20878 $
+Revision: $Rev: 21074 $
 
 */
 
@@ -111,12 +111,12 @@ Revision: $Rev: 20878 $
 *
 *       RTT memcpy configuration
 *
-*       memcpy() is good for large amounts of data, 
+*       memcpy() is good for large amounts of data,
 *       but the overhead is big for small amounts, which are usually stored via RTT.
 *       With SEGGER_RTT_MEMCPY_USE_BYTELOOP a simple byte loop can be used instead.
 *
 *       SEGGER_RTT_MEMCPY() can be used to replace standard memcpy() in RTT functions.
-*       This is may be required with memory access restrictions, 
+*       This is may be required with memory access restrictions,
 *       such as on Cortex-A devices with MMU.
 */
 #ifndef   SEGGER_RTT_MEMCPY_USE_BYTELOOP
@@ -125,7 +125,7 @@ Revision: $Rev: 20878 $
 //
 // Example definition of SEGGER_RTT_MEMCPY to external memcpy with GCC toolchains and Cortex-A targets
 //
-//#if ((defined __SES_ARM) || (defined __CROSSWORKS_ARM) || (defined __GNUC__)) && (defined (__ARM_ARCH_7A__))  
+//#if ((defined __SES_ARM) || (defined __CROSSWORKS_ARM) || (defined __GNUC__)) && (defined (__ARM_ARCH_7A__))
 //  #define SEGGER_RTT_MEMCPY(pDest, pSrc, NumBytes)      SEGGER_memcpy((pDest), (pSrc), (NumBytes))
 //#endif
 
@@ -224,7 +224,7 @@ Revision: $Rev: 20878 $
                                                  :                             \
                                                  :                             \
                                                 );
-                               
+
   #define SEGGER_RTT_UNLOCK()    __asm volatile ("csrr  a1, mstatus  \n\t"     \
                                                  "or    %0, %0, a1   \n\t"     \
                                                  "csrs  mstatus, %0  \n\t"     \
@@ -267,6 +267,30 @@ Revision: $Rev: 20878 $
 
     #define SEGGER_RTT_UNLOCK()   __set_BASEPRI(LockState);                                         \
                                 }
+  #elif (defined (__ARM7A__) && (__CORE__ == __ARM7A__))                    ||                      \
+        (defined (__ARM7R__) && (__CORE__ == __ARM7R__))
+    #define SEGGER_RTT_LOCK() {                                                                     \
+                                 unsigned int LockState;                                            \
+                                 __asm volatile ("mrs r1, CPSR \n\t"                                \
+                                                 "mov %0, r1 \n\t"                                  \
+                                                 "orr r1, r1, #0xC0 \n\t"                           \
+                                                 "msr CPSR_c, r1 \n\t"                              \
+                                                 : "=r" (LockState)                                 \
+                                                 :                                                  \
+                                                 : "r1", "cc"                                       \
+                                                 );
+
+    #define SEGGER_RTT_UNLOCK() __asm volatile ("mov r0, %0 \n\t"                                   \
+                                                "mrs r1, CPSR \n\t"                                 \
+                                                "bic r1, r1, #0xC0 \n\t"                            \
+                                                "and r0, r0, #0xC0 \n\t"                            \
+                                                "orr r1, r1, r0 \n\t"                               \
+                                                "msr CPSR_c, r1 \n\t"                               \
+                                                :                                                   \
+                                                : "r" (LockState)                                   \
+                                                : "r0", "r1", "cc"                                  \
+                                                );                                                  \
+                            }
   #endif
 #endif
 
@@ -366,8 +390,8 @@ Revision: $Rev: 20878 $
   #define SEGGER_RTT_LOCK()   {                                                                     \
                                 unsigned long LockState;                                            \
                                 LockState = get_psw() & 0x010000;                                   \
-                                clrpsw_i();                           
-                                    
+                                clrpsw_i();
+
   #define SEGGER_RTT_UNLOCK()   set_psw(get_psw() | LockState);                                     \
                               }
 #endif
