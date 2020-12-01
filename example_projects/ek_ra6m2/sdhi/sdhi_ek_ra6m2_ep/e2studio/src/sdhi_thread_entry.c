@@ -24,10 +24,7 @@
 #include "common_utils.h"
 #include "sdhi_ep.h"
 
-/* FreeRTOS_PLUS_FAT control and configuration structure */
-extern const rm_freertos_plus_fat_disk_cfg_t g_rm_freertos_plus_fat_disk_cfg;
-extern const rm_freertos_plus_fat_cfg_t g_rm_freertos_plus_fat_cfg;
-extern rm_freertos_plus_fat_instance_ctrl_t g_rm_freertos_plus_fat_ctrl;
+
 extern EventGroupHandle_t g_SDHI_EventGroupHandle;
 
 /* Global Variables */

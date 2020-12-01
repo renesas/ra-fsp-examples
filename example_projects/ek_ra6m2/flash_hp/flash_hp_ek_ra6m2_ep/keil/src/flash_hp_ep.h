@@ -45,7 +45,7 @@
 
 #define FLASH_HP_DF_BLOCK_SIZE            (64)
 /* Data Flash */
-#if defined (BOARD_RA6M4_EK)
+#if (defined (BOARD_RA6M4_EK) || defined (BOARD_RA4M3_EK))
 
 #define FLASH_HP_DF_BLOCK_0               0x08000000U /*   64 B:  0x40100000 - 0x4010003F */
 #define FLASH_HP_DF_BLOCK_1               0x08000040U /*   64 B:  0x40100040 - 0x4010007F */

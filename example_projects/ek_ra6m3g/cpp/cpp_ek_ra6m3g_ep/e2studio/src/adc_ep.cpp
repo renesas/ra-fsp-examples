@@ -299,7 +299,7 @@ void adc_ep::deinit_adc_module(void)
 fsp_err_t adc_ep::adc_start_calibration(void)
 {
     fsp_err_t err = FSP_SUCCESS;     // Error status
-    adc_status_t adc_status = ADC_STATE_IDLE;         // to get adc status
+    adc_status_t adc_status = {ADC_STATE_IDLE};      // to get adc status
     uint32_t time_out = UINT32_MAX;                 //max value of time_out
 
     /* Initiate ADC calibration */

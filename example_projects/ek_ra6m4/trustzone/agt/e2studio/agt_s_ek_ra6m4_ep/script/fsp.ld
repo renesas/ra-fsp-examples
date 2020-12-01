@@ -5,6 +5,20 @@
 INCLUDE memory_regions.ld
 
 QSPI_FLASH_PRV_LENGTH = DEFINED(QSPI_FLASH_SIZE) ? ABSOLUTE(QSPI_FLASH_SIZE) : ABSOLUTE(QSPI_FLASH_LENGTH);
+OSPI_DEVICE_0_PRV_LENGTH = DEFINED(OSPI_DEVICE_0_SIZE) ? ABSOLUTE(OSPI_DEVICE_0_SIZE) : ABSOLUTE(OSPI_DEVICE_0_LENGTH);
+OSPI_DEVICE_1_PRV_LENGTH = DEFINED(OSPI_DEVICE_1_SIZE) ? ABSOLUTE(OSPI_DEVICE_1_SIZE) : ABSOLUTE(OSPI_DEVICE_1_LENGTH);
+
+/* If a flat (secure) project has DEFINED RAM_NS_BUFFER_LENGTH, then emit IDAU symbols to allocate non-secure RAM. */
+__RESERVE_NS_RAM = !DEFINED(PROJECT_NONSECURE) && DEFINED(RAM_NS_BUFFER_LENGTH);
+
+RAM_NS_BUFFER_BLOCK_LENGTH = DEFINED(RAM_NS_BUFFER_LENGTH) ? ALIGN(RAM_NS_BUFFER_LENGTH, 8192) : 0;
+RAM_NS_BUFFER_LENGTH = DEFINED(RAM_NS_BUFFER_LENGTH) ? RAM_NS_BUFFER_LENGTH : 0;
+RAM_NS_BUFFER_START = RAM_START + RAM_LENGTH - RAM_NS_BUFFER_LENGTH;
+RAM_NS_BUFFER_BLOCK_START = RAM_START + RAM_LENGTH - RAM_NS_BUFFER_BLOCK_LENGTH;
+
+OPTION_SETTING_START_NS = 0x0100A180;
+
+PROJECT_SECURE_OR_FLAT = !DEFINED(PROJECT_NONSECURE) && OPTION_SETTING_LENGTH;
 
 /* Define memory regions. */
 MEMORY
@@ -13,21 +27,20 @@ MEMORY
   RAM (rwx)       : ORIGIN = RAM_START, LENGTH = RAM_LENGTH
   DATA_FLASH (rx) : ORIGIN = DATA_FLASH_START, LENGTH = DATA_FLASH_LENGTH
   QSPI_FLASH (rx) : ORIGIN = QSPI_FLASH_START, LENGTH = QSPI_FLASH_PRV_LENGTH
+  OSPI_DEVICE_0 (rx) : ORIGIN = OSPI_DEVICE_0_START, LENGTH = OSPI_DEVICE_0_PRV_LENGTH
+  OSPI_DEVICE_1 (rx) : ORIGIN = OSPI_DEVICE_1_START, LENGTH = OSPI_DEVICE_1_PRV_LENGTH
   SDRAM (rwx)     : ORIGIN = SDRAM_START, LENGTH = SDRAM_LENGTH
   OPTION_SETTING (r): ORIGIN = OPTION_SETTING_START, LENGTH = OPTION_SETTING_LENGTH
   OPTION_SETTING_S (r): ORIGIN = OPTION_SETTING_S_START, LENGTH = OPTION_SETTING_S_LENGTH
   ID_CODE (rx)    : ORIGIN = ID_CODE_START, LENGTH = ID_CODE_LENGTH
 }
 
-OPTION_SETTING_START_NS = 0x0100A180;
-OPTION_SETTING_START_S = 0x0100A100;
-
 /* Library configurations */
 GROUP(libgcc.a libc.a libm.a libnosys.a)
 
 /* Linker script to place sections and symbol values. Should be used together
  * with other linker script that defines memory regions FLASH and RAM.
- * It references following symbols, which must be defined in code:
+ * It references following symbols, which must be DEFINED in code:
  *   Reset_Handler : Entry of reset handler
  *
  * It defines following symbols, which code can use without definition:
@@ -60,6 +73,18 @@ GROUP(libgcc.a libc.a libm.a libnosys.a)
  *   __qspi_region_max_size__
  *   __qspi_region_start_address__
  *   __qspi_region_end_address__
+ *   __ospi_device_0_start__
+ *   __ospi_device_0_end__
+ *   __ospi_device_0_code_size__
+ *   __ospi_device_0_region_max_size__
+ *   __ospi_device_0_region_start_address__
+ *   __ospi_device_0_region_end_address__
+ *   __ospi_device_1_start__
+ *   __ospi_device_1_end__
+ *   __ospi_device_1_code_size__
+ *   __ospi_device_1_region_max_size__
+ *   __ospi_device_1_region_start_address__
+ *   __ospi_device_1_region_end_address__
  */
 ENTRY(Reset_Handler)
 
@@ -67,7 +92,7 @@ SECTIONS
 {
     .text :
     {
-        __tz_FLASH_S = ORIGIN(FLASH);
+        __tz_FLASH_S = ABSOLUTE(FLASH_START);
         __ROM_Start = .;
 
         /* Even though the vector table is not 256 entries (1KB) long, we still allocate that much
@@ -236,14 +261,14 @@ SECTIONS
     .gnu.sgstubs : ALIGN (1024)
     {
         . = DEFINED(FLASH_NSC_START) ? ABSOLUTE(FLASH_NSC_START) : ALIGN(1024);
-        __tz_FLASH_C = .;
+        __tz_FLASH_C = DEFINED(FLASH_NSC_START) ? ABSOLUTE(FLASH_NSC_START) : __RESERVE_NS_RAM ? ABSOLUTE(FLASH_START + FLASH_LENGTH) : ALIGN(1024);
         _start_sg = .;
         *(.gnu.sgstubs*)
         . = ALIGN(32);
         _end_sg = .;
     } > FLASH
 
-    __tz_FLASH_N = DEFINED(FLASH_NS_START) ? ABSOLUTE(FLASH_NS_START) : ALIGN(32768);
+    __tz_FLASH_N = DEFINED(FLASH_NS_START) ? ABSOLUTE(FLASH_NS_START) : __RESERVE_NS_RAM ? ABSOLUTE(FLASH_START + FLASH_LENGTH) : ALIGN(32768);
 
     /* Note: There are no secure/non-secure boundaries for QSPI.  These symbols are provided for the RA configuration tool. */
     __tz_QSPI_FLASH_S = ORIGIN(QSPI_FLASH);
@@ -274,6 +299,66 @@ SECTIONS
 
     /* Note: There are no secure/non-secure boundaries for QSPI.  These symbols are provided for the RA configuration tool. */
     __tz_QSPI_FLASH_N = __qspi_non_retentive_end__;
+
+    /* Note: There are no secure/non-secure boundaries for QSPI.  These symbols are provided for the RA configuration tool. */
+    __tz_OSPI_DEVICE_0_S = ORIGIN(OSPI_DEVICE_0);
+
+    /* OSPI_DEVICE_0 section to be downloaded via debugger */
+    .OSPI_DEVICE_0 :
+    {
+        __ospi_device_0_start__ = .;
+        KEEP(*(.ospi_device_0*))
+        KEEP(*(.code_in_ospi_device_0*))
+        __ospi_device_0_end__ = .;
+    } > OSPI_DEVICE_0
+    __ospi_device_0_code_size__ = __ospi_device_0_end__ - __ospi_device_0_start__;
+
+    /* OSPI_DEVICE_0 non-retentive section, creates a copy in internal flash that can be copied to OSPI */
+    __ospi_device_0_code_addr__ = __etext + (__data_end__ - __data_start__);
+    .ospi_device_0_non_retentive : AT (__ospi_device_0_code_addr__)
+    {
+        __ospi_device_0_non_retentive_start__ = .;
+        KEEP(*(.ospi_device_0_non_retentive*))
+        __ospi_device_0_non_retentive_end__ = .;
+    } > OSPI_DEVICE_0
+    __ospi_device_0_non_retentive_size__ = __ospi_device_0_non_retentive_end__ - __ospi_device_0_non_retentive_start__;
+
+    __ospi_device_0_region_max_size__ = 0x8000000;   /* Must be the same as defined in MEMORY above */
+    __ospi_device_0_region_start_address__ = __ospi_device_0_start__;
+    __ospi_device_0_region_end_address__ = __ospi_device_0_start__ + __ospi_device_0_region_max_size__;
+
+    /* Note: There are no secure/non-secure boundaries for OSPI.  These symbols are provided for the RA configuration tool. */
+    __tz_OSPI_DEVICE_0_N = __ospi_device_0_non_retentive_end__;
+
+    /* Note: There are no secure/non-secure boundaries for OSPI.  These symbols are provided for the RA configuration tool. */
+    __tz_OSPI_DEVICE_1_S = ORIGIN(OSPI_DEVICE_1);
+
+    /* OSPI_DEVICE_1 section to be downloaded via debugger */
+    .OSPI_DEVICE_1 :
+    {
+        __ospi_device_1_start__ = .;
+        KEEP(*(.ospi_device_1*))
+        KEEP(*(.code_in_ospi_device_1*))
+        __ospi_device_1_end__ = .;
+    } > OSPI_DEVICE_1
+    __ospi_device_1_code_size__ = __ospi_device_1_end__ - __ospi_device_1_start__;
+
+    /* OSPI_DEVICE_1 non-retentive section, creates a copy in internal flash that can be copied to OSPI */
+    __ospi_device_1_code_addr__ = __etext + (__data_end__ - __data_start__);
+    .ospi_device_1_non_retentive : AT (__ospi_device_1_code_addr__)
+    {
+        __ospi_device_1_non_retentive_start__ = .;
+        KEEP(*(.ospi_device_1_non_retentive*))
+        __ospi_device_1_non_retentive_end__ = .;
+    } > OSPI_DEVICE_1
+    __ospi_device_1_non_retentive_size__ = __ospi_device_1_non_retentive_end__ - __ospi_device_1_non_retentive_start__;
+
+    __ospi_device_1_region_max_size__ = 0x10000000;   /* Must be the same as defined in MEMORY above */
+    __ospi_device_1_region_start_address__ = __ospi_device_1_start__;
+    __ospi_device_1_region_end_address__ = __ospi_device_1_start__ + __ospi_device_1_region_max_size__;
+
+    /* Note: There are no secure/non-secure boundaries for OSPI.  These symbols are provided for the RA configuration tool. */
+    __tz_OSPI_DEVICE_1_N = __ospi_device_1_non_retentive_end__;
 
     .noinit (NOLOAD):
     {
@@ -324,21 +409,38 @@ SECTIONS
        at run time for things such as ThreadX memory pool allocations. */
     __RAM_segment_used_end__ = ALIGN(__StackTopAll , 4);
 
-    __tz_RAM_C = DEFINED(RAM_NSC_START) ? ABSOLUTE(RAM_NSC_START) : ALIGN(__RAM_segment_used_end__, 1024);
-    __tz_RAM_N = DEFINED(RAM_NS_START) ? ABSOLUTE(RAM_NS_START) : ALIGN(__tz_RAM_C, 8192);
+    /* RAM_NSC_START can be used to set a fixed address for non-secure callable RAM in secure projects.
+     * If it is not specified, the address for NSC RAM is the end of RAM aligned to a 1K boundary.
+     * In flat projects that require non-secure RAM, this variable is set to the start of non-secure RAM. */
+    __tz_RAM_C = DEFINED(RAM_NSC_START) ? ABSOLUTE(RAM_NSC_START) : __RESERVE_NS_RAM ? ABSOLUTE(RAM_NS_BUFFER_BLOCK_START) : ALIGN(__RAM_segment_used_end__, 1024);
 
-    __tz_DATA_FLASH_S = ORIGIN(DATA_FLASH);
+    /* RAM_NS_START can be used to set a fixed address for non-secure RAM in secure projects or flat projects.
+     * RAM_NS_BUFFER_BLOCK_LENGTH is used to allocate non-secure buffers in a flat project. If it is not
+     * specified, the address for NSC RAM is the end of RAM aligned to an 8K boundary.
+     * In flat projects that require non-secure RAM, this variable is set to the start of non-secure RAM. */
+    __tz_RAM_N = DEFINED(RAM_NS_START) ? ABSOLUTE(RAM_NS_START) : __RESERVE_NS_RAM ? ABSOLUTE(RAM_NS_BUFFER_BLOCK_START) : ALIGN(__tz_RAM_C, 8192);
+
+    /* Non-secure buffers must be in non-secure RAM. This is primarily used for the EDMAC in flat projects.
+     * The EDMAC is a non-secure bus master and can only access non-secure RAM. */
+    .ns_buffer (NOLOAD):
+    {
+        /* Allocate RAM on a 32-byte boundary to help with placement of Ethernet buffers. */
+        . = __RESERVE_NS_RAM ? ABSOLUTE(RAM_NS_BUFFER_START & 0xFFFFFFE0) : .;
+
+        KEEP(*(.ns_buffer*))
+    } > RAM
 
     /* Data flash. */
     .data_flash :
     {
         . = ORIGIN(DATA_FLASH);
+        __tz_DATA_FLASH_S = .;
         __Data_Flash_Start = .;
         KEEP(*(.data_flash*))
         __Data_Flash_End = .;
-    } > DATA_FLASH
 
-    __tz_DATA_FLASH_N = DEFINED(DATA_FLASH_NS_START) ? ABSOLUTE(DATA_FLASH_NS_START) : ALIGN(1024);
+        __tz_DATA_FLASH_N = DEFINED(DATA_FLASH_NS_START) ? ABSOLUTE(DATA_FLASH_NS_START) : __RESERVE_NS_RAM ? ABSOLUTE(DATA_FLASH_START + DATA_FLASH_LENGTH) : ALIGN(1024);
+    } > DATA_FLASH
 
     /* Note: There are no secure/non-secure boundaries for SDRAM.  These symbols are provided for the RA configuration tool. */
     __tz_SDRAM_S = ORIGIN(SDRAM);
@@ -368,14 +470,6 @@ SECTIONS
     /* Note: There are no secure/non-secure boundaries for ID_CODE.  These symbols are provided for the RA configuration tool. */
     __tz_ID_CODE_N = __ID_Code_End;
 
-    /* This is a non-secure project if the OPTION_SETTING region is non-zero and it does not start at the base address for
-     * secure option settings (meaning the secure option settings were already allocated in the secure project). */
-    __TZ_NS_PROJECT = LENGTH(OPTION_SETTING) && (ABSOLUTE(OPTION_SETTING_START_S) != ORIGIN(OPTION_SETTING));
-
-    /* This is a secure project if the option setting base address matches the option setting base address for secure
-     * option settings. */
-    __TZ_S_PROJECT = LENGTH(OPTION_SETTING) && (ABSOLUTE(OPTION_SETTING_START_S) == ORIGIN(OPTION_SETTING));
-
     /* Symbol required for RA Configuration tool. */
     __tz_OPTION_SETTING_S = ORIGIN(OPTION_SETTING);
 
@@ -383,9 +477,9 @@ SECTIONS
     {
         __OPTION_SETTING_Start = .;
         KEEP(*(.option_setting_ofs0))
-        . = __TZ_S_PROJECT ? __OPTION_SETTING_Start + 0x10 : __OPTION_SETTING_Start;
+        . = PROJECT_SECURE_OR_FLAT ? __OPTION_SETTING_Start + 0x10 : __OPTION_SETTING_Start;
         KEEP(*(.option_setting_dualsel))
-        . = __TZ_S_PROJECT ? __OPTION_SETTING_Start + 0x34 : __OPTION_SETTING_Start;
+        . = PROJECT_SECURE_OR_FLAT ? __OPTION_SETTING_Start + 0x34 : __OPTION_SETTING_Start;
         KEEP(*(.option_setting_sas))
         __OPTION_SETTING_End = .;
     } > OPTION_SETTING = 0xFF
@@ -397,19 +491,19 @@ SECTIONS
     {
         __OPTION_SETTING_NS_Start = .;
         KEEP(*(.option_setting_ofs1))
-        . = __TZ_NS_PROJECT ? __OPTION_SETTING_NS_Start + 0x10 : __OPTION_SETTING_NS_Start;
+        . = DEFINED(PROJECT_NONSECURE) ? __OPTION_SETTING_NS_Start + 0x10 : __OPTION_SETTING_NS_Start;
         KEEP(*(.option_setting_banksel))
-        . = __TZ_NS_PROJECT ? __OPTION_SETTING_NS_Start + 0x40 : __OPTION_SETTING_NS_Start;
+        . = DEFINED(PROJECT_NONSECURE) ? __OPTION_SETTING_NS_Start + 0x40 : __OPTION_SETTING_NS_Start;
         KEEP(*(.option_setting_bps0))
-        . = __TZ_NS_PROJECT ? __OPTION_SETTING_NS_Start + 0x44 : __OPTION_SETTING_NS_Start;
+        . = DEFINED(PROJECT_NONSECURE) ? __OPTION_SETTING_NS_Start + 0x44 : __OPTION_SETTING_NS_Start;
         KEEP(*(.option_setting_bps1))
-        . = __TZ_NS_PROJECT ? __OPTION_SETTING_NS_Start + 0x48 : __OPTION_SETTING_NS_Start;
+        . = DEFINED(PROJECT_NONSECURE) ? __OPTION_SETTING_NS_Start + 0x48 : __OPTION_SETTING_NS_Start;
         KEEP(*(.option_setting_bps2))
-        . = __TZ_NS_PROJECT ? __OPTION_SETTING_NS_Start + 0x60 : __OPTION_SETTING_NS_Start;
+        . = DEFINED(PROJECT_NONSECURE) ? __OPTION_SETTING_NS_Start + 0x60 : __OPTION_SETTING_NS_Start;
         KEEP(*(.option_setting_pbps0))
-        . = __TZ_NS_PROJECT ? __OPTION_SETTING_NS_Start + 0x64 : __OPTION_SETTING_NS_Start;
+        . = DEFINED(PROJECT_NONSECURE) ? __OPTION_SETTING_NS_Start + 0x64 : __OPTION_SETTING_NS_Start;
         KEEP(*(.option_setting_pbps1))
-        . = __TZ_NS_PROJECT ? __OPTION_SETTING_NS_Start + 0x68 : __OPTION_SETTING_NS_Start;
+        . = DEFINED(PROJECT_NONSECURE) ? __OPTION_SETTING_NS_Start + 0x68 : __OPTION_SETTING_NS_Start;
         KEEP(*(.option_setting_pbps2))
         __OPTION_SETTING_NS_End = .;
     } > OPTION_SETTING = 0xFF
@@ -421,29 +515,29 @@ SECTIONS
     {
         __OPTION_SETTING_S_Start = .;
         KEEP(*(.option_setting_ofs1_sec))
-        . = __TZ_S_PROJECT ? __OPTION_SETTING_S_Start + 0x10 : __OPTION_SETTING_S_Start;
+        . = PROJECT_SECURE_OR_FLAT ? __OPTION_SETTING_S_Start + 0x10 : __OPTION_SETTING_S_Start;
         KEEP(*(.option_setting_banksel_sec))
-        . = __TZ_S_PROJECT ? __OPTION_SETTING_S_Start + 0x40 : __OPTION_SETTING_S_Start;
+        . = PROJECT_SECURE_OR_FLAT ? __OPTION_SETTING_S_Start + 0x40 : __OPTION_SETTING_S_Start;
         KEEP(*(.option_setting_bps_sec0))
-        . = __TZ_S_PROJECT ? __OPTION_SETTING_S_Start + 0x44 : __OPTION_SETTING_S_Start;
+        . = PROJECT_SECURE_OR_FLAT ? __OPTION_SETTING_S_Start + 0x44 : __OPTION_SETTING_S_Start;
         KEEP(*(.option_setting_bps_sec1))
-        . = __TZ_S_PROJECT ? __OPTION_SETTING_S_Start + 0x48 : __OPTION_SETTING_S_Start;
+        . = PROJECT_SECURE_OR_FLAT ? __OPTION_SETTING_S_Start + 0x48 : __OPTION_SETTING_S_Start;
         KEEP(*(.option_setting_bps_sec2))
-        . = __TZ_S_PROJECT ? __OPTION_SETTING_S_Start + 0x60 : __OPTION_SETTING_S_Start;
+        . = PROJECT_SECURE_OR_FLAT ? __OPTION_SETTING_S_Start + 0x60 : __OPTION_SETTING_S_Start;
         KEEP(*(.option_setting_pbps_sec0))
-        . = __TZ_S_PROJECT ? __OPTION_SETTING_S_Start + 0x64 : __OPTION_SETTING_S_Start;
+        . = PROJECT_SECURE_OR_FLAT ? __OPTION_SETTING_S_Start + 0x64 : __OPTION_SETTING_S_Start;
         KEEP(*(.option_setting_pbps_sec1))
-        . = __TZ_S_PROJECT ? __OPTION_SETTING_S_Start + 0x68 : __OPTION_SETTING_S_Start;
+        . = PROJECT_SECURE_OR_FLAT ? __OPTION_SETTING_S_Start + 0x68 : __OPTION_SETTING_S_Start;
         KEEP(*(.option_setting_pbps_sec2))
-        . = __TZ_S_PROJECT ? __OPTION_SETTING_S_Start + 0x80 : __OPTION_SETTING_S_Start;
+        . = PROJECT_SECURE_OR_FLAT ? __OPTION_SETTING_S_Start + 0x80 : __OPTION_SETTING_S_Start;
         KEEP(*(.option_setting_ofs1_sel))
-        . = __TZ_S_PROJECT ? __OPTION_SETTING_S_Start + 0x90 : __OPTION_SETTING_S_Start;
+        . = PROJECT_SECURE_OR_FLAT ? __OPTION_SETTING_S_Start + 0x90 : __OPTION_SETTING_S_Start;
         KEEP(*(.option_setting_banksel_sel))
-        . = __TZ_S_PROJECT ? __OPTION_SETTING_S_Start + 0xC0 : __OPTION_SETTING_S_Start;
+        . = PROJECT_SECURE_OR_FLAT ? __OPTION_SETTING_S_Start + 0xC0 : __OPTION_SETTING_S_Start;
         KEEP(*(.option_setting_bps_sel0))
-        . = __TZ_S_PROJECT ? __OPTION_SETTING_S_Start + 0xC4 : __OPTION_SETTING_S_Start;
+        . = PROJECT_SECURE_OR_FLAT ? __OPTION_SETTING_S_Start + 0xC4 : __OPTION_SETTING_S_Start;
         KEEP(*(.option_setting_bps_sel1))
-        . = __TZ_S_PROJECT ? __OPTION_SETTING_S_Start + 0xC8 : __OPTION_SETTING_S_Start;
+        . = PROJECT_SECURE_OR_FLAT ? __OPTION_SETTING_S_Start + 0xC8 : __OPTION_SETTING_S_Start;
         KEEP(*(.option_setting_bps_sel2))
         __OPTION_SETTING_S_End = .;
     } > OPTION_SETTING_S = 0xFF

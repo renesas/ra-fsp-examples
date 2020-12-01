@@ -32,7 +32,7 @@ void R_BSP_WarmStart(bsp_warm_start_event_t event);
 #define BUFF_SIZE       (30U)
 #define EP_INFO         "\r\nThe EP demonstrates the functionality of GPT Input capture module.\r\n"\
 		                "GPT1 is used to generate periodic pulses of 500msec duration and\r\n"\
-						"provided as input to GPT Input capture(GPT3).GPT3 counts the event\r\n"\
+						"provided as input to GPT Input capture(GPT2).GPT2 counts the event\r\n"\
 						"pulse received at its input. Based on the period and capture event,\r\n"\
                         "the time period of pulse is calculated and displayed on RTTViewer.\r\n"
 
@@ -61,12 +61,7 @@ void hal_entry(void)
     R_FSP_VersionGet(&version);
 
     /* Banner information */
-    APP_PRINT(BANNER_1);
-    APP_PRINT(BANNER_2);
-    APP_PRINT(BANNER_3,EP_VERSION);
-    APP_PRINT(BANNER_4,version.major, version.minor, version.patch);
-    APP_PRINT(BANNER_5);
-    APP_PRINT(BANNER_6);
+    APP_PRINT(BANNER_INFO, EP_VERSION, version.major, version.minor, version.patch);
     APP_PRINT(EP_INFO);
 
     /* Open GPT instance as a periodic timer */

@@ -269,7 +269,7 @@ static fsp_err_t validate_i2c_event(void)
     uint16_t local_time_out = UINT16_MAX;
 
     /* resetting call back event capture variable */
-    i2c_event = RESET_VALUE;
+    i2c_event = (i2c_master_event_t)RESET_VALUE;
 
     do
     {
@@ -285,11 +285,11 @@ static fsp_err_t validate_i2c_event(void)
 
     if(i2c_event != I2C_MASTER_EVENT_ABORTED)
     {
-        i2c_event = RESET_VALUE;  // Make sure this is always Reset before return
+        i2c_event = (i2c_master_event_t)RESET_VALUE;  // Make sure this is always Reset before return
         return FSP_SUCCESS;
     }
 
-    i2c_event = RESET_VALUE; // Make sure this is always Reset before return
+    i2c_event = (i2c_master_event_t)RESET_VALUE; // Make sure this is always Reset before return
     return FSP_ERR_TRANSFER_ABORTED;
 }
 

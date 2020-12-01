@@ -45,11 +45,12 @@ static fsp_err_t adc_start_calibration(void);
 static fsp_err_t read_rtt_input(uint16_t * const p_val);
 static fsp_err_t process_opamp_operation(uint16_t * const p_dac_val);
 
-
+#ifndef BOARD_RA4W1_EK
 /*
  * global variables
  */
 static volatile bool b_scan_complete_event = false;
+#endif
 
 /*******************************************************************************************************************//**
  * The RA Configuration tool generates main() and uses it to generate threads if an RTOS is used.  This function is
@@ -74,7 +75,7 @@ void hal_entry(void) {
         APP_ERR_PRINT("\r\n R_DAC_Open failed\r\n");
         APP_ERR_TRAP(err);
     }
-
+#ifndef BOARD_RA4W1_EK
     /* open ADC module */
     err = R_ADC_Open(&g_adc_ctrl, &g_adc_cfg);
     if (FSP_SUCCESS != err)
@@ -84,7 +85,7 @@ void hal_entry(void) {
         deinit_module(DAC_MODULE);
         APP_ERR_TRAP(err);
     }
-
+#endif
     /* open OPAMP module */
     err = R_OPAMP_Open(&g_opamp_ctrl, &g_opamp_cfg);
     if (FSP_SUCCESS != err)
@@ -92,10 +93,17 @@ void hal_entry(void) {
         APP_ERR_PRINT ("\r\n R_OPAMP_Open failed \r\n");
         /* close DAC module */
         deinit_module(DAC_MODULE);
+#ifndef BOARD_RA4W1_EK
         /* close ADC module */
         deinit_module(ADC_MODULE);
+#endif
         APP_ERR_TRAP(err);
     }
+
+#ifdef BOARD_RA4W1_EK
+    /* Enable AMPPC to form voltage follower */
+    R_OPAMP->AMPMC_b.AMPPC2 = SET_BIT;
+#endif
 
 #ifdef BOARD_RA2A1_EK
     /* Calibrate the ADC */
@@ -109,6 +117,7 @@ void hal_entry(void) {
     }
 #endif
 
+#ifndef BOARD_RA4W1_EK
     /* Configures the ADC scan parameters */
     err = R_ADC_ScanCfg (&g_adc_ctrl, &g_adc_channel_cfg);
     if (FSP_SUCCESS != err)
@@ -118,7 +127,7 @@ void hal_entry(void) {
         deinit_module(ALL);
         APP_ERR_TRAP(err);
     }
-
+#endif
     /* Start DAC */
     err = R_DAC_Start(&g_dac_ctrl);
     if (FSP_SUCCESS != err)
@@ -180,7 +189,7 @@ static void deinit_module(module_name_t module)
             }
         }
         break;
-
+#ifndef BOARD_RA4W1_EK
         case ADC_MODULE:
         {
             if (FSP_SUCCESS != R_ADC_Close(&g_adc_ctrl))
@@ -189,7 +198,7 @@ static void deinit_module(module_name_t module)
             }
         }
         break;
-
+#endif
         case OPAMP_MODULE:
         {
             if (FSP_SUCCESS != R_OPAMP_Close(&g_opamp_ctrl))
@@ -205,12 +214,12 @@ static void deinit_module(module_name_t module)
             {
                 APP_ERR_PRINT ("\r\n R_DAC_Close failed \r\n ");
             }
-
+#ifndef BOARD_RA4W1_EK
             if (FSP_SUCCESS != R_ADC_Close(&g_adc_ctrl))
             {
                 APP_ERR_PRINT ("\r\n R_ADC_Close failed \r\n ");
             }
-
+#endif
             if (FSP_SUCCESS != R_OPAMP_Close(&g_opamp_ctrl))
             {
                 APP_ERR_PRINT ("\r\n R_OPAMP_Close failed \r\n ");
@@ -269,6 +278,7 @@ static fsp_err_t read_rtt_input(uint16_t * const p_val)
     return FSP_SUCCESS;
 }
 
+#ifndef BOARD_RA4W1_EK
 /*******************************************************************************************************************//**
  * @brief       ADC callback
  * @param[IN]   p_args callback arguments
@@ -281,6 +291,7 @@ void adc_callback(adc_callback_args_t *p_args)
         b_scan_complete_event = true;
     }
 }
+#endif
 
 /*******************************************************************************************************************//**
  * @brief       This function process OPAMP operation DAC value is feed to OPAMP input and
@@ -291,10 +302,11 @@ void adc_callback(adc_callback_args_t *p_args)
 static fsp_err_t process_opamp_operation(uint16_t * const p_dac_val)
 {
     fsp_err_t err     = FSP_SUCCESS;
-    int32_t timeout   = INT32_MAX;
     opamp_info_t info = {.min_stabilization_wait_us = RESET_VALUE};
+#ifndef BOARD_RA4W1_EK
+    int32_t timeout   = INT32_MAX;
     uint16_t adc_data = RESET_VALUE;
-
+#endif
     /* Write user input value to DAC */
     err = R_DAC_Write(&g_dac_ctrl, *p_dac_val);
     if (FSP_SUCCESS != err)
@@ -321,7 +333,7 @@ static fsp_err_t process_opamp_operation(uint16_t * const p_dac_val)
 
     /* Wait for the OPAMP to stabilize. */
     R_BSP_SoftwareDelay(info.min_stabilization_wait_us, BSP_DELAY_UNITS_MICROSECONDS);
-
+#ifndef BOARD_RA4W1_EK
     /* Start the ADC scan*/
     err = R_ADC_ScanStart (&g_adc_ctrl);
     if (FSP_SUCCESS != err)
@@ -361,7 +373,7 @@ static fsp_err_t process_opamp_operation(uint16_t * const p_dac_val)
     {
         APP_ERR_PRINT("\r\nR_OPAMP_Stop failed ** \r\n");
     }
-
+#endif
     return err;
 }
 

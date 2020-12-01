@@ -1,6 +1,6 @@
 /***********************************************************************************************************************
  * File Name    : wifi_ep.h
- * Description  : Contains declarations of data structures and functions used in wifi_ep.c.
+ * Description  : Contains declarations of data structures and functions used in wifi_ep.c
  **********************************************************************************************************************/
 /***********************************************************************************************************************
  * DISCLAIMER
@@ -83,8 +83,10 @@
 #define IP_BUFF_LEN     (4U)
 
 /* user LED*/
-#if defined (BOARD_RA6M4_EK)
+#if defined (BOARD_RA6M4_EK) || defined (BOARD_RA4M3_EK)
 #define USER_LED   (BSP_IO_PORT_04_PIN_00)
+#elif defined (BOARD_RA2L1_EK)
+#define USER_LED   (BSP_IO_PORT_05_PIN_05)
 #else
 #define USER_LED   (BSP_IO_PORT_04_PIN_03)
 #endif

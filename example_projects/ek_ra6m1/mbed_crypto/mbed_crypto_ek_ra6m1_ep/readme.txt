@@ -28,4 +28,4 @@ Project Overview:
 
 
 
-Note : EK_RA4M1 and EK_RA4W1 boards do not support SHA, ECC and RSA operations.
+Note : EK-RA2L1, EK_RA4M1 and EK_RA4W1 boards do not support SHA, ECC and RSA operations.

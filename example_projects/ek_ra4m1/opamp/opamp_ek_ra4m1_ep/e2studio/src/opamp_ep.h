@@ -32,10 +32,17 @@ typedef enum e_module_name
     ALL
 }module_name_t;
 
-#define ADC_CHANNEL                    ADC_CHANNEL_3   /* ADC channel used for OPAMP output */
+#ifndef BOARD_RA4W1_EK
+#define ADC_CHANNEL                    ADC_CHANNEL_3
+#endif
 #define DAC_MAX_VAL                    (4095U)         /* DAC12 maximum value */
+#ifdef BOARD_RA4W1_EK
+#define OPAMP_CH_MASK                  (1U << 2U)      /* OPAMP channel2 mask */
+#else
 #define OPAMP_CH_MASK                  (1U << 0U)      /* OPAMP channel0 mask */
+#endif
 #define NULL_CHAR                      '\0'
+#define SET_BIT                        (1U)
 #define REF_VOLTAGE                    (float)(3.3f)
 #ifdef BOARD_RA2A1_EK
 #define STEP_SIZE                      (float)(32767.0f)

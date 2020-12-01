@@ -90,7 +90,7 @@ void hal_entry(void)
     }
 
     /* RA4M1 and RA4W1 boards are not supporting SHA, ECC and RSA operations.*/
-#if (! (defined (BOARD_RA4M1_EK) || defined (BOARD_RA4W1_EK)))
+#if (! (defined (BOARD_RA4M1_EK) || defined (BOARD_RA4W1_EK) || defined (BOARD_RA2L1_EK) || defined (BOARD_RA2A1_EK)))
     /* Perform Hashing operation.*/
     status = sha_operation();
     if (PSA_SUCCESS != status)
@@ -166,7 +166,7 @@ psa_status_t aes_operation(void)
     size_t                 output_length1  = RESET_VALUE;     // the size of the output in the decrypted output buffer.
 
     /* RA4M1 and RA4W1 boards are not supporting Littlefs, so using key lifetime as volatile.*/
-#if (! (defined (BOARD_RA4M1_EK) || defined (BOARD_RA4W1_EK)))
+#if (! (defined (BOARD_RA4M1_EK) || defined (BOARD_RA4W1_EK) || defined (BOARD_RA2L1_EK) || defined (BOARD_RA2A1_EK)))
     uint8_t              aes_key[AES_256_EXPORTED_SIZE] = {RESET_VALUE};  // Buffer where the key data is to be written.
     size_t               aes_key_length                 = RESET_VALUE;    // number of bytes that make up the key data.
     fsp_err_t            err                            = FSP_SUCCESS;
@@ -231,7 +231,7 @@ psa_status_t aes_operation(void)
         return status;
     }
 
-#if (! (defined (BOARD_RA4M1_EK) || defined (BOARD_RA4W1_EK)))
+#if (! (defined (BOARD_RA4M1_EK) || defined (BOARD_RA4W1_EK) || defined (BOARD_RA2L1_EK) || defined (BOARD_RA2A1_EK)))
     /* Export Key.*/
     status = psa_export_key(aes_key_handle, aes_key, sizeof(aes_key), &aes_key_length);
     if (PSA_SUCCESS != status)
@@ -309,7 +309,7 @@ psa_status_t aes_operation(void)
     return status;
 }
 
-#if (! (defined (BOARD_RA4M1_EK) || defined (BOARD_RA4W1_EK)))
+#if (! (defined (BOARD_RA4M1_EK) || defined (BOARD_RA4W1_EK) || defined (BOARD_RA2L1_EK) || defined (BOARD_RA2A1_EK)))
 /*******************************************************************************************************************//**
  *  @brief       Performs SHA256 Hashing operation.
  *  @param[IN]   None

@@ -41,7 +41,7 @@
 #define ECC_RSA_PAYLOAD_SIZE      (30U)
 
 
-#if (! (defined (BOARD_RA4M1_EK) || defined (BOARD_RA4W1_EK)))
+#if (! (defined (BOARD_RA4M1_EK) || defined (BOARD_RA4W1_EK) || defined (BOARD_RA2L1_EK) || defined (BOARD_RA2A1_EK)))
 #define EP_INFO              "\r\nThis Example Project demonstrates the functionality of mbed crypto module on\r\n"\
                              "Renesas RA MCUs based on Renesas FSP.The EP performs following crypto operations : \r\n"\
                              "1. SHA256 Hashing.\r\n"\

@@ -26,7 +26,7 @@
                         USB PC Keyboard - 1 nos
 
 3. Hardware Connections:
-    EK-RA6M4, EK-RA6M3 & EK-RA6M3G (Only supported on these boards & with Full Speed mode)
+    EK-RA6M4, EK-RA4M3, EK-RA6M3 & EK-RA6M3G (Only supported on these boards & with Full Speed mode)
 
     Full-Speed :
         Jumper J12 placement is pins 1-2

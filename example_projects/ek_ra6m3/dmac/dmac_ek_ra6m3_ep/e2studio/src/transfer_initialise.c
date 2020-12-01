@@ -72,7 +72,7 @@ uint32_t g_source_data[SOURCE_DATA_SIZE]=
  0x00000040,0x00400040,0x00000040,0x00400040,0x00000040,0x00400040,0x00000040,0x00400040,
  0x00000040,0x00400040
 };
-#elif defined(BOARD_RA6M4_EK)
+#elif defined(BOARD_RA6M4_EK) || defined (BOARD_RA4M3_EK)
 /* LED Port data array for EK-RA6M4 */
 uint32_t g_source_data[SOURCE_DATA_SIZE]=
 {

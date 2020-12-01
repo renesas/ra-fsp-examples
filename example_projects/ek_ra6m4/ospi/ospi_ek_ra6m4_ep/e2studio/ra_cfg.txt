@@ -1,0 +1,150 @@
+FSP Configuration
+  Board "EK-RA6M4"
+  R7FA6M4AF3CFB
+    part_number: R7FA6M4AF3CFB
+    rom_size_bytes: 1048576
+    ram_size_bytes: 262144
+    data_flash_size_bytes: 8192
+    package_style: LQFP
+    package_pins: 144
+    
+  RA6M4
+    series: 6
+    
+  RA6M4 Family
+    Security: Exceptions: Exception Response: Non-Maskable Interrupt
+    Security: Exceptions: BusFault, HardFault, and NMI Target: Secure State
+    Security: System Reset Request Accessibility: Secure State
+    Security: Exceptions: Prioritize Secure Exceptions: Disabled
+    Security: System Reset Status Accessibility: Both Secure and Non-Secure State
+    Security: Battery Backup Accessibility: Both Secure and Non-Secure State
+    Security: SRAM Accessibility: SRAM Protection: Both Secure and Non-Secure State
+    Security: SRAM Accessibility: SRAM ECC: Both Secure and Non-Secure State
+    Security: SRAM Accessibility: Standby RAM: Regions 7-0 are all Secure.
+    Security: BUS Accessibility: Bus Security Attribution Register A: Both Secure and Non-Secure State
+    Security: BUS Accessibility: Bus Security Attribution Register B: Both Secure and Non-Secure State
+    OFS0 register settings: Independent WDT: Start Mode: IWDT is Disabled
+    OFS0 register settings: Independent WDT: Timeout Period: 2048 cycles
+    OFS0 register settings: Independent WDT: Dedicated Clock Frequency Divisor: 128
+    OFS0 register settings: Independent WDT: Window End Position:  0% (no window end position)
+    OFS0 register settings: Independent WDT: Window Start Position: 100% (no window start position)
+    OFS0 register settings: Independent WDT: Reset Interrupt Request Select: Reset is enabled
+    OFS0 register settings: Independent WDT: Stop Control: Stop counting when in Sleep, Snooze mode, or Software Standby
+    OFS0 register settings: WDT: Start Mode Select: Stop WDT after a reset (register-start mode)
+    OFS0 register settings: WDT: Timeout Period: 16384 cycles
+    OFS0 register settings: WDT: Clock Frequency Division Ratio: 128
+    OFS0 register settings: WDT: Window End Position:  0% (no window end position)
+    OFS0 register settings: WDT: Window Start Position: 100% (no window start position)
+    OFS0 register settings: WDT: Reset Interrupt Request: Reset
+    OFS0 register settings: WDT: Stop Control: Stop counting when entering Sleep mode
+    OFS1 register settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
+    OFS1 register settings: Voltage Detection 0 Level: 2.80 V
+    OFS1 register settings: HOCO Oscillation Enable: HOCO oscillation is disabled after reset
+    Block Protection Settings (BPS): BPS0: 
+    Block Protection Settings (BPS): BPS1: 
+    Block Protection Settings (BPS): BPS2: 
+    Permanent Block Protection Settings (PBPS): PBPS0: 
+    Permanent Block Protection Settings (PBPS): PBPS1: 
+    Permanent Block Protection Settings (PBPS): PBPS2: 
+    Dual Bank Mode: Disabled
+    Clocks: HOCO FLL Function: Disabled
+    
+  RA Common
+    Main stack size (bytes): 0x400
+    Heap size (bytes): 0x1000
+    MCU Vcc (mV): 3300
+    Parameter checking: Enabled
+    Assert Failures: Return FSP_ERR_ASSERTION
+    Error Log: No Error Log
+    Soft Reset: Disabled
+    Main Oscillator Populated: Populated
+    PFS Protect: Enabled
+    C Runtime Initialization : Enabled
+    Main Oscillator Wait Time: 32768 us
+    Main Oscillator Clock Source: Crystal or Resonator
+    Subclock Populated: Populated
+    Subclock Drive (Drive capacitance availability varies by MCU): Standard/Normal mode
+    Subclock Stabilization Time (ms): 1000
+    
+  Clocks
+    XTAL 24000000Hz
+    HOCO 20MHz
+    PLL Src: XTAL
+    PLL Div /3
+    PLL Mul x25.0
+    PLL2 Src: XTAL
+    PLL2 Div /2
+    PLL2 Mul x10.0
+    Clock Src: PLL
+    CLKOUT Disabled
+    UCLK Disabled
+    OCTASPICLK Src: PLL2
+    ICLK Div /1
+    PCLKA Div /2
+    PCLKB Div /4
+    PCLKC Div /4
+    PCLKD Div /2
+    BCLK Div /2
+    BCLK/2
+    FCLK Div /4
+    CLKOUT Div /1
+    UCLK Div /5
+    OCTASPICLK Div /2
+    
+  Pin Configurations
+    R7FA6M4AF3CFB.pincfg -> g_bsp_pin_cfg
+  User Events
+    
+  User Event Links
+    
+  Module "I/O Port Driver on r_ioport"
+    Parameter Checking: Default (BSP)
+    
+  Module "OSPI Driver on r_ospi"
+    Parameter Checking: Default (BSP)
+    
+  HAL
+    Instance "g_ioport I/O Port Driver on r_ioport"
+      Name: g_ioport
+      Port 1 ELC Trigger Source: Disabled
+      Port 2 ELC Trigger Source: Disabled
+      Port 3 ELC Trigger Source: Disabled
+      Port 4 ELC Trigger Source: Disabled
+      
+    Instance "g_ospi OSPI Driver on r_ospi"
+      General: Name: g_ospi
+      General: Channel: 0
+      General: Flash Size: 0x04000000
+      General: SPI Protocol: SPI
+      General: Address Bytes: 4
+      OPI Mode: Auto-Calibration: Data latching delay: 0x80
+      OPI Mode: Auto-Calibration: Auto-Calibration Address: 0x00
+      SPI Mode: Command Definitions: Page Program Command: 0x12
+      SPI Mode: Command Definitions: Read Command: 0x13
+      SPI Mode: Command Definitions: Write Enable Command: 0x06
+      SPI Mode: Command Definitions: Status Command: 0x05
+      OPI Mode: Command Definitions: Page Program Command: 0x12ED
+      OPI Mode: Command Definitions: Read Command: 0xEC13
+      OPI Mode: Command Definitions: Dual Read Command: 0xEE11
+      OPI Mode: Command Definitions: Write Enable Command: 0x06F9
+      OPI Mode: Command Definitions: Status Command: 0x05FA
+      OPI Mode: Command Length Bytes: 2
+      OPI Mode: Memory Read Dummy Cycles: 10
+      Common Command Definitions: Sector Erase Command: 0x21DE
+      Common Command Definitions: Block Erase Command: 0xDC23
+      Common Command Definitions: Chip Erase Command: 0xC738
+      Common Command Definitions: Write Status Bit: 0
+      Common Command Definitions: Sector Erase Size: 4096
+      Common Command Definitions: Block Erase Size: 65536
+      General: Single Continuous Mode: Read Idle Time: 100
+      General: Single Continuous Mode: Write Idle Time: 100
+      Chip Select Timing Setting: Memory Mapped Read Command Interval: 2
+      Chip Select Timing Setting: Memory Mapped Write Command Interval: 2
+      Chip Select Timing Setting: Command Interval: 2
+      Chip Select Timing Setting: Memory Mapped Read Pull-up Timing: 5 SPI/SOPI
+      Chip Select Timing Setting: Memory Mapped Write Pull-up Timing: 2 SPI/SOPI, 1.5 DOPI
+      Chip Select Timing Setting: Pull-up Timing: 5 SPI/SOPI
+      Chip Select Timing Setting: Memory Mapped Read Pull-down Timing: 3 SPI/SOPI, 2.5 DOPI
+      Chip Select Timing Setting: Memory Mapped Write Pull-down Timing: 3 SPI/SOPI, 2.5 DOPI
+      Chip Select Timing Setting: Pull-down Timing: 3 SPI/SOPI, 2.5 DOPI
+      

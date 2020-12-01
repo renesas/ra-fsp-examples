@@ -53,11 +53,6 @@
                                 "\r\n 3. Safely Eject the USB Drive\r\n"\
                                 "\r\n 4. Initialize FreeRTOS+FAT (Valid only after Safely_Eject option is executed)\r\n"
 
-/* FreeRTOS_PLUS_FAT control and configuration structure */
-extern const rm_freertos_plus_fat_disk_cfg_t g_rm_freertos_plus_fat_disk_cfg;
-extern const rm_freertos_plus_fat_cfg_t g_rm_freertos_plus_fat_cfg;
-extern rm_freertos_plus_fat_instance_ctrl_t g_rm_freertos_plus_fat_ctrl;
-
 /* Global Variables */
 uint8_t g_write_data[WRITE_ITEM_SIZE] ={RESET_VALUE};   /* Data(10k) to write to file */
 uint8_t g_read_data[WRITE_ITEM_SIZE] = {RESET_VALUE};   /* Variable to store the data read from file */

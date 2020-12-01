@@ -48,7 +48,7 @@ void hal_entry(void)
     /* Error status */
     fsp_err_t err = FSP_SUCCESS;
     fsp_pack_version_t version = {RESET_VALUE};
-    uint32_t time_out = MAX_TIME;                 // time_out value which is used to break the infinite loop
+    volatile uint32_t time_out = MAX_TIME;                 // time_out value which is used to break the infinite loop
 
     /* Version get API for FLEX pack information */
     R_FSP_VersionGet(&version);
