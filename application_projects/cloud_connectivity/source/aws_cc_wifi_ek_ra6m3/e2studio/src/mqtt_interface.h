@@ -295,16 +295,16 @@ typedef struct mqtt_status
 } mqtt_status_t;
 
 /* user function Declaration of mqtt related function. */
-int mqtt_init(mqtt_cfg_t *ptr);
-void mqtt_cleanup(void);
-int sendMessage_ts(char *temp_msg);
-int sendMessage_pb(uint16_t switch_num);
-int mqtt_deinit(mqtt_cfg_t *ptr);
-void mqtt_cleanup_and_reinit(void);
+extern int mqtt_init(mqtt_cfg_t *ptr);
+extern void mqtt_cleanup(void);
+extern int sendMessage_ts(char *temp_msg);
+extern int sendMessage_pb(uint16_t switch_num);
+extern int mqtt_deinit(mqtt_cfg_t *ptr);
+extern void mqtt_cleanup_and_reinit(void);
 
 //! [MQTT-required-functions]
-const char *getDeviceIdentifier(void);
-const char *getDeviceMetrics(void);
-uint16_t getDeviceMetricsLength(void);
+extern const char *getDeviceIdentifier(void);
+extern const char *getDeviceMetrics(void);
+extern uint16_t getDeviceMetricsLength(void);
 
 #endif /* MQTT_INTERFACE_H_ */

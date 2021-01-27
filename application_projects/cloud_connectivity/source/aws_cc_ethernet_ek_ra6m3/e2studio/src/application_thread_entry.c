@@ -170,7 +170,7 @@ void application_thread_entry(void *pvParameters)
     {
         FAILURE_INDICATION
         IotLogError("FreeRTOS_gethostbyname  Failed to get the End point address for %s",USR_MQTT_ENDPOINT);
-        IotLogErrorTrap(!RESET_VALUE);
+        IotLogErrorTrap(RESET_VALUE);
     }
 	
 	/* Convert the IP address to a string to print on to the console. */

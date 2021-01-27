@@ -68,7 +68,7 @@
 
 #define KIT_NAME                "EK-RA6M3"
 
-#define AP_VERSION              ("1.0")
+#define AP_VERSION              ("1.1")
 #define MODULE_NAME             "MQTT Client Module using AWS SDK"
 #define BANNER_INFO             "\r\n********************************************************************************"\
                                 "\r\n*   Renesas FSP Application Project for "MODULE_NAME"       *"\
@@ -147,11 +147,11 @@
 #define APP_ERR_TRAP(err)        if(err){\
                                      if(LOG_LVL >= RTT_TERMINAL){\
                                          SEGGER_RTT_printf(SEGGER_INDEX, "\r\nReturned Error Code: 0x%x  \r\n", (unsigned int)err);\
-                                         __BKPT(0);\
+                                         __asm("BKPT #0\n");\
                                      }\
                                      else {\
                                          printf("\r\nReturned Error Code: 0x%x	\r\n", (unsigned int)err);\
-                                         __BKPT(0);\
+                                         __asm("BKPT #0\n");\
                                      }\
                                  }
 

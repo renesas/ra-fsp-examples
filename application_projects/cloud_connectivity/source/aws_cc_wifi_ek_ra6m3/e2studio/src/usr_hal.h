@@ -31,11 +31,11 @@
 
 extern bsp_leds_t g_bsp_leds;
 
-fsp_err_t usr_hal_init(void);
-void pb_callback(external_irq_callback_args_t *p_args);
-void adc_mcu_temp_callback(adc_callback_args_t *p_args);
-void g_hb_timer_cb(timer_callback_args_t *p_args);
-void led_on_off(e_led_type_t ltype, e_led_state_t lled_state);
-void led_toggle(e_led_type_t ltype);
+extern fsp_err_t usr_hal_init(void);
+extern void pb_callback(external_irq_callback_args_t *p_args);
+extern void adc_mcu_temp_callback(adc_callback_args_t *p_args);
+extern void g_hb_timer_cb(timer_callback_args_t *p_args);
+extern void led_on_off(e_led_type_t ltype, e_led_state_t lled_state);
+extern void led_toggle(e_led_type_t ltype);
 
 #endif /* USR_HAL_H_ */

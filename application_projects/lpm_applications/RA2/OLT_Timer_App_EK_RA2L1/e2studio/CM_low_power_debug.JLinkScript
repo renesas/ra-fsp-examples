@@ -1,0 +1,21 @@
+void clear_DBIRQ(void)
+{
+	JLINK_CORESIGHT_WriteDP(2, (1 << 24) | (0 << 4));  // Select AP[1], bank 0
+	JLINK_CORESIGHT_WriteAP(0, (0) | (2 << 0) | (1 << 31)); // AP-access size. Fixed to 2: 32-bit  // Enable software access to the Debug APB bus.
+	JLINK_CORESIGHT_WriteAP(1, 0x80000410); //MCUCTRL register
+	JLINK_CORESIGHT_WriteAP(3, 0x00000000); //Clear DBIRQ bit
+	
+	JLINK_MEM_WriteU16(0x4001E3FE, 0xA502);  // PRCR register. Enable access to SYOCDCR register
+	JLINK_MEM_WriteU8(0x4001E40E, 0x80);    // SYOCDR register, set DBGEN bit
+	JLINK_MEM_WriteU16(0x4001E3FE, 0xA500);  // PRCR register. Disable access to SYOCDCR register
+}
+
+void InitTarget(void) 
+{
+	clear_DBIRQ();
+}
+  
+void SetupTarget(void)
+{
+	clear_DBIRQ();
+}

@@ -49,12 +49,12 @@ extern    eDHCPCallbackAnswer_t xApplicationDHCPHook( eDHCPCallbackPhase_t eDHCP
     have much use, except that a device can be found in a router along with its
     name. If this option is used the callback below must be provided by the
     application writer to return a const string, denoting the device's name. */
-    const char *pcApplicationHostnameHook( void );
+extern     const char *pcApplicationHostnameHook( void );
 #endif /* ipconfigDHCP_REGISTER_HOSTNAME */
 
-void print_ipconfig(void);
-BaseType_t usr_network_init();
-uint32_t isNetworkUp(void);
+extern void print_ipconfig(void);
+extern BaseType_t usr_network_init();
+extern uint32_t isNetworkUp(void);
 
 extern TaskHandle_t application_thread;
 

@@ -40,6 +40,29 @@
     static  uint8_t ucGatewayAddress[ 4 ]   = {RESET_VALUE};
     static  uint8_t ucDNSServerAddress[ 4 ] = {RESET_VALUE};
 #else /* STATIC IP MODE */
+#if ATWORK
+    /* Static IP configuration, when DHCP mode is not used for the Application Project.
+     * This needs to be populated by the user according to the Network Settings of your LAN.
+     * This sample address taken from the LAN where it is tested. This is different for different LAN.
+     * get the Address using the PC IPconfig details.
+     */
+    static  uint8_t ucMACAddress[ 6 ]       = {0x00, 0x11, 0x22, 0x33, 0x44, 0x95};
+    static  uint8_t ucIPAddress[ 4 ]        = {132, 158, 145, 200};
+    static  uint8_t ucNetMask[ 4 ]          = {255, 255, 254, 0};
+    static  uint8_t ucGatewayAddress[ 4 ]   = {132, 158, 145, 254};
+    static  uint8_t ucDNSServerAddress[ 4 ] = {132, 158, 118, 225};
+#elif ATHOME
+    /* Static IP configuration, when DHCP mode is not used for the Application Project.
+     * This needs to be populated by the user according to the Network Settings of your LAN.
+     * This sample address taken from the LAN where it is tested. This is different for different LAN.
+     * get the Address using the PC IPconfig details.
+     */
+    static  uint8_t ucMACAddress[ 6 ]       = {0x00, 0x11, 0x22, 0x33, 0x44, 0x95};
+    static  uint8_t ucIPAddress[ 4 ]        = {10, 0, 0, 20};
+    static  uint8_t ucNetMask[ 4 ]          = {255, 255, 255, 0};
+    static  uint8_t ucGatewayAddress[ 4 ]   = {10, 0, 0, 1};
+    static  uint8_t ucDNSServerAddress[ 4 ] = {75, 75, 75, 75};
+#else
     /* Static IP configuration, when DHCP mode is not used for the Application Project.
      * This needs to be populated by the user according to the Network Settings of your LAN.
      * This sample address taken from the LAN where it is tested. This is different for different LAN.
@@ -52,7 +75,7 @@
     static  uint8_t ucDNSServerAddress[ 4 ] = {75, 75, 75, 75};
 
 #endif
-
+#endif
 #if( ipconfigUSE_DHCP != 0 )
     extern NetworkAddressingParameters_t xNetworkAddressing;
     NetworkAddressingParameters_t xNd = {RESET_VALUE};

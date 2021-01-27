@@ -24,6 +24,8 @@
 #ifndef USR_APP_H_
 #define USR_APP_H_
 
+#define ATHOME    0
+#define ATWORK    0
 #define NETWORK   1
 #define MQTT      1
 	
@@ -50,9 +52,9 @@
 extern TaskHandle_t application_thread;
 
 
-uint32_t  get_mqtt_fail_count(void);
-void print_float(char *buffer, size_t buflen, double value);
-int parse_led_actuation_message(mqtt_rx_payload_t  *lmq_data);
-fsp_err_t config_littlFs_flash(void);
+extern uint32_t  get_mqtt_fail_count(void);
+extern void print_float(char *buffer, size_t buflen, double value);
+extern int parse_led_actuation_message(mqtt_rx_payload_t  *lmq_data);
+extern fsp_err_t config_littlFs_flash(void);
 
 #endif /* USR_APP_H_ */
