@@ -28,7 +28,7 @@
  * @brief Pre-defined LPM Transition Sequence
  * There are 2 kinds of sequence, one supports RA6Mx device and the other supports other RA devices
  * *****************************************************************/
-#if defined (BOARD_RA6M3_EK) || defined (BOARD_RA6M3G_EK) || defined (BOARD_RA6M2_EK) || defined (BOARD_RA6M1_EK)|| defined(BOARD_RA6M4_EK) || defined(BOARD_RA6T1_RSSK) || defined (BOARD_RA4M3_EK)
+#if defined (BOARD_RA6M3_EK) || defined (BOARD_RA6M3G_EK) || defined (BOARD_RA6M2_EK) || defined (BOARD_RA6M1_EK)|| defined(BOARD_RA6M4_EK) || defined(BOARD_RA6T1_RSSK) || defined (BOARD_RA4M3_EK)|| defined (BOARD_RA4M2_EK)
 app_lpm_states_t g_lpm_transition_sequence[] =
 {
     APP_LPM_SLEEP_STATE,                 ///< Sleep mode
@@ -37,7 +37,7 @@ app_lpm_states_t g_lpm_transition_sequence[] =
     APP_LPM_DEEP_SW_STANDBY_STATE,       ///< Deep SW Standby mode
     APP_LPM_NORMAL_STATE                 ///< Normal mode
 };
-#elif defined (BOARD_RA4M1_EK) || defined (BOARD_RA2A1_EK) || defined (BOARD_RA2L1_EK)
+#elif defined (BOARD_RA4M1_EK) || defined (BOARD_RA2A1_EK) || defined (BOARD_RA2L1_EK) || defined(BOARD_RA2E1_EK)
 app_lpm_states_t g_lpm_transition_sequence[] =
 {
     APP_LPM_SLEEP_STATE,                 ///< Sleep mode

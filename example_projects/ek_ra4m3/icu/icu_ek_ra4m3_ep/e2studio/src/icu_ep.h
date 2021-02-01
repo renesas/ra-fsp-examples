@@ -34,12 +34,12 @@
 #define USER_SW_IRQ_NUMBER        (0x00)
 #elif defined (BOARD_RA4W1_EK)
 #define USER_SW_IRQ_NUMBER        (0x04)
-#elif defined (BOARD_RA6M4_EK) || defined (BOARD_RA4M3_EK)
+#elif defined (BOARD_RA6M4_EK) || defined (BOARD_RA4M3_EK) || defined (BOARD_RA4M2_EK)
 #define USER_SW_IRQ_NUMBER        (0x0A)
 #elif defined (BOARD_RA6T1_RSSK)
 #define USER_SW_IRQ_NUMBER        (0x06)
 #else
-#define USER_SW_IRQ_NUMBER        (0x03)      //EK_RA2L1 board
+#define USER_SW_IRQ_NUMBER        (0x03)      //EK_RA2L1 and EK_RA2E1 board
 #endif
 
 #define EP_INFO    "\r\nThis Example Project demonstrates the functionality of ICU driver.\r\n" \
@@ -49,7 +49,6 @@
 /* Function declaration */
 fsp_err_t icu_init(void);
 fsp_err_t icu_enable(void);
-fsp_err_t icu_driver_info(void);
 void icu_deinit(void);
 
 #endif /* ICU_EP_H_ */

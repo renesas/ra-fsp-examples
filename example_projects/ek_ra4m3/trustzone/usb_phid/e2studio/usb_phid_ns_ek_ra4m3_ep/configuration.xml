@@ -8,7 +8,7 @@
     <option key="#DeviceCommand#" value="R7FA4M3AF"/>
     <option key="#RTOS#" value="rtos.awsfreertos"/>
     <option key="#pinconfiguration#" value="R7FA4M3AF3CFB.pincfg"/>
-    <option key="#FSPVersion#" value="2.2.0"/>
+    <option key="#FSPVersion#" value="2.3.0"/>
     <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra4m3_ek##"/>
     <option key="#SELECTED_TOOLCHAIN#" value="gcc-arm-embedded"/>
     <option key="#ToolchainVersion#" value="9.2.1.20191025"/>
@@ -30,6 +30,7 @@
       <property id="config.bsp.fsp.tz.cmsis.bfhfnmins" value="config.bsp.fsp.tz.cmsis.bfhfnmins.secure"/>
       <property id="config.bsp.fsp.tz.cmsis.sysresetreqs" value="config.bsp.fsp.tz.cmsis.sysresetreqs.secure_only"/>
       <property id="config.bsp.fsp.tz.cmsis.s_priority_boost" value="config.bsp.fsp.tz.cmsis.s_priority_boost.disabled"/>
+      <property id="config.bsp.fsp.tz.csar" value="config.bsp.fsp.tz.csar.both"/>
       <property id="config.bsp.fsp.tz.rstsar" value="config.bsp.fsp.tz.rstsar.both"/>
       <property id="config.bsp.fsp.tz.bbfsar" value="config.bsp.fsp.tz.bbfsar.both"/>
       <property id="config.bsp.fsp.tz.sramsar.sramprcr" value="config.bsp.fsp.tz.sramsar.sramprcr.both"/>
@@ -37,6 +38,7 @@
       <property id="config.bsp.fsp.tz.stbramsar" value="config.bsp.fsp.tz.stbramsar.both"/>
       <property id="config.bsp.fsp.tz.bussara" value="config.bsp.fsp.tz.bussara.both"/>
       <property id="config.bsp.fsp.tz.bussarb" value="config.bsp.fsp.tz.bussarb.both"/>
+      <property id="config.bsp.fsp.cache_line_size" value="config.bsp.fsp.cache_line_size.32"/>
       <property id="config.bsp.fsp.OFS0.iwdt_start_mode" value="config.bsp.fsp.OFS0.iwdt_start_mode.disabled"/>
       <property id="config.bsp.fsp.OFS0.iwdt_timeout" value="config.bsp.fsp.OFS0.iwdt_timeout.2048"/>
       <property id="config.bsp.fsp.OFS0.iwdt_divisor" value="config.bsp.fsp.OFS0.iwdt_divisor.128"/>
@@ -83,49 +85,49 @@
     </config>
   </raBspConfiguration>
   <raComponentSelection>
-    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="2.2.0">
-      <description>Board Support Package Common Files</description>
-      <originalPack>Renesas.RA.2.2.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="2.2.0">
-      <description>I/O Port</description>
-      <originalPack>Renesas.RA.2.2.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="RTOS" condition="" group="FreeRTOS" subgroup="all" variant="" vendor="AWS" version="2.2.0">
+    <component apiversion="" class="RTOS" condition="" group="FreeRTOS" subgroup="all" variant="" vendor="AWS" version="2.3.0">
       <description>FreeRTOS</description>
-      <originalPack>Amazon.AWS.2.2.0.pack</originalPack>
+      <originalPack>Amazon.AWS.2.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="5.7.0">
-      <description>Arm CMSIS Version 5 - Core (M)</description>
-      <originalPack>Arm.CMSIS5.5.7.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra4m3" subgroup="device" variant="R7FA4M3AF3CFB" vendor="Renesas" version="2.2.0">
-      <description>Board support package for R7FA4M3AF3CFB</description>
-      <originalPack>Renesas.RA_mcu_ra4m3.2.2.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra4m3" subgroup="device" variant="" vendor="Renesas" version="2.2.0">
-      <description>Board support package for RA4M3</description>
-      <originalPack>Renesas.RA_mcu_ra4m3.2.2.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra4m3" subgroup="fsp" variant="" vendor="Renesas" version="2.2.0">
-      <description>Board support package for RA4M3 - FSP Data</description>
-      <originalPack>Renesas.RA_mcu_ra4m3.2.2.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra4m3_ek" variant="" vendor="Renesas" version="2.2.0">
-      <description>RA4M3-EK Board Support Files</description>
-      <originalPack>Renesas.RA_board_ra4m3_ek.2.2.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_usb_basic" variant="" vendor="Renesas" version="2.2.0">
-      <description>USB Basic</description>
-      <originalPack>Renesas.RA.2.2.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_usb_phid" variant="" vendor="Renesas" version="2.2.0">
-      <description>USB Peripheral Human Interface Device Class</description>
-      <originalPack>Renesas.RA.2.2.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Heaps" condition="" group="FreeRTOS" subgroup="heap_4" variant="" vendor="AWS" version="2.2.0">
+    <component apiversion="" class="Heaps" condition="" group="FreeRTOS" subgroup="heap_4" variant="" vendor="AWS" version="2.3.0">
       <description>FreeRTOS - Memory Management - Heap 4</description>
-      <originalPack>Amazon.AWS.2.2.0.pack</originalPack>
+      <originalPack>Amazon.AWS.2.3.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra4m3" subgroup="device" variant="R7FA4M3AF3CFB" vendor="Renesas" version="2.3.0">
+      <description>Board support package for R7FA4M3AF3CFB</description>
+      <originalPack>Renesas.RA_mcu_ra4m3.2.3.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra4m3" subgroup="device" variant="" vendor="Renesas" version="2.3.0">
+      <description>Board support package for RA4M3</description>
+      <originalPack>Renesas.RA_mcu_ra4m3.2.3.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra4m3" subgroup="fsp" variant="" vendor="Renesas" version="2.3.0">
+      <description>Board support package for RA4M3 - FSP Data</description>
+      <originalPack>Renesas.RA_mcu_ra4m3.2.3.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="5.7.0+fsp.2.3.0">
+      <description>Arm CMSIS Version 5 - Core (M)</description>
+      <originalPack>Arm.CMSIS5.5.7.0+fsp.2.3.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra4m3_ek" variant="" vendor="Renesas" version="2.3.0">
+      <description>RA4M3-EK Board Support Files</description>
+      <originalPack>Renesas.RA_board_ra4m3_ek.2.3.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="2.3.0">
+      <description>Board Support Package Common Files</description>
+      <originalPack>Renesas.RA.2.3.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="2.3.0">
+      <description>I/O Port</description>
+      <originalPack>Renesas.RA.2.3.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_usb_basic" variant="" vendor="Renesas" version="2.3.0">
+      <description>USB Basic</description>
+      <originalPack>Renesas.RA.2.3.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_usb_phid" variant="" vendor="Renesas" version="2.3.0">
+      <description>USB Peripheral Human Interface Device Class</description>
+      <originalPack>Renesas.RA.2.3.0.pack</originalPack>
     </component>
   </raComponentSelection>
   <raElcConfiguration/>
@@ -144,7 +146,7 @@
     </module>
     <module id="module.driver.basic_on_usb.1821827954">
       <property id="module.driver.basic.name" value="g_basic"/>
-      <property id="module.driver.usb_basic.usb_mode" value="module.driver.usb_basic.usb_mode.host"/>
+      <property id="module.driver.usb_basic.usb_mode" value="module.driver.usb_basic.usb_mode.peri"/>
       <property id="module.driver.usb_basic.usb_speed" value="module.driver.usb_basic.usb_speed.fs"/>
       <property id="module.driver.usb_basic.usb_modulenumber" value="module.driver.usb_basic.usb_modulenumber.0"/>
       <property id="module.driver.usb_basic.usb_classtype" value="module.driver.usb_basic.usb_classtype.pcdc"/>
@@ -203,6 +205,7 @@
       <property id="config.driver.usb_basic.request" value="config.driver.usb_basic.request.enable"/>
       <property id="config.driver.usb_basic.dblb" value="config.driver.usb_basic.dblb.enable"/>
       <property id="config.driver.usb_basic.cntmd" value="config.driver.usb_basic.cntmd.disable"/>
+      <property id="config.driver.usb_basic.ldo_regulator" value="config.driver.usb_basic.ldo_regulator.disable"/>
       <property id="config.driver.usb_basic.dma" value="config.driver.usb_basic.dma.disable"/>
       <property id="config.driver.usb_basic.source_address" value="config.driver.usb_basic.source_address.none"/>
       <property id="config.driver.usb_basic.dest_address" value="config.driver.usb_basic.dest_address.none"/>

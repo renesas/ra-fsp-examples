@@ -49,19 +49,53 @@
 #define BLOCK_SIZE					(64)
 #define NUM_BLOCKS					(1)
 
+/* Print messages for block ranges */
+#if defined(BOARD_RA2E1_EK)
+#define DF_BLOCK_RANGE_DISPLAY	"\r\nValid Block Range for Data Flash Operation is 0 - 3\r\n"
+#define CF_BLOCK_RANGE_DISPLAY	"Valid Block Range for Code Flash Operation is 10 - 63\r\n"
+#define AW_BLOCK_RANGE_DISPLAY	"Valid Block Range for AccessWindow Operation is 10 - 62\r\n"
+#elif defined(BOARD_RA4W1_EK)
+#define DF_BLOCK_RANGE_DISPLAY	"\r\nValid Block Range for Data Flash Operation is 0 - 7\r\n"
+#define CF_BLOCK_RANGE_DISPLAY	"Valid Block Range for Code Flash Operation is 10 - 255\r\n"
+#define AW_BLOCK_RANGE_DISPLAY	"Valid Block Range for AccessWindow Operation is 10 - 254\r\n"
+#else
+#define DF_BLOCK_RANGE_DISPLAY	"\r\nValid Block Range for Data Flash Operation is 0 - 7\r\n"
+#define CF_BLOCK_RANGE_DISPLAY	"Valid Block Range for Code Flash Operation is 10 - 127\r\n"
+#define AW_BLOCK_RANGE_DISPLAY	"Valid Block Range for AccessWindow Operation is 10 - 126\r\n"
+#endif
+
+#define RANGE_DISPLAY		DF_BLOCK_RANGE_DISPLAY\
+							CF_BLOCK_RANGE_DISPLAY\
+							AW_BLOCK_RANGE_DISPLAY
+
 /* Data Flash Macros */
-#define FLASH_DF_BLOCK_SIZE			((1) * (1024))
 #define FLASH_DF_BLOCK0				(0x40100000)
-#define FLASH_DF_BLOCK7 			(0x40101C00)
+#if defined(BOARD_RA2E1_EK)
+#define FLASH_DF_BLOCK_END			(0x40100FFF)	//FLASH_DF_BLOCK3
+#else
+#define FLASH_DF_BLOCK_END 			(0x40101C00)	//FLASH_DF_BLOCK7
+#endif
+#define FLASH_DF_BLOCK_SIZE			((1) * (1024))
 #define FLASH_DF_BLOCK(x)			((FLASH_DF_BLOCK0) + (1024) * (uint32_t)(x))
 
 /* Code Flash Macros */
 #define FLASH_CF_BLOCK_SIZE			((2) * (1024))
 #define FLASH_CF_BLOCK0				(0x00000000)
 #define FLASH_CF_BLOCK10			(0x00005000)
-#define FLASH_CF_BLOCK126			(0x0003F000)
-#define FLASH_CF_BLOCK127			(0x0003F800)
-#define FLASH_CF_BLOCK128			(0x00040000)
+#if defined(BOARD_RA2E1_EK)
+#define FLASH_CF_BLOCK61			(0x0001EFFF)
+#define FLASH_CF_BLOCK_PRE_END		(0x0001F7FF)  	 //FLASH_CF_BLOCK62
+#define FLASH_CF_BLOCK_END			(0x0001FFFF)
+#elif defined(BOARD_RA4W1_EK)
+#define FLASH_CF_BLOCK_253			(0x0007EFFF)
+#define FLASH_CF_BLOCK_PRE_END		(0x0007F7FF)	//FLASH_CF_BLOCK254
+#define FLASH_CF_BLOCK_END			(0x0007FFFF)
+#else
+#define FLASH_CF_BLOCK126			(0x0003EFFF)
+#define FLASH_CF_BLOCK_PRE_END		(0x0003F7FF)	//FLASH_CF_BLOCK127
+#define FLASH_CF_BLOCK_END			(0x0003FFFF)
+#endif
+
 #define FLASH_CF_BLOCK(x)			((FLASH_CF_BLOCK0) + (2) * (1024) * (uint32_t)(x))
 #define FLASH_CF_START_ADDR(x)		(FLASH_CF_BLOCK(x))
 #define FLASH_CF_END_ADDR(x)		((FLASH_CF_BLOCK(x)) + (2) * (FLASH_CF_BLOCK_SIZE))

@@ -26,7 +26,7 @@
                         USB PC Keyboard - 1 nos
 
 3. Hardware Connections:
-    EK-RA6M4, EK-RA4M3, EK-RA6M3 & EK-RA6M3G (Only supported on these boards & with Full Speed mode)
+    EK-RA6M4, EK-RA4M3, EK-RA4M2, EK-RA6M3 & EK-RA6M3G (Only supported on these boards & with Full Speed mode)
 
     Full-Speed :
         Jumper J12 placement is pins 1-2
@@ -34,3 +34,11 @@
         Connect USB keyboard to J11 connector with help of OTG cable.
 
 Note : User is requested to enter key from a to z, A to Z, 0 to 9 and any special character on keyboard.
+1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
+   RTT Block address for hex file committed in repository are as follows:
+   a. e2studio: 0x2000bac0
+   b. Keil: Not Available 
+   c. IAR: Not Available
+ 
+2) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) 
+   in .map file generated in the build configuration folder (Debug/Release).

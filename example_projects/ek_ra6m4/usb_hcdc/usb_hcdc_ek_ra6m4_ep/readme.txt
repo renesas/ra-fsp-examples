@@ -22,7 +22,7 @@ running). Board1 initiates the communication by sending commands to Board2 and B
 the received data on the RTTViewer
 
 2. Supported Boards:
-	EK-RA6M3, EK-RA6M3G and EK-RA6M4
+	EK-RA4M2, EK-RA6M3, EK-RA6M3G and EK-RA6M4
 
 3. Hardware Requirements:
     External Hardware : USB OTG cable   - 1 nos
@@ -32,7 +32,7 @@ the received data on the RTTViewer
 
 4. Configuration changes to switch Speed in configurator: 
 
-    i. Full-Speed : (EK-RA6M3, EK-RA6M3G and EK-RA6M4 boards)
+    i. Full-Speed : (EK-RA4M2, EK-RA6M3, EK-RA6M3G and EK-RA6M4 boards)
         USB Speed                      :    Full Speed
         USB Module Number              :    USB_IP0 Port
 
@@ -45,7 +45,7 @@ the received data on the RTTViewer
 
    Jumper Settings: 
 
-    i. Full-Speed: (EK-RA6M3, EK-RA6M3G and EK-RA6M4 boards)
+    i. Full-Speed: (EK-RA4M2, EK-RA6M3, EK-RA6M3G and EK-RA6M4 boards)
         Jumper j12 placement is pins 1-2
         Remove Jumper j15 pins
         Connect USB device to J11 connector with help of micro USB Host cable.
@@ -59,3 +59,12 @@ the received data on the RTTViewer
 Note: 	
 1. By default USB HCDC Example Project (i.e., Board 1) runs in Full-speed mode. 
 2. RTT Print Buffer size should be configured to 512
+
+1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
+   RTT Block address for hex file committed in repository are as follows:
+   a. e2studio: 0x200106c8
+   b. Keil: Not Available 
+   c. IAR: Not Available
+ 
+2) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) 
+   in .map file generated in the build configuration folder (Debug/Release).

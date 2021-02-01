@@ -16,6 +16,7 @@ FSP Configuration
     Security: Exceptions: BusFault, HardFault, and NMI Target: Secure State
     Security: System Reset Request Accessibility: Secure State
     Security: Exceptions: Prioritize Secure Exceptions: Disabled
+    Security: Cache Accessibility: Both Secure and Non-Secure State
     Security: System Reset Status Accessibility: Both Secure and Non-Secure State
     Security: Battery Backup Accessibility: Both Secure and Non-Secure State
     Security: SRAM Accessibility: SRAM Protection: Both Secure and Non-Secure State
@@ -23,6 +24,7 @@ FSP Configuration
     Security: SRAM Accessibility: Standby RAM: Regions 7-0 are all Secure.
     Security: BUS Accessibility: Bus Security Attribution Register A: Both Secure and Non-Secure State
     Security: BUS Accessibility: Bus Security Attribution Register B: Both Secure and Non-Secure State
+    Startup C-Cache Line Size: 32 Bytes
     OFS0 register settings: Independent WDT: Start Mode: IWDT is Disabled
     OFS0 register settings: Independent WDT: Timeout Period: 2048 cycles
     OFS0 register settings: Independent WDT: Dedicated Clock Frequency Divisor: 128
@@ -403,7 +405,7 @@ FSP Configuration
       Port 3 ELC Trigger Source: Disabled
       Port 4 ELC Trigger Source: Disabled
       
-    Instance "g_timer_one_shot Timer Driver on r_agt"
+    Instance "g_timer_one_shot Timer Driver on r_agt" (NSC)
       General: Name: g_timer_one_shot
       General: Channel: 0
       General: Mode: One-Shot
@@ -421,7 +423,7 @@ FSP Configuration
       Interrupts: Callback: NULL
       Interrupts: Underflow Interrupt Priority: Priority 2
       
-    Instance "g_timer_periodic Timer Driver on r_agt"
+    Instance "g_timer_periodic Timer Driver on r_agt" (NSC)
       General: Name: g_timer_periodic
       General: Channel: 1
       General: Mode: Periodic

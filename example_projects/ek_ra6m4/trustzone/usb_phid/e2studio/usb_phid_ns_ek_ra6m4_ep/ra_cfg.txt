@@ -16,6 +16,7 @@ FSP Configuration
     Security: Exceptions: BusFault, HardFault, and NMI Target: Secure State
     Security: System Reset Request Accessibility: Secure State
     Security: Exceptions: Prioritize Secure Exceptions: Disabled
+    Security: Cache Accessibility: Both Secure and Non-Secure State
     Security: System Reset Status Accessibility: Both Secure and Non-Secure State
     Security: Battery Backup Accessibility: Both Secure and Non-Secure State
     Security: SRAM Accessibility: SRAM Protection: Both Secure and Non-Secure State
@@ -23,6 +24,7 @@ FSP Configuration
     Security: SRAM Accessibility: Standby RAM: Regions 7-0 are all Secure.
     Security: BUS Accessibility: Bus Security Attribution Register A: Both Secure and Non-Secure State
     Security: BUS Accessibility: Bus Security Attribution Register B: Both Secure and Non-Secure State
+    Startup C-Cache Line Size: 32 Bytes
     OFS0 register settings: Independent WDT: Start Mode: IWDT is Disabled
     OFS0 register settings: Independent WDT: Timeout Period: 2048 cycles
     OFS0 register settings: Independent WDT: Dedicated Clock Frequency Divisor: 128
@@ -404,6 +406,7 @@ FSP Configuration
     Notifications for SET_INTERFACE/SET_FEATURE/CLEAR_FEATURE: Enabled
     Double Buffering: Enabled
     Continuous Transfer Mode: Disabled
+    LDO Regulator: Disable
     DMA Support: Disable
     DMA Source Address: DMA Disabled
     DMA Destination Address: DMA Disabled
@@ -499,7 +502,7 @@ FSP Configuration
         USB Mode: Peri mode
         USB Speed: Full Speed
         USB Module Number: USB_IP0 Port
-        USB Device Class: Peripheral Human Interface Device Class
+        USB Device Class: Peripheral Communications Device Class
         USB Descriptor: g_usb_descriptor
         USB Compliance Callback: NULL
         USBFS Interrupt Priority: Priority 12

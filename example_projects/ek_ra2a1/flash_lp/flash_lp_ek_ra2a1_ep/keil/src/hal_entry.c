@@ -56,7 +56,8 @@ void hal_entry(void)
     APP_PRINT("\r\nMenu");
     APP_PRINT("\r\nEnter 1 for Data Flash Operations");
     APP_PRINT("\r\nEnter 2 for Code Flash Operations\r\n");
-
+    /* Prints Block Range for flash operations */
+    APP_PRINT(RANGE_DISPLAY);
     while (true)
     {
         if (APP_CHECK_DATA)
@@ -155,6 +156,8 @@ void hal_entry(void)
                     APP_PRINT("\r\nMenu");
                     APP_PRINT("\r\nEnter 1 for Data Flash Operations");
                     APP_PRINT("\r\nEnter 2 for Code Flash Operations\r\n");
+                    /* Prints Block Range for flash operations */
+                    APP_PRINT(RANGE_DISPLAY);
                     break;
             }
             if ((DATA_FLASH_OPERATIONS <= menu_input) && (CODE_FLASH_OPERATIONS >= menu_input))
@@ -180,8 +183,9 @@ uint8_t block_num_input_and_validation(uint8_t flash_type)
     if (DATA_FLASH_OPERATIONS == flash_type)
     {
         /* Data-Flash block number input and validation */
-        APP_PRINT("\r\nEnter block number between 0 and 7 for Data-Flash operations:\r\n");
-        while ((FLASH_DF_BLOCK0 >= FLASH_DF_BLOCK(block_num)) || (FLASH_DF_BLOCK7 < FLASH_DF_BLOCK(block_num)))
+        APP_PRINT("\r\nEnter valid block number for Data-Flash operations:\r\n");
+
+        while ((FLASH_DF_BLOCK0 >= FLASH_DF_BLOCK(block_num)) || (FLASH_DF_BLOCK_END < FLASH_DF_BLOCK(block_num)))
         {
             while (BYTES_RECEIVED_ZERO == num_bytes)
             {
@@ -204,16 +208,16 @@ uint8_t block_num_input_and_validation(uint8_t flash_type)
             else
             {
                 APP_PRINT("\r\nEntered Data-Flash block number is not valid \r\n");
-                APP_PRINT("Please enter block number between  0 and 7 \r\n");
+                APP_PRINT("Please enter the valid block number. \r\n");
                 num_bytes = RESET_VALUE;
                 continue;
             }
 
             /* Data-Flash block number validation */
-            if ((FLASH_DF_BLOCK0 > FLASH_DF_BLOCK(block_num)) || (FLASH_DF_BLOCK7 < FLASH_DF_BLOCK(block_num)))
+            if ((FLASH_DF_BLOCK0 > FLASH_DF_BLOCK(block_num)) || (FLASH_DF_BLOCK_END < FLASH_DF_BLOCK(block_num)))
             {
                 APP_PRINT("\r\nEntered Data-Flash block number is not valid \r\n");
-                APP_PRINT("Please enter block number between  0 and 7 \r\n");
+                APP_PRINT("Please enter the valid block number. \r\n");
                 num_bytes = RESET_VALUE;
             }
             else
@@ -225,8 +229,9 @@ uint8_t block_num_input_and_validation(uint8_t flash_type)
     else if (CODE_FLASH_OPERATIONS == flash_type)
     {
         /* Code-Flash block number input and validation */
-        APP_PRINT("\r\nEnter block number between 10 and 128 for Code-Flash operations\r\n");
-        while ((FLASH_CF_BLOCK10 > FLASH_CF_BLOCK(block_num)) || (FLASH_CF_BLOCK128 < FLASH_CF_BLOCK(block_num)))
+        APP_PRINT("\r\nEnter valid block number, must be greater than 10 for Code-Flash operations\r\n");
+
+        while ((FLASH_CF_BLOCK10 > FLASH_CF_BLOCK(block_num)) || (FLASH_CF_BLOCK_END < FLASH_CF_BLOCK(block_num)))
         {
             while (BYTES_RECEIVED_ZERO == num_bytes)
             {
@@ -251,7 +256,7 @@ uint8_t block_num_input_and_validation(uint8_t flash_type)
                 else
                 {
                     APP_PRINT("\r\nEntered Code-Flash block number is not valid \r\n");
-                    APP_PRINT("Please enter block number between  10 and 128 \r\n");
+                    APP_PRINT("Please enter valid block number \r\n");
                     num_bytes = RESET_VALUE;
                     continue;
                 }
@@ -259,16 +264,16 @@ uint8_t block_num_input_and_validation(uint8_t flash_type)
             else
             {
                 APP_PRINT("\r\nEntered Code-Flash block number is not valid \r\n");
-                APP_PRINT("Please enter block number between  10 and 128 \r\n");
+                APP_PRINT("Please enter valid block number \r\n");
                 num_bytes = RESET_VALUE;
                 continue;
             }
 
             /* Code-Flash block number validation */
-            if ((FLASH_CF_BLOCK10 > FLASH_CF_BLOCK(block_num)) || (FLASH_CF_BLOCK128 < FLASH_CF_BLOCK(block_num)))
+            if ((FLASH_CF_BLOCK10 > FLASH_CF_BLOCK(block_num)) || (FLASH_CF_BLOCK_END < FLASH_CF_BLOCK(block_num)))
             {
                 APP_PRINT("\r\nEntered Code-Flash block number is not valid \r\n");
-                APP_PRINT("Please enter block number between 10 and 128 \r\n");
+                APP_PRINT("Please enter valid block number \r\n");
                 num_bytes = RESET_VALUE;
             }
             else

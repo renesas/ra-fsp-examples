@@ -34,6 +34,8 @@
 #define CS_PIN  BSP_IO_PORT_02_PIN_05
 #elif defined(BOARD_RA2A1_EK)
 #define CS_PIN  BSP_IO_PORT_04_PIN_10
+#elif defined(BOARD_RA2E1_EK)
+#define CS_PIN  BSP_IO_PORT_04_PIN_01
 #else
 #define CS_PIN  BSP_IO_PORT_04_PIN_13
 #endif
@@ -96,8 +98,8 @@ void hal_entry(void)
 		APP_ERR_TRAP(err);
 	}
 
-	/* Set Slave select pin as LOW to enable data transfer */
-	CS_DE_ASSERT(CS_PIN);
+	/* Assert Slave select pin to start data transfer */
+	CS_ASSERT(CS_PIN);
 
 	/* Configure temperature sensor */
 	err = R_SCI_SPI_Write(&g_spi_ctrl, &config_sensor[0], sizeof(config_sensor), SPI_BIT_WIDTH_8_BITS);
@@ -112,15 +114,20 @@ void hal_entry(void)
 	/* Check for transfer complete event and handle error in the case of event failure */
 	sci_spi_event_check();
 
-	CS_ASSERT(CS_PIN);
+	/* De-assert Slave select pin to stop data transfer */
+	CS_DE_ASSERT(CS_PIN);
 	/* Stabilization time for Slave Select pin */
 	R_BSP_SoftwareDelay(STABILIZATION_DELAY, BSP_DELAY_UNITS_MICROSECONDS);
-	g_master_event_flag = RESET_VALUE;
 
 	while(true)
 	{
+	    /* Resetting SPI Master event flag */
+	    g_master_event_flag = RESET_VALUE;
+
 		memset(dataBuff, RESET_VALUE, sizeof(dataBuff));
-		CS_DE_ASSERT(CS_PIN);
+
+		/* Assert Slave select pin to start data transfer */
+		CS_ASSERT(CS_PIN);
 		/* Read the temperature */
 		err = R_SCI_SPI_WriteRead(&g_spi_ctrl, read_temperature_reg, temperature_values, sizeof(temperature_values), SPI_BIT_WIDTH_8_BITS);
 		/* Handle Error */
@@ -134,14 +141,15 @@ void hal_entry(void)
 		/* Check for transfer complete event and handle error in the case of event failure */
 		sci_spi_event_check();
 
-		CS_ASSERT(CS_PIN);
+		/* De-assert Slave select pin to stop data transfer */
+		CS_DE_ASSERT(CS_PIN);
 		/* Stabilization time for Slave Select pin */
 		R_BSP_SoftwareDelay(STABILIZATION_DELAY, BSP_DELAY_UNITS_MICROSECONDS);
 		/* Manipulating the read temperature values to print for users */
 		temperature = (float) ((int32_t)( ((uint32_t) temperature_values[2] << 4) | ((uint32_t) temperature_values[1] >> 4) )) / 16.0f;
 		/* Function to print float values */
 		snprintf(dataBuff, sizeof(dataBuff), "%f", temperature);
-		APP_PRINT("\r\nTemperature:  %s",dataBuff);
+		APP_PRINT("\r\nTemperature:  %s *C",dataBuff);
 
 		/* Delay to display temperature values on RTT viewer */
 		R_BSP_SoftwareDelay(PRINT_DELAY, BSP_DELAY_UNITS_SECONDS);

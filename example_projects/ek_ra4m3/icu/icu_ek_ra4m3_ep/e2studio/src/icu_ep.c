@@ -74,35 +74,6 @@ fsp_err_t icu_enable(void)
     return err;
 }
 
-/*******************************************************************************************************************//**
- * @brief       This functions gets External IRQ driver version info.
- * @param[IN]   None
- * @retval      FSP_SUCCESS                  Upon successful driver version of ICU module
- * @retval      Any Other Error code apart from FSP_SUCCESS  Unsuccessful open
- **********************************************************************************************************************/
-fsp_err_t icu_driver_info(void)
-{
-    fsp_err_t     err                  = FSP_SUCCESS;
-    fsp_version_t icu_driver_version   = {RESET_VALUE};
-
-    /* Get driver version */
-    err = R_ICU_ExternalIrqVersionGet(&icu_driver_version);
-    /* Handle error */
-    if (FSP_SUCCESS != err)
-    {
-        /* ICU VersionGet failure message */
-        APP_ERR_PRINT ("\r\n**R_ICU_ExternalIrqVersionGet API FAILED**\r\n");
-        return err;
-    }
-
-    /* External IRQ Driver information */
-    APP_PRINT("\r\n r_icu Driver Version\r\n");
-    APP_PRINT(" ID   : %d\r\n", icu_driver_version.version_id);
-    APP_PRINT(" API  : %d.%d\r\n", icu_driver_version.api_version_major, icu_driver_version.api_version_minor);
-    APP_PRINT(" Code : %d.%d\r\n", icu_driver_version.code_version_major, icu_driver_version.code_version_minor);
-
-    return err;
-}
 
 /*******************************************************************************************************************//**
  * @brief       This function closes opened ICU module before the project ends up in an Error Trap.

@@ -61,21 +61,21 @@ char p_welcome[200] = {
 
 /* Next steps */
 char nextsteps[USB_EP_PACKET_SIZE] = {
-                       "\r\n 2. NEXT STEPS \r\n"
-                       "\r\nVisit the following URLs to learn about the kit "
-                       "and the RA family of MCUs, download tools "
-                       "and documentation, and get support:\r\n"
-                       "\r\n a) "
-                       KIT_NAME_MACRO
-                       " resources: \t"
-                       KIT_LANDING_URL
-                       "\r\n b) RA product information:  \t"
-                       PRODUCT_INFO_URL
-                       "\r\n c) RA product support forum: \t"
-                       PRODUCT_SUPPORT_URL
-                       "\r\n d) Renesas support: \t\t"
-                       RENESAS_SUPPORT_URL
-                       "\r\n\r\n Press 1 for Kit Information or 2 for Next Steps.\r\n"
+                                      "\r\n 2. NEXT STEPS \r\n"
+                                      "\r\nVisit the following URLs to learn about the kit "
+                                      "and the RA family of MCUs, download tools "
+                                      "and documentation, and get support:\r\n"
+                                      "\r\n a) "
+                                      KIT_NAME_MACRO
+                                      " resources: \t"
+                                      KIT_LANDING_URL
+                                      "\r\n b) RA product information:  \t"
+                                      PRODUCT_INFO_URL
+                                      "\r\n c) RA product support forum: \t"
+                                      PRODUCT_SUPPORT_URL
+                                      "\r\n d) Renesas support: \t\t"
+                                      RENESAS_SUPPORT_URL
+                                      "\r\n\r\n Press 1 for Kit Information or 2 for Next Steps.\r\n"
 };
 
 char kitinfo[USB_EP_PACKET_SIZE] = {'\0'};
@@ -86,6 +86,7 @@ const char *p_kit_menu_ret = "\r\n Press 1 for Kit Information or 2 for Next Ste
 
 uint8_t g_usb_module_number = 0x00;
 usb_class_t g_usb_class_type    = 0x00;
+static bool  b_usb_attach = false;
 
 /* Private functions */
 static fsp_err_t check_for_write_complete(void);
@@ -170,7 +171,10 @@ void hal_entry(void) {
 
             case USB_STATUS_READ_COMPLETE:
             {
-                err = R_USB_Read (&g_basic0_ctrl, g_buf, 1, (uint8_t)g_usb_class_type);
+                if(b_usb_attach)
+                {
+                    err = R_USB_Read (&g_basic0_ctrl, g_buf, 1, (uint8_t)g_usb_class_type);
+                }
                 /* Handle error */
                 if (FSP_SUCCESS != err)
                 {
@@ -268,8 +272,16 @@ void hal_entry(void) {
 
             case USB_STATUS_DETACH:
             case USB_STATUS_SUSPEND:
-            case USB_STATUS_RESUME:
+            {
+                b_usb_attach = false;
+                memset (g_buf, 0, sizeof(g_buf));
                 break;
+            }
+            case USB_STATUS_RESUME:
+            {
+                b_usb_attach = true;
+                break;
+            }
             default:
             {
                 break;
@@ -285,23 +297,23 @@ void hal_entry(void) {
  * @param[in]  event    Where at in the start up process the code is currently at
  **********************************************************************************************************************/
 void R_BSP_WarmStart(bsp_warm_start_event_t event) {
-	if (BSP_WARM_START_RESET == event) {
+    if (BSP_WARM_START_RESET == event) {
 #if BSP_FEATURE_FLASH_LP_VERSION != 0
 
-		/* Enable reading from data flash. */
-		R_FACI_LP->DFLCTL = 1U;
+        /* Enable reading from data flash. */
+        R_FACI_LP->DFLCTL = 1U;
 
-		/* Would normally have to wait tDSTOP(6us) for data flash recovery. Placing the enable here, before clock and
-		 * C runtime initialization, should negate the need for a delay since the initialization will typically take more than 6us. */
+        /* Would normally have to wait tDSTOP(6us) for data flash recovery. Placing the enable here, before clock and
+         * C runtime initialization, should negate the need for a delay since the initialization will typically take more than 6us. */
 #endif
-	}
+    }
 
-	if (BSP_WARM_START_POST_C == event) {
-		/* C runtime environment and system clocks are setup. */
+    if (BSP_WARM_START_POST_C == event) {
+        /* C runtime environment and system clocks are setup. */
 
-		/* Configure pins. */
-		R_IOPORT_Open(&g_ioport_ctrl, &g_bsp_pin_cfg);
-	}
+        /* Configure pins. */
+        R_IOPORT_Open(&g_ioport_ctrl, &g_bsp_pin_cfg);
+    }
 }
 
 

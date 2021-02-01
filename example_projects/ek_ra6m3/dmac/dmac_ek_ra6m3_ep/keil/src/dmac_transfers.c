@@ -38,7 +38,7 @@ extern uint32_t g_dest_data[DEST_DATA_SIZE];
 volatile bool b_is_transfer_complete  = false;
 
 /* LED port pin control register for port*/
-#if defined (BOARD_RA6M4_EK) || defined (BOARD_RA6T1_RSSK) || defined (BOARD_RA4M3_EK)
+#if defined (BOARD_RA6M4_EK) || defined (BOARD_RA6T1_RSSK) || defined (BOARD_RA4M3_EK) || defined (BOARD_RA4M2_EK)
 	static volatile uint32_t *p_ioport_pnctrl_register = &R_PORT4->PCNTR1;
 #else
 	static volatile uint32_t *p_ioport_pnctrl_register = &R_PORT1->PCNTR1;

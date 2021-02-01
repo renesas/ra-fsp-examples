@@ -71,14 +71,6 @@ void hal_entry(void)
         APP_ERR_TRAP(err);
     }
 
-    /* Get External IRQ driver info*/
-    err = icu_driver_info();
-    /* Handle error */
-    if(FSP_SUCCESS != err)
-    {
-        APP_ERR_PRINT("** ICU DRIVER INFO FAILED ** \r\n");
-    }
-
     /* Enable External IRQ driver*/
     err = icu_enable();
     /* Handle error */
