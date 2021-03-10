@@ -32,7 +32,7 @@
 #include "menu_ns.h"
 
 
-#define MODULE_NAME     "\r\n\x1b[2m\x1b[37mWelcome to Quick Start Example Project for %s!\r\n"
+#define MODULE_NAME     "\r\n Welcome to Quick Start Example Project for %s!\r\n"
 
 #define SUB_OPTIONS     "\r\n> Select from the options in the menu below:\r\n\r\nMENU"
 

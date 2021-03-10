@@ -25,7 +25,7 @@
  Includes   <System Includes> , "Project Includes"
  *********************************************************************************************************************/
 /* SEGGER RTT and error related headers */
-#include "SEGGER_RTT.h"
+#include "SEGGER_RTT/SEGGER_RTT.h"
 
 /**********************************************************************************************************************
  Macro definitions

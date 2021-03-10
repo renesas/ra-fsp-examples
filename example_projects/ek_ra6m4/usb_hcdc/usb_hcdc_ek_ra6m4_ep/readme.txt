@@ -22,17 +22,17 @@ running). Board1 initiates the communication by sending commands to Board2 and B
 the received data on the RTTViewer
 
 2. Supported Boards:
-	EK-RA4M2, EK-RA6M3, EK-RA6M3G and EK-RA6M4
+	EK-RA4M2, EK-RA4M3, EK-RA6M3, EK-RA6M3G and EK-RA6M4
 
 3. Hardware Requirements:
     External Hardware : USB OTG cable   - 1 nos
                         USB Cable	- 3 nos
-	EK-RA6M3/EK-RA6M3G/EK-RA6M4 - Running USB HCDC Example Project 
+	EK-RA4M2/EK-RA4M3/EK-RA6M3/EK-RA6M3G/EK-RA6M4 - Running USB HCDC Example Project 
 	Any RA board running USB PCDC Example Project
 
 4. Configuration changes to switch Speed in configurator: 
 
-    i. Full-Speed : (EK-RA4M2, EK-RA6M3, EK-RA6M3G and EK-RA6M4 boards)
+    i. Full-Speed : (EK-RA4M2, EK-RA4M3, EK-RA6M3, EK-RA6M3G and EK-RA6M4 boards)
         USB Speed                      :    Full Speed
         USB Module Number              :    USB_IP0 Port
 
@@ -45,7 +45,7 @@ the received data on the RTTViewer
 
    Jumper Settings: 
 
-    i. Full-Speed: (EK-RA4M2, EK-RA6M3, EK-RA6M3G and EK-RA6M4 boards)
+    i. Full-Speed: (EK-RA4M2, EK-RA4M3, EK-RA6M3, EK-RA6M3G and EK-RA6M4 boards)
         Jumper j12 placement is pins 1-2
         Remove Jumper j15 pins
         Connect USB device to J11 connector with help of micro USB Host cable.

@@ -12,12 +12,12 @@ FSP Configuration
     series: 2
     
   RA2E1 Family
-    OFS0 register settings: Independent WDT: Start Mode: IWDT is Disabled
+    OFS0 register settings: Independent WDT: Start Mode: IWDT is automatically activated after a reset (Autostart mode)
     OFS0 register settings: Independent WDT: Timeout Period: 2048 cycles
-    OFS0 register settings: Independent WDT: Dedicated Clock Frequency Divisor: 128
+    OFS0 register settings: Independent WDT: Dedicated Clock Frequency Divisor: 1
     OFS0 register settings: Independent WDT: Window End Position:  0% (no window end position)
     OFS0 register settings: Independent WDT: Window Start Position: 100% (no window start position)
-    OFS0 register settings: Independent WDT: Reset Interrupt Request Select: Reset is enabled
+    OFS0 register settings: Independent WDT: Reset Interrupt Request Select: NMI request or interrupt request is enabled
     OFS0 register settings: Independent WDT: Stop Control: Stop counting when in Sleep, Snooze mode, or Software Standby
     OFS0 register settings: WDT: Start Mode Select: Stop WDT after a reset (register-start mode)
     OFS0 register settings: WDT: Timeout Period: 16384 cycles
@@ -26,10 +26,11 @@ FSP Configuration
     OFS0 register settings: WDT: Window Start Position: 100% (no window start position)
     OFS0 register settings: WDT: Reset Interrupt Request: Reset
     OFS0 register settings: WDT: Stop Control: Stop counting when entering Sleep mode
+    OFS1 register settings: Internal Clock Supply Architecture Type: Type A
     OFS1 register settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
     OFS1 register settings: Voltage Detection 0 Level: 1.90 V
     OFS1 register settings: HOCO Oscillation Enable: HOCO oscillation is enabled after reset
-    Use Low Voltage Mode: Disable
+    Use Low Voltage Mode: Not Supported
     MPU: Enable or disable PC Region 0: Disabled
     MPU: PC0 Start: 0x000FFFFC
     MPU: PC0 End: 0x000FFFFF
@@ -109,7 +110,7 @@ FSP Configuration
       P113 38 GPIO ARDUINO_D7 Medium - "Output mode (Initial Low)" CMOS - "CTSU0: CFCTS27" - IO - - 
       P200 27 - - - - Disabled - - "ICU0: NMI" - None - - 
       P201 26 - - - - Disabled - - "SYSTEM0: MD" - None - - 
-      P204 24 - - - - Disabled - - "AGT1: AGTIO; CAC0: CACREF; CTSU0: TS00; GPT_OPS0: GTIW; IIC0: SCL; SCI0: SCK; SCI9: SCK" - None - - 
+      P204 24 CAC0_CACREF - Low - "Peripheral mode" CMOS None "AGT1: AGTIO; CAC0: CACREF; CTSU0: TS00; GPT_OPS0: GTIW; IIC0: SCL; SCI0: SCK; SCI9: SCK" - IO - - 
       P205 23 SCI0_TXD ARDUINO_TX_MIKROBUS_TX Low None "Peripheral mode" CMOS None "AGT1: AGTO; CGC0: CLKOUT; GPT_OPS0: GTIV; ICU0: IRQ01; SCI0: SDA; SCI0: TXD; SCI9: CTS" - IO - - 
       P206 22 SCI0_RXD ARDUINO_RX_MIKROBUS_RX Low None "Peripheral mode" CMOS None "GPT_OPS0: GTIU; ICU0: IRQ00; SCI0: RXD; SCI0: SCL" - IO - - 
       P207 21 GPIO ARDUINO_RESET_MIKROBUS_RST Medium - "Output mode (Initial Low)" CMOS - - - IO - - 
@@ -174,7 +175,7 @@ FSP Configuration
       P113 38 - ARDUINO_D7 Low - Disabled CMOS - "CTSU0: CFCTS27" - IO - - 
       P200 27 - - - - Disabled - - "ICU0: NMI" - None - - 
       P201 26 - - - - Disabled - - "SYSTEM0: MD" - None - - 
-      P204 24 - - - - Disabled - - "AGT1: AGTIO; CAC0: CACREF; CTSU0: TS00; GPT_OPS0: GTIW; IIC0: SCL; SCI0: SCK; SCI9: SCK" - None - - 
+      P204 24 - - Low - Disabled CMOS None "AGT1: AGTIO; CAC0: CACREF; CTSU0: TS00; GPT_OPS0: GTIW; IIC0: SCL; SCI0: SCK; SCI9: SCK" - IO - - 
       P205 23 - ARDUINO_TX_MIKROBUS_TX Low None Disabled CMOS None "AGT1: AGTO; CGC0: CLKOUT; GPT_OPS0: GTIV; ICU0: IRQ01; SCI0: SDA; SCI0: TXD; SCI9: CTS" - IO - - 
       P206 22 - ARDUINO_RX_MIKROBUS_RX Low None Disabled CMOS None "GPT_OPS0: GTIU; ICU0: IRQ00; SCI0: RXD; SCI0: SCL" - IO - - 
       P207 21 - ARDUINO_RESET_MIKROBUS_RST Low - Disabled CMOS - - - IO - - 

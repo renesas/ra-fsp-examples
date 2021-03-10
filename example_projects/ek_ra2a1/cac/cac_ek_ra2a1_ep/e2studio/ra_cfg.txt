@@ -1,4 +1,4 @@
-RA Configuration
+FSP Configuration
   Board "EK-RA2A1 "
   R7FA2A1AB3CFM
     part_number: R7FA2A1AB3CFM
@@ -12,12 +12,12 @@ RA Configuration
     series: 2
     
   RA2A1 Family
-    OFS0 register settings: Independent WDT: Start Mode: IWDT is Disabled
+    OFS0 register settings: Independent WDT: Start Mode: IWDT is automatically activated after a reset (Autostart mode)
     OFS0 register settings: Independent WDT: Timeout Period: 2048 cycles
-    OFS0 register settings: Independent WDT: Dedicated Clock Frequency Divisor: 128
+    OFS0 register settings: Independent WDT: Dedicated Clock Frequency Divisor: 1
     OFS0 register settings: Independent WDT: Window End Position:  0% (no window end position)
     OFS0 register settings: Independent WDT: Window Start Position: 100% (no window start position)
-    OFS0 register settings: Independent WDT: Reset Interrupt Request Select: Reset is enabled
+    OFS0 register settings: Independent WDT: Reset Interrupt Request Select: NMI request or interrupt request is enabled
     OFS0 register settings: Independent WDT: Stop Control: Stop counting when in Sleep, Snooze mode, or Software Standby
     OFS0 register settings: WDT: Start Mode Select: Stop WDT after a reset (register-start mode)
     OFS0 register settings: WDT: Timeout Period: 16384 cycles
@@ -29,7 +29,7 @@ RA Configuration
     OFS1 register settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
     OFS1 register settings: Voltage Detection 0 Level: 1.90 V
     OFS1 register settings: HOCO Oscillation Enable: HOCO oscillation is enabled after reset
-    Use Low Voltage Mode: Disable
+    Use Low Voltage Mode: Disabled
     MPU: Enable or disable PC Region 0: Disabled
     MPU: PC0 Start: 0x000FFFFC
     MPU: PC0 End: 0x000FFFFF
@@ -48,6 +48,8 @@ RA Configuration
     MPU: Enable or disable Memory Region 3: Disabled
     MPU: Memory Region 3 Start: 0x400DFFFC
     MPU: Memory Region 3 End: 0x400DFFFF
+    ID Code Mode: Unlocked (Ignore ID)
+    ID Code (32 Hex Characters): FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
     
   RA Common
     Main stack size (bytes): 0x400
@@ -56,15 +58,14 @@ RA Configuration
     Parameter checking: Enabled
     Assert Failures: Return FSP_ERR_ASSERTION
     Error Log: No Error Log
-    ID Code Mode: Unlocked (Ignore ID)
-    ID Code (32 Hex Characters): FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
     Soft Reset: Disabled
     Main Oscillator Populated: Populated
     PFS Protect: Enabled
+    C Runtime Initialization : Enabled
     Main Oscillator Wait Time: 32768 us
     Main Oscillator Clock Source: Crystal or Resonator
     Subclock Populated: Populated
-    Subclock Drive: Standard
+    Subclock Drive (Drive capacitance availability varies by MCU): Standard/Normal mode
     Subclock Stabilization Time (ms): 1000
     
   Clocks

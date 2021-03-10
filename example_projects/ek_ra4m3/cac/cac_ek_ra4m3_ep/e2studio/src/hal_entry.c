@@ -94,7 +94,7 @@ void hal_entry(void)
     ref_clk = g_cac_cfg.cac_ref_clock.clock;
 
     /* If reference clock is not IWDT clock, then start and check stability of reference clock selected in configurator.*/
-    if (CAC_CLOCK_SOURCE_IWDT != ref_clk)
+    if ((CAC_CLOCK_SOURCE_IWDT != ref_clk) && (CAC_CLOCK_SOURCE_EXTERNAL != ref_clk))
     {
         /* Start selected target clock. */
         err = R_CGC_ClockStart(&g_cgc_ctrl, (cgc_clock_t)target_cgc_clk_src[ref_clk], NULL);

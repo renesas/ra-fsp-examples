@@ -35,15 +35,15 @@
 
 #define MODULE_NAME     "\r\n%d. KIT INFORMATION\r\n"
 
-#define SUB_OPTIONS     "\r\n\x1b[2m\x1b[37m a) Kit name:                           %s "                           \
-                        "\r\n\x1b[2m\x1b[37m b) Kit ordering part number:           %s "                           \
-                        "\r\n\x1b[2m\x1b[37m c) RA Device part number:              %s"                            \
-                        "\r\n\x1b[2m\x1b[37m d) RA MCU 128-bit Unique ID (hex):     "                              \
-                        "\x1b[32m%x%x%x%x\x1b[37m-\x1b[32m%x%x%x%x\x1b[37m-"                                       \
-                        "\x1b[32m%x%x%x%x\x1b[37m-\x1b[32m%x%x%x%x\x1b[37m"                                        \
-                        "\r\n\x1b[2m\x1b[37m e) RA MCU Die temperature (F/C):       \x1b[32m%d.%d/%d.%d\x1b[37m "  \
-                        "\r\n\x1b[2m\x1b[37m f) Blue LED blinking frequency (Hz):   \x1b[32m%d\x1b[37m " \
-                        "\r\n\x1b[2m\x1b[37m g) Blue LED blinking intensity (%%%%):    \x1b[32m%d\x1b[37m "
+#define SUB_OPTIONS     "\r\n a) Kit name:                           %s "                           \
+                        "\r\n b) Kit ordering part number:           %s "                           \
+                        "\r\n c) RA Device part number:              %s"                            \
+                        "\r\n d) RA MCU 128-bit Unique ID (hex):     "                              \
+                        "%x%x%x%x-%x%x%x%x-"                                       \
+                        "%x%x%x%x-%x%x%x%x"                                        \
+                        "\r\n e) RA MCU Die temperature (F/C):       %d.%d/%d.%d "  \
+                        "\r\n f) Blue LED blinking frequency (Hz):   %d" \
+                        "\r\n g) Blue LED blinking intensity (%%%%):    %d"
                         /* Need to double escape the % */
 
 

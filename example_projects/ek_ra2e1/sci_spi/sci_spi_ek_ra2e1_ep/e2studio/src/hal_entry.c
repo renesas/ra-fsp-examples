@@ -35,7 +35,7 @@
 #elif defined(BOARD_RA2A1_EK)
 #define CS_PIN  BSP_IO_PORT_04_PIN_10
 #elif defined(BOARD_RA2E1_EK)
-#define CS_PIN  BSP_IO_PORT_04_PIN_01
+#define CS_PIN  BSP_IO_PORT_04_PIN_03
 #else
 #define CS_PIN  BSP_IO_PORT_04_PIN_13
 #endif
@@ -49,7 +49,7 @@
                                "\r\nvalue using SCI_SPI bus configured as master.The temperature values are"\
 				               "\r\ncontinuously printed on JLink RTT Viewer.\r\n"
 
-#define STABILIZATION_DELAY (100U)  //Delay value for stabilization of slave select pin
+#define CONVERSION_TIME     (200U)  //Conversion time for 12-bit resolution
 #define PRINT_DELAY         (2U)    //Delay for RTT viewer prints
 static volatile spi_event_t g_master_event_flag;    // Master Transfer Event completion flag
 /* Wait counter for wait operation monitoring */
@@ -59,12 +59,12 @@ void R_BSP_WarmStart(bsp_warm_start_event_t event);
 static uint8_t read_temperature_reg[3] = {0x01};
 /* Variable to store read temperature values */
 static uint8_t temperature_values[3] = {RESET_VALUE};
+uint8_t config_read[2] = {0x00};
 static char dataBuff[30];
 /* Function to check occurrence of event after data transfer */
 static void sci_spi_event_check(void);
 /* Cleanup function for opened module */
 static void sci_spi_deinit(void);
-
 
 /*******************************************************************************************************************//**
  * The RA Configuration tool generates main() and uses it to generate threads if an RTOS is used.  This function is
@@ -72,87 +72,119 @@ static void sci_spi_deinit(void);
  **********************************************************************************************************************/
 void hal_entry(void)
 {
-	fsp_err_t err = FSP_SUCCESS;
-	fsp_pack_version_t version = { RESET_VALUE };
-	float temperature = RESET_VALUE;
+    fsp_err_t err = FSP_SUCCESS;
+    fsp_pack_version_t version = { RESET_VALUE };
+    float temperature = RESET_VALUE;
 
-	/* Value for configuration register write. Set resolution as 12-bits*/
-	const uint8_t config_sensor[3] =
-	{
-			0x80, 0x06
-	};
+    /* Value for configuration register write. Set resolution as 12-bits*/
+    const uint8_t config_sensor[3] =
+    {
+     0x80, 0x06
+    };
 
-	/* version get API for FLEX pack information */
-	R_FSP_VersionGet(&version);
+    /* version get API for FLEX pack information */
+    R_FSP_VersionGet(&version);
 
-	/* Example Project information printed on the Console */
-	APP_PRINT(BANNER_INFO, EP_VERSION, version.major, version.minor, version.patch);
-	APP_PRINT(EP_INFO);
+    /* Example Project information printed on the Console */
+    APP_PRINT(BANNER_INFO, EP_VERSION, version.major, version.minor, version.patch);
+    APP_PRINT(EP_INFO);
 
-	/* Initialize sci_spi channel as master */
-	err = R_SCI_SPI_Open(&g_spi_ctrl, &g_spi_cfg);
-	/* Handle Error */
-	if (FSP_SUCCESS != err)
-	{
-		APP_ERR_PRINT("\r\n SCI_SPI open failed");
-		APP_ERR_TRAP(err);
-	}
+    /* Initialize sci_spi channel as master */
+    err = R_SCI_SPI_Open(&g_spi_ctrl, &g_spi_cfg);
+    /* Handle Error */
+    if (FSP_SUCCESS != err)
+    {
+        APP_ERR_PRINT("\r\n SCI_SPI open failed");
+        APP_ERR_TRAP(err);
+    }
 
-	/* Assert Slave select pin to start data transfer */
-	CS_ASSERT(CS_PIN);
+    /* Assert Slave select pin to start data transfer */
+    CS_ASSERT(CS_PIN);
 
-	/* Configure temperature sensor */
-	err = R_SCI_SPI_Write(&g_spi_ctrl, &config_sensor[0], sizeof(config_sensor), SPI_BIT_WIDTH_8_BITS);
-	/* Handle Error */
-	if (FSP_SUCCESS != err)
-	{
-		sci_spi_deinit();
-		APP_ERR_PRINT("\r\nSPI Write failed\r\n");
-		APP_ERR_TRAP(err);
-	}
+    /* Configure temperature sensor */
+    err = R_SCI_SPI_Write(&g_spi_ctrl, &config_sensor[0], sizeof(config_sensor), SPI_BIT_WIDTH_8_BITS);
+    /* Handle Error */
+    if (FSP_SUCCESS != err)
+    {
+        sci_spi_deinit();
+        APP_ERR_PRINT("\r\nSPI Write failed\r\n");
+        APP_ERR_TRAP(err);
+    }
 
-	/* Check for transfer complete event and handle error in the case of event failure */
-	sci_spi_event_check();
+    /* Check for transfer complete event and handle error in the case of event failure */
+    sci_spi_event_check();
 
-	/* De-assert Slave select pin to stop data transfer */
-	CS_DE_ASSERT(CS_PIN);
-	/* Stabilization time for Slave Select pin */
-	R_BSP_SoftwareDelay(STABILIZATION_DELAY, BSP_DELAY_UNITS_MICROSECONDS);
+    /* De-assert Slave select pin to stop data transfer */
+    CS_DE_ASSERT(CS_PIN);
+
+    /* Resetting SPI Master event flag */
+    g_master_event_flag = RESET_VALUE;
+
+    /* Assert Slave select pin to start data transfer */
+    CS_ASSERT(CS_PIN);
+
+    /* Read configured temperature sensor */
+    err = R_SCI_SPI_Read(&g_spi_ctrl, &config_read[0], sizeof(config_read), SPI_BIT_WIDTH_8_BITS);
+    /* Handle Error */
+    if (FSP_SUCCESS != err)
+    {
+        sci_spi_deinit();
+        APP_ERR_PRINT("\r\nSPI Write failed\r\n");
+        APP_ERR_TRAP(err);
+    }
+
+    /* Check for transfer complete event and handle error in the case of event failure */
+    sci_spi_event_check();
+
+    /* De-assert Slave select pin to stop data transfer */
+    CS_DE_ASSERT(CS_PIN);
+
+    /* Check if sensor is configured as expected */
+    if (config_sensor[1] != config_read[1])
+    {
+        /* Incorrect configuration of temperature sensor */
+        err = FSP_ERR_INVALID_HW_CONDITION;
+        APP_ERR_TRAP(err);
+    }
+
+    /* Adding conversion time as 200ms for the configured 12-bit resolution,
+     *  before asserting CS_PIN for reading the temperature values in a loop */
+    R_BSP_SoftwareDelay(CONVERSION_TIME, BSP_DELAY_UNITS_MILLISECONDS);
+
 
 	while(true)
 	{
 	    /* Resetting SPI Master event flag */
 	    g_master_event_flag = RESET_VALUE;
 
-		memset(dataBuff, RESET_VALUE, sizeof(dataBuff));
+	    memset(dataBuff, RESET_VALUE, sizeof(dataBuff));
 
-		/* Assert Slave select pin to start data transfer */
-		CS_ASSERT(CS_PIN);
-		/* Read the temperature */
-		err = R_SCI_SPI_WriteRead(&g_spi_ctrl, read_temperature_reg, temperature_values, sizeof(temperature_values), SPI_BIT_WIDTH_8_BITS);
-		/* Handle Error */
-		if (FSP_SUCCESS != err)
-		{
-			sci_spi_deinit();
-			APP_ERR_PRINT("\r\nSPI ReadWrite failed\r\n");
-			APP_ERR_TRAP(err);
-		}
+	    /* Assert Slave select pin to start data transfer */
+	    CS_ASSERT(CS_PIN);
+	    /* Read the temperature */
+	    err = R_SCI_SPI_WriteRead(&g_spi_ctrl, read_temperature_reg, temperature_values, sizeof(temperature_values), SPI_BIT_WIDTH_8_BITS);
+	    /* Handle Error */
+	    if (FSP_SUCCESS != err)
+	    {
+	        sci_spi_deinit();
+	        APP_ERR_PRINT("\r\nSPI ReadWrite failed\r\n");
+	        APP_ERR_TRAP(err);
+	    }
 
-		/* Check for transfer complete event and handle error in the case of event failure */
-		sci_spi_event_check();
+	    /* Check for transfer complete event and handle error in the case of event failure */
+	    sci_spi_event_check();
 
-		/* De-assert Slave select pin to stop data transfer */
-		CS_DE_ASSERT(CS_PIN);
-		/* Stabilization time for Slave Select pin */
-		R_BSP_SoftwareDelay(STABILIZATION_DELAY, BSP_DELAY_UNITS_MICROSECONDS);
-		/* Manipulating the read temperature values to print for users */
-		temperature = (float) ((int32_t)( ((uint32_t) temperature_values[2] << 4) | ((uint32_t) temperature_values[1] >> 4) )) / 16.0f;
-		/* Function to print float values */
-		snprintf(dataBuff, sizeof(dataBuff), "%f", temperature);
-		APP_PRINT("\r\nTemperature:  %s *C",dataBuff);
+	    /* De-assert Slave select pin to stop data transfer */
+	    CS_DE_ASSERT(CS_PIN);
 
-		/* Delay to display temperature values on RTT viewer */
-		R_BSP_SoftwareDelay(PRINT_DELAY, BSP_DELAY_UNITS_SECONDS);
+	    /* Manipulating the read temperature values to print for users */
+	    temperature = (float) ((int32_t)( ((uint32_t) temperature_values[2] << 4) | ((uint32_t) temperature_values[1] >> 4) )) / 16.0f;
+	    /* Function to print float values */
+	    snprintf(dataBuff, sizeof(dataBuff), "%f", temperature);
+	    APP_PRINT("\r\nTemperature:  %s *C",dataBuff);
+
+	    /* Delay to display temperature values on RTT viewer */
+	    R_BSP_SoftwareDelay(PRINT_DELAY, BSP_DELAY_UNITS_SECONDS);
 	}
 }
 

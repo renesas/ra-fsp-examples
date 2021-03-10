@@ -114,7 +114,7 @@ void usb_hcdc_task(void)
             case USB_STATUS_WRITE_COMPLETE:
             {
                 /* Report receive start */
-                err = R_USB_Read (&g_basic_ctrl, g_rcv_buf, event_info->data_size,
+                err = R_USB_Read (&g_basic_ctrl, g_rcv_buf, CDC_READ_DATA_LEN,
                                   event_info->device_address);
                 /* Handle Error */
                 if (FSP_SUCCESS != err)

@@ -35,13 +35,13 @@
 #define SUB_OPTIONS     "\r\n a) Kit Name:                         %s "                       \
         "\r\n b) Kit ordering part number:         %s "                                       \
         "\r\n c) RA Device part number:            %s "                                       \
-        "\r\n d) RA MCU 128-bit Unique ID (hex):   \x1b[32m%08x\x1b[37m-"                     \
-                                                    "\x1b[32m%08x\x1b[37m-"                   \
-                                                    "\x1b[32m%08x\x1b[37m-"                   \
-                                                    "\x1b[32m%08x\x1b[37m"                    \
-        "\r\n e) RA MCU Die temperature (F/C):     \x1b[32m%d.%02d/%d.%02d\x1b[37m         "  \
-        "\r\n f) Blue LED blinking frequency (Hz): \x1b[32m%d\x1b[37m "                       \
-        "\r\n g) Blue LED blinking intensity (%%%%):  \x1b[32m%d\x1b[37m "                    \
+        "\r\n d) RA MCU 128-bit Unique ID (hex):   %08x-"                     \
+                                                    "%08x-"                   \
+                                                    "%08x-"                   \
+                                                    "%08x"                    \
+        "\r\n e) RA MCU Die temperature (F/C):     %d.%02d/%d.%02d         "  \
+        "\r\n f) Blue LED blinking frequency (Hz): %d"                       \
+        "\r\n g) Blue LED blinking intensity (%%%%): %d"                    \
 /* Need to double escape the % */
 
 #define MODULE_NAME     "\r\n%d. KIT INFORMATION\r\n"

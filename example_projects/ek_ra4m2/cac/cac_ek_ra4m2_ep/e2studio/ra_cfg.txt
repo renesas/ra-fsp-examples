@@ -16,6 +16,7 @@ FSP Configuration
     Security: Exceptions: BusFault, HardFault, and NMI Target: Secure State
     Security: System Reset Request Accessibility: Secure State
     Security: Exceptions: Prioritize Secure Exceptions: Disabled
+    Security: Cache Accessibility: Both Secure and Non-Secure State
     Security: System Reset Status Accessibility: Both Secure and Non-Secure State
     Security: Battery Backup Accessibility: Both Secure and Non-Secure State
     Security: SRAM Accessibility: SRAM Protection: Both Secure and Non-Secure State
@@ -23,12 +24,13 @@ FSP Configuration
     Security: SRAM Accessibility: Standby RAM: Regions 7-0 are all Secure.
     Security: BUS Accessibility: Bus Security Attribution Register A: Both Secure and Non-Secure State
     Security: BUS Accessibility: Bus Security Attribution Register B: Both Secure and Non-Secure State
-    OFS0 register settings: Independent WDT: Start Mode: IWDT is Disabled
+    Startup C-Cache Line Size: 32 Bytes
+    OFS0 register settings: Independent WDT: Start Mode: IWDT is automatically activated after a reset (Autostart mode)
     OFS0 register settings: Independent WDT: Timeout Period: 2048 cycles
-    OFS0 register settings: Independent WDT: Dedicated Clock Frequency Divisor: 128
+    OFS0 register settings: Independent WDT: Dedicated Clock Frequency Divisor: 1
     OFS0 register settings: Independent WDT: Window End Position:  0% (no window end position)
     OFS0 register settings: Independent WDT: Window Start Position: 100% (no window start position)
-    OFS0 register settings: Independent WDT: Reset Interrupt Request Select: Reset is enabled
+    OFS0 register settings: Independent WDT: Reset Interrupt Request Select: NMI request or interrupt request is enabled
     OFS0 register settings: Independent WDT: Stop Control: Stop counting when in Sleep, Snooze mode, or Software Standby
     OFS0 register settings: WDT: Start Mode Select: Stop WDT after a reset (register-start mode)
     OFS0 register settings: WDT: Timeout Period: 16384 cycles
@@ -163,7 +165,7 @@ FSP Configuration
       P608 59 GPIO PMOD2_RST - - "Output mode (Initial Low)" CMOS - "GPT4: GTIOCB" - IO - - 
       P609 60 GPIO PMOD2_IO1 - - "Output mode (Initial Low)" CMOS - "AGT5: AGTO; GPT5: GTIOCA" - IO - - 
       P610 61 GPIO PMOD2_IO2 - - "Output mode (Initial Low)" CMOS - "AGT4: AGTO; GPT5: GTIOCB" - IO - - 
-      P708 16 - - - - Disabled - - "CAC0: CACREF; CTSU0: TS12; ICU0: IRQ11; SCI1: RXD; SCI1: SCL; SSI_COMMON0: AUDIO_CLK" - None - - 
+      P708 16 CAC0_CACREF - - None "Peripheral mode" CMOS None "CAC0: CACREF; CTSU0: TS12; ICU0: IRQ11; SCI1: RXD; SCI1: SCL; SSI_COMMON0: AUDIO_CLK" - IO - - 
       RES 38 SYSTEM0_RES - - - - - - - - IO "Read only" - 
       USBDM 27 USB_FS0_DM - - - - - - - - IO "Read only" - 
       USBDP 28 USB_FS0_DP - - - - - - - - IO "Read only" - 
@@ -264,7 +266,7 @@ FSP Configuration
       P608 59 - PMOD2_RST - - Disabled CMOS - "GPT4: GTIOCB" - IO - - 
       P609 60 - PMOD2_IO1 - - Disabled CMOS - "AGT5: AGTO; GPT5: GTIOCA" - IO - - 
       P610 61 - PMOD2_IO2 - - Disabled CMOS - "AGT4: AGTO; GPT5: GTIOCB" - IO - - 
-      P708 16 - - - - Disabled - - "CAC0: CACREF; CTSU0: TS12; ICU0: IRQ11; SCI1: RXD; SCI1: SCL; SSI_COMMON0: AUDIO_CLK" - None - - 
+      P708 16 - - - None Disabled CMOS None "CAC0: CACREF; CTSU0: TS12; ICU0: IRQ11; SCI1: RXD; SCI1: SCL; SSI_COMMON0: AUDIO_CLK" - IO - - 
       RES 38 SYSTEM0_RES - - - - - - - - IO "Read only" - 
       USBDM 27 USB_FS0_DM - - - - - - - - IO "Read only" - 
       USBDP 28 USB_FS0_DP - - - - - - - - IO "Read only" - 

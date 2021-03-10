@@ -26,10 +26,11 @@ FSP Configuration
     OFS0 register settings: WDT: Window Start Position: 100% (no window start position)
     OFS0 register settings: WDT: Reset Interrupt Request: Reset
     OFS0 register settings: WDT: Stop Control: Stop counting when entering Sleep mode
+    OFS1 register settings: Internal Clock Supply Architecture Type: Type A
     OFS1 register settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
     OFS1 register settings: Voltage Detection 0 Level: 1.90 V
     OFS1 register settings: HOCO Oscillation Enable: HOCO oscillation is enabled after reset
-    Use Low Voltage Mode: Disable
+    Use Low Voltage Mode: Not Supported
     MPU: Enable or disable PC Region 0: Disabled
     MPU: PC0 Start: 0x000FFFFC
     MPU: PC0 End: 0x000FFFFF
@@ -109,7 +110,7 @@ FSP Configuration
       P113 38 GPIO ARDUINO_D7 Medium - "Output mode (Initial Low)" CMOS - "CTSU0: CFCTS27" - IO - - 
       P200 27 - - - - Disabled - - "ICU0: NMI" - None - - 
       P201 26 - - - - Disabled - - "SYSTEM0: MD" - None - - 
-      P204 24 SCI0_SCK - Low - "Peripheral mode" CMOS None "AGT1: AGTIO; CAC0: CACREF; CTSU0: TS00; GPT_OPS0: GTIW; IIC0: SCL; SCI0: SCK; SCI9: SCK" - IO - - 
+      P204 24 - - - - Disabled - - "AGT1: AGTIO; CAC0: CACREF; CTSU0: TS00; GPT_OPS0: GTIW; IIC0: SCL; SCI0: SCK; SCI9: SCK" - None - - 
       P205 23 - ARDUINO_TX_MIKROBUS_TX - - Disabled - - "AGT1: AGTO; CGC0: CLKOUT; GPT_OPS0: GTIV; ICU0: IRQ01; SCI0: SDA; SCI0: TXD; SCI9: CTS" - None - - 
       P206 22 - ARDUINO_RX_MIKROBUS_RX - - Disabled - - "GPT_OPS0: GTIU; ICU0: IRQ00; SCI0: RXD; SCI0: SCL" - None - - 
       P207 21 GPIO ARDUINO_RESET_MIKROBUS_RST Medium - "Output mode (Initial Low)" CMOS - - - IO - - 
@@ -119,19 +120,19 @@ FSP Configuration
       P214 7 - - - - Disabled - - "CGC0: XCOUT" - None - - 
       P215 6 - - - - Disabled - - "CGC0: XCIN" - None - - 
       P300 32 DEBUG0_SWCLK - Low - "Peripheral mode" - None "DEBUG0: SWCLK; GPT_OPS0: GTOUUP; GPT0: GTIOCA" - IO - - 
-      P301 31 SCI2_SCL GROVE1_SCL_QWIIC_SCL Low None "Peripheral mode" "n-ch open drain" None "AGT0: AGTIO; CTSU0: CFCTS09; GPT_OPS0: GTOULO; GPT7: GTIOCB; ICU0: IRQ06; SCI2: RXD; SCI2: SCL; SCI9: CTS" - IO - - 
-      P302 30 SCI2_SDA GROVE1_SDA_QWIIC_SDA Low None "Peripheral mode" "n-ch open drain" None "CTSU0: CFCTS08; GPT_OPS0: GTOUUP; GPT7: GTIOCA; ICU0: IRQ05; SCI2: SDA; SCI2: TXD" - IO - - 
+      P301 31 - GROVE1_SCL_QWIIC_SCL - - Disabled - - "AGT0: AGTIO; CTSU0: CFCTS09; GPT_OPS0: GTOULO; GPT7: GTIOCB; ICU0: IRQ06; SCI2: RXD; SCI2: SCL; SCI9: CTS" - None - - 
+      P302 30 - GROVE1_SDA_QWIIC_SDA - - Disabled - - "CTSU0: CFCTS08; GPT_OPS0: GTOUUP; GPT7: GTIOCA; ICU0: IRQ05; SCI2: SDA; SCI2: TXD" - None - - 
       P303 29 GPIO PMOD2_RST Medium - "Output mode (Initial Low)" CMOS - "CTSU0: CFCTS02" - IO - - 
       P304 28 GPIO PMOD2_IO2 Medium - "Output mode (Initial Low)" CMOS - - - IO - - 
-      P400 1 - PMOD2_SCK - - Disabled - - "AGT1: AGTIO; CAC0: CACREF; GPT9: GTIOCA; ICU0: IRQ00; IIC0: SCL; SCI0: SCK; SCI1: SCK" - None - - 
-      P401 2 GPIO PMOD2_TXD Low None "Output mode (Initial Low)" CMOS - "GPT_POEG0: GTETRG; GPT9: GTIOCB; ICU0: IRQ05; IIC0: SDA; SCI0: CTS; SCI1: SDA; SCI1: TXD" - IO - - 
-      P402 3 - PMOD2_RXD - - Disabled - - "AGT0: AGTIO; AGT1: AGTIO; CTSU0: TS18; ICU0: IRQ04; SCI1: RXD; SCI1: SCL" - None - - 
-      P403 4 - PMOD2_CTS - - Disabled - - "AGT0: AGTIO; AGT1: AGTIO; CTSU0: TS17; SCI1: CTS" - None - - 
+      P400 1 SCI1_SCK PMOD2_SCK Low None "Peripheral mode" CMOS None "AGT1: AGTIO; CAC0: CACREF; GPT9: GTIOCA; ICU0: IRQ00; IIC0: SCL; SCI0: SCK; SCI1: SCK" - IO - - 
+      P401 2 SCI1_TXD PMOD2_TXD Low None "Peripheral mode" CMOS None "GPT_POEG0: GTETRG; GPT9: GTIOCB; ICU0: IRQ05; IIC0: SDA; SCI0: CTS; SCI1: SDA; SCI1: TXD" - IO - - 
+      P402 3 SCI1_RXD PMOD2_RXD Low None "Peripheral mode" CMOS None "AGT0: AGTIO; AGT1: AGTIO; CTSU0: TS18; ICU0: IRQ04; SCI1: RXD; SCI1: SCL" - IO - - 
+      P403 4 GPIO PMOD2_CTS Low - "Output mode (Initial Low)" CMOS - "AGT0: AGTIO; AGT1: AGTIO; CTSU0: TS17; SCI1: CTS" - IO - - 
       P407 16 IIC0_SDA ARDUINO_SDA_MIKROBUS_SDA Medium - "Peripheral mode" CMOS None "ADC0: ADTRG; AGT0: AGTIO; IIC0: SDA; RTC0: RTCOUT; SCI0: CTS" - IO - - 
       P408 15 IIC0_SCL ARDUINO_SCL_MIKROBUS_SCL MediumIIC None "Peripheral mode" CMOS None "CTSU0: TS04; GPT_OPS0: GTOWLO; ICU0: IRQ07; IIC0: SCL; SCI1: CTS" - IO - - 
       P409 14 GPIO PMOD2_INT - IRQ06 "Input mode" - "input pull-up" "CTSU0: TS05; GPT_OPS0: GTOWUP; ICU0: IRQ06" - IO - - 
-      P410 13 SCI0_RXD PMOD2_CS2 Low None "Peripheral mode" CMOS None "AGT1: AGTOB; CTSU0: TS06; GPT_OPS0: GTOVLO; ICU0: IRQ05; SCI0: RXD; SCI0: SCL; SPI0: MISO" - IO - - 
-      P411 12 SCI0_TXD PMOD1_INT Low None "Peripheral mode" CMOS None "AGT1: AGTOA; CTSU0: TS07; GPT_OPS0: GTOVUP; ICU0: IRQ04; SCI0: SDA; SCI0: TXD; SPI0: MOSI" - IO - - 
+      P410 13 - PMOD2_CS2 - - Disabled - - "AGT1: AGTOB; CTSU0: TS06; GPT_OPS0: GTOVLO; ICU0: IRQ05; SCI0: RXD; SCI0: SCL; SPI0: MISO" - None - - 
+      P411 12 - PMOD1_INT - - Disabled - - "AGT1: AGTOA; CTSU0: TS07; GPT_OPS0: GTOVUP; ICU0: IRQ04; SCI0: SDA; SCI0: TXD; SPI0: MOSI" - None - - 
       P500 49 GPIO ARDUINO_D6 Medium - "Output mode (Initial Low)" CMOS - "GPT_OPS0: GTIU; GPT5: GTIOCA" - IO - - 
       P501 50 - GROVE2_SDA - - Disabled - - "ADC0: AN17; GPT_OPS0: GTIV; GPT5: GTIOCB; SCI1: SDA; SCI1: TXD" - None - - 
       P502 51 - GROVE2_SCL - - Disabled - - "ADC0: AN18; GPT_OPS0: GTIW; SCI1: RXD; SCI1: SCL" - None - - 
@@ -174,7 +175,7 @@ FSP Configuration
       P113 38 - ARDUINO_D7 Low - Disabled CMOS - "CTSU0: CFCTS27" - IO - - 
       P200 27 - - - - Disabled - - "ICU0: NMI" - None - - 
       P201 26 - - - - Disabled - - "SYSTEM0: MD" - None - - 
-      P204 24 - - Low - Disabled CMOS None "AGT1: AGTIO; CAC0: CACREF; CTSU0: TS00; GPT_OPS0: GTIW; IIC0: SCL; SCI0: SCK; SCI9: SCK" - IO - - 
+      P204 24 - - - - Disabled - - "AGT1: AGTIO; CAC0: CACREF; CTSU0: TS00; GPT_OPS0: GTIW; IIC0: SCL; SCI0: SCK; SCI9: SCK" - None - - 
       P205 23 - ARDUINO_TX_MIKROBUS_TX - - Disabled - - "AGT1: AGTO; CGC0: CLKOUT; GPT_OPS0: GTIV; ICU0: IRQ01; SCI0: SDA; SCI0: TXD; SCI9: CTS" - None - - 
       P206 22 - ARDUINO_RX_MIKROBUS_RX - - Disabled - - "GPT_OPS0: GTIU; ICU0: IRQ00; SCI0: RXD; SCI0: SCL" - None - - 
       P207 21 - ARDUINO_RESET_MIKROBUS_RST Low - Disabled CMOS - - - IO - - 
@@ -184,19 +185,19 @@ FSP Configuration
       P214 7 - - - - Disabled - - "CGC0: XCOUT" - None - - 
       P215 6 - - - - Disabled - - "CGC0: XCIN" - None - - 
       P300 32 DEBUG0_SWCLK - Low - "Peripheral mode" - None "DEBUG0: SWCLK; GPT_OPS0: GTOUUP; GPT0: GTIOCA" - IO - - 
-      P301 31 - GROVE1_SCL_QWIIC_SCL Low None Disabled CMOS None "AGT0: AGTIO; CTSU0: CFCTS09; GPT_OPS0: GTOULO; GPT7: GTIOCB; ICU0: IRQ06; SCI2: RXD; SCI2: SCL; SCI9: CTS" - IO - - 
-      P302 30 - GROVE1_SDA_QWIIC_SDA Low None Disabled CMOS None "CTSU0: CFCTS08; GPT_OPS0: GTOUUP; GPT7: GTIOCA; ICU0: IRQ05; SCI2: SDA; SCI2: TXD" - IO - - 
+      P301 31 - GROVE1_SCL_QWIIC_SCL - - Disabled - - "AGT0: AGTIO; CTSU0: CFCTS09; GPT_OPS0: GTOULO; GPT7: GTIOCB; ICU0: IRQ06; SCI2: RXD; SCI2: SCL; SCI9: CTS" - None - - 
+      P302 30 - GROVE1_SDA_QWIIC_SDA - - Disabled - - "CTSU0: CFCTS08; GPT_OPS0: GTOUUP; GPT7: GTIOCA; ICU0: IRQ05; SCI2: SDA; SCI2: TXD" - None - - 
       P303 29 - PMOD2_RST Low - Disabled CMOS - "CTSU0: CFCTS02" - IO - - 
       P304 28 - PMOD2_IO2 Low - Disabled CMOS - - - IO - - 
-      P400 1 - PMOD2_SCK - - Disabled - - "AGT1: AGTIO; CAC0: CACREF; GPT9: GTIOCA; ICU0: IRQ00; IIC0: SCL; SCI0: SCK; SCI1: SCK" - None - - 
-      P401 2 - PMOD2_TXD Low None Disabled CMOS - "GPT_POEG0: GTETRG; GPT9: GTIOCB; ICU0: IRQ05; IIC0: SDA; SCI0: CTS; SCI1: SDA; SCI1: TXD" - IO - - 
-      P402 3 - PMOD2_RXD - - Disabled - - "AGT0: AGTIO; AGT1: AGTIO; CTSU0: TS18; ICU0: IRQ04; SCI1: RXD; SCI1: SCL" - None - - 
-      P403 4 - PMOD2_CTS - - Disabled - - "AGT0: AGTIO; AGT1: AGTIO; CTSU0: TS17; SCI1: CTS" - None - - 
+      P400 1 SCI1_SCK PMOD2_SCK Low None "Peripheral mode" CMOS None "AGT1: AGTIO; CAC0: CACREF; GPT9: GTIOCA; ICU0: IRQ00; IIC0: SCL; SCI0: SCK; SCI1: SCK" - IO - - 
+      P401 2 SCI1_TXD PMOD2_TXD Low None "Peripheral mode" CMOS None "GPT_POEG0: GTETRG; GPT9: GTIOCB; ICU0: IRQ05; IIC0: SDA; SCI0: CTS; SCI1: SDA; SCI1: TXD" - IO - - 
+      P402 3 SCI1_RXD PMOD2_RXD Low None "Peripheral mode" CMOS None "AGT0: AGTIO; AGT1: AGTIO; CTSU0: TS18; ICU0: IRQ04; SCI1: RXD; SCI1: SCL" - IO - - 
+      P403 4 GPIO PMOD2_CTS Low - "Output mode (Initial Low)" CMOS - "AGT0: AGTIO; AGT1: AGTIO; CTSU0: TS17; SCI1: CTS" - IO - - 
       P407 16 - ARDUINO_SDA_MIKROBUS_SDA Low - Disabled CMOS None "ADC0: ADTRG; AGT0: AGTIO; IIC0: SDA; RTC0: RTCOUT; SCI0: CTS" - IO - - 
       P408 15 - ARDUINO_SCL_MIKROBUS_SCL Low None Disabled CMOS None "CTSU0: TS04; GPT_OPS0: GTOWLO; ICU0: IRQ07; IIC0: SCL; SCI1: CTS" - IO - - 
       P409 14 - PMOD2_INT - None Disabled - None "CTSU0: TS05; GPT_OPS0: GTOWUP; ICU0: IRQ06" - IO - - 
-      P410 13 - PMOD2_CS2 Low None Disabled CMOS None "AGT1: AGTOB; CTSU0: TS06; GPT_OPS0: GTOVLO; ICU0: IRQ05; SCI0: RXD; SCI0: SCL; SPI0: MISO" - IO - - 
-      P411 12 - PMOD1_INT Low None Disabled CMOS None "AGT1: AGTOA; CTSU0: TS07; GPT_OPS0: GTOVUP; ICU0: IRQ04; SCI0: SDA; SCI0: TXD; SPI0: MOSI" - IO - - 
+      P410 13 - PMOD2_CS2 - - Disabled - - "AGT1: AGTOB; CTSU0: TS06; GPT_OPS0: GTOVLO; ICU0: IRQ05; SCI0: RXD; SCI0: SCL; SPI0: MISO" - None - - 
+      P411 12 - PMOD1_INT - - Disabled - - "AGT1: AGTOA; CTSU0: TS07; GPT_OPS0: GTOVUP; ICU0: IRQ04; SCI0: SDA; SCI0: TXD; SPI0: MOSI" - None - - 
       P500 49 - ARDUINO_D6 Low - Disabled CMOS - "GPT_OPS0: GTIU; GPT5: GTIOCA" - IO - - 
       P501 50 - GROVE2_SDA - - Disabled - - "ADC0: AN17; GPT_OPS0: GTIV; GPT5: GTIOCB; SCI1: SDA; SCI1: TXD" - None - - 
       P502 51 - GROVE2_SCL - - Disabled - - "ADC0: AN18; GPT_OPS0: GTIW; SCI1: RXD; SCI1: SCL" - None - - 
@@ -235,7 +236,7 @@ FSP Configuration
       
     Instance "g_spi SPI Driver on r_sci_spi"
       Name: g_spi
-      Channel: 0
+      Channel: 1
       Operating Mode: Master
       Clock Phase: Data sampling on even edge, data variation on odd edge
       Clock Polarity: Low when idle
@@ -249,7 +250,7 @@ FSP Configuration
       Bitrate: 50000
       Bitrate Modulation: Enabled
       
-      Instance "g_transfer0 Transfer Driver on r_dtc SCI0 TXI (Transmit data empty)"
+      Instance "g_transfer0 Transfer Driver on r_dtc SCI1 TXI (Transmit data empty)"
         Name: g_transfer0
         Mode: Normal
         Transfer Size: 1 Byte
@@ -259,9 +260,9 @@ FSP Configuration
         Interrupt Frequency: After all transfers have completed
         Number of Transfers: 0
         Number of Blocks (Valid only in Block Mode): 0
-        Activation Source: SCI0 TXI (Transmit data empty)
+        Activation Source: SCI1 TXI (Transmit data empty)
         
-      Instance "g_transfer1 Transfer Driver on r_dtc SCI0 RXI (Receive data full)"
+      Instance "g_transfer1 Transfer Driver on r_dtc SCI1 RXI (Received data full)"
         Name: g_transfer1
         Mode: Normal
         Transfer Size: 1 Byte
@@ -271,5 +272,5 @@ FSP Configuration
         Interrupt Frequency: After all transfers have completed
         Number of Transfers: 0
         Number of Blocks (Valid only in Block Mode): 0
-        Activation Source: SCI0 RXI (Receive data full)
+        Activation Source: SCI1 RXI (Received data full)
         
