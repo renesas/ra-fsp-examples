@@ -28,7 +28,7 @@
  * @brief Pre-defined LPM Transition Sequence
  * There are 2 kinds of sequence, one supports RA6Mx device and the other supports other RA devices
  * *****************************************************************/
-#if defined (BOARD_RA6M3_EK) || defined (BOARD_RA6M3G_EK) || defined (BOARD_RA6M2_EK) || defined (BOARD_RA6M1_EK)|| defined(BOARD_RA6M4_EK) || defined(BOARD_RA6T1_RSSK) || defined (BOARD_RA4M3_EK)|| defined (BOARD_RA4M2_EK)
+#if defined (BOARD_RA6M3_EK) || defined (BOARD_RA6M3G_EK) || defined (BOARD_RA6M2_EK) || defined (BOARD_RA6M1_EK)|| defined(BOARD_RA6M4_EK) || defined(BOARD_RA6T1_RSSK) || defined (BOARD_RA4M3_EK)|| defined (BOARD_RA4M2_EK)|| defined (BOARD_RA6M5_EK)
 app_lpm_states_t g_lpm_transition_sequence[] =
 {
     APP_LPM_SLEEP_STATE,                 ///< Sleep mode

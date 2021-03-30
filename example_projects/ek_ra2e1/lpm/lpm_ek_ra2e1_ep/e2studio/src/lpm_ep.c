@@ -219,7 +219,7 @@ fsp_err_t lpm_mode_enter(app_lpm_states_t lpm_mode,lpm_instance_ctrl_t * const p
 
     switch(lpm_mode)
     {
-#if defined (BOARD_RA6M3_EK) || defined (BOARD_RA6M3G_EK) || defined (BOARD_RA6M2_EK) || defined (BOARD_RA6M1_EK) || defined (BOARD_RA6M4_EK) || defined (BOARD_RA6T1_RSSK) || defined (BOARD_RA4M3_EK)|| defined (BOARD_RA4M2_EK)
+#if defined (BOARD_RA6M3_EK) || defined (BOARD_RA6M3G_EK) || defined (BOARD_RA6M2_EK) || defined (BOARD_RA6M1_EK) || defined (BOARD_RA6M4_EK) || defined (BOARD_RA6T1_RSSK) || defined (BOARD_RA4M3_EK)|| defined (BOARD_RA4M2_EK)|| defined (BOARD_RA6M5_EK)
         case APP_LPM_DEEP_SW_STANDBY_STATE:
             /* Enter Deep SW standby mode */
             err = R_LPM_LowPowerModeEnter(p_current_ctrl);

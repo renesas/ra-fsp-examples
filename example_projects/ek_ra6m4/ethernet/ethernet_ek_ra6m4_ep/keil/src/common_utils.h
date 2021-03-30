@@ -43,6 +43,8 @@
 
 #if defined (BOARD_RA6M3_EK) || defined (BOARD_RA6M3G_EK)
 #define KIT_NAME                "EK-RA6M3"
+#elif defined (BOARD_RA6M5_EK)
+#define KIT_NAME                "EK-RA6M5"
 #else
 #define KIT_NAME                "EK-RA6M4"
 #endif

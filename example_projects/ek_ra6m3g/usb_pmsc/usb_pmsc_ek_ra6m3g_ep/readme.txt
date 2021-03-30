@@ -47,7 +47,7 @@ Configuration changes to switch Speed in USB configurator and Bus Width in SDHI 
 
 3. Hardware Connections:
 
-    Full Speed:(For EK-RA6M1, EK-RA6M2, EK-RA6M3, EK-RA6M3G and EK-RA6M4 boards)
+    Full Speed:(For EK-RA6M1, EK-RA6M2, EK-RA6M3, EK-RA6M3G,EK-RA6M5 and EK-RA6M4 boards)
         Jumper j12 placement is pins 2-3
         Connect Jumper j15 pins
         Connect USB device to J11 connector with help of micro USB Host cable.
@@ -119,6 +119,22 @@ Configuration changes to switch Speed in USB configurator and Bus Width in SDHI 
     4 Bit Width
         Above mentioned connections for 1 Bit Width. In addition below connections
 
+        P410(DAT1)   --->    PMOD SD Pin7(DAT1)
+        P206(DAT2)   --->    PMOD SD Pin8(DAT2)
+        P205(DAT3)   --->    PMOD SD Pin1(CS)
+
+    For EK-RA6M5
+    1 Bit Width
+        P412(CMD)    --->    PMOD SD Pin2(MOSI)
+        P411(DAT0)   --->    PMOD SD Pin3(MISO)
+        P413(CLK)    --->    PMOD SD Pin4(SCLK)
+        GND          --->    PMOD SD Pin5(GND)
+        +3V3(VCC)    --->    PMOD SD Pin6(VCC)
+        P209(WP)     --->    PMOD SD Pin10(WP)
+
+    4 Bit Width
+        Above mentioned connections for 1 Bit Width. In addition below connections
+        
         P410(DAT1)   --->    PMOD SD Pin7(DAT1)
         P206(DAT2)   --->    PMOD SD Pin8(DAT2)
         P205(DAT3)   --->    PMOD SD Pin1(CS)

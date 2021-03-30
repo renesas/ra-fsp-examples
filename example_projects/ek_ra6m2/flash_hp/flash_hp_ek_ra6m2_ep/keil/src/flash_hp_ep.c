@@ -125,7 +125,7 @@ fsp_err_t flash_hp_code_flash_operations(void)
     }
     APP_PRINT("\r\nErase successful");
 
-#if !(defined (BOARD_RA6M4_EK) || defined (BOARD_RA4M3_EK)||defined(BOARD_RA4M2_EK)) //Not supported for this MCU
+#if !defined (BOARD_RA6M5_EK) || (defined (BOARD_RA6M4_EK) || defined (BOARD_RA4M3_EK)||defined(BOARD_RA4M2_EK)) //Not supported for this MCU
     /* Set Access window.
      * CAUTION: Highly recommended not to use this function if not aware of consequences OR
      * use it with the accessWindowClear API at the end of application.

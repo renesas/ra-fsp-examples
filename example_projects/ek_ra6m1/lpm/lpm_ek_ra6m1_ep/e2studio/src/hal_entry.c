@@ -44,7 +44,7 @@ void hal_entry(void)
     fsp_err_t err                                   = FSP_SUCCESS;
     /* ctrl and cfg instances of LPM modes; these should be initialized following the order of LPM transition sequence
      * in lpm_ep_transition_sequence_config.h */
-#if defined (BOARD_RA6M4_EK) || defined (BOARD_RA6M3_EK) || defined (BOARD_RA6M3G_EK) || defined (BOARD_RA6M2_EK) || defined (BOARD_RA6M1_EK) || defined (BOARD_RA6T1_RSSK) || defined (BOARD_RA4M3_EK)|| defined (BOARD_RA4M2_EK)
+#if defined (BOARD_RA6M4_EK) || defined (BOARD_RA6M3_EK) || defined (BOARD_RA6M3G_EK) || defined (BOARD_RA6M2_EK) || defined (BOARD_RA6M1_EK) || defined (BOARD_RA6T1_RSSK) || defined (BOARD_RA4M3_EK)|| defined (BOARD_RA4M2_EK)|| defined (BOARD_RA6M5_EK)
     lpm_instance_ctrl_t g_lpm_ctrl_instance_ctrls[] = {g_lpm_sleep_ctrl,
                                                        g_lpm_sw_standby_ctrl,
                                                        g_lpm_sw_standby_with_snooze_ctrl,

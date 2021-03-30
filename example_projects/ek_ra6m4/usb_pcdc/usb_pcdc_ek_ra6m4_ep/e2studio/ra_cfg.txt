@@ -16,6 +16,7 @@ FSP Configuration
     Security: Exceptions: BusFault, HardFault, and NMI Target: Secure State
     Security: System Reset Request Accessibility: Secure State
     Security: Exceptions: Prioritize Secure Exceptions: Disabled
+    Security: Cache Accessibility: Both Secure and Non-Secure State
     Security: System Reset Status Accessibility: Both Secure and Non-Secure State
     Security: Battery Backup Accessibility: Both Secure and Non-Secure State
     Security: SRAM Accessibility: SRAM Protection: Both Secure and Non-Secure State
@@ -23,6 +24,7 @@ FSP Configuration
     Security: SRAM Accessibility: Standby RAM: Regions 7-0 are all Secure.
     Security: BUS Accessibility: Bus Security Attribution Register A: Both Secure and Non-Secure State
     Security: BUS Accessibility: Bus Security Attribution Register B: Both Secure and Non-Secure State
+    Startup C-Cache Line Size: 32 Bytes
     OFS0 register settings: Independent WDT: Start Mode: IWDT is Disabled
     OFS0 register settings: Independent WDT: Timeout Period: 2048 cycles
     OFS0 register settings: Independent WDT: Dedicated Clock Frequency Divisor: 128
@@ -71,7 +73,7 @@ FSP Configuration
     HOCO 20MHz
     PLL Src: HOCO
     PLL Div /3
-    PLL Mul x25.0
+    PLL Mul x30.0
     PLL2 Src: HOCO
     PLL2 Div /2
     PLL2 Mul x24.0
@@ -405,6 +407,7 @@ FSP Configuration
     Notifications for SET_INTERFACE/SET_FEATURE/CLEAR_FEATURE: Enabled
     Double Buffering: Enabled
     Continuous Transfer Mode: Enabled
+    LDO Regulator: Disable
     DMA Support: Disable
     DMA Source Address: DMA Disabled
     DMA Destination Address: DMA Disabled

@@ -24,17 +24,17 @@
     see all the operation sequence and status on JLink RTTViewer.
 
 2. Supported Boards:
-	EK-RA4M2, EK-RA4M3, EK-RA6M3, EK-RA6M3G, EK-RA6M4
+	EK-RA4M2, EK-RA4M3, EK-RA6M3, EK-RA6M3G, EK-RA6M4, EK-RA6M5
 
 3. Hardware Requirements:
     	External Hardware : USB OTG cable   - 1 nos
                             USB Cable	    - 3 nos
-	EK-RA4M2, EK-RA4M3, EK-RA6M3, EK-RA6M3G, EK-RA6M4 - Running USB HVND Example Project 
+	EK-RA4M2, EK-RA4M3, EK-RA6M3, EK-RA6M3G, EK-RA6M4, EK-RA6M5 - Running USB HVND Example Project 
 	Any RA board running USB PVND Example Project
 
 4. Configuration changes to switch Speed in configurator: 
 
-    i.  Full-Speed : (EK-RA4M2, EK-RA4M3, EK-RA6M4)
+    i.  Full-Speed : (EK-RA4M2, EK-RA4M3, EK-RA6M4, EK-RA6M5)
         USB Speed                     :    Full Speed
         USB Module Number             :    USB_IP0 Port
 
@@ -45,7 +45,7 @@
 5. Hardware Connections:
 	Connect Board 1, running USB HVND Example Project, through OTG cable to Board 2, running USB PVND Example Project.
 
-	EK-RA4M2, EK-RA4M3, EK-RA6M4(Full Speed)
+	EK-RA4M2, EK-RA4M3, EK-RA6M4, EK-RA6M5(Full Speed)
 	Jumper J12 placement is pins 1-2
 	Remove jumper J15 pins	
 	Connect the micro USB end of the micro USB device cable to micro-AB USB Full Speed port (J11) of the board.

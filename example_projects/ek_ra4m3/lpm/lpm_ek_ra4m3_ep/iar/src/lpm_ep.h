@@ -44,7 +44,7 @@
  * MACROs that define user push-button pins, start source and stop sources for all boards
  * External IRQ channel of user push button for specific boards
  */
-#if defined (BOARD_RA6M4_EK) || defined (BOARD_RA4M3_EK)|| defined (BOARD_RA4M2_EK)
+#if defined (BOARD_RA6M4_EK) || defined (BOARD_RA4M3_EK)|| defined (BOARD_RA4M2_EK)|| defined (BOARD_RA6M5_EK)
 #define USER_SW_IRQ_NUMBER        (0x0A)
 #elif defined (BOARD_RA6M3_EK) || defined (BOARD_RA6M3G_EK)
 #define USER_SW_IRQ_NUMBER        (0x0D)

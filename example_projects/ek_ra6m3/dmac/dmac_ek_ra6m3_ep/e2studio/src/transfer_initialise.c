@@ -35,8 +35,8 @@ volatile bool send_data_to_console_flag = false;
 uint32_t g_dest_data[DEST_DATA_SIZE];
 
 /* Source data that will be transferred by the DMAC g_transfer_led_blink     .
- * This data will be transferred to IOPORT PCNTR1 register,
- * which specifies the input/output state of a pin.
+ * This data will be tran to IOPORT PCNTR1 register,
+ * which specifies the input/output statesferred of a pin.
  * The register is a 32-bit register - bits[15: 0] = direction (input/output)
  *                                   - bits[31:16] = output level (high/low)
  * The User LEDs on board are connected to I/O pins
@@ -113,6 +113,20 @@ uint32_t g_source_data[SOURCE_DATA_SIZE]=
  0x00000020,0x00200020,0x00000020,0x00200020,0x00000020,0x00200020,0x00000020,0x00200020,
  0x00000020,0x00200020,0x00000020,0x00200020,0x00000020,0x00200020,0x00000020,0x00200020,
  0x00000020,0x00200020
+};
+#elif defined (BOARD_RA6M5_EK)
+/* LED Port data array for EK-RA6M5 */
+uint32_t g_source_data[SOURCE_DATA_SIZE]=
+{
+ 0x01000100,0x00000100,
+ 0x01000100,0x00000100,0x01000100,0x00000100,0x01000100,0x00000100,0x01000100,0x00000100,
+ 0x01000100,0x00000100,0x01000100,0x00000100,0x01000100,0x00000100,0x01000100,0x00000100,
+ 0x01000100,0x00000100,0x01000100,0x00000100,0x01000100,0x00000100,0x01000100,0x00000100,
+ 0x01000100,0x00000100,0x01000100,0x00000100,0x01000100,0x00000100,0x01000100,0x00000100,
+ 0x01000100,0x00000100,0x01000100,0x00000100,0x01000100,0x00000100,0x01000100,0x00000100,
+ 0x01000100,0x00000100,0x01000100,0x00000100,0x01000100,0x00000100,0x01000100,0x00000100,
+ 0x01000100,0x00000100,0x01000100,0x00000100,0x01000100,0x00000100,0x01000100,0x00000100,
+ 0x01000100,0x00000100
 };
 #else
 /* LED Port data array for EK-RA6M3 and Ek-RA6M3G board */

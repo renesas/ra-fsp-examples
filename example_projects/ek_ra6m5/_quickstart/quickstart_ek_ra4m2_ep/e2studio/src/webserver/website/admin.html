@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-/W3C/DTD XHTML 1.0 Transitional/EN"	"http:/www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http:/www.w3.org/1999/xhtml" lang="en"	xml:lang="en"><head><meta http-equiv="Content-Type"	content="text/html;	charset=UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Page-Enter" content="revealtrans(duration=0.01, transition(8))" />
+    <meta http-equiv="Page-Exit" content="revealtrans(duration=0.01, transition(8))" />
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<meta http-equiv="Content-Style-Type" content="text/css">
+	<meta http-equiv="Content-Script-Type" content="text/javascript">
+	<title>RSK+ for the RZ/A1H WebEngine	| Renesas Electronics Europe</title>
+	<link rel="shortcut	icon" type="image/x-icon" href="images/favicon.ico">
+	<link rel="icon" type="image/x-icon" href="images/favicon.ico">
+	<link rel="stylesheet" type="text/css" href="scripts/base.css">
+	<link rel="stylesheet" type="text/css" href="scripts/structure.css">
+	<link rel="stylesheet" type="text/css" href="scripts/module.css">
+	<link rel="stylesheet" type="text/css" href="scripts/highslide.css">
+	<link rel="stylesheet" type="text/css" href="scripts/hs_custom.css">
+	<script	src="scripts/callFunc.js"></script>
+	<script	src="scripts/dateStamp.js"></script>
+	<script	type="text/javascript">
+	function pageLoad()
+	{
+		// Load	the	LED	content
+		callFunc('ledCheckBox', 'led_ctrl.cgi', 'onLoad');
+		// Start the date stamp
+		DateStampScreenUpdate();
+	}
+	</script>
+</head>
+<body onLoad="pageLoad()">
+<div id="allWrap">
+	<div id="siteHeader">
+	<!-- headerNav -->
+	<div id="headerNav">
+		<div class="corpInfoNav">
+			<ul>
+				<li><a href="http://www.renesas.eu/comp/">About	Renesas</a></li>
+				<li><a href="http://www.renesas.eu/press/">Press Center</a></li>
+				<li><a href="http://www.renesas.eu/event/">Events</a></li>
+				<li><a href="http://www.renesas.eu/career/">Careers</a></li>
+				<li><a href="http://www.renesas.eu/ir/">Investor Relations</a></li>
+				<li><a href="http://www.renesas.eu/contact/">Contact Us</a></li>
+			</ul>
+		</div>
+	</div>
+	<!-- /headerNav	-->
+	<!-- logoSearch	-->
+	<div id="logoSearch">
+		<div class="companyLogo"><a><img src="images/logo.jpg" width="192" height="32" alt="Renesas"></a></div>
+		<div align="right" class="boxTitle">
+        <h1 class="companyLogoText"><strong>RZA1LU Software Package</strong></h1>
+		</div>
+	</div>
+	<!-- /logoSearch -->
+	<div id="globalNav">
+		<ul>
+		<li><a href="index.html">Welcome</a></li>
+		<li><a href="mass_storage.html">Mass Storage</a></li>
+		<li	class="selected"><a	href="admin.html">Administration</a></li>
+		</ul>
+	</div>
+	<!-- contentsHeader	-->
+	<div id="contentsHeader">
+		<div id="contentsTitle">
+			<div class="breadcrumbs">
+			<div class="breadcrumb_link">Administration	/</div>
+		</div>
+			<h1><span class="selected">WebEngine</span></h1>
+		</div>
+	</div>
+	<!-- /contentsHeader -->
+	</div>
+	<div id="contentsWrap">
+	<div id="mainBody">
+		<div class="body_container"><div class="body_box">
+	<div class="clear"></div>
+	</div></div>
+	<!-- contentsLeft -->
+	<div id="contentsLeft">
+		<!-- localNav -->
+		<div id="localNav">
+			<ul>
+				<li	class="selected">Administration</li>
+			</ul>
+		</div>
+		<!-- /localNav -->
+		
+		<div class="rcBox_grayBorder">
+			<div class="boxTop"></div>
+			<div class="innerBox">
+			<p class="boxTitle pb05">Today:</p>
+			<div id="realTimeClock">
+			</div>
+			<p class="dotLineTop"></p>
+			<div>	<a href="http://www.renesas.eu/products/mpumcu/rz/" target="_blank"><img src="images/RZ.gif" width="120" height="42" /></a>
+			</div>
+			</div>
+			<div class="boxBottom"></div>
+		</div>
+	</div>
+	<!-- contentsLeft -->
+
+	<!-- contentsMain -->
+	<div id="contentsMain">
+
+		<p><table width="100%"	border="0" cellpadding="0">
+		  <tr>
+			<td>Many applications require that only	privileged users can change	sensitive settings.	Usually	a <a href="http://en.wikipedia.org/wiki/HTTP_cookie" target="_blank"> Cookie</a> would be placed on	the	user's machine to prevent simultaneous access to the control interface by more than	one	user. The cookie often contains	the	login time allowing	sessions to	expire.	If the device is connected to a	network	with public	access the <a href="http://en.wikipedia.org/wiki/Secure_Sockets_Layer" target="_blank">	Secure Socket Layer	encryption</a> should be to	used protect user names	and	passwords. <a href="http://www.openssl.org/" target="_blank"> Open source SSL</a> implementations are readily available	for	<a href="http://www.yassl.com/yaSSL/Home.html" target="_blank">	embedded systems</a>.</td>
+			<td><img src="images/accesscontrol.jpg"	width="75" height="95" /></td>
+		  </tr>
+		</table></p>
+		<div class="column1Block">
+		<h2>Set	the	clock</h2>
+			<div class="inner">
+				<p>Enter the time in the format	HH:MM and click	the	"Set" button.<p>
+				<form name="set_time" method=GET action="set_time.cgi" >
+				<input type="text" name="hours"	value="" size="2"  maxlength="2"> :
+				<input type="text" name="minutes" value="" size="2"  maxlength="2">
+				<input type=submit value=" Set ">
+				</form>
+		</div>
+			<div class="inner">
+				<p>Enter the date in the format	DD/MM/YYYY and click the "Set" button.<p>
+				<form name="set_date" method=GET action="set_date.cgi" >
+				<input type="text" name="day" value="" size="2"  maxlength="2"> /
+				<input type="text" name="month"	value="" size="2"  maxlength="2"> /
+				<input type="text" name="year" value=""	size="4"  maxlength="4">
+				<input type=submit value=" Set ">
+				</form>
+			</div>
+		</div>
+
+		<div class="column1Block">
+		<h2>Set	user name and password</h2>
+			<div class="inner">
+				<p>Enter the new user name and click the "Set" button.<p>
+				<form name="set_user" method=GET action="set_user.cgi" >
+				<input type="text" name="user" value="" size="14"  maxlength="14"> 
+				<input type=submit value=" Set ">
+				</form>
+		</div>
+			<div class="inner">
+				<p>Enter the password in both fields and click the "Set" button.<p>
+				<form name="set_password" method=GET action="set_password.cgi" >
+				<div><input	type="password"	name="password1" value=""	size="14"  maxlength="14"></div>
+				<input type="password" name="password2"	value="" size="14"  maxlength="14">
+				<input type=submit value=" Set ">
+				</form>
+			</div>
+		</div>
+		<div class="backToTop mt30"><!-- /contentsMain -->
+	<!-- contentsRight --><!-- /contentsRight --></div>
+	</div>
+	</div>
+	</div>
+	<div id="footer">
+		<p>&copy; 2018 Renesas Electronics Corporation.	All	rights reserved.</p>
+	</div>
+</div>
+</body>

@@ -91,6 +91,8 @@
 #define USER_LED (BSP_IO_PORT_04_PIN_05)
 #elif defined (BOARD_RA2E1_EK)
 #define USER_LED (BSP_IO_PORT_09_PIN_13)
+#elif defined (BOARD_RA6M5_EK)
+#define USER_LED (BSP_IO_PORT_00_PIN_08)
 #else
 #define USER_LED   (BSP_IO_PORT_04_PIN_03)
 #endif
