@@ -8,22 +8,17 @@ QSPI_FLASH_PRV_LENGTH = DEFINED(QSPI_FLASH_SIZE) ? ABSOLUTE(QSPI_FLASH_SIZE) : A
 OSPI_DEVICE_0_PRV_LENGTH = DEFINED(OSPI_DEVICE_0_SIZE) ? ABSOLUTE(OSPI_DEVICE_0_SIZE) : ABSOLUTE(OSPI_DEVICE_0_LENGTH);
 OSPI_DEVICE_1_PRV_LENGTH = DEFINED(OSPI_DEVICE_1_SIZE) ? ABSOLUTE(OSPI_DEVICE_1_SIZE) : ABSOLUTE(OSPI_DEVICE_1_LENGTH);
 
-/* This is a non-secure project if the OPTION_SETTING region is non-zero and it does not start at the base address for
- * secure option settings (meaning the secure option settings were already allocated in the secure project). */
-__TZ_NS_PROJECT = LENGTH(OPTION_SETTING) && DEFINED(OPTION_SETTING_S_START) && (ABSOLUTE(OPTION_SETTING_START_S) != ORIGIN(OPTION_SETTING));
-
-/* This is a secure project if the option setting base address matches the option setting base address for secure
- * option settings. This is also set for flat projects because the CPU runs in secure mode for flat projects.
- * This is not defined for projects that do not support TrustZone. */
-__TZ_S_PROJECT = LENGTH(OPTION_SETTING) && DEFINED(OPTION_SETTING_S_START) && (ABSOLUTE(OPTION_SETTING_START_S) == ORIGIN(OPTION_SETTING));
-
-/* If a flat (secure) project has defined RAM_NS_BUFFER_LENGTH, then emit IDAU symbols to allocate non-secure RAM. */
-__RESERVE_NS_RAM = __TZ_S_PROJECT && DEFINED(RAM_NS_BUFFER_LENGTH);
+/* If a flat (secure) project has DEFINED RAM_NS_BUFFER_LENGTH, then emit IDAU symbols to allocate non-secure RAM. */
+__RESERVE_NS_RAM = !DEFINED(PROJECT_NONSECURE) && DEFINED(RAM_NS_BUFFER_LENGTH);
 
 RAM_NS_BUFFER_BLOCK_LENGTH = DEFINED(RAM_NS_BUFFER_LENGTH) ? ALIGN(RAM_NS_BUFFER_LENGTH, 8192) : 0;
 RAM_NS_BUFFER_LENGTH = DEFINED(RAM_NS_BUFFER_LENGTH) ? RAM_NS_BUFFER_LENGTH : 0;
 RAM_NS_BUFFER_START = RAM_START + RAM_LENGTH - RAM_NS_BUFFER_LENGTH;
 RAM_NS_BUFFER_BLOCK_START = RAM_START + RAM_LENGTH - RAM_NS_BUFFER_BLOCK_LENGTH;
+
+OPTION_SETTING_START_NS = 0x0100A180;
+
+PROJECT_SECURE_OR_FLAT = !DEFINED(PROJECT_NONSECURE) && OPTION_SETTING_LENGTH;
 
 /* Define memory regions. */
 MEMORY
@@ -40,15 +35,12 @@ MEMORY
   ID_CODE (rx)    : ORIGIN = ID_CODE_START, LENGTH = ID_CODE_LENGTH
 }
 
-OPTION_SETTING_START_NS = 0x0100A180;
-OPTION_SETTING_START_S = 0x0100A100;
-
 /* Library configurations */
 GROUP(libgcc.a libc.a libm.a libnosys.a)
 
 /* Linker script to place sections and symbol values. Should be used together
  * with other linker script that defines memory regions FLASH and RAM.
- * It references following symbols, which must be defined in code:
+ * It references following symbols, which must be DEFINED in code:
  *   Reset_Handler : Entry of reset handler
  *
  * It defines following symbols, which code can use without definition:
@@ -110,12 +102,12 @@ SECTIONS
         KEEP(*(.application_vectors*))
         __Vectors_End = .;
 
-        /* ROM Registers start at address 0x00000400 */
-        . = __ROM_Start + 0x400;
+        /* ROM Registers start at address 0x00000400 for devices that do not have the OPTION_SETTING region. */
+        . = OPTION_SETTING_LENGTH > 0 ? . : __ROM_Start + 0x400;
         KEEP(*(.rom_registers*))
 
         /* Reserving 0x100 bytes of space for ROM registers. */
-        . = __ROM_Start + 0x500;
+        . = OPTION_SETTING_LENGTH > 0 ? . : __ROM_Start + 0x500;
 
         *(.text*)
 
@@ -485,9 +477,9 @@ SECTIONS
     {
         __OPTION_SETTING_Start = .;
         KEEP(*(.option_setting_ofs0))
-        . = __TZ_S_PROJECT ? __OPTION_SETTING_Start + 0x10 : __OPTION_SETTING_Start;
+        . = PROJECT_SECURE_OR_FLAT ? __OPTION_SETTING_Start + 0x10 : __OPTION_SETTING_Start;
         KEEP(*(.option_setting_dualsel))
-        . = __TZ_S_PROJECT ? __OPTION_SETTING_Start + 0x34 : __OPTION_SETTING_Start;
+        . = PROJECT_SECURE_OR_FLAT ? __OPTION_SETTING_Start + 0x34 : __OPTION_SETTING_Start;
         KEEP(*(.option_setting_sas))
         __OPTION_SETTING_End = .;
     } > OPTION_SETTING = 0xFF
@@ -499,19 +491,19 @@ SECTIONS
     {
         __OPTION_SETTING_NS_Start = .;
         KEEP(*(.option_setting_ofs1))
-        . = __TZ_NS_PROJECT ? __OPTION_SETTING_NS_Start + 0x10 : __OPTION_SETTING_NS_Start;
+        . = DEFINED(PROJECT_NONSECURE) ? __OPTION_SETTING_NS_Start + 0x10 : __OPTION_SETTING_NS_Start;
         KEEP(*(.option_setting_banksel))
-        . = __TZ_NS_PROJECT ? __OPTION_SETTING_NS_Start + 0x40 : __OPTION_SETTING_NS_Start;
+        . = DEFINED(PROJECT_NONSECURE) ? __OPTION_SETTING_NS_Start + 0x40 : __OPTION_SETTING_NS_Start;
         KEEP(*(.option_setting_bps0))
-        . = __TZ_NS_PROJECT ? __OPTION_SETTING_NS_Start + 0x44 : __OPTION_SETTING_NS_Start;
+        . = DEFINED(PROJECT_NONSECURE) ? __OPTION_SETTING_NS_Start + 0x44 : __OPTION_SETTING_NS_Start;
         KEEP(*(.option_setting_bps1))
-        . = __TZ_NS_PROJECT ? __OPTION_SETTING_NS_Start + 0x48 : __OPTION_SETTING_NS_Start;
+        . = DEFINED(PROJECT_NONSECURE) ? __OPTION_SETTING_NS_Start + 0x48 : __OPTION_SETTING_NS_Start;
         KEEP(*(.option_setting_bps2))
-        . = __TZ_NS_PROJECT ? __OPTION_SETTING_NS_Start + 0x60 : __OPTION_SETTING_NS_Start;
+        . = DEFINED(PROJECT_NONSECURE) ? __OPTION_SETTING_NS_Start + 0x60 : __OPTION_SETTING_NS_Start;
         KEEP(*(.option_setting_pbps0))
-        . = __TZ_NS_PROJECT ? __OPTION_SETTING_NS_Start + 0x64 : __OPTION_SETTING_NS_Start;
+        . = DEFINED(PROJECT_NONSECURE) ? __OPTION_SETTING_NS_Start + 0x64 : __OPTION_SETTING_NS_Start;
         KEEP(*(.option_setting_pbps1))
-        . = __TZ_NS_PROJECT ? __OPTION_SETTING_NS_Start + 0x68 : __OPTION_SETTING_NS_Start;
+        . = DEFINED(PROJECT_NONSECURE) ? __OPTION_SETTING_NS_Start + 0x68 : __OPTION_SETTING_NS_Start;
         KEEP(*(.option_setting_pbps2))
         __OPTION_SETTING_NS_End = .;
     } > OPTION_SETTING = 0xFF
@@ -523,29 +515,29 @@ SECTIONS
     {
         __OPTION_SETTING_S_Start = .;
         KEEP(*(.option_setting_ofs1_sec))
-        . = __TZ_S_PROJECT ? __OPTION_SETTING_S_Start + 0x10 : __OPTION_SETTING_S_Start;
+        . = PROJECT_SECURE_OR_FLAT ? __OPTION_SETTING_S_Start + 0x10 : __OPTION_SETTING_S_Start;
         KEEP(*(.option_setting_banksel_sec))
-        . = __TZ_S_PROJECT ? __OPTION_SETTING_S_Start + 0x40 : __OPTION_SETTING_S_Start;
+        . = PROJECT_SECURE_OR_FLAT ? __OPTION_SETTING_S_Start + 0x40 : __OPTION_SETTING_S_Start;
         KEEP(*(.option_setting_bps_sec0))
-        . = __TZ_S_PROJECT ? __OPTION_SETTING_S_Start + 0x44 : __OPTION_SETTING_S_Start;
+        . = PROJECT_SECURE_OR_FLAT ? __OPTION_SETTING_S_Start + 0x44 : __OPTION_SETTING_S_Start;
         KEEP(*(.option_setting_bps_sec1))
-        . = __TZ_S_PROJECT ? __OPTION_SETTING_S_Start + 0x48 : __OPTION_SETTING_S_Start;
+        . = PROJECT_SECURE_OR_FLAT ? __OPTION_SETTING_S_Start + 0x48 : __OPTION_SETTING_S_Start;
         KEEP(*(.option_setting_bps_sec2))
-        . = __TZ_S_PROJECT ? __OPTION_SETTING_S_Start + 0x60 : __OPTION_SETTING_S_Start;
+        . = PROJECT_SECURE_OR_FLAT ? __OPTION_SETTING_S_Start + 0x60 : __OPTION_SETTING_S_Start;
         KEEP(*(.option_setting_pbps_sec0))
-        . = __TZ_S_PROJECT ? __OPTION_SETTING_S_Start + 0x64 : __OPTION_SETTING_S_Start;
+        . = PROJECT_SECURE_OR_FLAT ? __OPTION_SETTING_S_Start + 0x64 : __OPTION_SETTING_S_Start;
         KEEP(*(.option_setting_pbps_sec1))
-        . = __TZ_S_PROJECT ? __OPTION_SETTING_S_Start + 0x68 : __OPTION_SETTING_S_Start;
+        . = PROJECT_SECURE_OR_FLAT ? __OPTION_SETTING_S_Start + 0x68 : __OPTION_SETTING_S_Start;
         KEEP(*(.option_setting_pbps_sec2))
-        . = __TZ_S_PROJECT ? __OPTION_SETTING_S_Start + 0x80 : __OPTION_SETTING_S_Start;
+        . = PROJECT_SECURE_OR_FLAT ? __OPTION_SETTING_S_Start + 0x80 : __OPTION_SETTING_S_Start;
         KEEP(*(.option_setting_ofs1_sel))
-        . = __TZ_S_PROJECT ? __OPTION_SETTING_S_Start + 0x90 : __OPTION_SETTING_S_Start;
+        . = PROJECT_SECURE_OR_FLAT ? __OPTION_SETTING_S_Start + 0x90 : __OPTION_SETTING_S_Start;
         KEEP(*(.option_setting_banksel_sel))
-        . = __TZ_S_PROJECT ? __OPTION_SETTING_S_Start + 0xC0 : __OPTION_SETTING_S_Start;
+        . = PROJECT_SECURE_OR_FLAT ? __OPTION_SETTING_S_Start + 0xC0 : __OPTION_SETTING_S_Start;
         KEEP(*(.option_setting_bps_sel0))
-        . = __TZ_S_PROJECT ? __OPTION_SETTING_S_Start + 0xC4 : __OPTION_SETTING_S_Start;
+        . = PROJECT_SECURE_OR_FLAT ? __OPTION_SETTING_S_Start + 0xC4 : __OPTION_SETTING_S_Start;
         KEEP(*(.option_setting_bps_sel1))
-        . = __TZ_S_PROJECT ? __OPTION_SETTING_S_Start + 0xC8 : __OPTION_SETTING_S_Start;
+        . = PROJECT_SECURE_OR_FLAT ? __OPTION_SETTING_S_Start + 0xC8 : __OPTION_SETTING_S_Start;
         KEEP(*(.option_setting_bps_sel2))
         __OPTION_SETTING_S_End = .;
     } > OPTION_SETTING_S = 0xFF

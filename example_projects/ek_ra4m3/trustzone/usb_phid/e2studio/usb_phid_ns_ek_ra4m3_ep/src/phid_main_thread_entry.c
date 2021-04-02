@@ -177,7 +177,7 @@ static void usb_enumeration(void)
 
         g_idle = p_idle_value[IDLE_VAL_INDEX];
 
-        err = R_USB_PeriControlStatusSet(&p_usb_phid_event, USB_SETUP_STATUS_ACK);
+        err = R_USB_PeriControlStatusSet(p_usb_phid_event, USB_SETUP_STATUS_ACK);
         if (FSP_SUCCESS != err)
         {
             APP_ERR_PRINT("\r\nR_USB_PeriControlStatusSet failed\r\n");
