@@ -18,11 +18,19 @@
         <path>$PROJ_DIR$/script/fsp.icf</path>
     </linkerFile>
     <linkerExtraOptions>
-        <arg>--config_search &quot;$PROJ_DIR$&quot;</arg>
+        <arg>--config_search "$PROJ_DIR$"</arg>
     </linkerExtraOptions>
     <programEntryPoint>
         <symbol>Reset_Handler</symbol>
     </programEntryPoint>
+    <customArgVars>
+        <group name="RA Smart Configurator">
+            <argVar>
+                <name>RASC_EXE_PATH</name>
+                <value>C:\Renesas\RA\sc_v2021-04_fsp_v3.0.0\eclipse\rasc.exe</value>
+            </argVar>
+        </group>
+    </customArgVars>
     <files>
         <group name="Components">
             <path>ra/arm/CMSIS_5/CMSIS/Core/Include/cachel1_armv7.h</path>
@@ -76,7 +84,6 @@
             <path>ra/fsp/src/bsp/cmsis/Device/RENESAS/Include/system.h</path>
             <path>ra/fsp/src/bsp/cmsis/Device/RENESAS/Source/startup.c</path>
             <path>ra/fsp/src/bsp/cmsis/Device/RENESAS/Source/system.c</path>
-            <path>ra/fsp/src/bsp/cmsis/Device/RENESAS/SVD/RA.svd</path>
             <path>ra/fsp/src/bsp/mcu/all/bsp_clocks.c</path>
             <path>ra/fsp/src/bsp/mcu/all/bsp_clocks.h</path>
             <path>ra/fsp/src/bsp/mcu/all/bsp_common.c</path>
@@ -113,20 +120,19 @@
             <path>ra_cfg/fsp_cfg/bsp/bsp_mcu_device_cfg.h</path>
             <path>ra_cfg/fsp_cfg/bsp/bsp_mcu_device_pn_cfg.h</path>
             <path>ra_cfg/fsp_cfg/bsp/bsp_mcu_family_cfg.h</path>
+            <path>ra_cfg/fsp_cfg/bsp/bsp_pin_cfg.h</path>
             <path>ra_cfg/fsp_cfg/r_iic_master_cfg.h</path>
             <path>ra_cfg/fsp_cfg/r_iic_slave_cfg.h</path>
             <path>ra_cfg/fsp_cfg/r_ioport_cfg.h</path>
         </group>
         <group name="Generated Data">
             <path>ra_gen/bsp_clock_cfg.h</path>
-            <path>ra_gen/bsp_pin_cfg.h</path>
             <path>ra_gen/common_data.c</path>
             <path>ra_gen/common_data.h</path>
             <path>ra_gen/hal_data.c</path>
             <path>ra_gen/hal_data.h</path>
             <path>ra_gen/main.c</path>
             <path>ra_gen/pin_data.c</path>
-            <path>ra_gen/RA6M3-EK.csv</path>
             <path>ra_gen/vector_data.c</path>
             <path>ra_gen/vector_data.h</path>
         </group>

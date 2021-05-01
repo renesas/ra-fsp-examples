@@ -18,11 +18,19 @@
         <path>$PROJ_DIR$/script/fsp.icf</path>
     </linkerFile>
     <linkerExtraOptions>
-        <arg>--config_search &quot;$PROJ_DIR$&quot;</arg>
+        <arg>--config_search "$PROJ_DIR$"</arg>
     </linkerExtraOptions>
     <programEntryPoint>
         <symbol>Reset_Handler</symbol>
     </programEntryPoint>
+    <customArgVars>
+        <group name="RA Smart Configurator">
+            <argVar>
+                <name>RASC_EXE_PATH</name>
+                <value>C:\Renesas\RA\sc_v2021-04_fsp_v3.0.0\eclipse\rasc.exe</value>
+            </argVar>
+        </group>
+    </customArgVars>
     <files>
         <group name="Components">
             <path>ra/arm/CMSIS_5/CMSIS/Core/Include/cachel1_armv7.h</path>
@@ -75,7 +83,6 @@
             <path>ra/fsp/src/bsp/cmsis/Device/RENESAS/Include/system.h</path>
             <path>ra/fsp/src/bsp/cmsis/Device/RENESAS/Source/startup.c</path>
             <path>ra/fsp/src/bsp/cmsis/Device/RENESAS/Source/system.c</path>
-            <path>ra/fsp/src/bsp/cmsis/Device/RENESAS/SVD/RA.svd</path>
             <path>ra/fsp/src/bsp/mcu/all/bsp_clocks.c</path>
             <path>ra/fsp/src/bsp/mcu/all/bsp_clocks.h</path>
             <path>ra/fsp/src/bsp/mcu/all/bsp_common.c</path>

@@ -23,14 +23,22 @@
         <path>$PROJ_DIR$/script/fsp.icf</path>
     </linkerFile>
     <postBuild>
-        <command>cmd /c &quot;&quot;C:\Renesas\RA\sc_v2021-01_fsp_v2.3.0\eclipse\rasc.exe&quot; --gensecurebundle --compiler IAR &quot;$PROJ_DIR$\configuration.xml&quot; &quot;$TARGET_PATH$&quot; 2&gt; &quot;%TEMP%\rasc_stderr.out&quot;&quot;</command>
+        <command>cmd /c ""$RASC_EXE_PATH$" --gensecurebundle --compiler IAR "$PROJ_DIR$\configuration.xml" "$TARGET_PATH$" 2&gt; "%TEMP%\rasc_stderr.out""</command>
     </postBuild>
     <linkerExtraOptions>
-        <arg>--config_search &quot;$PROJ_DIR$&quot;</arg>
+        <arg>--config_search "$PROJ_DIR$"</arg>
     </linkerExtraOptions>
     <programEntryPoint>
         <symbol>Reset_Handler</symbol>
     </programEntryPoint>
+    <customArgVars>
+        <group name="RA Smart Configurator">
+            <argVar>
+                <name>RASC_EXE_PATH</name>
+                <value>C:\Renesas\RA\sc_v2021-04_fsp_v3.0.0\eclipse\rasc.exe</value>
+            </argVar>
+        </group>
+    </customArgVars>
     <files>
         <group name="Components">
             <path>ra/arm/CMSIS_5/CMSIS/Core/Include/cachel1_armv7.h</path>
@@ -78,13 +86,22 @@
             <path>ra/aws/amazon-freertos/freertos_kernel/include/stream_buffer.h</path>
             <path>ra/aws/amazon-freertos/freertos_kernel/include/task.h</path>
             <path>ra/aws/amazon-freertos/freertos_kernel/include/timers.h</path>
-            <path>ra/aws/amazon-freertos/freertos_kernel/License/license.txt</path>
+            <path>ra/aws/amazon-freertos/freertos_kernel/LICENSE.md</path>
             <path>ra/aws/amazon-freertos/freertos_kernel/list.c</path>
             <path>ra/aws/amazon-freertos/freertos_kernel/portable/MemMang/heap_4.c</path>
             <path>ra/aws/amazon-freertos/freertos_kernel/queue.c</path>
             <path>ra/aws/amazon-freertos/freertos_kernel/stream_buffer.c</path>
             <path>ra/aws/amazon-freertos/freertos_kernel/tasks.c</path>
             <path>ra/aws/amazon-freertos/freertos_kernel/timers.c</path>
+            <path>ra/aws/amazon-freertos/libraries/freertos_plus/standard/freertos_plus_tcp/FreeRTOS_ARP.c</path>
+            <path>ra/aws/amazon-freertos/libraries/freertos_plus/standard/freertos_plus_tcp/FreeRTOS_DHCP.c</path>
+            <path>ra/aws/amazon-freertos/libraries/freertos_plus/standard/freertos_plus_tcp/FreeRTOS_DNS.c</path>
+            <path>ra/aws/amazon-freertos/libraries/freertos_plus/standard/freertos_plus_tcp/FreeRTOS_IP.c</path>
+            <path>ra/aws/amazon-freertos/libraries/freertos_plus/standard/freertos_plus_tcp/FreeRTOS_Sockets.c</path>
+            <path>ra/aws/amazon-freertos/libraries/freertos_plus/standard/freertos_plus_tcp/FreeRTOS_Stream_Buffer.c</path>
+            <path>ra/aws/amazon-freertos/libraries/freertos_plus/standard/freertos_plus_tcp/FreeRTOS_TCP_IP.c</path>
+            <path>ra/aws/amazon-freertos/libraries/freertos_plus/standard/freertos_plus_tcp/FreeRTOS_TCP_WIN.c</path>
+            <path>ra/aws/amazon-freertos/libraries/freertos_plus/standard/freertos_plus_tcp/FreeRTOS_UDP_IP.c</path>
             <path>ra/aws/amazon-freertos/libraries/freertos_plus/standard/freertos_plus_tcp/include/FreeRTOSIPConfigDefaults.h</path>
             <path>ra/aws/amazon-freertos/libraries/freertos_plus/standard/freertos_plus_tcp/include/FreeRTOS_ARP.h</path>
             <path>ra/aws/amazon-freertos/libraries/freertos_plus/standard/freertos_plus_tcp/include/FreeRTOS_DHCP.h</path>
@@ -100,22 +117,11 @@
             <path>ra/aws/amazon-freertos/libraries/freertos_plus/standard/freertos_plus_tcp/include/IPTraceMacroDefaults.h</path>
             <path>ra/aws/amazon-freertos/libraries/freertos_plus/standard/freertos_plus_tcp/include/NetworkBufferManagement.h</path>
             <path>ra/aws/amazon-freertos/libraries/freertos_plus/standard/freertos_plus_tcp/include/NetworkInterface.h</path>
-            <path>ra/aws/amazon-freertos/libraries/freertos_plus/standard/freertos_plus_tcp/include/tcp_dump_packets.h</path>
-            <path>ra/aws/amazon-freertos/libraries/freertos_plus/standard/freertos_plus_tcp/include/tcp_mem_stats.h</path>
-            <path>ra/aws/amazon-freertos/libraries/freertos_plus/standard/freertos_plus_tcp/source/FreeRTOS_ARP.c</path>
-            <path>ra/aws/amazon-freertos/libraries/freertos_plus/standard/freertos_plus_tcp/source/FreeRTOS_DHCP.c</path>
-            <path>ra/aws/amazon-freertos/libraries/freertos_plus/standard/freertos_plus_tcp/source/FreeRTOS_DNS.c</path>
-            <path>ra/aws/amazon-freertos/libraries/freertos_plus/standard/freertos_plus_tcp/source/FreeRTOS_IP.c</path>
-            <path>ra/aws/amazon-freertos/libraries/freertos_plus/standard/freertos_plus_tcp/source/FreeRTOS_Sockets.c</path>
-            <path>ra/aws/amazon-freertos/libraries/freertos_plus/standard/freertos_plus_tcp/source/FreeRTOS_Stream_Buffer.c</path>
-            <path>ra/aws/amazon-freertos/libraries/freertos_plus/standard/freertos_plus_tcp/source/FreeRTOS_TCP_IP.c</path>
-            <path>ra/aws/amazon-freertos/libraries/freertos_plus/standard/freertos_plus_tcp/source/FreeRTOS_TCP_WIN.c</path>
-            <path>ra/aws/amazon-freertos/libraries/freertos_plus/standard/freertos_plus_tcp/source/FreeRTOS_UDP_IP.c</path>
-            <path>ra/aws/amazon-freertos/libraries/freertos_plus/standard/freertos_plus_tcp/source/portable/BufferManagement/BufferAllocation_2.c</path>
-            <path>ra/aws/amazon-freertos/libraries/freertos_plus/standard/freertos_plus_tcp/source/portable/Compiler/GCC/pack_struct_end.h</path>
-            <path>ra/aws/amazon-freertos/libraries/freertos_plus/standard/freertos_plus_tcp/source/portable/Compiler/GCC/pack_struct_start.h</path>
-            <path>ra/aws/amazon-freertos/libraries/freertos_plus/standard/freertos_plus_tcp/source/portable/Compiler/IAR/pack_struct_end.h</path>
-            <path>ra/aws/amazon-freertos/libraries/freertos_plus/standard/freertos_plus_tcp/source/portable/Compiler/IAR/pack_struct_start.h</path>
+            <path>ra/aws/amazon-freertos/libraries/freertos_plus/standard/freertos_plus_tcp/portable/BufferManagement/BufferAllocation_2.c</path>
+            <path>ra/aws/amazon-freertos/libraries/freertos_plus/standard/freertos_plus_tcp/portable/Compiler/GCC/pack_struct_end.h</path>
+            <path>ra/aws/amazon-freertos/libraries/freertos_plus/standard/freertos_plus_tcp/portable/Compiler/GCC/pack_struct_start.h</path>
+            <path>ra/aws/amazon-freertos/libraries/freertos_plus/standard/freertos_plus_tcp/portable/Compiler/IAR/pack_struct_end.h</path>
+            <path>ra/aws/amazon-freertos/libraries/freertos_plus/standard/freertos_plus_tcp/portable/Compiler/IAR/pack_struct_start.h</path>
             <path>ra/aws/amazon-freertos/LICENSE</path>
             <path>ra/board/ra6m4_ek/board.h</path>
             <path>ra/board/ra6m4_ek/board_ethernet_phy.h</path>
@@ -138,7 +144,6 @@
             <path>ra/fsp/src/bsp/cmsis/Device/RENESAS/Include/system.h</path>
             <path>ra/fsp/src/bsp/cmsis/Device/RENESAS/Source/startup.c</path>
             <path>ra/fsp/src/bsp/cmsis/Device/RENESAS/Source/system.c</path>
-            <path>ra/fsp/src/bsp/cmsis/Device/RENESAS/SVD/RA.svd</path>
             <path>ra/fsp/src/bsp/mcu/all/bsp_clocks.c</path>
             <path>ra/fsp/src/bsp/mcu/all/bsp_clocks.h</path>
             <path>ra/fsp/src/bsp/mcu/all/bsp_common.c</path>
