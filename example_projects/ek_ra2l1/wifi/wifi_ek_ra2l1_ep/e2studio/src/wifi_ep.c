@@ -140,7 +140,7 @@ fsp_err_t scan_and_select(void)
         APP_PRINT("\r\n***** List of WiFi Access Points *****")
         for(uint8_t index = RESET_VALUE ; index < MAX_WIFI_SCAN_RESULTS; index++)
         {
-            char temp = scan_data[index].cSSID[INDEX_ZERO];
+            uint8_t temp = scan_data[index].ucSSID[INDEX_ZERO];
             if('\0' != temp)
             {
                 switch(scan_data[index].xSecurity)
@@ -148,29 +148,32 @@ fsp_err_t scan_and_select(void)
                     case eWiFiSecurityOpen:
                     {
                         APP_PRINT("\r\n(%d) %s: \r\n    Security: Open, Signal strength: %d, Channel: %d",
-                                  index, scan_data[index].cSSID, scan_data[index].cRSSI, scan_data[index].cChannel);
+                                  index, scan_data[index].ucSSID, scan_data[index].cRSSI, scan_data[index].ucChannel);
                     }
                     break;
                     case eWiFiSecurityWEP:
                     {
                         APP_PRINT("\r\n(%d) %s: \r\n    Security: WEP, Signal strength: %d, Channel: %d",
-                                  index, scan_data[index].cSSID, scan_data[index].cRSSI, scan_data[index].cChannel);
+                                  index, scan_data[index].ucSSID, scan_data[index].cRSSI, scan_data[index].ucChannel);
                         APP_PRINT("\r\nNote: Currently WiFi APs with WEP security is not supported. Please do not select.");
                     }
                     break;
                     case eWiFiSecurityWPA:
                     {
                         APP_PRINT("\r\n(%d) %s: \r\n    Security: WPA, Signal strength: %d, Channel: %d",
-                                  index, scan_data[index].cSSID, scan_data[index].cRSSI, scan_data[index].cChannel);
+                                  index, scan_data[index].ucSSID, scan_data[index].cRSSI, scan_data[index].ucChannel);
                     }
                     break;
                     case eWiFiSecurityWPA2:
                     {
                         APP_PRINT("\r\n(%d) %s: \r\n    Security: WPA2, Signal strength: %d, Channel: %d",
-                                  index, scan_data[index].cSSID, scan_data[index].cRSSI, scan_data[index].cChannel);
+                                  index, scan_data[index].ucSSID, scan_data[index].cRSSI, scan_data[index].ucChannel);
                     }
                     break;
                     case eWiFiSecurityWPA2_ent:
+                        /* Do nothing */
+                        break;
+                    case eWiFiSecurityWPA3:
                         /* Do nothing */
                         break;
                     case eWiFiSecurityNotSupported:
@@ -189,7 +192,7 @@ fsp_err_t scan_and_select(void)
     }while(('0' > input_buff[INDEX_ZERO]) || ('9' < input_buff[INDEX_ZERO]) || (MAX_WIFI_SCAN_RESULTS <= index_wifi_ap_list));
 
     /* Storing SSID  and security type of WiFi AP */
-    strcpy(g_wifi.ssid, scan_data[index_wifi_ap_list].cSSID);
+    strcpy(g_wifi.ssid, (char*) scan_data[index_wifi_ap_list].ucSSID);
     g_wifi.security = convertSecurity(scan_data[index_wifi_ap_list].xSecurity);
 
     /* WiFi AP password input for non-open security type */

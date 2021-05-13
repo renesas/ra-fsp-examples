@@ -1,0 +1,2052 @@
+FSP Configuration
+  Board "EK-RA6M5"
+  R7FA6M5BH3CFC
+    part_number: R7FA6M5BH3CFC
+    rom_size_bytes: 2097152
+    ram_size_bytes: 524288
+    data_flash_size_bytes: 8192
+    package_style: LQFP
+    package_pins: 176
+    
+  RA6M5
+    series: 6
+    
+  RA6M5 Family
+    Security: Exceptions: Exception Response: Non-Maskable Interrupt
+    Security: Exceptions: BusFault, HardFault, and NMI Target: Secure State
+    Security: System Reset Request Accessibility: Secure State
+    Security: Exceptions: Prioritize Secure Exceptions: Disabled
+    Security: Cache Accessibility: Both Secure and Non-Secure State
+    Security: System Reset Status Accessibility: Both Secure and Non-Secure State
+    Security: Battery Backup Accessibility: Both Secure and Non-Secure State
+    Security: SRAM Accessibility: SRAM Protection: Both Secure and Non-Secure State
+    Security: SRAM Accessibility: SRAM ECC: Both Secure and Non-Secure State
+    Security: SRAM Accessibility: Standby RAM: Regions 7-0 are all Secure.
+    Security: BUS Accessibility: Bus Security Attribution Register A: Both Secure and Non-Secure State
+    Security: BUS Accessibility: Bus Security Attribution Register B: Both Secure and Non-Secure State
+    Startup C-Cache Line Size: 32 Bytes
+    OFS0 register settings: Independent WDT: Start Mode: IWDT is Disabled
+    OFS0 register settings: Independent WDT: Timeout Period: 2048 cycles
+    OFS0 register settings: Independent WDT: Dedicated Clock Frequency Divisor: 128
+    OFS0 register settings: Independent WDT: Window End Position:  0% (no window end position)
+    OFS0 register settings: Independent WDT: Window Start Position: 100% (no window start position)
+    OFS0 register settings: Independent WDT: Reset Interrupt Request Select: Reset is enabled
+    OFS0 register settings: Independent WDT: Stop Control: Stop counting when in Sleep, Snooze mode, or Software Standby
+    OFS0 register settings: WDT: Start Mode Select: Stop WDT after a reset (register-start mode)
+    OFS0 register settings: WDT: Timeout Period: 16384 cycles
+    OFS0 register settings: WDT: Clock Frequency Division Ratio: 128
+    OFS0 register settings: WDT: Window End Position:  0% (no window end position)
+    OFS0 register settings: WDT: Window Start Position: 100% (no window start position)
+    OFS0 register settings: WDT: Reset Interrupt Request: Reset
+    OFS0 register settings: WDT: Stop Control: Stop counting when entering Sleep mode
+    OFS1 register settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
+    OFS1 register settings: Voltage Detection 0 Level: 2.80 V
+    OFS1 register settings: HOCO Oscillation Enable: HOCO oscillation is disabled after reset
+    Block Protection Settings (BPS): BPS0: 
+    Block Protection Settings (BPS): BPS1: 
+    Block Protection Settings (BPS): BPS2: 
+    Permanent Block Protection Settings (PBPS): PBPS0: 
+    Permanent Block Protection Settings (PBPS): PBPS1: 
+    Permanent Block Protection Settings (PBPS): PBPS2: 
+    Dual Bank Mode: Disabled
+    Clocks: HOCO FLL Function: Disabled
+    Main Oscillator Wait Time: 8163 cycles
+    
+  RA Common
+    Main stack size (bytes): 0x1000
+    Heap size (bytes): 0x2000
+    MCU Vcc (mV): 3300
+    Parameter checking: Enabled
+    Assert Failures: Return FSP_ERR_ASSERTION
+    Error Log: No Error Log
+    Soft Reset: Disabled
+    Main Oscillator Populated: Populated
+    PFS Protect: Enabled
+    C Runtime Initialization : Enabled
+    Main Oscillator Clock Source: Crystal or Resonator
+    Subclock Populated: Populated
+    Subclock Drive (Drive capacitance availability varies by MCU): Standard/Normal mode
+    Subclock Stabilization Time (ms): 1000
+    
+  Clocks
+    XTAL 24000000Hz
+    HOCO 20MHz
+    PLL Src: XTAL
+    PLL Div /3
+    PLL Mul x25.0
+    PLL2 Disabled
+    PLL2 Div /2
+    PLL2 Mul x20.0
+    Clock Src: PLL
+    CLKOUT Disabled
+    UCLK Disabled
+    OCTASPICLK Disabled
+    CANFDCLK Disabled
+    ICLK Div /1
+    PCLKA Div /2
+    PCLKB Div /4
+    PCLKC Div /4
+    PCLKD Div /2
+    BCLK Div /2
+    BCLK/2
+    FCLK Div /4
+    CLKOUT Div /1
+    UCLK Div /5
+    OCTASPICLK Div /1
+    CANFDCLK Div /1
+    
+  Pin Configurations
+    RA6M5 EK -> g_bsp_pin_cfg
+      AVCC0 155 ANALOG0_AVCC0 - - - - - - - - IO "Read only" - 
+      AVCCUSBHS 26 USB_HS0_AVCC - - - - - - - - IO "Read only" - 
+      AVSS0 156 ANALOG0_AVSS0 - - - - - - - - IO "Read only" - 
+      AVSSUSBHS 28 USB_HS0_AVSS - - - - - - - - IO "Read only" - 
+      P000 169 ADC0_AN00 MIKROBUS_AN_ARDUINO_A0 - - "Analog mode" - None "ADC0: AN00; ADC1: AN00; ICU0: IRQ06" - IO - - 
+      P001 168 ADC0_AN01 ARDUINO_A1 - - "Analog mode" - None "ADC0: AN01; ADC1: AN01; ICU0: IRQ07" - IO - - 
+      P002 167 ADC0_AN02 ARDUINO_A2 - - "Analog mode" - None "ADC0: AN02; ADC1: AN02; ICU0: IRQ08" - IO - - 
+      P003 166 ADC0_AN03 ARDUINO_A3 - - "Analog mode" - None "ADC0: AN03" - IO - - 
+      P004 165 GPIO SW2 - IRQ09 "Input mode" - None "ADC0: AN04; ICU0: IRQ09" - IO - - 
+      P005 164 GPIO SW1 - IRQ10 "Input mode" - None "ADC0: AN05; ICU0: IRQ10" - IO - - 
+      P006 163 GPIO LED1 - None "Output mode (Initial Low)" CMOS - "ADC0: AN06; ICU0: IRQ11" - IO - - 
+      P007 162 GPIO LED2 - - "Output mode (Initial Low)" CMOS - "ADC0: AN07" - IO - - 
+      P008 161 GPIO LED3 - None "Output mode (Initial Low)" CMOS - "ADC0: AN08; ICU0: IRQ12" - IO - - 
+      P009 160 - - - - Disabled - - "ADC0: AN09; ICU0: IRQ13" - None - - 
+      P010 159 - - - - Disabled - - "ADC0: AN10; ICU0: IRQ14" - None - - 
+      P014 152 ADC0_AN12 ARDUINO_A4 - - "Analog mode" - None "ADC0: AN12; DAC0: DA" - IO - - 
+      P015 151 ADC0_AN13 ARDUINO_A5 - - "Analog mode" - None "ADC0: AN13; DAC1: DA; ICU0: IRQ13" - IO - - 
+      P100 132 OSPI0_OMSCLK OSPI_CLK "High Speed High " None "Peripheral mode" CMOS None "AGT0: AGTIO; BUS_ASYNCH0: D00; GPT_POEG0: GTETRG; GPT5: GTIOCB; ICU0: IRQ02; OSPI0: OMSCLK; QSPI0: QSPCLK; SCI0: RXD; SCI0: SCL; SCI1: SCK; SPI1: MISO" - IO - - 
+      P101 131 OSPI0_OMSIO7 OSPI_SIO7 "High Speed High " None "Peripheral mode" CMOS None "AGT0: AGTEE; BUS_ASYNCH0: D01; GPT_POEG1: GTETRG; GPT5: GTIOCA; ICU0: IRQ01; OSPI0: OMSIO7; QSPI0: QIO1; SCI0: SDA; SCI0: TXD; SCI1: CTSRTS; SPI1: MOSI" - IO - - 
+      P102 130 OSPI0_OMSIO1 OSPI_SIO1 "High Speed High " - "Peripheral mode" CMOS None "ADC0: ADTRG; AGT0: AGTO; BUS_ASYNCH0: D02; CAN0: CRX; GPT_OPS0: GTOWLO; GPT2: GTIOCB; OSPI0: OMSIO1; QSPI0: QIO0; SCI0: SCK; SPI1: RSPCK" - IO - - 
+      P103 129 OSPI0_OMSIO6 OSPI_SIO6 "High Speed High " - "Peripheral mode" CMOS None "AGT2: AGTIO; BUS_ASYNCH0: D03; CAN0: CTX; GPT_OPS0: GTOWUP; GPT2: GTIOCA; OSPI0: OMSIO6; QSPI0: QIO3; SCI0: CTSRTS; SPI1: SSL0" - IO - - 
+      P104 128 OSPI0_OMDQS OSPI_DQS "High Speed High " None "Peripheral mode" CMOS None "AGT2: AGTEE; BUS_ASYNCH0: D04; GPT_POEG1: GTETRG; GPT1: GTIOCB; ICU0: IRQ01; OSPI0: OMDQS; QSPI0: QIO2; SCI8: RXD; SCI8: SCL; SPI1: SSL1" - IO - - 
+      P105 127 OSPI0_OMSIO5 OSPI_SIO5 "High Speed High " None "Peripheral mode" CMOS None "AGT2: AGTO; BUS_ASYNCH0: D05; GPT_POEG0: GTETRG; GPT1: GTIOCA; ICU0: IRQ00; OSPI0: OMSIO5; SCI8: SDA; SCI8: TXD; SPI1: SSL2" - IO - - 
+      P106 126 OSPI0_OMSIO0 OSPI_SIO0 "High Speed High " - "Peripheral mode" CMOS None "AGT0: AGTOB; BUS_ASYNCH0: D06; GPT8: GTIOCB; OSPI0: OMSIO0; SCI8: SCK; SPI1: SSL3" - IO - - 
+      P107 125 OSPI0_OMSIO3 OSPI_SIO3 "High Speed High " - "Peripheral mode" CMOS None "AGT0: AGTOA; BUS_ASYNCH0: D07; GPT8: GTIOCA; OSPI0: OMSIO3; SCI8: CTSRTS" - IO - - 
+      P108 89 DEBUG0_SWDIO - Low - "Peripheral mode" CMOS None "AGT3: AGTOA; DEBUG0: SWDIO; GPT_OPS0: GTOULO; GPT0: GTIOCB; SCI9: CTSRTS; SPI0: SSL0" - IO - - 
+      P109 90 - - - - Disabled - - "AGT3: AGTOB; CAN1: CTX; CGC0: CLKOUT; DEBUG0: TRACESWO; GPT_OPS0: GTOVUP; GPT1: GTIOCA; SCI9: SDA; SCI9: TXD; SPI0: MOSI" - None - - 
+      P110 91 - - - - Disabled - - "AGT3: AGTEE; CAN1: CRX; GPT_OPS0: GTOVLO; GPT1: GTIOCB; ICU0: IRQ03; SCI2: CTSRTS; SCI9: RXD; SCI9: SCL; SPI0: MISO" - None - - 
+      P111 92 GPT3_GTIOCA MIKROBUS_PWM_ARDUINO_D3_PWM High None "Peripheral mode" CMOS None "AGT5: AGTOA; BUS_ASYNCH0: A05; GPT3: GTIOCA; ICU0: IRQ04; SCI2: SCK; SCI9: SCK; SPI0: RSPCK" - IO - - 
+      P112 93 GPIO ARDUINO_D4 High - "Output mode (Initial Low)" CMOS - "AGT5: AGTOB; BUS_ASYNCH0: A04; GPT3: GTIOCB; OSPI0: OMCS1; QSPI0: QSSL; SCI1: SCK; SCI2: SDA; SCI2: TXD; SPI0: SSL0; SSI0: SSISCK" - IO - - 
+      P113 94 GPIO ARDUINO_D5 High - "Output mode (Initial Low)" CMOS - "AGT5: AGTEE; BUS_ASYNCH0: A03; GPT2: GTIOCA; SCI2: RXD; SCI2: SCL; SSI0: SSIWS" - IO - - 
+      P114 95 GPIO ARDUINO_D6 High - "Output mode (Initial Low)" CMOS - "AGT5: AGTIO; BUS_ASYNCH0: A02; GPT2: GTIOCB; SCI9: CTS; SSI0: SSIRXD" - IO - - 
+      P115 96 GPIO ARDUINO_D9 High - "Output mode (Initial Low)" CMOS - "BUS_ASYNCH0: A01; GPT4: GTIOCA; SSI0: SSITXD" - IO - - 
+      P200 69 - - - - Disabled - - "ICU0: NMI" - None - - 
+      P201 68 - - - - Disabled - - "SYSTEM0: MD" - None - - 
+      P202 54 SPI0_MISO MIKROBUS_MISO_ARDUINO_MISO_PMOD1_MISO High None "Peripheral mode" CMOS None "AGT3: AGTOB; BUS_ASYNCH0: BC1; CAN0: CRX; CTSU0: TS19; ETHERC_MII0: ERXD2; GPT5: GTIOCB; ICU0: IRQ03; SCI2: SCK; SCI9: RXD; SCI9: SCL; SDHI0: DAT6; SPI0: MISO" - IO - - 
+      P203 53 SPI0_MOSI MIKROBUS_MOSI_ARDUINO_MOSI_PMOD1_MOSI High None "Peripheral mode" CMOS None "AGT3: AGTOA; BUS_ASYNCH0: A19; CAN0: CTX; CTSU0: TS18; ETHERC_MII0: COL; GPT5: GTIOCA; ICU0: IRQ02; SCI2: CTSRTS; SCI9: SDA; SCI9: TXD; SDHI0: DAT5; SPI0: MOSI" - IO - - 
+      P204 52 SPI0_RSPCK MIKROBUS_SCK_ARDUINO_SCK_PMOD1_SCK High - "Peripheral mode" CMOS None "AGT1: AGTIO; BUS_ASYNCH0: A18; CAC0: CACREF; CTSU0: TS00; ETHERC_MII0: RX_DV; GPT_OPS0: GTIW; GPT4: GTIOCB; SCI4: SCK; SCI9: SCK; SDHI0: DAT4; SPI0: RSPCK; SSI0: SSISCK; USB_FS0: OVRCURB" - IO - - 
+      P205 51 SPI0_SSL0 MIKROBUS_SS_ARDUINO_SS High None "Peripheral mode" CMOS None "AGT1: AGTO; BUS_ASYNCH0: A16; CGC0: CLKOUT; CTSU0: TS01; ETHERC_MII0: WOL; ETHERC_RMII0: WOL; GPT_OPS0: GTIV; GPT4: GTIOCA; ICU0: IRQ01; IIC1: SCL; SCI4: SDA; SCI4: TXD; SCI9: CTSRTS; SDHI0: DAT3; SPI0: SSL0; SSI0: SSIWS; USB_FS0: OVRCURA" - IO - - 
+      P206 50 SPI0_SSL1 PMOD1_SS High None "Peripheral mode" CMOS None "BUS_ASYNCH0: WAIT; CEC0: CECIO; CTSU0: TS02; ETHERC_MII0: LINKSTA; ETHERC_RMII0: LINKSTA; GPT_OPS0: GTIU; ICU0: IRQ00; IIC1: SDA; SCI4: RXD; SCI4: SCL; SCI9: CTS; SDHI0: DAT2; SPI0: SSL1; SSI0: SSIDATA; USB_FS0: VBUSEN" - IO - - 
+      P207 49 GPIO ARDUINO_D8 High - "Output mode (Initial Low)" CMOS - "BUS_ASYNCH0: A17; CTSU0: TSCAP; QSPI0: QSSL; SCI4: SDA; SCI4: TXD; SPI0: SSL2" - IO - - 
+      P208 66 - - - - Disabled - - "BUS_ASYNCH0: CS4; ETHERC_MII0: LINKSTA; ETHERC_RMII0: LINKSTA; GPT_OPS0: GTOVLO; QSPI0: QIO3; SDHI0: DAT0" - None - - 
+      P209 65 - - - - Disabled - - "AGT5: AGTEE; BUS_ASYNCH0: CS5; ETHERC_MII0: EXOUT; ETHERC_RMII0: EXOUT; GPT_OPS0: GTOVUP; QSPI0: QIO2; SDHI0: WP" - None - - 
+      P210 64 - - - - Disabled - - "AGT5: AGTOB; BUS_ASYNCH0: CS6; ETHERC_MII0: WOL; ETHERC_RMII0: WOL; GPT_OPS0: GTIW; QSPI0: QIO1; SDHI0: CD" - None - - 
+      P211 63 - - - - Disabled - - "AGT5: AGTOA; BUS_ASYNCH0: CS7; ETHERC_MII0: MDIO; ETHERC_RMII0: MDIO; GPT_OPS0: GTIV; QSPI0: QIO0; SDHI0: CMD" - None - - 
+      P212 24 CGC0_EXTAL - Low None "Peripheral mode" CMOS None "AGT1: AGTEE; CGC0: EXTAL; GPT_POEG3: GTETRG; GPT0: GTIOCB; ICU0: IRQ03; SCI1: RXD; SCI1: SCL" - IO - - 
+      P213 23 CGC0_XTAL - Low None "Peripheral mode" CMOS None "ADC1: ADTRG; AGT2: AGTEE; CGC0: XTAL; GPT_POEG2: GTETRG; GPT0: GTIOCA; ICU0: IRQ02; SCI1: SDA; SCI1: TXD" - IO - - 
+      P214 62 - - - - Disabled - - "AGT5: AGTO; ETHERC_MII0: MDC; ETHERC_RMII0: MDC; GPT_OPS0: GTIU; QSPI0: QSPCLK; SDHI0: CLK" - None - - 
+      P300 88 DEBUG0_SWCLK - Low - "Peripheral mode" CMOS None "DEBUG0: SWCLK; GPT_OPS0: GTOUUP; GPT0: GTIOCA; SPI0: SSL1" - IO - - 
+      P301 87 SPI0_SSL2 PMOD1_SS2 High None "Peripheral mode" CMOS None "AGT0: AGTIO; BUS_ASYNCH0: A06; GPT_OPS0: GTOULO; GPT4: GTIOCB; ICU0: IRQ06; SCI2: RXD; SCI2: SCL; SCI9: CTSRTS; SPI0: SSL2" - IO - - 
+      P302 86 SPI0_SSL3 PMOD1_SS3 High None "Peripheral mode" CMOS None "BUS_ASYNCH0: A07; GPT_OPS0: GTOUUP; GPT4: GTIOCA; ICU0: IRQ05; SCI2: SDA; SCI2: TXD; SPI0: SSL3" - IO - - 
+      P303 85 GPIO MIKROBUS_RESET_ARDUINO_RESET High - "Output mode (Initial Low)" CMOS - "BUS_ASYNCH0: A08; GPT7: GTIOCB; SCI9: CTS" - IO - - 
+      P304 82 - - - - Disabled - - "AGT2: AGTEE; BUS_ASYNCH0: A09; GPT_OPS0: GTOWLO; GPT7: GTIOCA; ICU0: IRQ09; SCI6: RXD; SCI6: SCL" - None - - 
+      P305 81 QSPI0_QSPCLK QSPI_CLK High None "Peripheral mode" CMOS None "AGT2: AGTOB; BUS_ASYNCH0: A10; GPT_OPS0: GTOWUP; ICU0: IRQ08; QSPI0: QSPCLK; SCI6: SDA; SCI6: TXD" - IO - - 
+      P306 80 QSPI0_QSSL QSPI_CS High - "Peripheral mode" CMOS None "AGT2: AGTOA; BUS_ASYNCH0: A11; GPT_OPS0: GTOULO; QSPI0: QSSL; SCI6: SCK" - IO - - 
+      P307 79 QSPI0_QIO0 QSPI_IO0 High - "Peripheral mode" CMOS None "AGT4: AGTEE; BUS_ASYNCH0: A12; GPT_OPS0: GTOUUP; QSPI0: QIO0; SCI6: CTSRTS" - IO - - 
+      P308 78 QSPI0_QIO1 QSPI_IO1 High - "Peripheral mode" CMOS None "AGT4: AGTOB; BUS_ASYNCH0: A13; QSPI0: QIO1; SCI3: CTS; SCI6: CTS" - IO - - 
+      P309 77 QSPI0_QIO2 QSPI_IO2 High - "Peripheral mode" CMOS None "AGT4: AGTOA; BUS_ASYNCH0: A14; QSPI0: QIO2; SCI3: RXD; SCI3: SCL" - IO - - 
+      P310 76 QSPI0_QIO3 QSPI_IO3 High - "Peripheral mode" CMOS None "AGT1: AGTEE; BUS_ASYNCH0: A15; QSPI0: QIO3; SCI3: SDA; SCI3: TXD" - IO - - 
+      P311 75 GPIO PMOD1_RST High - "Output mode (Initial Low)" CMOS - "AGT1: AGTOB; BUS_ASYNCH0: CS2; SCI3: SCK" - IO - - 
+      P312 74 - - - - Disabled - - "AGT1: AGTOA; BUS_ASYNCH0: CS3; SCI3: CTSRTS" - None - - 
+      P313 55 - - - - Disabled - - "BUS_ASYNCH0: A20; ETHERC_MII0: ERXD3; SDHI0: DAT7" - None - - 
+      P314 56 - - - - Disabled - - "ADC0: ADTRG; BUS_ASYNCH0: A21" - None - - 
+      P315 57 - - - - Disabled - - "BUS_ASYNCH0: A22; SCI4: RXD; SCI4: SCL" - None - - 
+      P400 1 GPIO PMOD2_INT - IRQ00 "Input mode" - "input pull-up" "ADC1: ADTRG; AGT1: AGTIO; ETHERC_MII0: WOL; ETHERC_RMII0: WOL; GPT6: GTIOCA; ICU0: IRQ00; IIC0: SCL; SCI4: SCK; SCI7: SCK; SSI_COMMON0: AUDIO_CLK" - IO - - 
+      P401 2 ETHERC_RMII0_MDC ETH_MDC High None "Peripheral mode" CMOS None "CAN0: CTX; ETHERC_MII0: MDC; ETHERC_RMII0: MDC; GPT_POEG0: GTETRG; GPT6: GTIOCB; ICU0: IRQ05; IIC0: SDA; SCI4: CTSRTS; SCI7: SDA; SCI7: TXD" - IO - - 
+      P402 3 ETHERC_RMII0_MDIO ETH_MDIO High None "Peripheral mode" CMOS None "AGT0: AGTIO; AGT1: AGTIO; AGT2: AGTIO; AGT3: AGTIO; CAC0: CACREF; CAN0: CRX; ETHERC_MII0: MDIO; ETHERC_RMII0: MDIO; ICU0: IRQ04; RTC0: RTCIC0; SCI4: CTS; SCI7: RXD; SCI7: SCL; SSI_COMMON0: AUDIO_CLK" - IO - - 
+      P403 4 GPIO ETH_RST High None "Output mode (Initial High)" CMOS - "AGT0: AGTIO; AGT1: AGTIO; AGT2: AGTIO; AGT3: AGTIO; ETHERC_MII0: LINKSTA; ETHERC_RMII0: LINKSTA; GPT3: GTIOCA; ICU0: IRQ14; RTC0: RTCIC1; SCI7: CTSRTS; SSI0: SSISCK" - IO - - 
+      P404 5 GPIO PMOD2_RST High None "Output mode (Initial Low)" CMOS - "AGT0: AGTIO; AGT1: AGTIO; AGT2: AGTIO; AGT3: AGTIO; ETHERC_MII0: EXOUT; ETHERC_RMII0: EXOUT; GPT3: GTIOCB; ICU0: IRQ15; RTC0: RTCIC2; SCI7: CTS; SSI0: SSIWS" - IO - - 
+      P405 6 ETHERC_RMII0_TXD_EN ETH_TXEN High - "Peripheral mode" CMOS None "ETHERC_MII0: TX_EN; ETHERC_RMII0: TXD_EN; GPT1: GTIOCA; SSI0: SSITXD" - IO - - 
+      P406 7 ETHERC_RMII0_TXD1 ETH_TXD1 High - "Peripheral mode" CMOS None "AGT5: AGTO; ETHERC_MII0: RX_ER; ETHERC_RMII0: TXD1; GPT1: GTIOCB; SPI0: SSL3; SSI0: SSIRXD" - IO - - 
+      P407 44 USB_FS0_VBUS USBFS_VBUS High - "Peripheral mode" CMOS None "ADC0: ADTRG; AGT0: AGTIO; CTSU0: TS03; ETHERC_MII0: EXOUT; ETHERC_RMII0: EXOUT; GPT6: GTIOCA; IIC0: SDA; RTC0: RTCOUT; SCI4: CTSRTS; SPI0: SSL3; USB_FS0: VBUS" - IO - - 
+      P408 43 GPIO PMOD2_SS2 High None "Output mode (Initial Low)" CMOS - "AGT2: AGTOB; CTSU0: TS04; ETHERC_MII0: CRS; ETHERC_RMII0: CRS_DV; GPT_OPS0: GTOWLO; GPT6: GTIOCB; ICU0: IRQ07; IIC0: SCL; SCI3: RXD; SCI3: SCL; SCI4: CTS; USB_FS0: ID; USB_HS0: ID" - IO - - 
+      P409 42 GPIO MIKROBUS_INT_ARDUINO_INT0 - IRQ06 "Input mode" - "input pull-up" "AGT2: AGTOA; CTSU0: TS05; ETHERC_MII0: RX_CLK; ETHERC_RMII0: RX_ER; GPT_OPS0: GTOWUP; ICU0: IRQ06; IIC2: SDA; SCI3: SDA; SCI3: TXD; USB_FS0: EXICEN; USB_HS0: EXICEN" - IO - - 
+      P410 41 SPI1_MISO PMOD2_MISO High None "Peripheral mode" CMOS None "AGT1: AGTOB; CTSU0: TS06; ETHERC_MII0: ERXD0; ETHERC_RMII0: RXD1; GPT_OPS0: GTOVLO; GPT9: GTIOCB; ICU0: IRQ05; IIC2: SCL; SCI0: RXD; SCI0: SCL; SCI3: SCK; SDHI0: DAT1; SPI1: MISO" - IO - - 
+      P411 40 SPI1_MOSI PMOD2_MOSI High None "Peripheral mode" CMOS None "AGT1: AGTOA; CTSU0: TS07; ETHERC_MII0: ERXD1; ETHERC_RMII0: RXD0; GPT_OPS0: GTOVUP; GPT9: GTIOCA; ICU0: IRQ04; SCI0: SDA; SCI0: TXD; SCI3: CTSRTS; SDHI0: DAT0; SPI1: MOSI" - IO - - 
+      P412 39 SPI1_RSPCK PMOD2_SCK High - "Peripheral mode" CMOS None "AGT1: AGTEE; CTSU0: TS08; ETHERC_MII0: ETXD0; ETHERC_RMII0: REF50CK; GPT_OPS0: GTOULO; SCI0: SCK; SCI3: CTS; SDHI0: CMD; SPI1: RSPCK" - IO - - 
+      P413 38 SPI1_SSL0 PMOS2_SS High - "Peripheral mode" CMOS None "AGT3: AGTEE; CTSU0: TS09; ETHERC_MII0: ETXD1; ETHERC_RMII0: TXD0; GPT_OPS0: GTOUUP; SCI0: CTSRTS; SDHI0: CLK; SPI1: SSL0" - IO - - 
+      P414 37 IIC2_SDA GROVE1_SDA_QWIIC_SDA High None "Peripheral mode" CMOS None "AGT5: AGTIO; CTSU0: TS10; ETHERC_MII0: RX_ER; ETHERC_RMII0: TXD1; GPT0: GTIOCB; ICU0: IRQ09; IIC2: SDA; SCI0: CTS; SDHI0: WP; SPI1: SSL1" - IO - - 
+      P415 36 IIC2_SCL GROVE1_SCL_QWIIC_SCL High None "Peripheral mode" CMOS None "AGT4: AGTIO; CTSU0: TS11; ETHERC_MII0: TX_EN; ETHERC_RMII0: TXD_EN; GPT0: GTIOCA; ICU0: IRQ08; IIC2: SCL; SDHI0: CD; SPI1: SSL2; USB_FS0: VBUSEN" - IO - - 
+      P500 140 USB_FS0_VBUSEN USBFS_VBUS_EN High - "Peripheral mode" CMOS None "ADC1: AN16; AGT0: AGTOA; CAC0: CACREF; GPT_OPS0: GTIU; QSPI0: QSPCLK; SCI5: CTS; USB_FS0: VBUSEN" - IO - - 
+      P501 141 USB_FS0_OVRCURA USBFS_OVERCURA High None "Peripheral mode" CMOS None "ADC1: AN17; AGT0: AGTOB; GPT_OPS0: GTIV; ICU0: IRQ11; QSPI0: QSSL; SCI5: SDA; SCI5: TXD; USB_FS0: OVRCURA" - IO - - 
+      P502 142 - - - - Disabled - - "ADC1: AN18; AGT2: AGTOA; GPT_OPS0: GTIW; ICU0: IRQ12; QSPI0: QIO0; SCI5: RXD; SCI5: SCL; SCI6: CTS; USB_FS0: OVRCURB" - None - - 
+      P503 143 - - - - Disabled - - "ADC1: AN19; AGT2: AGTOB; GPT_POEG2: GTETRG; QSPI0: QIO1; SCI5: SCK; SCI6: CTSRTS; USB_FS0: EXICEN" - None - - 
+      P504 144 - - - - Disabled - - "ADC1: AN20; AGT3: AGTOA; BUS_ASYNCH0: ALE; GPT_POEG3: GTETRG; QSPI0: QIO2; SCI5: CTSRTS; SCI6: SCK; USB_FS0: ID" - None - - 
+      P505 145 SCI6_SCL GROVE2_SCL High None "Peripheral mode" "n-ch open drain" None "ADC1: AN21; AGT3: AGTOB; ICU0: IRQ14; QSPI0: QIO3; SCI6: RXD; SCI6: SCL" - IO - - 
+      P506 146 SCI6_SDA GROVE2_SDA High None "Peripheral mode" "n-ch open drain" None "ADC1: AN22; ICU0: IRQ15; SCI6: SDA; SCI6: TXD" - IO - - 
+      P507 147 - - - - Disabled - - "ADC1: AN23; SCI5: SCK; SCI6: SCK" - None - - 
+      P508 148 - - - - Disabled - - "ADC1: AN24; SCI5: CTSRTS" - None - - 
+      P511 176 IIC1_SDA MIKROBUS_SDA_ARDUINO_SDA High None "Peripheral mode" CMOS None "CAN1: CRX; GPT0: GTIOCB; ICU0: IRQ15; IIC1: SDA; SCI4: RXD; SCI4: SCL" - IO - - 
+      P512 175 IIC1_SCL MIKROBUS_SCL_ARDUINO_SCL High None "Peripheral mode" CMOS None "CAN1: CTX; GPT0: GTIOCA; ICU0: IRQ14; IIC1: SCL; SCI4: SDA; SCI4: TXD" - IO - - 
+      P513 174 - - - - Disabled - - "SCI5: RXD; SCI5: SCL" - None - - 
+      P600 122 OSPI0_OMSIO4 OSPI_SIO4 "High Speed High " - "Peripheral mode" CMOS None "AGT3: AGTIO; BUS_ASYNCH0: RD; CAC0: CACREF; CGC0: CLKOUT; GPT6: GTIOCB; OSPI0: OMSIO4; SCI9: SCK" - IO - - 
+      P601 121 OSPI0_OMSIO2 OSPI_SIO2 "High Speed High " - "Peripheral mode" CMOS None "AGT3: AGTEE; BUS_ASYNCH0: WR; GPT6: GTIOCA; OSPI0: OMSIO2; SCI9: RXD; SCI9: SCL" - IO - - 
+      P602 120 OSPI0_OMCS1 OSPI_CS1 "High Speed High " - "Peripheral mode" CMOS None "AGT3: AGTO; BUS_ASYNCH0: EBCLK; GPT7: GTIOCB; OSPI0: OMCS1; SCI9: SDA; SCI9: TXD" - IO - - 
+      P603 119 - - - - Disabled - - "AGT4: AGTIO; BUS_ASYNCH0: D13; GPT7: GTIOCA; SCI9: CTSRTS" - None - - 
+      P604 118 - - - - Disabled - - "AGT4: AGTEE; BUS_ASYNCH0: D12; GPT8: GTIOCB; SCI9: CTS" - None - - 
+      P605 117 - - - - Disabled - - "AGT4: AGTO; BUS_ASYNCH0: D11; GPT8: GTIOCA; SCI8: CTS" - None - - 
+      P606 116 - - - - Disabled - - "RTC0: RTCOUT; SCI8: CTSRTS" - None - - 
+      P607 115 - - - - Disabled - - "SCI8: RXD; SCI8: SCL" - None - - 
+      P608 99 GPIO ARDUINO_D7 High - "Output mode (Initial Low)" CMOS - "BUS_ASYNCH0: A00; GPT4: GTIOCB" - IO - - 
+      P609 100 CAN1_CTX CAN_TXD "High Speed High " - "Peripheral mode" CMOS None "AGT5: AGTO; BUS_ASYNCH0: CS1; CAN1: CTX; GPT5: GTIOCA" - IO - - 
+      P610 101 CAN1_CRX CAN_RDX "High Speed High " - "Peripheral mode" CMOS None "AGT4: AGTO; BUS_ASYNCH0: CS0; CAN1: CRX; GPT5: GTIOCB; OSPI0: OMCS0; SCI7: CTS" - IO - - 
+      P611 102 GPIO CAN_STBY High - "Output mode (Initial Low)" CMOS - "AGT3: AGTO; CAC0: CACREF; CGC0: CLKOUT; SCI7: CTSRTS" - IO - - 
+      P612 103 - - - - Disabled - - "AGT2: AGTO; BUS_ASYNCH0: D08; SCI7: SCK" - None - - 
+      P613 104 SCI7_TXD MIKROBUS_TX_ARDUINO_TX "High Speed High " - "Peripheral mode" CMOS None "AGT1: AGTO; BUS_ASYNCH0: D09; SCI7: SDA; SCI7: TXD" - IO - - 
+      P614 105 SCI7_RXD MIKROBUS_RX_ARDUINO_RX "High Speed High " - "Peripheral mode" CMOS None "AGT0: AGTO; BUS_ASYNCH0: D10; SCI7: RXD; SCI7: SCL" - IO - - 
+      P615 106 GPIO OSPI_RST "High Speed High " None "Output mode (Initial Low)" CMOS - "ICU0: IRQ07; USB_FS0: VBUSEN" - IO - - 
+      P700 8 ETHERC_RMII0_TXD0 ETH_TXD0 High - "Peripheral mode" CMOS None "AGT4: AGTO; ETHERC_MII0: ETXD1; ETHERC_RMII0: TXD0; GPT5: GTIOCA; SPI0: MISO" - IO - - 
+      P701 9 ETHERC_RMII0_REF50CK ETH_50REF High - "Peripheral mode" CMOS None "AGT3: AGTO; ETHERC_MII0: ETXD0; ETHERC_RMII0: REF50CK; GPT5: GTIOCB; SPI0: MOSI" - IO - - 
+      P702 10 ETHERC_RMII0_RXD0 ETH_RXD0 High - "Peripheral mode" CMOS None "AGT2: AGTO; ETHERC_MII0: ERXD1; ETHERC_RMII0: RXD0; GPT6: GTIOCA; SPI0: RSPCK" - IO - - 
+      P703 11 ETHERC_RMII0_RXD1 ETH_RXD1 High - "Peripheral mode" CMOS None "AGT1: AGTO; ETHERC_MII0: ERXD0; ETHERC_RMII0: RXD1; GPT6: GTIOCB; SPI0: SSL0" - IO - - 
+      P704 12 ETHERC_RMII0_RX_ER ETH_RXERR High - "Peripheral mode" CMOS None "AGT0: AGTO; CAN0: CTX; ETHERC_MII0: RX_CLK; ETHERC_RMII0: RX_ER; SPI0: SSL1" - IO - - 
+      P705 13 ETHERC_RMII0_CRS_DV ETH_CRSDV High - "Peripheral mode" CMOS None "AGT0: AGTIO; CAN0: CRX; ETHERC_MII0: CRS; ETHERC_RMII0: CRS_DV; SCI3: CTS; SPI0: SSL2" - IO - - 
+      P706 14 GPIO ETH_INT - IRQ07 "Input mode" - None "ICU0: IRQ07; SCI3: RXD; SCI3: SCL; USB_HS0: OVRCURB" - IO - - 
+      P707 15 USB_HS0_OVRCURA USBHS_OVERCURA Low None "Peripheral mode" CMOS None "ICU0: IRQ08; SCI3: SDA; SCI3: TXD; USB_HS0: OVRCURA" - IO - - 
+      P708 35 SPI1_SSL3 PMOD2_SS3 High None "Peripheral mode" CMOS None "CAC0: CACREF; CEC0: CECIO; CTSU0: TS12; ETHERC_MII0: ETXD3; ICU0: IRQ11; SCI1: RXD; SCI1: SCL; SPI1: SSL3; SSI_COMMON0: AUDIO_CLK" - IO - - 
+      P800 133 - - - - Disabled - - "ADC1: AN25; AGT4: AGTOA; BUS_ASYNCH0: D14; SCI0: CTS" - None - - 
+      P801 134 - - - - Disabled - - "ADC1: AN26; AGT4: AGTOB; BUS_ASYNCH0: D15; SCI8: CTS" - None - - 
+      P802 135 - - - - Disabled - - "ADC1: AN27; ICU0: IRQ03" - None - - 
+      P803 136 - - - - Disabled - - "ADC1: AN28; ICU0: IRQ02" - None - - 
+      P804 137 - - - - Disabled - - "ICU0: IRQ01" - None - - 
+      P805 173 - - - - Disabled - - "SCI5: SDA; SCI5: TXD" - None - - 
+      P806 172 - - - - Disabled - - "ICU0: IRQ00" - None - - 
+      P900 58 - - - - Disabled - - "BUS_ASYNCH0: A23; SCI4: SDA; SCI4: TXD" - None - - 
+      P901 59 - - - - Disabled - - "AGT1: AGTIO; SCI4: SCK" - None - - 
+      P905 73 GPIO PMOD1_INT - IRQ08 "Input mode" - "input pull-up" "ICU0: IRQ08; USB_FS0: ID" - IO - - 
+      P906 72 - - - - Disabled - - "ICU0: IRQ09; USB_FS0: EXICEN" - None - - 
+      P907 71 - - - - Disabled - - "ICU0: IRQ10; USB_HS0: ID" - None - - 
+      P908 70 - - - - Disabled - - "ICU0: IRQ11; USB_HS0: EXICEN" - None - - 
+      PA00 114 - - - - Disabled - - "SCI8: SDA; SCI8: TXD" - None - - 
+      PA01 113 - - - - Disabled - - "SCI8: SCK" - None - - 
+      PA08 107 - - - - Disabled - - "ICU0: IRQ06; USB_FS0: OVRCURA" - None - - 
+      PA09 108 - - - - Disabled - - "ICU0: IRQ05; USB_FS0: OVRCURB" - None - - 
+      PA10 109 - - - - Disabled - - "ICU0: IRQ04" - None - - 
+      PB00 16 USB_HS0_VBUSEN USBHS_VBUS_EN High - "Peripheral mode" CMOS None "SCI3: SCK; USB_HS0: VBUSEN" - IO - - 
+      PB01 17 USB_HS0_VBUS USBHS_VBUS High - "Peripheral mode" CMOS None "SCI3: CTSRTS; USB_HS0: VBUS" - IO - - 
+      PVSSUSBHS 29 USB_HS0_PVSS - - - - - - - - IO "Read only" - 
+      RES 67 SYSTEM0_RES - - - - - - - - IO "Read only" - 
+      USBDM 46 USB_FS0_DM - - - - - - - - IO "Read only" - 
+      USBDP 47 USB_FS0_DP - - - - - - - - IO "Read only" - 
+      USBHSDM 31 USB_HS0_DM - - - - - - - - IO "Read only" - 
+      USBHSDP 32 USB_HS0_DP - - - - - - - - IO "Read only" - 
+      USBHSRREF 27 USB_HS0_RREF - - - - - - - - IO "Read only" - 
+      VBATT 18 SYSTEM0_VBATT - - - - - - - - IO "Read only" - 
+      VCC 25 SYSTEM0_VCC - - - - - - - - IO "Read only" - 
+      VCC 61 SYSTEM0_VCC - - - - - - - - IO "Read only" - 
+      VCC 84 SYSTEM0_VCC - - - - - - - - IO "Read only" - 
+      VCC 97 SYSTEM0_VCC - - - - - - - - IO "Read only" - 
+      VCC 110 SYSTEM0_VCC - - - - - - - - IO "Read only" - 
+      VCC 123 SYSTEM0_VCC - - - - - - - - IO "Read only" - 
+      VCC 138 SYSTEM0_VCC - - - - - - - - IO "Read only" - 
+      VCC 149 SYSTEM0_VCC - - - - - - - - IO "Read only" - 
+      VCC 171 SYSTEM0_VCC - - - - - - - - IO "Read only" - 
+      VCCUSB 48 USB_FS0_VCC - - - - - - - - IO "Read only" - 
+      VCCUSBHS 34 USB_HS0_VCC - - - - - - - - IO "Read only" - 
+      VCL 112 SYSTEM0_VCL - - - - - - - - IO "Read only" - 
+      VCL0 19 SYSTEM0_VCL0 - - - - - - - - IO "Read only" - 
+      VREFH 154 ANALOG0_VREFH - - - - - - - - IO "Read only" - 
+      VREFH0 158 ANALOG0_VREFH0 - - - - - - - - IO "Read only" - 
+      VREFL 153 ANALOG0_VREFL - - - - - - - - IO "Read only" - 
+      VREFL0 157 ANALOG0_VREFL0 - - - - - - - - IO "Read only" - 
+      VSS 22 SYSTEM0_VSS - - - - - - - - IO "Read only" - 
+      VSS 60 SYSTEM0_VSS - - - - - - - - IO "Read only" - 
+      VSS 83 SYSTEM0_VSS - - - - - - - - IO "Read only" - 
+      VSS 98 SYSTEM0_VSS - - - - - - - - IO "Read only" - 
+      VSS 111 SYSTEM0_VSS - - - - - - - - IO "Read only" - 
+      VSS 124 SYSTEM0_VSS - - - - - - - - IO "Read only" - 
+      VSS 139 SYSTEM0_VSS - - - - - - - - IO "Read only" - 
+      VSS 150 SYSTEM0_VSS - - - - - - - - IO "Read only" - 
+      VSS 170 SYSTEM0_VSS - - - - - - - - IO "Read only" - 
+      VSS1USBHS 33 USB_HS0_VSS1 - - - - - - - - IO "Read only" - 
+      VSS2USBHS 30 USB_HS0_VSS2 - - - - - - - - IO "Read only" - 
+      VSSUSB 45 USB_FS0_VSS - - - - - - - - IO "Read only" - 
+      XCIN 20 CGC0_XCIN - - - - - - - - IO "Read only" - 
+      XCOUT 21 CGC0_XCOUT - - - - - - - - IO "Read only" - 
+    R7FA6M5BH3CFC.pincfg -> 
+      AVCC0 155 ANALOG0_AVCC0 - - - - - - - - IO "Read only" - 
+      AVCCUSBHS 26 USB_HS0_AVCC - - - - - - - - IO "Read only" - 
+      AVSS0 156 ANALOG0_AVSS0 - - - - - - - - IO "Read only" - 
+      AVSSUSBHS 28 USB_HS0_AVSS - - - - - - - - IO "Read only" - 
+      P000 169 - MIKROBUS_AN_ARDUINO_A0 - - Disabled - None "ADC0: AN00; ADC1: AN00; ICU0: IRQ06" - IO - - 
+      P001 168 - ARDUINO_A1 - - Disabled - None "ADC0: AN01; ADC1: AN01; ICU0: IRQ07" - IO - - 
+      P002 167 - ARDUINO_A2 - - Disabled - None "ADC0: AN02; ADC1: AN02; ICU0: IRQ08" - IO - - 
+      P003 166 - ARDUINO_A3 - - Disabled - None "ADC0: AN03" - IO - - 
+      P004 165 - SW2 - None Disabled - None "ADC0: AN04; ICU0: IRQ09" - IO - - 
+      P005 164 - SW1 - None Disabled - None "ADC0: AN05; ICU0: IRQ10" - IO - - 
+      P006 163 - LED1 - None Disabled CMOS - "ADC0: AN06; ICU0: IRQ11" - IO - - 
+      P007 162 - LED2 - - Disabled CMOS - "ADC0: AN07" - IO - - 
+      P008 161 - LED3 - None Disabled CMOS - "ADC0: AN08; ICU0: IRQ12" - IO - - 
+      P009 160 - - - - Disabled - - "ADC0: AN09; ICU0: IRQ13" - None - - 
+      P010 159 - - - - Disabled - - "ADC0: AN10; ICU0: IRQ14" - None - - 
+      P014 152 - ARDUINO_A4 - - Disabled - None "ADC0: AN12; DAC0: DA" - IO - - 
+      P015 151 - ARDUINO_A5 - - Disabled - None "ADC0: AN13; DAC1: DA; ICU0: IRQ13" - IO - - 
+      P100 132 - OSPI_CLK Low None Disabled CMOS None "AGT0: AGTIO; BUS_ASYNCH0: D00; GPT_POEG0: GTETRG; GPT5: GTIOCB; ICU0: IRQ02; OSPI0: OMSCLK; QSPI0: QSPCLK; SCI0: RXD; SCI0: SCL; SCI1: SCK; SPI1: MISO" - IO - - 
+      P101 131 - OSPI_SIO7 Low None Disabled CMOS None "AGT0: AGTEE; BUS_ASYNCH0: D01; GPT_POEG1: GTETRG; GPT5: GTIOCA; ICU0: IRQ01; OSPI0: OMSIO7; QSPI0: QIO1; SCI0: SDA; SCI0: TXD; SCI1: CTSRTS; SPI1: MOSI" - IO - - 
+      P102 130 - OSPI_SIO1 Low - Disabled CMOS None "ADC0: ADTRG; AGT0: AGTO; BUS_ASYNCH0: D02; CAN0: CRX; GPT_OPS0: GTOWLO; GPT2: GTIOCB; OSPI0: OMSIO1; QSPI0: QIO0; SCI0: SCK; SPI1: RSPCK" - IO - - 
+      P103 129 - OSPI_SIO6 Low - Disabled CMOS None "AGT2: AGTIO; BUS_ASYNCH0: D03; CAN0: CTX; GPT_OPS0: GTOWUP; GPT2: GTIOCA; OSPI0: OMSIO6; QSPI0: QIO3; SCI0: CTSRTS; SPI1: SSL0" - IO - - 
+      P104 128 - OSPI_DQS Low None Disabled CMOS None "AGT2: AGTEE; BUS_ASYNCH0: D04; GPT_POEG1: GTETRG; GPT1: GTIOCB; ICU0: IRQ01; OSPI0: OMDQS; QSPI0: QIO2; SCI8: RXD; SCI8: SCL; SPI1: SSL1" - IO - - 
+      P105 127 - OSPI_SIO5 Low None Disabled CMOS None "AGT2: AGTO; BUS_ASYNCH0: D05; GPT_POEG0: GTETRG; GPT1: GTIOCA; ICU0: IRQ00; OSPI0: OMSIO5; SCI8: SDA; SCI8: TXD; SPI1: SSL2" - IO - - 
+      P106 126 - OSPI_SIO0 Low - Disabled CMOS None "AGT0: AGTOB; BUS_ASYNCH0: D06; GPT8: GTIOCB; OSPI0: OMSIO0; SCI8: SCK; SPI1: SSL3" - IO - - 
+      P107 125 - OSPI_SIO3 Low - Disabled CMOS None "AGT0: AGTOA; BUS_ASYNCH0: D07; GPT8: GTIOCA; OSPI0: OMSIO3; SCI8: CTSRTS" - IO - - 
+      P108 89 DEBUG0_SWDIO - Low - "Peripheral mode" CMOS None "AGT3: AGTOA; DEBUG0: SWDIO; GPT_OPS0: GTOULO; GPT0: GTIOCB; SCI9: CTSRTS; SPI0: SSL0" - IO - - 
+      P109 90 - - - - Disabled - - "AGT3: AGTOB; CAN1: CTX; CGC0: CLKOUT; DEBUG0: TRACESWO; GPT_OPS0: GTOVUP; GPT1: GTIOCA; SCI9: SDA; SCI9: TXD; SPI0: MOSI" - None - - 
+      P110 91 - - - - Disabled - - "AGT3: AGTEE; CAN1: CRX; GPT_OPS0: GTOVLO; GPT1: GTIOCB; ICU0: IRQ03; SCI2: CTSRTS; SCI9: RXD; SCI9: SCL; SPI0: MISO" - None - - 
+      P111 92 - MIKROBUS_PWM_ARDUINO_D3_PWM Low None Disabled CMOS None "AGT5: AGTOA; BUS_ASYNCH0: A05; GPT3: GTIOCA; ICU0: IRQ04; SCI2: SCK; SCI9: SCK; SPI0: RSPCK" - IO - - 
+      P112 93 - ARDUINO_D4 Low - Disabled CMOS - "AGT5: AGTOB; BUS_ASYNCH0: A04; GPT3: GTIOCB; OSPI0: OMCS1; QSPI0: QSSL; SCI1: SCK; SCI2: SDA; SCI2: TXD; SPI0: SSL0; SSI0: SSISCK" - IO - - 
+      P113 94 - ARDUINO_D5 Low - Disabled CMOS - "AGT5: AGTEE; BUS_ASYNCH0: A03; GPT2: GTIOCA; SCI2: RXD; SCI2: SCL; SSI0: SSIWS" - IO - - 
+      P114 95 - ARDUINO_D6 Low - Disabled CMOS - "AGT5: AGTIO; BUS_ASYNCH0: A02; GPT2: GTIOCB; SCI9: CTS; SSI0: SSIRXD" - IO - - 
+      P115 96 - ARDUINO_D9 Low - Disabled CMOS - "BUS_ASYNCH0: A01; GPT4: GTIOCA; SSI0: SSITXD" - IO - - 
+      P200 69 - - - - Disabled - - "ICU0: NMI" - None - - 
+      P201 68 - - - - Disabled - - "SYSTEM0: MD" - None - - 
+      P202 54 - MIKROBUS_MISO_ARDUINO_MISO_PMOD1_MISO Low None Disabled CMOS None "AGT3: AGTOB; BUS_ASYNCH0: BC1; CAN0: CRX; CTSU0: TS19; ETHERC_MII0: ERXD2; GPT5: GTIOCB; ICU0: IRQ03; SCI2: SCK; SCI9: RXD; SCI9: SCL; SDHI0: DAT6; SPI0: MISO" - IO - - 
+      P203 53 - MIKROBUS_MOSI_ARDUINO_MOSI_PMOD1_MOSI Low None Disabled CMOS None "AGT3: AGTOA; BUS_ASYNCH0: A19; CAN0: CTX; CTSU0: TS18; ETHERC_MII0: COL; GPT5: GTIOCA; ICU0: IRQ02; SCI2: CTSRTS; SCI9: SDA; SCI9: TXD; SDHI0: DAT5; SPI0: MOSI" - IO - - 
+      P204 52 - MIKROBUS_SCK_ARDUINO_SCK_PMOD1_SCK Low - Disabled CMOS None "AGT1: AGTIO; BUS_ASYNCH0: A18; CAC0: CACREF; CTSU0: TS00; ETHERC_MII0: RX_DV; GPT_OPS0: GTIW; GPT4: GTIOCB; SCI4: SCK; SCI9: SCK; SDHI0: DAT4; SPI0: RSPCK; SSI0: SSISCK; USB_FS0: OVRCURB" - IO - - 
+      P205 51 - MIKROBUS_SS_ARDUINO_SS Low None Disabled CMOS None "AGT1: AGTO; BUS_ASYNCH0: A16; CGC0: CLKOUT; CTSU0: TS01; ETHERC_MII0: WOL; ETHERC_RMII0: WOL; GPT_OPS0: GTIV; GPT4: GTIOCA; ICU0: IRQ01; IIC1: SCL; SCI4: SDA; SCI4: TXD; SCI9: CTSRTS; SDHI0: DAT3; SPI0: SSL0; SSI0: SSIWS; USB_FS0: OVRCURA" - IO - - 
+      P206 50 - PMOD1_SS Low None Disabled CMOS None "BUS_ASYNCH0: WAIT; CEC0: CECIO; CTSU0: TS02; ETHERC_MII0: LINKSTA; ETHERC_RMII0: LINKSTA; GPT_OPS0: GTIU; ICU0: IRQ00; IIC1: SDA; SCI4: RXD; SCI4: SCL; SCI9: CTS; SDHI0: DAT2; SPI0: SSL1; SSI0: SSIDATA; USB_FS0: VBUSEN" - IO - - 
+      P207 49 - ARDUINO_D8 Low - Disabled CMOS - "BUS_ASYNCH0: A17; CTSU0: TSCAP; QSPI0: QSSL; SCI4: SDA; SCI4: TXD; SPI0: SSL2" - IO - - 
+      P208 66 - - - - Disabled - - "BUS_ASYNCH0: CS4; ETHERC_MII0: LINKSTA; ETHERC_RMII0: LINKSTA; GPT_OPS0: GTOVLO; QSPI0: QIO3; SDHI0: DAT0" - None - - 
+      P209 65 - - - - Disabled - - "AGT5: AGTEE; BUS_ASYNCH0: CS5; ETHERC_MII0: EXOUT; ETHERC_RMII0: EXOUT; GPT_OPS0: GTOVUP; QSPI0: QIO2; SDHI0: WP" - None - - 
+      P210 64 - - - - Disabled - - "AGT5: AGTOB; BUS_ASYNCH0: CS6; ETHERC_MII0: WOL; ETHERC_RMII0: WOL; GPT_OPS0: GTIW; QSPI0: QIO1; SDHI0: CD" - None - - 
+      P211 63 - - - - Disabled - - "AGT5: AGTOA; BUS_ASYNCH0: CS7; ETHERC_MII0: MDIO; ETHERC_RMII0: MDIO; GPT_OPS0: GTIV; QSPI0: QIO0; SDHI0: CMD" - None - - 
+      P212 24 - - Low None Disabled CMOS None "AGT1: AGTEE; CGC0: EXTAL; GPT_POEG3: GTETRG; GPT0: GTIOCB; ICU0: IRQ03; SCI1: RXD; SCI1: SCL" - IO - - 
+      P213 23 - - Low None Disabled CMOS None "ADC1: ADTRG; AGT2: AGTEE; CGC0: XTAL; GPT_POEG2: GTETRG; GPT0: GTIOCA; ICU0: IRQ02; SCI1: SDA; SCI1: TXD" - IO - - 
+      P214 62 - - - - Disabled - - "AGT5: AGTO; ETHERC_MII0: MDC; ETHERC_RMII0: MDC; GPT_OPS0: GTIU; QSPI0: QSPCLK; SDHI0: CLK" - None - - 
+      P300 88 DEBUG0_SWCLK - Low - "Peripheral mode" CMOS None "DEBUG0: SWCLK; GPT_OPS0: GTOUUP; GPT0: GTIOCA; SPI0: SSL1" - IO - - 
+      P301 87 - PMOD1_SS2 Low None Disabled CMOS None "AGT0: AGTIO; BUS_ASYNCH0: A06; GPT_OPS0: GTOULO; GPT4: GTIOCB; ICU0: IRQ06; SCI2: RXD; SCI2: SCL; SCI9: CTSRTS; SPI0: SSL2" - IO - - 
+      P302 86 - PMOD1_SS3 Low None Disabled CMOS None "BUS_ASYNCH0: A07; GPT_OPS0: GTOUUP; GPT4: GTIOCA; ICU0: IRQ05; SCI2: SDA; SCI2: TXD; SPI0: SSL3" - IO - - 
+      P303 85 - MIKROBUS_RESET_ARDUINO_RESET Low - Disabled CMOS - "BUS_ASYNCH0: A08; GPT7: GTIOCB; SCI9: CTS" - IO - - 
+      P304 82 - - - - Disabled - - "AGT2: AGTEE; BUS_ASYNCH0: A09; GPT_OPS0: GTOWLO; GPT7: GTIOCA; ICU0: IRQ09; SCI6: RXD; SCI6: SCL" - None - - 
+      P305 81 - QSPI_CLK Low None Disabled CMOS None "AGT2: AGTOB; BUS_ASYNCH0: A10; GPT_OPS0: GTOWUP; ICU0: IRQ08; QSPI0: QSPCLK; SCI6: SDA; SCI6: TXD" - IO - - 
+      P306 80 - QSPI_CS Low - Disabled CMOS None "AGT2: AGTOA; BUS_ASYNCH0: A11; GPT_OPS0: GTOULO; QSPI0: QSSL; SCI6: SCK" - IO - - 
+      P307 79 - QSPI_IO0 Low - Disabled CMOS None "AGT4: AGTEE; BUS_ASYNCH0: A12; GPT_OPS0: GTOUUP; QSPI0: QIO0; SCI6: CTSRTS" - IO - - 
+      P308 78 - QSPI_IO1 Low - Disabled CMOS None "AGT4: AGTOB; BUS_ASYNCH0: A13; QSPI0: QIO1; SCI3: CTS; SCI6: CTS" - IO - - 
+      P309 77 - QSPI_IO2 Low - Disabled CMOS None "AGT4: AGTOA; BUS_ASYNCH0: A14; QSPI0: QIO2; SCI3: RXD; SCI3: SCL" - IO - - 
+      P310 76 - QSPI_IO3 Low - Disabled CMOS None "AGT1: AGTEE; BUS_ASYNCH0: A15; QSPI0: QIO3; SCI3: SDA; SCI3: TXD" - IO - - 
+      P311 75 - PMOD1_RST Low - Disabled CMOS - "AGT1: AGTOB; BUS_ASYNCH0: CS2; SCI3: SCK" - IO - - 
+      P312 74 - - - - Disabled - - "AGT1: AGTOA; BUS_ASYNCH0: CS3; SCI3: CTSRTS" - None - - 
+      P313 55 - - - - Disabled - - "BUS_ASYNCH0: A20; ETHERC_MII0: ERXD3; SDHI0: DAT7" - None - - 
+      P314 56 - - - - Disabled - - "ADC0: ADTRG; BUS_ASYNCH0: A21" - None - - 
+      P315 57 - - - - Disabled - - "BUS_ASYNCH0: A22; SCI4: RXD; SCI4: SCL" - None - - 
+      P400 1 - PMOD2_INT - None Disabled - None "ADC1: ADTRG; AGT1: AGTIO; ETHERC_MII0: WOL; ETHERC_RMII0: WOL; GPT6: GTIOCA; ICU0: IRQ00; IIC0: SCL; SCI4: SCK; SCI7: SCK; SSI_COMMON0: AUDIO_CLK" - IO - - 
+      P401 2 - ETH_MDC Low None Disabled CMOS None "CAN0: CTX; ETHERC_MII0: MDC; ETHERC_RMII0: MDC; GPT_POEG0: GTETRG; GPT6: GTIOCB; ICU0: IRQ05; IIC0: SDA; SCI4: CTSRTS; SCI7: SDA; SCI7: TXD" - IO - - 
+      P402 3 - ETH_MDIO Low None Disabled CMOS None "AGT0: AGTIO; AGT1: AGTIO; AGT2: AGTIO; AGT3: AGTIO; CAC0: CACREF; CAN0: CRX; ETHERC_MII0: MDIO; ETHERC_RMII0: MDIO; ICU0: IRQ04; RTC0: RTCIC0; SCI4: CTS; SCI7: RXD; SCI7: SCL; SSI_COMMON0: AUDIO_CLK" - IO - - 
+      P403 4 - ETH_RST Low None Disabled CMOS - "AGT0: AGTIO; AGT1: AGTIO; AGT2: AGTIO; AGT3: AGTIO; ETHERC_MII0: LINKSTA; ETHERC_RMII0: LINKSTA; GPT3: GTIOCA; ICU0: IRQ14; RTC0: RTCIC1; SCI7: CTSRTS; SSI0: SSISCK" - IO - - 
+      P404 5 - PMOD2_RST Low None Disabled CMOS - "AGT0: AGTIO; AGT1: AGTIO; AGT2: AGTIO; AGT3: AGTIO; ETHERC_MII0: EXOUT; ETHERC_RMII0: EXOUT; GPT3: GTIOCB; ICU0: IRQ15; RTC0: RTCIC2; SCI7: CTS; SSI0: SSIWS" - IO - - 
+      P405 6 - ETH_TXEN Low - Disabled CMOS None "ETHERC_MII0: TX_EN; ETHERC_RMII0: TXD_EN; GPT1: GTIOCA; SSI0: SSITXD" - IO - - 
+      P406 7 - ETH_TXD1 Low - Disabled CMOS None "AGT5: AGTO; ETHERC_MII0: RX_ER; ETHERC_RMII0: TXD1; GPT1: GTIOCB; SPI0: SSL3; SSI0: SSIRXD" - IO - - 
+      P407 44 - USBFS_VBUS Low - Disabled CMOS None "ADC0: ADTRG; AGT0: AGTIO; CTSU0: TS03; ETHERC_MII0: EXOUT; ETHERC_RMII0: EXOUT; GPT6: GTIOCA; IIC0: SDA; RTC0: RTCOUT; SCI4: CTSRTS; SPI0: SSL3; USB_FS0: VBUS" - IO - - 
+      P408 43 - PMOD2_SS2 Low None Disabled CMOS - "AGT2: AGTOB; CTSU0: TS04; ETHERC_MII0: CRS; ETHERC_RMII0: CRS_DV; GPT_OPS0: GTOWLO; GPT6: GTIOCB; ICU0: IRQ07; IIC0: SCL; SCI3: RXD; SCI3: SCL; SCI4: CTS; USB_FS0: ID; USB_HS0: ID" - IO - - 
+      P409 42 - MIKROBUS_INT_ARDUINO_INT0 - None Disabled - None "AGT2: AGTOA; CTSU0: TS05; ETHERC_MII0: RX_CLK; ETHERC_RMII0: RX_ER; GPT_OPS0: GTOWUP; ICU0: IRQ06; IIC2: SDA; SCI3: SDA; SCI3: TXD; USB_FS0: EXICEN; USB_HS0: EXICEN" - IO - - 
+      P410 41 - PMOD2_MISO Low None Disabled CMOS None "AGT1: AGTOB; CTSU0: TS06; ETHERC_MII0: ERXD0; ETHERC_RMII0: RXD1; GPT_OPS0: GTOVLO; GPT9: GTIOCB; ICU0: IRQ05; IIC2: SCL; SCI0: RXD; SCI0: SCL; SCI3: SCK; SDHI0: DAT1; SPI1: MISO" - IO - - 
+      P411 40 - PMOD2_MOSI Low None Disabled CMOS None "AGT1: AGTOA; CTSU0: TS07; ETHERC_MII0: ERXD1; ETHERC_RMII0: RXD0; GPT_OPS0: GTOVUP; GPT9: GTIOCA; ICU0: IRQ04; SCI0: SDA; SCI0: TXD; SCI3: CTSRTS; SDHI0: DAT0; SPI1: MOSI" - IO - - 
+      P412 39 - PMOD2_SCK Low - Disabled CMOS None "AGT1: AGTEE; CTSU0: TS08; ETHERC_MII0: ETXD0; ETHERC_RMII0: REF50CK; GPT_OPS0: GTOULO; SCI0: SCK; SCI3: CTS; SDHI0: CMD; SPI1: RSPCK" - IO - - 
+      P413 38 - PMOS2_SS Low - Disabled CMOS None "AGT3: AGTEE; CTSU0: TS09; ETHERC_MII0: ETXD1; ETHERC_RMII0: TXD0; GPT_OPS0: GTOUUP; SCI0: CTSRTS; SDHI0: CLK; SPI1: SSL0" - IO - - 
+      P414 37 - GROVE1_SDA_QWIIC_SDA Low None Disabled CMOS None "AGT5: AGTIO; CTSU0: TS10; ETHERC_MII0: RX_ER; ETHERC_RMII0: TXD1; GPT0: GTIOCB; ICU0: IRQ09; IIC2: SDA; SCI0: CTS; SDHI0: WP; SPI1: SSL1" - IO - - 
+      P415 36 - GROVE1_SCL_QWIIC_SCL Low None Disabled CMOS None "AGT4: AGTIO; CTSU0: TS11; ETHERC_MII0: TX_EN; ETHERC_RMII0: TXD_EN; GPT0: GTIOCA; ICU0: IRQ08; IIC2: SCL; SDHI0: CD; SPI1: SSL2; USB_FS0: VBUSEN" - IO - - 
+      P500 140 - USBFS_VBUS_EN Low - Disabled CMOS None "ADC1: AN16; AGT0: AGTOA; CAC0: CACREF; GPT_OPS0: GTIU; QSPI0: QSPCLK; SCI5: CTS; USB_FS0: VBUSEN" - IO - - 
+      P501 141 - USBFS_OVERCURA Low None Disabled CMOS None "ADC1: AN17; AGT0: AGTOB; GPT_OPS0: GTIV; ICU0: IRQ11; QSPI0: QSSL; SCI5: SDA; SCI5: TXD; USB_FS0: OVRCURA" - IO - - 
+      P502 142 - - - - Disabled - - "ADC1: AN18; AGT2: AGTOA; GPT_OPS0: GTIW; ICU0: IRQ12; QSPI0: QIO0; SCI5: RXD; SCI5: SCL; SCI6: CTS; USB_FS0: OVRCURB" - None - - 
+      P503 143 - - - - Disabled - - "ADC1: AN19; AGT2: AGTOB; GPT_POEG2: GTETRG; QSPI0: QIO1; SCI5: SCK; SCI6: CTSRTS; USB_FS0: EXICEN" - None - - 
+      P504 144 - - - - Disabled - - "ADC1: AN20; AGT3: AGTOA; BUS_ASYNCH0: ALE; GPT_POEG3: GTETRG; QSPI0: QIO2; SCI5: CTSRTS; SCI6: SCK; USB_FS0: ID" - None - - 
+      P505 145 - GROVE2_SCL Low None Disabled CMOS None "ADC1: AN21; AGT3: AGTOB; ICU0: IRQ14; QSPI0: QIO3; SCI6: RXD; SCI6: SCL" - IO - - 
+      P506 146 - GROVE2_SDA Low None Disabled CMOS None "ADC1: AN22; ICU0: IRQ15; SCI6: SDA; SCI6: TXD" - IO - - 
+      P507 147 - - - - Disabled - - "ADC1: AN23; SCI5: SCK; SCI6: SCK" - None - - 
+      P508 148 - - - - Disabled - - "ADC1: AN24; SCI5: CTSRTS" - None - - 
+      P511 176 - MIKROBUS_SDA_ARDUINO_SDA Low None Disabled CMOS None "CAN1: CRX; GPT0: GTIOCB; ICU0: IRQ15; IIC1: SDA; SCI4: RXD; SCI4: SCL" - IO - - 
+      P512 175 - MIKROBUS_SCL_ARDUINO_SCL Low None Disabled CMOS None "CAN1: CTX; GPT0: GTIOCA; ICU0: IRQ14; IIC1: SCL; SCI4: SDA; SCI4: TXD" - IO - - 
+      P513 174 - - - - Disabled - - "SCI5: RXD; SCI5: SCL" - None - - 
+      P600 122 - OSPI_SIO4 Low - Disabled CMOS None "AGT3: AGTIO; BUS_ASYNCH0: RD; CAC0: CACREF; CGC0: CLKOUT; GPT6: GTIOCB; OSPI0: OMSIO4; SCI9: SCK" - IO - - 
+      P601 121 - OSPI_SIO2 Low - Disabled CMOS None "AGT3: AGTEE; BUS_ASYNCH0: WR; GPT6: GTIOCA; OSPI0: OMSIO2; SCI9: RXD; SCI9: SCL" - IO - - 
+      P602 120 - OSPI_CS1 Low - Disabled CMOS None "AGT3: AGTO; BUS_ASYNCH0: EBCLK; GPT7: GTIOCB; OSPI0: OMCS1; SCI9: SDA; SCI9: TXD" - IO - - 
+      P603 119 - - - - Disabled - - "AGT4: AGTIO; BUS_ASYNCH0: D13; GPT7: GTIOCA; SCI9: CTSRTS" - None - - 
+      P604 118 - - - - Disabled - - "AGT4: AGTEE; BUS_ASYNCH0: D12; GPT8: GTIOCB; SCI9: CTS" - None - - 
+      P605 117 - - - - Disabled - - "AGT4: AGTO; BUS_ASYNCH0: D11; GPT8: GTIOCA; SCI8: CTS" - None - - 
+      P606 116 - - - - Disabled - - "RTC0: RTCOUT; SCI8: CTSRTS" - None - - 
+      P607 115 - - - - Disabled - - "SCI8: RXD; SCI8: SCL" - None - - 
+      P608 99 - ARDUINO_D7 Low - Disabled CMOS - "BUS_ASYNCH0: A00; GPT4: GTIOCB" - IO - - 
+      P609 100 - CAN_TXD Low - Disabled CMOS None "AGT5: AGTO; BUS_ASYNCH0: CS1; CAN1: CTX; GPT5: GTIOCA" - IO - - 
+      P610 101 - CAN_RDX Low - Disabled CMOS None "AGT4: AGTO; BUS_ASYNCH0: CS0; CAN1: CRX; GPT5: GTIOCB; OSPI0: OMCS0; SCI7: CTS" - IO - - 
+      P611 102 - CAN_STBY Low - Disabled CMOS - "AGT3: AGTO; CAC0: CACREF; CGC0: CLKOUT; SCI7: CTSRTS" - IO - - 
+      P612 103 - - - - Disabled - - "AGT2: AGTO; BUS_ASYNCH0: D08; SCI7: SCK" - None - - 
+      P613 104 - MIKROBUS_TX_ARDUINO_TX Low - Disabled CMOS None "AGT1: AGTO; BUS_ASYNCH0: D09; SCI7: SDA; SCI7: TXD" - IO - - 
+      P614 105 - MIKROBUS_RX_ARDUINO_RX Low - Disabled CMOS None "AGT0: AGTO; BUS_ASYNCH0: D10; SCI7: RXD; SCI7: SCL" - IO - - 
+      P615 106 - OSPI_RST Low None Disabled CMOS - "ICU0: IRQ07; USB_FS0: VBUSEN" - IO - - 
+      P700 8 - ETH_TXD0 Low - Disabled CMOS None "AGT4: AGTO; ETHERC_MII0: ETXD1; ETHERC_RMII0: TXD0; GPT5: GTIOCA; SPI0: MISO" - IO - - 
+      P701 9 - ETH_50REF Low - Disabled CMOS None "AGT3: AGTO; ETHERC_MII0: ETXD0; ETHERC_RMII0: REF50CK; GPT5: GTIOCB; SPI0: MOSI" - IO - - 
+      P702 10 - ETH_RXD0 Low - Disabled CMOS None "AGT2: AGTO; ETHERC_MII0: ERXD1; ETHERC_RMII0: RXD0; GPT6: GTIOCA; SPI0: RSPCK" - IO - - 
+      P703 11 - ETH_RXD1 Low - Disabled CMOS None "AGT1: AGTO; ETHERC_MII0: ERXD0; ETHERC_RMII0: RXD1; GPT6: GTIOCB; SPI0: SSL0" - IO - - 
+      P704 12 - ETH_RXERR Low - Disabled CMOS None "AGT0: AGTO; CAN0: CTX; ETHERC_MII0: RX_CLK; ETHERC_RMII0: RX_ER; SPI0: SSL1" - IO - - 
+      P705 13 - ETH_CRSDV Low - Disabled CMOS None "AGT0: AGTIO; CAN0: CRX; ETHERC_MII0: CRS; ETHERC_RMII0: CRS_DV; SCI3: CTS; SPI0: SSL2" - IO - - 
+      P706 14 - ETH_INT - None Disabled - None "ICU0: IRQ07; SCI3: RXD; SCI3: SCL; USB_HS0: OVRCURB" - IO - - 
+      P707 15 - USBHS_OVERCURA Low None Disabled CMOS None "ICU0: IRQ08; SCI3: SDA; SCI3: TXD; USB_HS0: OVRCURA" - IO - - 
+      P708 35 - PMOD2_SS3 Low None Disabled CMOS None "CAC0: CACREF; CEC0: CECIO; CTSU0: TS12; ETHERC_MII0: ETXD3; ICU0: IRQ11; SCI1: RXD; SCI1: SCL; SPI1: SSL3; SSI_COMMON0: AUDIO_CLK" - IO - - 
+      P800 133 - - - - Disabled - - "ADC1: AN25; AGT4: AGTOA; BUS_ASYNCH0: D14; SCI0: CTS" - None - - 
+      P801 134 - - - - Disabled - - "ADC1: AN26; AGT4: AGTOB; BUS_ASYNCH0: D15; SCI8: CTS" - None - - 
+      P802 135 - - - - Disabled - - "ADC1: AN27; ICU0: IRQ03" - None - - 
+      P803 136 - - - - Disabled - - "ADC1: AN28; ICU0: IRQ02" - None - - 
+      P804 137 - - - - Disabled - - "ICU0: IRQ01" - None - - 
+      P805 173 - - - - Disabled - - "SCI5: SDA; SCI5: TXD" - None - - 
+      P806 172 - - - - Disabled - - "ICU0: IRQ00" - None - - 
+      P900 58 - - - - Disabled - - "BUS_ASYNCH0: A23; SCI4: SDA; SCI4: TXD" - None - - 
+      P901 59 - - - - Disabled - - "AGT1: AGTIO; SCI4: SCK" - None - - 
+      P905 73 - PMOD1_INT - None Disabled - None "ICU0: IRQ08; USB_FS0: ID" - IO - - 
+      P906 72 - - - - Disabled - - "ICU0: IRQ09; USB_FS0: EXICEN" - None - - 
+      P907 71 - - - - Disabled - - "ICU0: IRQ10; USB_HS0: ID" - None - - 
+      P908 70 - - - - Disabled - - "ICU0: IRQ11; USB_HS0: EXICEN" - None - - 
+      PA00 114 - - - - Disabled - - "SCI8: SDA; SCI8: TXD" - None - - 
+      PA01 113 - - - - Disabled - - "SCI8: SCK" - None - - 
+      PA08 107 - - - - Disabled - - "ICU0: IRQ06; USB_FS0: OVRCURA" - None - - 
+      PA09 108 - - - - Disabled - - "ICU0: IRQ05; USB_FS0: OVRCURB" - None - - 
+      PA10 109 - - - - Disabled - - "ICU0: IRQ04" - None - - 
+      PB00 16 - USBHS_VBUS_EN Low - Disabled CMOS None "SCI3: SCK; USB_HS0: VBUSEN" - IO - - 
+      PB01 17 - USBHS_VBUS Low - Disabled CMOS None "SCI3: CTSRTS; USB_HS0: VBUS" - IO - - 
+      PVSSUSBHS 29 USB_HS0_PVSS - - - - - - - - IO "Read only" - 
+      RES 67 SYSTEM0_RES - - - - - - - - IO "Read only" - 
+      USBDM 46 USB_FS0_DM - - - - - - - - IO "Read only" - 
+      USBDP 47 USB_FS0_DP - - - - - - - - IO "Read only" - 
+      USBHSDM 31 USB_HS0_DM - - - - - - - - IO "Read only" - 
+      USBHSDP 32 USB_HS0_DP - - - - - - - - IO "Read only" - 
+      USBHSRREF 27 USB_HS0_RREF - - - - - - - - IO "Read only" - 
+      VBATT 18 SYSTEM0_VBATT - - - - - - - - IO "Read only" - 
+      VCC 25 SYSTEM0_VCC - - - - - - - - IO "Read only" - 
+      VCC 61 SYSTEM0_VCC - - - - - - - - IO "Read only" - 
+      VCC 84 SYSTEM0_VCC - - - - - - - - IO "Read only" - 
+      VCC 97 SYSTEM0_VCC - - - - - - - - IO "Read only" - 
+      VCC 110 SYSTEM0_VCC - - - - - - - - IO "Read only" - 
+      VCC 123 SYSTEM0_VCC - - - - - - - - IO "Read only" - 
+      VCC 138 SYSTEM0_VCC - - - - - - - - IO "Read only" - 
+      VCC 149 SYSTEM0_VCC - - - - - - - - IO "Read only" - 
+      VCC 171 SYSTEM0_VCC - - - - - - - - IO "Read only" - 
+      VCCUSB 48 USB_FS0_VCC - - - - - - - - IO "Read only" - 
+      VCCUSBHS 34 USB_HS0_VCC - - - - - - - - IO "Read only" - 
+      VCL 112 SYSTEM0_VCL - - - - - - - - IO "Read only" - 
+      VCL0 19 SYSTEM0_VCL0 - - - - - - - - IO "Read only" - 
+      VREFH 154 ANALOG0_VREFH - - - - - - - - IO "Read only" - 
+      VREFH0 158 ANALOG0_VREFH0 - - - - - - - - IO "Read only" - 
+      VREFL 153 ANALOG0_VREFL - - - - - - - - IO "Read only" - 
+      VREFL0 157 ANALOG0_VREFL0 - - - - - - - - IO "Read only" - 
+      VSS 22 SYSTEM0_VSS - - - - - - - - IO "Read only" - 
+      VSS 60 SYSTEM0_VSS - - - - - - - - IO "Read only" - 
+      VSS 83 SYSTEM0_VSS - - - - - - - - IO "Read only" - 
+      VSS 98 SYSTEM0_VSS - - - - - - - - IO "Read only" - 
+      VSS 111 SYSTEM0_VSS - - - - - - - - IO "Read only" - 
+      VSS 124 SYSTEM0_VSS - - - - - - - - IO "Read only" - 
+      VSS 139 SYSTEM0_VSS - - - - - - - - IO "Read only" - 
+      VSS 150 SYSTEM0_VSS - - - - - - - - IO "Read only" - 
+      VSS 170 SYSTEM0_VSS - - - - - - - - IO "Read only" - 
+      VSS1USBHS 33 USB_HS0_VSS1 - - - - - - - - IO "Read only" - 
+      VSS2USBHS 30 USB_HS0_VSS2 - - - - - - - - IO "Read only" - 
+      VSSUSB 45 USB_FS0_VSS - - - - - - - - IO "Read only" - 
+      XCIN 20 CGC0_XCIN - - - - - - - - IO "Read only" - 
+      XCOUT 21 CGC0_XCOUT - - - - - - - - IO "Read only" - 
+    
+  User Events
+    
+  User Event Links
+    
+  Module "I/O Port Driver on r_ioport"
+    Parameter Checking: Default (BSP)
+    
+  Module "NetX Duo DHCP IPv4 Client"
+    Common: Error Checking: Enabled (default)
+    Common: IP Static Routing: Disabled (default)
+    Common: Physical Header: 
+    Common: Physical Trailer: 
+    Common: ARP Defend By Reply: Disabled (default)
+    Common: ARP Mac Change Notification: Disabled (default)
+    Common: ARP Expiration Rate: 
+    Common: ARP Update Rate: 
+    Common: TCP ACK Timer Rate: 
+    Common: TCP Fast Timer Rate: 
+    Common: TCP Transmit Timer Rate: 
+    Common: TCP Keepalive Initial: 
+    Common: TCP Keepalive Retry Interval: 
+    Common: ARP Maximum Retries: 
+    Common: ARP Maximum Queue Depth: 
+    Common: ARP Auto ARP Entry: Enabled (default)
+    Common: Maximum Multicast Groups: 
+    Common: Maximum Listen Requests: 
+    Common: TCP Keepalive: Disabled (default)
+    Common: TCP Window Scaling: Disabled (default)
+    Common: TCP Immediate ACK: Disabled (default)
+    Common: TCP ACK Every N Packets: 
+    Common: TCP Maximum Retries: 
+    Common: TCP Maximum TX Queue: 
+    Common: TCP Retry Shift: 
+    Common: TCP Keepalive Retries: 
+    Common: Driver Deferred Processing: Disabled (default)
+    Common: Loopback Interface: Enabled (default)
+    Common: Maximum Physical Interfaces: 
+    Common: Fragmentation support: Enabled (default)
+    Common: IP RX Checksum: Enabled (default)
+    Common: IP TX Checksum: Enabled (default)
+    Common: TCP RX Checksum: Enabled (default)
+    Common: TCP TX Checksum: Enabled (default)
+    Common: UDP RX Checksum: Enabled (default)
+    Common: UDP TX Checksum: Enabled (default)
+    Common: Reset Disconnect: Enabled (default)
+    Common: RX Size Checking: Enabled (default)
+    Common: ARP Info: Enabled (default)
+    Common: IP Info: Enabled (default)
+    Common: ICMP Info: Enabled (default)
+    Common: IGMPv2: Enabled (default)
+    Common: IGMP Info: Enabled (default)
+    Common: Packet Info: Enabled (default)
+    Common: RARP Info: Enabled (default)
+    Common: TCP Info: Enabled (default)
+    Common: UDP Info: Enabled (default)
+    Common: Extended Notify Support: Disabled (default)
+    Common: NAT: Disabled (default)
+    Common: Packet Header Pad Size: 
+    Common: TCP MSS Minimum: 
+    Common: Source Address Check: Disabled (default)
+    Common: ARP Defend Interval: 
+    Common: TCP Maximum Out Of Order Packets: 
+    Common: NetX Duo IPV6 Support: Enabled (default)
+    Common: Notify when the IPv6 address is changed: Disabled (default)
+    Common: Allow discover maximum MTU in the path: Disabled (default)
+    Common: Wait before resetting target's path MTU in destination table (seconds): 
+    Common: IPv6 routing table entry limit: 
+    Common: IPv6 destination table entry limit: 
+    Common: Maximum time allowed to reassemble IP fragment: 
+    Common: Maximum time allowed to reassemble IPv4 fragment: 
+    Common: Maximum time allowed to reassemble IPv6 fragment: 
+    Common: IPv6 multicast join/leave function support: Disabled (default)
+    Common: Size of the prefix table for router advertisements: 
+    Common: Stateless address auto-configuration support: Disabled (default)
+    Common: IPv6 address pool entry limit: 
+    Common: Delay before the first stale cache entry solicitation (seconds): 
+    Common: Duplicate Address Detection support: Enabled (default)
+    Common: Neighbor Solicitation message count before interface address marked valid: 
+    Common: Retain older cache table entries till timeout option: Disabled (default)
+    Common: IPv6 Neighbor Cache table entry limit.: 
+    Common: Neighbor Solicitation message count for IPv6 Neighbor Discovery protocol: 
+    Common: Neighbor Solicitation message count to determine neighbor’s reachability: 
+    Common: Maximum entries in ND cache queue: 
+    Common: Duration for address to be 'reachable' with no packets received from it (seconds): 
+    Common: Delay between solicitation packets (milliseconds): 
+    Common: ICMPv6 error message in response to invalid packet support: Enabled (default)
+    Common: ICMPv6 redirect packet processing support: Enabled (default)
+    Common: IPv6 router advertisement packet processing support: Enabled (default)
+    Common: Periodic IPv6 router solicitation messages support: Enabled (default)
+    Common: Maximum host router solicitations till no response is received: 
+    Common: Interval between two router solicitation messages: 
+    Common: Checksum computation support on received ICMPv4 packets: Enabled (default)
+    Common: Checksum computation support on received ICMPv6 packets: Enabled (default)
+    Common: Checksum computation support on received ICMP packets: Enabled (default)
+    Common: Checksum computation support on transmitted ICMPv4 packets: Enabled (default)
+    Common: Checksum computation support on transmitted ICMPv6 packets: Enabled (default)
+    Common: Checksum computation support on transmitted ICMP packets: Enabled (default)
+    Common: Packet Alignment: 
+    DHCP: Common: IPv4: Type of Service for UDP requests: Normal
+    DHCP: Common: IPv4: Fragmentation option: Don't fragment
+    DHCP: Common: IPv4: Time to live: 128
+    DHCP: Common: IPv4: Packet Queue depth: 5
+    DHCP: Client: IPv4: Internal thread priority: 3
+    DHCP: Client: IPv4: Internal thread stack size (bytes): 4096
+    DHCP: Client: IPv4: Timeout between DHCP messages processed (seconds): 1
+    DHCP: Client: IPv4: Use BOOTP: Disable
+    DHCP: Client: IPv4: Send ARP probe: Disable
+    DHCP: Client: IPv4: ARP probe wait time (seconds): 1
+    DHCP: Client: IPv4: Minimum ARP probe wait time (seconds): 1
+    DHCP: Client: IPv4: Maximum ARP probe wait time (seconds): 2
+    DHCP: Client: IPv4: ARP probe count: 2
+    DHCP: Client: IPv4: Maximum retransmission timeout (seconds): 64
+    DHCP: Client: IPv4: Minimum renew timeout (seconds): 60
+    DHCP: Client: IPv4: Minimum retransmission timeout (seconds): 4
+    DHCP: Client: IPv4: Persistent client state: Enable
+    DHCP: Client: IPv4: Maximum message size support: Disable
+    DHCP: Client: IPv4: DHCP options buffer size (bytes): 312
+    DHCP: Client: IPv4: Maximum number of network interfaces for DHCP client: 1
+    DHCP: Client: IPv4: Wait before restarting the configuration process (seconds): 10
+    HTTP: Common: Type of Service: Normal
+    HTTP: Common: Fragmentation option: Don't fragment
+    HTTP: Common: Time to live: 128
+    HTTP: Common: MD5 Support: Disable
+    HTTP: Common: Maximum resource name length (bytes): 40
+    HTTP: Common: Maximum password length (bytes): 20
+    HTTP: Common: Maximum username length (bytes): 20
+    HTTP: Client: Minimum packet size (bytes): 300
+    HTTP: Client: Operation timeout (seconds): 10
+    DNS: Client: DNS Control Type of Service: Normal
+    DNS: Client: Socket fragmentation option: Dont fragment
+    DNS: Client: Time to live: 128
+    DNS: Client: Client DNS IP version: IPv4
+    DNS: Client: Maximum number of DNS Servers in the Client server list: 5
+    DNS: Client: Maximum DNS queries size (bytes): 512
+    DNS: Client: Maximum retries for a server: 3
+    DNS: Client: Maximum duration to retransmit a DNS query (seconds): 64
+    DNS: Client: Packet allocate timeout (seconds): 1
+    DNS: Client: Client has DNS and Gateway server: Disable
+    DNS: Client: Clear previous DNS queries from queue: Disable
+    DNS: Client: Extended RR types support: Disable
+    DNS: Client: Cache support: Disable
+    Telnet: Common: Type of service for TCP requests: Normal
+    Telnet: Common: Fragmentation option: Don't fragment
+    Telnet: Common: Server TCP port number: 23
+    Telnet: Common: Time to live: 128
+    AutoIP: Wait before sending first probe (seconds): 1
+    AutoIP: ARP probes to send: 3
+    AutoIP: Minimum wait between probes (seconds): 1
+    AutoIP: Maximum wait between probes (seconds): 2
+    AutoIP: Maximum conflicts before increasing processing delay: 10
+    AutoIP: Wait extend after maximum conflicts (seconds): 60
+    AutoIP: Wait before announcement (seconds): 2
+    AutoIP: Number of ARP announces: 2
+    AutoIP: Wait between announces (seconds): 2
+    AutoIP: Wait between defense announces (seconds): 10
+    Web HTTP: Common: Type of Service: Normal
+    Web HTTP: Common: Fragmentation option: Don't fragment
+    Web HTTP: Common: MD5 Support: Disable
+    Web HTTP: Common: Time to live: 128
+    Web HTTP: Common: Maximum password length (bytes): 20
+    Web HTTP: Common: Maximum username length (bytes): 20
+    Web HTTP: Client: Minimum packet size (bytes): 300
+    Web HTTP: Client: HTTPS Support: Disable
+    SMTP: Client: TCP window size (bytes): 1460
+    SMTP: Client: Packet allocation timeout (seconds): 2
+    SMTP: Client: TCP socket connect timeout (seconds): 10
+    SMTP: Client: TCP socket disconnect timeout (seconds): 5
+    SMTP: Client: Server greeting reply timeout (seconds): 10
+    SMTP: Client: Command timeout (seconds): 10
+    SMTP: Client: Mail data request timeout (seconds): 30
+    SMTP: Client: TCP socket send completion timeout (seconds): 5
+    SMTP: Client: Server challenge maximum string length (bytes): 200
+    SMTP: Client: Maximum password length (bytes): 20
+    SMTP: Client: Maximum username length (bytes): 40
+    DHCP: Client: IPv6: Internal thread priority: 3
+    DHCP: Client: IPv6: Time out for obtaining DHCPv6 client mutex (ticks): TX_WAIT_FOREVER
+    DHCP: Client: IPv6: Time interval between current IP address lease time update (seconds): 1
+    DHCP: Client: IPv6: Maximum IA addresses allowed in client record: 1
+    DHCP: Client: IPv6: Number of DNS servers the client will store: 2
+    DHCP: Client: IPv6: Number of time servers the client will store: 1
+    DHCP: Client: IPv6: Domain name buffer size (bytes): 32
+    DHCP: Client: IPv6: Current time zone information buffer size (bytes): 16
+    DHCP: Client: IPv6: Maximum DHCPv6 server messages buffer size (bytes): 100
+    DHCP: Common: IPv6: Type of Service for UDP requests: Normal
+    DHCP: Common: IPv6: Time to live: 128
+    DHCP: Common: IPv6: Packet Queue depth: 5
+    DHCP: Common: IPv6: Packet allocation timeout (seconds): 3
+    DHCP: Common: IPv6: Interval for active session time update (seconds): 3
+    DHCP: Server: IPv4: Internal thread priority: 1
+    DHCP: Server: IPv4: Packet allocate timeout (seconds): 2
+    DHCP: Server: IPv4: Fast periodic timer interval to check session inactivity timeout (seconds): 10
+    DHCP: Server: IPv4: DHCP Client Session timeout - multiple of Fast periodic interval (seconds): 10
+    DHCP: Server: IPv4: Client IP address default lease time (seconds): 0xFFFFFFFF
+    DHCP: Server: IPv4: Slow periodic timer interval to check IP lease expiration (seconds): 1000
+    DHCP: Server: IPv4: Size of the array to contain options in client request (units): 12
+    DHCP: Server: IPv4: Server option list (optional - use space for separation) : 1 3 6
+    DHCP: Server: IPv4: Server option list size (optional): 3
+    DHCP: Server: IPv4: Size of the server host name buffer (bytes): 32
+    DHCP: Server: IPv4: Size of the current client hostname buffer (bytes): 32
+    DHCP: Server: IPv4: Maximum size of an IP addresses list (units): 20
+    DHCP: Server: IPv4: Size of client record table (units): 50
+    DHCP: Server: IPv4: Size of the BOOT buffer (bytes): 548
+    DHCP: Server: IPv6: Internal thread priority: 1
+    DHCP: Server: IPv6: Client lease time expiration check interval (seconds): 60
+    DHCP: Server: IPv6: DHCPv6 packet receive timeout (seconds): 1
+    DHCP: Server: IPv6: Server preference ranking for clients: 0
+    DHCP: Server: IPv6: Maximum options to extract from a client message: 6
+    DHCP: Server: IPv6: Server interval for first client IP address renewal attempt (seconds): 2000
+    DHCP: Server: IPv6: Server interval for second client IP address renewal attempt (seconds): 3000
+    DHCP: Server: IPv6: Time interval after which client IP is deprecated (seconds): 2 * NX_DHCPV6_DEFAULT_T1_TIME
+    DHCP: Server: IPv6: Time interval after which leased IP is invalid (seconds): 2 * NX_DHCPV6_DEFAULT_PREFERRED_TIME
+    DHCP: Server: IPv6: Maximum server status option message size (bytes): 100
+    DHCP: Server: IPv6: Maximum Size of the Server’s IP lease table (count): 100
+    DHCP: Server: IPv6: Size of the Server’s Client record table (count): 120
+    DHCP: Server: IPv6: Server socket fragmentation option: Dont fragment
+    DHCP: Server: IPv6: Vendor assigned unique ID: abcdeffghijklmnopqrstuvwxyz
+    DHCP: Server: IPv6: Private vendor ID: 0x12345678
+    DHCP: Server: IPv6: Size of Vendor ID buffer (bytes): 48
+    DHCP: Server: IPv6: Client request success message : granted: IA OPTION GRANTED
+    DHCP: Server: IPv6: Client request failure message : Failure unspecified: IA OPTION NOT GRANTED-FAILURE UNSPECIFIED
+    DHCP: Server: IPv6: Client request failure message : No addresses available: IA OPTION NOT GRANTED-NO ADDRESSES AVAILABLE
+    DHCP: Server: IPv6: Client request failure message : Invalid client request: IA OPTION NOT GRANTED-INVALID CLIENT REQUEST
+    DHCP: Server: IPv6: Client request failure message : Client not on link: IA OPTION NOT GRANTED-CLIENT NOT ON LINK
+    DHCP: Server: IPv6: Client request failure message : Client must use multicast: IA OPTION NOT GRANTED-CLIENT MUST USE MULTICAST
+    DHCP: Server: IPv6: Session inactivity timeout(seconds): 20
+    Telnet: Server: Internal thread priority: 16
+    Telnet: Server: Maximum clients to serve simultaneously: 4
+    Telnet: Server: Socket window size (bytes): 2048
+    Telnet: Server: Server time out (seconds): 10
+    Telnet: Server: Client inactivity timeout (seconds): 600
+    Telnet: Server: Timeout check period (seconds): 60
+    Telnet: Server: Option negotiation: Enable
+    Telnet: Server: Use application packet pool: Disable
+    Telnet: Server: Packet size in the pool (bytes): 300
+    Telnet: Server: Total packet pool size (bytes): 2048
+    SNTP: Client: Internal thread stack size (bytes): 2048
+    SNTP: Client: SNTP client thread time slicing interval (ticks): TX_NO_TIME_SLICE
+    SNTP: Client: Internal thread priority: 2
+    SNTP: Client: UDP socket name: SNTP Client socket
+    SNTP: Client: UDP port number: 123
+    SNTP: Client: Server UDP port: 123
+    SNTP: Client: Time to live: 128
+    SNTP: Client: Maximum UDP packets queue depth (units): 5
+    SNTP: Client: Packet allocation timeout (seconds): 1
+    SNTP: Client: SNTP version to use: 3
+    SNTP: Client: NTP minimum version: 3
+    SNTP: Client: Lowest level server stratum client accepts: 2
+    SNTP: Client: Minimum time difference that triggers adjustment (milliseconds): 10
+    SNTP: Client: Maximum time adjustment allowed to local clock time (milliseconds): 10800000
+    SNTP: Client: Ignore maximum time adjust limit at startup: True
+    SNTP: Client: Maximum time lapse without valid update (seconds): 7200
+    SNTP: Client: 'Update time remaining' timer update interval (seconds): 1
+    SNTP: Client: Starting poll interval for unicast update request (seconds): 3600
+    SNTP: Client: Poll interval increment after failed time update: 2
+    SNTP: Client: Calculate round trip time of messages: False
+    SNTP: Client: Maximum server clock inaccuracy to accept (to disable set 0): 50000
+    SNTP: Client: Invalid message limit to mark server invalid: 3
+    SNTP: Client: Randomize update request interval on startup: False
+    SNTP: Client: Internal Task sleep interval (ticks): 1
+    SNTP: Client: Current calendar year: 2016
+    TFTP: Common: Maximum error string length (bytes): 64
+    TFTP: Common: Time to live: 128
+    TFTP: Common: Type of Service for UDP requests: Normal
+    TFTP: Common: Fragmentation option: Don't fragment
+    TFTP: Client: Source port to use: NX_ANY_PORT
+    MQTT: Client: Parameter Checking: Default (BSP)
+    MQTT: Client: NX Secure: Disable
+    MQTT: Client: Keepalive Timer Rate (s): 1
+    MQTT: Client: Ping Timeout Delay (s): 1
+    MQTT: Client: Socket Timeout (in timer ticks) : 0xFFFFFFFF
+    NAT: Minimum count for translation entry: 3
+    NAT: Timeout for translation entry (seconds): 240
+    NAT: Minimum assigned port number for outbound TCP packets: 20000
+    NAT: Maximum assigned port number for outbound TCP packets: 30000
+    NAT: Minimum assigned port number for outbound UDP packets: 20000
+    NAT: Maximum assigned port number for outbound UDP packets: 30000
+    NAT: Minimum ICMP query identifier: 20000
+    NAT: Maximum ICMP query identifier: 30000
+    FTP: Common: Control Type of Service: Normal
+    FTP: Common: Data Type of Service: Normal
+    FTP: Common: Fragmentation option: Don't fragment
+    FTP: Common: Time to live: 128
+    FTP: Common: Duration between client inactivity check (seconds): 60
+    FTP: Client: TCP socket to use: NX_ANY_PORT
+    SNMP: Agent: Internal thread stack size (bytes): 4096
+    SNMP: Agent: SNMP agent priority: 16
+    SNMP: Agent: Type of service for SNMP responses: Normal
+    SNMP: Agent: Fragment enable for SNMP PDU requests: Dont Fragment
+    SNMP: Agent: SNMP socket time to live: 128
+    SNMP: Agent: Agent timeout: 100
+    SNMP: Agent: Max octet string size: 255
+    SNMP: Agent: Max context string size: 32
+    SNMP: Agent: Max User name Size: 64
+    SNMP: Agent: Max security Key Size: 64
+    SNMP: Agent: Maximum SNMP packet size: 560
+    SNMP: Agent: UDP port number: 161
+    SNMP: Agent: Trap destination port: 162
+    SNMP: Agent: Max trap Key Size: 64
+    SNMP: Agent: SNMP Version 1: Enable
+    SNMP: Agent: SNMP Version 2: Enable
+    SNMP: Agent: SNMP Version 3: Enable
+    POP3: Client: Maximum buffer size to store messages (bytes): 2000
+    POP3: Client: Packet time out (seconds): 1
+    POP3: Client: Connection time out (seconds): 30
+    POP3: Client: Disconnect time out (seconds): 2
+    POP3: Client: TCP socket send wait (seconds): 2
+    POP3: Client: Server reply timeout (seconds): 10
+    POP3: Client: TCP window size (bytes): 1460
+    POP3: Client: Maximum user name length (bytes): 40
+    POP3: Client: Maximum password length (bytes): 20
+    FTP: Server: Internal thread priority: 16
+    FTP: Server: Internal thread time slicing interval  (ticks): 2
+    FTP: Server: Maximum clients to serve simultaneously: 4
+    FTP: Server: Control window size (bytes): 400
+    FTP: Server: Data window size (bytes): 2048
+    FTP: Server: Duration internal services will suspend for (seconds): 1
+    FTP: Server: Maximum username length (bytes): 20
+    FTP: Server: Maximum password length (bytes): 20
+    FTP: Server: Duration allowed with no activity (seconds): 240
+    FTP: Server: Socket retransmit timeout (seconds): 2
+    FTP: Server: Maximum queued transmit packets: 20
+    FTP: Server: Number of socket retransmissions: 10
+    FTP: Server: Binary left shift as multiplier for next retry duration: 1
+    HTTP: Server: FileX Support: Enable
+    HTTP: Server: Multipart HTTP requests support: Disable
+    HTTP: Server: Internal thread priority: 16
+    HTTP: Server: Internal thread time slicing interval (ticks): 2
+    HTTP: Server: Server socket window size (bytes): 2048
+    HTTP: Server: Server time out (seconds): 10
+    HTTP: Server: Server time out for accept (seconds): 10
+    HTTP: Server: Server time out for disconnect (seconds): 10
+    HTTP: Server: Server time out for receive (seconds): 10
+    HTTP: Server: Server time out for send (seconds): 10
+    HTTP: Server: Maximum size of header field (bytes): 256
+    HTTP: Server: Maximum connections in queue: 5
+    HTTP: Server: Maximum client user name length (bytes): 20
+    HTTP: Server: Maximum client user password length (bytes): 20
+    HTTP: Server: Minimum size of packets in pool (bytes): 600
+    HTTP: Server: Maximum number of queued transmit packets (units): 20
+    HTTP: Server: Wait before retry (seconds): 2
+    HTTP: Server: Maximum number of retries per packet: 10
+    HTTP: Server: Binary left shift as multiplier for next retry duration: 1
+    TFTP: Server: FileX support: Enable
+    TFTP: Server: Retransmission on client request support: Disable
+    TFTP: Server: Internal thread priority: 16
+    TFTP: Server: Maximum clients to serve simultaneously: 10
+    TFTP: Server: Time slice for internal thread: 2
+    TFTP: Server: Client request activity timeout check interval (ticks): 20
+    TFTP: Server: Ack or data retransmission interval (ticks): 200
+    TFTP: Server: Maximum retries for transmission without response: 5
+    TFTP: Server: Maximum retries for transmission with duplicate response: 2
+    Web HTTP: Server: Parameter Checking: Default (BSP)
+    Web HTTP: Server: HTTPS Support: Disable
+    Web HTTP: Server: FileX Support: Enable
+    Web HTTP: Server: Multipart HTTP requests support: Disable
+    Web HTTP: Server: Server thread priority: 16
+    Web HTTP: Server: Server thread time slicing interval (ticks): 2
+    Web HTTP: Server: Server socket window size (bytes): 2048
+    Web HTTP: Server: Server time out (seconds): 10
+    Web HTTP: Server: Server time out for accept (seconds): 10
+    Web HTTP: Server: Server time out for disconnect (seconds): 10
+    Web HTTP: Server: Server time out for receive (seconds): 10
+    Web HTTP: Server: Server time out for send (seconds): 10
+    Web HTTP: Server: Maximum size of header field (bytes): 256
+    Web HTTP: Server: Maximum connections in queue: 4
+    Web HTTP: Server: Maximum length of resource name: 40
+    Web HTTP: Server: Number of simultaneous sessions for server: 2
+    Web HTTP: Server: Minimum size of packets in pool (bytes): 600
+    Web HTTP: Server: Maximum number of queued transmit packets (units): 20
+    Web HTTP: Server: Server Socket Re-transmission Timeout (seconds): 2
+    Web HTTP: Server: Maximum number of retries per packet: 10
+    Web HTTP: Server: Server Next Re-transmission timeout shift: 1
+    
+  Module "NetX Duo IP Instance"
+    Common: Error Checking: Enabled (default)
+    Common: IP Static Routing: Disabled (default)
+    Common: Physical Header: 
+    Common: Physical Trailer: 
+    Common: ARP Defend By Reply: Disabled (default)
+    Common: ARP Mac Change Notification: Disabled (default)
+    Common: ARP Expiration Rate: 
+    Common: ARP Update Rate: 
+    Common: TCP ACK Timer Rate: 
+    Common: TCP Fast Timer Rate: 
+    Common: TCP Transmit Timer Rate: 
+    Common: TCP Keepalive Initial: 
+    Common: TCP Keepalive Retry Interval: 
+    Common: ARP Maximum Retries: 
+    Common: ARP Maximum Queue Depth: 
+    Common: ARP Auto ARP Entry: Enabled (default)
+    Common: Maximum Multicast Groups: 
+    Common: Maximum Listen Requests: 
+    Common: TCP Keepalive: Disabled (default)
+    Common: TCP Window Scaling: Disabled (default)
+    Common: TCP Immediate ACK: Disabled (default)
+    Common: TCP ACK Every N Packets: 
+    Common: TCP Maximum Retries: 
+    Common: TCP Maximum TX Queue: 
+    Common: TCP Retry Shift: 
+    Common: TCP Keepalive Retries: 
+    Common: Driver Deferred Processing: Disabled (default)
+    Common: Loopback Interface: Enabled (default)
+    Common: Maximum Physical Interfaces: 
+    Common: Fragmentation support: Enabled (default)
+    Common: IP RX Checksum: Enabled (default)
+    Common: IP TX Checksum: Enabled (default)
+    Common: TCP RX Checksum: Enabled (default)
+    Common: TCP TX Checksum: Enabled (default)
+    Common: UDP RX Checksum: Enabled (default)
+    Common: UDP TX Checksum: Enabled (default)
+    Common: Reset Disconnect: Enabled (default)
+    Common: RX Size Checking: Enabled (default)
+    Common: ARP Info: Enabled (default)
+    Common: IP Info: Enabled (default)
+    Common: ICMP Info: Enabled (default)
+    Common: IGMPv2: Enabled (default)
+    Common: IGMP Info: Enabled (default)
+    Common: Packet Info: Enabled (default)
+    Common: RARP Info: Enabled (default)
+    Common: TCP Info: Enabled (default)
+    Common: UDP Info: Enabled (default)
+    Common: Extended Notify Support: Disabled (default)
+    Common: NAT: Disabled (default)
+    Common: Packet Header Pad Size: 
+    Common: TCP MSS Minimum: 
+    Common: Source Address Check: Disabled (default)
+    Common: ARP Defend Interval: 
+    Common: TCP Maximum Out Of Order Packets: 
+    Common: NetX Duo IPV6 Support: Enabled (default)
+    Common: Notify when the IPv6 address is changed: Disabled (default)
+    Common: Allow discover maximum MTU in the path: Disabled (default)
+    Common: Wait before resetting target's path MTU in destination table (seconds): 
+    Common: IPv6 routing table entry limit: 
+    Common: IPv6 destination table entry limit: 
+    Common: Maximum time allowed to reassemble IP fragment: 
+    Common: Maximum time allowed to reassemble IPv4 fragment: 
+    Common: Maximum time allowed to reassemble IPv6 fragment: 
+    Common: IPv6 multicast join/leave function support: Disabled (default)
+    Common: Size of the prefix table for router advertisements: 
+    Common: Stateless address auto-configuration support: Disabled (default)
+    Common: IPv6 address pool entry limit: 
+    Common: Delay before the first stale cache entry solicitation (seconds): 
+    Common: Duplicate Address Detection support: Enabled (default)
+    Common: Neighbor Solicitation message count before interface address marked valid: 
+    Common: Retain older cache table entries till timeout option: Disabled (default)
+    Common: IPv6 Neighbor Cache table entry limit.: 
+    Common: Neighbor Solicitation message count for IPv6 Neighbor Discovery protocol: 
+    Common: Neighbor Solicitation message count to determine neighbor’s reachability: 
+    Common: Maximum entries in ND cache queue: 
+    Common: Duration for address to be 'reachable' with no packets received from it (seconds): 
+    Common: Delay between solicitation packets (milliseconds): 
+    Common: ICMPv6 error message in response to invalid packet support: Enabled (default)
+    Common: ICMPv6 redirect packet processing support: Enabled (default)
+    Common: IPv6 router advertisement packet processing support: Enabled (default)
+    Common: Periodic IPv6 router solicitation messages support: Enabled (default)
+    Common: Maximum host router solicitations till no response is received: 
+    Common: Interval between two router solicitation messages: 
+    Common: Checksum computation support on received ICMPv4 packets: Enabled (default)
+    Common: Checksum computation support on received ICMPv6 packets: Enabled (default)
+    Common: Checksum computation support on received ICMP packets: Enabled (default)
+    Common: Checksum computation support on transmitted ICMPv4 packets: Enabled (default)
+    Common: Checksum computation support on transmitted ICMPv6 packets: Enabled (default)
+    Common: Checksum computation support on transmitted ICMP packets: Enabled (default)
+    Common: Packet Alignment: 
+    DHCP: Common: IPv4: Type of Service for UDP requests: Normal
+    DHCP: Common: IPv4: Fragmentation option: Don't fragment
+    DHCP: Common: IPv4: Time to live: 128
+    DHCP: Common: IPv4: Packet Queue depth: 5
+    DHCP: Client: IPv4: Internal thread priority: 3
+    DHCP: Client: IPv4: Internal thread stack size (bytes): 4096
+    DHCP: Client: IPv4: Timeout between DHCP messages processed (seconds): 1
+    DHCP: Client: IPv4: Use BOOTP: Disable
+    DHCP: Client: IPv4: Send ARP probe: Disable
+    DHCP: Client: IPv4: ARP probe wait time (seconds): 1
+    DHCP: Client: IPv4: Minimum ARP probe wait time (seconds): 1
+    DHCP: Client: IPv4: Maximum ARP probe wait time (seconds): 2
+    DHCP: Client: IPv4: ARP probe count: 2
+    DHCP: Client: IPv4: Maximum retransmission timeout (seconds): 64
+    DHCP: Client: IPv4: Minimum renew timeout (seconds): 60
+    DHCP: Client: IPv4: Minimum retransmission timeout (seconds): 4
+    DHCP: Client: IPv4: Persistent client state: Enable
+    DHCP: Client: IPv4: Maximum message size support: Disable
+    DHCP: Client: IPv4: DHCP options buffer size (bytes): 312
+    DHCP: Client: IPv4: Maximum number of network interfaces for DHCP client: 1
+    DHCP: Client: IPv4: Wait before restarting the configuration process (seconds): 10
+    HTTP: Common: Type of Service: Normal
+    HTTP: Common: Fragmentation option: Don't fragment
+    HTTP: Common: Time to live: 128
+    HTTP: Common: MD5 Support: Disable
+    HTTP: Common: Maximum resource name length (bytes): 40
+    HTTP: Common: Maximum password length (bytes): 20
+    HTTP: Common: Maximum username length (bytes): 20
+    HTTP: Client: Minimum packet size (bytes): 300
+    HTTP: Client: Operation timeout (seconds): 10
+    DNS: Client: DNS Control Type of Service: Normal
+    DNS: Client: Socket fragmentation option: Dont fragment
+    DNS: Client: Time to live: 128
+    DNS: Client: Client DNS IP version: IPv4
+    DNS: Client: Maximum number of DNS Servers in the Client server list: 5
+    DNS: Client: Maximum DNS queries size (bytes): 512
+    DNS: Client: Maximum retries for a server: 3
+    DNS: Client: Maximum duration to retransmit a DNS query (seconds): 64
+    DNS: Client: Packet allocate timeout (seconds): 1
+    DNS: Client: Client has DNS and Gateway server: Disable
+    DNS: Client: Clear previous DNS queries from queue: Disable
+    DNS: Client: Extended RR types support: Disable
+    DNS: Client: Cache support: Disable
+    Telnet: Common: Type of service for TCP requests: Normal
+    Telnet: Common: Fragmentation option: Don't fragment
+    Telnet: Common: Server TCP port number: 23
+    Telnet: Common: Time to live: 128
+    AutoIP: Wait before sending first probe (seconds): 1
+    AutoIP: ARP probes to send: 3
+    AutoIP: Minimum wait between probes (seconds): 1
+    AutoIP: Maximum wait between probes (seconds): 2
+    AutoIP: Maximum conflicts before increasing processing delay: 10
+    AutoIP: Wait extend after maximum conflicts (seconds): 60
+    AutoIP: Wait before announcement (seconds): 2
+    AutoIP: Number of ARP announces: 2
+    AutoIP: Wait between announces (seconds): 2
+    AutoIP: Wait between defense announces (seconds): 10
+    Web HTTP: Common: Type of Service: Normal
+    Web HTTP: Common: Fragmentation option: Don't fragment
+    Web HTTP: Common: MD5 Support: Disable
+    Web HTTP: Common: Time to live: 128
+    Web HTTP: Common: Maximum password length (bytes): 20
+    Web HTTP: Common: Maximum username length (bytes): 20
+    Web HTTP: Client: Minimum packet size (bytes): 300
+    Web HTTP: Client: HTTPS Support: Disable
+    SMTP: Client: TCP window size (bytes): 1460
+    SMTP: Client: Packet allocation timeout (seconds): 2
+    SMTP: Client: TCP socket connect timeout (seconds): 10
+    SMTP: Client: TCP socket disconnect timeout (seconds): 5
+    SMTP: Client: Server greeting reply timeout (seconds): 10
+    SMTP: Client: Command timeout (seconds): 10
+    SMTP: Client: Mail data request timeout (seconds): 30
+    SMTP: Client: TCP socket send completion timeout (seconds): 5
+    SMTP: Client: Server challenge maximum string length (bytes): 200
+    SMTP: Client: Maximum password length (bytes): 20
+    SMTP: Client: Maximum username length (bytes): 40
+    DHCP: Client: IPv6: Internal thread priority: 3
+    DHCP: Client: IPv6: Time out for obtaining DHCPv6 client mutex (ticks): TX_WAIT_FOREVER
+    DHCP: Client: IPv6: Time interval between current IP address lease time update (seconds): 1
+    DHCP: Client: IPv6: Maximum IA addresses allowed in client record: 1
+    DHCP: Client: IPv6: Number of DNS servers the client will store: 2
+    DHCP: Client: IPv6: Number of time servers the client will store: 1
+    DHCP: Client: IPv6: Domain name buffer size (bytes): 32
+    DHCP: Client: IPv6: Current time zone information buffer size (bytes): 16
+    DHCP: Client: IPv6: Maximum DHCPv6 server messages buffer size (bytes): 100
+    DHCP: Common: IPv6: Type of Service for UDP requests: Normal
+    DHCP: Common: IPv6: Time to live: 128
+    DHCP: Common: IPv6: Packet Queue depth: 5
+    DHCP: Common: IPv6: Packet allocation timeout (seconds): 3
+    DHCP: Common: IPv6: Interval for active session time update (seconds): 3
+    DHCP: Server: IPv4: Internal thread priority: 1
+    DHCP: Server: IPv4: Packet allocate timeout (seconds): 2
+    DHCP: Server: IPv4: Fast periodic timer interval to check session inactivity timeout (seconds): 10
+    DHCP: Server: IPv4: DHCP Client Session timeout - multiple of Fast periodic interval (seconds): 10
+    DHCP: Server: IPv4: Client IP address default lease time (seconds): 0xFFFFFFFF
+    DHCP: Server: IPv4: Slow periodic timer interval to check IP lease expiration (seconds): 1000
+    DHCP: Server: IPv4: Size of the array to contain options in client request (units): 12
+    DHCP: Server: IPv4: Server option list (optional - use space for separation) : 1 3 6
+    DHCP: Server: IPv4: Server option list size (optional): 3
+    DHCP: Server: IPv4: Size of the server host name buffer (bytes): 32
+    DHCP: Server: IPv4: Size of the current client hostname buffer (bytes): 32
+    DHCP: Server: IPv4: Maximum size of an IP addresses list (units): 20
+    DHCP: Server: IPv4: Size of client record table (units): 50
+    DHCP: Server: IPv4: Size of the BOOT buffer (bytes): 548
+    DHCP: Server: IPv6: Internal thread priority: 1
+    DHCP: Server: IPv6: Client lease time expiration check interval (seconds): 60
+    DHCP: Server: IPv6: DHCPv6 packet receive timeout (seconds): 1
+    DHCP: Server: IPv6: Server preference ranking for clients: 0
+    DHCP: Server: IPv6: Maximum options to extract from a client message: 6
+    DHCP: Server: IPv6: Server interval for first client IP address renewal attempt (seconds): 2000
+    DHCP: Server: IPv6: Server interval for second client IP address renewal attempt (seconds): 3000
+    DHCP: Server: IPv6: Time interval after which client IP is deprecated (seconds): 2 * NX_DHCPV6_DEFAULT_T1_TIME
+    DHCP: Server: IPv6: Time interval after which leased IP is invalid (seconds): 2 * NX_DHCPV6_DEFAULT_PREFERRED_TIME
+    DHCP: Server: IPv6: Maximum server status option message size (bytes): 100
+    DHCP: Server: IPv6: Maximum Size of the Server’s IP lease table (count): 100
+    DHCP: Server: IPv6: Size of the Server’s Client record table (count): 120
+    DHCP: Server: IPv6: Server socket fragmentation option: Dont fragment
+    DHCP: Server: IPv6: Vendor assigned unique ID: abcdeffghijklmnopqrstuvwxyz
+    DHCP: Server: IPv6: Private vendor ID: 0x12345678
+    DHCP: Server: IPv6: Size of Vendor ID buffer (bytes): 48
+    DHCP: Server: IPv6: Client request success message : granted: IA OPTION GRANTED
+    DHCP: Server: IPv6: Client request failure message : Failure unspecified: IA OPTION NOT GRANTED-FAILURE UNSPECIFIED
+    DHCP: Server: IPv6: Client request failure message : No addresses available: IA OPTION NOT GRANTED-NO ADDRESSES AVAILABLE
+    DHCP: Server: IPv6: Client request failure message : Invalid client request: IA OPTION NOT GRANTED-INVALID CLIENT REQUEST
+    DHCP: Server: IPv6: Client request failure message : Client not on link: IA OPTION NOT GRANTED-CLIENT NOT ON LINK
+    DHCP: Server: IPv6: Client request failure message : Client must use multicast: IA OPTION NOT GRANTED-CLIENT MUST USE MULTICAST
+    DHCP: Server: IPv6: Session inactivity timeout(seconds): 20
+    Telnet: Server: Internal thread priority: 16
+    Telnet: Server: Maximum clients to serve simultaneously: 4
+    Telnet: Server: Socket window size (bytes): 2048
+    Telnet: Server: Server time out (seconds): 10
+    Telnet: Server: Client inactivity timeout (seconds): 600
+    Telnet: Server: Timeout check period (seconds): 60
+    Telnet: Server: Option negotiation: Enable
+    Telnet: Server: Use application packet pool: Disable
+    Telnet: Server: Packet size in the pool (bytes): 300
+    Telnet: Server: Total packet pool size (bytes): 2048
+    SNTP: Client: Internal thread stack size (bytes): 2048
+    SNTP: Client: SNTP client thread time slicing interval (ticks): TX_NO_TIME_SLICE
+    SNTP: Client: Internal thread priority: 2
+    SNTP: Client: UDP socket name: SNTP Client socket
+    SNTP: Client: UDP port number: 123
+    SNTP: Client: Server UDP port: 123
+    SNTP: Client: Time to live: 128
+    SNTP: Client: Maximum UDP packets queue depth (units): 5
+    SNTP: Client: Packet allocation timeout (seconds): 1
+    SNTP: Client: SNTP version to use: 3
+    SNTP: Client: NTP minimum version: 3
+    SNTP: Client: Lowest level server stratum client accepts: 2
+    SNTP: Client: Minimum time difference that triggers adjustment (milliseconds): 10
+    SNTP: Client: Maximum time adjustment allowed to local clock time (milliseconds): 10800000
+    SNTP: Client: Ignore maximum time adjust limit at startup: True
+    SNTP: Client: Maximum time lapse without valid update (seconds): 7200
+    SNTP: Client: 'Update time remaining' timer update interval (seconds): 1
+    SNTP: Client: Starting poll interval for unicast update request (seconds): 3600
+    SNTP: Client: Poll interval increment after failed time update: 2
+    SNTP: Client: Calculate round trip time of messages: False
+    SNTP: Client: Maximum server clock inaccuracy to accept (to disable set 0): 50000
+    SNTP: Client: Invalid message limit to mark server invalid: 3
+    SNTP: Client: Randomize update request interval on startup: False
+    SNTP: Client: Internal Task sleep interval (ticks): 1
+    SNTP: Client: Current calendar year: 2016
+    TFTP: Common: Maximum error string length (bytes): 64
+    TFTP: Common: Time to live: 128
+    TFTP: Common: Type of Service for UDP requests: Normal
+    TFTP: Common: Fragmentation option: Don't fragment
+    TFTP: Client: Source port to use: NX_ANY_PORT
+    MQTT: Client: Parameter Checking: Default (BSP)
+    MQTT: Client: NX Secure: Disable
+    MQTT: Client: Keepalive Timer Rate (s): 1
+    MQTT: Client: Ping Timeout Delay (s): 1
+    MQTT: Client: Socket Timeout (in timer ticks) : 0xFFFFFFFF
+    NAT: Minimum count for translation entry: 3
+    NAT: Timeout for translation entry (seconds): 240
+    NAT: Minimum assigned port number for outbound TCP packets: 20000
+    NAT: Maximum assigned port number for outbound TCP packets: 30000
+    NAT: Minimum assigned port number for outbound UDP packets: 20000
+    NAT: Maximum assigned port number for outbound UDP packets: 30000
+    NAT: Minimum ICMP query identifier: 20000
+    NAT: Maximum ICMP query identifier: 30000
+    FTP: Common: Control Type of Service: Normal
+    FTP: Common: Data Type of Service: Normal
+    FTP: Common: Fragmentation option: Don't fragment
+    FTP: Common: Time to live: 128
+    FTP: Common: Duration between client inactivity check (seconds): 60
+    FTP: Client: TCP socket to use: NX_ANY_PORT
+    SNMP: Agent: Internal thread stack size (bytes): 4096
+    SNMP: Agent: SNMP agent priority: 16
+    SNMP: Agent: Type of service for SNMP responses: Normal
+    SNMP: Agent: Fragment enable for SNMP PDU requests: Dont Fragment
+    SNMP: Agent: SNMP socket time to live: 128
+    SNMP: Agent: Agent timeout: 100
+    SNMP: Agent: Max octet string size: 255
+    SNMP: Agent: Max context string size: 32
+    SNMP: Agent: Max User name Size: 64
+    SNMP: Agent: Max security Key Size: 64
+    SNMP: Agent: Maximum SNMP packet size: 560
+    SNMP: Agent: UDP port number: 161
+    SNMP: Agent: Trap destination port: 162
+    SNMP: Agent: Max trap Key Size: 64
+    SNMP: Agent: SNMP Version 1: Enable
+    SNMP: Agent: SNMP Version 2: Enable
+    SNMP: Agent: SNMP Version 3: Enable
+    POP3: Client: Maximum buffer size to store messages (bytes): 2000
+    POP3: Client: Packet time out (seconds): 1
+    POP3: Client: Connection time out (seconds): 30
+    POP3: Client: Disconnect time out (seconds): 2
+    POP3: Client: TCP socket send wait (seconds): 2
+    POP3: Client: Server reply timeout (seconds): 10
+    POP3: Client: TCP window size (bytes): 1460
+    POP3: Client: Maximum user name length (bytes): 40
+    POP3: Client: Maximum password length (bytes): 20
+    FTP: Server: Internal thread priority: 16
+    FTP: Server: Internal thread time slicing interval  (ticks): 2
+    FTP: Server: Maximum clients to serve simultaneously: 4
+    FTP: Server: Control window size (bytes): 400
+    FTP: Server: Data window size (bytes): 2048
+    FTP: Server: Duration internal services will suspend for (seconds): 1
+    FTP: Server: Maximum username length (bytes): 20
+    FTP: Server: Maximum password length (bytes): 20
+    FTP: Server: Duration allowed with no activity (seconds): 240
+    FTP: Server: Socket retransmit timeout (seconds): 2
+    FTP: Server: Maximum queued transmit packets: 20
+    FTP: Server: Number of socket retransmissions: 10
+    FTP: Server: Binary left shift as multiplier for next retry duration: 1
+    HTTP: Server: FileX Support: Enable
+    HTTP: Server: Multipart HTTP requests support: Disable
+    HTTP: Server: Internal thread priority: 16
+    HTTP: Server: Internal thread time slicing interval (ticks): 2
+    HTTP: Server: Server socket window size (bytes): 2048
+    HTTP: Server: Server time out (seconds): 10
+    HTTP: Server: Server time out for accept (seconds): 10
+    HTTP: Server: Server time out for disconnect (seconds): 10
+    HTTP: Server: Server time out for receive (seconds): 10
+    HTTP: Server: Server time out for send (seconds): 10
+    HTTP: Server: Maximum size of header field (bytes): 256
+    HTTP: Server: Maximum connections in queue: 5
+    HTTP: Server: Maximum client user name length (bytes): 20
+    HTTP: Server: Maximum client user password length (bytes): 20
+    HTTP: Server: Minimum size of packets in pool (bytes): 600
+    HTTP: Server: Maximum number of queued transmit packets (units): 20
+    HTTP: Server: Wait before retry (seconds): 2
+    HTTP: Server: Maximum number of retries per packet: 10
+    HTTP: Server: Binary left shift as multiplier for next retry duration: 1
+    TFTP: Server: FileX support: Enable
+    TFTP: Server: Retransmission on client request support: Disable
+    TFTP: Server: Internal thread priority: 16
+    TFTP: Server: Maximum clients to serve simultaneously: 10
+    TFTP: Server: Time slice for internal thread: 2
+    TFTP: Server: Client request activity timeout check interval (ticks): 20
+    TFTP: Server: Ack or data retransmission interval (ticks): 200
+    TFTP: Server: Maximum retries for transmission without response: 5
+    TFTP: Server: Maximum retries for transmission with duplicate response: 2
+    Web HTTP: Server: Parameter Checking: Default (BSP)
+    Web HTTP: Server: HTTPS Support: Disable
+    Web HTTP: Server: FileX Support: Enable
+    Web HTTP: Server: Multipart HTTP requests support: Disable
+    Web HTTP: Server: Server thread priority: 16
+    Web HTTP: Server: Server thread time slicing interval (ticks): 2
+    Web HTTP: Server: Server socket window size (bytes): 2048
+    Web HTTP: Server: Server time out (seconds): 10
+    Web HTTP: Server: Server time out for accept (seconds): 10
+    Web HTTP: Server: Server time out for disconnect (seconds): 10
+    Web HTTP: Server: Server time out for receive (seconds): 10
+    Web HTTP: Server: Server time out for send (seconds): 10
+    Web HTTP: Server: Maximum size of header field (bytes): 256
+    Web HTTP: Server: Maximum connections in queue: 4
+    Web HTTP: Server: Maximum length of resource name: 40
+    Web HTTP: Server: Number of simultaneous sessions for server: 2
+    Web HTTP: Server: Minimum size of packets in pool (bytes): 600
+    Web HTTP: Server: Maximum number of queued transmit packets (units): 20
+    Web HTTP: Server: Server Socket Re-transmission Timeout (seconds): 2
+    Web HTTP: Server: Maximum number of retries per packet: 10
+    Web HTTP: Server: Server Next Re-transmission timeout shift: 1
+    
+  Module "NetX Duo Packet Pool Instance"
+    Common: Error Checking: Enabled (default)
+    Common: IP Static Routing: Disabled (default)
+    Common: Physical Header: 
+    Common: Physical Trailer: 
+    Common: ARP Defend By Reply: Disabled (default)
+    Common: ARP Mac Change Notification: Disabled (default)
+    Common: ARP Expiration Rate: 
+    Common: ARP Update Rate: 
+    Common: TCP ACK Timer Rate: 
+    Common: TCP Fast Timer Rate: 
+    Common: TCP Transmit Timer Rate: 
+    Common: TCP Keepalive Initial: 
+    Common: TCP Keepalive Retry Interval: 
+    Common: ARP Maximum Retries: 
+    Common: ARP Maximum Queue Depth: 
+    Common: ARP Auto ARP Entry: Enabled (default)
+    Common: Maximum Multicast Groups: 
+    Common: Maximum Listen Requests: 
+    Common: TCP Keepalive: Disabled (default)
+    Common: TCP Window Scaling: Disabled (default)
+    Common: TCP Immediate ACK: Disabled (default)
+    Common: TCP ACK Every N Packets: 
+    Common: TCP Maximum Retries: 
+    Common: TCP Maximum TX Queue: 
+    Common: TCP Retry Shift: 
+    Common: TCP Keepalive Retries: 
+    Common: Driver Deferred Processing: Disabled (default)
+    Common: Loopback Interface: Enabled (default)
+    Common: Maximum Physical Interfaces: 
+    Common: Fragmentation support: Enabled (default)
+    Common: IP RX Checksum: Enabled (default)
+    Common: IP TX Checksum: Enabled (default)
+    Common: TCP RX Checksum: Enabled (default)
+    Common: TCP TX Checksum: Enabled (default)
+    Common: UDP RX Checksum: Enabled (default)
+    Common: UDP TX Checksum: Enabled (default)
+    Common: Reset Disconnect: Enabled (default)
+    Common: RX Size Checking: Enabled (default)
+    Common: ARP Info: Enabled (default)
+    Common: IP Info: Enabled (default)
+    Common: ICMP Info: Enabled (default)
+    Common: IGMPv2: Enabled (default)
+    Common: IGMP Info: Enabled (default)
+    Common: Packet Info: Enabled (default)
+    Common: RARP Info: Enabled (default)
+    Common: TCP Info: Enabled (default)
+    Common: UDP Info: Enabled (default)
+    Common: Extended Notify Support: Disabled (default)
+    Common: NAT: Disabled (default)
+    Common: Packet Header Pad Size: 
+    Common: TCP MSS Minimum: 
+    Common: Source Address Check: Disabled (default)
+    Common: ARP Defend Interval: 
+    Common: TCP Maximum Out Of Order Packets: 
+    Common: NetX Duo IPV6 Support: Enabled (default)
+    Common: Notify when the IPv6 address is changed: Disabled (default)
+    Common: Allow discover maximum MTU in the path: Disabled (default)
+    Common: Wait before resetting target's path MTU in destination table (seconds): 
+    Common: IPv6 routing table entry limit: 
+    Common: IPv6 destination table entry limit: 
+    Common: Maximum time allowed to reassemble IP fragment: 
+    Common: Maximum time allowed to reassemble IPv4 fragment: 
+    Common: Maximum time allowed to reassemble IPv6 fragment: 
+    Common: IPv6 multicast join/leave function support: Disabled (default)
+    Common: Size of the prefix table for router advertisements: 
+    Common: Stateless address auto-configuration support: Disabled (default)
+    Common: IPv6 address pool entry limit: 
+    Common: Delay before the first stale cache entry solicitation (seconds): 
+    Common: Duplicate Address Detection support: Enabled (default)
+    Common: Neighbor Solicitation message count before interface address marked valid: 
+    Common: Retain older cache table entries till timeout option: Disabled (default)
+    Common: IPv6 Neighbor Cache table entry limit.: 
+    Common: Neighbor Solicitation message count for IPv6 Neighbor Discovery protocol: 
+    Common: Neighbor Solicitation message count to determine neighbor’s reachability: 
+    Common: Maximum entries in ND cache queue: 
+    Common: Duration for address to be 'reachable' with no packets received from it (seconds): 
+    Common: Delay between solicitation packets (milliseconds): 
+    Common: ICMPv6 error message in response to invalid packet support: Enabled (default)
+    Common: ICMPv6 redirect packet processing support: Enabled (default)
+    Common: IPv6 router advertisement packet processing support: Enabled (default)
+    Common: Periodic IPv6 router solicitation messages support: Enabled (default)
+    Common: Maximum host router solicitations till no response is received: 
+    Common: Interval between two router solicitation messages: 
+    Common: Checksum computation support on received ICMPv4 packets: Enabled (default)
+    Common: Checksum computation support on received ICMPv6 packets: Enabled (default)
+    Common: Checksum computation support on received ICMP packets: Enabled (default)
+    Common: Checksum computation support on transmitted ICMPv4 packets: Enabled (default)
+    Common: Checksum computation support on transmitted ICMPv6 packets: Enabled (default)
+    Common: Checksum computation support on transmitted ICMP packets: Enabled (default)
+    Common: Packet Alignment: 
+    DHCP: Common: IPv4: Type of Service for UDP requests: Normal
+    DHCP: Common: IPv4: Fragmentation option: Don't fragment
+    DHCP: Common: IPv4: Time to live: 128
+    DHCP: Common: IPv4: Packet Queue depth: 5
+    DHCP: Client: IPv4: Internal thread priority: 3
+    DHCP: Client: IPv4: Internal thread stack size (bytes): 4096
+    DHCP: Client: IPv4: Timeout between DHCP messages processed (seconds): 1
+    DHCP: Client: IPv4: Use BOOTP: Disable
+    DHCP: Client: IPv4: Send ARP probe: Disable
+    DHCP: Client: IPv4: ARP probe wait time (seconds): 1
+    DHCP: Client: IPv4: Minimum ARP probe wait time (seconds): 1
+    DHCP: Client: IPv4: Maximum ARP probe wait time (seconds): 2
+    DHCP: Client: IPv4: ARP probe count: 2
+    DHCP: Client: IPv4: Maximum retransmission timeout (seconds): 64
+    DHCP: Client: IPv4: Minimum renew timeout (seconds): 60
+    DHCP: Client: IPv4: Minimum retransmission timeout (seconds): 4
+    DHCP: Client: IPv4: Persistent client state: Enable
+    DHCP: Client: IPv4: Maximum message size support: Disable
+    DHCP: Client: IPv4: DHCP options buffer size (bytes): 312
+    DHCP: Client: IPv4: Maximum number of network interfaces for DHCP client: 1
+    DHCP: Client: IPv4: Wait before restarting the configuration process (seconds): 10
+    HTTP: Common: Type of Service: Normal
+    HTTP: Common: Fragmentation option: Don't fragment
+    HTTP: Common: Time to live: 128
+    HTTP: Common: MD5 Support: Disable
+    HTTP: Common: Maximum resource name length (bytes): 40
+    HTTP: Common: Maximum password length (bytes): 20
+    HTTP: Common: Maximum username length (bytes): 20
+    HTTP: Client: Minimum packet size (bytes): 300
+    HTTP: Client: Operation timeout (seconds): 10
+    DNS: Client: DNS Control Type of Service: Normal
+    DNS: Client: Socket fragmentation option: Dont fragment
+    DNS: Client: Time to live: 128
+    DNS: Client: Client DNS IP version: IPv4
+    DNS: Client: Maximum number of DNS Servers in the Client server list: 5
+    DNS: Client: Maximum DNS queries size (bytes): 512
+    DNS: Client: Maximum retries for a server: 3
+    DNS: Client: Maximum duration to retransmit a DNS query (seconds): 64
+    DNS: Client: Packet allocate timeout (seconds): 1
+    DNS: Client: Client has DNS and Gateway server: Disable
+    DNS: Client: Clear previous DNS queries from queue: Disable
+    DNS: Client: Extended RR types support: Disable
+    DNS: Client: Cache support: Disable
+    Telnet: Common: Type of service for TCP requests: Normal
+    Telnet: Common: Fragmentation option: Don't fragment
+    Telnet: Common: Server TCP port number: 23
+    Telnet: Common: Time to live: 128
+    AutoIP: Wait before sending first probe (seconds): 1
+    AutoIP: ARP probes to send: 3
+    AutoIP: Minimum wait between probes (seconds): 1
+    AutoIP: Maximum wait between probes (seconds): 2
+    AutoIP: Maximum conflicts before increasing processing delay: 10
+    AutoIP: Wait extend after maximum conflicts (seconds): 60
+    AutoIP: Wait before announcement (seconds): 2
+    AutoIP: Number of ARP announces: 2
+    AutoIP: Wait between announces (seconds): 2
+    AutoIP: Wait between defense announces (seconds): 10
+    Web HTTP: Common: Type of Service: Normal
+    Web HTTP: Common: Fragmentation option: Don't fragment
+    Web HTTP: Common: MD5 Support: Disable
+    Web HTTP: Common: Time to live: 128
+    Web HTTP: Common: Maximum password length (bytes): 20
+    Web HTTP: Common: Maximum username length (bytes): 20
+    Web HTTP: Client: Minimum packet size (bytes): 300
+    Web HTTP: Client: HTTPS Support: Disable
+    SMTP: Client: TCP window size (bytes): 1460
+    SMTP: Client: Packet allocation timeout (seconds): 2
+    SMTP: Client: TCP socket connect timeout (seconds): 10
+    SMTP: Client: TCP socket disconnect timeout (seconds): 5
+    SMTP: Client: Server greeting reply timeout (seconds): 10
+    SMTP: Client: Command timeout (seconds): 10
+    SMTP: Client: Mail data request timeout (seconds): 30
+    SMTP: Client: TCP socket send completion timeout (seconds): 5
+    SMTP: Client: Server challenge maximum string length (bytes): 200
+    SMTP: Client: Maximum password length (bytes): 20
+    SMTP: Client: Maximum username length (bytes): 40
+    DHCP: Client: IPv6: Internal thread priority: 3
+    DHCP: Client: IPv6: Time out for obtaining DHCPv6 client mutex (ticks): TX_WAIT_FOREVER
+    DHCP: Client: IPv6: Time interval between current IP address lease time update (seconds): 1
+    DHCP: Client: IPv6: Maximum IA addresses allowed in client record: 1
+    DHCP: Client: IPv6: Number of DNS servers the client will store: 2
+    DHCP: Client: IPv6: Number of time servers the client will store: 1
+    DHCP: Client: IPv6: Domain name buffer size (bytes): 32
+    DHCP: Client: IPv6: Current time zone information buffer size (bytes): 16
+    DHCP: Client: IPv6: Maximum DHCPv6 server messages buffer size (bytes): 100
+    DHCP: Common: IPv6: Type of Service for UDP requests: Normal
+    DHCP: Common: IPv6: Time to live: 128
+    DHCP: Common: IPv6: Packet Queue depth: 5
+    DHCP: Common: IPv6: Packet allocation timeout (seconds): 3
+    DHCP: Common: IPv6: Interval for active session time update (seconds): 3
+    DHCP: Server: IPv4: Internal thread priority: 1
+    DHCP: Server: IPv4: Packet allocate timeout (seconds): 2
+    DHCP: Server: IPv4: Fast periodic timer interval to check session inactivity timeout (seconds): 10
+    DHCP: Server: IPv4: DHCP Client Session timeout - multiple of Fast periodic interval (seconds): 10
+    DHCP: Server: IPv4: Client IP address default lease time (seconds): 0xFFFFFFFF
+    DHCP: Server: IPv4: Slow periodic timer interval to check IP lease expiration (seconds): 1000
+    DHCP: Server: IPv4: Size of the array to contain options in client request (units): 12
+    DHCP: Server: IPv4: Server option list (optional - use space for separation) : 1 3 6
+    DHCP: Server: IPv4: Server option list size (optional): 3
+    DHCP: Server: IPv4: Size of the server host name buffer (bytes): 32
+    DHCP: Server: IPv4: Size of the current client hostname buffer (bytes): 32
+    DHCP: Server: IPv4: Maximum size of an IP addresses list (units): 20
+    DHCP: Server: IPv4: Size of client record table (units): 50
+    DHCP: Server: IPv4: Size of the BOOT buffer (bytes): 548
+    DHCP: Server: IPv6: Internal thread priority: 1
+    DHCP: Server: IPv6: Client lease time expiration check interval (seconds): 60
+    DHCP: Server: IPv6: DHCPv6 packet receive timeout (seconds): 1
+    DHCP: Server: IPv6: Server preference ranking for clients: 0
+    DHCP: Server: IPv6: Maximum options to extract from a client message: 6
+    DHCP: Server: IPv6: Server interval for first client IP address renewal attempt (seconds): 2000
+    DHCP: Server: IPv6: Server interval for second client IP address renewal attempt (seconds): 3000
+    DHCP: Server: IPv6: Time interval after which client IP is deprecated (seconds): 2 * NX_DHCPV6_DEFAULT_T1_TIME
+    DHCP: Server: IPv6: Time interval after which leased IP is invalid (seconds): 2 * NX_DHCPV6_DEFAULT_PREFERRED_TIME
+    DHCP: Server: IPv6: Maximum server status option message size (bytes): 100
+    DHCP: Server: IPv6: Maximum Size of the Server’s IP lease table (count): 100
+    DHCP: Server: IPv6: Size of the Server’s Client record table (count): 120
+    DHCP: Server: IPv6: Server socket fragmentation option: Dont fragment
+    DHCP: Server: IPv6: Vendor assigned unique ID: abcdeffghijklmnopqrstuvwxyz
+    DHCP: Server: IPv6: Private vendor ID: 0x12345678
+    DHCP: Server: IPv6: Size of Vendor ID buffer (bytes): 48
+    DHCP: Server: IPv6: Client request success message : granted: IA OPTION GRANTED
+    DHCP: Server: IPv6: Client request failure message : Failure unspecified: IA OPTION NOT GRANTED-FAILURE UNSPECIFIED
+    DHCP: Server: IPv6: Client request failure message : No addresses available: IA OPTION NOT GRANTED-NO ADDRESSES AVAILABLE
+    DHCP: Server: IPv6: Client request failure message : Invalid client request: IA OPTION NOT GRANTED-INVALID CLIENT REQUEST
+    DHCP: Server: IPv6: Client request failure message : Client not on link: IA OPTION NOT GRANTED-CLIENT NOT ON LINK
+    DHCP: Server: IPv6: Client request failure message : Client must use multicast: IA OPTION NOT GRANTED-CLIENT MUST USE MULTICAST
+    DHCP: Server: IPv6: Session inactivity timeout(seconds): 20
+    Telnet: Server: Internal thread priority: 16
+    Telnet: Server: Maximum clients to serve simultaneously: 4
+    Telnet: Server: Socket window size (bytes): 2048
+    Telnet: Server: Server time out (seconds): 10
+    Telnet: Server: Client inactivity timeout (seconds): 600
+    Telnet: Server: Timeout check period (seconds): 60
+    Telnet: Server: Option negotiation: Enable
+    Telnet: Server: Use application packet pool: Disable
+    Telnet: Server: Packet size in the pool (bytes): 300
+    Telnet: Server: Total packet pool size (bytes): 2048
+    SNTP: Client: Internal thread stack size (bytes): 2048
+    SNTP: Client: SNTP client thread time slicing interval (ticks): TX_NO_TIME_SLICE
+    SNTP: Client: Internal thread priority: 2
+    SNTP: Client: UDP socket name: SNTP Client socket
+    SNTP: Client: UDP port number: 123
+    SNTP: Client: Server UDP port: 123
+    SNTP: Client: Time to live: 128
+    SNTP: Client: Maximum UDP packets queue depth (units): 5
+    SNTP: Client: Packet allocation timeout (seconds): 1
+    SNTP: Client: SNTP version to use: 3
+    SNTP: Client: NTP minimum version: 3
+    SNTP: Client: Lowest level server stratum client accepts: 2
+    SNTP: Client: Minimum time difference that triggers adjustment (milliseconds): 10
+    SNTP: Client: Maximum time adjustment allowed to local clock time (milliseconds): 10800000
+    SNTP: Client: Ignore maximum time adjust limit at startup: True
+    SNTP: Client: Maximum time lapse without valid update (seconds): 7200
+    SNTP: Client: 'Update time remaining' timer update interval (seconds): 1
+    SNTP: Client: Starting poll interval for unicast update request (seconds): 3600
+    SNTP: Client: Poll interval increment after failed time update: 2
+    SNTP: Client: Calculate round trip time of messages: False
+    SNTP: Client: Maximum server clock inaccuracy to accept (to disable set 0): 50000
+    SNTP: Client: Invalid message limit to mark server invalid: 3
+    SNTP: Client: Randomize update request interval on startup: False
+    SNTP: Client: Internal Task sleep interval (ticks): 1
+    SNTP: Client: Current calendar year: 2016
+    TFTP: Common: Maximum error string length (bytes): 64
+    TFTP: Common: Time to live: 128
+    TFTP: Common: Type of Service for UDP requests: Normal
+    TFTP: Common: Fragmentation option: Don't fragment
+    TFTP: Client: Source port to use: NX_ANY_PORT
+    MQTT: Client: Parameter Checking: Default (BSP)
+    MQTT: Client: NX Secure: Disable
+    MQTT: Client: Keepalive Timer Rate (s): 1
+    MQTT: Client: Ping Timeout Delay (s): 1
+    MQTT: Client: Socket Timeout (in timer ticks) : 0xFFFFFFFF
+    NAT: Minimum count for translation entry: 3
+    NAT: Timeout for translation entry (seconds): 240
+    NAT: Minimum assigned port number for outbound TCP packets: 20000
+    NAT: Maximum assigned port number for outbound TCP packets: 30000
+    NAT: Minimum assigned port number for outbound UDP packets: 20000
+    NAT: Maximum assigned port number for outbound UDP packets: 30000
+    NAT: Minimum ICMP query identifier: 20000
+    NAT: Maximum ICMP query identifier: 30000
+    FTP: Common: Control Type of Service: Normal
+    FTP: Common: Data Type of Service: Normal
+    FTP: Common: Fragmentation option: Don't fragment
+    FTP: Common: Time to live: 128
+    FTP: Common: Duration between client inactivity check (seconds): 60
+    FTP: Client: TCP socket to use: NX_ANY_PORT
+    SNMP: Agent: Internal thread stack size (bytes): 4096
+    SNMP: Agent: SNMP agent priority: 16
+    SNMP: Agent: Type of service for SNMP responses: Normal
+    SNMP: Agent: Fragment enable for SNMP PDU requests: Dont Fragment
+    SNMP: Agent: SNMP socket time to live: 128
+    SNMP: Agent: Agent timeout: 100
+    SNMP: Agent: Max octet string size: 255
+    SNMP: Agent: Max context string size: 32
+    SNMP: Agent: Max User name Size: 64
+    SNMP: Agent: Max security Key Size: 64
+    SNMP: Agent: Maximum SNMP packet size: 560
+    SNMP: Agent: UDP port number: 161
+    SNMP: Agent: Trap destination port: 162
+    SNMP: Agent: Max trap Key Size: 64
+    SNMP: Agent: SNMP Version 1: Enable
+    SNMP: Agent: SNMP Version 2: Enable
+    SNMP: Agent: SNMP Version 3: Enable
+    POP3: Client: Maximum buffer size to store messages (bytes): 2000
+    POP3: Client: Packet time out (seconds): 1
+    POP3: Client: Connection time out (seconds): 30
+    POP3: Client: Disconnect time out (seconds): 2
+    POP3: Client: TCP socket send wait (seconds): 2
+    POP3: Client: Server reply timeout (seconds): 10
+    POP3: Client: TCP window size (bytes): 1460
+    POP3: Client: Maximum user name length (bytes): 40
+    POP3: Client: Maximum password length (bytes): 20
+    FTP: Server: Internal thread priority: 16
+    FTP: Server: Internal thread time slicing interval  (ticks): 2
+    FTP: Server: Maximum clients to serve simultaneously: 4
+    FTP: Server: Control window size (bytes): 400
+    FTP: Server: Data window size (bytes): 2048
+    FTP: Server: Duration internal services will suspend for (seconds): 1
+    FTP: Server: Maximum username length (bytes): 20
+    FTP: Server: Maximum password length (bytes): 20
+    FTP: Server: Duration allowed with no activity (seconds): 240
+    FTP: Server: Socket retransmit timeout (seconds): 2
+    FTP: Server: Maximum queued transmit packets: 20
+    FTP: Server: Number of socket retransmissions: 10
+    FTP: Server: Binary left shift as multiplier for next retry duration: 1
+    HTTP: Server: FileX Support: Enable
+    HTTP: Server: Multipart HTTP requests support: Disable
+    HTTP: Server: Internal thread priority: 16
+    HTTP: Server: Internal thread time slicing interval (ticks): 2
+    HTTP: Server: Server socket window size (bytes): 2048
+    HTTP: Server: Server time out (seconds): 10
+    HTTP: Server: Server time out for accept (seconds): 10
+    HTTP: Server: Server time out for disconnect (seconds): 10
+    HTTP: Server: Server time out for receive (seconds): 10
+    HTTP: Server: Server time out for send (seconds): 10
+    HTTP: Server: Maximum size of header field (bytes): 256
+    HTTP: Server: Maximum connections in queue: 5
+    HTTP: Server: Maximum client user name length (bytes): 20
+    HTTP: Server: Maximum client user password length (bytes): 20
+    HTTP: Server: Minimum size of packets in pool (bytes): 600
+    HTTP: Server: Maximum number of queued transmit packets (units): 20
+    HTTP: Server: Wait before retry (seconds): 2
+    HTTP: Server: Maximum number of retries per packet: 10
+    HTTP: Server: Binary left shift as multiplier for next retry duration: 1
+    TFTP: Server: FileX support: Enable
+    TFTP: Server: Retransmission on client request support: Disable
+    TFTP: Server: Internal thread priority: 16
+    TFTP: Server: Maximum clients to serve simultaneously: 10
+    TFTP: Server: Time slice for internal thread: 2
+    TFTP: Server: Client request activity timeout check interval (ticks): 20
+    TFTP: Server: Ack or data retransmission interval (ticks): 200
+    TFTP: Server: Maximum retries for transmission without response: 5
+    TFTP: Server: Maximum retries for transmission with duplicate response: 2
+    Web HTTP: Server: Parameter Checking: Default (BSP)
+    Web HTTP: Server: HTTPS Support: Disable
+    Web HTTP: Server: FileX Support: Enable
+    Web HTTP: Server: Multipart HTTP requests support: Disable
+    Web HTTP: Server: Server thread priority: 16
+    Web HTTP: Server: Server thread time slicing interval (ticks): 2
+    Web HTTP: Server: Server socket window size (bytes): 2048
+    Web HTTP: Server: Server time out (seconds): 10
+    Web HTTP: Server: Server time out for accept (seconds): 10
+    Web HTTP: Server: Server time out for disconnect (seconds): 10
+    Web HTTP: Server: Server time out for receive (seconds): 10
+    Web HTTP: Server: Server time out for send (seconds): 10
+    Web HTTP: Server: Maximum size of header field (bytes): 256
+    Web HTTP: Server: Maximum connections in queue: 4
+    Web HTTP: Server: Maximum length of resource name: 40
+    Web HTTP: Server: Number of simultaneous sessions for server: 2
+    Web HTTP: Server: Minimum size of packets in pool (bytes): 600
+    Web HTTP: Server: Maximum number of queued transmit packets (units): 20
+    Web HTTP: Server: Server Socket Re-transmission Timeout (seconds): 2
+    Web HTTP: Server: Maximum number of retries per packet: 10
+    Web HTTP: Server: Server Next Re-transmission timeout shift: 1
+    
+  Module "NetX Duo Ethernet Driver"
+  Module "Ethernet Driver on r_ether"
+    Parameter Checking: Default (BSP)
+    ET0_LINKSTA Pin Status Flag: Fall -> Rise
+    Link Signal Change Flag: Unused
+    
+  Module "Ethernet Driver on r_ether_phy"
+    Parameter Checking: Default (BSP)
+    Select PHY: Default
+    Reference Clock: Default
+    
+  Module "NetX Duo Common on nxd"
+    Common: Error Checking: Enabled (default)
+    Common: IP Static Routing: Disabled (default)
+    Common: Physical Header: 
+    Common: Physical Trailer: 
+    Common: ARP Defend By Reply: Disabled (default)
+    Common: ARP Mac Change Notification: Disabled (default)
+    Common: ARP Expiration Rate: 
+    Common: ARP Update Rate: 
+    Common: TCP ACK Timer Rate: 
+    Common: TCP Fast Timer Rate: 
+    Common: TCP Transmit Timer Rate: 
+    Common: TCP Keepalive Initial: 
+    Common: TCP Keepalive Retry Interval: 
+    Common: ARP Maximum Retries: 
+    Common: ARP Maximum Queue Depth: 
+    Common: ARP Auto ARP Entry: Enabled (default)
+    Common: Maximum Multicast Groups: 
+    Common: Maximum Listen Requests: 
+    Common: TCP Keepalive: Disabled (default)
+    Common: TCP Window Scaling: Disabled (default)
+    Common: TCP Immediate ACK: Disabled (default)
+    Common: TCP ACK Every N Packets: 
+    Common: TCP Maximum Retries: 
+    Common: TCP Maximum TX Queue: 
+    Common: TCP Retry Shift: 
+    Common: TCP Keepalive Retries: 
+    Common: Driver Deferred Processing: Disabled (default)
+    Common: Loopback Interface: Enabled (default)
+    Common: Maximum Physical Interfaces: 
+    Common: Fragmentation support: Enabled (default)
+    Common: IP RX Checksum: Enabled (default)
+    Common: IP TX Checksum: Enabled (default)
+    Common: TCP RX Checksum: Enabled (default)
+    Common: TCP TX Checksum: Enabled (default)
+    Common: UDP RX Checksum: Enabled (default)
+    Common: UDP TX Checksum: Enabled (default)
+    Common: Reset Disconnect: Enabled (default)
+    Common: RX Size Checking: Enabled (default)
+    Common: ARP Info: Enabled (default)
+    Common: IP Info: Enabled (default)
+    Common: ICMP Info: Enabled (default)
+    Common: IGMPv2: Enabled (default)
+    Common: IGMP Info: Enabled (default)
+    Common: Packet Info: Enabled (default)
+    Common: RARP Info: Enabled (default)
+    Common: TCP Info: Enabled (default)
+    Common: UDP Info: Enabled (default)
+    Common: Extended Notify Support: Disabled (default)
+    Common: NAT: Disabled (default)
+    Common: Packet Header Pad Size: 
+    Common: TCP MSS Minimum: 
+    Common: Source Address Check: Disabled (default)
+    Common: ARP Defend Interval: 
+    Common: TCP Maximum Out Of Order Packets: 
+    Common: NetX Duo IPV6 Support: Enabled (default)
+    Common: Notify when the IPv6 address is changed: Disabled (default)
+    Common: Allow discover maximum MTU in the path: Disabled (default)
+    Common: Wait before resetting target's path MTU in destination table (seconds): 
+    Common: IPv6 routing table entry limit: 
+    Common: IPv6 destination table entry limit: 
+    Common: Maximum time allowed to reassemble IP fragment: 
+    Common: Maximum time allowed to reassemble IPv4 fragment: 
+    Common: Maximum time allowed to reassemble IPv6 fragment: 
+    Common: IPv6 multicast join/leave function support: Disabled (default)
+    Common: Size of the prefix table for router advertisements: 
+    Common: Stateless address auto-configuration support: Disabled (default)
+    Common: IPv6 address pool entry limit: 
+    Common: Delay before the first stale cache entry solicitation (seconds): 
+    Common: Duplicate Address Detection support: Enabled (default)
+    Common: Neighbor Solicitation message count before interface address marked valid: 
+    Common: Retain older cache table entries till timeout option: Disabled (default)
+    Common: IPv6 Neighbor Cache table entry limit.: 
+    Common: Neighbor Solicitation message count for IPv6 Neighbor Discovery protocol: 
+    Common: Neighbor Solicitation message count to determine neighbor’s reachability: 
+    Common: Maximum entries in ND cache queue: 
+    Common: Duration for address to be 'reachable' with no packets received from it (seconds): 
+    Common: Delay between solicitation packets (milliseconds): 
+    Common: ICMPv6 error message in response to invalid packet support: Enabled (default)
+    Common: ICMPv6 redirect packet processing support: Enabled (default)
+    Common: IPv6 router advertisement packet processing support: Enabled (default)
+    Common: Periodic IPv6 router solicitation messages support: Enabled (default)
+    Common: Maximum host router solicitations till no response is received: 
+    Common: Interval between two router solicitation messages: 
+    Common: Checksum computation support on received ICMPv4 packets: Enabled (default)
+    Common: Checksum computation support on received ICMPv6 packets: Enabled (default)
+    Common: Checksum computation support on received ICMP packets: Enabled (default)
+    Common: Checksum computation support on transmitted ICMPv4 packets: Enabled (default)
+    Common: Checksum computation support on transmitted ICMPv6 packets: Enabled (default)
+    Common: Checksum computation support on transmitted ICMP packets: Enabled (default)
+    Common: Packet Alignment: 
+    DHCP: Common: IPv4: Type of Service for UDP requests: Normal
+    DHCP: Common: IPv4: Fragmentation option: Don't fragment
+    DHCP: Common: IPv4: Time to live: 128
+    DHCP: Common: IPv4: Packet Queue depth: 5
+    DHCP: Client: IPv4: Internal thread priority: 3
+    DHCP: Client: IPv4: Internal thread stack size (bytes): 4096
+    DHCP: Client: IPv4: Timeout between DHCP messages processed (seconds): 1
+    DHCP: Client: IPv4: Use BOOTP: Disable
+    DHCP: Client: IPv4: Send ARP probe: Disable
+    DHCP: Client: IPv4: ARP probe wait time (seconds): 1
+    DHCP: Client: IPv4: Minimum ARP probe wait time (seconds): 1
+    DHCP: Client: IPv4: Maximum ARP probe wait time (seconds): 2
+    DHCP: Client: IPv4: ARP probe count: 2
+    DHCP: Client: IPv4: Maximum retransmission timeout (seconds): 64
+    DHCP: Client: IPv4: Minimum renew timeout (seconds): 60
+    DHCP: Client: IPv4: Minimum retransmission timeout (seconds): 4
+    DHCP: Client: IPv4: Persistent client state: Enable
+    DHCP: Client: IPv4: Maximum message size support: Disable
+    DHCP: Client: IPv4: DHCP options buffer size (bytes): 312
+    DHCP: Client: IPv4: Maximum number of network interfaces for DHCP client: 1
+    DHCP: Client: IPv4: Wait before restarting the configuration process (seconds): 10
+    HTTP: Common: Type of Service: Normal
+    HTTP: Common: Fragmentation option: Don't fragment
+    HTTP: Common: Time to live: 128
+    HTTP: Common: MD5 Support: Disable
+    HTTP: Common: Maximum resource name length (bytes): 40
+    HTTP: Common: Maximum password length (bytes): 20
+    HTTP: Common: Maximum username length (bytes): 20
+    HTTP: Client: Minimum packet size (bytes): 300
+    HTTP: Client: Operation timeout (seconds): 10
+    DNS: Client: DNS Control Type of Service: Normal
+    DNS: Client: Socket fragmentation option: Dont fragment
+    DNS: Client: Time to live: 128
+    DNS: Client: Client DNS IP version: IPv4
+    DNS: Client: Maximum number of DNS Servers in the Client server list: 5
+    DNS: Client: Maximum DNS queries size (bytes): 512
+    DNS: Client: Maximum retries for a server: 3
+    DNS: Client: Maximum duration to retransmit a DNS query (seconds): 64
+    DNS: Client: Packet allocate timeout (seconds): 1
+    DNS: Client: Client has DNS and Gateway server: Disable
+    DNS: Client: Clear previous DNS queries from queue: Disable
+    DNS: Client: Extended RR types support: Disable
+    DNS: Client: Cache support: Disable
+    Telnet: Common: Type of service for TCP requests: Normal
+    Telnet: Common: Fragmentation option: Don't fragment
+    Telnet: Common: Server TCP port number: 23
+    Telnet: Common: Time to live: 128
+    AutoIP: Wait before sending first probe (seconds): 1
+    AutoIP: ARP probes to send: 3
+    AutoIP: Minimum wait between probes (seconds): 1
+    AutoIP: Maximum wait between probes (seconds): 2
+    AutoIP: Maximum conflicts before increasing processing delay: 10
+    AutoIP: Wait extend after maximum conflicts (seconds): 60
+    AutoIP: Wait before announcement (seconds): 2
+    AutoIP: Number of ARP announces: 2
+    AutoIP: Wait between announces (seconds): 2
+    AutoIP: Wait between defense announces (seconds): 10
+    Web HTTP: Common: Type of Service: Normal
+    Web HTTP: Common: Fragmentation option: Don't fragment
+    Web HTTP: Common: MD5 Support: Disable
+    Web HTTP: Common: Time to live: 128
+    Web HTTP: Common: Maximum password length (bytes): 20
+    Web HTTP: Common: Maximum username length (bytes): 20
+    Web HTTP: Client: Minimum packet size (bytes): 300
+    Web HTTP: Client: HTTPS Support: Disable
+    SMTP: Client: TCP window size (bytes): 1460
+    SMTP: Client: Packet allocation timeout (seconds): 2
+    SMTP: Client: TCP socket connect timeout (seconds): 10
+    SMTP: Client: TCP socket disconnect timeout (seconds): 5
+    SMTP: Client: Server greeting reply timeout (seconds): 10
+    SMTP: Client: Command timeout (seconds): 10
+    SMTP: Client: Mail data request timeout (seconds): 30
+    SMTP: Client: TCP socket send completion timeout (seconds): 5
+    SMTP: Client: Server challenge maximum string length (bytes): 200
+    SMTP: Client: Maximum password length (bytes): 20
+    SMTP: Client: Maximum username length (bytes): 40
+    DHCP: Client: IPv6: Internal thread priority: 3
+    DHCP: Client: IPv6: Time out for obtaining DHCPv6 client mutex (ticks): TX_WAIT_FOREVER
+    DHCP: Client: IPv6: Time interval between current IP address lease time update (seconds): 1
+    DHCP: Client: IPv6: Maximum IA addresses allowed in client record: 1
+    DHCP: Client: IPv6: Number of DNS servers the client will store: 2
+    DHCP: Client: IPv6: Number of time servers the client will store: 1
+    DHCP: Client: IPv6: Domain name buffer size (bytes): 32
+    DHCP: Client: IPv6: Current time zone information buffer size (bytes): 16
+    DHCP: Client: IPv6: Maximum DHCPv6 server messages buffer size (bytes): 100
+    DHCP: Common: IPv6: Type of Service for UDP requests: Normal
+    DHCP: Common: IPv6: Time to live: 128
+    DHCP: Common: IPv6: Packet Queue depth: 5
+    DHCP: Common: IPv6: Packet allocation timeout (seconds): 3
+    DHCP: Common: IPv6: Interval for active session time update (seconds): 3
+    DHCP: Server: IPv4: Internal thread priority: 1
+    DHCP: Server: IPv4: Packet allocate timeout (seconds): 2
+    DHCP: Server: IPv4: Fast periodic timer interval to check session inactivity timeout (seconds): 10
+    DHCP: Server: IPv4: DHCP Client Session timeout - multiple of Fast periodic interval (seconds): 10
+    DHCP: Server: IPv4: Client IP address default lease time (seconds): 0xFFFFFFFF
+    DHCP: Server: IPv4: Slow periodic timer interval to check IP lease expiration (seconds): 1000
+    DHCP: Server: IPv4: Size of the array to contain options in client request (units): 12
+    DHCP: Server: IPv4: Server option list (optional - use space for separation) : 1 3 6
+    DHCP: Server: IPv4: Server option list size (optional): 3
+    DHCP: Server: IPv4: Size of the server host name buffer (bytes): 32
+    DHCP: Server: IPv4: Size of the current client hostname buffer (bytes): 32
+    DHCP: Server: IPv4: Maximum size of an IP addresses list (units): 20
+    DHCP: Server: IPv4: Size of client record table (units): 50
+    DHCP: Server: IPv4: Size of the BOOT buffer (bytes): 548
+    DHCP: Server: IPv6: Internal thread priority: 1
+    DHCP: Server: IPv6: Client lease time expiration check interval (seconds): 60
+    DHCP: Server: IPv6: DHCPv6 packet receive timeout (seconds): 1
+    DHCP: Server: IPv6: Server preference ranking for clients: 0
+    DHCP: Server: IPv6: Maximum options to extract from a client message: 6
+    DHCP: Server: IPv6: Server interval for first client IP address renewal attempt (seconds): 2000
+    DHCP: Server: IPv6: Server interval for second client IP address renewal attempt (seconds): 3000
+    DHCP: Server: IPv6: Time interval after which client IP is deprecated (seconds): 2 * NX_DHCPV6_DEFAULT_T1_TIME
+    DHCP: Server: IPv6: Time interval after which leased IP is invalid (seconds): 2 * NX_DHCPV6_DEFAULT_PREFERRED_TIME
+    DHCP: Server: IPv6: Maximum server status option message size (bytes): 100
+    DHCP: Server: IPv6: Maximum Size of the Server’s IP lease table (count): 100
+    DHCP: Server: IPv6: Size of the Server’s Client record table (count): 120
+    DHCP: Server: IPv6: Server socket fragmentation option: Dont fragment
+    DHCP: Server: IPv6: Vendor assigned unique ID: abcdeffghijklmnopqrstuvwxyz
+    DHCP: Server: IPv6: Private vendor ID: 0x12345678
+    DHCP: Server: IPv6: Size of Vendor ID buffer (bytes): 48
+    DHCP: Server: IPv6: Client request success message : granted: IA OPTION GRANTED
+    DHCP: Server: IPv6: Client request failure message : Failure unspecified: IA OPTION NOT GRANTED-FAILURE UNSPECIFIED
+    DHCP: Server: IPv6: Client request failure message : No addresses available: IA OPTION NOT GRANTED-NO ADDRESSES AVAILABLE
+    DHCP: Server: IPv6: Client request failure message : Invalid client request: IA OPTION NOT GRANTED-INVALID CLIENT REQUEST
+    DHCP: Server: IPv6: Client request failure message : Client not on link: IA OPTION NOT GRANTED-CLIENT NOT ON LINK
+    DHCP: Server: IPv6: Client request failure message : Client must use multicast: IA OPTION NOT GRANTED-CLIENT MUST USE MULTICAST
+    DHCP: Server: IPv6: Session inactivity timeout(seconds): 20
+    Telnet: Server: Internal thread priority: 16
+    Telnet: Server: Maximum clients to serve simultaneously: 4
+    Telnet: Server: Socket window size (bytes): 2048
+    Telnet: Server: Server time out (seconds): 10
+    Telnet: Server: Client inactivity timeout (seconds): 600
+    Telnet: Server: Timeout check period (seconds): 60
+    Telnet: Server: Option negotiation: Enable
+    Telnet: Server: Use application packet pool: Disable
+    Telnet: Server: Packet size in the pool (bytes): 300
+    Telnet: Server: Total packet pool size (bytes): 2048
+    SNTP: Client: Internal thread stack size (bytes): 2048
+    SNTP: Client: SNTP client thread time slicing interval (ticks): TX_NO_TIME_SLICE
+    SNTP: Client: Internal thread priority: 2
+    SNTP: Client: UDP socket name: SNTP Client socket
+    SNTP: Client: UDP port number: 123
+    SNTP: Client: Server UDP port: 123
+    SNTP: Client: Time to live: 128
+    SNTP: Client: Maximum UDP packets queue depth (units): 5
+    SNTP: Client: Packet allocation timeout (seconds): 1
+    SNTP: Client: SNTP version to use: 3
+    SNTP: Client: NTP minimum version: 3
+    SNTP: Client: Lowest level server stratum client accepts: 2
+    SNTP: Client: Minimum time difference that triggers adjustment (milliseconds): 10
+    SNTP: Client: Maximum time adjustment allowed to local clock time (milliseconds): 10800000
+    SNTP: Client: Ignore maximum time adjust limit at startup: True
+    SNTP: Client: Maximum time lapse without valid update (seconds): 7200
+    SNTP: Client: 'Update time remaining' timer update interval (seconds): 1
+    SNTP: Client: Starting poll interval for unicast update request (seconds): 3600
+    SNTP: Client: Poll interval increment after failed time update: 2
+    SNTP: Client: Calculate round trip time of messages: False
+    SNTP: Client: Maximum server clock inaccuracy to accept (to disable set 0): 50000
+    SNTP: Client: Invalid message limit to mark server invalid: 3
+    SNTP: Client: Randomize update request interval on startup: False
+    SNTP: Client: Internal Task sleep interval (ticks): 1
+    SNTP: Client: Current calendar year: 2016
+    TFTP: Common: Maximum error string length (bytes): 64
+    TFTP: Common: Time to live: 128
+    TFTP: Common: Type of Service for UDP requests: Normal
+    TFTP: Common: Fragmentation option: Don't fragment
+    TFTP: Client: Source port to use: NX_ANY_PORT
+    MQTT: Client: Parameter Checking: Default (BSP)
+    MQTT: Client: NX Secure: Disable
+    MQTT: Client: Keepalive Timer Rate (s): 1
+    MQTT: Client: Ping Timeout Delay (s): 1
+    MQTT: Client: Socket Timeout (in timer ticks) : 0xFFFFFFFF
+    NAT: Minimum count for translation entry: 3
+    NAT: Timeout for translation entry (seconds): 240
+    NAT: Minimum assigned port number for outbound TCP packets: 20000
+    NAT: Maximum assigned port number for outbound TCP packets: 30000
+    NAT: Minimum assigned port number for outbound UDP packets: 20000
+    NAT: Maximum assigned port number for outbound UDP packets: 30000
+    NAT: Minimum ICMP query identifier: 20000
+    NAT: Maximum ICMP query identifier: 30000
+    FTP: Common: Control Type of Service: Normal
+    FTP: Common: Data Type of Service: Normal
+    FTP: Common: Fragmentation option: Don't fragment
+    FTP: Common: Time to live: 128
+    FTP: Common: Duration between client inactivity check (seconds): 60
+    FTP: Client: TCP socket to use: NX_ANY_PORT
+    SNMP: Agent: Internal thread stack size (bytes): 4096
+    SNMP: Agent: SNMP agent priority: 16
+    SNMP: Agent: Type of service for SNMP responses: Normal
+    SNMP: Agent: Fragment enable for SNMP PDU requests: Dont Fragment
+    SNMP: Agent: SNMP socket time to live: 128
+    SNMP: Agent: Agent timeout: 100
+    SNMP: Agent: Max octet string size: 255
+    SNMP: Agent: Max context string size: 32
+    SNMP: Agent: Max User name Size: 64
+    SNMP: Agent: Max security Key Size: 64
+    SNMP: Agent: Maximum SNMP packet size: 560
+    SNMP: Agent: UDP port number: 161
+    SNMP: Agent: Trap destination port: 162
+    SNMP: Agent: Max trap Key Size: 64
+    SNMP: Agent: SNMP Version 1: Enable
+    SNMP: Agent: SNMP Version 2: Enable
+    SNMP: Agent: SNMP Version 3: Enable
+    POP3: Client: Maximum buffer size to store messages (bytes): 2000
+    POP3: Client: Packet time out (seconds): 1
+    POP3: Client: Connection time out (seconds): 30
+    POP3: Client: Disconnect time out (seconds): 2
+    POP3: Client: TCP socket send wait (seconds): 2
+    POP3: Client: Server reply timeout (seconds): 10
+    POP3: Client: TCP window size (bytes): 1460
+    POP3: Client: Maximum user name length (bytes): 40
+    POP3: Client: Maximum password length (bytes): 20
+    FTP: Server: Internal thread priority: 16
+    FTP: Server: Internal thread time slicing interval  (ticks): 2
+    FTP: Server: Maximum clients to serve simultaneously: 4
+    FTP: Server: Control window size (bytes): 400
+    FTP: Server: Data window size (bytes): 2048
+    FTP: Server: Duration internal services will suspend for (seconds): 1
+    FTP: Server: Maximum username length (bytes): 20
+    FTP: Server: Maximum password length (bytes): 20
+    FTP: Server: Duration allowed with no activity (seconds): 240
+    FTP: Server: Socket retransmit timeout (seconds): 2
+    FTP: Server: Maximum queued transmit packets: 20
+    FTP: Server: Number of socket retransmissions: 10
+    FTP: Server: Binary left shift as multiplier for next retry duration: 1
+    HTTP: Server: FileX Support: Enable
+    HTTP: Server: Multipart HTTP requests support: Disable
+    HTTP: Server: Internal thread priority: 16
+    HTTP: Server: Internal thread time slicing interval (ticks): 2
+    HTTP: Server: Server socket window size (bytes): 2048
+    HTTP: Server: Server time out (seconds): 10
+    HTTP: Server: Server time out for accept (seconds): 10
+    HTTP: Server: Server time out for disconnect (seconds): 10
+    HTTP: Server: Server time out for receive (seconds): 10
+    HTTP: Server: Server time out for send (seconds): 10
+    HTTP: Server: Maximum size of header field (bytes): 256
+    HTTP: Server: Maximum connections in queue: 5
+    HTTP: Server: Maximum client user name length (bytes): 20
+    HTTP: Server: Maximum client user password length (bytes): 20
+    HTTP: Server: Minimum size of packets in pool (bytes): 600
+    HTTP: Server: Maximum number of queued transmit packets (units): 20
+    HTTP: Server: Wait before retry (seconds): 2
+    HTTP: Server: Maximum number of retries per packet: 10
+    HTTP: Server: Binary left shift as multiplier for next retry duration: 1
+    TFTP: Server: FileX support: Enable
+    TFTP: Server: Retransmission on client request support: Disable
+    TFTP: Server: Internal thread priority: 16
+    TFTP: Server: Maximum clients to serve simultaneously: 10
+    TFTP: Server: Time slice for internal thread: 2
+    TFTP: Server: Client request activity timeout check interval (ticks): 20
+    TFTP: Server: Ack or data retransmission interval (ticks): 200
+    TFTP: Server: Maximum retries for transmission without response: 5
+    TFTP: Server: Maximum retries for transmission with duplicate response: 2
+    Web HTTP: Server: Parameter Checking: Default (BSP)
+    Web HTTP: Server: HTTPS Support: Disable
+    Web HTTP: Server: FileX Support: Enable
+    Web HTTP: Server: Multipart HTTP requests support: Disable
+    Web HTTP: Server: Server thread priority: 16
+    Web HTTP: Server: Server thread time slicing interval (ticks): 2
+    Web HTTP: Server: Server socket window size (bytes): 2048
+    Web HTTP: Server: Server time out (seconds): 10
+    Web HTTP: Server: Server time out for accept (seconds): 10
+    Web HTTP: Server: Server time out for disconnect (seconds): 10
+    Web HTTP: Server: Server time out for receive (seconds): 10
+    Web HTTP: Server: Server time out for send (seconds): 10
+    Web HTTP: Server: Maximum size of header field (bytes): 256
+    Web HTTP: Server: Maximum connections in queue: 4
+    Web HTTP: Server: Maximum length of resource name: 40
+    Web HTTP: Server: Number of simultaneous sessions for server: 2
+    Web HTTP: Server: Minimum size of packets in pool (bytes): 600
+    Web HTTP: Server: Maximum number of queued transmit packets (units): 20
+    Web HTTP: Server: Server Socket Re-transmission Timeout (seconds): 2
+    Web HTTP: Server: Maximum number of retries per packet: 10
+    Web HTTP: Server: Server Next Re-transmission timeout shift: 1
+    
+  Azure RTOS ThreadX
+    General: Custom tx_user.h: 
+    General: Error Checking: Enabled
+    Timer: Timer Ticks Per Second: 100
+    General: Max Priorities: 32
+    General: Minimum Stack: 200
+    Timer: Timer Thread Stack Size: 1024
+    Timer: Timer Thread Priority: 0
+    Timer: Timer Process In ISR: Enabled
+    Timer: Reactivate Inline: Disabled
+    General: Stack Filling: Enabled
+    General: Preemption Threshold: Disabled
+    Timer: Timer: Enabled
+    General: Notify Callbacks: Enabled
+    General: Inline Thread Resume Suspend: Disabled
+    General: Not Interruptable: Disabled
+    Trace: Event Trace: Disabled
+    Trace: Trace Buffer Name: g_tx_trace_buffer
+    Trace: Memory section for Trace Buffer: .bss
+    Trace: Trace Buffer Size: 65536
+    Trace: Trace Buffer Number of Registries: 30
+    Performance: Block Pool Performance Info: Disabled
+    Performance: Byte Pool Performance Info: Disabled
+    Performance: Event Flags Performance Info: Disabled
+    Performance: Mutex Performance Info: Disabled
+    Performance: Queue Performance Info: Disabled
+    Performance: Semaphore Performance Info: Disabled
+    Performance: Thread Performance Info: Disabled
+    Performance: Timer Performance Info: Disabled
+    RA: Hardware Thread Stack Monitoring: Disabled
+    Interrupts: SysTick Interrupt Priority: Priority 0 (highest)
+    Interrupts: Maximum Interrupt Priority: Priority 0 (highest)
+    General: IAR Library Support: Disabled
+    General: BSD Support: Disabled
+    General: FileX Pointer: Enabled
+    
+  HAL
+    Instance "g_ioport I/O Port Driver on r_ioport"
+      Name: g_ioport
+      Port 1 ELC Trigger Source: Disabled
+      Port 2 ELC Trigger Source: Disabled
+      Port 3 ELC Trigger Source: Disabled
+      Port 4 ELC Trigger Source: Disabled
+      
+  Thread "DHCP Client Thread"
+    Symbol: dhcp_client_thread
+    Name: DHCP Client Thread
+    Stack size (bytes): 2048
+    Priority: 3
+    Auto start: Enabled
+    Time slicing interval (ticks): 1
+    
+    Instance "g_dhcp_client0 NetX Duo DHCP IPv4 Client"
+      Name: g_dhcp_client0
+      
+      Instance "g_ip0 NetX Duo IP Instance"
+        Name: g_ip0
+        IPv4 Address: 0.0.0.0
+        Subnet Mask: 255.255.255.0
+        Default Gateway Address: 0.0.0.0
+        IPv6 Global Address: 2001:0:0:0:0:0:0:1
+        IPv6 Link Local Address (All zeros means use MAC address): 0:0:0:0:0:0:0:0
+        IP Helper Thread Stack Size (bytes): 2048
+        IP Helper Thread Priority: 3
+        ARP cache storage units: Bytes
+            ARP cache size (in storage units): 520
+        
+        Instance "g_packet_pool0 NetX Duo Packet Pool Instance"
+          Name: g_packet_pool0
+          Packet Size (bytes): 1568
+          Number of Packets in Pool: 16
+          
+        Instance "NetX Duo Ethernet Driver"
+          Name: g_netxduo_ether_0
+          IP MTU: 1500
+          
+          Instance "g_ether0 Ethernet Driver on r_ether"
+            General: Name: g_ether0
+            General: Channel: 0
+            General: MAC address: 00:11:22:33:44:55
+            General: Zero-copy Mode: Enable
+            General: Flow control functionality: Disable
+            Filters: Multicast Mode: Enable
+            Filters: Promiscuous Mode: Disable
+            Filters: Broadcast filter: 0
+            Buffers: Number of TX buffer: 4
+            Buffers: Number of RX buffer: 4
+            Buffers: Allocate RX buffer: Disable
+            Buffers: Buffer size: 1514
+            Buffers: Padding size: 2 Bytes
+            Buffers: Padding offset: 14
+            Interrupts: Interrupt priority: Priority 12
+            Interrupts: Callback: rm_netxduo_ether_callback
+            
+            Instance "g_ether_phy0 Ethernet Driver on r_ether_phy"
+              Name: g_ether_phy0
+              Channel: 0
+              PHY-LSI Address: 0
+              PHY-LSI Reset Completion Timeout: 0x00020000
+              Select MII type: MII
+              MII/RMII Register Access Wait-time: 8
+              Flow Control: Disable
+              
+          Instance "NetX Duo Common on nxd"
+      Instance "g_packet_pool0 NetX Duo Packet Pool Instance"
+        Name: g_packet_pool0
+        Packet Size (bytes): 1568
+        Number of Packets in Pool: 16
+        
+  Thread "RTT_Thread"
+    Symbol: RTT_Thread
+    Name: RTT_Thread
+    Stack size (bytes): 1024
+    Priority: 4
+    Auto start: Enabled
+    Time slicing interval (ticks): 1
+    

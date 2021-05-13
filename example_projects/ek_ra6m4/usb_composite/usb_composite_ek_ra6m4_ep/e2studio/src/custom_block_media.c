@@ -52,7 +52,6 @@ fsp_err_t RM_BLOCK_MEDIA_RAM_StatusGet (rm_block_media_ctrl_t * const   p_api_ct
                                           rm_block_media_status_t * const p_status);
 fsp_err_t RM_BLOCK_MEDIA_RAM_InfoGet (rm_block_media_ctrl_t * const p_ctrl, rm_block_media_info_t * const p_info);
 fsp_err_t RM_BLOCK_MEDIA_RAM_Close (rm_block_media_ctrl_t * const p_ctrl);
-fsp_err_t RM_BLOCK_MEDIA_RAM_VersionGet (fsp_version_t * const p_version);
 
 /* Global variables */
 extern volatile bool g_blockmedia_complete_event;
@@ -72,7 +71,6 @@ const rm_block_media_api_t g_rm_block_media_on_user_media =
     .infoGet    = RM_BLOCK_MEDIA_RAM_InfoGet,
     .statusGet  = RM_BLOCK_MEDIA_RAM_StatusGet,
     .close      = RM_BLOCK_MEDIA_RAM_Close,
-    .versionGet = RM_BLOCK_MEDIA_RAM_VersionGet,
 };
 
 /*******************************************************************************************************************//**
@@ -234,18 +232,6 @@ fsp_err_t RM_BLOCK_MEDIA_RAM_InfoGet (rm_block_media_ctrl_t * const p_ctrl, rm_b
 fsp_err_t RM_BLOCK_MEDIA_RAM_Close (rm_block_media_ctrl_t * const p_ctrl)
 {
     FSP_PARAMETER_NOT_USED(p_ctrl);
-
-    return FSP_SUCCESS;
-}
-
-/*******************************************************************************************************************//**
- * Returns the version of the firmware and API.  Implements @ref rm_block_media_api_t::versionGet().
- *
- * @retval     FSP_SUCCESS        Function executed successfully.
- **********************************************************************************************************************/
-fsp_err_t RM_BLOCK_MEDIA_RAM_VersionGet (fsp_version_t * const p_version)
-{
-    FSP_PARAMETER_NOT_USED(p_version);
 
     return FSP_SUCCESS;
 }

@@ -50,6 +50,7 @@ FSP Configuration
     Permanent Block Protection Settings (PBPS): PBPS2: 
     Dual Bank Mode: Disabled
     Clocks: HOCO FLL Function: Disabled
+    Main Oscillator Wait Time: 8163 cycles
     
   RA Common
     Main stack size (bytes): 0x400
@@ -62,7 +63,6 @@ FSP Configuration
     Main Oscillator Populated: Populated
     PFS Protect: Enabled
     C Runtime Initialization : Enabled
-    Main Oscillator Wait Time: 32768 us
     Main Oscillator Clock Source: Crystal or Resonator
     Subclock Populated: Populated
     Subclock Drive (Drive capacitance availability varies by MCU): Standard/Normal mode
@@ -395,10 +395,19 @@ FSP Configuration
   Module "USB Composite"
   Module "Heap 4"
   Module "USB PCDC driver on r_usb_pcdc"
-    Bulk In Pipe: USB PIPE1
-    Bulk Out Pipe: USB PIPE2
+    Bulk In Pipe: USB PIPE3
+    Bulk Out Pipe: USB PIPE4
     Interrupt Out Pipe: USB PIPE6
     
+  Module "USB PMSC driver on r_usb_pmsc"
+    Bulk Input Transfer Pipe: USB PIPE1
+    Bulk Output Transfer Pipe: USB PIPE2
+    Vendor Information: Vendor  
+    Product Information: Mass Storage    
+    Product Revision Level: 1.00
+    Number of Transfer Sectors: 8
+    
+  Module "Block Media Custom Implementation"
   Module "USB Driver on r_usb_basic"
     Parameter Checking: Default (BSP)
     PLL Frequency: 24MHz
@@ -410,19 +419,13 @@ FSP Configuration
     Double Buffering: Enabled
     Continuous Transfer Mode: Disabled
     LDO Regulator: Disable
-    DMA Support: Disable
-    DMA Source Address: DMA Disabled
-    DMA Destination Address: DMA Disabled
+    DMA Support: Enable
+    DMA Source Address: FS Address
+    DMA Destination Address: FS Address
     
-  Module "USB PMSC driver on r_usb_pmsc"
-    Bulk Input Transfer Pipe: USB PIPE3
-    Bulk Output Transfer Pipe: USB PIPE4
-    Vendor Information: Vendor  
-    Product Information: Mass Storage    
-    Product Revision Level.: 1.00
-    Number of Transfer Sectors: 8
+  Module "Transfer Driver on r_dmac"
+    Parameter Checking: Default (BSP)
     
-  Module "Block Media Custom Implementation"
   FreeRTOS
     General: Custom FreeRTOSConfig.h: 
     General: Use Preemption: Enabled
@@ -456,7 +459,7 @@ FSP Configuration
     General: Message Buffer Length Type: size_t
     Memory Allocation: Support Static Allocation: Enabled
     Memory Allocation: Support Dynamic Allocation: Enabled
-    Memory Allocation: Total Heap Size: 10000
+    Memory Allocation: Total Heap Size: 30000
     Memory Allocation: Application Allocated Heap: Disabled
     Stats: Generate Run Time Stats: Disabled
     Timers: Use Timers: Enabled
@@ -511,12 +514,18 @@ FSP Configuration
       Instance "g_pcdc USB PCDC driver on r_usb_pcdc"
         Name: g_pcdc
         
+      Instance "g_pmsc USB PMSC driver on r_usb_pmsc"
+        Name: g_pmsc
+        
+        Instance "g_rm_block_media Block Media Custom Implementation"
+          Name: g_rm_block_media
+          
         Instance "g_basic USB Driver on r_usb_basic"
           Name: g_basic
           USB Mode: Peri mode
           USB Speed: Full Speed
           USB Module Number: USB_IP0 Port
-          USB Device Class: Peripheral Communications Device Class
+          USB Device Class: Peripheral Mass Storage Class
           USB Descriptor: g_usb_descriptor
           USB Compliance Callback: NULL
           USBFS Interrupt Priority: Priority 12
@@ -529,12 +538,46 @@ FSP Configuration
           USB RTOS Callback: usb_composite_callback
           USB Callback Context: g_rm_block_media
           
-      Instance "g_pmsc USB PMSC driver on r_usb_pmsc"
-        Name: g_pmsc
-        
-        Instance "g_rm_block_media Block Media Custom Implementation"
-          Name: g_rm_block_media
-          
+          Instance "g_transfer1 Transfer Driver on r_dmac USBFS FIFO 1 (DMA transfer request 1)"
+            Name: g_transfer1
+            Channel: 1
+            Mode: Block
+            Transfer Size: 2 Bytes
+            Destination Address Mode: Fixed
+            Source Address Mode: Incremented
+            Repeat Area (Unused in Normal Mode): Destination
+            Destination Pointer: USB_DEST_ADDRESS
+            Source Pointer: 0
+            Number of Transfers: 0
+            Number of Blocks (Valid only in Repeat,Block or Repeat-Block Mode): 0
+            Activation Source: USBFS FIFO 1 (DMA transfer request 1)
+            Callback: usb_ip0_d1fifo_callback
+            Context: NULL
+            Transfer End Interrupt Priority: Priority 3
+            Interrupt Frequency: Interrupt after all transfers have completed
+            Offset value (Valid only when address mode is \'Offset\'): 0
+            Source Buffer Size: 1
+            
+          Instance "g_transfer0 Transfer Driver on r_dmac USBFS FIFO 0 (DMA transfer request 0)"
+            Name: g_transfer0
+            Channel: 0
+            Mode: Block
+            Transfer Size: 2 Bytes
+            Destination Address Mode: Incremented
+            Source Address Mode: Fixed
+            Repeat Area (Unused in Normal Mode): Source
+            Destination Pointer: 0
+            Source Pointer: USB_SRC_ADDRESS
+            Number of Transfers: 0
+            Number of Blocks (Valid only in Repeat,Block or Repeat-Block Mode): 0
+            Activation Source: USBFS FIFO 0 (DMA transfer request 0)
+            Callback: NULL
+            Context: NULL
+            Transfer End Interrupt Priority: Priority 3
+            Interrupt Frequency: Interrupt after all transfers have completed
+            Offset value (Valid only when address mode is \'Offset\'): 0
+            Source Buffer Size: 1
+            
     Instance "Heap 4"
   Object "g_event_queue Queue"
     Symbol: g_event_queue

@@ -51,7 +51,7 @@ This section describes FSP Configurator properties which are important or differ
 |   configuration.xml -> g_basic USB Driver on R_USB_Basic > Settings > Property > Module g_basic USB Driver on R_USB_Basic > USB Module Number  |   USB_IP0   |   USB_IP1   |   This is changed to USB_IP1,when USB Hi Speed is selected for EK_RA6M3/G board.   |
 |   configuration.xml -> Composite Thread > Settings > Property > Thread > Stack Size  |   1024   |   2048   |   This is changed to handle its worst-case function call nesting and local variable usage.   |
 |   configuration.xml -> Composite Thread > Settings > Property > Thread > Dynamic Allocation support  |   Disabled   |   Enabled   |   RTOS objects can be created using RAM that is automatically allocated from the FreeRTOS heap.   |
-|   configuration.xml -> Composite Thread > Settings > Property > Thread > Total Heap Size  |   0   |   10000   |   This is changed because Dynamic Allocation support is enabled, so application makes use of amount of RAM available in the FreeRTOS heap.   |
+|   configuration.xml -> Composite Thread > Settings > Property > Thread > Total Heap Size  |   0   |   30000   |   This is changed because Dynamic Allocation support is enabled, so application makes use of amount of RAM available in the FreeRTOS heap.   |
 
 ## API Usage ##
 

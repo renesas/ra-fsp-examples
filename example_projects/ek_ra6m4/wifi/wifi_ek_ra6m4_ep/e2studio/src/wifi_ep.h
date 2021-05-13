@@ -103,7 +103,7 @@ typedef struct
     char ssid[BUFF_LEN];
     char pwd[BUFF_LEN];
     uint32_t security;
-    uint8_t ip_addr_device[4];
+    uint32_t ip_addr_device[4];
     fsp_err_t status;
 }WiFiParameters_t;
 

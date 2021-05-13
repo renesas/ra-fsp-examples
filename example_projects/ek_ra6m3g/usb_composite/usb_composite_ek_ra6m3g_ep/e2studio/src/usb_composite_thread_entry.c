@@ -46,7 +46,7 @@ extern const rm_block_media_api_t g_rm_block_media_on_user_media;
 
 extern void r_usb_pmsc_block_media_event_callback(rm_block_media_callback_args_t *p_args);
 
-rm_block_media_cfg_t g_rm_block_media_cfg =
+const rm_block_media_cfg_t g_rm_block_media_cfg =
 { .p_extend = NULL, .p_callback = r_usb_pmsc_block_media_event_callback, .p_context = NULL, };
 
 rm_block_media_instance_t g_rm_block_media =

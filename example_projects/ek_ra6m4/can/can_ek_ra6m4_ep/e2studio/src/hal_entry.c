@@ -44,8 +44,8 @@ static volatile bool b_can_tx = false;                  //CAN transmission statu
 static volatile bool b_can_rx = false;                  //CAN receive status
 static volatile bool b_can_err = false;                 //CAN error status
 /* CAN frames for tx and rx */
-static can_frame_t g_can_tx_frame;                      //CAN transmit frame
-static can_frame_t g_can_rx_frame;                      //CAN receive frame
+static can_frame_t g_can_tx_frame = {RESET_VALUE};      //CAN transmit frame
+static can_frame_t g_can_rx_frame = {RESET_VALUE};      //CAN receive frame
 
 /***********************************************************************************************************************
  * Private local functions
@@ -76,6 +76,20 @@ void hal_entry(void)
             "\r\nOn reception, Board2 displays the received data on the RTTViewer. Board2, then, transmits the"
             "\r\nframed data back to Board1. On successful transmission, Board1 prints the data on to the RTTViewer.\r\n");
 
+#if defined (BOARD_RA2A1_EK)
+    err = R_CGC_Open (&g_cgc0_ctrl, &g_cgc0_cfg);
+    if (FSP_SUCCESS != err)
+    {
+        APP_ERR_PRINT("\r\nCGC Open API failed");
+        APP_ERR_TRAP(err);
+    }
+    err = R_CGC_ClockStart (&g_cgc0_ctrl, CGC_CLOCK_MAIN_OSC, NULL);
+    if (FSP_SUCCESS != err)
+    {
+        APP_ERR_PRINT("\r\nCGC ClockStart API failed");
+        APP_ERR_TRAP(err);
+    }
+#endif
     /* Initialize CAN module */
     err = R_CAN_Open(&g_can_ctrl, &g_can_cfg);
     /* Error trap */
@@ -85,7 +99,7 @@ void hal_entry(void)
         APP_ERR_TRAP(err);
     }
 
-    APP_PRINT("\r\n To start CAN transmission, please enter any key on RTTViewer\n");
+    APP_PRINT("\r\nTo start CAN transmission, please enter any key on RTTViewer\r\n");
 
     g_can_tx_frame.id = CAN_DESTINATION_MAILBOX_3;
     g_can_tx_frame.type = CAN_FRAME_TYPE_DATA;
@@ -125,6 +139,7 @@ void hal_entry(void)
             b_can_tx = false;
             APP_PRINT("\r\n CAN transmission is successful");
             APP_PRINT("\r\n To start CAN transmission, please enter any key on RTTViewer\n");
+            memset(rtt_input_buf,NULL_CHAR,BUFFER_SIZE_DOWN);
 
         }
         /* check if receive flag is set */
@@ -132,7 +147,7 @@ void hal_entry(void)
         {
             /* Reset flag bit */
             b_can_rx = false;
-            APP_PRINT("\r\n CAN received the data : %s", &g_can_rx_frame.data);
+            APP_PRINT("\r\n CAN received the data : %s\r\n", &g_can_rx_frame.data);
 
             /* if received data is same as transmitted data then acknowledge with RX_MSG as received successful*/
             if (RESET_VALUE == strncmp((char*)&g_can_rx_frame.data[ZERO], (char*)&can_tx_msg[ZERO], CAN_FRAME_TRANSMIT_DATA_BYTES))
@@ -210,6 +225,10 @@ void can_callback(can_callback_args_t *p_args)
         case CAN_EVENT_ERR_BUS_OFF:             //error Bus Off event
         case CAN_EVENT_ERR_PASSIVE:             //error passive event
         case CAN_EVENT_ERR_WARNING:             //error warning event
+        case CAN_EVENT_ERR_BUS_LOCK:            //error bus lock
+        case CAN_EVENT_ERR_CHANNEL:             //error channel
+        case CAN_EVENT_ERR_GLOBAL:              //error global
+        case CAN_EVENT_TX_ABORTED:              //error transmit abort
         {
             b_can_err = true;                   //set flag bit
             break;
