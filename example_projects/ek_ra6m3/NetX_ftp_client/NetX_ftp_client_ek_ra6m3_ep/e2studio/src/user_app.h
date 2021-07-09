@@ -34,16 +34,16 @@
  * User can create their own credentials viz., "username" and "password" according to their settings,
  * same it should modify in the respective macro fields.
  */
-#define USERNAME        "username"                       //User configurable credential i.e., username
-#define PASSWORD        "password"                       //User configurable credential i.e., password
+#define USERNAME        "pi"                       //User configurable credential i.e., username
+#define PASSWORD        "tel@1234"                       //User configurable credential i.e., password
 
 /**@brief User configurable (ipv4) address. IP address should be provided from where the FTP server is running
  * NOTE: Current IP address is provided according to our test environment.*/
-#define SERVER_ADDRESS  IP_ADDRESS(132,158,124,9)
+#define SERVER_ADDRESS  IP_ADDRESS(132,158,124,22)
 
 
 /* Macros for FTP file settings */
-#define FTP_TIMEOUT     5                  /* Define timeout in seconds for FTP operations */
+#define FTP_TIMEOUT     5              /* Define timeout in seconds for FTP operations */
 #define FILE_SIZE       1400                /* Define size of file in bytes; */
 #define FILE_NAME       "test_file.txt"      /* File name in txt format */
 

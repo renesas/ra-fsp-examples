@@ -50,6 +50,7 @@ FSP Configuration
     Permanent Block Protection Settings (PBPS): PBPS2: 
     Dual Bank Mode: Disabled
     Clocks: HOCO FLL Function: Disabled
+    Main Oscillator Wait Time: 8163 cycles
     
   RA Common
     Main stack size (bytes): 0x400
@@ -62,7 +63,6 @@ FSP Configuration
     Main Oscillator Populated: Populated
     PFS Protect: Enabled
     C Runtime Initialization : Enabled
-    Main Oscillator Wait Time: 32768 us
     Main Oscillator Clock Source: Crystal or Resonator
     Subclock Populated: Populated
     Subclock Drive (Drive capacitance availability varies by MCU): Standard/Normal mode
@@ -81,6 +81,7 @@ FSP Configuration
     CLKOUT Disabled
     UCLK Disabled
     OCTASPICLK Disabled
+    CANFDCLK Disabled
     ICLK Div /1
     PCLKA Div /2
     PCLKB Div /4
@@ -92,6 +93,7 @@ FSP Configuration
     CLKOUT Div /1
     UCLK Div /5
     OCTASPICLK Div /1
+    CANFDCLK Div /1
     
   Pin Configurations
     RA6M5 EK -> g_bsp_pin_cfg
@@ -196,8 +198,8 @@ FSP Configuration
       P606 116 - - - - Disabled - - "RTC0: RTCOUT; SCI8: CTSRTS" - None - - 
       P607 115 - - - - Disabled - - "SCI8: RXD; SCI8: SCL" - None - - 
       P608 99 GPIO ARDUINO_D7 - - - - - "BUS_ASYNCH0: A00; GPT4: GTIOCB" - IO - - 
-      P609 100 CAN1_CTX CAN_TXD - - - - - "AGT5: AGTO; BUS_ASYNCH0: CS1; CAN1: CTX; GPT5: GTIOCA" - IO - - 
-      P610 101 CAN1_CRX CAN_RDX - - - - - "AGT4: AGTO; BUS_ASYNCH0: CS0; CAN1: CRX; GPT5: GTIOCB; OSPI0: OMCS0; SCI7: CTS" - IO - - 
+      P609 100 CANFD1_CTX CAN_TXD - - - - - "AGT5: AGTO; BUS_ASYNCH0: CS1; CAN1: CTX; GPT5: GTIOCA" - IO - - 
+      P610 101 CANFD1_CRX CAN_RDX - - - - - "AGT4: AGTO; BUS_ASYNCH0: CS0; CAN1: CRX; GPT5: GTIOCB; OSPI0: OMCS0; SCI7: CTS" - IO - - 
       P611 102 GPIO CAN_STBY - - - - - "AGT3: AGTO; CAC0: CACREF; CGC0: CLKOUT; SCI7: CTSRTS" - IO - - 
       P612 103 - - - - Disabled - - "AGT2: AGTO; BUS_ASYNCH0: D08; SCI7: SCK" - None - - 
       P613 104 SCI7_TXD MIKROBUS_TX_ARDUINO_TX - - - - - "AGT1: AGTO; BUS_ASYNCH0: D09; SCI7: SDA; SCI7: TXD" - IO - - 
@@ -373,8 +375,8 @@ FSP Configuration
       P606 116 - - - - Disabled - - "RTC0: RTCOUT; SCI8: CTSRTS" - None - - 
       P607 115 - - - - Disabled - - "SCI8: RXD; SCI8: SCL" - None - - 
       P608 99 GPIO ARDUINO_D7 - - - - - "BUS_ASYNCH0: A00; GPT4: GTIOCB" - IO - - 
-      P609 100 CAN1_CTX CAN_TXD - - - - - "AGT5: AGTO; BUS_ASYNCH0: CS1; CAN1: CTX; GPT5: GTIOCA" - IO - - 
-      P610 101 CAN1_CRX CAN_RDX - - - - - "AGT4: AGTO; BUS_ASYNCH0: CS0; CAN1: CRX; GPT5: GTIOCB; OSPI0: OMCS0; SCI7: CTS" - IO - - 
+      P609 100 CANFD1_CTX CAN_TXD - - - - - "AGT5: AGTO; BUS_ASYNCH0: CS1; CAN1: CTX; GPT5: GTIOCA" - IO - - 
+      P610 101 CANFD1_CRX CAN_RDX - - - - - "AGT4: AGTO; BUS_ASYNCH0: CS0; CAN1: CRX; GPT5: GTIOCB; OSPI0: OMCS0; SCI7: CTS" - IO - - 
       P611 102 GPIO CAN_STBY - - - - - "AGT3: AGTO; CAC0: CACREF; CGC0: CLKOUT; SCI7: CTSRTS" - IO - - 
       P612 103 - - - - Disabled - - "AGT2: AGTO; BUS_ASYNCH0: D08; SCI7: SCK" - None - - 
       P613 104 SCI7_TXD MIKROBUS_TX_ARDUINO_TX - - - - - "AGT1: AGTO; BUS_ASYNCH0: D09; SCI7: SDA; SCI7: TXD" - IO - - 

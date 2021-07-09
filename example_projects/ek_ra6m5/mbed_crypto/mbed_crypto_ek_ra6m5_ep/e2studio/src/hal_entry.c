@@ -413,9 +413,9 @@ psa_status_t ecc_operation(void)
     /* Set Key uses flags, key_algorithm, key_type, key_bits, key_lifetime, key_id*/
     psa_set_key_usage_flags(&attributes, PSA_KEY_USAGE_SIGN_HASH | PSA_KEY_USAGE_VERIFY_HASH | PSA_KEY_USAGE_EXPORT);
     psa_set_key_algorithm(&attributes, PSA_ALG_ECDSA(PSA_ALG_SHA_256));
-    psa_set_key_type(&attributes, PSA_KEY_TYPE_ECC_KEY_PAIR(PSA_ECC_CURVE_SECP_R1));
+    psa_set_key_type(&attributes, PSA_KEY_TYPE_ECC_KEY_PAIR_WRAPPED(PSA_ECC_FAMILY_SECP_R1));
     psa_set_key_bits(&attributes, ECC_256_BIT_LENGTH);
-    psa_set_key_lifetime(&attributes, PSA_KEY_LIFETIME_PERSISTENT_WRAPPED);
+    psa_set_key_lifetime(&attributes, PSA_KEY_LIFETIME_PERSISTENT);
     psa_set_key_id(&attributes, ECC_KEY_ID);
 
     /* Generate ECC P256R1 Key pair */
@@ -518,10 +518,10 @@ psa_status_t rsa_operation(void)
     /* Set Key uses flags, key_algorithm, key_type, key_bits, key_lifetime, key_id*/
     psa_set_key_usage_flags(&attributes, PSA_KEY_USAGE_SIGN_HASH | PSA_KEY_USAGE_VERIFY_HASH | PSA_KEY_USAGE_EXPORT);
     psa_set_key_algorithm(&attributes, PSA_ALG_RSA_PKCS1V15_SIGN_RAW);
-    psa_set_key_type(&attributes, PSA_KEY_TYPE_RSA_KEY_PAIR);
+    psa_set_key_type(&attributes, PSA_KEY_TYPE_RSA_KEY_PAIR_WRAPPED);
     psa_set_key_bits(&attributes, RSA_2048_BIT_LENGTH);
     psa_set_key_id(&attributes, RSA_KEY_ID);
-    psa_set_key_lifetime(&attributes, PSA_KEY_LIFETIME_PERSISTENT_WRAPPED);
+    psa_set_key_lifetime(&attributes, PSA_KEY_LIFETIME_PERSISTENT);
 
     /* Generate RSA 2048 Key pair */
     status = psa_generate_key(&attributes, &rsa_key_handle);

@@ -1,7 +1,7 @@
 
             /* generated memory regions file - do not edit */
                             RAM_START  = 0x20000000;
-                RAM_LENGTH = 0x40000;
+                RAM_LENGTH = 0x20000;
                 FLASH_START  = 0x00000000;
                 FLASH_LENGTH = 0x100000;
                 DATA_FLASH_START  = 0x08000000;

@@ -16,6 +16,7 @@ FSP Configuration
     Security: Exceptions: BusFault, HardFault, and NMI Target: Secure State
     Security: System Reset Request Accessibility: Secure State
     Security: Exceptions: Prioritize Secure Exceptions: Disabled
+    Security: Cache Accessibility: Both Secure and Non-Secure State
     Security: System Reset Status Accessibility: Both Secure and Non-Secure State
     Security: Battery Backup Accessibility: Both Secure and Non-Secure State
     Security: SRAM Accessibility: SRAM Protection: Both Secure and Non-Secure State
@@ -23,6 +24,7 @@ FSP Configuration
     Security: SRAM Accessibility: Standby RAM: Regions 7-0 are all Secure.
     Security: BUS Accessibility: Bus Security Attribution Register A: Both Secure and Non-Secure State
     Security: BUS Accessibility: Bus Security Attribution Register B: Both Secure and Non-Secure State
+    Startup C-Cache Line Size: 32 Bytes
     OFS0 register settings: Independent WDT: Start Mode: IWDT is Disabled
     OFS0 register settings: Independent WDT: Timeout Period: 2048 cycles
     OFS0 register settings: Independent WDT: Dedicated Clock Frequency Divisor: 128
@@ -39,7 +41,7 @@ FSP Configuration
     OFS0 register settings: WDT: Stop Control: Stop counting when entering Sleep mode
     OFS1 register settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
     OFS1 register settings: Voltage Detection 0 Level: 2.80 V
-    OFS1 register settings: HOCO OScillation Enable: HOCO oscillation is disabled after reset
+    OFS1 register settings: HOCO Oscillation Enable: HOCO oscillation is disabled after reset
     Block Protection Settings (BPS): BPS0: 
     Block Protection Settings (BPS): BPS1: 
     Block Protection Settings (BPS): BPS2: 
@@ -47,6 +49,8 @@ FSP Configuration
     Permanent Block Protection Settings (PBPS): PBPS1: 
     Permanent Block Protection Settings (PBPS): PBPS2: 
     Dual Bank Mode: Disabled
+    Clocks: HOCO FLL Function: Disabled
+    Main Oscillator Wait Time: 8163 cycles
     
   RA Common
     Main stack size (bytes): 0x1500
@@ -59,7 +63,6 @@ FSP Configuration
     Main Oscillator Populated: Populated
     PFS Protect: Enabled
     C Runtime Initialization : Enabled
-    Main Oscillator Wait Time: 32768 us
     Main Oscillator Clock Source: Crystal or Resonator
     Subclock Populated: Populated
     Subclock Drive (Drive capacitance availability varies by MCU): Standard/Normal mode
@@ -389,7 +392,7 @@ FSP Configuration
   Module "I/O Port Driver on r_ioport"
     Parameter Checking: Default (BSP)
     
-  Module "Mbed Crypto"
+  Module "MbedTLS (Crypto Only)"
     Hardware Acceleration: TRNG: Enabled
     Hardware Acceleration: Key Format: AES: Plaintext and Wrapped (Vendor)
     Hardware Acceleration: Key Format: ECC: Plaintext and Wrapped (Vendor)
@@ -434,7 +437,7 @@ FSP Configuration
     Cipher: Alternate: MBEDTLS_DES_ALT: Undefine
     Public Key Cryptography (PKC): DHM: Alternate: MBEDTLS_DHM_ALT: Undefine
     Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECJPAKE_ALT: Undefine
-    Cipher: Alternate: MBEDTLS_GCM_ALT: Undefine
+    Cipher: Alternate: MBEDTLS_GCM_ALT: Define
     Cipher: Alternate: MBEDTLS_NIST_KW_ALT: Undefine
     Hash: Alternate: MBEDTLS_MD2_ALT: Undefine
     Hash: Alternate: MBEDTLS_MD4_ALT: Undefine
@@ -667,9 +670,10 @@ FSP Configuration
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECDH_VARIANT_EVEREST_ENABLED: Undefine
     
   Module "Mbed Crypto HW Acceleration"
-  Module "SCE Plaintext and Wrapped"
+  Module "SCE Compatibility Mode"
   Module "LittleFS"
     Custom lfs_util.h: 
+    Thread Safe: Disabled
     Use Malloc: Enabled
     Use Assert: Enabled
     Debug Messages: Enabled
@@ -680,7 +684,7 @@ FSP Configuration
     Instance Name for STDIO wrapper: g_rm_littlefs0
     
   Module "LittleFS on Flash"
-    Parameter Checking Enable: Default (BSP)
+    Parameter Checking: Default (BSP)
     
   Module "Flash Driver on r_flash_hp"
     Parameter Checking: Default (BSP)
@@ -695,9 +699,9 @@ FSP Configuration
       Port 3 ELC Trigger Source: Disabled
       Port 4 ELC Trigger Source: Disabled
       
-    Instance "Mbed Crypto"
+    Instance "MbedTLS (Crypto Only)"
       Instance "Mbed Crypto HW Acceleration"
-        Instance "SCE Plaintext and Wrapped"
+        Instance "SCE Compatibility Mode"
       Instance "LittleFS"
         
         Instance "LittleFS on Flash"
