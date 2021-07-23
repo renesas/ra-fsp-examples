@@ -1,0 +1,786 @@
+FSP Configuration
+  Board "EK-RA6M3"
+  R7FA6M3AH3CFC
+    part_number: R7FA6M3AH3CFC
+    rom_size_bytes: 2097152
+    ram_size_bytes: 655360
+    data_flash_size_bytes: 65536
+    package_style: LQFP
+    package_pins: 176
+    
+  RA6M3
+    series: 6
+    
+  RA6M3 Family
+    OFS0 register settings: Independent WDT: Start Mode: IWDT is Disabled
+    OFS0 register settings: Independent WDT: Timeout Period: 2048 cycles
+    OFS0 register settings: Independent WDT: Dedicated Clock Frequency Divisor: 128
+    OFS0 register settings: Independent WDT: Window End Position:  0% (no window end position)
+    OFS0 register settings: Independent WDT: Window Start Position: 100% (no window start position)
+    OFS0 register settings: Independent WDT: Reset Interrupt Request Select: Reset is enabled
+    OFS0 register settings: Independent WDT: Stop Control: Stop counting when in Sleep, Snooze mode, or Software Standby
+    OFS0 register settings: WDT: Start Mode Select: Stop WDT after a reset (register-start mode)
+    OFS0 register settings: WDT: Timeout Period: 16384 cycles
+    OFS0 register settings: WDT: Clock Frequency Division Ratio: 128
+    OFS0 register settings: WDT: Window End Position:  0% (no window end position)
+    OFS0 register settings: WDT: Window Start Position: 100% (no window start position)
+    OFS0 register settings: WDT: Reset Interrupt Request: Reset
+    OFS0 register settings: WDT: Stop Control: Stop counting when entering Sleep mode
+    OFS1 register settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
+    OFS1 register settings: Voltage Detection 0 Level: 2.80 V
+    OFS1 register settings: HOCO Oscillation Enable: HOCO oscillation is disabled after reset
+    MPU: Enable or disable PC Region 0: Disabled
+    MPU: PC0 Start: 0xFFFFFFFC
+    MPU: PC0 End: 0xFFFFFFFF
+    MPU: Enable or disable PC Region 1: Disabled
+    MPU: PC1 Start: 0xFFFFFFFC
+    MPU: PC1 End: 0xFFFFFFFF
+    MPU: Enable or disable Memory Region 0: Disabled
+    MPU: Memory Region 0 Start: 0x00FFFFFC
+    MPU: Memory Region 0 End: 0x00FFFFFF
+    MPU: Enable or disable Memory Region 1: Disabled
+    MPU: Memory Region 1 Start: 0x200FFFFC
+    MPU: Memory Region 1 End: 0x200FFFFF
+    MPU: Enable or disable Memory Region 2: Disabled
+    MPU: Memory Region 2 Start: 0x407FFFFC
+    MPU: Memory Region 2 End: 0x407FFFFF
+    MPU: Enable or disable Memory Region 3: Disabled
+    MPU: Memory Region 3 Start: 0x400DFFFC
+    MPU: Memory Region 3 End: 0x400DFFFF
+    Clocks: HOCO FLL Function: Disabled
+    Main Oscillator Wait Time: 8163 cycles
+    ID Code Mode: Unlocked (Ignore ID)
+    ID Code (32 Hex Characters): FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    
+  RA Common
+    Main stack size (bytes): 0x1000
+    Heap size (bytes): 0x400
+    MCU Vcc (mV): 3300
+    Parameter checking: Disabled
+    Assert Failures: Return FSP_ERR_ASSERTION
+    Error Log: No Error Log
+    Soft Reset: Disabled
+    Main Oscillator Populated: Populated
+    PFS Protect: Enabled
+    C Runtime Initialization : Enabled
+    Main Oscillator Clock Source: Crystal or Resonator
+    Subclock Populated: Populated
+    Subclock Drive (Drive capacitance availability varies by MCU): Standard/Normal mode
+    Subclock Stabilization Time (ms): 1000
+    
+  Clocks
+    XTAL 24000000Hz
+    PLL Src: XTAL
+    HOCO 20MHz
+    PLL Div /2
+    PLL Mul x20.0
+    Clock Src: PLL
+    ICLK Div /2
+    PCLKA Div /2
+    PCLKB Div /4
+    PCLKC Div /4
+    PCLKD Div /2
+    SDCLKout On
+    BCLK Div /2
+    BCLK/2
+    UCLK Div /5
+    FCLK Div /4
+    CLKOUT Disabled
+    CLKOUT Div /1
+    
+  Pin Configurations
+    RA6M3-EK.pincfg -> g_bsp_pin_cfg
+      AVCC0 155 ADC_AVCC0 - - - - - - - - IO "Read only" - 
+      AVCCUSBHS 26 USBHS0_AVCCUSBHS - - - - - - - - IO "Read only" - 
+      AVSS0 156 ADC_AVSS0 - - - - - - - - IO "Read only" - 
+      AVSSUSBHS 28 USBHS0_AVSSUSBHS - - - - - - - - IO "Read only" - 
+      P000 169 ADC0_AN00 - - - "Analog mode" - - "ADC0: AN00; CMP0: IVCMP2; IRQ0: IRQ06" - IO - - 
+      P001 168 ADC0_AN01 - - - "Analog mode" - - "ADC0: AN01; CMP0: IVCMP2; IRQ0: IRQ07" - IO - - 
+      P002 167 ADC0_AN02 - - - "Analog mode" - - "ADC0: AN02; CMP0: IVCMP2; IRQ0: IRQ08" - IO - - 
+      P003 166 - - - - Disabled - - "ADC0: AN07; ADC0: PGAVSS0" - None - - 
+      P004 165 IRQ0_IRQ09 - - IRQ9-DS "IRQ mode" - - "ADC1: AN00; CMP0: IVCMP2; IRQ0: IRQ09" - IO - - 
+      P005 164 - - - - Disabled - - "ADC1: AN01; CMP0: IVCMP2; IRQ0: IRQ10" - None - - 
+      P006 163 - - - - Disabled - - "ADC1: AN02; CMP0: IVCMP2; IRQ0: IRQ11" - None - - 
+      P007 162 - - - - Disabled - - "ADC1: AN07; ADC1: PGAVSS0" - None - - 
+      P008 161 IRQ0_IRQ12 - - IRQ12-DS "IRQ mode" - None "ADC0: AN03; IRQ0: IRQ12" - IO - - 
+      P009 160 IRQ0_IRQ13 - - IRQ13-DS "IRQ mode" - None "ADC0: AN04; IRQ0: IRQ13" - IO - - 
+      P010 159 - - - - Disabled - - "ADC1: AN03; IRQ0: IRQ14" - None - - 
+      P014 152 ADC0_AN05 - - - "Analog mode" - - "ADC0: AN05; ADC1: AN05; CMP0: IVREF3; DAC120: DA" - IO - - 
+      P015 151 - - - - Disabled - - "ADC0: AN06; ADC1: AN06; CMP0: IVCMP1; DAC121: DA; IRQ0: IRQ13" - None - - 
+      P100 132 GPIO - Low None "Output mode (Initial Low)" CMOS None "AGT0: AGTIO; BUS0: D0_DQ0; GLCDC0: LCD_EXTCLK; GPT5: GTIOCB; IIC1: SCL; IRQ0: IRQ02; KINT0: KRM0; POEG0: GTETRG; SCI0: RXD_MISO; SCI0: SCL; SCI1: SCK; SPI0: MISO" - IO - - 
+      P101 131 - - - - Disabled - - "AGT0: AGTEE; BUS0: D1_DQ1; GLCDC0: LCD_CLK; GPT5: GTIOCA; IIC1: SDA; IRQ0: IRQ01; KINT0: KRM1; POEG1: GTETRG; SCI0: SDA; SCI0: TXD_MOSI; SCI1: CTS_RTS_SS; SPI0: MOSI" - None - - 
+      P102 130 - - - - Disabled - - "ADC0: ADTRG; AGT0: AGTO; BUS0: D2_DQ2; CAN0: CRX; GLCDC0: LCD_TCON0; GPT2: GTIOCB; KINT0: KRM2; OPS0: GTOWLO; SCI0: SCK; SPI0: RSPCK" - None - - 
+      P103 129 - - - - Disabled - - "BUS0: D3_DQ3; CAN0: CTX; GLCDC0: LCD_TCON1; GPT2: GTIOCA; KINT0: KRM3; OPS0: GTOWUP; SCI0: CTS_RTS_SS; SPI0: SSL0" - None - - 
+      P104 128 - - - - Disabled - - "BUS0: D4_DQ4; GLCDC0: LCD_TCON2; GPT1: GTIOCB; IRQ0: IRQ01; KINT0: KRM4; POEG1: GTETRG; SCI8: RXD_MISO; SCI8: SCL; SPI0: SSL1" - None - - 
+      P105 127 - - - - Disabled - - "BUS0: D5_DQ5; GLCDC0: LCD_TCON3; GPT1: GTIOCA; IRQ0: IRQ00; KINT0: KRM5; POEG0: GTETRG; SCI8: SDA; SCI8: TXD_MOSI; SPI0: SSL2" - None - - 
+      P106 126 - - - - Disabled - - "AGT0: AGTOB; BUS0: D6_DQ6; GLCDC0: LCD_DATA00; GPT8: GTIOCB; KINT0: KRM6; SCI8: SCK; SPI0: SSL3" - None - - 
+      P107 125 - - - - Disabled - - "AGT0: AGTOA; BUS0: D7_DQ7; GLCDC0: LCD_DATA01; GPT8: GTIOCA; KINT0: KRM7; SCI8: CTS_RTS_SS" - None - - 
+      P108 89 DEBUG0_TMS - Low - "Peripheral mode" CMOS None "DEBUG0: SWDIO; DEBUG0: TMS; GPT0: GTIOCB; OPS0: GTOULO; SCI9: CTS_RTS_SS; SPI1: SSL0" - IO - - 
+      P109 90 DEBUG0_TDO - Low - "Peripheral mode" CMOS None "CAN1: CTX; CGC0: CLKOUT; DEBUG0: SWO; DEBUG0: TDO; GPT1: GTIOCA; OPS0: GTOVUP; SCI9: SDA; SCI9: TXD_MOSI; SPI1: MOSI" - IO - - 
+      P110 91 DEBUG0_TDI - Low None "Peripheral mode" CMOS None "CAN1: CRX; CMP0: VCOUT; DEBUG0: TDI; GPT1: GTIOCB; IRQ0: IRQ03; OPS0: GTOVLO; SCI2: CTS_RTS_SS; SCI9: RXD_MISO; SCI9: SCL; SPI1: MISO" - IO - - 
+      P111 92 - - - - Disabled - - "BUS0: A05; GLCDC0: LCD_DATA12; GPT3: GTIOCA; IRQ0: IRQ04; SCI2: SCK; SCI9: SCK; SPI1: RSPCK" - None - - 
+      P112 93 - - - - Disabled - - "BUS0: A04; GLCDC0: LCD_DATA11; GPT3: GTIOCB; SCI1: SCK; SCI2: SDA; SCI2: TXD_MOSI; SPI1: SSL0; SSI0: SSISCK" - None - - 
+      P113 94 - - - - Disabled - - "BUS0: A03; GLCDC0: LCD_DATA10; GPT2: GTIOCA; SCI2: RXD_MISO; SCI2: SCL; SSI0: SSIWS" - None - - 
+      P114 95 - - - - Disabled - - "BUS0: A02; GLCDC0: LCD_DATA09; GPT2: GTIOCB; SSI0: SSIRXD" - None - - 
+      P115 96 - - - - Disabled - - "BUS0: A01; GLCDC0: LCD_DATA08; GPT4: GTIOCA; SSI0: SSITXD" - None - - 
+      P200 69 - - - - Disabled - - "IRQ0: NMI" - None - - 
+      P201 68 - - - - Disabled - - - - None - - 
+      P202 54 SPI1_MISO - Low None "Peripheral mode" CMOS None "BUS0: WR1_BC1; CAN0: CRX; GLCDC0: LCD_TCON3; GPT5: GTIOCB; IRQ0: IRQ03; SCI2: SCK; SCI9: RXD_MISO; SCI9: SCL; SDHI0: DAT6; SPI1: MISO" - IO - - 
+      P203 53 SPI1_MOSI - Low None "Peripheral mode" CMOS None "BUS0: A19; CAN0: CTX; CTSU0: TSCAP; GPT5: GTIOCA; IRQ0: IRQ02; SCI2: CTS_RTS_SS; SCI9: SDA; SCI9: TXD_MOSI; SDHI0: DAT5; SPI1: MOSI" - IO - - 
+      P204 52 SPI1_RSPCK - Low - "Peripheral mode" CMOS None "AGT1: AGTIO; BUS0: A18; CAC0: CACREF; CTSU0: TS00; GPT4: GTIOCB; IIC0: SCL; OPS0: GTIW; SCI4: SCK; SCI9: SCK; SDHI0: DAT4; SPI1: RSPCK; SSI1: SSISCK; USBFS0: OVRCURB" - IO - - 
+      P205 51 SPI1_SSL0 - Low None "Peripheral mode" CMOS None "AGT1: AGTO; BUS0: A16; CGC0: CLKOUT; CTSU0: TSCAP; ETHERC0: WOL; GPT4: GTIOCA; IIC1: SCL; IRQ0: IRQ01; OPS0: GTIV; SCI4: SDA; SCI4: TXD_MOSI; SCI9: CTS_RTS_SS; SDHI0: DAT3; SPI1: SSL0; SSI1: SSIWS; USBFS0: OVRCURA" - IO - - 
+      P206 50 GPIO - - IRQ0-DS "Input mode" - "input pull-up" "BUS0: WAIT; CTSU0: TS01; ETHERC0: LINKSTA; IIC1: SDA; IRQ0: IRQ00; OPS0: GTIU; SCI4: RXD_MISO; SCI4: SCL; SDHI0: DAT2; SPI1: SSL1; SSI1: SSIDATA; USBFS0: VBUSEN" - IO - - 
+      P207 49 - - - - Disabled - - "BUS0: A17; CTSU0: TS02; GLCDC0: LCD_DATA23; QSPI0: QSSL; SPI1: SSL2" - None - - 
+      P208 66 TRACE0_TDATA3 - High - "Peripheral mode" CMOS None "ETHERC0: LINKSTA; GLCDC0: LCD_DATA18; OPS0: GTOVLO; QSPI0: QIO3; SDHI0: DAT0; TRACE0: TDATA3" - IO - - 
+      P209 65 TRACE0_TDATA2 - High - "Peripheral mode" CMOS None "ETHERC0: EXOUT; GLCDC0: LCD_DATA19; OPS0: GTOVUP; QSPI0: QIO2; SDHI0: WP; TRACE0: TDATA2" - IO - - 
+      P210 64 TRACE0_TDATA1 - High - "Peripheral mode" CMOS None "ETHERC0: WOL; GLCDC0: LCD_DATA20; OPS0: GTIW; QSPI0: QIO1; SDHI0: CD; TRACE0: TDATA1" - IO - - 
+      P211 63 TRACE0_TDATA0 - High - "Peripheral mode" CMOS None "ETHERC0: MDIO; GLCDC0: LCD_DATA21; OPS0: GTIV; QSPI0: QIO0; SDHI0: CMD; TRACE0: TDATA0" - IO - - 
+      P212 24 CGC0_EXTAL - Low None "Peripheral mode" CMOS None "AGT1: AGTEE; CGC0: EXTAL; GPT0: GTIOCB; IRQ0: IRQ03; POEG3: GTETRG; SCI1: RXD_MISO; SCI1: SCL" - IO - - 
+      P213 23 CGC0_XTAL - Low None "Peripheral mode" CMOS None "ADC1: ADTRG; CGC0: XTAL; GPT0: GTIOCA; IRQ0: IRQ02; POEG2: GTETRG; SCI1: SDA; SCI1: TXD_MOSI" - IO - - 
+      P214 62 TRACE0_TCLK - High - "Peripheral mode" CMOS None "ETHERC0: MDC; GLCDC0: LCD_DATA22; OPS0: GTIU; QSPI0: QSPCLK; SDHI0: CLK; TRACE0: TCLK" - IO - - 
+      P300 88 DEBUG0_TCK - Low - "Peripheral mode" CMOS None "DEBUG0: SWCLK; DEBUG0: TCK; GPT0: GTIOCA; OPS0: GTOUUP; SPI1: SSL1" - IO - - 
+      P301 87 - - - - Disabled - - "AGT0: AGTIO; BUS0: A06; GLCDC0: LCD_DATA13; GPT4: GTIOCB; IRQ0: IRQ06; OPS0: GTOULO; SCI2: RXD_MISO; SCI2: SCL; SCI9: CTS_RTS_SS; SPI1: SSL2" - None - - 
+      P302 86 - - - - Disabled - - "BUS0: A07; GLCDC0: LCD_DATA14; GPT4: GTIOCA; IRQ0: IRQ05; OPS0: GTOUUP; SCI2: SDA; SCI2: TXD_MOSI; SPI1: SSL3" - None - - 
+      P303 85 - - - - Disabled - - "BUS0: A08; GLCDC0: LCD_DATA15; GPT7: GTIOCB" - None - - 
+      P304 82 GPIO - Low None "Output mode (Initial High)" CMOS None "BUS0: A09; GLCDC0: LCD_DATA16; GPT7: GTIOCA; IRQ0: IRQ09; OPS0: GTOWLO; SCI6: RXD_MISO; SCI6: SCL" - IO - - 
+      P305 81 QSPI0_QSPCLK - High None "Peripheral mode" CMOS None "BUS0: A10; GLCDC0: LCD_DATA17; IRQ0: IRQ08; OPS0: GTOWUP; QSPI0: QSPCLK; SCI6: SDA; SCI6: TXD_MOSI" - IO - - 
+      P306 80 QSPI0_QSSL - High - "Peripheral mode" CMOS None "BUS0: A11; GLCDC0: LCD_DATA18; OPS0: GTOULO; QSPI0: QSSL; SCI6: SCK" - IO - - 
+      P307 79 QSPI0_QIO0 - High - "Peripheral mode" CMOS None "BUS0: A12; GLCDC0: LCD_DATA19; OPS0: GTOUUP; QSPI0: QIO0; SCI6: CTS_RTS_SS" - IO - - 
+      P308 78 QSPI0_QIO1 - High - "Peripheral mode" CMOS None "BUS0: A13; GLCDC0: LCD_DATA20; QSPI0: QIO1" - IO - - 
+      P309 77 QSPI0_QIO2 - High - "Peripheral mode" CMOS None "BUS0: A14; GLCDC0: LCD_DATA21; QSPI0: QIO2; SCI3: RXD_MISO; SCI3: SCL" - IO - - 
+      P310 76 QSPI0_QIO3 - High - "Peripheral mode" CMOS None "AGT1: AGTEE; BUS0: A15; GLCDC0: LCD_DATA22; QSPI0: QIO3; SCI3: SDA; SCI3: TXD_MOSI" - IO - - 
+      P311 75 - - - - Disabled - - "AGT1: AGTOB; BUS0: CS2_RAS; GLCDC0: LCD_DATA23; SCI3: SCK" - None - - 
+      P312 74 - - - - Disabled - - "AGT1: AGTOA; BUS0: CS3_CAS; SCI3: CTS_RTS_SS" - None - - 
+      P313 55 - - - - Disabled - - "BUS0: A20; GLCDC0: LCD_TCON2; SDHI0: DAT7" - None - - 
+      P314 56 - - - - Disabled - - "ADC0: ADTRG; BUS0: A21; GLCDC0: LCD_TCON1" - None - - 
+      P315 57 - - - - Disabled - - "BUS0: A22; GLCDC0: LCD_TCON0; SCI4: RXD_MISO; SCI4: SCL" - None - - 
+      P400 1 GPIO IRQ0 Low None "Output mode (Initial Low)" CMOS None "ADC1: ADTRG; AGT1: AGTIO; ETHERC0: WOL; GPT6: GTIOCA; IIC0: SCL; IRQ0: IRQ00; SCI4: SCK; SCI7: SCK; SSI: AUDIO_CLK" - IO - - 
+      P401 2 ETHERC0_RMII_MDC - High None "Peripheral mode" CMOS None "CAN0: CTX; ETHERC0: MDC; GPT6: GTIOCB; IIC0: SDA; IRQ0: IRQ05; POEG0: GTETRG; SCI4: CTS_RTS_SS; SCI7: SDA; SCI7: TXD_MOSI" - IO - - 
+      P402 3 ETHERC0_RMII_MDIO - High None "Peripheral mode" CMOS None "AGT0: AGTIO; AGT1: AGTIO; CAC0: CACREF; CAN0: CRX; ETHERC0: MDIO; IRQ0: IRQ04; PDC0: VSYNC; RTC0: RTCIC0; SCI7: RXD_MISO; SCI7: SCL; SSI: AUDIO_CLK" - IO - - 
+      P403 4 GPIO - Low - "Output mode (Initial Low)" CMOS None "AGT0: AGTIO; AGT1: AGTIO; ETHERC0: LINKSTA; GPT3: GTIOCA; PDC0: PIXD7; RTC0: RTCIC1; SCI7: CTS_RTS_SS; SDHI1: DAT7; SSI0: SSISCK" - IO - - 
+      P404 5 GPIO - Low - "Output mode (Initial High)" CMOS None "ETHERC0: EXOUT; GPT3: GTIOCB; PDC0: PIXD6; RTC0: RTCIC2; SDHI1: DAT6; SSI0: SSIWS" - IO - - 
+      P405 6 ETHERC0_RMII_TXD_EN - High - "Peripheral mode" CMOS None "ETHERC0: TXD_EN; GPT1: GTIOCA; PDC0: PIXD5; SDHI1: DAT5; SSI0: SSITXD" - IO - - 
+      P406 7 ETHERC0_RMII_TXD1 - High - "Peripheral mode" CMOS None "ETHERC0: TXD1; GPT1: GTIOCB; PDC0: PIXD4; SDHI1: DAT4; SPI1: SSL3; SSI0: SSIRXD" - IO - - 
+      P407 44 USBFS0_VBUS - Low - "Peripheral mode" CMOS None "ADC0: ADTRG; AGT0: AGTIO; CTSU0: TS03; ETHERC0: EXOUT; IIC0: SDA; RTC0: RTCOUT; SCI4: CTS_RTS_SS; SPI1: SSL3; USBFS0: VBUS" - IO - - 
+      P408 43 SCI3_SCL - Low None "Peripheral mode" "n-ch open drain" None "CTSU0: TS04; ETHERC0: CRS_DV; GPT10: GTIOCB; IIC0: SCL; IRQ0: IRQ07; OPS0: GTOWLO; PDC0: PIXCLK; SCI3: RXD_MISO; SCI3: SCL; USBFS0: ID; USBHS0: ID" - IO - - 
+      P409 42 SCI3_SDA - Low None "Peripheral mode" "n-ch open drain" None "CTSU0: TS05; ETHERC0: RX_ER; GPT10: GTIOCA; IRQ0: IRQ06; OPS0: GTOWUP; PDC0: HSYNC; SCI3: SDA; SCI3: TXD_MOSI; USBFS0: EXICEN; USBHS0: EXICEN" - IO - - 
+      P410 41 SPI0_MISO - Low None "Peripheral mode" CMOS None "AGT1: AGTOB; CTSU0: TS06; ETHERC0: RXD1; GPT9: GTIOCB; IRQ0: IRQ05; OPS0: GTOVLO; PDC0: PIXD0; SCI0: RXD_MISO; SCI0: SCL; SCI3: SCK; SDHI0: DAT1; SPI0: MISO" - IO - - 
+      P411 40 SPI0_MOSI - Low None "Peripheral mode" CMOS None "AGT1: AGTOA; CTSU0: TS07; ETHERC0: RXD0; GPT9: GTIOCA; IRQ0: IRQ04; OPS0: GTOVUP; PDC0: PIXD1; SCI0: SDA; SCI0: TXD_MOSI; SCI3: CTS_RTS_SS; SDHI0: DAT0; SPI0: MOSI" - IO - - 
+      P412 39 SPI0_RSPCK - Low - "Peripheral mode" CMOS None "AGT1: AGTEE; CTSU0: TS08; ETHERC0: REF50CK; OPS0: GTOULO; PDC0: PIXD2; SCI0: SCK; SDHI0: CMD; SPI0: RSPCK" - IO - - 
+      P413 38 GPIO - Low - "Output mode (Initial Low)" CMOS None "CTSU0: TS09; ETHERC0: TXD0; OPS0: GTOUUP; PDC0: PIXD3; SCI0: CTS_RTS_SS; SDHI0: CLK; SPI0: SSL0" - IO - - 
+      P414 37 SPI0_SSL1 - Low None "Peripheral mode" CMOS None "CTSU0: TS10; ETHERC0: TXD1; GPT0: GTIOCB; IRQ0: IRQ09; PDC0: PIXD4; SDHI0: WP; SPI0: SSL1" - IO - - 
+      P415 36 GPT0_GTIOCA - Low None "Peripheral mode" CMOS None "CTSU0: TS11; ETHERC0: TXD_EN; GPT0: GTIOCA; IRQ0: IRQ08; PDC0: PIXD5; SDHI0: CD; SPI0: SSL2; USBFS0: VBUSEN" - IO - - 
+      P500 140 USBFS0_VBUSEN - Low - "Peripheral mode" CMOS None "ADC0: AN16; AGT0: AGTOA; CMP0: IVREF0; GPT11: GTIOCA; OPS0: GTIU; QSPI0: QSPCLK; SDHI1: CLK; USBFS0: VBUSEN" - IO - - 
+      P501 141 USBFS0_OVRCURA - Low None "Peripheral mode" CMOS None "ADC1: AN16; AGT0: AGTOB; CMP0: IVREF1; GPT11: GTIOCB; IRQ0: IRQ11; OPS0: GTIV; QSPI0: QSSL; SCI5: SDA; SCI5: TXD_MOSI; SDHI1: CMD; USBFS0: OVRCURA" - IO - - 
+      P502 142 - - - - Disabled - - "ADC0: AN17; CMP0: IVCMP0; GPT12: GTIOCA; IRQ0: IRQ12; OPS0: GTIW; QSPI0: QIO0; SCI5: RXD_MISO; SCI5: SCL; SDHI1: DAT0; USBFS0: OVRCURB" - None - - 
+      P503 143 GPIO - Low - "Output mode (Initial Low)" CMOS None "ADC1: AN17; GPT12: GTIOCB; POEG2: GTETRG; QSPI0: QIO1; SCI5: SCK; SCI6: CTS_RTS_SS; SDHI1: DAT1; USBFS0: EXICEN" - IO - - 
+      P504 144 GPIO - Low - "Output mode (Initial Low)" CMOS None "ADC0: AN18; BUS0: ALE; GPT13: GTIOCA; POEG3: GTETRG; QSPI0: QIO2; SCI5: CTS_RTS_SS; SCI6: SCK; SDHI1: DAT2; USBFS0: ID" - IO - - 
+      P505 145 IRQ0_IRQ14 - - IRQ14 "IRQ mode" - None "ADC1: AN18; GPT13: GTIOCB; IRQ0: IRQ14; QSPI0: QIO3; SCI6: RXD_MISO; SCI6: SCL; SDHI1: DAT3" - IO - - 
+      P506 146 IRQ0_IRQ15 - - IRQ15 "IRQ mode" - None "ADC0: AN19; IRQ0: IRQ15; SCI6: SDA; SCI6: TXD_MOSI; SDHI1: CD" - IO - - 
+      P507 147 ADC1_AN19 - - - "Analog mode" - - "ADC1: AN19; SCI5: CTS_RTS_SS; SDHI1: WP" - IO - - 
+      P508 148 ADC0_AN20 - - - "Analog mode" - - "ADC0: AN20; SCI5: SCK; SCI6: SCK" - IO - - 
+      P511 176 IIC2_SDA - Medium None "Peripheral mode" CMOS None "CAN1: CRX; GPT0: GTIOCB; IIC2: SDA; IRQ0: IRQ15; PDC0: PCKO; SCI4: RXD_MISO; SCI4: SCL" - IO - - 
+      P512 175 IIC2_SCL - Medium None "Peripheral mode" CMOS None "CAN1: CTX; GPT0: GTIOCA; IIC2: SCL; IRQ0: IRQ14; PDC0: VSYNC; SCI4: SDA; SCI4: TXD_MOSI" - IO - - 
+      P513 174 - - - - Disabled - - "GLCDC0: LCD_DATA16; SCI5: RXD_MISO; SCI5: SCL" - None - - 
+      P600 122 - - - - Disabled - - "BUS0: RD; CAC0: CACREF; CGC0: CLKOUT; GLCDC0: LCD_DATA02; GPT6: GTIOCB; SCI9: SCK" - None - - 
+      P601 121 - - - - Disabled - - "BUS0: WR_WR0_DQM0; GLCDC0: LCD_DATA03; GPT6: GTIOCA; SCI9: RXD_MISO; SCI9: SCL" - None - - 
+      P602 120 - - - - Disabled - - "BUS0: BCLK_SDCLK; GLCDC0: LCD_DATA04; GPT7: GTIOCB; SCI9: SDA; SCI9: TXD_MOSI" - None - - 
+      P603 119 GPIO - Low - "Output mode (Initial Low)" CMOS None "BUS0: D13_DQ13; GPT7: GTIOCA; SCI9: CTS_RTS_SS" - IO - - 
+      P604 118 - - - - Disabled - - "BUS0: D12_DQ12; GPT8: GTIOCB" - None - - 
+      P605 117 - - - - Disabled - - "BUS0: D11_DQ11; GPT8: GTIOCA" - None - - 
+      P606 116 - - - - Disabled - - "GLCDC0: LCD_DATA03; RTC0: RTCOUT; SCI8: CTS_RTS_SS" - None - - 
+      P607 115 - - - - Disabled - - "GLCDC0: LCD_DATA04; SCI8: RXD_MISO; SCI8: SCL" - None - - 
+      P608 99 - - - - Disabled - - "BUS0: A00_BC0_DQM1; GLCDC0: LCD_DATA07; GPT4: GTIOCB" - None - - 
+      P609 100 - - - - Disabled - - "BUS0: CS1_CKE; CAN1: CTX; GLCDC0: LCD_DATA06; GPT5: GTIOCA" - None - - 
+      P610 101 - - - - Disabled - - "BUS0: CS0_WE; CAN1: CRX; GLCDC0: LCD_DATA05; GPT5: GTIOCB" - None - - 
+      P611 102 GPIO - Low - "Output mode (Initial Low)" CMOS None "BUS0: SDCS; CAC0: CACREF; CGC0: CLKOUT; SCI7: CTS_RTS_SS" - IO - - 
+      P612 103 - - - - Disabled - - "BUS0: D8_DQ8; SCI7: SCK" - None - - 
+      P613 104 SCI7_TXD_MOSI - Low - "Peripheral mode" CMOS None "BUS0: D9_DQ9; SCI7: SDA; SCI7: TXD_MOSI" - IO - - 
+      P614 105 SCI7_RXD_MISO - Low - "Peripheral mode" CMOS None "BUS0: D10_DQ10; SCI7: RXD_MISO; SCI7: SCL" - IO - - 
+      P615 106 - - - - Disabled - - "GLCDC0: LCD_DATA10" - None - - 
+      P700 8 ETHERC0_RMII_TXD0 - High - "Peripheral mode" CMOS None "ETHERC0: TXD0; GPT5: GTIOCA; PDC0: PIXD3; SDHI1: DAT3; SPI1: MISO" - IO - - 
+      P701 9 ETHERC0_RMII_REF50CK - High - "Peripheral mode" CMOS None "ETHERC0: REF50CK; GPT5: GTIOCB; PDC0: PIXD2; SDHI1: DAT2; SPI1: MOSI" - IO - - 
+      P702 10 ETHERC0_RMII_RXD0 - High - "Peripheral mode" CMOS None "ETHERC0: RXD0; GPT6: GTIOCA; PDC0: PIXD1; SDHI1: DAT1; SPI1: RSPCK" - IO - - 
+      P703 11 ETHERC0_RMII_RXD1 - High - "Peripheral mode" CMOS None "CMP0: VCOUT; ETHERC0: RXD1; GPT6: GTIOCB; PDC0: PIXD0; SDHI1: DAT0; SPI1: SSL0" - IO - - 
+      P704 12 ETHERC0_RMII_RX_ER - High - "Peripheral mode" CMOS None "AGT0: AGTO; CAN0: CTX; ETHERC0: RX_ER; PDC0: HSYNC; SDHI1: CLK; SPI1: SSL1" - IO - - 
+      P705 13 ETHERC0_RMII_CRS_DV - High - "Peripheral mode" CMOS None "AGT0: AGTIO; CAN0: CRX; ETHERC0: CRS_DV; PDC0: PIXCLK; SDHI1: CMD; SPI1: SSL2" - IO - - 
+      P706 14 IRQ0_IRQ07 - - IRQ7 "IRQ mode" - None "IRQ0: IRQ07; SCI3: RXD_MISO; SCI3: SCL; SDHI1: CD; USBHS0: OVRCURB" - IO - - 
+      P707 15 USBHS0_OVRCURA - Low None "Peripheral mode" CMOS None "IRQ0: IRQ08; SCI3: SDA; SCI3: TXD_MOSI; SDHI1: WP; USBHS0: OVRCURA" - IO - - 
+      P708 35 IRQ0_IRQ11 - - IRQ11 "IRQ mode" - None "CAC0: CACREF; CTSU0: TS12; IRQ0: IRQ11; PDC0: PCKO; SCI1: RXD_MISO; SCI1: SCL; SPI0: SSL3; SSI: AUDIO_CLK" - IO - - 
+      P800 133 GPIO - Low - "Output mode (Initial Low)" CMOS None "BUS0: D14_DQ14" - IO - - 
+      P801 134 GPIO - Low - "Output mode (Initial Low)" CMOS None "BUS0: D15_DQ15; SDHI1: DAT4" - IO - - 
+      P802 135 GPIO - Low - "Output mode (Initial Low)" CMOS None "GLCDC0: LCD_DATA02; SDHI1: DAT5" - IO - - 
+      P803 136 GPIO - Low - "Output mode (Initial Low)" CMOS None "GLCDC0: LCD_DATA01; SDHI1: DAT6" - IO - - 
+      P804 137 GPIO - Low - "Output mode (Initial Low)" CMOS None "GLCDC0: LCD_DATA00; SDHI1: DAT7" - IO - - 
+      P805 173 GPIO - Low - "Output mode (Initial Low)" CMOS None "GLCDC0: LCD_DATA17; SCI5: SDA; SCI5: TXD_MOSI" - IO - - 
+      P806 172 - - - - Disabled - - "GLCDC0: LCD_EXTCLK" - None - - 
+      P900 58 - - - - Disabled - - "BUS0: A23; GLCDC0: LCD_CLK; SCI4: SDA; SCI4: TXD_MOSI" - None - - 
+      P901 59 - - - - Disabled - - "AGT1: AGTIO; GLCDC0: LCD_DATA15; SCI4: SCK" - None - - 
+      P905 73 - - - - Disabled - - "BUS0: CS4; GLCDC0: LCD_DATA11; GPT13: GTIOCB" - None - - 
+      P906 72 - - - - Disabled - - "BUS0: CS5; GLCDC0: LCD_DATA12; GPT13: GTIOCA" - None - - 
+      P907 71 GPIO - Low - "Output mode (Initial Low)" CMOS None "BUS0: CS6; GLCDC0: LCD_DATA13; GPT12: GTIOCB" - IO - - 
+      P908 70 GPIO - Low - "Output mode (Initial Low)" CMOS None "BUS0: CS7; GLCDC0: LCD_DATA14; GPT12: GTIOCA" - IO - - 
+      PA00 114 - - - - Disabled - - "GLCDC0: LCD_DATA05; SCI8: SDA; SCI8: TXD_MOSI" - None - - 
+      PA01 113 - - - - Disabled - - "GLCDC0: LCD_DATA06; SCI8: SCK" - None - - 
+      PA08 107 - - - - Disabled - - "GLCDC0: LCD_DATA09" - None - - 
+      PA09 108 - - - - Disabled - - "GLCDC0: LCD_DATA08" - None - - 
+      PA10 109 - - - - Disabled - - "GLCDC0: LCD_DATA07" - None - - 
+      PB00 16 USBHS0_VBUSEN - Low - "Peripheral mode" CMOS None "SCI3: SCK; USBHS0: VBUSEN" - IO - - 
+      PB01 17 USBHS0_VBUS - Low - "Peripheral mode" CMOS None "SCI3: CTS_RTS_SS; USBHS0: VBUS" - IO - - 
+      PVSSUSBHS 29 USBHS0_PVSSUSBHS - - - - - - - - IO "Read only" - 
+      RES 67 - - - - - - - - - - "Read only" - 
+      USBDM 46 USBFS0_USBDM - - - - - - - - IO "Read only" - 
+      USBDP 47 USBFS0_USBDP - - - - - - - - IO "Read only" - 
+      USBHSDM 31 USBHS0_USBHSDM - - - - - - - - IO "Read only" - 
+      USBHSDP 32 USBHS0_USBHSDP - - - - - - - - IO "Read only" - 
+      USBHSRREF 27 USBHS0_USBHSRREF - - - - - - - - IO "Read only" - 
+      VBAT 18 - - - - - - - - - - "Read only" - 
+      VCC 25 - - - - - - - - - - "Read only" - 
+      VCC 61 - - - - - - - - - - "Read only" - 
+      VCC 84 - - - - - - - - - - "Read only" - 
+      VCC 97 - - - - - - - - - - "Read only" - 
+      VCC 110 - - - - - - - - - - "Read only" - 
+      VCC 123 - - - - - - - - - - "Read only" - 
+      VCC 138 - - - - - - - - - - "Read only" - 
+      VCC 149 - - - - - - - - - - "Read only" - 
+      VCC 171 - - - - - - - - - - "Read only" - 
+      VCCUSB 48 USBFS0_VCCUSB - - - - - - - - IO "Read only" - 
+      VCCUSBHS 34 USBHS0_VCCUSBHS - - - - - - - - IO "Read only" - 
+      VCL 19 - - - - - - - - - - "Read only" - 
+      VCL1 112 - - - - - - - - - - "Read only" - 
+      VREFH 154 ADC_VREFH - - - - - - - - IO "Read only" - 
+      VREFH0 158 ADC_VREFH0 - - - - - - - - IO "Read only" - 
+      VREFL 153 ADC_VREFL - - - - - - - - IO "Read only" - 
+      VREFL0 157 ADC_VREFL0 - - - - - - - - IO "Read only" - 
+      VSS 22 - - - - - - - - - - "Read only" - 
+      VSS 60 - - - - - - - - - - "Read only" - 
+      VSS 83 - - - - - - - - - - "Read only" - 
+      VSS 98 - - - - - - - - - - "Read only" - 
+      VSS 111 - - - - - - - - - - "Read only" - 
+      VSS 124 - - - - - - - - - - "Read only" - 
+      VSS 139 - - - - - - - - - - "Read only" - 
+      VSS 150 - - - - - - - - - - "Read only" - 
+      VSS 170 - - - - - - - - - - "Read only" - 
+      VSS1USBHS 33 USBHS0_VSS1USBHS - - - - - - - - IO "Read only" - 
+      VSS2USBHS 30 USBHS0_VSS2USBHS - - - - - - - - IO "Read only" - 
+      VSSUSB 45 USBFS0_VSSUSB - - - - - - - - IO "Read only" - 
+      XCIN 20 CGC0_XCIN - - - - - - - - IO "Read only" - 
+      XCOUT 21 CGC0_XCOUT - - - - - - - - IO "Read only" - 
+    R7FA6M3AH3CFC.pincfg -> 
+      AVCC0 155 ADC_AVCC0 - - - - - - - - IO "Read only" - 
+      AVCCUSBHS 26 USBHS0_AVCCUSBHS - - - - - - - - IO "Read only" - 
+      AVSS0 156 ADC_AVSS0 - - - - - - - - IO "Read only" - 
+      AVSSUSBHS 28 USBHS0_AVSSUSBHS - - - - - - - - IO "Read only" - 
+      P000 169 - - - - Disabled - - "ADC0: AN00; CMP0: IVCMP2; IRQ0: IRQ06" - IO - - 
+      P001 168 - - - - Disabled - - "ADC0: AN01; CMP0: IVCMP2; IRQ0: IRQ07" - IO - - 
+      P002 167 - - - - Disabled - - "ADC0: AN02; CMP0: IVCMP2; IRQ0: IRQ08" - IO - - 
+      P003 166 - - - - Disabled - - "ADC0: AN07; ADC0: PGAVSS0" - None - - 
+      P004 165 - - - None Disabled - - "ADC1: AN00; CMP0: IVCMP2; IRQ0: IRQ09" - IO - - 
+      P005 164 - - - - Disabled - - "ADC1: AN01; CMP0: IVCMP2; IRQ0: IRQ10" - None - - 
+      P006 163 - - - - Disabled - - "ADC1: AN02; CMP0: IVCMP2; IRQ0: IRQ11" - None - - 
+      P007 162 - - - - Disabled - - "ADC1: AN07; ADC1: PGAVSS0" - None - - 
+      P008 161 - - - None Disabled - None "ADC0: AN03; IRQ0: IRQ12" - IO - - 
+      P009 160 - - - None Disabled - None "ADC0: AN04; IRQ0: IRQ13" - IO - - 
+      P010 159 - - - - Disabled - - "ADC1: AN03; IRQ0: IRQ14" - None - - 
+      P014 152 - - - - Disabled - - "ADC0: AN05; ADC1: AN05; CMP0: IVREF3; DAC120: DA" - IO - - 
+      P015 151 - - - - Disabled - - "ADC0: AN06; ADC1: AN06; CMP0: IVCMP1; DAC121: DA; IRQ0: IRQ13" - None - - 
+      P100 132 - - Low None Disabled CMOS None "AGT0: AGTIO; BUS0: D0_DQ0; GLCDC0: LCD_EXTCLK; GPT5: GTIOCB; IIC1: SCL; IRQ0: IRQ02; KINT0: KRM0; POEG0: GTETRG; SCI0: RXD_MISO; SCI0: SCL; SCI1: SCK; SPI0: MISO" - IO - - 
+      P101 131 - - - - Disabled - - "AGT0: AGTEE; BUS0: D1_DQ1; GLCDC0: LCD_CLK; GPT5: GTIOCA; IIC1: SDA; IRQ0: IRQ01; KINT0: KRM1; POEG1: GTETRG; SCI0: SDA; SCI0: TXD_MOSI; SCI1: CTS_RTS_SS; SPI0: MOSI" - None - - 
+      P102 130 - - - - Disabled - - "ADC0: ADTRG; AGT0: AGTO; BUS0: D2_DQ2; CAN0: CRX; GLCDC0: LCD_TCON0; GPT2: GTIOCB; KINT0: KRM2; OPS0: GTOWLO; SCI0: SCK; SPI0: RSPCK" - None - - 
+      P103 129 - - - - Disabled - - "BUS0: D3_DQ3; CAN0: CTX; GLCDC0: LCD_TCON1; GPT2: GTIOCA; KINT0: KRM3; OPS0: GTOWUP; SCI0: CTS_RTS_SS; SPI0: SSL0" - None - - 
+      P104 128 - - - - Disabled - - "BUS0: D4_DQ4; GLCDC0: LCD_TCON2; GPT1: GTIOCB; IRQ0: IRQ01; KINT0: KRM4; POEG1: GTETRG; SCI8: RXD_MISO; SCI8: SCL; SPI0: SSL1" - None - - 
+      P105 127 - - - - Disabled - - "BUS0: D5_DQ5; GLCDC0: LCD_TCON3; GPT1: GTIOCA; IRQ0: IRQ00; KINT0: KRM5; POEG0: GTETRG; SCI8: SDA; SCI8: TXD_MOSI; SPI0: SSL2" - None - - 
+      P106 126 - - - - Disabled - - "AGT0: AGTOB; BUS0: D6_DQ6; GLCDC0: LCD_DATA00; GPT8: GTIOCB; KINT0: KRM6; SCI8: SCK; SPI0: SSL3" - None - - 
+      P107 125 - - - - Disabled - - "AGT0: AGTOA; BUS0: D7_DQ7; GLCDC0: LCD_DATA01; GPT8: GTIOCA; KINT0: KRM7; SCI8: CTS_RTS_SS" - None - - 
+      P108 89 DEBUG0_TMS - Low - "Peripheral mode" CMOS None "DEBUG0: SWDIO; DEBUG0: TMS; GPT0: GTIOCB; OPS0: GTOULO; SCI9: CTS_RTS_SS; SPI1: SSL0" - IO - - 
+      P109 90 DEBUG0_TDO - Low - "Peripheral mode" CMOS None "CAN1: CTX; CGC0: CLKOUT; DEBUG0: SWO; DEBUG0: TDO; GPT1: GTIOCA; OPS0: GTOVUP; SCI9: SDA; SCI9: TXD_MOSI; SPI1: MOSI" - IO - - 
+      P110 91 DEBUG0_TDI - Low None "Peripheral mode" CMOS None "CAN1: CRX; CMP0: VCOUT; DEBUG0: TDI; GPT1: GTIOCB; IRQ0: IRQ03; OPS0: GTOVLO; SCI2: CTS_RTS_SS; SCI9: RXD_MISO; SCI9: SCL; SPI1: MISO" - IO - - 
+      P111 92 - - - - Disabled - - "BUS0: A05; GLCDC0: LCD_DATA12; GPT3: GTIOCA; IRQ0: IRQ04; SCI2: SCK; SCI9: SCK; SPI1: RSPCK" - None - - 
+      P112 93 - - - - Disabled - - "BUS0: A04; GLCDC0: LCD_DATA11; GPT3: GTIOCB; SCI1: SCK; SCI2: SDA; SCI2: TXD_MOSI; SPI1: SSL0; SSI0: SSISCK" - None - - 
+      P113 94 - - - - Disabled - - "BUS0: A03; GLCDC0: LCD_DATA10; GPT2: GTIOCA; SCI2: RXD_MISO; SCI2: SCL; SSI0: SSIWS" - None - - 
+      P114 95 - - - - Disabled - - "BUS0: A02; GLCDC0: LCD_DATA09; GPT2: GTIOCB; SSI0: SSIRXD" - None - - 
+      P115 96 - - - - Disabled - - "BUS0: A01; GLCDC0: LCD_DATA08; GPT4: GTIOCA; SSI0: SSITXD" - None - - 
+      P200 69 - - - - Disabled - - "IRQ0: NMI" - None - - 
+      P201 68 - - - - Disabled - - - - None - - 
+      P202 54 - - Low None Disabled CMOS None "BUS0: WR1_BC1; CAN0: CRX; GLCDC0: LCD_TCON3; GPT5: GTIOCB; IRQ0: IRQ03; SCI2: SCK; SCI9: RXD_MISO; SCI9: SCL; SDHI0: DAT6; SPI1: MISO" - IO - - 
+      P203 53 - - Low None Disabled CMOS None "BUS0: A19; CAN0: CTX; CTSU0: TSCAP; GPT5: GTIOCA; IRQ0: IRQ02; SCI2: CTS_RTS_SS; SCI9: SDA; SCI9: TXD_MOSI; SDHI0: DAT5; SPI1: MOSI" - IO - - 
+      P204 52 - - Low - Disabled CMOS None "AGT1: AGTIO; BUS0: A18; CAC0: CACREF; CTSU0: TS00; GPT4: GTIOCB; IIC0: SCL; OPS0: GTIW; SCI4: SCK; SCI9: SCK; SDHI0: DAT4; SPI1: RSPCK; SSI1: SSISCK; USBFS0: OVRCURB" - IO - - 
+      P205 51 - - Low None Disabled CMOS None "AGT1: AGTO; BUS0: A16; CGC0: CLKOUT; CTSU0: TSCAP; ETHERC0: WOL; GPT4: GTIOCA; IIC1: SCL; IRQ0: IRQ01; OPS0: GTIV; SCI4: SDA; SCI4: TXD_MOSI; SCI9: CTS_RTS_SS; SDHI0: DAT3; SPI1: SSL0; SSI1: SSIWS; USBFS0: OVRCURA" - IO - - 
+      P206 50 - - - None Disabled - None "BUS0: WAIT; CTSU0: TS01; ETHERC0: LINKSTA; IIC1: SDA; IRQ0: IRQ00; OPS0: GTIU; SCI4: RXD_MISO; SCI4: SCL; SDHI0: DAT2; SPI1: SSL1; SSI1: SSIDATA; USBFS0: VBUSEN" - IO - - 
+      P207 49 - - - - Disabled - - "BUS0: A17; CTSU0: TS02; GLCDC0: LCD_DATA23; QSPI0: QSSL; SPI1: SSL2" - None - - 
+      P208 66 - - Low - Disabled CMOS None "ETHERC0: LINKSTA; GLCDC0: LCD_DATA18; OPS0: GTOVLO; QSPI0: QIO3; SDHI0: DAT0; TRACE0: TDATA3" - IO - - 
+      P209 65 - - Low - Disabled CMOS None "ETHERC0: EXOUT; GLCDC0: LCD_DATA19; OPS0: GTOVUP; QSPI0: QIO2; SDHI0: WP; TRACE0: TDATA2" - IO - - 
+      P210 64 - - Low - Disabled CMOS None "ETHERC0: WOL; GLCDC0: LCD_DATA20; OPS0: GTIW; QSPI0: QIO1; SDHI0: CD; TRACE0: TDATA1" - IO - - 
+      P211 63 - - Low - Disabled CMOS None "ETHERC0: MDIO; GLCDC0: LCD_DATA21; OPS0: GTIV; QSPI0: QIO0; SDHI0: CMD; TRACE0: TDATA0" - IO - - 
+      P212 24 - - Low None Disabled CMOS None "AGT1: AGTEE; CGC0: EXTAL; GPT0: GTIOCB; IRQ0: IRQ03; POEG3: GTETRG; SCI1: RXD_MISO; SCI1: SCL" - IO - - 
+      P213 23 - - Low None Disabled CMOS None "ADC1: ADTRG; CGC0: XTAL; GPT0: GTIOCA; IRQ0: IRQ02; POEG2: GTETRG; SCI1: SDA; SCI1: TXD_MOSI" - IO - - 
+      P214 62 - - Low - Disabled CMOS None "ETHERC0: MDC; GLCDC0: LCD_DATA22; OPS0: GTIU; QSPI0: QSPCLK; SDHI0: CLK; TRACE0: TCLK" - IO - - 
+      P300 88 DEBUG0_TCK - Low - "Peripheral mode" CMOS None "DEBUG0: SWCLK; DEBUG0: TCK; GPT0: GTIOCA; OPS0: GTOUUP; SPI1: SSL1" - IO - - 
+      P301 87 - - - - Disabled - - "AGT0: AGTIO; BUS0: A06; GLCDC0: LCD_DATA13; GPT4: GTIOCB; IRQ0: IRQ06; OPS0: GTOULO; SCI2: RXD_MISO; SCI2: SCL; SCI9: CTS_RTS_SS; SPI1: SSL2" - None - - 
+      P302 86 - - - - Disabled - - "BUS0: A07; GLCDC0: LCD_DATA14; GPT4: GTIOCA; IRQ0: IRQ05; OPS0: GTOUUP; SCI2: SDA; SCI2: TXD_MOSI; SPI1: SSL3" - None - - 
+      P303 85 - - - - Disabled - - "BUS0: A08; GLCDC0: LCD_DATA15; GPT7: GTIOCB" - None - - 
+      P304 82 - - Low None Disabled CMOS None "BUS0: A09; GLCDC0: LCD_DATA16; GPT7: GTIOCA; IRQ0: IRQ09; OPS0: GTOWLO; SCI6: RXD_MISO; SCI6: SCL" - IO - - 
+      P305 81 - - Low None Disabled CMOS None "BUS0: A10; GLCDC0: LCD_DATA17; IRQ0: IRQ08; OPS0: GTOWUP; QSPI0: QSPCLK; SCI6: SDA; SCI6: TXD_MOSI" - IO - - 
+      P306 80 - - Low - Disabled CMOS None "BUS0: A11; GLCDC0: LCD_DATA18; OPS0: GTOULO; QSPI0: QSSL; SCI6: SCK" - IO - - 
+      P307 79 - - Low - Disabled CMOS None "BUS0: A12; GLCDC0: LCD_DATA19; OPS0: GTOUUP; QSPI0: QIO0; SCI6: CTS_RTS_SS" - IO - - 
+      P308 78 - - Low - Disabled CMOS None "BUS0: A13; GLCDC0: LCD_DATA20; QSPI0: QIO1" - IO - - 
+      P309 77 - - Low - Disabled CMOS None "BUS0: A14; GLCDC0: LCD_DATA21; QSPI0: QIO2; SCI3: RXD_MISO; SCI3: SCL" - IO - - 
+      P310 76 - - Low - Disabled CMOS None "AGT1: AGTEE; BUS0: A15; GLCDC0: LCD_DATA22; QSPI0: QIO3; SCI3: SDA; SCI3: TXD_MOSI" - IO - - 
+      P311 75 - - - - Disabled - - "AGT1: AGTOB; BUS0: CS2_RAS; GLCDC0: LCD_DATA23; SCI3: SCK" - None - - 
+      P312 74 - - - - Disabled - - "AGT1: AGTOA; BUS0: CS3_CAS; SCI3: CTS_RTS_SS" - None - - 
+      P313 55 - - - - Disabled - - "BUS0: A20; GLCDC0: LCD_TCON2; SDHI0: DAT7" - None - - 
+      P314 56 - - - - Disabled - - "ADC0: ADTRG; BUS0: A21; GLCDC0: LCD_TCON1" - None - - 
+      P315 57 - - - - Disabled - - "BUS0: A22; GLCDC0: LCD_TCON0; SCI4: RXD_MISO; SCI4: SCL" - None - - 
+      P400 1 - IRQ0 Low None Disabled CMOS None "ADC1: ADTRG; AGT1: AGTIO; ETHERC0: WOL; GPT6: GTIOCA; IIC0: SCL; IRQ0: IRQ00; SCI4: SCK; SCI7: SCK; SSI: AUDIO_CLK" - IO - - 
+      P401 2 - - Low None Disabled CMOS None "CAN0: CTX; ETHERC0: MDC; GPT6: GTIOCB; IIC0: SDA; IRQ0: IRQ05; POEG0: GTETRG; SCI4: CTS_RTS_SS; SCI7: SDA; SCI7: TXD_MOSI" - IO - - 
+      P402 3 - - Low None Disabled CMOS None "AGT0: AGTIO; AGT1: AGTIO; CAC0: CACREF; CAN0: CRX; ETHERC0: MDIO; IRQ0: IRQ04; PDC0: VSYNC; RTC0: RTCIC0; SCI7: RXD_MISO; SCI7: SCL; SSI: AUDIO_CLK" - IO - - 
+      P403 4 - - Low - Disabled CMOS None "AGT0: AGTIO; AGT1: AGTIO; ETHERC0: LINKSTA; GPT3: GTIOCA; PDC0: PIXD7; RTC0: RTCIC1; SCI7: CTS_RTS_SS; SDHI1: DAT7; SSI0: SSISCK" - IO - - 
+      P404 5 - - Low - Disabled CMOS None "ETHERC0: EXOUT; GPT3: GTIOCB; PDC0: PIXD6; RTC0: RTCIC2; SDHI1: DAT6; SSI0: SSIWS" - IO - - 
+      P405 6 - - Low - Disabled CMOS None "ETHERC0: TXD_EN; GPT1: GTIOCA; PDC0: PIXD5; SDHI1: DAT5; SSI0: SSITXD" - IO - - 
+      P406 7 - - Low - Disabled CMOS None "ETHERC0: TXD1; GPT1: GTIOCB; PDC0: PIXD4; SDHI1: DAT4; SPI1: SSL3; SSI0: SSIRXD" - IO - - 
+      P407 44 - - Low - Disabled CMOS None "ADC0: ADTRG; AGT0: AGTIO; CTSU0: TS03; ETHERC0: EXOUT; IIC0: SDA; RTC0: RTCOUT; SCI4: CTS_RTS_SS; SPI1: SSL3; USBFS0: VBUS" - IO - - 
+      P408 43 - - Low None Disabled CMOS None "CTSU0: TS04; ETHERC0: CRS_DV; GPT10: GTIOCB; IIC0: SCL; IRQ0: IRQ07; OPS0: GTOWLO; PDC0: PIXCLK; SCI3: RXD_MISO; SCI3: SCL; USBFS0: ID; USBHS0: ID" - IO - - 
+      P409 42 - - Low None Disabled CMOS None "CTSU0: TS05; ETHERC0: RX_ER; GPT10: GTIOCA; IRQ0: IRQ06; OPS0: GTOWUP; PDC0: HSYNC; SCI3: SDA; SCI3: TXD_MOSI; USBFS0: EXICEN; USBHS0: EXICEN" - IO - - 
+      P410 41 - - Low None Disabled CMOS None "AGT1: AGTOB; CTSU0: TS06; ETHERC0: RXD1; GPT9: GTIOCB; IRQ0: IRQ05; OPS0: GTOVLO; PDC0: PIXD0; SCI0: RXD_MISO; SCI0: SCL; SCI3: SCK; SDHI0: DAT1; SPI0: MISO" - IO - - 
+      P411 40 - - Low None Disabled CMOS None "AGT1: AGTOA; CTSU0: TS07; ETHERC0: RXD0; GPT9: GTIOCA; IRQ0: IRQ04; OPS0: GTOVUP; PDC0: PIXD1; SCI0: SDA; SCI0: TXD_MOSI; SCI3: CTS_RTS_SS; SDHI0: DAT0; SPI0: MOSI" - IO - - 
+      P412 39 - - Low - Disabled CMOS None "AGT1: AGTEE; CTSU0: TS08; ETHERC0: REF50CK; OPS0: GTOULO; PDC0: PIXD2; SCI0: SCK; SDHI0: CMD; SPI0: RSPCK" - IO - - 
+      P413 38 - - Low - Disabled CMOS None "CTSU0: TS09; ETHERC0: TXD0; OPS0: GTOUUP; PDC0: PIXD3; SCI0: CTS_RTS_SS; SDHI0: CLK; SPI0: SSL0" - IO - - 
+      P414 37 - - Low None Disabled CMOS None "CTSU0: TS10; ETHERC0: TXD1; GPT0: GTIOCB; IRQ0: IRQ09; PDC0: PIXD4; SDHI0: WP; SPI0: SSL1" - IO - - 
+      P415 36 - - Low None Disabled CMOS None "CTSU0: TS11; ETHERC0: TXD_EN; GPT0: GTIOCA; IRQ0: IRQ08; PDC0: PIXD5; SDHI0: CD; SPI0: SSL2; USBFS0: VBUSEN" - IO - - 
+      P500 140 - - Low - Disabled CMOS None "ADC0: AN16; AGT0: AGTOA; CMP0: IVREF0; GPT11: GTIOCA; OPS0: GTIU; QSPI0: QSPCLK; SDHI1: CLK; USBFS0: VBUSEN" - IO - - 
+      P501 141 - - Low None Disabled CMOS None "ADC1: AN16; AGT0: AGTOB; CMP0: IVREF1; GPT11: GTIOCB; IRQ0: IRQ11; OPS0: GTIV; QSPI0: QSSL; SCI5: SDA; SCI5: TXD_MOSI; SDHI1: CMD; USBFS0: OVRCURA" - IO - - 
+      P502 142 - - - - Disabled - - "ADC0: AN17; CMP0: IVCMP0; GPT12: GTIOCA; IRQ0: IRQ12; OPS0: GTIW; QSPI0: QIO0; SCI5: RXD_MISO; SCI5: SCL; SDHI1: DAT0; USBFS0: OVRCURB" - None - - 
+      P503 143 - - Low - Disabled CMOS None "ADC1: AN17; GPT12: GTIOCB; POEG2: GTETRG; QSPI0: QIO1; SCI5: SCK; SCI6: CTS_RTS_SS; SDHI1: DAT1; USBFS0: EXICEN" - IO - - 
+      P504 144 - - Low - Disabled CMOS None "ADC0: AN18; BUS0: ALE; GPT13: GTIOCA; POEG3: GTETRG; QSPI0: QIO2; SCI5: CTS_RTS_SS; SCI6: SCK; SDHI1: DAT2; USBFS0: ID" - IO - - 
+      P505 145 - - - None Disabled - None "ADC1: AN18; GPT13: GTIOCB; IRQ0: IRQ14; QSPI0: QIO3; SCI6: RXD_MISO; SCI6: SCL; SDHI1: DAT3" - IO - - 
+      P506 146 - - - None Disabled - None "ADC0: AN19; IRQ0: IRQ15; SCI6: SDA; SCI6: TXD_MOSI; SDHI1: CD" - IO - - 
+      P507 147 - - - - Disabled - - "ADC1: AN19; SCI5: CTS_RTS_SS; SDHI1: WP" - IO - - 
+      P508 148 - - - - Disabled - - "ADC0: AN20; SCI5: SCK; SCI6: SCK" - IO - - 
+      P511 176 - - Low None Disabled CMOS None "CAN1: CRX; GPT0: GTIOCB; IIC2: SDA; IRQ0: IRQ15; PDC0: PCKO; SCI4: RXD_MISO; SCI4: SCL" - IO - - 
+      P512 175 - - Low None Disabled CMOS None "CAN1: CTX; GPT0: GTIOCA; IIC2: SCL; IRQ0: IRQ14; PDC0: VSYNC; SCI4: SDA; SCI4: TXD_MOSI" - IO - - 
+      P513 174 - - - - Disabled - - "GLCDC0: LCD_DATA16; SCI5: RXD_MISO; SCI5: SCL" - None - - 
+      P600 122 - - - - Disabled - - "BUS0: RD; CAC0: CACREF; CGC0: CLKOUT; GLCDC0: LCD_DATA02; GPT6: GTIOCB; SCI9: SCK" - None - - 
+      P601 121 - - - - Disabled - - "BUS0: WR_WR0_DQM0; GLCDC0: LCD_DATA03; GPT6: GTIOCA; SCI9: RXD_MISO; SCI9: SCL" - None - - 
+      P602 120 - - - - Disabled - - "BUS0: BCLK_SDCLK; GLCDC0: LCD_DATA04; GPT7: GTIOCB; SCI9: SDA; SCI9: TXD_MOSI" - None - - 
+      P603 119 - - Low - Disabled CMOS None "BUS0: D13_DQ13; GPT7: GTIOCA; SCI9: CTS_RTS_SS" - IO - - 
+      P604 118 - - - - Disabled - - "BUS0: D12_DQ12; GPT8: GTIOCB" - None - - 
+      P605 117 - - - - Disabled - - "BUS0: D11_DQ11; GPT8: GTIOCA" - None - - 
+      P606 116 - - - - Disabled - - "GLCDC0: LCD_DATA03; RTC0: RTCOUT; SCI8: CTS_RTS_SS" - None - - 
+      P607 115 - - - - Disabled - - "GLCDC0: LCD_DATA04; SCI8: RXD_MISO; SCI8: SCL" - None - - 
+      P608 99 - - - - Disabled - - "BUS0: A00_BC0_DQM1; GLCDC0: LCD_DATA07; GPT4: GTIOCB" - None - - 
+      P609 100 - - - - Disabled - - "BUS0: CS1_CKE; CAN1: CTX; GLCDC0: LCD_DATA06; GPT5: GTIOCA" - None - - 
+      P610 101 - - - - Disabled - - "BUS0: CS0_WE; CAN1: CRX; GLCDC0: LCD_DATA05; GPT5: GTIOCB" - None - - 
+      P611 102 - - Low - Disabled CMOS None "BUS0: SDCS; CAC0: CACREF; CGC0: CLKOUT; SCI7: CTS_RTS_SS" - IO - - 
+      P612 103 - - - - Disabled - - "BUS0: D8_DQ8; SCI7: SCK" - None - - 
+      P613 104 - - Low - Disabled CMOS None "BUS0: D9_DQ9; SCI7: SDA; SCI7: TXD_MOSI" - IO - - 
+      P614 105 - - Low - Disabled CMOS None "BUS0: D10_DQ10; SCI7: RXD_MISO; SCI7: SCL" - IO - - 
+      P615 106 - - - - Disabled - - "GLCDC0: LCD_DATA10" - None - - 
+      P700 8 - - Low - Disabled CMOS None "ETHERC0: TXD0; GPT5: GTIOCA; PDC0: PIXD3; SDHI1: DAT3; SPI1: MISO" - IO - - 
+      P701 9 - - Low - Disabled CMOS None "ETHERC0: REF50CK; GPT5: GTIOCB; PDC0: PIXD2; SDHI1: DAT2; SPI1: MOSI" - IO - - 
+      P702 10 - - Low - Disabled CMOS None "ETHERC0: RXD0; GPT6: GTIOCA; PDC0: PIXD1; SDHI1: DAT1; SPI1: RSPCK" - IO - - 
+      P703 11 - - Low - Disabled CMOS None "CMP0: VCOUT; ETHERC0: RXD1; GPT6: GTIOCB; PDC0: PIXD0; SDHI1: DAT0; SPI1: SSL0" - IO - - 
+      P704 12 - - Low - Disabled CMOS None "AGT0: AGTO; CAN0: CTX; ETHERC0: RX_ER; PDC0: HSYNC; SDHI1: CLK; SPI1: SSL1" - IO - - 
+      P705 13 - - Low - Disabled CMOS None "AGT0: AGTIO; CAN0: CRX; ETHERC0: CRS_DV; PDC0: PIXCLK; SDHI1: CMD; SPI1: SSL2" - IO - - 
+      P706 14 - - - None Disabled - None "IRQ0: IRQ07; SCI3: RXD_MISO; SCI3: SCL; SDHI1: CD; USBHS0: OVRCURB" - IO - - 
+      P707 15 - - Low None Disabled CMOS None "IRQ0: IRQ08; SCI3: SDA; SCI3: TXD_MOSI; SDHI1: WP; USBHS0: OVRCURA" - IO - - 
+      P708 35 - - - None Disabled - None "CAC0: CACREF; CTSU0: TS12; IRQ0: IRQ11; PDC0: PCKO; SCI1: RXD_MISO; SCI1: SCL; SPI0: SSL3; SSI: AUDIO_CLK" - IO - - 
+      P800 133 - - Low - Disabled CMOS None "BUS0: D14_DQ14" - IO - - 
+      P801 134 - - Low - Disabled CMOS None "BUS0: D15_DQ15; SDHI1: DAT4" - IO - - 
+      P802 135 - - Low - Disabled CMOS None "GLCDC0: LCD_DATA02; SDHI1: DAT5" - IO - - 
+      P803 136 - - Low - Disabled CMOS None "GLCDC0: LCD_DATA01; SDHI1: DAT6" - IO - - 
+      P804 137 - - Low - Disabled CMOS None "GLCDC0: LCD_DATA00; SDHI1: DAT7" - IO - - 
+      P805 173 - - Low - Disabled CMOS None "GLCDC0: LCD_DATA17; SCI5: SDA; SCI5: TXD_MOSI" - IO - - 
+      P806 172 - - - - Disabled - - "GLCDC0: LCD_EXTCLK" - None - - 
+      P900 58 - - - - Disabled - - "BUS0: A23; GLCDC0: LCD_CLK; SCI4: SDA; SCI4: TXD_MOSI" - None - - 
+      P901 59 - - - - Disabled - - "AGT1: AGTIO; GLCDC0: LCD_DATA15; SCI4: SCK" - None - - 
+      P905 73 - - - - Disabled - - "BUS0: CS4; GLCDC0: LCD_DATA11; GPT13: GTIOCB" - None - - 
+      P906 72 - - - - Disabled - - "BUS0: CS5; GLCDC0: LCD_DATA12; GPT13: GTIOCA" - None - - 
+      P907 71 - - Low - Disabled CMOS None "BUS0: CS6; GLCDC0: LCD_DATA13; GPT12: GTIOCB" - IO - - 
+      P908 70 - - Low - Disabled CMOS None "BUS0: CS7; GLCDC0: LCD_DATA14; GPT12: GTIOCA" - IO - - 
+      PA00 114 - - - - Disabled - - "GLCDC0: LCD_DATA05; SCI8: SDA; SCI8: TXD_MOSI" - None - - 
+      PA01 113 - - - - Disabled - - "GLCDC0: LCD_DATA06; SCI8: SCK" - None - - 
+      PA08 107 - - - - Disabled - - "GLCDC0: LCD_DATA09" - None - - 
+      PA09 108 - - - - Disabled - - "GLCDC0: LCD_DATA08" - None - - 
+      PA10 109 - - - - Disabled - - "GLCDC0: LCD_DATA07" - None - - 
+      PB00 16 - - Low - Disabled CMOS None "SCI3: SCK; USBHS0: VBUSEN" - IO - - 
+      PB01 17 - - Low - Disabled CMOS None "SCI3: CTS_RTS_SS; USBHS0: VBUS" - IO - - 
+      PVSSUSBHS 29 USBHS0_PVSSUSBHS - - - - - - - - IO "Read only" - 
+      RES 67 - - - - - - - - - - "Read only" - 
+      USBDM 46 USBFS0_USBDM - - - - - - - - IO "Read only" - 
+      USBDP 47 USBFS0_USBDP - - - - - - - - IO "Read only" - 
+      USBHSDM 31 USBHS0_USBHSDM - - - - - - - - IO "Read only" - 
+      USBHSDP 32 USBHS0_USBHSDP - - - - - - - - IO "Read only" - 
+      USBHSRREF 27 USBHS0_USBHSRREF - - - - - - - - IO "Read only" - 
+      VBAT 18 - - - - - - - - - - "Read only" - 
+      VCC 25 - - - - - - - - - - "Read only" - 
+      VCC 61 - - - - - - - - - - "Read only" - 
+      VCC 84 - - - - - - - - - - "Read only" - 
+      VCC 97 - - - - - - - - - - "Read only" - 
+      VCC 110 - - - - - - - - - - "Read only" - 
+      VCC 123 - - - - - - - - - - "Read only" - 
+      VCC 138 - - - - - - - - - - "Read only" - 
+      VCC 149 - - - - - - - - - - "Read only" - 
+      VCC 171 - - - - - - - - - - "Read only" - 
+      VCCUSB 48 USBFS0_VCCUSB - - - - - - - - IO "Read only" - 
+      VCCUSBHS 34 USBHS0_VCCUSBHS - - - - - - - - IO "Read only" - 
+      VCL 19 - - - - - - - - - - "Read only" - 
+      VCL1 112 - - - - - - - - - - "Read only" - 
+      VREFH 154 ADC_VREFH - - - - - - - - IO "Read only" - 
+      VREFH0 158 ADC_VREFH0 - - - - - - - - IO "Read only" - 
+      VREFL 153 ADC_VREFL - - - - - - - - IO "Read only" - 
+      VREFL0 157 ADC_VREFL0 - - - - - - - - IO "Read only" - 
+      VSS 22 - - - - - - - - - - "Read only" - 
+      VSS 60 - - - - - - - - - - "Read only" - 
+      VSS 83 - - - - - - - - - - "Read only" - 
+      VSS 98 - - - - - - - - - - "Read only" - 
+      VSS 111 - - - - - - - - - - "Read only" - 
+      VSS 124 - - - - - - - - - - "Read only" - 
+      VSS 139 - - - - - - - - - - "Read only" - 
+      VSS 150 - - - - - - - - - - "Read only" - 
+      VSS 170 - - - - - - - - - - "Read only" - 
+      VSS1USBHS 33 USBHS0_VSS1USBHS - - - - - - - - IO "Read only" - 
+      VSS2USBHS 30 USBHS0_VSS2USBHS - - - - - - - - IO "Read only" - 
+      VSSUSB 45 USBFS0_VSSUSB - - - - - - - - IO "Read only" - 
+      XCIN 20 CGC0_XCIN - - - - - - - - IO "Read only" - 
+      XCOUT 21 CGC0_XCOUT - - - - - - - - IO "Read only" - 
+    
+  User Events
+    
+  User Event Links
+    
+  Module "I/O Port Driver on r_ioport"
+    Parameter Checking: Default (BSP)
+    
+  Module "MCUboot"
+    General: Custom mcuboot_config.h: 
+    Signing Options: Signature Type: ECDSA P-256
+    General: Upgrade Mode: Overwrite Only
+    General: Validate Primary Image: Enabled
+    Debugging: Log Level: Off
+    General: Number of Images Per Application: 1
+    General: Watchdog Feed: 
+    Flash Layout: Bootloader Flash Area Size (Bytes): 0x10000
+    Flash Layout: Image 1 Header Size (Bytes): 0x80
+    Flash Layout: Image 1 Flash Area Size (Bytes): 0x20000
+    Flash Layout: Scratch Flash Area Size (Bytes): 0x0
+    General: Measured Boot: Disabled
+    Data Sharing: Maximum Measured Boot Record Size (Bytes): 0x64
+    Data Sharing: Shared Data Size (Bytes): 0x380
+    Data Sharing: Shared Data Address: 0x20000000
+    Flash Layout: TrustZone: Non-Secure Callable Region Size (Bytes): 0x0
+    Flash Layout: TrustZone: Non-Secure Flash Area Size (Bytes) (TrustZone Non-Secure): 0x0
+    Flash Layout: TrustZone: Non-Secure Callable RAM Region Size (Bytes): 0x0
+    Flash Layout: TrustZone: Non-Secure RAM Region Size (Bytes) (TrustZone Non-Secure): 0x0
+    Flash Layout: TrustZone: Image 2 Header Size (Bytes): 0x80
+    Signing Options: Boot Record: 
+    Signing Options: TrustZone: Boot Record (Image 2): 
+    Signing Options: Custom:  --confirm
+    Signing Options: TrustZone: Custom (Image 2):  --confirm
+    
+  Module "MCUboot Port for RA"
+  Module "MbedTLS (Crypto Only)"
+    Hardware Acceleration: TRNG: Enabled
+    Hardware Acceleration: Key Format: AES: Plaintext Only
+    Hardware Acceleration: Key Format: ECC: Plaintext Only
+    Hardware Acceleration: Key Format: RSA: Plaintext Only
+    Hardware Acceleration: Hash: SHA256/224: Use Hardware
+    Hardware Acceleration: Cipher: AES: Use Hardware
+    Hardware Acceleration: Public Key Cryptography (PKC): ECC: Use Hardware
+    Hardware Acceleration: Public Key Cryptography (PKC): ECDSA : Use Hardware
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA: Use Hardware
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA 3072 Verify: Disabled
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA 4096 Verify: Disabled
+    Hardware Acceleration: Secure Crypto Engine Initialization: Enabled
+    Platform: MBEDTLS_HAVE_ASM: Undefine
+    Platform: MBEDTLS_NO_UDBL_DIVISION: Undefine
+    Platform: MBEDTLS_NO_64BIT_MULTIPLICATION: Undefine
+    Platform: MBEDTLS_HAVE_SSE2: Undefine
+    Platform: MBEDTLS_HAVE_TIME: Undefine
+    Platform: MBEDTLS_HAVE_TIME_DATE: Undefine
+    Platform: MBEDTLS_PLATFORM_MEMORY: Define
+    Platform: MBEDTLS_PLATFORM_NO_STD_FUNCTIONS: Undefine
+    Platform: Alternate: MBEDTLS_PLATFORM_EXIT_ALT: Undefine
+    Platform: Alternate: MBEDTLS_PLATFORM_TIME_ALT: Undefine
+    Platform: Alternate: MBEDTLS_PLATFORM_FPRINTF_ALT: Undefine
+    Platform: Alternate: MBEDTLS_PLATFORM_PRINTF_ALT: Undefine
+    Platform: Alternate: MBEDTLS_PLATFORM_SNPRINTF_ALT: Undefine
+    Platform: Alternate: MBEDTLS_PLATFORM_VSNPRINTF_ALT: Undefine
+    Platform: Alternate: MBEDTLS_PLATFORM_NV_SEED_ALT: Undefine
+    General: PSA_CRYPTO_SECURE: Undefine
+    General: MBEDTLS_DEPRECATED_WARNING: Undefine
+    General: MBEDTLS_DEPRECATED_REMOVED: Define
+    General: MBEDTLS_CHECK_PARAMS: Define
+    General: MBEDTLS_CHECK_PARAMS_ASSERT: Undefine
+    Platform: MBEDTLS_TIMING_ALT: Undefine
+    Cipher: Alternate: MBEDTLS_ARC4_ALT: Undefine
+    Cipher: Alternate: MBEDTLS_ARIA_ALT: Undefine
+    Cipher: Alternate: MBEDTLS_BLOWFISH_ALT: Undefine
+    Cipher: Alternate: MBEDTLS_CAMELLIA_ALT: Undefine
+    Cipher: Alternate: MBEDTLS_CCM_ALT: Undefine
+    Cipher: Alternate: MBEDTLS_CHACHA20_ALT: Undefine
+    Cipher: Alternate: MBEDTLS_CHACHAPOLY_ALT: Undefine
+    Cipher: Alternate: MBEDTLS_CMAC_ALT: Undefine
+    Cipher: Alternate: MBEDTLS_DES_ALT: Undefine
+    Public Key Cryptography (PKC): DHM: Alternate: MBEDTLS_DHM_ALT: Undefine
+    Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECJPAKE_ALT: Undefine
+    Cipher: Alternate: MBEDTLS_GCM_ALT: Undefine
+    Cipher: Alternate: MBEDTLS_NIST_KW_ALT: Undefine
+    Hash: Alternate: MBEDTLS_MD2_ALT: Undefine
+    Hash: Alternate: MBEDTLS_MD4_ALT: Undefine
+    Hash: Alternate: MBEDTLS_MD5_ALT: Undefine
+    Message Authentication Code (MAC): Alternate: MBEDTLS_POLY1305_ALT: Undefine
+    Hash: Alternate: MBEDTLS_RIPEMD160_ALT: Undefine
+    Hash: Alternate: MBEDTLS_SHA1_ALT: Undefine
+    Hash: Alternate: MBEDTLS_SHA512_ALT: Undefine
+    Cipher: Alternate: MBEDTLS_XTEA_ALT: Undefine
+    Hash: Alternate: MBEDTLS_MD2_PROCESS_ALT: Undefine
+    Hash: Alternate: MBEDTLS_MD4_PROCESS_ALT: Undefine
+    Hash: Alternate: MBEDTLS_MD5_PROCESS_ALT: Undefine
+    Hash: Alternate: MBEDTLS_RIPEMD160_PROCESS_ALT: Undefine
+    Hash: Alternate: MBEDTLS_SHA1_PROCESS_ALT: Undefine
+    Hash: Alternate: MBEDTLS_SHA512_PROCESS_ALT: Undefine
+    Cipher: Alternate: MBEDTLS_DES_SETKEY_ALT: Undefine
+    Cipher: Alternate: MBEDTLS_DES_CRYPT_ECB_ALT: Undefine
+    Cipher: Alternate: MBEDTLS_DES3_CRYPT_ECB_ALT: Undefine
+    Public Key Cryptography (PKC): ECC: MBEDTLS_ECDH_GEN_PUBLIC_ALT: Undefine
+    Public Key Cryptography (PKC): ECC: MBEDTLS_ECDH_COMPUTE_SHARED_ALT: Undefine
+    Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECDSA_GENKEY_ALT: Undefine
+    Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_INTERNAL_ALT: Undefine
+    Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_RANDOMIZE_JAC_ALT: Undefine
+    Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_ADD_MIXED_ALT: Undefine
+    Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_DOUBLE_JAC_ALT: Undefine
+    Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_NORMALIZE_JAC_MANY_ALT: Undefine
+    Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_NORMALIZE_JAC_ALT: Undefine
+    Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_DOUBLE_ADD_MXZ_ALT: Undefine
+    Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_RANDOMIZE_MXZ_ALT: Undefine
+    Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_NORMALIZE_MXZ_ALT: Undefine
+    RNG: MBEDTLS_TEST_NULL_ENTROPY: Undefine
+    Cipher: AES: MBEDTLS_AES_ROM_TABLES: Undefine
+    Cipher: AES: MBEDTLS_AES_FEWER_TABLES: Undefine
+    Cipher: MBEDTLS_CAMELLIA_SMALL_MEMORY: Undefine
+    Cipher: MBEDTLS_CIPHER_MODE_CBC: Define
+    Cipher: MBEDTLS_CIPHER_MODE_CFB: Define
+    Cipher: MBEDTLS_CIPHER_MODE_CTR: Define
+    Cipher: MBEDTLS_CIPHER_MODE_OFB: Undefine
+    Cipher: MBEDTLS_CIPHER_MODE_XTS: Undefine
+    Cipher: MBEDTLS_CIPHER_NULL_CIPHER: Undefine
+    Cipher: MBEDTLS_CIPHER_PADDING_PKCS7: Define
+    Cipher: MBEDTLS_CIPHER_PADDING_ONE_AND_ZEROS: Define
+    Cipher: MBEDTLS_CIPHER_PADDING_ZEROS_AND_LEN: Define
+    Cipher: MBEDTLS_CIPHER_PADDING_ZEROS: Define
+    Public Key Cryptography (PKC): ECC: Curves: MBEDTLS_ECP_DP_SECP192R1_ENABLED: Undefine
+    Public Key Cryptography (PKC): ECC: Curves: MBEDTLS_ECP_DP_SECP224R1_ENABLED: Undefine
+    Public Key Cryptography (PKC): ECC: Curves: MBEDTLS_ECP_DP_SECP256R1_ENABLED: Define
+    Public Key Cryptography (PKC): ECC: Curves: MBEDTLS_ECP_DP_SECP384R1_ENABLED: Undefine
+    Public Key Cryptography (PKC): ECC: Curves: MBEDTLS_ECP_DP_SECP521R1_ENABLED: Undefine
+    Public Key Cryptography (PKC): ECC: Curves: MBEDTLS_ECP_DP_SECP192K1_ENABLED: Undefine
+    Public Key Cryptography (PKC): ECC: Curves: MBEDTLS_ECP_DP_SECP224K1_ENABLED: Undefine
+    Public Key Cryptography (PKC): ECC: Curves: MBEDTLS_ECP_DP_SECP256K1_ENABLED: Undefine
+    Public Key Cryptography (PKC): ECC: Curves: MBEDTLS_ECP_DP_BP256R1_ENABLED: Undefine
+    Public Key Cryptography (PKC): ECC: Curves: MBEDTLS_ECP_DP_BP384R1_ENABLED: Undefine
+    Public Key Cryptography (PKC): ECC: Curves: MBEDTLS_ECP_DP_BP512R1_ENABLED: Undefine
+    Public Key Cryptography (PKC): ECC: Curves: MBEDTLS_ECP_DP_CURVE25519_ENABLED: Undefine
+    Public Key Cryptography (PKC): ECC: Curves: MBEDTLS_ECP_DP_CURVE448_ENABLED: Undefine
+    Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_NIST_OPTIM: Undefine
+    Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_RESTARTABLE: Undefine
+    Public Key Cryptography (PKC): ECC: MBEDTLS_ECDH_LEGACY_CONTEXT: Undefine
+    Public Key Cryptography (PKC): ECC: MBEDTLS_ECDSA_DETERMINISTIC: Undefine
+    Public Key Cryptography (PKC): ECC: MBEDTLS_PK_PARSE_EC_EXTENDED: Undefine
+    General: MBEDTLS_ERROR_STRERROR_DUMMY: Define
+    Public Key Cryptography (PKC): MBEDTLS_GENPRIME: Define
+    Storage: MBEDTLS_FS_IO: Undefine
+    RNG: MBEDTLS_NO_DEFAULT_ENTROPY_SOURCES: Undefine
+    Platform: MBEDTLS_NO_PLATFORM_ENTROPY: Define
+    RNG: MBEDTLS_ENTROPY_FORCE_SHA256: Undefine
+    RNG: MBEDTLS_ENTROPY_NV_SEED: Undefine
+    Storage: MBEDTLS_PSA_CRYPTO_KEY_FILE_ID_ENCODES_OWNER: Undefine
+    General: MBEDTLS_MEMORY_DEBUG: Undefine
+    General: MBEDTLS_MEMORY_BACKTRACE: Undefine
+    Public Key Cryptography (PKC): RSA: MBEDTLS_PK_RSA_ALT_SUPPORT: Undefine
+    Public Key Cryptography (PKC): MBEDTLS_PKCS1_V15: Define
+    Public Key Cryptography (PKC): MBEDTLS_PKCS1_V21: Define
+    General: MBEDTLS_PSA_CRYPTO_SPM: Undefine
+    RNG: MBEDTLS_PSA_INJECT_ENTROPY: Undefine
+    Public Key Cryptography (PKC): RSA: MBEDTLS_RSA_NO_CRT: Define
+    General: MBEDTLS_SELF_TEST: Undefine
+    Hash: MBEDTLS_SHA256_SMALLER: Undefine
+    Hash: MBEDTLS_SHA512_SMALLER: Undefine
+    Hash: MBEDTLS_SHA512_NO_SHA384: Undefine
+    General: MBEDTLS_THREADING_ALT: Undefine
+    General: MBEDTLS_THREADING_PTHREAD: Undefine
+    General: MBEDTLS_USE_PSA_CRYPTO: Undefine
+    General: MBEDTLS_VERSION_FEATURES: Define
+    Cipher: MBEDTLS_AES_C: Define
+    Cipher: MBEDTLS_ARC4_C: Undefine
+    Public Key Cryptography (PKC): MBEDTLS_ASN1_PARSE_C: Define
+    Public Key Cryptography (PKC): MBEDTLS_ASN1_WRITE_C: Define
+    Public Key Cryptography (PKC): MBEDTLS_BASE64_C: Define
+    Public Key Cryptography (PKC): MBEDTLS_BIGNUM_C: Define
+    Cipher: MBEDTLS_BLOWFISH_C: Undefine
+    Cipher: MBEDTLS_CAMELLIA_C: Undefine
+    Cipher: MBEDTLS_ARIA_C: Undefine
+    Cipher: MBEDTLS_CCM_C: Define
+    Cipher: MBEDTLS_CHACHA20_C: Undefine
+    Cipher: MBEDTLS_CHACHAPOLY_C: Undefine
+    Cipher: MBEDTLS_CIPHER_C: Define
+    Message Authentication Code (MAC): MBEDTLS_CMAC_C: Undefine
+    RNG: MBEDTLS_CTR_DRBG_C: Define
+    RNG: MBEDTLS_CTR_DRBG_C_ALT: Define
+    Cipher: MBEDTLS_DES_C: Undefine
+    Public Key Cryptography (PKC): DHM: MBEDTLS_DHM_C: Undefine
+    Public Key Cryptography (PKC): ECC: MBEDTLS_ECDH_C: Undefine
+    Public Key Cryptography (PKC): ECC: MBEDTLS_ECDSA_C: Define
+    Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_C: Define
+    Public Key Cryptography (PKC): ECC: MBEDTLS_ECJPAKE_C: Undefine
+    Platform: MBEDTLS_ENTROPY_C: Define
+    General: MBEDTLS_ERROR_C: Define
+    Cipher: MBEDTLS_GCM_C: Define
+    RNG: MBEDTLS_HAVEGE_C: Undefine
+    Message Authentication Code (MAC): MBEDTLS_HKDF_C: Define
+    Message Authentication Code (MAC): MBEDTLS_HMAC_DRBG_C: Undefine
+    Cipher: MBEDTLS_NIST_KW_C: Undefine
+    Hash: MBEDTLS_MD_C: Define
+    Hash: MBEDTLS_MD2_C: Undefine
+    Hash: MBEDTLS_MD4_C: Undefine
+    Hash: MBEDTLS_MD5_C: Define
+    General: MBEDTLS_MEMORY_BUFFER_ALLOC_C: Define
+    Public Key Cryptography (PKC): MBEDTLS_OID_C: Define
+    Public Key Cryptography (PKC): MBEDTLS_PEM_PARSE_C: Define
+    Public Key Cryptography (PKC): MBEDTLS_PEM_WRITE_C: Define
+    Public Key Cryptography (PKC): MBEDTLS_PK_C: Define
+    Public Key Cryptography (PKC): MBEDTLS_PK_PARSE_C: Define
+    Public Key Cryptography (PKC): MBEDTLS_PK_WRITE_C: Define
+    Public Key Cryptography (PKC): MBEDTLS_PKCS5_C: Define
+    Public Key Cryptography (PKC): MBEDTLS_PKCS12_C: Define
+    Platform: MBEDTLS_PLATFORM_C: Define
+    Message Authentication Code (MAC): MBEDTLS_POLY1305_C: Undefine
+    General: MBEDTLS_PSA_CRYPTO_C: Define
+    General: MBEDTLS_PSA_CRYPTO_SE_C: Undefine
+    Storage: MBEDTLS_PSA_CRYPTO_STORAGE_C: Undefine
+    Storage: MBEDTLS_PSA_ITS_FILE_C: Undefine
+    Hash: MBEDTLS_RIPEMD160_C: Define
+    Public Key Cryptography (PKC): RSA: MBEDTLS_RSA_C: Undefine
+    Hash: MBEDTLS_SHA1_C: Define
+    Hash: MBEDTLS_SHA256_C: Define
+    Hash: MBEDTLS_SHA512_C: Undefine
+    General: MBEDTLS_THREADING_C: Undefine
+    General: MBEDTLS_TIMING_C: Undefine
+    General: MBEDTLS_VERSION_C: Define
+    Cipher: MBEDTLS_XTEA_C: Undefine
+    Public Key Cryptography (PKC): MBEDTLS_MPI_WINDOW_SIZE: Undefine
+    Public Key Cryptography (PKC): MBEDTLS_MPI_WINDOW_SIZE value: 6
+    Public Key Cryptography (PKC): MBEDTLS_MPI_MAX_SIZE: Undefine
+    Public Key Cryptography (PKC): MBEDTLS_MPI_MAX_SIZE value: 1024
+    RNG: MBEDTLS_CTR_DRBG_ENTROPY_LEN: Undefine
+    RNG: MBEDTLS_CTR_DRBG_ENTROPY_LEN value: 48
+    RNG: MBEDTLS_CTR_DRBG_RESEED_INTERVAL: Undefine
+    RNG: MBEDTLS_CTR_DRBG_RESEED_INTERVAL value: 10000
+    RNG: MBEDTLS_CTR_DRBG_MAX_INPUT: Undefine
+    RNG: MBEDTLS_CTR_DRBG_MAX_INPUT value: 256
+    RNG: MBEDTLS_CTR_DRBG_MAX_REQUEST: Undefine
+    RNG: MBEDTLS_CTR_DRBG_MAX_REQUEST value: 1024
+    RNG: MBEDTLS_CTR_DRBG_MAX_SEED_INPUT: Undefine
+    RNG: MBEDTLS_CTR_DRBG_MAX_SEED_INPUT value: 384
+    RNG: MBEDTLS_CTR_DRBG_USE_128_BIT_KEY: Undefine
+    RNG: MBEDTLS_HMAC_DRBG_RESEED_INTERVAL: Undefine
+    RNG: MBEDTLS_HMAC_DRBG_RESEED_INTERVAL value: 10000
+    RNG: MBEDTLS_HMAC_DRBG_MAX_INPUT: Undefine
+    RNG: MBEDTLS_HMAC_DRBG_MAX_INPUT value: 256
+    RNG: MBEDTLS_HMAC_DRBG_MAX_REQUEST: Undefine
+    RNG: MBEDTLS_HMAC_DRBG_MAX_REQUEST value: 1024
+    RNG: MBEDTLS_HMAC_DRBG_MAX_SEED_INPUT: Undefine
+    RNG: MBEDTLS_HMAC_DRBG_MAX_SEED_INPUT value: 384
+    Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_MAX_BITS: Undefine
+    Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_MAX_BITS value: 521
+    Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_WINDOW_SIZE: Undefine
+    Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_WINDOW_SIZE value: 6
+    Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_FIXED_POINT_OPTIM: Undefine
+    Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_FIXED_POINT_OPTIM value: 1
+    RNG: MBEDTLS_ENTROPY_MAX_SOURCES: Undefine
+    RNG: MBEDTLS_ENTROPY_MAX_SOURCES value: 20
+    RNG: MBEDTLS_ENTROPY_MAX_GATHER: Undefine
+    RNG: MBEDTLS_ENTROPY_MAX_GATHER value: 128
+    RNG: MBEDTLS_ENTROPY_MIN_HARDWARE: Undefine
+    RNG: MBEDTLS_ENTROPY_MIN_HARDWARE value: 32
+    General: MBEDTLS_MEMORY_ALIGN_MULTIPLE: Undefine
+    General: MBEDTLS_MEMORY_ALIGN_MULTIPLE value: 4
+    Platform: MBEDTLS_PLATFORM_STD_CALLOC: Undefine
+    Platform: MBEDTLS_PLATFORM_STD_CALLOC value: calloc
+    Platform: MBEDTLS_PLATFORM_STD_FREE: Undefine
+    Platform: MBEDTLS_PLATFORM_STD_FREE value: free
+    Platform: MBEDTLS_PLATFORM_STD_EXIT: Undefine
+    Platform: MBEDTLS_PLATFORM_STD_EXIT value: exit
+    Platform: MBEDTLS_PLATFORM_STD_TIME: Undefine
+    Platform: MBEDTLS_PLATFORM_STD_TIME value: time
+    Platform: MBEDTLS_PLATFORM_STD_FPRINTF: Undefine
+    Platform: MBEDTLS_PLATFORM_STD_FPRINTF value: fprintf
+    Platform: MBEDTLS_PLATFORM_STD_PRINTF: Undefine
+    Platform: MBEDTLS_PLATFORM_STD_PRINTF value: printf
+    Platform: MBEDTLS_PLATFORM_STD_SNPRINTF: Undefine
+    Platform: MBEDTLS_PLATFORM_STD_SNPRINTF value: snprintf
+    Platform: MBEDTLS_PLATFORM_STD_EXIT_SUCCESS: Undefine
+    Platform: MBEDTLS_PLATFORM_STD_EXIT_SUCCESS value: 0
+    Platform: MBEDTLS_PLATFORM_STD_EXIT_FAILURE: Undefine
+    Platform: MBEDTLS_PLATFORM_STD_EXIT_FAILURE value: 1
+    Platform: MBEDTLS_PLATFORM_STD_NV_SEED_READ: Undefine
+    Platform: MBEDTLS_PLATFORM_STD_NV_SEED_READ value: mbedtls_platform_std_nv_seed_read
+    Platform: MBEDTLS_PLATFORM_STD_NV_SEED_WRITE: Undefine
+    Platform: MBEDTLS_PLATFORM_STD_NV_SEED_WRITE value: mbedtls_platform_std_nv_seed_write
+    Platform: MBEDTLS_PLATFORM_STD_NV_SEED_FILE: Undefine
+    Platform: MBEDTLS_PLATFORM_STD_NV_SEED_FILE value: 
+    Platform: MBEDTLS_PLATFORM_CALLOC_MACRO: Undefine
+    Platform: MBEDTLS_PLATFORM_CALLOC_MACRO value: calloc
+    Platform: MBEDTLS_PLATFORM_FREE_MACRO: Undefine
+    Platform: MBEDTLS_PLATFORM_FREE_MACRO value: free
+    Platform: MBEDTLS_PLATFORM_EXIT_MACRO: Undefine
+    Platform: MBEDTLS_PLATFORM_EXIT_MACRO value: exit
+    Platform: MBEDTLS_PLATFORM_TIME_MACRO: Undefine
+    Platform: MBEDTLS_PLATFORM_TIME_MACRO value: time
+    Platform: MBEDTLS_PLATFORM_TIME_TYPE_MACRO: Undefine
+    Platform: MBEDTLS_PLATFORM_TIME_TYPE_MACRO value: time_t
+    Platform: MBEDTLS_PLATFORM_FPRINTF_MACRO: Undefine
+    Platform: MBEDTLS_PLATFORM_FPRINTF_MACRO value: fprintf
+    Platform: MBEDTLS_PLATFORM_PRINTF_MACRO: Undefine
+    Platform: MBEDTLS_PLATFORM_PRINTF_MACRO value: printf
+    Platform: MBEDTLS_PLATFORM_SNPRINTF_MACRO: Undefine
+    Platform: MBEDTLS_PLATFORM_SNPRINTF_MACRO value: snprintf
+    Platform: MBEDTLS_PLATFORM_VSNPRINTF_MACRO: Undefine
+    Platform: MBEDTLS_PLATFORM_VSNPRINTF_MACRO value: vsnprintf
+    Platform: MBEDTLS_PLATFORM_NV_SEED_READ_MACRO: Undefine
+    Platform: MBEDTLS_PLATFORM_NV_SEED_READ_MACRO value: mbedtls_platform_std_nv_seed_read
+    Platform: MBEDTLS_PARAM_FAILED: Undefine
+    Platform: MBEDTLS_PLATFORM_NV_SEED_WRITE_MACRO: Undefine
+    Platform: MBEDTLS_PLATFORM_NV_SEED_WRITE_MACRO value: mbedtls_platform_std_nv_seed_write
+    Platform: Alternate: MBEDTLS_PLATFORM_ZEROIZE_ALT: Undefine
+    Platform: Alternate: MBEDTLS_PLATFORM_GMTIME_R_ALT: Undefine
+    Public Key Cryptography (PKC): ECC: MBEDTLS_ECDH_VARIANT_EVEREST_ENABLED: Undefine
+    
+  Module "Mbed Crypto HW Acceleration"
+  Module "SCE7"
+  Module "Flash Driver on r_flash_hp"
+    Parameter Checking: Default (BSP)
+    Code Flash Programming Enable: Enabled
+    Data Flash Programming Enable: Enabled
+    
+  Module "MCUboot Example Keys (NOT FOR PRODUCTION)"
+  HAL
+    Instance "g_ioport I/O Port Driver on r_ioport"
+      Name: g_ioport
+      Port 1 ELC Trigger Source: Disabled
+      Port 2 ELC Trigger Source: Disabled
+      Port 3 ELC Trigger Source: Disabled
+      Port 4 ELC Trigger Source: Disabled
+      
+    Instance "MCUboot"
+      Instance "MCUboot Port for RA"
+        Instance "MbedTLS (Crypto Only)"
+          Instance "Mbed Crypto HW Acceleration"
+            Instance "SCE7"
+        Instance "g_flash0 Flash Driver on r_flash_hp"
+          Name: g_flash0
+          Data Flash Background Operation: Disabled
+          Callback: NULL
+          Flash Ready Interrupt Priority: Disabled
+          Flash Error Interrupt Priority: Disabled
+          
+      Instance "MCUboot Example Keys (NOT FOR PRODUCTION)"
