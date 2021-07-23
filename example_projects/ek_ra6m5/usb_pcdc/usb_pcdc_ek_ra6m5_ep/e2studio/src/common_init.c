@@ -47,7 +47,7 @@ static const struct
     const gpt_io_pin_t              pin;
 } pwm_pins[] =
 {
-    {&g_gpt_red, GPT_IO_PIN_GTIOCB},
+    {&g_gpt_red, GPT_IO_PIN_GTIOCA},
     {&g_gpt_green, GPT_IO_PIN_GTIOCA},
     {&g_gpt_blue, GPT_IO_PIN_GTIOCA},
 };

@@ -695,7 +695,7 @@
             <archiveVersion>1</archiveVersion>
             <data>
                 <prebuild></prebuild>
-                <postbuild>cmd /c ""C:\Renesas\RA\sc_v2021-01_fsp_v2.3.0\eclipse\rasc.exe" --gensecurebundle --compiler IAR "$PROJ_DIR$\configuration.xml" "$TARGET_PATH$" 2&gt; "%TEMP%\rasc_stderr.out""</postbuild>
+                <postbuild>cmd /c ""$RASC_EXE_PATH$" --gensecurebundle --compiler IAR "$PROJ_DIR$\configuration.xml" "$TARGET_PATH$" 2&gt; "%TEMP%\rasc_stderr.out""</postbuild>
             </data>
         </settings>
         <settings>
@@ -1761,7 +1761,7 @@
             <archiveVersion>1</archiveVersion>
             <data>
                 <prebuild></prebuild>
-                <postbuild>cmd /c ""C:\Renesas\RA\sc_v2021-01_fsp_v2.3.0\eclipse\rasc.exe" --gensecurebundle --compiler IAR "$PROJ_DIR$\configuration.xml" "$TARGET_PATH$" 2&gt; "%TEMP%\rasc_stderr.out""</postbuild>
+                <postbuild>cmd /c ""$RASC_EXE_PATH$" --gensecurebundle --compiler IAR "$PROJ_DIR$\configuration.xml" "$TARGET_PATH$" 2&gt; "%TEMP%\rasc_stderr.out""</postbuild>
             </data>
         </settings>
         <settings>
@@ -2388,9 +2388,6 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\fsp\inc\api\r_uart_api.h</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\ra\fsp\src\bsp\cmsis\Device\RENESAS\SVD\RA.svd</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\fsp\src\bsp\cmsis\Device\RENESAS\Include\renesas.h</name>

@@ -16,6 +16,7 @@ FSP Configuration
     Security: Exceptions: BusFault, HardFault, and NMI Target: Secure State
     Security: System Reset Request Accessibility: Secure State
     Security: Exceptions: Prioritize Secure Exceptions: Disabled
+    Security: Cache Accessibility: Both Secure and Non-Secure State
     Security: System Reset Status Accessibility: Both Secure and Non-Secure State
     Security: Battery Backup Accessibility: Both Secure and Non-Secure State
     Security: SRAM Accessibility: SRAM Protection: Both Secure and Non-Secure State
@@ -23,6 +24,7 @@ FSP Configuration
     Security: SRAM Accessibility: Standby RAM: Regions 7-0 are all Secure.
     Security: BUS Accessibility: Bus Security Attribution Register A: Both Secure and Non-Secure State
     Security: BUS Accessibility: Bus Security Attribution Register B: Both Secure and Non-Secure State
+    Startup C-Cache Line Size: 32 Bytes
     OFS0 register settings: Independent WDT: Start Mode: IWDT is Disabled
     OFS0 register settings: Independent WDT: Timeout Period: 2048 cycles
     OFS0 register settings: Independent WDT: Dedicated Clock Frequency Divisor: 128
@@ -48,6 +50,7 @@ FSP Configuration
     Permanent Block Protection Settings (PBPS): PBPS2: 
     Dual Bank Mode: Disabled
     Clocks: HOCO FLL Function: Disabled
+    Main Oscillator Wait Time: 8163 cycles
     
   RA Common
     Main stack size (bytes): 0x400
@@ -60,7 +63,6 @@ FSP Configuration
     Main Oscillator Populated: Populated
     PFS Protect: Enabled
     C Runtime Initialization : Enabled
-    Main Oscillator Wait Time: 32768 us
     Main Oscillator Clock Source: Crystal or Resonator
     Subclock Populated: Populated
     Subclock Drive (Drive capacitance availability varies by MCU): Standard/Normal mode
@@ -79,6 +81,7 @@ FSP Configuration
     CLKOUT Disabled
     UCLK Disabled
     OCTASPICLK Disabled
+    CANFDCLK Disabled
     ICLK Div /1
     PCLKA Div /2
     PCLKB Div /4
@@ -90,6 +93,7 @@ FSP Configuration
     CLKOUT Div /1
     UCLK Div /5
     OCTASPICLK Div /1
+    CANFDCLK Div /1
     
   Pin Configurations
     RA6M5 EK -> g_bsp_pin_cfg
@@ -138,7 +142,7 @@ FSP Configuration
       P209 65 - - - - Disabled - - "AGT5: AGTEE; BUS_ASYNCH0: CS5; ETHERC_MII0: EXOUT; ETHERC_RMII0: EXOUT; GPT_OPS0: GTOVUP; QSPI0: QIO2; SDHI0: WP" - None - - 
       P210 64 - - - - Disabled - - "AGT5: AGTOB; BUS_ASYNCH0: CS6; ETHERC_MII0: WOL; ETHERC_RMII0: WOL; GPT_OPS0: GTIW; QSPI0: QIO1; SDHI0: CD" - None - - 
       P211 63 - - - - Disabled - - "AGT5: AGTOA; BUS_ASYNCH0: CS7; ETHERC_MII0: MDIO; ETHERC_RMII0: MDIO; GPT_OPS0: GTIV; QSPI0: QIO0; SDHI0: CMD" - None - - 
-      P212 24 GPT0_GTIOCB - Low None "Peripheral mode" CMOS None "AGT1: AGTEE; CGC0: EXTAL; GPT_POEG3: GTETRG; GPT0: GTIOCB; ICU0: IRQ03; SCI1: RXD; SCI1: SCL" - IO - - 
+      P212 24 - - - - Disabled - - "AGT1: AGTEE; CGC0: EXTAL; GPT_POEG3: GTETRG; GPT0: GTIOCB; ICU0: IRQ03; SCI1: RXD; SCI1: SCL" - None - - 
       P213 23 - - - - Disabled - - "ADC1: ADTRG; AGT2: AGTEE; CGC0: XTAL; GPT_POEG2: GTETRG; GPT0: GTIOCA; ICU0: IRQ02; SCI1: SDA; SCI1: TXD" - None - - 
       P214 62 - - - - Disabled - - "AGT5: AGTO; ETHERC_MII0: MDC; ETHERC_RMII0: MDC; GPT_OPS0: GTIU; QSPI0: QSPCLK; SDHI0: CLK" - None - - 
       P300 88 DEBUG0_SWCLK - Low - "Peripheral mode" CMOS None "DEBUG0: SWCLK; GPT_OPS0: GTOUUP; GPT0: GTIOCA; SPI0: SSL1" - IO - - 
@@ -171,7 +175,7 @@ FSP Configuration
       P411 40 - PMOD2_MOSI - - Disabled - - "AGT1: AGTOA; CTSU0: TS07; ETHERC_MII0: ERXD1; ETHERC_RMII0: RXD0; GPT_OPS0: GTOVUP; GPT9: GTIOCA; ICU0: IRQ04; SCI0: SDA; SCI0: TXD; SCI3: CTSRTS; SDHI0: DAT0; SPI1: MOSI" - None - - 
       P412 39 - PMOD2_SCK - - Disabled - - "AGT1: AGTEE; CTSU0: TS08; ETHERC_MII0: ETXD0; ETHERC_RMII0: REF50CK; GPT_OPS0: GTOULO; SCI0: SCK; SCI3: CTS; SDHI0: CMD; SPI1: RSPCK" - None - - 
       P413 38 - PMOS2_SS - - Disabled - - "AGT3: AGTEE; CTSU0: TS09; ETHERC_MII0: ETXD1; ETHERC_RMII0: TXD0; GPT_OPS0: GTOUUP; SCI0: CTSRTS; SDHI0: CLK; SPI1: SSL0" - None - - 
-      P414 37 - GROVE1_SDA_QWIIC_SDA - - Disabled - - "AGT5: AGTIO; CTSU0: TS10; ETHERC_MII0: RX_ER; ETHERC_RMII0: TXD1; GPT0: GTIOCB; ICU0: IRQ09; IIC2: SDA; SCI0: CTS; SDHI0: WP; SPI1: SSL1" - None - - 
+      P414 37 GPT0_GTIOCB GROVE1_SDA_QWIIC_SDA Low None "Peripheral mode" CMOS None "AGT5: AGTIO; CTSU0: TS10; ETHERC_MII0: RX_ER; ETHERC_RMII0: TXD1; GPT0: GTIOCB; ICU0: IRQ09; IIC2: SDA; SCI0: CTS; SDHI0: WP; SPI1: SSL1" - IO - - 
       P415 36 - GROVE1_SCL_QWIIC_SCL - - Disabled - - "AGT4: AGTIO; CTSU0: TS11; ETHERC_MII0: TX_EN; ETHERC_RMII0: TXD_EN; GPT0: GTIOCA; ICU0: IRQ08; IIC2: SCL; SDHI0: CD; SPI1: SSL2; USB_FS0: VBUSEN" - None - - 
       P500 140 USB_FS0_VBUSEN USBFS_VBUS_EN High - "Peripheral mode" CMOS None "ADC1: AN16; AGT0: AGTOA; CAC0: CACREF; GPT_OPS0: GTIU; QSPI0: QSPCLK; SCI5: CTS; USB_FS0: VBUSEN" - IO - - 
       P501 141 USB_FS0_OVRCURA USBFS_OVERCURA High None "Peripheral mode" CMOS None "ADC1: AN17; AGT0: AGTOB; GPT_OPS0: GTIV; ICU0: IRQ11; QSPI0: QSSL; SCI5: SDA; SCI5: TXD; USB_FS0: OVRCURA" - IO - - 
@@ -315,7 +319,7 @@ FSP Configuration
       P209 65 - - - - Disabled - - "AGT5: AGTEE; BUS_ASYNCH0: CS5; ETHERC_MII0: EXOUT; ETHERC_RMII0: EXOUT; GPT_OPS0: GTOVUP; QSPI0: QIO2; SDHI0: WP" - None - - 
       P210 64 - - - - Disabled - - "AGT5: AGTOB; BUS_ASYNCH0: CS6; ETHERC_MII0: WOL; ETHERC_RMII0: WOL; GPT_OPS0: GTIW; QSPI0: QIO1; SDHI0: CD" - None - - 
       P211 63 - - - - Disabled - - "AGT5: AGTOA; BUS_ASYNCH0: CS7; ETHERC_MII0: MDIO; ETHERC_RMII0: MDIO; GPT_OPS0: GTIV; QSPI0: QIO0; SDHI0: CMD" - None - - 
-      P212 24 - - Low None Disabled CMOS None "AGT1: AGTEE; CGC0: EXTAL; GPT_POEG3: GTETRG; GPT0: GTIOCB; ICU0: IRQ03; SCI1: RXD; SCI1: SCL" - IO - - 
+      P212 24 - - - - Disabled - - "AGT1: AGTEE; CGC0: EXTAL; GPT_POEG3: GTETRG; GPT0: GTIOCB; ICU0: IRQ03; SCI1: RXD; SCI1: SCL" - None - - 
       P213 23 - - - - Disabled - - "ADC1: ADTRG; AGT2: AGTEE; CGC0: XTAL; GPT_POEG2: GTETRG; GPT0: GTIOCA; ICU0: IRQ02; SCI1: SDA; SCI1: TXD" - None - - 
       P214 62 - - - - Disabled - - "AGT5: AGTO; ETHERC_MII0: MDC; ETHERC_RMII0: MDC; GPT_OPS0: GTIU; QSPI0: QSPCLK; SDHI0: CLK" - None - - 
       P300 88 DEBUG0_SWCLK - Low - "Peripheral mode" CMOS None "DEBUG0: SWCLK; GPT_OPS0: GTOUUP; GPT0: GTIOCA; SPI0: SSL1" - IO - - 
@@ -348,7 +352,7 @@ FSP Configuration
       P411 40 - PMOD2_MOSI - - Disabled - - "AGT1: AGTOA; CTSU0: TS07; ETHERC_MII0: ERXD1; ETHERC_RMII0: RXD0; GPT_OPS0: GTOVUP; GPT9: GTIOCA; ICU0: IRQ04; SCI0: SDA; SCI0: TXD; SCI3: CTSRTS; SDHI0: DAT0; SPI1: MOSI" - None - - 
       P412 39 - PMOD2_SCK - - Disabled - - "AGT1: AGTEE; CTSU0: TS08; ETHERC_MII0: ETXD0; ETHERC_RMII0: REF50CK; GPT_OPS0: GTOULO; SCI0: SCK; SCI3: CTS; SDHI0: CMD; SPI1: RSPCK" - None - - 
       P413 38 - PMOS2_SS - - Disabled - - "AGT3: AGTEE; CTSU0: TS09; ETHERC_MII0: ETXD1; ETHERC_RMII0: TXD0; GPT_OPS0: GTOUUP; SCI0: CTSRTS; SDHI0: CLK; SPI1: SSL0" - None - - 
-      P414 37 - GROVE1_SDA_QWIIC_SDA - - Disabled - - "AGT5: AGTIO; CTSU0: TS10; ETHERC_MII0: RX_ER; ETHERC_RMII0: TXD1; GPT0: GTIOCB; ICU0: IRQ09; IIC2: SDA; SCI0: CTS; SDHI0: WP; SPI1: SSL1" - None - - 
+      P414 37 - GROVE1_SDA_QWIIC_SDA Low None Disabled CMOS None "AGT5: AGTIO; CTSU0: TS10; ETHERC_MII0: RX_ER; ETHERC_RMII0: TXD1; GPT0: GTIOCB; ICU0: IRQ09; IIC2: SDA; SCI0: CTS; SDHI0: WP; SPI1: SSL1" - IO - - 
       P415 36 - GROVE1_SCL_QWIIC_SCL - - Disabled - - "AGT4: AGTIO; CTSU0: TS11; ETHERC_MII0: TX_EN; ETHERC_RMII0: TXD_EN; GPT0: GTIOCA; ICU0: IRQ08; IIC2: SCL; SDHI0: CD; SPI1: SSL2; USB_FS0: VBUSEN" - None - - 
       P500 140 - USBFS_VBUS_EN Low - Disabled CMOS None "ADC1: AN16; AGT0: AGTOA; CAC0: CACREF; GPT_OPS0: GTIU; QSPI0: QSPCLK; SCI5: CTS; USB_FS0: VBUSEN" - IO - - 
       P501 141 - USBFS_OVERCURA Low None Disabled CMOS None "ADC1: AN17; AGT0: AGTOB; GPT_OPS0: GTIV; ICU0: IRQ11; QSPI0: QSSL; SCI5: SDA; SCI5: TXD; USB_FS0: OVRCURA" - IO - - 
@@ -473,6 +477,15 @@ FSP Configuration
       General: Mode: Periodic
       General: Period: 1000
       General: Period Unit: Raw Counts
+      Output: Custom Waveform: GTIOA: Initial Output Level: Pin Level Low
+      Output: Custom Waveform: GTIOA: Cycle End Output Level: Pin Level Retain
+      Output: Custom Waveform: GTIOA: Compare Match Output Level: Pin Level Retain
+      Output: Custom Waveform: GTIOA: Retain Output Level at Count Stop: Disabled
+      Output: Custom Waveform: GTIOB: Initial Output Level: Pin Level Low
+      Output: Custom Waveform: GTIOB: Cycle End Output Level: Pin Level Retain
+      Output: Custom Waveform: GTIOB: Compare Match Output Level: Pin Level Retain
+      Output: Custom Waveform: GTIOB: Retain Output Level at Count Stop: Disabled
+      Output: Custom Waveform: Custom Waveform Enable: Disabled
       Output: Duty Cycle Percent (only applicable in PWM mode): 0
       Output: GTIOCA Output Enabled: False
       Output: GTIOCA Stop Level: Pin Level Low
@@ -491,7 +504,7 @@ FSP Configuration
       Interrupts: Overflow/Crest Interrupt Priority: Disabled
       Interrupts: Capture A Interrupt Priority: Disabled
       Interrupts: Capture B Interrupt Priority: Disabled
-      Interrupts: Trough Interrupt Priority: Disabled
+      Interrupts: Underflow/Trough Interrupt Priority: Disabled
       Extra Features: Extra Features: Disabled
       Extra Features: Output Disable: POEG Link: POEG Channel 0
       Extra Features: Output Disable: Output Disable POEG Trigger: 
@@ -512,6 +525,15 @@ FSP Configuration
       General: Mode: One-Shot
       General: Period: 1000
       General: Period Unit: Raw Counts
+      Output: Custom Waveform: GTIOA: Initial Output Level: Pin Level Low
+      Output: Custom Waveform: GTIOA: Cycle End Output Level: Pin Level Retain
+      Output: Custom Waveform: GTIOA: Compare Match Output Level: Pin Level Retain
+      Output: Custom Waveform: GTIOA: Retain Output Level at Count Stop: Disabled
+      Output: Custom Waveform: GTIOB: Initial Output Level: Pin Level Low
+      Output: Custom Waveform: GTIOB: Cycle End Output Level: Pin Level Retain
+      Output: Custom Waveform: GTIOB: Compare Match Output Level: Pin Level Retain
+      Output: Custom Waveform: GTIOB: Retain Output Level at Count Stop: Disabled
+      Output: Custom Waveform: Custom Waveform Enable: Disabled
       Output: Duty Cycle Percent (only applicable in PWM mode): 0
       Output: GTIOCA Output Enabled: False
       Output: GTIOCA Stop Level: Pin Level Low
@@ -530,7 +552,7 @@ FSP Configuration
       Interrupts: Overflow/Crest Interrupt Priority: Priority 2
       Interrupts: Capture A Interrupt Priority: Disabled
       Interrupts: Capture B Interrupt Priority: Disabled
-      Interrupts: Trough Interrupt Priority: Disabled
+      Interrupts: Underflow/Trough Interrupt Priority: Disabled
       Extra Features: Extra Features: Disabled
       Extra Features: Output Disable: POEG Link: POEG Channel 0
       Extra Features: Output Disable: Output Disable POEG Trigger: 
@@ -551,6 +573,15 @@ FSP Configuration
       General: Mode: PWM
       General: Period: 1000
       General: Period Unit: Raw Counts
+      Output: Custom Waveform: GTIOA: Initial Output Level: Pin Level Low
+      Output: Custom Waveform: GTIOA: Cycle End Output Level: Pin Level Retain
+      Output: Custom Waveform: GTIOA: Compare Match Output Level: Pin Level Retain
+      Output: Custom Waveform: GTIOA: Retain Output Level at Count Stop: Disabled
+      Output: Custom Waveform: GTIOB: Initial Output Level: Pin Level Low
+      Output: Custom Waveform: GTIOB: Cycle End Output Level: Pin Level Retain
+      Output: Custom Waveform: GTIOB: Compare Match Output Level: Pin Level Retain
+      Output: Custom Waveform: GTIOB: Retain Output Level at Count Stop: Disabled
+      Output: Custom Waveform: Custom Waveform Enable: Disabled
       Output: Duty Cycle Percent (only applicable in PWM mode): 50
       Output: GTIOCA Output Enabled: False
       Output: GTIOCA Stop Level: Pin Level Low
@@ -569,7 +600,7 @@ FSP Configuration
       Interrupts: Overflow/Crest Interrupt Priority: Disabled
       Interrupts: Capture A Interrupt Priority: Disabled
       Interrupts: Capture B Interrupt Priority: Disabled
-      Interrupts: Trough Interrupt Priority: Disabled
+      Interrupts: Underflow/Trough Interrupt Priority: Disabled
       Extra Features: Extra Features: Disabled
       Extra Features: Output Disable: POEG Link: POEG Channel 0
       Extra Features: Output Disable: Output Disable POEG Trigger: 
