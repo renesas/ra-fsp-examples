@@ -1,8 +1,8 @@
 ## Overview
-Examples for Renesas RA MCU family include Example Projects and Application Projects
+Examples for Renesas RA MCU family include Example Projects and Application Projects.
 
 ## Example Projects
-Example projects demonstrate the basic usage of FSP in user applications
+Example projects demonstrate the operation of various peripherals available on RA MCUs. The example projects are built using components provided by FSP.  User interaction with the MCU is provided via Segger RTT, making it possible to vary the functionality of the MCU peripheral example.
 
 #### Instructions For Running Example Projects
 1. Refer to the **_'Example Project Usage Guide'_** document in the **_'example_projects'_** folder or in the **_'Assets'_** section of **_'releases'_** for steps on importing and running the projects.
@@ -12,7 +12,7 @@ Example projects demonstrate the basic usage of FSP in user applications
 4. 'readme.txt' file in each of the module folders provides a brief description of the example project and hardware requirements for running the projects.
 
 ## Application Projects
-Application Projects illustrate solutions in various core technologies
+Application Projects illustrate solutions in various core technologies.
 
 #### Instructions For Running Application Projects
 1. Refer to the **_'Application Note'_** in the project folder for steps on importing and running the projects.
