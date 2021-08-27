@@ -124,14 +124,3 @@ BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_timer_periodic_callback_set_guard (timer_ct
 
     return R_AGT_CallbackSet(&g_timer_periodic_ctrl, p_callback_checked, p_context, p_callback_memory_checked);
 }
-
-BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_timer_periodic_version_get_guard (fsp_version_t *const p_version)
-{
-    /* Verify all pointers are in non-secure memory. */
-    fsp_version_t *const p_version_checked = cmse_check_pointed_object(p_version, CMSE_AU_NONSECURE);
-    FSP_ASSERT(p_version == p_version_checked);
-
-    /* TODO: add your own security checks here */
-
-    return R_AGT_VersionGet(p_version_checked);
-}

@@ -107,17 +107,6 @@ BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_rtc_info_get_guard (rtc_ctrl_t *const p_ctr
     return R_RTC_InfoGet(&g_rtc_ctrl, p_rtc_info_checked);
 }
 
-BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_rtc_version_get_guard (fsp_version_t *version)
-{
-    /* Verify all pointers are in non-secure memory. */
-    fsp_version_t * version_checked = cmse_check_pointed_object(version, CMSE_AU_NONSECURE);
-    FSP_ASSERT(version == version_checked);
-
-    /* TODO: add your own security checks here */
-
-    return R_RTC_VersionGet(version_checked);
-}
-
 BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_rtc_callback_set_guard (rtc_ctrl_t *const p_ctrl, void(*p_callback)(rtc_callback_args_t *), void const *const p_context, rtc_callback_args_t *const p_callback_memory)
 {
     /* Verify all pointers are in non-secure memory. */

@@ -35,7 +35,7 @@ fsp_err_t user_led_toggle(bsp_leds_t leds)
 {
     fsp_err_t err = FSP_SUCCESS;
     /* Toggle user LED */
-#if defined (BOARD_RA6T1_RSSK)
+#if defined (BOARD_RA6T1_RSSK) || defined (BOARD_RA4W1_EK)
     err = R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t)leds.p_leds[LED_NO_0], BSP_IO_LEVEL_LOW);
 #else
     err = R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t)leds.p_leds[LED_NO_0], BSP_IO_LEVEL_HIGH);
@@ -46,7 +46,7 @@ fsp_err_t user_led_toggle(bsp_leds_t leds)
         /* Delay 250 milliseconds */
         R_BSP_SoftwareDelay(250, BSP_DELAY_UNITS_MILLISECONDS);
 
-#if defined (BOARD_RA6T1_RSSK)
+#if defined (BOARD_RA6T1_RSSK) || defined (BOARD_RA4W1_EK)
     err = R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t)leds.p_leds[LED_NO_0], BSP_IO_LEVEL_HIGH);
 #else
     err = R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t)leds.p_leds[LED_NO_0], BSP_IO_LEVEL_LOW);
@@ -66,7 +66,7 @@ fsp_err_t user_led_on(bsp_leds_t leds)
     fsp_err_t err = FSP_SUCCESS;
 
     /* Toggle user LED */
-#if defined (BOARD_RA6T1_RSSK)
+#if defined (BOARD_RA6T1_RSSK) || defined (BOARD_RA4W1_EK)
     err = R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t)leds.p_leds[LED_NO_0], BSP_IO_LEVEL_LOW);
 #else
     err = R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t)leds.p_leds[LED_NO_0], BSP_IO_LEVEL_HIGH);

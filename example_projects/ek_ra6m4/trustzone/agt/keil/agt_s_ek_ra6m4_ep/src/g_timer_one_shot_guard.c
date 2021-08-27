@@ -1,141 +1,118 @@
 #include "guard.h"
-#include "custom_guard.h"
 
-#if UNUSED_GUARD_ON //Enable/disable unused guard functions
-BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_timer_one_shot_duty_cycle_set_guard(timer_ctrl_t *const p_ctrl,
-        uint32_t const duty_cycle_counts, uint32_t const pin)
+
+BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_timer_one_shot_close_guard (timer_ctrl_t *const p_ctrl)
 {
     /* TODO: add your own security checks here */
 
-    FSP_PARAMETER_NOT_USED (p_ctrl);
+    FSP_PARAMETER_NOT_USED(p_ctrl);
 
-    return R_AGT_DutyCycleSet (&g_timer_one_shot_ctrl, duty_cycle_counts, pin);
+    return R_AGT_Close(&g_timer_one_shot_ctrl);
 }
 
-BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_timer_one_shot_reset_guard(timer_ctrl_t *const p_ctrl)
+BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_timer_one_shot_period_set_guard (timer_ctrl_t *const p_ctrl, uint32_t const period_counts)
 {
     /* TODO: add your own security checks here */
 
-    FSP_PARAMETER_NOT_USED (p_ctrl);
+    FSP_PARAMETER_NOT_USED(p_ctrl);
 
-    return R_AGT_Reset (&g_timer_one_shot_ctrl);
+    return R_AGT_PeriodSet(&g_timer_one_shot_ctrl, period_counts);
 }
 
-BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_timer_one_shot_enable_guard(timer_ctrl_t *const p_ctrl)
+BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_timer_one_shot_duty_cycle_set_guard (timer_ctrl_t *const p_ctrl, uint32_t const duty_cycle_counts, uint32_t const pin)
 {
     /* TODO: add your own security checks here */
 
-    FSP_PARAMETER_NOT_USED (p_ctrl);
+    FSP_PARAMETER_NOT_USED(p_ctrl);
 
-    return R_AGT_Enable (&g_timer_one_shot_ctrl);
+    return R_AGT_DutyCycleSet(&g_timer_one_shot_ctrl, duty_cycle_counts, pin);
 }
 
-BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_timer_one_shot_disable_guard(timer_ctrl_t *const p_ctrl)
+BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_timer_one_shot_reset_guard (timer_ctrl_t *const p_ctrl)
 {
     /* TODO: add your own security checks here */
 
-    FSP_PARAMETER_NOT_USED (p_ctrl);
+    FSP_PARAMETER_NOT_USED(p_ctrl);
 
-    return R_AGT_Disable (&g_timer_one_shot_ctrl);
+    return R_AGT_Reset(&g_timer_one_shot_ctrl);
 }
 
-BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_timer_one_shot_version_get_guard(fsp_version_t *const p_version)
+BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_timer_one_shot_start_guard (timer_ctrl_t *const p_ctrl)
+{
+    /* TODO: add your own security checks here */
+
+    FSP_PARAMETER_NOT_USED(p_ctrl);
+
+    return R_AGT_Start(&g_timer_one_shot_ctrl);
+}
+
+BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_timer_one_shot_enable_guard (timer_ctrl_t *const p_ctrl)
+{
+    /* TODO: add your own security checks here */
+
+    FSP_PARAMETER_NOT_USED(p_ctrl);
+
+    return R_AGT_Enable(&g_timer_one_shot_ctrl);
+}
+
+BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_timer_one_shot_disable_guard (timer_ctrl_t *const p_ctrl)
+{
+    /* TODO: add your own security checks here */
+
+    FSP_PARAMETER_NOT_USED(p_ctrl);
+
+    return R_AGT_Disable(&g_timer_one_shot_ctrl);
+}
+
+BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_timer_one_shot_info_get_guard (timer_ctrl_t *const p_ctrl, timer_info_t *const p_info)
 {
     /* Verify all pointers are in non-secure memory. */
-    fsp_version_t *const p_version_checked = cmse_check_pointed_object (p_version, CMSE_AU_NONSECURE);
-    FSP_ASSERT (p_version == p_version_checked);
+    timer_info_t *const p_info_checked = cmse_check_pointed_object(p_info, CMSE_AU_NONSECURE);
+    FSP_ASSERT(p_info == p_info_checked);
 
     /* TODO: add your own security checks here */
 
-    return R_AGT_VersionGet (p_version_checked);
-}
-#endif
+    FSP_PARAMETER_NOT_USED(p_ctrl);
 
-BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_timer_one_shot_close_guard(timer_ctrl_t *const p_ctrl)
-{
-    /* TODO: add your own security checks here */
-
-    FSP_PARAMETER_NOT_USED (p_ctrl);
-
-    return R_AGT_Close (&g_timer_one_shot_ctrl);
+    return R_AGT_InfoGet(&g_timer_one_shot_ctrl, p_info_checked);
 }
 
-BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_timer_one_shot_period_set_guard(timer_ctrl_t *const p_ctrl,
-        uint32_t const period_counts)
-{
-    /* TODO: add your own security checks here */
-
-    FSP_PARAMETER_NOT_USED (p_ctrl);
-
-    return R_AGT_PeriodSet (&g_timer_one_shot_ctrl, period_counts);
-}
-
-BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_timer_one_shot_start_guard(timer_ctrl_t *const p_ctrl)
-{
-    /* TODO: add your own security checks here */
-
-    FSP_PARAMETER_NOT_USED (p_ctrl);
-
-    return R_AGT_Start (&g_timer_one_shot_ctrl);
-}
-
-BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_timer_one_shot_stop_guard(timer_ctrl_t *const p_ctrl)
-{
-    /* TODO: add your own security checks here */
-
-    FSP_PARAMETER_NOT_USED (p_ctrl);
-
-    return R_AGT_Stop (&g_timer_one_shot_ctrl);
-}
-
-
-BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_timer_one_shot_info_get_guard(timer_ctrl_t *const p_ctrl,
-        timer_info_t *const p_info)
+BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_timer_one_shot_status_get_guard (timer_ctrl_t *const p_ctrl, timer_status_t *const p_status)
 {
     /* Verify all pointers are in non-secure memory. */
-    timer_info_t *const p_info_checked = cmse_check_pointed_object (p_info, CMSE_AU_NONSECURE);
-    FSP_ASSERT (p_info == p_info_checked);
+    timer_status_t *const p_status_checked = cmse_check_pointed_object(p_status, CMSE_AU_NONSECURE);
+    FSP_ASSERT(p_status == p_status_checked);
 
     /* TODO: add your own security checks here */
 
-    FSP_PARAMETER_NOT_USED (p_ctrl);
+    FSP_PARAMETER_NOT_USED(p_ctrl);
 
-    return R_AGT_InfoGet (&g_timer_one_shot_ctrl, p_info_checked);
+    return R_AGT_StatusGet(&g_timer_one_shot_ctrl, p_status_checked);
 }
 
-BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_timer_one_shot_status_get_guard(timer_ctrl_t *const p_ctrl,
-        timer_status_t *const p_status)
+BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_timer_one_shot_stop_guard (timer_ctrl_t *const p_ctrl)
+{
+    /* TODO: add your own security checks here */
+
+    FSP_PARAMETER_NOT_USED(p_ctrl);
+
+    return R_AGT_Stop(&g_timer_one_shot_ctrl);
+}
+
+BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_timer_one_shot_open_guard (timer_ctrl_t *const p_ctrl, timer_cfg_t const *const p_cfg)
+{
+    /* TODO: add your own security checks here */
+
+    FSP_PARAMETER_NOT_USED(p_ctrl);
+    FSP_PARAMETER_NOT_USED(p_cfg);
+
+    return R_AGT_Open(&g_timer_one_shot_ctrl, &g_timer_one_shot_cfg);
+}
+
+BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_timer_one_shot_callback_set_guard (timer_ctrl_t *const p_api_ctrl, void(*p_callback)(timer_callback_args_t *), void const *const p_context, timer_callback_args_t *const p_callback_memory)
 {
     /* Verify all pointers are in non-secure memory. */
-    timer_status_t *const p_status_checked = cmse_check_pointed_object (p_status, CMSE_AU_NONSECURE);
-    FSP_ASSERT (p_status == p_status_checked);
-
-    /* TODO: add your own security checks here */
-
-    FSP_PARAMETER_NOT_USED (p_ctrl);
-
-    return R_AGT_StatusGet (&g_timer_one_shot_ctrl, p_status_checked);
-}
-
-
-BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_timer_one_shot_open_guard(timer_ctrl_t *const p_ctrl,
-        timer_cfg_t const *const p_cfg)
-{
-    /* TODO: add your own security checks here */
-
-    FSP_PARAMETER_NOT_USED (p_ctrl);
-    FSP_PARAMETER_NOT_USED (p_cfg);
-
-    return R_AGT_Open (&g_timer_one_shot_ctrl, &g_timer_one_shot_cfg);
-}
-
-BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_timer_one_shot_callback_set_guard(timer_ctrl_t *const p_api_ctrl,
-        void (*p_callback)(timer_callback_args_t*), void const *const p_context,
-        timer_callback_args_t *const p_callback_memory)
-{
-    /* Verify all pointers are in non-secure memory. */
-    void (*p_callback_checked)(
-            timer_callback_args_t*) = (void(*)(timer_callback_args_t *)) cmse_check_address_range((void *) p_callback, sizeof(void *), CMSE_AU_NONSECURE);
+    void(*p_callback_checked)(timer_callback_args_t *) = (void(*)(timer_callback_args_t *)) cmse_check_address_range((void *) p_callback, sizeof(void *), CMSE_AU_NONSECURE);
     FSP_ASSERT(p_callback == p_callback_checked);
     timer_callback_args_t *const p_callback_memory_checked = cmse_check_pointed_object(p_callback_memory, CMSE_AU_NONSECURE);
     FSP_ASSERT(p_callback_memory == p_callback_memory_checked);

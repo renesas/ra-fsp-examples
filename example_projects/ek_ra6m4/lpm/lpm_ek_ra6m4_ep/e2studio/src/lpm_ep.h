@@ -54,6 +54,8 @@
 #define USER_SW_IRQ_NUMBER        (0x03)
 #elif defined (BOARD_RA6M2_EK) || defined (BOARD_RA6M1_EK) || defined (BOARD_RA4M1_EK)
 #define USER_SW_IRQ_NUMBER        (0x00)
+#elif defined (BOARD_RA4W1_EK)
+#define USER_SW_IRQ_NUMBER        (0x04)
 #endif
 
 #define APP_ERR_TRAP(err)        if(err) { __asm("BKPT #0\n");} /* trap upon the error  */

@@ -64,17 +64,6 @@ BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_i2c_master_close_guard (i2c_master_ctrl_t *
     return R_IIC_MASTER_Close(&g_i2c_master_ctrl);
 }
 
-BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_i2c_master_version_get_guard (fsp_version_t *const p_version)
-{
-    /* Verify all pointers are in non-secure memory. */
-    fsp_version_t *const p_version_checked = cmse_check_pointed_object(p_version, CMSE_AU_NONSECURE);
-    FSP_ASSERT(p_version == p_version_checked);
-
-    /* TODO: add your own security checks here */
-
-    return R_IIC_MASTER_VersionGet(p_version_checked);
-}
-
 BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_i2c_master_callback_set_guard (i2c_master_ctrl_t *const p_api_ctrl, void(*p_callback)(i2c_master_callback_args_t *), void const *const p_context, i2c_master_callback_args_t *const p_callback_memory)
 {
     /* Verify all pointers are in non-secure memory. */

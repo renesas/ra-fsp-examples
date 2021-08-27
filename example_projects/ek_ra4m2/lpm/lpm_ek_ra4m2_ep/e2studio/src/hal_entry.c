@@ -54,7 +54,7 @@ void hal_entry(void)
              			                               g_lpm_sw_standby_cfg,
              			                               g_lpm_sw_standby_with_snooze_cfg,
              			                               g_lpm_deep_sw_standby_cfg};
-#elif defined (BOARD_RA4M1_EK) || defined (BOARD_RA2A1_EK) || defined (BOARD_RA2L1_EK) || defined(BOARD_RA2E1_EK)
+#elif defined (BOARD_RA4M1_EK) || defined (BOARD_RA2A1_EK) || defined (BOARD_RA2L1_EK) || defined(BOARD_RA2E1_EK) ||  defined(BOARD_RA4W1_EK)
     lpm_instance_ctrl_t g_lpm_ctrl_instance_ctrls[] = {g_lpm_sleep_ctrl,
                                                        g_lpm_sw_standby_ctrl,
                                                        g_lpm_sw_standby_with_snooze_ctrl

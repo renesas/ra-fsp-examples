@@ -36,6 +36,10 @@ static volatile bool b_is_calibration_complete = false;
 
 void R_BSP_WarmStart(bsp_warm_start_event_t event);
 
+float vref_volt[LEN] = {VREF_VOLT_0_8_V, VREF_VOLT_1_0_V, VREF_VOLT_1_2_V,
+                        VREF_VOLT_1_4_V, VREF_VOLT_1_6_V, VREF_VOLT_1_8_V,
+                        VREF_VOLT_2_0_V, VREF_VOLT_2_2_V};
+
 /*******************************************************************************************************************//**
  * The RA Configuration tool generates main() and uses it to generate threads if an RTOS is used.  This function is
  * called by main() when no RTOS is used.
@@ -162,13 +166,15 @@ void hal_entry(void)
             APP_ERR_TRAP(err);
         }
 
+
         /*
          * Conversion of SDADC out to voltage
-         *single-ended input  = 1.6 V × (ADCDATA / 2^24) + 0.2 V: page number 999 of ra2a1 manual
+         *single-ended input  = vref_voltage × (ADCDATA / 2^24) + 0.2 V: page number 999 of ra2a1 manual
          */
 
+        sdadc_extended_cfg_t const * p_cfg_extend_temp = g_sdadc_cfg.p_extend;
         voltageOut=(float)((float)channel_conversion_result/SDADC_RESOLUTION);
-        voltageOut = (float)(REF_VOLTAGE * voltageOut)+ OFFSET_VOLTAGE;
+        voltageOut = (float)((float)vref_volt[p_cfg_extend_temp->vref_voltage]* voltageOut)+ OFFSET_VOLTAGE;
 
         snprintf(dataBuff, sizeof(dataBuff), "%0.4f", voltageOut);
         APP_PRINT("\r\nDigital Value at Channel 0:  %d\r\n",channel_conversion_result);
@@ -193,11 +199,11 @@ void hal_entry(void)
         channel_conversion_result = ((channel_conversion_result & MASK) << SHIFT) >> SHIFT;
 
         /*
-         * Input voltage for the SDADC24(differential ended) = (1.6 V / GTOTAL) × (ADCDATA1 / 2^24)
+         * Input voltage for the SDADC24(differential ended) = (vref_voltage / GTOTAL) × (ADCDATA1 / 2^24)
          * from page number 999 of ra2a1 manual
          */
         voltageOut=(float)((float)channel_conversion_result/SDADC_RESOLUTION);
-        voltageOut = (float)((REF_VOLTAGE/GAIN_TOTAL) * voltageOut);
+        voltageOut = (float)(((float)vref_volt[p_cfg_extend_temp->vref_voltage]/GAIN_TOTAL) * voltageOut);
 
 
         snprintf(dataBuff, sizeof(dataBuff), "%0.4f", voltageOut);

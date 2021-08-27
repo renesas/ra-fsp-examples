@@ -26,10 +26,11 @@ FSP Configuration
     OFS0 register settings: WDT: Window Start Position: 100% (no window start position)
     OFS0 register settings: WDT: Reset Interrupt Request: Reset
     OFS0 register settings: WDT: Stop Control: Stop counting when entering Sleep mode
+    OFS1 register settings: Internal Clock Supply Architecture Type: Type A
     OFS1 register settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
     OFS1 register settings: Voltage Detection 0 Level: 1.90 V
     OFS1 register settings: HOCO Oscillation Enable: HOCO oscillation is enabled after reset
-    Use Low Voltage Mode: Disable
+    Use Low Voltage Mode: Not Supported
     MPU: Enable or disable PC Region 0: Disabled
     MPU: PC0 Start: 0x000FFFFC
     MPU: PC0 End: 0x000FFFFF
@@ -48,6 +49,7 @@ FSP Configuration
     MPU: Enable or disable Memory Region 3: Disabled
     MPU: Memory Region 3 Start: 0x400DFFFC
     MPU: Memory Region 3 End: 0x400DFFFF
+    Main Oscillator Wait Time: 262144 cycles
     ID Code Mode: Unlocked (Ignore ID)
     ID Code (32 Hex Characters): FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
     
@@ -62,7 +64,6 @@ FSP Configuration
     Main Oscillator Populated: Populated
     PFS Protect: Enabled
     C Runtime Initialization : Enabled
-    Main Oscillator Wait Time: 32768 us
     Main Oscillator Clock Source: Crystal or Resonator
     Subclock Populated: Populated
     Subclock Drive (Drive capacitance availability varies by MCU): Standard/Normal mode
@@ -93,10 +94,10 @@ FSP Configuration
       P013 54 - ARDUINO_A5 - - Disabled - - "ADC0: AN08; CTSU0: CFCTS33" - None - - 
       P014 53 - - - - Disabled - - "ADC0: AN09" - None - - 
       P015 52 GPIO USER_SW2 - IRQ07 "Input mode" - None "ADC0: AN10; CTSU0: CFCTS28; ICU0: IRQ07" - IO - - 
-      P100 48 - ARDUINO_MISO_MIKROBUS_MISO_PMOD1_MISO - - Disabled - - "ACMPLP0: CMPIN; ADC0: AN22; AGT0: AGTIO; CTSU0: CFCTS26; GPT_POEG0: GTETRG; GPT8: GTIOCB; ICU0: IRQ02; IIC0: SCL; KINT0: KRM0; SCI0: RXD; SCI0: SCL; SCI1: SCK; SPI0: MISO" - None - - 
-      P101 47 - ARDUINO_MOSI_MIKROBUS_MOSI_PMOD1_MOSI - - Disabled - - "ACMPLP0: CMPREF; ADC0: AN21; AGT0: AGTEE; CTSU0: CFCTS16; GPT_POEG1: GTETRG; GPT8: GTIOCA; ICU0: IRQ01; IIC0: SDA; KINT0: KRM1; SCI0: SDA; SCI0: TXD; SCI1: CTS; SPI0: MOSI" - None - - 
-      P102 46 - ARDUINO_CLK_MIKROBUS_CLK_PMOD1_CLK - - Disabled - - "ACMPLP1: CMPIN; ADC0: ADTRG; ADC0: AN20; AGT0: AGTO; CTSU0: CFCTS15; GPT_OPS0: GTOWLO; GPT5: GTIOCB; KINT0: KRM2; SCI0: SCK; SCI2: SDA; SCI2: TXD; SPI0: RSPCK" - None - - 
-      P103 45 - ARDUINO_SS_MIKROBUS_SS_PMOD1_SS - - Disabled - - "ACMPLP1: CMPREF; ADC0: AN19; CTSU0: CFCTS14; GPT_OPS0: GTOWUP; GPT5: GTIOCA; KINT0: KRM3; SCI0: CTS; SPI0: SSL0" - None - - 
+      P100 48 - ARDUINO_MISO_MIKROBUS_MISO_PMOD1_MISO - - Disabled - - "ACMPLP0: CMPIN; AGT0: AGTIO; CTSU0: CFCTS26; GPT_POEG0: GTETRG; GPT8: GTIOCB; ICU0: IRQ02; IIC0: SCL; KINT0: KRM0; SCI0: RXD; SCI0: SCL; SCI1: SCK; SPI0: MISO" - None - - 
+      P101 47 - ARDUINO_MOSI_MIKROBUS_MOSI_PMOD1_MOSI - - Disabled - - "ACMPLP0: CMPREF; AGT0: AGTEE; CTSU0: CFCTS16; GPT_POEG1: GTETRG; GPT8: GTIOCA; ICU0: IRQ01; IIC0: SDA; KINT0: KRM1; SCI0: SDA; SCI0: TXD; SCI1: CTS; SPI0: MOSI" - None - - 
+      P102 46 - ARDUINO_CLK_MIKROBUS_CLK_PMOD1_CLK - - Disabled - - "ACMPLP1: CMPIN; ADC0: ADTRG; AGT0: AGTO; CTSU0: CFCTS15; GPT_OPS0: GTOWLO; GPT5: GTIOCB; KINT0: KRM2; SCI0: SCK; SCI2: SDA; SCI2: TXD; SPI0: RSPCK" - None - - 
+      P103 45 - ARDUINO_SS_MIKROBUS_SS_PMOD1_SS - - Disabled - - "ACMPLP1: CMPREF; CTSU0: CFCTS14; GPT_OPS0: GTOWUP; GPT5: GTIOCA; KINT0: KRM3; SCI0: CTS; SPI0: SSL0" - None - - 
       P104 44 GPIO ARDUINO_D3 Medium None "Output mode (Initial Low)" CMOS - "CTSU0: CFCTS13; GPT_POEG1: GTETRG; GPT4: GTIOCB; ICU0: IRQ01; KINT0: KRM4; SCI0: RXD; SCI0: SCL; SPI0: SSL1" - IO - - 
       P105 43 - PMOD1_IO1 - - Disabled - - "CTSU0: CFCTS34; GPT_POEG0: GTETRG; GPT4: GTIOCA; ICU0: IRQ00; KINT0: KRM5; SPI0: SSL2" - None - - 
       P106 42 - PMOD1_IO2 - - Disabled - - "KINT0: KRM6; SPI0: SSL3" - None - - 
@@ -158,10 +159,10 @@ FSP Configuration
       P013 54 - ARDUINO_A5 - - Disabled - - "ADC0: AN08; CTSU0: CFCTS33" - None - - 
       P014 53 - - - - Disabled - - "ADC0: AN09" - None - - 
       P015 52 - USER_SW2 - None Disabled - None "ADC0: AN10; CTSU0: CFCTS28; ICU0: IRQ07" - IO - - 
-      P100 48 - ARDUINO_MISO_MIKROBUS_MISO_PMOD1_MISO - - Disabled - - "ACMPLP0: CMPIN; ADC0: AN22; AGT0: AGTIO; CTSU0: CFCTS26; GPT_POEG0: GTETRG; GPT8: GTIOCB; ICU0: IRQ02; IIC0: SCL; KINT0: KRM0; SCI0: RXD; SCI0: SCL; SCI1: SCK; SPI0: MISO" - None - - 
-      P101 47 - ARDUINO_MOSI_MIKROBUS_MOSI_PMOD1_MOSI - - Disabled - - "ACMPLP0: CMPREF; ADC0: AN21; AGT0: AGTEE; CTSU0: CFCTS16; GPT_POEG1: GTETRG; GPT8: GTIOCA; ICU0: IRQ01; IIC0: SDA; KINT0: KRM1; SCI0: SDA; SCI0: TXD; SCI1: CTS; SPI0: MOSI" - None - - 
-      P102 46 - ARDUINO_CLK_MIKROBUS_CLK_PMOD1_CLK - - Disabled - - "ACMPLP1: CMPIN; ADC0: ADTRG; ADC0: AN20; AGT0: AGTO; CTSU0: CFCTS15; GPT_OPS0: GTOWLO; GPT5: GTIOCB; KINT0: KRM2; SCI0: SCK; SCI2: SDA; SCI2: TXD; SPI0: RSPCK" - None - - 
-      P103 45 - ARDUINO_SS_MIKROBUS_SS_PMOD1_SS - - Disabled - - "ACMPLP1: CMPREF; ADC0: AN19; CTSU0: CFCTS14; GPT_OPS0: GTOWUP; GPT5: GTIOCA; KINT0: KRM3; SCI0: CTS; SPI0: SSL0" - None - - 
+      P100 48 - ARDUINO_MISO_MIKROBUS_MISO_PMOD1_MISO - - Disabled - - "ACMPLP0: CMPIN; AGT0: AGTIO; CTSU0: CFCTS26; GPT_POEG0: GTETRG; GPT8: GTIOCB; ICU0: IRQ02; IIC0: SCL; KINT0: KRM0; SCI0: RXD; SCI0: SCL; SCI1: SCK; SPI0: MISO" - None - - 
+      P101 47 - ARDUINO_MOSI_MIKROBUS_MOSI_PMOD1_MOSI - - Disabled - - "ACMPLP0: CMPREF; AGT0: AGTEE; CTSU0: CFCTS16; GPT_POEG1: GTETRG; GPT8: GTIOCA; ICU0: IRQ01; IIC0: SDA; KINT0: KRM1; SCI0: SDA; SCI0: TXD; SCI1: CTS; SPI0: MOSI" - None - - 
+      P102 46 - ARDUINO_CLK_MIKROBUS_CLK_PMOD1_CLK - - Disabled - - "ACMPLP1: CMPIN; ADC0: ADTRG; AGT0: AGTO; CTSU0: CFCTS15; GPT_OPS0: GTOWLO; GPT5: GTIOCB; KINT0: KRM2; SCI0: SCK; SCI2: SDA; SCI2: TXD; SPI0: RSPCK" - None - - 
+      P103 45 - ARDUINO_SS_MIKROBUS_SS_PMOD1_SS - - Disabled - - "ACMPLP1: CMPREF; CTSU0: CFCTS14; GPT_OPS0: GTOWUP; GPT5: GTIOCA; KINT0: KRM3; SCI0: CTS; SPI0: SSL0" - None - - 
       P104 44 - ARDUINO_D3 Low None Disabled CMOS - "CTSU0: CFCTS13; GPT_POEG1: GTETRG; GPT4: GTIOCB; ICU0: IRQ01; KINT0: KRM4; SCI0: RXD; SCI0: SCL; SPI0: SSL1" - IO - - 
       P105 43 - PMOD1_IO1 - - Disabled - - "CTSU0: CFCTS34; GPT_POEG0: GTETRG; GPT4: GTIOCA; ICU0: IRQ00; KINT0: KRM5; SPI0: SSL2" - None - - 
       P106 42 - PMOD1_IO2 - - Disabled - - "KINT0: KRM6; SPI0: SSL3" - None - - 
@@ -221,7 +222,7 @@ FSP Configuration
     Parameter Checking: Default (BSP)
     FIFO Support: Enable
     DTC Support: Disable
-    RS232/RS485 Flow Control Support: Enable
+    Flow Control Support: Disable
     
   Module "CRC Driver on r_crc"
     Parameter Checking: Default (BSP)
@@ -243,11 +244,9 @@ FSP Configuration
       Baud: Baud Rate: 115200
       Baud: Baud Rate Modulation: Disabled
       Baud: Max Error (%): 5
-      Flow Control: CTS/RTS Selection: RTS (CTS is disabled)
-      Flow Control: UART Communication Mode: RS232
-      Flow Control: Pin Control: Enabled
-      Flow Control: RTS Port: 09
-      Flow Control: RTS Pin: 14
+      Flow Control: CTS/RTS Selection: Hardware RTS
+      Flow Control: Software RTS Port: Disabled
+      Flow Control: Software RTS Pin: Disabled
       Extra: Clock Source: Internal Clock
       Extra: Start bit detection: Falling Edge
       Extra: Noise Filter: Disable

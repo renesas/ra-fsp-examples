@@ -26,10 +26,11 @@ FSP Configuration
     OFS0 register settings: WDT: Window Start Position: 100% (no window start position)
     OFS0 register settings: WDT: Reset Interrupt Request: Reset
     OFS0 register settings: WDT: Stop Control: Stop counting when entering Sleep mode
+    OFS1 register settings: Internal Clock Supply Architecture Type: Type A
     OFS1 register settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
     OFS1 register settings: Voltage Detection 0 Level: 1.90 V
     OFS1 register settings: HOCO Oscillation Enable: HOCO oscillation is enabled after reset
-    Use Low Voltage Mode: Disable
+    Use Low Voltage Mode: Not Supported
     MPU: Enable or disable PC Region 0: Disabled
     MPU: PC0 Start: 0x000FFFFC
     MPU: PC0 End: 0x000FFFFF
@@ -48,6 +49,9 @@ FSP Configuration
     MPU: Enable or disable Memory Region 3: Disabled
     MPU: Memory Region 3 Start: 0x400DFFFC
     MPU: Memory Region 3 End: 0x400DFFFF
+    Power: DC-DC Regulator: Disabled
+    Power: DC-DC Supply Range: 2.7V to 3.6V
+    Main Oscillator Wait Time: 262144 cycles
     ID Code Mode: Unlocked (Ignore ID)
     ID Code (32 Hex Characters): FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
     
@@ -62,7 +66,6 @@ FSP Configuration
     Main Oscillator Populated: Populated
     PFS Protect: Enabled
     C Runtime Initialization : Enabled
-    Main Oscillator Wait Time: 32768 us
     Main Oscillator Clock Source: Crystal or Resonator
     Subclock Populated: Populated
     Subclock Drive (Drive capacitance availability varies by MCU): Standard/Normal mode
@@ -293,7 +296,7 @@ FSP Configuration
     Parameter Checking: Default (BSP)
     FIFO Support: Enable
     DTC Support: Disable
-    RS232/RS485 Flow Control Support: Enable
+    Flow Control Support: Disable
     
   Module "CRC Driver on r_crc"
     Parameter Checking: Default (BSP)
@@ -315,11 +318,9 @@ FSP Configuration
       Baud: Baud Rate: 115200
       Baud: Baud Rate Modulation: Enabled
       Baud: Max Error (%): 5
-      Flow Control: CTS/RTS Selection: RTS (CTS is disabled)
-      Flow Control: UART Communication Mode: RS232
-      Flow Control: Pin Control: Enabled
-      Flow Control: RTS Port: 09
-      Flow Control: RTS Pin: 14
+      Flow Control: CTS/RTS Selection: Hardware RTS
+      Flow Control: Software RTS Port: Disabled
+      Flow Control: Software RTS Pin: Disabled
       Extra: Clock Source: Internal Clock
       Extra: Start bit detection: Falling Edge
       Extra: Noise Filter: Disable
