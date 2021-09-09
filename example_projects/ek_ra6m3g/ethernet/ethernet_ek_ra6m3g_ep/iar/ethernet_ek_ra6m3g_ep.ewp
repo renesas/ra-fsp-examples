@@ -66,7 +66,7 @@
                 </option>
                 <option>
                     <name>OGLastSavedByProductVersion</name>
-                    <state>8.50.1.24770</state>
+                    <state>8.50.9.33458</state>
                 </option>
                 <option>
                     <name>GeneralEnableMisra</name>
@@ -489,7 +489,7 @@
             <name>AARM</name>
             <archiveVersion>2</archiveVersion>
             <data>
-                <version>10</version>
+                <version>11</version>
                 <wantNonLocal>1</wantNonLocal>
                 <debug>1</debug>
                 <option>
@@ -644,6 +644,10 @@
                 <option>
                     <name>AsmNoLiteralPool</name>
                     <state>0</state>
+                </option>
+                <option>
+                    <name>PreInclude</name>
+                    <state></state>
                 </option>
             </data>
         </settings>
@@ -816,11 +820,11 @@
                 </option>
                 <option>
                     <name>IlinkUseExtraOptions</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>IlinkExtraOptions</name>
-                    <state></state>
+                    <state>--config_search "$PROJ_DIR$"</state>
                 </option>
                 <option>
                     <name>IlinkLowLevelInterfaceSlave</name>
@@ -1556,7 +1560,7 @@
             <name>AARM</name>
             <archiveVersion>2</archiveVersion>
             <data>
-                <version>10</version>
+                <version>11</version>
                 <wantNonLocal>1</wantNonLocal>
                 <debug>0</debug>
                 <option>
@@ -1711,6 +1715,10 @@
                 <option>
                     <name>AsmNoLiteralPool</name>
                     <state>0</state>
+                </option>
+                <option>
+                    <name>PreInclude</name>
+                    <state></state>
                 </option>
             </data>
         </settings>
@@ -1883,11 +1891,11 @@
                 </option>
                 <option>
                     <name>IlinkUseExtraOptions</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>IlinkExtraOptions</name>
-                    <state></state>
+                    <state>--config_search "$PROJ_DIR$"</state>
                 </option>
                 <option>
                     <name>IlinkLowLevelInterfaceSlave</name>
@@ -2155,6 +2163,9 @@
                 <name>$PROJ_DIR$\ra_cfg\fsp_cfg\bsp\bsp_mcu_family_cfg.h</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\ra_cfg\fsp_cfg\bsp\bsp_pin_cfg.h</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\ra_cfg\aws\FreeRTOSConfig.h</name>
             </file>
             <file>
@@ -2198,6 +2209,9 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\fsp\inc\api\bsp_api.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_arm_exceptions.h</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_clocks.c</name>
@@ -2278,7 +2292,7 @@
                 <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_security.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\aws\amazon-freertos\libraries\freertos_plus\standard\freertos_plus_tcp\source\portable\BufferManagement\BufferAllocation_2.c</name>
+                <name>$PROJ_DIR$\ra\aws\amazon-freertos\libraries\freertos_plus\standard\freertos_plus_tcp\portable\BufferManagement\BufferAllocation_2.c</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\cachel1_armv7.h</name>
@@ -2362,19 +2376,19 @@
                 <name>$PROJ_DIR$\ra\aws\amazon-freertos\freertos_kernel\include\FreeRTOS.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\aws\amazon-freertos\libraries\freertos_plus\standard\freertos_plus_tcp\source\FreeRTOS_ARP.c</name>
+                <name>$PROJ_DIR$\ra\aws\amazon-freertos\libraries\freertos_plus\standard\freertos_plus_tcp\FreeRTOS_ARP.c</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\aws\amazon-freertos\libraries\freertos_plus\standard\freertos_plus_tcp\include\FreeRTOS_ARP.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\aws\amazon-freertos\libraries\freertos_plus\standard\freertos_plus_tcp\source\FreeRTOS_DHCP.c</name>
+                <name>$PROJ_DIR$\ra\aws\amazon-freertos\libraries\freertos_plus\standard\freertos_plus_tcp\FreeRTOS_DHCP.c</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\aws\amazon-freertos\libraries\freertos_plus\standard\freertos_plus_tcp\include\FreeRTOS_DHCP.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\aws\amazon-freertos\libraries\freertos_plus\standard\freertos_plus_tcp\source\FreeRTOS_DNS.c</name>
+                <name>$PROJ_DIR$\ra\aws\amazon-freertos\libraries\freertos_plus\standard\freertos_plus_tcp\FreeRTOS_DNS.c</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\aws\amazon-freertos\libraries\freertos_plus\standard\freertos_plus_tcp\include\FreeRTOS_DNS.h</name>
@@ -2383,7 +2397,7 @@
                 <name>$PROJ_DIR$\ra\aws\amazon-freertos\libraries\freertos_plus\standard\freertos_plus_tcp\include\FreeRTOS_errno_TCP.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\aws\amazon-freertos\libraries\freertos_plus\standard\freertos_plus_tcp\source\FreeRTOS_IP.c</name>
+                <name>$PROJ_DIR$\ra\aws\amazon-freertos\libraries\freertos_plus\standard\freertos_plus_tcp\FreeRTOS_IP.c</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\aws\amazon-freertos\libraries\freertos_plus\standard\freertos_plus_tcp\include\FreeRTOS_IP.h</name>
@@ -2392,31 +2406,31 @@
                 <name>$PROJ_DIR$\ra\aws\amazon-freertos\libraries\freertos_plus\standard\freertos_plus_tcp\include\FreeRTOS_IP_Private.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\aws\amazon-freertos\libraries\freertos_plus\standard\freertos_plus_tcp\source\FreeRTOS_Sockets.c</name>
+                <name>$PROJ_DIR$\ra\aws\amazon-freertos\libraries\freertos_plus\standard\freertos_plus_tcp\FreeRTOS_Sockets.c</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\aws\amazon-freertos\libraries\freertos_plus\standard\freertos_plus_tcp\include\FreeRTOS_Sockets.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\aws\amazon-freertos\libraries\freertos_plus\standard\freertos_plus_tcp\source\FreeRTOS_Stream_Buffer.c</name>
+                <name>$PROJ_DIR$\ra\aws\amazon-freertos\libraries\freertos_plus\standard\freertos_plus_tcp\FreeRTOS_Stream_Buffer.c</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\aws\amazon-freertos\libraries\freertos_plus\standard\freertos_plus_tcp\include\FreeRTOS_Stream_Buffer.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\aws\amazon-freertos\libraries\freertos_plus\standard\freertos_plus_tcp\source\FreeRTOS_TCP_IP.c</name>
+                <name>$PROJ_DIR$\ra\aws\amazon-freertos\libraries\freertos_plus\standard\freertos_plus_tcp\FreeRTOS_TCP_IP.c</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\aws\amazon-freertos\libraries\freertos_plus\standard\freertos_plus_tcp\include\FreeRTOS_TCP_IP.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\aws\amazon-freertos\libraries\freertos_plus\standard\freertos_plus_tcp\source\FreeRTOS_TCP_WIN.c</name>
+                <name>$PROJ_DIR$\ra\aws\amazon-freertos\libraries\freertos_plus\standard\freertos_plus_tcp\FreeRTOS_TCP_WIN.c</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\aws\amazon-freertos\libraries\freertos_plus\standard\freertos_plus_tcp\include\FreeRTOS_TCP_WIN.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\aws\amazon-freertos\libraries\freertos_plus\standard\freertos_plus_tcp\source\FreeRTOS_UDP_IP.c</name>
+                <name>$PROJ_DIR$\ra\aws\amazon-freertos\libraries\freertos_plus\standard\freertos_plus_tcp\FreeRTOS_UDP_IP.c</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\aws\amazon-freertos\libraries\freertos_plus\standard\freertos_plus_tcp\include\FreeRTOS_UDP_IP.h</name>
@@ -2443,10 +2457,10 @@
                 <name>$PROJ_DIR$\ra\aws\amazon-freertos\LICENSE</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\LICENSE.txt</name>
+                <name>$PROJ_DIR$\ra\aws\amazon-freertos\freertos_kernel\LICENSE.md</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\aws\amazon-freertos\freertos_kernel\License\license.txt</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_5\LICENSE.txt</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\aws\amazon-freertos\freertos_kernel\list.c</name>
@@ -2479,22 +2493,22 @@
                 <name>$PROJ_DIR$\ra\aws\amazon-freertos\libraries\freertos_plus\standard\freertos_plus_tcp\include\NetworkInterface.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\aws\amazon-freertos\libraries\freertos_plus\standard\freertos_plus_tcp\source\portable\Compiler\GCC\pack_struct_end.h</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\ra\aws\amazon-freertos\libraries\freertos_plus\standard\freertos_plus_tcp\source\portable\Compiler\IAR\pack_struct_end.h</name>
-            </file>
-            <file>
                 <name>$PROJ_DIR$\ra\fsp\src\rm_freertos_plus_tcp\pack_struct_end.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\aws\amazon-freertos\libraries\freertos_plus\standard\freertos_plus_tcp\source\portable\Compiler\GCC\pack_struct_start.h</name>
+                <name>$PROJ_DIR$\ra\aws\amazon-freertos\libraries\freertos_plus\standard\freertos_plus_tcp\portable\Compiler\GCC\pack_struct_end.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\aws\amazon-freertos\libraries\freertos_plus\standard\freertos_plus_tcp\source\portable\Compiler\IAR\pack_struct_start.h</name>
+                <name>$PROJ_DIR$\ra\aws\amazon-freertos\libraries\freertos_plus\standard\freertos_plus_tcp\portable\Compiler\IAR\pack_struct_end.h</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\fsp\src\rm_freertos_plus_tcp\pack_struct_start.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\aws\amazon-freertos\libraries\freertos_plus\standard\freertos_plus_tcp\portable\Compiler\GCC\pack_struct_start.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\aws\amazon-freertos\libraries\freertos_plus\standard\freertos_plus_tcp\portable\Compiler\IAR\pack_struct_start.h</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\pmu_armv8.h</name>
@@ -2554,9 +2568,6 @@
                 <name>$PROJ_DIR$\ra\fsp\inc\api\r_ioport_api.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\fsp\src\bsp\cmsis\Device\RENESAS\SVD\RA.svd</name>
-            </file>
-            <file>
                 <name>$PROJ_DIR$\ra\fsp\src\bsp\cmsis\Device\RENESAS\Include\renesas.h</name>
             </file>
             <file>
@@ -2587,12 +2598,6 @@
                 <name>$PROJ_DIR$\ra\aws\amazon-freertos\freertos_kernel\tasks.c</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\aws\amazon-freertos\libraries\freertos_plus\standard\freertos_plus_tcp\include\tcp_dump_packets.h</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\ra\aws\amazon-freertos\libraries\freertos_plus\standard\freertos_plus_tcp\include\tcp_mem_stats.h</name>
-            </file>
-            <file>
                 <name>$PROJ_DIR$\ra\aws\amazon-freertos\freertos_kernel\timers.c</name>
             </file>
             <file>
@@ -2606,9 +2611,6 @@
             <name>Generated Data</name>
             <file>
                 <name>$PROJ_DIR$\ra_gen\bsp_clock_cfg.h</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\ra_gen\bsp_pin_cfg.h</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\ra_gen\common_data.c</name>
@@ -2633,9 +2635,6 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\ra_gen\pin_data.c</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\ra_gen\RA6M3G-EK.csv</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\ra_gen\vector_data.c</name>

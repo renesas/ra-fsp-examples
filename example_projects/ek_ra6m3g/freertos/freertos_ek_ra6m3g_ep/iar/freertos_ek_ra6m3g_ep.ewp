@@ -66,7 +66,7 @@
                 </option>
                 <option>
                     <name>OGLastSavedByProductVersion</name>
-                    <state>8.50.1.24770</state>
+                    <state>8.50.9.33458</state>
                 </option>
                 <option>
                     <name>GeneralEnableMisra</name>
@@ -487,7 +487,7 @@
             <name>AARM</name>
             <archiveVersion>2</archiveVersion>
             <data>
-                <version>10</version>
+                <version>11</version>
                 <wantNonLocal>1</wantNonLocal>
                 <debug>1</debug>
                 <option>
@@ -643,6 +643,10 @@
                     <name>AsmNoLiteralPool</name>
                     <state>0</state>
                 </option>
+                <option>
+                    <name>PreInclude</name>
+                    <state></state>
+                </option>
             </data>
         </settings>
         <settings>
@@ -782,7 +786,7 @@
                 </option>
                 <option>
                     <name>IlinkIcfFile</name>
-                    <state>$PROJ_DIR$/script/ra6m3.icf</state>
+                    <state>$PROJ_DIR$/script/fsp.icf</state>
                 </option>
                 <option>
                     <name>IlinkIcfFileSlave</name>
@@ -814,11 +818,11 @@
                 </option>
                 <option>
                     <name>IlinkUseExtraOptions</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>IlinkExtraOptions</name>
-                    <state></state>
+                    <state>--config_search "$PROJ_DIR$"</state>
                 </option>
                 <option>
                     <name>IlinkLowLevelInterfaceSlave</name>
@@ -1552,7 +1556,7 @@
             <name>AARM</name>
             <archiveVersion>2</archiveVersion>
             <data>
-                <version>10</version>
+                <version>11</version>
                 <wantNonLocal>1</wantNonLocal>
                 <debug>0</debug>
                 <option>
@@ -1708,6 +1712,10 @@
                     <name>AsmNoLiteralPool</name>
                     <state>0</state>
                 </option>
+                <option>
+                    <name>PreInclude</name>
+                    <state></state>
+                </option>
             </data>
         </settings>
         <settings>
@@ -1847,7 +1855,7 @@
                 </option>
                 <option>
                     <name>IlinkIcfFile</name>
-                    <state>$PROJ_DIR$/script/ra6m3.icf</state>
+                    <state>$PROJ_DIR$/script/fsp.icf</state>
                 </option>
                 <option>
                     <name>IlinkIcfFileSlave</name>
@@ -1879,11 +1887,11 @@
                 </option>
                 <option>
                     <name>IlinkUseExtraOptions</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>IlinkExtraOptions</name>
-                    <state></state>
+                    <state>--config_search "$PROJ_DIR$"</state>
                 </option>
                 <option>
                     <name>IlinkLowLevelInterfaceSlave</name>
@@ -2151,6 +2159,9 @@
                 <name>$PROJ_DIR$\ra_cfg\fsp_cfg\bsp\bsp_mcu_family_cfg.h</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\ra_cfg\fsp_cfg\bsp\bsp_pin_cfg.h</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\ra_cfg\aws\FreeRTOSConfig.h</name>
             </file>
             <file>
@@ -2164,6 +2175,9 @@
             <name>Components</name>
             <file>
                 <name>$PROJ_DIR$\ra\aws\amazon-freertos\freertos_kernel\include\atomic.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\fsp\src\bsp\cmsis\Device\RENESAS\Include\base_addresses.h</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\board\ra6m3g_ek\board.h</name>
@@ -2185,6 +2199,9 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\fsp\inc\api\bsp_api.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_arm_exceptions.h</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_clocks.c</name>
@@ -2220,6 +2237,12 @@
                 <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_group_irq.h</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_guard.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_guard.h</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_io.c</name>
             </file>
             <file>
@@ -2251,6 +2274,12 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_sbrk.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_security.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_security.h</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\cachel1_armv7.h</name>
@@ -2346,6 +2375,15 @@
                 <name>$PROJ_DIR$\ra\aws\amazon-freertos\freertos_kernel\portable\MemMang\heap_2.c</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\ra\aws\amazon-freertos\LICENSE</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\aws\amazon-freertos\freertos_kernel\LICENSE.md</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_5\LICENSE.txt</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\ra\aws\amazon-freertos\freertos_kernel\list.c</name>
             </file>
             <file>
@@ -2406,9 +2444,6 @@
                 <name>$PROJ_DIR$\ra\fsp\inc\api\r_timer_api.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\fsp\src\bsp\cmsis\Device\RENESAS\SVD\RA.svd</name>
-            </file>
-            <file>
                 <name>$PROJ_DIR$\ra\fsp\src\bsp\cmsis\Device\RENESAS\Include\renesas.h</name>
             </file>
             <file>
@@ -2454,9 +2489,6 @@
                 <name>$PROJ_DIR$\ra_gen\bsp_clock_cfg.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra_gen\bsp_pin_cfg.h</name>
-            </file>
-            <file>
                 <name>$PROJ_DIR$\ra_gen\common_data.c</name>
             </file>
             <file>
@@ -2473,9 +2505,6 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\ra_gen\pin_data.c</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\ra_gen\RA6M3G-EK.csv</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\ra_gen\receiver_task.c</name>

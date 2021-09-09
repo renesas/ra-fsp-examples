@@ -41,7 +41,7 @@
 #define MAIL_BODY         "This is a test message for testing the testing of SMTP client azure API"
 
 #define LINK_ENABLE_WAIT_TIME  (1000U)
-#define WAIT_TIME              (300U)
+#define WAIT_TIME              (1000U)
 #define SEND                   (1U)          //RTT Input selection for write operation.
 #define READ                   (2U)          //RTT Input selection for read operation.
 

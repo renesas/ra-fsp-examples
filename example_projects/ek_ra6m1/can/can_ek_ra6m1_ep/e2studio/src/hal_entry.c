@@ -229,6 +229,7 @@ void can_callback(can_callback_args_t *p_args)
         case CAN_EVENT_ERR_CHANNEL:             //error channel
         case CAN_EVENT_ERR_GLOBAL:              //error global
         case CAN_EVENT_TX_ABORTED:              //error transmit abort
+        case CAN_EVENT_TX_FIFO_EMPTY:           //error transmit FIFO empty
         {
             b_can_err = true;                   //set flag bit
             break;
