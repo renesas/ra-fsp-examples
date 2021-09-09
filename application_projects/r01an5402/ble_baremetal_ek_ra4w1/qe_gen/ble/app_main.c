@@ -437,7 +437,7 @@ ble_status_t ble_init(void)
     err = RM_BLE_ABS_Open(&g_ble_abs0_ctrl, &g_ble_abs0_cfg);
     if (FSP_SUCCESS != err)
     {
-    	return err;
+        return err;
     }
 
     /* Initialize GATT Database */
@@ -601,7 +601,8 @@ void app_main(void)
 #endif  /* BLE_CFG_CMD_LINE_EN == 1 */
 
 
-        timer_update();
+        if (true == g_led_blink_active)
+            timer_update();
 /* End user code. Do not edit comment generated here */
     }
 

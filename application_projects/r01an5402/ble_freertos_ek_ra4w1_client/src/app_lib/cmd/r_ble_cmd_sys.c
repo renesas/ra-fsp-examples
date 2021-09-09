@@ -21,10 +21,11 @@
 #include "r_ble_cmd.h"
 #include "r_ble_cmd_sys.h"
 
+bool g_inhibit_software_standby = true;
+
 #if (BLE_CFG_CMD_LINE_EN == 1)
 
 #define pf R_BLE_CLI_Printf
-bool g_inhibit_software_standby = true;
 
 /*----------------------------------------------------------------------------------------------------------------------
     sys stby command

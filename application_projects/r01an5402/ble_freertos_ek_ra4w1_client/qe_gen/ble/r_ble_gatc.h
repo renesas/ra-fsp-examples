@@ -28,7 +28,7 @@
 
 /*******************************************************************************************************************//**
  * @file
- * @defgroup gatc Generic Attribute Client
+ * @defgroup gatc Generic Attribute Service Client
  * @{
  * @ingroup profile
  * @brief   This is the client for the Generic Attribute Service.

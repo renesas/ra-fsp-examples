@@ -47,11 +47,27 @@ static uint8_t gs_num_of_descs;
 
 static bool gs_in_progress;
 static ble_disc_comp_cb_t gs_comp_cb;
+static uint16_t gs_disc_conn_hdl;
 
-static void r_ble_start_serv_disc(uint16_t conn_hdl);
+static ble_status_t r_ble_start_serv_disc(uint16_t conn_hdl);
 static void r_ble_start_inc_serv_disc(uint16_t conn_hdl);
 static void r_ble_start_char_disc(uint16_t conn_hdl);
 static void r_ble_start_desc_disc(uint16_t conn_hdl);
+
+
+static void r_ble_stop_serv_disc(uint16_t conn_hdl, bool cb_en)
+{
+    if( false != cb_en )
+    {
+        if (NULL != gs_comp_cb)
+        {
+            gs_comp_cb(conn_hdl);
+        }
+    }
+    gs_in_progress = false;
+    gs_comp_cb = NULL;
+    gs_disc_conn_hdl = BLE_GAP_INVALID_CONN_HDL;
+}
 
 static bool r_ble_disc_next_prim_serv(uint16_t conn_hdl)
 {
@@ -65,12 +81,7 @@ static bool r_ble_disc_next_prim_serv(uint16_t conn_hdl)
     }
     else
     {
-        if (NULL != gs_comp_cb)
-        {
-            gs_comp_cb(conn_hdl);
-        }
-
-        gs_in_progress = false;
+        r_ble_stop_serv_disc(conn_hdl, true);
     }
 
     return true;
@@ -173,15 +184,23 @@ static void r_ble_all_disc_process(uint16_t event, uint16_t conn_hdl)
     }
 }
 
-static void r_ble_start_serv_disc(uint16_t conn_hdl)
+static ble_status_t r_ble_start_serv_disc(uint16_t conn_hdl)
 {
     gs_num_of_servs = 0;
 
     memset(&gs_serv_range, 0x00, sizeof(gs_serv_range));
 
-    R_BLE_GATTC_DiscPrimServ(conn_hdl,
+    ble_status_t ret;
+    ret = R_BLE_GATTC_DiscPrimServ(conn_hdl,
                              gs_prim_entries[gs_prim_entry_pos].p_uuid,
                              gs_prim_entries[gs_prim_entry_pos].uuid_type);
+
+    if( BLE_SUCCESS != ret )
+    {
+        r_ble_stop_serv_disc(conn_hdl, (0 < gs_prim_entry_pos)?(true):(false));
+    }
+
+    return ret;
 }
 
 static void r_ble_start_inc_serv_disc(uint16_t conn_hdl)
@@ -194,7 +213,12 @@ static void r_ble_start_inc_serv_disc(uint16_t conn_hdl)
         memset(&gs_inc_servs[i], 0x00, sizeof(gs_inc_servs[i]));
     }
 
-    R_BLE_GATTC_DiscIncServ(conn_hdl, &gs_serv_range);
+    ble_status_t ret;
+    ret = R_BLE_GATTC_DiscIncServ(conn_hdl, &gs_serv_range);
+    if( BLE_SUCCESS != ret )
+    {
+        r_ble_stop_serv_disc(conn_hdl, true);
+    }
 }
 
 static void r_ble_start_char_disc(uint16_t conn_hdl)
@@ -207,7 +231,12 @@ static void r_ble_start_char_disc(uint16_t conn_hdl)
         memset(&gs_chars[i], 0x00, sizeof(gs_chars[i]));
     }
 
-    R_BLE_GATTC_DiscAllChar(conn_hdl, &gs_serv_range);
+    ble_status_t ret;
+    ret = R_BLE_GATTC_DiscAllChar(conn_hdl, &gs_serv_range);
+    if( BLE_SUCCESS != ret )
+    {
+        r_ble_stop_serv_disc(conn_hdl, true);
+    }
 }
 
 static void r_ble_start_desc_disc(uint16_t conn_hdl)
@@ -246,16 +275,42 @@ static void r_ble_start_desc_disc(uint16_t conn_hdl)
         range.end_hdl = gs_serv_range.end_hdl;
     }
 
-    R_BLE_GATTC_DiscAllCharDesc(conn_hdl, &range);
+    ble_status_t ret;
+    ret = R_BLE_GATTC_DiscAllCharDesc(conn_hdl, &range);
+    if( BLE_SUCCESS != ret )
+    {
+        r_ble_stop_serv_disc(conn_hdl, true);
+    }
 }
 
 static void r_ble_disc_gattc_cb(uint16_t type, ble_status_t result, st_ble_gattc_evt_data_t *p_data) // @suppress("Function length")
 {
-    /* unused arg */
-    (void)result;
+
+    if( gs_disc_conn_hdl != p_data->conn_hdl )
+    {
+        return;
+    }
+    if( BLE_SUCCESS != result )
+    {
+        if( BLE_GATTC_EVENT_EX_MTU_RSP != type )
+        {
+            r_ble_stop_serv_disc(p_data->conn_hdl, true);
+        }
+        return;
+    }
 
     switch (type)
     {
+        case BLE_GATTC_EVENT_DISCONN_IND:
+        {
+            r_ble_stop_serv_disc(p_data->conn_hdl, false);
+        } break;
+
+        case BLE_GATTC_EVENT_ERROR_RSP:
+        {
+            r_ble_stop_serv_disc(p_data->conn_hdl, true);
+        } break;
+
         case BLE_GATTC_EVENT_PRIM_SERV_16_DISC_IND:
         {
             st_ble_gattc_serv_16_evt_t *p_serv_uuid_16_evt_params =
@@ -274,7 +329,7 @@ static void r_ble_disc_gattc_cb(uint16_t type, ble_status_t result, st_ble_gattc
                     gs_prim_entries[gs_prim_entry_pos].serv_cb(
                         p_data->conn_hdl,
                         gs_prim_entries[gs_prim_entry_pos].idx,
-						BLE_DISC_PRIM_SERV_FOUND,
+                        BLE_DISC_PRIM_SERV_FOUND,
                         &serv_param);
 
                     memcpy(&gs_serv_range, &p_serv_uuid_16_evt_params[i].range, sizeof(gs_serv_range));
@@ -479,7 +534,7 @@ static void r_ble_disc_gattc_cb(uint16_t type, ble_status_t result, st_ble_gattc
             }
             else
             {
-            	/* Do nothing. */
+                /* Do nothing. */
             }
 
             r_ble_all_disc_process(BLE_GATTC_EVENT_ALL_CHAR_DESC_DISC_COMP, p_data->conn_hdl);
@@ -490,12 +545,13 @@ static void r_ble_disc_gattc_cb(uint16_t type, ble_status_t result, st_ble_gattc
         default:
         {
             /* Do nothing. */
-        }
+        } break;
     }
 }
 
 ble_status_t R_BLE_DISC_Init(void) // @suppress("API function naming")
 {
+    r_ble_stop_serv_disc(BLE_GAP_INVALID_CONN_HDL, false);
     return R_BLE_GATTC_RegisterCb(r_ble_disc_gattc_cb, 1);
 }
 
@@ -512,8 +568,7 @@ ble_status_t R_BLE_DISC_Start(uint16_t conn_hdl, const st_ble_disc_entry_t *p_en
     gs_in_progress    = true;
     gs_comp_cb        = cb;
     gs_prim_entry_pos = 0;
+    gs_disc_conn_hdl  = conn_hdl;
 
-    r_ble_start_serv_disc(conn_hdl);
-
-    return BLE_SUCCESS;
+    return r_ble_start_serv_disc(conn_hdl);
 }

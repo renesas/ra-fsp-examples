@@ -28,7 +28,7 @@
 
 /*******************************************************************************************************************//**
  * @file
- * @defgroup gaps Generic Access Service
+ * @defgroup gaps Generic Access Service Server
  * @{
  * @ingroup profile
  * @brief   The generic_access service contains generic information about the device.
@@ -62,7 +62,7 @@ ble_status_t R_BLE_GAPS_SetDevName(const st_ble_gaps_dev_name_t *p_value);
 
 /***************************************************************************//**
  * @brief     Get Device Name characteristic value from the local GATT database.
- * @param[in] p_value  Output location for the acquired descriptor value.
+ * @param[out] p_value  Output location for the acquired descriptor value.
  * @return    @ref ble_status_t
 *******************************************************************************/
 ble_status_t R_BLE_GAPS_GetDevName(st_ble_gaps_dev_name_t *p_value);
@@ -134,7 +134,7 @@ ble_status_t R_BLE_GAPS_SetAppearance(const uint16_t *p_value);
 
 /***************************************************************************//**
  * @brief     Get Appearance characteristic value from the local GATT database.
- * @param[in] p_value  Output location for the acquired descriptor value.
+ * @param[out] p_value  Output location for the acquired descriptor value.
  * @return    @ref ble_status_t
 *******************************************************************************/
 ble_status_t R_BLE_GAPS_GetAppearance(uint16_t *p_value);
@@ -161,7 +161,7 @@ ble_status_t R_BLE_GAPS_SetPerPrefConnParam(const st_ble_gaps_per_pref_conn_para
 
 /***************************************************************************//**
  * @brief     Get Peripheral Preferred Connection Parameters characteristic value from the local GATT database.
- * @param[in] p_value  Output location for the acquired descriptor value.
+ * @param[out] p_value  Output location for the acquired descriptor value.
  * @return    @ref ble_status_t
 *******************************************************************************/
 ble_status_t R_BLE_GAPS_GetPerPrefConnParam(st_ble_gaps_per_pref_conn_param_t *p_value);
@@ -178,7 +178,7 @@ ble_status_t R_BLE_GAPS_SetCentAddrRslv(const uint8_t *p_value);
 
 /***************************************************************************//**
  * @brief     Get Central Address Resolution characteristic value from the local GATT database.
- * @param[in] p_value  Output location for the acquired descriptor value.
+ * @param[out] p_value  Output location for the acquired descriptor value.
  * @return    @ref ble_status_t
 *******************************************************************************/
 ble_status_t R_BLE_GAPS_GetCentAddrRslv(uint8_t *p_value);
@@ -195,7 +195,7 @@ ble_status_t R_BLE_GAPS_SetRslvPrivAddrOnly(const uint8_t *p_value);
 
 /***************************************************************************//**
  * @brief     Get Resolvable Private Address Only characteristic value from the local GATT database.
- * @param[in] p_value  Output location for the acquired descriptor value.
+ * @param[out] p_value  Output location for the acquired descriptor value.
  * @return    @ref ble_status_t
 *******************************************************************************/
 ble_status_t R_BLE_GAPS_GetRslvPrivAddrOnly(uint8_t *p_value);

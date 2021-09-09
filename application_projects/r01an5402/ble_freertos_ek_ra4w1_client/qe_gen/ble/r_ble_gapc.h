@@ -28,7 +28,7 @@
 
 /*******************************************************************************************************************//**
  * @file
- * @defgroup gapc Generic Access Client
+ * @defgroup gapc Generic Access Service Client
  * @{
  * @ingroup profile
  * @brief   This is the client for the Generic Access Service.

@@ -41,14 +41,14 @@ static const st_ble_servs_desc_info_t gs_serv_changed_cli_cnfg = {
     .encode   = (ble_servs_attr_encode_t)encode_uint16_t,
 };
 
-ble_status_t R_BLE_GATS_SetServChangedCliCnfg(const uint16_t *p_value)
+ble_status_t R_BLE_GATS_SetServChangedCliCnfg(uint16_t conn_hdl, const uint16_t *p_value)
 {
-    return R_BLE_SERVS_SetDesc(&gs_serv_changed_cli_cnfg, BLE_GAP_INVALID_CONN_HDL, (const void *)p_value);
+    return R_BLE_SERVS_SetDesc(&gs_serv_changed_cli_cnfg, conn_hdl, (const void *)p_value);
 }
 
-ble_status_t R_BLE_GATS_GetServChangedCliCnfg(uint16_t *p_value)
+ble_status_t R_BLE_GATS_GetServChangedCliCnfg(uint16_t conn_hdl, uint16_t *p_value)
 {
-    return R_BLE_SERVS_GetDesc(&gs_serv_changed_cli_cnfg, BLE_GAP_INVALID_CONN_HDL, (void *)p_value);
+    return R_BLE_SERVS_GetDesc(&gs_serv_changed_cli_cnfg, conn_hdl, (void *)p_value);
 }
 
 /*----------------------------------------------------------------------------------------------------------------------

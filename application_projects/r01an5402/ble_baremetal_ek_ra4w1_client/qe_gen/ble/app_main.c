@@ -459,7 +459,7 @@ ble_status_t ble_init(void)
     err = RM_BLE_ABS_Open(&g_ble_abs0_ctrl, &g_ble_abs0_cfg);
     if (FSP_SUCCESS != err)
     {
-    	return err;
+        return err;
     }
 
     /* Initialize GATT Database */

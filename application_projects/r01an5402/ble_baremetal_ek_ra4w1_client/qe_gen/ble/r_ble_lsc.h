@@ -28,7 +28,7 @@
 
 /*******************************************************************************************************************//**
  * @file
- * @defgroup lsc LED Switch Client
+ * @defgroup lsc LED Switch Service Client
  * @{
  * @ingroup profile
  * @brief   This is the client for the LED Switch Service.

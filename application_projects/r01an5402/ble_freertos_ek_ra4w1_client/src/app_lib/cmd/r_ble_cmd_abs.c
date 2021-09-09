@@ -859,6 +859,9 @@ static void exec_abs_sync(int argc, char *argv[])
         R_BLE_CLI_SetCmdComp();
     }
 #else  /* (BLE_CFG_LIBRARY_TYPE == 0)  */
+    FSP_PARAMETER_NOT_USED(argv);
+    FSP_PARAMETER_NOT_USED(argc);
+
     pf("gap sync not supported.\n");
     R_BLE_CLI_SetCmdComp();    
 #endif /* (BLE_CFG_LIBRARY_TYPE == 0)  */

@@ -208,8 +208,6 @@ static const uint8_t gs_gatt_const_value_arr[] =
 
 };
 
-static uint8_t gs_gatt_db_peer_specific_val_arr[4*8];
-
 static const uint8_t gs_gatt_db_const_peer_specific_val_arr[] =
 {
     /* Service Changed : Client Characteristic Configuration */
@@ -220,6 +218,11 @@ static const uint8_t gs_gatt_db_const_peer_specific_val_arr[] =
 
 };
 
+#ifdef BSP_MCU_GROUP_RA4W1 /* RA4W1 */
+static uint8_t gs_gatt_db_peer_specific_val_arr[sizeof(gs_gatt_db_const_peer_specific_val_arr)*(BLE_ABS_CFG_RF_CONNECTION_MAXIMUM+1)];
+#else /* RX23W or RE01B */
+static uint8_t gs_gatt_db_peer_specific_val_arr[sizeof(gs_gatt_db_const_peer_specific_val_arr)*(BLE_CFG_RF_CONN_MAX+1)];
+#endif
 static const st_ble_gatts_db_uuid_cfg_t gs_gatt_type_table[] =
 {
     /* 0 : Primary Service Declaration */
@@ -389,7 +392,7 @@ static const st_ble_gatts_db_attr_cfg_t gs_gatt_db_attr_table[] =
         /* Properties */
         BLE_GATT_DB_READ,
         /* Auxiliary Properties */
-        BLE_GATT_DB_SER_NO_SECURITY_PROPERTY,
+        BLE_GATT_DB_FIXED_LENGTH_PROPERTY,
         /* Value Size */
         2,
         /* Next Attribute Type Index */
@@ -576,7 +579,7 @@ static const st_ble_gatts_db_attr_cfg_t gs_gatt_db_attr_table[] =
         /* Properties */
         BLE_GATT_DB_READ,
         /* Auxiliary Properties */
-        BLE_GATT_DB_SER_NO_SECURITY_PROPERTY,
+        BLE_GATT_DB_FIXED_LENGTH_PROPERTY,
         /* Value Size */
         2,
         /* Next Attribute Type Index */
@@ -644,7 +647,7 @@ static const st_ble_gatts_db_attr_cfg_t gs_gatt_db_attr_table[] =
         /* Properties */
         BLE_GATT_DB_READ,
         /* Auxiliary Properties */
-        BLE_GATT_DB_SER_NO_SECURITY_PROPERTY | BLE_GATT_DB_128_BIT_UUID_FORMAT,
+        BLE_GATT_DB_FIXED_LENGTH_PROPERTY | BLE_GATT_DB_128_BIT_UUID_FORMAT,
         /* Value Size */
         16,
         /* Next Attribute Type Index */

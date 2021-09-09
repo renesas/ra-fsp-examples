@@ -28,7 +28,7 @@
 
 /*******************************************************************************************************************//**
  * @file
- * @defgroup lss LED Switch Service
+ * @defgroup lss LED Switch Service Server
  * @{
  * @ingroup profile
  * @brief   This service exposes a control point to allow a peer device to control LEDs and switched on the device.
@@ -63,7 +63,7 @@ ble_status_t R_BLE_LSS_SetSwitchStateCliCnfg(uint16_t conn_hdl, const uint16_t *
 /***************************************************************************//**
  * @brief     Get Switch State cli cnfg descriptor value from the local GATT database.
  * @param[in] conn_hdl Connection handle.
- * @param[in] p_value  Output location for the acquired descriptor value.
+ * @param[out] p_value  Output location for the acquired descriptor value.
  * @return    @ref ble_status_t
 *******************************************************************************/
 ble_status_t R_BLE_LSS_GetSwitchStateCliCnfg(uint16_t conn_hdl, uint16_t *p_value);
@@ -80,7 +80,7 @@ ble_status_t R_BLE_LSS_SetBlinkRate(const uint8_t *p_value);
 
 /***************************************************************************//**
  * @brief     Get LED Blink Rate characteristic value from the local GATT database.
- * @param[in] p_value  Output location for the acquired descriptor value.
+ * @param[out] p_value  Output location for the acquired descriptor value.
  * @return    @ref ble_status_t
 *******************************************************************************/
 ble_status_t R_BLE_LSS_GetBlinkRate(uint8_t *p_value);

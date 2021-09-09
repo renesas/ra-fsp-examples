@@ -288,7 +288,7 @@ void R_BLE_SERVS_GattsCb(uint16_t type, ble_status_t result, st_ble_gatts_evt_da
                             .param_len = 0,
                             .p_param   = NULL,
                         };
-                        p_serv->cb(BLE_SERVS_MULTI_ATTR_EVENT(p_char->char_idx, p_char->inst_idx, BLE_SERVS_HDL_VAL_CNF), BLE_SUCCESS, &evt_data);
+                        p_serv->cb(BLE_SERVS_MULTI_ATTR_EVENT(p_char->char_idx, p_char->inst_idx, BLE_SERVS_HDL_VAL_CNF), result, &evt_data);
                     }
                 }
             }

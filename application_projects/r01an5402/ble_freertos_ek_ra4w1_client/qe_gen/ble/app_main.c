@@ -244,7 +244,7 @@ void gap_cb(uint16_t type, ble_status_t result, st_ble_evt_data_t *p_data)
         case BLE_GAP_EVENT_STACK_ON:
         {
             R_BLE_CLI_Printf("gap : BLE_GAP_EVENT_STACK_ON \n");
-			g_conn_hdl = BLE_GAP_INVALID_CONN_HDL;
+            g_conn_hdl = BLE_GAP_INVALID_CONN_HDL;
             /* Start scan when BLE protocol stack is ready */
 //            RM_BLE_ABS_StartScanning(&g_ble_abs0_ctrl, &gs_scan_parameter);
         } break;
@@ -292,7 +292,7 @@ void gap_cb(uint16_t type, ble_status_t result, st_ble_evt_data_t *p_data)
 
         case BLE_GAP_EVENT_ADV_REPT_IND:
         {
-#if 0        	
+#if 0
             /* Stop scan and store BD address when advertising data found */
             st_ble_gap_adv_rept_evt_t *p_adv_rept_param = (st_ble_gap_adv_rept_evt_t *)p_data->p_param;
             st_ble_gap_ext_adv_rept_t *p_ext_adv_rept_param = (st_ble_gap_ext_adv_rept_t *)p_adv_rept_param->param.p_ext_adv_rpt;
@@ -486,7 +486,7 @@ ble_status_t ble_init(void)
     err = RM_BLE_ABS_Open(&g_ble_abs0_ctrl, &g_ble_abs0_cfg);
     if (FSP_SUCCESS != err)
     {
-    	return err;
+        return err;
     }
 
     /* Initialize GATT Database */

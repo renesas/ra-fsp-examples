@@ -345,7 +345,8 @@ void R_BLE_SERVC_GattcCb(uint16_t type, ble_status_t result, st_ble_gattc_evt_da
                         memcpy(&gs_conn_info[conn_idx].p_read_buf[gs_conn_info[conn_idx].read_buf_pos],
                                p_rd_char_evt_param->read_data.value.p_value, 
                                p_rd_char_evt_param->read_data.value.value_len);
-                        gs_conn_info[conn_idx].read_buf_pos += p_rd_char_evt_param->read_data.value.value_len;
+                        gs_conn_info[conn_idx].read_buf_pos =
+                            (uint16_t )(gs_conn_info[conn_idx].read_buf_pos + p_rd_char_evt_param->read_data.value.value_len);
                     }
                     else
                     {
@@ -393,7 +394,8 @@ void R_BLE_SERVC_GattcCb(uint16_t type, ble_status_t result, st_ble_gattc_evt_da
                                 memcpy(&gs_conn_info[conn_idx].p_read_buf[gs_conn_info[conn_idx].read_buf_pos],
                                        p_rd_char_evt_param->read_data.value.p_value, 
                                        p_rd_char_evt_param->read_data.value.value_len);
-                                gs_conn_info[conn_idx].read_buf_pos += p_rd_char_evt_param->read_data.value.value_len;
+                                gs_conn_info[conn_idx].read_buf_pos =
+                                    (uint16_t )(gs_conn_info[conn_idx].read_buf_pos + p_rd_char_evt_param->read_data.value.value_len);
                             }
                             else
                             {
@@ -1050,10 +1052,17 @@ void R_BLE_SERVC_ServDiscCb(const st_ble_servc_info_t *p_info, uint16_t conn_hdl
                                 p_info->pp_chars[c]->pp_descs[dd]->p_attr_hdls[conn_idx] = p_char_param->descs[d].value.desc_16.desc_hdl;
                                 break;
                             }
+                            else if ((0 == memcmp(p_info->pp_chars[c]->pp_descs[dd]->uuid_128, p_char_param->descs[d].value.desc_128.uuid_128, 0x10)) &&
+                                (BLE_GATT_INVALID_ATTR_HDL_VAL == p_info->pp_chars[c]->pp_descs[dd]->p_attr_hdls[conn_idx]))    
+                                {
+                                    p_info->pp_chars[c]->pp_descs[dd]->p_attr_hdls[conn_idx] = p_char_param->descs[d].value.desc_128.desc_hdl;
+                                    break;
+                                }
                         }
                     }
                     break;
                 }
+
                 else if ((BLE_GATT_128_BIT_UUID_FORMAT == p_char_param->uuid_type) &&
                     (p_info->pp_chars[c]->uuid_type == p_char_param->uuid_type) &&
                     (0 == memcmp(p_info->pp_chars[c]->uuid_128, p_char_param->value.char_128.uuid_128, 0x10)) &&
@@ -1079,6 +1088,12 @@ void R_BLE_SERVC_ServDiscCb(const st_ble_servc_info_t *p_info, uint16_t conn_hdl
                                 (BLE_GATT_INVALID_ATTR_HDL_VAL == p_info->pp_chars[c]->pp_descs[dd]->p_attr_hdls[conn_idx]))
                             {
                                 p_info->pp_chars[c]->pp_descs[dd]->p_attr_hdls[conn_idx] = p_char_param->descs[d].value.desc_16.desc_hdl;
+                                break;
+                            }
+                            else if ((0 == memcmp(p_info->pp_chars[c]->pp_descs[dd]->uuid_128, p_char_param->descs[d].value.desc_128.uuid_128, 0x10)) &&
+                                (BLE_GATT_INVALID_ATTR_HDL_VAL == p_info->pp_chars[c]->pp_descs[dd]->p_attr_hdls[conn_idx]))
+                            {
+                                p_info->pp_chars[c]->pp_descs[dd]->p_attr_hdls[conn_idx] = p_char_param->descs[d].value.desc_128.desc_hdl;
                                 break;
                             }
                         }

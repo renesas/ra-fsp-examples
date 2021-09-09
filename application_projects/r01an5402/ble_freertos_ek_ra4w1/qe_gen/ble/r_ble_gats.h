@@ -28,7 +28,7 @@
 
 /*******************************************************************************************************************//**
  * @file
- * @defgroup gats Generic Attribute Service
+ * @defgroup gats Generic Attribute Service Server
  * @{
  * @ingroup profile
  * @brief   The Generic Attribute Service contains generic information of the GATT attributes.
@@ -61,17 +61,19 @@ ble_status_t R_BLE_GATS_IndicateServChanged(uint16_t conn_hdl, const st_ble_gats
 
 /***************************************************************************//**
  * @brief     Set Service Changed cli cnfg descriptor value to the local GATT database.
+ * @param[in] conn_hdl Connection handle.
  * @param[in] p_value  Descriptor value to set.
  * @return    @ref ble_status_t
 *******************************************************************************/
-ble_status_t R_BLE_GATS_SetServChangedCliCnfg(const uint16_t *p_value);
+ble_status_t R_BLE_GATS_SetServChangedCliCnfg(uint16_t conn_hdl, const uint16_t *p_value);
 
 /***************************************************************************//**
  * @brief     Get Service Changed cli cnfg descriptor value from the local GATT database.
- * @param[in] p_value  Output location for the acquired descriptor value.
+ * @param[in] conn_hdl Connection handle.
+ * @param[out] p_value  Output location for the acquired descriptor value.
  * @return    @ref ble_status_t
 *******************************************************************************/
-ble_status_t R_BLE_GATS_GetServChangedCliCnfg(uint16_t *p_value);
+ble_status_t R_BLE_GATS_GetServChangedCliCnfg(uint16_t conn_hdl, uint16_t *p_value);
 
 /*----------------------------------------------------------------------------------------------------------------------
     Generic Attribute Service

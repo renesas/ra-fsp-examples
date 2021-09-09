@@ -148,9 +148,9 @@ static const uint8_t gs_gatt_const_value_arr[] =
 
 };
 
-static uint8_t gs_gatt_db_peer_specific_val_arr[] = { 0x00 };
-
 static const uint8_t gs_gatt_db_const_peer_specific_val_arr[] = { 0x00 };
+
+static uint8_t gs_gatt_db_peer_specific_val_arr[] = { 0x00 };
 
 static const st_ble_gatts_db_uuid_cfg_t gs_gatt_type_table[] =
 {
@@ -261,7 +261,7 @@ static const st_ble_gatts_db_attr_cfg_t gs_gatt_db_attr_table[] =
         /* Properties */
         BLE_GATT_DB_READ,
         /* Auxiliary Properties */
-        BLE_GATT_DB_SER_NO_SECURITY_PROPERTY,
+        BLE_GATT_DB_FIXED_LENGTH_PROPERTY,
         /* Value Size */
         2,
         /* Next Attribute Type Index */

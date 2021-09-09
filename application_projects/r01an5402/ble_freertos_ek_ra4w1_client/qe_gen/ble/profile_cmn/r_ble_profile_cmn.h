@@ -31,28 +31,27 @@
         (sizeof(array) / sizeof(array[0]))
 #endif
 
-/**
- *  Packing Macros.
- *
- *  Syntax: BT_PACK_<Endian-ness LE/BE>_<no_of_bytes>_BYTE
- *
- *  Usage: Based on the endian-ness defined for each protocol/profile layer,
- *  appropriate packing macros to be used by each layer.
- *
- *  Example: HCI is defined as little endian protocol,
- *  so if HCI defines HCI_PACK_2_BYTE for packing a parameter of size 2 byte,
- *  that shall be mapped to BT_PACK_LE_2_BYTE
- *
+/*******************************************************************************************************************//**
+ * @file
+ * @defgroup profile_cmn Profile Common Library
+ * @{
+ * @ingroup app_lib
+ * @brief Profile Common Library
+ * @details This library provides APIs to encode/decode default type and data types.
+***********************************************************************************************************************/
+/** @defgroup profile_cmn_utility_macro Utility Macros
+ *  @{
+ *  @brief Utility Macros from Profile Common Library
+ *  @details Packing Macros and Unpacking Macros for Little Endian and MIN/MAX Macro are defined.\n
  *  By default both the packing and unpaking macros uses pointer to
  *  a single or multi-octet variable which to be packed to or unpacked from
- *  a buffer (unsinged character array).
- *
- *  For the packing macro, another variation is available,
- *  where the single or multi-octet variable itself is used (not its pointer).
- *
- *  Syntax: BT_PACK_<Endian-ness LE/BE>_<no_of_bytes>_BYTE_VAL
+ *  a buffer (unsinged character array).\n
  */
-/* Little Endian Packing Macros */
+
+/** 
+ * @def BT_PACK_LE_1_BYTE
+ * Little Endian Packing Macros for 1 byte (uint8_t for source).
+ */
 #ifndef BT_PACK_LE_1_BYTE
 #define BT_PACK_LE_1_BYTE(dst, src) \
     { \
@@ -62,11 +61,19 @@
     }
 #endif
 
+/** 
+ * @def BT_PACK_LE_1_BYTE_VAL
+ * Little Endian Packing Macros for 1 byte (uint8_t[1] for source).
+ */
 #ifndef BT_PACK_LE_1_BYTE_VAL
 #define BT_PACK_LE_1_BYTE_VAL(dst, src) \
     *((uint8_t *)(dst) + 0) = (src);
 #endif
 
+/** 
+ * @def BT_PACK_LE_2_BYTE
+ * Little Endian Packing Macros for 2 byte (uint16_t for source).
+ */
 #ifndef BT_PACK_LE_2_BYTE
 #define BT_PACK_LE_2_BYTE(dst, src) \
     { \
@@ -76,12 +83,20 @@
     }
 #endif
 
+/** 
+ * @def BT_PACK_LE_2_BYTE_VAL
+ * Little Endian Packing Macros for 2 byte (uint8_t[2] for source).
+ */
 #ifndef BT_PACK_LE_2_BYTE_VAL
 #define BT_PACK_LE_2_BYTE_VAL(dst, src) \
     *((uint8_t *)(dst) + 0) = (uint8_t)(src); \
     *((uint8_t *)(dst) + 1) = (uint8_t)((src) >> 8);
 #endif
 
+/** 
+ * @def BT_PACK_LE_3_BYTE
+ * Little Endian Packing Macros for 3 byte (uint32_t for source)..
+ */
 #ifndef BT_PACK_LE_3_BYTE
 #define BT_PACK_LE_3_BYTE(dst, src) \
     { \
@@ -91,6 +106,10 @@
     }
 #endif
 
+/** 
+ * @def BT_PACK_LE_3_BYTE_VAL
+ * Little Endian Packing Macros for 3 byte (uint8_t[3] for source).
+ */
 #ifndef BT_PACK_LE_3_BYTE_VAL
 #define BT_PACK_LE_3_BYTE_VAL(dst, src) \
     *((uint8_t *)(dst) + 0) = (uint8_t)(src);\
@@ -98,6 +117,10 @@
     *((uint8_t *)(dst) + 2) = (uint8_t)((src) >> 16);
 #endif
 
+/** 
+ * @def BT_PACK_LE_4_BYTE
+ * Little Endian Packing Macros for 4 byte (uint32_t for source).
+ */
 #ifndef BT_PACK_LE_4_BYTE
 #define BT_PACK_LE_4_BYTE(dst, src) \
     { \
@@ -107,49 +130,60 @@
     }
 #endif
 
+/** 
+ * @def BT_PACK_LE_4_BYTE_VAL
+ * Little Endian Packing Macros for 1 byte (uint8_t[4] for source).
+ */
 #ifndef BT_PACK_LE_4_BYTE_VAL
 #define BT_PACK_LE_4_BYTE_VAL(dst, src) \
     *((uint8_t *)(dst) + 0) = (uint8_t)(src);\
     *((uint8_t *)(dst) + 1) = (uint8_t)((src) >> 8);\
     *((uint8_t *)(dst) + 2) = (uint8_t)((src) >> 16);\
     *((uint8_t *)(dst) + 3) = (uint8_t)((src) >> 24);
-
-/* Update based on 64 Bit, 128 Bit Data Types */
 #endif
 
+/* Update based on 64 Bit, 128 Bit Data Types */
+
+/** 
+ * @def BT_PACK_LE_8_BYTE
+ * Little Endian Packing Macros for 8 byte.
+ */
 #ifndef BT_PACK_LE_8_BYTE
 #define BT_PACK_LE_8_BYTE(dst,val)\
         memcpy ((dst), (val), 8)
 #endif
 
+/** 
+ * @def BT_PACK_LE_16_BYTE
+ * Little Endian Packing Macros for 16 byte.
+ */
 #ifndef BT_PACK_LE_16_BYTE
 #define BT_PACK_LE_16_BYTE(dst,val)\
         memcpy ((dst), (val), 16)
 #endif
 
+/** 
+ * @def BT_PACK_LE_N_BYTE
+ * Little Endian Packing Macros for variable length.
+ */
 #ifndef BT_PACK_LE_N_BYTE
 #define BT_PACK_LE_N_BYTE(dst,val,n)\
         memcpy ((dst), (val), (n))
 #endif
 
-/**
- *  Unpacking Macros.
- *
- *  Syntax: BT_UNPACK_<Endian-ness LE/BE>_<no_of_bytes>_BYTE
- *
- *  Usage: Based on the endian-ness defined for each protocol/profile layer,
- *  appropriate unpacking macros to be used by each layer.
- *
- *  Example: HCI is defined as little endian protocol,
- *  so if HCI defines HCI_UNPACK_4_BYTE for unpacking a parameter of size 4 byte,
- *  that shall be mapped to BT_UNPACK_LE_4_BYTE
+/** 
+ * @def BT_UNPACK_LE_1_BYTE
+ * Little Endian Unpacking Macros for 1 byte.
  */
-/* Little Endian Unpacking Macros */
 #ifndef BT_UNPACK_LE_1_BYTE
 #define BT_UNPACK_LE_1_BYTE(dst,src)\
     *((uint8_t *)(dst)) = (uint8_t)(*((uint8_t *)(src)));
 #endif
 
+/** 
+ * @def BT_UNPACK_LE_2_BYTE
+ * Little Endian Unpacking Macros for 2 byte.
+ */
 #ifndef BT_UNPACK_LE_2_BYTE
 #define BT_UNPACK_LE_2_BYTE(dst,src)\
         *((uint16_t *)(dst)) = (uint16_t)( \
@@ -158,6 +192,10 @@
                     );
 #endif
 
+/** 
+ * @def BT_UNPACK_LE_3_BYTE
+ * Little Endian Unpacking Macros for 3 byte.
+ */
 #ifndef BT_UNPACK_LE_3_BYTE
 #define BT_UNPACK_LE_3_BYTE(dst,src)\
         *((uint32_t *)(dst)) = (uint32_t)( \
@@ -167,6 +205,10 @@
                     );
 #endif
 
+/** 
+ * @def BT_UNPACK_LE_4_BYTE
+ * Little Endian Unpacking Macros for 4 byte.
+ */
 #ifndef BT_UNPACK_LE_4_BYTE
 #define BT_UNPACK_LE_4_BYTE(dst,src)\
         *((uint32_t *)(dst)) = (uint32_t)( \
@@ -178,37 +220,52 @@
 #endif
 
 /* Update based on 64 Bit, 128 Bit Data Types */
+
+/** 
+ * @def BT_UNPACK_LE_8_BYTE
+ * Little Endian Unpacking Macros for 8 byte.
+ */
 #ifndef BT_UNPACK_LE_8_BYTE
 #define BT_UNPACK_LE_8_BYTE(dst,src)\
         memcpy ((dst), (src), 8)
 #endif
 
+/** 
+ * @def BT_UNPACK_LE_16_BYTE
+ * Little Endian Unpacking Macros for 16 byte.
+ */
 #ifndef BT_UNPACK_LE_16_BYTE
 #define BT_UNPACK_LE_16_BYTE(dst,src)\
         memcpy ((dst), (src), 16)
 #endif
 
+/** 
+ * @def BT_UNPACK_LE_N_BYTE
+ * Little Endian Unpacking Macros for variable length.
+ */
 #ifndef BT_UNPACK_LE_N_BYTE
 #define BT_UNPACK_LE_N_BYTE(dst,src,n)\
         memcpy ((dst), (src), (n))
 #endif
 
+/** 
+ * @def MAX
+ * Defines which value is bigger.
+ */
 #ifndef MAX
 #define MAX(x, y) (((x) > (y)) ? (x) : (y))
 #endif
 
+/** 
+ * @def MIN
+ * Defines which value is smaller.
+ */
 #ifndef MIN
 #define MIN(x, y) (((x) < (y)) ? (x) : (y))
 #endif
 
-/*******************************************************************************************************************//**
- * @file
- * @defgroup profile_cmn Profile Common Library
- * @{
- * @ingroup app_lib
- * @brief Profile Common Library
- * @details This library provides APIs to encode/decode default type and data types.
-***********************************************************************************************************************/
+/*@}*/
+
 /***********************************************************************************************************************
 * History : DD.MM.YYYY Version Description           
 *         : 23.08.2019 1.00    First Release

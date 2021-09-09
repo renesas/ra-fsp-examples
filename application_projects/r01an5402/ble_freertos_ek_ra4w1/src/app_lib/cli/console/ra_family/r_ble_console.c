@@ -343,7 +343,7 @@ void console_putsf(const char *p_format, ...)
     len = (uint16_t)strlen((const char *)b);
 
     /* TODO: Remove this after support UART DMA transmission. */
-    if (len)
+    if (len && (g_UartDone != 0))
     {
         do
         {
@@ -352,11 +352,17 @@ void console_putsf(const char *p_format, ...)
 
             if( ret == FSP_SUCCESS )
                 g_cli_tx_flg = true;
-
+#if (BSP_CFG_RTOS == 2)
+           vTaskDelay (1 / portTICK_PERIOD_MS);
+#endif
         } while ((ret == FSP_ERR_INSUFFICIENT_SPACE));
-        while(0 == g_UartDone);
-    }
 
+        while(0 == g_UartDone){
+#if (BSP_CFG_RTOS == 2)
+            vTaskDelay (1 / portTICK_PERIOD_MS);
+#endif
+        }
+    }
 }
 
 static uint8_t read_fifo(void)
