@@ -48,7 +48,7 @@ Hardware Connections:
       ADC UNIT 1 : AN00-P004, AN01--P005, AN02--P006, AN05--P014
       
       Board Supporting 32 bit GPT timer without Enhanced features:
-      EK-RA2E1, EK-RA2L1, EK-RA4M1, EK-RA4M2
+      EK-RA2E1, EK-RA2L1, EK-RA4M1, EK-RA4M2,FPB-RA6E1
       ADC UNIT 0 : AN00-P000, AN01-P001, AN02-P002, AN03-P003
       
       EK-RA2A1 

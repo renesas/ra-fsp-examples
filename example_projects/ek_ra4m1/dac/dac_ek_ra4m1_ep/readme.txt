@@ -26,8 +26,8 @@
 
         Hardware connections:
 
-        Pin Connection for EK-RA6M1, EK-RA2L1, EK-RA2A1, EK-RA6M5, EK-RA6M4, EK-RA6M3, EK-RA4M1, EK-RA4M3:
-          Connect P014 (DAC Output) to P000(ADC Channel 0).
+        Pin Connection for EK-RA6M1, EK-RA2L1, EK-RA2A1, EK-RA6M5, EK-RA6M4, EK-RA6M3, EK-RA4M1, EK-RA4M3, FPB-RA4E1, FPB-RA6E1:
+          Connect P014 (DAC Output) to P000(ADC Channel 0). 
 
 
 NOTE:

@@ -48,7 +48,7 @@ Hardware Connections:
       ADC UNIT 1 : AN00-P004, AN01--P005, AN02--P006, AN05--P014
       
       Board Supporting 32 bit GPT timer without Enhanced features:
-      EK-RA2E1, EK-RA2L1, EK-RA4M1, EK-RA4M2
+      EK-RA2E1, EK-RA2L1, EK-RA4M1, EK-RA4M2,FPB-RA6E1
       ADC UNIT 0 : AN00-P000, AN01-P001, AN02-P002, AN03-P003
       
       EK-RA2A1 
@@ -95,11 +95,3 @@ Note :
   Select data size as 16 bit, user-specified minimum and maximum values to 0 and 4095 respectively, Channel as Mono, buffer size as 512 for each of the channels 
   as Ping-Pong buffer is used of size 256 each.
      
-1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
-   RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x20000a80
-   b. Keil: Not Available 
-   c. IAR: Not Available
- 
-2) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) 
-   in .map file generated in the build configuration folder (Debug/Release).
