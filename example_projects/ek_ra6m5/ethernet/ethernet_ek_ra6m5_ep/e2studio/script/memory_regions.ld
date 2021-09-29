@@ -20,4 +20,4 @@
                 OSPI_DEVICE_0_LENGTH = 0x8000000;
                 OSPI_DEVICE_1_START  = 0x70000000;
                 OSPI_DEVICE_1_LENGTH = 0x10000000;
-                    RAM_NS_BUFFER_LENGTH = 0xC20;
+                    RAM_NS_BUFFER_LENGTH = 0x3080;
