@@ -1,0 +1,159 @@
+FSP Configuration
+  Board "EK-RA2E2"
+  R7FA2E2A72DNK
+    part_number: R7FA2E2A72DNK
+    rom_size_bytes: 65536
+    ram_size_bytes: 8192
+    data_flash_size_bytes: 2048
+    package_style: QFP
+    package_pins: 24
+    
+  RA2E2
+    series: 2
+    
+  RA2E2 Family
+    OFS0 register settings: Independent WDT: Start Mode: IWDT is Disabled
+    OFS0 register settings: Independent WDT: Timeout Period: 2048 cycles
+    OFS0 register settings: Independent WDT: Dedicated Clock Frequency Divisor: 128
+    OFS0 register settings: Independent WDT: Window End Position:  0% (no window end position)
+    OFS0 register settings: Independent WDT: Window Start Position: 100% (no window start position)
+    OFS0 register settings: Independent WDT: Reset Interrupt Request Select: Reset is enabled
+    OFS0 register settings: Independent WDT: Stop Control: Stop counting when in Sleep, Snooze mode, or Software Standby
+    OFS0 register settings: WDT: Start Mode Select: Stop WDT after a reset (register-start mode)
+    OFS0 register settings: WDT: Timeout Period: 16384 cycles
+    OFS0 register settings: WDT: Clock Frequency Division Ratio: 128
+    OFS0 register settings: WDT: Window End Position:  0% (no window end position)
+    OFS0 register settings: WDT: Window Start Position: 100% (no window start position)
+    OFS0 register settings: WDT: Reset Interrupt Request: Reset
+    OFS0 register settings: WDT: Stop Control: Stop counting when entering Sleep mode
+    OFS1 register settings: Internal Clock Supply Architecture Type: Type A
+    OFS1 register settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
+    OFS1 register settings: Voltage Detection 0 Level: 1.90 V
+    OFS1 register settings: HOCO Oscillation Enable: HOCO oscillation is enabled after reset
+    Use Low Voltage Mode: Not Supported
+    MPU: Enable or disable PC Region 0: Disabled
+    MPU: PC0 Start: 0x000FFFFC
+    MPU: PC0 End: 0x000FFFFF
+    MPU: Enable or disable PC Region 1: Disabled
+    MPU: PC1 Start: 0x000FFFFC
+    MPU: PC1 End: 0x000FFFFF
+    MPU: Enable or disable Memory Region 0: Disabled
+    MPU: Memory Region 0 Start: 0x000FFFFC
+    MPU: Memory Region 0 End: 0x000FFFFF
+    MPU: Enable or disable Memory Region 1: Disabled
+    MPU: Memory Region 1 Start: 0x200FFFFC
+    MPU: Memory Region 1 End: 0x200FFFFF
+    MPU: Enable or disable Memory Region 2: Disabled
+    MPU: Memory Region 2 Start: 0x407FFFFC
+    MPU: Memory Region 2 End: 0x407FFFFF
+    MPU: Enable or disable Memory Region 3: Disabled
+    MPU: Memory Region 3 Start: 0x400DFFFC
+    MPU: Memory Region 3 End: 0x400DFFFF
+    ID Code Mode: Unlocked (Ignore ID)
+    ID Code (32 Hex Characters): FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    
+  RA Common
+    Main stack size (bytes): 0x400
+    Heap size (bytes): 0x400
+    MCU Vcc (mV): 3300
+    Parameter checking: Enabled
+    Assert Failures: Return FSP_ERR_ASSERTION
+    Error Log: No Error Log
+    Soft Reset: Disabled
+    Main Oscillator Populated: Populated
+    PFS Protect: Enabled
+    C Runtime Initialization : Enabled
+    Main Oscillator Clock Source: Crystal or Resonator
+    Subclock Populated: Populated
+    Subclock Drive (Drive capacitance availability varies by MCU): Standard/Normal mode
+    Subclock Stabilization Time (ms): 1000
+    
+  Clocks
+    HOCO 48MHz
+    Clock Src: HOCO
+    ICLK Div /1
+    PCLKB Div /2
+    PCLKD Div /1
+    CLKOUT Disabled
+    CLKOUT Div /1
+    
+  Pin Configurations
+    EK-RA2E2.pincfg -> g_bsp_pin_cfg
+      P010 24 - VREFH0_PMOD1_GPIO9 - - Disabled - - "ADC0: AN005; SYSTEM: VREFH0" - None - - 
+      P011 23 - VREFL0_PMOD1_GPIO10 - - Disabled - - "ADC0: AN006; SYSTEM: VREFL0" - None - - 
+      P014 22 - PMOD1_MIKROBUS_ARDUINO_RESET - - Disabled - - "ADC0: AN009" - None - - 
+      P015 21 GPIO LED3_RED_ARDUINO_D2_PMOD2_RESET M None "Output mode (Initial Low)" - - "ADC0: AN010; IRQ: IRQ7" - IO - - 
+      P100 20 - ARDUINO_D12_MIKROBUS_MISO_PMOD2_RXD9 - - Disabled - - "ADC0: AN022; AGT0: AGTIO0; GPT8: GTIOC8B; GPT_POEGA: GTETRGA; IRQ: IRQ2; KR: KRM00; SCI9: RXD9; SCI9: SCK9; SPI0: MISO0" - None - - 
+      P101 19 - ARDUINO_D11_MIKROBUS_MOSI_PMOD2_TXD9 - - Disabled - - "ADC0: AN021; AGT0: AGTEE0; GPT8: GTIOC8A; GPT_POEGB: GTETRGB; IRQ: IRQ1; KR: KRM01; SCI9: CTS_RTS9; SCI9: TXD9; SPI0: MOSI0" - None - - 
+      P102 18 - ARDUINO_D13_MIKROBUS_SCK_PMOD2_SCK9 - - Disabled - - "ADC0: AN020; AGT0: AGTO0; CAC/ADC/DAC: ADTRG0; GPT5: GTIOC5B; GPT_OPS: GTOWLO; IRQ: IRQ4; KR: KRM02; SCI9: SCK9; SCI9: TXD9; SPI0: RSPCK0" - None - - 
+      P103 17 - ARDUINO_D10_MIKROBUS_SS_PMOD2_CTS9 - - Disabled - - "ADC0: AN019; AGT0: AGTOB0; GPT5: GTIOC5A; GPT_OPS: GTOWUP; IRQ: IRQ6; KR: KRM03; SCI9: CTS_RTS9; SCI9: RXD9; SPI0: SSLA0" - None - - 
+      P108 12 JTAG/SWD_SWDIO - H None "Peripheral mode" - - "AGT1: AGTOA1; GPT7: GTIOC7B; GPT_OPS: GTOULO; IRQ: IRQ5; JTAG/SWD: SWDIO; SCI9: CTS_RTS9; SCI9: TXD9; SPI0: MOSI0" - IO - - 
+      P109 13 - ARDUINO_D5_MIKROBUS_PWM_PMOD1_RXD9 - - Disabled - - "AGT1: AGTO1; CLKOUT/CMPOUT: CLKOUT; GPT4: GTIOC4A; GPT_OPS: GTOVUP; IRQ: IRQ7; KR: KRM01; SCI9: SCK9; SCI9: TXD9; SPI0: MISO0" - None - - 
+      P110 14 - ARDUINO_D3_MIKROBUS_INT_PMOD1_CTS - - Disabled - - "AGT0: AGTOA0; GPT4: GTIOC4B; GPT_OPS: GTOVLO; IRQ: IRQ3; KR: KRM00; SCI9: CTS_RTS9; SCI9: RXD9; SPI0: SSLA0" - None - - 
+      P111 15 - SW1 - - Disabled - - "AGT0: AGTOA0; GPT6: GTIOC6A; IRQ: IRQ4; KR: KRM03; SCI9: RXD9; SCI9: SCK9" - None - - 
+      P112 16 GPIO LED1_BLUE H None "Output mode (Initial Low)" - - "AGT0: AGTOB0; GPT6: GTIOC6B; IRQ: IRQ1; KR: KRM02; SCI9: CTS_RTS9; SCI9: TXD9" - IO - - 
+      P200 10 - NMI - - Disabled - - "IRQ: NMI" - None - - 
+      P201 9 - MD_ARDUINO_D4_PMOD2_GPIO10 - - Disabled - - "SYSTEM: MD" - None - - 
+      P205 7 IRQ_IRQ1 SW2 - IRQ1 "IRQ mode" - - "AGT1: AGTO1; CLKOUT/CMPOUT: CLKOUT; IRQ: IRQ1; KR: KRM01; SCI9: CTS_RTS9; SCI9: TXD9" - IO - - 
+      P300 11 JTAG/SWD_SWCLK - H None "Peripheral mode" - - "AGT1: AGTOB1; GPT7: GTIOC7A; GPT_OPS: GTOUUP; IRQ: IRQ0; JTAG/SWD: SWCLK; SCI9: RXD9; SCI9: SCK9; SPI0: RSPCK0" - IO - - 
+      P400 1 - IIC_SCL0 - - Disabled - - "AGT1: AGTIO1; CAC/ADC/DAC: CACREF; GPT9: GTIOC9A; I3C0: SCL0; IRQ: IRQ0; KR: KRM02; SCI9: SCK9; SCI9: TXD9" - None - - 
+      P401 2 - IIC_SDA0 - - Disabled - - "AGT1: AGTEE1; GPT9: GTIOC9B; GPT_POEGA: GTETRGA; I3C0: SDA0; IRQ: IRQ5; KR: KRM03; SCI9: CTS_RTS9; SCI9: RXD9" - None - - 
+      P914 6 GPIO LED2_GREEN H None "Output mode (Initial Low)" - - "AGT1: AGTOA1; GPT_POEGB: GTETRGB; IRQ: IRQ2; KR: KRM00; SCI9: RXD9; SCI9: SCK9" - IO - - 
+      RES# 8 SYSTEM_RES# - - - - - - - - IO "Read only" - 
+      VCC 5 SYSTEM_VCC - - - - - - - - IO "Read only" - 
+      VCL 3 SYSTEM_VCL - - - - - - - - IO "Read only" - 
+      VSS 4 SYSTEM_VSS - - - - - - - - IO "Read only" - 
+    R7FA2E2A72DNK.pincfg -> 
+      P010 24 - VREFH0_PMOD1_GPIO9 - - Disabled - - "ADC0: AN005; SYSTEM: VREFH0" - None - - 
+      P011 23 - VREFL0_PMOD1_GPIO10 - - Disabled - - "ADC0: AN006; SYSTEM: VREFL0" - None - - 
+      P014 22 - PMOD1_MIKROBUS_ARDUINO_RESET - - Disabled - - "ADC0: AN009" - None - - 
+      P015 21 - LED3_RED_ARDUINO_D2_PMOD2_RESET M None Disabled - - "ADC0: AN010; IRQ: IRQ7" - IO - - 
+      P100 20 - ARDUINO_D12_MIKROBUS_MISO_PMOD2_RXD9 - - Disabled - - "ADC0: AN022; AGT0: AGTIO0; GPT8: GTIOC8B; GPT_POEGA: GTETRGA; IRQ: IRQ2; KR: KRM00; SCI9: RXD9; SCI9: SCK9; SPI0: MISO0" - None - - 
+      P101 19 - ARDUINO_D11_MIKROBUS_MOSI_PMOD2_TXD9 - - Disabled - - "ADC0: AN021; AGT0: AGTEE0; GPT8: GTIOC8A; GPT_POEGB: GTETRGB; IRQ: IRQ1; KR: KRM01; SCI9: CTS_RTS9; SCI9: TXD9; SPI0: MOSI0" - None - - 
+      P102 18 - ARDUINO_D13_MIKROBUS_SCK_PMOD2_SCK9 - - Disabled - - "ADC0: AN020; AGT0: AGTO0; CAC/ADC/DAC: ADTRG0; GPT5: GTIOC5B; GPT_OPS: GTOWLO; IRQ: IRQ4; KR: KRM02; SCI9: SCK9; SCI9: TXD9; SPI0: RSPCK0" - None - - 
+      P103 17 - ARDUINO_D10_MIKROBUS_SS_PMOD2_CTS9 - - Disabled - - "ADC0: AN019; AGT0: AGTOB0; GPT5: GTIOC5A; GPT_OPS: GTOWUP; IRQ: IRQ6; KR: KRM03; SCI9: CTS_RTS9; SCI9: RXD9; SPI0: SSLA0" - None - - 
+      P108 12 JTAG/SWD_SWDIO - H None "Peripheral mode" - - "AGT1: AGTOA1; GPT7: GTIOC7B; GPT_OPS: GTOULO; IRQ: IRQ5; JTAG/SWD: SWDIO; SCI9: CTS_RTS9; SCI9: TXD9; SPI0: MOSI0" - IO - - 
+      P109 13 - ARDUINO_D5_MIKROBUS_PWM_PMOD1_RXD9 - - Disabled - - "AGT1: AGTO1; CLKOUT/CMPOUT: CLKOUT; GPT4: GTIOC4A; GPT_OPS: GTOVUP; IRQ: IRQ7; KR: KRM01; SCI9: SCK9; SCI9: TXD9; SPI0: MISO0" - None - - 
+      P110 14 - ARDUINO_D3_MIKROBUS_INT_PMOD1_CTS - - Disabled - - "AGT0: AGTOA0; GPT4: GTIOC4B; GPT_OPS: GTOVLO; IRQ: IRQ3; KR: KRM00; SCI9: CTS_RTS9; SCI9: RXD9; SPI0: SSLA0" - None - - 
+      P111 15 - SW1 - - Disabled - - "AGT0: AGTOA0; GPT6: GTIOC6A; IRQ: IRQ4; KR: KRM03; SCI9: RXD9; SCI9: SCK9" - None - - 
+      P112 16 - LED1_BLUE H None Disabled - - "AGT0: AGTOB0; GPT6: GTIOC6B; IRQ: IRQ1; KR: KRM02; SCI9: CTS_RTS9; SCI9: TXD9" - IO - - 
+      P200 10 - NMI - - Disabled - - "IRQ: NMI" - None - - 
+      P201 9 - MD_ARDUINO_D4_PMOD2_GPIO10 - - Disabled - - "SYSTEM: MD" - None - - 
+      P205 7 - SW2 - None Disabled - - "AGT1: AGTO1; CLKOUT/CMPOUT: CLKOUT; IRQ: IRQ1; KR: KRM01; SCI9: CTS_RTS9; SCI9: TXD9" - IO - - 
+      P300 11 JTAG/SWD_SWCLK - H None "Peripheral mode" - - "AGT1: AGTOB1; GPT7: GTIOC7A; GPT_OPS: GTOUUP; IRQ: IRQ0; JTAG/SWD: SWCLK; SCI9: RXD9; SCI9: SCK9; SPI0: RSPCK0" - IO - - 
+      P400 1 - IIC_SCL0 - - Disabled - - "AGT1: AGTIO1; CAC/ADC/DAC: CACREF; GPT9: GTIOC9A; I3C0: SCL0; IRQ: IRQ0; KR: KRM02; SCI9: SCK9; SCI9: TXD9" - None - - 
+      P401 2 - IIC_SDA0 - - Disabled - - "AGT1: AGTEE1; GPT9: GTIOC9B; GPT_POEGA: GTETRGA; I3C0: SDA0; IRQ: IRQ5; KR: KRM03; SCI9: CTS_RTS9; SCI9: RXD9" - None - - 
+      P914 6 - LED2_GREEN H None Disabled - - "AGT1: AGTOA1; GPT_POEGB: GTETRGB; IRQ: IRQ2; KR: KRM00; SCI9: RXD9; SCI9: SCK9" - IO - - 
+      RES# 8 SYSTEM_RES# - - - - - - - - IO "Read only" - 
+      VCC 5 SYSTEM_VCC - - - - - - - - IO "Read only" - 
+      VCL 3 SYSTEM_VCL - - - - - - - - IO "Read only" - 
+      VSS 4 SYSTEM_VSS - - - - - - - - IO "Read only" - 
+    
+  User Events
+    
+  User Event Links
+    
+  Module "I/O Port Driver on r_ioport"
+    Parameter Checking: Default (BSP)
+    
+  Module "External IRQ Driver on r_icu"
+    Parameter Checking: Default (BSP)
+    
+  HAL
+    Instance "g_ioport I/O Port Driver on r_ioport"
+      Name: g_ioport
+      Port 1 ELC Trigger Source: Disabled
+      Port 2 ELC Trigger Source: Disabled
+      Port 3 ELC Trigger Source: Disabled
+      Port 4 ELC Trigger Source: Disabled
+      Pin Configuration Name: g_bsp_pin_cfg
+      
+    Instance "g_external_irq External IRQ Driver on r_icu"
+      Name: g_external_irq
+      Channel: 1
+      Trigger: Rising
+      Digital Filtering: Enabled
+      Digital Filtering Sample Clock (Only valid when Digital Filtering is Enabled): PCLK / 64
+      Callback: irq_ep_callback
+      Pin Interrupt Priority: Priority 2
+      

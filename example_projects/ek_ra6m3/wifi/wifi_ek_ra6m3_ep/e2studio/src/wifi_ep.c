@@ -48,8 +48,6 @@ SocketPrameters_t g_socket =
  .status = RESET_VALUE
 };
 
-static sx_ulpgn_security_t convertSecurity(WIFISecurity_t xSecurity);
-
 /*******************************************************************************************************************//**
  * @brief       This functions takes input from user.
  * @param[IN]   char pointer pointing to user input buffer.
@@ -193,10 +191,10 @@ fsp_err_t scan_and_select(void)
 
     /* Storing SSID  and security type of WiFi AP */
     strcpy(g_wifi.ssid, (char*) scan_data[index_wifi_ap_list].ucSSID);
-    g_wifi.security = convertSecurity(scan_data[index_wifi_ap_list].xSecurity);
+    g_wifi.security = scan_data[index_wifi_ap_list].xSecurity;
 
     /* WiFi AP password input for non-open security type */
-    if(WIFI_ONCHIP_SILEX_SECURITY_OPEN != g_wifi.security)
+    if(eWiFiSecurityOpen != g_wifi.security)
     {
         /* User input for password of WiFi AP */
         APP_PRINT("\r\nEnter password for " RTT_CTRL_TEXT_BRIGHT_CYAN "%s." RTT_CTRL_RESET, g_wifi.ssid);
@@ -234,27 +232,25 @@ fsp_err_t manual_connect(void)
         APP_PRINT("\r\nUser Input: \r\n");
         user_input(input_buff);
 
-        g_wifi.security = (uint32_t) atoi(input_buff);
-
-        /* Checking for the Open security type */
-        if(('0' == input_buff[INDEX_ZERO]) && ('\0' == input_buff[INDEX_ONE]))
-        {
-            break;
-        }
         /* Loop iteration to discard any other value apart from the valid security type */
-    }while(WIFI_ONCHIP_SILEX_SECURITY_WPA2 < (int32_t)g_wifi.security);
+    }while(('0' > input_buff[INDEX_ZERO]) || ('2' < input_buff[INDEX_ZERO]) || ('\0' != input_buff[INDEX_ONE]));
 
-    /* WiFi AP password input for non-open security type */
-    if(WIFI_ONCHIP_SILEX_SECURITY_OPEN != g_wifi.security)
+    /* Checking for the Open security type */
+    if(WIFI_SECURITY_OPEN == (uint32_t)atoi(input_buff))
     {
-        /* User input for password of WiFi AP */
+        g_wifi.security = eWiFiSecurityOpen;
+    }
+    else
+    {
+        g_wifi.security = ((uint32_t)atoi(input_buff) == WIFI_SECURITY_WPA ? eWiFiSecurityWPA : eWiFiSecurityWPA2);
+        /* WiFi AP password input for non-open security type */
         APP_PRINT("\r\nEnter password for " RTT_CTRL_TEXT_BRIGHT_CYAN "%s" RTT_CTRL_RESET, g_wifi.ssid);
         user_input(g_wifi.pwd);
     }
 
     /* Connecting to user entered SSID */
     APP_PRINT("\r\nConnecting to " RTT_CTRL_TEXT_BRIGHT_CYAN "%s \r\n" RTT_CTRL_RESET, g_wifi.ssid);
-    err = rm_wifi_onchip_silex_connect(g_wifi.ssid, (uint32_t) g_wifi.security, g_wifi.pwd);
+    err = rm_wifi_onchip_silex_connect(g_wifi.ssid, g_wifi.security, g_wifi.pwd);
     if(FSP_SUCCESS != err)
     {
         APP_ERR_PRINT("\r\n** rm_wifi_onchip_silex_connect API for rm_wifi_onchip_silex failed ** \r\n");
@@ -492,36 +488,6 @@ void wifi_deinit(void)
         }
     }
 }
-
-/*******************************************************************************************************************//**
- * @brief       This functions converts the security type used by WIFIScanResult_t to SilexAT supported security type.
- * @param[in]   xSecurity                   Security type used by WIFIScanResult_t structure.
- * @retval      sx_ulpgn_security_t         Security type supported by SilexAT.
- **********************************************************************************************************************/
-static sx_ulpgn_security_t convertSecurity(WIFISecurity_t xSecurity)
-{
-    if(eWiFiSecurityOpen == xSecurity)
-    {
-        return WIFI_ONCHIP_SILEX_SECURITY_OPEN;
-    }
-    else if(eWiFiSecurityWEP == xSecurity)
-    {
-        return WIFI_ONCHIP_SILEX_SECURITY_WEP;
-    }
-    else if (eWiFiSecurityWPA == xSecurity)
-    {
-        return WIFI_ONCHIP_SILEX_SECURITY_WPA;
-    }
-    else if (eWiFiSecurityWPA2 == xSecurity)
-    {
-        return WIFI_ONCHIP_SILEX_SECURITY_WPA2;
-    }
-    else
-    {
-        return WIFI_ONCHIP_SILEX_SECURITY_UNDEFINED;
-    }
-}
-
 /*******************************************************************************************************************//**
  * @} (end addtogroup wifi_ep)
  **********************************************************************************************************************/

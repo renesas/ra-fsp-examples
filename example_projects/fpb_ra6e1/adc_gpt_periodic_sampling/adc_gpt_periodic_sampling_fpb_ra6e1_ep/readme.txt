@@ -50,6 +50,9 @@ Hardware Connections:
       Board Supporting 32 bit GPT timer without Enhanced features:
       EK-RA2E1, EK-RA2L1, EK-RA4M1, EK-RA4M2,FPB-RA6E1
       ADC UNIT 0 : AN00-P000, AN01-P001, AN02-P002, AN03-P003
+      EK-RA2E2:
+      ADC UNIT 0 : AN09-P014, AN10-P015, AN19-P103, AN20-P102
+
       
       EK-RA2A1 
       ADC Unit 0 : AN00-P500, AN01-P501, AN02-P502, AN03-P015 

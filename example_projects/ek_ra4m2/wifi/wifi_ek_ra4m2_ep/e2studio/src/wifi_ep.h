@@ -51,6 +51,11 @@
 #define BUFF_LEN                    (32U)
 #define BYTES_RECEIVED_ZERO         (0U)
 
+/* Macros for supported WiFi security types */
+#define WIFI_SECURITY_OPEN          (0U)
+#define WIFI_SECURITY_WPA           (1U)
+#define WIFI_SECURITY_WPA2          (2U)
+
 /* Macros and variables for network operations */
 #define WIFI_MAX_TRY                (5U)
 #define MAX_WIFI_SCAN_RESULTS       (20U)
@@ -93,6 +98,10 @@
 #define USER_LED (BSP_IO_PORT_09_PIN_13)
 #elif defined (BOARD_RA6M5_EK)
 #define USER_LED (BSP_IO_PORT_00_PIN_08)
+#elif defined (BOARD_RA6E1_FPB) || defined (BOARD_RA4E1_FPB)
+#define USER_LED (BSP_IO_PORT_04_PIN_08)
+#elif defined (BOARD_RA2E2_EK)
+#define USER_LED (BSP_IO_PORT_01_PIN_12)
 #else
 #define USER_LED   (BSP_IO_PORT_04_PIN_03)
 #endif
@@ -102,7 +111,7 @@ typedef struct
 {
     char ssid[BUFF_LEN];
     char pwd[BUFF_LEN];
-    uint32_t security;
+    WIFISecurity_t security;
     uint32_t ip_addr_device[4];
     fsp_err_t status;
 }WiFiParameters_t;

@@ -78,6 +78,10 @@ void wifi_thread_entry(void *pvParameters)
         switch(index_menu_option)
         {
             case SCAN_AP:
+#if defined (BOARD_RA2E2_EK)
+                APP_PRINT("\r\nWiFi Access Point scanning is not available for this board.");
+                APP_PRINT("\r\nPlease press 2 for entering WiFi Access Point's credentials manually.\r\n");
+#else
                 /* Scan for APs and connect to user chosen one */
                 err = scan_and_select();
                 /* Handle error */
@@ -98,6 +102,7 @@ void wifi_thread_entry(void *pvParameters)
                         APP_ERR_PRINT("\r\nIncorrect Access Point credentials entered. Try again.\r\n");
                     }
                 }
+#endif
                 break;
             case ENTER_SSID:
                 /* User manually enter WiFi AP credentials to connect */

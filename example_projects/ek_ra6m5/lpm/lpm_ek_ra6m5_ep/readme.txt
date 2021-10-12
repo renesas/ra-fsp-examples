@@ -25,7 +25,7 @@ Cancel Sources in the RA Configurator.
 		e2studio
 		JLink V6.52b or later
    Hardware:
-		Renesas RA kits: EK-RA2A1, EK-RA2L1, EK-RA2E1, EK-RA4M1, EK-RA4M2, EK-RA4M3, EK-RA6M1, EK-RA6M2, EK-RA6M3, EK-RA6M3G, EK-RA6M4, EK-RA6M5, RSSK-RA6T1,EK-RA4W1,FPB-RA6E1,FPB-RA4E1
+		Renesas RA kits: EK-RA2A1, EK-RA2L1, EK-RA2E1, EK-RA2E2, EK-RA4M1, EK-RA4M2, EK-RA4M3, EK-RA6M1, EK-RA6M2, EK-RA6M3, EK-RA6M3G, EK-RA6M4, EK-RA6M5, RSSK-RA6T1,EK-RA4W1,FPB-RA6E1,FPB-RA4E1
 		Digital Multi-timeter to measurement MCU's current (Icc)
 		One jumper wire.
     
@@ -39,19 +39,19 @@ section in MCU's user manual for more details.
 Four or three different LPM module's instances named g_lpm_sleep, g_lpm_sw_standby, g_lpm_sw_standby_with_snooze, 
 g_lpm_deep_sw_standby are used in each LPM example project with Trigger/End sources as follows:
 
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-				     |EK-RA2A1  |EK-RA2L1  |EK-RA2E1  |EK-RA4M1  |EK-RA4M2  |EK-RA4M3  |EK-RA6M1  |EK-RA6M2  |EK-RA6M3  |EK-RA6M3G |EK-RA6M4  |EK-RA6M5  |RSSK-RA6T1 |EK-RA4W1  |FPB-RA6E1  |FPB-RA4E1	  
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-Sleep		|Cancel/End source   |IRQ6      |IRQ3      |IRQ3      |IRQ0      |IRQ10-DS  |IRQ10-DS  |IRQ0-DS   |IRQ0-DS   |IRQ13-DS  |IRQ13-DS  |IRQ10-DS  |IRQ10-DS  |IRQ6-DS    |IRQ4	|IRQ1-DS    |IRQ1-DS 
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-SW Standby	|Cancel/End source   |IRQ6	|IRQ3      |IRQ3      |IRQ0-DS   |IRQ10-DS  |IRQ10-DS  |IRQ0-DS   |IRQ13-DS  |IRQ5-DS   |IRQ13-DS  |IRQ10-DS  |IRQ10-DS  |IRQ6-DS    |IRQ4	|IRQ1-DS    |IRQ1-DS
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-Snooze		|Request Source	     |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI  |AGT1_AGTI |AGT1_AGTI  |AGT1_AGTI 
-		|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-		|Cancel/End source   |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI  |AGT1_AGTI	|AGT1_AGTI  |AGT1_AGTI
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+				     |EK-RA2A1  |EK-RA2L1  |EK-RA2E1  |EK-RA4M1  |EK-RA4M2  |EK-RA4M3  |EK-RA6M1  |EK-RA6M2  |EK-RA6M3  |EK-RA6M3G |EK-RA6M4  |EK-RA6M5  |RSSK-RA6T1 |EK-RA4W1  |FPB-RA6E1  |FPB-RA4E1	  |EK-RA2E2
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Sleep		|Cancel/End source   |IRQ6      |IRQ3      |IRQ3      |IRQ0      |IRQ10-DS  |IRQ10-DS  |IRQ0-DS   |IRQ0-DS   |IRQ13-DS  |IRQ13-DS  |IRQ10-DS  |IRQ10-DS  |IRQ6-DS    |IRQ4	|IRQ1-DS    |IRQ1-DS 	  |IRQ1-DS
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+SW Standby	|Cancel/End source   |IRQ6	|IRQ3      |IRQ3      |IRQ0-DS   |IRQ10-DS  |IRQ10-DS  |IRQ0-DS   |IRQ13-DS  |IRQ5-DS   |IRQ13-DS  |IRQ10-DS  |IRQ10-DS  |IRQ6-DS    |IRQ4	|IRQ1-DS    |IRQ1-DS	  |IRQ1-DS
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Snooze		|Request Source	     |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI  |AGT1_AGTI |AGT1_AGTI  |AGT1_AGTI 	  |AGT1_AGTI
+		|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+		|Cancel/End source   |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI  |AGT1_AGTI	|AGT1_AGTI  |AGT1_AGTI	  |AGT1_AGTI
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Deep SW Stansby	|Cancel/End source|					         |IRQ10-DS  |IRQ10-DS  |IRQ0-DS   |IRQ0-DS   |IRQ13-DS  |IRQ13-DS  |IRQ10-DS  |IRQ10-DS  |IRQ6-DS       	|IRQ1-DS    |IRQ1-DS
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	
 
 Notes:
  If using RTOS, Systick timer must be stopped before entering the Sleep mode because any interrupt will cancel the sleep mode. 
@@ -84,8 +84,8 @@ current between pin1 and pin2 of J7; ; this is the recommended method.
 You can also measure and calculate the Icc by capturing the voltage drops across a resistor from 
 5ohm to 20ohm connected between pin1 and pin3 of E6.
 
-EK-RA2L1, EK-RA2E1, EK-RA4M2, EK-RA4M3, EK-RA6M3, EK-RA6M3G, EK-RA6M4, EK-RA6M5 kit :
- 1)Remove R2.(Not applicable to EK-RA2L1, EK-RA2E1)
+EK-RA2L1, EK-RA2E1, EK-RA2E2, EK-RA4M2, EK-RA4M3, EK-RA6M3, EK-RA6M3G, EK-RA6M4, EK-RA6M5 kit :
+ 1)Remove R2.(Not applicable to EK-RA2L1, EK-RA2E1, EK-RA2E2)
  2)Measure the voltage drops across R3 and calculate MCU's current (Icc); replace R3 by a bigger resistor if needed.
  3)To measure MCU's current (Icc) directly, remove R3 resistor and connect Multi-meter between the +3V3 and +3V3_MCU pins on the kit connectors.
 
