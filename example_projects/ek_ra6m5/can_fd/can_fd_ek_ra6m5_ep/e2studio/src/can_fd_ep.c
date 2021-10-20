@@ -353,6 +353,7 @@ void canfd0_callback(can_callback_args_t *p_args)
         case CAN_EVENT_ERR_CHANNEL:             // Channel error has occurred.
         case CAN_EVENT_TX_ABORTED:              // Transmit abort event.
         case CAN_EVENT_ERR_GLOBAL:              // Global error has occurred.
+        case CAN_EVENT_TX_FIFO_EMPTY:           // Transmit FIFO is empty.
         {
             b_canfd_err_status = true;          //set flag bit
             break;

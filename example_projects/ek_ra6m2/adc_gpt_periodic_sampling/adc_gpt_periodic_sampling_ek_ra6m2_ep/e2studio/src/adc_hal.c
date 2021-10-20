@@ -175,7 +175,7 @@ transfer_info_t g_transfer_adc_group_b[] =
       .size = TRANSFER_SIZE_2_BYTE,
       .mode = TRANSFER_MODE_NORMAL,
       .p_dest = (void*) &g_buffer_adc[ADC_UNIT_1][ADC_GROUP_SCAN_B][ONE][ZERO][ZERO],
-      .p_src = (void const*) &R_ADC1->ADDR[THREE],
+      .p_src = (void const*) &R_ADC1->ADDR[FIVE],
       .num_blocks = ZERO,
       .length = NUM_SAMPLES_PER_CHANNEL,
      },

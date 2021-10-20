@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<raConfiguration version="6">
+<raConfiguration version="7">
   <generalSettings>
     <option key="#Board#" value="board.ra6m5ek"/>
     <option key="CPU" value="RA6M5"/>
@@ -8,7 +8,7 @@
     <option key="#DeviceCommand#" value="R7FA6M5BH"/>
     <option key="#RTOS#" value="_none"/>
     <option key="#pinconfiguration#" value="R7FA6M5BH3CFC.pincfg"/>
-    <option key="#FSPVersion#" value="3.1.0"/>
+    <option key="#FSPVersion#" value="3.4.0"/>
     <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra6m5_ek##"/>
     <option key="#SELECTED_TOOLCHAIN#" value="iar.arm.toolchain"/>
   </generalSettings>
@@ -71,6 +71,7 @@
       <property id="config.bsp.fsp.mcu.sci_spi.max_bitrate" value="25000000"/>
       <property id="config.bsp.fsp.mcu.spi.max_bitrate" value="50000000"/>
       <property id="config.bsp.fsp.mcu.iic_master.rate.rate_fastplus" value="1"/>
+      <property id="config.bsp.fsp.mcu.sci_uart.cstpen_channels" value="0x03F9"/>
     </config>
     <config id="config.bsp.ra">
       <property id="config.bsp.common.main" value="0x400"/>
@@ -134,37 +135,37 @@
     <node id="board.clock.canfdclk.display" option="board.clock.canfdclk.display.value"/>
   </raClockConfiguration>
   <raComponentSelection>
-    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra6m5_ek" variant="" vendor="Renesas" version="3.1.0">
+    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra6m5_ek" variant="" vendor="Renesas" version="3.4.0">
       <description>RA6M5-EK Board Support Files</description>
-      <originalPack>Renesas.RA_board_ra6m5_ek.3.1.0.pack</originalPack>
+      <originalPack>Renesas.RA_board_ra6m5_ek.3.4.0.pack</originalPack>
     </component>
-    <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="5.7.0+fsp.3.1.0">
-      <description>Arm CMSIS Version 5 - Core (M)</description>
-      <originalPack>Arm.CMSIS5.5.7.0+fsp.3.1.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra6m5" subgroup="device" variant="R7FA6M5BH3CFC" vendor="Renesas" version="3.1.0">
+    <component apiversion="" class="BSP" condition="" group="ra6m5" subgroup="device" variant="R7FA6M5BH3CFC" vendor="Renesas" version="3.4.0">
       <description>Board support package for R7FA6M5BH3CFC</description>
-      <originalPack>Renesas.RA_mcu_ra6m5.3.1.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra6m5.3.4.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra6m5" subgroup="device" variant="" vendor="Renesas" version="3.1.0">
+    <component apiversion="" class="BSP" condition="" group="ra6m5" subgroup="device" variant="" vendor="Renesas" version="3.4.0">
       <description>Board support package for RA6M5</description>
-      <originalPack>Renesas.RA_mcu_ra6m5.3.1.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra6m5.3.4.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra6m5" subgroup="fsp" variant="" vendor="Renesas" version="3.1.0">
+    <component apiversion="" class="BSP" condition="" group="ra6m5" subgroup="fsp" variant="" vendor="Renesas" version="3.4.0">
       <description>Board support package for RA6M5 - FSP Data</description>
-      <originalPack>Renesas.RA_mcu_ra6m5.3.1.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra6m5.3.4.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="3.1.0">
+    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="3.4.0">
       <description>Board Support Package Common Files</description>
-      <originalPack>Renesas.RA.3.1.0.pack</originalPack>
+      <originalPack>Renesas.RA.3.4.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="3.1.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="3.4.0">
       <description>I/O Port</description>
-      <originalPack>Renesas.RA.3.1.0.pack</originalPack>
+      <originalPack>Renesas.RA.3.4.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_tz_context" variant="" vendor="Renesas" version="3.1.0">
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_tz_context" variant="" vendor="Renesas" version="3.4.0">
       <description>ARM TrustZone Context RA Port</description>
-      <originalPack>Renesas.RA.3.1.0.pack</originalPack>
+      <originalPack>Renesas.RA.3.4.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="5.7.0+fsp.3.4.0">
+      <description>Arm CMSIS Version 5 - Core (M)</description>
+      <originalPack>Arm.CMSIS5.5.7.0+fsp.3.4.0.pack</originalPack>
     </component>
   </raComponentSelection>
   <raElcConfiguration/>
@@ -176,6 +177,7 @@
       <property id="module.driver.ioport.elc_trigger_ioport2" value="_disabled"/>
       <property id="module.driver.ioport.elc_trigger_ioport3" value="_disabled"/>
       <property id="module.driver.ioport.elc_trigger_ioport4" value="_disabled"/>
+      <property id="module.driver.ioport.pincfg" value="g_bsp_pin_cfg"/>
     </module>
     <module id="module.middleware.rm_tz_context.0"/>
     <context id="_hal.0">
@@ -326,13 +328,13 @@
       <configSetting altId="ospi0.omsio6.p103" configurationId="ospi0.omsio6"/>
       <configSetting altId="ospi0.omsio7.p101" configurationId="ospi0.omsio7"/>
       <configSetting altId="ospi0.pairing.free" configurationId="ospi0.pairing"/>
-      <configSetting altId="p000.asel" configurationId="p000"/>
+      <configSetting altId="p000.adc0.an00" configurationId="p000"/>
       <configSetting altId="p000.gpio_mode.gpio_mode_an" configurationId="p000.gpio_mode"/>
-      <configSetting altId="p001.asel" configurationId="p001"/>
+      <configSetting altId="p001.adc0.an01" configurationId="p001"/>
       <configSetting altId="p001.gpio_mode.gpio_mode_an" configurationId="p001.gpio_mode"/>
-      <configSetting altId="p002.asel" configurationId="p002"/>
+      <configSetting altId="p002.adc0.an02" configurationId="p002"/>
       <configSetting altId="p002.gpio_mode.gpio_mode_an" configurationId="p002.gpio_mode"/>
-      <configSetting altId="p003.asel" configurationId="p003"/>
+      <configSetting altId="p003.adc0.an03" configurationId="p003"/>
       <configSetting altId="p003.gpio_mode.gpio_mode_an" configurationId="p003.gpio_mode"/>
       <configSetting altId="p004.input" configurationId="p004"/>
       <configSetting altId="p004.gpio_irq.gpio_irq_enabled" configurationId="p004.gpio_irq"/>
@@ -346,9 +348,9 @@
       <configSetting altId="p007.gpio_mode.gpio_mode_out.low" configurationId="p007.gpio_mode"/>
       <configSetting altId="p008.output.low" configurationId="p008"/>
       <configSetting altId="p008.gpio_mode.gpio_mode_out.low" configurationId="p008.gpio_mode"/>
-      <configSetting altId="p014.asel" configurationId="p014"/>
+      <configSetting altId="p014.adc0.an12" configurationId="p014"/>
       <configSetting altId="p014.gpio_mode.gpio_mode_an" configurationId="p014.gpio_mode"/>
-      <configSetting altId="p015.asel" configurationId="p015"/>
+      <configSetting altId="p015.adc0.an13" configurationId="p015"/>
       <configSetting altId="p015.gpio_mode.gpio_mode_an" configurationId="p015.gpio_mode"/>
       <configSetting altId="p100.ospi0.omsclk" configurationId="p100"/>
       <configSetting altId="p100.gpio_speed.gpio_speed_highspeedhigh" configurationId="p100.gpio_drivecapacity"/>
@@ -522,25 +524,20 @@
       <configSetting altId="p601.gpio_speed.gpio_speed_highspeedhigh" configurationId="p601.gpio_drivecapacity"/>
       <configSetting altId="p601.gpio_mode.gpio_mode_peripheral" configurationId="p601.gpio_mode"/>
       <configSetting altId="p602.ospi0.omcs1" configurationId="p602"/>
-      <configSetting altId="p602.gpio_speed.gpio_speed_highspeedhigh" configurationId="p602.gpio_drivecapacity"/>
       <configSetting altId="p602.gpio_mode.gpio_mode_peripheral" configurationId="p602.gpio_mode"/>
       <configSetting altId="p608.output.low" configurationId="p608"/>
       <configSetting altId="p608.gpio_speed.gpio_speed_high" configurationId="p608.gpio_drivecapacity"/>
       <configSetting altId="p608.gpio_mode.gpio_mode_out.low" configurationId="p608.gpio_mode"/>
       <configSetting altId="p609.can1.ctx" configurationId="p609"/>
-      <configSetting altId="p609.gpio_speed.gpio_speed_highspeedhigh" configurationId="p609.gpio_drivecapacity"/>
       <configSetting altId="p609.gpio_mode.gpio_mode_peripheral" configurationId="p609.gpio_mode"/>
       <configSetting altId="p610.can1.crx" configurationId="p610"/>
-      <configSetting altId="p610.gpio_speed.gpio_speed_highspeedhigh" configurationId="p610.gpio_drivecapacity"/>
       <configSetting altId="p610.gpio_mode.gpio_mode_peripheral" configurationId="p610.gpio_mode"/>
       <configSetting altId="p611.output.low" configurationId="p611"/>
       <configSetting altId="p611.gpio_speed.gpio_speed_high" configurationId="p611.gpio_drivecapacity"/>
       <configSetting altId="p611.gpio_mode.gpio_mode_out.low" configurationId="p611.gpio_mode"/>
       <configSetting altId="p613.sci7.txd" configurationId="p613"/>
-      <configSetting altId="p613.gpio_speed.gpio_speed_highspeedhigh" configurationId="p613.gpio_drivecapacity"/>
       <configSetting altId="p613.gpio_mode.gpio_mode_peripheral" configurationId="p613.gpio_mode"/>
       <configSetting altId="p614.sci7.rxd" configurationId="p614"/>
-      <configSetting altId="p614.gpio_speed.gpio_speed_highspeedhigh" configurationId="p614.gpio_drivecapacity"/>
       <configSetting altId="p614.gpio_mode.gpio_mode_peripheral" configurationId="p614.gpio_mode"/>
       <configSetting altId="p615.output.high" configurationId="p615"/>
       <configSetting altId="p615.gpio_speed.gpio_speed_medium" configurationId="p615.gpio_drivecapacity"/>
