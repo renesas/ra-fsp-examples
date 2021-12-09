@@ -26,10 +26,9 @@
 
         Hardware connections:
 
-        Pin Connection for EK-RA6M1, EK-RA2L1, EK-RA2A1, EK-RA6M5, EK-RA6M4, EK-RA6M3, EK-RA4M1, EK-RA4M3, FPB-RA4E1, FPB-RA6E1:
+        Pin Connection for EK-RA6M1, EK-RA2L1, EK-RA2A1, EK-RA6M5, EK-RA6M4, EK-RA6M3, EK-RA4M1, EK-RA4M3, FPB-RA4E1, FPB-RA6E1, EK-RA4M2, EK-RA6M2:
           Connect P014 (DAC Output) to P000(ADC Channel 0). 
-
-
+		
 NOTE:
 1. User is expected to enter data of size not exceeding above 15 bytes.
    Operation is not guaranteed for any user input value other than integer (i.e. char, float, special char) through RTT.

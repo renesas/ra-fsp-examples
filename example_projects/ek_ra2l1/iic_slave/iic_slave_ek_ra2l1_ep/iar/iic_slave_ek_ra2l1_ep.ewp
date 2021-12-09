@@ -66,7 +66,7 @@
                 </option>
                 <option>
                     <name>OGLastSavedByProductVersion</name>
-                    <state>8.50.1.24770</state>
+                    <state>8.50.9.33458</state>
                 </option>
                 <option>
                     <name>GeneralEnableMisra</name>
@@ -220,7 +220,7 @@
                 <debug>1</debug>
                 <option>
                     <name>CCDefines</name>
-                    <state></state>
+                    <state>_RENESAS_RA_</state>
                 </option>
                 <option>
                     <name>CCPreprocFile</name>
@@ -484,7 +484,7 @@
             <name>AARM</name>
             <archiveVersion>2</archiveVersion>
             <data>
-                <version>10</version>
+                <version>11</version>
                 <wantNonLocal>1</wantNonLocal>
                 <debug>1</debug>
                 <option>
@@ -534,7 +534,7 @@
                 </option>
                 <option>
                     <name>ADefines</name>
-                    <state></state>
+                    <state>_RENESAS_RA_</state>
                 </option>
                 <option>
                     <name>AList</name>
@@ -626,7 +626,14 @@
                 </option>
                 <option>
                     <name>AUserIncludes</name>
-                    <state></state>
+                    <state>$PROJ_DIR$/ra/arm/CMSIS_5/CMSIS/Core/Include</state>
+                    <state>$PROJ_DIR$/ra/fsp/inc</state>
+                    <state>$PROJ_DIR$/ra/fsp/inc/api</state>
+                    <state>$PROJ_DIR$/ra/fsp/inc/instances</state>
+                    <state>$PROJ_DIR$/ra_cfg/fsp_cfg</state>
+                    <state>$PROJ_DIR$/ra_cfg/fsp_cfg/bsp</state>
+                    <state>$PROJ_DIR$/ra_gen</state>
+                    <state>$PROJ_DIR$/src</state>
                 </option>
                 <option>
                     <name>AExtraOptionsCheckV2</name>
@@ -639,6 +646,10 @@
                 <option>
                     <name>AsmNoLiteralPool</name>
                     <state>0</state>
+                </option>
+                <option>
+                    <name>PreInclude</name>
+                    <state></state>
                 </option>
             </data>
         </settings>
@@ -811,11 +822,11 @@
                 </option>
                 <option>
                     <name>IlinkUseExtraOptions</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>IlinkExtraOptions</name>
-                    <state></state>
+                    <state>--config_search "$PROJ_DIR$"</state>
                 </option>
                 <option>
                     <name>IlinkLowLevelInterfaceSlave</name>
@@ -1283,6 +1294,7 @@
                 <option>
                     <name>CCDefines</name>
                     <state>NDEBUG</state>
+                    <state>_RENESAS_RA_</state>
                 </option>
                 <option>
                     <name>CCPreprocFile</name>
@@ -1546,7 +1558,7 @@
             <name>AARM</name>
             <archiveVersion>2</archiveVersion>
             <data>
-                <version>10</version>
+                <version>11</version>
                 <wantNonLocal>1</wantNonLocal>
                 <debug>0</debug>
                 <option>
@@ -1596,7 +1608,7 @@
                 </option>
                 <option>
                     <name>ADefines</name>
-                    <state></state>
+                    <state>_RENESAS_RA_</state>
                 </option>
                 <option>
                     <name>AList</name>
@@ -1688,7 +1700,14 @@
                 </option>
                 <option>
                     <name>AUserIncludes</name>
-                    <state></state>
+                    <state>$PROJ_DIR$/ra/arm/CMSIS_5/CMSIS/Core/Include</state>
+                    <state>$PROJ_DIR$/ra/fsp/inc</state>
+                    <state>$PROJ_DIR$/ra/fsp/inc/api</state>
+                    <state>$PROJ_DIR$/ra/fsp/inc/instances</state>
+                    <state>$PROJ_DIR$/ra_cfg/fsp_cfg</state>
+                    <state>$PROJ_DIR$/ra_cfg/fsp_cfg/bsp</state>
+                    <state>$PROJ_DIR$/ra_gen</state>
+                    <state>$PROJ_DIR$/src</state>
                 </option>
                 <option>
                     <name>AExtraOptionsCheckV2</name>
@@ -1701,6 +1720,10 @@
                 <option>
                     <name>AsmNoLiteralPool</name>
                     <state>0</state>
+                </option>
+                <option>
+                    <name>PreInclude</name>
+                    <state></state>
                 </option>
             </data>
         </settings>
@@ -1873,11 +1896,11 @@
                 </option>
                 <option>
                     <name>IlinkUseExtraOptions</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>IlinkExtraOptions</name>
-                    <state></state>
+                    <state>--config_search "$PROJ_DIR$"</state>
                 </option>
                 <option>
                     <name>IlinkLowLevelInterfaceSlave</name>
@@ -2181,6 +2204,9 @@
                 <name>$PROJ_DIR$\ra\fsp\inc\api\bsp_api.h</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_arm_exceptions.h</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_clocks.c</name>
             </file>
             <file>
@@ -2242,6 +2268,12 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_module_stop.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\ra2l1\bsp_power.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\ra2l1\bsp_power.h</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_register_protection.c</name>
@@ -2383,9 +2415,6 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\fsp\inc\api\r_transfer_api.h</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\ra\fsp\src\bsp\cmsis\Device\RENESAS\SVD\RA.svd</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\fsp\src\bsp\cmsis\Device\RENESAS\Include\renesas.h</name>

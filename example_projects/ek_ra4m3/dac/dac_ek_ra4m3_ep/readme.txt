@@ -26,16 +26,12 @@
 
         Hardware connections:
 
-        Pin Connection for EK-RA6M1, EK-RA2L1, EK-RA2A1, EK-RA6M5, EK-RA6M4, EK-RA6M3, EK-RA4M1, EK-RA4M3, FPB-RA4E1, FPB-RA6E1:
-          Connect P014 (DAC Output) to P000(ADC Channel 0).
-
-
+        Pin Connection for EK-RA6M1, EK-RA2L1, EK-RA2A1, EK-RA6M5, EK-RA6M4, EK-RA6M3, EK-RA4M1, EK-RA4M3, FPB-RA4E1, FPB-RA6E1, EK-RA4M2, EK-RA6M2:
+          Connect P014 (DAC Output) to P000(ADC Channel 0). 
+		
 NOTE:
 1. User is expected to enter data of size not exceeding above 15 bytes.
    Operation is not guaranteed for any user input value other than integer (i.e. char, float, special char) through RTT.
    Example: Integer part of float values are processed.
 2. For DAC input as 0, ADC output will not be 0 because of offset correction value. Hence 0 is not considered in the valid range. 
 3. ADC output is in 12-bit/16-bit range.
-4. Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
-   RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x20001108
