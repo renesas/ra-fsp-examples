@@ -55,11 +55,6 @@
                                                                        ipv6.nxd_ip_version       = NX_IP_VERSION_V6;\
                                                                    } while(0);
 
-/* IPv6 addresses.*/
-NXD_ADDRESS dns_ipv6_address;
-NXD_ADDRESS start_ipv6_address;
-NXD_ADDRESS end_ipv6_address;
-
 /* structure to store leased IPs info.*/
 typedef struct ipv6_info
 {

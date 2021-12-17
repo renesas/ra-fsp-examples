@@ -54,6 +54,10 @@ static ULONG duid_time = SECONDS_SINCE_JAN_1_2000_MOD_32;
 static bool b_serverReady = false;
 /* variable to capture IP leased state*/
 static bool b_ip_leased = false;
+/* IPv6 addresses.*/
+NXD_ADDRESS dns_ipv6_address;
+NXD_ADDRESS start_ipv6_address;
+NXD_ADDRESS end_ipv6_address;
 
 /* Function declaration. */
 static void nx_common_init0(void);

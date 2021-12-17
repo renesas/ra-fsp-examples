@@ -46,7 +46,7 @@
 /* Adafruit IO user specific key. *Needs to be changed by the user.*
  * Find it by logging into adafruit.io, under the section 'My Key'
  * Copy the key from 'Active Key', and paste here. */
-#define IO_KEY              "aio_wcoj83QNXiOx8toyg5c8k7knCkfC"
+#define IO_KEY              "aio_zfaG35GfWPv25sck3NmUeNWDgYpZ"
 
 /* Adafruit IO Username. *Needs to be changed by the user.*/
 /* Adafruit Server details to create and update, data as per GET, PUT, POST functions.

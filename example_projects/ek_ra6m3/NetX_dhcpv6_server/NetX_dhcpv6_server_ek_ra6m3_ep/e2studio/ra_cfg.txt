@@ -59,10 +59,11 @@ FSP Configuration
     Parameter checking: Enabled
     Assert Failures: Return FSP_ERR_ASSERTION
     Error Log: No Error Log
-    Soft Reset: Disabled
+    Clock Registers not Reset Values during Startup: Disabled
     Main Oscillator Populated: Populated
     PFS Protect: Enabled
     C Runtime Initialization : Enabled
+    Early BSP Initialization : Disabled
     Main Oscillator Clock Source: Crystal or Resonator
     Subclock Populated: Populated
     Subclock Drive (Drive capacitance availability varies by MCU): Standard/Normal mode
@@ -448,11 +449,12 @@ FSP Configuration
     
   User Event Links
     
-  Module "I/O Port Driver on r_ioport"
+  Module "I/O Port (r_ioport)"
     Parameter Checking: Default (BSP)
     
-  Module "NetX Duo DHCP IPv6 Server"
+  Module "Azure RTOS NetX Duo DHCP IPv6 Server"
     Common: Error Checking: Enabled (default)
+    Common: IP Packet Filter: Disabled (default)
     Common: IP Static Routing: Disabled (default)
     Common: Physical Header: 
     Common: Physical Trailer: 
@@ -709,8 +711,8 @@ FSP Configuration
     TFTP: Common: Type of Service for UDP requests: Normal
     TFTP: Common: Fragmentation option: Don't fragment
     TFTP: Client: Source port to use: NX_ANY_PORT
-    MQTT: Client: Parameter Checking: Default (BSP)
     MQTT: Client: NX Secure: Disable
+    MQTT: Client: Cloud Enable: Disable
     MQTT: Client: Keepalive Timer Rate (s): 1
     MQTT: Client: Ping Timeout Delay (s): 1
     MQTT: Client: Socket Timeout (in timer ticks) : 0xFFFFFFFF
@@ -795,7 +797,6 @@ FSP Configuration
     TFTP: Server: Ack or data retransmission interval (ticks): 200
     TFTP: Server: Maximum retries for transmission without response: 5
     TFTP: Server: Maximum retries for transmission with duplicate response: 2
-    Web HTTP: Server: Parameter Checking: Default (BSP)
     Web HTTP: Server: HTTPS Support: Disable
     Web HTTP: Server: FileX Support: Enable
     Web HTTP: Server: Multipart HTTP requests support: Disable
@@ -816,9 +817,12 @@ FSP Configuration
     Web HTTP: Server: Server Socket Re-transmission Timeout (seconds): 2
     Web HTTP: Server: Maximum number of retries per packet: 10
     Web HTTP: Server: Server Next Re-transmission timeout shift: 1
+    Common: TCP/IP Offload: Disable
+    Common: Interface Capability: Disable
     
-  Module "NetX Duo IP Instance"
+  Module "Azure RTOS NetX Duo IP Instance"
     Common: Error Checking: Enabled (default)
+    Common: IP Packet Filter: Disabled (default)
     Common: IP Static Routing: Disabled (default)
     Common: Physical Header: 
     Common: Physical Trailer: 
@@ -1075,8 +1079,8 @@ FSP Configuration
     TFTP: Common: Type of Service for UDP requests: Normal
     TFTP: Common: Fragmentation option: Don't fragment
     TFTP: Client: Source port to use: NX_ANY_PORT
-    MQTT: Client: Parameter Checking: Default (BSP)
     MQTT: Client: NX Secure: Disable
+    MQTT: Client: Cloud Enable: Disable
     MQTT: Client: Keepalive Timer Rate (s): 1
     MQTT: Client: Ping Timeout Delay (s): 1
     MQTT: Client: Socket Timeout (in timer ticks) : 0xFFFFFFFF
@@ -1161,7 +1165,6 @@ FSP Configuration
     TFTP: Server: Ack or data retransmission interval (ticks): 200
     TFTP: Server: Maximum retries for transmission without response: 5
     TFTP: Server: Maximum retries for transmission with duplicate response: 2
-    Web HTTP: Server: Parameter Checking: Default (BSP)
     Web HTTP: Server: HTTPS Support: Disable
     Web HTTP: Server: FileX Support: Enable
     Web HTTP: Server: Multipart HTTP requests support: Disable
@@ -1182,9 +1185,12 @@ FSP Configuration
     Web HTTP: Server: Server Socket Re-transmission Timeout (seconds): 2
     Web HTTP: Server: Maximum number of retries per packet: 10
     Web HTTP: Server: Server Next Re-transmission timeout shift: 1
+    Common: TCP/IP Offload: Disable
+    Common: Interface Capability: Disable
     
-  Module "NetX Duo Packet Pool Instance"
+  Module "Azure RTOS NetX Duo Packet Pool Instance"
     Common: Error Checking: Enabled (default)
+    Common: IP Packet Filter: Disabled (default)
     Common: IP Static Routing: Disabled (default)
     Common: Physical Header: 
     Common: Physical Trailer: 
@@ -1441,8 +1447,8 @@ FSP Configuration
     TFTP: Common: Type of Service for UDP requests: Normal
     TFTP: Common: Fragmentation option: Don't fragment
     TFTP: Client: Source port to use: NX_ANY_PORT
-    MQTT: Client: Parameter Checking: Default (BSP)
     MQTT: Client: NX Secure: Disable
+    MQTT: Client: Cloud Enable: Disable
     MQTT: Client: Keepalive Timer Rate (s): 1
     MQTT: Client: Ping Timeout Delay (s): 1
     MQTT: Client: Socket Timeout (in timer ticks) : 0xFFFFFFFF
@@ -1527,7 +1533,6 @@ FSP Configuration
     TFTP: Server: Ack or data retransmission interval (ticks): 200
     TFTP: Server: Maximum retries for transmission without response: 5
     TFTP: Server: Maximum retries for transmission with duplicate response: 2
-    Web HTTP: Server: Parameter Checking: Default (BSP)
     Web HTTP: Server: HTTPS Support: Disable
     Web HTTP: Server: FileX Support: Enable
     Web HTTP: Server: Multipart HTTP requests support: Disable
@@ -1548,20 +1553,23 @@ FSP Configuration
     Web HTTP: Server: Server Socket Re-transmission Timeout (seconds): 2
     Web HTTP: Server: Maximum number of retries per packet: 10
     Web HTTP: Server: Server Next Re-transmission timeout shift: 1
+    Common: TCP/IP Offload: Disable
+    Common: Interface Capability: Disable
     
-  Module "NetX Duo Ethernet Driver"
-  Module "Ethernet Driver on r_ether"
+  Module "NetX Duo Ethernet Driver (rm_netxduo_ether)"
+  Module "Ethernet (r_ether)"
     Parameter Checking: Default (BSP)
     ET0_LINKSTA Pin Status Flag: Fall -> Rise
     Link Signal Change Flag: Unused
     
-  Module "Ethernet Driver on r_ether_phy"
+  Module "Ethernet (r_ether_phy)"
     Parameter Checking: Default (BSP)
     Select PHY: Default
     Reference Clock: Default
     
-  Module "NetX Duo Common on nxd"
+  Module "Azure RTOS NetX Duo Common"
     Common: Error Checking: Enabled (default)
+    Common: IP Packet Filter: Disabled (default)
     Common: IP Static Routing: Disabled (default)
     Common: Physical Header: 
     Common: Physical Trailer: 
@@ -1818,8 +1826,8 @@ FSP Configuration
     TFTP: Common: Type of Service for UDP requests: Normal
     TFTP: Common: Fragmentation option: Don't fragment
     TFTP: Client: Source port to use: NX_ANY_PORT
-    MQTT: Client: Parameter Checking: Default (BSP)
     MQTT: Client: NX Secure: Disable
+    MQTT: Client: Cloud Enable: Disable
     MQTT: Client: Keepalive Timer Rate (s): 1
     MQTT: Client: Ping Timeout Delay (s): 1
     MQTT: Client: Socket Timeout (in timer ticks) : 0xFFFFFFFF
@@ -1904,7 +1912,6 @@ FSP Configuration
     TFTP: Server: Ack or data retransmission interval (ticks): 200
     TFTP: Server: Maximum retries for transmission without response: 5
     TFTP: Server: Maximum retries for transmission with duplicate response: 2
-    Web HTTP: Server: Parameter Checking: Default (BSP)
     Web HTTP: Server: HTTPS Support: Disable
     Web HTTP: Server: FileX Support: Enable
     Web HTTP: Server: Multipart HTTP requests support: Disable
@@ -1925,6 +1932,8 @@ FSP Configuration
     Web HTTP: Server: Server Socket Re-transmission Timeout (seconds): 2
     Web HTTP: Server: Maximum number of retries per packet: 10
     Web HTTP: Server: Server Next Re-transmission timeout shift: 1
+    Common: TCP/IP Offload: Disable
+    Common: Interface Capability: Disable
     
   Azure RTOS ThreadX
     General: Custom tx_user.h: 
@@ -1963,12 +1972,17 @@ FSP Configuration
     General: FileX Pointer: Enabled
     
   HAL
-    Instance "g_ioport I/O Port Driver on r_ioport"
+    Instance "g_ioport I/O Port (r_ioport)"
       Name: g_ioport
       Port 1 ELC Trigger Source: Disabled
       Port 2 ELC Trigger Source: Disabled
       Port 3 ELC Trigger Source: Disabled
       Port 4 ELC Trigger Source: Disabled
+      Port B ELC Trigger Source: Disabled
+      Port C ELC Trigger Source: Disabled
+      Port D ELC Trigger Source: Disabled
+      Port E ELC Trigger Source: Disabled
+      Pin Configuration Name: g_bsp_pin_cfg
       
   Thread "DHCPv6 Thread"
     Symbol: dhcpv6_thread
@@ -1978,11 +1992,11 @@ FSP Configuration
     Auto start: Enabled
     Time slicing interval (ticks): 1
     
-    Instance "g_dhcpv6_server NetX Duo DHCP IPv6 Server"
+    Instance "g_dhcpv6_server Azure RTOS NetX Duo DHCP IPv6 Server"
       Name: g_dhcpv6_server
       Internal thread stack size (bytes): 4096
       
-      Instance "g_ip0 NetX Duo IP Instance"
+      Instance "g_ip0 Azure RTOS NetX Duo IP Instance"
         Name: g_ip0
         IPv4 Address: 192.168.0.2
         Subnet Mask: 255.255.255.0
@@ -1994,16 +2008,16 @@ FSP Configuration
         ARP cache storage units: Bytes
             ARP cache size (in storage units): 520
         
-        Instance "g_packet_pool0 NetX Duo Packet Pool Instance"
+        Instance "g_packet_pool0 Azure RTOS NetX Duo Packet Pool Instance"
           Name: g_packet_pool0
           Packet Size (bytes): 1568
           Number of Packets in Pool: 16
           
-        Instance "NetX Duo Ethernet Driver"
+        Instance "NetX Duo Ethernet Driver (rm_netxduo_ether)"
           Name: g_netxduo_ether_0
           IP MTU: 1500
           
-          Instance "g_ether0 Ethernet Driver on r_ether"
+          Instance "g_ether0 Ethernet (r_ether)"
             General: Name: g_ether0
             General: Channel: 0
             General: MAC address: 00:11:22:33:44:66
@@ -2021,17 +2035,17 @@ FSP Configuration
             Interrupts: Interrupt priority: Priority 12
             Interrupts: Callback: rm_netxduo_ether_callback
             
-            Instance "g_ether_phy0 Ethernet Driver on r_ether_phy"
+            Instance "g_ether_phy0 Ethernet (r_ether_phy)"
               Name: g_ether_phy0
               Channel: 0
               PHY-LSI Address: 0
               PHY-LSI Reset Completion Timeout: 0x00020000
-              Select MII type: MII
+              Select MII type: RMII
               MII/RMII Register Access Wait-time: 8
               Flow Control: Disable
               
-          Instance "NetX Duo Common on nxd"
-      Instance "g_packet_pool0 NetX Duo Packet Pool Instance"
+          Instance "Azure RTOS NetX Duo Common"
+      Instance "g_packet_pool0 Azure RTOS NetX Duo Packet Pool Instance"
         Name: g_packet_pool0
         Packet Size (bytes): 1568
         Number of Packets in Pool: 16

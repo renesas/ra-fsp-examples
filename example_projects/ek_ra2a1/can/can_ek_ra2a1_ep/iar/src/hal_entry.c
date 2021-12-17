@@ -129,7 +129,7 @@ void hal_entry(void)
             }
 
             /* wait for transmit flag bit to set */
-            while ((true != b_can_tx) && (time_out--));
+            while ((true != b_can_tx) && (--time_out));
             if (RESET_VALUE == time_out)
             {
                 APP_ERR_PRINT("CAN transmission failed due to timeout");
@@ -170,7 +170,7 @@ void hal_entry(void)
                     APP_ERR_TRAP(err);
                 }
                 /* wait for transmit flag bit to set */
-                while ((true != b_can_tx) && (time_out--));
+                while ((true != b_can_tx) && (--time_out));
                 if (RESET_VALUE == time_out)
                 {
                     APP_ERR_PRINT("CAN transmission failed due to timeout");
@@ -229,7 +229,7 @@ void can_callback(can_callback_args_t *p_args)
         case CAN_EVENT_ERR_CHANNEL:             //error channel
         case CAN_EVENT_ERR_GLOBAL:              //error global
         case CAN_EVENT_TX_ABORTED:              //error transmit abort
-        case CAN_EVENT_TX_FIFO_EMPTY:           //error transmit FIFO empty
+        case CAN_EVENT_TX_FIFO_EMPTY:           //error transmit FIFO is empty
         {
             b_can_err = true;                   //set flag bit
             break;

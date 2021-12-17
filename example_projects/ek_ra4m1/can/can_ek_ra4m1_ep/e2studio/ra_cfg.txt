@@ -59,10 +59,11 @@ FSP Configuration
     Parameter checking: Enabled
     Assert Failures: Return FSP_ERR_ASSERTION
     Error Log: No Error Log
-    Soft Reset: Disabled
+    Clock Registers not Reset Values during Startup: Disabled
     Main Oscillator Populated: Populated
     PFS Protect: Enabled
     C Runtime Initialization : Enabled
+    Early BSP Initialization : Disabled
     Main Oscillator Clock Source: Crystal or Resonator
     Subclock Populated: Populated
     Subclock Drive (Drive capacitance availability varies by MCU): Standard/Normal mode
@@ -292,21 +293,27 @@ FSP Configuration
     
   User Event Links
     
-  Module "I/O Port Driver on r_ioport"
+  Module "I/O Port (r_ioport)"
     Parameter Checking: Default (BSP)
     
-  Module "CAN Driver on r_can"
+  Module "CAN (r_can)"
     Parameter Checking: Default (BSP)
+    FIFO Support: Disabled
     
   HAL
-    Instance "g_ioport I/O Port Driver on r_ioport"
+    Instance "g_ioport I/O Port (r_ioport)"
       Name: g_ioport
       Port 1 ELC Trigger Source: Disabled
       Port 2 ELC Trigger Source: Disabled
       Port 3 ELC Trigger Source: Disabled
       Port 4 ELC Trigger Source: Disabled
+      Port B ELC Trigger Source: Disabled
+      Port C ELC Trigger Source: Disabled
+      Port D ELC Trigger Source: Disabled
+      Port E ELC Trigger Source: Disabled
+      Pin Configuration Name: g_bsp_pin_cfg
       
-    Instance "g_can CAN Driver on r_can"
+    Instance "g_can CAN (r_can)"
       General: Name: g_can
       General: Channel: 0
       General: Clock Source: PCLKB
@@ -321,6 +328,8 @@ FSP Configuration
       General: Overwrite/Overrrun Mode: Overwrite Mode
       General: Global ID Mode: Standard ID Mode
       General: Number of Mailboxes: 32 Mailboxes
+      Input: Receive FIFO: Receive ID 1: ID: 0
+      Input: Receive FIFO: Receive ID 2: ID: 0
       Input: Mailbox 0-3 Group: Mailbox ID: Mailbox 0 ID: 0
       Input: Mailbox 0-3 Group: Mailbox ID: Mailbox 1 ID: 1
       Input: Mailbox 0-3 Group: Mailbox ID: Mailbox 2 ID: 2
@@ -353,6 +362,8 @@ FSP Configuration
       Input: Mailbox 28-31 Group: Mailbox ID: Mailbox 29 ID: 29
       Input: Mailbox 28-31 Group: Mailbox ID: Mailbox 30 ID: 30
       Input: Mailbox 28-31 Group: Mailbox ID: Mailbox 31 ID: 31
+      Input: Receive FIFO: Receive ID 1: ID Mode: Standard ID
+      Input: Receive FIFO: Receive ID 2: ID Mode: Standard ID
       Input: Mailbox 0-3 Group: Mailbox ID Mode: Mailbox 0 ID Mode: Standard ID
       Input: Mailbox 0-3 Group: Mailbox ID Mode: Mailbox 1 ID Mode: Standard ID
       Input: Mailbox 0-3 Group: Mailbox ID Mode: Mailbox 2 ID Mode: Standard ID
@@ -417,6 +428,8 @@ FSP Configuration
       Input: Mailbox 28-31 Group: Mailbox Type: Mailbox 29 Type: Receive Mailbox
       Input: Mailbox 28-31 Group: Mailbox Type: Mailbox 30 Type: Receive Mailbox
       Input: Mailbox 28-31 Group: Mailbox Type: Mailbox 31 Type: Receive Mailbox
+      Input: Receive FIFO: Receive ID 1: Frame Type: Remote Mailbox
+      Input: Receive FIFO: Receive ID 2: Frame Type: Remote Mailbox
       Input: Mailbox 0-3 Group: Mailbox Frame Type: Mailbox 0 Frame Type: Remote Mailbox
       Input: Mailbox 0-3 Group: Mailbox Frame Type: Mailbox 1 Frame Type: Data Mailbox
       Input: Mailbox 0-3 Group: Mailbox Frame Type: Mailbox 2 Frame Type: Data Mailbox
@@ -449,6 +462,8 @@ FSP Configuration
       Input: Mailbox 28-31 Group: Mailbox Frame Type: Mailbox 29 Frame Type: Data Mailbox
       Input: Mailbox 28-31 Group: Mailbox Frame Type: Mailbox 30 Frame Type: Data Mailbox
       Input: Mailbox 28-31 Group: Mailbox Frame Type: Mailbox 31 Frame Type: Data Mailbox
+      Input: Receive FIFO: Receive ID 1: Mask: 0x1FFFFFFF
+      Input: Receive FIFO: Receive ID 2: Mask: 0x1FFFFFFF
       Input: Mailbox 0-3 Group: Mailbox 0-3 Group Mask: 0x1FFFFFFF
       Input: Mailbox 4-7 Group: Mailbox 4-7 Group Mask: 0x1FFFFFFF
       Input: Mailbox 8-11 Group: Mailbox 8-11 Group Mask: 0x1FFFFFFF
@@ -458,4 +473,5 @@ FSP Configuration
       Input: Mailbox 24-27 Group: Mailbox 24-27 Group Mask: 0x1FFFFFFF
       Input: Mailbox 28-31 Group: Mailbox 28-31 Group Mask: 0x1FFFFFFF
       Interrupts: Interrupt Priority Level: Priority 2
+      Interrupts: Transmit FIFO Interrupt Mode: Every Message
       

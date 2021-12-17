@@ -32,6 +32,10 @@ static void process_rtt_op_msg(VOID);
 static UINT memory_allocate_rtt(TX_BYTE_POOL *pool, rtt_msg_t **p_buf, uint32_t size);
 
 extern TX_THREAD RTT_Thread;
+/* IPv6 addresses.*/
+extern NXD_ADDRESS dns_ipv6_address;
+extern NXD_ADDRESS start_ipv6_address;
+extern NXD_ADDRESS end_ipv6_address;
 
 /* RTT_Thread entry function */
 void RTT_Thread_entry(void)
