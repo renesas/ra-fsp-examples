@@ -51,6 +51,7 @@ EventGroupHandle_t  g_ble_event_group_handle;
  User file includes
 *******************************************************************************/
 /* Start user code for file includes. Do not edit comment generated here */
+#include "ble_core_task.h"
 #include "r_ble_lsc.h"
 #include "task_function.h"
 #include "r_ble_cli.h"
@@ -203,8 +204,6 @@ uint16_t g_conn_hdl;
 /* Start user code for global variables. Do not edit comment generated here */
 EventGroupHandle_t              g_ble_event_group_handle;
 TaskHandle_t                    g_lsc_task;
-extern ble_abs_instance_ctrl_t  g_ble_abs0_ctrl;
-extern const ble_abs_cfg_t      g_ble_abs0_cfg;
 
 extern st_ble_cli_cmd_t g_lsc_cmd;
 

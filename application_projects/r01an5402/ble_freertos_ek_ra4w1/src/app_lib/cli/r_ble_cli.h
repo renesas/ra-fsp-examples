@@ -161,7 +161,7 @@ bool R_BLE_CLI_Process_With_Retval(void);
 #if (BLE_CFG_CMD_LINE_EN == 1)
 #define R_BLE_CLI_Printf console_putsf
 #else /* (BLE_CFG_CMD_LINE_EN == 1) */
-#define R_BLE_CLI_Printf(x)   /* null macro */
+#define R_BLE_CLI_Printf       /* null macro */
 #endif /* (BLE_CFG_CMD_LINE_EN == 1) */
 
 /*******************************************************************************************************************//**

@@ -50,6 +50,7 @@ EventGroupHandle_t  g_ble_event_group_handle;
  User file includes
 *******************************************************************************/
 /* Start user code for file includes. Do not edit comment generated here */
+#include "ble_core_task.h"
 #include "r_ble_lss.h"
 #include "task_function.h"
 #include "r_ble_cli.h"
@@ -197,8 +198,6 @@ static const st_ble_cli_cmd_t * const gsp_cmds[] =
      &g_ble_cmd
 };
 
-extern ble_abs_instance_ctrl_t  g_ble_abs0_ctrl;
-extern const ble_abs_cfg_t      g_ble_abs0_cfg;
 /* End user code. Do not edit comment generated here */
 
 /******************************************************************************

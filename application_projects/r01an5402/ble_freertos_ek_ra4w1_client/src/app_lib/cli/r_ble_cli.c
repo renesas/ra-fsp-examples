@@ -372,7 +372,7 @@ static void key_history(uint8_t data)
         else
         {
             memset(gs_lines[gs_line_idx], 0x00, BLE_CLI_LINE_LEN);
-            strcpy(gs_lines[gs_line_idx], gs_lines[gs_history_idx]);
+            memcpy(gs_lines[gs_line_idx], gs_lines[gs_history_idx], BLE_CLI_LINE_LEN);
             move_cursor_pos(0);
             clear_screen_from_cursor_down();
             R_BLE_CLI_Printf("%s ", BLE_PRV_CLI_PROMPT);

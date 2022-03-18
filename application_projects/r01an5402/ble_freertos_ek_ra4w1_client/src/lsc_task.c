@@ -107,6 +107,16 @@ void set_lsc_event(EventBits_t uxBitsToSet)
         {
             xEventGroupClearBits(xLscEvent, LSC_WAIT_EN_CCCD);
         } break;
+
+        case LSC_WAIT_WR_BLINK:
+        {
+            xEventGroupSetBits(xLscEvent, LSC_WAIT_WR_BLINK);
+        } break;
+        case LSC_WAIT_RD_BLINK:
+        {
+            xEventGroupSetBits(xLscEvent, LSC_WAIT_RD_BLINK);
+        } break;
+
         default:
             /* Do Nothing */
             break;

@@ -13,7 +13,17 @@ BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_flash0_open_guard(flash_ctrl_t *const p_api
 BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_flash0_write_guard(flash_ctrl_t *const p_api_ctrl, uint32_t const src_address,
         uint32_t flash_address, uint32_t const num_bytes)
 {
-    /* TODO: add your own security checks here */
+   /* Verify source address is in non-secure memory. */
+	void const *const src_address_range_checked = cmse_check_address_range ((unsigned char *) src_address, num_bytes,
+			CMSE_AU_NONSECURE);
+
+	FSP_ASSERT ((unsigned char*)src_address == src_address_range_checked);
+
+	/* Verify destination address is in non-secure memory. */
+	void const *const dest_address_range_checked = cmse_check_address_range ((unsigned char *) flash_address, num_bytes,
+			CMSE_AU_NONSECURE);
+
+	FSP_ASSERT ((unsigned char*)flash_address == dest_address_range_checked);
 
     FSP_PARAMETER_NOT_USED (p_api_ctrl);
 

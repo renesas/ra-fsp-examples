@@ -20,7 +20,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdint.h>
-#if (BSP_CFG_RTOS == 2)
+#if (BSP_CFG_RTOS == 1) || (BSP_CFG_RTOS == 2)
 #include "ble_core_task.h"
 #else /* (BSP_CFG_RTOS == 2) */
 #include "hal_data.h"

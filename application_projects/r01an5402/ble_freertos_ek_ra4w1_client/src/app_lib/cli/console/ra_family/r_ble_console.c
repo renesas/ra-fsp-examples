@@ -36,7 +36,10 @@
 
 #include "cli/console/r_ble_console.h"
 
-#if (BSP_CFG_RTOS == 2)
+#if (BSP_CFG_RTOS == 1)
+#include "tx_api.h"
+extern void *g_ble_event_group_handle;
+#elif (BSP_CFG_RTOS == 2)
 #include "FreeRTOS.h"
 #include "event_groups.h"
 #include "task.h"
@@ -126,7 +129,13 @@ void user_uart_callback_ble_cli(uart_callback_args_t *p_args)
             break;
     }
 
-#if (BSP_CFG_RTOS == 2)
+#if (BSP_CFG_RTOS == 1)
+    if( NULL != gs_cli_event_cb )
+    {
+        /* callback SCI event */
+        gs_cli_event_cb((void *)g_ble_event_group_handle);
+    }
+#elif (BSP_CFG_RTOS == 2)
     if( NULL != gs_cli_event_cb )
     {
         /* callback SCI event */
@@ -352,13 +361,17 @@ void console_putsf(const char *p_format, ...)
 
             if( ret == FSP_SUCCESS )
                 g_cli_tx_flg = true;
-#if (BSP_CFG_RTOS == 2)
+#if (BSP_CFG_RTOS == 1)
+            tx_thread_sleep (1);
+#elif (BSP_CFG_RTOS == 2)
            vTaskDelay (1 / portTICK_PERIOD_MS);
 #endif
         } while ((ret == FSP_ERR_INSUFFICIENT_SPACE));
 
         while(0 == g_UartDone){
-#if (BSP_CFG_RTOS == 2)
+#if (BSP_CFG_RTOS == 1)
+            tx_thread_sleep (1);
+#elif (BSP_CFG_RTOS == 2)
             vTaskDelay (1 / portTICK_PERIOD_MS);
 #endif
         }

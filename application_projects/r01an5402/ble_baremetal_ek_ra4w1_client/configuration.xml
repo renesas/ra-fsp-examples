@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<raConfiguration version="6">
+<raConfiguration version="7">
   <generalSettings>
     <option key="#Board#" value="board.custom"/>
     <option key="CPU" value="RA4W1"/>
@@ -8,7 +8,7 @@
     <option key="#DeviceCommand#" value="R7FA4W1AD"/>
     <option key="#RTOS#" value="_none"/>
     <option key="#pinconfiguration#" value="R7FA4W1AD2CNG.pincfg"/>
-    <option key="#FSPVersion#" value="3.2.0"/>
+    <option key="#FSPVersion#" value="3.6.0"/>
     <option key="#SELECTED_TOOLCHAIN#" value="gcc-arm-embedded"/>
     <option key="#ToolchainVersion#" value="9.2.1.20191025"/>
   </generalSettings>
@@ -21,6 +21,7 @@
       <property id="config.bsp.data_flash_size_bytes" value="config.bsp.data_flash_size_bytes.value"/>
       <property id="config.bsp.package_style" value="config.bsp.package_style.value"/>
       <property id="config.bsp.package_pins" value="config.bsp.package_pins.value"/>
+      <property id="config.bsp.irq_count_hidden" value="32"/>
     </config>
     <config id="config.bsp.ra4w1">
       <property id="config.bsp.series" value="config.bsp.series.value"/>
@@ -69,6 +70,8 @@
       <property id="config.bsp.fsp.mcu.sci_spi.max_bitrate" value="12000000"/>
       <property id="config.bsp.fsp.mcu.spi.max_bitrate" value="16000000"/>
       <property id="config.bsp.fsp.mcu.iic_master.rate.rate_fastplus" value="0"/>
+      <property id="config.bsp.fsp.mcu.sci_uart.cstpen_channels" value="0x0"/>
+      <property id="config.bsp.fsp.mcu.gpt.pin_count_source_channels" value="0xFFFF"/>
       <property id="config.bsp.common.id_mode" value="config.bsp.common.id_mode.unlocked"/>
       <property id="config.bsp.common.id_code" value="FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"/>
       <property id="config.bsp.common.id1" value=""/>
@@ -88,6 +91,7 @@
       <property id="config.bsp.common.main_osc_populated" value="config.bsp.common.main_osc_populated.enabled"/>
       <property id="config.bsp.common.pfs_protect" value="config.bsp.common.pfs_protect.enabled"/>
       <property id="config.bsp.common.c_runtime_init" value="config.bsp.common.c_runtime_init.enabled"/>
+      <property id="config.bsp.common.early_init" value="config.bsp.common.early_init.disabled"/>
       <property id="config.bsp.common.main_osc_clock_source" value="config.bsp.common.main_osc_clock_source.crystal"/>
       <property id="config.bsp.common.subclock_populated" value="config.bsp.common.subclock_populated.enabled"/>
       <property id="config.bsp.common.subclock_drive" value="config.bsp.common.subclock_drive.standard"/>
@@ -128,65 +132,65 @@
     <node id="board.clock.uclk.display" option="board.clock.clkout.display.value"/>
   </raClockConfiguration>
   <raComponentSelection>
-    <component apiversion="" class="BSP" condition="" group="Board" subgroup="custom" variant="" vendor="Renesas" version="3.2.0">
+    <component apiversion="" class="BSP" condition="" group="Board" subgroup="custom" variant="" vendor="Renesas" version="3.6.0">
       <description>Custom Board Support Files</description>
-      <originalPack>Renesas.RA_board_custom.3.2.0.pack</originalPack>
+      <originalPack>Renesas.RA_board_custom.3.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra4w1" subgroup="device" variant="R7FA4W1AD2CNG" vendor="Renesas" version="3.2.0">
-      <description>Board support package for R7FA4W1AD2CNG</description>
-      <originalPack>Renesas.RA_mcu_ra4w1.3.2.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra4w1" subgroup="device" variant="" vendor="Renesas" version="3.2.0">
-      <description>Board support package for RA4W1</description>
-      <originalPack>Renesas.RA_mcu_ra4w1.3.2.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra4w1" subgroup="fsp" variant="" vendor="Renesas" version="3.2.0">
-      <description>Board support package for RA4W1 - FSP Data</description>
-      <originalPack>Renesas.RA_mcu_ra4w1.3.2.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="3.2.0">
-      <description>Board Support Package Common Files</description>
-      <originalPack>Renesas.RA.3.2.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_agt" variant="" vendor="Renesas" version="3.2.0">
-      <description>Asynchronous General Purpose Timer</description>
-      <originalPack>Renesas.RA.3.2.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_flash_lp" variant="" vendor="Renesas" version="3.2.0">
-      <description>Flash Memory Low Power</description>
-      <originalPack>Renesas.RA.3.2.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_gpt" variant="" vendor="Renesas" version="3.2.0">
-      <description>General PWM Timer</description>
-      <originalPack>Renesas.RA.3.2.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_icu" variant="" vendor="Renesas" version="3.2.0">
-      <description>External Interrupt</description>
-      <originalPack>Renesas.RA.3.2.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="3.2.0">
-      <description>I/O Port</description>
-      <originalPack>Renesas.RA.3.2.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_lpm" variant="" vendor="Renesas" version="3.2.0">
-      <description>Low Power Modes</description>
-      <originalPack>Renesas.RA.3.2.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_sci_uart" variant="" vendor="Renesas" version="3.2.0">
-      <description>SCI UART</description>
-      <originalPack>Renesas.RA.3.2.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_ble_abs" variant="" vendor="Renesas" version="3.2.0">
-      <description>Bluetooth Low Energy Abstraction</description>
-      <originalPack>Renesas.RA.3.2.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ble_all" variant="" vendor="Renesas" version="3.2.0">
-      <description>Renesas Bluetooth Low Energy Library</description>
-      <originalPack>Renesas.RA.3.2.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="5.7.0+fsp.3.2.0">
+    <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="5.8.0+renesas.0.fsp.3.6.0">
       <description>Arm CMSIS Version 5 - Core (M)</description>
-      <originalPack>Arm.CMSIS5.5.7.0+fsp.3.2.0.pack</originalPack>
+      <originalPack>Arm.CMSIS5.5.8.0+renesas.0.fsp.3.6.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra4w1" subgroup="device" variant="R7FA4W1AD2CNG" vendor="Renesas" version="3.6.0">
+      <description>Board support package for R7FA4W1AD2CNG</description>
+      <originalPack>Renesas.RA_mcu_ra4w1.3.6.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra4w1" subgroup="device" variant="" vendor="Renesas" version="3.6.0">
+      <description>Board support package for RA4W1</description>
+      <originalPack>Renesas.RA_mcu_ra4w1.3.6.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra4w1" subgroup="fsp" variant="" vendor="Renesas" version="3.6.0">
+      <description>Board support package for RA4W1 - FSP Data</description>
+      <originalPack>Renesas.RA_mcu_ra4w1.3.6.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="3.6.0">
+      <description>Board Support Package Common Files</description>
+      <originalPack>Renesas.RA.3.6.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_agt" variant="" vendor="Renesas" version="3.6.0">
+      <description>Asynchronous General Purpose Timer</description>
+      <originalPack>Renesas.RA.3.6.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ble_all" variant="" vendor="Renesas" version="3.6.0">
+      <description>Bluetooth Low Energy Library</description>
+      <originalPack>Renesas.RA.3.6.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_flash_lp" variant="" vendor="Renesas" version="3.6.0">
+      <description>Flash Memory Low Power</description>
+      <originalPack>Renesas.RA.3.6.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_gpt" variant="" vendor="Renesas" version="3.6.0">
+      <description>General PWM Timer</description>
+      <originalPack>Renesas.RA.3.6.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_icu" variant="" vendor="Renesas" version="3.6.0">
+      <description>External Interrupt</description>
+      <originalPack>Renesas.RA.3.6.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="3.6.0">
+      <description>I/O Port</description>
+      <originalPack>Renesas.RA.3.6.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_lpm" variant="" vendor="Renesas" version="3.6.0">
+      <description>Low Power Modes</description>
+      <originalPack>Renesas.RA.3.6.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_sci_uart" variant="" vendor="Renesas" version="3.6.0">
+      <description>SCI UART</description>
+      <originalPack>Renesas.RA.3.6.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_ble_abs" variant="" vendor="Renesas" version="3.6.0">
+      <description>Bluetooth Low Energy Abstraction</description>
+      <originalPack>Renesas.RA.3.6.0.pack</originalPack>
     </component>
   </raComponentSelection>
   <raElcConfiguration/>
@@ -198,6 +202,10 @@
       <property id="module.driver.ioport.elc_trigger_ioport2" value="_disabled"/>
       <property id="module.driver.ioport.elc_trigger_ioport3" value="_disabled"/>
       <property id="module.driver.ioport.elc_trigger_ioport4" value="_disabled"/>
+      <property id="module.driver.ioport.elc_trigger_ioportb" value="_disabled"/>
+      <property id="module.driver.ioport.elc_trigger_ioportc" value="_disabled"/>
+      <property id="module.driver.ioport.elc_trigger_ioportd" value="_disabled"/>
+      <property id="module.driver.ioport.elc_trigger_ioporte" value="_disabled"/>
       <property id="module.driver.ioport.pincfg" value="g_bsp_pin_cfg"/>
     </module>
     <module id="module.driver.ble_abs_on_ble.478786874">
@@ -338,6 +346,10 @@
       <property id="module.driver.uart.rx_edge_start" value="module.driver.uart.rx_edge_start.falling_edge"/>
       <property id="module.driver.uart.noisecancel_en" value="module.driver.uart.noisecancel_en.disabled"/>
       <property id="module.driver.uart.rx_fifo_trigger" value="module.driver.uart.rx_fifo_trigger.max"/>
+      <property id="module.driver.uart.rs485.de_enable" value="module.driver.uart.rs485.de_enable.disabled"/>
+      <property id="module.driver.uart.rs485.de_polarity" value="module.driver.uart.rs485.de_polarity.high"/>
+      <property id="module.driver.uart.rs485.de_port_number" value="module.driver.uart.rs485.de_port_number.PORT_DISABLE"/>
+      <property id="module.driver.uart.rs485.de_pin_number" value="module.driver.uart.rs485.de_pin_number.PIN_DISABLE"/>
       <property id="module.driver.uart.callback" value="user_uart_callback_ble_cli"/>
       <property id="module.driver.uart.rxi_ipl" value="board.icu.common.irq.priority2"/>
       <property id="module.driver.uart.txi_ipl" value="board.icu.common.irq.priority2"/>
@@ -360,6 +372,7 @@
     </context>
     <config id="config.driver.lpm">
       <property id="config.driver.lpm.param_checking_enable" value="config.driver.lpm.param_checking_enable.bsp"/>
+      <property id="config.driver.lpm.standby_limit" value="config.driver.lpm.standby_limit.disabled"/>
     </config>
     <config id="config.driver.ioport">
       <property id="config.driver.ioport.checking" value="config.driver.ioport.checking.system"/>
@@ -421,11 +434,13 @@
       <property id="config.driver.sci_uart.fifo_support" value="config.driver.sci_uart.fifo_support.disabled"/>
       <property id="config.driver.sci_uart.dtc_support" value="config.driver.sci_uart.dtc_support.disabled"/>
       <property id="config.driver.sci_uart.flow_control" value="config.driver.sci_uart.flow_control.disabled"/>
+      <property id="config.driver.sci_uart.rs485" value="config.driver.sci_uart.rs485.disabled"/>
     </config>
     <config id="config.driver.gpt">
       <property id="config.driver.gpt.param_checking_enable" value="config.driver.gpt.param_checking_enable.bsp"/>
       <property id="config.driver.gpt.output_support_enable" value="config.driver.gpt.output_support_enable.disabled"/>
       <property id="config.driver.gpt.write_protect_enable" value="config.driver.gpt.write_protect_enable.disabled"/>
+      <property id="config.driver.gpt.gpt_core_clock" value="module.driver.timer.gpt_core_clock.pclk"/>
     </config>
   </raModuleConfiguration>
   <raPinConfiguration>

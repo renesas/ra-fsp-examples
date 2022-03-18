@@ -1,1 +1,0 @@
-start "J-Link" "JLink\JLink.exe" -commanderscript RA6M3_Erase_SMPU.jlink
