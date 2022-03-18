@@ -18,7 +18,7 @@
  * following link:
  * http://www.renesas.com/disclaimer
  *
- * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
+ * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  ***********************************************************************************************************************/
 
 
@@ -27,6 +27,8 @@
 
 #if defined (BOARD_RA6M3_EK) || defined (BOARD_RA6M3G_EK)
 #define KIT_NAME                "EK-RA6M3"
+#else
+#define KIT_NAME                "EK-RA6M5"
 #endif
 
 

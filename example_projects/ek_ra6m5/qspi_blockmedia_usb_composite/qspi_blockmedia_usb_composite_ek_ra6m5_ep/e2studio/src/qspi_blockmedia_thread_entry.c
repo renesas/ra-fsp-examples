@@ -23,7 +23,7 @@
 #include "qspi_blockmedia_thread.h"
 #include "common_utils.h"
 #include "qspi_blockmedia.h"
-#include "board_qspi.h"
+#include "setup_qspi.h"
 
 /*******************************************************************************************************************//**
  * @addtogroup qspi_blockmedia_usb_composite_ep
@@ -61,7 +61,12 @@ void qspi_blockmedia_thread_entry(void *pvParameters)
      APP_PRINT(EP_INFO);
 
      /* QSPI initialization  */
-     bsp_qspi_init();
+     err = setup_qspi(&g_qspi_ctrl, &g_qspi_cfg);
+     if(FSP_SUCCESS != err)
+     {
+         APP_ERR_PRINT("\r\nsetup_qspi failed.\r\n");
+         APP_ERR_TRAP(err);
+     }
 
      /* Open USB instance */
      err = R_USB_Open (&g_basic_ctrl, &g_basic_cfg);

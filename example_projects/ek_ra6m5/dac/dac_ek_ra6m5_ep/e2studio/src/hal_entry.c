@@ -39,7 +39,7 @@ static volatile bool b_error_flag = false;
 
 /* variable to store scanned ADC data */
 static uint16_t g_adc_data = RESET_VALUE;
-#ifdef BOARD_RA2A1_EK
+#if (defined BOARD_RA2A1_EK) || (defined BOARD_RA6T2_MCK)
 /* Function for ADC calibration on RA2A1 board */
 static fsp_err_t adc_start_calibration(void);
 /* Flag to notify successful calibration completion */
@@ -71,6 +71,17 @@ void hal_entry(void)
     APP_PRINT(BANNER_INFO, EP_VERSION, version.major, version.minor, version.patch);
     APP_PRINT(EP_INFO);
 
+    /* Configure DAC12 output pin for EK-RA2A1 */
+#if defined BOARD_RA2A1_EK
+    err = R_IOPORT_PinCfg(&g_ioport_ctrl, DAC12_OUTPUT_PIN, IOPORT_CFG_ANALOG_ENABLE | IOPORT_CFG_PERIPHERAL_PIN | IOPORT_PERIPHERAL_CAC_AD);
+    /* Handle error */
+    if (FSP_SUCCESS != err)
+    {
+        APP_ERR_PRINT("\r\n ** IOPORT Pincfg failed ** \r\n");
+        APP_ERR_TRAP(err);
+    }
+#endif
+
     /* Open the DAC channel */
     err = R_DAC_Open (&g_dac_ctrl, &g_dac_cfg);
     /* handle error */
@@ -81,7 +92,12 @@ void hal_entry(void)
         APP_ERR_TRAP(err);
     }
     /* Open/Initialize ADC module */
+#if ! (defined(BOARD_RA4W1_EK) || defined(BOARD_RA6T1_RSSK))
+#if defined (BOARD_RA6T2_MCK)
+    err = R_ADC_B_Open (&g_adc_ctrl, &g_adc_cfg);
+#else
     err = R_ADC_Open (&g_adc_ctrl, &g_adc_cfg);
+#endif
     /* Handle error */
     if (FSP_SUCCESS != err)
     {
@@ -91,9 +107,9 @@ void hal_entry(void)
         APP_ERR_TRAP(err);
     }
 
-#ifdef BOARD_RA2A1_EK
+#if (defined BOARD_RA2A1_EK) || (defined BOARD_RA6T2_MCK)
     /* Set Reference Voltage Circuit Control register */
-    g_adc_ctrl.p_reg->VREFAMPCNT |= ((VREFADCG_VALUE) | (VREFADCG_ENABLE));
+    R_ADC0->VREFAMPCNT |= ((VREFADCG_VALUE) | (VREFADCG_ENABLE));
 
     /* Calibrate the ADC for RA2A1 board */
     err = adc_start_calibration ();
@@ -109,7 +125,11 @@ void hal_entry(void)
 #endif
 
     /* Configures the ADC scan parameters */
+#if defined (BOARD_RA6T2_MCK)
+    err = R_ADC_B_ScanCfg (&g_adc_ctrl, &g_adc_scan_cfg);
+#else
     err = R_ADC_ScanCfg (&g_adc_ctrl, &g_adc_channel_cfg);
+#endif
     /* handle error */
     if (FSP_SUCCESS != err)
     {
@@ -119,6 +139,8 @@ void hal_entry(void)
         APP_ERR_PRINT("** ADC ScanCfg API failed ** \r\n");
         APP_ERR_TRAP(err);
     }
+#endif
+
     APP_PRINT("\r\nEnter values for DAC conversion. Input Range:1 to 4095\r\n")
 
     while (true)
@@ -153,6 +175,10 @@ void hal_entry(void)
         {
             b_is_read_complete = false;
             APP_PRINT("\r\nData read from ADC channel: %d\r\n", g_adc_data);
+
+#if defined(BOARD_RA4W1_EK) || defined( BOARD_RA6T1_RSSK)
+            adc_deinit();
+#endif
         }
         else if (true == b_error_flag)
         {
@@ -199,7 +225,7 @@ static fsp_err_t read_process_input_from_RTT(void)
     return err;
 }
 
-#ifdef BOARD_RA2A1_EK
+#if (defined BOARD_RA2A1_EK) || (defined BOARD_RA6T2_MCK)
 /*******************************************************************************************************************//**
  * @brief    This function initiates the ADC calibration
  * @param[IN]   None
@@ -213,7 +239,11 @@ static fsp_err_t adc_start_calibration(void)
     APP_PRINT("\r\nADC Calibration Started \r\n");
 
     /* Initiate ADC calibration */
+#if defined (BOARD_RA6T2_MCK)
+    err = R_ADC_B_Calibrate (&g_adc_ctrl, NULL);
+#else
     err = R_ADC_Calibrate (&g_adc_ctrl, NULL);
+#endif
     /* Handle error */
     if (FSP_SUCCESS != err)
     {
@@ -222,7 +252,6 @@ static fsp_err_t adc_start_calibration(void)
     }
 
     while (!b_is_calibration_complete); //Wait here till the calibration is complete.It takes 24msec to 780msec based on clock
-
 
     APP_PRINT("\r\nADC Calibration Successful\r\n");
 
@@ -260,8 +289,44 @@ static fsp_err_t dac_adc_operations(int32_t * input)
         return err;
     }
 
+    /*As per mention in section 35.3.1 of EK-RA4W1 hardware user manual, DAC can't be synchronized with ADC
+     * because both are sharing the same bus */
+#if defined(BOARD_RA4W1_EK) || defined( BOARD_RA6T1_RSSK)
+    /* Open/Initialize ADC module */
+    err = R_ADC_Open (&g_adc_ctrl, &g_adc_cfg);
+    /* Handle error */
+    if (FSP_SUCCESS != err)
+    {
+        /*ADC module open failed */
+        dac_deinit();
+        APP_ERR_PRINT("\r\n ** ADC module Open failed ** \r\n");
+        APP_ERR_TRAP(err);
+    }
+
+    /* Configures the ADC scan parameters */
+    err = R_ADC_ScanCfg (&g_adc_ctrl, &g_adc_channel_cfg);
+    /* handle error */
+    if (FSP_SUCCESS != err)
+    {
+        adc_deinit();
+        dac_deinit();
+        /* ADC Failure message */
+        APP_ERR_PRINT("** ADC ScanCfg API failed ** \r\n");
+        APP_ERR_TRAP(err);
+    }
+#endif
+
+    /* As mentioned in DAC properties and Electrical characteristics of RA2A1 User Manual (Section 47.7),
+     * a software delay has to be given for stabilizing the voltage on DAC output pin.
+     * Also referred as DAC conversion time delay.*/
+    R_BSP_SoftwareDelay(STABILIZATION_DELAY, BSP_DELAY_UNITS_MILLISECONDS);
+
     /* Start the ADC scan in Single scan mode*/
+#if defined (BOARD_RA6T2_MCK)
+    err = R_ADC_B_ScanStart (&g_adc_ctrl);
+#else
     err = R_ADC_ScanStart (&g_adc_ctrl);
+#endif
     /* handle error */
     if (FSP_SUCCESS != err)
     {
@@ -281,6 +346,7 @@ static fsp_err_t dac_adc_operations(int32_t * input)
     return err;
 }
 
+
 /*******************************************************************************************************************//**
  * @brief ADC callback function.
  * @param[in]  p_args
@@ -293,7 +359,13 @@ void g_adc_callback(adc_callback_args_t *p_args)
         fsp_err_t err = FSP_SUCCESS;     // Error status
 
         /* Read the result after ADC Scan is complete */
+#if defined BOARD_RA4W1_EK
+        err = R_ADC_Read (&g_adc_ctrl, ADC_CHANNEL_4, &g_adc_data);
+#elif defined BOARD_RA6T2_MCK
+        err = R_ADC_B_Read (&g_adc_ctrl, ADC_CHANNEL_0, &g_adc_data);
+#else
         err = R_ADC_Read (&g_adc_ctrl, ADC_CHANNEL_0, &g_adc_data);
+#endif
         /* handle error */
         if (FSP_SUCCESS != err)
         {
@@ -304,7 +376,8 @@ void g_adc_callback(adc_callback_args_t *p_args)
             b_is_read_complete = true;
         }
     }
-#ifdef BOARD_RA2A1_EK
+
+#if (defined BOARD_RA2A1_EK) || (defined BOARD_RA6T2_MCK)
     /*Check if calibration is complete and set flag */
     else if (ADC_EVENT_CALIBRATION_COMPLETE == p_args->event)
     {
@@ -346,7 +419,11 @@ static void adc_deinit(void)
     fsp_err_t err = FSP_SUCCESS;
 
     /* Close ADC module */
+#if defined (BOARD_RA6T2_MCK)
+    err = R_ADC_B_Close(&g_adc_ctrl);
+#else
     err = R_ADC_Close(&g_adc_ctrl);
+#endif
     /* Handle error */
     if (FSP_SUCCESS != err)
     {

@@ -32,6 +32,12 @@
 #define DAC_MIN_VAL   (1)
 #define DAC_MAX_VAL   (4095)
 
+/*DAC Output Pin for EK-RA2A1 */
+#define DAC12_OUTPUT_PIN (BSP_IO_PORT_05_PIN_00)
+
+/* DAC stabilization time (1ms)*/
+#define STABILIZATION_DELAY    (1)
+
 /* Macro to set internal reference voltage value as 2.5V*/
 #define VREFADCG_VALUE    0x06
 

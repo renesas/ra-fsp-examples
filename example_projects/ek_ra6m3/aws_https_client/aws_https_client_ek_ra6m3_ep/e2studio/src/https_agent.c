@@ -1,6 +1,6 @@
 /***********************************************************************************************************************
  * File Name    : https_agent.c
- * Description  : This file contains the User Application code for the https_agent cleint connection
+ * Description  : This file contains the User Application code for the https_agent client connection
  ***********************************************************************************************************************/
 /***********************************************************************************************************************
  * DISCLAIMER
@@ -18,7 +18,7 @@
  * following link:
  * http://www.renesas.com/disclaimer
  *
- * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
+ * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  ***********************************************************************************************************************/
 
 #include "https_agent.h"
@@ -114,16 +114,16 @@ IotHttpsReturnCode_t initialize_https_client(char *pURL)
      * without the query into pathLen. */
     httpsClientStatus = IotHttpsClient_GetUrlPath (pURL, strlen (pURL), &pPath, &pathLen);
     /* Error Handler */
-    if (httpsClientStatus != IOT_HTTPS_OK)
+    if (IOT_HTTPS_OK != httpsClientStatus)
     {
-        APP_PRINT("An error occurred in IotHttpsClient_GetUrlPath() on URL %s. Error code: %d", pURL, httpsClientStatus);
+        APP_ERR_PRINT("An error occurred in IotHttpsClient_GetUrlPath() on URL %s. Error code: %d", pURL, httpsClientStatus);
         return httpsClientStatus;
     }
 
     /* Retrieve the address location and length from the IOT_DEMO_HTTPS_PRESIGNED_GET_URL.*/
     httpsClientStatus = IotHttpsClient_GetUrlAddress (pURL, strlen (pURL), &pAddress, &addressLen);
     /* Error Handler */
-    if (httpsClientStatus != IOT_HTTPS_OK)
+    if (IOT_HTTPS_OK != httpsClientStatus)
     {
         APP_ERR_PRINT("An error occurred in GetUrlAddress() on URL %s\r\n. Error code %d", pURL, httpsClientStatus);
         return httpsClientStatus;
@@ -136,7 +136,7 @@ IotHttpsReturnCode_t initialize_https_client(char *pURL)
     /* Error Handler */
     if (IOT_HTTPS_OK != httpsClientStatus)
     {
-        APP_PRINT("Fail to initialize HTTP library. Error code: %d\r\n", httpsClientStatus);
+        APP_ERR_PRINT("Fail to initialize HTTP library. Error code: %d\r\n", httpsClientStatus);
 
         return httpsClientStatus;
     }
@@ -153,7 +153,7 @@ IotHttpsReturnCode_t initialize_https_client(char *pURL)
  * @retval     IOT_HTTPS_OK                 Upon successful client Initialization.
  * @retval     Any other Error Code         Upon unsuccessful client Initialization.
  **********************************************************************************************************************/
-IotHttpsReturnCode_t connect_aws_client(const IotNetworkInterface_t *pNetworkInterface)
+IotHttpsReturnCode_t connect_aws_https_client(const IotNetworkInterface_t *pNetworkInterface)
 {
     /* The current attempt in the number of connection tries. */
     uint32_t connAttempt = RESET_VALUE;
@@ -167,9 +167,9 @@ IotHttpsReturnCode_t connect_aws_client(const IotNetworkInterface_t *pNetworkInt
     connConfig.userBuffer.pBuffer = _pConnUserBuffer;
     connConfig.userBuffer.bufferLen = sizeof(_pConnUserBuffer);
     connConfig.pClientCert = keyCLIENT_CERTIFICATE_PEM;
-    connConfig.clientCertLen = sizeof( keyCLIENT_CERTIFICATE_PEM);
+    connConfig.clientCertLen = sizeof(keyCLIENT_CERTIFICATE_PEM);
     connConfig.pPrivateKey = keyCLIENT_PRIVATE_KEY_PEM;
-    connConfig.privateKeyLen = sizeof( keyCLIENT_PRIVATE_KEY_PEM);
+    connConfig.privateKeyLen = sizeof(keyCLIENT_PRIVATE_KEY_PEM);
     connConfig.pNetworkInterface = pNetworkInterface;
     connConfig.flags = RESET_VALUE;
 
@@ -180,8 +180,8 @@ IotHttpsReturnCode_t connect_aws_client(const IotNetworkInterface_t *pNetworkInt
 
         if ((httpsClientStatus == IOT_HTTPS_CONNECTION_ERROR) && (connAttempt < IOT_DEMO_HTTPS_CONNECTION_NUM_RETRY))
         {
-            APP_ERR_PRINT("Failed to connect the server, retrying after %ld ms.\r\n", IOT_DEMO_HTTPS_CONNECTION_RETRY_WAIT_MS);
-            IotClock_SleepMs ( IOT_DEMO_HTTPS_CONNECTION_RETRY_WAIT_MS);
+            APP_ERR_PRINT("Failed to connect the server, retrying after 3000 ms.\r\n");
+            IotClock_SleepMs (IOT_DEMO_HTTPS_CONNECTION_RETRY_WAIT_MS);
             continue;
         }
         else
@@ -189,9 +189,9 @@ IotHttpsReturnCode_t connect_aws_client(const IotNetworkInterface_t *pNetworkInt
             break;
         }
     }
-    if (httpsClientStatus != IOT_HTTPS_OK)
+    if (IOT_HTTPS_OK != httpsClientStatus)
     {
-        APP_PRINT("Unable to connect the server. Error code: %d.\r\n", httpsClientStatus);
+        APP_ERR_PRINT("Unable to connect the server. Error code: %d.\r\n", httpsClientStatus);
         if (connHandle != NULL)
         {
             IotHttpsClient_Disconnect (connHandle);
@@ -205,6 +205,7 @@ IotHttpsReturnCode_t connect_aws_client(const IotNetworkInterface_t *pNetworkInt
     APP_PRINT("\r\nConnected to the server\r\n");
     return httpsClientStatus;
 }
+
 /*******************************************************************************************************************//**
  * @brief      Process GET request and read the response from the server
  *
@@ -236,7 +237,7 @@ IotHttpsReturnCode_t Process_GETRequest(void)
     IotHttpsResponseHandle_t respHandle = IOT_HTTPS_RESPONSE_HANDLE_INITIALIZER;
 
     /* Set the configurations needed for a synchronous response. */
-    respSyncInfo.pBody = _pRespBodyBuffer; /* This is a GET request so should configure a place to retreive the
+    respSyncInfo.pBody = _pRespBodyBuffer; /* This is a GET request so should configure a place to retrieve the
      * response body. */
     respSyncInfo.bodyLen = sizeof(_pRespBodyBuffer); /* The length of the GET request's response body. This should be
      * greater than or equal to the size of the file requested, for the
@@ -252,9 +253,9 @@ IotHttpsReturnCode_t Process_GETRequest(void)
     /* Initialize the server connection request */
     httpsClientStatus = IotHttpsClient_InitializeRequest (&reqHandle, &reqConfig);
     /* Error Handler */
-    if (httpsClientStatus != IOT_HTTPS_OK)
+    if (IOT_HTTPS_OK != httpsClientStatus)
     {
-        APP_PRINT("An error occurred in IotHttpsClient_InitializeRequest() with error code: %d", httpsClientStatus);
+        APP_ERR_PRINT("An error occurred in IotHttpsClient_InitializeRequest() with error code: %d", httpsClientStatus);
         /* Disconnect from the server even if the server may have already disconnected us. */
         if (connHandle != NULL)
         {
@@ -270,7 +271,7 @@ IotHttpsReturnCode_t Process_GETRequest(void)
 #if PRIVATE_KEY
     /* Adding header to send https request in JSON format */
     httpsClientStatus = add_header (reqHandle);
-    if (httpsClientStatus != IOT_HTTPS_OK)
+    if (IOT_HTTPS_OK != httpsClientStatus)
     {
         return httpsClientStatus;
     }
@@ -279,15 +280,15 @@ IotHttpsReturnCode_t Process_GETRequest(void)
     /* Send Synchronous request with the configured connections provided by the user */
     httpsClientStatus = IotHttpsClient_SendSync (connHandle, reqHandle, &respHandle, &respConfig, IOT_DEMO_HTTPS_SYNC_NO_DELAY);
     /* Error Handler */
-    if (httpsClientStatus != IOT_HTTPS_OK)
+    if (IOT_HTTPS_OK != httpsClientStatus)
     {
         /* Due to network error synchronous request may fail. Try to reconnect to the server */
         httpsClientStatus = IotHttpsClient_Connect (&connHandle, &connConfig);
-        if (httpsClientStatus != IOT_HTTPS_OK)
+        if (IOT_HTTPS_OK != httpsClientStatus)
         {
             APP_ERR_PRINT("Failed receiving the response on a second try after a network error. The error code is: %d", httpsClientStatus);
             /* Disconnect from the server even if the server may have already disconnected us. */
-            if (connHandle != NULL)
+            if (NULL != connHandle)
             {
                 IotHttpsClient_Disconnect (connHandle);
             }
@@ -300,11 +301,11 @@ IotHttpsReturnCode_t Process_GETRequest(void)
     /* Read the response status from the server */
     httpsClientStatus = IotHttpsClient_ReadResponseStatus (respHandle, &respStatus);
     /* Error Handler */
-    if (httpsClientStatus != IOT_HTTPS_OK)
+    if (IOT_HTTPS_OK != httpsClientStatus)
     {
-        APP_PRINT("Error in retrieving the response status. Error code %d", httpsClientStatus);
+        APP_ERR_PRINT("Error in retrieving the response status. Error code %d", httpsClientStatus);
         /* Disconnect from the server even if the server may have already disconnected us. */
-        if (connHandle != NULL)
+        if (NULL != connHandle)
         {
             IotHttpsClient_Disconnect (connHandle);
         }
@@ -349,7 +350,7 @@ IotHttpsReturnCode_t Process_PUTRequest(float mcu_die_temp)
     }
 
     /* Feed ID is appending to the IOT_DEMO_HTTPS_PRESIGNED_PUT_POST_URL for processing the PUT Request */
-    strncat (pPath_url, id, ID_LEN);
+    strcat (pPath_url, id);
     /* The path is everything that is not the address. It also includes the query. So we get the strlen( pPath ) to
      * acquire everything following in IOT_DEMO_HTTPS_PRESIGNED_PUT_URL. */
     /* Set the request configurations. */
@@ -381,11 +382,11 @@ IotHttpsReturnCode_t Process_PUTRequest(float mcu_die_temp)
     /* Initialize server connection request */
     httpsClientStatus = IotHttpsClient_InitializeRequest (&reqHandle, &reqConfig);
     /* Error Handler */
-    if (httpsClientStatus != IOT_HTTPS_OK)
+    if (IOT_HTTPS_OK != httpsClientStatus)
     {
-        APP_PRINT("An error occurred in PUT Request at IotHttpsClient_InitializeRequest() with error code: %d", httpsClientStatus);
+        APP_ERR_PRINT("An error occurred in PUT Request at IotHttpsClient_InitializeRequest() with error code: %d", httpsClientStatus);
         /* Disconnect from the server even if the server may have already disconnected us. */
-        if (connHandle != NULL)
+        if (NULL != connHandle)
         {
             IotHttpsClient_Disconnect (connHandle);
         }
@@ -396,7 +397,7 @@ IotHttpsReturnCode_t Process_PUTRequest(float mcu_die_temp)
 
     /* Adding header to send https request in JSON format */
     httpsClientStatus = add_header (reqHandle);
-    if (httpsClientStatus != IOT_HTTPS_OK)
+    if (IOT_HTTPS_OK != httpsClientStatus)
     {
         return httpsClientStatus;
     }
@@ -404,18 +405,18 @@ IotHttpsReturnCode_t Process_PUTRequest(float mcu_die_temp)
     /* Send Synchronous request with the configured connections provided by the user */
     httpsClientStatus = IotHttpsClient_SendSync (connHandle, reqHandle, &respHandle, &respConfig, IOT_DEMO_HTTPS_SYNC_NO_DELAY);
     /* Error Handler */
-    if (httpsClientStatus != IOT_HTTPS_OK)
+    if (IOT_HTTPS_OK != httpsClientStatus)
     {
         /* Due to network error synchronous request may fail. Try to reconnect to the server */
         httpsClientStatus = IotHttpsClient_Connect (&connHandle, &connConfig);
         /* Error Handler */
-        if (httpsClientStatus != IOT_HTTPS_OK)
+        if (IOT_HTTPS_OK != httpsClientStatus)
         {
 
-            APP_PRINT("Failed receiving the response on a second try after a network error. The error code is: %d", httpsClientStatus);
+            APP_ERR_PRINT("Failed receiving the response on a second try after a network error. The error code is: %d", httpsClientStatus);
 
             /* Disconnect from the server even if the server may have already disconnected us. */
-            if (connHandle != NULL)
+            if (NULL != connHandle)
             {
                 IotHttpsClient_Disconnect (connHandle);
             }
@@ -428,13 +429,13 @@ IotHttpsReturnCode_t Process_PUTRequest(float mcu_die_temp)
     /* Read the response status from the server */
     httpsClientStatus = IotHttpsClient_ReadResponseStatus (respHandle, &respStatus);
     /* Error Handler */
-    if (httpsClientStatus != IOT_HTTPS_OK)
+    if (IOT_HTTPS_OK != httpsClientStatus)
     {
 
-        APP_PRINT("Error in retrieving the response status. Error code %d", httpsClientStatus);
+        APP_ERR_PRINT("Error in retrieving the response status. Error code %d", httpsClientStatus);
 
         /* Disconnect from the server even if the server may have already disconnected us. */
-        if (connHandle != NULL)
+        if (NULL != connHandle)
         {
             IotHttpsClient_Disconnect (connHandle);
         }
@@ -486,11 +487,11 @@ IotHttpsReturnCode_t Process_POSTRequest(float mcu_die_temp)
     /* Initialize server connection request */
     httpsClientStatus = IotHttpsClient_InitializeRequest (&reqHandle, &reqConfig);
     /* Error Handler */
-    if (httpsClientStatus != IOT_HTTPS_OK)
+    if (IOT_HTTPS_OK != httpsClientStatus)
     {
-        APP_PRINT("An error occurred in POST Request at IotHttpsClient_InitializeRequest() with error code: %d", httpsClientStatus);
+        APP_ERR_PRINT("An error occurred in POST Request at IotHttpsClient_InitializeRequest() with error code: %d", httpsClientStatus);
         /* Disconnect from the server even if the server may have already disconnected us. */
-        if (connHandle != NULL)
+        if (NULL != connHandle)
         {
             IotHttpsClient_Disconnect (connHandle);
         }
@@ -501,7 +502,7 @@ IotHttpsReturnCode_t Process_POSTRequest(float mcu_die_temp)
 
     /* Adding header to send https request in JSON format */
     httpsClientStatus = add_header (reqHandle);
-    if (httpsClientStatus != IOT_HTTPS_OK)
+    if (IOT_HTTPS_OK != httpsClientStatus)
     {
         return httpsClientStatus;
     }
@@ -509,16 +510,16 @@ IotHttpsReturnCode_t Process_POSTRequest(float mcu_die_temp)
     /* Send Synchronous request with the configured connections provided by the user */
     httpsClientStatus = IotHttpsClient_SendSync (connHandle, reqHandle, &respHandle, &respConfig, IOT_DEMO_HTTPS_SYNC_NO_DELAY);
     /* Error Handler */
-    if (httpsClientStatus != IOT_HTTPS_OK)
+    if (IOT_HTTPS_OK != httpsClientStatus)
     {
         /* Due to network error synchronous request may fail. Try to reconnect to the server */
         httpsClientStatus = IotHttpsClient_Connect (&connHandle, &connConfig);
         /* Error Handler */
-        if (httpsClientStatus != IOT_HTTPS_OK)
+        if (IOT_HTTPS_OK != httpsClientStatus)
         {
-            APP_PRINT("Failed receiving the response on a second try after a network error. The error code is: %d", httpsClientStatus);
+            APP_ERR_PRINT("Failed receiving the response on a second try after a network error. The error code is: %d", httpsClientStatus);
             /* Disconnect from the server even if the server may have already disconnected us. */
-            if (connHandle != NULL)
+            if (NULL != connHandle)
             {
                 IotHttpsClient_Disconnect (connHandle);
             }
@@ -531,11 +532,11 @@ IotHttpsReturnCode_t Process_POSTRequest(float mcu_die_temp)
     /* Read the response status from the server */
     httpsClientStatus = IotHttpsClient_ReadResponseStatus (respHandle, &respStatus);
     /* Error Handler */
-    if (httpsClientStatus != IOT_HTTPS_OK)
+    if (IOT_HTTPS_OK != httpsClientStatus)
     {
-        APP_PRINT("Error in retrieving the response status. Error code %d", httpsClientStatus);
+        APP_ERR_PRINT("Error in retrieving the response status. Error code %d", httpsClientStatus);
         /* Disconnect from the server even if the server may have already disconnected us. */
-        if (connHandle != NULL)
+        if (NULL != connHandle)
         {
             IotHttpsClient_Disconnect (connHandle);
         }
@@ -563,12 +564,12 @@ IotHttpsReturnCode_t add_header(IotHttpsRequestHandle_t pReqHandle)
     httpsClientStatus = IotHttpsClient_AddHeader (pReqHandle, "Content-Type", strlen ("Content-Type"),
                                                   "application/json", strlen ("application/json"));
     /* Error Handler */
-    if (httpsClientStatus != IOT_HTTPS_OK)
+    if (IOT_HTTPS_OK != httpsClientStatus)
     {
-        APP_PRINT("An error occurred at adding json format in IotHttpsClient_AddHeader() with error code: %d",
+        APP_ERR_PRINT("An error occurred at adding json format in IotHttpsClient_AddHeader() with error code: %d",
                   httpsClientStatus);
         /* Disconnect from the server even if the server may have already disconnected us. */
-        if (connHandle != NULL)
+        if (NULL != connHandle)
         {
             IotHttpsClient_Disconnect (connHandle);
         }
@@ -582,11 +583,11 @@ IotHttpsReturnCode_t add_header(IotHttpsRequestHandle_t pReqHandle)
      **/
     httpsClientStatus = IotHttpsClient_AddHeader (pReqHandle, "X-AIO-Key", strlen ("X-AIO-Key"), ACTIVE_KEY, strlen (ACTIVE_KEY));
     /* Error Handler */
-    if (httpsClientStatus != IOT_HTTPS_OK)
+    if (IOT_HTTPS_OK != httpsClientStatus)
     {
-        APP_PRINT("An error occurred at adding Active Key in IotHttpsClient_AddHeader() with error code: %d", httpsClientStatus);
+        APP_ERR_PRINT("An error occurred at adding Active Key in IotHttpsClient_AddHeader() with error code: %d", httpsClientStatus);
         /* Disconnect from the server even if the server may have already disconnected us. */
-        if (connHandle != NULL)
+        if (NULL != connHandle)
         {
             IotHttpsClient_Disconnect (connHandle);
         }

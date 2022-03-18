@@ -50,8 +50,10 @@ This section describes FSP Configurator properties which are important or differ
 | :-------------------------------------: | :---------------: | :------------: | :--------: |
 |   configuration.xml -> g_basic USB Driver on R_USB_Basic > Settings > Property > Module g_basic USB Driver on R_USB_Basic > USB RTOS Callback  |   NULL   |   usb_composite_callback   |   As RTOS is used, so the callback function is set and this callback function will notify user about occurance of usb events.   |
 |   configuration.xml -> g_qspi QSPI Driver on r_qspi > Settings > Property > Module g_qspi QSPI Driver on r_qspi > General > SPI Protocol   |   Extended SPI   |   QPI   |   MCU's QSPI controller is initialized in QPI mode/configuration   |   
+|   configuration.xml -> g_qspi QSPI Driver on r_qspi > Settings > Property > Module g_qspi QSPI Driver on r_qspi > General > Address Bytes   |   3   |   4   |   This is changed because QSPI flash is of 256 Mb.   |
 |   configuration.xml -> QSPI BM Thread > Settings > Property > Thread > Dynamic Allocation support  |   Disabled   |   Enabled   |   RTOS objects can be created using RAM that is automatically allocated from the FreeRTOS heap.   |
 |   configuration.xml -> QSPI BM Thread > Settings > Property > Thread > Total Heap Size  |   0   |   30000   |   This is changed because Dynamic Allocation support is enabled, so application makes use of amount of RAM available in the FreeRTOS heap.   |
+|   configuration.xml -> QSPI BM Thread > g_pmsc USB PMSC (r_usb_pmsc) > Settings > Property > Common > Sector size  |   512   |   4096   |   This is changed because sector size for QSPI is 4096.   |
 
 ## API Usage ##
 
@@ -87,7 +89,6 @@ Below images showcases the device enumeration in device manager :
 ![usb_composite_image](images/PID_VID_Composite_PCDC.jpg "CDC Device")
 
 ### Additional Steps ###  
-* Adjust Storage Sector Size in USB to match QSPI BLOCK Size (ra\fsp\src\r_usb_pmsc\src\inc\r_usb_patapi.h) #define USB_ATAPI_BLOCK_UNIT  (0x1000UL)
 * Build Download and Run firmware on board. Connect the cable to USB peripheral connector.
 * Confirm that the PC detects an unformatted media using the "Disk Management" application on Windows.
 ![dusk_management](images/Disk_management.jpg "Disk management")

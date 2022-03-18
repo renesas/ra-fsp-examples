@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<raConfiguration version="6">
+<raConfiguration version="7">
   <generalSettings>
     <option key="#Board#" value="board.ra4m3ek" />
     <option key="CPU" value="RA4M3" />
@@ -8,7 +8,7 @@
     <option key="#DeviceCommand#" value="R7FA4M3AF" />
     <option key="#RTOS#" value="_none" />
     <option key="#pinconfiguration#" value="R7FA4M3AF3CFB.pincfg" />
-    <option key="#FSPVersion#" value="3.5.0" />
+    <option key="#FSPVersion#" value="3.6.0" />
     <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra4m3_ek##" />
     <option key="#SELECTED_TOOLCHAIN#" value="gcc-arm-embedded" />
     <option key="#ToolchainVersion#" value="9.3.1.20200408" />
@@ -68,6 +68,8 @@
       <property id="config.bsp.fsp.mcu.sci_spi.max_bitrate" value="25000000" />
       <property id="config.bsp.fsp.mcu.spi.max_bitrate" value="50000000" />
       <property id="config.bsp.fsp.mcu.iic_master.rate.rate_fastplus" value="1" />
+      <property id="config.bsp.fsp.mcu.sci_uart.cstpen_channels" value="0x0219" />
+      <property id="config.bsp.fsp.mcu.gpt.pin_count_source_channels" value="0xFFFF" />
     </config>
     <config id="config.bsp.ra">
       <property id="config.bsp.common.main" value="0x400" />
@@ -80,6 +82,7 @@
       <property id="config.bsp.common.main_osc_populated" value="config.bsp.common.main_osc_populated.enabled" />
       <property id="config.bsp.common.pfs_protect" value="config.bsp.common.pfs_protect.enabled" />
       <property id="config.bsp.common.c_runtime_init" value="config.bsp.common.c_runtime_init.enabled" />
+      <property id="config.bsp.common.early_init" value="config.bsp.common.early_init.disabled" />
       <property id="config.bsp.common.main_osc_clock_source" value="config.bsp.common.main_osc_clock_source.crystal" />
       <property id="config.bsp.common.subclock_populated" value="config.bsp.common.subclock_populated.enabled" />
       <property id="config.bsp.common.subclock_drive" value="config.bsp.common.subclock_drive.standard" />
@@ -121,41 +124,41 @@
     <node id="board.clock.uclk.display" option="board.clock.uclk.display.value" />
   </raClockConfiguration>
   <raComponentSelection>
-    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="3.5.0">
+    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="3.6.0">
       <description>Board Support Package Common Files</description>
-      <originalPack>Renesas.RA.3.5.0.pack</originalPack>
+      <originalPack>Renesas.RA.3.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="3.5.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="3.6.0">
       <description>I/O Port</description>
-      <originalPack>Renesas.RA.3.5.0.pack</originalPack>
+      <originalPack>Renesas.RA.3.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="5.8.0+renesas.0.fsp.3.5.0">
+    <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="5.8.0+renesas.0.fsp.3.6.0">
       <description>Arm CMSIS Version 5 - Core (M)</description>
-      <originalPack>Arm.CMSIS5.5.8.0+renesas.0.fsp.3.5.0.pack</originalPack>
+      <originalPack>Arm.CMSIS5.5.8.0+renesas.0.fsp.3.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra4m3_ek" variant="" vendor="Renesas" version="3.5.0">
+    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra4m3_ek" variant="" vendor="Renesas" version="3.6.0">
       <description>RA4M3-EK Board Support Files</description>
-      <originalPack>Renesas.RA_board_ra4m3_ek.3.5.0.pack</originalPack>
+      <originalPack>Renesas.RA_board_ra4m3_ek.3.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra4m3" subgroup="device" variant="R7FA4M3AF3CFB" vendor="Renesas" version="3.5.0">
+    <component apiversion="" class="BSP" condition="" group="ra4m3" subgroup="device" variant="R7FA4M3AF3CFB" vendor="Renesas" version="3.6.0">
       <description>Board support package for R7FA4M3AF3CFB</description>
-      <originalPack>Renesas.RA_mcu_ra4m3.3.5.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra4m3.3.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra4m3" subgroup="device" variant="" vendor="Renesas" version="3.5.0">
+    <component apiversion="" class="BSP" condition="" group="ra4m3" subgroup="device" variant="" vendor="Renesas" version="3.6.0">
       <description>Board support package for RA4M3</description>
-      <originalPack>Renesas.RA_mcu_ra4m3.3.5.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra4m3.3.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra4m3" subgroup="fsp" variant="" vendor="Renesas" version="3.5.0">
+    <component apiversion="" class="BSP" condition="" group="ra4m3" subgroup="fsp" variant="" vendor="Renesas" version="3.6.0">
       <description>Board support package for RA4M3 - FSP Data</description>
-      <originalPack>Renesas.RA_mcu_ra4m3.3.5.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra4m3.3.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_adc" variant="" vendor="Renesas" version="3.5.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_adc" variant="" vendor="Renesas" version="3.6.0">
       <description>A/D Converter</description>
-      <originalPack>Renesas.RA.3.5.0.pack</originalPack>
+      <originalPack>Renesas.RA.3.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_dac" variant="" vendor="Renesas" version="3.5.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_dac" variant="" vendor="Renesas" version="3.6.0">
       <description>12-bit D/A Converter</description>
-      <originalPack>Renesas.RA.3.5.0.pack</originalPack>
+      <originalPack>Renesas.RA.3.6.0.pack</originalPack>
     </component>
   </raComponentSelection>
   <raElcConfiguration />
@@ -167,6 +170,11 @@
       <property id="module.driver.ioport.elc_trigger_ioport2" value="_disabled" />
       <property id="module.driver.ioport.elc_trigger_ioport3" value="_disabled" />
       <property id="module.driver.ioport.elc_trigger_ioport4" value="_disabled" />
+      <property id="module.driver.ioport.elc_trigger_ioportb" value="_disabled" />
+      <property id="module.driver.ioport.elc_trigger_ioportc" value="_disabled" />
+      <property id="module.driver.ioport.elc_trigger_ioportd" value="_disabled" />
+      <property id="module.driver.ioport.elc_trigger_ioporte" value="_disabled" />
+      <property id="module.driver.ioport.pincfg" value="g_bsp_pin_cfg" />
     </module>
     <module id="module.driver.adc_on_adc.1739569548">
       <property id="module.driver.adc.name" value="g_adc" />
@@ -186,9 +194,23 @@
       <property id="module.driver.adc.add_mask" value="" />
       <property id="module.driver.adc.sample_hold_mask" value="" />
       <property id="module.driver.adc.sample_hold_states" value="24" />
+      <property id="module.driver.adc.compare.window_mode" value="module.driver.adc.compare.window_mode.disabled" />
+      <property id="module.driver.adc.compare.event_mode" value="module.driver.adc.compare.event_mode.or" />
+      <property id="module.driver.adc.compare.window_a.enable" value="module.driver.adc.compare.window_a.enable.disabled" />
+      <property id="module.driver.adc.compare.window_a.channels" value="" />
+      <property id="module.driver.adc.compare.window_a.channel_mode" value="" />
+      <property id="module.driver.adc.compare.window_a.ref_lower" value="0" />
+      <property id="module.driver.adc.compare.window_a.ref_upper" value="0" />
+      <property id="module.driver.adc.compare.window_b.enable" value="module.driver.adc.compare.window_b.enable.disabled" />
+      <property id="module.driver.adc.compare.window_b.channel" value="module.driver.adc.compare.window_b.channel.channel_0" />
+      <property id="module.driver.adc.compare.window_b.mode" value="module.driver.adc.compare.window_b.mode" />
+      <property id="module.driver.adc.compare.window_b.ref_lower" value="0" />
+      <property id="module.driver.adc.compare.window_b.ref_upper" value="0" />
       <property id="module.driver.adc.p_callback" value="g_adc_callback" />
       <property id="module.driver.adc.scan_end_ipl" value="board.icu.common.irq.priority2" />
       <property id="module.driver.adc.scan_end_b_ipl" value="_disabled" />
+      <property id="module.driver.adc.window_a_ipl" value="_disabled" />
+      <property id="module.driver.adc.window_b_ipl" value="_disabled" />
       <property id="module.driver.adc.adbuf" value="module.driver.adc.adbuf.disabled" />
     </module>
     <module id="module.driver.dac_on_dac.767907135">
@@ -196,8 +218,9 @@
       <property id="module.driver.dac.channel_id" value="0" />
       <property id="module.driver.dac.ad_da_synchronized" value="module.driver.dac.ad_da_synchronized.disabled" />
       <property id="module.driver.dac.data_format" value="module.driver.dac.data_format.data_format_flush_right" />
-      <property id="module.driver.dac.output_amplifier_enabled" value="module.driver.dac.output_amplifier.disabled" />
+      <property id="module.driver.dac.output_amplifier_enabled" value="module.driver.dac.output_amplifier.enabled" />
       <property id="module.driver.dac.charge_pump_enabled" value="enum.mcu.dac.charge_pump.disabled" />
+      <property id="module.driver.dac.internal_output" value="enum.mcu.dac.internal_output.disabled" />
       <property id="module.driver.dac.elc_trigger" value="_disabled" />
     </module>
     <context id="_hal.0">
@@ -270,7 +293,6 @@
     <symbolicName propertyId="p713.symbolic_name" value="ARDUINO_D4" />
     <pincfg active="true" name="RA4M3 EK" selected="true" symbol="g_bsp_pin_cfg">
       <configSetting altId="adc0.an00.p000" configurationId="adc0.an00" />
-      <configSetting altId="adc0.an12.p014" configurationId="adc0.an12" />
       <configSetting altId="adc0.an13.p015" configurationId="adc0.an13" />
       <configSetting altId="adc0.mode.custom" configurationId="adc0.mode" />
       <configSetting altId="adc1.an21.p505" configurationId="adc1.an21" />
@@ -291,7 +313,7 @@
       <configSetting altId="iic1.mode.enabled.a" configurationId="iic1.mode" />
       <configSetting altId="iic1.scl.p512" configurationId="iic1.scl" />
       <configSetting altId="iic1.sda.p511" configurationId="iic1.sda" />
-      <configSetting altId="p000.asel" configurationId="p000" />
+      <configSetting altId="p000.adc0.an00" configurationId="p000" />
       <configSetting altId="p000.gpio_mode.gpio_mode_an" configurationId="p000.gpio_mode" />
       <configSetting altId="p005.input" configurationId="p005" />
       <configSetting altId="p005.gpio_irq.gpio_irq_enabled" configurationId="p005.gpio_irq" />
@@ -303,9 +325,9 @@
       <configSetting altId="p008.gpio_irq.gpio_irq_enabled" configurationId="p008.gpio_irq" />
       <configSetting altId="p008.gpio_mode.gpio_mode_in" configurationId="p008.gpio_mode" />
       <configSetting altId="p008.gpio_pupd.gpio_pupd_ip_up" configurationId="p008.gpio_pupd" />
-      <configSetting altId="p014.asel" configurationId="p014" />
+      <configSetting altId="p014.dac0.da" configurationId="p014" />
       <configSetting altId="p014.gpio_mode.gpio_mode_an" configurationId="p014.gpio_mode" />
-      <configSetting altId="p015.asel" configurationId="p015" />
+      <configSetting altId="p015.adc0.an13" configurationId="p015" />
       <configSetting altId="p015.gpio_mode.gpio_mode_an" configurationId="p015.gpio_mode" />
       <configSetting altId="p100.sci0.rxd" configurationId="p100" />
       <configSetting altId="p100.gpio_mode.gpio_mode_peripheral" configurationId="p100.gpio_mode" />
@@ -383,9 +405,9 @@
       <configSetting altId="p500.gpio_mode.gpio_mode_peripheral" configurationId="p500.gpio_mode" />
       <configSetting altId="p501.usbfs0.ovrcura" configurationId="p501" />
       <configSetting altId="p501.gpio_mode.gpio_mode_peripheral" configurationId="p501.gpio_mode" />
-      <configSetting altId="p505.asel" configurationId="p505" />
+      <configSetting altId="p505.adc1.an21" configurationId="p505" />
       <configSetting altId="p505.gpio_mode.gpio_mode_an" configurationId="p505.gpio_mode" />
-      <configSetting altId="p506.asel" configurationId="p506" />
+      <configSetting altId="p506.adc1.an22" configurationId="p506" />
       <configSetting altId="p506.gpio_mode.gpio_mode_an" configurationId="p506.gpio_mode" />
       <configSetting altId="p511.iic1.sda" configurationId="p511" />
       <configSetting altId="p511.gpio_speed.gpio_speed_medium" configurationId="p511.gpio_drivecapacity" />
