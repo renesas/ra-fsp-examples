@@ -113,8 +113,10 @@
 #define USER_LED (BSP_IO_PORT_00_PIN_08)
 #elif defined (BOARD_RA6E1_FPB) || defined (BOARD_RA4E1_FPB)
 #define USER_LED (BSP_IO_PORT_04_PIN_08)
-#elif defined (BOARD_RA2E2_EK)
+#elif defined (BOARD_RA2E2_EK) || defined (BOARD_RA6M1_EK)
 #define USER_LED (BSP_IO_PORT_01_PIN_12)
+#elif defined (BOARD_RA6M2_EK) || defined (BOARD_RA4M1_EK)
+#define USER_LED (BSP_IO_PORT_01_PIN_06)
 #else
 #define USER_LED   (BSP_IO_PORT_04_PIN_03)
 #endif

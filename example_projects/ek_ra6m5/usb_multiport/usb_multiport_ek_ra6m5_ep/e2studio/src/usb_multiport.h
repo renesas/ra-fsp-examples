@@ -36,7 +36,7 @@
 #define WAIT_TIME               (4000)            // Wait time for USB detection
 #define CARRIAGE_RETURN         '\r'              // Carriage return
 #define SIZE                    (1U)              // Size to read byte by byte
-FF_Disk_t my_disk;
+
 
 #define MENU                    "\r\n USB HMSC Menu options\r\n"\
                                 "\r\n 1. Read the content from file\r\n"\

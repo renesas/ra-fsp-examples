@@ -34,7 +34,7 @@ uint8_t g_read_data[WRITE_ITEM_SIZE]  = {RESET_VALUE};   /* Variable to store th
 bool b_writetoUSB = false;                               /* Flag to check write status */
 
 extern uint16_t g_bytestoWrite;
-
+FF_Disk_t my_disk;
 /*******************************************************************************************************************//**
  * @brief       This function Initializes the FreeRTOS+FAT instance.
  * @param[IN]   None

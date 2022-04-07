@@ -30,7 +30,7 @@
 /***********************************************************************************************************************
  * Macro definitions
  **********************************************************************************************************************/
-#define WAIT_TIME                       (500U)             //wait time value
+#define WAIT_TIME                       (5000U)            //wait time value
 #define CAN_DESTINATION_MAILBOX_3       (3U)               //destination mail box number
 #define CAN_MAILBOX_NUMBER_0            (0U)               //mail box number
 #define CAN_FRAME_TRANSMIT_DATA_BYTES   (8U)               //data length
