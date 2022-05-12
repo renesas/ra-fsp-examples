@@ -60,10 +60,11 @@ FSP Configuration
     Parameter checking: Disabled
     Assert Failures: Return FSP_ERR_ASSERTION
     Error Log: No Error Log
-    Soft Reset: Disabled
+    Clock Registers not Reset Values during Startup: Disabled
     Main Oscillator Populated: Not Populated
     PFS Protect: Enabled
     C Runtime Initialization : Enabled
+    Early BSP Initialization : Disabled
     Main Oscillator Clock Source: Crystal or Resonator
     Subclock Populated: Not Populated
     Subclock Drive (Drive capacitance availability varies by MCU): Standard/Normal mode
@@ -215,30 +216,34 @@ FSP Configuration
     
   User Event Links
     
-  Module "I/O Port Driver on r_ioport"
+  Module "I/O Port (r_ioport)"
     Parameter Checking: Default (BSP)
     
   Module "MCUboot Image Utilities"
-    General: Bootloader mcuboot_config.h: C:/ra2_bootloader/11_13_for_K2/RA2_secure_bootloader/swap_with_signature/ra_mcuboot_ra2e1_swap_with_signature/ra_cfg/mcu-tools/include/mcuboot_config/mcuboot_config.h
-    General: Bootloader sysflash.h: C:/ra2_bootloader/11_13_for_K2/RA2_secure_bootloader/swap_with_signature/ra_mcuboot_ra2e1_swap_with_signature/ra_cfg/mcu-tools/include/sysflash/sysflash.h
-    General: Bootloader mcuboot_logging.h: C:/ra2_bootloader/11_13_for_K2/RA2_secure_bootloader/swap_with_signature/ra_mcuboot_ra2e1_swap_with_signature/ra_cfg/mcu-tools/include/mcuboot_config/mcuboot_logging.h
+    General: Bootloader mcuboot_config.h: E:/Renesas/RA/e2studio/workspace/cache/RA2_merge_mcuboot/swap_with_signature/ra_mcuboot_ra2e1_swap_with_signature/ra_cfg/mcu-tools/include/mcuboot_config/mcuboot_config.h
+    General: Bootloader sysflash.h: E:/Renesas/RA/e2studio/workspace/cache/RA2_merge_mcuboot/swap_with_signature/ra_mcuboot_ra2e1_swap_with_signature/ra_cfg/mcu-tools/include/sysflash/sysflash.h
+    General: Bootloader mcuboot_logging.h: E:/Renesas/RA/e2studio/workspace/cache/RA2_merge_mcuboot/swap_with_signature/ra_mcuboot_ra2e1_swap_with_signature/ra_cfg/mcu-tools/include/mcuboot_config/mcuboot_logging.h
     
-  Module "Flash Driver on r_flash_lp"
+  Module "Flash (r_flash_lp)"
     Parameter Checking: Default (BSP)
     Code Flash Programming: Enabled
     Data Flash Programming: Disabled
     
   HAL
-    Instance "g_ioport I/O Port Driver on r_ioport"
+    Instance "g_ioport I/O Port (r_ioport)"
       Name: g_ioport
       Port 1 ELC Trigger Source: Disabled
       Port 2 ELC Trigger Source: Disabled
       Port 3 ELC Trigger Source: Disabled
       Port 4 ELC Trigger Source: Disabled
+      Port B ELC Trigger Source: Disabled
+      Port C ELC Trigger Source: Disabled
+      Port D ELC Trigger Source: Disabled
+      Port E ELC Trigger Source: Disabled
       Pin Configuration Name: g_bsp_pin_cfg
       
     Instance "MCUboot Image Utilities"
-      Instance "g_flash0 Flash Driver on r_flash_lp"
+      Instance "g_flash0 Flash (r_flash_lp)"
         Name: g_flash0
         Data Flash Background Operation: Disabled
         Callback: NULL

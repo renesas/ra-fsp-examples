@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<raConfiguration version="6">
+<raConfiguration version="7">
   <generalSettings>
     <option key="#Board#" value="board.ra6m3ek"/>
     <option key="CPU" value="RA6M3"/>
@@ -8,10 +8,10 @@
     <option key="#DeviceCommand#" value="R7FA6M3AH"/>
     <option key="#RTOS#" value="_none"/>
     <option key="#pinconfiguration#" value="R7FA6M3AH3CFC.pincfg"/>
-    <option key="#FSPVersion#" value="3.0.0"/>
+    <option key="#FSPVersion#" value="3.5.0"/>
     <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra6m3_ek##"/>
     <option key="#SELECTED_TOOLCHAIN#" value="gcc-arm-embedded"/>
-    <option key="#ToolchainVersion#" value="9.3.1.20200408"/>
+    <option key="#ToolchainVersion#" value="10.3.1.20210824"/>
   </generalSettings>
   <raBspConfiguration>
     <config id="config.bsp.ra6m3.R7FA6M3AH3CFC">
@@ -70,6 +70,8 @@
       <property id="config.bsp.fsp.mcu.sci_spi.max_bitrate" value="30000000"/>
       <property id="config.bsp.fsp.mcu.spi.max_bitrate" value="30000000"/>
       <property id="config.bsp.fsp.mcu.iic_master.rate.rate_fastplus" value="1"/>
+      <property id="config.bsp.fsp.mcu.sci_uart.cstpen_channels" value="0x0"/>
+      <property id="config.bsp.fsp.mcu.gpt.pin_count_source_channels" value="0xFFFF"/>
       <property id="config.bsp.common.id_mode" value="config.bsp.common.id_mode.unlocked"/>
       <property id="config.bsp.common.id_code" value="FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"/>
       <property id="config.bsp.common.id1" value=""/>
@@ -89,6 +91,7 @@
       <property id="config.bsp.common.main_osc_populated" value="config.bsp.common.main_osc_populated.enabled"/>
       <property id="config.bsp.common.pfs_protect" value="config.bsp.common.pfs_protect.enabled"/>
       <property id="config.bsp.common.c_runtime_init" value="config.bsp.common.c_runtime_init.enabled"/>
+      <property id="config.bsp.common.early_init" value="config.bsp.common.early_init.disabled"/>
       <property id="config.bsp.common.main_osc_clock_source" value="config.bsp.common.main_osc_clock_source.crystal"/>
       <property id="config.bsp.common.subclock_populated" value="config.bsp.common.subclock_populated.enabled"/>
       <property id="config.bsp.common.subclock_drive" value="config.bsp.common.subclock_drive.standard"/>
@@ -132,61 +135,61 @@
     <node id="board.clock.clkout.display" option="board.clock.clkout.display.value"/>
   </raClockConfiguration>
   <raComponentSelection>
-    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="3.0.0">
+    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="3.5.0">
       <description>Board Support Package Common Files</description>
-      <originalPack>Renesas.RA.3.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.3.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="3.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="3.5.0">
       <description>I/O Port</description>
-      <originalPack>Renesas.RA.3.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.3.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="5.7.0+fsp.3.0.0">
+    <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="5.8.0+renesas.0.fsp.3.5.0">
       <description>Arm CMSIS Version 5 - Core (M)</description>
-      <originalPack>Arm.CMSIS5.5.7.0+fsp.3.0.0.pack</originalPack>
+      <originalPack>Arm.CMSIS5.5.8.0+renesas.0.fsp.3.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra6m3" subgroup="device" variant="R7FA6M3AH3CFC" vendor="Renesas" version="3.0.0">
-      <description>Board support package for R7FA6M3AH3CFC</description>
-      <originalPack>Renesas.RA_mcu_ra6m3.3.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra6m3" subgroup="device" variant="" vendor="Renesas" version="3.0.0">
-      <description>Board support package for RA6M3</description>
-      <originalPack>Renesas.RA_mcu_ra6m3.3.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra6m3" subgroup="fsp" variant="" vendor="Renesas" version="3.0.0">
-      <description>Board support package for RA6M3 - FSP Data</description>
-      <originalPack>Renesas.RA_mcu_ra6m3.3.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra6m3_ek" variant="" vendor="Renesas" version="3.0.0">
+    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra6m3_ek" variant="" vendor="Renesas" version="3.5.0">
       <description>RA6M3-EK Board Support Files</description>
-      <originalPack>Renesas.RA_board_ra6m3_ek.3.0.0.pack</originalPack>
+      <originalPack>Renesas.RA_board_ra6m3_ek.3.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="PSA" condition="" group="Crypto" subgroup="mbedCrypto" variant="" vendor="Arm" version="2.24.0+renesas.0.fsp.3.0.0">
+    <component apiversion="" class="BSP" condition="" group="ra6m3" subgroup="device" variant="R7FA6M3AH3CFC" vendor="Renesas" version="3.5.0">
+      <description>Board support package for R7FA6M3AH3CFC</description>
+      <originalPack>Renesas.RA_mcu_ra6m3.3.5.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra6m3" subgroup="device" variant="" vendor="Renesas" version="3.5.0">
+      <description>Board support package for RA6M3</description>
+      <originalPack>Renesas.RA_mcu_ra6m3.3.5.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra6m3" subgroup="fsp" variant="" vendor="Renesas" version="3.5.0">
+      <description>Board support package for RA6M3 - FSP Data</description>
+      <originalPack>Renesas.RA_mcu_ra6m3.3.5.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="PSA" condition="" group="Crypto" subgroup="mbedCrypto" variant="" vendor="Arm" version="2.25.0+renesas.0.fsp.3.5.0">
       <description>Arm PSA Crypto Implementation</description>
-      <originalPack>Arm.MbedCrypto.2.24.0+renesas.0.fsp.3.0.0.pack</originalPack>
+      <originalPack>Arm.MbedCrypto.2.25.0+renesas.0.fsp.3.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_flash_hp" variant="" vendor="Renesas" version="3.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_flash_hp" variant="" vendor="Renesas" version="3.5.0">
       <description>Flash Memory High Performance</description>
-      <originalPack>Renesas.RA.3.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.3.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_sce_ra6" variant="" vendor="Renesas" version="3.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_sce_ra6" variant="" vendor="Renesas" version="3.5.0">
       <description>Secure Cryptography Engine on RA6</description>
-      <originalPack>Renesas.RA.3.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.3.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_mcuboot_port" variant="" vendor="Renesas" version="3.0.0">
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_mcuboot_port" variant="" vendor="Renesas" version="3.5.0">
       <description>MCUboot Port for RA</description>
-      <originalPack>Renesas.RA.3.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.3.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="rm_psa_crypto" variant="" vendor="Renesas" version="3.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="rm_psa_crypto" variant="" vendor="Renesas" version="3.5.0">
       <description>MbedCrypto H/W Acceleration</description>
-      <originalPack>Renesas.RA.3.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.3.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="boot" condition="" group="all" subgroup="MCUboot" variant="" vendor="Linaro" version="1.7.2+renesas.0.fsp.3.0.0">
+    <component apiversion="" class="boot" condition="" group="all" subgroup="MCUboot" variant="" vendor="Linaro" version="1.8.0+renesas.0.fsp.3.5.0">
       <description>MCUboot</description>
-      <originalPack>Linaro.MCUboot.1.7.2+renesas.0.fsp.3.0.0.pack</originalPack>
+      <originalPack>Linaro.MCUboot.1.8.0+renesas.0.fsp.3.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="boot" condition="" group="all" subgroup="keys" variant="" vendor="Linaro" version="1.7.2+renesas.0.fsp.3.0.0">
+    <component apiversion="" class="boot" condition="" group="all" subgroup="keys" variant="" vendor="Linaro" version="1.8.0+renesas.0.fsp.3.5.0">
       <description>MCUboot Example Keys</description>
-      <originalPack>Linaro.MCUboot.1.7.2+renesas.0.fsp.3.0.0.pack</originalPack>
+      <originalPack>Linaro.MCUboot.1.8.0+renesas.0.fsp.3.5.0.pack</originalPack>
     </component>
   </raComponentSelection>
   <raElcConfiguration/>
@@ -198,39 +201,79 @@
       <property id="module.driver.ioport.elc_trigger_ioport2" value="_disabled"/>
       <property id="module.driver.ioport.elc_trigger_ioport3" value="_disabled"/>
       <property id="module.driver.ioport.elc_trigger_ioport4" value="_disabled"/>
+      <property id="module.driver.ioport.elc_trigger_ioportb" value="_disabled"/>
+      <property id="module.driver.ioport.elc_trigger_ioportc" value="_disabled"/>
+      <property id="module.driver.ioport.elc_trigger_ioportd" value="_disabled"/>
+      <property id="module.driver.ioport.elc_trigger_ioporte" value="_disabled"/>
+      <property id="module.driver.ioport.pincfg" value="g_bsp_pin_cfg"/>
     </module>
-    <module id="module.middleware.mcuboot.769955912"/>
-    <module id="module.driver.rm_mcuboot_port.794324819"/>
-    <module id="module.driver.psa_crypto.1799847773"/>
-    <module id="module.driver.rm_psa_crypto.1603251022"/>
-    <module id="module.driver.sce7.899009762"/>
-    <module id="module.driver.flash_on_flash_hp.341531034">
+    <module id="module.middleware.mcuboot.359079471"/>
+    <module id="module.driver.rm_mcuboot_port.1675932830"/>
+    <module id="module.driver.psa_crypto.1684468294"/>
+    <module id="module.driver.rm_psa_crypto.1581005074"/>
+    <module id="module.driver.sce7.1100817232"/>
+    <module id="module.driver.flash_on_flash_hp.435789748">
       <property id="module.driver.flash.name" value="g_flash0"/>
-      <property id="module.driver.flash.data_flash_bgo" value="module.driver.flash.data_flash_bgo.enabled"/>
+      <property id="module.driver.flash.data_flash_bgo" value="module.driver.flash.data_flash_bgo.disabled"/>
       <property id="module.driver.flash.p_callback" value="NULL"/>
       <property id="module.driver.flash.ipl" value="_disabled"/>
       <property id="module.driver.flash.err_ipl" value="_disabled"/>
     </module>
-    <module id="module.middleware.mcuboot_keys.1471920682"/>
+    <module id="module.middleware.mcuboot_keys.1605855803"/>
     <context id="_hal.0">
       <stack module="module.driver.ioport_on_ioport.0"/>
-      <stack module="module.middleware.mcuboot.769955912">
-        <stack module="module.driver.rm_mcuboot_port.794324819" requires="module.middleware.mcuboot.requires.rm_mcuboot_port">
-          <stack module="module.driver.psa_crypto.1799847773" requires="module.driver.rm_mcuboot_port.requires.mbedcrypto">
-            <stack module="module.driver.rm_psa_crypto.1603251022" requires="module.driver.rm_psa_crypto">
-              <stack module="module.driver.sce7.899009762" requires="module.driver.rm_psa_crypto.requires.sce"/>
+      <stack module="module.middleware.mcuboot.359079471">
+        <stack module="module.driver.rm_mcuboot_port.1675932830" requires="module.middleware.mcuboot.requires.rm_mcuboot_port">
+          <stack module="module.driver.psa_crypto.1684468294" requires="module.driver.rm_mcuboot_port.requires.crypto">
+            <stack module="module.driver.rm_psa_crypto.1581005074" requires="module.driver.rm_psa_crypto">
+              <stack module="module.driver.sce7.1100817232" requires="module.driver.rm_psa_crypto.requires.sce"/>
             </stack>
           </stack>
-          <stack module="module.driver.flash_on_flash_hp.341531034" requires="module.driver.rm_mcuboot_port.requires.flash"/>
+          <stack module="module.driver.flash_on_flash_hp.435789748" requires="module.driver.rm_mcuboot_port.requires.flash"/>
         </stack>
-        <stack module="module.middleware.mcuboot_keys.1471920682" requires="module.middleware.mcuboot.requires.mcuboot_keys"/>
+        <stack module="module.middleware.mcuboot_keys.1605855803" requires="module.middleware.mcuboot.requires.mcuboot_keys"/>
       </stack>
     </context>
     <config id="config.driver.flash_hp">
       <property id="config.driver.flash_hp.param_checking_enable" value="config.flash_hp.param_checking_enable.bsp"/>
       <property id="config.driver.flash_hp.param_code_flash_programming_enable" value="config.driver.flash_hp.param_code_flash_programming_enable.enabled"/>
-      <property id="config.driver.flash_hp.param_data_flash_programming_enable" value="config.driver.flash_hp.param_data_flash_programming_enable.enabled"/>
+      <property id="config.driver.flash_hp.param_data_flash_programming_enable" value="config.driver.flash_hp.param_data_flash_programming_enable.disabled"/>
     </config>
+    <config id="config.middleware.mcuboot_port"/>
+    <config id="config.driver.ioport">
+      <property id="config.driver.ioport.checking" value="config.driver.ioport.checking.system"/>
+    </config>
+    <config id="config.middleware.mcuboot">
+      <property id="config.middleware.mcuboot.custom_mcuboot_config" value=""/>
+      <property id="config.middleware.mcuboot.signature" value="config.middleware.mcuboot.signature.ecdsap256"/>
+      <property id="config.middleware.mcuboot.upgrade_mode" value="config.middleware.mcuboot.upgrade_mode.overwrite_only"/>
+      <property id="config.middleware.mcuboot.validate_primary" value="config.middleware.mcuboot.validate_primary.enabled"/>
+      <property id="config.middleware.mcuboot.downgrade_prevention" value="config.middleware.mcuboot.downgrade_prevention.enabled"/>
+      <property id="config.middleware.mcuboot.log_level" value="config.middleware.mcuboot.log_level.off"/>
+      <property id="config.middleware.mcuboot.image_number" value="config.middleware.mcuboot.image_number.1"/>
+      <property id="config.middleware.mcuboot.watchdog_feed" value=""/>
+      <property id="config.middleware.mcuboot.flash_area_bootloader_size" value="0x10000"/>
+      <property id="config.middleware.mcuboot.flash_area_bootloader_header_size" value="0x80"/>
+      <property id="config.middleware.mcuboot.flash_s_partition_size" value="0x20000"/>
+      <property id="config.middleware.mcuboot.scratch_partition_size" value="0x0"/>
+      <property id="config.middleware.mcuboot.measured_boot" value="config.middleware.mcuboot.measured_boot.disabled"/>
+      <property id="config.middleware.mcuboot.data_sharing" value="config.middleware.mcuboot.data_sharing.disabled"/>
+      <property id="config.middleware.mcuboot.max_measured_boot_record" value="0x64"/>
+      <property id="config.middleware.mcuboot.shared_data_size" value="0x380"/>
+      <property id="config.middleware.mcuboot.shared_data_base" value="0x20000000"/>
+      <property id="config.middleware.mcuboot.flash_nsc_partition_size" value="0x0"/>
+      <property id="config.middleware.mcuboot.flash_ns_partition_size" value="0x0"/>
+      <property id="config.middleware.mcuboot.ram_nsc_partition_size" value="0x0"/>
+      <property id="config.middleware.mcuboot.ram_ns_partition_size" value="0x0"/>
+      <property id="config.middleware.mcuboot.flash_area_bootloader_header_size_2" value="0x80"/>
+      <property id="config.middleware.mcuboot.boot_record" value=""/>
+      <property id="config.middleware.mcuboot.boot_record_image_2" value=""/>
+      <property id="config.middleware.mcuboot.sign_custom" value=" --confirm"/>
+      <property id="config.middleware.mcuboot.sign_custom_image_2" value=" --confirm"/>
+      <property id="config.middleware.mcuboot.python_command" value="python"/>
+    </config>
+    <config id="config.middleware.mcuboot_logging"/>
+    <config id="config.middleware.mcuboot_sysflash"/>
     <config id="config.driver.psa_crypto">
       <property id="config.driver.psa_crypto.mbedtls_entropy_hardware_alt" value="config.driver.psa_crypto.mbedtls_entropy_hardware_alt.enabled"/>
       <property id="config.driver.psa_crypto.aes_format" value="config.driver.psa_crypto.aes_format.plaintext"/>
@@ -508,42 +551,10 @@
       <property id="config.driver.psa_crypto.mbedtls_platform_gmtime_r_alt" value="config.driver.psa_crypto.mbedtls_platform_gmtime_r_alt.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_ecdh_variant_everest_enabled" value="config.driver.psa_crypto.mbedtls_ecdh_variant_everest_enabled.disabled"/>
     </config>
-    <config id="config.middleware.mcuboot_port"/>
-    <config id="config.driver.ioport">
-      <property id="config.driver.ioport.checking" value="config.driver.ioport.checking.system"/>
-    </config>
-    <config id="config.middleware.mcuboot">
-      <property id="config.middleware.mcuboot.custom_mcuboot_config" value=""/>
-      <property id="config.middleware.mcuboot.signature" value="config.middleware.mcuboot.signature.ecdsap256"/>
-      <property id="config.middleware.mcuboot.upgrade_mode" value="config.middleware.mcuboot.upgrade_mode.overwrite_only"/>
-      <property id="config.middleware.mcuboot.validate_primary" value="config.middleware.mcuboot.validate_primary.enabled"/>
-      <property id="config.middleware.mcuboot.log_level" value="config.middleware.mcuboot.log_level.off"/>
-      <property id="config.middleware.mcuboot.image_number" value="config.middleware.mcuboot.image_number.1"/>
-      <property id="config.middleware.mcuboot.watchdog_feed" value=""/>
-      <property id="config.middleware.mcuboot.flash_area_bootloader_size" value="0x10000"/>
-      <property id="config.middleware.mcuboot.flash_area_bootloader_header_size" value="0x80"/>
-      <property id="config.middleware.mcuboot.flash_s_partition_size" value="0x20000"/>
-      <property id="config.middleware.mcuboot.scratch_partition_size" value="0x0"/>
-      <property id="config.middleware.mcuboot.measured_boot" value="config.middleware.mcuboot.measured_boot.disabled"/>
-      <property id="config.middleware.mcuboot.max_measured_boot_record" value="0x64"/>
-      <property id="config.middleware.mcuboot.shared_data_size" value="0x380"/>
-      <property id="config.middleware.mcuboot.shared_data_base" value="0x20000000"/>
-      <property id="config.middleware.mcuboot.flash_nsc_partition_size" value="0x0"/>
-      <property id="config.middleware.mcuboot.flash_ns_partition_size" value="0x0"/>
-      <property id="config.middleware.mcuboot.ram_nsc_partition_size" value="0x0"/>
-      <property id="config.middleware.mcuboot.ram_ns_partition_size" value="0x0"/>
-      <property id="config.middleware.mcuboot.flash_area_bootloader_header_size_2" value="0x80"/>
-      <property id="config.middleware.mcuboot.boot_record" value=""/>
-      <property id="config.middleware.mcuboot.boot_record_image_2" value=""/>
-      <property id="config.middleware.mcuboot.sign_custom" value=" --confirm"/>
-      <property id="config.middleware.mcuboot.sign_custom_image_2" value=" --confirm"/>
-    </config>
-    <config id="config.middleware.mcuboot_logging"/>
-    <config id="config.middleware.mcuboot_sysflash"/>
   </raModuleConfiguration>
   <raPinConfiguration>
     <symbolicName propertyId="p400.symbolic_name" value="IRQ0"/>
-    <pincfg active="true" name="RA6M3-EK.pincfg" selected="true" symbol="g_bsp_pin_cfg">
+    <pincfg active="false" name="RA6M3-EK.pincfg" selected="false" symbol="g_bsp_pin_cfg">
       <configSetting altId="adc0.an00.p000" configurationId="adc0.an00"/>
       <configSetting altId="adc0.an01.p001" configurationId="adc0.an01"/>
       <configSetting altId="adc0.an02.p002" configurationId="adc0.an02"/>
@@ -823,7 +834,7 @@
       <configSetting altId="usbhs0.vbus.pb01" configurationId="usbhs0.vbus"/>
       <configSetting altId="usbhs0.vbusen.pb00" configurationId="usbhs0.vbusen"/>
     </pincfg>
-    <pincfg active="false" name="R7FA6M3AH3CFC.pincfg" selected="false" symbol="">
+    <pincfg active="true" name="R7FA6M3AH3CFC.pincfg" selected="true" symbol="g_bsp_pin_cfg">
       <configSetting altId="debug0.mode.jtag" configurationId="debug0.mode"/>
       <configSetting altId="debug0.tck.p300" configurationId="debug0.tck"/>
       <configSetting altId="debug0.tdi.p110" configurationId="debug0.tdi"/>

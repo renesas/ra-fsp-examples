@@ -30,27 +30,6 @@
 
 #define _unused(x) ((void)(x))
 
-#define NUM_OF_FLASH_SECTOR     (1)
-#define FLASH_SECTOR_SIZE_8KB   (8*1024)    // 8KB sector
-#define FLASH_SECTOR_SIZE_256_BYTES (256)
-#define FLASH_SECTOR_SIZE_32KB  (32*1024)   // 32kB sector
-
-/*
- * non-secure flash test block
- */
-
-#define FLASH_WRITE_TEST_BLOCK         (0xF0000)       // test block located in non-secure flash not locked
-
-
-#define FLASH_WRITE_LENGTH                      (128)
-#define FLASH_WRITE_TEST_DATA                   (0x44)
-
-
-#define SYSTEM_CAME_OUT_OF_RESET                "\r\n system came out of reset, up running"
-#define ACCESS_SUCCESSFUL                       "\r\n flash write successful!\r\n"
-#define ACCESS_UN_SUCCESSFUL                    "\r\n flash write not successful!\r\n"
-#define FLASH_ERASE_FAILED                      "\r\n flash erase failed! \r\n"
-#define FLASH_WRITE_SOURCE_ADDR_CHECK_FAILED    "\r\n invalid secure flash region access! \r\n"
 
 /* Macros for menu options to be displayed */
 

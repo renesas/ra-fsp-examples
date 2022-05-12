@@ -66,6 +66,8 @@ MEMORY
   QSPI_FLASH (rx) : ORIGIN = QSPI_FLASH_START, LENGTH = QSPI_FLASH_PRV_LENGTH
   OSPI_DEVICE_0 (rx) : ORIGIN = OSPI_DEVICE_0_START, LENGTH = OSPI_DEVICE_0_PRV_LENGTH
   OSPI_DEVICE_1 (rx) : ORIGIN = OSPI_DEVICE_1_START, LENGTH = OSPI_DEVICE_1_PRV_LENGTH
+  OSPI_DEVICE_0_RAM (rwx) : ORIGIN = OSPI_DEVICE_0_START, LENGTH = OSPI_DEVICE_0_PRV_LENGTH
+  OSPI_DEVICE_1_RAM (rwx) : ORIGIN = OSPI_DEVICE_1_START, LENGTH = OSPI_DEVICE_1_PRV_LENGTH
   SDRAM (rwx)     : ORIGIN = SDRAM_START, LENGTH = SDRAM_LENGTH
   OPTION_SETTING (r): ORIGIN = OPTION_SETTING_START, LENGTH = OPTION_SETTING_LENGTH
   OPTION_SETTING_S (r): ORIGIN = OPTION_SETTING_S_START, LENGTH = OPTION_SETTING_S_LENGTH
@@ -145,6 +147,12 @@ SECTIONS
 
         /* Reserving 0x100 bytes of space for ROM registers. */
         . = OPTION_SETTING_LENGTH > 0 ? . : __ROM_Start + 0x500;
+
+        /* Allocate flash write-boundary-aligned
+         * space for sce9 wrapped public keys for mcuboot if the module is used.
+         */
+		. = ALIGN(128);
+        KEEP(*(.mcuboot_sce9_key*))
 
         *(.text*)
 
@@ -305,7 +313,7 @@ SECTIONS
         _end_sg = .;
     } > FLASH
 
-    __tz_FLASH_N = DEFINED(FLASH_NS_START) ? ABSOLUTE(FLASH_NS_START) : __RESERVE_NS_RAM ? ABSOLUTE(FLASH_START + FLASH_LENGTH) : ALIGN(32768);
+    __tz_FLASH_N = DEFINED(FLASH_NS_START) ? ABSOLUTE(FLASH_NS_START) : __RESERVE_NS_RAM ? ABSOLUTE(FLASH_START + FLASH_LENGTH) : FLASH_LENGTH < 32768 ? FLASH_LENGTH : ALIGN(32768);
     FLASH_NS_IMAGE_START = DEFINED(FLASH_NS_IMAGE_START) ? FLASH_NS_IMAGE_START : __tz_FLASH_N;
 
     /* Note: There are no secure/non-secure boundaries for QSPI.  These symbols are provided for the RA configuration tool. */
@@ -337,6 +345,25 @@ SECTIONS
 
     /* Note: There are no secure/non-secure boundaries for QSPI.  These symbols are provided for the RA configuration tool. */
     __tz_QSPI_FLASH_N = __qspi_non_retentive_end__;
+
+    /* Support for OctaRAM */
+    .OSPI_DEVICE_0_NO_LOAD (NOLOAD):
+    {
+        . = ALIGN(4);
+        __ospi_device_0_start__ = .;
+        *(.ospi_device_0_no_load*)
+        . = ALIGN(4);
+        __ospi_device_0_end__ = .;
+    } > OSPI_DEVICE_0_RAM
+
+    .OSPI_DEVICE_1_NO_LOAD (NOLOAD):
+    {
+        . = ALIGN(4);
+        __ospi_device_1_start__ = .;
+        *(.ospi_device_1_no_load*)
+        . = ALIGN(4);
+        __ospi_device_1_end__ = .;
+    } > OSPI_DEVICE_1_RAM
 
     /* Note: There are no secure/non-secure boundaries for QSPI.  These symbols are provided for the RA configuration tool. */
     __tz_OSPI_DEVICE_0_S = ORIGIN(OSPI_DEVICE_0);

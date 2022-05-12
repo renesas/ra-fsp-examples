@@ -8,9 +8,9 @@
     <option key="#TargetARCHITECTURE#" value="cortex-m4"/>
     <option key="#DeviceCommand#" value="R7FA6M3AH"/>
     <option key="#RTOS#" value="rtos.awsfreertos"/>
-    <option key="#FSPVersion#" value="3.0.0"/>
+    <option key="#FSPVersion#" value="3.5.0"/>
     <option key="#SELECTED_TOOLCHAIN#" value="gcc-arm-embedded"/>
-    <option key="#ToolchainVersion#" value="9.3.1.20200408"/>
+    <option key="#ToolchainVersion#" value="10.3.1.20210824"/>
   </generalSettings>
   <raBspConfiguration>
     <config id="config.bsp.ra6m3.R7FA6M3AH3CFC">
@@ -69,6 +69,8 @@
       <property id="config.bsp.fsp.mcu.sci_spi.max_bitrate" value="30000000"/>
       <property id="config.bsp.fsp.mcu.spi.max_bitrate" value="30000000"/>
       <property id="config.bsp.fsp.mcu.iic_master.rate.rate_fastplus" value="1"/>
+      <property id="config.bsp.fsp.mcu.sci_uart.cstpen_channels" value="0x0"/>
+      <property id="config.bsp.fsp.mcu.gpt.pin_count_source_channels" value="0xFFFF"/>
       <property id="config.bsp.common.id_mode" value="config.bsp.common.id_mode.unlocked"/>
       <property id="config.bsp.common.id_code" value="FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"/>
       <property id="config.bsp.common.id1" value=""/>
@@ -88,6 +90,7 @@
       <property id="config.bsp.common.main_osc_populated" value="config.bsp.common.main_osc_populated.enabled"/>
       <property id="config.bsp.common.pfs_protect" value="config.bsp.common.pfs_protect.enabled"/>
       <property id="config.bsp.common.c_runtime_init" value="config.bsp.common.c_runtime_init.enabled"/>
+      <property id="config.bsp.common.early_init" value="config.bsp.common.early_init.disabled"/>
       <property id="config.bsp.common.main_osc_clock_source" value="config.bsp.common.main_osc_clock_source.crystal"/>
       <property id="config.bsp.common.subclock_populated" value="config.bsp.common.subclock_populated.enabled"/>
       <property id="config.bsp.common.subclock_drive" value="config.bsp.common.subclock_drive.standard"/>
@@ -131,41 +134,45 @@
     <node id="board.clock.clkout.display" option="board.clock.clkout.display.value"/>
   </raClockConfiguration>
   <raComponentSelection>
-    <component apiversion="" class="Projects" condition="" group="all" subgroup="freertos_blinky" variant="" vendor="Renesas" version="3.0.0">
+    <component apiversion="" class="Projects" condition="" group="all" subgroup="freertos_blinky" variant="" vendor="Renesas" version="3.5.0">
       <description>Simple application that blinks an LED using FreeRTOS.</description>
-      <originalPack>Renesas.RA_freertos_blinky.3.0.0.pack</originalPack>
+      <originalPack>Renesas.RA_freertos_blinky.3.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="3.0.0">
+    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="3.5.0">
       <description>Board Support Package Common Files</description>
-      <originalPack>Renesas.RA.3.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.3.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="3.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="3.5.0">
       <description>I/O Port</description>
-      <originalPack>Renesas.RA.3.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.3.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="RTOS" condition="" group="FreeRTOS" subgroup="all" variant="" vendor="AWS" version="3.0.0">
+    <component apiversion="" class="RTOS" condition="" group="FreeRTOS" subgroup="all" variant="" vendor="AWS" version="10.4.3-LTS.Patch.2+fsp.3.5.0">
       <description>FreeRTOS</description>
-      <originalPack>Amazon.AWS.3.0.0.pack</originalPack>
+      <originalPack>Amazon.FreeRTOS-Kernel.10.4.3-LTS.Patch.2+fsp.3.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="5.7.0+fsp.3.0.0">
+    <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="5.8.0+renesas.0.fsp.3.5.0">
       <description>Arm CMSIS Version 5 - Core (M)</description>
-      <originalPack>Arm.CMSIS5.5.7.0+fsp.3.0.0.pack</originalPack>
+      <originalPack>Arm.CMSIS5.5.8.0+renesas.0.fsp.3.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra6m3" subgroup="device" variant="R7FA6M3AH3CFC" vendor="Renesas" version="3.0.0">
-      <description>Board support package for R7FA6M3AH3CFC</description>
-      <originalPack>Renesas.RA_mcu_ra6m3.3.0.0.pack</originalPack>
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_freertos_port" variant="" vendor="Renesas" version="3.5.0">
+      <description>FreeRTOS Port</description>
+      <originalPack>Renesas.RA.3.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra6m3" subgroup="device" variant="" vendor="Renesas" version="3.0.0">
-      <description>Board support package for RA6M3</description>
-      <originalPack>Renesas.RA_mcu_ra6m3.3.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra6m3" subgroup="fsp" variant="" vendor="Renesas" version="3.0.0">
-      <description>Board support package for RA6M3 - FSP Data</description>
-      <originalPack>Renesas.RA_mcu_ra6m3.3.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra6m3_ek" variant="" vendor="Renesas" version="3.0.0">
+    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra6m3_ek" variant="" vendor="Renesas" version="3.5.0">
       <description>RA6M3-EK Board Support Files</description>
-      <originalPack>Renesas.RA_board_ra6m3_ek.3.0.0.pack</originalPack>
+      <originalPack>Renesas.RA_board_ra6m3_ek.3.5.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra6m3" subgroup="device" variant="R7FA6M3AH3CFC" vendor="Renesas" version="3.5.0">
+      <description>Board support package for R7FA6M3AH3CFC</description>
+      <originalPack>Renesas.RA_mcu_ra6m3.3.5.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra6m3" subgroup="device" variant="" vendor="Renesas" version="3.5.0">
+      <description>Board support package for RA6M3</description>
+      <originalPack>Renesas.RA_mcu_ra6m3.3.5.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra6m3" subgroup="fsp" variant="" vendor="Renesas" version="3.5.0">
+      <description>Board support package for RA6M3 - FSP Data</description>
+      <originalPack>Renesas.RA_mcu_ra6m3.3.5.0.pack</originalPack>
     </component>
   </raComponentSelection>
   <raIcuConfiguration/>
@@ -174,8 +181,10 @@
     <module id="module.driver.ioport_on_ioport.0">
       <property id="module.driver.ioport.name" value="g_ioport"/>
     </module>
+    <module id="module.middleware.rm_freertos_port.0"/>
     <context id="_hal.0">
       <stack module="module.driver.ioport_on_ioport.0"/>
+      <stack module="module.middleware.rm_freertos_port.0"/>
     </context>
     <context id="rtos.awsfreertos.thread.0">
       <property id="_symbol" value="blinky_thread"/>

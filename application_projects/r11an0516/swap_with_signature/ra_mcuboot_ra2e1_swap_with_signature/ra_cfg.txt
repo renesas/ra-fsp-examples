@@ -60,10 +60,11 @@ FSP Configuration
     Parameter checking: Disabled
     Assert Failures: Return FSP_ERR_ASSERTION
     Error Log: No Error Log
-    Soft Reset: Disabled
+    Clock Registers not Reset Values during Startup: Disabled
     Main Oscillator Populated: Not Populated
     PFS Protect: Enabled
     C Runtime Initialization : Enabled
+    Early BSP Initialization : Disabled
     Main Oscillator Clock Source: Crystal or Resonator
     Subclock Populated: Not Populated
     Subclock Drive (Drive capacitance availability varies by MCU): Standard/Normal mode
@@ -221,7 +222,6 @@ FSP Configuration
     General: Upgrade Mode: Swap
     General: Validate Primary Image: Enabled
     General: Downgrade Prevention (Overwrite Only): Disabled
-    Debugging: Log Level: Off
     General: Number of Images Per Application: 1
     General: Watchdog Feed: 
     Flash Layout: Bootloader Flash Area Size (Bytes): 0x4000
@@ -244,9 +244,9 @@ FSP Configuration
     Signing Options: TrustZone: Custom (Image 2): --pad
     Signing Options: Python: python
     
-  Module "MCUboot Port for RA"
+  Module "MCUboot Port for RA (rm_mcuboot_port)"
   Module "TinyCrypt (S/W Only)"
-  Module "Flash Driver on r_flash_lp"
+  Module "Flash (r_flash_lp)"
     Parameter Checking: Default (BSP)
     Code Flash Programming: Enabled
     Data Flash Programming: Disabled
@@ -255,9 +255,9 @@ FSP Configuration
   Module "MCUboot Example Keys (NOT FOR PRODUCTION)"
   HAL
     Instance "MCUboot"
-      Instance "MCUboot Port for RA"
+      Instance "MCUboot Port for RA (rm_mcuboot_port)"
         Instance "TinyCrypt (S/W Only)"
-        Instance "g_flash0 Flash Driver on r_flash_lp"
+        Instance "g_flash0 Flash (r_flash_lp)"
           Name: g_flash0
           Data Flash Background Operation: Disabled
           Callback: NULL

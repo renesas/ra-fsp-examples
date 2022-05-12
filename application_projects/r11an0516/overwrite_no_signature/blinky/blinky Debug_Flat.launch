@@ -2,6 +2,7 @@
 <launchConfiguration type="com.renesas.cdt.launch.dsf.gdbremote.launchConfigurationType">
     <booleanAttribute key=".setStepMode" value="false"/>
     <stringAttribute key="com.renesas.cdt.core.additionalServerArgs" value=""/>
+    <intAttribute key="com.renesas.cdt.core.connectionTimeout" value="30"/>
     <stringAttribute key="com.renesas.cdt.core.initCommands" value=""/>
     <stringAttribute key="com.renesas.cdt.core.ipAddress" value="localhost"/>
     <stringAttribute key="com.renesas.cdt.core.jtagDeviceId" value="com.renesas.hardwaredebug.rz.jlink"/>
@@ -20,12 +21,12 @@
     <stringAttribute key="com.renesas.cdt.core.secondGDBExe" value="green_dsp-elf-gdb"/>
     <booleanAttribute key="com.renesas.cdt.core.secondGDBSupport" value="false"/>
     <intAttribute key="com.renesas.cdt.core.secondGdbPortNumber" value="61237"/>
-    <stringAttribute key="com.renesas.cdt.core.serverParam" value="-g SEGGERJLINKARM -t R7FA2E1A9  -uSelect= USB -uJLinkSetting= ${workspace_loc:/${ProjName}}/${LaunchConfigName}.jlink -uLowPower= 0 -uInteface= SWD -uIfSpeed= 4000 -uNoReset= 1 -uResetPreRun= 1 -uIdCodeBytes=  FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF -uResetCon= 1 -uResetBefDownload= 1 -uReleaseCM3= 0 -uSWOcoreClock= 0 -uresetOnReload= 1 -n 0 -uFlashBp= 1 -uSimulation= 0 -ueraseRomOnDownload= 0 -ueraseDataRomOnDownload= 0 -uOSRestriction= 0 -uProgReWriteIRom= 0 -uCPUFrequency= 0 -uCECycle= 1"/>
+    <stringAttribute key="com.renesas.cdt.core.serverParam" value="-g SEGGERJLINKARM -t R7FA2E1A9 -uConnectionTimeout= 30 -uSelect= USB -uJLinkSetting= ${workspace_loc:/${ProjName}}/${LaunchConfigName}.jlink -uLowPower= 0 -uInteface= SWD -uIfSpeed= 4000 -uNoReset= 1 -uResetPreRun= 1 -uIdCodeBytes=  FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF -uResetCon= 1 -uResetBefDownload= 1 -uReleaseCM3= 0 -uSWOcoreClock= 0 -uresetOnReload= 1 -n 0 -uFlashBp= 1 -uSimulation= 0 -ueraseRomOnDownload= 0 -ueraseDataRomOnDownload= 0 -uOSRestriction= 0 -uProgReWriteIRom= 0 -uCPUFrequency= 0 -uCECycle= 1"/>
     <booleanAttribute key="com.renesas.cdt.core.setResume" value="true"/>
     <booleanAttribute key="com.renesas.cdt.core.startServer" value="true"/>
     <stringAttribute key="com.renesas.cdt.core.targetDevice" value="R7FA2E1A9"/>
     <booleanAttribute key="com.renesas.cdt.core.useRemoteTarget" value="true"/>
-    <stringAttribute key="com.renesas.cdt.debug.ioview.dsf.registerSelection0" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#13;&#10;&lt;selectedRegisterList ioFilePath=&quot;C:\Users\xianghui.wang\.eclipse\com.renesas.platform_430597117\DebugComp\RA\IoFiles\R7FA2E1A9.sfrx&quot;/&gt;&#13;&#10;"/>
+    <stringAttribute key="com.renesas.cdt.debug.ioview.dsf.registerSelection0" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#13;&#10;&lt;selectedRegisterList ioFilePath=&quot;C:\Users\27350\.eclipse\com.renesas.platform_1756251038\DebugComp\RA\IoFiles\R7FA2E1A9.sfrx&quot;/&gt;&#13;&#10;"/>
     <stringAttribute key="com.renesas.cdt.launch.dsf.IO_MAP" value="${support_area_loc}"/>
     <booleanAttribute key="com.renesas.cdt.launch.dsf.USE_DEFAULT_IO_MAP" value="true"/>
     <listAttribute key="com.renesas.cdt.launch.dsf.downloadImages">
@@ -34,10 +35,10 @@
     </listAttribute>
     <booleanAttribute key="com.renesas.cdt.launch.dsf.downloadImagesUpgradedV30" value="true"/>
     <stringAttribute key="com.renesas.cdt.launch.dsf.launchSeqType" value="com.renesas.cdt.launch.dsf.launchSequence.e2GdbServer"/>
-    <stringAttribute key="com.renesas.cdt.launch.dsf.restore.mruAddress" value="0x00002000"/>
+    <stringAttribute key="com.renesas.cdt.launch.dsf.restore.mruAddress" value="0x00004000"/>
     <listAttribute key="com.renesas.cdt.launch.dsf.restore.mruFiles">
-        <listEntry value="${workspace_loc:\blinky\Debug\blinky.bin.signed}"/>
         <listEntry value="${workspace_loc:\blinky_new\Debug\blinky_new.bin.signed}"/>
+        <listEntry value="${workspace_loc:\blinky\Debug\blinky.bin.signed}"/>
     </listAttribute>
     <stringAttribute key="com.renesas.cdt.launch.dsf.serverPath" value="${renesas.support.targetLoc:com.renesas.ide.supportfiles.ra.debug.debugSupportFileTarget}\e2-server-gdb"/>
     <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.break.allowSimulation" value="false"/>
@@ -80,11 +81,12 @@
     <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.scanChain.multiDevices" value="false"/>
     <stringAttribute key="com.renesas.hardwaredebug.arm.jlink.semihosting.breakpointAddress" value=""/>
     <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.setTZBoundaries" value="false"/>
+    <stringAttribute key="com.renesas.hardwaredebug.arm.jlink.vectorOffset" value=""/>
     <booleanAttribute key="com.renesas.hardwaredebug.timemeasurement" value="true"/>
     <intAttribute key="org.eclipse.cdt.debug.gdbjtag.core.delay" value="3"/>
     <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.doHalt" value="false"/>
     <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.doReset" value="false"/>
-    <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.imageFileName" value="C:\ra2_bootloader\training\demos\overwrite_no_signature\blinky\Debug\blinky.elf"/>
+    <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.imageFileName" value="D:\Workspace_migration_AP\blinky\Debug\blinky.elf"/>
     <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.imageOffset" value=""/>
     <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.initCommands" value=""/>
     <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.loadImage" value="false"/>
@@ -95,7 +97,7 @@
     <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.setResume" value="false"/>
     <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.setStopAt" value="true"/>
     <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.stopAt" value="main"/>
-    <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.symbolsFileName" value="C:\ra2_bootloader\training\demos\overwrite_no_signature\blinky\Debug\blinky.elf"/>
+    <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.symbolsFileName" value="D:\Workspace_migration_AP\blinky\Debug\blinky.elf"/>
     <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.symbolsOffset" value=""/>
     <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.useFileForImage" value="false"/>
     <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.useFileForSymbols" value="false"/>

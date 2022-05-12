@@ -3,30 +3,29 @@
 FSP_CPP_HEADER
 void R_BSP_WarmStart(bsp_warm_start_event_t event);
 FSP_CPP_FOOTER
-/* Use the following commands to sign the image, replacing ${ProjName}.elf with the path to your image elf file.
- * Regenerate this template if any MCUboot properties change in the bootloader project.
- Make the following updates to convert to binary, then sign image 1 (primary slot: 30000, secondary/upgrade slot: 20000):
- 1. Update ${ProjName} to reflect the location of the image 1 .elf file
- 2. Update ${workspace_loc:ra_mcuboot_ra6m4} to reflect the location of the root of the bootloader project
- arm-none-eabi-objcopy -O binary ${ProjName}.elf ${ProjName}.bin & python ${workspace_loc:ra_mcuboot_ra6m4}/ra/mcu-tools/MCUboot/scripts/imgtool.py sign -k ${workspace_loc:ra_mcuboot_ra6m4}/ra/mcu-tools/MCUboot/root-ec-p256.pem --version 1.0.0+0 --header-size 0x80 --align 128 --max-align 128 --slot-size 0x10000 --max-sectors 4  --confirm --pad-header ${ProjName}.bin ${ProjName}_signed.bin
 
- Make the following updates to convert to binary, then sign image 2 (primary slot: 40000, secondary/upgrade slot: 60000):
- 1. Update ${ProjName} to reflect the location of the image 2 .elf file
- 2. Update ${workspace_loc:ra_mcuboot_ra6m4} to reflect the location of the root of the bootloader project
- arm-none-eabi-objcopy -O binary ${ProjName}.elf ${ProjName}.bin & python ${workspace_loc:ra_mcuboot_ra6m4}/ra/mcu-tools/MCUboot/scripts/imgtool.py sign -k ${workspace_loc:ra_mcuboot_ra6m4}/ra/mcu-tools/MCUboot/root-ec-p256.pem --version 1.0.0+0 --header-size 0x80 --align 128 --max-align 128 --slot-size 0x20000 --max-sectors 4  --confirm --pad-header ${ProjName}.bin ${ProjName}_signed.bin
- */
 /* Quick setup for MCUboot.
  *
  * To update the linker regions of an application to be used with this bootloader, add a the *.bld file created during the
  * build as a File property in e2 studio or RASC under Project > Properties, then C/C++ Build > Build Variables with variable
  * name BootloaderDataFile.
+ * If QSPI is used, the QSPI flash must be initialized in Extended-SPI mode by calling R_QSPI_Open() before boot_go() is called.
  */
 void mcuboot_quick_setup()
 {
-#if defined(MCUBOOT_USE_MBED_TLS)
+#ifdef MCUBOOT_USE_MBED_TLS
+
     /* Initialize mbedtls. */
     mbedtls_platform_context ctx = {0};
     assert(0 == mbedtls_platform_setup(&ctx));
+#elif (defined(MCUBOOT_USE_TINYCRYPT) && defined(RM_MCUBOOT_PORT_USE_TINYCRYPT_ACCELERATION))
+
+    /* Initialize TinyCrypt port. */
+    assert(FSP_SUCCESS == RM_TINCYRYPT_PORT_Init());
+#elif (defined(MCUBOOT_USE_USER_DEFINED_CRYPTO_STACK))
+
+/* Initialize Custom Crypto (Protected Mode) driver. */
+    assert(FSP_SUCCESS == R_SCE_Open(&sce_ctrl, &sce_cfg));
 #endif
 
     /* (Optional, not required if --pad is used during signing) To check for updates, call boot_set_pending. */
@@ -50,8 +49,8 @@ void mcuboot_quick_setup()
  **********************************************************************************************************************/
 void hal_entry(void)
 {
+    /* TODO: add your own code here */
     mcuboot_quick_setup();
-
 #if BSP_TZ_SECURE_BUILD
     /* Enter non-secure code */
     R_BSP_NonSecureEnter();
@@ -83,7 +82,7 @@ void R_BSP_WarmStart(bsp_warm_start_event_t event)
         /* C runtime environment and system clocks are setup. */
 
         /* Configure pins. */
-        R_IOPORT_Open (&g_ioport_ctrl, &g_bsp_pin_cfg);
+        R_IOPORT_Open (&g_ioport_ctrl, g_ioport.p_cfg);
     }
 }
 

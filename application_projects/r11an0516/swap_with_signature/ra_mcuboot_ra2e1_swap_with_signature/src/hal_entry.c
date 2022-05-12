@@ -1,10 +1,10 @@
 #include "hal_data.h"
 
 FSP_CPP_HEADER
-void R_BSP_WarmStart(bsp_warm_start_event_t event) BSP_PLACE_IN_SECTION(".code_in_gap*");
+void R_BSP_WarmStart(bsp_warm_start_event_t event) BSP_PLACE_IN_SECTION(".code_in_gap");
 FSP_CPP_FOOTER
 
-void mcuboot_quick_setup() BSP_PLACE_IN_SECTION(".code_in_gap*");
+void mcuboot_quick_setup() BSP_PLACE_IN_SECTION(".code_in_gap");
 /* Quick setup for MCUboot.
  *
  * To update the linker regions of an application to be used with this bootloader, add a the *.bld file created during the

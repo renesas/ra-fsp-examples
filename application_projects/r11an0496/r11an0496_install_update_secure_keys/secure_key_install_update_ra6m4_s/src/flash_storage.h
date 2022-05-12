@@ -3,7 +3,7 @@
  * Description  : Contains macro definitions for flash layout
  ***********************************************************************************************************************/
 /***********************************************************************************************************************
- * Copyright [2020-2021] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
+ * Copyright [2020-2022] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
  *
  * This software and documentation are supplied by Renesas Electronics America Inc. and may only be used with products
  * of Renesas Electronics Corp. and its affiliates ("Renesas").  No other uses are authorized.  Renesas products are
@@ -71,6 +71,12 @@
 #define BUFF_SIZE                       0x0F
 #define BUFF_INDEX                      0x00
 
-fsp_err_t store_new_user_key_to_data_flash(void);
+/* users need to update the KUK_ADDRESS and DIRECT_KEY_ADDRESS based on where they are stored */
+#define KUK_ADDRESS             0x40000
+#define DIRECT_AES_KEY_ADDRESS      FLASH_HP_DF_BLOCK_0
+#define DIRECT_ECC_PUB_KEY_ADDRESS     FLASH_HP_DF_BLOCK_2
+
+fsp_err_t  store_new_aes_key_to_data_flash(void);
+fsp_err_t store_new_ecc_pub_key_to_data_flash(void);
 
 #endif /* FLASH_STORAGE_H_ */

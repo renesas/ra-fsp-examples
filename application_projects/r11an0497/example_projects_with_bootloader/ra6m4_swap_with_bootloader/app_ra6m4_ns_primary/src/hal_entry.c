@@ -19,7 +19,6 @@
  **********************************************************************************************************************/
 
 #include "hal_data.h"
-#include "flash_access_ns.h"
 
 void R_BSP_WarmStart(bsp_warm_start_event_t event);
 
@@ -48,6 +47,6 @@ void R_BSP_WarmStart (bsp_warm_start_event_t event)
         /* C runtime environment and system clocks are setup. */
 
         /* Configure pins. */
-        R_IOPORT_Open(&g_ioport_ctrl, &g_bsp_pin_cfg);
+        R_IOPORT_Open(&g_ioport_ctrl, g_ioport.p_cfg);
     }
 }

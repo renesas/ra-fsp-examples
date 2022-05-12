@@ -1,52 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="com.renesas.cdt.launch.dsf.gdbremote.launchConfigurationType">
     <booleanAttribute key=".setStepMode" value="false"/>
-    <stringAttribute key="com.renesas.cdt.core.additionalServerArgs" value=""/>
     <stringAttribute key="com.renesas.cdt.core.initCommands" value=""/>
     <stringAttribute key="com.renesas.cdt.core.ipAddress" value="localhost"/>
     <stringAttribute key="com.renesas.cdt.core.jtagDeviceId" value="com.renesas.hardwaredebug.rz.jlink"/>
-    <listAttribute key="com.renesas.cdt.core.listGDBExe">
-        <listEntry value="arm-none-eabi-gdb"/>
-    </listAttribute>
-    <listAttribute key="com.renesas.cdt.core.listGDBLaunchName">
-        <listEntry value="main"/>
-    </listAttribute>
-    <listAttribute key="com.renesas.cdt.core.listGDBPort">
-        <listEntry value="61234"/>
-    </listAttribute>
-    <stringAttribute key="com.renesas.cdt.core.optionInitCommands" value=""/>
+    <stringAttribute key="com.renesas.cdt.core.optionInitCommands" value="monitor force_rtos_off&#10;&#10;"/>
     <intAttribute key="com.renesas.cdt.core.portNumber" value="61234"/>
     <stringAttribute key="com.renesas.cdt.core.runCommands" value=""/>
     <stringAttribute key="com.renesas.cdt.core.secondGDBExe" value="green_dsp-elf-gdb"/>
-    <booleanAttribute key="com.renesas.cdt.core.secondGDBSupport" value="false"/>
     <intAttribute key="com.renesas.cdt.core.secondGdbPortNumber" value="61237"/>
     <stringAttribute key="com.renesas.cdt.core.serverParam" value="-g SEGGERJLINKARM -t R7FA6M3AH  -uSelect= USB -uJLinkSetting= ${workspace_loc:/${ProjName}}/${LaunchConfigName}.jlink -uLowPower= 0 -uInteface= SWD -uIfSpeed= 4000 -uNoReset= 1 -uResetPreRun= 1 -uIdCodeBytes=  FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF -uResetCon= 1 -uResetBefDownload= 1 -uReleaseCM3= 0 -uSWOcoreClock= 0 -uresetOnReload= 1 -n 0 -uFlashBp= 1 -uSimulation= 0 -ueraseRomOnDownload= 0 -ueraseDataRomOnDownload= 0 -uOSRestriction= 0 -uProgReWriteIRom= 0 -uCPUFrequency= 0 -uCECycle= 1"/>
     <booleanAttribute key="com.renesas.cdt.core.setResume" value="true"/>
-    <booleanAttribute key="com.renesas.cdt.core.startServer" value="true"/>
     <stringAttribute key="com.renesas.cdt.core.targetDevice" value="R7FA6M3AH"/>
     <booleanAttribute key="com.renesas.cdt.core.useRemoteTarget" value="true"/>
     <stringAttribute key="com.renesas.cdt.launch.dsf.IO_MAP" value="${support_area_loc}"/>
     <booleanAttribute key="com.renesas.cdt.launch.dsf.USE_DEFAULT_IO_MAP" value="true"/>
-    <listAttribute key="com.renesas.cdt.launch.dsf.downloadImages">
-        <listEntry value="|true|false|true||true|No core"/>
-        <listEntry value="${workspace_loc:\ra_mcuboot_ra6m3\Debug\ra_mcuboot_ra6m3.elf}|true|true|true|0|true|No core"/>
-    </listAttribute>
-    <booleanAttribute key="com.renesas.cdt.launch.dsf.downloadImagesUpgradedV30" value="true"/>
     <stringAttribute key="com.renesas.cdt.launch.dsf.launchSeqType" value="com.renesas.cdt.launch.dsf.launchSequence.e2GdbServer"/>
-    <stringAttribute key="com.renesas.cdt.launch.dsf.restore.mruAddress" value="0x00010000"/>
-    <listAttribute key="com.renesas.cdt.launch.dsf.restore.mruFiles">
-        <listEntry value="${workspace_loc:\app_ra6m3_primary\Debug\app_ra6m3_primary_signed.bin}"/>
-    </listAttribute>
     <stringAttribute key="com.renesas.cdt.launch.dsf.serverPath" value="${renesas.support.targetLoc:com.renesas.ide.supportfiles.ra.debug.debugSupportFileTarget}\e2-server-gdb"/>
     <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.break.allowSimulation" value="false"/>
     <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.break.useFlashBreakpoints.resetorrepurposed" value="true"/>
-    <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.cfiFlash.enable" value="false"/>
-    <stringAttribute key="com.renesas.hardwaredebug.arm.jlink.cfiFlash.endAddr" value="0x0"/>
-    <stringAttribute key="com.renesas.hardwaredebug.arm.jlink.cfiFlash.startAddr" value="0x0"/>
-    <stringAttribute key="com.renesas.hardwaredebug.arm.jlink.cfiFlash.workRam.endAddr" value=""/>
-    <stringAttribute key="com.renesas.hardwaredebug.arm.jlink.cfiFlash.workRam.startAddr" value=""/>
-    <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.connection.id_code.format.big_endian" value="false"/>
-    <intAttribute key="com.renesas.hardwaredebug.arm.jlink.connection.id_code.input_type" value="0"/>
     <stringAttribute key="com.renesas.hardwaredebug.arm.jlink.connection.id_code2" value="FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"/>
     <stringAttribute key="com.renesas.hardwaredebug.arm.jlink.connection.jlinkScript" value=""/>
     <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.connection.registerInit" value="false"/>
@@ -55,26 +27,17 @@
     <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.connection.resetCon" value="true"/>
     <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.connection.resetPreRun" value="true"/>
     <stringAttribute key="com.renesas.hardwaredebug.arm.jlink.connection.swv.coreClockSpeed" value="0"/>
-    <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.eraseDataRomOnDownload" value="false"/>
-    <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.eraseRomOnDownload" value="false"/>
     <intAttribute key="com.renesas.hardwaredebug.arm.jlink.interface.speed" value="4000"/>
     <stringAttribute key="com.renesas.hardwaredebug.arm.jlink.interface.type" value="SWD"/>
-    <stringAttribute key="com.renesas.hardwaredebug.arm.jlink.jlink.ipAddress" value=""/>
     <stringAttribute key="com.renesas.hardwaredebug.arm.jlink.jlink.lowPowerHandling" value="No"/>
     <stringAttribute key="com.renesas.hardwaredebug.arm.jlink.jlink.scriptFile" value=""/>
     <stringAttribute key="com.renesas.hardwaredebug.arm.jlink.jlink.settingsFile" value="${workspace_loc:/${ProjName}}/${LaunchConfigName}.jlink"/>
-    <stringAttribute key="com.renesas.hardwaredebug.arm.jlink.jlink.type" value="USB"/>
-    <stringAttribute key="com.renesas.hardwaredebug.arm.jlink.jlink.usbSerial" value=""/>
     <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.memory.isLittleEndian" value="true"/>
     <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.options.ArmJLinkDebugToolSettingsTree.prog_rewrite_irom" value="false"/>
-    <intAttribute key="com.renesas.hardwaredebug.arm.jlink.options.ArmJLinkDebugToolSettingsTree.rbtm" value="0"/>
-    <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.options.ArmJLinkDebugToolSettingsTree.rbtm.everycycleenable" value="true"/>
     <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.options.ArmJLinkDebugToolSettingsTree.resetAfterReload" value="true"/>
-    <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.options.ArmJLinkDebugToolSettingsTree.rtosIntegrationInDebugView" value="true"/>
+    <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.options.ArmJLinkDebugToolSettingsTree.rtosIntegrationInDebugView" value="false"/>
     <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.options.ArmJLinkDebugToolSettingsTree.rtosintegrationthreadsrunning" value="false"/>
     <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.release.reset" value="true"/>
-    <intAttribute key="com.renesas.hardwaredebug.arm.jlink.scanChain.drPre" value="0"/>
-    <intAttribute key="com.renesas.hardwaredebug.arm.jlink.scanChain.irPre" value="0"/>
     <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.scanChain.multiDevices" value="false"/>
     <stringAttribute key="com.renesas.hardwaredebug.arm.jlink.semihosting.breakpointAddress" value=""/>
     <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.setTZBoundaries" value="false"/>
@@ -82,10 +45,10 @@
     <intAttribute key="org.eclipse.cdt.debug.gdbjtag.core.delay" value="3"/>
     <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.doHalt" value="false"/>
     <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.doReset" value="false"/>
-    <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.imageFileName" value="C:\MCUboot\release\ra_solutions\application_projects\ra_mcuboot\ek_ra6m3_overwrite\app_ra6m3_primary\Debug\app_ra6m3_primary.elf"/>
+    <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.imageFileName" value=""/>
     <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.imageOffset" value=""/>
     <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.initCommands" value=""/>
-    <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.loadImage" value="false"/>
+    <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.loadImage" value="true"/>
     <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.loadSymbols" value="true"/>
     <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.pcRegister" value=""/>
     <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.runCommands" value=""/>
@@ -93,7 +56,7 @@
     <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.setResume" value="false"/>
     <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.setStopAt" value="true"/>
     <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.stopAt" value="main"/>
-    <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.symbolsFileName" value="C:\MCUboot\release\ra_solutions\application_projects\ra_mcuboot\ek_ra6m3_overwrite\app_ra6m3_primary\Debug\app_ra6m3_primary.elf"/>
+    <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.symbolsFileName" value=""/>
     <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.symbolsOffset" value=""/>
     <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.useFileForImage" value="false"/>
     <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.useFileForSymbols" value="false"/>
@@ -101,13 +64,8 @@
     <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.useProjBinaryForSymbols" value="true"/>
     <stringAttribute key="org.eclipse.cdt.dsf.gdb.DEBUG_NAME" value="arm-none-eabi-gdb"/>
     <booleanAttribute key="org.eclipse.cdt.dsf.gdb.NON_STOP" value="true"/>
-    <intAttribute key="org.eclipse.cdt.launch.ATTR_BUILD_BEFORE_LAUNCH_ATTR" value="2"/>
-    <booleanAttribute key="org.eclipse.cdt.launch.DEBUGGER_STOP_AT_MAIN" value="true"/>
-    <stringAttribute key="org.eclipse.cdt.launch.DEBUGGER_STOP_AT_MAIN_SYMBOL" value="main"/>
     <stringAttribute key="org.eclipse.cdt.launch.PROGRAM_NAME" value="Debug/app_ra6m3_secondary.elf"/>
     <stringAttribute key="org.eclipse.cdt.launch.PROJECT_ATTR" value="app_ra6m3_secondary"/>
-    <booleanAttribute key="org.eclipse.cdt.launch.PROJECT_BUILD_CONFIG_AUTO_ATTR" value="false"/>
-    <stringAttribute key="org.eclipse.cdt.launch.PROJECT_BUILD_CONFIG_ID_ATTR" value=""/>
     <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
         <listEntry value="/app_ra6m3_secondary"/>
     </listAttribute>
@@ -115,5 +73,4 @@
         <listEntry value="4"/>
     </listAttribute>
     <booleanAttribute key="org.eclipse.debug.ui.ATTR_LAUNCH_IN_BACKGROUND" value="false"/>
-    <stringAttribute key="process_factory_id" value="org.eclipse.cdt.dsf.gdb.GdbProcessFactory"/>
 </launchConfiguration>

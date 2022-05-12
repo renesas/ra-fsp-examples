@@ -1,7 +1,7 @@
 #include "hal_data.h"
 
 FSP_CPP_HEADER
-void R_BSP_WarmStart(bsp_warm_start_event_t event) BSP_PLACE_IN_SECTION(".code_in_gap*");
+void R_BSP_WarmStart(bsp_warm_start_event_t event) BSP_PLACE_IN_SECTION(".code_in_gap");
 FSP_CPP_FOOTER
 
 /* Use the following commands to sign the image, replacing ${ProjName}.elf with the path to your image elf file.
@@ -12,7 +12,7 @@ FSP_CPP_FOOTER
  arm-none-eabi-objcopy -O binary ${ProjName}.elf ${ProjName}.bin & python ${workspace_loc:ra_mcuboot_ra2e1_overwrite_validate}/ra/mcu-tools/MCUboot/scripts/imgtool.py sign -k ${workspace_loc:ra_mcuboot_ra2e1_overwrite_validate}/ra/mcu-tools/MCUboot/root-ec-p256.pem --version 1.0.0+0 --header-size 0x100 --align 8 --max-align 8 --slot-size 0x2000 --max-sectors 4 --overwrite-only --confirm --pad-header ${ProjName}.bin ${ProjName}_signed.bin
  */
 
-void mcuboot_quick_setup() BSP_PLACE_IN_SECTION(".code_in_gap*");
+void mcuboot_quick_setup() BSP_PLACE_IN_SECTION(".code_in_gap");
 /* Quick setup for MCUboot.
  *
  * To update the linker regions of an application to be used with this bootloader, add a the *.bld file created during the

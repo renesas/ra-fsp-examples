@@ -3,12 +3,13 @@
   <generalSettings>
     <option key="#Board#" value="board.ra2e1_ek"/>
     <option key="CPU" value="RA2E1"/>
+    <option key="Core" value="CM23"/>
     <option key="#TargetName#" value="R7FA2E1A92DFM"/>
     <option key="#TargetARCHITECTURE#" value="cortex-m23"/>
     <option key="#DeviceCommand#" value="R7FA2E1A9"/>
     <option key="#RTOS#" value="_none"/>
     <option key="#pinconfiguration#" value="R7FA2E1A92DFM.pincfg"/>
-    <option key="#FSPVersion#" value="3.4.0"/>
+    <option key="#FSPVersion#" value="3.6.0"/>
     <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra2e1_ek##"/>
     <option key="#SELECTED_TOOLCHAIN#" value="gcc-arm-embedded"/>
     <option key="#ToolchainVersion#" value="9.3.1.20200408"/>
@@ -22,6 +23,7 @@
       <property id="config.bsp.data_flash_size_bytes" value="config.bsp.data_flash_size_bytes.value"/>
       <property id="config.bsp.package_style" value="config.bsp.package_style.value"/>
       <property id="config.bsp.package_pins" value="config.bsp.package_pins.value"/>
+      <property id="config.bsp.irq_count_hidden" value="32"/>
     </config>
     <config id="config.bsp.ra2e1">
       <property id="config.bsp.series" value="config.bsp.series.value"/>
@@ -71,6 +73,7 @@
       <property id="config.bsp.fsp.mcu.spi.max_bitrate" value="16000000"/>
       <property id="config.bsp.fsp.mcu.iic_master.rate.rate_fastplus" value="0"/>
       <property id="config.bsp.fsp.mcu.sci_uart.cstpen_channels" value="0x0"/>
+      <property id="config.bsp.fsp.mcu.gpt.pin_count_source_channels" value="0xFFFF"/>
       <property id="config.bsp.common.id_mode" value="config.bsp.common.id_mode.unlocked"/>
       <property id="config.bsp.common.id_code" value="FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"/>
       <property id="config.bsp.common.id1" value=""/>
@@ -90,6 +93,7 @@
       <property id="config.bsp.common.main_osc_populated" value="config.bsp.common.main_osc_populated.disabled"/>
       <property id="config.bsp.common.pfs_protect" value="config.bsp.common.pfs_protect.enabled"/>
       <property id="config.bsp.common.c_runtime_init" value="config.bsp.common.c_runtime_init.enabled"/>
+      <property id="config.bsp.common.early_init" value="config.bsp.common.early_init.disabled"/>
       <property id="config.bsp.common.main_osc_clock_source" value="config.bsp.common.main_osc_clock_source.crystal"/>
       <property id="config.bsp.common.subclock_populated" value="config.bsp.common.subclock_populated.disabled"/>
       <property id="config.bsp.common.subclock_drive" value="config.bsp.common.subclock_drive.standard"/>
@@ -114,53 +118,53 @@
     <node id="board.clock.clkout.display" option="board.clock.clkout.display.value"/>
   </raClockConfiguration>
   <raComponentSelection>
-    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="3.4.0">
-      <description>Board Support Package Common Files</description>
-      <originalPack>Renesas.RA.3.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_flash_lp" variant="" vendor="Renesas" version="3.4.0">
-      <description>Flash Memory Low Power</description>
-      <originalPack>Renesas.RA.3.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_mcuboot_port" variant="" vendor="Renesas" version="3.4.0">
-      <description>MCUboot Port for RA</description>
-      <originalPack>Renesas.RA.3.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="5.7.0+fsp.3.4.0">
-      <description>Arm CMSIS Version 5 - Core (M)</description>
-      <originalPack>Arm.CMSIS5.5.7.0+fsp.3.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra2e1_ek" variant="" vendor="Renesas" version="3.4.0">
-      <description>RA2E1-EK Board Support Files</description>
-      <originalPack>Renesas.RA_board_ra2e1_ek.3.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra2e1" subgroup="device" variant="R7FA2E1A92DFM" vendor="Renesas" version="3.4.0">
-      <description>Board support package for R7FA2E1A92DFM</description>
-      <originalPack>Renesas.RA_mcu_ra2e1.3.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra2e1" subgroup="device" variant="" vendor="Renesas" version="3.4.0">
-      <description>Board support package for RA2E1</description>
-      <originalPack>Renesas.RA_mcu_ra2e1.3.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra2e1" subgroup="fsp" variant="" vendor="Renesas" version="3.4.0">
-      <description>Board support package for RA2E1 - FSP Data</description>
-      <originalPack>Renesas.RA_mcu_ra2e1.3.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Cryptography" condition="" group="all" subgroup="TinyCrypt" variant="" vendor="Intel" version="0.2.8+renesas.0.fsp.3.4.0">
-      <description>TinyCrypt</description>
-      <originalPack>Intel.TinyCrypt.0.2.8+renesas.0.fsp.3.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="boot" condition="" group="all" subgroup="MCUboot" variant="" vendor="Linaro" version="1.7.2+renesas.1.fsp.3.4.0">
+    <component apiversion="" class="boot" condition="" group="all" subgroup="MCUboot" variant="" vendor="Linaro" version="1.8.0+renesas.0.fsp.3.6.0">
       <description>MCUboot</description>
-      <originalPack>Linaro.MCUboot.1.7.2+renesas.1.fsp.3.4.0.pack</originalPack>
+      <originalPack>Linaro.MCUboot.1.8.0+renesas.0.fsp.3.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="boot" condition="" group="all" subgroup="keys" variant="" vendor="Linaro" version="1.7.2+renesas.1.fsp.3.4.0">
+    <component apiversion="" class="boot" condition="" group="all" subgroup="keys" variant="" vendor="Linaro" version="1.8.0+renesas.0.fsp.3.6.0">
       <description>MCUboot Example Keys</description>
-      <originalPack>Linaro.MCUboot.1.7.2+renesas.1.fsp.3.4.0.pack</originalPack>
+      <originalPack>Linaro.MCUboot.1.8.0+renesas.0.fsp.3.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="boot" condition="" group="all" subgroup="asn1parser" variant="" vendor="Linaro" version="1.7.2+renesas.1.fsp.3.4.0">
+    <component apiversion="" class="boot" condition="" group="all" subgroup="asn1parser" variant="" vendor="Linaro" version="1.8.0+renesas.0.fsp.3.6.0">
       <description>MCUboot ASN.1 Parser</description>
-      <originalPack>Linaro.MCUboot.1.7.2+renesas.1.fsp.3.4.0.pack</originalPack>
+      <originalPack>Linaro.MCUboot.1.8.0+renesas.0.fsp.3.6.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="5.8.0+renesas.0.fsp.3.6.0">
+      <description>Arm CMSIS Version 5 - Core (M)</description>
+      <originalPack>Arm.CMSIS5.5.8.0+renesas.0.fsp.3.6.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="3.6.0">
+      <description>Board Support Package Common Files</description>
+      <originalPack>Renesas.RA.3.6.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_flash_lp" variant="" vendor="Renesas" version="3.6.0">
+      <description>Flash Memory Low Power</description>
+      <originalPack>Renesas.RA.3.6.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_mcuboot_port" variant="" vendor="Renesas" version="3.6.0">
+      <description>MCUboot Port for RA</description>
+      <originalPack>Renesas.RA.3.6.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Cryptography" condition="" group="all" subgroup="TinyCrypt" variant="" vendor="Intel" version="0.2.8+renesas.0.fsp.3.6.0">
+      <description>TinyCrypt</description>
+      <originalPack>Intel.TinyCrypt.0.2.8+renesas.0.fsp.3.6.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra2e1_ek" variant="" vendor="Renesas" version="3.6.0">
+      <description>RA2E1-EK Board Support Files</description>
+      <originalPack>Renesas.RA_board_ra2e1_ek.3.6.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra2e1" subgroup="device" variant="R7FA2E1A92DFM" vendor="Renesas" version="3.6.0">
+      <description>Board support package for R7FA2E1A92DFM</description>
+      <originalPack>Renesas.RA_mcu_ra2e1.3.6.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra2e1" subgroup="device" variant="" vendor="Renesas" version="3.6.0">
+      <description>Board support package for RA2E1</description>
+      <originalPack>Renesas.RA_mcu_ra2e1.3.6.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra2e1" subgroup="fsp" variant="" vendor="Renesas" version="3.6.0">
+      <description>Board support package for RA2E1 - FSP Data</description>
+      <originalPack>Renesas.RA_mcu_ra2e1.3.6.0.pack</originalPack>
     </component>
   </raComponentSelection>
   <raElcConfiguration/>
@@ -194,7 +198,6 @@
       <property id="config.middleware.mcuboot.upgrade_mode" value="config.middleware.mcuboot.upgrade_mode.overwrite_only"/>
       <property id="config.middleware.mcuboot.validate_primary" value="config.middleware.mcuboot.validate_primary.enabled"/>
       <property id="config.middleware.mcuboot.downgrade_prevention" value="config.middleware.mcuboot.downgrade_prevention.enabled"/>
-      <property id="config.middleware.mcuboot.log_level" value="config.middleware.mcuboot.log_level.off"/>
       <property id="config.middleware.mcuboot.image_number" value="config.middleware.mcuboot.image_number.1"/>
       <property id="config.middleware.mcuboot.watchdog_feed" value=""/>
       <property id="config.middleware.mcuboot.flash_area_bootloader_size" value="0x3800"/>
@@ -217,7 +220,9 @@
       <property id="config.middleware.mcuboot.sign_custom_image_2" value="--confirm"/>
       <property id="config.middleware.mcuboot.python_command" value="python"/>
     </config>
-    <config id="config.middleware.mcuboot_logging"/>
+    <config id="config.middleware.mcuboot_logging">
+      <property id="config.middleware.mcuboot.mcuboot_logging" value="config.middleware.mcuboot.mcuboot_logging.off"/>
+    </config>
     <config id="config.middleware.mcuboot_sysflash"/>
     <config id="config.driver.flash_lp">
       <property id="config.driver.flash_lp.param_checking_enable" value="config.flash_lp.param_checking_enable.bsp"/>

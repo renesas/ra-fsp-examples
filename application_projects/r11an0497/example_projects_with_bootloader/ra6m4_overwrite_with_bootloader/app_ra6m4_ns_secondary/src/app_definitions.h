@@ -20,7 +20,8 @@
  * WITHOUT LIMITATION, ANY DIRECT, CONSEQUENTIAL, SPECIAL, INDIRECT, PUNITIVE, OR INCIDENTAL DAMAGES; ANY LOST PROFITS,
  * OTHER ECONOMIC DAMAGE, PROPERTY DAMAGE, OR PERSONAL INJURY; AND EVEN IF RENESAS HAS BEEN ADVISED OF THE POSSIBILITY
  * OF SUCH LOSS, DAMAGES, CLAIMS OR COSTS.
- **********************************************************************************************************************/#ifndef APP_DEFINITIONS_H_
+ **********************************************************************************************************************/
+#ifndef APP_DEFINITIONS_H_
 #define APP_DEFINITIONS_H_
 
 #include <stdint.h>
@@ -41,6 +42,7 @@
 
 #define FLASH_WRITE_TEST_BLOCK         (0xF0000)       // test block located in non-secure flash not locked
 
+
 #define FLASH_WRITE_LENGTH                      (128)
 #define FLASH_WRITE_TEST_DATA                   (0x44)
 
@@ -55,7 +57,7 @@
 
 
 #define MENUSTATUS1       " Running the Secondary non-secure application with overwrite update mode. \r\n"
-#define MENUSTATUS2       " Flash Operation is successful. The Blue and Green LED should be blinking.\r\n\r\n"
+#define MENUSTATUS2       " Flash Operation is successful. The Blue and Green LEDs should be blinking.\r\n\r\n"
 
 
 #endif /* APP_DEFINITIONS_H_ */
