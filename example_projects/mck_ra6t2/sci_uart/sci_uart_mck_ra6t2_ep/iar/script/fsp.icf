@@ -1,11 +1,16 @@
 include "memory_regions.icf";
 
+  /* Uncomment and set XIP_SECONDARY_SLOT_IMAGE to 1 below for the secondary XIP application image. */
+  /* define symbol XIP_SECONDARY_SLOT_IMAGE = 1; */
+
 if (isdefinedsymbol(FLASH_BOOTLOADER_LENGTH))
 {
   define exported symbol __bl_FLASH_IMAGE_START = FLASH_APPLICATION_IMAGE_NUMBER == 1 ? FLASH_BOOTLOADER_LENGTH + FLASH_BOOTLOADER_HEADER_LENGTH :
                                                   FLASH_BOOTLOADER_LENGTH + FLASH_BOOTLOADER_SCRATCH_LENGTH + FLASH_APPLICATION_S_LENGTH + FLASH_BOOTLOADER_HEADER_LENGTH;
   define exported symbol __bl_FLASH_IMAGE_LENGTH = FLASH_APPLICATION_S_LENGTH - FLASH_BOOTLOADER_HEADER_LENGTH;
   define exported symbol __bl_FLASH_IMAGE_END = __bl_FLASH_IMAGE_START + __bl_FLASH_IMAGE_LENGTH;
+  define exported symbol __bl_XIP_SECONDARY_FLASH_IMAGE_START = FLASH_BOOTLOADER_LENGTH + FLASH_APPLICATION_S_LENGTH + FLASH_BOOTLOADER_HEADER_LENGTH;
+  define exported symbol __bl_XIP_SECONDARY_FLASH_IMAGE_END = __bl_XIP_SECONDARY_FLASH_IMAGE_START + __bl_FLASH_IMAGE_LENGTH;
   define exported symbol __bl_FLASH_NS_START = FLASH_APPLICATION_NS_LENGTH == 0 ? __bl_FLASH_IMAGE_END :
                                                __bl_FLASH_IMAGE_START - FLASH_BOOTLOADER_HEADER_LENGTH + FLASH_APPLICATION_S_LENGTH;
   define exported symbol __bl_FLASH_NSC_START = FLASH_APPLICATION_NS_LENGTH == 0 ? __bl_FLASH_IMAGE_END :
@@ -24,7 +29,15 @@ if (isdefinedsymbol(FLASH_BOOTLOADER_LENGTH))
 }
 else if (isdefinedsymbol(FLASH_IMAGE_START))
 {
-  define symbol FLASH_ORIGIN = FLASH_IMAGE_START;
+  if (isdefinedsymbol(XIP_SECONDARY_SLOT_IMAGE))
+  {
+    define symbol FLASH_ORIGIN = XIP_SECONDARY_SLOT_IMAGE == 1 ? XIP_SECONDARY_FLASH_IMAGE_START : FLASH_IMAGE_START;
+  }
+  else
+  {
+    define symbol FLASH_ORIGIN = FLASH_IMAGE_START;
+  }
+
   define symbol LIMITED_FLASH_LENGTH = FLASH_IMAGE_LENGTH;
 }
 else

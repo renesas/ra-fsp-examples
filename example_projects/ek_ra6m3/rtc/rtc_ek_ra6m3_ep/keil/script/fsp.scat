@@ -4,19 +4,57 @@
 ; This scatter-file places the vector table, application code, data, stacks and heap at suitable addresses in the memory map.
 
 #define ROM_REGISTERS_START 0x400
+; Uncomment and set XIP_SECONDARY_SLOT_IMAGE to 1 below for the secondary XIP application image.
+; #define XIP_SECONDARY_SLOT_IMAGE 1
 
-#define OPTION_SETTING_START_S        0x0100A100
+#ifdef FLASH_BOOTLOADER_LENGTH
 
-; This is a secure project if the option setting base address matches the option setting base address for secure
-; option settings.
-#if defined(OPTION_SETTING_START_S) && (OPTION_SETTING_START_S == OPTION_SETTING_START)
-#define TZ_SECURE_PROJECT (1)
+#define BL_FLASH_IMAGE_START        (FLASH_APPLICATION_IMAGE_NUMBER == 1 ? FLASH_BOOTLOADER_LENGTH + FLASH_BOOTLOADER_HEADER_LENGTH : \
+                                    FLASH_BOOTLOADER_LENGTH + FLASH_BOOTLOADER_SCRATCH_LENGTH + FLASH_APPLICATION_S_LENGTH + FLASH_BOOTLOADER_HEADER_LENGTH)
+#define BL_FLASH_IMAGE_END          (BL_FLASH_IMAGE_START + FLASH_APPLICATION_S_LENGTH - FLASH_BOOTLOADER_HEADER_LENGTH)
+#define BL_XIP_SECONDARY_FLASH_IMAGE_START    (FLASH_BOOTLOADER_LENGTH + FLASH_APPLICATION_S_LENGTH + FLASH_BOOTLOADER_HEADER_LENGTH)
+#define BL_XIP_SECONDARY_FLASH_IMAGE_END      (BL_XIP_SECONDARY_FLASH_IMAGE_START + FLASH_APPLICATION_S_LENGTH - FLASH_BOOTLOADER_HEADER_LENGTH)
+#define BL_FLASH_NS_START           (FLASH_APPLICATION_NS_LENGTH == 0 ? BL_FLASH_IMAGE_END : \
+                                    BL_FLASH_IMAGE_START - FLASH_BOOTLOADER_HEADER_LENGTH + FLASH_APPLICATION_S_LENGTH)
+#define BL_FLASH_NSC_START          (FLASH_APPLICATION_NS_LENGTH == 0 ? BL_FLASH_IMAGE_END : \
+                                    BL_FLASH_NS_START - FLASH_APPLICATION_NSC_LENGTH)
+#define BL_FLASH_NS_IMAGE_START     (FLASH_APPLICATION_NS_LENGTH == 0 ? BL_FLASH_IMAGE_END : \
+                                    BL_FLASH_NS_START + FLASH_BOOTLOADER_HEADER_LENGTH_2)
+#define BL_RAM_NS_START             (FLASH_APPLICATION_NS_LENGTH == 0 ? RAM_START + RAM_LENGTH : \
+                                    RAM_START + RAM_LENGTH - RAM_APPLICATION_NS_LENGTH)
+#define BL_RAM_NSC_START            (FLASH_APPLICATION_NS_LENGTH == 0 ? RAM_START + RAM_LENGTH : \
+                                    BL_RAM_NS_START - RAM_APPLICATION_NSC_LENGTH)
+#define BLN_FLASH_IMAGE_START       (BL_FLASH_NS_IMAGE_START)
+#define BLN_FLASH_IMAGE_END         (FLASH_APPLICATION_NS_LENGTH == 0 ? BL_FLASH_IMAGE_END : \
+                                    BL_FLASH_NS_IMAGE_START + FLASH_APPLICATION_NS_LENGTH - FLASH_BOOTLOADER_HEADER_LENGTH_2)
+
+#define FLASH_ORIGIN                FLASH_START
+#define LIMITED_FLASH_LENGTH        FLASH_BOOTLOADER_LENGTH
+
+#elif defined FLASH_IMAGE_START
+
+#if defined XIP_SECONDARY_SLOT_IMAGE
+#define FLASH_ORIGIN                (XIP_SECONDARY_SLOT_IMAGE == 1 ? XIP_SECONDARY_FLASH_IMAGE_START : FLASH_IMAGE_START)
 #else
-#define TZ_SECURE_PROJECT (0)
+#define FLASH_ORIGIN                FLASH_IMAGE_START
 #endif
 
-; If a flat (secure) project has defined RAM_NS_BUFFER_LENGTH, then emit IDAU symbols to allocate non-secure RAM.
-#if TZ_SECURE_PROJECT && defined(RAM_NS_BUFFER_LENGTH)
+
+#ifdef FLASH_NS_START
+#define LIMITED_FLASH_LENGTH        FLASH_NS_START - FLASH_IMAGE_START
+#else
+#define LIMITED_FLASH_LENGTH        FLASH_IMAGE_END - FLASH_IMAGE_START
+#endif
+
+#else
+
+#define FLASH_ORIGIN                FLASH_START
+#define LIMITED_FLASH_LENGTH        FLASH_LENGTH
+
+#endif
+
+; If a flat project has defined RAM_NS_BUFFER_LENGTH, then emit IDAU symbols to allocate non-secure RAM.
+#if !defined(PROJECT_NONSECURE) && defined(RAM_NS_BUFFER_LENGTH)
 #define __RESERVE_NS_RAM (1)
 ; Allocate required RAM and align to 32K boundary
 #define RAM_NS_BUFFER_START     ((RAM_START + RAM_LENGTH - RAM_NS_BUFFER_LENGTH) AND 0xFFFFFFE0)
@@ -51,21 +89,29 @@
 #endif
 
 #ifndef FLASH_NSC_START
-#define FLASH_NSC_START     FLASH_START + FLASH_LENGTH
+#define FLASH_NSC_START     FLASH_ORIGIN + LIMITED_FLASH_LENGTH
 #endif
 
 #ifndef FLASH_NS_START
-#define FLASH_NS_START      FLASH_START + FLASH_LENGTH
+#define FLASH_NS_START      FLASH_ORIGIN + LIMITED_FLASH_LENGTH
 #endif
 
 #else
 
 #ifndef RAM_NSC_START
+#ifdef PROJECT_SECURE
 #define RAM_NSC_START       +0 ALIGN 1024
+#else
+#define RAM_NSC_START       RAM_START + RAM_LENGTH
+#endif
 #endif
 
 #ifndef RAM_NS_START
+#ifdef PROJECT_SECURE
 #define RAM_NS_START        +0 ALIGN 8192
+#else
+#define RAM_NS_START        RAM_START + RAM_LENGTH
+#endif
 #endif
 
 #ifndef DATA_FLASH_NS_START
@@ -132,7 +178,9 @@
 #define OSPI_DEVICE_1_PRV_LENGTH OSPI_DEVICE_1_LENGTH
 #endif
 
-LOAD_REGION_FLASH FLASH_START FLASH_LENGTH
+#define OPTION_SETTING_NS_OFFSET    0x80
+
+LOAD_REGION_FLASH FLASH_ORIGIN ALIGN 0x80 LIMITED_FLASH_LENGTH
 {
   __tz_FLASH_S +0 EMPTY 0
   {
@@ -143,6 +191,10 @@ LOAD_REGION_FLASH FLASH_START FLASH_LENGTH
     *(.fixed_vectors, +FIRST)
     *(.application_vectors)
   }
+
+#if (OPTION_SETTING_LENGTH == 0) && (FLASH_ORIGIN == FLASH_START)
+
+  /* MCUs with the OPTION_SETTING region do not use the ROM registers at 0x400. */
 
   VECTORS_FILL +0 FIXED FILL 0xFFFFFFFF (0x400 - ImageLength(VECTORS))
   {
@@ -156,6 +208,14 @@ LOAD_REGION_FLASH FLASH_START FLASH_LENGTH
   ROM_REGISTERS_FILL +0 FIXED FILL 0xFFFFFFFF (0x100 - ImageLength(ROM_REGISTERS))
   {
   }
+
+#endif
+
+  MCUBOOT_SCE9_KEY +0 FIXED
+  {
+    *(.mcuboot_sce9_key)
+  }
+
 
   INIT_ARRAY +0 FIXED
   {
@@ -239,6 +299,84 @@ LOAD_REGION_FLASH FLASH_START FLASH_LENGTH
   {
   }
 
+  ; Support for OctaRAM
+  OSPI_DEVICE_0_NO_LOAD OSPI_DEVICE_0_START UNINIT NOCOMPRESS
+  {
+    *(.ospi_device_0_no_load*)
+  }
+
+  ; Support for OctaRAM
+  OSPI_DEVICE_1_NO_LOAD OSPI_DEVICE_1_START UNINIT NOCOMPRESS
+  {
+    *(.ospi_device_1_no_load*)
+  }
+
+#ifdef FLASH_BOOTLOADER_LENGTH
+
+  __bl_FLASH_IMAGE_START BL_FLASH_IMAGE_START OVERLAY UNINIT 4
+  {
+    *(.bl_boundary.bl_flash_image_start)
+  }
+
+  __bl_XIP_SECONDARY_FLASH_IMAGE_START BL_XIP_SECONDARY_FLASH_IMAGE_START OVERLAY UNINIT 4
+  {
+    *(.bl_boundary.bl_xip_secondary_flash_image_start)
+  }
+
+
+#if FLASH_APPLICATION_NS_LENGTH == 0
+
+  __bl_FLASH_IMAGE_END BL_FLASH_IMAGE_END OVERLAY UNINIT 4
+  {
+    *(.bl_boundary.bl_flash_image_end)
+  }
+
+  __bl_XIP_SECONDARY_FLASH_IMAGE_END BL_XIP_SECONDARY_FLASH_IMAGE_END OVERLAY UNINIT 4
+  {
+    *(.bl_boundary.bl_xip_secondary_flash_image_end)
+  }
+
+#else
+
+  __bl_FLASH_NS_START BL_FLASH_NS_START OVERLAY UNINIT 4
+  {
+    *(.bl_boundary.bl_flash_ns_start)
+  }
+
+  __bl_FLASH_NSC_START BL_FLASH_NSC_START OVERLAY UNINIT 4
+  {
+    *(.bl_boundary.bl_flash_nsc_start)
+  }
+
+  __bl_FLASH_NS_IMAGE_START BL_FLASH_NS_IMAGE_START OVERLAY UNINIT 4
+  {
+    *(.bl_boundary.bl_flash_ns_image_start)
+  }
+
+  __bln_FLASH_IMAGE_START BLN_FLASH_IMAGE_START OVERLAY UNINIT 4
+  {
+    *(.bl_boundary.bln_flash_image_start)
+  }
+
+  __bln_FLASH_IMAGE_END BLN_FLASH_IMAGE_END OVERLAY UNINIT 4
+  {
+    *(.bl_boundary.bln_flash_image_end)
+  }
+
+  __bl_RAM_NS_START BL_RAM_NS_START OVERLAY UNINIT 4
+  {
+    *(.bl_boundary.bl_ram_ns_start)
+  }
+
+  __bl_RAM_NSC_START BL_RAM_NSC_START OVERLAY UNINIT 4
+  {
+    *(.bl_boundary.bl_ram_nsc_start)
+  }
+
+#endif
+
+#endif
+
 #if __RESERVE_NS_RAM
   RAM_NS_BUFFER RAM_NS_BUFFER_START
   {
@@ -270,9 +408,28 @@ LOAD_REGION_NSC_FLASH FLASH_NSC_START
 #if ID_CODE_LENGTH != 0
 LOAD_REGION_ID_CODE ID_CODE_START ID_CODE_LENGTH
 {
+  __tz_ID_CODE_S ID_CODE_START EMPTY 0
+  {
+  }
+
   ID_CODE +0 FIXED
   {
     *(.id_code*)
+  }
+
+  __tz_ID_CODE_N +0 EMPTY 0
+  {
+  }
+}
+#else
+LOAD_REGION_ID_CODE ID_CODE_START 4
+{
+  __tz_ID_CODE_S ID_CODE_START EMPTY 0
+  {
+  }
+
+  __tz_ID_CODE_N +0 EMPTY 0
+  {
   }
 }
 #endif
@@ -280,7 +437,11 @@ LOAD_REGION_ID_CODE ID_CODE_START ID_CODE_LENGTH
 #if OPTION_SETTING_LENGTH != 0
 LOAD_REGION_OPTION_SETTING OPTION_SETTING_START OPTION_SETTING_LENGTH
 {
-#if TZ_SECURE_PROJECT
+  __tz_OPTION_SETTING_S OPTION_SETTING_START EMPTY 0
+  {
+  }
+
+#ifndef PROJECT_NONSECURE
   OFS0 OPTION_SETTING_START+0 FIXED
   {
     *(.option_setting_ofs0)
@@ -355,11 +516,20 @@ LOAD_REGION_OPTION_SETTING OPTION_SETTING_START OPTION_SETTING_LENGTH
 
   }
 #endif
+
+  __tz_OPTION_SETTING_N OPTION_SETTING_START + OPTION_SETTING_NS_OFFSET EMPTY 0
+  {
+  }
 }
 
 #if OPTION_SETTING_S_LENGTH != 0
 LOAD_REGION_OPTION_SETTING_S OPTION_SETTING_S_START OPTION_SETTING_S_LENGTH
 {
+  __tz_OPTION_SETTING_S_S OPTION_SETTING_S_START EMPTY 0
+  {
+  }
+
+#ifndef PROJECT_NONSECURE
 
   OFS1_SEC OPTION_SETTING_S_START+0 FIXED
   {
@@ -435,6 +605,12 @@ LOAD_REGION_OPTION_SETTING_S OPTION_SETTING_S_START OPTION_SETTING_S_LENGTH
   UNUSED_13 (ImageBase(BPS_SEL)+ImageLength(BPS_SEL)) FIXED FILL 0xFFFFFFFF (ImageBase(OFS1_SEC) + 0x100 - (ImageBase(BPS_SEL)+ImageLength(BPS_SEL)))
   {
 
+  }
+
+#endif
+
+  __tz_OPTION_SETTING_S_N +0 EMPTY 0
+  {
   }
 }
 #endif

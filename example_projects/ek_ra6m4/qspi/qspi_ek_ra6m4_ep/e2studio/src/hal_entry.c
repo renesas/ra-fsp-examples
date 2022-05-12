@@ -248,9 +248,9 @@ void hal_entry(void) {
     }
 
     /* Fill the data write buffer further to be written in QSPI flash device */
-    for (uint8_t write_index = RESET_VALUE; write_index < PAGE_SIZE_MAX ; write_index++)
+    for (uint16_t write_index = RESET_VALUE; write_index < PAGE_WRITE_SIZE ; write_index++)
     {
-        data_write[write_index] = write_index;
+        data_write[write_index] = (uint8_t)write_index;
     }
 
     /* Write data to QSPI Flash */

@@ -1,11 +1,16 @@
 include "memory_regions.icf";
 
+  /* Uncomment and set XIP_SECONDARY_SLOT_IMAGE to 1 below for the secondary XIP application image. */
+  /* define symbol XIP_SECONDARY_SLOT_IMAGE = 1; */
+
 if (isdefinedsymbol(FLASH_BOOTLOADER_LENGTH))
 {
   define exported symbol __bl_FLASH_IMAGE_START = FLASH_APPLICATION_IMAGE_NUMBER == 1 ? FLASH_BOOTLOADER_LENGTH + FLASH_BOOTLOADER_HEADER_LENGTH :
                                                   FLASH_BOOTLOADER_LENGTH + FLASH_BOOTLOADER_SCRATCH_LENGTH + FLASH_APPLICATION_S_LENGTH + FLASH_BOOTLOADER_HEADER_LENGTH;
   define exported symbol __bl_FLASH_IMAGE_LENGTH = FLASH_APPLICATION_S_LENGTH - FLASH_BOOTLOADER_HEADER_LENGTH;
   define exported symbol __bl_FLASH_IMAGE_END = __bl_FLASH_IMAGE_START + __bl_FLASH_IMAGE_LENGTH;
+  define exported symbol __bl_XIP_SECONDARY_FLASH_IMAGE_START = FLASH_BOOTLOADER_LENGTH + FLASH_APPLICATION_S_LENGTH + FLASH_BOOTLOADER_HEADER_LENGTH;
+  define exported symbol __bl_XIP_SECONDARY_FLASH_IMAGE_END = __bl_XIP_SECONDARY_FLASH_IMAGE_START + __bl_FLASH_IMAGE_LENGTH;
   define exported symbol __bl_FLASH_NS_START = FLASH_APPLICATION_NS_LENGTH == 0 ? __bl_FLASH_IMAGE_END :
                                                __bl_FLASH_IMAGE_START - FLASH_BOOTLOADER_HEADER_LENGTH + FLASH_APPLICATION_S_LENGTH;
   define exported symbol __bl_FLASH_NSC_START = FLASH_APPLICATION_NS_LENGTH == 0 ? __bl_FLASH_IMAGE_END :
@@ -24,7 +29,15 @@ if (isdefinedsymbol(FLASH_BOOTLOADER_LENGTH))
 }
 else if (isdefinedsymbol(FLASH_IMAGE_START))
 {
-  define symbol FLASH_ORIGIN = FLASH_IMAGE_START;
+  if (isdefinedsymbol(XIP_SECONDARY_SLOT_IMAGE))
+  {
+    define symbol FLASH_ORIGIN = XIP_SECONDARY_SLOT_IMAGE == 1 ? XIP_SECONDARY_FLASH_IMAGE_START : FLASH_IMAGE_START;
+  }
+  else
+  {
+    define symbol FLASH_ORIGIN = FLASH_IMAGE_START;
+  }
+
   define symbol LIMITED_FLASH_LENGTH = FLASH_IMAGE_LENGTH;
 }
 else
@@ -116,12 +129,14 @@ if ((OPTION_SETTING_LENGTH == 0) && (FLASH_ORIGIN == FLASH_START))
   place at start of VECT_region  { ro section .fixed_vectors* };
   place in VECT_region           { ro section .application_vectors* };
   place in ROMREG_region         { ro section .rom_registers };
+  place in FLASH_region          { ro section .mcuboot_sce9_key* };
 }
 else
 {
   place at start of FLASH_region  { ro section .fixed_vectors* };
   place in FLASH_region           { ro section .application_vectors* };
 }
+
 
 /* If DTC is used, put the DTC vector table at the start of SRAM.
 This avoids memory holes due to 1K alignment required by it. */
@@ -220,9 +235,12 @@ if(OSPI_DEVICE_0_LENGTH > 0)
   define region OSPI_DEVICE_0_region    = mem:[from OSPI_DEVICE_0_START  to OSPI_DEVICE_0_END];
   define block OSPI_DEVICE_0_NON_RETENTIVE_INIT_BLOCK { section .ospi_device_0_non_retentive_init };
   define block OSPI_DEVICE_0_NON_RETENTIVE_BLOCK      { section .ospi_device_0_non_retentive };
+  define block OSPI_DEVICE_0_NON_RETENTIVE_RAM_BLOCK  { section .ospi_device_0_no_load }; /* Support for OctaRAM */
   place in OSPI_DEVICE_0_region    { section .ospi_device_0  };
   place in OSPI_DEVICE_0_region    { section .code_in_ospi_device_0 };
   place in OSPI_DEVICE_0_region    { block OSPI_DEVICE_0_NON_RETENTIVE_BLOCK};
+  place in OSPI_DEVICE_0_region    { block OSPI_DEVICE_0_NON_RETENTIVE_RAM_BLOCK};
+
 
   /* __tz_OSPI_DEVICE_0_N is defined in the BSP and placed in .tz_ospi_device_0_ns_start. */
   do not initialize       { section .tz_ospi_device_0_ns_start };
@@ -260,9 +278,11 @@ if(OSPI_DEVICE_1_LENGTH > 0)
   define region OSPI_DEVICE_1_region    = mem:[from OSPI_DEVICE_1_START  to OSPI_DEVICE_1_END];
   define block OSPI_DEVICE_1_NON_RETENTIVE_INIT_BLOCK { section .ospi_device_1_non_retentive_init };
   define block OSPI_DEVICE_1_NON_RETENTIVE_BLOCK      { section .ospi_device_1_non_retentive };
+  define block OSPI_DEVICE_1_NON_RETENTIVE_RAM_BLOCK  { section .ospi_device_1_no_load };
   place in OSPI_DEVICE_1_region    { section .ospi_device_1  };
   place in OSPI_DEVICE_1_region    { section .code_in_ospi_device_1 };
   place in OSPI_DEVICE_1_region    { block OSPI_DEVICE_1_NON_RETENTIVE_BLOCK};
+  place in OSPI_DEVICE_1_region    { block OSPI_DEVICE_1_NON_RETENTIVE_RAM_BLOCK}; /* Support for OctaRAM */
 
   /* __tz_OSPI_DEVICE_1_N is defined in the BSP and placed in .tz_ospi_device_1_ns_start. */
   do not initialize       { section .tz_ospi_device_1_ns_start };

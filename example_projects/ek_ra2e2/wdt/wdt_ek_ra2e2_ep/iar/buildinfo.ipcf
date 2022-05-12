@@ -14,7 +14,7 @@
         <path>$PROJ_DIR$/src</path>
     </includePath>
     <defines>
-        <define>_RENESAS_RA_</define>
+        <define>_RA_CORE=CM23</define>
     </defines>
     <asmIncludePath>
         <path>$PROJ_DIR$/ra/arm/CMSIS_5/CMSIS/Core/Include</path>
@@ -27,15 +27,12 @@
         <path>$PROJ_DIR$/src</path>
     </asmIncludePath>
     <asmDefines>
-        <define>_RENESAS_RA_</define>
+        <define>_RA_CORE=CM23</define>
     </asmDefines>
     <linkerFile>
         <override>true</override>
         <path>$PROJ_DIR$/script/fsp.icf</path>
     </linkerFile>
-    <preBuild>
-        <command>cmd /c ""$RASC_EXE_PATH$" --generate --compiler IAR --devicefamily ra "$PROJ_DIR$\configuration.xml" 2&gt; "%TEMP%\rasc_stderr.out""</command>
-    </preBuild>
     <postBuild>
         <command>cmd /c ""$RASC_EXE_PATH$" --gensecurebundle --compiler IAR --devicefamily ra "$PROJ_DIR$\configuration.xml" "$TARGET_PATH$" 2&gt; "%TEMP%\rasc_stderr.out""</command>
     </postBuild>
@@ -46,7 +43,7 @@
         <group name="RA Smart Configurator">
             <argVar>
                 <name>RASC_EXE_PATH</name>
-                <value>C:\Renesas\RA\sc_v2022-01_fsp_v3.6.0\eclipse\rasc.exe</value>
+                <value>C:\Renesas\RA\sc_v2022-04_fsp_v3.7.0\eclipse\rasc.exe</value>
             </argVar>
         </group>
     </customArgVars>

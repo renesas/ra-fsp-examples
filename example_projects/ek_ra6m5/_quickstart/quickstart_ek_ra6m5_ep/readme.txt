@@ -1,4 +1,4 @@
-﻿/***********************************************************************************************************************
+/***********************************************************************************************************************
 * Copyright [2021] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
 *
 * This software is supplied by Renesas Electronics America Inc. and may only be used with products of Renesas Electronics Corp.

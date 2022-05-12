@@ -15,7 +15,7 @@ BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_i2c_master_read_guard (i2c_master_ctrl_t *c
 {
     /* Verify all pointers are in non-secure memory. */
     uint8_t *const p_dest_checked = cmse_check_address_range((void *) p_dest, bytes, CMSE_AU_NONSECURE);
-    FSP_ASSERT(p_dest == p_dest_checked);
+    FSP_ASSERT(p_dest_checked != NULL);
 
     /* TODO: add your own security checks here */
 
@@ -28,7 +28,7 @@ BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_i2c_master_write_guard (i2c_master_ctrl_t *
 {
     /* Verify all pointers are in non-secure memory. */
     uint8_t *const p_src_checked = cmse_check_address_range((void *) p_src, bytes, CMSE_AU_NONSECURE);
-    FSP_ASSERT(p_src == p_src_checked);
+    FSP_ASSERT(p_src_checked != NULL);
 
     /* TODO: add your own security checks here */
 
@@ -68,9 +68,9 @@ BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_i2c_master_callback_set_guard (i2c_master_c
 {
     /* Verify all pointers are in non-secure memory. */
     void(*p_callback_checked)(i2c_master_callback_args_t *) = (void(*)(i2c_master_callback_args_t *)) cmse_check_address_range((void *) p_callback, sizeof(void *), CMSE_AU_NONSECURE);
-    FSP_ASSERT(p_callback == p_callback_checked);
+    FSP_ASSERT(p_callback_checked != NULL);
     i2c_master_callback_args_t *const p_callback_memory_checked = cmse_check_pointed_object(p_callback_memory, CMSE_AU_NONSECURE);
-    FSP_ASSERT(p_callback_memory == p_callback_memory_checked);
+    FSP_ASSERT(p_callback_memory_checked != NULL);
 
     /* TODO: add your own security checks here */
 
@@ -78,4 +78,17 @@ BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_i2c_master_callback_set_guard (i2c_master_c
     FSP_PARAMETER_NOT_USED(p_context);
 
     return R_IIC_MASTER_CallbackSet(&g_i2c_master_ctrl, p_callback_checked, p_context, p_callback_memory_checked);
+}
+
+BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_i2c_master_status_get_guard (i2c_master_ctrl_t *const p_api_ctrl, i2c_master_status_t *p_status)
+{
+    /* Verify all pointers are in non-secure memory. */
+    i2c_master_status_t * p_status_checked = cmse_check_pointed_object(p_status, CMSE_AU_NONSECURE);
+    FSP_ASSERT(p_status_checked != NULL);
+
+    /* TODO: add your own security checks here */
+
+    FSP_PARAMETER_NOT_USED(p_api_ctrl);
+
+    return R_IIC_MASTER_StatusGet(&g_i2c_master_ctrl, p_status_checked);
 }

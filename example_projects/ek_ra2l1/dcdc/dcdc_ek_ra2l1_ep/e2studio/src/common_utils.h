@@ -44,9 +44,9 @@
 #define RESET_VALUE             (0x00)
 
 #define EP_VERSION              ("1.0")
-#define MODULE_NAME             "USB Peripheral Vendor Class"
+#define MODULE_NAME             "DC-DC"
 #define BANNER_INFO	            "\r\n************************************************************************"\
-								"\r\n*   Renesas FSP Example Project for "MODULE_NAME" Module *"\
+								"\r\n*   Renesas FSP Example Project for "MODULE_NAME" Module                       *"\
 								"\r\n*   Example Project Version %s                                        *"\
 								"\r\n*   Flex Software Pack Version  %d.%d.%d                                  *"\
 								"\r\n************************************************************************"\

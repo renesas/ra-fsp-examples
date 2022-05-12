@@ -34,7 +34,7 @@
  */
 /* Reading I2C call back event through i2c_Master callback */
 static volatile i2c_master_event_t i2c_event = I2C_MASTER_EVENT_ABORTED;
-i2c_master_callback_args_t g_i2c_master_callback_args;
+static i2c_master_callback_args_t g_i2c_master_callback_args;
 
 
 /*
@@ -42,7 +42,6 @@ i2c_master_callback_args_t g_i2c_master_callback_args;
  */
 static fsp_err_t get_device_id(uint8_t *dev_id);
 static fsp_err_t validate_i2c_event(void);
-void i2c_master_callback(i2c_master_callback_args_t *p_args);
 
 /*******************************************************************************************************************//**
  *  @brief       initialize IIC master module and set up PMOD ACL sensor

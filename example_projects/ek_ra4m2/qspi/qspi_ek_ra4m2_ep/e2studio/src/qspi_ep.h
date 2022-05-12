@@ -38,9 +38,6 @@
 /* QSPI flash page Size */
 #define PAGE_WRITE_SIZE                 (256U)
 
-/* Maximum Page Size */
-#define PAGE_SIZE_MAX                   (255U)
-
 /* QSPI flash address through page*/
 #define QSPI_FLASH_ADDRESS(page_no)     (uint8_t *) (QSPI_DEVICE_START_ADDRESS + (page_no * PAGE_WRITE_SIZE))
 

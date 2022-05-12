@@ -59,10 +59,19 @@ Hardware connection:
 	4)Renesas Silex UART Pmod (CN1:6) ----> Vcc
 	5)Renesas Silex UART Pmod (CN1:7) ----> P111
 	6)Renesas Silex UART Pmod (CN1:8) ----> P015
+	
+	MCK_RA6T2
+	----------
+	1)Renesas Silex UART Pmod (CN1:2) ----> P605
+	2)Renesas Silex UART Pmod (CN1:3) ----> P606
+	3)Renesas Silex UART Pmod (CN1:5) ----> GND
+	4)Renesas Silex UART Pmod (CN1:6) ----> Vcc
+	5)Renesas Silex UART Pmod (CN1:7) ----> P300
+	6)Renesas Silex UART Pmod (CN1:8) ----> P302
 
 Note : For EK-RA2E2, scanning wifi access points does not work. Please connect to wifi access points by entering its credentials manually.
 
-Note : For EK-RA4M2/EK-RA4M3/EK-RA6M4/EK-RA6M5/FPB-RA4E1/FPB-RA6E1, Provide RTT Block Address in RTT viewer to run the EP.
+Note : For EK-RA4M2/EK-RA4M3/EK-RA6M4/EK-RA6M5/FPB-RA4E1/FPB-RA6E1/MCK-RA6T2, Provide RTT Block Address in RTT viewer to run the EP.
 
 Sokit setup on PC as TCP server:
 
