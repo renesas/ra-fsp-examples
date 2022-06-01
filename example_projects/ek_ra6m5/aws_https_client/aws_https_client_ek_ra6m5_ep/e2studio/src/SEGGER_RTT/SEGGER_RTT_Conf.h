@@ -42,7 +42,7 @@
 *                                                                    *
 **********************************************************************
 *                                                                    *
-*       RTT version: 6.98b                                           *
+*       RTT version: 7.62b                                           *
 *                                                                    *
 **********************************************************************
 
@@ -51,7 +51,7 @@ File    : SEGGER_RTT_Conf.h
 Purpose : Implementation of SEGGER real-time transfer (RTT) which
           allows real-time communication on targets which support
           debugger memory accesses while the CPU is running.
-Revision: $Rev: 21386 $
+Revision: $Rev: 24316 $
 
 */
 
@@ -92,7 +92,7 @@ Revision: $Rev: 21386 $
 #endif
 
 #ifndef   BUFFER_SIZE_UP
-  #define BUFFER_SIZE_UP                            (2048)  // Size of the buffer for terminal output of target, up to host (Default: 1k)
+  #define BUFFER_SIZE_UP                            (4096)  // Size of the buffer for terminal output of target, up to host (Default: 1k)
 #endif
 
 #ifndef   BUFFER_SIZE_DOWN
@@ -100,7 +100,7 @@ Revision: $Rev: 21386 $
 #endif
 
 #ifndef   SEGGER_RTT_PRINTF_BUFFER_SIZE
-  #define SEGGER_RTT_PRINTF_BUFFER_SIZE             (2048u)    // Size of buffer for RTT printf to bulk-send chars via RTT     (Default: 64)
+  #define SEGGER_RTT_PRINTF_BUFFER_SIZE             (512u)    // Size of buffer for RTT printf to bulk-send chars via RTT     (Default: 64)
 #endif
 
 #ifndef   SEGGER_RTT_MODE_DEFAULT
@@ -191,7 +191,7 @@ Revision: $Rev: 21386 $
                                                   );                                                \
                                 }
 
-  #elif defined(__ARM_ARCH_7A__)
+  #elif (defined(__ARM_ARCH_7A__) || defined(__ARM_ARCH_7R__))
     #define SEGGER_RTT_LOCK() {                                                \
                                  unsigned int _SEGGER_RTT__LockState;                       \
                                  __asm volatile ("mrs r1, CPSR \n\t"           \

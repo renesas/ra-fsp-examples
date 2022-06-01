@@ -77,10 +77,6 @@
 #define NOV         0x4E
 #define DEC         0x44
 
-/* Global Variables */
-uint16_t g_write_data[WRITE_ITEM_SIZE];   /* Data(10k) to write to file */
-uint16_t g_read_data[WRITE_ITEM_SIZE] ;
-
 /* Structure to store time */
 typedef struct st_time_format_params
 {

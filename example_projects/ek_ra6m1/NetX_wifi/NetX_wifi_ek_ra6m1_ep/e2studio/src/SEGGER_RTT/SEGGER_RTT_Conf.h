@@ -42,7 +42,7 @@
 *                                                                    *
 **********************************************************************
 *                                                                    *
-*       RTT version: 7.60e                                           *
+*       RTT version: 7.62b                                           *
 *                                                                    *
 **********************************************************************
 
@@ -51,7 +51,7 @@ File    : SEGGER_RTT_Conf.h
 Purpose : Implementation of SEGGER real-time transfer (RTT) which
           allows real-time communication on targets which support
           debugger memory accesses while the CPU is running.
-Revision: $Rev: 24332 $
+Revision: $Rev: 24316 $
 
 */
 
@@ -96,11 +96,11 @@ Revision: $Rev: 24332 $
 #endif
 
 #ifndef   BUFFER_SIZE_DOWN
-  #define BUFFER_SIZE_DOWN                          (16)    // Size of the buffer for terminal input to target from host (Usually keyboard input) (Default: 16)
+  #define BUFFER_SIZE_DOWN                          (32)    // Size of the buffer for terminal input to target from host (Usually keyboard input) (Default: 16)
 #endif
 
 #ifndef   SEGGER_RTT_PRINTF_BUFFER_SIZE
-  #define SEGGER_RTT_PRINTF_BUFFER_SIZE             (512u)    // Size of buffer for RTT printf to bulk-send chars via RTT     (Default: 64)
+  #define SEGGER_RTT_PRINTF_BUFFER_SIZE             (64u)    // Size of buffer for RTT printf to bulk-send chars via RTT     (Default: 64)
 #endif
 
 #ifndef   SEGGER_RTT_MODE_DEFAULT

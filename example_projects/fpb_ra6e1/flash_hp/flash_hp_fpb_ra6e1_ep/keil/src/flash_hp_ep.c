@@ -55,8 +55,11 @@ fsp_err_t flash_hp_code_flash_operations(void)
     for (uint8_t index = 0; index < BLOCK_SIZE; index++)
     {
         write_buffer[index] = index;
-    }
-
+    }    
+    
+    /* Disable interrupts to prevent vector table access while code flash is in P/E mode. */
+    __disable_irq();
+    
     /* Erase Block */
     err = R_FLASH_HP_Erase(&g_flash_ctrl, FLASH_HP_CF_BLOCK_8, BLOCK_NUM);
     /* Error Handle */
@@ -165,6 +168,10 @@ fsp_err_t flash_hp_code_flash_operations(void)
     }
     APP_PRINT("\r\nAccess Window cleared ");
 #endif
+
+    /* Enable interrupts after code flash operations are complete. */
+    __enable_irq();
+    
     return err;
 }
 

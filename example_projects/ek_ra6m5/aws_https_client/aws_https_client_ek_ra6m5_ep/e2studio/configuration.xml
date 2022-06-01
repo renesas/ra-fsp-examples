@@ -1,26 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<raConfiguration version="6">
+<raConfiguration version="7">
   <generalSettings>
     <option key="#Board#" value="board.ra6m5ek"/>
     <option key="CPU" value="RA6M5"/>
+    <option key="Core" value="CM33"/>
     <option key="#TargetName#" value="R7FA6M5BH3CFC"/>
     <option key="#TargetARCHITECTURE#" value="cortex-m33"/>
     <option key="#DeviceCommand#" value="R7FA6M5BH"/>
     <option key="#RTOS#" value="rtos.awsfreertos"/>
     <option key="#pinconfiguration#" value="R7FA6M5BH3CFC.pincfg"/>
-    <option key="#FSPVersion#" value="2.4.0"/>
+    <option key="#FSPVersion#" value="3.7.0"/>
     <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra6m5_ek##"/>
     <option key="#SELECTED_TOOLCHAIN#" value="gcc-arm-embedded"/>
-    <option key="#ToolchainVersion#" value="9.2.1.20191025"/>
+    <option key="#ToolchainVersion#" value="10.3.1.20210824"/>
   </generalSettings>
   <raBspConfiguration>
     <config id="config.bsp.ra6m5.R7FA6M5BH3CFC">
       <property id="config.bsp.part_number" value="config.bsp.part_number.value"/>
       <property id="config.bsp.rom_size_bytes" value="config.bsp.rom_size_bytes.value"/>
+      <property id="config.bsp.rom_size_bytes_hidden" value="2097152"/>
       <property id="config.bsp.ram_size_bytes" value="config.bsp.ram_size_bytes.value"/>
       <property id="config.bsp.data_flash_size_bytes" value="config.bsp.data_flash_size_bytes.value"/>
       <property id="config.bsp.package_style" value="config.bsp.package_style.value"/>
       <property id="config.bsp.package_pins" value="config.bsp.package_pins.value"/>
+      <property id="config.bsp.irq_count_hidden" value="96"/>
     </config>
     <config id="config.bsp.ra6m5">
       <property id="config.bsp.series" value="config.bsp.series.value"/>
@@ -64,16 +67,24 @@
       <property id="config.bsp.fsp.PBPS.PBPS2" value=""/>
       <property id="config.bsp.fsp.dual_bank" value="config.bsp.fsp.dual_bank.disabled"/>
       <property id="config.bsp.fsp.hoco_fll" value="config.bsp.fsp.hoco_fll.disabled"/>
+      <property id="config.bsp.common.main_osc_wait" value="config.bsp.common.main_osc_wait.wait_8163"/>
       <property id="config.bsp.fsp.mcu.adc.max_freq_hz" value="50000000"/>
       <property id="config.bsp.fsp.mcu.sci_uart.max_baud" value="20000000"/>
       <property id="config.bsp.fsp.mcu.adc.sample_and_hold" value="0"/>
       <property id="config.bsp.fsp.mcu.sci_spi.max_bitrate" value="25000000"/>
       <property id="config.bsp.fsp.mcu.spi.max_bitrate" value="50000000"/>
       <property id="config.bsp.fsp.mcu.iic_master.rate.rate_fastplus" value="1"/>
+      <property id="config.bsp.fsp.mcu.canfd.num_channels" value="2"/>
+      <property id="config.bsp.fsp.mcu.canfd.rx_fifos" value="8"/>
+      <property id="config.bsp.fsp.mcu.canfd.buffer_ram" value="4864"/>
+      <property id="config.bsp.fsp.mcu.canfd.afl_rules" value="128"/>
+      <property id="config.bsp.fsp.mcu.canfd.max_data_rate_hz" value="8"/>
+      <property id="config.bsp.fsp.mcu.sci_uart.cstpen_channels" value="0x03F9"/>
+      <property id="config.bsp.fsp.mcu.gpt.pin_count_source_channels" value="0xFFFF"/>
     </config>
     <config id="config.bsp.ra">
-      <property id="config.bsp.common.main" value="0x10000"/>
-      <property id="config.bsp.common.heap" value="0x2000"/>
+      <property id="config.bsp.common.main" value="0x1000"/>
+      <property id="config.bsp.common.heap" value="0x1000"/>
       <property id="config.bsp.common.vcc" value="3300"/>
       <property id="config.bsp.common.checking" value="config.bsp.common.checking.enabled"/>
       <property id="config.bsp.common.assert" value="config.bsp.common.assert.none"/>
@@ -82,7 +93,7 @@
       <property id="config.bsp.common.main_osc_populated" value="config.bsp.common.main_osc_populated.enabled"/>
       <property id="config.bsp.common.pfs_protect" value="config.bsp.common.pfs_protect.enabled"/>
       <property id="config.bsp.common.c_runtime_init" value="config.bsp.common.c_runtime_init.enabled"/>
-      <property id="config.bsp.common.main_osc_wait" value="config.bsp.common.main_osc_wait.wait_8163"/>
+      <property id="config.bsp.common.early_init" value="config.bsp.common.early_init.disabled"/>
       <property id="config.bsp.common.main_osc_clock_source" value="config.bsp.common.main_osc_clock_source.crystal"/>
       <property id="config.bsp.common.subclock_populated" value="config.bsp.common.subclock_populated.enabled"/>
       <property id="config.bsp.common.subclock_drive" value="config.bsp.common.subclock_drive.standard"/>
@@ -119,7 +130,7 @@
     <node id="board.clock.clkout.div" option="board.clock.clkout.div.1"/>
     <node id="board.clock.uclk.div" option="board.clock.uclk.div.5"/>
     <node id="board.clock.octaspiclk.div" option="board.clock.octaspiclk.div.1"/>
-    <node id="board.clock.canfdclk.div" option="board.clock.canfdclk.div.1"/>
+    <node id="board.clock.canfdclk.div" option="board.clock.canfdclk.div.6"/>
     <node id="board.clock.iclk.display" option="board.clock.iclk.display.value"/>
     <node id="board.clock.pclka.display" option="board.clock.pclka.display.value"/>
     <node id="board.clock.pclkb.display" option="board.clock.pclkb.display.value"/>
@@ -134,165 +145,177 @@
     <node id="board.clock.canfdclk.display" option="board.clock.canfdclk.display.value"/>
   </raClockConfiguration>
   <raComponentSelection>
-    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="2.4.0">
-      <description>Board Support Package Common Files</description>
-      <originalPack>Renesas.RA.2.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="2.4.0">
-      <description>I/O Port</description>
-      <originalPack>Renesas.RA.2.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="RTOS" condition="" group="FreeRTOS" subgroup="all" variant="" vendor="AWS" version="2.4.0">
-      <description>FreeRTOS</description>
-      <originalPack>Amazon.AWS.2.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="5.7.0+fsp.2.4.0">
-      <description>Arm CMSIS Version 5 - Core (M)</description>
-      <originalPack>Arm.CMSIS5.5.7.0+fsp.2.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra6m5_ek" variant="" vendor="Renesas" version="2.4.0">
-      <description>RA6M5-EK Board Support Files</description>
-      <originalPack>Renesas.RA_board_ra6m5_ek.2.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra6m5" subgroup="device" variant="R7FA6M5BH3CFC" vendor="Renesas" version="2.4.0">
-      <description>Board support package for R7FA6M5BH3CFC</description>
-      <originalPack>Renesas.RA_mcu_ra6m5.2.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra6m5" subgroup="device" variant="" vendor="Renesas" version="2.4.0">
-      <description>Board support package for ra6m5</description>
-      <originalPack>Renesas.RA_mcu_ra6m5.2.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra6m5" subgroup="fsp" variant="" vendor="Renesas" version="2.4.0">
-      <description>Board support package for ra6m5 - FSP Data</description>
-      <originalPack>Renesas.RA_mcu_ra6m5.2.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="PSA" condition="" group="Crypto" subgroup="mbedCrypto" variant="" vendor="Arm" version="3.1.0+renesas.2.fsp.2.4.0">
-      <description>Arm PSA Crypto Implementation</description>
-      <originalPack>Arm.MbedCrypto.3.1.0+renesas.2.fsp.2.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Libraries" condition="" group="FreeRTOS" subgroup="BufferAllocation2" variant="" vendor="AWS" version="2.4.0">
-      <description>FreeRTOS - Buffer Allocation 2</description>
-      <originalPack>Amazon.AWS.2.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Heaps" condition="" group="FreeRTOS" subgroup="heap_4" variant="" vendor="AWS" version="2.4.0">
-      <description>FreeRTOS - Memory Management - Heap 4</description>
-      <originalPack>Amazon.AWS.2.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Libraries" condition="" group="FreeRTOS_Plus" subgroup="FreeRTOS_Plus_TCP" variant="" vendor="AWS" version="2.4.0">
-      <description>FreeRTOS+TCP</description>
-      <originalPack>Amazon.AWS.2.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Abstractions" condition="" group="Secure_Sockets" subgroup="FreeRTOS_Plus_TCP" variant="" vendor="AWS" version="2.4.0">
-      <description>Secure Socket using FreeRTOS TCP IP</description>
-      <originalPack>Amazon.AWS.2.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="FreeRTOS" condition="" group="demo" subgroup="dev_mode_key_provisioning" variant="" vendor="AWS" version="2.4.0">
-      <description>AWS Demo dev_mode_key_provisioning</description>
-      <originalPack>Amazon.AWS.2.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Abstractions" condition="" group="Secure_Sockets" subgroup="tls_support" variant="" vendor="AWS" version="2.4.0">
-      <description>Secure Socket TLS Support</description>
-      <originalPack>Amazon.AWS.2.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="FreeRTOS" condition="" group="IoT" subgroup="common" variant="" vendor="AWS" version="2.4.0">
-      <description>AWS IoT Common</description>
-      <originalPack>Amazon.AWS.2.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="FreeRTOS" condition="" group="IoT" subgroup="clientcredential" variant="" vendor="AWS" version="2.4.0">
-      <description>AWS Client Credentials</description>
-      <originalPack>Amazon.AWS.2.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="c_sdk" condition="" group="standard" subgroup="https" variant="" vendor="AWS" version="2.4.0">
-      <description>AWS c_sdk HTTPS</description>
-      <originalPack>Amazon.AWS.2.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="c_sdk" condition="" group="standard" subgroup="taskpool" variant="" vendor="AWS" version="2.4.0">
-      <description>AWS c_sdk Standard Taskpool</description>
-      <originalPack>Amazon.AWS.2.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="c_sdk" condition="" group="standard" subgroup="iotsdk_init" variant="" vendor="AWS" version="2.4.0">
-      <description>AWS Platform IoT SDK Initialization</description>
-      <originalPack>Amazon.AWS.2.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Abstractions" condition="" group="Platform" subgroup="network_afr" variant="" vendor="AWS" version="2.4.0">
-      <description>AWS Platform Network Abstraction</description>
-      <originalPack>Amazon.AWS.2.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Abstractions" condition="" group="Platform" subgroup="threads_afr" variant="" vendor="AWS" version="2.4.0">
-      <description>AWS Platform Threads Abstraction</description>
-      <originalPack>Amazon.AWS.2.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Abstractions" condition="" group="Platform" subgroup="clock_afr" variant="" vendor="AWS" version="2.4.0">
-      <description>AWS Platform Clock Abstraction</description>
-      <originalPack>Amazon.AWS.2.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="c_sdk" condition="" group="standard" subgroup="logging" variant="" vendor="AWS" version="2.4.0">
-      <description>AWS c_sdk Logging</description>
-      <originalPack>Amazon.AWS.2.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Abstractions" condition="" group="Secure_Sockets" subgroup="common" variant="" vendor="AWS" version="2.4.0">
-      <description>AWS Secure Sockets Common</description>
-      <originalPack>Amazon.AWS.2.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="FreeRTOS_Plus" condition="" group="standard" subgroup="tls" variant="" vendor="AWS" version="2.4.0">
-      <description>AWS TLS</description>
-      <originalPack>Amazon.AWS.2.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="FreeRTOS_Plus" condition="" group="standard" subgroup="crypto" variant="" vendor="AWS" version="2.4.0">
-      <description>AWS Crypto</description>
-      <originalPack>Amazon.AWS.2.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Abstractions" condition="" group="PKCS11" subgroup="mbedtls" variant="" vendor="AWS" version="2.4.0">
-      <description>AWS PKCS11 to mbedTLS</description>
-      <originalPack>Amazon.AWS.2.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="mbed" condition="" group="Security" subgroup="mbedTLS" variant="" vendor="Arm" version="3.0.0+renesas.0.fsp.2.4.0">
+    <component apiversion="" class="mbed" condition="" group="Security" subgroup="mbedTLS" variant="" vendor="Arm" version="2.25.0+renesas.0.fsp.3.7.0">
       <description>Arm mbed TLS</description>
-      <originalPack>Arm.MbedTLS.3.0.0+renesas.0.fsp.2.4.0.pack</originalPack>
+      <originalPack>Arm.MbedTLS.2.25.0+renesas.0.fsp.3.7.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_adc" variant="" vendor="Renesas" version="2.4.0">
-      <description>A/D Converter</description>
-      <originalPack>Renesas.RA.2.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ether_phy" variant="" vendor="Renesas" version="2.4.0">
-      <description>Ethernet PHY</description>
-      <originalPack>Renesas.RA.2.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ether" variant="" vendor="Renesas" version="2.4.0">
-      <description>Ethernet</description>
-      <originalPack>Renesas.RA.2.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_flash_hp" variant="" vendor="Renesas" version="2.4.0">
-      <description>Flash Memory High Performance</description>
-      <originalPack>Renesas.RA.2.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_sce9_ra6_plaintext" variant="" vendor="Renesas" version="2.4.0">
-      <description>Secure Cryptography Engine9 on RA6 Plaintext</description>
-      <originalPack>Renesas.RA.2.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_aws_pkcs11_pal_littlefs" variant="" vendor="Renesas" version="2.4.0">
-      <description>AWS PCKS11 PAL on LittleFS</description>
-      <originalPack>Renesas.RA.2.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_freertos_plus_tcp" variant="" vendor="Renesas" version="2.4.0">
-      <description>r_ether to FreeRTOS+TCP Wrapper</description>
-      <originalPack>Renesas.RA.2.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_littlefs_flash" variant="" vendor="Renesas" version="2.4.0">
-      <description>LittleFS Flash Port</description>
-      <originalPack>Renesas.RA.2.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_mbedtls" variant="" vendor="Renesas" version="2.4.0">
-      <description>Modified mbedTLS</description>
-      <originalPack>Renesas.RA.2.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="rm_psa_crypto" variant="" vendor="Renesas" version="2.4.0">
-      <description>MbedCrypto H/W Acceleration</description>
-      <originalPack>Renesas.RA.2.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Mbed" condition="" group="Library" subgroup="LittleFS" variant="" vendor="Arm" version="2.2.1+renesas.1.fsp.2.4.0">
+    <component apiversion="" class="Mbed" condition="" group="Library" subgroup="LittleFS" variant="" vendor="Arm" version="2.2.1+renesas.1.fsp.3.7.0">
       <description>Arm Mbed LittleFS</description>
-      <originalPack>Arm.LittleFS.2.2.1+renesas.1.fsp.2.4.0.pack</originalPack>
+      <originalPack>Arm.LittleFS.2.2.1+renesas.1.fsp.3.7.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Abstractions" condition="" group="Transport" subgroup="Secure_Sockets" variant="" vendor="AWS" version="202012.0.0+fsp.3.7.0">
+      <description>Secure Sockets Transport Interface using FreeRTOS TCP IP</description>
+      <originalPack>Amazon.amazon-freertos.202012.0.0+fsp.3.7.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="FreeRTOS" condition="" group="demo" subgroup="dev_mode_key_provisioning" variant="" vendor="AWS" version="202012.0.0+fsp.3.7.0">
+      <description>AWS Demo dev_mode_key_provisioning</description>
+      <originalPack>Amazon.amazon-freertos.202012.0.0+fsp.3.7.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Abstractions" condition="" group="Secure_Sockets" subgroup="tls_support" variant="" vendor="AWS" version="202012.0.0+fsp.3.7.0">
+      <description>Secure Socket TLS Support</description>
+      <originalPack>Amazon.amazon-freertos.202012.0.0+fsp.3.7.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="FreeRTOS" condition="" group="IoT" subgroup="common" variant="" vendor="AWS" version="202012.0.0+fsp.3.7.0">
+      <description>AWS IoT Common</description>
+      <originalPack>Amazon.amazon-freertos.202012.0.0+fsp.3.7.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="FreeRTOS" condition="" group="IoT" subgroup="clientcredential" variant="" vendor="AWS" version="202012.0.0+fsp.3.7.0">
+      <description>AWS Client Credentials</description>
+      <originalPack>Amazon.amazon-freertos.202012.0.0+fsp.3.7.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="c_sdk" condition="" group="standard" subgroup="https_wrapper" variant="" vendor="AWS" version="202012.0.0+fsp.3.7.0">
+      <description>AWS c_sdk HTTPS Wrapper</description>
+      <originalPack>Amazon.amazon-freertos.202012.0.0+fsp.3.7.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="c_sdk" condition="" group="standard" subgroup="taskpool" variant="" vendor="AWS" version="202012.0.0+fsp.3.7.0">
+      <description>AWS c_sdk Standard Taskpool</description>
+      <originalPack>Amazon.amazon-freertos.202012.0.0+fsp.3.7.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="c_sdk" condition="" group="standard" subgroup="iotsdk_init" variant="" vendor="AWS" version="202012.0.0+fsp.3.7.0">
+      <description>AWS Platform IoT SDK Initialization</description>
+      <originalPack>Amazon.amazon-freertos.202012.0.0+fsp.3.7.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Abstractions" condition="" group="Platform" subgroup="network_afr" variant="wrapper" vendor="AWS" version="202012.0.0+fsp.3.7.0">
+      <description>AWS Platform Network Abstraction</description>
+      <originalPack>Amazon.amazon-freertos.202012.0.0+fsp.3.7.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Abstractions" condition="" group="Platform" subgroup="threads_afr" variant="" vendor="AWS" version="202012.0.0+fsp.3.7.0">
+      <description>AWS Platform Threads Abstraction</description>
+      <originalPack>Amazon.amazon-freertos.202012.0.0+fsp.3.7.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Abstractions" condition="" group="Platform" subgroup="clock_afr" variant="" vendor="AWS" version="202012.0.0+fsp.3.7.0">
+      <description>AWS Platform Clock Abstraction</description>
+      <originalPack>Amazon.amazon-freertos.202012.0.0+fsp.3.7.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="c_sdk" condition="" group="standard" subgroup="logging" variant="" vendor="AWS" version="202012.0.0+fsp.3.7.0">
+      <description>AWS c_sdk Logging</description>
+      <originalPack>Amazon.amazon-freertos.202012.0.0+fsp.3.7.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Abstractions" condition="" group="Secure_Sockets" subgroup="common" variant="" vendor="AWS" version="202012.0.0+fsp.3.7.0">
+      <description>AWS Secure Sockets Common</description>
+      <originalPack>Amazon.amazon-freertos.202012.0.0+fsp.3.7.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="FreeRTOS_Plus" condition="" group="standard" subgroup="tls" variant="" vendor="AWS" version="202012.0.0+fsp.3.7.0">
+      <description>AWS TLS</description>
+      <originalPack>Amazon.amazon-freertos.202012.0.0+fsp.3.7.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="FreeRTOS_Plus" condition="" group="standard" subgroup="crypto" variant="" vendor="AWS" version="202012.0.0+fsp.3.7.0">
+      <description>AWS Crypto</description>
+      <originalPack>Amazon.amazon-freertos.202012.0.0+fsp.3.7.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Abstractions" condition="" group="PKCS11" subgroup="mbedtls" variant="" vendor="AWS" version="202012.0.0+fsp.3.7.0">
+      <description>AWS PKCS11 to mbedTLS</description>
+      <originalPack>Amazon.amazon-freertos.202012.0.0+fsp.3.7.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="RTOS" condition="" group="FreeRTOS" subgroup="all" variant="" vendor="AWS" version="10.4.3-LTS.Patch.2+fsp.3.7.0">
+      <description>FreeRTOS</description>
+      <originalPack>Amazon.FreeRTOS-Kernel.10.4.3-LTS.Patch.2+fsp.3.7.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Heaps" condition="" group="FreeRTOS" subgroup="heap_4" variant="" vendor="AWS" version="10.4.3-LTS.Patch.2+fsp.3.7.0">
+      <description>FreeRTOS - Memory Management - Heap 4</description>
+      <originalPack>Amazon.FreeRTOS-Kernel.10.4.3-LTS.Patch.2+fsp.3.7.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="PSA" condition="" group="Crypto" subgroup="mbedCrypto" variant="" vendor="Arm" version="2.25.0+renesas.0.fsp.3.7.0">
+      <description>Arm PSA Crypto Implementation</description>
+      <originalPack>Arm.MbedCrypto.2.25.0+renesas.0.fsp.3.7.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="3.7.0">
+      <description>Board Support Package Common Files</description>
+      <originalPack>Renesas.RA.3.7.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_adc" variant="" vendor="Renesas" version="3.7.0">
+      <description>A/D Converter</description>
+      <originalPack>Renesas.RA.3.7.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ether_phy" variant="" vendor="Renesas" version="3.7.0">
+      <description>Ethernet PHY</description>
+      <originalPack>Renesas.RA.3.7.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ether" variant="" vendor="Renesas" version="3.7.0">
+      <description>Ethernet</description>
+      <originalPack>Renesas.RA.3.7.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_flash_hp" variant="" vendor="Renesas" version="3.7.0">
+      <description>Flash Memory High Performance</description>
+      <originalPack>Renesas.RA.3.7.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="3.7.0">
+      <description>I/O Port</description>
+      <originalPack>Renesas.RA.3.7.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_sce9_ra6_plaintext" variant="" vendor="Renesas" version="3.7.0">
+      <description>Secure Cryptography Engine on RA6 Compatibility Mode</description>
+      <originalPack>Renesas.RA.3.7.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_aws_pkcs11_pal_littlefs" variant="" vendor="Renesas" version="3.7.0">
+      <description>AWS PCKS11 PAL on LittleFS</description>
+      <originalPack>Renesas.RA.3.7.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_freertos_plus_tcp" variant="" vendor="Renesas" version="3.7.0">
+      <description>r_ether to FreeRTOS+TCP Wrapper</description>
+      <originalPack>Renesas.RA.3.7.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_freertos_port" variant="" vendor="Renesas" version="3.7.0">
+      <description>FreeRTOS Port</description>
+      <originalPack>Renesas.RA.3.7.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_littlefs_flash" variant="" vendor="Renesas" version="3.7.0">
+      <description>LittleFS Flash Port</description>
+      <originalPack>Renesas.RA.3.7.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_mbedtls" variant="" vendor="Renesas" version="3.7.0">
+      <description>Modified mbedTLS</description>
+      <originalPack>Renesas.RA.3.7.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="rm_psa_crypto" variant="" vendor="Renesas" version="3.7.0">
+      <description>MbedCrypto H/W Acceleration</description>
+      <originalPack>Renesas.RA.3.7.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra6m5" subgroup="device" variant="R7FA6M5BH3CFC" vendor="Renesas" version="3.7.0">
+      <description>Board support package for R7FA6M5BH3CFC</description>
+      <originalPack>Renesas.RA_mcu_ra6m5.3.7.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra6m5" subgroup="device" variant="" vendor="Renesas" version="3.7.0">
+      <description>Board support package for RA6M5</description>
+      <originalPack>Renesas.RA_mcu_ra6m5.3.7.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra6m5" subgroup="fsp" variant="" vendor="Renesas" version="3.7.0">
+      <description>Board support package for RA6M5 - FSP Data</description>
+      <originalPack>Renesas.RA_mcu_ra6m5.3.7.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra6m5_ek" variant="" vendor="Renesas" version="3.7.0">
+      <description>RA6M5-EK Board Support Files</description>
+      <originalPack>Renesas.RA_board_ra6m5_ek.3.7.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Libraries" condition="" group="coreHTTP" subgroup="source" variant="" vendor="AWS" version="2.0.0+fsp.3.7.0">
+      <description>AWS Core HTTPS</description>
+      <originalPack>Amazon.coreHTTP.2.0.0+fsp.3.7.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Libraries" condition="" group="FreeRTOS" subgroup="BufferAllocation2" variant="" vendor="AWS" version="2.3.2-LTS.Patch.1+fsp.3.7.0">
+      <description>FreeRTOS - Buffer Allocation 2</description>
+      <originalPack>Amazon.FreeRTOS-Plus-TCP.2.3.2-LTS.Patch.1+fsp.3.7.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Libraries" condition="" group="FreeRTOS_Plus" subgroup="FreeRTOS_Plus_TCP" variant="" vendor="AWS" version="2.3.2-LTS.Patch.1+fsp.3.7.0">
+      <description>FreeRTOS+TCP</description>
+      <originalPack>Amazon.FreeRTOS-Plus-TCP.2.3.2-LTS.Patch.1+fsp.3.7.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Abstractions" condition="" group="Secure_Sockets" subgroup="FreeRTOS_Plus_TCP" variant="" vendor="AWS" version="2.3.2-LTS.Patch.1+fsp.3.7.0">
+      <description>Secure Socket using FreeRTOS TCP IP</description>
+      <originalPack>Amazon.FreeRTOS-Plus-TCP.2.3.2-LTS.Patch.1+fsp.3.7.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="5.8.0+renesas.0.fsp.3.7.0">
+      <description>Arm CMSIS Version 5 - Core (M)</description>
+      <originalPack>Arm.CMSIS5.5.8.0+renesas.0.fsp.3.7.0.pack</originalPack>
     </component>
   </raComponentSelection>
   <raElcConfiguration/>
@@ -304,78 +327,15 @@
       <property id="module.driver.ioport.elc_trigger_ioport2" value="_disabled"/>
       <property id="module.driver.ioport.elc_trigger_ioport3" value="_disabled"/>
       <property id="module.driver.ioport.elc_trigger_ioport4" value="_disabled"/>
+      <property id="module.driver.ioport.elc_trigger_ioportb" value="_disabled"/>
+      <property id="module.driver.ioport.elc_trigger_ioportc" value="_disabled"/>
+      <property id="module.driver.ioport.elc_trigger_ioportd" value="_disabled"/>
+      <property id="module.driver.ioport.elc_trigger_ioporte" value="_disabled"/>
+      <property id="module.driver.ioport.pincfg" value="g_bsp_pin_cfg"/>
     </module>
-    <module id="module.aws.c_sdk.https.349179138"/>
-    <module id="module.aws.platform.network_afr.777019162"/>
-    <module id="module.aws.iot.common.266022047"/>
-    <module id="module.aws.clientcredential.929517923"/>
-    <module id="module.aws.c_sdk.taskpool.1104350959"/>
-    <module id="module.aws.platform.threads_afr.566171465"/>
-    <module id="module.aws.platform.clock_afr.1046992888"/>
-    <module id="module.aws.c_sdk.iotsdk_init.1475961988"/>
-    <module id="module.aws.secure_sockets.freertosplus_tcp.732301146"/>
-    <module id="module.aws.freertosplus.freertosplus_tcp.1447020768"/>
-    <module id="module.driver.freertos_plus_tcp_on_ether.1548067196"/>
-    <module id="module.driver.ether_on_ether.1316009117">
-      <property id="module.driver.ether.name" value="g_ether0"/>
-      <property id="module.driver.ether.channel" value="module.driver.ether.channel.0"/>
-      <property id="module.driver.ether.mac_address" value="00:11:22:33:44:55"/>
-      <property id="module.driver.ether.zerocopy" value="module.driver.ether.zerocopy.0"/>
-      <property id="module.driver.ether.flow_control" value="module.driver.ether.flow_control.0"/>
-      <property id="module.driver.ether.multicast" value="module.driver.ether.multicast.1"/>
-      <property id="module.driver.ether.promiscuous" value="module.driver.ether.promiscuous.0"/>
-      <property id="module.driver.ether.broadcast_filter" value="0"/>
-      <property id="module.driver.ether.num_tx_descriptors" value="8"/>
-      <property id="module.driver.ether.num_rx_descriptors" value="8"/>
-      <property id="module.driver.ether.ether_buffer_size" value="1514"/>
-      <property id="module.driver.ether.padding" value="module.driver.ether.padding.0"/>
-      <property id="module.driver.ether.padding_offset" value="1"/>
-      <property id="module.driver.ether.interrupt_priority" value="board.icu.common.irq.priority12"/>
-      <property id="module.driver.ether.p_callback" value="NULL"/>
-    </module>
-    <module id="module.driver.ether_phy_on_ether_phy.152274832">
-      <property id="module.driver.ether_phy.name" value="g_ether_phy0"/>
-      <property id="module.driver.ether_phy.channel" value="module.driver.ether_phy.channel.0"/>
-      <property id="module.driver.ether_phy.phy_lsi_address" value="1"/>
-      <property id="module.driver.ether_phy.phy_reset_wait_time" value="0x00020000"/>
-      <property id="module.driver.ether_phy.mii_type" value="module.driver.mii_type.mii"/>
-      <property id="module.driver.ether_phy.mii_bit_access_wait_time" value="8"/>
-      <property id="module.driver.ether_phy.flow_control" value="module.driver.ether_phy.flow_control.0"/>
-    </module>
-    <module id="module.freertos.bufferallocation2.878703168"/>
-    <module id="module.aws.secure_sockets.common.685564802"/>
-    <module id="module.aws.secure_sockets.tls_support.1624813699"/>
-    <module id="module.aws.freertosplus.tls.1760280178"/>
-    <module id="module.aws.pkcs11.mbedtls.1364531265"/>
-    <module id="module.aws.freertosplus.crypto.44528382"/>
-    <module id="module.arm.mbedtls.2094268499"/>
-    <module id="module.driver.psa_crypto.1257265204"/>
-    <module id="module.driver.rm_psa_crypto.31728738"/>
-    <module id="module.driver.sce9.plaintext.74229454"/>
-    <module id="module.driver.rm_mbedtls.2096110585"/>
-    <module id="module.aws.c_sdk.logging.964452274"/>
-    <module id="module.aws.freertos.dev_mode_key_provisioning.1716204570"/>
-    <module id="module.freertos.heap.4.1672104355"/>
-    <module id="module.driver.rm_aws_pkcs11_pal_littlefs.342132687"/>
-    <module id="module.arm.mbed.littlefs.1539480426"/>
-    <module id="module.middleware.rm_littlefs.953142093">
-      <property id="module.middleware.rm_littlefs.name" value="g_rm_littlefs0"/>
-      <property id="module.middleware.rm_littlefs.read_size" value="1"/>
-      <property id="module.middleware.rm_littlefs.prog_size" value="4"/>
-      <property id="module.middleware.rm_littlefs.block_size" value="128"/>
-      <property id="module.middleware.rm_littlefs.block_count" value="(BSP_DATA_FLASH_SIZE_BYTES/128)"/>
-      <property id="module.middleware.rm_littlefs.block_cycles" value="1024"/>
-      <property id="module.middleware.rm_littlefs.cache_size" value="64"/>
-      <property id="module.middleware.rm_littlefs.lookahead_size" value="16"/>
-    </module>
-    <module id="module.driver.flash_on_flash_hp.25854090">
-      <property id="module.driver.flash.name" value="g_flash0"/>
-      <property id="module.driver.flash.data_flash_bgo" value="module.driver.flash.data_flash_bgo.enabled"/>
-      <property id="module.driver.flash.p_callback" value="NULL"/>
-      <property id="module.driver.flash.ipl" value="_disabled"/>
-      <property id="module.driver.flash.err_ipl" value="_disabled"/>
-    </module>
-    <module id="module.driver.adc_on_adc.673053021">
+    <module id="module.middleware.rm_freertos_port.0"/>
+    <module id="module.freertos.heap.4.154879291"/>
+    <module id="module.driver.adc_on_adc.372552385">
       <property id="module.driver.adc.name" value="g_adc"/>
       <property id="module.driver.adc.unit" value="0"/>
       <property id="module.driver.adc.resolution" value="module.driver.adc.resolution.resolution_12_bit"/>
@@ -393,97 +353,416 @@
       <property id="module.driver.adc.add_mask" value=""/>
       <property id="module.driver.adc.sample_hold_mask" value=""/>
       <property id="module.driver.adc.sample_hold_states" value="24"/>
+      <property id="module.driver.adc.compare.window_mode" value="module.driver.adc.compare.window_mode.disabled"/>
+      <property id="module.driver.adc.compare.event_mode" value="module.driver.adc.compare.event_mode.or"/>
+      <property id="module.driver.adc.compare.window_a.enable" value="module.driver.adc.compare.window_a.enable.disabled"/>
+      <property id="module.driver.adc.compare.window_a.channels" value=""/>
+      <property id="module.driver.adc.compare.window_a.channel_mode" value=""/>
+      <property id="module.driver.adc.compare.window_a.ref_lower" value="0"/>
+      <property id="module.driver.adc.compare.window_a.ref_upper" value="0"/>
+      <property id="module.driver.adc.compare.window_b.enable" value="module.driver.adc.compare.window_b.enable.disabled"/>
+      <property id="module.driver.adc.compare.window_b.channel" value="module.driver.adc.compare.window_b.channel.channel_0"/>
+      <property id="module.driver.adc.compare.window_b.mode" value="module.driver.adc.compare.window_b.mode"/>
+      <property id="module.driver.adc.compare.window_b.ref_lower" value="0"/>
+      <property id="module.driver.adc.compare.window_b.ref_upper" value="0"/>
       <property id="module.driver.adc.p_callback" value="NULL"/>
       <property id="module.driver.adc.scan_end_ipl" value="_disabled"/>
       <property id="module.driver.adc.scan_end_b_ipl" value="_disabled"/>
+      <property id="module.driver.adc.window_a_ipl" value="_disabled"/>
+      <property id="module.driver.adc.window_b_ipl" value="_disabled"/>
       <property id="module.driver.adc.adbuf" value="module.driver.adc.adbuf.disabled"/>
+    </module>
+    <module id="module.aws.c_sdk.https.wrapper.349171613"/>
+    <module id="module.aws.coreHttps.488144459"/>
+    <module id="module.aws.transport_interface.secure_sockets.986949201"/>
+    <module id="module.aws.platform.network_afr_wrapper.117317981"/>
+    <module id="module.aws.iot.common.384550828"/>
+    <module id="module.aws.clientcredential.505046137"/>
+    <module id="module.aws.c_sdk.taskpool.1582270674"/>
+    <module id="module.aws.platform.threads_afr.16015887"/>
+    <module id="module.aws.platform.clock_afr.147985187"/>
+    <module id="module.aws.c_sdk.iotsdk_init.776602609"/>
+    <module id="module.aws.secure_sockets.freertosplus_tcp.1886182194"/>
+    <module id="module.aws.freertosplus.freertosplus_tcp.571712211"/>
+    <module id="module.driver.freertos_plus_tcp_on_ether.449897911"/>
+    <module id="module.driver.ether_on_ether.1829885278">
+      <property id="module.driver.ether.name" value="g_ether0"/>
+      <property id="module.driver.ether.channel" value="module.driver.ether.channel.0"/>
+      <property id="module.driver.ether.mac_address" value="00:11:22:33:44:75"/>
+      <property id="module.driver.ether.zerocopy" value="module.driver.ether.zerocopy.0"/>
+      <property id="module.driver.ether.flow_control" value="module.driver.ether.flow_control.1"/>
+      <property id="module.driver.ether.multicast" value="module.driver.ether.multicast.1"/>
+      <property id="module.driver.ether.promiscuous" value="module.driver.ether.promiscuous.0"/>
+      <property id="module.driver.ether.broadcast_filter" value="0"/>
+      <property id="module.driver.ether.num_tx_descriptors" value="4"/>
+      <property id="module.driver.ether.num_rx_descriptors" value="4"/>
+      <property id="module.driver.ether.allocate_rx_buffer" value="module.driver.ether.allocate_rx_buffer.1"/>
+      <property id="module.driver.ether.ether_buffer_size" value="1514"/>
+      <property id="module.driver.ether.padding" value="module.driver.ether.padding.0"/>
+      <property id="module.driver.ether.padding_offset" value="1"/>
+      <property id="module.driver.ether.interrupt_priority" value="board.icu.common.irq.priority12"/>
+      <property id="module.driver.ether.p_callback" value="NULL"/>
+    </module>
+    <module id="module.driver.ether_phy_on_ether_phy.1305183760">
+      <property id="module.driver.ether_phy.name" value="g_ether_phy0"/>
+      <property id="module.driver.ether_phy.channel" value="module.driver.ether_phy.channel.0"/>
+      <property id="module.driver.ether_phy.phy_lsi_address" value="1"/>
+      <property id="module.driver.ether_phy.phy_reset_wait_time" value="0x00020000"/>
+      <property id="module.driver.ether_phy.mii_type" value="module.driver.mii_type.rmii"/>
+      <property id="module.driver.ether_phy.mii_bit_access_wait_time" value="8"/>
+      <property id="module.driver.ether_phy.flow_control" value="module.driver.ether_phy.flow_control.0"/>
+    </module>
+    <module id="module.freertos.bufferallocation2.131323073"/>
+    <module id="module.aws.secure_sockets.common.1196924429"/>
+    <module id="module.aws.secure_sockets.tls_support.1685747306"/>
+    <module id="module.aws.freertosplus.tls.2016186313"/>
+    <module id="module.aws.pkcs11.mbedtls.1805122873"/>
+    <module id="module.aws.freertosplus.crypto.805318813"/>
+    <module id="module.arm.mbedtls.62822390"/>
+    <module id="module.driver.psa_crypto.418293543"/>
+    <module id="module.driver.rm_psa_crypto.1315516331"/>
+    <module id="module.driver.sce9.plaintext.718208690"/>
+    <module id="module.driver.rm_mbedtls.276649459"/>
+    <module id="module.aws.c_sdk.logging.2003003191"/>
+    <module id="module.aws.freertos.dev_mode_key_provisioning.399186435"/>
+    <module id="module.driver.rm_aws_pkcs11_pal_littlefs.915528589"/>
+    <module id="module.arm.mbed.littlefs.1227092704"/>
+    <module id="module.middleware.rm_littlefs.1052493368">
+      <property id="module.middleware.rm_littlefs.name" value="g_rm_littlefs0"/>
+      <property id="module.middleware.rm_littlefs.read_size" value="1"/>
+      <property id="module.middleware.rm_littlefs.prog_size" value="4"/>
+      <property id="module.middleware.rm_littlefs.block_size" value="128"/>
+      <property id="module.middleware.rm_littlefs.block_count" value="(BSP_DATA_FLASH_SIZE_BYTES/128)"/>
+      <property id="module.middleware.rm_littlefs.block_cycles" value="1024"/>
+      <property id="module.middleware.rm_littlefs.cache_size" value="64"/>
+      <property id="module.middleware.rm_littlefs.lookahead_size" value="16"/>
+    </module>
+    <module id="module.driver.flash_on_flash_hp.1781312944">
+      <property id="module.driver.flash.name" value="g_flash0"/>
+      <property id="module.driver.flash.data_flash_bgo" value="module.driver.flash.data_flash_bgo.enabled"/>
+      <property id="module.driver.flash.p_callback" value="NULL"/>
+      <property id="module.driver.flash.ipl" value="_disabled"/>
+      <property id="module.driver.flash.err_ipl" value="_disabled"/>
     </module>
     <context id="_hal.0">
       <stack module="module.driver.ioport_on_ioport.0"/>
+      <stack module="module.middleware.rm_freertos_port.0"/>
     </context>
-    <context id="rtos.awsfreertos.thread.1897804620">
+    <context id="rtos.awsfreertos.thread.1512382239">
       <property id="_symbol" value="user_app_thread"/>
       <property id="rtos.awsfreertos.thread.name" value="User App Thread"/>
-      <property id="rtos.awsfreertos.thread.stack" value="4096"/>
+      <property id="rtos.awsfreertos.thread.stack" value="32768"/>
       <property id="rtos.awsfreertos.thread.priority" value="2"/>
       <property id="rtos.awsfreertos.thread.context" value="NULL"/>
       <property id="rtos.awsfreertos.thread.allocation" value="rtos.awsfreertos.thread.allocation.static"/>
       <property id="rtos.awsfreertos.thread.secure_context" value="rtos.awsfreertos.thread.secure_context.enable"/>
-      <stack module="module.aws.c_sdk.https.349179138">
-        <stack module="module.aws.platform.network_afr.777019162" requires="module.aws.c_sdk.https.requires.network_afr">
-          <stack module="module.aws.iot.common.266022047" requires="module.aws.c_sdk.iotsdk_init.requires.iot_common">
-            <stack module="module.aws.clientcredential.929517923" requires="module.aws.iot.common.requires.clientcredential"/>
-          </stack>
-          <stack module="module.aws.secure_sockets.freertosplus_tcp.732301146" requires="module.aws.platform.network_afr.requires.secure_sockets">
-            <stack module="module.aws.freertosplus.freertosplus_tcp.1447020768" requires="module.aws.secure_sockets.freertosplustcp.requires.freertosplus_tcp">
-              <stack module="module.driver.freertos_plus_tcp_on_ether.1548067196" requires="module.aws.freertosplus.freertosplus_tcp.requires.freertosplus_tcp_driver">
-                <stack module="module.driver.ether_on_ether.1316009117" requires="module.driver.freertos_plus_tcp_on_ether.requires.ether">
-                  <stack module="module.driver.ether_phy_on_ether_phy.152274832" requires="module.driver.ether.requires.ether_phy"/>
-                </stack>
-                <stack module="module.freertos.bufferallocation2.878703168" requires="module.driver.freertos_plus_tcp_on_ether.requires.bufferallocation2"/>
-              </stack>
-            </stack>
-            <stack module="module.aws.secure_sockets.common.685564802" requires="module.aws.secure_sockets.freertosplustcp.requires.secure_sockets_common">
-              <stack module="module.aws.iot.common.266022047" requires="module.aws.secure_sockets.freertosplustcp.requires.iot_common">
-                <stack module="module.aws.clientcredential.929517923" requires="module.aws.iot.common.requires.clientcredential"/>
-              </stack>
-            </stack>
-            <stack module="module.aws.secure_sockets.tls_support.1624813699" requires="module.aws.secure_sockets.freertosplustcp.requires.tls_support">
-              <stack module="module.aws.freertosplus.tls.1760280178" requires="module.aws.secure_sockets.tls_support.requires.freertosplus_tls">
-                <stack module="module.aws.pkcs11.mbedtls.1364531265" requires="module.aws.freertosplus.tls.requires.pkcs11">
-                  <stack module="module.driver.rm_aws_pkcs11_pal_littlefs.342132687" requires="module.aws.pkcs11.mbedtls.requires.pal">
-                    <stack module="module.arm.mbed.littlefs.1539480426" requires="module.driver.rm_aws_pkcs11_pal_littlefs.requires.littlefs">
-                      <stack module="module.middleware.rm_littlefs.953142093" requires="module.arm.mbed.littlefs.requires.littlefs_port">
-                        <stack module="module.driver.flash_on_flash_hp.25854090" requires="module.middleware.rm_littlefs.requires.r_flash"/>
-                      </stack>
-                    </stack>
+      <stack module="module.freertos.heap.4.154879291"/>
+      <stack module="module.driver.adc_on_adc.372552385"/>
+      <stack module="module.aws.c_sdk.https.wrapper.349171613">
+        <stack module="module.aws.coreHttps.488144459" requires="module.aws.c_sdk.https.wrapper.requires.coreHTTP">
+          <stack module="module.aws.transport_interface.secure_sockets.986949201" requires="module.aws.coreHttps.requires.transport_interface">
+            <stack module="module.aws.secure_sockets.freertosplus_tcp.1886182194" requires="module.aws.transport_interface.secure_sockets.requires.secure_sockets">
+              <stack module="module.aws.freertosplus.freertosplus_tcp.571712211" requires="module.aws.secure_sockets.freertosplustcp.requires.freertosplus_tcp">
+                <stack module="module.driver.freertos_plus_tcp_on_ether.449897911" requires="module.aws.freertosplus.freertosplus_tcp.requires.freertosplus_tcp_driver">
+                  <stack module="module.driver.ether_on_ether.1829885278" requires="module.driver.freertos_plus_tcp_on_ether.requires.ether">
+                    <stack module="module.driver.ether_phy_on_ether_phy.1305183760" requires="module.driver.ether.requires.ether_phy"/>
                   </stack>
-                  <stack module="module.aws.freertosplus.crypto.44528382" requires="module.aws.pkcs11.mbedtls.requires.freertospluscrypto">
-                    <stack module="module.arm.mbedtls.2094268499" requires="module.driver.freertos_plus_tcp_on_ether.requires.mbedtls">
-                      <stack module="module.driver.psa_crypto.1257265204" requires="module.arm.mbedtls.requires.psa_crypto">
-                        <stack module="module.driver.rm_psa_crypto.31728738" requires="module.driver.rm_psa_crypto">
-                          <stack module="module.driver.sce9.plaintext.74229454" requires="module.driver.rm_psa_crypto.requires.sce"/>
+                  <stack module="module.freertos.bufferallocation2.131323073" requires="module.driver.freertos_plus_tcp_on_ether.requires.bufferallocation2"/>
+                </stack>
+              </stack>
+              <stack module="module.aws.secure_sockets.common.1196924429" requires="module.aws.secure_sockets.freertosplustcp.requires.secure_sockets_common">
+                <stack module="module.aws.iot.common.384550828" requires="module.aws.secure_sockets.freertosplustcp.requires.iot_common">
+                  <stack module="module.aws.clientcredential.505046137" requires="module.aws.iot.common.requires.clientcredential"/>
+                </stack>
+              </stack>
+              <stack module="module.aws.secure_sockets.tls_support.1685747306" requires="module.aws.secure_sockets.freertosplustcp.requires.tls_support">
+                <stack module="module.aws.freertosplus.tls.2016186313" requires="module.aws.secure_sockets.tls_support.requires.freertosplus_tls">
+                  <stack module="module.aws.pkcs11.mbedtls.1805122873" requires="module.aws.freertosplus.tls.requires.pkcs11">
+                    <stack module="module.driver.rm_aws_pkcs11_pal_littlefs.915528589" requires="module.aws.pkcs11.mbedtls.requires.pal">
+                      <stack module="module.arm.mbed.littlefs.1227092704" requires="module.driver.rm_aws_pkcs11_pal_littlefs.requires.littlefs">
+                        <stack module="module.middleware.rm_littlefs.1052493368" requires="module.arm.mbed.littlefs.requires.littlefs_port">
+                          <stack module="module.driver.flash_on_flash_hp.1781312944" requires="module.middleware.rm_littlefs.requires.r_flash"/>
                         </stack>
                       </stack>
-                      <stack module="module.driver.rm_mbedtls.2096110585" requires="module.driver.rm_mbedtls.requires.rm_mbedtls"/>
+                    </stack>
+                    <stack module="module.aws.freertosplus.crypto.805318813" requires="module.aws.pkcs11.mbedtls.requires.freertospluscrypto">
+                      <stack module="module.arm.mbedtls.62822390" requires="module.driver.freertos_plus_tcp_on_ether.requires.mbedtls">
+                        <stack module="module.driver.psa_crypto.418293543" requires="module.arm.mbedtls.requires.psa_crypto">
+                          <stack module="module.driver.rm_psa_crypto.1315516331" requires="module.driver.rm_psa_crypto">
+                            <stack module="module.driver.sce9.plaintext.718208690" requires="module.driver.rm_psa_crypto.requires.sce"/>
+                          </stack>
+                        </stack>
+                        <stack module="module.driver.rm_mbedtls.276649459" requires="module.driver.rm_mbedtls.requires.rm_mbedtls"/>
+                      </stack>
                     </stack>
                   </stack>
                 </stack>
-              </stack>
-              <stack module="module.aws.c_sdk.logging.964452274" requires="module.aws.secure_sockets.tls_support.requires.c_sdk_logging">
-                <stack module="module.aws.iot.common.266022047" requires="module.aws.c_sdk.logging.requires.iot_common">
-                  <stack module="module.aws.clientcredential.929517923" requires="module.aws.iot.common.requires.clientcredential"/>
+                <stack module="module.aws.c_sdk.logging.2003003191" requires="module.aws.secure_sockets.tls_support.requires.c_sdk_logging">
+                  <stack module="module.aws.iot.common.384550828" requires="module.aws.c_sdk.logging.requires.iot_common">
+                    <stack module="module.aws.clientcredential.505046137" requires="module.aws.iot.common.requires.clientcredential"/>
+                  </stack>
                 </stack>
+                <stack module="module.aws.freertos.dev_mode_key_provisioning.399186435" requires="module.aws.secure_sockets.tls_support.requires.dev_mode_key_provisioning"/>
               </stack>
-              <stack module="module.aws.freertos.dev_mode_key_provisioning.1716204570" requires="module.aws.secure_sockets.tls_support.requires.dev_mode_key_provisioning"/>
             </stack>
           </stack>
         </stack>
-        <stack module="module.aws.c_sdk.taskpool.1104350959" requires="module.aws.c_sdk.https.requires.task_pool">
-          <stack module="module.aws.platform.threads_afr.566171465" requires="module.aws.c_sdk.taskpool.requires.threads_afr">
-            <stack module="module.aws.iot.common.266022047" requires="module.aws.c_sdk.iotsdk_init.requires.iot_common">
-              <stack module="module.aws.clientcredential.929517923" requires="module.aws.iot.common.requires.clientcredential"/>
+        <stack module="module.aws.platform.network_afr_wrapper.117317981" requires="module.aws.c_sdk.https.wrapper.requires.network_afr">
+          <stack module="module.aws.iot.common.384550828" requires="module.aws.c_sdk.iotsdk_init.requires.iot_common">
+            <stack module="module.aws.clientcredential.505046137" requires="module.aws.iot.common.requires.clientcredential"/>
+          </stack>
+        </stack>
+        <stack module="module.aws.c_sdk.taskpool.1582270674" requires="module.aws.c_sdk.mqtt.wrapper.requires.task_pool">
+          <stack module="module.aws.platform.threads_afr.16015887" requires="module.aws.c_sdk.taskpool.requires.threads_afr">
+            <stack module="module.aws.iot.common.384550828" requires="module.aws.c_sdk.iotsdk_init.requires.iot_common">
+              <stack module="module.aws.clientcredential.505046137" requires="module.aws.iot.common.requires.clientcredential"/>
             </stack>
           </stack>
-          <stack module="module.aws.platform.clock_afr.1046992888" requires="module.aws.c_sdk.taskpool.requires.clock_afr">
-            <stack module="module.aws.iot.common.266022047" requires="module.aws.c_sdk.iotsdk_init.requires.iot_common">
-              <stack module="module.aws.clientcredential.929517923" requires="module.aws.iot.common.requires.clientcredential"/>
+          <stack module="module.aws.platform.clock_afr.147985187" requires="module.aws.c_sdk.taskpool.requires.clock_afr">
+            <stack module="module.aws.iot.common.384550828" requires="module.aws.c_sdk.iotsdk_init.requires.iot_common">
+              <stack module="module.aws.clientcredential.505046137" requires="module.aws.iot.common.requires.clientcredential"/>
             </stack>
           </stack>
-          <stack module="module.aws.c_sdk.iotsdk_init.1475961988" requires="module.aws.c_sdk.taskpool.requires.iotsdk_init">
-            <stack module="module.aws.iot.common.266022047" requires="module.aws.c_sdk.iotsdk_init.requires.iot_common">
-              <stack module="module.aws.clientcredential.929517923" requires="module.aws.iot.common.requires.clientcredential"/>
+          <stack module="module.aws.c_sdk.iotsdk_init.776602609" requires="module.aws.c_sdk.taskpool.requires.iotsdk_init">
+            <stack module="module.aws.iot.common.384550828" requires="module.aws.c_sdk.iotsdk_init.requires.iot_common">
+              <stack module="module.aws.clientcredential.505046137" requires="module.aws.iot.common.requires.clientcredential"/>
             </stack>
           </stack>
         </stack>
       </stack>
-      <stack module="module.freertos.heap.4.1672104355"/>
-      <stack module="module.driver.adc_on_adc.673053021"/>
     </context>
     <config id="config.driver.flash_hp">
       <property id="config.driver.flash_hp.param_checking_enable" value="config.flash_hp.param_checking_enable.bsp"/>
       <property id="config.driver.flash_hp.param_code_flash_programming_enable" value="config.driver.flash_hp.param_code_flash_programming_enable.disabled"/>
       <property id="config.driver.flash_hp.param_data_flash_programming_enable" value="config.driver.flash_hp.param_data_flash_programming_enable.enabled"/>
+    </config>
+    <config id="config.aws.coreHttps">
+      <property id="config.aws.coreHttps.custom_http_config" value=""/>
+      <property id="config.aws.coreHttps.http_recv_retry_timeout" value="1000"/>
+      <property id="config.aws.coreHttps.http_send_retry_timeout" value="1000"/>
+      <property id="config.aws.coreHttps.http_user_agent_value" value="my-platform-name"/>
+      <property id="config.aws.coreHttps.http_max_response_headers_size" value="4096U"/>
+    </config>
+    <config id="config.driver.ioport">
+      <property id="config.driver.ioport.checking" value="config.driver.ioport.checking.system"/>
+    </config>
+    <config id="config.driver.adc">
+      <property id="config.driver.adc.param_checking_enable" value="config.driver.adc.param_checking_enable.bsp"/>
+    </config>
+    <config id="config.middleware.rm_littlefs_flash">
+      <property id="config.middleware.rm_littlefs_flash.param_checking_enable" value="config.middleware.rm_littlefs_flash.param_checking_enable.bsp"/>
+    </config>
+    <config id="config.aws.pkcs11.mbedtls">
+      <property id="config.aws.pkcs11.mbedtls.custom_pkcs11_config" value=""/>
+      <property id="config.aws.pkcs11.mbedtls.max_label_length" value="32"/>
+      <property id="config.aws.pkcs11.mbedtls.max_num_objects" value="6"/>
+      <property id="config.aws.pkcs11.mbedtls.max_num_sessions" value="10"/>
+      <property id="config.aws.pkcs11.mbedtls.tls_private_key" value="Device Priv TLS Key"/>
+      <property id="config.aws.pkcs11.mbedtls.tls_public_key" value="Device Pub TLS Key"/>
+      <property id="config.aws.pkcs11.mbedtls.tls_certificate" value="Device Cert"/>
+      <property id="config.aws.pkcs11.mbedtls.code_verification_key" value="Code Verify Key"/>
+      <property id="config.aws.pkcs11.mbedtls.root_certificate" value="Root Cert"/>
+      <property id="config.aws.pkcs11.mbedtls.jitp_certificate" value="JITP Cert"/>
+      <property id="config.aws.pkcs11.mbedtls.default_user_pin" value="0000"/>
+      <property id="config.aws.pkcs11.mbedtls.malloc" value="pvPortMalloc"/>
+      <property id="config.aws.pkcs11.mbedtls.free" value="vPortFree"/>
+      <property id="config.aws.pkcs11.mbedtls.pal_destroy" value="config.aws.pkcs11.mbedtls.pal_destroy.disabled"/>
+      <property id="config.aws.pkcs11.mbedtls.log_name" value="PKCS11"/>
+      <property id="config.aws.pkcs11.mbedtls.log_level" value="LOG_NONE"/>
+      <property id="config.aws.pkcs11.mbedtls.ota_supported" value="config.aws.pkcs11.mbedtls.ota_supported.disabled"/>
+      <property id="config.aws.pkcs11.mbedtls.jitp_root_cert" value="config.aws.pkcs11.mbedtls.jitp_root_cert.disabled"/>
+    </config>
+    <config id="config.module.aws.freertosplus.tls">
+      <property id="config.module.aws.freertosplus.tls.custom_include" value=""/>
+    </config>
+    <config id="config.aws.freertos.dev_mode_key_provisioning_mbed_transport_interface">
+      <property id="config.module.aws.freertosplus.tls.custom_include" value=""/>
+    </config>
+    <config id="config.arm.mbedtls">
+      <property id="config.arm.mbedtls.mbedtls_check_params_assert" value="config.arm.mbedtls.mbedtls_check_params_assert.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_enable_weak_ciphersuites" value="config.arm.mbedtls.mbedtls_enable_weak_ciphersuites.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_remove_arc4_ciphersuites" value="config.arm.mbedtls.mbedtls_remove_arc4_ciphersuites.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_remove_3des_ciphersuites" value="config.arm.mbedtls.mbedtls_remove_3des_ciphersuites.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_key_exchange_psk_enabled" value="config.arm.mbedtls.mbedtls_key_exchange_psk_enabled.enabled"/>
+      <property id="config.arm.mbedtls.mbedtls_key_exchange_dhe_psk_enabled" value="config.arm.mbedtls.mbedtls_key_exchange_dhe_psk_enabled.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_key_exchange_ecdhe_psk_enabled" value="config.arm.mbedtls.mbedtls_key_exchange_ecdhe_psk_enabled.enabled"/>
+      <property id="config.arm.mbedtls.mbedtls_key_exchange_rsa_psk_enabled" value="config.arm.mbedtls.mbedtls_key_exchange_rsa_psk_enabled.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_key_exchange_rsa_enabled" value="config.arm.mbedtls.mbedtls_key_exchange_rsa_enabled.enabled"/>
+      <property id="config.arm.mbedtls.mbedtls_key_exchange_dhe_rsa_enabled" value="config.arm.mbedtls.mbedtls_key_exchange_dhe_rsa_enabled.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_key_exchange_ecdhe_rsa_enabled" value="config.arm.mbedtls.mbedtls_key_exchange_ecdhe_rsa_enabled.enabled"/>
+      <property id="config.arm.mbedtls.mbedtls_key_exchange_ecdhe_ecdsa_enabled" value="config.arm.mbedtls.mbedtls_key_exchange_ecdhe_ecdsa_enabled.enabled"/>
+      <property id="config.arm.mbedtls.mbedtls_key_exchange_ecdh_ecdsa_enabled" value="config.arm.mbedtls.mbedtls_key_exchange_ecdh_ecdsa_enabled.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_key_exchange_ecdh_rsa_enabled" value="config.arm.mbedtls.mbedtls_key_exchange_ecdh_rsa_enabled.enabled"/>
+      <property id="config.arm.mbedtls.mbedtls_key_exchange_ecjpake_enabled" value="config.arm.mbedtls.mbedtls_key_exchange_ecjpake_enabled.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_ciphersuites_enabled" value="config.arm.mbedtls.mbedtls_ssl_ciphersuites_enabled.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_ciphersuites" value="MBEDTLS_TLS_DHE_PSK_WITH_AES_128_CBC_SHA256,MBEDTLS_TLS_DHE_PSK_WITH_NULL_SHA256,MBEDTLS_TLS_DHE_RSA_WITH_AES_128_CBC_SHA256,MBEDTLS_TLS_DHE_RSA_WITH_AES_128_GCM_SHA256,MBEDTLS_TLS_DHE_RSA_WITH_AES_256_CBC_SHA256,MBEDTLS_TLS_PSK_WITH_AES_128_CBC_SHA256,MBEDTLS_TLS_PSK_WITH_NULL_SHA256,MBEDTLS_TLS_RSA_PSK_WITH_AES_128_CBC_SHA256,MBEDTLS_TLS_RSA_PSK_WITH_AES_128_CBC_SHA256,MBEDTLS_TLS_RSA_PSK_WITH_NULL_SHA256,MBEDTLS_TLS_RSA_WITH_AES_128_CBC_SHA256,MBEDTLS_TLS_RSA_WITH_AES_256_CBC_SHA256,MBEDTLS_TLS_RSA_WITH_NULL_SHA256"/>
+      <property id="config.arm.mbedtls.mbedtls_x509_max_intermediate_ca_enabled" value="config.arm.mbedtls.mbedtls_x509_max_intermediate_ca_enabled.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_all_alert_messages" value="config.arm.mbedtls.mbedtls_ssl_all_alert_messages.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_dtls_connection_id" value="config.arm.mbedtls.mbedtls_ssl_dtls_connection_id.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_async_private" value="config.arm.mbedtls.mbedtls_ssl_async_private.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_debug_all" value="config.arm.mbedtls.mbedtls_ssl_debug_all.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_encrypt_then_mac" value="config.arm.mbedtls.mbedtls_ssl_encrypt_then_mac.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_extended_master_secret" value="config.arm.mbedtls.mbedtls_ssl_extended_master_secret.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_fallback_scsv" value="config.arm.mbedtls.mbedtls_ssl_fallback_scsv.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_keep_peer_certificate" value="config.arm.mbedtls.mbedtls_ssl_keep_peer_certificate.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_hw_record_accel" value="config.arm.mbedtls.mbedtls_ssl_hw_record_accel.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_cbc_record_splitting" value="config.arm.mbedtls.mbedtls_ssl_cbc_record_splitting.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_renegotiation" value="config.arm.mbedtls.mbedtls_ssl_renegotiation.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_srv_support_sslv2_client_hello" value="config.arm.mbedtls.mbedtls_ssl_srv_support_sslv2_client_hello.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_srv_respect_client_preference" value="config.arm.mbedtls.mbedtls_ssl_srv_respect_client_preference.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_max_fragment_length" value="config.arm.mbedtls.mbedtls_ssl_max_fragment_length.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_proto_ssl3" value="config.arm.mbedtls.mbedtls_ssl_proto_ssl3.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_proto_tls1" value="config.arm.mbedtls.mbedtls_ssl_proto_tls1.enabled"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_proto_tls1_1" value="config.arm.mbedtls.mbedtls_ssl_proto_tls1_1.enabled"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_proto_tls1_2" value="config.arm.mbedtls.mbedtls_ssl_proto_tls1_2.enabled"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_proto_dtls" value="config.arm.mbedtls.mbedtls_ssl_proto_dtls.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_alpn" value="config.arm.mbedtls.mbedtls_ssl_alpn.enabled"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_dtls_anti_replay" value="config.arm.mbedtls.mbedtls_ssl_dtls_anti_replay.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_dtls_hello_verify" value="config.arm.mbedtls.mbedtls_ssl_dtls_hello_verify.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_dtls_client_port_reuse" value="config.arm.mbedtls.mbedtls_ssl_dtls_client_port_reuse.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_dtls_badmac_limit" value="config.arm.mbedtls.mbedtls_ssl_dtls_badmac_limit.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_session_tickets" value="config.arm.mbedtls.mbedtls_ssl_session_tickets.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_export_keys" value="config.arm.mbedtls.mbedtls_ssl_export_keys.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_server_name_indication" value="config.arm.mbedtls.mbedtls_ssl_server_name_indication.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_truncated_hmac" value="config.arm.mbedtls.mbedtls_ssl_truncated_hmac.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_truncated_hmac_compat" value="config.arm.mbedtls.mbedtls_ssl_truncated_hmac_compat.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_x509_allow_extensions_non_v3" value="config.arm.mbedtls.mbedtls_x509_allow_extensions_non_v3.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_x509_allow_unsupported_critical_extension" value="config.arm.mbedtls.mbedtls_x509_allow_unsupported_critical_extension.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_x509_trusted_certificate_callback" value="config.arm.mbedtls.mbedtls_x509_trusted_certificate_callback.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_x509_check_key_usage" value="config.arm.mbedtls.mbedtls_x509_check_key_usage.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_x509_check_extended_key_usage" value="config.arm.mbedtls.mbedtls_x509_check_extended_key_usage.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_x509_rsassa_pss_support" value="config.arm.mbedtls.mbedtls_x509_rsassa_pss_support.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_zlib_support" value="config.arm.mbedtls.mbedtls_zlib_support.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_certs_c" value="config.arm.mbedtls.mbedtls_certs_c.enabled"/>
+      <property id="config.arm.mbedtls.mbedtls_debug_c" value="config.arm.mbedtls.mbedtls_debug_c.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_net_c" value="config.arm.mbedtls.mbedtls_net_c.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_pkcs11_c" value="config.arm.mbedtls.mbedtls_pkcs11_c.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_cache_c" value="config.arm.mbedtls.mbedtls_ssl_cache_c.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_cookie_c" value="config.arm.mbedtls.mbedtls_ssl_cookie_c.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_ticket_c" value="config.arm.mbedtls.mbedtls_ssl_ticket_c.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_cli_c" value="config.arm.mbedtls.mbedtls_ssl_cli_c.enabled"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_srv_c" value="config.arm.mbedtls.mbedtls_ssl_srv_c.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_tls_c" value="config.arm.mbedtls.mbedtls_ssl_tls_c.enabled"/>
+      <property id="config.arm.mbedtls.mbedtls_x509_use_c" value="config.arm.mbedtls.mbedtls_x509_use_c.enabled"/>
+      <property id="config.arm.mbedtls.mbedtls_x509_crt_parse_c" value="config.arm.mbedtls.mbedtls_x509_crt_parse_c.enabled"/>
+      <property id="config.arm.mbedtls.mbedtls_x509_crl_parse_c" value="config.arm.mbedtls.mbedtls_x509_crl_parse_c.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_x509_csr_parse_c" value="config.arm.mbedtls.mbedtls_x509_csr_parse_c.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_x509_create_c" value="config.arm.mbedtls.mbedtls_x509_create_c.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_x509_crt_write_c" value="config.arm.mbedtls.mbedtls_x509_crt_write_c.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_x509_csr_write_c" value="config.arm.mbedtls.mbedtls_x509_csr_write_c.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_max_content_len_enabled" value="config.arm.mbedtls.mbedtls_ssl_max_content_len_enabled.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_max_content_len" value="16384"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_in_content_len_enabled" value="config.arm.mbedtls.mbedtls_ssl_in_content_len_enabled.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_in_content_len" value="16384"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_cid_in_len_max_enabled" value="config.arm.mbedtls.mbedtls_ssl_cid_in_len_max.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_cid_in_len_max" value="32"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_cid_out_len_max_enabled" value="config.arm.mbedtls.mbedtls_ssl_cid_out_len_max.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_cid_out_len_max" value="32"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_cid_padding_granularity_enabled" value="config.arm.mbedtls.mbedtls_ssl_cid_padding_granularity.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_cid_padding_granularity" value="16"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_out_content_len_enabled" value="config.arm.mbedtls.mbedtls_ssl_out_content_len.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_out_content_len" value="16384"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_dtls_max_buffering_enabled" value="config.arm.mbedtls.mbedtls_ssl_dtls_max_buffering.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_dtls_max_buffering" value="32768"/>
+      <property id="config.arm.mbedtls.mbedtls_param_failed_enabled" value="config.arm.mbedtls.mbedtls_param_failed_enabled.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_param_failed" value="assert( cond )"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_cache_default_timeout_enabled" value="config.arm.mbedtls.mbedtls_ssl_cache_default_timeout_enabled.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_cache_default_timeout" value="86400"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_cache_default_max_entries_enabled" value="config.arm.mbedtls.mbedtls_ssl_cache_default_max_entries_enabled.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_cache_default_max_entries" value="50"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_default_ticket_lifetime_enabled" value="config.arm.mbedtls.mbedtls_ssl_default_ticket_lifetime_enabled.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_default_ticket_lifetime" value="86400"/>
+      <property id="config.arm.mbedtls.mbedtls_psk_max_len_enabled" value="config.arm.mbedtls.mbedtls_psk_max_len_enabled.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_psk_max_len" value="32"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_cookie_timeout_enabled" value="config.arm.mbedtls.mbedtls_ssl_cookie_timeout_enabled.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_cookie_timeout" value="60"/>
+      <property id="config.arm.mbedtls.mbedtls_x509_max_intermediate_ca" value="8"/>
+      <property id="config.arm.mbedtls.mbedtls_x509_max_file_path_len_enabled" value="config.arm.mbedtls.mbedtls_x509_max_file_path_len_enabled.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_x509_max_file_path_len" value="512"/>
+      <property id="config.arm.mbedtls.mbedtls_tls_default_allow_sha1_in_certificates" value="config.arm.mbedtls.mbedtls_tls_default_allow_sha1_in_certificates.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_tls_default_allow_sha1_in_key_exchange" value="config.arm.mbedtls.mbedtls_tls_default_allow_sha1_in_key_exchange.enabled"/>
+    </config>
+    <config id="config.arm.mbed.littlefs">
+      <property id="config.arm.mbed.littlefs.custom_lfs_util" value=""/>
+      <property id="config.arm.mbed.littlefs.thread_safe" value="config.arm.mbed.littlefs.thread_safe.disabled"/>
+      <property id="config.arm.mbed.littlefs.no_malloc" value="config.arm.mbed.littlefs.no_malloc.enabled"/>
+      <property id="config.arm.mbed.littlefs.no_assert" value="config.arm.mbed.littlefs.no_assert.enabled"/>
+      <property id="config.arm.mbed.littlefs.no_debug" value="config.arm.mbed.littlefs.no_debug.disabled"/>
+      <property id="config.arm.mbed.littlefs.no_warning" value="config.arm.mbed.littlefs.no_warning.disabled"/>
+      <property id="config.arm.mbed.littlefs.no_error" value="config.arm.mbed.littlefs.no_error.disabled"/>
+      <property id="config.arm.mbed.littlefs.yes_trace" value="config.arm.mbed.littlefs.yes_trace.disabled"/>
+      <property id="config.arm.mbed.littlefs.no_intrinsics" value="config.arm.mbed.littlefs.no_intrinsics.enabled"/>
+      <property id="config.arm.mbed.littlefs.instance_name" value="g_rm_littlefs0"/>
+    </config>
+    <config id="config.driver.ether">
+      <property id="config.driver.ether.param_checking_enable" value="config.driver.ether.param_checking_enable.bsp"/>
+      <property id="config.driver.ether.link_present" value="config.driver.ether.link_present.0"/>
+      <property id="config.driver.ether.use_linksta" value="config.driver.ether.use_linksta.0"/>
+    </config>
+    <config id="config.awsfreertos.thread">
+      <property id="config.awsfreertos.custom_freertosconfig" value=""/>
+      <property id="config.awsfreertos.thread.configuse_preemption" value="config.awsfreertos.thread.configuse_preemption.enabled"/>
+      <property id="config.awsfreertos.thread.configuse_port_optimised_task_selection" value="config.awsfreertos.thread.configuse_port_optimised_task_selection.disabled"/>
+      <property id="config.awsfreertos.thread.configuse_tickless_idle" value="config.awsfreertos.thread.configuse_tickless_idle.disabled"/>
+      <property id="config.awsfreertos.thread.configuse_idle_hook" value="config.awsfreertos.thread.configuse_idle_hook.enabled"/>
+      <property id="config.awsfreertos.thread.configuse_malloc_failed_hook" value="config.awsfreertos.thread.configuse_malloc_failed_hook.disabled"/>
+      <property id="config.awsfreertos.thread.configuse_daemon_task_startup_hook" value="config.awsfreertos.thread.configuse_daemon_task_startup_hook.disabled"/>
+      <property id="config.awsfreertos.thread.configuse_tick_hook" value="config.awsfreertos.thread.configuse_tick_hook.disabled"/>
+      <property id="config.awsfreertos.thread.configcpu_clock_hz" value="SystemCoreClock"/>
+      <property id="config.awsfreertos.thread.configtick_rate_hz" value="1000"/>
+      <property id="config.awsfreertos.thread.configmax_priorities" value="5"/>
+      <property id="config.awsfreertos.thread.configminimal_stack_size" value="1024"/>
+      <property id="config.awsfreertos.thread.configmax_task_name_len" value="16"/>
+      <property id="config.awsfreertos.thread.configuse_trace_facility" value="config.awsfreertos.thread.configuse_trace_facility.disabled"/>
+      <property id="config.awsfreertos.thread.configuse_stats_formatting_functions" value="config.awsfreertos.thread.configuse_stats_formatting_functions.disabled"/>
+      <property id="config.awsfreertos.thread.configuse_16_bit_ticks" value="config.awsfreertos.thread.configuse_16_bit_ticks.disabled"/>
+      <property id="config.awsfreertos.thread.configidle_should_yield" value="config.awsfreertos.thread.configidle_should_yield.enabled"/>
+      <property id="config.awsfreertos.thread.configuse_task_notifications" value="config.awsfreertos.thread.configuse_task_notifications.enabled"/>
+      <property id="config.awsfreertos.thread.configuse_mutexes" value="config.awsfreertos.thread.configuse_mutexes.enabled"/>
+      <property id="config.awsfreertos.thread.configuse_recursive_mutexes" value="config.awsfreertos.thread.configuse_recursive_mutexes.enabled"/>
+      <property id="config.awsfreertos.thread.configuse_counting_semaphores" value="config.awsfreertos.thread.configuse_counting_semaphores.enabled"/>
+      <property id="config.awsfreertos.thread.configcheck_for_stack_overflow" value="config.awsfreertos.thread.configcheck_for_stack_overflow.disabled"/>
+      <property id="config.awsfreertos.thread.configqueue_registry_size" value="10"/>
+      <property id="config.awsfreertos.thread.configuse_queue_sets" value="config.awsfreertos.thread.configuse_queue_sets.disabled"/>
+      <property id="config.awsfreertos.thread.configuse_time_slicing" value="config.awsfreertos.thread.configuse_time_slicing.disabled"/>
+      <property id="config.awsfreertos.thread.configuse_newlib_reentrant" value="config.awsfreertos.thread.configuse_newlib_reentrant.disabled"/>
+      <property id="config.awsfreertos.thread.configenable_backward_compatibility" value="config.awsfreertos.thread.configenable_backward_compatibility.disabled"/>
+      <property id="config.awsfreertos.thread.confignum_thread_local_storage_pointers" value="5"/>
+      <property id="config.awsfreertos.thread.configstack_depth_type" value="uint32_t"/>
+      <property id="config.awsfreertos.thread.configmessage_buffer_length_type" value="size_t"/>
+      <property id="config.awsfreertos.thread.configsupport_static_allocation" value="config.awsfreertos.thread.configsupport_static_allocation.enabled"/>
+      <property id="config.awsfreertos.thread.configsupport_dynamic_allocation" value="config.awsfreertos.thread.configsupport_dynamic_allocation.enabled"/>
+      <property id="config.awsfreertos.thread.configtotal_heap_size" value="0x25000"/>
+      <property id="config.awsfreertos.thread.configapplication_allocated_heap" value="config.awsfreertos.thread.configapplication_allocated_heap.disabled"/>
+      <property id="config.awsfreertos.thread.configgenerate_run_time_stats" value="config.awsfreertos.thread.configgenerate_run_time_stats.disabled"/>
+      <property id="config.awsfreertos.thread.configuse_timers" value="config.awsfreertos.thread.configuse_timers.enabled"/>
+      <property id="config.awsfreertos.thread.configtimer_task_priority" value="3"/>
+      <property id="config.awsfreertos.thread.configtimer_queue_length" value="10"/>
+      <property id="config.awsfreertos.thread.configtimer_task_stack_depth" value="128"/>
+      <property id="config.awsfreertos.thread.configlibrary_max_syscall_interrupt_priority" value="board.icu.common.irq.priority1"/>
+      <property id="config.awsfreertos.thread.configassert" value="assert(x)"/>
+      <property id="config.awsfreertos.thread.configinclude_application_defined_privileged_functions" value="config.awsfreertos.thread.configinclude_application_defined_privileged_functions.disabled"/>
+      <property id="config.awsfreertos.thread.include_vtaskpriorityset" value="config.awsfreertos.thread.include_vtaskpriorityset.enabled"/>
+      <property id="config.awsfreertos.thread.include_uxtaskpriorityget" value="config.awsfreertos.thread.include_uxtaskpriorityget.enabled"/>
+      <property id="config.awsfreertos.thread.include_vtaskdelete" value="config.awsfreertos.thread.include_vtaskdelete.enabled"/>
+      <property id="config.awsfreertos.thread.include_vtasksuspend" value="config.awsfreertos.thread.include_vtasksuspend.enabled"/>
+      <property id="config.awsfreertos.thread.include_xresumefromisr" value="config.awsfreertos.thread.include_xresumefromisr.enabled"/>
+      <property id="config.awsfreertos.thread.include_vtaskdelayuntil" value="config.awsfreertos.thread.include_vtaskdelayuntil.enabled"/>
+      <property id="config.awsfreertos.thread.include_vtaskdelay" value="config.awsfreertos.thread.include_vtaskdelay.enabled"/>
+      <property id="config.awsfreertos.thread.include_xtaskgetschedulerstate" value="config.awsfreertos.thread.include_xtaskgetschedulerstate.enabled"/>
+      <property id="config.awsfreertos.thread.include_xtaskgetcurrenttaskhandle" value="config.awsfreertos.thread.include_xtaskgetcurrenttaskhandle.enabled"/>
+      <property id="config.awsfreertos.thread.include_uxtaskgetstackhighwatermark" value="config.awsfreertos.thread.include_uxtaskgetstackhighwatermark.disabled"/>
+      <property id="config.awsfreertos.thread.include_xtaskgetidletaskhandle" value="config.awsfreertos.thread.include_xtaskgetidletaskhandle.disabled"/>
+      <property id="config.awsfreertos.thread.include_etaskgetstate" value="config.awsfreertos.thread.include_etaskgetstate.enabled"/>
+      <property id="config.awsfreertos.thread.include_xeventgroupsetbitfromisr" value="config.awsfreertos.thread.include_xeventgroupsetbitfromisr.enabled"/>
+      <property id="config.awsfreertos.thread.include_xtimerpendfunctioncall" value="config.awsfreertos.thread.include_xtimerpendfunctioncall.disabled"/>
+      <property id="config.awsfreertos.thread.include_xtaskabortdelay" value="config.awsfreertos.thread.include_xtaskabortdelay.disabled"/>
+      <property id="config.awsfreertos.thread.include_xtaskgethandle" value="config.awsfreertos.thread.include_xtaskgethandle.enabled"/>
+      <property id="config.awsfreertos.thread.include_xtaskresumefromisr" value="config.awsfreertos.thread.include_xtaskresumefromisr.enabled"/>
+      <property id="config.awsfreertos.thread.include_hw_stack_monitor" value="config.awsfreertos.thread.include_hw_stack_monitor.disabled"/>
+      <property id="config.awsfreertos.thread.print_function" value="printf(x)"/>
+      <property id="config.awsfreertos.thread.max_length" value="192"/>
+      <property id="config.awsfreertos.thread.include_time_and_task" value="config.awsfreertos.thread.include_time_and_task.disabled"/>
     </config>
     <config id="config.driver.psa_crypto">
       <property id="config.driver.psa_crypto.mbedtls_entropy_hardware_alt" value="config.driver.psa_crypto.mbedtls_entropy_hardware_alt.enabled"/>
@@ -603,7 +882,7 @@
       <property id="config.driver.psa_crypto.mbedtls_psa_crypto_key_file_id_encodes_owner" value="config.driver.psa_crypto.mbedtls_psa_crypto_key_file_id_encodes_owner.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_memory_debug" value="config.driver.psa_crypto.mbedtls_memory_debug.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_memory_backtrace" value="config.driver.psa_crypto.mbedtls_memory_backtrace.disabled"/>
-      <property id="config.driver.psa_crypto.mbedtls_pk_rsa_alt_support" value="config.driver.psa_crypto.mbedtls_pk_rsa_alt_support.enabled"/>
+      <property id="config.driver.psa_crypto.mbedtls_pk_rsa_alt_support" value="config.driver.psa_crypto.mbedtls_pk_rsa_alt_support.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_pkcs1_v15" value="config.driver.psa_crypto.mbedtls_pkcs1_v15.enabled"/>
       <property id="config.driver.psa_crypto.mbedtls_pkcs1_v21" value="config.driver.psa_crypto.mbedtls_pkcs1_v21.enabled"/>
       <property id="config.driver.psa_crypto.mbedtls_psa_crypto_spm" value="config.driver.psa_crypto.mbedtls_psa_crypto_spm.disabled"/>
@@ -778,21 +1057,21 @@
       <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigDNS_REQUEST_ATTEMPTS" value="5"/>
       <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigIP_TASK_PRIORITY" value="configMAX_PRIORITIES - 2"/>
       <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigIP_TASK_STACK_SIZE_WORDS" value="configMINIMAL_STACK_SIZE * 5"/>
-      <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigUSE_NETWORK_EVENT_HOOK" value="config.aws.freertosplus.freertosplus_tcp.ipconfigUSE_NETWORK_EVENT_HOOK.0"/>
+      <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigUSE_NETWORK_EVENT_HOOK" value="config.aws.freertosplus.freertosplus_tcp.ipconfigUSE_NETWORK_EVENT_HOOK.1"/>
       <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigUDP_MAX_SEND_BLOCK_TIME_TICKS" value="15000 / portTICK_PERIOD_MS"/>
       <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigUSE_DHCP" value="config.aws.freertosplus.freertosplus_tcp.ipconfigUSE_DHCP.1"/>
       <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigDHCP_REGISTER_HOSTNAME" value="config.aws.freertosplus.freertosplus_tcp.ipconfigDHCP_REGISTER_HOSTNAME.1"/>
       <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigDHCP_USES_UNICAST" value="config.aws.freertosplus.freertosplus_tcp.ipconfigDHCP_USES_UNICAST.1"/>
-      <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigDHCP_SEND_DISCOVER_AFTER_AUTO_IP" value="config.aws.freertosplus.freertosplus_tcp.ipconfigDHCP_SEND_DISCOVER_AFTER_AUTO_IP.0"/>
+      <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigDHCP_SEND_DISCOVER_AFTER_AUTO_IP" value="config.aws.freertosplus.freertosplus_tcp.ipconfigDHCP_SEND_DISCOVER_AFTER_AUTO_IP.1"/>
       <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigUSE_DHCP_HOOK" value="config.aws.freertosplus.freertosplus_tcp.ipconfigUSE_DHCP_HOOK.1"/>
       <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigMAXIMUM_DISCOVER_TX_PERIOD" value="120000 / portTICK_PERIOD_MS"/>
       <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigARP_CACHE_ENTRIES" value="6"/>
       <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigMAX_ARP_RETRANSMISSIONS" value="5"/>
       <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigMAX_ARP_AGE" value="150"/>
       <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigINCLUDE_FULL_INET_ADDR" value="config.aws.freertosplus.freertosplus_tcp.ipconfigINCLUDE_FULL_INET_ADDR.1"/>
-      <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigNUM_NETWORK_BUFFER_DESCRIPTORS" value="10"/>
+      <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigNUM_NETWORK_BUFFER_DESCRIPTORS" value="16"/>
       <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigEVENT_QUEUE_LENGTH" value="ipconfigNUM_NETWORK_BUFFER_DESCRIPTORS + 5"/>
-      <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigALLOW_SOCKET_SEND_WITHOUT_BIND" value="config.aws.freertosplus.freertosplus_tcp.ipconfigALLOW_SOCKET_SEND_WITHOUT_BIND.0"/>
+      <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigALLOW_SOCKET_SEND_WITHOUT_BIND" value="config.aws.freertosplus.freertosplus_tcp.ipconfigALLOW_SOCKET_SEND_WITHOUT_BIND.1"/>
       <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigUDP_TIME_TO_LIVE" value="128"/>
       <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigTCP_TIME_TO_LIVE" value="128"/>
       <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigUSE_TCP" value="config.aws.freertosplus.freertosplus_tcp.ipconfigUSE_TCP.1"/>
@@ -817,153 +1096,12 @@
       <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigUSE_CALLBACKS" value="config.aws.freertosplus.freertosplus_tcp.ipconfigUSE_CALLBACKS.0"/>
       <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigZERO_COPY_TX_DRIVER" value="config.aws.freertosplus.freertosplus_tcp.ipconfigZERO_COPY_TX_DRIVER.0"/>
       <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigZERO_COPY_RX_DRIVER" value="config.aws.freertosplus.freertosplus_tcp.ipconfigZERO_COPY_RX_DRIVER.0"/>
-      <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigUSE_LINKED_RX_MESSAGES" value="config.aws.freertosplus.freertosplus_tcp.ipconfigUSE_LINKED_RX_MESSAGES.0"/>
-    </config>
-    <config id="config.driver.ioport">
-      <property id="config.driver.ioport.checking" value="config.driver.ioport.checking.system"/>
-    </config>
-    <config id="config.driver.adc">
-      <property id="config.driver.adc.param_checking_enable" value="config.driver.adc.param_checking_enable.bsp"/>
-    </config>
-    <config id="config.middleware.rm_littlefs_flash">
-      <property id="config.middleware.rm_littlefs_flash.param_checking_enable" value="config.middleware.rm_littlefs_flash.param_checking_enable.bsp"/>
-    </config>
-    <config id="config.aws.pkcs11.mbedtls">
-      <property id="config.aws.pkcs11.mbedtls.custom_pkcs11_config" value=""/>
-      <property id="config.aws.pkcs11.mbedtls.max_label_length" value="32"/>
-      <property id="config.aws.pkcs11.mbedtls.max_num_objects" value="6"/>
-      <property id="config.aws.pkcs11.mbedtls.max_num_sessions" value="10"/>
-      <property id="config.aws.pkcs11.mbedtls.tls_private_key" value="Device Priv TLS Key"/>
-      <property id="config.aws.pkcs11.mbedtls.tls_public_key" value="Device Pub TLS Key"/>
-      <property id="config.aws.pkcs11.mbedtls.tls_certificate" value="Device Cert"/>
-      <property id="config.aws.pkcs11.mbedtls.code_verification_key" value="Code Verify Key"/>
-      <property id="config.aws.pkcs11.mbedtls.root_certificate" value="Root Cert"/>
-      <property id="config.aws.pkcs11.mbedtls.jitp_certificate" value="JITP Cert"/>
-      <property id="config.aws.pkcs11.mbedtls.default_user_pin" value="0000"/>
-    </config>
-    <config id="config.module.aws.freertosplus.tls">
-      <property id="config.module.aws.freertosplus.tls.custom_include" value=""/>
+      <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigUSE_LINKED_RX_MESSAGES" value="config.aws.freertosplus.freertosplus_tcp.ipconfigUSE_LINKED_RX_MESSAGES.1"/>
     </config>
     <config id="config.aws.secure_sockets.common">
       <property id="config.aws.secure_sockets.common.default_send_timeout" value="10000"/>
       <property id="config.aws.secure_sockets.common.default_recv_timeout" value="10000"/>
       <property id="config.aws.secure_sockets.common.aws_iot_secure_sockets_metrics" value="config.aws.secure_sockets.common.aws_iot_secure_sockets_metrics.disabled"/>
-    </config>
-    <config id="config.arm.mbedtls">
-      <property id="config.arm.mbedtls.mbedtls_check_params_assert" value="config.arm.mbedtls.mbedtls_check_params_assert.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_enable_weak_ciphersuites" value="config.arm.mbedtls.mbedtls_enable_weak_ciphersuites.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_remove_arc4_ciphersuites" value="config.arm.mbedtls.mbedtls_remove_arc4_ciphersuites.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_remove_3des_ciphersuites" value="config.arm.mbedtls.mbedtls_remove_3des_ciphersuites.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_key_exchange_psk_enabled" value="config.arm.mbedtls.mbedtls_key_exchange_psk_enabled.enabled"/>
-      <property id="config.arm.mbedtls.mbedtls_key_exchange_dhe_psk_enabled" value="config.arm.mbedtls.mbedtls_key_exchange_dhe_psk_enabled.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_key_exchange_ecdhe_psk_enabled" value="config.arm.mbedtls.mbedtls_key_exchange_ecdhe_psk_enabled.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_key_exchange_rsa_psk_enabled" value="config.arm.mbedtls.mbedtls_key_exchange_rsa_psk_enabled.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_key_exchange_rsa_enabled" value="config.arm.mbedtls.mbedtls_key_exchange_rsa_enabled.enabled"/>
-      <property id="config.arm.mbedtls.mbedtls_key_exchange_dhe_rsa_enabled" value="config.arm.mbedtls.mbedtls_key_exchange_dhe_rsa_enabled.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_key_exchange_ecdhe_rsa_enabled" value="config.arm.mbedtls.mbedtls_key_exchange_ecdhe_rsa_enabled.enabled"/>
-      <property id="config.arm.mbedtls.mbedtls_key_exchange_ecdhe_ecdsa_enabled" value="config.arm.mbedtls.mbedtls_key_exchange_ecdhe_ecdsa_enabled.enabled"/>
-      <property id="config.arm.mbedtls.mbedtls_key_exchange_ecdh_ecdsa_enabled" value="config.arm.mbedtls.mbedtls_key_exchange_ecdh_ecdsa_enabled.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_key_exchange_ecdh_rsa_enabled" value="config.arm.mbedtls.mbedtls_key_exchange_ecdh_rsa_enabled.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_key_exchange_ecjpake_enabled" value="config.arm.mbedtls.mbedtls_key_exchange_ecjpake_enabled.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_ciphersuites_enabled" value="config.arm.mbedtls.mbedtls_ssl_ciphersuites_enabled.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_ciphersuites" value="MBEDTLS_TLS_DHE_PSK_WITH_AES_128_CBC_SHA256,MBEDTLS_TLS_DHE_PSK_WITH_NULL_SHA256,MBEDTLS_TLS_DHE_RSA_WITH_AES_128_CBC_SHA256,MBEDTLS_TLS_DHE_RSA_WITH_AES_128_GCM_SHA256,MBEDTLS_TLS_DHE_RSA_WITH_AES_256_CBC_SHA256,MBEDTLS_TLS_PSK_WITH_AES_128_CBC_SHA256,MBEDTLS_TLS_PSK_WITH_NULL_SHA256,MBEDTLS_TLS_RSA_PSK_WITH_AES_128_CBC_SHA256,MBEDTLS_TLS_RSA_PSK_WITH_AES_128_CBC_SHA256,MBEDTLS_TLS_RSA_PSK_WITH_NULL_SHA256,MBEDTLS_TLS_RSA_WITH_AES_128_CBC_SHA256,MBEDTLS_TLS_RSA_WITH_AES_256_CBC_SHA256,MBEDTLS_TLS_RSA_WITH_NULL_SHA256"/>
-      <property id="config.arm.mbedtls.mbedtls_x509_max_intermediate_ca_enabled" value="config.arm.mbedtls.mbedtls_x509_max_intermediate_ca_enabled.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_all_alert_messages" value="config.arm.mbedtls.mbedtls_ssl_all_alert_messages.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_dtls_connection_id" value="config.arm.mbedtls.mbedtls_ssl_dtls_connection_id.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_async_private" value="config.arm.mbedtls.mbedtls_ssl_async_private.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_debug_all" value="config.arm.mbedtls.mbedtls_ssl_debug_all.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_encrypt_then_mac" value="config.arm.mbedtls.mbedtls_ssl_encrypt_then_mac.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_extended_master_secret" value="config.arm.mbedtls.mbedtls_ssl_extended_master_secret.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_fallback_scsv" value="config.arm.mbedtls.mbedtls_ssl_fallback_scsv.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_keep_peer_certificate" value="config.arm.mbedtls.mbedtls_ssl_keep_peer_certificate.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_hw_record_accel" value="config.arm.mbedtls.mbedtls_ssl_hw_record_accel.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_cbc_record_splitting" value="config.arm.mbedtls.mbedtls_ssl_cbc_record_splitting.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_renegotiation" value="config.arm.mbedtls.mbedtls_ssl_renegotiation.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_srv_support_sslv2_client_hello" value="config.arm.mbedtls.mbedtls_ssl_srv_support_sslv2_client_hello.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_srv_respect_client_preference" value="config.arm.mbedtls.mbedtls_ssl_srv_respect_client_preference.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_max_fragment_length" value="config.arm.mbedtls.mbedtls_ssl_max_fragment_length.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_proto_ssl3" value="config.arm.mbedtls.mbedtls_ssl_proto_ssl3.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_proto_tls1" value="config.arm.mbedtls.mbedtls_ssl_proto_tls1.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_proto_tls1_1" value="config.arm.mbedtls.mbedtls_ssl_proto_tls1_1.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_proto_tls1_2" value="config.arm.mbedtls.mbedtls_ssl_proto_tls1_2.enabled"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_proto_dtls" value="config.arm.mbedtls.mbedtls_ssl_proto_dtls.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_alpn" value="config.arm.mbedtls.mbedtls_ssl_alpn.enabled"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_dtls_anti_replay" value="config.arm.mbedtls.mbedtls_ssl_dtls_anti_replay.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_dtls_hello_verify" value="config.arm.mbedtls.mbedtls_ssl_dtls_hello_verify.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_dtls_client_port_reuse" value="config.arm.mbedtls.mbedtls_ssl_dtls_client_port_reuse.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_dtls_badmac_limit" value="config.arm.mbedtls.mbedtls_ssl_dtls_badmac_limit.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_session_tickets" value="config.arm.mbedtls.mbedtls_ssl_session_tickets.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_export_keys" value="config.arm.mbedtls.mbedtls_ssl_export_keys.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_server_name_indication" value="config.arm.mbedtls.mbedtls_ssl_server_name_indication.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_truncated_hmac" value="config.arm.mbedtls.mbedtls_ssl_truncated_hmac.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_truncated_hmac_compat" value="config.arm.mbedtls.mbedtls_ssl_truncated_hmac_compat.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_x509_allow_extensions_non_v3" value="config.arm.mbedtls.mbedtls_x509_allow_extensions_non_v3.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_x509_allow_unsupported_critical_extension" value="config.arm.mbedtls.mbedtls_x509_allow_unsupported_critical_extension.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_x509_trusted_certificate_callback" value="config.arm.mbedtls.mbedtls_x509_trusted_certificate_callback.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_x509_check_key_usage" value="config.arm.mbedtls.mbedtls_x509_check_key_usage.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_x509_check_extended_key_usage" value="config.arm.mbedtls.mbedtls_x509_check_extended_key_usage.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_x509_rsassa_pss_support" value="config.arm.mbedtls.mbedtls_x509_rsassa_pss_support.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_zlib_support" value="config.arm.mbedtls.mbedtls_zlib_support.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_certs_c" value="config.arm.mbedtls.mbedtls_certs_c.enabled"/>
-      <property id="config.arm.mbedtls.mbedtls_debug_c" value="config.arm.mbedtls.mbedtls_debug_c.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_net_c" value="config.arm.mbedtls.mbedtls_net_c.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_pkcs11_c" value="config.arm.mbedtls.mbedtls_pkcs11_c.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_cache_c" value="config.arm.mbedtls.mbedtls_ssl_cache_c.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_cookie_c" value="config.arm.mbedtls.mbedtls_ssl_cookie_c.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_ticket_c" value="config.arm.mbedtls.mbedtls_ssl_ticket_c.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_cli_c" value="config.arm.mbedtls.mbedtls_ssl_cli_c.enabled"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_srv_c" value="config.arm.mbedtls.mbedtls_ssl_srv_c.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_tls_c" value="config.arm.mbedtls.mbedtls_ssl_tls_c.enabled"/>
-      <property id="config.arm.mbedtls.mbedtls_x509_use_c" value="config.arm.mbedtls.mbedtls_x509_use_c.enabled"/>
-      <property id="config.arm.mbedtls.mbedtls_x509_crt_parse_c" value="config.arm.mbedtls.mbedtls_x509_crt_parse_c.enabled"/>
-      <property id="config.arm.mbedtls.mbedtls_x509_crl_parse_c" value="config.arm.mbedtls.mbedtls_x509_crl_parse_c.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_x509_csr_parse_c" value="config.arm.mbedtls.mbedtls_x509_csr_parse_c.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_x509_create_c" value="config.arm.mbedtls.mbedtls_x509_create_c.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_x509_crt_write_c" value="config.arm.mbedtls.mbedtls_x509_crt_write_c.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_x509_csr_write_c" value="config.arm.mbedtls.mbedtls_x509_csr_write_c.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_max_content_len_enabled" value="config.arm.mbedtls.mbedtls_ssl_max_content_len_enabled.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_max_content_len" value="16384"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_in_content_len_enabled" value="config.arm.mbedtls.mbedtls_ssl_in_content_len_enabled.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_in_content_len" value="16384"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_cid_in_len_max_enabled" value="config.arm.mbedtls.mbedtls_ssl_cid_in_len_max.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_cid_in_len_max" value="32"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_cid_out_len_max_enabled" value="config.arm.mbedtls.mbedtls_ssl_cid_out_len_max.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_cid_out_len_max" value="32"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_cid_padding_granularity_enabled" value="config.arm.mbedtls.mbedtls_ssl_cid_padding_granularity.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_cid_padding_granularity" value="16"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_out_content_len_enabled" value="config.arm.mbedtls.mbedtls_ssl_out_content_len.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_out_content_len" value="16384"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_dtls_max_buffering_enabled" value="config.arm.mbedtls.mbedtls_ssl_dtls_max_buffering.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_dtls_max_buffering" value="32768"/>
-      <property id="config.arm.mbedtls.mbedtls_param_failed_enabled" value="config.arm.mbedtls.mbedtls_param_failed_enabled.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_param_failed" value="assert( cond )"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_cache_default_timeout_enabled" value="config.arm.mbedtls.mbedtls_ssl_cache_default_timeout_enabled.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_cache_default_timeout" value="86400"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_cache_default_max_entries_enabled" value="config.arm.mbedtls.mbedtls_ssl_cache_default_max_entries_enabled.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_cache_default_max_entries" value="50"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_default_ticket_lifetime_enabled" value="config.arm.mbedtls.mbedtls_ssl_default_ticket_lifetime_enabled.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_default_ticket_lifetime" value="86400"/>
-      <property id="config.arm.mbedtls.mbedtls_psk_max_len_enabled" value="config.arm.mbedtls.mbedtls_psk_max_len_enabled.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_psk_max_len" value="32"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_cookie_timeout_enabled" value="config.arm.mbedtls.mbedtls_ssl_cookie_timeout_enabled.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_ssl_cookie_timeout" value="60"/>
-      <property id="config.arm.mbedtls.mbedtls_x509_max_intermediate_ca" value="8"/>
-      <property id="config.arm.mbedtls.mbedtls_x509_max_file_path_len_enabled" value="config.arm.mbedtls.mbedtls_x509_max_file_path_len_enabled.disabled"/>
-      <property id="config.arm.mbedtls.mbedtls_x509_max_file_path_len" value="512"/>
-      <property id="config.arm.mbedtls.mbedtls_tls_default_allow_sha1_in_certificates" value="config.arm.mbedtls.mbedtls_tls_default_allow_sha1_in_certificates.enabled"/>
-      <property id="config.arm.mbedtls.mbedtls_tls_default_allow_sha1_in_key_exchange" value="config.arm.mbedtls.mbedtls_tls_default_allow_sha1_in_key_exchange.enabled"/>
-    </config>
-    <config id="config.arm.mbed.littlefs">
-      <property id="config.arm.mbed.littlefs.custom_lfs_util" value=""/>
-      <property id="config.arm.mbed.littlefs.thread_safe" value="config.arm.mbed.littlefs.thread_safe.disabled"/>
-      <property id="config.arm.mbed.littlefs.no_malloc" value="config.arm.mbed.littlefs.no_malloc.enabled"/>
-      <property id="config.arm.mbed.littlefs.no_assert" value="config.arm.mbed.littlefs.no_assert.enabled"/>
-      <property id="config.arm.mbed.littlefs.no_debug" value="config.arm.mbed.littlefs.no_debug.disabled"/>
-      <property id="config.arm.mbed.littlefs.no_warning" value="config.arm.mbed.littlefs.no_warning.enabled"/>
-      <property id="config.arm.mbed.littlefs.no_error" value="config.arm.mbed.littlefs.no_error.enabled"/>
-      <property id="config.arm.mbed.littlefs.yes_trace" value="config.arm.mbed.littlefs.yes_trace.disabled"/>
-      <property id="config.arm.mbed.littlefs.no_intrinsics" value="config.arm.mbed.littlefs.no_intrinsics.enabled"/>
-      <property id="config.arm.mbed.littlefs.instance_name" value="g_rm_littlefs0"/>
     </config>
     <config id="config.aws.iot.common">
       <property id="config.aws.iot.common.custom_iot_config" value=""/>
@@ -984,9 +1122,9 @@
       <property id="config.aws.iot.common.iotble_assert" value="configASSERT( expression )"/>
       <property id="config.aws.iot.common.iot_static_memory_only.disabled" value="config.aws.iot.common.iot_static_memory_only.disabled"/>
       <property id="config.aws.iot.common.iot_thread_default_priority" value="1"/>
-      <property id="config.aws.iot.common.iot_thread_default_stack_size" value="4096"/>
+      <property id="config.aws.iot.common.iot_thread_default_stack_size" value="0x1000"/>
       <property id="config.aws.iot.common.iot_network_receive_task_priority" value="0"/>
-      <property id="config.aws.iot.common.iot_network_receive_task_stack_size" value="4096"/>
+      <property id="config.aws.iot.common.iot_network_receive_task_stack_size" value="0x1000"/>
       <property id="config.aws.iot.common.iot_mqtt_metrics" value="config.aws.iot.common.iot_mqtt_metrics.disabled"/>
       <property id="config.aws.iot.common.iot_sdk_name" value="FreeRTOS"/>
       <property id="config.aws.iot.common.configplatform_name" value="Unknown"/>
@@ -997,76 +1135,6 @@
       <property id="config.aws.iot.common.iotmetricsconnectionid_t" value="void *"/>
       <property id="config.aws.iot.common.aws_iot_defender_format" value="AWS_IOT_DEFENDER_FORMAT_CBOR"/>
       <property id="config.aws.iot.common.aws_iot_defender_use_long_tag" value="config.aws.iot.common.aws_iot_defender_use_long_tag.enabled"/>
-    </config>
-    <config id="config.driver.ether">
-      <property id="config.driver.ether.param_checking_enable" value="config.driver.ether.param_checking_enable.bsp"/>
-      <property id="config.driver.ether.link_present" value="config.driver.ether.link_present.0"/>
-      <property id="config.driver.ether.use_linksta" value="config.driver.ether.use_linksta.0"/>
-    </config>
-    <config id="config.awsfreertos.thread">
-      <property id="config.awsfreertos.custom_freertosconfig" value=""/>
-      <property id="config.awsfreertos.thread.configuse_preemption" value="config.awsfreertos.thread.configuse_preemption.enabled"/>
-      <property id="config.awsfreertos.thread.configuse_port_optimised_task_selection" value="config.awsfreertos.thread.configuse_port_optimised_task_selection.disabled"/>
-      <property id="config.awsfreertos.thread.configuse_tickless_idle" value="config.awsfreertos.thread.configuse_tickless_idle.disabled"/>
-      <property id="config.awsfreertos.thread.configuse_idle_hook" value="config.awsfreertos.thread.configuse_idle_hook.enabled"/>
-      <property id="config.awsfreertos.thread.configuse_malloc_failed_hook" value="config.awsfreertos.thread.configuse_malloc_failed_hook.disabled"/>
-      <property id="config.awsfreertos.thread.configuse_daemon_task_startup_hook" value="config.awsfreertos.thread.configuse_daemon_task_startup_hook.disabled"/>
-      <property id="config.awsfreertos.thread.configuse_tick_hook" value="config.awsfreertos.thread.configuse_tick_hook.disabled"/>
-      <property id="config.awsfreertos.thread.configcpu_clock_hz" value="SystemCoreClock"/>
-      <property id="config.awsfreertos.thread.configtick_rate_hz" value="1000"/>
-      <property id="config.awsfreertos.thread.configmax_priorities" value="5"/>
-      <property id="config.awsfreertos.thread.configminimal_stack_size" value="128"/>
-      <property id="config.awsfreertos.thread.configmax_task_name_len" value="16"/>
-      <property id="config.awsfreertos.thread.configuse_trace_facility" value="config.awsfreertos.thread.configuse_trace_facility.disabled"/>
-      <property id="config.awsfreertos.thread.configuse_stats_formatting_functions" value="config.awsfreertos.thread.configuse_stats_formatting_functions.disabled"/>
-      <property id="config.awsfreertos.thread.configuse_16_bit_ticks" value="config.awsfreertos.thread.configuse_16_bit_ticks.disabled"/>
-      <property id="config.awsfreertos.thread.configidle_should_yield" value="config.awsfreertos.thread.configidle_should_yield.enabled"/>
-      <property id="config.awsfreertos.thread.configuse_task_notifications" value="config.awsfreertos.thread.configuse_task_notifications.enabled"/>
-      <property id="config.awsfreertos.thread.configuse_mutexes" value="config.awsfreertos.thread.configuse_mutexes.enabled"/>
-      <property id="config.awsfreertos.thread.configuse_recursive_mutexes" value="config.awsfreertos.thread.configuse_recursive_mutexes.enabled"/>
-      <property id="config.awsfreertos.thread.configuse_counting_semaphores" value="config.awsfreertos.thread.configuse_counting_semaphores.enabled"/>
-      <property id="config.awsfreertos.thread.configcheck_for_stack_overflow" value="config.awsfreertos.thread.configcheck_for_stack_overflow.disabled"/>
-      <property id="config.awsfreertos.thread.configqueue_registry_size" value="10"/>
-      <property id="config.awsfreertos.thread.configuse_queue_sets" value="config.awsfreertos.thread.configuse_queue_sets.disabled"/>
-      <property id="config.awsfreertos.thread.configuse_time_slicing" value="config.awsfreertos.thread.configuse_time_slicing.disabled"/>
-      <property id="config.awsfreertos.thread.configuse_newlib_reentrant" value="config.awsfreertos.thread.configuse_newlib_reentrant.disabled"/>
-      <property id="config.awsfreertos.thread.configenable_backward_compatibility" value="config.awsfreertos.thread.configenable_backward_compatibility.disabled"/>
-      <property id="config.awsfreertos.thread.confignum_thread_local_storage_pointers" value="5"/>
-      <property id="config.awsfreertos.thread.configstack_depth_type" value="uint32_t"/>
-      <property id="config.awsfreertos.thread.configmessage_buffer_length_type" value="size_t"/>
-      <property id="config.awsfreertos.thread.configsupport_static_allocation" value="config.awsfreertos.thread.configsupport_static_allocation.enabled"/>
-      <property id="config.awsfreertos.thread.configsupport_dynamic_allocation" value="config.awsfreertos.thread.configsupport_dynamic_allocation.enabled"/>
-      <property id="config.awsfreertos.thread.configtotal_heap_size" value="0x40000"/>
-      <property id="config.awsfreertos.thread.configapplication_allocated_heap" value="config.awsfreertos.thread.configapplication_allocated_heap.disabled"/>
-      <property id="config.awsfreertos.thread.configgenerate_run_time_stats" value="config.awsfreertos.thread.configgenerate_run_time_stats.disabled"/>
-      <property id="config.awsfreertos.thread.configuse_timers" value="config.awsfreertos.thread.configuse_timers.enabled"/>
-      <property id="config.awsfreertos.thread.configtimer_task_priority" value="3"/>
-      <property id="config.awsfreertos.thread.configtimer_queue_length" value="10"/>
-      <property id="config.awsfreertos.thread.configtimer_task_stack_depth" value="128"/>
-      <property id="config.awsfreertos.thread.configlibrary_max_syscall_interrupt_priority" value="board.icu.common.irq.priority1"/>
-      <property id="config.awsfreertos.thread.configassert" value="if (!(x)) {__BKPT(0);}"/>
-      <property id="config.awsfreertos.thread.configinclude_application_defined_privileged_functions" value="config.awsfreertos.thread.configinclude_application_defined_privileged_functions.disabled"/>
-      <property id="config.awsfreertos.thread.include_vtaskpriorityset" value="config.awsfreertos.thread.include_vtaskpriorityset.enabled"/>
-      <property id="config.awsfreertos.thread.include_uxtaskpriorityget" value="config.awsfreertos.thread.include_uxtaskpriorityget.enabled"/>
-      <property id="config.awsfreertos.thread.include_vtaskdelete" value="config.awsfreertos.thread.include_vtaskdelete.enabled"/>
-      <property id="config.awsfreertos.thread.include_vtasksuspend" value="config.awsfreertos.thread.include_vtasksuspend.enabled"/>
-      <property id="config.awsfreertos.thread.include_xresumefromisr" value="config.awsfreertos.thread.include_xresumefromisr.enabled"/>
-      <property id="config.awsfreertos.thread.include_vtaskdelayuntil" value="config.awsfreertos.thread.include_vtaskdelayuntil.enabled"/>
-      <property id="config.awsfreertos.thread.include_vtaskdelay" value="config.awsfreertos.thread.include_vtaskdelay.enabled"/>
-      <property id="config.awsfreertos.thread.include_xtaskgetschedulerstate" value="config.awsfreertos.thread.include_xtaskgetschedulerstate.enabled"/>
-      <property id="config.awsfreertos.thread.include_xtaskgetcurrenttaskhandle" value="config.awsfreertos.thread.include_xtaskgetcurrenttaskhandle.enabled"/>
-      <property id="config.awsfreertos.thread.include_uxtaskgetstackhighwatermark" value="config.awsfreertos.thread.include_uxtaskgetstackhighwatermark.disabled"/>
-      <property id="config.awsfreertos.thread.include_xtaskgetidletaskhandle" value="config.awsfreertos.thread.include_xtaskgetidletaskhandle.disabled"/>
-      <property id="config.awsfreertos.thread.include_etaskgetstate" value="config.awsfreertos.thread.include_etaskgetstate.disabled"/>
-      <property id="config.awsfreertos.thread.include_xeventgroupsetbitfromisr" value="config.awsfreertos.thread.include_xeventgroupsetbitfromisr.enabled"/>
-      <property id="config.awsfreertos.thread.include_xtimerpendfunctioncall" value="config.awsfreertos.thread.include_xtimerpendfunctioncall.disabled"/>
-      <property id="config.awsfreertos.thread.include_xtaskabortdelay" value="config.awsfreertos.thread.include_xtaskabortdelay.disabled"/>
-      <property id="config.awsfreertos.thread.include_xtaskgethandle" value="config.awsfreertos.thread.include_xtaskgethandle.disabled"/>
-      <property id="config.awsfreertos.thread.include_xtaskresumefromisr" value="config.awsfreertos.thread.include_xtaskresumefromisr.enabled"/>
-      <property id="config.awsfreertos.thread.include_hw_stack_monitor" value="config.awsfreertos.thread.include_hw_stack_monitor.disabled"/>
-      <property id="config.awsfreertos.thread.print_function" value="printf(x)"/>
-      <property id="config.awsfreertos.thread.max_length" value="192"/>
-      <property id="config.awsfreertos.thread.include_time_and_task" value="config.awsfreertos.thread.include_time_and_task.disabled"/>
     </config>
     <config id="config.aws.clientcredential">
       <property id="config.aws.clientcredential.custom_include" value=""/>
@@ -1158,16 +1226,6 @@
     <symbolicName propertyId="pb00.symbolic_name" value="USBHS_VBUS_EN"/>
     <symbolicName propertyId="pb01.symbolic_name" value="USBHS_VBUS"/>
     <pincfg active="true" name="RA6M5 EK" selected="true" symbol="g_bsp_pin_cfg">
-      <configSetting altId="adc0.an00.p000" configurationId="adc0.an00"/>
-      <configSetting altId="adc0.an01.p001" configurationId="adc0.an01"/>
-      <configSetting altId="adc0.an02.p002" configurationId="adc0.an02"/>
-      <configSetting altId="adc0.an03.p003" configurationId="adc0.an03"/>
-      <configSetting altId="adc0.an12.p014" configurationId="adc0.an12"/>
-      <configSetting altId="adc0.an13.p015" configurationId="adc0.an13"/>
-      <configSetting altId="adc0.mode.custom" configurationId="adc0.mode"/>
-      <configSetting altId="can1.crx.p610" configurationId="can1.crx"/>
-      <configSetting altId="can1.ctx.p609" configurationId="can1.ctx"/>
-      <configSetting altId="can1.mode.enabled.free" configurationId="can1.mode"/>
       <configSetting altId="cgc0.extal.p212" configurationId="cgc0.extal"/>
       <configSetting altId="cgc0.mode.mainsub" configurationId="cgc0.mode"/>
       <configSetting altId="cgc0.xtal.p213" configurationId="cgc0.xtal"/>
@@ -1186,36 +1244,8 @@
       <configSetting altId="etherc0.rmii.txd0.p700" configurationId="etherc0.rmii.txd0"/>
       <configSetting altId="etherc0.rmii.txd1.p406" configurationId="etherc0.rmii.txd1"/>
       <configSetting altId="etherc0.rmii.txd_en.p405" configurationId="etherc0.rmii.txd_en"/>
-      <configSetting altId="gpt3.gtioca.p111" configurationId="gpt3.gtioca"/>
-      <configSetting altId="gpt3.mode.gtiocaorgtiocb.free" configurationId="gpt3.mode"/>
-      <configSetting altId="iic1.mode.enabled.a" configurationId="iic1.mode"/>
-      <configSetting altId="iic1.scl.p512" configurationId="iic1.scl"/>
-      <configSetting altId="iic1.sda.p511" configurationId="iic1.sda"/>
-      <configSetting altId="iic2.mode.enabled.free" configurationId="iic2.mode"/>
       <configSetting altId="iic2.pairing.free" configurationId="iic2.pairing"/>
-      <configSetting altId="iic2.scl.p415" configurationId="iic2.scl"/>
-      <configSetting altId="iic2.sda.p414" configurationId="iic2.sda"/>
-      <configSetting altId="ospi0.mode.custom.free" configurationId="ospi0.mode"/>
-      <configSetting altId="ospi0.omcs1.p602" configurationId="ospi0.omcs1"/>
-      <configSetting altId="ospi0.omdqs.p104" configurationId="ospi0.omdqs"/>
-      <configSetting altId="ospi0.omsclk.p100" configurationId="ospi0.omsclk"/>
-      <configSetting altId="ospi0.omsio0.p106" configurationId="ospi0.omsio0"/>
-      <configSetting altId="ospi0.omsio1.p102" configurationId="ospi0.omsio1"/>
-      <configSetting altId="ospi0.omsio2.p601" configurationId="ospi0.omsio2"/>
-      <configSetting altId="ospi0.omsio3.p107" configurationId="ospi0.omsio3"/>
-      <configSetting altId="ospi0.omsio4.p600" configurationId="ospi0.omsio4"/>
-      <configSetting altId="ospi0.omsio5.p105" configurationId="ospi0.omsio5"/>
-      <configSetting altId="ospi0.omsio6.p103" configurationId="ospi0.omsio6"/>
-      <configSetting altId="ospi0.omsio7.p101" configurationId="ospi0.omsio7"/>
       <configSetting altId="ospi0.pairing.free" configurationId="ospi0.pairing"/>
-      <configSetting altId="p000.asel" configurationId="p000"/>
-      <configSetting altId="p000.gpio_mode.gpio_mode_an" configurationId="p000.gpio_mode"/>
-      <configSetting altId="p001.asel" configurationId="p001"/>
-      <configSetting altId="p001.gpio_mode.gpio_mode_an" configurationId="p001.gpio_mode"/>
-      <configSetting altId="p002.asel" configurationId="p002"/>
-      <configSetting altId="p002.gpio_mode.gpio_mode_an" configurationId="p002.gpio_mode"/>
-      <configSetting altId="p003.asel" configurationId="p003"/>
-      <configSetting altId="p003.gpio_mode.gpio_mode_an" configurationId="p003.gpio_mode"/>
       <configSetting altId="p004.input" configurationId="p004"/>
       <configSetting altId="p004.gpio_irq.gpio_irq_enabled" configurationId="p004.gpio_irq"/>
       <configSetting altId="p004.gpio_mode.gpio_mode_in" configurationId="p004.gpio_mode"/>
@@ -1228,39 +1258,8 @@
       <configSetting altId="p007.gpio_mode.gpio_mode_out.low" configurationId="p007.gpio_mode"/>
       <configSetting altId="p008.output.low" configurationId="p008"/>
       <configSetting altId="p008.gpio_mode.gpio_mode_out.low" configurationId="p008.gpio_mode"/>
-      <configSetting altId="p014.asel" configurationId="p014"/>
-      <configSetting altId="p014.gpio_mode.gpio_mode_an" configurationId="p014.gpio_mode"/>
-      <configSetting altId="p015.asel" configurationId="p015"/>
-      <configSetting altId="p015.gpio_mode.gpio_mode_an" configurationId="p015.gpio_mode"/>
-      <configSetting altId="p100.ospi0.omsclk" configurationId="p100"/>
-      <configSetting altId="p100.gpio_speed.gpio_speed_highspeedhigh" configurationId="p100.gpio_drivecapacity"/>
-      <configSetting altId="p100.gpio_mode.gpio_mode_peripheral" configurationId="p100.gpio_mode"/>
-      <configSetting altId="p101.ospi0.omsio7" configurationId="p101"/>
-      <configSetting altId="p101.gpio_speed.gpio_speed_highspeedhigh" configurationId="p101.gpio_drivecapacity"/>
-      <configSetting altId="p101.gpio_mode.gpio_mode_peripheral" configurationId="p101.gpio_mode"/>
-      <configSetting altId="p102.ospi0.omsio1" configurationId="p102"/>
-      <configSetting altId="p102.gpio_speed.gpio_speed_highspeedhigh" configurationId="p102.gpio_drivecapacity"/>
-      <configSetting altId="p102.gpio_mode.gpio_mode_peripheral" configurationId="p102.gpio_mode"/>
-      <configSetting altId="p103.ospi0.omsio6" configurationId="p103"/>
-      <configSetting altId="p103.gpio_speed.gpio_speed_highspeedhigh" configurationId="p103.gpio_drivecapacity"/>
-      <configSetting altId="p103.gpio_mode.gpio_mode_peripheral" configurationId="p103.gpio_mode"/>
-      <configSetting altId="p104.ospi0.omdqs" configurationId="p104"/>
-      <configSetting altId="p104.gpio_speed.gpio_speed_highspeedhigh" configurationId="p104.gpio_drivecapacity"/>
-      <configSetting altId="p104.gpio_mode.gpio_mode_peripheral" configurationId="p104.gpio_mode"/>
-      <configSetting altId="p105.ospi0.omsio5" configurationId="p105"/>
-      <configSetting altId="p105.gpio_speed.gpio_speed_highspeedhigh" configurationId="p105.gpio_drivecapacity"/>
-      <configSetting altId="p105.gpio_mode.gpio_mode_peripheral" configurationId="p105.gpio_mode"/>
-      <configSetting altId="p106.ospi0.omsio0" configurationId="p106"/>
-      <configSetting altId="p106.gpio_speed.gpio_speed_highspeedhigh" configurationId="p106.gpio_drivecapacity"/>
-      <configSetting altId="p106.gpio_mode.gpio_mode_peripheral" configurationId="p106.gpio_mode"/>
-      <configSetting altId="p107.ospi0.omsio3" configurationId="p107"/>
-      <configSetting altId="p107.gpio_speed.gpio_speed_highspeedhigh" configurationId="p107.gpio_drivecapacity"/>
-      <configSetting altId="p107.gpio_mode.gpio_mode_peripheral" configurationId="p107.gpio_mode"/>
       <configSetting altId="p108.debug0.swdio" configurationId="p108"/>
       <configSetting altId="p108.gpio_mode.gpio_mode_peripheral" configurationId="p108.gpio_mode"/>
-      <configSetting altId="p111.gpt3.gtioca" configurationId="p111"/>
-      <configSetting altId="p111.gpio_speed.gpio_speed_high" configurationId="p111.gpio_drivecapacity"/>
-      <configSetting altId="p111.gpio_mode.gpio_mode_peripheral" configurationId="p111.gpio_mode"/>
       <configSetting altId="p112.output.low" configurationId="p112"/>
       <configSetting altId="p112.gpio_speed.gpio_speed_high" configurationId="p112.gpio_drivecapacity"/>
       <configSetting altId="p112.gpio_mode.gpio_mode_out.low" configurationId="p112.gpio_mode"/>
@@ -1273,21 +1272,6 @@
       <configSetting altId="p115.output.low" configurationId="p115"/>
       <configSetting altId="p115.gpio_speed.gpio_speed_high" configurationId="p115.gpio_drivecapacity"/>
       <configSetting altId="p115.gpio_mode.gpio_mode_out.low" configurationId="p115.gpio_mode"/>
-      <configSetting altId="p202.spi0.miso" configurationId="p202"/>
-      <configSetting altId="p202.gpio_speed.gpio_speed_high" configurationId="p202.gpio_drivecapacity"/>
-      <configSetting altId="p202.gpio_mode.gpio_mode_peripheral" configurationId="p202.gpio_mode"/>
-      <configSetting altId="p203.spi0.mosi" configurationId="p203"/>
-      <configSetting altId="p203.gpio_speed.gpio_speed_high" configurationId="p203.gpio_drivecapacity"/>
-      <configSetting altId="p203.gpio_mode.gpio_mode_peripheral" configurationId="p203.gpio_mode"/>
-      <configSetting altId="p204.spi0.rspck" configurationId="p204"/>
-      <configSetting altId="p204.gpio_speed.gpio_speed_high" configurationId="p204.gpio_drivecapacity"/>
-      <configSetting altId="p204.gpio_mode.gpio_mode_peripheral" configurationId="p204.gpio_mode"/>
-      <configSetting altId="p205.spi0.ssl0" configurationId="p205"/>
-      <configSetting altId="p205.gpio_speed.gpio_speed_high" configurationId="p205.gpio_drivecapacity"/>
-      <configSetting altId="p205.gpio_mode.gpio_mode_peripheral" configurationId="p205.gpio_mode"/>
-      <configSetting altId="p206.spi0.ssl1" configurationId="p206"/>
-      <configSetting altId="p206.gpio_speed.gpio_speed_high" configurationId="p206.gpio_drivecapacity"/>
-      <configSetting altId="p206.gpio_mode.gpio_mode_peripheral" configurationId="p206.gpio_mode"/>
       <configSetting altId="p207.output.low" configurationId="p207"/>
       <configSetting altId="p207.gpio_speed.gpio_speed_high" configurationId="p207.gpio_drivecapacity"/>
       <configSetting altId="p207.gpio_mode.gpio_mode_out.low" configurationId="p207.gpio_mode"/>
@@ -1297,33 +1281,9 @@
       <configSetting altId="p213.gpio_mode.gpio_mode_peripheral" configurationId="p213.gpio_mode"/>
       <configSetting altId="p300.debug0.swclk" configurationId="p300"/>
       <configSetting altId="p300.gpio_mode.gpio_mode_peripheral" configurationId="p300.gpio_mode"/>
-      <configSetting altId="p301.spi0.ssl2" configurationId="p301"/>
-      <configSetting altId="p301.gpio_speed.gpio_speed_high" configurationId="p301.gpio_drivecapacity"/>
-      <configSetting altId="p301.gpio_mode.gpio_mode_peripheral" configurationId="p301.gpio_mode"/>
-      <configSetting altId="p302.spi0.ssl3" configurationId="p302"/>
-      <configSetting altId="p302.gpio_speed.gpio_speed_high" configurationId="p302.gpio_drivecapacity"/>
-      <configSetting altId="p302.gpio_mode.gpio_mode_peripheral" configurationId="p302.gpio_mode"/>
       <configSetting altId="p303.output.low" configurationId="p303"/>
       <configSetting altId="p303.gpio_speed.gpio_speed_high" configurationId="p303.gpio_drivecapacity"/>
       <configSetting altId="p303.gpio_mode.gpio_mode_out.low" configurationId="p303.gpio_mode"/>
-      <configSetting altId="p305.qspi0.qspclk" configurationId="p305"/>
-      <configSetting altId="p305.gpio_speed.gpio_speed_high" configurationId="p305.gpio_drivecapacity"/>
-      <configSetting altId="p305.gpio_mode.gpio_mode_peripheral" configurationId="p305.gpio_mode"/>
-      <configSetting altId="p306.qspi0.qssl" configurationId="p306"/>
-      <configSetting altId="p306.gpio_speed.gpio_speed_high" configurationId="p306.gpio_drivecapacity"/>
-      <configSetting altId="p306.gpio_mode.gpio_mode_peripheral" configurationId="p306.gpio_mode"/>
-      <configSetting altId="p307.qspi0.qio0" configurationId="p307"/>
-      <configSetting altId="p307.gpio_speed.gpio_speed_high" configurationId="p307.gpio_drivecapacity"/>
-      <configSetting altId="p307.gpio_mode.gpio_mode_peripheral" configurationId="p307.gpio_mode"/>
-      <configSetting altId="p308.qspi0.qio1" configurationId="p308"/>
-      <configSetting altId="p308.gpio_speed.gpio_speed_high" configurationId="p308.gpio_drivecapacity"/>
-      <configSetting altId="p308.gpio_mode.gpio_mode_peripheral" configurationId="p308.gpio_mode"/>
-      <configSetting altId="p309.qspi0.qio2" configurationId="p309"/>
-      <configSetting altId="p309.gpio_speed.gpio_speed_high" configurationId="p309.gpio_drivecapacity"/>
-      <configSetting altId="p309.gpio_mode.gpio_mode_peripheral" configurationId="p309.gpio_mode"/>
-      <configSetting altId="p310.qspi0.qio3" configurationId="p310"/>
-      <configSetting altId="p310.gpio_speed.gpio_speed_high" configurationId="p310.gpio_drivecapacity"/>
-      <configSetting altId="p310.gpio_mode.gpio_mode_peripheral" configurationId="p310.gpio_mode"/>
       <configSetting altId="p311.output.low" configurationId="p311"/>
       <configSetting altId="p311.gpio_speed.gpio_speed_high" configurationId="p311.gpio_drivecapacity"/>
       <configSetting altId="p311.gpio_mode.gpio_mode_out.low" configurationId="p311.gpio_mode"/>
@@ -1349,9 +1309,6 @@
       <configSetting altId="p406.etherc0.rmii.txd1" configurationId="p406"/>
       <configSetting altId="p406.gpio_speed.gpio_speed_high" configurationId="p406.gpio_drivecapacity"/>
       <configSetting altId="p406.gpio_mode.gpio_mode_peripheral" configurationId="p406.gpio_mode"/>
-      <configSetting altId="p407.usbfs0.vbus" configurationId="p407"/>
-      <configSetting altId="p407.gpio_speed.gpio_speed_high" configurationId="p407.gpio_drivecapacity"/>
-      <configSetting altId="p407.gpio_mode.gpio_mode_peripheral" configurationId="p407.gpio_mode"/>
       <configSetting altId="p408.output.low" configurationId="p408"/>
       <configSetting altId="p408.gpio_speed.gpio_speed_high" configurationId="p408.gpio_drivecapacity"/>
       <configSetting altId="p408.gpio_mode.gpio_mode_out.low" configurationId="p408.gpio_mode"/>
@@ -1359,74 +1316,15 @@
       <configSetting altId="p409.gpio_irq.gpio_irq_enabled" configurationId="p409.gpio_irq"/>
       <configSetting altId="p409.gpio_mode.gpio_mode_in" configurationId="p409.gpio_mode"/>
       <configSetting altId="p409.gpio_pupd.gpio_pupd_ip_up" configurationId="p409.gpio_pupd"/>
-      <configSetting altId="p410.spi1.miso" configurationId="p410"/>
-      <configSetting altId="p410.gpio_speed.gpio_speed_high" configurationId="p410.gpio_drivecapacity"/>
-      <configSetting altId="p410.gpio_mode.gpio_mode_peripheral" configurationId="p410.gpio_mode"/>
-      <configSetting altId="p411.spi1.mosi" configurationId="p411"/>
-      <configSetting altId="p411.gpio_speed.gpio_speed_high" configurationId="p411.gpio_drivecapacity"/>
-      <configSetting altId="p411.gpio_mode.gpio_mode_peripheral" configurationId="p411.gpio_mode"/>
-      <configSetting altId="p412.spi1.rspck" configurationId="p412"/>
-      <configSetting altId="p412.gpio_speed.gpio_speed_high" configurationId="p412.gpio_drivecapacity"/>
-      <configSetting altId="p412.gpio_mode.gpio_mode_peripheral" configurationId="p412.gpio_mode"/>
-      <configSetting altId="p413.spi1.ssl0" configurationId="p413"/>
-      <configSetting altId="p413.gpio_speed.gpio_speed_high" configurationId="p413.gpio_drivecapacity"/>
-      <configSetting altId="p413.gpio_mode.gpio_mode_peripheral" configurationId="p413.gpio_mode"/>
-      <configSetting altId="p414.iic2.sda" configurationId="p414"/>
-      <configSetting altId="p414.gpio_speed.gpio_speed_high" configurationId="p414.gpio_drivecapacity"/>
-      <configSetting altId="p414.gpio_mode.gpio_mode_peripheral" configurationId="p414.gpio_mode"/>
-      <configSetting altId="p415.iic2.scl" configurationId="p415"/>
-      <configSetting altId="p415.gpio_speed.gpio_speed_high" configurationId="p415.gpio_drivecapacity"/>
-      <configSetting altId="p415.gpio_mode.gpio_mode_peripheral" configurationId="p415.gpio_mode"/>
-      <configSetting altId="p500.usbfs0.vbusen" configurationId="p500"/>
-      <configSetting altId="p500.gpio_speed.gpio_speed_high" configurationId="p500.gpio_drivecapacity"/>
-      <configSetting altId="p500.gpio_mode.gpio_mode_peripheral" configurationId="p500.gpio_mode"/>
-      <configSetting altId="p501.usbfs0.ovrcura" configurationId="p501"/>
-      <configSetting altId="p501.gpio_speed.gpio_speed_high" configurationId="p501.gpio_drivecapacity"/>
-      <configSetting altId="p501.gpio_mode.gpio_mode_peripheral" configurationId="p501.gpio_mode"/>
-      <configSetting altId="p505.sci6.scl" configurationId="p505"/>
-      <configSetting altId="p505.gpio_speed.gpio_speed_high" configurationId="p505.gpio_drivecapacity"/>
-      <configSetting altId="p505.gpio_mode.gpio_mode_peripheral" configurationId="p505.gpio_mode"/>
-      <configSetting altId="p505.gpio_otype.gpio_otype_n_ch_od" configurationId="p505.gpio_otype"/>
-      <configSetting altId="p506.sci6.sda" configurationId="p506"/>
-      <configSetting altId="p506.gpio_speed.gpio_speed_high" configurationId="p506.gpio_drivecapacity"/>
-      <configSetting altId="p506.gpio_mode.gpio_mode_peripheral" configurationId="p506.gpio_mode"/>
-      <configSetting altId="p506.gpio_otype.gpio_otype_n_ch_od" configurationId="p506.gpio_otype"/>
-      <configSetting altId="p511.iic1.sda" configurationId="p511"/>
-      <configSetting altId="p511.gpio_speed.gpio_speed_high" configurationId="p511.gpio_drivecapacity"/>
-      <configSetting altId="p511.gpio_mode.gpio_mode_peripheral" configurationId="p511.gpio_mode"/>
-      <configSetting altId="p512.iic1.scl" configurationId="p512"/>
-      <configSetting altId="p512.gpio_speed.gpio_speed_high" configurationId="p512.gpio_drivecapacity"/>
-      <configSetting altId="p512.gpio_mode.gpio_mode_peripheral" configurationId="p512.gpio_mode"/>
-      <configSetting altId="p600.ospi0.omsio4" configurationId="p600"/>
-      <configSetting altId="p600.gpio_speed.gpio_speed_highspeedhigh" configurationId="p600.gpio_drivecapacity"/>
-      <configSetting altId="p600.gpio_mode.gpio_mode_peripheral" configurationId="p600.gpio_mode"/>
-      <configSetting altId="p601.ospi0.omsio2" configurationId="p601"/>
-      <configSetting altId="p601.gpio_speed.gpio_speed_highspeedhigh" configurationId="p601.gpio_drivecapacity"/>
-      <configSetting altId="p601.gpio_mode.gpio_mode_peripheral" configurationId="p601.gpio_mode"/>
-      <configSetting altId="p602.ospi0.omcs1" configurationId="p602"/>
-      <configSetting altId="p602.gpio_speed.gpio_speed_highspeedhigh" configurationId="p602.gpio_drivecapacity"/>
-      <configSetting altId="p602.gpio_mode.gpio_mode_peripheral" configurationId="p602.gpio_mode"/>
       <configSetting altId="p608.output.low" configurationId="p608"/>
       <configSetting altId="p608.gpio_speed.gpio_speed_high" configurationId="p608.gpio_drivecapacity"/>
       <configSetting altId="p608.gpio_mode.gpio_mode_out.low" configurationId="p608.gpio_mode"/>
-      <configSetting altId="p609.can1.ctx" configurationId="p609"/>
-      <configSetting altId="p609.gpio_speed.gpio_speed_highspeedhigh" configurationId="p609.gpio_drivecapacity"/>
-      <configSetting altId="p609.gpio_mode.gpio_mode_peripheral" configurationId="p609.gpio_mode"/>
-      <configSetting altId="p610.can1.crx" configurationId="p610"/>
-      <configSetting altId="p610.gpio_speed.gpio_speed_highspeedhigh" configurationId="p610.gpio_drivecapacity"/>
-      <configSetting altId="p610.gpio_mode.gpio_mode_peripheral" configurationId="p610.gpio_mode"/>
       <configSetting altId="p611.output.low" configurationId="p611"/>
       <configSetting altId="p611.gpio_speed.gpio_speed_high" configurationId="p611.gpio_drivecapacity"/>
       <configSetting altId="p611.gpio_mode.gpio_mode_out.low" configurationId="p611.gpio_mode"/>
-      <configSetting altId="p613.sci7.txd" configurationId="p613"/>
-      <configSetting altId="p613.gpio_speed.gpio_speed_highspeedhigh" configurationId="p613.gpio_drivecapacity"/>
-      <configSetting altId="p613.gpio_mode.gpio_mode_peripheral" configurationId="p613.gpio_mode"/>
-      <configSetting altId="p614.sci7.rxd" configurationId="p614"/>
-      <configSetting altId="p614.gpio_speed.gpio_speed_highspeedhigh" configurationId="p614.gpio_drivecapacity"/>
-      <configSetting altId="p614.gpio_mode.gpio_mode_peripheral" configurationId="p614.gpio_mode"/>
-      <configSetting altId="p615.output.low" configurationId="p615"/>
-      <configSetting altId="p615.gpio_speed.gpio_speed_highspeedhigh" configurationId="p615.gpio_drivecapacity"/>
-      <configSetting altId="p615.gpio_mode.gpio_mode_out.low" configurationId="p615.gpio_mode"/>
+      <configSetting altId="p615.output.high" configurationId="p615"/>
+      <configSetting altId="p615.gpio_speed.gpio_speed_medium" configurationId="p615.gpio_drivecapacity"/>
+      <configSetting altId="p615.gpio_mode.gpio_mode_out.high" configurationId="p615.gpio_mode"/>
       <configSetting altId="p700.etherc0.rmii.txd0" configurationId="p700"/>
       <configSetting altId="p700.gpio_speed.gpio_speed_high" configurationId="p700.gpio_drivecapacity"/>
       <configSetting altId="p700.gpio_mode.gpio_mode_peripheral" configurationId="p700.gpio_mode"/>
@@ -1448,59 +1346,13 @@
       <configSetting altId="p706.input" configurationId="p706"/>
       <configSetting altId="p706.gpio_irq.gpio_irq_enabled" configurationId="p706.gpio_irq"/>
       <configSetting altId="p706.gpio_mode.gpio_mode_in" configurationId="p706.gpio_mode"/>
-      <configSetting altId="p707.usbhs0.ovrcura" configurationId="p707"/>
-      <configSetting altId="p707.gpio_mode.gpio_mode_peripheral" configurationId="p707.gpio_mode"/>
-      <configSetting altId="p708.spi1.ssl3" configurationId="p708"/>
-      <configSetting altId="p708.gpio_speed.gpio_speed_high" configurationId="p708.gpio_drivecapacity"/>
-      <configSetting altId="p708.gpio_mode.gpio_mode_peripheral" configurationId="p708.gpio_mode"/>
       <configSetting altId="p905.input" configurationId="p905"/>
       <configSetting altId="p905.gpio_irq.gpio_irq_enabled" configurationId="p905.gpio_irq"/>
       <configSetting altId="p905.gpio_mode.gpio_mode_in" configurationId="p905.gpio_mode"/>
       <configSetting altId="p905.gpio_pupd.gpio_pupd_ip_up" configurationId="p905.gpio_pupd"/>
-      <configSetting altId="pb00.usbhs0.vbusen" configurationId="pb00"/>
-      <configSetting altId="pb00.gpio_speed.gpio_speed_high" configurationId="pb00.gpio_drivecapacity"/>
-      <configSetting altId="pb00.gpio_mode.gpio_mode_peripheral" configurationId="pb00.gpio_mode"/>
-      <configSetting altId="pb01.usbhs0.vbus" configurationId="pb01"/>
-      <configSetting altId="pb01.gpio_speed.gpio_speed_high" configurationId="pb01.gpio_drivecapacity"/>
-      <configSetting altId="pb01.gpio_mode.gpio_mode_peripheral" configurationId="pb01.gpio_mode"/>
-      <configSetting altId="qspi0.mode.quad.free" configurationId="qspi0.mode"/>
       <configSetting altId="qspi0.pairing.free" configurationId="qspi0.pairing"/>
-      <configSetting altId="qspi0.qio0.p307" configurationId="qspi0.qio0"/>
-      <configSetting altId="qspi0.qio1.p308" configurationId="qspi0.qio1"/>
-      <configSetting altId="qspi0.qio2.p309" configurationId="qspi0.qio2"/>
-      <configSetting altId="qspi0.qio3.p310" configurationId="qspi0.qio3"/>
-      <configSetting altId="qspi0.qspclk.p305" configurationId="qspi0.qspclk"/>
-      <configSetting altId="qspi0.qssl.p306" configurationId="qspi0.qssl"/>
-      <configSetting altId="sci6.mode.iic.free" configurationId="sci6.mode"/>
-      <configSetting altId="sci6.scl.p505" configurationId="sci6.scl"/>
-      <configSetting altId="sci6.sda.p506" configurationId="sci6.sda"/>
-      <configSetting altId="sci7.mode.asynchronous.free" configurationId="sci7.mode"/>
-      <configSetting altId="sci7.rxd.p614" configurationId="sci7.rxd"/>
-      <configSetting altId="sci7.txd.p613" configurationId="sci7.txd"/>
-      <configSetting altId="spi0.miso.p202" configurationId="spi0.miso"/>
-      <configSetting altId="spi0.mode.custom.free" configurationId="spi0.mode"/>
-      <configSetting altId="spi0.mosi.p203" configurationId="spi0.mosi"/>
       <configSetting altId="spi0.pairing.free" configurationId="spi0.pairing"/>
-      <configSetting altId="spi0.rspck.p204" configurationId="spi0.rspck"/>
-      <configSetting altId="spi0.ssl0.p205" configurationId="spi0.ssl0"/>
-      <configSetting altId="spi0.ssl1.p206" configurationId="spi0.ssl1"/>
-      <configSetting altId="spi0.ssl2.p301" configurationId="spi0.ssl2"/>
-      <configSetting altId="spi0.ssl3.p302" configurationId="spi0.ssl3"/>
-      <configSetting altId="spi1.miso.p410" configurationId="spi1.miso"/>
-      <configSetting altId="spi1.mode.enabled.free" configurationId="spi1.mode"/>
-      <configSetting altId="spi1.mosi.p411" configurationId="spi1.mosi"/>
       <configSetting altId="spi1.pairing.free" configurationId="spi1.pairing"/>
-      <configSetting altId="spi1.rspck.p412" configurationId="spi1.rspck"/>
-      <configSetting altId="spi1.ssl0.p413" configurationId="spi1.ssl0"/>
-      <configSetting altId="spi1.ssl3.p708" configurationId="spi1.ssl3"/>
-      <configSetting altId="usbfs0.mode.custom" configurationId="usbfs0.mode"/>
-      <configSetting altId="usbfs0.ovrcura.p501" configurationId="usbfs0.ovrcura"/>
-      <configSetting altId="usbfs0.vbus.p407" configurationId="usbfs0.vbus"/>
-      <configSetting altId="usbfs0.vbusen.p500" configurationId="usbfs0.vbusen"/>
-      <configSetting altId="usbhs0.mode.custom" configurationId="usbhs0.mode"/>
-      <configSetting altId="usbhs0.ovrcura.p707" configurationId="usbhs0.ovrcura"/>
-      <configSetting altId="usbhs0.vbus.pb01" configurationId="usbhs0.vbus"/>
-      <configSetting altId="usbhs0.vbusen.pb00" configurationId="usbhs0.vbusen"/>
     </pincfg>
     <pincfg active="false" name="R7FA6M5BH3CFC.pincfg" selected="false" symbol="">
       <configSetting altId="debug0.mode.swd" configurationId="debug0.mode"/>

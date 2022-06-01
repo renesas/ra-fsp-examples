@@ -18,14 +18,13 @@
  * following link:
  * http://www.renesas.com/disclaimer
  *
- * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
+ * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  ***********************************************************************************************************************/
 
 #ifndef ADC_APP_H_
 #define ADC_APP_H_
 
 #include "board_cfg.h"
-
 
 /* User function declarations */
 fsp_err_t hal_adc_init(void);

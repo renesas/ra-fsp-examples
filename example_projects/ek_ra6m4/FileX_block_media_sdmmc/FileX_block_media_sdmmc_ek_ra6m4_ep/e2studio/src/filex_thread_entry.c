@@ -40,6 +40,10 @@ ULONG       actual_events   = RESET_VALUE;
 /* Variable to store time*/
 time_format_t g_set_time = {RESET_VALUE};
 
+/* Global Variables */
+uint16_t g_write_data[WRITE_ITEM_SIZE];   /* Data(10k) to write to file */
+uint16_t g_read_data[WRITE_ITEM_SIZE] ;
+
 /* Function Declaration */
 static UINT filex_blockmedia_sdmmc_operation(void);
 static void assign_month_value(time_format_t * time, char * read_buffer);

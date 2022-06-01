@@ -26,7 +26,6 @@
 
 #include "board_cfg.h"
 
-
 /* User function declarations */
 fsp_err_t hal_adc_init(void);
 float adc_data_read(void);

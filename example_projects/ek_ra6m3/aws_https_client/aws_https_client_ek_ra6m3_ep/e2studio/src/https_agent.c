@@ -448,6 +448,7 @@ IotHttpsReturnCode_t Process_PUTRequest(float mcu_die_temp)
 
     return httpsClientStatus;
 }
+
 /*******************************************************************************************************************//**
  * @brief      Process POST request with updating the mcu die temperature into the server
  *
@@ -455,7 +456,6 @@ IotHttpsReturnCode_t Process_PUTRequest(float mcu_die_temp)
  * @retval     IOT_HTTPS_OK                 Upon successful client Initialization.
  * @retval     Any other Error Code         Upon unsuccessful client Initialization.
  **********************************************************************************************************************/
-
 IotHttpsReturnCode_t Process_POSTRequest(float mcu_die_temp)
 {
     /* Set the request configurations. */

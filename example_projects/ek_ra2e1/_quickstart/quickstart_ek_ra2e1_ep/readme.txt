@@ -23,6 +23,7 @@
 
 2. Hardware settings for the project:
         Please configure the Jumper settings as described in the Quick Start Guide.
+        Link to access Quick Start Guide -  https://www.renesas.com/us/en/document/qsg/ek-ra2e1-quick-start-guide
 
 3. Configuration Settings:
         Please explore the configuration settings of each module in the RA configurator.

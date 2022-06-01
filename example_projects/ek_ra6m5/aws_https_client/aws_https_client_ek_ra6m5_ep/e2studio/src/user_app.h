@@ -18,7 +18,7 @@
  * following link:
  * http://www.renesas.com/disclaimer
  *
- * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
+ * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  ***********************************************************************************************************************/
 
 #ifndef USER_APP_H_
@@ -36,7 +36,7 @@
  **/
 
 /** User has to update according to their LAN/WAN test setup for testing of ping IP address **/
-#define IOT_DEMO_TEST_PING_IP                       "192.168.0.51"
+#define IOT_DEMO_TEST_PING_IP                       "192.168.0.1"
 
 /** HOST Address **/
 #define IOT_DEMO_HOST_ADDRESS                       "io.adafruit.com"
@@ -48,7 +48,8 @@
  **/
 
 /** @brief To get the most recent value. Use GET url: https://io.adafruit.com/api/v2/{username}/feeds/{feed_key}/data?limit=1 **/
-#define IOT_DEMO_HTTPS_PRESIGNED_GET_URL   "https://io.adafruit.com/api/v2/revanth_t/feeds/temp/data?limit=1"
+//#define IOT_DEMO_HTTPS_PRESIGNED_GET_URL   "https://io.adafruit.com/api/v2/mnkraj1/feeds/temp/data?limit=1"
+#define IOT_DEMO_HTTPS_PRESIGNED_GET_URL   "https://io.adafruit.com/api/v2/siddharthtaunk/feeds/temp/data?limit=1"
 
 /** @brief IOT_DEMO_HTTPS_PRESIGNED_PUT_POST_URL can be used in PUT and POST methods.
  *  PUT method will update data point at requested <id>.
@@ -57,10 +58,11 @@
  *  POST method will send new data to the server.
  *  POST url:https://ioadafruit.com/{user_name}/{feeds}/{feed_key}/data/
  **/
-#define IOT_DEMO_HTTPS_PRESIGNED_PUT_POST_URL    "https://io.adafruit.com/api/v2/revanth_t/feeds/temp/data/"
+#define IOT_DEMO_HTTPS_PRESIGNED_PUT_POST_URL    "https://io.adafruit.com/api/v2/siddharthtaunk/feeds/temp/data/"
 
 /** @brief User has to update their generated active key from the io.adafruit.com server. */
-#define ACTIVE_KEY                             "aio_TWoG86KKxqAunvBjI0qbXJPHXr52"
+//#define ACTIVE_KEY                             "aio_YUcA19S8MKK2a9p1fi6iIabzdk3J"
+#define ACTIVE_KEY                             "aio_utXJ02lWrwmJYQKSBiftYst9TVhn"
 
 /** @brief If the privacy of feed data visibility is set to private then 'ENABLE' the PRIVATE_KEY for processing of GET request **/
 #define PRIVATE_KEY                        DISABLE
@@ -70,97 +72,97 @@
  *  Client certificate to be updated by the user by following the process specified in the mark down file
  **/
 
-#define CLIENT_CERTIFICATE_PEM                                                  \
-        "-----BEGIN CERTIFICATE-----\n"                                         \
-        "MIIDqTCCApGgAwIBAgIULy6LArtEWFKapw5tm89xTJt+46gwDQYJKoZIhvcNAQEL\n"    \
-        "BQAwZDELMAkGA1UEBhMCSU4xCzAJBgNVBAgMAktBMRIwEAYDVQQHDAlCZW5nYWx1\n"    \
-        "cnUxDDAKBgNVBAoMA3RhdDEMMAoGA1UECwwDb2RjMRgwFgYDVQQDDA9pby5hZGFm\n"    \
-        "cnVpdC5jb20wHhcNMjEwMjE1MDY0OTM1WhcNMjIwMjE1MDY0OTM1WjBkMQswCQYD\n"    \
-        "VQQGEwJJTjELMAkGA1UECAwCS0ExEjAQBgNVBAcMCUJlbmdhbHVydTEMMAoGA1UE\n"    \
-        "CgwDdGF0MQwwCgYDVQQLDANvZGMxGDAWBgNVBAMMD2lvLmFkYWZydWl0LmNvbTCC\n"    \
-        "ASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANI3+Ea313G+d1/SPqLo4H9O\n"    \
-        "Pi3OygIad3dIy/+Pd8QZ/1M1CA5hMxbNXMAwWXnx0mj6Cd/sj/UycoDueM0p9MqB\n"    \
-        "M5KxI+RYdS9jdljohI11Po3bBtSJ2EmXsUMLABjxto/4I55YYHz+5LNFKXa0dh9l\n"    \
-        "l2EsKKzEtBE4j1P6WT2+qbeFdMgO6PAuWJzLxO7BKS33tr/Xvozhnps5S2ySLIcL\n"    \
-        "5yqHvsSbmSygKXuhdGiABvj8ZBexKq+pYU+0uNnYc8e9pVFDCpOPGxZSKkfF8GDK\n"    \
-        "9Tc3akgOrdALcaZjFqYd4v+ZRnRgTwhLIeDUH4L/VftGahYWoa23BhwLkvqgXysC\n"    \
-        "AwEAAaNTMFEwHQYDVR0OBBYEFEOuwHA4E3PlnjWXea2Eky0siSG3MB8GA1UdIwQY\n"    \
-        "MBaAFEOuwHA4E3PlnjWXea2Eky0siSG3MA8GA1UdEwEB/wQFMAMBAf8wDQYJKoZI\n"    \
-        "hvcNAQELBQADggEBAEfIIUyBofOdmWJ6whLA5N7NfQugXDy9x+fGB6vQKDPB5zPX\n"    \
-        "oQ0YyDOJs2jyLs/dRssjoModdtHso1ybJRnB/AdS090NnjluM3sEEy/vWUdQw+P/\n"    \
-        "MjqsMCipk6bkoDDxq1N0pIxbIRy3sD4rlg1SLUQLPHXOeHcmTPuE0zul/qibOqKQ\n"    \
-        "vpXax6bU1EFxOZGIIF2QyR3kgZSveCw3H3SfssMh7BRGqQdChxLz/VUMb6TCK+sY\n"    \
-        "E34Pe6XASob3g6/wjdd74BrjmPpuj8pD0Ugx4SnDZ/TFuH6AQ3UmZyP6A3IZ45Al\n"    \
-        "vcgEn2MSMQdXA6t24DtAQM4eNm9i7zJCiVeXPGI=\n"                            \
-        "-----END CERTIFICATE-----\n"
+
+ #define CLIENT_CERTIFICATE_PEM                                                  \
+"-----BEGIN CERTIFICATE-----\n" \
+"MIIDqTCCApGgAwIBAgIUPr6maUI0N7UIq27lJ47oMVPB+tkwDQYJKoZIhvcNAQEL\n" \
+"BQAwZDELMAkGA1UEBhMCSU4xCzAJBgNVBAgMAktBMRIwEAYDVQQHDAlCZW5nYWx1\n" \
+"cnUxDDAKBgNVBAoMA3RhdDEMMAoGA1UECwwDb2RjMRgwFgYDVQQDDA9pby5hZGFm\n" \
+"cnVpdC5jb20wHhcNMjIwNTE2MDc0NDU4WhcNMjMwNTE2MDc0NDU4WjBkMQswCQYD\n" \
+"VQQGEwJJTjELMAkGA1UECAwCS0ExEjAQBgNVBAcMCUJlbmdhbHVydTEMMAoGA1UE\n" \
+"CgwDdGF0MQwwCgYDVQQLDANvZGMxGDAWBgNVBAMMD2lvLmFkYWZydWl0LmNvbTCC\n" \
+"ASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAKflPkSRWkLc1WkQ82ki5Mju\n" \
+"yh22ShAY7BRsM6sNKj6UzDVazuIWKHxXuhbCnXn8lFysxOqDJaChGEu47iWwgeOr\n" \
+"lZf0QCPelrWmjPwYYXBj0OX4b4oSrq1ipeldF/Nr5aLc056UCsPiqPNeC2P29Bow\n" \
+"KKDLEoWa9U6iSkejhgScp1lG/AvBg2+ev9adnQtVWl4Qhl2yOxfbnCUYaVF348Uc\n" \
+"p0dsO9eMO4HtWEaFrSY3447HTyBFHVIva4DoQ/Cylr21PpCYk5JnZVS5nhSsm/Q5\n" \
+"7qbTJmYfnC9IbBPxDJ8MbY/QeSeLL/JE3LpxfcBYMVawInxHd4kWAODkrqgWpzUC\n" \
+"AwEAAaNTMFEwHQYDVR0OBBYEFO6CVRrKU5IcEfGvpkAujPwsmUzaMB8GA1UdIwQY\n" \
+"MBaAFO6CVRrKU5IcEfGvpkAujPwsmUzaMA8GA1UdEwEB/wQFMAMBAf8wDQYJKoZI\n" \
+"hvcNAQELBQADggEBAEnVdimRnB6hknVMlbV+adp1J1yP1l73pSzUD6F/ZkEQaPwM\n" \
+"JxshaBE3swBE+8HBYfhb5AEOv00pffbigcXaYn1PS/c+pbJThOXw9sBnGfhVW6QP\n" \
+"iaVve31TKKKYLT3TIJY0D4bsw5fuqKGTmdWuAeh+bOd/5Ac0a+3axBnJpgRjaNY1\n" \
+"/T6/njd+rmVHAx6A5oM+JAbvOIFsOdExYuydh5iBxtpw08X9aSTLIFiC8VEJbIU1\n" \
+"5HbwAJGf0OVAFMEs5nTwYszBG35AM7Uay5V8XyMRjWqqgWl92g5gXZh1gOFLLhiJ\n" \
+"iRYomN6rI8lGWzukpeO1G0phRIkpup2+DGUo/s8=\n" \
+"-----END CERTIFICATE-----\n"
+
 
 /**
  *  client key to be updated by the user
  **/
-
 #define CLIENT_KEY_PEM                                                          \
-        "-----BEGIN PRIVATE KEY-----\n"                                         \
-        "MIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQDSN/hGt9dxvndf\n"    \
-        "0j6i6OB/Tj4tzsoCGnd3SMv/j3fEGf9TNQgOYTMWzVzAMFl58dJo+gnf7I/1MnKA\n"    \
-        "7njNKfTKgTOSsSPkWHUvY3ZY6ISNdT6N2wbUidhJl7FDCwAY8baP+COeWGB8/uSz\n"    \
-        "RSl2tHYfZZdhLCisxLQROI9T+lk9vqm3hXTIDujwLlicy8TuwSkt97a/176M4Z6b\n"    \
-        "OUtskiyHC+cqh77Em5ksoCl7oXRogAb4/GQXsSqvqWFPtLjZ2HPHvaVRQwqTjxsW\n"    \
-        "UipHxfBgyvU3N2pIDq3QC3GmYxamHeL/mUZ0YE8ISyHg1B+C/1X7RmoWFqGttwYc\n"    \
-        "C5L6oF8rAgMBAAECggEBALupnWk8KwduedC/tozmCat8JMPt66YPDIEfKoWdBNS6\n"    \
-        "RJV6LRPxL5N2hwtG3kmfWC/ArtoIq8a/Xzq8KHk2sEGrL2gP3LO3R/2i8/6Qq+xA\n"    \
-        "MzSdx64q1Dt2QJdSFacu+MPzR5DO4mwTfASRhF9k4GJM5eOocTMycnFBJapZPhuA\n"    \
-        "HxJAsJHTggICyYhwTSfZuTJe0i8WJ4GKMDSSrUelOVFKYuBMWq0kW10MiNHOz341\n"    \
-        "wrcMXiBhaF9Cq8WtkW/b8tZf2lb9GEC0BCF0zmYRDm+21+J9zRuiQlr5L067eR3S\n"    \
-        "LFCHNYhzVhfrk7isrjeEYkwsI+16fh+cGNvI0y0d+AECgYEA/A+DBFNiZANj4Flh\n"    \
-        "hDT0lMEwDqemZ4hX1OO5WD0akPzZ5b2VUGiuBIYP2mNFyGv4hnt5IjwuZSauaasK\n"    \
-        "hQ0d0k4olau1wW72TBsJg9qGYsGbag4hyzQsNSKWqGAyBYbh5n+E2LPZ3ciznvk/\n"    \
-        "NF6OQsFbonyKJuLhzHSD7yGL+ysCgYEA1YEMpOjJeDT5JtSnYPF/dT0q+4I+tZ4B\n"    \
-        "AT7SswguFlrEuwoe9VED0fKt6l17iMitHICLcqJqGAJ2ag/NX6jpiz2Y5B9SOdVS\n"    \
-        "Py5aUL8wnMV/gbz3gDkGIQSsrzr8iY6teCijVHLrHbBj0qVrYWqgDamMQ6XlJoU2\n"    \
-        "8y4UVzU7LAECgYEAgMRL4kHW2dEBjPMcZjXHXNb0fggXcnysog1T+kf88mS5zCv1\n"    \
-        "w4Y2oAj8wExGsgS2ib06PMsRyIriPwkp7p6sxWs4QH3f9FmDaY3GZp2UWY8enidq\n"    \
-        "DC0zCFILNSkvZLNrZB1w+GOowSxu1p/uMgq8Ek5FSdTlnsf5IkHDxL4WjNECgYEA\n"    \
-        "wDscJlLOKyQO/G5VccyehPGZBLDFQ4LKxtNIpBeGX2xEW1+GdjwGY37MJgsbUhHV\n"    \
-        "A6edZo5jVdDJyz8FG88az9qbETI+N4IhNm/Gs5Mg8tZDso1wjotJQGtUC8XhYP0M\n"    \
-        "pPZ58Gwz0xxhFGUKJMD68LIqbzIr+x3QVu2zNL3h1AECgYB2yWubUseGL3E8cBMV\n"    \
-        "vfbf2LvFU+hfRfV21C7o5Zr7mCz3Ez91q/T3/FVH/K7Qp5/VyXyf1klvfcTHeOBT\n"    \
-        "rxWgVfQFxp23OhLSxEIYlqTi4tq7ED3gNrOKaRn8f+F3O1MtIJeKED+nTPUjGjd0\n"    \
-        "pK1gR3xk/pFBJmbQthNGsfscaQ==\n"                                        \
-        "-----END PRIVATE KEY-----\n"
+"-----BEGIN PRIVATE KEY-----\n" \
+"MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCn5T5EkVpC3NVp\n" \
+"EPNpIuTI7sodtkoQGOwUbDOrDSo+lMw1Ws7iFih8V7oWwp15/JRcrMTqgyWgoRhL\n" \
+"uO4lsIHjq5WX9EAj3pa1poz8GGFwY9Dl+G+KEq6tYqXpXRfza+Wi3NOelArD4qjz\n" \
+"Xgtj9vQaMCigyxKFmvVOokpHo4YEnKdZRvwLwYNvnr/WnZ0LVVpeEIZdsjsX25wl\n" \
+"GGlRd+PFHKdHbDvXjDuB7VhGha0mN+OOx08gRR1SL2uA6EPwspa9tT6QmJOSZ2VU\n" \
+"uZ4UrJv0Oe6m0yZmH5wvSGwT8QyfDG2P0Hkniy/yRNy6cX3AWDFWsCJ8R3eJFgDg\n" \
+"5K6oFqc1AgMBAAECggEAF6T/s21a7k6mWWETPou09501ZqDM5l50JN4mGqFEgUK4\n" \
+"TY1H1Gw1cGl0Yg8vWUYaaMDGDJbCnlABmWxmUXV9nWAFNbymqcaHp/ZYJYqTcl4E\n" \
+"RdbKcoH2CqH5Zpd/L39S/DAoN013BKYvj/J/HSlisCt3FUn0Bk/P2y6c0mDzl0N0\n" \
+"Ai5YwW6yJeUql310qD8xNy4QDHE0l0pw4wKBP+4BbIxWX4Qd0mADNMv5J/Ma77Y3\n" \
+"DNuK6ZE8I+K2ViAlrph49smnfrp3hzFXaQBnZPw9AwgHZvUmPER2nrV4DzHQFjBR\n" \
+"5xJENJ/7t64BVj1x3dUtioKKpRx4MeNP4jE5ObsJUwKBgQDdiY8+FJO9yatZLtFS\n" \
+"8+G0tzHziIWD7+wjrcI8h9djUDK4Q0WyiRttdwHpvmiwsupEhBDtn3PzEbbrW529\n" \
+"Ra5igj5ueVBY2BY/Lw26qbzL7Ki57vN5ow2yyP4uhmLCC19PX4kWTrl3+0L27oh8\n" \
+"2DIICLbXAmThuA3ggC1HqUqobwKBgQDCA3ck3NRxPdg0gJqmU2xzSONku8KpW1v1\n" \
+"oaOG0v66myuBpxe6rcOR+6/eF7cOJtr9f6ndKozpe3U1IpLF1Siil1cS3xLpV7OA\n" \
+"iHLV/vroVWybzcHE04bFfTLLjHpFau7Wq97ytWvfRxsqbN/43oXmTOA64pNmqtZm\n" \
+"bYcrceYUmwKBgQDC/Bn5V/8ZIfEQU6alTkYv2rW6VUS+dWLvnDXDNQScQrABgiRM\n" \
+"GWTsmbwzUQWv0CllGKAVpSxWmhbXXBGfzz7HMT9l2JyhNb+O6Qk6a77h9XAkBm6B\n" \
+"dsPNwh4GMP2nMH84yytLWQrg0WOFFzlGOLsAWzsiTtcf2/FK0UYJNrWhPQKBgCxg\n" \
+"Ooo18GmOabtohvbwMegUjd5mi9nMybXfKNYXwKfSAht/qo/KWuczGEDGT9puzLwa\n" \
+"zTGHH//vexmSNNwHK2o1D3eDioHQy3/ktc94qM8natYgM+ffMf5N6qZgFT93e/Wi\n" \
+"DjaZhHjnfLExgfEchKfugYM2e9yJysxW1Qn83VFtAoGAF+b34wIUyMGtMlzHihUH\n" \
+"cZH+5Mgpug1BxjbiWQPA24S1Zy1vr659rRifRHBW98HvyEmnWkbLMyu9qDw6r9XE\n" \
+"PNacojJkRE72Ejc8vJYcy3MSzv1apzR/9H4phHv5W5r5a9HP33LaYUUeeYjGKYqa\n" \
+"lnUFFXX5Wv8D5gQIPZ1mD+A=\n" \
+"-----END PRIVATE KEY-----\n"
 
 
 /**
  *  @brief Trusted ROOT certificate can be update by following the process specified in the mark down file
  **/
-
-#define IOT_DEMO_HTTPS_TRUSTED_ROOT_CA                                        \
-		"-----BEGIN CERTIFICATE-----\n"                                       \
-		"MIIEizCCA3OgAwIBAgIQBUb+GCP34ZQdo5/OFMRhczANBgkqhkiG9w0BAQsFADBh\n"  \
-		"MQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYDVQQLExB3\n"  \
-		"d3cuZGlnaWNlcnQuY29tMSAwHgYDVQQDExdEaWdpQ2VydCBHbG9iYWwgUm9vdCBD\n"  \
-		"QTAeFw0xNzExMDYxMjIzNDVaFw0yNzExMDYxMjIzNDVaMF4xCzAJBgNVBAYTAlVT\n"  \
-		"MRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5j\n"  \
-		"b20xHTAbBgNVBAMTFEdlb1RydXN0IFJTQSBDQSAyMDE4MIIBIjANBgkqhkiG9w0B\n"  \
-		"AQEFAAOCAQ8AMIIBCgKCAQEAv4rRY03hGOqHXegWPI9/tr6HFzekDPgxP59FVEAh\n"  \
-		"150Hm8oDI0q9m+2FAmM/n4W57Cjv8oYi2/hNVEHFtEJ/zzMXAQ6CkFLTxzSkwaEB\n"  \
-		"2jKgQK0fWeQz/KDDlqxobNPomXOMJhB3y7c/OTLo0lko7geG4gk7hfiqafapa59Y\n"  \
-		"rXLIW4dmrgjgdPstU0Nigz2PhUwRl9we/FAwuIMIMl5cXMThdSBK66XWdS3cLX18\n"  \
-		"4ND+fHWhTkAChJrZDVouoKzzNYoq6tZaWmyOLKv23v14RyZ5eqoi6qnmcRID0/i6\n"  \
-		"U9J5nL1krPYbY7tNjzgC+PBXXcWqJVoMXcUw/iBTGWzpwwIDAQABo4IBQDCCATww\n"  \
-		"HQYDVR0OBBYEFJBY/7CcdahRVHex7fKjQxY4nmzFMB8GA1UdIwQYMBaAFAPeUDVW\n"  \
-		"0Uy7ZvCj4hsbw5eyPdFVMA4GA1UdDwEB/wQEAwIBhjAdBgNVHSUEFjAUBggrBgEF\n"  \
-		"BQcDAQYIKwYBBQUHAwIwEgYDVR0TAQH/BAgwBgEB/wIBADA0BggrBgEFBQcBAQQo\n"  \
-		"MCYwJAYIKwYBBQUHMAGGGGh0dHA6Ly9vY3NwLmRpZ2ljZXJ0LmNvbTBCBgNVHR8E\n"  \
-		"OzA5MDegNaAzhjFodHRwOi8vY3JsMy5kaWdpY2VydC5jb20vRGlnaUNlcnRHbG9i\n"  \
-		"YWxSb290Q0EuY3JsMD0GA1UdIAQ2MDQwMgYEVR0gADAqMCgGCCsGAQUFBwIBFhxo\n"  \
-		"dHRwczovL3d3dy5kaWdpY2VydC5jb20vQ1BTMA0GCSqGSIb3DQEBCwUAA4IBAQAw\n"  \
-		"8YdVPYQI/C5earp80s3VLOO+AtpdiXft9OlWwJLwKlUtRfccKj8QW/Pp4b7h6QAl\n"  \
-		"ufejwQMb455OjpIbCZVS+awY/R8pAYsXCnM09GcSVe4ivMswyoCZP/vPEn/LPRhH\n"  \
-		"hdgUPk8MlD979RGoUWz7qGAwqJChi28uRds3thx+vRZZIbEyZ62No0tJPzsSGSz8\n"  \
-		"nQ//jP8BIwrzBAUH5WcBAbmvgWfrKcuv+PyGPqRcc4T55TlzrBnzAzZ3oClo9fTv\n"  \
-		"O9PuiHMKrC6V6mgi0s2sa/gbXlPCD9Z24XUMxJElwIVTDuKB0Q4YMMlnpN/QChJ4\n"  \
-		"B0AFsQ+DU0NCO+f78Xf7\n"                                              \
-		"-----END CERTIFICATE-----\n"
+#define IOT_DEMO_HTTPS_TRUSTED_ROOT_CA                               \
+"-----BEGIN CERTIFICATE-----\n"                                      \
+"MIIEizCCA3OgAwIBAgIQBUb+GCP34ZQdo5/OFMRhczANBgkqhkiG9w0BAQsFADBh\n" \
+"MQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYDVQQLExB3\n" \
+"d3cuZGlnaWNlcnQuY29tMSAwHgYDVQQDExdEaWdpQ2VydCBHbG9iYWwgUm9vdCBD\n" \
+"QTAeFw0xNzExMDYxMjIzNDVaFw0yNzExMDYxMjIzNDVaMF4xCzAJBgNVBAYTAlVT\n" \
+"MRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5j\n" \
+"b20xHTAbBgNVBAMTFEdlb1RydXN0IFJTQSBDQSAyMDE4MIIBIjANBgkqhkiG9w0B\n" \
+"AQEFAAOCAQ8AMIIBCgKCAQEAv4rRY03hGOqHXegWPI9/tr6HFzekDPgxP59FVEAh\n" \
+"150Hm8oDI0q9m+2FAmM/n4W57Cjv8oYi2/hNVEHFtEJ/zzMXAQ6CkFLTxzSkwaEB\n" \
+"2jKgQK0fWeQz/KDDlqxobNPomXOMJhB3y7c/OTLo0lko7geG4gk7hfiqafapa59Y\n" \
+"rXLIW4dmrgjgdPstU0Nigz2PhUwRl9we/FAwuIMIMl5cXMThdSBK66XWdS3cLX18\n" \
+"4ND+fHWhTkAChJrZDVouoKzzNYoq6tZaWmyOLKv23v14RyZ5eqoi6qnmcRID0/i6\n" \
+"U9J5nL1krPYbY7tNjzgC+PBXXcWqJVoMXcUw/iBTGWzpwwIDAQABo4IBQDCCATww\n" \
+"HQYDVR0OBBYEFJBY/7CcdahRVHex7fKjQxY4nmzFMB8GA1UdIwQYMBaAFAPeUDVW\n" \
+"0Uy7ZvCj4hsbw5eyPdFVMA4GA1UdDwEB/wQEAwIBhjAdBgNVHSUEFjAUBggrBgEF\n" \
+"BQcDAQYIKwYBBQUHAwIwEgYDVR0TAQH/BAgwBgEB/wIBADA0BggrBgEFBQcBAQQo\n" \
+"MCYwJAYIKwYBBQUHMAGGGGh0dHA6Ly9vY3NwLmRpZ2ljZXJ0LmNvbTBCBgNVHR8E\n" \
+"OzA5MDegNaAzhjFodHRwOi8vY3JsMy5kaWdpY2VydC5jb20vRGlnaUNlcnRHbG9i\n" \
+"YWxSb290Q0EuY3JsMD0GA1UdIAQ2MDQwMgYEVR0gADAqMCgGCCsGAQUFBwIBFhxo\n" \
+"dHRwczovL3d3dy5kaWdpY2VydC5jb20vQ1BTMA0GCSqGSIb3DQEBCwUAA4IBAQAw\n" \
+"8YdVPYQI/C5earp80s3VLOO+AtpdiXft9OlWwJLwKlUtRfccKj8QW/Pp4b7h6QAl\n" \
+"ufejwQMb455OjpIbCZVS+awY/R8pAYsXCnM09GcSVe4ivMswyoCZP/vPEn/LPRhH\n" \
+"hdgUPk8MlD979RGoUWz7qGAwqJChi28uRds3thx+vRZZIbEyZ62No0tJPzsSGSz8\n" \
+"nQ//jP8BIwrzBAUH5WcBAbmvgWfrKcuv+PyGPqRcc4T55TlzrBnzAzZ3oClo9fTv\n" \
+"O9PuiHMKrC6V6mgi0s2sa/gbXlPCD9Z24XUMxJElwIVTDuKB0Q4YMMlnpN/QChJ4\n" \
+"B0AFsQ+DU0NCO+f78Xf7\n"                                             \
+"-----END CERTIFICATE-----\n"
 
 
 /**
@@ -173,13 +175,10 @@
 #define DISABLE     (0)
 
 /* Ethernet setup macros */
-#define SUCCESS                     0
-#define ETHERNET_LINK_DOWN          0x01
-#define ETHERNET_LINK_UP            0x00
-#define IP_LINK_DOWN                0x02
-#define IP_LINK_UP                  0x00
-#define USR_PING_COUNT              50
-
+#define USR_PING_COUNT              (50)
+#define PING_DELAY                  (10)
+#define TASK_DELAY                  (100)
+#define BUFF_SIZE                   (16)
 #define EP_INFO                 "\r\n This project demonstrates the basic functionality of AWS https client library with Ethernet driver"\
 		                        "\r\n on Renesas RA MCUs based on Renesas FSP using FreeRTOS. AWS client is used to connect to https adafruit"\
 		                        "\r\n server which is cloud platform. On successful connection, menu is displayed enabling user to send"\
@@ -215,16 +214,15 @@ typedef enum Userinput
     const char *pcApplicationHostnameHook( void );
 #endif /* ipconfigDHCP_REGISTER_HOSTNAME */
 
+/*
+ * function declarations
+ */
 void print_ipconfig(void);
 void print_pingResult(void);
 void dnsQuerryFunc(char *domain_name);
 void updateDhcpResponseToUsr(void);
-BaseType_t vSendPing( const char *pcIPAddress);
-BaseType_t network_init(void);
-BaseType_t checkEthernetLinkedConnectivity(void);
+BaseType_t vSendPing(const char *pcIPAddress);
+BaseType_t provision_alt_key(void);
 eDHCPCallbackAnswer_t  xApplicationDHCPHook(eDHCPCallbackPhase_t eDHCPPhase, uint32_t lulIPAddress);
-uint32_t isNetworkUp(void);
-
-
 
 #endif /* USER_APP_H_ */

@@ -23,7 +23,7 @@ This example project demonstrates Audio Playback with PWM module's functionality
 
 2. Supported Boards:
 
-EK-RA2A1, EK-RA2L1, EK-RA4M1, EK-RA4M2, EK-RA4M3, EK-RA4W1, EK-RA6M1, EK-RA6M2, EK-RA6M3, EK-RA6M4, RSSK-RA6T1, EK-RA6M5, FPB-RA4E1, FPB-RA6E1
+EK-RA2A1, EK-RA2L1, EK-RA4M1, EK-RA4M2, EK-RA4M3, EK-RA4W1, EK-RA6M1, EK-RA6M2, EK-RA6M3, EK-RA6M4, RSSK-RA6T1, EK-RA6M5, FPB-RA4E1, FPB-RA6E1, MCK-RA6T2
 
 3. Hardware requirements:
 	- Renesas RA board 
@@ -89,6 +89,14 @@ VCC                        ---->  VCC (Pin 6)
 GND                        ---->  GAIN(Pin 2)
 GND                        ---->  GND (Pin 5)
 
+
+MCK-RA6T2                          PMOD AMP2
+---------------------------------------------
+PWM_OUTPUT_PIN(PB04(CN4:29))--->  AIN  (Pin 1)
+VCC --(via 22k ohms resistor)--> ~SHUTDOWN (Pin 4)
+VCC                        ---->  VCC (Pin 6)
+GND                        ---->  GAIN(Pin 2)
+GND                        ---->  GND (Pin 5)
 
 NOTE:User is expected to enter data of size not exceeding above 15 bytes.
      Operation is not guaranteed for any user input value other than integer(i.e. float, char, special char) through RTT.

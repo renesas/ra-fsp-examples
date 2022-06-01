@@ -20,11 +20,20 @@ BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_rtc_close_guard (rtc_ctrl_t *const p_ctrl)
     return R_RTC_Close(&g_rtc_ctrl);
 }
 
+BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_rtc_clock_source_set_guard (rtc_ctrl_t * const p_ctrl)
+{
+    /* TODO: add your own security checks here */
+
+    FSP_PARAMETER_NOT_USED(p_ctrl);
+
+    return R_RTC_ClockSourceSet(&g_rtc_ctrl);
+}
+
 BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_rtc_calendar_time_set_guard (rtc_ctrl_t *const p_ctrl, rtc_time_t *const p_time)
 {
     /* Verify all pointers are in non-secure memory. */
     rtc_time_t *const p_time_checked = cmse_check_pointed_object(p_time, CMSE_AU_NONSECURE);
-    FSP_ASSERT(p_time == p_time_checked);
+    FSP_ASSERT(p_time_checked != NULL);
 
     /* TODO: add your own security checks here */
 
@@ -37,7 +46,7 @@ BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_rtc_calendar_time_get_guard (rtc_ctrl_t *co
 {
     /* Verify all pointers are in non-secure memory. */
     rtc_time_t *const p_time_checked = cmse_check_pointed_object(p_time, CMSE_AU_NONSECURE);
-    FSP_ASSERT(p_time == p_time_checked);
+    FSP_ASSERT(p_time_checked != NULL);
 
     /* TODO: add your own security checks here */
 
@@ -50,7 +59,7 @@ BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_rtc_calendar_alarm_set_guard (rtc_ctrl_t *c
 {
     /* Verify all pointers are in non-secure memory. */
     rtc_alarm_time_t *const p_alarm_checked = cmse_check_pointed_object(p_alarm, CMSE_AU_NONSECURE);
-    FSP_ASSERT(p_alarm == p_alarm_checked);
+    FSP_ASSERT(p_alarm_checked != NULL);
 
     /* TODO: add your own security checks here */
 
@@ -63,7 +72,7 @@ BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_rtc_calendar_alarm_get_guard (rtc_ctrl_t *c
 {
     /* Verify all pointers are in non-secure memory. */
     rtc_alarm_time_t *const p_alarm_checked = cmse_check_pointed_object(p_alarm, CMSE_AU_NONSECURE);
-    FSP_ASSERT(p_alarm == p_alarm_checked);
+    FSP_ASSERT(p_alarm_checked != NULL);
 
     /* TODO: add your own security checks here */
 
@@ -85,7 +94,7 @@ BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_rtc_error_adjustment_set_guard (rtc_ctrl_t 
 {
     /* Verify all pointers are in non-secure memory. */
     rtc_error_adjustment_cfg_t const *const err_adj_cfg_checked = cmse_check_pointed_object((rtc_error_adjustment_cfg_t *) err_adj_cfg, CMSE_AU_NONSECURE);
-    FSP_ASSERT(err_adj_cfg == err_adj_cfg_checked);
+    FSP_ASSERT(err_adj_cfg_checked != NULL);
 
     /* TODO: add your own security checks here */
 
@@ -98,7 +107,7 @@ BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_rtc_info_get_guard (rtc_ctrl_t *const p_ctr
 {
     /* Verify all pointers are in non-secure memory. */
     rtc_info_t *const p_rtc_info_checked = cmse_check_pointed_object(p_rtc_info, CMSE_AU_NONSECURE);
-    FSP_ASSERT(p_rtc_info == p_rtc_info_checked);
+    FSP_ASSERT(p_rtc_info_checked != NULL);
 
     /* TODO: add your own security checks here */
 
@@ -111,9 +120,9 @@ BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_rtc_callback_set_guard (rtc_ctrl_t *const p
 {
     /* Verify all pointers are in non-secure memory. */
     void(*p_callback_checked)(rtc_callback_args_t *) = (void(*)(rtc_callback_args_t *)) cmse_check_address_range((void *) p_callback, sizeof(void *), CMSE_AU_NONSECURE);
-    FSP_ASSERT(p_callback == p_callback_checked);
+    FSP_ASSERT(p_callback_checked != NULL);
     rtc_callback_args_t *const p_callback_memory_checked = cmse_check_pointed_object(p_callback_memory, CMSE_AU_NONSECURE);
-    FSP_ASSERT(p_callback_memory == p_callback_memory_checked);
+    FSP_ASSERT(p_callback_memory_checked != NULL);
 
     /* TODO: add your own security checks here */
 

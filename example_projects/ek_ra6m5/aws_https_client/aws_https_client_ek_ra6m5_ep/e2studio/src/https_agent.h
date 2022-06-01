@@ -18,7 +18,7 @@
  * following link:
  * http://www.renesas.com/disclaimer
  *
- * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
+ * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  ***********************************************************************************************************************/
 
 
@@ -47,7 +47,7 @@
 
 /* Buffer size for HTTP connection context. This is the minimum size from HTTP library, we cannot
  * use it directly because it's only available at runtime. */
-#define IOT_DEMO_HTTPS_CONN_BUFFER_SIZE       			( ( int ) 512 )
+#define IOT_DEMO_HTTPS_CONN_BUFFER_SIZE       			( ( int ) 1024 )
 
 /* Buffer size for HTTP request context and header.*/
 #define IOT_DEMO_HTTPS_REQ_USER_BUFFER_SIZE          	( ( int ) 2048 )
@@ -56,7 +56,7 @@
 #define IOT_DEMO_HTTPS_RESP_USER_BUFFER_SIZE         	( ( int ) 1024 )
 
 /* Buffer size for HTTP response body.*/
-#define IOT_DEMO_HTTPS_RESP_BODY_BUFFER_SIZE         	( ( int ) 16384 )
+#define IOT_DEMO_HTTPS_RESP_BODY_BUFFER_SIZE         	( ( int ) 1024 )
 
 /* Default timeout for HTTP synchronous request. */
 #define IOT_DEMO_HTTPS_SYNC_TIMEOUT_MS                  ( ( uint32_t ) 6000 )
@@ -82,7 +82,7 @@
 
 /* Function prototypes */
 IotHttpsReturnCode_t initialize_https_client (char *pURL);
-IotHttpsReturnCode_t connect_aws_client(const IotNetworkInterface_t * pNetworkInterface);
+IotHttpsReturnCode_t connect_aws_https_client(const IotNetworkInterface_t * pNetworkInterface);
 IotHttpsReturnCode_t Process_GETRequest(void);
 IotHttpsReturnCode_t Process_PUTRequest(float mcu_die_temp);
 IotHttpsReturnCode_t Process_POSTRequest(float mcu_die_temp);

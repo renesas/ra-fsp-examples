@@ -55,8 +55,11 @@ fsp_err_t flash_hp_code_flash_operations(void)
     for (uint8_t index = 0; index < BLOCK_SIZE; index++)
     {
         write_buffer[index] = index;
-    }
-
+    }    
+    
+    /* Disable interrupts to prevent vector table access while code flash is in P/E mode. */
+    __disable_irq();
+    
     /* Erase Block */
     err = R_FLASH_HP_Erase(&g_flash_ctrl, FLASH_HP_CF_BLOCK_8, BLOCK_NUM);
     /* Error Handle */
@@ -125,7 +128,7 @@ fsp_err_t flash_hp_code_flash_operations(void)
     }
     APP_PRINT("\r\nErase successful");
 
-#if !(defined (BOARD_RA6M5_EK) || defined (BOARD_RA6M4_EK) || defined (BOARD_RA4M3_EK)||defined(BOARD_RA4M2_EK)||defined(BOARD_RA6T2_MCK)) //Not supported for this MCU
+#if !(defined (BOARD_RA6M5_EK) || defined (BOARD_RA6M4_EK) || defined (BOARD_RA4M3_EK)||defined(BOARD_RA4M2_EK)||defined(BOARD_RA6E1_FPB)||defined(BOARD_RA6T2_MCK)) //Not supported for this MCU
     /* Set Access window.
      * CAUTION: Highly recommended not to use this function if not aware of consequences OR
      * use it with the accessWindowClear API at the end of application.
@@ -165,6 +168,10 @@ fsp_err_t flash_hp_code_flash_operations(void)
     }
     APP_PRINT("\r\nAccess Window cleared ");
 #endif
+
+    /* Enable interrupts after code flash operations are complete. */
+    __enable_irq();
+    
     return err;
 }
 

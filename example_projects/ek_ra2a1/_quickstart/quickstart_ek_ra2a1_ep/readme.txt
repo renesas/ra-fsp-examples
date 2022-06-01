@@ -38,7 +38,7 @@
    4. Open the serial port of the device using tera term and press Enter key.
    
    5. Follow the instructions displayed in the tera term window. For more details refer to 'EK-RA2A1 - Quick Start Guide' (doc num: R20QS0010EU).
-
+      Link to access Quick Start Guide -  https://www.renesas.com/us/en/document/qsg/ek-ra2a1-quick-start-guide
    
 2. Hardware and Software Requirements:
    

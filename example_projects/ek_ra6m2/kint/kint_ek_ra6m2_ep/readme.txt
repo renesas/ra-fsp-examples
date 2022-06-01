@@ -49,6 +49,12 @@
         3) (GPIO)P111     -> Any row pin of keypad.
         4) (GPIO)P112     -> Any other row pin of keypad.
 
+        MCK_RA6T2:
+	1) (KINT pin)PA08 (CN 7:33) -> Any Column pin of keypad.
+        2) (KINT pin)PA09 (CN 7:31) -> Any Column different from above pin of keypad.
+        3) (GPIO)PA10     (CN 6:3)  -> Any row pin of keypad.
+        4) (GPIO)PA11     (CN 6:1)  -> Any other row pin of keypad.
+
 Note :
 1. External pull down resistors (4.7 Kohm) should be connected to KINT pins
 2. If matrix keypad is not available, Please connect the Jumper wires to pins as specified above for particular MCU 

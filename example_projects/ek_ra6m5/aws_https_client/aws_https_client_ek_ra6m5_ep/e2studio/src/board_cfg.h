@@ -18,19 +18,19 @@
  * following link:
  * http://www.renesas.com/disclaimer
  *
- * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
+ * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  ***********************************************************************************************************************/
 
+#ifndef BOARD_CONFIG_H_
+#define BOARD_CONFIG_H_
 
 #include "hal_data.h"
 
-
 #if defined (BOARD_RA6M3_EK) || defined (BOARD_RA6M3G_EK)
 #define KIT_NAME                "EK-RA6M3"
-#elif defined(BOARD_RA6M5_EK)
+#else
 #define KIT_NAME                "EK-RA6M5"
 #endif
-
 
 /* MACRO definitions */
 #define ADCTEMP_AS_C(a)             ((((float)a) * 0.196551f) - 277.439f)
@@ -45,4 +45,4 @@
                                 "\r\nEthernet adapter Configuration for Renesas "KIT_NAME": Post IP Init       "\
                                 "\r\n--------------------------------------------------------------------------------\r\n\r\n"
 
-
+#endif /* BOARD_CONFIG_H_ */

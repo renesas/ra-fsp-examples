@@ -215,7 +215,6 @@ void user_app_thread_entry(void *pvParameters)
     }
     print_pingResult ();
 
-
     /* Perform device provisioning using the specified TLS client credentials */
     status = provision_alt_key ();
     /* Error Handler */
@@ -258,7 +257,6 @@ void user_app_thread_entry(void *pvParameters)
     /* Read the RTT input */
     while (true)
     {
-
         if (APP_CHECK_DATA)
         {
             APP_READ(rByte);

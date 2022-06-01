@@ -47,7 +47,7 @@
 
 /* Buffer size for HTTP connection context. This is the minimum size from HTTP library, we cannot
  * use it directly because it's only available at runtime. */
-#define IOT_DEMO_HTTPS_CONN_BUFFER_SIZE       			( ( int ) 512 )
+#define IOT_DEMO_HTTPS_CONN_BUFFER_SIZE       			( ( int ) 1024 )
 
 /* Buffer size for HTTP request context and header.*/
 #define IOT_DEMO_HTTPS_REQ_USER_BUFFER_SIZE          	( ( int ) 2048 )

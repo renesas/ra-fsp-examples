@@ -18,7 +18,7 @@
  * following link:
  * http://www.renesas.com/disclaimer
  *
- * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
+ * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  ***********************************************************************************************************************/
 
 #include "adc_app.h"
@@ -29,6 +29,7 @@
  * @addtogroup aws_https_client_ep
  * @{
  **********************************************************************************************************************/
+
 /*******************************************************************************************************************//**
  * @brief      Initializes the ADC module by opening and start scanning of the internal mcu die temperature sensor channel
  *
@@ -36,7 +37,6 @@
  * @retval     FSP_SUCCESS                  Upon successful ADC Initialization.
  * @retval     Any other Error Code         Upon unsuccesful ADC Initialization.
  **********************************************************************************************************************/
-
 fsp_err_t hal_adc_init(void)
 {
     fsp_err_t err = FSP_SUCCESS;
@@ -81,7 +81,6 @@ fsp_err_t hal_adc_init(void)
  * @param[in]  None
  * @retval     ADC Temperature value in celsius
  **********************************************************************************************************************/
-
 float adc_data_read(void)
 {
     fsp_err_t err = FSP_SUCCESS;
@@ -100,6 +99,14 @@ float adc_data_read(void)
     return (ADCTEMP_AS_C(adc_data));
 }
 
+/*******************************************************************************************************************//**
+
+* @brief      de-initializes the ADC module
+*
+* @param[in]  None
+* @retval     FSP_SUCCESS                  Upon successful ADC Initialization.
+* @retval     Any other Error Code         Upon unsuccesful ADC Initialization.
+**********************************************************************************************************************/
 void hal_adc_deinit(void)
 {
     fsp_err_t err = FSP_SUCCESS;
@@ -109,6 +116,7 @@ void hal_adc_deinit(void)
         APP_ERR_PRINT(" ** Failed in R_ADC_Close API \r\n**");
     }
 }
+
 /*******************************************************************************************************************//**
  * @} (end defgroup aws_https_client_ep)
  **********************************************************************************************************************/

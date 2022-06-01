@@ -131,7 +131,7 @@ const TRUSTED_CERTIFCATE_INFO_STRUCT g_trust_certs[] =
 #define NO_OF_TRUSTED_CERTS         sizeof(g_trust_certs)/sizeof(TRUSTED_CERTIFCATE_INFO_STRUCT)
 
 /* TLS buffers and certificate containers. */
-const NX_SECURE_TLS_CRYPTO nx_crypto_tls_ciphers;
+extern NX_SECURE_TLS_CRYPTO nx_crypto_tls_ciphers;
 /* Certificate variable for NetX secure TLS. */
 NX_SECURE_X509_CERT g_trusted_certificate[NO_OF_TRUSTED_CERTS];
 /* Certificate variable for remote TLS host. */

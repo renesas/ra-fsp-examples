@@ -1,6 +1,6 @@
 /***********************************************************************************************************************
- * File Name    : ethernet_thread_entry.c
- * Description  : This file contains the User Application code for the Ethernet + TCP/IP
+ * File Name    : user_app_thread_entry.c
+ * Description  : This file contains the User Application code for the AWS HTTPS Client
  ***********************************************************************************************************************/
 /***********************************************************************************************************************
  * DISCLAIMER
@@ -18,7 +18,7 @@
  * following link:
  * http://www.renesas.com/disclaimer
  *
- * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
+ * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  ***********************************************************************************************************************/
 
 #include "FreeRTOS_IP.h"
@@ -43,11 +43,11 @@
  Macro definitions
  ******************************************************************************/
 
-
 /******************************************************************************
  Exported global functions (to be accessed by other files)
  ******************************************************************************/
 extern NetworkAddressingParameters_t xNetworkAddressing;
+extern TaskHandle_t user_app_thread;
 
 /******************************************************************************
  Exported global variables
@@ -70,11 +70,10 @@ char *domain_name = IOT_DEMO_HOST_ADDRESS;
  */
 char remote_ip_address[] = IOT_DEMO_TEST_PING_IP;
 
-
 /* DHCP populates these IP address, Sub net mask and Gateway Address. So start with this is zeroed out values
  * The MAC address is Test MAC address.
  */
-uint8_t ucMACAddress[6] = { 0x00, 0x11, 0x22, 0x33, 0x44, 0x55 };
+uint8_t ucMACAddress[6] = { 0x00, 0x11, 0x22, 0x33, 0x44, 0x75 };
 uint8_t ucIPAddress[4] = { RESET_VALUE };
 uint8_t ucNetMask[4] = { RESET_VALUE };
 uint8_t ucGatewayAddress[4] = { RESET_VALUE };
@@ -87,7 +86,6 @@ uint8_t ucDNSServerAddress[4] = { RESET_VALUE };
 
 
 
-
 /*******************************************************************************************************************//**
 * @brief      This is the User Thread for the EP.
 * @param[in]  Thread specific parameters
@@ -96,12 +94,16 @@ uint8_t ucDNSServerAddress[4] = { RESET_VALUE };
 void user_app_thread_entry(void *pvParameters)
 {
     BaseType_t status = pdFALSE;
-    fsp_pack_version_t version =
-    { RESET_VALUE };
+    fsp_pack_version_t version  = { RESET_VALUE };
     Userinput_t user_input = RESET_VALUE;
-    unsigned char rByte[16] =
-    { RESET_VALUE };
+    unsigned char rByte[BUFFER_SIZE_DOWN] =  { RESET_VALUE };
     fsp_err_t err = FSP_SUCCESS;
+    int ierr = RESET_VALUE;
+    BaseType_t bt_status = pdFALSE;
+    uint32_t ip_status = RESET_VALUE;
+    uint32_t usrPingCount = RESET_VALUE;
+    /* HTTPS Client library return status. */
+    IotHttpsReturnCode_t httpsClientStatus = IOT_HTTPS_OK;
 
     FSP_PARAMETER_NOT_USED(pvParameters);
 
@@ -132,10 +134,21 @@ void user_app_thread_entry(void *pvParameters)
         APP_ERR_TRAP(err);
     }
 
+    /* Initialize IOT FreeRTOS Libraries */
+    bt_status = SYSTEM_Init ();
+    if (pdPASS != bt_status)
+    {
+        APP_ERR_PRINT("** Socket Init failed **\r\n");
+        hal_littlefs_deinit ();
+        hal_adc_deinit ();
+        APP_ERR_TRAP(err);
+    }
+
+    /* Initialize the crypto hardware acceleration. */
     /* Initialize mbedtls3. */
-    err = mbedtls_platform_setup (NULL);
+    ierr = mbedtls_platform_setup (NULL);
     /* Error Handler */
-    if (FSP_SUCCESS != err)
+    if (FSP_SUCCESS != ierr)
     {
         APP_ERR_PRINT("** Failed in mbedtls_platform_setup() function ** \r\n");
         hal_littlefs_deinit ();
@@ -147,7 +160,7 @@ void user_app_thread_entry(void *pvParameters)
         APP_PRINT("\r\n mbedtls_platform setup successful");
     }
 
-    /* Print the pre init ethernet ip configuration */
+    /* Print the pre init Ethernet IP configuration */
     APP_PRINT(ETH_PREINIT);
     print_ipconfig ();
 
@@ -163,11 +176,47 @@ void user_app_thread_entry(void *pvParameters)
         APP_ERR_TRAP(status);
     }
 
-    /* HTTPS Client library return status. */
-    IotHttpsReturnCode_t httpsClientStatus = IOT_HTTPS_OK;
+    APP_PRINT("Waiting for network link up...");
+    bt_status = xTaskNotifyWait(pdFALSE, pdFALSE, &ip_status, portMAX_DELAY);
+    if (pdTRUE != bt_status)
+    {
+        APP_ERR_PRINT("xTaskNotifyWait Failed");
+        hal_littlefs_deinit ();
+        hal_adc_deinit ();
+        mbedtls_platform_teardown (NULL);
+        APP_ERR_TRAP(bt_status);
+    }
 
-    /* Initialize the network with client provision certificate and key */
-    status = network_init ();
+    APP_PRINT(ETH_POSTINIT);
+    print_ipconfig ();
+    /*DNS lookup for the Domain name requested. This is Synchronous Activity */
+    dnsQuerryFunc (domain_name);
+
+    APP_PRINT("\r\nPinging %s:\r\n\r\n", (char* )remote_ip_address);
+
+    while (usrPingCount < USR_PING_COUNT)
+    {
+        /* Send a ICMP Ping request to the requested IP address
+         * USR_PING_COUNT (100) is used in this Example Project
+         * For Continuous testing the count can be increased to bigger number
+         */
+        status = vSendPing ((char*) remote_ip_address);
+        if (pdFAIL != status)
+        {
+            ping_data.sent++;
+        }
+        else
+        {
+            ping_data.lost++;
+        }
+        usrPingCount++;
+        /* Add some delay between pings */
+        vTaskDelay (PING_DELAY);
+    }
+    print_pingResult ();
+
+    /* Perform device provisioning using the specified TLS client credentials */
+    status = provision_alt_key ();
     /* Error Handler */
     if (pdPASS != status)
     {
@@ -177,18 +226,8 @@ void user_app_thread_entry(void *pvParameters)
         mbedtls_platform_teardown (NULL);
         APP_ERR_TRAP(status);
     }
-    /* Check the Ethernet link connectivity with the requested ping ip address */
-    status = checkEthernetLinkedConnectivity ();
-    if (pdPASS != status)
-    {
-        APP_ERR_PRINT("\r\n Failed in checkEthernetLinkedConnectivity() function");
-        hal_littlefs_deinit ();
-        hal_adc_deinit ();
-        mbedtls_platform_teardown (NULL);
-        APP_ERR_TRAP(status);
-    }
 
-    /* Initialize https client with presigned url */
+    /* Initialize HTTPS client with presigned URL */
     httpsClientStatus = initialize_https_client (IOT_DEMO_HTTPS_PRESIGNED_GET_URL);
     /* Handle_error */
     if (IOT_HTTPS_OK != httpsClientStatus)
@@ -201,7 +240,7 @@ void user_app_thread_entry(void *pvParameters)
     }
 
     /* Create connection establishment to the server */
-    httpsClientStatus = connect_aws_client (&IotNetworkAfr);
+    httpsClientStatus = connect_aws_https_client (&IotNetworkAfr);
     /* Handle_error */
     if (IOT_HTTPS_OK != httpsClientStatus)
     {
@@ -218,7 +257,6 @@ void user_app_thread_entry(void *pvParameters)
     /* Read the RTT input */
     while (true)
     {
-
         if (APP_CHECK_DATA)
         {
             APP_READ(rByte);
@@ -249,7 +287,6 @@ void user_app_thread_entry(void *pvParameters)
                         APP_ERR_PRINT("** Failed in PUT Request ** \r\n");
                         APP_ERR_TRAP(httpsClientStatus);
                     }
-
                 }
                 break;
                 case POST:
@@ -270,7 +307,7 @@ void user_app_thread_entry(void *pvParameters)
             APP_PRINT(PRINT_MENU);
         }
     }
-    vTaskDelay (100);
+    vTaskDelay (TASK_DELAY);
 
 }
 
@@ -304,8 +341,8 @@ eDHCPCallbackAnswer_t xApplicationDHCPHook(eDHCPCallbackPhase_t eDHCPPhase, uint
              */
 
             /*
-            * The sub-domains donâ€™t match, so continue with the DHCP process so the offered IP address is used.
-            */
+             * The sub-domains don't match, so continue with the DHCP process so the offered IP address is used.
+             */
             /* Update the Structure, the DHCP state Machine is not updating this */
             xNetworkAddressing.ulDefaultIPAddress = lulIPAddress;
             dhcp_in_use = 1;
@@ -376,7 +413,7 @@ void vApplicationPingReplyHook(ePingReplyStatus_t eStatus, uint16_t usIdentifier
  **********************************************************************************************************************/
 void print_pingResult(void)
 {
-    APP_PRINT("\r\n \r\nPing Statistics for %s :\r\n", (char* )remote_ip_address);
+    APP_PRINT("\r\nPing Statistics for %s :\r\n", (char* )remote_ip_address);
     APP_PRINT("\r\nPackets: Sent  = %02d, Received = %02d, Lost = %02d \r\n", ping_data.sent, ping_data.received, ping_data.lost);
 }
 
@@ -443,55 +480,14 @@ void dnsQuerryFunc(char *domain)
         FreeRTOS_inet_ntoa (ulIPAddress, (char*) cBuffer);
 
         /* Print out the IP address obtained from the DNS lookup. */
-        APP_PRINT("\r\nDNS Lookup for \"www.io.adafruit.com\" is      : %s  \r\n", cBuffer);
+        APP_PRINT("\r\nDNS Lookup for %s is      : %s  \r\n",domain, cBuffer);
     }
     else
     {
-        APP_PRINT("\r\nDNS Lookup failed for \"www.io.adafruit.com\" \r\n");
+        APP_ERR_PRINT("\r\nDNS Lookup failed for %s \r\n",domain);
     }
 }
 
-/*******************************************************************************************************************//**
- * @brief      This Function checks the Network status (Both Ethernet and IP Layer). If the Network is down
- *             the Application will not send any data on the network.
- * @param[in]  None
- * @retval     Network Status
- **********************************************************************************************************************/
-uint32_t isNetworkUp(void)
-{
-    fsp_err_t eth_link_status = FSP_ERR_NOT_OPEN;
-    BaseType_t networkUp = pdFALSE;
-    uint32_t network_status = (IP_LINK_UP | ETHERNET_LINK_UP);
-
-    networkUp = FreeRTOS_IsNetworkUp ();
-    eth_link_status = R_ETHER_LinkProcess (g_ether0.p_ctrl);
-
-    if ((FSP_SUCCESS == eth_link_status) && (pdTRUE == networkUp))
-    {
-        return network_status;
-    }
-    else
-    {
-        if (FSP_SUCCESS != eth_link_status)
-        {
-            network_status |= ETHERNET_LINK_DOWN;
-        }
-        else if (FSP_SUCCESS == eth_link_status)
-        {
-            network_status |= ETHERNET_LINK_UP;
-        }
-
-        if (pdTRUE != networkUp)
-        {
-            network_status |= IP_LINK_DOWN;
-        }
-        else if (pdTRUE == networkUp)
-        {
-            network_status |= IP_LINK_UP;
-        }
-        return network_status;
-    }
-}
 
 /*******************************************************************************************************************//**
  * @brief      Update the DHCP info to the User data structure.
@@ -519,13 +515,51 @@ const char* pcApplicationHostnameHook(void)
 #endif
 
 
+/*******************************************************************************************************************//**
+ * @brief      Network event callback. Indicates the Network event. Added here to avoid the build errors
+ * @param[in]  None
+ * @retval     Hostname
+ **********************************************************************************************************************/
+#if ( ipconfigUSE_NETWORK_EVENT_HOOK == 1 )
+void vApplicationIPNetworkEventHook (eIPCallbackEvent_t eNetworkEvent)
+{
+    if(eNetworkUp == eNetworkEvent)
+    {
+        uint32_t lulIPAddress, lulNetMask, lulGatewayAddress, lulDNSServerAddress;
+        int8_t lcBuffer[BUFF_SIZE];
+
+        /* Signal application the network is UP */
+        xTaskNotifyFromISR(user_app_thread, eNetworkUp, eSetBits, NULL);
+
+        /* The network is up and configured.  Print out the configuration
+        obtained from the DHCP server. */
+        FreeRTOS_GetAddressConfiguration(&lulIPAddress,
+                                         &lulNetMask,
+                                         &lulGatewayAddress,
+                                         &lulDNSServerAddress);
+
+        /* Convert the IP address to a string then print it out. */
+        FreeRTOS_inet_ntoa(lulIPAddress, (char *)lcBuffer);
+
+        /* Convert the net mask to a string then print it out. */
+        FreeRTOS_inet_ntoa(lulNetMask, (char *)lcBuffer);
+
+        /* Convert the IP address of the gateway to a string then print it out. */
+        FreeRTOS_inet_ntoa(lulGatewayAddress, (char *)lcBuffer);
+
+        /* Convert the IP address of the DNS server to a string then print it out. */
+        FreeRTOS_inet_ntoa(lulDNSServerAddress, (char *)lcBuffer);
+    }
+}
+#endif
+
 /********************************************************************************************************************//**
- * @brief      Network init function provides the device with client certificate and client key .
+ * @brief      provision_alt_key function provides the device with client certificate and client key .
  * @param[in]  None
  * @retval     pdPASS                   Upon successful provision of client certificate and key
  * @return     Any other Error Code     Upon unsuccessful provision of client certificate and key
  **********************************************************************************************************************/
-BaseType_t network_init(void)
+BaseType_t provision_alt_key(void)
 {
     BaseType_t status = pdPASS;
     ProvisioningParams_t params = {RESET_VALUE};
@@ -537,23 +571,6 @@ BaseType_t network_init(void)
     params.ulClientCertificateLength = 1 + strlen((const char *) params.pucClientCertificate);
     params.pucJITPCertificate        = NULL;
     params.ulJITPCertificateLength   = RESET_VALUE;
-
-    /* Provision the device. */
-    status = (BaseType_t) IotSdk_Init ();
-    /* Error Handler */
-    if (pdPASS != status)
-    {
-        APP_ERR_PRINT("\r\n Failed in IotSdk_Init() function ");
-        return status;
-    }
-
-    status = SYSTEM_Init ();
-    /* Error Handler */
-    if (pdPASS != status)
-    {
-        APP_ERR_PRINT("\r\n Failed in SYSTEM_Init() function ");
-        return status;
-    }
 
 
     xResult = vAlternateKeyProvisioning(&params);
@@ -567,59 +584,6 @@ BaseType_t network_init(void)
     return status;
 }
 
-/********************************************************************************************************************//**
- * @brief      This function validates the continuous ping connectivity with the requested ip address. Also,prints the ping
- *             continuity status on the RTT viewer.
- * @param[in]  None
- * @retval     pdPASS                   Upon successful ping status
- * @return     Any other Error Code     Upon unsuccessful ping status
- **********************************************************************************************************************/
-BaseType_t checkEthernetLinkedConnectivity(void)
-{
-    BaseType_t status = pdPASS;
-    uint32_t usrPingCount = RESET_VALUE;
-
-    /* Check if Both the Ethernet Link and IP link are UP */
-    if (SUCCESS == isNetworkUp ())
-    {
-        APP_PRINT("\r\n Network is Up");
-        updateDhcpResponseToUsr ();
-        /* Updated IP credentials on to the RTT console */
-        APP_PRINT(ETH_POSTINIT);
-        print_ipconfig ();
-        /*DNS lookup for the Domain name requested. This is Synchronous Activity */
-        dnsQuerryFunc (domain_name);
-        APP_PRINT("\r\nPinging %s:\r\n\r\n", (char* )remote_ip_address);
-
-        while (usrPingCount < USR_PING_COUNT)
-        {
-            /* Send a ICMP Ping request to the requested IP address
-             * USR_PING_COUNT (100) is used in this Example Project
-             * For Continuous testing the count can be increased to bigger number
-             */
-            status = vSendPing ((char*) remote_ip_address);
-            if (pdFAIL != status)
-            {
-                ping_data.sent++;
-            }
-            else
-            {
-                ping_data.lost++;
-            }
-            usrPingCount++;
-            /* Add some delay between pings */
-            vTaskDelay (10);
-        }
-        print_pingResult ();
-    }
-    else
-    {
-        APP_PRINT("\r\nNetwork is Down");
-        return pdFAIL;
-    }
-
-    return pdPASS;
-}
 
 /*******************************************************************************************************************//**
  * @} (end defgroup aws_https_client_ep)
