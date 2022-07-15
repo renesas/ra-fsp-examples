@@ -9,7 +9,7 @@ static void process_rtt_op_msg(VOID);
 static UINT memory_allocate_rtt(TX_BYTE_POOL *pool, rtt_msg_t **p_buf, uint32_t size);
 
 /* RTT_Thread entry function */
-void RTT_Thread_entry(void)
+void rtt_thread_entry(void)
 {
     UINT err = TX_SUCCESS;
     CHAR rtt_buffer[IP_MSG_MAX_SIZE]         = {'\0'};
@@ -315,11 +315,11 @@ VOID rtt_thread_init_check(VOID)
 #if (BSP_CFG_RTOS == 1)
     UINT err = TX_SUCCESS;
 
-    TX_THREAD RTT_Thread;
+    extern TX_THREAD rtt_thread;
 
     thread_info_t rtt_thread_info =
     {
-     .thread_ptr = &RTT_Thread,
+     .thread_ptr = &rtt_thread,
     };
 
     do{

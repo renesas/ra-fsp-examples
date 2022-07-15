@@ -28,6 +28,7 @@ Note:
 * For any event or API failure appropriate messages is displayed on RTT viewer.
 * User can change the polynomial to CRC_16 and CRC_CCITT and bit order from MSB to LSB from CRC configurator and observe the results.
 * The application does not work for CRC_32 bit polynomial.
+* Please refer the latest FSP User Manual for comparison with popular online CRC calculator and the associated limitations are captured in it.
 
 2. Hardware Settings:
         Single jumper wires is required to establish loop back connection for SCI UART within the board with TXD and RXD pins 
@@ -112,7 +113,7 @@ Note:
 		﻿
 1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x20000044
+   a. e2studio: 0x20000858
    b. Keil: Not Available 
    c. IAR: Not Available
  

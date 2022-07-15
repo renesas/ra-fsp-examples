@@ -73,7 +73,6 @@ MEMORY
 {
   FLASH (rx)      : ORIGIN = FLASH_ORIGIN, LENGTH = LIMITED_FLASH_LENGTH
   RAM (rwx)       : ORIGIN = RAM_START, LENGTH = RAM_LENGTH
-  FB0 (rwx)       : ORIGIN = 0x20000400, LENGTH = 0x007F800  /* 512K */
   DATA_FLASH (rx) : ORIGIN = DATA_FLASH_START, LENGTH = DATA_FLASH_LENGTH
   QSPI_FLASH (rx) : ORIGIN = QSPI_FLASH_START, LENGTH = QSPI_FLASH_PRV_LENGTH
   OSPI_DEVICE_0 (rx) : ORIGIN = OSPI_DEVICE_0_START, LENGTH = OSPI_DEVICE_0_PRV_LENGTH
@@ -315,9 +314,15 @@ SECTIONS
 
 
     /* TrustZone Secure Gateway Stubs Section. */
-    .gnu.sgstubs : ALIGN (1024)
+
+    /* Some arithmetic is needed to eliminate unnecessary FILL for secure projects. */
+    /* 1. Get the address to the next block after the .data section in FLASH. */
+    DATA_END = LOADADDR(.data) + SIZEOF(.data);
+    /* 2. Determine the secure gateway stubs address either by the provided linker variable or the next 1024-byte block after .data */
+    SGSTUBS_LOC = (DEFINED(PROJECT_SECURE) && DEFINED(FLASH_NSC_START)) ? ABSOLUTE(FLASH_NSC_START) : ALIGN(DATA_END, 1024);
+    /* 3. Manually specify the start location for .gnu.sgstubs */
+    .gnu.sgstubs SGSTUBS_LOC : ALIGN(1024)
     {
-        . = (DEFINED(PROJECT_SECURE) && DEFINED(FLASH_NSC_START)) ? ABSOLUTE(FLASH_NSC_START) : ALIGN(1024);
         __tz_FLASH_C = DEFINED(FLASH_NSC_START) ? ABSOLUTE(FLASH_NSC_START) : __RESERVE_NS_RAM ? ABSOLUTE(FLASH_START + FLASH_LENGTH) : ALIGN(1024);
         _start_sg = .;
         *(.gnu.sgstubs*)
@@ -447,14 +452,6 @@ SECTIONS
         KEEP(*(.heap.*))
         __noinit_end = .;
     } > RAM
-    
-    .fb0 (NOLOAD):
-    {
-        . = ALIGN(4);
-        __fb0_start = .;
-        *(.fb0*);
-        __fb0_end = .;
-    } > FB0
 
     .bss :
     {

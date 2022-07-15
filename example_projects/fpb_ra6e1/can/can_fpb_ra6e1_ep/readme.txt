@@ -27,7 +27,7 @@
 2. Hardware Connections:
        Require 2 CAN transceiver boards (Part# Waveshare SN65HVD230) and 2 RA boards to run the project
 
-       Supported RA Boards: ek-ra4m1,ek-ra2l1, ek-ra4m2, ek-ra4m3, ek-ra6m1, ek-ra6m2, ek-ra6m3, ek-ra6m3g, ek-ra6m4, rssk-ra6t1,fpb-ra6e1,fpb-ra4e1
+       Supported RA Boards: ek-ra2a1, ek-ra4m1, ek-ra2l1, ek-ra4m2, ek-ra4m3, ek-ra6m1, ek-ra6m2, ek-ra6m3, ek-ra6m3g, ek-ra6m4, rssk-ra6t1, fpb-ra6e1, fpb-ra4e1
        (Please refer Note* for ek-ra2a1, ek-ra4m2 and ek-ra4m3,fpb-ra6e1,fpb-ra4e1 pin connections) 
  
         CAN Transceiver Board1:
@@ -53,12 +53,14 @@
        3. On ek-ra2a1, configured channel:0 and pins are CTX:P-304 and CRX:P-303
        4. On ek-ra2l1, configured channel:0 and pins are CTX:P-103 and CRX:P-102
        5. User should update WAIT_TIME macro in hal_entry.c based on MCU's ICLK because ICLK value varies for each MCU series.
+	   6. Current support is only limited to static baud rate, dynamic Baud rate change is not supported.  
 
 1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x20000174
+   a. e2studio: 0x200009b0
    b. Keil: Not Available 
    c. IAR: Not Available
  
 2) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) 
    in .map file generated in the build configuration folder (Debug/Release).
+	   

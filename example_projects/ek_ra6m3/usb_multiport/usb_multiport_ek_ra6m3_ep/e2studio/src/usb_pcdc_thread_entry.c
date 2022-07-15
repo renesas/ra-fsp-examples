@@ -87,14 +87,6 @@ void usb_pcdc_thread_entry(void *pvParameters)
 
     APP_PRINT("\r\nUSB PCDC Opened successfully.\n\r");
 
-    /* Get USB class type */
-    err = R_USB_ClassTypeGet (&g_basic1_ctrl, &g_usb_class_type);
-    handle_error(err, "\r\nR_USB_ClassTypeGet failed.\r\n");
-
-    /* Get module number */
-    err = R_USB_ModuleNumberGet (&g_basic1_ctrl, &g_usb_module_number);
-    handle_error(err, "\r\nR_USB_ModuleNumberGet failed.\r\n");
-
     while (true)
     {
         /* process events of usb pcdc */
@@ -123,6 +115,7 @@ void usb_pcdc_thread_entry(void *pvParameters)
 fsp_err_t process_usb_pcdc_events(void)
 {
     fsp_err_t err = FSP_SUCCESS;
+    usb_event_info_t    event_info = {0};
     /* USB event received */
     switch (p_usb_pcdc_event->event)
     {
@@ -144,7 +137,7 @@ fsp_err_t process_usb_pcdc_events(void)
         case USB_STATUS_READ_COMPLETE:
         {
             /* Read data from tera term */
-            err = R_USB_Read (&g_basic1_ctrl, g_readbuf, SIZE, (uint8_t) g_usb_class_type);
+            err = R_USB_Read (&g_basic1_ctrl, g_buf, 1, USB_CLASS_PCDC);
             /* Handle error */
             if (FSP_SUCCESS != err)
             {
@@ -160,7 +153,7 @@ fsp_err_t process_usb_pcdc_events(void)
                 }
             }
             /* Loop back received data to host */
-            err = R_USB_Write (&g_basic1_ctrl, g_readbuf, p_usb_pcdc_event->data_size, (uint8_t) g_usb_class_type);
+            err = R_USB_Write (&g_basic1_ctrl, g_readbuf, p_usb_pcdc_event->data_size, USB_CLASS_PCDC);
             /* Handle error */
             if (FSP_SUCCESS != err)
             {
@@ -172,25 +165,25 @@ fsp_err_t process_usb_pcdc_events(void)
         case USB_STATUS_REQUEST: /* Receive Class Request */
         {
             /* Check for the specific CDC class request IDs */
-            if (USB_PCDC_SET_LINE_CODING == (p_usb_pcdc_event->setup.request_type & USB_BREQUEST))
+            if (USB_PCDC_SET_LINE_CODING == (event_info.setup.request_type & USB_BREQUEST))
             {
-                err = R_USB_PeriControlDataGet (&g_basic1_ctrl, (uint8_t*) &g_line_coding, LINE_CODING_LENGTH);
+                err =  R_USB_PeriControlDataGet (&g_basic1_ctrl, (uint8_t *) &g_line_coding, LINE_CODING_LENGTH );
                 /* Handle error */
                 if (FSP_SUCCESS != err)
                 {
                     APP_ERR_PRINT("\r\nR_USB_PeriControlDataGet failed.\r\n");
                 }
             }
-            else if (USB_PCDC_GET_LINE_CODING == (p_usb_pcdc_event->setup.request_type & USB_BREQUEST))
+            else if (USB_PCDC_GET_LINE_CODING == (event_info.setup.request_type & USB_BREQUEST))
             {
-                err = R_USB_PeriControlDataSet (&g_basic1_ctrl, (uint8_t*) &g_line_coding, LINE_CODING_LENGTH);
+                err =  R_USB_PeriControlDataSet (&g_basic1_ctrl, (uint8_t *) &g_line_coding, LINE_CODING_LENGTH );
                 /* Handle error */
                 if (FSP_SUCCESS != err)
                 {
                     APP_ERR_PRINT("\r\nR_USB_PeriControlDataSet failed.\r\n");
                 }
             }
-            else if (USB_PCDC_SET_CONTROL_LINE_STATE == (p_usb_pcdc_event->setup.request_type & USB_BREQUEST))
+            else if (USB_PCDC_SET_CONTROL_LINE_STATE == (event_info.setup.request_type & USB_BREQUEST))
             {
                 err = R_USB_PeriControlStatusSet (&g_basic1_ctrl, USB_SETUP_STATUS_ACK);
                 /* Handle error */

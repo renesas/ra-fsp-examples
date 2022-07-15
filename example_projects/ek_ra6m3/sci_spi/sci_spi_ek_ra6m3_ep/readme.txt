@@ -19,7 +19,7 @@
 
 1. Project Overview:
      This Example Project demonstrates the basic usage of SCI_SPI driver.
-     The project writes commands to the slave sensor and reads the temperature value using SCI_SPI bus configured as master .
+     The project writes commands to the temperature sensor (MAX31723) and reads the temperature value using SCI_SPI bus which is configured as master, 
      The temperature values are continuously printed on JLink RTT Viewer.
 
 2. Hardware settings for the project:

@@ -45,6 +45,9 @@
 
 #define MX_MANUFACTURER_ID        0xC2
 #define DEVICE_ID                 0x18
+#define MEMORY_TYPE               0x20
+#define MEMORY_DENSITY            0x19
+
 
 typedef enum qspi_protocol
 {

@@ -31,14 +31,14 @@
 static void process_rtt_op_msg(VOID);
 static UINT memory_allocate_rtt(TX_BYTE_POOL *pool, rtt_msg_t **p_buf, uint32_t size);
 
-extern TX_THREAD RTT_Thread;
+extern TX_THREAD rtt_thread;
 /* IPv6 addresses.*/
 extern NXD_ADDRESS dns_ipv6_address;
 extern NXD_ADDRESS start_ipv6_address;
 extern NXD_ADDRESS end_ipv6_address;
 
 /* RTT_Thread entry function */
-void RTT_Thread_entry(void)
+void rtt_thread_entry(void)
 {
     UINT err = TX_SUCCESS;
     CHAR rtt_buffer[IP_MSG_MAX_SIZE]         = {'\0'};
@@ -313,7 +313,7 @@ VOID rtt_thread_init_check(VOID)
 
     thread_info_t rtt_thread_info =
     {
-     .thread_ptr = &RTT_Thread,
+     .thread_ptr = &rtt_thread,
     };
 
     do{

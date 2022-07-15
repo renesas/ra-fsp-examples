@@ -29,6 +29,7 @@
  * @{
  **********************************************************************************************************************/
 
+/* Flags to indicate UART Tx, Rx events */
 static volatile bool b_uart_rxflag  =  false;
 static volatile bool b_uart_txflag  =  false;
 
@@ -127,12 +128,12 @@ static fsp_err_t crc_operation (void)
 	fsp_err_t err = FSP_SUCCESS;
 	/* CRC inputs structure */
 	crc_input_t input_data;
-	uint32_t normal_crc_value      = RESET_VALUE;
-	uint32_t snoop_crc_value       = RESET_VALUE;
-	uint32_t uart_time_out         = UINT32_MAX;
-	uint8_t input_buffer[BUF_LEN]  = {0x05,0x02,0x03,0x04};
-	uint8_t dest_buffer[BUF_LEN]   = {RESET_VALUE};
-	uint8_t  uart_data_len         = RESET_VALUE;
+	uint32_t normal_crc_value      = RESET_VALUE; //CRC value in normal mode
+	uint32_t snoop_crc_value       = RESET_VALUE; //CRC value in Snoop mode
+	uint32_t uart_time_out         = UINT32_MAX; // Timeout value to check Rx, Tx events
+	uint8_t input_buffer[BUF_LEN]  = {0x05,0x02,0x03,0x04}; // Source data
+	uint8_t dest_buffer[BUF_LEN]   = {RESET_VALUE}; //Buffer to store UART read data
+	uint8_t  uart_data_len         = RESET_VALUE; //Data length for polynomial operation
 
 	/* Before beginning the operation turn off LED */
 	set_led(LED_OFF);
@@ -290,7 +291,7 @@ static fsp_err_t crc_operation (void)
 }
 
 /*******************************************************************************************************************//**
- *  @brief           User defined sci uart driver callback function
+ *  @brief           User defined sci uart driver callback function to indicate occurrence of Rx,Tx events
  *  @param[IN]       p_args
  *  @retval          None
  **********************************************************************************************************************/

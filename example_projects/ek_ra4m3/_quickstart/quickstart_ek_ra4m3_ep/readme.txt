@@ -1,4 +1,4 @@
-/***********************************************************************************************************************
+﻿/***********************************************************************************************************************
 * Copyright [2020] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
 *
 * This software is supplied by Renesas Electronics America Inc. and may only be used with products of Renesas Electronics Corp.
@@ -23,7 +23,6 @@
 
 2. Hardware settings for the project:
         Please configure the Jumper settings as described in the Quick Start Guide.
-	Link to access Quick Start Guide - https://www.renesas.com/us/en/document/qsg/ek-ra4m3-quick-start-guide
 
 3. Configuration Settings:
         Please explore the configuration settings of each module in the RA configurator.

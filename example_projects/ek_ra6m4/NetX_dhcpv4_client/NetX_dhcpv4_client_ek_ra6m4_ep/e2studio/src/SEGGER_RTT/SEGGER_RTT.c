@@ -42,7 +42,7 @@
 *                                                                    *
 **********************************************************************
 *                                                                    *
-*       RTT version: 7.62b                                           *
+*       RTT version: 7.64e                                           *
 *                                                                    *
 **********************************************************************
 
@@ -51,7 +51,7 @@ File    : SEGGER_RTT.c
 Purpose : Implementation of SEGGER real-time transfer (RTT) which
           allows real-time communication on targets which support
           debugger memory accesses while the CPU is running.
-Revision: $Rev: 24715 $
+Revision: $Rev: 25842 $
 
 Additional information:
           Type "int" is assumed to be 32-bits in size
@@ -1554,6 +1554,7 @@ unsigned SEGGER_RTT_HasDataUp(unsigned BufferIndex) {
 *    pBuffer      Pointer to a buffer to be used.
 *    BufferSize   Size of the buffer.
 *    Flags        Operating modes. Define behavior if buffer is full (not enough space for entire message).
+*                 Flags[31:24] are used for validity check and must be zero. Flags[23:2] are reserved for future use. Flags[1:0] = RTT operating mode.
 *
 *  Return value
 *    >= 0 - O.K. Buffer Index
@@ -1602,6 +1603,7 @@ int SEGGER_RTT_AllocDownBuffer(const char* sName, void* pBuffer, unsigned Buffer
 *    pBuffer      Pointer to a buffer to be used.
 *    BufferSize   Size of the buffer.
 *    Flags        Operating modes. Define behavior if buffer is full (not enough space for entire message).
+*                 Flags[31:24] are used for validity check and must be zero. Flags[23:2] are reserved for future use. Flags[1:0] = RTT operating mode.
 *
 *  Return value
 *    >= 0 - O.K. Buffer Index
@@ -1651,6 +1653,7 @@ int SEGGER_RTT_AllocUpBuffer(const char* sName, void* pBuffer, unsigned BufferSi
 *    pBuffer      Pointer to a buffer to be used.
 *    BufferSize   Size of the buffer.
 *    Flags        Operating modes. Define behavior if buffer is full (not enough space for entire message).
+*                 Flags[31:24] are used for validity check and must be zero. Flags[23:2] are reserved for future use. Flags[1:0] = RTT operating mode.
 *
 *  Return value
 *    >= 0 - O.K.
@@ -1702,6 +1705,7 @@ int SEGGER_RTT_ConfigUpBuffer(unsigned BufferIndex, const char* sName, void* pBu
 *    pBuffer      Pointer to a buffer to be used.
 *    BufferSize   Size of the buffer.
 *    Flags        Operating modes. Define behavior if buffer is full (not enough space for entire message).
+*                 Flags[31:24] are used for validity check and must be zero. Flags[23:2] are reserved for future use. Flags[1:0] = RTT operating mode.
 *
 *  Return value
 *    >= 0  O.K.
@@ -1820,6 +1824,7 @@ int SEGGER_RTT_SetNameDownBuffer(unsigned BufferIndex, const char* sName) {
 *  Parameters
 *    BufferIndex  Index of the buffer.
 *    Flags        Flags to set for the buffer.
+*                 Flags[31:24] are used for validity check and must be zero. Flags[23:2] are reserved for future use. Flags[1:0] = RTT operating mode.
 *
 *  Return value
 *    >= 0  O.K.
@@ -1855,6 +1860,7 @@ int SEGGER_RTT_SetFlagsUpBuffer(unsigned BufferIndex, unsigned Flags) {
 *  Parameters
 *    BufferIndex  Index of the buffer to renamed.
 *    Flags        Flags to set for the buffer.
+*                 Flags[31:24] are used for validity check and must be zero. Flags[23:2] are reserved for future use. Flags[1:0] = RTT operating mode.
 *
 *  Return value
 *    >= 0  O.K.

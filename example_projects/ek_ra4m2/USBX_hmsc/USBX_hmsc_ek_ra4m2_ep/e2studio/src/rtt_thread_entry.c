@@ -304,11 +304,11 @@ VOID rtt_thread_init_check(VOID)
 #if (BSP_CFG_RTOS == 1)
     UINT err = TX_SUCCESS;
 
-    TX_THREAD RTT_Thread;
+    extern TX_THREAD rtt_thread;
 
     thread_info_t rtt_thread_info =
     {
-     .thread_ptr = &RTT_Thread,
+     .thread_ptr = &rtt_thread,
     };
 
     do{

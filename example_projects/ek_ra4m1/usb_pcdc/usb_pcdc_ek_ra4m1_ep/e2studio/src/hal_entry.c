@@ -48,7 +48,6 @@ const usb_descriptor_t usb_descriptor =
 };
 
 usb_status_t            usb_event;
-usb_setup_t             usb_setup;
 
 /* Banner Info */
 char p_welcome[200] = {
@@ -83,14 +82,15 @@ const char *p_mcu_temp = "\r\n d) MCU Die temperature (F/C):  ";
 const char *p_led_freq = "\r\n c) Current blinking frequency (Hz): ";
 const char *p_kit_menu_ret = "\r\n Press 1 for Kit Information or 2 for Next Steps.\r\n";
 
-uint8_t g_usb_module_number = 0x00;
-usb_class_t g_usb_class_type    = 0x00;
 static bool  b_usb_attach = false;
 
 /* Private functions */
 static fsp_err_t check_for_write_complete(void);
 static fsp_err_t print_to_console(char *p_data);
 static void process_kit_info(void);
+
+fsp_err_t g_err = FSP_SUCCESS;
+
 
 /*******************************************************************************************************************//**
  * The RA Configuration tool generates main() and uses it to generate threads if an RTOS is used.  This function is
@@ -99,6 +99,7 @@ static void process_kit_info(void);
 void hal_entry(void)
 {
     fsp_err_t err                           = FSP_SUCCESS;
+    usb_event_info_t    event_info          = {0};
     uint8_t g_buf[READ_BUF_SIZE]            = {0};
     static usb_pcdc_linecoding_t g_line_coding;
 
@@ -120,29 +121,11 @@ void hal_entry(void)
         APP_ERR_TRAP(err);
     }
 
-    /* Get USB class type */
-    err = R_USB_ClassTypeGet (&g_basic0_ctrl, &g_usb_class_type);
-    if (FSP_SUCCESS != err)
-    {
-        /* Turn ON RED LED to indicate fatal error */
-        TURN_RED_ON
-        APP_ERR_TRAP(1);
-
-    }
-
-    /* Get module number */
-    err = R_USB_ModuleNumberGet(&g_basic0_ctrl, &g_usb_module_number);
-    if (FSP_SUCCESS != err)
-    {
-        /* Turn ON RED LED to indicate fatal error */
-        TURN_RED_ON
-        APP_ERR_TRAP(1);
-    }
-
     while (true)
     {
         /* Obtain USB related events */
-        err = R_USB_EventGet (&g_basic0_ctrl, &usb_event);
+        err = R_USB_EventGet (&event_info, &usb_event);
+
         /* Handle error */
         if (FSP_SUCCESS != err)
         {
@@ -156,7 +139,7 @@ void hal_entry(void)
         {
             case USB_STATUS_CONFIGURED:
             {
-                err = R_USB_Read (&g_basic0_ctrl, g_buf, READ_BUF_SIZE, (uint8_t)g_usb_class_type);
+                err = R_USB_Read (&g_basic0_ctrl, g_buf, READ_BUF_SIZE, USB_CLASS_PCDC);
                 /* Handle error */
                 if (FSP_SUCCESS != err)
                 {
@@ -171,7 +154,7 @@ void hal_entry(void)
             {
                 if(b_usb_attach)
                 {
-                    err = R_USB_Read (&g_basic0_ctrl, g_buf, 1, (uint8_t)g_usb_class_type);
+                    err = R_USB_Read (&g_basic0_ctrl, g_buf, 1, USB_CLASS_PCDC);
                 }
                 /* Handle error */
                 if (FSP_SUCCESS != err)
@@ -224,10 +207,8 @@ void hal_entry(void)
 
             case USB_STATUS_REQUEST : /* Receive Class Request */
             {
-                R_USB_SetupGet(&g_basic0_ctrl, &usb_setup);
-
                 /* Check for the specific CDC class request IDs */
-                if (USB_PCDC_SET_LINE_CODING == (usb_setup.request_type & USB_BREQUEST))
+                if (USB_PCDC_SET_LINE_CODING == (event_info.setup.request_type & USB_BREQUEST))
                 {
                     err =  R_USB_PeriControlDataGet (&g_basic0_ctrl, (uint8_t *) &g_line_coding, LINE_CODING_LENGTH );
                     /* Handle error */
@@ -238,7 +219,7 @@ void hal_entry(void)
                         APP_ERR_TRAP(err);
                     }
                 }
-                else if (USB_PCDC_GET_LINE_CODING == (usb_setup.request_type & USB_BREQUEST))
+                else if (USB_PCDC_GET_LINE_CODING == (event_info.setup.request_type & USB_BREQUEST))
                 {
                     err =  R_USB_PeriControlDataSet (&g_basic0_ctrl, (uint8_t *) &g_line_coding, LINE_CODING_LENGTH );
                     /* Handle error */
@@ -249,11 +230,12 @@ void hal_entry(void)
                         APP_ERR_TRAP(err);
                     }
                 }
-                else if (USB_PCDC_SET_CONTROL_LINE_STATE == (usb_setup.request_type & USB_BREQUEST))
+                else if (USB_PCDC_SET_CONTROL_LINE_STATE == (event_info.setup.request_type & USB_BREQUEST))
                 {
                     err = R_USB_PeriControlStatusSet (&g_basic0_ctrl, USB_SETUP_STATUS_ACK);
                     /* Handle error */
                     if (FSP_SUCCESS != err)
+                        //if (FSP_SUCCESS != g_err)
                     {
                         /* Turn ON RED LED to indicate fatal error */
                         TURN_RED_ON
@@ -315,7 +297,7 @@ static fsp_err_t print_to_console(char *p_data)
     fsp_err_t err = FSP_SUCCESS;
     uint32_t len = ((uint32_t)strlen(p_data));
 
-    err = R_USB_Write (&g_basic0_ctrl, (uint8_t*)p_data, len, (uint8_t)g_usb_class_type);
+    err = R_USB_Write (&g_basic0_ctrl, (uint8_t*)p_data, len, USB_CLASS_PCDC);
     /* Handle error */
     if (FSP_SUCCESS != err)
     {
@@ -342,10 +324,11 @@ static fsp_err_t check_for_write_complete(void)
     usb_status_t usb_write_event = USB_STATUS_NONE;
     int32_t timeout_count = UINT16_MAX;
     fsp_err_t err = FSP_SUCCESS;
+    usb_event_info_t    event_info = {0};
 
     do
     {
-        err = R_USB_EventGet (&g_basic0_ctrl, &usb_write_event);
+        err = R_USB_EventGet (&event_info, &usb_write_event);
         if (FSP_SUCCESS != err)
         {
             return err;
@@ -378,8 +361,7 @@ static void process_kit_info(void)
     fsp_err_t err = FSP_SUCCESS;
 
     /* Read die temperature */
-    adc_data = adc_reading ();
-
+    err = R_ADC_Read (&g_adc_ctrl, ADC_CHANNEL_TEMPERATURE, &adc_data);
     /* Handle error */
     if (FSP_SUCCESS != err)
     {

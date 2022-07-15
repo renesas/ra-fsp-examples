@@ -42,7 +42,7 @@
 *                                                                    *
 **********************************************************************
 *                                                                    *
-*       RTT version: 7.62b                                           *
+*       RTT version: 7.64e                                           *
 *                                                                    *
 **********************************************************************
 
@@ -51,7 +51,7 @@ File    : SEGGER_RTT.h
 Purpose : Implementation of SEGGER real-time transfer which allows
           real-time communication on targets which support debugger 
           memory accesses while the CPU is running.
-Revision: $Rev: 24346 $
+Revision: $Rev: 25842 $
 ----------------------------------------------------------------------
 */
 
@@ -307,7 +307,7 @@ typedef struct {
             unsigned SizeOfBuffer;  // Buffer size in bytes. Note that one byte is lost, as this implementation does not fill up the buffer in order to avoid the problem of being unable to distinguish between full and empty.
             unsigned WrOff;         // Position of next item to be written by either target.
   volatile  unsigned RdOff;         // Position of next item to be read by host. Must be volatile since it may be modified by host.
-            unsigned Flags;         // Contains configuration flags
+            unsigned Flags;         // Contains configuration flags. Flags[31:24] are used for validity check and must be zero. Flags[23:2] are reserved for future use. Flags[1:0] = RTT operating mode.
 } SEGGER_RTT_BUFFER_UP;
 
 //
@@ -320,7 +320,7 @@ typedef struct {
             unsigned SizeOfBuffer;  // Buffer size in bytes. Note that one byte is lost, as this implementation does not fill up the buffer in order to avoid the problem of being unable to distinguish between full and empty.
   volatile  unsigned WrOff;         // Position of next item to be written by host. Must be volatile since it may be modified by host.
             unsigned RdOff;         // Position of next item to be read by target (down-buffer).
-            unsigned Flags;         // Contains configuration flags
+            unsigned Flags;         // Contains configuration flags. Flags[31:24] are used for validity check and must be zero. Flags[23:2] are reserved for future use. Flags[1:0] = RTT operating mode. 
 } SEGGER_RTT_BUFFER_DOWN;
 
 //

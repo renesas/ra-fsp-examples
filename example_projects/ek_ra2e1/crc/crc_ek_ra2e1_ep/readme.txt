@@ -28,6 +28,7 @@ Note:
 * For any event or API failure appropriate messages is displayed on RTT viewer.
 * User can change the polynomial to CRC_16 and CRC_CCITT and bit order from MSB to LSB from CRC configurator and observe the results.
 * The application does not work for CRC_32 bit polynomial.
+* Please refer the latest FSP User Manual for comparison with popular online CRC calculator and the associated limitations are captured in it.
 
 2. Hardware Settings:
         Single jumper wires is required to establish loop back connection for SCI UART within the board with TXD and RXD pins 
@@ -103,9 +104,9 @@ Note:
         Channel 9 has been used by SCI_UART Loopback operation.
         SCI9 P401 ----> RXD 
         SCI9 P400 ----> TXD
-	
+		
 	RA6T2-MCK
         -------
         Channel 1 has been used by SCI_UART Loopback operation.
         SCI1 P408 ----> RXD 
-        SCI1 P409 ----> TXD	
+        SCI1 P409 ----> TXD

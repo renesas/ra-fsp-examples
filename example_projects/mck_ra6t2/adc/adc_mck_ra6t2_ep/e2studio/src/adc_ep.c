@@ -133,10 +133,11 @@ static fsp_err_t adc_scan_start(void)
             return err;
         }
 
-#if (defined BOARD_RA2A1_EK) || (defined BOARD_RA6T2_MCK)
+#if (defined BOARD_RA2A1_EK)
         /* Set Reference Voltage Circuit Control register */
         R_ADC0->VREFAMPCNT |= ((VREFADCG_VALUE << SHIFT_BY_ONE) | (VREFADCG_ENABLE << SHIFT_BY_THREE));
-
+#endif
+#if (defined BOARD_RA2A1_EK) || (defined BOARD_RA6T2_MCK)
         /* Calibrate the ADC */
         err = adc_start_calibration();
 

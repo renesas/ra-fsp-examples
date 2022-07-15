@@ -71,13 +71,13 @@ fsp_err_t setup_qspi(spi_flash_ctrl_t * p_ctrl, spi_flash_cfg_t const * const p_
       return err;
     }
 
-    err = R_QSPI_DirectRead(p_ctrl, read_data, 2);
+    err = R_QSPI_DirectRead(p_ctrl, read_data, 3);
     if (FSP_SUCCESS != err)
     {
       return err;
     }
 
-    if ((MX_MANUFACTURER_ID != read_data[0]) && (DEVICE_ID != read_data[1]))
+    if ((MX_MANUFACTURER_ID != read_data[0]) || (MEMORY_TYPE != read_data[1]) || (MEMORY_DENSITY != read_data[2]))
     {
       return FSP_ERR_ASSERTION;
     }
@@ -170,13 +170,13 @@ fsp_err_t setup_qspi(spi_flash_ctrl_t * p_ctrl, spi_flash_cfg_t const * const p_
       return err;
     }
 
-    err = R_QSPI_DirectRead(p_ctrl, read_data, 2);
+    err = R_QSPI_DirectRead(p_ctrl, read_data, 3);
     if (FSP_SUCCESS != err)
     {
       return err;
     }
 
-    if ((MX_MANUFACTURER_ID != read_data[0]) && (DEVICE_ID != read_data[1]))
+    if ((MX_MANUFACTURER_ID != read_data[0]) || (MEMORY_TYPE != read_data[1]) || (MEMORY_DENSITY != read_data[2]))
     {
       return FSP_ERR_ASSERTION;
     }

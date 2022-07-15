@@ -59,10 +59,11 @@ FSP Configuration
     Parameter checking: Enabled
     Assert Failures: Return FSP_ERR_ASSERTION
     Error Log: No Error Log
-    Soft Reset: Disabled
+    Clock Registers not Reset Values during Startup: Disabled
     Main Oscillator Populated: Populated
     PFS Protect: Enabled
     C Runtime Initialization : Enabled
+    Early BSP Initialization : Disabled
     Main Oscillator Clock Source: Crystal or Resonator
     Subclock Populated: Populated
     Subclock Drive (Drive capacitance availability varies by MCU): Standard/Normal mode
@@ -484,6 +485,8 @@ FSP Configuration
     Common: Checksum computation support on transmitted ICMPv6 packets: Enabled (default)
     Common: Checksum computation support on transmitted ICMP packets: Enabled (default)
     Common: Packet Alignment: 
+    Common: Random Number Generator: rand
+    Common: Seed Random Number Generator: srand
     DHCP: Common: IPv4: Type of Service for UDP requests: Normal
     DHCP: Common: IPv4: Fragmentation option: Don't fragment
     DHCP: Common: IPv4: Time to live: 128
@@ -852,6 +855,8 @@ FSP Configuration
     Common: Checksum computation support on transmitted ICMPv6 packets: Enabled (default)
     Common: Checksum computation support on transmitted ICMP packets: Enabled (default)
     Common: Packet Alignment: 
+    Common: Random Number Generator: rand
+    Common: Seed Random Number Generator: srand
     DHCP: Common: IPv4: Type of Service for UDP requests: Normal
     DHCP: Common: IPv4: Fragmentation option: Don't fragment
     DHCP: Common: IPv4: Time to live: 128
@@ -1220,6 +1225,8 @@ FSP Configuration
     Common: Checksum computation support on transmitted ICMPv6 packets: Enabled (default)
     Common: Checksum computation support on transmitted ICMP packets: Enabled (default)
     Common: Packet Alignment: 
+    Common: Random Number Generator: rand
+    Common: Seed Random Number Generator: srand
     DHCP: Common: IPv4: Type of Service for UDP requests: Normal
     DHCP: Common: IPv4: Fragmentation option: Don't fragment
     DHCP: Common: IPv4: Time to live: 128
@@ -1599,6 +1606,8 @@ FSP Configuration
     Common: Checksum computation support on transmitted ICMPv6 packets: Enabled (default)
     Common: Checksum computation support on transmitted ICMP packets: Enabled (default)
     Common: Packet Alignment: 
+    Common: Random Number Generator: rand
+    Common: Seed Random Number Generator: srand
     DHCP: Common: IPv4: Type of Service for UDP requests: Normal
     DHCP: Common: IPv4: Fragmentation option: Don't fragment
     DHCP: Common: IPv4: Time to live: 128
@@ -1918,6 +1927,10 @@ FSP Configuration
       Port 2 ELC Trigger Source: Disabled
       Port 3 ELC Trigger Source: Disabled
       Port 4 ELC Trigger Source: Disabled
+      Port B ELC Trigger Source: Disabled
+      Port C ELC Trigger Source: Disabled
+      Port D ELC Trigger Source: Disabled
+      Port E ELC Trigger Source: Disabled
       Pin Configuration Name: g_bsp_pin_cfg
       
   Thread "DHCP Client Thread"
@@ -1986,7 +1999,7 @@ FSP Configuration
         Number of Packets in Pool: 16
         
   Thread "RTT_Thread"
-    Symbol: RTT_Thread
+    Symbol: rtt_thread
     Name: RTT_Thread
     Stack size (bytes): 1024
     Priority: 4
