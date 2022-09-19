@@ -34,8 +34,7 @@
  */
 /* Reading I2C call back event through i2c_Master callback */
 static volatile i2c_master_event_t i2c_event = I2C_MASTER_EVENT_ABORTED;
-
-
+i2c_master_callback_args_t g_i2c_master_callback_args;
 
 /*
  * private function declarations

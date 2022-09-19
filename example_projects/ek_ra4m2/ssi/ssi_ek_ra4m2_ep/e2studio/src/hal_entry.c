@@ -54,7 +54,7 @@ void hal_entry(void)
     R_FSP_VersionGet(&version);
 
     /* Example Project information printed on the Console */
-    APP_PRINT(BANNER_INFO, EP_VERSION, version.major, version.minor, version.patch);
+    APP_PRINT(BANNER_INFO, EP_VERSION, version.version_id_b.major, version.version_id_b.minor, version.version_id_b.patch );
     APP_PRINT("\r\nThe project demonstrates SSI module by transmitting and receiving \r\n"
             "the sample audio data in loop back connection and prints the status  \r\n"
             "by comparing the transmitted and received data buffers \r\n");

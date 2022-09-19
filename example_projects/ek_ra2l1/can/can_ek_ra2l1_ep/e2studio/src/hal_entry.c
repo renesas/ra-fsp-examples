@@ -70,7 +70,7 @@ void hal_entry(void)
     R_FSP_VersionGet(&version);
 
     /* Example Project information printed on the Console */
-    APP_PRINT(BANNER_INFO, EP_VERSION, version.major, version.minor, version.patch);
+    APP_PRINT(BANNER_INFO, EP_VERSION, version.version_id_b.major, version.version_id_b.minor, version.version_id_b.patch);
     APP_PRINT("\r\nThis project demonstrates the basic functionality of CAN module on Renesas RA MCUs using 2 RA boards."
             "\r\nOn pressing any key on the RTTViewer, data is transmitted from Board1 to Board2."
             "\r\nOn reception, Board2 displays the received data on the RTTViewer. Board2, then, transmits the"
@@ -218,7 +218,7 @@ void can_callback(can_callback_args_t *p_args)
         case CAN_EVENT_RX_COMPLETE:
         {
             b_can_rx = true;
-            memcpy(&g_can_rx_frame, p_args->p_frame, sizeof(can_frame_t));  //copy the received data to rx_frame
+            memcpy(&g_can_rx_frame, &p_args->frame, sizeof(can_frame_t));  //copy the received data to rx_frame
             break;
         }
 

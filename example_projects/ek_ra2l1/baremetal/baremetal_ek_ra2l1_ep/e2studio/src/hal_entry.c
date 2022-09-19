@@ -18,7 +18,7 @@ void hal_entry(void)
     R_FSP_VersionGet(&version);
 
     /** Print Example Project information on the Console */
-    APP_PRINT(BANNER_INFO, EP_VERSION, version.major, version.minor, version.patch);
+    APP_PRINT(BANNER_INFO, EP_VERSION, version.version_id_b.major, version.version_id_b.minor, version.version_id_b.patch);
 
     APP_PRINT("\r\nThis project demonstrates the direct access and configuration of DOC SFRs.");
     APP_PRINT("\r\nThe SFRs & interrupts are configured directly to perform a comparison match.");

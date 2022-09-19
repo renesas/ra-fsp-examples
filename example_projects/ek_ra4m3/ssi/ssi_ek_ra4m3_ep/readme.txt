@@ -37,7 +37,7 @@ In EK-RA6M3 and EK-RA6M3G boards, P403(which is also connected to SSISCK) is con
 ﻿
 1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x200015f8
+   a. e2studio: 0x200001e4
    b. Keil: Not Available 
    c. IAR: Not Available
  

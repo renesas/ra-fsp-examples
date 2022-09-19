@@ -63,7 +63,7 @@ void rtt_thread_entry(void)
         {
             UINT read_bytes = APP_READ(rtt_buffer);
 
-            err = memory_allocate_rtt(&byte_pool, &p_data, sizeof(rtt_msg_t) + read_bytes);
+            err = memory_allocate_rtt(&byte_pool, &p_data, sizeof(rtt_msg_t) + read_bytes+ NULL_CHAR_SIZE);
             if (TX_SUCCESS != err)
             {
                 APP_PRINT("memory_allocate_rtt has failed, consider increasing byte pool memory and confirm de-allocation of the memory.\r\n")
@@ -72,7 +72,7 @@ void rtt_thread_entry(void)
             {
                 /* send data to user thread */
                 p_data->msg_id = RTT_INPUT_MESSAGE_TYPE_STR_QUEUED;
-                p_data->msg_data_size = strlen(rtt_buffer)+1;
+                p_data->msg_data_size = strlen(rtt_buffer)+ NULL_CHAR_SIZE;
                 memcpy(p_data->p_msg,rtt_buffer,p_data->msg_data_size);
 #if (BSP_CFG_RTOS == AZURE_RTOS)
                 tx_queue_send(&rtt_ip_data_queue,(rtt_msg_t *)&p_data , TX_WAIT_FOREVER);
@@ -128,7 +128,7 @@ static void process_rtt_op_msg(VOID)
                     /* version get API for FLEX pack information */
                     fsp_pack_version_t version = {RESET_VALUE};
                     R_FSP_VersionGet(&version);
-                    APP_PRINT(BANNER_INFO,EP_VERSION,version.major, version.minor, version.patch );
+                    APP_PRINT(BANNER_INFO,EP_VERSION,version.version_id_b.major, version.version_id_b.minor, version.version_id_b.patch );
                     APP_PRINT(EP_INFO);
                 }
                 break;

@@ -57,7 +57,7 @@ void hal_entry(void)
 	R_FSP_VersionGet(&version);
 
 	/* Project information printed on the Console */
-	APP_PRINT(BANNER_INFO, EP_VERSION, version.major, version.minor, version.patch);
+	APP_PRINT(BANNER_INFO, EP_VERSION, version.version_id_b.major, version.version_id_b.minor, version.version_id_b.patch);
 	APP_PRINT(EP_INFO);
 
 	/* Open uart module */

@@ -678,7 +678,7 @@
             <archiveVersion>1</archiveVersion>
             <data>
                 <prebuild></prebuild>
-                <postbuild></postbuild>
+                <postbuild>cmd /c ""$RASC_EXE_PATH$" -nosplash --launcher.suppressErrors --gensmartbundle --compiler IAR --devicefamily ra "$PROJ_DIR$\configuration.xml" "$TARGET_PATH$" 2&gt; "%TEMP%\rasc_stderr.out""</postbuild>
             </data>
         </settings>
         <settings>
@@ -1747,7 +1747,7 @@
             <archiveVersion>1</archiveVersion>
             <data>
                 <prebuild></prebuild>
-                <postbuild></postbuild>
+                <postbuild>cmd /c ""$RASC_EXE_PATH$" -nosplash --launcher.suppressErrors --gensmartbundle --compiler IAR --devicefamily ra "$PROJ_DIR$\configuration.xml" "$TARGET_PATH$" 2&gt; "%TEMP%\rasc_stderr.out""</postbuild>
             </data>
         </settings>
         <settings>
@@ -2173,9 +2173,6 @@
         <group>
             <name>Components</name>
             <file>
-                <name>$PROJ_DIR$\ra\fsp\src\bsp\cmsis\Device\RENESAS\Include\base_addresses.h</name>
-            </file>
-            <file>
                 <name>$PROJ_DIR$\ra\board\ra2a1_ek\board.h</name>
             </file>
             <file>
@@ -2341,10 +2338,16 @@
                 <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\core_cm7.h</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\core_cm85.h</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\core_sc000.h</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\core_sc300.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\core_starmc1.h</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\fsp\inc\fsp_common_api.h</name>
@@ -2365,7 +2368,61 @@
                 <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\mpu_armv8.h</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\pac_armv81.h</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\pmu_armv8.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\fsp\src\bsp\cmsis\Device\RENESAS\Include\R7FA2A1AB.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\fsp\src\bsp\cmsis\Device\RENESAS\Include\R7FA2E1A9.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\fsp\src\bsp\cmsis\Device\RENESAS\Include\R7FA2E2A7.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\fsp\src\bsp\cmsis\Device\RENESAS\Include\R7FA2L1AB.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\fsp\src\bsp\cmsis\Device\RENESAS\Include\R7FA4E10D.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\fsp\src\bsp\cmsis\Device\RENESAS\Include\R7FA4M1AB.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\fsp\src\bsp\cmsis\Device\RENESAS\Include\R7FA4M2AD.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\fsp\src\bsp\cmsis\Device\RENESAS\Include\R7FA4M3AF.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\fsp\src\bsp\cmsis\Device\RENESAS\Include\R7FA4W1AD.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\fsp\src\bsp\cmsis\Device\RENESAS\Include\R7FA6E10F.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\fsp\src\bsp\cmsis\Device\RENESAS\Include\R7FA6M1AD.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\fsp\src\bsp\cmsis\Device\RENESAS\Include\R7FA6M2AF.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\fsp\src\bsp\cmsis\Device\RENESAS\Include\R7FA6M3AH.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\fsp\src\bsp\cmsis\Device\RENESAS\Include\R7FA6M4AF.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\fsp\src\bsp\cmsis\Device\RENESAS\Include\R7FA6M5BH.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\fsp\src\bsp\cmsis\Device\RENESAS\Include\R7FA6T1AD.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\fsp\src\bsp\cmsis\Device\RENESAS\Include\R7FA6T2BD.h</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\fsp\src\r_can\r_can.c</name>

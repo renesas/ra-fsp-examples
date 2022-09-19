@@ -154,7 +154,7 @@ void hal_entry(void)
             {
                 if(b_usb_attach)
                 {
-                    err = R_USB_Read (&g_basic0_ctrl, g_buf, 1, USB_CLASS_PCDC);
+                    err = R_USB_Read (&g_basic0_ctrl, g_buf, READ_BUF_SIZE, USB_CLASS_PCDC);
                 }
                 /* Handle error */
                 if (FSP_SUCCESS != err)

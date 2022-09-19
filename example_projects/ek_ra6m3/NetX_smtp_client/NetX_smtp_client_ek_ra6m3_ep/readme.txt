@@ -41,10 +41,13 @@
 4. Software requirements:
        i.  User need to install and run Argo SoftMail server. For details please refer NetX_smtp_client_notes.md file.
 
-Note : Users need to configure the server ip address and client ip address in the configuration property of g_smtp_client0 Netx Duo SMTP Client -> Server IPv4 Address and
+NOTE : Users need to configure the server ip address and client ip address in the configuration property of g_smtp_client0 Netx Duo SMTP Client -> Server IPv4 Address and
        the client ip address in configurator property of g_ip0_Netx Duo IP instance -> IPv4 Address as per their network environment.
        For e.g 
        Client IP : if its an home network user can use 192.168.0.x where x represent any available ip address on network.    
        Server IP : For Server ip use ip of the pc in which smtp mail server is configured in the same network environment.
  
+
+NOTE  : On RA MCUs with TrustZone, IDAU boundaries are programmed by this project due to the use of Ethernet and EDMAC peripherals.
+        Consequentially, it is necessary to connect the serial programming interface to meet this requirement.
 	

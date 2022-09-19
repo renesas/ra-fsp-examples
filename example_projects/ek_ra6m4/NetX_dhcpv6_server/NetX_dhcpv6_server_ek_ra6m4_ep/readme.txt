@@ -35,7 +35,7 @@
        ii. Connect LAN cable on RA board at ethernet port and other end connect to ethernet port of PC/another RA board 
            on which dhcpv6 client is residing. 
 	
-Note : User should wait for message "Ethernet link is up." on RTT viewer for ethernet/network link up status case.﻿
+NOTE  : User should wait for message "Ethernet link is up." on RTT viewer for ethernet/network link up status case.﻿
 1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
    a. e2studio: 0x20000144
@@ -44,3 +44,7 @@ Note : User should wait for message "Ethernet link is up." on RTT viewer for eth
  
 2) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) 
    in .map file generated in the build configuration folder (Debug/Release).
+
+
+NOTE  : On RA MCUs with TrustZone, IDAU boundaries are programmed by this project due to the use of Ethernet and EDMAC peripherals.
+        Consequentially, it is necessary to connect the serial programming interface to meet this requirement.

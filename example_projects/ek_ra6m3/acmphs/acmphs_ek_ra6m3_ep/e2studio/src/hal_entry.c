@@ -74,7 +74,7 @@ void hal_entry(void) {
     R_FSP_VersionGet(&version);
 
     /* Project information */
-    APP_PRINT(BANNER_INFO, EP_VERSION, version.major, version.minor, version.patch);
+    APP_PRINT(BANNER_INFO, EP_VERSION, version.version_id_b.major, version.version_id_b.minor, version.version_id_b.patch);
     APP_PRINT("\r\n In this project DAC0 is used as reference voltage source and DAC1 is used as input"
             "\r\n voltage source for ACMPHS module. DAC0 value is set to 2048(i.e. 1.6V)."
             "\r\n User can enter DAC1 value within permitted range. When DAC1 input value is greater"

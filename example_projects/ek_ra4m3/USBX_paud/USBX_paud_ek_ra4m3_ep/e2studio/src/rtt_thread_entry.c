@@ -35,6 +35,8 @@
 static void process_rtt_op_msg(VOID);
 static UINT memory_allocate_rtt(TX_BYTE_POOL *pool, rtt_msg_t **p_buf, uint32_t size);
 
+extern TX_THREAD rtt_thread;
+
 /* RTT_Thread entry function */
 void rtt_thread_entry(void)
 {
@@ -130,7 +132,7 @@ static void process_rtt_op_msg(VOID)
                     /* version get API for FLEX pack information */
                     fsp_pack_version_t version = {RESET_VALUE};
                     R_FSP_VersionGet(&version);
-                    APP_PRINT(BANNER_INFO,EP_VERSION,version.major, version.minor, version.patch );
+                    APP_PRINT(BANNER_INFO,EP_VERSION,version.version_id_b.major, version.version_id_b.minor, version.version_id_b.patch);
                     APP_PRINT(EP_INFO);
                 }
                 break;
@@ -284,8 +286,6 @@ VOID rtt_thread_init_check(VOID)
 {
 #if (BSP_CFG_RTOS == 1)
     UINT err = TX_SUCCESS;
-
-    TX_THREAD rtt_thread;
 
     thread_info_t rtt_thread_info =
     {

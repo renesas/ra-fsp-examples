@@ -44,5 +44,8 @@ according to their network configuration
       property of g_ip0_Netx Duo IP instance -> IPv4 Address as per their network environment.
       FTP server IP : if it's a home/close network user can use 192.168.0.x where x represent any available ip address on network.
 
+NOTE  : On RA MCUs with TrustZone, IDAU boundaries are programmed by this project due to the use of Ethernet and EDMAC peripherals.
+        Consequentially, it is necessary to connect the serial programming interface to meet this requirement.
+
 
 

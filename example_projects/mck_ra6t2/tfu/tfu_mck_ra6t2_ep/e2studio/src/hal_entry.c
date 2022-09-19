@@ -1,6 +1,7 @@
 #include "hal_data.h"
 #include "common_utils.h"
 #include "tfu_ep.h"
+#include <string.h>
 
 /* Arrays to store cos and sine values for input to atan2f and hypotf */
 float sine_arr[RES_MAX_VAL] = {0};
@@ -8,8 +9,14 @@ float cos_arr[RES_MAX_VAL] = {0};
 float atan_arr[RES_MAX_VAL] = {0};
 float hypot_arr[RES_MAX_VAL] = {0};
 
+#define FLOATLEN        (32)
+
+static char data_buff[FLOATLEN] = {0};
+
+
 /* Function to error check TFU operation  */
 static fsp_err_t TFU_verification(void);
+static void print_array(float arr[], uint8_t size);
 
 FSP_CPP_HEADER
 void R_BSP_WarmStart(bsp_warm_start_event_t event);
@@ -29,7 +36,7 @@ void hal_entry(void)
     R_FSP_VersionGet(&version);
 
     /* Example Project information printed on the Console */
-    APP_PRINT(BANNER_INFO, EP_VERSION, version.major, version.minor, version.patch);
+    APP_PRINT(BANNER_INFO, EP_VERSION, version.version_id_b.major, version.version_id_b.minor, version.version_id_b.patch);
     APP_PRINT(EP_INFO);
 
     while(1)
@@ -74,7 +81,6 @@ void hal_entry(void)
             /* Calculate sine, cosine, arctangent, and hypotenuse using the in-line BSP functions */
             sine_arr[i] = sinf(rad_i);
             err = TFU_verification();
-
             if (FSP_SUCCESS != err)
             {   /* sinf TFU function failed */
                 APP_ERR_PRINT("\r\n\n ** Invalid input for sine operation ** \r\n");
@@ -106,31 +112,18 @@ void hal_entry(void)
             }
         }
 
-
         /* Print the contents of the arrays to RTT Viewer in CSV format */
         APP_PRINT("\r\nPrinting Sine Results:\n");
-        for(int i=0; i<input_res; ++i)
-        {
-            APP_PRINT("%f, ", sine_arr[i]);
-        }
+        print_array(sine_arr, input_res);
 
         APP_PRINT("\r\n\nPrinting Cosine Results:\n");
-        for(int i=0; i<input_res; ++i)
-        {
-            APP_PRINT("%f, ", cos_arr[i]);
-        }
+        print_array(cos_arr, input_res);
 
         APP_PRINT("\r\n\nPrinting Arctangent Results:\n");
-        for(int i=0; i<input_res; ++i)
-        {
-            APP_PRINT("%f, ", atan_arr[i]);
-        }
+        print_array(atan_arr, input_res);
 
         APP_PRINT("\r\n\nPrinting Hypotenuse Results:\n");
-        for(int i=0; i<input_res; ++i)
-        {
-            APP_PRINT("%f, ", hypot_arr[i]);
-        }
+        print_array(hypot_arr, input_res);
 
     }
 
@@ -186,10 +179,22 @@ BSP_CMSE_NONSECURE_ENTRY void template_nonsecure_callable ()
 static fsp_err_t TFU_verification(void){
 
     /* Check the value of the Input Error Flag (ERRF) in the Trigonometric Status Register (TRGSTS) to see if an input error occurred */
-    if( ((R_TFU_TRGSTS & ERRF_MASK) >> 1) == 0){
+    if( ((R_TFU_TRGSTS & ERRF_MASK) >> 1) == 0)
+    {
         return FSP_SUCCESS;
     }
 
     return FSP_ERR_ASSERTION;
 
+}
+
+/* Function to print floats to RTT Viewer using a string buffer */
+static void print_array(float arr[], uint8_t size){
+    for(int i=0; i<size; ++i)
+    {
+        snprintf(data_buff, sizeof(data_buff), "%f", arr[i]);
+        APP_PRINT("%s, ", data_buff);
+        /* Delay for RTT Viewer print to keep up */
+        R_BSP_SoftwareDelay (30, BSP_DELAY_UNITS_MICROSECONDS);
+    }
 }

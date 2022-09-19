@@ -250,7 +250,7 @@ void usb_console_main(void)
 
             case USB_STATUS_READ_COMPLETE:
             {
-                err = R_USB_Read (&g_basic0_ctrl, g_buf, 1, (uint8_t)g_usb_class_type);
+                err = R_USB_Read (&g_basic0_ctrl, g_buf, READ_BUF_SIZE, (uint8_t)g_usb_class_type);
 
                 /* Handle error */
                 if (FSP_SUCCESS != err)

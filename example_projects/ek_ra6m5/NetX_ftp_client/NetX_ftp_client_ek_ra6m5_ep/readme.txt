@@ -39,10 +39,10 @@
  	i.  User need to run FTP Server preferably on windows or linux machine.
 
 
-Note: 	1)Current ip addresses are provided according to our test environment. User has to change the IP addresses in ip instance
-	according to their network configuration
-      property of g_ip0_Netx Duo IP instance -> IPv4 Address as per their network environment.
-      FTP server IP : if it's a home/close network user can use 192.168.0.x where x represent any available ip address on network.
+NOTE  : 1)Current ip addresses are provided according to our test environment. User has to change the IP addresses in ip instance
+	  according to their network configuration
+          property of g_ip0_Netx Duo IP instance -> IPv4 Address as per their network environment.
+          FTP server IP : if it's a home/close network user can use 192.168.0.x where x represent any available ip address on network.
 
 
 	2) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
@@ -53,3 +53,7 @@ Note: 	1)Current ip addresses are provided according to our test environment. Us
  
 	3) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) 
    	in .map file generated in the build configuration folder (Debug/Release).
+
+
+NOTE  : On RA MCUs with TrustZone, IDAU boundaries are programmed by this project due to the use of Ethernet and EDMAC peripherals.
+        Consequentially, it is necessary to connect the serial programming interface to meet this requirement.

@@ -39,7 +39,7 @@
  	i.  User need to run FTP client preferably on windows or linux machine command prompt using default ftp OS utility.
 
 
-Note: It is expected that user should use necessary network set up and user need to run FTP client by passing FTP server IP address which is set in configurator property of g_ip0_Netx Duo IP instance -> IPv4 Address as per their network environment.
+NOTE: It is expected that user should use necessary network set up and user need to run FTP client by passing FTP server IP address which is set in configurator property of g_ip0_Netx Duo IP instance -> IPv4 Address as per their network environment.
       FTP server IP : if it's a home/close network user can use 192.168.0.x where x represent any available ip address on network.
       FTP client    : For FTP client use PC command prompt with default ftp utility(available in both windows and Linux) which will act as ftp client and the PC should be running in the same network environment.
       For establishing connection with FTP server using FTP client, user should wait for message "FTP server started and ready to use !!" on RTT viewer.
@@ -54,3 +54,7 @@ Note: It is expected that user should use necessary network set up and user need
  
 2) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) 
    in .map file generated in the build configuration folder (Debug/Release).
+
+
+NOTE  : On RA MCUs with TrustZone, IDAU boundaries are programmed by this project due to the use of Ethernet and EDMAC peripherals.
+        Consequentially, it is necessary to connect the serial programming interface to meet this requirement.

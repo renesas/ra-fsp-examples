@@ -41,4 +41,7 @@
 	i. Connect EK_RA6M3 board(J10)/ EK_RA6M5 board(J10)/ EK_RA6M4 board(J10) to Host machine using micro USB cable.
        ii. Connect LAN cable to the Ethernet Port of EK-RA6M3 and other end to the Ethernet Port on the switch 
            or Router. Switch connecting to the router or router should have access to the internet.
-	
+
+
+NOTE  : On RA MCUs with TrustZone, IDAU boundaries are programmed by this project due to the use of Ethernet and EDMAC peripherals.
+        Consequentially, it is necessary to connect the serial programming interface to meet this requirement.	

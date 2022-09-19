@@ -215,7 +215,7 @@ void usb_console_main(void)
 
             case USB_STATUS_READ_COMPLETE:
             {
-                s_err = R_USB_Read (&s_apl_event_info, g_buf, 1, g_usb_class_type);
+                s_err = R_USB_Read (&s_apl_event_info, g_buf, READ_BUF_SIZE, g_usb_class_type);
 
                 if (FSP_SUCCESS == s_err)
                 {

@@ -3,7 +3,7 @@
  * Description  : Contains functions from the rtt input thread
  ***********************************************************************************************************************/
 /***********************************************************************************************************************
- * DISCLAIMER
+ * version.version_id_b.major, version.version_id_b.minor, version.version_id_b.patch
  * This software is supplied by Renesas Electronics Corporation and is only intended for use with Renesas products. No
  * other uses are authorized. This software is owned by Renesas Electronics Corporation and is protected under all
  * applicable laws, including copyright laws.
@@ -16,7 +16,7 @@
  * Renesas reserves the right, without notice, to make changes to this software and to discontinue the availability of
  * this software. By using this software, you agree to the additional terms and conditions found by accessing the
  * following link:
- * http://www.renesas.com/disclaimer
+ * http://www.renesas.com/version.version_id_b.major, version.version_id_b.minor, version.version_id_b.patch
  *
  * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
  ***********************************************************************************************************************/
@@ -48,7 +48,7 @@ void rtt_input_thread_entry(void *pvParameters)
     R_FSP_VersionGet(&version);
 
     /* Example Project information printed on the Console */
-    APP_PRINT(BANNER_INFO, EP_VERSION, version.major, version.minor, version.patch);
+    APP_PRINT(BANNER_INFO, EP_VERSION, version.version_id_b.major, version.version_id_b.minor, version.version_id_b.patch);
     /* prints ep info on RTTViewer */
     APP_PRINT(EP_INFO);
 

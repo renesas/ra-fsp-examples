@@ -67,7 +67,7 @@ void hal_entry(void) {
     R_FSP_VersionGet(&version);
 
     /* Example Project information printed on the Console */
-    APP_PRINT(BANNER_INFO,EP_VERSION,version.major, version.minor, version.patch );
+    APP_PRINT(BANNER_INFO,EP_VERSION,version.version_id_b.major, version.version_id_b.minor, version.version_id_b.patch);
     APP_PRINT("\r\nThis Example Project demonstrates the functionality of AGT in periodic mode and one-shot mode. "\
             "\r\nOn providing any input on the RTTviewer, AGT channel 0 starts in one-shot mode. AGT channel 1 "\
             "\r\nstarts in periodic mode when AGT channel 0 expires. Timer in periodic mode expires periodically"\

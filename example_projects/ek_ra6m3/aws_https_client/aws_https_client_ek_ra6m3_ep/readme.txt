@@ -38,4 +38,8 @@
        ii. Connect an Ethernet cable from the Ethernet port on the RA boards to an Ethernet switch.
 	   The Ethernet switch should have a WAN connection to communicate to the server over the internet. 
 	   The Ethernet switch is connected to the internet through a router.
+
+
+NOTE  : On RA MCUs with TrustZone, IDAU boundaries are programmed by this project due to the use of Ethernet and EDMAC peripherals.
+        Consequentially, it is necessary to connect the serial programming interface to meet this requirement.
 	

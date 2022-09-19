@@ -57,7 +57,7 @@ void hal_entry(void) {
     R_FSP_VersionGet(&version);
 
     /* Banner information */
-    APP_PRINT(BANNER_INFO, EP_VERSION, version.major, version.minor, version.patch);
+    APP_PRINT(BANNER_INFO, EP_VERSION, version.version_id_b.major, version.version_id_b.minor, version.version_id_b.patch);
     APP_PRINT(EP_INFO);
 
     if (SPI_FLASH_PROTOCOL_QPI == g_qspi_cfg.spi_protocol)

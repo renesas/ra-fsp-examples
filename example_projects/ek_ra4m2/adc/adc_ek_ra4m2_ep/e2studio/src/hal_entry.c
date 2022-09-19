@@ -49,7 +49,7 @@ void hal_entry(void)
     APP_PRINT(BANNER_1);
     APP_PRINT(BANNER_2);
     APP_PRINT(BANNER_3, EP_VERSION);
-    APP_PRINT(BANNER_4, version.major, version.minor, version.patch);
+    APP_PRINT(BANNER_4, version.version_id_b.major, version.version_id_b.minor, version.version_id_b.patch );
     APP_PRINT(BANNER_5);
     APP_PRINT(BANNER_6);
     APP_PRINT(BANNER_7);

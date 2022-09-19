@@ -46,5 +46,7 @@ NOTE  : While running the application using DHCP or Static Address mode, the fol
 |-----------------------------------------------------------------------------------------|
 |DHCP callback function	                        Disable         Enable                    |
 |-----------------------------------------------------------------------------------------|
+
 		
-	
+NOTE  : On RA MCUs with TrustZone, IDAU boundaries are programmed by this project due to the use of Ethernet and EDMAC peripherals.
+        Consequentially, it is necessary to connect the serial programming interface to meet this requirement.	

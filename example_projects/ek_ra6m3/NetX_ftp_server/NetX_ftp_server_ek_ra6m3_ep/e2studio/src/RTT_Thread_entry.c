@@ -133,7 +133,7 @@ static void process_rtt_op_msg(VOID)
                     /* version get API for FLEX pack information */
                     fsp_pack_version_t version = {RESET_VALUE};
                     R_FSP_VersionGet(&version);
-                    APP_PRINT(BANNER_INFO,EP_VERSION,version.major, version.minor, version.patch );
+                    APP_PRINT(BANNER_INFO,EP_VERSION,version.version_id_b.major, version.version_id_b.minor, version.version_id_b.patch );
                     APP_PRINT(EP_INFO);
                 }
                 break;

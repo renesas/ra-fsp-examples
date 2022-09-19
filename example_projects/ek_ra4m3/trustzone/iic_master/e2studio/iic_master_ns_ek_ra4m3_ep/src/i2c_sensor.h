@@ -50,11 +50,5 @@ void deinit_sensor(void);
 fsp_err_t read_sensor_data(uint8_t *xyz_data);
 void i2c_master_callback(i2c_master_callback_args_t *p_args);
 
-/*
- * Variable decleration
- */
-i2c_master_callback_args_t g_i2c_master_callback_args;
-
-
 
 #endif /* I2C_SENSOR_H_ */

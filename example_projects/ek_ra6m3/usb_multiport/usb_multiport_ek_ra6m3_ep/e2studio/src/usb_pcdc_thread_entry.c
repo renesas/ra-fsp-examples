@@ -137,7 +137,7 @@ fsp_err_t process_usb_pcdc_events(void)
         case USB_STATUS_READ_COMPLETE:
         {
             /* Read data from tera term */
-            err = R_USB_Read (&g_basic1_ctrl, g_buf, 1, USB_CLASS_PCDC);
+            err = R_USB_Read (&g_basic1_ctrl, g_buf, READ_BUF_SIZE, USB_CLASS_PCDC);
             /* Handle error */
             if (FSP_SUCCESS != err)
             {

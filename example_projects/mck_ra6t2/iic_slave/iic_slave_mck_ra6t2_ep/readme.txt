@@ -161,7 +161,7 @@ Note:
 ﻿
 1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x20000044
+   a. e2studio: 0x20000874
    b. Keil:	0x20000008
    c. IAR: 0x20000264
  

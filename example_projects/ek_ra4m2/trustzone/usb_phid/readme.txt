@@ -41,7 +41,7 @@ Note :
 2. lower case a - z and numbers 0 - 9 is send from MCU to the host PC.﻿
 1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x20005ec4
+   a. e2studio: 0x2000219c
    b. Keil:	0x20002158
    c. IAR: 0x20007694
  

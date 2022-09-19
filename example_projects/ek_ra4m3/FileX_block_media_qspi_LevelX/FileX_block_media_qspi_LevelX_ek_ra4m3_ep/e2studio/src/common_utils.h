@@ -32,6 +32,7 @@
 /* SEGGER RTT and error related headers */
 #include "SEGGER_RTT/SEGGER_RTT.h"
 
+#define NULL_CHAR_SIZE 1
 
 #define BIT_SHIFT_8  (8u)
 #define SIZE_64      (64u)

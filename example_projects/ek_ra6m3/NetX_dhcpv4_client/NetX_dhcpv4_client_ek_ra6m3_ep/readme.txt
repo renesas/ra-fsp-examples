@@ -34,4 +34,7 @@
  	Supported Board EK_RA6M3/EK_RA6M4/EK_RA6M5:		
 	i. Connect RA board to Host machine using micro usb cable.
        ii. connect LAN cable on RA board at ethernet port and other end connect to ethernet switch/router. 
-	
+
+
+NOTE  : On RA MCUs with TrustZone, IDAU boundaries are programmed by this project due to the use of Ethernet and EDMAC peripherals.
+        Consequentially, it is necessary to connect the serial programming interface to meet this requirement.	
