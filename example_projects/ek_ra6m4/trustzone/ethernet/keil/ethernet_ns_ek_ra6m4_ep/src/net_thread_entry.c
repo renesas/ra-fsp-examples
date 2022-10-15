@@ -46,8 +46,8 @@ char *remote_ip_address = USR_TEST_PING_IP;
     */
     static  uint8_t ucMACAddress[ 6 ]       = {0x00, 0x11, 0x22, 0x33, 0x44, 0x55};
     static  uint8_t ucIPAddress[ 4 ]        = {RESET_VALUE};
-    static  uint8_t ucNetMask[ 4 ]          = {RESET_VALUE};
-    static  uint8_t ucGatewayAddress[ 4 ]   = {RESET_VALUE};
+    static  uint8_t ucNetMask[ 4 ]          = {255, 255, 255, 128};
+    static  uint8_t ucGatewayAddress[ 4 ]   = {132, 158, 124, 1};
     static  uint8_t ucDNSServerAddress[ 4 ] = {RESET_VALUE};
 #else
     /* Static IP configuration, when DHCP mode is not used for the Example Project.
@@ -171,7 +171,7 @@ void net_thread_entry(void *pvParameters)
     R_FSP_VersionGet (&version);
 
     /* Example Project information printed on the RTT */
-    APP_PRINT (BANNER_INFO, EP_VERSION, version.major, version.minor, version.patch);
+    APP_PRINT (BANNER_INFO, EP_VERSION, version.version_id_b.major, version.version_id_b.minor, version.version_id_b.patch);
 
     /* Prints the Ethernet Configuration prior to the IP Init*/
     APP_PRINT(ETH_PREINIT);
