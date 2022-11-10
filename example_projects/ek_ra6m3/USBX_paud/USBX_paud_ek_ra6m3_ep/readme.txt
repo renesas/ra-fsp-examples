@@ -102,6 +102,8 @@ RA MCU will be connected as USBX peripheral audio to the host PC. An audio WAV f
 	   port (J6) of the board.  Connect the other end of this cable to USB port of the 
 	   host PC.
 
+   	Link to Errata:https://www.renesas.com/us/en/document/mat/ek-ra6m3-v1-errata?language=en&r=1168086
+
 NOTE:
 1) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:

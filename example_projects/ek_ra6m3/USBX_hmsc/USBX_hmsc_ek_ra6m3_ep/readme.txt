@@ -65,3 +65,5 @@
    a. e2studio: Not Available
    b. Keil: Not Available 
    c. IAR:  Not Available
+
+   Link to Errata:https://www.renesas.com/us/en/document/mat/ek-ra6m3-v1-errata?language=en&r=1168086

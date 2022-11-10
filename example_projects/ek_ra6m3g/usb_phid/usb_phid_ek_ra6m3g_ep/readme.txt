@@ -41,6 +41,8 @@
 	port (J11) of the board.  Connect the other end of this cable to USB port of the 
 	host PC. 
 
+   Link to Errata:https://www.renesas.com/us/en/document/mat/ek-ra6m3-v1-errata?language=en&r=1168086
+
 Note :
 1. Open Device Manager, and check 'Human Interface Devices', to see ' USB Input Device' has been detected.
 2. lower case a - z and numbers 0 - 9 is send from MCU to the host PC.

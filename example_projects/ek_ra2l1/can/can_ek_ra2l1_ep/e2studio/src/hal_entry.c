@@ -30,7 +30,7 @@
 /***********************************************************************************************************************
  * Macro definitions
  **********************************************************************************************************************/
-#define WAIT_TIME                       (5000U)             //wait time value
+#define WAIT_TIME                       (5000U)            //wait time value
 #define CAN_DESTINATION_MAILBOX_3       (3U)               //destination mail box number
 #define CAN_MAILBOX_NUMBER_0            (0U)               //mail box number
 #define CAN_FRAME_TRANSMIT_DATA_BYTES   (8U)               //data length
@@ -70,13 +70,13 @@ void hal_entry(void)
     R_FSP_VersionGet(&version);
 
     /* Example Project information printed on the Console */
-    APP_PRINT(BANNER_INFO, EP_VERSION, version.version_id_b.major, version.version_id_b.minor, version.version_id_b.patch);
+    APP_PRINT(BANNER_INFO, EP_VERSION, version.version_id_b.major, version.version_id_b.minor, version.version_id_b.patch );
     APP_PRINT("\r\nThis project demonstrates the basic functionality of CAN module on Renesas RA MCUs using 2 RA boards."
             "\r\nOn pressing any key on the RTTViewer, data is transmitted from Board1 to Board2."
             "\r\nOn reception, Board2 displays the received data on the RTTViewer. Board2, then, transmits the"
             "\r\nframed data back to Board1. On successful transmission, Board1 prints the data on to the RTTViewer.\r\n");
 
-#if defined (BOARD_RA2A1_EK) || defined (BOARD_RA2L1_EK)
+#if defined (BOARD_RA2A1_EK)
     err = R_CGC_Open (&g_cgc0_ctrl, &g_cgc0_cfg);
     if (FSP_SUCCESS != err)
     {
@@ -127,14 +127,13 @@ void hal_entry(void)
                 can_deinit();
                 APP_ERR_TRAP(err);
             }
+
             /* wait for transmit flag bit to set */
             while ((true != b_can_tx) && (--time_out));
             if (RESET_VALUE == time_out)
             {
                 APP_ERR_PRINT("CAN transmission failed due to timeout");
-                can_deinit();
                 APP_ERR_TRAP(true);
-
             }
             /* Reset flag bit */
             b_can_tx = false;
@@ -176,7 +175,6 @@ void hal_entry(void)
                 {
                     APP_ERR_PRINT("CAN transmission failed due to timeout");
                     APP_ERR_TRAP(true);
-                    can_deinit();
                 }
                 APP_PRINT("\r\n CAN transmission after receive is successful");
                 /* Reset flag bit */
@@ -232,6 +230,7 @@ void can_callback(can_callback_args_t *p_args)
         case CAN_EVENT_ERR_GLOBAL:              //error global
         case CAN_EVENT_TX_ABORTED:              //error transmit abort
         case CAN_EVENT_TX_FIFO_EMPTY:           //error transmit FIFO is empty
+        case CAN_EVENT_FIFO_MESSAGE_LOST:       //error FIFO message lost
         {
             b_can_err = true;                   //set flag bit
             break;

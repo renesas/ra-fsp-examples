@@ -128,7 +128,7 @@ fsp_err_t flash_hp_code_flash_operations(void)
     }
     APP_PRINT("\r\nErase successful");
 
-#if !(defined (BOARD_RA6M5_EK) || defined (BOARD_RA6M4_EK) || defined (BOARD_RA4M3_EK)||defined(BOARD_RA4M2_EK)||defined(BOARD_RA6E1_FPB)||defined(BOARD_RA6T2_MCK)) //Not supported for this MCU
+#if !(defined (BOARD_RA6M5_EK) || defined (BOARD_RA6M4_EK) || defined(BOARD_RA4M3_EK)||defined(BOARD_RA4M2_EK)||defined(BOARD_RA6E1_FPB)||defined(BOARD_RA6T2_MCK)||defined(BOARD_RA4E1_FPB)) //Not supported for this MCU
     /* Set Access window.
      * CAUTION: Highly recommended not to use this function if not aware of consequences OR
      * use it with the accessWindowClear API at the end of application.
@@ -136,8 +136,11 @@ fsp_err_t flash_hp_code_flash_operations(void)
      * Which means, even after power cycle, user will not be able to program the code to code flash if the
      * access window is wrongly set.
      *
-     * WORKAROUND: If uses uses accessWindowSet and locks the window. Flash can be unlocked by running
+     * WORKAROUND: If user uses accessWindowSet and locks the window. Flash can be unlocked by running
      * different application performing just "open" call and "accessWindowClear()" running from the RAM.
+	 *
+	 * For further information on the Access Window Features refer the Application Note
+     * https://www.renesas.com/us/en/document/apn/securing-data-rest-utilizing-renesas-security-mpu?language=en
      */
     err = R_FLASH_HP_AccessWindowSet(&g_flash_ctrl, FLASH_HP_CF_BLOCK_3, FLASH_HP_CF_BLOCK_7);
     if (FSP_SUCCESS != err)

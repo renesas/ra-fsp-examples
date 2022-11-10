@@ -33,4 +33,6 @@
         Remove Jumper J15 pins
         Connect USB keyboard to J11 connector with help of OTG cable.
 
+    Link to Errata:https://www.renesas.com/us/en/document/mat/ek-ra6m3-v1-errata?language=en&r=1168086
+
 Note : User is requested to enter key from a to z, A to Z, 0 to 9 and any special character on keyboard.

@@ -37,6 +37,8 @@
         Jumper J12 placement is pins 1-2
         Remove Jumper J15 pins
         Connect USB keyboard to J11 connector with help of OTG cable.
+
+    Link to Errata:https://www.renesas.com/us/en/document/mat/ek-ra6m3-v1-errata?language=en&r=1168086
     
     Note: EP does not support high speed as USBX HHID does not support it.
 

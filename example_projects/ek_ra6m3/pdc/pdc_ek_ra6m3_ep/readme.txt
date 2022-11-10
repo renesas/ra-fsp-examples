@@ -46,8 +46,8 @@
         D2             P701 (J3 Pin 18)
         D1             P702 (J3 Pin 17)
         D0             P703 (J3 Pin 20)
-        RESET          P613 (J3 Pin 23)
-        PWDN           P614 (J3 Pin 26)
+        RESET          P613 (J2 Pin 32)
+        PWDN           P614 (J2 Pin 21)
 
     For RA6M2
         Camera Pin     Board/Jumper

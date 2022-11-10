@@ -71,4 +71,6 @@
    4. Next, flash USBX HCDC code on another RA Board (i.e board 1) which will acts as host device.
    5. Open RTT viewer for Board 1 and verify host device operation.
 
+   Link to Errata:https://www.renesas.com/us/en/document/mat/ek-ra6m3-v1-errata?language=en&r=1168086
+
 Note: Both USBX HCDC and PCDC board needs to be running at High Speed or Full Speed in order for the correct EP functionality.

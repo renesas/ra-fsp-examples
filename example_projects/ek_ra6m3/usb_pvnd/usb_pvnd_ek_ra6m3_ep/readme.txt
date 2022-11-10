@@ -61,3 +61,4 @@
 	Connect the micro USB end of the micro USB device cable to micro-AB USB Full Speed port (J6) of the board.
 	Connect the other end of this cable through OTG Cable to Board 2.
 
+    Link to Errata:https://www.renesas.com/us/en/document/mat/ek-ra6m3-v1-errata?language=en&r=1168086

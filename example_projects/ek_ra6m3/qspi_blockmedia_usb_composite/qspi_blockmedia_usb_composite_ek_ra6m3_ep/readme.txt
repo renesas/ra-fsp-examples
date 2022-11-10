@@ -41,6 +41,9 @@
         The application also handles removing & connecting the Peripheral USB Cable use case.
         Ex: If the user removes the peripheral USB cable from the board, the Composite USB example project will be running 
         and it waits for the cable to be connected. Once the Cable is connected back, the example project works the same.
+	
+   Link to Errata:https://www.renesas.com/us/en/document/mat/ek-ra6m3-v1-errata?language=en&r=1168086
+
 
 Note:
 1. Build Download and Run firmware on board. Connect the cable to USB peripheral connector.        

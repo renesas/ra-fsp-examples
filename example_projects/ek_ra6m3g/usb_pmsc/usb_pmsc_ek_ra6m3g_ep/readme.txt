@@ -139,5 +139,7 @@ Configuration changes to switch Speed in USB configurator and Bus Width in SDHI 
         P206(DAT2)   --->    PMOD SD Pin8(DAT2)
         P205(DAT3)   --->    PMOD SD Pin1(CS)
 
+    Link to Errata:https://www.renesas.com/us/en/document/mat/ek-ra6m3-v1-errata?language=en&r=1168086
+
 
 Note : By defualt USB PMSC Example Project runs on Full-speed mode and SDHI on 4 bit Bus width.

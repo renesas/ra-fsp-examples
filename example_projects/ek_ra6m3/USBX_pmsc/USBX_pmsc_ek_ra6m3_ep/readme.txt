@@ -99,3 +99,6 @@ For EK-RA6M4/EK-RA6M5/EK-RA4M3/EK-RA4M2
         P410(DAT1)   --->    PMOD SD Pin7(DAT1)
         P206(DAT2)   --->    PMOD SD Pin8(DAT2)
         P205(DAT3)   --->    PMOD SD Pin1(CS)
+
+    Link to Errata:https://www.renesas.com/us/en/document/mat/ek-ra6m3-v1-errata?language=en&r=1168086
+

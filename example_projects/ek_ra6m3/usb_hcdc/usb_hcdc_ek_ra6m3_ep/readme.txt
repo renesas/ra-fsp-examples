@@ -56,7 +56,8 @@ the received data on the RTTViewer
         Remove Jumper j17 pins
         Connect USB device to J6 connector with help of micro USB Host cable.
 
-    
+    Link to Errata:https://www.renesas.com/us/en/document/mat/ek-ra6m3-v1-errata?language=en&r=1168086
+
 Note: 	
 1. By default USB HCDC Example Project (i.e., Board 1) runs in Full-speed mode. 
 2. RTT Print Buffer size should be configured to 512

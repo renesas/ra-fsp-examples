@@ -51,6 +51,8 @@ Hardware Connections:
 	port (J11) of the board.  Connect the other end of this cable to USB port of the 
 	host PC. 
 
+    Link to Errata:https://www.renesas.com/us/en/document/mat/ek-ra6m3-v1-errata?language=en&r=1168086
+
 Note:
 1. USB Mass Storage Device must be formatted with FAT file system.
 2. Data written can also be manually verified in file.

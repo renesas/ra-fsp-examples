@@ -16,19 +16,25 @@ OSPI_DEVICE_1_PRV_LENGTH = DEFINED(OSPI_DEVICE_1_SIZE) ? ABSOLUTE(OSPI_DEVICE_1_
 /* If a flat (secure) project has DEFINED RAM_NS_BUFFER_LENGTH, then emit IDAU symbols to allocate non-secure RAM. */
 __RESERVE_NS_RAM = !DEFINED(PROJECT_NONSECURE) && DEFINED(RAM_NS_BUFFER_LENGTH) && (OPTION_SETTING_S_LENGTH != 0);
 
+ITCM_START = DEFINED(ITCM_START)? ITCM_START : 0;
+ITCM_LENGTH = DEFINED(ITCM_LENGTH)? ITCM_LENGTH : 0;
+DTCM_START = DEFINED(DTCM_START)? DTCM_START : 0;
+DTCM_LENGTH = DEFINED(DTCM_LENGTH)? DTCM_LENGTH : 0;
+NS_OFFSET_START = DEFINED(NS_OFFSET_START) ? NS_OFFSET_START : 0;
+NS_IMAGE_OFFSET = DEFINED(PROJECT_NONSECURE) ? NS_OFFSET_START : 0;
 RAM_NS_BUFFER_BLOCK_LENGTH = DEFINED(RAM_NS_BUFFER_LENGTH) ? ALIGN(RAM_NS_BUFFER_LENGTH, 8192) : 0;
 RAM_NS_BUFFER_LENGTH = DEFINED(RAM_NS_BUFFER_LENGTH) ? RAM_NS_BUFFER_LENGTH : 0;
 RAM_NS_BUFFER_START = RAM_START + RAM_LENGTH - RAM_NS_BUFFER_LENGTH;
 RAM_NS_BUFFER_BLOCK_START = RAM_START + RAM_LENGTH - RAM_NS_BUFFER_BLOCK_LENGTH;
 
-OPTION_SETTING_START_NS = 0x0100A180;
+OPTION_SETTING_START_NS = DEFINED(PROJECT_NONSECURE) ? OPTION_SETTING_START : OPTION_SETTING_START + 0x80;
 
 /* This definition is used to avoid moving the counter in OPTION_SETTING regions for projects that should not configure option settings.
  * Bootloader images do not configure option settings because they are owned by the bootloader.
  * FSP_BOOTABLE_IMAGE is only defined in bootloader images. */
 __bl_FSP_BOOTABLE_IMAGE = 1;
 __bln_FSP_BOOTABLE_IMAGE = 1;
-PROJECT_SECURE_OR_FLAT = !DEFINED(PROJECT_NONSECURE) && OPTION_SETTING_LENGTH && !DEFINED(FSP_BOOTABLE_IMAGE);
+PROJECT_SECURE_OR_FLAT = (!DEFINED(PROJECT_NONSECURE) || DEFINED(PROJECT_SECURE)) && OPTION_SETTING_LENGTH && !DEFINED(FSP_BOOTABLE_IMAGE);
 USE_OPTION_SETTING_NS = DEFINED(PROJECT_NONSECURE) && !DEFINED(FSP_BOOTABLE_IMAGE);
 
 __bl_FLASH_IMAGE_START = !DEFINED(FLASH_BOOTLOADER_LENGTH) ? 0 :
@@ -71,18 +77,20 @@ LIMITED_FLASH_LENGTH = DEFINED(FLASH_IMAGE_LENGTH) ? FLASH_IMAGE_LENGTH :
 /* Define memory regions. */
 MEMORY
 {
-  FLASH (rx)      : ORIGIN = FLASH_ORIGIN, LENGTH = LIMITED_FLASH_LENGTH
-  RAM (rwx)       : ORIGIN = RAM_START, LENGTH = RAM_LENGTH
-  DATA_FLASH (rx) : ORIGIN = DATA_FLASH_START, LENGTH = DATA_FLASH_LENGTH
-  QSPI_FLASH (rx) : ORIGIN = QSPI_FLASH_START, LENGTH = QSPI_FLASH_PRV_LENGTH
-  OSPI_DEVICE_0 (rx) : ORIGIN = OSPI_DEVICE_0_START, LENGTH = OSPI_DEVICE_0_PRV_LENGTH
-  OSPI_DEVICE_1 (rx) : ORIGIN = OSPI_DEVICE_1_START, LENGTH = OSPI_DEVICE_1_PRV_LENGTH
+  ITCM (rx)               : ORIGIN = ITCM_START + NS_IMAGE_OFFSET, LENGTH = ITCM_LENGTH
+  DTCM (rwx)              : ORIGIN = DTCM_START + NS_IMAGE_OFFSET, LENGTH = DTCM_LENGTH
+  FLASH (rx)              : ORIGIN = FLASH_ORIGIN + NS_IMAGE_OFFSET, LENGTH = LIMITED_FLASH_LENGTH
+  RAM (rwx)               : ORIGIN = RAM_START + NS_IMAGE_OFFSET, LENGTH = RAM_LENGTH
+  DATA_FLASH (rx)         : ORIGIN = DATA_FLASH_START + NS_IMAGE_OFFSET, LENGTH = DATA_FLASH_LENGTH
+  QSPI_FLASH (rx)         : ORIGIN = QSPI_FLASH_START, LENGTH = QSPI_FLASH_PRV_LENGTH
+  OSPI_DEVICE_0 (rx)      : ORIGIN = OSPI_DEVICE_0_START, LENGTH = OSPI_DEVICE_0_PRV_LENGTH
+  OSPI_DEVICE_1 (rx)      : ORIGIN = OSPI_DEVICE_1_START, LENGTH = OSPI_DEVICE_1_PRV_LENGTH
   OSPI_DEVICE_0_RAM (rwx) : ORIGIN = OSPI_DEVICE_0_START, LENGTH = OSPI_DEVICE_0_PRV_LENGTH
   OSPI_DEVICE_1_RAM (rwx) : ORIGIN = OSPI_DEVICE_1_START, LENGTH = OSPI_DEVICE_1_PRV_LENGTH
-  SDRAM (rwx)     : ORIGIN = SDRAM_START, LENGTH = SDRAM_LENGTH
-  OPTION_SETTING (r): ORIGIN = OPTION_SETTING_START, LENGTH = OPTION_SETTING_LENGTH
-  OPTION_SETTING_S (r): ORIGIN = OPTION_SETTING_S_START, LENGTH = OPTION_SETTING_S_LENGTH
-  ID_CODE (rx)    : ORIGIN = ID_CODE_START, LENGTH = ID_CODE_LENGTH
+  SDRAM (rwx)             : ORIGIN = SDRAM_START, LENGTH = SDRAM_LENGTH
+  OPTION_SETTING (r)      : ORIGIN = OPTION_SETTING_START + NS_IMAGE_OFFSET, LENGTH = OPTION_SETTING_LENGTH
+  OPTION_SETTING_S (r)    : ORIGIN = OPTION_SETTING_S_START + NS_IMAGE_OFFSET, LENGTH = OPTION_SETTING_S_LENGTH
+  ID_CODE (rx)            : ORIGIN = ID_CODE_START, LENGTH = ID_CODE_LENGTH
 }
 
 /* Library configurations */
@@ -140,6 +148,27 @@ ENTRY(Reset_Handler)
 
 SECTIONS
 {
+    /* Initialized ITCM data. */
+    .itcm_data :
+    {
+        /* Start of ITCM Secure Trustzone region. */
+        __tz_ITCM_S = ABSOLUTE(ITCM_START);
+
+        /* All ITCM data start */
+        __itcm_data_start__ = .;
+
+        KEEP(*(.itcm_data*))
+
+        /* All ITCM data end */
+        __itcm_data_end__ = .;
+
+        /*
+         * Start of the ITCM Non-Secure Trustzone region.
+         * ITCM_NS_START can be used to set a fixed address for non-secure ITCM in secure projects or flat projects.
+         */
+        __tz_ITCM_N = DEFINED(ITCM_NS_START) ? ABSOLUTE(ITCM_NS_START) : ALIGN(__itcm_data_end__, 8192);
+    } > ITCM
+
     .text :
     {
         __tz_FLASH_S = ABSOLUTE(FLASH_START);
@@ -312,6 +341,41 @@ SECTIONS
 
     } > RAM AT > FLASH
 
+    /* Start address of the initial values for .dtcm_data. */
+    __dtcm_data_init_start = __etext + __data_end__ - __data_start__;
+
+    /* Initialized DTCM data. */
+    .dtcm_data :
+    {
+        /* Start of DTCM Secure Trustzone region. */
+        __tz_DTCM_S = ABSOLUTE(DTCM_START);
+
+        /* Initialized DTCM data start */
+        __dtcm_data_start__ = .;
+
+        KEEP(*(.dtcm_data*))
+
+        /* Initialized DTCM data end */
+        __dtcm_data_end__ = .;
+    } > DTCM AT > FLASH
+
+    /* Uninitialized DTCM data. */
+    .dtcm_noinit (NOLOAD):
+    {
+        /* Uninitialized DTCM data start */
+        __dtcm_noinit_start = .;
+
+        KEEP(*(.dtcm_noinit*))
+
+        /* Uninitialized DTCM data end */
+        __dtcm_noinit_end = .;
+
+        /*
+         * Start of the DTCM Non-Secure Trustzone region.
+         * DTCM_NS_START can be used to set a fixed address for non-secure ITCM in secure projects or flat projects.
+         */
+        __tz_DTCM_N = DEFINED(DTCM_NS_START) ? ABSOLUTE(DTCM_NS_START) : ALIGN(__dtcm_noinit_end, 8192);
+    } > DTCM
 
     /* TrustZone Secure Gateway Stubs Section. */
 
@@ -559,6 +623,8 @@ SECTIONS
     {
         __OPTION_SETTING_Start = .;
         KEEP(*(.option_setting_ofs0))
+        . = PROJECT_SECURE_OR_FLAT ? __OPTION_SETTING_Start + 0x04 : __OPTION_SETTING_Start;
+        KEEP(*(.option_setting_ofs2))
         . = PROJECT_SECURE_OR_FLAT ? __OPTION_SETTING_Start + 0x10 : __OPTION_SETTING_Start;
         KEEP(*(.option_setting_dualsel))
         . = PROJECT_SECURE_OR_FLAT ? __OPTION_SETTING_Start + 0x34 : __OPTION_SETTING_Start;
@@ -567,12 +633,14 @@ SECTIONS
     } > OPTION_SETTING = 0xFF
 
     /* Symbol required for RA Configuration tool. */
-    __tz_OPTION_SETTING_N = OPTION_SETTING_START_NS;
+    __tz_OPTION_SETTING_N = ABSOLUTE(OPTION_SETTING_START_NS);
 
     .option_setting_ns :
     {
         __OPTION_SETTING_NS_Start = .;
         KEEP(*(.option_setting_ofs1))
+        . = USE_OPTION_SETTING_NS ? __OPTION_SETTING_NS_Start + 0x04 : __OPTION_SETTING_NS_Start;
+        KEEP(*(.option_setting_ofs3))
         . = USE_OPTION_SETTING_NS ? __OPTION_SETTING_NS_Start + 0x10 : __OPTION_SETTING_NS_Start;
         KEEP(*(.option_setting_banksel))
         . = USE_OPTION_SETTING_NS ? __OPTION_SETTING_NS_Start + 0x40 : __OPTION_SETTING_NS_Start;
@@ -581,12 +649,16 @@ SECTIONS
         KEEP(*(.option_setting_bps1))
         . = USE_OPTION_SETTING_NS ? __OPTION_SETTING_NS_Start + 0x48 : __OPTION_SETTING_NS_Start;
         KEEP(*(.option_setting_bps2))
+        . = USE_OPTION_SETTING_NS ? __OPTION_SETTING_NS_Start + 0x4C : __OPTION_SETTING_NS_Start;
+        KEEP(*(.option_setting_bps3))
         . = USE_OPTION_SETTING_NS ? __OPTION_SETTING_NS_Start + 0x60 : __OPTION_SETTING_NS_Start;
         KEEP(*(.option_setting_pbps0))
         . = USE_OPTION_SETTING_NS ? __OPTION_SETTING_NS_Start + 0x64 : __OPTION_SETTING_NS_Start;
         KEEP(*(.option_setting_pbps1))
         . = USE_OPTION_SETTING_NS ? __OPTION_SETTING_NS_Start + 0x68 : __OPTION_SETTING_NS_Start;
         KEEP(*(.option_setting_pbps2))
+        . = USE_OPTION_SETTING_NS ? __OPTION_SETTING_NS_Start + 0x6C : __OPTION_SETTING_NS_Start;
+        KEEP(*(.option_setting_pbps3))
         __OPTION_SETTING_NS_End = .;
     } > OPTION_SETTING = 0xFF
 
@@ -597,6 +669,8 @@ SECTIONS
     {
         __OPTION_SETTING_S_Start = .;
         KEEP(*(.option_setting_ofs1_sec))
+        . = PROJECT_SECURE_OR_FLAT ? __OPTION_SETTING_S_Start + 0x04 : __OPTION_SETTING_S_Start;
+        KEEP(*(.option_setting_ofs3_sec))
         . = PROJECT_SECURE_OR_FLAT ? __OPTION_SETTING_S_Start + 0x10 : __OPTION_SETTING_S_Start;
         KEEP(*(.option_setting_banksel_sec))
         . = PROJECT_SECURE_OR_FLAT ? __OPTION_SETTING_S_Start + 0x40 : __OPTION_SETTING_S_Start;
@@ -605,14 +679,20 @@ SECTIONS
         KEEP(*(.option_setting_bps_sec1))
         . = PROJECT_SECURE_OR_FLAT ? __OPTION_SETTING_S_Start + 0x48 : __OPTION_SETTING_S_Start;
         KEEP(*(.option_setting_bps_sec2))
+        . = PROJECT_SECURE_OR_FLAT ? __OPTION_SETTING_S_Start + 0x4C : __OPTION_SETTING_S_Start;
+        KEEP(*(.option_setting_bps_sec3))
         . = PROJECT_SECURE_OR_FLAT ? __OPTION_SETTING_S_Start + 0x60 : __OPTION_SETTING_S_Start;
         KEEP(*(.option_setting_pbps_sec0))
         . = PROJECT_SECURE_OR_FLAT ? __OPTION_SETTING_S_Start + 0x64 : __OPTION_SETTING_S_Start;
         KEEP(*(.option_setting_pbps_sec1))
         . = PROJECT_SECURE_OR_FLAT ? __OPTION_SETTING_S_Start + 0x68 : __OPTION_SETTING_S_Start;
         KEEP(*(.option_setting_pbps_sec2))
+        . = PROJECT_SECURE_OR_FLAT ? __OPTION_SETTING_S_Start + 0x6C : __OPTION_SETTING_S_Start;
+        KEEP(*(.option_setting_pbps_sec3))
         . = PROJECT_SECURE_OR_FLAT ? __OPTION_SETTING_S_Start + 0x80 : __OPTION_SETTING_S_Start;
         KEEP(*(.option_setting_ofs1_sel))
+        . = PROJECT_SECURE_OR_FLAT ? __OPTION_SETTING_S_Start + 0x84 : __OPTION_SETTING_S_Start;
+        KEEP(*(.option_setting_ofs3_sel))
         . = PROJECT_SECURE_OR_FLAT ? __OPTION_SETTING_S_Start + 0x90 : __OPTION_SETTING_S_Start;
         KEEP(*(.option_setting_banksel_sel))
         . = PROJECT_SECURE_OR_FLAT ? __OPTION_SETTING_S_Start + 0xC0 : __OPTION_SETTING_S_Start;
@@ -621,6 +701,8 @@ SECTIONS
         KEEP(*(.option_setting_bps_sel1))
         . = PROJECT_SECURE_OR_FLAT ? __OPTION_SETTING_S_Start + 0xC8 : __OPTION_SETTING_S_Start;
         KEEP(*(.option_setting_bps_sel2))
+        . = PROJECT_SECURE_OR_FLAT ? __OPTION_SETTING_S_Start + 0xCC : __OPTION_SETTING_S_Start;
+        KEEP(*(.option_setting_bps_sel3))
         __OPTION_SETTING_S_End = .;
     } > OPTION_SETTING_S = 0xFF
 

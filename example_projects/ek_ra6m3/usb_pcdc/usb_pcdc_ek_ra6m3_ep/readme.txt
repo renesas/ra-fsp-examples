@@ -111,4 +111,6 @@ Applicable only for EK-RA2A1:
 	Note:  If the respective board is not powered through micro-AB USB (DEBUG USB) port (J11) 
 	       from the host PC, then the functionality cannot be demonstrated.
 
+    Link to Errata:https://www.renesas.com/us/en/document/mat/ek-ra6m3-v1-errata?language=en&r=1168086
+
 

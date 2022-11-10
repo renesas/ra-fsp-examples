@@ -19,7 +19,7 @@
 
 1. Project Overview:
        This Example project demonstrates the basic functionalities of SDADC running on Renesas RA MCUs using RA board and external variable power
-       supply.SDADC channel 0 is connected as single ended input mode and channel 1 is connected as differential ended input mode to power supply.
+       supply.SDADC channel 0 is connected as single ended input mode and channel 2 is connected as differential ended input mode to power supply.
        Data read from both the channels is displayed on JLink RTT Viewer.
 
 2. Hardware settings for the project:

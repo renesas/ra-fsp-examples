@@ -389,7 +389,7 @@ fsp_err_t tcp_send_data(uint8_t * p_data)
     }
     else
     {
-        bytes_sent = rm_wifi_onchip_silex_tcp_send(g_socket.id, p_data, strlen((char *) p_data), WIFI_ONCHIP_SILEX_TIMEOUT_400MS);
+        bytes_sent = rm_wifi_onchip_silex_send(g_socket.id, p_data, strlen((char *) p_data), WIFI_ONCHIP_SILEX_TIMEOUT_400MS);
         if(RESET_VALUE >= bytes_sent)
         {
             APP_ERR_PRINT("\r\n** rm_wifi_onchip_silex_tcp_send API for rm_wifi_onchip_silex failed **\r\n");
@@ -417,7 +417,7 @@ fsp_err_t tcp_recv_data(uint8_t * p_data)
     }
     else
     {
-        bytes_received = rm_wifi_onchip_silex_tcp_recv(g_socket.id, p_data, BUFF_LEN, WIFI_ONCHIP_SILEX_TIMEOUT_15SEC);
+        bytes_received = rm_wifi_onchip_silex_recv(g_socket.id, p_data, BUFF_LEN, WIFI_ONCHIP_SILEX_TIMEOUT_15SEC);
         if(RESET_VALUE > bytes_received)
         {
             APP_ERR_PRINT("\r\n** rm_wifi_onchip_silex_tcp_recv API for rm_wifi_onchip_silex failed **\r\n");

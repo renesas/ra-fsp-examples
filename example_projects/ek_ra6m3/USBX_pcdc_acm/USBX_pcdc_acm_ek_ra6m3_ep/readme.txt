@@ -77,3 +77,5 @@ This project demonstrates the basic functionality of USBX Device CDC ACM module 
 		3. Connect the micro USB end of the micro USB device cable to micro-AB USB High Speed 
 	   	   port (J6) of the board.  Connect the other end of this cable to USB port of the 
 	   	   host PC.
+
+	Link to Errata:https://www.renesas.com/us/en/document/mat/ek-ra6m3-v1-errata?language=en&r=1168086
