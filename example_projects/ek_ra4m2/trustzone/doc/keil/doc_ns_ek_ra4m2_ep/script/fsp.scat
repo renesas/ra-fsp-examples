@@ -119,11 +119,11 @@
 #endif
 
 #ifndef FLASH_NSC_START
-#define FLASH_NSC_START     +0 ALIGN 1024
+#define FLASH_NSC_START     (AlignExpr(ImageLength(LOAD_REGION_FLASH) + ImageBase(LOAD_REGION_FLASH), 1024))
 #endif
 
 #ifndef FLASH_NS_START
-#define FLASH_NS_START      +0 ALIGN 32768
+#define FLASH_NS_START       AlignExpr(+0, 32768)
 #endif
 
 #endif
@@ -178,9 +178,23 @@
 #define OSPI_DEVICE_1_PRV_LENGTH OSPI_DEVICE_1_LENGTH
 #endif
 
-#define OPTION_SETTING_NS_OFFSET    0x80
+#ifdef PROJECT_NONSECURE
+#define OPTION_SETTING_START_NS (OPTION_SETTING_START)
+#else
+#define OPTION_SETTING_START_NS (OPTION_SETTING_START + 0x80)
+#endif
 
-LOAD_REGION_FLASH FLASH_ORIGIN ALIGN 0x80 LIMITED_FLASH_LENGTH
+#ifndef NS_OFFSET_START
+#define NS_OFFSET_START 0
+#endif
+
+#ifdef PROJECT_NONSECURE
+#define NS_IMAGE_OFFSET NS_OFFSET_START
+#else
+#define NS_IMAGE_OFFSET 0
+#endif
+
+LOAD_REGION_FLASH FLASH_ORIGIN + NS_IMAGE_OFFSET ALIGN 0x80 LIMITED_FLASH_LENGTH
 {
   __tz_FLASH_S +0 EMPTY 0
   {
@@ -235,11 +249,11 @@ LOAD_REGION_FLASH FLASH_ORIGIN ALIGN 0x80 LIMITED_FLASH_LENGTH
     .ANY(+RO)
   }
 
-  __tz_RAM_S RAM_S_START EMPTY 0
+  __tz_RAM_S RAM_S_START + NS_IMAGE_OFFSET EMPTY 0
   {
   }
 
-  DTC_VECTOR_TABLE RAM_START UNINIT NOCOMPRESS RAM_LENGTH
+  DTC_VECTOR_TABLE RAM_START + NS_IMAGE_OFFSET UNINIT NOCOMPRESS RAM_LENGTH
   {
     ; If DTC is used, put the DTC vector table at the start of SRAM.
     ; This avoids memory holes due to 1K alignment required by it.
@@ -291,11 +305,11 @@ LOAD_REGION_FLASH FLASH_ORIGIN ALIGN 0x80 LIMITED_FLASH_LENGTH
   {
   }
 
-  __tz_RAM_C RAM_NSC_START EMPTY 0
+  __tz_RAM_C RAM_NSC_START + NS_IMAGE_OFFSET EMPTY 0
   {
   }
 
-  __tz_RAM_N RAM_NS_START EMPTY 0
+  __tz_RAM_N RAM_NS_START + NS_IMAGE_OFFSET EMPTY 0
   {
   }
 
@@ -378,16 +392,68 @@ LOAD_REGION_FLASH FLASH_ORIGIN ALIGN 0x80 LIMITED_FLASH_LENGTH
 #endif
 
 #if __RESERVE_NS_RAM
-  RAM_NS_BUFFER RAM_NS_BUFFER_START
+  RAM_NS_BUFFER RAM_NS_BUFFER_START + NS_IMAGE_OFFSET
   {
     *(.ns_buffer*)
   }
 #endif
 
-  RAM_LIMIT RAM_START+RAM_LENGTH EMPTY 4
+  RAM_LIMIT RAM_START + RAM_LENGTH + NS_IMAGE_OFFSET EMPTY 4
+  {
+  }
+
+#if DTCM_LENGTH > 0
+  __tz_DTCM_S DTCM_START + NS_IMAGE_OFFSET EMPTY 0
+  {
+  }
+
+  DTCM_DATA_INIT +0 NOCOMPRESS
+  {
+    *(.dtcm_data*)
+  }
+
+  DTCM_DATA_NOINIT +0 UNINIT NOCOMPRESS
+  {
+    *(.bss.dtcm_noinit*)
+  }
+
+  DTCM_LIMIT DTCM_START + DTCM_LENGTH + NS_IMAGE_OFFSET EMPTY 4
+  {
+  }
+
+#ifndef DTCM_NS_START
+#define DTCM_NS_START +0
+#endif
+  __tz_DTCM_N DTCM_NS_START + NS_IMAGE_OFFSET EMPTY 0
+  {
+  }
+#endif
+}
+
+#if ITCM_LENGTH > 0
+LOAD_REGION_ITCM ITCM_START + NS_IMAGE_OFFSET
+{
+  __tz_ITCM_S ITCM_START + NS_IMAGE_OFFSET EMPTY 0
+  {
+  }
+
+  ITCM_DATA +0 NOCOMPRESS ITCM_LENGTH
+  {
+    *(.itcm_data*)
+  }
+
+  ITCM_LIMIT ITCM_START + ITCM_LENGTH + NS_IMAGE_OFFSET EMPTY 4
+  {
+  }
+
+#ifndef ITCM_NS_START
+#define ITCM_NS_START +0
+#endif
+  __tz_ITCM_N ITCM_NS_START + NS_IMAGE_OFFSET EMPTY 0
   {
   }
 }
+#endif
 
 LOAD_REGION_NSC_FLASH FLASH_NSC_START
 {
@@ -435,91 +501,120 @@ LOAD_REGION_ID_CODE ID_CODE_START 4
 #endif
 
 #if OPTION_SETTING_LENGTH != 0
-LOAD_REGION_OPTION_SETTING OPTION_SETTING_START OPTION_SETTING_LENGTH
+LOAD_REGION_OPTION_SETTING OPTION_SETTING_START + NS_IMAGE_OFFSET OPTION_SETTING_LENGTH
 {
-  __tz_OPTION_SETTING_S OPTION_SETTING_START EMPTY 0
+  __tz_OPTION_SETTING_S OPTION_SETTING_START + NS_IMAGE_OFFSET EMPTY 0
   {
   }
 
 #ifndef PROJECT_NONSECURE
-  OFS0 OPTION_SETTING_START+0 FIXED
+  OFS0 OPTION_SETTING_START + 0 FIXED
   {
     *(.option_setting_ofs0)
   }
 
-  UNUSED_0 (ImageBase(OFS0)+ImageLength(OFS0)) FIXED FILL 0xFFFFFFFF (ImageBase(OFS0) + 0x10 - (ImageBase(OFS0)+ImageLength(OFS0)))
+  UNUSED_0 (ImageBase(OFS0)+ImageLength(OFS0)) FIXED FILL 0xFFFFFFFF (ImageBase(OFS0) + 0x04 - (ImageBase(OFS0)+ImageLength(OFS0)))
   {
 
   }
 
-  DUALSEL 0x0100A100+0x10 FIXED
+  OFS2 OPTION_SETTING_START + 0x04 FIXED
+  {
+    *(.option_setting_ofs2)
+  }
+
+  UNUSED_1 (ImageBase(OFS2)+ImageLength(OFS2)) FIXED FILL 0xFFFFFFFF (ImageBase(OFS0) + 0x10 - (ImageBase(OFS2)+ImageLength(OFS2)))
+  {
+
+  }
+
+  DUALSEL OPTION_SETTING_START + 0x10 FIXED
   {
     *(.option_setting_dualsel)
   }
 
-  UNUSED_1 (ImageBase(DUALSEL)+ImageLength(DUALSEL)) FIXED FILL 0xFFFFFFFF (ImageBase(OFS0) + 0x34 - (ImageBase(DUALSEL)+ImageLength(DUALSEL)))
+  UNUSED_2 (ImageBase(DUALSEL)+ImageLength(DUALSEL)) FIXED FILL 0xFFFFFFFF (ImageBase(OFS0) + 0x34 - (ImageBase(DUALSEL)+ImageLength(DUALSEL)))
   {
 
   }
 
-  SAS 0x0100A100+0x34 FIXED
+  SAS OPTION_SETTING_START + 0x34 FIXED
   {
     *(.option_setting_sas)
   }
 
-  UNUSED_2 (ImageBase(SAS)+ImageLength(SAS)) FIXED FILL 0xFFFFFFFF (ImageBase(OFS0) + 0x80 - (ImageBase(SAS)+ImageLength(SAS)))
+  UNUSED_3 (ImageBase(SAS)+ImageLength(SAS)) FIXED FILL 0xFFFFFFFF (ImageBase(OFS0) + 0x80 - (ImageBase(SAS)+ImageLength(SAS)))
   {
 
   }
+
+  __tz_OPTION_SETTING_N OPTION_SETTING_START_NS EMPTY 0
+  {
+  }
+
 #else
-  OFS1 0x0100A100+0x80 FIXED
+
+  __tz_OPTION_SETTING_N OPTION_SETTING_START + NS_IMAGE_OFFSET EMPTY 0
+  {
+  }
+
+  OFS1 OPTION_SETTING_START + NS_IMAGE_OFFSET FIXED
   {
     *(.option_setting_ofs1)
   }
 
-  UNUSED_3 (ImageBase(OFS1)+ImageLength(OFS1)) FIXED FILL 0xFFFFFFFF (ImageBase(OFS1) + 0x10 - (ImageBase(OFS1)+ImageLength(OFS1)))
+  UNUSED_4 (ImageBase(OFS1)+ImageLength(OFS1)) FIXED FILL 0xFFFFFFFF (ImageBase(OFS1) + 0x04 - (ImageBase(OFS1)+ImageLength(OFS1)))
   {
 
   }
 
-  BANKSEL 0x0100A100+0x90 FIXED
+  OFS3 OPTION_SETTING_START + NS_IMAGE_OFFSET + 0x04 FIXED
+  {
+    *(.option_setting_ofs3)
+  }
+
+  UNUSED_5 (ImageBase(OFS3)+ImageLength(OFS3)) FIXED FILL 0xFFFFFFFF (ImageBase(OFS1) + 0x10 - (ImageBase(OFS3)+ImageLength(OFS3)))
+  {
+
+  }
+
+  BANKSEL OPTION_SETTING_START + NS_IMAGE_OFFSET + 0x10 FIXED
   {
     *(.option_setting_banksel)
   }
 
-  UNUSED_4 (ImageBase(BANKSEL)+ImageLength(BANKSEL)) FIXED FILL 0xFFFFFFFF (ImageBase(OFS1) + 0x40 - (ImageBase(BANKSEL)+ImageLength(BANKSEL)))
+  UNUSED_6 (ImageBase(BANKSEL)+ImageLength(BANKSEL)) FIXED FILL 0xFFFFFFFF (ImageBase(OFS1) + 0x40 - (ImageBase(BANKSEL)+ImageLength(BANKSEL)))
   {
 
   }
 
-  BPS 0x0100A100+0xC0 FIXED
+  BPS OPTION_SETTING_START + NS_IMAGE_OFFSET + 0x40 FIXED
   {
     *(.option_setting_bps0)
     *(.option_setting_bps1)
     *(.option_setting_bps2)
+    *(.option_setting_bps3)
   }
 
-  UNUSED_5 (ImageBase(BPS)+ImageLength(BPS)) FIXED FILL 0xFFFFFFFF (ImageBase(OFS1) + 0x60 - (ImageBase(BPS)+ImageLength(BPS)))
+  UNUSED_7 (ImageBase(BPS)+ImageLength(BPS)) FIXED FILL 0xFFFFFFFF (ImageBase(OFS1) + 0x60 - (ImageBase(BPS)+ImageLength(BPS)))
   {
 
   }
 
-  PBPS 0x0100A100+0xE0 FIXED
+  PBPS OPTION_SETTING_START + NS_IMAGE_OFFSET + 0x60 FIXED
   {
     *(.option_setting_pbps0)
     *(.option_setting_pbps1)
     *(.option_setting_pbps2)
+    *(.option_setting_pbps3)
   }
 
-  UNUSED_6 (ImageBase(PBPS)+ImageLength(PBPS)) FIXED FILL 0xFFFFFFFF (ImageBase(OFS1) + 0x80 - (ImageBase(PBPS)+ImageLength(PBPS)))
+  UNUSED_8 (ImageBase(PBPS)+ImageLength(PBPS)) FIXED FILL 0xFFFFFFFF (ImageBase(OFS1) + 0x80 - (ImageBase(PBPS)+ImageLength(PBPS)))
   {
 
   }
 #endif
 
-  __tz_OPTION_SETTING_N OPTION_SETTING_START + OPTION_SETTING_NS_OFFSET EMPTY 0
-  {
-  }
 }
 
 #if OPTION_SETTING_S_LENGTH != 0
@@ -531,78 +626,101 @@ LOAD_REGION_OPTION_SETTING_S OPTION_SETTING_S_START OPTION_SETTING_S_LENGTH
 
 #ifndef PROJECT_NONSECURE
 
-  OFS1_SEC OPTION_SETTING_S_START+0 FIXED
+  OFS1_SEC OPTION_SETTING_S_START + 0 FIXED
   {
     *(.option_setting_ofs1_sec)
   }
 
-  UNUSED_7 (ImageBase(OFS1_SEC)+ImageLength(OFS1_SEC)) FIXED FILL 0xFFFFFFFF (ImageBase(OFS1_SEC) + 0x10 - (ImageBase(OFS1_SEC)+ImageLength(OFS1_SEC)))
+  UNUSED_7 (ImageBase(OFS1_SEC)+ImageLength(OFS1_SEC)) FIXED FILL 0xFFFFFFFF (ImageBase(OFS1_SEC) + 0x04 - (ImageBase(OFS1_SEC)+ImageLength(OFS1_SEC)))
   {
 
   }
 
-  BANKSEL_SEC OPTION_SETTING_S_START+0x10 FIXED
+  OFS3_SEC OPTION_SETTING_S_START + 0x04 FIXED
+  {
+    *(.option_setting_ofs3_sec)
+  }
+
+  UNUSED_8 (ImageBase(OFS3_SEC)+ImageLength(OFS3_SEC)) FIXED FILL 0xFFFFFFFF (ImageBase(OFS1_SEC) + 0x10 - (ImageBase(OFS3_SEC)+ImageLength(OFS3_SEC)))
+  {
+
+  }
+
+  BANKSEL_SEC OPTION_SETTING_S_START + 0x10 FIXED
   {
     *(.option_setting_banksel_sec)
   }
 
-  UNUSED_8 (ImageBase(BANKSEL_SEC)+ImageLength(BANKSEL_SEC)) FIXED FILL 0xFFFFFFFF (ImageBase(OFS1_SEC) + 0x40 - (ImageBase(BANKSEL_SEC)+ImageLength(BANKSEL_SEC)))
+  UNUSED_9 (ImageBase(BANKSEL_SEC)+ImageLength(BANKSEL_SEC)) FIXED FILL 0xFFFFFFFF (ImageBase(OFS1_SEC) + 0x40 - (ImageBase(BANKSEL_SEC)+ImageLength(BANKSEL_SEC)))
   {
 
   }
 
-  BPS_SEC OPTION_SETTING_S_START+0x40 FIXED
+  BPS_SEC OPTION_SETTING_S_START + 0x40 FIXED
   {
     *(.option_setting_bps_sec0)
     *(.option_setting_bps_sec1)
     *(.option_setting_bps_sec2)
+    *(.option_setting_bps_sec3)
   }
 
-  UNUSED_9 (ImageBase(BPS_SEC)+ImageLength(BPS_SEC)) FIXED FILL 0xFFFFFFFF (ImageBase(OFS1_SEC) + 0x60 - (ImageBase(BPS_SEC)+ImageLength(BPS_SEC)))
+  UNUSED_10 (ImageBase(BPS_SEC)+ImageLength(BPS_SEC)) FIXED FILL 0xFFFFFFFF (ImageBase(OFS1_SEC) + 0x60 - (ImageBase(BPS_SEC)+ImageLength(BPS_SEC)))
   {
 
   }
 
-  PBPS_SEC OPTION_SETTING_S_START+0x60 FIXED
+  PBPS_SEC OPTION_SETTING_S_START + 0x60 FIXED
   {
     *(.option_setting_pbps_sec0)
     *(.option_setting_pbps_sec1)
     *(.option_setting_pbps_sec2)
+    *(.option_setting_pbps_sec3)
   }
 
-  UNUSED_10 (ImageBase(PBPS_SEC)+ImageLength(PBPS_SEC)) FIXED FILL 0xFFFFFFFF (ImageBase(OFS1_SEC) + 0x80 - (ImageBase(PBPS_SEC)+ImageLength(PBPS_SEC)))
+  UNUSED_11 (ImageBase(PBPS_SEC)+ImageLength(PBPS_SEC)) FIXED FILL 0xFFFFFFFF (ImageBase(OFS1_SEC) + 0x80 - (ImageBase(PBPS_SEC)+ImageLength(PBPS_SEC)))
   {
 
   }
 
-  OFS1_SEL OPTION_SETTING_S_START+0x80 FIXED
+  OFS1_SEL OPTION_SETTING_S_START + 0x80 FIXED
   {
     *(.option_setting_ofs1_sel)
   }
 
-  UNUSED_11 (ImageBase(OFS1_SEL)+ImageLength(OFS1_SEL)) FIXED FILL 0xFFFFFFFF (ImageBase(OFS1_SEC) + 0x90 - (ImageBase(OFS1_SEL)+ImageLength(OFS1_SEL)))
+  UNUSED_12 (ImageBase(OFS1_SEL)+ImageLength(OFS1_SEL)) FIXED FILL 0xFFFFFFFF (ImageBase(OFS1_SEC) + 0x84 - (ImageBase(OFS1_SEL)+ImageLength(OFS1_SEL)))
   {
 
   }
 
-  BANKSEL_SEL OPTION_SETTING_S_START+0x90 FIXED
+  OFS3_SEL OPTION_SETTING_S_START + 0x84 FIXED
+  {
+    *(.option_setting_ofs3_sel)
+  }
+
+  UNUSED_13 (ImageBase(OFS3_SEL)+ImageLength(OFS3_SEL)) FIXED FILL 0xFFFFFFFF (ImageBase(OFS1_SEC) + 0x90 - (ImageBase(OFS3_SEL)+ImageLength(OFS3_SEL)))
+  {
+
+  }
+
+  BANKSEL_SEL OPTION_SETTING_S_START + 0x90 FIXED
   {
     *(.option_setting_banksel_sel)
   }
 
-  UNUSED_12 (ImageBase(BANKSEL_SEL)+ImageLength(BANKSEL_SEL)) FIXED FILL 0xFFFFFFFF (ImageBase(OFS1_SEC) + 0xC0 - (ImageBase(BANKSEL_SEL)+ImageLength(BANKSEL_SEL)))
+  UNUSED_14 (ImageBase(BANKSEL_SEL)+ImageLength(BANKSEL_SEL)) FIXED FILL 0xFFFFFFFF (ImageBase(OFS1_SEC) + 0xC0 - (ImageBase(BANKSEL_SEL)+ImageLength(BANKSEL_SEL)))
   {
 
   }
 
-  BPS_SEL OPTION_SETTING_S_START+0xC0 FIXED
+  BPS_SEL OPTION_SETTING_S_START + 0xC0 FIXED
   {
     *(.option_setting_bps_sel0)
     *(.option_setting_bps_sel1)
     *(.option_setting_bps_sel2)
+    *(.option_setting_bps_sel3)
   }
 
-  UNUSED_13 (ImageBase(BPS_SEL)+ImageLength(BPS_SEL)) FIXED FILL 0xFFFFFFFF (ImageBase(OFS1_SEC) + 0x100 - (ImageBase(BPS_SEL)+ImageLength(BPS_SEL)))
+  UNUSED_15 (ImageBase(BPS_SEL)+ImageLength(BPS_SEL)) FIXED FILL 0xFFFFFFFF (ImageBase(OFS1_SEC) + 0x100 - (ImageBase(BPS_SEL)+ImageLength(BPS_SEL)))
   {
 
   }
@@ -621,7 +739,7 @@ LOAD_REGION_DATA_FLASH DATA_FLASH_START DATA_FLASH_LENGTH
   __tz_DATA_FLASH_S DATA_FLASH_S_START EMPTY 0
   {
   }
-  DATA_FLASH +0 FIXED
+  DATA_FLASH +0
   {
     *(.data_flash*)
   }

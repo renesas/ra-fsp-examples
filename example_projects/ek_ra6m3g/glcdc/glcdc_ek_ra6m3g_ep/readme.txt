@@ -16,11 +16,11 @@
 * **********************************************************************************************************************/
 
 1. Project Overview:
-    This Example Project demonstrates the basic functionalities of GLCDC device driver
-    on Renesas RA MCUs based on Renesas FSP. On successful initialization of GLCDC module,
-    the EP will be able to read the display resolution and frame buffer set in the GLCDC module and
-    draw color bands to cover the entire screen of external LCD connected to RA MCU.
-    API Failure messages will be displayed on RTT Viewer.
+    This Example Project demonstrates the basic functionalities of 2D Drawing Engine (DRW) device driver 
+    on Renesas RA MCUs based on Renesas FSP. On successful initialization of DRW and GLCDC modules,
+    the EP will draw various shapes and shape fills across the LCD screen, as well as use Alpha Blending
+    on the images rendered to cover the entire screen of an external LCD connected to the RA MCU.
+    API Failure messages will also be displayed on RTT Viewer.
 
 2. Hardware Requirements:
     Renesas RA boards: EK-RA6M3G.

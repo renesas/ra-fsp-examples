@@ -59,10 +59,11 @@ FSP Configuration
     Parameter checking: Enabled
     Assert Failures: Return FSP_ERR_ASSERTION
     Error Log: No Error Log
-    Soft Reset: Disabled
+    Clock Registers not Reset Values during Startup: Disabled
     Main Oscillator Populated: Populated
     PFS Protect: Enabled
     C Runtime Initialization : Enabled
+    Early BSP Initialization : Disabled
     Main Oscillator Clock Source: Crystal or Resonator
     Subclock Populated: Not Populated
     Subclock Drive (Drive capacitance availability varies by MCU): Standard/Normal mode
@@ -89,82 +90,82 @@ FSP Configuration
     RA6T1-RSSK.pincfg -> g_bsp_pin_cfg
       AVCC0 88 ANALOG0_AVCC0 - - - - - - - - IO "Read only" - 
       AVSS0 89 ANALOG0_AVSS0 - - - - - - - - IO "Read only" - 
-      P000 100 - - - - Disabled - - "ACMPHS2: IVCMP; ADC0: AN00; ICU0: IRQ06" - None - - 
-      P001 99 - - - - Disabled - - "ACMPHS2: IVCMP; ADC0: AN01; ICU0: IRQ07" - None - - 
-      P002 98 - - - - Disabled - - "ACMPHS2: IVCMP; ADC0: AN02; ICU0: IRQ08" - None - - 
-      P003 97 - - - - Disabled - - "ADC0: AN07" - None - - 
-      P004 96 - - - - Disabled - - "ACMPHS2: IVCMP; ADC1: AN00; ICU0: IRQ09" - None - - 
-      P005 95 - - - - Disabled - - "ACMPHS2: IVCMP; ADC1: AN01; ICU0: IRQ10" - None - - 
-      P006 94 - - - - Disabled - - "ACMPHS2: IVCMP; ADC1: AN02; ICU0: IRQ11" - None - - 
-      P007 93 - - - - Disabled - - "ADC1: AN07" - None - - 
-      P008 92 - - - - Disabled - - "ADC0: AN03; ICU0: IRQ12" - None - - 
-      P014 85 - - - - Disabled - - "ACMPHS3: IVREF; ADC0: AN05; ADC1: AN05; DAC0: DA" - None - - 
-      P015 84 - - - - Disabled - - "ACMPHS1: IVCMP; ADC0: AN06; ADC1: AN06; DAC1: DA; ICU0: IRQ13" - None - - 
-      P100 75 - - - - Disabled - - "AGT0: AGTIO; GPT_POEG0: GTETRG; GPT5: GTIOCB; ICU0: IRQ02; IIC1: SCL; KINT0: KRM0; SCI0: RXD; SCI0: SCL; SCI1: SCK; SPI0: MISO" - None - - 
-      P101 74 - - - - Disabled - - "AGT0: AGTEE; GPT_POEG1: GTETRG; GPT5: GTIOCA; ICU0: IRQ01; IIC1: SDA; KINT0: KRM1; SCI0: SDA; SCI0: TXD; SCI1: CTS; SPI0: MOSI" - None - - 
-      P102 73 - - - - Disabled - - "ADC0: ADTRG; AGT0: AGTO; CAN0: CRX; GPT_OPS0: GTOWLO; GPT2: GTIOCB; KINT0: KRM2; SCI0: SCK; SPI0: RSPCK" - None - - 
-      P103 72 - - - - Disabled - - "CAN0: CTX; GPT_OPS0: GTOWUP; GPT2: GTIOCA; KINT0: KRM3; SCI0: CTS; SPI0: SSL0" - None - - 
-      P104 71 - - - - Disabled - - "GPT_POEG1: GTETRG; GPT1: GTIOCB; ICU0: IRQ01; KINT0: KRM4; SCI8: RXD; SCI8: SCL; SPI0: SSL1" - None - - 
-      P105 70 - - - - Disabled - - "GPT_POEG0: GTETRG; GPT1: GTIOCA; ICU0: IRQ00; KINT0: KRM5; SCI8: SDA; SCI8: TXD; SPI0: SSL2" - None - - 
-      P106 69 - - - - Disabled - - "AGT0: AGTOB; GPT8: GTIOCB; KINT0: KRM6; SCI8: SCK; SPI0: SSL3" - None - - 
-      P107 68 - - - - Disabled - - "AGT0: AGTOA; GPT8: GTIOCA; KINT0: KRM7; SCI8: CTS" - None - - 
-      P108 51 DEBUG0_TMS - Low - "Peripheral mode" CMOS None "DEBUG0: SWDIO; DEBUG0: TMS; GPT_OPS0: GTOULO; GPT0: GTIOCB; SCI9: CTS; SPI1: SSL0" - IO - - 
-      P109 52 DEBUG0_TDO - Low - "Peripheral mode" CMOS None "CGC0: CLKOUT; DEBUG0: TDO; DEBUG0: TRACESWO; GPT_OPS0: GTOVUP; GPT1: GTIOCA; SCI9: SDA; SCI9: TXD; SPI1: MOSI" - IO - - 
-      P110 53 DEBUG0_TDI - Low None "Peripheral mode" CMOS None "ACMP(0-5): VCOUT; DEBUG0: TDI; GPT_OPS0: GTOVLO; GPT1: GTIOCB; ICU0: IRQ03; SCI2: CTS; SCI9: RXD; SCI9: SCL; SPI1: MISO" - IO - - 
-      P111 54 - - - - Disabled - - "GPT_OPS0: HRMON0; GPT3: GTIOCA; ICU0: IRQ04; SCI2: SCK; SCI9: SCK; SPI1: RSPCK" - None - - 
-      P112 55 - - - - Disabled - - "GPT_OPS0: HRMON1; GPT3: GTIOCB; SCI1: SCK; SCI2: SDA; SCI2: TXD; SPI1: SSL0" - None - - 
-      P113 56 - - - - Disabled - - "GPT2: GTIOCA; SCI2: RXD; SCI2: SCL" - None - - 
-      P114 57 - - - - Disabled - - "GPT2: GTIOCB" - None - - 
-      P115 58 - - - - Disabled - - "GPT4: GTIOCA" - None - - 
+      P000 100 - - - - Disabled - - "ACMPHS0: IVCMP; ADC0: AN000; ICU0: IRQ06" - None - - 
+      P001 99 - - - - Disabled - - "ACMPHS1: IVCMP; ADC0: AN001; ICU0: IRQ07" - None - - 
+      P002 98 - - - - Disabled - - "ACMPHS2: IVCMP; ADC0: AN002; ICU0: IRQ08" - None - - 
+      P003 97 - - - - Disabled - - "ADC0: AN007" - None - - 
+      P004 96 - - - - Disabled - - "ACMPHS3: IVCMP; ADC1: AN100; ICU0: IRQ09" - None - - 
+      P005 95 - - - - Disabled - - "ACMPHS4: IVCMP; ADC1: AN101; ICU0: IRQ10" - None - - 
+      P006 94 - - - - Disabled - - "ACMPHS5: IVCMP; ADC1: AN102; ICU0: IRQ11" - None - - 
+      P007 93 - - - - Disabled - - "ADC1: AN107" - None - - 
+      P008 92 - - - - Disabled - - "ADC0: AN003; ICU0: IRQ12" - None - - 
+      P014 85 - - - - Disabled - - "ACMPHS0: IVREF; ACMPHS1: IVREF; ACMPHS2: IVREF; ACMPHS3: IVREF; ACMPHS4: IVREF; ACMPHS5: IVREF; ADC0: AN005; ADC1: AN105; DAC0: DA0" - None - - 
+      P015 84 - - - - Disabled - - "ACMPHS0: IVCMP; ACMPHS1: IVCMP; ACMPHS2: IVCMP; ACMPHS3: IVCMP; ACMPHS4: IVCMP; ACMPHS5: IVCMP; ADC0: AN006; ADC1: AN106; DAC1: DA1; ICU0: IRQ13" - None - - 
+      P100 75 - - - - Disabled - - "AGT0: AGTIO0; GPT_POEG0: GTETRGA; GPT5: GTIOC5B; ICU0: IRQ02; IIC1: SCL1; KINT0: KRM00; SCI0: RXD0; SCI0: SCL0; SCI1: SCK1; SPI0: MISOA" - None - - 
+      P101 74 - - - - Disabled - - "AGT0: AGTEE0; GPT_POEG1: GTETRGB; GPT5: GTIOC5A; ICU0: IRQ01; IIC1: SDA1; KINT0: KRM01; SCI0: SDA0; SCI0: TXD0; SCI1: CTS1; SPI0: MOSIA" - None - - 
+      P102 73 - - - - Disabled - - "ADC0: ADTRG0; AGT0: AGTO0; CAN0: CRX0; GPT_OPS0: GTOWLO; GPT2: GTIOC2B; KINT0: KRM02; SCI0: SCK0; SPI0: RSPCKA" - None - - 
+      P103 72 - - - - Disabled - - "CAN0: CTX0; GPT_OPS0: GTOWUP; GPT2: GTIOC2A; KINT0: KRM03; SCI0: CTS0; SPI0: SSLA0" - None - - 
+      P104 71 - - - - Disabled - - "GPT_POEG1: GTETRGB; GPT1: GTIOC1B; ICU0: IRQ01; KINT0: KRM04; SCI8: RXD8; SCI8: SCL8; SPI0: SSLA1" - None - - 
+      P105 70 - - - - Disabled - - "GPT_POEG0: GTETRGA; GPT1: GTIOC1A; ICU0: IRQ00; KINT0: KRM05; SCI8: SDA8; SCI8: TXD8; SPI0: SSLA2" - None - - 
+      P106 69 - - - - Disabled - - "AGT0: AGTOB0; GPT8: GTIOC8B; KINT0: KRM06; SCI8: SCK8; SPI0: SSLA3" - None - - 
+      P107 68 - - - - Disabled - - "AGT0: AGTOA0; GPT8: GTIOC8A; KINT0: KRM07; SCI8: CTS8" - None - - 
+      P108 51 DEBUG0_TMS - Low - "Peripheral mode" CMOS None "DEBUG0: SWDIO; DEBUG0: TMS; GPT_OPS0: GTOULO; GPT0: GTIOC0B; SCI9: CTS9; SPI1: SSLB0" - IO - - 
+      P109 52 DEBUG0_TDO - Low - "Peripheral mode" CMOS None "CGC0: CLKOUT; DEBUG0: TDO; DEBUG0: TRACESWO; GPT_OPS0: GTOVUP; GPT1: GTIOC1A; SCI9: SDA9; SCI9: TXD9; SPI1: MOSIB" - IO - - 
+      P110 53 DEBUG0_TDI - Low None "Peripheral mode" CMOS None "ACMP(0-5): VCOUT; DEBUG0: TDI; GPT_OPS0: GTOVLO; GPT1: GTIOC1B; ICU0: IRQ03; SCI2: CTS2; SCI9: RXD9; SCI9: SCL9; SPI1: MISOB" - IO - - 
+      P111 54 - - - - Disabled - - "GPT_OPS0: HRMON0; GPT3: GTIOC3A; ICU0: IRQ04; SCI2: SCK2; SCI9: SCK9; SPI1: RSPCKB" - None - - 
+      P112 55 - - - - Disabled - - "GPT_OPS0: HRMON1; GPT3: GTIOC3B; SCI1: SCK1; SCI2: SDA2; SCI2: TXD2; SPI1: SSLB0" - None - - 
+      P113 56 - - - - Disabled - - "GPT2: GTIOC2A; SCI2: RXD2; SCI2: SCL2" - None - - 
+      P114 57 - - - - Disabled - - "GPT2: GTIOC2B" - None - - 
+      P115 58 - - - - Disabled - - "GPT4: GTIOC4A" - None - - 
       P200 40 - - - - Disabled - - "ICU0: NMI" - None - - 
       P201 39 - - - - Disabled - - "SYSTEM0: MD" - None - - 
-      P205 32 - - - - Disabled - - "AGT1: AGTO; CGC0: CLKOUT; GPT_OPS0: GTIV; GPT4: GTIOCA; ICU0: IRQ01; IIC1: SCL; SCI4: SDA; SCI4: TXD; SCI9: CTS" - None - - 
-      P206 31 - - - - Disabled - - "GPT_OPS0: GTIU; ICU0: IRQ00; IIC1: SDA; SCI4: RXD; SCI4: SCL" - None - - 
+      P205 32 - - - - Disabled - - "AGT1: AGTO1; CGC0: CLKOUT; GPT_OPS0: GTIV; GPT4: GTIOC4A; ICU0: IRQ01; IIC1: SCL1; SCI4: SDA4; SCI4: TXD4; SCI9: CTS9" - None - - 
+      P206 31 - - - - Disabled - - "GPT_OPS0: GTIU; ICU0: IRQ00; IIC1: SDA1; SCI4: RXD4; SCI4: SCL4" - None - - 
       P207 30 - - - - Disabled - - - - None - - 
       P208 37 - - - - Disabled - - "DEBUG_TRACE0: TDATA3; GPT_OPS0: GTOVLO" - None - - 
       P209 36 - - - - Disabled - - "DEBUG_TRACE0: TDATA2; GPT_OPS0: GTOVUP" - None - - 
       P210 35 - - - - Disabled - - "DEBUG_TRACE0: TDATA1; GPT_OPS0: GTIW" - None - - 
       P211 34 - - - - Disabled - - "DEBUG_TRACE0: TDATA0; GPT_OPS0: GTIV" - None - - 
-      P212 14 - - - - Disabled - - "AGT1: AGTEE; CGC0: EXTAL; GPT_POEG3: GTETRG; GPT0: GTIOCB; ICU0: IRQ03; SCI1: RXD; SCI1: SCL" - None - - 
-      P213 13 - - - - Disabled - - "ADC1: ADTRG; CGC0: XTAL; GPT_POEG2: GTETRG; GPT0: GTIOCA; ICU0: IRQ02; SCI1: SDA; SCI1: TXD" - None - - 
+      P212 14 - - - - Disabled - - "AGT1: AGTEE1; CGC0: EXTAL; GPT_POEG3: GTETRGD; GPT0: GTIOC0B; ICU0: IRQ03; SCI1: RXD1; SCI1: SCL1" - None - - 
+      P213 13 - - - - Disabled - - "ADC1: ADTRG1; CGC0: XTAL; GPT_POEG2: GTETRGC; GPT0: GTIOC0A; ICU0: IRQ02; SCI1: SDA1; SCI1: TXD1" - None - - 
       P214 33 - - - - Disabled - - "DEBUG_TRACE0: TCLK; GPT_OPS0: GTIU" - None - - 
-      P300 50 DEBUG0_TCK - Low - "Peripheral mode" CMOS None "DEBUG0: SWCLK; DEBUG0: TCK; GPT_OPS0: GTOUUP; GPT0: GTIOCA; SPI1: SSL1" - IO - - 
-      P301 49 - - - - Disabled - - "AGT0: AGTIO; GPT_OPS0: GTOULO; GPT4: GTIOCB; ICU0: IRQ06; SCI2: RXD; SCI2: SCL; SCI9: CTS; SPI1: SSL2" - None - - 
-      P302 48 - - - - Disabled - - "GPT_OPS0: GTOUUP; GPT4: GTIOCA; ICU0: IRQ05; SCI2: SDA; SCI2: TXD; SPI1: SSL3" - None - - 
-      P303 47 - - - - Disabled - - "GPT7: GTIOCB" - None - - 
-      P304 44 - - - - Disabled - - "GPT_OPS0: GTOWLO; GPT7: GTIOCA; ICU0: IRQ09" - None - - 
+      P300 50 DEBUG0_TCK - Low - "Peripheral mode" CMOS None "DEBUG0: SWCLK; DEBUG0: TCK; GPT_OPS0: GTOUUP; GPT0: GTIOC0A; SPI1: SSLB1" - IO - - 
+      P301 49 - - - - Disabled - - "AGT0: AGTIO0; GPT_OPS0: GTOULO; GPT4: GTIOC4B; ICU0: IRQ06; SCI2: RXD2; SCI2: SCL2; SCI9: CTS9; SPI1: SSLB2" - None - - 
+      P302 48 - - - - Disabled - - "GPT_OPS0: GTOUUP; GPT4: GTIOC4A; ICU0: IRQ05; SCI2: SDA2; SCI2: TXD2; SPI1: SSLB3" - None - - 
+      P303 47 - - - - Disabled - - "GPT7: GTIOC7B" - None - - 
+      P304 44 - - - - Disabled - - "GPT_OPS0: GTOWLO; GPT7: GTIOC7A; ICU0: IRQ09" - None - - 
       P305 43 - - - - Disabled - - "GPT_OPS0: GTOWUP; ICU0: IRQ08" - None - - 
       P306 42 - - - - Disabled - - "GPT_OPS0: GTOULO" - None - - 
       P307 41 - - - - Disabled - - "GPT_OPS0: GTOUUP" - None - - 
-      P400 1 - - - - Disabled - - "ADC1: ADTRG; AGT1: AGTIO; GPT6: GTIOCA; ICU0: IRQ00; IIC0: SCL; SCI4: SCK" - None - - 
-      P401 2 - - - - Disabled - - "CAN0: CTX; GPT_POEG0: GTETRG; GPT6: GTIOCB; ICU0: IRQ05; IIC0: SDA; SCI4: CTS" - None - - 
-      P402 3 - - - - Disabled - - "AGT0: AGTIO; AGT1: AGTIO; CAC0: CACREF; CAN0: CRX; ICU0: IRQ04" - None - - 
-      P403 4 - - - - Disabled - - "AGT0: AGTIO; AGT1: AGTIO; GPT3: GTIOCA" - None - - 
-      P404 5 - - - - Disabled - - "GPT3: GTIOCB" - None - - 
-      P405 6 - - - - Disabled - - "GPT1: GTIOCA" - None - - 
-      P406 7 - - - - Disabled - - "GPT1: GTIOCB" - None - - 
-      P407 25 - - - - Disabled - - "ADC0: ADTRG; AGT0: AGTIO; IIC0: SDA; SCI4: CTS" - None - - 
-      P408 24 - - - - Disabled - - "GPT_OPS0: GTOWLO; GPT10: GTIOCB; ICU0: IRQ07; IIC0: SCL; SCI3: RXD; SCI3: SCL" - None - - 
-      P409 23 - - - - Disabled - - "GPT_OPS0: GTOWUP; GPT10: GTIOCA; ICU0: IRQ06; SCI3: SDA; SCI3: TXD" - None - - 
-      P410 22 - - - - Disabled - - "AGT1: AGTOB; GPT_OPS0: GTOVLO; GPT9: GTIOCB; ICU0: IRQ05; SCI0: RXD; SCI0: SCL; SCI3: SCK; SPI0: MISO" - None - - 
-      P411 21 - - - - Disabled - - "AGT1: AGTOA; GPT_OPS0: GTOVUP; GPT9: GTIOCA; ICU0: IRQ04; SCI0: SDA; SCI0: TXD; SCI3: CTS; SPI0: MOSI" - None - - 
-      P412 20 - - - - Disabled - - "AGT1: AGTEE; GPT_OPS0: GTOULO; SCI0: SCK; SPI0: RSPCK" - None - - 
-      P413 19 - - - - Disabled - - "GPT_OPS0: GTOUUP; SCI0: CTS; SPI0: SSL0" - None - - 
-      P414 18 - - - - Disabled - - "GPT0: GTIOCB; ICU0: IRQ09; SPI0: SSL1" - None - - 
-      P415 17 - - - - Disabled - - "GPT0: GTIOCA; ICU0: IRQ08; SPI0: SSL2" - None - - 
-      P500 76 - - - - Disabled - - "ACMPHS0: IVREF; ADC0: AN16; AGT0: AGTOA; GPT_OPS0: GTIU; GPT11: GTIOCA" - None - - 
-      P501 77 - - - - Disabled - - "ACMPHS1: IVREF; ADC1: AN16; AGT0: AGTOB; GPT_OPS0: GTIV; GPT11: GTIOCB; ICU0: IRQ11" - None - - 
-      P502 78 - - - - Disabled - - "ACMPHS0: IVCMP; ADC0: AN17; GPT_OPS0: GTIW; GPT12: GTIOCA; ICU0: IRQ12" - None - - 
-      P503 79 - - - - Disabled - - "ADC1: AN17; GPT_POEG2: GTETRG; GPT12: GTIOCB" - None - - 
-      P504 80 - - - - Disabled - - "ADC0: AN18; GPT_POEG3: GTETRG" - None - - 
-      P508 81 - - - - Disabled - - "ADC0: AN20" - None - - 
-      P600 67 - - - - Disabled - - "CAC0: CACREF; CGC0: CLKOUT; GPT6: GTIOCB; SCI9: SCK" - None - - 
-      P601 66 - - - - Disabled - - "GPT6: GTIOCA; SCI9: RXD; SCI9: SCL" - None - - 
-      P602 65 - - - - Disabled - - "GPT7: GTIOCB; SCI9: SDA; SCI9: TXD" - None - - 
-      P608 59 - - - - Disabled - - "GPT4: GTIOCB" - None - - 
-      P609 60 - - - - Disabled - - "GPT5: GTIOCA" - None - - 
-      P610 61 - - - - Disabled - - "GPT5: GTIOCB" - None - - 
-      P708 16 - - - - Disabled - - "CAC0: CACREF; ICU0: IRQ11; SCI1: RXD; SCI1: SCL; SPI0: SSL3" - None - - 
+      P400 1 - - - - Disabled - - "ADC1: ADTRG1; AGT1: AGTIO1; GPT6: GTIOC6A; ICU0: IRQ00; IIC0: SCL0; SCI4: SCK4" - None - - 
+      P401 2 - - - - Disabled - - "CAN0: CTX0; GPT_POEG0: GTETRGA; GPT6: GTIOC6B; ICU0: IRQ05; IIC0: SDA0; SCI4: CTS4" - None - - 
+      P402 3 - - - - Disabled - - "AGT0: AGTIO0; AGT1: AGTIO1; CAC0: CACREF; CAN0: CRX0; ICU0: IRQ04" - None - - 
+      P403 4 - - - - Disabled - - "AGT0: AGTIO0; AGT1: AGTIO1; GPT3: GTIOC3A" - None - - 
+      P404 5 - - - - Disabled - - "GPT3: GTIOC3B" - None - - 
+      P405 6 - - - - Disabled - - "GPT1: GTIOC1A" - None - - 
+      P406 7 - - - - Disabled - - "GPT1: GTIOC1B" - None - - 
+      P407 25 - - - - Disabled - - "ADC0: ADTRG0; AGT0: AGTIO0; IIC0: SDA0; SCI4: CTS4" - None - - 
+      P408 24 - - - - Disabled - - "GPT_OPS0: GTOWLO; GPT10: GTIOC10B; ICU0: IRQ07; IIC0: SCL0; SCI3: RXD3; SCI3: SCL3" - None - - 
+      P409 23 - - - - Disabled - - "GPT_OPS0: GTOWUP; GPT10: GTIOC10A; ICU0: IRQ06; SCI3: SDA3; SCI3: TXD3" - None - - 
+      P410 22 - - - - Disabled - - "AGT1: AGTOB1; GPT_OPS0: GTOVLO; GPT9: GTIOC9B; ICU0: IRQ05; SCI0: RXD0; SCI0: SCL0; SCI3: SCK3; SPI0: MISOA" - None - - 
+      P411 21 - - - - Disabled - - "AGT1: AGTOA1; GPT_OPS0: GTOVUP; GPT9: GTIOC9A; ICU0: IRQ04; SCI0: SDA0; SCI0: TXD0; SCI3: CTS3; SPI0: MOSIA" - None - - 
+      P412 20 - - - - Disabled - - "AGT1: AGTEE1; GPT_OPS0: GTOULO; SCI0: SCK0; SPI0: RSPCKA" - None - - 
+      P413 19 - - - - Disabled - - "GPT_OPS0: GTOUUP; SCI0: CTS0; SPI0: SSLA0" - None - - 
+      P414 18 - - - - Disabled - - "GPT0: GTIOC0B; ICU0: IRQ09; SPI0: SSLA1" - None - - 
+      P415 17 - - - - Disabled - - "GPT0: GTIOC0A; ICU0: IRQ08; SPI0: SSLA2" - None - - 
+      P500 76 - - - - Disabled - - "ACMPHS0: IVREF; ACMPHS1: IVREF; ACMPHS2: IVREF; ACMPHS3: IVREF; ACMPHS4: IVREF; ACMPHS5: IVREF; ADC0: AN016; AGT0: AGTOA0; GPT_OPS0: GTIU; GPT11: GTIOC11A" - None - - 
+      P501 77 - - - - Disabled - - "ACMPHS0: IVREF; ACMPHS1: IVREF; ACMPHS2: IVREF; ACMPHS3: IVREF; ACMPHS4: IVREF; ACMPHS5: IVREF; ADC1: AN116; AGT0: AGTOB0; GPT_OPS0: GTIV; GPT11: GTIOC11B; ICU0: IRQ11" - None - - 
+      P502 78 - - - - Disabled - - "ACMPHS0: IVCMP; ACMPHS1: IVCMP; ACMPHS2: IVCMP; ACMPHS3: IVCMP; ACMPHS4: IVCMP; ACMPHS5: IVCMP; ADC0: AN017; GPT_OPS0: GTIW; GPT12: GTIOC12A; ICU0: IRQ12" - None - - 
+      P503 79 - - - - Disabled - - "ADC1: AN117; GPT_POEG2: GTETRGC; GPT12: GTIOC12B" - None - - 
+      P504 80 - - - - Disabled - - "ADC0: AN018; GPT_POEG3: GTETRGD" - None - - 
+      P508 81 - - - - Disabled - - "ADC0: AN020" - None - - 
+      P600 67 - - - - Disabled - - "CAC0: CACREF; CGC0: CLKOUT; GPT6: GTIOC6B; SCI9: SCK9" - None - - 
+      P601 66 - - - - Disabled - - "GPT6: GTIOC6A; SCI9: RXD9; SCI9: SCL9" - None - - 
+      P602 65 - - - - Disabled - - "GPT7: GTIOC7B; SCI9: SDA9; SCI9: TXD9" - None - - 
+      P608 59 - - - - Disabled - - "GPT4: GTIOC4B" - None - - 
+      P609 60 - - - - Disabled - - "GPT5: GTIOC5A" - None - - 
+      P610 61 - - - - Disabled - - "GPT5: GTIOC5B" - None - - 
+      P708 16 - - - - Disabled - - "CAC0: CACREF; ICU0: IRQ11; SCI1: RXD1; SCI1: SCL1; SPI0: SSLA3" - None - - 
       RES# 38 SYSTEM0_RES - - - - - - - - IO "Read only" - 
       VCC 8 SYSTEM0_VCC - - - - - - - - IO "Read only" - 
       VCC 15 SYSTEM0_VCC - - - - - - - - IO "Read only" - 
@@ -188,82 +189,82 @@ FSP Configuration
     R7FA6T1AD3CFP.pincfg -> 
       AVCC0 88 ANALOG0_AVCC0 - - - - - - - - IO "Read only" - 
       AVSS0 89 ANALOG0_AVSS0 - - - - - - - - IO "Read only" - 
-      P000 100 - - - - Disabled - - "ACMPHS2: IVCMP; ADC0: AN00; ICU0: IRQ06" - None - - 
-      P001 99 - - - - Disabled - - "ACMPHS2: IVCMP; ADC0: AN01; ICU0: IRQ07" - None - - 
-      P002 98 - - - - Disabled - - "ACMPHS2: IVCMP; ADC0: AN02; ICU0: IRQ08" - None - - 
-      P003 97 - - - - Disabled - - "ADC0: AN07" - None - - 
-      P004 96 - - - - Disabled - - "ACMPHS2: IVCMP; ADC1: AN00; ICU0: IRQ09" - None - - 
-      P005 95 - - - - Disabled - - "ACMPHS2: IVCMP; ADC1: AN01; ICU0: IRQ10" - None - - 
-      P006 94 - - - - Disabled - - "ACMPHS2: IVCMP; ADC1: AN02; ICU0: IRQ11" - None - - 
-      P007 93 - - - - Disabled - - "ADC1: AN07" - None - - 
-      P008 92 - - - - Disabled - - "ADC0: AN03; ICU0: IRQ12" - None - - 
-      P014 85 - - - - Disabled - - "ACMPHS3: IVREF; ADC0: AN05; ADC1: AN05; DAC0: DA" - None - - 
-      P015 84 - - - - Disabled - - "ACMPHS1: IVCMP; ADC0: AN06; ADC1: AN06; DAC1: DA; ICU0: IRQ13" - None - - 
-      P100 75 - - - - Disabled - - "AGT0: AGTIO; GPT_POEG0: GTETRG; GPT5: GTIOCB; ICU0: IRQ02; IIC1: SCL; KINT0: KRM0; SCI0: RXD; SCI0: SCL; SCI1: SCK; SPI0: MISO" - None - - 
-      P101 74 - - - - Disabled - - "AGT0: AGTEE; GPT_POEG1: GTETRG; GPT5: GTIOCA; ICU0: IRQ01; IIC1: SDA; KINT0: KRM1; SCI0: SDA; SCI0: TXD; SCI1: CTS; SPI0: MOSI" - None - - 
-      P102 73 - - - - Disabled - - "ADC0: ADTRG; AGT0: AGTO; CAN0: CRX; GPT_OPS0: GTOWLO; GPT2: GTIOCB; KINT0: KRM2; SCI0: SCK; SPI0: RSPCK" - None - - 
-      P103 72 - - - - Disabled - - "CAN0: CTX; GPT_OPS0: GTOWUP; GPT2: GTIOCA; KINT0: KRM3; SCI0: CTS; SPI0: SSL0" - None - - 
-      P104 71 - - - - Disabled - - "GPT_POEG1: GTETRG; GPT1: GTIOCB; ICU0: IRQ01; KINT0: KRM4; SCI8: RXD; SCI8: SCL; SPI0: SSL1" - None - - 
-      P105 70 - - - - Disabled - - "GPT_POEG0: GTETRG; GPT1: GTIOCA; ICU0: IRQ00; KINT0: KRM5; SCI8: SDA; SCI8: TXD; SPI0: SSL2" - None - - 
-      P106 69 - - - - Disabled - - "AGT0: AGTOB; GPT8: GTIOCB; KINT0: KRM6; SCI8: SCK; SPI0: SSL3" - None - - 
-      P107 68 - - - - Disabled - - "AGT0: AGTOA; GPT8: GTIOCA; KINT0: KRM7; SCI8: CTS" - None - - 
-      P108 51 DEBUG0_TMS - Low - "Peripheral mode" CMOS None "DEBUG0: SWDIO; DEBUG0: TMS; GPT_OPS0: GTOULO; GPT0: GTIOCB; SCI9: CTS; SPI1: SSL0" - IO - - 
-      P109 52 DEBUG0_TDO - Low - "Peripheral mode" CMOS None "CGC0: CLKOUT; DEBUG0: TDO; DEBUG0: TRACESWO; GPT_OPS0: GTOVUP; GPT1: GTIOCA; SCI9: SDA; SCI9: TXD; SPI1: MOSI" - IO - - 
-      P110 53 DEBUG0_TDI - Low None "Peripheral mode" CMOS None "ACMP(0-5): VCOUT; DEBUG0: TDI; GPT_OPS0: GTOVLO; GPT1: GTIOCB; ICU0: IRQ03; SCI2: CTS; SCI9: RXD; SCI9: SCL; SPI1: MISO" - IO - - 
-      P111 54 - - - - Disabled - - "GPT_OPS0: HRMON0; GPT3: GTIOCA; ICU0: IRQ04; SCI2: SCK; SCI9: SCK; SPI1: RSPCK" - None - - 
-      P112 55 - - - - Disabled - - "GPT_OPS0: HRMON1; GPT3: GTIOCB; SCI1: SCK; SCI2: SDA; SCI2: TXD; SPI1: SSL0" - None - - 
-      P113 56 - - - - Disabled - - "GPT2: GTIOCA; SCI2: RXD; SCI2: SCL" - None - - 
-      P114 57 - - - - Disabled - - "GPT2: GTIOCB" - None - - 
-      P115 58 - - - - Disabled - - "GPT4: GTIOCA" - None - - 
+      P000 100 - - - - Disabled - - "ACMPHS0: IVCMP; ADC0: AN000; ICU0: IRQ06" - None - - 
+      P001 99 - - - - Disabled - - "ACMPHS1: IVCMP; ADC0: AN001; ICU0: IRQ07" - None - - 
+      P002 98 - - - - Disabled - - "ACMPHS2: IVCMP; ADC0: AN002; ICU0: IRQ08" - None - - 
+      P003 97 - - - - Disabled - - "ADC0: AN007" - None - - 
+      P004 96 - - - - Disabled - - "ACMPHS3: IVCMP; ADC1: AN100; ICU0: IRQ09" - None - - 
+      P005 95 - - - - Disabled - - "ACMPHS4: IVCMP; ADC1: AN101; ICU0: IRQ10" - None - - 
+      P006 94 - - - - Disabled - - "ACMPHS5: IVCMP; ADC1: AN102; ICU0: IRQ11" - None - - 
+      P007 93 - - - - Disabled - - "ADC1: AN107" - None - - 
+      P008 92 - - - - Disabled - - "ADC0: AN003; ICU0: IRQ12" - None - - 
+      P014 85 - - - - Disabled - - "ACMPHS0: IVREF; ACMPHS1: IVREF; ACMPHS2: IVREF; ACMPHS3: IVREF; ACMPHS4: IVREF; ACMPHS5: IVREF; ADC0: AN005; ADC1: AN105; DAC0: DA0" - None - - 
+      P015 84 - - - - Disabled - - "ACMPHS0: IVCMP; ACMPHS1: IVCMP; ACMPHS2: IVCMP; ACMPHS3: IVCMP; ACMPHS4: IVCMP; ACMPHS5: IVCMP; ADC0: AN006; ADC1: AN106; DAC1: DA1; ICU0: IRQ13" - None - - 
+      P100 75 - - - - Disabled - - "AGT0: AGTIO0; GPT_POEG0: GTETRGA; GPT5: GTIOC5B; ICU0: IRQ02; IIC1: SCL1; KINT0: KRM00; SCI0: RXD0; SCI0: SCL0; SCI1: SCK1; SPI0: MISOA" - None - - 
+      P101 74 - - - - Disabled - - "AGT0: AGTEE0; GPT_POEG1: GTETRGB; GPT5: GTIOC5A; ICU0: IRQ01; IIC1: SDA1; KINT0: KRM01; SCI0: SDA0; SCI0: TXD0; SCI1: CTS1; SPI0: MOSIA" - None - - 
+      P102 73 - - - - Disabled - - "ADC0: ADTRG0; AGT0: AGTO0; CAN0: CRX0; GPT_OPS0: GTOWLO; GPT2: GTIOC2B; KINT0: KRM02; SCI0: SCK0; SPI0: RSPCKA" - None - - 
+      P103 72 - - - - Disabled - - "CAN0: CTX0; GPT_OPS0: GTOWUP; GPT2: GTIOC2A; KINT0: KRM03; SCI0: CTS0; SPI0: SSLA0" - None - - 
+      P104 71 - - - - Disabled - - "GPT_POEG1: GTETRGB; GPT1: GTIOC1B; ICU0: IRQ01; KINT0: KRM04; SCI8: RXD8; SCI8: SCL8; SPI0: SSLA1" - None - - 
+      P105 70 - - - - Disabled - - "GPT_POEG0: GTETRGA; GPT1: GTIOC1A; ICU0: IRQ00; KINT0: KRM05; SCI8: SDA8; SCI8: TXD8; SPI0: SSLA2" - None - - 
+      P106 69 - - - - Disabled - - "AGT0: AGTOB0; GPT8: GTIOC8B; KINT0: KRM06; SCI8: SCK8; SPI0: SSLA3" - None - - 
+      P107 68 - - - - Disabled - - "AGT0: AGTOA0; GPT8: GTIOC8A; KINT0: KRM07; SCI8: CTS8" - None - - 
+      P108 51 DEBUG0_TMS - Low - "Peripheral mode" CMOS None "DEBUG0: SWDIO; DEBUG0: TMS; GPT_OPS0: GTOULO; GPT0: GTIOC0B; SCI9: CTS9; SPI1: SSLB0" - IO - - 
+      P109 52 DEBUG0_TDO - Low - "Peripheral mode" CMOS None "CGC0: CLKOUT; DEBUG0: TDO; DEBUG0: TRACESWO; GPT_OPS0: GTOVUP; GPT1: GTIOC1A; SCI9: SDA9; SCI9: TXD9; SPI1: MOSIB" - IO - - 
+      P110 53 DEBUG0_TDI - Low None "Peripheral mode" CMOS None "ACMP(0-5): VCOUT; DEBUG0: TDI; GPT_OPS0: GTOVLO; GPT1: GTIOC1B; ICU0: IRQ03; SCI2: CTS2; SCI9: RXD9; SCI9: SCL9; SPI1: MISOB" - IO - - 
+      P111 54 - - - - Disabled - - "GPT_OPS0: HRMON0; GPT3: GTIOC3A; ICU0: IRQ04; SCI2: SCK2; SCI9: SCK9; SPI1: RSPCKB" - None - - 
+      P112 55 - - - - Disabled - - "GPT_OPS0: HRMON1; GPT3: GTIOC3B; SCI1: SCK1; SCI2: SDA2; SCI2: TXD2; SPI1: SSLB0" - None - - 
+      P113 56 - - - - Disabled - - "GPT2: GTIOC2A; SCI2: RXD2; SCI2: SCL2" - None - - 
+      P114 57 - - - - Disabled - - "GPT2: GTIOC2B" - None - - 
+      P115 58 - - - - Disabled - - "GPT4: GTIOC4A" - None - - 
       P200 40 - - - - Disabled - - "ICU0: NMI" - None - - 
       P201 39 - - - - Disabled - - "SYSTEM0: MD" - None - - 
-      P205 32 - - - - Disabled - - "AGT1: AGTO; CGC0: CLKOUT; GPT_OPS0: GTIV; GPT4: GTIOCA; ICU0: IRQ01; IIC1: SCL; SCI4: SDA; SCI4: TXD; SCI9: CTS" - None - - 
-      P206 31 - - - - Disabled - - "GPT_OPS0: GTIU; ICU0: IRQ00; IIC1: SDA; SCI4: RXD; SCI4: SCL" - None - - 
+      P205 32 - - - - Disabled - - "AGT1: AGTO1; CGC0: CLKOUT; GPT_OPS0: GTIV; GPT4: GTIOC4A; ICU0: IRQ01; IIC1: SCL1; SCI4: SDA4; SCI4: TXD4; SCI9: CTS9" - None - - 
+      P206 31 - - - - Disabled - - "GPT_OPS0: GTIU; ICU0: IRQ00; IIC1: SDA1; SCI4: RXD4; SCI4: SCL4" - None - - 
       P207 30 - - - - Disabled - - - - None - - 
       P208 37 - - - - Disabled - - "DEBUG_TRACE0: TDATA3; GPT_OPS0: GTOVLO" - None - - 
       P209 36 - - - - Disabled - - "DEBUG_TRACE0: TDATA2; GPT_OPS0: GTOVUP" - None - - 
       P210 35 - - - - Disabled - - "DEBUG_TRACE0: TDATA1; GPT_OPS0: GTIW" - None - - 
       P211 34 - - - - Disabled - - "DEBUG_TRACE0: TDATA0; GPT_OPS0: GTIV" - None - - 
-      P212 14 - - - - Disabled - - "AGT1: AGTEE; CGC0: EXTAL; GPT_POEG3: GTETRG; GPT0: GTIOCB; ICU0: IRQ03; SCI1: RXD; SCI1: SCL" - None - - 
-      P213 13 - - - - Disabled - - "ADC1: ADTRG; CGC0: XTAL; GPT_POEG2: GTETRG; GPT0: GTIOCA; ICU0: IRQ02; SCI1: SDA; SCI1: TXD" - None - - 
+      P212 14 - - - - Disabled - - "AGT1: AGTEE1; CGC0: EXTAL; GPT_POEG3: GTETRGD; GPT0: GTIOC0B; ICU0: IRQ03; SCI1: RXD1; SCI1: SCL1" - None - - 
+      P213 13 - - - - Disabled - - "ADC1: ADTRG1; CGC0: XTAL; GPT_POEG2: GTETRGC; GPT0: GTIOC0A; ICU0: IRQ02; SCI1: SDA1; SCI1: TXD1" - None - - 
       P214 33 - - - - Disabled - - "DEBUG_TRACE0: TCLK; GPT_OPS0: GTIU" - None - - 
-      P300 50 DEBUG0_TCK - Low - "Peripheral mode" CMOS None "DEBUG0: SWCLK; DEBUG0: TCK; GPT_OPS0: GTOUUP; GPT0: GTIOCA; SPI1: SSL1" - IO - - 
-      P301 49 - - - - Disabled - - "AGT0: AGTIO; GPT_OPS0: GTOULO; GPT4: GTIOCB; ICU0: IRQ06; SCI2: RXD; SCI2: SCL; SCI9: CTS; SPI1: SSL2" - None - - 
-      P302 48 - - - - Disabled - - "GPT_OPS0: GTOUUP; GPT4: GTIOCA; ICU0: IRQ05; SCI2: SDA; SCI2: TXD; SPI1: SSL3" - None - - 
-      P303 47 - - - - Disabled - - "GPT7: GTIOCB" - None - - 
-      P304 44 - - - - Disabled - - "GPT_OPS0: GTOWLO; GPT7: GTIOCA; ICU0: IRQ09" - None - - 
+      P300 50 DEBUG0_TCK - Low - "Peripheral mode" CMOS None "DEBUG0: SWCLK; DEBUG0: TCK; GPT_OPS0: GTOUUP; GPT0: GTIOC0A; SPI1: SSLB1" - IO - - 
+      P301 49 - - - - Disabled - - "AGT0: AGTIO0; GPT_OPS0: GTOULO; GPT4: GTIOC4B; ICU0: IRQ06; SCI2: RXD2; SCI2: SCL2; SCI9: CTS9; SPI1: SSLB2" - None - - 
+      P302 48 - - - - Disabled - - "GPT_OPS0: GTOUUP; GPT4: GTIOC4A; ICU0: IRQ05; SCI2: SDA2; SCI2: TXD2; SPI1: SSLB3" - None - - 
+      P303 47 - - - - Disabled - - "GPT7: GTIOC7B" - None - - 
+      P304 44 - - - - Disabled - - "GPT_OPS0: GTOWLO; GPT7: GTIOC7A; ICU0: IRQ09" - None - - 
       P305 43 - - - - Disabled - - "GPT_OPS0: GTOWUP; ICU0: IRQ08" - None - - 
       P306 42 - - - - Disabled - - "GPT_OPS0: GTOULO" - None - - 
       P307 41 - - - - Disabled - - "GPT_OPS0: GTOUUP" - None - - 
-      P400 1 - - - - Disabled - - "ADC1: ADTRG; AGT1: AGTIO; GPT6: GTIOCA; ICU0: IRQ00; IIC0: SCL; SCI4: SCK" - None - - 
-      P401 2 - - - - Disabled - - "CAN0: CTX; GPT_POEG0: GTETRG; GPT6: GTIOCB; ICU0: IRQ05; IIC0: SDA; SCI4: CTS" - None - - 
-      P402 3 - - - - Disabled - - "AGT0: AGTIO; AGT1: AGTIO; CAC0: CACREF; CAN0: CRX; ICU0: IRQ04" - None - - 
-      P403 4 - - - - Disabled - - "AGT0: AGTIO; AGT1: AGTIO; GPT3: GTIOCA" - None - - 
-      P404 5 - - - - Disabled - - "GPT3: GTIOCB" - None - - 
-      P405 6 - - - - Disabled - - "GPT1: GTIOCA" - None - - 
-      P406 7 - - - - Disabled - - "GPT1: GTIOCB" - None - - 
-      P407 25 - - - - Disabled - - "ADC0: ADTRG; AGT0: AGTIO; IIC0: SDA; SCI4: CTS" - None - - 
-      P408 24 - - - - Disabled - - "GPT_OPS0: GTOWLO; GPT10: GTIOCB; ICU0: IRQ07; IIC0: SCL; SCI3: RXD; SCI3: SCL" - None - - 
-      P409 23 - - - - Disabled - - "GPT_OPS0: GTOWUP; GPT10: GTIOCA; ICU0: IRQ06; SCI3: SDA; SCI3: TXD" - None - - 
-      P410 22 - - - - Disabled - - "AGT1: AGTOB; GPT_OPS0: GTOVLO; GPT9: GTIOCB; ICU0: IRQ05; SCI0: RXD; SCI0: SCL; SCI3: SCK; SPI0: MISO" - None - - 
-      P411 21 - - - - Disabled - - "AGT1: AGTOA; GPT_OPS0: GTOVUP; GPT9: GTIOCA; ICU0: IRQ04; SCI0: SDA; SCI0: TXD; SCI3: CTS; SPI0: MOSI" - None - - 
-      P412 20 - - - - Disabled - - "AGT1: AGTEE; GPT_OPS0: GTOULO; SCI0: SCK; SPI0: RSPCK" - None - - 
-      P413 19 - - - - Disabled - - "GPT_OPS0: GTOUUP; SCI0: CTS; SPI0: SSL0" - None - - 
-      P414 18 - - - - Disabled - - "GPT0: GTIOCB; ICU0: IRQ09; SPI0: SSL1" - None - - 
-      P415 17 - - - - Disabled - - "GPT0: GTIOCA; ICU0: IRQ08; SPI0: SSL2" - None - - 
-      P500 76 - - - - Disabled - - "ACMPHS0: IVREF; ADC0: AN16; AGT0: AGTOA; GPT_OPS0: GTIU; GPT11: GTIOCA" - None - - 
-      P501 77 - - - - Disabled - - "ACMPHS1: IVREF; ADC1: AN16; AGT0: AGTOB; GPT_OPS0: GTIV; GPT11: GTIOCB; ICU0: IRQ11" - None - - 
-      P502 78 - - - - Disabled - - "ACMPHS0: IVCMP; ADC0: AN17; GPT_OPS0: GTIW; GPT12: GTIOCA; ICU0: IRQ12" - None - - 
-      P503 79 - - - - Disabled - - "ADC1: AN17; GPT_POEG2: GTETRG; GPT12: GTIOCB" - None - - 
-      P504 80 - - - - Disabled - - "ADC0: AN18; GPT_POEG3: GTETRG" - None - - 
-      P508 81 - - - - Disabled - - "ADC0: AN20" - None - - 
-      P600 67 - - - - Disabled - - "CAC0: CACREF; CGC0: CLKOUT; GPT6: GTIOCB; SCI9: SCK" - None - - 
-      P601 66 - - - - Disabled - - "GPT6: GTIOCA; SCI9: RXD; SCI9: SCL" - None - - 
-      P602 65 - - - - Disabled - - "GPT7: GTIOCB; SCI9: SDA; SCI9: TXD" - None - - 
-      P608 59 - - - - Disabled - - "GPT4: GTIOCB" - None - - 
-      P609 60 - - - - Disabled - - "GPT5: GTIOCA" - None - - 
-      P610 61 - - - - Disabled - - "GPT5: GTIOCB" - None - - 
-      P708 16 - - - - Disabled - - "CAC0: CACREF; ICU0: IRQ11; SCI1: RXD; SCI1: SCL; SPI0: SSL3" - None - - 
+      P400 1 - - - - Disabled - - "ADC1: ADTRG1; AGT1: AGTIO1; GPT6: GTIOC6A; ICU0: IRQ00; IIC0: SCL0; SCI4: SCK4" - None - - 
+      P401 2 - - - - Disabled - - "CAN0: CTX0; GPT_POEG0: GTETRGA; GPT6: GTIOC6B; ICU0: IRQ05; IIC0: SDA0; SCI4: CTS4" - None - - 
+      P402 3 - - - - Disabled - - "AGT0: AGTIO0; AGT1: AGTIO1; CAC0: CACREF; CAN0: CRX0; ICU0: IRQ04" - None - - 
+      P403 4 - - - - Disabled - - "AGT0: AGTIO0; AGT1: AGTIO1; GPT3: GTIOC3A" - None - - 
+      P404 5 - - - - Disabled - - "GPT3: GTIOC3B" - None - - 
+      P405 6 - - - - Disabled - - "GPT1: GTIOC1A" - None - - 
+      P406 7 - - - - Disabled - - "GPT1: GTIOC1B" - None - - 
+      P407 25 - - - - Disabled - - "ADC0: ADTRG0; AGT0: AGTIO0; IIC0: SDA0; SCI4: CTS4" - None - - 
+      P408 24 - - - - Disabled - - "GPT_OPS0: GTOWLO; GPT10: GTIOC10B; ICU0: IRQ07; IIC0: SCL0; SCI3: RXD3; SCI3: SCL3" - None - - 
+      P409 23 - - - - Disabled - - "GPT_OPS0: GTOWUP; GPT10: GTIOC10A; ICU0: IRQ06; SCI3: SDA3; SCI3: TXD3" - None - - 
+      P410 22 - - - - Disabled - - "AGT1: AGTOB1; GPT_OPS0: GTOVLO; GPT9: GTIOC9B; ICU0: IRQ05; SCI0: RXD0; SCI0: SCL0; SCI3: SCK3; SPI0: MISOA" - None - - 
+      P411 21 - - - - Disabled - - "AGT1: AGTOA1; GPT_OPS0: GTOVUP; GPT9: GTIOC9A; ICU0: IRQ04; SCI0: SDA0; SCI0: TXD0; SCI3: CTS3; SPI0: MOSIA" - None - - 
+      P412 20 - - - - Disabled - - "AGT1: AGTEE1; GPT_OPS0: GTOULO; SCI0: SCK0; SPI0: RSPCKA" - None - - 
+      P413 19 - - - - Disabled - - "GPT_OPS0: GTOUUP; SCI0: CTS0; SPI0: SSLA0" - None - - 
+      P414 18 - - - - Disabled - - "GPT0: GTIOC0B; ICU0: IRQ09; SPI0: SSLA1" - None - - 
+      P415 17 - - - - Disabled - - "GPT0: GTIOC0A; ICU0: IRQ08; SPI0: SSLA2" - None - - 
+      P500 76 - - - - Disabled - - "ACMPHS0: IVREF; ACMPHS1: IVREF; ACMPHS2: IVREF; ACMPHS3: IVREF; ACMPHS4: IVREF; ACMPHS5: IVREF; ADC0: AN016; AGT0: AGTOA0; GPT_OPS0: GTIU; GPT11: GTIOC11A" - None - - 
+      P501 77 - - - - Disabled - - "ACMPHS0: IVREF; ACMPHS1: IVREF; ACMPHS2: IVREF; ACMPHS3: IVREF; ACMPHS4: IVREF; ACMPHS5: IVREF; ADC1: AN116; AGT0: AGTOB0; GPT_OPS0: GTIV; GPT11: GTIOC11B; ICU0: IRQ11" - None - - 
+      P502 78 - - - - Disabled - - "ACMPHS0: IVCMP; ACMPHS1: IVCMP; ACMPHS2: IVCMP; ACMPHS3: IVCMP; ACMPHS4: IVCMP; ACMPHS5: IVCMP; ADC0: AN017; GPT_OPS0: GTIW; GPT12: GTIOC12A; ICU0: IRQ12" - None - - 
+      P503 79 - - - - Disabled - - "ADC1: AN117; GPT_POEG2: GTETRGC; GPT12: GTIOC12B" - None - - 
+      P504 80 - - - - Disabled - - "ADC0: AN018; GPT_POEG3: GTETRGD" - None - - 
+      P508 81 - - - - Disabled - - "ADC0: AN020" - None - - 
+      P600 67 - - - - Disabled - - "CAC0: CACREF; CGC0: CLKOUT; GPT6: GTIOC6B; SCI9: SCK9" - None - - 
+      P601 66 - - - - Disabled - - "GPT6: GTIOC6A; SCI9: RXD9; SCI9: SCL9" - None - - 
+      P602 65 - - - - Disabled - - "GPT7: GTIOC7B; SCI9: SDA9; SCI9: TXD9" - None - - 
+      P608 59 - - - - Disabled - - "GPT4: GTIOC4B" - None - - 
+      P609 60 - - - - Disabled - - "GPT5: GTIOC5A" - None - - 
+      P610 61 - - - - Disabled - - "GPT5: GTIOC5B" - None - - 
+      P708 16 - - - - Disabled - - "CAC0: CACREF; ICU0: IRQ11; SCI1: RXD1; SCI1: SCL1; SPI0: SSLA3" - None - - 
       RES# 38 SYSTEM0_RES - - - - - - - - IO "Read only" - 
       VCC 8 SYSTEM0_VCC - - - - - - - - IO "Read only" - 
       VCC 15 SYSTEM0_VCC - - - - - - - - IO "Read only" - 
@@ -289,7 +290,7 @@ FSP Configuration
     
   User Event Links
     
-  Module "I/O Port Driver on r_ioport"
+  Module "I/O Port (r_ioport)"
     Parameter Checking: Default (BSP)
     
   Module "MbedTLS (Crypto Only)"
@@ -301,6 +302,7 @@ FSP Configuration
     Hardware Acceleration: Cipher: AES: Use Hardware
     Hardware Acceleration: Public Key Cryptography (PKC): ECC: Use Hardware
     Hardware Acceleration: Public Key Cryptography (PKC): ECDSA : Use Hardware
+    Hardware Acceleration: Public Key Cryptography (PKC): ECDH : Use Hardware
     Hardware Acceleration: Public Key Cryptography (PKC): RSA: Use Hardware
     Hardware Acceleration: Public Key Cryptography (PKC): RSA 3072 Verify: Disabled
     Hardware Acceleration: Public Key Cryptography (PKC): RSA 4096 Verify: Disabled
@@ -313,6 +315,7 @@ FSP Configuration
     Platform: MBEDTLS_HAVE_TIME_DATE: Undefine
     Platform: MBEDTLS_PLATFORM_MEMORY: Undefine
     Platform: MBEDTLS_PLATFORM_NO_STD_FUNCTIONS: Undefine
+    Platform: Alternate: MBEDTLS_PLATFORM_SETBUF_ALT: Undefine
     Platform: Alternate: MBEDTLS_PLATFORM_EXIT_ALT: Undefine
     Platform: Alternate: MBEDTLS_PLATFORM_TIME_ALT: Undefine
     Platform: Alternate: MBEDTLS_PLATFORM_FPRINTF_ALT: Undefine
@@ -323,12 +326,8 @@ FSP Configuration
     General: PSA_CRYPTO_SECURE: Undefine
     General: MBEDTLS_DEPRECATED_WARNING: Undefine
     General: MBEDTLS_DEPRECATED_REMOVED: Define
-    General: MBEDTLS_CHECK_PARAMS: Define
-    General: MBEDTLS_CHECK_PARAMS_ASSERT: Undefine
     Platform: MBEDTLS_TIMING_ALT: Undefine
-    Cipher: Alternate: MBEDTLS_ARC4_ALT: Undefine
     Cipher: Alternate: MBEDTLS_ARIA_ALT: Undefine
-    Cipher: Alternate: MBEDTLS_BLOWFISH_ALT: Undefine
     Cipher: Alternate: MBEDTLS_CAMELLIA_ALT: Undefine
     Cipher: Alternate: MBEDTLS_CCM_ALT: Undefine
     Cipher: Alternate: MBEDTLS_CHACHA20_ALT: Undefine
@@ -339,16 +338,11 @@ FSP Configuration
     Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECJPAKE_ALT: Undefine
     Cipher: Alternate: MBEDTLS_GCM_ALT: Undefine
     Cipher: Alternate: MBEDTLS_NIST_KW_ALT: Undefine
-    Hash: Alternate: MBEDTLS_MD2_ALT: Undefine
-    Hash: Alternate: MBEDTLS_MD4_ALT: Undefine
     Hash: Alternate: MBEDTLS_MD5_ALT: Undefine
     Message Authentication Code (MAC): Alternate: MBEDTLS_POLY1305_ALT: Undefine
     Hash: Alternate: MBEDTLS_RIPEMD160_ALT: Undefine
     Hash: Alternate: MBEDTLS_SHA1_ALT: Undefine
     Hash: Alternate: MBEDTLS_SHA512_ALT: Undefine
-    Cipher: Alternate: MBEDTLS_XTEA_ALT: Undefine
-    Hash: Alternate: MBEDTLS_MD2_PROCESS_ALT: Undefine
-    Hash: Alternate: MBEDTLS_MD4_PROCESS_ALT: Undefine
     Hash: Alternate: MBEDTLS_MD5_PROCESS_ALT: Undefine
     Hash: Alternate: MBEDTLS_RIPEMD160_PROCESS_ALT: Undefine
     Hash: Alternate: MBEDTLS_SHA1_PROCESS_ALT: Undefine
@@ -360,6 +354,7 @@ FSP Configuration
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECDH_COMPUTE_SHARED_ALT: Undefine
     Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECDSA_GENKEY_ALT: Undefine
     Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_INTERNAL_ALT: Undefine
+    Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_NO_FALLBACK: Undefine
     Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_RANDOMIZE_JAC_ALT: Undefine
     Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_ADD_MIXED_ALT: Undefine
     Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_DOUBLE_JAC_ALT: Undefine
@@ -368,10 +363,10 @@ FSP Configuration
     Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_DOUBLE_ADD_MXZ_ALT: Undefine
     Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_RANDOMIZE_MXZ_ALT: Undefine
     Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_NORMALIZE_MXZ_ALT: Undefine
-    RNG: MBEDTLS_TEST_NULL_ENTROPY: Undefine
     Cipher: AES: MBEDTLS_AES_ROM_TABLES: Undefine
     Cipher: AES: MBEDTLS_AES_FEWER_TABLES: Undefine
     Cipher: MBEDTLS_CAMELLIA_SMALL_MEMORY: Undefine
+    General: MBEDTLS_CHECK_RETURN_WARNING: Undefine
     Cipher: MBEDTLS_CIPHER_MODE_CBC: Define
     Cipher: MBEDTLS_CIPHER_MODE_CFB: Define
     Cipher: MBEDTLS_CIPHER_MODE_CTR: Define
@@ -397,7 +392,6 @@ FSP Configuration
     Public Key Cryptography (PKC): ECC: Curves: MBEDTLS_ECP_DP_CURVE448_ENABLED: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_NIST_OPTIM: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_RESTARTABLE: Undefine
-    Public Key Cryptography (PKC): ECC: MBEDTLS_ECDH_LEGACY_CONTEXT: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECDSA_DETERMINISTIC: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_PK_PARSE_EC_EXTENDED: Undefine
     General: MBEDTLS_ERROR_STRERROR_DUMMY: Define
@@ -407,30 +401,30 @@ FSP Configuration
     Platform: MBEDTLS_NO_PLATFORM_ENTROPY: Define
     RNG: MBEDTLS_ENTROPY_FORCE_SHA256: Undefine
     RNG: MBEDTLS_ENTROPY_NV_SEED: Undefine
-    Storage: MBEDTLS_PSA_CRYPTO_KEY_FILE_ID_ENCODES_OWNER: Undefine
+    Key Configuration: MBEDTLS_PSA_CRYPTO_KEY_ID_ENCODES_OWNER: Undefine
     General: MBEDTLS_MEMORY_DEBUG: Undefine
     General: MBEDTLS_MEMORY_BACKTRACE: Undefine
     Public Key Cryptography (PKC): RSA: MBEDTLS_PK_RSA_ALT_SUPPORT: Undefine
     Public Key Cryptography (PKC): MBEDTLS_PKCS1_V15: Define
     Public Key Cryptography (PKC): MBEDTLS_PKCS1_V21: Define
+    Key Configuration: MBEDTLS_PSA_CRYPTO_BUILTIN_KEYS: Undefine
+    General: MBEDTLS_PSA_CRYPTO_CLIENT: Undefine
+    RNG: MBEDTLS_PSA_CRYPTO_EXTERNAL_RNG: Undefine
     General: MBEDTLS_PSA_CRYPTO_SPM: Undefine
     RNG: MBEDTLS_PSA_INJECT_ENTROPY: Undefine
     Public Key Cryptography (PKC): RSA: MBEDTLS_RSA_NO_CRT: Define
     General: MBEDTLS_SELF_TEST: Undefine
     Hash: MBEDTLS_SHA256_SMALLER: Undefine
     Hash: MBEDTLS_SHA512_SMALLER: Undefine
-    Hash: MBEDTLS_SHA512_NO_SHA384: Undefine
     General: MBEDTLS_THREADING_ALT: Undefine
     General: MBEDTLS_THREADING_PTHREAD: Undefine
     General: MBEDTLS_USE_PSA_CRYPTO: Undefine
     General: MBEDTLS_VERSION_FEATURES: Define
     Cipher: MBEDTLS_AES_C: Define
-    Cipher: MBEDTLS_ARC4_C: Undefine
     Public Key Cryptography (PKC): MBEDTLS_ASN1_PARSE_C: Define
     Public Key Cryptography (PKC): MBEDTLS_ASN1_WRITE_C: Define
     Public Key Cryptography (PKC): MBEDTLS_BASE64_C: Define
     Public Key Cryptography (PKC): MBEDTLS_BIGNUM_C: Define
-    Cipher: MBEDTLS_BLOWFISH_C: Undefine
     Cipher: MBEDTLS_CAMELLIA_C: Undefine
     Cipher: MBEDTLS_ARIA_C: Undefine
     Cipher: MBEDTLS_CCM_C: Define
@@ -449,13 +443,10 @@ FSP Configuration
     Platform: MBEDTLS_ENTROPY_C: Define
     General: MBEDTLS_ERROR_C: Define
     Cipher: MBEDTLS_GCM_C: Define
-    RNG: MBEDTLS_HAVEGE_C: Undefine
     Message Authentication Code (MAC): MBEDTLS_HKDF_C: Define
     Message Authentication Code (MAC): MBEDTLS_HMAC_DRBG_C: Undefine
     Cipher: MBEDTLS_NIST_KW_C: Undefine
     Hash: MBEDTLS_MD_C: Define
-    Hash: MBEDTLS_MD2_C: Undefine
-    Hash: MBEDTLS_MD4_C: Undefine
     Hash: MBEDTLS_MD5_C: Define
     General: MBEDTLS_MEMORY_BUFFER_ALLOC_C: Undefine
     Public Key Cryptography (PKC): MBEDTLS_OID_C: Define
@@ -475,12 +466,13 @@ FSP Configuration
     Hash: MBEDTLS_RIPEMD160_C: Define
     Public Key Cryptography (PKC): RSA: MBEDTLS_RSA_C: Define
     Hash: MBEDTLS_SHA1_C: Define
+    Hash: MBEDTLS_SHA224_C: Define
     Hash: MBEDTLS_SHA256_C: Define
+    Hash: MBEDTLS_SHA384_C: Undefine
     Hash: MBEDTLS_SHA512_C: Undefine
     General: MBEDTLS_THREADING_C: Undefine
     General: MBEDTLS_TIMING_C: Undefine
     General: MBEDTLS_VERSION_C: Define
-    Cipher: MBEDTLS_XTEA_C: Undefine
     Public Key Cryptography (PKC): MBEDTLS_MPI_WINDOW_SIZE: Undefine
     Public Key Cryptography (PKC): MBEDTLS_MPI_WINDOW_SIZE value: 6
     Public Key Cryptography (PKC): MBEDTLS_MPI_MAX_SIZE: Undefine
@@ -504,8 +496,6 @@ FSP Configuration
     RNG: MBEDTLS_HMAC_DRBG_MAX_REQUEST value: 1024
     RNG: MBEDTLS_HMAC_DRBG_MAX_SEED_INPUT: Undefine
     RNG: MBEDTLS_HMAC_DRBG_MAX_SEED_INPUT value: 384
-    Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_MAX_BITS: Undefine
-    Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_MAX_BITS value: 521
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_WINDOW_SIZE: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_WINDOW_SIZE value: 6
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_FIXED_POINT_OPTIM: Undefine
@@ -522,6 +512,8 @@ FSP Configuration
     Platform: MBEDTLS_PLATFORM_STD_CALLOC value: calloc
     Platform: MBEDTLS_PLATFORM_STD_FREE: Undefine
     Platform: MBEDTLS_PLATFORM_STD_FREE value: free
+    Platform: MBEDTLS_PLATFORM_STD_SETBUF: Undefine
+    Platform: MBEDTLS_PLATFORM_STD_SETBUF value: setbuf
     Platform: MBEDTLS_PLATFORM_STD_EXIT: Undefine
     Platform: MBEDTLS_PLATFORM_STD_EXIT value: exit
     Platform: MBEDTLS_PLATFORM_STD_TIME: Undefine
@@ -548,6 +540,8 @@ FSP Configuration
     Platform: MBEDTLS_PLATFORM_FREE_MACRO value: free
     Platform: MBEDTLS_PLATFORM_EXIT_MACRO: Undefine
     Platform: MBEDTLS_PLATFORM_EXIT_MACRO value: exit
+    Platform: MBEDTLS_PLATFORM_SETBUF_MACRO: Define
+    Platform: MBEDTLS_PLATFORM_SETBUF_MACRO value: dummy_setbuf
     Platform: MBEDTLS_PLATFORM_TIME_MACRO: Undefine
     Platform: MBEDTLS_PLATFORM_TIME_MACRO value: time
     Platform: MBEDTLS_PLATFORM_TIME_TYPE_MACRO: Undefine
@@ -562,14 +556,18 @@ FSP Configuration
     Platform: MBEDTLS_PLATFORM_VSNPRINTF_MACRO value: vsnprintf
     Platform: MBEDTLS_PLATFORM_NV_SEED_READ_MACRO: Undefine
     Platform: MBEDTLS_PLATFORM_NV_SEED_READ_MACRO value: mbedtls_platform_std_nv_seed_read
-    Platform: MBEDTLS_PARAM_FAILED: Undefine
     Platform: MBEDTLS_PLATFORM_NV_SEED_WRITE_MACRO: Undefine
     Platform: MBEDTLS_PLATFORM_NV_SEED_WRITE_MACRO value: mbedtls_platform_std_nv_seed_write
+    General: MBEDTLS_CHECK_RETURN: Define
+    General: MBEDTLS_IGNORE_RETURN: Undefine
+    HMAC: MBEDTLS_PSA_HMAC_DRBG_MD_TYPE: Define
     Platform: Alternate: MBEDTLS_PLATFORM_ZEROIZE_ALT: Undefine
+    Key Configuration: MBEDTLS_PSA_KEY_SLOT_COUNT: Undefine
+    Key Configuration: MBEDTLS_PSA_KEY_SLOT_COUNT value: 32
     Platform: Alternate: MBEDTLS_PLATFORM_GMTIME_R_ALT: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECDH_VARIANT_EVEREST_ENABLED: Undefine
     
-  Module "Mbed Crypto HW Acceleration"
+  Module "Mbed Crypto HW Acceleration (rm_psa_crypto)"
   Module "SCE7"
   Module "LittleFS"
     Custom lfs_util.h: 
@@ -583,28 +581,29 @@ FSP Configuration
     Intrinsics: Enabled
     Instance Name for STDIO wrapper: g_rm_littlefs0
     
-  Module "LittleFS on Flash"
+  Module "LittleFS on Flash (rm_littlefs_flash)"
     Parameter Checking: Default (BSP)
     
-  Module "Flash Driver on r_flash_hp"
+  Module "Flash (r_flash_hp)"
     Parameter Checking: Default (BSP)
     Code Flash Programming Enable: Disabled
     Data Flash Programming Enable: Enabled
     
   HAL
-    Instance "g_ioport I/O Port Driver on r_ioport"
+    Instance "g_ioport I/O Port (r_ioport)"
       Name: g_ioport
-      Port 1 ELC Trigger Source: Disabled
-      Port 2 ELC Trigger Source: Disabled
-      Port 3 ELC Trigger Source: Disabled
-      Port 4 ELC Trigger Source: Disabled
+      1st Port ELC Trigger Source: Disabled
+      2nd Port ELC Trigger Source: Disabled
+      3rd Port ELC Trigger Source: Disabled
+      4th Port ELC Trigger Source: Disabled
+      Pin Configuration Name: g_bsp_pin_cfg
       
     Instance "MbedTLS (Crypto Only)"
-      Instance "Mbed Crypto HW Acceleration"
+      Instance "Mbed Crypto HW Acceleration (rm_psa_crypto)"
         Instance "SCE7"
       Instance "LittleFS"
         
-        Instance "LittleFS on Flash"
+        Instance "LittleFS on Flash (rm_littlefs_flash)"
           Name: g_rm_littlefs0
           Read Size: 1
           Program Size: 4
@@ -614,7 +613,7 @@ FSP Configuration
           Cache Size: 64
           Lookahead Size: 16
           
-          Instance "g_flash0 Flash Driver on r_flash_hp"
+          Instance "g_flash0 Flash (r_flash_hp)"
             Name: g_flash0
             Data Flash Background Operation: Disabled
             Callback: NULL

@@ -9,7 +9,7 @@
     <option key="#DeviceCommand#" value="R7FA6M2AF"/>
     <option key="#RTOS#" value="rtos.threadx"/>
     <option key="#pinconfiguration#" value="R7FA6M2AF3CFB.pincfg"/>
-    <option key="#FSPVersion#" value="3.8.0"/>
+    <option key="#FSPVersion#" value="4.1.0"/>
     <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra6m2_ek##"/>
     <option key="#SELECTED_TOOLCHAIN#" value="gcc-arm-embedded"/>
     <option key="#ToolchainVersion#" value="10.3.1.20210824"/>
@@ -121,7 +121,7 @@
     <node id="board.clock.pclkc.display" option="board.clock.pclkc.display.value"/>
     <node id="board.clock.pclkd.div" option="board.clock.pclkd.div.2"/>
     <node id="board.clock.pclkd.display" option="board.clock.pclkd.display.value"/>
-    <node id="board.clock.sdclkout.div" option="board.clock.sdclkout.div.1"/>
+    <node id="board.clock.sdclkout.enable" option="board.clock.sdclkout.enable.enabled"/>
     <node id="board.clock.sdclkout.display" option="board.clock.sdclkout.display.value"/>
     <node id="board.clock.bclk.div" option="board.clock.bclk.div.2"/>
     <node id="board.clock.bclk.display" option="board.clock.bclk.display.value"/>
@@ -136,53 +136,57 @@
     <node id="board.clock.clkout.display" option="board.clock.clkout.display.value"/>
   </raClockConfiguration>
   <raComponentSelection>
-    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="3.8.0">
+    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="4.1.0">
       <description>Board Support Package Common Files</description>
-      <originalPack>Renesas.RA.3.8.0.pack</originalPack>
+      <originalPack>Renesas.RA.4.1.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="3.8.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="4.1.0">
       <description>I/O Port</description>
-      <originalPack>Renesas.RA.3.8.0.pack</originalPack>
+      <originalPack>Renesas.RA.4.1.0.pack</originalPack>
     </component>
-    <component apiversion="" class="RTOS" condition="" group="Azure" subgroup="ThreadX" variant="" vendor="Microsoft" version="6.1.11+fsp.3.8.0">
-      <description>Azure RTOS ThreadX</description>
-      <originalPack>Microsoft.ThreadX.6.1.11+fsp.3.8.0.pack</originalPack>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_sce7_ra6" variant="" vendor="Renesas" version="4.1.0">
+      <description>Secure Cryptography Engine on RA6 (SCE7)</description>
+      <originalPack>Renesas.RA.4.1.0.pack</originalPack>
     </component>
-    <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="5.9.0+renesas.0.fsp.3.8.0">
-      <description>Arm CMSIS Version 5 - Core (M)</description>
-      <originalPack>Arm.CMSIS5.5.9.0+renesas.0.fsp.3.8.0.pack</originalPack>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_sce7_ra6_key_injection" variant="" vendor="Renesas" version="4.1.0">
+      <description>Secure Cryptography Engine on RA6 Mode(SCE7)</description>
+      <originalPack>Renesas.RA.4.1.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_threadx_port" variant="" vendor="Renesas" version="3.8.0">
-      <description>Azure RTOS ThreadX Port</description>
-      <originalPack>Renesas.RA.3.8.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra6m2" subgroup="device" variant="R7FA6M2AF3CFB" vendor="Renesas" version="3.8.0">
-      <description>Board support package for R7FA6M2AF3CFB</description>
-      <originalPack>Renesas.RA_mcu_ra6m2.3.8.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra6m2" subgroup="device" variant="" vendor="Renesas" version="3.8.0">
-      <description>Board support package for RA6M2</description>
-      <originalPack>Renesas.RA_mcu_ra6m2.3.8.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra6m2" subgroup="fsp" variant="" vendor="Renesas" version="3.8.0">
-      <description>Board support package for RA6M2 - FSP Data</description>
-      <originalPack>Renesas.RA_mcu_ra6m2.3.8.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra6m2_ek" variant="" vendor="Renesas" version="3.8.0">
-      <description>RA6M2-EK Board Support Files</description>
-      <originalPack>Renesas.RA_board_ra6m2_ek.3.8.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_sce_ra6" variant="" vendor="Renesas" version="3.8.0">
-      <description>Secure Cryptography Engine on RA6</description>
-      <originalPack>Renesas.RA.3.8.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_netx_secure_crypto" variant="" vendor="Renesas" version="3.8.0">
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_netx_secure_crypto" variant="" vendor="Renesas" version="4.1.0">
       <description>NetX Secure Crypto H/W Acceleration</description>
-      <originalPack>Renesas.RA.3.8.0.pack</originalPack>
+      <originalPack>Renesas.RA.4.1.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Azure" condition="" group="NetX Duo" subgroup="nx_crypto" variant="" vendor="Microsoft" version="6.1.11+fsp.3.8.0">
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_threadx_port" variant="" vendor="Renesas" version="4.1.0">
+      <description>Azure RTOS ThreadX Port</description>
+      <originalPack>Renesas.RA.4.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra6m2" subgroup="device" variant="R7FA6M2AF3CFB" vendor="Renesas" version="4.1.0">
+      <description>Board support package for R7FA6M2AF3CFB</description>
+      <originalPack>Renesas.RA_mcu_ra6m2.4.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra6m2" subgroup="device" variant="" vendor="Renesas" version="4.1.0">
+      <description>Board support package for RA6M2</description>
+      <originalPack>Renesas.RA_mcu_ra6m2.4.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra6m2" subgroup="fsp" variant="" vendor="Renesas" version="4.1.0">
+      <description>Board support package for RA6M2 - FSP Data</description>
+      <originalPack>Renesas.RA_mcu_ra6m2.4.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="5.9.0+renesas.0.fsp.4.1.0">
+      <description>Arm CMSIS Version 5 - Core (M)</description>
+      <originalPack>Arm.CMSIS5.5.9.0+renesas.0.fsp.4.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="RTOS" condition="" group="Azure" subgroup="ThreadX" variant="" vendor="Microsoft" version="6.1.12+fsp.4.1.0">
+      <description>Azure RTOS ThreadX</description>
+      <originalPack>Microsoft.ThreadX.6.1.12+fsp.4.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Azure" condition="" group="NetX Duo" subgroup="nx_crypto" variant="" vendor="Microsoft" version="6.1.12+fsp.4.1.0">
       <description>Azure RTOS NetX Crypto</description>
-      <originalPack>Microsoft.NetXDuo.6.1.11+fsp.3.8.0.pack</originalPack>
+      <originalPack>Microsoft.NetXDuo.6.1.12+fsp.4.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra6m2_ek" variant="" vendor="Renesas" version="4.1.0">
+      <description>RA6M2-EK Board Support Files</description>
+      <originalPack>Renesas.RA_board_ra6m2_ek.4.1.0.pack</originalPack>
     </component>
   </raComponentSelection>
   <raElcConfiguration/>
@@ -194,16 +198,15 @@
       <property id="module.driver.ioport.elc_trigger_ioport2" value="_disabled"/>
       <property id="module.driver.ioport.elc_trigger_ioport3" value="_disabled"/>
       <property id="module.driver.ioport.elc_trigger_ioport4" value="_disabled"/>
-      <property id="module.driver.ioport.elc_trigger_ioportb" value="_disabled"/>
-      <property id="module.driver.ioport.elc_trigger_ioportc" value="_disabled"/>
-      <property id="module.driver.ioport.elc_trigger_ioportd" value="_disabled"/>
-      <property id="module.driver.ioport.elc_trigger_ioporte" value="_disabled"/>
       <property id="module.driver.ioport.pincfg" value="g_bsp_pin_cfg"/>
     </module>
     <module id="module.middleware.rm_threadx_port.0"/>
     <module id="module.azure.nxd_nx_crypto.420717582"/>
     <module id="module.middleware.rm_netx_secure_crypto.816447735"/>
     <module id="module.driver.sce7.1672908880"/>
+    <module id="module.driver.sce7_key_injection.1545047157">
+      <property id="module.driver.sce7_key_injection.name" value="g_sce7_key_install"/>
+    </module>
     <object id="rtos.threadx.object.queue.1548008319">
       <property id="rtos.threadx.object.queue.name" value="User Input Queue"/>
       <property id="rtos.threadx.object.queue.symbol" value="g_user_input_queue"/>
@@ -223,7 +226,9 @@
       <stack module="module.middleware.rm_threadx_port.0"/>
       <stack module="module.azure.nxd_nx_crypto.420717582">
         <stack module="module.middleware.rm_netx_secure_crypto.816447735" requires="module.azure.nxd_nx_crypto.requires.nx_crypto_implementation">
-          <stack module="module.driver.sce7.1672908880" requires="module.middleware.rm_netx_secure_crypto.requires.sce9"/>
+          <stack module="module.driver.sce7.1672908880" requires="module.middleware.rm_netx_secure_crypto.requires.sce_for_nx">
+            <stack module="module.driver.sce7_key_injection.1545047157" requires="module.driver.sce.requires.sce7_key_injection"/>
+          </stack>
         </stack>
       </stack>
     </context>

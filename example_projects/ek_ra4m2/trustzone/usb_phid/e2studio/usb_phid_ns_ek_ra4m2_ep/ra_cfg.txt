@@ -54,10 +54,11 @@ FSP Configuration
     Parameter checking: Enabled
     Assert Failures: Return FSP_ERR_ASSERTION
     Error Log: No Error Log
-    Soft Reset: Disabled
+    Clock Registers not Reset Values during Startup: Disabled
     Main Oscillator Populated: Populated
     PFS Protect: Enabled
     C Runtime Initialization : Enabled
+    Early BSP Initialization : Disabled
     Main Oscillator Clock Source: Crystal or Resonator
     Subclock Populated: Populated
     Subclock Drive (Drive capacitance availability varies by MCU): Standard/Normal mode
@@ -112,22 +113,22 @@ FSP Configuration
       P109 52 DEBUG0_TDO - - - - - - "AGT3: AGTOB3; CGC0: CLKOUT; DEBUG0: TDO; DEBUG0: TRACESWO; GPT_OPS0: GTOVUP; GPT1: GTIOC1A; SCI9: SDA9; SCI9: TXD9; SPI0: MOSIA" - IO - - 
       P110 53 DEBUG0_TDI - - - - - - "AGT3: AGTEE3; DEBUG0: TDI; GPT_OPS0: GTOVLO; GPT1: GTIOC1B; ICU0: IRQ03; SCI2: CTSRTS2; SCI9: RXD9; SCI9: SCL9; SPI0: MISOA" - IO - - 
       P111 54 - ARDUINO_D5_MIKROBUS_PWM - - Disabled - - "AGT5: AGTOA5; GPT3: GTIOC3A; ICU0: IRQ04; SCI2: SCK2; SCI9: SCK9; SPI0: RSPCKA" - None - - 
-      P112 55 - ARDUINO_SDA_MIKROBUS_SDA - - Disabled - - "AGT5: AGTOB5; GPT3: GTIOC3B; QSPI0: QSSL; SCI1: SCK1; SCI2: SDA2; SCI2: TXD2; SPI0: SSLA0; SSI0: SSISCK0" - None - - 
-      P113 56 - ARDUINO_SCL_MIKROBUS_SCL - - Disabled - - "AGT5: AGTEE5; GPT2: GTIOC2A; SCI2: RXD2; SCI2: SCL2; SSI0: SSIWS0" - None - - 
+      P112 55 - ARDUINO_SDA_MIKROBUS_SDA - - Disabled - - "AGT5: AGTOB5; GPT3: GTIOC3B; QSPI0: QSSL; SCI1: SCK1; SCI2: SDA2; SCI2: TXD2; SPI0: SSLA0; SSI0: SSIBCK0" - None - - 
+      P113 56 - ARDUINO_SCL_MIKROBUS_SCL - - Disabled - - "AGT5: AGTEE5; GPT2: GTIOC2A; SCI2: RXD2; SCI2: SCL2; SSI0: SSILRCK0" - None - - 
       P114 57 GPIO ARDUINO_D9 - - - - - "AGT5: AGTIO5; GPT2: GTIOC2B; SCI9: CTS9; SSI0: SSIRXD0" - IO - - 
       P115 58 GPIO ARDUINO_RST_MIKROBUS_RST - - - - - "GPT4: GTIOC4A; SSI0: SSITXD0" - IO - - 
       P200 40 - - - - Disabled - - "ICU0: NMI" - None - - 
       P201 39 - - - - Disabled - - "SYSTEM0: MD" - None - - 
-      P205 32 - - - - Disabled - - "AGT1: AGTO1; CGC0: CLKOUT; CTSU0: TS01; GPT_OPS0: GTIV; GPT4: GTIOC4A; ICU0: IRQ01; IIC1: SCL1; SCI4: SDA4; SCI4: TXD4; SCI9: CTSRTS9; SDHI0: SD0DAT3; SPI0: SSLA0; SSI0: SSIWS0; USB_FS0: USB_OVRCURA" - None - - 
+      P205 32 - - - - Disabled - - "AGT1: AGTO1; CGC0: CLKOUT; CTSU0: TS01; GPT_OPS0: GTIV; GPT4: GTIOC4A; ICU0: IRQ01; IIC1: SCL1; SCI4: SDA4; SCI4: TXD4; SCI9: CTSRTS9; SDHI0: SD0DAT3; SPI0: SSLA0; SSI0: SSILRCK0; USB_FS0: USB_OVRCURA" - None - - 
       P206 31 - PMOD1_MISO - - Disabled - - "CTSU0: TS02; GPT_OPS0: GTIU; ICU0: IRQ00; IIC1: SDA1; SCI4: RXD4; SCI4: SCL4; SCI9: CTS9; SDHI0: SD0DAT2; SPI0: SSLA1; SSI0: SSIDATA0; USB_FS0: USB_VBUSEN" - None - - 
       P207 30 - PMOD1_MOSI - - Disabled - - "CTSU0: TSCAP; QSPI0: QSSL; SCI4: SDA4; SCI4: TXD4; SPI0: SSLA2" - None - - 
-      P208 37 - - - - Disabled - - "GPT_OPS0: GTOVLO; QSPI0: QIO3; SDHI0: SD0DAT0" - None - - 
-      P209 36 - - - - Disabled - - "AGT5: AGTEE5; GPT_OPS0: GTOVUP; QSPI0: QIO2; SDHI0: SD0WP" - None - - 
-      P210 35 - - - - Disabled - - "AGT5: AGTOB5; GPT_OPS0: GTIW; QSPI0: QIO1; SDHI0: SD0CD" - None - - 
-      P211 34 - - - - Disabled - - "AGT5: AGTOA5; GPT_OPS0: GTIV; QSPI0: QIO0; SDHI0: SD0CMD" - None - - 
+      P208 37 - - - - Disabled - - "DEBUG_TRACE0: TDATA3; GPT_OPS0: GTOVLO; QSPI0: QIO3; SDHI0: SD0DAT0" - None - - 
+      P209 36 - - - - Disabled - - "AGT5: AGTEE5; DEBUG_TRACE0: TDATA2; GPT_OPS0: GTOVUP; QSPI0: QIO2; SDHI0: SD0WP" - None - - 
+      P210 35 - - - - Disabled - - "AGT5: AGTOB5; DEBUG_TRACE0: TDATA1; GPT_OPS0: GTIW; QSPI0: QIO1; SDHI0: SD0CD" - None - - 
+      P211 34 - - - - Disabled - - "AGT5: AGTOA5; DEBUG_TRACE0: TDATA0; GPT_OPS0: GTIV; QSPI0: QIO0; SDHI0: SD0CMD" - None - - 
       P212 14 - - - - Disabled - - "AGT1: AGTEE1; CGC0: EXTAL; GPT_POEG3: GTETRGD; GPT0: GTIOC0B; ICU0: IRQ03; SCI1: RXD1; SCI1: SCL1" - None - - 
       P213 13 - - - - Disabled - - "AGT2: AGTEE2; CGC0: XTAL; GPT_POEG2: GTETRGC; GPT0: GTIOC0A; ICU0: IRQ02; SCI1: SDA1; SCI1: TXD1" - None - - 
-      P214 33 - - - - Disabled - - "AGT5: AGTO5; GPT_OPS0: GTIU; QSPI0: QSPCLK; SDHI0: SD0CLK" - None - - 
+      P214 33 - - - - Disabled - - "AGT5: AGTO5; DEBUG_TRACE0: TCLK; GPT_OPS0: GTIU; QSPI0: QSPCLK; SDHI0: SD0CLK" - None - - 
       P300 50 DEBUG0_TCK - - - - - - "DEBUG0: SWCLK; DEBUG0: TCK; GPT_OPS0: GTOUUP; GPT0: GTIOC0A; SPI0: SSLA1" - IO - - 
       P301 49 - - - - Disabled - - "AGT0: AGTIO0; GPT_OPS0: GTOULO; GPT4: GTIOC4B; ICU0: IRQ06; SCI2: RXD2; SCI2: SCL2; SCI9: CTSRTS9; SPI0: SSLA2" - None - - 
       P302 48 - - - - Disabled - - "GPT_OPS0: GTOUUP; GPT4: GTIOC4A; ICU0: IRQ05; SCI2: SDA2; SCI2: TXD2; SPI0: SSLA3" - None - - 
@@ -139,8 +140,8 @@ FSP Configuration
       P400 1 - PMOD1_CLK - - Disabled - - "AGT1: AGTIO1; GPT6: GTIOC6A; ICU0: IRQ00; IIC0: SCL0; SCI4: SCK4; SSI_COMMON0: AUDIO_CLK" - None - - 
       P401 2 - PMOD1_SS - - Disabled - - "CAN0: CTX0; GPT_POEG0: GTETRGA; GPT6: GTIOC6B; ICU0: IRQ05; IIC0: SDA0; SCI4: CTSRTS4" - None - - 
       P402 3 GPIO PMOD1_IO1 - - - - - "AGT0: AGTIO0; AGT1: AGTIO1; AGT2: AGTIO2; AGT3: AGTIO3; CAC0: CACREF; CAN0: CRX0; ICU0: IRQ04; RTC0: RTCIC0; SCI4: CTS4; SSI_COMMON0: AUDIO_CLK" - IO - - 
-      P403 4 GPIO PMOD1_RST - - - - - "AGT0: AGTIO0; AGT1: AGTIO1; AGT2: AGTIO2; AGT3: AGTIO3; GPT3: GTIOC3A; ICU0: IRQ14; RTC0: RTCIC1; SSI0: SSISCK0" - IO - - 
-      P404 5 GPIO LED2 - - - - - "AGT0: AGTIO0; AGT1: AGTIO1; AGT2: AGTIO2; AGT3: AGTIO3; GPT3: GTIOC3B; ICU0: IRQ15; RTC0: RTCIC2; SSI0: SSIWS0" - IO - - 
+      P403 4 GPIO PMOD1_RST - - - - - "AGT0: AGTIO0; AGT1: AGTIO1; AGT2: AGTIO2; AGT3: AGTIO3; GPT3: GTIOC3A; ICU0: IRQ14; RTC0: RTCIC1; SSI0: SSIBCK0" - IO - - 
+      P404 5 GPIO LED2 - - - - - "AGT0: AGTIO0; AGT1: AGTIO1; AGT2: AGTIO2; AGT3: AGTIO3; GPT3: GTIOC3B; ICU0: IRQ15; RTC0: RTCIC2; SSI0: SSILRCK0" - IO - - 
       P405 6 GPIO LED3 - - - - - "GPT1: GTIOC1A; SSI0: SSITXD0" - IO - - 
       P406 7 GPIO PMOD1_IO2 - - - - - "AGT5: AGTO5; GPT1: GTIOC1B; SPI0: SSLA3; SSI0: SSIRXD0" - IO - - 
       P407 25 USB_FS0_USB_VBUS - - - - - - "ADC0: ADTRG0; AGT0: AGTIO0; CTSU0: TS03; GPT6: GTIOC6A; IIC0: SDA0; RTC0: RTCOUT; SCI4: CTSRTS4; SPI0: SSLA3; USB_FS0: USB_VBUS" - IO - - 
@@ -213,22 +214,22 @@ FSP Configuration
       P109 52 DEBUG0_TDO - - - - - - "AGT3: AGTOB3; CGC0: CLKOUT; DEBUG0: TDO; DEBUG0: TRACESWO; GPT_OPS0: GTOVUP; GPT1: GTIOC1A; SCI9: SDA9; SCI9: TXD9; SPI0: MOSIA" - IO - - 
       P110 53 DEBUG0_TDI - - - - - - "AGT3: AGTEE3; DEBUG0: TDI; GPT_OPS0: GTOVLO; GPT1: GTIOC1B; ICU0: IRQ03; SCI2: CTSRTS2; SCI9: RXD9; SCI9: SCL9; SPI0: MISOA" - IO - - 
       P111 54 - ARDUINO_D5_MIKROBUS_PWM - - Disabled - - "AGT5: AGTOA5; GPT3: GTIOC3A; ICU0: IRQ04; SCI2: SCK2; SCI9: SCK9; SPI0: RSPCKA" - None - - 
-      P112 55 - ARDUINO_SDA_MIKROBUS_SDA - - Disabled - - "AGT5: AGTOB5; GPT3: GTIOC3B; QSPI0: QSSL; SCI1: SCK1; SCI2: SDA2; SCI2: TXD2; SPI0: SSLA0; SSI0: SSISCK0" - None - - 
-      P113 56 - ARDUINO_SCL_MIKROBUS_SCL - - Disabled - - "AGT5: AGTEE5; GPT2: GTIOC2A; SCI2: RXD2; SCI2: SCL2; SSI0: SSIWS0" - None - - 
+      P112 55 - ARDUINO_SDA_MIKROBUS_SDA - - Disabled - - "AGT5: AGTOB5; GPT3: GTIOC3B; QSPI0: QSSL; SCI1: SCK1; SCI2: SDA2; SCI2: TXD2; SPI0: SSLA0; SSI0: SSIBCK0" - None - - 
+      P113 56 - ARDUINO_SCL_MIKROBUS_SCL - - Disabled - - "AGT5: AGTEE5; GPT2: GTIOC2A; SCI2: RXD2; SCI2: SCL2; SSI0: SSILRCK0" - None - - 
       P114 57 GPIO ARDUINO_D9 - - - - - "AGT5: AGTIO5; GPT2: GTIOC2B; SCI9: CTS9; SSI0: SSIRXD0" - IO - - 
       P115 58 GPIO ARDUINO_RST_MIKROBUS_RST - - - - - "GPT4: GTIOC4A; SSI0: SSITXD0" - IO - - 
       P200 40 - - - - Disabled - - "ICU0: NMI" - None - - 
       P201 39 - - - - Disabled - - "SYSTEM0: MD" - None - - 
-      P205 32 - - - - Disabled - - "AGT1: AGTO1; CGC0: CLKOUT; CTSU0: TS01; GPT_OPS0: GTIV; GPT4: GTIOC4A; ICU0: IRQ01; IIC1: SCL1; SCI4: SDA4; SCI4: TXD4; SCI9: CTSRTS9; SDHI0: SD0DAT3; SPI0: SSLA0; SSI0: SSIWS0; USB_FS0: USB_OVRCURA" - None - - 
+      P205 32 - - - - Disabled - - "AGT1: AGTO1; CGC0: CLKOUT; CTSU0: TS01; GPT_OPS0: GTIV; GPT4: GTIOC4A; ICU0: IRQ01; IIC1: SCL1; SCI4: SDA4; SCI4: TXD4; SCI9: CTSRTS9; SDHI0: SD0DAT3; SPI0: SSLA0; SSI0: SSILRCK0; USB_FS0: USB_OVRCURA" - None - - 
       P206 31 - PMOD1_MISO - - Disabled - - "CTSU0: TS02; GPT_OPS0: GTIU; ICU0: IRQ00; IIC1: SDA1; SCI4: RXD4; SCI4: SCL4; SCI9: CTS9; SDHI0: SD0DAT2; SPI0: SSLA1; SSI0: SSIDATA0; USB_FS0: USB_VBUSEN" - None - - 
       P207 30 - PMOD1_MOSI - - Disabled - - "CTSU0: TSCAP; QSPI0: QSSL; SCI4: SDA4; SCI4: TXD4; SPI0: SSLA2" - None - - 
-      P208 37 - - - - Disabled - - "GPT_OPS0: GTOVLO; QSPI0: QIO3; SDHI0: SD0DAT0" - None - - 
-      P209 36 - - - - Disabled - - "AGT5: AGTEE5; GPT_OPS0: GTOVUP; QSPI0: QIO2; SDHI0: SD0WP" - None - - 
-      P210 35 - - - - Disabled - - "AGT5: AGTOB5; GPT_OPS0: GTIW; QSPI0: QIO1; SDHI0: SD0CD" - None - - 
-      P211 34 - - - - Disabled - - "AGT5: AGTOA5; GPT_OPS0: GTIV; QSPI0: QIO0; SDHI0: SD0CMD" - None - - 
+      P208 37 - - - - Disabled - - "DEBUG_TRACE0: TDATA3; GPT_OPS0: GTOVLO; QSPI0: QIO3; SDHI0: SD0DAT0" - None - - 
+      P209 36 - - - - Disabled - - "AGT5: AGTEE5; DEBUG_TRACE0: TDATA2; GPT_OPS0: GTOVUP; QSPI0: QIO2; SDHI0: SD0WP" - None - - 
+      P210 35 - - - - Disabled - - "AGT5: AGTOB5; DEBUG_TRACE0: TDATA1; GPT_OPS0: GTIW; QSPI0: QIO1; SDHI0: SD0CD" - None - - 
+      P211 34 - - - - Disabled - - "AGT5: AGTOA5; DEBUG_TRACE0: TDATA0; GPT_OPS0: GTIV; QSPI0: QIO0; SDHI0: SD0CMD" - None - - 
       P212 14 - - - - Disabled - - "AGT1: AGTEE1; CGC0: EXTAL; GPT_POEG3: GTETRGD; GPT0: GTIOC0B; ICU0: IRQ03; SCI1: RXD1; SCI1: SCL1" - None - - 
       P213 13 - - - - Disabled - - "AGT2: AGTEE2; CGC0: XTAL; GPT_POEG2: GTETRGC; GPT0: GTIOC0A; ICU0: IRQ02; SCI1: SDA1; SCI1: TXD1" - None - - 
-      P214 33 - - - - Disabled - - "AGT5: AGTO5; GPT_OPS0: GTIU; QSPI0: QSPCLK; SDHI0: SD0CLK" - None - - 
+      P214 33 - - - - Disabled - - "AGT5: AGTO5; DEBUG_TRACE0: TCLK; GPT_OPS0: GTIU; QSPI0: QSPCLK; SDHI0: SD0CLK" - None - - 
       P300 50 DEBUG0_TCK - - - - - - "DEBUG0: SWCLK; DEBUG0: TCK; GPT_OPS0: GTOUUP; GPT0: GTIOC0A; SPI0: SSLA1" - IO - - 
       P301 49 - - - - Disabled - - "AGT0: AGTIO0; GPT_OPS0: GTOULO; GPT4: GTIOC4B; ICU0: IRQ06; SCI2: RXD2; SCI2: SCL2; SCI9: CTSRTS9; SPI0: SSLA2" - None - - 
       P302 48 - - - - Disabled - - "GPT_OPS0: GTOUUP; GPT4: GTIOC4A; ICU0: IRQ05; SCI2: SDA2; SCI2: TXD2; SPI0: SSLA3" - None - - 
@@ -240,8 +241,8 @@ FSP Configuration
       P400 1 - PMOD1_CLK - - Disabled - - "AGT1: AGTIO1; GPT6: GTIOC6A; ICU0: IRQ00; IIC0: SCL0; SCI4: SCK4; SSI_COMMON0: AUDIO_CLK" - None - - 
       P401 2 - PMOD1_SS - - Disabled - - "CAN0: CTX0; GPT_POEG0: GTETRGA; GPT6: GTIOC6B; ICU0: IRQ05; IIC0: SDA0; SCI4: CTSRTS4" - None - - 
       P402 3 GPIO PMOD1_IO1 - - - - - "AGT0: AGTIO0; AGT1: AGTIO1; AGT2: AGTIO2; AGT3: AGTIO3; CAC0: CACREF; CAN0: CRX0; ICU0: IRQ04; RTC0: RTCIC0; SCI4: CTS4; SSI_COMMON0: AUDIO_CLK" - IO - - 
-      P403 4 GPIO PMOD1_RST - - - - - "AGT0: AGTIO0; AGT1: AGTIO1; AGT2: AGTIO2; AGT3: AGTIO3; GPT3: GTIOC3A; ICU0: IRQ14; RTC0: RTCIC1; SSI0: SSISCK0" - IO - - 
-      P404 5 GPIO LED2 - - - - - "AGT0: AGTIO0; AGT1: AGTIO1; AGT2: AGTIO2; AGT3: AGTIO3; GPT3: GTIOC3B; ICU0: IRQ15; RTC0: RTCIC2; SSI0: SSIWS0" - IO - - 
+      P403 4 GPIO PMOD1_RST - - - - - "AGT0: AGTIO0; AGT1: AGTIO1; AGT2: AGTIO2; AGT3: AGTIO3; GPT3: GTIOC3A; ICU0: IRQ14; RTC0: RTCIC1; SSI0: SSIBCK0" - IO - - 
+      P404 5 GPIO LED2 - - - - - "AGT0: AGTIO0; AGT1: AGTIO1; AGT2: AGTIO2; AGT3: AGTIO3; GPT3: GTIOC3B; ICU0: IRQ15; RTC0: RTCIC2; SSI0: SSILRCK0" - IO - - 
       P405 6 GPIO LED3 - - - - - "GPT1: GTIOC1A; SSI0: SSITXD0" - IO - - 
       P406 7 GPIO PMOD1_IO2 - - - - - "AGT5: AGTO5; GPT1: GTIOC1B; SPI0: SSLA3; SSI0: SSIRXD0" - IO - - 
       P407 25 USB_FS0_USB_VBUS - - - - - - "ADC0: ADTRG0; AGT0: AGTIO0; CTSU0: TS03; GPT6: GTIOC6A; IIC0: SDA0; RTC0: RTCOUT; SCI4: CTSRTS4; SPI0: SSLA3; USB_FS0: USB_VBUS" - IO - - 
@@ -292,28 +293,30 @@ FSP Configuration
     
   User Event Links
     
-  Module "I/O Port Driver on r_ioport"
+  Module "I/O Port (r_ioport)"
     Parameter Checking: Default (BSP)
     
-  Module "Heap 4"
-  Module "USB PHID driver on r_usb_phid"
+  Module "FreeRTOS Heap 4"
+  Module "USB PHID (r_usb_phid)"
     Interrupt In Pipe: USB PIPE6
     Interrupt Out Pipe: USB PIPE7
     
-  Module "USB Driver on r_usb_basic"
+  Module "USB (r_usb_basic)"
     Parameter Checking: Default (BSP)
-    PLL Frequency: 24MHz
-    CPU Bus Access Wait Cycles: 9 cycles
-    Battery Charging: Enabled
+    PLL Frequency: Not Supported
+    CPU Bus Access Wait Cycles: Not Supported
+    Battery Charging: Not Supported
     Power IC Shutdown Polarity: Active High
-    Dedicated Charging Port (DCP) Mode: Disabled
+    Dedicated Charging Port (DCP) Mode: Not Supported
     Notifications for SET_INTERFACE/SET_FEATURE/CLEAR_FEATURE: Enabled
     Double Buffering: Enabled
-    Continuous Transfer Mode: Disabled
-    LDO Regulator: Disable
-    DMA Support: Disable
+    Continuous Transfer Mode: Not Supported
+    LDO Regulator: Not Supported
+    DMA Support: Disabled
     DMA Source Address: DMA Disabled
     DMA Destination Address: DMA Disabled
+    USB Compliance Test mode: Disabled
+    USB TPL table name: NULL
     
   FreeRTOS
     General: Custom FreeRTOSConfig.h: 
@@ -381,12 +384,12 @@ FSP Configuration
     Logging: Logging Include Time and Task Name: Disabled
     
   HAL
-    Instance "g_ioport I/O Port Driver on r_ioport"
+    Instance "g_ioport I/O Port (r_ioport)"
       Name: g_ioport
-      Port 1 ELC Trigger Source: Disabled
-      Port 2 ELC Trigger Source: Disabled
-      Port 3 ELC Trigger Source: Disabled
-      Port 4 ELC Trigger Source: Disabled
+      1st Port ELC Trigger Source: Disabled
+      2nd Port ELC Trigger Source: Disabled
+      3rd Port ELC Trigger Source: Disabled
+      4th Port ELC Trigger Source: Disabled
       Pin Configuration Name: g_bsp_pin_cfg
       
   Thread "Phid Thread"
@@ -398,11 +401,11 @@ FSP Configuration
     Memory Allocation: Static
     Allocate Secure Context: Enable
     
-    Instance "Heap 4"
-    Instance "g_phid USB PHID driver on r_usb_phid"
+    Instance "FreeRTOS Heap 4"
+    Instance "g_phid USB PHID (r_usb_phid)"
       Name: g_phid
       
-      Instance "g_basic USB Driver on r_usb_basic"
+      Instance "g_basic USB (r_usb_basic)"
         Name: g_basic
         USB Mode: Peri mode
         USB Speed: Full Speed
@@ -414,9 +417,9 @@ FSP Configuration
         USBFS Resume Priority: Priority 12
         USBFS D0FIFO Interrupt Priority: Priority 12
         USBFS D1FIFO Interrupt Priority: Priority 12
-        USBHS Interrupt Priority: Priority 12
-        USBHS D0FIFO Interrupt Priority: Priority 12
-        USBHS D1FIFO Interrupt Priority: Priority 12
+        USBHS Interrupt Priority: Not Supported
+        USBHS D0FIFO Interrupt Priority: Not Supported
+        USBHS D1FIFO Interrupt Priority: Not Supported
         USB RTOS Callback: usb_phid_callback
         USB Callback Context: NULL
         
@@ -428,4 +431,10 @@ FSP Configuration
     Thread Context: NULL
     Memory Allocation: Static
     Allocate Secure Context: Enable
+    
+  Object "g_event_queue Queue"
+    Symbol: g_event_queue
+    Item Size (Bytes): 4
+    Queue Length (Items): 20
+    Memory Allocation: Static
     

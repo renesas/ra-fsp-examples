@@ -59,10 +59,11 @@ FSP Configuration
     Parameter checking: Enabled
     Assert Failures: Return FSP_ERR_ASSERTION
     Error Log: No Error Log
-    Soft Reset: Disabled
+    Clock Registers not Reset Values during Startup: Disabled
     Main Oscillator Populated: Populated
     PFS Protect: Enabled
     C Runtime Initialization : Enabled
+    Early BSP Initialization : Disabled
     Main Oscillator Clock Source: Crystal or Resonator
     Subclock Populated: Populated
     Subclock Drive (Drive capacitance availability varies by MCU): Standard/Normal mode
@@ -80,9 +81,9 @@ FSP Configuration
     PCLKB Div /4
     PCLKC Div /4
     PCLKD Div /2
-    SDCLKout On
+    SDCLK Enabled
     BCLK Div /2
-    BCK/2
+    EBCLK Div /2
     UCLK Div /5
     FCLK Div /4
     CLKOUT Disabled
@@ -384,29 +385,31 @@ FSP Configuration
     
   User Event Links
     
-  Module "I/O Port Driver on r_ioport"
+  Module "I/O Port (r_ioport)"
     Parameter Checking: Default (BSP)
     
-  Module "USB PHID driver on r_usb_phid"
+  Module "USB PHID (r_usb_phid)"
     Interrupt In Pipe: USB PIPE6
     Interrupt Out Pipe: USB PIPE7
     
-  Module "USB Driver on r_usb_basic"
+  Module "USB (r_usb_basic)"
     Parameter Checking: Default (BSP)
-    PLL Frequency: 24MHz
-    CPU Bus Access Wait Cycles: 9 cycles
-    Battery Charging: Enabled
+    PLL Frequency: Not Supported
+    CPU Bus Access Wait Cycles: Not Supported
+    Battery Charging: Not Supported
     Power IC Shutdown Polarity: Active High
-    Dedicated Charging Port (DCP) Mode: Disabled
+    Dedicated Charging Port (DCP) Mode: Not Supported
     Notifications for SET_INTERFACE/SET_FEATURE/CLEAR_FEATURE: Enabled
     Double Buffering: Enabled
-    Continuous Transfer Mode: Disabled
-    LDO Regulator: Disable
-    DMA Support: Disable
+    Continuous Transfer Mode: Not Supported
+    LDO Regulator: Not Supported
+    DMA Support: Disabled
     DMA Source Address: DMA Disabled
     DMA Destination Address: DMA Disabled
+    USB Compliance Test mode: Disabled
+    USB TPL table name: NULL
     
-  Module "Heap 4"
+  Module "FreeRTOS Heap 4"
   FreeRTOS
     General: Custom FreeRTOSConfig.h: 
     General: Use Preemption: Enabled
@@ -473,12 +476,12 @@ FSP Configuration
     Logging: Logging Include Time and Task Name: Disabled
     
   HAL
-    Instance "g_ioport I/O Port Driver on r_ioport"
+    Instance "g_ioport I/O Port (r_ioport)"
       Name: g_ioport
-      Port 1 ELC Trigger Source: Disabled
-      Port 2 ELC Trigger Source: Disabled
-      Port 3 ELC Trigger Source: Disabled
-      Port 4 ELC Trigger Source: Disabled
+      1st Port ELC Trigger Source: Disabled
+      2nd Port ELC Trigger Source: Disabled
+      3rd Port ELC Trigger Source: Disabled
+      4th Port ELC Trigger Source: Disabled
       Pin Configuration Name: g_bsp_pin_cfg
       
   Thread "Phid Thread"
@@ -490,10 +493,10 @@ FSP Configuration
     Memory Allocation: Static
     Allocate Secure Context: Enable
     
-    Instance "g_phid USB PHID driver on r_usb_phid"
+    Instance "g_phid USB PHID (r_usb_phid)"
       Name: g_phid
       
-      Instance "g_basic USB Driver on r_usb_basic"
+      Instance "g_basic USB (r_usb_basic)"
         Name: g_basic
         USB Mode: Peri mode
         USB Speed: Full Speed
@@ -505,13 +508,13 @@ FSP Configuration
         USBFS Resume Priority: Priority 12
         USBFS D0FIFO Interrupt Priority: Priority 12
         USBFS D1FIFO Interrupt Priority: Priority 12
-        USBHS Interrupt Priority: Priority 12
-        USBHS D0FIFO Interrupt Priority: Priority 12
-        USBHS D1FIFO Interrupt Priority: Priority 12
+        USBHS Interrupt Priority: Not Supported
+        USBHS D0FIFO Interrupt Priority: Not Supported
+        USBHS D1FIFO Interrupt Priority: Not Supported
         USB RTOS Callback: usb_phid_callback
         USB Callback Context: NULL
         
-    Instance "Heap 4"
+    Instance "FreeRTOS Heap 4"
   Thread "Rtt Thread"
     Symbol: rtt_input_thread
     Name: Rtt Thread
@@ -520,4 +523,10 @@ FSP Configuration
     Thread Context: NULL
     Memory Allocation: Static
     Allocate Secure Context: Enable
+    
+  Object "g_event_queue Queue"
+    Symbol: g_event_queue
+    Item Size (Bytes): 4
+    Queue Length (Items): 20
+    Memory Allocation: Static
     

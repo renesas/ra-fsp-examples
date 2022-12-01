@@ -60,7 +60,7 @@ void hal_entry(void)
     R_FSP_VersionGet(&version);
 
     /* Example Project information printed on the RTT */
-    APP_PRINT(BANNER_INFO, EP_VERSION, version.major, version.minor, version.patch);
+    APP_PRINT(BANNER_INFO, EP_VERSION, version.version_id_b.major, version.version_id_b.minor, version.version_id_b.patch);
     APP_PRINT(EP_INFO);
 
     /* Setup the platform; initialize the SCE */
@@ -320,7 +320,7 @@ psa_status_t sha_operation(void)
     psa_status_t         status                         = (psa_status_t)RESET_VALUE;
     psa_algorithm_t      alg                            = PSA_ALG_SHA_256;   // SHA256 algorithm.
     psa_hash_operation_t operation                      = {RESET_VALUE};//operation object to set up for Hash operation.
-    size_t               expected_hash_len              = PSA_HASH_SIZE(alg);// expected hash length.
+    size_t               expected_hash_len              = PSA_HASH_LENGTH(alg);//PSA_HASH_SIZE(alg);// expected hash length.
     uint8_t              actual_hash[PSA_HASH_MAX_SIZE] = {RESET_VALUE};     // Buffer where the hash is to be written.
     size_t               actual_hash_len                = RESET_VALUE;   // number of bytes that make up the hash value.
     int                  mbed_ret_val                   = RESET_VALUE;

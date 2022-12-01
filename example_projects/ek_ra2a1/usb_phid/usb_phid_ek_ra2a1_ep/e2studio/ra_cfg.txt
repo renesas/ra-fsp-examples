@@ -59,10 +59,11 @@ FSP Configuration
     Parameter checking: Enabled
     Assert Failures: Return FSP_ERR_ASSERTION
     Error Log: No Error Log
-    Soft Reset: Disabled
+    Clock Registers not Reset Values during Startup: Disabled
     Main Oscillator Populated: Populated
     PFS Protect: Enabled
     C Runtime Initialization : Enabled
+    Early BSP Initialization : Disabled
     Main Oscillator Clock Source: Crystal or Resonator
     Subclock Populated: Populated
     Subclock Drive (Drive capacitance availability varies by MCU): Standard/Normal mode
@@ -132,7 +133,7 @@ FSP Configuration
       P409 14 CTSU0_TSCAP - Low None "Peripheral mode" CMOS None "AGT1: AGTO; CAN0: CTX; CTSU0: TSCAP; GPT0: GTIOCA; ICU0: IRQ07; IIC0: SCL; SCI0: SCK; SCI1: CTS; SPI0: SSL1" - IO - - 
       P410 13 - - - - Disabled - - "CTSU0: TS05; GPT5: GTIOCB; SCI0: CTS; SCI1: SDA; SCI1: TXD; SPI0: SSL2" - None - - 
       P411 12 SCI0_TXD - Low - "Peripheral mode" CMOS None "CTSU0: TS04; GPT5: GTIOCA; SCI0: SDA; SCI0: TXD; SCI1: RXD; SCI1: SCL; SPI0: SSL3" - IO - - 
-      P500 49 - - - - Disabled - - "ACMPHS0: IVCMP; ACMPHS0: IVREF; ADC0: AN00; CTSU0: TS24; DAC0: DA; GPT5: GTIOCA; ICU0: IRQ03; OPAMP0: AMP+; SCI0: RXD; SCI0: SCL" - None - - 
+      P500 49 - - - - Disabled - - "ACMPHS0: IVCMP; ADC0: AN00; CTSU0: TS24; DAC0: DA; GPT5: GTIOCA; ICU0: IRQ03; OPAMP0: AMP+; SCI0: RXD; SCI0: SCL" - None - - 
       P501 50 - - - - Disabled - - "ACMPHS0: IVREF; ADC0: AN01; CTSU0: TS25; GPT5: GTIOCB; ICU0: IRQ02; OPAMP0: AMP-; SCI0: SDA; SCI0: TXD" - None - - 
       P502 51 - - - - Disabled - - "ADC0: AN02; ICU0: IRQ01; OPAMP0: AMPO; SCI0: CTS" - None - - 
       P914 19 USB_FS0_DP - - - "Peripheral mode" - - "USB_FS0: DP" - IO - - 
@@ -198,7 +199,7 @@ FSP Configuration
       P409 14 - - Low None Disabled CMOS None "AGT1: AGTO; CAN0: CTX; CTSU0: TSCAP; GPT0: GTIOCA; ICU0: IRQ07; IIC0: SCL; SCI0: SCK; SCI1: CTS; SPI0: SSL1" - IO - - 
       P410 13 - - - - Disabled - - "CTSU0: TS05; GPT5: GTIOCB; SCI0: CTS; SCI1: SDA; SCI1: TXD; SPI0: SSL2" - None - - 
       P411 12 - - Low - Disabled CMOS None "CTSU0: TS04; GPT5: GTIOCA; SCI0: SDA; SCI0: TXD; SCI1: RXD; SCI1: SCL; SPI0: SSL3" - IO - - 
-      P500 49 - - - - Disabled - - "ACMPHS0: IVCMP; ACMPHS0: IVREF; ADC0: AN00; CTSU0: TS24; DAC0: DA; GPT5: GTIOCA; ICU0: IRQ03; OPAMP0: AMP+; SCI0: RXD; SCI0: SCL" - None - - 
+      P500 49 - - - - Disabled - - "ACMPHS0: IVCMP; ADC0: AN00; CTSU0: TS24; DAC0: DA; GPT5: GTIOCA; ICU0: IRQ03; OPAMP0: AMP+; SCI0: RXD; SCI0: SCL" - None - - 
       P501 50 - - - - Disabled - - "ACMPHS0: IVREF; ADC0: AN01; CTSU0: TS25; GPT5: GTIOCB; ICU0: IRQ02; OPAMP0: AMP-; SCI0: SDA; SCI0: TXD" - None - - 
       P502 51 - - - - Disabled - - "ADC0: AN02; ICU0: IRQ01; OPAMP0: AMPO; SCI0: CTS" - None - - 
       P914 19 - - - - Disabled - - "USB_FS0: DP" - IO - - 
@@ -219,29 +220,31 @@ FSP Configuration
     
   User Event Links
     
-  Module "I/O Port Driver on r_ioport"
+  Module "I/O Port (r_ioport)"
     Parameter Checking: Default (BSP)
     
-  Module "USB PHID driver on r_usb_phid"
+  Module "USB PHID (r_usb_phid)"
     Interrupt In Pipe: USB PIPE6
     Interrupt Out Pipe: USB PIPE7
     
-  Module "USB Driver on r_usb_basic"
+  Module "USB (r_usb_basic)"
     Parameter Checking: Default (BSP)
-    PLL Frequency: 24MHz
-    CPU Bus Access Wait Cycles: 9 cycles
-    Battery Charging: Enabled
-    Power IC Shutdown Polarity: Active High
-    Dedicated Charging Port (DCP) Mode: Disabled
+    PLL Frequency: Not Supported
+    CPU Bus Access Wait Cycles: Not Supported
+    Battery Charging: Not Supported
+    Power IC Shutdown Polarity: Not Supported
+    Dedicated Charging Port (DCP) Mode: Not Supported
     Notifications for SET_INTERFACE/SET_FEATURE/CLEAR_FEATURE: Enabled
     Double Buffering: Enabled
-    Continuous Transfer Mode: Disabled
-    LDO Regulator: Disable
-    DMA Support: Disable
+    Continuous Transfer Mode: Not Supported
+    LDO Regulator: Disabled
+    DMA Support: Not Supported
     DMA Source Address: DMA Disabled
     DMA Destination Address: DMA Disabled
+    USB Compliance Test mode: Disabled
+    USB TPL table name: NULL
     
-  Module "Heap 4"
+  Module "FreeRTOS Heap 4"
   FreeRTOS
     General: Custom FreeRTOSConfig.h: 
     General: Use Preemption: Enabled
@@ -308,12 +311,12 @@ FSP Configuration
     Logging: Logging Include Time and Task Name: Disabled
     
   HAL
-    Instance "g_ioport I/O Port Driver on r_ioport"
+    Instance "g_ioport I/O Port (r_ioport)"
       Name: g_ioport
-      Port 1 ELC Trigger Source: Disabled
-      Port 2 ELC Trigger Source: Disabled
-      Port 3 ELC Trigger Source: Disabled
-      Port 4 ELC Trigger Source: Disabled
+      1st Port ELC Trigger Source: Disabled
+      2nd Port ELC Trigger Source: Disabled
+      3rd Port ELC Trigger Source: Disabled
+      4th Port ELC Trigger Source: Disabled
       Pin Configuration Name: g_bsp_pin_cfg
       
   Thread "Phid Thread"
@@ -325,10 +328,10 @@ FSP Configuration
     Memory Allocation: Static
     Allocate Secure Context: Enable
     
-    Instance "g_phid USB PHID driver on r_usb_phid"
+    Instance "g_phid USB PHID (r_usb_phid)"
       Name: g_phid
       
-      Instance "g_basic USB Driver on r_usb_basic"
+      Instance "g_basic USB (r_usb_basic)"
         Name: g_basic
         USB Mode: Peri mode
         USB Speed: Full Speed
@@ -341,7 +344,7 @@ FSP Configuration
         USB RTOS Callback: usb_phid_callback
         USB Callback Context: NULL
         
-    Instance "Heap 4"
+    Instance "FreeRTOS Heap 4"
   Thread "Rtt Thread"
     Symbol: rtt_input_thread
     Name: Rtt Thread
@@ -350,4 +353,10 @@ FSP Configuration
     Thread Context: NULL
     Memory Allocation: Static
     Allocate Secure Context: Enable
+    
+  Object "g_event_queue Queue"
+    Symbol: g_event_queue
+    Item Size (Bytes): 4
+    Queue Length (Items): 20
+    Memory Allocation: Static
     

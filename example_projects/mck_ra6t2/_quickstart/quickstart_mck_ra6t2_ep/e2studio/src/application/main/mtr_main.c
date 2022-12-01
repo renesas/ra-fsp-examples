@@ -218,20 +218,20 @@ static void motor_fsp_init(void)
 * Arguments     : p_args - Callback argument
 * Return Value  : None
 ***********************************************************************************************************************/
-void mtr_callback_event(motor_sensorless_callback_args_t * p_args)
+void mtr_callback_event(motor_callback_args_t * p_args)
 {
     switch (p_args->event)
     {
-        case MOTOR_SENSORLESS_CALLBACK_EVENT_SPEED_FORWARD:
+        case MOTOR_CALLBACK_EVENT_SPEED_FORWARD:
             break;
 
-        case MOTOR_SENSORLESS_CALLBACK_EVENT_SPEED_BACKWARD:
+        case MOTOR_CALLBACK_EVENT_SPEED_BACKWARD:
         {
             g_u2_vr1_ad = get_vr1();
             break;
         }
 
-        case MOTOR_SENSORLESS_CALLBACK_EVENT_CURRENT_FORWARD:
+        case MOTOR_CALLBACK_EVENT_CURRENT_FORWARD:
         {
             if (MOTOR_SENSORLESS_CTRL_ERROR != g_u1_motor_status)
             {
@@ -240,7 +240,7 @@ void mtr_callback_event(motor_sensorless_callback_args_t * p_args)
             break;
         }
 
-        case MOTOR_SENSORLESS_CALLBACK_EVENT_CURRENT_BACKWARD:
+        case MOTOR_CALLBACK_EVENT_CURRENT_BACKWARD:
             break;
 
         default:
