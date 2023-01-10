@@ -53,132 +53,132 @@ volatile bool g_err_flag_adc1 = false;
 /*transfer info for ADC unit 0/1 and group A */
 transfer_info_t g_transfer_adc_group_a[] =
 {
-     [ZERO] =
-     {
-      .dest_addr_mode = TRANSFER_ADDR_MODE_INCREMENTED,
-      .repeat_area = TRANSFER_REPEAT_AREA_DESTINATION,
-      .irq = TRANSFER_IRQ_END,
-      .chain_mode = TRANSFER_CHAIN_MODE_EACH,
-      .src_addr_mode = TRANSFER_ADDR_MODE_FIXED,
-      .size = TRANSFER_SIZE_2_BYTE,
-      .mode = TRANSFER_MODE_NORMAL,
-      .p_dest = (void*) &g_buffer_adc[ADC_UNIT_0][ADC_GROUP_SCAN_A][ZERO][ZERO][ZERO],
-      .p_src = (void const*) &R_ADC0->ADDR[ZERO],
-      .num_blocks = ZERO,
-      .length = NUM_SAMPLES_PER_CHANNEL,
-     },
+ [ZERO] =
+ {
+  .transfer_settings_word_b.dest_addr_mode = TRANSFER_ADDR_MODE_INCREMENTED,
+  .transfer_settings_word_b.repeat_area = TRANSFER_REPEAT_AREA_DESTINATION,
+  .transfer_settings_word_b.irq = TRANSFER_IRQ_END,
+  .transfer_settings_word_b.chain_mode = TRANSFER_CHAIN_MODE_EACH,
+  .transfer_settings_word_b.src_addr_mode = TRANSFER_ADDR_MODE_FIXED,
+  .transfer_settings_word_b.size = TRANSFER_SIZE_2_BYTE,
+  .transfer_settings_word_b.mode = TRANSFER_MODE_NORMAL,
+  .p_dest = (void*) &g_buffer_adc[ADC_UNIT_0][ADC_GROUP_SCAN_A][ZERO][ZERO][ZERO],
+  .p_src = (void const*) &R_ADC0->ADDR[FOUR],
+  .num_blocks = ZERO,
+  .length = NUM_SAMPLES_PER_CHANNEL,
+ },
 
-     [ONE] =
-     {
-      .dest_addr_mode = TRANSFER_ADDR_MODE_INCREMENTED,
-      .repeat_area = TRANSFER_REPEAT_AREA_DESTINATION,
-      .irq = TRANSFER_IRQ_END,
-      .chain_mode = TRANSFER_CHAIN_MODE_DISABLED,
-      .src_addr_mode = TRANSFER_ADDR_MODE_FIXED,
-      .size = TRANSFER_SIZE_2_BYTE,
-      .mode = TRANSFER_MODE_NORMAL,
-      .p_dest = (void*) &g_buffer_adc[ADC_UNIT_0][ADC_GROUP_SCAN_A][ONE][ZERO][ZERO],
-      .p_src = (void const*) &R_ADC0->ADDR[ONE],
-      .num_blocks = ZERO,
-      .length = NUM_SAMPLES_PER_CHANNEL,
-     },
+ [ONE] =
+ {
+  .transfer_settings_word_b.dest_addr_mode = TRANSFER_ADDR_MODE_INCREMENTED,
+  .transfer_settings_word_b.repeat_area = TRANSFER_REPEAT_AREA_DESTINATION,
+  .transfer_settings_word_b.irq = TRANSFER_IRQ_END,
+  .transfer_settings_word_b.chain_mode = TRANSFER_CHAIN_MODE_DISABLED,
+  .transfer_settings_word_b.src_addr_mode = TRANSFER_ADDR_MODE_FIXED,
+  .transfer_settings_word_b.size = TRANSFER_SIZE_2_BYTE,
+  .transfer_settings_word_b.mode = TRANSFER_MODE_NORMAL,
+  .p_dest = (void*) &g_buffer_adc[ADC_UNIT_0][ADC_GROUP_SCAN_A][ONE][ZERO][ZERO],
+  .p_src = (void const*) &R_ADC0->ADDR[FIVE],
+  .num_blocks = ZERO,
+  .length = NUM_SAMPLES_PER_CHANNEL,
+ },
 
 #if BSP_FEATURE_ADC_UNIT_1_CHANNELS
-     [TWO] =
-     {
-      .dest_addr_mode = TRANSFER_ADDR_MODE_INCREMENTED,
-      .repeat_area = TRANSFER_REPEAT_AREA_DESTINATION,
-      .irq = TRANSFER_IRQ_END,
-      .chain_mode = TRANSFER_CHAIN_MODE_EACH,
-      .src_addr_mode = TRANSFER_ADDR_MODE_FIXED,
-      .size = TRANSFER_SIZE_2_BYTE,
-      .mode = TRANSFER_MODE_NORMAL,
-      .p_dest = (void*) &g_buffer_adc[ADC_UNIT_1][ADC_GROUP_SCAN_A][ZERO][ZERO][ZERO],
-      .p_src = (void const*) &R_ADC1->ADDR[ZERO],
-      .num_blocks = ZERO,
-      .length = NUM_SAMPLES_PER_CHANNEL,
-     },
+[TWO] =
+{
+ .transfer_settings_word_b.dest_addr_mode = TRANSFER_ADDR_MODE_INCREMENTED,
+ .transfer_settings_word_b.repeat_area = TRANSFER_REPEAT_AREA_DESTINATION,
+ .transfer_settings_word_b.irq = TRANSFER_IRQ_END,
+ .transfer_settings_word_b.chain_mode = TRANSFER_CHAIN_MODE_EACH,
+ .transfer_settings_word_b.src_addr_mode = TRANSFER_ADDR_MODE_FIXED,
+ .transfer_settings_word_b.size = TRANSFER_SIZE_2_BYTE,
+ .transfer_settings_word_b.mode = TRANSFER_MODE_NORMAL,
+ .p_dest = (void*) &g_buffer_adc[ADC_UNIT_1][ADC_GROUP_SCAN_A][ZERO][ZERO][ZERO],
+ .p_src = (void const*) &R_ADC1->ADDR[ZERO],
+ .num_blocks = ZERO,
+ .length = NUM_SAMPLES_PER_CHANNEL,
+},
 
-     [THREE] =
-     {
-      .dest_addr_mode = TRANSFER_ADDR_MODE_INCREMENTED,
-      .repeat_area = TRANSFER_REPEAT_AREA_DESTINATION,
-      .irq = TRANSFER_IRQ_END,
-      .chain_mode = TRANSFER_CHAIN_MODE_DISABLED,
-      .src_addr_mode = TRANSFER_ADDR_MODE_FIXED,
-      .size = TRANSFER_SIZE_2_BYTE,
-      .mode = TRANSFER_MODE_NORMAL,
-      .p_dest = (void*) &g_buffer_adc[ADC_UNIT_1][ADC_GROUP_SCAN_A][ONE][ZERO][ZERO],
-      .p_src = (void const*) &R_ADC1->ADDR[ONE],
-      .num_blocks = ZERO,
-      .length = NUM_SAMPLES_PER_CHANNEL,
-     },
+[THREE] =
+{
+ .transfer_settings_word_b.dest_addr_mode = TRANSFER_ADDR_MODE_INCREMENTED,
+ .transfer_settings_word_b.repeat_area = TRANSFER_REPEAT_AREA_DESTINATION,
+ .transfer_settings_word_b.irq = TRANSFER_IRQ_END,
+ .transfer_settings_word_b.chain_mode = TRANSFER_CHAIN_MODE_DISABLED,
+ .transfer_settings_word_b.src_addr_mode = TRANSFER_ADDR_MODE_FIXED,
+ .transfer_settings_word_b.size = TRANSFER_SIZE_2_BYTE,
+ .transfer_settings_word_b.mode = TRANSFER_MODE_NORMAL,
+ .p_dest = (void*) &g_buffer_adc[ADC_UNIT_1][ADC_GROUP_SCAN_A][ONE][ZERO][ZERO],
+ .p_src = (void const*) &R_ADC1->ADDR[ONE],
+ .num_blocks = ZERO,
+ .length = NUM_SAMPLES_PER_CHANNEL,
+},
 #endif
 };
 
 /*transfer info for ADC unit 0/1 and group B */
 transfer_info_t g_transfer_adc_group_b[] =
 {
-     [ZERO] =
-     {
-      .dest_addr_mode = TRANSFER_ADDR_MODE_INCREMENTED,
-      .repeat_area = TRANSFER_REPEAT_AREA_DESTINATION,
-      .irq = TRANSFER_IRQ_END,
-      .chain_mode = TRANSFER_CHAIN_MODE_EACH,
-      .src_addr_mode = TRANSFER_ADDR_MODE_FIXED,
-      .size = TRANSFER_SIZE_2_BYTE,
-      .mode = TRANSFER_MODE_NORMAL,
-      .p_dest = (void*) &g_buffer_adc[ADC_UNIT_0][ADC_GROUP_SCAN_B][ZERO][ZERO][ZERO],
-      .p_src = (void const*) &R_ADC0->ADDR[TWO],
-      .num_blocks = ZERO,
-      .length = NUM_SAMPLES_PER_CHANNEL,
-     },
+ [ZERO] =
+ {
+  .transfer_settings_word_b.dest_addr_mode = TRANSFER_ADDR_MODE_INCREMENTED,
+  .transfer_settings_word_b.repeat_area = TRANSFER_REPEAT_AREA_DESTINATION,
+  .transfer_settings_word_b.irq = TRANSFER_IRQ_END,
+  .transfer_settings_word_b.chain_mode = TRANSFER_CHAIN_MODE_EACH,
+  .transfer_settings_word_b.src_addr_mode = TRANSFER_ADDR_MODE_FIXED,
+  .transfer_settings_word_b.size = TRANSFER_SIZE_2_BYTE,
+  .transfer_settings_word_b.mode = TRANSFER_MODE_NORMAL,
+  .p_dest = (void*) &g_buffer_adc[ADC_UNIT_0][ADC_GROUP_SCAN_B][ZERO][ZERO][ZERO],
+  .p_src = (void const*) &R_ADC0->ADDR[SIX],
+  .num_blocks = ZERO,
+  .length = NUM_SAMPLES_PER_CHANNEL,
+ },
 
-     [ONE] =
-     {
-      .dest_addr_mode = TRANSFER_ADDR_MODE_INCREMENTED,
-      .repeat_area = TRANSFER_REPEAT_AREA_DESTINATION,
-      .irq = TRANSFER_IRQ_END,
-      .chain_mode = TRANSFER_CHAIN_MODE_DISABLED,
-      .src_addr_mode = TRANSFER_ADDR_MODE_FIXED,
-      .size = TRANSFER_SIZE_2_BYTE,
-      .mode = TRANSFER_MODE_NORMAL,
-      .p_dest = (void*) &g_buffer_adc[ADC_UNIT_0][ADC_GROUP_SCAN_B][ONE][ZERO][ZERO],
-      .p_src = (void const*) &R_ADC0->ADDR[THREE],
-      .num_blocks = ZERO,
-      .length = NUM_SAMPLES_PER_CHANNEL,
-     },
+ [ONE] =
+ {
+  .transfer_settings_word_b.dest_addr_mode = TRANSFER_ADDR_MODE_INCREMENTED,
+  .transfer_settings_word_b.repeat_area = TRANSFER_REPEAT_AREA_DESTINATION,
+  .transfer_settings_word_b.irq = TRANSFER_IRQ_END,
+  .transfer_settings_word_b.chain_mode = TRANSFER_CHAIN_MODE_DISABLED,
+  .transfer_settings_word_b.src_addr_mode = TRANSFER_ADDR_MODE_FIXED,
+  .transfer_settings_word_b.size = TRANSFER_SIZE_2_BYTE,
+  .transfer_settings_word_b.mode = TRANSFER_MODE_NORMAL,
+  .p_dest = (void*) &g_buffer_adc[ADC_UNIT_0][ADC_GROUP_SCAN_B][ONE][ZERO][ZERO],
+  .p_src = (void const*) &R_ADC0->ADDR[SEVEN],
+  .num_blocks = ZERO,
+  .length = NUM_SAMPLES_PER_CHANNEL,
+ },
 
 #if BSP_FEATURE_ADC_UNIT_1_CHANNELS
-     [TWO] =
-     {
-      .dest_addr_mode = TRANSFER_ADDR_MODE_INCREMENTED,
-      .repeat_area = TRANSFER_REPEAT_AREA_DESTINATION,
-      .irq = TRANSFER_IRQ_END,
-      .chain_mode = TRANSFER_CHAIN_MODE_EACH,
-      .src_addr_mode = TRANSFER_ADDR_MODE_FIXED,
-      .size = TRANSFER_SIZE_2_BYTE,
-      .mode = TRANSFER_MODE_NORMAL,
-      .p_dest = (void*) &g_buffer_adc[ADC_UNIT_1][ADC_GROUP_SCAN_B][ZERO][ZERO][ZERO],
-      .p_src = (void const*) &R_ADC1->ADDR[TWO],
-      .num_blocks = ZERO,
-      .length = NUM_SAMPLES_PER_CHANNEL,
-     },
+[TWO] =
+{
+ .transfer_settings_word_b.dest_addr_mode = TRANSFER_ADDR_MODE_INCREMENTED,
+ .transfer_settings_word_b.repeat_area = TRANSFER_REPEAT_AREA_DESTINATION,
+ .transfer_settings_word_b.irq = TRANSFER_IRQ_END,
+ .transfer_settings_word_b.chain_mode = TRANSFER_CHAIN_MODE_EACH,
+ .transfer_settings_word_b.src_addr_mode = TRANSFER_ADDR_MODE_FIXED,
+ .transfer_settings_word_b.size = TRANSFER_SIZE_2_BYTE,
+ .transfer_settings_word_b.mode = TRANSFER_MODE_NORMAL,
+ .p_dest = (void*) &g_buffer_adc[ADC_UNIT_1][ADC_GROUP_SCAN_B][ZERO][ZERO][ZERO],
+ .p_src = (void const*) &R_ADC1->ADDR[TWO],
+ .num_blocks = ZERO,
+ .length = NUM_SAMPLES_PER_CHANNEL,
+},
 
-     [THREE] =
-     {
-      .dest_addr_mode = TRANSFER_ADDR_MODE_INCREMENTED,
-      .repeat_area = TRANSFER_REPEAT_AREA_DESTINATION,
-      .irq = TRANSFER_IRQ_END,
-      .chain_mode = TRANSFER_CHAIN_MODE_DISABLED,
-      .src_addr_mode = TRANSFER_ADDR_MODE_FIXED,
-      .size = TRANSFER_SIZE_2_BYTE,
-      .mode = TRANSFER_MODE_NORMAL,
-      .p_dest = (void*) &g_buffer_adc[ADC_UNIT_1][ADC_GROUP_SCAN_B][ONE][ZERO][ZERO],
-      .p_src = (void const*) &R_ADC1->ADDR[THREE],
-      .num_blocks = ZERO,
-      .length = NUM_SAMPLES_PER_CHANNEL,
-     },
+[THREE] =
+{
+ .transfer_settings_word_b.dest_addr_mode = TRANSFER_ADDR_MODE_INCREMENTED,
+ .transfer_settings_word_b.repeat_area = TRANSFER_REPEAT_AREA_DESTINATION,
+ .transfer_settings_word_b.irq = TRANSFER_IRQ_END,
+ .transfer_settings_word_b.chain_mode = TRANSFER_CHAIN_MODE_DISABLED,
+ .transfer_settings_word_b.src_addr_mode = TRANSFER_ADDR_MODE_FIXED,
+ .transfer_settings_word_b.size = TRANSFER_SIZE_2_BYTE,
+ .transfer_settings_word_b.mode = TRANSFER_MODE_NORMAL,
+ .p_dest = (void*) &g_buffer_adc[ADC_UNIT_1][ADC_GROUP_SCAN_B][ONE][ZERO][ZERO],
+ .p_src = (void const*) &R_ADC1->ADDR[SIXETEEN],
+ .num_blocks = ZERO,
+ .length = NUM_SAMPLES_PER_CHANNEL,
+},
 #endif
 };
 
@@ -292,9 +292,9 @@ void g_adc0_callback(adc_callback_args_t *p_args)
         break;
 #ifdef BOARD_RA2A1_EK
         case ADC_EVENT_CALIBRATION_COMPLETE:
-       {
+        {
             /*do nothing*/
-       }
+        }
         break;
 #endif
         default:

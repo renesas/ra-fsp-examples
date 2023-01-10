@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<raConfiguration version="6">
+<raConfiguration version="7">
   <generalSettings>
     <option key="#Board#" value="board.ra2e2_ek" />
     <option key="CPU" value="RA2E2" />
+    <option key="Core" value="CM23" />
     <option key="#TargetName#" value="R7FA2E2A72DNK" />
     <option key="#TargetARCHITECTURE#" value="cortex-m23" />
     <option key="#DeviceCommand#" value="R7FA2E2A7" />
     <option key="#RTOS#" value="_none" />
     <option key="#pinconfiguration#" value="R7FA2E2A72DNK.pincfg" />
-    <option key="#FSPVersion#" value="4.1.0" />
+    <option key="#FSPVersion#" value="4.2.0" />
     <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra2e2_ek##" />
     <option key="#SELECTED_TOOLCHAIN#" value="gcc-arm-embedded" />
     <option key="#ToolchainVersion#" value="9.3.1.20200408" />
@@ -22,6 +23,7 @@
       <property id="config.bsp.data_flash_size_bytes" value="config.bsp.data_flash_size_bytes.value" />
       <property id="config.bsp.package_style" value="config.bsp.package_style.value" />
       <property id="config.bsp.package_pins" value="config.bsp.package_pins.value" />
+      <property id="config.bsp.irq_count_hidden" value="32" />
     </config>
     <config id="config.bsp.ra2e2">
       <property id="config.bsp.series" value="config.bsp.series.value" />
@@ -70,6 +72,7 @@
       <property id="config.bsp.fsp.mcu.spi.max_bitrate" value="16000000" />
       <property id="config.bsp.fsp.mcu.iic_master.rate.rate_fastplus" value="0" />
       <property id="config.bsp.fsp.mcu.sci_uart.cstpen_channels" value="0x0" />
+      <property id="config.bsp.fsp.mcu.gpt.pin_count_source_channels" value="0xFFFF" />
       <property id="config.bsp.common.id_mode" value="config.bsp.common.id_mode.unlocked" />
       <property id="config.bsp.common.id_code" value="FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF" />
       <property id="config.bsp.common.id1" value="" />
@@ -89,6 +92,7 @@
       <property id="config.bsp.common.main_osc_populated" value="config.bsp.common.main_osc_populated.enabled" />
       <property id="config.bsp.common.pfs_protect" value="config.bsp.common.pfs_protect.enabled" />
       <property id="config.bsp.common.c_runtime_init" value="config.bsp.common.c_runtime_init.enabled" />
+      <property id="config.bsp.common.early_init" value="config.bsp.common.early_init.disabled" />
       <property id="config.bsp.common.main_osc_clock_source" value="config.bsp.common.main_osc_clock_source.crystal" />
       <property id="config.bsp.common.subclock_populated" value="config.bsp.common.subclock_populated.enabled" />
       <property id="config.bsp.common.subclock_drive" value="config.bsp.common.subclock_drive.standard" />
@@ -111,37 +115,37 @@
     <node id="board.clock.clkout.display" option="board.clock.clkout.display.value" />
   </raClockConfiguration>
   <raComponentSelection>
-    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="4.1.0">
+    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="4.2.0">
       <description>Board Support Package Common Files</description>
-      <originalPack>Renesas.RA.4.1.0.pack</originalPack>
+      <originalPack>Renesas.RA.4.2.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="4.1.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="4.2.0">
       <description>I/O Port</description>
-      <originalPack>Renesas.RA.4.1.0.pack</originalPack>
+      <originalPack>Renesas.RA.4.2.0.pack</originalPack>
     </component>
-    <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="5.9.0+renesas.0.fsp.4.1.0">
+    <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="5.9.0+renesas.0.fsp.4.2.0">
       <description>Arm CMSIS Version 5 - Core (M)</description>
-      <originalPack>Arm.CMSIS5.5.9.0+renesas.0.fsp.4.1.0.pack</originalPack>
+      <originalPack>Arm.CMSIS5.5.9.0+renesas.0.fsp.4.2.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra2e2_ek" variant="" vendor="Renesas" version="4.1.0">
+    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra2e2_ek" variant="" vendor="Renesas" version="4.2.0">
       <description>RA2E2-EK Board Support Files</description>
-      <originalPack>Renesas.RA_board_ra2e2_ek.4.1.0.pack</originalPack>
+      <originalPack>Renesas.RA_board_ra2e2_ek.4.2.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra2e2" subgroup="device" variant="R7FA2E2A72DNK" vendor="Renesas" version="4.1.0">
+    <component apiversion="" class="BSP" condition="" group="ra2e2" subgroup="device" variant="R7FA2E2A72DNK" vendor="Renesas" version="4.2.0">
       <description>Board support package for R7FA2E2A72DNK</description>
-      <originalPack>Renesas.RA_mcu_ra2e2.4.1.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra2e2.4.2.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra2e2" subgroup="device" variant="" vendor="Renesas" version="4.1.0">
+    <component apiversion="" class="BSP" condition="" group="ra2e2" subgroup="device" variant="" vendor="Renesas" version="4.2.0">
       <description>Board support package for RA2E2</description>
-      <originalPack>Renesas.RA_mcu_ra2e2.4.1.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra2e2.4.2.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra2e2" subgroup="fsp" variant="" vendor="Renesas" version="4.1.0">
+    <component apiversion="" class="BSP" condition="" group="ra2e2" subgroup="fsp" variant="" vendor="Renesas" version="4.2.0">
       <description>Board support package for RA2E2 - FSP Data</description>
-      <originalPack>Renesas.RA_mcu_ra2e2.4.1.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra2e2.4.2.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_adc" variant="" vendor="Renesas" version="4.1.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_adc" variant="" vendor="Renesas" version="4.2.0">
       <description>A/D Converter</description>
-      <originalPack>Renesas.RA.4.1.0.pack</originalPack>
+      <originalPack>Renesas.RA.4.2.0.pack</originalPack>
     </component>
   </raComponentSelection>
   <raElcConfiguration />
@@ -173,9 +177,23 @@
       <property id="module.driver.adc.add_mask" value="" />
       <property id="module.driver.adc.sample_hold_mask" value="" />
       <property id="module.driver.adc.sample_hold_states" value="24" />
+      <property id="module.driver.adc.compare.window_mode" value="module.driver.adc.compare.window_mode.enabled" />
+      <property id="module.driver.adc.compare.event_mode" value="module.driver.adc.compare.event_mode.or" />
+      <property id="module.driver.adc.compare.window_a.enable" value="module.driver.adc.compare.window_a.enable.enabled" />
+      <property id="module.driver.adc.compare.window_a.channels" value="module.driver.adc.compare.window_a.channels.temperature" />
+      <property id="module.driver.adc.compare.window_a.channel_mode" value="" />
+      <property id="module.driver.adc.compare.window_a.ref_lower" value="1402" />
+      <property id="module.driver.adc.compare.window_a.ref_upper" value="1602" />
+      <property id="module.driver.adc.compare.window_b.enable" value="module.driver.adc.compare.window_b.enable.disabled" />
+      <property id="module.driver.adc.compare.window_b.channel" value="module.driver.adc.compare.window_b.channel.channel_0" />
+      <property id="module.driver.adc.compare.window_b.mode" value="module.driver.adc.compare.window_b.mode" />
+      <property id="module.driver.adc.compare.window_b.ref_lower" value="0" />
+      <property id="module.driver.adc.compare.window_b.ref_upper" value="0" />
       <property id="module.driver.adc.p_callback" value="NULL" />
       <property id="module.driver.adc.scan_end_ipl" value="_disabled" />
       <property id="module.driver.adc.scan_end_b_ipl" value="_disabled" />
+      <property id="module.driver.adc.window_a_ipl" value="_disabled" />
+      <property id="module.driver.adc.window_b_ipl" value="_disabled" />
       <property id="module.driver.adc.adbuf" value="module.driver.adc.adbuf.disabled" />
     </module>
     <context id="_hal.0">

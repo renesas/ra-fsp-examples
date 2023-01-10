@@ -1,5 +1,19 @@
 include "memory_regions.icf";
 
+if (!isdefinedsymbol(NS_OFFSET_START))
+{
+  define symbol NS_OFFSET_START = 0;
+}
+
+if (isdefinedsymbol(PROJECT_NONSECURE))
+{
+  define symbol NS_IMAGE_OFFSET = NS_OFFSET_START;
+}
+else
+{
+  define symbol NS_IMAGE_OFFSET = 0;
+}
+
   /* Uncomment and set XIP_SECONDARY_SLOT_IMAGE to 1 below for the secondary XIP application image. */
   /* define symbol XIP_SECONDARY_SLOT_IMAGE = 1; */
 
@@ -89,17 +103,17 @@ define symbol FLASH_PRV_START = FLASH_ORIGIN + 0x500;
 /* Stack and heap sizes are defined in bsp_cfg.h */
 if ((OPTION_SETTING_LENGTH == 0) && (FLASH_ORIGIN == FLASH_START))
 {
-  define region VECT_region       = mem:[from VECT_START        to VECT_END];
-  define region ROMREG_region     = mem:[from ROMREG_START      to ROMREG_END];
-  define region FLASH_region      = mem:[from FLASH_PRV_START   to FLASH_END];
+  define region VECT_region       = mem:[from VECT_START + NS_IMAGE_OFFSET      to VECT_END + NS_IMAGE_OFFSET];
+  define region ROMREG_region     = mem:[from ROMREG_START + NS_IMAGE_OFFSET    to ROMREG_END + NS_IMAGE_OFFSET];
+  define region FLASH_region      = mem:[from FLASH_PRV_START + NS_IMAGE_OFFSET to FLASH_END + NS_IMAGE_OFFSET];
 }
 else
 {
-  define region FLASH_region      = mem:[from FLASH_ORIGIN   to FLASH_END];
+  define region FLASH_region      = mem:[from FLASH_ORIGIN + NS_IMAGE_OFFSET to FLASH_END + NS_IMAGE_OFFSET];
 }
 
-define region RAM_region        = mem:[from RAM_START         to RAM_END];
-define region DF_region         = mem:[from DATA_FLASH_START  to DATA_FLASH_END];
+define region RAM_region        = mem:[from RAM_START + NS_IMAGE_OFFSET        to RAM_END + NS_IMAGE_OFFSET];
+define region DF_region         = mem:[from DATA_FLASH_START + NS_IMAGE_OFFSET to DATA_FLASH_END + NS_IMAGE_OFFSET];
 
 initialize manually { readwrite };
 do not initialize   { zeroinit };
@@ -152,7 +166,7 @@ if (isdefinedsymbol(RAM_NS_BUFFER_LENGTH))
                             rw section .data,
                             rw section HEAP,
                             rw section .stack };
-  define region RAM_NS_BUFFER_region = mem:[from RAM_NS_BUFFER_START to RAM_NS_BUFFER_END];
+  define region RAM_NS_BUFFER_region = mem:[from RAM_NS_BUFFER_START + NS_IMAGE_OFFSET to RAM_NS_BUFFER_END + NS_IMAGE_OFFSET];
   place in RAM_NS_BUFFER_region { rw section .ns_buffer* };
 }
 else
@@ -317,32 +331,41 @@ if(OPTION_SETTING_LENGTH > 0)
   if (!isdefinedsymbol(PROJECT_NONSECURE))
   {
     place at address OPTION_SETTING_START { ro section .option_setting_ofs0 };
+    place at address OPTION_SETTING_START+0x04 { ro section .option_setting_ofs2 };
     place at address OPTION_SETTING_START+0x10 { ro section .option_setting_dualsel };
     place at address OPTION_SETTING_START+0x34 { ro section .option_setting_sas };
     place at address OPTION_SETTING_S_START+0x00 { ro section .option_setting_ofs1_sec };
+    place at address OPTION_SETTING_S_START+0x04 { ro section .option_setting_ofs3_sec };
     place at address OPTION_SETTING_S_START+0x10 { ro section .option_setting_banksel_sec };
     place at address OPTION_SETTING_S_START+0x40 { ro section .option_setting_bps_sec0 };
     place at address OPTION_SETTING_S_START+0x44 { ro section .option_setting_bps_sec1 };
     place at address OPTION_SETTING_S_START+0x48 { ro section .option_setting_bps_sec2 };
+    place at address OPTION_SETTING_S_START+0x4C { ro section .option_setting_bps_sec3 };
     place at address OPTION_SETTING_S_START+0x60 { ro section .option_setting_pbps_sec0 };
     place at address OPTION_SETTING_S_START+0x64 { ro section .option_setting_pbps_sec1 };
     place at address OPTION_SETTING_S_START+0x68 { ro section .option_setting_pbps_sec2 };
+    place at address OPTION_SETTING_S_START+0x6C { ro section .option_setting_pbps_sec3 };
     place at address OPTION_SETTING_S_START+0x80 { ro section .option_setting_ofs1_sel };
+    place at address OPTION_SETTING_S_START+0x84 { ro section .option_setting_ofs3_sel };
     place at address OPTION_SETTING_S_START+0x90 { ro section .option_setting_banksel_sel };
     place at address OPTION_SETTING_S_START+0xC0 { ro section .option_setting_bps_sel0 };
     place at address OPTION_SETTING_S_START+0xC4 { ro section .option_setting_bps_sel1 };
     place at address OPTION_SETTING_S_START+0xC8 { ro section .option_setting_bps_sel2 };
+    place at address OPTION_SETTING_S_START+0xCC { ro section .option_setting_bps_sel3 };
   }
   else
   {
-    place at address OPTION_SETTING_START+0 { ro section .option_setting_ofs1 };
-    place at address OPTION_SETTING_START+0x10 { ro section .option_setting_banksel };
-    place at address OPTION_SETTING_START+0x40 { ro section .option_setting_bps0 };
-    place at address OPTION_SETTING_START+0x44 { ro section .option_setting_bps1 };
-    place at address OPTION_SETTING_START+0x48 { ro section .option_setting_bps2 };
-    place at address OPTION_SETTING_START+0x60 { ro section .option_setting_pbps0 };
-    place at address OPTION_SETTING_START+0x64 { ro section .option_setting_pbps1 };
-    place at address OPTION_SETTING_START+0x68 { ro section .option_setting_pbps2 };
+    place at address OPTION_SETTING_START+NS_IMAGE_OFFSET+0 { ro section .option_setting_ofs1 };
+    place at address OPTION_SETTING_START+NS_IMAGE_OFFSET+4 { ro section .option_setting_ofs3 };
+    place at address OPTION_SETTING_START+NS_IMAGE_OFFSET+0x10 { ro section .option_setting_banksel };
+    place at address OPTION_SETTING_START+NS_IMAGE_OFFSET+0x40 { ro section .option_setting_bps0 };
+    place at address OPTION_SETTING_START+NS_IMAGE_OFFSET+0x44 { ro section .option_setting_bps1 };
+    place at address OPTION_SETTING_START+NS_IMAGE_OFFSET+0x48 { ro section .option_setting_bps2 };
+    place at address OPTION_SETTING_START+NS_IMAGE_OFFSET+0x4C { ro section .option_setting_bps3 };
+    place at address OPTION_SETTING_START+NS_IMAGE_OFFSET+0x60 { ro section .option_setting_pbps0 };
+    place at address OPTION_SETTING_START+NS_IMAGE_OFFSET+0x64 { ro section .option_setting_pbps1 };
+    place at address OPTION_SETTING_START+NS_IMAGE_OFFSET+0x68 { ro section .option_setting_pbps2 };
+    place at address OPTION_SETTING_START+NS_IMAGE_OFFSET+0x6C { ro section .option_setting_pbps3 };
   }
 }
 
@@ -355,11 +378,20 @@ if (isdefinedsymbol(FLASH_NS_START) && isdefinedsymbol(FLASH_NSC_START))
 {
   place at address FLASH_NSC_START {section .tz_flash_nsc_start, section Veneer$$CMSE };
   place at address FLASH_NS_START {section .tz_flash_ns_start};
+  if (isdefinedsymbol(PROJECT_SECURE))
+  {
+    define exported symbol __tz_FLASH_N = FLASH_NS_START;
+  }
 }
 else
 {
   define block TZ_SG_VENEERS with fixed order, alignment = 1024 { section .tz_flash_nsc_start, section Veneer$$CMSE, section .tz_flash_ns_start };
   place in FLASH_region    { last block TZ_SG_VENEERS };
+  if (isdefinedsymbol(PROJECT_SECURE))
+  {
+    /* Align the start of Non-secure flash to 1024 byte boundary after the end of the secure application. */
+    define exported symbol __tz_FLASH_N = ((start(FLASH_region) + size(FLASH_region) + 32768 - 1) / 32768) * 32768;
+  }
 }
 
 define exported symbol __tz_RAM_S = RAM_START;
@@ -399,3 +431,33 @@ define exported symbol __tz_OPTION_SETTING_N = OPTION_SETTING_START + OPTION_SET
 define exported symbol __tz_OPTION_SETTING_S_S = OPTION_SETTING_S_START;
 define exported symbol __tz_OPTION_SETTING_S_N = OPTION_SETTING_S_START + OPTION_SETTING_S_LENGTH;
 
+if (isdefinedsymbol(ITCM_LENGTH))
+{
+  /* Define region for storing ITCM data. */
+  define symbol ITCM_END = ITCM_START + ITCM_LENGTH - 1;
+  define region ITCM_region = mem:[from ITCM_START + NS_IMAGE_OFFSET to ITCM_END + NS_IMAGE_OFFSET];
+  place in ITCM_region {
+                         ro section .itcm_data,
+                       };
+
+  define symbol __tz_ITCM_S = ITCM_START;
+  export symbol __tz_ITCM_S;
+  define symbol __tz_ITCM_N = ITCM_START + ITCM_LENGTH;
+  export symbol __tz_ITCM_N;
+}
+
+if (isdefinedsymbol(DTCM_LENGTH))
+{
+  /* Define region for storing DTCM data. */
+  define symbol DTCM_END = DTCM_START + DTCM_LENGTH - 1;
+  define region DTCM_region        = mem:[from DTCM_START + NS_IMAGE_OFFSET to DTCM_END + NS_IMAGE_OFFSET];
+  place in DTCM_region    {
+                            rw section .dtcm_data,
+                            rw section .dtcm_noinit,
+                          };
+
+  define symbol __tz_DTCM_S = DTCM_START;
+  export symbol __tz_DTCM_S;
+  define symbol __tz_DTCM_N = DTCM_START + DTCM_LENGTH;
+  export symbol __tz_DTCM_N;
+}

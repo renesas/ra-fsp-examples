@@ -12,7 +12,7 @@
                 OPTION_SETTING_S_LENGTH = 0x100;
                 ID_CODE_START  = 0x00000000;
                 ID_CODE_LENGTH = 0x0;
-                SDRAM_START  = 0x00000000;
+                SDRAM_START  = 0x80010000;
                 SDRAM_LENGTH = 0x0;
                 QSPI_FLASH_START  = 0x60000000;
                 QSPI_FLASH_LENGTH = 0x4000000;

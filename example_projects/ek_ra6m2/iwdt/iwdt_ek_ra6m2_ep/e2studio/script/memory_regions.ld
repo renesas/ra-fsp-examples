@@ -8,7 +8,7 @@
                 DATA_FLASH_LENGTH = 0x8000;
                 OPTION_SETTING_START  = 0x00000000;
                 OPTION_SETTING_LENGTH = 0x0;
-                OPTION_SETTING_S_START  = 0x00000000;
+                OPTION_SETTING_S_START  = 0x80000000;
                 OPTION_SETTING_S_LENGTH = 0x0;
                 ID_CODE_START  = 0x0100A150;
                 ID_CODE_LENGTH = 0x10;
@@ -16,7 +16,7 @@
                 SDRAM_LENGTH = 0x8000000;
                 QSPI_FLASH_START  = 0x60000000;
                 QSPI_FLASH_LENGTH = 0x4000000;
-                OSPI_DEVICE_0_START  = 0x00000000;
+                OSPI_DEVICE_0_START  = 0x80020000;
                 OSPI_DEVICE_0_LENGTH = 0x0;
-                OSPI_DEVICE_1_START  = 0x00000000;
+                OSPI_DEVICE_1_START  = 0x80030000;
                 OSPI_DEVICE_1_LENGTH = 0x0;

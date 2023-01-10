@@ -47,6 +47,8 @@ FSP Configuration
     MPU: Enable or disable Memory Region 3: Disabled
     MPU: Memory Region 3 Start: 0x400DFFFC
     MPU: Memory Region 3 End: 0x400DFFFF
+    Clocks: HOCO FLL Function: Disabled
+    Main Oscillator Wait Time: 8163 cycles
     ID Code Mode: Unlocked (Ignore ID)
     ID Code (32 Hex Characters): FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
     
@@ -57,11 +59,11 @@ FSP Configuration
     Parameter checking: Enabled
     Assert Failures: Return FSP_ERR_ASSERTION
     Error Log: No Error Log
-    Soft Reset: Disabled
+    Clock Registers not Reset Values during Startup: Disabled
     Main Oscillator Populated: Populated
     PFS Protect: Enabled
     C Runtime Initialization : Enabled
-    Main Oscillator Wait Time: 32768 us
+    Early BSP Initialization : Disabled
     Main Oscillator Clock Source: Crystal or Resonator
     Subclock Populated: Not Populated
     Subclock Drive (Drive capacitance availability varies by MCU): Standard/Normal mode
@@ -79,8 +81,6 @@ FSP Configuration
     PCLKB Div /4
     PCLKC Div /4
     PCLKD Div /2
-    BCLK Div /2
-    BCK/2
     UCLK Div /5
     FCLK Div /4
     CLKOUT Disabled
@@ -88,25 +88,125 @@ FSP Configuration
     
   Pin Configurations
     RA6T1-RSSK.pincfg -> g_bsp_pin_cfg
+      AVCC0 88 ANALOG0_AVCC0 - - - - - - - - IO "Read only" - 
+      AVSS0 89 ANALOG0_AVSS0 - - - - - - - - IO "Read only" - 
+      P000 100 - - - - Disabled - - "ACMPHS0: IVCMP; ADC0: AN000; ICU0: IRQ06" - None - - 
+      P001 99 - - - - Disabled - - "ACMPHS1: IVCMP; ADC0: AN001; ICU0: IRQ07" - None - - 
+      P002 98 - - - - Disabled - - "ACMPHS2: IVCMP; ADC0: AN002; ICU0: IRQ08" - None - - 
+      P003 97 - - - - Disabled - - "ADC0: AN007" - None - - 
+      P004 96 - - - - Disabled - - "ACMPHS3: IVCMP; ADC1: AN100; ICU0: IRQ09" - None - - 
+      P005 95 - - - - Disabled - - "ACMPHS4: IVCMP; ADC1: AN101; ICU0: IRQ10" - None - - 
+      P006 94 - - - - Disabled - - "ACMPHS5: IVCMP; ADC1: AN102; ICU0: IRQ11" - None - - 
+      P007 93 - - - - Disabled - - "ADC1: AN107" - None - - 
+      P008 92 - - - - Disabled - - "ADC0: AN003; ICU0: IRQ12" - None - - 
+      P014 85 - - - - Disabled - - "ACMPHS0: IVREF; ACMPHS1: IVREF; ACMPHS2: IVREF; ACMPHS3: IVREF; ACMPHS4: IVREF; ACMPHS5: IVREF; ADC0: AN005; ADC1: AN105; DAC0: DA0" - None - - 
+      P015 84 - - - - Disabled - - "ACMPHS0: IVCMP; ACMPHS1: IVCMP; ACMPHS2: IVCMP; ACMPHS3: IVCMP; ACMPHS4: IVCMP; ACMPHS5: IVCMP; ADC0: AN006; ADC1: AN106; DAC1: DA1; ICU0: IRQ13" - None - - 
+      P100 75 - - - - Disabled - - "AGT0: AGTIO0; GPT_POEG0: GTETRGA; GPT5: GTIOC5B; ICU0: IRQ02; IIC1: SCL1; KINT0: KRM00; SCI0: RXD0; SCI0: SCL0; SCI1: SCK1; SPI0: MISOA" - None - - 
+      P101 74 - - - - Disabled - - "AGT0: AGTEE0; GPT_POEG1: GTETRGB; GPT5: GTIOC5A; ICU0: IRQ01; IIC1: SDA1; KINT0: KRM01; SCI0: SDA0; SCI0: TXD0; SCI1: CTS1; SPI0: MOSIA" - None - - 
+      P102 73 - - - - Disabled - - "ADC0: ADTRG0; AGT0: AGTO0; CAN0: CRX0; GPT_OPS0: GTOWLO; GPT2: GTIOC2B; KINT0: KRM02; SCI0: SCK0; SPI0: RSPCKA" - None - - 
+      P103 72 - - - - Disabled - - "CAN0: CTX0; GPT_OPS0: GTOWUP; GPT2: GTIOC2A; KINT0: KRM03; SCI0: CTS0; SPI0: SSLA0" - None - - 
+      P104 71 - - - - Disabled - - "GPT_POEG1: GTETRGB; GPT1: GTIOC1B; ICU0: IRQ01; KINT0: KRM04; SCI8: RXD8; SCI8: SCL8; SPI0: SSLA1" - None - - 
+      P105 70 - - - - Disabled - - "GPT_POEG0: GTETRGA; GPT1: GTIOC1A; ICU0: IRQ00; KINT0: KRM05; SCI8: SDA8; SCI8: TXD8; SPI0: SSLA2" - None - - 
+      P106 69 - - - - Disabled - - "AGT0: AGTOB0; GPT8: GTIOC8B; KINT0: KRM06; SCI8: SCK8; SPI0: SSLA3" - None - - 
+      P107 68 - - - - Disabled - - "AGT0: AGTOA0; GPT8: GTIOC8A; KINT0: KRM07; SCI8: CTS8" - None - - 
+      P108 51 DEBUG0_TMS - Low - "Peripheral mode" CMOS None "DEBUG0: SWDIO; DEBUG0: TMS; GPT_OPS0: GTOULO; GPT0: GTIOC0B; SCI9: CTS9; SPI1: SSLB0" - IO - - 
+      P109 52 DEBUG0_TDO - Low - "Peripheral mode" CMOS None "CGC0: CLKOUT; DEBUG0: TDO; DEBUG0: TRACESWO; GPT_OPS0: GTOVUP; GPT1: GTIOC1A; SCI9: SDA9; SCI9: TXD9; SPI1: MOSIB" - IO - - 
+      P110 53 DEBUG0_TDI - Low None "Peripheral mode" CMOS None "ACMP(0-5): VCOUT; DEBUG0: TDI; GPT_OPS0: GTOVLO; GPT1: GTIOC1B; ICU0: IRQ03; SCI2: CTS2; SCI9: RXD9; SCI9: SCL9; SPI1: MISOB" - IO - - 
+      P111 54 - - - - Disabled - - "GPT_OPS0: HRMON0; GPT3: GTIOC3A; ICU0: IRQ04; SCI2: SCK2; SCI9: SCK9; SPI1: RSPCKB" - None - - 
+      P112 55 - - - - Disabled - - "GPT_OPS0: HRMON1; GPT3: GTIOC3B; SCI1: SCK1; SCI2: SDA2; SCI2: TXD2; SPI1: SSLB0" - None - - 
+      P113 56 - - - - Disabled - - "GPT2: GTIOC2A; SCI2: RXD2; SCI2: SCL2" - None - - 
+      P114 57 - - - - Disabled - - "GPT2: GTIOC2B" - None - - 
+      P115 58 - - - - Disabled - - "GPT4: GTIOC4A" - None - - 
+      P200 40 - - - - Disabled - - "ICU0: NMI" - None - - 
+      P201 39 - - - - Disabled - - "SYSTEM0: MD" - None - - 
+      P205 32 - - - - Disabled - - "AGT1: AGTO1; CGC0: CLKOUT; GPT_OPS0: GTIV; GPT4: GTIOC4A; ICU0: IRQ01; IIC1: SCL1; SCI4: SDA4; SCI4: TXD4; SCI9: CTS9" - None - - 
+      P206 31 - - - - Disabled - - "GPT_OPS0: GTIU; ICU0: IRQ00; IIC1: SDA1; SCI4: RXD4; SCI4: SCL4" - None - - 
+      P207 30 - - - - Disabled - - - - None - - 
+      P208 37 - - - - Disabled - - "DEBUG_TRACE0: TDATA3; GPT_OPS0: GTOVLO" - None - - 
+      P209 36 - - - - Disabled - - "DEBUG_TRACE0: TDATA2; GPT_OPS0: GTOVUP" - None - - 
+      P210 35 - - - - Disabled - - "DEBUG_TRACE0: TDATA1; GPT_OPS0: GTIW" - None - - 
+      P211 34 - - - - Disabled - - "DEBUG_TRACE0: TDATA0; GPT_OPS0: GTIV" - None - - 
+      P212 14 - - - - Disabled - - "AGT1: AGTEE1; CGC0: EXTAL; GPT_POEG3: GTETRGD; GPT0: GTIOC0B; ICU0: IRQ03; SCI1: RXD1; SCI1: SCL1" - None - - 
+      P213 13 - - - - Disabled - - "ADC1: ADTRG1; CGC0: XTAL; GPT_POEG2: GTETRGC; GPT0: GTIOC0A; ICU0: IRQ02; SCI1: SDA1; SCI1: TXD1" - None - - 
+      P214 33 - - - - Disabled - - "DEBUG_TRACE0: TCLK; GPT_OPS0: GTIU" - None - - 
+      P300 50 DEBUG0_TCK - Low - "Peripheral mode" CMOS None "DEBUG0: SWCLK; DEBUG0: TCK; GPT_OPS0: GTOUUP; GPT0: GTIOC0A; SPI1: SSLB1" - IO - - 
+      P301 49 - - - - Disabled - - "AGT0: AGTIO0; GPT_OPS0: GTOULO; GPT4: GTIOC4B; ICU0: IRQ06; SCI2: RXD2; SCI2: SCL2; SCI9: CTS9; SPI1: SSLB2" - None - - 
+      P302 48 - - - - Disabled - - "GPT_OPS0: GTOUUP; GPT4: GTIOC4A; ICU0: IRQ05; SCI2: SDA2; SCI2: TXD2; SPI1: SSLB3" - None - - 
+      P303 47 - - - - Disabled - - "GPT7: GTIOC7B" - None - - 
+      P304 44 - - - - Disabled - - "GPT_OPS0: GTOWLO; GPT7: GTIOC7A; ICU0: IRQ09" - None - - 
+      P305 43 - - - - Disabled - - "GPT_OPS0: GTOWUP; ICU0: IRQ08" - None - - 
+      P306 42 - - - - Disabled - - "GPT_OPS0: GTOULO" - None - - 
+      P307 41 - - - - Disabled - - "GPT_OPS0: GTOUUP" - None - - 
+      P400 1 - - - - Disabled - - "ADC1: ADTRG1; AGT1: AGTIO1; GPT6: GTIOC6A; ICU0: IRQ00; IIC0: SCL0; SCI4: SCK4" - None - - 
+      P401 2 - - - - Disabled - - "CAN0: CTX0; GPT_POEG0: GTETRGA; GPT6: GTIOC6B; ICU0: IRQ05; IIC0: SDA0; SCI4: CTS4" - None - - 
+      P402 3 - - - - Disabled - - "AGT0: AGTIO0; AGT1: AGTIO1; CAC0: CACREF; CAN0: CRX0; ICU0: IRQ04" - None - - 
+      P403 4 - - - - Disabled - - "AGT0: AGTIO0; AGT1: AGTIO1; GPT3: GTIOC3A" - None - - 
+      P404 5 - - - - Disabled - - "GPT3: GTIOC3B" - None - - 
+      P405 6 - - - - Disabled - - "GPT1: GTIOC1A" - None - - 
+      P406 7 - - - - Disabled - - "GPT1: GTIOC1B" - None - - 
+      P407 25 - - - - Disabled - - "ADC0: ADTRG0; AGT0: AGTIO0; IIC0: SDA0; SCI4: CTS4" - None - - 
+      P408 24 - - - - Disabled - - "GPT_OPS0: GTOWLO; GPT10: GTIOC10B; ICU0: IRQ07; IIC0: SCL0; SCI3: RXD3; SCI3: SCL3" - None - - 
+      P409 23 - - - - Disabled - - "GPT_OPS0: GTOWUP; GPT10: GTIOC10A; ICU0: IRQ06; SCI3: SDA3; SCI3: TXD3" - None - - 
+      P410 22 - - - - Disabled - - "AGT1: AGTOB1; GPT_OPS0: GTOVLO; GPT9: GTIOC9B; ICU0: IRQ05; SCI0: RXD0; SCI0: SCL0; SCI3: SCK3; SPI0: MISOA" - None - - 
+      P411 21 - - - - Disabled - - "AGT1: AGTOA1; GPT_OPS0: GTOVUP; GPT9: GTIOC9A; ICU0: IRQ04; SCI0: SDA0; SCI0: TXD0; SCI3: CTS3; SPI0: MOSIA" - None - - 
+      P412 20 - - - - Disabled - - "AGT1: AGTEE1; GPT_OPS0: GTOULO; SCI0: SCK0; SPI0: RSPCKA" - None - - 
+      P413 19 - - - - Disabled - - "GPT_OPS0: GTOUUP; SCI0: CTS0; SPI0: SSLA0" - None - - 
+      P414 18 - - - - Disabled - - "GPT0: GTIOC0B; ICU0: IRQ09; SPI0: SSLA1" - None - - 
+      P415 17 - - - - Disabled - - "GPT0: GTIOC0A; ICU0: IRQ08; SPI0: SSLA2" - None - - 
+      P500 76 - - - - Disabled - - "ACMPHS0: IVREF; ACMPHS1: IVREF; ACMPHS2: IVREF; ACMPHS3: IVREF; ACMPHS4: IVREF; ACMPHS5: IVREF; ADC0: AN016; AGT0: AGTOA0; GPT_OPS0: GTIU; GPT11: GTIOC11A" - None - - 
+      P501 77 - - - - Disabled - - "ACMPHS0: IVREF; ACMPHS1: IVREF; ACMPHS2: IVREF; ACMPHS3: IVREF; ACMPHS4: IVREF; ACMPHS5: IVREF; ADC1: AN116; AGT0: AGTOB0; GPT_OPS0: GTIV; GPT11: GTIOC11B; ICU0: IRQ11" - None - - 
+      P502 78 - - - - Disabled - - "ACMPHS0: IVCMP; ACMPHS1: IVCMP; ACMPHS2: IVCMP; ACMPHS3: IVCMP; ACMPHS4: IVCMP; ACMPHS5: IVCMP; ADC0: AN017; GPT_OPS0: GTIW; GPT12: GTIOC12A; ICU0: IRQ12" - None - - 
+      P503 79 - - - - Disabled - - "ADC1: AN117; GPT_POEG2: GTETRGC; GPT12: GTIOC12B" - None - - 
+      P504 80 - - - - Disabled - - "ADC0: AN018; GPT_POEG3: GTETRGD" - None - - 
+      P508 81 - - - - Disabled - - "ADC0: AN020" - None - - 
+      P600 67 - - - - Disabled - - "CAC0: CACREF; CGC0: CLKOUT; GPT6: GTIOC6B; SCI9: SCK9" - None - - 
+      P601 66 - - - - Disabled - - "GPT6: GTIOC6A; SCI9: RXD9; SCI9: SCL9" - None - - 
+      P602 65 - - - - Disabled - - "GPT7: GTIOC7B; SCI9: SDA9; SCI9: TXD9" - None - - 
+      P608 59 - - - - Disabled - - "GPT4: GTIOC4B" - None - - 
+      P609 60 - - - - Disabled - - "GPT5: GTIOC5A" - None - - 
+      P610 61 - - - - Disabled - - "GPT5: GTIOC5B" - None - - 
+      P708 16 - - - - Disabled - - "CAC0: CACREF; ICU0: IRQ11; SCI1: RXD1; SCI1: SCL1; SPI0: SSLA3" - None - - 
+      RES# 38 SYSTEM0_RES - - - - - - - - IO "Read only" - 
+      VCC 8 SYSTEM0_VCC - - - - - - - - IO "Read only" - 
+      VCC 15 SYSTEM0_VCC - - - - - - - - IO "Read only" - 
+      VCC 29 SYSTEM0_VCC - - - - - - - - IO "Read only" - 
+      VCC 46 SYSTEM0_VCC - - - - - - - - IO "Read only" - 
+      VCC 62 SYSTEM0_VCC - - - - - - - - IO "Read only" - 
+      VCC 82 SYSTEM0_VCC - - - - - - - - IO "Read only" - 
+      VCL 64 SYSTEM0_VCL - - - - - - - - IO "Read only" - 
+      VCL0 9 SYSTEM0_VCL0 - - - - - - - - IO "Read only" - 
+      VREFH 87 ANALOG0_VREFH - - - - - - - - IO "Read only" - 
+      VREFH0 91 ANALOG0_VREFH0 - - - - - - - - IO "Read only" - 
+      VREFL 86 ANALOG0_VREFL - - - - - - - - IO "Read only" - 
+      VREFL0 90 ANALOG0_VREFL0 - - - - - - - - IO "Read only" - 
+      VSS 12 SYSTEM0_VSS - - - - - - - - IO "Read only" - 
+      VSS 26 SYSTEM0_VSS - - - - - - - - IO "Read only" - 
+      VSS 45 SYSTEM0_VSS - - - - - - - - IO "Read only" - 
+      VSS 63 SYSTEM0_VSS - - - - - - - - IO "Read only" - 
+      VSS 83 SYSTEM0_VSS - - - - - - - - IO "Read only" - 
+      XCIN 10 CGC0_XCIN - - - - - - - - IO "Read only" - 
+      XCOUT 11 CGC0_XCOUT - - - - - - - - IO "Read only" - 
+    
   User Events
     
   User Event Links
     
-  Module "I/O Port Driver on r_ioport"
+  Module "I/O Port (r_ioport)"
     Parameter Checking: Default (BSP)
     
-  Module "ADC Driver on r_adc"
+  Module "ADC (r_adc)"
     Parameter Checking: Default (BSP)
     
   HAL
-    Instance "g_ioport I/O Port Driver on r_ioport"
+    Instance "g_ioport I/O Port (r_ioport)"
       Name: g_ioport
-      Port 1 ELC Trigger Source: Disabled
-      Port 2 ELC Trigger Source: Disabled
-      Port 3 ELC Trigger Source: Disabled
-      Port 4 ELC Trigger Source: Disabled
+      1st Port ELC Trigger Source: Disabled
+      2nd Port ELC Trigger Source: Disabled
+      3rd Port ELC Trigger Source: Disabled
+      4th Port ELC Trigger Source: Disabled
+      Pin Configuration Name: g_bsp_pin_cfg
       
-    Instance "g_adc ADC Driver on r_adc"
+    Instance "g_adc ADC (r_adc)"
       General: Name: g_adc
       General: Unit: 0
       General: Resolution: 12-Bit
@@ -124,7 +224,22 @@ FSP Configuration
       Input: Addition/Averaging Mask (channel availability varies by MCU and unit): 
       Input: Sample and Hold: Sample and Hold Channels (Available only on selected MCUs): 
       Input: Sample and Hold: Sample Hold States (Applies only to channels 0, 1, 2): 24
+      Input: Window Compare: Window Mode: Enabled
+      Input: Window Compare: Event Output: OR
+      Input: Window Compare: Window A: Enable: Enabled
+      Input: Window Compare: Window A: Channels to compare (channel availability varies by MCU and unit): Temperature Sensor
+      Input: Window Compare: Window A: Channel comparison mode (channel availability varies by MCU and unit): 
+      Input: Window Compare: Window A: Lower Reference: 1402
+      Input: Window Compare: Window A: Upper Reference: 1602
+      Input: Window Compare: Window B: Enable: Disabled
+      Input: Window Compare: Window B: Channel to compare (channel availability varies by MCU and unit): Channel 0
+      Input: Window Compare: Window B: Comparison mode: Less Than or Outside Window
+      Input: Window Compare: Window B: Lower Reference: 0
+      Input: Window Compare: Window B: Upper Reference: 0
       Interrupts: Callback: NULL
       Interrupts: Scan End Interrupt Priority: Disabled
       Interrupts: Scan End Group B Interrupt Priority: Disabled
+      Interrupts: Window Compare A Interrupt Priority: Disabled
+      Interrupts: Window Compare B Interrupt Priority: Disabled
+      Extra: ADC Ring Buffer: Not Supported
       
