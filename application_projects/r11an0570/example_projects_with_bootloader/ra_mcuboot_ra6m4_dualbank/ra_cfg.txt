@@ -395,15 +395,15 @@ FSP Configuration
     
   Module "MCUboot"
     General: Custom mcuboot_config.h: 
-    Signing Options: Signature Type: ECDSA P-256
+    Signing and Encryption Options: Signature Type: ECDSA P-256
     General: Upgrade Mode: Direct XIP
     General: Validate Primary Image: Enabled
     General: Downgrade Prevention (Overwrite Only): Disabled
     General: Number of Images Per Application: 1
     General: Watchdog Feed: 
-    Flash Layout: Bootloader Flash Area Size (Bytes): 0x20000
+    Flash Layout: Bootloader Flash Area Size (Bytes): 0x10000
     Flash Layout: Image 1 Header Size (Bytes): 0x200
-    Flash Layout: Image 1 Flash Area Size (Bytes): 0x20000
+    Flash Layout: Image 1 Flash Area Size (Bytes): 0x70000
     Flash Layout: Scratch Flash Area Size (Bytes): 0x0
     General: Measured Boot: Disabled
     General: Data Sharing: Disabled
@@ -415,11 +415,12 @@ FSP Configuration
     Flash Layout: TrustZone: Non-Secure Callable RAM Region Size (Bytes): 0x0
     Flash Layout: TrustZone: Non-Secure RAM Region Size (Bytes) (TrustZone Non-Secure): 0x0
     Flash Layout: TrustZone: Image 2 Header Size (Bytes): 0x200
-    Signing Options: Boot Record: 
-    Signing Options: TrustZone: Boot Record (Image 2): 
-    Signing Options: Custom:  --confirm
-    Signing Options: TrustZone: Custom (Image 2):  --confirm
-    Signing Options: Python: python
+    Signing and Encryption Options: Boot Record: 
+    Signing and Encryption Options: TrustZone: Boot Record (Image 2): 
+    Signing and Encryption Options: Custom:  --confirm
+    Signing and Encryption Options: TrustZone: Custom (Image 2):  --confirm
+    Signing and Encryption Options: Python: python
+    Signing and Encryption Options: Encryption Scheme: Encryption Disabled
     
   Module "MCUboot Port for RA (rm_mcuboot_port)"
   Module "MCUboot logging"
@@ -434,6 +435,7 @@ FSP Configuration
     Hardware Acceleration: Cipher: AES: Use Hardware
     Hardware Acceleration: Public Key Cryptography (PKC): ECC: Use Hardware
     Hardware Acceleration: Public Key Cryptography (PKC): ECDSA : Use Hardware
+    Hardware Acceleration: Public Key Cryptography (PKC): ECDH : Use Hardware
     Hardware Acceleration: Public Key Cryptography (PKC): RSA: Use Hardware
     Hardware Acceleration: Public Key Cryptography (PKC): RSA 3072 Verify: Disabled
     Hardware Acceleration: Public Key Cryptography (PKC): RSA 4096 Verify: Disabled
@@ -456,12 +458,8 @@ FSP Configuration
     General: PSA_CRYPTO_SECURE: Undefine
     General: MBEDTLS_DEPRECATED_WARNING: Undefine
     General: MBEDTLS_DEPRECATED_REMOVED: Define
-    General: MBEDTLS_CHECK_PARAMS: Define
-    General: MBEDTLS_CHECK_PARAMS_ASSERT: Undefine
     Platform: MBEDTLS_TIMING_ALT: Undefine
-    Cipher: Alternate: MBEDTLS_ARC4_ALT: Undefine
     Cipher: Alternate: MBEDTLS_ARIA_ALT: Undefine
-    Cipher: Alternate: MBEDTLS_BLOWFISH_ALT: Undefine
     Cipher: Alternate: MBEDTLS_CAMELLIA_ALT: Undefine
     Cipher: Alternate: MBEDTLS_CCM_ALT: Undefine
     Cipher: Alternate: MBEDTLS_CHACHA20_ALT: Undefine
@@ -472,16 +470,11 @@ FSP Configuration
     Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECJPAKE_ALT: Undefine
     Cipher: Alternate: MBEDTLS_GCM_ALT: Define
     Cipher: Alternate: MBEDTLS_NIST_KW_ALT: Undefine
-    Hash: Alternate: MBEDTLS_MD2_ALT: Undefine
-    Hash: Alternate: MBEDTLS_MD4_ALT: Undefine
     Hash: Alternate: MBEDTLS_MD5_ALT: Undefine
     Message Authentication Code (MAC): Alternate: MBEDTLS_POLY1305_ALT: Undefine
     Hash: Alternate: MBEDTLS_RIPEMD160_ALT: Undefine
     Hash: Alternate: MBEDTLS_SHA1_ALT: Undefine
     Hash: Alternate: MBEDTLS_SHA512_ALT: Undefine
-    Cipher: Alternate: MBEDTLS_XTEA_ALT: Undefine
-    Hash: Alternate: MBEDTLS_MD2_PROCESS_ALT: Undefine
-    Hash: Alternate: MBEDTLS_MD4_PROCESS_ALT: Undefine
     Hash: Alternate: MBEDTLS_MD5_PROCESS_ALT: Undefine
     Hash: Alternate: MBEDTLS_RIPEMD160_PROCESS_ALT: Undefine
     Hash: Alternate: MBEDTLS_SHA1_PROCESS_ALT: Undefine
@@ -493,6 +486,7 @@ FSP Configuration
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECDH_COMPUTE_SHARED_ALT: Undefine
     Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECDSA_GENKEY_ALT: Undefine
     Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_INTERNAL_ALT: Undefine
+    Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_NO_FALLBACK: Undefine
     Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_RANDOMIZE_JAC_ALT: Undefine
     Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_ADD_MIXED_ALT: Undefine
     Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_DOUBLE_JAC_ALT: Undefine
@@ -501,10 +495,10 @@ FSP Configuration
     Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_DOUBLE_ADD_MXZ_ALT: Undefine
     Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_RANDOMIZE_MXZ_ALT: Undefine
     Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_NORMALIZE_MXZ_ALT: Undefine
-    RNG: MBEDTLS_TEST_NULL_ENTROPY: Undefine
     Cipher: AES: MBEDTLS_AES_ROM_TABLES: Undefine
     Cipher: AES: MBEDTLS_AES_FEWER_TABLES: Undefine
     Cipher: MBEDTLS_CAMELLIA_SMALL_MEMORY: Undefine
+    General: MBEDTLS_CHECK_RETURN_WARNING: Undefine
     Cipher: MBEDTLS_CIPHER_MODE_CBC: Define
     Cipher: MBEDTLS_CIPHER_MODE_CFB: Define
     Cipher: MBEDTLS_CIPHER_MODE_CTR: Define
@@ -530,7 +524,6 @@ FSP Configuration
     Public Key Cryptography (PKC): ECC: Curves: MBEDTLS_ECP_DP_CURVE448_ENABLED: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_NIST_OPTIM: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_RESTARTABLE: Undefine
-    Public Key Cryptography (PKC): ECC: MBEDTLS_ECDH_LEGACY_CONTEXT: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECDSA_DETERMINISTIC: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_PK_PARSE_EC_EXTENDED: Undefine
     General: MBEDTLS_ERROR_STRERROR_DUMMY: Define
@@ -540,30 +533,30 @@ FSP Configuration
     Platform: MBEDTLS_NO_PLATFORM_ENTROPY: Define
     RNG: MBEDTLS_ENTROPY_FORCE_SHA256: Undefine
     RNG: MBEDTLS_ENTROPY_NV_SEED: Undefine
-    Storage: MBEDTLS_PSA_CRYPTO_KEY_ID_ENCODES_OWNER: Undefine
+    Key Configuration: MBEDTLS_PSA_CRYPTO_KEY_ID_ENCODES_OWNER: Undefine
     General: MBEDTLS_MEMORY_DEBUG: Undefine
     General: MBEDTLS_MEMORY_BACKTRACE: Undefine
     Public Key Cryptography (PKC): RSA: MBEDTLS_PK_RSA_ALT_SUPPORT: Undefine
     Public Key Cryptography (PKC): MBEDTLS_PKCS1_V15: Define
     Public Key Cryptography (PKC): MBEDTLS_PKCS1_V21: Define
+    Key Configuration: MBEDTLS_PSA_CRYPTO_BUILTIN_KEYS: Undefine
+    General: MBEDTLS_PSA_CRYPTO_CLIENT: Undefine
+    RNG: MBEDTLS_PSA_CRYPTO_EXTERNAL_RNG: Undefine
     General: MBEDTLS_PSA_CRYPTO_SPM: Undefine
     RNG: MBEDTLS_PSA_INJECT_ENTROPY: Undefine
     Public Key Cryptography (PKC): RSA: MBEDTLS_RSA_NO_CRT: Undefine
     General: MBEDTLS_SELF_TEST: Undefine
     Hash: MBEDTLS_SHA256_SMALLER: Undefine
     Hash: MBEDTLS_SHA512_SMALLER: Undefine
-    Hash: MBEDTLS_SHA512_NO_SHA384: Undefine
     General: MBEDTLS_THREADING_ALT: Undefine
     General: MBEDTLS_THREADING_PTHREAD: Undefine
     General: MBEDTLS_USE_PSA_CRYPTO: Undefine
     General: MBEDTLS_VERSION_FEATURES: Define
     Cipher: MBEDTLS_AES_C: Define
-    Cipher: MBEDTLS_ARC4_C: Undefine
     Public Key Cryptography (PKC): MBEDTLS_ASN1_PARSE_C: Define
     Public Key Cryptography (PKC): MBEDTLS_ASN1_WRITE_C: Define
     Public Key Cryptography (PKC): MBEDTLS_BASE64_C: Define
     Public Key Cryptography (PKC): MBEDTLS_BIGNUM_C: Define
-    Cipher: MBEDTLS_BLOWFISH_C: Undefine
     Cipher: MBEDTLS_CAMELLIA_C: Undefine
     Cipher: MBEDTLS_ARIA_C: Undefine
     Cipher: MBEDTLS_CCM_C: Define
@@ -582,13 +575,10 @@ FSP Configuration
     Platform: MBEDTLS_ENTROPY_C: Define
     General: MBEDTLS_ERROR_C: Define
     Cipher: MBEDTLS_GCM_C: Define
-    RNG: MBEDTLS_HAVEGE_C: Undefine
     Message Authentication Code (MAC): MBEDTLS_HKDF_C: Define
     Message Authentication Code (MAC): MBEDTLS_HMAC_DRBG_C: Undefine
     Cipher: MBEDTLS_NIST_KW_C: Undefine
     Hash: MBEDTLS_MD_C: Define
-    Hash: MBEDTLS_MD2_C: Undefine
-    Hash: MBEDTLS_MD4_C: Undefine
     Hash: MBEDTLS_MD5_C: Define
     General: MBEDTLS_MEMORY_BUFFER_ALLOC_C: Define
     Public Key Cryptography (PKC): MBEDTLS_OID_C: Define
@@ -608,12 +598,13 @@ FSP Configuration
     Hash: MBEDTLS_RIPEMD160_C: Define
     Public Key Cryptography (PKC): RSA: MBEDTLS_RSA_C: Undefine
     Hash: MBEDTLS_SHA1_C: Define
+    Hash: MBEDTLS_SHA224_C: Define
     Hash: MBEDTLS_SHA256_C: Define
+    Hash: MBEDTLS_SHA384_C: Undefine
     Hash: MBEDTLS_SHA512_C: Undefine
     General: MBEDTLS_THREADING_C: Undefine
     General: MBEDTLS_TIMING_C: Undefine
     General: MBEDTLS_VERSION_C: Define
-    Cipher: MBEDTLS_XTEA_C: Undefine
     Public Key Cryptography (PKC): MBEDTLS_MPI_WINDOW_SIZE: Undefine
     Public Key Cryptography (PKC): MBEDTLS_MPI_WINDOW_SIZE value: 6
     Public Key Cryptography (PKC): MBEDTLS_MPI_MAX_SIZE: Undefine
@@ -637,8 +628,6 @@ FSP Configuration
     RNG: MBEDTLS_HMAC_DRBG_MAX_REQUEST value: 1024
     RNG: MBEDTLS_HMAC_DRBG_MAX_SEED_INPUT: Undefine
     RNG: MBEDTLS_HMAC_DRBG_MAX_SEED_INPUT value: 384
-    Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_MAX_BITS: Undefine
-    Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_MAX_BITS value: 521
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_WINDOW_SIZE: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_WINDOW_SIZE value: 6
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_FIXED_POINT_OPTIM: Undefine
@@ -695,10 +684,14 @@ FSP Configuration
     Platform: MBEDTLS_PLATFORM_VSNPRINTF_MACRO value: vsnprintf
     Platform: MBEDTLS_PLATFORM_NV_SEED_READ_MACRO: Undefine
     Platform: MBEDTLS_PLATFORM_NV_SEED_READ_MACRO value: mbedtls_platform_std_nv_seed_read
-    Platform: MBEDTLS_PARAM_FAILED: Undefine
     Platform: MBEDTLS_PLATFORM_NV_SEED_WRITE_MACRO: Undefine
     Platform: MBEDTLS_PLATFORM_NV_SEED_WRITE_MACRO value: mbedtls_platform_std_nv_seed_write
+    General: MBEDTLS_CHECK_RETURN: Define
+    General: MBEDTLS_IGNORE_RETURN: Undefine
+    HMAC: MBEDTLS_PSA_HMAC_DRBG_MD_TYPE: Define
     Platform: Alternate: MBEDTLS_PLATFORM_ZEROIZE_ALT: Undefine
+    Key Configuration: MBEDTLS_PSA_KEY_SLOT_COUNT: Undefine
+    Key Configuration: MBEDTLS_PSA_KEY_SLOT_COUNT value: 32
     Platform: Alternate: MBEDTLS_PLATFORM_GMTIME_R_ALT: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECDH_VARIANT_EVEREST_ENABLED: Undefine
     

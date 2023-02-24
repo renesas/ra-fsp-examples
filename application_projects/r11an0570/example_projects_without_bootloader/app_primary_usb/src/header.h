@@ -1,4 +1,3 @@
-
 /***********************************************************************************************************************
  * File Name    : header.h
  * Description  : Contains application image header information and related function prototypes
@@ -23,15 +22,16 @@
  * OF SUCH LOSS, DAMAGES, CLAIMS OR COSTS.
  **********************************************************************************************************************/
 
+
 #ifndef HEADER_H_
 #define HEADER_H_
 
 #include "downloader_thread.h"
 
-#define PRIMARY_IMAGE_START_ADDRESS      0x00020000
-#define PRIMARY_IMAGE_END_ADDRESS        0x0003FFFF
-#define SECONDARY_IMAGE_START_ADDRESS    0x0220000
-#define SECONDARY_IMAGE_END_ADDRESS      0x0240000
+#define PRIMARY_IMAGE_START_ADDRESS      0x00010000
+#define PRIMARY_IMAGE_END_ADDRESS        0x0007FFFF
+#define SECONDARY_IMAGE_START_ADDRESS    0x0210000
+#define SECONDARY_IMAGE_END_ADDRESS      0x027FFFF
 #define FLASH_BLOCK_SIZE                    (32 * 1024)
 #define SECONDARY_IMAGE_NUM_BLOCKS          ((SECONDARY_IMAGE_END_ADDRESS - SECONDARY_IMAGE_START_ADDRESS) / FLASH_BLOCK_SIZE)
 

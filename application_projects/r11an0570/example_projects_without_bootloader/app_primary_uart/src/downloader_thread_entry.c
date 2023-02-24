@@ -59,7 +59,7 @@ void display_image_slot_info(void)
     comms_send(str, strlen((char *)str));
     snprintf((char *)str, sizeof(str), "*************************\r\n");
     comms_send(str, strlen((char *)str));
-    snprintf((char *)str, sizeof(str), "Image version: \t\t%02d.%02d (Rev: %d, Build: %ld)\r\n", p_img_header->ih_ver.iv_major,
+    snprintf((char *)str, sizeof(str), "Image version: \t\t%01d.%01d (Rev: %d, Build: %ld)\r\n", p_img_header->ih_ver.iv_major,
                                                                                              p_img_header->ih_ver.iv_minor,
                                                                                              p_img_header->ih_ver.iv_revision,
                                                                                              p_img_header->ih_ver.iv_build_num);
@@ -81,7 +81,7 @@ void display_image_slot_info(void)
     comms_send(str, strlen((char *)str));
     snprintf((char *)str, sizeof(str), "**************************\r\n");
     comms_send(str, strlen((char *)str));
-    snprintf((char *)str, sizeof(str), "Image version: \t\t%02d.%02d (Rev: %d, Build: %ld)\r\n", p_img_header->ih_ver.iv_major,
+    snprintf((char *)str, sizeof(str), "Image version: \t\t%01d.%01d (Rev: %d, Build: %ld)\r\n", p_img_header->ih_ver.iv_major,
                                                                                              p_img_header->ih_ver.iv_minor,
                                                                                              p_img_header->ih_ver.iv_revision,
                                                                                              p_img_header->ih_ver.iv_build_num);

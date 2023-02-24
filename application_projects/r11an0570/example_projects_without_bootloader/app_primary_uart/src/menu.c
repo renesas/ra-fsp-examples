@@ -30,6 +30,8 @@
 
 #include "hal_data.h"
 
+flash_result_t blank_check_result = FLASH_RESULT_BLANK;
+
 /*******************************************************************************************************************//**
  * @brief This function provides the user menu to initiate the new image download as well as
  *          the slot information and execution result
@@ -108,6 +110,18 @@ void menu(void)
                     comms_send(tx_str, strlen((char *)tx_str));
                     ThreadsAndInterrupts(DISABLE);
                     err = R_FLASH_HP_Erase(&g_flash0_ctrl, (uint32_t) SECONDARY_IMAGE_START_ADDRESS, SECONDARY_IMAGE_NUM_BLOCKS);
+                    if(FSP_SUCCESS == err)
+                    {
+                        err = R_FLASH_HP_BlankCheck(&g_flash0_ctrl, SECONDARY_IMAGE_START_ADDRESS, SECONDARY_IMAGE_END_ADDRESS - SECONDARY_IMAGE_START_ADDRESS + 1, &blank_check_result);
+                        if(FSP_SUCCESS == err)
+                        {
+                            if (FLASH_RESULT_BLANK != blank_check_result)
+                            {
+                                sprintf((char *)tx_str, "ERROR: Flash is not blank after erasing\r\n");
+                                comms_send(tx_str, strlen((char *)tx_str));
+                            }
+                        }
+                    }
                     ThreadsAndInterrupts(RE_ENABLE);
 
                     if(FSP_SUCCESS == err)

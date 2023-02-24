@@ -154,7 +154,7 @@ XM_PROG_FAIL		-	Failed to program one or more bytes of the Flash memory
 			// return ACK to sender
 		    if ( RxByteBuffer[0] == EOT )
 			{
-
+		        R_BSP_SoftwareDelay(5, BSP_DELAY_UNITS_MILLISECONDS);
                 tx_byte = ACK;
                 comms_send(&tx_byte, 1);
                 sprintf((char *)tx_str, "\r\nResetting the system\r\n");
@@ -201,6 +201,7 @@ XM_PROG_FAIL		-	Failed to program one or more bytes of the Flash memory
                         int32_t status = 0;
                         ThreadsAndInterrupts(DISABLE);
                         status = R_FLASH_HP_Write(&g_flash0_ctrl, (uint32_t)&RxByteBuffer[3], (uint32_t)Address, 128);
+                        R_BSP_SoftwareDelay(5, BSP_DELAY_UNITS_MILLISECONDS);
                         ThreadsAndInterrupts(RE_ENABLE);
                         if(FSP_SUCCESS == status)
                         {

@@ -70,7 +70,14 @@ void comms_send(uint8_t * p_src, uint32_t len)
         }
     }
 }
-
+/*******************************************************************************************************************//**
+ * @brief This function read the UART data and uses the GPT time overflow to control the time out
+ * @param[IN]   p_dest                  destination data buffer
+ * @param[IN]   len                     length of the data
+ * @param[IN]   timeout_milliseconds    timeout in milliseconds
+ * @retval      FSP_SUCCESS             Upon successful FLash_HP data flash operations.
+ * @retval      Any Other Error code    Upon unsuccessful Flash_HP data flash operations.
+ **********************************************************************************************************************/
 fsp_err_t comms_read(uint8_t * p_dest, uint32_t *len, uint32_t timeout_milliseconds)
 {
     fsp_err_t err;
