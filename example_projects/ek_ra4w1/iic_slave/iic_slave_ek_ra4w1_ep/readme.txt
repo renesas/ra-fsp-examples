@@ -76,6 +76,7 @@
 
     RA4W1_EK
     --------
+    Cut SS9 and SS10
     1) Slave IIC pins
         IIC0 P407  ----> SDA
         IIC0 P204  ----> SCL

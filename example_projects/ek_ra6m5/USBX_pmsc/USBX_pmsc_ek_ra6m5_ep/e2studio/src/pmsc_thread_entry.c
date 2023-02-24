@@ -111,20 +111,19 @@ void pmsc_thread_entry(void)
     {
         /*  Check if USB is plugged out.*/
         tx_event_flags_get (&g_msc_event_flags0, USB_MSC_PLUG_OUT, TX_AND_CLEAR, &actual_flags, TX_NO_WAIT);
-        if(USB_MSC_PLUG_OUT == actual_flags)
+        if(USB_MSC_PLUG_OUT == (actual_flags & USB_MSC_PLUG_OUT))
         {
             /* Reset the event flag */
             actual_flags = RESET_VALUE;
             PRINT_INFO_STR("USB MSC device is plugged out. Connect USB device cable for EP to work.");
-
-            /*  Wait until device cable inserted.*/
-            tx_event_flags_get (&g_msc_event_flags0, USB_MSC_PLUG_IN, TX_AND_CLEAR, &actual_flags, TX_WAIT_FOREVER);
-            if(USB_MSC_PLUG_IN == actual_flags)
-            {
-                PRINT_INFO_STR("USB MSC device is plugged in.");
-            }
+        }
+        /*  Check if USB is plugged in. */
+        tx_event_flags_get (&g_msc_event_flags0, USB_MSC_PLUG_IN, TX_AND_CLEAR, &actual_flags, TX_NO_WAIT);
+        if(USB_MSC_PLUG_IN == (actual_flags & USB_MSC_PLUG_IN))
+        {
             /* Reset the event flag */
             actual_flags = RESET_VALUE;
+            PRINT_INFO_STR("USB MSC device is plugged in.");
         }
         tx_thread_sleep (1);
     }
@@ -137,6 +136,7 @@ void pmsc_thread_entry(void)
  **********************************************************************************************************************/
 UINT usbx_status_callback (ULONG status)
 {
+    //SEGGER_RTT_printf(0,"%d \n",status);
     switch (status)
     {
         case UX_DEVICE_ATTACHED:

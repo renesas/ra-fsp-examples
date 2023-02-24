@@ -146,6 +146,7 @@ For FPB_RA6E1
        P205(DAT3)(J3 Pin32) ---> PMOD SD Pin1(CS)
 
 Note:
+0. Connect PMOD: use short wiring connections (should be shorter than 10cm)
 1. Format the SD Card before performing any operation.
 2. Data written can also be manually verified in file ra_sdhi.txt.
 3. User is expected to execute "safely remove SD Card" option before removing SD Card else further file operations may fail and

@@ -95,8 +95,8 @@ uint8_t g_device_framework_full_speed[DEVICE_FRAME_LENGTH_FULL_SPEED] =
     USB_CONFIGNUM,                                               /* 17:bNumConfigurations */
 
     USB_CD_BLENGTH,                       /*  0:bLength */
-   // USB_DT_CONFIGURATION,                 /*  1:bDescriptorType */   /* For Full-speed */
-    USB_DT_OTHER_SPEED_CONF,              /*  1:bDescriptorType */ /* For High-speed */
+    USB_DT_CONFIGURATION,                 /*  1:bDescriptorType */   /* For Full-speed */
+    //USB_DT_OTHER_SPEED_CONF,              /*  1:bDescriptorType */ /* For High-speed */
     USB_PMSC_CD_BLENGTH % USB_VALUE_256,  /*  2:wTotalLength(L) */
     USB_PMSC_CD_BLENGTH / USB_VALUE_256,  /*  3:wTotalLength(H) */
     1,                                    /*  4:bNumInterfaces */

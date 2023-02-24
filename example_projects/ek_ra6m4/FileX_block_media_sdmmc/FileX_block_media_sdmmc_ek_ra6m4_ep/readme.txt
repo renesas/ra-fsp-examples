@@ -86,6 +86,7 @@ For FPB_RA6E1
 
 
 Note:
+0. Connect PMOD: use short wiring connections (should be shorter than 10cm)
 1. Format the SD Card before performing any operation.
 2. EP checks if available space on media is enough to create directory and write 10k pre-defined data.
    User can modify the size of data to be written through macro WRITE_ITEM_SIZE in application code and the

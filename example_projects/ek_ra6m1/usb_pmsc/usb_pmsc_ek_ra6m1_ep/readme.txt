@@ -140,4 +140,7 @@ Configuration changes to switch Speed in USB configurator and Bus Width in SDHI 
         P205(DAT3)   --->    PMOD SD Pin1(CS)
 
 
-Note : By defualt USB PMSC Example Project runs on Full-speed mode and SDHI on 4 bit Bus width.
+Note : 
+1. By defualt USB PMSC Example Project runs on Full-speed mode and SDHI on 4 bit Bus width.
+2. Connect PMOD: use short wiring connections (should be shorter than 10cm)
+3. Format the SD Card before performing any operation.

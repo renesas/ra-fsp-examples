@@ -141,4 +141,7 @@ Configuration changes to switch Speed in USB configurator and Bus Width in SDHI 
 
     Link to Errata:https://www.renesas.com/us/en/document/mat/ek-ra6m3-v1-errata?language=en&r=1168086
 
-Note : By defualt USB PMSC Example Project runs on Full-speed mode and SDHI on 4 bit Bus width.
+Note : 
+1. By defualt USB PMSC Example Project runs on Full-speed mode and SDHI on 4 bit Bus width.
+2. Connect PMOD: use short wiring connections (should be shorter than 10cm)
+3. Format the SD Card before performing any operation.

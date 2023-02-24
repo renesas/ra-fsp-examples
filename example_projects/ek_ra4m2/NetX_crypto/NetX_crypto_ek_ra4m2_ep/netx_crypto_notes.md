@@ -104,7 +104,7 @@ Refer to [Azure RTOS NetX Secure Crypto Hardware Acceleration](https://docs.micr
 Import, Build and Debug the EP(see section Starting Development of FSP User Manual). After running the EP, open RTT viewer to see the output status of EP.  
 * User needs to restart the example project to switch between option 1 and option 2
 
-1. Below images showcases the output on **JLinkRTT_Viewer** when user input chooses for **sequential execution of the algorithms**:
+1. Below images showcase the output on **JLinkRTT_Viewer** when user input chooses for **sequential execution of the algorithms**:
 
 	![netx_crypto](images/rtt_sequential_1.jpg "RTT output")
 
@@ -112,7 +112,7 @@ Import, Build and Debug the EP(see section Starting Development of FSP User Manu
 	
 	![netx_crypto](images/rtt_sequential_3.jpg "RTT output")
  
-2. Below images showcases the output on **JLinkRTT_Viewer** when user input chooses for **concurrent execution of the algorithms**:
+2. Below images showcase the output on **JLinkRTT_Viewer** when user input chooses for **concurrent execution of the algorithms**:
 
 	![netx_crypto](images/rtt_concurrent_1.jpg "RTT output")
 	

@@ -60,17 +60,18 @@ FSP Configuration
     Assert Failures: Return FSP_ERR_ASSERTION
     Error Log: No Error Log
     Clock Registers not Reset Values during Startup: Disabled
-    Main Oscillator Populated: Populated
+    Main Oscillator Populated: Not Populated
     PFS Protect: Enabled
     C Runtime Initialization : Enabled
     Early BSP Initialization : Disabled
     Main Oscillator Clock Source: Crystal or Resonator
-    Subclock Populated: Populated
+    Subclock Populated: Not Populated
     Subclock Drive (Drive capacitance availability varies by MCU): Standard/Normal mode
     Subclock Stabilization Time (ms): 1000
     
   Clocks
     XTAL 8000000Hz
+    PLL Src: Disabled
     HOCO 32MHz
     PLL Div /2
     PLL Mul x12
@@ -80,8 +81,6 @@ FSP Configuration
     PCLKB Div /1
     PCLKC Div /1
     PCLKD Div /1
-    BCLK Div /2
-    BCK/2
     FCLK Div /2
     CLKOUT Disabled
     CLKOUT Div /1
@@ -114,7 +113,7 @@ FSP Configuration
       P111 17 - - - - Disabled - - "BUS_ASYNCH0: A05; CTSU0: TS12; GPT3: GTIOCA; ICU0: IRQ04; SCI9: SCK; SLCDC0: CAPH; SPI1: RSPCK" - None - - 
       P200 12 - - - - Disabled - - "ICU0: NMI" - None - - 
       P201 11 - - - - Disabled - - "SYSTEM0: MD; SYSTEM0: VCC; SYSTEM0: VCC; SYSTEM0: VCC; SYSTEM0: VCC; SYSTEM0: VCC; SYSTEM0: VCC; SYSTEM0: VCC" - None - - 
-      P204 9 - - - - Disabled - - "AGT1: AGTIO; BUS_ASYNCH0: A18; CAC0: CACREF; CTSU0: TS00; GPT_OPS0: GTIW; GPT4: GTIOCB; IIC0: SCL; SCI4: SCK; SCI9: SCK; SDHI0: DAT4; SLCDC0: SEG23; SPI1: RSPCK; USB_FS0: OVRCURB" - None - - 
+      P204 9 IIC0_SCL - Medium - "Peripheral mode" CMOS None "AGT1: AGTIO; BUS_ASYNCH0: A18; CAC0: CACREF; CTSU0: TS00; GPT_OPS0: GTIW; GPT4: GTIOCB; IIC0: SCL; SCI4: SCK; SCI9: SCK; SDHI0: DAT4; SLCDC0: SEG23; SPI1: RSPCK; USB_FS0: OVRCURB" - IO - - 
       P205 8 IIC1_SCL - Medium None "Peripheral mode" CMOS None "AGT1: AGTO; BUS_ASYNCH0: A16; CGC0: CLKOUT; CTSU0: TSCAP; GPT_OPS0: GTIV; GPT4: GTIOCA; ICU0: IRQ01; IIC1: SCL; SCI4: SDA; SCI4: TXD; SCI9: CTS; SDHI0: DAT3; SLCDC0: SEG20; SPI1: SSL0; USB_FS0: OVRCURA" - IO - - 
       P206 7 IIC1_SDA - Medium None "Peripheral mode" CMOS None "BUS_ASYNCH0: WAIT; CTSU0: TS01; GPT_OPS0: GTIU; ICU0: IRQ00; IIC1: SDA; SCI4: RXD; SCI4: SCL; SDHI0: DAT2; SLCDC0: SEG12; SPI1: SSL1; USB_FS0: VBUSEN" - IO - - 
       P212 53 - - - - Disabled - - "AGT1: AGTEE; CGC0: EXTAL; GPT_POEG1: GTETRG; GPT0: GTIOCB; ICU0: IRQ03; SCI1: RXD; SCI1: SCL" - None - - 
@@ -125,7 +124,7 @@ FSP Configuration
       P305 - - - - - Disabled - - - - - - - 
       P402 44 ICU0_IRQ04 - - IRQ04 "IRQ mode" - None "AGT0: AGTIO; AGT1: AGTIO; CAN0: CRX; CTSU0: TS18; ICU0: IRQ04; RTC0: RTCIC0; SCI1: RXD; SCI1: SCL; SLCDC0: SEG06" - IO - - 
       P404 46 GPIO - Low - "Output mode (Initial High)" CMOS - "GPT3: GTIOCB; RTC0: RTCIC2; SSI0: SSIWS" - IO - - 
-      P407 1 - - - - Disabled - - "ADC0: ADTRG; AGT0: AGTIO; CTSU0: TS03; IIC0: SDA; RTC0: RTCOUT; SCI4: CTS; SLCDC0: SEG11; SPI1: SSL3; USBFS0: VBUS" - None - - 
+      P407 1 IIC0_SDA - Medium - "Peripheral mode" CMOS None "ADC0: ADTRG; AGT0: AGTIO; CTSU0: TS03; IIC0: SDA; RTC0: RTCOUT; SCI4: CTS; SLCDC0: SEG11; SPI1: SSL3; USBFS0: VBUS" - IO - - 
       P409 56 - - - - Disabled - - "GPT_OPS0: GTOWUP; GPT5: GTIOCA; ICU0: IRQ06; SLCDC0: SEG09" - None - - 
       P414 55 - - - - Disabled - - "GPT0: GTIOCB; ICU0: IRQ09; SDHI0: WP; SPI0: SSL1" - None - - 
       P501 29 - - - - Disabled - - "ACMPLP1: CMPIN; ADC0: AN17; AGT0: AGTOB; GPT_OPS0: GTIV; GPT2: GTIOCB; ICU0: IRQ11; QSPI0: QSSL; SLCDC0: SEG49; USB_FS0: OVRCURA" - None - - 
@@ -165,14 +164,10 @@ FSP Configuration
   HAL
     Instance "g_ioport I/O Port (r_ioport)"
       Name: g_ioport
-      Port 1 ELC Trigger Source: Disabled
-      Port 2 ELC Trigger Source: Disabled
-      Port 3 ELC Trigger Source: Disabled
-      Port 4 ELC Trigger Source: Disabled
-      Port B ELC Trigger Source: Disabled
-      Port C ELC Trigger Source: Disabled
-      Port D ELC Trigger Source: Disabled
-      Port E ELC Trigger Source: Disabled
+      1st Port ELC Trigger Source: Disabled
+      2nd Port ELC Trigger Source: Disabled
+      3rd Port ELC Trigger Source: Disabled
+      4th Port ELC Trigger Source: Disabled
       Pin Configuration Name: g_bsp_pin_cfg
       
     Instance "g_sci_i2c_master I2C Master (r_sci_i2c)"
@@ -190,7 +185,7 @@ FSP Configuration
       
     Instance "g_i2c_slave I2C Slave (r_iic_slave)"
       Name: g_i2c_slave
-      Channel: 1
+      Channel: 0
       Rate: Standard
       Internal Reference Clock: PCLKB / 1
       Digital Noise Filter Stage Select: 3-stage filter

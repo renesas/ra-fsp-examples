@@ -30,7 +30,7 @@
 
 3. Hardware Connections:
 
-    User needs to confirm the default USB speed selection used in the example project prior to set up the hardware connection.
+    User needs to confirm the default USB speed selection used in the example project prior to set up the hardware connection. (In this EP, we current use short wire connecting between PMOD and board: shorter than 10cm)
 
     Full Speed:(For EK-RA6M3, EK-RA6M1, EK-RA6M2, EK-RA6M4, EK-RA6M5, EK-RA4M2, EK-RA4M3 boards)
         - Jumper j12 placement is pins 2-3

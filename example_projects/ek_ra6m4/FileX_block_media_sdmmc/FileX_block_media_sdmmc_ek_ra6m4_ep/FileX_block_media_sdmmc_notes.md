@@ -18,7 +18,8 @@ To build and run the Filex Blockmedia using SDMMC example project, the following
 * Host Machine 
 * PMOD based SD card Module(SD Full sized SD Card slot).
   Full sized SD Card  or Micro SD CARD with Adapter to fit into Full sized SD card Slot.
-
+  Connect PMOD: use short wiring connections (should be shorter than 10cm)
+  
 Refer to [readme.txt](./readme.txt) for information on how to connect the hardware.
 
 ### Software ###

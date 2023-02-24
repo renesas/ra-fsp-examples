@@ -19,6 +19,7 @@ To build and run the USBX PMSC example project, the following resources are need
 * 2x USB A to USB Micro B Cable.(One for onboard debugger and other for USB MSC connection)
 * PC running Windows 10
 * 1x [PMOD](https://digilent.com/shop/pmod-sd-full-sized-sd-card-slot/) based full sized SD Card or Micro SD CARD with Adapter.
+  Connect PMOD: use short wiring connections (should be shorter than 10cm)
 
 Refer to [readme.txt](./readme.txt) for information on how to connect the hardware.
 
