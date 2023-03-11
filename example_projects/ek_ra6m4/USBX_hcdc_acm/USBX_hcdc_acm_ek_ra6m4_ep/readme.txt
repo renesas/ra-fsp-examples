@@ -74,7 +74,7 @@
 Note: Both USBX HCDC and PCDC board needs to be running at High Speed or Full Speed in order for the correct EP functionality.
 
 
-7. Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
+7. Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
    a. e2studio: 0x200001cc
    b. Keil: Not Available 

@@ -45,7 +45,7 @@ NOTE  : 1)Current ip addresses are provided according to our test environment. U
           FTP server IP : if it's a home/close network user can use 192.168.0.x where x represent any available ip address on network.
 
 
-	2) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
+	2) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
 	   RTT Block address for hex file committed in repository are as follows:
    a. e2studio: 0x20000134
    	b. Keil: Not Available 

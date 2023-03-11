@@ -32,7 +32,7 @@ frequency decreases/pauses. Please reset the board in that case, and it will run
 2. LED blinking pauses in-between and then continues on RA6M3 and RA6M3G.
 
 ﻿
-1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
+1) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
    a. e2studio: 0x200001c4
    b. Keil:	0x20000128

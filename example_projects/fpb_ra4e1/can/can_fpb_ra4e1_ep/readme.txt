@@ -55,7 +55,7 @@
        5. User should update WAIT_TIME macro in hal_entry.c based on MCU's ICLK because ICLK value varies for each MCU series.
 	   6. Current support is only limited to static baud rate, dynamic Baud rate change is not supported.
 	   
-1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
+1) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
    a. e2studio: 0x20000174
    b. Keil: Not Available 

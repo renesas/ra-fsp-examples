@@ -47,7 +47,7 @@ NOTE:
 3. ADC output is in 12-bit/16-bit range.
 4. For RSSK_RA6T1 Board, the ADC value would be approx. half of DAC value because there is resistive ciruit connected between CNB->Pin 5 and P000 of MCU.
 
-1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
+1) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
    a. e2studio: 0x200000f4
    b. Keil: Not Available 

@@ -58,7 +58,7 @@
        Note : PMSC Disk content is retained only when the Peripheral USB cable is removed & connected back. 
               If the user removes the power cable of board, the disk content will be lost as the disk is implemented on RAM.
 ﻿
-1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
+1) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
    a. e2studio: 0x200003dc
    b. Keil: Not Available 

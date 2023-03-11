@@ -79,6 +79,6 @@ This project demonstrates the basic functionality of USBX Device CDC ACM module 
 	   	   port (J6) of the board.  Connect the other end of this cable to USB port of the 
 	   	   host PC.
 NOTE:
-1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
+1) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
    a. e2studio: 0x200002bc

@@ -36,7 +36,7 @@
            on which dhcpv6 client is residing. 
 	
 NOTE  : User should wait for message "Ethernet link is up." on RTT viewer for ethernet/network link up status case.﻿
-1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
+1) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
    a. e2studio: 0x20000144
    b. Keil: Not Available 

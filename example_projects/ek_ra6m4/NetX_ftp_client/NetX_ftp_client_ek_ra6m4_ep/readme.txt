@@ -44,7 +44,7 @@ NOTE  : Current ip addresses are provided according to our test environment. Use
         property of g_ip0_Netx Duo IP instance -> IPv4 Address as per their network environment.
         FTP server IP : if it's a home/close network user can use 192.168.0.x where x represent any available ip address on network.
 
-1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
+1) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
    a. e2studio: 0x20000134
    b. Keil: Not Available 

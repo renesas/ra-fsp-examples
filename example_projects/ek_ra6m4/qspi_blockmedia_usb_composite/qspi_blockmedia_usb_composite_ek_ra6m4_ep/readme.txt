@@ -46,7 +46,7 @@ Note:
 1. Build Download and Run firmware on board. Connect the cable to USB peripheral connector.        
 2. Confirm that the PC detects an unformatted media using the "Disk Management" application on Windows.
 3. Format the drive to use it as a flash drive.﻿
-1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
+1) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
    a. e2studio: 0x2000037c
    b. Keil: Not Available 

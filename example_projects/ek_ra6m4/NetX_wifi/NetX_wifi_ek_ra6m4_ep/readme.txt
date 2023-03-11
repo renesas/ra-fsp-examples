@@ -81,7 +81,7 @@ Sokit setup on PC as TCP server:
 	15. To stop the server, click the 'TCP Listen' button again. This would stop the server.
 	Note: Even if the server is stopped in sokit, the MCU may still be connected due to internal network connection.
 
-1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
+1) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
    a. e2studio: 0x200002bc
    b. Keil: Not Available 

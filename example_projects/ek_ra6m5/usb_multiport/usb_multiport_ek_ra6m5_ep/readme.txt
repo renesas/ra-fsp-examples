@@ -56,7 +56,7 @@ Note:
 2. Data written can also be manually verified in file.
 3. If the respective board is not powered through micro-AB USB (DEBUG USB) port (J11)
    from the host PC, then the functionality cannot be demonstrated.﻿
-1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
+1) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
    a. e2studio: 0x20000384
    b. Keil: Not Available 

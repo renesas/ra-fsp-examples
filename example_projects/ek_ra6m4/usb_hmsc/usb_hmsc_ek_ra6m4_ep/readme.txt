@@ -78,7 +78,7 @@ Note:
 8. Operation is not guaranteed for any user input value other than integer, char(i.e. float, special char) through
    JlinkRTTViewer input.
 ﻿
-1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
+1) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
    a. e2studio: 0x200001a4
    b. Keil: Not Available 

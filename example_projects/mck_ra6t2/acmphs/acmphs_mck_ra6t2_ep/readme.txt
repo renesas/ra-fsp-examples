@@ -32,7 +32,7 @@ NOTE  :	User has to input DAC value in between (0 - 2000) or (2100 - 4095).
  	Operation is not guaranteed for any user input value other than integer(i.e. float, char, special char) through RTT.
 
 ﻿
-1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
+1) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
    a. e2studio: 0x200004c0
    b. Keil: Not Available 

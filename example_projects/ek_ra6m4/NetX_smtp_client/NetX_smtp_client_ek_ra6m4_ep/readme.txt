@@ -49,7 +49,7 @@ NOTE : Users need to configure the server ip address and client ip address in th
  
 	
 ﻿
-1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
+1) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
    a. e2studio: 0x20000134
    b. Keil: Not Available 

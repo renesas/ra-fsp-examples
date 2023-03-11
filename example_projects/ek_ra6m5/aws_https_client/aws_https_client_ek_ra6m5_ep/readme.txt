@@ -40,7 +40,7 @@ is read from the adafruit server. JlinkRTTViewer is used to display the status a
            which is connected to the Internet.
 	
 
-1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
+1) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
    a. e2studio: 0x200004d4
    b. Keil: Not Available 

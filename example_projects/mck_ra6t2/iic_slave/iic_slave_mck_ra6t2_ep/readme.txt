@@ -159,7 +159,7 @@ Note:
     For the functioning of IIC Slave on all the boards except for EK-RA6M3/EK-RA6M3G,FPB-RA6E1,EK-RA2L1,external pull up resistors of value
     3.9 or 4.7k ohms are required to be connected on I2C(SDA/SCL) lines.
 ﻿
-1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
+1) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
    a. e2studio: 0x20000874
    b. Keil:	0x20000008

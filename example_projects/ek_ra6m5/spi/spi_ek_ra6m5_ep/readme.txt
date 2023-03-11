@@ -93,7 +93,7 @@ NOTE:
     The bytes sent for slave should be lesser than the bytes sent for master when using WriteRead operation.
     Operation is not guaranteed for any user input value other than integer,char(i.e. float, special char) through RTT.
 ﻿
-1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
+1) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
    a. e2studio: 0x2000026c
    b. Keil:	0x20000584

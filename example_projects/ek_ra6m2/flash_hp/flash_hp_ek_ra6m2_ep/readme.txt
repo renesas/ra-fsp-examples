@@ -26,7 +26,7 @@ NOTE  : User is expected to enter data of size not exceeding 15 bytes.
 	Operation is not guaranteed for any user input value, other than integer(i.e. float, char, special char) through RTT.
 	Entering any input after EXIT option will result in error trap. Not recommended.
 ﻿
-1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
+1) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
    a. e2studio: 0x20000ae0
    b. Keil:	0x200005a4

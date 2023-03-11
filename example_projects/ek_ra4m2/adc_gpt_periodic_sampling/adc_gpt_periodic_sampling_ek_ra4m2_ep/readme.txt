@@ -98,7 +98,7 @@ Note :
   Select data size as 16 bit, user-specified minimum and maximum values to 0 and 4095 respectively, Channel as Mono, buffer size as 512 for each of the channels 
   as Ping-Pong buffer is used of size 256 each.
      
-1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
+1) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
    a. e2studio: 0x20000224
    b. Keil: Not Available 

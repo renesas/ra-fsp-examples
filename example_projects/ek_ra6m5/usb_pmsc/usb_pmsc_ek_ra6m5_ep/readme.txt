@@ -145,7 +145,7 @@ Note :
 - Connect PMOD: use short wiring connections (should be shorter than 10cm)
 - Format the SD Card before performing any operation.
 
-1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
+1) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
    a. e2studio: 0x2000027c
    b. Keil: Not Available 
