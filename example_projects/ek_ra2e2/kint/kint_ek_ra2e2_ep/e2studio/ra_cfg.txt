@@ -59,10 +59,11 @@ FSP Configuration
     Parameter checking: Enabled
     Assert Failures: Return FSP_ERR_ASSERTION
     Error Log: No Error Log
-    Soft Reset: Disabled
+    Clock Registers not Reset Values during Startup: Disabled
     Main Oscillator Populated: Populated
     PFS Protect: Enabled
     C Runtime Initialization : Enabled
+    Early BSP Initialization : Disabled
     Main Oscillator Clock Source: Crystal or Resonator
     Subclock Populated: Populated
     Subclock Drive (Drive capacitance availability varies by MCU): Standard/Normal mode
@@ -82,23 +83,23 @@ FSP Configuration
       P010 24 GPIO VREFH0_PMOD1_GPIO9 M - "Output mode (Initial High)" - - "ADC0: AN005; SYSTEM: VREFH0" - IO - - 
       P011 23 GPIO VREFL0_PMOD1_GPIO10 M - "Output mode (Initial High)" - - "ADC0: AN006; SYSTEM: VREFL0" - IO - - 
       P014 22 - PMOD1_MIKROBUS_ARDUINO_RESET - - Disabled - - "ADC0: AN009" - None - - 
-      P015 21 GPIO LED3_RED_ARDUINO_D2_PMOD2_RESET M None "Output mode (Initial Low)" - - "ADC0: AN010; IRQ: IRQ7" - IO - - 
-      P100 20 GPIO ARDUINO_D12_MIKROBUS_MISO_PMOD2_RXD9 H None "Output mode (Initial High)" - - "ADC0: AN022; AGT0: AGTIO0; GPT8: GTIOC8B; GPT_POEGA: GTETRGA; IRQ: IRQ2; KR: KRM00; SCI9: RXD9; SCI9: SCK9; SPI0: MISO0" - IO - - 
-      P101 19 GPIO ARDUINO_D11_MIKROBUS_MOSI_PMOD2_TXD9 H None "Output mode (Initial High)" - - "ADC0: AN021; AGT0: AGTEE0; GPT8: GTIOC8A; GPT_POEGB: GTETRGB; IRQ: IRQ1; KR: KRM01; SCI9: CTS_RTS9; SCI9: TXD9; SPI0: MOSI0" - IO - - 
-      P102 18 - ARDUINO_D13_MIKROBUS_SCK_PMOD2_SCK9 - - Disabled - - "ADC0: AN020; AGT0: AGTO0; CAC/ADC/DAC: ADTRG0; GPT5: GTIOC5B; GPT_OPS: GTOWLO; IRQ: IRQ4; KR: KRM02; SCI9: SCK9; SCI9: TXD9; SPI0: RSPCK0" - None - - 
-      P103 17 - ARDUINO_D10_MIKROBUS_SS_PMOD2_CTS9 - - Disabled - - "ADC0: AN019; AGT0: AGTOB0; GPT5: GTIOC5A; GPT_OPS: GTOWUP; IRQ: IRQ6; KR: KRM03; SCI9: CTS_RTS9; SCI9: RXD9; SPI0: SSLA0" - None - - 
-      P108 12 JTAG/SWD_SWDIO - H None "Peripheral mode" - - "AGT1: AGTOA1; GPT7: GTIOC7B; GPT_OPS: GTOULO; IRQ: IRQ5; JTAG/SWD: SWDIO; SCI9: CTS_RTS9; SCI9: TXD9; SPI0: MOSI0" - IO - - 
-      P109 13 KR_KRM01 ARDUINO_D5_MIKROBUS_PWM_PMOD1_RXD9 H None "Peripheral mode" - - "AGT1: AGTO1; CLKOUT/CMPOUT: CLKOUT; GPT4: GTIOC4A; GPT_OPS: GTOVUP; IRQ: IRQ7; KR: KRM01; SCI9: SCK9; SCI9: TXD9; SPI0: MISO0" - IO - - 
-      P110 14 KR_KRM00 ARDUINO_D3_MIKROBUS_INT_PMOD1_CTS H None "Peripheral mode" - - "AGT0: AGTOA0; GPT4: GTIOC4B; GPT_OPS: GTOVLO; IRQ: IRQ3; KR: KRM00; SCI9: CTS_RTS9; SCI9: RXD9; SPI0: SSLA0" - IO - - 
-      P111 15 GPIO SW1 H IRQ4 "Output mode (Initial High)" - - "AGT0: AGTOA0; GPT6: GTIOC6A; IRQ: IRQ4; KR: KRM03; SCI9: RXD9; SCI9: SCK9" - IO - - 
-      P112 16 GPIO LED1_BLUE H None "Output mode (Initial High)" - - "AGT0: AGTOB0; GPT6: GTIOC6B; IRQ: IRQ1; KR: KRM02; SCI9: CTS_RTS9; SCI9: TXD9" - IO - - 
-      P200 10 - NMI - - Disabled - - "IRQ: NMI" - None - - 
+      P015 21 GPIO LED3_RED_ARDUINO_D2_PMOD2_RESET M None "Output mode (Initial Low)" - - "ADC0: AN010; ICU: IRQ7" - IO - - 
+      P100 20 GPIO ARDUINO_D12_MIKROBUS_MISO_PMOD2_RXD9 H None "Output mode (Initial High)" - - "ADC0: AN022; AGT0: AGTIO0; GPT8: GTIOC8B; GPT_POEGA: GTETRGA; ICU: IRQ2; KINT: KRM00; SCI9: RXD9; SCI9: SCK9; SPI0: MISO0" - IO - - 
+      P101 19 GPIO ARDUINO_D11_MIKROBUS_MOSI_PMOD2_TXD9 H None "Output mode (Initial High)" - - "ADC0: AN021; AGT0: AGTEE0; GPT8: GTIOC8A; GPT_POEGB: GTETRGB; ICU: IRQ1; KINT: KRM01; SCI9: CTS_RTS9; SCI9: TXD9; SPI0: MOSI0" - IO - - 
+      P102 18 - ARDUINO_D13_MIKROBUS_SCK_PMOD2_SCK9 - - Disabled - - "ADC0: AN020; ADC0(Digital): ADTRG0; AGT0: AGTO0; GPT5: GTIOC5B; GPT_OPS: GTOWLO; ICU: IRQ4; KINT: KRM02; SCI9: SCK9; SCI9: TXD9; SPI0: RSPCK0" - None - - 
+      P103 17 - ARDUINO_D10_MIKROBUS_SS_PMOD2_CTS9 - - Disabled - - "ADC0: AN019; AGT0: AGTOB0; GPT5: GTIOC5A; GPT_OPS: GTOWUP; ICU: IRQ6; KINT: KRM03; SCI9: CTS_RTS9; SCI9: RXD9; SPI0: SSLA0" - None - - 
+      P108 12 JTAG/SWD_SWDIO - H None "Peripheral mode" - - "AGT1: AGTOA1; GPT7: GTIOC7B; GPT_OPS: GTOULO; ICU: IRQ5; JTAG/SWD: SWDIO; SCI9: CTS_RTS9; SCI9: TXD9; SPI0: MOSI0" - IO - - 
+      P109 13 KINT_KRM01 ARDUINO_D5_MIKROBUS_PWM_PMOD1_RXD9 H None "Peripheral mode" - - "AGT1: AGTO1; CGC: CLKOUT; GPT4: GTIOC4A; GPT_OPS: GTOVUP; ICU: IRQ7; KINT: KRM01; SCI9: SCK9; SCI9: TXD9; SPI0: MISO0" - IO - - 
+      P110 14 KINT_KRM00 ARDUINO_D3_MIKROBUS_INT_PMOD1_CTS H None "Peripheral mode" - - "AGT0: AGTOA0; GPT4: GTIOC4B; GPT_OPS: GTOVLO; ICU: IRQ3; KINT: KRM00; SCI9: CTS_RTS9; SCI9: RXD9; SPI0: SSLA0" - IO - - 
+      P111 15 GPIO SW1 H IRQ4 "Output mode (Initial High)" - - "AGT0: AGTOA0; GPT6: GTIOC6A; ICU: IRQ4; KINT: KRM03; SCI9: RXD9; SCI9: SCK9" - IO - - 
+      P112 16 GPIO LED1_BLUE H None "Output mode (Initial High)" - - "AGT0: AGTOB0; GPT6: GTIOC6B; ICU: IRQ1; KINT: KRM02; SCI9: CTS_RTS9; SCI9: TXD9" - IO - - 
+      P200 10 - NMI - - Disabled - - "ICU: NMI" - None - - 
       P201 9 - MD_ARDUINO_D4_PMOD2_GPIO10 - - Disabled - - "SYSTEM: MD" - None - - 
-      P205 7 - SW2 - - Disabled - - "AGT1: AGTO1; CLKOUT/CMPOUT: CLKOUT; IRQ: IRQ1; KR: KRM01; SCI9: CTS_RTS9; SCI9: TXD9" - None - - 
-      P300 11 JTAG/SWD_SWCLK - H None "Peripheral mode" - - "AGT1: AGTOB1; GPT7: GTIOC7A; GPT_OPS: GTOUUP; IRQ: IRQ0; JTAG/SWD: SWCLK; SCI9: RXD9; SCI9: SCK9; SPI0: RSPCK0" - IO - - 
-      P400 1 - IIC_SCL0 - - Disabled - - "AGT1: AGTIO1; CAC/ADC/DAC: CACREF; GPT9: GTIOC9A; I3C0: SCL0; IRQ: IRQ0; KR: KRM02; SCI9: SCK9; SCI9: TXD9" - None - - 
-      P401 2 - IIC_SDA0 - - Disabled - - "AGT1: AGTEE1; GPT9: GTIOC9B; GPT_POEGA: GTETRGA; I3C0: SDA0; IRQ: IRQ5; KR: KRM03; SCI9: CTS_RTS9; SCI9: RXD9" - None - - 
-      P914 6 - LED2_GREEN - - Disabled - - "AGT1: AGTOA1; GPT_POEGB: GTETRGB; IRQ: IRQ2; KR: KRM00; SCI9: RXD9; SCI9: SCK9" - None - - 
+      P205 7 - SW2 - - Disabled - - "AGT1: AGTO1; CGC: CLKOUT; ICU: IRQ1; KINT: KRM01; SCI9: CTS_RTS9; SCI9: TXD9" - None - - 
+      P300 11 JTAG/SWD_SWCLK - H None "Peripheral mode" - - "AGT1: AGTOB1; GPT7: GTIOC7A; GPT_OPS: GTOUUP; ICU: IRQ0; JTAG/SWD: SWCLK; SCI9: RXD9; SCI9: SCK9; SPI0: RSPCK0" - IO - - 
+      P400 1 - IIC_SCL0 - - Disabled - - "AGT1: AGTIO1; CAC: CACREF; GPT9: GTIOC9A; I3C0: SCL0; ICU: IRQ0; KINT: KRM02; SCI9: SCK9; SCI9: TXD9" - None - - 
+      P401 2 - IIC_SDA0 - - Disabled - - "AGT1: AGTEE1; GPT9: GTIOC9B; GPT_POEGA: GTETRGA; I3C0: SDA0; ICU: IRQ5; KINT: KRM03; SCI9: CTS_RTS9; SCI9: RXD9" - None - - 
+      P914 6 - LED2_GREEN - - Disabled - - "AGT1: AGTOA1; GPT_POEGB: GTETRGB; ICU: IRQ2; KINT: KRM00; SCI9: RXD9; SCI9: SCK9" - None - - 
       RES# 8 SYSTEM_RES# - - - - - - - - IO "Read only" - 
       VCC 5 SYSTEM_VCC - - - - - - - - IO "Read only" - 
       VCL 3 SYSTEM_VCL - - - - - - - - IO "Read only" - 
@@ -107,23 +108,23 @@ FSP Configuration
       P010 24 - VREFH0_PMOD1_GPIO9 M - Disabled - - "ADC0: AN005; SYSTEM: VREFH0" - IO - - 
       P011 23 - VREFL0_PMOD1_GPIO10 M - Disabled - - "ADC0: AN006; SYSTEM: VREFL0" - IO - - 
       P014 22 - PMOD1_MIKROBUS_ARDUINO_RESET - - Disabled - - "ADC0: AN009" - None - - 
-      P015 21 - LED3_RED_ARDUINO_D2_PMOD2_RESET M None Disabled - - "ADC0: AN010; IRQ: IRQ7" - IO - - 
-      P100 20 - ARDUINO_D12_MIKROBUS_MISO_PMOD2_RXD9 H None Disabled - - "ADC0: AN022; AGT0: AGTIO0; GPT8: GTIOC8B; GPT_POEGA: GTETRGA; IRQ: IRQ2; KR: KRM00; SCI9: RXD9; SCI9: SCK9; SPI0: MISO0" - IO - - 
-      P101 19 - ARDUINO_D11_MIKROBUS_MOSI_PMOD2_TXD9 H None Disabled - - "ADC0: AN021; AGT0: AGTEE0; GPT8: GTIOC8A; GPT_POEGB: GTETRGB; IRQ: IRQ1; KR: KRM01; SCI9: CTS_RTS9; SCI9: TXD9; SPI0: MOSI0" - IO - - 
-      P102 18 - ARDUINO_D13_MIKROBUS_SCK_PMOD2_SCK9 - - Disabled - - "ADC0: AN020; AGT0: AGTO0; CAC/ADC/DAC: ADTRG0; GPT5: GTIOC5B; GPT_OPS: GTOWLO; IRQ: IRQ4; KR: KRM02; SCI9: SCK9; SCI9: TXD9; SPI0: RSPCK0" - None - - 
-      P103 17 - ARDUINO_D10_MIKROBUS_SS_PMOD2_CTS9 - - Disabled - - "ADC0: AN019; AGT0: AGTOB0; GPT5: GTIOC5A; GPT_OPS: GTOWUP; IRQ: IRQ6; KR: KRM03; SCI9: CTS_RTS9; SCI9: RXD9; SPI0: SSLA0" - None - - 
-      P108 12 JTAG/SWD_SWDIO - H None "Peripheral mode" - - "AGT1: AGTOA1; GPT7: GTIOC7B; GPT_OPS: GTOULO; IRQ: IRQ5; JTAG/SWD: SWDIO; SCI9: CTS_RTS9; SCI9: TXD9; SPI0: MOSI0" - IO - - 
-      P109 13 - ARDUINO_D5_MIKROBUS_PWM_PMOD1_RXD9 H None Disabled - - "AGT1: AGTO1; CLKOUT/CMPOUT: CLKOUT; GPT4: GTIOC4A; GPT_OPS: GTOVUP; IRQ: IRQ7; KR: KRM01; SCI9: SCK9; SCI9: TXD9; SPI0: MISO0" - IO - - 
-      P110 14 - ARDUINO_D3_MIKROBUS_INT_PMOD1_CTS H None Disabled - - "AGT0: AGTOA0; GPT4: GTIOC4B; GPT_OPS: GTOVLO; IRQ: IRQ3; KR: KRM00; SCI9: CTS_RTS9; SCI9: RXD9; SPI0: SSLA0" - IO - - 
-      P111 15 - SW1 H None Disabled - - "AGT0: AGTOA0; GPT6: GTIOC6A; IRQ: IRQ4; KR: KRM03; SCI9: RXD9; SCI9: SCK9" - IO - - 
-      P112 16 - LED1_BLUE H None Disabled - - "AGT0: AGTOB0; GPT6: GTIOC6B; IRQ: IRQ1; KR: KRM02; SCI9: CTS_RTS9; SCI9: TXD9" - IO - - 
-      P200 10 - NMI - - Disabled - - "IRQ: NMI" - None - - 
+      P015 21 - LED3_RED_ARDUINO_D2_PMOD2_RESET M None Disabled - - "ADC0: AN010; ICU: IRQ7" - IO - - 
+      P100 20 - ARDUINO_D12_MIKROBUS_MISO_PMOD2_RXD9 H None Disabled - - "ADC0: AN022; AGT0: AGTIO0; GPT8: GTIOC8B; GPT_POEGA: GTETRGA; ICU: IRQ2; KINT: KRM00; SCI9: RXD9; SCI9: SCK9; SPI0: MISO0" - IO - - 
+      P101 19 - ARDUINO_D11_MIKROBUS_MOSI_PMOD2_TXD9 H None Disabled - - "ADC0: AN021; AGT0: AGTEE0; GPT8: GTIOC8A; GPT_POEGB: GTETRGB; ICU: IRQ1; KINT: KRM01; SCI9: CTS_RTS9; SCI9: TXD9; SPI0: MOSI0" - IO - - 
+      P102 18 - ARDUINO_D13_MIKROBUS_SCK_PMOD2_SCK9 - - Disabled - - "ADC0: AN020; ADC0(Digital): ADTRG0; AGT0: AGTO0; GPT5: GTIOC5B; GPT_OPS: GTOWLO; ICU: IRQ4; KINT: KRM02; SCI9: SCK9; SCI9: TXD9; SPI0: RSPCK0" - None - - 
+      P103 17 - ARDUINO_D10_MIKROBUS_SS_PMOD2_CTS9 - - Disabled - - "ADC0: AN019; AGT0: AGTOB0; GPT5: GTIOC5A; GPT_OPS: GTOWUP; ICU: IRQ6; KINT: KRM03; SCI9: CTS_RTS9; SCI9: RXD9; SPI0: SSLA0" - None - - 
+      P108 12 JTAG/SWD_SWDIO - H None "Peripheral mode" - - "AGT1: AGTOA1; GPT7: GTIOC7B; GPT_OPS: GTOULO; ICU: IRQ5; JTAG/SWD: SWDIO; SCI9: CTS_RTS9; SCI9: TXD9; SPI0: MOSI0" - IO - - 
+      P109 13 - ARDUINO_D5_MIKROBUS_PWM_PMOD1_RXD9 H None Disabled - - "AGT1: AGTO1; CGC: CLKOUT; GPT4: GTIOC4A; GPT_OPS: GTOVUP; ICU: IRQ7; KINT: KRM01; SCI9: SCK9; SCI9: TXD9; SPI0: MISO0" - IO - - 
+      P110 14 - ARDUINO_D3_MIKROBUS_INT_PMOD1_CTS H None Disabled - - "AGT0: AGTOA0; GPT4: GTIOC4B; GPT_OPS: GTOVLO; ICU: IRQ3; KINT: KRM00; SCI9: CTS_RTS9; SCI9: RXD9; SPI0: SSLA0" - IO - - 
+      P111 15 - SW1 H None Disabled - - "AGT0: AGTOA0; GPT6: GTIOC6A; ICU: IRQ4; KINT: KRM03; SCI9: RXD9; SCI9: SCK9" - IO - - 
+      P112 16 - LED1_BLUE H None Disabled - - "AGT0: AGTOB0; GPT6: GTIOC6B; ICU: IRQ1; KINT: KRM02; SCI9: CTS_RTS9; SCI9: TXD9" - IO - - 
+      P200 10 - NMI - - Disabled - - "ICU: NMI" - None - - 
       P201 9 - MD_ARDUINO_D4_PMOD2_GPIO10 - - Disabled - - "SYSTEM: MD" - None - - 
-      P205 7 - SW2 - - Disabled - - "AGT1: AGTO1; CLKOUT/CMPOUT: CLKOUT; IRQ: IRQ1; KR: KRM01; SCI9: CTS_RTS9; SCI9: TXD9" - None - - 
-      P300 11 JTAG/SWD_SWCLK - H None "Peripheral mode" - - "AGT1: AGTOB1; GPT7: GTIOC7A; GPT_OPS: GTOUUP; IRQ: IRQ0; JTAG/SWD: SWCLK; SCI9: RXD9; SCI9: SCK9; SPI0: RSPCK0" - IO - - 
-      P400 1 - IIC_SCL0 - - Disabled - - "AGT1: AGTIO1; CAC/ADC/DAC: CACREF; GPT9: GTIOC9A; I3C0: SCL0; IRQ: IRQ0; KR: KRM02; SCI9: SCK9; SCI9: TXD9" - None - - 
-      P401 2 - IIC_SDA0 - - Disabled - - "AGT1: AGTEE1; GPT9: GTIOC9B; GPT_POEGA: GTETRGA; I3C0: SDA0; IRQ: IRQ5; KR: KRM03; SCI9: CTS_RTS9; SCI9: RXD9" - None - - 
-      P914 6 - LED2_GREEN - - Disabled - - "AGT1: AGTOA1; GPT_POEGB: GTETRGB; IRQ: IRQ2; KR: KRM00; SCI9: RXD9; SCI9: SCK9" - None - - 
+      P205 7 - SW2 - - Disabled - - "AGT1: AGTO1; CGC: CLKOUT; ICU: IRQ1; KINT: KRM01; SCI9: CTS_RTS9; SCI9: TXD9" - None - - 
+      P300 11 JTAG/SWD_SWCLK - H None "Peripheral mode" - - "AGT1: AGTOB1; GPT7: GTIOC7A; GPT_OPS: GTOUUP; ICU: IRQ0; JTAG/SWD: SWCLK; SCI9: RXD9; SCI9: SCK9; SPI0: RSPCK0" - IO - - 
+      P400 1 - IIC_SCL0 - - Disabled - - "AGT1: AGTIO1; CAC: CACREF; GPT9: GTIOC9A; I3C0: SCL0; ICU: IRQ0; KINT: KRM02; SCI9: SCK9; SCI9: TXD9" - None - - 
+      P401 2 - IIC_SDA0 - - Disabled - - "AGT1: AGTEE1; GPT9: GTIOC9B; GPT_POEGA: GTETRGA; I3C0: SDA0; ICU: IRQ5; KINT: KRM03; SCI9: CTS_RTS9; SCI9: RXD9" - None - - 
+      P914 6 - LED2_GREEN - - Disabled - - "AGT1: AGTOA1; GPT_POEGB: GTETRGB; ICU: IRQ2; KINT: KRM00; SCI9: RXD9; SCI9: SCK9" - None - - 
       RES# 8 SYSTEM_RES# - - - - - - - - IO "Read only" - 
       VCC 5 SYSTEM_VCC - - - - - - - - IO "Read only" - 
       VCL 3 SYSTEM_VCL - - - - - - - - IO "Read only" - 
@@ -133,22 +134,22 @@ FSP Configuration
     
   User Event Links
     
-  Module "I/O Port Driver on r_ioport"
+  Module "I/O Port (r_ioport)"
     Parameter Checking: Default (BSP)
     
-  Module "Key Matrix Driver on r_kint"
+  Module "Key Matrix (r_kint)"
     Parameter Checking: Default (BSP)
     
   HAL
-    Instance "g_ioport I/O Port Driver on r_ioport"
+    Instance "g_ioport I/O Port (r_ioport)"
       Name: g_ioport
-      Port 1 ELC Trigger Source: Disabled
-      Port 2 ELC Trigger Source: Disabled
-      Port 3 ELC Trigger Source: Disabled
-      Port 4 ELC Trigger Source: Disabled
+      1st Port ELC Trigger Source: Disabled
+      2nd Port ELC Trigger Source: Disabled
+      3rd Port ELC Trigger Source: Disabled
+      4th Port ELC Trigger Source: Disabled
       Pin Configuration Name: g_bsp_pin_cfg
       
-    Instance "g_kint Key Matrix Driver on r_kint"
+    Instance "g_kint Key Matrix (r_kint)"
       General: Name: g_kint
       Input: Key Interrupt Flag Mask: Channel 0, Channel 1
       Interrupts: Trigger Type: Rising Edge

@@ -35,17 +35,17 @@
         <override>true</override>
         <path>$PROJ_DIR$/script/fsp.icf</path>
     </linkerFile>
-    <postBuild>
-        <command>cmd /c ""$RASC_EXE_PATH$" -nosplash --launcher.suppressErrors --gensmartbundle --compiler IAR --devicefamily ra "$PROJ_DIR$\configuration.xml" "$TARGET_PATH$" 2&gt; "%TEMP%\rasc_stderr.out""</command>
-    </postBuild>
     <linkerExtraOptions>
         <arg>--config_search "$PROJ_DIR$"</arg>
     </linkerExtraOptions>
+    <programEntryPoint>
+        <symbol>Reset_Handler</symbol>
+    </programEntryPoint>
     <customArgVars>
         <group name="RA Smart Configurator">
             <argVar>
                 <name>RASC_EXE_PATH</name>
-                <value>C:\Renesas\RA\sc_v2022-07_fsp_v4.0.0\eclipse\rasc.exe</value>
+                <value>C:\Renesas\RA\sc_v2023-01_fsp_v4.3.0-rc.0\eclipse\rasc.exe</value>
             </argVar>
         </group>
     </customArgVars>
@@ -97,23 +97,7 @@
             <path>ra/fsp/inc/fsp_version.h</path>
             <path>ra/fsp/inc/instances/r_ioport.h</path>
             <path>ra/fsp/inc/instances/r_rtc.h</path>
-            <path>ra/fsp/src/bsp/cmsis/Device/RENESAS/Include/R7FA2A1AB.h</path>
-            <path>ra/fsp/src/bsp/cmsis/Device/RENESAS/Include/R7FA2E1A9.h</path>
-            <path>ra/fsp/src/bsp/cmsis/Device/RENESAS/Include/R7FA2E2A7.h</path>
-            <path>ra/fsp/src/bsp/cmsis/Device/RENESAS/Include/R7FA2L1AB.h</path>
-            <path>ra/fsp/src/bsp/cmsis/Device/RENESAS/Include/R7FA4E10D.h</path>
-            <path>ra/fsp/src/bsp/cmsis/Device/RENESAS/Include/R7FA4M1AB.h</path>
-            <path>ra/fsp/src/bsp/cmsis/Device/RENESAS/Include/R7FA4M2AD.h</path>
-            <path>ra/fsp/src/bsp/cmsis/Device/RENESAS/Include/R7FA4M3AF.h</path>
-            <path>ra/fsp/src/bsp/cmsis/Device/RENESAS/Include/R7FA4W1AD.h</path>
-            <path>ra/fsp/src/bsp/cmsis/Device/RENESAS/Include/R7FA6E10F.h</path>
-            <path>ra/fsp/src/bsp/cmsis/Device/RENESAS/Include/R7FA6M1AD.h</path>
-            <path>ra/fsp/src/bsp/cmsis/Device/RENESAS/Include/R7FA6M2AF.h</path>
-            <path>ra/fsp/src/bsp/cmsis/Device/RENESAS/Include/R7FA6M3AH.h</path>
             <path>ra/fsp/src/bsp/cmsis/Device/RENESAS/Include/R7FA6M4AF.h</path>
-            <path>ra/fsp/src/bsp/cmsis/Device/RENESAS/Include/R7FA6M5BH.h</path>
-            <path>ra/fsp/src/bsp/cmsis/Device/RENESAS/Include/R7FA6T1AD.h</path>
-            <path>ra/fsp/src/bsp/cmsis/Device/RENESAS/Include/R7FA6T2BD.h</path>
             <path>ra/fsp/src/bsp/cmsis/Device/RENESAS/Include/renesas.h</path>
             <path>ra/fsp/src/bsp/cmsis/Device/RENESAS/Include/system.h</path>
             <path>ra/fsp/src/bsp/cmsis/Device/RENESAS/Source/startup.c</path>

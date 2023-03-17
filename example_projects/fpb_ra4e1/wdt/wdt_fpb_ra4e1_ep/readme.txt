@@ -26,7 +26,7 @@ Project Overview:
 Note: 
 1. On RA2L1-EK/RA2E1-EK/RA4M2-EK/RA4M3-EK/RA6M4-EK/RA4E1-FPB/RA6E1-FPB board, use Switch S1 to stop WDT from refreshing.
 2. On RA2E2-EK/RA6T1-RSSK/RA6M3-EK board/RA6T2-MCK, use Switch S2 to stop WDT from refreshing.﻿
-1) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
+1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
    a. e2studio: 0x200000ac
    b. Keil:	0x2000000c

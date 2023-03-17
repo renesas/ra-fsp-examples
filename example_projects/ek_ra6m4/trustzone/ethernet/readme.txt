@@ -49,11 +49,11 @@ NOTE  : While running the application using DHCP or Static Address mode, the fol
 		
 	
 ﻿
-1) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
+1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
    a. e2studio: 0x2000211c
    b. Keil:	0x200071d8
-   c. IAR: 0x200113c8
+   c. IAR: 0x200113d4
  
 2) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) 
    in .map file generated in the build configuration folder (Debug/Release).

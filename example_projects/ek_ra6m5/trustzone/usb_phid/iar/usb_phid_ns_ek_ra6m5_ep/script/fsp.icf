@@ -131,7 +131,7 @@ if ((OPTION_SETTING_LENGTH == 0) && (FLASH_ORIGIN == FLASH_START))
 }
 else
 {
-  define region FLASH_region      = mem:[from FLASH_ORIGIN + NS_IMAGE_OFFSET to FLASH_END + NS_IMAGE_OFFSET];  
+  define region FLASH_region      = mem:[from FLASH_ORIGIN + NS_IMAGE_OFFSET to FLASH_END + NS_IMAGE_OFFSET];
   place at start of FLASH_region  { ro section .fixed_vectors* };
   place in FLASH_region           { ro section .application_vectors* };
 }
@@ -169,7 +169,7 @@ else
   else
   {
     place at end of FLASH_region { block TZ_FLASH };
-  }  
+  }
 }
 
 /************************ RAM Memory **************************************/
@@ -401,7 +401,7 @@ if (isdefinedsymbol(PROJECT_SECURE))
 else
 {
   place at end of OSPI_DEVICE_1_region { block Image$$__tz_OSPI_DEVICE_1_N };
-}  
+}
 
 /************************ ID CODE Memory **************************************/
 if(ID_CODE_LENGTH > 0)
@@ -456,7 +456,10 @@ if(OPTION_SETTING_LENGTH > 0)
 }
 
 define exported symbol __tz_ID_CODE_S = ID_CODE_START;
-define exported symbol __tz_ID_CODE_N = ID_CODE_START + ID_CODE_LENGTH;
+
+/* Set this symbol to the same value as __tz_ID_CODE_S so the RA configuration tool does not split the ID_CODE
+ * memory region between TrustZone projects. */
+define exported symbol __tz_ID_CODE_N = ID_CODE_START;
 
 define symbol OPTION_SETTING_NS_OFFSET = 0x80;
 define exported symbol __tz_OPTION_SETTING_S = OPTION_SETTING_START;

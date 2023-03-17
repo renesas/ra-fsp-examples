@@ -89,6 +89,8 @@ MEMORY
   OSPI_DEVICE_1_RAM (rwx) : ORIGIN = OSPI_DEVICE_1_START, LENGTH = OSPI_DEVICE_1_PRV_LENGTH
   SDRAM (rwx)             : ORIGIN = SDRAM_START, LENGTH = SDRAM_LENGTH
   OPTION_SETTING (r)      : ORIGIN = OPTION_SETTING_START + NS_IMAGE_OFFSET, LENGTH = OPTION_SETTING_LENGTH
+  OPTION_SETTING_OFS (r)  : ORIGIN = OPTION_SETTING_START + NS_IMAGE_OFFSET, LENGTH = 0x18
+  OPTION_SETTING_SAS (r)  : ORIGIN = OPTION_SETTING_START + NS_IMAGE_OFFSET + 0x34, LENGTH = OPTION_SETTING_LENGTH - 0x34
   OPTION_SETTING_S (r)    : ORIGIN = OPTION_SETTING_S_START + NS_IMAGE_OFFSET, LENGTH = OPTION_SETTING_S_LENGTH
   ID_CODE (rx)            : ORIGIN = ID_CODE_START, LENGTH = ID_CODE_LENGTH
 }
@@ -558,13 +560,13 @@ SECTIONS
     /* RAM_NSC_START can be used to set a fixed address for non-secure callable RAM in secure projects.
      * If it is not specified, the address for NSC RAM is the end of RAM aligned to a 1K boundary.
      * In flat projects that require non-secure RAM, this variable is set to the start of non-secure RAM. */
-    __tz_RAM_C = DEFINED(RAM_NSC_START) ? ABSOLUTE(RAM_NSC_START) : __RESERVE_NS_RAM ? ABSOLUTE(RAM_NS_BUFFER_BLOCK_START) : ALIGN(__RAM_segment_used_end__, 1024);
+    __tz_RAM_C = DEFINED(RAM_NSC_START) ? ABSOLUTE(RAM_NSC_START - RAM_NS_BUFFER_BLOCK_LENGTH) : __RESERVE_NS_RAM ? ABSOLUTE(RAM_NS_BUFFER_BLOCK_START) : ALIGN(__RAM_segment_used_end__, 1024);
 
     /* RAM_NS_START can be used to set a fixed address for non-secure RAM in secure projects or flat projects.
      * RAM_NS_BUFFER_BLOCK_LENGTH is used to allocate non-secure buffers in a flat project. If it is not
      * specified, the address for NSC RAM is the end of RAM aligned to an 8K boundary.
      * In flat projects that require non-secure RAM, this variable is set to the start of non-secure RAM. */
-    __tz_RAM_N = DEFINED(RAM_NS_START) ? ABSOLUTE(RAM_NS_START) : __RESERVE_NS_RAM ? ABSOLUTE(RAM_NS_BUFFER_BLOCK_START) : ALIGN(__tz_RAM_C, 8192);
+    __tz_RAM_N = DEFINED(RAM_NS_START) ? ABSOLUTE(RAM_NS_START - RAM_NS_BUFFER_BLOCK_LENGTH) : __RESERVE_NS_RAM ? ABSOLUTE(RAM_NS_BUFFER_BLOCK_START) : ALIGN(__tz_RAM_C, 8192);
 
     /* Non-secure buffers must be in non-secure RAM. This is primarily used for the EDMAC in flat projects.
      * The EDMAC is a non-secure bus master and can only access non-secure RAM. */
@@ -606,6 +608,11 @@ SECTIONS
     /* Note: There are no secure/non-secure boundaries for ID_CODE.  These symbols are provided for the RA configuration tool. */
     __tz_ID_CODE_S = ORIGIN(ID_CODE);
 
+    /* Note: There are no secure/non-secure boundaries for ID_CODE.  These symbols are provided for the RA configuration tool.
+     *       Set this symbol to the same value as __tz_ID_CODE_S so the RA configuration tool does not split the ID_CODE
+     *       memory region between TrustZone projects. */
+    __tz_ID_CODE_N = __tz_ID_CODE_S;
+
     .id_code :
     {
         __ID_Code_Start = .;
@@ -613,24 +620,27 @@ SECTIONS
         __ID_Code_End = .;
     } > ID_CODE
 
-    /* Note: There are no secure/non-secure boundaries for ID_CODE.  These symbols are provided for the RA configuration tool. */
-    __tz_ID_CODE_N = __ID_Code_End;
 
     /* Symbol required for RA Configuration tool. */
-    __tz_OPTION_SETTING_S = ORIGIN(OPTION_SETTING);
+    __tz_OPTION_SETTING_S = ORIGIN(OPTION_SETTING_OFS);
 
-    .option_setting :
+    .option_setting_ofs :
     {
-        __OPTION_SETTING_Start = .;
+        __OPTION_SETTING_OFS_Start = .;
         KEEP(*(.option_setting_ofs0))
-        . = PROJECT_SECURE_OR_FLAT ? __OPTION_SETTING_Start + 0x04 : __OPTION_SETTING_Start;
+        . = PROJECT_SECURE_OR_FLAT ? __OPTION_SETTING_OFS_Start + 0x04 : __OPTION_SETTING_OFS_Start;
         KEEP(*(.option_setting_ofs2))
-        . = PROJECT_SECURE_OR_FLAT ? __OPTION_SETTING_Start + 0x10 : __OPTION_SETTING_Start;
+        . = PROJECT_SECURE_OR_FLAT ? __OPTION_SETTING_OFS_Start + 0x10 : __OPTION_SETTING_OFS_Start;
         KEEP(*(.option_setting_dualsel))
-        . = PROJECT_SECURE_OR_FLAT ? __OPTION_SETTING_Start + 0x34 : __OPTION_SETTING_Start;
+        __OPTION_SETTING_OFS_End = .;
+    } > OPTION_SETTING_OFS = 0xFF
+
+    .option_setting_sas :
+    {
+        __OPTION_SETTING_SAS_Start = .;
         KEEP(*(.option_setting_sas))
-        __OPTION_SETTING_End = .;
-    } > OPTION_SETTING = 0xFF
+        __OPTION_SETTING_SAS_End = .;
+    } > OPTION_SETTING_SAS = 0xFF
 
     /* Symbol required for RA Configuration tool. */
     __tz_OPTION_SETTING_N = ABSOLUTE(OPTION_SETTING_START_NS);

@@ -608,6 +608,11 @@ SECTIONS
     /* Note: There are no secure/non-secure boundaries for ID_CODE.  These symbols are provided for the RA configuration tool. */
     __tz_ID_CODE_S = ORIGIN(ID_CODE);
 
+    /* Note: There are no secure/non-secure boundaries for ID_CODE.  These symbols are provided for the RA configuration tool.
+     *       Set this symbol to the same value as __tz_ID_CODE_S so the RA configuration tool does not split the ID_CODE
+     *       memory region between TrustZone projects. */
+    __tz_ID_CODE_N = __tz_ID_CODE_S;
+
     .id_code :
     {
         __ID_Code_Start = .;
@@ -615,8 +620,6 @@ SECTIONS
         __ID_Code_End = .;
     } > ID_CODE
 
-    /* Note: There are no secure/non-secure boundaries for ID_CODE.  These symbols are provided for the RA configuration tool. */
-    __tz_ID_CODE_N = __ID_Code_End;
 
     /* Symbol required for RA Configuration tool. */
     __tz_OPTION_SETTING_S = ORIGIN(OPTION_SETTING_OFS);

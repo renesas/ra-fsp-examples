@@ -26,7 +26,7 @@ NOTE:
         Sample Input: 23:10:2019 16:14:55 (DD:MM:YYYY HH:MM:SS)
    2. User is expected to enter data of size not exceeding above 15 bytes.
    3. Operation is not guaranteed for any user input value other than integer,char(i.e. float, special char) through RTT.﻿
-1) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
+1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
    a. e2studio: 0x200000a4
    b. Keil:	Not Available

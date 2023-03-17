@@ -81,4 +81,4 @@ This project demonstrates the basic functionality of USBX Device CDC ACM module 
 NOTE:
 1) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x200002bc
+   a. e2studio: 0x2000029c

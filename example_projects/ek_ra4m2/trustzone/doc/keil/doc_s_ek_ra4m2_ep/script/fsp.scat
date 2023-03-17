@@ -194,6 +194,8 @@
 #define NS_IMAGE_OFFSET 0
 #endif
 
+#define ID_CODE_OVERLAP   ((ID_CODE_START > OPTION_SETTING_START) && (ID_CODE_START < OPTION_SETTING_START + OPTION_SETTING_LENGTH))
+
 LOAD_REGION_FLASH FLASH_ORIGIN + NS_IMAGE_OFFSET ALIGN 0x80 LIMITED_FLASH_LENGTH
 {
   __tz_FLASH_S +0 EMPTY 0
@@ -471,6 +473,8 @@ LOAD_REGION_NSC_FLASH FLASH_NSC_START
   }
 }
 
+#if ID_CODE_OVERLAP == 0
+
 #if ID_CODE_LENGTH != 0
 LOAD_REGION_ID_CODE ID_CODE_START ID_CODE_LENGTH
 {
@@ -478,13 +482,15 @@ LOAD_REGION_ID_CODE ID_CODE_START ID_CODE_LENGTH
   {
   }
 
+  ; Set this symbol to the same value as __tz_ID_CODE_S so the RA configuration tool does not split the ID_CODE
+  ; memory region between TrustZone projects.
+  __tz_ID_CODE_N +0 EMPTY 0
+  {
+  }
+
   ID_CODE +0 FIXED
   {
     *(.id_code*)
-  }
-
-  __tz_ID_CODE_N +0 EMPTY 0
-  {
   }
 }
 #else
@@ -498,6 +504,8 @@ LOAD_REGION_ID_CODE ID_CODE_START 4
   {
   }
 }
+#endif
+
 #endif
 
 #if OPTION_SETTING_LENGTH != 0
@@ -533,10 +541,41 @@ LOAD_REGION_OPTION_SETTING OPTION_SETTING_START + NS_IMAGE_OFFSET OPTION_SETTING
     *(.option_setting_dualsel)
   }
 
+#if ID_CODE_OVERLAP == 0
+
   UNUSED_2 (ImageBase(DUALSEL)+ImageLength(DUALSEL)) FIXED FILL 0xFFFFFFFF (ImageBase(OFS0) + 0x34 - (ImageBase(DUALSEL)+ImageLength(DUALSEL)))
   {
 
   }
+
+#else
+
+  UNUSED_BEFORE_ID_CODE (ImageBase(DUALSEL)+ImageLength(DUALSEL)) FIXED FILL 0xFFFFFFFF (ImageBase(OFS0) + 0x20 - (ImageBase(DUALSEL)+ImageLength(DUALSEL)))
+  {
+
+  }
+
+  __tz_ID_CODE_S ID_CODE_START EMPTY 0
+  {
+  }
+
+  ; Set this symbol to the same value as __tz_ID_CODE_S so the RA configuration tool does not split the ID_CODE
+  ; memory region between TrustZone projects.
+  __tz_ID_CODE_N +0 EMPTY 0
+  {
+  }
+
+  ID_CODE ID_CODE_START FIXED
+  {
+    *(.id_code*)
+  }
+
+  UNUSED_AFTER_ID_CODE (ID_CODE_START + ID_CODE_LENGTH) FIXED FILL 0xFFFFFFFF (ImageBase(OFS0) + 0x34 - (ID_CODE_START + ID_CODE_LENGTH) )
+  {
+
+  }
+
+#endif
 
   SAS OPTION_SETTING_START + 0x34 FIXED
   {
