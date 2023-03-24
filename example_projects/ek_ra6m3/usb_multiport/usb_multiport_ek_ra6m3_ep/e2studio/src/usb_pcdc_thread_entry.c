@@ -115,7 +115,7 @@ void usb_pcdc_thread_entry(void *pvParameters)
 fsp_err_t process_usb_pcdc_events(void)
 {
     fsp_err_t err = FSP_SUCCESS;
-    usb_event_info_t    event_info = {0};
+    usb_event_info_t    event_info = *p_usb_pcdc_event;
     /* USB event received */
     switch (p_usb_pcdc_event->event)
     {
@@ -137,7 +137,7 @@ fsp_err_t process_usb_pcdc_events(void)
         case USB_STATUS_READ_COMPLETE:
         {
             /* Read data from tera term */
-            err = R_USB_Read (&g_basic1_ctrl, g_buf, READ_BUF_SIZE, USB_CLASS_PCDC);
+            err = R_USB_Read (&g_basic1_ctrl, g_readbuf, READ_BUF_SIZE, USB_CLASS_PCDC);
             /* Handle error */
             if (FSP_SUCCESS != err)
             {

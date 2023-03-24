@@ -81,9 +81,9 @@ FSP Configuration
     PCLKB Div /4
     PCLKC Div /4
     PCLKD Div /2
-    SDCLKout On
+    SDCLK Enabled
     BCLK Div /2
-    BCLK/2
+    EBCLK Div /2
     UCLK Div /5
     FCLK Div /4
     CLKOUT Disabled
@@ -743,11 +743,11 @@ FSP Configuration
     SNMP: Agent: Max context string size: 32
     SNMP: Agent: Max User name Size: 64
     SNMP: Agent: Max security Key Size: 64
-    SNMP: Agent: Maximum SNMP packet size: 560
+    SNMP: Agent: Minimum SNMP packet size: 560
     SNMP: Agent: UDP port number: 161
     SNMP: Agent: Trap destination port: 162
     SNMP: Agent: Max trap Key Size: 64
-    SNMP: Agent: SNMP Version 1: Disable
+    SNMP: Agent: SNMP Version 1: Enable
     SNMP: Agent: SNMP Version 2: Enable
     SNMP: Agent: SNMP Version 3: Enable
     POP3: Client: Maximum buffer size to store messages (bytes): 2000
@@ -822,6 +822,7 @@ FSP Configuration
     Web HTTP: Server: Server Next Re-transmission timeout shift: 1
     Common: TCP/IP Offload: Disable
     Common: Interface Capability: Disable
+    Azure IoT: Defender Security Module: Disable
     
   Module "Azure RTOS NetX Duo IP Instance"
     Common: Error Checking: Enabled (default)
@@ -1113,11 +1114,11 @@ FSP Configuration
     SNMP: Agent: Max context string size: 32
     SNMP: Agent: Max User name Size: 64
     SNMP: Agent: Max security Key Size: 64
-    SNMP: Agent: Maximum SNMP packet size: 560
+    SNMP: Agent: Minimum SNMP packet size: 560
     SNMP: Agent: UDP port number: 161
     SNMP: Agent: Trap destination port: 162
     SNMP: Agent: Max trap Key Size: 64
-    SNMP: Agent: SNMP Version 1: Disable
+    SNMP: Agent: SNMP Version 1: Enable
     SNMP: Agent: SNMP Version 2: Enable
     SNMP: Agent: SNMP Version 3: Enable
     POP3: Client: Maximum buffer size to store messages (bytes): 2000
@@ -1192,6 +1193,7 @@ FSP Configuration
     Web HTTP: Server: Server Next Re-transmission timeout shift: 1
     Common: TCP/IP Offload: Disable
     Common: Interface Capability: Disable
+    Azure IoT: Defender Security Module: Disable
     
   Module "Azure RTOS NetX Duo Packet Pool Instance"
     Common: Error Checking: Enabled (default)
@@ -1483,11 +1485,11 @@ FSP Configuration
     SNMP: Agent: Max context string size: 32
     SNMP: Agent: Max User name Size: 64
     SNMP: Agent: Max security Key Size: 64
-    SNMP: Agent: Maximum SNMP packet size: 560
+    SNMP: Agent: Minimum SNMP packet size: 560
     SNMP: Agent: UDP port number: 161
     SNMP: Agent: Trap destination port: 162
     SNMP: Agent: Max trap Key Size: 64
-    SNMP: Agent: SNMP Version 1: Disable
+    SNMP: Agent: SNMP Version 1: Enable
     SNMP: Agent: SNMP Version 2: Enable
     SNMP: Agent: SNMP Version 3: Enable
     POP3: Client: Maximum buffer size to store messages (bytes): 2000
@@ -1562,6 +1564,7 @@ FSP Configuration
     Web HTTP: Server: Server Next Re-transmission timeout shift: 1
     Common: TCP/IP Offload: Disable
     Common: Interface Capability: Disable
+    Azure IoT: Defender Security Module: Disable
     
   Module "NetX Duo Ethernet Driver (rm_netxduo_ether)"
   Module "Ethernet (r_ether)"
@@ -1571,7 +1574,11 @@ FSP Configuration
     
   Module "Ethernet (r_ether_phy)"
     Parameter Checking: Default (BSP)
-    Select PHY: Default
+    Select PHY(DEPRECATED): Default
+    KSZ8091RNZ Target: Disabled
+    KSZ8041 Target: Disabled
+    DP83620 Target: Disabled
+    ICS1894 Target: Disabled
     Reference Clock: Default
     
   Module "Azure RTOS NetX Duo Common"
@@ -1864,11 +1871,11 @@ FSP Configuration
     SNMP: Agent: Max context string size: 32
     SNMP: Agent: Max User name Size: 64
     SNMP: Agent: Max security Key Size: 64
-    SNMP: Agent: Maximum SNMP packet size: 560
+    SNMP: Agent: Minimum SNMP packet size: 560
     SNMP: Agent: UDP port number: 161
     SNMP: Agent: Trap destination port: 162
     SNMP: Agent: Max trap Key Size: 64
-    SNMP: Agent: SNMP Version 1: Disable
+    SNMP: Agent: SNMP Version 1: Enable
     SNMP: Agent: SNMP Version 2: Enable
     SNMP: Agent: SNMP Version 3: Enable
     POP3: Client: Maximum buffer size to store messages (bytes): 2000
@@ -1943,6 +1950,7 @@ FSP Configuration
     Web HTTP: Server: Server Next Re-transmission timeout shift: 1
     Common: TCP/IP Offload: Disable
     Common: Interface Capability: Disable
+    Azure IoT: Defender Security Module: Disable
     
   Module "Azure RTOS NetX Duo DHCP IPv4 Client"
     Common: Error Checking: Enabled (default)
@@ -2234,11 +2242,11 @@ FSP Configuration
     SNMP: Agent: Max context string size: 32
     SNMP: Agent: Max User name Size: 64
     SNMP: Agent: Max security Key Size: 64
-    SNMP: Agent: Maximum SNMP packet size: 560
+    SNMP: Agent: Minimum SNMP packet size: 560
     SNMP: Agent: UDP port number: 161
     SNMP: Agent: Trap destination port: 162
     SNMP: Agent: Max trap Key Size: 64
-    SNMP: Agent: SNMP Version 1: Disable
+    SNMP: Agent: SNMP Version 1: Enable
     SNMP: Agent: SNMP Version 2: Enable
     SNMP: Agent: SNMP Version 3: Enable
     POP3: Client: Maximum buffer size to store messages (bytes): 2000
@@ -2313,6 +2321,7 @@ FSP Configuration
     Web HTTP: Server: Server Next Re-transmission timeout shift: 1
     Common: TCP/IP Offload: Disable
     Common: Interface Capability: Disable
+    Azure IoT: Defender Security Module: Disable
     
   Azure RTOS ThreadX
     General: Custom tx_user.h: 
@@ -2353,14 +2362,10 @@ FSP Configuration
   HAL
     Instance "g_ioport I/O Port (r_ioport)"
       Name: g_ioport
-      Port 1 ELC Trigger Source: Disabled
-      Port 2 ELC Trigger Source: Disabled
-      Port 3 ELC Trigger Source: Disabled
-      Port 4 ELC Trigger Source: Disabled
-      Port B ELC Trigger Source: Disabled
-      Port C ELC Trigger Source: Disabled
-      Port D ELC Trigger Source: Disabled
-      Port E ELC Trigger Source: Disabled
+      1st Port ELC Trigger Source: Disabled
+      2nd Port ELC Trigger Source: Disabled
+      3rd Port ELC Trigger Source: Disabled
+      4th Port ELC Trigger Source: Disabled
       Pin Configuration Name: g_bsp_pin_cfg
       
     Instance "Azure RTOS ThreadX Port (rm_threadx_port)"
@@ -2420,6 +2425,7 @@ FSP Configuration
               PHY-LSI Address: 0
               PHY-LSI Reset Completion Timeout: 0x00020000
               Select MII type: RMII
+              Phy LSI type: Kit Component
               MII/RMII Register Access Wait-time: 8
               Flow Control: Disable
               
@@ -2477,6 +2483,7 @@ FSP Configuration
               PHY-LSI Address: 0
               PHY-LSI Reset Completion Timeout: 0x00020000
               Select MII type: RMII
+              Phy LSI type: Kit Component
               MII/RMII Register Access Wait-time: 8
               Flow Control: Disable
               

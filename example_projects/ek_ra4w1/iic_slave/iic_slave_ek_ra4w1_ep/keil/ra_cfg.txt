@@ -60,17 +60,18 @@ FSP Configuration
     Assert Failures: Return FSP_ERR_ASSERTION
     Error Log: No Error Log
     Clock Registers not Reset Values during Startup: Disabled
-    Main Oscillator Populated: Populated
+    Main Oscillator Populated: Not Populated
     PFS Protect: Enabled
     C Runtime Initialization : Enabled
     Early BSP Initialization : Disabled
     Main Oscillator Clock Source: Crystal or Resonator
-    Subclock Populated: Populated
+    Subclock Populated: Not Populated
     Subclock Drive (Drive capacitance availability varies by MCU): Standard/Normal mode
     Subclock Stabilization Time (ms): 1000
     
   Clocks
     XTAL 8000000Hz
+    PLL Src: XTAL
     HOCO 32MHz
     PLL Div /2
     PLL Mul x12
@@ -80,8 +81,6 @@ FSP Configuration
     PCLKB Div /1
     PCLKC Div /1
     PCLKD Div /1
-    BCLK Div /2
-    BCK/2
     FCLK Div /2
     CLKOUT Disabled
     CLKOUT Div /1
@@ -165,14 +164,10 @@ FSP Configuration
   HAL
     Instance "g_ioport I/O Port (r_ioport)"
       Name: g_ioport
-      Port 1 ELC Trigger Source: Disabled
-      Port 2 ELC Trigger Source: Disabled
-      Port 3 ELC Trigger Source: Disabled
-      Port 4 ELC Trigger Source: Disabled
-      Port B ELC Trigger Source: Disabled
-      Port C ELC Trigger Source: Disabled
-      Port D ELC Trigger Source: Disabled
-      Port E ELC Trigger Source: Disabled
+      1st Port ELC Trigger Source: Disabled
+      2nd Port ELC Trigger Source: Disabled
+      3rd Port ELC Trigger Source: Disabled
+      4th Port ELC Trigger Source: Disabled
       Pin Configuration Name: g_bsp_pin_cfg
       
     Instance "g_i2c_slave I2C Slave (r_iic_slave)"

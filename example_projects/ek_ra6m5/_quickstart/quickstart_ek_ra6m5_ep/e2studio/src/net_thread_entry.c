@@ -82,7 +82,7 @@ typedef enum test_err
  */
 uint8_t g_mac_address[6]       = STATIC_IP_MAC_ADDRESS;
 uint8_t g_ip_address[4]        = {RESET_VALUE};
-uint8_t g_net_mask[4]          = {RESET_VALUE};
+uint8_t g_net_mask[4]          = STATIC_IP_NET_MASK;
 uint8_t g_gateway_address[4]   = {RESET_VALUE};
 uint8_t g_dns_server_address[4] = {RESET_VALUE};
 #else

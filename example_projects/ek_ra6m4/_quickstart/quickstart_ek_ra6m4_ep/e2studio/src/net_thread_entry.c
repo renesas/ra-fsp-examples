@@ -63,7 +63,7 @@ static uint8_t s_static_ip_dnsserveraddress[ 4 ] = STATIC_IP_DNS_SERVER_ADDRESS;
     */
     uint8_t ucMACAddress[ 6 ]       = STATIC_IP_MAC_ADDRESS;
     uint8_t ucIPAddress[ 4 ]        = {RESET_VALUE};
-    uint8_t ucNetMask[ 4 ]          = {RESET_VALUE};
+    uint8_t ucNetMask[ 4 ]          = STATIC_IP_NET_MASK;
     uint8_t ucGatewayAddress[ 4 ]   = {RESET_VALUE};
     uint8_t ucDNSServerAddress[ 4 ] = {RESET_VALUE};
 #else

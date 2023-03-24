@@ -24,6 +24,7 @@ FSP Configuration
     Security: SRAM Accessibility: Standby RAM: Regions 7-0 are all Secure.
     Security: BUS Accessibility: Bus Security Attribution Register A: Both Secure and Non-Secure State
     Security: BUS Accessibility: Bus Security Attribution Register B: Both Secure and Non-Secure State
+    Security: Uninitialized Non-Secure Application Fallback: Enable Uninitialized Non-Secure Application Fallback
     Startup C-Cache Line Size: 32 Bytes
     OFS0 register settings: Independent WDT: Start Mode: IWDT is Disabled
     OFS0 register settings: Independent WDT: Timeout Period: 2048 cycles
@@ -88,7 +89,7 @@ FSP Configuration
     PCLKC Div /4
     PCLKD Div /2
     BCLK Div /2
-    BCLK/2
+    EBCLK Div /2
     FCLK Div /4
     CLKOUT Div /1
     UCLK Div /5
@@ -188,7 +189,7 @@ FSP Configuration
       P604 94 - - - - Disabled - - "AGT4: AGTEE4; BUS_ASYNCH0: D12; GPT8: GTIOC8B; SCI9: CTS9" - None - - 
       P605 93 - - - - Disabled - - "AGT4: AGTO4; BUS_ASYNCH0: D11; GPT8: GTIOC8A; SCI8: CTS8" - None - - 
       P608 83 - - - - Disabled - - "BUS_ASYNCH0: A00; GPT4: GTIOC4B" - None - - 
-      P609 84 - OSPI_CS - - Disabled - - "AGT5: AGTO5; BUS_ASYNCH0: CS1; CAN1: CTX1; GPT5: GTIOC5A" - None - - 
+      P609 84 - OSPI_CS - - Disabled - - "AGT5: AGTO5; BUS_ASYNCH0: CS1; CAN1: CTX1; GPT5: GTIOC5A; OSPI0: OMECS" - None - - 
       P610 85 OSPI0_OMCS0 OSPI_CS0 High - "Peripheral mode" CMOS None "AGT4: AGTO4; BUS_ASYNCH0: CS0; CAN1: CRX1; GPT5: GTIOC5B; OSPI0: OMCS0; SCI7: CTS7" - IO - - 
       P611 86 GPIO ARDUINO_D8 Low - "Output mode (Initial Low)" CMOS - "AGT3: AGTO3; CAC0: CACREF; CGC0: CLKOUT; SCI7: CTSRTS7" - IO - - 
       P612 87 GPIO ARDUINO_RST Low - "Output mode (Initial Low)" CMOS - "AGT2: AGTO2; BUS_ASYNCH0: D08; SCI7: SCK7" - IO - - 
@@ -333,7 +334,7 @@ FSP Configuration
       P604 94 - - - - Disabled - - "AGT4: AGTEE4; BUS_ASYNCH0: D12; GPT8: GTIOC8B; SCI9: CTS9" - None - - 
       P605 93 - - - - Disabled - - "AGT4: AGTO4; BUS_ASYNCH0: D11; GPT8: GTIOC8A; SCI8: CTS8" - None - - 
       P608 83 - - - - Disabled - - "BUS_ASYNCH0: A00; GPT4: GTIOC4B" - None - - 
-      P609 84 - OSPI_CS - - Disabled - - "AGT5: AGTO5; BUS_ASYNCH0: CS1; CAN1: CTX1; GPT5: GTIOC5A" - None - - 
+      P609 84 - OSPI_CS - - Disabled - - "AGT5: AGTO5; BUS_ASYNCH0: CS1; CAN1: CTX1; GPT5: GTIOC5A; OSPI0: OMECS" - None - - 
       P610 85 - OSPI_CS0 Low - Disabled CMOS None "AGT4: AGTO4; BUS_ASYNCH0: CS0; CAN1: CRX1; GPT5: GTIOC5B; OSPI0: OMCS0; SCI7: CTS7" - IO - - 
       P611 86 - ARDUINO_D8 Low - Disabled CMOS - "AGT3: AGTO3; CAC0: CACREF; CGC0: CLKOUT; SCI7: CTSRTS7" - IO - - 
       P612 87 - ARDUINO_RST Low - Disabled CMOS - "AGT2: AGTO2; BUS_ASYNCH0: D08; SCI7: SCK7" - IO - - 
@@ -684,11 +685,11 @@ FSP Configuration
     SNMP: Agent: Max context string size: 32
     SNMP: Agent: Max User name Size: 64
     SNMP: Agent: Max security Key Size: 64
-    SNMP: Agent: Maximum SNMP packet size: 560
+    SNMP: Agent: Minimum SNMP packet size: 560
     SNMP: Agent: UDP port number: 161
     SNMP: Agent: Trap destination port: 162
     SNMP: Agent: Max trap Key Size: 64
-    SNMP: Agent: SNMP Version 1: Disable
+    SNMP: Agent: SNMP Version 1: Enable
     SNMP: Agent: SNMP Version 2: Enable
     SNMP: Agent: SNMP Version 3: Enable
     POP3: Client: Maximum buffer size to store messages (bytes): 2000
@@ -763,6 +764,7 @@ FSP Configuration
     Web HTTP: Server: Server Next Re-transmission timeout shift: 1
     Common: TCP/IP Offload: Disable
     Common: Interface Capability: Disable
+    Azure IoT: Defender Security Module: Disable
     
   Module "Azure RTOS NetX Duo IP Instance"
     Common: Error Checking: Enabled (default)
@@ -1054,11 +1056,11 @@ FSP Configuration
     SNMP: Agent: Max context string size: 32
     SNMP: Agent: Max User name Size: 64
     SNMP: Agent: Max security Key Size: 64
-    SNMP: Agent: Maximum SNMP packet size: 560
+    SNMP: Agent: Minimum SNMP packet size: 560
     SNMP: Agent: UDP port number: 161
     SNMP: Agent: Trap destination port: 162
     SNMP: Agent: Max trap Key Size: 64
-    SNMP: Agent: SNMP Version 1: Disable
+    SNMP: Agent: SNMP Version 1: Enable
     SNMP: Agent: SNMP Version 2: Enable
     SNMP: Agent: SNMP Version 3: Enable
     POP3: Client: Maximum buffer size to store messages (bytes): 2000
@@ -1133,6 +1135,7 @@ FSP Configuration
     Web HTTP: Server: Server Next Re-transmission timeout shift: 1
     Common: TCP/IP Offload: Disable
     Common: Interface Capability: Disable
+    Azure IoT: Defender Security Module: Disable
     
   Module "Azure RTOS NetX Duo Packet Pool Instance"
     Common: Error Checking: Enabled (default)
@@ -1424,11 +1427,11 @@ FSP Configuration
     SNMP: Agent: Max context string size: 32
     SNMP: Agent: Max User name Size: 64
     SNMP: Agent: Max security Key Size: 64
-    SNMP: Agent: Maximum SNMP packet size: 560
+    SNMP: Agent: Minimum SNMP packet size: 560
     SNMP: Agent: UDP port number: 161
     SNMP: Agent: Trap destination port: 162
     SNMP: Agent: Max trap Key Size: 64
-    SNMP: Agent: SNMP Version 1: Disable
+    SNMP: Agent: SNMP Version 1: Enable
     SNMP: Agent: SNMP Version 2: Enable
     SNMP: Agent: SNMP Version 3: Enable
     POP3: Client: Maximum buffer size to store messages (bytes): 2000
@@ -1503,6 +1506,7 @@ FSP Configuration
     Web HTTP: Server: Server Next Re-transmission timeout shift: 1
     Common: TCP/IP Offload: Disable
     Common: Interface Capability: Disable
+    Azure IoT: Defender Security Module: Disable
     
   Module "NetX Duo Ethernet Driver (rm_netxduo_ether)"
   Module "Ethernet (r_ether)"
@@ -1512,7 +1516,11 @@ FSP Configuration
     
   Module "Ethernet (r_ether_phy)"
     Parameter Checking: Default (BSP)
-    Select PHY: Default
+    Select PHY(DEPRECATED): Default
+    KSZ8091RNZ Target: Disabled
+    KSZ8041 Target: Disabled
+    DP83620 Target: Disabled
+    ICS1894 Target: Disabled
     Reference Clock: Default
     
   Module "Azure RTOS NetX Duo Common"
@@ -1805,11 +1813,11 @@ FSP Configuration
     SNMP: Agent: Max context string size: 32
     SNMP: Agent: Max User name Size: 64
     SNMP: Agent: Max security Key Size: 64
-    SNMP: Agent: Maximum SNMP packet size: 560
+    SNMP: Agent: Minimum SNMP packet size: 560
     SNMP: Agent: UDP port number: 161
     SNMP: Agent: Trap destination port: 162
     SNMP: Agent: Max trap Key Size: 64
-    SNMP: Agent: SNMP Version 1: Disable
+    SNMP: Agent: SNMP Version 1: Enable
     SNMP: Agent: SNMP Version 2: Enable
     SNMP: Agent: SNMP Version 3: Enable
     POP3: Client: Maximum buffer size to store messages (bytes): 2000
@@ -1884,6 +1892,7 @@ FSP Configuration
     Web HTTP: Server: Server Next Re-transmission timeout shift: 1
     Common: TCP/IP Offload: Disable
     Common: Interface Capability: Disable
+    Azure IoT: Defender Security Module: Disable
     
   Module "Azure RTOS NetX Duo DHCP IPv4 Client"
     Common: Error Checking: Enabled (default)
@@ -2175,11 +2184,11 @@ FSP Configuration
     SNMP: Agent: Max context string size: 32
     SNMP: Agent: Max User name Size: 64
     SNMP: Agent: Max security Key Size: 64
-    SNMP: Agent: Maximum SNMP packet size: 560
+    SNMP: Agent: Minimum SNMP packet size: 560
     SNMP: Agent: UDP port number: 161
     SNMP: Agent: Trap destination port: 162
     SNMP: Agent: Max trap Key Size: 64
-    SNMP: Agent: SNMP Version 1: Disable
+    SNMP: Agent: SNMP Version 1: Enable
     SNMP: Agent: SNMP Version 2: Enable
     SNMP: Agent: SNMP Version 3: Enable
     POP3: Client: Maximum buffer size to store messages (bytes): 2000
@@ -2254,6 +2263,7 @@ FSP Configuration
     Web HTTP: Server: Server Next Re-transmission timeout shift: 1
     Common: TCP/IP Offload: Disable
     Common: Interface Capability: Disable
+    Azure IoT: Defender Security Module: Disable
     
   Azure RTOS ThreadX
     General: Custom tx_user.h: 
@@ -2294,14 +2304,10 @@ FSP Configuration
   HAL
     Instance "g_ioport I/O Port (r_ioport)"
       Name: g_ioport
-      Port 1 ELC Trigger Source: Disabled
-      Port 2 ELC Trigger Source: Disabled
-      Port 3 ELC Trigger Source: Disabled
-      Port 4 ELC Trigger Source: Disabled
-      Port B ELC Trigger Source: Disabled
-      Port C ELC Trigger Source: Disabled
-      Port D ELC Trigger Source: Disabled
-      Port E ELC Trigger Source: Disabled
+      1st Port ELC Trigger Source: Disabled
+      2nd Port ELC Trigger Source: Disabled
+      3rd Port ELC Trigger Source: Disabled
+      4th Port ELC Trigger Source: Disabled
       Pin Configuration Name: g_bsp_pin_cfg
       
     Instance "Azure RTOS ThreadX Port (rm_threadx_port)"
@@ -2361,6 +2367,7 @@ FSP Configuration
               PHY-LSI Address: 0
               PHY-LSI Reset Completion Timeout: 0x00020000
               Select MII type: RMII
+              Phy LSI type: Kit Component
               MII/RMII Register Access Wait-time: 8
               Flow Control: Disable
               
@@ -2418,6 +2425,7 @@ FSP Configuration
               PHY-LSI Address: 0
               PHY-LSI Reset Completion Timeout: 0x00020000
               Select MII type: RMII
+              Phy LSI type: Kit Component
               MII/RMII Register Access Wait-time: 8
               Flow Control: Disable
               

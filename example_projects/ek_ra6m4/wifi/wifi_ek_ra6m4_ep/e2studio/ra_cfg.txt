@@ -24,6 +24,7 @@ FSP Configuration
     Security: SRAM Accessibility: Standby RAM: Regions 7-0 are all Secure.
     Security: BUS Accessibility: Bus Security Attribution Register A: Both Secure and Non-Secure State
     Security: BUS Accessibility: Bus Security Attribution Register B: Both Secure and Non-Secure State
+    Security: Uninitialized Non-Secure Application Fallback: Enable Uninitialized Non-Secure Application Fallback
     Startup C-Cache Line Size: 32 Bytes
     OFS0 register settings: Independent WDT: Start Mode: IWDT is Disabled
     OFS0 register settings: Independent WDT: Timeout Period: 2048 cycles
@@ -88,7 +89,7 @@ FSP Configuration
     PCLKC Div /4
     PCLKD Div /2
     BCLK Div /2
-    BCLK/2
+    EBCLK Div /2
     FCLK Div /4
     CLKOUT Div /1
     UCLK Div /5
@@ -188,7 +189,7 @@ FSP Configuration
       P604 94 - - - - Disabled - - "AGT4: AGTEE4; BUS_ASYNCH0: D12; GPT8: GTIOC8B; SCI9: CTS9" - None - - 
       P605 93 - - - - Disabled - - "AGT4: AGTO4; BUS_ASYNCH0: D11; GPT8: GTIOC8A; SCI8: CTS8" - None - - 
       P608 83 - - - - Disabled - - "BUS_ASYNCH0: A00; GPT4: GTIOC4B" - None - - 
-      P609 84 - OSPI_CS - - Disabled - - "AGT5: AGTO5; BUS_ASYNCH0: CS1; CAN1: CTX1; GPT5: GTIOC5A" - None - - 
+      P609 84 - OSPI_CS - - Disabled - - "AGT5: AGTO5; BUS_ASYNCH0: CS1; CAN1: CTX1; GPT5: GTIOC5A; OSPI0: OMECS" - None - - 
       P610 85 OSPI0_OMCS0 OSPI_CS0 High - "Peripheral mode" CMOS None "AGT4: AGTO4; BUS_ASYNCH0: CS0; CAN1: CRX1; GPT5: GTIOC5B; OSPI0: OMCS0; SCI7: CTS7" - IO - - 
       P611 86 GPIO ARDUINO_D8 Low - "Output mode (Initial Low)" CMOS - "AGT3: AGTO3; CAC0: CACREF; CGC0: CLKOUT; SCI7: CTSRTS7" - IO - - 
       P612 87 GPIO ARDUINO_RST Low - "Output mode (Initial Low)" CMOS - "AGT2: AGTO2; BUS_ASYNCH0: D08; SCI7: SCK7" - IO - - 
@@ -333,7 +334,7 @@ FSP Configuration
       P604 94 - - - - Disabled - - "AGT4: AGTEE4; BUS_ASYNCH0: D12; GPT8: GTIOC8B; SCI9: CTS9" - None - - 
       P605 93 - - - - Disabled - - "AGT4: AGTO4; BUS_ASYNCH0: D11; GPT8: GTIOC8A; SCI8: CTS8" - None - - 
       P608 83 - - - - Disabled - - "BUS_ASYNCH0: A00; GPT4: GTIOC4B" - None - - 
-      P609 84 - OSPI_CS - - Disabled - - "AGT5: AGTO5; BUS_ASYNCH0: CS1; CAN1: CTX1; GPT5: GTIOC5A" - None - - 
+      P609 84 - OSPI_CS - - Disabled - - "AGT5: AGTO5; BUS_ASYNCH0: CS1; CAN1: CTX1; GPT5: GTIOC5A; OSPI0: OMECS" - None - - 
       P610 85 - OSPI_CS0 Low - Disabled CMOS None "AGT4: AGTO4; BUS_ASYNCH0: CS0; CAN1: CRX1; GPT5: GTIOC5B; OSPI0: OMCS0; SCI7: CTS7" - IO - - 
       P611 86 - ARDUINO_D8 Low - Disabled CMOS - "AGT3: AGTO3; CAC0: CACREF; CGC0: CLKOUT; SCI7: CTSRTS7" - IO - - 
       P612 87 - ARDUINO_RST Low - Disabled CMOS - "AGT2: AGTO2; BUS_ASYNCH0: D08; SCI7: SCK7" - IO - - 
@@ -548,6 +549,7 @@ FSP Configuration
     Platform: MBEDTLS_HAVE_TIME_DATE: Undefine
     Platform: MBEDTLS_PLATFORM_MEMORY: Define
     Platform: MBEDTLS_PLATFORM_NO_STD_FUNCTIONS: Undefine
+    Platform: Alternate: MBEDTLS_PLATFORM_SETBUF_ALT: Undefine
     Platform: Alternate: MBEDTLS_PLATFORM_EXIT_ALT: Undefine
     Platform: Alternate: MBEDTLS_PLATFORM_TIME_ALT: Undefine
     Platform: Alternate: MBEDTLS_PLATFORM_FPRINTF_ALT: Undefine
@@ -744,6 +746,8 @@ FSP Configuration
     Platform: MBEDTLS_PLATFORM_STD_CALLOC value: calloc
     Platform: MBEDTLS_PLATFORM_STD_FREE: Undefine
     Platform: MBEDTLS_PLATFORM_STD_FREE value: free
+    Platform: MBEDTLS_PLATFORM_STD_SETBUF: Undefine
+    Platform: MBEDTLS_PLATFORM_STD_SETBUF value: setbuf
     Platform: MBEDTLS_PLATFORM_STD_EXIT: Undefine
     Platform: MBEDTLS_PLATFORM_STD_EXIT value: exit
     Platform: MBEDTLS_PLATFORM_STD_TIME: Undefine
@@ -770,6 +774,8 @@ FSP Configuration
     Platform: MBEDTLS_PLATFORM_FREE_MACRO value: free
     Platform: MBEDTLS_PLATFORM_EXIT_MACRO: Undefine
     Platform: MBEDTLS_PLATFORM_EXIT_MACRO value: exit
+    Platform: MBEDTLS_PLATFORM_SETBUF_MACRO: Define
+    Platform: MBEDTLS_PLATFORM_SETBUF_MACRO value: dummy_setbuf
     Platform: MBEDTLS_PLATFORM_TIME_MACRO: Undefine
     Platform: MBEDTLS_PLATFORM_TIME_MACRO value: time
     Platform: MBEDTLS_PLATFORM_TIME_TYPE_MACRO: Undefine
@@ -795,7 +801,7 @@ FSP Configuration
     Platform: Alternate: MBEDTLS_PLATFORM_GMTIME_R_ALT: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECDH_VARIANT_EVEREST_ENABLED: Undefine
     
-  Module "Mbed Crypto HW Acceleration (rm_psa_crypto)"
+  Module "Mbed Crypto H/W Acceleration (rm_psa_crypto)"
   Module "MbedTLS FSP Port (rm_mbedtls)"
   Module "AWS Logging"
   Module "AWS Demo dev_mode_key_provisioning"
@@ -813,8 +819,8 @@ FSP Configuration
     Size of RX buffer for CMD Port: 3000
     Semaphore maximum timeout: 10000
     Number of retries for AT commands: 10
-    Module Reset Port: 06
-    Module Reset Pin: 03
+    Module Reset Port: 03
+    Module Reset Pin: 11
     Enable SNTP Client: Disabled
     
   Module "AWS WiFi Common"
@@ -902,14 +908,10 @@ FSP Configuration
   HAL
     Instance "g_ioport I/O Port (r_ioport)"
       Name: g_ioport
-      Port 1 ELC Trigger Source: Disabled
-      Port 2 ELC Trigger Source: Disabled
-      Port 3 ELC Trigger Source: Disabled
-      Port 4 ELC Trigger Source: Disabled
-      Port B ELC Trigger Source: Disabled
-      Port C ELC Trigger Source: Disabled
-      Port D ELC Trigger Source: Disabled
-      Port E ELC Trigger Source: Disabled
+      1st Port ELC Trigger Source: Disabled
+      2nd Port ELC Trigger Source: Disabled
+      3rd Port ELC Trigger Source: Disabled
+      4th Port ELC Trigger Source: Disabled
       Pin Configuration Name: g_bsp_pin_cfg
       
     Instance "FreeRTOS Port (rm_freertos_port)"
@@ -928,8 +930,8 @@ FSP Configuration
         Instance "AWS Silex WiFi Sockets Wrapper (rm_aws_sockets_wrapper_silex)"
           Instance "WiFi Onchip Silex Driver using r_sci_uart (rm_wifi_onchip_silex)"
             SNTP server IPv4 address: 0.0.0.0
-            STNP Timezone Offset from UTC Hours: 0
-            STNP Timezone Offset from UTC Minutes: 0
+            SNTP Timezone Offset from UTC Hours: 0
+            SNTP Timezone Offset from UTC Minutes: 0
             Use Daylight Savings Time: Disabled
             
             Instance "AWS WiFi Common"
@@ -1012,8 +1014,7 @@ FSP Configuration
           Instance "FreeRTOS MbedTLS Port"
             Instance "MbedTLS"
               Instance "MbedTLS (Crypto Only)"
-                Instance "Mbed Crypto HW Acceleration (rm_psa_crypto)"
-                  Instance "SCE Compatibility Mode"
+                Instance "Mbed Crypto H/W Acceleration (rm_psa_crypto)"
               Instance "MbedTLS FSP Port (rm_mbedtls)"
         Instance "AWS Logging"
         Instance "AWS Demo dev_mode_key_provisioning"

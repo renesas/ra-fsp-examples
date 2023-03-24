@@ -1034,7 +1034,7 @@ FSP Configuration
     Platform: Alternate: MBEDTLS_PLATFORM_GMTIME_R_ALT: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECDH_VARIANT_EVEREST_ENABLED: Undefine
     
-  Module "Mbed Crypto HW Acceleration (rm_psa_crypto)"
+  Module "Mbed Crypto H/W Acceleration (rm_psa_crypto)"
   Module "SCE7"
   Module "MbedTLS FSP Port (rm_mbedtls)"
   Module "AWS Logging"
@@ -1095,7 +1095,7 @@ FSP Configuration
     General: Idle Should Yield: Enabled
     General: Use Task Notifications: Enabled
     General: Use Mutexes: Enabled
-    General: Use Recursive Mutexes: Disabled
+    General: Use Recursive Mutexes: Enabled
     General: Use Counting Semaphores: Enabled
     Hooks: Check For Stack Overflow: Disabled
     General: Queue Registry Size: 10
@@ -1108,7 +1108,7 @@ FSP Configuration
     General: Message Buffer Length Type: size_t
     Memory Allocation: Support Static Allocation: Enabled
     Memory Allocation: Support Dynamic Allocation: Enabled
-    Memory Allocation: Total Heap Size: 0x10000
+    Memory Allocation: Total Heap Size: 0x20000
     Memory Allocation: Application Allocated Heap: Disabled
     Stats: Generate Run Time Stats: Disabled
     Timers: Use Timers: Enabled
@@ -1164,8 +1164,8 @@ FSP Configuration
         Instance "AWS Silex WiFi Sockets Wrapper (rm_aws_sockets_wrapper_silex)"
           Instance "WiFi Onchip Silex Driver using r_sci_uart (rm_wifi_onchip_silex)"
             SNTP server IPv4 address: 0.0.0.0
-            STNP Timezone Offset from UTC Hours: 0
-            STNP Timezone Offset from UTC Minutes: 0
+            SNTP Timezone Offset from UTC Hours: 0
+            SNTP Timezone Offset from UTC Minutes: 0
             Use Daylight Savings Time: Disabled
             
             Instance "AWS WiFi Common"
@@ -1248,7 +1248,7 @@ FSP Configuration
           Instance "FreeRTOS MbedTLS Port"
             Instance "MbedTLS"
               Instance "MbedTLS (Crypto Only)"
-                Instance "Mbed Crypto HW Acceleration (rm_psa_crypto)"
+                Instance "Mbed Crypto H/W Acceleration (rm_psa_crypto)"
                   Instance "SCE7"
               Instance "MbedTLS FSP Port (rm_mbedtls)"
         Instance "AWS Logging"

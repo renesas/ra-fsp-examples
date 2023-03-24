@@ -81,9 +81,9 @@ FSP Configuration
     PCLKB Div /4
     PCLKC Div /4
     PCLKD Div /2
-    SDCLKout On
+    SDCLK Enabled
     BCLK Div /2
-    BCLK/2
+    EBCLK Div /2
     UCLK Div /5
     FCLK Div /4
     CLKOUT Disabled
@@ -168,7 +168,7 @@ FSP Configuration
       P410 41 SCI0_RXD_MISO - Low None "Peripheral mode" CMOS None "AGT1: AGTOB; CTSU0: TS06; ETHERC0: ERXD0; ETHERC0: RXD1; GPT9: GTIOCB; IRQ0: IRQ05; OPS0: GTOVLO; PDC0: PIXD0; SCI0: RXD_MISO; SCI0: SCL; SCI3: SCK; SDHI0: DAT1; SPI0: MISO" - IO - - 
       P411 40 SCI0_TXD_MOSI - Low None "Peripheral mode" CMOS None "AGT1: AGTOA; CTSU0: TS07; ETHERC0: ERXD1; ETHERC0: RXD0; GPT9: GTIOCA; IRQ0: IRQ04; OPS0: GTOVUP; PDC0: PIXD1; SCI0: SDA; SCI0: TXD_MOSI; SCI3: CTS_RTS_SS; SDHI0: DAT0; SPI0: MOSI" - IO - - 
       P412 39 - - - - Disabled - - "AGT1: AGTEE; CTSU0: TS08; ETHERC0: ETXD0; ETHERC0: REF50CK; OPS0: GTOULO; PDC0: PIXD2; SCI0: SCK; SDHI0: CMD; SPI0: RSPCK" - None - - 
-      P413 38 SCI0_CTS_RTS_SS - Low - "Peripheral mode" CMOS None "CTSU0: TS09; ETHERC0: ETXD1; ETHERC0: TXD0; OPS0: GTOUUP; PDC0: PIXD3; SCI0: CTS_RTS_SS; SDHI0: CLK; SPI0: SSL0" - IO - - 
+      P413 38 - - - - Disabled - - "CTSU0: TS09; ETHERC0: ETXD1; ETHERC0: TXD0; OPS0: GTOUUP; PDC0: PIXD3; SCI0: CTS_RTS_SS; SDHI0: CLK; SPI0: SSL0" - None - - 
       P414 37 - - - - Disabled - - "CTSU0: TS10; ETHERC0: RX_ER; ETHERC0: TXD1; GPT0: GTIOCB; IRQ0: IRQ09; PDC0: PIXD4; SDHI0: WP; SPI0: SSL1" - None - - 
       P415 36 GPT0_GTIOCA - Low None "Peripheral mode" CMOS None "CTSU0: TS11; ETHERC0: TX_EN; ETHERC0: TXD_EN; GPT0: GTIOCA; IRQ0: IRQ08; PDC0: PIXD5; SDHI0: CD; SPI0: SSL2; USBFS0: VBUSEN" - IO - - 
       P500 140 USBFS0_VBUSEN - Low - "Peripheral mode" CMOS None "ADC0: AN16; AGT0: AGTOA; CMP0: IVREF0; GPT11: GTIOCA; OPS0: GTIU; QSPI0: QSPCLK; SDHI1: CLK; USBFS0: VBUSEN" - IO - - 
@@ -345,7 +345,7 @@ FSP Configuration
       P410 41 - - Low None Disabled CMOS None "AGT1: AGTOB; CTSU0: TS06; ETHERC0: ERXD0; ETHERC0: RXD1; GPT9: GTIOCB; IRQ0: IRQ05; OPS0: GTOVLO; PDC0: PIXD0; SCI0: RXD_MISO; SCI0: SCL; SCI3: SCK; SDHI0: DAT1; SPI0: MISO" - IO - - 
       P411 40 - - Low None Disabled CMOS None "AGT1: AGTOA; CTSU0: TS07; ETHERC0: ERXD1; ETHERC0: RXD0; GPT9: GTIOCA; IRQ0: IRQ04; OPS0: GTOVUP; PDC0: PIXD1; SCI0: SDA; SCI0: TXD_MOSI; SCI3: CTS_RTS_SS; SDHI0: DAT0; SPI0: MOSI" - IO - - 
       P412 39 - - - - Disabled - - "AGT1: AGTEE; CTSU0: TS08; ETHERC0: ETXD0; ETHERC0: REF50CK; OPS0: GTOULO; PDC0: PIXD2; SCI0: SCK; SDHI0: CMD; SPI0: RSPCK" - None - - 
-      P413 38 - - Low - Disabled CMOS None "CTSU0: TS09; ETHERC0: ETXD1; ETHERC0: TXD0; OPS0: GTOUUP; PDC0: PIXD3; SCI0: CTS_RTS_SS; SDHI0: CLK; SPI0: SSL0" - IO - - 
+      P413 38 - - - - Disabled - - "CTSU0: TS09; ETHERC0: ETXD1; ETHERC0: TXD0; OPS0: GTOUUP; PDC0: PIXD3; SCI0: CTS_RTS_SS; SDHI0: CLK; SPI0: SSL0" - None - - 
       P414 37 - - - - Disabled - - "CTSU0: TS10; ETHERC0: RX_ER; ETHERC0: TXD1; GPT0: GTIOCB; IRQ0: IRQ09; PDC0: PIXD4; SDHI0: WP; SPI0: SSL1" - None - - 
       P415 36 - - Low None Disabled CMOS None "CTSU0: TS11; ETHERC0: TX_EN; ETHERC0: TXD_EN; GPT0: GTIOCA; IRQ0: IRQ08; PDC0: PIXD5; SDHI0: CD; SPI0: SSL2; USBFS0: VBUSEN" - IO - - 
       P500 140 - - Low - Disabled CMOS None "ADC0: AN16; AGT0: AGTOA; CMP0: IVREF0; GPT11: GTIOCA; OPS0: GTIU; QSPI0: QSPCLK; SDHI1: CLK; USBFS0: VBUSEN" - IO - - 
@@ -457,7 +457,7 @@ FSP Configuration
   Module "USB PCDC (r_usb_pcdc)"
     Bulk In Pipe: USB PIPE1
     Bulk Out Pipe: USB PIPE2
-    Interrupt Out Pipe: USB PIPE6
+    Interrupt In Pipe: USB PIPE6
     
   Module "USB (r_usb_basic)"
     Parameter Checking: Default (BSP)
@@ -480,7 +480,7 @@ FSP Configuration
     Parameter Checking: Default (BSP)
     FIFO Support: Disable
     DTC Support: Disable
-    Flow Control Support: Enable
+    Flow Control Support: Disable
     RS-485 Support: Disable
     
   Module "Transfer (r_dmac)"
@@ -554,14 +554,10 @@ FSP Configuration
   HAL
     Instance "g_ioport I/O Port (r_ioport)"
       Name: g_ioport
-      Port 1 ELC Trigger Source: Disabled
-      Port 2 ELC Trigger Source: Disabled
-      Port 3 ELC Trigger Source: Disabled
-      Port 4 ELC Trigger Source: Disabled
-      Port B ELC Trigger Source: Disabled
-      Port C ELC Trigger Source: Disabled
-      Port D ELC Trigger Source: Disabled
-      Port E ELC Trigger Source: Disabled
+      1st Port ELC Trigger Source: Disabled
+      2nd Port ELC Trigger Source: Disabled
+      3rd Port ELC Trigger Source: Disabled
+      4th Port ELC Trigger Source: Disabled
       Pin Configuration Name: g_bsp_pin_cfg
       
     Instance "FreeRTOS Port (rm_freertos_port)"
@@ -645,9 +641,9 @@ FSP Configuration
       Baud: Baud Rate: 115200
       Baud: Baud Rate Modulation: Disabled
       Baud: Max Error (%): 5
-      Flow Control: CTS/RTS Selection: Hardware CTS and Software RTS
-      Flow Control: Software RTS Port: 01
-      Flow Control: Software RTS Pin: 03
+      Flow Control: CTS/RTS Selection: Hardware RTS
+      Flow Control: Software RTS Port: Disabled
+      Flow Control: Software RTS Pin: Disabled
       Extra: Clock Source: Internal Clock
       Extra: Start bit detection: Falling Edge
       Extra: Noise Filter: Disable

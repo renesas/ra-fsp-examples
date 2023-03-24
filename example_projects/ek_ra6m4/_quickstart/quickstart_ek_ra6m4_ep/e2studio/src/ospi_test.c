@@ -442,7 +442,7 @@ static void configure_ospi_clocks_spi(void)
     {
         .source_clock = CGC_CLOCK_MAIN_OSC,
         .divider      = BSP_CLOCKS_PLL_DIV_4,
-        .multiplier   = BSP_CLOCKS_PLL_MUL_20_0,
+        .multiplier   = BSP_CLOCKS_PLL_MUL(20,0),
     };
 
     /* Start PLL2 with appropriate configurations */
@@ -503,7 +503,7 @@ static void configure_ospi_clocks_dopi(void)
     {
         .source_clock = CGC_CLOCK_MAIN_OSC,
         .divider      = BSP_CLOCKS_PLL_DIV_2,
-        .multiplier   = BSP_CLOCKS_PLL_MUL_20_0,
+        .multiplier   = BSP_CLOCKS_PLL_MUL(20,0),
     };
 
     /* Start PLL2 with appropriate configurations */

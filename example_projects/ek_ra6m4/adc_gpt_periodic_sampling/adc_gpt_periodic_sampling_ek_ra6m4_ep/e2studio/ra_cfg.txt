@@ -24,6 +24,7 @@ FSP Configuration
     Security: SRAM Accessibility: Standby RAM: Regions 7-0 are all Secure.
     Security: BUS Accessibility: Bus Security Attribution Register A: Both Secure and Non-Secure State
     Security: BUS Accessibility: Bus Security Attribution Register B: Both Secure and Non-Secure State
+    Security: Uninitialized Non-Secure Application Fallback: Enable Uninitialized Non-Secure Application Fallback
     Startup C-Cache Line Size: 32 Bytes
     OFS0 register settings: Independent WDT: Start Mode: IWDT is Disabled
     OFS0 register settings: Independent WDT: Timeout Period: 2048 cycles
@@ -59,10 +60,11 @@ FSP Configuration
     Parameter checking: Enabled
     Assert Failures: Return FSP_ERR_ASSERTION
     Error Log: No Error Log
-    Soft Reset: Disabled
+    Clock Registers not Reset Values during Startup: Disabled
     Main Oscillator Populated: Populated
     PFS Protect: Enabled
     C Runtime Initialization : Enabled
+    Early BSP Initialization : Disabled
     Main Oscillator Clock Source: Crystal or Resonator
     Subclock Populated: Populated
     Subclock Drive (Drive capacitance availability varies by MCU): Standard/Normal mode
@@ -87,7 +89,7 @@ FSP Configuration
     PCLKC Div /4
     PCLKD Div /2
     BCLK Div /2
-    BCLK/2
+    EBCLK Div /2
     FCLK Div /4
     CLKOUT Div /1
     UCLK Div /5
@@ -187,7 +189,7 @@ FSP Configuration
       P604 94 - - - - Disabled - - "AGT4: AGTEE4; BUS_ASYNCH0: D12; GPT8: GTIOC8B; SCI9: CTS9" - None - - 
       P605 93 - - - - Disabled - - "AGT4: AGTO4; BUS_ASYNCH0: D11; GPT8: GTIOC8A; SCI8: CTS8" - None - - 
       P608 83 - - - - Disabled - - "BUS_ASYNCH0: A00; GPT4: GTIOC4B" - None - - 
-      P609 84 - OSPI_CS - - Disabled - - "AGT5: AGTO5; BUS_ASYNCH0: CS1; CAN1: CTX1; GPT5: GTIOC5A" - None - - 
+      P609 84 - OSPI_CS - - Disabled - - "AGT5: AGTO5; BUS_ASYNCH0: CS1; CAN1: CTX1; GPT5: GTIOC5A; OSPI0: OMECS" - None - - 
       P610 85 OSPI0_OMCS0 OSPI_CS0 High - "Peripheral mode" CMOS None "AGT4: AGTO4; BUS_ASYNCH0: CS0; CAN1: CRX1; GPT5: GTIOC5B; OSPI0: OMCS0; SCI7: CTS7" - IO - - 
       P611 86 GPIO ARDUINO_D8 Low - "Output mode (Initial Low)" CMOS - "AGT3: AGTO3; CAC0: CACREF; CGC0: CLKOUT; SCI7: CTSRTS7" - IO - - 
       P612 87 GPIO ARDUINO_RST Low - "Output mode (Initial Low)" CMOS - "AGT2: AGTO2; BUS_ASYNCH0: D08; SCI7: SCK7" - IO - - 
@@ -332,7 +334,7 @@ FSP Configuration
       P604 94 - - - - Disabled - - "AGT4: AGTEE4; BUS_ASYNCH0: D12; GPT8: GTIOC8B; SCI9: CTS9" - None - - 
       P605 93 - - - - Disabled - - "AGT4: AGTO4; BUS_ASYNCH0: D11; GPT8: GTIOC8A; SCI8: CTS8" - None - - 
       P608 83 - - - - Disabled - - "BUS_ASYNCH0: A00; GPT4: GTIOC4B" - None - - 
-      P609 84 - OSPI_CS - - Disabled - - "AGT5: AGTO5; BUS_ASYNCH0: CS1; CAN1: CTX1; GPT5: GTIOC5A" - None - - 
+      P609 84 - OSPI_CS - - Disabled - - "AGT5: AGTO5; BUS_ASYNCH0: CS1; CAN1: CTX1; GPT5: GTIOC5A; OSPI0: OMECS" - None - - 
       P610 85 - OSPI_CS0 Low - Disabled CMOS None "AGT4: AGTO4; BUS_ASYNCH0: CS0; CAN1: CRX1; GPT5: GTIOC5B; OSPI0: OMCS0; SCI7: CTS7" - IO - - 
       P611 86 - ARDUINO_D8 Low - Disabled CMOS - "AGT3: AGTO3; CAC0: CACREF; CGC0: CLKOUT; SCI7: CTSRTS7" - IO - - 
       P612 87 - ARDUINO_RST Low - Disabled CMOS - "AGT2: AGTO2; BUS_ASYNCH0: D08; SCI7: SCK7" - IO - - 
@@ -389,34 +391,35 @@ FSP Configuration
     
   User Event Links
     
-  Module "I/O Port Driver on r_ioport"
+  Module "I/O Port (r_ioport)"
     Parameter Checking: Default (BSP)
     
-  Module "ADC Driver on r_adc"
+  Module "ADC (r_adc)"
     Parameter Checking: Default (BSP)
     
-  Module "Timer Driver on r_gpt"
+  Module "Timer, General PWM (r_gpt)"
     Parameter Checking: Default (BSP)
     Pin Output Support: Enabled
     Write Protect Enable: Disabled
+    Clock Source: PCLKD
     
-  Module "ELC Driver on r_elc"
+  Module "Event Link Controller (r_elc)"
     Parameter Checking: Default (BSP)
     
-  Module "Transfer Driver on r_dtc"
+  Module "Transfer (r_dtc)"
     Parameter Checking: Default (BSP)
     Linker section to keep DTC vector table: .fsp_dtc_vector_table
     
   HAL
-    Instance "g_ioport I/O Port Driver on r_ioport"
+    Instance "g_ioport I/O Port (r_ioport)"
       Name: g_ioport
-      Port 1 ELC Trigger Source: Disabled
-      Port 2 ELC Trigger Source: Disabled
-      Port 3 ELC Trigger Source: Disabled
-      Port 4 ELC Trigger Source: Disabled
+      1st Port ELC Trigger Source: Disabled
+      2nd Port ELC Trigger Source: Disabled
+      3rd Port ELC Trigger Source: Disabled
+      4th Port ELC Trigger Source: Disabled
       Pin Configuration Name: g_bsp_pin_cfg
       
-    Instance "g_adc0 ADC Driver on r_adc"
+    Instance "g_adc0 ADC (r_adc)"
       General: Name: g_adc0
       General: Unit: 0
       General: Resolution: 12-Bit
@@ -453,7 +456,7 @@ FSP Configuration
       Interrupts: Window Compare B Interrupt Priority: Disabled
       Extra: ADC Ring Buffer: Disabled
       
-    Instance "g_adc1 ADC Driver on r_adc"
+    Instance "g_adc1 ADC (r_adc)"
       General: Name: g_adc1
       General: Unit: 1
       General: Resolution: 12-Bit
@@ -490,7 +493,7 @@ FSP Configuration
       Interrupts: Window Compare B Interrupt Priority: Disabled
       Extra: ADC Ring Buffer: Disabled
       
-    Instance "g_timer0 Timer Driver on r_gpt"
+    Instance "g_timer0 Timer, General PWM (r_gpt)"
       General: Name: g_timer0
       General: Channel: 0
       General: Mode: Periodic
@@ -527,21 +530,21 @@ FSP Configuration
       Extra Features: Extra Features: Disabled
       Extra Features: Output Disable: POEG Link: POEG Channel 0
       Extra Features: Output Disable: Output Disable POEG Trigger: 
-      Extra Features: ADC Trigger: Start Event Trigger (GPTE/GPTEH only): 
+      Extra Features: ADC Trigger: Start Event Trigger (Channels with GTINTAD only): 
       Extra Features: Dead Time: Dead Time Count Up (Raw Counts): 0
-      Extra Features: Dead Time: Dead Time Count Down (Raw Counts) (GPTE/GPTEH only): 0
-      Extra Features: ADC Trigger (GPTE/GPTEH only): ADC A Compare Match (Raw Counts): 0
-      Extra Features: ADC Trigger (GPTE/GPTEH only): ADC B Compare Match (Raw Counts): 0
-      Extra Features: Interrupt Skipping (GPTE/GPTEH only): Interrupt to Count: None
-      Extra Features: Interrupt Skipping (GPTE/GPTEH only): Interrupt Skip Count: 0
-      Extra Features: Interrupt Skipping (GPTE/GPTEH only): Skip ADC Events: None
+      Extra Features: Dead Time: Dead Time Count Down (Raw Counts) (Channels with GTDVD only): 0
+      Extra Features: ADC Trigger (Channels with GTADTRA only): ADC A Compare Match (Raw Counts): 0
+      Extra Features: ADC Trigger (Channels with GTADTRB only): ADC B Compare Match (Raw Counts): 0
+      Extra Features: Interrupt Skipping (Channels with GTITC only): Interrupt to Count: None
+      Extra Features: Interrupt Skipping (Channels with GTITC only): Interrupt Skip Count: 0
+      Extra Features: Interrupt Skipping (Channels with GTITC only): Skip ADC Events: None
       Extra Features: Output Disable: GTIOCA Disable Setting: Disable Prohibited
       Extra Features: Output Disable: GTIOCB Disable Setting: Disable Prohibited
       
-    Instance "g_elc ELC Driver on r_elc"
+    Instance "g_elc Event Link Controller (r_elc)"
       Name: g_elc
       
-    Instance "g_transfer_adc0_group_a Transfer Driver on r_dtc ADC0 SCAN END (A/D scan end interrupt)"
+    Instance "g_transfer_adc0_group_a Transfer (r_dtc) ADC0 SCAN END (A/D scan end interrupt)"
       Name: g_transfer_adc0_group_a
       Mode: Repeat
       Transfer Size: 2 Bytes
@@ -555,7 +558,7 @@ FSP Configuration
       Number of Blocks (Valid only in Block Mode): 0
       Activation Source: ADC0 SCAN END (A/D scan end interrupt)
       
-    Instance "g_transfer_adc0_group_b Transfer Driver on r_dtc ADC0 SCAN END B (A/D scan end interrupt for group B)"
+    Instance "g_transfer_adc0_group_b Transfer (r_dtc) ADC0 SCAN END B (A/D scan end interrupt for group B)"
       Name: g_transfer_adc0_group_b
       Mode: Repeat
       Transfer Size: 2 Bytes
@@ -569,7 +572,7 @@ FSP Configuration
       Number of Blocks (Valid only in Block Mode): 0
       Activation Source: ADC0 SCAN END B (A/D scan end interrupt for group B)
       
-    Instance "g_transfer_adc1_group_a Transfer Driver on r_dtc ADC1 SCAN END (A/D scan end interrupt)"
+    Instance "g_transfer_adc1_group_a Transfer (r_dtc) ADC1 SCAN END (A/D scan end interrupt)"
       Name: g_transfer_adc1_group_a
       Mode: Repeat
       Transfer Size: 2 Bytes
@@ -583,7 +586,7 @@ FSP Configuration
       Number of Blocks (Valid only in Block Mode): 0
       Activation Source: ADC1 SCAN END (A/D scan end interrupt)
       
-    Instance "g_transfer_adc1_group_b Transfer Driver on r_dtc ADC1 SCAN END B (A/D scan end interrupt for group B)"
+    Instance "g_transfer_adc1_group_b Transfer (r_dtc) ADC1 SCAN END B (A/D scan end interrupt for group B)"
       Name: g_transfer_adc1_group_b
       Mode: Repeat
       Transfer Size: 2 Bytes

@@ -9,7 +9,7 @@
     <option key="#DeviceCommand#" value="R7FA6M2AF"/>
     <option key="#RTOS#" value="_none"/>
     <option key="#pinconfiguration#" value="R7FA6M3AH3CFC.pincfg"/>
-    <option key="#FSPVersion#" value="4.2.0"/>
+    <option key="#FSPVersion#" value="4.3.0"/>
     <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra6m3_ek##|Renesas##BSP##Board##ra6m2_ek##"/>
     <option key="#SELECTED_TOOLCHAIN#" value="gcc-arm-embedded"/>
     <option key="#ToolchainVersion#" value="10.3.1.20210824"/>
@@ -72,6 +72,9 @@
       <property id="config.bsp.fsp.mcu.sci_spi.max_bitrate" value="30000000"/>
       <property id="config.bsp.fsp.mcu.spi.max_bitrate" value="30000000"/>
       <property id="config.bsp.fsp.mcu.iic_master.rate.rate_fastplus" value="1"/>
+      <property id="config.bsp.fsp.mcu.iic_master.fastplus_channels" value="0x1"/>
+      <property id="config.bsp.fsp.mcu.iic_slave.rate.rate_fastplus" value="1"/>
+      <property id="config.bsp.fsp.mcu.iic_slave.fastplus_channels" value="0x1"/>
       <property id="config.bsp.fsp.mcu.sci_uart.cstpen_channels" value="0x0"/>
       <property id="config.bsp.fsp.mcu.gpt.pin_count_source_channels" value="0xFFFF"/>
       <property id="config.bsp.common.id_mode" value="config.bsp.common.id_mode.unlocked"/>
@@ -136,41 +139,41 @@
     <node id="board.clock.clkout.display" option="board.clock.clkout.display.value"/>
   </raClockConfiguration>
   <raComponentSelection>
-    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra6m2_ek" variant="" vendor="Renesas" version="4.2.0">
-      <description>RA6M2-EK Board Support Files</description>
-      <originalPack>Renesas.RA_board_ra6m2_ek.4.2.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="5.9.0+renesas.0.fsp.4.2.0">
-      <description>Arm CMSIS Version 5 - Core (M)</description>
-      <originalPack>Arm.CMSIS5.5.9.0+renesas.0.fsp.4.2.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="4.2.0">
-      <description>Board Support Package Common Files</description>
-      <originalPack>Renesas.RA.4.2.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_dtc" variant="" vendor="Renesas" version="4.2.0">
-      <description>Data Transfer Controller</description>
-      <originalPack>Renesas.RA.4.2.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="4.2.0">
-      <description>I/O Port</description>
-      <originalPack>Renesas.RA.4.2.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ssi" variant="" vendor="Renesas" version="4.2.0">
-      <description>Serial Sound Interface</description>
-      <originalPack>Renesas.RA.4.2.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra6m2" subgroup="device" variant="R7FA6M2AF3CFB" vendor="Renesas" version="4.2.0">
+    <component apiversion="" class="BSP" condition="" group="ra6m2" subgroup="device" variant="R7FA6M2AF3CFB" vendor="Renesas" version="4.3.0">
       <description>Board support package for R7FA6M2AF3CFB</description>
-      <originalPack>Renesas.RA_mcu_ra6m2.4.2.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra6m2.4.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra6m2" subgroup="device" variant="" vendor="Renesas" version="4.2.0">
+    <component apiversion="" class="BSP" condition="" group="ra6m2" subgroup="device" variant="" vendor="Renesas" version="4.3.0">
       <description>Board support package for RA6M2</description>
-      <originalPack>Renesas.RA_mcu_ra6m2.4.2.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra6m2.4.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra6m2" subgroup="fsp" variant="" vendor="Renesas" version="4.2.0">
+    <component apiversion="" class="BSP" condition="" group="ra6m2" subgroup="fsp" variant="" vendor="Renesas" version="4.3.0">
       <description>Board support package for RA6M2 - FSP Data</description>
-      <originalPack>Renesas.RA_mcu_ra6m2.4.2.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra6m2.4.3.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="4.3.0">
+      <description>Board Support Package Common Files</description>
+      <originalPack>Renesas.RA.4.3.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_dtc" variant="" vendor="Renesas" version="4.3.0">
+      <description>Data Transfer Controller</description>
+      <originalPack>Renesas.RA.4.3.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="4.3.0">
+      <description>I/O Port</description>
+      <originalPack>Renesas.RA.4.3.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ssi" variant="" vendor="Renesas" version="4.3.0">
+      <description>Serial Sound Interface</description>
+      <originalPack>Renesas.RA.4.3.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra6m2_ek" variant="" vendor="Renesas" version="4.3.0">
+      <description>RA6M2-EK Board Support Files</description>
+      <originalPack>Renesas.RA_board_ra6m2_ek.4.3.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="5.9.0+renesas.0.fsp.4.3.0">
+      <description>Arm CMSIS Version 5 - Core (M)</description>
+      <originalPack>Arm.CMSIS5.5.9.0+renesas.0.fsp.4.3.0.pack</originalPack>
     </component>
   </raComponentSelection>
   <raElcConfiguration/>
@@ -322,6 +325,21 @@
       <configSetting altId="ssi0.ssiws.p113" configurationId="ssi0.ssiws"/>
       <configSetting altId="usbfs0.mode.device" configurationId="usbfs0.mode"/>
       <configSetting altId="usbfs0.vbus.p407" configurationId="usbfs0.vbus"/>
+    </pincfg>
+    <pincfg active="false" name="R7FA6M2AF3CFB.pincfg" selected="false" symbol="">
+      <configSetting altId="debug0.mode.jtag" configurationId="debug0.mode"/>
+      <configSetting altId="debug0.tck.p300" configurationId="debug0.tck"/>
+      <configSetting altId="debug0.tdi.p110" configurationId="debug0.tdi"/>
+      <configSetting altId="debug0.tdo.p109" configurationId="debug0.tdo"/>
+      <configSetting altId="debug0.tms.p108" configurationId="debug0.tms"/>
+      <configSetting altId="p108.debug0.tms" configurationId="p108"/>
+      <configSetting altId="p108.gpio_mode.gpio_mode_peripheral" configurationId="p108.gpio_mode"/>
+      <configSetting altId="p109.debug0.tdo" configurationId="p109"/>
+      <configSetting altId="p109.gpio_mode.gpio_mode_peripheral" configurationId="p109.gpio_mode"/>
+      <configSetting altId="p110.debug0.tdi" configurationId="p110"/>
+      <configSetting altId="p110.gpio_mode.gpio_mode_peripheral" configurationId="p110.gpio_mode"/>
+      <configSetting altId="p300.debug0.tck" configurationId="p300"/>
+      <configSetting altId="p300.gpio_mode.gpio_mode_peripheral" configurationId="p300.gpio_mode"/>
     </pincfg>
   </raPinConfiguration>
 </raConfiguration>
