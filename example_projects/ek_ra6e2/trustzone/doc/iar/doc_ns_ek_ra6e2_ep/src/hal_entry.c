@@ -173,7 +173,7 @@ void hal_entry(void) {
          b_doc_event_flag = false;   //RESET flag
          APP_PRINT("\r\nDOC operation is successful for the selected event");
          /* Turn ON LED to indicate callback triggered, along with output on RTT*/
-         led_set_guard(g_bsp_leds.p_leds[0], BSP_IO_LEVEL_HIGH);
+         led_set_guard((bsp_io_port_pin_t)g_bsp_leds.p_leds[0], BSP_IO_LEVEL_HIGH);
      }
      else
      {
