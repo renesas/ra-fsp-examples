@@ -5,11 +5,12 @@ Examples for Renesas RA MCU family include Example Projects and Application Proj
 Example projects demonstrate the basic usage of FSP in user applications
 
 #### Instructions For Running Example Projects
-1. Refer to the **_'Example Project Usage Guide'_** document in the **_'example_projects'_** folder for steps and information on importing and running the projects.
-2. Example Projects source code for modules supported on each kit is in **_\example_projects\kit\module_** folder.
-3. Projects for each of the kits can be downloaded from **_'Assets'_** section of **_'releases'_**. 
+1. Refer to the [FSP version requirements table](./example_projects/version_info_table.md) per IDE to correctly download the needed FSP release.
+2. Refer to the **_'Example Project Usage Guide'_** document in the **_'example_projects'_** folder for steps and information on importing and running the projects.
+3. Example Projects source code for modules supported on each kit is in **_\example_projects\kit\module_** folder.
+4. Projects for each of the kits can be downloaded from **_'Assets'_** section of **_'releases'_**. 
    **_e2studio_** folder includes pre-compiled binary and source code.
-4. 'readme.txt' file in each of the module folders provides a brief description of the example project and hardware requirements for running the projects.
+5. 'readme.txt' file in each of the module folders provides a brief description of the example project and hardware requirements for running the projects.
 
 ## Application Projects
 Application Projects illustrate solutions in various core technologies
