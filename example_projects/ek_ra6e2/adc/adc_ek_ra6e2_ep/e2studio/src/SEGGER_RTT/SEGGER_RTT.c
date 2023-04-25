@@ -51,7 +51,7 @@ File    : SEGGER_RTT.c
 Purpose : Implementation of SEGGER real-time transfer (RTT) which
           allows real-time communication on targets which support
           debugger memory accesses while the CPU is running.
-Revision: $Rev: 26642 $
+Revision: $Rev: 28168 $
 
 Additional information:
           Type "int" is assumed to be 32-bits in size
@@ -958,11 +958,10 @@ unsigned SEGGER_RTT_WriteSkipNoLock(unsigned BufferIndex, const void* pBuffer, u
   pRing = (SEGGER_RTT_BUFFER_UP*)((char*)&_SEGGER_RTT.aUp[BufferIndex] + SEGGER_RTT_UNCACHED_OFF);  // Access uncached to make sure we see changes made by the J-Link side and all of our changes go into HW directly
   RdOff = pRing->RdOff;
   WrOff = pRing->WrOff;
+  pDst = (pRing->pBuffer + WrOff) + SEGGER_RTT_UNCACHED_OFF;
   if (RdOff <= WrOff) {                                 // Case 1), 2) or 3)
     Avail = pRing->SizeOfBuffer - WrOff - 1u;           // Space until wrap-around (assume 1 byte not usable for case that RdOff == 0)
     if (Avail >= NumBytes) {                            // Case 1)?
-CopyStraight:
-      pDst = (pRing->pBuffer + WrOff) + SEGGER_RTT_UNCACHED_OFF;
       memcpy((void*)pDst, pData, NumBytes);
       RTT__DMB();                     // Force data write to be complete before writing the <WrOff>, in case CPU is allowed to change the order of memory accesses
       pRing->WrOff = WrOff + NumBytes;
@@ -971,7 +970,6 @@ CopyStraight:
     Avail += RdOff;                                     // Space incl. wrap-around
     if (Avail >= NumBytes) {                            // Case 2? => If not, we have case 3) (does not fit)
       Rem = pRing->SizeOfBuffer - WrOff;                // Space until end of buffer
-      pDst = (pRing->pBuffer + WrOff) + SEGGER_RTT_UNCACHED_OFF;
       memcpy((void*)pDst, pData, Rem);                  // Copy 1st chunk
       NumBytes -= Rem;
       //
@@ -991,7 +989,10 @@ CopyStraight:
   } else {                                             // Potential case 4)
     Avail = RdOff - WrOff - 1u;
     if (Avail >= NumBytes) {                           // Case 4)? => If not, we have case 5) (does not fit)
-      goto CopyStraight;
+      memcpy((void*)pDst, pData, NumBytes);
+      RTT__DMB();                     // Force data write to be complete before writing the <WrOff>, in case CPU is allowed to change the order of memory accesses
+      pRing->WrOff = WrOff + NumBytes;
+      return 1;
     }
   }
   return 0;     // No space in buffer

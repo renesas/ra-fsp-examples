@@ -3,6 +3,7 @@
   <generalSettings>
     <option key="#Board#" value="board.ra4m3ek" />
     <option key="CPU" value="RA4M3" />
+    <option key="Core" value="CM33" />
     <option key="#TargetName#" value="R7FA4M3AF3CFB" />
     <option key="#TargetARCHITECTURE#" value="cortex-m33" />
     <option key="#DeviceCommand#" value="R7FA4M3AF" />
@@ -21,6 +22,7 @@
       <property id="config.bsp.data_flash_size_bytes" value="config.bsp.data_flash_size_bytes.value" />
       <property id="config.bsp.package_style" value="config.bsp.package_style.value" />
       <property id="config.bsp.package_pins" value="config.bsp.package_pins.value" />
+      <property id="config.bsp.irq_count_hidden" value="96" />
     </config>
     <config id="config.bsp.ra4m3">
       <property id="config.bsp.series" value="config.bsp.series.value" />
@@ -38,6 +40,7 @@
       <property id="config.bsp.fsp.tz.stbramsar" value="config.bsp.fsp.tz.stbramsar.both" />
       <property id="config.bsp.fsp.tz.bussara" value="config.bsp.fsp.tz.bussara.both" />
       <property id="config.bsp.fsp.tz.bussarb" value="config.bsp.fsp.tz.bussarb.both" />
+      <property id="config.bsp.fsp.tz.uninitialized_ns_application_fallback" value="config.bsp.fsp.tz.uninitialized_ns_application_fallback.enabled" />
       <property id="config.bsp.fsp.cache_line_size" value="config.bsp.fsp.cache_line_size.32" />
       <property id="config.bsp.fsp.OFS0.iwdt_start_mode" value="config.bsp.fsp.OFS0.iwdt_start_mode.disabled" />
       <property id="config.bsp.fsp.OFS0.iwdt_timeout" value="config.bsp.fsp.OFS0.iwdt_timeout.2048" />
@@ -63,11 +66,16 @@
       <property id="config.bsp.fsp.hoco_fll" value="config.bsp.fsp.hoco_fll.disabled" />
       <property id="config.bsp.common.main_osc_wait" value="config.bsp.common.main_osc_wait.wait_8163" />
       <property id="config.bsp.fsp.mcu.adc.max_freq_hz" value="50000000" />
-      <property id="config.bsp.fsp.mcu.sci_uart.max_baud" value="20000000" />
+      <property id="config.bsp.fsp.mcu.sci_uart.max_baud" value="16666667" />
       <property id="config.bsp.fsp.mcu.sci_spi.max_bitrate" value="25000000" />
       <property id="config.bsp.fsp.mcu.spi.max_bitrate" value="50000000" />
       <property id="config.bsp.fsp.mcu.iic_master.rate.rate_fastplus" value="1" />
+      <property id="config.bsp.fsp.mcu.iic_master.fastplus_channels" value="0x1" />
+      <property id="config.bsp.fsp.mcu.iic_slave.rate.rate_fastplus" value="1" />
+      <property id="config.bsp.fsp.mcu.iic_slave.fastplus_channels" value="0x1" />
       <property id="config.bsp.fsp.mcu.sci_uart.cstpen_channels" value="0x0219" />
+      <property id="config.bsp.fsp.mcu.gpt.pin_count_source_channels" value="0xFFFF" />
+      <property id="config.bsp.fsp.mcu.adc_dmac.samples_per_channel" value="32767" />
     </config>
     <config id="config.bsp.ra">
       <property id="config.bsp.common.main" value="0x400" />
@@ -80,20 +88,63 @@
       <property id="config.bsp.common.main_osc_populated" value="config.bsp.common.main_osc_populated.enabled" />
       <property id="config.bsp.common.pfs_protect" value="config.bsp.common.pfs_protect.enabled" />
       <property id="config.bsp.common.c_runtime_init" value="config.bsp.common.c_runtime_init.enabled" />
+      <property id="config.bsp.common.early_init" value="config.bsp.common.early_init.disabled" />
       <property id="config.bsp.common.main_osc_clock_source" value="config.bsp.common.main_osc_clock_source.crystal" />
       <property id="config.bsp.common.subclock_populated" value="config.bsp.common.subclock_populated.enabled" />
       <property id="config.bsp.common.subclock_drive" value="config.bsp.common.subclock_drive.standard" />
       <property id="config.bsp.common.subclock_stabilization_ms" value="1000" />
     </config>
   </raBspConfiguration>
+  <raClockConfiguration security="n">
+    <node id="board.clock.xtal.freq" mul="24000000" option="_edit" />
+    <node id="board.clock.hoco.freq" option="board.clock.hoco.freq.20m" />
+    <node id="board.clock.loco.freq" option="board.clock.loco.freq.32768" />
+    <node id="board.clock.moco.freq" option="board.clock.moco.freq.8m" />
+    <node id="board.clock.subclk.freq" option="board.clock.subclk.freq.32768" />
+    <node id="board.clock.pll.source" option="board.clock.pll.source.xtal" />
+    <node id="board.clock.pll.div" option="board.clock.pll.div.3" />
+    <node id="board.clock.pll.mul" option="board.clock.pll.mul.250" />
+    <node id="board.clock.pll.display" option="board.clock.pll.display.value" />
+    <node id="board.clock.pll2.source" option="board.clock.pll2.source.xtal" />
+    <node id="board.clock.pll2.div" option="board.clock.pll2.div.2" />
+    <node id="board.clock.pll2.mul" option="board.clock.pll2.mul.200" />
+    <node id="board.clock.pll2.display" option="board.clock.pll2.display.value" />
+    <node id="board.clock.clock.source" option="board.clock.clock.source.pll" />
+    <node id="board.clock.clkout.source" option="board.clock.clkout.source.disabled" />
+    <node id="board.clock.uclk.source" option="board.clock.uclk.source.pll2" />
+    <node id="board.clock.iclk.div" option="board.clock.iclk.div.2" />
+    <node id="board.clock.pclka.div" option="board.clock.pclka.div.2" />
+    <node id="board.clock.pclkb.div" option="board.clock.pclkb.div.4" />
+    <node id="board.clock.pclkc.div" option="board.clock.pclkc.div.4" />
+    <node id="board.clock.pclkd.div" option="board.clock.pclkd.div.2" />
+    <node id="board.clock.fclk.div" option="board.clock.fclk.div.4" />
+    <node id="board.clock.clkout.div" option="board.clock.clkout.div.1" />
+    <node id="board.clock.uclk.div" option="board.clock.uclk.div.5" />
+    <node id="board.clock.iclk.display" option="board.clock.iclk.display.value" />
+    <node id="board.clock.pclka.display" option="board.clock.pclka.display.value" />
+    <node id="board.clock.pclkb.display" option="board.clock.pclkb.display.value" />
+    <node id="board.clock.pclkc.display" option="board.clock.pclkc.display.value" />
+    <node id="board.clock.pclkd.display" option="board.clock.pclkd.display.value" />
+    <node id="board.clock.fclk.display" option="board.clock.fclk.display.value" />
+    <node id="board.clock.clkout.display" option="board.clock.clkout.display.value" />
+    <node id="board.clock.uclk.display" option="board.clock.uclk.display.value" />
+  </raClockConfiguration>
   <raComponentSelection>
+    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="4.3.0">
+      <description>Board Support Package Common Files</description>
+      <originalPack>Renesas.RA.4.3.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="4.3.0">
+      <description>I/O Port</description>
+      <originalPack>Renesas.RA.4.3.0.pack</originalPack>
+    </component>
     <component apiversion="" class="RTOS" condition="" group="FreeRTOS" subgroup="all" variant="" vendor="AWS" version="10.4.6+fsp.4.3.0">
       <description>FreeRTOS</description>
       <originalPack>Amazon.FreeRTOS-Kernel.10.4.6+fsp.4.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Heaps" condition="" group="FreeRTOS" subgroup="heap_4" variant="" vendor="AWS" version="10.4.6+fsp.4.3.0">
-      <description>FreeRTOS - Memory Management - Heap 4</description>
-      <originalPack>Amazon.FreeRTOS-Kernel.10.4.6+fsp.4.3.0.pack</originalPack>
+    <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="5.9.0+renesas.0.fsp.4.3.0">
+      <description>Arm CMSIS Version 5 - Core (M)</description>
+      <originalPack>Arm.CMSIS5.5.9.0+renesas.0.fsp.4.3.0.pack</originalPack>
     </component>
     <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra4m3_ek" variant="" vendor="Renesas" version="4.3.0">
       <description>RA4M3-EK Board Support Files</description>
@@ -111,13 +162,9 @@
       <description>Board support package for RA4M3 - FSP Data</description>
       <originalPack>Renesas.RA_mcu_ra4m3.4.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="4.3.0">
-      <description>Board Support Package Common Files</description>
-      <originalPack>Renesas.RA.4.3.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="4.3.0">
-      <description>I/O Port</description>
-      <originalPack>Renesas.RA.4.3.0.pack</originalPack>
+    <component apiversion="" class="Heaps" condition="" group="FreeRTOS" subgroup="heap_4" variant="" vendor="AWS" version="10.4.6+fsp.4.3.0">
+      <description>FreeRTOS - Memory Management - Heap 4</description>
+      <originalPack>Amazon.FreeRTOS-Kernel.10.4.6+fsp.4.3.0.pack</originalPack>
     </component>
     <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_usb_basic" variant="" vendor="Renesas" version="4.3.0">
       <description>USB Basic</description>
@@ -126,14 +173,6 @@
     <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_usb_phid" variant="" vendor="Renesas" version="4.3.0">
       <description>USB Peripheral Human Interface Device Class</description>
       <originalPack>Renesas.RA.4.3.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_freertos_port" variant="" vendor="Renesas" version="4.3.0">
-      <description>FreeRTOS Port</description>
-      <originalPack>Renesas.RA.4.3.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="5.9.0+renesas.0.fsp.4.3.0">
-      <description>Arm CMSIS Version 5 - Core (M)</description>
-      <originalPack>Arm.CMSIS5.5.9.0+renesas.0.fsp.4.3.0.pack</originalPack>
     </component>
   </raComponentSelection>
   <raElcConfiguration />
@@ -147,11 +186,11 @@
       <property id="module.driver.ioport.elc_trigger_ioport4" value="_disabled" />
       <property id="module.driver.ioport.pincfg" value="g_bsp_pin_cfg" />
     </module>
-    <module id="module.middleware.rm_freertos_port.0" />
-    <module id="module.driver.phid_on_usb.1097516488">
+    <module id="module.freertos.heap.4.2061535469" />
+    <module id="module.driver.phid_on_usb.1517700446">
       <property id="module.driver.phid.name" value="g_phid" />
     </module>
-    <module id="module.driver.basic_on_usb_hhid.1086837268">
+    <module id="module.driver.basic_on_usb_hhid.1403529605">
       <property id="module.driver.basic.name" value="g_basic" />
       <property id="module.driver.usb_basic.usb_mode" value="module.driver.usb_basic.usb_mode.peri" />
       <property id="module.driver.usb_basic.usb_speed" value="module.driver.usb_basic.usb_speed.fs" />
@@ -161,16 +200,20 @@
       <property id="module.driver.usb_basic.complience_cb" value="NULL" />
       <property id="module.driver.usb_basic.ipl" value="board.icu.common.irq.priority12" />
       <property id="module.driver.usb_basic.ipl_r" value="board.icu.common.irq.priority12" />
-      <property id="module.driver.usb_basic.hsipl" value="board.icu.common.irq.priority12" />
+      <property id="module.driver.usb_basic.hsipl" value="_disabled" />
       <property id="module.driver.usb_basic.rtos_callback" value="usb_phid_callback" />
       <property id="module.driver.usb_basic.other_context" value="NULL" />
     </module>
-    <module id="module.freertos.heap.4.959412885" />
+    <object id="rtos.awsfreertos.object.queue.1201193621">
+      <property id="rtos.awsfreertos.object.queue.symbol" value="g_event_queue" />
+      <property id="rtos.awsfreertos.object.queue.item_size" value="4" />
+      <property id="rtos.awsfreertos.object.queue.queue_length" value="20" />
+      <property id="rtos.awsfreertos.object.queue.allocation" value="rtos.awsfreertos.object.queue.allocation.static" />
+    </object>
     <context id="_hal.0">
       <stack module="module.driver.ioport_on_ioport.0" />
-      <stack module="module.middleware.rm_freertos_port.0" />
     </context>
-    <context id="rtos.awsfreertos.thread.624752291">
+    <context id="rtos.awsfreertos.thread.1160090075">
       <property id="_symbol" value="phid_main_thread" />
       <property id="rtos.awsfreertos.thread.name" value="Phid Thread" />
       <property id="rtos.awsfreertos.thread.stack" value="2048" />
@@ -178,12 +221,12 @@
       <property id="rtos.awsfreertos.thread.context" value="NULL" />
       <property id="rtos.awsfreertos.thread.allocation" value="rtos.awsfreertos.thread.allocation.static" />
       <property id="rtos.awsfreertos.thread.secure_context" value="rtos.awsfreertos.thread.secure_context.enable" />
-      <stack module="module.driver.phid_on_usb.1097516488">
-        <stack module="module.driver.basic_on_usb_hhid.1086837268" requires="module.driver.basic_on_usb.requires.basic" />
+      <stack module="module.freertos.heap.4.2061535469" />
+      <stack module="module.driver.phid_on_usb.1517700446">
+        <stack module="module.driver.basic_on_usb_hhid.1403529605" requires="module.driver.basic_on_usb.requires.basic" />
       </stack>
-      <stack module="module.freertos.heap.4.959412885" />
     </context>
-    <context id="rtos.awsfreertos.thread.1576376342">
+    <context id="rtos.awsfreertos.thread.2137546855">
       <property id="_symbol" value="rtt_input_thread" />
       <property id="rtos.awsfreertos.thread.name" value="Rtt Thread" />
       <property id="rtos.awsfreertos.thread.stack" value="1024" />
@@ -203,8 +246,8 @@
     <config id="config.driver.usb_basic">
       <property id="config.driver.usb_basic.param_checking_enable" value="config.driver.usb_basic.param_checking_enable.bsp" />
       <property id="config.driver.usb_basic.pll_clock_frequency" value="config.driver.usb_basic.pll_clock_frequency.24mhz" />
-      <property id="config.driver.usb_basic.buswait" value="config.driver.usb_basic.buswait.7" />
-      <property id="config.driver.usb_basic.bc_function" value="config.driver.usb_basic.bc_function.enable" />
+      <property id="config.driver.usb_basic.buswait" value="config.driver.usb_basic.buswait.0" />
+      <property id="config.driver.usb_basic.bc_function" value="config.driver.usb_basic.bc_function.disable" />
       <property id="config.driver.usb_basic.power_source" value="config.driver.usb_basic.power_source.high" />
       <property id="config.driver.usb_basic.dcp_function" value="config.driver.usb_basic.dcp_function.disable" />
       <property id="config.driver.usb_basic.request" value="config.driver.usb_basic.request.enable" />
@@ -214,6 +257,8 @@
       <property id="config.driver.usb_basic.dma" value="config.driver.usb_basic.dma.disable" />
       <property id="config.driver.usb_basic.source_address" value="config.driver.usb_basic.source_address.none" />
       <property id="config.driver.usb_basic.dest_address" value="config.driver.usb_basic.dest_address.none" />
+      <property id="config.driver.usb_basic.compliance_mode" value="config.driver.usb_basic.compliance_mode.disable" />
+      <property id="config.driver.usb_basic.tpl_table" value="NULL" />
     </config>
     <config id="config.awsfreertos.thread">
       <property id="config.awsfreertos.custom_freertosconfig" value="" />
@@ -226,7 +271,7 @@
       <property id="config.awsfreertos.thread.configuse_tick_hook" value="config.awsfreertos.thread.configuse_tick_hook.disabled" />
       <property id="config.awsfreertos.thread.configcpu_clock_hz" value="SystemCoreClock" />
       <property id="config.awsfreertos.thread.configtick_rate_hz" value="1000" />
-      <property id="config.awsfreertos.thread.configmax_priorities" value="5" />
+      <property id="config.awsfreertos.thread.configmax_priorities" value="15" />
       <property id="config.awsfreertos.thread.configminimal_stack_size" value="128" />
       <property id="config.awsfreertos.thread.configmax_task_name_len" value="16" />
       <property id="config.awsfreertos.thread.configuse_trace_facility" value="config.awsfreertos.thread.configuse_trace_facility.disabled" />
@@ -248,7 +293,7 @@
       <property id="config.awsfreertos.thread.configmessage_buffer_length_type" value="size_t" />
       <property id="config.awsfreertos.thread.configsupport_static_allocation" value="config.awsfreertos.thread.configsupport_static_allocation.enabled" />
       <property id="config.awsfreertos.thread.configsupport_dynamic_allocation" value="config.awsfreertos.thread.configsupport_dynamic_allocation.enabled" />
-      <property id="config.awsfreertos.thread.configtotal_heap_size" value="15000" />
+      <property id="config.awsfreertos.thread.configtotal_heap_size" value="10000" />
       <property id="config.awsfreertos.thread.configapplication_allocated_heap" value="config.awsfreertos.thread.configapplication_allocated_heap.disabled" />
       <property id="config.awsfreertos.thread.configgenerate_run_time_stats" value="config.awsfreertos.thread.configgenerate_run_time_stats.disabled" />
       <property id="config.awsfreertos.thread.configuse_timers" value="config.awsfreertos.thread.configuse_timers.enabled" />
@@ -335,19 +380,164 @@
     <symbolicName propertyId="p712.symbolic_name" value="ARDUINO_D5" />
     <symbolicName propertyId="p713.symbolic_name" value="ARDUINO_D4" />
     <pincfg active="true" name="RA4M3 EK" selected="true" symbol="g_bsp_pin_cfg">
+      <configSetting altId="adc0.an00.p000" configurationId="adc0.an00" />
+      <configSetting altId="adc0.an01.p001" configurationId="adc0.an01" />
+      <configSetting altId="adc0.an03.p003" configurationId="adc0.an03" />
+      <configSetting altId="adc0.an07.p007" configurationId="adc0.an07" />
+      <configSetting altId="adc0.an12.p014" configurationId="adc0.an12" />
+      <configSetting altId="adc0.an13.p015" configurationId="adc0.an13" />
       <configSetting altId="adc0.mode.custom" configurationId="adc0.mode" />
+      <configSetting altId="adc1.an21.p505" configurationId="adc1.an21" />
+      <configSetting altId="adc1.an22.p506" configurationId="adc1.an22" />
       <configSetting altId="adc1.mode.custom" configurationId="adc1.mode" />
       <configSetting altId="cgc0.mode.mainsub" configurationId="cgc0.mode" />
       <configSetting altId="debug0.mode.jtag" configurationId="debug0.mode" />
+      <configSetting altId="gpt6.gtiocb.p408" configurationId="gpt6.gtiocb" />
       <configSetting altId="gpt6.mode.gtiocaorgtiocb.free" configurationId="gpt6.mode" />
       <configSetting altId="iic1.mode.enabled.a" configurationId="iic1.mode" />
+      <configSetting altId="iic1.scl.p512" configurationId="iic1.scl" />
+      <configSetting altId="iic1.sda.p511" configurationId="iic1.sda" />
+      <configSetting altId="p000.asel" configurationId="p000" />
+      <configSetting altId="p000.gpio_mode.gpio_mode_an" configurationId="p000.gpio_mode" />
+      <configSetting altId="p001.asel" configurationId="p001" />
+      <configSetting altId="p001.gpio_mode.gpio_mode_an" configurationId="p001.gpio_mode" />
+      <configSetting altId="p003.asel" configurationId="p003" />
+      <configSetting altId="p003.gpio_mode.gpio_mode_an" configurationId="p003.gpio_mode" />
+      <configSetting altId="p005.input" configurationId="p005" />
+      <configSetting altId="p005.gpio_irq.gpio_irq_enabled" configurationId="p005.gpio_irq" />
+      <configSetting altId="p005.gpio_mode.gpio_mode_in" configurationId="p005.gpio_mode" />
+      <configSetting altId="p006.input" configurationId="p006" />
+      <configSetting altId="p006.gpio_irq.gpio_irq_enabled" configurationId="p006.gpio_irq" />
+      <configSetting altId="p006.gpio_mode.gpio_mode_in" configurationId="p006.gpio_mode" />
+      <configSetting altId="p007.asel" configurationId="p007" />
+      <configSetting altId="p007.gpio_mode.gpio_mode_an" configurationId="p007.gpio_mode" />
+      <configSetting altId="p008.input" configurationId="p008" />
+      <configSetting altId="p008.gpio_irq.gpio_irq_enabled" configurationId="p008.gpio_irq" />
+      <configSetting altId="p008.gpio_mode.gpio_mode_in" configurationId="p008.gpio_mode" />
+      <configSetting altId="p008.gpio_pupd.gpio_pupd_ip_up" configurationId="p008.gpio_pupd" />
+      <configSetting altId="p014.asel" configurationId="p014" />
+      <configSetting altId="p014.gpio_mode.gpio_mode_an" configurationId="p014.gpio_mode" />
+      <configSetting altId="p015.asel" configurationId="p015" />
+      <configSetting altId="p015.gpio_mode.gpio_mode_an" configurationId="p015.gpio_mode" />
+      <configSetting altId="p100.sci0.rxd" configurationId="p100" />
+      <configSetting altId="p100.gpio_mode.gpio_mode_peripheral" configurationId="p100.gpio_mode" />
+      <configSetting altId="p101.sci0.txd" configurationId="p101" />
+      <configSetting altId="p101.gpio_mode.gpio_mode_peripheral" configurationId="p101.gpio_mode" />
+      <configSetting altId="p105.output.low" configurationId="p105" />
+      <configSetting altId="p105.gpio_mode.gpio_mode_out.low" configurationId="p105.gpio_mode" />
+      <configSetting altId="p111.output.low" configurationId="p111" />
+      <configSetting altId="p111.gpio_mode.gpio_mode_out.low" configurationId="p111.gpio_mode" />
+      <configSetting altId="p115.output.low" configurationId="p115" />
+      <configSetting altId="p115.gpio_mode.gpio_mode_out.low" configurationId="p115.gpio_mode" />
+      <configSetting altId="p202.spi0.miso" configurationId="p202" />
+      <configSetting altId="p202.gpio_mode.gpio_mode_peripheral" configurationId="p202.gpio_mode" />
+      <configSetting altId="p203.spi0.mosi" configurationId="p203" />
+      <configSetting altId="p203.gpio_mode.gpio_mode_peripheral" configurationId="p203.gpio_mode" />
+      <configSetting altId="p204.spi0.rspck" configurationId="p204" />
+      <configSetting altId="p204.gpio_mode.gpio_mode_peripheral" configurationId="p204.gpio_mode" />
+      <configSetting altId="p205.spi0.ssl0" configurationId="p205" />
+      <configSetting altId="p205.gpio_mode.gpio_mode_peripheral" configurationId="p205.gpio_mode" />
+      <configSetting altId="p206.spi0.ssl1" configurationId="p206" />
+      <configSetting altId="p206.gpio_mode.gpio_mode_peripheral" configurationId="p206.gpio_mode" />
+      <configSetting altId="p207.spi0.ssl2" configurationId="p207" />
+      <configSetting altId="p207.gpio_mode.gpio_mode_peripheral" configurationId="p207.gpio_mode" />
+      <configSetting altId="p302.spi0.ssl3" configurationId="p302" />
+      <configSetting altId="p302.gpio_mode.gpio_mode_peripheral" configurationId="p302.gpio_mode" />
+      <configSetting altId="p303.output.low" configurationId="p303" />
+      <configSetting altId="p303.gpio_mode.gpio_mode_out.low" configurationId="p303.gpio_mode" />
+      <configSetting altId="p304.output.low" configurationId="p304" />
+      <configSetting altId="p304.gpio_mode.gpio_mode_out.low" configurationId="p304.gpio_mode" />
+      <configSetting altId="p305.qspi0.qspclk" configurationId="p305" />
+      <configSetting altId="p305.gpio_mode.gpio_mode_peripheral" configurationId="p305.gpio_mode" />
+      <configSetting altId="p306.qspi0.qssl" configurationId="p306" />
+      <configSetting altId="p306.gpio_mode.gpio_mode_peripheral" configurationId="p306.gpio_mode" />
+      <configSetting altId="p307.qspi0.qio0" configurationId="p307" />
+      <configSetting altId="p307.gpio_mode.gpio_mode_peripheral" configurationId="p307.gpio_mode" />
+      <configSetting altId="p308.qspi0.qio1" configurationId="p308" />
+      <configSetting altId="p308.gpio_mode.gpio_mode_peripheral" configurationId="p308.gpio_mode" />
+      <configSetting altId="p309.qspi0.qio2" configurationId="p309" />
+      <configSetting altId="p309.gpio_mode.gpio_mode_peripheral" configurationId="p309.gpio_mode" />
+      <configSetting altId="p310.qspi0.qio3" configurationId="p310" />
+      <configSetting altId="p310.gpio_mode.gpio_mode_peripheral" configurationId="p310.gpio_mode" />
+      <configSetting altId="p311.output.low" configurationId="p311" />
+      <configSetting altId="p311.gpio_mode.gpio_mode_out.low" configurationId="p311.gpio_mode" />
+      <configSetting altId="p400.output.low" configurationId="p400" />
+      <configSetting altId="p400.gpio_mode.gpio_mode_out.low" configurationId="p400.gpio_mode" />
+      <configSetting altId="p404.output.low" configurationId="p404" />
+      <configSetting altId="p404.gpio_mode.gpio_mode_out.low" configurationId="p404.gpio_mode" />
+      <configSetting altId="p407.usbfs0.vbus" configurationId="p407" />
+      <configSetting altId="p407.gpio_mode.gpio_mode_peripheral" configurationId="p407.gpio_mode" />
+      <configSetting altId="p408.gpt6.gtiocb" configurationId="p408" />
+      <configSetting altId="p408.gpio_mode.gpio_mode_peripheral" configurationId="p408.gpio_mode" />
+      <configSetting altId="p409.input" configurationId="p409" />
+      <configSetting altId="p409.gpio_irq.gpio_irq_enabled" configurationId="p409.gpio_irq" />
+      <configSetting altId="p409.gpio_mode.gpio_mode_in" configurationId="p409.gpio_mode" />
+      <configSetting altId="p409.gpio_pupd.gpio_pupd_ip_up" configurationId="p409.gpio_pupd" />
+      <configSetting altId="p414.input" configurationId="p414" />
+      <configSetting altId="p414.gpio_irq.gpio_irq_enabled" configurationId="p414.gpio_irq" />
+      <configSetting altId="p414.gpio_mode.gpio_mode_in" configurationId="p414.gpio_mode" />
+      <configSetting altId="p414.gpio_pupd.gpio_pupd_ip_up" configurationId="p414.gpio_pupd" />
+      <configSetting altId="p415.output.low" configurationId="p415" />
+      <configSetting altId="p415.gpio_mode.gpio_mode_out.low" configurationId="p415.gpio_mode" />
+      <configSetting altId="p500.usbfs0.vbusen" configurationId="p500" />
+      <configSetting altId="p500.gpio_mode.gpio_mode_peripheral" configurationId="p500.gpio_mode" />
+      <configSetting altId="p501.usbfs0.ovrcura" configurationId="p501" />
+      <configSetting altId="p501.gpio_mode.gpio_mode_peripheral" configurationId="p501.gpio_mode" />
+      <configSetting altId="p505.asel" configurationId="p505" />
+      <configSetting altId="p505.gpio_mode.gpio_mode_an" configurationId="p505.gpio_mode" />
+      <configSetting altId="p506.asel" configurationId="p506" />
+      <configSetting altId="p506.gpio_mode.gpio_mode_an" configurationId="p506.gpio_mode" />
+      <configSetting altId="p511.iic1.sda" configurationId="p511" />
+      <configSetting altId="p511.gpio_mode.gpio_mode_peripheral" configurationId="p511.gpio_mode" />
+      <configSetting altId="p512.iic1.scl" configurationId="p512" />
+      <configSetting altId="p512.gpio_mode.gpio_mode_peripheral" configurationId="p512.gpio_mode" />
+      <configSetting altId="p601.sci9.scl" configurationId="p601" />
+      <configSetting altId="p601.gpio_mode.gpio_mode_peripheral" configurationId="p601.gpio_mode" />
+      <configSetting altId="p601.gpio_otype.gpio_otype_n_ch_od" configurationId="p601.gpio_otype" />
+      <configSetting altId="p602.sci9.sda" configurationId="p602" />
+      <configSetting altId="p602.gpio_mode.gpio_mode_peripheral" configurationId="p602.gpio_mode" />
+      <configSetting altId="p602.gpio_otype.gpio_otype_n_ch_od" configurationId="p602.gpio_otype" />
+      <configSetting altId="p611.output.low" configurationId="p611" />
+      <configSetting altId="p611.gpio_mode.gpio_mode_out.low" configurationId="p611.gpio_mode" />
+      <configSetting altId="p612.output.low" configurationId="p612" />
+      <configSetting altId="p612.gpio_mode.gpio_mode_out.low" configurationId="p612.gpio_mode" />
+      <configSetting altId="p708.output.low" configurationId="p708" />
+      <configSetting altId="p708.gpio_mode.gpio_mode_out.low" configurationId="p708.gpio_mode" />
+      <configSetting altId="p709.output.low" configurationId="p709" />
+      <configSetting altId="p709.gpio_mode.gpio_mode_out.low" configurationId="p709.gpio_mode" />
+      <configSetting altId="p710.output.low" configurationId="p710" />
+      <configSetting altId="p710.gpio_mode.gpio_mode_out.low" configurationId="p710.gpio_mode" />
+      <configSetting altId="p712.output.low" configurationId="p712" />
+      <configSetting altId="p712.gpio_mode.gpio_mode_out.low" configurationId="p712.gpio_mode" />
+      <configSetting altId="p713.output.low" configurationId="p713" />
+      <configSetting altId="p713.gpio_mode.gpio_mode_out.low" configurationId="p713.gpio_mode" />
       <configSetting altId="qspi0.mode.quad.b" configurationId="qspi0.mode" />
       <configSetting altId="qspi0.pairing.b" configurationId="qspi0.pairing" />
+      <configSetting altId="qspi0.qio0.p307" configurationId="qspi0.qio0" />
+      <configSetting altId="qspi0.qio1.p308" configurationId="qspi0.qio1" />
+      <configSetting altId="qspi0.qio2.p309" configurationId="qspi0.qio2" />
+      <configSetting altId="qspi0.qio3.p310" configurationId="qspi0.qio3" />
+      <configSetting altId="qspi0.qspclk.p305" configurationId="qspi0.qspclk" />
+      <configSetting altId="qspi0.qssl.p306" configurationId="qspi0.qssl" />
       <configSetting altId="sci0.mode.asynchronous.free" configurationId="sci0.mode" />
+      <configSetting altId="sci0.rxd.p100" configurationId="sci0.rxd" />
+      <configSetting altId="sci0.txd.p101" configurationId="sci0.txd" />
       <configSetting altId="sci9.mode.iic.free" configurationId="sci9.mode" />
+      <configSetting altId="sci9.scl.p601" configurationId="sci9.scl" />
+      <configSetting altId="sci9.sda.p602" configurationId="sci9.sda" />
+      <configSetting altId="spi0.miso.p202" configurationId="spi0.miso" />
       <configSetting altId="spi0.mode.enabled.free" configurationId="spi0.mode" />
+      <configSetting altId="spi0.mosi.p203" configurationId="spi0.mosi" />
       <configSetting altId="spi0.pairing.free" configurationId="spi0.pairing" />
+      <configSetting altId="spi0.rspck.p204" configurationId="spi0.rspck" />
+      <configSetting altId="spi0.ssl0.p205" configurationId="spi0.ssl0" />
+      <configSetting altId="spi0.ssl1.p206" configurationId="spi0.ssl1" />
+      <configSetting altId="spi0.ssl2.p207" configurationId="spi0.ssl2" />
+      <configSetting altId="spi0.ssl3.p302" configurationId="spi0.ssl3" />
       <configSetting altId="usbfs0.mode.custom" configurationId="usbfs0.mode" />
+      <configSetting altId="usbfs0.ovrcura.p501" configurationId="usbfs0.ovrcura" />
+      <configSetting altId="usbfs0.vbus.p407" configurationId="usbfs0.vbus" />
+      <configSetting altId="usbfs0.vbusen.p500" configurationId="usbfs0.vbusen" />
     </pincfg>
     <pincfg active="false" name="R7FA4M3AF3CFB.pincfg" selected="false" symbol="">
       <configSetting altId="debug0.mode.jtag" configurationId="debug0.mode" />

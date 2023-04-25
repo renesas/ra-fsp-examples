@@ -78,13 +78,15 @@ void hal_entry(void)
         if (true == b_ready_to_read)
         {
             err = adc_read_data();
-            /* handle error */
-            if (FSP_SUCCESS != err)
-            { /* adc reading failed, cleanup the adc initialization */
-                deinit_adc_module ();
-                APP_ERR_TRAP(err);
-            }
         }
+
+        /* handle error */
+        if (FSP_SUCCESS != err)
+        { /* adc reading failed, cleanup the adc initialization */
+            deinit_adc_module ();
+            APP_ERR_TRAP(err);
+        }
+
     }
 }
 

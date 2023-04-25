@@ -20,19 +20,6 @@ BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_doc_close_guard (doc_ctrl_t *const p_api_ct
     return R_DOC_Close(&g_doc_ctrl);
 }
 
-BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_doc_status_get_guard (doc_ctrl_t *const p_api_ctrl, doc_status_t *p_status)
-{
-    /* Verify all pointers are in non-secure memory. */
-    doc_status_t * p_status_checked = cmse_check_pointed_object(p_status, CMSE_AU_NONSECURE);
-    FSP_ASSERT(p_status == p_status_checked);
-
-    /* TODO: add your own security checks here */
-
-    FSP_PARAMETER_NOT_USED(p_api_ctrl);
-
-    return R_DOC_StatusGet(&g_doc_ctrl, p_status_checked);
-}
-
 BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_doc_read_guard (doc_ctrl_t *const p_api_ctrl, uint32_t *p_result)
 {
     /* Verify all pointers are in non-secure memory. */

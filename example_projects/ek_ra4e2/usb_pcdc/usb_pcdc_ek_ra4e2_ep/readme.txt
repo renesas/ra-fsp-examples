@@ -23,7 +23,7 @@
 
    Applicable for EK-RA4M2, EK-RA4M3, EK-RA6M3, EK-RA6M3G, EK-RA6M4 and EK-RA6M5:
 
-   1. On power up or RESET, the three user LEDs (blue LED1, green LED2, and red LED3) start blinking at 
+   1. On power up or RESET, the three user LEDs (blue LED1, green LED2 and red LED3) start blinking at 
       1 Hz frequency and at 90% intensity. 
 	  
    Note:  The debug LED (LED5) will blink or light up orange; this can be ignored for now. 
@@ -60,7 +60,7 @@
 
    Applicable for EK-RA4E2:
 
-   1. On power up or RESET, the three user LEDs (blue LED1, green LED2) start blinking at 
+   1. On power up or RESET, the two user LEDs (blue LED1, green LED2) start blinking at 
       1 Hz frequency and at 90% intensity. 
 	  
    Note:  The debug LED (LED6) will blink or light up orange; this can be ignored for now. 

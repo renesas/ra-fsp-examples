@@ -60,7 +60,7 @@
 
    Applicable for EK-RA6E2:
 
-   1. On power up or RESET, the three user LEDs (blue LED1, and red LED2) start blinking at 
+   1. On power up or RESET, the two user LEDs (blue LED1, and red LED2) start blinking at 
       1 Hz frequency and at 90% intensity. 
 	  
    Note:  The debug LED (LED6) will blink or light up orange; this can be ignored for now. 

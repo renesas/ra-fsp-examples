@@ -24,7 +24,7 @@ void hal_entry(void)
  *
  * @param[in]  event    Where at in the start up process the code is currently at
  **********************************************************************************************************************/
-void R_BSP_WarmStart(bsp_warm_start_event_t event)
+void R_BSP_WarmStart (bsp_warm_start_event_t event)
 {
     if (BSP_WARM_START_RESET == event)
     {
@@ -43,7 +43,7 @@ void R_BSP_WarmStart(bsp_warm_start_event_t event)
         /* C runtime environment and system clocks are setup. */
 
         /* Configure pins. */
-        R_IOPORT_Open (&g_ioport_ctrl, &g_bsp_pin_cfg);
+        R_IOPORT_Open(&g_ioport_ctrl, &g_bsp_pin_cfg);
     }
 }
 

@@ -14,6 +14,7 @@
         <path>$PROJ_DIR$/src</path>
     </includePath>
     <defines>
+        <define>_RA_CORE=CM33</define>
         <define>_RA_TZ_NONSECURE</define>
         <define>_RENESAS_RA_</define>
     </defines>
@@ -28,6 +29,7 @@
         <path>$PROJ_DIR$/src</path>
     </asmIncludePath>
     <asmDefines>
+        <define>_RA_CORE=CM33</define>
         <define>_RA_TZ_NONSECURE</define>
         <define>_RENESAS_RA_</define>
     </asmDefines>
@@ -35,20 +37,17 @@
         <override>true</override>
         <path>$PROJ_DIR$/script/fsp.icf</path>
     </linkerFile>
-    <preBuild>
-        <command>cmd /c ""$RASC_EXE_PATH$" --generate --compiler IAR --devicefamily ra "$PROJ_DIR$\configuration.xml" 2&gt; "%TEMP%\rasc_stderr.out""</command>
-    </preBuild>
-    <postBuild>
-        <command>cmd /c ""$RASC_EXE_PATH$" --gensecurebundle --compiler IAR --devicefamily ra "$PROJ_DIR$\configuration.xml" "$TARGET_PATH$" 2&gt; "%TEMP%\rasc_stderr.out""</command>
-    </postBuild>
     <linkerExtraOptions>
         <arg>--config_search "$PROJ_DIR$"</arg>
     </linkerExtraOptions>
+    <programEntryPoint>
+        <symbol>Reset_Handler</symbol>
+    </programEntryPoint>
     <customArgVars>
         <group name="RA Smart Configurator">
             <argVar>
                 <name>RASC_EXE_PATH</name>
-                <value>C:\Renesas\RA\sc_v2022-04_fsp_v3.8.0\eclipse\rasc.exe</value>
+                <value>C:\Renesas\RA\sc_v2023-01_fsp_v4.3.0\eclipse\rasc.exe</value>
             </argVar>
         </group>
     </customArgVars>
@@ -101,7 +100,7 @@
             <path>ra/fsp/inc/fsp_version.h</path>
             <path>ra/fsp/inc/instances/r_doc.h</path>
             <path>ra/fsp/inc/instances/r_ioport.h</path>
-            <path>ra/fsp/src/bsp/cmsis/Device/RENESAS/Include/base_addresses.h</path>
+            <path>ra/fsp/src/bsp/cmsis/Device/RENESAS/Include/R7FA6M4AF.h</path>
             <path>ra/fsp/src/bsp/cmsis/Device/RENESAS/Include/renesas.h</path>
             <path>ra/fsp/src/bsp/cmsis/Device/RENESAS/Include/system.h</path>
             <path>ra/fsp/src/bsp/cmsis/Device/RENESAS/Source/startup.c</path>

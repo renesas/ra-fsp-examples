@@ -42,9 +42,13 @@
 
 3. Hardware Connections:
 
-        Supported Board (High Speed)- EK-RA6M5:		
+        Supported Board (High Speed)- EK-RA6M5, EK-RA6M3:		
 	1.Connect DEBUG port of the RA MCU board to the Host PC using a micro USB cable.
-	2.Connect the USB High Speed USB port of the RA MCU board to the Host PC using another micro USB cable.
+	2.Connect the USB High Speed USB port of the RA MCU board to the Printer device using another micro USB cable.
+
+        Supported Board (Full Speed)- EK-RA6M4:		
+	1.Connect DEBUG port of the RA MCU board to the Host PC using a micro USB cable.
+	2.Connect the USB FullSpeed USB port of the RA MCU board to the Printer device using another micro USB cable.
 
 4. Hardware settings for the project:
 	
@@ -52,9 +56,21 @@
 
      	EK-RA6M5 (High Speed)
 	1. Jumper J7: Connect pins 1-2
-        2. Remove Jumper J17 pins
+        	2. Remove Jumper J17 pins
 	3. Connect the micro USB end of the micro USB device cable to micro-AB USB High Speed 
-           port (J31) of the board. Connect the other end of this cable to USB port of the host PC.
+           	port (J31) of the board. Connect the other end of this cable to USB port of the Printer device.
+
+     	EK-RA6M3 (High Speed)
+	1. Jumper J7: Connect pins 1-2
+        	2. Remove Jumper J17 pins
+	3. Connect the micro USB end of the micro USB device cable to micro-AB USB High Speed 
+           	port (J31) of the board. Connect the other end of this cable to USB port of the Printer device.
+
+     	EK-RA6M4 (Full Speed)
+	1. Jumper J12: Connect pins 1-2
+        	2. Remove Jumper J15 pins
+	3. Connect the micro USB end of the micro USB device cable to micro-AB USB Full Speed 
+           	port (J11) of the board. Connect the other end of this cable to USB port of the Printer device.
 
 NOTE:
 1) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.

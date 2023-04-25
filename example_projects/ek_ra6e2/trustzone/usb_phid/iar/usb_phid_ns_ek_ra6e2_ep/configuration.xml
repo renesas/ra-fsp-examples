@@ -113,13 +113,13 @@
       <description>I/O Port</description>
       <originalPack>Renesas.RA.4.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_usb_basic" variant="" vendor="Renesas" version="4.3.0">
-      <description>USB Basic</description>
-      <originalPack>Renesas.RA.4.3.0.pack</originalPack>
+    <component apiversion="" class="RTOS" condition="" group="FreeRTOS" subgroup="all" variant="" vendor="AWS" version="10.4.6+fsp.4.3.0">
+      <description>FreeRTOS</description>
+      <originalPack>Amazon.FreeRTOS-Kernel.10.4.6+fsp.4.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_usb_phid" variant="" vendor="Renesas" version="4.3.0">
-      <description>USB Peripheral Human Interface Device Class</description>
-      <originalPack>Renesas.RA.4.3.0.pack</originalPack>
+    <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="5.9.0+renesas.0.fsp.4.3.0">
+      <description>Arm CMSIS Version 5 - Core (M)</description>
+      <originalPack>Arm.CMSIS5.5.9.0+renesas.0.fsp.4.3.0.pack</originalPack>
     </component>
     <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_freertos_port" variant="" vendor="Renesas" version="4.3.0">
       <description>FreeRTOS Port</description>
@@ -137,17 +137,17 @@
       <description>Board support package for RA6E2 - FSP Data</description>
       <originalPack>Renesas.RA_mcu_ra6e2.4.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="5.9.0+renesas.0.fsp.4.3.0">
-      <description>Arm CMSIS Version 5 - Core (M)</description>
-      <originalPack>Arm.CMSIS5.5.9.0+renesas.0.fsp.4.3.0.pack</originalPack>
-    </component>
     <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra6e2_ek" variant="" vendor="Renesas" version="4.3.0">
       <description>RA6E2-EK Board Support Files</description>
       <originalPack>Renesas.RA_board_ra6e2_ek.4.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="RTOS" condition="" group="FreeRTOS" subgroup="all" variant="" vendor="AWS" version="10.4.6+fsp.4.3.0">
-      <description>FreeRTOS</description>
-      <originalPack>Amazon.FreeRTOS-Kernel.10.4.6+fsp.4.3.0.pack</originalPack>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_usb_basic" variant="" vendor="Renesas" version="4.3.0">
+      <description>USB Basic</description>
+      <originalPack>Renesas.RA.4.3.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_usb_phid" variant="" vendor="Renesas" version="4.3.0">
+      <description>USB Peripheral Human Interface Device Class</description>
+      <originalPack>Renesas.RA.4.3.0.pack</originalPack>
     </component>
     <component apiversion="" class="Heaps" condition="" group="FreeRTOS" subgroup="heap_4" variant="" vendor="AWS" version="10.4.6+fsp.4.3.0">
       <description>FreeRTOS - Memory Management - Heap 4</description>
@@ -166,10 +166,10 @@
       <property id="module.driver.ioport.pincfg" value="g_bsp_pin_cfg"/>
     </module>
     <module id="module.middleware.rm_freertos_port.0"/>
-    <module id="module.driver.phid_on_usb.1706405832">
+    <module id="module.driver.phid_on_usb.1200200119">
       <property id="module.driver.phid.name" value="g_phid0"/>
     </module>
-    <module id="module.driver.basic_on_usb_hhid.871437452">
+    <module id="module.driver.basic_on_usb_hhid.637420471">
       <property id="module.driver.basic.name" value="g_basic"/>
       <property id="module.driver.usb_basic.usb_mode" value="module.driver.usb_basic.usb_mode.peri"/>
       <property id="module.driver.usb_basic.usb_speed" value="module.driver.usb_basic.usb_speed.fs"/>
@@ -183,12 +183,12 @@
       <property id="module.driver.usb_basic.rtos_callback" value="usb_phid_callback"/>
       <property id="module.driver.usb_basic.other_context" value="NULL"/>
     </module>
-    <module id="module.freertos.heap.4.1474850232"/>
+    <module id="module.freertos.heap.4.1292432533"/>
     <context id="_hal.0">
       <stack module="module.driver.ioport_on_ioport.0"/>
       <stack module="module.middleware.rm_freertos_port.0"/>
     </context>
-    <context id="rtos.awsfreertos.thread.317215362">
+    <context id="rtos.awsfreertos.thread.1180847220">
       <property id="_symbol" value="phid_main_thread"/>
       <property id="rtos.awsfreertos.thread.name" value="Phid Thread"/>
       <property id="rtos.awsfreertos.thread.stack" value="2048"/>
@@ -196,12 +196,12 @@
       <property id="rtos.awsfreertos.thread.context" value="NULL"/>
       <property id="rtos.awsfreertos.thread.allocation" value="rtos.awsfreertos.thread.allocation.static"/>
       <property id="rtos.awsfreertos.thread.secure_context" value="rtos.awsfreertos.thread.secure_context.enable"/>
-      <stack module="module.driver.phid_on_usb.1706405832">
-        <stack module="module.driver.basic_on_usb_hhid.871437452" requires="module.driver.basic_on_usb.requires.basic"/>
+      <stack module="module.driver.phid_on_usb.1200200119">
+        <stack module="module.driver.basic_on_usb_hhid.637420471" requires="module.driver.basic_on_usb.requires.basic"/>
       </stack>
-      <stack module="module.freertos.heap.4.1474850232"/>
+      <stack module="module.freertos.heap.4.1292432533"/>
     </context>
-    <context id="rtos.awsfreertos.thread.1599618858">
+    <context id="rtos.awsfreertos.thread.764043912">
       <property id="_symbol" value="rtt_input_thread"/>
       <property id="rtos.awsfreertos.thread.name" value="Rtt Thread"/>
       <property id="rtos.awsfreertos.thread.stack" value="1024"/>

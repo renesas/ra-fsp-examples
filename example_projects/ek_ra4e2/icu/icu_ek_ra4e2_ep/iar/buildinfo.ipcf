@@ -15,6 +15,7 @@
     </includePath>
     <defines>
         <define>_RA_CORE=CM33</define>
+        <define>_RENESAS_RA_</define>
     </defines>
     <asmIncludePath>
         <path>$PROJ_DIR$/ra/arm/CMSIS_5/CMSIS/Core/Include</path>
@@ -28,6 +29,7 @@
     </asmIncludePath>
     <asmDefines>
         <define>_RA_CORE=CM33</define>
+        <define>_RENESAS_RA_</define>
     </asmDefines>
     <linkerFile>
         <override>true</override>
@@ -36,6 +38,9 @@
     <linkerExtraOptions>
         <arg>--config_search "$PROJ_DIR$"</arg>
     </linkerExtraOptions>
+    <programEntryPoint>
+        <symbol>Reset_Handler</symbol>
+    </programEntryPoint>
     <customArgVars>
         <group name="RA Smart Configurator">
             <argVar>

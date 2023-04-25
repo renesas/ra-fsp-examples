@@ -37,7 +37,7 @@ static const struct
     const external_irq_instance_t * const p_irq;
 } irq_pins[] =
 {
-        {&g_external_irq7},
+        {&g_external_irq10},
         {&g_external_irq9},
 };
 
@@ -60,7 +60,7 @@ uint32_t pwm_dcs[3] = {LED_INTENSITY_10, LED_INTENSITY_50, LED_INTENSITY_90};
 uint32_t pwm_rates[3] = {BLINK_FREQ_1HZ, BLINK_FREQ_5HZ, BLINK_FREQ_10HZ};
 
 
-void button_irq7_callback(external_irq_callback_args_t *p_args)
+void button_irq10_callback(external_irq_callback_args_t *p_args)
 {
     FSP_PARAMETER_NOT_USED(p_args);
 

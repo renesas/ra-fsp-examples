@@ -62,7 +62,7 @@ void hal_entry(void) {
      R_FSP_VersionGet(&version);
 
      /* Example Project information printed on the Console */
-     APP_PRINT(BANNER_INFO, EP_VERSION, version.major, version.minor, version.patch);
+     APP_PRINT(BANNER_INFO, EP_VERSION, version.version_id_b.major, version.version_id_b.minor, version.version_id_b.patch);
 
      APP_PRINT("\r\nThis project demonstrates the basic functionality of DOC driver."
              "\r\nDOC module performs one of the four operations(Comparison Mismatch, Comparison Match,"
@@ -173,7 +173,7 @@ void hal_entry(void) {
          b_doc_event_flag = false;   //RESET flag
          APP_PRINT("\r\nDOC operation is successful for the selected event");
          /* Turn ON LED to indicate callback triggered, along with output on RTT*/
-         led_set_guard((bsp_io_port_pin_t)g_bsp_leds.p_leds[0], BSP_IO_LEVEL_HIGH);
+         led_set_guard(g_bsp_leds.p_leds[0], BSP_IO_LEVEL_HIGH);
      }
      else
      {

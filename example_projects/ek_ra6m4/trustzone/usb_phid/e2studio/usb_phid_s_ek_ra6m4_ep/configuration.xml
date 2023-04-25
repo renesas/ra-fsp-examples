@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<raConfiguration version="7">
+<raConfiguration version="6">
   <generalSettings>
     <option key="#Board#" value="board.ra6m4ek" />
     <option key="CPU" value="RA6M4" />
-    <option key="Core" value="CM33" />
     <option key="#TargetName#" value="R7FA6M4AF3CFB" />
     <option key="#TargetARCHITECTURE#" value="cortex-m33" />
     <option key="#DeviceCommand#" value="R7FA6M4AF" />
@@ -18,12 +17,10 @@
     <config id="config.bsp.ra6m4.R7FA6M4AF3CFB">
       <property id="config.bsp.part_number" value="config.bsp.part_number.value" />
       <property id="config.bsp.rom_size_bytes" value="config.bsp.rom_size_bytes.value" />
-      <property id="config.bsp.rom_size_bytes_hidden" value="1048576" />
       <property id="config.bsp.ram_size_bytes" value="config.bsp.ram_size_bytes.value" />
       <property id="config.bsp.data_flash_size_bytes" value="config.bsp.data_flash_size_bytes.value" />
       <property id="config.bsp.package_style" value="config.bsp.package_style.value" />
       <property id="config.bsp.package_pins" value="config.bsp.package_pins.value" />
-      <property id="config.bsp.irq_count_hidden" value="96" />
     </config>
     <config id="config.bsp.ra6m4">
       <property id="config.bsp.series" value="config.bsp.series.value" />
@@ -67,15 +64,11 @@
       <property id="config.bsp.fsp.PBPS.PBPS2" value="" />
       <property id="config.bsp.fsp.dual_bank" value="config.bsp.fsp.dual_bank.disabled" />
       <property id="config.bsp.fsp.hoco_fll" value="config.bsp.fsp.hoco_fll.disabled" />
-      <property id="config.bsp.common.main_osc_wait" value="config.bsp.common.main_osc_wait.wait_8163" />
       <property id="config.bsp.fsp.mcu.adc.max_freq_hz" value="50000000" />
       <property id="config.bsp.fsp.mcu.sci_uart.max_baud" value="20000000" />
       <property id="config.bsp.fsp.mcu.adc.sample_and_hold" value="0" />
       <property id="config.bsp.fsp.mcu.sci_spi.max_bitrate" value="25000000" />
       <property id="config.bsp.fsp.mcu.spi.max_bitrate" value="50000000" />
-      <property id="config.bsp.fsp.mcu.iic_master.rate.rate_fastplus" value="1" />
-      <property id="config.bsp.fsp.mcu.sci_uart.cstpen_channels" value="0x03F9" />
-      <property id="config.bsp.fsp.mcu.gpt.pin_count_source_channels" value="0xFFFF" />
     </config>
     <config id="config.bsp.ra">
       <property id="config.bsp.common.main" value="0x400" />
@@ -88,7 +81,7 @@
       <property id="config.bsp.common.main_osc_populated" value="config.bsp.common.main_osc_populated.enabled" />
       <property id="config.bsp.common.pfs_protect" value="config.bsp.common.pfs_protect.enabled" />
       <property id="config.bsp.common.c_runtime_init" value="config.bsp.common.c_runtime_init.enabled" />
-      <property id="config.bsp.common.early_init" value="config.bsp.common.early_init.disabled" />
+      <property id="config.bsp.common.main_osc_wait" value="config.bsp.common.main_osc_wait.wait_8163" />
       <property id="config.bsp.common.main_osc_clock_source" value="config.bsp.common.main_osc_clock_source.crystal" />
       <property id="config.bsp.common.subclock_populated" value="config.bsp.common.subclock_populated.enabled" />
       <property id="config.bsp.common.subclock_drive" value="config.bsp.common.subclock_drive.standard" />
@@ -120,7 +113,7 @@
     <node id="board.clock.pclkd.div" option="board.clock.pclkd.div.2" />
     <node id="board.clock.bclk.div" option="board.clock.bclk.div.2" />
     <node id="board.clock.bclkout.div" option="board.clock.bclkout.div.2" />
-    <node id="board.clock.fclk.div" option="board.clock.fclk.div.4" />
+    <node id="board.clock.fclk.div" option="board.clock.fclk.div.8" />
     <node id="board.clock.clkout.div" option="board.clock.clkout.div.1" />
     <node id="board.clock.uclk.div" option="board.clock.uclk.div.5" />
     <node id="board.clock.octaspiclk.div" option="board.clock.octaspiclk.div.1" />
@@ -179,7 +172,6 @@
       <property id="module.driver.ioport.elc_trigger_ioport2" value="_disabled" />
       <property id="module.driver.ioport.elc_trigger_ioport3" value="_disabled" />
       <property id="module.driver.ioport.elc_trigger_ioport4" value="_disabled" />
-      <property id="module.driver.ioport.pincfg" value="g_bsp_pin_cfg" />
     </module>
     <module id="module.middleware.rm_tz_context.0" />
     <context id="_hal.0">
