@@ -36,6 +36,7 @@
  FSP_CPP_FOOTER
 
   /* Variables for file operations */
+ static fsp_err_t err = FSP_SUCCESS;
  FF_FILE * pxSourceFile = NULL;
  FF_Disk_t disk;
  size_t  g_size_return = RESET_VALUE;

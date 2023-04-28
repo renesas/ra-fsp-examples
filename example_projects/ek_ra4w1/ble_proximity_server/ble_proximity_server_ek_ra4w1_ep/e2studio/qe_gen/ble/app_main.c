@@ -14,7 +14,7 @@
 * following link:
 * http://www.renesas.com/disclaimer
 *
-* Copyright (C) 2019-2020 Renesas Electronics Corporation. All rights reserved.
+* Copyright (C) 2019-2022 Renesas Electronics Corporation. All rights reserved.
 ***********************************************************************************************************************/
 
 /******************************************************************************
@@ -37,25 +37,51 @@
 #include "profile_cmn/r_ble_servc_if.h"
 #include "hal_data.h"
 
+#define BLE_APP_AZURE_RTOS    (1)
+#define BLE_APP_FREE_RTOS     (2)
+
 /* This code is needed for using Azure RTOS */
-#if (BSP_CFG_RTOS == 1)
+#if (BSP_CFG_RTOS == BLE_APP_AZURE_RTOS)
 #include "tx_api.h"
 
 #define  EXECUTE_STACK_SIZE  2048
 
-TX_SEMAPHORE        gs_ble_exe_smpr;
+static TX_SEMAPHORE gs_ble_exe_smpr;
 void                *g_ble_event_group_handle = &gs_ble_exe_smpr;
 static TX_THREAD    gs_ble_execute_task;
 static uint8_t      gs_ble_execute_task_stack[EXECUTE_STACK_SIZE];
 static TX_THREAD    *gs_ble_core_task_ptr;
 static void         ble_execute_task_func(unsigned long Parameters);
 /* This code is needed for using FreeRTOS */
-#elif (BSP_CFG_RTOS == 2)
+#elif (BSP_CFG_RTOS == BLE_APP_FREE_RTOS)
+#if !defined(BLE_CFG_SYNCHRONIZATION_TYPE)
 #include "FreeRTOS.h"
 #include "task.h"
 #include "event_groups.h"
 #define BLE_EVENT_PATTERN   (0x0A0A)
-EventGroupHandle_t  g_ble_event_group_handle;
+void *g_ble_event_group_handle;
+#else /* !defined(BLE_CFG_SYNCHRONIZATION_TYPE) */
+
+#if (BLE_CFG_SYNCHRONIZATION_TYPE == 0)
+#include "FreeRTOS.h"
+#include "task.h"
+#include "semphr.h"
+
+#define EXECUTE_STACK_SIZE (512)
+
+static SemaphoreHandle_t    gs_ble_exe_smpr;
+void                        *g_ble_event_group_handle;
+static TaskHandle_t         gs_ble_core_task_ptr;
+static TaskHandle_t         gs_ble_execute_task;
+static void                 ble_execute_task_func(void *pvParameters);
+#elif (BLE_CFG_SYNCHRONIZATION_TYPE == 1)
+#include "FreeRTOS.h"
+#include "task.h"
+#include "event_groups.h"
+#define BLE_EVENT_PATTERN   (0x0A0A)
+void *g_ble_event_group_handle;
+#endif /* (BLE_CFG_SYNCHRONIZATION_TYPE == x) */
+#endif /* !defined(BLE_CFG_SYNCHRONIZATION_TYPE) */
 #endif /* (BSP_CFG_RTOS == x) */
 #include "r_ble_gapc.h"
 #include "r_ble_gaps.h"
@@ -106,7 +132,6 @@ void gatts_cb(uint16_t type, ble_status_t result, st_ble_gatts_evt_data_t *p_dat
 void gattc_cb(uint16_t type, ble_status_t result, st_ble_gattc_evt_data_t *p_data);
 void vs_cb(uint16_t type, ble_status_t result, st_ble_vs_evt_data_t *p_data);
 void disc_comp_cb(uint16_t conn_hdl);
-static void ias_cb(uint16_t type, ble_status_t result, st_ble_ias_evt_data_t *p_data);
 ble_status_t ble_init(void);
 void app_main(void);
 
@@ -231,16 +256,6 @@ static st_ble_gatt_pre_queue_t gs_queue[BLE_GATTS_QUEUE_NUM] = {
 /* Connection handle */
 uint16_t g_conn_hdl;
 
-/* Immediate Alert Service initialize parameter */
-static st_ble_ias_init_param_t gs_ias_init_param = 
-{
-    .cb = ias_cb,
-};
-/* Immediate Alert Service connect parameter */
-static st_ble_ias_connect_param_t    gs_ias_conn_param;
-/* Immediate Alert Service disconnect parameter */
-static st_ble_ias_disconnect_param_t gs_ias_disconn_param;
-
 /******************************************************************************
  User global variables
 *******************************************************************************/
@@ -274,7 +289,9 @@ void gap_cb(uint16_t type, ble_status_t result, st_ble_evt_data_t *p_data)
             /* Start Advertising when BLE protocol stack is ready */
             /* Include header file that contained BLE Abstraction (rm_ble_abs) module instance, when application work on RTOS. */
             RM_BLE_ABS_StartLegacyAdvertising(&g_ble_abs0_ctrl, &g_ble_advertising_parameter);
-        }break;
+            APP_PRINT("\nBLE Server Started Advertising.\n");
+            APP_PRINT("BLE Server is waiting for connection request from Device\n");
+        } break;
 
         case BLE_GAP_EVENT_CONN_IND:
         {
@@ -283,18 +300,15 @@ void gap_cb(uint16_t type, ble_status_t result, st_ble_evt_data_t *p_data)
                 /* Store connection handle */
                 st_ble_gap_conn_evt_t *p_gap_conn_evt_param = (st_ble_gap_conn_evt_t *)p_data->p_param;
                 g_conn_hdl = p_gap_conn_evt_param->conn_hdl;
-                R_BLE_IAS_Connect(g_conn_hdl, &gs_ias_conn_param);
-
                 if(BLE_SUCCESS != R_BLE_GAP_ReadRssi(g_conn_hdl))
-                    {
-                        __BKPT(0);
-                    }
+                {
+                    APP_PRINT("\n'Error Reading RSSI' R_BLE_GAP_ReadRssi(g_conn_hdl): %d", g_conn_hdl);
+                }
 
-                    if(BLE_SUCCESS != R_BLE_VS_SetTxPower(g_conn_hdl, BLE_VS_TX_POWER_HIGH))
-                        {
-                            __BKPT(0);
-                        }
-
+                if(BLE_SUCCESS != R_BLE_VS_SetTxPower(g_conn_hdl, BLE_VS_TX_POWER_HIGH))
+                {
+                    APP_PRINT("\n'Error Setting TX Power' R_BLE_VS_SetTxPower(g_conn_hdl, BLE_VS_TX_POWER_HIGH): %d", g_conn_hdl);
+                }
             }
             else
             {
@@ -302,16 +316,17 @@ void gap_cb(uint16_t type, ble_status_t result, st_ble_evt_data_t *p_data)
                 /* Include header file that contained BLE Abstraction (rm_ble_abs) module instance, when application work on RTOS. */
                 RM_BLE_ABS_StartLegacyAdvertising(&g_ble_abs0_ctrl, &g_ble_advertising_parameter);
             }
-        }break;
+        } break;
 
         case BLE_GAP_EVENT_DISCONN_IND:
         {
             /* Restart advertising when disconnected */
-            R_BLE_IAS_Disconnect(g_conn_hdl, &gs_ias_disconn_param);
             g_conn_hdl = BLE_GAP_INVALID_CONN_HDL;
             /* Include header file that contained BLE Abstraction (rm_ble_abs) module instance, when application work on RTOS. */
             RM_BLE_ABS_StartLegacyAdvertising(&g_ble_abs0_ctrl, &g_ble_advertising_parameter);
-        }break;
+            APP_PRINT("\nBLE Server Started Advertising.\n");
+            APP_PRINT("BLE Server is waiting for connection request from Device\n");
+        } break;
 
         case BLE_GAP_EVENT_CONN_PARAM_UPD_REQ:
         {
@@ -331,7 +346,7 @@ void gap_cb(uint16_t type, ble_status_t result, st_ble_evt_data_t *p_data)
                               BLE_GAP_CONN_UPD_MODE_RSP,
                               BLE_GAP_CONN_UPD_ACCEPT,
                               &conn_updt_param);
-        }break;
+        } break;
 
 /* Hint: Add cases of GAP event macros defined as BLE_GAP_XXX */
 /* Start user code for GAP callback function event process. Do not edit comment generated here */
@@ -568,11 +583,11 @@ static void gats_cb(uint16_t type, ble_status_t result, st_ble_servs_evt_data_t 
  *                  Event type of Immediate Alert Service server feature.
  *              : ble_status_t result -
  *                  Event result of Immediate Alert Service server feature.
- *              : st_ble_ias_evt_data_t *p_data - 
+ *              : st_ble_servs_evt_data_t *p_data - 
  *                  Event parameters of Immediate Alert Service server feature.
  * Return Value : none
  ******************************************************************************/
-static void ias_cb(uint16_t type, ble_status_t result, st_ble_ias_evt_data_t *p_data)
+static void ias_cb(uint16_t type, ble_status_t result, st_ble_servs_evt_data_t *p_data)
 {
 /* Hint: Input common process of callback function such as variable definitions */
 /* Start user code for Immediate Alert Service Server callback function common process. Do not edit comment generated here */
@@ -591,11 +606,11 @@ static void ias_cb(uint16_t type, ble_status_t result, st_ble_ias_evt_data_t *p_
         case BLE_IAS_EVENT_ALERT_LEVEL_WRITE_CMD:
       {
           /* Figure out the level of the alert */
-          e_ble_ias_alert_level_t alert_level = app_value;
+          e_ble_ias_alert_level_level_t alert_level = app_value;
 
             switch(alert_level)
             {
-                case BLE_IAS_ALERT_LEVEL_ALERT_LEVEL_NO_ALERT:          /*BLE_IAS_ALERT_LEVEL_ALERT_LEVEL_NO_ALERT */
+                case BLE_IAS_ALERT_LEVEL_LEVEL_NO_ALERT:          /*BLE_IAS_ALERT_LEVEL_ALERT_LEVEL_NO_ALERT */
                 {
                     /* Messages will be printed on RTT Viewer */
                     APP_PRINT("\nBLE_LEVEL_ALERT_LEVEL_NO_ALERT \n");
@@ -605,7 +620,7 @@ static void ias_cb(uint16_t type, ble_status_t result, st_ble_ias_evt_data_t *p_
                 }
                 break;
 
-                case BLE_IAS_ALERT_LEVEL_ALERT_LEVEL_MILD_ALERT:        /* BLE_IAS_ALERT_LEVEL_ALERT_LEVEL_MILD_ALERT */
+                case BLE_IAS_ALERT_LEVEL_LEVEL_MILD_ALERT:        /* BLE_IAS_ALERT_LEVEL_ALERT_LEVEL_MILD_ALERT */
                 {
                     /* Messages will be printed on RTT Viewer */
                     APP_PRINT("\nBLE_ALERT_LEVEL_MILD_ALERT \n");
@@ -615,7 +630,7 @@ static void ias_cb(uint16_t type, ble_status_t result, st_ble_ias_evt_data_t *p_
                 }
                 break;
 
-                case BLE_IAS_ALERT_LEVEL_ALERT_LEVEL_HIGH_ALERT:         /* BLE_IAS_ALERT_LEVEL_ALERT_LEVEL_HIGH_ALERT */
+                case BLE_IAS_ALERT_LEVEL_LEVEL_HIGH_ALERT:         /* BLE_IAS_ALERT_LEVEL_ALERT_LEVEL_HIGH_ALERT */
                 {
                     /* Messages will be printed on RTT Viewer */
                     APP_PRINT("\nBLE_ALERT_LEVEL_HIGH_ALERT \n");
@@ -816,6 +831,7 @@ static void tps_cb(uint16_t type, ble_status_t result, st_ble_servs_evt_data_t *
 
 }
 
+
 /******************************************************************************
  * Function Name: gapc_cb
  * Description  : Callback function for GAP Service client feature.
@@ -858,7 +874,6 @@ void disc_comp_cb(uint16_t conn_hdl)
 /* Start user code for Discovery Complete callback function. Do not edit comment generated here */
     FSP_PARAMETER_NOT_USED (conn_hdl);
 /* End user code. Do not edit comment generated here */
-    return;
 }
 /******************************************************************************
  * Function Name: ble_init
@@ -878,7 +893,7 @@ ble_status_t ble_init(void)
     err = RM_BLE_ABS_Open(&g_ble_abs0_ctrl, &g_ble_abs0_cfg);
     if (FSP_SUCCESS != err)
     {
-        return err;
+        return BLE_ERR_INVALID_OPERATION;
     }
 
 /* Start user code for global value initialization. Do not edit comment generated here */
@@ -931,7 +946,7 @@ ble_status_t ble_init(void)
     }
 
     /* Initialize Immediate Alert Service server API */
-    status = R_BLE_IAS_Init(&gs_ias_init_param);
+    status = R_BLE_IAS_Init(ias_cb);
     if (BLE_SUCCESS != status)
     {
         return BLE_ERR_INVALID_OPERATION;
@@ -979,17 +994,38 @@ ble_status_t ble_init(void)
  ******************************************************************************/
 void app_main(void)
 {
-#if (BSP_CFG_RTOS == 2)
+#if (BSP_CFG_RTOS == BLE_APP_FREE_RTOS)
+
+#if !defined(BLE_CFG_SYNCHRONIZATION_TYPE)
     /* Create Event Group */
-    g_ble_event_group_handle = xEventGroupCreate();
+    g_ble_event_group_handle = (void *)xEventGroupCreate();
     assert(g_ble_event_group_handle);
-#endif /* (BSP_CFG_RTOS == 2) */
+#else /* !defined(BLE_CFG_SYNCHRONIZATION_TYPE) */
+#if (BLE_CFG_SYNCHRONIZATION_TYPE == 0)
+    /* Create Semaphore */
+    gs_ble_exe_smpr = xSemaphoreCreateBinary();
+    assert(gs_ble_exe_smpr);
+    g_ble_event_group_handle = (void *)gs_ble_exe_smpr;
+#elif (BLE_CFG_SYNCHRONIZATION_TYPE == 1)
+    /* Create Event Group */
+    g_ble_event_group_handle = (void *)xEventGroupCreate();
+    assert(g_ble_event_group_handle);
+#endif /* (BLE_CFG_SYNCHRONIZATION_TYPE == x) */
+#endif /* !defined(BLE_CFG_SYNCHRONIZATION_TYPE) */
+#endif /* (BSP_CFG_RTOS == BLE_APP_FREE_RTOS) */
 
     /* Initialize BLE and profiles */
-    ble_init();
+    ble_status_t initialize_result = ble_init();
+    if(BLE_SUCCESS != initialize_result)
+    {
+        while (1)
+        {
+            /* fatal error */
+        }
+    }
 
 /* When this BLE application works on the Azure RTOS */
-#if (BSP_CFG_RTOS == 1)
+#if (BSP_CFG_RTOS == BLE_APP_AZURE_RTOS)
 
     /* Create Semaphore */
     tx_semaphore_create(&gs_ble_exe_smpr, "BLE_CORE_TASK_SEMAPHOR", TX_NO_INHERIT);
@@ -1000,7 +1036,18 @@ void app_main(void)
     /* Create BLE Execute Task */
     tx_thread_create(&gs_ble_execute_task, (CHAR*) "BLE_EXECUTE_TASK", ble_execute_task_func, (ULONG) NULL,
                             &gs_ble_execute_task_stack, EXECUTE_STACK_SIZE, 1, 1, TX_NO_TIME_SLICE, TX_AUTO_START);
-#endif /* (BSP_CFG_RTOS == 1) */
+
+#elif (BSP_CFG_RTOS == BLE_APP_FREE_RTOS)
+#if defined(BLE_CFG_SYNCHRONIZATION_TYPE)
+#if (BLE_CFG_SYNCHRONIZATION_TYPE == 0)
+    /* Get Current Task handle */
+    gs_ble_core_task_ptr = xTaskGetCurrentTaskHandle();
+
+    /* Create Execute Task */
+    xTaskCreate(ble_execute_task_func, "execute_task", EXECUTE_STACK_SIZE, NULL, configMAX_PRIORITIES-1, &gs_ble_execute_task);
+#endif /* (BLE_CFG_SYNCHRONIZATION_TYPE == x) */
+#endif /* defined(BLE_CFG_SYNCHRONIZATION_TYPE) */
+#endif /* (BSP_CFG_RTOS == x) */
 
 /* Hint: Input process that should be done before main loop such as calling initial function or variable definitions */
 /* Start user code for process before main loop. Do not edit comment generated here */
@@ -1013,8 +1060,8 @@ void app_main(void)
 /* Start user code for process before BLE_Execute. Do not edit comment generated here */
 /* End user code. Do not edit comment generated here */
 
+#if (BSP_CFG_RTOS == BLE_APP_AZURE_RTOS)
 /* When this BLE application works on the Azure RTOS */
-#if (BSP_CFG_RTOS == 1)
         if(0 != R_BLE_IsTaskFree())
         {
             tx_thread_suspend(gs_ble_core_task_ptr);
@@ -1023,20 +1070,34 @@ void app_main(void)
         {
             tx_semaphore_put(&gs_ble_exe_smpr);
         }
+#elif (BSP_CFG_RTOS == BLE_APP_FREE_RTOS)
 /* When this BLE application works on the FreeRTOS */
-#elif (BSP_CFG_RTOS == 2)
+#if !defined(BLE_CFG_SYNCHRONIZATION_TYPE) || (BLE_CFG_SYNCHRONIZATION_TYPE == 1)
         /* Process BLE Event */
         R_BLE_Execute();
 
         if(0 != R_BLE_IsTaskFree())
         {
             /* If the BLE Task has no operation to be processed, it transits block state until the event from RF transciever occurs. */
-            xEventGroupWaitBits(g_ble_event_group_handle,
+            xEventGroupWaitBits((EventGroupHandle_t)g_ble_event_group_handle,
                                 (EventBits_t)BLE_EVENT_PATTERN,
                                 pdTRUE,
                                 pdFALSE,
                                 portMAX_DELAY);
         }
+#else /* !defined(BLE_CFG_SYNCHRONIZATION_TYPE) || (BLE_CFG_SYNCHRONIZATION_TYPE == 1) */
+#if (BLE_CFG_SYNCHRONIZATION_TYPE == 0)
+        if(0 != R_BLE_IsTaskFree())
+        {
+            vTaskSuspend(NULL);
+        }
+        else
+        {
+            xSemaphoreGive(gs_ble_exe_smpr);
+        }
+
+#endif /* (BLE_CFG_SYNCHRONIZATION_TYPE == x) || (BLE_CFG_SYNCHRONIZATION_TYPE == 1) */
+#endif /* !defined(BLE_CFG_SYNCHRONIZATION_TYPE) */
 #else /* (BSP_CFG_RTOS == x) */
         /* Process BLE Event */
         R_BLE_Execute();
@@ -1051,16 +1112,29 @@ void app_main(void)
 /* Start user code for process after main loop. Do not edit comment generated here */
 /* End user code. Do not edit comment generated here */
 
+#if (BSP_CFG_RTOS == BLE_APP_AZURE_RTOS)
+    tx_thread_terminate(&gs_ble_execute_task);
+    tx_thread_delete(&gs_ble_execute_task);
+#elif (BSP_CFG_RTOS == BLE_APP_FREE_RTOS)
+#if !defined (BLE_CFG_SYNCHRONIZATION_TYPE)
+    vEventGroupDelete((EventGroupHandle_t)g_ble_event_group_handle);
+#else /* !defined (BLE_CFG_SYNCHRONIZATION_TYPE) */
+#if (BLE_CFG_SYNCHRONIZATION_TYPE == 0)
+    vTaskDelete(gs_ble_execute_task);
+#elif (BLE_CFG_SYNCHRONIZATION_TYPE == 1)
+    vEventGroupDelete((EventGroupHandle_t)g_ble_event_group_handle);
+#endif /* (BLE_CFG_SYNCHRONIZATION_TYPE == x) */
+#endif /* !defined (BLE_CFG_SYNCHRONIZATION_TYPE) */
+#endif /* (BSP_CFG_RTOS == x) */
+
     /* Terminate BLE */
     /* Include header file that contained BLE Abstraction (rm_ble_abs) module instance, when application work on RTOS. */
     RM_BLE_ABS_Close(&g_ble_abs0_ctrl);
+
 }
 
-/******************************************************************************
- User function definitions
-*******************************************************************************/
 /* When this BLE application works on the Azure RTOS */
-#if (BSP_CFG_RTOS == 1)
+#if (BSP_CFG_RTOS == BLE_APP_AZURE_RTOS)
 static void ble_execute_task_func(unsigned long Parameters)
 {
     FSP_PARAMETER_NOT_USED(Parameters);
@@ -1073,7 +1147,28 @@ static void ble_execute_task_func(unsigned long Parameters)
         tx_thread_resume(gs_ble_core_task_ptr);
     }
 }
-#endif /* (BSP_CFG_RTOS == 1) */
+#else /* (BSP_CFG_RTOS == x) */
+#if defined (BLE_CFG_SYNCHRONIZATION_TYPE)
+#if (BLE_CFG_SYNCHRONIZATION_TYPE == 0)
+static void ble_execute_task_func(void *pvParameters)
+{
+    FSP_PARAMETER_NOT_USED(pvParameters);
 
+    while(1)
+    {
+        xSemaphoreTake(gs_ble_exe_smpr, portMAX_DELAY);
+        while(0 == R_BLE_IsTaskFree())
+            R_BLE_Execute();
+
+        vTaskResume(gs_ble_core_task_ptr);
+    }
+}
+#endif /* (BLE_CFG_SYNCHRONIZATION_TYPE == 0) */
+#endif /* defined(BLE_CFG_SYNCHRONIZATION_TYPE) */
+#endif /* (BSP_CFG_RTOS == x) */
+
+/******************************************************************************
+ User function definitions
+*******************************************************************************/
 /* Start user code for function definitions. Do not edit comment generated here */
 /* End user code. Do not edit comment generated here */

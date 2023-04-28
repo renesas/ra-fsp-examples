@@ -63,7 +63,7 @@ Macro definitions
 /*******************************************************************************************************************//**
  * @brief Maximum number of characteristics to discover in a service.
 ***********************************************************************************************************************/
-#define BLE_DISC_CHAR_MAX_NUM      (40)
+#define BLE_DISC_CHAR_MAX_NUM      (43)
 
 /*******************************************************************************************************************//**
  * @brief Maximum number of descriptors to discover in a characteristic

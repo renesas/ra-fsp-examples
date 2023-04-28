@@ -100,7 +100,7 @@ FSP Configuration
       P002 62 ADC0_AN002 ARDUINO_A2 - - "Analog mode" - - "ADC0: AN002; IRQ: IRQ8-DS" - I - - 
       P003 55 GPIO ARDUINO_A4 - - "Input mode" - - "ADC0: AN007; ADC0: PGAVSS000" - I - - 
       P004 61 ADC0_AN004 ARDUINO_A3 - - "Analog mode" - - "ADC0: AN004; IRQ: IRQ9-DS" - I - - 
-      P005 60 IRQ_IRQ10-DS SW1 - IRQ10-DS "IRQ mode" - - "ADC0: AN005; IRQ: IRQ10-DS" - IO - - 
+      P005 60 ADC0_AN005 SW1 - - "Analog mode" - - "ADC0: AN005; IRQ: IRQ10-DS" - I - - 
       P006 51 GPIO ARDUINO_D8 - None "Input mode" - - "ADC0: AN006; IRQ: IRQ11-DS" - IO - - 
       P008 50 GPIO ARDUINO_D7 - None "Input mode" - - "ADC0: AN008; IRQ: IRQ12-DS" - IO - - 
       P013 54 ADC0_AN011 ARDUINO_A5 - - "Analog mode" - - "ADC0: AN011" - I - - 
@@ -132,13 +132,13 @@ FSP Configuration
       P301 31 - PMOD1_MIKROBUS_SSLA_ARDUINO_D10 - - Disabled - - "AGT0: AGTIO0; GPT4: GTIOC4B; GPT_OPS: GTOULO; IRQ: IRQ6; SCI9: CTS_RTS9; SPI0: SSLA0; SSIE0: SSIRXD0" - None - - 
       P302 30 GPIO PMOD2_CTS_ARDUINO_D3 - None "Input mode" - - "GPT4: GTIOC4A; GPT_OPS: GTOUUP; IRQ: IRQ5; RTC: RTCOUT; SCI0: CTS0; SCI9: SCK9; SPI0: RSPCK0; SSIE0: SSITXD0" - IO - - 
       P303 29 - PMOD1_CTS9 - - Disabled - - "SCI9: CTS9" - None - - 
-      P304 28 IRQ_IRQ9 SW2 - IRQ9 "IRQ mode" - - "GPT_OPS: GTOWLO; IRQ: IRQ9" - IO - - 
+      P304 28 GPIO SW2 - IRQ9 "Input mode" - - "GPT_OPS: GTOWLO; IRQ: IRQ9" - IO - - 
       P400 1 GPIO CANFD0_EN H None "Output mode (Initial High)" - - "AGT1: AGTIO1; I3C/IIC: SCL0; IRQ: IRQ0" - IO - - 
       P401 2 CANFD0_CTX0 CANFD0_CTX L None "Peripheral mode" - - "CANFD0: CTX0; GPT_POEGA: GTETRGA; I3C/IIC: SDA0; IRQ: IRQ5-DS" - O - - 
       P402 3 CANFD0_CRX0 CANFD0_CRX L None "Peripheral mode" - - "AGT0: AGTIO0; AGT1: AGTIO1; CAC: CACREF; CANFD0: CRX0; GPT: GTADSM1; IRQ: IRQ4-DS; RTC: RTCIC0; SSIE: AUDIO_CLK" - I - - 
       P403 4 GPIO MIKROBUS_PWM_ARDUINO_D9 - None "Input mode" - - "AGT0: AGTIO0; AGT1: AGTIO1; IRQ: IRQ14-DS; RTC: RTCIC1" - IO - - 
       P407 16 "USB FS_USB_VBUS" USBFS_VBUS H - "Peripheral mode" - - "ADC0(Digital): ADTRG0; AGT0: AGTIO0; GPT: GTADSM0; GPT_OPS: GTIV; I3C/IIC: SDA0; RTC: RTCOUT; SSIE0: SSIBCK0; USB FS: USB_VBUS" - IO - - 
-      P408 15 - PMOD1_RESET_MIKROBUS_RESET - - Disabled - - "AGT1: AGTOB1; GPT1: GTIOC1B; GPT_OPS: GTIW; I3C/IIC: SCL0; IRQ: IRQ7; SSIE: AUDIO_CLK" - None - - 
+      P408 15 GPIO PMOD1_RESET_MIKROBUS_RESET - IRQ7 "Input mode" - - "AGT1: AGTOB1; GPT1: GTIOC1B; GPT_OPS: GTIW; I3C/IIC: SCL0; IRQ: IRQ7; SSIE: AUDIO_CLK" - IO - - 
       P409 14 GPIO PMOD2_IRQ6_ARDUINO_D5 - None "Input mode" - - "AGT1: AGTOA1; GPT1: GTIOC1A; GPT_OPS: GTOWUP; IRQ: IRQ6" - IO - - 
       P410 13 SCI0_RXD0 PMOD2_RX_MIKROBUS_RX_ARDUINO_D0 L None "Peripheral mode" - - "GPT_OPS: GTOVLO; IRQ: IRQ5; SCI0: RXD0" - I - - 
       P411 12 SCI0_TXD0 PMOD2_TX_MIKROBUS_TX_ARDUINO_D1 L None "Peripheral mode" - - "GPT_OPS: GTOVUP; IRQ: IRQ4; SCI0: TXD0" - O - - 
@@ -165,7 +165,7 @@ FSP Configuration
       P002 62 - ARDUINO_A2 - - Disabled - - "ADC0: AN002; IRQ: IRQ8-DS" - I - - 
       P003 55 - ARDUINO_A4 - - Disabled - - "ADC0: AN007; ADC0: PGAVSS000" - I - - 
       P004 61 - ARDUINO_A3 - - Disabled - - "ADC0: AN004; IRQ: IRQ9-DS" - I - - 
-      P005 60 - SW1 - None Disabled - - "ADC0: AN005; IRQ: IRQ10-DS" - IO - - 
+      P005 60 - SW1 - - Disabled - - "ADC0: AN005; IRQ: IRQ10-DS" - I - - 
       P006 51 - ARDUINO_D8 - None Disabled - - "ADC0: AN006; IRQ: IRQ11-DS" - IO - - 
       P008 50 - ARDUINO_D7 - None Disabled - - "ADC0: AN008; IRQ: IRQ12-DS" - IO - - 
       P013 54 - ARDUINO_A5 - - Disabled - - "ADC0: AN011" - I - - 
@@ -203,7 +203,7 @@ FSP Configuration
       P402 3 - CANFD0_CRX L None Disabled - - "AGT0: AGTIO0; AGT1: AGTIO1; CAC: CACREF; CANFD0: CRX0; GPT: GTADSM1; IRQ: IRQ4-DS; RTC: RTCIC0; SSIE: AUDIO_CLK" - I - - 
       P403 4 - MIKROBUS_PWM_ARDUINO_D9 - None Disabled - - "AGT0: AGTIO0; AGT1: AGTIO1; IRQ: IRQ14-DS; RTC: RTCIC1" - IO - - 
       P407 16 - USBFS_VBUS L - Disabled - - "ADC0(Digital): ADTRG0; AGT0: AGTIO0; GPT: GTADSM0; GPT_OPS: GTIV; I3C/IIC: SDA0; RTC: RTCOUT; SSIE0: SSIBCK0; USB FS: USB_VBUS" - IO - - 
-      P408 15 - PMOD1_RESET_MIKROBUS_RESET - - Disabled - - "AGT1: AGTOB1; GPT1: GTIOC1B; GPT_OPS: GTIW; I3C/IIC: SCL0; IRQ: IRQ7; SSIE: AUDIO_CLK" - None - - 
+      P408 15 - PMOD1_RESET_MIKROBUS_RESET - None Disabled - - "AGT1: AGTOB1; GPT1: GTIOC1B; GPT_OPS: GTIW; I3C/IIC: SCL0; IRQ: IRQ7; SSIE: AUDIO_CLK" - IO - - 
       P409 14 - PMOD2_IRQ6_ARDUINO_D5 - None Disabled - - "AGT1: AGTOA1; GPT1: GTIOC1A; GPT_OPS: GTOWUP; IRQ: IRQ6" - IO - - 
       P410 13 - PMOD2_RX_MIKROBUS_RX_ARDUINO_D0 L None Disabled - - "GPT_OPS: GTOVLO; IRQ: IRQ5; SCI0: RXD0" - I - - 
       P411 12 - PMOD2_TX_MIKROBUS_TX_ARDUINO_D1 L None Disabled - - "GPT_OPS: GTOVUP; IRQ: IRQ4; SCI0: TXD0" - O - - 
@@ -532,12 +532,12 @@ FSP Configuration
       Callback: button_irq9_callback
       Pin Interrupt Priority: Priority 5
       
-    Instance "g_external_irq10 External IRQ (r_icu)"
-      Name: g_external_irq10
-      Channel: 10
+    Instance "g_external_irq7 External IRQ (r_icu)"
+      Name: g_external_irq7
+      Channel: 7
       Trigger: Falling
       Digital Filtering: Enabled
       Digital Filtering Sample Clock (Only valid when Digital Filtering is Enabled): PCLK / 64
-      Callback: button_irq10_callback
+      Callback: button_irq7_callback
       Pin Interrupt Priority: Priority 5
       

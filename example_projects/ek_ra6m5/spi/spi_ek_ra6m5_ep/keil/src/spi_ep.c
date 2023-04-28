@@ -63,13 +63,7 @@ fsp_err_t spi_init(void)
     if (FSP_SUCCESS != err)
     {
         /* SPI Master Failure message */
-        APP_ERR_PRINT("** R_SPI_Open API for SPI Master failed ** \\r\\n");
-        /* Close SPI master */
-        if ( (FSP_SUCCESS != R_SPI_Close(&g_spi_master_ctrl)))
-        {
-            /* SPI Master Close Failure message */
-            APP_ERR_PRINT("** R_SPI_Close API for SPI Master failed ** \\r\\n");
-        }
+        APP_ERR_PRINT("** R_SPI_Open API for SPI Master failed ** \r\n");
         return err;
     }
 
@@ -78,20 +72,14 @@ fsp_err_t spi_init(void)
     /* handle error */
     if (FSP_SUCCESS != err)
     {
-        /* SPI Slave Failure message */
-        APP_ERR_PRINT("** R_SPI_Open API for SPI Slave failed ** \\r\\n");
-        /* Close SPI slave */
-        if ( (FSP_SUCCESS != R_SPI_Close(&g_spi_slave_ctrl)))
-        {
-            /* SPI Slave Close Failure message */
-            APP_ERR_PRINT("** R_SPI_Close API for SPI Slave failed ** \\r\\n");
-        }
         /* Close SPI master */
         if ( (FSP_SUCCESS != R_SPI_Close(&g_spi_master_ctrl)))
         {
             /* SPI Master Close Failure message */
-            APP_ERR_PRINT("** R_SPI_Close API for SPI Master failed ** \\r\\n");
+            APP_ERR_PRINT("** R_SPI_Close API for SPI Master failed ** \r\n");
         }
+        /* SPI Slave Failure message */
+        APP_ERR_PRINT("** R_SPI_Open API for SPI Master failed ** \r\n");
     }
     return err;
 }

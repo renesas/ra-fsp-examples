@@ -41,7 +41,7 @@
 #elif defined (BOARD_RA4E1_FPB)
 #define USER_SW_IRQ_NUMBER        (0x01)
 #elif defined (BOARD_RA4E2_EK) || defined (BOARD_RA6E2_EK)
-#define USER_SW_IRQ_NUMBER        (0x09)
+#define USER_SW_IRQ_NUMBER        (0x07)
 #else
 #define USER_SW_IRQ_NUMBER        (0x03)      //EK_RA2L1 and EK_RA2E1 board
 #endif

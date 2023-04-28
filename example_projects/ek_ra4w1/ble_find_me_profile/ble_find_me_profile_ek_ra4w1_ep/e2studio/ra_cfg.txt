@@ -71,6 +71,7 @@ FSP Configuration
     
   Clocks
     XTAL 8000000Hz
+    PLL Src: XTAL
     HOCO 48MHz
     PLL Div /2
     PLL Mul x12
@@ -80,8 +81,6 @@ FSP Configuration
     PCLKB Div /2
     PCLKC Div /1
     PCLKD Div /1
-    BCLK Div /2
-    BCK/2
     FCLK Div /2
     CLKOUT Disabled
     CLKOUT Div /1
@@ -251,6 +250,43 @@ FSP Configuration
     Timer Slot Maximum Number: 10
     
   Module "BLE Driver (r_ble_extended_freertos)"
+    Debug Public Address: FF:FF:FF:50:90:74
+    Debug Random Address: FF:FF:FF:FF:FF:FF
+    Maximum number of connections: 7
+    Maximum connection data length: 251
+    Maximum advertising data length: 1650
+    Maximum advertising set number: 4
+    Maximum periodic sync set number.: 2
+    Store Security Data: Disable
+    Data Flash Block for Security Data: 0
+    Remote Device Bonding Number: 7
+    Connection Event Start Notify: Disable
+    Connection Event Close Notify: Disable
+    Advertising Event Start Notify: Disable
+    Advertising Event Close Notify: Disable
+    Scanning Event Start Notify: Disable
+    Scanning Event Close Notify: Disable
+    Initiating Event Start Notify: Disable
+    Initiating Event Close Notify: Disable
+    RF Deep Sleep Start Notify: Disable
+    RF Deep Sleep Wakeup Notify: Disable
+    Bluetooth dedicated clock: 6
+    DC-DC converter: Disable
+    Slow Clock Source: Use RF_LOCO
+    MCU CLKOUT Port: P109
+    MCU CLKOUT Frequency Output: MCU CLKOUT frequency 32.768kHz
+    Sleep Clock Accuracy(SCA): 250
+    Transmission Power Maximum Value: max +4dBm
+    Transmission Power Default Value: High  0dBm(Transmission Power Maximum Value = +0dBm)  /  +4dBm(Transmission Power Maximum Value = +4dBm)
+    CLKOUT_RF Output: No output
+    RF_DEEP_SLEEP Transition: Enable
+    MCU Main Clock Frequency: 8000
+    Code Flash(ROM) Device Data Block: 255
+    Device Specific Data Flash Block: 1
+    MTU Size Configured: 247
+    Timer Slot Maximum Number: 10
+    Synchronization Type: Event groups
+    
   Module "Flash (r_flash_lp)"
     Parameter Checking: Default (BSP)
     Code Flash Programming: Disabled
@@ -339,14 +375,10 @@ FSP Configuration
   HAL
     Instance "g_ioport I/O Port (r_ioport)"
       Name: g_ioport
-      Port 1 ELC Trigger Source: Disabled
-      Port 2 ELC Trigger Source: Disabled
-      Port 3 ELC Trigger Source: Disabled
-      Port 4 ELC Trigger Source: Disabled
-      Port B ELC Trigger Source: Disabled
-      Port C ELC Trigger Source: Disabled
-      Port D ELC Trigger Source: Disabled
-      Port E ELC Trigger Source: Disabled
+      1st Port ELC Trigger Source: Disabled
+      2nd Port ELC Trigger Source: Disabled
+      3rd Port ELC Trigger Source: Disabled
+      4th Port ELC Trigger Source: Disabled
       Pin Configuration Name: g_bsp_pin_cfg
       
     Instance "FreeRTOS Heap 4"
@@ -387,14 +419,14 @@ FSP Configuration
       Extra Features: Extra Features: Disabled
       Extra Features: Output Disable: POEG Link: POEG Channel 0
       Extra Features: Output Disable: Output Disable POEG Trigger: 
-      Extra Features: ADC Trigger: Start Event Trigger (GPTE/GPTEH only): 
-      Extra Features: Dead Time: Dead Time Count Up (Raw Counts): 0
-      Extra Features: Dead Time: Dead Time Count Down (Raw Counts) (GPTE/GPTEH only): 0
-      Extra Features: ADC Trigger (GPTE/GPTEH only): ADC A Compare Match (Raw Counts): 0
-      Extra Features: ADC Trigger (GPTE/GPTEH only): ADC B Compare Match (Raw Counts): 0
-      Extra Features: Interrupt Skipping (GPTE/GPTEH only): Interrupt to Count: None
-      Extra Features: Interrupt Skipping (GPTE/GPTEH only): Interrupt Skip Count: 0
-      Extra Features: Interrupt Skipping (GPTE/GPTEH only): Skip ADC Events: None
+      Extra Features: ADC Trigger: Start Event Trigger (Channels with GTINTAD only): 
+      Extra Features: Dead Time (Value range varies with Channel): Dead Time Count Up (Raw Counts): 0
+      Extra Features: Dead Time (Value range varies with Channel): Dead Time Count Down (Raw Counts) (Channels with GTDVD only): 0
+      Extra Features: ADC Trigger (Channels with GTADTRA only): ADC A Compare Match (Raw Counts): 0
+      Extra Features: ADC Trigger (Channels with GTADTRB only): ADC B Compare Match (Raw Counts): 0
+      Extra Features: Interrupt Skipping (Channels with GTITC only): Interrupt to Count: None
+      Extra Features: Interrupt Skipping (Channels with GTITC only): Interrupt Skip Count: 0
+      Extra Features: Interrupt Skipping (Channels with GTITC only): Skip ADC Events: None
       Extra Features: Output Disable: GTIOCA Disable Setting: Disable Prohibited
       Extra Features: Output Disable: GTIOCB Disable Setting: Disable Prohibited
       
@@ -459,7 +491,7 @@ FSP Configuration
           Output: Duty Cycle Percent (only applicable in PWM mode): 50
           Output: GTIOCA Output Enabled: False
           Output: GTIOCA Stop Level: Pin Level Low
-          Output: GTIOCB Output Enabled: False
+          Output: GTIOCB Output Enabled: True
           Output: GTIOCB Stop Level: Pin Level Low
           Input: Count Up Source: 
           Input: Count Down Source: 
@@ -478,14 +510,14 @@ FSP Configuration
           Extra Features: Extra Features: Disabled
           Extra Features: Output Disable: POEG Link: POEG Channel 0
           Extra Features: Output Disable: Output Disable POEG Trigger: 
-          Extra Features: ADC Trigger: Start Event Trigger (GPTE/GPTEH only): 
-          Extra Features: Dead Time: Dead Time Count Up (Raw Counts): 0
-          Extra Features: Dead Time: Dead Time Count Down (Raw Counts) (GPTE/GPTEH only): 0
-          Extra Features: ADC Trigger (GPTE/GPTEH only): ADC A Compare Match (Raw Counts): 0
-          Extra Features: ADC Trigger (GPTE/GPTEH only): ADC B Compare Match (Raw Counts): 0
-          Extra Features: Interrupt Skipping (GPTE/GPTEH only): Interrupt to Count: None
-          Extra Features: Interrupt Skipping (GPTE/GPTEH only): Interrupt Skip Count: 0
-          Extra Features: Interrupt Skipping (GPTE/GPTEH only): Skip ADC Events: None
+          Extra Features: ADC Trigger: Start Event Trigger (Channels with GTINTAD only): 
+          Extra Features: Dead Time (Value range varies with Channel): Dead Time Count Up (Raw Counts): 0
+          Extra Features: Dead Time (Value range varies with Channel): Dead Time Count Down (Raw Counts) (Channels with GTDVD only): 0
+          Extra Features: ADC Trigger (Channels with GTADTRA only): ADC A Compare Match (Raw Counts): 0
+          Extra Features: ADC Trigger (Channels with GTADTRB only): ADC B Compare Match (Raw Counts): 0
+          Extra Features: Interrupt Skipping (Channels with GTITC only): Interrupt to Count: None
+          Extra Features: Interrupt Skipping (Channels with GTITC only): Interrupt Skip Count: 0
+          Extra Features: Interrupt Skipping (Channels with GTITC only): Skip ADC Events: None
           Extra Features: Output Disable: GTIOCA Disable Setting: Disable Prohibited
           Extra Features: Output Disable: GTIOCB Disable Setting: Disable Prohibited
           

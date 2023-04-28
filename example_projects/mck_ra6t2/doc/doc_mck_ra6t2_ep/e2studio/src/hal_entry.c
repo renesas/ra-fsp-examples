@@ -156,7 +156,7 @@ void hal_entry(void)
         APP_PRINT("\r\nDOC operation is successful for the selected event");
 		
         /* Turn ON LED to indicate callback triggered, along with output on RTT*/
-		#if defined (BOARD_RA4W1_EK) || defined (BOARD_RA6T1_RSSK)
+		#if defined (BOARD_RA4W1_EK) || defined (BOARD_RA6T2_MCK)
 		    R_IOPORT_PinWrite(&g_ioport_ctrl, g_bsp_leds.p_leds[0], BSP_IO_LEVEL_LOW);
 		#else
 			R_IOPORT_PinWrite(&g_ioport_ctrl, g_bsp_leds.p_leds[0], BSP_IO_LEVEL_HIGH);

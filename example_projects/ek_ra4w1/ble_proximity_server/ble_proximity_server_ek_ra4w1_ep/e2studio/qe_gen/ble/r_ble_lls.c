@@ -14,7 +14,7 @@
 * following link:
 * http://www.renesas.com/disclaimer
 *
-* Copyright (C) 2019-2020 Renesas Electronics Corporation. All rights reserved.
+* Copyright (C) 2019-2022 Renesas Electronics Corporation. All rights reserved.
 ***********************************************************************************************************************/
 /***********************************************************************************************************************
  * File Name: r_ble_lls.c
@@ -29,6 +29,8 @@ static st_ble_servs_info_t gs_servs_info;
 
 /* Start user code for function prototype declarations and global variables. Do not edit comment generated here */
 /* End user code. Do not edit comment generated here */
+
+
 
 /*----------------------------------------------------------------------------------------------------------------------
     Alert Level characteristic : The level of an alert a device is to sound. If this level is changed while the alert is being sounded,the new level should take effect.
@@ -81,6 +83,10 @@ ble_status_t R_BLE_LLS_Init(ble_servs_app_cb_t cb)
 
     return R_BLE_SERVS_RegisterServer(&gs_servs_info);
 }
+
+
+
+
 
 /* Start user code for function definitions. Do not edit comment generated here */
 /* End user code. Do not edit comment generated here */

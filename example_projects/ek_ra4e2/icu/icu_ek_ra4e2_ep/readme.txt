@@ -21,8 +21,8 @@
 	User is requested to press the push button to trigger the external irq and this then will start toggling of user LED.
 
 NOTE: 
-        Use Switch S1 (push button) on RA6M5,RA6M3,RA6M3G,RA6M4,RA4M3,RA4M2,RA2E1,RA2L1,FPB-RA4E1, FPB-RA6E1.
-	Use Switch S2 (push button) on RA6T1, RA6T2, RA2E2, EK-RA4E2 and EK-RA6E2.
+        Use Switch S1 (push button) on RA6M5,RA6M3,RA6M3G,RA6M4,RA4M3,RA4M2,RA2E1,RA2L1,FPB-RA4E1, FPB-RA6E1, EK-RA4E2.
+	Use Switch S2 (push button) on RA6T1, RA6T2 and RA2E2.
 	
 ﻿
 1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.

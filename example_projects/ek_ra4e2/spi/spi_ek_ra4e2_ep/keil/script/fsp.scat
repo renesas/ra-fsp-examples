@@ -482,13 +482,15 @@ LOAD_REGION_ID_CODE ID_CODE_START ID_CODE_LENGTH
   {
   }
 
+  ; Set this symbol to the same value as __tz_ID_CODE_S so the RA configuration tool does not split the ID_CODE
+  ; memory region between TrustZone projects.
+  __tz_ID_CODE_N +0 EMPTY 0
+  {
+  }
+
   ID_CODE +0 FIXED
   {
     *(.id_code*)
-  }
-
-  __tz_ID_CODE_N +0 EMPTY 0
-  {
   }
 }
 #else
@@ -557,13 +559,15 @@ LOAD_REGION_OPTION_SETTING OPTION_SETTING_START + NS_IMAGE_OFFSET OPTION_SETTING
   {
   }
 
+  ; Set this symbol to the same value as __tz_ID_CODE_S so the RA configuration tool does not split the ID_CODE
+  ; memory region between TrustZone projects.
+  __tz_ID_CODE_N +0 EMPTY 0
+  {
+  }
+
   ID_CODE ID_CODE_START FIXED
   {
     *(.id_code*)
-  }
-
-  __tz_ID_CODE_N +0 EMPTY 0
-  {
   }
 
   UNUSED_AFTER_ID_CODE (ID_CODE_START + ID_CODE_LENGTH) FIXED FILL 0xFFFFFFFF (ImageBase(OFS0) + 0x34 - (ID_CODE_START + ID_CODE_LENGTH) )

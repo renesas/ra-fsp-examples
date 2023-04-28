@@ -245,6 +245,8 @@ void gap_cb(uint16_t type, ble_status_t result, st_ble_evt_data_t *p_data)
             /* Start Advertising when BLE protocol stack is ready */
             /* Include header file that contained BLE Abstraction (rm_ble_abs) module instance, when application work on RTOS. */
             RM_BLE_ABS_StartLegacyAdvertising(&g_ble_abs0_ctrl, &g_ble_advertising_parameter);
+            APP_PRINT("\nBLE Server Started Advertising.\n");
+            APP_PRINT("BLE Server is waiting for connection request from Device\n");
         } break;
 
         case BLE_GAP_EVENT_CONN_IND:
@@ -271,6 +273,8 @@ void gap_cb(uint16_t type, ble_status_t result, st_ble_evt_data_t *p_data)
             g_conn_hdl = BLE_GAP_INVALID_CONN_HDL;
             /* Include header file that contained BLE Abstraction (rm_ble_abs) module instance, when application work on RTOS. */
             RM_BLE_ABS_StartLegacyAdvertising(&g_ble_abs0_ctrl, &g_ble_advertising_parameter);
+            APP_PRINT("\nBLE Server Started Advertising.\n");
+            APP_PRINT("BLE Server is waiting for connection request from Device\n");
         } break;
 
         case BLE_GAP_EVENT_CONN_PARAM_UPD_REQ:
@@ -507,13 +511,10 @@ static void ias_cb(uint16_t type, ble_status_t result, st_ble_ias_evt_data_t *p_
 {
 /* Hint: Input common process of callback function such as variable definitions */
 /* Start user code for Immediate Alert Service Server callback function common process. Do not edit comment generated here */
-
     FSP_PARAMETER_NOT_USED (result);
     uint8_t *p_data_enter;
     p_data_enter = (uint8_t *)p_data->p_param;
     app_value = *p_data_enter;
-
-
 /* End user code. Do not edit comment generated here */
 
     switch(type)
@@ -521,13 +522,12 @@ static void ias_cb(uint16_t type, ble_status_t result, st_ble_ias_evt_data_t *p_
 /* Hint: Add cases of Immediate Alert Service server events defined in e_ble_ias_event_t */
 /* Start user code for Immediate Alert Service Server callback function event process. Do not edit comment generated here */
         case BLE_IAS_EVENT_ALERT_LEVEL_WRITE_CMD:
-      {
-            /* Figure out the level of the alert */
-
+        {
+          /* Figure out the level of the alert sent by Mobile App */
           e_ble_ias_alert_level_t alert_level = app_value;
 
-            switch(alert_level)
-            {
+          switch(alert_level)
+          {
                 case BLE_IAS_ALERT_LEVEL_ALERT_LEVEL_NO_ALERT:          /*BLE_IAS_ALERT_LEVEL_ALERT_LEVEL_NO_ALERT */
                 {
                     APP_PRINT("\nBLE_LEVEL_ALERT_LEVEL_NO_ALERT \n");
@@ -560,12 +560,11 @@ static void ias_cb(uint16_t type, ble_status_t result, st_ble_ias_evt_data_t *p_
         }
         break;
 
-
         default:
-            {
-                __BKPT(1);/* Do Nothing */
-            }
-            break;
+        {
+            __BKPT(1);/* Do Nothing */
+        }
+        break;
 /* End user code. Do not edit comment generated here */
     }
 

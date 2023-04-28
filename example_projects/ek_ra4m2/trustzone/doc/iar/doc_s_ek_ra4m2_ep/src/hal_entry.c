@@ -95,12 +95,6 @@ BSP_CMSE_NONSECURE_ENTRY doc_event_t doc_cfg_event_read_guard (void)
     return g_doc_cfg.event;
 }
 #endif
-
-//void doc_callback(doc_callback_args_t *p_args)
-//{
-//FSP_PARAMETER_NOT_USED(p_args);
-//}
-
 /*******************************************************************************************************************//**
  * @} (end defgroup DOC_S_EP)
  **********************************************************************************************************************/

@@ -32,7 +32,7 @@ i.  Connect RA MCU debug port to the host PC via a micro USB cable.
 
 ### Software ###
 1. Refer to the software required section in [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf)
-2. JLink RTT Viewer V7.64e or higher.
+2. JLink RTT Viewer V7.60f or higher.
 3. Renesas GATTbrowser installed on device.
 4. Install QE tool into E2studio IDE.
 
@@ -169,16 +169,16 @@ The table below lists the FSP provided API used at the application layer by this
 
 Import, Build and Debug the EP(see section Starting Development of FSP User Manual). After running the EP, open RTT viewer, Select MCU Target Device following the image below and press OK to see the output.
 
-![ra4w1_proximity_server](images/RTT_Viewer_Setting.jpg "ra4w1_proximity_server Block Diagram")
+![ra4w1_proximity_server](images/RTT_Viewer_Setting.jpg "ra4w1_proximity_server")
 
 Below images showcases the output on JLinkRTT_Viewer :
 
-![ra4w1_proximity_server](images/RTT_Viewer_Output1.jpg "ra4w1_proximity_server Block Diagram")
+![ra4w1_proximity_server](images/RTT_Viewer_Output1.jpg "EP Information")
 
 Open the GATTBrowser installed on the device follow the image below.
 
-![ra4w1_proximity_server](images/GATTBrowser1.jpg "ra4w1_proximity_server Block Diagram") 
-![ra4w1_proximity_server](images/GATTBrowser2.jpg "ra4w1_proximity_server Block Diagram") 
+![ra4w1_proximity_server](images/GATTBrowser1.jpg "ra4w1_proximity_server GATTBrowser") 
+![ra4w1_proximity_server](images/GATTBrowser2.jpg "ra4w1_proximity_server GATTBrowser") 
 
 From the Device with Renesas GATT Browser installed. Connect the device with RA4W1_SRV and send the requests.
 Including 
@@ -187,5 +187,6 @@ Including
 3. Write and Read back Link Loss Alert Levels = 0, 1 or 2. (User needs to write first then read back)
 4. Read Tx Power and RSSI ((click the connect button first, then click the read button to read the Tx Power and RSSI values, next click the disconnect button to close the connection).).
 
-![ra4w1_proximity_server](images/RTT_Viewer_Output2.jpg "ra4w1_proximity_server Block Diagram")
-
+![ra4w1_proximity_server](images/RTT_Viewer_Output2.jpg "ra4w1_proximity_server Set Immediate Alert Levels")
+![ra4w1_proximity_server](images/RTT_Viewer_Output3.jpg "ra4w1_proximity_server Set Link Loss Alert Levels")
+![ra4w1_proximity_server](images/RTT_Viewer_Output4.jpg "ra4w1_proximity_server Set TX Power and RSSI Read")

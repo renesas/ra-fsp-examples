@@ -39,11 +39,11 @@
 Note :
 1. Open Device Manager, and check 'Human Interface Devices', to see ' USB Input Device' has been detected.
 2. lower case a - z and numbers 0 - 9 is send from MCU to the host PC.﻿
-1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
+1) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
    a. e2studio: 0x200021ac
    b. Keil:	0x20002168
-   c. IAR: 0x2000631c
+   c. IAR: 0x20006f84
  
 2) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) 
    in .map file generated in the build configuration folder (Debug/Release).

@@ -24,15 +24,15 @@ Project Overview:
 
 Hardware Connections:
    EK-RA6M3:
-    High-Speed: (For EK-RA6M3/EK-RA6M3G, EK-RA6M5)
+    High-Speed: 
         Jumper J7: Connect pins 1-2
         Remove Jumper J17 pins
         Connect USB device to J6 connector with help of micro USB Host cable.
 
-    Full-Speed: (For EK-RA4M3/EK-RA6M3/EK-RA6M3G/EK-RA6M4/EK-RA4M2)
+    Full-Speed:  
         Jumper J12 placement is pins 1-2
         Remove Jumper j15 pins
-        Connect USB device to J11 connector with help of micro USB Host cable.  
+        Connect USB device to J11 connector with help of micro USB Host cable.    
 
 Note:
 1. By default USB HMSC Example Project runs in Hi-speed mode for Hi-speed supported boards and in Full speed for other boards.

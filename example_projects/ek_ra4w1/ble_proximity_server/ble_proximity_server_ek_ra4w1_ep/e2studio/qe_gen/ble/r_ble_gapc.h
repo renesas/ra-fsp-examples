@@ -14,7 +14,7 @@
 * following link:
 * http://www.renesas.com/disclaimer
 *
-* Copyright (C) 2019-2020 Renesas Electronics Corporation. All rights reserved.
+* Copyright (C) 2019-2022 Renesas Electronics Corporation. All rights reserved.
 ***********************************************************************************************************************/
 /***********************************************************************************************************************
  * File Name: r_ble_gapc.h
@@ -306,7 +306,7 @@ ble_status_t R_BLE_GAPC_Init(ble_servc_app_cb_t cb);
  * @param[in] conn_hdl Connection handle
  * @param[in] serv_idx Service instance index.
  * @param[in] type     Service discovery event type.
- * @param[out] p_param  Service discovery event parameter.
+ * @param[in] p_param  Service discovery event parameter.
  * @return    @ref ble_status_t
 *******************************************************************************/
 void R_BLE_GAPC_ServDiscCb(uint16_t conn_hdl, uint8_t serv_idx, uint16_t type, void *p_param);

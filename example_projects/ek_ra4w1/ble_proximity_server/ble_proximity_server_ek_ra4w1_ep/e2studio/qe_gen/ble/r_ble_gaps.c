@@ -14,7 +14,7 @@
 * following link:
 * http://www.renesas.com/disclaimer
 *
-* Copyright (C) 2019-2020 Renesas Electronics Corporation. All rights reserved.
+* Copyright (C) 2019-2022 Renesas Electronics Corporation. All rights reserved.
 ***********************************************************************************************************************/
 /***********************************************************************************************************************
  * File Name: r_ble_gaps.c
@@ -30,6 +30,8 @@ static st_ble_servs_info_t gs_servs_info;
 /* Start user code for function prototype declarations and global variables. Do not edit comment generated here */
 /* End user code. Do not edit comment generated here */
 
+
+
 /*----------------------------------------------------------------------------------------------------------------------
     Device Name characteristic : The Device Name characteristic shall contain the name of the device.
 ----------------------------------------------------------------------------------------------------------------------*/
@@ -40,18 +42,49 @@ static ble_status_t decode_st_ble_gaps_dev_name_t(st_ble_gaps_dev_name_t *p_app_
     FSP_PARAMETER_NOT_USED (*p_app_value);
     FSP_PARAMETER_NOT_USED (*p_gatt_value);
     /* End user code. Do not edit comment generated here */
+#ifndef BLE_GAPS_DISABLE_ENCODE_DECODE
+
+
+    uint32_t pos = 0;
+
+    for (uint32_t i=0;i<128;i++)
+    {
+        BT_UNPACK_LE_1_BYTE(&p_app_value->name[i],&p_gatt_value->p_value[pos]);
+        pos += 1;
+    }
+
+    BT_UNPACK_LE_1_BYTE(&p_app_value->length,&p_gatt_value->p_value[pos]);
+    pos += 1;
+#endif /* BLE_GAPS_DISABLE_ENCODE_DECODE */
+
+
     return BLE_SUCCESS;
 }
-
 static ble_status_t encode_st_ble_gaps_dev_name_t(const st_ble_gaps_dev_name_t *p_app_value, st_ble_gatt_value_t *p_gatt_value)
 {
     /* Start user code for Device Name characteristic value encode function. Do not edit comment generated here */
     FSP_PARAMETER_NOT_USED (*p_app_value);
     FSP_PARAMETER_NOT_USED (*p_gatt_value);
     /* End user code. Do not edit comment generated here */
+#ifndef BLE_GAPS_DISABLE_ENCODE_DECODE
+
+    uint32_t pos = 0;
+
+    for (uint32_t i=0;i<128;i++)
+    {
+        BT_PACK_LE_1_BYTE(&p_gatt_value->p_value[pos],&p_app_value->name[i]);
+        pos += 1;
+    }
+
+    BT_PACK_LE_1_BYTE(&p_gatt_value->p_value[pos],&p_app_value->length);
+    pos += 1;
+    
+    p_gatt_value->value_len = (uint16_t)pos;
+#endif /* BLE_GAPS_DISABLE_ENCODE_DECODE */
+
+
     return BLE_SUCCESS;
 }
-
 /* Device Name characteristic definition */
 static const st_ble_servs_char_info_t gs_dev_name_char = {
     .start_hdl    = BLE_GAPS_DEV_NAME_DECL_HDL,
@@ -108,18 +141,55 @@ static ble_status_t decode_st_ble_gaps_per_pref_conn_param_t(st_ble_gaps_per_pre
     FSP_PARAMETER_NOT_USED (*p_app_value);
     FSP_PARAMETER_NOT_USED (*p_gatt_value);
     /* End user code. Do not edit comment generated here */
+#ifndef BLE_GAPS_DISABLE_ENCODE_DECODE
+
+
+    uint32_t pos = 0;
+
+    BT_UNPACK_LE_2_BYTE(&p_app_value->minimum_connection_interval,&p_gatt_value->p_value[pos]);
+    pos += 2;
+
+    BT_UNPACK_LE_2_BYTE(&p_app_value->maximum_connection_interval,&p_gatt_value->p_value[pos]);
+    pos += 2;
+
+    BT_UNPACK_LE_2_BYTE(&p_app_value->slave_latency,&p_gatt_value->p_value[pos]);
+    pos += 2;
+
+    BT_UNPACK_LE_2_BYTE(&p_app_value->connection_supervision_timeout_multiplier,&p_gatt_value->p_value[pos]);
+    pos += 2;
+#endif /* BLE_GAPS_DISABLE_ENCODE_DECODE */
+
+
     return BLE_SUCCESS;
 }
-
 static ble_status_t encode_st_ble_gaps_per_pref_conn_param_t(const st_ble_gaps_per_pref_conn_param_t *p_app_value, st_ble_gatt_value_t *p_gatt_value)
 {
     /* Start user code for Peripheral Preferred Connection Parameters characteristic value encode function. Do not edit comment generated here */
     FSP_PARAMETER_NOT_USED (*p_app_value);
     FSP_PARAMETER_NOT_USED (*p_gatt_value);
     /* End user code. Do not edit comment generated here */
+#ifndef BLE_GAPS_DISABLE_ENCODE_DECODE
+
+    uint32_t pos = 0;
+
+    BT_PACK_LE_2_BYTE(&p_gatt_value->p_value[pos],&p_app_value->minimum_connection_interval);
+    pos += 2;
+
+    BT_PACK_LE_2_BYTE(&p_gatt_value->p_value[pos],&p_app_value->maximum_connection_interval);
+    pos += 2;
+
+    BT_PACK_LE_2_BYTE(&p_gatt_value->p_value[pos],&p_app_value->slave_latency);
+    pos += 2;
+
+    BT_PACK_LE_2_BYTE(&p_gatt_value->p_value[pos],&p_app_value->connection_supervision_timeout_multiplier);
+    pos += 2;
+    
+    p_gatt_value->value_len = (uint16_t)pos;
+#endif /* BLE_GAPS_DISABLE_ENCODE_DECODE */
+
+
     return BLE_SUCCESS;
 }
-
 /* Peripheral Preferred Connection Parameters characteristic definition */
 static const st_ble_servs_char_info_t gs_per_pref_conn_param_char = {
     .start_hdl    = BLE_GAPS_PER_PREF_CONN_PARAM_DECL_HDL,
@@ -221,6 +291,10 @@ ble_status_t R_BLE_GAPS_Init(ble_servs_app_cb_t cb)
 
     return R_BLE_SERVS_RegisterServer(&gs_servs_info);
 }
+
+
+
+
 
 /* Start user code for function definitions. Do not edit comment generated here */
 /* End user code. Do not edit comment generated here */

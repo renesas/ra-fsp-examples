@@ -29,7 +29,7 @@ i.  Connect RA MCU debug port to the host PC via a micro USB cable.
 
 ### Software ###
 1. Refer to the software required section in [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf)
-2. JLink RTT Viewer V7.64e or higher.
+2. JLink RTT Viewer V7.60f or higher.
 3. Renesas GATTbrowser installed on device.
 4. Install QE for BLE Developemnt in the compiler.
 5. Insatll QE tool into E2studio ID.
@@ -159,13 +159,13 @@ Import, Build and Debug the EP(see section Starting Development of FSP User Manu
 
 Below images showcases the output on JLinkRTT_Viewer :
 
-![find_me_profile](images/RTT_Viewer_Output1.jpg "find_me_profile Block Diagram")
+![find_me_profile](images/RTT_Viewer_Output1.jpg "find_me_profile EP Information")
 
 Open the GATTBrowser installed on the device follow the image below.
 
-![find_me_profile](images/GATTBrowser.jpg "find_me_profile Block Diagram") 
+![find_me_profile](images/GATTBrowser.jpg "find_me_profile GATTBrowser Details") 
 
 From the Device with Renesas GATT Browser installed. Connect the device with RA4W1_BLE and send the requests (including "Connect, Disconnect and Alert Levels = 0, 1 or 2").
 
-![find_me_profile](images/RTT_Viewer_Output2.jpg "find_me_profile Block Diagram")
+![find_me_profile](images/RTT_Viewer_Output2.jpg "find_me_profile Set Immediate Alert Levels")
 
