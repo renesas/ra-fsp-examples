@@ -43,11 +43,13 @@
 #define LVL_ERR       (1u)       /* error conditions   */
 
 #define RESET_VALUE   (0x00)
-#define AVCC0         (3300000)
-#define CAL127        (127)
-#define CAL125        (125)
-#define ADC_L_LMT     (1420)
-#define ADC_H_LMT     (1590)
+
+#define ADC_12_BIT    (4096u)
+#define ADC_16_BIT    (32768u)
+#define V_ref         (3.3f)
+#define ADC_H_LMT     (24824u)
+#define ADC_L_LMT     (9929u)
+
 
 #define EP_VERSION              ("1.0")
 #define MODULE_NAME             "r_adc"

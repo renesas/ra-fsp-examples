@@ -33,6 +33,9 @@
 volatile bool b_ready_to_read = false;
 static uint16_t g_adc_data;
 static bool g_window_comp_event = false;
+char volt_str[5] = {RESET_VALUE};
+float adc_volt = {RESET_VALUE};
+
 
 #ifdef BOARD_RA2A1_EK
 static uint16_t g_prev_adc_data;
@@ -55,8 +58,6 @@ static fsp_err_t adc_deviation_in_output(void);
 
 static fsp_err_t adc_start_calibration(void);
 #endif
-
-
 
 
 /*******************************************************************************************************************//**
@@ -168,6 +169,9 @@ static fsp_err_t adc_scan_start(void)
             return err;
         }
 
+        /* Disable interrupts */
+        R_BSP_IrqDisable((IRQn_Type)ADC_EVENT_SCAN_COMPLETE);
+
         APP_PRINT("\r\nADC Started Scan\r\n");
 
         /* Indication to start reading the adc data */
@@ -244,7 +248,7 @@ fsp_err_t adc_read_data(void)
     fsp_err_t err = FSP_SUCCESS;     // Error status
 
     /* Read the result */
-    err = R_ADC_Read (&g_adc_ctrl, ADC_CHANNEL_TEMPERATURE, &g_adc_data);
+    err = R_ADC_Read (&g_adc_ctrl, ADC_CHANNEL_1, &g_adc_data);
     /* handle error */
     if (FSP_SUCCESS != err)
     {
@@ -253,56 +257,20 @@ fsp_err_t adc_read_data(void)
         return err;
     }
 
-    
-        /* Get Calibration data from the MCU if available. */
-        int32_t    reference_calibration_data;
-        adc_info_t adc_info;
-        (void) R_ADC_InfoGet(&g_adc_ctrl, &adc_info);
-        reference_calibration_data = (int32_t) adc_info.calibration_data;
-        /* NOTE: The slope of the temperature sensor varies from sensor to sensor. Renesas recommends calculating
-         * the slope of the temperature sensor experimentally.
-         *
-         * This example uses the typical slope provided in Table 52.38  "TSN characteristics" in the RA6M1 manual
-         * R01UM0011EU0050. */
-        int32_t slope_uv_per_c = BSP_FEATURE_ADC_TSN_SLOPE;
-        /* Formula for calculating temperature copied from section 44.3.1 "Preparation for Using the Temperature Sensor"
-         * of the RA6M1 manual R01UH0884EJ0100:
-         *
-         * In this MCU, the TSCDR register stores the temperature value (CAL127) of the temperature sensor measured
-         * under the condition Ta = Tj = 127 C and AVCC0 = 3.3 V. By using this value as the sample measurement result
-         * at the first point, preparation before using the temperature sensor can be omitted.
-         *
-         * If V1 is calculated from CAL127,
-         * V1 = 3.3 * CAL127 / 4096 [V]
-         *
-         * Using this, the measured temperature can be calculated according to the following formula.
-         *
-         * T = (Vs - V1) / Slope + 127 [C]
-         * T: Measured temperature (C)
-         * Vs: Voltage output by the temperature sensor when the temperature is measured (V)
-         * V1: Voltage output by the temperature sensor when Ta = Tj = 127 C and AVCC0 = 3.3 V (V)
-         * Slope: Temperature slope given in Table 52.38 / 1000 (V/C)
-         */
 #ifdef BOARD_RA2A1_EK
-         int32_t v1_uv = (AVCC0 >> BIT_SHIFT_15) *
-                 reference_calibration_data;
-         int32_t vs_uv = (AVCC0 >> BIT_SHIFT_15) *
-                 g_adc_data;
-
-         int32_t temperature_c = (vs_uv - v1_uv) / slope_uv_per_c + CAL125;
+    {
+        adc_volt = (float)((g_adc_data * V_ref)/ADC_16_BIT);
+    }
 #else
-         int32_t v1_uv = (AVCC0 >> BIT_SHIFT_12) *
-                         reference_calibration_data;
-         int32_t vs_uv = (AVCC0 >> BIT_SHIFT_12) *
-                         g_adc_data;
-
-         int32_t temperature_c = (vs_uv - v1_uv) / slope_uv_per_c + CAL127;
+    {
+        adc_volt = (float)((g_adc_data * V_ref)/ADC_12_BIT);
+    }
 #endif
-    
 
+    snprintf(volt_str,SIZE_64, "%0.2f", adc_volt);
 
-    APP_PRINT("\r\nMCU Die Temperature Reading from ADC: %d\r\n", g_adc_data);
-    APP_PRINT("\r\nMCU Die Temperature Reading in Celsius: %d\r\n", temperature_c);
+    APP_PRINT("\r\nThe Voltage Reading from ADC: %d\r\n", g_adc_data);
+    APP_PRINT("\r\nThe ADC input voltage: %s\r\n", volt_str);
 
     /* In adc single scan mode after reading the data, it stops.So reset the b_ready_to_read state to
      * avoid reading unnecessarily. close the adc module as it gets opened in start scan command.*/
@@ -319,26 +287,17 @@ fsp_err_t adc_read_data(void)
             APP_ERR_TRAP(err);
         }
 
-        if(g_window_comp_event == true)
+        if(((g_window_comp_event == true)&&(ADC_MODE_SINGLE_SCAN == g_adc_cfg.mode))||(ADC_MODE_CONTINUOUS_SCAN == g_adc_cfg.mode))
         {
-            /* Determine if scan value was above or below the window */
-            err = R_ADC_Read (&g_adc_ctrl, ADC_CHANNEL_TEMPERATURE, &g_adc_data);
-            /* Handle error */
-            if (FSP_SUCCESS != err)
-            {
-                /* ADC Failure message */
-                APP_ERR_PRINT("** R_ADC_Read API failed ** \r\n");
-                return err;
-            }
 
             /* Print temperature status warning to RTT Viewer */
-            if(g_adc_data <= ADC_L_LMT)
+            if(ADC_L_LMT > g_adc_data)
             {
-                APP_PRINT("\r\nMCU temperature is below 0 degC. Allow MCU to warm up before beginning a new scan. \r\n");
+                APP_PRINT("\r\nADC Voltage is below the Lower Limit. \r\n");
             }
-            else if(g_adc_data >= ADC_H_LMT)
+            else if(ADC_H_LMT < g_adc_data)
             {
-                APP_PRINT("\r\nMCU temperature is above 45 degC. Allow MCU to cool down before beginning a new scan. \r\n");
+                APP_PRINT("\r\nADC Voltage is above the Upper Limit.  \r\n");
             }
         }
 
@@ -354,21 +313,7 @@ fsp_err_t adc_read_data(void)
 
         APP_PRINT("\r\nPress any other key(except 1 and 2) to go back to the main menu\r\n");
     }
-#ifdef BOARD_RA2A1_EK
-    /* check for deviation in adc values to initiate the calibration again*/
-    err = adc_deviation_in_output ();
-    /* handle error */
-    if (FSP_SUCCESS != err)
-    {
-        /* ADC Failure message */
-        APP_ERR_PRINT("** adc_deviation_in_output function failed ** \r\n");
-        return err;
-    }
 
-    /* update the current adc data to previous */
-    g_prev_adc_data = g_adc_data;
-
-#endif
 
     /* 1 Seconds Wait time between successive readings */
     R_BSP_SoftwareDelay (ADC_READ_DELAY, BSP_DELAY_UNITS_SECONDS);
@@ -511,7 +456,10 @@ void adc_callback(adc_callback_args_t * p_args)
     if(ADC_EVENT_WINDOW_COMPARE_A == p_args->event)
     {
         g_window_comp_event = true;
+        IRQn_Type irq = R_FSP_CurrentIrqGet();
+        R_BSP_IrqDisable(irq);
     }
+
 }
 
 /*******************************************************************************************************************//**

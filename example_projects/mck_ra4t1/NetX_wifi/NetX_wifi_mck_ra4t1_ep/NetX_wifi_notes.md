@@ -123,9 +123,9 @@ Before running the example project, refer to the below steps for hardware connec
 * Validation of TCP server entered by the user and Prompt for user to enter valid Port Number:      
 ![validate_tcp.JPG](images/validate_tcp.jpg "validate TCP server address and TCP Port prompt")
 * Send message to server on Connection and wait for server message:      
-![server_status_message.JPG](images/server_status_message.jpg "Sending and Receive Server Message")
-* The message from TCP Server as "on" or "off" is sent and is displayed in RTT viewer upon successful reception of valid message:  
-(Here either "on" or "off" is considered as a valid message from TCP server as these perform same action on User LED.Refer below images for Sokit tool images.)
+![server_status_message.JPG](images/server_status_message.jpg "Sending and Receive Server Message")  
+The message from TCP Server as "on" or "off" is sent and is displayed in RTT viewer upon successful reception of valid message.    
+(Here either "on" or "off" is considered as a valid message from TCP server as these perform same action on User LED.Refer below steps for using Sokit tool.)
 
 ## Steps for TCP server creation and connection ##
 

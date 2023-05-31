@@ -24,6 +24,7 @@ FSP Configuration
     Security: SRAM Accessibility: Standby RAM: Regions 7-0 are all Secure.
     Security: BUS Accessibility: Bus Security Attribution Register A: Both Secure and Non-Secure State
     Security: BUS Accessibility: Bus Security Attribution Register B: Both Secure and Non-Secure State
+    Security: Uninitialized Non-Secure Application Fallback: Enable Uninitialized Non-Secure Application Fallback
     Startup C-Cache Line Size: 32 Bytes
     OFS0 register settings: Independent WDT: Start Mode: IWDT is Disabled
     OFS0 register settings: Independent WDT: Timeout Period: 2048 cycles
@@ -107,9 +108,9 @@ FSP Configuration
       AVSS0 156 ANALOG0_AVSS0 - - - - - - - - IO "Read only" - 
       AVSSUSBHS 28 USB_HS0_AVSS_USBHS - - - - - - - - IO "Read only" - 
       P000 169 ADC0_AN000 MIKROBUS_AN_ARDUINO_A0 - - "Analog mode" - None "ADC0: AN000; ADC1: AN100; ICU0: IRQ06" - IO - - 
-      P001 168 ADC0_AN001 ARDUINO_A1 - - "Analog mode" - None "ADC0: AN001; ADC1: AN101; ICU0: IRQ07" - IO - - 
-      P002 167 ADC0_AN002 ARDUINO_A2 - - "Analog mode" - None "ADC0: AN002; ADC1: AN102; ICU0: IRQ08" - IO - - 
-      P003 166 ADC0_AN003 ARDUINO_A3 - - "Analog mode" - None "ADC0: AN003" - IO - - 
+      P001 168 - ARDUINO_A1 - - Disabled - - "ADC0: AN001; ADC1: AN101; ICU0: IRQ07" - None - - 
+      P002 167 - ARDUINO_A2 - - Disabled - - "ADC0: AN002; ADC1: AN102; ICU0: IRQ08" - None - - 
+      P003 166 - ARDUINO_A3 - - Disabled - - "ADC0: AN003" - None - - 
       P004 165 GPIO SW2 - IRQ09 "Input mode" - None "ADC0: AN004; ICU0: IRQ09" - IO - - 
       P005 164 GPIO SW1 - IRQ10 "Input mode" - None "ADC0: AN005; ICU0: IRQ10" - IO - - 
       P006 163 GPIO LED1 - None "Output mode (Initial Low)" CMOS - "ADC0: AN006; ICU0: IRQ11" - IO - - 
@@ -117,8 +118,8 @@ FSP Configuration
       P008 161 GPIO LED3 - None "Output mode (Initial Low)" CMOS - "ADC0: AN008; ICU0: IRQ12" - IO - - 
       P009 160 - - - - Disabled - - "ADC0: AN009; ICU0: IRQ13" - None - - 
       P010 159 - - - - Disabled - - "ADC0: AN010; ICU0: IRQ14" - None - - 
-      P014 152 ADC0_AN012 ARDUINO_A4 - - "Analog mode" - None "ADC0: AN012; DAC0: DA0" - IO - - 
-      P015 151 ADC0_AN013 ARDUINO_A5 - - "Analog mode" - None "ADC0: AN013; DAC1: DA1; ICU0: IRQ13" - IO - - 
+      P014 152 - ARDUINO_A4 - - Disabled - - "ADC0: AN012; DAC0: DA0" - None - - 
+      P015 151 - ARDUINO_A5 - - Disabled - - "ADC0: AN013; DAC1: DA1; ICU0: IRQ13" - None - - 
       P100 132 OSPI0_OMSCLK OSPI_CLK "High Speed High " None "Peripheral mode" CMOS None "AGT0: AGTIO0; BUS_ASYNCH0: D00; GPT_POEG0: GTETRGA; GPT5: GTIOC5B; ICU0: IRQ02; OSPI0: OMSCLK; QSPI0: QSPCLK; SCI0: RXD0; SCI0: SCL0; SCI1: SCK1; SPI1: MISOB" - IO - - 
       P101 131 OSPI0_OMSIO7 OSPI_SIO7 "High Speed High " None "Peripheral mode" CMOS None "AGT0: AGTEE0; BUS_ASYNCH0: D01; GPT_POEG1: GTETRGB; GPT5: GTIOC5A; ICU0: IRQ01; OSPI0: OMSIO7; QSPI0: QIO1; SCI0: SDA0; SCI0: TXD0; SCI1: CTSRTS1; SPI1: MOSIB" - IO - - 
       P102 130 OSPI0_OMSIO1 OSPI_SIO1 "High Speed High " - "Peripheral mode" CMOS None "ADC0: ADTRG0; AGT0: AGTO0; BUS_ASYNCH0: D02; CAN0: CRX0; GPT_OPS0: GTOWLO; GPT2: GTIOC2B; OSPI0: OMSIO1; QSPI0: QIO0; SCI0: SCK0; SPI1: RSPCKB" - IO - - 
@@ -284,9 +285,9 @@ FSP Configuration
       AVSS0 156 ANALOG0_AVSS0 - - - - - - - - IO "Read only" - 
       AVSSUSBHS 28 USB_HS0_AVSS_USBHS - - - - - - - - IO "Read only" - 
       P000 169 - MIKROBUS_AN_ARDUINO_A0 - - Disabled - None "ADC0: AN000; ADC1: AN100; ICU0: IRQ06" - IO - - 
-      P001 168 - ARDUINO_A1 - - Disabled - None "ADC0: AN001; ADC1: AN101; ICU0: IRQ07" - IO - - 
-      P002 167 - ARDUINO_A2 - - Disabled - None "ADC0: AN002; ADC1: AN102; ICU0: IRQ08" - IO - - 
-      P003 166 - ARDUINO_A3 - - Disabled - None "ADC0: AN003" - IO - - 
+      P001 168 - ARDUINO_A1 - - Disabled - - "ADC0: AN001; ADC1: AN101; ICU0: IRQ07" - None - - 
+      P002 167 - ARDUINO_A2 - - Disabled - - "ADC0: AN002; ADC1: AN102; ICU0: IRQ08" - None - - 
+      P003 166 - ARDUINO_A3 - - Disabled - - "ADC0: AN003" - None - - 
       P004 165 - SW2 - None Disabled - None "ADC0: AN004; ICU0: IRQ09" - IO - - 
       P005 164 - SW1 - None Disabled - None "ADC0: AN005; ICU0: IRQ10" - IO - - 
       P006 163 - LED1 - None Disabled CMOS - "ADC0: AN006; ICU0: IRQ11" - IO - - 
@@ -294,8 +295,8 @@ FSP Configuration
       P008 161 - LED3 - None Disabled CMOS - "ADC0: AN008; ICU0: IRQ12" - IO - - 
       P009 160 - - - - Disabled - - "ADC0: AN009; ICU0: IRQ13" - None - - 
       P010 159 - - - - Disabled - - "ADC0: AN010; ICU0: IRQ14" - None - - 
-      P014 152 - ARDUINO_A4 - - Disabled - None "ADC0: AN012; DAC0: DA0" - IO - - 
-      P015 151 - ARDUINO_A5 - - Disabled - None "ADC0: AN013; DAC1: DA1; ICU0: IRQ13" - IO - - 
+      P014 152 - ARDUINO_A4 - - Disabled - - "ADC0: AN012; DAC0: DA0" - None - - 
+      P015 151 - ARDUINO_A5 - - Disabled - - "ADC0: AN013; DAC1: DA1; ICU0: IRQ13" - None - - 
       P100 132 - OSPI_CLK Low None Disabled CMOS None "AGT0: AGTIO0; BUS_ASYNCH0: D00; GPT_POEG0: GTETRGA; GPT5: GTIOC5B; ICU0: IRQ02; OSPI0: OMSCLK; QSPI0: QSPCLK; SCI0: RXD0; SCI0: SCL0; SCI1: SCK1; SPI1: MISOB" - IO - - 
       P101 131 - OSPI_SIO7 Low None Disabled CMOS None "AGT0: AGTEE0; BUS_ASYNCH0: D01; GPT_POEG1: GTETRGB; GPT5: GTIOC5A; ICU0: IRQ01; OSPI0: OMSIO7; QSPI0: QIO1; SCI0: SDA0; SCI0: TXD0; SCI1: CTSRTS1; SPI1: MOSIB" - IO - - 
       P102 130 - OSPI_SIO1 Low - Disabled CMOS None "ADC0: ADTRG0; AGT0: AGTO0; BUS_ASYNCH0: D02; CAN0: CRX0; GPT_OPS0: GTOWLO; GPT2: GTIOC2B; OSPI0: OMSIO1; QSPI0: QIO0; SCI0: SCK0; SPI1: RSPCKB" - IO - - 
@@ -481,9 +482,9 @@ FSP Configuration
       General: Resolution: 12-Bit
       General: Alignment: Right
       General: Clear after read: On
-      General: Mode: Continuous Scan
+      General: Mode: Single Scan
       General: Double-trigger: Disabled
-      Input: Channel Scan Mask (channel availability varies by MCU): Temperature Sensor
+      Input: Channel Scan Mask (channel availability varies by MCU): Channel 0
       Input: Group B Scan Mask (channel availability varies by MCU): 
       Interrupts: Normal/Group A Trigger: Software
       Interrupts: Group B Trigger: Disabled
@@ -496,19 +497,19 @@ FSP Configuration
       Input: Window Compare: Window Mode: Enabled
       Input: Window Compare: Event Output: OR
       Input: Window Compare: Window A: Enable: Enabled
-      Input: Window Compare: Window A: Channels to compare (channel availability varies by MCU and unit): Temperature Sensor
+      Input: Window Compare: Window A: Channels to compare (channel availability varies by MCU and unit): Channel 0
       Input: Window Compare: Window A: Channel comparison mode (channel availability varies by MCU and unit): 
-      Input: Window Compare: Window A: Lower Reference: 1402
-      Input: Window Compare: Window A: Upper Reference: 1602
+      Input: Window Compare: Window A: Lower Reference: 1241
+      Input: Window Compare: Window A: Upper Reference: 3107
       Input: Window Compare: Window B: Enable: Disabled
       Input: Window Compare: Window B: Channel to compare (channel availability varies by MCU and unit): Channel 0
       Input: Window Compare: Window B: Comparison mode: Less Than or Outside Window
       Input: Window Compare: Window B: Lower Reference: 0
       Input: Window Compare: Window B: Upper Reference: 0
-      Interrupts: Callback: NULL
-      Interrupts: Scan End Interrupt Priority: Disabled
+      Interrupts: Callback: adc_callback
+      Interrupts: Scan End Interrupt Priority: Priority 1
       Interrupts: Scan End Group B Interrupt Priority: Disabled
-      Interrupts: Window Compare A Interrupt Priority: Disabled
+      Interrupts: Window Compare A Interrupt Priority: Priority 1
       Interrupts: Window Compare B Interrupt Priority: Disabled
       Extra: ADC Ring Buffer: Disabled
       

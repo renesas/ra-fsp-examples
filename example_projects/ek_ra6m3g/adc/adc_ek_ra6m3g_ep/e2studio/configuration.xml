@@ -72,6 +72,9 @@
       <property id="config.bsp.fsp.mcu.sci_spi.max_bitrate" value="30000000" />
       <property id="config.bsp.fsp.mcu.spi.max_bitrate" value="30000000" />
       <property id="config.bsp.fsp.mcu.iic_master.rate.rate_fastplus" value="1" />
+      <property id="config.bsp.fsp.mcu.iic_master.fastplus_channels" value="0x1" />
+      <property id="config.bsp.fsp.mcu.iic_slave.rate.rate_fastplus" value="1" />
+      <property id="config.bsp.fsp.mcu.iic_slave.fastplus_channels" value="0x1" />
       <property id="config.bsp.fsp.mcu.sci_uart.cstpen_channels" value="0x0" />
       <property id="config.bsp.fsp.mcu.gpt.pin_count_source_channels" value="0xFFFF" />
       <property id="config.bsp.common.id_mode" value="config.bsp.common.id_mode.unlocked" />
@@ -189,7 +192,7 @@
       <property id="module.driver.adc.clearing" value="module.driver.adc.clearing.clear_after_read_on" />
       <property id="module.driver.adc.mode" value="module.driver.adc.mode.mode_continuous_scan" />
       <property id="module.driver.adc.mode.dt" value="module.driver.adc.mode.dt.disabled" />
-      <property id="module.driver.adc.scan_mask" value="module.driver.adc.scan_mask.temperature" />
+      <property id="module.driver.adc.scan_mask" value="module.driver.adc.scan_mask.channel_0" />
       <property id="module.driver.adc.scan_mask_group_b" value="" />
       <property id="module.driver.adc.trigger" value="enum.driver.adc.trigger.trigger_software" />
       <property id="module.driver.adc.trigger_group_b" value="_disabled" />
@@ -202,19 +205,19 @@
       <property id="module.driver.adc.compare.window_mode" value="module.driver.adc.compare.window_mode.enabled" />
       <property id="module.driver.adc.compare.event_mode" value="module.driver.adc.compare.event_mode.or" />
       <property id="module.driver.adc.compare.window_a.enable" value="module.driver.adc.compare.window_a.enable.enabled" />
-      <property id="module.driver.adc.compare.window_a.channels" value="module.driver.adc.compare.window_a.channels.temperature" />
+      <property id="module.driver.adc.compare.window_a.channels" value="module.driver.adc.compare.window_a.channels.channel_0" />
       <property id="module.driver.adc.compare.window_a.channel_mode" value="" />
-      <property id="module.driver.adc.compare.window_a.ref_lower" value="1402" />
-      <property id="module.driver.adc.compare.window_a.ref_upper" value="1602" />
+      <property id="module.driver.adc.compare.window_a.ref_lower" value="1230" />
+      <property id="module.driver.adc.compare.window_a.ref_upper" value="3107" />
       <property id="module.driver.adc.compare.window_b.enable" value="module.driver.adc.compare.window_b.enable.disabled" />
       <property id="module.driver.adc.compare.window_b.channel" value="module.driver.adc.compare.window_b.channel.channel_0" />
       <property id="module.driver.adc.compare.window_b.mode" value="module.driver.adc.compare.window_b.mode" />
       <property id="module.driver.adc.compare.window_b.ref_lower" value="0" />
       <property id="module.driver.adc.compare.window_b.ref_upper" value="0" />
-      <property id="module.driver.adc.p_callback" value="NULL" />
-      <property id="module.driver.adc.scan_end_ipl" value="_disabled" />
+      <property id="module.driver.adc.p_callback" value="adc_callback" />
+      <property id="module.driver.adc.scan_end_ipl" value="board.icu.common.irq.priority1" />
       <property id="module.driver.adc.scan_end_b_ipl" value="_disabled" />
-      <property id="module.driver.adc.window_a_ipl" value="_disabled" />
+      <property id="module.driver.adc.window_a_ipl" value="board.icu.common.irq.priority1" />
       <property id="module.driver.adc.window_b_ipl" value="_disabled" />
       <property id="module.driver.adc.adbuf" value="module.driver.adc.adbuf.disabled" />
     </module>
@@ -235,8 +238,6 @@
       <configSetting altId="adc0.an00.p000" configurationId="adc0.an00" />
       <configSetting altId="adc0.an01.p001" configurationId="adc0.an01" />
       <configSetting altId="adc0.an02.p002" configurationId="adc0.an02" />
-      <configSetting altId="adc0.an05.p014" configurationId="adc0.an05" />
-      <configSetting altId="adc0.an20.p508" configurationId="adc0.an20" />
       <configSetting altId="adc0.mode.custom" configurationId="adc0.mode" />
       <configSetting altId="adc1.an19.p507" configurationId="adc1.an19" />
       <configSetting altId="adc1.mode.custom" configurationId="adc1.mode" />
@@ -312,8 +313,6 @@
       <configSetting altId="p009.irq0.irq13" configurationId="p009" />
       <configSetting altId="p009.gpio_irq.gpio_irq_enabled" configurationId="p009.gpio_irq" />
       <configSetting altId="p009.gpio_mode.gpio_mode_irq" configurationId="p009.gpio_mode" />
-      <configSetting altId="p014.asel" configurationId="p014" />
-      <configSetting altId="p014.gpio_mode.gpio_mode_an" configurationId="p014.gpio_mode" />
       <configSetting altId="p100.output.low" configurationId="p100" />
       <configSetting altId="p100.gpio_mode.gpio_mode_out.low" configurationId="p100.gpio_mode" />
       <configSetting altId="p101.glcdc0.lcd_clk" configurationId="p101" />
@@ -471,8 +470,6 @@
       <configSetting altId="p506.gpio_mode.gpio_mode_irq" configurationId="p506.gpio_mode" />
       <configSetting altId="p507.asel" configurationId="p507" />
       <configSetting altId="p507.gpio_mode.gpio_mode_an" configurationId="p507.gpio_mode" />
-      <configSetting altId="p508.asel" configurationId="p508" />
-      <configSetting altId="p508.gpio_mode.gpio_mode_an" configurationId="p508.gpio_mode" />
       <configSetting altId="p511.iic2.sda" configurationId="p511" />
       <configSetting altId="p511.gpio_speed.gpio_speed_medium" configurationId="p511.gpio_drivecapacity" />
       <configSetting altId="p511.gpio_mode.gpio_mode_peripheral" configurationId="p511.gpio_mode" />

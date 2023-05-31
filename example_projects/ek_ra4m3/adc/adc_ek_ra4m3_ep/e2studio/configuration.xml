@@ -41,6 +41,7 @@
       <property id="config.bsp.fsp.tz.stbramsar" value="config.bsp.fsp.tz.stbramsar.both" />
       <property id="config.bsp.fsp.tz.bussara" value="config.bsp.fsp.tz.bussara.both" />
       <property id="config.bsp.fsp.tz.bussarb" value="config.bsp.fsp.tz.bussarb.both" />
+      <property id="config.bsp.fsp.tz.uninitialized_ns_application_fallback" value="config.bsp.fsp.tz.uninitialized_ns_application_fallback.enabled" />
       <property id="config.bsp.fsp.cache_line_size" value="config.bsp.fsp.cache_line_size.32" />
       <property id="config.bsp.fsp.OFS0.iwdt_start_mode" value="config.bsp.fsp.OFS0.iwdt_start_mode.disabled" />
       <property id="config.bsp.fsp.OFS0.iwdt_timeout" value="config.bsp.fsp.OFS0.iwdt_timeout.2048" />
@@ -70,8 +71,12 @@
       <property id="config.bsp.fsp.mcu.sci_spi.max_bitrate" value="25000000" />
       <property id="config.bsp.fsp.mcu.spi.max_bitrate" value="50000000" />
       <property id="config.bsp.fsp.mcu.iic_master.rate.rate_fastplus" value="1" />
+      <property id="config.bsp.fsp.mcu.iic_master.fastplus_channels" value="0x1" />
+      <property id="config.bsp.fsp.mcu.iic_slave.rate.rate_fastplus" value="1" />
+      <property id="config.bsp.fsp.mcu.iic_slave.fastplus_channels" value="0x1" />
       <property id="config.bsp.fsp.mcu.sci_uart.cstpen_channels" value="0x0219" />
       <property id="config.bsp.fsp.mcu.gpt.pin_count_source_channels" value="0xFFFF" />
+      <property id="config.bsp.fsp.mcu.adc_dmac.samples_per_channel" value="32767" />
     </config>
     <config id="config.bsp.ra">
       <property id="config.bsp.common.main" value="0x400" />
@@ -176,9 +181,9 @@
       <property id="module.driver.adc.resolution" value="module.driver.adc.resolution.resolution_12_bit" />
       <property id="module.driver.adc.alignment" value="module.driver.adc.alignment.alignment_right" />
       <property id="module.driver.adc.clearing" value="module.driver.adc.clearing.clear_after_read_on" />
-      <property id="module.driver.adc.mode" value="module.driver.adc.mode.mode_single_scan" />
+      <property id="module.driver.adc.mode" value="module.driver.adc.mode.mode_continuous_scan" />
       <property id="module.driver.adc.mode.dt" value="module.driver.adc.mode.dt.disabled" />
-      <property id="module.driver.adc.scan_mask" value="module.driver.adc.scan_mask.temperature" />
+      <property id="module.driver.adc.scan_mask" value="module.driver.adc.scan_mask.channel_0" />
       <property id="module.driver.adc.scan_mask_group_b" value="" />
       <property id="module.driver.adc.trigger" value="enum.driver.adc.trigger.trigger_software" />
       <property id="module.driver.adc.trigger_group_b" value="_disabled" />
@@ -191,19 +196,19 @@
       <property id="module.driver.adc.compare.window_mode" value="module.driver.adc.compare.window_mode.enabled" />
       <property id="module.driver.adc.compare.event_mode" value="module.driver.adc.compare.event_mode.or" />
       <property id="module.driver.adc.compare.window_a.enable" value="module.driver.adc.compare.window_a.enable.enabled" />
-      <property id="module.driver.adc.compare.window_a.channels" value="module.driver.adc.compare.window_a.channels.temperature" />
+      <property id="module.driver.adc.compare.window_a.channels" value="module.driver.adc.compare.window_a.channels.channel_0" />
       <property id="module.driver.adc.compare.window_a.channel_mode" value="" />
-      <property id="module.driver.adc.compare.window_a.ref_lower" value="1402" />
-      <property id="module.driver.adc.compare.window_a.ref_upper" value="1602" />
+      <property id="module.driver.adc.compare.window_a.ref_lower" value="1230" />
+      <property id="module.driver.adc.compare.window_a.ref_upper" value="3107" />
       <property id="module.driver.adc.compare.window_b.enable" value="module.driver.adc.compare.window_b.enable.disabled" />
       <property id="module.driver.adc.compare.window_b.channel" value="module.driver.adc.compare.window_b.channel.channel_0" />
       <property id="module.driver.adc.compare.window_b.mode" value="module.driver.adc.compare.window_b.mode" />
       <property id="module.driver.adc.compare.window_b.ref_lower" value="0" />
       <property id="module.driver.adc.compare.window_b.ref_upper" value="0" />
-      <property id="module.driver.adc.p_callback" value="NULL" />
-      <property id="module.driver.adc.scan_end_ipl" value="_disabled" />
+      <property id="module.driver.adc.p_callback" value="adc_callback" />
+      <property id="module.driver.adc.scan_end_ipl" value="board.icu.common.irq.priority1" />
       <property id="module.driver.adc.scan_end_b_ipl" value="_disabled" />
-      <property id="module.driver.adc.window_a_ipl" value="_disabled" />
+      <property id="module.driver.adc.window_a_ipl" value="board.icu.common.irq.priority1" />
       <property id="module.driver.adc.window_b_ipl" value="_disabled" />
       <property id="module.driver.adc.adbuf" value="module.driver.adc.adbuf.disabled" />
     </module>
@@ -274,10 +279,7 @@
     <pincfg active="true" name="RA4M3 EK" selected="true" symbol="g_bsp_pin_cfg">
       <configSetting altId="adc0.an00.p000" configurationId="adc0.an00" />
       <configSetting altId="adc0.an01.p001" configurationId="adc0.an01" />
-      <configSetting altId="adc0.an03.p003" configurationId="adc0.an03" />
-      <configSetting altId="adc0.an07.p007" configurationId="adc0.an07" />
-      <configSetting altId="adc0.an12.p014" configurationId="adc0.an12" />
-      <configSetting altId="adc0.an13.p015" configurationId="adc0.an13" />
+      <configSetting altId="adc0.an02.p002" configurationId="adc0.an02" />
       <configSetting altId="adc0.mode.custom" configurationId="adc0.mode" />
       <configSetting altId="adc1.an21.p505" configurationId="adc1.an21" />
       <configSetting altId="adc1.an22.p506" configurationId="adc1.an22" />
@@ -299,24 +301,18 @@
       <configSetting altId="p000.gpio_mode.gpio_mode_an" configurationId="p000.gpio_mode" />
       <configSetting altId="p001.asel" configurationId="p001" />
       <configSetting altId="p001.gpio_mode.gpio_mode_an" configurationId="p001.gpio_mode" />
-      <configSetting altId="p003.asel" configurationId="p003" />
-      <configSetting altId="p003.gpio_mode.gpio_mode_an" configurationId="p003.gpio_mode" />
+      <configSetting altId="p002.asel" configurationId="p002" />
+      <configSetting altId="p002.gpio_mode.gpio_mode_an" configurationId="p002.gpio_mode" />
       <configSetting altId="p005.input" configurationId="p005" />
       <configSetting altId="p005.gpio_irq.gpio_irq_enabled" configurationId="p005.gpio_irq" />
       <configSetting altId="p005.gpio_mode.gpio_mode_in" configurationId="p005.gpio_mode" />
       <configSetting altId="p006.input" configurationId="p006" />
       <configSetting altId="p006.gpio_irq.gpio_irq_enabled" configurationId="p006.gpio_irq" />
       <configSetting altId="p006.gpio_mode.gpio_mode_in" configurationId="p006.gpio_mode" />
-      <configSetting altId="p007.asel" configurationId="p007" />
-      <configSetting altId="p007.gpio_mode.gpio_mode_an" configurationId="p007.gpio_mode" />
       <configSetting altId="p008.input" configurationId="p008" />
       <configSetting altId="p008.gpio_irq.gpio_irq_enabled" configurationId="p008.gpio_irq" />
       <configSetting altId="p008.gpio_mode.gpio_mode_in" configurationId="p008.gpio_mode" />
       <configSetting altId="p008.gpio_pupd.gpio_pupd_ip_up" configurationId="p008.gpio_pupd" />
-      <configSetting altId="p014.asel" configurationId="p014" />
-      <configSetting altId="p014.gpio_mode.gpio_mode_an" configurationId="p014.gpio_mode" />
-      <configSetting altId="p015.asel" configurationId="p015" />
-      <configSetting altId="p015.gpio_mode.gpio_mode_an" configurationId="p015.gpio_mode" />
       <configSetting altId="p100.sci0.rxd" configurationId="p100" />
       <configSetting altId="p100.gpio_mode.gpio_mode_peripheral" configurationId="p100.gpio_mode" />
       <configSetting altId="p101.sci0.txd" configurationId="p101" />

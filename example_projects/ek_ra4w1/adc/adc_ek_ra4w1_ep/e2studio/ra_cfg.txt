@@ -173,32 +173,32 @@ FSP Configuration
       General: Clear after read: On
       General: Mode: Single Scan
       General: Double-trigger: Disabled
-      Input: Channel Scan Mask (channel availability varies by MCU): Temperature Sensor
+      Input: Channel Scan Mask (channel availability varies by MCU): Channel 4
       Input: Group B Scan Mask (channel availability varies by MCU): 
       Interrupts: Normal/Group A Trigger: Software
       Interrupts: Group B Trigger: Disabled
       Interrupts: Group Priority (Valid only in Group Scan Mode): Group A cannot interrupt Group B
       Input: Add/Average Count: Disabled
-      Input: Reference Voltage control: AVCC0/AVSS0
+      Input: Reference Voltage control: VREFH0/VREFL0
       Input: Addition/Averaging Mask (channel availability varies by MCU and unit): 
       Input: Sample and Hold: Sample and Hold Channels (Available only on selected MCUs): 
       Input: Sample and Hold: Sample Hold States (Applies only to channels 0, 1, 2): 24
       Input: Window Compare: Window Mode: Enabled
       Input: Window Compare: Event Output: OR
       Input: Window Compare: Window A: Enable: Enabled
-      Input: Window Compare: Window A: Channels to compare (channel availability varies by MCU and unit): Temperature Sensor
+      Input: Window Compare: Window A: Channels to compare (channel availability varies by MCU and unit): Channel 4
       Input: Window Compare: Window A: Channel comparison mode (channel availability varies by MCU and unit): 
-      Input: Window Compare: Window A: Lower Reference: 1402
-      Input: Window Compare: Window A: Upper Reference: 1602
+      Input: Window Compare: Window A: Lower Reference: 1230
+      Input: Window Compare: Window A: Upper Reference: 3107
       Input: Window Compare: Window B: Enable: Disabled
       Input: Window Compare: Window B: Channel to compare (channel availability varies by MCU and unit): Channel 0
       Input: Window Compare: Window B: Comparison mode: Less Than or Outside Window
       Input: Window Compare: Window B: Lower Reference: 0
       Input: Window Compare: Window B: Upper Reference: 0
-      Interrupts: Callback: NULL
-      Interrupts: Scan End Interrupt Priority: Disabled
+      Interrupts: Callback: adc_callback
+      Interrupts: Scan End Interrupt Priority: Priority 1
       Interrupts: Scan End Group B Interrupt Priority: Disabled
-      Interrupts: Window Compare A Interrupt Priority: Disabled
+      Interrupts: Window Compare A Interrupt Priority: Priority 1
       Interrupts: Window Compare B Interrupt Priority: Disabled
       Extra: ADC Ring Buffer: Not Supported
       

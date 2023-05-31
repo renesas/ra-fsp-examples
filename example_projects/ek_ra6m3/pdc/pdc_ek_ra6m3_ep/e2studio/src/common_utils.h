@@ -52,18 +52,31 @@
 
 #define SEGGER_INDEX            (0)
 
-#define APP_PRINT(fn_, ...)      SEGGER_RTT_printf (SEGGER_INDEX,(fn_), ##__VA_ARGS__);
+#define APP_PRINT(fn_, ...)      (SEGGER_RTT_printf (SEGGER_INDEX,(fn_), ##__VA_ARGS__))
 
-#define APP_ERR_PRINT(fn_, ...)  if(LVL_ERR)\
-        SEGGER_RTT_printf (SEGGER_INDEX, "[ERR] In Function: %s(), %s",__FUNCTION__,(fn_),##__VA_ARGS__);
+#define APP_ERR_PRINT_FUNC_NAME (APP_PRINT("[ERR] In Function: %s(), ", __FUNCTION__))
 
-#define APP_ERR_TRAP(err)        if(err) {\
-        SEGGER_RTT_printf(SEGGER_INDEX, "\r\nReturned Error Code: 0x%x  \r\n", err);\
-        __asm("BKPT #0\n");} /* trap upon the error  */
+#if(LVL_ERR)
+#define APP_ERR_PRINT(fn_, ...)  ({\
+       APP_ERR_PRINT_FUNC_NAME;            \
+       APP_PRINT((fn_), ##__VA_ARGS__);    \
+})
+#else
+#define APP_ERR_PRINT(fn_, ...)
+#endif
 
-#define APP_READ(read_data)     SEGGER_RTT_Read (SEGGER_INDEX, read_data, sizeof(read_data));
+#define APP_ERR_TRAP(err)        ({\
+       fsp_err_t a = (err);                                                            \
+        if(a)                                                                           \
+        {                                                                               \
+            SEGGER_RTT_printf(SEGGER_INDEX, "\r\nReturned Error Code: 0x%x  \r\n", a);  \
+            __asm("BKPT #0\n");                                                         \
+        }                                                                               \
+}) /* trap upon the error  */
 
-#define APP_CHECK_DATA          SEGGER_RTT_HasKey()
+#define APP_READ(read_data)     (SEGGER_RTT_Read (SEGGER_INDEX, (read_data), BUFFER_SIZE_DOWN))
+
+#define APP_CHECK_DATA          (SEGGER_RTT_HasKey())
 
 
 #endif /* COMMON_UTILS_H_ */

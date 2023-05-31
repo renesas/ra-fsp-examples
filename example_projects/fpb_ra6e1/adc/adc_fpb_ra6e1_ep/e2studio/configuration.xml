@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<raConfiguration version="6">
+<raConfiguration version="7">
   <generalSettings>
     <option key="#Board#" value="board.ra6e1_fpb" />
     <option key="CPU" value="RA6E1" />
+    <option key="Core" value="CM33" />
     <option key="#TargetName#" value="R7FA6E10F2CFP" />
     <option key="#TargetARCHITECTURE#" value="cortex-m33" />
     <option key="#DeviceCommand#" value="R7FA6E10F" />
@@ -22,6 +23,7 @@
       <property id="config.bsp.data_flash_size_bytes" value="config.bsp.data_flash_size_bytes.value" />
       <property id="config.bsp.package_style" value="config.bsp.package_style.value" />
       <property id="config.bsp.package_pins" value="config.bsp.package_pins.value" />
+      <property id="config.bsp.irq_count_hidden" value="96" />
     </config>
     <config id="config.bsp.ra6e1">
       <property id="config.bsp.series" value="config.bsp.series.value" />
@@ -39,6 +41,7 @@
       <property id="config.bsp.fsp.tz.stbramsar" value="config.bsp.fsp.tz.stbramsar.both" />
       <property id="config.bsp.fsp.tz.bussara" value="config.bsp.fsp.tz.bussara.both" />
       <property id="config.bsp.fsp.tz.bussarb" value="config.bsp.fsp.tz.bussarb.both" />
+      <property id="config.bsp.fsp.tz.uninitialized_ns_application_fallback" value="config.bsp.fsp.tz.uninitialized_ns_application_fallback.enabled" />
       <property id="config.bsp.fsp.cache_line_size" value="config.bsp.fsp.cache_line_size.32" />
       <property id="config.bsp.fsp.OFS0.iwdt_start_mode" value="config.bsp.fsp.OFS0.iwdt_start_mode.disabled" />
       <property id="config.bsp.fsp.OFS0.iwdt_timeout" value="config.bsp.fsp.OFS0.iwdt_timeout.2048" />
@@ -72,6 +75,12 @@
       <property id="config.bsp.fsp.mcu.sci_spi.max_bitrate" value="25000000" />
       <property id="config.bsp.fsp.mcu.spi.max_bitrate" value="50000000" />
       <property id="config.bsp.fsp.mcu.iic_master.rate.rate_fastplus" value="1" />
+      <property id="config.bsp.fsp.mcu.iic_master.fastplus_channels" value="0x1" />
+      <property id="config.bsp.fsp.mcu.iic_slave.rate.rate_fastplus" value="1" />
+      <property id="config.bsp.fsp.mcu.iic_slave.fastplus_channels" value="0x1" />
+      <property id="config.bsp.fsp.mcu.sci_uart.cstpen_channels" value="0x0219" />
+      <property id="config.bsp.fsp.mcu.gpt.pin_count_source_channels" value="0xFFFF" />
+      <property id="config.bsp.fsp.mcu.adc_dmac.samples_per_channel" value="32767" />
     </config>
     <config id="config.bsp.ra">
       <property id="config.bsp.common.main" value="0x400" />
@@ -81,9 +90,10 @@
       <property id="config.bsp.common.assert" value="config.bsp.common.assert.none" />
       <property id="config.bsp.common.error_log" value="config.bsp.common.error_log.none" />
       <property id="config.bsp.common.soft_reset" value="config.bsp.common.soft_reset.disabled" />
-      <property id="config.bsp.common.main_osc_populated" value="config.bsp.common.main_osc_populated.enabled" />
+      <property id="config.bsp.common.main_osc_populated" value="config.bsp.common.main_osc_populated.disabled" />
       <property id="config.bsp.common.pfs_protect" value="config.bsp.common.pfs_protect.enabled" />
       <property id="config.bsp.common.c_runtime_init" value="config.bsp.common.c_runtime_init.enabled" />
+      <property id="config.bsp.common.early_init" value="config.bsp.common.early_init.disabled" />
       <property id="config.bsp.common.main_osc_clock_source" value="config.bsp.common.main_osc_clock_source.crystal" />
       <property id="config.bsp.common.subclock_populated" value="config.bsp.common.subclock_populated.disabled" />
       <property id="config.bsp.common.subclock_drive" value="config.bsp.common.subclock_drive.standard" />
@@ -175,9 +185,9 @@
       <property id="module.driver.adc.resolution" value="module.driver.adc.resolution.resolution_12_bit" />
       <property id="module.driver.adc.alignment" value="module.driver.adc.alignment.alignment_right" />
       <property id="module.driver.adc.clearing" value="module.driver.adc.clearing.clear_after_read_on" />
-      <property id="module.driver.adc.mode" value="module.driver.adc.mode.mode_single_scan" />
+      <property id="module.driver.adc.mode" value="module.driver.adc.mode.mode_continuous_scan" />
       <property id="module.driver.adc.mode.dt" value="module.driver.adc.mode.dt.disabled" />
-      <property id="module.driver.adc.scan_mask" value="module.driver.adc.scan_mask.voltage" />
+      <property id="module.driver.adc.scan_mask" value="module.driver.adc.scan_mask.channel_0" />
       <property id="module.driver.adc.scan_mask_group_b" value="" />
       <property id="module.driver.adc.trigger" value="enum.driver.adc.trigger.trigger_software" />
       <property id="module.driver.adc.trigger_group_b" value="_disabled" />
@@ -187,9 +197,23 @@
       <property id="module.driver.adc.add_mask" value="" />
       <property id="module.driver.adc.sample_hold_mask" value="" />
       <property id="module.driver.adc.sample_hold_states" value="24" />
-      <property id="module.driver.adc.p_callback" value="NULL" />
-      <property id="module.driver.adc.scan_end_ipl" value="_disabled" />
+      <property id="module.driver.adc.compare.window_mode" value="module.driver.adc.compare.window_mode.enabled" />
+      <property id="module.driver.adc.compare.event_mode" value="module.driver.adc.compare.event_mode.or" />
+      <property id="module.driver.adc.compare.window_a.enable" value="module.driver.adc.compare.window_a.enable.enabled" />
+      <property id="module.driver.adc.compare.window_a.channels" value="module.driver.adc.compare.window_a.channels.channel_0" />
+      <property id="module.driver.adc.compare.window_a.channel_mode" value="" />
+      <property id="module.driver.adc.compare.window_a.ref_lower" value="1230" />
+      <property id="module.driver.adc.compare.window_a.ref_upper" value="3107" />
+      <property id="module.driver.adc.compare.window_b.enable" value="module.driver.adc.compare.window_b.enable.disabled" />
+      <property id="module.driver.adc.compare.window_b.channel" value="module.driver.adc.compare.window_b.channel.channel_0" />
+      <property id="module.driver.adc.compare.window_b.mode" value="module.driver.adc.compare.window_b.mode" />
+      <property id="module.driver.adc.compare.window_b.ref_lower" value="0" />
+      <property id="module.driver.adc.compare.window_b.ref_upper" value="0" />
+      <property id="module.driver.adc.p_callback" value="adc_callback" />
+      <property id="module.driver.adc.scan_end_ipl" value="board.icu.common.irq.priority1" />
       <property id="module.driver.adc.scan_end_b_ipl" value="_disabled" />
+      <property id="module.driver.adc.window_a_ipl" value="board.icu.common.irq.priority1" />
+      <property id="module.driver.adc.window_b_ipl" value="_disabled" />
       <property id="module.driver.adc.adbuf" value="module.driver.adc.adbuf.disabled" />
     </module>
     <context id="_hal.0">
@@ -248,10 +272,6 @@
       <configSetting altId="adc0.an004.p004" configurationId="adc0.an004" />
       <configSetting altId="adc0.an008.p008" configurationId="adc0.an008" />
       <configSetting altId="adc0.mode.custom.free" configurationId="adc0.mode" />
-      <configSetting altId="irq.irq13.p015" configurationId="irq.irq13" />
-      <configSetting altId="irq.irq1_dash_ds.p205" configurationId="irq.irq1_dash_ds" />
-      <configSetting altId="irq.irq9.p304" configurationId="irq.irq9" />
-      <configSetting altId="irq.mode.custom.free" configurationId="irq.mode" />
       <configSetting altId="jtag_fslash_swd.mode.swd.free" configurationId="jtag_fslash_swd.mode" />
       <configSetting altId="jtag_fslash_swd.swclk.p300" configurationId="jtag_fslash_swd.swclk" />
       <configSetting altId="jtag_fslash_swd.swdio.p108" configurationId="jtag_fslash_swd.swdio" />
@@ -267,9 +287,6 @@
       <configSetting altId="p004.gpio_mode.gpio_mode_an" configurationId="p004.gpio_mode" />
       <configSetting altId="p008.adc0.an008" configurationId="p008" />
       <configSetting altId="p008.gpio_mode.gpio_mode_an" configurationId="p008.gpio_mode" />
-      <configSetting altId="p015.irq.irq13" configurationId="p015" />
-      <configSetting altId="p015.gpio_irq.gpio_irq_enabled" configurationId="p015.gpio_irq" />
-      <configSetting altId="p015.gpio_mode.gpio_mode_irq" configurationId="p015.gpio_mode" />
       <configSetting altId="p100.sci0.rxd0" configurationId="p100" />
       <configSetting altId="p100.gpio_speed.gpio_speed_h" configurationId="p100.gpio_drivecapacity" />
       <configSetting altId="p100.gpio_mode.gpio_mode_peripheral" configurationId="p100.gpio_mode" />
@@ -311,9 +328,6 @@
       <configSetting altId="p113.output.low" configurationId="p113" />
       <configSetting altId="p113.gpio_speed.gpio_speed_h" configurationId="p113.gpio_drivecapacity" />
       <configSetting altId="p113.gpio_mode.gpio_mode_out.low" configurationId="p113.gpio_mode" />
-      <configSetting altId="p205.irq.irq1_dash_ds" configurationId="p205" />
-      <configSetting altId="p205.gpio_irq.gpio_irq_enabled" configurationId="p205.gpio_irq" />
-      <configSetting altId="p205.gpio_mode.gpio_mode_irq" configurationId="p205.gpio_mode" />
       <configSetting altId="p300.jtag_fslash_swd.swclk" configurationId="p300" />
       <configSetting altId="p300.gpio_speed.gpio_speed_h" configurationId="p300.gpio_drivecapacity" />
       <configSetting altId="p300.gpio_mode.gpio_mode_peripheral" configurationId="p300.gpio_mode" />
@@ -326,9 +340,6 @@
       <configSetting altId="p303.output.low" configurationId="p303" />
       <configSetting altId="p303.gpio_speed.gpio_speed_h" configurationId="p303.gpio_drivecapacity" />
       <configSetting altId="p303.gpio_mode.gpio_mode_out.low" configurationId="p303.gpio_mode" />
-      <configSetting altId="p304.irq.irq9" configurationId="p304" />
-      <configSetting altId="p304.gpio_irq.gpio_irq_enabled" configurationId="p304.gpio_irq" />
-      <configSetting altId="p304.gpio_mode.gpio_mode_irq" configurationId="p304.gpio_mode" />
       <configSetting altId="p400.output.low" configurationId="p400" />
       <configSetting altId="p400.gpio_speed.gpio_speed_h" configurationId="p400.gpio_drivecapacity" />
       <configSetting altId="p400.gpio_mode.gpio_mode_out.low" configurationId="p400.gpio_mode" />

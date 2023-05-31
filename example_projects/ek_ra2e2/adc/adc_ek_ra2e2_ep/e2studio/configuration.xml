@@ -165,9 +165,9 @@
       <property id="module.driver.adc.resolution" value="module.driver.adc.resolution.resolution_12_bit" />
       <property id="module.driver.adc.alignment" value="module.driver.adc.alignment.alignment_right" />
       <property id="module.driver.adc.clearing" value="module.driver.adc.clearing.clear_after_read_on" />
-      <property id="module.driver.adc.mode" value="module.driver.adc.mode.mode_single_scan" />
+      <property id="module.driver.adc.mode" value="module.driver.adc.mode.mode_continuous_scan" />
       <property id="module.driver.adc.mode.dt" value="module.driver.adc.mode.dt.disabled" />
-      <property id="module.driver.adc.scan_mask" value="module.driver.adc.scan_mask.temperature" />
+      <property id="module.driver.adc.scan_mask" value="module.driver.adc.scan_mask.channel_9" />
       <property id="module.driver.adc.scan_mask_group_b" value="" />
       <property id="module.driver.adc.trigger" value="enum.driver.adc.trigger.trigger_software" />
       <property id="module.driver.adc.trigger_group_b" value="_disabled" />
@@ -180,19 +180,19 @@
       <property id="module.driver.adc.compare.window_mode" value="module.driver.adc.compare.window_mode.enabled" />
       <property id="module.driver.adc.compare.event_mode" value="module.driver.adc.compare.event_mode.or" />
       <property id="module.driver.adc.compare.window_a.enable" value="module.driver.adc.compare.window_a.enable.enabled" />
-      <property id="module.driver.adc.compare.window_a.channels" value="module.driver.adc.compare.window_a.channels.temperature" />
+      <property id="module.driver.adc.compare.window_a.channels" value="module.driver.adc.compare.window_a.channels.channel_9" />
       <property id="module.driver.adc.compare.window_a.channel_mode" value="" />
-      <property id="module.driver.adc.compare.window_a.ref_lower" value="1402" />
-      <property id="module.driver.adc.compare.window_a.ref_upper" value="1602" />
+      <property id="module.driver.adc.compare.window_a.ref_lower" value="1230" />
+      <property id="module.driver.adc.compare.window_a.ref_upper" value="3107" />
       <property id="module.driver.adc.compare.window_b.enable" value="module.driver.adc.compare.window_b.enable.disabled" />
       <property id="module.driver.adc.compare.window_b.channel" value="module.driver.adc.compare.window_b.channel.channel_0" />
       <property id="module.driver.adc.compare.window_b.mode" value="module.driver.adc.compare.window_b.mode" />
       <property id="module.driver.adc.compare.window_b.ref_lower" value="0" />
       <property id="module.driver.adc.compare.window_b.ref_upper" value="0" />
-      <property id="module.driver.adc.p_callback" value="NULL" />
-      <property id="module.driver.adc.scan_end_ipl" value="_disabled" />
+      <property id="module.driver.adc.p_callback" value="adc_callback" />
+      <property id="module.driver.adc.scan_end_ipl" value="board.icu.common.irq.priority1" />
       <property id="module.driver.adc.scan_end_b_ipl" value="_disabled" />
-      <property id="module.driver.adc.window_a_ipl" value="_disabled" />
+      <property id="module.driver.adc.window_a_ipl" value="board.icu.common.irq.priority1" />
       <property id="module.driver.adc.window_b_ipl" value="_disabled" />
       <property id="module.driver.adc.adbuf" value="module.driver.adc.adbuf.disabled" />
     </module>
@@ -229,12 +229,10 @@
     <pincfg active="true" name="EK-RA2E2.pincfg" selected="true" symbol="g_bsp_pin_cfg">
       <configSetting altId="adc0.an005.p010" configurationId="adc0.an005" />
       <configSetting altId="adc0.an006.p011" configurationId="adc0.an006" />
-      <configSetting altId="adc0.an019.p103" configurationId="adc0.an019" />
-      <configSetting altId="adc0.an020.p102" configurationId="adc0.an020" />
+      <configSetting altId="adc0.an009.p014" configurationId="adc0.an009" />
       <configSetting altId="adc0.mode.custom.free" configurationId="adc0.mode" />
-      <configSetting altId="i3c0.mode.enabled.free" configurationId="i3c0.mode" />
-      <configSetting altId="i3c0.scl0.p400" configurationId="i3c0.scl0" />
-      <configSetting altId="i3c0.sda0.p401" configurationId="i3c0.sda0" />
+      <configSetting altId="adc0_40_digital_41.mode.custom.free" configurationId="adc0_40_digital_41.mode" />
+      <configSetting altId="cgc.mode.custom.free" configurationId="cgc.mode" />
       <configSetting altId="jtag_fslash_swd.mode.swd.free" configurationId="jtag_fslash_swd.mode" />
       <configSetting altId="jtag_fslash_swd.swclk.p300" configurationId="jtag_fslash_swd.swclk" />
       <configSetting altId="jtag_fslash_swd.swdio.p108" configurationId="jtag_fslash_swd.swdio" />
@@ -242,12 +240,10 @@
       <configSetting altId="p010.gpio_mode.gpio_mode_an" configurationId="p010.gpio_mode" />
       <configSetting altId="p011.adc0.an006" configurationId="p011" />
       <configSetting altId="p011.gpio_mode.gpio_mode_an" configurationId="p011.gpio_mode" />
+      <configSetting altId="p014.adc0.an009" configurationId="p014" />
+      <configSetting altId="p014.gpio_mode.gpio_mode_an" configurationId="p014.gpio_mode" />
       <configSetting altId="p015.output.low" configurationId="p015" />
       <configSetting altId="p015.gpio_mode.gpio_mode_out.low" configurationId="p015.gpio_mode" />
-      <configSetting altId="p102.adc0.an020" configurationId="p102" />
-      <configSetting altId="p102.gpio_mode.gpio_mode_an" configurationId="p102.gpio_mode" />
-      <configSetting altId="p103.adc0.an019" configurationId="p103" />
-      <configSetting altId="p103.gpio_mode.gpio_mode_an" configurationId="p103.gpio_mode" />
       <configSetting altId="p108.jtag_fslash_swd.swdio" configurationId="p108" />
       <configSetting altId="p108.gpio_mode.gpio_mode_peripheral" configurationId="p108.gpio_mode" />
       <configSetting altId="p111.input" configurationId="p111" />
@@ -260,10 +256,6 @@
       <configSetting altId="p205.gpio_mode.gpio_mode_in" configurationId="p205.gpio_mode" />
       <configSetting altId="p300.jtag_fslash_swd.swclk" configurationId="p300" />
       <configSetting altId="p300.gpio_mode.gpio_mode_peripheral" configurationId="p300.gpio_mode" />
-      <configSetting altId="p400.i3c0.scl0" configurationId="p400" />
-      <configSetting altId="p400.gpio_mode.gpio_mode_peripheral" configurationId="p400.gpio_mode" />
-      <configSetting altId="p401.i3c0.sda0" configurationId="p401" />
-      <configSetting altId="p401.gpio_mode.gpio_mode_peripheral" configurationId="p401.gpio_mode" />
       <configSetting altId="p914.output.low" configurationId="p914" />
       <configSetting altId="p914.gpio_mode.gpio_mode_out.low" configurationId="p914.gpio_mode" />
     </pincfg>

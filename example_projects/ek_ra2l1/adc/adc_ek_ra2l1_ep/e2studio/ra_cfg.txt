@@ -97,9 +97,9 @@ FSP Configuration
       P008 92 - - - - Disabled - - "ADC0: AN014" - None - - 
       P010 91 - - - - Disabled - - "ADC0: AN005; ANALOG0: VREFH0; CTSU0: TS30-CFC" - None - - 
       P011 90 - - - - Disabled - - "ADC0: AN006; ANALOG0: VREFL0; CTSU0: TS31-CFC" - None - - 
-      P012 87 ADC0_AN007 ARDUINO_A4 - - "Analog mode" - None "ADC0: AN007; CTSU0: TS32-CFC" - IO - - 
+      P012 87 - ARDUINO_A4 - - Disabled - - "ADC0: AN007; CTSU0: TS32-CFC" - None - - 
       P013 86 - - - - Disabled - - "ADC0: AN008; CTSU0: TS33-CFC" - None - - 
-      P014 85 ADC0_AN009 ARDUINO_A5 - - "Analog mode" - None "ADC0: AN009; DAC0: DA0" - IO - - 
+      P014 85 - ARDUINO_A5 - - Disabled - - "ADC0: AN009; DAC0: DA0" - None - - 
       P015 84 GPIO USER_SW2 - IRQ07 "Input mode" - None "ADC0: AN010; CTSU0: TS28-CFC; ICU0: IRQ07" - IO - - 
       P100 75 SPI0_MISOA ARDUINO_MISO_MIKROBUS_MISO_PMOD1_MISO - None "Peripheral mode" CMOS None "ACMPLP0: CMPIN0; AGT0: AGTIO0; CTSU0: TS26-CFC; GPT_POEG0: GTETRGA; GPT5: GTIOC5B; ICU0: IRQ02; IIC1: SCL1; KINT0: KRM00; SCI0: RXD0; SCI0: SCL0; SCI1: SCK1; SPI0: MISOA" - IO - - 
       P101 74 SPI0_MOSIA ARDUINO_MOSI_MIKROBUS_MOSI_PMOD1_MOSI - None "Peripheral mode" CMOS None "ACMPLP0: CMPREF0; AGT0: AGTEE0; CTSU0: TS16-CFC; GPT_POEG1: GTETRGB; GPT5: GTIOC5A; ICU0: IRQ01; IIC1: SDA1; KINT0: KRM01; SCI0: SDA0; SCI0: TXD0; SCI1: CTS1; SPI0: MOSIA" - IO - - 
@@ -126,10 +126,10 @@ FSP Configuration
       P206 31 GPIO PMOD2_IO1 - None "Output mode (Initial Low)" CMOS - "GPT_OPS0: GTIU; ICU0: IRQ00; IIC1: SDA1; SCI0: RXD0; SCI0: SCL0; SPI1: SSLB1" - IO - - 
       P207 30 GPIO ARDUINO_RESET_MIKROBUS_RESET - - "Output mode (Initial Low)" CMOS - - - IO - - 
       P208 29 GPIO PMOD1_RESET - - "Output mode (Initial Low)" CMOS - "AGT0: AGTOB0" - IO - - 
-      P212 14 - - - - Disabled - - "AGT1: AGTEE1; CGC0: EXTAL; GPT_POEG1: GTETRGB; GPT0: GTIOC0B; ICU0: IRQ03; SCI1: RXD1; SCI1: SCL1" - None - - 
-      P213 13 - - - - Disabled - - "CGC0: XTAL; GPT_POEG0: GTETRGA; GPT0: GTIOC0A; ICU0: IRQ02; SCI1: SDA1; SCI1: TXD1" - None - - 
-      P214 11 - - - - Disabled - - "CGC0: XCOUT" - None - - 
-      P215 10 - - - - Disabled - - "CGC0: XCIN" - None - - 
+      P212 14 CGC0_EXTAL - - None "Peripheral mode" CMOS None "AGT1: AGTEE1; CGC0: EXTAL; GPT_POEG1: GTETRGB; GPT0: GTIOC0B; ICU0: IRQ03; SCI1: RXD1; SCI1: SCL1" - IO - - 
+      P213 13 CGC0_XTAL - - None "Peripheral mode" CMOS None "CGC0: XTAL; GPT_POEG0: GTETRGA; GPT0: GTIOC0A; ICU0: IRQ02; SCI1: SDA1; SCI1: TXD1" - IO - - 
+      P214 11 CGC0_XCOUT - - - "Peripheral mode" - - "CGC0: XCOUT" - IO - - 
+      P215 10 CGC0_XCIN - - - "Peripheral mode" - - "CGC0: XCIN" - IO - - 
       P300 50 DEBUG0_SWCLK - - - "Peripheral mode" - None "DEBUG0: SWCLK; GPT_OPS0: GTOUUP; GPT0: GTIOC0A; SPI1: SSLB1" - IO - - 
       P301 49 SCI2_SCL2 GROVE1_SCL_QWIIC_SCL - None "Peripheral mode" "n-ch open drain" None "AGT0: AGTIO0; CTSU0: TS09-CFC; GPT_OPS0: GTOULO; GPT4: GTIOC4B; ICU0: IRQ06; SCI2: RXD2; SCI2: SCL2; SCI9: CTS9; SPI1: SSLB2" - IO - - 
       P302 48 SCI2_SDA2 GROVE1_SDA_QWIIC_SDA - None "Peripheral mode" "n-ch open drain" None "CTSU0: TS08-CFC; GPT_OPS0: GTOUUP; GPT4: GTIOC4A; ICU0: IRQ05; SCI2: SDA2; SCI2: TXD2; SPI1: SSLB3" - IO - - 
@@ -198,9 +198,9 @@ FSP Configuration
       P008 92 - - - - Disabled - - "ADC0: AN014" - None - - 
       P010 91 - - - - Disabled - - "ADC0: AN005; ANALOG0: VREFH0; CTSU0: TS30-CFC" - None - - 
       P011 90 - - - - Disabled - - "ADC0: AN006; ANALOG0: VREFL0; CTSU0: TS31-CFC" - None - - 
-      P012 87 - ARDUINO_A4 - - Disabled - None "ADC0: AN007; CTSU0: TS32-CFC" - IO - - 
+      P012 87 - ARDUINO_A4 - - Disabled - - "ADC0: AN007; CTSU0: TS32-CFC" - None - - 
       P013 86 - - - - Disabled - - "ADC0: AN008; CTSU0: TS33-CFC" - None - - 
-      P014 85 - ARDUINO_A5 - - Disabled - None "ADC0: AN009; DAC0: DA0" - IO - - 
+      P014 85 - ARDUINO_A5 - - Disabled - - "ADC0: AN009; DAC0: DA0" - None - - 
       P015 84 - USER_SW2 - None Disabled - None "ADC0: AN010; CTSU0: TS28-CFC; ICU0: IRQ07" - IO - - 
       P100 75 - ARDUINO_MISO_MIKROBUS_MISO_PMOD1_MISO - None Disabled CMOS None "ACMPLP0: CMPIN0; AGT0: AGTIO0; CTSU0: TS26-CFC; GPT_POEG0: GTETRGA; GPT5: GTIOC5B; ICU0: IRQ02; IIC1: SCL1; KINT0: KRM00; SCI0: RXD0; SCI0: SCL0; SCI1: SCK1; SPI0: MISOA" - IO - - 
       P101 74 - ARDUINO_MOSI_MIKROBUS_MOSI_PMOD1_MOSI - None Disabled CMOS None "ACMPLP0: CMPREF0; AGT0: AGTEE0; CTSU0: TS16-CFC; GPT_POEG1: GTETRGB; GPT5: GTIOC5A; ICU0: IRQ01; IIC1: SDA1; KINT0: KRM01; SCI0: SDA0; SCI0: TXD0; SCI1: CTS1; SPI0: MOSIA" - IO - - 
@@ -227,10 +227,10 @@ FSP Configuration
       P206 31 - PMOD2_IO1 - None Disabled CMOS - "GPT_OPS0: GTIU; ICU0: IRQ00; IIC1: SDA1; SCI0: RXD0; SCI0: SCL0; SPI1: SSLB1" - IO - - 
       P207 30 - ARDUINO_RESET_MIKROBUS_RESET - - Disabled CMOS - - - IO - - 
       P208 29 - PMOD1_RESET - - Disabled CMOS - "AGT0: AGTOB0" - IO - - 
-      P212 14 - - - - Disabled - - "AGT1: AGTEE1; CGC0: EXTAL; GPT_POEG1: GTETRGB; GPT0: GTIOC0B; ICU0: IRQ03; SCI1: RXD1; SCI1: SCL1" - None - - 
-      P213 13 - - - - Disabled - - "CGC0: XTAL; GPT_POEG0: GTETRGA; GPT0: GTIOC0A; ICU0: IRQ02; SCI1: SDA1; SCI1: TXD1" - None - - 
-      P214 11 - - - - Disabled - - "CGC0: XCOUT" - None - - 
-      P215 10 - - - - Disabled - - "CGC0: XCIN" - None - - 
+      P212 14 - - - None Disabled CMOS None "AGT1: AGTEE1; CGC0: EXTAL; GPT_POEG1: GTETRGB; GPT0: GTIOC0B; ICU0: IRQ03; SCI1: RXD1; SCI1: SCL1" - IO - - 
+      P213 13 - - - None Disabled CMOS None "CGC0: XTAL; GPT_POEG0: GTETRGA; GPT0: GTIOC0A; ICU0: IRQ02; SCI1: SDA1; SCI1: TXD1" - IO - - 
+      P214 11 - - - - Disabled - - "CGC0: XCOUT" - IO - - 
+      P215 10 - - - - Disabled - - "CGC0: XCIN" - IO - - 
       P300 50 DEBUG0_SWCLK - - - "Peripheral mode" - None "DEBUG0: SWCLK; GPT_OPS0: GTOUUP; GPT0: GTIOC0A; SPI1: SSLB1" - IO - - 
       P301 49 - GROVE1_SCL_QWIIC_SCL - None Disabled CMOS None "AGT0: AGTIO0; CTSU0: TS09-CFC; GPT_OPS0: GTOULO; GPT4: GTIOC4B; ICU0: IRQ06; SCI2: RXD2; SCI2: SCL2; SCI9: CTS9; SPI1: SSLB2" - IO - - 
       P302 48 - GROVE1_SDA_QWIIC_SDA - None Disabled CMOS None "CTSU0: TS08-CFC; GPT_OPS0: GTOUUP; GPT4: GTIOC4A; ICU0: IRQ05; SCI2: SDA2; SCI2: TXD2; SPI1: SSLB3" - IO - - 
@@ -313,7 +313,7 @@ FSP Configuration
       General: Clear after read: On
       General: Mode: Single Scan
       General: Double-trigger: Disabled
-      Input: Channel Scan Mask (channel availability varies by MCU): Temperature Sensor
+      Input: Channel Scan Mask (channel availability varies by MCU): Channel 0
       Input: Group B Scan Mask (channel availability varies by MCU): 
       Interrupts: Normal/Group A Trigger: Software
       Interrupts: Group B Trigger: Disabled
@@ -326,19 +326,19 @@ FSP Configuration
       Input: Window Compare: Window Mode: Enabled
       Input: Window Compare: Event Output: OR
       Input: Window Compare: Window A: Enable: Enabled
-      Input: Window Compare: Window A: Channels to compare (channel availability varies by MCU and unit): 
+      Input: Window Compare: Window A: Channels to compare (channel availability varies by MCU and unit): Channel 0
       Input: Window Compare: Window A: Channel comparison mode (channel availability varies by MCU and unit): 
-      Input: Window Compare: Window A: Lower Reference: 1402
-      Input: Window Compare: Window A: Upper Reference: 1602
+      Input: Window Compare: Window A: Lower Reference: 1230
+      Input: Window Compare: Window A: Upper Reference: 3107
       Input: Window Compare: Window B: Enable: Disabled
       Input: Window Compare: Window B: Channel to compare (channel availability varies by MCU and unit): Channel 0
       Input: Window Compare: Window B: Comparison mode: Less Than or Outside Window
       Input: Window Compare: Window B: Lower Reference: 0
       Input: Window Compare: Window B: Upper Reference: 0
-      Interrupts: Callback: NULL
-      Interrupts: Scan End Interrupt Priority: Disabled
+      Interrupts: Callback: adc_callback
+      Interrupts: Scan End Interrupt Priority: Priority 1
       Interrupts: Scan End Group B Interrupt Priority: Disabled
-      Interrupts: Window Compare A Interrupt Priority: Disabled
+      Interrupts: Window Compare A Interrupt Priority: Priority 1
       Interrupts: Window Compare B Interrupt Priority: Disabled
       Extra: ADC Ring Buffer: Not Supported
       

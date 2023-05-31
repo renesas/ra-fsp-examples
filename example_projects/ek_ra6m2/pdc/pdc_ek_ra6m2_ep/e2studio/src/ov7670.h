@@ -42,14 +42,14 @@ struct ov7670_register_value
 
 #if (!defined (BOARD_RA6M2_EK))
 /* Camera RESET pin */
-#define CAMERA_RESET BSP_IO_PORT_06_PIN_13
+#define CAMERA_RESET (BSP_IO_PORT_06_PIN_13)
 /* Camera PWDWN pin */
-#define CAMERA_PWDWN BSP_IO_PORT_06_PIN_14
+#define CAMERA_PWDWN (BSP_IO_PORT_06_PIN_14)
 #else
 /* Camera RESET pin */
-#define CAMERA_RESET BSP_IO_PORT_08_PIN_00
+#define CAMERA_RESET (BSP_IO_PORT_08_PIN_00)
 /* Camera PWDWN pin */
-#define CAMERA_PWDWN BSP_IO_PORT_08_PIN_01
+#define CAMERA_PWDWN (BSP_IO_PORT_08_PIN_01)
 #endif
 
 /* functions declarations*/

@@ -34,12 +34,22 @@
 #include "SEGGER_RTT/SEGGER_RTT.h"
 
 
-#define BIT_SHIFT_8  (8u)
-#define SIZE_64      (64u)
+#define BIT_SHIFT_8   (8u)
+#define BIT_SHIFT_12  (12u)
+#define BIT_SHIFT_15  (15u)
 
-#define LVL_ERR      (1u)       /* error conditions   */
+#define SIZE_64       (64u)
 
-#define RESET_VALUE             (0x00)
+#define LVL_ERR       (1u)       /* error conditions   */
+
+#define RESET_VALUE   (0x00)
+
+#define ADC_12_BIT    (4096u)
+#define ADC_16_BIT    (32768u)
+#define V_ref         (3.3f)
+#define ADC_H_LMT     (3103u)
+#define ADC_L_LMT     (1241u)
+
 
 #define EP_VERSION              ("1.0")
 #define MODULE_NAME             "r_adc"

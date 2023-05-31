@@ -92,7 +92,7 @@ FSP Configuration
       AVSS0 89 ANALOG0_AVSS0 - - - - - - - - IO "Read only" - 
       P000 100 - - - - Disabled - - "ACMPHS0: IVCMP; ADC0: AN000; ICU0: IRQ06" - None - - 
       P001 99 - - - - Disabled - - "ACMPHS1: IVCMP; ADC0: AN001; ICU0: IRQ07" - None - - 
-      P002 98 - - - - Disabled - - "ACMPHS2: IVCMP; ADC0: AN002; ICU0: IRQ08" - None - - 
+      P002 98 ADC0_AN002 - - - "Analog mode" - - "ACMPHS2: IVCMP; ADC0: AN002; ICU0: IRQ08" - IO - - 
       P003 97 - - - - Disabled - - "ADC0: AN007" - None - - 
       P004 96 - - - - Disabled - - "ACMPHS3: IVCMP; ADC1: AN100; ICU0: IRQ09" - None - - 
       P005 95 - - - - Disabled - - "ACMPHS4: IVCMP; ADC1: AN101; ICU0: IRQ10" - None - - 
@@ -212,9 +212,9 @@ FSP Configuration
       General: Resolution: 12-Bit
       General: Alignment: Right
       General: Clear after read: On
-      General: Mode: Continuous Scan
+      General: Mode: Single Scan
       General: Double-trigger: Disabled
-      Input: Channel Scan Mask (channel availability varies by MCU): Temperature Sensor
+      Input: Channel Scan Mask (channel availability varies by MCU): Channel 2
       Input: Group B Scan Mask (channel availability varies by MCU): 
       Interrupts: Normal/Group A Trigger: Software
       Interrupts: Group B Trigger: Disabled
@@ -227,19 +227,19 @@ FSP Configuration
       Input: Window Compare: Window Mode: Enabled
       Input: Window Compare: Event Output: OR
       Input: Window Compare: Window A: Enable: Enabled
-      Input: Window Compare: Window A: Channels to compare (channel availability varies by MCU and unit): Temperature Sensor
+      Input: Window Compare: Window A: Channels to compare (channel availability varies by MCU and unit): Channel 2
       Input: Window Compare: Window A: Channel comparison mode (channel availability varies by MCU and unit): 
-      Input: Window Compare: Window A: Lower Reference: 1402
-      Input: Window Compare: Window A: Upper Reference: 1602
+      Input: Window Compare: Window A: Lower Reference: 1230
+      Input: Window Compare: Window A: Upper Reference: 3107
       Input: Window Compare: Window B: Enable: Disabled
       Input: Window Compare: Window B: Channel to compare (channel availability varies by MCU and unit): Channel 0
       Input: Window Compare: Window B: Comparison mode: Less Than or Outside Window
       Input: Window Compare: Window B: Lower Reference: 0
       Input: Window Compare: Window B: Upper Reference: 0
-      Interrupts: Callback: NULL
-      Interrupts: Scan End Interrupt Priority: Disabled
+      Interrupts: Callback: adc_callback
+      Interrupts: Scan End Interrupt Priority: Priority 1
       Interrupts: Scan End Group B Interrupt Priority: Disabled
-      Interrupts: Window Compare A Interrupt Priority: Disabled
+      Interrupts: Window Compare A Interrupt Priority: Priority 1
       Interrupts: Window Compare B Interrupt Priority: Disabled
       Extra: ADC Ring Buffer: Not Supported
       

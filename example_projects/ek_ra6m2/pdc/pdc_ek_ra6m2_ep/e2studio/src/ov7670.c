@@ -282,7 +282,7 @@ fsp_err_t ov7670_init (void)
             BAVE, 0x00
         },
         {
-            GbAVE, 0x00
+            GBAVE, 0x00
         },
         {
             AECHH, 0x00
@@ -369,7 +369,7 @@ fsp_err_t ov7670_init (void)
             BBIAS, 0x80
         },
         {
-            GbBIAS, 0x80
+            GBBIAS, 0x80
         },
         {
             EXHCH, 0x00
@@ -690,10 +690,10 @@ fsp_err_t ov7670_init (void)
             AD_CHR, 0x00
         },
         {
-            AD_CHGb, 0x00
+            AD_CHGB, 0x00
         },
         {
-            AD_CHGr, 0x00
+            AD_CHGR, 0x00
         },
         {
             SATCTR, 0xC0

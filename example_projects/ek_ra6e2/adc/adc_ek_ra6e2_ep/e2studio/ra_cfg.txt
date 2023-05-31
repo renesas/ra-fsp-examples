@@ -24,6 +24,7 @@ FSP Configuration
     Security: SRAM Accessibility: Standby RAM: Regions 7-0 are all Secure.
     Security: BUS Accessibility: Bus Security Attribution Register A: Both Secure and Non-Secure State
     Security: BUS Accessibility: Bus Security Attribution Register B: Both Secure and Non-Secure State
+    Security: Uninitialized Non-Secure Application Fallback: Enable Uninitialized Non-Secure Application Fallback
     Startup C-Cache Line Size: 32 Bytes
     OFS0 register settings: Independent WDT: Start Mode: IWDT is Disabled
     OFS0 register settings: Independent WDT: Timeout Period: 2048 cycles
@@ -77,7 +78,7 @@ FSP Configuration
     UCLK Disabled
     CANFDCLK Disabled
     CECCLK Disabled
-    I3CCLK Src: MOCO
+    I3CCLK Disabled
     ICLK Div /1
     PCLKA Div /2
     PCLKB Div /4
@@ -108,7 +109,7 @@ FSP Configuration
       P100 48 GPT5_GTIOC5B ENC_B - - "Peripheral mode" - - "AGT0: AGTIO0; GPT5: GTIOC5B; GPT_POEGA: GTETRGA; I3C/IIC: I3C_SCL; IRQ: IRQ2; QSPI: QSPCLK; SCI0: RXD0; SPI1: MISO1; SSIE: AUDIO_CLK" - None - - 
       P101 47 GPT5_GTIOC5A ENC_A - - "Peripheral mode" - - "AGT0: AGTEE0; GPT5: GTIOC5A; GPT_POEGB: GTETRGB; I3C/IIC: I3C_SDA; IRQ: IRQ1; QSPI: QIO1; SCI0: TXD0; SPI1: MOSI1" - None - - 
       P102 46 GPT2_GTIOC2B V_LOWER - - "Peripheral mode" - - "ADC0(Digital): ADTRG0; AGT0: AGTO0; CANFD0: CRX0; GPT2: GTIOC2B; GPT_OPS: GTOWLO; QSPI: QIO0; SCI0: SCK0; SPI1: RSPCK1; SSIE0: SSIBCK0" - None - - 
-      P103 45 GPT2_GTIOC2A V_UPPER - - "Peripheral mode" - - "CANFD0: CTX0; GPT2: GTIOC2A; GPT_OPS: GTOWUP; QSPI: QIO3; SCI0: CTS_RTS0; SPI1: SSLB0; SSIE: SSIFS0; SSIE0: SSILRCK0" - None - - 
+      P103 45 GPT2_GTIOC2A V_UPPER - - "Peripheral mode" - - "CANFD0: CTX0; GPT2: GTIOC2A; GPT_OPS: GTOWUP; QSPI: QIO3; SCI0: CTS_RTS0; SPI1: SSLB0; SSIE0: SSIFS0; SSIE0: SSILRCK0" - None - - 
       P104 44 GPT_POEGB_GTETRGB OC_DETECT - - "Peripheral mode" - - "AGT1: AGTIO1; GPT1: GTIOC1B; GPT_POEGB: GTETRGB; IRQ: IRQ1; QSPI: QIO2; SPI1: SSLB1" - None - - 
       P105 43 GPT_POEGA_GTETRGA ENC_Z - - "Peripheral mode" - - "GPT1: GTIOC1A; GPT_POEGA: GTETRGA; IRQ: IRQ0; SPI1: SSLB2" - None - - 
       P106 42 GPIO LED2 - - "Input mode" - - "AGT0: AGTOB0; SPI1: SSLB3" - None - - 
@@ -123,7 +124,7 @@ FSP Configuration
       P201 26 SYSTEM_MD - - - "Peripheral mode" - - "SYSTEM: MD" - None - - 
       P205 23 I3C/IIC_SCL0 - - - "Peripheral mode" - - "AGT1: AGTO1; CLKOUT: CLKOUT; GPT4: GTIOC4A; GPT_OPS: GTIV; I3C/IIC: SCL0; IRQ: IRQ1-DS; SCI9: CTS_RTS9; SPI0: SSLA3" - None - - 
       P206 22 SPI0_MISO0 - - - "Peripheral mode" - - "CEC: CECIO; GPT5: GTIOC5B; GPT_OPS: GTIU; I3C/IIC: SDA0; IRQ: IRQ0-DS; SCI9: CTS9; SPI0: MISO0; SSIE0: SSIDATA0" - None - - 
-      P207 21 SPI0_MOSI0 - - - "Peripheral mode" - - "AGT1: AGTIO1; CAC: CACREF; GPT5: GTIOC5A; GPT_OPS: GTIW; QSPI: QSSL; SCI9: SCK9; SPI0: MOSI0; SSIE: SSIFS0; SSIE0: SSILRCK0" - None - - 
+      P207 21 SPI0_MOSI0 - - - "Peripheral mode" - - "AGT1: AGTIO1; CAC: CACREF; GPT5: GTIOC5A; GPT_OPS: GTIW; QSPI: QSSL; SCI9: SCK9; SPI0: MOSI0; SSIE0: SSIFS0; SSIE0: SSILRCK0" - None - - 
       P208 24 GPIO - - - "Input mode" - - "ADC0(Digital): ADTRG0; GPT_OPS: GTOVLO" - None - - 
       P212 10 CGC_EXTAL - - - "Peripheral mode" - - "AGT1: AGTEE1; CGC: EXTAL; GPT0: GTIOC0B; GPT_POEGD: GTETRGD; IRQ: IRQ3; SCI0: RXD0" - None - - 
       P213 9 CGC_XTAL - - - "Peripheral mode" - - "CGC: XTAL; GPT0: GTIOC0A; GPT_POEGC: GTETRGC; IRQ: IRQ2; SCI0: TXD0; SSIE: AUDIO_CLK" - None - - 
@@ -173,7 +174,7 @@ FSP Configuration
       P100 48 - ENC_B - - Disabled - - "AGT0: AGTIO0; GPT5: GTIOC5B; GPT_POEGA: GTETRGA; I3C/IIC: I3C_SCL; IRQ: IRQ2; QSPI: QSPCLK; SCI0: RXD0; SPI1: MISO1; SSIE: AUDIO_CLK" - None - - 
       P101 47 - ENC_A - - Disabled - - "AGT0: AGTEE0; GPT5: GTIOC5A; GPT_POEGB: GTETRGB; I3C/IIC: I3C_SDA; IRQ: IRQ1; QSPI: QIO1; SCI0: TXD0; SPI1: MOSI1" - None - - 
       P102 46 - V_LOWER - - Disabled - - "ADC0(Digital): ADTRG0; AGT0: AGTO0; CANFD0: CRX0; GPT2: GTIOC2B; GPT_OPS: GTOWLO; QSPI: QIO0; SCI0: SCK0; SPI1: RSPCK1; SSIE0: SSIBCK0" - None - - 
-      P103 45 - V_UPPER - - Disabled - - "CANFD0: CTX0; GPT2: GTIOC2A; GPT_OPS: GTOWUP; QSPI: QIO3; SCI0: CTS_RTS0; SPI1: SSLB0; SSIE: SSIFS0; SSIE0: SSILRCK0" - None - - 
+      P103 45 - V_UPPER - - Disabled - - "CANFD0: CTX0; GPT2: GTIOC2A; GPT_OPS: GTOWUP; QSPI: QIO3; SCI0: CTS_RTS0; SPI1: SSLB0; SSIE0: SSIFS0; SSIE0: SSILRCK0" - None - - 
       P104 44 - OC_DETECT - - Disabled - - "AGT1: AGTIO1; GPT1: GTIOC1B; GPT_POEGB: GTETRGB; IRQ: IRQ1; QSPI: QIO2; SPI1: SSLB1" - None - - 
       P105 43 - ENC_Z - - Disabled - - "GPT1: GTIOC1A; GPT_POEGA: GTETRGA; IRQ: IRQ0; SPI1: SSLB2" - None - - 
       P106 42 - LED2 - - Disabled - - "AGT0: AGTOB0; SPI1: SSLB3" - None - - 
@@ -188,7 +189,7 @@ FSP Configuration
       P201 26 - - - - Disabled - - "SYSTEM: MD" - None - - 
       P205 23 - - - - Disabled - - "AGT1: AGTO1; CLKOUT: CLKOUT; GPT4: GTIOC4A; GPT_OPS: GTIV; I3C/IIC: SCL0; IRQ: IRQ1-DS; SCI9: CTS_RTS9; SPI0: SSLA3" - None - - 
       P206 22 - - - - Disabled - - "CEC: CECIO; GPT5: GTIOC5B; GPT_OPS: GTIU; I3C/IIC: SDA0; IRQ: IRQ0-DS; SCI9: CTS9; SPI0: MISO0; SSIE0: SSIDATA0" - None - - 
-      P207 21 - - - - Disabled - - "AGT1: AGTIO1; CAC: CACREF; GPT5: GTIOC5A; GPT_OPS: GTIW; QSPI: QSSL; SCI9: SCK9; SPI0: MOSI0; SSIE: SSIFS0; SSIE0: SSILRCK0" - None - - 
+      P207 21 - - - - Disabled - - "AGT1: AGTIO1; CAC: CACREF; GPT5: GTIOC5A; GPT_OPS: GTIW; QSPI: QSSL; SCI9: SCK9; SPI0: MOSI0; SSIE0: SSIFS0; SSIE0: SSILRCK0" - None - - 
       P208 24 - - - - Disabled - - "ADC0(Digital): ADTRG0; GPT_OPS: GTOVLO" - None - - 
       P212 10 - - - - Disabled - - "AGT1: AGTEE1; CGC: EXTAL; GPT0: GTIOC0B; GPT_POEGD: GTETRGD; IRQ: IRQ3; SCI0: RXD0" - None - - 
       P213 9 - - - - Disabled - - "CGC: XTAL; GPT0: GTIOC0A; GPT_POEGC: GTETRGC; IRQ: IRQ2; SCI0: TXD0; SSIE: AUDIO_CLK" - None - - 
@@ -238,7 +239,7 @@ FSP Configuration
       P100 48 - ENC_B - - Disabled - - "AGT0: AGTIO0; GPT5: GTIOC5B; GPT_POEGA: GTETRGA; I3C/IIC: I3C_SCL; IRQ: IRQ2; QSPI: QSPCLK; SCI0: RXD0; SPI1: MISO1; SSIE: AUDIO_CLK" - None - - 
       P101 47 - ENC_A - - Disabled - - "AGT0: AGTEE0; GPT5: GTIOC5A; GPT_POEGB: GTETRGB; I3C/IIC: I3C_SDA; IRQ: IRQ1; QSPI: QIO1; SCI0: TXD0; SPI1: MOSI1" - None - - 
       P102 46 - V_LOWER - - Disabled - - "ADC0(Digital): ADTRG0; AGT0: AGTO0; CANFD0: CRX0; GPT2: GTIOC2B; GPT_OPS: GTOWLO; QSPI: QIO0; SCI0: SCK0; SPI1: RSPCK1; SSIE0: SSIBCK0" - None - - 
-      P103 45 - V_UPPER - - Disabled - - "CANFD0: CTX0; GPT2: GTIOC2A; GPT_OPS: GTOWUP; QSPI: QIO3; SCI0: CTS_RTS0; SPI1: SSLB0; SSIE: SSIFS0; SSIE0: SSILRCK0" - None - - 
+      P103 45 - V_UPPER - - Disabled - - "CANFD0: CTX0; GPT2: GTIOC2A; GPT_OPS: GTOWUP; QSPI: QIO3; SCI0: CTS_RTS0; SPI1: SSLB0; SSIE0: SSIFS0; SSIE0: SSILRCK0" - None - - 
       P104 44 - OC_DETECT - - Disabled - - "AGT1: AGTIO1; GPT1: GTIOC1B; GPT_POEGB: GTETRGB; IRQ: IRQ1; QSPI: QIO2; SPI1: SSLB1" - None - - 
       P105 43 - ENC_Z - - Disabled - - "GPT1: GTIOC1A; GPT_POEGA: GTETRGA; IRQ: IRQ0; SPI1: SSLB2" - None - - 
       P106 42 - LED2 - - Disabled - - "AGT0: AGTOB0; SPI1: SSLB3" - None - - 
@@ -253,7 +254,7 @@ FSP Configuration
       P201 26 - - - - Disabled - - "SYSTEM: MD" - None - - 
       P205 23 - - - - Disabled - - "AGT1: AGTO1; CLKOUT: CLKOUT; GPT4: GTIOC4A; GPT_OPS: GTIV; I3C/IIC: SCL0; IRQ: IRQ1-DS; SCI9: CTS_RTS9; SPI0: SSLA3" - None - - 
       P206 22 - - - - Disabled - - "CEC: CECIO; GPT5: GTIOC5B; GPT_OPS: GTIU; I3C/IIC: SDA0; IRQ: IRQ0-DS; SCI9: CTS9; SPI0: MISO0; SSIE0: SSIDATA0" - None - - 
-      P207 21 - - - - Disabled - - "AGT1: AGTIO1; CAC: CACREF; GPT5: GTIOC5A; GPT_OPS: GTIW; QSPI: QSSL; SCI9: SCK9; SPI0: MOSI0; SSIE: SSIFS0; SSIE0: SSILRCK0" - None - - 
+      P207 21 - - - - Disabled - - "AGT1: AGTIO1; CAC: CACREF; GPT5: GTIOC5A; GPT_OPS: GTIW; QSPI: QSSL; SCI9: SCK9; SPI0: MOSI0; SSIE0: SSIFS0; SSIE0: SSILRCK0" - None - - 
       P208 24 - - - - Disabled - - "ADC0(Digital): ADTRG0; GPT_OPS: GTOVLO" - None - - 
       P212 10 - - - - Disabled - - "AGT1: AGTEE1; CGC: EXTAL; GPT0: GTIOC0B; GPT_POEGD: GTETRGD; IRQ: IRQ3; SCI0: RXD0" - None - - 
       P213 9 - - - - Disabled - - "CGC: XTAL; GPT0: GTIOC0A; GPT_POEGC: GTETRGC; IRQ: IRQ2; SCI0: TXD0; SSIE: AUDIO_CLK" - None - - 
@@ -303,7 +304,7 @@ FSP Configuration
       P100 48 - ENC_B - - Disabled - - "AGT0: AGTIO0; GPT5: GTIOC5B; GPT_POEGA: GTETRGA; I3C/IIC: I3C_SCL; IRQ: IRQ2; QSPI: QSPCLK; SCI0: RXD0; SPI1: MISO1; SSIE: AUDIO_CLK" - None - - 
       P101 47 - ENC_A - - Disabled - - "AGT0: AGTEE0; GPT5: GTIOC5A; GPT_POEGB: GTETRGB; I3C/IIC: I3C_SDA; IRQ: IRQ1; QSPI: QIO1; SCI0: TXD0; SPI1: MOSI1" - None - - 
       P102 46 - V_LOWER - - Disabled - - "ADC0(Digital): ADTRG0; AGT0: AGTO0; CANFD0: CRX0; GPT2: GTIOC2B; GPT_OPS: GTOWLO; QSPI: QIO0; SCI0: SCK0; SPI1: RSPCK1; SSIE0: SSIBCK0" - None - - 
-      P103 45 - V_UPPER - - Disabled - - "CANFD0: CTX0; GPT2: GTIOC2A; GPT_OPS: GTOWUP; QSPI: QIO3; SCI0: CTS_RTS0; SPI1: SSLB0; SSIE: SSIFS0; SSIE0: SSILRCK0" - None - - 
+      P103 45 - V_UPPER - - Disabled - - "CANFD0: CTX0; GPT2: GTIOC2A; GPT_OPS: GTOWUP; QSPI: QIO3; SCI0: CTS_RTS0; SPI1: SSLB0; SSIE0: SSIFS0; SSIE0: SSILRCK0" - None - - 
       P104 44 - OC_DETECT - - Disabled - - "AGT1: AGTIO1; GPT1: GTIOC1B; GPT_POEGB: GTETRGB; IRQ: IRQ1; QSPI: QIO2; SPI1: SSLB1" - None - - 
       P105 43 - ENC_Z - - Disabled - - "GPT1: GTIOC1A; GPT_POEGA: GTETRGA; IRQ: IRQ0; SPI1: SSLB2" - None - - 
       P106 42 - LED2 - - Disabled - - "AGT0: AGTOB0; SPI1: SSLB3" - None - - 
@@ -318,7 +319,7 @@ FSP Configuration
       P201 26 - - - - Disabled - - "SYSTEM: MD" - None - - 
       P205 23 - - - - Disabled - - "AGT1: AGTO1; CLKOUT: CLKOUT; GPT4: GTIOC4A; GPT_OPS: GTIV; I3C/IIC: SCL0; IRQ: IRQ1-DS; SCI9: CTS_RTS9; SPI0: SSLA3" - None - - 
       P206 22 - - - - Disabled - - "CEC: CECIO; GPT5: GTIOC5B; GPT_OPS: GTIU; I3C/IIC: SDA0; IRQ: IRQ0-DS; SCI9: CTS9; SPI0: MISO0; SSIE0: SSIDATA0" - None - - 
-      P207 21 - - - - Disabled - - "AGT1: AGTIO1; CAC: CACREF; GPT5: GTIOC5A; GPT_OPS: GTIW; QSPI: QSSL; SCI9: SCK9; SPI0: MOSI0; SSIE: SSIFS0; SSIE0: SSILRCK0" - None - - 
+      P207 21 - - - - Disabled - - "AGT1: AGTIO1; CAC: CACREF; GPT5: GTIOC5A; GPT_OPS: GTIW; QSPI: QSSL; SCI9: SCK9; SPI0: MOSI0; SSIE0: SSIFS0; SSIE0: SSILRCK0" - None - - 
       P208 24 - - - - Disabled - - "ADC0(Digital): ADTRG0; GPT_OPS: GTOVLO" - None - - 
       P212 10 - - - - Disabled - - "AGT1: AGTEE1; CGC: EXTAL; GPT0: GTIOC0B; GPT_POEGD: GTETRGD; IRQ: IRQ3; SCI0: RXD0" - None - - 
       P213 9 - - - - Disabled - - "CGC: XTAL; GPT0: GTIOC0A; GPT_POEGC: GTETRGC; IRQ: IRQ2; SCI0: TXD0; SSIE: AUDIO_CLK" - None - - 
@@ -377,9 +378,9 @@ FSP Configuration
       General: Resolution: 12-Bit
       General: Alignment: Right
       General: Clear after read: On
-      General: Mode: Single Scan
+      General: Mode: Continuous Scan
       General: Double-trigger: Disabled
-      Input: Channel Scan Mask (channel availability varies by MCU): Temperature Sensor
+      Input: Channel Scan Mask (channel availability varies by MCU): Channel 0
       Input: Group B Scan Mask (channel availability varies by MCU): 
       Interrupts: Normal/Group A Trigger: Software
       Interrupts: Group B Trigger: Disabled
@@ -389,22 +390,22 @@ FSP Configuration
       Input: Addition/Averaging Mask (channel availability varies by MCU and unit): 
       Input: Sample and Hold: Sample and Hold Channels (Available only on selected MCUs): 
       Input: Sample and Hold: Sample Hold States (Applies only to channels 0, 1, 2): 24
-      Input: Window Compare: Window Mode: Disabled
+      Input: Window Compare: Window Mode: Enabled
       Input: Window Compare: Event Output: OR
-      Input: Window Compare: Window A: Enable: Disabled
-      Input: Window Compare: Window A: Channels to compare (channel availability varies by MCU and unit): 
+      Input: Window Compare: Window A: Enable: Enabled
+      Input: Window Compare: Window A: Channels to compare (channel availability varies by MCU and unit): Channel 0
       Input: Window Compare: Window A: Channel comparison mode (channel availability varies by MCU and unit): 
-      Input: Window Compare: Window A: Lower Reference: 0
-      Input: Window Compare: Window A: Upper Reference: 0
+      Input: Window Compare: Window A: Lower Reference: 1241
+      Input: Window Compare: Window A: Upper Reference: 3103
       Input: Window Compare: Window B: Enable: Disabled
       Input: Window Compare: Window B: Channel to compare (channel availability varies by MCU and unit): Channel 0
       Input: Window Compare: Window B: Comparison mode: Less Than or Outside Window
       Input: Window Compare: Window B: Lower Reference: 0
       Input: Window Compare: Window B: Upper Reference: 0
-      Interrupts: Callback: NULL
-      Interrupts: Scan End Interrupt Priority: Disabled
+      Interrupts: Callback: adc_callback
+      Interrupts: Scan End Interrupt Priority: Priority 1
       Interrupts: Scan End Group B Interrupt Priority: Disabled
-      Interrupts: Window Compare A Interrupt Priority: Disabled
+      Interrupts: Window Compare A Interrupt Priority: Priority 1
       Interrupts: Window Compare B Interrupt Priority: Disabled
       Extra: ADC Ring Buffer: Disabled
       

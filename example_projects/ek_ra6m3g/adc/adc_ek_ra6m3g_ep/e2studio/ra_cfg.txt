@@ -106,7 +106,7 @@ FSP Configuration
       P008 161 IRQ0_IRQ12 - - IRQ12-DS "IRQ mode" - None "ADC0: AN03; IRQ0: IRQ12" - IO - - 
       P009 160 IRQ0_IRQ13 - - IRQ13-DS "IRQ mode" - None "ADC0: AN04; IRQ0: IRQ13" - IO - - 
       P010 159 - - - - Disabled - - "ADC1: AN03; IRQ0: IRQ14" - None - - 
-      P014 152 ADC0_AN05 - - - "Analog mode" - - "ADC0: AN05; ADC1: AN05; CMP0: IVREF3; DAC120: DA" - IO - - 
+      P014 152 - - - - Disabled - - "ADC0: AN05; ADC1: AN05; CMP0: IVREF3; DAC120: DA" - None - - 
       P015 151 - - - - Disabled - - "ADC0: AN06; ADC1: AN06; CMP0: IVCMP1; DAC121: DA; IRQ0: IRQ13" - None - - 
       P100 132 GPIO - Low None "Output mode (Initial Low)" CMOS None "AGT0: AGTIO; BUS0: D0_DQ0; GLCDC0: LCD_EXTCLK; GPT5: GTIOCB; IIC1: SCL; IRQ0: IRQ02; KINT0: KRM0; POEG0: GTETRG; SCI0: RXD_MISO; SCI0: SCL; SCI1: SCK; SPI0: MISO" - IO - - 
       P101 131 GLCDC0_LCD_CLK - High None "Peripheral mode" CMOS None "AGT0: AGTEE; BUS0: D1_DQ1; GLCDC0: LCD_CLK; GPT5: GTIOCA; IIC1: SDA; IRQ0: IRQ01; KINT0: KRM1; POEG1: GTETRG; SCI0: SDA; SCI0: TXD_MOSI; SCI1: CTS_RTS_SS; SPI0: MOSI" - IO - - 
@@ -179,7 +179,7 @@ FSP Configuration
       P505 145 IRQ0_IRQ14 - - IRQ14 "IRQ mode" - None "ADC1: AN18; GPT13: GTIOCB; IRQ0: IRQ14; QSPI0: QIO3; SCI6: RXD_MISO; SCI6: SCL; SDHI1: DAT3" - IO - - 
       P506 146 IRQ0_IRQ15 - - IRQ15 "IRQ mode" - None "ADC0: AN19; IRQ0: IRQ15; SCI6: SDA; SCI6: TXD_MOSI; SDHI1: CD" - IO - - 
       P507 147 ADC1_AN19 - - - "Analog mode" - - "ADC1: AN19; SCI5: CTS_RTS_SS; SDHI1: WP" - IO - - 
-      P508 148 ADC0_AN20 - - - "Analog mode" - - "ADC0: AN20; SCI5: SCK; SCI6: SCK" - IO - - 
+      P508 148 - - - - Disabled - - "ADC0: AN20; SCI5: SCK; SCI6: SCK" - None - - 
       P511 176 IIC2_SDA - Medium None "Peripheral mode" CMOS None "CAN1: CRX; GPT0: GTIOCB; IIC2: SDA; IRQ0: IRQ15; PDC0: PCKO; SCI4: RXD_MISO; SCI4: SCL" - IO - - 
       P512 175 IIC2_SCL - Medium None "Peripheral mode" CMOS None "CAN1: CTX; GPT0: GTIOCA; IIC2: SCL; IRQ0: IRQ14; PDC0: VSYNC; SCI4: SDA; SCI4: TXD_MOSI" - IO - - 
       P513 174 - - - - Disabled - - "GLCDC0: LCD_DATA16; SCI5: RXD_MISO; SCI5: SCL" - None - - 
@@ -293,9 +293,9 @@ FSP Configuration
       General: Resolution: 12-Bit
       General: Alignment: Right
       General: Clear after read: On
-      General: Mode: Continuous Scan
+      General: Mode: Single Scan
       General: Double-trigger: Disabled
-      Input: Channel Scan Mask (channel availability varies by MCU): Temperature Sensor
+      Input: Channel Scan Mask (channel availability varies by MCU): Channel 0
       Input: Group B Scan Mask (channel availability varies by MCU): 
       Interrupts: Normal/Group A Trigger: Software
       Interrupts: Group B Trigger: Disabled
@@ -308,19 +308,19 @@ FSP Configuration
       Input: Window Compare: Window Mode: Enabled
       Input: Window Compare: Event Output: OR
       Input: Window Compare: Window A: Enable: Enabled
-      Input: Window Compare: Window A: Channels to compare (channel availability varies by MCU and unit): Temperature Sensor
+      Input: Window Compare: Window A: Channels to compare (channel availability varies by MCU and unit): Channel 0
       Input: Window Compare: Window A: Channel comparison mode (channel availability varies by MCU and unit): 
-      Input: Window Compare: Window A: Lower Reference: 1402
-      Input: Window Compare: Window A: Upper Reference: 1602
+      Input: Window Compare: Window A: Lower Reference: 1230
+      Input: Window Compare: Window A: Upper Reference: 3107
       Input: Window Compare: Window B: Enable: Disabled
       Input: Window Compare: Window B: Channel to compare (channel availability varies by MCU and unit): Channel 0
       Input: Window Compare: Window B: Comparison mode: Less Than or Outside Window
       Input: Window Compare: Window B: Lower Reference: 0
       Input: Window Compare: Window B: Upper Reference: 0
-      Interrupts: Callback: NULL
-      Interrupts: Scan End Interrupt Priority: Disabled
+      Interrupts: Callback: adc_callback
+      Interrupts: Scan End Interrupt Priority: Priority 1
       Interrupts: Scan End Group B Interrupt Priority: Disabled
-      Interrupts: Window Compare A Interrupt Priority: Disabled
+      Interrupts: Window Compare A Interrupt Priority: Priority 1
       Interrupts: Window Compare B Interrupt Priority: Disabled
       Extra: ADC Ring Buffer: Not Supported
       
