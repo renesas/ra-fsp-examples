@@ -34,8 +34,8 @@
  Macro definitions
  ******************************************************************************/
 
-#define            ECDSA_SIZE                      sizeof(NX_CRYPTO_ECDSA)
-#define            ECDH_SIZE                       sizeof(NX_CRYPTO_ECDH)
+#define            ECDSA_SIZE                      (sizeof(NX_CRYPTO_ECDSA))
+#define            ECDH_SIZE                       (sizeof(NX_CRYPTO_ECDH))
 
 /******************************************************************************
  Exported global functions (to be accessed by other files)

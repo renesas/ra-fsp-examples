@@ -83,7 +83,7 @@ fsp_err_t get_user_input(char * user_buff)
 fsp_err_t scan_and_select(void)
 {
     fsp_err_t err = FSP_SUCCESS;
-    char input_buff[BUFF_LEN] = {RESET_VALUE};                              // Buffer for storing user input
+    uint8_t input_buff[BUFF_LEN] = {RESET_VALUE};                              // Buffer for storing user input
     uint8_t index_wifi_ap_list = RESET_VALUE;                               // Numerical conversion of RTT input string
     WIFIScanResult_t scan_data[MAX_WIFI_SCAN_RESULTS] = {RESET_VALUE};      // Buffer for storing WiFi AP scan result
 
@@ -101,7 +101,7 @@ fsp_err_t scan_and_select(void)
         }
 
         /* Printing SSID of WiFi APs */
-        PRINT_STR("***** List of WiFi Access Points *****")
+        PRINT_STR("***** List of WiFi Access Points *****");
         for(uint8_t index = RESET_VALUE ; index < MAX_WIFI_SCAN_RESULTS; index++)
         {
             uint8_t temp = scan_data[index].ucSSID[INDEX_ZERO];
@@ -154,8 +154,8 @@ fsp_err_t scan_and_select(void)
         /* User selecting SSID from WiFi APs list */
         PRINT_STR("Enter WiFi AP's SSID index to be connected.");
         PRINT_STR("OR Enter any other character to Re-scan");
-        get_user_input(input_buff);
-        index_wifi_ap_list = (uint8_t) atoi(input_buff);
+        get_user_input((char *)input_buff);
+        index_wifi_ap_list = (uint8_t) atoi((char *)input_buff);
     }while(('0' > input_buff[INDEX_ZERO]) || ('9' < input_buff[INDEX_ZERO]) || (MAX_WIFI_SCAN_RESULTS <= index_wifi_ap_list));
 
     /* Storing SSID  and security type of WiFi AP */
@@ -168,7 +168,7 @@ fsp_err_t scan_and_select(void)
         /* User input for password of WiFi AP */
         PRINT_STR("Enter password for");
         PRINT_STR(g_wifi.ssid);
-        get_user_input(input_buff);
+        get_user_input((char *)input_buff);
     }
     return err;
 }
@@ -183,12 +183,12 @@ fsp_err_t scan_and_select(void)
 fsp_err_t manual_connect(void)
 {
     fsp_err_t err = FSP_SUCCESS;
-    char input_buff[BUFF_LEN] = {RESET_VALUE};      // Buffer for storing user input
+    uint8_t input_buff[BUFF_LEN] = {RESET_VALUE};      // Buffer for storing user input
 
     /* User input for SSID of WiFi AP  */
     PRINT_STR("Enter SSID of WiFi Access Point:");
     memset(input_buff, NULL_CHAR, sizeof(input_buff));
-    err = get_user_input(input_buff);
+    err = get_user_input((char *)input_buff);
 
     /*Copy user input to Wifi struct member*/
     memcpy(g_wifi.ssid, input_buff,sizeof(g_wifi.ssid));
@@ -197,23 +197,23 @@ fsp_err_t manual_connect(void)
     do
     {
         app_rtt_print_data(RTT_OUTPUT_PRINT_SECURITY_MENU, RESET_VALUE, NULL);
-        get_user_input(input_buff);
+        get_user_input((char *)input_buff);
         /* Loop iteration to discard any other value apart from the valid security type */
     }while(('0' > input_buff[INDEX_ZERO]) || ('2' < input_buff[INDEX_ZERO]));
 
     /* Checking for the Open security type */
-    if(WIFI_SECURITY_OPEN == (uint32_t)atoi(input_buff))
+    if(WIFI_SECURITY_OPEN == (uint32_t)atoi((char *)input_buff))
     {
         g_wifi.security = eWiFiSecurityOpen;
     }
     else
     {
-        g_wifi.security = ((uint32_t)atoi(input_buff) == WIFI_SECURITY_WPA ? eWiFiSecurityWPA : eWiFiSecurityWPA2);
+        g_wifi.security = ((uint32_t)atoi((char *)input_buff) == WIFI_SECURITY_WPA ? eWiFiSecurityWPA : eWiFiSecurityWPA2);
         /* WiFi AP password input for non-open security type */
-        PRINT_STR("Enter password for")
+        PRINT_STR("Enter password for");
         PRINT_STR(g_wifi.ssid);
         memset(input_buff, NULL_CHAR, sizeof(input_buff));
-        err = get_user_input(input_buff);
+        err = get_user_input((char *)input_buff);
         if(FSP_SUCCESS!=err)
         {
             PRINT_ERR_STR("Failed to receive User Input");

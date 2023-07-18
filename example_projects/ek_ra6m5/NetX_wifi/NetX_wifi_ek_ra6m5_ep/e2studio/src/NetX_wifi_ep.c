@@ -21,8 +21,8 @@
  * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
  ***********************************************************************************************************************/
 
+#include <NetX_wifi_ep.h>
 #include "common_utils.h"
-#include "NetX_wifi_ep.h"
 
 /*******************************************************************************************************************//**
  * @addtogroup NetX_wifi_ep
@@ -101,7 +101,7 @@ fsp_err_t scan_and_select(void)
         }
 
         /* Printing SSID of WiFi APs */
-        PRINT_STR("***** List of WiFi Access Points *****")
+        PRINT_STR("***** List of WiFi Access Points *****");
         for(uint8_t index = RESET_VALUE ; index < MAX_WIFI_SCAN_RESULTS; index++)
         {
             uint8_t temp = scan_data[index].ucSSID[INDEX_ZERO];
@@ -210,7 +210,7 @@ fsp_err_t manual_connect(void)
     {
         g_wifi.security = ((uint32_t)atoi(input_buff) == WIFI_SECURITY_WPA ? eWiFiSecurityWPA : eWiFiSecurityWPA2);
         /* WiFi AP password input for non-open security type */
-        PRINT_STR("Enter password for")
+        PRINT_STR("Enter password for");
         PRINT_STR(g_wifi.ssid);
         memset(input_buff, NULL_CHAR, sizeof(input_buff));
         err = get_user_input(input_buff);

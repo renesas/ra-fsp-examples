@@ -26,21 +26,21 @@
 
 /* for on board LED */
 #if defined (BOARD_RA4W1_EK) || defined (BOARD_RA6T1_RSSK)
-#define LED_ON             (bool)BSP_IO_LEVEL_LOW
-#define LED_OFF            (bool)BSP_IO_LEVEL_HIGH
+#define LED_ON             ((bool)BSP_IO_LEVEL_LOW)
+#define LED_OFF            ((bool)BSP_IO_LEVEL_HIGH)
 #else
-#define LED_ON             (bool)BSP_IO_LEVEL_HIGH
-#define LED_OFF            (bool)BSP_IO_LEVEL_LOW
+#define LED_ON             ((bool)BSP_IO_LEVEL_HIGH)
+#define LED_OFF            ((bool)BSP_IO_LEVEL_LOW)
 #endif
 
 /* MACRO for checking if two buffers are equal */
 #define BUFF_EQUAL (0U)
 
 /* buffer size for slave and master data */
-#define BUF_LEN            0x06
+#define BUF_LEN            (0x06)
 
 /* Led toggle delay */
-#define TOGGLE_DELAY       0x15E
+#define TOGGLE_DELAY       (0x15E)
 
 /*Delay added to recognise LED toggling after wrie/read operation */
 #define DELAY_OPERATION  (1U)

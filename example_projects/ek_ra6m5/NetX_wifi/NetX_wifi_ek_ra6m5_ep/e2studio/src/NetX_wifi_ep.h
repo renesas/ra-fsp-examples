@@ -59,10 +59,10 @@
                                     "\r\nPress 2 for WPA2 Security"\
                                     "\r\nUser Input: \r\n"\
 
-#define PRINT_INFO_STR(str)  app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_INFO_STR, sizeof(str), str);
-#define PRINT_ERR_STR(str)   app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_ERR_STR, sizeof(str), str);
-#define ERROR_TRAP(err)      app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_ERR_TRAP, sizeof(UINT *), &err);
-#define PRINT_STR(str)       app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_GENERAL_STR, sizeof(str), str);
+#define PRINT_INFO_STR(str)  (app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_INFO_STR, sizeof(str), (str)))
+#define PRINT_ERR_STR(str)   (app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_ERR_STR, sizeof(str), (str)))
+#define ERROR_TRAP(err)      (app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_ERR_TRAP, sizeof(UINT *), &(err)))
+#define PRINT_STR(str)       (app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_GENERAL_STR, sizeof(str), (str)))
 
 /*Macros for TCP connectivity*/
 #define NETXDUO_TESTS_TCP_WINDOW_SIZE               (4U * 1024U)
@@ -87,7 +87,7 @@
 #define WIFI_ONCHIP_SILEX_ERR_ERROR   (-1)
 
 /* Converting from MCU byte-order to network byte-order */
-#define SOCKETS_htonl( ulIn )    ( ( uint32_t ) ( ( ( ulIn & 0xFF ) << 24 ) | ( ( ulIn & 0xFF00 ) << 8 ) | ( ( ulIn & 0xFF0000 ) >> 8 ) | ( ( ulIn & 0xFF000000 ) >> 24 ) ) )
+#define SOCKETS_HTONL( ulIn )    ( ( uint32_t ) ( ( ( (ulIn) & 0xFF ) << 24 ) | ( ( (ulIn) & 0xFF00 ) << 8 ) | ( ( (ulIn) & 0xFF0000 ) >> 8 ) | ( ( (ulIn) & 0xFF000000 ) >> 24 ) ) )
 
 /* Macros for array indexing */
 #define INDEX_ZERO      (0U)

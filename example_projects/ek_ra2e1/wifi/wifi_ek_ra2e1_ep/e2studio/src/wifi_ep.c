@@ -135,7 +135,7 @@ fsp_err_t scan_and_select(void)
         }
 
         /* Printing SSID of WiFi APs */
-        APP_PRINT("\r\n***** List of WiFi Access Points *****")
+        APP_PRINT("\r\n***** List of WiFi Access Points *****");
         for(uint8_t index = RESET_VALUE ; index < MAX_WIFI_SCAN_RESULTS; index++)
         {
             uint8_t temp = scan_data[index].ucSSID[INDEX_ZERO];
@@ -363,7 +363,7 @@ fsp_err_t tcp_socket_connect(uint32_t ip_addr, uint32_t port)
 
     for(uint8_t i = RESET_VALUE; i <= WIFI_MAX_TRY; i++)
     {
-        err = rm_wifi_onchip_silex_tcp_connect(g_socket.id, SOCKETS_htonl(ip_addr), port);
+        err = rm_wifi_onchip_silex_tcp_connect(g_socket.id, SOCKETS_HTONL(ip_addr), port);
         if(FSP_SUCCESS == err)
         {
             return err;
@@ -389,10 +389,10 @@ fsp_err_t tcp_send_data(uint8_t * p_data)
     }
     else
     {
-        bytes_sent = rm_wifi_onchip_silex_tcp_send(g_socket.id, p_data, strlen((char *) p_data), WIFI_ONCHIP_SILEX_TIMEOUT_400MS);
+        bytes_sent = rm_wifi_onchip_silex_send(g_socket.id, p_data, strlen((char *) p_data), WIFI_ONCHIP_SILEX_TIMEOUT_400MS);
         if(RESET_VALUE >= bytes_sent)
         {
-            APP_ERR_PRINT("\r\n** rm_wifi_onchip_silex_tcp_send API for rm_wifi_onchip_silex failed **\r\n");
+            APP_ERR_PRINT("\r\n** rm_wifi_onchip_silex_send API for rm_wifi_onchip_silex failed **\r\n");
             return bytes_sent;
         }
     }
@@ -417,10 +417,10 @@ fsp_err_t tcp_recv_data(uint8_t * p_data)
     }
     else
     {
-        bytes_received = rm_wifi_onchip_silex_tcp_recv(g_socket.id, p_data, BUFF_LEN, WIFI_ONCHIP_SILEX_TIMEOUT_15SEC);
+        bytes_received = rm_wifi_onchip_silex_recv(g_socket.id, p_data, BUFF_LEN, WIFI_ONCHIP_SILEX_TIMEOUT_15SEC);
         if(RESET_VALUE > bytes_received)
         {
-            APP_ERR_PRINT("\r\n** rm_wifi_onchip_silex_tcp_recv API for rm_wifi_onchip_silex failed **\r\n");
+            APP_ERR_PRINT("\r\n** rm_wifi_onchip_silex_recv API for rm_wifi_onchip_silex failed **\r\n");
             return bytes_received;
         }
     }

@@ -28,6 +28,10 @@
  * @addtogroup usb_hmsc_ep
  * @{
  **********************************************************************************************************************/
+/* Global Variables */
+uint8_t g_write_data[WRITE_ITEM_SIZE] ={RESET_VALUE};   /* Data(10k) to write to file */
+uint8_t g_read_data[WRITE_ITEM_SIZE] = {RESET_VALUE};   /* Variable to store the data read from file */
+FF_Disk_t my_disk;                                      /* Pointer to store FreeRTOS+FAT disk structure */
 
 /* Variable to check the Safely Eject option */
 static bool b_usb_hmsc_close = false;

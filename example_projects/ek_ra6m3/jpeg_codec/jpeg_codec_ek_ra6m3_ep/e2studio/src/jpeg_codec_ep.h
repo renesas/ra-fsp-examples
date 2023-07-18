@@ -24,9 +24,9 @@
 #ifndef JPEG_CODEC_EP_H_
 #define JPEG_CODEC_EP_H_
 
-#define RGB565_G_MASK    0x07E0
-#define RGB565_B_MASK    0x001F
-#define C_0              128
+#define RGB565_G_MASK    (0x07E0)
+#define RGB565_B_MASK    (0x001F)
+#define C_0              (128)
 #define X_RESOLUTION             (240U)
 #define Y_RESOLUTION             (320U)
 #define HOR_STRIDE               (240U)

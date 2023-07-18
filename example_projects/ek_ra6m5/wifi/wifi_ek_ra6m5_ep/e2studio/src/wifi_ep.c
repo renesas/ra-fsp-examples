@@ -135,7 +135,7 @@ fsp_err_t scan_and_select(void)
         }
 
         /* Printing SSID of WiFi APs */
-        APP_PRINT("\r\n***** List of WiFi Access Points *****")
+        APP_PRINT("\r\n***** List of WiFi Access Points *****");
         for(uint8_t index = RESET_VALUE ; index < MAX_WIFI_SCAN_RESULTS; index++)
         {
             uint8_t temp = scan_data[index].ucSSID[INDEX_ZERO];
@@ -363,7 +363,7 @@ fsp_err_t tcp_socket_connect(uint32_t ip_addr, uint32_t port)
 
     for(uint8_t i = RESET_VALUE; i <= WIFI_MAX_TRY; i++)
     {
-        err = rm_wifi_onchip_silex_tcp_connect(g_socket.id, SOCKETS_htonl(ip_addr), port);
+        err = rm_wifi_onchip_silex_tcp_connect(g_socket.id, SOCKETS_HTONL(ip_addr), port);
         if(FSP_SUCCESS == err)
         {
             return err;

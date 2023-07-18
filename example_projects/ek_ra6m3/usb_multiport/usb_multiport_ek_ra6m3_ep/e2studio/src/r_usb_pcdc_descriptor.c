@@ -456,7 +456,7 @@ uint8_t g_cdc_string_descriptor6[STRING_DESCRIPTOR6_LEN + ( STRING_DESCRIPTOR6_L
     '1', 0x00,
 };
 
-uint8_t *g_apl_string_table[] =
+uint8_t *gp_apl_string_table[] =
 {
     g_cdc_string_descriptor0,
     g_cdc_string_descriptor1,

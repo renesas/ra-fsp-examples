@@ -193,7 +193,7 @@ static void process_row_identification(uint8_t kint_pin)
 
 	/* Reset port_data before reading from port */
 	port_data = PORT_RAW_DATA;
-	VALIDATE_IO_PORT_API(err, R_IOPORT_PortRead(&g_ioport_ctrl, KEYPAD_PORT, &port_data))
+	VALIDATE_IO_PORT_API(err, R_IOPORT_PortRead(&g_ioport_ctrl, KEYPAD_PORT, &port_data));
 
 	/* verify the row for this column */
 	if ( ( READ_BIT(port_data, kint_pin) == READ_BIT(port_data, ROW_A_BIT) ) )
@@ -209,7 +209,7 @@ static void process_row_identification(uint8_t kint_pin)
 
 	/* Reset port_data before reading from port */
 	port_data = PORT_RAW_DATA;
-	VALIDATE_IO_PORT_API(err, R_IOPORT_PortRead(&g_ioport_ctrl, KEYPAD_PORT, &port_data))
+	VALIDATE_IO_PORT_API(err, R_IOPORT_PortRead(&g_ioport_ctrl, KEYPAD_PORT, &port_data));
 
 	/* verify the row for this column */
 	if ( ( READ_BIT(port_data, kint_pin) == READ_BIT(port_data, ROW_B_BIT) ) )

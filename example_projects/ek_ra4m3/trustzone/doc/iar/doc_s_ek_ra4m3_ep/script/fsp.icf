@@ -145,7 +145,7 @@ place in FLASH_region   { ro,
                           last section END_OF_ROM };
 
 /* create a block to hold the veneers named so e2 tooling will recognize as "_C" */
-define block Image$$__tz_FLASH_C with alignment = __tz_FLASH_C_ALIGN { section Veneer$$CMSE };
+define block Image$$__tz_FLASH_C with alignment = __tz_FLASH_C_ALIGN { section Veneer$$CMSE* };
 /* We need to create an empty section for the non-secure section and nest some blocks to get IAR to place it
     (without outputting data) */
 define section .tz_flash_ns_start {};
@@ -474,14 +474,44 @@ if (isdefinedsymbol(ITCM_LENGTH))
   /* Define region for storing ITCM data. */
   define symbol ITCM_END = ITCM_START + ITCM_LENGTH - 1;
   define region ITCM_region = mem:[from ITCM_START + NS_IMAGE_OFFSET to ITCM_END + NS_IMAGE_OFFSET];
+
+  initialize manually {
+    section .itcm_data
+  };
+
+  define block ITCM_DATA with alignment = 8, end alignment = 8, fixed order {
+    rw section .itcm_data
+  };
+  define block ITCM_DATA_INIT with alignment = 16, end alignment = 8, fixed order {
+    ro section .itcm_data_init
+  };
+
   place in ITCM_region {
-                         ro section .itcm_data,
-                       };
+    block ITCM_DATA
+  };
+  place in FLASH_region {
+    block ITCM_DATA_INIT
+  };
+
+  keep {
+    section .itcm_data,
+    section .itcm_data_init,
+    block ITCM_DATA,
+    block ITCM_DATA_INIT
+  };
 
   define symbol __tz_ITCM_S = ITCM_START;
   export symbol __tz_ITCM_S;
-  define symbol __tz_ITCM_N = ITCM_START + ITCM_LENGTH;
+  /* Ternary doesn't work with undefined symbols. */
+  if (isdefinedsymbol(ITCM_NS_START)) {
+     define symbol __tz_ITCM_N = ITCM_NS_START;
+  } else {
+     define symbol __tz_ITCM_N = alignup(ITCM_START + ITCM_LENGTH, 8192);
+  }
   export symbol __tz_ITCM_N;
+
+  check that size(block ITCM_DATA) % 8 == 0;
+  check that size(block ITCM_DATA_INIT) % 8 == 0;
 }
 
 /************************ DTCM Memory **************************************/
@@ -490,13 +520,52 @@ if (isdefinedsymbol(DTCM_LENGTH))
   /* Define region for storing DTCM data. */
   define symbol DTCM_END = DTCM_START + DTCM_LENGTH - 1;
   define region DTCM_region        = mem:[from DTCM_START + NS_IMAGE_OFFSET to DTCM_END + NS_IMAGE_OFFSET];
-  place in DTCM_region    {
-                            rw section .dtcm_data,
-                            rw section .dtcm_noinit,
-                          };
+
+  initialize manually {
+    section .dtcm_data
+  };
+  do not initialize {
+    section .dtcm_bss
+  };
+
+  define block DTCM_DATA with alignment = 8, end alignment = 8, fixed order {
+    rw section .dtcm_data
+  };
+  define block DTCM_DATA_INIT with alignment = 16, end alignment = 8, fixed order {
+    ro section .dtcm_data_init
+  };
+  define block DTCM_BSS with alignment = 8, end alignment = 8, fixed order {
+    zi section .dtcm_bss
+  };
+
+  place in DTCM_region {
+    block DTCM_DATA,
+    block DTCM_BSS
+  };
+  place in FLASH_region {
+    block DTCM_DATA_INIT
+  };
+
+  keep {
+    section .dtcm_data,
+    section .dtcm_data_init,
+    section .dtcm_bss,
+    block DTCM_DATA,
+    block DTCM_DATA_INIT,
+    block DTCM_BSS
+  };
 
   define symbol __tz_DTCM_S = DTCM_START;
   export symbol __tz_DTCM_S;
-  define symbol __tz_DTCM_N = DTCM_START + DTCM_LENGTH;
+  /* Ternary doesn't work with undefined symbols. */
+  if (isdefinedsymbol(DTCM_NS_START)) {
+     define symbol __tz_DTCM_N = DTCM_NS_START;
+  } else {
+     define symbol __tz_DTCM_N = alignup(DTCM_START + DTCM_LENGTH, 8192);
+  }
   export symbol __tz_DTCM_N;
+
+  check that size(block DTCM_DATA) % 8 == 0;
+  check that size(block DTCM_DATA_INIT) % 8 == 0;
+  check that size(block DTCM_BSS) % 8 == 0;
 }

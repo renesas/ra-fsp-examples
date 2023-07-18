@@ -91,7 +91,7 @@
 #endif
 
 /* Trap the error location */
-#define APP_ERR_TRAP(a)             if (a) {__asm("BKPT #0\n"); }
+#define APP_ERR_TRAP(a)             ({if (a) {__asm("BKPT #0\n"); }})
 
 /* The ADC slope, for 12bit at a full scale of 3.3v
  * Cal is given for +127degC. So slope*127 (rounded to integer) is the zero cal offset

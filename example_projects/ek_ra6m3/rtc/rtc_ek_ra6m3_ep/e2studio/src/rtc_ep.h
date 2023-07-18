@@ -51,7 +51,7 @@
 /* MACRO for ASCII value of zero */
 #define ASCII_ZERO       (48)
 /* MACRO for null character */
-#define NULL_CHAR   '\0'
+#define NULL_CHAR   ('\0')
 
 /* MACRO for checking if no byte is received */
 #define BYTES_RECEIVED_ZERO  (0U)

@@ -53,10 +53,6 @@
                                 "\r\n 3. Safely Eject the USB Drive\r\n"\
                                 "\r\n 4. Initialize FreeRTOS+FAT (Valid only after Safely_Eject option is executed)\r\n"
 
-/* Global Variables */
-uint8_t g_write_data[WRITE_ITEM_SIZE] ={RESET_VALUE};   /* Data(10k) to write to file */
-uint8_t g_read_data[WRITE_ITEM_SIZE] = {RESET_VALUE};   /* Variable to store the data read from file */
-FF_Disk_t my_disk;                                      /* Pointer to store FreeRTOS+FAT disk structure */
 /* Function Declarations */
 void process_usb_operation(uint8_t p_input_buffer);     /* Processes USB operations */
 void usb_write_operation(void);                         /* Performs USB write operation */

@@ -28,7 +28,6 @@
  * @addtogroup agt_ns_ep
  * @{
  **********************************************************************************************************************/
-fsp_err_t led_set_guard (bsp_io_port_pin_t pin, bsp_io_level_t level);
 extern bsp_leds_t g_bsp_leds;
 extern volatile uint8_t g_periodic_timer_flag ;
 extern volatile uint32_t g_error_flag ;

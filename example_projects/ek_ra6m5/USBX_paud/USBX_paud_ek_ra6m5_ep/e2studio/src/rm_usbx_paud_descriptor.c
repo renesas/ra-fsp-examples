@@ -114,21 +114,21 @@
 #define USB_W_TOTAL_LENGTH_MASK       (256U)
 #define USB_W_MAX_PACKET_SIZE_MASK    (64U)
 
-#define VALUE_0x20                       (0x20U)
-#define VALUE_0x6F                       (0x6FU)
-#define VALUE_0xC0                       (0xC0U)
-#define VALUE_0x81                       (0x81U)
-#define VALUE_0xC8                       (0xC8U)
-#define VALUE_0xD0                       (0xD0U)
-#define VALUE_0xA0                       (0xA0U)
-#define VALUE_0x32                       (0x32U)
-#define VALUE_0x48                       (0x48U)
-#define VALUE_0x24                       (0x24U)
-#define VALUE_0x44                       (0x44U)
-#define VALUE_0xAC                       (0xACU)
-#define VALUE_0x80                       (0x80U)
-#define VALUE_0xBB                       (0xBBU)
-#define VALUE_0x25                       (0x25U)
+#define VALUE_20H                       (0x20U)
+#define VALUE_6FH                       (0x6FU)
+#define VALUE_C0H                       (0xC0U)
+#define VALUE_81H                       (0x81U)
+#define VALUE_C8H                       (0xC8U)
+#define VALUE_D0H                       (0xD0U)
+#define VALUE_A0H                       (0xA0U)
+#define VALUE_32H                       (0x32U)
+#define VALUE_48H                       (0x48U)
+#define VALUE_24H                       (0x24U)
+#define VALUE_44H                       (0x44U)
+#define VALUE_ACH                       (0xACU)
+#define VALUE_80H                       (0x80U)
+#define VALUE_BBH                       (0xBBU)
+#define VALUE_25H                       (0x25U)
 
 /******************************************************************************
  Private global variables and functions
@@ -142,8 +142,8 @@
  Exported global functions (to be accessed by other files)
  ******************************************************************************/
 
-#define USB_AUD_CD_HIGH_LEN     VALUE_247
-#define DEVICE_FRAME_HIGH_LEN   VALUE_275
+#define USB_AUD_CD_HIGH_LEN     (VALUE_247)
+#define DEVICE_FRAME_HIGH_LEN   (VALUE_275)
 /* Standard Device Descriptor */
 uint8_t g_device_framework_hi_speed[DEVICE_FRAME_HIGH_LEN] =
 {
@@ -199,7 +199,7 @@ uint8_t g_device_framework_hi_speed[DEVICE_FRAME_HIGH_LEN] =
     0x03,                           /*  3:bInterfaceCount */
     USB_IFCLS_AUD,                  /*  4:bFunctionClass  */
     0x00,                           /*  5:bFunctionSubClass */
-    VALUE_0x20,                     /*  6:bFunctionProtocol */
+    VALUE_20H,                     /*  6:bFunctionProtocol */
     0x00,                           /*  7:iFunction */
 
     /* --- Interface Descriptor #0: Control */
@@ -220,7 +220,7 @@ uint8_t g_device_framework_hi_speed[DEVICE_FRAME_HIGH_LEN] =
         0x00,                                               /*  3:bcdADC_lo */
         0x02,                                               /*  4:bcdADC_hi */
         0x08,                                               /*  5:bCategoly */
-        VALUE_0x6F,                                         /*  6:wTotalLength */
+        VALUE_6FH,                                         /*  6:wTotalLength */
         0x00,                                               /*  7:wTotalLength */
         0x00,                                               /*  8:bmControls */
 
@@ -393,7 +393,7 @@ uint8_t g_device_framework_hi_speed[DEVICE_FRAME_HIGH_LEN] =
         USB_DT_ENDPOINT,        /* 1:bDescriptorType */
         0x02,                   /* 2:bEndpointAddress */
         0x0D,                   /* 3:bmAttributes : 0x0D (Sync|ISO) */
-        VALUE_0xC0,             /* 4:wMaxPacketSize : 0x00C0 (192) */
+        VALUE_C0H,             /* 4:wMaxPacketSize : 0x00C0 (192) */
         0x00,                   /* 5:wMaxPacketSize : 0x00C0 (192) */
         4,                      /* 6:bInterval : 0x04 (1ms) */
 
@@ -458,9 +458,9 @@ uint8_t g_device_framework_hi_speed[DEVICE_FRAME_HIGH_LEN] =
         /* ------------------------- Endpoint Descriptor */
         7,                      /* 0:bLength */
         USB_DT_ENDPOINT,        /* 1:bDescriptorType */
-        VALUE_0x81,             /* 2:bEndpointAddress (IN transfer, Endpoint Number 1) */
+        VALUE_81H,             /* 2:bEndpointAddress (IN transfer, Endpoint Number 1) */
         0x05,                   /* 3:bmAttributes : bmAttributes (Isochronous, Async, DataEndpoint) */
-        VALUE_0xC8,             /* 4:wMaxPacketSize : 0x00C8 (200) */
+        VALUE_C8H,             /* 4:wMaxPacketSize : 0x00C8 (200) */
         0x00,                   /* 5:wMaxPacketSize : 0x00C8 (200) */
         4,                      /* 6:bInterval : 0x04 (1ms) */
 
@@ -475,8 +475,8 @@ uint8_t g_device_framework_hi_speed[DEVICE_FRAME_HIGH_LEN] =
         0x00,                   /* 7:wLockDelay */
 };
 
-#define USB_AUD_CD_FULL_LEN     VALUE_208
-#define DEVICE_FRAME_FULL_LEN   VALUE_226
+#define USB_AUD_CD_FULL_LEN     (VALUE_208)
+#define DEVICE_FRAME_FULL_LEN   (VALUE_226)
 uint8_t g_device_framework_full_speed[DEVICE_FRAME_FULL_LEN] =
 {
     USB_DD_BLENGTH,                                             /*  0:bLength */
@@ -505,13 +505,13 @@ uint8_t g_device_framework_full_speed[DEVICE_FRAME_FULL_LEN] =
 #else
     USB_DT_CONFIGURATION,              /*  1:bDescriptorType */ /* For Full-speed */
 #endif
-    VALUE_0xD0,                        /*  2:wTotalLength(L) 208*/
+    VALUE_D0H,                        /*  2:wTotalLength(L) 208*/
     0x00,                              /*  3:wTotalLength(H) */
     0x03,                              /*  4:bNumInterfaces */
     0x01,                              /*  5:bConfigurationValue */
     0x00,                              /*  6:iConfiguration */
-    VALUE_0xA0,                        /*  7:bmAttributes */
-    VALUE_0x32,                        /*  8:MAXPower (100mA unit) */
+    VALUE_A0H,                        /*  7:bmAttributes */
+    VALUE_32H,                        /*  8:MAXPower (100mA unit) */
 
     /* Interface Association Descriptor (IAD) */
     0x08,                           /*  0:bLength */
@@ -541,7 +541,7 @@ uint8_t g_device_framework_full_speed[DEVICE_FRAME_FULL_LEN] =
     USB_AUD_HEADER,         /*  2:bDescriptorSubType */
     0x00,                   /*  3:bcdADC(L) */
     0x01,                   /*  4:bcdADC(H) (Audio Class 1.00)*/
-    VALUE_0x48,             /*  5:wTotalLength(L) */ /* This Descriptor + Unit and Terminal Descriptor */
+    VALUE_48H,             /*  5:wTotalLength(L) */ /* This Descriptor + Unit and Terminal Descriptor */
     0x00,                   /*  6:wTotalLength(H) */
     0x02,                   /*  7:bInCollection */ /* The number of AudioControl Interface Descriptor */
     0x01,                   /*  8:baInterfaceNr[0] */
@@ -655,7 +655,7 @@ uint8_t g_device_framework_full_speed[DEVICE_FRAME_FULL_LEN] =
 
     /* Audio Class Specific INTERFACE Descriptor */
     0x07,                   /*  0:bLength */
-    VALUE_0x24,             /*  1:bDescriptorType */
+    VALUE_24H,             /*  1:bDescriptorType */
     0x01,                   /*  2:bDescriptorSubtype */
     0x04,                   /*  3:bTerminalLink */
     0x03,                   /*  4:bDelay */
@@ -664,18 +664,18 @@ uint8_t g_device_framework_full_speed[DEVICE_FRAME_FULL_LEN] =
 
     /* Audio Class Specific INTERFACE Descriptor */
     0x0E,                   /*  0:bLength */
-    VALUE_0x24,             /*  1:bDescriptorType */
+    VALUE_24H,             /*  1:bDescriptorType */
     0x02,                   /*  2:bDescriptorSubtype */
     0x01,                   /*  3:bFormatType */
     0x02,                   /*  4:bNrchannels */
     0x02,                   /*  5:bSubframeSize */
     0x10,                   /*  6:BitResolution */
     0x02,                   /*  7:bSamfreqType */
-    VALUE_0x44,             /*  8:tSamFreq[0] (L) */
-    VALUE_0xAC,             /*  9:tSamFreq[0] (M) */
+    VALUE_44H,             /*  8:tSamFreq[0] (L) */
+    VALUE_ACH,             /*  9:tSamFreq[0] (M) */
     0x00,                   /*  10:tSamFreq[0] (H) */
-    VALUE_0x80,             /*  11:tSamFreq[1] (L) */
-    VALUE_0xBB,             /*  12:tSamFreq[1] (M) */
+    VALUE_80H,             /*  11:tSamFreq[1] (L) */
+    VALUE_BBH,             /*  12:tSamFreq[1] (M) */
     0x00,                   /*  13:tSamFreq[1] (H) */
 
     /* ENDPOINT Descriptor */
@@ -683,7 +683,7 @@ uint8_t g_device_framework_full_speed[DEVICE_FRAME_FULL_LEN] =
     0x05,                   /*  1:bDescriptorType */
     0x02,                   /*  2:bEndpointAddress */
     0x09,                   /*  3:bmAttributes */
-    VALUE_0xC0,             /*  4:wMaxPacketSize (L) */
+    VALUE_C0H,             /*  4:wMaxPacketSize (L) */
     0x00,                   /*  5:wMaxPacketSize (H) */
     0x01,                   /*  6:bInterval */
     0x00,                   /*  7:bRefresh */
@@ -691,7 +691,7 @@ uint8_t g_device_framework_full_speed[DEVICE_FRAME_FULL_LEN] =
 
     /* Audio Class Specific ENDPOINT Descriptor */
     0x07,                   /*  0:bLength */
-    VALUE_0x25,             /*  1:bDescriptorType */
+    VALUE_25H,             /*  1:bDescriptorType */
     0x01,                   /*  2:bDescriptorSubtype */
     0x01,                   /*  3:bmAttributes */
     0x01,                   /*  4:bLockDelayUnits */
@@ -723,7 +723,7 @@ uint8_t g_device_framework_full_speed[DEVICE_FRAME_FULL_LEN] =
 
     /* Audio Class Specific INTERFACE Descriptor */
     0x07,                   /*  0:bLength */
-    VALUE_0x24,             /*  1:bDescriptorType */
+    VALUE_24H,             /*  1:bDescriptorType */
     0x01,                   /*  2:bDescriptorSubType (General)*/
     0x09,                   /*  3:bTerminalLink */
     0x01,                   /*  4:bDelay */
@@ -732,26 +732,26 @@ uint8_t g_device_framework_full_speed[DEVICE_FRAME_FULL_LEN] =
 
     /* Audio Class Specific INTERFACE Descriptor */
     0x0E,                   /*  0:bLength */
-    VALUE_0x24,             /*  1:bDescriptorType */
+    VALUE_24H,             /*  1:bDescriptorType */
     0x02,                   /*  2:bDescriptorSubtype */
     0x01,                   /*  3:bFormatType */
     0x02,                   /*  4:bNrchannels */
     0x02,                   /*  5:bSubframeSize */
     0x10,                   /*  6:BitResolution */
     0x02,                   /*  7:bSamfreqType */
-    VALUE_0x44,             /*  8:tSamFreq[0] (L) */
-    VALUE_0xAC,             /*  9:tSamFreq[0] (M) */
+    VALUE_44H,             /*  8:tSamFreq[0] (L) */
+    VALUE_ACH,             /*  9:tSamFreq[0] (M) */
     0x00,                   /*  10:tSamFreq[0] (H) */
-    VALUE_0x80,             /*  11:tSamFreq[1] (L) */
-    VALUE_0xBB,             /*  12:tSamFreq[1] (M) */
+    VALUE_80H,             /*  11:tSamFreq[1] (L) */
+    VALUE_BBH,             /*  12:tSamFreq[1] (M) */
     0x00,                   /*  13:tSamFreq[1] (H) */
 
     /* ENDPOINT Descriptor */
     0x09,                   /*  0:bLength */
     0x05,                   /*  1:bDescriptorType */
-    VALUE_0x81,             /*  2:bEndpointAddress */
+    VALUE_81H,             /*  2:bEndpointAddress */
     0x05,                   /*  3:bmAttributes */
-    VALUE_0xC8,             /*  4:wMaxPacketSize */
+    VALUE_C8H,             /*  4:wMaxPacketSize */
     0x00,                   /*  5:wMaxPacketSize */
     0x01,                   /*  6:bInterval */
     0x00,                   /*  7:bRefresh */
@@ -759,7 +759,7 @@ uint8_t g_device_framework_full_speed[DEVICE_FRAME_FULL_LEN] =
 
     /* Audio Class Specific ENDPOINT Descriptor */
     0x07,                   /*  0:bLength */
-    VALUE_0x25,             /*  1:bDescriptorType */
+    VALUE_25H,             /*  1:bDescriptorType */
     0x01,                   /*  2:bDescriptorSubType */
     0x01,                   /*  3:bmAttributes */
     0x00,                   /*  4:bLockDelayUnits */

@@ -43,10 +43,10 @@
 #define SET_CONTROL_LINE_STATE      (USB_CDC_SET_CONTROL_LINE_STATE | USB_HOST_TO_DEV | USB_CLASS | USB_INTERFACE)
 #define LINE_CODING_LENGTH          (0x07U)
 #define VALUE_ZERO                  (0x0000U)
-#define NO_WAIT_TIME                0
-#define CDC_READ_DATA_LEN           512
-#define CDC_WRITE_DATA_LEN          1
-#define ZERO_INDEX                  0
+#define NO_WAIT_TIME                (0)
+#define CDC_READ_DATA_LEN           (512)
+#define CDC_WRITE_DATA_LEN          (1)
+#define ZERO_INDEX                  (0)
 
 /** Function declarations **/
 void usb_hcdc_task(void);

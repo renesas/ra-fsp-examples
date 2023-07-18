@@ -181,10 +181,10 @@ fsp_err_t uart_print_user_msg(uint8_t *p_msg)
     fsp_err_t err   = FSP_SUCCESS;
     uint8_t msg_len = RESET_VALUE;
     uint32_t local_timeout = (DATA_LENGTH * UINT16_MAX);
-    char *p_temp_ptr = (char *)p_msg;
+    uint8_t *p_temp_ptr = (uint8_t *)p_msg;
 
     /* Calculate length of message received */
-    msg_len = ((uint8_t)(strlen(p_temp_ptr)));
+    msg_len = ((uint8_t)(strlen((char *)p_temp_ptr)));
 
     /* Reset callback capture variable */
     g_uart_event = RESET_VALUE;

@@ -160,7 +160,7 @@ static void write_operation(void)
     uint8_t read_data            = RESET_VALUE;
     /* Record data to write on different Record ID's.*/
     uint8_t data_1[DATA_SIZE]  = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x10, 0x11};
-    char    data_2[DATA_SIZE]  = {'R', 'E', 'A', 'E', 'P', 'V', 'E', 'E', 'P', 'R', 'O', 'M'};
+    uint8_t data_2[DATA_SIZE]  = {'R', 'E', 'A', 'E', 'P', 'V', 'E', 'E', 'P', 'R', 'O', 'M'};
     float   data_3[DATA_SIZE]  = {0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f, 0.8f, 0.9f, 1.0f, 1.1f, 1.2f};
     adxl_t  data_4             =
     {

@@ -54,7 +54,7 @@ void usbx_host_hid_mouse_hub_entry(void)
     while (true)
     {
         /* Check HID mouse device connection status. */
-        tx_event_flags_get (&g_key_board_connect_event_flags, MOUSE_DEVICE_CONNECT_FLAG, TX_OR, &actual_value, TX_WAIT_FOREVER);
+        tx_event_flags_get (&g_hid_mouse_connect_event_flags, MOUSE_DEVICE_CONNECT_FLAG, TX_OR, &actual_value, TX_WAIT_FOREVER);
 
         for (int cl_count = RESET_VALUE ; cl_count < UX_HOST_CLASS_HID_MAX_CLIENTS; cl_count++)
         {

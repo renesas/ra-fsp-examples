@@ -36,7 +36,7 @@
 	port (J11) of the board.  Connect the other end of this cable to USB port of the 
 	host PC. 
 
-	EK-RA6E2: (support only full speed)
+	EK-RA4E2, EK-RA6E2: (support only full speed)
  	Connect the micro USB end of the micro USB cable to micro-AB USB Full Speed
 	port (J11) of the board.  Connect the other end of this cable to USB port of the
 	host PC. 
@@ -48,7 +48,7 @@ Note :
    RTT Block address for hex file committed in repository are as follows:
    a. e2studio: 0x200021ac
    b. Keil:	0x20002168
-   c. IAR: 0x20005c1c
+   c. IAR: 0x20005c18
  
 2) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) 
    in .map file generated in the build configuration folder (Debug/Release).

@@ -31,9 +31,9 @@
 /* Global variable */
 uint8_t g_write_data[WRITE_ITEM_SIZE] = {RESET_VALUE};   /* Data to write to file */
 uint8_t g_read_data[WRITE_ITEM_SIZE]  = {RESET_VALUE};   /* Variable to store the data read from file */
-bool b_writetoUSB = false;                               /* Flag to check write status */
+bool g_write_to_usb = false;                               /* Flag to check write status */
 
-extern uint16_t g_bytestoWrite;
+extern uint16_t g_bytes_to_write;
 FF_Disk_t my_disk;
 /*******************************************************************************************************************//**
  * @brief       This function Initializes the FreeRTOS+FAT instance.
@@ -127,7 +127,7 @@ void process_usb_operation(uint8_t input_buffer)
         case USB_WRITE:
         {
             /* Set the flag for write operation */
-            b_writetoUSB = true;
+            g_write_to_usb = true;
             APP_PRINT("   Goto Tera Term and write data on file.Press Enter to complete input (upto 512 bytes) \r\n"
                       "   and initiate writing the file to the Mass Storage Device titled %s\r\n",FILE_NAME);
             break;
@@ -270,10 +270,10 @@ void usb_write_operation(void)
 
             /* Write data to file  */
             bytes_written = ff_fwrite (g_write_data , sizeof(g_write_data[RESET_VALUE]) ,
-                                       g_bytestoWrite , file_pointer);
+                                       g_bytes_to_write , file_pointer);
             if (RESET_VALUE != bytes_written)
             {
-                g_bytestoWrite = RESET_VALUE;
+                g_bytes_to_write = RESET_VALUE;
                 APP_PRINT("   Data is successfully written.\r\n");
             }
             else
@@ -290,7 +290,7 @@ void usb_write_operation(void)
                     APP_PRINT(" %d\r\n",  stdioGET_ERRNO());
                 }
                 /* clear the flag */
-                b_writetoUSB = false;
+                g_write_to_usb = false;
                 return;
             }
             /* Close the file after write operation and open again in read mode */

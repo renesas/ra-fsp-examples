@@ -45,7 +45,7 @@ extern bsp_leds_t g_bsp_leds;
 #define MIN(a,b) (((a) < (b)) ? (a) : (b))
 #endif
 
-#define APP_ERR_TRAP(a)             if(a) {__asm("BKPT #0\n");} /* trap the error location */
+#define APP_ERR_TRAP(a)             ({if(a) {__asm("BKPT #0\n");}}) /* trap the error location */
 
 
 fsp_err_t common_init(void);

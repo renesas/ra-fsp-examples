@@ -31,9 +31,9 @@
  **********************************************************************************************************************/
 
 /*Global variables*/
-spi_flash_cfg_t     loc_ospi_cfg;
-ospi_extended_cfg_t loc_ospi_extnd_cfg;
-extern spi_flash_direct_transfer_t        ospi_direct_transfer[OSPI_COMMAND_MAX];
+spi_flash_cfg_t     g_loc_ospi_cfg;
+ospi_extended_cfg_t g_loc_ospi_extnd_cfg;
+extern spi_flash_direct_transfer_t        g_ospi_direct_transfer[OSPI_COMMAND_MAX];
 /*Data variable for blank check*/
 uint8_t             g_erase_data[DEVICE_SECTOR_SIZE];
 /*Data to write on flash*/
@@ -64,13 +64,13 @@ fsp_err_t ospi_init(void)
     /*Configuration setup of Extended SPI configuration into local config*/
     ospi_extended_cfg_t* textd = NULL;
     textd = (void *)g_ospi_cfg.p_extend;
-    loc_ospi_extnd_cfg = *textd;
-    loc_ospi_cfg =  g_ospi_cfg;
-    loc_ospi_cfg.p_erase_command_list = &spi_erase_command_list[INITIAL_INDEX];
-    loc_ospi_cfg.p_extend = &loc_ospi_extnd_cfg;
+    g_loc_ospi_extnd_cfg = *textd;
+    g_loc_ospi_cfg =  g_ospi_cfg;
+    g_loc_ospi_cfg.p_erase_command_list = &spi_erase_command_list[INITIAL_INDEX];
+    g_loc_ospi_cfg.p_extend = &g_loc_ospi_extnd_cfg;
 
     /*Open Octa Flash device in Extended SPI Mode */
-    err = R_OSPI_Open(&g_ospi_ctrl, &loc_ospi_cfg);
+    err = R_OSPI_Open(&g_ospi_ctrl, &g_loc_ospi_cfg);
     if (FSP_SUCCESS != err)
     {
         APP_ERR_PRINT ("\r\n** R_OSPI_Open API FAILED **\r\n");
@@ -89,14 +89,14 @@ fsp_err_t ospi_init(void)
 fsp_err_t ospi_write_enable_and_verify (ospi_instance_ctrl_t * p_instance_ctrl, uint8_t mode)
 {
     fsp_err_t err = FSP_SUCCESS;
-    spi_flash_direct_transfer_t ospi_direct_transfer_stack;
+    spi_flash_direct_transfer_t g_ospi_direct_transfer_stack;
 
     /*check for OSPI mode*/
-    ospi_direct_transfer_stack = (SPI_FLASH_PROTOCOL_EXTENDED_SPI == mode) ? ospi_direct_transfer[OSPI_COMMAND_WRITE_ENABLE_SPI_MODE]
-                                                                                                  : ospi_direct_transfer[OSPI_COMMAND_WRITE_ENABLE_OPI_MODE];
+    g_ospi_direct_transfer_stack = (SPI_FLASH_PROTOCOL_EXTENDED_SPI == mode) ? g_ospi_direct_transfer[OSPI_COMMAND_WRITE_ENABLE_SPI_MODE]
+                                                                                                  : g_ospi_direct_transfer[OSPI_COMMAND_WRITE_ENABLE_OPI_MODE];
 
     /* Write Enable */
-    err = direct_read_write(p_instance_ctrl, &ospi_direct_transfer_stack, SPI_FLASH_DIRECT_TRANSFER_DIR_WRITE);
+    err = direct_read_write(p_instance_ctrl, &g_ospi_direct_transfer_stack, SPI_FLASH_DIRECT_TRANSFER_DIR_WRITE);
     if (FSP_SUCCESS != err)
     {
         APP_ERR_PRINT ("\r\n** R_OSPI_DirectTransfer API FAILED while Write Enable**\r\n");
@@ -104,11 +104,11 @@ fsp_err_t ospi_write_enable_and_verify (ospi_instance_ctrl_t * p_instance_ctrl, 
     }
 
     /* check for OSPI mode */
-    ospi_direct_transfer_stack = (SPI_FLASH_PROTOCOL_EXTENDED_SPI == mode) ? ospi_direct_transfer[OSPI_COMMAND_READ_STATUS_SPI_MODE]
-                                                                                                  : ospi_direct_transfer[OSPI_COMMAND_READ_STATUS_OPI_MODE];
+    g_ospi_direct_transfer_stack = (SPI_FLASH_PROTOCOL_EXTENDED_SPI == mode) ? g_ospi_direct_transfer[OSPI_COMMAND_READ_STATUS_SPI_MODE]
+                                                                                                  : g_ospi_direct_transfer[OSPI_COMMAND_READ_STATUS_OPI_MODE];
 
     /* Read Status Register */
-    err = direct_read_write(p_instance_ctrl, &ospi_direct_transfer_stack, SPI_FLASH_DIRECT_TRANSFER_DIR_READ);
+    err = direct_read_write(p_instance_ctrl, &g_ospi_direct_transfer_stack, SPI_FLASH_DIRECT_TRANSFER_DIR_READ);
     if (FSP_SUCCESS != err)
     {
         APP_ERR_PRINT ("\r\n** R_OSPI_DirectTransfer API FAILED while Reading back status register**\r\n");
@@ -116,7 +116,7 @@ fsp_err_t ospi_write_enable_and_verify (ospi_instance_ctrl_t * p_instance_ctrl, 
     }
 
     /* Check for data read by ospi */
-    if(OSPI_WEN_BIT_MASK != (ospi_direct_transfer_stack.data & OSPI_WEN_BIT_MASK))
+    if(OSPI_WEN_BIT_MASK != (g_ospi_direct_transfer_stack.data & OSPI_WEN_BIT_MASK))
     {
         APP_ERR_PRINT ("\r\n** Data read while write enable is incorrect**\r\n");
         return FSP_ERR_ABORTED;
@@ -134,8 +134,8 @@ fsp_err_t ospi_write_enable_and_verify (ospi_instance_ctrl_t * p_instance_ctrl, 
 static fsp_err_t ospi_opi_to_spi_mode_transition (void)
 {
     fsp_err_t    err                  = FSP_SUCCESS;
-    loc_ospi_cfg.p_erase_command_list = &spi_erase_command_list[RESET_VALUE];
-    loc_ospi_cfg.spi_protocol         = SPI_FLASH_PROTOCOL_EXTENDED_SPI;
+    g_loc_ospi_cfg.p_erase_command_list = &spi_erase_command_list[RESET_VALUE];
+    g_loc_ospi_cfg.spi_protocol         = SPI_FLASH_PROTOCOL_EXTENDED_SPI;
 
     /* Write Enable */
     err = ospi_write_enable_and_verify(&g_ospi_ctrl, OSPI_MODE_OPI);
@@ -146,10 +146,10 @@ static fsp_err_t ospi_opi_to_spi_mode_transition (void)
     }
 
     /*Write configuration register in OPI mode*/
-    ospi_direct_transfer[OSPI_COMMAND_WRITE_CR2_OPI_MODE].address = OSPI_CR2_ADDRESS_HEX_0;
-    ospi_direct_transfer[OSPI_COMMAND_WRITE_CR2_OPI_MODE].data    = OSPI_CR2_DATA_HEX_00;
+    g_ospi_direct_transfer[OSPI_COMMAND_WRITE_CR2_OPI_MODE].address = OSPI_CR2_ADDRESS_HEX_0;
+    g_ospi_direct_transfer[OSPI_COMMAND_WRITE_CR2_OPI_MODE].data    = OSPI_CR2_DATA_HEX_00;
 
-    err = direct_read_write(&g_ospi_ctrl, &ospi_direct_transfer[OSPI_COMMAND_WRITE_CR2_OPI_MODE],
+    err = direct_read_write(&g_ospi_ctrl, &g_ospi_direct_transfer[OSPI_COMMAND_WRITE_CR2_OPI_MODE],
                             SPI_FLASH_DIRECT_TRANSFER_DIR_WRITE);
     if (FSP_SUCCESS != err)
     {
@@ -174,7 +174,7 @@ static fsp_err_t ospi_opi_to_spi_mode_transition (void)
     }
 
     /* Open with new configuration */
-    err = R_OSPI_Open(&g_ospi_ctrl, &loc_ospi_cfg);
+    err = R_OSPI_Open(&g_ospi_ctrl, &g_loc_ospi_cfg);
     if (FSP_SUCCESS != err)
     {
         APP_ERR_PRINT("\r\n** R_OSPI_Open API failed **\r\n");
@@ -202,13 +202,13 @@ static fsp_err_t ospi_opi_to_spi_mode_transition (void)
 static fsp_err_t ospi_spi_to_opi_mode_transition (ospi_instance_ctrl_t  * p_instance_ctrl, spi_flash_protocol_t    mode)
 {
     fsp_err_t    err                  = FSP_SUCCESS;
-    loc_ospi_cfg.p_erase_command_list = &opi_erase_command_list[RESET_VALUE];
+    g_loc_ospi_cfg.p_erase_command_list = &opi_erase_command_list[RESET_VALUE];
 
     /*Check for mode selected in OPI mode */
     if (mode == SPI_FLASH_PROTOCOL_SOPI)
     {
         /*copy mode to local config*/
-        loc_ospi_cfg.spi_protocol         = mode;
+        g_loc_ospi_cfg.spi_protocol         = mode;
 
         /* Write Enable */
         err = ospi_write_enable_and_verify(p_instance_ctrl, OSPI_MODE_SPI);
@@ -219,10 +219,10 @@ static fsp_err_t ospi_spi_to_opi_mode_transition (ospi_instance_ctrl_t  * p_inst
         }
 
         /* Write CR2 and enable DQS */
-        ospi_direct_transfer[OSPI_COMMAND_WRITE_CR2_SPI_MODE].address = OSPI_CR2_ADDRESS_HEX_200;
-        ospi_direct_transfer[OSPI_COMMAND_WRITE_CR2_SPI_MODE].data    = OSPI_CR2_DATA_HEX_02; /* DOS: DQS on STR mode */
+        g_ospi_direct_transfer[OSPI_COMMAND_WRITE_CR2_SPI_MODE].address = OSPI_CR2_ADDRESS_HEX_200;
+        g_ospi_direct_transfer[OSPI_COMMAND_WRITE_CR2_SPI_MODE].data    = OSPI_CR2_DATA_HEX_02; /* DOS: DQS on STR mode */
 
-        err = direct_read_write(p_instance_ctrl, &ospi_direct_transfer[OSPI_COMMAND_WRITE_CR2_SPI_MODE],
+        err = direct_read_write(p_instance_ctrl, &g_ospi_direct_transfer[OSPI_COMMAND_WRITE_CR2_SPI_MODE],
                                 SPI_FLASH_DIRECT_TRANSFER_DIR_WRITE);
         if (FSP_SUCCESS != err)
         {
@@ -231,9 +231,9 @@ static fsp_err_t ospi_spi_to_opi_mode_transition (ospi_instance_ctrl_t  * p_inst
         }
 
         /* Read CR2 and check if DQS is enabled */
-        ospi_direct_transfer[OSPI_COMMAND_READ_CR2_SPI_MODE].address = OSPI_CR2_ADDRESS_HEX_200;
+        g_ospi_direct_transfer[OSPI_COMMAND_READ_CR2_SPI_MODE].address = OSPI_CR2_ADDRESS_HEX_200;
 
-        err = direct_read_write(p_instance_ctrl, &ospi_direct_transfer[OSPI_COMMAND_READ_CR2_SPI_MODE], SPI_FLASH_DIRECT_TRANSFER_DIR_READ);
+        err = direct_read_write(p_instance_ctrl, &g_ospi_direct_transfer[OSPI_COMMAND_READ_CR2_SPI_MODE], SPI_FLASH_DIRECT_TRANSFER_DIR_READ);
         if (FSP_SUCCESS != err)
         {
             APP_ERR_PRINT("\r\n** R_OSPI_DirectTransfer failed while reading Write configuration register in SPI mode **\r\n");
@@ -241,7 +241,7 @@ static fsp_err_t ospi_spi_to_opi_mode_transition (ospi_instance_ctrl_t  * p_inst
         }
 
         /*check read data */
-        if(OSPI_CR2_DQS_ON_SOPI_MODE_BIT_MASK != (ospi_direct_transfer[OSPI_COMMAND_READ_CR2_SPI_MODE].data & OSPI_CR2_DQS_ON_SOPI_MODE_BIT_MASK))
+        if(OSPI_CR2_DQS_ON_SOPI_MODE_BIT_MASK != (g_ospi_direct_transfer[OSPI_COMMAND_READ_CR2_SPI_MODE].data & OSPI_CR2_DQS_ON_SOPI_MODE_BIT_MASK))
         {
             APP_ERR_PRINT("\r\n** Data read is incorrect in SPI mode **\r\n");
             return err;
@@ -250,7 +250,7 @@ static fsp_err_t ospi_spi_to_opi_mode_transition (ospi_instance_ctrl_t  * p_inst
     else
     {
         /*Copy mode into local config */
-        loc_ospi_cfg.spi_protocol         = mode;
+        g_loc_ospi_cfg.spi_protocol         = mode;
 
         /* Write Enable */
         err = ospi_write_enable_and_verify(p_instance_ctrl, OSPI_MODE_SPI);
@@ -261,10 +261,10 @@ static fsp_err_t ospi_spi_to_opi_mode_transition (ospi_instance_ctrl_t  * p_inst
         }
 
         /* Write CR2 and enable DQS */
-        ospi_direct_transfer[OSPI_COMMAND_WRITE_CR2_SPI_MODE].address = OSPI_CR2_ADDRESS_HEX_200;
-        ospi_direct_transfer[OSPI_COMMAND_WRITE_CR2_SPI_MODE].data    = OSPI_CR2_DATA_HEX_00; /* DOS: DQS on STR mode */
+        g_ospi_direct_transfer[OSPI_COMMAND_WRITE_CR2_SPI_MODE].address = OSPI_CR2_ADDRESS_HEX_200;
+        g_ospi_direct_transfer[OSPI_COMMAND_WRITE_CR2_SPI_MODE].data    = OSPI_CR2_DATA_HEX_00; /* DOS: DQS on STR mode */
 
-        err = direct_read_write(p_instance_ctrl, &ospi_direct_transfer[OSPI_COMMAND_WRITE_CR2_SPI_MODE],
+        err = direct_read_write(p_instance_ctrl, &g_ospi_direct_transfer[OSPI_COMMAND_WRITE_CR2_SPI_MODE],
                                 SPI_FLASH_DIRECT_TRANSFER_DIR_WRITE);
         if (FSP_SUCCESS != err)
         {
@@ -273,15 +273,15 @@ static fsp_err_t ospi_spi_to_opi_mode_transition (ospi_instance_ctrl_t  * p_inst
         }
 
         /* Read CR2 and check if DQS is enabled */
-        ospi_direct_transfer[OSPI_COMMAND_READ_CR2_SPI_MODE].address = OSPI_CR2_ADDRESS_HEX_200;
-        err = direct_read_write(p_instance_ctrl, &ospi_direct_transfer[OSPI_COMMAND_READ_CR2_SPI_MODE], SPI_FLASH_DIRECT_TRANSFER_DIR_READ);
+        g_ospi_direct_transfer[OSPI_COMMAND_READ_CR2_SPI_MODE].address = OSPI_CR2_ADDRESS_HEX_200;
+        err = direct_read_write(p_instance_ctrl, &g_ospi_direct_transfer[OSPI_COMMAND_READ_CR2_SPI_MODE], SPI_FLASH_DIRECT_TRANSFER_DIR_READ);
         if (FSP_SUCCESS != err)
         {
             APP_ERR_PRINT("\r\n** R_OSPI_DirectTransfer failed while reading Write configuration register in spi mode**\r\n");
             return err;
         }
         /*check for data read */
-        if(RESET_VALUE != (ospi_direct_transfer[OSPI_COMMAND_READ_CR2_SPI_MODE].data & OSPI_CR2_DQS_ON_SOPI_MODE_BIT_MASK))
+        if(RESET_VALUE != (g_ospi_direct_transfer[OSPI_COMMAND_READ_CR2_SPI_MODE].data & OSPI_CR2_DQS_ON_SOPI_MODE_BIT_MASK))
         {
             APP_ERR_PRINT("\r\n** Data mismatched in SPI mode **\r\n");
             return err;
@@ -297,11 +297,11 @@ static fsp_err_t ospi_spi_to_opi_mode_transition (ospi_instance_ctrl_t  * p_inst
     }
 
     /* Change dummy cycles according to requested frequency */
-    ospi_direct_transfer[OSPI_COMMAND_WRITE_CR2_SPI_MODE].address = OSPI_CR2_ADDRESS_HEX_300;
-    ospi_direct_transfer[OSPI_COMMAND_WRITE_CR2_SPI_MODE].data    = OSPI_CR2_DATA_HEX_05;
+    g_ospi_direct_transfer[OSPI_COMMAND_WRITE_CR2_SPI_MODE].address = OSPI_CR2_ADDRESS_HEX_300;
+    g_ospi_direct_transfer[OSPI_COMMAND_WRITE_CR2_SPI_MODE].data    = OSPI_CR2_DATA_HEX_05;
 
     /*Write configuration register*/
-    err = direct_read_write(p_instance_ctrl, &ospi_direct_transfer[OSPI_COMMAND_WRITE_CR2_SPI_MODE], SPI_FLASH_DIRECT_TRANSFER_DIR_WRITE);
+    err = direct_read_write(p_instance_ctrl, &g_ospi_direct_transfer[OSPI_COMMAND_WRITE_CR2_SPI_MODE], SPI_FLASH_DIRECT_TRANSFER_DIR_WRITE);
     if (FSP_SUCCESS != err)
     {
         APP_ERR_PRINT("\r\n** R_OSPI_DirectTransfer failed while writing Write configuration register in spi mode **\r\n");
@@ -309,10 +309,10 @@ static fsp_err_t ospi_spi_to_opi_mode_transition (ospi_instance_ctrl_t  * p_inst
     }
 
     /* Read CR2 and check if DQS is enabled */
-    ospi_direct_transfer[OSPI_COMMAND_READ_CR2_SPI_MODE].address = OSPI_CR2_ADDRESS_HEX_300;
+    g_ospi_direct_transfer[OSPI_COMMAND_READ_CR2_SPI_MODE].address = OSPI_CR2_ADDRESS_HEX_300;
 
     /*Read configuration register*/
-    err = direct_read_write(p_instance_ctrl, &ospi_direct_transfer[OSPI_COMMAND_READ_CR2_SPI_MODE], SPI_FLASH_DIRECT_TRANSFER_DIR_READ);
+    err = direct_read_write(p_instance_ctrl, &g_ospi_direct_transfer[OSPI_COMMAND_READ_CR2_SPI_MODE], SPI_FLASH_DIRECT_TRANSFER_DIR_READ);
     if (FSP_SUCCESS != err)
     {
         APP_ERR_PRINT("\r\n** R_OSPI_DirectTransfer failed while reading Write configuration register in spi mode **\r\n");
@@ -320,7 +320,7 @@ static fsp_err_t ospi_spi_to_opi_mode_transition (ospi_instance_ctrl_t  * p_inst
     }
 
     /*check read data */
-    if(OSPI_CR2_DATA_HEX_05 != (ospi_direct_transfer[OSPI_COMMAND_READ_CR2_SPI_MODE].data & OSPI_CR2_DATA_HEX_05))
+    if(OSPI_CR2_DATA_HEX_05 != (g_ospi_direct_transfer[OSPI_COMMAND_READ_CR2_SPI_MODE].data & OSPI_CR2_DATA_HEX_05))
     {
         APP_ERR_PRINT("\r\n** Data mismatched in SPI mode **\r\n");
         return err;
@@ -335,11 +335,11 @@ static fsp_err_t ospi_spi_to_opi_mode_transition (ospi_instance_ctrl_t  * p_inst
     }
 
     /* The OctaFlash chip is in SPI mode. Change DOPI mode */
-    ospi_direct_transfer[OSPI_COMMAND_WRITE_CR2_SPI_MODE].address = OSPI_CR2_ADDRESS_HEX_0;
-    ospi_direct_transfer[OSPI_COMMAND_WRITE_CR2_SPI_MODE].data    = mode - TWO; /* Requested OPI mode */
+    g_ospi_direct_transfer[OSPI_COMMAND_WRITE_CR2_SPI_MODE].address = OSPI_CR2_ADDRESS_HEX_0;
+    g_ospi_direct_transfer[OSPI_COMMAND_WRITE_CR2_SPI_MODE].data    = mode - TWO; /* Requested OPI mode */
 
     /*Write configuration register*/
-    err = direct_read_write(p_instance_ctrl, &ospi_direct_transfer[OSPI_COMMAND_WRITE_CR2_SPI_MODE], SPI_FLASH_DIRECT_TRANSFER_DIR_WRITE);
+    err = direct_read_write(p_instance_ctrl, &g_ospi_direct_transfer[OSPI_COMMAND_WRITE_CR2_SPI_MODE], SPI_FLASH_DIRECT_TRANSFER_DIR_WRITE);
     if (FSP_SUCCESS != err)
     {
         APP_ERR_PRINT("\r\n** R_OSPI_DirectTransfer failed while writing Write configuration register in opi mode **\r\n");
@@ -351,15 +351,15 @@ static fsp_err_t ospi_spi_to_opi_mode_transition (ospi_instance_ctrl_t  * p_inst
     if (FSP_SUCCESS == err)
     {
         /* Verify that the chip is in requested OPI mode */
-        ospi_direct_transfer[OSPI_COMMAND_READ_CR2_OPI_MODE].address = OSPI_CR2_ADDRESS_HEX_0;
-        err = direct_read_write(p_instance_ctrl, &ospi_direct_transfer[OSPI_COMMAND_READ_CR2_OPI_MODE], SPI_FLASH_DIRECT_TRANSFER_DIR_READ);
+        g_ospi_direct_transfer[OSPI_COMMAND_READ_CR2_OPI_MODE].address = OSPI_CR2_ADDRESS_HEX_0;
+        err = direct_read_write(p_instance_ctrl, &g_ospi_direct_transfer[OSPI_COMMAND_READ_CR2_OPI_MODE], SPI_FLASH_DIRECT_TRANSFER_DIR_READ);
         if (FSP_SUCCESS != err)
         {
             APP_ERR_PRINT("\r\n** R_OSPI_DirectTransfer failed while reading configuration register in opi mode **\r\n");
             return err;
         }
         /*check for read data*/
-        if((mode - TWO) != (ospi_direct_transfer[OSPI_COMMAND_READ_CR2_OPI_MODE].data & (mode - TWO)))
+        if((mode - TWO) != (g_ospi_direct_transfer[OSPI_COMMAND_READ_CR2_OPI_MODE].data & (mode - TWO)))
         {
             APP_ERR_PRINT("\r\n** Data mismatched while reading mode  **\r\n");
             return err;
@@ -375,7 +375,7 @@ static fsp_err_t ospi_spi_to_opi_mode_transition (ospi_instance_ctrl_t  * p_inst
     }
 
     /*Open with new configuration*/
-    err = R_OSPI_Open(&g_ospi_ctrl, &loc_ospi_cfg);
+    err = R_OSPI_Open(&g_ospi_ctrl, &g_loc_ospi_cfg);
     if (FSP_SUCCESS != err)
     {
         APP_ERR_PRINT("\r\n** R_OSPI_OPEN API failed **\r\n");
@@ -405,13 +405,13 @@ fsp_err_t spi_operation(void)
     uint8_t               *ospi_ref_addr     = (uint8_t *) (SPI_REFERENCE_ADDRESS);
 
     /* Check if Flash is in Extended SPI mode*/
-    if(SPI_FLASH_PROTOCOL_EXTENDED_SPI != loc_ospi_cfg.spi_protocol)
+    if(SPI_FLASH_PROTOCOL_EXTENDED_SPI != g_loc_ospi_cfg.spi_protocol)
     {
         /*Change Flash mode from OPI to SPI*/
         err = ospi_opi_to_spi_mode_transition();
         if(FSP_SUCCESS != err)
         {
-            APP_ERR_PRINT("\r\n** OSPI transition from opi mode to spi mode failed **\r\n")
+            APP_ERR_PRINT("\r\n** OSPI transition from opi mode to spi mode failed **\r\n");
                     return err;
         }
     }
@@ -432,7 +432,7 @@ fsp_err_t spi_operation(void)
                 err = erase_and_blankcheck(ospi_ref_addr);
                 if(FSP_SUCCESS != err)
                 {
-                    APP_ERR_PRINT("\r\n** OSPI erase and blank check operation failed **\r\n")
+                    APP_ERR_PRINT("\r\n** OSPI erase and blank check operation failed **\r\n");
                             return err;
                 }
                 /*Write data on flash and wait till operation completes*/
@@ -440,7 +440,7 @@ fsp_err_t spi_operation(void)
                 wait_operation();
                 if(FSP_SUCCESS != err)
                 {
-                    APP_ERR_PRINT("\r\n** R_OSPI_Write API failed in SPI Operation **\r\n")
+                    APP_ERR_PRINT("\r\n** R_OSPI_Write API failed in SPI Operation **\r\n");
                             return err;
                 }
 
@@ -466,7 +466,7 @@ fsp_err_t spi_operation(void)
                 err = erase_and_blankcheck(ospi_ref_addr);
                 if(FSP_SUCCESS != err)
                 {
-                    APP_ERR_PRINT("\r\n** OSPI erase and blank check operation failed **\r\n")
+                    APP_ERR_PRINT("\r\n** OSPI erase and blank check operation failed **\r\n");
                             return err;
                 }
             }
@@ -504,13 +504,13 @@ fsp_err_t opi_operation(uint8_t mode)
     uint8_t                 *ospi_ref_addr     = NULL;
 
     /*Check if Flash id in OPI mode*/
-    if(mode != loc_ospi_cfg.spi_protocol)
+    if(mode != g_loc_ospi_cfg.spi_protocol)
     {
         /*Change flash mode from spi to sopi*/
         err = ospi_spi_to_opi_mode_transition(&g_ospi_ctrl, (spi_flash_protocol_t)mode);
         if(FSP_SUCCESS != err)
         {
-            APP_ERR_PRINT("\r\n** OSPI transition from spi to opi mode failed **\r\n")
+            APP_ERR_PRINT("\r\n** OSPI transition from spi to opi mode failed **\r\n");
                     return err;
         }
     }
@@ -519,7 +519,7 @@ fsp_err_t opi_operation(uint8_t mode)
     if(SPI_FLASH_PROTOCOL_SOPI == mode)
     {
         ospi_ref_addr = (uint8_t *) (SOPI_REFERNCE_ADDRESS);
-        APP_PRINT("\nMode selected is SPI_FLASH_PROTOCOL_SOPI\r\n")
+        APP_PRINT("\nMode selected is SPI_FLASH_PROTOCOL_SOPI\r\n");
     }
     else
     {
@@ -543,7 +543,7 @@ fsp_err_t opi_operation(uint8_t mode)
                 err = erase_and_blankcheck(ospi_ref_addr);
                 if(FSP_SUCCESS != err)
                 {
-                    APP_ERR_PRINT("\r\n** OSPI erase and blank check operation failed **\r\n")
+                    APP_ERR_PRINT("\r\n** OSPI erase and blank check operation failed **\r\n");
                             return err;
                 }
                 /*Write data on flash and wait till operation completes*/
@@ -551,7 +551,7 @@ fsp_err_t opi_operation(uint8_t mode)
                 wait_operation();
                 if(FSP_SUCCESS != err)
                 {
-                    APP_ERR_PRINT("\r\n** R_OSPI_Write API failed **\r\n")
+                    APP_ERR_PRINT("\r\n** R_OSPI_Write API failed **\r\n");
                             return err;
                 }
                 APP_PRINT("\nWrite operation on Flash Completed Successfully\r\n");
@@ -576,7 +576,7 @@ fsp_err_t opi_operation(uint8_t mode)
                 err = erase_and_blankcheck(ospi_ref_addr);
                 if(FSP_SUCCESS != err)
                 {
-                    APP_ERR_PRINT("\r\n** OSPI erase and blank check operation failed **\r\n")
+                    APP_ERR_PRINT("\r\n** OSPI erase and blank check operation failed **\r\n");
                             return err;
                 }
             }
@@ -587,7 +587,7 @@ fsp_err_t opi_operation(uint8_t mode)
                 err = ospi_opi_to_spi_mode_transition();
                 if(FSP_SUCCESS != err)
                 {
-                    APP_ERR_PRINT("\r\n** OSPI transition from opi to spi mode failed **\r\n")
+                    APP_ERR_PRINT("\r\n** OSPI transition from opi to spi mode failed **\r\n");
                             return err;
                 }
 
@@ -833,7 +833,7 @@ static fsp_err_t erase_and_blankcheck(uint8_t * const p_device_address)
     wait_operation();
     if(FSP_SUCCESS != err)
     {
-        APP_ERR_PRINT("\r\n** R_OSPI_Erase API failed **\r\n")
+        APP_ERR_PRINT("\r\n** R_OSPI_Erase API failed **\r\n");
                 return err;
     }
     /*perform blank check*/

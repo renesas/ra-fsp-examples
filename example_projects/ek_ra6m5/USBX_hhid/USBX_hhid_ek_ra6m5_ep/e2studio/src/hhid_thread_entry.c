@@ -69,6 +69,10 @@ static UINT apl_host_hid_change_function (ULONG event, UX_HOST_CLASS * host_clas
         /* set the event flag as usb host device is plugged out */
         tx_event_flags_set(&g_usb_plug_events, EVENT_USB_PLUG_OUT, TX_OR);
     }
+    else
+    {
+        /* Do nothing */
+    }
     return UX_SUCCESS;
 }
 

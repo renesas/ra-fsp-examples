@@ -33,13 +33,18 @@
 static bool b_usb_hmsc_close = false;
 static volatile bool g_rm_freertos_plus_fat_insertion_events = false;
 
+/* Global Variables */
+uint8_t g_write_data[WRITE_ITEM_SIZE] ={RESET_VALUE};   /* Data(10k) to write to file */
+uint8_t g_read_data[WRITE_ITEM_SIZE] = {RESET_VALUE};   /* Variable to store the data read from file */
+FF_Disk_t g_my_disk;                                      /* Pointer to store FreeRTOS+FAT disk structure */
+
 /* USB HMSC Thread entry function */
 /* pvParameters contains TaskHandle_t */
 void usb_hmsc_thread_entry(void *pvParameters)
 {
     FSP_PARAMETER_NOT_USED (pvParameters);
 
-    memset(&my_disk, RESET_VALUE, sizeof(my_disk));
+    memset(&g_my_disk, RESET_VALUE, sizeof(g_my_disk));
     fsp_pack_version_t version = { RESET_VALUE };
 
     /* version get API for FLEX pack information */
@@ -347,7 +352,7 @@ void format_usb_device(void)
         APP_PRINT (" Do not disconnect the USB device while formatting is in progress.   Please Wait ...\r\n");
 
         /* Formatting time varies with USB Device capacity. Might take longer time for higher capacity USB Device */
-        FF_Error_t ff_error = FF_Format (&my_disk, my_disk.xStatus.bPartitionNumber, pdFALSE , pdFALSE);
+        FF_Error_t ff_error = FF_Format (&g_my_disk, g_my_disk.xStatus.bPartitionNumber, pdFALSE , pdFALSE);
         if (FF_ERR_NONE != ff_error)
         {
             APP_ERR_PRINT ("\r\n FF_Format API failed  %d. Check the USB Device.\r\n", FF_GetErrMessage(ff_error));
@@ -374,7 +379,7 @@ void usb_safely_eject(void)
     /* Check the USB Device Connection before formating */
     if ((true == check_usb_connection()) && (true != b_usb_hmsc_close))
     {
-        fsp_err_t freertos_fat_error = RM_FREERTOS_PLUS_FAT_DiskDeinit(&g_rm_freertos_plus_fat_ctrl, &my_disk);
+        fsp_err_t freertos_fat_error = RM_FREERTOS_PLUS_FAT_DiskDeinit(&g_rm_freertos_plus_fat_ctrl, &g_my_disk);
         if (FSP_SUCCESS != freertos_fat_error)
         {
             APP_ERR_PRINT ("\r\nFREERTOS PLUS FAT DiskDeinit API failed\r\n");
@@ -489,7 +494,7 @@ fsp_err_t usb_init(void)
 
     /* Initialize one disk for each partition used in the application. */
     freertos_fat_error = RM_FREERTOS_PLUS_FAT_DiskInit(&g_rm_freertos_plus_fat_ctrl, &g_rm_freertos_plus_fat_disk_cfg,
-                                                       &my_disk);
+                                                       &g_my_disk);
     if (FSP_SUCCESS != freertos_fat_error)
     {
         APP_ERR_PRINT ("\r\nFreeRTOS Plus FAT Disk Init API failed\r\n");
@@ -498,7 +503,7 @@ fsp_err_t usb_init(void)
     }
 
     /* Mount each disk.  This assumes the disk is already partitioned and formatted. */
-    FF_Error_t ff_err = FF_Mount(&my_disk, my_disk.xStatus.bPartitionNumber);
+    FF_Error_t ff_err = FF_Mount(&g_my_disk, g_my_disk.xStatus.bPartitionNumber);
     if (FSP_SUCCESS != ff_err)
     {
         APP_ERR_PRINT ("\r\nFF_Mount API failed\r\n");
@@ -509,7 +514,7 @@ fsp_err_t usb_init(void)
     }
 
     /* Add the disk to the file system. */
-    file_error = FF_FS_Add("/", &my_disk);
+    file_error = FF_FS_Add("/", &g_my_disk);
     if (SUCCESS == file_error)
     {
         APP_ERR_PRINT ("\r\nFF_Mount API failed\r\n");

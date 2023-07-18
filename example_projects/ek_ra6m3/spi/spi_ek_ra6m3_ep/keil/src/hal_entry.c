@@ -40,7 +40,7 @@ void hal_entry(void)
 {
     fsp_err_t err = FSP_SUCCESS;
     fsp_pack_version_t version = {RESET_VALUE};
-    unsigned char rByte[BUFFER_SIZE_DOWN] = {RESET_VALUE};
+    uint8_t rByte[BUFFER_SIZE_DOWN] = {RESET_VALUE};
     uint8_t converted_rtt_input = RESET_VALUE;
 
     /* version get API for FLEX pack information */

@@ -42,12 +42,12 @@ extern uint8_t g_device_framework_full_speed[];
 extern uint8_t g_string_framework[];
 extern uint8_t g_language_id_framework[];
 extern uint8_t g_apl_report[REPORT_DESCRIPTOR_LENGTH];
-extern bool b_write_flag;
+extern bool g_write_flag;
 
 /******************************************************************************
  * Global variables and functions
  ******************************************************************************/
-UINT usbx_status_callback (ULONG status);
+static UINT usbx_status_callback (ULONG status);
 
 /******************************************************************************
  * Private global variables and functions
@@ -55,7 +55,7 @@ UINT usbx_status_callback (ULONG status);
 static UX_SLAVE_CLASS_HID_PARAMETER g_ux_device_class_hid_parameter;
 static UX_SLAVE_CLASS_HID_EVENT hid_event;
 static uint32_t g_ux_pool_memory[MEMPOOL_SIZE / VALUE_4];
-uint8_t rtt_input_data[BUFFER_SIZE_DOWN] = {RESET_VALUE};
+uint8_t g_rtt_input_data[BUFFER_SIZE_DOWN] = {RESET_VALUE};
 static UX_SLAVE_CLASS_HID * volatile g_hid = UX_NULL;
 static UCHAR key = RESET_VALUE;
 static bool b_print_status = false;
@@ -341,13 +341,13 @@ UINT usbx_phid_operation (void)
         return actual_flags;
     }
     /* check whether user input had given */
-    if (false == b_write_flag)
+    if (false == g_write_flag)
     {
         PRINT_INFO_STR("Provide any key as input from a-z or 0-9");
         /* Wait for rtt input */
         do
         {
-            status = check_for_rtt_user_ip ((uint8_t*) &rtt_input_data);
+            status = check_for_rtt_user_ip ((uint8_t*) &g_rtt_input_data);
         }
         while (status != TX_SUCCESS);
     }
@@ -400,9 +400,9 @@ UINT usbx_phid_operation (void)
         {
             /* Start over again.  */
             key = FIRST_KEY;
-            memset (rtt_input_data, RESET_VALUE, sizeof(rtt_input_data));
+            memset (g_rtt_input_data, RESET_VALUE, sizeof(g_rtt_input_data));
             /* Clear the flag bit */
-            b_write_flag = false;
+            g_write_flag = false;
         }
     }
     return status;

@@ -44,8 +44,8 @@ void hal_entry(void) {
     APP_PRINT(BANNER_4,version.version_id_b.major, version.version_id_b.minor, version.version_id_b.patch);
     APP_PRINT(BANNER_5);
     APP_PRINT(BANNER_6);
-    APP_PRINT("\nThis EP utilizes PMOD ACL sensor as iic slave device\n")
-    APP_PRINT("Upon successful initialization, MCU displays sensor axis data\n\n\n")
+    APP_PRINT("\nThis EP utilizes PMOD ACL sensor as iic slave device\n");
+    APP_PRINT("Upon successful initialization, MCU displays sensor axis data\n\n\n");
 
     /* Opening IIC master module and Initializing PMOD ACL sensor */
     err = init_sensor();

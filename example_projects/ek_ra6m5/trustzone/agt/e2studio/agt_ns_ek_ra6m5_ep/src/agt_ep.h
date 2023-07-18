@@ -45,7 +45,7 @@
 #define TIME_PERIOD_MIN  (0U)
 
 /* MACRO for null character */
-#define NULL_CHAR   '\0'
+#define NULL_CHAR   ('\0')
 
 /***********************************************************************************************************************
  * User-defined APIs

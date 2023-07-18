@@ -89,7 +89,7 @@ void hal_entry(void)
         APP_PRINT ("\r\n ** UART EP Demo FAILED ** \r\n");
         timer_gpt_deinit();
         deinit_uart();
-        APP_ERR_TRAP(err)
+        APP_ERR_TRAP(err);
     }
 }
 

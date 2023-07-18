@@ -30,7 +30,7 @@
 #define NUM_DCS               (sizeof(pwm_dcs) / sizeof(pwm_dcs[0]))
 #define NUM_SWITCH            (sizeof(irq_pins) / sizeof(irq_pins[0]))
 
-int g_curr_led_freq = BLINK_FREQ_1HZ;
+uint32_t g_curr_led_freq = BLINK_FREQ_1HZ;
 
 static const struct
 {
@@ -69,7 +69,7 @@ void button_irq9_callback(external_irq_callback_args_t *p_args)
 
     R_GPT_PeriodSet(g_blinker.p_ctrl, pwm_rates[cur_rate]);
 
-    g_curr_led_freq = (int)pwm_rates[cur_rate];
+    g_curr_led_freq = (uint32_t)pwm_rates[cur_rate];
 }
 
 void button_irq10_callback(external_irq_callback_args_t *p_args)

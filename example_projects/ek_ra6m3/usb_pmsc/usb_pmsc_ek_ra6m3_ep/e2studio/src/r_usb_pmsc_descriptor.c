@@ -336,7 +336,7 @@ uint8_t g_usb_pmsc_string_descriptor6[USB_PMSC_SD6_BLENGTH + (USB_PMSC_SD6_BLENG
     '1', 0x00,
 };
 
-uint8_t * g_apl_string_table[] =
+uint8_t * gp_apl_string_table[] =
 {
     g_usb_pmsc_string_descriptor0,
     g_usb_pmsc_string_descriptor1,

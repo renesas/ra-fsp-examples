@@ -58,15 +58,15 @@ static UINT network_init(void);
 static void convert_to_lowercase(uint8_t * p_str);
 
 /*tcp socket variable*/
-NX_TCP_SOCKET  tcp_client_socket;
+NX_TCP_SOCKET  g_tcp_client_socket;
 
 /* Azure Wifi Thread entry function */
 void azure_wifi_thread_entry(void)
 {
 
     /*Local variable declarations*/
-    char input_buff[BUFF_LEN] = {RESET_VALUE};             // Buffer for storing user input
-    char tcp_serv_ip[BUFF_LEN] = {RESET_VALUE};            // Buffer to store entered tcp server IP
+    uint8_t input_buff[BUFF_LEN] = {RESET_VALUE};             // Buffer for storing user input
+    uint8_t tcp_serv_ip[BUFF_LEN] = {RESET_VALUE};            // Buffer to store entered tcp server IP
     uint8_t ip_addr[IP_BUFF_LEN] = {RESET_VALUE};          // IP address for ping operation
     int8_t dns_retry_count = WIFI_MAX_TRY;                 // Max retry count for DNS lookup
     int8_t ping_retry_count = WIFI_MAX_TRY;                // Max retry count for ping operation
@@ -221,7 +221,7 @@ void azure_wifi_thread_entry(void)
     PRINT_STR("Start TCP server in PC and start listening.");
     UINT status;
     /* Create the socket.  */
-    status = nx_tcp_socket_create(&g_ip0, &tcp_client_socket, "TCP Client Socket", NX_IP_NORMAL, NX_FRAGMENT_OKAY,
+    status = nx_tcp_socket_create(&g_ip0, &g_tcp_client_socket, "TCP Client Socket", NX_IP_NORMAL, NX_FRAGMENT_OKAY,
                                   NX_IP_TIME_TO_LIVE, NETXDUO_TESTS_TCP_WINDOW_SIZE, NX_NULL, NX_NULL);
     if(NX_SUCCESS != status)
     {
@@ -288,7 +288,7 @@ void azure_wifi_thread_entry(void)
     g_socket.port = (uint32_t) atoi(input_buff);
 
     /* Bind the socket to a port. */
-    status = nx_tcp_client_socket_bind(&tcp_client_socket, 3050, NETXDUO_TESTS_SOCKET_TIMEOUT);
+    status = nx_tcp_client_socket_bind(&g_tcp_client_socket, 3050, NETXDUO_TESTS_SOCKET_TIMEOUT);
     if(NX_SUCCESS != status)
     {
         PRINT_ERR_STR("nx_tcp_client_socket_bind API failed");
@@ -298,7 +298,7 @@ void azure_wifi_thread_entry(void)
     PRINT_INFO_STR("TCP socket bind successful");
 
     /*Connect to TCP server running*/
-    status = nx_tcp_client_socket_connect(&tcp_client_socket,SOCKETS_htonl(g_socket.ip_addr_server),g_socket.port, NETXDUO_TESTS_SOCKET_TIMEOUT);
+    status = nx_tcp_client_socket_connect(&g_tcp_client_socket,SOCKETS_HTONL(g_socket.ip_addr_server),g_socket.port, NETXDUO_TESTS_SOCKET_TIMEOUT);
     if(NX_SUCCESS != status)
     {
         PRINT_ERR_STR("nx_tcp_client_socket_connect API failed");
@@ -330,7 +330,7 @@ void azure_wifi_thread_entry(void)
     }
 
     /* Send the packet. */
-    status = nx_tcp_socket_send(&tcp_client_socket, p_nx_packet, NETXDUO_TESTS_SOCKET_TIMEOUT);
+    status = nx_tcp_socket_send(&g_tcp_client_socket, p_nx_packet, NETXDUO_TESTS_SOCKET_TIMEOUT);
     if(NX_SUCCESS != status)
     {
         PRINT_ERR_STR("nx_tcp_socket_send API failed");
@@ -343,7 +343,7 @@ void azure_wifi_thread_entry(void)
         /* Receiving message from server */
         memset(g_socket.recv_buff, RESET_VALUE, sizeof(g_socket.recv_buff));
         /* Receive the packet. */
-        status = nx_tcp_socket_receive(&tcp_client_socket, &p_nx_packet,NETXDUO_TESTS_SOCKET_TIMEOUT);
+        status = nx_tcp_socket_receive(&g_tcp_client_socket, &p_nx_packet,NETXDUO_TESTS_SOCKET_TIMEOUT);
         if(NX_SUCCESS != status)
         {
             if(NX_NO_PACKET == status)
@@ -385,7 +385,7 @@ void azure_wifi_thread_entry(void)
                 }
 
                 /* Send the packet. */
-                status = nx_tcp_socket_send(&tcp_client_socket, p_nx_packet, NETXDUO_TESTS_SOCKET_TIMEOUT);
+                status = nx_tcp_socket_send(&g_tcp_client_socket, p_nx_packet, NETXDUO_TESTS_SOCKET_TIMEOUT);
                 if(NX_SUCCESS != status)
                 {
                     PRINT_ERR_STR("nx_tcp_socket_send API failed");
@@ -410,7 +410,7 @@ void azure_wifi_thread_entry(void)
                 }
 
                 /* Send the packet. */
-                status = nx_tcp_socket_send(&tcp_client_socket, p_nx_packet, NETXDUO_TESTS_SOCKET_TIMEOUT);
+                status = nx_tcp_socket_send(&g_tcp_client_socket, p_nx_packet, NETXDUO_TESTS_SOCKET_TIMEOUT);
                 if(NX_SUCCESS != status)
                 {
                     PRINT_ERR_STR("nx_tcp_socket_send API failed");

@@ -351,7 +351,7 @@ uint8_t g_apl_string6[USB_STRING6_LEN + (USB_STRING6_LEN % 2)] =
     '1', 0x00,
 };
 
-uint8_t * g_apl_string_table[] =
+uint8_t * gp_apl_string_table[] =
 {
     g_apl_string0,
     g_apl_string1,
@@ -368,7 +368,7 @@ const usb_descriptor_t g_usb_descriptor =
     g_apl_configuration,               /* Pointer to the configuration descriptor for Full-speed */
     g_apl_hs_configuration,            /* Pointer to the configuration descriptor for Hi-speed */
     g_apl_qualifier,                   /* Pointer to the qualifier descriptor */
-    g_apl_string_table,                /* Pointer to the string descriptor table */
+    gp_apl_string_table,                /* Pointer to the string descriptor table */
     NUM_STRING_DESCRIPTOR
 };
 

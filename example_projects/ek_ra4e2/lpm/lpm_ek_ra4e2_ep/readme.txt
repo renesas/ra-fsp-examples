@@ -23,7 +23,7 @@ Cancel Sources in the RA Configurator.
 2. Hardware and Software Requirements:
    Software:
 		e2studio
-		JLink V6.52b or later
+		JLink V7.84d or later
    Hardware:
 		Renesas RA kits: EK-RA2A1, EK-RA2L1, EK-RA2E1, EK-RA2E2, EK-RA4M1, EK-RA4M2, EK-RA4M3, EK-RA6M1, EK-RA6M2, EK-RA6M3, EK-RA6M3G, EK-RA6M4, EK-RA6M5,EK-RA4E2, EK-RA6E2, RSSK-RA6T1,EK-RA4W1,FPB-RA6E1,FPB-RA4E1,MCK-RA6T2
 		Digital Multi-timeter to measurement MCU's current (Icc)
@@ -42,15 +42,15 @@ g_lpm_deep_sw_standby are used in each LPM example project with Trigger/End sour
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 				     |EK-RA2A1  |EK-RA2L1  |EK-RA2E1  |EK-RA4M1  |EK-RA4M2  |EK-RA4M3  |EK-RA6M1  |EK-RA6M2  |EK-RA6M3  |EK-RA6M3G |EK-RA6M4  |EK-RA6M5  |RSSK-RA6T1 |EK-RA4W1  |FPB-RA6E1  |FPB-RA4E1	  |EK-RA2E2    |MCK-RA6T2    |EK-RA4E2    |EK-RA6E2
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-Sleep		|Cancel/End source   |IRQ6      |IRQ3      |IRQ3      |IRQ0      |IRQ10-DS  |IRQ10-DS  |IRQ0-DS   |IRQ0-DS   |IRQ13-DS  |IRQ13-DS  |IRQ10-DS  |IRQ10-DS  |IRQ6-DS    |IRQ4	|IRQ1-DS    |IRQ1-DS 	  |IRQ1-DS     |IRQ12-DS     |IRQ7        |IRQ7
+Sleep		|Cancel/End source   |IRQ6      |IRQ3      |IRQ3      |IRQ0      |IRQ10-DS  |IRQ10-DS  |IRQ0-DS   |IRQ0-DS   |IRQ13-DS  |IRQ13-DS  |IRQ10-DS  |IRQ10-DS  |IRQ6-DS    |IRQ4	|IRQ1-DS    |IRQ1-DS 	  |IRQ1-DS     |IRQ12-DS     |IRQ10-DS    |IRQ10-DS
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-SW Standby	|Cancel/End source   |IRQ6	|IRQ3      |IRQ3      |IRQ0-DS   |IRQ10-DS  |IRQ10-DS  |IRQ0-DS   |IRQ13-DS  |IRQ5-DS   |IRQ13-DS  |IRQ10-DS  |IRQ10-DS  |IRQ6-DS    |IRQ4	|IRQ1-DS    |IRQ1-DS	  |IRQ1-DS     |IRQ12-DS     |IRQ7        |IRQ7
+SW Standby	|Cancel/End source   |IRQ6	|IRQ3      |IRQ3      |IRQ0-DS   |IRQ10-DS  |IRQ10-DS  |IRQ0-DS   |IRQ13-DS  |IRQ5-DS   |IRQ13-DS  |IRQ10-DS  |IRQ10-DS  |IRQ6-DS    |IRQ4	|IRQ1-DS    |IRQ1-DS	  |IRQ1-DS     |IRQ12-DS     |IRQ10-DS    |IRQ10-DS
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Snooze		|Request Source	     |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI  |AGT1_AGTI |AGT1_AGTI  |AGT1_AGTI 	  |AGT1_AGTI   |AGT1_AGTI    |AGT1_AGTI   |AGT1_AGTI
 		|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 		|Cancel/End source   |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI |AGT1_AGTI  |AGT1_AGTI	|AGT1_AGTI  |AGT1_AGTI	  |AGT1_AGTI   |AGT1_AGTI    |AGT1_AGTI   |AGT1_AGTI
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-Deep SW Stansby	|Cancel/End source|					         |IRQ10-DS  |IRQ10-DS  |IRQ0-DS   |IRQ0-DS   |IRQ13-DS  |IRQ13-DS  |IRQ10-DS  |IRQ10-DS  |IRQ6-DS       	|IRQ1-DS    |IRQ1-DS                   |IRQ12-DS     |IRQ7        |IRQ7
+Deep SW Stansby	|Cancel/End source|					         |IRQ10-DS  |IRQ10-DS  |IRQ0-DS   |IRQ0-DS   |IRQ13-DS  |IRQ13-DS  |IRQ10-DS  |IRQ10-DS  |IRQ6-DS       	|IRQ1-DS    |IRQ1-DS                   |IRQ12-DS     |IRQ10-DS    |IRQ10-DS
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	
 
 Notes:
@@ -84,8 +84,8 @@ current between pin1 and pin2 of J7; ; this is the recommended method.
 You can also measure and calculate the Icc by capturing the voltage drops across a resistor from 
 5ohm to 20ohm connected between pin1 and pin3 of E6.
 
-EK-RA2L1, EK-RA2E1, EK-RA2E2, EK-RA4M2, EK-RA4M3, EK-RA6M3, EK-RA6M3G, EK-RA6M4, EK-RA6M5 kit :
- 1)Remove R2.(Not applicable to EK-RA2L1, EK-RA2E1, EK-RA2E2)
+EK-RA2L1, EK-RA2E1, EK-RA2E2, EK-RA4M2, EK-RA4M3, EK-RA6M3, EK-RA6M3G, EK-RA6M4, EK-RA6M5, EK-RA4E2, EK-RA6E2 kit :
+ 1)Remove R2.(Not applicable to EK-RA2L1, EK-RA2E1, EK-RA2E2, EK-RA4E2, EK-RA6E2)
  2)Measure the voltage drops across R3 and calculate MCU's current (Icc); replace R3 by a bigger resistor if needed.
  3)To measure MCU's current (Icc) directly, remove R3 resistor and connect Multi-meter between the +3V3 and +3V3_MCU pins on the kit connectors.
 

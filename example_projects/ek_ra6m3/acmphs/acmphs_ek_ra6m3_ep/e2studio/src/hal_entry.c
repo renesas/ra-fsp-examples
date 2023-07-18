@@ -38,13 +38,13 @@
 
 /* Board specific Led */
 #if defined (BOARD_RA6M2_EK)
-#define LED_PIN			BSP_IO_PORT_01_PIN_06
+#define LED_PIN			(BSP_IO_PORT_01_PIN_06)
 #elif defined (BOARD_RA6M1_EK)
-#define LED_PIN			BSP_IO_PORT_01_PIN_12
+#define LED_PIN			(BSP_IO_PORT_01_PIN_12)
 #elif defined (BOARD_RA6T1_RSSK)
-#define LED_PIN         BSP_IO_PORT_04_PIN_08
+#define LED_PIN         (BSP_IO_PORT_04_PIN_08)
 #elif defined (BOARD_RA6M3_EK) || defined (BOARD_RA6M3G_EK)
-#define LED_PIN 		BSP_IO_PORT_01_PIN_00
+#define LED_PIN 		(BSP_IO_PORT_01_PIN_00)
 #endif
 
 /* Global variable */
@@ -292,7 +292,7 @@ static void deinit_acmphs(void)
     /* Handle error */
     if (FSP_SUCCESS != err)
     {
-        APP_ERR_PRINT("\r\n ** R_ACMPHS_Close API FAILED ** \r\n")
+        APP_ERR_PRINT("\r\n ** R_ACMPHS_Close API FAILED ** \r\n");
     }
 }
 

@@ -382,7 +382,7 @@ static void deinit_qspi(const spi_flash_protocol_t spi_protocol_mode)
         APP_ERR_PRINT("R_QSPI_Close Failed\r\n");
     }
 
-    APP_PRINT("\r\n\r\n *****############## demo ends here ########## *******\r\n\r\n")
+    APP_PRINT("\r\n\r\n *****############## demo ends here ########## *******\r\n\r\n");
 }
 
 /*******************************************************************************************************************//**

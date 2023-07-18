@@ -63,12 +63,12 @@ Project setup:
 	
 	MCK_RA6T2
 	----------
-	1)Renesas Silex UART Pmod (CN1:2) ----> P605
-	2)Renesas Silex UART Pmod (CN1:3) ----> P606
+	1)Renesas Silex UART Pmod (CN1:2) ----> PD05
+	2)Renesas Silex UART Pmod (CN1:3) ----> PD06
 	3)Renesas Silex UART Pmod (CN1:5) ----> GND
 	4)Renesas Silex UART Pmod (CN1:6) ----> Vcc
-	5)Renesas Silex UART Pmod (CN1:7) ----> P300
-	6)Renesas Silex UART Pmod (CN1:8) ----> P302
+	5)Renesas Silex UART Pmod (CN1:7) ----> PA04
+	6)Renesas Silex UART Pmod (CN1:8) ----> PA12
 
 Note : For EK-RA2E2, scanning wifi access points does not work. Please connect to wifi access points by entering its credentials manually.
 

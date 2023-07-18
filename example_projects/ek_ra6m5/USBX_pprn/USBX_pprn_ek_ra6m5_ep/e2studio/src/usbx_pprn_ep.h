@@ -44,17 +44,17 @@
 
 
 /* macros to print info, error and trap the error.*/
-#define PRINT_INFO_STR(str)         app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_INFO_STR, sizeof(str), str);
-#define PRINT_ERR_STR(str)          app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_ERR_STR, sizeof(str), str);
-#define PRINT_NEXT_LINE(n)          app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_NEXT_LINE, sizeof(n), &n);
-#define PRINT_DATA(data)            app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_PRINT_DATA, sizeof(data), &data);
-#define ERROR_TRAP(err)             app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_ERR_TRAP, sizeof(UINT *), &err);
+#define PRINT_INFO_STR(str)         (app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_INFO_STR, sizeof(str), (str)))
+#define PRINT_ERR_STR(str)          (app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_ERR_STR, sizeof(str), (str)))
+#define PRINT_NEXT_LINE(n)          (app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_NEXT_LINE, sizeof(n), &(n)))
+#define PRINT_DATA(data)            (app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_PRINT_DATA, sizeof(data), &(data)))
+#define ERROR_TRAP(err)             (app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_ERR_TRAP, sizeof(UINT *), &(err)))
 
 /* USBx device configuration settings */
 #define DEMO_STACK_SIZE                         (4096U)
 #define DEMO_PROTOCOL                           (1U)    /* 1-Uni-dir, 2-Bi-dir, 3-Bi-dir-1284. Do not set 3 (uncare) */
-#define DEVICE_FRAME_LENGTH_HIGH_SPEED          (53U) + ((DEMO_PROTOCOL > 1) ? 7 : 0)   /* Length of g_device_framework_hi_speed[] */
-#define DEVICE_FRAME_LENGTH_FULL_SPEED          (43U) + ((DEMO_PROTOCOL > 1) ? 7 : 0)   /* Length of g_device_framework_full_speed[] */
+#define DEVICE_FRAME_LENGTH_HIGH_SPEED          ((53U) + ((DEMO_PROTOCOL > 1) ? 7 : 0))   /* Length of g_device_framework_hi_speed[] */
+#define DEVICE_FRAME_LENGTH_FULL_SPEED          ((43U) + ((DEMO_PROTOCOL > 1) ? 7 : 0))   /* Length of g_device_framework_full_speed[] */
 #define STRING_FRAMEWORK_LENGTH                 (53U)   /* Length of g_string_framework[]. If edit g_string_framework[], need to change this value. */
 #define LANGUAGE_ID_FRAME_WORK_LENGTH           (2U)
 #define CONFIG_NUMB                             (1U)

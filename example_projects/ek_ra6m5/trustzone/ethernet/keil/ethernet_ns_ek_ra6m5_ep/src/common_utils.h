@@ -79,7 +79,7 @@
         SEGGER_RTT_printf(SEGGER_INDEX, "\r\nReturned Error Code: 0x%x  \r\n", err);\
         __asm("BKPT #0\n");} /* trap upon the error  */
 
-#define APP_READ(read_data)     SEGGER_RTT_Read (SEGGER_INDEX, read_data, sizeof(read_data));
+#define APP_READ(read_data)     SEGGER_RTT_Read (SEGGER_INDEX, (read_data), sizeof(read_data));
 
 #define APP_CHECK_DATA          SEGGER_RTT_HasKey()
 

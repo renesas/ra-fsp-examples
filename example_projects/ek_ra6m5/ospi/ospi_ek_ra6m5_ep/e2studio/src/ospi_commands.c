@@ -29,7 +29,7 @@
  * @{
  **********************************************************************************************************************/
 
-spi_flash_direct_transfer_t ospi_direct_transfer [OSPI_COMMAND_MAX] =
+spi_flash_direct_transfer_t g_ospi_direct_transfer [OSPI_COMMAND_MAX] =
 {
     [OSPI_COMMAND_WRITE_ENABLE_SPI_MODE] =
     {

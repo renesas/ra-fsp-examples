@@ -45,7 +45,7 @@ NX_DHCP g_dhcp_client0;
 /* DNS instance. */
 NX_DNS g_dns0;
 
-NX_PACKET *response_ptr = NULL;
+NX_PACKET *gp_response_ptr = NULL;
 
 /* Stack memory for g_ip0. */
 uint8_t g_ip0_stack_memory[G_IP0_TASK_STACK_SIZE] BSP_PLACE_IN_SECTION(".stack.g_ip0") BSP_ALIGN_VARIABLE(BSP_STACK_ALIGNMENT);
@@ -59,7 +59,7 @@ uint8_t g_packet_pool0_pool_memory[G_PACKET_POOL0_PACKET_NUM * (G_PACKET_POOL0_P
 /* Buffer to read Response from server. */
 extern UCHAR g_receive_buffer[DATA_SIZE];
 /* variable to capture invalid input state*/
-volatile bool b_invalid_input = false;
+volatile bool g_invalid_input = false;
 
 /* IPv4 Address structure for server. */
 static NXD_ADDRESS         server_ip_address;
@@ -212,7 +212,7 @@ void https_client_thread_entry(void)
             ERROR_TRAP(status);
         }
 
-        if (true != b_invalid_input)
+        if (true != g_invalid_input)
         {
             /* Read data from the HTTPS server. */
             status = readResponsefromServer ();
@@ -230,7 +230,7 @@ void https_client_thread_entry(void)
             }
         }
         /*Reset the flag*/
-        b_invalid_input = false;
+        g_invalid_input = false;
         /* Print the Menu Options */
         app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_PRINT_MENU, RESET_VALUE, NULL);
         tx_thread_sleep (1);
@@ -534,7 +534,7 @@ static UINT Process_InputRequest(uint8_t input_data)
         {
             PRINT_INFO_STR("Invalid Menu Option Selected");
             /* Set the invalid input flag.*/
-            b_invalid_input = true;
+            g_invalid_input = true;
         }
         break;
     }

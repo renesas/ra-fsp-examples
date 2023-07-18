@@ -44,7 +44,7 @@
 #define DELAY_TIME                                      (100U)
 #define ERASE_INITIAL_VAL                               (0xffU)
 #define DEVICE_ID_MASK                                  (0xFFFFFF)
-#define INITIAL_VALUE                                   '\0'
+#define INITIAL_VALUE                                   ('\0')
 
 #define OSPI_CR2_DATA_HEX_02                            (0x2U)
 #define OSPI_CR2_DATA_HEX_00                            (0x0U)
@@ -55,12 +55,12 @@
 #define OSPI_CR2_ADDRESS_HEX_0                          (0x0U)
 
 #if defined(BOARD_RA6M5_EK)
-#define RESET_PIN                                       BSP_IO_PORT_06_PIN_15
+#define RESET_PIN                                       (BSP_IO_PORT_06_PIN_15)
 #define SPI_REFERENCE_ADDRESS                           (0x70001000)
 #define SOPI_REFERNCE_ADDRESS                           (0x70002000)
 #define DOPI_REFERNECE_ADDRESS                          (0x70003000)
 #else
-#define RESET_PIN                                       BSP_IO_PORT_00_PIN_04
+#define RESET_PIN                                       (BSP_IO_PORT_00_PIN_04)
 #define SPI_REFERENCE_ADDRESS                           (0x68001000)
 #define SOPI_REFERNCE_ADDRESS                           (0x68002000)
 #define DOPI_REFERNECE_ADDRESS                          (0x68003000)

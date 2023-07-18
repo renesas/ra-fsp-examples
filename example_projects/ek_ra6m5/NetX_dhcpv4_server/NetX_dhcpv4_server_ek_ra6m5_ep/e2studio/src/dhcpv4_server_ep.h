@@ -27,12 +27,12 @@
 /* Index corresponding to network interface */
 #define INTERFACE_INDEX        (0U)
 /* IP address range assigned by the DHCP server */
-#define START_IP_ADDRESS_LIST IP_ADDRESS(192, 168, 0, 10)
-#define END_IP_ADDRESS_LIST   IP_ADDRESS(192, 168, 0, 20)
+#define START_IP_ADDRESS_LIST (IP_ADDRESS(192, 168, 0, 10))
+#define END_IP_ADDRESS_LIST   (IP_ADDRESS(192, 168, 0, 20))
 /* Network Configuration */
-#define NX_DHCP_SERVER_IP_ADDRESS                  IP_ADDRESS(192,168,0,2)
-#define NX_DHCP_ROUTER_IP_ADDRESS                  IP_ADDRESS(192,168,0,2)
-#define NX_DHCP_DNS_IP_ADDRESS                     IP_ADDRESS(192,168,0,2)
+#define NX_DHCP_SERVER_IP_ADDRESS                  (IP_ADDRESS(192,168,0,2))
+#define NX_DHCP_ROUTER_IP_ADDRESS                  (IP_ADDRESS(192,168,0,2))
+#define NX_DHCP_DNS_IP_ADDRESS                     (IP_ADDRESS(192,168,0,2))
 #define LINK_ENABLE_WAIT_TIME (1000U)
 #define NULL_CHAR             ('\0')
 
@@ -48,9 +48,9 @@
                                          "\r\nUser Input : \r\n"\
 
 /* macros to print info, error and trap the error.*/
-#define PRINT_INFO_STR(str)  app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_INFO_STR, sizeof(str), str);
-#define PRINT_ERR_STR(str)   app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_ERR_STR, sizeof(str), str);
-#define ERROR_TRAP(err)      app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_ERR_TRAP, sizeof(UINT *), &err);
+#define PRINT_INFO_STR(str)  (app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_INFO_STR, sizeof(str), (str)))
+#define PRINT_ERR_STR(str)   (app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_ERR_STR, sizeof(str), (str)))
+#define ERROR_TRAP(err)      (app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_ERR_TRAP, sizeof(UINT *), &(err)))
 
 #define EP_INFO        "\r\nThis project demonstrates the basic functionality of Netx Duo DHCPv4 server\r\n"\
                        "with ethernet driver on Renesas RA MCUs based on Renesas FSP using AzureRTOS.\r\n"\

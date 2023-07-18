@@ -46,9 +46,9 @@
 		             "User Input: \r\n"\
 
 /* Macros for the User Inputs. */
-#define POST_REQUEST 1
-#define PUT_REQUEST  2
-#define GET_REQUEST  3
+#define POST_REQUEST (1)
+#define PUT_REQUEST  (2)
+#define GET_REQUEST  (3)
 /* Data size for retrieving feed data. */
 #define DATA_SIZE                (1024U)
 /* Buffer length and size for sending and receiving data. */
@@ -56,7 +56,7 @@
 #define BUFFER_SIZE              (150U)
 /* Feed ID size for Adafruit server feed. */
 #define FEED_ID_SIZE             (26U)
-#define NULL_CHAR                '\0'
+#define NULL_CHAR                ('\0')
 /* Timeout options. */
 #define LINK_ENABLE_WAIT_TIME    (1000U)
 /* Wait option to connect to HTTPS Server. */
@@ -99,16 +99,16 @@ session will end with an error.*/
 #define NETWORK_TIMEOUT        (60 * TX_TIMER_TICKS_PER_SECOND)
 
 /* macros to print info, error and trap the error.*/
-#define PRINT_INFO_STR(str)  app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_INFO_STR, sizeof(str), str);
-#define PRINT_ERR_STR(str)   app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_ERR_STR, sizeof(str), str);
-#define ERROR_TRAP(err)      app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_ERR_TRAP, sizeof(UINT *), &err);
+#define PRINT_INFO_STR(str)  (app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_INFO_STR, sizeof(str), (str)))
+#define PRINT_ERR_STR(str)   (app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_ERR_STR, sizeof(str), (str)))
+#define ERROR_TRAP(err)      (app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_ERR_TRAP, sizeof(UINT *), &(err)))
 
 /* User defined structure for trusted certificate info. */
-typedef struct TRUSTED_CERTIFCATE_INFO
+typedef struct st_trusted_certifcate_info
 {
     UCHAR * pointer_to_cert;
     USHORT  sizeof_cert;
-}TRUSTED_CERTIFCATE_INFO_STRUCT;
+}trusted_certifcate_info_t;
 
 /* Function Declarations. */
 UINT readResponsefromServer(void);

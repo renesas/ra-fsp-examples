@@ -34,7 +34,7 @@
 #define WRITE_ITEM_SIZE         (511u)            // The number of elements to read
 #define READ_WRITE_FAILURE      (0)               // Fail case of read write
 #define WAIT_TIME               (4000)            // Wait time for USB detection
-#define CARRIAGE_RETURN         '\r'              // Carriage return
+#define CARRIAGE_RETURN         ('\r')            // Carriage return
 #define SIZE                    (1U)              // Size to read byte by byte
 
 

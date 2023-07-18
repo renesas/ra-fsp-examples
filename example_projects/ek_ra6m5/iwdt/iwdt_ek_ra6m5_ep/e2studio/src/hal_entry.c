@@ -152,7 +152,7 @@ static fsp_err_t read_Input_from_RTT(void)
                 return err;
             }
             /* Print message to indicate user about application status. */
-            APP_PRINT ("\r\nIWDT initialized, GPT Timer Started")
+            APP_PRINT ("\r\nIWDT initialized, GPT Timer Started");
             APP_PRINT("\r\nTo stop IWDT counter from refreshing, Enter '2' from RTTViewer\r\n");
         }
         break;

@@ -101,7 +101,7 @@ fsp_err_t adc_ep::adc_scan_start(void)
 {
     fsp_err_t err = FSP_SUCCESS;     // Error status
 
-    if (false == b_ready_to_read)
+    if (false == g_ready_to_read)
     {
         err = init_adc_module();
 
@@ -151,7 +151,7 @@ fsp_err_t adc_ep::adc_scan_start(void)
         APP_PRINT("\r\nADC Started Scan\r\n");
 
         /* Indication to start reading the adc data */
-        b_ready_to_read = true;
+        g_ready_to_read = true;
     }
     else
     {
@@ -172,7 +172,7 @@ fsp_err_t adc_ep::adc_scan_stop(void)
     fsp_err_t err = FSP_SUCCESS;     // Error status
 
     /* Stop the scan if adc scan is started in continous scan mode else ignore */
-    if((ADC_MODE_SINGLE_SCAN != g_adc_cfg.mode) && (true == b_ready_to_read ))
+    if((ADC_MODE_SINGLE_SCAN != g_adc_cfg.mode) && (true == g_ready_to_read ))
     {
         err = R_ADC_ScanStop (&g_adc_ctrl);
         /* handle error */
@@ -186,7 +186,7 @@ fsp_err_t adc_ep::adc_scan_stop(void)
         APP_PRINT("\r\nADC Scan stopped\r\n");
 
         /* reset to indicate stop reading the adc data */
-        b_ready_to_read = false;
+        g_ready_to_read = false;
 
         /* Close the ADC module*/
         deinit_adc_module();
@@ -223,11 +223,11 @@ fsp_err_t adc_ep::adc_read_data(void)
 
     APP_PRINT("\r\nMCU Die Temperature Reading from ADC: %d\r\n", g_adc_data);
 
-    /* In adc single scan mode after reading the data, it stops.So reset the b_ready_to_read state to
+    /* In adc single scan mode after reading the data, it stops.So reset the g_ready_to_read state to
      * avoid reading unnecessarily. close the adc module as it gets opened in start scan command.*/
     if (ADC_MODE_SINGLE_SCAN == g_adc_cfg.mode)
     {
-        b_ready_to_read = false;
+        g_ready_to_read = false;
 
         /* Close the ADC module*/
         deinit_adc_module();

@@ -54,7 +54,7 @@ void hal_entry(void)
 {
     fsp_pack_version_t version                   = {RESET_VALUE};
     psa_status_t       status                    = (psa_status_t)RESET_VALUE;
-    int                mbed_ret_val              = RESET_VALUE;
+    int32_t            mbed_ret_val              = RESET_VALUE;
 
     /* version get API for FLEX pack information */
     R_FSP_VersionGet(&version);
@@ -323,7 +323,7 @@ psa_status_t sha_operation(void)
     size_t               expected_hash_len              = PSA_HASH_LENGTH(alg);// expected hash length.
     uint8_t              actual_hash[PSA_HASH_MAX_SIZE] = {RESET_VALUE};     // Buffer where the hash is to be written.
     size_t               actual_hash_len                = RESET_VALUE;   // number of bytes that make up the hash value.
-    int                  mbed_ret_val                   = RESET_VALUE;
+    int32_t                  mbed_ret_val                   = RESET_VALUE;
 
     /* Buffer containing the message fragment to hash.*/
     const uint8_t sha256_input_data[] =
@@ -398,11 +398,11 @@ psa_status_t sha_operation(void)
 psa_status_t ecc_operation(void)
 {
     psa_status_t          status                = (psa_status_t)RESET_VALUE;
-    unsigned char         payload_ecc[]         = "ASYMMETRIC_INPUT_FOR_SIGN_ECC"; // Buffer containing message to hash.
+    uint8_t               payload_ecc[]         = "ASYMMETRIC_INPUT_FOR_SIGN_ECC"; // Buffer containing message to hash.
     size_t                signature_length                    = RESET_VALUE;               // length of signature.
     psa_key_attributes_t  attributes                          = PSA_KEY_ATTRIBUTES_INIT;   // Contains key attributes.
     psa_key_handle_t      ecc_key_handle                      = {RESET_VALUE};             // ECC Key handle.
-    unsigned char         signature[PSA_SIGNATURE_MAX_SIZE]   = {RESET_VALUE};  // Buffer containing signature for ecc.
+    uint8_t               signature[PSA_SIGNATURE_MAX_SIZE]   = {RESET_VALUE};  // Buffer containing signature for ecc.
     uint8_t         payload_hash_ecc[PSA_HASH_MAX_SIZE] = {RESET_VALUE};// Buffer where the hash is to be written.
     uint8_t         ecc_key[ECC_256_EXPORTED_SIZE]      = {RESET_VALUE};// Buffer where the key data is to be written.
     size_t          payload_hash_len_ecc                = RESET_VALUE;  // number of bytes that make up the hash value.
@@ -504,8 +504,8 @@ psa_status_t rsa_operation(void)
 {
     psa_status_t             status                              = (psa_status_t)RESET_VALUE;
     psa_key_handle_t         rsa_key_handle                      = {RESET_VALUE};                   // RSA Key handle.
-    unsigned char            payload_rsa[]      = "ASYMMETRIC_INPUT_FOR_SIGN_RSA"; // Buffer containing message to hash.
-    unsigned char            signature[PSA_SIGNATURE_MAX_SIZE]   = {RESET_VALUE};// Buffer containing signature for rsa.
+    uint8_t                  payload_rsa[]      = "ASYMMETRIC_INPUT_FOR_SIGN_RSA"; // Buffer containing message to hash.
+    uint8_t                  signature[PSA_SIGNATURE_MAX_SIZE]   = {RESET_VALUE};// Buffer containing signature for rsa.
     size_t                   signature_length                    = RESET_VALUE;  // length of signature.
     psa_key_attributes_t     attributes                          = PSA_KEY_ATTRIBUTES_INIT; // Contains key attributes.
     uint8_t            rsa_key[RSA_2048_EXPORTED_SIZE]     = {RESET_VALUE};//Buffer where the key data is to be written.
@@ -644,7 +644,7 @@ psa_status_t ecc_rsa_hashing_operation(unsigned char * payload, uint8_t * payloa
 fsp_err_t littlefs_init(void)
 {
     fsp_err_t          err                       = FSP_SUCCESS;
-    int                lfs_err                   = RESET_VALUE;
+    int32_t            lfs_err                   = RESET_VALUE;
 
     /* Open LittleFS Flash port.*/
     err = RM_LITTLEFS_FLASH_Open(&g_rm_littlefs0_ctrl, &g_rm_littlefs0_cfg);

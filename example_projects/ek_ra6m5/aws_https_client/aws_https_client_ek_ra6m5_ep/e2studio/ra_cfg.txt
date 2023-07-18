@@ -24,6 +24,7 @@ FSP Configuration
     Security: SRAM Accessibility: Standby RAM: Regions 7-0 are all Secure.
     Security: BUS Accessibility: Bus Security Attribution Register A: Both Secure and Non-Secure State
     Security: BUS Accessibility: Bus Security Attribution Register B: Both Secure and Non-Secure State
+    Security: Uninitialized Non-Secure Application Fallback: Enable Uninitialized Non-Secure Application Fallback
     Startup C-Cache Line Size: 32 Bytes
     OFS0 register settings: Independent WDT: Start Mode: IWDT is Disabled
     OFS0 register settings: Independent WDT: Timeout Period: 2048 cycles
@@ -54,7 +55,7 @@ FSP Configuration
     
   RA Common
     Main stack size (bytes): 0x1000
-    Heap size (bytes): 0x1000
+    Heap size (bytes): 0x2000
     MCU Vcc (mV): 3300
     Parameter checking: Enabled
     Assert Failures: Return FSP_ERR_ASSERTION
@@ -81,20 +82,24 @@ FSP Configuration
     Clock Src: PLL
     CLKOUT Disabled
     UCLK Disabled
+    U60CK Disabled
     OCTASPICLK Disabled
     CANFDCLK Disabled
+    CECCLK Disabled
     ICLK Div /1
     PCLKA Div /2
     PCLKB Div /4
     PCLKC Div /4
     PCLKD Div /2
     BCLK Div /2
-    BCLK/2
+    EBCLK Div /2
     FCLK Div /4
     CLKOUT Div /1
     UCLK Div /5
+    U60CK Div /1
     OCTASPICLK Div /1
     CANFDCLK Div /6
+    CECCLK Div /1
     
   Pin Configurations
     RA6M5 EK -> g_bsp_pin_cfg
@@ -139,13 +144,13 @@ FSP Configuration
       P205 51 - MIKROBUS_SS_ARDUINO_SS - - Disabled - - "AGT1: AGTO1; BUS_ASYNCH0: A16; CGC0: CLKOUT; CTSU0: TS01; ETHERC_MII0: ET0_WOL; ETHERC_RMII0: ET0_WOL; GPT_OPS0: GTIV; GPT4: GTIOC4A; ICU0: IRQ01; IIC1: SCL1; SCI4: SDA4; SCI4: TXD4; SCI9: CTSRTS9; SDHI0: SD0DAT3; SPI0: SSLA0; SSI0: SSILRCK0; USB_FS0: USB_OVRCURA" - None - - 
       P206 50 - PMOD1_SS - - Disabled - - "BUS_ASYNCH0: WAIT; CEC0: CECIO; CTSU0: TS02; ETHERC_MII0: ET0_LINKSTA; ETHERC_RMII0: ET0_LINKSTA; GPT_OPS0: GTIU; ICU0: IRQ00; IIC1: SDA1; SCI4: RXD4; SCI4: SCL4; SCI9: CTS9; SDHI0: SD0DAT2; SPI0: SSLA1; SSI0: SSIDATA0; USB_FS0: USB_VBUSEN" - None - - 
       P207 49 GPIO ARDUINO_D8 High - "Output mode (Initial Low)" CMOS - "BUS_ASYNCH0: A17; CTSU0: TSCAP; QSPI0: QSSL; SCI4: SDA4; SCI4: TXD4; SPI0: SSLA2" - IO - - 
-      P208 66 - - - - Disabled - - "BUS_ASYNCH0: CS4; ETHERC_MII0: ET0_LINKSTA; ETHERC_RMII0: ET0_LINKSTA; GPT_OPS0: GTOVLO; QSPI0: QIO3; SDHI0: SD0DAT0" - None - - 
-      P209 65 - - - - Disabled - - "AGT5: AGTEE5; BUS_ASYNCH0: CS5; ETHERC_MII0: ET0_EXOUT; ETHERC_RMII0: ET0_EXOUT; GPT_OPS0: GTOVUP; QSPI0: QIO2; SDHI0: SD0WP" - None - - 
-      P210 64 - - - - Disabled - - "AGT5: AGTOB5; BUS_ASYNCH0: CS6; ETHERC_MII0: ET0_WOL; ETHERC_RMII0: ET0_WOL; GPT_OPS0: GTIW; QSPI0: QIO1; SDHI0: SD0CD" - None - - 
-      P211 63 - - - - Disabled - - "AGT5: AGTOA5; BUS_ASYNCH0: CS7; ETHERC_MII0: ET0_MDIO; ETHERC_RMII0: ET0_MDIO; GPT_OPS0: GTIV; QSPI0: QIO0; SDHI0: SD0CMD" - None - - 
+      P208 66 - - - - Disabled - - "BUS_ASYNCH0: CS4; DEBUG_TRACE0: TDATA3; ETHERC_MII0: ET0_LINKSTA; ETHERC_RMII0: ET0_LINKSTA; GPT_OPS0: GTOVLO; QSPI0: QIO3; SDHI0: SD0DAT0" - None - - 
+      P209 65 - - - - Disabled - - "AGT5: AGTEE5; BUS_ASYNCH0: CS5; DEBUG_TRACE0: TDATA2; ETHERC_MII0: ET0_EXOUT; ETHERC_RMII0: ET0_EXOUT; GPT_OPS0: GTOVUP; QSPI0: QIO2; SDHI0: SD0WP" - None - - 
+      P210 64 - - - - Disabled - - "AGT5: AGTOB5; BUS_ASYNCH0: CS6; DEBUG_TRACE0: TDATA1; ETHERC_MII0: ET0_WOL; ETHERC_RMII0: ET0_WOL; GPT_OPS0: GTIW; QSPI0: QIO1; SDHI0: SD0CD" - None - - 
+      P211 63 - - - - Disabled - - "AGT5: AGTOA5; BUS_ASYNCH0: CS7; DEBUG_TRACE0: TDATA0; ETHERC_MII0: ET0_MDIO; ETHERC_RMII0: ET0_MDIO; GPT_OPS0: GTIV; QSPI0: QIO0; SDHI0: SD0CMD" - None - - 
       P212 24 CGC0_EXTAL - Low None "Peripheral mode" CMOS None "AGT1: AGTEE1; CGC0: EXTAL; GPT_POEG3: GTETRGD; GPT0: GTIOC0B; ICU0: IRQ03; SCI1: RXD1; SCI1: SCL1" - IO - - 
       P213 23 CGC0_XTAL - Low None "Peripheral mode" CMOS None "ADC1: ADTRG1; AGT2: AGTEE2; CGC0: XTAL; GPT_POEG2: GTETRGC; GPT0: GTIOC0A; ICU0: IRQ02; SCI1: SDA1; SCI1: TXD1" - IO - - 
-      P214 62 - - - - Disabled - - "AGT5: AGTO5; ETHERC_MII0: ET0_MDC; ETHERC_RMII0: ET0_MDC; GPT_OPS0: GTIU; QSPI0: QSPCLK; SDHI0: SD0CLK" - None - - 
+      P214 62 - - - - Disabled - - "AGT5: AGTO5; DEBUG_TRACE0: TCLK; ETHERC_MII0: ET0_MDC; ETHERC_RMII0: ET0_MDC; GPT_OPS0: GTIU; QSPI0: QSPCLK; SDHI0: SD0CLK" - None - - 
       P300 88 DEBUG0_SWCLK - Low - "Peripheral mode" CMOS None "DEBUG0: SWCLK; DEBUG0: TCK; GPT_OPS0: GTOUUP; GPT0: GTIOC0A; SPI0: SSLA1" - IO - - 
       P301 87 - PMOD1_SS2 - - Disabled - - "AGT0: AGTIO0; BUS_ASYNCH0: A06; GPT_OPS0: GTOULO; GPT4: GTIOC4B; ICU0: IRQ06; SCI2: RXD2; SCI2: SCL2; SCI9: CTSRTS9; SPI0: SSLA2" - None - - 
       P302 86 - PMOD1_SS3 - - Disabled - - "BUS_ASYNCH0: A07; GPT_OPS0: GTOUUP; GPT4: GTIOC4A; ICU0: IRQ05; SCI2: SDA2; SCI2: TXD2; SPI0: SSLA3" - None - - 
@@ -199,7 +204,7 @@ FSP Configuration
       P606 116 - - - - Disabled - - "RTC0: RTCOUT; SCI8: CTSRTS8" - None - - 
       P607 115 - - - - Disabled - - "SCI8: RXD8; SCI8: SCL8" - None - - 
       P608 99 GPIO ARDUINO_D7 High - "Output mode (Initial Low)" CMOS - "BUS_ASYNCH0: A00; GPT4: GTIOC4B" - IO - - 
-      P609 100 - CAN_TXD - - Disabled - - "AGT5: AGTO5; BUS_ASYNCH0: CS1; CAN1: CTX1; GPT5: GTIOC5A" - None - - 
+      P609 100 - CAN_TXD - - Disabled - - "AGT5: AGTO5; BUS_ASYNCH0: CS1; CAN1: CTX1; GPT5: GTIOC5A; OSPI0: OMECS" - None - - 
       P610 101 - CAN_RDX - - Disabled - - "AGT4: AGTO4; BUS_ASYNCH0: CS0; CAN1: CRX1; GPT5: GTIOC5B; OSPI0: OMCS0; SCI7: CTS7" - None - - 
       P611 102 GPIO CAN_STBY High - "Output mode (Initial Low)" CMOS - "AGT3: AGTO3; CAC0: CACREF; CGC0: CLKOUT; SCI7: CTSRTS7" - IO - - 
       P612 103 - - - - Disabled - - "AGT2: AGTO2; BUS_ASYNCH0: D08; SCI7: SCK7" - None - - 
@@ -316,13 +321,13 @@ FSP Configuration
       P205 51 - MIKROBUS_SS_ARDUINO_SS - - Disabled - - "AGT1: AGTO1; BUS_ASYNCH0: A16; CGC0: CLKOUT; CTSU0: TS01; ETHERC_MII0: ET0_WOL; ETHERC_RMII0: ET0_WOL; GPT_OPS0: GTIV; GPT4: GTIOC4A; ICU0: IRQ01; IIC1: SCL1; SCI4: SDA4; SCI4: TXD4; SCI9: CTSRTS9; SDHI0: SD0DAT3; SPI0: SSLA0; SSI0: SSILRCK0; USB_FS0: USB_OVRCURA" - None - - 
       P206 50 - PMOD1_SS - - Disabled - - "BUS_ASYNCH0: WAIT; CEC0: CECIO; CTSU0: TS02; ETHERC_MII0: ET0_LINKSTA; ETHERC_RMII0: ET0_LINKSTA; GPT_OPS0: GTIU; ICU0: IRQ00; IIC1: SDA1; SCI4: RXD4; SCI4: SCL4; SCI9: CTS9; SDHI0: SD0DAT2; SPI0: SSLA1; SSI0: SSIDATA0; USB_FS0: USB_VBUSEN" - None - - 
       P207 49 - ARDUINO_D8 Low - Disabled CMOS - "BUS_ASYNCH0: A17; CTSU0: TSCAP; QSPI0: QSSL; SCI4: SDA4; SCI4: TXD4; SPI0: SSLA2" - IO - - 
-      P208 66 - - - - Disabled - - "BUS_ASYNCH0: CS4; ETHERC_MII0: ET0_LINKSTA; ETHERC_RMII0: ET0_LINKSTA; GPT_OPS0: GTOVLO; QSPI0: QIO3; SDHI0: SD0DAT0" - None - - 
-      P209 65 - - - - Disabled - - "AGT5: AGTEE5; BUS_ASYNCH0: CS5; ETHERC_MII0: ET0_EXOUT; ETHERC_RMII0: ET0_EXOUT; GPT_OPS0: GTOVUP; QSPI0: QIO2; SDHI0: SD0WP" - None - - 
-      P210 64 - - - - Disabled - - "AGT5: AGTOB5; BUS_ASYNCH0: CS6; ETHERC_MII0: ET0_WOL; ETHERC_RMII0: ET0_WOL; GPT_OPS0: GTIW; QSPI0: QIO1; SDHI0: SD0CD" - None - - 
-      P211 63 - - - - Disabled - - "AGT5: AGTOA5; BUS_ASYNCH0: CS7; ETHERC_MII0: ET0_MDIO; ETHERC_RMII0: ET0_MDIO; GPT_OPS0: GTIV; QSPI0: QIO0; SDHI0: SD0CMD" - None - - 
+      P208 66 - - - - Disabled - - "BUS_ASYNCH0: CS4; DEBUG_TRACE0: TDATA3; ETHERC_MII0: ET0_LINKSTA; ETHERC_RMII0: ET0_LINKSTA; GPT_OPS0: GTOVLO; QSPI0: QIO3; SDHI0: SD0DAT0" - None - - 
+      P209 65 - - - - Disabled - - "AGT5: AGTEE5; BUS_ASYNCH0: CS5; DEBUG_TRACE0: TDATA2; ETHERC_MII0: ET0_EXOUT; ETHERC_RMII0: ET0_EXOUT; GPT_OPS0: GTOVUP; QSPI0: QIO2; SDHI0: SD0WP" - None - - 
+      P210 64 - - - - Disabled - - "AGT5: AGTOB5; BUS_ASYNCH0: CS6; DEBUG_TRACE0: TDATA1; ETHERC_MII0: ET0_WOL; ETHERC_RMII0: ET0_WOL; GPT_OPS0: GTIW; QSPI0: QIO1; SDHI0: SD0CD" - None - - 
+      P211 63 - - - - Disabled - - "AGT5: AGTOA5; BUS_ASYNCH0: CS7; DEBUG_TRACE0: TDATA0; ETHERC_MII0: ET0_MDIO; ETHERC_RMII0: ET0_MDIO; GPT_OPS0: GTIV; QSPI0: QIO0; SDHI0: SD0CMD" - None - - 
       P212 24 - - Low None Disabled CMOS None "AGT1: AGTEE1; CGC0: EXTAL; GPT_POEG3: GTETRGD; GPT0: GTIOC0B; ICU0: IRQ03; SCI1: RXD1; SCI1: SCL1" - IO - - 
       P213 23 - - Low None Disabled CMOS None "ADC1: ADTRG1; AGT2: AGTEE2; CGC0: XTAL; GPT_POEG2: GTETRGC; GPT0: GTIOC0A; ICU0: IRQ02; SCI1: SDA1; SCI1: TXD1" - IO - - 
-      P214 62 - - - - Disabled - - "AGT5: AGTO5; ETHERC_MII0: ET0_MDC; ETHERC_RMII0: ET0_MDC; GPT_OPS0: GTIU; QSPI0: QSPCLK; SDHI0: SD0CLK" - None - - 
+      P214 62 - - - - Disabled - - "AGT5: AGTO5; DEBUG_TRACE0: TCLK; ETHERC_MII0: ET0_MDC; ETHERC_RMII0: ET0_MDC; GPT_OPS0: GTIU; QSPI0: QSPCLK; SDHI0: SD0CLK" - None - - 
       P300 88 DEBUG0_SWCLK - Low - "Peripheral mode" CMOS None "DEBUG0: SWCLK; DEBUG0: TCK; GPT_OPS0: GTOUUP; GPT0: GTIOC0A; SPI0: SSLA1" - IO - - 
       P301 87 - PMOD1_SS2 - - Disabled - - "AGT0: AGTIO0; BUS_ASYNCH0: A06; GPT_OPS0: GTOULO; GPT4: GTIOC4B; ICU0: IRQ06; SCI2: RXD2; SCI2: SCL2; SCI9: CTSRTS9; SPI0: SSLA2" - None - - 
       P302 86 - PMOD1_SS3 - - Disabled - - "BUS_ASYNCH0: A07; GPT_OPS0: GTOUUP; GPT4: GTIOC4A; ICU0: IRQ05; SCI2: SDA2; SCI2: TXD2; SPI0: SSLA3" - None - - 
@@ -376,7 +381,7 @@ FSP Configuration
       P606 116 - - - - Disabled - - "RTC0: RTCOUT; SCI8: CTSRTS8" - None - - 
       P607 115 - - - - Disabled - - "SCI8: RXD8; SCI8: SCL8" - None - - 
       P608 99 - ARDUINO_D7 Low - Disabled CMOS - "BUS_ASYNCH0: A00; GPT4: GTIOC4B" - IO - - 
-      P609 100 - CAN_TXD - - Disabled - - "AGT5: AGTO5; BUS_ASYNCH0: CS1; CAN1: CTX1; GPT5: GTIOC5A" - None - - 
+      P609 100 - CAN_TXD - - Disabled - - "AGT5: AGTO5; BUS_ASYNCH0: CS1; CAN1: CTX1; GPT5: GTIOC5A; OSPI0: OMECS" - None - - 
       P610 101 - CAN_RDX - - Disabled - - "AGT4: AGTO4; BUS_ASYNCH0: CS0; CAN1: CRX1; GPT5: GTIOC5B; OSPI0: OMCS0; SCI7: CTS7" - None - - 
       P611 102 - CAN_STBY Low - Disabled CMOS - "AGT3: AGTO3; CAC0: CACREF; CGC0: CLKOUT; SCI7: CTSRTS7" - IO - - 
       P612 103 - - - - Disabled - - "AGT2: AGTO2; BUS_ASYNCH0: D08; SCI7: SCK7" - None - - 
@@ -464,57 +469,22 @@ FSP Configuration
   Module "ADC (r_adc)"
     Parameter Checking: Default (BSP)
     
-  Module "AWS HTTPS Wrapper"
   Module "AWS Core HTTP"
     Custom core_http_config.h: 
-    HTTP Receive Retry Timeout (ms): 1000
-    HTTP Send Retry Timeout (ms): 1000
+    HTTP Receive Retry Timeout (ms): 200
+    HTTP Send Retry Timeout (ms): 200
     HTTP User Agent Value: my-platform-name
     HTTP Max Response Headers Size (bytes): 4096U
     
-  Module "AWS Transport Interface on Secure Sockets"
-  Module "AWS Platform Network Abstraction"
-  Module "AWS IoT Common"
-    Custom iot_config.h: 
-    IoT Logging puts(): configPRINTF( ( "%s\r\n", str ) )
-    Asserts: IoT Metrics Enable Asserts: Enabled
-    Asserts: IoT Containers Enable Asserts: Enabled
-    Asserts: IoT Taskpool Enable Asserts: Enabled
-    Asserts: IoT MQTT Enable Asserts: Enabled
-    Asserts: AWS IoT Shadow Enable Asserts: Enabled
-    Asserts: AWS IoT Defender Enable Asserts: Enabled
-    Asserts: IoT BLE Enable Asserts: Enabled
-    Asserts: IoT Metrics Assert: configASSERT( expression )
-    Asserts: IoT Containers Assert: configASSERT( expression )
-    Asserts: IoT Taskpool Assert: configASSERT( expression )
-    Asserts: IoT MQTT Assert: configASSERT( expression )
-    Asserts: AWS IoT Shadow Assert: configASSERT( expression )
-    Asserts: AWS IoT Defender Assert: configASSERT( expression )
-    Asserts: IoT BLE Assert: configASSERT( expression )
-    IoT Static Memory Only: Disabled
-    IoT Thread Default Priority: 1
-    IoT Thread Default Stack Size: 0x1000
-    IoT Network Receive Task Priority: 0
-    IoT Network Receive Task Stack Size: 0x1000
-    IoT MQTT Enable Metrics: Disabled
-    IoT SDK Name: FreeRTOS
-    Platform Name: Unknown
-    IoT Cloud Endpoint: clientcredentialMQTT_BROKER_ENDPOINT
-    IoT Device Identifier: getDeviceIdentifier()
-    AWS IoT Metrics Username: getDeviceMetrics()
-    AWS IoT Metrics Username Length: getDeviceMetricsLength()
-    IotMetricsConnectionId_t: void *
-    AWS IoT Defender Format: AWS_IOT_DEFENDER_FORMAT_CBOR
-    AWS IoT Defender Use Long Tag: Enabled
+  Module "AWS Transport Interface on MbedTLS/PKCS11 (rm_aws_transport_interface_port)"
+  Module "AWS Logging"
+  Module "AWS Demo dev_mode_key_provisioning"
+    Header file to #include in ra_cfg/aws/aws_clientcredential_keys.h: 
     
   Module "AWS Client Credentials"
     Header file to #include in ra_cfg/aws/aws_clientcredential.h: 
     
-  Module "AWS Taskpool"
-  Module "AWS Platform Threads Abstraction"
-  Module "AWS Platform Clock Abstraction"
-  Module "AWS IoT SDK Initialization"
-  Module "AWS Secure Sockets on FreeRTOS Plus TCP"
+  Module "AWS TCP Sockets Wrapper"
   Module "FreeRTOS+TCP"
     Print debug messages: Disable
     Print info messages: Disable
@@ -531,16 +501,16 @@ FSP Configuration
     Use DHCP: Enable 
     DHCP Register Hostname: Enable 
     DHCP Uses Unicast: Enable 
-    DHCP Send Discover After Auto IP: Enable 
+    DHCP Send Discover After Auto IP: Disable
     DHCP callback function: Enable 
     Interval between transmissions: 120000 / portTICK_PERIOD_MS
     ARP Cache Entries: 6
     ARP Request Retransmissions: 5
     Maximum time before ARP table entry becomes stale: 150
     Use string for IP Address: Enable 
-    Total number of available network buffers: 16
+    Total number of available network buffers: 10
     Set the maximum number of events: ipconfigNUM_NETWORK_BUFFER_DESCRIPTORS + 5
-    Enable FreeRTOS_sendto() without calling Bind: Enable 
+    Enable FreeRTOS_sendto() without calling Bind: Disable
     TTL values for UDP packets: 128
     TTL values for TCP packets: 128
     Use TCP and all its features: Enable
@@ -553,7 +523,6 @@ FSP Configuration
     Filter out non Ethernet II frames.: Enable 
     Responsibility of the Ethernet interface to filter out packets: Disable
     Send RST packets, when receive unknown packets.: Enable 
-    Block time to simulate MAC interrupts: 20 / portTICK_PERIOD_MS
     Access 32-bit fields in the IP packets: 2
     Size of the pool of TCP window descriptors: 240
     Size of Rx buffer for TCP sockets: 3000
@@ -561,11 +530,11 @@ FSP Configuration
     TCP keep-alive: Enable 
     TCP keep-alive interval: 120
     The socket semaphore to unblock the MQTT task (USER_SEMAPHORE): Disable
-    The socket semaphore to unblock the MQTT task (WAKE_CALLBACK): Disable
+    The socket semaphore to unblock the MQTT task (WAKE_CALLBACK): Enable 
     The socket semaphore  to unblock the MQTT task (USE_CALLBACKS): Disable
     The socket semaphore to unblock the MQTT task (TX_DRIVER): Disable
     The socket semaphore to unblock the MQTT task (RX_DRIVER): Disable
-    Possible optimisation for expert users: Enable 
+    Possible optimisation for expert users: Disable
     
   Module "FreeRTOS+TCP Wrapper to r_ether (rm_freertos_plus_tcp)"
   Module "Ethernet (r_ether)"
@@ -575,20 +544,16 @@ FSP Configuration
     
   Module "Ethernet (r_ether_phy)"
     Parameter Checking: Default (BSP)
-    Select PHY: Default
+    Select PHY(DEPRECATED): Default
+    KSZ8091RNZ Target: Disabled
+    KSZ8041 Target: Disabled
+    DP83620 Target: Disabled
+    ICS1894 Target: Disabled
     Reference Clock: Enabled
     
   Module "FreeRTOS Buffer Allocation 2"
-  Module "AWS Secure Sockets Common"
-    Socket Send Timeout: 10000
-    Socket Receive Timeout: 10000
-    Secure Socket Metrics: Disabled
-    
-  Module "AWS Secure Sockets TLS Support [Optional for Wifi]"
-  Module "FreeRTOS+TLS"
-    Header file to #include in ra_cfg/aws/aws_clientcredential_keys.h: 
-    
-  Module "AWS PKCS11 to MbedTLS3"
+  Module "AWS FreeRTOS+TCP MbedTLS Bio"
+  Module "AWS PKCS11 to MbedTLS"
     Custom iot_pkcs11_config.h: 
     PKCS11 Configuration Max Label Length: 32
     PKCS11 Configuration Max Number Of Objects: 6
@@ -608,15 +573,12 @@ FSP Configuration
     OTA Supported: Disabled
     JITP Code Verify Root Cert Supported: Disabled
     
-  Module "FreeRTOS+Crypto"
+  Module "AWS PKCS11 PAL on LittleFS (rm_aws_pkcs11_pal_littlefs)"
+  Module "FreeRTOS MbedTLS Port"
   Module "MbedTLS"
-    General: MBEDTLS_CHECK_PARAMS_ASSERT: Undefine
-    General: MBEDTLS_ENABLE_WEAK_CIPHERSUITES: Undefine
-    General: MBEDTLS_REMOVE_ARC4_CIPHERSUITES: Undefine
-    General: MBEDTLS_REMOVE_3DES_CIPHERSUITES: Undefine
     Key Exchange: MBEDTLS_KEY_EXCHANGE_PSK_ENABLED: Define
     Key Exchange: MBEDTLS_KEY_EXCHANGE_DHE_PSK_ENABLED: Undefine
-    Key Exchange: MBEDTLS_KEY_EXCHANGE_ECDHE_PSK_ENABLED: Define
+    Key Exchange: MBEDTLS_KEY_EXCHANGE_ECDHE_PSK_ENABLED: Undefine
     Key Exchange: MBEDTLS_KEY_EXCHANGE_RSA_PSK_ENABLED: Undefine
     Key Exchange: MBEDTLS_KEY_EXCHANGE_RSA_ENABLED: Define
     Key Exchange: MBEDTLS_KEY_EXCHANGE_DHE_RSA_ENABLED: Undefine
@@ -630,44 +592,41 @@ FSP Configuration
     X509 Options: MBEDTLS_X509_MAX_INTERMEDIATE_CA: Undefine
     SSL Options: MBEDTLS_SSL_ALL_ALERT_MESSAGES: Undefine
     SSL Options: MBEDTLS_SSL_DTLS_CONNECTION_ID: Undefine
+    SSL Options: MBEDTLS_SSL_DTLS_CONNECTION_ID_COMPAT: Undefine
+    SSL Options: MBEDTLS_SSL_DTLS_CONNECTION_ID_COMPAT Value: Reset
     SSL Options: MBEDTLS_SSL_ASYNC_PRIVATE: Undefine
     SSL Options: MBEDTLS_SSL_DEBUG_ALL: Undefine
     SSL Options: MBEDTLS_SSL_ENCRYPT_THEN_MAC: Undefine
     SSL Options: MBEDTLS_SSL_EXTENDED_MASTER_SECRET: Undefine
-    SSL Options: MBEDTLS_SSL_FALLBACK_SCSV: Undefine
     SSL Options: MBEDTLS_SSL_KEEP_PEER_CERTIFICATE: Undefine
-    SSL Options: MBEDTLS_SSL_HW_RECORD_ACCEL: Undefine
-    SSL Options: MBEDTLS_SSL_CBC_RECORD_SPLITTING: Undefine
-    SSL Options: MBEDTLS_SSL_RENEGOTIATION: Undefine
-    SSL Options: MBEDTLS_SSL_SRV_SUPPORT_SSLV2_CLIENT_HELLO: Undefine
-    SSL Options: MBEDTLS_SSL_SRV_RESPECT_CLIENT_PREFERENCE: Undefine
+    SSL Options: MBEDTLS_SSL_RENEGOTIATION: Define
     SSL Options: MBEDTLS_SSL_MAX_FRAGMENT_LENGTH: Undefine
-    SSL Options: MBEDTLS_SSL_PROTO_SSL3: Undefine
-    SSL Options: MBEDTLS_SSL_PROTO_TLS1: Define
-    SSL Options: MBEDTLS_SSL_PROTO_TLS1_1: Define
     SSL Options: MBEDTLS_SSL_PROTO_TLS1_2: Define
+    SSL Options: MBEDTLS_SSL_PROTO_TLS1_3: Undefine
+    SSL Options: MBEDTLS_SSL_TLS1_3_COMPATIBILITY_MODE: Undefine
+    SSL Options: MBEDTLS_SSL_TLS1_3_KEY_EXCHANGE_MODE_PSK_ENABLED: Define
+    SSL Options: MBEDTLS_SSL_TLS1_3_KEY_EXCHANGE_MODE_EPHEMERAL_ENABLED: Define
+    SSL Options: MBEDTLS_SSL_TLS1_3_KEY_EXCHANGE_MODE_PSK_EPHEMERAL_ENABLED: Define
+    SSL Options: MBEDTLS_SSL_TLS1_3_TICKET_AGE_TOLERANCE: Define
+    SSL Options: MBEDTLS_SSL_TLS1_3_TICKET_AGE_TOLERANCE Value: 6000
+    SSL Options: MBEDTLS_SSL_TLS1_3_TICKET_NONCE_LENGTH: Define
+    SSL Options: MBEDTLS_SSL_TLS1_3_TICKET_NONCE_LENGTH Value: 32
+    SSL Options: MBEDTLS_SSL_TLS1_3_DEFAULT_NEW_SESSION_TICKETS: Define
+    SSL Options: MBEDTLS_SSL_TLS1_3_DEFAULT_NEW_SESSION_TICKETS Value: 1
+    SSL Options: MBEDTLS_SSL_EARLY_DATA: Undefine
+    SSL Options: MBEDTLS_SSL_MAX_EARLY_DATA_SIZE Value: 32
     SSL Options: MBEDTLS_SSL_PROTO_DTLS: Undefine
     SSL Options: MBEDTLS_SSL_ALPN: Define
     SSL Options: MBEDTLS_SSL_DTLS_ANTI_REPLAY: Undefine
     SSL Options: MBEDTLS_SSL_DTLS_HELLO_VERIFY: Undefine
     SSL Options: MBEDTLS_SSL_DTLS_CLIENT_PORT_REUSE: Undefine
-    SSL Options: MBEDTLS_SSL_DTLS_BADMAC_LIMIT: Undefine
     SSL Options: MBEDTLS_SSL_SESSION_TICKETS: Undefine
-    SSL Options: MBEDTLS_SSL_EXPORT_KEYS: Undefine
     SSL Options: MBEDTLS_SSL_SERVER_NAME_INDICATION: Undefine
-    SSL Options: MBEDTLS_SSL_TRUNCATED_HMAC: Undefine
-    SSL Options: MBEDTLS_SSL_TRUNCATED_HMAC_COMPAT: Undefine
-    X509 Options: MBEDTLS_X509_ALLOW_EXTENSIONS_NON_V3: Undefine
-    X509 Options: MBEDTLS_X509_ALLOW_UNSUPPORTED_CRITICAL_EXTENSION: Undefine
     X509 Options: MBEDTLS_X509_TRUSTED_CERTIFICATE_CALLBACK: Undefine
-    X509 Options: MBEDTLS_X509_CHECK_KEY_USAGE: Undefine
-    X509 Options: MBEDTLS_X509_CHECK_EXTENDED_KEY_USAGE: Undefine
+    X509 Options: MBEDTLS_X509_REMOVE_INFO: Undefine
     X509 Options: MBEDTLS_X509_RSASSA_PSS_SUPPORT: Undefine
-    General: MBEDTLS_ZLIB_SUPPORT: Undefine
-    General: MBEDTLS_CERTS_C: Define
     General: MBEDTLS_DEBUG_C: Undefine
     General: MBEDTLS_NET_C: Undefine
-    General: MBEDTLS_PKCS11_C: Undefine
     SSL Options: MBEDTLS_SSL_CACHE_C: Undefine
     SSL Options: MBEDTLS_SSL_COOKIE_C: Undefine
     SSL Options: MBEDTLS_SSL_TICKET_C: Undefine
@@ -681,28 +640,24 @@ FSP Configuration
     X509 Options: MBEDTLS_X509_CREATE_C: Undefine
     X509 Options: MBEDTLS_X509_CRT_WRITE_C: Undefine
     X509 Options: MBEDTLS_X509_CSR_WRITE_C: Undefine
-    SSL Options: MBEDTLS_SSL_MAX_CONTENT_LEN: Undefine
-    SSL Options: MBEDTLS_SSL_MAX_CONTENT_LEN Value: 16384
     SSL Options: MBEDTLS_SSL_IN_CONTENT_LEN: Undefine
     SSL Options: MBEDTLS_SSL_IN_CONTENT_LEN Value: 16384
     SSL Options: MBEDTLS_SSL_CID_IN_LEN_MAX: Undefine
     SSL Options: MBEDTLS_SSL_CID_IN_LEN_MAX Value: 32
     SSL Options: MBEDTLS_SSL_CID_OUT_LEN_MAX: Undefine
     SSL Options: MBEDTLS_SSL_CID_OUT_LEN_MAX Value: 32
+    SSL Options: MBEDTLS_SSL_CID_TLS1_3_PADDING_GRANULARITY: Undefine
+    SSL Options: MBEDTLS_SSL_CID_TLS1_3_PADDING_GRANULARITY Value: 16
     SSL Options: MBEDTLS_SSL_CID_PADDING_GRANULARITY: Undefine
     SSL Options: MBEDTLS_SSL_CID_PADDING_GRANULARITY Value: 16
     SSL Options: MBEDTLS_SSL_OUT_CONTENT_LEN: Undefine
     SSL Options: MBEDTLS_SSL_OUT_CONTENT_LEN Value: 16384
     SSL Options: MBEDTLS_SSL_DTLS_MAX_BUFFERING: Undefine
     SSL Options: MBEDTLS_SSL_DTLS_MAX_BUFFERING Value: 32768
-    General: MBEDTLS_PARAM_FAILED: Undefine
-    General: MBEDTLS_PARAM_FAILED Value: assert( cond )
     SSL Options: MBEDTLS_SSL_CACHE_DEFAULT_TIMEOUT: Undefine
     SSL Options: MBEDTLS_SSL_CACHE_DEFAULT_TIMEOUT Value: 86400
     SSL Options: MBEDTLS_SSL_CACHE_DEFAULT_MAX_ENTRIES: Undefine
     SSL Options: MBEDTLS_SSL_CACHE_DEFAULT_MAX_ENTRIES Value: 50
-    SSL Options: MBEDTLS_SSL_DEFAULT_TICKET_LIFETIME: Undefine
-    SSL Options: MBEDTLS_SSL_DEFAULT_TICKET_LIFETIME Value: 86400
     General: MBEDTLS_PSK_MAX_LEN: Undefine
     General: MBEDTLS_PSK_MAX_LEN Value: 32
     SSL Options: MBEDTLS_SSL_COOKIE_TIMEOUT: Undefine
@@ -710,8 +665,6 @@ FSP Configuration
     X509 Options: MBEDTLS_X509_MAX_INTERMEDIATE_CA Value: 8
     X509 Options: MBEDTLS_X509_MAX_FILE_PATH_LEN: Undefine
     X509 Options: MBEDTLS_X509_MAX_FILE_PATH_LEN Value: 512
-    General: MBEDTLS_TLS_DEFAULT_ALLOW_SHA1_IN_CERTIFICATES: Undefine
-    General: MBEDTLS_TLS_DEFAULT_ALLOW_SHA1_IN_KEY_EXCHANGE: Define
     
   Module "MbedTLS (Crypto Only)"
     Hardware Acceleration: TRNG: Enabled
@@ -722,10 +675,11 @@ FSP Configuration
     Hardware Acceleration: Cipher: AES: Use Hardware
     Hardware Acceleration: Public Key Cryptography (PKC): ECC: Use Hardware
     Hardware Acceleration: Public Key Cryptography (PKC): ECDSA : Use Hardware
+    Hardware Acceleration: Public Key Cryptography (PKC): ECDH : Use Hardware
     Hardware Acceleration: Public Key Cryptography (PKC): RSA: Use Hardware
     Hardware Acceleration: Public Key Cryptography (PKC): RSA 3072 Verify: Disabled
     Hardware Acceleration: Public Key Cryptography (PKC): RSA 4096 Verify: Disabled
-    Hardware Acceleration: Secure Crypto Engine Initialization: Enabled
+    Hardware Acceleration: Crypto Engine Initialization: Enabled
     Platform: MBEDTLS_HAVE_ASM: Undefine
     Platform: MBEDTLS_NO_UDBL_DIVISION: Undefine
     Platform: MBEDTLS_NO_64BIT_MULTIPLICATION: Undefine
@@ -734,6 +688,7 @@ FSP Configuration
     Platform: MBEDTLS_HAVE_TIME_DATE: Undefine
     Platform: MBEDTLS_PLATFORM_MEMORY: Define
     Platform: MBEDTLS_PLATFORM_NO_STD_FUNCTIONS: Undefine
+    Platform: Alternate: MBEDTLS_PLATFORM_SETBUF_ALT: Undefine
     Platform: Alternate: MBEDTLS_PLATFORM_EXIT_ALT: Undefine
     Platform: Alternate: MBEDTLS_PLATFORM_TIME_ALT: Undefine
     Platform: Alternate: MBEDTLS_PLATFORM_FPRINTF_ALT: Undefine
@@ -741,35 +696,26 @@ FSP Configuration
     Platform: Alternate: MBEDTLS_PLATFORM_SNPRINTF_ALT: Undefine
     Platform: Alternate: MBEDTLS_PLATFORM_VSNPRINTF_ALT: Undefine
     Platform: Alternate: MBEDTLS_PLATFORM_NV_SEED_ALT: Undefine
-    General: PSA_CRYPTO_SECURE: Undefine
+    General: MBEDTLS_PSA_CRYPTO_DRIVERS: Undefine
     General: MBEDTLS_DEPRECATED_WARNING: Undefine
     General: MBEDTLS_DEPRECATED_REMOVED: Define
-    General: MBEDTLS_CHECK_PARAMS: Define
-    General: MBEDTLS_CHECK_PARAMS_ASSERT: Undefine
     Platform: MBEDTLS_TIMING_ALT: Undefine
-    Cipher: Alternate: MBEDTLS_ARC4_ALT: Undefine
     Cipher: Alternate: MBEDTLS_ARIA_ALT: Undefine
-    Cipher: Alternate: MBEDTLS_BLOWFISH_ALT: Undefine
     Cipher: Alternate: MBEDTLS_CAMELLIA_ALT: Undefine
-    Cipher: Alternate: MBEDTLS_CCM_ALT: Undefine
+    Cipher: Alternate: MBEDTLS_CCM_ALT: Define
     Cipher: Alternate: MBEDTLS_CHACHA20_ALT: Undefine
     Cipher: Alternate: MBEDTLS_CHACHAPOLY_ALT: Undefine
-    Cipher: Alternate: MBEDTLS_CMAC_ALT: Undefine
+    Cipher: Alternate: MBEDTLS_CMAC_ALT: Define
     Cipher: Alternate: MBEDTLS_DES_ALT: Undefine
     Public Key Cryptography (PKC): DHM: Alternate: MBEDTLS_DHM_ALT: Undefine
     Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECJPAKE_ALT: Undefine
-    Cipher: Alternate: MBEDTLS_GCM_ALT: Undefine
+    Cipher: Alternate: MBEDTLS_GCM_ALT: Define
     Cipher: Alternate: MBEDTLS_NIST_KW_ALT: Undefine
-    Hash: Alternate: MBEDTLS_MD2_ALT: Undefine
-    Hash: Alternate: MBEDTLS_MD4_ALT: Undefine
     Hash: Alternate: MBEDTLS_MD5_ALT: Undefine
     Message Authentication Code (MAC): Alternate: MBEDTLS_POLY1305_ALT: Undefine
     Hash: Alternate: MBEDTLS_RIPEMD160_ALT: Undefine
     Hash: Alternate: MBEDTLS_SHA1_ALT: Undefine
     Hash: Alternate: MBEDTLS_SHA512_ALT: Undefine
-    Cipher: Alternate: MBEDTLS_XTEA_ALT: Undefine
-    Hash: Alternate: MBEDTLS_MD2_PROCESS_ALT: Undefine
-    Hash: Alternate: MBEDTLS_MD4_PROCESS_ALT: Undefine
     Hash: Alternate: MBEDTLS_MD5_PROCESS_ALT: Undefine
     Hash: Alternate: MBEDTLS_RIPEMD160_PROCESS_ALT: Undefine
     Hash: Alternate: MBEDTLS_SHA1_PROCESS_ALT: Undefine
@@ -781,6 +727,7 @@ FSP Configuration
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECDH_COMPUTE_SHARED_ALT: Undefine
     Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECDSA_GENKEY_ALT: Undefine
     Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_INTERNAL_ALT: Undefine
+    Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_NO_FALLBACK: Undefine
     Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_RANDOMIZE_JAC_ALT: Undefine
     Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_ADD_MIXED_ALT: Undefine
     Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_DOUBLE_JAC_ALT: Undefine
@@ -789,10 +736,10 @@ FSP Configuration
     Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_DOUBLE_ADD_MXZ_ALT: Undefine
     Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_RANDOMIZE_MXZ_ALT: Undefine
     Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_NORMALIZE_MXZ_ALT: Undefine
-    RNG: MBEDTLS_TEST_NULL_ENTROPY: Undefine
     Cipher: AES: MBEDTLS_AES_ROM_TABLES: Undefine
     Cipher: AES: MBEDTLS_AES_FEWER_TABLES: Undefine
     Cipher: MBEDTLS_CAMELLIA_SMALL_MEMORY: Undefine
+    General: MBEDTLS_CHECK_RETURN_WARNING: Undefine
     Cipher: MBEDTLS_CIPHER_MODE_CBC: Define
     Cipher: MBEDTLS_CIPHER_MODE_CFB: Define
     Cipher: MBEDTLS_CIPHER_MODE_CTR: Define
@@ -818,7 +765,6 @@ FSP Configuration
     Public Key Cryptography (PKC): ECC: Curves: MBEDTLS_ECP_DP_CURVE448_ENABLED: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_NIST_OPTIM: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_RESTARTABLE: Undefine
-    Public Key Cryptography (PKC): ECC: MBEDTLS_ECDH_LEGACY_CONTEXT: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECDSA_DETERMINISTIC: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_PK_PARSE_EC_EXTENDED: Undefine
     General: MBEDTLS_ERROR_STRERROR_DUMMY: Define
@@ -828,37 +774,38 @@ FSP Configuration
     Platform: MBEDTLS_NO_PLATFORM_ENTROPY: Define
     RNG: MBEDTLS_ENTROPY_FORCE_SHA256: Undefine
     RNG: MBEDTLS_ENTROPY_NV_SEED: Undefine
-    Storage: MBEDTLS_PSA_CRYPTO_KEY_ID_ENCODES_OWNER: Undefine
+    Key Configuration: MBEDTLS_PSA_CRYPTO_KEY_ID_ENCODES_OWNER: Undefine
     General: MBEDTLS_MEMORY_DEBUG: Undefine
     General: MBEDTLS_MEMORY_BACKTRACE: Undefine
     Public Key Cryptography (PKC): RSA: MBEDTLS_PK_RSA_ALT_SUPPORT: Undefine
     Public Key Cryptography (PKC): MBEDTLS_PKCS1_V15: Define
     Public Key Cryptography (PKC): MBEDTLS_PKCS1_V21: Define
+    Key Configuration: MBEDTLS_PSA_CRYPTO_BUILTIN_KEYS: Undefine
+    Key Configuration: PSA_CRYPTO_DRIVER_TFM_BUILTIN_KEY_LOADER: Undefine
+    General: MBEDTLS_PSA_CRYPTO_CLIENT: Undefine
+    RNG: MBEDTLS_PSA_CRYPTO_EXTERNAL_RNG: Undefine
     General: MBEDTLS_PSA_CRYPTO_SPM: Undefine
     RNG: MBEDTLS_PSA_INJECT_ENTROPY: Undefine
     Public Key Cryptography (PKC): RSA: MBEDTLS_RSA_NO_CRT: Define
     General: MBEDTLS_SELF_TEST: Undefine
     Hash: MBEDTLS_SHA256_SMALLER: Undefine
     Hash: MBEDTLS_SHA512_SMALLER: Undefine
-    Hash: MBEDTLS_SHA512_NO_SHA384: Undefine
     General: MBEDTLS_THREADING_ALT: Define
     General: MBEDTLS_THREADING_PTHREAD: Undefine
     General: MBEDTLS_USE_PSA_CRYPTO: Undefine
     General: MBEDTLS_VERSION_FEATURES: Define
     Cipher: MBEDTLS_AES_C: Define
-    Cipher: MBEDTLS_ARC4_C: Undefine
     Public Key Cryptography (PKC): MBEDTLS_ASN1_PARSE_C: Define
     Public Key Cryptography (PKC): MBEDTLS_ASN1_WRITE_C: Define
     Public Key Cryptography (PKC): MBEDTLS_BASE64_C: Define
     Public Key Cryptography (PKC): MBEDTLS_BIGNUM_C: Define
-    Cipher: MBEDTLS_BLOWFISH_C: Undefine
     Cipher: MBEDTLS_CAMELLIA_C: Undefine
     Cipher: MBEDTLS_ARIA_C: Undefine
     Cipher: MBEDTLS_CCM_C: Define
     Cipher: MBEDTLS_CHACHA20_C: Undefine
     Cipher: MBEDTLS_CHACHAPOLY_C: Undefine
     Cipher: MBEDTLS_CIPHER_C: Define
-    Message Authentication Code (MAC): MBEDTLS_CMAC_C: Undefine
+    Message Authentication Code (MAC): MBEDTLS_CMAC_C: Define
     RNG: MBEDTLS_CTR_DRBG_C: Define
     RNG: MBEDTLS_CTR_DRBG_C_ALT: Define
     Cipher: MBEDTLS_DES_C: Undefine
@@ -870,13 +817,12 @@ FSP Configuration
     Platform: MBEDTLS_ENTROPY_C: Define
     General: MBEDTLS_ERROR_C: Define
     Cipher: MBEDTLS_GCM_C: Define
-    RNG: MBEDTLS_HAVEGE_C: Undefine
     Message Authentication Code (MAC): MBEDTLS_HKDF_C: Define
     Message Authentication Code (MAC): MBEDTLS_HMAC_DRBG_C: Undefine
+    Public Key Cryptography (PKC): MBEDTLS_LMS_C: Define
+    Public Key Cryptography (PKC): MBEDTLS_LMS_PRIVATE: Undefine
     Cipher: MBEDTLS_NIST_KW_C: Undefine
     Hash: MBEDTLS_MD_C: Define
-    Hash: MBEDTLS_MD2_C: Undefine
-    Hash: MBEDTLS_MD4_C: Undefine
     Hash: MBEDTLS_MD5_C: Define
     General: MBEDTLS_MEMORY_BUFFER_ALLOC_C: Undefine
     Public Key Cryptography (PKC): MBEDTLS_OID_C: Define
@@ -886,6 +832,7 @@ FSP Configuration
     Public Key Cryptography (PKC): MBEDTLS_PK_PARSE_C: Define
     Public Key Cryptography (PKC): MBEDTLS_PK_WRITE_C: Define
     Public Key Cryptography (PKC): MBEDTLS_PKCS5_C: Define
+    Public Key Cryptography (PKC): MBEDTLS_PKCS7_C: Undefine
     Public Key Cryptography (PKC): MBEDTLS_PKCS12_C: Define
     Platform: MBEDTLS_PLATFORM_C: Define
     Message Authentication Code (MAC): MBEDTLS_POLY1305_C: Undefine
@@ -893,15 +840,16 @@ FSP Configuration
     General: MBEDTLS_PSA_CRYPTO_SE_C: Undefine
     Storage: MBEDTLS_PSA_CRYPTO_STORAGE_C: Undefine
     Storage: MBEDTLS_PSA_ITS_FILE_C: Undefine
-    Hash: MBEDTLS_RIPEMD160_C: Define
+    Hash: MBEDTLS_RIPEMD160_C: Undefine
     Public Key Cryptography (PKC): RSA: MBEDTLS_RSA_C: Define
     Hash: MBEDTLS_SHA1_C: Define
+    Hash: MBEDTLS_SHA224_C: Define
     Hash: MBEDTLS_SHA256_C: Define
+    Hash: MBEDTLS_SHA384_C: Undefine
     Hash: MBEDTLS_SHA512_C: Undefine
     General: MBEDTLS_THREADING_C: Define
     General: MBEDTLS_TIMING_C: Undefine
     General: MBEDTLS_VERSION_C: Define
-    Cipher: MBEDTLS_XTEA_C: Undefine
     Public Key Cryptography (PKC): MBEDTLS_MPI_WINDOW_SIZE: Undefine
     Public Key Cryptography (PKC): MBEDTLS_MPI_WINDOW_SIZE value: 6
     Public Key Cryptography (PKC): MBEDTLS_MPI_MAX_SIZE: Undefine
@@ -925,8 +873,6 @@ FSP Configuration
     RNG: MBEDTLS_HMAC_DRBG_MAX_REQUEST value: 1024
     RNG: MBEDTLS_HMAC_DRBG_MAX_SEED_INPUT: Undefine
     RNG: MBEDTLS_HMAC_DRBG_MAX_SEED_INPUT value: 384
-    Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_MAX_BITS: Undefine
-    Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_MAX_BITS value: 521
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_WINDOW_SIZE: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_WINDOW_SIZE value: 6
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_FIXED_POINT_OPTIM: Undefine
@@ -943,6 +889,8 @@ FSP Configuration
     Platform: MBEDTLS_PLATFORM_STD_CALLOC value: calloc
     Platform: MBEDTLS_PLATFORM_STD_FREE: Undefine
     Platform: MBEDTLS_PLATFORM_STD_FREE value: free
+    Platform: MBEDTLS_PLATFORM_STD_SETBUF: Undefine
+    Platform: MBEDTLS_PLATFORM_STD_SETBUF value: setbuf
     Platform: MBEDTLS_PLATFORM_STD_EXIT: Undefine
     Platform: MBEDTLS_PLATFORM_STD_EXIT value: exit
     Platform: MBEDTLS_PLATFORM_STD_TIME: Undefine
@@ -969,6 +917,8 @@ FSP Configuration
     Platform: MBEDTLS_PLATFORM_FREE_MACRO value: free
     Platform: MBEDTLS_PLATFORM_EXIT_MACRO: Undefine
     Platform: MBEDTLS_PLATFORM_EXIT_MACRO value: exit
+    Platform: MBEDTLS_PLATFORM_SETBUF_MACRO: Define
+    Platform: MBEDTLS_PLATFORM_SETBUF_MACRO value: dummy_setbuf
     Platform: MBEDTLS_PLATFORM_TIME_MACRO: Undefine
     Platform: MBEDTLS_PLATFORM_TIME_MACRO value: time
     Platform: MBEDTLS_PLATFORM_TIME_TYPE_MACRO: Undefine
@@ -983,19 +933,20 @@ FSP Configuration
     Platform: MBEDTLS_PLATFORM_VSNPRINTF_MACRO value: vsnprintf
     Platform: MBEDTLS_PLATFORM_NV_SEED_READ_MACRO: Undefine
     Platform: MBEDTLS_PLATFORM_NV_SEED_READ_MACRO value: mbedtls_platform_std_nv_seed_read
-    Platform: MBEDTLS_PARAM_FAILED: Undefine
     Platform: MBEDTLS_PLATFORM_NV_SEED_WRITE_MACRO: Undefine
     Platform: MBEDTLS_PLATFORM_NV_SEED_WRITE_MACRO value: mbedtls_platform_std_nv_seed_write
+    General: MBEDTLS_CHECK_RETURN: Define
+    General: MBEDTLS_IGNORE_RETURN: Undefine
+    HMAC: MBEDTLS_PSA_HMAC_DRBG_MD_TYPE: Define
     Platform: Alternate: MBEDTLS_PLATFORM_ZEROIZE_ALT: Undefine
+    Key Configuration: MBEDTLS_PSA_KEY_SLOT_COUNT: Undefine
+    Key Configuration: MBEDTLS_PSA_KEY_SLOT_COUNT value: 32
     Platform: Alternate: MBEDTLS_PLATFORM_GMTIME_R_ALT: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECDH_VARIANT_EVEREST_ENABLED: Undefine
     
-  Module "Mbed Crypto HW Acceleration (rm_psa_crypto)"
+  Module "Mbed Crypto H/W Acceleration (rm_psa_crypto)"
   Module "SCE Compatibility Mode"
   Module "MbedTLS FSP Port (rm_mbedtls)"
-  Module "AWS C SDK Logging"
-  Module "AWS Demo dev_mode_key_provisioning"
-  Module "AWS PKCS11 PAL on LittleFS (rm_aws_pkcs11_pal_littlefs)"
   Module "LittleFS"
     Custom lfs_util.h: 
     Thread Safe: Disabled
@@ -1028,7 +979,7 @@ FSP Configuration
     General: Cpu Clock Hz: SystemCoreClock
     General: Tick Rate Hz: 1000
     General: Max Priorities: 5
-    General: Minimal Stack Size: 1024
+    General: Minimal Stack Size: 128
     General: Max Task Name Len: 16
     Stats: Use Trace Facility: Disabled
     Stats: Use Stats Formatting Functions: Disabled
@@ -1049,7 +1000,7 @@ FSP Configuration
     General: Message Buffer Length Type: size_t
     Memory Allocation: Support Static Allocation: Enabled
     Memory Allocation: Support Dynamic Allocation: Enabled
-    Memory Allocation: Total Heap Size: 0x25000
+    Memory Allocation: Total Heap Size: 0x20000
     Memory Allocation: Application Allocated Heap: Disabled
     Stats: Generate Run Time Stats: Disabled
     Timers: Use Timers: Enabled
@@ -1084,25 +1035,21 @@ FSP Configuration
   HAL
     Instance "g_ioport I/O Port (r_ioport)"
       Name: g_ioport
-      Port 1 ELC Trigger Source: Disabled
-      Port 2 ELC Trigger Source: Disabled
-      Port 3 ELC Trigger Source: Disabled
-      Port 4 ELC Trigger Source: Disabled
-      Port B ELC Trigger Source: Disabled
-      Port C ELC Trigger Source: Disabled
-      Port D ELC Trigger Source: Disabled
-      Port E ELC Trigger Source: Disabled
+      1st Port ELC Trigger Source: Disabled
+      2nd Port ELC Trigger Source: Disabled
+      3rd Port ELC Trigger Source: Disabled
+      4th Port ELC Trigger Source: Disabled
       Pin Configuration Name: g_bsp_pin_cfg
       
     Instance "FreeRTOS Port (rm_freertos_port)"
   Thread "User App Thread"
     Symbol: user_app_thread
     Name: User App Thread
-    Stack size (bytes): 32768
+    Stack size (bytes): 25000
     Priority: 2
     Thread Context: NULL
     Memory Allocation: Static
-    Allocate Secure Context: Enable
+    Allocate Secure Context: Disable
     
     Instance "FreeRTOS Heap 4"
     Instance "g_adc ADC (r_adc)"
@@ -1142,86 +1089,68 @@ FSP Configuration
       Interrupts: Window Compare B Interrupt Priority: Disabled
       Extra: ADC Ring Buffer: Disabled
       
-    Instance "AWS HTTPS Wrapper"
-      Instance "AWS Core HTTP"
-        Instance "AWS Transport Interface on Secure Sockets"
-          Instance "AWS Secure Sockets on FreeRTOS Plus TCP"
-            Instance "FreeRTOS+TCP"
-              Instance "FreeRTOS+TCP Wrapper to r_ether (rm_freertos_plus_tcp)"
-                Instance "g_ether0 Ethernet (r_ether)"
-                  General: Name: g_ether0
-                  General: Channel: 0
-                  General: MAC address: 00:11:22:33:44:75
-                  General: Zero-copy Mode: Disable
-                  General: Flow control functionality: Enable
-                  Filters: Multicast Mode: Enable
-                  Filters: Promiscuous Mode: Disable
-                  Filters: Broadcast filter: 0
-                  Buffers: Number of TX buffer: 4
-                  Buffers: Number of RX buffer: 4
-                  Buffers: Allocate RX buffer: Enable
-                  Buffers: Buffer size: 1514
-                  Buffers: Padding size: Disable
-                  Buffers: Padding offset: 1
-                  Interrupts: Interrupt priority: Priority 12
-                  Interrupts: Callback: vEtherISRCallback
+    Instance "AWS Core HTTP"
+      Instance "AWS Transport Interface on MbedTLS/PKCS11 (rm_aws_transport_interface_port)"
+        Instance "AWS TCP Sockets Wrapper"
+          Instance "FreeRTOS+TCP"
+            Instance "FreeRTOS+TCP Wrapper to r_ether (rm_freertos_plus_tcp)"
+              Instance "g_ether0 Ethernet (r_ether)"
+                General: Name: g_ether0
+                General: Channel: 0
+                General: MAC address: 00:11:22:33:44:54
+                General: Zero-copy Mode: Disable
+                General: Flow control functionality: Enable
+                Filters: Multicast Mode: Enable
+                Filters: Promiscuous Mode: Enable
+                Filters: Broadcast filter: 0
+                Buffers: Number of TX buffer: 4
+                Buffers: Number of RX buffer: 4
+                Buffers: Allocate RX buffer: Enable
+                Buffers: Buffer size: 1514
+                Buffers: Padding size: Disable
+                Buffers: Padding offset: 1
+                Interrupts: Interrupt priority: Priority 12
+                Interrupts: Callback: vEtherISRCallback
+                
+                Instance "g_ether_phy0 Ethernet (r_ether_phy)"
+                  Name: g_ether_phy0
+                  Channel: 0
+                  PHY-LSI Address: 1
+                  PHY-LSI Reset Completion Timeout: 0x00020000
+                  Select MII type: RMII
+                  Phy LSI type: Kit Component
+                  MII/RMII Register Access Wait-time: 8
+                  Flow Control: Disable
                   
-                  Instance "g_ether_phy0 Ethernet (r_ether_phy)"
-                    Name: g_ether_phy0
-                    Channel: 0
-                    PHY-LSI Address: 1
-                    PHY-LSI Reset Completion Timeout: 0x00020000
-                    Select MII type: RMII
-                    MII/RMII Register Access Wait-time: 8
-                    Flow Control: Disable
-                    
-                Instance "FreeRTOS Buffer Allocation 2"
-            Instance "AWS Secure Sockets Common"
-              Instance "AWS IoT Common"
-                Instance "AWS Client Credentials"
-            Instance "AWS Secure Sockets TLS Support [Optional for Wifi]"
-              Instance "FreeRTOS+TLS"
-                Instance "AWS PKCS11 to MbedTLS3"
-                  Instance "AWS PKCS11 PAL on LittleFS (rm_aws_pkcs11_pal_littlefs)"
-                    Instance "LittleFS"
-                      
-                      Instance "LittleFS on Flash (rm_littlefs_flash)"
-                        Name: g_rm_littlefs0
-                        Read Size: 1
-                        Program Size: 4
-                        Block Size (bytes): 128
-                        Block Count: (BSP_DATA_FLASH_SIZE_BYTES/128)
-                        Block Cycles: 1024
-                        Cache Size: 64
-                        Lookahead Size: 16
-                        
-                        Instance "g_flash0 Flash (r_flash_hp)"
-                          Name: g_flash0
-                          Data Flash Background Operation: Disabled
-                          Callback: NULL
-                          Flash Ready Interrupt Priority: Disabled
-                          Flash Error Interrupt Priority: Disabled
-                          
-                  Instance "FreeRTOS+Crypto"
-                    Instance "MbedTLS"
-                      Instance "MbedTLS (Crypto Only)"
-                        Instance "Mbed Crypto HW Acceleration (rm_psa_crypto)"
-                          Instance "SCE Compatibility Mode"
-                      Instance "MbedTLS FSP Port (rm_mbedtls)"
-              Instance "AWS C SDK Logging"
-                Instance "AWS IoT Common"
-                  Instance "AWS Client Credentials"
-              Instance "AWS Demo dev_mode_key_provisioning"
-      Instance "AWS Platform Network Abstraction"
-        Instance "AWS IoT Common"
+              Instance "FreeRTOS Buffer Allocation 2"
+          Instance "AWS FreeRTOS+TCP MbedTLS Bio"
+        Instance "AWS PKCS11 to MbedTLS"
+          Instance "AWS PKCS11 PAL on LittleFS (rm_aws_pkcs11_pal_littlefs)"
+            Instance "LittleFS"
+              
+              Instance "LittleFS on Flash (rm_littlefs_flash)"
+                Name: g_rm_littlefs0
+                Read Size: 1
+                Program Size: 4
+                Block Size (bytes): 128
+                Block Count: (BSP_DATA_FLASH_SIZE_BYTES/128)
+                Block Cycles: 1024
+                Cache Size: 64
+                Lookahead Size: 16
+                
+                Instance "g_flash0 Flash (r_flash_hp)"
+                  Name: g_flash0
+                  Data Flash Background Operation: Disabled
+                  Callback: NULL
+                  Flash Ready Interrupt Priority: Disabled
+                  Flash Error Interrupt Priority: Disabled
+                  
+          Instance "FreeRTOS MbedTLS Port"
+            Instance "MbedTLS"
+              Instance "MbedTLS (Crypto Only)"
+                Instance "Mbed Crypto H/W Acceleration (rm_psa_crypto)"
+                  Instance "SCE Compatibility Mode"
+              Instance "MbedTLS FSP Port (rm_mbedtls)"
+        Instance "AWS Logging"
+        Instance "AWS Demo dev_mode_key_provisioning"
           Instance "AWS Client Credentials"
-      Instance "AWS Taskpool"
-        Instance "AWS Platform Threads Abstraction"
-          Instance "AWS IoT Common"
-            Instance "AWS Client Credentials"
-        Instance "AWS Platform Clock Abstraction"
-          Instance "AWS IoT Common"
-            Instance "AWS Client Credentials"
-        Instance "AWS IoT SDK Initialization"
-          Instance "AWS IoT Common"
-            Instance "AWS Client Credentials"

@@ -31,12 +31,12 @@ FSP_CPP_FOOTER
  * @{
  **********************************************************************************************************************/
 /** Macros **/
-#define DOC_DATA_SUB                    0xA5A4      //To write the first data to doc register for subtraction event
-#define DOC_DATA_UNDERFLOW              0x0002      //To write the second data to doc register for subtraction event
-#define DOC_DATA_ADD                    0X5A5A      //To write the first data to doc register for addition event
-#define DOC_DATA_OVERFLOW               0x0001      //To write the second data to doc register for addition event to overflow
-#define DOC_DATA_COMPARISON_MATCH       0xA5A5      //To write the data to doc register for comparison match event
-#define DOC_DATA_COMPARISON_MISMATCH    0xB5B5      //To write the data to doc register for comparison mismatch event
+#define DOC_DATA_SUB                    (0xA5A4)      //To write the first data to doc register for subtraction event
+#define DOC_DATA_UNDERFLOW              (0x0002)      //To write the second data to doc register for subtraction event
+#define DOC_DATA_ADD                    (0X5A5A)      //To write the first data to doc register for addition event
+#define DOC_DATA_OVERFLOW               (0x0001)      //To write the second data to doc register for addition event to overflow
+#define DOC_DATA_COMPARISON_MATCH       (0xA5A5)      //To write the data to doc register for comparison match event
+#define DOC_DATA_COMPARISON_MISMATCH    (0xB5B5)      //To write the data to doc register for comparison mismatch event
 
 static void doc_deinit(void);
 

@@ -78,7 +78,7 @@
 		MCK-RA6T3:
 			AN00(P000)
 		RSSK-RA6T1:
-			AN005(P014)
+			AN002(P002)
 
 3. Configuration Settings:
         The example project, by default, runs in continuous scan mode on the boards.

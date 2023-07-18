@@ -13,11 +13,11 @@ for general information on example projects and [readme.txt](./readme.txt) for s
 To build and run the aws_https_client example project, the following resources are needed.
 
 ### Hardware ###
-* Renesas RA™ MCU kit
-* Micro USB cable
-* Ethernet Switch
-* LAN Cable
-* HOST Machine
+* Renesas RA™ MCU kit - 1x
+* Micro USB cable - 1x
+* Ethernet Switch - 1x
+* LAN Cable - 1x
+* HOST Machine - 1x
 
 Refer to [readme.txt](./readme.txt) on information on how to connect the hardware.
 
@@ -50,13 +50,12 @@ List all the various modules that are used in this example project. Refer to the
 
 | Module Name | Usage | searchable Keyword  |
 |-------------|-----------------------------------------------|-----------------------------------------------|
-|AWS HTTPS Client|To get access of aws client library for client connection |AWS Https Client|
+|AWS Core HTTP|To get access of aws client library for client connection |AWS Core HTTP|
 |FreeRTOS + TCP|To get access of TCP/IP network library to form network layer|rm_freertos_plus_tcp|
 |Ethernet Driver| This is dependent module of FreeRTOS+TCP to get access of physical layer of FSP board with the help of ethernet driver |r_ether & r_ether_phy|
-|Secure Sockets | Secure sockets are used to form secure connection|Secure Sockets|
-|FreeRTOS+Crypto|This is used for secure connection by accessing MbedTLS and MbedCrypto libraries|FreeRTOS+Crypto|
-|MbedTLS|This is dependent module of FreeRTOS+Crypto which is used for server/client certificate parsing|mbedTLS|
+|MbedTLS|This is dependent module of FreeRTOS MbedTLS which is used for server/client certificate parsing|mbedTLS|
 | Mbed Crypto | This is dependent module of MbedTLS which is used for secure TLS connection | rm_psa_crypto |
+| SCE | This module provides SCE functions for compatibility mode  | r_sce |
 | Littlefs | To store rsa keys in flash memory | rm_littlefs_flash |
 | ADC |ADC module is used to demonstrate that to read internal temperature sensor value and send it to the server  | r_adc   |
 
@@ -67,29 +66,35 @@ This section describes FSP configurator properties which are important or differ
 
 |   Module Property Path and Identifier   |   Default Value   |   Used Value   |   Reason   |
 | :-------------------------------------: | :---------------: | :------------: | :--------: |
-|   configuration.xml -> BSP > Properties > Settings > Property >MAin Stack Size (bytes)| 0x400 |0x10000| Main Program thread stack is configured to store the local variables of different functions in the code |
+|   configuration.xml -> BSP > Properties > Settings > Property >MAin Stack Size (bytes)| 0x400 |0x1000| Main Program thread stack is configured to store the local variables of different functions in the code |
 | configuration.xml -> BSP > Properties > Settings > Property > Heap Size (bytes)| 0 |0x2000| Heap size is required for standard library functions to be used |
-| configuration.xml -> Ethernet Thread -> Properties > Settings > Property >Memory Allocation > Support Dynamic Mermory Allocation| Disabled | Enabled | RTOS objects can be created using RAM that is automatically allocated from the FreeRTOS heap |
-| configuration.xml -> Ethernet Thread -> Properties > Settings > Property >Memory Allocation > Total Heap Size | 0 | 0x40000 | RAM is used to obtain memory allocation for secure libraries |
-| configuration.xml -> Ethernet Thread > AWS HTTPS Client > AWS Platform Network Abstraction > AWS IOT Common > Properties > Settings > Property > IOT Thread Default Stack Size | 512 | 4096 | Stack size for new thread to store network information| 
-| configuration.xml -> Ethernet Thread > AWS HTTPS Client > AWS Platform Network Abstraction > AWS IOT Common > Properties > Settings > Property > IOT Network Receive task Stack Size | 512 | 4096 | Stack size for storing data from receive task|
-| configuration.xml -> Ethernet Thread > AWS HTTPS Client > AWS Platform Network Abstraction > Secure Sockets on FreeRTOS Plus TCP > FreeRTOS+TCP  > Properties > Settings > Property > DHCP callback function | Disable | Enable |DHCP callback function is required to obtain dynamic ip address |
-|  configuration.xml -> Ethernet Thread > AWS HTTPS Client > AWS Platform Network Abstraction > Secure Sockets on FreeRTOS Plus TCP > FreeRTOS+TCP  > Properties >  Settings > Property > Let TCP use windowing Mechanism | Disable | Enable | For Flow control use the TCP windowing mechanism|
-|  configuration.xml -> Ethernet Thread > AWS HTTPS Client > AWS Platform Network Abstraction > Secure Sockets on FreeRTOS Plus TCP > FreeRTOS+TCP  > Properties >  Settings > Property > FreeRTOS_SendPingRequest() is available |Disable|Enable|To Support the sending of Ping request this needs to chosen as enabled.|
-|configuration.xml -> Ethernet Thread > AWS HTTPS Client > AWS Platform Network Abstraction > Secure Sockets on FreeRTOS Plus TCP > FreeRTOS+TCP  > Properties >  Settings > Property > The socket semaphore to unblock the MQTT task | Enable | Disable |   MQTT task is not support in https cleint application this needs to chosen as disabled |
-|configuration.xml -> Ethernet Thread > AWS HTTPS Client > AWS Platform Network Abstraction > Secure Sockets on FreeRTOS Plus TCP > FreeRTOS+TCP > g_ether0 Ethernet Driver on r_ether  > Properties >  Settings > Property > Number of TX buffer | 1 | 8 |Buffer size increased for faster processing|
-|configuration.xml -> Ethernet Thread > AWS HTTPS Client > AWS Platform Network Abstraction > Secure Sockets on FreeRTOS Plus TCP > FreeRTOS+TCP > g_ether0 Ethernet Driver on r_ether  > Properties >  Settings > Property > Number of RX buffer | 1 | 8 |Buffer size increased for faster processing|
-|configuration.xml -> Ethernet Thread > AWS HTTPS Client > AWS Platform Network Abstraction > Secure Sockets on FreeRTOS Plus TCP > FreeRTOS+TCP > g_ether_phy0 Ethernet Driver on r_ether_phy  > Properties >  Settings > Property > Reference Clock |Disable |Enable|Selected to use the RMII reference clock|
-|configuration.xml -> Ethernet Thread > AWS HTTPS Client > AWS Platform Network Abstraction > Secure Sockets on FreeRTOS Plus TCP > FreeRTOS+TCP > g_ether_phy0 Ethernet Driver on r_ether_phy  > Properties >  Settings > Property > PHI-LSI Address | 0 | 1 | which specifies the address of the PHI-LSI address|
-|configuration.xml -> Ethernet Thread > AWS HTTPS Client > AWS Platform Network Abstraction > Secure Sockets on FreeRTOS Plus TCP > Secure Sockets TLS Support [Optional for Wifi] > AWS PKCS11 to MbedTLS3 > AWS PKCS11 PAL on LittleFS > LittleFS > Properties >  Settings > Property > Warning Messages | Disabled | Enabled | To print the warning messages of LittleFS this needs to chosen as enabled|
-|configuration.xml -> Ethernet Thread > AWS HTTPS Client > AWS Platform Network Abstraction > Secure Sockets on FreeRTOS Plus TCP > Secure Sockets TLS Support [Optional for Wifi] > AWS PKCS11 to MbedTLS3 > AWS PKCS11 PAL on LittleFS > LittleFS > Properties >  Settings > Property > Error Messages | Disabled | Enabled | To print the error messages of LittleFs this needs to chosen as enabled|
-|configuration.xml -> Ethernet Thread > AWS HTTPS Client > AWS Platform Network Abstraction > Secure Sockets on FreeRTOS Plus TCP > Secure Sockets TLS Support [Optional for Wifi] > AWS PKCS11 to MbedTLS3 > FreeRTOS+Crypto > MbedTLS > Properties > Settings > Property > Common > General > mbedtls_tls_default_allow_sha1_in_certificates | Undefine | Define | Allow SHA1 in Certificates to update client and server certificate for secure connection |
-| configuration.xml -> Ethernet Thread > AWS HTTPS Client > AWS Platform Network Abstraction > Secure Sockets on FreeRTOS Plus TCP > Secure Sockets TLS Support [Optional for Wifi] > AWS PKCS11 to MbedTLS3 > FreeRTOS+Crypto > MbedTLS > Properties > Settings > Property > Common >  Key Exchange > MBEDTLS_KEY_EXCHANGE_PSK_ENABLED | Undefine | Define |Enable the PSK based ciphersuite modes in SSL / TLS. |
-| configuration.xml -> Ethernet Thread > AWS HTTPS Client > AWS Platform Network Abstraction > Secure Sockets on FreeRTOS Plus TCP > Secure Sockets TLS Support [Optional for Wifi] > AWS PKCS11 to MbedTLS3 > FreeRTOS+Crypto > Mbed Crytpo > Properties > Settings > Property > Common > Cipher > Alternate > MBEDTLS_GCM_ALT | Define | Undefine | MBEDTLS_GCM_ALT does not bind to the cipher keys |
-| configuration.xml -> Ethernet Thread > AWS HTTPS Client > AWS Platform Network Abstraction > Secure Sockets on FreeRTOS Plus TCP > Secure Sockets TLS Support [Optional for Wifi] > AWS PKCS11 to MbedTLS3 > FreeRTOS+Crypto > Mbed Crytpo > Properties > Settings > Property > Common > Public Key Cryptography (PKC) > ECC > MBEDTLS_ECDH_C | Undefine | Define | Mbed TLS implements ECDH algorithm |
-| configuration.xml -> Ethernet Thread > AWS HTTPS Client > AWS Platform Network Abstraction > Secure Sockets on FreeRTOS Plus TCP > Secure Sockets TLS Support [Optional for Wifi] > AWS PKCS11 to MbedTLS3 > FreeRTOS+Crypto > Mbed Crytpo > Properties > Settings > Property > Common > Public Key Cryptography (PKC) > RSA > MBEDTLS_PK_RSA_ALT_SUPPORT | Undefine | Define |To Support external private RSA keys |
-|configuration.xml -> Ethernet Thread > g_adc ADC Driver on g_adc > Properties > Settings > Module g_adc ADC Driver on r_adc > General > Mode |Single Scan | Continuous Scan | Continuous mode to be selected for continuous reading of adc value (MCU Die Temperature)|
-|configuration.xml -> Ethernet Thread > g_adc ADC Driver on g_adc > Properties > Settings > Module g_adc ADC Driver on r_adc > input > Channel Scan Mask (channel availability varies by MCU) > Temperature Sensor | Uncheck | Check | Enable the internal temperature sensor to read the adc value |
+| configuration.xml -> User App Thread -> Properties > Settings > Property >Memory Allocation > Support Dynamic Mermory Allocation| Disabled | Enabled | RTOS objects can be created using RAM that is automatically allocated from the FreeRTOS heap |
+| configuration.xml -> User App Thread -> Properties > Settings > Property >Memory Allocation > Total Heap Size | 0 | 0x20000 | RAM is used to obtain memory allocation for secure libraries |
+| configuration.xml -> User App Thread > Properties > Settings > Property > Common > General > Use Mutexes| Disabled | Enabled | Enabled to include mutex functionality |
+| configuration.xml -> User App Thread > Properties > Settings > Property > Common > General > Use Recursive Mutexes| Disabled | Enabled | Enabled to include recursive mutex functionality |
+| configuration.xml -> User App Thread > Properties > Settings > Property > Thread > Stack size (bytes) | 1024 | 25000 | Stack size for User App thread| 
+| configuration.xml -> User App Thread > Properties > Settings > Property > Thread > Priority | 1 | 2 | Priority for User App thread|
+| configuration.xml -> User App Thread > Properties > Settings > Property > Common > Optional Functions > eTaskGetState() Function| Disabled | Enabled | Include eTaskGetState() function in build |
+| configuration.xml -> User App Thread > Properties > Settings > Property > Common > Optional Functions > xTaskGetHandle() Function| Disabled | Enabled | Include xTaskGetHandle() function in build |
+| configuration.xml -> User App Thread > AWS Core HTTP > Properties > Settings > Property > Common > HTTP Receive Retry Timeout (ms) | 1 | 200 | The maximum duration between non-empty network reads while receiving an HTTP response via the HTTPClient_Send API function| 
+| configuration.xml -> User App Thread > AWS Core HTTP > Properties > Settings > Property > Common > HTTP Send Retry Timeout (ms) | 1 | 200 | The maximum duration between non-empty network transmissions while sending an HTTP request via the HTTPClient_Send API function|  
+| configuration.xml -> User App Thread > AWS Core HTTP > AWS Transport Interface on MbedTLS/PKCS11 > AWS TCP Sockets Wrapper > FreeRTOS+TCP  > Properties > Settings > Property > DHCP callback function | Disable | Enable |DHCP callback function is required to obtain dynamic ip address |
+|  configuration.xml -> User App Thread > AWS Core HTTP > AWS Transport Interface on MbedTLS/PKCS11 > AWS TCP Sockets Wrapper > FreeRTOS+TCP  > Properties >  Settings > Property > Let TCP use windowing Mechanism | Disable | Enable | For Flow control use the TCP windowing mechanism|
+|  configuration.xml -> User App Thread > AWS Core HTTP > AWS Transport Interface on MbedTLS/PKCS11 > AWS TCP Sockets Wrapper > FreeRTOS+TCP  > Properties >  Settings > Property > FreeRTOS_SendPingRequest() is available |Disable|Enable|To Support the sending of Ping request this needs to chosen as enabled.|
+| configuration.xml -> User App Thread > AWS Core HTTP > AWS Transport Interface on MbedTLS/PKCS11 > AWS TCP Sockets Wrapper > FreeRTOS+TCP  > Properties > Settings > Property > Common > DNS Request Attempts | 2 | 5 | Number of attempts for DNS requests |
+| configuration.xml -> User App Thread > AWS Core HTTP > AWS Transport Interface on MbedTLS/PKCS11 > AWS TCP Sockets Wrapper > FreeRTOS+TCP  > FreeRTOS+ TCP Wrapper to r_ether > g_ether0 Ethernet Driver on r_ether  > Properties >  Settings > Property > General > Flow control functionality | Disable | Enable |Enabled for flow control|
+| configuration.xml -> User App Thread > AWS Core HTTP > AWS Transport Interface on MbedTLS/PKCS11 > AWS TCP Sockets Wrapper > FreeRTOS+TCP  > FreeRTOS+ TCP Wrapper to r_ether > g_ether0 Ethernet Driver on r_ether  > Properties >  Settings > Property > Buffers > Number of TX buffer | 1 | 4 |Buffer size increased for faster processing|
+| configuration.xml -> User App Thread > AWS Core HTTP > AWS Transport Interface on MbedTLS/PKCS11 > AWS TCP Sockets Wrapper > FreeRTOS+TCP  > FreeRTOS+ TCP Wrapper to r_ether > g_ether0 Ethernet Driver on r_ether  > Properties >  Settings > Property > Buffers > Number of RX buffer | 1 | 4 |Buffer size increased for faster processing|
+| configuration.xml -> User App Thread > AWS Core HTTP > AWS Transport Interface on MbedTLS/PKCS11 > AWS TCP Sockets Wrapper > FreeRTOS+TCP  > FreeRTOS+ TCP Wrapper to r_ether > g_ether0 Ethernet Driver on r_ether > g_ether_phy0 Ethernet Driver on r_ether_phy  > Properties >  Settings > Property > Common > Reference Clock |Default |Enable|Selected to use the RMII reference clock|
+|configuration.xml -> User App Thread > AWS Core HTTP > AWS Transport Interface on MbedTLS/PKCS11 > AWS TCP Sockets Wrapper > FreeRTOS+TCP  > FreeRTOS+ TCP Wrapper to r_ether > g_ether0 Ethernet Driver on r_ether > g_ether_phy0 Ethernet Driver on r_ether_phy  > Properties >  Settings > Property > PHI-LSI Address | 0 | 1 | which specifies the address of the PHI-LSI address|
+| configuration.xml -> User App Thread > AWS Core HTTP > AWS Transport Interface on MbedTLS/PKCS11 > AWS PKCS11 to MbedTLS > FreeRTOS MbedTLS Port > MbedTLS > Properties > Settings > Property > Common > SSL Options > MBEDTLS_SSL_RENEGOTIATION	| Undefine | Define | Enabled support for TLS renegotiation |
+| configuration.xml -> User App Thread > AWS Core HTTP > AWS Transport Interface on MbedTLS/PKCS11 > AWS PKCS11 to MbedTLS > FreeRTOS MbedTLS Port > MbedTLS > MbedTLS (Crypto Only) > Properties > Settings > Property > Common > Message Authentication Code (MAC) > MBEDTLS_CMAC_C | Undefine | Define | Enabled macro MBEDTLS_CMAC_C |
+| configuration.xml -> User App Thread > AWS Core HTTP > AWS Transport Interface on MbedTLS/PKCS11 > AWS PKCS11 to MbedTLS > FreeRTOS MbedTLS Port > MbedTLS > MbedTLS (Crypto Only) > Properties > Settings > Property > Common > Public Key Cryptography (PKC) > ECC > MBEDTLS_ECDH_C | Undefine | Define | Mbed TLS implements ECDH algorithm |
+| configuration.xml -> User App Thread > AWS Core HTTP > AWS Transport Interface on MbedTLS/PKCS11 > AWS PKCS11 to MbedTLS > FreeRTOS MbedTLS Port > MbedTLS > Properties > Settings > Property > Common >  Key Exchange > MBEDTLS_KEY_EXCHANGE_PSK_ENABLED | Undefine | Define |Enable the PSK based ciphersuite modes in SSL / TLS. |
+| configuration.xml -> User App Thread > g_adc ADC Driver on g_adc > Properties > Settings > Module g_adc ADC Driver on r_adc > General > Mode |Single Scan | Continuous Scan | Continuous mode to be selected for continuous reading of adc value (MCU Die Temperature)|
+| configuration.xml -> User App Thread > g_adc ADC Driver on g_adc > Properties > Settings > Module g_adc ADC Driver on r_adc > input > Channel Scan Mask (channel availability varies by MCU) > Temperature Sensor | Uncheck | Check | Enable the internal temperature sensor to read the adc value |
+
+
 
 
 
@@ -99,25 +104,26 @@ The table below lists the FSP provided API used at the application layer by this
 
 | API Name    | Usage                                                                          |
 |-------------|--------------------------------------------------------------------------------|
+|R_ADC_Open| This API is used to open ADC module|
 |R_ADC_ScanCfg| This API is used to configure the ADC scan parameters|
 |R_ADC_ScanStart|This API is used to start scanning of configured adc channel|
 |R_ADC_Read|This API is used to read the adc data from the configured channel|
-|FreeRTOS_IsNetworkUp|This API checks the network status|
+|R_ADC_Close| This API is used to close ADC module|
+|FreeRTOS_IPInit| This API is used to initialise the FreeRTOS-Plus-TCP network stack and initialise the IP-task|
 |FreeRTOS_gethostbyname| This API is used to resolve the host name to ip address|
 |FreeRTOS_inet_ntoa|This API is used to convert an ip address expressed in decimal dot notation|
+|FreeRTOS_inet_addr|This API is used to Convert the ip address from dotted decimal format to the 32-bit format|
 |FreeRTOS_SendPingRequest|This API is used to send a ping request to remote pc|
-|R_ETHER_LinkProcess|This API is used to process the TCP/IP link|
-|IotHttpsClient_GetUrlPath|This API is used to perform the https request to the server|
-|IotHttpsClient_GetUrlAddress|This API is used to retrieve the url address|
-|IotHttpsClient_Init|This API is used to initialize the https library|
-|IotHttpsClient_Connect|This API is used to connect request to the server|
-|IotHttpsClient_Disconnect|This API is used to disconnect from the connected server|
-|IotHttpsClient_Cleanup|This API is used to celanup the https library|
-|IotHttpsClient_InitializeRequest|This API is used to initialize the https client request to the server with the user credentials|
-|IotHttpsClient_AddHeader|This API is used to add the header in JSON format for https client request to the server|
-|IotHttpsClient_SendSync|This API is used to send in synchronous connection|
-|IotHttpsClient_ReadResponseStatus|This API is used to read the response status from the server|
-|IotClock_SleepMs | This API is used to delay for few seconds to retry the server connection|
+|RM_LITTLEFS_FLASH_Open|This API is used to open the LittleFS driver and initializes lower layer driver| 
+|RM_LITTLEFS_FLASH_Close|This API is used to closes the lower level LittleFS driver|
+|vAlternateKeyProvisioning|This API is used to perform device provisioning using the specified TLS client credentials|
+|TLS_FreeRTOS_Connect|This API is used to create a TLS connection with FreeRTOS sockets|
+|TLS_FreeRTOS_send|This API is used to sends data over an established TLS connection|
+|TLS_FreeRTOS_recv|This API is used to receive data from an established TLS connection|
+|HTTPClient_InitializeRequestHeaders|This API is used to initialize the HTTP's request headers| 
+|HTTPClient_AddHeader|This API is used to add a header to the HTTP's request headers| 
+|HTTPClient_strerror|This API is used to convert error code to string for HTTP Client library | 
+|HTTPClient_Send|This API is used to send the request headers and request body over the transport | 
 
 
 
@@ -132,11 +138,11 @@ Below images showcases the output on JLinkRTT_Viewer :
 
 ![aws_https_client](images/rtt_viewer_post_ip_init.jpg "RTT viewer ping page")
 
-![aws_https_client](images/rtt_viewer_put_request.jpg "RTT viewer put request page")
-
 ![aws_https_client](images/rtt_viewer_post_request.jpg "RTT viewer post request page")
 
 ![aws_https_client](images/rtt_viewer_get_request.jpg "RTT viewer get request page")
+
+![aws_https_client](images/rtt_viewer_put_request.jpg "RTT viewer put request page")
 
 Below image show the adafruit server with feed data:
 
@@ -194,7 +200,7 @@ Following steps guide you how to obtain the username and AIO key.
  
 ![aws_https_client](images/openssl_bin.jpg "openssl bin folder")
 
-8. Open the converted certificate file with notepad and copy the content and update in the aws_https_client_ep\src\usr_app.h file at the **IOT_HTTPS_TRUSTED_ROOT_CA** macro as shown in below image.
+8. Open the converted certificate file with notepad and copy the content and update in the aws_https_client_ep\src\usr_app.h file at the **HTTPS_TRUSTED_ROOT_CA** macro as shown in below image.
 
 ![aws_https_client](images/server_certificate.jpg "server certificate macro updation")
 

@@ -15,6 +15,8 @@
     </includePath>
     <defines>
         <define>_RA_CORE=CM33</define>
+        <define>_RA_TZ_SECURE</define>
+        <define>_RENESAS_RA_</define>
     </defines>
     <asmIncludePath>
         <path>$PROJ_DIR$/ra/arm/CMSIS_5/CMSIS/Core/Include</path>
@@ -28,6 +30,8 @@
     </asmIncludePath>
     <asmDefines>
         <define>_RA_CORE=CM33</define>
+        <define>_RA_TZ_SECURE</define>
+        <define>_RENESAS_RA_</define>
     </asmDefines>
     <linkerFile>
         <override>true</override>
@@ -36,11 +40,14 @@
     <linkerExtraOptions>
         <arg>--config_search "$PROJ_DIR$"</arg>
     </linkerExtraOptions>
+    <programEntryPoint>
+        <symbol>Reset_Handler</symbol>
+    </programEntryPoint>
     <customArgVars>
         <group name="RA Smart Configurator">
             <argVar>
                 <name>RASC_EXE_PATH</name>
-                <value>C:\Renesas\RA\sc_v2023-04_fsp_v4.4.0\eclipse\rasc.exe</value>
+                <value>C:\Renesas\RA_4.4.0\sc_v2023-04_fsp_v4.4.0-rc.0\eclipse\rasc.exe</value>
             </argVar>
         </group>
     </customArgVars>
@@ -83,9 +90,9 @@
             <path>ra/board/ra6t3_mck/board_leds.c</path>
             <path>ra/board/ra6t3_mck/board_leds.h</path>
             <path>ra/fsp/inc/api/bsp_api.h</path>
+            <path>ra/fsp/inc/api/fsp_common_api.h</path>
             <path>ra/fsp/inc/api/r_ioport_api.h</path>
             <path>ra/fsp/inc/api/r_timer_api.h</path>
-            <path>ra/fsp/inc/fsp_common_api.h</path>
             <path>ra/fsp/inc/fsp_features.h</path>
             <path>ra/fsp/inc/fsp_version.h</path>
             <path>ra/fsp/inc/instances/r_agt.h</path>

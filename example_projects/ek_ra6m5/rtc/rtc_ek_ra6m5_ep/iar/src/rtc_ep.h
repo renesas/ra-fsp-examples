@@ -51,7 +51,7 @@
 /* MACRO for ASCII value of zero */
 #define ASCII_ZERO       (48)
 /* MACRO for null character */
-#define NULL_CHAR   '\0'
+#define NULL_CHAR   ('\0')
 
 /* MACRO for checking if no byte is received */
 #define BYTES_RECEIVED_ZERO  (0U)
@@ -81,7 +81,6 @@ fsp_err_t set_rtc_periodic_rate(void);
 fsp_err_t get_rtc_calendar_time(void);
 void rtc_date_readability_update(rtc_time_t * time);
 void rtc_deinit(void);
-void rtc_callback(rtc_callback_args_t *p_args);
 
 
 #endif /* RTC_EP_H_ */

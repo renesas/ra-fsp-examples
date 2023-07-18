@@ -630,10 +630,10 @@ FSP Configuration
     Platform: MBEDTLS_TIMING_ALT: Undefine
     Cipher: Alternate: MBEDTLS_ARIA_ALT: Undefine
     Cipher: Alternate: MBEDTLS_CAMELLIA_ALT: Undefine
-    Cipher: Alternate: MBEDTLS_CCM_ALT: Undefine
+    Cipher: Alternate: MBEDTLS_CCM_ALT: Define
     Cipher: Alternate: MBEDTLS_CHACHA20_ALT: Undefine
     Cipher: Alternate: MBEDTLS_CHACHAPOLY_ALT: Undefine
-    Cipher: Alternate: MBEDTLS_CMAC_ALT: Use Software
+    Cipher: Alternate: MBEDTLS_CMAC_ALT: Undefine
     Cipher: Alternate: MBEDTLS_DES_ALT: Undefine
     Public Key Cryptography (PKC): DHM: Alternate: MBEDTLS_DHM_ALT: Undefine
     Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECJPAKE_ALT: Undefine
@@ -895,7 +895,7 @@ FSP Configuration
     Module Reset Pin: 00
     Enable SNTP Client: Disabled
     
-  Module "AWS WiFi Common"
+  Module "WiFi Common"
     Max SSID Length: 32
     Max BSSID Length: 6
     Max Passphrase Length: 32
@@ -1006,7 +1006,7 @@ FSP Configuration
             SNTP Timezone Offset from UTC Minutes: 0
             Use Daylight Savings Time: Disabled
             
-            Instance "AWS WiFi Common"
+            Instance "WiFi Common"
             Instance "g_uart0 UART (r_sci_uart)"
               General: Name: g_uart0
               General: Channel: 9
@@ -1045,6 +1045,7 @@ FSP Configuration
                 Interrupt Frequency: After all transfers have completed
                 Number of Transfers: 0
                 Number of Blocks (Valid only in Block Mode): 0
+                Number of Transfer Descriptors: 1
                 Activation Source: SCI9 TXI (Transmit data empty)
                 
               Instance "g_transfer1 Transfer (r_dtc) SCI9 RXI (Received data full)"
@@ -1059,6 +1060,7 @@ FSP Configuration
                 Interrupt Frequency: After all transfers have completed
                 Number of Transfers: 0
                 Number of Blocks (Valid only in Block Mode): 0
+                Number of Transfer Descriptors: 1
                 Activation Source: SCI9 RXI (Received data full)
                 
           Instance "AWS Cellular/WiFi MbedTLS Bio"

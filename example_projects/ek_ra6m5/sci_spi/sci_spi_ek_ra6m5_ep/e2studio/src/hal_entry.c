@@ -29,20 +29,20 @@
 
 /* Slave Select pin for all boards to enable data transfer */
 #if defined(BOARD_RA6M2_EK) || defined(BOARD_RA6M1_EK) || defined(BOARD_RA4M1_EK) || defined(BOARD_RA6T1_RSSK) || defined (BOARD_RA2L1_EK) || defined (BOARD_RA4W1_EK)
-#define CS_PIN  BSP_IO_PORT_01_PIN_03
+#define CS_PIN  (BSP_IO_PORT_01_PIN_03)
 #elif defined(BOARD_RA6M3_EK) || defined(BOARD_RA6M3G_EK)
-#define CS_PIN  BSP_IO_PORT_02_PIN_05
+#define CS_PIN  (BSP_IO_PORT_02_PIN_05)
 #elif defined(BOARD_RA2A1_EK)
-#define CS_PIN  BSP_IO_PORT_04_PIN_10
+#define CS_PIN  (BSP_IO_PORT_04_PIN_10)
 #elif defined(BOARD_RA2E1_EK)
-#define CS_PIN  BSP_IO_PORT_04_PIN_03
+#define CS_PIN  (BSP_IO_PORT_04_PIN_03)
 #else
-#define CS_PIN  BSP_IO_PORT_04_PIN_13
+#define CS_PIN  (BSP_IO_PORT_04_PIN_13)
 #endif
 
 /* Function macros to assert and de-assert Slave Select pins */
-#define CS_ASSERT(x)	 R_IOPORT_PinWrite(&g_ioport_ctrl, x, BSP_IO_LEVEL_HIGH);
-#define CS_DE_ASSERT(x)	 R_IOPORT_PinWrite(&g_ioport_ctrl, x, BSP_IO_LEVEL_LOW);
+#define CS_ASSERT(x)	 (R_IOPORT_PinWrite(&g_ioport_ctrl, (x), BSP_IO_LEVEL_HIGH))
+#define CS_DE_ASSERT(x)	 (R_IOPORT_PinWrite(&g_ioport_ctrl, (x), BSP_IO_LEVEL_LOW))
 
 #define EP_INFO                "\r\nThis Example Project demonstrates the basic usage of SCI_SPI driver."\
 		                       "\r\nThe project writes commands to the slave sensor and reads the temperature"\

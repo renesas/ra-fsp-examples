@@ -41,7 +41,7 @@
 #define DEFAULT_ID            (65535U)
 #define ONE                   (1U)
 #define BUF_SIZE              (64U)
-#define INITIAL_VALUE         '\0'
+#define INITIAL_VALUE         ('\0')
 
 /* vee flash Menu options */
 #define VEE_FLASH_MENU          "\r\nVee flash Main Menu options:"\

@@ -20,10 +20,8 @@ static void deinit_usb(void);
 /* private variables */
 static uint8_t send_data[BUFF_SIZE] BSP_ALIGN_VARIABLE(ALIGN);
 
-static uint8_t * p_idle_value = NULL;
 static usb_event_info_t * p_usb_phid_event = NULL;
 
-static uint8_t g_idle = RESET_VALUE;
 static uint8_t g_buf[DATA_LEN]  = {RESET_VALUE}; /* HID NULL data */
 static uint8_t g_data[DATA_LEN] = {RESET_VALUE};
 static uint16_t g_numlock = RESET_VALUE;
@@ -33,10 +31,8 @@ static uint16_t g_numlock = RESET_VALUE;
 void phid_main_thread_entry(void *pvParameters)
 {
     FSP_PARAMETER_NOT_USED (pvParameters);
-    static uint8_t idle_value = RESET_VALUE;
     static usb_event_info_t g_usb_phid_event  = {RESET_VALUE};
     /* Make sure the pointers as assigned to valid memories before accessing */
-    p_idle_value = &idle_value;
     p_usb_phid_event = &g_usb_phid_event;
 
     fsp_err_t err = FSP_SUCCESS;
@@ -172,11 +168,6 @@ static void usb_enumeration(void)
     }
     else if (USB_SET_IDLE == (p_usb_phid_event->setup.request_type & USB_BREQUEST))
     {
-        /* Get SetIdle value */
-        p_idle_value = (uint8_t *) &p_usb_phid_event->setup.request_value;
-
-        g_idle = p_idle_value[IDLE_VAL_INDEX];
-
         err = R_USB_PeriControlStatusSet(p_usb_phid_event, USB_SETUP_STATUS_ACK);
         if (FSP_SUCCESS != err)
         {
@@ -202,9 +193,7 @@ static void usb_status_update(void)
     /* check for request type */
     if (USB_SET_IDLE == (p_usb_phid_event->setup.request_type & USB_BREQUEST))
     {
-        p_idle_value = (uint8_t *) &p_usb_phid_event->setup.request_value;
-
-        g_idle = p_idle_value[IDLE_VAL_INDEX];
+        /* None */
     }
     else if (USB_SET_PROTOCOL == (p_usb_phid_event->setup.request_type & USB_BREQUEST))
     {

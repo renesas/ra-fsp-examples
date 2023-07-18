@@ -63,12 +63,12 @@ Project setup:
 	
 	MCK_RA6T2
 	----------
-	1)Renesas Silex UART Pmod (CN1:2) ----> P605
-	2)Renesas Silex UART Pmod (CN1:3) ----> P606
+	1)Renesas Silex UART Pmod (CN1:2) ----> PD05
+	2)Renesas Silex UART Pmod (CN1:3) ----> PD06
 	3)Renesas Silex UART Pmod (CN1:5) ----> GND
 	4)Renesas Silex UART Pmod (CN1:6) ----> Vcc
-	5)Renesas Silex UART Pmod (CN1:7) ----> P300
-	6)Renesas Silex UART Pmod (CN1:8) ----> P302
+	5)Renesas Silex UART Pmod (CN1:7) ----> PA04
+	6)Renesas Silex UART Pmod (CN1:8) ----> PA12
 
 Note : For EK-RA2E2, scanning wifi access points does not work. Please connect to wifi access points by entering its credentials manually.
 
@@ -96,7 +96,7 @@ Sokit setup on PC as TCP server:
 
 1) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x20004194
+   a. e2studio: 0x20000254
    b. Keil: Not Available 
    c. IAR: Not Available
  

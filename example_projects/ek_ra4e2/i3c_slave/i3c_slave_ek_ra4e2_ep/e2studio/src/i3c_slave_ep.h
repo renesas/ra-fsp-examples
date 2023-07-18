@@ -32,7 +32,7 @@
 #define WAIT_TIME                                (100)
 #define MAX_WAIT_TIME_BUS_INIT_10S               (100UL)
 /* External IRQ channel number */
-#define USER_SW_IRQ_NUMBER                       (0x07)
+#define USER_SW_IRQ_NUMBER                       (0x09)
 
 #define WORD_ALIGN   (4)
 #define ONE          (1)

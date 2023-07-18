@@ -100,6 +100,10 @@ UINT ux_host_hid_hub_class_system_change_function(ULONG event, UX_HOST_CLASS * h
             /* Set mouse device connection event*/
             tx_event_flags_set(&g_hid_mouse_connect_event_flags, MOUSE_DEVICE_CONNECT_FLAG, TX_OR);
         }
+        else
+        {
+            /* Do nothing */
+        }
 
         tx_thread_sleep(SLEEP_TIME_1);
     }
@@ -143,6 +147,10 @@ UINT ux_host_hid_hub_class_system_change_function(ULONG event, UX_HOST_CLASS * h
 
         gp_hid_class_instance[icount] = NULL;
         lp_hid_class_instance = NULL;
+    }
+    else
+    {
+        /* Do nothing */
     }
 
     lp_temp_hid_client = NULL;

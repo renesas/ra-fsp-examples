@@ -107,23 +107,6 @@ void hal_entry(void)
         APP_ERR_TRAP(err);
     }
 
-#if (defined BOARD_RA2A1_EK) || (defined BOARD_RA6T2_MCK)
-    /* Set Reference Voltage Circuit Control register */
-    R_ADC0->VREFAMPCNT |= ((VREFADCG_VALUE) | (VREFADCG_ENABLE));
-
-    /* Calibrate the ADC for RA2A1 board */
-    err = adc_start_calibration ();
-    /* handle error */
-    if (FSP_SUCCESS != err)
-    {
-        adc_deinit();
-        dac_deinit();
-        /* ADC Failure message */
-        APP_ERR_PRINT("** ADC Calibrate API failed ** \r\n");
-        APP_ERR_TRAP(err);
-    }
-#endif
-
     /* Configures the ADC scan parameters */
 #if defined (BOARD_RA6T2_MCK)
     err = R_ADC_B_ScanCfg (&g_adc_ctrl, &g_adc_scan_cfg);
@@ -137,6 +120,23 @@ void hal_entry(void)
         dac_deinit();
         /* ADC Failure message */
         APP_ERR_PRINT("** ADC ScanCfg API failed ** \r\n");
+        APP_ERR_TRAP(err);
+    }
+#endif
+
+#if (defined BOARD_RA2A1_EK) || (defined BOARD_RA6T2_MCK)
+    /* Set Reference Voltage Circuit Control register */
+    R_ADC0->VREFAMPCNT |= ((VREFADCG_VALUE) | (VREFADCG_ENABLE));
+
+    /* Calibrate the ADC for RA2A1 board */
+    err = adc_start_calibration ();
+    /* handle error */
+    if (FSP_SUCCESS != err)
+    {
+        adc_deinit();
+        dac_deinit();
+        /* ADC Failure message */
+        APP_ERR_PRINT("** ADC Calibrate API failed ** \r\n");
         APP_ERR_TRAP(err);
     }
 #endif

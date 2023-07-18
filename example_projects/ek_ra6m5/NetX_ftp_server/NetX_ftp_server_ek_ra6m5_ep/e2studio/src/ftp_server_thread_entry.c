@@ -76,7 +76,7 @@ void ftp_server_thread_entry(void)
 
     /* Initialize FILEX module for storage on FTP server */
     err = FileX_init();
-    HANDLE_API_FAILURE_IF_FAIL(err,FX_SUCCESS,"FileX_init Failed\r\n")
+    HANDLE_API_FAILURE_IF_FAIL(err,FX_SUCCESS,"FileX_init Failed\r\n");
 
     /* Initialize network set up for FTP server */
     network_init();
@@ -86,10 +86,10 @@ void ftp_server_thread_entry(void)
 
     /* Start FTP Server */
     err = nx_ftp_server_start(&g_ftp_server0);
-    HANDLE_API_FAILURE_IF_FAIL(err,NX_SUCCESS,"nx_ftp_server_start failed")
+    HANDLE_API_FAILURE_IF_FAIL(err,NX_SUCCESS,"nx_ftp_server_start failed");
 
     /* Alert Display message on RTT viewer for user to perform FTP related operations */
-    PRINT_INFO_STR("FTP server started and ready to use !! \r\n")
+    PRINT_INFO_STR("FTP server started and ready to use !! \r\n");
 
     app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_PRINT_MENU, RESET_VALUE, NULL);
 
@@ -104,12 +104,12 @@ void ftp_server_thread_entry(void)
             {
                 /* Filter file length for \r or \n and pass file name to process */
                 err = read_and_display_FileContent(rtt_ip_data);
-                HANDLE_API_FAILURE_IF_FAIL(err,FX_SUCCESS,"Reading file failed, please check file name\r\n")
+                HANDLE_API_FAILURE_IF_FAIL(err,FX_SUCCESS,"Reading file failed, please check file name\r\n");
                 memset(rtt_ip_data,'\0',sizeof(rtt_ip_data));
             }
             else
             {
-                PRINT_ERR_STR("Please provide valid file name\r\n")
+                PRINT_ERR_STR("Please provide valid file name\r\n");
             }
         }
 
@@ -334,7 +334,7 @@ static void g_fx_media0_quick_setup()
                                g_fx_media0_media_memory,
                                G_FX_MEDIA0_MEDIA_MEMORY_SIZE);
 
-    HANDLE_API_FAILURE_IF_FAIL(fx_ret_val,FX_SUCCESS,"fx_media_open Failed\r\n")
+    HANDLE_API_FAILURE_IF_FAIL(fx_ret_val,FX_SUCCESS,"fx_media_open Failed\r\n");
 
     /*
      * Check for FileX media device compatibility
@@ -353,7 +353,7 @@ static void g_fx_media0_quick_setup()
          * hence closing the media and opening it back after formatting is successful"
          */
         fx_ret_val = fx_media_close(&g_fx_media0);
-        HANDLE_API_FAILURE_IF_FAIL(fx_ret_val,FX_SUCCESS,"fx_media_close Failed\r\n")
+        HANDLE_API_FAILURE_IF_FAIL(fx_ret_val,FX_SUCCESS,"fx_media_close Failed\r\n");
 
         /* format the media */
 #if G_FX_MEDIA0_FORMAT_MEDIA
@@ -372,7 +372,7 @@ static void g_fx_media0_quick_setup()
                                      1,                                          // Heads (disk media)
                                      1);                                         // Sectors per track (disk media)
 
-        HANDLE_API_FAILURE_IF_FAIL(fx_ret_val,FX_SUCCESS,"fx_media_format Failed\r\n")
+        HANDLE_API_FAILURE_IF_FAIL(fx_ret_val,FX_SUCCESS,"fx_media_format Failed\r\n");
 #endif
 
         /* Open the media */
@@ -383,7 +383,7 @@ static void g_fx_media0_quick_setup()
                                    g_fx_media0_media_memory,
                                    G_FX_MEDIA0_MEDIA_MEMORY_SIZE);
 
-        HANDLE_API_FAILURE_IF_FAIL(fx_ret_val,FX_SUCCESS,"fx_media_open Failed\r\n")
+        HANDLE_API_FAILURE_IF_FAIL(fx_ret_val,FX_SUCCESS,"fx_media_open Failed\r\n");
     }
 }
 
@@ -463,7 +463,7 @@ static UINT read_and_display_FileContent(CHAR *file_name)
     if (FX_SUCCESS !=err)
            return err;
 
-    PRINT_INFO_STR("file content is")
+    PRINT_INFO_STR("file content is");
     PRINT_INFO_STR(file_read_data);
 
     return FX_SUCCESS;

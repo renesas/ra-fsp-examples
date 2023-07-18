@@ -1,0 +1,549 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html><head>
+<title>Static Call Graph - [.\Objects\wdt_mck_ra6t3_ep.axf]</title></head>
+<body><HR>
+<H1>Static Call Graph for image .\Objects\wdt_mck_ra6t3_ep.axf</H1><HR>
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6190004: Last Updated: Thu May 25 15:54:23 2023
+<BR><P>
+<H3>Maximum Stack Usage =        344 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
+Call chain for Maximum Stack Depth:</H3>
+Reset_Handler &rArr; main &rArr; hal_entry &rArr; timer_start &rArr; SEGGER_RTT_printf &rArr; SEGGER_RTT_vprintf &rArr; _PrintUnsigned &rArr; _StoreChar &rArr; SEGGER_RTT_Write &rArr; SEGGER_RTT_WriteNoLock &rArr; _WriteBlocking
+<P>
+<H3>
+Mutually Recursive functions
+</H3> <LI><a href="#[19]">bsp_prv_software_delay_loop</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[19]">bsp_prv_software_delay_loop</a><BR>
+</UL>
+<P>
+<H3>
+Function Pointers
+</H3><UL>
+ <LI><a href="#[4]">BusFault_Handler</a> from startup.o(.text.Default_Handler) referenced from startup.o(.fixed_vectors)
+ <LI><a href="#[8]">DebugMon_Handler</a> from startup.o(.text.Default_Handler) referenced from startup.o(.fixed_vectors)
+ <LI><a href="#[2]">HardFault_Handler</a> from startup.o(.text.Default_Handler) referenced from startup.o(.fixed_vectors)
+ <LI><a href="#[3]">MemManage_Handler</a> from startup.o(.text.Default_Handler) referenced from startup.o(.fixed_vectors)
+ <LI><a href="#[1]">NMI_Handler</a> from bsp_group_irq.o(.text.NMI_Handler) referenced from startup.o(.fixed_vectors)
+ <LI><a href="#[9]">PendSV_Handler</a> from startup.o(.text.Default_Handler) referenced from startup.o(.fixed_vectors)
+ <LI><a href="#[0]">Reset_Handler</a> from startup.o(.text.Reset_Handler) referenced from startup.o(.fixed_vectors)
+ <LI><a href="#[7]">SVC_Handler</a> from startup.o(.text.Default_Handler) referenced from startup.o(.fixed_vectors)
+ <LI><a href="#[6]">SecureFault_Handler</a> from startup.o(.text.Default_Handler) referenced from startup.o(.fixed_vectors)
+ <LI><a href="#[a]">SysTick_Handler</a> from startup.o(.text.Default_Handler) referenced from startup.o(.fixed_vectors)
+ <LI><a href="#[5]">UsageFault_Handler</a> from startup.o(.text.Default_Handler) referenced from startup.o(.fixed_vectors)
+ <LI><a href="#[d]">ext_irq_callback</a> from ext_irq_setup.o(.text.ext_irq_callback) referenced from common_data.o(.rodata.g_external_irq_cfg)
+ <LI><a href="#[e]">gpt_callback</a> from timer_setup.o(.text.gpt_callback) referenced from hal_data.o(.rodata.g_timer_cfg)
+ <LI><a href="#[b]">gpt_counter_overflow_isr</a> from r_gpt.o(.text.gpt_counter_overflow_isr) referenced from vector_data.o(.application_vectors)
+ <LI><a href="#[c]">r_icu_isr</a> from r_icu.o(.text.r_icu_isr) referenced from vector_data.o(.application_vectors)
+</UL>
+<P>
+<H3>
+Global Symbols
+</H3>
+<P><STRONG><a name="[25]"></a>__aeabi_memcpy</STRONG> (Thumb, 36 bytes, Stack size 0 bytes, memcpya.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[27]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SEGGER_RTT_WriteNoLock
+<LI><a href="#[24]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SEGGER_RTT_ReadNoLock
+<LI><a href="#[28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_WriteBlocking
+</UL>
+
+<P><STRONG><a name="[2f]"></a>__aeabi_memcpy4</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memcpya.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[1f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemInit
+</UL>
+
+<P><STRONG><a name="[49]"></a>__aeabi_memcpy8</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memcpya.o(.text), UNUSED)
+
+<P><STRONG><a name="[10]"></a>__aeabi_memset</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, memseta.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[11]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_memset$wrapper
+<LI><a href="#[f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr
+</UL>
+
+<P><STRONG><a name="[4a]"></a>__aeabi_memset4</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memseta.o(.text), UNUSED)
+
+<P><STRONG><a name="[4b]"></a>__aeabi_memset8</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memseta.o(.text), UNUSED)
+
+<P><STRONG><a name="[f]"></a>__aeabi_memclr</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, memseta.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[10]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memset
+</UL>
+
+<P><STRONG><a name="[2e]"></a>__aeabi_memclr4</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memseta.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[1f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemInit
+<LI><a href="#[22]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_DoInit
+</UL>
+
+<P><STRONG><a name="[4c]"></a>__aeabi_memclr8</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memseta.o(.text), UNUSED)
+
+<P><STRONG><a name="[11]"></a>_memset$wrapper</STRONG> (Thumb, 18 bytes, Stack size 8 bytes, memseta.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[10]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memset
+</UL>
+
+<P><STRONG><a name="[12]"></a>atoi</STRONG> (Thumb, 26 bytes, Stack size 16 bytes, atoi.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = atoi &rArr; strtol &rArr; _strtoul
+</UL>
+<BR>[Calls]<UL><LI><a href="#[14]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strtol
+<LI><a href="#[13]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_errno_addr
+</UL>
+<BR>[Called By]<UL><LI><a href="#[41]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hal_entry
+</UL>
+
+<P><STRONG><a name="[14]"></a>strtol</STRONG> (Thumb, 112 bytes, Stack size 32 bytes, strtol.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = strtol &rArr; _strtoul
+</UL>
+<BR>[Calls]<UL><LI><a href="#[16]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_strtoul
+<LI><a href="#[15]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_ctype_table
+<LI><a href="#[13]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_errno_addr
+</UL>
+<BR>[Called By]<UL><LI><a href="#[12]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;atoi
+</UL>
+
+<P><STRONG><a name="[15]"></a>__rt_ctype_table</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, ctype_o.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[14]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strtol
+</UL>
+
+<P><STRONG><a name="[16]"></a>_strtoul</STRONG> (Thumb, 158 bytes, Stack size 40 bytes, _strtoul.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = _strtoul
+</UL>
+<BR>[Calls]<UL><LI><a href="#[17]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_chval
+<LI><a href="#[13]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_errno_addr
+</UL>
+<BR>[Called By]<UL><LI><a href="#[14]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strtol
+</UL>
+
+<P><STRONG><a name="[17]"></a>_chval</STRONG> (Thumb, 28 bytes, Stack size 0 bytes, _chval.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[16]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_strtoul
+</UL>
+
+<P><STRONG><a name="[4]"></a>BusFault_Handler</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, startup.o(.text.Default_Handler))
+<BR>[Address Reference Count : 1]<UL><LI> startup.o(.fixed_vectors)
+</UL>
+<P><STRONG><a name="[8]"></a>DebugMon_Handler</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, startup.o(.text.Default_Handler))
+<BR>[Address Reference Count : 1]<UL><LI> startup.o(.fixed_vectors)
+</UL>
+<P><STRONG><a name="[4d]"></a>Default_Handler</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, startup.o(.text.Default_Handler), UNUSED)
+
+<P><STRONG><a name="[2]"></a>HardFault_Handler</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, startup.o(.text.Default_Handler))
+<BR>[Address Reference Count : 1]<UL><LI> startup.o(.fixed_vectors)
+</UL>
+<P><STRONG><a name="[3]"></a>MemManage_Handler</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, startup.o(.text.Default_Handler))
+<BR>[Address Reference Count : 1]<UL><LI> startup.o(.fixed_vectors)
+</UL>
+<P><STRONG><a name="[9]"></a>PendSV_Handler</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, startup.o(.text.Default_Handler))
+<BR>[Address Reference Count : 1]<UL><LI> startup.o(.fixed_vectors)
+</UL>
+<P><STRONG><a name="[7]"></a>SVC_Handler</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, startup.o(.text.Default_Handler))
+<BR>[Address Reference Count : 1]<UL><LI> startup.o(.fixed_vectors)
+</UL>
+<P><STRONG><a name="[6]"></a>SecureFault_Handler</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, startup.o(.text.Default_Handler))
+<BR>[Address Reference Count : 1]<UL><LI> startup.o(.fixed_vectors)
+</UL>
+<P><STRONG><a name="[a]"></a>SysTick_Handler</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, startup.o(.text.Default_Handler))
+<BR>[Address Reference Count : 1]<UL><LI> startup.o(.fixed_vectors)
+</UL>
+<P><STRONG><a name="[5]"></a>UsageFault_Handler</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, startup.o(.text.Default_Handler))
+<BR>[Address Reference Count : 1]<UL><LI> startup.o(.fixed_vectors)
+</UL>
+<P><STRONG><a name="[1]"></a>NMI_Handler</STRONG> (Thumb, 54 bytes, Stack size 24 bytes, bsp_group_irq.o(.text.NMI_Handler))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = NMI_Handler
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> startup.o(.fixed_vectors)
+</UL>
+<P><STRONG><a name="[31]"></a>R_BSP_Init_RTC</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, bsp_clocks.o(.text.R_BSP_Init_RTC))
+<BR><BR>[Called By]<UL><LI><a href="#[1f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemInit
+</UL>
+
+<P><STRONG><a name="[32]"></a>R_BSP_RegisterProtectDisable</STRONG> (Thumb, 78 bytes, Stack size 8 bytes, bsp_register_protection.o(.text.R_BSP_RegisterProtectDisable))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = R_BSP_RegisterProtectDisable
+</UL>
+<BR>[Called By]<UL><LI><a href="#[34]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsp_irq_cfg
+<LI><a href="#[1f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemInit
+</UL>
+
+<P><STRONG><a name="[33]"></a>R_BSP_RegisterProtectEnable</STRONG> (Thumb, 82 bytes, Stack size 0 bytes, bsp_register_protection.o(.text.R_BSP_RegisterProtectEnable))
+<BR><BR>[Called By]<UL><LI><a href="#[34]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsp_irq_cfg
+<LI><a href="#[1f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemInit
+</UL>
+
+<P><STRONG><a name="[18]"></a>R_BSP_SoftwareDelay</STRONG> (Thumb, 72 bytes, Stack size 0 bytes, bsp_delay.o(.text.R_BSP_SoftwareDelay))
+<BR><BR>[Calls]<UL><LI><a href="#[19]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsp_prv_software_delay_loop
+</UL>
+<BR>[Called By]<UL><LI><a href="#[36]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsp_vbatt_init
+</UL>
+
+<P><STRONG><a name="[1a]"></a>R_BSP_WarmStart</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, hal_entry.o(.text.R_BSP_WarmStart))
+<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = R_BSP_WarmStart &rArr; R_IOPORT_Open &rArr; r_ioport_pins_config &rArr; bsp_vbatt_init
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;R_IOPORT_Open
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemInit
+</UL>
+
+<P><STRONG><a name="[42]"></a>R_FSP_VersionGet</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, bsp_common.o(.text.R_FSP_VersionGet))
+<BR><BR>[Called By]<UL><LI><a href="#[41]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hal_entry
+</UL>
+
+<P><STRONG><a name="[38]"></a>R_GPT_Close</STRONG> (Thumb, 174 bytes, Stack size 8 bytes, r_gpt.o(.text.R_GPT_Close))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = R_GPT_Close
+</UL>
+<BR>[Called By]<UL><LI><a href="#[37]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;deinit_gpt_module
+</UL>
+
+<P><STRONG><a name="[1c]"></a>R_GPT_Open</STRONG> (Thumb, 142 bytes, Stack size 16 bytes, r_gpt.o(.text.R_GPT_Open))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = R_GPT_Open &rArr; gpt_hardware_initialize
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gpt_hardware_initialize
+</UL>
+<BR>[Called By]<UL><LI><a href="#[43]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_gpt_module
+</UL>
+
+<P><STRONG><a name="[48]"></a>R_GPT_Start</STRONG> (Thumb, 32 bytes, Stack size 0 bytes, r_gpt.o(.text.R_GPT_Start))
+<BR><BR>[Called By]<UL><LI><a href="#[46]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;timer_start
+</UL>
+
+<P><STRONG><a name="[3d]"></a>R_GPT_Stop</STRONG> (Thumb, 32 bytes, Stack size 0 bytes, r_gpt.o(.text.R_GPT_Stop))
+<BR><BR>[Called By]<UL><LI><a href="#[d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ext_irq_callback
+</UL>
+
+<P><STRONG><a name="[3a]"></a>R_ICU_ExternalIrqClose</STRONG> (Thumb, 86 bytes, Stack size 0 bytes, r_icu.o(.text.R_ICU_ExternalIrqClose))
+<BR><BR>[Called By]<UL><LI><a href="#[39]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;deinit_icu_module
+</UL>
+
+<P><STRONG><a name="[3c]"></a>R_ICU_ExternalIrqEnable</STRONG> (Thumb, 98 bytes, Stack size 0 bytes, r_icu.o(.text.R_ICU_ExternalIrqEnable))
+<BR><BR>[Called By]<UL><LI><a href="#[3b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;enable_icu_module
+</UL>
+
+<P><STRONG><a name="[47]"></a>R_ICU_ExternalIrqOpen</STRONG> (Thumb, 164 bytes, Stack size 16 bytes, r_icu.o(.text.R_ICU_ExternalIrqOpen))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = R_ICU_ExternalIrqOpen
+</UL>
+<BR>[Called By]<UL><LI><a href="#[44]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_icu_module
+</UL>
+
+<P><STRONG><a name="[1b]"></a>R_IOPORT_Open</STRONG> (Thumb, 56 bytes, Stack size 8 bytes, r_ioport.o(.text.R_IOPORT_Open))
+<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = R_IOPORT_Open &rArr; r_ioport_pins_config &rArr; bsp_vbatt_init
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;r_ioport_pins_config
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;R_BSP_WarmStart
+</UL>
+
+<P><STRONG><a name="[3f]"></a>R_IOPORT_PinWrite</STRONG> (Thumb, 72 bytes, Stack size 0 bytes, r_ioport.o(.text.R_IOPORT_PinWrite))
+<BR><BR>[Called By]<UL><LI><a href="#[e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gpt_callback
+<LI><a href="#[41]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hal_entry
+</UL>
+
+<P><STRONG><a name="[45]"></a>R_WDT_Open</STRONG> (Thumb, 134 bytes, Stack size 16 bytes, r_wdt.o(.text.R_WDT_Open))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = R_WDT_Open
+</UL>
+<BR>[Called By]<UL><LI><a href="#[41]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hal_entry
+</UL>
+
+<P><STRONG><a name="[3e]"></a>R_WDT_Refresh</STRONG> (Thumb, 42 bytes, Stack size 0 bytes, r_wdt.o(.text.R_WDT_Refresh))
+<BR><BR>[Called By]<UL><LI><a href="#[e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gpt_callback
+</UL>
+
+<P><STRONG><a name="[0]"></a>Reset_Handler</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, startup.o(.text.Reset_Handler))
+<BR><BR>[Stack]<UL><LI>Max Depth = 344<LI>Call Chain = Reset_Handler &rArr; main &rArr; hal_entry &rArr; timer_start &rArr; SEGGER_RTT_printf &rArr; SEGGER_RTT_vprintf &rArr; _PrintUnsigned &rArr; _StoreChar &rArr; SEGGER_RTT_Write &rArr; SEGGER_RTT_WriteNoLock &rArr; _WriteBlocking
+</UL>
+<BR>[Calls]<UL><LI><a href="#[20]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<LI><a href="#[1f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemInit
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> startup.o(.fixed_vectors)
+</UL>
+<P><STRONG><a name="[21]"></a>SEGGER_RTT_HasKey</STRONG> (Thumb, 30 bytes, Stack size 8 bytes, segger_rtt.o(.text.SEGGER_RTT_HasKey))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = SEGGER_RTT_HasKey &rArr; _DoInit
+</UL>
+<BR>[Calls]<UL><LI><a href="#[22]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_DoInit
+</UL>
+<BR>[Called By]<UL><LI><a href="#[41]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hal_entry
+</UL>
+
+<P><STRONG><a name="[23]"></a>SEGGER_RTT_Read</STRONG> (Thumb, 28 bytes, Stack size 8 bytes, segger_rtt.o(.text.SEGGER_RTT_Read))
+<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = SEGGER_RTT_Read &rArr; SEGGER_RTT_ReadNoLock &rArr; _DoInit
+</UL>
+<BR>[Calls]<UL><LI><a href="#[24]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SEGGER_RTT_ReadNoLock
+</UL>
+<BR>[Called By]<UL><LI><a href="#[41]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hal_entry
+</UL>
+
+<P><STRONG><a name="[24]"></a>SEGGER_RTT_ReadNoLock</STRONG> (Thumb, 128 bytes, Stack size 32 bytes, segger_rtt.o(.text.SEGGER_RTT_ReadNoLock))
+<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = SEGGER_RTT_ReadNoLock &rArr; _DoInit
+</UL>
+<BR>[Calls]<UL><LI><a href="#[25]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
+<LI><a href="#[22]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_DoInit
+</UL>
+<BR>[Called By]<UL><LI><a href="#[23]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SEGGER_RTT_Read
+</UL>
+
+<P><STRONG><a name="[26]"></a>SEGGER_RTT_Write</STRONG> (Thumb, 56 bytes, Stack size 24 bytes, segger_rtt.o(.text.SEGGER_RTT_Write))
+<BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = SEGGER_RTT_Write &rArr; SEGGER_RTT_WriteNoLock &rArr; _WriteBlocking
+</UL>
+<BR>[Calls]<UL><LI><a href="#[27]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SEGGER_RTT_WriteNoLock
+<LI><a href="#[22]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_DoInit
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SEGGER_RTT_vprintf
+<LI><a href="#[2b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_StoreChar
+</UL>
+
+<P><STRONG><a name="[27]"></a>SEGGER_RTT_WriteNoLock</STRONG> (Thumb, 250 bytes, Stack size 32 bytes, segger_rtt.o(.text.SEGGER_RTT_WriteNoLock))
+<BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = SEGGER_RTT_WriteNoLock &rArr; _WriteBlocking
+</UL>
+<BR>[Calls]<UL><LI><a href="#[25]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
+<LI><a href="#[28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_WriteBlocking
+</UL>
+<BR>[Called By]<UL><LI><a href="#[26]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SEGGER_RTT_Write
+</UL>
+
+<P><STRONG><a name="[29]"></a>SEGGER_RTT_printf</STRONG> (Thumb, 30 bytes, Stack size 24 bytes, segger_rtt_printf.o(.text.SEGGER_RTT_printf))
+<BR><BR>[Stack]<UL><LI>Max Depth = 304<LI>Call Chain = SEGGER_RTT_printf &rArr; SEGGER_RTT_vprintf &rArr; _PrintUnsigned &rArr; _StoreChar &rArr; SEGGER_RTT_Write &rArr; SEGGER_RTT_WriteNoLock &rArr; _WriteBlocking
+</UL>
+<BR>[Calls]<UL><LI><a href="#[2a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SEGGER_RTT_vprintf
+</UL>
+<BR>[Called By]<UL><LI><a href="#[e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gpt_callback
+<LI><a href="#[46]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;timer_start
+<LI><a href="#[37]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;deinit_gpt_module
+<LI><a href="#[43]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_gpt_module
+<LI><a href="#[41]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hal_entry
+<LI><a href="#[d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ext_irq_callback
+<LI><a href="#[39]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;deinit_icu_module
+<LI><a href="#[3b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;enable_icu_module
+<LI><a href="#[44]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_icu_module
+</UL>
+
+<P><STRONG><a name="[2a]"></a>SEGGER_RTT_vprintf</STRONG> (Thumb, 720 bytes, Stack size 144 bytes, segger_rtt_printf.o(.text.SEGGER_RTT_vprintf))
+<BR><BR>[Stack]<UL><LI>Max Depth = 280<LI>Call Chain = SEGGER_RTT_vprintf &rArr; _PrintUnsigned &rArr; _StoreChar &rArr; SEGGER_RTT_Write &rArr; SEGGER_RTT_WriteNoLock &rArr; _WriteBlocking
+</UL>
+<BR>[Calls]<UL><LI><a href="#[2c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_PrintUnsigned
+<LI><a href="#[2b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_StoreChar
+<LI><a href="#[26]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SEGGER_RTT_Write
+</UL>
+<BR>[Called By]<UL><LI><a href="#[29]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SEGGER_RTT_printf
+</UL>
+
+<P><STRONG><a name="[30]"></a>SystemCoreClockUpdate</STRONG> (Thumb, 44 bytes, Stack size 0 bytes, bsp_clocks.o(.text.SystemCoreClockUpdate))
+<BR><BR>[Called By]<UL><LI><a href="#[1f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemInit
+</UL>
+
+<P><STRONG><a name="[1f]"></a>SystemInit</STRONG> (Thumb, 240 bytes, Stack size 16 bytes, system.o(.text.SystemInit))
+<BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = SystemInit &rArr; R_BSP_WarmStart &rArr; R_IOPORT_Open &rArr; r_ioport_pins_config &rArr; bsp_vbatt_init
+</UL>
+<BR>[Calls]<UL><LI><a href="#[2e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
+<LI><a href="#[2f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy4
+<LI><a href="#[34]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsp_irq_cfg
+<LI><a href="#[33]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;R_BSP_RegisterProtectEnable
+<LI><a href="#[32]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;R_BSP_RegisterProtectDisable
+<LI><a href="#[31]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;R_BSP_Init_RTC
+<LI><a href="#[30]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemCoreClockUpdate
+<LI><a href="#[2d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsp_clock_init
+<LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsp_init
+<LI><a href="#[1a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;R_BSP_WarmStart
+</UL>
+<BR>[Called By]<UL><LI><a href="#[0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Reset_Handler
+</UL>
+
+<P><STRONG><a name="[2d]"></a>bsp_clock_init</STRONG> (Thumb, 236 bytes, Stack size 16 bytes, bsp_clocks.o(.text.bsp_clock_init))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = bsp_clock_init
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemInit
+</UL>
+
+<P><STRONG><a name="[35]"></a>bsp_init</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, board_init.o(.text.bsp_init))
+<BR><BR>[Called By]<UL><LI><a href="#[1f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemInit
+</UL>
+
+<P><STRONG><a name="[34]"></a>bsp_irq_cfg</STRONG> (Thumb, 146 bytes, Stack size 32 bytes, bsp_irq.o(.text.bsp_irq_cfg))
+<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = bsp_irq_cfg &rArr; R_BSP_RegisterProtectDisable
+</UL>
+<BR>[Calls]<UL><LI><a href="#[33]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;R_BSP_RegisterProtectEnable
+<LI><a href="#[32]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;R_BSP_RegisterProtectDisable
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemInit
+</UL>
+
+<P><STRONG><a name="[19]"></a>bsp_prv_software_delay_loop</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, bsp_delay.o(.text.bsp_prv_software_delay_loop))
+<BR><BR>[Calls]<UL><LI><a href="#[19]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsp_prv_software_delay_loop
+</UL>
+<BR>[Called By]<UL><LI><a href="#[19]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsp_prv_software_delay_loop
+<LI><a href="#[18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;R_BSP_SoftwareDelay
+</UL>
+
+<P><STRONG><a name="[37]"></a>deinit_gpt_module</STRONG> (Thumb, 40 bytes, Stack size 8 bytes, timer_setup.o(.text.deinit_gpt_module))
+<BR><BR>[Stack]<UL><LI>Max Depth = 312<LI>Call Chain = deinit_gpt_module &rArr; SEGGER_RTT_printf &rArr; SEGGER_RTT_vprintf &rArr; _PrintUnsigned &rArr; _StoreChar &rArr; SEGGER_RTT_Write &rArr; SEGGER_RTT_WriteNoLock &rArr; _WriteBlocking
+</UL>
+<BR>[Calls]<UL><LI><a href="#[38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;R_GPT_Close
+<LI><a href="#[29]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SEGGER_RTT_printf
+</UL>
+<BR>[Called By]<UL><LI><a href="#[41]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hal_entry
+</UL>
+
+<P><STRONG><a name="[39]"></a>deinit_icu_module</STRONG> (Thumb, 40 bytes, Stack size 8 bytes, ext_irq_setup.o(.text.deinit_icu_module))
+<BR><BR>[Stack]<UL><LI>Max Depth = 312<LI>Call Chain = deinit_icu_module &rArr; SEGGER_RTT_printf &rArr; SEGGER_RTT_vprintf &rArr; _PrintUnsigned &rArr; _StoreChar &rArr; SEGGER_RTT_Write &rArr; SEGGER_RTT_WriteNoLock &rArr; _WriteBlocking
+</UL>
+<BR>[Calls]<UL><LI><a href="#[3a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;R_ICU_ExternalIrqClose
+<LI><a href="#[29]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SEGGER_RTT_printf
+</UL>
+<BR>[Called By]<UL><LI><a href="#[41]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hal_entry
+</UL>
+
+<P><STRONG><a name="[3b]"></a>enable_icu_module</STRONG> (Thumb, 40 bytes, Stack size 8 bytes, ext_irq_setup.o(.text.enable_icu_module))
+<BR><BR>[Stack]<UL><LI>Max Depth = 312<LI>Call Chain = enable_icu_module &rArr; SEGGER_RTT_printf &rArr; SEGGER_RTT_vprintf &rArr; _PrintUnsigned &rArr; _StoreChar &rArr; SEGGER_RTT_Write &rArr; SEGGER_RTT_WriteNoLock &rArr; _WriteBlocking
+</UL>
+<BR>[Calls]<UL><LI><a href="#[3c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;R_ICU_ExternalIrqEnable
+<LI><a href="#[29]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SEGGER_RTT_printf
+</UL>
+<BR>[Called By]<UL><LI><a href="#[41]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hal_entry
+</UL>
+
+<P><STRONG><a name="[d]"></a>ext_irq_callback</STRONG> (Thumb, 52 bytes, Stack size 8 bytes, ext_irq_setup.o(.text.ext_irq_callback))
+<BR><BR>[Stack]<UL><LI>Max Depth = 312<LI>Call Chain = ext_irq_callback &rArr; SEGGER_RTT_printf &rArr; SEGGER_RTT_vprintf &rArr; _PrintUnsigned &rArr; _StoreChar &rArr; SEGGER_RTT_Write &rArr; SEGGER_RTT_WriteNoLock &rArr; _WriteBlocking
+</UL>
+<BR>[Calls]<UL><LI><a href="#[3d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;R_GPT_Stop
+<LI><a href="#[29]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SEGGER_RTT_printf
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> common_data.o(.rodata.g_external_irq_cfg)
+</UL>
+<P><STRONG><a name="[e]"></a>gpt_callback</STRONG> (Thumb, 124 bytes, Stack size 8 bytes, timer_setup.o(.text.gpt_callback))
+<BR><BR>[Stack]<UL><LI>Max Depth = 312<LI>Call Chain = gpt_callback &rArr; SEGGER_RTT_printf &rArr; SEGGER_RTT_vprintf &rArr; _PrintUnsigned &rArr; _StoreChar &rArr; SEGGER_RTT_Write &rArr; SEGGER_RTT_WriteNoLock &rArr; _WriteBlocking
+</UL>
+<BR>[Calls]<UL><LI><a href="#[3e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;R_WDT_Refresh
+<LI><a href="#[3f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;R_IOPORT_PinWrite
+<LI><a href="#[29]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SEGGER_RTT_printf
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> hal_data.o(.rodata.g_timer_cfg)
+</UL>
+<P><STRONG><a name="[b]"></a>gpt_counter_overflow_isr</STRONG> (Thumb, 172 bytes, Stack size 24 bytes, r_gpt.o(.text.gpt_counter_overflow_isr))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = gpt_counter_overflow_isr
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> vector_data.o(.application_vectors)
+</UL>
+<P><STRONG><a name="[41]"></a>hal_entry</STRONG> (Thumb, 688 bytes, Stack size 24 bytes, hal_entry.o(.text.hal_entry))
+<BR><BR>[Stack]<UL><LI>Max Depth = 336<LI>Call Chain = hal_entry &rArr; timer_start &rArr; SEGGER_RTT_printf &rArr; SEGGER_RTT_vprintf &rArr; _PrintUnsigned &rArr; _StoreChar &rArr; SEGGER_RTT_Write &rArr; SEGGER_RTT_WriteNoLock &rArr; _WriteBlocking
+</UL>
+<BR>[Calls]<UL><LI><a href="#[12]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;atoi
+<LI><a href="#[46]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;timer_start
+<LI><a href="#[45]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;R_WDT_Open
+<LI><a href="#[23]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SEGGER_RTT_Read
+<LI><a href="#[21]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SEGGER_RTT_HasKey
+<LI><a href="#[37]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;deinit_gpt_module
+<LI><a href="#[43]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_gpt_module
+<LI><a href="#[3f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;R_IOPORT_PinWrite
+<LI><a href="#[42]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;R_FSP_VersionGet
+<LI><a href="#[39]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;deinit_icu_module
+<LI><a href="#[3b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;enable_icu_module
+<LI><a href="#[29]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SEGGER_RTT_printf
+<LI><a href="#[44]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_icu_module
+</UL>
+<BR>[Called By]<UL><LI><a href="#[20]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[43]"></a>init_gpt_module</STRONG> (Thumb, 48 bytes, Stack size 8 bytes, timer_setup.o(.text.init_gpt_module))
+<BR><BR>[Stack]<UL><LI>Max Depth = 312<LI>Call Chain = init_gpt_module &rArr; SEGGER_RTT_printf &rArr; SEGGER_RTT_vprintf &rArr; _PrintUnsigned &rArr; _StoreChar &rArr; SEGGER_RTT_Write &rArr; SEGGER_RTT_WriteNoLock &rArr; _WriteBlocking
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;R_GPT_Open
+<LI><a href="#[29]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SEGGER_RTT_printf
+</UL>
+<BR>[Called By]<UL><LI><a href="#[41]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hal_entry
+</UL>
+
+<P><STRONG><a name="[44]"></a>init_icu_module</STRONG> (Thumb, 48 bytes, Stack size 8 bytes, ext_irq_setup.o(.text.init_icu_module))
+<BR><BR>[Stack]<UL><LI>Max Depth = 312<LI>Call Chain = init_icu_module &rArr; SEGGER_RTT_printf &rArr; SEGGER_RTT_vprintf &rArr; _PrintUnsigned &rArr; _StoreChar &rArr; SEGGER_RTT_Write &rArr; SEGGER_RTT_WriteNoLock &rArr; _WriteBlocking
+</UL>
+<BR>[Calls]<UL><LI><a href="#[29]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SEGGER_RTT_printf
+<LI><a href="#[47]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;R_ICU_ExternalIrqOpen
+</UL>
+<BR>[Called By]<UL><LI><a href="#[41]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hal_entry
+</UL>
+
+<P><STRONG><a name="[20]"></a>main</STRONG> (Thumb, 10 bytes, Stack size 8 bytes, main.o(.text.main))
+<BR><BR>[Stack]<UL><LI>Max Depth = 344<LI>Call Chain = main &rArr; hal_entry &rArr; timer_start &rArr; SEGGER_RTT_printf &rArr; SEGGER_RTT_vprintf &rArr; _PrintUnsigned &rArr; _StoreChar &rArr; SEGGER_RTT_Write &rArr; SEGGER_RTT_WriteNoLock &rArr; _WriteBlocking
+</UL>
+<BR>[Calls]<UL><LI><a href="#[41]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hal_entry
+</UL>
+<BR>[Called By]<UL><LI><a href="#[0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Reset_Handler
+</UL>
+
+<P><STRONG><a name="[c]"></a>r_icu_isr</STRONG> (Thumb, 114 bytes, Stack size 24 bytes, r_icu.o(.text.r_icu_isr))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = r_icu_isr
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> vector_data.o(.application_vectors)
+</UL>
+<P><STRONG><a name="[46]"></a>timer_start</STRONG> (Thumb, 40 bytes, Stack size 8 bytes, timer_setup.o(.text.timer_start))
+<BR><BR>[Stack]<UL><LI>Max Depth = 312<LI>Call Chain = timer_start &rArr; SEGGER_RTT_printf &rArr; SEGGER_RTT_vprintf &rArr; _PrintUnsigned &rArr; _StoreChar &rArr; SEGGER_RTT_Write &rArr; SEGGER_RTT_WriteNoLock &rArr; _WriteBlocking
+</UL>
+<BR>[Calls]<UL><LI><a href="#[48]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;R_GPT_Start
+<LI><a href="#[29]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SEGGER_RTT_printf
+</UL>
+<BR>[Called By]<UL><LI><a href="#[41]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hal_entry
+</UL>
+
+<P><STRONG><a name="[13]"></a>__aeabi_errno_addr</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, errno.o(i.__aeabi_errno_addr))
+<BR><BR>[Called By]<UL><LI><a href="#[16]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_strtoul
+<LI><a href="#[14]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strtol
+<LI><a href="#[12]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;atoi
+</UL>
+
+<P><STRONG><a name="[4e]"></a>__rt_errno_addr</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, errno.o(i.__aeabi_errno_addr), UNUSED)
+<P>
+<H3>
+Local Symbols
+</H3>
+<P><STRONG><a name="[22]"></a>_DoInit</STRONG> (Thumb, 108 bytes, Stack size 8 bytes, segger_rtt.o(.text._DoInit))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = _DoInit
+</UL>
+<BR>[Calls]<UL><LI><a href="#[2e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
+</UL>
+<BR>[Called By]<UL><LI><a href="#[26]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SEGGER_RTT_Write
+<LI><a href="#[24]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SEGGER_RTT_ReadNoLock
+<LI><a href="#[21]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SEGGER_RTT_HasKey
+</UL>
+
+<P><STRONG><a name="[28]"></a>_WriteBlocking</STRONG> (Thumb, 116 bytes, Stack size 32 bytes, segger_rtt.o(.text._WriteBlocking))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = _WriteBlocking
+</UL>
+<BR>[Calls]<UL><LI><a href="#[25]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
+</UL>
+<BR>[Called By]<UL><LI><a href="#[27]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SEGGER_RTT_WriteNoLock
+</UL>
+
+<P><STRONG><a name="[2b]"></a>_StoreChar</STRONG> (Thumb, 64 bytes, Stack size 8 bytes, segger_rtt_printf.o(.text._StoreChar))
+<BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = _StoreChar &rArr; SEGGER_RTT_Write &rArr; SEGGER_RTT_WriteNoLock &rArr; _WriteBlocking
+</UL>
+<BR>[Calls]<UL><LI><a href="#[26]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SEGGER_RTT_Write
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SEGGER_RTT_vprintf
+<LI><a href="#[2c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_PrintUnsigned
+</UL>
+
+<P><STRONG><a name="[2c]"></a>_PrintUnsigned</STRONG> (Thumb, 232 bytes, Stack size 40 bytes, segger_rtt_printf.o(.text._PrintUnsigned))
+<BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = _PrintUnsigned &rArr; _StoreChar &rArr; SEGGER_RTT_Write &rArr; SEGGER_RTT_WriteNoLock &rArr; _WriteBlocking
+</UL>
+<BR>[Calls]<UL><LI><a href="#[2b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_StoreChar
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SEGGER_RTT_vprintf
+</UL>
+
+<P><STRONG><a name="[1d]"></a>gpt_hardware_initialize</STRONG> (Thumb, 246 bytes, Stack size 16 bytes, r_gpt.o(.text.gpt_hardware_initialize))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = gpt_hardware_initialize
+</UL>
+<BR>[Calls]<UL><LI><a href="#[40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;r_gpt_enable_irq
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;R_GPT_Open
+</UL>
+
+<P><STRONG><a name="[40]"></a>r_gpt_enable_irq</STRONG> (Thumb, 88 bytes, Stack size 0 bytes, r_gpt.o(.text.r_gpt_enable_irq))
+<BR><BR>[Called By]<UL><LI><a href="#[1d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gpt_hardware_initialize
+</UL>
+
+<P><STRONG><a name="[1e]"></a>r_ioport_pins_config</STRONG> (Thumb, 196 bytes, Stack size 16 bytes, r_ioport.o(.text.r_ioport_pins_config))
+<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = r_ioport_pins_config &rArr; bsp_vbatt_init
+</UL>
+<BR>[Calls]<UL><LI><a href="#[36]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsp_vbatt_init
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;R_IOPORT_Open
+</UL>
+
+<P><STRONG><a name="[36]"></a>bsp_vbatt_init</STRONG> (Thumb, 120 bytes, Stack size 24 bytes, r_ioport.o(.text.bsp_vbatt_init))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = bsp_vbatt_init
+</UL>
+<BR>[Calls]<UL><LI><a href="#[18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;R_BSP_SoftwareDelay
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;r_ioport_pins_config
+</UL>
+<P>
+<H3>
+Undefined Global Symbols
+</H3><HR></body></html>

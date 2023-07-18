@@ -48,10 +48,10 @@
 #define BYTES_RECEIVED_ZERO  (0)
 
 /* SPI buffer length */
-#define BUFF_LEN 32
+#define BUFF_LEN (32)
 
 /* Max wait count for time-out operation */
-#define MAX_COUNT 0xFFFFFF
+#define MAX_COUNT (0xFFFFFF)
 
 /* Min wait count for time-out operation */
 #define MIN_COUNT (0)
@@ -60,7 +60,7 @@
 #define BUFF_EQUAL (0)
 
 /* MACRO for null character */
-#define NULL_CHAR   '\0'
+#define NULL_CHAR   ('\0')
 
 /* Macro to convert 32 bits into bytes */
 #define BITS_TO_BYTES   (4U)

@@ -50,7 +50,7 @@ static uint32_t g_codec_buffer [IMAGE_SIZE] BSP_ALIGN_VARIABLE(8);
 
 
 /* 5-bit to 8-bit LUT used in rgb conversion process */
-const uint8_t lut_32[] =
+const uint8_t g_lut_32[] =
 {
  0,   8,   16,  25,  33,  41,  49,  58,
  66,  74,  82,  90,  99,  107, 115, 123,
@@ -59,7 +59,7 @@ const uint8_t lut_32[] =
 };
 
 /* 6-bit to 8-bit LUT used in rgb conversion process  */
-const uint8_t lut_64[] =
+const uint8_t g_lut_64[] =
 {
  0,   4,   8,   12,  16,  20,  24,  28,
  32,  36,  40,  45,  49,  53,  57,  61,
@@ -326,12 +326,12 @@ static void bitmap_rgb2ycbcr (uint32_t * out, uint8_t * in, uint32_t len, pixel_
         /* Convert RGB565 data to RGB888 */
         if (PIXEL_FORMAT_RGB565 == format)
         {
-            r0 = lut_32[r0];
-            g0 = lut_64[g0];
-            b0 = lut_32[b0];
-            r1 = lut_32[r1];
-            g1 = lut_64[g1];
-            b1 = lut_32[b1];
+            r0 = g_lut_32[r0];
+            g0 = g_lut_64[g0];
+            b0 = g_lut_32[b0];
+            r1 = g_lut_32[r1];
+            g1 = g_lut_64[g1];
+            b1 = g_lut_32[b1];
         }
         /* Calculate Y'CbCr 4:4:4 values for the two pixels */
         /* Algorithm based on method shown here: https://sistenix.com/rgb2ycbcr.html */

@@ -30,18 +30,18 @@
 
 #define USR_TEST_DOMAIN_NAME "www.freertos.org"
 #define USR_TEST_PING_IP "172.217.160.174"
-#define USR_PING_COUNT 100
+#define USR_PING_COUNT (100)
 
-#define SUCCESS 0
-#define PRINT_UP_MSG_DISABLE 0x01
-#define PRINT_DOWN_MSG_DISABLE 0x02
-#define PRINT_NWK_USR_MSG_DISABLE 0x04
+#define SUCCESS (0)
+#define PRINT_UP_MSG_DISABLE (0x01)
+#define PRINT_DOWN_MSG_DISABLE (0x02)
+#define PRINT_NWK_USR_MSG_DISABLE (0x04)
 
 
-#define ETHERNET_LINK_DOWN 0x01
-#define ETHERNET_LINK_UP 0x00
-#define IP_LINK_DOWN 0x02
-#define IP_LINK_UP 0x00
+#define ETHERNET_LINK_DOWN (0x01)
+#define ETHERNET_LINK_UP (0x00)
+#define IP_LINK_DOWN (0x02)
+#define IP_LINK_UP (0x00)
 
 #if( ipconfigUSE_DHCP != 0 )
     void updateDhcpResponseToUsr(void);

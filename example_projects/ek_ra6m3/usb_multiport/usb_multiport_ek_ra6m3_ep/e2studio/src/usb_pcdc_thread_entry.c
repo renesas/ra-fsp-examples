@@ -35,10 +35,10 @@ uint8_t g_usb_module_number  = RESET_VALUE;         /* variable for module numbe
 usb_class_t g_usb_class_type = RESET_VALUE;         /* variable for class type */
 uint8_t g_buf[READ_BUF_SIZE] = {RESET_VALUE};       /* buffer to write data to terminal */
 uint8_t g_readbuf[READ_BUF_SIZE]  = {RESET_VALUE};  /* buffer to read data from terminal */
-uint8_t g_writeBuf[READ_BUF_SIZE] = {RESET_VALUE};  /* data to send from queue */
-uint8_t g_tempBuf[READ_BUF_SIZE]  = {RESET_VALUE};  /* temp buffer */
-volatile bool b_overflow = false;                   /* flag for overflow */
-uint16_t g_bytestoWrite = RESET_VALUE;              /* variable to count bytes to write on file */
+uint8_t g_writebuf[READ_BUF_SIZE] = {RESET_VALUE};  /* data to send from queue */
+uint8_t g_tempbuf[READ_BUF_SIZE]  = {RESET_VALUE};  /* temp buffer */
+volatile bool g_overflow = false;                   /* flag for overflow */
+uint16_t g_bytes_to_write = RESET_VALUE;              /* variable to count bytes to write on file */
 
 /* Static variable */
 static volatile usb_event_info_t * p_usb_pcdc_event = NULL;
@@ -48,12 +48,12 @@ static usb_pcdc_linecoding_t g_line_coding;
 static void handle_error(fsp_err_t err, char * err_str);
 
 /* extern variable */
-extern bool b_writetoUSB;
+extern bool g_write_to_usb;
 extern uint8_t g_apl_device[];
 extern uint8_t g_apl_configuration[];
 extern uint8_t g_apl_hs_configuration[];
 extern uint8_t g_apl_qualifier_descriptor[];
-extern uint8_t *g_apl_string_table[];
+extern uint8_t *gp_apl_string_table[];
 
 /* USB descriptor */
 const usb_descriptor_t g_usb_descriptor =
@@ -62,7 +62,7 @@ const usb_descriptor_t g_usb_descriptor =
  g_apl_configuration,            /* Pointer to the configuration descriptor for Full-speed */
  g_apl_hs_configuration,         /* Pointer to the configuration descriptor for Hi-speed */
  g_apl_qualifier_descriptor,     /* Pointer to the qualifier descriptor */
- g_apl_string_table,             /* Pointer to the string descriptor table */
+ gp_apl_string_table,             /* Pointer to the string descriptor table */
  NUM_STRING_DESCRIPTOR
 };
 
@@ -97,7 +97,7 @@ void usb_pcdc_thread_entry(void *pvParameters)
         err_queue = xQueueReceive (g_queue_data_from_hmsc, g_buf, (TickType_t) (RESET_VALUE));
         if (pdTRUE == err_queue)
         {
-            APP_PRINT("\r\n   Data from the file is written on to console (Tera term via PCDC)\r\n")
+            APP_PRINT("\r\n   Data from the file is written on to console (Tera term via PCDC)\r\n");
             /* Write data to tera term */
             err = R_USB_Write (&g_basic1_ctrl, g_buf, WRITE_ITEM_SIZE, USB_CLASS_PCDC);
             /* Handle error */
@@ -147,7 +147,7 @@ fsp_err_t process_usb_pcdc_events(void)
             else
             {
                 /* Check for flag status */
-                if (true == b_writetoUSB)
+                if (true == g_write_to_usb)
                 {
                     fillDataBufferandWritetoFile();
                 }
@@ -234,40 +234,40 @@ void fillDataBufferandWritetoFile(void)
             /* Reset the index */
             WriteBufIndex = RESET_VALUE;
             /* Set the flag */
-            b_overflow = true;
+            g_overflow = true;
         }
-        g_writeBuf[WriteBufIndex++] = g_readbuf[RESET_VALUE];
-        g_bytestoWrite++;
+        g_writebuf[WriteBufIndex++] = g_readbuf[RESET_VALUE];
+        g_bytes_to_write++;
         /* Check for Carriage return */
         if (CARRIAGE_RETURN == g_readbuf[RESET_VALUE])
         {
             /* Check for overflow flag */
-            if(true == b_overflow)
+            if(true == g_overflow)
             {
-                g_bytestoWrite = WRITE_ITEM_SIZE;
+                g_bytes_to_write = WRITE_ITEM_SIZE;
                 /* Circular buffer is used. Logic is to arrange array in
                  * old to latest before writing to file */
                 uint16_t tempBufIndex = RESET_VALUE;
                 /* Copy data from WriteBufIndex to end of buf into temp buf*/
                 for(uint16_t cnt = WriteBufIndex; cnt < READ_BUF_SIZE ; cnt++)
                 {
-                    g_tempBuf[tempBufIndex++] = g_writeBuf[cnt];
+                    g_tempbuf[tempBufIndex++] = g_writebuf[cnt];
                 }
                 /* Copy data from 0 to WriteBufIndex into temp buf */
                 for(uint16_t cnt = RESET_VALUE; cnt < WriteBufIndex; cnt++)
                 {
-                    g_tempBuf[tempBufIndex++] = g_writeBuf[cnt];
+                    g_tempbuf[tempBufIndex++] = g_writebuf[cnt];
                 }
                 /* Copy data back to buffer */
-                memcpy(g_writeBuf, g_tempBuf, READ_BUF_SIZE);
+                memcpy(g_writebuf, g_tempbuf, READ_BUF_SIZE);
             }
             /* Send data to hmsc thread by queue */
-            if (pdTRUE == (xQueueSend(g_queue_data_from_pcdc, g_writeBuf, (TickType_t)(RESET_VALUE))))
+            if (pdTRUE == (xQueueSend(g_queue_data_from_pcdc, g_writebuf, (TickType_t)(RESET_VALUE))))
             {
                 /* Reset index and flags */
                 WriteBufIndex = RESET_VALUE;
-                b_overflow = false;
-                b_writetoUSB = false;
+                g_overflow = false;
+                g_write_to_usb = false;
             }
         }
     }

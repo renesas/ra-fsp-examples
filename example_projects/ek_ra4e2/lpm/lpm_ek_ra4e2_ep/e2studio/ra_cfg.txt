@@ -78,7 +78,7 @@ FSP Configuration
     UCLK Disabled
     CANFDCLK Disabled
     CECCLK Disabled
-    I3CCLK Src: MOCO
+    I3CCLK Disabled
     ICLK Div /2
     PCLKA Div /2
     PCLKB Div /4
@@ -100,7 +100,7 @@ FSP Configuration
       P002 62 - ARDUINO_A2 - - Disabled - - "ADC0: AN002; IRQ: IRQ8-DS" - None - - 
       P003 55 GPIO ARDUINO_A4 - - "Input mode" - - "ADC0: AN007; ADC0: PGAVSS000" - I - - 
       P004 61 - ARDUINO_A3 - - Disabled - - "ADC0: AN004; IRQ: IRQ9-DS" - None - - 
-      P005 60 - SW1 - - Disabled - - "ADC0: AN005; IRQ: IRQ10-DS" - None - - 
+      P005 60 IRQ_IRQ10-DS SW1 - IRQ10-DS "IRQ mode" - - "ADC0: AN005; IRQ: IRQ10-DS" - IO - - 
       P006 51 GPIO ARDUINO_D8 - None "Input mode" - - "ADC0: AN006; IRQ: IRQ11-DS" - IO - - 
       P008 50 GPIO ARDUINO_D7 - None "Input mode" - - "ADC0: AN008; IRQ: IRQ12-DS" - IO - - 
       P013 54 - ARDUINO_A5 - - Disabled - - "ADC0: AN011" - None - - 
@@ -109,7 +109,7 @@ FSP Configuration
       P100 48 - I3C_SCL - - Disabled - - "AGT0: AGTIO0; GPT5: GTIOC5B; GPT_POEGA: GTETRGA; I3C/IIC: I3C_SCL; IRQ: IRQ2; SCI0: RXD0; SPI1: MISO1; SSIE: AUDIO_CLK" - None - - 
       P101 47 - I3C_SDA - - Disabled - - "AGT0: AGTEE0; GPT5: GTIOC5A; GPT_POEGB: GTETRGB; I3C/IIC: I3C_SDA; IRQ: IRQ1; SCI0: TXD0; SPI1: MOSI1" - None - - 
       P102 46 GPIO PMOD2_RESET - - "Input mode" - - "ADC0(Digital): ADTRG0; AGT0: AGTO0; CANFD0: CRX0; GPT_OPS: GTOWLO; SCI0: SCK0; SPI1: RSPCK1; SSIE0: SSIBCK0" - IO - - 
-      P103 45 GPIO PMOD2_CTS - - "Input mode" - - "CANFD0: CTX0; GPT_OPS: GTOWUP; SCI0: CTS_RTS0; SPI1: SSLB0; SSIE: SSIFS0; SSIE0: SSILRCK0" - IO - - 
+      P103 45 GPIO PMOD2_CTS - - "Input mode" - - "CANFD0: CTX0; GPT_OPS: GTOWUP; SCI0: CTS_RTS0; SPI1: SSLB0; SSIE0: SSIFS0; SSIE0: SSILRCK0" - IO - - 
       P104 44 GPIO LED2 H None "Output mode (Initial Low)" - - "AGT1: AGTIO1; GPT1: GTIOC1B; GPT_POEGB: GTETRGB; IRQ: IRQ1; SPI1: SSLB1" - IO - - 
       P105 43 GPIO PMOD1_IRQ0_MIKROBUS_INT_ARDUINO_D2 - None "Input mode" - - "GPT1: GTIOC1A; GPT_POEGA: GTETRGA; IRQ: IRQ0; SPI1: SSLB2" - IO - - 
       P106 42 GPIO PMOD2_SS3 - - "Input mode" - - "AGT0: AGTOB0; SPI1: SSLB3" - IO - - 
@@ -124,7 +124,7 @@ FSP Configuration
       P201 26 - - - - Disabled - - "SYSTEM: MD" - None - - 
       P205 23 - - - - Disabled - - "AGT1: AGTO1; CLKOUT: CLKOUT; GPT4: GTIOC4A; GPT_OPS: GTIV; I3C/IIC: SCL0; IRQ: IRQ1-DS; SCI9: CTS_RTS9; SPI0: SSLA3" - None - - 
       P206 22 - - - - Disabled - - "CEC: CECIO; GPT5: GTIOC5B; GPT_OPS: GTIU; I3C/IIC: SDA0; IRQ: IRQ0-DS; SCI9: CTS9; SPI0: MISO0; SSIE0: SSIDATA0" - None - - 
-      P207 21 GPIO LED1 H - "Output mode (Initial Low)" - - "AGT1: AGTIO1; CAC: CACREF; GPT5: GTIOC5A; GPT_OPS: GTIW; SCI9: SCK9; SPI0: MOSI0; SSIE: SSIFS0; SSIE0: SSILRCK0" - IO - - 
+      P207 21 GPIO LED1 H - "Output mode (Initial Low)" - - "AGT1: AGTIO1; CAC: CACREF; GPT5: GTIOC5A; GPT_OPS: GTIW; SCI9: SCK9; SPI0: MOSI0; SSIE0: SSIFS0; SSIE0: SSILRCK0" - IO - - 
       P208 24 - - - - Disabled - - "ADC0(Digital): ADTRG0; GPT_OPS: GTOVLO" - None - - 
       P212 10 CGC_EXTAL - L None "Peripheral mode" - - "AGT1: AGTEE1; CGC: EXTAL; GPT0: GTIOC0B; GPT_POEGD: GTETRGD; IRQ: IRQ3; SCI0: RXD0" - IO - - 
       P213 9 CGC_XTAL - L None "Peripheral mode" - - "CGC: XTAL; GPT0: GTIOC0A; GPT_POEGC: GTETRGC; IRQ: IRQ2; SCI0: TXD0; SSIE: AUDIO_CLK" - IO - - 
@@ -138,7 +138,7 @@ FSP Configuration
       P402 3 - CANFD0_CRX - - Disabled - - "AGT0: AGTIO0; AGT1: AGTIO1; CAC: CACREF; CANFD0: CRX0; GPT: GTADSM1; IRQ: IRQ4-DS; RTC: RTCIC0; SSIE: AUDIO_CLK" - None - - 
       P403 4 GPIO MIKROBUS_PWM_ARDUINO_D9 - None "Input mode" - - "AGT0: AGTIO0; AGT1: AGTIO1; IRQ: IRQ14-DS; RTC: RTCIC1" - IO - - 
       P407 16 - USBFS_VBUS - - Disabled - - "ADC0(Digital): ADTRG0; AGT0: AGTIO0; GPT: GTADSM0; GPT_OPS: GTIV; I3C/IIC: SDA0; RTC: RTCOUT; SSIE0: SSIBCK0; USB FS: USB_VBUS" - None - - 
-      P408 15 IRQ_IRQ7 PMOD1_RESET_MIKROBUS_RESET - IRQ7 "IRQ mode" - - "AGT1: AGTOB1; GPT1: GTIOC1B; GPT_OPS: GTIW; I3C/IIC: SCL0; IRQ: IRQ7; SSIE: AUDIO_CLK" - IO - - 
+      P408 15 - PMOD1_RESET_MIKROBUS_RESET - - Disabled - - "AGT1: AGTOB1; GPT1: GTIOC1B; GPT_OPS: GTIW; I3C/IIC: SCL0; IRQ: IRQ7; SSIE: AUDIO_CLK" - None - - 
       P409 14 GPIO PMOD2_IRQ6_ARDUINO_D5 - None "Input mode" - - "AGT1: AGTOA1; GPT1: GTIOC1A; GPT_OPS: GTOWUP; IRQ: IRQ6" - IO - - 
       P410 13 - PMOD2_RX_MIKROBUS_RX_ARDUINO_D0 - - Disabled - - "GPT_OPS: GTOVLO; IRQ: IRQ5; SCI0: RXD0" - None - - 
       P411 12 - PMOD2_TX_MIKROBUS_TX_ARDUINO_D1 - - Disabled - - "GPT_OPS: GTOVUP; IRQ: IRQ4; SCI0: TXD0" - None - - 
@@ -165,7 +165,7 @@ FSP Configuration
       P002 62 - ARDUINO_A2 - - Disabled - - "ADC0: AN002; IRQ: IRQ8-DS" - None - - 
       P003 55 - ARDUINO_A4 - - Disabled - - "ADC0: AN007; ADC0: PGAVSS000" - I - - 
       P004 61 - ARDUINO_A3 - - Disabled - - "ADC0: AN004; IRQ: IRQ9-DS" - None - - 
-      P005 60 - SW1 - - Disabled - - "ADC0: AN005; IRQ: IRQ10-DS" - None - - 
+      P005 60 - SW1 - None Disabled - - "ADC0: AN005; IRQ: IRQ10-DS" - IO - - 
       P006 51 - ARDUINO_D8 - None Disabled - - "ADC0: AN006; IRQ: IRQ11-DS" - IO - - 
       P008 50 - ARDUINO_D7 - None Disabled - - "ADC0: AN008; IRQ: IRQ12-DS" - IO - - 
       P013 54 - ARDUINO_A5 - - Disabled - - "ADC0: AN011" - None - - 
@@ -174,7 +174,7 @@ FSP Configuration
       P100 48 - I3C_SCL - - Disabled - - "AGT0: AGTIO0; GPT5: GTIOC5B; GPT_POEGA: GTETRGA; I3C/IIC: I3C_SCL; IRQ: IRQ2; SCI0: RXD0; SPI1: MISO1; SSIE: AUDIO_CLK" - None - - 
       P101 47 - I3C_SDA - - Disabled - - "AGT0: AGTEE0; GPT5: GTIOC5A; GPT_POEGB: GTETRGB; I3C/IIC: I3C_SDA; IRQ: IRQ1; SCI0: TXD0; SPI1: MOSI1" - None - - 
       P102 46 - PMOD2_RESET - - Disabled - - "ADC0(Digital): ADTRG0; AGT0: AGTO0; CANFD0: CRX0; GPT_OPS: GTOWLO; SCI0: SCK0; SPI1: RSPCK1; SSIE0: SSIBCK0" - IO - - 
-      P103 45 - PMOD2_CTS - - Disabled - - "CANFD0: CTX0; GPT_OPS: GTOWUP; SCI0: CTS_RTS0; SPI1: SSLB0; SSIE: SSIFS0; SSIE0: SSILRCK0" - IO - - 
+      P103 45 - PMOD2_CTS - - Disabled - - "CANFD0: CTX0; GPT_OPS: GTOWUP; SCI0: CTS_RTS0; SPI1: SSLB0; SSIE0: SSIFS0; SSIE0: SSILRCK0" - IO - - 
       P104 44 - LED2 L None Disabled - - "AGT1: AGTIO1; GPT1: GTIOC1B; GPT_POEGB: GTETRGB; IRQ: IRQ1; SPI1: SSLB1" - IO - - 
       P105 43 - PMOD1_IRQ0_MIKROBUS_INT_ARDUINO_D2 - None Disabled - - "GPT1: GTIOC1A; GPT_POEGA: GTETRGA; IRQ: IRQ0; SPI1: SSLB2" - IO - - 
       P106 42 - PMOD2_SS3 - - Disabled - - "AGT0: AGTOB0; SPI1: SSLB3" - IO - - 
@@ -189,7 +189,7 @@ FSP Configuration
       P201 26 - - - - Disabled - - "SYSTEM: MD" - None - - 
       P205 23 - - - - Disabled - - "AGT1: AGTO1; CLKOUT: CLKOUT; GPT4: GTIOC4A; GPT_OPS: GTIV; I3C/IIC: SCL0; IRQ: IRQ1-DS; SCI9: CTS_RTS9; SPI0: SSLA3" - None - - 
       P206 22 - - - - Disabled - - "CEC: CECIO; GPT5: GTIOC5B; GPT_OPS: GTIU; I3C/IIC: SDA0; IRQ: IRQ0-DS; SCI9: CTS9; SPI0: MISO0; SSIE0: SSIDATA0" - None - - 
-      P207 21 - LED1 L - Disabled - - "AGT1: AGTIO1; CAC: CACREF; GPT5: GTIOC5A; GPT_OPS: GTIW; SCI9: SCK9; SPI0: MOSI0; SSIE: SSIFS0; SSIE0: SSILRCK0" - IO - - 
+      P207 21 - LED1 L - Disabled - - "AGT1: AGTIO1; CAC: CACREF; GPT5: GTIOC5A; GPT_OPS: GTIW; SCI9: SCK9; SPI0: MOSI0; SSIE0: SSIFS0; SSIE0: SSILRCK0" - IO - - 
       P208 24 - - - - Disabled - - "ADC0(Digital): ADTRG0; GPT_OPS: GTOVLO" - None - - 
       P212 10 - - L None Disabled - - "AGT1: AGTEE1; CGC: EXTAL; GPT0: GTIOC0B; GPT_POEGD: GTETRGD; IRQ: IRQ3; SCI0: RXD0" - IO - - 
       P213 9 - - L None Disabled - - "CGC: XTAL; GPT0: GTIOC0A; GPT_POEGC: GTETRGC; IRQ: IRQ2; SCI0: TXD0; SSIE: AUDIO_CLK" - IO - - 
@@ -203,7 +203,7 @@ FSP Configuration
       P402 3 - CANFD0_CRX - - Disabled - - "AGT0: AGTIO0; AGT1: AGTIO1; CAC: CACREF; CANFD0: CRX0; GPT: GTADSM1; IRQ: IRQ4-DS; RTC: RTCIC0; SSIE: AUDIO_CLK" - None - - 
       P403 4 - MIKROBUS_PWM_ARDUINO_D9 - None Disabled - - "AGT0: AGTIO0; AGT1: AGTIO1; IRQ: IRQ14-DS; RTC: RTCIC1" - IO - - 
       P407 16 - USBFS_VBUS - - Disabled - - "ADC0(Digital): ADTRG0; AGT0: AGTIO0; GPT: GTADSM0; GPT_OPS: GTIV; I3C/IIC: SDA0; RTC: RTCOUT; SSIE0: SSIBCK0; USB FS: USB_VBUS" - None - - 
-      P408 15 - PMOD1_RESET_MIKROBUS_RESET - None Disabled - - "AGT1: AGTOB1; GPT1: GTIOC1B; GPT_OPS: GTIW; I3C/IIC: SCL0; IRQ: IRQ7; SSIE: AUDIO_CLK" - IO - - 
+      P408 15 - PMOD1_RESET_MIKROBUS_RESET - - Disabled - - "AGT1: AGTOB1; GPT1: GTIOC1B; GPT_OPS: GTIW; I3C/IIC: SCL0; IRQ: IRQ7; SSIE: AUDIO_CLK" - None - - 
       P409 14 - PMOD2_IRQ6_ARDUINO_D5 - None Disabled - - "AGT1: AGTOA1; GPT1: GTIOC1A; GPT_OPS: GTOWUP; IRQ: IRQ6" - IO - - 
       P410 13 - PMOD2_RX_MIKROBUS_RX_ARDUINO_D0 - - Disabled - - "GPT_OPS: GTOVLO; IRQ: IRQ5; SCI0: RXD0" - None - - 
       P411 12 - PMOD2_TX_MIKROBUS_TX_ARDUINO_D1 - - Disabled - - "GPT_OPS: GTOVUP; IRQ: IRQ4; SCI0: TXD0" - None - - 
@@ -230,7 +230,7 @@ FSP Configuration
       P002 62 - ARDUINO_A2 - - Disabled - - "ADC0: AN002; IRQ: IRQ8-DS" - None - - 
       P003 55 GPIO ARDUINO_A4 - - "Input mode" - - "ADC0: AN007; ADC0: PGAVSS000" - I - - 
       P004 61 - ARDUINO_A3 - - Disabled - - "ADC0: AN004; IRQ: IRQ9-DS" - None - - 
-      P005 60 - SW1 - - Disabled - - "ADC0: AN005; IRQ: IRQ10-DS" - None - - 
+      P005 60 IRQ_IRQ10-DS SW1 - IRQ10-DS "IRQ mode" - - "ADC0: AN005; IRQ: IRQ10-DS" - IO - - 
       P006 51 GPIO ARDUINO_D8 - None "Input mode" - - "ADC0: AN006; IRQ: IRQ11-DS" - IO - - 
       P008 50 GPIO ARDUINO_D7 - None "Input mode" - - "ADC0: AN008; IRQ: IRQ12-DS" - IO - - 
       P013 54 - ARDUINO_A5 - - Disabled - - "ADC0: AN011" - None - - 
@@ -239,7 +239,7 @@ FSP Configuration
       P100 48 - I3C_SCL - - Disabled - - "AGT0: AGTIO0; GPT5: GTIOC5B; GPT_POEGA: GTETRGA; I3C/IIC: I3C_SCL; IRQ: IRQ2; SCI0: RXD0; SPI1: MISO1; SSIE: AUDIO_CLK" - None - - 
       P101 47 - I3C_SDA - - Disabled - - "AGT0: AGTEE0; GPT5: GTIOC5A; GPT_POEGB: GTETRGB; I3C/IIC: I3C_SDA; IRQ: IRQ1; SCI0: TXD0; SPI1: MOSI1" - None - - 
       P102 46 GPIO PMOD2_RESET - - "Input mode" - - "ADC0(Digital): ADTRG0; AGT0: AGTO0; CANFD0: CRX0; GPT_OPS: GTOWLO; SCI0: SCK0; SPI1: RSPCK1; SSIE0: SSIBCK0" - IO - - 
-      P103 45 GPIO PMOD2_CTS - - "Input mode" - - "CANFD0: CTX0; GPT_OPS: GTOWUP; SCI0: CTS_RTS0; SPI1: SSLB0; SSIE: SSIFS0; SSIE0: SSILRCK0" - IO - - 
+      P103 45 GPIO PMOD2_CTS - - "Input mode" - - "CANFD0: CTX0; GPT_OPS: GTOWUP; SCI0: CTS_RTS0; SPI1: SSLB0; SSIE0: SSIFS0; SSIE0: SSILRCK0" - IO - - 
       P104 44 GPIO LED2 H None "Output mode (Initial Low)" - - "AGT1: AGTIO1; GPT1: GTIOC1B; GPT_POEGB: GTETRGB; IRQ: IRQ1; SPI1: SSLB1" - IO - - 
       P105 43 GPIO PMOD1_IRQ0_MIKROBUS_INT_ARDUINO_D2 - None "Input mode" - - "GPT1: GTIOC1A; GPT_POEGA: GTETRGA; IRQ: IRQ0; SPI1: SSLB2" - IO - - 
       P106 42 GPIO PMOD2_SS3 - - "Input mode" - - "AGT0: AGTOB0; SPI1: SSLB3" - IO - - 
@@ -254,7 +254,7 @@ FSP Configuration
       P201 26 - - - - Disabled - - "SYSTEM: MD" - None - - 
       P205 23 - - - - Disabled - - "AGT1: AGTO1; CLKOUT: CLKOUT; GPT4: GTIOC4A; GPT_OPS: GTIV; I3C/IIC: SCL0; IRQ: IRQ1-DS; SCI9: CTS_RTS9; SPI0: SSLA3" - None - - 
       P206 22 - - - - Disabled - - "CEC: CECIO; GPT5: GTIOC5B; GPT_OPS: GTIU; I3C/IIC: SDA0; IRQ: IRQ0-DS; SCI9: CTS9; SPI0: MISO0; SSIE0: SSIDATA0" - None - - 
-      P207 21 GPIO LED1 H - "Output mode (Initial Low)" - - "AGT1: AGTIO1; CAC: CACREF; GPT5: GTIOC5A; GPT_OPS: GTIW; SCI9: SCK9; SPI0: MOSI0; SSIE: SSIFS0; SSIE0: SSILRCK0" - IO - - 
+      P207 21 GPIO LED1 H - "Output mode (Initial Low)" - - "AGT1: AGTIO1; CAC: CACREF; GPT5: GTIOC5A; GPT_OPS: GTIW; SCI9: SCK9; SPI0: MOSI0; SSIE0: SSIFS0; SSIE0: SSILRCK0" - IO - - 
       P208 24 - - - - Disabled - - "ADC0(Digital): ADTRG0; GPT_OPS: GTOVLO" - None - - 
       P212 10 CGC_EXTAL - L None "Peripheral mode" - - "AGT1: AGTEE1; CGC: EXTAL; GPT0: GTIOC0B; GPT_POEGD: GTETRGD; IRQ: IRQ3; SCI0: RXD0" - IO - - 
       P213 9 CGC_XTAL - L None "Peripheral mode" - - "CGC: XTAL; GPT0: GTIOC0A; GPT_POEGC: GTETRGC; IRQ: IRQ2; SCI0: TXD0; SSIE: AUDIO_CLK" - IO - - 
@@ -268,7 +268,7 @@ FSP Configuration
       P402 3 - CANFD0_CRX - - Disabled - - "AGT0: AGTIO0; AGT1: AGTIO1; CAC: CACREF; CANFD0: CRX0; GPT: GTADSM1; IRQ: IRQ4-DS; RTC: RTCIC0; SSIE: AUDIO_CLK" - None - - 
       P403 4 GPIO MIKROBUS_PWM_ARDUINO_D9 - None "Input mode" - - "AGT0: AGTIO0; AGT1: AGTIO1; IRQ: IRQ14-DS; RTC: RTCIC1" - IO - - 
       P407 16 - USBFS_VBUS - - Disabled - - "ADC0(Digital): ADTRG0; AGT0: AGTIO0; GPT: GTADSM0; GPT_OPS: GTIV; I3C/IIC: SDA0; RTC: RTCOUT; SSIE0: SSIBCK0; USB FS: USB_VBUS" - None - - 
-      P408 15 IRQ_IRQ7 PMOD1_RESET_MIKROBUS_RESET - IRQ7 "IRQ mode" - - "AGT1: AGTOB1; GPT1: GTIOC1B; GPT_OPS: GTIW; I3C/IIC: SCL0; IRQ: IRQ7; SSIE: AUDIO_CLK" - IO - - 
+      P408 15 - PMOD1_RESET_MIKROBUS_RESET - - Disabled - - "AGT1: AGTOB1; GPT1: GTIOC1B; GPT_OPS: GTIW; I3C/IIC: SCL0; IRQ: IRQ7; SSIE: AUDIO_CLK" - None - - 
       P409 14 GPIO PMOD2_IRQ6_ARDUINO_D5 - None "Input mode" - - "AGT1: AGTOA1; GPT1: GTIOC1A; GPT_OPS: GTOWUP; IRQ: IRQ6" - IO - - 
       P410 13 - PMOD2_RX_MIKROBUS_RX_ARDUINO_D0 - - Disabled - - "GPT_OPS: GTOVLO; IRQ: IRQ5; SCI0: RXD0" - None - - 
       P411 12 - PMOD2_TX_MIKROBUS_TX_ARDUINO_D1 - - Disabled - - "GPT_OPS: GTOVUP; IRQ: IRQ4; SCI0: TXD0" - None - - 
@@ -336,7 +336,7 @@ FSP Configuration
       Oscillator LDO Control (Not available on every MCU): HOCO LDO State in standby mode: Not Supported
       Deep Standby Options: I/O Port Retention: Maintain the IO port states
       Deep Standby Options: Power-Supply Control: Supply power to the Standby RAM, low-speed on-chip oscillator, AGTn (n = 0-3) and USBFS/HS resume detecting unit
-      Deep Standby Options: Cancel Sources: 
+      Deep Standby Options: Cancel Sources: IRQ10
       Deep Standby Options: Cancel Edges: 
       
     Instance "g_cgc0 Clock Generation Circuit (r_cgc)"
@@ -363,12 +363,12 @@ FSP Configuration
       
     Instance "g_external_irq_user_sw External IRQ (r_icu)"
       Name: g_external_irq_user_sw
-      Channel: 7
+      Channel: 10
       Trigger: Falling
       Digital Filtering: Enabled
       Digital Filtering Sample Clock (Only valid when Digital Filtering is Enabled): PCLK / 64
       Callback: external_irq_user_sw_cb
-      Pin Interrupt Priority: Priority 3
+      Pin Interrupt Priority: Priority 6
       
     Instance "agt_timer0_sw_debounce_filter Timer, Low-Power (r_agt)"
       General: Name: agt_timer0_sw_debounce_filter
@@ -412,7 +412,7 @@ FSP Configuration
       General: Name: g_lpm_sw_standby
       General: Low Power Mode: Software Standby mode
       General: Output port state in standby and deep standby: No change
-      Deep Sleep and Standby Options: Wake Sources: 
+      Deep Sleep and Standby Options: Wake Sources: IRQ10
       Deep Sleep and Standby Options: Snooze Options (Not available on every MCU): Snooze Request Source: RXD0 falling edge
       Deep Sleep and Standby Options: Snooze Options (Not available on every MCU): Snooze End Sources: 
       Deep Sleep and Standby Options: Snooze Options (Not available on every MCU): DTC state in Snooze Mode: Disabled
@@ -432,9 +432,9 @@ FSP Configuration
       General: Name: g_lpm_sw_standby_with_snooze
       General: Low Power Mode: Snooze mode
       General: Output port state in standby and deep standby: No change
-      Deep Sleep and Standby Options: Wake Sources: 
-      Deep Sleep and Standby Options: Snooze Options (Not available on every MCU): Snooze Request Source: RXD0 falling edge
-      Deep Sleep and Standby Options: Snooze Options (Not available on every MCU): Snooze End Sources: 
+      Deep Sleep and Standby Options: Wake Sources: IRQ10
+      Deep Sleep and Standby Options: Snooze Options (Not available on every MCU): Snooze Request Source: RTC Period
+      Deep Sleep and Standby Options: Snooze Options (Not available on every MCU): Snooze End Sources: AGT1 Underflow
       Deep Sleep and Standby Options: Snooze Options (Not available on every MCU): DTC state in Snooze Mode: Disabled
       Deep Sleep and Standby Options: Snooze Options (Not available on every MCU): Snooze Cancel Source: None
       RAM Retention Control (Not available on every MCU): RAM retention in Standby mode: 

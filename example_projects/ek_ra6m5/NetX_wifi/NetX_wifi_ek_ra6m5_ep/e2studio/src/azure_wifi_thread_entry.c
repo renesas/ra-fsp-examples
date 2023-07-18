@@ -21,9 +21,9 @@
  * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
  ***********************************************************************************************************************/
 
+#include <NetX_wifi_ep.h>
 #include "azure_wifi_thread.h"
 #include "common_utils.h"
-#include "NetX_wifi_ep.h"
 
 /*******************************************************************************************************************//**
  * @addtogroup azure_wifi_thread_entry
@@ -298,7 +298,7 @@ void azure_wifi_thread_entry(void)
     PRINT_INFO_STR("TCP socket bind successful");
 
     /*Connect to TCP server running*/
-    status = nx_tcp_client_socket_connect(&tcp_client_socket,SOCKETS_htonl(g_socket.ip_addr_server),g_socket.port, NETXDUO_TESTS_SOCKET_TIMEOUT);
+    status = nx_tcp_client_socket_connect(&tcp_client_socket,SOCKETS_HTONL(g_socket.ip_addr_server),g_socket.port, NETXDUO_TESTS_SOCKET_TIMEOUT);
     if(NX_SUCCESS != status)
     {
         PRINT_ERR_STR("nx_tcp_client_socket_connect API failed");

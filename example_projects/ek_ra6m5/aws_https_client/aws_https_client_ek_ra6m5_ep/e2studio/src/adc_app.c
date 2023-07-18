@@ -21,9 +21,9 @@
  * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  ***********************************************************************************************************************/
 
+#include <user_app_thread.h>
 #include "adc_app.h"
 #include "common_utils.h"
-#include "user_app_thread.h"
 
 /*******************************************************************************************************************//**
  * @addtogroup aws_https_client_ep

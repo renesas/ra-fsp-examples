@@ -143,7 +143,7 @@ fsp_err_t set_timer_duty_cycle(uint8_t duty_cycle_percent)
  ****************************************************************************************************************/
 uint32_t process_input_data(void)
 {
-    unsigned char buf[BUF_SIZE] = {INITIAL_VALUE};
+    uint8_t buf[BUF_SIZE] = {INITIAL_VALUE};
     uint32_t num_bytes          = RESET_VALUE;
     uint32_t value              = RESET_VALUE;
 

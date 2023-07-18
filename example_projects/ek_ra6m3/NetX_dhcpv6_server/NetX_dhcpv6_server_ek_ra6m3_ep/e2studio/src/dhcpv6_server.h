@@ -36,9 +36,9 @@
                                          "\r\nUser Input : \r\n"\
 
 /* macros to print info, error and trap the error.*/
-#define PRINT_INFO_STR(str)  app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_INFO_STR, sizeof(str), str);
-#define PRINT_ERR_STR(str)   app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_ERR_STR, sizeof(str), str);
-#define ERROR_TRAP(err)      app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_ERR_TRAP, sizeof(UINT *), &err);
+#define PRINT_INFO_STR(str)  (app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_INFO_STR, sizeof(str), (str)))
+#define PRINT_ERR_STR(str)   (app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_ERR_STR, sizeof(str), (str)))
+#define ERROR_TRAP(err)      (app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_ERR_TRAP, sizeof(UINT *), &(err)))
 
 #define EP_INFO        "\r\nThis project demonstrates the basic functionality of Netx Duo DHCPv6 server\r\n"\
                        "with ethernet driver on Renesas RA MCUs based on Renesas FSP using AzureRTOS.\r\n"\
@@ -47,13 +47,13 @@
                        "On successful completion of each operation, the success status is displayed\r\n"\
                        "on RTT viewer. Error and info messages will be printed on JlinkRTTViewer.\r\n\n\n"
 
-#define FILL_NXD_IPV6_ADDRESS(ipv6,f0,f1,f2,f3,f4,f5,f6,f7) do { \
-                                                                       ipv6.nxd_ip_address.v6[0] = (((uint32_t)f0 << 16) & 0xFFFF0000) | ((uint32_t)f1 & 0x0000FFFF);\
-                                                                       ipv6.nxd_ip_address.v6[1] = (((uint32_t)f2 << 16) & 0xFFFF0000) | ((uint32_t)f3 & 0x0000FFFF);\
-                                                                       ipv6.nxd_ip_address.v6[2] = (((uint32_t)f4 << 16) & 0xFFFF0000) | ((uint32_t)f5 & 0x0000FFFF);\
-                                                                       ipv6.nxd_ip_address.v6[3] = (((uint32_t)f6 << 16) & 0xFFFF0000) | ((uint32_t)f7 & 0x0000FFFF);\
-                                                                       ipv6.nxd_ip_version       = NX_IP_VERSION_V6;\
-                                                                   } while(0);
+#define FILL_NXD_IPV6_ADDRESS(ipv6,f0,f1,f2,f3,f4,f5,f6,f7) ({do { \
+                                                                       (ipv6).nxd_ip_address.v6[0] = (((uint32_t)(f0) << 16) & 0xFFFF0000) | ((uint32_t)(f1) & 0x0000FFFF);\
+                                                                       (ipv6).nxd_ip_address.v6[1] = (((uint32_t)(f2) << 16) & 0xFFFF0000) | ((uint32_t)(f3) & 0x0000FFFF);\
+                                                                       (ipv6).nxd_ip_address.v6[2] = (((uint32_t)(f4) << 16) & 0xFFFF0000) | ((uint32_t)(f5) & 0x0000FFFF);\
+                                                                       (ipv6).nxd_ip_address.v6[3] = (((uint32_t)(f6) << 16) & 0xFFFF0000) | ((uint32_t)(f7) & 0x0000FFFF);\
+                                                                       (ipv6).nxd_ip_version       = NX_IP_VERSION_V6;\
+                                                                   } while(0);})
 
 /* structure to store leased IPs info.*/
 typedef struct ipv6_info
@@ -61,7 +61,7 @@ typedef struct ipv6_info
     NXD_ADDRESS ipv6_address;
     USHORT mac_high;
     ULONG mac_low;
-}IPV6_INFO;
+}ipv6_info_t;
 
 /* Function declaration.*/
 void str_ipv6(UCHAR * str, NXD_ADDRESS ipv6);

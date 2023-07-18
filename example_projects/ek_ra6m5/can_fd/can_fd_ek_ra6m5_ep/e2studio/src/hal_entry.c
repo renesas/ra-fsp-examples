@@ -32,9 +32,9 @@ extern bsp_leds_t g_bsp_leds;
 static void led_pin_initialisation(void);
 
 /* Flags to be set in Callback function */
-bool b_canfd_tx_complete = false;
-bool b_canfd_rx_complete = false;
-bool b_canfd_err_status = false;
+bool g_canfd_tx_complete = false;
+bool g_canfd_rx_complete = false;
+bool g_canfd_err_status = false;
 
 
 /* Acceptance filter array parameters */
@@ -124,9 +124,9 @@ void hal_entry(void)
 
         /* Get the status of transmitted frame and read the data */
         can_read_operation();
-        if(true == b_canfd_err_status)
+        if(true == g_canfd_err_status)
         {
-            b_canfd_err_status = false;
+            g_canfd_err_status = false;
             APP_ERR_PRINT("\nCAN ERR status");
             APP_ERR_TRAP(true);
         }

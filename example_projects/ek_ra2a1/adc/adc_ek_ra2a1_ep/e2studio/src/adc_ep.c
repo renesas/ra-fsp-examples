@@ -133,6 +133,16 @@ static fsp_err_t adc_scan_start(void)
             return err;
         }
 
+        /* Configures the ADC scan parameters */
+        err = R_ADC_ScanCfg (&g_adc_ctrl, &g_adc_channel_cfg);
+        /* handle error */
+        if (FSP_SUCCESS != err)
+        {
+            /* ADC Failure message */
+            APP_ERR_PRINT("** R_ADC_ScanCfg API failed ** \r\n");
+            return err;
+        }
+
 #ifdef BOARD_RA2A1_EK
         /* Set Reference Voltage Circuit Control register */
         R_ADC0->VREFAMPCNT |= ((VREFADCG_VALUE << SHIFT_BY_ONE) | (VREFADCG_ENABLE << SHIFT_BY_THREE));
@@ -148,16 +158,6 @@ static fsp_err_t adc_scan_start(void)
             return err;
         }
 #endif
-
-        /* Configures the ADC scan parameters */
-        err = R_ADC_ScanCfg (&g_adc_ctrl, &g_adc_channel_cfg);
-        /* handle error */
-        if (FSP_SUCCESS != err)
-        {
-            /* ADC Failure message */
-            APP_ERR_PRINT("** R_ADC_ScanCfg API failed ** \r\n");
-            return err;
-        }
 
         /* Start the ADC scan*/
         err = R_ADC_ScanStart (&g_adc_ctrl);

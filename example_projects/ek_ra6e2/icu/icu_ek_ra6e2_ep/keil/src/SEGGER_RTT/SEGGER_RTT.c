@@ -42,7 +42,7 @@
 *                                                                    *
 **********************************************************************
 *                                                                    *
-*       RTT version: 7.84d                                           *
+*       RTT version: 7.88d                                           *
 *                                                                    *
 **********************************************************************
 
@@ -51,7 +51,7 @@ File    : SEGGER_RTT.c
 Purpose : Implementation of SEGGER real-time transfer (RTT) which
           allows real-time communication on targets which support
           debugger memory accesses while the CPU is running.
-Revision: $Rev: 26642 $
+Revision: $Rev: 29668 $
 
 Additional information:
           Type "int" is assumed to be 32-bits in size
@@ -169,17 +169,17 @@ Additional information:
 #endif
 
 #ifndef   MIN
-  #define MIN(a, b)         (((a) < (b)) ? (a) : (b))
+  #define MIN(a, b)                                       (((a) < (b)) ? (a) : (b))
 #endif
 
 #ifndef   MAX
-  #define MAX(a, b)         (((a) > (b)) ? (a) : (b))
+  #define MAX(a, b)                                       (((a) > (b)) ? (a) : (b))
 #endif
 //
 // For some environments, NULL may not be defined until certain headers are included
 //
 #ifndef NULL
-  #define NULL 0
+  #define NULL                                            0
 #endif
 
 /*********************************************************************
@@ -255,7 +255,7 @@ Additional information:
 **********************************************************************
 */
 
-static unsigned char _aTerminalId[16] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
+static const unsigned char _aTerminalId[16] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
 
 /*********************************************************************
 *
@@ -303,18 +303,19 @@ static unsigned char _ActiveTerminal;
 *
 *  Function description
 *    Initializes the control block an buffers.
-*    May only be called via INIT() to avoid overriding settings.
 *
+*  Notes
+*    (1) May only be called via INIT() to avoid overriding settings.
+*        The only exception is SEGGER_RTT_Init(), to make an intentional override possible.
 */
-#define INIT()  {                                                                                    \
-                  volatile SEGGER_RTT_CB* pRTTCBInit;                                                \
-                  pRTTCBInit = (volatile SEGGER_RTT_CB*)((char*)&_SEGGER_RTT + SEGGER_RTT_UNCACHED_OFF); \
-                  do {                                                                               \
-                    if (pRTTCBInit->acID[0] == '\0') {                                               \
-                      _DoInit();                                                                     \
-                    }                                                                                \
-                  } while (0);                                                                       \
-                }
+  #define INIT()                                                                             \
+    do {                                                                                     \
+      volatile SEGGER_RTT_CB* pRTTCBInit;                                                    \
+      pRTTCBInit = (volatile SEGGER_RTT_CB*)((char*)&_SEGGER_RTT + SEGGER_RTT_UNCACHED_OFF); \
+      if (pRTTCBInit->acID[0] != 'S') {                                                      \
+        _DoInit();                                                                           \
+      }                                                                                      \
+    } while (0)
 
 static void _DoInit(void) {
   volatile SEGGER_RTT_CB* p;   // Volatile to make sure that compiler cannot change the order of accesses to the control block
@@ -958,11 +959,10 @@ unsigned SEGGER_RTT_WriteSkipNoLock(unsigned BufferIndex, const void* pBuffer, u
   pRing = (SEGGER_RTT_BUFFER_UP*)((char*)&_SEGGER_RTT.aUp[BufferIndex] + SEGGER_RTT_UNCACHED_OFF);  // Access uncached to make sure we see changes made by the J-Link side and all of our changes go into HW directly
   RdOff = pRing->RdOff;
   WrOff = pRing->WrOff;
+  pDst = (pRing->pBuffer + WrOff) + SEGGER_RTT_UNCACHED_OFF;
   if (RdOff <= WrOff) {                                 // Case 1), 2) or 3)
     Avail = pRing->SizeOfBuffer - WrOff - 1u;           // Space until wrap-around (assume 1 byte not usable for case that RdOff == 0)
     if (Avail >= NumBytes) {                            // Case 1)?
-CopyStraight:
-      pDst = (pRing->pBuffer + WrOff) + SEGGER_RTT_UNCACHED_OFF;
       memcpy((void*)pDst, pData, NumBytes);
       RTT__DMB();                     // Force data write to be complete before writing the <WrOff>, in case CPU is allowed to change the order of memory accesses
       pRing->WrOff = WrOff + NumBytes;
@@ -971,7 +971,6 @@ CopyStraight:
     Avail += RdOff;                                     // Space incl. wrap-around
     if (Avail >= NumBytes) {                            // Case 2? => If not, we have case 3) (does not fit)
       Rem = pRing->SizeOfBuffer - WrOff;                // Space until end of buffer
-      pDst = (pRing->pBuffer + WrOff) + SEGGER_RTT_UNCACHED_OFF;
       memcpy((void*)pDst, pData, Rem);                  // Copy 1st chunk
       NumBytes -= Rem;
       //
@@ -991,7 +990,10 @@ CopyStraight:
   } else {                                             // Potential case 4)
     Avail = RdOff - WrOff - 1u;
     if (Avail >= NumBytes) {                           // Case 4)? => If not, we have case 5) (does not fit)
-      goto CopyStraight;
+      memcpy((void*)pDst, pData, NumBytes);
+      RTT__DMB();                     // Force data write to be complete before writing the <WrOff>, in case CPU is allowed to change the order of memory accesses
+      pRing->WrOff = WrOff + NumBytes;
+      return 1;
     }
   }
   return 0;     // No space in buffer

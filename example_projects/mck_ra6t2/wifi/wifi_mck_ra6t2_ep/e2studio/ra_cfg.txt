@@ -23,6 +23,7 @@ FSP Configuration
     Security: SRAM Accessibility: Standby RAM: Regions 7-0 are all Secure.
     Security: BUS Accessibility: Bus Security Attribution Register A: Both Secure and Non-Secure State
     Security: BUS Accessibility: Bus Security Attribution Register B: Both Secure and Non-Secure State
+    Security: Uninitialized Non-Secure Application Fallback: Enable Uninitialized Non-Secure Application Fallback
     Startup C-Cache Line Size: 32 Bytes
     OFS0 register settings: Independent WDT: Start Mode: IWDT is Disabled
     OFS0 register settings: Independent WDT: Timeout Period: 2048 cycles
@@ -47,7 +48,6 @@ FSP Configuration
     OFS1 register settings: PGA3 Pseudo-Differential Input Enable: Disabled (single-ended input) after reset
     Block Protection Settings (BPS): BPS0: 
     Permanent Block Protection Settings (PBPS): PBPS0: 
-    Clocks: HOCO FLL Function: Disabled
     TFU Mathlib: Enabled
     Main Oscillator Wait Time: 8163 cycles
     
@@ -109,7 +109,7 @@ FSP Configuration
       PA01 24 - - - - Disabled - - "ADC12: AN001; ADC12(PGA0): PGAVSS0; ICU1: IRQ1" - None - - 
       PA02 25 - - - - Disabled - - "ACMPHS1: IVCMP12; ADC12: AN002; ADC12(PGA1): PGAIN1; ICU2: IRQ2" - None - - 
       PA03 26 - - - - Disabled - - "ADC12: AN003; ADC12(PGA1): PGAVSS1; ICU3: IRQ3" - None - - 
-      PA04 29 - - - - Disabled - - "ACMPHS2: IVCMP22; ADC12: AN004; ADC12(PGA2): PGAIN2; ICU4: IRQ4" - None - - 
+      PA04 29 ICU4_IRQ4 - - IRQ4 "IRQ mode" - - "ACMPHS2: IVCMP22; ADC12: AN004; ADC12(PGA2): PGAIN2; ICU4: IRQ4" - IO - - 
       PA05 30 - - - - Disabled - - "ADC12: AN005; ADC12(PGA2): PGAVSS2; ICU5: IRQ5" - None - - 
       PA06 31 - - - - Disabled - - "ADC12: AN006; DAC120: DA0; ICU6: IRQ6" - None - - 
       PA07 32 - - - - Disabled - - "ADC12: AN007; DAC121: DA1; ICU7: IRQ7" - None - - 
@@ -210,7 +210,7 @@ FSP Configuration
       PA01 24 - - - - Disabled - - "ADC12: AN001; ADC12(PGA0): PGAVSS0; ICU1: IRQ1" - None - - 
       PA02 25 - - - - Disabled - - "ACMPHS1: IVCMP12; ADC12: AN002; ADC12(PGA1): PGAIN1; ICU2: IRQ2" - None - - 
       PA03 26 - - - - Disabled - - "ADC12: AN003; ADC12(PGA1): PGAVSS1; ICU3: IRQ3" - None - - 
-      PA04 29 - - - - Disabled - - "ACMPHS2: IVCMP22; ADC12: AN004; ADC12(PGA2): PGAIN2; ICU4: IRQ4" - None - - 
+      PA04 29 - - - None Disabled - - "ACMPHS2: IVCMP22; ADC12: AN004; ADC12(PGA2): PGAIN2; ICU4: IRQ4" - IO - - 
       PA05 30 - - - - Disabled - - "ADC12: AN005; ADC12(PGA2): PGAVSS2; ICU5: IRQ5" - None - - 
       PA06 31 - - - - Disabled - - "ADC12: AN006; DAC120: DA0; ICU6: IRQ6" - None - - 
       PA07 32 - - - - Disabled - - "ADC12: AN007; DAC121: DA1; ICU7: IRQ7" - None - - 
@@ -308,54 +308,442 @@ FSP Configuration
     
   Module "FreeRTOS Port (rm_freertos_port)"
   Module "FreeRTOS Heap 5"
-  Module "AWS Secure Sockets on WiFi"
-  Module "AWS Secure Sockets Common"
-    Socket Send Timeout: 10000
-    Socket Receive Timeout: 10000
-    Secure Socket Metrics: Disabled
+  Module "AWS Core HTTP"
+    Custom core_http_config.h: 
+    HTTP Receive Retry Timeout (ms): 1
+    HTTP Send Retry Timeout (ms): 1
+    HTTP User Agent Value: my-platform-name
+    HTTP Max Response Headers Size (bytes): 2048U
     
-  Module "AWS IoT Common"
-    Custom iot_config.h: 
-    IoT Logging puts(): configPRINTF( ( "%s\r\n", str ) )
-    Asserts: IoT Metrics Enable Asserts: Enabled
-    Asserts: IoT Containers Enable Asserts: Enabled
-    Asserts: IoT Taskpool Enable Asserts: Enabled
-    Asserts: IoT MQTT Enable Asserts: Enabled
-    Asserts: AWS IoT Shadow Enable Asserts: Enabled
-    Asserts: AWS IoT Defender Enable Asserts: Enabled
-    Asserts: IoT BLE Enable Asserts: Enabled
-    Asserts: IoT Metrics Assert: configASSERT( expression )
-    Asserts: IoT Containers Assert: configASSERT( expression )
-    Asserts: IoT Taskpool Assert: configASSERT( expression )
-    Asserts: IoT MQTT Assert: configASSERT( expression )
-    Asserts: AWS IoT Shadow Assert: configASSERT( expression )
-    Asserts: AWS IoT Defender Assert: configASSERT( expression )
-    Asserts: IoT BLE Assert: configASSERT( expression )
-    IoT Static Memory Only: Disabled
-    IoT Thread Default Priority: 1
-    IoT Thread Default Stack Size: 512
-    IoT Network Receive Task Priority: 0
-    IoT Network Receive Task Stack Size: 512
-    IoT MQTT Enable Metrics: Disabled
-    IoT SDK Name: FreeRTOS
-    Platform Name: Unknown
-    IoT Cloud Endpoint: clientcredentialMQTT_BROKER_ENDPOINT
-    IoT Device Identifier: getDeviceIdentifier()
-    AWS IoT Metrics Username: getDeviceMetrics()
-    AWS IoT Metrics Username Length: getDeviceMetricsLength()
-    IotMetricsConnectionId_t: void *
-    AWS IoT Defender Format: AWS_IOT_DEFENDER_FORMAT_CBOR
-    AWS IoT Defender Use Long Tag: Enabled
+  Module "AWS Transport Interface on MbedTLS/PKCS11 (rm_aws_transport_interface_port)"
+  Module "AWS PKCS11 to MbedTLS"
+    Custom iot_pkcs11_config.h: 
+    PKCS11 Configuration Max Label Length: 32
+    PKCS11 Configuration Max Number Of Objects: 6
+    PKCS11 Configuration Max Number Of Sessions: 10
+    Device Private Key For TLS: Device Priv TLS Key
+    Device Public Key For TLS: Device Pub TLS Key
+    Device Certificate For TLS: Device Cert
+    Code Verification Key: Code Verify Key
+    Root Certificate: Root Cert
+    JITP Certificate: JITP Cert
+    Default User PIN: 0000
+    PKCS11 Malloc: pvPortMalloc
+    PKCS11 Free: vPortFree
+    PAL Destroy Supported: Disabled
+    Log Name: PKCS11
+    Log Level: LOG_NONE
+    OTA Supported: Disabled
+    JITP Code Verify Root Cert Supported: Disabled
+    
+  Module "AWS PKCS11 PAL on LittleFS (rm_aws_pkcs11_pal_littlefs)"
+  Module "LittleFS"
+    Custom lfs_util.h: 
+    Thread Safe: Disabled
+    Use Malloc: Enabled
+    Use Assert: Enabled
+    Debug Messages: Disabled
+    Warning Messages: Disabled
+    Error Messages: Disabled
+    Trace Messages: Disabled
+    Intrinsics: Enabled
+    Instance Name for STDIO wrapper: g_rm_littlefs0
+    
+  Module "LittleFS on Flash (rm_littlefs_flash)"
+    Parameter Checking: Default (BSP)
+    
+  Module "Flash (r_flash_hp)"
+    Parameter Checking: Default (BSP)
+    Code Flash Programming Enable: Disabled
+    Data Flash Programming Enable: Enabled
+    
+  Module "FreeRTOS MbedTLS Port"
+  Module "MbedTLS"
+    Key Exchange: MBEDTLS_KEY_EXCHANGE_PSK_ENABLED: Undefine
+    Key Exchange: MBEDTLS_KEY_EXCHANGE_DHE_PSK_ENABLED: Undefine
+    Key Exchange: MBEDTLS_KEY_EXCHANGE_ECDHE_PSK_ENABLED: Undefine
+    Key Exchange: MBEDTLS_KEY_EXCHANGE_RSA_PSK_ENABLED: Undefine
+    Key Exchange: MBEDTLS_KEY_EXCHANGE_RSA_ENABLED: Define
+    Key Exchange: MBEDTLS_KEY_EXCHANGE_DHE_RSA_ENABLED: Undefine
+    Key Exchange: MBEDTLS_KEY_EXCHANGE_ECDHE_RSA_ENABLED: Define
+    Key Exchange: MBEDTLS_KEY_EXCHANGE_ECDHE_ECDSA_ENABLED: Define
+    Key Exchange: MBEDTLS_KEY_EXCHANGE_ECDH_ECDSA_ENABLED: Undefine
+    Key Exchange: MBEDTLS_KEY_EXCHANGE_ECDH_RSA_ENABLED: Undefine
+    Key Exchange: MBEDTLS_KEY_EXCHANGE_ECJPAKE_ENABLED: Undefine
+    SSL Options: MBEDTLS_SSL_CIPHERSUITES: Undefine
+    SSL Options: MBEDTLS_SSL_CIPHERSUITES Custom Value: MBEDTLS_TLS_DHE_PSK_WITH_AES_128_CBC_SHA256,MBEDTLS_TLS_DHE_PSK_WITH_NULL_SHA256,MBEDTLS_TLS_DHE_RSA_WITH_AES_128_CBC_SHA256,MBEDTLS_TLS_DHE_RSA_WITH_AES_128_GCM_SHA256,MBEDTLS_TLS_DHE_RSA_WITH_AES_256_CBC_SHA256,MBEDTLS_TLS_PSK_WITH_AES_128_CBC_SHA256,MBEDTLS_TLS_PSK_WITH_NULL_SHA256,MBEDTLS_TLS_RSA_PSK_WITH_AES_128_CBC_SHA256,MBEDTLS_TLS_RSA_PSK_WITH_AES_128_CBC_SHA256,MBEDTLS_TLS_RSA_PSK_WITH_NULL_SHA256,MBEDTLS_TLS_RSA_WITH_AES_128_CBC_SHA256,MBEDTLS_TLS_RSA_WITH_AES_256_CBC_SHA256,MBEDTLS_TLS_RSA_WITH_NULL_SHA256
+    X509 Options: MBEDTLS_X509_MAX_INTERMEDIATE_CA: Undefine
+    SSL Options: MBEDTLS_SSL_ALL_ALERT_MESSAGES: Undefine
+    SSL Options: MBEDTLS_SSL_DTLS_CONNECTION_ID: Undefine
+    SSL Options: MBEDTLS_SSL_DTLS_CONNECTION_ID_COMPAT: Undefine
+    SSL Options: MBEDTLS_SSL_DTLS_CONNECTION_ID_COMPAT Value: Reset
+    SSL Options: MBEDTLS_SSL_ASYNC_PRIVATE: Undefine
+    SSL Options: MBEDTLS_SSL_DEBUG_ALL: Undefine
+    SSL Options: MBEDTLS_SSL_ENCRYPT_THEN_MAC: Undefine
+    SSL Options: MBEDTLS_SSL_EXTENDED_MASTER_SECRET: Undefine
+    SSL Options: MBEDTLS_SSL_KEEP_PEER_CERTIFICATE: Undefine
+    SSL Options: MBEDTLS_SSL_RENEGOTIATION: Undefine
+    SSL Options: MBEDTLS_SSL_MAX_FRAGMENT_LENGTH: Undefine
+    SSL Options: MBEDTLS_SSL_PROTO_TLS1_2: Define
+    SSL Options: MBEDTLS_SSL_PROTO_TLS1_3: Undefine
+    SSL Options: MBEDTLS_SSL_TLS1_3_COMPATIBILITY_MODE: Undefine
+    SSL Options: MBEDTLS_SSL_TLS1_3_KEY_EXCHANGE_MODE_PSK_ENABLED: Define
+    SSL Options: MBEDTLS_SSL_TLS1_3_KEY_EXCHANGE_MODE_EPHEMERAL_ENABLED: Define
+    SSL Options: MBEDTLS_SSL_TLS1_3_KEY_EXCHANGE_MODE_PSK_EPHEMERAL_ENABLED: Define
+    SSL Options: MBEDTLS_SSL_TLS1_3_TICKET_AGE_TOLERANCE: Define
+    SSL Options: MBEDTLS_SSL_TLS1_3_TICKET_AGE_TOLERANCE Value: 6000
+    SSL Options: MBEDTLS_SSL_TLS1_3_TICKET_NONCE_LENGTH: Define
+    SSL Options: MBEDTLS_SSL_TLS1_3_TICKET_NONCE_LENGTH Value: 32
+    SSL Options: MBEDTLS_SSL_TLS1_3_DEFAULT_NEW_SESSION_TICKETS: Define
+    SSL Options: MBEDTLS_SSL_TLS1_3_DEFAULT_NEW_SESSION_TICKETS Value: 1
+    SSL Options: MBEDTLS_SSL_EARLY_DATA: Undefine
+    SSL Options: MBEDTLS_SSL_MAX_EARLY_DATA_SIZE Value: 32
+    SSL Options: MBEDTLS_SSL_PROTO_DTLS: Undefine
+    SSL Options: MBEDTLS_SSL_ALPN: Define
+    SSL Options: MBEDTLS_SSL_DTLS_ANTI_REPLAY: Undefine
+    SSL Options: MBEDTLS_SSL_DTLS_HELLO_VERIFY: Undefine
+    SSL Options: MBEDTLS_SSL_DTLS_CLIENT_PORT_REUSE: Undefine
+    SSL Options: MBEDTLS_SSL_SESSION_TICKETS: Undefine
+    SSL Options: MBEDTLS_SSL_SERVER_NAME_INDICATION: Undefine
+    X509 Options: MBEDTLS_X509_TRUSTED_CERTIFICATE_CALLBACK: Undefine
+    X509 Options: MBEDTLS_X509_REMOVE_INFO: Undefine
+    X509 Options: MBEDTLS_X509_RSASSA_PSS_SUPPORT: Undefine
+    General: MBEDTLS_DEBUG_C: Undefine
+    General: MBEDTLS_NET_C: Undefine
+    SSL Options: MBEDTLS_SSL_CACHE_C: Undefine
+    SSL Options: MBEDTLS_SSL_COOKIE_C: Undefine
+    SSL Options: MBEDTLS_SSL_TICKET_C: Undefine
+    SSL Options: MBEDTLS_SSL_CLI_C: Define
+    SSL Options: MBEDTLS_SSL_SRV_C: Undefine
+    SSL Options: MBEDTLS_SSL_TLS_C: Define
+    X509 Options: MBEDTLS_X509_USE_C: Define
+    X509 Options: MBEDTLS_X509_CRT_PARSE_C: Define
+    X509 Options: MBEDTLS_X509_CRL_PARSE_C: Undefine
+    X509 Options: MBEDTLS_X509_CSR_PARSE_C: Undefine
+    X509 Options: MBEDTLS_X509_CREATE_C: Undefine
+    X509 Options: MBEDTLS_X509_CRT_WRITE_C: Undefine
+    X509 Options: MBEDTLS_X509_CSR_WRITE_C: Undefine
+    SSL Options: MBEDTLS_SSL_IN_CONTENT_LEN: Undefine
+    SSL Options: MBEDTLS_SSL_IN_CONTENT_LEN Value: 16384
+    SSL Options: MBEDTLS_SSL_CID_IN_LEN_MAX: Undefine
+    SSL Options: MBEDTLS_SSL_CID_IN_LEN_MAX Value: 32
+    SSL Options: MBEDTLS_SSL_CID_OUT_LEN_MAX: Undefine
+    SSL Options: MBEDTLS_SSL_CID_OUT_LEN_MAX Value: 32
+    SSL Options: MBEDTLS_SSL_CID_TLS1_3_PADDING_GRANULARITY: Undefine
+    SSL Options: MBEDTLS_SSL_CID_TLS1_3_PADDING_GRANULARITY Value: 16
+    SSL Options: MBEDTLS_SSL_CID_PADDING_GRANULARITY: Undefine
+    SSL Options: MBEDTLS_SSL_CID_PADDING_GRANULARITY Value: 16
+    SSL Options: MBEDTLS_SSL_OUT_CONTENT_LEN: Undefine
+    SSL Options: MBEDTLS_SSL_OUT_CONTENT_LEN Value: 16384
+    SSL Options: MBEDTLS_SSL_DTLS_MAX_BUFFERING: Undefine
+    SSL Options: MBEDTLS_SSL_DTLS_MAX_BUFFERING Value: 32768
+    SSL Options: MBEDTLS_SSL_CACHE_DEFAULT_TIMEOUT: Undefine
+    SSL Options: MBEDTLS_SSL_CACHE_DEFAULT_TIMEOUT Value: 86400
+    SSL Options: MBEDTLS_SSL_CACHE_DEFAULT_MAX_ENTRIES: Undefine
+    SSL Options: MBEDTLS_SSL_CACHE_DEFAULT_MAX_ENTRIES Value: 50
+    General: MBEDTLS_PSK_MAX_LEN: Undefine
+    General: MBEDTLS_PSK_MAX_LEN Value: 32
+    SSL Options: MBEDTLS_SSL_COOKIE_TIMEOUT: Undefine
+    SSL Options: MBEDTLS_SSL_COOKIE_TIMEOUT Value: 60
+    X509 Options: MBEDTLS_X509_MAX_INTERMEDIATE_CA Value: 8
+    X509 Options: MBEDTLS_X509_MAX_FILE_PATH_LEN: Undefine
+    X509 Options: MBEDTLS_X509_MAX_FILE_PATH_LEN Value: 512
+    
+  Module "MbedTLS (Crypto Only)"
+    Hardware Acceleration: TRNG: Enabled
+    Hardware Acceleration: Key Format: AES: Plaintext Only
+    Hardware Acceleration: Key Format: ECC: Plaintext Only
+    Hardware Acceleration: Key Format: RSA: Plaintext Only
+    Hardware Acceleration: Hash: SHA256/224: Use Software
+    Hardware Acceleration: Cipher: AES: Use Hardware
+    Hardware Acceleration: Public Key Cryptography (PKC): ECC: Use Software
+    Hardware Acceleration: Public Key Cryptography (PKC): ECDSA : Use Software
+    Hardware Acceleration: Public Key Cryptography (PKC): ECDH : Use Software
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA: Use Software
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA 3072 Verify: Disabled
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA 4096 Verify: Disabled
+    Hardware Acceleration: Crypto Engine Initialization: Enabled
+    Platform: MBEDTLS_HAVE_ASM: Undefine
+    Platform: MBEDTLS_NO_UDBL_DIVISION: Undefine
+    Platform: MBEDTLS_NO_64BIT_MULTIPLICATION: Undefine
+    Platform: MBEDTLS_HAVE_SSE2: Undefine
+    Platform: MBEDTLS_HAVE_TIME: Undefine
+    Platform: MBEDTLS_HAVE_TIME_DATE: Undefine
+    Platform: MBEDTLS_PLATFORM_MEMORY: Define
+    Platform: MBEDTLS_PLATFORM_NO_STD_FUNCTIONS: Undefine
+    Platform: Alternate: MBEDTLS_PLATFORM_SETBUF_ALT: Undefine
+    Platform: Alternate: MBEDTLS_PLATFORM_EXIT_ALT: Undefine
+    Platform: Alternate: MBEDTLS_PLATFORM_TIME_ALT: Undefine
+    Platform: Alternate: MBEDTLS_PLATFORM_FPRINTF_ALT: Undefine
+    Platform: Alternate: MBEDTLS_PLATFORM_PRINTF_ALT: Undefine
+    Platform: Alternate: MBEDTLS_PLATFORM_SNPRINTF_ALT: Undefine
+    Platform: Alternate: MBEDTLS_PLATFORM_VSNPRINTF_ALT: Undefine
+    Platform: Alternate: MBEDTLS_PLATFORM_NV_SEED_ALT: Undefine
+    General: MBEDTLS_PSA_CRYPTO_DRIVERS: Undefine
+    General: MBEDTLS_DEPRECATED_WARNING: Undefine
+    General: MBEDTLS_DEPRECATED_REMOVED: Define
+    Platform: MBEDTLS_TIMING_ALT: Undefine
+    Cipher: Alternate: MBEDTLS_ARIA_ALT: Undefine
+    Cipher: Alternate: MBEDTLS_CAMELLIA_ALT: Undefine
+    Cipher: Alternate: MBEDTLS_CCM_ALT: Undefine
+    Cipher: Alternate: MBEDTLS_CHACHA20_ALT: Undefine
+    Cipher: Alternate: MBEDTLS_CHACHAPOLY_ALT: Undefine
+    Cipher: Alternate: MBEDTLS_CMAC_ALT: Use Software
+    Cipher: Alternate: MBEDTLS_DES_ALT: Undefine
+    Public Key Cryptography (PKC): DHM: Alternate: MBEDTLS_DHM_ALT: Undefine
+    Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECJPAKE_ALT: Undefine
+    Cipher: Alternate: MBEDTLS_GCM_ALT: Undefine
+    Cipher: Alternate: MBEDTLS_NIST_KW_ALT: Undefine
+    Hash: Alternate: MBEDTLS_MD5_ALT: Undefine
+    Message Authentication Code (MAC): Alternate: MBEDTLS_POLY1305_ALT: Undefine
+    Hash: Alternate: MBEDTLS_RIPEMD160_ALT: Undefine
+    Hash: Alternate: MBEDTLS_SHA1_ALT: Undefine
+    Hash: Alternate: MBEDTLS_SHA512_ALT: Undefine
+    Hash: Alternate: MBEDTLS_MD5_PROCESS_ALT: Undefine
+    Hash: Alternate: MBEDTLS_RIPEMD160_PROCESS_ALT: Undefine
+    Hash: Alternate: MBEDTLS_SHA1_PROCESS_ALT: Undefine
+    Hash: Alternate: MBEDTLS_SHA512_PROCESS_ALT: Undefine
+    Cipher: Alternate: MBEDTLS_DES_SETKEY_ALT: Undefine
+    Cipher: Alternate: MBEDTLS_DES_CRYPT_ECB_ALT: Undefine
+    Cipher: Alternate: MBEDTLS_DES3_CRYPT_ECB_ALT: Undefine
+    Public Key Cryptography (PKC): ECC: MBEDTLS_ECDH_GEN_PUBLIC_ALT: Undefine
+    Public Key Cryptography (PKC): ECC: MBEDTLS_ECDH_COMPUTE_SHARED_ALT: Undefine
+    Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECDSA_GENKEY_ALT: Undefine
+    Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_INTERNAL_ALT: Undefine
+    Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_NO_FALLBACK: Undefine
+    Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_RANDOMIZE_JAC_ALT: Undefine
+    Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_ADD_MIXED_ALT: Undefine
+    Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_DOUBLE_JAC_ALT: Undefine
+    Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_NORMALIZE_JAC_MANY_ALT: Undefine
+    Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_NORMALIZE_JAC_ALT: Undefine
+    Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_DOUBLE_ADD_MXZ_ALT: Undefine
+    Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_RANDOMIZE_MXZ_ALT: Undefine
+    Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_NORMALIZE_MXZ_ALT: Undefine
+    Cipher: AES: MBEDTLS_AES_ROM_TABLES: Undefine
+    Cipher: AES: MBEDTLS_AES_FEWER_TABLES: Undefine
+    Cipher: MBEDTLS_CAMELLIA_SMALL_MEMORY: Undefine
+    General: MBEDTLS_CHECK_RETURN_WARNING: Undefine
+    Cipher: MBEDTLS_CIPHER_MODE_CBC: Define
+    Cipher: MBEDTLS_CIPHER_MODE_CFB: Define
+    Cipher: MBEDTLS_CIPHER_MODE_CTR: Define
+    Cipher: MBEDTLS_CIPHER_MODE_OFB: Undefine
+    Cipher: MBEDTLS_CIPHER_MODE_XTS: Undefine
+    Cipher: MBEDTLS_CIPHER_NULL_CIPHER: Undefine
+    Cipher: MBEDTLS_CIPHER_PADDING_PKCS7: Define
+    Cipher: MBEDTLS_CIPHER_PADDING_ONE_AND_ZEROS: Define
+    Cipher: MBEDTLS_CIPHER_PADDING_ZEROS_AND_LEN: Define
+    Cipher: MBEDTLS_CIPHER_PADDING_ZEROS: Define
+    Public Key Cryptography (PKC): ECC: Curves: MBEDTLS_ECP_DP_SECP192R1_ENABLED: Undefine
+    Public Key Cryptography (PKC): ECC: Curves: MBEDTLS_ECP_DP_SECP224R1_ENABLED: Undefine
+    Public Key Cryptography (PKC): ECC: Curves: MBEDTLS_ECP_DP_SECP256R1_ENABLED: Define
+    Public Key Cryptography (PKC): ECC: Curves: MBEDTLS_ECP_DP_SECP384R1_ENABLED: Undefine
+    Public Key Cryptography (PKC): ECC: Curves: MBEDTLS_ECP_DP_SECP521R1_ENABLED: Undefine
+    Public Key Cryptography (PKC): ECC: Curves: MBEDTLS_ECP_DP_SECP192K1_ENABLED: Undefine
+    Public Key Cryptography (PKC): ECC: Curves: MBEDTLS_ECP_DP_SECP224K1_ENABLED: Undefine
+    Public Key Cryptography (PKC): ECC: Curves: MBEDTLS_ECP_DP_SECP256K1_ENABLED: Undefine
+    Public Key Cryptography (PKC): ECC: Curves: MBEDTLS_ECP_DP_BP256R1_ENABLED: Undefine
+    Public Key Cryptography (PKC): ECC: Curves: MBEDTLS_ECP_DP_BP384R1_ENABLED: Undefine
+    Public Key Cryptography (PKC): ECC: Curves: MBEDTLS_ECP_DP_BP512R1_ENABLED: Undefine
+    Public Key Cryptography (PKC): ECC: Curves: MBEDTLS_ECP_DP_CURVE25519_ENABLED: Undefine
+    Public Key Cryptography (PKC): ECC: Curves: MBEDTLS_ECP_DP_CURVE448_ENABLED: Undefine
+    Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_NIST_OPTIM: Undefine
+    Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_RESTARTABLE: Undefine
+    Public Key Cryptography (PKC): ECC: MBEDTLS_ECDSA_DETERMINISTIC: Undefine
+    Public Key Cryptography (PKC): ECC: MBEDTLS_PK_PARSE_EC_EXTENDED: Undefine
+    General: MBEDTLS_ERROR_STRERROR_DUMMY: Define
+    Public Key Cryptography (PKC): MBEDTLS_GENPRIME: Define
+    Storage: MBEDTLS_FS_IO: Undefine
+    RNG: MBEDTLS_NO_DEFAULT_ENTROPY_SOURCES: Undefine
+    Platform: MBEDTLS_NO_PLATFORM_ENTROPY: Define
+    RNG: MBEDTLS_ENTROPY_FORCE_SHA256: Undefine
+    RNG: MBEDTLS_ENTROPY_NV_SEED: Undefine
+    Key Configuration: MBEDTLS_PSA_CRYPTO_KEY_ID_ENCODES_OWNER: Undefine
+    General: MBEDTLS_MEMORY_DEBUG: Undefine
+    General: MBEDTLS_MEMORY_BACKTRACE: Undefine
+    Public Key Cryptography (PKC): RSA: MBEDTLS_PK_RSA_ALT_SUPPORT: Undefine
+    Public Key Cryptography (PKC): MBEDTLS_PKCS1_V15: Define
+    Public Key Cryptography (PKC): MBEDTLS_PKCS1_V21: Define
+    Key Configuration: MBEDTLS_PSA_CRYPTO_BUILTIN_KEYS: Undefine
+    Key Configuration: PSA_CRYPTO_DRIVER_TFM_BUILTIN_KEY_LOADER: Undefine
+    General: MBEDTLS_PSA_CRYPTO_CLIENT: Undefine
+    RNG: MBEDTLS_PSA_CRYPTO_EXTERNAL_RNG: Undefine
+    General: MBEDTLS_PSA_CRYPTO_SPM: Undefine
+    RNG: MBEDTLS_PSA_INJECT_ENTROPY: Undefine
+    Public Key Cryptography (PKC): RSA: MBEDTLS_RSA_NO_CRT: Define
+    General: MBEDTLS_SELF_TEST: Undefine
+    Hash: MBEDTLS_SHA256_SMALLER: Undefine
+    Hash: MBEDTLS_SHA512_SMALLER: Undefine
+    General: MBEDTLS_THREADING_ALT: Define
+    General: MBEDTLS_THREADING_PTHREAD: Undefine
+    General: MBEDTLS_USE_PSA_CRYPTO: Undefine
+    General: MBEDTLS_VERSION_FEATURES: Define
+    Cipher: MBEDTLS_AES_C: Define
+    Public Key Cryptography (PKC): MBEDTLS_ASN1_PARSE_C: Define
+    Public Key Cryptography (PKC): MBEDTLS_ASN1_WRITE_C: Define
+    Public Key Cryptography (PKC): MBEDTLS_BASE64_C: Define
+    Public Key Cryptography (PKC): MBEDTLS_BIGNUM_C: Define
+    Cipher: MBEDTLS_CAMELLIA_C: Undefine
+    Cipher: MBEDTLS_ARIA_C: Undefine
+    Cipher: MBEDTLS_CCM_C: Define
+    Cipher: MBEDTLS_CHACHA20_C: Undefine
+    Cipher: MBEDTLS_CHACHAPOLY_C: Undefine
+    Cipher: MBEDTLS_CIPHER_C: Define
+    Message Authentication Code (MAC): MBEDTLS_CMAC_C: Define
+    RNG: MBEDTLS_CTR_DRBG_C: Define
+    RNG: MBEDTLS_CTR_DRBG_C_ALT: Define
+    Cipher: MBEDTLS_DES_C: Undefine
+    Public Key Cryptography (PKC): DHM: MBEDTLS_DHM_C: Undefine
+    Public Key Cryptography (PKC): ECC: MBEDTLS_ECDH_C: Define
+    Public Key Cryptography (PKC): ECC: MBEDTLS_ECDSA_C: Define
+    Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_C: Define
+    Public Key Cryptography (PKC): ECC: MBEDTLS_ECJPAKE_C: Undefine
+    Platform: MBEDTLS_ENTROPY_C: Define
+    General: MBEDTLS_ERROR_C: Define
+    Cipher: MBEDTLS_GCM_C: Define
+    Message Authentication Code (MAC): MBEDTLS_HKDF_C: Define
+    Message Authentication Code (MAC): MBEDTLS_HMAC_DRBG_C: Undefine
+    Public Key Cryptography (PKC): MBEDTLS_LMS_C: Define
+    Public Key Cryptography (PKC): MBEDTLS_LMS_PRIVATE: Undefine
+    Cipher: MBEDTLS_NIST_KW_C: Undefine
+    Hash: MBEDTLS_MD_C: Define
+    Hash: MBEDTLS_MD5_C: Undefine
+    General: MBEDTLS_MEMORY_BUFFER_ALLOC_C: Undefine
+    Public Key Cryptography (PKC): MBEDTLS_OID_C: Define
+    Public Key Cryptography (PKC): MBEDTLS_PEM_PARSE_C: Define
+    Public Key Cryptography (PKC): MBEDTLS_PEM_WRITE_C: Define
+    Public Key Cryptography (PKC): MBEDTLS_PK_C: Define
+    Public Key Cryptography (PKC): MBEDTLS_PK_PARSE_C: Define
+    Public Key Cryptography (PKC): MBEDTLS_PK_WRITE_C: Define
+    Public Key Cryptography (PKC): MBEDTLS_PKCS5_C: Define
+    Public Key Cryptography (PKC): MBEDTLS_PKCS7_C: Undefine
+    Public Key Cryptography (PKC): MBEDTLS_PKCS12_C: Define
+    Platform: MBEDTLS_PLATFORM_C: Define
+    Message Authentication Code (MAC): MBEDTLS_POLY1305_C: Undefine
+    General: MBEDTLS_PSA_CRYPTO_C: Define
+    General: MBEDTLS_PSA_CRYPTO_SE_C: Undefine
+    Storage: MBEDTLS_PSA_CRYPTO_STORAGE_C: Undefine
+    Storage: MBEDTLS_PSA_ITS_FILE_C: Undefine
+    Hash: MBEDTLS_RIPEMD160_C: Undefine
+    Public Key Cryptography (PKC): RSA: MBEDTLS_RSA_C: Define
+    Hash: MBEDTLS_SHA1_C: Define
+    Hash: MBEDTLS_SHA224_C: Define
+    Hash: MBEDTLS_SHA256_C: Define
+    Hash: MBEDTLS_SHA384_C: Undefine
+    Hash: MBEDTLS_SHA512_C: Undefine
+    General: MBEDTLS_THREADING_C: Define
+    General: MBEDTLS_TIMING_C: Undefine
+    General: MBEDTLS_VERSION_C: Define
+    Public Key Cryptography (PKC): MBEDTLS_MPI_WINDOW_SIZE: Undefine
+    Public Key Cryptography (PKC): MBEDTLS_MPI_WINDOW_SIZE value: 6
+    Public Key Cryptography (PKC): MBEDTLS_MPI_MAX_SIZE: Undefine
+    Public Key Cryptography (PKC): MBEDTLS_MPI_MAX_SIZE value: 1024
+    RNG: MBEDTLS_CTR_DRBG_ENTROPY_LEN: Undefine
+    RNG: MBEDTLS_CTR_DRBG_ENTROPY_LEN value: 48
+    RNG: MBEDTLS_CTR_DRBG_RESEED_INTERVAL: Undefine
+    RNG: MBEDTLS_CTR_DRBG_RESEED_INTERVAL value: 10000
+    RNG: MBEDTLS_CTR_DRBG_MAX_INPUT: Undefine
+    RNG: MBEDTLS_CTR_DRBG_MAX_INPUT value: 256
+    RNG: MBEDTLS_CTR_DRBG_MAX_REQUEST: Undefine
+    RNG: MBEDTLS_CTR_DRBG_MAX_REQUEST value: 1024
+    RNG: MBEDTLS_CTR_DRBG_MAX_SEED_INPUT: Undefine
+    RNG: MBEDTLS_CTR_DRBG_MAX_SEED_INPUT value: 384
+    RNG: MBEDTLS_CTR_DRBG_USE_128_BIT_KEY: Undefine
+    RNG: MBEDTLS_HMAC_DRBG_RESEED_INTERVAL: Undefine
+    RNG: MBEDTLS_HMAC_DRBG_RESEED_INTERVAL value: 10000
+    RNG: MBEDTLS_HMAC_DRBG_MAX_INPUT: Undefine
+    RNG: MBEDTLS_HMAC_DRBG_MAX_INPUT value: 256
+    RNG: MBEDTLS_HMAC_DRBG_MAX_REQUEST: Undefine
+    RNG: MBEDTLS_HMAC_DRBG_MAX_REQUEST value: 1024
+    RNG: MBEDTLS_HMAC_DRBG_MAX_SEED_INPUT: Undefine
+    RNG: MBEDTLS_HMAC_DRBG_MAX_SEED_INPUT value: 384
+    Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_WINDOW_SIZE: Undefine
+    Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_WINDOW_SIZE value: 6
+    Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_FIXED_POINT_OPTIM: Undefine
+    Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_FIXED_POINT_OPTIM value: 1
+    RNG: MBEDTLS_ENTROPY_MAX_SOURCES: Undefine
+    RNG: MBEDTLS_ENTROPY_MAX_SOURCES value: 20
+    RNG: MBEDTLS_ENTROPY_MAX_GATHER: Undefine
+    RNG: MBEDTLS_ENTROPY_MAX_GATHER value: 128
+    RNG: MBEDTLS_ENTROPY_MIN_HARDWARE: Undefine
+    RNG: MBEDTLS_ENTROPY_MIN_HARDWARE value: 32
+    General: MBEDTLS_MEMORY_ALIGN_MULTIPLE: Undefine
+    General: MBEDTLS_MEMORY_ALIGN_MULTIPLE value: 4
+    Platform: MBEDTLS_PLATFORM_STD_CALLOC: Undefine
+    Platform: MBEDTLS_PLATFORM_STD_CALLOC value: calloc
+    Platform: MBEDTLS_PLATFORM_STD_FREE: Undefine
+    Platform: MBEDTLS_PLATFORM_STD_FREE value: free
+    Platform: MBEDTLS_PLATFORM_STD_SETBUF: Undefine
+    Platform: MBEDTLS_PLATFORM_STD_SETBUF value: setbuf
+    Platform: MBEDTLS_PLATFORM_STD_EXIT: Undefine
+    Platform: MBEDTLS_PLATFORM_STD_EXIT value: exit
+    Platform: MBEDTLS_PLATFORM_STD_TIME: Undefine
+    Platform: MBEDTLS_PLATFORM_STD_TIME value: time
+    Platform: MBEDTLS_PLATFORM_STD_FPRINTF: Undefine
+    Platform: MBEDTLS_PLATFORM_STD_FPRINTF value: fprintf
+    Platform: MBEDTLS_PLATFORM_STD_PRINTF: Undefine
+    Platform: MBEDTLS_PLATFORM_STD_PRINTF value: printf
+    Platform: MBEDTLS_PLATFORM_STD_SNPRINTF: Undefine
+    Platform: MBEDTLS_PLATFORM_STD_SNPRINTF value: snprintf
+    Platform: MBEDTLS_PLATFORM_STD_EXIT_SUCCESS: Undefine
+    Platform: MBEDTLS_PLATFORM_STD_EXIT_SUCCESS value: 0
+    Platform: MBEDTLS_PLATFORM_STD_EXIT_FAILURE: Undefine
+    Platform: MBEDTLS_PLATFORM_STD_EXIT_FAILURE value: 1
+    Platform: MBEDTLS_PLATFORM_STD_NV_SEED_READ: Undefine
+    Platform: MBEDTLS_PLATFORM_STD_NV_SEED_READ value: mbedtls_platform_std_nv_seed_read
+    Platform: MBEDTLS_PLATFORM_STD_NV_SEED_WRITE: Undefine
+    Platform: MBEDTLS_PLATFORM_STD_NV_SEED_WRITE value: mbedtls_platform_std_nv_seed_write
+    Platform: MBEDTLS_PLATFORM_STD_NV_SEED_FILE: Undefine
+    Platform: MBEDTLS_PLATFORM_STD_NV_SEED_FILE value: 
+    Platform: MBEDTLS_PLATFORM_CALLOC_MACRO: Undefine
+    Platform: MBEDTLS_PLATFORM_CALLOC_MACRO value: calloc
+    Platform: MBEDTLS_PLATFORM_FREE_MACRO: Undefine
+    Platform: MBEDTLS_PLATFORM_FREE_MACRO value: free
+    Platform: MBEDTLS_PLATFORM_EXIT_MACRO: Undefine
+    Platform: MBEDTLS_PLATFORM_EXIT_MACRO value: exit
+    Platform: MBEDTLS_PLATFORM_SETBUF_MACRO: Define
+    Platform: MBEDTLS_PLATFORM_SETBUF_MACRO value: dummy_setbuf
+    Platform: MBEDTLS_PLATFORM_TIME_MACRO: Undefine
+    Platform: MBEDTLS_PLATFORM_TIME_MACRO value: time
+    Platform: MBEDTLS_PLATFORM_TIME_TYPE_MACRO: Undefine
+    Platform: MBEDTLS_PLATFORM_TIME_TYPE_MACRO value: time_t
+    Platform: MBEDTLS_PLATFORM_FPRINTF_MACRO: Undefine
+    Platform: MBEDTLS_PLATFORM_FPRINTF_MACRO value: fprintf
+    Platform: MBEDTLS_PLATFORM_PRINTF_MACRO: Undefine
+    Platform: MBEDTLS_PLATFORM_PRINTF_MACRO value: printf
+    Platform: MBEDTLS_PLATFORM_SNPRINTF_MACRO: Undefine
+    Platform: MBEDTLS_PLATFORM_SNPRINTF_MACRO value: snprintf
+    Platform: MBEDTLS_PLATFORM_VSNPRINTF_MACRO: Undefine
+    Platform: MBEDTLS_PLATFORM_VSNPRINTF_MACRO value: vsnprintf
+    Platform: MBEDTLS_PLATFORM_NV_SEED_READ_MACRO: Undefine
+    Platform: MBEDTLS_PLATFORM_NV_SEED_READ_MACRO value: mbedtls_platform_std_nv_seed_read
+    Platform: MBEDTLS_PLATFORM_NV_SEED_WRITE_MACRO: Undefine
+    Platform: MBEDTLS_PLATFORM_NV_SEED_WRITE_MACRO value: mbedtls_platform_std_nv_seed_write
+    General: MBEDTLS_CHECK_RETURN: Define
+    General: MBEDTLS_IGNORE_RETURN: Undefine
+    HMAC: MBEDTLS_PSA_HMAC_DRBG_MD_TYPE: Define
+    Platform: Alternate: MBEDTLS_PLATFORM_ZEROIZE_ALT: Undefine
+    Key Configuration: MBEDTLS_PSA_KEY_SLOT_COUNT: Undefine
+    Key Configuration: MBEDTLS_PSA_KEY_SLOT_COUNT value: 32
+    Platform: Alternate: MBEDTLS_PLATFORM_GMTIME_R_ALT: Undefine
+    Public Key Cryptography (PKC): ECC: MBEDTLS_ECDH_VARIANT_EVEREST_ENABLED: Undefine
+    
+  Module "Mbed Crypto H/W Acceleration (rm_psa_crypto)"
+  Module "SCE5B"
+  Module "MbedTLS FSP Port (rm_mbedtls)"
+  Module "AWS Logging"
+  Module "AWS Demo dev_mode_key_provisioning"
+    Header file to #include in ra_cfg/aws/aws_clientcredential_keys.h: 
     
   Module "AWS Client Credentials"
     Header file to #include in ra_cfg/aws/aws_clientcredential.h: 
     
+  Module "AWS Silex WiFi Sockets Wrapper (rm_aws_sockets_wrapper_silex)"
   Module "WiFi Onchip Silex Driver using r_sci_uart (rm_wifi_onchip_silex)"
     Parameter Checking: Default (BSP)
     Number of supported socket instances: 1
-    Size of RX buffer for socket: 256
-    Size of TX buffer for CMD Port: 256
-    Size of RX buffer for CMD Port: 256
+    Size of RX buffer for socket: 4096
+    Size of TX buffer for CMD Port: 1500
+    Size of RX buffer for CMD Port: 3000
     Semaphore maximum timeout: 10000
     Number of retries for AT commands: 10
     Module Reset Port: 10
@@ -363,13 +751,9 @@ FSP Configuration
     Enable SNTP Client: Disabled
     
   Module "AWS WiFi Common"
-    Max Sockets: 1
-    Num Connection Retry: 3
-    Max Network Profiles: 0
     Max SSID Length: 32
     Max BSSID Length: 6
     Max Passphrase Length: 32
-    Max Semaphore Wait Time Milliseconds: 60000
     
   Module "UART (r_sci_b_uart)"
     Parameter Checking: Default (BSP)
@@ -377,6 +761,7 @@ FSP Configuration
     DTC Support: Enable
     Flow Control Support: Disable
     
+  Module "AWS Cellular/WiFi MbedTLS Bio"
   Module "Transfer (r_dtc)"
     Parameter Checking: Default (BSP)
     Linker section to keep DTC vector table: .fsp_dtc_vector_table
@@ -414,7 +799,7 @@ FSP Configuration
     General: Message Buffer Length Type: size_t
     Memory Allocation: Support Static Allocation: Enabled
     Memory Allocation: Support Dynamic Allocation: Enabled
-    Memory Allocation: Total Heap Size: 0x100
+    Memory Allocation: Total Heap Size: 0x1800
     Memory Allocation: Application Allocated Heap: Disabled
     Stats: Generate Run Time Stats: Disabled
     Timers: Use Timers: Enabled
@@ -449,89 +834,115 @@ FSP Configuration
   HAL
     Instance "g_ioport I/O Port (r_ioport)"
       Name: g_ioport
-      Port 1 ELC Trigger Source: Disabled
-      Port 2 ELC Trigger Source: Disabled
-      Port 3 ELC Trigger Source: Disabled
-      Port 4 ELC Trigger Source: Disabled
-      Port B ELC Trigger Source: Disabled
-      Port C ELC Trigger Source: Disabled
-      Port D ELC Trigger Source: Disabled
-      Port E ELC Trigger Source: Disabled
+      1st Port ELC Trigger Source: Disabled
+      2nd Port ELC Trigger Source: Disabled
+      3rd Port ELC Trigger Source: Disabled
+      4th Port ELC Trigger Source: Disabled
       Pin Configuration Name: g_bsp_pin_cfg
       
     Instance "FreeRTOS Port (rm_freertos_port)"
   Thread "WiFi Thread"
     Symbol: wifi_thread
     Name: WiFi Thread
-    Stack size (bytes): 2048
+    Stack size (bytes): 0x4000
     Priority: 1
     Thread Context: NULL
     Memory Allocation: Static
     Allocate Secure Context: Enable
     
     Instance "FreeRTOS Heap 5"
-    Instance "AWS Secure Sockets on WiFi"
-      Instance "AWS Secure Sockets Common"
-        Instance "AWS IoT Common"
+    Instance "AWS Core HTTP"
+      Instance "AWS Transport Interface on MbedTLS/PKCS11 (rm_aws_transport_interface_port)"
+        Instance "AWS Silex WiFi Sockets Wrapper (rm_aws_sockets_wrapper_silex)"
+          Instance "WiFi Onchip Silex Driver using r_sci_uart (rm_wifi_onchip_silex)"
+            SNTP server IPv4 address: 0.0.0.0
+            SNTP Timezone Offset from UTC Hours: 0
+            SNTP Timezone Offset from UTC Minutes: 0
+            Use Daylight Savings Time: Disabled
+            
+            Instance "AWS WiFi Common"
+            Instance "g_uart0 UART (r_sci_b_uart)"
+              General: Name: g_uart0
+              General: Channel: 9
+              General: Data Bits: 8bits
+              General: Parity: None
+              General: Stop Bits: 1bit
+              Baud: Baud Rate: 115200
+              Baud: Baud Rate Modulation: Disabled
+              Baud: Max Error (%): 5
+              Flow Control: CTS/RTS Selection: Hardware RTS
+              Flow Control: Software RTS Port: Disabled
+              Flow Control: Software RTS Pin: Disabled
+              Extra: Clock Source: Internal Clock
+              Extra: Start bit detection: Falling Edge
+              Extra: Noise Filter: Disable
+              Extra: Receive FIFO Trigger Level: Max
+              Extra: RS-485: DE Pin: Disable
+              Extra: RS-485: DE Pin Polarity: Active High
+              Extra: RS-485: DE Pin Assertion Time: 1
+              Extra: RS-485: DE Pin Negation Time: 1
+              Interrupts: Callback: rm_wifi_onchip_silex_uart_callback
+              Interrupts: Receive Interrupt Priority: Priority 12
+              Interrupts: Transmit Data Empty Interrupt Priority: Priority 12
+              Interrupts: Transmit End Interrupt Priority: Priority 12
+              Interrupts: Error Interrupt Priority: Priority 12
+              
+              Instance "g_transfer0 Transfer (r_dtc) SCI9 TXI (Transmit data empty)"
+                Name: g_transfer0
+                Mode: Normal
+                Transfer Size: 1 Byte
+                Destination Address Mode: Fixed
+                Source Address Mode: Incremented
+                Repeat Area (Unused in Normal Mode): Source
+                Destination Pointer: NULL
+                Source Pointer: NULL
+                Interrupt Frequency: After all transfers have completed
+                Number of Transfers: 0
+                Number of Blocks (Valid only in Block Mode): 0
+                Activation Source: SCI9 TXI (Transmit data empty)
+                
+              Instance "g_transfer1 Transfer (r_dtc) SCI9 RXI (Received data full)"
+                Name: g_transfer1
+                Mode: Normal
+                Transfer Size: 1 Byte
+                Destination Address Mode: Incremented
+                Source Address Mode: Fixed
+                Repeat Area (Unused in Normal Mode): Destination
+                Destination Pointer: NULL
+                Source Pointer: NULL
+                Interrupt Frequency: After all transfers have completed
+                Number of Transfers: 0
+                Number of Blocks (Valid only in Block Mode): 0
+                Activation Source: SCI9 RXI (Received data full)
+                
+          Instance "AWS Cellular/WiFi MbedTLS Bio"
+        Instance "AWS PKCS11 to MbedTLS"
+          Instance "AWS PKCS11 PAL on LittleFS (rm_aws_pkcs11_pal_littlefs)"
+            Instance "LittleFS"
+              
+              Instance "LittleFS on Flash (rm_littlefs_flash)"
+                Name: g_rm_littlefs0
+                Read Size: 1
+                Program Size: 4
+                Block Size (bytes): 128
+                Block Count: (BSP_DATA_FLASH_SIZE_BYTES/128)
+                Block Cycles: 1024
+                Cache Size: 64
+                Lookahead Size: 16
+                
+                Instance "g_flash0 Flash (r_flash_hp)"
+                  Name: g_flash0
+                  Data Flash Background Operation: Disabled
+                  Callback: NULL
+                  Flash Ready Interrupt Priority: Disabled
+                  Flash Error Interrupt Priority: Disabled
+                  
+          Instance "FreeRTOS MbedTLS Port"
+            Instance "MbedTLS"
+              Instance "MbedTLS (Crypto Only)"
+                Instance "Mbed Crypto H/W Acceleration (rm_psa_crypto)"
+                  Instance "SCE5B"
+              Instance "MbedTLS FSP Port (rm_mbedtls)"
+        Instance "AWS Logging"
+        Instance "AWS Demo dev_mode_key_provisioning"
           Instance "AWS Client Credentials"
-      Instance "WiFi Onchip Silex Driver using r_sci_uart (rm_wifi_onchip_silex)"
-        SNTP server IPv4 address: 0.0.0.0
-        STNP Timezone Offset from UTC Hours: 0
-        STNP Timezone Offset from UTC Minutes: 0
-        Use Daylight Savings Time: Disabled
-        
-        Instance "AWS WiFi Common"
-        Instance "g_uart0 UART (r_sci_b_uart)"
-          General: Name: g_uart0
-          General: Channel: 9
-          General: Data Bits: 8bits
-          General: Parity: None
-          General: Stop Bits: 1bit
-          Baud: Baud Rate: 115200
-          Baud: Baud Rate Modulation: Disabled
-          Baud: Max Error (%): 5
-          Flow Control: CTS/RTS Selection: Hardware RTS
-          Flow Control: Software RTS Port: Disabled
-          Flow Control: Software RTS Pin: Disabled
-          Extra: Clock Source: Internal Clock
-          Extra: Start bit detection: Falling Edge
-          Extra: Noise Filter: Disable
-          Extra: Receive FIFO Trigger Level: Max
-          Extra: RS-485: DE Pin: Disable
-          Extra: RS-485: DE Pin Polarity: Active High
-          Extra: RS-485: DE Pin Assertion Time: 1
-          Extra: RS-485: DE Pin Negation Time: 1
-          Interrupts: Callback: rm_wifi_onchip_silex_uart_callback
-          Interrupts: Receive Interrupt Priority: Priority 2
-          Interrupts: Transmit Data Empty Interrupt Priority: Priority 2
-          Interrupts: Transmit End Interrupt Priority: Priority 2
-          Interrupts: Error Interrupt Priority: Priority 2
-          
-          Instance "g_transfer0 Transfer (r_dtc) SCI9 TXI (Transmit data empty)"
-            Name: g_transfer0
-            Mode: Normal
-            Transfer Size: 1 Byte
-            Destination Address Mode: Fixed
-            Source Address Mode: Incremented
-            Repeat Area (Unused in Normal Mode): Source
-            Destination Pointer: NULL
-            Source Pointer: NULL
-            Interrupt Frequency: After all transfers have completed
-            Number of Transfers: 0
-            Number of Blocks (Valid only in Block Mode): 0
-            Activation Source: SCI9 TXI (Transmit data empty)
-            
-          Instance "g_transfer1 Transfer (r_dtc) SCI9 RXI (Received data full)"
-            Name: g_transfer1
-            Mode: Normal
-            Transfer Size: 1 Byte
-            Destination Address Mode: Incremented
-            Source Address Mode: Fixed
-            Repeat Area (Unused in Normal Mode): Destination
-            Destination Pointer: NULL
-            Source Pointer: NULL
-            Interrupt Frequency: After all transfers have completed
-            Number of Transfers: 0
-            Number of Blocks (Valid only in Block Mode): 0
-            Activation Source: SCI9 RXI (Received data full)
-            

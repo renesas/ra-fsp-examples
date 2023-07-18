@@ -21,18 +21,19 @@
  * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
  ***********************************************************************************************************************/
 
+#include <user_app_thread.h>
+#include "board_cfg.h"
 #include "FreeRTOS_IP.h"
 #include "FreeRTOS_IP_Private.h"
 #include "FreeRTOS_Sockets.h"
-#include "iot_init.h"
-#include "iot_system_init.h"
-#include "board_cfg.h"
-#include "adc_app.h"
-#include "littlefs_app.h"
-#include "https_agent.h"
 #include "common_utils.h"
-#include "user_app_thread.h"
+#include "littlefs_app.h"
+#include "adc_app.h"
+#include "core_http_client.h"
+#include "using_mbedtls_pkcs11.h"
 #include "user_app.h"
+
+
 
 /*******************************************************************************************************************//**
  * @addtogroup aws_https_client_ep
@@ -54,7 +55,6 @@ extern TaskHandle_t user_app_thread;
  ******************************************************************************/
 ping_data_t ping_data = { RESET_VALUE, RESET_VALUE, RESET_VALUE };
 NetworkAddressingParameters_t xNd = { RESET_VALUE };
-
 uint32_t dhcp_in_use = RESET_VALUE;
 /* To store die temperature into this variable */
 float mcu_die_temp  = RESET_VALUE;
@@ -62,20 +62,20 @@ float mcu_die_temp  = RESET_VALUE;
 /* Domain for the DNS Host lookup is used in this Example Project.
  * The project can be built with different *domain_name to validate the DNS client
  */
-char *domain_name = IOT_DEMO_HOST_ADDRESS;
+char *domain_name = HTTPS_HOST_ADDRESS;
 
 /* IP address of the PC or any Device on the LAN/WAN where the Ping request is sent.
  * Note: Users needs to change this according to the LAN settings of your Test PC or device
  * when running this project.
  */
-char remote_ip_address[] = IOT_DEMO_TEST_PING_IP;
+char remote_ip_address[] = HTTPS_TEST_PING_IP;
 
 /* DHCP populates these IP address, Sub net mask and Gateway Address. So start with this is zeroed out values
  * The MAC address is Test MAC address.
  */
-uint8_t ucMACAddress[6] = { 0x00, 0x11, 0x22, 0x33, 0x44, 0x75 };
+uint8_t ucMACAddress[6] = { 0x00, 0x11, 0x22, 0x33, 0x44, 0x54 };
 uint8_t ucIPAddress[4] = { RESET_VALUE };
-uint8_t ucNetMask[4] = { RESET_VALUE };
+uint8_t ucNetMask[4] = { 255, 255, 255, 0 };
 uint8_t ucGatewayAddress[4] = { RESET_VALUE };
 uint8_t ucDNSServerAddress[4] = { RESET_VALUE };
 
@@ -83,7 +83,15 @@ uint8_t ucDNSServerAddress[4] = { RESET_VALUE };
 /******************************************************************************
  Private global variables and functions
  ******************************************************************************/
-
+/* Extracted ID from GET request to be updated in HTTPS_PUT_POST_API */
+char id[SIZE_32] = { RESET_VALUE };
+/* Flag bit for PUT request. if User calls directly without processed GET request */
+bool is_get_called = false;
+bool ID_alive=false;
+struct NetworkContext
+{
+    TlsTransportParams_t * pParams;
+};
 
 
 /*******************************************************************************************************************//**
@@ -95,7 +103,7 @@ void user_app_thread_entry(void *pvParameters)
 {
     BaseType_t status = pdFALSE;
     fsp_pack_version_t version  = { RESET_VALUE };
-    Userinput_t user_input = RESET_VALUE;
+    user_input_t user_input = RESET_VALUE;
     unsigned char rByte[BUFFER_SIZE_DOWN] =  { RESET_VALUE };
     fsp_err_t err = FSP_SUCCESS;
     int ierr = RESET_VALUE;
@@ -103,7 +111,19 @@ void user_app_thread_entry(void *pvParameters)
     uint32_t ip_status = RESET_VALUE;
     uint32_t usrPingCount = RESET_VALUE;
     /* HTTPS Client library return status. */
-    IotHttpsReturnCode_t httpsClientStatus = IOT_HTTPS_OK;
+    HTTPStatus_t httpsClientStatus = HTTPSuccess;
+    TransportInterface_t xTransportInterface={RESET_VALUE};
+    NetworkContext_t xNetworkContext={RESET_VALUE};
+    uint8_t resUserBuffer[USER_BUFF]={RESET_VALUE};
+    uint8_t reqUserBuffer[USER_BUFF]={RESET_VALUE};
+
+    /* #HTTPClient_InitializeRequestHeaders. */
+    HTTPRequestInfo_t xRequestInfo={RESET_VALUE};
+    /* Represents a response returned from an HTTP server. */
+    HTTPResponse_t xResponse={RESET_VALUE};
+    /* Represents header data that will be sent in an HTTP request. */
+    HTTPRequestHeaders_t xRequestHeaders={RESET_VALUE};
+
 
     FSP_PARAMETER_NOT_USED(pvParameters);
 
@@ -111,7 +131,7 @@ void user_app_thread_entry(void *pvParameters)
     R_FSP_VersionGet (&version);
 
     /* Print banner */
-    APP_PRINT(BANNER_INFO, EP_VERSION, version.major, version.minor, version.patch);
+    APP_PRINT(BANNER_INFO, EP_VERSION, version.version_id_b.major, version.version_id_b.minor, version.version_id_b.patch);
     /* Print Project info */
     APP_PRINT(EP_INFO);
 
@@ -134,18 +154,8 @@ void user_app_thread_entry(void *pvParameters)
         APP_ERR_TRAP(err);
     }
 
-    /* Initialize IOT FreeRTOS Libraries */
-    bt_status = SYSTEM_Init ();
-    if (pdPASS != bt_status)
-    {
-        APP_ERR_PRINT("** Socket Init failed **\r\n");
-        hal_littlefs_deinit ();
-        hal_adc_deinit ();
-        APP_ERR_TRAP(err);
-    }
-
     /* Initialize the crypto hardware acceleration. */
-    /* Initialize mbedtls3. */
+    /* Initialize mbedtls. */
     ierr = mbedtls_platform_setup (NULL);
     /* Error Handler */
     if (FSP_SUCCESS != ierr)
@@ -153,7 +163,7 @@ void user_app_thread_entry(void *pvParameters)
         APP_ERR_PRINT("** Failed in mbedtls_platform_setup() function ** \r\n");
         hal_littlefs_deinit ();
         hal_adc_deinit ();
-        APP_ERR_TRAP(err);
+        APP_ERR_TRAP(ierr);
     }
     else
     {
@@ -226,23 +236,10 @@ void user_app_thread_entry(void *pvParameters)
         mbedtls_platform_teardown (NULL);
         APP_ERR_TRAP(status);
     }
-
     /* Initialize HTTPS client with presigned URL */
-    httpsClientStatus = initialize_https_client (IOT_DEMO_HTTPS_PRESIGNED_GET_URL);
+    httpsClientStatus = connect_aws_https_client (&xNetworkContext);
     /* Handle_error */
-    if (IOT_HTTPS_OK != httpsClientStatus)
-    {
-        APP_ERR_PRINT("\r\nFailed in HTTPS client Initialization function");
-        hal_littlefs_deinit ();
-        hal_adc_deinit ();
-        mbedtls_platform_teardown (NULL);
-        APP_ERR_TRAP(httpsClientStatus);
-    }
-
-    /* Create connection establishment to the server */
-    httpsClientStatus = connect_aws_https_client (&IotNetworkAfr);
-    /* Handle_error */
-    if (IOT_HTTPS_OK != httpsClientStatus)
+    if (HTTPSuccess != httpsClientStatus)
     {
         APP_ERR_PRINT("\r\nFailed in server connection establishment");
         hal_littlefs_deinit ();
@@ -250,7 +247,12 @@ void user_app_thread_entry(void *pvParameters)
         mbedtls_platform_teardown (NULL);
         APP_ERR_TRAP(httpsClientStatus);
     }
-
+    else
+    {
+        xTransportInterface.pNetworkContext=&xNetworkContext;
+        xTransportInterface.send=TLS_FreeRTOS_send;
+        xTransportInterface.recv=TLS_FreeRTOS_recv;
+    }
     /* Menu for user selection */
     APP_PRINT(PRINT_MENU);
 
@@ -263,52 +265,285 @@ void user_app_thread_entry(void *pvParameters)
             user_input = (uint8_t) atoi ((char*) rByte);
             /* Read the internal mcu die temperature to upload the value using PUT/POST request */
             mcu_die_temp = adc_data_read ();
-
             switch (user_input)
-            {
+            {   
                 case GET:
                 {
                     APP_PRINT("\r\nProcessing Get Request\r\n");
-                    httpsClientStatus = Process_GETRequest ();
-                    if (IOT_HTTPS_OK != httpsClientStatus)
+                    /* Initialize all HTTP Client library API structs to 0. */
+                    ( void ) memset( &xRequestInfo, 0, sizeof( xRequestInfo ) );
+                    ( void ) memset( &xResponse, 0, sizeof( xResponse ) );
+                    ( void ) memset( &xRequestHeaders, 0, sizeof( xRequestHeaders ) );
+                    /* Initialize the request object. */
+                    xRequestInfo.pPath = HTTPS_GET_API;
+                    xRequestInfo.pathLen = strlen (HTTPS_GET_API);
+                    xRequestInfo.pHost = HTTPS_HOST_ADDRESS;
+                    xRequestInfo.hostLen = strlen (HTTPS_HOST_ADDRESS);
+                    xRequestInfo.pMethod = HTTP_METHOD_GET;
+                    xRequestInfo.methodLen = strlen(HTTP_METHOD_GET);
+
+                    /* Set "Connection" HTTP header to "keep-alive" so that multiple requests
+                    * can be sent over the same established TCP connection. */
+                    xRequestInfo.reqFlags = HTTP_REQUEST_KEEP_ALIVE_FLAG;
+
+                    /* Set the buffer used for storing request headers. */
+
+                    xRequestHeaders.pBuffer = reqUserBuffer;
+                    xRequestHeaders.bufferLen = sizeof(reqUserBuffer);
+                    memset( xRequestHeaders.pBuffer, 0, xRequestHeaders.bufferLen );
+
+                    httpsClientStatus = HTTPClient_InitializeRequestHeaders( &xRequestHeaders,
+                                                                        &xRequestInfo );
+                    /* Add header */
+                    if( httpsClientStatus == HTTPSuccess )
+                    {
+                        httpsClientStatus = add_header(&xRequestHeaders);
+                    }
+                    else
+                    {
+                        APP_PRINT("Failed to initialize HTTP request headers: Error=%s. \r\n",
+                                    HTTPClient_strerror( httpsClientStatus ) );
+                    }
+
+                    xResponse.pBuffer = resUserBuffer;
+                    xResponse.bufferLen = sizeof(resUserBuffer);
+                    memset( xResponse.pBuffer, 0, xResponse.bufferLen );
+                    
+                    if( httpsClientStatus == HTTPSuccess )
+                    {
+                    httpsClientStatus = HTTPClient_Send( &xTransportInterface,
+                                                    &xRequestHeaders,
+                                                    NULL,
+                                                    0,
+                                                    &xResponse,
+                                                    0 );
+                    }
+                    #if DEBUG_HTTPS
+                    if( httpsClientStatus == HTTPSuccess )
+                    {
+                        APP_PRINT("Received HTTP response from %s %s...\r\n",HTTPS_HOST_ADDRESS, xRequestInfo.pPath);
+                        APP_PRINT("Response Headers:\n%s\r\n", xResponse.pHeaders);
+                        APP_PRINT("Status Code:\n%u\n",xResponse.statusCode);
+                        APP_PRINT("Response Body:\n%s\n", xResponse.pBody );
+                    }
+                    else
+                    {
+                        APP_PRINT("Failed to send HTTP %s request to %s%s: Error=%s.", xRequestInfo.pMethod, HTTPS_HOST_ADDRESS,xRequestInfo.pPath,HTTPClient_strerror( httpsClientStatus ) );
+                    }
+                    #endif
+                    if(HTTPSuccess != httpsClientStatus)
                     {
                         APP_ERR_PRINT("** Failed in GET Request ** \r\n");
-                        APP_ERR_TRAP(httpsClientStatus);
+                    }
+                    else
+                    {
+                        APP_PRINT("Received data using GET Request = %s\n", xResponse.pBody);
+                        strncpy (&id[INDEX_ZERO], (char *)&xResponse.pBody[ID_START_INDEX], ID_LEN);
+                        /* Fetch the feed id from the response body which to be update in HTTPS_PUT_POST_API */
+                        /* SynchronousrResponse body starts with the string in the format like [{\"id\":\"0ENQG7RYQA40W17G2A2SFH8E9Q\",\"...\"}]".
+                        *  So, to fetch the ID_KEY other portion of string is avoided*/
+                        is_get_called = true;   //setting the flag to avoid GET call in the PUT request
                     }
                 }
-                break;
-
+                    break;
                 case PUT:
                 {
                     APP_PRINT("\r\nProcessing PUT Request\r\n");
-                    httpsClientStatus = Process_PUTRequest (mcu_die_temp);
-                    if (IOT_HTTPS_OK != httpsClientStatus)
+                    /* Initialize all HTTP Client library API structs to 0. */
+                    ( void ) memset( &xRequestInfo, 0, sizeof( xRequestInfo ) );
+                    ( void ) memset( &xResponse, 0, sizeof( xResponse ) );
+                    ( void ) memset( &xRequestHeaders, 0, sizeof( xRequestHeaders ) );
+
+                    char pPath_url[URL_SIZE] = { RESET_VALUE };
+                    (void*) memcpy (pPath_url, HTTPS_PUT_POST_API, strlen(HTTPS_PUT_POST_API));
+                    /* Check if PUT request called prior to the GET request and for updating the feed id in PUT request url */
+                    if (true != is_get_called)
+                    {
+                        if (true != ID_alive)
+                        {
+                            APP_PRINT("** ID for URL is not available. We need to run GET method first to get ID ** \r\n");
+                            break;  
+                        }
+                        else 
+                        {
+                            APP_PRINT("** ID for URL which we are using can be not latest data point's ID. ** \r\n");
+                            APP_PRINT("** You can run GET method again to update lasted ID ** \r\n \r\n");
+                        }
+                    }
+                    else
+                    {
+                        ID_alive = true;
+                        is_get_called = false; //clearing the flag
+                    }
+                    /* Feed ID is appending to the HTTPS_PUT_POST_API for processing the PUT Request */
+                    APP_PRINT("Value of ID: %s \n",id);
+                    
+                    strcat (pPath_url, id);
+                    /* Initialize the request object. */
+                    xRequestInfo.pPath = pPath_url;
+                    xRequestInfo.pathLen = strlen (xRequestInfo.pPath);
+                    xRequestInfo.pHost = HTTPS_HOST_ADDRESS;
+                    xRequestInfo.hostLen = strlen (HTTPS_HOST_ADDRESS);
+                    xRequestInfo.pMethod = HTTP_METHOD_PUT;
+                    xRequestInfo.methodLen = strlen(HTTP_METHOD_PUT);
+
+                    /* Set "Connection" HTTP header to "keep-alive" so that multiple requests
+                    * can be sent over the same established TCP connection. */
+                    xRequestInfo.reqFlags = HTTP_REQUEST_KEEP_ALIVE_FLAG;
+
+                    /* Set the buffer used for storing request headers. */
+                    xRequestHeaders.pBuffer = reqUserBuffer;
+                    xRequestHeaders.bufferLen = sizeof(reqUserBuffer);
+                    memset( xRequestHeaders.pBuffer, 0, xRequestHeaders.bufferLen );
+
+                    httpsClientStatus = HTTPClient_InitializeRequestHeaders( &xRequestHeaders,
+                                                                        &xRequestInfo );
+                    /* Add header */
+                    if( httpsClientStatus == HTTPSuccess )
+                    {
+                        httpsClientStatus = add_header(&xRequestHeaders);
+                    }
+                    else
+                    {
+                        APP_PRINT("Failed to initialize HTTP request headers: Error=%s. \r\n",
+                                    HTTPClient_strerror( httpsClientStatus ) );
+                    }
+                    char upload_str[SIZE_64];
+                    snprintf (upload_str, SIZE_64, "{\"datum\":{\"value\":\"%.02f\"}}", mcu_die_temp); //formating into string to send in JSON format
+                    uint32_t length_upload;
+                    length_upload = strlen ((const char*) upload_str);
+
+                    xResponse.pBuffer = resUserBuffer;
+                    xResponse.bufferLen = sizeof(resUserBuffer);
+                    memset(xResponse.pBuffer, 0, xResponse.bufferLen);
+
+                    if( httpsClientStatus == HTTPSuccess )
+                    {
+                    httpsClientStatus = HTTPClient_Send( &xTransportInterface,
+                                                    &xRequestHeaders,
+                                                    (const uint8_t *)(upload_str),
+                                                    length_upload,
+                                                    &xResponse,
+                                                    0 );
+                    }
+
+                    #if DEBUG_HTTPS
+                    APP_PRINT("pPath: %s \n",pPath_url);
+                    if( httpsClientStatus == HTTPSuccess )
+                    {
+                        APP_PRINT("Received HTTP response from %s%s\r\n",HTTPS_HOST_ADDRESS, xRequestInfo.pPath);
+                        APP_PRINT("Response Headers:\n%s\r\n",xResponse.pHeaders);
+                        APP_PRINT("Status Code:\n%u\n",xResponse.statusCode);
+                        APP_PRINT("Response Body:\n%s\n", xResponse.pBody );
+                    }
+                    else
+                    {
+                        APP_PRINT("Failed to send HTTP %s request to %s%s: Error=%s.", xRequestInfo.pMethod, HTTPS_HOST_ADDRESS,xRequestInfo.pPath,HTTPClient_strerror( httpsClientStatus ) );
+                    }
+                    #endif
+                    if (HTTPSuccess != httpsClientStatus)
                     {
                         APP_ERR_PRINT("** Failed in PUT Request ** \r\n");
-                        APP_ERR_TRAP(httpsClientStatus);
+                    }
+                    else
+                    {
+                        APP_PRINT("Received data using PUT Request = %s\n", xResponse.pBody);
                     }
                 }
-                break;
+                    break;
                 case POST:
                 {
                     APP_PRINT("\r\nProcessing POST Request\r\n");
-                    httpsClientStatus = Process_POSTRequest (mcu_die_temp);
-                    if (IOT_HTTPS_OK != httpsClientStatus)
+                    /* Initialize all HTTP Client library API structs to 0. */
+                    ( void ) memset( &xRequestInfo, 0, sizeof( xRequestInfo ) );
+                    ( void ) memset( &xResponse, 0, sizeof( xResponse ) );
+                    ( void ) memset( &xRequestHeaders, 0, sizeof( xRequestHeaders ) );
+                    /* Initialize the request object. */
+                    xRequestInfo.pPath = HTTPS_PUT_POST_API;
+                    xRequestInfo.pathLen = strlen (HTTPS_PUT_POST_API);
+                    xRequestInfo.pHost = HTTPS_HOST_ADDRESS;
+                    xRequestInfo.hostLen = strlen (HTTPS_HOST_ADDRESS);
+                    xRequestInfo.pMethod = HTTP_METHOD_POST;
+                    xRequestInfo.methodLen = strlen(HTTP_METHOD_POST);
+
+                    /* Set "Connection" HTTP header to "keep-alive" so that multiple requests
+                    * can be sent over the same established TCP connection. */
+                    xRequestInfo.reqFlags = HTTP_REQUEST_KEEP_ALIVE_FLAG;
+
+                    /* Set the buffer used for storing request headers. */
+                    xRequestHeaders.pBuffer = reqUserBuffer;
+                    xRequestHeaders.bufferLen = sizeof(reqUserBuffer);
+                    memset( xRequestHeaders.pBuffer, 0, xRequestHeaders.bufferLen );
+
+                    httpsClientStatus = HTTPClient_InitializeRequestHeaders( &xRequestHeaders,
+                                                                        &xRequestInfo );
+                    /* Add header */
+                    if( httpsClientStatus == HTTPSuccess )
+                    {
+                        httpsClientStatus = add_header(&xRequestHeaders);
+                    }
+                    else
+                    {
+                        APP_PRINT("Failed to initialize HTTP request headers: Error=%s. \r\n",
+                                    HTTPClient_strerror( httpsClientStatus ) );
+                    }
+                    char upload_str[SIZE_64];
+                    snprintf (upload_str, SIZE_64, "{\"datum\":{\"value\":\"%.02f\"}}", mcu_die_temp); //formating into string to send in JSON format
+                    uint32_t length_upload;
+                    length_upload = strlen ((const char*) upload_str);
+
+                    xResponse.pBuffer = resUserBuffer;
+                    xResponse.bufferLen = sizeof(resUserBuffer);
+                    memset( xResponse.pBuffer, 0, xResponse.bufferLen );
+                    
+                    if( httpsClientStatus == HTTPSuccess )
+                    {
+                    httpsClientStatus = HTTPClient_Send( &xTransportInterface,
+                                                    &xRequestHeaders,
+                                                    (const uint8_t *)upload_str,
+                                                    length_upload,
+                                                    &xResponse,
+                                                    0 );
+                    }
+
+                    #if DEBUG_HTTPS
+                    if( httpsClientStatus == HTTPSuccess )
+                    {
+                        APP_PRINT("Received HTTP response from %s %s...\r\n",HTTPS_HOST_ADDRESS, xRequestInfo.pPath);
+                        APP_PRINT("Response Headers:\n%s\r\n", xResponse.pHeaders);
+                        APP_PRINT("Status Code:\n%u\n",xResponse.statusCode);
+                        APP_PRINT("Response Body:\n%s\n", xResponse.pBody );
+                    }
+                    else
+                    {
+                        APP_PRINT("Failed to send HTTP %s request to %s%s: Error=%s.", xRequestInfo.pMethod, HTTPS_HOST_ADDRESS,xRequestInfo.pPath,HTTPClient_strerror( httpsClientStatus ) );
+                    }
+                    #endif
+                    if (HTTPSuccess != httpsClientStatus)
                     {
                         APP_ERR_PRINT("** Failed in POST Request ** \r\n");
-                        APP_ERR_TRAP(httpsClientStatus);
+                    }
+                    else
+                    {
+                        APP_PRINT("Received data using POST Request = %s\n", xResponse.pBody);
                     }
                 }
-                break;
-                default:
-                break;
+                    break;
+                default:                
+                    break;   
+            }
+            if (HTTPSuccess != httpsClientStatus)
+            {
+                mbedtls_platform_teardown (NULL);
+                hal_littlefs_deinit ();
+                hal_adc_deinit ();
+                APP_ERR_TRAP(httpsClientStatus);
             }
             /* Repeat the menu to display for user selection */
             APP_PRINT(PRINT_MENU);
         }
     }
     vTaskDelay (TASK_DELAY);
-
 }
 
 /*******************************************************************************************************************//**
@@ -450,7 +685,7 @@ void print_ipconfig(void)
     APP_PRINT("\tDescription                       : Renesas "KIT_NAME" Ethernet\r\n");
     APP_PRINT("\tPhysical Address                  : %02x-%02x-%02x-%02x-%02x-%02x\r\n",
             ucMACAddress[0], ucMACAddress[1], ucMACAddress[2], ucMACAddress[3], ucMACAddress[4], ucMACAddress[5]);
-    APP_PRINT("\tDHCP Enabled                      : %s\r\n", dhcp_in_use ? "Yes" : "No")
+    APP_PRINT("\tDHCP Enabled                      : %s\r\n", dhcp_in_use ? "Yes" : "No");
     APP_PRINT("\tIPv4 Address                      : %d.%d.%d.%d\r\n", ucIPAddress[0], ucIPAddress[1], ucIPAddress[2],
               ucIPAddress[3]);
     APP_PRINT("\tSubnet Mask                       : %d.%d.%d.%d\r\n", ucNetMask[0], ucNetMask[1], ucNetMask[2],
@@ -576,14 +811,104 @@ BaseType_t provision_alt_key(void)
     xResult = vAlternateKeyProvisioning(&params);
     if (CKR_OK != xResult)
     {
-        APP_ERR_PRINT("\r\n Failed in vAlternateKeyProvisioning() function ");
+        APP_ERR_PRINT("\r\nFailed in vAlternateKeyProvisioning() function ");
         return (BaseType_t) xResult;
     }
 
-    APP_PRINT("\r\n Successfully provisioned the device with client certificate and client key ");
+    APP_PRINT("\r\nSuccessfully provisioned the device with client certificate and client key ");
     return status;
 }
 
+/*******************************************************************************************************************//**
+ * @brief      Connects to the server with all required connection configuration settings
+ *
+ * @param[out] NetworkContext               The output parameter to return the created network context
+ * @retval     HTTPSuccess                  Upon successful client Initialization.
+ * @retval     Any other Error Code         Upon unsuccessful client Initialization.
+ **********************************************************************************************************************/
+HTTPStatus_t connect_aws_https_client(NetworkContext_t *NetworkContext)
+{
+    HTTPStatus_t httpsClientStatus = HTTPSuccess;
+    TlsTransportStatus_t TCP_connect_status = TLS_TRANSPORT_SUCCESS;
+    /* The current attempt in the number of connection tries. */
+    uint32_t connAttempt = RESET_VALUE;
+    NetworkCredentials_t connConfig = { RESET_VALUE };
+    TlsTransportParams_t xPlaintextTransportParams={ RESET_VALUE };
+    assert( NetworkContext != NULL );
+
+    ( void ) memset( &connConfig, 0U, sizeof( NetworkCredentials_t ) );
+    ( void ) memset( NetworkContext, 0U, sizeof( NetworkContext_t ) );
+    NetworkContext->pParams=&xPlaintextTransportParams;
+      
+    /* Set the connection configurations. */
+    connConfig.disableSni = pdFALSE;
+    connConfig.pRootCa = (const unsigned char *) HTTPS_TRUSTED_ROOT_CA;
+    connConfig.rootCaSize = sizeof(HTTPS_TRUSTED_ROOT_CA);
+    connConfig.pUserName = NULL;
+    connConfig.userNameSize = 0;
+    connConfig.pPassword = NULL;
+    connConfig.passwordSize = 0;
+    connConfig.pClientCertLabel = pkcs11configLABEL_DEVICE_CERTIFICATE_FOR_TLS;
+    connConfig.pPrivateKeyLabel = pkcs11configLABEL_DEVICE_PRIVATE_KEY_FOR_TLS;
+    connConfig.pAlpnProtos=NULL;
+    
+    /* Connect to server. */
+    for (connAttempt = 1; connAttempt <= HTTPS_CONNECTION_NUM_RETRY; connAttempt++)
+    {
+        TCP_connect_status = TLS_FreeRTOS_Connect (NetworkContext,HTTPS_HOST_ADDRESS,HTTPS_PORT,&connConfig,SOCKET_SEND_RECV_TIME_OUT_MS,SOCKET_SEND_RECV_TIME_OUT_MS);
+
+        if ((TCP_connect_status != TLS_TRANSPORT_SUCCESS) && (connAttempt < HTTPS_CONNECTION_NUM_RETRY))
+        {
+            APP_ERR_PRINT("Failed to connect the server, retrying after 3000 ms.\r\n");
+            vTaskDelay(3000);
+            continue;
+        }
+        else
+        {
+            break;
+        }
+    }
+    if ( TLS_TRANSPORT_SUCCESS != TCP_connect_status )
+    {
+        APP_PRINT("Unable to connect the server. Error code: %d.\r\n", TCP_connect_status);
+        httpsClientStatus = HTTPNetworkError;
+        return httpsClientStatus;
+    }
+
+    APP_PRINT("\r\nConnected to the server\r\n");
+    return httpsClientStatus;
+}
+
+/*******************************************************************************************************************//**
+ * @brief      This function adds the header for https request in JSON format.
+ *             User has to update their Active Key generated from io.adafruit.com site in the ACTIVE_KEY macro.
+ *
+ * @param[in]  pRequestHeaders              request handle should be updated according to the GET, PUT, POST methods.
+ * @retval     HTTPSuccess                  Upon successful client Initialization.
+ * @retval     Any other Error Code         Upon unsuccessful client Initialization.
+ **********************************************************************************************************************/
+HTTPStatus_t add_header (HTTPRequestHeaders_t * pRequestHeaders)
+{
+    HTTPStatus_t Status = HTTPSuccess;
+    configASSERT(pRequestHeaders != NULL);
+    Status = HTTPClient_AddHeader (pRequestHeaders, "Content-Type", strlen ("Content-Type"),
+                                    "application/json", strlen ("application/json"));
+    if (Status == HTTPSuccess)
+    {
+        Status = HTTPClient_AddHeader (pRequestHeaders, "X-AIO-Key", strlen ("X-AIO-Key"), ACTIVE_KEY, strlen (ACTIVE_KEY));
+        if (Status != HTTPSuccess)
+        {
+            APP_ERR_PRINT("An error occurred at adding Active Key in HTTPClient_AddHeader() with error code: Error=%s. \r\n",
+                HTTPClient_strerror( Status ) );
+        }
+    }
+    else 
+    {
+        APP_ERR_PRINT("An error occurred at adding json format in HTTPClient_AddHeader() with error code: Error=%s. \r\n",
+                HTTPClient_strerror( Status ));
+    }
+    return Status;
+}
 
 /*******************************************************************************************************************//**
  * @} (end defgroup aws_https_client_ep)

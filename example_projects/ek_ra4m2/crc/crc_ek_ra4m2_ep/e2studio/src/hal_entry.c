@@ -57,7 +57,7 @@ void hal_entry(void)
 	R_FSP_VersionGet(&version);
 
 	/* Project information printed on the Console */
-	APP_PRINT(BANNER_INFO, EP_VERSION, version.version_id_b.major, version.version_id_b.minor, version.version_id_b.patch );
+	APP_PRINT(BANNER_INFO, EP_VERSION, version.version_id_b.major, version.version_id_b.minor, version.version_id_b.patch);
 	APP_PRINT(EP_INFO);
 
 	/* Open uart module */
@@ -124,12 +124,13 @@ static fsp_err_t crc_operation (void)
 	fsp_err_t err = FSP_SUCCESS;
 	/* CRC inputs structure */
 	crc_input_t input_data;
+	crc_input_t rx_input_data;
 	uint32_t normal_crc_value      = RESET_VALUE; //CRC value in normal mode
-	uint32_t snoop_crc_value       = RESET_VALUE; //CRC value in Snoop mode
+	uint32_t rx_normal_crc_value   = RESET_VALUE; //CRC value in Snoop mode
 	uint32_t uart_time_out         = UINT32_MAX; // Timeout value to check Rx, Tx events
 	uint8_t input_buffer[BUF_LEN]  = {0x05,0x02,0x03,0x04}; // Source data
 	uint8_t dest_buffer[BUF_LEN]   = {RESET_VALUE}; //Buffer to store UART read data
-	uint8_t  uart_data_len         = RESET_VALUE; //Data length for polynomial operation
+	uint8_t uart_data_len         = RESET_VALUE; //Data length for polynomial operation
 
 	/* Before beginning the operation turn off LED */
 	set_led(LED_OFF);
@@ -194,15 +195,6 @@ static fsp_err_t crc_operation (void)
 		/*do nothing */
 	}
 
-	/*Enable snoop mode*/
-	err = R_CRC_SnoopEnable(&g_crc_ctrl, SEED_VALUE);
-	if (FSP_SUCCESS != err)
-	{
-		/* Display failure message in RTT */
-		APP_ERR_PRINT ("R_CRC_SnoopEnable API FAILED \r\n");
-		return err;
-	}
-
 	/* Perform SCI UART loop-back transmission from TX to RX*/
 	/* Perform uart write operation */
 	err =  R_SCI_UART_Write(&g_uart_ctrl,input_buffer,uart_data_len);
@@ -237,26 +229,22 @@ static fsp_err_t crc_operation (void)
 		}
 	}
 
-	/* Get CRC value in snoop mode for receive data */
-	err = R_CRC_CalculatedValueGet(&g_crc_ctrl, &snoop_crc_value);
-	if (FSP_SUCCESS != err)
-	{
-		/* Display failure message in RTT */
-		APP_ERR_PRINT ("R_CRC_CalculatedValueGet API FAILED \r\n");
-		return err;
-	}
+    /* update CRC input structure for normal mode */
+    rx_input_data.num_bytes      = strlen((char*)dest_buffer);
+    rx_input_data.crc_seed       = SEED_VALUE;
+    rx_input_data.p_input_buffer = &dest_buffer;
 
-	/* Disable snoop operation */
-	err = R_CRC_SnoopDisable(&g_crc_ctrl);
+    /* calculate crc value for rx input data in Normal mode */
+	err = R_CRC_Calculate(&g_crc_ctrl, &rx_input_data, &rx_normal_crc_value);
 	if (FSP_SUCCESS != err)
 	{
 		/* Display failure message in RTT */
-		APP_ERR_PRINT ("R_CRC_SnoopDisable API FAILED \r\n");
+		APP_ERR_PRINT ("R_CRC_Calculate API FAILED \r\n");
 		return err;
 	}
 
 	/* validate the CRC results */
-	if (RESET_VALUE == snoop_crc_value)
+	if (RESET_VALUE == rx_normal_crc_value)
 	{
 		APP_PRINT ("\r\nCRC Operation is successful.  \r\n");
 
@@ -358,6 +346,7 @@ void cleanup(void)
  **********************************************************************************************************************/
 void toggle_led(void)
 {
+
 	VALIDATE_IO_PORT_API(R_IOPORT_PinWrite(g_ioport.p_ctrl,(bsp_io_port_pin_t)g_bsp_leds.p_leds[RESET_VALUE], LED_ON));
 	R_BSP_SoftwareDelay(TOGGLE_DELAY, BSP_DELAY_UNITS_MILLISECONDS);
 	VALIDATE_IO_PORT_API(R_IOPORT_PinWrite(g_ioport.p_ctrl,(bsp_io_port_pin_t)g_bsp_leds.p_leds[RESET_VALUE], LED_OFF));

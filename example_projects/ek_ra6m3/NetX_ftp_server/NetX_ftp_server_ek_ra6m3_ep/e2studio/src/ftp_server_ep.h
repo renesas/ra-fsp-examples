@@ -29,26 +29,26 @@
 
 #define USER_DISP_MSG               "Please input file name to be viewed !! \r\n"
 
-#define HANDLE_API_FAILURE_IF_FAIL(api_ret, err, msg)   { if((api_ret==err)){FSP_PARAMETER_NOT_USED (api_ret);}\
-                                    else {PRINT_ERR_STR(msg);ERROR_TRAP(api_ret);}}
+#define HANDLE_API_FAILURE_IF_FAIL(api_ret, err, msg)   ({ if(((api_ret)==(err))){FSP_PARAMETER_NOT_USED (api_ret);}\
+                                    else {PRINT_ERR_STR(msg);ERROR_TRAP(api_ret);}})
 
 
 /* macros to print info, error and trap the error.*/
-#define PRINT_INFO_STR(str)  app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_INFO_STR, sizeof(str), str);
-#define PRINT_ERR_STR(str)   app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_ERR_STR, sizeof(str), str);
-#define ERROR_TRAP(err)      app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_ERR_TRAP, sizeof(UINT *), &err);
+#define PRINT_INFO_STR(str)  (app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_INFO_STR, sizeof(str), (str)))
+#define PRINT_ERR_STR(str)   (app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_ERR_STR, sizeof(str), (str)))
+#define ERROR_TRAP(err)      (app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_ERR_TRAP, sizeof(UINT *), &(err)))
 
 #define EP_INFO        "\r\nThis project demonstrates the basic functionality of Netx Duo ftp server\r\n"\
                        "with ethernet driver on Renesas RA MCUs based on Renesas FSP using AzureRTOS.\r\n"\
                        "ftp Server is created, user can communicate through server through valid FTP client \r\n"\
                        "Error and info messages will be printed on JlinkRTTViewer.\r\n\n\n"
-#define MIN_FILE_NAME_LENGTH    2U
+#define MIN_FILE_NAME_LENGTH    (2U)
 
-#define LOGIN_EVENT_FLAG        (UINT)(1<<2)
-#define DEFAULT_SIZE            (ULONG)40
+#define LOGIN_EVENT_FLAG        ((UINT)(1<<2))
+#define DEFAULT_SIZE            ((ULONG)40)
 #define SAMPLE_DATA_BYTES       {82,101,110,101,115,97,115,95,102,116,112,95,115,101,114,118,101,114,69,112}
-#define SAMPLE_DATA_SIZE        20U
-#define WAIT_OPTION_NETWORK_RETRY      50U
+#define SAMPLE_DATA_SIZE        (20U)
+#define WAIT_OPTION_NETWORK_RETRY      (50U)
 /* ***************** Azure FileX API documentation ********************
  * fx_media_format API requires memory region long enough to
  * hold several directory entries, a data structure to stack the current
@@ -66,5 +66,5 @@
  * 2100 bytes of memory
  * (2048/8000)*8192 = 2097.15 rounded to 2100
  */
-#define SCRATCH_MEM_SIZE        2100U
+#define SCRATCH_MEM_SIZE        (2100U)
 #endif /* FTP_SERVER_EP_H_ */

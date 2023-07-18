@@ -25,9 +25,9 @@
 
 /* Macro definition */
 /* Event flag to identify CAC events */
-#define CAC_EVENT_VALUE       0XFF
+#define CAC_EVENT_VALUE       (0xFF)
 /* To determine number of measurement clocks(CGC) available in CAC configurator */
-#define TARGET_CGC_CLK_CNT    0x06
+#define TARGET_CGC_CLK_CNT    (0x06)
 
 #define EP_INFO       "\r\nThis example project demonstrates basic functionalities of CAC driver."\
         "\r\nOn any key press from RTT viewer, CAC module starts measuring the \r\naccuracy of selected target clock"\

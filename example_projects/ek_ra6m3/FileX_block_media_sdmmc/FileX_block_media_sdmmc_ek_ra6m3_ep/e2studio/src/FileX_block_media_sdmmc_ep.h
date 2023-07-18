@@ -42,18 +42,18 @@
 
 
 
-#define MAX_BYTES 32
-#define ARRAY_SIZE 20
+#define MAX_BYTES (32)
+#define ARRAY_SIZE (20)
 /* ASCII code */
-#define ASCII_ZERO_CODE 48
-#define ASCII_CHAR_A    65
-#define ASCII_LOWER_A   0x61
-#define ASCII_LOWER_N   0x6E
-#define ASCII_LOWER_R   0x72
-#define ASCII_LOWER_P   0x70
+#define ASCII_ZERO_CODE (48)
+#define ASCII_CHAR_A    (65)
+#define ASCII_LOWER_A   (0x61)
+#define ASCII_LOWER_N   (0x6E)
+#define ASCII_LOWER_R   (0x72)
+#define ASCII_LOWER_P   (0x70)
 
 /* MACRO for null character */
-#define NULL_CHAR   '\0'
+#define NULL_CHAR   ('\0')
 
 #define YEAR_SIZE                (4U)
 #define TIME_FORMAT_SIZE         (2U)
@@ -68,14 +68,14 @@
 #define DIR_SPACE_REQUIRED       (512u)
 #define TIMER_TICKS              (2000U)
 
-#define JAN_JUN_JUL 0x4A
-#define FEB         0x46
-#define MAR_MAY     0x4D
-#define APR_AUG     0x41
-#define SEP         0x53
-#define OCT         0x4F
-#define NOV         0x4E
-#define DEC         0x44
+#define JAN_JUN_JUL (0x4A)
+#define FEB         (0x46)
+#define MAR_MAY     (0x4D)
+#define APR_AUG     (0x41)
+#define SEP         (0x53)
+#define OCT         (0x4F)
+#define NOV         (0x4E)
+#define DEC         (0x44)
 
 /* Structure to store time */
 typedef struct st_time_format_params
@@ -115,9 +115,9 @@ typedef enum e_month_numbers
 }month_numbers_t;
 
 /* macros to print info, error and trap the error.*/
-#define PRINT_INFO_STR(str)  app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_INFO_STR, sizeof(str), str);
-#define PRINT_ERR_STR(str)   app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_ERR_STR, sizeof(str), str);
-#define ERROR_TRAP(err)      app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_ERR_TRAP, sizeof(UINT *),&err);
+#define PRINT_INFO_STR(str)  (app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_INFO_STR, sizeof(str), (str)))
+#define PRINT_ERR_STR(str)   (app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_ERR_STR, sizeof(str), (str)))
+#define ERROR_TRAP(err)      (app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_ERR_TRAP, sizeof(UINT *),&(err)))
 
 
 

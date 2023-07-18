@@ -36,7 +36,7 @@ static uint8_t g_fx_media0_media_memory[G_FX_MEDIA0_MEDIA_MEMORY_SIZE];
 static FX_FILE g_file;
 /* Timeout value */
 volatile int32_t g_time_out = INT32_MAX;
-ULONG       actual_events   = RESET_VALUE;
+ULONG       g_actual_events   = RESET_VALUE;
 /* Variable to store time*/
 time_format_t g_set_time = {RESET_VALUE};
 
@@ -80,8 +80,8 @@ void filex_thread_entry(void)
     fx_system_initialize();
 
     /* Check if card inserted event is received or not and proceed further. */
-    fx_ret_val = tx_event_flags_get(&my_event_flags_group, RM_BLOCK_MEDIA_EVENT_MEDIA_INSERTED, TX_AND_CLEAR, &actual_events, TIMER_TICKS);
-    if((TX_SUCCESS == fx_ret_val) && (RM_BLOCK_MEDIA_EVENT_MEDIA_INSERTED == actual_events))
+    fx_ret_val = tx_event_flags_get(&my_event_flags_group, RM_BLOCK_MEDIA_EVENT_MEDIA_INSERTED, TX_AND_CLEAR, &g_actual_events, TIMER_TICKS);
+    if((TX_SUCCESS == fx_ret_val) && (RM_BLOCK_MEDIA_EVENT_MEDIA_INSERTED == g_actual_events))
     {
         PRINT_INFO_STR("\r\nSD Card is inserted");
     }
@@ -91,7 +91,7 @@ void filex_thread_entry(void)
         PRINT_ERR_STR("\r\nInsert card and Restart the application.\r\n");
         ERROR_TRAP(err);
     }
-    actual_events   = RESET_VALUE;
+    g_actual_events   = RESET_VALUE;
 
     /* Extract current Date and Time from compiler MACROS */
     char read_time[MAX_BYTES] = {NULL_CHAR};
@@ -132,18 +132,18 @@ void filex_thread_entry(void)
 
     while(true)
     {
-        fx_ret_val = tx_event_flags_get(&my_event_flags_group, RM_BLOCK_MEDIA_EVENT_MEDIA_REMOVED, TX_AND_CLEAR, &actual_events, TX_NO_WAIT);
-        if((TX_SUCCESS == fx_ret_val) && (RM_BLOCK_MEDIA_EVENT_MEDIA_REMOVED == actual_events))
+        fx_ret_val = tx_event_flags_get(&my_event_flags_group, RM_BLOCK_MEDIA_EVENT_MEDIA_REMOVED, TX_AND_CLEAR, &g_actual_events, TX_NO_WAIT);
+        if((TX_SUCCESS == fx_ret_val) && (RM_BLOCK_MEDIA_EVENT_MEDIA_REMOVED == g_actual_events))
         {
             PRINT_INFO_STR("\r\nSD Card is removed. Please insert SD card to proceed.");
             /* Check if card inserted event is received or not and proceed further. */
-            fx_ret_val = tx_event_flags_get(&my_event_flags_group, RM_BLOCK_MEDIA_EVENT_MEDIA_INSERTED,TX_AND_CLEAR, &actual_events, TX_WAIT_FOREVER);
-            if((TX_SUCCESS == fx_ret_val) && (RM_BLOCK_MEDIA_EVENT_MEDIA_INSERTED == actual_events))
+            fx_ret_val = tx_event_flags_get(&my_event_flags_group, RM_BLOCK_MEDIA_EVENT_MEDIA_INSERTED,TX_AND_CLEAR, &g_actual_events, TX_WAIT_FOREVER);
+            if((TX_SUCCESS == fx_ret_val) && (RM_BLOCK_MEDIA_EVENT_MEDIA_INSERTED == g_actual_events))
             {
                 PRINT_INFO_STR("\r\nSD Card is inserted");
             }
         }
-        actual_events   = RESET_VALUE;
+        g_actual_events   = RESET_VALUE;
 
         /* Perform file operations using blockmedia sdmmc */
         fx_ret_val = filex_blockmedia_sdmmc_operation();
@@ -186,11 +186,11 @@ static UINT filex_blockmedia_sdmmc_operation(void)
     {
         case FORMAT_CARD :
         {
-            status = tx_event_flags_get(&my_event_flags_group, RM_BLOCK_MEDIA_EVENT_MEDIA_REMOVED, TX_AND_CLEAR, &actual_events, TX_NO_WAIT);
-            if((TX_SUCCESS == status) && (RM_BLOCK_MEDIA_EVENT_MEDIA_REMOVED == actual_events))
+            status = tx_event_flags_get(&my_event_flags_group, RM_BLOCK_MEDIA_EVENT_MEDIA_REMOVED, TX_AND_CLEAR, &g_actual_events, TX_NO_WAIT);
+            if((TX_SUCCESS == status) && (RM_BLOCK_MEDIA_EVENT_MEDIA_REMOVED == g_actual_events))
             {
                 status = FX_MEDIA_INVALID;
-                actual_events   = RESET_VALUE;
+                g_actual_events   = RESET_VALUE;
                 PRINT_ERR_STR("\r\nSD card is removed. Please insert SD card to proceed.");
                 return status;
 
@@ -227,11 +227,11 @@ static UINT filex_blockmedia_sdmmc_operation(void)
         break;
         case FILE_CREATION :
         {
-            status = tx_event_flags_get(&my_event_flags_group, RM_BLOCK_MEDIA_EVENT_MEDIA_REMOVED, TX_AND_CLEAR, &actual_events, TX_NO_WAIT);
-            if((TX_SUCCESS == status) && (RM_BLOCK_MEDIA_EVENT_MEDIA_REMOVED == actual_events))
+            status = tx_event_flags_get(&my_event_flags_group, RM_BLOCK_MEDIA_EVENT_MEDIA_REMOVED, TX_AND_CLEAR, &g_actual_events, TX_NO_WAIT);
+            if((TX_SUCCESS == status) && (RM_BLOCK_MEDIA_EVENT_MEDIA_REMOVED == g_actual_events))
             {
                 status = FX_MEDIA_INVALID;
-                actual_events   = RESET_VALUE;
+                g_actual_events   = RESET_VALUE;
                 PRINT_ERR_STR("\r\nSD card is removed. Please insert SD card to proceed.");
                 return status;
 
@@ -368,10 +368,10 @@ static UINT filex_blockmedia_sdmmc_operation(void)
         break;
         case DISPLAY_CONTENT :
         {
-            status = tx_event_flags_get(&my_event_flags_group, RM_BLOCK_MEDIA_EVENT_MEDIA_REMOVED, TX_AND_CLEAR, &actual_events, TX_NO_WAIT);
-            if((TX_SUCCESS == status) && (RM_BLOCK_MEDIA_EVENT_MEDIA_REMOVED == actual_events))
+            status = tx_event_flags_get(&my_event_flags_group, RM_BLOCK_MEDIA_EVENT_MEDIA_REMOVED, TX_AND_CLEAR, &g_actual_events, TX_NO_WAIT);
+            if((TX_SUCCESS == status) && (RM_BLOCK_MEDIA_EVENT_MEDIA_REMOVED == g_actual_events))
             {
-                actual_events   = RESET_VALUE;
+                g_actual_events   = RESET_VALUE;
                 status = FX_MEDIA_INVALID;
                 PRINT_ERR_STR("\r\nSD card is removed. Please insert SD card to proceed.");
                 return status;
@@ -484,12 +484,12 @@ static UINT filex_blockmedia_sdmmc_write(FX_FILE * p_file, CHAR * p_file_name)
     }
 
     /* Check if write operation is completed and event is received from callback*/
-    status = tx_event_flags_get(&my_event_flags_group, RM_BLOCK_MEDIA_EVENT_WAIT_END,TX_AND_CLEAR, &actual_events, TIMER_TICKS);
-    if((TX_SUCCESS == status) && (RM_BLOCK_MEDIA_EVENT_WAIT_END == actual_events))
+    status = tx_event_flags_get(&my_event_flags_group, RM_BLOCK_MEDIA_EVENT_WAIT_END,TX_AND_CLEAR, &g_actual_events, TIMER_TICKS);
+    if((TX_SUCCESS == status) && (RM_BLOCK_MEDIA_EVENT_WAIT_END == g_actual_events))
     {
         PRINT_INFO_STR("\r\nWrite operation completed.");
     }
-    actual_events   = RESET_VALUE;
+    g_actual_events   = RESET_VALUE;
 
     /* Set date and Time */
     status = fx_file_date_time_set(&g_fx_media0, p_file_name, g_set_time.year, g_set_time.month, g_set_time.date,
@@ -547,12 +547,12 @@ static UINT filex_blockmedia_sdmmc_read(FX_FILE * p_file, CHAR * p_file_name)
     }
 
     /* Check if read operation is completed and event is received from callback*/
-    status = tx_event_flags_get(&my_event_flags_group, RM_BLOCK_MEDIA_EVENT_WAIT_END,TX_AND_CLEAR, &actual_events, TIMER_TICKS);
-    if((TX_SUCCESS == status) && (RM_BLOCK_MEDIA_EVENT_WAIT_END == actual_events))
+    status = tx_event_flags_get(&my_event_flags_group, RM_BLOCK_MEDIA_EVENT_WAIT_END,TX_AND_CLEAR, &g_actual_events, TIMER_TICKS);
+    if((TX_SUCCESS == status) && (RM_BLOCK_MEDIA_EVENT_WAIT_END == g_actual_events))
     {
         PRINT_INFO_STR("\r\nRead operation completed successfully.");
     }
-    actual_events   = RESET_VALUE;
+    g_actual_events   = RESET_VALUE;
 
     /* Close the file */
     status = fx_file_close(p_file);

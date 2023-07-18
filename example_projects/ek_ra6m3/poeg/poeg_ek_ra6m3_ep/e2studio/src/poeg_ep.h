@@ -46,12 +46,12 @@
 #define HIGH_VAL (2100U)        /* Higher value of fluctuating range*/
 #define CHANNEL_ZERO (0U)           /* Channel 0 of ACMPHS */
 
-#define LED_PIN BSP_IO_PORT_04_PIN_00
+#define LED_PIN (BSP_IO_PORT_04_PIN_00)
 #define GTETRG_PIN "P104"
 #define SET_FLAG    (1)
 #define CLEAR_FLAG  (0)
 
-#define NULL_CHAR   '\0'
+#define NULL_CHAR   ('\0')
 
 #define EP_INFO                "\r\nThe example project demonstrates the modes of POEG module"\
                                "\r\n1.POEG Trigger Pin mode-GPT Output disable on GTETRG pin level"\

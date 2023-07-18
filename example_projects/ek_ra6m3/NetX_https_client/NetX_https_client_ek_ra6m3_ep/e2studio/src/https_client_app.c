@@ -118,7 +118,7 @@ unsigned char ca_cert_der[] = {
                                0x07,0x40,0x05,0xB1,0x0F,0x83,0x53,0x43,0x42,0x3B,0xE7,0xFB,0xF1,0x77,0xFB};
 
 /* Trusted Certificate Info. */
-const TRUSTED_CERTIFCATE_INFO_STRUCT g_trust_certs[] =
+const trusted_certifcate_info_t g_trust_certs[] =
 {
  [0]
   {
@@ -128,7 +128,7 @@ const TRUSTED_CERTIFCATE_INFO_STRUCT g_trust_certs[] =
 };
 
 /* Number of Trusted Certificates. */
-#define NO_OF_TRUSTED_CERTS         sizeof(g_trust_certs)/sizeof(TRUSTED_CERTIFCATE_INFO_STRUCT)
+#define NO_OF_TRUSTED_CERTS         (sizeof(g_trust_certs)/sizeof(trusted_certifcate_info_t))
 
 /* TLS buffers and certificate containers. */
 extern NX_SECURE_TLS_CRYPTO nx_crypto_tls_ciphers;
@@ -429,7 +429,7 @@ UINT processPutRequest(float adc_val)
     /* Buffer to store the URL path for Adafruit IO Server. */
     CHAR url_path[BUFFER_SIZE]          = {NULL_CHAR};
     /* Buffer to get retrieve the feed id from Adafruit Server. */
-    CHAR feed_id[FEED_ID_SIZE]          = {NULL_CHAR};
+    CHAR feed_id[FEED_ID_SIZE + 1]          = {NULL_CHAR};
     /* To get size of the http request to be sent to Adafruit IO Server. */
     UINT size                           = RESET_VALUE;
 
@@ -456,7 +456,7 @@ UINT processPutRequest(float adc_val)
     }
 
     /* Get the Feed ID. */
-    memcpy(feed_id,(char *)&g_receive_buffer[8],FEED_ID_SIZE);
+    memcpy(feed_id,strstr((char*)g_receive_buffer, "id") + 5,FEED_ID_SIZE);
 
     memset (url_path, RESET_VALUE, sizeof(url_path));
     snprintf (url_path, BUFFER_SIZE, "%s%s%s%s%s%s%s", API_V2, IO_USERNAME, FEEDS, FEED_NAME, DATA, SEPERATOR ,feed_id);

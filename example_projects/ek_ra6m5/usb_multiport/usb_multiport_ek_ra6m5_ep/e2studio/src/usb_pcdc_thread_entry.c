@@ -38,7 +38,7 @@ uint8_t g_readbuf[READ_BUF_SIZE]  = {RESET_VALUE};  /* buffer to read data from 
 uint8_t g_writeBuf[READ_BUF_SIZE] = {RESET_VALUE};  /* data to send from queue */
 uint8_t g_tempBuf[READ_BUF_SIZE]  = {RESET_VALUE};  /* temp buffer */
 volatile bool b_overflow = false;                   /* flag for overflow */
-uint16_t g_bytestoWrite = RESET_VALUE;              /* variable to count bytes to write on file */
+uint16_t g_bytes_to_write = RESET_VALUE;              /* variable to count bytes to write on file */
 
 /* Static variable */
 static volatile usb_event_info_t * p_usb_pcdc_event = NULL;
@@ -48,7 +48,7 @@ static usb_pcdc_linecoding_t g_line_coding;
 static void handle_error(fsp_err_t err, char * err_str);
 
 /* extern variable */
-extern bool b_writetoUSB;
+extern bool g_write_to_usb;
 extern uint8_t g_apl_device[];
 extern uint8_t g_apl_configuration[];
 extern uint8_t g_apl_hs_configuration[];
@@ -97,7 +97,7 @@ void usb_pcdc_thread_entry(void *pvParameters)
         err_queue = xQueueReceive (g_queue_data_from_hmsc, g_buf, (TickType_t) (RESET_VALUE));
         if (pdTRUE == err_queue)
         {
-            APP_PRINT("\r\n   Data from the file is written on to console (Tera term via PCDC)\r\n")
+            APP_PRINT("\r\n   Data from the file is written on to console (Tera term via PCDC)\r\n");
             /* Write data to tera term */
             err = R_USB_Write (&g_basic1_ctrl, g_buf, WRITE_ITEM_SIZE, USB_CLASS_PCDC);
             /* Handle error */
@@ -147,7 +147,7 @@ fsp_err_t process_usb_pcdc_events(void)
             else
             {
                 /* Check for flag status */
-                if (true == b_writetoUSB)
+                if (true == g_write_to_usb)
                 {
                     fillDataBufferandWritetoFile();
                 }
@@ -237,14 +237,14 @@ void fillDataBufferandWritetoFile(void)
             b_overflow = true;
         }
         g_writeBuf[WriteBufIndex++] = g_readbuf[RESET_VALUE];
-        g_bytestoWrite++;
+        g_bytes_to_write++;
         /* Check for Carriage return */
         if (CARRIAGE_RETURN == g_readbuf[RESET_VALUE])
         {
             /* Check for overflow flag */
             if(true == b_overflow)
             {
-                g_bytestoWrite = WRITE_ITEM_SIZE;
+                g_bytes_to_write = WRITE_ITEM_SIZE;
                 /* Circular buffer is used. Logic is to arrange array in
                  * old to latest before writing to file */
                 uint16_t tempBufIndex = RESET_VALUE;
@@ -267,7 +267,7 @@ void fillDataBufferandWritetoFile(void)
                 /* Reset index and flags */
                 WriteBufIndex = RESET_VALUE;
                 b_overflow = false;
-                b_writetoUSB = false;
+                g_write_to_usb = false;
             }
         }
     }

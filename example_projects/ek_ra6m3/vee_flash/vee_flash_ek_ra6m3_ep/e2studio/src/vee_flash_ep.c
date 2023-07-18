@@ -102,7 +102,7 @@ fsp_err_t vee_write_operation(uint32_t const rec_id, void *  p_data, uint32_t by
 fsp_err_t vee_read_operation(uint32_t const rec_id)
 {
     fsp_err_t err                = FSP_SUCCESS;
-    char flt_str[BUF_SIZE]       = {RESET_VALUE};
+    uint8_t flt_str[BUF_SIZE]    = {RESET_VALUE};
     uint32_t     out_len         = RESET_VALUE;
     void *  p_record_data        = NULL;
     adxl_t  adxl_data            = {RESET_VALUE};
@@ -134,7 +134,7 @@ fsp_err_t vee_read_operation(uint32_t const rec_id)
         {
             for(uint8_t cnt = RESET_VALUE; cnt< DATA_SIZE; cnt++)
             {
-                snprintf(flt_str,sizeof(flt_str),"data[%d] = %0.02f",cnt,*((float *)p_record_data));
+                snprintf((char *)flt_str,sizeof(flt_str),"data[%d] = %0.02f",cnt,*((float *)p_record_data));
                 APP_PRINT("%s\r\n", flt_str);
                 p_record_data = ((float *)p_record_data + ONE);
             }
@@ -273,7 +273,7 @@ fsp_err_t vee_refresh_operation(void)
  ****************************************************************************************************************/
 uint8_t process_input_data(void)
 {
-    unsigned char buf[BUFFER_SIZE_DOWN] = {INITIAL_VALUE};
+    uint8_t  buf[BUFFER_SIZE_DOWN]      = {INITIAL_VALUE};
     uint32_t num_bytes                  = RESET_VALUE;
     uint8_t  value                      = RESET_VALUE;
 

@@ -1,25 +1,3 @@
-/***********************************************************************************************************************
- * File Name    : phid_main_thread_entry.c
- * Description  : Contains functions from the phid main thread
- ***********************************************************************************************************************/
-/***********************************************************************************************************************
- * DISCLAIMER
- * This software is supplied by Renesas Electronics Corporation and is only intended for use with Renesas products. No
- * other uses are authorized. This software is owned by Renesas Electronics Corporation and is protected under all
- * applicable laws, including copyright laws.
- * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
- * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED. TO THE MAXIMUM
- * EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES
- * SHALL BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR ANY REASON RELATED TO THIS
- * SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
- * Renesas reserves the right, without notice, to make changes to this software and to discontinue the availability of
- * this software. By using this software, you agree to the additional terms and conditions found by accessing the
- * following link:
- * http://www.renesas.com/disclaimer
- *
- * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
- ***********************************************************************************************************************/
 #include "phid_main_thread.h"
 #include "common_utils.h"
 #include "usb_phid_ep.h"
@@ -31,7 +9,7 @@
 /* external variables*/
 extern uint8_t g_apl_configuration[];
 extern uint8_t g_apl_report[];
-extern bool b_write_flag;
+extern bool g_write_flag;
 
 /* private function declarations */
 static void usb_enumeration(void);
@@ -41,24 +19,23 @@ static void deinit_usb(void);
 
 /* private variables */
 static uint8_t send_data[BUFF_SIZE] BSP_ALIGN_VARIABLE(ALIGN);
-static uint8_t * p_idle_value = NULL;
 static usb_event_info_t * p_usb_phid_event = NULL;
-static uint8_t g_idle = RESET_VALUE;
 static uint8_t g_buf[DATA_LEN]  = {RESET_VALUE,}; /* HID NULL data */
 static uint8_t g_data[DATA_LEN] = {RESET_VALUE,};
 static uint16_t g_numlock = RESET_VALUE;
 /* Error status flag */
 static volatile bool g_err_flag = false;
 
-/*******************************************************************************************************************//**
- * @brief       phid main thread entry
- * @param[IN]   pvParameters
- * @retval      None
- **********************************************************************************************************************/
+/* Phid Thread entry function */
+/* pvParameters contains TaskHandle_t */
 void phid_main_thread_entry(void *pvParameters)
 {
     FSP_PARAMETER_NOT_USED (pvParameters);
-    BaseType_t err_queue       = pdFALSE;
+    static uint8_t idle_value = RESET_VALUE;
+    static usb_event_info_t g_usb_phid_event  = {RESET_VALUE};
+    /* Make sure the pointers as assigned to valid memories before accessing */
+    p_idle_value = &idle_value;
+    p_usb_phid_event = &g_usb_phid_event;
 
     fsp_err_t err = FSP_SUCCESS;
     /* Open USB instance */
@@ -71,13 +48,6 @@ void phid_main_thread_entry(void *pvParameters)
 
     while (true)
     {
-        /* Check if USB event is received */
-        err_queue = xQueueReceive(g_event_queue, &p_usb_phid_event, (portMAX_DELAY));
-        if(pdTRUE != err_queue)
-        {
-            APP_ERR_PRINT("\r\nNo USB Event received. Please check USB connection \r\n");
-        }
-
         /* check for usb event */
         switch (p_usb_phid_event->event)
         {
@@ -140,10 +110,8 @@ void usb_phid_callback(usb_event_info_t * p_usb_event , usb_hdl_t task, usb_onof
     FSP_PARAMETER_NOT_USED (task);
     FSP_PARAMETER_NOT_USED (state);
     /* capture the usb event info */
-    if (pdTRUE != (xQueueSendFromISR(g_event_queue, (const void *)&p_usb_event, (TickType_t)(RESET_VALUE))))
-    {
-        g_err_flag = true;
-    }
+    p_usb_phid_event = p_usb_event;
+
 }
 
 /*******************************************************************************************************************//**
@@ -158,7 +126,7 @@ static void usb_enumeration(void)
     if (USB_SET_REPORT == (p_usb_phid_event->setup.request_type & USB_BREQUEST))
     {
         /* Get the NumLock data */
-        err = R_USB_PeriControlDataGet(&g_basic_ctrl, (uint8_t *) &g_numlock, SIZE_NUM);
+        err = R_USB_Read(&g_basic_ctrl, (uint8_t *) &g_numlock, SIZE_NUM, USB_CLASS_PHID);
         if (FSP_SUCCESS != err)
         {
             APP_ERR_PRINT("\r\nR_USB_Read failed\r\n");
@@ -202,11 +170,6 @@ static void usb_enumeration(void)
     }
     else if (USB_SET_IDLE == (p_usb_phid_event->setup.request_type & USB_BREQUEST))
     {
-        /* Get SetIdle value */
-        p_idle_value = (uint8_t *) &p_usb_phid_event->setup.request_value;
-
-        g_idle = p_idle_value[IDLE_VAL_INDEX];
-
         err = R_USB_PeriControlStatusSet(p_usb_phid_event, USB_SETUP_STATUS_ACK);
         if (FSP_SUCCESS != err)
         {
@@ -232,9 +195,7 @@ static void usb_status_update(void)
     /* check for request type */
     if (USB_SET_IDLE == (p_usb_phid_event->setup.request_type & USB_BREQUEST))
     {
-        p_idle_value = (uint8_t *) &p_usb_phid_event->setup.request_value;
-
-        g_idle = p_idle_value[IDLE_VAL_INDEX];
+        /* None */
     }
     else if (USB_SET_PROTOCOL == (p_usb_phid_event->setup.request_type & USB_BREQUEST))
     {
@@ -262,7 +223,7 @@ static void usb_write_operation(void)
 {
     fsp_err_t err = FSP_SUCCESS;
     /* check flag from user input */
-    if (true == b_write_flag)
+    if (true == g_write_flag)
     {
         /* Usage ID of A */
         static uint8_t data = USAGE_ID_A;
@@ -281,19 +242,11 @@ static void usb_write_operation(void)
                 deinit_usb();
                 APP_ERR_TRAP(err);
             }
-            /* Sending the zero data (8 bytes) */
-            err = R_USB_Write(&g_basic_ctrl, (uint8_t *) g_buf, DATA_LEN, USB_CLASS_PHID);
-            if (FSP_SUCCESS != err)
-            {
-                APP_ERR_PRINT("\r\nR_USB_Write failed\r\n");
-                deinit_usb();
-                APP_ERR_TRAP(err);
-            }
         }
         else
         {
             data = USAGE_ID_A;
-            b_write_flag = false;
+            g_write_flag = false;
         }
     }
     else
@@ -324,7 +277,3 @@ static void deinit_usb(void)
         APP_ERR_PRINT("\r\nR_USB_Close\r\n ");
     }
 }
-
-/*******************************************************************************************************************//**
- * @} (end addtogroup usb_phid_ep)
- **********************************************************************************************************************/

@@ -45,9 +45,9 @@
                                 "\r\nUser Input:  "
 
 /* macros to print info, error and trap the error.*/
-#define PRINT_INFO_STR(str)  app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_INFO_STR, sizeof(str), str);
-#define PRINT_ERR_STR(str)   app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_ERR_STR, sizeof(str), str);
-#define ERROR_TRAP(err)      app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_ERR_TRAP, sizeof(UINT *), &err);
+#define PRINT_INFO_STR(str)  (app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_INFO_STR, sizeof(str), (str)))
+#define PRINT_ERR_STR(str)   (app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_ERR_STR, sizeof(str), (str)))
+#define ERROR_TRAP(err)      (app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_ERR_TRAP, sizeof(UINT *), &(err)))
 
 #define DATA_LEN                   (32U)
 #define TRUNCATION_VALUE           (0U)
@@ -66,27 +66,27 @@
 #define TWO                        (2)
 
 /* ASCII code */
-#define ASCII_ZERO_CODE 48
-#define ASCII_CHAR_A    65
-#define ASCII_LOWER_A   0x61
-#define ASCII_LOWER_N   0x6E
-#define ASCII_LOWER_R   0x72
-#define ASCII_LOWER_P   0x70
+#define ASCII_ZERO_CODE (48)
+#define ASCII_CHAR_A    (65)
+#define ASCII_LOWER_A   (0x61)
+#define ASCII_LOWER_N   (0x6E)
+#define ASCII_LOWER_R   (0x72)
+#define ASCII_LOWER_P   (0x70)
 #define DATE_VALUE_CHECK           (2000U)
 #define DATE_VALUE_SUB             (2400U)
 #define DIR_SPACE_REQUIRED         (512u)
 
 /* MACRO for null character */
-#define NULL_CHAR                  '\0'
+#define NULL_CHAR                  ('\0')
 
-#define JAN_JUN_JUL 0x4A
-#define FEB         0x46
-#define MAR_MAY     0x4D
-#define APR_AUG     0x41
-#define SEP         0x53
-#define OCT         0x4F
-#define NOV         0x4E
-#define DEC         0x44
+#define JAN_JUN_JUL (0x4A)
+#define FEB         (0x46)
+#define MAR_MAY     (0x4D)
+#define APR_AUG     (0x41)
+#define SEP         (0x53)
+#define OCT         (0x4F)
+#define NOV         (0x4E)
+#define DEC         (0x44)
 
 #define CREATE                 (1U)          //RTT Input selection for create operation
 #define WRITE                  (2U)          //RTT Input selection for write operation.

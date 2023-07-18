@@ -27,8 +27,8 @@
 #include "board_cfg.h"
 
 /* MACRO definitions */
-#define ADCTEMP_AS_C(a)             ((((float)a) * 0.196551f) - 277.439f)
-#define ADCTEMP_AS_F(a)             ((((float)a) * 0.353793f) - 467.39f)
+#define ADCTEMP_AS_C(a)             ((((float)(a)) * 0.196551f) - 277.439f)
+#define ADCTEMP_AS_F(a)             ((((float)(a)) * 0.353793f) - 467.39f)
 
 /* User function declarations */
 fsp_err_t hal_adc_init(void);

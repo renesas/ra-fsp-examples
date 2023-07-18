@@ -137,18 +137,7 @@ static fsp_err_t adc_scan_start(void)
         /* Set Reference Voltage Circuit Control register */
         R_ADC0->VREFAMPCNT |= ((VREFADCG_VALUE << SHIFT_BY_ONE) | (VREFADCG_ENABLE << SHIFT_BY_THREE));
 #endif
-#if (defined BOARD_RA2A1_EK) || (defined BOARD_RA6T2_MCK)
-        /* Calibrate the ADC */
-        err = adc_start_calibration();
 
-        /* handle error */
-        if (FSP_SUCCESS != err)
-        {
-            /* ADC Failure message */
-            APP_ERR_PRINT("** adc_start_calibration function failed ** \r\n");
-            return err;
-        }
-#endif
         /* Configures the ADC scan parameters */
 #ifdef BOARD_RA6T2_MCK
         err = R_ADC_B_ScanCfg (&g_adc_b_ctrl, &g_adc_b_scan_cfg);
@@ -163,6 +152,20 @@ static fsp_err_t adc_scan_start(void)
             APP_ERR_PRINT("** R_ADC_ScanCfg API failed ** \r\n");
             return err;
         };
+
+#if (defined BOARD_RA2A1_EK) || (defined BOARD_RA6T2_MCK)
+        /* Calibrate the ADC */
+        err = adc_start_calibration();
+
+        /* handle error */
+        if (FSP_SUCCESS != err)
+        {
+            /* ADC Failure message */
+            APP_ERR_PRINT("** adc_start_calibration function failed ** \r\n");
+            return err;
+        }
+#endif
+
         /* Start the ADC scan*/
 #ifdef BOARD_RA6T2_MCK
         err = R_ADC_B_ScanStart(&g_adc_b_ctrl);

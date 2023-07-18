@@ -39,7 +39,7 @@
 #define PAGE_WRITE_SIZE                 (256U)
 
 /* QSPI flash address through page*/
-#define QSPI_FLASH_ADDRESS(page_no)     (uint8_t *) (QSPI_DEVICE_START_ADDRESS + (page_no * PAGE_WRITE_SIZE))
+#define QSPI_FLASH_ADDRESS(page_no)     ((uint8_t *) (QSPI_DEVICE_START_ADDRESS + ((page_no) * PAGE_WRITE_SIZE)))
 
 /* Status register pay-load */
 #define STATUS_REG_PAYLOAD              {0x01,0x40,0x00}

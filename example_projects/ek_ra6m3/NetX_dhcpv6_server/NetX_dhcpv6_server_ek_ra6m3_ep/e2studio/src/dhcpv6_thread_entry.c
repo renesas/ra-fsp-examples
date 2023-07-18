@@ -55,9 +55,9 @@ static bool b_serverReady = false;
 /* variable to capture IP leased state*/
 static bool b_ip_leased = false;
 /* IPv6 addresses.*/
-NXD_ADDRESS dns_ipv6_address;
-NXD_ADDRESS start_ipv6_address;
-NXD_ADDRESS end_ipv6_address;
+NXD_ADDRESS g_dns_ipv6_address;
+NXD_ADDRESS g_start_ipv6_address;
+NXD_ADDRESS g_end_ipv6_address;
 
 /* Function declaration. */
 static void nx_common_init0(void);
@@ -72,7 +72,7 @@ void dhcpv6_thread_entry(void)
     UINT    addresses_added   = RESET_VALUE;
     UINT    err               = TX_SUCCESS;
     uint8_t read_data         = RESET_VALUE;
-    IPV6_INFO leased_info     = {RESET_VALUE};
+    ipv6_info_t leased_info     = {RESET_VALUE};
 
     /* Initialize the RTT Thread.*/
     rtt_thread_init_check();
@@ -95,10 +95,10 @@ void dhcpv6_thread_entry(void)
 
     /* The DNS IPV6 address is updated for DHCPV6 server database, so that when the Clients request
      * for IP address, DHCPV6 server also provides the DNS server info to the clients. */
-    FILL_NXD_IPV6_ADDRESS(dns_ipv6_address, 0x2001,0xEE08,0x0,0x0,0x0,0x0,0x0,0x2);
+    FILL_NXD_IPV6_ADDRESS(g_dns_ipv6_address, 0x2001,0xEE08,0x0,0x0,0x0,0x0,0x0,0x2);
 
     /* Update the  DNS IPv6 address. */
-    status = nx_dhcpv6_create_dns_address(&g_dhcpv6_server, &dns_ipv6_address);
+    status = nx_dhcpv6_create_dns_address(&g_dhcpv6_server, &g_dns_ipv6_address);
     if(NX_SUCCESS != status)
     {
         PRINT_ERR_STR("nx_dhcpv6_create_dns_address failed.");
@@ -121,14 +121,14 @@ void dhcpv6_thread_entry(void)
     PRINT_INFO_STR("Server DUID sets successfully.");
 
     /* Set the IPv6 start address.  */
-    FILL_NXD_IPV6_ADDRESS(start_ipv6_address, 0x2001,0xEE08,0x0,0x0,0x0,0x0,0x0,0x110);
+    FILL_NXD_IPV6_ADDRESS(g_start_ipv6_address, 0x2001,0xEE08,0x0,0x0,0x0,0x0,0x0,0x110);
     /* Set the IPv6 end address.  */
-    FILL_NXD_IPV6_ADDRESS(end_ipv6_address  , 0x2001,0xEE08,0x0,0x0,0x0,0x0,0x0,0x150);
+    FILL_NXD_IPV6_ADDRESS(g_end_ipv6_address  , 0x2001,0xEE08,0x0,0x0,0x0,0x0,0x0,0x150);
 
     /* create dhcp6 IP address range.*/
     status = nx_dhcpv6_create_ip_address_range(&g_dhcpv6_server,
-                                               &start_ipv6_address,
-                                               &end_ipv6_address,
+                                               &g_start_ipv6_address,
+                                               &g_end_ipv6_address,
                                                &addresses_added);
     if(NX_SUCCESS != status)
     {
@@ -182,11 +182,11 @@ void dhcpv6_thread_entry(void)
                     for (ULONG idx = RESET_VALUE; g_dhcpv6_server.nx_dhcpv6_lease_list[idx].nx_dhcpv6_lease_assigned_to != NULL ; idx++)
                     {
                         /* assign and print leased ipv6 address, clients MAC address */
-                        memset(&leased_info, RESET_VALUE, sizeof(IPV6_INFO));
+                        memset(&leased_info, RESET_VALUE, sizeof(ipv6_info_t));
                         memcpy(&leased_info.ipv6_address, &g_dhcpv6_server.nx_dhcpv6_lease_list[idx].nx_dhcpv6_lease_IP_address, sizeof(NXD_ADDRESS));
                         leased_info.mac_high = g_dhcpv6_server.nx_dhcpv6_lease_list[idx].nx_dhcpv6_lease_assigned_to->nx_dhcpv6_client_duid.nx_link_layer_address_msw;
                         leased_info.mac_low  = g_dhcpv6_server.nx_dhcpv6_lease_list[idx].nx_dhcpv6_lease_assigned_to->nx_dhcpv6_client_duid.nx_link_layer_address_lsw;
-                        app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_PRINT_CLIENT_DATA, sizeof(IPV6_INFO ), &leased_info);
+                        app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_PRINT_CLIENT_DATA, sizeof(ipv6_info_t ), &leased_info);
                         /* set the IP leased state as true.*/
                         b_ip_leased = true;
                     }

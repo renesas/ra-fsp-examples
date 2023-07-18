@@ -48,13 +48,13 @@ typedef enum menu_option
 }menu_option_t;
 
 /* Macro for buffer size to read date and time */
-#define DATE_TIME_MAX_LEN       32
+#define DATE_TIME_MAX_LEN       (32)
 
 /* Macro for buffer size containing file name */
-#define MAX_FILE_NAME_SIZE      32
+#define MAX_FILE_NAME_SIZE      (32)
 
 /* Macro for null character */
-#define NULL_CHAR   '\0'
+#define NULL_CHAR   ('\0')
 
 /* Macros for sector information of media */
 #define MEDIA_SECTOR_HEADS_VALUE (1U)
@@ -68,18 +68,18 @@ typedef enum menu_option
 #define WRITE_ITEM_SIZE          (10240u)
 
 /* Macros of months used in date calculation */
-#define JAN_JUN_JUL 0x4A
-#define FEB         0x46
-#define MAR_MAY     0x4D
-#define APR_AUG     0x41
-#define SEP         0x53
-#define OCT         0x4F
-#define NOV         0x4E
-#define DEC         0x44
+#define JAN_JUN_JUL (0x4A)
+#define FEB         (0x46)
+#define MAR_MAY     (0x4D)
+#define APR_AUG     (0x41)
+#define SEP         (0x53)
+#define OCT         (0x4F)
+#define NOV         (0x4E)
+#define DEC         (0x44)
 
 /* Macros for periodic delay and periodic line feed */
-#define PERIODIC_PRINT_OUT      0x20000U
-#define PERIODIC_LINE_FEED      0x1000000U
+#define PERIODIC_PRINT_OUT      (0x20000U)
+#define PERIODIC_LINE_FEED      (0x1000000U)
 
 /* Enum for ASCII code */
 typedef enum ascii_code
@@ -121,13 +121,19 @@ typedef enum e_month_numbers
 /* Macro for filling buffer with pre-defined data.
  * Variable used for filling buffer will have size defined maximum to WRITE_ITEM_SIZE.
  */
-#define UPDATE_BUFFER(buffer)       for(uint16_t count = RESET_VALUE; count < WRITE_ITEM_SIZE; count++)\
-                                        buffer[count] = (uint8_t)count;
+#define UPDATE_BUFFER(buffer)       ({for(uint16_t count = RESET_VALUE; count < WRITE_ITEM_SIZE; count++)\
+                                        (buffer)[count] = (uint8_t)count;})
 
 /* Macros to print info, error and trap the error.*/
-#define PRINT_INFO_STR(str)  app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_INFO_STR, sizeof(str), str);
-#define PRINT_ERR_STR(str)   app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_ERR_STR, sizeof(str), str);
-#define ERROR_TRAP(err)      app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_ERR_TRAP, sizeof(UINT *),&err);
+#define PRINT_INFO_STR(str)  ({\
+		                        char info_str [] = (str);                                                    \
+		                        app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_INFO_STR, sizeof(info_str), (info_str));\
+		                     })
+#define PRINT_ERR_STR(str)   ({\
+                                char err_str [] = (str);                                                    \
+                                app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_ERR_STR, sizeof(err_str), (err_str)); \
+		                     })
+#define ERROR_TRAP(err)      (app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_ERR_TRAP, sizeof(UINT *),&(err)))
 
 
 #endif /* FILEX_BLOCK_MEDIA_QSPI_LEVELX_EP_H_ */

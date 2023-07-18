@@ -30,9 +30,9 @@
 /* DS for SNMP agent services */
 #if  SNMP_V3
 /* Authentication enabled */
-NX_SNMP_SECURITY_KEY v3_authentication_key;
+NX_SNMP_SECURITY_KEY g_v3_authentication_key;
 /* Privacy enabled */
-NX_SNMP_SECURITY_KEY v3_privacy_key;
+NX_SNMP_SECURITY_KEY g_v3_privacy_key;
 #endif /* END NX_SNMP_DISABLE_V3 */
 
 /* Private function */
@@ -40,8 +40,8 @@ static UINT  get_supportFunc(VOID *source_ptr, NX_SNMP_OBJECT_DATA *object_data)
 static UINT  set_supportFunc(VOID *destination_ptr, NX_SNMP_OBJECT_DATA *object_data);
 static void terminate_nullchar(char * dest_str, UCHAR * input_str);
 
-ULONG oid_var = 1234U;
-UCHAR   kit_name[STRING_LEN] = "Renesas";
+ULONG g_oid_var = 1234U;
+UCHAR   g_kit_name[STRING_LEN] = "Renesas";
 
 NXD_ADDRESS g_snmp_manager_module =
 {
@@ -50,9 +50,9 @@ NXD_ADDRESS g_snmp_manager_module =
 };
 
 /*MIB entry list */
-MIB_ENTRY   mib_entries[] = {
+mib_entry_t   g_mib_entries[] = {
 
-    {(UCHAR *) "1.3.6.1.4.1.51000.1.4.0", &oid_var, get_supportFunc, set_supportFunc},
+    {(UCHAR *) "1.3.6.1.4.1.51000.1.4.0", &g_oid_var, get_supportFunc, set_supportFunc},
     {NX_NULL, NX_NULL, NX_NULL, NX_NULL}
 
 };
@@ -114,16 +114,16 @@ UINT snmp_agent_services_init(void)
 
     /* if you want to use SHA key change nx_snmp_agent_md5_key_create to nx_snmp_agent_sha_key_create*/
     /* Create an authentication key.  */
-    nx_snmp_agent_md5_key_create (&g_snmp_agent0, (UCHAR *) SNMP_V3_AUTH_KEY, &v3_authentication_key);
+    nx_snmp_agent_md5_key_create (&g_snmp_agent0, (UCHAR *) SNMP_V3_AUTH_KEY, &g_v3_authentication_key);
 
     /* Use the authentication key.  */
-    nx_snmp_agent_authenticate_key_use (&g_snmp_agent0, &v3_authentication_key);
+    nx_snmp_agent_authenticate_key_use (&g_snmp_agent0, &g_v3_authentication_key);
 
     /* Create a privacy key.  */
-    nx_snmp_agent_md5_key_create (&g_snmp_agent0, (UCHAR *) SNMP_V3_PRIV_KEY, &v3_privacy_key);
+    nx_snmp_agent_md5_key_create (&g_snmp_agent0, (UCHAR *) SNMP_V3_PRIV_KEY, &g_v3_privacy_key);
 
     /* Use the privacy key.  */
-    nx_snmp_agent_privacy_key_use (&g_snmp_agent0, &v3_privacy_key);
+    nx_snmp_agent_privacy_key_use (&g_snmp_agent0, &g_v3_privacy_key);
 
 #endif
 
@@ -152,7 +152,7 @@ UINT async_trap_v2_send(void)
     UINT trap_type = NX_SNMP_TRAP_COLDSTART;
     NX_SNMP_TRAP_OBJECT test_trap_list[2];
     NX_SNMP_OBJECT_DATA trap_data0;
-    nx_snmp_object_string_get ((void *) kit_name, &trap_data0);
+    nx_snmp_object_string_get ((void *) g_kit_name, &trap_data0);
     test_trap_list[0].nx_snmp_object_string_ptr = (UCHAR *) "1.3.6.1.4.1.51000.1.4.0";
     test_trap_list[0].nx_snmp_object_data = &trap_data0;
     test_trap_list[1].nx_snmp_object_string_ptr = NULL;
@@ -207,13 +207,13 @@ UINT g_snmp_agent0GetHandler(NX_SNMP_AGENT *agent_ptr, UCHAR *object_requested, 
     size_t  oid_data_len                         = RESET_VALUE;
 
     PRINT_INFO_STR("Get handler request: checking OID");
-    while (mib_entries[count_val].object_name)
+    while (g_mib_entries[count_val].object_name)
     {
     	memset(oid_name,NULL_CHAR,sizeof(oid_name));
-        status =  nx_snmp_object_compare(object_requested, mib_entries[count_val].object_name);
+        status =  nx_snmp_object_compare(object_requested, g_mib_entries[count_val].object_name);
         if (status == NX_SUCCESS)
         {
-            terminate_nullchar(oid_name, mib_entries[count_val].object_name);
+            terminate_nullchar(oid_name, g_mib_entries[count_val].object_name);
             oid_data_len = strlen(oid_name) +ONE;
             app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_PRINT_OID_NAME, oid_data_len, oid_name);
             break;
@@ -227,9 +227,9 @@ UINT g_snmp_agent0GetHandler(NX_SNMP_AGENT *agent_ptr, UCHAR *object_requested, 
     }
 
     /* Determine if the entry has a get function.  */
-    if (mib_entries[count_val].object_get_callback)
+    if (g_mib_entries[count_val].object_get_callback)
     {
-        status = (mib_entries[count_val].object_get_callback) (mib_entries[count_val].object_value_ptr, object_data);
+        status = (g_mib_entries[count_val].object_get_callback) (g_mib_entries[count_val].object_value_ptr, object_data);
         if (!status)
         {
         	PRINT_INFO_STR("Get request processed");
@@ -260,13 +260,13 @@ UINT g_snmp_agent0SetHandler(NX_SNMP_AGENT *agent_ptr, UCHAR *object_requested, 
     size_t  set_oid_data_len                         = RESET_VALUE;
 
     PRINT_INFO_STR("Set handler request: checking OID");
-    while (mib_entries[count_val].object_name)
+    while (g_mib_entries[count_val].object_name)
     {
     	memset(set_oid_name,NULL_CHAR,sizeof(set_oid_name));
-        status =  nx_snmp_object_compare(object_requested, mib_entries[count_val].object_name);
+        status =  nx_snmp_object_compare(object_requested, g_mib_entries[count_val].object_name);
         if (status == NX_SUCCESS)
         {
-            terminate_nullchar(set_oid_name, mib_entries[count_val].object_name);
+            terminate_nullchar(set_oid_name, g_mib_entries[count_val].object_name);
             set_oid_data_len = strlen(set_oid_name) +ONE;
             app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_PRINT_OID_NAME, set_oid_data_len, set_oid_name);
             break;
@@ -280,9 +280,9 @@ UINT g_snmp_agent0SetHandler(NX_SNMP_AGENT *agent_ptr, UCHAR *object_requested, 
     }
 
     /* Determine if the entry has a set function.  */
-    if (mib_entries[count_val].object_set_callback)
+    if (g_mib_entries[count_val].object_set_callback)
     {
-        status =  (mib_entries[count_val].object_set_callback)(mib_entries[count_val].object_value_ptr, object_data);
+        status =  (g_mib_entries[count_val].object_set_callback)(g_mib_entries[count_val].object_value_ptr, object_data);
         if (!status)
         {
         	PRINT_INFO_STR("Set request processed");

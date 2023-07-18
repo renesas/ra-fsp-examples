@@ -352,8 +352,8 @@ fsp_err_t update_time_stamp_to_rtc_block(char * const time_data)
  **********************************************************************************************************************/
 void convert_network_timestamp_to_rtc_block(rtc_time_t * time, char * read_buffer)
 {
-    char * delimeter = NULL;
-    int time_data[TIME_BUFF_SIZE] = {RESET_VALUE};
+    CHAR * delimeter = NULL;
+    int32_t time_data[TIME_BUFF_SIZE] = {RESET_VALUE};
     uint8_t cnt = RESET_VALUE;
 
     /* extract all delimiters. */

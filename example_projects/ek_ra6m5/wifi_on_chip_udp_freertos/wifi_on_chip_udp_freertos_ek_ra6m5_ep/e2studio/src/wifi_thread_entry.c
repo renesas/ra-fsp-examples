@@ -32,7 +32,7 @@
  **********************************************************************************************************************/
 
 extern SocketPrameters_t    g_socket;
-extern WIFINetworkParams_t  net_params;
+extern WIFINetworkParams_t  g_net_params;
 
 static void connectAP();
 static void pingIP(uint8_t *p_ip_addr);
@@ -217,7 +217,7 @@ static void connectAP()
                 else
                 {
                     /* Connecting to user selected WiFi AP */
-                    wifi_err = WIFI_ConnectAP(&net_params);
+                    wifi_err = WIFI_ConnectAP(&g_net_params);
                     /* Handle error */
                     if(eWiFiSuccess != wifi_err)
                     {

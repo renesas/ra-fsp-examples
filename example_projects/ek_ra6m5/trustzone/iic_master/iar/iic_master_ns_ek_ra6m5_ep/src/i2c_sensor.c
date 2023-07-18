@@ -43,7 +43,6 @@ static volatile i2c_master_event_t i2c_event = I2C_MASTER_EVENT_ABORTED;
  */
 static fsp_err_t get_device_id(uint8_t *dev_id);
 static fsp_err_t validate_i2c_event(void);
-static void i2c_master_callback(i2c_master_callback_args_t *p_args);
 
 /*******************************************************************************************************************//**
  *  @brief       initialize IIC master module and set up PMOD ACL sensor
@@ -258,7 +257,7 @@ static fsp_err_t get_device_id(uint8_t *dev_id)
  *  @param[in]  p_args
  *  @retval None
  **********************************************************************************************************************/
-static void i2c_master_callback(i2c_master_callback_args_t *p_args)
+void i2c_master_callback(i2c_master_callback_args_t *p_args)
 {
     if (NULL != p_args)
     {

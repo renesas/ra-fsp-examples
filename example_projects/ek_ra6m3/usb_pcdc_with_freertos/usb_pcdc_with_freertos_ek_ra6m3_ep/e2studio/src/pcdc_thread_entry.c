@@ -29,7 +29,7 @@ static volatile bool g_err_flag = false;
 /* Variable to store baud rate */
 uint32_t g_baud_rate = RESET_VALUE ;
 /* Buffer to store user data */
-uint8_t user_data_buf[DATA_LEN] = {RESET_VALUE};
+uint8_t g_user_data_buf[DATA_LEN] = {RESET_VALUE};
 /* Variable to store size of data received from tera term */
 volatile uint32_t g_terminal_data_size = RESET_VALUE ;
 
@@ -38,7 +38,7 @@ extern uint8_t g_apl_device[];
 extern uint8_t g_apl_configuration[];
 extern uint8_t g_apl_hs_configuration[];
 extern uint8_t g_apl_qualifier_descriptor[];
-extern uint8_t * g_apl_string_table[];
+extern uint8_t * gp_apl_string_table[];
 
 const usb_descriptor_t g_usb_pcdc_descriptor =
 {
@@ -46,7 +46,7 @@ const usb_descriptor_t g_usb_pcdc_descriptor =
  g_apl_configuration,            /* Pointer to the configuration descriptor for Full-speed */
  g_apl_hs_configuration,         /* Pointer to the configuration descriptor for Hi-speed */
  g_apl_qualifier_descriptor,     /* Pointer to the qualifier descriptor */
- g_apl_string_table,             /* Pointer to the string descriptor table */
+ gp_apl_string_table,             /* Pointer to the string descriptor table */
  NUM_STRING_DESCRIPTOR           /* Num entry String Descriptor */
 };
 
@@ -68,7 +68,7 @@ typedef struct
 
 /* Variable to capture USB event. */
 volatile bool g_tx_complete = true;
-volatile usb_event_info_t usb_pcdc_event;
+volatile usb_event_info_t g_usb_pcdc_event;
 
 /* Flag to indicate USB resume/suspend status */
 static bool  b_usb_attach = false;
@@ -81,16 +81,16 @@ usb_pcdc_ctrllinestate_t g_control_line_state =
 };
 
 /* Variables to store  Baud rate setting values */
-baud_setting_t baud_setting;
-bool       enable_bitrate_modulation = true;
-uint32_t   error_rate_x_1000         = BAUD_ERROR_RATE;
+baud_setting_t g_baud_setting;
+bool       g_enable_bitrate_modulation  = true;
+uint32_t   g_error_rate_x_1000            = BAUD_ERROR_RATE;
 
 uart_cfg_t g_uart_test_cfg;
-sci_uart_extended_cfg_t sci_extend_cfg;
-uint8_t usb_tx_buffer[512];
+sci_uart_extended_cfg_t g_sci_extend_cfg;
+uint8_t g_usb_tx_buffer[512];
 
 /* We have not woken a task at the start of the ISR. */
-BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+BaseType_t g_xhigher_priority_task_woken = pdFALSE;
 
 /*User defined functions */
 void set_pcdc_line_coding(volatile usb_pcdc_linecoding_t *p_line_coding, const uart_cfg_t *p_uart_test_cfg);
@@ -109,7 +109,7 @@ void set_uart_line_coding_cfg(uart_cfg_t *p_uart_test_cfg, const volatile usb_pc
         p_line_coding->b_char_format = 0;
     else if (g_uart_cfg.stop_bits == UART_STOP_BITS_2)
         p_line_coding->b_char_format = 2;
-
+    else /* Do Nothing */
     if (g_uart_cfg.parity == UART_PARITY_OFF)
         p_line_coding->b_parity_type = 0;
     else if (g_uart_cfg.parity == UART_PARITY_ODD)
@@ -208,8 +208,8 @@ void pcdc_thread_entry(void *pvParameters)
     /* Open the UART with initial configuration.*/
     {
         memcpy(&g_uart_test_cfg, &g_uart_cfg, sizeof(g_uart_test_cfg));
-        memcpy(&sci_extend_cfg, g_uart_cfg.p_extend, sizeof(sci_extend_cfg));
-        g_uart_test_cfg.p_extend = &sci_extend_cfg;
+        memcpy(&g_sci_extend_cfg, g_uart_cfg.p_extend, sizeof(g_sci_extend_cfg));
+        g_uart_test_cfg.p_extend = &g_sci_extend_cfg;
         err = R_SCI_UART_Open(&g_uart_ctrl, &g_uart_test_cfg);
         if(FSP_SUCCESS != err)
         {
@@ -258,8 +258,8 @@ void pcdc_thread_entry(void *pvParameters)
                 if (0U < msg_waiting_count)
                 {
                     /* Pull out as many item from queue as possible */
-                    uint32_t unload_count = (msg_waiting_count < sizeof(usb_tx_buffer)) ?
-                            msg_waiting_count : sizeof(usb_tx_buffer);
+                    uint32_t unload_count = (msg_waiting_count < sizeof(g_usb_tx_buffer)) ?
+                            msg_waiting_count : sizeof(g_usb_tx_buffer);
 
                     /* Wait for previous USB transfer to complete */
                     BaseType_t err_semaphore = xSemaphoreTake (g_usb_tx_semaphore, portMAX_DELAY);
@@ -267,7 +267,7 @@ void pcdc_thread_entry(void *pvParameters)
                     {
                         for(uint32_t itr = 0, idx = 0; itr < unload_count; itr++, idx+=rx_data_size)
                         {
-                            if(pdTRUE != xQueueReceive(*p_queue, &usb_tx_buffer[idx], portMAX_DELAY))
+                            if(pdTRUE != xQueueReceive(*p_queue, &g_usb_tx_buffer[idx], portMAX_DELAY))
                             {
                                 APP_ERR_PRINT("\r\n Did not receive expected count of characters \r\n");
                                 APP_ERR_TRAP(1);
@@ -275,7 +275,7 @@ void pcdc_thread_entry(void *pvParameters)
                         }
 
                         /* Write data to host machine */
-                        err = R_USB_Write (&g_basic_ctrl, &usb_tx_buffer[0], (uint32_t)unload_count*rx_data_size, USB_CLASS_PCDC);
+                        err = R_USB_Write (&g_basic_ctrl, &g_usb_tx_buffer[0], (uint32_t)unload_count*rx_data_size, USB_CLASS_PCDC);
                         if (FSP_SUCCESS != err)
                         {
                             APP_ERR_PRINT("\r\nR_USB_Write API failed.\r\n");
@@ -310,7 +310,7 @@ void pcdc_thread_entry(void *pvParameters)
                     }
 
                     /* Write data to UART Tx pin */
-                    err = R_SCI_UART_Write(&g_uart_ctrl, user_data_buf, q_instance.u.data_size);
+                    err = R_SCI_UART_Write(&g_uart_ctrl, g_user_data_buf, q_instance.u.data_size);
                     if(FSP_SUCCESS != err)
                     {
                         APP_ERR_PRINT ("\r\n**  R_SCI_UART_Write API failed  **\r\n");
@@ -324,7 +324,7 @@ void pcdc_thread_entry(void *pvParameters)
                     /* Buffer is physically transmitted since UART_EVENT_TX_COMPLETE was generated. */
                     /* Continue to read data from USB. */
                     /* The amount of data received will be known when USB_STATUS_READ_COMPLETE event occurs*/
-                    err = R_USB_Read(&g_basic_ctrl, user_data_buf, DATA_LEN, USB_CLASS_PCDC);
+                    err = R_USB_Read(&g_basic_ctrl, g_user_data_buf, DATA_LEN, USB_CLASS_PCDC);
                     if (FSP_SUCCESS != err)
                     {
                         APP_ERR_PRINT("\r\nR_USB_Read API failed.\r\n");
@@ -430,7 +430,7 @@ void usb_pcdc_callback(usb_event_info_t * p_pcdc_event , usb_hdl_t task, usb_ono
         {
             APP_PRINT("\r\nUSB Status Configured Successful\r\n");
             /* Read data from tera term */
-            fsp_err_t err = R_USB_Read (&g_basic_ctrl, user_data_buf, DATA_LEN, USB_CLASS_PCDC);
+            fsp_err_t err = R_USB_Read (&g_basic_ctrl, g_user_data_buf, DATA_LEN, USB_CLASS_PCDC);
             if (FSP_SUCCESS != err)
             {
                 APP_ERR_PRINT("\r\nR_USB_Read API failed.\r\n");
@@ -459,8 +459,8 @@ void usb_pcdc_callback(usb_event_info_t * p_pcdc_event , usb_hdl_t task, usb_ono
                                g_line_coding.b_char_format,
                                g_line_coding.b_parity_type,
                                g_line_coding.b_data_bits);
-                    sci_extend_cfg.p_baud_setting = &baud_setting;
-                    g_uart_test_cfg.p_extend =  &sci_extend_cfg;
+                    g_sci_extend_cfg.p_baud_setting = &g_baud_setting;
+                    g_uart_test_cfg.p_extend =  &g_sci_extend_cfg;
 
                     /* Calculate the baud rate*/
                     g_baud_rate = g_line_coding.dw_dte_rate;
@@ -468,7 +468,7 @@ void usb_pcdc_callback(usb_event_info_t * p_pcdc_event , usb_hdl_t task, usb_ono
                     if(INVALID_SIZE < g_baud_rate)
                     {
 						/* Calculate baud rate setting registers */
-                        err = R_SCI_UART_BaudCalculate(g_baud_rate, enable_bitrate_modulation, error_rate_x_1000, &baud_setting);
+                        err = R_SCI_UART_BaudCalculate(g_baud_rate, g_enable_bitrate_modulation, g_error_rate_x_1000, &g_baud_setting);
                         if(FSP_SUCCESS != err)
                         {
                             APP_ERR_PRINT ("\r\n**  R_SCI_UART_BaudCalculate API failed  **\r\n");
@@ -591,7 +591,7 @@ void usb_pcdc_callback(usb_event_info_t * p_pcdc_event , usb_hdl_t task, usb_ono
             APP_PRINT("\nUSB STATUS : USB_STATUS_DETACH or USB_STATUS_SUSPEND\r\n");
             /* Reset the usb attached flag indicating usb is removed.*/
             b_usb_attach = false;
-            memset (user_data_buf, RESET_VALUE, sizeof(user_data_buf));
+            memset (g_user_data_buf, RESET_VALUE, sizeof(g_user_data_buf));
             return;
         }
         /* Resume state */

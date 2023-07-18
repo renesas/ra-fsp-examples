@@ -24,7 +24,7 @@
 #ifndef SSI_H_
 #define SSI_H_
 
-#define NULL_CHAR                   '\0'
+#define NULL_CHAR                   ('\0')
 #define SELECTION_MIN               (1U)
 #define SELECTION_MAX               (2U)
 #define VALUE_0                     (0U)

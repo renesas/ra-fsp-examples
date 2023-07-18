@@ -27,9 +27,4 @@
 
 extern test_fn ext_display_menu (void);
 
-extern void ospi_performance_test (uint32_t data_size,
-                                    uint32_t * ospi_performance_write_result,
-                                    uint32_t * ospi_performance_read_result);
-
-
 #endif /* MENU_KIS_H_ */

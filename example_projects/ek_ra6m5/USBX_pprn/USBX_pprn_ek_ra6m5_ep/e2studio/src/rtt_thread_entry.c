@@ -67,7 +67,7 @@ void rtt_thread_entry(void)
         {
             UINT read_bytes = APP_READ(rtt_buffer);
 
-            err = memory_allocate_rtt(&byte_pool, &p_data, sizeof(rtt_msg_t) + read_bytes);
+            err = memory_allocate_rtt(&g_byte_pool, &p_data, sizeof(rtt_msg_t) + read_bytes);
             if (TX_SUCCESS != err)
             {
                 APP_PRINT("Error in processing, please check again\r\n");
@@ -115,7 +115,7 @@ static void process_rtt_op_msg(VOID)
     /* Pump out all information to print */
     do
     {
-        err = tx_queue_receive(&rtt_op_data_queue,(VOID *)&rtt_op_data , 1);
+        err = tx_queue_receive(&g_rtt_op_data_queue,(VOID *)&rtt_op_data , 1);
 
         if(err == TX_SUCCESS)
         {
@@ -208,7 +208,7 @@ UINT app_rtt_print_data(event_id_t id, uint32_t size, void * const p_data)
     UINT err = TX_SUCCESS;
 
     /* allocates memory for rtt display message data structure.*/
-    err = memory_allocate_rtt(&byte_pool,
+    err = memory_allocate_rtt(&g_byte_pool,
                               &p_display_data,
                               sizeof(rtt_msg_t) + size);
     if (TX_SUCCESS != err)
@@ -223,7 +223,7 @@ UINT app_rtt_print_data(event_id_t id, uint32_t size, void * const p_data)
     memcpy(p_display_data->p_msg, p_data, size);
 
     /* Send Allocated address */
-    err = tx_queue_send(&rtt_op_data_queue,
+    err = tx_queue_send(&g_rtt_op_data_queue,
                         (rtt_msg_t *)&p_display_data,
                         TX_WAIT_FOREVER);
 #endif

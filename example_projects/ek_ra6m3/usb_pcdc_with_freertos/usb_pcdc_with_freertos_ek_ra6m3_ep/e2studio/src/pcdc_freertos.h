@@ -31,7 +31,7 @@
 #define INVALID_WAIT_TIME              (0U)
 #define INVALID_SIZE                   (0U)
 #define NUM_STRING_DESCRIPTOR          (7U)
-#define MAX_DELAY                      2000U
+#define MAX_DELAY                      (2000U)
 #define BAUD_ERROR_RATE                (5000U)
 #define MSG_WAIT_TIME                  (10000U)
 #define INCREMENT_BYTES                (2U)

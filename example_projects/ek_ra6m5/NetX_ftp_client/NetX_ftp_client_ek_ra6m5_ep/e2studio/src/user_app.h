@@ -39,12 +39,12 @@
 
 /**@brief User configurable (ipv4) address. IP address should be provided from where the FTP server is running
  * NOTE: Current IP address is provided according to our test environment.*/
-#define SERVER_ADDRESS  IP_ADDRESS(132,158,124,22)
+#define SERVER_ADDRESS  (IP_ADDRESS(132,158,124,22))
 
 
 /* Macros for FTP file settings */
-#define FTP_TIMEOUT     5              /* Define timeout in seconds for FTP operations */
-#define FILE_SIZE       1400                /* Define size of file in bytes; */
+#define FTP_TIMEOUT     (5)              /* Define timeout in seconds for FTP operations */
+#define FILE_SIZE       (1400)                /* Define size of file in bytes; */
 #define FILE_NAME       "test_file.txt"      /* File name in txt format */
 
 #endif /* USER_APP_H_ */

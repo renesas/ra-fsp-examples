@@ -40,7 +40,7 @@ void R_BSP_WarmStart(bsp_warm_start_event_t event);
 static void gpt_deinit(timer_ctrl_t * p_ctrl);
 
 /* Global variables */
-volatile bool b_start_measurement   = false;
+volatile bool g_start_measurement   = false;
 uint64_t g_capture_count            = RESET_VALUE;
 uint32_t g_capture_overflow         = RESET_VALUE;
 
@@ -108,10 +108,10 @@ void hal_entry(void)
     while(true)
     {
         /* Check for the flag from ISR callback */
-        if (true == b_start_measurement)
+        if (true == g_start_measurement)
         {
             /* Reset the flag */
-            b_start_measurement = false;
+            g_start_measurement = false;
             /* Get the period count and clock frequency */
             err =  R_GPT_InfoGet(&g_timer_ctrl, &info);
             /* Handle error */
@@ -168,7 +168,7 @@ void input_capture_user_callback(timer_callback_args_t *p_args)
             /* Capture the count in a variable */
             g_capture_count     = p_args->capture;
             /* Set start measurement */
-            b_start_measurement = true;
+            g_start_measurement = true;
             break;
         }
         case TIMER_EVENT_CYCLE_END:

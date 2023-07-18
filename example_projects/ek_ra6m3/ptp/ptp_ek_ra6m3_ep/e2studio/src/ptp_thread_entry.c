@@ -52,8 +52,8 @@ uint8_t g_ip0_arp_cache_memory[G_IP0_ARP_CACHE_SIZE] BSP_ALIGN_VARIABLE(4);
 /* DHCP instance. */
 NX_DHCP g_dhcp_client0;
 
-TX_TIMER announce_flag_rec;
-uint16_t port_id = PORT_ID_MAX_VAL;
+TX_TIMER g_announce_flag_rec;
+uint16_t g_port_id = PORT_ID_MAX_VAL;
 
 /* Private function declarations.*/
 static UINT ip0_init(void);
@@ -98,7 +98,7 @@ void ptp_thread_entry(void)
      *  this timer is deactivated.
      */
     UINT status   = TX_SUCCESS;
-    status = tx_timer_create(&announce_flag_rec,(CHAR*)"announce_timer_check",timeout_handler,
+    status = tx_timer_create(&g_announce_flag_rec,(CHAR*)"announce_timer_check",timeout_handler,
             RESET_VALUE, TIMER_EXPIRATION_TICKS, RESET_VALUE, TX_AUTO_ACTIVATE);
     if (TX_SUCCESS != status)
     {
@@ -127,8 +127,8 @@ void ptp_thread_entry(void)
              * An additional check apart from event flags wait time
              *
              */
-            tx_timer_change(&announce_flag_rec, TIMER_EXPIRATION_TICKS, RESET_VALUE);
-            tx_timer_activate(&announce_flag_rec);
+            tx_timer_change(&g_announce_flag_rec, TIMER_EXPIRATION_TICKS, RESET_VALUE);
+            tx_timer_activate(&g_announce_flag_rec);
         }
 #endif
         tx_thread_sleep (1);
@@ -450,11 +450,11 @@ void ptp_user_cb(ptp_callback_args_t *p_args)
         case PTP_MESSAGE_TYPE_ANNOUNCE:
         {
             /* deactivate the timer.*/
-            tx_timer_deactivate(&announce_flag_rec);
-            if(port_id != p_args->p_message->header.source_port_id)
+            tx_timer_deactivate(&g_announce_flag_rec);
+            if(g_port_id != p_args->p_message->header.source_port_id)
             {
                 /* update source port id and set the master clock id.*/
-                port_id = p_args->p_message->header.source_port_id;
+                g_port_id = p_args->p_message->header.source_port_id;
                 R_PTP_MasterClockIdSet(&g_ptp0_ctrl,p_args->p_message->announce.clock_id, p_args->p_message->header.source_port_id);
             }
             break;
@@ -554,7 +554,7 @@ static VOID timeout_handler(ULONG value)
 
     APP_PRINT("ERROR: Time out occurred | NO communication from Master clock "
             "\r\n please run the command on Raspberry pi Linux: ptp4l -m -s -i <eth interface> \r\n"
-            "or use another ek_ra6m3 as ptp master if raspberry pi is unavailable")
+            "or use another ek_ra6m3 as ptp master if raspberry pi is unavailable");
 
 }
 

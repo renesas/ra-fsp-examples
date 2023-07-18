@@ -35,7 +35,7 @@ extern uint32_t g_source_data[SOURCE_DATA_SIZE];
 extern uint32_t g_dest_data[DEST_DATA_SIZE];
 
 /* Boolean flag to determine if transfer is complete */
-volatile bool b_is_transfer_complete  = false;
+volatile bool g_is_transfer_complete  = false;
 
 /* LED port pin control register for port*/
 #if defined (BOARD_RA6M4_EK) || defined (BOARD_RA6T1_RSSK) || defined (BOARD_RA4M3_EK) || defined (BOARD_RA4M2_EK)
@@ -89,12 +89,12 @@ void transfer_led_blink_operation(void)
     /* Wait for g_transfer_led_blink to complete.
      * This boolean flag is set in transfer_agt_timer_callback
      */
-    while(false == b_is_transfer_complete)
+    while(false == g_is_transfer_complete)
     {
         ;
     }
     /* Reset the flag */
-    b_is_transfer_complete = false;
+    g_is_transfer_complete = false;
     APP_PRINT("\r\nDMAC g_transfer_led_blink transfer completed.\n");
 }
 
@@ -178,7 +178,7 @@ void transfer_agt_timer_callback (dmac_callback_args_t * p_args)
     FSP_PARAMETER_NOT_USED(p_args);
 
     /* Set boolean flag to print data */
-    b_is_transfer_complete  = true;
+    g_is_transfer_complete  = true;
 }
 
 /*******************************************************************************************************************//**

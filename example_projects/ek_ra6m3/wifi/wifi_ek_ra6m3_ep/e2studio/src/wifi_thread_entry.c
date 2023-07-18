@@ -38,7 +38,7 @@ void wifi_thread_entry(void *pvParameters)
     fsp_err_t err = FSP_SUCCESS;
     fsp_pack_version_t version = {RESET_VALUE};
 
-    char input_buff[BUFF_LEN] = {RESET_VALUE};          // Buffer for storing user input
+    uint8_t input_buff[BUFF_LEN] = {RESET_VALUE};          // Buffer for storing user input
     uint8_t index_menu_option = RESET_VALUE;           // Index to store menu option selected
 
     uint8_t ip_addr[IP_BUFF_LEN] = {RESET_VALUE};       // IP address for ping operation
@@ -72,7 +72,7 @@ void wifi_thread_entry(void *pvParameters)
         APP_PRINT("\r\nPress 1 to scan for WiFi Access Points");
         APP_PRINT("\r\nPress 2 to enter WiFi Access Point's credentials");
         APP_PRINT("\r\nUser Input: \r\n");
-        user_input(input_buff);
+        user_input((char *)input_buff);
         index_menu_option = (uint8_t)atoi((char *) input_buff);
 
         switch(index_menu_option)
@@ -145,10 +145,10 @@ void wifi_thread_entry(void *pvParameters)
     {
         /* User input for IP address or URL to ping */
         APP_PRINT("\r\nEnter the IP or URL to ping:\r\n");
-        user_input(input_buff);
+        user_input((char *)input_buff);
         APP_PRINT("\r\nPinging. Please wait...\r\n");
         /* DNS lookup for URL or IP */
-        err = dns_query(input_buff, ip_addr);
+        err = dns_query((char *)input_buff, ip_addr);
         /* Handle error */
         if(FSP_SUCCESS != err)
         {
@@ -210,11 +210,11 @@ void wifi_thread_entry(void *pvParameters)
     {
         /* User input for TCP server IP address */
         APP_PRINT("\r\nEnter TCP server IP address to connect:\r\n");
-        user_input(input_buff);
+        user_input((char *)input_buff);
 
         APP_PRINT("\r\nValidating TCP server IP address. Please wait...\r\n");
         /* DNS lookup for TCP server IP address */
-        err = dns_query(input_buff, (uint8_t *) &g_socket.ip_addr_server);
+        err = dns_query((char *)input_buff, (uint8_t *) &g_socket.ip_addr_server);
         /* Handle error */
         if(FSP_SUCCESS != err)
         {
@@ -253,8 +253,8 @@ void wifi_thread_entry(void *pvParameters)
     /* User input for TCP server port number */
     APP_PRINT("\r\nEnter TCP server port number to connect:");
     APP_PRINT("\r\nNote: Please give free port number, otherwise TCP connect would fail and application would also fail.\r\n");
-    user_input(input_buff);
-    g_socket.port = (uint32_t) atoi(input_buff);
+    user_input((char *)input_buff);
+    g_socket.port = (uint32_t) atoi((char *)input_buff);
 
     /* Connecting to TCP server */
     err = tcp_socket_connect(g_socket.ip_addr_server, g_socket.port);
@@ -370,7 +370,7 @@ void wifi_thread_entry(void *pvParameters)
         }
     }
 
-    APP_PRINT("\r\nWiFi example project exiting. Reset the MCU.\r\n")
+    APP_PRINT("\r\nWiFi example project exiting. Reset the MCU.\r\n");
     /* De-initializing WiFi module */
     wifi_deinit();
 

@@ -28,7 +28,7 @@
  * @addtogroup r_adc_ep
  * @{
  **********************************************************************************************************************/
-extern volatile bool b_ready_to_read;
+extern volatile bool g_ready_to_read;
 void R_BSP_WarmStart(bsp_warm_start_event_t event);
 
 
@@ -75,7 +75,7 @@ void hal_entry(void)
         }
 
         /* read the adc output data and status */
-        if (true == b_ready_to_read)
+        if (true == g_ready_to_read)
         {
             err = adc_read_data();
             /* handle error */

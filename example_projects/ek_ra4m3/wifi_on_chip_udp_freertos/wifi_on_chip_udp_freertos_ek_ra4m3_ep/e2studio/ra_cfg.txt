@@ -455,6 +455,8 @@ FSP Configuration
     X509 Options: MBEDTLS_X509_MAX_INTERMEDIATE_CA: Undefine
     SSL Options: MBEDTLS_SSL_ALL_ALERT_MESSAGES: Undefine
     SSL Options: MBEDTLS_SSL_DTLS_CONNECTION_ID: Undefine
+    SSL Options: MBEDTLS_SSL_DTLS_CONNECTION_ID_COMPAT: Undefine
+    SSL Options: MBEDTLS_SSL_DTLS_CONNECTION_ID_COMPAT Value: Reset
     SSL Options: MBEDTLS_SSL_ASYNC_PRIVATE: Undefine
     SSL Options: MBEDTLS_SSL_DEBUG_ALL: Undefine
     SSL Options: MBEDTLS_SSL_ENCRYPT_THEN_MAC: Undefine
@@ -465,6 +467,17 @@ FSP Configuration
     SSL Options: MBEDTLS_SSL_PROTO_TLS1_2: Define
     SSL Options: MBEDTLS_SSL_PROTO_TLS1_3: Undefine
     SSL Options: MBEDTLS_SSL_TLS1_3_COMPATIBILITY_MODE: Undefine
+    SSL Options: MBEDTLS_SSL_TLS1_3_KEY_EXCHANGE_MODE_PSK_ENABLED: Define
+    SSL Options: MBEDTLS_SSL_TLS1_3_KEY_EXCHANGE_MODE_EPHEMERAL_ENABLED: Define
+    SSL Options: MBEDTLS_SSL_TLS1_3_KEY_EXCHANGE_MODE_PSK_EPHEMERAL_ENABLED: Define
+    SSL Options: MBEDTLS_SSL_TLS1_3_TICKET_AGE_TOLERANCE: Define
+    SSL Options: MBEDTLS_SSL_TLS1_3_TICKET_AGE_TOLERANCE Value: 6000
+    SSL Options: MBEDTLS_SSL_TLS1_3_TICKET_NONCE_LENGTH: Define
+    SSL Options: MBEDTLS_SSL_TLS1_3_TICKET_NONCE_LENGTH Value: 32
+    SSL Options: MBEDTLS_SSL_TLS1_3_DEFAULT_NEW_SESSION_TICKETS: Define
+    SSL Options: MBEDTLS_SSL_TLS1_3_DEFAULT_NEW_SESSION_TICKETS Value: 1
+    SSL Options: MBEDTLS_SSL_EARLY_DATA: Undefine
+    SSL Options: MBEDTLS_SSL_MAX_EARLY_DATA_SIZE Value: 32
     SSL Options: MBEDTLS_SSL_PROTO_DTLS: Undefine
     SSL Options: MBEDTLS_SSL_ALPN: Define
     SSL Options: MBEDTLS_SSL_DTLS_ANTI_REPLAY: Undefine
@@ -512,8 +525,6 @@ FSP Configuration
     General: MBEDTLS_PSK_MAX_LEN Value: 32
     SSL Options: MBEDTLS_SSL_COOKIE_TIMEOUT: Undefine
     SSL Options: MBEDTLS_SSL_COOKIE_TIMEOUT Value: 60
-    SSL Options: MBEDTLS_TLS_EXT_CID: Undefine
-    SSL Options: MBEDTLS_TLS_EXT_CID Value: 254
     X509 Options: MBEDTLS_X509_MAX_INTERMEDIATE_CA Value: 8
     X509 Options: MBEDTLS_X509_MAX_FILE_PATH_LEN: Undefine
     X509 Options: MBEDTLS_X509_MAX_FILE_PATH_LEN Value: 512
@@ -531,7 +542,7 @@ FSP Configuration
     Hardware Acceleration: Public Key Cryptography (PKC): RSA: Use Hardware
     Hardware Acceleration: Public Key Cryptography (PKC): RSA 3072 Verify: Disabled
     Hardware Acceleration: Public Key Cryptography (PKC): RSA 4096 Verify: Disabled
-    Hardware Acceleration: Secure Crypto Engine Initialization: Enabled
+    Hardware Acceleration: Crypto Engine Initialization: Enabled
     Platform: MBEDTLS_HAVE_ASM: Undefine
     Platform: MBEDTLS_NO_UDBL_DIVISION: Undefine
     Platform: MBEDTLS_NO_64BIT_MULTIPLICATION: Undefine
@@ -548,13 +559,13 @@ FSP Configuration
     Platform: Alternate: MBEDTLS_PLATFORM_SNPRINTF_ALT: Undefine
     Platform: Alternate: MBEDTLS_PLATFORM_VSNPRINTF_ALT: Undefine
     Platform: Alternate: MBEDTLS_PLATFORM_NV_SEED_ALT: Undefine
-    General: PSA_CRYPTO_SECURE: Undefine
+    General: MBEDTLS_PSA_CRYPTO_DRIVERS: Undefine
     General: MBEDTLS_DEPRECATED_WARNING: Undefine
     General: MBEDTLS_DEPRECATED_REMOVED: Define
     Platform: MBEDTLS_TIMING_ALT: Undefine
     Cipher: Alternate: MBEDTLS_ARIA_ALT: Undefine
     Cipher: Alternate: MBEDTLS_CAMELLIA_ALT: Undefine
-    Cipher: Alternate: MBEDTLS_CCM_ALT: Undefine
+    Cipher: Alternate: MBEDTLS_CCM_ALT: Define
     Cipher: Alternate: MBEDTLS_CHACHA20_ALT: Undefine
     Cipher: Alternate: MBEDTLS_CHACHAPOLY_ALT: Undefine
     Cipher: Alternate: MBEDTLS_CMAC_ALT: Undefine
@@ -633,6 +644,7 @@ FSP Configuration
     Public Key Cryptography (PKC): MBEDTLS_PKCS1_V15: Define
     Public Key Cryptography (PKC): MBEDTLS_PKCS1_V21: Define
     Key Configuration: MBEDTLS_PSA_CRYPTO_BUILTIN_KEYS: Undefine
+    Key Configuration: PSA_CRYPTO_DRIVER_TFM_BUILTIN_KEY_LOADER: Undefine
     General: MBEDTLS_PSA_CRYPTO_CLIENT: Undefine
     RNG: MBEDTLS_PSA_CRYPTO_EXTERNAL_RNG: Undefine
     General: MBEDTLS_PSA_CRYPTO_SPM: Undefine
@@ -670,6 +682,8 @@ FSP Configuration
     Cipher: MBEDTLS_GCM_C: Define
     Message Authentication Code (MAC): MBEDTLS_HKDF_C: Define
     Message Authentication Code (MAC): MBEDTLS_HMAC_DRBG_C: Undefine
+    Public Key Cryptography (PKC): MBEDTLS_LMS_C: Define
+    Public Key Cryptography (PKC): MBEDTLS_LMS_PRIVATE: Undefine
     Cipher: MBEDTLS_NIST_KW_C: Undefine
     Hash: MBEDTLS_MD_C: Define
     Hash: MBEDTLS_MD5_C: Define
@@ -681,6 +695,7 @@ FSP Configuration
     Public Key Cryptography (PKC): MBEDTLS_PK_PARSE_C: Define
     Public Key Cryptography (PKC): MBEDTLS_PK_WRITE_C: Define
     Public Key Cryptography (PKC): MBEDTLS_PKCS5_C: Define
+    Public Key Cryptography (PKC): MBEDTLS_PKCS7_C: Undefine
     Public Key Cryptography (PKC): MBEDTLS_PKCS12_C: Define
     Platform: MBEDTLS_PLATFORM_C: Define
     Message Authentication Code (MAC): MBEDTLS_POLY1305_C: Undefine
@@ -815,7 +830,7 @@ FSP Configuration
     Module Reset Pin: 11
     Enable SNTP Client: Disabled
     
-  Module "AWS WiFi Common"
+  Module "WiFi Common"
     Max SSID Length: 32
     Max BSSID Length: 6
     Max Passphrase Length: 32
@@ -926,7 +941,7 @@ FSP Configuration
             SNTP Timezone Offset from UTC Minutes: 0
             Use Daylight Savings Time: Disabled
             
-            Instance "AWS WiFi Common"
+            Instance "WiFi Common"
             Instance "g_uart0 UART (r_sci_uart)"
               General: Name: g_uart0
               General: Channel: 9
@@ -965,6 +980,7 @@ FSP Configuration
                 Interrupt Frequency: After all transfers have completed
                 Number of Transfers: 0
                 Number of Blocks (Valid only in Block Mode): 0
+                Number of Transfer Descriptors: 1
                 Activation Source: SCI9 TXI (Transmit data empty)
                 
               Instance "g_transfer1 Transfer (r_dtc) SCI9 RXI (Received data full)"
@@ -979,6 +995,7 @@ FSP Configuration
                 Interrupt Frequency: After all transfers have completed
                 Number of Transfers: 0
                 Number of Blocks (Valid only in Block Mode): 0
+                Number of Transfer Descriptors: 1
                 Activation Source: SCI9 RXI (Received data full)
                 
           Instance "AWS Cellular/WiFi MbedTLS Bio"

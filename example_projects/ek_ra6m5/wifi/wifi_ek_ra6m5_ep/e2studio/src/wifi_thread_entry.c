@@ -371,7 +371,7 @@ void wifi_thread_entry(void *pvParameters)
         }
     }
 
-    APP_PRINT("\r\nWiFi example project exiting. Reset the MCU.\r\n")
+    APP_PRINT("\r\nWiFi example project exiting. Reset the MCU.\r\n");
     /* De-initializing WiFi module */
     wifi_deinit();
 

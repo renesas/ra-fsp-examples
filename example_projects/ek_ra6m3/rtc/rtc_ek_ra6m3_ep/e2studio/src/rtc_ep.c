@@ -89,7 +89,7 @@ fsp_err_t rtc_init(void)
 fsp_err_t set_rtc_calendar_time(void)
 {
     fsp_err_t err = FSP_SUCCESS;     // Error status
-    unsigned char read_time[BUFFER_SIZE_DOWN] = {NULL_CHAR};
+    uint8_t read_time[BUFFER_SIZE_DOWN] = {NULL_CHAR};
 
     APP_PRINT ("\r\nSetting RTC Date and Time \r\n");
 
@@ -160,7 +160,7 @@ fsp_err_t set_rtc_calendar_alarm(void)
         .year_match       =  RESET_VALUE,
         .dayofweek_match  =  RESET_VALUE,
    };
-    unsigned char read_alarm[BUFFER_SIZE_DOWN] = {NULL_CHAR};
+    uint8_t read_alarm[BUFFER_SIZE_DOWN] = {NULL_CHAR};
 
     /*Set alarm only if proper RTC Calendar date and Time is set */
     if (SET_FLAG == set_time_flag)

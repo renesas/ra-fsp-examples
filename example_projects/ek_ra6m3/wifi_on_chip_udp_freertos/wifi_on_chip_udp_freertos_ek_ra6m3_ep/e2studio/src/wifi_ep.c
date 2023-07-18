@@ -30,7 +30,7 @@
  **********************************************************************************************************************/
 
 /* Setup Access Point connection parameters */
-WIFINetworkParams_t net_params =
+WIFINetworkParams_t g_net_params =
 {
  .ucChannel                  = RESET_VALUE,
  .xPassword.xWPA.cPassphrase = DEFAULT_PASSPHRASE,
@@ -62,7 +62,7 @@ SocketPrameters_t g_socket =
  **********************************************************************************************************************/
 void user_input(char * user_buff)
 {
-    char rByte[BUFF_LEN] = {RESET_VALUE};           // RTT buffer to read data
+    uint8_t rByte[BUFF_LEN] = {RESET_VALUE};           // RTT buffer to read data
     uint32_t num_bytes = RESET_VALUE;             // Number of bytes read by RTT
 
     /* Resetting user_buff */
@@ -147,7 +147,7 @@ WIFIReturnCode_t scan_and_select(void)
         }
 
         /* Printing SSID of WiFi APs */
-        APP_PRINT("\r\n***** List of WiFi Access Points *****")
+        APP_PRINT("\r\n***** List of WiFi Access Points *****");
         for(uint8_t index = RESET_VALUE ; index < MAX_WIFI_SCAN_RESULTS; index++)
         {
             uint8_t temp = scan_data[index].ucSSID[INDEX_ZERO];
@@ -209,15 +209,15 @@ WIFIReturnCode_t scan_and_select(void)
     }while((MIN_ZERO > input_buff[INDEX_ZERO]) || (MAX_NINE < input_buff[INDEX_ZERO]) || (MAX_WIFI_SCAN_RESULTS <= index_wifi_ap_list));
 
     /* Storing SSID  and security type of WiFi AP */
-    strcpy((char*) net_params.ucSSID, (char*) scan_data[index_wifi_ap_list].ucSSID);
-    net_params.xSecurity = scan_data[index_wifi_ap_list].xSecurity;
+    strcpy((char*) g_net_params.ucSSID, (char*) scan_data[index_wifi_ap_list].ucSSID);
+    g_net_params.xSecurity = scan_data[index_wifi_ap_list].xSecurity;
 
     /* WiFi AP password input for non-open security type */
-    if(eWiFiSecurityOpen != net_params.xSecurity)
+    if(eWiFiSecurityOpen != g_net_params.xSecurity)
     {
         /* User input for password of WiFi AP */
-        APP_PRINT("\r\nEnter password for " RTT_CTRL_TEXT_BRIGHT_CYAN "%s." RTT_CTRL_RESET, net_params.ucSSID);
-        user_input(net_params.xPassword.xWPA.cPassphrase);
+        APP_PRINT("\r\nEnter password for " RTT_CTRL_TEXT_BRIGHT_CYAN "%s." RTT_CTRL_RESET, g_net_params.ucSSID);
+        user_input(g_net_params.xPassword.xWPA.cPassphrase);
     }
 
     return wifi_err;
@@ -241,7 +241,7 @@ WIFIReturnCode_t manual_connect(void)
 
     /* User input for SSID of WiFi AP  */
     APP_PRINT("\r\nEnter SSID of WiFi Access Point:");
-    user_input((char *)net_params.ucSSID);
+    user_input((char *)g_net_params.ucSSID);
 
     /* User selecting security type of WiFi AP */
     do
@@ -256,19 +256,19 @@ WIFIReturnCode_t manual_connect(void)
     /* Checking for the Open security type */
     if(WIFI_SECURITY_OPEN == (uint32_t)atoi(input_buff))
     {
-        net_params.xSecurity = eWiFiSecurityOpen;
+        g_net_params.xSecurity = eWiFiSecurityOpen;
     }
     else
     {
-        net_params.xSecurity = ((uint32_t)atoi(input_buff) == WIFI_SECURITY_WPA ? eWiFiSecurityWPA : eWiFiSecurityWPA2);
+        g_net_params.xSecurity = ((uint32_t)atoi(input_buff) == WIFI_SECURITY_WPA ? eWiFiSecurityWPA : eWiFiSecurityWPA2);
         /* WiFi AP password input for non-open security type */
-        APP_PRINT("\r\nEnter password for " RTT_CTRL_TEXT_BRIGHT_CYAN "%s" RTT_CTRL_RESET, net_params.ucSSID);
-        user_input(net_params.xPassword.xWPA.cPassphrase);
+        APP_PRINT("\r\nEnter password for " RTT_CTRL_TEXT_BRIGHT_CYAN "%s" RTT_CTRL_RESET, g_net_params.ucSSID);
+        user_input(g_net_params.xPassword.xWPA.cPassphrase);
     }
 
     /* Connecting to user entered SSID */
-    APP_PRINT("\r\nConnecting to " RTT_CTRL_TEXT_BRIGHT_CYAN "%s \r\n" RTT_CTRL_RESET, net_params.ucSSID);
-    wifi_err = WIFI_ConnectAP(&net_params);
+    APP_PRINT("\r\nConnecting to " RTT_CTRL_TEXT_BRIGHT_CYAN "%s \r\n" RTT_CTRL_RESET, g_net_params.ucSSID);
+    wifi_err = WIFI_ConnectAP(&g_net_params);
     if(eWiFiSuccess != wifi_err)
     {
         APP_ERR_PRINT("\r\n** WIFI_ConnectAP API failed ** \r\n");
@@ -413,7 +413,7 @@ fsp_err_t udp_socket_connect(uint32_t ip_addr, uint32_t port)
     for(uint8_t iteration = RESET_VALUE; iteration <= WIFI_MAX_TRY; iteration++)
     {
         /* Connecting to UDP socket */
-        err = rm_wifi_onchip_silex_udp_connect(g_socket.id, SOCKETS_htonl(ip_addr), port, 0);
+        err = rm_wifi_onchip_silex_udp_connect(g_socket.id, SOCKETS_HTONL(ip_addr), port, 0);
         if(FSP_SUCCESS == err)
         {
             return err;

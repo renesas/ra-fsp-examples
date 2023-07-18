@@ -28,17 +28,17 @@
 #include "usr_app.h"
 
 /* Domain for the DNS Host lookup is used in this Example Project.
- * The project can be built with different *domain_name to validate the DNS client
+ * The project can be built with different *gp_domain_name to validate the DNS client
  */
-char *domain_name = USR_TEST_DOMAIN_NAME;
+uint8_t *gp_domain_name = (uint8_t *) USR_TEST_DOMAIN_NAME;
 
 /* IP address of the PC or any Device on the LAN/WAN where the Ping request is sent.
  * Note: Users needs to change this according to the LAN settings of your Test PC or device
  * when running this project.
  */
-//char *remote_ip_address = "132.158.142.140";
-//char *remote_ip_address = "192.168.1.140";
-char *remote_ip_address = USR_TEST_PING_IP;
+//uint8_t *gp_remote_ip_address = "132.158.142.140";
+//uint8_t *gp_remote_ip_address = "192.168.1.140";
+uint8_t  *gp_remote_ip_address = (uint8_t *)USR_TEST_PING_IP;
 
 #if( ipconfigUSE_DHCP != 0 )
    /* DHCP populates these IP address, Sub net mask and Gateway Address. So start with this is zeroed out values
@@ -209,12 +209,12 @@ void net_thread_entry(void *pvParameters)
                 /* Updated IP credentials on to the RTT console */
                 print_ipconfig();
                 /*DNS lookup for the Domain name requested. This is Synchronous Activity */
-                dnsQuerryFunc(domain_name);
+                dnsQuerryFunc((char *)gp_domain_name);
             }
 
             if(!(PRINT_NWK_USR_MSG_DISABLE & usr_print_ability))
             {
-                APP_PRINT("\r\nPinging %s:\r\n\r\n",(char *)remote_ip_address);
+                APP_PRINT("\r\nPinging %s:\r\n\r\n",(char *)gp_remote_ip_address);
             }
 
             while (usrPingCount < USR_PING_COUNT)
@@ -224,7 +224,7 @@ void net_thread_entry(void *pvParameters)
                  * For Continuous testing the count can be increased to bigger number
                  */
 
-                status =  vSendPing((char *)remote_ip_address);
+                status =  vSendPing((char *)gp_remote_ip_address);
                 if(status != pdFALSE)
                 {
                     ping_data.sent++;
@@ -320,7 +320,7 @@ eDHCPCallbackAnswer_t eReturn = eDHCPContinue;
  **********************************************************************************************************************/
 void print_pingResult(void)
 {
-    APP_PRINT("\r\n \r\nPing Statistics for %s :\r\n",(char *)remote_ip_address);
+    APP_PRINT("\r\n \r\nPing Statistics for %s :\r\n",(char *)gp_remote_ip_address);
     APP_PRINT("\r\nPackets: Sent  = %02d, Received = %02d, Lost = %02d \r\n",ping_data.sent,ping_data.received,ping_data.lost);
 }
 
@@ -356,12 +356,12 @@ void print_ipconfig(void)
         ucIPAddress[0] = (uint8_t)(xNd.ulDefaultIPAddress & 0x000000FF);
     }
 #endif
-    APP_PRINT("\r\nEthernet adapter for Renesas "KIT_NAME":\r\n")
+    APP_PRINT("\r\nEthernet adapter for Renesas "KIT_NAME":\r\n");
 
     APP_PRINT("\tDescription . . . . . . . . . . . : Renesas "KIT_NAME" Ethernet\r\n");
     APP_PRINT("\tPhysical Address. . . . . . . . . : %02x-%02x-%02x-%02x-%02x-%02x\r\n",
             ucMACAddress[0],ucMACAddress[1],ucMACAddress[2],ucMACAddress[3],ucMACAddress[4],ucMACAddress[5]);
-    APP_PRINT("\tDHCP Enabled. . . . . . . . . . . : %s\r\n",dhcp_in_use?"Yes":"No")
+    APP_PRINT("\tDHCP Enabled. . . . . . . . . . . : %s\r\n",dhcp_in_use?"Yes":"No");
     APP_PRINT("\tIPv4 Address. . . . . . . . . . . : %d.%d.%d.%d\r\n",ucIPAddress[0],ucIPAddress[1],ucIPAddress[2],ucIPAddress[3]);
     APP_PRINT("\tSubnet Mask . . . . . . . . . . . : %d.%d.%d.%d\r\n",ucNetMask[0],ucNetMask[1],ucNetMask[2],ucNetMask[3]);
     APP_PRINT("\tDefault Gateway . . . . . . . . . : %d.%d.%d.%d\r\n",ucGatewayAddress[0],ucGatewayAddress[1],ucGatewayAddress[2],ucGatewayAddress[3]);

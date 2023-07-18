@@ -26,11 +26,11 @@
 
 /* for on board LED */
 #if defined (BOARD_RA4W1_EK) || defined (BOARD_RA6T1_RSSK)
-#define LED_ON             BSP_IO_LEVEL_LOW
-#define LED_OFF            BSP_IO_LEVEL_HIGH
+#define LED_ON             (BSP_IO_LEVEL_LOW)
+#define LED_OFF            (BSP_IO_LEVEL_HIGH)
 #else
-#define LED_ON             BSP_IO_LEVEL_HIGH
-#define LED_OFF            BSP_IO_LEVEL_LOW
+#define LED_ON             (BSP_IO_LEVEL_HIGH)
+#define LED_OFF            (BSP_IO_LEVEL_LOW)
 #endif
 
 /*Length of input buffer to calculate CRC in normal mode*/
@@ -49,22 +49,24 @@
 
 
 #define EP_INFO  "\r\nThis Example Project demonstrates CRC operation for transmission\r\n"\
-				  "in normal mode and reception in snoop mode. On any key press through\r\n"\
-				  "RTT Viewer CRC value in normal mode is calculated for 4 bytes of data\r\n"\
+				  "and reception in normal mode. On any key press through RTT Viewer\r\n"\
+				  "CRC value in normal mode is calculated for 4 bytes of data.\r\n"\
 				  "The calculated CRC value along with the data is trans-received on\r\n"\
 				  "sci_uart through loop-back.\r\n"\
-				  "\r\nIf the CRC value for snoop mode is zero and transmit and receive\r\n"\
+				  "\r\nIf the CRC value of data received is zero and transmit and receive\r\n"\
 				  "buffer are equal then On-board LED blinks as sign of successful\r\n"\
 				  "CRC operation. On a data mismatch, LED stays ON. Failure messages\r\n"\
 				  "and status is displayed on RTTViewer.\r\n"
 
 /* Check IO-port API return and trap error(if any error occurs) cleans up and display failure details on RTT viewer */
-#define VALIDATE_IO_PORT_API(API)	if (FSP_SUCCESS != API)\
+#define VALIDATE_IO_PORT_API(API)	({\
+				                    if (FSP_SUCCESS != (API))\
 									{	APP_PRINT("%s API failed at Line number %d", \
 													#API, __LINE__);\
 										cleanup();\
 										APP_ERR_TRAP(true);\
-									}
+									}\
+				                    })
 
 /* Function declaration */
 void toggle_led(void);

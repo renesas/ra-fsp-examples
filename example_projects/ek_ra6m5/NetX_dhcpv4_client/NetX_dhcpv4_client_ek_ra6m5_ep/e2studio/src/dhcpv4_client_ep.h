@@ -30,7 +30,7 @@
  */
 #define WAIT_TO_BE_BOUND      (2*NX_IP_PERIODIC_RATE)
 #define LINK_ENABLE_WAIT_TIME (1000U)
-#define INITIAL_VALUE         '\0'
+#define INITIAL_VALUE         ('\0')
 #define MAX_DNS_SERVERS       (5)
 #define MAX_GATEWAYS          (5)
 #define IP_V4_SIZE            (4)

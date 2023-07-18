@@ -50,7 +50,7 @@ const usb_descriptor_t usb_descriptor =
 usb_status_t            usb_event;
 
 /* Banner Info */
-char p_welcome[200] = {
+uint8_t p_welcome[200] = {
                        "\r\n Welcome to Quick Start BLINKY example project for "
                        KIT_NAME_MACRO
                        "!"
@@ -58,7 +58,7 @@ char p_welcome[200] = {
 };
 
 /* Next steps */
-char nextsteps[USB_EP_PACKET_SIZE] = {
+uint8_t nextsteps[USB_EP_PACKET_SIZE] = {
                                       "\r\n 2. NEXT STEPS \r\n"
                                       "\r\nVisit the following URLs to learn about the kit "
                                       "and the RA family of MCUs, download tools "
@@ -76,11 +76,11 @@ char nextsteps[USB_EP_PACKET_SIZE] = {
                                       "\r\n\r\n Press 1 for Kit Information or 2 for Next Steps.\r\n"
 };
 
-char kitinfo[USB_EP_PACKET_SIZE] = {'\0'};
+uint8_t kitinfo[USB_EP_PACKET_SIZE] = {'\0'};
 
-const char *p_mcu_temp = "\r\n d) MCU Die temperature (F/C):  ";
-const char *p_led_freq = "\r\n c) Current blinking frequency (Hz): ";
-const char *p_kit_menu_ret = "\r\n Press 1 for Kit Information or 2 for Next Steps.\r\n";
+const uint8_t *gp_mcu_temp = (uint8_t*) "\r\n d) MCU Die temperature (F/C):  ";
+const uint8_t *gp_led_freq = (uint8_t*) "\r\n c) Current blinking frequency (Hz): ";
+const uint8_t *gp_kit_menu_ret = (uint8_t*) "\r\n Press 1 for Kit Information or 2 for Next Steps.\r\n";
 
 static bool  b_usb_attach = false;
 
@@ -174,7 +174,7 @@ void hal_entry(void)
                     }
                     case NEXT_STEPS:
                     {
-                        err = print_to_console(nextsteps);
+                        err = print_to_console((char*)nextsteps);
                         if (FSP_SUCCESS != err)
                         {
                             /* Turn ON RED LED to indicate fatal error */
@@ -187,7 +187,7 @@ void hal_entry(void)
                     case CARRIAGE_RETURN:
                     {
                         /* Print banner info to console */
-                        err = print_to_console(p_welcome);
+                        err = print_to_console((char*)p_welcome);
                         if (FSP_SUCCESS != err)
                         {
                             /* Turn ON RED LED to indicate fatal error */
@@ -383,20 +383,20 @@ static void process_kit_info(void)
     memcpy(kitinfo, (char *)KIT_INFO_PRIMARY_TEXT, strlen((char *)KIT_INFO_PRIMARY_TEXT) );
 
     /* calculate current data filled length */
-    buffer_index_count = ((uint16_t)(strlen(kitinfo)));
+    buffer_index_count = ((uint16_t)(strlen((char*)kitinfo)));
 
     /* Check for current led frequency */
     if (BLINK_FREQ_1HZ == g_curr_led_freq)
     {
-        sprintf((char*)&kitinfo[buffer_index_count],"%s\t%d",p_led_freq,1);
+        sprintf((char*)&kitinfo[buffer_index_count],"%s\t%d",gp_led_freq,1);
     }
     else if (BLINK_FREQ_5HZ == g_curr_led_freq)
     {
-        sprintf((char*)&kitinfo[buffer_index_count],"%s\t%d",p_led_freq,5);
+        sprintf((char*)&kitinfo[buffer_index_count],"%s\t%d",gp_led_freq,5);
     }
     else if (BLINK_FREQ_10HZ == g_curr_led_freq)
     {
-        sprintf((char*)&kitinfo[buffer_index_count],"%s\t%d",p_led_freq,10);
+        sprintf((char*)&kitinfo[buffer_index_count],"%s\t%d",gp_led_freq,10);
     }
     else
     {
@@ -406,22 +406,22 @@ static void process_kit_info(void)
     buffer_index_count = 0U;
 
     /* kit_processing_data is filled with led frequency details */
-    buffer_index_count =  ((uint16_t)(strlen(kitinfo))) ;
+    buffer_index_count =  ((uint16_t)(strlen((char*)kitinfo)));
 
     /* appends the data from current buffer_index_count */
     sprintf((char *)&kitinfo[buffer_index_count],
-            "%s\t%.02f/%.02f",p_mcu_temp,mcu_temp_f,mcu_temp_c);
+            "%s\t%.02f/%.02f",gp_mcu_temp,mcu_temp_f,mcu_temp_c);
 
     buffer_index_count  = 0U;
 
     /* update index count */
-    buffer_index_count = ((uint16_t) (strlen(kitinfo)));
+    buffer_index_count = ((uint16_t) (strlen((char*)kitinfo)));
 
     /* update index count */
-    sprintf((char*)&kitinfo[buffer_index_count],"\r\n%s",p_kit_menu_ret);
+    sprintf((char*)&kitinfo[buffer_index_count],"\r\n%s",gp_kit_menu_ret);
 
     /* Print kit menu to console */
-    err = print_to_console(kitinfo);
+    err = print_to_console((char*)kitinfo);
     /* Handle error*/
     if (FSP_SUCCESS != err)
     {

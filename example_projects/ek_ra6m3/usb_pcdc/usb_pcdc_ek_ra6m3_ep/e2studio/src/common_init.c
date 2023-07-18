@@ -30,7 +30,7 @@
 #define NUM_DCS               (sizeof(pwm_dcs) / sizeof(pwm_dcs[0]))
 #define NUM_SWITCH            (sizeof(irq_pins) / sizeof(irq_pins[0]))
 
-int g_curr_led_freq = BLINK_FREQ_1HZ;
+int32_t g_curr_led_freq = BLINK_FREQ_1HZ;
 
 static const struct
 {
@@ -55,7 +55,7 @@ static const struct
 
 static uint32_t cur_dc = 0, cur_rate = 0;
 
-int curr_led_freq = 0;
+int32_t curr_led_freq = 0;
 uint32_t pwm_dcs[3] = {LED_INTENSITY_10, LED_INTENSITY_50, LED_INTENSITY_90};
 uint32_t pwm_rates[3] = {BLINK_FREQ_1HZ, BLINK_FREQ_5HZ, BLINK_FREQ_10HZ};
 

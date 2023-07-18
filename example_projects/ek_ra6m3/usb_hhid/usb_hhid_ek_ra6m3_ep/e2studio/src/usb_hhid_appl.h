@@ -33,7 +33,7 @@
 #define NULL_CHAR                  ('\0')
 #define ROW_SIZE                   (40U)
 #define COL_SIZE                   (25U)
-#define SET_ZERO                   0x0000
+#define SET_ZERO                   (0x0000)
 #define ONE                        (1U)
 #define INDEX                      (2U)
 #define BUFF_SIZE                  (25U)

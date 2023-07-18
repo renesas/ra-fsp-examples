@@ -29,20 +29,20 @@
 
 /* Slave Select pin for all boards to enable data transfer */
 #if defined(BOARD_RA6M2_EK) || defined(BOARD_RA6M1_EK) || defined(BOARD_RA4M1_EK) || defined(BOARD_RA6T1_RSSK) || defined (BOARD_RA2L1_EK) || defined (BOARD_RA4W1_EK)
-#define CS_PIN  BSP_IO_PORT_01_PIN_03
+#define CS_PIN  (BSP_IO_PORT_01_PIN_03)
 #elif defined(BOARD_RA6M3_EK) || defined(BOARD_RA6M3G_EK)
-#define CS_PIN  BSP_IO_PORT_02_PIN_05
+#define CS_PIN  (BSP_IO_PORT_02_PIN_05)
 #elif defined(BOARD_RA2A1_EK)
-#define CS_PIN  BSP_IO_PORT_04_PIN_10
+#define CS_PIN  (BSP_IO_PORT_04_PIN_10)
 #elif defined(BOARD_RA2E1_EK)
-#define CS_PIN  BSP_IO_PORT_04_PIN_03
+#define CS_PIN  (BSP_IO_PORT_04_PIN_03)
 #else
-#define CS_PIN  BSP_IO_PORT_04_PIN_13
+#define CS_PIN  (BSP_IO_PORT_04_PIN_13)
 #endif
 
 /* Function macros to assert and de-assert Slave Select pins */
-#define CS_ASSERT(x)	 R_IOPORT_PinWrite(&g_ioport_ctrl, x, BSP_IO_LEVEL_HIGH);
-#define CS_DE_ASSERT(x)	 R_IOPORT_PinWrite(&g_ioport_ctrl, x, BSP_IO_LEVEL_LOW);
+#define CS_ASSERT(x)	 (R_IOPORT_PinWrite(&g_ioport_ctrl, (x), BSP_IO_LEVEL_HIGH))
+#define CS_DE_ASSERT(x)	 (R_IOPORT_PinWrite(&g_ioport_ctrl, (x), BSP_IO_LEVEL_LOW))
 
 #define EP_INFO                "\r\nThis Example Project demonstrates the basic usage of SCI_SPI driver."\
 		                       "\r\nThe project writes commands to the slave sensor and reads the temperature"\
@@ -59,7 +59,7 @@ void R_BSP_WarmStart(bsp_warm_start_event_t event);
 static uint8_t read_temperature_reg[3] = {0x01};
 /* Variable to store read temperature values */
 static uint8_t temperature_values[3] = {RESET_VALUE};
-uint8_t config_read[2] = {0x00};
+uint8_t g_config_read[2] = {0x00};
 static char dataBuff[30];
 /* Function to check occurrence of event after data transfer */
 static void sci_spi_event_check(void);
@@ -124,7 +124,7 @@ void hal_entry(void)
     CS_ASSERT(CS_PIN);
 
     /* Read configured temperature sensor */
-    err = R_SCI_SPI_Read(&g_spi_ctrl, &config_read[0], sizeof(config_read), SPI_BIT_WIDTH_8_BITS);
+    err = R_SCI_SPI_Read(&g_spi_ctrl, &g_config_read[0], sizeof(g_config_read), SPI_BIT_WIDTH_8_BITS);
     /* Handle Error */
     if (FSP_SUCCESS != err)
     {
@@ -140,7 +140,7 @@ void hal_entry(void)
     CS_DE_ASSERT(CS_PIN);
 
     /* Check if sensor is configured as expected */
-    if (config_sensor[1] != config_read[1])
+    if (config_sensor[1] != g_config_read[1])
     {
         /* Incorrect configuration of temperature sensor */
         err = FSP_ERR_INVALID_HW_CONDITION;

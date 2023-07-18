@@ -563,7 +563,7 @@ void external_irq_callback(external_irq_callback_args_t *p_args)
     if(USER_SW_IRQ_NUMBER == p_args->channel)
     {
         b_onboard_sw_pressed = true;
-        R_IOPORT_PinRead(g_ioport.p_ctrl, BSP_IO_PORT_02_PIN_05, &g_last_switch_status);
+        R_IOPORT_PinRead(g_ioport.p_ctrl, BSP_IO_PORT_03_PIN_04, &g_last_switch_status);
     }
 }
 
@@ -579,7 +579,7 @@ bool read_onboard_sw_status(void)
         /* Reset the flag.*/
         b_onboard_sw_pressed = false;
         /* Read the current status of switch.*/
-        R_IOPORT_PinRead(g_ioport.p_ctrl, BSP_IO_PORT_02_PIN_05, &g_cur_switch_status);
+        R_IOPORT_PinRead(g_ioport.p_ctrl, BSP_IO_PORT_03_PIN_04, &g_cur_switch_status);
         if((g_cur_switch_status == BSP_IO_LEVEL_LOW) && (g_last_switch_status == BSP_IO_LEVEL_LOW))
         {
             return true;

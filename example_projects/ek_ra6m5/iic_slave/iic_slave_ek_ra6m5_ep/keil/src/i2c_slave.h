@@ -28,21 +28,21 @@
 /* macro definition */
 /* for on board LED */
 #if defined (BOARD_RA6T1_RSSK) || defined (BOARD_RA4W1_EK)
-#define LED_ON             BSP_IO_LEVEL_LOW
-#define LED_OFF            BSP_IO_LEVEL_HIGH
+#define LED_ON             (BSP_IO_LEVEL_LOW)
+#define LED_OFF            (BSP_IO_LEVEL_HIGH)
 #else
-#define LED_ON             BSP_IO_LEVEL_HIGH
-#define LED_OFF            BSP_IO_LEVEL_LOW
+#define LED_ON             (BSP_IO_LEVEL_HIGH)
+#define LED_OFF            (BSP_IO_LEVEL_LOW)
 #endif
 
 /* MACRO for checking if two buffers are equal */
 #define BUFF_EQUAL         (0U)
 
 /* buffer size for slave and master data */
-#define BUF_LEN            0x06
+#define BUF_LEN            (0x06)
 
 /* Human eye noticeable LED toggle delay */
-#define TOGGLE_DELAY       0x3E8
+#define TOGGLE_DELAY       (0x3E8)
 
 #define EP_INFO    "\r\nThis EP demonstrates IIC slave operation using two I2C channels." \
         "\r\nIt performs Slave read and write operation continuously once initialization  " \

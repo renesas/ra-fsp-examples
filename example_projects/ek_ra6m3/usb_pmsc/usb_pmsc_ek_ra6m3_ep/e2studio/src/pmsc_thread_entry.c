@@ -34,7 +34,7 @@ extern uint8_t g_apl_device[];
 extern uint8_t g_apl_configuration[];
 extern uint8_t g_apl_hs_configuration[];
 extern uint8_t g_apl_qualifier_descriptor[];
-extern uint8_t *g_apl_string_table[];
+extern uint8_t *gp_apl_string_table[];
 
 const usb_descriptor_t g_usb_descriptor =
 {
@@ -42,7 +42,7 @@ const usb_descriptor_t g_usb_descriptor =
  g_apl_configuration,            /* Pointer to the configuration descriptor for Full-speed */
  g_apl_hs_configuration,         /* Pointer to the configuration descriptor for Hi-speed */
  g_apl_qualifier_descriptor,     /* Pointer to the qualifier descriptor */
- g_apl_string_table,             /* Pointer to the string descriptor table */
+ gp_apl_string_table,             /* Pointer to the string descriptor table */
  NUM_STRING_DESCRIPTOR
 };
 

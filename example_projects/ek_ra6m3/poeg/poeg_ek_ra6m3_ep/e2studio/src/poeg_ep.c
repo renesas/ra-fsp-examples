@@ -41,11 +41,11 @@ void deinit_acmphs(void)
     /* Handle error */
     if (FSP_SUCCESS != err)
     {
-        APP_ERR_PRINT("\r\nR_ACMPHS_Close API failed\r\n")
+        APP_ERR_PRINT("\r\nR_ACMPHS_Close API failed\r\n");
     }
     else
     {
-        APP_PRINT("\r\nR_ACMPHS_Close API success\r\n")
+        APP_PRINT("\r\nR_ACMPHS_Close API success\r\n");
     }
 }
 

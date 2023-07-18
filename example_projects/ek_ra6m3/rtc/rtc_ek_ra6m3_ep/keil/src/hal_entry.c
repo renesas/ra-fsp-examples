@@ -150,7 +150,7 @@ static void read_Input_from_RTT(void)
     fsp_err_t err = FSP_SUCCESS;     // Error status
 
     /* Variable to store user input */
-    unsigned char rByte[BUFFER_SIZE_DOWN] = {NULL_CHAR};
+    uint8_t rByte[BUFFER_SIZE_DOWN] = {NULL_CHAR};
     uint8_t converted_rtt_input = RESET_VALUE;
 
     APP_READ(rByte);

@@ -1,5 +1,5 @@
 /***********************************************************************************************************************
-     * File Name    : wifi_thread_entry.c
+ * File Name    : wifi_thread_entry.c
  * Description  : Contains data structures and functions used in wifi_thread_entry.c
  **********************************************************************************************************************/
 /***********************************************************************************************************************
@@ -49,7 +49,7 @@ void wifi_thread_entry(void *pvParameters)
     R_FSP_VersionGet(&version);
 
     /* Example Project information printed on the Console */
-    APP_PRINT(BANNER_INFO, EP_VERSION, version.major, version.minor, version.patch);
+    APP_PRINT(BANNER_INFO, EP_VERSION, version.version_id_b.major, version.version_id_b.minor, version.version_id_b.patch);
     APP_PRINT(EP_INFO);
 
     /* Opening WiFi module */
@@ -79,7 +79,7 @@ void wifi_thread_entry(void *pvParameters)
         {
             case SCAN_AP:
 #if defined (BOARD_RA2E2_EK)
-                APP_PRINT("\r\nWiFi Access Point scanning feature is unsupported, refer readme.txt for additional details.");
+                APP_PRINT("\r\nWiFi Access Point scanning is not available for this board.");
                 APP_PRINT("\r\nPlease press 2 for entering WiFi Access Point's credentials manually.\r\n");
 #else
                 /* Scan for APs and connect to user chosen one */
@@ -370,7 +370,7 @@ void wifi_thread_entry(void *pvParameters)
         }
     }
 
-    APP_PRINT("\r\nWiFi example project exiting. Reset the MCU.\r\n")
+    APP_PRINT("\r\nWiFi example project exiting. Reset the MCU.\r\n");
     /* De-initializing WiFi module */
     wifi_deinit();
 

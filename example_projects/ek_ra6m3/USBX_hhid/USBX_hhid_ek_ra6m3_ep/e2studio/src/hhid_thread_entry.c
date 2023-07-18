@@ -36,8 +36,8 @@ ULONG           g_keyboard_state = RESET_VALUE;
 SLONG           g_mouse_x_position = RESET_VALUE;
 SLONG           g_mouse_y_position = RESET_VALUE;
 static ULONG    actual_flags = RESET_VALUE;
-mouse_pos_t     mouse_axis = {RESET_VALUE};
-UX_HOST_CLASS_HID * hid_class_instance;
+mouse_pos_t     g_mouse_axis = {RESET_VALUE};
+UX_HOST_CLASS_HID * gp_hid_class_instance;
 
 /*Private function*/
 static void deinit_usb_device(void);
@@ -57,7 +57,7 @@ static UINT apl_host_hid_change_function (ULONG event, UX_HOST_CLASS * host_clas
     if (UX_DEVICE_INSERTION == event)
     {
         /* Get a pointer to a USB Host HID Class instance. */
-        hid_class_instance = (UX_HOST_CLASS_HID *)instance;
+        gp_hid_class_instance = (UX_HOST_CLASS_HID *)instance;
         /* set the event flag as usb host device is plugged in */
         tx_event_flags_set(&g_usb_plug_events, EVENT_USB_PLUG_IN, TX_OR);
 
@@ -65,9 +65,13 @@ static UINT apl_host_hid_change_function (ULONG event, UX_HOST_CLASS * host_clas
     else if (UX_DEVICE_REMOVAL == event)
     {
         /* Update USB Host HID Class instance to NULL*/
-        hid_class_instance = NULL;
+        gp_hid_class_instance = NULL;
         /* set the event flag as usb host device is plugged out */
         tx_event_flags_set(&g_usb_plug_events, EVENT_USB_PLUG_OUT, TX_OR);
+    }
+    else
+    {
+        /* Do Nothing */
     }
     return UX_SUCCESS;
 }
@@ -143,9 +147,9 @@ void hhid_thread_entry(void)
         /* below section of code will execute when USB Host Device is inserted */
         else
         {
-            if (NULL != hid_class_instance)
+            if (NULL != gp_hid_class_instance)
             {
-                UX_HOST_CLASS_HID_CLIENT * hid_client = hid_class_instance->ux_host_class_hid_client;
+                UX_HOST_CLASS_HID_CLIENT * hid_client = gp_hid_class_instance->ux_host_class_hid_client;
 
                 if (UX_SUCCESS == ux_utility_memory_compare (hid_client->ux_host_class_hid_client_name,
                                                               _ux_system_host_class_hid_client_keyboard_name,
@@ -219,11 +223,11 @@ void hhid_thread_entry(void)
                                                                   (SLONG *)&g_mouse_x_position, (SLONG *)&g_mouse_y_position);
                     if (UX_SUCCESS == error)
                     {
-                        if ((mouse_axis.mouse_x_position_old != g_mouse_x_position) || (mouse_axis.mouse_y_position_old != g_mouse_y_position))
+                        if ((g_mouse_axis.mouse_x_position_old != g_mouse_x_position) || (g_mouse_axis.mouse_y_position_old != g_mouse_y_position))
                         {
-                            mouse_axis.mouse_x_position_old = g_mouse_x_position;
-                            mouse_axis.mouse_y_position_old = g_mouse_y_position;
-                            app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_PRINT_MOUSE_POSITION, sizeof(mouse_axis), &mouse_axis);
+                            g_mouse_axis.mouse_x_position_old = g_mouse_x_position;
+                            g_mouse_axis.mouse_y_position_old = g_mouse_y_position;
+                            app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_PRINT_MOUSE_POSITION, sizeof(g_mouse_axis), &g_mouse_axis);
                         }
                     }
                     else

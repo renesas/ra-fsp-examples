@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<raConfiguration version="6">
+<raConfiguration version="7">
   <generalSettings>
     <option key="#Board#" value="board.ra6m4ek" />
     <option key="CPU" value="RA6M4" />
+    <option key="Core" value="CM33" />
     <option key="#TargetName#" value="R7FA6M4AF3CFB" />
     <option key="#TargetARCHITECTURE#" value="cortex-m33" />
     <option key="#DeviceCommand#" value="R7FA6M4AF" />
     <option key="#RTOS#" value="_none" />
     <option key="#pinconfiguration#" value="R7FA6M4AF3CFB.pincfg" />
-    <option key="#FSPVersion#" value="4.2.0" />
+    <option key="#FSPVersion#" value="4.5.0" />
     <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra6m4_ek##" />
     <option key="#SELECTED_TOOLCHAIN#" value="gcc-arm-embedded" />
     <option key="#ToolchainVersion#" value="9.2.1.20191025" />
@@ -22,6 +23,7 @@
       <property id="config.bsp.data_flash_size_bytes" value="config.bsp.data_flash_size_bytes.value" />
       <property id="config.bsp.package_style" value="config.bsp.package_style.value" />
       <property id="config.bsp.package_pins" value="config.bsp.package_pins.value" />
+      <property id="config.bsp.irq_count_hidden" value="96" />
     </config>
     <config id="config.bsp.ra6m4">
       <property id="config.bsp.series" value="config.bsp.series.value" />
@@ -39,6 +41,7 @@
       <property id="config.bsp.fsp.tz.stbramsar" value="config.bsp.fsp.tz.stbramsar.both" />
       <property id="config.bsp.fsp.tz.bussara" value="config.bsp.fsp.tz.bussara.both" />
       <property id="config.bsp.fsp.tz.bussarb" value="config.bsp.fsp.tz.bussarb.both" />
+      <property id="config.bsp.fsp.tz.uninitialized_ns_application_fallback" value="config.bsp.fsp.tz.uninitialized_ns_application_fallback.enabled" />
       <property id="config.bsp.fsp.cache_line_size" value="config.bsp.fsp.cache_line_size.32" />
       <property id="config.bsp.fsp.OFS0.iwdt_start_mode" value="config.bsp.fsp.OFS0.iwdt_start_mode.disabled" />
       <property id="config.bsp.fsp.OFS0.iwdt_timeout" value="config.bsp.fsp.OFS0.iwdt_timeout.2048" />
@@ -72,6 +75,12 @@
       <property id="config.bsp.fsp.mcu.sci_spi.max_bitrate" value="25000000" />
       <property id="config.bsp.fsp.mcu.spi.max_bitrate" value="50000000" />
       <property id="config.bsp.fsp.mcu.iic_master.rate.rate_fastplus" value="1" />
+      <property id="config.bsp.fsp.mcu.iic_master.fastplus_channels" value="0x1" />
+      <property id="config.bsp.fsp.mcu.iic_slave.rate.rate_fastplus" value="1" />
+      <property id="config.bsp.fsp.mcu.iic_slave.fastplus_channels" value="0x1" />
+      <property id="config.bsp.fsp.mcu.sci_uart.cstpen_channels" value="0x03F9" />
+      <property id="config.bsp.fsp.mcu.gpt.pin_count_source_channels" value="0xFFFF" />
+      <property id="config.bsp.fsp.mcu.adc_dmac.samples_per_channel" value="32767" />
     </config>
     <config id="config.bsp.ra">
       <property id="config.bsp.common.main" value="0x400" />
@@ -84,6 +93,7 @@
       <property id="config.bsp.common.main_osc_populated" value="config.bsp.common.main_osc_populated.enabled" />
       <property id="config.bsp.common.pfs_protect" value="config.bsp.common.pfs_protect.enabled" />
       <property id="config.bsp.common.c_runtime_init" value="config.bsp.common.c_runtime_init.enabled" />
+      <property id="config.bsp.common.early_init" value="config.bsp.common.early_init.disabled" />
       <property id="config.bsp.common.main_osc_clock_source" value="config.bsp.common.main_osc_clock_source.crystal" />
       <property id="config.bsp.common.subclock_populated" value="config.bsp.common.subclock_populated.enabled" />
       <property id="config.bsp.common.subclock_drive" value="config.bsp.common.subclock_drive.standard" />
@@ -132,41 +142,41 @@
     <node id="board.clock.octaspiclk.display" option="board.clock.octaspiclk.display.value" />
   </raClockConfiguration>
   <raComponentSelection>
-    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra6m4_ek" variant="" vendor="Renesas" version="4.2.0">
+    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra6m4_ek" variant="" vendor="Renesas" version="4.5.0">
       <description>RA6M4-EK Board Support Files</description>
-      <originalPack>Renesas.RA_board_ra6m4_ek.4.2.0.pack</originalPack>
+      <originalPack>Renesas.RA_board_ra6m4_ek.4.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="5.9.0+renesas.0.fsp.4.2.0">
+    <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="5.9.0+renesas.0.fsp.4.5.0">
       <description>Arm CMSIS Version 5 - Core (M)</description>
-      <originalPack>Arm.CMSIS5.5.9.0+renesas.0.fsp.4.2.0.pack</originalPack>
+      <originalPack>Arm.CMSIS5.5.9.0+renesas.0.fsp.4.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra6m4" subgroup="device" variant="R7FA6M4AF3CFB" vendor="Renesas" version="4.2.0">
+    <component apiversion="" class="BSP" condition="" group="ra6m4" subgroup="device" variant="R7FA6M4AF3CFB" vendor="Renesas" version="4.5.0">
       <description>Board support package for R7FA6M4AF3CFB</description>
-      <originalPack>Renesas.RA_mcu_ra6m4.4.2.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra6m4.4.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra6m4" subgroup="device" variant="" vendor="Renesas" version="4.2.0">
+    <component apiversion="" class="BSP" condition="" group="ra6m4" subgroup="device" variant="" vendor="Renesas" version="4.5.0">
       <description>Board support package for RA6M4</description>
-      <originalPack>Renesas.RA_mcu_ra6m4.4.2.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra6m4.4.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra6m4" subgroup="fsp" variant="" vendor="Renesas" version="4.2.0">
+    <component apiversion="" class="BSP" condition="" group="ra6m4" subgroup="fsp" variant="" vendor="Renesas" version="4.5.0">
       <description>Board support package for RA6M4 - FSP Data</description>
-      <originalPack>Renesas.RA_mcu_ra6m4.4.2.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra6m4.4.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="4.2.0">
+    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="4.5.0">
       <description>Board Support Package Common Files</description>
-      <originalPack>Renesas.RA.4.2.0.pack</originalPack>
+      <originalPack>Renesas.RA.4.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="4.2.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="4.5.0">
       <description>I/O Port</description>
-      <originalPack>Renesas.RA.4.2.0.pack</originalPack>
+      <originalPack>Renesas.RA.4.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_crc" variant="" vendor="Renesas" version="4.2.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_crc" variant="" vendor="Renesas" version="4.5.0">
       <description>Cyclic Redundancy Check</description>
-      <originalPack>Renesas.RA.4.2.0.pack</originalPack>
+      <originalPack>Renesas.RA.4.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_sci_uart" variant="" vendor="Renesas" version="4.2.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_sci_uart" variant="" vendor="Renesas" version="4.5.0">
       <description>SCI UART</description>
-      <originalPack>Renesas.RA.4.2.0.pack</originalPack>
+      <originalPack>Renesas.RA.4.5.0.pack</originalPack>
     </component>
   </raComponentSelection>
   <raElcConfiguration />
@@ -178,12 +188,13 @@
       <property id="module.driver.ioport.elc_trigger_ioport2" value="_disabled" />
       <property id="module.driver.ioport.elc_trigger_ioport3" value="_disabled" />
       <property id="module.driver.ioport.elc_trigger_ioport4" value="_disabled" />
+      <property id="module.driver.ioport.pincfg" value="g_bsp_pin_cfg" />
     </module>
     <module id="module.driver.crc_on_crc.1923032438">
       <property id="module.driver.crc.name" value="g_crc" />
       <property id="module.driver.crc.crc_polynomial" value="module.driver.crc.crc_polynomial.gps_crc_8" />
       <property id="module.driver.crc.crc_bit_order" value="module.driver.crc.crc_bit_order.lms_msb" />
-      <property id="module.driver.crc.snoop_address" value="module.driver.crc.snoop_address.SCI1_frdr" />
+      <property id="module.driver.crc.snoop_address" value="module.driver.crc.snoop_address.not_supported" />
     </module>
     <module id="module.driver.uart_on_sci_uart.249554022">
       <property id="module.driver.uart.name" value="g_uart" />
@@ -201,6 +212,10 @@
       <property id="module.driver.uart.rx_edge_start" value="module.driver.uart.rx_edge_start.falling_edge" />
       <property id="module.driver.uart.noisecancel_en" value="module.driver.uart.noisecancel_en.disabled" />
       <property id="module.driver.uart.rx_fifo_trigger" value="module.driver.uart.rx_fifo_trigger.max" />
+      <property id="module.driver.uart.rs485.de_enable" value="module.driver.uart.rs485.de_enable.disabled" />
+      <property id="module.driver.uart.rs485.de_polarity" value="module.driver.uart.rs485.de_polarity.high" />
+      <property id="module.driver.uart.rs485.de_port_number" value="module.driver.uart.rs485.de_port_number.PORT_DISABLE" />
+      <property id="module.driver.uart.rs485.de_pin_number" value="module.driver.uart.rs485.de_pin_number.PIN_DISABLE" />
       <property id="module.driver.uart.callback" value="uart_cb" />
       <property id="module.driver.uart.rxi_ipl" value="board.icu.common.irq.priority2" />
       <property id="module.driver.uart.txi_ipl" value="board.icu.common.irq.priority2" />
@@ -223,6 +238,7 @@
       <property id="config.driver.sci_uart.fifo_support" value="config.driver.sci_uart.fifo_support.disabled" />
       <property id="config.driver.sci_uart.dtc_support" value="config.driver.sci_uart.dtc_support.disabled" />
       <property id="config.driver.sci_uart.flow_control" value="config.driver.sci_uart.flow_control.disabled" />
+      <property id="config.driver.sci_uart.rs485" value="config.driver.sci_uart.rs485.disabled" />
     </config>
   </raModuleConfiguration>
   <raPinConfiguration>
@@ -233,6 +249,9 @@
     <comment propertyId="p404.comment" value="LED2 - Green" />
     <comment propertyId="p415.comment" value="LED1 - Blue" />
     <pincfg active="true" name="R7FA6M4AF3CFB.pincfg" selected="true" symbol="g_bsp_pin_cfg">
+      <configSetting altId="cgc0.extal.p212" configurationId="cgc0.extal" />
+      <configSetting altId="cgc0.mode.mainsub" configurationId="cgc0.mode" />
+      <configSetting altId="cgc0.xtal.p213" configurationId="cgc0.xtal" />
       <configSetting altId="debug0.mode.jtag" configurationId="debug0.mode" />
       <configSetting altId="debug0.tck.p300" configurationId="debug0.tck" />
       <configSetting altId="debug0.tdi.p110" configurationId="debug0.tdi" />
@@ -244,9 +263,9 @@
       <configSetting altId="p109.gpio_mode.gpio_mode_peripheral" configurationId="p109.gpio_mode" />
       <configSetting altId="p110.debug0.tdi" configurationId="p110" />
       <configSetting altId="p110.gpio_mode.gpio_mode_peripheral" configurationId="p110.gpio_mode" />
-      <configSetting altId="p212.sci1.rxd" configurationId="p212" />
+      <configSetting altId="p212.cgc0.extal" configurationId="p212" />
       <configSetting altId="p212.gpio_mode.gpio_mode_peripheral" configurationId="p212.gpio_mode" />
-      <configSetting altId="p213.sci1.txd" configurationId="p213" />
+      <configSetting altId="p213.cgc0.xtal" configurationId="p213" />
       <configSetting altId="p213.gpio_mode.gpio_mode_peripheral" configurationId="p213.gpio_mode" />
       <configSetting altId="p300.debug0.tck" configurationId="p300" />
       <configSetting altId="p300.gpio_mode.gpio_mode_peripheral" configurationId="p300.gpio_mode" />
@@ -256,9 +275,13 @@
       <configSetting altId="p404.gpio_mode.gpio_mode_out.low" configurationId="p404.gpio_mode" />
       <configSetting altId="p415.output.low" configurationId="p415" />
       <configSetting altId="p415.gpio_mode.gpio_mode_out.low" configurationId="p415.gpio_mode" />
+      <configSetting altId="p708.sci1.rxd" configurationId="p708" />
+      <configSetting altId="p708.gpio_mode.gpio_mode_peripheral" configurationId="p708.gpio_mode" />
+      <configSetting altId="p709.sci1.txd" configurationId="p709" />
+      <configSetting altId="p709.gpio_mode.gpio_mode_peripheral" configurationId="p709.gpio_mode" />
       <configSetting altId="sci1.mode.asynchronous.free" configurationId="sci1.mode" />
-      <configSetting altId="sci1.rxd.p212" configurationId="sci1.rxd" />
-      <configSetting altId="sci1.txd.p213" configurationId="sci1.txd" />
+      <configSetting altId="sci1.rxd.p708" configurationId="sci1.rxd" />
+      <configSetting altId="sci1.txd.p709" configurationId="sci1.txd" />
     </pincfg>
   </raPinConfiguration>
 </raConfiguration>

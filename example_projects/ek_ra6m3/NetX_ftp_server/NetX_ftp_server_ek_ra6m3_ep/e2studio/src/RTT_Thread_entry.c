@@ -51,7 +51,7 @@ void rtt_thread_entry(void)
     err = rtt_frameowrk_init();
     if (TX_SUCCESS != err)
     {
-        APP_PRINT("\r\n ERROR: RTT framework init Failed\r\n")
+        APP_PRINT("\r\n ERROR: RTT framework init Failed\r\n");
                         APP_ERR_TRAP(err);
     }
 
@@ -62,10 +62,10 @@ void rtt_thread_entry(void)
         {
             UINT read_bytes = APP_READ(rtt_buffer);
 
-            err = memory_allocate_rtt(&byte_pool, &p_data, sizeof(rtt_msg_t) + read_bytes);
+            err = memory_allocate_rtt(&g_byte_pool, &p_data, sizeof(rtt_msg_t) + read_bytes);
             if (TX_SUCCESS != err)
             {
-                APP_PRINT("Error in processing, please check again\r\n")
+                APP_PRINT("Error in processing, please check again\r\n");
             }
             else
             {
@@ -80,7 +80,7 @@ void rtt_thread_entry(void)
 
                 memcpy(p_data->p_msg,fname,p_data->msg_data_size);
 #if (BSP_CFG_RTOS == AZURE_RTOS)
-                tx_queue_send(&rtt_ip_data_queue,(rtt_msg_t *)&p_data , TX_WAIT_FOREVER);
+                tx_queue_send(&g_rtt_ip_data_queue,(rtt_msg_t *)&p_data , TX_WAIT_FOREVER);
 #endif
 
                 memset(rtt_buffer,'\0',sizeof(rtt_buffer));
@@ -116,7 +116,7 @@ static void process_rtt_op_msg(VOID)
     /* Pump out all information to print */
     do
     {
-        err = tx_queue_receive(&rtt_op_data_queue,(VOID *)&rtt_op_data , 1);
+        err = tx_queue_receive(&g_rtt_op_data_queue,(VOID *)&rtt_op_data , 1);
 
         if(err == TX_SUCCESS)
         {
@@ -234,7 +234,7 @@ UINT app_rtt_print_data(event_id_t id, uint32_t size, void * const p_data)
     UINT err = TX_SUCCESS;
 
     /* allocates memory for rtt display message data structure.*/
-    err = memory_allocate_rtt(&byte_pool,
+    err = memory_allocate_rtt(&g_byte_pool,
                               &p_display_data,
                               sizeof(rtt_msg_t) + size);
     if (TX_SUCCESS != err)
@@ -249,7 +249,7 @@ UINT app_rtt_print_data(event_id_t id, uint32_t size, void * const p_data)
     memcpy(p_display_data->p_msg, p_data, size);
 
     /* Send Allocated address */
-    err = tx_queue_send(&rtt_op_data_queue,
+    err = tx_queue_send(&g_rtt_op_data_queue,
                              (rtt_msg_t *)&p_display_data,
                              TX_WAIT_FOREVER);
     return err;
@@ -297,7 +297,7 @@ UINT check_for_RTT_user_IP(char *const p_get_data)
 
     rtt_msg_t *r_data1 = NULL;
 
-    err = tx_queue_receive(&rtt_ip_data_queue,(VOID *)&r_data1 , 0xFF);
+    err = tx_queue_receive(&g_rtt_ip_data_queue,(VOID *)&r_data1 , 0xFF);
     if (TX_SUCCESS != err)
     {
         return err;

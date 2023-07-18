@@ -33,10 +33,10 @@ static uint8_t g_request_buf[REQ_SIZE] = {RESET_VALUE};
 /* Variable to capture USB event. */
 static volatile usb_event_info_t * p_usb_event = NULL ;
 static volatile bool g_err_flag = false;
-volatile uint8_t pipe = RESET_VALUE;
-uint8_t bulk_in_pipe = RESET_VALUE;       /* Bulk In  Pipe */
-uint8_t bulk_out_pipe = RESET_VALUE;      /* Bulk Out Pipe */
-uint16_t max_packet_size = USB_APL_MXPS;
+volatile uint8_t g_pipe = RESET_VALUE;
+uint8_t g_bulk_in_pipe = RESET_VALUE;       /* Bulk In  Pipe */
+uint8_t g_bulk_out_pipe = RESET_VALUE;      /* Bulk Out Pipe */
+uint16_t g_max_packet_size = USB_APL_MXPS;
 
 /* Function definitions */
 static fsp_err_t process_usb_events(void);
@@ -68,11 +68,11 @@ void usb_peri_vendor_thread_entry(void *pvParameters)
     /* max packet size check */
     if (RESET_VALUE == (BUF_SIZE % USB_APL_MXPS))
     {
-        max_packet_size = USB_APL_MXPS;
+        g_max_packet_size = USB_APL_MXPS;
     }
     else
     {
-        max_packet_size = RESET_VALUE;
+        g_max_packet_size = RESET_VALUE;
     }
 
     /* Open USB instance */
@@ -133,9 +133,9 @@ fsp_err_t process_usb_events(void)
         case USB_STATUS_READ_COMPLETE:
         {
             /* check for out pipe */
-            if ((bulk_out_pipe == p_usb_event->pipe) && (FSP_ERR_USB_FAILED != p_usb_event->status))
+            if ((g_bulk_out_pipe == p_usb_event->pipe) && (FSP_ERR_USB_FAILED != p_usb_event->status))
             {
-                pipe = bulk_in_pipe;
+                g_pipe = g_bulk_in_pipe;
 
                 /* Data comparison read from host */
                 err = buffer_check(p_usb_event->data_size);
@@ -158,7 +158,7 @@ fsp_err_t process_usb_events(void)
                     }
 
                     /* Write data back to host */
-                    err = R_USB_PipeWrite(&g_basic_ctrl, &g_buf[RESET_VALUE], p_usb_event->data_size, pipe);
+                    err = R_USB_PipeWrite(&g_basic_ctrl, &g_buf[RESET_VALUE], p_usb_event->data_size, g_pipe);
                     if (FSP_SUCCESS != err)
                     {
                         APP_ERR_PRINT("\r\nR_USB_PipeWrite failed.\r\n");
@@ -179,11 +179,11 @@ fsp_err_t process_usb_events(void)
         case USB_STATUS_WRITE_COMPLETE:
         {
             /* check for in pipe */
-            if ((bulk_in_pipe == p_usb_event->pipe) && (FSP_ERR_USB_FAILED != p_usb_event->status))
+            if ((g_bulk_in_pipe == p_usb_event->pipe) && (FSP_ERR_USB_FAILED != p_usb_event->status))
             {
-                if (USB_APL_MXPS == max_packet_size)
+                if (USB_APL_MXPS == g_max_packet_size)
                 {
-                    pipe = bulk_out_pipe;
+                    g_pipe = g_bulk_out_pipe;
                     /* Send ZLP */
                     err = R_USB_PipeWrite(&g_basic_ctrl, RESET_VALUE, RESET_VALUE, p_usb_event->pipe);
                     if (FSP_SUCCESS != err)
@@ -198,10 +198,10 @@ fsp_err_t process_usb_events(void)
                 else
                 {
                     APP_DBG_PRINT("\r\nData is successfully sent\r\n");
-                    pipe = bulk_out_pipe;
+                    g_pipe = g_bulk_out_pipe;
                     memset(g_buf, RESET_VALUE, BUF_SIZE);
                     /* Read data back */
-                    err = R_USB_PipeRead(&g_basic_ctrl, &g_buf[RESET_VALUE], BUF_SIZE, (uint8_t)pipe);
+                    err = R_USB_PipeRead(&g_basic_ctrl, &g_buf[RESET_VALUE], BUF_SIZE, (uint8_t)g_pipe);
                     if (FSP_SUCCESS != err)
                     {
                         APP_ERR_PRINT("\r\nR_USB_PipeRead failed.\r\n");
@@ -231,7 +231,7 @@ fsp_err_t process_usb_events(void)
             if (USB_GET_VENDOR == (p_usb_event->setup.request_type & USB_BREQUEST))
             {
                 /* Start reading data */
-                err = R_USB_PipeRead(&g_basic_ctrl, &g_buf[RESET_VALUE], (BUF_SIZE), bulk_out_pipe);
+                err = R_USB_PipeRead(&g_basic_ctrl, &g_buf[RESET_VALUE], (BUF_SIZE), g_bulk_out_pipe);
                 if (FSP_SUCCESS != err)
                 {
                     APP_ERR_PRINT("\r\nR_USB_PipeRead failed.\r\n");
@@ -288,22 +288,22 @@ static fsp_err_t usb_configured_event_process(void)
     }
     else
     {
-        for (pipe = START_PIPE; pipe < END_PIPE; pipe++)
+        for (g_pipe = START_PIPE; g_pipe < END_PIPE; g_pipe++)
         {
             /* check for the used pipe */
-            if ((used_pipe & (START_PIPE << pipe)) != RESET_VALUE)
+            if ((used_pipe & (START_PIPE << g_pipe)) != RESET_VALUE)
             {
                 /* Get the pipe Info */
-                err = R_USB_PipeInfoGet(&g_basic_ctrl, &pipe_info, (uint8_t)pipe);
+                err = R_USB_PipeInfoGet(&g_basic_ctrl, &pipe_info, (uint8_t)g_pipe);
 
-                APP_PRINT("\r\nBulkPiPe: %d Pipe Number: %d", pipe_info.transfer_type, pipe);
+                APP_PRINT("\r\nBulkPiPe: %d Pipe Number: %d", pipe_info.transfer_type, g_pipe);
 
                 if (USB_EP_DIR_IN != (pipe_info.endpoint & USB_EP_DIR_IN))
                 {
                     /* Out Transfer */
                     if (USB_TRANSFER_TYPE_BULK == pipe_info.transfer_type)
                     {
-                        bulk_out_pipe = pipe;
+                        g_bulk_out_pipe = g_pipe;
                     }
                     else
                     {
@@ -315,7 +315,7 @@ static fsp_err_t usb_configured_event_process(void)
                     /* In Transfer */
                     if (USB_TRANSFER_TYPE_BULK == pipe_info.transfer_type)
                     {
-                        bulk_in_pipe = pipe;
+                        g_bulk_in_pipe = g_pipe;
                     }
                     else
                     {

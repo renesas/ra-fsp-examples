@@ -33,8 +33,8 @@
 NX_PACKET_POOL g_packet_pool0;
 uint8_t g_packet_pool0_pool_memory[G_PACKET_POOL0_PACKET_NUM * (G_PACKET_POOL0_PACKET_SIZE + sizeof(NX_PACKET))] BSP_ALIGN_VARIABLE(4) ETHER_BUFFER_PLACE_IN_SECTION;
 
-NX_PACKET response;
-NX_PACKET *response_ptr = &response;
+NX_PACKET g_response;
+NX_PACKET *gp_response_ptr = &g_response;
 
 /* IP instance */
 NX_IP g_ip0;

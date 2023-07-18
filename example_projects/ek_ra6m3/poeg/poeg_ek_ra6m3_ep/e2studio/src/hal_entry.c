@@ -170,7 +170,7 @@ fsp_err_t poeg_ouput_disable_and_reset_options(void)
     fsp_err_t err = FSP_SUCCESS;
 
     /* Variable to store user input */
-    unsigned char rByte[BUFFER_SIZE_DOWN] = {NULL_CHAR};
+    uint8_t rByte[BUFFER_SIZE_DOWN] = {NULL_CHAR};
     uint8_t converted_rtt_input = RESET_VALUE;
 
     APP_READ(rByte);
@@ -468,7 +468,7 @@ fsp_err_t reset_poeg_module(void)
     fsp_err_t err = FSP_SUCCESS;
 
     /* Variable to store user input */
-    unsigned char rByte[BUFFER_SIZE_DOWN] = {NULL_CHAR};
+    uint8_t rByte[BUFFER_SIZE_DOWN] = {NULL_CHAR};
     uint8_t converted_rtt_input = RESET_VALUE;
 
     APP_PRINT(RESET_MENU_INFO);
