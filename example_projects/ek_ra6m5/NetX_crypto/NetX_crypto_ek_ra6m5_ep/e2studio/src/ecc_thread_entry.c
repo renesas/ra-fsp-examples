@@ -48,6 +48,7 @@ extern NX_CRYPTO_METHOD crypto_method_ecdh;
 extern NX_CRYPTO_METHOD crypto_method_ecdsa;
 extern NX_CRYPTO_METHOD crypto_method_ec_secp256;
 extern NX_CRYPTO_METHOD crypto_method_sha256;
+extern void *gp_sce_resource;
 
 /* ECDSA key data */
 /* NIST vector */
@@ -97,111 +98,41 @@ static uint32_t netx_secure_crypto_ecdh_example(void);
 /* ECC Thread entry function */
 void ecc_thread_entry(void)
 {
-    uint8_t read_data = RESET_VALUE;
     UINT status = TX_SUCCESS;
     ULONG actual_flags = RESET_VALUE;
     /* Initialize the RTT Thread.*/
     rtt_thread_init_check ();
-    /* wait for the AES flag to get the user input from ecc thread */
+    /* Wait for the AES flag */
     status = tx_event_flags_get (&g_user_input_event_flags, ECC_EVENT_FLAG, TX_OR_CLEAR, &actual_flags,
                                  TX_WAIT_FOREVER);
-    /* Check status. */
-    if ((TX_SUCCESS == status) && (ECC_EVENT_FLAG == actual_flags))
-    {
-        /* Get the user input data from the previous ecc thread */
-        status = tx_queue_receive (&g_user_input_queue, (VOID*) &read_data, TX_WAIT_TIME);
-        if (TX_SUCCESS != status)
-        {
-            PRINT_ERR_STR("thread receive failed");
-            ERROR_TRAP(status);
-        }
-    }
-    /* Forward the user input data to RSA thread */
-    status = tx_queue_send (&g_user_input_queue, (uint8_t*) &read_data, TX_WAIT_FOREVER);
+
     /* Set RSA event flag */
     status = tx_event_flags_set (&g_user_input_event_flags, RSA_EVENT_FLAG, TX_OR);
     tx_thread_sleep (THREAD_SLEEP_TIME);
 
-    /* verify the user input to run the ep with event flag enable */
-    if (EVENT_FLAG_ENABLE == read_data)
+    while (true)
     {
-        while (true)
+        tx_mutex_get((TX_MUTEX *)gp_sce_resource, TX_WAIT_FOREVER);
+        /* Call ecdsa example function to execute crypto algorithm*/
+        status = netx_secure_crypto_ecdsa_example ();
+        if (NX_CRYPTO_SUCCESS != status)
         {
-            /* Wait for ECC event flag */
-            status = tx_event_flags_get (&g_netx_crypto_event_flags, ECC_EVENT_FLAG, TX_OR_CLEAR, &actual_flags, TX_WAIT_TIME);
-            /* Check status. */
-            if ((TX_SUCCESS == status) && (ECC_EVENT_FLAG == actual_flags))
-            {
-                /* To know the time taken for an execution of each crypto algorithms and user can utilise the time variables
-                 * by taking the difference of consecutive time arrays will give the exact time taken for execution */
-                ULONG time[THREE] = { RESET_VALUE };
-                PRINT_INFO_STR("_______________________netx crypto ECC demo start_________________________");
-                /* Get the current time: */
-                time[ZERO] = tx_time_get ();
-                /* Not currently using the time variable. User can use for printing the time to check the execution time
-                 * each algorithm */
-                FSP_PARAMETER_NOT_USED(time);
-                /* Call ecdsa example function to execute crypto algorithm*/
-                status = netx_secure_crypto_ecdsa_example ();
-                if (NX_CRYPTO_SUCCESS != status)
-                {
-                    PRINT_ERR_STR("netx_secure_crypto_ecdsa_example is failed");
-                    ERROR_TRAP(status);
-                }
-                /* Get the current time in 'time1' after executing the ecdsa example.
-                 * By calculating the difference of time1 & time will get the actual execution time */
-                time[ONE] = tx_time_get ();
-
-                /* thread sleep */
-                tx_thread_sleep (THREAD_SLEEP_TIME);
-
-                /* call ecdh example function to execute crypto algorithm*/
-                status = netx_secure_crypto_ecdh_example ();
-                if (NX_CRYPTO_SUCCESS != status)
-                {
-                    PRINT_ERR_STR("netx_secure_crypto_ecdh_example is failed");
-                    ERROR_TRAP(status);
-                }
-                /* Get the time after executing the ecdh example.
-                 * By calculating the time difference of time2 & time1 will get the actual execution time period */
-                time[TWO] = tx_time_get ();
-
-                /* Set AES event flag to wakeup aes thread. */
-                status = tx_event_flags_set (&g_netx_crypto_event_flags, RSA_EVENT_FLAG, TX_OR);
-                PRINT_INFO_STR("_______________________netx crypto ECC demo end____________________________");
-
-                tx_thread_sleep (THREAD_SLEEP_TIME);
-
-            }
+            PRINT_ERR_STR("netx_secure_crypto_ecdsa_example is failed");
+            ERROR_TRAP(status);
         }
-    }
-    /* Event based thread switching is disabled */
-    else if(EVENT_FLAG_DISABLE == read_data) //Event based thread switching is disabled
-    {
-        while (true)
+
+        tx_mutex_put((TX_MUTEX *)gp_sce_resource);
+        tx_thread_sleep (THREAD_SLEEP_TIME);
+        tx_mutex_get((TX_MUTEX *)gp_sce_resource, TX_WAIT_FOREVER);
+        /* call ecdh example function to execute crypto algorithm*/
+        netx_secure_crypto_ecdh_example ();
+        if (NX_CRYPTO_SUCCESS != status)
         {
-            /* Call ecdsa example function to execute crypto algorithm*/
-            status = netx_secure_crypto_ecdsa_example ();
-            if (NX_CRYPTO_SUCCESS != status)
-            {
-                PRINT_ERR_STR("netx_secure_crypto_ecdsa_example is failed");
-                ERROR_TRAP(status);
-            }
-
-            tx_thread_sleep (THREAD_SLEEP_TIME);
-            /* call ecdh example function to execute crypto algorithm*/
-            netx_secure_crypto_ecdh_example ();
-            if (NX_CRYPTO_SUCCESS != status)
-            {
-                PRINT_ERR_STR("netx_secure_crypto_ecdh_example is failed");
-                ERROR_TRAP(status);
-            }
-            tx_thread_sleep (THREAD_SLEEP_TIME);
+            PRINT_ERR_STR("netx_secure_crypto_ecdh_example is failed");
+            ERROR_TRAP(status);
         }
-    }
-    else
-    {
-        /* do nothing */
+        tx_mutex_put((TX_MUTEX *)gp_sce_resource);
+        tx_thread_sleep (THREAD_SLEEP_TIME);
     }
 }
 

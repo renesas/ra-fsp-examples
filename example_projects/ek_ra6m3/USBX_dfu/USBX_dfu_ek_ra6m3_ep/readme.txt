@@ -63,7 +63,7 @@
 
 4. Hardware Connections:
 
-        Supported Board(Full Speed) - EK-RA6M3,EK-RA6M5,EK-RA6M1.		
+        Supported Board(Full Speed) - EK-RA6M3,EK-RA6M5,EK-RA6M1,EK-RA4M2.		
         a. Connect RA board to Host PC machine using micro USB cable.
         b. Connect another cable to the Full Speed port of the RA MCU board.
 		
@@ -71,12 +71,12 @@
 	
 		1. Jumper Settings:
 
-			EK-RA6M3,EK-RA6M5 (Full Speed)
+			EK-RA6M3,EK-RA6M5,EK-RA4M2 (Full Speed)
 			a. Jumper J12: Connect pins 2-3
 			b. Connect jumper J15 pins
 			
 		2. Connect the micro USB end of the micro USB device cable to micro-AB USB Full Speed port of the board.
 			EK-RA6M1: USB Full Speed port(J9)
-			EK-RA6M3,EK-RA6M5: USB Full Speed port(J11)
+			EK-RA6M3,EK-RA6M5,EK-RA4M2: USB Full Speed port(J11)
 		3. Connect the other end of this cable to USB port of the host PC.
 

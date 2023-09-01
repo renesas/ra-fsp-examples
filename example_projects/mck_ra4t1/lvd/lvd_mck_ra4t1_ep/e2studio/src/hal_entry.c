@@ -180,7 +180,11 @@ static fsp_err_t check_reset_status(void)
         APP_PRINT ("\r\n************************ LVD0 Reset detected ************************\r\n");
 
         /* Turn ON LED */
-        io_err = R_IOPORT_PinWrite (&g_ioport_ctrl, g_bsp_leds.p_leds[0], BSP_IO_LEVEL_HIGH);
+        #if defined (BOARD_RA4T1_MCK) || defined (BOARD_RA6T3_MCK)
+            io_err = R_IOPORT_PinWrite (&g_ioport_ctrl, g_bsp_leds.p_leds[0], BSP_IO_LEVEL_LOW);
+        #else
+            io_err = R_IOPORT_PinWrite (&g_ioport_ctrl, g_bsp_leds.p_leds[0], BSP_IO_LEVEL_HIGH);
+        #endif
         if (FSP_SUCCESS != io_err)
         {
             /* Print Error on RTT console */

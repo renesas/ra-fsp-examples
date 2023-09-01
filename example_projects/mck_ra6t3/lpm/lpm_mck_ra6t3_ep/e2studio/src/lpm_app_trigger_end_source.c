@@ -32,6 +32,47 @@ extern volatile bool 	g_user_sw_press;
 static volatile bool 	user_sw_debouce_start 	 = false;
 static volatile uint8_t user_sw_debouce_counter  = 0;
 
+#if defined (BOARD_RA4T1_MCK) || defined (BOARD_RA6T3_MCK)
+/* In MCK-RA4T1 and MCK-RA6T3, SW1 is connected to the IRQ pin, so do not operate in Deep SW standby mode.
+ * NMI pin (SW2) interrupt replaces ICU external IRQ (SW1) interrupt to support cancel Deep SW standby mode.
+ * */
+
+void nmi_pin_open();
+void nmi_pin_enable();
+void nmi_irq_cancel_lpm_callback(bsp_grp_irq_t irq);
+
+/*******************************************************************************************************************//**
+ *  @brief      This function open the NMI pin interrupt
+ *  @param      None
+ *  @retval     None
+ **********************************************************************************************************************/
+void nmi_pin_open()
+{
+    /* Configuration NMI input pin interrupt */
+    R_ICU->NMICR = 0x00;
+    /* Configure NMI detection as falling edge */
+    R_ICU->NMICR_b.NMIMD = 0;
+    /* Configure Digital Filtering disabled */
+    R_ICU->NMIER_b.NMIEN = 0;
+    /* Register callback function for NMI pin interrupt */
+    R_BSP_GroupIrqWrite(BSP_GRP_IRQ_NMI_PIN, nmi_irq_cancel_lpm_callback);
+}
+
+/*******************************************************************************************************************//**
+ *  @brief      This function enable the NMI pin interrupt
+ *  @param      None
+ *  @retval     None
+ **********************************************************************************************************************/
+void nmi_pin_enable()
+{
+    /* Clear NMISR.NMIST flag */
+    R_ICU->NMICLR_b.NMICLR = 1;
+    /* Enable the NMI Pin interrupt */
+    R_ICU->NMIER_b.NMIEN = 1;
+}
+
+#endif
+
 /*******************************************************************************************************************//**
  * @brief       This function initializes ICU module.
  * @param[IN]   None
@@ -42,6 +83,12 @@ fsp_err_t user_sw_init(void)
 {
     fsp_err_t err = FSP_SUCCESS;
 
+#if defined (BOARD_RA4T1_MCK) || defined (BOARD_RA6T3_MCK)
+    /* Open external NMI IRQ */
+    nmi_pin_open();
+    /* Enable external NMI IRQ */
+    nmi_pin_enable();
+#else
     /* Open external IRQ/ICU module */
     err = R_ICU_ExternalIrqOpen(&g_external_irq_user_sw_ctrl, &g_external_irq_user_sw_cfg);
     if(FSP_SUCCESS == err)
@@ -50,11 +97,38 @@ fsp_err_t user_sw_init(void)
         err = R_ICU_ExternalIrqEnable(&g_external_irq_user_sw_ctrl);
 
     }
-
+#endif
     return err;
 }
 
+#if defined (BOARD_RA4T1_MCK) || defined (BOARD_RA6T3_MCK)
+void nmi_irq_cancel_lpm_callback(bsp_grp_irq_t irq)
+{
+    fsp_err_t err = FSP_SUCCESS;
 
+    /* Make sure it's the right interrupt*/
+    if(BSP_GRP_IRQ_NMI_PIN == irq)
+    {
+        /* This is to avoid switch debouncing */
+        if(true != user_sw_debouce_start)
+        {
+            /* Reset AGT0 timer (g_timer0_sw_debounce_filter_ctrl) */
+            err = R_AGT_Reset(&agt_timer0_sw_debounce_filter_ctrl);
+            if (FSP_SUCCESS != err)
+            {
+                /* Handle error */
+                APP_ERR_TRAP(err);
+            }
+
+            /* Start filtering switch debounce using AGT0 timer */
+            user_sw_debouce_start   = true;
+            /* Reset AGT0 timer (filter) 's counter */
+            user_sw_debouce_counter = 0;
+        }
+    }
+
+}
+#else
 /*******************************************************************************************************************//**
  * @brief      User defined external irq callback.
  * @param[IN]  p_args
@@ -85,7 +159,7 @@ void external_irq_user_sw_cb(external_irq_callback_args_t *p_args)
         }
     }
 }
-
+#endif
 
 /*******************************************************************************************************************//**
  * @brief       This function stops AGT1 timer.

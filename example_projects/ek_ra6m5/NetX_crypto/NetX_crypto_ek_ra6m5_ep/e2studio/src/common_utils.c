@@ -32,7 +32,7 @@ TX_QUEUE g_rtt_ip_data_queue;
 TX_EVENT_FLAGS_GROUP g_rtt_event;
 TX_BYTE_POOL   g_byte_pool;
 
-static CHAR *g_byte_pool_name = "rtt_processing_block";
+static CHAR *byte_pool_name = "rtt_processing_block";
 static CHAR byte_memory[BYTE_POOL_SIZE] = {'\0'};
 static uint8_t queue_memory_op_rtt_obj[20] = {'\0'};
 static uint8_t queue_memory_ip_rtt_obj[20] = {'\0'};
@@ -44,7 +44,7 @@ UINT rtt_frameowrk_init(VOID)
 
     UINT err= TX_SUCCESS;
 
-    err = tx_byte_pool_create(&g_byte_pool,g_byte_pool_name,(VOID *)&byte_memory[0],BYTE_POOL_SIZE);
+    err = tx_byte_pool_create(&g_byte_pool,byte_pool_name,(VOID *)&byte_memory[0],BYTE_POOL_SIZE);
     if (TX_SUCCESS != err)
     {
         return err;

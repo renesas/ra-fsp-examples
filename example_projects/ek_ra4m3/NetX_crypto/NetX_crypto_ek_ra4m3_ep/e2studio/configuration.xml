@@ -9,10 +9,10 @@
     <option key="#DeviceCommand#" value="R7FA4M3AF"/>
     <option key="#RTOS#" value="rtos.threadx"/>
     <option key="#pinconfiguration#" value="R7FA4M3AF3CFB.pincfg"/>
-    <option key="#FSPVersion#" value="4.2.0"/>
+    <option key="#FSPVersion#" value="4.5.0"/>
     <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra4m3_ek##"/>
     <option key="#SELECTED_TOOLCHAIN#" value="gcc-arm-embedded"/>
-    <option key="#ToolchainVersion#" value="9.3.1.20200408"/>
+    <option key="#ToolchainVersion#" value="10.3.1.20210824"/>
   </generalSettings>
   <raBspConfiguration>
     <config id="config.bsp.ra4m3.R7FA4M3AF3CFB">
@@ -41,6 +41,7 @@
       <property id="config.bsp.fsp.tz.stbramsar" value="config.bsp.fsp.tz.stbramsar.both"/>
       <property id="config.bsp.fsp.tz.bussara" value="config.bsp.fsp.tz.bussara.both"/>
       <property id="config.bsp.fsp.tz.bussarb" value="config.bsp.fsp.tz.bussarb.both"/>
+      <property id="config.bsp.fsp.tz.uninitialized_ns_application_fallback" value="config.bsp.fsp.tz.uninitialized_ns_application_fallback.enabled"/>
       <property id="config.bsp.fsp.cache_line_size" value="config.bsp.fsp.cache_line_size.32"/>
       <property id="config.bsp.fsp.OFS0.iwdt_start_mode" value="config.bsp.fsp.OFS0.iwdt_start_mode.disabled"/>
       <property id="config.bsp.fsp.OFS0.iwdt_timeout" value="config.bsp.fsp.OFS0.iwdt_timeout.2048"/>
@@ -70,8 +71,12 @@
       <property id="config.bsp.fsp.mcu.sci_spi.max_bitrate" value="25000000"/>
       <property id="config.bsp.fsp.mcu.spi.max_bitrate" value="50000000"/>
       <property id="config.bsp.fsp.mcu.iic_master.rate.rate_fastplus" value="1"/>
+      <property id="config.bsp.fsp.mcu.iic_master.fastplus_channels" value="0x1"/>
+      <property id="config.bsp.fsp.mcu.iic_slave.rate.rate_fastplus" value="1"/>
+      <property id="config.bsp.fsp.mcu.iic_slave.fastplus_channels" value="0x1"/>
       <property id="config.bsp.fsp.mcu.sci_uart.cstpen_channels" value="0x0219"/>
       <property id="config.bsp.fsp.mcu.gpt.pin_count_source_channels" value="0xFFFF"/>
+      <property id="config.bsp.fsp.mcu.adc_dmac.samples_per_channel" value="32767"/>
     </config>
     <config id="config.bsp.ra">
       <property id="config.bsp.common.main" value="0x1000"/>
@@ -126,53 +131,53 @@
     <node id="board.clock.uclk.display" option="board.clock.uclk.display.value"/>
   </raClockConfiguration>
   <raComponentSelection>
-    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra4m3_ek" variant="" vendor="Renesas" version="4.2.0">
-      <description>RA4M3-EK Board Support Files</description>
-      <originalPack>Renesas.RA_board_ra4m3_ek.4.2.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra4m3" subgroup="device" variant="R7FA4M3AF3CFB" vendor="Renesas" version="4.2.0">
-      <description>Board support package for R7FA4M3AF3CFB</description>
-      <originalPack>Renesas.RA_mcu_ra4m3.4.2.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra4m3" subgroup="device" variant="" vendor="Renesas" version="4.2.0">
-      <description>Board support package for RA4M3</description>
-      <originalPack>Renesas.RA_mcu_ra4m3.4.2.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra4m3" subgroup="fsp" variant="" vendor="Renesas" version="4.2.0">
-      <description>Board support package for RA4M3 - FSP Data</description>
-      <originalPack>Renesas.RA_mcu_ra4m3.4.2.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="RTOS" condition="" group="Azure" subgroup="ThreadX" variant="" vendor="Microsoft" version="6.1.12+fsp.4.2.0">
-      <description>Azure RTOS ThreadX</description>
-      <originalPack>Microsoft.ThreadX.6.1.12+fsp.4.2.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Azure" condition="" group="NetX Duo" subgroup="nx_crypto" variant="" vendor="Microsoft" version="6.1.12+fsp.4.2.0">
-      <description>Azure RTOS NetX Crypto</description>
-      <originalPack>Microsoft.NetXDuo.6.1.12+fsp.4.2.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="4.2.0">
+    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="4.5.0">
       <description>Board Support Package Common Files</description>
-      <originalPack>Renesas.RA.4.2.0.pack</originalPack>
+      <originalPack>Renesas.RA.4.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="4.2.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="4.5.0">
       <description>I/O Port</description>
-      <originalPack>Renesas.RA.4.2.0.pack</originalPack>
+      <originalPack>Renesas.RA.4.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_sce9_ra6_plaintext" variant="" vendor="Renesas" version="4.2.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_sce9_ra6_plaintext" variant="" vendor="Renesas" version="4.5.0">
       <description>Secure Cryptography Engine on RA6 (SCE9) Compatibility Mode</description>
-      <originalPack>Renesas.RA.4.2.0.pack</originalPack>
+      <originalPack>Renesas.RA.4.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_netx_secure_crypto" variant="" vendor="Renesas" version="4.2.0">
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_netx_secure_crypto" variant="" vendor="Renesas" version="4.5.0">
       <description>NetX Secure Crypto H/W Acceleration</description>
-      <originalPack>Renesas.RA.4.2.0.pack</originalPack>
+      <originalPack>Renesas.RA.4.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_threadx_port" variant="" vendor="Renesas" version="4.2.0">
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_threadx_port" variant="" vendor="Renesas" version="4.5.0">
       <description>Azure RTOS ThreadX Port</description>
-      <originalPack>Renesas.RA.4.2.0.pack</originalPack>
+      <originalPack>Renesas.RA.4.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="5.9.0+renesas.0.fsp.4.2.0">
+    <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="5.9.0+renesas.0.fsp.4.5.0">
       <description>Arm CMSIS Version 5 - Core (M)</description>
-      <originalPack>Arm.CMSIS5.5.9.0+renesas.0.fsp.4.2.0.pack</originalPack>
+      <originalPack>Arm.CMSIS5.5.9.0+renesas.0.fsp.4.5.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Azure" condition="" group="NetX Duo" subgroup="nx_crypto" variant="" vendor="Microsoft" version="6.2.1+renesas.1.fsp.4.5.0">
+      <description>Azure RTOS NetX Crypto</description>
+      <originalPack>Microsoft.NetXDuo.6.2.1+renesas.1.fsp.4.5.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra4m3" subgroup="device" variant="R7FA4M3AF3CFB" vendor="Renesas" version="4.5.0">
+      <description>Board support package for R7FA4M3AF3CFB</description>
+      <originalPack>Renesas.RA_mcu_ra4m3.4.5.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra4m3" subgroup="device" variant="" vendor="Renesas" version="4.5.0">
+      <description>Board support package for RA4M3</description>
+      <originalPack>Renesas.RA_mcu_ra4m3.4.5.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra4m3" subgroup="fsp" variant="" vendor="Renesas" version="4.5.0">
+      <description>Board support package for RA4M3 - FSP Data</description>
+      <originalPack>Renesas.RA_mcu_ra4m3.4.5.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra4m3_ek" variant="" vendor="Renesas" version="4.5.0">
+      <description>RA4M3-EK Board Support Files</description>
+      <originalPack>Renesas.RA_board_ra4m3_ek.4.5.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="RTOS" condition="" group="Azure" subgroup="ThreadX" variant="" vendor="Microsoft" version="6.2.1+fsp.4.5.0">
+      <description>Azure RTOS ThreadX</description>
+      <originalPack>Microsoft.ThreadX.6.2.1+fsp.4.5.0.pack</originalPack>
     </component>
   </raComponentSelection>
   <raElcConfiguration/>
@@ -198,11 +203,10 @@
       <property id="rtos.threadx.object.flags.name" value="Netx Crypto Input Event Flags"/>
       <property id="rtos.threadx.object.flags.symbol" value="g_user_input_event_flags"/>
     </object>
-    <object id="rtos.threadx.object.queue.663972491">
-      <property id="rtos.threadx.object.queue.name" value="User Input Queue"/>
-      <property id="rtos.threadx.object.queue.symbol" value="g_user_input_queue"/>
-      <property id="rtos.threadx.object.queue.msg_size" value="1"/>
-      <property id="rtos.threadx.object.queue.queue_size" value="20"/>
+    <object id="rtos.threadx.object.mutex.846081270">
+      <property id="rtos.threadx.object.mutex.name" value="SCE Mutex"/>
+      <property id="rtos.threadx.object.mutex.symbol" value="g_sce_mutex"/>
+      <property id="rtos.threadx.object.mutex.inherit" value="rtos.threadx.object.mutex.inherit.disabled"/>
     </object>
     <context id="_hal.0">
       <stack module="module.driver.ioport_on_ioport.0"/>
@@ -219,7 +223,7 @@
       <property id="rtos.threadx.thread.stack" value="0x2400"/>
       <property id="rtos.threadx.thread.priority" value="1"/>
       <property id="rtos.threadx.thread.autostart" value="rtos.threadx.thread.autostart.enabled"/>
-      <property id="rtos.threadx.thread.timeslice" value="0x80"/>
+      <property id="rtos.threadx.thread.timeslice" value="1"/>
     </context>
     <context id="rtos.threadx.thread.571265012">
       <property id="_symbol" value="ecc_thread"/>
@@ -227,7 +231,7 @@
       <property id="rtos.threadx.thread.stack" value="0x2000"/>
       <property id="rtos.threadx.thread.priority" value="1"/>
       <property id="rtos.threadx.thread.autostart" value="rtos.threadx.thread.autostart.enabled"/>
-      <property id="rtos.threadx.thread.timeslice" value="0x0A"/>
+      <property id="rtos.threadx.thread.timeslice" value="1"/>
     </context>
     <context id="rtos.threadx.thread.1432667637">
       <property id="_symbol" value="rsa_thread"/>
@@ -235,7 +239,7 @@
       <property id="rtos.threadx.thread.stack" value="0x2400"/>
       <property id="rtos.threadx.thread.priority" value="1"/>
       <property id="rtos.threadx.thread.autostart" value="rtos.threadx.thread.autostart.enabled"/>
-      <property id="rtos.threadx.thread.timeslice" value="0x80"/>
+      <property id="rtos.threadx.thread.timeslice" value="1"/>
     </context>
     <context id="rtos.threadx.thread.1870134779">
       <property id="_symbol" value="rtt_thread"/>

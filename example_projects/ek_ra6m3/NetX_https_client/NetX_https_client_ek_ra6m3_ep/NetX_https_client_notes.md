@@ -221,21 +221,14 @@ Following steps guide you on how to obtain the username and AIO key from Adafrui
  
  ![NetX_https_client](images/openssl_bin.jpg "OpenSSL bin folder")
 
-8. Convert the Certificate into a C Hex array, with a tool available at https://github.com/downloads/tristan2468/Hexy/hexy.exe.
+8. Convert the Certificate into a C Hex array, with command : **openssl.exe x509 -outform der -in GeoTrustRSACA2018.crt.pem -out GeoTrustRSACA2018.der; xxd -i GeoTrustRSACA2018.der > GeoTrustRSACA2018.crt.h**.
+![NetX_https_client](images/openssh_conversion_pem.jpg "OpenSSL bin folder")
 
-9. The tool requires no installation. So, run it and the following window will appear
-
- ![NetX_https_client](images/hex_to_c_array.jpg "Hex to C array converter")
-
-10. Now, drop the PEM encoded certificate on the window. 
-
- ![NetX_https_client](images/hexy_conversion.jpg "Certificate conversion to hex format")
-
-11. The file will generate a similarly named file with a “.h” extension, which contains the C array.
+9. The file will generate a similarly named file with a “.h” extension, which contains the C array.
 
  ![NetX_https_client](images/converted_certificate.jpg "Converted certificate in .h file")
 
-12. Update the contents from the .h file in the **NetX_https_client_ep\src\https_client_app.c** file at the **ca_cert_der** array as shown in below image.
+10. Update the contents from the .h file in the **NetX_https_client_ep\src\https_client_app.c** file at the **ca_cert_der** array as shown in below image.
 
  ![NetX_https_client](images/certificate_array.jpg "certificate array in https_client_app.h")
 

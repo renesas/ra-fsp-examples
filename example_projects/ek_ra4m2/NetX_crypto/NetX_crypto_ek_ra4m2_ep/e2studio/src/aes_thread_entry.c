@@ -48,6 +48,8 @@ extern NX_CRYPTO_METHOD crypto_method_hmac_sha256;
 extern NX_CRYPTO_METHOD crypto_method_aes_cbc_128;
 extern NX_CRYPTO_METHOD crypto_method_aes_256_gcm_16;
 
+void *gp_sce_resource;
+
 /******************************************************************************
  Private global variables and functions
  ******************************************************************************/
@@ -200,7 +202,6 @@ void aes_thread_entry(void)
 {
     uint8_t read_data = RESET_VALUE;
     UINT status = TX_SUCCESS;
-    ULONG actual_flags = RESET_VALUE;
     /* Initialize the RTT Thread.*/
     rtt_thread_init_check ();
 
@@ -215,155 +216,62 @@ void aes_thread_entry(void)
     }
     while (TX_SUCCESS != status);
 
-    /* Forwarding user input to other threads (viz., AES and RSA threads) */
-    /* send the user input to aes thread */
-    status = tx_queue_send (&g_user_input_queue, (uint8_t*) &read_data, TX_WAIT_FOREVER);
-    if (TX_SUCCESS != status)
-    {
-        PRINT_ERR_STR("thread send failed");
-        ERROR_TRAP(status);
-    }
-    /* Set AES event flag to send user input */
+    gp_sce_resource = &g_sce_mutex;
+    /* Set AES event flag */
     status = tx_event_flags_set (&g_user_input_event_flags, ECC_EVENT_FLAG, TX_OR);
     tx_thread_sleep (THREAD_SLEEP_TIME);
 
-    /* verify the user input to run the ep with event flag enable */
-    if (EVENT_FLAG_ENABLE == read_data)
+    while (true)
     {
-        /* Set ECC event flag to this thread. */
-        status = tx_event_flags_set (&g_netx_crypto_event_flags, AES_EVENT_FLAG, TX_OR);
-
-        while (true)
+        tx_mutex_get((TX_MUTEX *)gp_sce_resource, TX_WAIT_FOREVER);
+        /* call aes256cdc multipart example to execute cypto algorithm */
+        status = netx_secure_crypto_aes256cbc_multipart_example ();
+        if (NX_CRYPTO_SUCCESS != status)
         {
-            /* Wait for AES event flag */
-            status = tx_event_flags_get (&g_netx_crypto_event_flags, AES_EVENT_FLAG, TX_OR_CLEAR, &actual_flags,
-                                         TX_WAIT_TIME);
-            /* Check status. */
-            if ((TX_SUCCESS == status) && (AES_EVENT_FLAG == actual_flags))
-            {
-                /* To know the time taken for an execution of each crypto algorithms and user can utilise the time variables
-                 * by taking the difference of consecutive time arrays will give the exact time taken for execution */
-                ULONG time[FIVE] = {RESET_VALUE};
-                PRINT_INFO_STR("_______________________netx crypto AES demo start._________________________");
-                /* Get the current time: */
-                time[ZERO] = tx_time_get ();
-                FSP_PARAMETER_NOT_USED(time);   //FSP_PARAM_NOT_USED is declared to avoid time warning
-
-                /* call aes256cdc multipart example to execute cypto algorithm */
-                status = netx_secure_crypto_aes256cbc_multipart_example ();
-                if (NX_CRYPTO_SUCCESS != status)
-                {
-                    PRINT_ERR_STR("netx_secure_crypto_aes256cbc_multipart_example is failed");
-                    ERROR_TRAP(status);
-                }
-
-                /* Get the current time in 'time1' after executing the aes256cdc example.
-                 * By calculating the difference of time1 & time to get the actual execution time */
-                time[ONE] = tx_time_get ();
-                tx_thread_sleep (THREAD_SLEEP_TIME);
-
-                /* call aes256ctr multipart example to execute cypto algorithm */
-                status = netx_secure_crypto_aes256ctr_multipart_example ();
-                if (NX_CRYPTO_SUCCESS != status)
-                {
-                    PRINT_ERR_STR("netx_secure_crypto_aes256ctr_multipart_example is failed");
-                    ERROR_TRAP(status);
-                }
-                /* Get the time after executing theaes256ctr example.
-                 * By calculating the time difference of time2 & time1 will get the actual execution time period */
-                time[TWO] = tx_time_get ();
-
-                /* call the hmac with sha256 to execute cypto algorithm */
-                status = netx_secure_crypto_hmac_sha256_example ();
-                if (NX_CRYPTO_SUCCESS != status)
-                {
-                    PRINT_ERR_STR("netx_secure_crypto_hmac_sha256_example is failed");
-                    ERROR_TRAP(status);
-                }
-                /* Get the time after executing theaes256ctr example.
-                 * By calculating the time difference of time3 & time2 will get the actual execution time period */
-                time[THREE] = tx_time_get ();
-                tx_thread_sleep (THREAD_SLEEP_TIME);
-
-                /* call aes128 cbc with TRNG to execute crypto algarithm */
-                status =  netx_secure_crypto_aes128cbc_with_trng_example();
-                if (NX_CRYPTO_SUCCESS != status)
-                {
-                    PRINT_ERR_STR("netx_secure_crypto_aes128cbc_with_trng_example is failed");
-                    ERROR_TRAP(status);
-                }
-                /* Get the time after executing aes128 cbc with TRNG example.
-                 * By calculating the time difference of time4 & time3 will get the actual execution time period */
-                time[FOUR] = tx_time_get ();
-                tx_thread_sleep (THREAD_SLEEP_TIME);
-
-                /* call aes256_gcm multipart example to execute crypto algorithm */
-                status = netx_secure_crypto_aes256gcm_multipart_example();
-                if (NX_CRYPTO_SUCCESS != status)
-                {
-                    PRINT_ERR_STR("netx_secure_crypto_aes256gcm_multipart_example is failed");
-                    ERROR_TRAP(status);
-                }
-                /* Get the time after executing the aes256gcm example.
-                 * By calculating the time difference of time5 & time4 will get the actual execution time period */
-                time[FIVE] = tx_time_get ();
-                tx_thread_sleep (THREAD_SLEEP_TIME);
-                /* Set RSA event flag to wakeup rsa thread. */
-                status = tx_event_flags_set (&g_netx_crypto_event_flags, ECC_EVENT_FLAG, TX_OR);
-                PRINT_INFO_STR("_______________________netx crypto AES demo end____________________________");
-
-                tx_thread_sleep (THREAD_SLEEP_TIME);
-            }
+            PRINT_ERR_STR("netx_secure_crypto_aes256cbc_multipart_example is failed");
+            ERROR_TRAP(status);
         }
-    }
-    else if(EVENT_FLAG_DISABLE == read_data)
-    {
-        while (true)
+        tx_mutex_put((TX_MUTEX *)gp_sce_resource);
+        tx_thread_sleep (THREAD_SLEEP_TIME);
+        tx_mutex_get((TX_MUTEX *)gp_sce_resource, TX_WAIT_FOREVER);
+        /* call aes256ctr multipart example to execute cypto algorithm */
+        status = netx_secure_crypto_aes256ctr_multipart_example ();
+        if (NX_CRYPTO_SUCCESS != status)
         {
-            /* call aes256cdc multipart example to execute cypto algorithm */
-            status = netx_secure_crypto_aes256cbc_multipart_example ();
-            if (NX_CRYPTO_SUCCESS != status)
-            {
-                PRINT_ERR_STR("netx_secure_crypto_aes256cbc_multipart_example is failed");
-                ERROR_TRAP(status);
-            }
-            tx_thread_sleep (THREAD_SLEEP_TIME);
-            /* call aes256ctr multipart example to execute cypto algorithm */
-            status = netx_secure_crypto_aes256ctr_multipart_example ();
-            if (NX_CRYPTO_SUCCESS != status)
-            {
-                PRINT_ERR_STR("netx_secure_crypto_aes256ctr_multipart_example is failed");
-                ERROR_TRAP(status);
-            }
-            tx_thread_sleep (THREAD_SLEEP_TIME);
-            /* call the hmac with sha256 to execute cypto algorithm */
-            status = netx_secure_crypto_hmac_sha256_example ();
-            if (NX_CRYPTO_SUCCESS != status)
-            {
-                PRINT_ERR_STR("netx_secure_crypto_hmac_sha256_example is failed");
-                ERROR_TRAP(status);
-            }
-            tx_thread_sleep (THREAD_SLEEP_TIME);
-            status =  netx_secure_crypto_aes128cbc_with_trng_example();
-            if (NX_CRYPTO_SUCCESS != status)
-            {
-                PRINT_ERR_STR("netx_secure_crypto_aes128cbc_with_trng_example is failed");
-                ERROR_TRAP(status);
-            }
-            tx_thread_sleep (THREAD_SLEEP_TIME);
-            /* call aes256_gcm multipart example to execute crypto algorithm */
-            status = netx_secure_crypto_aes256gcm_multipart_example();
-            if (NX_CRYPTO_SUCCESS != status)
-            {
-                PRINT_ERR_STR("netx_secure_crypto_aes256gcm_multipart_example is failed");
-                ERROR_TRAP(status);
-            }
-            tx_thread_sleep (THREAD_SLEEP_TIME);
+            PRINT_ERR_STR("netx_secure_crypto_aes256ctr_multipart_example is failed");
+            ERROR_TRAP(status);
         }
-    }
-    else
-    {
-        /*  do nothing */
+        tx_mutex_put((TX_MUTEX *)gp_sce_resource);
+        tx_thread_sleep (THREAD_SLEEP_TIME);
+        tx_mutex_get((TX_MUTEX *)gp_sce_resource, TX_WAIT_FOREVER);
+        /* call the hmac with sha256 to execute cypto algorithm */
+        status = netx_secure_crypto_hmac_sha256_example ();
+        if (NX_CRYPTO_SUCCESS != status)
+        {
+            PRINT_ERR_STR("netx_secure_crypto_hmac_sha256_example is failed");
+            ERROR_TRAP(status);
+        }
+        tx_mutex_put((TX_MUTEX *)gp_sce_resource);
+        tx_thread_sleep (THREAD_SLEEP_TIME);
+        tx_mutex_get((TX_MUTEX *)gp_sce_resource, TX_WAIT_FOREVER);
+        status =  netx_secure_crypto_aes128cbc_with_trng_example();
+        if (NX_CRYPTO_SUCCESS != status)
+        {
+            PRINT_ERR_STR("netx_secure_crypto_aes128cbc_with_trng_example is failed");
+            ERROR_TRAP(status);
+        }
+        tx_mutex_put((TX_MUTEX *)gp_sce_resource);
+        tx_thread_sleep (THREAD_SLEEP_TIME);
+        tx_mutex_get((TX_MUTEX *)gp_sce_resource, TX_WAIT_FOREVER);
+        /* call aes256_gcm multipart example to execute crypto algorithm */
+        status = netx_secure_crypto_aes256gcm_multipart_example();
+        if (NX_CRYPTO_SUCCESS != status)
+        {
+            PRINT_ERR_STR("netx_secure_crypto_aes256gcm_multipart_example is failed");
+            ERROR_TRAP(status);
+        }
+        tx_mutex_put((TX_MUTEX *)gp_sce_resource);
+        tx_thread_sleep (THREAD_SLEEP_TIME);
     }
 }
 

@@ -41,7 +41,7 @@
 #define CONFIG_NUMB                             (1U)
 #define BYTE_SIZE                               (4U)
 #define MEMPOOL_SIZE                            (2*18432U)
-#define BUFFER_SIZE                             (1024*100U)
+#define BUFFER_SIZE                             (300*100U)
 #define BUFFER_SIZE_50                          (50U)
 
 #define ZERO                                    (0U)

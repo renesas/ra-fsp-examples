@@ -76,7 +76,7 @@ void hal_entry(void)
             "\r\nOn reception, Board2 displays the received data on the RTTViewer. Board2, then, transmits the"
             "\r\nframed data back to Board1. On successful transmission, Board1 prints the data on to the RTTViewer.\r\n");
 
-#if defined (BOARD_RA2A1_EK) | defined (BOARD_RA2L1_EK)
+#if defined (BOARD_RA2A1_EK) || defined (BOARD_RA2L1_EK)
     err = R_CGC_Open (&g_cgc0_ctrl, &g_cgc0_cfg);
     if (FSP_SUCCESS != err)
     {

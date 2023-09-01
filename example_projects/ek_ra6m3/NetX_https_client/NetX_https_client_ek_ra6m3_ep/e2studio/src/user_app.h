@@ -46,12 +46,13 @@
 /* Adafruit IO user specific key. *Needs to be changed by the user.*
  * Find it by logging into adafruit.io, under the section 'My Key'
  * Copy the key from 'Active Key', and paste here. */
-#define IO_KEY              "aio_qFdC69Tvo9moD4FHk0nLD6xOwFTg"
+#define IO_KEY "aio_Ttxc13rRs6l8XXOBtGKYH37XzT60"
 
 /* Adafruit IO Username. *Needs to be changed by the user.*/
 /* Adafruit Server details to create and update, data as per GET, PUT, POST functions.
- * On the Adafruit IO server, usernames can be distinguished by this. */
-#define IO_USERNAME         "dnyaneshwarh"
+* On the Adafruit IO server, usernames can be distinguished by this. */
+
+#define IO_USERNAME "khoangocvo"
 /* URL requirement for Adafruit server. */
 #define API_V2              "/api/v2/"
 /* For the specific username, feed id can be distinguished by this. */

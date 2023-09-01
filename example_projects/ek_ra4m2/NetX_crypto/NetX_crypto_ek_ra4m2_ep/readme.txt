@@ -17,9 +17,11 @@
 
 1. Project Overview:
 
-    This project demonstrates the basic functionality of Netx Crypto on Renesas RA MCUs based on SCE9 Hardware acceleration operating in an AzureRTOS environment. The example project executes ECC,RSA and AES algorithms(including different chaining modes) each in its own thread in multi threaded environment. 
+    This project demonstrates the basic functionality of Netx Crypto on Renesas RA MCUs based on SCE9 Hardware acceleration operating in an AzureRTOS environment.
 
-From the RTT viewer, user can enter 1 to enable sequential execution of the different algorithms. The order of execution is AES -> ECC -> RSA Thread. In this mode, the example project uses ThreadX timer to keep track of the time used in each algorithm execution. Similarly, user can enter 2 to disable the sequential operation so the different application threads are executed in a round robin mechanism.  
+The example project executes ECC,RSA and AES algorithms(including different chaining modes) each in its own thread in multi threaded environment.
+
+From the RTT viewer, user can enter any key to enable concurrent execution of the different algorithms.
 
 The algorithms being executed, and the operational status will be displayed on Jlink RTT viewer.
 
@@ -37,7 +39,7 @@ The algorithms being executed, and the operational status will be displayed on J
 	3) A PC running Windows 10 with at least 1 USB port for debug
     
    Software: 
-        1) Jlink RTT viewer
+	1) Jlink RTT viewer
 
 NOTE:
 1) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.

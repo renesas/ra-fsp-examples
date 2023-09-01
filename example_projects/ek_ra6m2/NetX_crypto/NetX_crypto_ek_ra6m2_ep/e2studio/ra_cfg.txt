@@ -464,7 +464,7 @@ FSP Configuration
     Stack size (bytes): 0x2400
     Priority: 1
     Auto start: Enabled
-    Time slicing interval (ticks): 0x80
+    Time slicing interval (ticks): 1
     
   Thread "ECC Thread"
     Symbol: ecc_thread
@@ -472,7 +472,7 @@ FSP Configuration
     Stack size (bytes): 0x2000
     Priority: 1
     Auto start: Enabled
-    Time slicing interval (ticks): 0xA
+    Time slicing interval (ticks): 1
     
   Thread "RSA Thread"
     Symbol: rsa_thread
@@ -480,7 +480,7 @@ FSP Configuration
     Stack size (bytes): 0x2400
     Priority: 1
     Auto start: Enabled
-    Time slicing interval (ticks): 0x80
+    Time slicing interval (ticks): 1
     
   Thread "RTT Thread"
     Symbol: rtt_thread
@@ -490,12 +490,6 @@ FSP Configuration
     Auto start: Enabled
     Time slicing interval (ticks): 1
     
-  Object "g_user_input_queue Queue"
-    Name: User Input Queue
-    Symbol: g_user_input_queue
-    Message Size (Words): 1
-    Queue Size (Bytes): 20
-    
   Object "g_netx_crypto_event_flags Event Flags"
     Name: Netx Crypto Event Flags
     Symbol: g_netx_crypto_event_flags
@@ -503,4 +497,9 @@ FSP Configuration
   Object "g_user_input_event_flags Event Flags"
     Name: Netx Crypto Input Event Flags
     Symbol: g_user_input_event_flags
+    
+  Object "g_sce_mutex Mutex"
+    Name: SCE Mutex
+    Symbol: g_sce_mutex
+    Priority inheritance: Disabled
     

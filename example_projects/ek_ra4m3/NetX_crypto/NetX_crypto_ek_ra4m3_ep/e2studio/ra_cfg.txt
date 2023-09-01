@@ -24,6 +24,7 @@ FSP Configuration
     Security: SRAM Accessibility: Standby RAM: Regions 7-0 are all Secure.
     Security: BUS Accessibility: Bus Security Attribution Register A: Both Secure and Non-Secure State
     Security: BUS Accessibility: Bus Security Attribution Register B: Both Secure and Non-Secure State
+    Security: Uninitialized Non-Secure Application Fallback: Enable Uninitialized Non-Secure Application Fallback
     Startup C-Cache Line Size: 32 Bytes
     OFS0 register settings: Independent WDT: Start Mode: IWDT is Disabled
     OFS0 register settings: Independent WDT: Timeout Period: 2048 cycles
@@ -458,7 +459,7 @@ FSP Configuration
     Stack size (bytes): 0x2400
     Priority: 1
     Auto start: Enabled
-    Time slicing interval (ticks): 0x80
+    Time slicing interval (ticks): 1
     
   Thread "ECC Thread"
     Symbol: ecc_thread
@@ -466,7 +467,7 @@ FSP Configuration
     Stack size (bytes): 0x2000
     Priority: 1
     Auto start: Enabled
-    Time slicing interval (ticks): 0x0A
+    Time slicing interval (ticks): 1
     
   Thread "RSA Thread"
     Symbol: rsa_thread
@@ -474,7 +475,7 @@ FSP Configuration
     Stack size (bytes): 0x2400
     Priority: 1
     Auto start: Enabled
-    Time slicing interval (ticks): 0x80
+    Time slicing interval (ticks): 1
     
   Thread "RTT Thread"
     Symbol: rtt_thread
@@ -492,9 +493,8 @@ FSP Configuration
     Name: Netx Crypto Input Event Flags
     Symbol: g_user_input_event_flags
     
-  Object "g_user_input_queue Queue"
-    Name: User Input Queue
-    Symbol: g_user_input_queue
-    Message Size (Words): 1
-    Queue Size (Bytes): 20
+  Object "g_sce_mutex Mutex"
+    Name: SCE Mutex
+    Symbol: g_sce_mutex
+    Priority inheritance: Disabled
     

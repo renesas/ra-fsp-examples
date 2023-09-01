@@ -24,6 +24,7 @@
 	than reference voltage, Output status is LOW and the LED is turned OFF.
 
 2. Hardware Connection:
+	Supported boards: EK-RA6M1, EK-RA6M2, EK-RA6M3, EK-RA6M3G, RSSK-RA6T1, MCK-RA6T2, MCK-RA4T1, MCK-RA6T3
 	MCK-RA6T2 :
 		PA07(CN4:11) --> PA00(CN4:9)
 

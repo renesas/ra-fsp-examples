@@ -16,23 +16,27 @@
 * **********************************************************************************************************************/
 
 1. Project Overview:
- This project demonstrates the basic functionality of Netx Crypto on Renesas RA MCUs based on SCE7 Hardware acceleration operating in an AzureRTOS environment. The example project executes ECC,RSA and AES algorithms(including different chaining modes) each in its own thread in multi threaded environment. 
-From the RTT viewer, user can enter 1 to enable sequential execution of the different algorithms. The order of execution is AES -> ECC -> RSA Thread. In this mode, the example project uses ThreadX timer to keep track of the time used in each algorithm execution. Similarly, user can enter 2 to disable the sequential operation so the different application threads are executed in a round robin mechanism.
+
+    This project demonstrates the basic functionality of Netx Crypto on Renesas RA MCUs based on SCE7 Hardware acceleration operating in an AzureRTOS environment.
+
+The example project executes ECC,RSA and AES algorithms(including different chaining modes) each in its own thread in multi threaded environment.
+
+From the RTT viewer, user can enter any key to enable concurrent execution of the different algorithms.
+
 The algorithms being executed, and the operational status will be displayed on Jlink RTT viewer.
 
+
+
 2. To run this example project, user needs to compile and download the example project to the evaluation kit and then follow below instructions to observe the operation of the system.
-Supported RA Boards:
-SCE7 - EK_RA6M2 	 
+    Supported RA Boards:
+    SCE7 - EK_RA6M2 	 
 
 3. Hardware and Software Requirements:
    
-Hardware : 
- 1) RA board 
- 2) 1x Micro USB device cable
- 3) A PC running Windows 10 with at least 1 USB port for debug
+   Hardware : 
+    1) RA board 
+    2) 1x Micro USB device cable
+    3) A PC running Windows 10 with at least 1 USB port for debug
     
-Software: 
- 1) Jlink RTT viewer
-
-Note:
-User needs to restart the example project to switch between option 1 and option 2.
+   Software: 
+    1) Jlink RTT viewer
