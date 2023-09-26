@@ -33,8 +33,8 @@
  * @brief      Initializes the Littlefs module by opening, formating and mounting
  *
  * @param[in]  None
- * @retval     FSP_SUCCESS                  Upon successful ADC Initialization.
- * @retval     Any other Error Code         Upon unsuccesful ADC Initialization.
+ * @retval     FSP_SUCCESS                  Upon successful LittlefS Initialization.
+ * @retval     Any other Error Code         Upon unsuccesful LittlefS Initialization.
  **********************************************************************************************************************/
 fsp_err_t hal_littlefs_init(void)
 {

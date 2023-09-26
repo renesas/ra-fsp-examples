@@ -114,13 +114,10 @@ void *g_ble_event_group_handle;
 #define BLE_GATTS_QUEUE_NUM                 (1)
 
 /* Start user code for macro definitions. Do not edit comment generated here */
-
 extern uint32_t app_value;   /* This value using for IAS and LLS */
-
 int8_t rssi;
 int8_t curr_tx_pwr;
 int8_t tx_power;
-
 /* End user code. Do not edit comment generated here */
 
 /******************************************************************************
@@ -211,7 +208,7 @@ ble_abs_legacy_advertising_parameter_t g_ble_advertising_parameter =
     .scan_response_data_length  = ARRAY_SIZE(gs_scan_response_data), ///< Scan response data length (in bytes).
     .advertising_filter_policy  = BLE_ABS_ADVERTISING_FILTER_ALLOW_ANY, ///< Advertising Filter Policy.
     .advertising_channel_map    = ( BLE_GAP_ADV_CH_37 | BLE_GAP_ADV_CH_38 | BLE_GAP_ADV_CH_39 ), ///< Channel Map.
-    .own_bluetooth_address_type = BLE_GAP_ADDR_PUBLIC, ///< Own Bluetooth address type.
+    .own_bluetooth_address_type = BLE_GAP_ADDR_RAND, ///< Own Bluetooth address type.
     .own_bluetooth_address      = { 0 },
 };
 
@@ -286,9 +283,8 @@ void gap_cb(uint16_t type, ble_status_t result, st_ble_evt_data_t *p_data)
     {
         case BLE_GAP_EVENT_STACK_ON:
         {
-            /* Start Advertising when BLE protocol stack is ready */
-            /* Include header file that contained BLE Abstraction (rm_ble_abs) module instance, when application work on RTOS. */
-            RM_BLE_ABS_StartLegacyAdvertising(&g_ble_abs0_ctrl, &g_ble_advertising_parameter);
+            /* Get BD address for Advertising */
+            R_BLE_VS_GetBdAddr(BLE_VS_ADDR_AREA_REG, BLE_GAP_ADDR_RAND);
             APP_PRINT("\nBLE Server Started Advertising.\n");
             APP_PRINT("BLE Server is waiting for connection request from Device\n");
         } break;
@@ -368,7 +364,6 @@ void gap_cb(uint16_t type, ble_status_t result, st_ble_evt_data_t *p_data)
             st_ble_gap_rd_rssi_evt_t * p_rssi_param = (st_ble_gap_rd_rssi_evt_t*)p_data->p_param;
             rssi = p_rssi_param->rssi;
         }break;
-
 /* End user code. Do not edit comment generated here */
     }
 
@@ -398,8 +393,6 @@ void gatts_cb(uint16_t type, ble_status_t result, st_ble_gatts_evt_data_t *p_dat
     {
 /* Hint: Add cases of GATT Server event macros defined as BLE_GATTS_XXX */
 /* Start user code for GATT Server callback function event process. Do not edit comment generated here */
-
-
         case BLE_GATTS_EVENT_CONN_IND:
         {
             /* LED1 turn on and the messages will be printed on connection established */
@@ -488,27 +481,33 @@ void vs_cb(uint16_t type, ble_status_t result, st_ble_vs_evt_data_t *p_data)
 {
 /* Hint: Input common process of callback function such as variable definitions */
 /* Start user code for vender specific callback function common process. Do not edit comment generated here */
-
 /* End user code. Do not edit comment generated here */
 
     R_BLE_SERVS_VsCb(type, result, p_data);
     switch(type)
     {
+        case BLE_VS_EVENT_GET_ADDR_COMP:
+        {
+            /* Start advertising when BD address is ready */
+            st_ble_vs_get_bd_addr_comp_evt_t * get_address = (st_ble_vs_get_bd_addr_comp_evt_t *)p_data->p_param;
+            memcpy(g_ble_advertising_parameter.own_bluetooth_address, get_address->addr.addr, BLE_BD_ADDR_LEN);
+            /* Include header file that contained BLE Abstraction (rm_ble_abs) module instance, when application work on RTOS. */
+            RM_BLE_ABS_StartLegacyAdvertising(&g_ble_abs0_ctrl, &g_ble_advertising_parameter);
+        } break;
 
 /* Hint: Add cases of vender specific event macros defined as BLE_VS_XXX */
 /* Start user code for vender specific callback function event process. Do not edit comment generated here */
 
-            case BLE_VS_EVENT_SET_TX_POWER:
-            {
-                /* Set current Tx_Power */
-                st_ble_vs_set_tx_pwr_comp_evt_t * p_tx_pwr_set_param = (st_ble_vs_set_tx_pwr_comp_evt_t*)p_data->p_param;
-                curr_tx_pwr = p_tx_pwr_set_param->curr_tx_pwr;
+        case BLE_VS_EVENT_SET_TX_POWER:
+        {
+            /* Set current Tx_Power */
+            st_ble_vs_set_tx_pwr_comp_evt_t * p_tx_pwr_set_param = (st_ble_vs_set_tx_pwr_comp_evt_t*)p_data->p_param;
+            curr_tx_pwr = p_tx_pwr_set_param->curr_tx_pwr;
 
-                /* tx_power Transmission power set BLE_VS_TX_POWER_MID(0x01) */
-                curr_tx_pwr = BLE_VS_TX_POWER_MID;
-                APP_PRINT("\nBLE_VS_SET_TX_PWR_COMP %d\n", curr_tx_pwr);
-            }break;
-
+            /* tx_power Transmission power set BLE_VS_TX_POWER_MID(0x01) */
+            curr_tx_pwr = BLE_VS_TX_POWER_MID;
+            APP_PRINT("\nBLE_VS_SET_TX_PWR_COMP %d\n", curr_tx_pwr);
+        }break;
 /* End user code. Do not edit comment generated here */
     }
 
@@ -603,7 +602,7 @@ static void ias_cb(uint16_t type, ble_status_t result, st_ble_servs_evt_data_t *
     {
 /* Hint: Add cases of Immediate Alert Service server events defined in e_ble_ias_event_t */
 /* Start user code for Immediate Alert Service Server callback function event process. Do not edit comment generated here */
-        case BLE_IAS_EVENT_ALERT_LEVEL_WRITE_CMD:
+      case BLE_IAS_EVENT_ALERT_LEVEL_WRITE_CMD:
       {
           /* Figure out the level of the alert */
           e_ble_ias_alert_level_level_t alert_level = app_value;
@@ -686,7 +685,6 @@ static void lls_cb(uint16_t type, ble_status_t result, st_ble_servs_evt_data_t *
     {
 /* Hint: Add cases of Link Loss Service server events defined in e_ble_lls_event_t */
 /* Start user code for Link Loss Service Server callback function event process. Do not edit comment generated here */
-
     case BLE_LLS_EVENT_ALERT_LEVEL_WRITE_COMP:
     {
         /* Figure out the level of the alert */
@@ -794,10 +792,8 @@ static void tps_cb(uint16_t type, ble_status_t result, st_ble_servs_evt_data_t *
 {
 /* Hint: Input common process of callback function such as variable definitions */
 /* Start user code for Tx Power Service Server callback function common process. Do not edit comment generated here */
-
-         FSP_PARAMETER_NOT_USED (result);
-         FSP_PARAMETER_NOT_USED (*p_data);
-
+    FSP_PARAMETER_NOT_USED (result);
+    FSP_PARAMETER_NOT_USED (*p_data);
 /* End user code. Do not edit comment generated here */
 
     switch(type)
@@ -810,8 +806,8 @@ static void tps_cb(uint16_t type, ble_status_t result, st_ble_servs_evt_data_t *
          case BLE_VS_EVENT_SET_TX_POWER:
          {
              APP_PRINT("\n*** To test RSSI 'Received Signal Strength Indicator'.");
-             APP_PRINT("\n*** User move away from the target board RA4W1.");
-             APP_PRINT("\n*** Hit 'DISCONNECT' and 'CONNECT' and 'READ.'\n");
+             APP_PRINT("\n*** Move mobile device away from the target board RA4W1.");
+             APP_PRINT("\n*** Hit 'DISCONNECT' and 'CONNECT' then 'READ Tx Power Level.'\n");
              APP_PRINT("\nREAD CURR_TX_PWR value: %d\n", curr_tx_pwr);
              APP_PRINT("\nREAD RSSI value: %d\n", rssi);
          }
@@ -828,9 +824,8 @@ static void tps_cb(uint16_t type, ble_status_t result, st_ble_servs_evt_data_t *
     }
 
 /* Start user code for Tx Power Service Server callback function closing process. Do not edit comment generated here */
-
+/* End user code. Do not edit comment generated here */
 }
-
 
 /******************************************************************************
  * Function Name: gapc_cb

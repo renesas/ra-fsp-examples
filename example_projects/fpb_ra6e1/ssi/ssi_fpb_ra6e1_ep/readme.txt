@@ -36,7 +36,7 @@ NOTE:
 In EK-RA6M3 and EK-RA6M3G boards, P403(which is also connected to SSISCK) is connected to LED1.So, it will glow while running the SSI application.﻿
 1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x200001e4
+   a. e2studio: 0x200005f4
    b. Keil: Not Available 
    c. IAR: Not Available
  

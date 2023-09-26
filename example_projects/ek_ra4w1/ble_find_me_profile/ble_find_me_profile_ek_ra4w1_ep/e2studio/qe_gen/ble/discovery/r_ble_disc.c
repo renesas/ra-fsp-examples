@@ -19,8 +19,15 @@
 #include <string.h>
 #include "r_ble_disc.h"
 
-static uint8_t gs_state;
+static uint8_t gs_state_discovery_service_type;
 static uint8_t gs_target_inc_serv_pos;
+
+/* enum */
+typedef enum
+{
+    BLE_DISC_STATE_DISCOVERY_PRIMARY_SERVICE=0,
+    BLE_DISC_STATE_DISCOVERY_INCLUDE_SERVICE,
+}e_ble_disc_state_t;
 
 /* Entries */
 static const st_ble_disc_entry_t *gs_prim_entries;
@@ -76,7 +83,7 @@ static bool r_ble_disc_next_prim_serv(uint16_t conn_hdl)
     if (gs_prim_entry_pos < gs_num_of_prim_entries)
     {
         gs_inc_serv_pos = 0;
-        gs_state        = 0;
+        gs_state_discovery_service_type = BLE_DISC_STATE_DISCOVERY_PRIMARY_SERVICE;
         r_ble_start_serv_disc(conn_hdl);
     }
     else
@@ -91,7 +98,7 @@ static bool r_ble_disc_next_inc_serv(uint16_t conn_hdl)
 {
     if (gs_inc_serv_pos < gs_num_of_inc_servs)
     {
-        gs_state = 1;
+        gs_state_discovery_service_type = BLE_DISC_STATE_DISCOVERY_INCLUDE_SERVICE;
 
         for (uint8_t i = gs_inc_serv_pos; i < gs_num_of_inc_servs; i++)
         {
@@ -389,19 +396,21 @@ static void r_ble_disc_gattc_cb(uint16_t type, ble_status_t result, st_ble_gattc
 
             for (uint8_t i = 0; i < (p_data->param_len / sizeof(st_ble_gattc_inc_serv_16_evt_t)); i++)
             {
-                gs_inc_servs[gs_num_of_inc_servs].uuid_type = BLE_GATT_16_BIT_UUID_FORMAT;
+                if(gs_num_of_inc_servs < BLE_DISC_INC_SERV_MAX_NUM)
+                {
+                    gs_inc_servs[gs_num_of_inc_servs].uuid_type = BLE_GATT_16_BIT_UUID_FORMAT;
 
-                memcpy(&gs_inc_servs[gs_num_of_inc_servs].value.inc_serv_16,
-                       &p_inc_serv_16_evt_param[0],
-                       sizeof(gs_inc_servs[gs_num_of_inc_servs].value.inc_serv_16));
+                    memcpy(&gs_inc_servs[gs_num_of_inc_servs].value.inc_serv_16,
+                           &p_inc_serv_16_evt_param[0],
+                           sizeof(gs_inc_servs[gs_num_of_inc_servs].value.inc_serv_16));
 
-                gs_prim_entries[gs_prim_entry_pos].serv_cb(
-                    p_data->conn_hdl,
-                    gs_prim_entries[gs_prim_entry_pos].idx,
-                    BLE_DISC_INC_SERV_FOUND,
-                    &gs_inc_servs[gs_num_of_inc_servs]);
-
-                gs_num_of_inc_servs++;
+                    gs_prim_entries[gs_prim_entry_pos].serv_cb(
+                        p_data->conn_hdl,
+                        gs_prim_entries[gs_prim_entry_pos].idx,
+                        BLE_DISC_INC_SERV_FOUND,
+                        &gs_inc_servs[gs_num_of_inc_servs]);
+                    gs_num_of_inc_servs++;
+                }
             }
         } break;
 
@@ -412,19 +421,22 @@ static void r_ble_disc_gattc_cb(uint16_t type, ble_status_t result, st_ble_gattc
 
             for (uint8_t i = 0; i < (p_data->param_len / sizeof(st_ble_gattc_inc_serv_128_evt_t)); i++)
             {
-                gs_inc_servs[gs_num_of_inc_servs].uuid_type = BLE_GATT_128_BIT_UUID_FORMAT;
+                if(gs_num_of_inc_servs < BLE_DISC_INC_SERV_MAX_NUM)
+                {
+                    gs_inc_servs[gs_num_of_inc_servs].uuid_type = BLE_GATT_128_BIT_UUID_FORMAT;
 
-                memcpy(&gs_inc_servs[gs_num_of_inc_servs].value.inc_serv_128,
-                       p_inc_serv_128_evt_param,
-                       sizeof(gs_inc_servs[gs_num_of_inc_servs].value.inc_serv_128));
+                    memcpy(&gs_inc_servs[gs_num_of_inc_servs].value.inc_serv_128,
+                           p_inc_serv_128_evt_param,
+                           sizeof(gs_inc_servs[gs_num_of_inc_servs].value.inc_serv_128));
 
-                gs_prim_entries[gs_prim_entry_pos].serv_cb(
-                    p_data->conn_hdl,
-                    gs_prim_entries[gs_prim_entry_pos].idx,
-                    BLE_DISC_INC_SERV_FOUND,
-                    &gs_inc_servs[gs_num_of_inc_servs]);
+                    gs_prim_entries[gs_prim_entry_pos].serv_cb(
+                        p_data->conn_hdl,
+                        gs_prim_entries[gs_prim_entry_pos].idx,
+                        BLE_DISC_INC_SERV_FOUND,
+                        &gs_inc_servs[gs_num_of_inc_servs]);
 
-                gs_num_of_inc_servs++;
+                    gs_num_of_inc_servs++;
+                }
             }
         } break;
 
@@ -442,14 +454,17 @@ static void r_ble_disc_gattc_cb(uint16_t type, ble_status_t result, st_ble_gattc
 
             for (uint8_t i = 0; i < (p_data->param_len / sizeof(st_ble_gattc_char_16_evt_t)); i++)
             {
-                gs_chars[gs_num_of_chars].uuid_type = BLE_GATT_16_BIT_UUID_FORMAT;
+                if(gs_num_of_chars < BLE_DISC_CHAR_MAX_NUM)
+                {
+                    gs_chars[gs_num_of_chars].uuid_type = BLE_GATT_16_BIT_UUID_FORMAT;
 
-                memcpy(&gs_chars[gs_num_of_chars].value.char_16,
-                       &p_char_16_evt_params[i],
-                       sizeof(gs_chars[gs_num_of_chars].value.char_16));
+                    memcpy(&gs_chars[gs_num_of_chars].value.char_16,
+                            &p_char_16_evt_params[i],
+                            sizeof(gs_chars[gs_num_of_chars].value.char_16));
 
-                gs_num_of_chars++;
-            }
+                    gs_num_of_chars++;
+                }
+            }   
         } break;
 
         case BLE_GATTC_EVENT_CHAR_128_DISC_IND:
@@ -459,13 +474,16 @@ static void r_ble_disc_gattc_cb(uint16_t type, ble_status_t result, st_ble_gattc
 
             for (uint8_t i = 0; i < (p_data->param_len / sizeof(st_ble_gattc_char_128_evt_t)); i++)
             {
-                gs_chars[gs_num_of_chars].uuid_type = BLE_GATT_128_BIT_UUID_FORMAT;
+                if(gs_num_of_chars < BLE_DISC_CHAR_MAX_NUM)
+                {
+                    gs_chars[gs_num_of_chars].uuid_type = BLE_GATT_128_BIT_UUID_FORMAT;
 
-                memcpy(&gs_chars[gs_num_of_chars].value.char_128,
-                       &p_char_128_evt_params[i],
-                       sizeof(gs_chars[gs_num_of_chars].value.char_128));
+                    memcpy(&gs_chars[gs_num_of_chars].value.char_128,
+                        &p_char_128_evt_params[i],
+                        sizeof(gs_chars[gs_num_of_chars].value.char_128));
 
-                gs_num_of_chars++;
+                    gs_num_of_chars++;
+                }
             }
         } break;
 
@@ -483,13 +501,16 @@ static void r_ble_disc_gattc_cb(uint16_t type, ble_status_t result, st_ble_gattc
 
             for (uint8_t i = 0; i < (p_data->param_len / sizeof(st_ble_gattc_char_desc_16_evt_t)); i++)
             {
-                gs_descs[gs_num_of_descs].uuid_type = BLE_GATT_16_BIT_UUID_FORMAT;
+                if(gs_num_of_descs < BLE_DISC_DESC_MAX_NUM)
+                {
+                    gs_descs[gs_num_of_descs].uuid_type = BLE_GATT_16_BIT_UUID_FORMAT;
 
-                memcpy(&gs_descs[gs_num_of_descs].value.desc_16,
-                       &p_char_desc_16_evt_params[i],
-                       sizeof(gs_descs[gs_num_of_descs].value.desc_16));
+                    memcpy(&gs_descs[gs_num_of_descs].value.desc_16,
+                            &p_char_desc_16_evt_params[i],
+                            sizeof(gs_descs[gs_num_of_descs].value.desc_16));
 
-                gs_num_of_descs++;
+                    gs_num_of_descs++;
+                }
             }
         } break;
 
@@ -500,14 +521,17 @@ static void r_ble_disc_gattc_cb(uint16_t type, ble_status_t result, st_ble_gattc
 
             for (uint8_t i = 0; i < (p_data->param_len / sizeof(st_ble_gattc_char_desc_128_evt_t)); i++)
             {
-                gs_descs[gs_num_of_descs].uuid_type =
-                    BLE_GATT_128_BIT_UUID_FORMAT;
+                if(gs_num_of_descs < BLE_DISC_DESC_MAX_NUM)
+                {
+                    gs_descs[gs_num_of_descs].uuid_type =
+                        BLE_GATT_128_BIT_UUID_FORMAT;
 
-                memcpy(&gs_descs[gs_num_of_descs].value.desc_128,
-                       &p_char_desc_128_evt_params[i],
-                       sizeof(gs_descs[gs_num_of_descs].value.desc_128));
+                    memcpy(&gs_descs[gs_num_of_descs].value.desc_128,
+                           &p_char_desc_128_evt_params[i],
+                           sizeof(gs_descs[gs_num_of_descs].value.desc_128));
 
-                gs_num_of_descs++;
+                    gs_num_of_descs++;
+                }
             }
         } break;
 
@@ -516,7 +540,7 @@ static void r_ble_disc_gattc_cb(uint16_t type, ble_status_t result, st_ble_gattc
             gs_chars[gs_char_pos].descs        = gs_descs;
             gs_chars[gs_char_pos].num_of_descs = gs_num_of_descs;
 
-            if (0 == gs_state)
+            if (BLE_DISC_STATE_DISCOVERY_PRIMARY_SERVICE == gs_state_discovery_service_type)
             {
                 gs_prim_entries[gs_prim_entry_pos].serv_cb(
                     p_data->conn_hdl,
@@ -524,7 +548,7 @@ static void r_ble_disc_gattc_cb(uint16_t type, ble_status_t result, st_ble_gattc
                     BLE_DISC_CHAR_FOUND,
                     &gs_chars[gs_char_pos]);
             }
-            else if (1 == gs_state)
+            else if (BLE_DISC_STATE_DISCOVERY_INCLUDE_SERVICE == gs_state_discovery_service_type)
             {
                 gs_prim_entries[gs_prim_entry_pos].inc_servs[gs_target_inc_serv_pos].serv_cb(
                     p_data->conn_hdl,
@@ -571,6 +595,7 @@ ble_status_t R_BLE_DISC_Start(uint16_t conn_hdl, const st_ble_disc_entry_t *p_en
     gs_comp_cb        = cb;
     gs_prim_entry_pos = 0;
     gs_disc_conn_hdl  = conn_hdl;
+    gs_state_discovery_service_type = BLE_DISC_STATE_DISCOVERY_PRIMARY_SERVICE;
 
     const st_ble_gatt_hdl_range_t serv_init_range = {
         .start_hdl  = 0x00,

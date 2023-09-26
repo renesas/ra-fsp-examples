@@ -727,6 +727,26 @@ FSP Configuration
   Module "Crypto RA2"
   Module "MbedTLS FSP Port (rm_mbedtls)"
   Module "AWS PKCS11 PAL on LittleFS (rm_aws_pkcs11_pal_littlefs)"
+  Module "LittleFS"
+    Custom lfs_util.h: 
+    Thread Safe: Disabled
+    Use Malloc: Enabled
+    Use Assert: Enabled
+    Debug Messages: Disabled
+    Warning Messages: Disabled
+    Error Messages: Disabled
+    Trace Messages: Disabled
+    Intrinsics: Enabled
+    Instance Name for STDIO wrapper: g_rm_littlefs0
+    
+  Module "LittleFS on Flash (rm_littlefs_flash)"
+    Parameter Checking: Default (BSP)
+    
+  Module "Flash (r_flash_lp)"
+    Parameter Checking: Default (BSP)
+    Code Flash Programming: Disabled
+    Data Flash Programming: Enabled
+    
   FreeRTOS
     General: Custom FreeRTOSConfig.h: 
     General: Use Preemption: Enabled
@@ -879,6 +899,24 @@ FSP Configuration
                 
         Instance "AWS PKCS11 to MbedTLS"
           Instance "AWS PKCS11 PAL on LittleFS (rm_aws_pkcs11_pal_littlefs)"
+            Instance "LittleFS"
+              
+              Instance "LittleFS on Flash (rm_littlefs_flash)"
+                Name: g_rm_littlefs0
+                Read Size: 1
+                Program Size: 4
+                Block Size (bytes): 128
+                Block Count: (BSP_DATA_FLASH_SIZE_BYTES/128)
+                Block Cycles: 1024
+                Cache Size: 64
+                Lookahead Size: 16
+                
+                Instance "g_flash0 Flash (r_flash_lp)"
+                  Name: g_flash0
+                  Data Flash Background Operation: Disabled
+                  Callback: NULL
+                  Flash Ready Interrupt Priority: Disabled
+                  
           Instance "FreeRTOS MbedTLS Port"
             Instance "MbedTLS"
               Instance "MbedTLS (Crypto Only)"

@@ -40,7 +40,7 @@
 
 #define RESET_VALUE             (0x00)
 
-#define EP_VERSION              ("1.1")
+#define EP_VERSION              ("1.2")
 #define MODULE_NAME             "ble_find_me_profile"
 #define BANNER_INFO             "\r\n*********************************************************************"\
                                 "\r\n*   Renesas FSP Example Project for "MODULE_NAME" Module      *"\

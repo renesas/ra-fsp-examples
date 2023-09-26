@@ -14,7 +14,7 @@
 * following link:
 * http://www.renesas.com/disclaimer
 *
-* Copyright (C) 2019-2020 Renesas Electronics Corporation. All rights reserved.
+* Copyright (C) 2019-2022 Renesas Electronics Corporation. All rights reserved.
 ***********************************************************************************************************************/
 /***********************************************************************************************************************
  * File Name: r_ble_gats.c
@@ -29,6 +29,8 @@ static st_ble_servs_info_t gs_servs_info;
 
 /* Start user code for function prototype declarations and global variables. Do not edit comment generated here */
 /* End user code. Do not edit comment generated here */
+
+
 
 /*----------------------------------------------------------------------------------------------------------------------
     Service Changed Client Characteristic Configuration descriptor : Client Characteristic Configuration Descriptor
@@ -60,21 +62,42 @@ ble_status_t R_BLE_GATS_GetServChgedCliCnfg(uint16_t conn_hdl, uint16_t *p_value
 static ble_status_t decode_st_ble_gats_serv_chged_t(st_ble_gats_serv_chged_t *p_app_value, const st_ble_gatt_value_t *p_gatt_value)
 {
     /* Start user code for Service Changed characteristic value decode function. Do not edit comment generated here */
-        FSP_PARAMETER_NOT_USED (*p_app_value);
-        FSP_PARAMETER_NOT_USED (*p_gatt_value);
     /* End user code. Do not edit comment generated here */
+#ifndef BLE_GATS_DISABLE_ENCODE_DECODE
+
+
+    uint32_t pos = 0;
+
+    BT_UNPACK_LE_2_BYTE(&p_app_value->start_hdl,&p_gatt_value->p_value[pos]);
+    pos += 2;
+
+    BT_UNPACK_LE_2_BYTE(&p_app_value->end_hdl,&p_gatt_value->p_value[pos]);
+    pos += 2;
+#endif /* BLE_GATS_DISABLE_ENCODE_DECODE */
+
+
     return BLE_SUCCESS;
 }
-
 static ble_status_t encode_st_ble_gats_serv_chged_t(const st_ble_gats_serv_chged_t *p_app_value, st_ble_gatt_value_t *p_gatt_value)
 {
     /* Start user code for Service Changed characteristic value encode function. Do not edit comment generated here */
-        FSP_PARAMETER_NOT_USED (*p_app_value);
-        FSP_PARAMETER_NOT_USED (*p_gatt_value);
     /* End user code. Do not edit comment generated here */
+#ifndef BLE_GATS_DISABLE_ENCODE_DECODE
+
+    uint32_t pos = 0;
+
+    BT_PACK_LE_2_BYTE(&p_gatt_value->p_value[pos],&p_app_value->start_hdl);
+    pos += 2;
+
+    BT_PACK_LE_2_BYTE(&p_gatt_value->p_value[pos],&p_app_value->end_hdl);
+    pos += 2;
+    
+    p_gatt_value->value_len = (uint16_t)pos;
+#endif /* BLE_GATS_DISABLE_ENCODE_DECODE */
+
+
     return BLE_SUCCESS;
 }
-
 /* Service Changed characteristic descriptor definition */
 static const st_ble_servs_desc_info_t *gspp_serv_chged_descs[] = { 
     &gs_serv_chged_cli_cnfg,
@@ -124,6 +147,10 @@ ble_status_t R_BLE_GATS_Init(ble_servs_app_cb_t cb)
 
     return R_BLE_SERVS_RegisterServer(&gs_servs_info);
 }
+
+
+
+
 
 /* Start user code for function definitions. Do not edit comment generated here */
 /* End user code. Do not edit comment generated here */

@@ -36,10 +36,10 @@
  **/
 
 /** User has to update according to their LAN/WAN test setup for testing of ping IP address **/
-#define IOT_DEMO_TEST_PING_IP                       "8.8.8.8"
+#define HTTPS_TEST_PING_IP                       "8.8.8.8"
 
 /** HOST Address **/
-#define IOT_DEMO_HOST_ADDRESS                       "io.adafruit.com"
+#define HTTPS_HOST_ADDRESS                       "io.adafruit.com"
 
 /**
  *  @brief User has to be update according to their credentials viz., {user_name} and {feed_key} in the respective
@@ -47,26 +47,45 @@
  *  For more information of obtaining user credentials can follow the steps provided in mark down file.
  **/
 
-/** @brief To get the most recent value. Use GET url: https://io.adafruit.com/api/v2/{username}/feeds/{feed_key}/data?limit=1 **/
-//#define IOT_DEMO_HTTPS_PRESIGNED_GET_URL   "https://io.adafruit.com/api/v2/mnkraj1/feeds/temp/data?limit=1"
-#define IOT_DEMO_HTTPS_PRESIGNED_GET_URL   "https://io.adafruit.com/api/v2/canhtran/feeds/adc/data?limit=1"
+/** @brief To get the most recent value. Get API from GET url (https://ioadafruit.com/api/v2/{username}/feeds/{feed_key}/data?limit=1): /api/v2/{username}/feeds/{feed_key}/data?limit=1 **/
+#define HTTPS_GET_API   "/api/v2/canhtran/feeds/adc/data?limit=1"
 
-/** @brief IOT_DEMO_HTTPS_PRESIGNED_PUT_POST_URL can be used in PUT and POST methods.
+/** @brief HTTPS_PUT_POST_API can be used in PUT and POST methods.
  *  PUT method will update data point at requested <id>.
- *  PUT url: https://ioadafruit.com/{user_name}/{feeds}/{feed_key}/data/{id} , where the <id> will append to the url in the process of
+ *  PUT url: https://ioadafruit.com/api/v2/{username}/feeds/{feed_key}/data/{id} , where the <id> will append to the url in the process of
  *  PUT request, once it fetch from the GET request.
+ *  API from PUT url: /api/v2/{username}/feeds/{feed_key}/data/{id}
  *  POST method will send new data to the server.
- *  POST url:https://ioadafruit.com/{user_name}/{feeds}/{feed_key}/data/
+ *  POST url:https://ioadafruit.com/api/v2/{username}/feeds/{feed_key}/data/
+ *  API from POST url: /api/v2/{username}/feeds/{feed_key}/data/
  **/
-#define IOT_DEMO_HTTPS_PRESIGNED_PUT_POST_URL    "https://io.adafruit.com//api/v2/canhtran/feeds/adc/data/"
+#define HTTPS_PUT_POST_API    "/api/v2/canhtran/feeds/adc/data/"
 
 /** @brief User has to update their generated active key from the io.adafruit.com server. */
-//#define ACTIVE_KEY                             "aio_YUcA19S8MKK2a9p1fi6iIabzdk3J"
-#define ACTIVE_KEY                             "aio_YZrR194SVXWrUzvmDJHAEFSXaRDQ"
+#define ACTIVE_KEY                             "aio_LvXS6444GdSAAVygSg1N9lEGwaZH"
 
-/** @brief If the privacy of feed data visibility is set to private then 'ENABLE' the PRIVATE_KEY for processing of GET request **/
-#define PRIVATE_KEY                        DISABLE
 
+
+/* TLS port for HTTPS. */
+#define HTTPS_PORT    ( ( uint16_t ) 443U )
+
+
+/* Number of times to retry the HTTPS connection. A connection is only attempted again if
+ * TLS_TRANSPORT_SUCCESS is not returned from TLS_FreeRTOS_Connect(). This indicates an error in the network
+ * layer.
+ */
+#define HTTPS_CONNECTION_NUM_RETRY				( ( uint32_t ) 5 )
+
+#define SOCKET_SEND_RECV_TIME_OUT_MS			( ( uint32_t ) 10000 )
+
+
+/* Extracted ID from GET request to be updated in HTTPS_PUT_POST_API */
+
+#define ID_LEN                                          ( (size_t) 26 )
+#define ID_START_INDEX                                  (8)
+#define INDEX_ZERO                                      (0)
+#define URL_SIZE                                        (128)
+#define USER_BUFF                                       (2048)
 
 /**
  *  Client certificate to be updated by the user by following the process specified in the mark down file
@@ -75,26 +94,28 @@
 
  #define CLIENT_CERTIFICATE_PEM                                                  \
 "-----BEGIN CERTIFICATE-----\n" \
-"MIIDqTCCApGgAwIBAgIUPr6maUI0N7UIq27lJ47oMVPB+tkwDQYJKoZIhvcNAQEL\n" \
-"BQAwZDELMAkGA1UEBhMCSU4xCzAJBgNVBAgMAktBMRIwEAYDVQQHDAlCZW5nYWx1\n" \
-"cnUxDDAKBgNVBAoMA3RhdDEMMAoGA1UECwwDb2RjMRgwFgYDVQQDDA9pby5hZGFm\n" \
-"cnVpdC5jb20wHhcNMjIwNTE2MDc0NDU4WhcNMjMwNTE2MDc0NDU4WjBkMQswCQYD\n" \
-"VQQGEwJJTjELMAkGA1UECAwCS0ExEjAQBgNVBAcMCUJlbmdhbHVydTEMMAoGA1UE\n" \
-"CgwDdGF0MQwwCgYDVQQLDANvZGMxGDAWBgNVBAMMD2lvLmFkYWZydWl0LmNvbTCC\n" \
-"ASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAKflPkSRWkLc1WkQ82ki5Mju\n" \
-"yh22ShAY7BRsM6sNKj6UzDVazuIWKHxXuhbCnXn8lFysxOqDJaChGEu47iWwgeOr\n" \
-"lZf0QCPelrWmjPwYYXBj0OX4b4oSrq1ipeldF/Nr5aLc056UCsPiqPNeC2P29Bow\n" \
-"KKDLEoWa9U6iSkejhgScp1lG/AvBg2+ev9adnQtVWl4Qhl2yOxfbnCUYaVF348Uc\n" \
-"p0dsO9eMO4HtWEaFrSY3447HTyBFHVIva4DoQ/Cylr21PpCYk5JnZVS5nhSsm/Q5\n" \
-"7qbTJmYfnC9IbBPxDJ8MbY/QeSeLL/JE3LpxfcBYMVawInxHd4kWAODkrqgWpzUC\n" \
-"AwEAAaNTMFEwHQYDVR0OBBYEFO6CVRrKU5IcEfGvpkAujPwsmUzaMB8GA1UdIwQY\n" \
-"MBaAFO6CVRrKU5IcEfGvpkAujPwsmUzaMA8GA1UdEwEB/wQFMAMBAf8wDQYJKoZI\n" \
-"hvcNAQELBQADggEBAEnVdimRnB6hknVMlbV+adp1J1yP1l73pSzUD6F/ZkEQaPwM\n" \
-"JxshaBE3swBE+8HBYfhb5AEOv00pffbigcXaYn1PS/c+pbJThOXw9sBnGfhVW6QP\n" \
-"iaVve31TKKKYLT3TIJY0D4bsw5fuqKGTmdWuAeh+bOd/5Ac0a+3axBnJpgRjaNY1\n" \
-"/T6/njd+rmVHAx6A5oM+JAbvOIFsOdExYuydh5iBxtpw08X9aSTLIFiC8VEJbIU1\n" \
-"5HbwAJGf0OVAFMEs5nTwYszBG35AM7Uay5V8XyMRjWqqgWl92g5gXZh1gOFLLhiJ\n" \
-"iRYomN6rI8lGWzukpeO1G0phRIkpup2+DGUo/s8=\n" \
+"MIID9zCCAt+gAwIBAgIUEJWi4aQTJ79x7GsCX4imnMyyoOYwDQYJKoZIhvcNAQEL\n" \
+"BQAwgYoxCzAJBgNVBAYTAlZOMQswCQYDVQQIDAJTRzEPMA0GA1UEBwwGU2FpZ29u\n" \
+"MQwwCgYDVQQKDANSVkMxDDAKBgNVBAsMA3NzMjEYMBYGA1UEAwwPaW8uYWRhZnJ1\n" \
+"aXQuY29tMScwJQYJKoZIhvcNAQkBFhhjYW5oLnRyYW4ueGpAcmVuZXNhcy5jb20w\n" \
+"HhcNMjMwMTA5MDk0NjQxWhcNMjQwMTA5MDk0NjQxWjCBijELMAkGA1UEBhMCVk4x\n" \
+"CzAJBgNVBAgMAlNHMQ8wDQYDVQQHDAZTYWlnb24xDDAKBgNVBAoMA1JWQzEMMAoG\n" \
+"A1UECwwDc3MyMRgwFgYDVQQDDA9pby5hZGFmcnVpdC5jb20xJzAlBgkqhkiG9w0B\n" \
+"CQEWGGNhbmgudHJhbi54akByZW5lc2FzLmNvbTCCASIwDQYJKoZIhvcNAQEBBQAD\n" \
+"ggEPADCCAQoCggEBANHjj+OUKVYGDYbd1N2dcHZy5aeMpKzRfED8+MlQsoXJBwP0\n" \
+"6Xl8485Klo19qrFGD+NsiGylSdF5lg87iICxkCShTPyYEB5gN29wVIzgPv8HiKLa\n" \
+"Zm66BF2yTcXRbFj36BplqsTq36hiqoJeTaTXnbjGn3Mf/fdb/UIoy0zgCZzXP9Yo\n" \
+"2DlEacp0L+ORisH+J5I8cP4Q8eD04tHr3rSp5pR9SOAh8tIeWxm6VD1/rK8IFFN8\n" \
+"F9Mv/S+p75hPEwrPlhV5XmR9BSFD2Yakc6fbiECnRtyUBgMpKinK+XC98EI3iWh+\n" \
+"rNJONNSRyUMsKXbIpK+KQB80IE/+j3PEPyS7G0ECAwEAAaNTMFEwHQYDVR0OBBYE\n" \
+"FAeoe9a6wgYcmHfXZU0HzuSmOLq7MB8GA1UdIwQYMBaAFAeoe9a6wgYcmHfXZU0H\n" \
+"zuSmOLq7MA8GA1UdEwEB/wQFMAMBAf8wDQYJKoZIhvcNAQELBQADggEBAFxzzHeK\n" \
+"jp4RXUKmXiVnR2XyXVV5Ev5c05OiKd7PTRynhzpbPAoCbiM902RD83ZBA5EzhvK1\n" \
+"cs6/7E8O65PQJjmFKDpfLV7mG+iRzf5+0vn6U4oDMjSpp2mDVdQi8Si4DHiyOkXZ\n" \
+"w/LlDQ0UwVQDJ5zMAAJw9Yrz6Tltkpi5xMK0fnrW8LMyNpJj40Bic7trWu7TTW+w\n" \
+"ls0g/AR7JxlOvAIFdA/VixcalaonTjISD/rm+sPzNNPwC2gzxTyq+1P9uHVGIe1m\n" \
+"I+GA6PmFG28G6TwL81knzYzQppZEwatE0ripTWZ9t4hdsD7tmnZh2y+sZ+BvjTdV\n" \
+"JxlM3y7ATO95Tp4=\n" \
 "-----END CERTIFICATE-----\n"
 
 
@@ -103,39 +124,39 @@
  **/
 #define CLIENT_KEY_PEM                                                          \
 "-----BEGIN PRIVATE KEY-----\n" \
-"MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCn5T5EkVpC3NVp\n" \
-"EPNpIuTI7sodtkoQGOwUbDOrDSo+lMw1Ws7iFih8V7oWwp15/JRcrMTqgyWgoRhL\n" \
-"uO4lsIHjq5WX9EAj3pa1poz8GGFwY9Dl+G+KEq6tYqXpXRfza+Wi3NOelArD4qjz\n" \
-"Xgtj9vQaMCigyxKFmvVOokpHo4YEnKdZRvwLwYNvnr/WnZ0LVVpeEIZdsjsX25wl\n" \
-"GGlRd+PFHKdHbDvXjDuB7VhGha0mN+OOx08gRR1SL2uA6EPwspa9tT6QmJOSZ2VU\n" \
-"uZ4UrJv0Oe6m0yZmH5wvSGwT8QyfDG2P0Hkniy/yRNy6cX3AWDFWsCJ8R3eJFgDg\n" \
-"5K6oFqc1AgMBAAECggEAF6T/s21a7k6mWWETPou09501ZqDM5l50JN4mGqFEgUK4\n" \
-"TY1H1Gw1cGl0Yg8vWUYaaMDGDJbCnlABmWxmUXV9nWAFNbymqcaHp/ZYJYqTcl4E\n" \
-"RdbKcoH2CqH5Zpd/L39S/DAoN013BKYvj/J/HSlisCt3FUn0Bk/P2y6c0mDzl0N0\n" \
-"Ai5YwW6yJeUql310qD8xNy4QDHE0l0pw4wKBP+4BbIxWX4Qd0mADNMv5J/Ma77Y3\n" \
-"DNuK6ZE8I+K2ViAlrph49smnfrp3hzFXaQBnZPw9AwgHZvUmPER2nrV4DzHQFjBR\n" \
-"5xJENJ/7t64BVj1x3dUtioKKpRx4MeNP4jE5ObsJUwKBgQDdiY8+FJO9yatZLtFS\n" \
-"8+G0tzHziIWD7+wjrcI8h9djUDK4Q0WyiRttdwHpvmiwsupEhBDtn3PzEbbrW529\n" \
-"Ra5igj5ueVBY2BY/Lw26qbzL7Ki57vN5ow2yyP4uhmLCC19PX4kWTrl3+0L27oh8\n" \
-"2DIICLbXAmThuA3ggC1HqUqobwKBgQDCA3ck3NRxPdg0gJqmU2xzSONku8KpW1v1\n" \
-"oaOG0v66myuBpxe6rcOR+6/eF7cOJtr9f6ndKozpe3U1IpLF1Siil1cS3xLpV7OA\n" \
-"iHLV/vroVWybzcHE04bFfTLLjHpFau7Wq97ytWvfRxsqbN/43oXmTOA64pNmqtZm\n" \
-"bYcrceYUmwKBgQDC/Bn5V/8ZIfEQU6alTkYv2rW6VUS+dWLvnDXDNQScQrABgiRM\n" \
-"GWTsmbwzUQWv0CllGKAVpSxWmhbXXBGfzz7HMT9l2JyhNb+O6Qk6a77h9XAkBm6B\n" \
-"dsPNwh4GMP2nMH84yytLWQrg0WOFFzlGOLsAWzsiTtcf2/FK0UYJNrWhPQKBgCxg\n" \
-"Ooo18GmOabtohvbwMegUjd5mi9nMybXfKNYXwKfSAht/qo/KWuczGEDGT9puzLwa\n" \
-"zTGHH//vexmSNNwHK2o1D3eDioHQy3/ktc94qM8natYgM+ffMf5N6qZgFT93e/Wi\n" \
-"DjaZhHjnfLExgfEchKfugYM2e9yJysxW1Qn83VFtAoGAF+b34wIUyMGtMlzHihUH\n" \
-"cZH+5Mgpug1BxjbiWQPA24S1Zy1vr659rRifRHBW98HvyEmnWkbLMyu9qDw6r9XE\n" \
-"PNacojJkRE72Ejc8vJYcy3MSzv1apzR/9H4phHv5W5r5a9HP33LaYUUeeYjGKYqa\n" \
-"lnUFFXX5Wv8D5gQIPZ1mD+A=\n" \
+"MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDR44/jlClWBg2G\n" \
+"3dTdnXB2cuWnjKSs0XxA/PjJULKFyQcD9Ol5fOPOSpaNfaqxRg/jbIhspUnReZYP\n" \
+"O4iAsZAkoUz8mBAeYDdvcFSM4D7/B4ii2mZuugRdsk3F0WxY9+gaZarE6t+oYqqC\n" \
+"Xk2k1524xp9zH/33W/1CKMtM4Amc1z/WKNg5RGnKdC/jkYrB/ieSPHD+EPHg9OLR\n" \
+"6960qeaUfUjgIfLSHlsZulQ9f6yvCBRTfBfTL/0vqe+YTxMKz5YVeV5kfQUhQ9mG\n" \
+"pHOn24hAp0bclAYDKSopyvlwvfBCN4lofqzSTjTUkclDLCl2yKSvikAfNCBP/o9z\n" \
+"xD8kuxtBAgMBAAECggEADnGYj1K83XyhJazSX0XcXWpev38APhxUbqx5+nChOG+z\n" \
+"GeSaxI+BpcqgPbBuNLDbmwz2/nMJd27kkrvIEwMlJkArah6UzWJVrkeOqfssmqRM\n" \
+"FNjuv6PxdPk2POzChgTZZiek7tQy/AV+MmaG9VcZNYQFqQiEk6cy8ICaLPol7zMI\n" \
+"8StwpadhF03SfOWv44RH8pdCFQEEpZS0/8R8kulF6WDc/HZOZx0XN0ExSDV+gi3N\n" \
+"MSOpaHVANuwJI0CHhcrM+sObTy0cwpVIvZK5ydWxsVNLhOBf8YOwp9moZkoOh6Fp\n" \
+"oJEYw43GcEWmOyjDQ+iVOMVRBm4Q5Ed6Gv/GUdkIgQKBgQD0LxhditcBHfrln3gc\n" \
+"7kUSGL1HruYCEDHCtt9LADzdC+iavuGJpZklEM7Y8k6Pp4WUQhYIeJl32dpGWgMh\n" \
+"4EbhoxXSLCa1E3bX1k5V9lcuWrcBI7qKZM02WbpidGGQFUWF6lUML1t4ugjUIrE3\n" \
+"gcOZ0eV7ghciA2jhwdfUVQuiSQKBgQDcC6BTkQXU0yJXZOX1FMNx8sl7fKEF60AV\n" \
+"hVaTgw0PvY2e9K0egc6Ho9vl7ZpPkRXHTv6bcAHDpqCLbTOahycHdWu3p+imk981\n" \
+"hXQ8imFMcb70UIaQDzluVTZhLX3RuARyaI06MxhP6UKLDFRvl3u52GQR8GEInEI3\n" \
+"Jbnv4nQxOQKBgQDpa3unL+mHr9j/WAnB3iM4wV1vAMnufvySXa3mTDviMlgQVRfU\n" \
+"NPDIdeDFkht3R3Rx3RqizmYmI6J8Td9gqrwXRYa+emYmAo1AliQcGHgOX7lA5Z6U\n" \
+"XPeuVOfO5eG9khf7g535H+wY4/08jE1L+ke46uSrxBfI8+l2pY5j80hDwQKBgQC1\n" \
+"vSR94JlgXcFPTRZghPWnd07Rnu2fZd1X6PjIfMSc64G8d3lEaRGbFcrY7JU2gi3q\n" \
+"n2PKHYhXf5e5kEe+qUGi92gwF44fhqIkIkUOe3xBFvEP+DIraWeVqOtw95GjVMjX\n" \
+"dWKvXuQFnDJJhbV3NTYLGJ4N8usxoV1PDumzJuWwgQKBgGDvZs1eQ6mkbAoxydRT\n" \
+"6Vp324k/KHmS/yv3uvRiGEYeMePwTo0kszZCpEW0z3r5IiqIwV8x9aUb+SAoBEIC\n" \
+"Z1gUZFeHkT75SLmHhr0xs27OogMCqEvIVQqDju7pvCp0atbcoO+UdaqT7X2MQ2bs\n" \
+"D5OdQJo5LRFBMCBoQJCazsed\n" \
 "-----END PRIVATE KEY-----\n"
 
 
 /**
  *  @brief Trusted ROOT certificate can be update by following the process specified in the mark down file
  **/
-#define IOT_DEMO_HTTPS_TRUSTED_ROOT_CA                               \
+#define HTTPS_TRUSTED_ROOT_CA                               \
 "-----BEGIN CERTIFICATE-----\n" \
 "MIIEjTCCA3WgAwIBAgIQDQd4KhM/xvmlcpbhMf/ReTANBgkqhkiG9w0BAQsFADBh\n" \
 "MQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYDVQQLExB3\n" \
@@ -165,10 +186,13 @@
 "-----END CERTIFICATE-----\n"
 
 
+
 /**
  *  End of User Configurable Settings
  **/
 
+/* Set up macro for debugging */
+#define DEBUG_HTTPS (0)
 
 /* ENABLE, DIABLE MACROs */
 #define ENABLE      (1)
@@ -204,7 +228,7 @@ typedef enum Userinput
     GET = 1,
     PUT = 2,
     POST = 3
-}Userinput_t;
+}user_input_t;
 
 #if( ipconfigDHCP_REGISTER_HOSTNAME == 1 )
     /* DHCP has an option for clients to register their hostname.  It doesn't
@@ -224,5 +248,7 @@ void updateDhcpResponseToUsr(void);
 BaseType_t vSendPing(const char *pcIPAddress);
 BaseType_t provision_alt_key(void);
 eDHCPCallbackAnswer_t  xApplicationDHCPHook(eDHCPCallbackPhase_t eDHCPPhase, uint32_t lulIPAddress);
+HTTPStatus_t connect_aws_https_client(NetworkContext_t *NetworkContext);
+HTTPStatus_t add_header (HTTPRequestHeaders_t * pRequestHeaders);
 
 #endif /* USER_APP_H_ */

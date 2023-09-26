@@ -21,12 +21,15 @@
 #include "r_ble_servc_if.h"
 #include "discovery/r_ble_disc.h"
 
+#define BLE_SERVC_ERR_RSP_CODE_PREFIX BLE_ERR_GROUP_GATT
+
 typedef struct {
     st_ble_dev_addr_t  bd_addr;
     uint16_t           conn_hdl;
     uint8_t            conn_idx;
 
     /* Used for Long Read */
+    bool               is_buf_overflow;
     uint16_t           read_attr_hdl;
     uint8_t           *p_read_buf;
     uint16_t           read_buf_pos;
@@ -106,6 +109,7 @@ static void clear_conn_idx(uint16_t conn_hdl)
         }
         gs_conn_info[conn_idx].read_buf_pos  = 0;
         gs_conn_info[conn_idx].read_attr_hdl = 0;
+        gs_conn_info[conn_idx].is_buf_overflow = false;
     }
 }
 
@@ -189,6 +193,25 @@ static void read_evt_handler(uint16_t conn_hdl, uint16_t attr_hdl, st_ble_gatt_v
                     free(p_app_value);
                 }
             }
+            else if( (0xf000 & result) == BLE_SERVC_ERR_RSP_CODE_PREFIX )
+            {
+                if (NULL != p_attr->read_rsp_cb)
+                {
+                    p_attr->read_rsp_cb(p_attr, conn_hdl, result, p_value->p_value);
+                }
+                else
+                {
+                    st_ble_servc_evt_data_t evt_data = {
+                        .conn_hdl  = conn_hdl,
+                        .param_len = p_value->value_len,
+                        .p_param   = p_value->p_value,
+                    };
+                    if ((NULL != p_client) && (NULL != p_client->cb))
+                    {
+                        p_client->cb(BLE_SERVC_MULTI_ATTR_EVENT(p_attr->char_idx, p_attr->inst_idx, BLE_SERVC_READ_RSP), result, &evt_data);
+                    }
+                }
+            }
             else
             {
                 if (NULL != p_attr->read_rsp_cb)
@@ -245,12 +268,31 @@ static void read_evt_handler(uint16_t conn_hdl, uint16_t attr_hdl, st_ble_gatt_v
                             };
                             if ((NULL != p_client) && (NULL != p_client->cb))
                             {
-                                p_client->cb(BLE_SERVC_MULTI_ATTR_EVENT(p_attr->pp_descs[d]->desc_idx, p_attr->inst_idx, BLE_SERVC_READ_RSP), ret, &evt_data);
+                                p_client->cb(BLE_SERVC_MULTI_ATTR_EVENT(p_attr->pp_descs[d]->desc_idx, p_attr->pp_descs[d]->inst_idx, BLE_SERVC_READ_RSP), ret, &evt_data);
                             }
                         }
                         if (NULL != p_app_value)
                         {
                             free(p_app_value);
+                        }
+                    }
+                    else if( (0xf000 & result) == BLE_SERVC_ERR_RSP_CODE_PREFIX)
+                    {
+                        if (NULL != p_attr->pp_descs[d]->read_rsp_cb)
+                        {
+                            p_attr->pp_descs[d]->read_rsp_cb(&p_attr->pp_descs[d], conn_hdl, result, p_value->p_value);
+                        }
+                        else
+                        {
+                            st_ble_servc_evt_data_t evt_data = {
+                                .conn_hdl  = conn_hdl,
+                                .param_len = p_value->value_len,
+                                .p_param   = p_value->p_value,
+                            };
+                            if ((NULL != p_client) && (NULL != p_client->cb))
+                            {
+                                p_client->cb(BLE_SERVC_MULTI_ATTR_EVENT(p_attr->pp_descs[d]->desc_idx, p_attr->pp_descs[d]->inst_idx, BLE_SERVC_READ_RSP), result, &evt_data);
+                            }
                         }
                     }
                     else
@@ -268,7 +310,7 @@ static void read_evt_handler(uint16_t conn_hdl, uint16_t attr_hdl, st_ble_gatt_v
                             };
                             if ((NULL != p_client) && (NULL != p_client->cb))
                             {
-                                p_client->cb(BLE_SERVC_MULTI_ATTR_EVENT(p_attr->pp_descs[d]->desc_idx, p_attr->inst_idx, BLE_SERVC_READ_RSP), result, &evt_data);
+                                p_client->cb(BLE_SERVC_MULTI_ATTR_EVENT(p_attr->pp_descs[d]->desc_idx, p_attr->pp_descs[d]->inst_idx, BLE_SERVC_READ_RSP), result, &evt_data);
                             }
                         }
                     }
@@ -334,7 +376,7 @@ static void write_evt_handler(uint16_t conn_hdl, uint16_t attr_hdl, ble_status_t
                         };
                         if ((NULL != p_client) && (NULL != p_client->cb))
                         {
-                            p_client->cb(BLE_SERVC_MULTI_ATTR_EVENT(p_attr->pp_descs[d]->desc_idx, p_attr->inst_idx, BLE_SERVC_WRITE_RSP), result, &evt_data);
+                            p_client->cb(BLE_SERVC_MULTI_ATTR_EVENT(p_attr->pp_descs[d]->desc_idx, p_attr->pp_descs[d]->inst_idx, BLE_SERVC_WRITE_RSP), result, &evt_data);
                         }
                     }
                     break;
@@ -423,13 +465,26 @@ void R_BLE_SERVC_GattcCb(uint16_t type, ble_status_t result, st_ble_gattc_evt_da
 
                             gs_conn_info[conn_idx].read_buf_pos  = 0;
                             gs_conn_info[conn_idx].read_attr_hdl = p_rd_char_evt_param->read_data.attr_hdl;
+                            gs_conn_info[conn_idx].is_buf_overflow = false;
                         }
 
-                        memcpy(&gs_conn_info[conn_idx].p_read_buf[gs_conn_info[conn_idx].read_buf_pos],
-                               p_rd_char_evt_param->read_data.value.p_value, 
-                               p_rd_char_evt_param->read_data.value.value_len);
-                        gs_conn_info[conn_idx].read_buf_pos =
-                            (uint16_t )(gs_conn_info[conn_idx].read_buf_pos + p_rd_char_evt_param->read_data.value.value_len);
+                        if( gs_conn_info[conn_idx].is_buf_overflow == false)
+                        {
+                            if ( (gs_conn_info[conn_idx].read_buf_pos + p_rd_char_evt_param->read_data.value.value_len) > p_attr->db_size)
+                            {
+                                gs_conn_info[conn_idx].is_buf_overflow = true;
+                            }
+                        }
+
+                        if( gs_conn_info[conn_idx].is_buf_overflow == false)
+                        {
+                            memcpy(&gs_conn_info[conn_idx].p_read_buf[gs_conn_info[conn_idx].read_buf_pos],
+                                   p_rd_char_evt_param->read_data.value.p_value,
+                                   p_rd_char_evt_param->read_data.value.value_len);
+                            gs_conn_info[conn_idx].read_buf_pos =
+                                (uint16_t )(gs_conn_info[conn_idx].read_buf_pos + p_rd_char_evt_param->read_data.value.value_len);
+
+                        }
                     }
                     else
                     {
@@ -439,6 +494,7 @@ void R_BLE_SERVC_GattcCb(uint16_t type, ble_status_t result, st_ble_gattc_evt_da
                             gs_conn_info[conn_idx].p_read_buf = NULL;
                             gs_conn_info[conn_idx].read_buf_pos  = 0;
                             gs_conn_info[conn_idx].read_attr_hdl = 0;
+                            gs_conn_info[conn_idx].is_buf_overflow = false;
                         }
 
                         if (NULL != p_attr->read_rsp_cb)
@@ -488,13 +544,25 @@ void R_BLE_SERVC_GattcCb(uint16_t type, ble_status_t result, st_ble_gattc_evt_da
 
                                     gs_conn_info[conn_idx].read_buf_pos  = 0;
                                     gs_conn_info[conn_idx].read_attr_hdl = p_rd_char_evt_param->read_data.attr_hdl;
+                                    gs_conn_info[conn_idx].is_buf_overflow   = false;
                                 }
 
-                                memcpy(&gs_conn_info[conn_idx].p_read_buf[gs_conn_info[conn_idx].read_buf_pos],
-                                       p_rd_char_evt_param->read_data.value.p_value, 
-                                       p_rd_char_evt_param->read_data.value.value_len);
-                                gs_conn_info[conn_idx].read_buf_pos =
-                                    (uint16_t )(gs_conn_info[conn_idx].read_buf_pos + p_rd_char_evt_param->read_data.value.value_len);
+                                if( gs_conn_info[conn_idx].is_buf_overflow == false)
+                                {
+                                    if ( (gs_conn_info[conn_idx].read_buf_pos + p_rd_char_evt_param->read_data.value.value_len) > p_attr->pp_descs[d]->db_size)
+                                    {
+                                        gs_conn_info[conn_idx].is_buf_overflow = true;
+                                    }
+                                }
+
+                                if( gs_conn_info[conn_idx].is_buf_overflow == false)
+                                {
+                                    memcpy(&gs_conn_info[conn_idx].p_read_buf[gs_conn_info[conn_idx].read_buf_pos],
+                                           p_rd_char_evt_param->read_data.value.p_value,
+                                           p_rd_char_evt_param->read_data.value.value_len);
+                                    gs_conn_info[conn_idx].read_buf_pos =
+                                        (uint16_t )(gs_conn_info[conn_idx].read_buf_pos + p_rd_char_evt_param->read_data.value.value_len);
+                                }
                             }
                             else
                             {
@@ -504,6 +572,7 @@ void R_BLE_SERVC_GattcCb(uint16_t type, ble_status_t result, st_ble_gattc_evt_da
                                     gs_conn_info[conn_idx].p_read_buf = NULL;
                                     gs_conn_info[conn_idx].read_buf_pos  = 0;
                                     gs_conn_info[conn_idx].read_attr_hdl = 0;
+                                    gs_conn_info[conn_idx].is_buf_overflow = false;
                                 }
 
                                 if (NULL != p_attr->pp_descs[d]->read_rsp_cb)
@@ -539,6 +608,10 @@ void R_BLE_SERVC_GattcCb(uint16_t type, ble_status_t result, st_ble_gattc_evt_da
                     .value_len = gs_conn_info[conn_idx].read_buf_pos,
                 };
 
+                if( (BLE_SUCCESS == result) && (gs_conn_info[conn_idx].is_buf_overflow) )
+                {
+                    result = BLE_ERR_LIMIT_EXCEEDED;
+                }
                 read_evt_handler(p_data->conn_hdl,
                                  gs_conn_info[conn_idx].read_attr_hdl,
                                  &value,
@@ -549,6 +622,7 @@ void R_BLE_SERVC_GattcCb(uint16_t type, ble_status_t result, st_ble_gattc_evt_da
             gs_conn_info[conn_idx].p_read_buf = NULL;
             gs_conn_info[conn_idx].read_buf_pos  = 0;
             gs_conn_info[conn_idx].read_attr_hdl = 0;
+            gs_conn_info[conn_idx].is_buf_overflow = false;
         } break;
 
         case BLE_GATTC_EVENT_CHAR_WRITE_RSP:
@@ -573,6 +647,8 @@ void R_BLE_SERVC_GattcCb(uint16_t type, ble_status_t result, st_ble_gattc_evt_da
 
         case BLE_GATTC_EVENT_HDL_VAL_NTF:
         {
+            ble_status_t ret = result;
+
             st_ble_gatt_hdl_value_pair_t *p_hdl_value_pair_param =
                 (st_ble_gatt_hdl_value_pair_t *)p_data->p_param;
 
@@ -587,13 +663,12 @@ void R_BLE_SERVC_GattcCb(uint16_t type, ble_status_t result, st_ble_gattc_evt_da
                 p_app_value = malloc(p_attr->app_size);
                 if(NULL == p_app_value)
                 {
-                    result = BLE_ERR_MEM_ALLOC_FAILED;
+                    ret = BLE_ERR_MEM_ALLOC_FAILED;
                 }
                 else
                 {
                     memset(p_app_value, 0x00, p_attr->app_size);
-
-                    p_attr->decode(p_app_value, &p_hdl_value_pair_param->value);
+                    ret = p_attr->decode(p_app_value, &p_hdl_value_pair_param->value);
                 }
                 if (NULL != p_attr->hdl_val_ntf_cb)
                 {
@@ -608,7 +683,7 @@ void R_BLE_SERVC_GattcCb(uint16_t type, ble_status_t result, st_ble_gattc_evt_da
                     };
                     if ((NULL != p_client) && (NULL != p_client->cb))
                     {
-                        p_client->cb(BLE_SERVC_MULTI_ATTR_EVENT(p_attr->char_idx, p_attr->inst_idx, BLE_SERVC_HDL_VAL_NTF), result, &evt_data);
+                        p_client->cb(BLE_SERVC_MULTI_ATTR_EVENT(p_attr->char_idx, p_attr->inst_idx, BLE_SERVC_HDL_VAL_NTF), ret, &evt_data);
                     }
                 }
                 if (NULL != p_app_value)
@@ -620,6 +695,8 @@ void R_BLE_SERVC_GattcCb(uint16_t type, ble_status_t result, st_ble_gattc_evt_da
 
         case BLE_GATTC_EVENT_HDL_VAL_IND:
         {
+            ble_status_t ret = result;
+
             st_ble_gatt_hdl_value_pair_t *p_hdl_value_pair_param =
                 (st_ble_gatt_hdl_value_pair_t *)p_data->p_param;
 
@@ -634,13 +711,12 @@ void R_BLE_SERVC_GattcCb(uint16_t type, ble_status_t result, st_ble_gattc_evt_da
                 p_app_value = malloc(p_attr->app_size);
                 if(NULL == p_app_value)
                 {
-                    result = BLE_ERR_MEM_ALLOC_FAILED;
+                    ret = BLE_ERR_MEM_ALLOC_FAILED;
                 }
                 else
                 {
                     memset(p_app_value, 0x00, p_attr->app_size);
-
-                    p_attr->decode(p_app_value, &p_hdl_value_pair_param->value);
+                    ret = p_attr->decode(p_app_value, &p_hdl_value_pair_param->value);
                 }
 
                 if (NULL != p_attr->hdl_val_ind_cb)
@@ -656,7 +732,7 @@ void R_BLE_SERVC_GattcCb(uint16_t type, ble_status_t result, st_ble_gattc_evt_da
                     };
                     if ((NULL != p_client) && (NULL != p_client->cb))
                     {
-                        p_client->cb(BLE_SERVC_MULTI_ATTR_EVENT(p_attr->char_idx, p_attr->inst_idx, BLE_SERVC_HDL_VAL_IND), result, &evt_data);
+                        p_client->cb(BLE_SERVC_MULTI_ATTR_EVENT(p_attr->char_idx, p_attr->inst_idx, BLE_SERVC_HDL_VAL_IND), ret, &evt_data);
                     }
                 }
 
@@ -682,43 +758,85 @@ void R_BLE_SERVC_GattcCb(uint16_t type, ble_status_t result, st_ble_gattc_evt_da
                 {
                     case 0x0A: /* Read Request */
                     {
-                        if (NULL != p_attr->read_rsp_cb)
-                        {
-                            p_attr->read_rsp_cb(p_attr, p_data->conn_hdl, p_err_rsp_evt_param->rsp_code, NULL);
-                        }
-                        else
-                        {
-                            st_ble_servc_evt_data_t evt_data = {
-                                .conn_hdl  = p_data->conn_hdl,
-                                .param_len = 2,
-                                .p_param   = &p_err_rsp_evt_param->attr_hdl,
-                            };
-                            if ((NULL != p_client) && (NULL != p_client->cb))
-                            {
-                                p_client->cb(BLE_SERVC_MULTI_ATTR_EVENT(p_attr->char_idx, p_attr->inst_idx, BLE_SERVC_READ_RSP), p_err_rsp_evt_param->rsp_code, &evt_data);
-                            }
-                        }
+                        st_ble_gatt_value_t value;
+                        value.p_value = (void *)&p_err_rsp_evt_param->attr_hdl;
+                        value.value_len = sizeof(p_err_rsp_evt_param->attr_hdl);
+                        read_evt_handler(p_data->conn_hdl, p_err_rsp_evt_param->attr_hdl, &value, p_err_rsp_evt_param->rsp_code);
                     } break;
 
-                    case 0x12: /* Write Request) */
+                    case 0x0C: /* Read Blob Request */
                     {
-                        if (NULL != p_attr->write_rsp_cb)
+                        if (NULL != gs_conn_info[conn_idx].p_read_buf)
                         {
-                            p_attr->write_rsp_cb(p_attr, p_data->conn_hdl, p_err_rsp_evt_param->rsp_code);
+                            free(gs_conn_info[conn_idx].p_read_buf);
+                            gs_conn_info[conn_idx].p_read_buf = NULL;
                         }
-                        else
+                        gs_conn_info[conn_idx].read_buf_pos  = 0;
+                        gs_conn_info[conn_idx].read_attr_hdl = 0;
+                        gs_conn_info[conn_idx].is_buf_overflow = false;
+
+                        st_ble_gatt_value_t value;
+                        value.p_value = (void *)&p_err_rsp_evt_param->attr_hdl;
+                        value.value_len = sizeof(p_err_rsp_evt_param->attr_hdl);
+                        read_evt_handler(p_data->conn_hdl, p_err_rsp_evt_param->attr_hdl, &value, p_err_rsp_evt_param->rsp_code);
+                    } break;
+
+                    /* fall through */
+                    case 0x12: /* Write Request */
+                    case 0x16: /* Prepare Write Request */
+                    case 0x18: /* Execute Write Request */
+                    {
+                        if (NULL != p_attr)
                         {
-                            st_ble_servc_evt_data_t evt_data = {
-                                .conn_hdl  = p_data->conn_hdl,
-                                .param_len = 2,
-                                .p_param   = &p_err_rsp_evt_param->attr_hdl,
-                            };
-                            if ((NULL != p_client) && (NULL != p_client->cb))
+                            /* Characteristics */
+                            if (p_err_rsp_evt_param->attr_hdl == p_attr->p_attr_hdls[conn_idx].start_hdl + 1)
                             {
-                                p_client->cb(BLE_SERVC_MULTI_ATTR_EVENT(p_attr->char_idx, p_attr->inst_idx, BLE_SERVC_WRITE_RSP), p_err_rsp_evt_param->rsp_code, &evt_data);
+                                if (NULL != p_attr->write_rsp_cb)
+                                {
+                                    p_attr->write_rsp_cb(p_attr, p_data->conn_hdl, p_err_rsp_evt_param->rsp_code);
+                                }
+                                else
+                                {
+                                    st_ble_servc_evt_data_t evt_data = {
+                                        .conn_hdl  = p_data->conn_hdl,
+                                        .param_len = 2,
+                                        .p_param   = &p_err_rsp_evt_param->attr_hdl,
+                                    };
+                                    if ((NULL != p_client) && (NULL != p_client->cb))
+                                    {
+                                        p_client->cb(BLE_SERVC_MULTI_ATTR_EVENT(p_attr->char_idx, p_attr->inst_idx, BLE_SERVC_WRITE_RSP), p_err_rsp_evt_param->rsp_code, &evt_data);
+                                    }
+                                }
+                            }
+                            /* Descriptors */
+                            else
+                            {
+                                for (uint8_t d = 0; d < p_attr->num_of_descs; d++)
+                                {
+                                    if (p_err_rsp_evt_param->attr_hdl == p_attr->pp_descs[d]->p_attr_hdls[conn_idx])
+                                    {
+                                        if (NULL != p_attr->pp_descs[d]->write_rsp_cb)
+                                        {
+                                            p_attr->pp_descs[d]->write_rsp_cb(&p_attr->pp_descs[d], p_data->conn_hdl, p_err_rsp_evt_param->rsp_code);
+                                        }
+                                        else
+                                        {
+                                            st_ble_servc_evt_data_t evt_data = {
+                                                .conn_hdl  = p_data->conn_hdl,
+                                                .param_len = 2,
+                                                .p_param   = &p_err_rsp_evt_param->attr_hdl,
+                                            };
+                                            if ((NULL != p_client) && (NULL != p_client->cb))
+                                            {
+                                                p_client->cb(BLE_SERVC_MULTI_ATTR_EVENT(p_attr->pp_descs[d]->desc_idx, p_attr->pp_descs[d]->inst_idx, BLE_SERVC_WRITE_RSP), p_err_rsp_evt_param->rsp_code, &evt_data);
+                                            }
+                                        }
+                                        break;
+                                    }
+                                }
                             }
                         }
-                    } break;
+                    }break;
                 }
             }
         } break;
@@ -784,7 +902,7 @@ ble_status_t R_BLE_SERVC_ReadChar(
     uint16_t mtu = BLE_GATT_DEFAULT_MTU;
     R_BLE_GATT_GetMtu(conn_hdl, &mtu);
 
-    if (p_attr->db_size <= (mtu - 3))
+    if (p_attr->db_size <= (mtu - 1))
     {
         ret = R_BLE_GATTC_ReadChar(conn_hdl, (uint16_t)(p_attr->p_attr_hdls[conn_idx].start_hdl+1));
     }

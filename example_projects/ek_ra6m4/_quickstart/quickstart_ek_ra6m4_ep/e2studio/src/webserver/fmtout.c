@@ -79,7 +79,7 @@ typedef struct _FMTOUT
 {
     /* The minimum field width after the . or the muber of character of a
        string */
-    int32_t     iPrecision;
+    int32_t iPrecision;
 
     /* Number of leading or trailing digits */
     int32_t     iCount;
@@ -1205,7 +1205,7 @@ static void fmtoFormatFloat(long double  ldValue,
     /* Check for formats %e or %E */
     if (pFmt->chFmt)
     {
-        int32_t   iCount, iCopy;
+        int32_t iCount,iCopy;
 
         /* Put in the e or E char   */
         *pchStart++ = pFmt->chFmt;

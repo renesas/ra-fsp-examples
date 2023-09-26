@@ -102,7 +102,7 @@ For EK-RA6M4/EK-RA6M5/EK-RA4M3/EK-RA4M2
 
 1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x200002d4
+   a. e2studio: 0x200012cc
    b. Keil: Not Available 
    c. IAR: Not Available
  

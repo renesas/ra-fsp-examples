@@ -14,129 +14,65 @@
 * following link:
 * http://www.renesas.com/disclaimer
 *
-* Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
+* Copyright (C) 2019-2020 Renesas Electronics Corporation. All rights reserved.
 ***********************************************************************************************************************/
 /***********************************************************************************************************************
  * File Name: r_ble_ias.h
- * Description : This module implements Immediate Alert Service Server.
+ * Description : The header file for Immediate Alert Service Server.
  **********************************************************************************************************************/
-/***********************************************************************************************************************
+
+/*******************************************************************************************************************//**
  * @file
- * @defgroup ias Immediate Alert Service Server 
+ * @defgroup ias Immediate Alert Service Server
  * @{
  * @ingroup profile
- * @brief   This service exposes a control point to allow a peer device to cause the device to immediately alert. 
+ * @brief   This service exposes a control point to allow a peer device to cause the device to immediately alert.
  **********************************************************************************************************************/
+#include "profile_cmn/r_ble_servs_if.h"
+#include "gatt_db.h"
 
-/***********************************************************************************************************************
-Includes   <System Includes> , "Project Includes"
-***********************************************************************************************************************/
-#include "profile_cmn/r_ble_serv_common.h"
-
-/***********************************************************************************************************************
-Macro definitions
-***********************************************************************************************************************/
 #ifndef R_BLE_IAS_H
 #define R_BLE_IAS_H
 
 
-/***********************************************************************************************************************
-Typedef definitions
-***********************************************************************************************************************/
+/*----------------------------------------------------------------------------------------------------------------------
+    Alert Level Characteristic : The level of an alert a device is to sound. If this level is changed while the alert is being sounded,the new level should take effect.
+----------------------------------------------------------------------------------------------------------------------*/
+/***************************************************************************//**
+ * @brief Alert Level Level enumeration.
+*******************************************************************************/
+typedef enum {
+    BLE_IAS_ALERT_LEVEL_LEVEL_NO_ALERT = 0, /**< No Alert */
+    BLE_IAS_ALERT_LEVEL_LEVEL_MILD_ALERT = 1, /**< Mild Alert */
+    BLE_IAS_ALERT_LEVEL_LEVEL_HIGH_ALERT = 2, /**< High Alert */
+} e_ble_ias_alert_level_level_t;
 
-/*******************************************************************************************************************//**
- * @brief Immediate Alert Service event data.
-***********************************************************************************************************************/
-typedef struct
-{
-    uint16_t  conn_hdl;  /**< Connection handle */
-    uint16_t  param_len; /**< Event parameter length */
-    void     *p_param;   /**< Event parameter */
-} st_ble_ias_evt_data_t;
+/*----------------------------------------------------------------------------------------------------------------------
+    Immediate Alert Service Server
+----------------------------------------------------------------------------------------------------------------------*/
 
-/*******************************************************************************************************************//**
- * @brief Immediate Alert Service event callback.
-***********************************************************************************************************************/
-typedef void (*ble_ias_app_cb_t)(uint16_t type, ble_status_t result, st_ble_ias_evt_data_t *p_data);
+/***************************************************************************//**
+ * @brief Immediate Alert Service characteristic Index.
+*******************************************************************************/
+typedef enum {
+    BLE_IAS_ALERT_LEVEL_IDX,
+} e_ble_ias_char_idx_t;
 
-/*******************************************************************************************************************//**
+/***************************************************************************//**
  * @brief Immediate Alert Service event type.
-***********************************************************************************************************************/
-typedef enum 
-{
-    BLE_IAS_EVENT_ALERT_LEVEL_WRITE_CMD, /**< Alert Level characteristic write command event */
+*******************************************************************************/
+typedef enum {
+    /* Alert Level */
+    BLE_IAS_EVENT_ALERT_LEVEL_WRITE_CMD = BLE_SERVS_ATTR_EVENT(BLE_IAS_ALERT_LEVEL_IDX, BLE_SERVS_WRITE_CMD),
 } e_ble_ias_event_t;
 
-/*******************************************************************************************************************//**
- * @brief Alert Level enumeration.
-***********************************************************************************************************************/
-typedef enum 
-{
-    BLE_IAS_ALERT_LEVEL_ALERT_LEVEL_NO_ALERT   = 0, /**< Alert level no alert shall be done on the device*/
-    BLE_IAS_ALERT_LEVEL_ALERT_LEVEL_MILD_ALERT = 1, /**< Alert level mild alert the device shall alert*/
-    BLE_IAS_ALERT_LEVEL_ALERT_LEVEL_HIGH_ALERT = 2, /**< Alert level high alert the device shall alert the strongest possible*/
-} e_ble_ias_alert_level_t;
-
-/*******************************************************************************************************************//**
- * @brief Immediate Alert Service initialization parameters.
-***********************************************************************************************************************/
-typedef struct 
-{
-    ble_ias_app_cb_t cb; /**< Immediate Alert Service event callback */
-} st_ble_ias_init_param_t;
-
-/*******************************************************************************************************************//**
- * @brief Immediate Alert Service connection parameters.
-***********************************************************************************************************************/
-typedef struct 
-{
-    uint8_t dummy;
-} st_ble_ias_connect_param_t;
-
-/*******************************************************************************************************************//**
- * @brief Immediate Alert Service disconnection parameters.
-***********************************************************************************************************************/
-typedef struct 
-{
-    uint8_t dummy;
-} st_ble_ias_disconnect_param_t;
-
-
-/***********************************************************************************************************************
-Exported global functions (to be accessed by other files)
-***********************************************************************************************************************/
-
-/*******************************************************************************************************************//**
- * @brief     Initialize Immediate Alert Service.
- * @details   This function shall be called once at startup.
- * @param[in] p_param    Pointer to Immediate Alert Service initialization parameters.
- * @return
-***********************************************************************************************************************/
-ble_status_t R_BLE_IAS_Init(const st_ble_ias_init_param_t *p_param);
-
-/*******************************************************************************************************************//**
- * @brief     Perform Immediate Alert Service connection settings.
- * @details   This function shall be called on each connection establishment.
- * @param[in] conn_hdl Connection handle.
- * @param[in] p_param    Pointer to Connection parameters.
+/***************************************************************************//**
+ * @brief     Initialize Immediate Alert Service server.
+ * @param[in] cb Service callback.
  * @return    @ref ble_status_t
-***********************************************************************************************************************/
-ble_status_t R_BLE_IAS_Connect(uint16_t conn_hdl, const st_ble_ias_connect_param_t *p_param);
+*******************************************************************************/
+ble_status_t R_BLE_IAS_Init(ble_servs_app_cb_t cb);
 
-/*******************************************************************************************************************//**
- * @brief     Retrieve Immediate Alert Service connection specific settings before disconnection.
- * @details   This function shall be called on each disconnection.
- * @param[in] conn_hdl Connection handle.
- * @param[in] p_param    Pointer to Disconnection parameters.
- * @return    @ref ble_status_t
-***********************************************************************************************************************/
-ble_status_t R_BLE_IAS_Disconnect(uint16_t conn_hdl, st_ble_ias_disconnect_param_t *p_param);
-
-/*******************************************************************************************************************//**
- * @brief     Return version of the IAC service server.
- * @return    version
-***********************************************************************************************************************/
-uint32_t R_BLE_IAS_GetVersion(void);
 
 #endif /* R_BLE_IAS_H */
 
