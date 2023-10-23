@@ -15,7 +15,6 @@ void hal_entry(void)
 {
 
 #if ARM_FIR_EXAMPLE
-    P415OnOff(BSP_IO_LEVEL_HIGH);
     main_arm_fir_example_f32();
 #endif
 #if ARM_FFT_BIN_EXAMPLE

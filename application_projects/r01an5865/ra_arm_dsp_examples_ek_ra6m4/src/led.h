@@ -42,7 +42,6 @@ Macro definitions
  Typedef definitions
  **********************************************************************************************************************/
 
-void P415OnOff(bsp_io_level_t led_level);
 void R_LED_LED415OFF(void );
 void R_LED_LED415ON(void );
 

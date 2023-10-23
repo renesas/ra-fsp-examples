@@ -34,24 +34,9 @@ Export global variables
 ***********************************************************************************************************************/
 
 
-/***********************************************************************************************************************
-* Function Name: LED_LED415Onoff
-* Description  : bsp_io_level_t led_on
-* Arguments    : none
-* Return Value : none
-***********************************************************************************************************************/
-
-extern bsp_leds_t g_bsp_leds;
-void P415OnOff(bsp_io_level_t led_level)
-{
-bsp_leds_t leds = g_bsp_leds;
-g_ioport.p_api->pinWrite(g_ioport.p_ctrl, (bsp_io_port_pin_t)leds.p_leds[1], led_level );
-}
-
-
 
 /***********************************************************************************************************************
-* Function Name: R_LED_LED112OFF
+* Function Name: R_LED_LED415OFF
 * Description  : This function performs the processing in the code
 * Arguments    : void
 * Return Value : none
@@ -62,7 +47,7 @@ void R_LED_LED415OFF(void ) // @suppress("API function naming")
 }
 
 /***********************************************************************************************************************
-* Function Name: R_LED_LED112OFF
+* Function Name: R_LED_LED415ON
 * Description  : This function performs the processing in the code
 * Arguments    : void
 * Return Value : none

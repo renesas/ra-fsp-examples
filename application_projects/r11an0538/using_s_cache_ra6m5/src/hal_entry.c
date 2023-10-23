@@ -38,21 +38,25 @@ void R_BSP_WarmStart(bsp_warm_start_event_t event);
 #define DEVIATION_WITH_S_CACHE_ENABLED_WITH_NO_INVALIDATION             (2)
 #define DEVIATION_WITH_S_CACHE_ENABLED_INVALIDATED_DMA_COMPLETE_IRQ     (3)
 #define DEVIATION_WITH_S_CACHE_ENABLED_INVALIDATED_IN_APP               (4)
-#define TIME_USED_WITH_S_CACHE_DISABLED                                 (5)
-#define TIME_USED_WITH_S_CACHE_ENABLED_INVALIDATED_DMA_COMPLETE         (6)
-#define TIME_USED_WITH_S_CACHE_ENABLED_INVALIDATED_APP                  (7)
-#define TIME_USED_WITH_S_CACHE_ENABLED_INVALIDATED_DMA_COMPLETE_LS_64         (8)
-#define TIME_USED_WITH_S_CACHE_ENABLED_INVALIDATED_APP_LS_64                  (9)
+#define DEVIATION_WITH_S_CACHE_ENABLED_DATA_BUFFER_NONCACHEABLE         (5)
+#define TIME_USED_WITH_S_CACHE_DISABLED                                 (6)
+#define TIME_USED_WITH_S_CACHE_ENABLED_INVALIDATED_DMA_COMPLETE         (7)
+#define TIME_USED_WITH_S_CACHE_ENABLED_INVALIDATED_APP                  (8)
+#define TIME_USED_WITH_S_CACHE_ENABLED_SRAM_NONCACHEABLE_REGION_USED    (9)
+#define TIME_USED_WITH_S_CACHE_ENABLED_INVALIDATED_DMA_COMPLETE_LS_64         (10)
+#define TIME_USED_WITH_S_CACHE_ENABLED_INVALIDATED_APP_LS_64                  (11)
 
 #define MENU "\n    input 1 to calculate the standard deviation with s cache disabled \n\n\
     input 2 to calculate the standard deviation with s cache enabled with no cache invalidation\n\n\
     input 3 to calculate the standard deviation with s cache enabled and flushed in DMA_Complete interrupt \n\n\
     input 4 to calculate the standard deviation with s_cache enabled and flushed in application \n\n\
-    input 5 to evaluate the DWT cycles used in 180000 sine^2 + cosine^2 calculations with s cache disabled \n\n\
-    input 6 to evaluate the DWT cycles used in 180000 sine^2 + cosine^2 calculations with s cache flushed in DMA_Complete IRQ callback \n\t          with line size 32\n\n\
-    input 7 to evaluate the DWT cycles used in 180000 sine^2 + cosine^2 calculations with s cache flushed in app with line size 32\n\n\
-    input 8 to evaluate the DWT cycles used in 180000 sine^2 + cosine^2 calculations with s cache flushed in DMA_Complete IRQ callback \n\t          with line size 64\n\n\
-    input 9 to evaluate the DWT cycles used in 180000 sine^2 + cosine^2 calculations with s cache flushed in app with line size 64\n"
+    input 5 to calculate the standard deviation with s_cache enabled and DMA buffer in non-cacheable region \n\n\
+    input 6 to evaluate the DWT cycles used in 180000 sine^2 + cosine^2 calculations with s cache disabled \n\n\
+    input 7 to evaluate the DWT cycles used in 180000 sine^2 + cosine^2 calculations with s cache flushed in DMA_Complete IRQ callback \n\t          with line size 32\n\n\
+    input 8 to evaluate the DWT cycles used in 180000 sine^2 + cosine^2 calculations with s cache flushed in app with line size 32\n\n\
+    input 9 to evaluate the DWT cycles used in 180000 sine^2 + cosine^2 calculations with sram region used by DMA as non-cacheable \n\t                 with line size 32\n\n\
+    input 10 to evaluate the DWT cycles used in 180000 sine^2 + cosine^2 calculations with s cache flushed in DMA_Complete IRQ callback \n\t          with line size 64\n\n\
+    input 11 to evaluate the DWT cycles used in 180000 sine^2 + cosine^2 calculations with s cache flushed in app with line size 64\n"
 
 extern bool invalidate;
 extern bool invalidate_app;
@@ -111,9 +115,17 @@ void hal_entry(void)
                         standard_dev_calc_s_cache_enabled_flushed(FLUSH_IN_APP);
                     }
                     break;
+                    /* XW */
+                   case DEVIATION_WITH_S_CACHE_ENABLED_DATA_BUFFER_NONCACHEABLE:
+                   {
+                        invalidate_app = false;
+                        invalidate = false;
+                        standard_dev_calc_s_cache_enabled_data_buffer_non_cacheable();
+                   }
+                   break;
                     case TIME_USED_WITH_S_CACHE_DISABLED:
                    {
-                       invalidate = true;
+                       invalidate = false;
                        invalidate_app = false;
                        track_time_used_s_cache_disabled();
                    }
@@ -134,6 +146,15 @@ void hal_entry(void)
                         select_s_cache_line_size(true);
                         APP_PRINT("\r\nTest setup is: S cache is enabled with line size set to 32 and S cache is flushed in application.\n");
                         track_time_used_s_cache_enabled_flushed();
+                    }
+                    break;
+                    case TIME_USED_WITH_S_CACHE_ENABLED_SRAM_NONCACHEABLE_REGION_USED:
+                    {
+                        invalidate_app = false;
+                        invalidate = false;
+                        select_s_cache_line_size(true);
+                        APP_PRINT("\r\nTest setup is: S cache is enabled with line size set to 32 and SRAM region set as non-cacheablen.\n");
+                        track_time_used_s_cache_enabled_sram_used_by_dma_noncacheable();
                     }
                     break;
                     case TIME_USED_WITH_S_CACHE_ENABLED_INVALIDATED_DMA_COMPLETE_LS_64:

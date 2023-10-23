@@ -35,12 +35,15 @@
 /* Source and destination array for DMAC transfer */
 
 
-extern void invalidate_system_cache();
+
 /* Boolean flag to determine if transfer is complete */
 volatile bool b_is_transfer_complete  = false;
 volatile bool b_is_transfer_complete2  = false;
 bool invalidate = false;
 bool invalidate_app = false;
+
+
+
 
 int32_t g_dest_sine_cosine_data[DATA_SIZE]=
 {
@@ -125,7 +128,7 @@ void dma_transfer_sine_cosine_operation(void)
  *  @brief      transfer_agt_timer_callback function
  *  @param[in]  callback arguments
  **********************************************************************************************************************/
-void transfer_agt_timer_callback (dmac_callback_args_t * p_args)
+void transfer_complete_callback (dmac_callback_args_t * p_args)
 {
     FSP_PARAMETER_NOT_USED(p_args);
     if(true==invalidate)

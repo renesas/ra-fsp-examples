@@ -27,7 +27,6 @@
 
 #define S_CACHE_FLUSH_REG_ADDR 0x40007044
 #define S_CACHE_ENABLE_REG_ADDR 0x40007040
-//volatile uint32_t *invalidate_s_cache = (volatile uint32_t *)S_CACHE_FLUSH_REG_ADDR;
 
 /*********************************************************************************************************************
  *  @brief       Enable S Cache

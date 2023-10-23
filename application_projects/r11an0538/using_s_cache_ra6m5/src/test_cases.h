@@ -31,8 +31,10 @@
 
 void standared_dev_calc_s_cache_disabled(void);
 void standard_dev_calc_s_cache_enabled_no_s_cache_flush(void);
+void standard_dev_calc_s_cache_enabled_data_buffer_non_cacheable(void);
 void track_time_used_s_cache_disabled(void);
 void track_time_used_s_cache_enabled_flushed(void);
+void track_time_used_s_cache_enabled_sram_used_by_dma_noncacheable(void);
 void standard_dev_calc_s_cache_enabled_flushed(uint32_t method);
 
 #endif /* TEST_CASES_H_ */
