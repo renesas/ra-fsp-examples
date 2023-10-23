@@ -65,8 +65,8 @@ void azure_wifi_thread_entry(void)
 {
 
     /*Local variable declarations*/
-    uint8_t input_buff[BUFF_LEN] = {RESET_VALUE};             // Buffer for storing user input
-    uint8_t tcp_serv_ip[BUFF_LEN] = {RESET_VALUE};            // Buffer to store entered tcp server IP
+    char input_buff[BUFF_LEN] = {RESET_VALUE};             // Buffer for storing user input
+    char tcp_serv_ip[BUFF_LEN] = {RESET_VALUE};            // Buffer to store entered tcp server IP
     uint8_t ip_addr[IP_BUFF_LEN] = {RESET_VALUE};          // IP address for ping operation
     int8_t dns_retry_count = WIFI_MAX_TRY;                 // Max retry count for DNS lookup
     int8_t ping_retry_count = WIFI_MAX_TRY;                // Max retry count for ping operation
@@ -422,6 +422,25 @@ void azure_wifi_thread_entry(void)
             {
                 app_rtt_print_data(RTT_OUTPUT_TCP_RECV_INVALID, BUFF_LEN, g_socket.recv_buff);
 
+                /* Sending acknowledgment to server */
+                memcpy((char *) g_socket.send_buff, " Receive Invalid",BUFF_LEN);
+
+                /* Append data. */
+                status = nx_packet_data_append(p_nx_packet, g_socket.send_buff, sizeof(g_socket.send_buff), &g_packet_pool0,
+                                               NETXDUO_TESTS_SOCKET_TIMEOUT);
+                if(NX_SUCCESS != status)
+                {
+                    PRINT_ERR_STR("nx_packet_data_append API failed");
+                    ERROR_TRAP(status);
+                }
+
+                /* Send the packet. */
+                status = nx_tcp_socket_send(&g_tcp_client_socket, p_nx_packet, NETXDUO_TESTS_SOCKET_TIMEOUT);
+                if(NX_SUCCESS != status)
+                {
+                    PRINT_ERR_STR("nx_tcp_socket_send API failed");
+                    ERROR_TRAP(status);
+                }
             }
         }
         tx_thread_sleep (1);

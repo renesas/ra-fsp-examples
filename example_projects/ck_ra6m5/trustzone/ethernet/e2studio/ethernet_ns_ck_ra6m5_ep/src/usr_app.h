@@ -29,7 +29,7 @@
 #endif
 
 #define USR_TEST_DOMAIN_NAME "www.freertos.org"
-#define USR_TEST_PING_IP "192.168.3.101"
+#define USR_TEST_PING_IP "172.217.160.174"
 #define USR_PING_COUNT 100
 
 #define SUCCESS 0

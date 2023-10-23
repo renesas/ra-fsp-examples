@@ -503,9 +503,9 @@ UINT usbx_dfu_device_status_change_callback(ULONG status)
         PRINT_INFO_STR("RA USBX Peripheral DFU Device RESUMED");
         tx_thread_sleep(THREAD_SLEEP_10);
     }
-    else if(UX_DEVICE_REMOVED == status)
+    else if(UX_DEVICE_FORCE_DISCONNECT == status)
     {
-        PRINT_INFO_STR("RA USBX Peripheral DFU Device REMOVED");
+        PRINT_INFO_STR("RA USBX Peripheral DFU Force Disconnect");
         tx_thread_sleep(THREAD_SLEEP_10);
         if (_ux_system_slave -> ux_system_slave_device_dfu_state_machine == UX_SYSTEM_DFU_STATE_DFU_MANIFEST_WAIT_RESET)
         {

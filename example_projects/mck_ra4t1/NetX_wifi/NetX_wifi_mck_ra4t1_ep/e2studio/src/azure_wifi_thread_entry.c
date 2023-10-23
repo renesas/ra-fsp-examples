@@ -432,6 +432,25 @@ void azure_wifi_thread_entry(void)
             {
                 app_rtt_print_data(RTT_OUTPUT_TCP_RECV_INVALID, BUFF_LEN, g_socket.recv_buff);
 
+                /* Sending acknowledgment to server */
+                memcpy((char *) g_socket.send_buff, " Receive Invalid",BUFF_LEN);
+
+                /* Append data. */
+                status = nx_packet_data_append(p_nx_packet, g_socket.send_buff, sizeof(g_socket.send_buff), &g_packet_pool0,
+                                               NETXDUO_TESTS_SOCKET_TIMEOUT);
+                if(NX_SUCCESS != status)
+                {
+                    PRINT_ERR_STR("nx_packet_data_append API failed");
+                    ERROR_TRAP(status);
+                }
+
+                /* Send the packet. */
+                status = nx_tcp_socket_send(&tcp_client_socket, p_nx_packet, NETXDUO_TESTS_SOCKET_TIMEOUT);
+                if(NX_SUCCESS != status)
+                {
+                    PRINT_ERR_STR("nx_tcp_socket_send API failed");
+                    ERROR_TRAP(status);
+                }
             }
         }
         tx_thread_sleep (1);

@@ -58,7 +58,6 @@ static ULONG  g_cdc_actual_length = RESET_VALUE;
 /******************************************************************************
  * Global variables and functions
  ******************************************************************************/
-int g_reset_detach_event = ONE;
 
 void current_drivers_un_init(void);
 void dfu_device_init(void);
@@ -125,15 +124,16 @@ UINT usbx_cdc_dfu_device_status_change_callback(ULONG status)
         PRINT_INFO_STR("RA USBX Peripheral CDC Device RESUMED");
         tx_thread_sleep(THREAD_SLEEP_10);
     }
+    else if(UX_DEVICE_FORCE_DISCONNECT == status)
+    {
+        PRINT_INFO_STR("RA USBX Peripheral CDC Force Disconnect");
+        current_drivers_un_init();
+    }
     else if(UX_DEVICE_REMOVED == status)
     {
         if (_ux_system_slave -> ux_system_slave_device_dfu_state_machine == UX_SYSTEM_DFU_STATE_APP_DETACH)
         {
-            if(g_reset_detach_event == ONE)
-            {
-                tx_event_flags_set (&ra_dfu_detach_event, DETACH_EVENT_FLAG, TX_OR);
-                g_reset_detach_event = ZERO;
-            }
+            tx_event_flags_set (&ra_dfu_detach_event, DETACH_EVENT_FLAG, TX_OR);
             gp_peri_cdc_device = NULL;
         }
 

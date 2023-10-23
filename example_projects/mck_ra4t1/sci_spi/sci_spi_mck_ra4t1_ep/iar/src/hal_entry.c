@@ -120,7 +120,7 @@ void hal_entry(void)
     CS_DE_ASSERT(CS_PIN);
 
     /* Resetting SPI Master event flag */
-    g_master_event_flag = RESET_VALUE;
+    g_master_event_flag = (spi_event_t)RESET_VALUE;
 
     /* Assert Slave select pin to start data transfer */
     CS_ASSERT(CS_PIN);
@@ -157,7 +157,7 @@ void hal_entry(void)
 	while(true)
 	{
 	    /* Resetting SPI Master event flag */
-	    g_master_event_flag = RESET_VALUE;
+	    g_master_event_flag = (spi_event_t)RESET_VALUE;
 
 	    memset(dataBuff, RESET_VALUE, sizeof(dataBuff));
 
@@ -182,7 +182,7 @@ void hal_entry(void)
 	    /* Manipulating the read temperature values to print for users */
 	    temperature = (float) ((int32_t)( ((uint32_t) temperature_values[2] << 4) | ((uint32_t) temperature_values[1] >> 4) )) / 16.0f;
 	    /* Function to print float values */
-	    snprintf(dataBuff, sizeof(dataBuff), "%f", temperature);
+	    snprintf(dataBuff, sizeof(dataBuff), "%f", (double) temperature);
 	    APP_PRINT("\r\nTemperature:  %s *C",dataBuff);
 
 	    /* Delay to display temperature values on RTT viewer */

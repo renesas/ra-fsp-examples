@@ -211,6 +211,7 @@
              if(false == *p_is_usb_ejected)
              {
                  usb_write_operation();
+                 listing_file();
                  APP_PRINT("\r\nWrite operation completed\r\n");
                  *p_usb_state = STATE_USB_CONFIGURED;
              }
@@ -513,6 +514,38 @@ void usb_safely_eject(void)
      else
      {
          APP_PRINT ("\r\nFREERTOS PLUS FAT instance Closed successfully.\r\n");
+     }
+ }
+
+/*******************************************************************************************************************//**
+  * User defined function for listing all current file
+  *
+  * @param      none
+  * @retval     none
+  **********************************************************************************************************************/
+void listing_file(void)
+ {
+     /* List all the existing files. */
+     FF_FindData_t px_find_struct;
+     
+     /* Clear FF_FindData_t to 0. */
+     memset(&px_find_struct, 0x00, sizeof(FF_FindData_t));
+
+     /* Find the first file in CWD. */
+     if (RESET_VALUE == ff_findfirst((const char *)FILE_ENTRY, &px_find_struct))
+     {
+         APP_PRINT("\r\nList of existing files:\r\n");
+         do
+         {
+             if (RESET_VALUE != (px_find_struct.ucAttributes & FF_FAT_ATTR_DIR))
+             {
+                 /* Do nothing. */
+             }
+             else
+             {
+                 APP_PRINT("\n  %s%s\r\n", FILE_ENTRY, px_find_struct.pcFileName);
+             }
+         } while (RESET_VALUE == ff_findnext(&px_find_struct));
      }
  }
 

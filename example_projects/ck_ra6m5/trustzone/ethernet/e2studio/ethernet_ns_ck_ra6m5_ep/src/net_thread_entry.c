@@ -44,8 +44,8 @@ char *remote_ip_address = USR_TEST_PING_IP;
     */
     static  uint8_t ucMACAddress[ 6 ]       = {0x00, 0x11, 0x22, 0x33, 0x44, 0x55};
     static  uint8_t ucIPAddress[ 4 ]        = {RESET_VALUE};
-    static  uint8_t ucNetMask[ 4 ]          = {RESET_VALUE};
-    static  uint8_t ucGatewayAddress[ 4 ]   = {RESET_VALUE};
+    static  uint8_t ucNetMask[ 4 ]          = {255, 255, 255, 128};
+    static  uint8_t ucGatewayAddress[ 4 ]   = {132, 158, 124, 1};
     static  uint8_t ucDNSServerAddress[ 4 ] = {RESET_VALUE};
 #else
     /* Static IP configuration, when DHCP mode is not used for the Example Project.
@@ -54,10 +54,10 @@ char *remote_ip_address = USR_TEST_PING_IP;
      * get the Address using the PC IPconfig details.
      */
     static  uint8_t ucMACAddress[ 6 ]       = {0x00, 0x11, 0x22, 0x33, 0x44, 0x55};
-    static  uint8_t ucIPAddress[ 4 ]        = {192, 168, 3, 109};
+    static  uint8_t ucIPAddress[ 4 ]        = {192, 168, 0, 52};
     static  uint8_t ucNetMask[ 4 ]          = {255, 255, 255, 0};
-    static  uint8_t ucGatewayAddress[ 4 ]   = {192, 168, 3, 1};
-    static  uint8_t ucDNSServerAddress[ 4 ] = {8, 8, 8, 8};
+    static  uint8_t ucGatewayAddress[ 4 ]   = {192, 168, 0, 3};
+    static  uint8_t ucDNSServerAddress[ 4 ] = {10, 60, 1, 2};
 #endif
 
 

@@ -240,6 +240,11 @@ static void usb_status_update(void)
     {
         /* None */
     }
+	else if (USB_SET_REPORT == (p_usb_phid_event->setup.request_type & USB_BREQUEST))
+	{
+		/* Print status of g_numlock */
+		APP_PRINT("\r\nSET REPORT COMPLETED : g_numlock = 0x%x\r\n", g_numlock);
+	}
     else
     {
         /* Sending the zero data (8 bytes) */

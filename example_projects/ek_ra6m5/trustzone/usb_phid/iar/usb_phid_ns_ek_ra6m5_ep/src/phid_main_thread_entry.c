@@ -31,10 +31,8 @@ static volatile bool g_err_flag = false;
 void phid_main_thread_entry(void *pvParameters)
 {
     FSP_PARAMETER_NOT_USED (pvParameters);
-    static uint8_t idle_value = RESET_VALUE;
     static usb_event_info_t g_usb_phid_event  = {RESET_VALUE};
     /* Make sure the pointers as assigned to valid memories before accessing */
-    p_idle_value = &idle_value;
     p_usb_phid_event = &g_usb_phid_event;
 
     fsp_err_t err = FSP_SUCCESS;

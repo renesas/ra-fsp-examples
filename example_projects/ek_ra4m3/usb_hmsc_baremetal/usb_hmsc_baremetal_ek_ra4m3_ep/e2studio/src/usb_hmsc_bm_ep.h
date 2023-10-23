@@ -74,5 +74,6 @@ void usb_read_operation(void);                                                  
 void format_usb_device(void);                                                         /* Performs USB format operation */
 void usb_safely_eject(void);                                                          /* Performs USB Safely disconnect operation */
 void fat_clean_up(void);                                                              /* Clean up of FreeRTOS+FAT instance */
+void listing_file(void);                                                              /* Listing all current files */
 
 #endif /* USB_HMSC_BM_EP_H_ */
