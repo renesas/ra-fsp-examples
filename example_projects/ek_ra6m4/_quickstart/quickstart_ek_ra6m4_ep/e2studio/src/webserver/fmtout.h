@@ -46,7 +46,7 @@
 Includes   <System Includes> , "Project Includes"
 ******************************************************************************/
 #include <stdarg.h>
-
+#include <stdint.h>
 /* Remove if float support not required */
 #define _FMTOUT_FLOAT_SUPPORT_
 

@@ -192,7 +192,7 @@ static void ip_init0(void)
 
     /* Wait for the link to be enabled. */
     ULONG current_state;
-    status = nx_ip_status_check(&g_ip0, NX_IP_LINK_ENABLED, &current_state, LINK_ENABLE_WAIT_TIME);
+    status = nx_ip_status_check(&g_ip0, NX_IP_LINK_ENABLED, &current_state, NX_WAIT_FOREVER);
     if(NX_SUCCESS != status)
     {
         app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_ERR_STR, sizeof("nx_ip_status_check failed."), "nx_ip_status_check failed.");

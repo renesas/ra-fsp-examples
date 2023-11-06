@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<raConfiguration version="7">
+<raConfiguration version="8">
   <generalSettings>
     <option key="#Board#" value="board.ra4e1_fpb" />
     <option key="CPU" value="RA4E1" />
@@ -9,7 +9,7 @@
     <option key="#DeviceCommand#" value="R7FA4E10D" />
     <option key="#RTOS#" value="rtos.awsfreertos" />
     <option key="#pinconfiguration#" value="R7FA4E10D2CFM.pincfg" />
-    <option key="#FSPVersion#" value="4.6.0" />
+    <option key="#FSPVersion#" value="5.0.0" />
     <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra4e1_fpb##" />
     <option key="#SELECTED_TOOLCHAIN#" value="gcc-arm-embedded" />
     <option key="#ToolchainVersion#" value="12.2.1.arm-12-mpacbti-34" />
@@ -40,6 +40,7 @@
       <property id="config.bsp.fsp.tz.stbramsar" value="config.bsp.fsp.tz.stbramsar.both" />
       <property id="config.bsp.fsp.tz.bussara" value="config.bsp.fsp.tz.bussara.both" />
       <property id="config.bsp.fsp.tz.bussarb" value="config.bsp.fsp.tz.bussarb.both" />
+      <property id="config.bsp.fsp.tz.uninitialized_ns_application_fallback" value="config.bsp.fsp.tz.uninitialized_ns_application_fallback.enabled" />
       <property id="config.bsp.fsp.OFS0.iwdt_start_mode" value="config.bsp.fsp.OFS0.iwdt_start_mode.disabled" />
       <property id="config.bsp.fsp.OFS0.iwdt_timeout" value="config.bsp.fsp.OFS0.iwdt_timeout.2048" />
       <property id="config.bsp.fsp.OFS0.iwdt_divisor" value="config.bsp.fsp.OFS0.iwdt_divisor.128" />
@@ -54,6 +55,8 @@
       <property id="config.bsp.fsp.OFS0.wdt_window_start" value="config.bsp.fsp.OFS0.wdt_window_start.100" />
       <property id="config.bsp.fsp.OFS0.wdt_reset_interrupt" value="config.bsp.fsp.OFS0.wdt_reset_interrupt.Reset" />
       <property id="config.bsp.fsp.OFS0.wdt_stop_control" value="config.bsp.fsp.OFS0.wdt_stop_control.stops" />
+      <property id="config.bsp.fsp.OFS1_SEL.voltage_detection0_level" value="config.bsp.fsp.OFS1_SEL.voltage_detection0_level.secure" />
+      <property id="config.bsp.fsp.OFS1_SEL.voltage_detection0.start" value="config.bsp.fsp.OFS1_SEL.voltage_detection0.start.secure" />
       <property id="config.bsp.fsp.OFS1.voltage_detection0.start" value="config.bsp.fsp.OFS1.voltage_detection0.start.disabled" />
       <property id="config.bsp.fsp.OFS1.voltage_detection0_level" value="config.bsp.fsp.OFS1.voltage_detection0_level.280" />
       <property id="config.bsp.fsp.OFS1.hoco_osc" value="config.bsp.fsp.OFS1.hoco_osc.disabled" />
@@ -66,8 +69,12 @@
       <property id="config.bsp.fsp.mcu.sci_spi.max_bitrate" value="25000000" />
       <property id="config.bsp.fsp.mcu.spi.max_bitrate" value="50000000" />
       <property id="config.bsp.fsp.mcu.iic_master.rate.rate_fastplus" value="1" />
+      <property id="config.bsp.fsp.mcu.iic_master.fastplus_channels" value="0x1" />
+      <property id="config.bsp.fsp.mcu.iic_slave.rate.rate_fastplus" value="1" />
+      <property id="config.bsp.fsp.mcu.iic_slave.fastplus_channels" value="0x1" />
       <property id="config.bsp.fsp.mcu.sci_uart.cstpen_channels" value="0x0219" />
       <property id="config.bsp.fsp.mcu.gpt.pin_count_source_channels" value="0xFFFF" />
+      <property id="config.bsp.fsp.mcu.adc_dmac.samples_per_channel" value="32767" />
     </config>
     <config id="config.bsp.ra">
       <property id="config.bsp.common.main" value="0x400" />
@@ -122,133 +129,129 @@
     <node id="board.clock.uclk.display" option="board.clock.uclk.display.value" />
   </raClockConfiguration>
   <raComponentSelection>
-    <component apiversion="" class="BSP" condition="" group="ra4e1" subgroup="device" variant="R7FA4E10D2CFM" vendor="Renesas" version="4.6.0">
-      <description>Board support package for R7FA4E10D2CFM</description>
-      <originalPack>Renesas.RA_mcu_ra4e1.4.6.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra4e1" subgroup="device" variant="" vendor="Renesas" version="4.6.0">
-      <description>Board support package for RA4E1</description>
-      <originalPack>Renesas.RA_mcu_ra4e1.4.6.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra4e1" subgroup="fsp" variant="" vendor="Renesas" version="4.6.0">
-      <description>Board support package for RA4E1 - FSP Data</description>
-      <originalPack>Renesas.RA_mcu_ra4e1.4.6.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Mbed" condition="" group="Library" subgroup="LittleFS" variant="" vendor="Arm" version="2.2.1+renesas.1.fsp.4.6.0">
-      <description>Arm Mbed LittleFS</description>
-      <originalPack>Arm.LittleFS.2.2.1+renesas.1.fsp.4.6.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="FreeRTOS" condition="" group="demo" subgroup="key_provisioning_transport" variant="" vendor="AWS" version="202012.0.0+renesas.0.fsp.4.6.0">
-      <description>AWS Demo key_provisioning_transport</description>
-      <originalPack>Amazon.KeyProvisioning.202012.0.0+renesas.0.fsp.4.6.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="FreeRTOS" condition="" group="IoT" subgroup="clientcredential" variant="" vendor="AWS" version="202012.0.0+renesas.0.fsp.4.6.0">
-      <description>AWS Client Credentials</description>
-      <originalPack>Amazon.KeyProvisioning.202012.0.0+renesas.0.fsp.4.6.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="mbed" condition="" group="Security" subgroup="mbedTLS" variant="" vendor="Arm" version="3.4.0+renesas.1.fsp.4.6.0">
-      <description>Arm mbed TLS</description>
-      <originalPack>Arm.MbedTLS.3.4.0+renesas.1.fsp.4.6.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="5.9.0+renesas.0.fsp.4.6.0">
+    <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="5.9.0+renesas.0.fsp.5.0.0">
       <description>Arm CMSIS Version 5 - Core (M)</description>
-      <originalPack>Arm.CMSIS5.5.9.0+renesas.0.fsp.4.6.0.pack</originalPack>
+      <originalPack>Arm.CMSIS5.5.9.0+renesas.0.fsp.5.0.0.pack</originalPack>
     </component>
-    <component apiversion="" class="c_sdk" condition="" group="standard" subgroup="logging" variant="" vendor="AWS" version="202112.0.0+renesas.0.fsp.4.6.0">
-      <description>AWS Logging</description>
-      <originalPack>Amazon.FreeRTOS.202112.0.0+renesas.0.fsp.4.6.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="FreeRTOS_Plus" condition="" group="utilities" subgroup="mbedtls" variant="" vendor="AWS" version="202112.0.0+renesas.0.fsp.4.6.0">
-      <description>AWS MbedTLS FreeRTOS Port</description>
-      <originalPack>Amazon.FreeRTOS.202112.0.0+renesas.0.fsp.4.6.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Libraries" condition="" group="FreeRTOS_Plus" subgroup="MbedTLS_PKCS11_Transport" variant="" vendor="AWS" version="202112.0.0+renesas.0.fsp.4.6.0">
-      <description>AWS MbedTLS/PKCS11 Transport Interface</description>
-      <originalPack>Amazon.FreeRTOS.202112.0.0+renesas.0.fsp.4.6.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Libraries" condition="" group="FreeRTOS_Plus" subgroup="Cellular_MbedTLS_Bio" variant="" vendor="AWS" version="202112.0.0+renesas.0.fsp.4.6.0">
-      <description>Cellular/WiFi MbedTLS Bio</description>
-      <originalPack>Amazon.FreeRTOS.202112.0.0+renesas.0.fsp.4.6.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="RTOS" condition="" group="FreeRTOS" subgroup="all" variant="" vendor="AWS" version="10.4.6+fsp.4.6.0">
-      <description>FreeRTOS</description>
-      <originalPack>Amazon.FreeRTOS-Kernel.10.4.6+fsp.4.6.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Heaps" condition="" group="FreeRTOS" subgroup="heap_4" variant="" vendor="AWS" version="10.4.6+fsp.4.6.0">
-      <description>FreeRTOS - Memory Management - Heap 4</description>
-      <originalPack>Amazon.FreeRTOS-Kernel.10.4.6+fsp.4.6.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra4e1_fpb" variant="" vendor="Renesas" version="4.6.0">
-      <description>RA4E1-FPB Board Support Files</description>
-      <originalPack>Renesas.RA_board_ra4e1_fpb.4.6.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="4.6.0">
+    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="5.0.0">
       <description>Board Support Package Common Files</description>
-      <originalPack>Renesas.RA.4.6.0.pack</originalPack>
+      <originalPack>Renesas.RA.5.0.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_dtc" variant="" vendor="Renesas" version="4.6.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_dtc" variant="" vendor="Renesas" version="5.0.0">
       <description>Data Transfer Controller</description>
-      <originalPack>Renesas.RA.4.6.0.pack</originalPack>
+      <originalPack>Renesas.RA.5.0.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_flash_hp" variant="" vendor="Renesas" version="4.6.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_flash_hp" variant="" vendor="Renesas" version="5.0.0">
       <description>Flash Memory High Performance</description>
-      <originalPack>Renesas.RA.4.6.0.pack</originalPack>
+      <originalPack>Renesas.RA.5.0.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="4.6.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="5.0.0">
       <description>I/O Port</description>
-      <originalPack>Renesas.RA.4.6.0.pack</originalPack>
+      <originalPack>Renesas.RA.5.0.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_sci_uart" variant="" vendor="Renesas" version="4.6.0">
-      <description>SCI UART</description>
-      <originalPack>Renesas.RA.4.6.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_aws_pkcs11_pal_littlefs" variant="" vendor="Renesas" version="4.6.0">
-      <description>AWS PCKS11 PAL on LittleFS</description>
-      <originalPack>Renesas.RA.4.6.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_aws_sockets_wrapper_silex" variant="" vendor="Renesas" version="4.6.0">
-      <description>AWS Silex WiFi Sockets Wrapper</description>
-      <originalPack>Renesas.RA.4.6.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_freertos_port" variant="" vendor="Renesas" version="4.6.0">
-      <description>FreeRTOS Port</description>
-      <originalPack>Renesas.RA.4.6.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_littlefs_flash" variant="" vendor="Renesas" version="4.6.0">
-      <description>LittleFS Flash Port</description>
-      <originalPack>Renesas.RA.4.6.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_mbedtls" variant="" vendor="Renesas" version="4.6.0">
-      <description>Modified mbedTLS</description>
-      <originalPack>Renesas.RA.4.6.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="rm_psa_crypto" variant="" vendor="Renesas" version="4.6.0">
-      <description>MbedCrypto H/W Acceleration</description>
-      <originalPack>Renesas.RA.4.6.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="rm_wifi_onchip_silex" variant="" vendor="Renesas" version="4.6.0">
-      <description>WiFi Onchip Silex</description>
-      <originalPack>Renesas.RA.4.6.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Abstractions" condition="" group="PKCS11" subgroup="mbedtls" variant="" vendor="AWS" version="3.4.0+renesas.0.fsp.4.6.0">
-      <description>AWS PKCS11 to mbedTLS</description>
-      <originalPack>Amazon.corePKCS11.3.4.0+renesas.0.fsp.4.6.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="PSA" condition="" group="Crypto" subgroup="mbedCrypto" variant="" vendor="Arm" version="3.4.0+renesas.1.fsp.4.6.0">
-      <description>Arm PSA Crypto Implementation</description>
-      <originalPack>Arm.MbedCrypto.3.4.0+renesas.1.fsp.4.6.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_sce7_ra6" variant="" vendor="Renesas" version="4.6.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_sce7_ra6" variant="" vendor="Renesas" version="5.0.0">
       <description>Secure Cryptography Engine on RA6 (SCE7)</description>
-      <originalPack>Renesas.RA.4.6.0.pack</originalPack>
+      <originalPack>Renesas.RA.5.0.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_wifi_api" variant="" vendor="Renesas" version="4.6.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_sci_uart" variant="" vendor="Renesas" version="5.0.0">
+      <description>SCI UART</description>
+      <originalPack>Renesas.RA.5.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_aws_pkcs11_pal_littlefs" variant="" vendor="Renesas" version="5.0.0">
+      <description>AWS PCKS11 PAL on LittleFS</description>
+      <originalPack>Renesas.RA.5.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_aws_sockets_wrapper_silex" variant="" vendor="Renesas" version="5.0.0">
+      <description>AWS Silex WiFi Sockets Wrapper</description>
+      <originalPack>Renesas.RA.5.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_freertos_port" variant="" vendor="Renesas" version="5.0.0">
+      <description>FreeRTOS Port</description>
+      <originalPack>Renesas.RA.5.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_littlefs_flash" variant="" vendor="Renesas" version="5.0.0">
+      <description>LittleFS Flash Port</description>
+      <originalPack>Renesas.RA.5.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_mbedtls" variant="" vendor="Renesas" version="5.0.0">
+      <description>Modified mbedTLS</description>
+      <originalPack>Renesas.RA.5.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="rm_psa_crypto" variant="" vendor="Renesas" version="5.0.0">
+      <description>MbedCrypto H/W Acceleration</description>
+      <originalPack>Renesas.RA.5.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="rm_wifi_onchip_silex" variant="" vendor="Renesas" version="5.0.0">
+      <description>WiFi Onchip Silex</description>
+      <originalPack>Renesas.RA.5.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_wifi_api" variant="" vendor="Renesas" version="5.0.0">
       <description>WiFi Common</description>
-      <originalPack>Renesas.RA.4.6.0.pack</originalPack>
+      <originalPack>Renesas.RA.5.0.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Libraries" condition="" group="coreHTTP" subgroup="source" variant="" vendor="AWS" version="2.1.0+fsp.4.6.0">
+    <component apiversion="" class="mbed" condition="" group="Security" subgroup="mbedTLS" variant="" vendor="Arm" version="3.4.0+renesas.2.fsp.5.0.0">
+      <description>Arm mbed TLS</description>
+      <originalPack>Arm.MbedTLS.3.4.0+renesas.2.fsp.5.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra4e1_fpb" variant="" vendor="Renesas" version="5.0.0">
+      <description>RA4E1-FPB Board Support Files</description>
+      <originalPack>Renesas.RA_board_ra4e1_fpb.5.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Mbed" condition="" group="Library" subgroup="LittleFS" variant="" vendor="Arm" version="2.2.1+renesas.1.fsp.5.0.0">
+      <description>Arm Mbed LittleFS</description>
+      <originalPack>Arm.LittleFS.2.2.1+renesas.1.fsp.5.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="PSA" condition="" group="Crypto" subgroup="mbedCrypto" variant="" vendor="Arm" version="3.4.0+renesas.1.fsp.5.0.0">
+      <description>Arm PSA Crypto Implementation</description>
+      <originalPack>Arm.MbedCrypto.3.4.0+renesas.1.fsp.5.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Libraries" condition="" group="coreHTTP" subgroup="source" variant="" vendor="AWS" version="3.0.0+renesas.0.fsp.5.0.0">
       <description>AWS Core HTTPS</description>
-      <originalPack>Amazon.coreHTTP.2.1.0+fsp.4.6.0.pack</originalPack>
+      <originalPack>Amazon.coreHTTP.3.0.0+renesas.0.fsp.5.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="c_sdk" condition="" group="standard" subgroup="logging" variant="" vendor="AWS" version="202212.0.1+renesas.1.fsp.5.0.0">
+      <description>AWS Logging</description>
+      <originalPack>Amazon.FreeRTOS.202212.0.1+renesas.1.fsp.5.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="FreeRTOS_Plus" condition="" group="utilities" subgroup="mbedtls" variant="" vendor="AWS" version="202212.0.1+renesas.1.fsp.5.0.0">
+      <description>AWS MbedTLS FreeRTOS Port</description>
+      <originalPack>Amazon.FreeRTOS.202212.0.1+renesas.1.fsp.5.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Libraries" condition="" group="FreeRTOS_Plus" subgroup="MbedTLS_PKCS11_Transport" variant="" vendor="AWS" version="202212.0.1+renesas.1.fsp.5.0.0">
+      <description>AWS MbedTLS/PKCS11 Transport Interface</description>
+      <originalPack>Amazon.FreeRTOS.202212.0.1+renesas.1.fsp.5.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Libraries" condition="" group="FreeRTOS_Plus" subgroup="Plus_TCP_MbedTLS_Bio" variant="" vendor="AWS" version="202212.0.1+renesas.1.fsp.5.0.0">
+      <description>FreeRTOS+TCP MbedTLS Bio</description>
+      <originalPack>Amazon.FreeRTOS.202212.0.1+renesas.1.fsp.5.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="FreeRTOS" condition="" group="demo" subgroup="key_provisioning_transport" variant="" vendor="AWS" version="202212.0.1+renesas.1.fsp.5.0.0">
+      <description>AWS Demo key_provisioning_transport</description>
+      <originalPack>Amazon.FreeRTOS.202212.0.1+renesas.1.fsp.5.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="RTOS" condition="" group="FreeRTOS" subgroup="all" variant="" vendor="AWS" version="10.6.1+fsp.5.0.0">
+      <description>FreeRTOS</description>
+      <originalPack>Amazon.FreeRTOS-Kernel.10.6.1+fsp.5.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Heaps" condition="" group="FreeRTOS" subgroup="heap_4" variant="" vendor="AWS" version="10.6.1+fsp.5.0.0">
+      <description>FreeRTOS - Memory Management - Heap 4</description>
+      <originalPack>Amazon.FreeRTOS-Kernel.10.6.1+fsp.5.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Abstractions" condition="" group="PKCS11" subgroup="mbedtls" variant="" vendor="AWS" version="3.5.0+fsp.5.0.0">
+      <description>AWS PKCS11 to mbedTLS</description>
+      <originalPack>Amazon.corePKCS11.3.5.0+fsp.5.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra4e1" subgroup="device" variant="R7FA4E10D2CFM" vendor="Renesas" version="5.0.0">
+      <description>Board support package for R7FA4E10D2CFM</description>
+      <originalPack>Renesas.RA_mcu_ra4e1.5.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra4e1" subgroup="device" variant="" vendor="Renesas" version="5.0.0">
+      <description>Board support package for RA4E1</description>
+      <originalPack>Renesas.RA_mcu_ra4e1.5.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra4e1" subgroup="fsp" variant="" vendor="Renesas" version="5.0.0">
+      <description>Board support package for RA4E1 - FSP Data</description>
+      <originalPack>Renesas.RA_mcu_ra4e1.5.0.0.pack</originalPack>
     </component>
   </raComponentSelection>
   <raElcConfiguration />
@@ -260,10 +263,6 @@
       <property id="module.driver.ioport.elc_trigger_ioport2" value="_disabled" />
       <property id="module.driver.ioport.elc_trigger_ioport3" value="_disabled" />
       <property id="module.driver.ioport.elc_trigger_ioport4" value="_disabled" />
-      <property id="module.driver.ioport.elc_trigger_ioportb" value="_disabled" />
-      <property id="module.driver.ioport.elc_trigger_ioportc" value="_disabled" />
-      <property id="module.driver.ioport.elc_trigger_ioportd" value="_disabled" />
-      <property id="module.driver.ioport.elc_trigger_ioporte" value="_disabled" />
       <property id="module.driver.ioport.pincfg" value="g_bsp_pin_cfg" />
     </module>
     <module id="module.driver.wifi.common.1032669819" />
@@ -299,7 +298,6 @@
     <module id="module.driver.rm_mbedtls.791345251" />
     <module id="module.aws.c_sdk.logging.645143257" />
     <module id="module.aws.freertos.dev_mode_key_provisioning_mbed_transport_interface.871402937" />
-    <module id="module.aws.clientcredential.1788480639" />
     <module id="module.aws.sockets_wrapper.wifi_silex.949127308" />
     <module id="module.driver.wifi_onchip_silex_using_sci_uart.1920201757">
       <property id="module.driver.wifi_onchip_silex.sntp_server_ip" value="0.0.0.0" />
@@ -333,7 +331,6 @@
       <property id="module.driver.uart.tei_ipl" value="board.icu.common.irq.priority12" />
       <property id="module.driver.uart.eri_ipl" value="board.icu.common.irq.priority12" />
     </module>
-    <module id="module.aws.mbedtls_bio.cellular.802668290" />
     <module id="module.driver.transfer_on_dtc.1903261154">
       <property id="module.driver.transfer.name" value="g_transfer0" />
       <property id="module.driver.transfer.mode" value="module.driver.transfer.mode.mode_normal" />
@@ -341,11 +338,10 @@
       <property id="module.driver.transfer.dest_addr_mode" value="module.driver.transfer.dest_addr_mode.addr_mode_fixed" />
       <property id="module.driver.transfer.src_addr_mode" value="module.driver.transfer.src_addr_mode.addr_mode_fixed" />
       <property id="module.driver.transfer.repeat_area" value="module.driver.transfer.repeat_area.repeat_area_source" />
-      <property id="module.driver.transfer.p_dest" value="NULL" />
-      <property id="module.driver.transfer.p_src" value="NULL" />
       <property id="module.driver.transfer.interrupt" value="module.driver.transfer.interrupt.interrupt_end" />
       <property id="module.driver.transfer.length" value="0" />
       <property id="module.driver.transfer.num_blocks" value="0" />
+      <property id="module.driver.transfer.number_of_descriptors" value="1" />
       <property id="module.driver.transfer.activation_source" value="_disabled" />
     </module>
     <module id="module.driver.transfer_on_dtc.850124905">
@@ -355,13 +351,13 @@
       <property id="module.driver.transfer.dest_addr_mode" value="module.driver.transfer.dest_addr_mode.addr_mode_fixed" />
       <property id="module.driver.transfer.src_addr_mode" value="module.driver.transfer.src_addr_mode.addr_mode_fixed" />
       <property id="module.driver.transfer.repeat_area" value="module.driver.transfer.repeat_area.repeat_area_source" />
-      <property id="module.driver.transfer.p_dest" value="NULL" />
-      <property id="module.driver.transfer.p_src" value="NULL" />
       <property id="module.driver.transfer.interrupt" value="module.driver.transfer.interrupt.interrupt_end" />
       <property id="module.driver.transfer.length" value="0" />
       <property id="module.driver.transfer.num_blocks" value="0" />
+      <property id="module.driver.transfer.number_of_descriptors" value="1" />
       <property id="module.driver.transfer.activation_source" value="_disabled" />
     </module>
+    <module id="module.aws.mbedtls_bio.plus_tcp.905863100" />
     <context id="_hal.0">
       <stack module="module.driver.ioport_on_ioport.0" />
       <stack module="module.middleware.rm_freertos_port.28652872" />
@@ -385,7 +381,7 @@
                 <stack module="module.driver.transfer_on_dtc.850124905" requires="module.driver.uart_on_sci_uart.requires.transfer_rx" />
               </stack>
             </stack>
-            <stack module="module.aws.mbedtls_bio.cellular.802668290" requires="module.aws.sockets_wrapper.wifi_silex.requires.mbedtls_bio.cellular" />
+            <stack module="module.aws.mbedtls_bio.plus_tcp.905863100" requires="module.aws.sockets_wrapper.wifi_silex.requires.mbedtls_bio.cellular" />
           </stack>
           <stack module="module.aws.pkcs11.mbedtls.120151763" requires="module.aws.freertosplus.tls.requires.pkcs11">
             <stack module="module.driver.rm_aws_pkcs11_pal_littlefs.1084748260" requires="module.aws.pkcs11.mbedtls.requires.pal">
@@ -398,18 +394,14 @@
             <stack module="module.aws.freertosplus.crypto.1929187640" requires="module.aws.pkcs11.mbedtls.requires.freertospluscrypto">
               <stack module="module.arm.mbedtls.189363400" requires="module.driver.freertos_plus_tcp_on_ether.requires.mbedtls">
                 <stack module="module.driver.psa_crypto.337404602" requires="module.arm.mbedtls.requires.psa_crypto">
-                  <stack module="module.driver.rm_psa_crypto.829401894" requires="module.driver.rm_psa_crypto">
-                    <stack module="module.driver.sce9.plaintext.259712461" requires="module.driver.rm_psa_crypto.requires.sce" />
-                  </stack>
+                  <stack module="module.driver.rm_psa_crypto.829401894" requires="module.driver.rm_psa_crypto" />
                 </stack>
                 <stack module="module.driver.rm_mbedtls.791345251" requires="module.driver.rm_mbedtls.requires.rm_mbedtls" />
               </stack>
             </stack>
           </stack>
           <stack module="module.aws.c_sdk.logging.645143257" requires="module.aws.transport_interface.mbedtls_pkcs11.requires.c_sdk_logging" />
-          <stack module="module.aws.freertos.dev_mode_key_provisioning_mbed_transport_interface.871402937" requires="module.aws.transport_interface.mbedtls_pkcs11.requires.dev_mode_key_provisioning">
-            <stack module="module.aws.clientcredential.1788480639" requires="module.aws.freertos.dev_mode_key_provisioning_mbed_transport_interface.clientcredential" />
-          </stack>
+          <stack module="module.aws.freertos.dev_mode_key_provisioning_mbed_transport_interface.871402937" requires="module.aws.transport_interface.mbedtls_pkcs11.requires.dev_mode_key_provisioning" />
         </stack>
       </stack>
     </context>
@@ -418,38 +410,8 @@
       <property id="config.driver.flash_hp.param_code_flash_programming_enable" value="config.driver.flash_hp.param_code_flash_programming_enable.disabled" />
       <property id="config.driver.flash_hp.param_data_flash_programming_enable" value="config.driver.flash_hp.param_data_flash_programming_enable.enabled" />
     </config>
-    <config id="config.aws.coreHttps">
-      <property id="config.aws.coreHttps.custom_http_config" value="" />
-      <property id="config.aws.coreHttps.http_recv_retry_timeout" value="1" />
-      <property id="config.aws.coreHttps.http_send_retry_timeout" value="1" />
-      <property id="config.aws.coreHttps.http_user_agent_value" value="my-platform-name" />
-      <property id="config.aws.coreHttps.http_max_response_headers_size" value="2048U" />
-    </config>
-    <config id="config.driver.ioport">
-      <property id="config.driver.ioport.checking" value="config.driver.ioport.checking.system" />
-    </config>
     <config id="config.middleware.rm_littlefs_flash">
       <property id="config.middleware.rm_littlefs_flash.param_checking_enable" value="config.middleware.rm_littlefs_flash.param_checking_enable.bsp" />
-    </config>
-    <config id="config.aws.pkcs11.mbedtls">
-      <property id="config.aws.pkcs11.mbedtls.custom_pkcs11_config" value="" />
-      <property id="config.aws.pkcs11.mbedtls.max_label_length" value="32" />
-      <property id="config.aws.pkcs11.mbedtls.max_num_objects" value="6" />
-      <property id="config.aws.pkcs11.mbedtls.max_num_sessions" value="10" />
-      <property id="config.aws.pkcs11.mbedtls.tls_private_key" value="Device Priv TLS Key" />
-      <property id="config.aws.pkcs11.mbedtls.tls_public_key" value="Device Pub TLS Key" />
-      <property id="config.aws.pkcs11.mbedtls.tls_certificate" value="Device Cert" />
-      <property id="config.aws.pkcs11.mbedtls.code_verification_key" value="Code Verify Key" />
-      <property id="config.aws.pkcs11.mbedtls.root_certificate" value="Root Cert" />
-      <property id="config.aws.pkcs11.mbedtls.jitp_certificate" value="JITP Cert" />
-      <property id="config.aws.pkcs11.mbedtls.default_user_pin" value="0000" />
-      <property id="config.aws.pkcs11.mbedtls.malloc" value="pvPortMalloc" />
-      <property id="config.aws.pkcs11.mbedtls.free" value="vPortFree" />
-      <property id="config.aws.pkcs11.mbedtls.pal_destroy" value="config.aws.pkcs11.mbedtls.pal_destroy.disabled" />
-      <property id="config.aws.pkcs11.mbedtls.log_name" value="PKCS11" />
-      <property id="config.aws.pkcs11.mbedtls.log_level" value="LOG_NONE" />
-      <property id="config.aws.pkcs11.mbedtls.ota_supported" value="config.aws.pkcs11.mbedtls.ota_supported.disabled" />
-      <property id="config.aws.pkcs11.mbedtls.jitp_root_cert" value="config.aws.pkcs11.mbedtls.jitp_root_cert.disabled" />
     </config>
     <config id="config.driver.wifi_onchip_silex">
       <property id="config.driver.wifi_onchip_silex.param_checking_enable" value="config.driver.wifi_onchip_silex.param_checking_enable.bsp" />
@@ -477,86 +439,6 @@
       <property id="config.driver.wifi_onchip_silex_azure.max_bssid_len" value="6" />
       <property id="config.driver.wifi_onchip_silex_azure.max_passphrase_len" value="32" />
     </config>
-    <config id="config.arm.mbedtls">
-      <property id="config.arm.mbedtls.mbedtls_key_exchange_psk_enabled" value="config.arm.mbedtls.mbedtls_key_exchange_psk_enabled.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_key_exchange_dhe_psk_enabled" value="config.arm.mbedtls.mbedtls_key_exchange_dhe_psk_enabled.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_key_exchange_ecdhe_psk_enabled" value="config.arm.mbedtls.mbedtls_key_exchange_ecdhe_psk_enabled.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_key_exchange_rsa_psk_enabled" value="config.arm.mbedtls.mbedtls_key_exchange_rsa_psk_enabled.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_key_exchange_rsa_enabled" value="config.arm.mbedtls.mbedtls_key_exchange_rsa_enabled.enabled" />
-      <property id="config.arm.mbedtls.mbedtls_key_exchange_dhe_rsa_enabled" value="config.arm.mbedtls.mbedtls_key_exchange_dhe_rsa_enabled.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_key_exchange_ecdhe_rsa_enabled" value="config.arm.mbedtls.mbedtls_key_exchange_ecdhe_rsa_enabled.enabled" />
-      <property id="config.arm.mbedtls.mbedtls_key_exchange_ecdhe_ecdsa_enabled" value="config.arm.mbedtls.mbedtls_key_exchange_ecdhe_ecdsa_enabled.enabled" />
-      <property id="config.arm.mbedtls.mbedtls_key_exchange_ecdh_ecdsa_enabled" value="config.arm.mbedtls.mbedtls_key_exchange_ecdh_ecdsa_enabled.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_key_exchange_ecdh_rsa_enabled" value="config.arm.mbedtls.mbedtls_key_exchange_ecdh_rsa_enabled.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_key_exchange_ecjpake_enabled" value="config.arm.mbedtls.mbedtls_key_exchange_ecjpake_enabled.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_ssl_ciphersuites_enabled" value="config.arm.mbedtls.mbedtls_ssl_ciphersuites_enabled.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_ssl_ciphersuites" value="MBEDTLS_TLS_DHE_PSK_WITH_AES_128_CBC_SHA256,MBEDTLS_TLS_DHE_PSK_WITH_NULL_SHA256,MBEDTLS_TLS_DHE_RSA_WITH_AES_128_CBC_SHA256,MBEDTLS_TLS_DHE_RSA_WITH_AES_128_GCM_SHA256,MBEDTLS_TLS_DHE_RSA_WITH_AES_256_CBC_SHA256,MBEDTLS_TLS_PSK_WITH_AES_128_CBC_SHA256,MBEDTLS_TLS_PSK_WITH_NULL_SHA256,MBEDTLS_TLS_RSA_PSK_WITH_AES_128_CBC_SHA256,MBEDTLS_TLS_RSA_PSK_WITH_AES_128_CBC_SHA256,MBEDTLS_TLS_RSA_PSK_WITH_NULL_SHA256,MBEDTLS_TLS_RSA_WITH_AES_128_CBC_SHA256,MBEDTLS_TLS_RSA_WITH_AES_256_CBC_SHA256,MBEDTLS_TLS_RSA_WITH_NULL_SHA256" />
-      <property id="config.arm.mbedtls.mbedtls_x509_max_intermediate_ca_enabled" value="config.arm.mbedtls.mbedtls_x509_max_intermediate_ca_enabled.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_ssl_all_alert_messages" value="config.arm.mbedtls.mbedtls_ssl_all_alert_messages.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_ssl_dtls_connection_id" value="config.arm.mbedtls.mbedtls_ssl_dtls_connection_id.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_ssl_async_private" value="config.arm.mbedtls.mbedtls_ssl_async_private.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_ssl_debug_all" value="config.arm.mbedtls.mbedtls_ssl_debug_all.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_ssl_encrypt_then_mac" value="config.arm.mbedtls.mbedtls_ssl_encrypt_then_mac.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_ssl_extended_master_secret" value="config.arm.mbedtls.mbedtls_ssl_extended_master_secret.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_ssl_keep_peer_certificate" value="config.arm.mbedtls.mbedtls_ssl_keep_peer_certificate.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_ssl_renegotiation" value="config.arm.mbedtls.mbedtls_ssl_renegotiation.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_ssl_max_fragment_length" value="config.arm.mbedtls.mbedtls_ssl_max_fragment_length.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_ssl_proto_tls1_2" value="config.arm.mbedtls.mbedtls_ssl_proto_tls1_2.enabled" />
-      <property id="config.arm.mbedtls.mbedtls_ssl_proto_tls1_3" value="config.arm.mbedtls.mbedtls_ssl_proto_tls1_3.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_ssl_tls1_3_compatibility_mode" value="config.arm.mbedtls.mbedtls_ssl_tls1_3_compatibility_mode.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_ssl_proto_dtls" value="config.arm.mbedtls.mbedtls_ssl_proto_dtls.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_ssl_alpn" value="config.arm.mbedtls.mbedtls_ssl_alpn.enabled" />
-      <property id="config.arm.mbedtls.mbedtls_ssl_dtls_anti_replay" value="config.arm.mbedtls.mbedtls_ssl_dtls_anti_replay.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_ssl_dtls_hello_verify" value="config.arm.mbedtls.mbedtls_ssl_dtls_hello_verify.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_ssl_dtls_client_port_reuse" value="config.arm.mbedtls.mbedtls_ssl_dtls_client_port_reuse.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_ssl_session_tickets" value="config.arm.mbedtls.mbedtls_ssl_session_tickets.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_ssl_server_name_indication" value="config.arm.mbedtls.mbedtls_ssl_server_name_indication.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_x509_trusted_certificate_callback" value="config.arm.mbedtls.mbedtls_x509_trusted_certificate_callback.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_x509_remove_info" value="config.arm.mbedtls.mbedtls_x509_remove_info.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_x509_rsassa_pss_support" value="config.arm.mbedtls.mbedtls_x509_rsassa_pss_support.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_debug_c" value="config.arm.mbedtls.mbedtls_debug_c.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_net_c" value="config.arm.mbedtls.mbedtls_net_c.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_ssl_cache_c" value="config.arm.mbedtls.mbedtls_ssl_cache_c.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_ssl_cookie_c" value="config.arm.mbedtls.mbedtls_ssl_cookie_c.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_ssl_ticket_c" value="config.arm.mbedtls.mbedtls_ssl_ticket_c.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_ssl_cli_c" value="config.arm.mbedtls.mbedtls_ssl_cli_c.enabled" />
-      <property id="config.arm.mbedtls.mbedtls_ssl_srv_c" value="config.arm.mbedtls.mbedtls_ssl_srv_c.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_ssl_tls_c" value="config.arm.mbedtls.mbedtls_ssl_tls_c.enabled" />
-      <property id="config.arm.mbedtls.mbedtls_x509_use_c" value="config.arm.mbedtls.mbedtls_x509_use_c.enabled" />
-      <property id="config.arm.mbedtls.mbedtls_x509_crt_parse_c" value="config.arm.mbedtls.mbedtls_x509_crt_parse_c.enabled" />
-      <property id="config.arm.mbedtls.mbedtls_x509_crl_parse_c" value="config.arm.mbedtls.mbedtls_x509_crl_parse_c.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_x509_csr_parse_c" value="config.arm.mbedtls.mbedtls_x509_csr_parse_c.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_x509_create_c" value="config.arm.mbedtls.mbedtls_x509_create_c.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_x509_crt_write_c" value="config.arm.mbedtls.mbedtls_x509_crt_write_c.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_x509_csr_write_c" value="config.arm.mbedtls.mbedtls_x509_csr_write_c.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_ssl_in_content_len_enabled" value="config.arm.mbedtls.mbedtls_ssl_in_content_len_enabled.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_ssl_in_content_len" value="16384" />
-      <property id="config.arm.mbedtls.mbedtls_ssl_cid_in_len_max_enabled" value="config.arm.mbedtls.mbedtls_ssl_cid_in_len_max.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_ssl_cid_in_len_max" value="32" />
-      <property id="config.arm.mbedtls.mbedtls_ssl_cid_out_len_max_enabled" value="config.arm.mbedtls.mbedtls_ssl_cid_out_len_max.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_ssl_cid_out_len_max" value="32" />
-      <property id="config.arm.mbedtls.mbedtls_ssl_cid_tls1_3_padding_granularity_enabled" value="config.arm.mbedtls.mbedtls_ssl_cid_tls1_3_padding_granularity_enabled.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_ssl_cid_tls1_3_padding_granularity" value="16" />
-      <property id="config.arm.mbedtls.mbedtls_ssl_cid_padding_granularity_enabled" value="config.arm.mbedtls.mbedtls_ssl_cid_padding_granularity.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_ssl_cid_padding_granularity" value="16" />
-      <property id="config.arm.mbedtls.mbedtls_ssl_out_content_len_enabled" value="config.arm.mbedtls.mbedtls_ssl_out_content_len.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_ssl_out_content_len" value="16384" />
-      <property id="config.arm.mbedtls.mbedtls_ssl_dtls_max_buffering_enabled" value="config.arm.mbedtls.mbedtls_ssl_dtls_max_buffering.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_ssl_dtls_max_buffering" value="32768" />
-      <property id="config.arm.mbedtls.mbedtls_ssl_cache_default_timeout_enabled" value="config.arm.mbedtls.mbedtls_ssl_cache_default_timeout_enabled.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_ssl_cache_default_timeout" value="86400" />
-      <property id="config.arm.mbedtls.mbedtls_ssl_cache_default_max_entries_enabled" value="config.arm.mbedtls.mbedtls_ssl_cache_default_max_entries_enabled.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_ssl_cache_default_max_entries" value="50" />
-      <property id="config.arm.mbedtls.mbedtls_psk_max_len_enabled" value="config.arm.mbedtls.mbedtls_psk_max_len_enabled.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_psk_max_len" value="32" />
-      <property id="config.arm.mbedtls.mbedtls_ssl_cookie_timeout_enabled" value="config.arm.mbedtls.mbedtls_ssl_cookie_timeout_enabled.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_ssl_cookie_timeout" value="60" />
-      <property id="config.arm.mbedtls.mbedtls_tls_ext_cid_enabled" value="config.arm.mbedtls.mbedtls_tls_ext_cid_enabled.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_tls_ext_cid" value="254" />
-      <property id="config.arm.mbedtls.mbedtls_x509_max_intermediate_ca" value="8" />
-      <property id="config.arm.mbedtls.mbedtls_x509_max_file_path_len_enabled" value="config.arm.mbedtls.mbedtls_x509_max_file_path_len_enabled.disabled" />
-      <property id="config.arm.mbedtls.mbedtls_x509_max_file_path_len" value="512" />
-    </config>
     <config id="config.arm.mbed.littlefs">
       <property id="config.arm.mbed.littlefs.custom_lfs_util" value="" />
       <property id="config.arm.mbed.littlefs.thread_safe" value="config.arm.mbed.littlefs.thread_safe.disabled" />
@@ -568,75 +450,6 @@
       <property id="config.arm.mbed.littlefs.yes_trace" value="config.arm.mbed.littlefs.yes_trace.disabled" />
       <property id="config.arm.mbed.littlefs.no_intrinsics" value="config.arm.mbed.littlefs.no_intrinsics.enabled" />
       <property id="config.arm.mbed.littlefs.instance_name" value="g_rm_littlefs0" />
-    </config>
-    <config id="config.awsfreertos.thread">
-      <property id="config.awsfreertos.custom_freertosconfig" value="" />
-      <property id="config.awsfreertos.thread.configuse_preemption" value="config.awsfreertos.thread.configuse_preemption.enabled" />
-      <property id="config.awsfreertos.thread.configuse_port_optimised_task_selection" value="config.awsfreertos.thread.configuse_port_optimised_task_selection.disabled" />
-      <property id="config.awsfreertos.thread.configuse_tickless_idle" value="config.awsfreertos.thread.configuse_tickless_idle.disabled" />
-      <property id="config.awsfreertos.thread.configuse_idle_hook" value="config.awsfreertos.thread.configuse_idle_hook.enabled" />
-      <property id="config.awsfreertos.thread.configuse_malloc_failed_hook" value="config.awsfreertos.thread.configuse_malloc_failed_hook.disabled" />
-      <property id="config.awsfreertos.thread.configuse_daemon_task_startup_hook" value="config.awsfreertos.thread.configuse_daemon_task_startup_hook.disabled" />
-      <property id="config.awsfreertos.thread.configuse_tick_hook" value="config.awsfreertos.thread.configuse_tick_hook.disabled" />
-      <property id="config.awsfreertos.thread.configcpu_clock_hz" value="SystemCoreClock" />
-      <property id="config.awsfreertos.thread.configtick_rate_hz" value="1000" />
-      <property id="config.awsfreertos.thread.configmax_priorities" value="5" />
-      <property id="config.awsfreertos.thread.configminimal_stack_size" value="128" />
-      <property id="config.awsfreertos.thread.configmax_task_name_len" value="16" />
-      <property id="config.awsfreertos.thread.configuse_trace_facility" value="config.awsfreertos.thread.configuse_trace_facility.disabled" />
-      <property id="config.awsfreertos.thread.configuse_stats_formatting_functions" value="config.awsfreertos.thread.configuse_stats_formatting_functions.disabled" />
-      <property id="config.awsfreertos.thread.configuse_16_bit_ticks" value="config.awsfreertos.thread.configuse_16_bit_ticks.disabled" />
-      <property id="config.awsfreertos.thread.configidle_should_yield" value="config.awsfreertos.thread.configidle_should_yield.enabled" />
-      <property id="config.awsfreertos.thread.configuse_task_notifications" value="config.awsfreertos.thread.configuse_task_notifications.enabled" />
-      <property id="config.awsfreertos.thread.configuse_mutexes" value="config.awsfreertos.thread.configuse_mutexes.enabled" />
-      <property id="config.awsfreertos.thread.configuse_recursive_mutexes" value="config.awsfreertos.thread.configuse_recursive_mutexes.disabled" />
-      <property id="config.awsfreertos.thread.configuse_counting_semaphores" value="config.awsfreertos.thread.configuse_counting_semaphores.enabled" />
-      <property id="config.awsfreertos.thread.configcheck_for_stack_overflow" value="config.awsfreertos.thread.configcheck_for_stack_overflow.disabled" />
-      <property id="config.awsfreertos.thread.configqueue_registry_size" value="10" />
-      <property id="config.awsfreertos.thread.configuse_queue_sets" value="config.awsfreertos.thread.configuse_queue_sets.disabled" />
-      <property id="config.awsfreertos.thread.configuse_time_slicing" value="config.awsfreertos.thread.configuse_time_slicing.disabled" />
-      <property id="config.awsfreertos.thread.configuse_newlib_reentrant" value="config.awsfreertos.thread.configuse_newlib_reentrant.disabled" />
-      <property id="config.awsfreertos.thread.configenable_backward_compatibility" value="config.awsfreertos.thread.configenable_backward_compatibility.disabled" />
-      <property id="config.awsfreertos.thread.confignum_thread_local_storage_pointers" value="5" />
-      <property id="config.awsfreertos.thread.configstack_depth_type" value="uint32_t" />
-      <property id="config.awsfreertos.thread.configmessage_buffer_length_type" value="size_t" />
-      <property id="config.awsfreertos.thread.configsupport_static_allocation" value="config.awsfreertos.thread.configsupport_static_allocation.enabled" />
-      <property id="config.awsfreertos.thread.configsupport_dynamic_allocation" value="config.awsfreertos.thread.configsupport_dynamic_allocation.enabled" />
-      <property id="config.awsfreertos.thread.configtotal_heap_size" value="0x10000" />
-      <property id="config.awsfreertos.thread.configapplication_allocated_heap" value="config.awsfreertos.thread.configapplication_allocated_heap.disabled" />
-      <property id="config.awsfreertos.thread.configgenerate_run_time_stats" value="config.awsfreertos.thread.configgenerate_run_time_stats.disabled" />
-      <property id="config.awsfreertos.thread.configuse_timers" value="config.awsfreertos.thread.configuse_timers.enabled" />
-      <property id="config.awsfreertos.thread.configtimer_task_priority" value="3" />
-      <property id="config.awsfreertos.thread.configtimer_queue_length" value="10" />
-      <property id="config.awsfreertos.thread.configtimer_task_stack_depth" value="128" />
-      <property id="config.awsfreertos.thread.configlibrary_max_syscall_interrupt_priority" value="board.icu.common.irq.priority1" />
-      <property id="config.awsfreertos.thread.configassert" value="assert(x)" />
-      <property id="config.awsfreertos.thread.configinclude_application_defined_privileged_functions" value="config.awsfreertos.thread.configinclude_application_defined_privileged_functions.disabled" />
-      <property id="config.awsfreertos.thread.include_vtaskpriorityset" value="config.awsfreertos.thread.include_vtaskpriorityset.enabled" />
-      <property id="config.awsfreertos.thread.include_uxtaskpriorityget" value="config.awsfreertos.thread.include_uxtaskpriorityget.enabled" />
-      <property id="config.awsfreertos.thread.include_vtaskdelete" value="config.awsfreertos.thread.include_vtaskdelete.enabled" />
-      <property id="config.awsfreertos.thread.include_vtasksuspend" value="config.awsfreertos.thread.include_vtasksuspend.enabled" />
-      <property id="config.awsfreertos.thread.include_xresumefromisr" value="config.awsfreertos.thread.include_xresumefromisr.enabled" />
-      <property id="config.awsfreertos.thread.include_vtaskdelayuntil" value="config.awsfreertos.thread.include_vtaskdelayuntil.enabled" />
-      <property id="config.awsfreertos.thread.include_vtaskdelay" value="config.awsfreertos.thread.include_vtaskdelay.enabled" />
-      <property id="config.awsfreertos.thread.include_xtaskgetschedulerstate" value="config.awsfreertos.thread.include_xtaskgetschedulerstate.enabled" />
-      <property id="config.awsfreertos.thread.include_xtaskgetcurrenttaskhandle" value="config.awsfreertos.thread.include_xtaskgetcurrenttaskhandle.enabled" />
-      <property id="config.awsfreertos.thread.include_uxtaskgetstackhighwatermark" value="config.awsfreertos.thread.include_uxtaskgetstackhighwatermark.disabled" />
-      <property id="config.awsfreertos.thread.include_xtaskgetidletaskhandle" value="config.awsfreertos.thread.include_xtaskgetidletaskhandle.disabled" />
-      <property id="config.awsfreertos.thread.include_etaskgetstate" value="config.awsfreertos.thread.include_etaskgetstate.disabled" />
-      <property id="config.awsfreertos.thread.include_xeventgroupsetbitfromisr" value="config.awsfreertos.thread.include_xeventgroupsetbitfromisr.enabled" />
-      <property id="config.awsfreertos.thread.include_xtimerpendfunctioncall" value="config.awsfreertos.thread.include_xtimerpendfunctioncall.disabled" />
-      <property id="config.awsfreertos.thread.include_xtaskabortdelay" value="config.awsfreertos.thread.include_xtaskabortdelay.disabled" />
-      <property id="config.awsfreertos.thread.include_xtaskgethandle" value="config.awsfreertos.thread.include_xtaskgethandle.disabled" />
-      <property id="config.awsfreertos.thread.include_xtaskresumefromisr" value="config.awsfreertos.thread.include_xtaskresumefromisr.enabled" />
-      <property id="config.awsfreertos.thread.include_hw_stack_monitor" value="config.awsfreertos.thread.include_hw_stack_monitor.disabled" />
-      <property id="config.awsfreertos.thread.print_function" value="printf(x)" />
-      <property id="config.awsfreertos.thread.max_length" value="192" />
-      <property id="config.awsfreertos.thread.include_time_and_task" value="config.awsfreertos.thread.include_time_and_task.disabled" />
-    </config>
-    <config id="config.driver.dtc">
-      <property id="config.driver.dtc.param_checking_enable" value="config.driver.dtc.param_checking_enable.bsp" />
-      <property id="config.driver.dtc.vector_table" value=".fsp_dtc_vector_table" />
     </config>
     <config id="config.driver.psa_crypto">
       <property id="config.driver.psa_crypto.mbedtls_entropy_hardware_alt" value="config.driver.psa_crypto.mbedtls_entropy_hardware_alt.enabled" />
@@ -660,6 +473,7 @@
       <property id="config.driver.psa_crypto.mbedtls_have_time_date" value="config.driver.psa_crypto.mbedtls_have_time_date.disabled" />
       <property id="config.driver.psa_crypto.mbedtls_platform_memory" value="config.driver.psa_crypto.mbedtls_platform_memory.enabled" />
       <property id="config.driver.psa_crypto.mbedtls_platform_no_std_functions" value="config.driver.psa_crypto.mbedtls_platform_no_std_functions.disabled" />
+      <property id="config.driver.psa_crypto.mbedtls_platform_setbuf_alt" value="config.driver.psa_crypto.mbedtls_platform_setbuf_alt.disabled" />
       <property id="config.driver.psa_crypto.mbedtls_platform_exit_alt" value="config.driver.psa_crypto.mbedtls_platform_exit_alt.disabled" />
       <property id="config.driver.psa_crypto.mbedtls_platform_time_alt" value="config.driver.psa_crypto.mbedtls_platform_time_alt.disabled" />
       <property id="config.driver.psa_crypto.mbedtls_platform_fprintf_alt" value="config.driver.psa_crypto.mbedtls_platform_fprintf_alt.disabled" />
@@ -667,13 +481,13 @@
       <property id="config.driver.psa_crypto.mbedtls_platform_snprintf_alt" value="config.driver.psa_crypto.mbedtls_platform_snprintf_alt.disabled" />
       <property id="config.driver.psa_crypto.mbedtls_platform_vsnprintf_alt" value="config.driver.psa_crypto.mbedtls_platform_vsnprintf_alt.disabled" />
       <property id="config.driver.psa_crypto.mbedtls_platform_nv_seed_alt" value="config.driver.psa_crypto.mbedtls_platform_nv_seed_alt.disabled" />
-      <property id="config.driver.psa_crypto.psa_crypto_secure" value="config.driver.psa_crypto.psa_crypto_secure.disabled" />
+      <property id="config.driver.psa_crypto.mbedtls_psa_crypto_drivers" value="config.driver.psa_crypto.mbedtls_psa_crypto_drivers.disabled" />
       <property id="config.driver.psa_crypto.mbedtls_deprecated_warning" value="config.driver.psa_crypto.mbedtls_deprecated_warning.disabled" />
       <property id="config.driver.psa_crypto.mbedtls_deprecated_removed" value="config.driver.psa_crypto.mbedtls_deprecated_removed.enabled" />
       <property id="config.driver.psa_crypto.mbedtls_timing_alt" value="config.driver.psa_crypto.mbedtls_timing_alt.disabled" />
       <property id="config.driver.psa_crypto.mbedtls_aria_alt" value="config.driver.psa_crypto.mbedtls_aria_alt.disabled" />
       <property id="config.driver.psa_crypto.mbedtls_camellia_alt" value="config.driver.psa_crypto.mbedtls_camellia_alt.disabled" />
-      <property id="config.driver.psa_crypto.mbedtls_ccm_alt" value="config.driver.psa_crypto.mbedtls_ccm_alt.disabled" />
+      <property id="config.driver.psa_crypto.mbedtls_ccm_alt" value="config.driver.psa_crypto.aes_ccm_alt.disabled" />
       <property id="config.driver.psa_crypto.mbedtls_chacha20_alt" value="config.driver.psa_crypto.mbedtls_chacha20_alt.disabled" />
       <property id="config.driver.psa_crypto.mbedtls_chachapoly_alt" value="config.driver.psa_crypto.mbedtls_chachapoly_alt.disabled" />
       <property id="config.driver.psa_crypto.mbedtls_cmac_alt" value="config.driver.psa_crypto.mbedtls_cmac_alt.disabled" />
@@ -752,6 +566,7 @@
       <property id="config.driver.psa_crypto.mbedtls_pkcs1_v15" value="config.driver.psa_crypto.mbedtls_pkcs1_v15.enabled" />
       <property id="config.driver.psa_crypto.mbedtls_pkcs1_v21" value="config.driver.psa_crypto.mbedtls_pkcs1_v21.enabled" />
       <property id="config.driver.psa_crypto.mbedtls_crypto_builtin_keys" value="config.driver.psa_crypto.mbedtls_crypto_builtin_keys.disabled" />
+      <property id="config.driver.psa_crypto.psa_crypto_tfm_builtin_keys" value="config.driver.psa_crypto.psa_crypto_tfm_builtin_keys.disabled" />
       <property id="config.driver.psa_crypto.mbedtls_psa_crypto_client" value="config.driver.psa_crypto.mbedtls_psa_crypto_client.disabled" />
       <property id="config.driver.psa_crypto.mbedtls_crypto_external_rng" value="config.driver.psa_crypto.mbedtls_crypto_external_rng.disabled" />
       <property id="config.driver.psa_crypto.mbedtls_psa_crypto_spm" value="config.driver.psa_crypto.mbedtls_psa_crypto_spm.disabled" />
@@ -789,6 +604,8 @@
       <property id="config.driver.psa_crypto.mbedtls_gcm_c" value="config.driver.psa_crypto.mbedtls_gcm_c.enabled" />
       <property id="config.driver.psa_crypto.mbedtls_hkdf_c" value="config.driver.psa_crypto.mbedtls_hkdf_c.enabled" />
       <property id="config.driver.psa_crypto.mbedtls_hmac_drbg_c" value="config.driver.psa_crypto.mbedtls_hmac_drbg_c.disabled" />
+      <property id="config.driver.psa_crypto.mbedtls_lms_c" value="config.driver.psa_crypto.mbedtls_lms_c.enabled" />
+      <property id="config.driver.psa_crypto.mbedtls_lms_private" value="config.driver.psa_crypto.mbedtls_lms_private.disabled" />
       <property id="config.driver.psa_crypto.mbedtls_nist_kw_c" value="config.driver.psa_crypto.mbedtls_nist_kw_c.disabled" />
       <property id="config.driver.psa_crypto.mbedtls_md_c" value="config.driver.psa_crypto.mbedtls_md_c.enabled" />
       <property id="config.driver.psa_crypto.mbedtls_md5_c" value="config.driver.psa_crypto.mbedtls_md5_c.enabled" />
@@ -800,6 +617,7 @@
       <property id="config.driver.psa_crypto.mbedtls_pk_parse_c" value="config.driver.psa_crypto.mbedtls_pk_parse_c.enabled" />
       <property id="config.driver.psa_crypto.mbedtls_pk_write_c" value="config.driver.psa_crypto.mbedtls_pk_write_c.enabled" />
       <property id="config.driver.psa_crypto.mbedtls_pkcs5_c" value="config.driver.psa_crypto.mbedtls_pkcs5_c.enabled" />
+      <property id="config.driver.psa_crypto.mbedtls_pkcs7_c" value="config.driver.psa_crypto.mbedtls_pkcs7_c.disabled" />
       <property id="config.driver.psa_crypto.mbedtls_pkcs12_c" value="config.driver.psa_crypto.mbedtls_pkcs12_c.enabled" />
       <property id="config.driver.psa_crypto.mbedtls_platform_c" value="config.driver.psa_crypto.mbedtls_platform_c.enabled" />
       <property id="config.driver.psa_crypto.mbedtls_poly1305_c" value="config.driver.psa_crypto.mbedtls_poly1305_c.disabled" />
@@ -856,6 +674,8 @@
       <property id="config.driver.psa_crypto.mbedtls_platform_std_calloc_value" value="calloc" />
       <property id="config.driver.psa_crypto.mbedtls_platform_std_free" value="config.driver.psa_crypto.mbedtls_platform_std_free.disabled" />
       <property id="config.driver.psa_crypto.mbedtls_platform_std_free_value" value="free" />
+      <property id="config.driver.psa_crypto.mbedtls_platform_std_setbuf" value="config.driver.psa_crypto.mbedtls_platform_std_setbuf.disabled" />
+      <property id="config.driver.psa_crypto.mbedtls_platform_std_setbuf_value" value="setbuf" />
       <property id="config.driver.psa_crypto.mbedtls_platform_std_exit" value="config.driver.psa_crypto.mbedtls_platform_std_exit.disabled" />
       <property id="config.driver.psa_crypto.mbedtls_platform_std_exit_value" value="exit" />
       <property id="config.driver.psa_crypto.mbedtls_platform_std_time" value="config.driver.psa_crypto.mbedtls_platform_std_time.disabled" />
@@ -882,6 +702,8 @@
       <property id="config.driver.psa_crypto.mbedtls_platform_free_macro_value" value="free" />
       <property id="config.driver.psa_crypto.mbedtls_platform_exit_macro" value="config.driver.psa_crypto.mbedtls_platform_exit_macro.disabled" />
       <property id="config.driver.psa_crypto.mbedtls_platform_exit_macro_value" value="exit" />
+      <property id="config.driver.psa_crypto.mbedtls_platform_setbuf_macro" value="config.driver.psa_crypto.mbedtls_platform_setbuf_macro.enabled" />
+      <property id="config.driver.psa_crypto.mbedtls_platform_setbuf_macro_value" value="dummy_setbuf" />
       <property id="config.driver.psa_crypto.mbedtls_platform_time_macro" value="config.driver.psa_crypto.mbedtls_platform_time_macro.disabled" />
       <property id="config.driver.psa_crypto.mbedtls_platform_time_macro_value" value="time" />
       <property id="config.driver.psa_crypto.mbedtls_platform_time_type_macro" value="config.driver.psa_crypto.mbedtls_platform_time_type_macro.disabled" />
@@ -912,9 +734,6 @@
       <property id="config.aws.wifi.common.max_bssid_len" value="6" />
       <property id="config.aws.wifi.common.max_passphrase_len" value="32" />
     </config>
-    <config id="config.aws.freertos.dev_mode_key_provisioning_mbed_transport_interface">
-      <property id="config.module.aws.freertosplus.tls.custom_include" value="" />
-    </config>
     <config id="config.driver.sci_uart">
       <property id="config.driver.sci_uart.param_checking_enable" value="config.driver.sci_uart.param_checking_enable.bsp" />
       <property id="config.driver.sci_uart.fifo_support" value="config.driver.sci_uart.fifo_support.enabled" />
@@ -922,8 +741,196 @@
       <property id="config.driver.sci_uart.flow_control" value="config.driver.sci_uart.flow_control.disabled" />
       <property id="config.driver.sci_uart.rs485" value="config.driver.sci_uart.rs485.disabled" />
     </config>
-    <config id="config.aws.clientcredential">
-      <property id="config.aws.clientcredential.custom_include" value="" />
+    <config id="config.aws.coreHttps">
+      <property id="config.aws.coreHttps.custom_http_config" value="" />
+      <property id="config.aws.coreHttps.http_recv_retry_timeout" value="1" />
+      <property id="config.aws.coreHttps.http_send_retry_timeout" value="1" />
+      <property id="config.aws.coreHttps.http_user_agent_value" value="my-platform-name" />
+    </config>
+    <config id="config.driver.ioport">
+      <property id="config.driver.ioport.checking" value="config.driver.ioport.checking.system" />
+    </config>
+    <config id="config.aws.pkcs11.mbedtls">
+      <property id="config.aws.pkcs11.mbedtls.custom_pkcs11_config" value="" />
+      <property id="config.aws.pkcs11.mbedtls.max_label_length" value="32" />
+      <property id="config.aws.pkcs11.mbedtls.max_num_objects" value="6" />
+      <property id="config.aws.pkcs11.mbedtls.max_num_sessions" value="10" />
+      <property id="config.aws.pkcs11.mbedtls.tls_private_key" value="Device Priv TLS Key" />
+      <property id="config.aws.pkcs11.mbedtls.tls_public_key" value="Device Pub TLS Key" />
+      <property id="config.aws.pkcs11.mbedtls.tls_certificate" value="Device Cert" />
+      <property id="config.aws.pkcs11.mbedtls.code_verification_key" value="Code Verify Key" />
+      <property id="config.aws.pkcs11.mbedtls.root_certificate" value="Root Cert" />
+      <property id="config.aws.pkcs11.mbedtls.jitp_certificate" value="JITP Cert" />
+      <property id="config.aws.pkcs11.mbedtls.default_user_pin" value="0000" />
+      <property id="config.aws.pkcs11.mbedtls.malloc" value="pvPortMalloc" />
+      <property id="config.aws.pkcs11.mbedtls.free" value="vPortFree" />
+      <property id="config.aws.pkcs11.mbedtls.pal_destroy" value="config.aws.pkcs11.mbedtls.pal_destroy.disabled" />
+      <property id="config.aws.pkcs11.mbedtls.log_name" value="PKCS11" />
+      <property id="config.aws.pkcs11.mbedtls.log_level" value="LOG_NONE" />
+      <property id="config.aws.pkcs11.mbedtls.ota_supported" value="config.aws.pkcs11.mbedtls.ota_supported.disabled" />
+      <property id="config.aws.pkcs11.mbedtls.jitp_root_cert" value="config.aws.pkcs11.mbedtls.jitp_root_cert.disabled" />
+      <property id="config.aws.pkcs11.mbedtls.hmac_key" value="HMAC Key" />
+      <property id="config.aws.pkcs11.mbedtls.cmac_key" value="CMAC Key" />
+    </config>
+    <config id="config.arm.mbedtls">
+      <property id="config.arm.mbedtls.mbedtls_key_exchange_psk_enabled" value="config.arm.mbedtls.mbedtls_key_exchange_psk_enabled.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_key_exchange_dhe_psk_enabled" value="config.arm.mbedtls.mbedtls_key_exchange_dhe_psk_enabled.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_key_exchange_ecdhe_psk_enabled" value="config.arm.mbedtls.mbedtls_key_exchange_ecdhe_psk_enabled.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_key_exchange_rsa_psk_enabled" value="config.arm.mbedtls.mbedtls_key_exchange_rsa_psk_enabled.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_key_exchange_rsa_enabled" value="config.arm.mbedtls.mbedtls_key_exchange_rsa_enabled.enabled" />
+      <property id="config.arm.mbedtls.mbedtls_key_exchange_dhe_rsa_enabled" value="config.arm.mbedtls.mbedtls_key_exchange_dhe_rsa_enabled.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_key_exchange_ecdhe_rsa_enabled" value="config.arm.mbedtls.mbedtls_key_exchange_ecdhe_rsa_enabled.enabled" />
+      <property id="config.arm.mbedtls.mbedtls_key_exchange_ecdhe_ecdsa_enabled" value="config.arm.mbedtls.mbedtls_key_exchange_ecdhe_ecdsa_enabled.enabled" />
+      <property id="config.arm.mbedtls.mbedtls_key_exchange_ecdh_ecdsa_enabled" value="config.arm.mbedtls.mbedtls_key_exchange_ecdh_ecdsa_enabled.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_key_exchange_ecdh_rsa_enabled" value="config.arm.mbedtls.mbedtls_key_exchange_ecdh_rsa_enabled.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_key_exchange_ecjpake_enabled" value="config.arm.mbedtls.mbedtls_key_exchange_ecjpake_enabled.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_ciphersuites_enabled" value="config.arm.mbedtls.mbedtls_ssl_ciphersuites_enabled.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_ciphersuites" value="MBEDTLS_TLS_DHE_PSK_WITH_AES_128_CBC_SHA256,MBEDTLS_TLS_DHE_PSK_WITH_NULL_SHA256,MBEDTLS_TLS_DHE_RSA_WITH_AES_128_CBC_SHA256,MBEDTLS_TLS_DHE_RSA_WITH_AES_128_GCM_SHA256,MBEDTLS_TLS_DHE_RSA_WITH_AES_256_CBC_SHA256,MBEDTLS_TLS_PSK_WITH_AES_128_CBC_SHA256,MBEDTLS_TLS_PSK_WITH_NULL_SHA256,MBEDTLS_TLS_RSA_PSK_WITH_AES_128_CBC_SHA256,MBEDTLS_TLS_RSA_PSK_WITH_AES_128_CBC_SHA256,MBEDTLS_TLS_RSA_PSK_WITH_NULL_SHA256,MBEDTLS_TLS_RSA_WITH_AES_128_CBC_SHA256,MBEDTLS_TLS_RSA_WITH_AES_256_CBC_SHA256,MBEDTLS_TLS_RSA_WITH_NULL_SHA256" />
+      <property id="config.arm.mbedtls.mbedtls_x509_max_intermediate_ca_enabled" value="config.arm.mbedtls.mbedtls_x509_max_intermediate_ca_enabled.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_all_alert_messages" value="config.arm.mbedtls.mbedtls_ssl_all_alert_messages.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_dtls_connection_id" value="config.arm.mbedtls.mbedtls_ssl_dtls_connection_id.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_dtls_connection_id_compat_enabled" value="config.arm.mbedtls.mbedtls_ssl_dtls_connection_id_compat_enabled.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_dtls_connection_id_compat" value="config.arm.mbedtls.mbedtls_ssl_dtls_connection_id_compat.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_async_private" value="config.arm.mbedtls.mbedtls_ssl_async_private.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_debug_all" value="config.arm.mbedtls.mbedtls_ssl_debug_all.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_encrypt_then_mac" value="config.arm.mbedtls.mbedtls_ssl_encrypt_then_mac.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_extended_master_secret" value="config.arm.mbedtls.mbedtls_ssl_extended_master_secret.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_keep_peer_certificate" value="config.arm.mbedtls.mbedtls_ssl_keep_peer_certificate.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_renegotiation" value="config.arm.mbedtls.mbedtls_ssl_renegotiation.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_max_fragment_length" value="config.arm.mbedtls.mbedtls_ssl_max_fragment_length.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_proto_tls1_2" value="config.arm.mbedtls.mbedtls_ssl_proto_tls1_2.enabled" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_proto_tls1_3" value="config.arm.mbedtls.mbedtls_ssl_proto_tls1_3.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_tls1_3_compatibility_mode" value="config.arm.mbedtls.mbedtls_ssl_tls1_3_compatibility_mode.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_tls1_3_key_exchange_mode_psk" value="config.arm.mbedtls.mbedtls_ssl_tls1_3_key_exchange_mode_psk.enabled" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_tls1_3_key_exchange_mode_ephemeral" value="config.arm.mbedtls.mbedtls_ssl_tls1_3_key_exchange_mode_ephemeral.enabled" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_tls1_3_key_exchange_mode_psk_ephemeral" value="config.arm.mbedtls.mbedtls_ssl_tls1_3_key_exchange_mode_psk_ephemeral.enabled" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_tls1_3_ticket_age_tolerance_enabled" value="config.arm.mbedtls.mbedtls_ssl_tls1_3_ticket_age_tolerance_enabled.enabled" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_tls1_3_ticket_age_tolerance" value="6000" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_tls1_3_ticket_nonce_length_enabled" value="config.arm.mbedtls.mbedtls_ssl_tls1_3_ticket_nonce_length_enabled.enabled" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_tls1_3_ticket_nonce_length" value="32" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_tls1_3_default_new_session_tickets_enabled" value="config.arm.mbedtls.mbedtls_ssl_tls1_3_default_new_session_tickets_enabled.enabled" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_tls1_3_default_new_session_tickets" value="1" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_early_data" value="config.arm.mbedtls.mbedtls_ssl_early_data.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_early_data_size" value="32" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_proto_dtls" value="config.arm.mbedtls.mbedtls_ssl_proto_dtls.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_alpn" value="config.arm.mbedtls.mbedtls_ssl_alpn.enabled" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_dtls_anti_replay" value="config.arm.mbedtls.mbedtls_ssl_dtls_anti_replay.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_dtls_hello_verify" value="config.arm.mbedtls.mbedtls_ssl_dtls_hello_verify.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_dtls_client_port_reuse" value="config.arm.mbedtls.mbedtls_ssl_dtls_client_port_reuse.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_session_tickets" value="config.arm.mbedtls.mbedtls_ssl_session_tickets.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_server_name_indication" value="config.arm.mbedtls.mbedtls_ssl_server_name_indication.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_x509_trusted_certificate_callback" value="config.arm.mbedtls.mbedtls_x509_trusted_certificate_callback.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_x509_remove_info" value="config.arm.mbedtls.mbedtls_x509_remove_info.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_x509_rsassa_pss_support" value="config.arm.mbedtls.mbedtls_x509_rsassa_pss_support.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_debug_c" value="config.arm.mbedtls.mbedtls_debug_c.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_net_c" value="config.arm.mbedtls.mbedtls_net_c.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_cache_c" value="config.arm.mbedtls.mbedtls_ssl_cache_c.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_cookie_c" value="config.arm.mbedtls.mbedtls_ssl_cookie_c.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_ticket_c" value="config.arm.mbedtls.mbedtls_ssl_ticket_c.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_cli_c" value="config.arm.mbedtls.mbedtls_ssl_cli_c.enabled" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_srv_c" value="config.arm.mbedtls.mbedtls_ssl_srv_c.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_tls_c" value="config.arm.mbedtls.mbedtls_ssl_tls_c.enabled" />
+      <property id="config.arm.mbedtls.mbedtls_x509_use_c" value="config.arm.mbedtls.mbedtls_x509_use_c.enabled" />
+      <property id="config.arm.mbedtls.mbedtls_x509_crt_parse_c" value="config.arm.mbedtls.mbedtls_x509_crt_parse_c.enabled" />
+      <property id="config.arm.mbedtls.mbedtls_x509_crl_parse_c" value="config.arm.mbedtls.mbedtls_x509_crl_parse_c.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_x509_csr_parse_c" value="config.arm.mbedtls.mbedtls_x509_csr_parse_c.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_x509_create_c" value="config.arm.mbedtls.mbedtls_x509_create_c.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_x509_crt_write_c" value="config.arm.mbedtls.mbedtls_x509_crt_write_c.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_x509_csr_write_c" value="config.arm.mbedtls.mbedtls_x509_csr_write_c.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_in_content_len_enabled" value="config.arm.mbedtls.mbedtls_ssl_in_content_len_enabled.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_in_content_len" value="16384" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_cid_in_len_max_enabled" value="config.arm.mbedtls.mbedtls_ssl_cid_in_len_max.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_cid_in_len_max" value="32" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_cid_out_len_max_enabled" value="config.arm.mbedtls.mbedtls_ssl_cid_out_len_max.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_cid_out_len_max" value="32" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_cid_tls1_3_padding_granularity_enabled" value="config.arm.mbedtls.mbedtls_ssl_cid_tls1_3_padding_granularity_enabled.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_cid_tls1_3_padding_granularity" value="16" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_cid_padding_granularity_enabled" value="config.arm.mbedtls.mbedtls_ssl_cid_padding_granularity.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_cid_padding_granularity" value="16" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_out_content_len_enabled" value="config.arm.mbedtls.mbedtls_ssl_out_content_len.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_out_content_len" value="16384" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_dtls_max_buffering_enabled" value="config.arm.mbedtls.mbedtls_ssl_dtls_max_buffering.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_dtls_max_buffering" value="32768" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_cache_default_timeout_enabled" value="config.arm.mbedtls.mbedtls_ssl_cache_default_timeout_enabled.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_cache_default_timeout" value="86400" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_cache_default_max_entries_enabled" value="config.arm.mbedtls.mbedtls_ssl_cache_default_max_entries_enabled.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_cache_default_max_entries" value="50" />
+      <property id="config.arm.mbedtls.mbedtls_psk_max_len_enabled" value="config.arm.mbedtls.mbedtls_psk_max_len_enabled.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_psk_max_len" value="32" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_cookie_timeout_enabled" value="config.arm.mbedtls.mbedtls_ssl_cookie_timeout_enabled.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_ssl_cookie_timeout" value="60" />
+      <property id="config.arm.mbedtls.mbedtls_x509_max_intermediate_ca" value="8" />
+      <property id="config.arm.mbedtls.mbedtls_x509_max_file_path_len_enabled" value="config.arm.mbedtls.mbedtls_x509_max_file_path_len_enabled.disabled" />
+      <property id="config.arm.mbedtls.mbedtls_x509_max_file_path_len" value="512" />
+    </config>
+    <config id="config.awsfreertos.thread">
+      <property id="config.awsfreertos.custom_freertosconfig" value="" />
+      <property id="config.awsfreertos.thread.configuse_preemption" value="config.awsfreertos.thread.configuse_preemption.enabled" />
+      <property id="config.awsfreertos.thread.configuse_port_optimised_task_selection" value="config.awsfreertos.thread.configuse_port_optimised_task_selection.disabled" />
+      <property id="config.awsfreertos.thread.configuse_tickless_idle" value="config.awsfreertos.thread.configuse_tickless_idle.disabled" />
+      <property id="config.awsfreertos.thread.configuse_idle_hook" value="config.awsfreertos.thread.configuse_idle_hook.enabled" />
+      <property id="config.awsfreertos.thread.configuse_malloc_failed_hook" value="config.awsfreertos.thread.configuse_malloc_failed_hook.disabled" />
+      <property id="config.awsfreertos.thread.configuse_daemon_task_startup_hook" value="config.awsfreertos.thread.configuse_daemon_task_startup_hook.disabled" />
+      <property id="config.awsfreertos.thread.configuse_tick_hook" value="config.awsfreertos.thread.configuse_tick_hook.disabled" />
+      <property id="config.awsfreertos.thread.configcpu_clock_hz" value="SystemCoreClock" />
+      <property id="config.awsfreertos.thread.configtick_rate_hz" value="1000" />
+      <property id="config.awsfreertos.thread.configmax_priorities" value="5" />
+      <property id="config.awsfreertos.thread.configminimal_stack_size" value="128" />
+      <property id="config.awsfreertos.thread.configmax_task_name_len" value="16" />
+      <property id="config.awsfreertos.thread.configuse_trace_facility" value="config.awsfreertos.thread.configuse_trace_facility.disabled" />
+      <property id="config.awsfreertos.thread.configuse_stats_formatting_functions" value="config.awsfreertos.thread.configuse_stats_formatting_functions.disabled" />
+      <property id="config.awsfreertos.thread.configuse_16_bit_ticks" value="config.awsfreertos.thread.configuse_16_bit_ticks.disabled" />
+      <property id="config.awsfreertos.thread.configidle_should_yield" value="config.awsfreertos.thread.configidle_should_yield.enabled" />
+      <property id="config.awsfreertos.thread.configuse_task_notifications" value="config.awsfreertos.thread.configuse_task_notifications.enabled" />
+      <property id="config.awsfreertos.thread.configuse_mutexes" value="config.awsfreertos.thread.configuse_mutexes.enabled" />
+      <property id="config.awsfreertos.thread.configuse_recursive_mutexes" value="config.awsfreertos.thread.configuse_recursive_mutexes.disabled" />
+      <property id="config.awsfreertos.thread.configuse_counting_semaphores" value="config.awsfreertos.thread.configuse_counting_semaphores.enabled" />
+      <property id="config.awsfreertos.thread.configcheck_for_stack_overflow" value="config.awsfreertos.thread.configcheck_for_stack_overflow.disabled" />
+      <property id="config.awsfreertos.thread.configqueue_registry_size" value="10" />
+      <property id="config.awsfreertos.thread.configuse_queue_sets" value="config.awsfreertos.thread.configuse_queue_sets.disabled" />
+      <property id="config.awsfreertos.thread.configuse_time_slicing" value="config.awsfreertos.thread.configuse_time_slicing.disabled" />
+      <property id="config.awsfreertos.thread.configuse_newlib_reentrant" value="config.awsfreertos.thread.configuse_newlib_reentrant.disabled" />
+      <property id="config.awsfreertos.thread.configenable_backward_compatibility" value="config.awsfreertos.thread.configenable_backward_compatibility.disabled" />
+      <property id="config.awsfreertos.thread.confignum_thread_local_storage_pointers" value="5" />
+      <property id="config.awsfreertos.thread.configstack_depth_type" value="uint32_t" />
+      <property id="config.awsfreertos.thread.configmessage_buffer_length_type" value="size_t" />
+      <property id="config.awsfreertos.thread.configheap_clear_memory_on_free" value="config.awsfreertos.thread.configheap_clear_memory_on_free.disabled" />
+      <property id="config.awsfreertos.thread.configsupport_static_allocation" value="config.awsfreertos.thread.configsupport_static_allocation.enabled" />
+      <property id="config.awsfreertos.thread.configsupport_dynamic_allocation" value="config.awsfreertos.thread.configsupport_dynamic_allocation.enabled" />
+      <property id="config.awsfreertos.thread.configtotal_heap_size" value="0x10000" />
+      <property id="config.awsfreertos.thread.configapplication_allocated_heap" value="config.awsfreertos.thread.configapplication_allocated_heap.disabled" />
+      <property id="config.awsfreertos.thread.configgenerate_run_time_stats" value="config.awsfreertos.thread.configgenerate_run_time_stats.disabled" />
+      <property id="config.awsfreertos.thread.configuse_timers" value="config.awsfreertos.thread.configuse_timers.enabled" />
+      <property id="config.awsfreertos.thread.configtimer_task_priority" value="3" />
+      <property id="config.awsfreertos.thread.configtimer_queue_length" value="10" />
+      <property id="config.awsfreertos.thread.configtimer_task_stack_depth" value="128" />
+      <property id="config.awsfreertos.thread.configlibrary_max_syscall_interrupt_priority" value="board.icu.common.irq.priority1" />
+      <property id="config.awsfreertos.thread.configassert" value="assert(x)" />
+      <property id="config.awsfreertos.thread.configinclude_application_defined_privileged_functions" value="config.awsfreertos.thread.configinclude_application_defined_privileged_functions.disabled" />
+      <property id="config.awsfreertos.thread.include_vtaskpriorityset" value="config.awsfreertos.thread.include_vtaskpriorityset.enabled" />
+      <property id="config.awsfreertos.thread.include_uxtaskpriorityget" value="config.awsfreertos.thread.include_uxtaskpriorityget.enabled" />
+      <property id="config.awsfreertos.thread.include_vtaskdelete" value="config.awsfreertos.thread.include_vtaskdelete.enabled" />
+      <property id="config.awsfreertos.thread.include_vtasksuspend" value="config.awsfreertos.thread.include_vtasksuspend.enabled" />
+      <property id="config.awsfreertos.thread.include_xresumefromisr" value="config.awsfreertos.thread.include_xresumefromisr.enabled" />
+      <property id="config.awsfreertos.thread.include_vtaskdelayuntil" value="config.awsfreertos.thread.include_vtaskdelayuntil.enabled" />
+      <property id="config.awsfreertos.thread.include_vtaskdelay" value="config.awsfreertos.thread.include_vtaskdelay.enabled" />
+      <property id="config.awsfreertos.thread.include_xtaskgetschedulerstate" value="config.awsfreertos.thread.include_xtaskgetschedulerstate.enabled" />
+      <property id="config.awsfreertos.thread.include_xtaskgetcurrenttaskhandle" value="config.awsfreertos.thread.include_xtaskgetcurrenttaskhandle.enabled" />
+      <property id="config.awsfreertos.thread.include_uxtaskgetstackhighwatermark" value="config.awsfreertos.thread.include_uxtaskgetstackhighwatermark.disabled" />
+      <property id="config.awsfreertos.thread.include_xtaskgetidletaskhandle" value="config.awsfreertos.thread.include_xtaskgetidletaskhandle.disabled" />
+      <property id="config.awsfreertos.thread.include_etaskgetstate" value="config.awsfreertos.thread.include_etaskgetstate.disabled" />
+      <property id="config.awsfreertos.thread.include_xeventgroupsetbitfromisr" value="config.awsfreertos.thread.include_xeventgroupsetbitfromisr.enabled" />
+      <property id="config.awsfreertos.thread.include_xtimerpendfunctioncall" value="config.awsfreertos.thread.include_xtimerpendfunctioncall.disabled" />
+      <property id="config.awsfreertos.thread.include_xtaskabortdelay" value="config.awsfreertos.thread.include_xtaskabortdelay.disabled" />
+      <property id="config.awsfreertos.thread.include_xtaskgethandle" value="config.awsfreertos.thread.include_xtaskgethandle.disabled" />
+      <property id="config.awsfreertos.thread.include_xtaskresumefromisr" value="config.awsfreertos.thread.include_xtaskresumefromisr.enabled" />
+      <property id="config.awsfreertos.thread.include_hw_stack_monitor" value="config.awsfreertos.thread.include_hw_stack_monitor.disabled" />
+      <property id="config.awsfreertos.thread.print_function" value="printf(x)" />
+      <property id="config.awsfreertos.thread.include_time_and_task" value="config.awsfreertos.thread.include_time_and_task.disabled" />
+    </config>
+    <config id="config.driver.dtc">
+      <property id="config.driver.dtc.param_checking_enable" value="config.driver.dtc.param_checking_enable.bsp" />
+      <property id="config.driver.dtc.vector_table" value=".fsp_dtc_vector_table" />
     </config>
   </raModuleConfiguration>
   <raPinConfiguration>

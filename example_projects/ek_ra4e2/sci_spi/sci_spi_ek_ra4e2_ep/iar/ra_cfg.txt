@@ -24,6 +24,7 @@ FSP Configuration
     Security: SRAM Accessibility: Standby RAM: Regions 7-0 are all Secure.
     Security: BUS Accessibility: Bus Security Attribution Register A: Both Secure and Non-Secure State
     Security: BUS Accessibility: Bus Security Attribution Register B: Both Secure and Non-Secure State
+    Security: Uninitialized Non-Secure Application Fallback: Enable Uninitialized Non-Secure Application Fallback
     Startup C-Cache Line Size: 32 Bytes
     OFS0 register settings: Independent WDT: Start Mode: IWDT is Disabled
     OFS0 register settings: Independent WDT: Timeout Period: 2048 cycles
@@ -77,7 +78,7 @@ FSP Configuration
     UCLK Disabled
     CANFDCLK Disabled
     CECCLK Disabled
-    I3CCLK Src: MOCO
+    I3CCLK Disabled
     ICLK Div /2
     PCLKA Div /2
     PCLKB Div /4
@@ -108,7 +109,7 @@ FSP Configuration
       P100 48 - I3C_SCL - - Disabled - - "AGT0: AGTIO0; GPT5: GTIOC5B; GPT_POEGA: GTETRGA; I3C/IIC: I3C_SCL; IRQ: IRQ2; SCI0: RXD0; SPI1: MISO1; SSIE: AUDIO_CLK" - None - - 
       P101 47 - I3C_SDA - - Disabled - - "AGT0: AGTEE0; GPT5: GTIOC5A; GPT_POEGB: GTETRGB; I3C/IIC: I3C_SDA; IRQ: IRQ1; SCI0: TXD0; SPI1: MOSI1" - None - - 
       P102 46 - PMOD2_RESET - - Disabled - - "ADC0(Digital): ADTRG0; AGT0: AGTO0; CANFD0: CRX0; GPT_OPS: GTOWLO; SCI0: SCK0; SPI1: RSPCK1; SSIE0: SSIBCK0" - None - - 
-      P103 45 - PMOD2_CTS - - Disabled - - "CANFD0: CTX0; GPT_OPS: GTOWUP; SCI0: CTS_RTS0; SPI1: SSLB0; SSIE: SSIFS0; SSIE0: SSILRCK0" - None - - 
+      P103 45 - PMOD2_CTS - - Disabled - - "CANFD0: CTX0; GPT_OPS: GTOWUP; SCI0: CTS_RTS0; SPI1: SSLB0; SSIE0: SSIFS0; SSIE0: SSILRCK0" - None - - 
       P104 44 - LED2 - - Disabled - - "AGT1: AGTIO1; GPT1: GTIOC1B; GPT_POEGB: GTETRGB; IRQ: IRQ1; SPI1: SSLB1" - None - - 
       P105 43 - PMOD1_IRQ0_MIKROBUS_INT_ARDUINO_D2 - - Disabled - - "GPT1: GTIOC1A; GPT_POEGA: GTETRGA; IRQ: IRQ0; SPI1: SSLB2" - None - - 
       P106 42 - PMOD2_SS3 - - Disabled - - "AGT0: AGTOB0; SPI1: SSLB3" - None - - 
@@ -123,7 +124,7 @@ FSP Configuration
       P201 26 - - - - Disabled - - "SYSTEM: MD" - None - - 
       P205 23 - - - - Disabled - - "AGT1: AGTO1; CLKOUT: CLKOUT; GPT4: GTIOC4A; GPT_OPS: GTIV; I3C/IIC: SCL0; IRQ: IRQ1-DS; SCI9: CTS_RTS9; SPI0: SSLA3" - None - - 
       P206 22 - - - - Disabled - - "CEC: CECIO; GPT5: GTIOC5B; GPT_OPS: GTIU; I3C/IIC: SDA0; IRQ: IRQ0-DS; SCI9: CTS9; SPI0: MISO0; SSIE0: SSIDATA0" - None - - 
-      P207 21 - LED1 - - Disabled - - "AGT1: AGTIO1; CAC: CACREF; GPT5: GTIOC5A; GPT_OPS: GTIW; SCI9: SCK9; SPI0: MOSI0; SSIE: SSIFS0; SSIE0: SSILRCK0" - None - - 
+      P207 21 - LED1 - - Disabled - - "AGT1: AGTIO1; CAC: CACREF; GPT5: GTIOC5A; GPT_OPS: GTIW; SCI9: SCK9; SPI0: MOSI0; SSIE0: SSIFS0; SSIE0: SSILRCK0" - None - - 
       P208 24 - - - - Disabled - - "ADC0(Digital): ADTRG0; GPT_OPS: GTOVLO" - None - - 
       P212 10 - - - - Disabled - - "AGT1: AGTEE1; CGC: EXTAL; GPT0: GTIOC0B; GPT_POEGD: GTETRGD; IRQ: IRQ3; SCI0: RXD0" - None - - 
       P213 9 - - - - Disabled - - "CGC: XTAL; GPT0: GTIOC0A; GPT_POEGC: GTETRGC; IRQ: IRQ2; SCI0: TXD0; SSIE: AUDIO_CLK" - None - - 
@@ -173,7 +174,7 @@ FSP Configuration
       P100 48 - I3C_SCL - - Disabled - - "AGT0: AGTIO0; GPT5: GTIOC5B; GPT_POEGA: GTETRGA; I3C/IIC: I3C_SCL; IRQ: IRQ2; SCI0: RXD0; SPI1: MISO1; SSIE: AUDIO_CLK" - None - - 
       P101 47 - I3C_SDA - - Disabled - - "AGT0: AGTEE0; GPT5: GTIOC5A; GPT_POEGB: GTETRGB; I3C/IIC: I3C_SDA; IRQ: IRQ1; SCI0: TXD0; SPI1: MOSI1" - None - - 
       P102 46 - PMOD2_RESET - - Disabled - - "ADC0(Digital): ADTRG0; AGT0: AGTO0; CANFD0: CRX0; GPT_OPS: GTOWLO; SCI0: SCK0; SPI1: RSPCK1; SSIE0: SSIBCK0" - None - - 
-      P103 45 - PMOD2_CTS - - Disabled - - "CANFD0: CTX0; GPT_OPS: GTOWUP; SCI0: CTS_RTS0; SPI1: SSLB0; SSIE: SSIFS0; SSIE0: SSILRCK0" - None - - 
+      P103 45 - PMOD2_CTS - - Disabled - - "CANFD0: CTX0; GPT_OPS: GTOWUP; SCI0: CTS_RTS0; SPI1: SSLB0; SSIE0: SSIFS0; SSIE0: SSILRCK0" - None - - 
       P104 44 - LED2 - - Disabled - - "AGT1: AGTIO1; GPT1: GTIOC1B; GPT_POEGB: GTETRGB; IRQ: IRQ1; SPI1: SSLB1" - None - - 
       P105 43 - PMOD1_IRQ0_MIKROBUS_INT_ARDUINO_D2 - - Disabled - - "GPT1: GTIOC1A; GPT_POEGA: GTETRGA; IRQ: IRQ0; SPI1: SSLB2" - None - - 
       P106 42 - PMOD2_SS3 - - Disabled - - "AGT0: AGTOB0; SPI1: SSLB3" - None - - 
@@ -188,7 +189,7 @@ FSP Configuration
       P201 26 - - - - Disabled - - "SYSTEM: MD" - None - - 
       P205 23 - - - - Disabled - - "AGT1: AGTO1; CLKOUT: CLKOUT; GPT4: GTIOC4A; GPT_OPS: GTIV; I3C/IIC: SCL0; IRQ: IRQ1-DS; SCI9: CTS_RTS9; SPI0: SSLA3" - None - - 
       P206 22 - - - - Disabled - - "CEC: CECIO; GPT5: GTIOC5B; GPT_OPS: GTIU; I3C/IIC: SDA0; IRQ: IRQ0-DS; SCI9: CTS9; SPI0: MISO0; SSIE0: SSIDATA0" - None - - 
-      P207 21 - LED1 - - Disabled - - "AGT1: AGTIO1; CAC: CACREF; GPT5: GTIOC5A; GPT_OPS: GTIW; SCI9: SCK9; SPI0: MOSI0; SSIE: SSIFS0; SSIE0: SSILRCK0" - None - - 
+      P207 21 - LED1 - - Disabled - - "AGT1: AGTIO1; CAC: CACREF; GPT5: GTIOC5A; GPT_OPS: GTIW; SCI9: SCK9; SPI0: MOSI0; SSIE0: SSIFS0; SSIE0: SSILRCK0" - None - - 
       P208 24 - - - - Disabled - - "ADC0(Digital): ADTRG0; GPT_OPS: GTOVLO" - None - - 
       P212 10 - - - - Disabled - - "AGT1: AGTEE1; CGC: EXTAL; GPT0: GTIOC0B; GPT_POEGD: GTETRGD; IRQ: IRQ3; SCI0: RXD0" - None - - 
       P213 9 - - - - Disabled - - "CGC: XTAL; GPT0: GTIOC0A; GPT_POEGC: GTETRGC; IRQ: IRQ2; SCI0: TXD0; SSIE: AUDIO_CLK" - None - - 
@@ -274,6 +275,7 @@ FSP Configuration
         Interrupt Frequency: After all transfers have completed
         Number of Transfers: 0
         Number of Blocks (Valid only in Block Mode): 0
+        Number of Transfer Descriptors: 1
         Activation Source: SCI9 TXI (Transmit data empty)
         
       Instance "g_transfer1 Transfer (r_dtc) SCI9 RXI (Received data full)"
@@ -288,5 +290,6 @@ FSP Configuration
         Interrupt Frequency: After all transfers have completed
         Number of Transfers: 0
         Number of Blocks (Valid only in Block Mode): 0
+        Number of Transfer Descriptors: 1
         Activation Source: SCI9 RXI (Received data full)
         

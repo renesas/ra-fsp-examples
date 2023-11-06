@@ -12,10 +12,11 @@
         <path>$PROJ_DIR$/ra_cfg/fsp_cfg/bsp</path>
         <path>$PROJ_DIR$/ra_gen</path>
         <path>$PROJ_DIR$/src</path>
+        <path>$PROJ_DIR$</path>
     </includePath>
     <defines>
         <define>_RA_CORE=CM4</define>
-        <define>_RENESAS_RA_</define>
+        <define>_RA_ORDINAL=1</define>
     </defines>
     <asmIncludePath>
         <path>$PROJ_DIR$/ra/arm/CMSIS_5/CMSIS/Core/Include</path>
@@ -26,10 +27,11 @@
         <path>$PROJ_DIR$/ra_cfg/fsp_cfg/bsp</path>
         <path>$PROJ_DIR$/ra_gen</path>
         <path>$PROJ_DIR$/src</path>
+        <path>$PROJ_DIR$</path>
     </asmIncludePath>
     <asmDefines>
         <define>_RA_CORE=CM4</define>
-        <define>_RENESAS_RA_</define>
+        <define>_RA_ORDINAL=1</define>
     </asmDefines>
     <linkerFile>
         <override>true</override>
@@ -38,14 +40,11 @@
     <linkerExtraOptions>
         <arg>--config_search "$PROJ_DIR$"</arg>
     </linkerExtraOptions>
-    <programEntryPoint>
-        <symbol>Reset_Handler</symbol>
-    </programEntryPoint>
     <customArgVars>
         <group name="RA Smart Configurator">
             <argVar>
                 <name>RASC_EXE_PATH</name>
-                <value>C:\Renesas\RA_4.6.0\sc_v2023-07_fsp_v4.6.0-beta.0\eclipse\rasc.exe</value>
+                <value>C:\Users\a5145403\AppData\Local\Programs\Renesas\RA\sc_v2023-10_fsp_v5.0.0\eclipse\rasc.exe</value>
             </argVar>
         </group>
     </customArgVars>
@@ -103,7 +102,6 @@
             <path>ra/fsp/src/bsp/cmsis/Device/RENESAS/Include/system.h</path>
             <path>ra/fsp/src/bsp/cmsis/Device/RENESAS/Source/startup.c</path>
             <path>ra/fsp/src/bsp/cmsis/Device/RENESAS/Source/system.c</path>
-            <path>ra/fsp/src/bsp/mcu/all/bsp_arm_exceptions.h</path>
             <path>ra/fsp/src/bsp/mcu/all/bsp_clocks.c</path>
             <path>ra/fsp/src/bsp/mcu/all/bsp_clocks.h</path>
             <path>ra/fsp/src/bsp/mcu/all/bsp_common.c</path>
@@ -111,6 +109,7 @@
             <path>ra/fsp/src/bsp/mcu/all/bsp_compiler_support.h</path>
             <path>ra/fsp/src/bsp/mcu/all/bsp_delay.c</path>
             <path>ra/fsp/src/bsp/mcu/all/bsp_delay.h</path>
+            <path>ra/fsp/src/bsp/mcu/all/bsp_exceptions.h</path>
             <path>ra/fsp/src/bsp/mcu/all/bsp_group_irq.c</path>
             <path>ra/fsp/src/bsp/mcu/all/bsp_group_irq.h</path>
             <path>ra/fsp/src/bsp/mcu/all/bsp_guard.c</path>
@@ -163,7 +162,6 @@
             <path>src/SEGGER_RTT/SEGGER_RTT.c</path>
             <path>src/SEGGER_RTT/SEGGER_RTT.h</path>
             <path>src/SEGGER_RTT/SEGGER_RTT_Conf.h</path>
-            <path>src/SEGGER_RTT/SEGGER_RTT_Conf.hn</path>
             <path>src/SEGGER_RTT/SEGGER_RTT_printf.c</path>
             <path>src/spi_ep.c</path>
             <path>src/spi_ep.h</path>

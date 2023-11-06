@@ -296,11 +296,14 @@ FSP Configuration
   Module "FreeRTOS Heap 4"
   Module "AWS Core MQTT"
     Custom core_mqtt_config.h: 
-    Retry count for reading CONNACK from network: 2
+    Maximum Number of vectors: 4
     State Array Max Count: 10U
     Ping Response Timeout (ms): 500U
     Recieve Polling Timeout (ms): 10U
     Send Retry Timeout (ms): 10U
+    Retry count for reading CONNACK from network: 2
+    Tx Timeout (ms): 30000U
+    Rx Timeout (ms): 30000U
     
   Module "AWS Transport Interface on MbedTLS/PKCS11 (rm_aws_transport_interface_port)"
   Module "AWS Silex WiFi Sockets Wrapper (rm_aws_sockets_wrapper_silex)"
@@ -352,6 +355,8 @@ FSP Configuration
     Log Level: LOG_NONE
     OTA Supported: Disabled
     JITP Code Verify Root Cert Supported: Disabled
+    HMAC Key: HMAC Key
+    CMAC Key: CMAC Key
     
   Module "FreeRTOS MbedTLS Port"
   Module "MbedTLS"
@@ -747,6 +752,7 @@ FSP Configuration
     Code Flash Programming: Disabled
     Data Flash Programming: Enabled
     
+  Module "AWS FreeRTOS+TCP MbedTLS Bio"
   FreeRTOS
     General: Custom FreeRTOSConfig.h: 
     General: Use Preemption: Enabled
@@ -778,6 +784,7 @@ FSP Configuration
     General: Num Thread Local Storage Pointers: 5
     General: Stack Depth Type: uint32_t
     General: Message Buffer Length Type: size_t
+    Memory Allocation: Clear Memory on Free: Disabled
     Memory Allocation: Support Static Allocation: Enabled
     Memory Allocation: Support Dynamic Allocation: Enabled
     Memory Allocation: Total Heap Size: 0x4000
@@ -809,7 +816,6 @@ FSP Configuration
     Optional Functions: xTaskResumeFromISR() Function: Enabled
     RA: Hardware Stack Monitor: Disabled
     Logging: Print String Function: printf(x)
-    Logging: Logging Max Message Length: 192
     Logging: Logging Include Time and Task Name: Disabled
     
   HAL
@@ -874,8 +880,6 @@ FSP Configuration
                 Destination Address Mode: Fixed
                 Source Address Mode: Incremented
                 Repeat Area (Unused in Normal Mode): Source
-                Destination Pointer: NULL
-                Source Pointer: NULL
                 Interrupt Frequency: After all transfers have completed
                 Number of Transfers: 0
                 Number of Blocks (Valid only in Block Mode): 0
@@ -889,14 +893,13 @@ FSP Configuration
                 Destination Address Mode: Incremented
                 Source Address Mode: Fixed
                 Repeat Area (Unused in Normal Mode): Destination
-                Destination Pointer: NULL
-                Source Pointer: NULL
                 Interrupt Frequency: After all transfers have completed
                 Number of Transfers: 0
                 Number of Blocks (Valid only in Block Mode): 0
                 Number of Transfer Descriptors: 1
                 Activation Source: SCI9 RXI (Received data full)
                 
+          Instance "AWS FreeRTOS+TCP MbedTLS Bio"
         Instance "AWS PKCS11 to MbedTLS"
           Instance "AWS PKCS11 PAL on LittleFS (rm_aws_pkcs11_pal_littlefs)"
             Instance "LittleFS"

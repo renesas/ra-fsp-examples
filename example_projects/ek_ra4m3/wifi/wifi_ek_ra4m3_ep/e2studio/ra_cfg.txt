@@ -24,6 +24,7 @@ FSP Configuration
     Security: SRAM Accessibility: Standby RAM: Regions 7-0 are all Secure.
     Security: BUS Accessibility: Bus Security Attribution Register A: Both Secure and Non-Secure State
     Security: BUS Accessibility: Bus Security Attribution Register B: Both Secure and Non-Secure State
+    Security: Uninitialized Non-Secure Application Fallback: Enable Uninitialized Non-Secure Application Fallback
     Startup C-Cache Line Size: 32 Bytes
     OFS0 register settings: Independent WDT: Start Mode: IWDT is Disabled
     OFS0 register settings: Independent WDT: Timeout Period: 2048 cycles
@@ -39,6 +40,8 @@ FSP Configuration
     OFS0 register settings: WDT: Window Start Position: 100% (no window start position)
     OFS0 register settings: WDT: Reset Interrupt Request: Reset
     OFS0 register settings: WDT: Stop Control: Stop counting when entering Sleep mode
+    OFS1_SEL register settings: Voltage Detection 0 Level Security Attribution: VDSEL setting loads from OFS1_SEC
+    OFS1_SEL register settings: Voltage Detection 0 Circuit Start Security Attribution: LVDAS setting loads from OFS1_SEC
     OFS1 register settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
     OFS1 register settings: Voltage Detection 0 Level: 2.80 V
     OFS1 register settings: HOCO Oscillation Enable: HOCO oscillation is disabled after reset
@@ -386,7 +389,7 @@ FSP Configuration
   Module "I/O Port (r_ioport)"
     Parameter Checking: Default (BSP)
     
-  Module "AWS WiFi Common"
+  Module "WiFi Common"
     Max SSID Length: 32
     Max BSSID Length: 6
     Max Passphrase Length: 32
@@ -397,7 +400,6 @@ FSP Configuration
     HTTP Receive Retry Timeout (ms): 1
     HTTP Send Retry Timeout (ms): 1
     HTTP User Agent Value: my-platform-name
-    HTTP Max Response Headers Size (bytes): 2048U
     
   Module "AWS Transport Interface on MbedTLS/PKCS11 (rm_aws_transport_interface_port)"
   Module "AWS PKCS11 to MbedTLS"
@@ -419,6 +421,8 @@ FSP Configuration
     Log Level: LOG_NONE
     OTA Supported: Disabled
     JITP Code Verify Root Cert Supported: Disabled
+    HMAC Key: HMAC Key
+    CMAC Key: CMAC Key
     
   Module "AWS PKCS11 PAL on LittleFS (rm_aws_pkcs11_pal_littlefs)"
   Module "LittleFS"
@@ -459,6 +463,8 @@ FSP Configuration
     X509 Options: MBEDTLS_X509_MAX_INTERMEDIATE_CA: Undefine
     SSL Options: MBEDTLS_SSL_ALL_ALERT_MESSAGES: Undefine
     SSL Options: MBEDTLS_SSL_DTLS_CONNECTION_ID: Undefine
+    SSL Options: MBEDTLS_SSL_DTLS_CONNECTION_ID_COMPAT: Undefine
+    SSL Options: MBEDTLS_SSL_DTLS_CONNECTION_ID_COMPAT Value: Reset
     SSL Options: MBEDTLS_SSL_ASYNC_PRIVATE: Undefine
     SSL Options: MBEDTLS_SSL_DEBUG_ALL: Undefine
     SSL Options: MBEDTLS_SSL_ENCRYPT_THEN_MAC: Undefine
@@ -469,6 +475,17 @@ FSP Configuration
     SSL Options: MBEDTLS_SSL_PROTO_TLS1_2: Define
     SSL Options: MBEDTLS_SSL_PROTO_TLS1_3: Undefine
     SSL Options: MBEDTLS_SSL_TLS1_3_COMPATIBILITY_MODE: Undefine
+    SSL Options: MBEDTLS_SSL_TLS1_3_KEY_EXCHANGE_MODE_PSK_ENABLED: Define
+    SSL Options: MBEDTLS_SSL_TLS1_3_KEY_EXCHANGE_MODE_EPHEMERAL_ENABLED: Define
+    SSL Options: MBEDTLS_SSL_TLS1_3_KEY_EXCHANGE_MODE_PSK_EPHEMERAL_ENABLED: Define
+    SSL Options: MBEDTLS_SSL_TLS1_3_TICKET_AGE_TOLERANCE: Define
+    SSL Options: MBEDTLS_SSL_TLS1_3_TICKET_AGE_TOLERANCE Value: 6000
+    SSL Options: MBEDTLS_SSL_TLS1_3_TICKET_NONCE_LENGTH: Define
+    SSL Options: MBEDTLS_SSL_TLS1_3_TICKET_NONCE_LENGTH Value: 32
+    SSL Options: MBEDTLS_SSL_TLS1_3_DEFAULT_NEW_SESSION_TICKETS: Define
+    SSL Options: MBEDTLS_SSL_TLS1_3_DEFAULT_NEW_SESSION_TICKETS Value: 1
+    SSL Options: MBEDTLS_SSL_EARLY_DATA: Undefine
+    SSL Options: MBEDTLS_SSL_MAX_EARLY_DATA_SIZE Value: 32
     SSL Options: MBEDTLS_SSL_PROTO_DTLS: Undefine
     SSL Options: MBEDTLS_SSL_ALPN: Define
     SSL Options: MBEDTLS_SSL_DTLS_ANTI_REPLAY: Undefine
@@ -516,8 +533,6 @@ FSP Configuration
     General: MBEDTLS_PSK_MAX_LEN Value: 32
     SSL Options: MBEDTLS_SSL_COOKIE_TIMEOUT: Undefine
     SSL Options: MBEDTLS_SSL_COOKIE_TIMEOUT Value: 60
-    SSL Options: MBEDTLS_TLS_EXT_CID: Undefine
-    SSL Options: MBEDTLS_TLS_EXT_CID Value: 254
     X509 Options: MBEDTLS_X509_MAX_INTERMEDIATE_CA Value: 8
     X509 Options: MBEDTLS_X509_MAX_FILE_PATH_LEN: Undefine
     X509 Options: MBEDTLS_X509_MAX_FILE_PATH_LEN Value: 512
@@ -535,7 +550,7 @@ FSP Configuration
     Hardware Acceleration: Public Key Cryptography (PKC): RSA: Use Hardware
     Hardware Acceleration: Public Key Cryptography (PKC): RSA 3072 Verify: Disabled
     Hardware Acceleration: Public Key Cryptography (PKC): RSA 4096 Verify: Disabled
-    Hardware Acceleration: Secure Crypto Engine Initialization: Enabled
+    Hardware Acceleration: Crypto Engine Initialization: Enabled
     Platform: MBEDTLS_HAVE_ASM: Undefine
     Platform: MBEDTLS_NO_UDBL_DIVISION: Undefine
     Platform: MBEDTLS_NO_64BIT_MULTIPLICATION: Undefine
@@ -544,6 +559,7 @@ FSP Configuration
     Platform: MBEDTLS_HAVE_TIME_DATE: Undefine
     Platform: MBEDTLS_PLATFORM_MEMORY: Define
     Platform: MBEDTLS_PLATFORM_NO_STD_FUNCTIONS: Undefine
+    Platform: Alternate: MBEDTLS_PLATFORM_SETBUF_ALT: Undefine
     Platform: Alternate: MBEDTLS_PLATFORM_EXIT_ALT: Undefine
     Platform: Alternate: MBEDTLS_PLATFORM_TIME_ALT: Undefine
     Platform: Alternate: MBEDTLS_PLATFORM_FPRINTF_ALT: Undefine
@@ -551,13 +567,13 @@ FSP Configuration
     Platform: Alternate: MBEDTLS_PLATFORM_SNPRINTF_ALT: Undefine
     Platform: Alternate: MBEDTLS_PLATFORM_VSNPRINTF_ALT: Undefine
     Platform: Alternate: MBEDTLS_PLATFORM_NV_SEED_ALT: Undefine
-    General: PSA_CRYPTO_SECURE: Undefine
+    General: MBEDTLS_PSA_CRYPTO_DRIVERS: Undefine
     General: MBEDTLS_DEPRECATED_WARNING: Undefine
     General: MBEDTLS_DEPRECATED_REMOVED: Define
     Platform: MBEDTLS_TIMING_ALT: Undefine
     Cipher: Alternate: MBEDTLS_ARIA_ALT: Undefine
     Cipher: Alternate: MBEDTLS_CAMELLIA_ALT: Undefine
-    Cipher: Alternate: MBEDTLS_CCM_ALT: Undefine
+    Cipher: Alternate: MBEDTLS_CCM_ALT: Define
     Cipher: Alternate: MBEDTLS_CHACHA20_ALT: Undefine
     Cipher: Alternate: MBEDTLS_CHACHAPOLY_ALT: Undefine
     Cipher: Alternate: MBEDTLS_CMAC_ALT: Undefine
@@ -636,6 +652,7 @@ FSP Configuration
     Public Key Cryptography (PKC): MBEDTLS_PKCS1_V15: Define
     Public Key Cryptography (PKC): MBEDTLS_PKCS1_V21: Define
     Key Configuration: MBEDTLS_PSA_CRYPTO_BUILTIN_KEYS: Undefine
+    Key Configuration: PSA_CRYPTO_DRIVER_TFM_BUILTIN_KEY_LOADER: Undefine
     General: MBEDTLS_PSA_CRYPTO_CLIENT: Undefine
     RNG: MBEDTLS_PSA_CRYPTO_EXTERNAL_RNG: Undefine
     General: MBEDTLS_PSA_CRYPTO_SPM: Undefine
@@ -673,6 +690,8 @@ FSP Configuration
     Cipher: MBEDTLS_GCM_C: Define
     Message Authentication Code (MAC): MBEDTLS_HKDF_C: Define
     Message Authentication Code (MAC): MBEDTLS_HMAC_DRBG_C: Undefine
+    Public Key Cryptography (PKC): MBEDTLS_LMS_C: Define
+    Public Key Cryptography (PKC): MBEDTLS_LMS_PRIVATE: Undefine
     Cipher: MBEDTLS_NIST_KW_C: Undefine
     Hash: MBEDTLS_MD_C: Define
     Hash: MBEDTLS_MD5_C: Define
@@ -684,6 +703,7 @@ FSP Configuration
     Public Key Cryptography (PKC): MBEDTLS_PK_PARSE_C: Define
     Public Key Cryptography (PKC): MBEDTLS_PK_WRITE_C: Define
     Public Key Cryptography (PKC): MBEDTLS_PKCS5_C: Define
+    Public Key Cryptography (PKC): MBEDTLS_PKCS7_C: Undefine
     Public Key Cryptography (PKC): MBEDTLS_PKCS12_C: Define
     Platform: MBEDTLS_PLATFORM_C: Define
     Message Authentication Code (MAC): MBEDTLS_POLY1305_C: Undefine
@@ -740,6 +760,8 @@ FSP Configuration
     Platform: MBEDTLS_PLATFORM_STD_CALLOC value: calloc
     Platform: MBEDTLS_PLATFORM_STD_FREE: Undefine
     Platform: MBEDTLS_PLATFORM_STD_FREE value: free
+    Platform: MBEDTLS_PLATFORM_STD_SETBUF: Undefine
+    Platform: MBEDTLS_PLATFORM_STD_SETBUF value: setbuf
     Platform: MBEDTLS_PLATFORM_STD_EXIT: Undefine
     Platform: MBEDTLS_PLATFORM_STD_EXIT value: exit
     Platform: MBEDTLS_PLATFORM_STD_TIME: Undefine
@@ -766,6 +788,8 @@ FSP Configuration
     Platform: MBEDTLS_PLATFORM_FREE_MACRO value: free
     Platform: MBEDTLS_PLATFORM_EXIT_MACRO: Undefine
     Platform: MBEDTLS_PLATFORM_EXIT_MACRO value: exit
+    Platform: MBEDTLS_PLATFORM_SETBUF_MACRO: Define
+    Platform: MBEDTLS_PLATFORM_SETBUF_MACRO value: dummy_setbuf
     Platform: MBEDTLS_PLATFORM_TIME_MACRO: Undefine
     Platform: MBEDTLS_PLATFORM_TIME_MACRO value: time
     Platform: MBEDTLS_PLATFORM_TIME_TYPE_MACRO: Undefine
@@ -791,15 +815,12 @@ FSP Configuration
     Platform: Alternate: MBEDTLS_PLATFORM_GMTIME_R_ALT: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECDH_VARIANT_EVEREST_ENABLED: Undefine
     
-  Module "Mbed Crypto HW Acceleration (rm_psa_crypto)"
+  Module "Mbed Crypto H/W Acceleration (rm_psa_crypto)"
   Module "SCE Compatibility Mode"
   Module "MbedTLS FSP Port (rm_mbedtls)"
   Module "AWS Logging"
   Module "AWS Demo dev_mode_key_provisioning"
     Header file to #include in ra_cfg/aws/aws_clientcredential_keys.h: 
-    
-  Module "AWS Client Credentials"
-    Header file to #include in ra_cfg/aws/aws_clientcredential.h: 
     
   Module "FreeRTOS Port (rm_freertos_port)"
   Module "AWS Silex WiFi Sockets Wrapper (rm_aws_sockets_wrapper_silex)"
@@ -822,11 +843,11 @@ FSP Configuration
     Flow Control Support: Disable
     RS-485 Support: Disable
     
-  Module "AWS Cellular/WiFi MbedTLS Bio"
   Module "Transfer (r_dtc)"
     Parameter Checking: Default (BSP)
     Linker section to keep DTC vector table: .fsp_dtc_vector_table
     
+  Module "AWS FreeRTOS+TCP MbedTLS Bio"
   FreeRTOS
     General: Custom FreeRTOSConfig.h: 
     General: Use Preemption: Enabled
@@ -858,6 +879,7 @@ FSP Configuration
     General: Num Thread Local Storage Pointers: 5
     General: Stack Depth Type: uint32_t
     General: Message Buffer Length Type: size_t
+    Memory Allocation: Clear Memory on Free: Disabled
     Memory Allocation: Support Static Allocation: Enabled
     Memory Allocation: Support Dynamic Allocation: Enabled
     Memory Allocation: Total Heap Size: 0x4000
@@ -889,20 +911,15 @@ FSP Configuration
     Optional Functions: xTaskResumeFromISR() Function: Enabled
     RA: Hardware Stack Monitor: Disabled
     Logging: Print String Function: printf(x)
-    Logging: Logging Max Message Length: 192
     Logging: Logging Include Time and Task Name: Disabled
     
   HAL
     Instance "g_ioport I/O Port (r_ioport)"
       Name: g_ioport
-      Port 1 ELC Trigger Source: Disabled
-      Port 2 ELC Trigger Source: Disabled
-      Port 3 ELC Trigger Source: Disabled
-      Port 4 ELC Trigger Source: Disabled
-      Port B ELC Trigger Source: Disabled
-      Port C ELC Trigger Source: Disabled
-      Port D ELC Trigger Source: Disabled
-      Port E ELC Trigger Source: Disabled
+      1st Port ELC Trigger Source: Disabled
+      2nd Port ELC Trigger Source: Disabled
+      3rd Port ELC Trigger Source: Disabled
+      4th Port ELC Trigger Source: Disabled
       Pin Configuration Name: g_bsp_pin_cfg
       
     Instance "FreeRTOS Port (rm_freertos_port)"
@@ -921,11 +938,11 @@ FSP Configuration
         Instance "AWS Silex WiFi Sockets Wrapper (rm_aws_sockets_wrapper_silex)"
           Instance "WiFi Onchip Silex Driver using r_sci_uart (rm_wifi_onchip_silex)"
             SNTP server IPv4 address: 0.0.0.0
-            STNP Timezone Offset from UTC Hours: 0
-            STNP Timezone Offset from UTC Minutes: 0
+            SNTP Timezone Offset from UTC Hours: 0
+            SNTP Timezone Offset from UTC Minutes: 0
             Use Daylight Savings Time: Disabled
             
-            Instance "AWS WiFi Common"
+            Instance "WiFi Common"
             Instance "g_uart0 UART (r_sci_uart)"
               General: Name: g_uart0
               General: Channel: 9
@@ -959,11 +976,10 @@ FSP Configuration
                 Destination Address Mode: Fixed
                 Source Address Mode: Incremented
                 Repeat Area (Unused in Normal Mode): Source
-                Destination Pointer: NULL
-                Source Pointer: NULL
                 Interrupt Frequency: After all transfers have completed
                 Number of Transfers: 0
                 Number of Blocks (Valid only in Block Mode): 0
+                Number of Transfer Descriptors: 1
                 Activation Source: SCI9 TXI (Transmit data empty)
                 
               Instance "g_transfer1 Transfer (r_dtc) SCI9 RXI (Received data full)"
@@ -973,14 +989,13 @@ FSP Configuration
                 Destination Address Mode: Incremented
                 Source Address Mode: Fixed
                 Repeat Area (Unused in Normal Mode): Destination
-                Destination Pointer: NULL
-                Source Pointer: NULL
                 Interrupt Frequency: After all transfers have completed
                 Number of Transfers: 0
                 Number of Blocks (Valid only in Block Mode): 0
+                Number of Transfer Descriptors: 1
                 Activation Source: SCI9 RXI (Received data full)
                 
-          Instance "AWS Cellular/WiFi MbedTLS Bio"
+          Instance "AWS FreeRTOS+TCP MbedTLS Bio"
         Instance "AWS PKCS11 to MbedTLS"
           Instance "AWS PKCS11 PAL on LittleFS (rm_aws_pkcs11_pal_littlefs)"
             Instance "LittleFS"
@@ -1005,8 +1020,7 @@ FSP Configuration
           Instance "FreeRTOS MbedTLS Port"
             Instance "MbedTLS"
               Instance "MbedTLS (Crypto Only)"
-                Instance "Mbed Crypto HW Acceleration (rm_psa_crypto)"
+                Instance "Mbed Crypto H/W Acceleration (rm_psa_crypto)"
               Instance "MbedTLS FSP Port (rm_mbedtls)"
         Instance "AWS Logging"
         Instance "AWS Demo dev_mode_key_provisioning"
-          Instance "AWS Client Credentials"

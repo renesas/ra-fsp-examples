@@ -225,7 +225,6 @@ FSP Configuration
     HTTP Receive Retry Timeout (ms): 1
     HTTP Send Retry Timeout (ms): 1
     HTTP User Agent Value: my-platform-name
-    HTTP Max Response Headers Size (bytes): 2048U
     
   Module "AWS Transport Interface on MbedTLS/PKCS11 (rm_aws_transport_interface_port)"
   Module "AWS PKCS11 to MbedTLS"
@@ -247,6 +246,8 @@ FSP Configuration
     Log Level: LOG_NONE
     OTA Supported: Disabled
     JITP Code Verify Root Cert Supported: Disabled
+    HMAC Key: HMAC Key
+    CMAC Key: CMAC Key
     
   Module "AWS PKCS11 PAL on LittleFS (rm_aws_pkcs11_pal_littlefs)"
   Module "FreeRTOS MbedTLS Port"
@@ -377,10 +378,10 @@ FSP Configuration
     Platform: MBEDTLS_TIMING_ALT: Undefine
     Cipher: Alternate: MBEDTLS_ARIA_ALT: Undefine
     Cipher: Alternate: MBEDTLS_CAMELLIA_ALT: Undefine
-    Cipher: Alternate: MBEDTLS_CCM_ALT: Define
+    Cipher: Alternate: MBEDTLS_CCM_ALT: Undefine
     Cipher: Alternate: MBEDTLS_CHACHA20_ALT: Undefine
     Cipher: Alternate: MBEDTLS_CHACHAPOLY_ALT: Undefine
-    Cipher: Alternate: MBEDTLS_CMAC_ALT: Use Software
+    Cipher: Alternate: MBEDTLS_CMAC_ALT: Undefine
     Cipher: Alternate: MBEDTLS_DES_ALT: Undefine
     Public Key Cryptography (PKC): DHM: Alternate: MBEDTLS_DHM_ALT: Undefine
     Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECJPAKE_ALT: Undefine
@@ -636,7 +637,7 @@ FSP Configuration
     Module Reset Pin: 08
     Enable SNTP Client: Disabled
     
-  Module "AWS WiFi Common"
+  Module "WiFi Common"
     Max SSID Length: 32
     Max BSSID Length: 6
     Max Passphrase Length: 32
@@ -648,11 +649,31 @@ FSP Configuration
     Flow Control Support: Disable
     RS-485 Support: Disable
     
-  Module "AWS Cellular/WiFi MbedTLS Bio"
   Module "Transfer (r_dtc)"
     Parameter Checking: Default (BSP)
     Linker section to keep DTC vector table: .fsp_dtc_vector_table
     
+  Module "LittleFS"
+    Custom lfs_util.h: 
+    Thread Safe: Disabled
+    Use Malloc: Enabled
+    Use Assert: Enabled
+    Debug Messages: Disabled
+    Warning Messages: Disabled
+    Error Messages: Disabled
+    Trace Messages: Disabled
+    Intrinsics: Enabled
+    Instance Name for STDIO wrapper: g_rm_littlefs0
+    
+  Module "LittleFS on Flash (rm_littlefs_flash)"
+    Parameter Checking: Default (BSP)
+    
+  Module "Flash (r_flash_lp)"
+    Parameter Checking: Default (BSP)
+    Code Flash Programming: Disabled
+    Data Flash Programming: Enabled
+    
+  Module "AWS FreeRTOS+TCP MbedTLS Bio"
   FreeRTOS
     General: Custom FreeRTOSConfig.h: 
     General: Use Preemption: Enabled
@@ -684,6 +705,7 @@ FSP Configuration
     General: Num Thread Local Storage Pointers: 5
     General: Stack Depth Type: uint32_t
     General: Message Buffer Length Type: size_t
+    Memory Allocation: Clear Memory on Free: Disabled
     Memory Allocation: Support Static Allocation: Enabled
     Memory Allocation: Support Dynamic Allocation: Enabled
     Memory Allocation: Total Heap Size: 0x1800
@@ -715,7 +737,6 @@ FSP Configuration
     Optional Functions: xTaskResumeFromISR() Function: Enabled
     RA: Hardware Stack Monitor: Disabled
     Logging: Print String Function: printf(x)
-    Logging: Logging Max Message Length: 192
     Logging: Logging Include Time and Task Name: Disabled
     
   HAL
@@ -746,7 +767,7 @@ FSP Configuration
             SNTP Timezone Offset from UTC Minutes: 0
             Use Daylight Savings Time: Disabled
             
-            Instance "AWS WiFi Common"
+            Instance "WiFi Common"
             Instance "g_uart0 UART (r_sci_uart)"
               General: Name: g_uart0
               General: Channel: 0
@@ -780,11 +801,10 @@ FSP Configuration
                 Destination Address Mode: Fixed
                 Source Address Mode: Incremented
                 Repeat Area (Unused in Normal Mode): Source
-                Destination Pointer: NULL
-                Source Pointer: NULL
                 Interrupt Frequency: After all transfers have completed
                 Number of Transfers: 0
                 Number of Blocks (Valid only in Block Mode): 0
+                Number of Transfer Descriptors: 1
                 Activation Source: SCI0 TXI (Transmit data empty)
                 
               Instance "g_transfer1 Transfer (r_dtc) SCI0 RXI (Receive data full)"
@@ -794,16 +814,33 @@ FSP Configuration
                 Destination Address Mode: Incremented
                 Source Address Mode: Fixed
                 Repeat Area (Unused in Normal Mode): Destination
-                Destination Pointer: NULL
-                Source Pointer: NULL
                 Interrupt Frequency: After all transfers have completed
                 Number of Transfers: 0
                 Number of Blocks (Valid only in Block Mode): 0
+                Number of Transfer Descriptors: 1
                 Activation Source: SCI0 RXI (Receive data full)
                 
-          Instance "AWS Cellular/WiFi MbedTLS Bio"
+          Instance "AWS FreeRTOS+TCP MbedTLS Bio"
         Instance "AWS PKCS11 to MbedTLS"
           Instance "AWS PKCS11 PAL on LittleFS (rm_aws_pkcs11_pal_littlefs)"
+            Instance "LittleFS"
+              
+              Instance "LittleFS on Flash (rm_littlefs_flash)"
+                Name: g_rm_littlefs0
+                Read Size: 1
+                Program Size: 4
+                Block Size (bytes): 128
+                Block Count: (BSP_DATA_FLASH_SIZE_BYTES/128)
+                Block Cycles: 1024
+                Cache Size: 64
+                Lookahead Size: 16
+                
+                Instance "g_flash0 Flash (r_flash_lp)"
+                  Name: g_flash0
+                  Data Flash Background Operation: Disabled
+                  Callback: NULL
+                  Flash Ready Interrupt Priority: Disabled
+                  
           Instance "FreeRTOS MbedTLS Port"
             Instance "MbedTLS"
               Instance "MbedTLS (Crypto Only)"

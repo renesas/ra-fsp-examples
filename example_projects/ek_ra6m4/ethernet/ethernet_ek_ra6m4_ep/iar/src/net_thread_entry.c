@@ -64,8 +64,7 @@ char *remote_ip_address = USR_TEST_PING_IP;
 
 
 #if( ipconfigUSE_DHCP != 0 )
-    extern NetworkAddressingParameters_t xNetworkAddressing;
-    NetworkAddressingParameters_t xNd = {RESET_VALUE, RESET_VALUE, RESET_VALUE, RESET_VALUE, RESET_VALUE};
+    IPV4Parameters_t xNd = {RESET_VALUE, RESET_VALUE, RESET_VALUE, {RESET_VALUE, RESET_VALUE}, RESET_VALUE, RESET_VALUE};
 #endif
 
 uint32_t  dhcp_in_use   = RESET_VALUE;
@@ -297,7 +296,7 @@ eDHCPCallbackAnswer_t eReturn = eDHCPContinue;
          * The sub-domains don’t match, so continue with the DHCP process so the offered IP address is used.
          */
         /* Update the Structure, the DHCP state Machine is not updating this */
-        xNetworkAddressing.ulDefaultIPAddress = ulIPAddress;
+        xNd.ulIPAddress = ulIPAddress;
         dhcp_in_use = 1;
       break;
 
@@ -345,23 +344,23 @@ void print_ipconfig(void)
         ucGatewayAddress[1] = (uint8_t)((xNd.ulGatewayAddress & 0x0000FF00)>> 8);
         ucGatewayAddress[0] = (uint8_t)(xNd.ulGatewayAddress & 0x000000FF);
 
-        ucDNSServerAddress[3] = (uint8_t)((xNd.ulDNSServerAddress & 0xFF000000)>> 24);
-        ucDNSServerAddress[2] = (uint8_t)((xNd.ulDNSServerAddress & 0x00FF0000)>> 16);
-        ucDNSServerAddress[1] = (uint8_t)((xNd.ulDNSServerAddress & 0x0000FF00)>> 8);
-        ucDNSServerAddress[0] = (uint8_t)(xNd.ulDNSServerAddress & 0x000000FF);
+        ucDNSServerAddress[3] = (uint8_t)((xNd.ulDNSServerAddresses[0] & 0xFF000000)>> 24);
+        ucDNSServerAddress[2] = (uint8_t)((xNd.ulDNSServerAddresses[0] & 0x00FF0000)>> 16);
+        ucDNSServerAddress[1] = (uint8_t)((xNd.ulDNSServerAddresses[0] & 0x0000FF00)>> 8);
+        ucDNSServerAddress[0] = (uint8_t)(xNd.ulDNSServerAddresses[0] & 0x000000FF);
 
-        ucIPAddress[3] = (uint8_t)((xNd.ulDefaultIPAddress & 0xFF000000) >> 24);
-        ucIPAddress[2] = (uint8_t)((xNd.ulDefaultIPAddress & 0x00FF0000) >> 16);
-        ucIPAddress[1] = (uint8_t)((xNd.ulDefaultIPAddress & 0x0000FF00) >> 8);
-        ucIPAddress[0] = (uint8_t)(xNd.ulDefaultIPAddress & 0x000000FF);
+        ucIPAddress[3] = (uint8_t)((xNd.ulIPAddress & 0xFF000000) >> 24);
+        ucIPAddress[2] = (uint8_t)((xNd.ulIPAddress & 0x00FF0000) >> 16);
+        ucIPAddress[1] = (uint8_t)((xNd.ulIPAddress & 0x0000FF00) >> 8);
+        ucIPAddress[0] = (uint8_t)(xNd.ulIPAddress & 0x000000FF);
     }
 #endif
-    APP_PRINT("\r\nEthernet adapter for Renesas "KIT_NAME":\r\n")
+    APP_PRINT("\r\nEthernet adapter for Renesas "KIT_NAME":\r\n");
 
     APP_PRINT("\tDescription . . . . . . . . . . . : Renesas "KIT_NAME" Ethernet\r\n");
     APP_PRINT("\tPhysical Address. . . . . . . . . : %02x-%02x-%02x-%02x-%02x-%02x\r\n",
             ucMACAddress[0],ucMACAddress[1],ucMACAddress[2],ucMACAddress[3],ucMACAddress[4],ucMACAddress[5]);
-    APP_PRINT("\tDHCP Enabled. . . . . . . . . . . : %s\r\n",dhcp_in_use?"Yes":"No")
+    APP_PRINT("\tDHCP Enabled. . . . . . . . . . . : %s\r\n",dhcp_in_use?"Yes":"No");
     APP_PRINT("\tIPv4 Address. . . . . . . . . . . : %d.%d.%d.%d\r\n",ucIPAddress[0],ucIPAddress[1],ucIPAddress[2],ucIPAddress[3]);
     APP_PRINT("\tSubnet Mask . . . . . . . . . . . : %d.%d.%d.%d\r\n",ucNetMask[0],ucNetMask[1],ucNetMask[2],ucNetMask[3]);
     APP_PRINT("\tDefault Gateway . . . . . . . . . : %d.%d.%d.%d\r\n",ucGatewayAddress[0],ucGatewayAddress[1],ucGatewayAddress[2],ucGatewayAddress[3]);
@@ -449,7 +448,9 @@ void updateDhcpResponseToUsr(void)
 {
     if(dhcp_in_use)
     {
-        memcpy(&xNd, &xNetworkAddressing, sizeof(xNd));
+        xNd.ulNetMask = FreeRTOS_GetNetmask();
+        xNd.ulGatewayAddress = FreeRTOS_GetGatewayAddress();
+        xNd.ulDNSServerAddresses[0] = FreeRTOS_GetDNSServerAddress();
     }
 }
 #endif

@@ -81,8 +81,7 @@ static uint8_t s_static_ip_dnsserveraddress[ 4 ] = STATIC_IP_DNS_SERVER_ADDRESS;
 
 
 #if( ipconfigUSE_DHCP != 0 )
-    extern NetworkAddressingParameters_t xNetworkAddressing;
-    NetworkAddressingParameters_t xNd = {RESET_VALUE, RESET_VALUE, RESET_VALUE, RESET_VALUE, RESET_VALUE};
+    IPV4Parameters_t xNd = {RESET_VALUE, RESET_VALUE, RESET_VALUE, {RESET_VALUE, RESET_VALUE}, RESET_VALUE, RESET_VALUE};
 #endif
 
 uint32_t  dhcp_in_use   = RESET_VALUE;
@@ -332,7 +331,7 @@ eDHCPCallbackAnswer_t eReturn = eDHCPContinue;
          * The sub-domains don’t match, so continue with the DHCP process so the offered IP address is used.
          */
         /* Update the Structure, the DHCP state Machine is not updating this */
-        xNetworkAddressing.ulDefaultIPAddress = ulIPAddress;
+        xNd.ulIPAddress = ulIPAddress;
         dhcp_in_use = 1;
       break;
 
@@ -362,15 +361,15 @@ static void update_ipconfig(void)
         ucGatewayAddress[1] = (uint8_t)((xNd.ulGatewayAddress & 0x0000FF00)>> 8);
         ucGatewayAddress[0] = (uint8_t)(xNd.ulGatewayAddress & 0x000000FF);
 
-        ucDNSServerAddress[3] = (uint8_t)((xNd.ulDNSServerAddress & 0xFF000000)>> 24);
-        ucDNSServerAddress[2] = (uint8_t)((xNd.ulDNSServerAddress & 0x00FF0000)>> 16);
-        ucDNSServerAddress[1] = (uint8_t)((xNd.ulDNSServerAddress & 0x0000FF00)>> 8);
-        ucDNSServerAddress[0] = (uint8_t)(xNd.ulDNSServerAddress & 0x000000FF);
+        ucDNSServerAddress[3] = (uint8_t)((xNd.ulDNSServerAddresses[0] & 0xFF000000)>> 24);
+        ucDNSServerAddress[2] = (uint8_t)((xNd.ulDNSServerAddresses[0] & 0x00FF0000)>> 16);
+        ucDNSServerAddress[1] = (uint8_t)((xNd.ulDNSServerAddresses[0] & 0x0000FF00)>> 8);
+        ucDNSServerAddress[0] = (uint8_t)(xNd.ulDNSServerAddresses[0] & 0x000000FF);
 
-        ucIPAddress[3] = (uint8_t)((xNd.ulDefaultIPAddress & 0xFF000000) >> 24);
-        ucIPAddress[2] = (uint8_t)((xNd.ulDefaultIPAddress & 0x00FF0000) >> 16);
-        ucIPAddress[1] = (uint8_t)((xNd.ulDefaultIPAddress & 0x0000FF00) >> 8);
-        ucIPAddress[0] = (uint8_t)(xNd.ulDefaultIPAddress & 0x000000FF);
+        ucIPAddress[3] = (uint8_t)((xNd.ulIPAddress & 0xFF000000) >> 24);
+        ucIPAddress[2] = (uint8_t)((xNd.ulIPAddress & 0x00FF0000) >> 16);
+        ucIPAddress[1] = (uint8_t)((xNd.ulIPAddress & 0x0000FF00) >> 8);
+        ucIPAddress[0] = (uint8_t)(xNd.ulIPAddress & 0x000000FF);
     }
 #endif
 }
@@ -475,7 +474,9 @@ void updateDhcpResponseToUsr(void)
 {
     if(dhcp_in_use)
     {
-        memcpy(&xNd, &xNetworkAddressing, sizeof(xNd));
+        xNd.ulNetMask = FreeRTOS_GetNetmask();
+        xNd.ulGatewayAddress = FreeRTOS_GetGatewayAddress();
+        xNd.ulDNSServerAddresses[0] = FreeRTOS_GetDNSServerAddress();
     }
 }
 #endif

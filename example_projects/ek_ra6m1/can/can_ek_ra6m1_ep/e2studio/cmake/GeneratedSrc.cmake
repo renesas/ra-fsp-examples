@@ -24,5 +24,12 @@ target_include_directories(${PROJECT_NAME}.elf
     ${CMAKE_CURRENT_SOURCE_DIR}/ra_cfg/fsp_cfg/bsp
     ${CMAKE_CURRENT_SOURCE_DIR}/ra_gen
     ${CMAKE_CURRENT_SOURCE_DIR}/src
+    ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
+add_custom_target(srecord ALL
+    COMMAND ${CMAKE_OBJCOPY} -O srec ${PROJECT_NAME}.elf ${PROJECT_NAME}.srec
+    COMMENT "Creating S-record file in ${PROJECT_BINARY_DIR}"
+)
+
+add_dependencies(srecord ${PROJECT_NAME}.elf)

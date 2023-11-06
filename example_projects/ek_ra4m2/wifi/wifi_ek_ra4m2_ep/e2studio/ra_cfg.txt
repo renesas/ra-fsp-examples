@@ -40,6 +40,8 @@ FSP Configuration
     OFS0 register settings: WDT: Window Start Position: 100% (no window start position)
     OFS0 register settings: WDT: Reset Interrupt Request: Reset
     OFS0 register settings: WDT: Stop Control: Stop counting when entering Sleep mode
+    OFS1_SEL register settings: Voltage Detection 0 Level Security Attribution: VDSEL setting loads from OFS1_SEC
+    OFS1_SEL register settings: Voltage Detection 0 Circuit Start Security Attribution: LVDAS setting loads from OFS1_SEC
     OFS1 register settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
     OFS1 register settings: Voltage Detection 0 Level: 2.80 V
     OFS1 register settings: HOCO Oscillation Enable: HOCO oscillation is disabled after reset
@@ -303,7 +305,6 @@ FSP Configuration
     HTTP Receive Retry Timeout (ms): 1
     HTTP Send Retry Timeout (ms): 1
     HTTP User Agent Value: my-platform-name
-    HTTP Max Response Headers Size (bytes): 2048U
     
   Module "AWS Transport Interface on MbedTLS/PKCS11 (rm_aws_transport_interface_port)"
   Module "AWS PKCS11 to MbedTLS"
@@ -325,6 +326,8 @@ FSP Configuration
     Log Level: LOG_NONE
     OTA Supported: Disabled
     JITP Code Verify Root Cert Supported: Disabled
+    HMAC Key: HMAC Key
+    CMAC Key: CMAC Key
     
   Module "AWS PKCS11 PAL on LittleFS (rm_aws_pkcs11_pal_littlefs)"
   Module "LittleFS"
@@ -475,10 +478,10 @@ FSP Configuration
     Platform: MBEDTLS_TIMING_ALT: Undefine
     Cipher: Alternate: MBEDTLS_ARIA_ALT: Undefine
     Cipher: Alternate: MBEDTLS_CAMELLIA_ALT: Undefine
-    Cipher: Alternate: MBEDTLS_CCM_ALT: Undefine
+    Cipher: Alternate: MBEDTLS_CCM_ALT: Define
     Cipher: Alternate: MBEDTLS_CHACHA20_ALT: Undefine
     Cipher: Alternate: MBEDTLS_CHACHAPOLY_ALT: Undefine
-    Cipher: Alternate: MBEDTLS_CMAC_ALT: Use Software
+    Cipher: Alternate: MBEDTLS_CMAC_ALT: Undefine
     Cipher: Alternate: MBEDTLS_DES_ALT: Undefine
     Public Key Cryptography (PKC): DHM: Alternate: MBEDTLS_DHM_ALT: Undefine
     Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECJPAKE_ALT: Undefine
@@ -734,7 +737,7 @@ FSP Configuration
     Module Reset Pin: 03
     Enable SNTP Client: Disabled
     
-  Module "AWS WiFi Common"
+  Module "WiFi Common"
     Max SSID Length: 32
     Max BSSID Length: 6
     Max Passphrase Length: 32
@@ -746,11 +749,11 @@ FSP Configuration
     Flow Control Support: Disable
     RS-485 Support: Disable
     
-  Module "AWS Cellular/WiFi MbedTLS Bio"
   Module "Transfer (r_dtc)"
     Parameter Checking: Default (BSP)
     Linker section to keep DTC vector table: .fsp_dtc_vector_table
     
+  Module "AWS FreeRTOS+TCP MbedTLS Bio"
   FreeRTOS
     General: Custom FreeRTOSConfig.h: 
     General: Use Preemption: Enabled
@@ -782,6 +785,7 @@ FSP Configuration
     General: Num Thread Local Storage Pointers: 5
     General: Stack Depth Type: uint32_t
     General: Message Buffer Length Type: size_t
+    Memory Allocation: Clear Memory on Free: Disabled
     Memory Allocation: Support Static Allocation: Enabled
     Memory Allocation: Support Dynamic Allocation: Enabled
     Memory Allocation: Total Heap Size: 0x1500
@@ -813,7 +817,6 @@ FSP Configuration
     Optional Functions: xTaskResumeFromISR() Function: Enabled
     RA: Hardware Stack Monitor: Disabled
     Logging: Print String Function: printf(x)
-    Logging: Logging Max Message Length: 192
     Logging: Logging Include Time and Task Name: Disabled
     
   HAL
@@ -844,7 +847,7 @@ FSP Configuration
             SNTP Timezone Offset from UTC Minutes: 0
             Use Daylight Savings Time: Disabled
             
-            Instance "AWS WiFi Common"
+            Instance "WiFi Common"
             Instance "g_uart0 UART (r_sci_uart)"
               General: Name: g_uart0
               General: Channel: 4
@@ -878,11 +881,10 @@ FSP Configuration
                 Destination Address Mode: Fixed
                 Source Address Mode: Incremented
                 Repeat Area (Unused in Normal Mode): Source
-                Destination Pointer: NULL
-                Source Pointer: NULL
                 Interrupt Frequency: After all transfers have completed
                 Number of Transfers: 0
                 Number of Blocks (Valid only in Block Mode): 0
+                Number of Transfer Descriptors: 1
                 Activation Source: SCI4 TXI (Transmit data empty)
                 
               Instance "g_transfer1 Transfer (r_dtc) SCI4 RXI (Received data full)"
@@ -892,14 +894,13 @@ FSP Configuration
                 Destination Address Mode: Incremented
                 Source Address Mode: Fixed
                 Repeat Area (Unused in Normal Mode): Destination
-                Destination Pointer: NULL
-                Source Pointer: NULL
                 Interrupt Frequency: After all transfers have completed
                 Number of Transfers: 0
                 Number of Blocks (Valid only in Block Mode): 0
+                Number of Transfer Descriptors: 1
                 Activation Source: SCI4 RXI (Received data full)
                 
-          Instance "AWS Cellular/WiFi MbedTLS Bio"
+          Instance "AWS FreeRTOS+TCP MbedTLS Bio"
         Instance "AWS PKCS11 to MbedTLS"
           Instance "AWS PKCS11 PAL on LittleFS (rm_aws_pkcs11_pal_littlefs)"
             Instance "LittleFS"

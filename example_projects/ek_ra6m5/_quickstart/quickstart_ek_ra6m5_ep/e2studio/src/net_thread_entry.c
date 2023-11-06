@@ -100,8 +100,7 @@ uint8_t g_dns_server_address[4] = STATIC_IP_DNS_SERVER_ADDRESS;
 
 
 #if( ipconfigUSE_DHCP != 0 )
-extern NetworkAddressingParameters_t xNetworkAddressing;
-NetworkAddressingParameters_t g_xnd = {RESET_VALUE, RESET_VALUE, RESET_VALUE, RESET_VALUE, RESET_VALUE};
+IPV4Parameters_t xNd = {RESET_VALUE, RESET_VALUE, RESET_VALUE, {RESET_VALUE, RESET_VALUE}, RESET_VALUE, RESET_VALUE};
 #endif
 
 
@@ -373,7 +372,7 @@ eDHCPCallbackAnswer_t xApplicationDHCPHook(eDHCPCallbackPhase_t eDHCPPhase,
 
             /* The sub-domains don't match, so continue with the DHCP process so the offered IP address is used.
              * Update the Structure, the DHCP state Machine is not updating this */
-            xNetworkAddressing.ulDefaultIPAddress = ulIPAddress;
+            xNd.ulIPAddress = ulIPAddress;
             s_dhcp_in_use = 1;
             break;
 
@@ -403,28 +402,28 @@ static void update_ipconfig(void)
     if (s_dhcp_in_use)
     {
         /* Cast to required type */
-        g_net_mask[3] = (uint8_t)((g_xnd.ulNetMask & 0xFF000000) >> 24); /* Maintain data  */
-        g_net_mask[2] = (uint8_t)((g_xnd.ulNetMask & 0x00FF0000) >> 16); /* size integrity */
-        g_net_mask[1] = (uint8_t)((g_xnd.ulNetMask & 0x0000FF00) >> 8);  /* between mask   */
-        g_net_mask[0] = (uint8_t)((g_xnd.ulNetMask & 0x000000FF));       /* and assignment */
+        g_net_mask[3] = (uint8_t)((xNd.ulNetMask & 0xFF000000) >> 24); /* Maintain data  */
+        g_net_mask[2] = (uint8_t)((xNd.ulNetMask & 0x00FF0000) >> 16); /* size integrity */
+        g_net_mask[1] = (uint8_t)((xNd.ulNetMask & 0x0000FF00) >> 8);  /* between mask   */
+        g_net_mask[0] = (uint8_t)((xNd.ulNetMask & 0x000000FF));       /* and assignment */
 
         /* Cast to required type */
-        g_gateway_address[3] = (uint8_t)((g_xnd.ulGatewayAddress & 0xFF000000) >> 24); /* Maintain data  */
-        g_gateway_address[2] = (uint8_t)((g_xnd.ulGatewayAddress & 0x00FF0000) >> 16); /* size integrity */
-        g_gateway_address[1] = (uint8_t)((g_xnd.ulGatewayAddress & 0x0000FF00) >>  8); /* between mask   */
-        g_gateway_address[0] = (uint8_t)((g_xnd.ulGatewayAddress & 0x000000FF));       /* and assignment */
+        g_gateway_address[3] = (uint8_t)((xNd.ulGatewayAddress & 0xFF000000) >> 24); /* Maintain data  */
+        g_gateway_address[2] = (uint8_t)((xNd.ulGatewayAddress & 0x00FF0000) >> 16); /* size integrity */
+        g_gateway_address[1] = (uint8_t)((xNd.ulGatewayAddress & 0x0000FF00) >>  8); /* between mask   */
+        g_gateway_address[0] = (uint8_t)((xNd.ulGatewayAddress & 0x000000FF));       /* and assignment */
 
         /* Cast to required type */
-        g_dns_server_address[3] = (uint8_t)((g_xnd.ulDNSServerAddress & 0xFF000000) >> 24); /* Maintain data  */
-        g_dns_server_address[2] = (uint8_t)((g_xnd.ulDNSServerAddress & 0x00FF0000) >> 16); /* size integrity */
-        g_dns_server_address[1] = (uint8_t)((g_xnd.ulDNSServerAddress & 0x0000FF00) >>  8); /* between mask   */
-        g_dns_server_address[0] = (uint8_t)((g_xnd.ulDNSServerAddress & 0x000000FF));       /* and assignment */
+        g_dns_server_address[3] = (uint8_t)((xNd.ulDNSServerAddresses[0] & 0xFF000000) >> 24); /* Maintain data  */
+        g_dns_server_address[2] = (uint8_t)((xNd.ulDNSServerAddresses[0] & 0x00FF0000) >> 16); /* size integrity */
+        g_dns_server_address[1] = (uint8_t)((xNd.ulDNSServerAddresses[0] & 0x0000FF00) >>  8); /* between mask   */
+        g_dns_server_address[0] = (uint8_t)((xNd.ulDNSServerAddresses[0] & 0x000000FF));       /* and assignment */
 
         /* Cast to required type */
-        g_ip_address[3] = (uint8_t)((g_xnd.ulDefaultIPAddress & 0xFF000000) >> 24); /* Maintain data  */
-        g_ip_address[2] = (uint8_t)((g_xnd.ulDefaultIPAddress & 0x00FF0000) >> 16); /* size integrity */
-        g_ip_address[1] = (uint8_t)((g_xnd.ulDefaultIPAddress & 0x0000FF00) >>  8); /* between mask   */
-        g_ip_address[0] = (uint8_t)((g_xnd.ulDefaultIPAddress & 0x000000FF));       /* and assignment */
+        g_ip_address[3] = (uint8_t)((xNd.ulIPAddress & 0xFF000000) >> 24); /* Maintain data  */
+        g_ip_address[2] = (uint8_t)((xNd.ulIPAddress & 0x00FF0000) >> 16); /* size integrity */
+        g_ip_address[1] = (uint8_t)((xNd.ulIPAddress & 0x0000FF00) >>  8); /* between mask   */
+        g_ip_address[0] = (uint8_t)((xNd.ulIPAddress & 0x000000FF));       /* and assignment */
     }
 #endif
 }
@@ -549,7 +548,9 @@ void update_dhcp_response_to_usr(void)
 {
     if (s_dhcp_in_use)
     {
-        memcpy(&g_xnd, &xNetworkAddressing, sizeof(g_xnd));
+        xNd.ulNetMask = FreeRTOS_GetNetmask();
+        xNd.ulGatewayAddress = FreeRTOS_GetGatewayAddress();
+        xNd.ulDNSServerAddresses[0] = FreeRTOS_GetDNSServerAddress();
     }
 }
 /**********************************************************************************************************************

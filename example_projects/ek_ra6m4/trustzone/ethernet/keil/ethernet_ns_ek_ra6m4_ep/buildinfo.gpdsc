@@ -14,6 +14,7 @@
         <file category="header" name="src/common_utils.h" path=""/>
         <file category="source" name="src/hal_entry.c"/>
         <file category="source" name="src/net_thread_entry.c"/>
+        <file category="other" name="src/net_thread_entry.c.bak"/>
         <file category="source" name="src/SEGGER_RTT/SEGGER_RTT.c"/>
         <file category="header" name="src/SEGGER_RTT/SEGGER_RTT.h" path=""/>
         <file category="header" name="src/SEGGER_RTT/SEGGER_RTT_Conf.h" path=""/>
@@ -26,7 +27,7 @@
     <component Cclass="Flex Software" Cgroup="Components" Csub="ra">
       <files>
         <file category="include" name="ra/arm/CMSIS_5/CMSIS/Core/Include/"/>
-        <file category="include" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/include/"/>
+        <file category="include" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/include/"/>
         <file category="include" name="ra/aws/FreeRTOS/FreeRTOS/Source/include/"/>
         <file category="include" name="ra/fsp/inc/"/>
         <file category="include" name="ra/fsp/inc/api/"/>
@@ -66,6 +67,7 @@
         <file category="other" name="ra/arm/CMSIS_5/LICENSE.txt"/>
         <file category="source" name="ra/aws/FreeRTOS/FreeRTOS/Source/event_groups.c"/>
         <file category="header" name="ra/aws/FreeRTOS/FreeRTOS/Source/include/atomic.h" path=""/>
+        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS/Source/include/croutine.h" path=""/>
         <file category="header" name="ra/aws/FreeRTOS/FreeRTOS/Source/include/deprecated_definitions.h" path=""/>
         <file category="header" name="ra/aws/FreeRTOS/FreeRTOS/Source/include/event_groups.h" path=""/>
         <file category="header" name="ra/aws/FreeRTOS/FreeRTOS/Source/include/FreeRTOS.h" path=""/>
@@ -73,6 +75,8 @@
         <file category="header" name="ra/aws/FreeRTOS/FreeRTOS/Source/include/message_buffer.h" path=""/>
         <file category="header" name="ra/aws/FreeRTOS/FreeRTOS/Source/include/mpu_prototypes.h" path=""/>
         <file category="header" name="ra/aws/FreeRTOS/FreeRTOS/Source/include/mpu_wrappers.h" path=""/>
+        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS/Source/include/newlib-freertos.h" path=""/>
+        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS/Source/include/picolibc-freertos.h" path=""/>
         <file category="header" name="ra/aws/FreeRTOS/FreeRTOS/Source/include/portable.h" path=""/>
         <file category="header" name="ra/aws/FreeRTOS/FreeRTOS/Source/include/projdefs.h" path=""/>
         <file category="header" name="ra/aws/FreeRTOS/FreeRTOS/Source/include/queue.h" path=""/>
@@ -88,35 +92,93 @@
         <file category="source" name="ra/aws/FreeRTOS/FreeRTOS/Source/stream_buffer.c"/>
         <file category="source" name="ra/aws/FreeRTOS/FreeRTOS/Source/tasks.c"/>
         <file category="source" name="ra/aws/FreeRTOS/FreeRTOS/Source/timers.c"/>
-        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/FreeRTOS_ARP.c"/>
-        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/FreeRTOS_DHCP.c"/>
-        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/FreeRTOS_DNS.c"/>
-        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/FreeRTOS_IP.c"/>
-        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/FreeRTOS_Sockets.c"/>
-        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/FreeRTOS_Stream_Buffer.c"/>
-        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/FreeRTOS_TCP_IP.c"/>
-        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/FreeRTOS_TCP_WIN.c"/>
-        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/FreeRTOS_UDP_IP.c"/>
-        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/include/FreeRTOSIPConfigDefaults.h" path=""/>
-        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/include/FreeRTOS_ARP.h" path=""/>
-        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/include/FreeRTOS_DHCP.h" path=""/>
-        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/include/FreeRTOS_DNS.h" path=""/>
-        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/include/FreeRTOS_errno_TCP.h" path=""/>
-        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/include/FreeRTOS_IP.h" path=""/>
-        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/include/FreeRTOS_IP_Private.h" path=""/>
-        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/include/FreeRTOS_Sockets.h" path=""/>
-        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/include/FreeRTOS_Stream_Buffer.h" path=""/>
-        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/include/FreeRTOS_TCP_IP.h" path=""/>
-        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/include/FreeRTOS_TCP_WIN.h" path=""/>
-        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/include/FreeRTOS_UDP_IP.h" path=""/>
-        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/include/IPTraceMacroDefaults.h" path=""/>
-        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/include/NetworkBufferManagement.h" path=""/>
-        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/include/NetworkInterface.h" path=""/>
-        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/portable/BufferManagement/BufferAllocation_2.c"/>
-        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/portable/Compiler/GCC/pack_struct_end.h" path=""/>
-        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/portable/Compiler/GCC/pack_struct_start.h" path=""/>
-        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/portable/Compiler/IAR/pack_struct_end.h" path=""/>
-        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/portable/Compiler/IAR/pack_struct_start.h" path=""/>
+        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/FreeRTOS_ARP.c"/>
+        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/FreeRTOS_BitConfig.c"/>
+        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/FreeRTOS_DHCP.c"/>
+        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/FreeRTOS_DHCPv6.c"/>
+        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/FreeRTOS_DNS.c"/>
+        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/FreeRTOS_DNS_Cache.c"/>
+        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/FreeRTOS_DNS_Callback.c"/>
+        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/FreeRTOS_DNS_Networking.c"/>
+        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/FreeRTOS_DNS_Parser.c"/>
+        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/FreeRTOS_ICMP.c"/>
+        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/FreeRTOS_IP.c"/>
+        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/FreeRTOS_IPv4.c"/>
+        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/FreeRTOS_IPv4_Sockets.c"/>
+        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/FreeRTOS_IPv4_Utils.c"/>
+        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/FreeRTOS_IPv6.c"/>
+        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/FreeRTOS_IPv6_Sockets.c"/>
+        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/FreeRTOS_IPv6_Utils.c"/>
+        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/FreeRTOS_IP_Timers.c"/>
+        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/FreeRTOS_IP_Utils.c"/>
+        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/FreeRTOS_ND.c"/>
+        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/FreeRTOS_RA.c"/>
+        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/FreeRTOS_Routing.c"/>
+        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/FreeRTOS_Sockets.c"/>
+        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/FreeRTOS_Stream_Buffer.c"/>
+        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/FreeRTOS_TCP_IP.c"/>
+        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/FreeRTOS_TCP_IP_IPv4.c"/>
+        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/FreeRTOS_TCP_IP_IPv6.c"/>
+        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/FreeRTOS_TCP_Reception.c"/>
+        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/FreeRTOS_TCP_State_Handling.c"/>
+        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/FreeRTOS_TCP_State_Handling_IPv4.c"/>
+        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/FreeRTOS_TCP_State_Handling_IPv6.c"/>
+        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/FreeRTOS_TCP_Transmission.c"/>
+        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/FreeRTOS_TCP_Transmission_IPv4.c"/>
+        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/FreeRTOS_TCP_Transmission_IPv6.c"/>
+        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/FreeRTOS_TCP_Utils.c"/>
+        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/FreeRTOS_TCP_Utils_IPv4.c"/>
+        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/FreeRTOS_TCP_Utils_IPv6.c"/>
+        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/FreeRTOS_TCP_WIN.c"/>
+        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/FreeRTOS_Tiny_TCP.c"/>
+        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/FreeRTOS_UDP_IP.c"/>
+        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/FreeRTOS_UDP_IPv4.c"/>
+        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/FreeRTOS_UDP_IPv6.c"/>
+        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/include/FreeRTOSIPConfigDefaults.h" path=""/>
+        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/include/FreeRTOS_ARP.h" path=""/>
+        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/include/FreeRTOS_BitConfig.h" path=""/>
+        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/include/FreeRTOS_DHCP.h" path=""/>
+        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/include/FreeRTOS_DHCPv6.h" path=""/>
+        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/include/FreeRTOS_DNS.h" path=""/>
+        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/include/FreeRTOS_DNS_Cache.h" path=""/>
+        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/include/FreeRTOS_DNS_Callback.h" path=""/>
+        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/include/FreeRTOS_DNS_Globals.h" path=""/>
+        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/include/FreeRTOS_DNS_Networking.h" path=""/>
+        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/include/FreeRTOS_DNS_Parser.h" path=""/>
+        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/include/FreeRTOS_errno_TCP.h" path=""/>
+        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/include/FreeRTOS_ICMP.h" path=""/>
+        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/include/FreeRTOS_IP.h" path=""/>
+        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/include/FreeRTOS_IPv4.h" path=""/>
+        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/include/FreeRTOS_IPv4_Private.h" path=""/>
+        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/include/FreeRTOS_IPv4_Sockets.h" path=""/>
+        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/include/FreeRTOS_IPv4_Utils.h" path=""/>
+        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/include/FreeRTOS_IPv6.h" path=""/>
+        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/include/FreeRTOS_IPv6_Private.h" path=""/>
+        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/include/FreeRTOS_IPv6_Sockets.h" path=""/>
+        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/include/FreeRTOS_IPv6_Utils.h" path=""/>
+        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/include/FreeRTOS_IP_Common.h" path=""/>
+        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/include/FreeRTOS_IP_Private.h" path=""/>
+        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/include/FreeRTOS_IP_Timers.h" path=""/>
+        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/include/FreeRTOS_IP_Utils.h" path=""/>
+        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/include/FreeRTOS_ND.h" path=""/>
+        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/include/FreeRTOS_Routing.h" path=""/>
+        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/include/FreeRTOS_Sockets.h" path=""/>
+        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/include/FreeRTOS_Stream_Buffer.h" path=""/>
+        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/include/FreeRTOS_TCP_IP.h" path=""/>
+        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/include/FreeRTOS_TCP_Reception.h" path=""/>
+        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/include/FreeRTOS_TCP_State_Handling.h" path=""/>
+        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/include/FreeRTOS_TCP_Transmission.h" path=""/>
+        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/include/FreeRTOS_TCP_Utils.h" path=""/>
+        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/include/FreeRTOS_TCP_WIN.h" path=""/>
+        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/include/FreeRTOS_UDP_IP.h" path=""/>
+        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/include/IPTraceMacroDefaults.h" path=""/>
+        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/include/NetworkBufferManagement.h" path=""/>
+        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/include/NetworkInterface.h" path=""/>
+        <file category="source" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/portable/BufferManagement/BufferAllocation_2.c"/>
+        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/portable/Compiler/GCC/pack_struct_end.h" path=""/>
+        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/portable/Compiler/GCC/pack_struct_start.h" path=""/>
+        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/portable/Compiler/IAR/pack_struct_end.h" path=""/>
+        <file category="header" name="ra/aws/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/source/portable/Compiler/IAR/pack_struct_start.h" path=""/>
         <file category="other" name="ra/aws/FreeRTOS/LICENSE.md"/>
         <file category="header" name="ra/board/ra6m4_ek/board.h" path=""/>
         <file category="header" name="ra/board/ra6m4_ek/board_ethernet_phy.h" path=""/>
@@ -139,7 +201,6 @@
         <file category="header" name="ra/fsp/src/bsp/cmsis/Device/RENESAS/Include/system.h" path=""/>
         <file category="source" name="ra/fsp/src/bsp/cmsis/Device/RENESAS/Source/startup.c"/>
         <file category="source" name="ra/fsp/src/bsp/cmsis/Device/RENESAS/Source/system.c"/>
-        <file category="header" name="ra/fsp/src/bsp/mcu/all/bsp_arm_exceptions.h" path=""/>
         <file category="source" name="ra/fsp/src/bsp/mcu/all/bsp_clocks.c"/>
         <file category="header" name="ra/fsp/src/bsp/mcu/all/bsp_clocks.h" path=""/>
         <file category="source" name="ra/fsp/src/bsp/mcu/all/bsp_common.c"/>
@@ -147,6 +208,7 @@
         <file category="header" name="ra/fsp/src/bsp/mcu/all/bsp_compiler_support.h" path=""/>
         <file category="source" name="ra/fsp/src/bsp/mcu/all/bsp_delay.c"/>
         <file category="header" name="ra/fsp/src/bsp/mcu/all/bsp_delay.h" path=""/>
+        <file category="header" name="ra/fsp/src/bsp/mcu/all/bsp_exceptions.h" path=""/>
         <file category="source" name="ra/fsp/src/bsp/mcu/all/bsp_group_irq.c"/>
         <file category="header" name="ra/fsp/src/bsp/mcu/all/bsp_group_irq.h" path=""/>
         <file category="source" name="ra/fsp/src/bsp/mcu/all/bsp_guard.c"/>
