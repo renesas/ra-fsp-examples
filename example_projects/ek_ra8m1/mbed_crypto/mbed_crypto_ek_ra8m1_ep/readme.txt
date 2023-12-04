@@ -15,7 +15,7 @@
 * THE POSSIBILITY OF SUCH LOSS,DAMAGES, CLAIMS OR COSTS.
 * **********************************************************************************************************************/
 
-Project Overview:
+1. Project Overview:
     This example project demonstrates basic functionalities of mbed crypto driver on Renesas RA MCUs based on Renesas FSP.
     The EP performs following mbed crypto operations :
     1. SHA256 - setup and calculate hash, compare calculated hash value and length with their expected values.
@@ -26,13 +26,27 @@ Project Overview:
     On successful completion of each operation, success message will be displayed on the Jlink RTTViewer.
     Error and info messages will be printed on JlinkRTTViewer.
 
-Note: EK-RA2L1, EK_RA4M1 and EK_RA4W1 boards do not support SHA, ECC and RSA operations.
+2. Hardware Requirements:
+	- RA board	
+	- Micro USB device cable - 1x
 
-1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
+3. Hardware Connections:
+	Connect the micro USB end of the micro USB device cable to micro-AB USB (DEBUG USB) 
+	port of the respective board. Connect the another end of this cable to USB port of the host PC. 
+
+Note: EK-RA2L1, EK-RA4M1 and EK-RA4W1 boards do not support SHA, ECC and RSA operations.
+
+1) Initialize device back to factory default by using Renesas Device Partition Manager before run the example project.
+   User can refer Section 5.3 "Setting up Hardware" in the document via link:
+   https://www.renesas.com/us/en/document/apn/renesas-ra-security-design-arm-trustzone-ip-protection
+   For Renesas Device Partition Manager tool:
+   	e2studio: Run -> Renesas Debug Tools -> Renesas Device Partition Manager (Available on e2studio)
+
+2) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
    a. e2studio: 0x220008c8
    b. Keil:  	Not Available 
    c. IAR: 	Not Available
  
-2) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) 
+3) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) 
    in .map file generated in the build configuration folder (Debug/Release).

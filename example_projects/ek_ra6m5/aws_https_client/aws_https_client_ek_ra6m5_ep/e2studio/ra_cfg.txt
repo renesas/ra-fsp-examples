@@ -24,6 +24,7 @@ FSP Configuration
     Security: SRAM Accessibility: Standby RAM: Regions 7-0 are all Secure.
     Security: BUS Accessibility: Bus Security Attribution Register A: Both Secure and Non-Secure State
     Security: BUS Accessibility: Bus Security Attribution Register B: Both Secure and Non-Secure State
+    Security: Flash Bank Select Accessibility: Both Secure and Non-Secure State
     Security: Uninitialized Non-Secure Application Fallback: Enable Uninitialized Non-Secure Application Fallback
     Startup C-Cache Line Size: 32 Bytes
     OFS0 register settings: Independent WDT: Start Mode: IWDT is Disabled
@@ -40,6 +41,8 @@ FSP Configuration
     OFS0 register settings: WDT: Window Start Position: 100% (no window start position)
     OFS0 register settings: WDT: Reset Interrupt Request: Reset
     OFS0 register settings: WDT: Stop Control: Stop counting when entering Sleep mode
+    OFS1_SEL register settings: Voltage Detection 0 Level Security Attribution: VDSEL setting loads from OFS1_SEC
+    OFS1_SEL register settings: Voltage Detection 0 Circuit Start Security Attribution: LVDAS setting loads from OFS1_SEC
     OFS1 register settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
     OFS1 register settings: Voltage Detection 0 Level: 2.80 V
     OFS1 register settings: HOCO Oscillation Enable: HOCO oscillation is disabled after reset
@@ -474,19 +477,17 @@ FSP Configuration
     HTTP Receive Retry Timeout (ms): 200
     HTTP Send Retry Timeout (ms): 200
     HTTP User Agent Value: my-platform-name
-    HTTP Max Response Headers Size (bytes): 4096U
     
   Module "AWS Transport Interface on MbedTLS/PKCS11 (rm_aws_transport_interface_port)"
   Module "AWS Logging"
   Module "AWS Demo dev_mode_key_provisioning"
     Header file to #include in ra_cfg/aws/aws_clientcredential_keys.h: 
     
-  Module "AWS Client Credentials"
-    Header file to #include in ra_cfg/aws/aws_clientcredential.h: 
-    
   Module "AWS TCP Sockets Wrapper"
   Module "FreeRTOS+TCP"
     Print debug messages: Disable
+    Backward Compatible Mode: Yes 
+    Enable IPV6: Disable
     Print info messages: Disable
     Byte order of the target MCU: pdFREERTOS_LITTLE_ENDIAN 
     IP/TCP/UDP checksums: Enable 
@@ -501,7 +502,6 @@ FSP Configuration
     Use DHCP: Enable 
     DHCP Register Hostname: Enable 
     DHCP Uses Unicast: Enable 
-    DHCP Send Discover After Auto IP: Disable
     DHCP callback function: Enable 
     Interval between transmissions: 120000 / portTICK_PERIOD_MS
     ARP Cache Entries: 6
@@ -522,7 +522,6 @@ FSP Configuration
     FreeRTOS_select() (and associated) API function is available: Disable
     Filter out non Ethernet II frames.: Enable 
     Responsibility of the Ethernet interface to filter out packets: Disable
-    Send RST packets, when receive unknown packets.: Enable 
     Access 32-bit fields in the IP packets: 2
     Size of the pool of TCP window descriptors: 240
     Size of Rx buffer for TCP sockets: 3000
@@ -544,12 +543,13 @@ FSP Configuration
     
   Module "Ethernet (r_ether_phy)"
     Parameter Checking: Default (BSP)
-    Select PHY(DEPRECATED): Default
-    KSZ8091RNZ Target: Disabled
+    KSZ8091RNB Target: Disabled
     KSZ8041 Target: Disabled
     DP83620 Target: Disabled
     ICS1894 Target: Disabled
+    User Own Target: Disabled
     Reference Clock: Enabled
+    Automatic Phy LSI Initialization: Enabled
     
   Module "FreeRTOS Buffer Allocation 2"
   Module "AWS FreeRTOS+TCP MbedTLS Bio"
@@ -572,6 +572,8 @@ FSP Configuration
     Log Level: LOG_NONE
     OTA Supported: Disabled
     JITP Code Verify Root Cert Supported: Disabled
+    HMAC Key: HMAC Key
+    CMAC Key: CMAC Key
     
   Module "AWS PKCS11 PAL on LittleFS (rm_aws_pkcs11_pal_littlefs)"
   Module "FreeRTOS MbedTLS Port"
@@ -998,6 +1000,7 @@ FSP Configuration
     General: Num Thread Local Storage Pointers: 5
     General: Stack Depth Type: uint32_t
     General: Message Buffer Length Type: size_t
+    Memory Allocation: Clear Memory on Free: Disabled
     Memory Allocation: Support Static Allocation: Enabled
     Memory Allocation: Support Dynamic Allocation: Enabled
     Memory Allocation: Total Heap Size: 0x20000
@@ -1029,7 +1032,6 @@ FSP Configuration
     Optional Functions: xTaskResumeFromISR() Function: Enabled
     RA: Hardware Stack Monitor: Disabled
     Logging: Print String Function: printf(x)
-    Logging: Logging Max Message Length: 192
     Logging: Logging Include Time and Task Name: Disabled
     
   HAL
@@ -1119,6 +1121,8 @@ FSP Configuration
                   PHY-LSI Reset Completion Timeout: 0x00020000
                   Select MII type: RMII
                   Phy LSI type: Kit Component
+                  Port Custom Init Function: NULL
+                  Port Custom Link Partner Ability Get Function: NULL
                   MII/RMII Register Access Wait-time: 8
                   Flow Control: Disable
                   
@@ -1153,4 +1157,3 @@ FSP Configuration
               Instance "MbedTLS FSP Port (rm_mbedtls)"
         Instance "AWS Logging"
         Instance "AWS Demo dev_mode_key_provisioning"
-          Instance "AWS Client Credentials"

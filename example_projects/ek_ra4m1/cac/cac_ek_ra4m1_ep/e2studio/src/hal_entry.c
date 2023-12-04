@@ -200,7 +200,7 @@ void hal_entry(void)
 static fsp_err_t cac_measurement_process(void)
 {
     fsp_err_t err                     = FSP_SUCCESS;
-    uint16_t cac_counter_val          = RESET_VALUE;
+    uint32_t cac_counter_val          = RESET_VALUE;
     volatile uint16_t cac_time_out    = UINT16_MAX;
 
     /* Reset flags before starting CAC measurement*/

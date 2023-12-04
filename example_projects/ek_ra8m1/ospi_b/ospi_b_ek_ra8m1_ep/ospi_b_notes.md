@@ -63,6 +63,7 @@ This section describes FSP Configurator properties which are important or differ
 | configuration.xml > g_ospi_b OSPI Flash (r_ospi_b) > Settings > Property > Common > Memory-mapping Support > Prefetch Function | Enable | Enable | Reduce the latency when reading data. |
 | configuration.xml > g_ospi_b OSPI Flash (r_ospi_b) > Settings > Property > Common > Memory-mapping Support > Combination Function | 64 Byte | 64 Byte | Increase throughput on xSPI bus when writing data. |
 | configuration.xml > g_ospi_b OSPI Flash (r_ospi_b) > Settings > Property > Common > DMAC Support | Disable | Enable | Enable DMAC support for the OSPI module. |
+| configuration.xml > g_ospi_b OSPI Flash (r_ospi_b) > Settings > Property > Common > Autocalibration Support | Disable | Enable | Enable DS autocalibration for dual-data-rate modes. |
 | configuration.xml > g_ospi_b OSPI Flash (r_ospi_b) > Settings > Property > Module g_ospi_b OSPI Flash (r_ospi_b) > General > Channel | 0 | 1 | Use OSPI_B Channel 1 to communicate with flash device. |
 | configuration.xml > g_ospi_b OSPI Flash (r_ospi_b) > Settings > Property > Module g_ospi_b OSPI Flash (r_ospi_b) > General > Initial Protocol Mode | SPI (1S-1S-1S) | SPI (1S-1S-1S) | Select SPI (1S-1S-1S) as the initial protocol mode. |
 | configuration.xml > g_ospi_b OSPI Flash (r_ospi_b) > Settings > Property > Module g_ospi_b OSPI Flash (r_ospi_b) > General > Initial Address Bytes | 4 | 4 | Select the number of address bytes to be 4 bytes for the initial protocol mode. |
@@ -79,6 +80,8 @@ This section describes FSP Configurator properties which are important or differ
 | configuration.xml > g_ospi_b OSPI Flash (r_ospi_b) > Settings > Property > Module g_ospi_b OSPI Flash (r_ospi_b) > Defaults > Erase Command Definitions > Chip Erase Command | 0x6060 | 0x6060 | Chip Erase Command of flash device in SPI (1S-1S-1S) protocol mode. |
 | configuration.xml > g_ospi_b OSPI Flash (r_ospi_b) > Settings > Property > Module g_ospi_b OSPI Flash (r_ospi_b) > Defaults > Dummy Cycles > Memory Read Dummy Cycles | 0 | 3 | Memory Read Dummy Cycles of flash device in SPI (1S-1S-1S) protocol mode. |
 | configuration.xml > g_ospi_b OSPI Flash (r_ospi_b) > Settings > Property > Module g_ospi_b OSPI Flash (r_ospi_b) > Defaults > Dummy Cycles > Status Read Dummy Cycles | 0 | 0 | Status Read Dummy Cycles of flash device in SPI (1S-1S-1S) protocol mode. |
+| configuration.xml > g_ospi_b OSPI Flash (r_ospi_b) > Settings > Property > Module g_ospi_b OSPI Flash (r_ospi_b) > High-speed Mode > Auto-Calibration > Data latching delay | 0x08 | 0 | Set this to 0 to trigger auto-calibration when appropriate. |
+| configuration.xml > g_ospi_b OSPI Flash (r_ospi_b) > Settings > Property > Module g_ospi_b OSPI Flash (r_ospi_b) > High-speed Mode > Auto-Calibration > Auto-Calibration Address | 0x00 | 0x90002000 | Set the address of the read/write destination to be performed for auto-calibration. |
 | configuration.xml > g_ospi_b OSPI Flash (r_ospi_b) > Settings > Property > Module g_ospi_b OSPI Flash (r_ospi_b) > High-speed Mode > Command Definitions > Page Program Command | 0x1212 | 0x1212 | Page program command of flash device in Dual data rate OPI (8D-8D-8D) protocol mode. |
 | configuration.xml > g_ospi_b OSPI Flash (r_ospi_b) > Settings > Property > Module g_ospi_b OSPI Flash (r_ospi_b) > High-speed Mode > Command Definitions > Dual Read Command | 0xEEEE | 0xEEEE | Dual Read Command of flash device in Dual data rate OPI (8D-8D-8D) protocol mode. |
 | configuration.xml > g_ospi_b OSPI Flash (r_ospi_b) > Settings > Property > Module g_ospi_b OSPI Flash (r_ospi_b) > High-speed Mode > Command Definitions > Write Enable Command | 0x0606 | 0x0606 | Write Enable Command of flash device in Dual data rate OPI (8D-8D-8D) protocol mode. |
@@ -115,6 +118,7 @@ The table below lists the FSP provided API used at the application layer by this
 | R_GPT_InfoGet | This API is used to get GPT clock frequency. |
 | R_GPT_Stop | This API is used to stop GPT module. |
 | R_GPT_Close | This API is used to de-initialize GPT module. |
+| R_BSP_OctaclkUpdate | This API is used to update the clock source for the OSPI_B module. |
 
 ## Verifying Operation ##
 1. Import, generate, build, and flash the project EP to RA board.

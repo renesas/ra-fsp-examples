@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="./styles.css" data-precedence="next" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut	icon" type="image/x-icon" href="assets/favicon.ico">
+	<link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+	<script	src="scripts/callFunc.js"></script>
+	<script	src="scripts/dateStamp.js"></script>
+
+	</style>
+	
+	<script	type="text/javascript">
+	function pageLoad()
+	{
+		// Load the LED content
+		callFunc('ledCheckBox', 'led_ctrl.cgi', 'onLoad');
+		// Start the date stamp
+		DateStampScreenUpdate();
+	}
+	</script>
+</head>
+<body onLoad="pageLoad()">
+<header class="flex flex-col items-left justify-between">
+    <div class="w-full p-4 bg-renesas-blue flex flex-col items-center">
+        <div class="max-w-6xl w-full"><img src="./assets/logo.png" alt="Renesas logo" /></div>
+    </div>
+    <div class="bg-renesas-dark-blue w-full p-6 flex flex-col items-center">
+        <nav class="max-w-6xl w-full">
+            <a class="pr-5 mr-5 font-bold text-white hover:text-renesas-light-blue" href="https://www.renesas.com/ra/ek-ra8m1">EK-RA8M1 Resources</a>
+			<a class="pr-5 mr-5 font-bold text-white hover:text-renesas-light-blue" href="https://www.renesas.com/ra/fsp">Flexible Software Package (FSP)</a>
+            <a class="pr-5 mr-5 font-bold text-white hover:text-renesas-light-blue" href="https://www.renesas.com/ra/forum">RA Forum</a>
+			<a class="pr-5 mr-5 font-bold text-white hover:text-renesas-light-blue" href="https://www.renesas.com/support">Help & Support</a>
+        </nav>
+    </div>
+</header>
+<div class="flex-flex-col items-left justify-between">
+    <div class="w-full p-6 bg-white flex flex-col items-center">
+        <div class="max-w-6xl w-full">
+            <div class="mb-4 text-[16px] font-semibold">Welcome</div>
+            <hr class="mb-6" />
+            <h1 class="text-[44px]/[47px] mb-4">EK-RA8M1</h1>
+            <div class="text-[30px]/[32px] text-renesas-grey font-semibold">Evaluation Kit for RA8M1 MCU Group</div>
+            <div class="mb-4 text-[16px] font-semibold">Quick Start Example Project</div>
+		</div>
+    </div>
+</div>
+<main class="flex flex-col items-center justify-between pt-24">
+    <div class="p-12 bg-white z-10 max-w-6xl w-full items-center justify-between flex flex-col">
+        <div class="mb-12">
+            <h2 class="text-[30px]/[32px] mb-4 font-semibold">Introduction</h2>
+            <p>
+                This embedded web server is running on the RA8M1 MCU and is implemented by using Renesas Flexible Software Package, FreeRTOS+TCP and open source Webio. This web server demonstrates how users can easily create a
+                professional, user-friendly and platform-independent user interface for products/applications that require remote control and monitoring.
+            </p>
+        </div>
+        <div class="grid gap-12 w-full md:grid-cols-5">
+            <div class="md:col-span-3">
+                <div class="bg-renesas-grey/10 mb-12 rounded border border-[#A9A8A8]">
+                    <div class="p-6">
+                        <h3 class="pb-2 text-2xl">Display Console</h3>
+                        <hr class="mb-6 border-[#A9A8A8] border-t-2" />
+                        <div class="grid md:grid-cols-2 gap-12" id="realTimeClock">
+                            <div>
+                                <div class="mb-2 font-semibold">Device ID</div>
+                                <div class="ml-1"> - </right></div>
+                                <div class="ml-1"> - </right></div>
+                            </div>
+                            <div>
+                                <div class="mb-2 font-semibold">MCU Temperature (F): --.--</div>
+                                <div class="mb-2 font-semibold">MCU Temperature (C): --.--</div>
+                                <div class="mb-2 font-semibold">Blue LED Attributes</div>
+                                <div class="ml-1">Frequency (Hz): 1</div>
+                                <div class="ml-1">Intensity (%): 10</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-renesas-grey/10 mb-12 rounded border border-[#A9A8A8]">
+                    <div class="p-6">
+                        <h3 class="pb-2 text-2xl">Control Panel</h3>
+                        <hr class="mb-6 border-[#A9A8A8] border-t-2" />
+                        <div class="grid md:grid-cols-2 gap-12">
+                            <div>
+                                <div><span class="rounded-full bg-renesas-dark-blue p-1 text-white cursor-point" onclick="sw1()">S1</span> User Switch 1</div>
+                            </div>
+                            <div>
+                                <div><span class="rounded-full bg-renesas-dark-blue p-1 text-white cursor-point" onclick="sw2()">S2</span> User Switch 2</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <strong>Instructions</strong>
+                    <ol class="list-decimal list-outside ml-4">
+                        <li>
+                            Press the physical user buttons S1 and/or S2 on the EK-RA8M1 board. The blue user LED&#x27;s intensity and/or frequency will change. The intensity and/or frequency will refresh in the Display Console.
+                            This demonstrates the communication from the server to the client.
+                        </li>
+                        <li>
+                            Press the software user buttons S1 and/or S2 on the web server Control Panel. The blue user LED&#x27;s intensity and/or frequency will change. The intensity and/or frequency will refresh in the Display
+                            Console. This demonstrates the communication from the client to the server.
+                        </li>
+                    </ol>
+                    <p>Please refer to the EK-RA8M1 Quick Start Guide and Quick Start Example Project source code for more details.</p>
+                </div>
+            </div>
+            <div class="md:col-span-2"><img src="./assets/diagram.jpg" alt="diagram image" /></div>
+        </div>
+<script>
+function sw1() 
+  {
+     callFunc('ledCheckBox', 'sw1_ctrl.cgi', 'onLoad');
+  }
+  
+function sw2() 
+  {
+     callFunc('ledCheckBox', 'sw2_ctrl.cgi', 'onLoad');
+  }
+  
+</script>
+
+    </div>
+</main>
+</body>
+</html>

@@ -25,9 +25,11 @@
 #define OSPI_B_EP_H_
 
 /* Macro for flash device */
-#define OSPI_B_DEVICE_ID                    (0x0F1A5B34)
+#define OSPI_B_DEVICE_ID                    (0x0F1A5B34)    // For S28HS512T flash
+#define OSPI_B_DEVICE_HL_ID                 (0x0F1A5A34)    // For S28HL512T flash
 #define OSPI_B_MANUFACTURER_ID              (0x34)
-#define OSPI_B_DEVICE_ID_TYPE               (0x5B)
+#define OSPI_B_DEVICE_ID_TYPE               (0x5B)          // For S28HS512T flash
+#define OSPI_B_DEVICE_HL_ID_TYPE            (0x5A)          // For S28HL512T flash
 #define OSPI_B_DEVICE_ID_DENSITY            (0x1A)
 
 /* Flash device sector size */
@@ -89,11 +91,11 @@
 
 
 /* function declarations*/
-fsp_err_t ospi_b_init ();
-fsp_err_t ospi_b_set_protocol_to_spi ();
-fsp_err_t ospi_b_set_protocol_to_opi ();
+fsp_err_t ospi_b_init (void);
+fsp_err_t ospi_b_set_protocol_to_spi (void);
+fsp_err_t ospi_b_set_protocol_to_opi (void);
 fsp_err_t ospi_b_operation (uint8_t * p_address);
 fsp_err_t ospi_b_read_device_id (uint32_t * const p_id);
-fsp_err_t timer_init ();
+fsp_err_t timer_init (void);
 
 #endif /* OSPI_B_EP_H_ */

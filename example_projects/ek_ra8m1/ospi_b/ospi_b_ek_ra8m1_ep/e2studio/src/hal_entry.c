@@ -87,7 +87,7 @@ void hal_entry(void)
                 {
                     /* Set OSPI to OPI mode */
                     err = ospi_b_set_protocol_to_opi();
-                    handle_error(err, "ospi_b_set_protocol_to_spi FAILED\r\n");
+                    handle_error(err, "ospi_b_set_protocol_to_opi FAILED\r\n");
 
                     /* Set pointer to flash device memory for OPI operation */
                     p_ospi_b_address = OSPI_B_APP_ADDRESS(OSPI_B_SECTOR_SECOND);

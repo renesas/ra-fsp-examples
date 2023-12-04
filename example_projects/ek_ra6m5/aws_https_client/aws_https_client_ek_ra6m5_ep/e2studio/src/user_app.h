@@ -62,7 +62,7 @@
 #define HTTPS_PUT_POST_API    "/api/v2/canhtran/feeds/adc/data/"
 
 /** @brief User has to update their generated active key from the io.adafruit.com server. */
-#define ACTIVE_KEY                             "aio_YZrR194SVXWrUzvmDJHAEFSXaRDQ"
+#define ACTIVE_KEY                             "aio_oKyn19aqkYKUoKvspPKO1PUMGeqL"
 
 
 

@@ -1,0 +1,210 @@
+FSP Configuration
+  Board "FPB-RA2E3"
+  R7FA2E3073CFL
+    part_number: R7FA2E3073CFL
+    rom_size_bytes: 65536
+    ram_size_bytes: 16384
+    data_flash_size_bytes: 2048
+    package_style: LQFP
+    package_pins: 48
+    
+  RA2E3
+    series: 2
+    
+  RA2E3 Family
+    OFS0 register settings: Independent WDT: Start Mode: IWDT is Disabled
+    OFS0 register settings: Independent WDT: Timeout Period: 2048 cycles
+    OFS0 register settings: Independent WDT: Dedicated Clock Frequency Divisor: 128
+    OFS0 register settings: Independent WDT: Window End Position:  0% (no window end position)
+    OFS0 register settings: Independent WDT: Window Start Position: 100% (no window start position)
+    OFS0 register settings: Independent WDT: Reset Interrupt Request Select: Reset is enabled
+    OFS0 register settings: Independent WDT: Stop Control: Stop counting when in Sleep, Snooze mode, or Software Standby
+    OFS0 register settings: WDT: Start Mode Select: Stop WDT after a reset (register-start mode)
+    OFS0 register settings: WDT: Timeout Period: 16384 cycles
+    OFS0 register settings: WDT: Clock Frequency Division Ratio: 128
+    OFS0 register settings: WDT: Window End Position:  0% (no window end position)
+    OFS0 register settings: WDT: Window Start Position: 100% (no window start position)
+    OFS0 register settings: WDT: Reset Interrupt Request: Reset
+    OFS0 register settings: WDT: Stop Control: Stop counting when entering Sleep mode
+    OFS1 register settings: Internal Clock Supply Architecture Type: Type A
+    OFS1 register settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
+    OFS1 register settings: Voltage Detection 0 Level: 1.90 V
+    OFS1 register settings: HOCO Oscillation Enable: HOCO oscillation is enabled after reset
+    Use Low Voltage Mode: Not Supported
+    MPU: Enable or disable PC Region 0: Disabled
+    MPU: PC0 Start: 0x000FFFFC
+    MPU: PC0 End: 0x000FFFFF
+    MPU: Enable or disable PC Region 1: Disabled
+    MPU: PC1 Start: 0x000FFFFC
+    MPU: PC1 End: 0x000FFFFF
+    MPU: Enable or disable Memory Region 0: Disabled
+    MPU: Memory Region 0 Start: 0x000FFFFC
+    MPU: Memory Region 0 End: 0x000FFFFF
+    MPU: Enable or disable Memory Region 1: Disabled
+    MPU: Memory Region 1 Start: 0x200FFFFC
+    MPU: Memory Region 1 End: 0x200FFFFF
+    MPU: Enable or disable Memory Region 2: Disabled
+    MPU: Memory Region 2 Start: 0x407FFFFC
+    MPU: Memory Region 2 End: 0x407FFFFF
+    MPU: Enable or disable Memory Region 3: Disabled
+    MPU: Memory Region 3 Start: 0x400DFFFC
+    MPU: Memory Region 3 End: 0x400DFFFF
+    Main Oscillator Wait Time: 262144 cycles
+    ID Code Mode: Unlocked (Ignore ID)
+    ID Code (32 Hex Characters): FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    
+  RA Common
+    Main stack size (bytes): 0x400
+    Heap size (bytes): 0x400
+    MCU Vcc (mV): 3300
+    Parameter checking: Enabled
+    Assert Failures: Return FSP_ERR_ASSERTION
+    Error Log: No Error Log
+    Clock Registers not Reset Values during Startup: Disabled
+    Main Oscillator Populated: Not Populated
+    PFS Protect: Enabled
+    C Runtime Initialization : Enabled
+    Early BSP Initialization : Disabled
+    Main Oscillator Clock Source: Crystal or Resonator
+    Subclock Populated: Populated
+    Subclock Drive (Drive capacitance availability varies by MCU): Standard/Normal mode
+    Subclock Stabilization Time (ms): 1000
+    
+  Clocks
+    XTAL 20000000Hz
+    HOCO 48MHz
+    Clock Src: HOCO
+    ICLK Div /1
+    PCLKB Div /2
+    PCLKD Div /1
+    CLKOUT Disabled
+    CLKOUT Div /1
+    
+  Pin Configurations
+    RA2E3 FPB -> g_bsp_pin_cfg
+      AVCC0 42 SYSTEM_AVCC0 - - - - - - - - IO "Read only" - 
+      AVSS0 43 SYSTEM_AVSS0 - - - - - - - - IO "Read only" - 
+      P000 48 ADC0_AN000 ARDUINO_A0 - - "Analog mode" - - "ADC0: AN000; ICU: IRQ6" - I - - 
+      P001 47 ADC0_AN001 ARDUINO_A1 - - "Analog mode" - - "ADC0: AN001; ICU: IRQ7" - I - - 
+      P002 46 ADC0_AN002 ARDUINO_A2 - - "Analog mode" - - "ADC0: AN002; ICU: IRQ2" - I - - 
+      P010 45 - - - - Disabled - - "ADC0: AN005; SYSTEM: VREFH0" - None - - 
+      P011 44 - - - - Disabled - - "ADC0: AN006; SYSTEM: VREFL0" - None - - 
+      P012 41 ADC0_AN007 ARDUINO_A3 - - "Analog mode" - - "ADC0: AN007" - I - - 
+      P013 40 ADC0_AN008 ARDUINO_A4 - - "Analog mode" - - "ADC0: AN008" - I - - 
+      P014 39 ADC0_AN009 ARDUINO_A5 - - "Analog mode" - - "ADC0: AN009" - I - - 
+      P015 38 GPIO PMOD1_IRQ7 M None "Output mode (Initial Low)" - - "ADC0: AN010; ICU: IRQ7" - IO - - 
+      P100 36 - ARDUINO_D12_MISO_PMOD1_MISO - - Disabled - - "ADC0: AN022; AGT0: AGTIO0; GPT8: GTIOC8B; GPT_POEGA: GTETRGA; ICU: IRQ2; IIC0: SCL0; KINT: KRM00; SCI0: RXD0; SCI1: SCK1; SPI0: MISO0" - None - - 
+      P101 35 - ARDUINO_D11_MOSI_PMOD1_MOSI - - Disabled - - "ADC0: AN021; AGT0: AGTEE0; GPT8: GTIOC8A; GPT_POEGB: GTETRGB; ICU: IRQ1; IIC0: SDA0; KINT: KRM01; SCI0: TXD0; SCI1: CTS_RTS1; SPI0: MOSI0" - None - - 
+      P102 34 - ARDUINO_D13_SCK_PMOD1_SCK - - Disabled - - "ADC0: AN020; AGT0: AGTO0; CAC/ADC/DAC: ADTRG0; GPT5: GTIOC5B; GPT_OPS: GTOWLO; KINT: KRM02; SCI0: SCK0; SCI2: TXD2; SPI0: RSPCK0" - None - - 
+      P103 33 - ARDUINO_D10_SS_PMOD1_SS - - Disabled - - "ADC0: AN019; GPT5: GTIOC5A; GPT_OPS: GTOWUP; KINT: KRM03; SCI0: CTS_RTS0; SPI0: SSLA0" - None - - 
+      P104 32 - ARDUINO_D9 - - Disabled - - "GPT4: GTIOC4B; GPT_POEGB: GTETRGB; ICU: IRQ1; KINT: KRM04; SCI0: RXD0; SPI0: SSLA1" - None - - 
+      P108 25 JTAG/SWD_SWDIO - H - "Peripheral mode" - - "GPT0: GTIOC0B; GPT_OPS: GTOULO; JTAG/SWD: SWDIO; SCI9: CTS_RTS9" - IO - - 
+      P109 26 - ARDUINO_D1_TX - - Disabled - - "CLKOUT/CMPOUT: CLKOUT; GPT4: GTIOC4A; GPT_OPS: GTOVUP; SCI1: SCK1; SCI9: TXD9" - None - - 
+      P110 27 - ARDUINO_D0_RX - - Disabled - - "GPT4: GTIOC4B; GPT_OPS: GTOVLO; ICU: IRQ3; SCI2: CTS_RTS2; SCI9: RXD9" - None - - 
+      P111 28 - ARDUINO_D3 - - Disabled - - "AGT0: AGTOA0; GPT6: GTIOC6A; ICU: IRQ4; SCI2: SCK2; SCI9: SCK9" - None - - 
+      P112 29 GPIO ARDUINO_D8 H - "Output mode (Initial High)" - - "AGT0: AGTOB0; GPT6: GTIOC6B; SCI1: SCK1; SCI2: TXD2" - IO - - 
+      P200 21 - SW1 - - Disabled - - "ICU: NMI" - None - - 
+      P201 20 - - - - Disabled - - "SYSTEM: MD" - None - - 
+      P206 18 - ARDUINO_D7_PMOD2_GPIO9 - - Disabled - - "ICU: IRQ0; SCI0: RXD0" - None - - 
+      P207 17 - PMOD2_GPIO8 - - Disabled - - - - None - - 
+      P208 16 - PMOD2_GPIO7 - - Disabled - - "AGT0: AGTOB0" - None - - 
+      P212 8 - PMOD2_RESET - - Disabled - - "AGT1: AGTEE1; CGC: EXTAL; GPT0: GTIOC0B; GPT_POEGB: GTETRGB; ICU: IRQ3; SCI1: RXD1" - None - - 
+      P213 7 GPIO LED1 M None "Output mode (Initial Low)" - - "CGC: XTAL; GPT0: GTIOC0A; GPT_POEGA: GTETRGA; ICU: IRQ2; SCI1: TXD1" - IO - - 
+      P214 5 CGC_XCOUT - - - "Peripheral mode" - - "CGC: XCOUT" - IO - - 
+      P215 4 CGC_XCIN - - - "Peripheral mode" - - "CGC: XCIN" - IO - - 
+      P300 24 JTAG/SWD_SWCLK - H - "Peripheral mode" - - "GPT0: GTIOC0A; GPT_OPS: GTOUUP; JTAG/SWD: SWCLK" - IO - - 
+      P301 23 - ARDUINO_D4_PMOD2_GPIO10 - - Disabled - - "AGT0: AGTIO0; GPT7: GTIOC7B; GPT_OPS: GTOULO; ICU: IRQ6; SCI2: RXD2; SCI9: CTS_RTS9" - None - - 
+      P302 22 - ARDUINO_D5 - - Disabled - - "GPT7: GTIOC7A; GPT_OPS: GTOUUP; ICU: IRQ5; SCI2: TXD2" - None - - 
+      P400 1 - ARDUINO_SCL_PMOD1_SCL_PMOD2_SCL - - Disabled - - "AGT1: AGTIO1; CAC/ADC/DAC: CACREF; GPT9: GTIOC9A; ICU: IRQ0; IIC0: SCL0; SCI0: SCK0; SCI1: SCK1" - None - - 
+      P401 2 - ARDUINO_SDA_PMOD1_SDA_PMOD2_SDA - - Disabled - - "GPT9: GTIOC9B; GPT_POEGA: GTETRGA; ICU: IRQ5; IIC0: SDA0; SCI0: CTS_RTS0; SCI1: TXD1" - None - - 
+      P407 12 - PMOD1_RTS - - Disabled - - "AGT0: AGTIO0; CAC/ADC/DAC: ADTRG0; IIC0: SDA0; RTC: RTCOUT; SCI0: CTS_RTS0" - None - - 
+      P408 11 - PMOD2_INT - - Disabled - - "GPT_OPS: GTOWLO; ICU: IRQ7; IIC0: SCL0; SCI1: CTS_RTS1" - None - - 
+      P409 10 - ARDUINO_D2 - - Disabled - - "GPT_OPS: GTOWUP; ICU: IRQ6" - None - - 
+      P500 37 - ARDUINO_D6 - - Disabled - - "GPT5: GTIOC5A" - None - - 
+      P913 15 - PMOD1_GPIO10 - - Disabled - - "AGT1: AGTIO1; GPT_POEGA: GTETRGA" - None - - 
+      P914 14 GPIO LED2_PMOD1_GPIO9 H - "Output mode (Initial Low)" - - "AGT1: AGTOA1; GPT_POEGB: GTETRGB" - IO - - 
+      P915 13 GPIO PMOD1_RESET H - "Output mode (Initial High)" - - - - IO - - 
+      RES# 19 SYSTEM_RES# - - - - - - - - IO "Read only" - 
+      VCC 30 SYSTEM_VCC - - - - - - - - IO "Read only" - 
+      VCC 9 SYSTEM_VCC - - - - - - - - IO "Read only" - 
+      VCL 3 SYSTEM_VCL - - - - - - - - IO "Read only" - 
+      VSS 31 SYSTEM_VSS - - - - - - - - IO "Read only" - 
+      VSS 6 SYSTEM_VSS - - - - - - - - IO "Read only" - 
+    R7FA2E3073CFL.pincfg -> 
+      AVCC0 42 SYSTEM_AVCC0 - - - - - - - - IO "Read only" - 
+      AVSS0 43 SYSTEM_AVSS0 - - - - - - - - IO "Read only" - 
+      P000 48 - ARDUINO_A0 - - Disabled - - "ADC0: AN000; ICU: IRQ6" - I - - 
+      P001 47 - ARDUINO_A1 - - Disabled - - "ADC0: AN001; ICU: IRQ7" - I - - 
+      P002 46 - ARDUINO_A2 - - Disabled - - "ADC0: AN002; ICU: IRQ2" - I - - 
+      P010 45 - - - - Disabled - - "ADC0: AN005; SYSTEM: VREFH0" - None - - 
+      P011 44 - - - - Disabled - - "ADC0: AN006; SYSTEM: VREFL0" - None - - 
+      P012 41 - ARDUINO_A3 - - Disabled - - "ADC0: AN007" - I - - 
+      P013 40 - ARDUINO_A4 - - Disabled - - "ADC0: AN008" - I - - 
+      P014 39 - ARDUINO_A5 - - Disabled - - "ADC0: AN009" - I - - 
+      P015 38 - PMOD1_IRQ7 M None Disabled - - "ADC0: AN010; ICU: IRQ7" - IO - - 
+      P100 36 - ARDUINO_D12_MISO_PMOD1_MISO - - Disabled - - "ADC0: AN022; AGT0: AGTIO0; GPT8: GTIOC8B; GPT_POEGA: GTETRGA; ICU: IRQ2; IIC0: SCL0; KINT: KRM00; SCI0: RXD0; SCI1: SCK1; SPI0: MISO0" - None - - 
+      P101 35 - ARDUINO_D11_MOSI_PMOD1_MOSI - - Disabled - - "ADC0: AN021; AGT0: AGTEE0; GPT8: GTIOC8A; GPT_POEGB: GTETRGB; ICU: IRQ1; IIC0: SDA0; KINT: KRM01; SCI0: TXD0; SCI1: CTS_RTS1; SPI0: MOSI0" - None - - 
+      P102 34 - ARDUINO_D13_SCK_PMOD1_SCK - - Disabled - - "ADC0: AN020; AGT0: AGTO0; CAC/ADC/DAC: ADTRG0; GPT5: GTIOC5B; GPT_OPS: GTOWLO; KINT: KRM02; SCI0: SCK0; SCI2: TXD2; SPI0: RSPCK0" - None - - 
+      P103 33 - ARDUINO_D10_SS_PMOD1_SS - - Disabled - - "ADC0: AN019; GPT5: GTIOC5A; GPT_OPS: GTOWUP; KINT: KRM03; SCI0: CTS_RTS0; SPI0: SSLA0" - None - - 
+      P104 32 - ARDUINO_D9 - - Disabled - - "GPT4: GTIOC4B; GPT_POEGB: GTETRGB; ICU: IRQ1; KINT: KRM04; SCI0: RXD0; SPI0: SSLA1" - None - - 
+      P108 25 JTAG/SWD_SWDIO - H - "Peripheral mode" - - "GPT0: GTIOC0B; GPT_OPS: GTOULO; JTAG/SWD: SWDIO; SCI9: CTS_RTS9" - IO - - 
+      P109 26 - ARDUINO_D1_TX - - Disabled - - "CLKOUT/CMPOUT: CLKOUT; GPT4: GTIOC4A; GPT_OPS: GTOVUP; SCI1: SCK1; SCI9: TXD9" - None - - 
+      P110 27 - ARDUINO_D0_RX - - Disabled - - "GPT4: GTIOC4B; GPT_OPS: GTOVLO; ICU: IRQ3; SCI2: CTS_RTS2; SCI9: RXD9" - None - - 
+      P111 28 - ARDUINO_D3 - - Disabled - - "AGT0: AGTOA0; GPT6: GTIOC6A; ICU: IRQ4; SCI2: SCK2; SCI9: SCK9" - None - - 
+      P112 29 - ARDUINO_D8 H - Disabled - - "AGT0: AGTOB0; GPT6: GTIOC6B; SCI1: SCK1; SCI2: TXD2" - IO - - 
+      P200 21 - SW1 - - Disabled - - "ICU: NMI" - None - - 
+      P201 20 - - - - Disabled - - "SYSTEM: MD" - None - - 
+      P206 18 - ARDUINO_D7_PMOD2_GPIO9 - - Disabled - - "ICU: IRQ0; SCI0: RXD0" - None - - 
+      P207 17 - PMOD2_GPIO8 - - Disabled - - - - None - - 
+      P208 16 - PMOD2_GPIO7 - - Disabled - - "AGT0: AGTOB0" - None - - 
+      P212 8 - PMOD2_RESET - - Disabled - - "AGT1: AGTEE1; CGC: EXTAL; GPT0: GTIOC0B; GPT_POEGB: GTETRGB; ICU: IRQ3; SCI1: RXD1" - None - - 
+      P213 7 - LED1 M None Disabled - - "CGC: XTAL; GPT0: GTIOC0A; GPT_POEGA: GTETRGA; ICU: IRQ2; SCI1: TXD1" - IO - - 
+      P214 5 - - - - Disabled - - "CGC: XCOUT" - IO - - 
+      P215 4 - - - - Disabled - - "CGC: XCIN" - IO - - 
+      P300 24 JTAG/SWD_SWCLK - H - "Peripheral mode" - - "GPT0: GTIOC0A; GPT_OPS: GTOUUP; JTAG/SWD: SWCLK" - IO - - 
+      P301 23 - ARDUINO_D4_PMOD2_GPIO10 - - Disabled - - "AGT0: AGTIO0; GPT7: GTIOC7B; GPT_OPS: GTOULO; ICU: IRQ6; SCI2: RXD2; SCI9: CTS_RTS9" - None - - 
+      P302 22 - ARDUINO_D5 - - Disabled - - "GPT7: GTIOC7A; GPT_OPS: GTOUUP; ICU: IRQ5; SCI2: TXD2" - None - - 
+      P400 1 - ARDUINO_SCL_PMOD1_SCL_PMOD2_SCL - - Disabled - - "AGT1: AGTIO1; CAC/ADC/DAC: CACREF; GPT9: GTIOC9A; ICU: IRQ0; IIC0: SCL0; SCI0: SCK0; SCI1: SCK1" - None - - 
+      P401 2 - ARDUINO_SDA_PMOD1_SDA_PMOD2_SDA - - Disabled - - "GPT9: GTIOC9B; GPT_POEGA: GTETRGA; ICU: IRQ5; IIC0: SDA0; SCI0: CTS_RTS0; SCI1: TXD1" - None - - 
+      P407 12 - PMOD1_RTS - - Disabled - - "AGT0: AGTIO0; CAC/ADC/DAC: ADTRG0; IIC0: SDA0; RTC: RTCOUT; SCI0: CTS_RTS0" - None - - 
+      P408 11 - PMOD2_INT - - Disabled - - "GPT_OPS: GTOWLO; ICU: IRQ7; IIC0: SCL0; SCI1: CTS_RTS1" - None - - 
+      P409 10 - ARDUINO_D2 - - Disabled - - "GPT_OPS: GTOWUP; ICU: IRQ6" - None - - 
+      P500 37 - ARDUINO_D6 - - Disabled - - "GPT5: GTIOC5A" - None - - 
+      P913 15 - PMOD1_GPIO10 - - Disabled - - "AGT1: AGTIO1; GPT_POEGA: GTETRGA" - None - - 
+      P914 14 - LED2_PMOD1_GPIO9 H - Disabled - - "AGT1: AGTOA1; GPT_POEGB: GTETRGB" - IO - - 
+      P915 13 - PMOD1_RESET H - Disabled - - - - IO - - 
+      RES# 19 SYSTEM_RES# - - - - - - - - IO "Read only" - 
+      VCC 30 SYSTEM_VCC - - - - - - - - IO "Read only" - 
+      VCC 9 SYSTEM_VCC - - - - - - - - IO "Read only" - 
+      VCL 3 SYSTEM_VCL - - - - - - - - IO "Read only" - 
+      VSS 31 SYSTEM_VSS - - - - - - - - IO "Read only" - 
+      VSS 6 SYSTEM_VSS - - - - - - - - IO "Read only" - 
+    
+  User Events
+    
+  User Event Links
+    
+  Module "I/O Port (r_ioport)"
+    Parameter Checking: Default (BSP)
+    
+  Module "Data Operation Circuit (r_doc)"
+    Parameter Checking: Default (BSP)
+    
+  HAL
+    Instance "g_ioport I/O Port (r_ioport)"
+      Name: g_ioport
+      1st Port ELC Trigger Source: Disabled
+      2nd Port ELC Trigger Source: Disabled
+      3rd Port ELC Trigger Source: Disabled
+      4th Port ELC Trigger Source: Disabled
+      Pin Configuration Name: g_bsp_pin_cfg
+      
+    Instance "g_doc Data Operation Circuit (r_doc)"
+      Name: g_doc
+      Event: Comparison mismatch
+      Bit Width: 16-Bit
+      Reference/Initial Data: 0xA5A5
+      Additional Reference Data: 0
+      Callback: doc_callback
+      DOC Interrupt Priority: Priority 2
+      

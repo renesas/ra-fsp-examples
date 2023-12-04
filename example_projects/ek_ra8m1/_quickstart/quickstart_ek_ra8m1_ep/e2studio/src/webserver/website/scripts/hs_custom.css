@@ -1,0 +1,118 @@
+@charset "utf-8";
+
+/* common for all */
+.highslide-body{ overflow:hidden;}
+
+.highslide img {border: none; }
+.highslide-active-anchor img {  visibility:visible}
+.hs_image_wrapper .highslide-image ,
+.hs_image_wrapper_w_print .highslide-image{
+	border: 10px solid #FFFFFF;background-color:#FFFFFF;
+}
+.hs_image_wrapper .highslide-caption ,
+.hs_image_wrapper_w_print .highslide-caption {
+	margin:0px; padding:0 10px;
+	background:#FFFFFF url(../images/hsnavi_back.gif) 0 bottom repeat-x;
+	height:69px;
+}
+.hs_image_wrapper .highslide-caption div,
+.hs_image_wrapper_w_print .highslide-caption div{/* dummy area for caption-text */
+	 line-height:1.8; padding:0;
+}
+
+/* controls for image popup */
+.highslide-controls {
+	width: 480px;
+	height: 43px;
+	background: url(../images/hs_controls.gif) 0 -129px no-repeat;
+	margin: 0 0 0 auto ; }
+
+.highslide-controls ul {
+	position: relative;
+	left: 0px;
+	height: 43px;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	background: url(../images/hs_controls.gif) right -129px no-repeat; 
+}
+.highslide-controls li {
+	/*float: left;*/
+	padding: 0; margin:0;width: 80px;list-style: none; 
+	
+	display:inline; float:none;/* fix for IE6's error about floating */
+}
+.highslide-controls a {
+	background-image: url(../images/hs_controls.gif);
+	display: block;
+	float: left;
+	height: 43px;
+	width: 80px;
+	outline: none;
+}
+.highslide-controls a.disabled {
+	cursor: default;
+}
+.highslide-controls a span {
+	display: none;/* hide the text for these graphic buttons */
+}
+.highslide-container div {font-size: 11px;}
+
+.highslide-controls .highslide-print a 			{background-position: 0px 0;}
+.highslide-controls .highslide-print a:hover 	{background-position: 0px -43px;}
+.highslide-controls .highslide-print a.disabled 	{background-position: 0px -86px !important;}
+.highslide-controls .highslide-previous a 			{background-position: -80px 0;}
+.highslide-controls .highslide-previous a:hover 	{background-position: -80px -43px;}
+.highslide-controls .highslide-previous a.disabled 	{background-position: -80px -86px !important;}
+.highslide-controls .highslide-play a 				{background-position: -160px 0;}
+.highslide-controls .highslide-play a:hover 		{background-position: -160px -43px;}
+.highslide-controls .highslide-play a.disabled 		{background-position: -160px -86px !important;}
+.highslide-controls .highslide-pause a 				{background-position: -320px 0;}
+.highslide-controls .highslide-pause a:hover 		{background-position: -320px -43px;}
+.highslide-controls .highslide-next a 				{background-position: -240px 0;}
+.highslide-controls .highslide-next a:hover 		{background-position: -240px -43px;}
+.highslide-controls .highslide-next a.disabled 		{background-position: -240px -86px !important;}
+.highslide-controls .highslide-close a				{background-position: -400px 0;}
+.highslide-controls .highslide-close a:hover 		{background-position: -400px -43px;}
+.highslide-controls .highslide-close a.disabled 	{background-position: -400px -86px !important;}
+.highslide-controls .highslide-full-expand a		{ background-position:-480px 0 }
+.highslide-controls .highslide-full-expand a:hover	{background-position:-480px -43px}
+.highslide-controls .highslide-full-expand a.disabled{background-position:-480px -86px!important}
+
+.highslide-controls .highslide-move a{ display: none!important;}
+.hs_image_wrapper .highslide-controls .highslide-print a{ visibility:hidden}
+
+/*
+	HTML popups
+*/
+.highslide-html-content{ padding:0px;/*; display:block; width:600px*/}
+.hs_html_body {width:100%;padding:0;}
+.hs_html_foot {width:100%;height:44px; background:url(../images/hsnavi_back.gif) 0 0 repeat-x; text-align:right; }
+
+a.hs_closebutton,a.hs_printbutton{ background-position: 0 0; background-repeat:repeat-x; width:81px; height:44px;margin:0; display:block; float:right; text-decoration: none;}
+a.hs_closebutton{ background-image:url(../images/hsnavi_close.gif) }
+a.hs_closebutton:hover,
+a.hs_closebutton:active{background-image: url(../images/hsnavi_close_r.gif); text-decoration: none;}
+a.hs_printbutton{ background-image:url(../images/hsnavi_print.gif)}
+a.hs_printbutton:hover,
+a.hs_printbutton:active{background-image: url(../images/hsnavi_print_r.gif);text-decoration: none;}
+.footer_for_single,#footer_for_single,.footer_for_single_short,#footer_for_single_short{ display:none}
+
+.hs_head{background-color:#303F9A; width:100%;height:25px}
+.hs_head h2{ padding:5px; margin:0; color:#FFFFFF; font-weight:bold; font-size:small; line-height:1.2; }
+.hs_contents{clear:both; padding:10px 65px 20px 65px;}
+.hs_contents h2{ margin:0 0 10px 0; padding:0;font-weight:bold; font-size:small;line-height:1.2;}
+.hs_contents p{ padding:0; margin:0.5em 0; line-height:1.2}
+
+
+/*
+	HTML popups for grobal products
+*/
+/*.highslide-body dt{ width:390px; padding:5px;background-color:#303F9A; color:#FFFFFF; font-weight:bold; font-size:small}
+.highslide-body dt span{ display:none!important}
+.highslide-body dd{font-size:x-small; padding:5px; }
+.highslide-body dd table{margin:10px auto;width:360px; }
+.highslide-body dd table td.flag{padding:0 5px 0 0; vertical-align:top;}
+.highslide-body dd table td.country{padding-bottom:10px; width:90px; line-height:1.2; vertical-align:top;}*/
+
+

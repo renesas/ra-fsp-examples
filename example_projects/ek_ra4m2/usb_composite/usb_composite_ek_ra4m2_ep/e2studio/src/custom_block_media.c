@@ -35,23 +35,23 @@
  **********************************************************************************************************************/
 /* these API signatures(input parameters for all these API's) are standard signatures for block media driver
  * and used in this driver(block media Custom driver) to maintain compatibility with the original block media APIs.*/
-fsp_err_t RM_BLOCK_MEDIA_RAM_Open (rm_block_media_ctrl_t * const p_ctrl, rm_block_media_cfg_t const * const p_cfg);
-fsp_err_t RM_BLOCK_MEDIA_RAM_MediaInit (rm_block_media_ctrl_t * const p_ctrl);
-fsp_err_t RM_BLOCK_MEDIA_RAM_Read (rm_block_media_ctrl_t * const p_ctrl,
+static fsp_err_t RM_BLOCK_MEDIA_RAM_Open (rm_block_media_ctrl_t * const p_ctrl, rm_block_media_cfg_t const * const p_cfg);
+static fsp_err_t RM_BLOCK_MEDIA_RAM_MediaInit (rm_block_media_ctrl_t * const p_ctrl);
+static fsp_err_t RM_BLOCK_MEDIA_RAM_Read (rm_block_media_ctrl_t * const p_ctrl,
                                      uint8_t * const               p_dest_address,
                                      uint32_t const                block_address,
                                      uint32_t const                num_blocks);
-fsp_err_t RM_BLOCK_MEDIA_RAM_Write (rm_block_media_ctrl_t * const p_ctrl,
+static fsp_err_t RM_BLOCK_MEDIA_RAM_Write (rm_block_media_ctrl_t * const p_ctrl,
                                       uint8_t const * const         p_src_address,
                                       uint32_t const                block_address,
                                       uint32_t const                num_blocks);
-fsp_err_t RM_BLOCK_MEDIA_RAM_Erase (rm_block_media_ctrl_t * const p_ctrl,
+static fsp_err_t RM_BLOCK_MEDIA_RAM_Erase (rm_block_media_ctrl_t * const p_ctrl,
                                       uint32_t const                block_address,
                                       uint32_t const                num_blocks);
-fsp_err_t RM_BLOCK_MEDIA_RAM_StatusGet (rm_block_media_ctrl_t * const   p_api_ctrl,
+static fsp_err_t RM_BLOCK_MEDIA_RAM_StatusGet (rm_block_media_ctrl_t * const   p_api_ctrl,
                                           rm_block_media_status_t * const p_status);
-fsp_err_t RM_BLOCK_MEDIA_RAM_InfoGet (rm_block_media_ctrl_t * const p_ctrl, rm_block_media_info_t * const p_info);
-fsp_err_t RM_BLOCK_MEDIA_RAM_Close (rm_block_media_ctrl_t * const p_ctrl);
+static fsp_err_t RM_BLOCK_MEDIA_RAM_InfoGet (rm_block_media_ctrl_t * const p_ctrl, rm_block_media_info_t * const p_info);
+static fsp_err_t RM_BLOCK_MEDIA_RAM_Close (rm_block_media_ctrl_t * const p_ctrl);
 
 /* Global variables */
 extern volatile bool g_blockmedia_complete_event;
@@ -72,7 +72,8 @@ const rm_block_media_api_t g_rm_block_media_on_user_media =
     .statusGet  = RM_BLOCK_MEDIA_RAM_StatusGet,
     .close      = RM_BLOCK_MEDIA_RAM_Close,
 };
-
+extern uint32_t __RAM_segment_used_end__;
+#define ALIGN_4K 4096
 /*******************************************************************************************************************//**
  * Opens the module.
  *
@@ -88,7 +89,9 @@ fsp_err_t RM_BLOCK_MEDIA_RAM_Open (rm_block_media_ctrl_t * const p_ctrl, rm_bloc
     uint32_t adr = RESET_VALUE;
 
     /* update the SRAM media address and copy the boot sector data to it.*/
-    adr = USB_MEDIA_ADDRESS;
+    adr = (uint32_t)&(__RAM_segment_used_end__);
+    adr = (adr + (ALIGN_4K -1)) & (uint32_t)~(ALIGN_4K - 1);
+
     memcpy((void *)adr, (void *)&g_ram_disk_boot_sector, STRG_SECTSIZE);
 
     /* update the SRAM media address and copy the usb_pmsc table data to it.*/

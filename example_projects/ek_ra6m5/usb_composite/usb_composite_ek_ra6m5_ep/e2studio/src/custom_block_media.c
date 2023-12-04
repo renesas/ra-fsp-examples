@@ -72,7 +72,8 @@ const rm_block_media_api_t g_rm_block_media_on_user_media =
     .statusGet  = RM_BLOCK_MEDIA_RAM_StatusGet,
     .close      = RM_BLOCK_MEDIA_RAM_Close,
 };
-
+extern uint32_t __RAM_segment_used_end__;
+#define ALIGN_4K 4096
 /*******************************************************************************************************************//**
  * Opens the module.
  *
@@ -88,7 +89,9 @@ fsp_err_t RM_BLOCK_MEDIA_RAM_Open (rm_block_media_ctrl_t * const p_ctrl, rm_bloc
     uint32_t adr = RESET_VALUE;
 
     /* update the SRAM media address and copy the boot sector data to it.*/
-    adr = USB_MEDIA_ADDRESS;
+    adr = (uint32_t)&(__RAM_segment_used_end__);
+    adr = (adr + (ALIGN_4K -1)) & (uint32_t)~(ALIGN_4K - 1);
+
     memcpy((void *)adr, (void *)&g_ram_disk_boot_sector, STRG_SECTSIZE);
 
     /* update the SRAM media address and copy the usb_pmsc table data to it.*/

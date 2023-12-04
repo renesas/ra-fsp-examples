@@ -43,13 +43,14 @@ const uint8_t g_write_data [OSPI_B_APP_DATA_SIZE] = {
 };
 
 /* function declarations*/
-static fsp_err_t ospi_b_write_enable ();
+static fsp_err_t ospi_b_write_enable (void);
 static fsp_err_t ospi_b_wait_operation (uint32_t timeout);
 static fsp_err_t ospi_b_erase_operation (uint8_t * const p_address, uint32_t * const p_time);
 static fsp_err_t ospi_b_write_operation (uint8_t * const p_address, uint32_t * const p_time);
 static fsp_err_t ospi_b_read_operation (uint8_t * const p_address, uint32_t * const p_time);
-static fsp_err_t timer_start_measure ();
+static fsp_err_t timer_start_measure (void);
 static fsp_err_t timer_get_measure (uint32_t * p_time);
+static fsp_err_t ospi_b_setup_calibrate_data(void);
 
 /*******************************************************************************************************************//**
  * @brief       This functions enables write and verify the read data.
@@ -58,7 +59,7 @@ static fsp_err_t timer_get_measure (uint32_t * p_time);
  * @retval      FSP_ERR_ABORTED Upon incorrect read data.
  * @retval      Any Other Error code apart from FSP_SUCCESS Unsuccessful operation
  **********************************************************************************************************************/
-static fsp_err_t ospi_b_write_enable ()
+static fsp_err_t ospi_b_write_enable (void)
 {
     fsp_err_t                   err             = FSP_SUCCESS;
     spi_flash_direct_transfer_t transfer        = {RESET_VALUE};
@@ -223,7 +224,7 @@ static fsp_err_t ospi_b_read_operation (uint8_t * const p_address, uint32_t * co
  * @retval      FSP_SUCCESS     Upon successful initialization of OSPI module and Flash device
  * @retval      Any Other Error code apart from FSP_SUCCESS  Unsuccessful open
  **********************************************************************************************************************/
-fsp_err_t ospi_b_init ()
+fsp_err_t ospi_b_init (void)
 {
     /* By default, the flash device is in SPI mode, so it is necessary to open the OSPI module in SPI mode */
     fsp_err_t                   err             = FSP_SUCCESS;
@@ -279,6 +280,11 @@ fsp_err_t ospi_b_init ()
     {
         APP_ERR_RETURN(FSP_ERR_ABORTED, "Verify CFR3V register data FAILED\r\n");
     }
+
+    /* Setup calibrate data */
+    err = ospi_b_setup_calibrate_data();
+    APP_ERR_RETURN(err, "ospi_b_setup_calibrate_data FAILED \r\n");
+
     return err;
 }
 
@@ -289,10 +295,11 @@ fsp_err_t ospi_b_init ()
  * @retval      FSP_ERR_ABORTED              Upon incorrect read data.
  * @retval      Any Other Error code apart from FSP_SUCCESS  Unsuccessful operation
  **********************************************************************************************************************/
-fsp_err_t ospi_b_set_protocol_to_spi ()
+fsp_err_t ospi_b_set_protocol_to_spi (void)
 {
     fsp_err_t                   err      = FSP_SUCCESS;
     spi_flash_direct_transfer_t transfer = {RESET_VALUE};
+    bsp_octaclk_settings_t      octaclk  = {RESET_VALUE};
 
     if(SPI_FLASH_PROTOCOL_EXTENDED_SPI == g_ospi_b_ctrl.spi_protocol)
     {
@@ -309,6 +316,11 @@ fsp_err_t ospi_b_set_protocol_to_spi ()
         transfer.data = OSPI_B_DATA_SET_SPI_CFR5V_REGISTER;
         err = R_OSPI_B_DirectTransfer(&g_ospi_b_ctrl, &transfer, SPI_FLASH_DIRECT_TRANSFER_DIR_WRITE);
         APP_ERR_RETURN(err, "R_OSPI_B_DirectTransfer API FAILED \r\n");
+
+        /* Change the OCTACLK clock to 100 MHz in SDR mode without OM_DQS */
+        octaclk.source_clock = BSP_CLOCKS_SOURCE_CLOCK_PLL2P;
+        octaclk.divider      = BSP_CLOCKS_OCTA_CLOCK_DIV_4;
+        R_BSP_OctaclkUpdate(&octaclk);
 
         /* Switch OSPI module mode to SPI mode */
         err = R_OSPI_B_SpiProtocolSet(&g_ospi_b_ctrl, SPI_FLASH_PROTOCOL_EXTENDED_SPI);
@@ -337,10 +349,11 @@ fsp_err_t ospi_b_set_protocol_to_spi ()
  * @retval      FSP_ERR_ABORTED              Upon incorrect read data.
  * @retval      Any Other Error code apart from FSP_SUCCESS  Unsuccessful operation
  **********************************************************************************************************************/
-fsp_err_t ospi_b_set_protocol_to_opi ()
+fsp_err_t ospi_b_set_protocol_to_opi (void)
 {
     fsp_err_t                   err      = FSP_SUCCESS;
     spi_flash_direct_transfer_t transfer = {RESET_VALUE};
+    bsp_octaclk_settings_t      octaclk  = {RESET_VALUE};
 
     if(SPI_FLASH_PROTOCOL_8D_8D_8D == g_ospi_b_ctrl.spi_protocol)
     {
@@ -357,6 +370,11 @@ fsp_err_t ospi_b_set_protocol_to_opi ()
         transfer.data = OSPI_B_DATA_SET_OPI_CFR5V_REGISTER;
         err = R_OSPI_B_DirectTransfer(&g_ospi_b_ctrl, &transfer, SPI_FLASH_DIRECT_TRANSFER_DIR_WRITE);
         APP_ERR_RETURN(err, "R_OSPI_B_DirectTransfer API FAILED \r\n");
+
+        /* Change the OCTACLK clock to 200 MHz in DDR mode */
+        octaclk.source_clock = BSP_CLOCKS_SOURCE_CLOCK_PLL2P;
+        octaclk.divider      = BSP_CLOCKS_OCTA_CLOCK_DIV_2;
+        R_BSP_OctaclkUpdate(&octaclk);
 
         /* Switch OSPI module mode to OPI mode */
         err = R_OSPI_B_SpiProtocolSet(&g_ospi_b_ctrl, SPI_FLASH_PROTOCOL_8D_8D_8D);
@@ -396,7 +414,7 @@ fsp_err_t ospi_b_read_device_id (uint32_t * const p_id)
              : g_ospi_b_direct_transfer[OSPI_B_TRANSFER_READ_DEVICE_ID_OPI];
     err = R_OSPI_B_DirectTransfer(&g_ospi_b_ctrl, &transfer, SPI_FLASH_DIRECT_TRANSFER_DIR_READ);
     APP_ERR_RETURN(err, "R_OSPI_B_DirectTransfer API FAILED \r\n");
-    if(OSPI_B_DEVICE_ID != transfer.data)
+    if((OSPI_B_DEVICE_ID != transfer.data) && (OSPI_B_DEVICE_HL_ID != transfer.data))
     {
         APP_ERR_RETURN(FSP_ERR_ABORTED, "Device ID is incorrect\r\n");
     }
@@ -504,7 +522,7 @@ fsp_err_t ospi_b_operation (uint8_t * p_address)
  * @retval      FSP_SUCCESS Upon successful operation
  * @retval      Any Other Error code apart from FSP_SUCCESS Unsuccessful operation
  **********************************************************************************************************************/
-static fsp_err_t timer_start_measure ()
+static fsp_err_t timer_start_measure (void)
 {
     fsp_err_t err = FSP_SUCCESS;
 
@@ -553,12 +571,54 @@ static fsp_err_t timer_get_measure (uint32_t * p_time)
  * @retval      FSP_SUCCESS Upon successful operation
  * @retval      Any Other Error code apart from FSP_SUCCESS  Unsuccessful operation
  **********************************************************************************************************************/
-fsp_err_t timer_init ()
+fsp_err_t timer_init (void)
 {
     fsp_err_t err = FSP_SUCCESS;
 
     err = R_GPT_Open(&g_timer_ctrl, &g_timer_cfg);
     APP_ERR_RETURN(err, "R_GPT_Open FAILED\r\n");
+    return err;
+}
+
+/*******************************************************************************************************************//**
+ * @brief       This function sets up the auto-calibrate data for the flash.
+ * @param       None
+ * @retval      FSP_SUCCESS Upon successful operation
+ * @retval      Any Other Error code apart from FSP_SUCCESS  Unsuccessful operation
+ **********************************************************************************************************************/
+static fsp_err_t ospi_b_setup_calibrate_data(void)
+{
+    fsp_err_t err = FSP_SUCCESS;
+    uint32_t g_autocalibration_data[] =
+    {
+        0xFFFF0000U,
+        0x000800FFU,
+        0x00FFF700U,
+        0xF700F708U
+    };
+
+    /* Verify auto-calibration data */
+    if (RESET_VALUE != memcmp((uint8_t *)OSPI_B_APP_ADDRESS(OSPI_B_SECTOR_THREE),
+            &g_autocalibration_data, sizeof(g_autocalibration_data)))
+    {
+        /* Erase the flash sector that stores auto-calibration data */
+        err = R_OSPI_B_Erase (&g_ospi_b_ctrl,
+                              (uint8_t *)OSPI_B_APP_ADDRESS(OSPI_B_SECTOR_THREE), OSPI_B_SECTOR_SIZE_4K);
+        APP_ERR_RETURN(err, "R_OSPI_B_Erase API FAILED \r\n");
+
+        /* Wait until erase operation completes */
+        err = ospi_b_wait_operation(OSPI_B_TIME_ERASE_4K);
+        APP_ERR_RETURN(err, "ospi_b_wait_operation FAILED\r\n");
+
+        /* Write auto-calibration data to the flash */
+        err = R_OSPI_B_Write(&g_ospi_b_ctrl, (uint8_t *)&g_autocalibration_data,
+                             (uint8_t *)OSPI_B_APP_ADDRESS(OSPI_B_SECTOR_THREE), sizeof(g_autocalibration_data));
+        APP_ERR_RETURN(err, "R_OSPI_B_Write API FAILED \r\n");
+
+        /* Wait until write operation completes */
+        err = ospi_b_wait_operation(OSPI_B_TIME_WRITE);
+        APP_ERR_RETURN(err, "ospi_b_wait_operation FAILED\r\n");
+    }
     return err;
 }
 

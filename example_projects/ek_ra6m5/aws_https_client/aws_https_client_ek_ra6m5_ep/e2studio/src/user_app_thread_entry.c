@@ -30,7 +30,7 @@
 #include "littlefs_app.h"
 #include "adc_app.h"
 #include "core_http_client.h"
-#include "using_mbedtls_pkcs11.h"
+#include "transport_mbedtls_pkcs11.h"
 #include "user_app.h"
 
 
@@ -47,14 +47,13 @@
 /******************************************************************************
  Exported global functions (to be accessed by other files)
  ******************************************************************************/
-extern NetworkAddressingParameters_t xNetworkAddressing;
 extern TaskHandle_t user_app_thread;
 
 /******************************************************************************
  Exported global variables
  ******************************************************************************/
 ping_data_t ping_data = { RESET_VALUE, RESET_VALUE, RESET_VALUE };
-NetworkAddressingParameters_t xNd = { RESET_VALUE };
+IPV4Parameters_t xNd = {RESET_VALUE, RESET_VALUE, RESET_VALUE, {RESET_VALUE, RESET_VALUE}, RESET_VALUE, RESET_VALUE};
 uint32_t dhcp_in_use = RESET_VALUE;
 /* To store die temperature into this variable */
 float mcu_die_temp  = RESET_VALUE;
@@ -579,7 +578,7 @@ eDHCPCallbackAnswer_t xApplicationDHCPHook(eDHCPCallbackPhase_t eDHCPPhase, uint
              * The sub-domains don't match, so continue with the DHCP process so the offered IP address is used.
              */
             /* Update the Structure, the DHCP state Machine is not updating this */
-            xNetworkAddressing.ulDefaultIPAddress = lulIPAddress;
+            xNd.ulIPAddress = lulIPAddress;
             dhcp_in_use = 1;
             updateDhcpResponseToUsr ();
         break;
@@ -671,15 +670,15 @@ void print_ipconfig(void)
         ucGatewayAddress[1] = (uint8_t) ((xNd.ulGatewayAddress & 0x0000FF00) >> 8);
         ucGatewayAddress[0] = (uint8_t) (xNd.ulGatewayAddress & 0x000000FF);
 
-        ucDNSServerAddress[3] = (uint8_t) ((xNd.ulDNSServerAddress & 0xFF000000) >> 24);
-        ucDNSServerAddress[2] = (uint8_t) ((xNd.ulDNSServerAddress & 0x00FF0000) >> 16);
-        ucDNSServerAddress[1] = (uint8_t) ((xNd.ulDNSServerAddress & 0x0000FF00) >> 8);
-        ucDNSServerAddress[0] = (uint8_t) (xNd.ulDNSServerAddress & 0x000000FF);
+        ucDNSServerAddress[3] = (uint8_t) ((xNd.ulDNSServerAddresses[0] & 0xFF000000) >> 24);
+        ucDNSServerAddress[2] = (uint8_t) ((xNd.ulDNSServerAddresses[0] & 0x00FF0000) >> 16);
+        ucDNSServerAddress[1] = (uint8_t) ((xNd.ulDNSServerAddresses[0] & 0x0000FF00) >> 8);
+        ucDNSServerAddress[0] = (uint8_t) (xNd.ulDNSServerAddresses[0] & 0x000000FF);
 
-        ucIPAddress[3] = (uint8_t) ((xNd.ulDefaultIPAddress & 0xFF000000) >> 24);
-        ucIPAddress[2] = (uint8_t) ((xNd.ulDefaultIPAddress & 0x00FF0000) >> 16);
-        ucIPAddress[1] = (uint8_t) ((xNd.ulDefaultIPAddress & 0x0000FF00) >> 8);
-        ucIPAddress[0] = (uint8_t) (xNd.ulDefaultIPAddress & 0x000000FF);
+        ucIPAddress[3] = (uint8_t) ((xNd.ulIPAddress & 0xFF000000) >> 24);
+        ucIPAddress[2] = (uint8_t) ((xNd.ulIPAddress & 0x00FF0000) >> 16);
+        ucIPAddress[1] = (uint8_t) ((xNd.ulIPAddress & 0x0000FF00) >> 8);
+        ucIPAddress[0] = (uint8_t) (xNd.ulIPAddress & 0x000000FF);
     }
     APP_PRINT("\r\nEthernet adapter for Renesas "KIT_NAME":\r\n");
     APP_PRINT("\tDescription                       : Renesas "KIT_NAME" Ethernet\r\n");
@@ -733,7 +732,9 @@ void updateDhcpResponseToUsr(void)
 {
     if (dhcp_in_use)
     {
-        memcpy (&xNd, &xNetworkAddressing, sizeof(xNd));
+        xNd.ulNetMask = FreeRTOS_GetNetmask();
+        xNd.ulGatewayAddress = FreeRTOS_GetGatewayAddress();
+        xNd.ulDNSServerAddresses[0] = FreeRTOS_GetDNSServerAddress();
     }
 }
 
@@ -758,7 +759,7 @@ const char* pcApplicationHostnameHook(void)
 #if ( ipconfigUSE_NETWORK_EVENT_HOOK == 1 )
 void vApplicationIPNetworkEventHook (eIPCallbackEvent_t eNetworkEvent)
 {
-    if(eNetworkUp == eNetworkEvent)
+    if((eNetworkUp == eNetworkEvent) && (dhcp_in_use))
     {
         uint32_t lulIPAddress, lulNetMask, lulGatewayAddress, lulDNSServerAddress;
         int8_t lcBuffer[BUFF_SIZE];
