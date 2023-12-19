@@ -45,11 +45,11 @@ void update_ipconfig_to_static_ip(void);
 
 static char print_buffer [1024] = {};
 
-#define STATIC_IP_MAC_ADDRESS        {0x00, 0x11, 0x22, 0x33, 0x44, 0x55}
-#define STATIC_IP_ADDRESS            {192, 168,   0,  10}
-#define STATIC_IP_NET_MASK           {255, 255, 255,   0}
+#define STATIC_IP_MAC_ADDRESS        {0x00, 0x11, 0x22, 0x33, 0x44, 0x98}
+#define STATIC_IP_ADDRESS            {192, 168,  10, 142}
 #define STATIC_IP_GATEWAY_ADDRESS    {192, 168,   0,   1}
-#define STATIC_IP_DNS_SERVER_ADDRESS {194, 168,   0,   1}
+#define STATIC_IP_NET_MASK           {255, 255, 255,   0}
+#define STATIC_IP_NET_MASK_BOOT      {255, 255, 255, 255}
 
 static uint8_t s_static_ip_mac_address[ 6 ]      = STATIC_IP_MAC_ADDRESS;
 static uint8_t s_static_ip_address[ 4 ]          = STATIC_IP_ADDRESS;
@@ -433,6 +433,13 @@ uint32_t isNetworkUp(void)
     fsp_err_t  eth_link_status = FSP_ERR_NOT_OPEN;
     BaseType_t networkUp = pdFALSE;
     volatile uint32_t network_status = (IP_LINK_UP | ETHERNET_LINK_UP);
+
+#if (ipconfigUSE_DHCP != 0)
+    if(!dhcp_in_use)
+    {
+        return IP_LINK_DOWN;
+    }
+#endif
 
     networkUp = FreeRTOS_IsNetworkUp();
     eth_link_status = R_ETHER_LinkProcess(g_ether0.p_ctrl);

@@ -21,8 +21,8 @@ Refer to [readme.txt](./readme.txt) for information on how to connect the hardwa
 
 ### Software ###
 * e2studio version 2023-10
-* FSP Pack version 5.0.0
-* GCC ARM Embedded toolchain version 12.2.1.arm-12-mpacbti-34
+* FSP Pack version 5.1.0
+* GCC ARM Embedded toolchain version 13.2.1.arm-13-7
 * Terminal application (ex. Tera Term v4.99)
 
 Refer to the software required section in [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf)
@@ -61,6 +61,7 @@ List all the various modules that are used in this example project. Refer to the
 | EK-RA2E2 | IRQ1<br>AGT1_AGTI | IRQ1<br>AGT1_AGTI | IRQ1<br>DTC_COMPLETE | AGT1_AGTI |
 | EK-RA4M1 | IRQ0<br>AGT1_AGTI | IRQ0<br>AGT1_AGTI | IRQ0<br>DTC_COMPLETE | AGT1_AGTI |
 | EK-RA4W1 | IRQ4<br>AGT1_AGTI | IRQ4<br>AGT1_AGTI | IRQ4<br>DTC_COMPLETE | AGT1_AGTI |
+| FPB-RA2E3 | IRQ0<br>AGT1_AGTI | IRQ0<br>AGT1_AGTI | IRQ0<br>DTC_COMPLETE | AGT1_AGTI |
 
 **Cancel/End sources selected for the MCU only support Sleep, SW Standby, Snooze mode, and Deep SW Standby modes**
 |   Board   |   Cancel Sleep mode  |   Cancel SW Standby mode   |   Cancel Snooze mode   |  Request / End Snooze mode   |   Cancel Deep SW Standby mode   |
@@ -82,11 +83,11 @@ List all the various modules that are used in this example project. Refer to the
 |   Mode   |   Cancel Sleep mode  |   Cancel Deep Sleep mode   |   Cancel SW Standby mode   |   Cancel Deep SW Standby mode   |
 |----------|----------------------|----------------------------|----------------------------|---------------------------------|
 | EK-RA8M1 | IRQ13-DS<br>ULPT0_ULPTI | IRQ13-DS<br>ULPT0_ULPTI | IRQ13-DS<br>ULPT0_ULPTI | IRQ13-DS<br>ULPT0_ULPTI |
-
+| EK-RA8D1 | IRQ13-DS<br>ULPT0_ULPTI | IRQ13-DS<br>ULPT0_ULPTI | IRQ13-DS<br>ULPT0_ULPTI | IRQ13-DS<br>ULPT0_ULPTI |
 ## Module Configuration Notes ##
 This section describes FSP Configurator properties which are important or different than those selected by default. 
 
-**The tables below describes the configuration for the EK-RA8M1 board**
+**The tables below describes the configuration for the EK-RA8M1, EK-RA8D1 board**
 
 **Configuration Properties for Sleep mode LPM instance**
 |   Module Property Path and Identifier   |   Default Value   |   Used Value   |   Reason   |
@@ -118,6 +119,25 @@ This section describes FSP Configurator properties which are important or differ
 | configuration.xml > g_lpm_sw_standby Low Power Modes (r_lpm) > Settings > Property > Module g_lpm_sw_standby Low Power Modes (r_lpm) > RAM Retention Control (Not available on every MCU) > TCM retention in Deep Sleep and Standby modes | Supply power to TCM | Supply power to TCM  | Retained TCM in SW Standby mode. |
 | configuration.xml > g_lpm_sw_standby Low Power Modes (r_lpm) > Settings > Property > Module g_lpm_sw_standby Low Power Modes (r_lpm) > RAM Retention Control (Not available on every MCU) > Standby RAM retention in Standby and Deep Standby modes | Supply power to Standby RAM | Supply power to Standby RAM  | Retained Standby RAM in SW Standby mode. |
 
+For FPB-RA2E3:
+|   Module Property Path and Identifier   |   Default Value   |   Used Value   |   Reason   |
+|-----------------------------------------|-------------------|----------------|------------|
+| configuration.xml > g_lpm_sw_standby Low Power Modes (r_lpm) > Settings > Property > Module g_lpm_deep_sleep Low Power Modes (r_lpm) > General > Low Power Mode | Sleep mode | Software Standby mode | Select Software Standby mode for this LPM instance. |
+| configuration.xml > g_lpm_sw_standby Low Power Modes (r_lpm) > Settings > Property > Module g_lpm_deep_sleep Low Power Modes (r_lpm) > Deep Sleep and Standby Options > Wake Sources > IRQ0 | ☐ | ☑ | Select IRQ0 interrupt as source to cancel SW Standby mode. |
+| configuration.xml > g_lpm_sw_standby Low Power Modes (r_lpm) > Settings > Property > Module g_lpm_deep_sleep Low Power Modes (r_lpm) > Deep Sleep and Standby Options > Wake Sources > AGT1 Underflow | ☐ | ☑ | Select AGT1 Underflow Interrupt as the source to cancel SW Standby mode. |
+
+**For FPB-RA2E3:**
+**Configuration Properties for Snooze mode LPM instance**
+|   Module Property Path and Identifier   |   Default Value   |   Used Value   |   Reason   |
+|-----------------------------------------|-------------------|----------------|------------|
+| configuration.xml > g_lpm_sw_standby_with_snooze Low Power Modes (r_lpm) > Settings > Property > Module g_lpm_sw_standby_with_snooze Low Power Modes (r_lpm) > General > Low Power Mode | Sleep mode | Snooze mode | Select Snooze mode for this LPM instance. |
+| configuration.xml > g_lpm_sw_standby_with_snooze Low Power Modes (r_lpm) > Settings > Property > Module g_lpm_sw_standby_with_snooze Low Power Modes (r_lpm) > Deep Sleep and Standby Options > Wake Sources > IRQ0 | ☐ | ☑ | Select IRQ0 interrupt as source to cancel deep sleep mode. |
+| configuration.xml > g_lpm_sw_standby_with_snooze Low Power Modes (r_lpm) > Settings > Property > Module g_lpm_sw_standby_with_snooze Low Power Modes (r_lpm) > Deep Sleep and Standby Options > Snooze Options > Snooze End Source > AGT1 Underflow | ☐ | ☑ | Select AGT1 Underflow Interrupt as the source to wake from snooze. |
+| configuration.xml > g_lpm_sw_standby_with_snooze Low Power Modes (r_lpm) > Settings > Property > Module g_lpm_sw_standby_with_snooze Low Power Modes (r_lpm) > Deep Sleep and Standby Options > Snooze Options > Snooze Request Source | RXD0 falling edge | AGT1 Underflow | Select AGT1 Underflow Interrupt as the event that will enter snooze. |
+| configuration.xml > g_lpm_sw_standby_with_snooze Low Power Modes (r_lpm) > Settings > Property > Module g_lpm_sw_standby_with_snooze Low Power Modes (r_lpm) > Deep Sleep and Standby Options > Snooze Options > DTC state in Snooze Mode | Disabled | Enabled | Enable wake from snooze from this source. |
+| configuration.xml > g_lpm_sw_standby_with_snooze Low Power Modes (r_lpm) > Settings > Property > Module g_lpm_sw_standby_with_snooze Low Power Modes (r_lpm) > Deep Sleep and Standby Options > Snooze Options > Snooze Cancel Source | None | DTC Transfer Complete | Select DTC Transfer Complete interrupt as the source to cancel snooze. |   
+
+
 **Configuration Properties for Deep SW Standby mode LPM instance**
 |   Module Property Path and Identifier   |   Default Value   |   Used Value   |   Reason   |
 |-----------------------------------------|-------------------|----------------|------------|
@@ -138,6 +158,17 @@ This section describes FSP Configurator properties which are important or differ
 | configuration.xml > g_uart UART (r_sci_b_uart) > Settings > Property > Module g_uart UART (r_sci_b_uart) > Baud > Baud Rate | 115200 | 115200 | Select a baud rate of 115200 bits per second. |
 | configuration.xml > g_uart UART (r_sci_b_uart) > Settings > Property > Module g_uart UART (r_sci_b_uart) > Interrupts > Callback | NULL | uart_callback | It is called from the interrupt service routine (ISR) upon SCI B UART transaction completion reporting the transaction status. |
 
+**For FPB-RA2E3:**
+**Configuration Properties for using SCI UART**
+|   Module Property Path and Identifier   |   Default Value   |   Used Value   |   Reason   |
+|-----------------------------------------|-------------------|----------------|------------|
+| configuration.xml > g_uart UART (r_sci_uart) > Settings > Property > Module g_uart UART (r_sci_uart) > General > Channel | 0 | 9 | Use SCI UART Channel 9 to print the project log to the host PC. |
+| configuration.xml > g_uart UART (r_sci_uart) > Settings > Property > Module g_uart UART (r_sci_uart) > General > Data Bits | 8bits | 8bits | Select the data bit length of 8 bits for a UART frame. |
+| configuration.xml > g_uart UART (r_sci_uart) > Settings > Property > Module g_uart UART (r_sci_uart) > General > Parity | None | None | Do not use the parity check feature. |
+| configuration.xml > g_uart UART (r_sci_uart) > Settings > Property > Module g_uart UART (r_sci_uart) > General > Stop Bits | 1bit | 1bit | Select the stop bit length of 1 bit for a UART frame. |
+| configuration.xml > g_uart UART (r_sci_uart) > Settings > Property > Module g_uart UART (r_sci_uart) > Baud > Baud Rate | 115200 | 115200 | Select a baud rate of 115200 bits per second. |
+| configuration.xml > g_uart UART (r_sci_uart) > Settings > Property > Module g_uart UART (r_sci_uart) > Interrupts > Callback | NULL | uart_callback | It is called from the interrupt service routine (ISR) upon SCI UART transaction completion reporting the transaction status. |
+
 **Configuration Properties for using ULPT**
 |   Module Property Path and Identifier   |   Default Value   |   Used Value   |   Reason   |
 |-----------------------------------------|-------------------|----------------|------------|
@@ -149,6 +180,37 @@ This section describes FSP Configurator properties which are important or differ
 | configuration.xml > g_timer_cancel_lpm Timer, Ultra-Low-Power (r_ulpt) > Settings > Property > Module g_timer_cancel_lpm Timer, Ultra-Low-Power (r_ulpt) > Interrupts > Callback | NULL | timer_cancel_lpm_callback | It is called from the interrupt service routine (ISR) each time the timer period elapses. |
 | configuration.xml > g_timer_cancel_lpm Timer, Ultra-Low-Power (r_ulpt) > Settings > Property > Module g_timer_cancel_lpm Timer, Ultra-Low-Power (r_ulpt) > Interrupts > Underflow Interrupt Priority | Disabled | Priority 12 | Select ULPT interrupt priority. |
 
+**For FPB-RA2E3:**
+**Configuration Properties for using AGT**
+|   Module Property Path and Identifier   |   Default Value   |   Used Value   |   Reason   |
+|-----------------------------------------|-------------------|----------------|------------|
+| configuration.xml > g_timer_cancel_lpm Timer, Low-Power (r_agt) > Settings > Property > Module g_timer_cancel_lpm Timer, Low-Power (r_agt) > General > Channel | 0 | 1 | Use AGT Channel 1 to cancel LPM modes. |
+| configuration.xml > g_timer_cancel_lpm Timer, Low-Power (r_agt) > Settings > Property > Module g_timer_cancel_lpm Timer, Low-Power (r_agt) > General > Mode | Periodic | Periodic | Configure the AGT timer in periodic mode. |
+| configuration.xml > g_timer_cancel_lpm Timer, Low-Power (r_agt) > Settings > Property > Module g_timer_cancel_lpm Timer, Low-Power (r_agt) > General > Period | 0x10000 | 10 | Set the periodic value for the AGT timer. |
+| configuration.xml > g_timer_cancel_lpm Timer, Low-Power (r_agt) > Settings > Property > Module g_timer_cancel_lpm Timer, Low-Power (r_agt) > General > Period Unit | Raw Counts | Seconds | Set the periodic for the AGT timer to 10 seconds. |
+| configuration.xml > g_timer_cancel_lpm Timer, Low-Power (r_agt) > Settings > Property > Module g_timer_cancel_lpm Timer, Low-Power (r_agt) > General > Count Source | PCLKB | LOCO | Select LOCO as AGT clock source to operate in LPM mode. |
+| configuration.xml > g_timer_cancel_lpm Timer, Low-Power (r_agt) > Settings > Property > Module g_timer_cancel_lpm Timer, Low-Power (r_agt) > Interrupts > Callback | NULL | timer_cancel_lpm_callback | It is called from the interrupt service routine (ISR) each time the timer period elapses. |
+| configuration.xml > g_timer_cancel_lpm Timer, Low-Power (r_agt) > Settings > Property > Module g_timer_cancel_lpm Timer, Low-Power (r_agt) > Interrupts > Underflow Interrupt Priority | Disabled | Priority 3 | Select AGT interrupt priority. |
+
+|   Module Property Path and Identifier   |   Default Value   |   Used Value   |   Reason   |
+|-----------------------------------------|-------------------|----------------|------------|
+| configuration.xml > g_timer_trigger_dtc Timer, Low-Power (r_agt) > Settings > Property > Module g_timer_trigger_dtc Timer, Low-Power (r_agt) > General > Channel | 0 | 0 | Use AGT Channel 0 to cancel LPM modes. |
+| configuration.xml > g_timer_trigger_dtc Timer, Low-Power (r_agt) > Settings > Property > Module g_timer_trigger_dtc Timer, Low-Power (r_agt) > General > Mode | Periodic | Periodic | Configure the AGT timer in periodic mode. |
+| configuration.xml > g_timer_trigger_dtc Timer, Low-Power (r_agt) > Settings > Property > Module g_timer_trigger_dtc Timer, Low-Power (r_agt) > General > Period | 0x10000 | 18 | Set the periodic value for the AGT timer. |
+| configuration.xml > g_timer_trigger_dtc Timer, Low-Power (r_agt) > Settings > Property > Module g_timer_trigger_dtc Timer, Low-Power (r_agt) > General > Period Unit | Raw Counts | Seconds | Set the periodic for the AGT timer to 10 seconds. |
+| configuration.xml > g_timer_trigger_dtc Timer, Low-Power (r_agt) > Settings > Property > Module g_timer_trigger_dtc Timer, Low-Power (r_agt) > General > Count Source | PCLKB | LOCO | Select LOCO as AGT clock source to operate in LPM mode. |
+| configuration.xml > g_timer_trigger_dtc Timer, Low-Power (r_agt) > Settings > Property > Module g_timer_trigger_dtc Timer, Low-Power (r_agt) > Interrupts > Underflow Interrupt Priority | Disabled | Priority 3 | Select AGT interrupt priority. |
+
+**For FPB-RA2E3:**
+**Configuration Properties for using DTC**
+|   Module Property Path and Identifier   |   Default Value   |   Used Value   |   Reason   |
+|-----------------------------------------|-------------------|----------------|------------|
+|   configuration.xml -> g_dtc_cancel_snooze Transfer (r_dtc) AGT0 INT (AGT interrupt) > Settings > Property > Module g_dtc_cancel_snooze Transfer (r_dtc) AGT0 INT (AGT interrupt) > Mode  |   Normal  |   Normal  |  One transfer per activation, transfer ends after Number of Transfer.   |
+|   configuration.xml -> g_dtc_cancel_snooze Transfer (r_dtc) AGT0 INT (AGT interrupt) > Settings > Property > Module g_dtc_cancel_snooze Transfer (r_dtc) AGT0 INT (AGT interrupt) > Destination Address Mode  |   Fixed |   Fixed  |  Select the address mode for the destination.   |
+|   configuration.xml -> g_dtc_cancel_snooze Transfer (r_dtc) AGT0 INT (AGT interrupt) > Settings > Property > Module g_dtc_cancel_snooze Transfer (r_dtc) AGT0 INT (AGT interrupt) > Interrupt Frequency |   After all transfers have completed  |   After each transfer |  Select to have interrupt after each transfer   |
+|   configuration.xml -> g_dtc_cancel_snooze Transfer (r_dtc) AGT0 INT (AGT interrupt) > Settings > Property > Module g_dtc_cancel_snooze Transfer (r_dtc) AGT0 INT (AGT interrupt) > Number of Transfer  |   0  |   1  |  Specify the number of transfers to be performed. |
+|   configuration.xml -> g_dtc_cancel_snooze Transfer (r_dtc) AGT0 INT (AGT interrupt) > Settings > Property > Module g_dtc_cancel_snooze Transfer (r_dtc) AGT0 INT (AGT interrupt) > Activation Source  |   Disable  |   AGT0 INT (AGT interrupt)  |  Select AGT0 INT (AGT interrupt) as the the DTC transfer start event. |
+
 
 **Configuration Properties for using External IRQ**
 |   Module Property Path and Identifier   |   Default Value   |   Used Value   |   Reason   |
@@ -158,6 +220,12 @@ This section describes FSP Configurator properties which are important or differ
 | configuration.xml > g_external_irq External IRQ (r_icu) > Settings > Property > Module g_external_irq External IRQ (r_icu) > Digital Filtering | Disabled | Disabled | Do not use digital filtering in LPM modes. |
 | configuration.xml > g_external_irq External IRQ (r_icu) > Settings > Property > Module g_external_irq External IRQ (r_icu) > Callback | NULL | external_irq_cancel_lpm_callback | It is called from the interrupt service routine (ISR) upon a falling edge is detected on the IRQ pin. |
 | configuration.xml > g_external_irq External IRQ (r_icu) > Settings > Property > Module g_external_irq External IRQ (r_icu) > Pin Interrupt Priority | Priority 12 | Priority 12 | Select the External IRQ interrupt priority. |
+
+For FPB-RA2E3
+|   Module Property Path and Identifier   |   Default Value   |   Used Value   |   Reason   |
+|-----------------------------------------|-------------------|----------------|------------|
+| configuration.xml > g_external_irq External IRQ (r_icu) > Settings > Property > Module g_external_irq External IRQ (r_icu) > Channel | 0 | 0 | Use External IRQ channel 0 to cancel LPM modes. |
+| configuration.xml > g_external_irq External IRQ (r_icu) > Settings > Property > Module g_external_irq External IRQ (r_icu) > Pin Interrupt Priority | Priority 2 | Priority 2 | Select the External IRQ interrupt priority. |
 
 ## API Usage ##
 The table below lists the FSP provided API used at the application layer by this example project.
@@ -180,6 +248,31 @@ The table below lists the FSP provided API used at the application layer by this
 | R_ULPT_Reset | This API is used to reset the counter value of the ULPT timer. |
 | R_ULPT_Close | This API is used to de-initialize the ULPT module. |
 | R_BSP_SoftwareDelay | This API is used to delay a specified period of time. |
+
+For FPB-RA2E3
+| API Name    | Usage                                                                          |
+|-------------|--------------------------------------------------------------------------------|
+| R_LPM_Open | This API is used to initialize the LMP module. |
+| R_LPM_LowPowerModeEnter | This API is used to enter low power mode. |
+| R_LPM_Close | This API is used to de-initialize the LMP module. |
+| R_SCI_UART_Open | This API is used to initialize the SCI UART module. |
+| R_SCI_UART_Write | This API is used to perform a write operation via the UART interface. |
+| R_SCI_UART_Close | This API is used to de-initialize the SCI UART module. |
+| R_ICU_ExternalIrqOpen | This API is used to initialize an IRQ input pin for use with the external interrupt interface. |
+| R_ICU_ExternalIrqEnable | This API is used to enable external interrupts for a specified channel. |
+| R_ICU_ExternalIrqDisable | This API is used to disable external interrupts for a specified channel. |
+| R_ICU_ExternalIrqClose | This API is used to de-initialize the external interrupt channel. |
+| R_AGT_Open | This API is used to initialize the AGT module. |
+| R_AGT_Start | This API is used to start the AGT timer. |
+| R_AGT_Stop | This API is used to stop the AGT timer. |
+| R_AGT_Reset | This API is used to reset the counter value of the AGT timer. |
+| R_AGT_Close | This API is used to de-initialize the AGT module. |
+| R_DTC_Open | This API is used to initialize the AGT module. |
+| R_DTC_Close | This API is used to de-initialize the AGT module. |
+| R_DTC_Enable | This API is used to enable transfer on this activation source. |
+| R_DTC_Disable | This API is used to disable transfer on this activation source. |
+| R_BSP_SoftwareDelay | This API is used to delay a specified period of time. |
+
 
 ## Verifying operation ##
 1. Download example project to RA kits using USB Debug port.

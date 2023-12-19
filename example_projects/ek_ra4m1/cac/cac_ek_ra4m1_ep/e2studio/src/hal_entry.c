@@ -218,19 +218,20 @@ static fsp_err_t cac_measurement_process(void)
     APP_PRINT("\r\nCAC measurement started.\r\n")
 
     /* Wait for measurement complete or error generation event. */
-    while (true != b_cac_status_flag)
-    {
-        /*start checking for timeout to avoid infinite loop*/
-        --cac_time_out;
+    do
+	{
+		/* start checking for timeout to avoid an infinite loop */
+		--cac_time_out;
 
-        /*check for time elapse*/
-        if (RESET_VALUE == cac_time_out)
-        {
-            /*we have reached to a scenario where CAC event not occurred*/
-            APP_ERR_PRINT (" ** No event received during CAC measurement operation **\r\r");
-            return FSP_ERR_TIMEOUT;
-        }
-    }
+		/* check for time elapsed */
+		if (RESET_VALUE == cac_time_out)
+		{
+			/* we have reached a scenario where CAC event has not occurred */
+			APP_ERR_PRINT("** No event received during CAC measurement operation **\r\r");
+			return FSP_ERR_TIMEOUT;
+		}
+	} while (true != b_cac_status_flag);
+
 
     /* Check for event received from CAC callback. */
     switch (g_cac_event)

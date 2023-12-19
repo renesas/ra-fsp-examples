@@ -25,7 +25,7 @@ Note: Refer to R30AN0384 for example of advanced usage of DOC with other modules
 
 1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x2000003c
+   a. e2studio: 0x2000044c
    b. Keil: Not Available 
    c. IAR: Not Available
  

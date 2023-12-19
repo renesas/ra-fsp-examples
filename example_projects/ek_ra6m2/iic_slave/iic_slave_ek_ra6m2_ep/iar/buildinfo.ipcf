@@ -17,6 +17,7 @@
     <defines>
         <define>_RA_CORE=CM4</define>
         <define>_RA_ORDINAL=1</define>
+        <define>_RENESAS_RA_</define>
     </defines>
     <asmIncludePath>
         <path>$PROJ_DIR$/ra/arm/CMSIS_5/CMSIS/Core/Include</path>
@@ -32,6 +33,7 @@
     <asmDefines>
         <define>_RA_CORE=CM4</define>
         <define>_RA_ORDINAL=1</define>
+        <define>_RENESAS_RA_</define>
     </asmDefines>
     <linkerFile>
         <override>true</override>
@@ -40,11 +42,14 @@
     <linkerExtraOptions>
         <arg>--config_search "$PROJ_DIR$"</arg>
     </linkerExtraOptions>
+    <programEntryPoint>
+        <symbol>Reset_Handler</symbol>
+    </programEntryPoint>
     <customArgVars>
         <group name="RA Smart Configurator">
             <argVar>
                 <name>RASC_EXE_PATH</name>
-                <value>C:\Users\a5145403\AppData\Local\Programs\Renesas\RA\sc_v2023-10_fsp_v5.0.0\eclipse\rasc.exe</value>
+                <value>C:\Renesas\RA\sc_v2023-10_fsp_v5.0.0-beta.2\eclipse\rasc.exe</value>
             </argVar>
         </group>
     </customArgVars>

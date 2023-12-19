@@ -32,7 +32,7 @@
 	i. 2x Renesas EK-RA2E2/EK-RA4E2/EK-RA6E2/EK-RA8M1/EK-RA8D1 kit.
        ii. 2x USB A to USB Micro B Cable. 
       iii. 5x Jumper wires to link EK-RA2E2/EK-RA4E2/EK-RA6E2/EK-RA8M1/EK-RA8D1 boards.
-       iv. 1x Pull up resistor of value 1K ohms.
+       iv. 1x Pull up resistor of value 1k, 3.9k or 4.7k ohms.
       
 3. Hardware Connections:
  	Supported Board EK-RA2E2/EK-RA4E2/EK-RA6E2/EK-RA8M1/EK-RA8D1:		
@@ -41,12 +41,20 @@
         * External 3V3 pull-up using 1K ohms resistor should be connected on SDA line.
         * Three jumper wires are required to establish loop back connection along I3C lines across the board with pins as mentioned below.
 
-	EK-RA2E2/EK-RA4E2/EK-RA6E2:
+	EK-RA2E2:
 
         Master Board              Slave Board
         -------------             ------------
-	SDA0 J27:2   	---->     SDA0 J27:2
-        SCL0 J27:1   	---->	  SCL0 J27:1
+	SDA0 Pin P401   ---->     SDA0 Pin 401
+        SCL0 Pin P400   ---->     SCL0 Pin 400
+        Common GND
+
+	EK-RA4E2/EK-RA6E2:
+
+        Master Board              Slave Board
+        -------------             ------------
+	SDA0 Pin P101   ---->     SDA0 Pin 101
+        SCL0 Pin P100   ---->     SCL0 Pin 100
         Common GND
 
 	EK-RA8M1/EK-RA8D1:
@@ -58,8 +66,6 @@
         Common GND
 
 4. Hardware Configuration:
-
-- For EK-RA6E2: Install jumper J7 and Remove jumper J35 to enable I3C
 
 - For EK-RA8M1: Install jumper J61 to enable I3C
 
@@ -73,11 +79,11 @@
 ﻿
 Note: 
 1. On slave side user can perform IBI transfer request using onboard Push button(S2).
-2. readme is common for both i3c_master and i3c_slave EP.
-3. Change external 3V3 pull-up using 1K ohms resistor for EK-RA8M1.
+2. Readme is common for both i3c_master and i3c_slave EP.
+3. Change external 3V3 pull-up using 1K ohms resistor for EK-RA8M1, EK-RA8D1.
 
 4) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
-   RTT Block address for hex filse committed in repository are as follows:
+   RTT Block address for hex file committed in repository are as follows:
    a. e2studio: 0x220010c0
    b. Keil:	Not Available
    c. IAR:      Not Available

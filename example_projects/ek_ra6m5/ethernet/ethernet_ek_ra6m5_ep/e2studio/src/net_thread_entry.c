@@ -407,6 +407,13 @@ uint32_t isNetworkUp(void)
     fsp_err_t  eth_link_status = FSP_ERR_NOT_OPEN;
     BaseType_t networkUp = pdFALSE;
     uint32_t network_status = (IP_LINK_UP | ETHERNET_LINK_UP);
+	
+#if (ipconfigUSE_DHCP != 0)
+    if(!dhcp_in_use)
+    {
+        return IP_LINK_DOWN;
+    }
+#endif
 
     networkUp = FreeRTOS_IsNetworkUp();
     eth_link_status = R_ETHER_LinkProcess(g_ether0.p_ctrl);

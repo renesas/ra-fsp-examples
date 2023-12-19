@@ -20,7 +20,7 @@ To build and run the I3C example project, the following resources are needed.
 * Renesas EK-RA2E2/EK-RA4E2/EK-RA6E/EK-RA8M1/EK-RA8D1 kit - 2x
 * USB A to USB Micro B Cable - 2x
 * Jumper wires to link EK-RA2E2/EK-RA4E2/EK-RA6E2/EK-RA8M1/EK-RA8D1 kits - 5x
-* Pull up resistor of value 3.9 or 4.7k ohms - 1x
+* Pull up resistor of value 1k, 3.9k or 4.7k ohms - 1x
 
 Refer to [readme.txt](./readme.txt) for information on how to connect the hardware.
 

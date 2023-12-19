@@ -38,10 +38,10 @@ Note:   User is expected to enter data of size not exceeding 15 bytes.
    User can refer Section 5.3 "Setting up Hardware" in the document via link:
    https://www.renesas.com/us/en/document/apn/renesas-ra-security-design-arm-trustzone-ip-protection
    For Renesas Device Partition Manager tool:
-   	a. e2studio: Run -> Renesas Debug Tools -> Renesas Device Partition Manager (Available on e2studio)
+   a. e2studio: 0x22000b38
    	b. Keil: Tools -> Device Partition Manager (User need to set up)
       	   User can refer to set up via link: https://renesas.github.io/fsp/_s_t_a_r_t__d_e_v.html#RASC-MDK-prerequisites
-   	c. IAR: Tools -> Device Partition Manager (User need to set up)
+   c. IAR: 0x220007d8
 	   User can refer to set up via link: https://renesas.github.io/fsp/_s_t_a_r_t__d_e_v.html#RASC-EWARM-prerequisites
 ﻿
 2) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.

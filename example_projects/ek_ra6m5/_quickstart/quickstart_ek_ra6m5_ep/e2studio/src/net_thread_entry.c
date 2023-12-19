@@ -498,6 +498,13 @@ static uint32_t is_network_up(void)
     BaseType_t networkUp = pdFALSE;
     volatile uint32_t network_status = (IP_LINK_UP | ETHERNET_LINK_UP);
 
+#if (ipconfigUSE_DHCP != 0)
+    if(!s_dhcp_in_use)
+    {
+        return IP_LINK_DOWN;
+    }
+#endif
+
     networkUp = FreeRTOS_IsNetworkUp();
     eth_link_status = R_ETHER_LinkProcess(g_ether0.p_ctrl);
 

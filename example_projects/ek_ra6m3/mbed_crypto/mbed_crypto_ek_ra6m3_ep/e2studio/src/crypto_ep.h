@@ -30,7 +30,7 @@
 #define RSA_2048_BIT_LENGTH       (2048U)             /* key size in bits for RSA*/
 /* Buffer size is calculated by using PSA_KEY_EXPORT_MAX_SIZE(type, bits)
  * where type is the key type and bits is the key size in bits.*/
-#define RSA_2048_EXPORTED_SIZE    (1210U)             /* Size of the data buffer(to store key data) in bytes for RSA*/
+#define RSA_2048_EXPORTED_SIZE    (1610U)             /* Size of the data buffer(to store key data) in bytes for RSA*/
 #define ECC_256_EXPORTED_SIZE     (500U)              /* Size of the data buffer(to store key data) in bytes for ECC*/
 #define AES_256_EXPORTED_SIZE     (500U)              /* Size of the data buffer(to store key data) in bytes for AES*/
 #define TAG_LENGTH                ((size_t)16U)       /* number of bytes that make up the returned tag.*/

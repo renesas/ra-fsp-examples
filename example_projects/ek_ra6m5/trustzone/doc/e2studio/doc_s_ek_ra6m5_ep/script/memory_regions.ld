@@ -20,3 +20,4 @@
                 OSPI_DEVICE_0_LENGTH = 0x8000000;
                 OSPI_DEVICE_1_START  = 0x70000000;
                 OSPI_DEVICE_1_LENGTH = 0x10000000;
+                    PROJECT_SECURE = 1;
