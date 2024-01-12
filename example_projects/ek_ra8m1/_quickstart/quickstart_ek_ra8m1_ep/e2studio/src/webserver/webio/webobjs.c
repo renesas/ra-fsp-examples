@@ -68,6 +68,7 @@ struct memmarker
 };
 
 extern void debug_memory_free(uint8_t, void * ptr);
+extern fsp_err_t print_to_console (uint8_t * p_data);
 
 char *
 wi_alloc(int bufsize)
@@ -198,7 +199,7 @@ wi_newsess(void)
    if(!newsess)
    {
       /* ++ REE/EDC */
-       print_to_console("wi_newsess: out of memory.\n");
+       print_to_console((uint8_t *)"wi_newsess: out of memory.\n");
       /* -- REE/EDC */
       return NULL;
    }

@@ -167,7 +167,7 @@ bool_t get_key_as_str(char_t *target_str, size_t max_len)
             for (; *p_str; p_str++)
             {
                 /* check for alphanumeric character */
-                if (isalpha(*p_str))
+                if (isalpha((uint8_t)(*p_str)))
                 {
                     /* convert to Upper case */
                     *p_str = (char_t)((*p_str) + offset);

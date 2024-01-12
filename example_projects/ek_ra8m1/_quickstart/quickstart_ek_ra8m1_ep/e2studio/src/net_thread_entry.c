@@ -275,7 +275,6 @@ extern bool_t check_status_og(int8_t index, e_test_status_t * p_state);
 void net_thread_entry(void *pvParameters)
 {
     BaseType_t status = pdFALSE;
-    uint32_t ip_status = RESET_VALUE;
     EventBits_t uxBits;
 
     FSP_PARAMETER_NOT_USED(pvParameters);
@@ -390,7 +389,7 @@ void net_thread_entry(void *pvParameters)
 #if( ipconfigUSE_DHCP != 0 )
 /**********************************************************************************************************************
  * Function Name: xApplicationDHCPHook_Multi
- * Description  : This is the User Hook for the DHCP Response. xApplicationDHCPHook() is called by DHCP Client Code
+ * Description  : This is the User Hook for the DHCP Response. xApplicationDHCPHook_Multi() is called by DHCP Client Code
  *                when DHCP handshake messages are exchanged from the Server.
  * Arguments    : eDHCPPhase Different Phases of DHCP Phases
  *              : ulIPAddress the Offered IP Address
@@ -400,6 +399,7 @@ eDHCPCallbackAnswer_t xApplicationDHCPHook_Multi(eDHCPCallbackPhase_t eDHCPPhase
         struct xNetworkEndPoint * pxEndPoint,
         IP_Address_t * pxIPAddress)
 {
+    FSP_PARAMETER_NOT_USED(pxEndPoint);
     eDHCPCallbackAnswer_t eReturn = eDHCPContinue;
 
     /*
@@ -444,7 +444,7 @@ eDHCPCallbackAnswer_t xApplicationDHCPHook_Multi(eDHCPCallbackPhase_t eDHCPPhase
     return eReturn;
 }
 /**********************************************************************************************************************
- End of function xApplicationDHCPHook
+ End of function xApplicationDHCPHook_Multi
  *********************************************************************************************************************/#endif /*  ipconfigUSE_DHCP != 0  */
 
 /**********************************************************************************************************************
@@ -553,6 +553,13 @@ static uint32_t is_network_up(void)
     fsp_err_t  eth_link_status = FSP_ERR_NOT_OPEN;
     BaseType_t networkUp = pdFALSE;
     volatile uint32_t network_status = (IP_LINK_UP | ETHERNET_LINK_UP);
+
+#if (ipconfigUSE_DHCP != 0)
+    if(!s_dhcp_in_use)
+    {
+        return IP_LINK_DOWN;
+    }
+#endif
 
     networkUp = FreeRTOS_IsNetworkUp();
     eth_link_status = R_ETHER_LinkProcess(g_ether0.p_ctrl);

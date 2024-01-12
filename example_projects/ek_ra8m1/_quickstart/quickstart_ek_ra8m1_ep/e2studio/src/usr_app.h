@@ -66,13 +66,16 @@ extern void update_dhcp_response_to_usr (void);
 
 #if (ipconfigUSE_DHCP != 0)
 /**********************************************************************************************************************
- * Function Name: xApplicationDHCPHook
- * Description  : .
- * Arguments    : eDHCPPhase
- *              : ulIPAddress
- * Return Value : .
+ * Function Name: xApplicationDHCPHook_Multi
+ * Description  : This is the User Hook for the DHCP Response. xApplicationDHCPHook() is called by DHCP Client Code
+ *                when DHCP handshake messages are exchanged from the Server.
+ * Arguments    : eDHCPPhase Different Phases of DHCP Phases
+ *              : ulIPAddress the Offered IP Address
+ * Return Value : Returns DHCP Answers
  *********************************************************************************************************************/
-eDHCPCallbackAnswer_t xApplicationDHCPHook (eDHCPCallbackPhase_t eDHCPPhase, uint32_t ulIPAddress);
+eDHCPCallbackAnswer_t xApplicationDHCPHook_Multi( eDHCPCallbackPhase_t eDHCPPhase,
+                                                          struct xNetworkEndPoint * pxEndPoint,
+                                                          IP_Address_t * pxIPAddress );
 #endif
 
 #if (ipconfigDHCP_REGISTER_HOSTNAME == 1)
@@ -117,12 +120,6 @@ extern uint32_t ulRand ();
  *********************************************************************************************************************/
 extern BaseType_t send_ping (const char * pcIPAddress);
 
-/**********************************************************************************************************************
- * Function Name: print_ipconfig
- * Description  : .
- * Return Value : .
- *********************************************************************************************************************/
-extern void print_ipconfig (void);
 /**********************************************************************************************************************
 
  * Function Name: print_pingResult

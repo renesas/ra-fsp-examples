@@ -12,7 +12,7 @@ Please refer to the [Example Project Usage Guide](https://github.com/renesas/ra-
 for general information on example projects and [readme.txt](./readme.txt) for specifics of operation.
 
 ## Required Resources ##
-To build and run the can fd example project, the following resources are needed.
+To build and run the can fifo example project, the following resources are needed.
 
 ### Hardware ###
 * 2 x Renesas RA™ MCU kits
@@ -34,14 +34,14 @@ the operation of this example project:
 # Project Notes #
 
 ## System Level Block Diagram ##
-![can](images/can_fifo_High_level_design.png "CAN Block Diagram")
+![can](images/can_fifo_High_level_design.png "CAN FIFO Block Diagram")
 
 ## FSP Modules Used ##
 List all the various modules that are used in this example project. Refer to the FSP User Manual for further details on each module listed below.
 
 | Module Name | Usage  | Searchable Keyword|
 |-------------|-----------------------------------------------|-----------------------------------------------|
-| CAN | CAN module is used to to receive and transmit data between slave and master. | r_can |
+| CAN | CAN module is used to receive and transmit data between slave and master. | r_can |
 
 ## Module Configuration Notes ##
 This section describes FSP Configurator properties which are important or different than those selected by default. 
@@ -59,7 +59,7 @@ This section describes FSP Configurator properties which are important or differ
 
 ## API Usage ##
 
-The table below lists the CAN FD API used at the application layer by this example project.
+The table below lists the CAN API used at the application layer by this example project.
 
 | API Name    | Usage                                                                          |
 |-------------|--------------------------------------------------------------------------------|

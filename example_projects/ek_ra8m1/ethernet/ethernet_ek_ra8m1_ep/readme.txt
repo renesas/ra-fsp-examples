@@ -27,8 +27,23 @@
   	
 NOTE  : User is expected to enter the static IP address according to the network settings of the LAN.
         In case of DHCP, User just needs to run the application and DHCP client will communicate to the DHCP server and gets the IP address.
+	After obtaining the IP address and DNS lookup for the domain name requested, please wait for pinging to the requested IP address then the response information will be displayed in the RTT Viewer.
+	Following is example of successful response in RTT Viewer:
+	Ping Statistics for 172.217.160.174 :
+	Packets: Sent  = 100, Received = 99, Lost = 00
 
-2. Configuration Settings:
+2. Hardware Requirement:
+
+	i. Micro usb cable - 1no.
+       ii. LAN cable - 1no.
+      iii. Ethernet Switch - 1no.
+
+3. Hardware Connections:
+
+	i. Connect RA board to Host machine using micro usb cable.
+       ii. Connect LAN cable on RA board at ethernet port and other end connect to ethernet switch/router.
+
+4. Configuration Settings:
 		
 NOTE  : While running the application using DHCP or Static Address mode, the following settings needs to be done in the configurator. 
       : The same projects can be used for both the settings.
@@ -47,18 +62,19 @@ NOTE  : While running the application using DHCP or Static Address mode, the fol
 |DHCP callback function	                        Disable         Enable                    |
 |-----------------------------------------------------------------------------------------
 
-3. Hardware Configuration:
+5. Hardware Configuration:
 
 - For EK-RA8M1: Remove jumper J61 to enable Ethernet B
 ﻿
 1) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
    a. e2studio: 0x22000930
-   b. Keil:	Not Available
-   c. IAR: 	Not Available
+   b. Keil:	0x220052a8
+   c. IAR: 	0x22011e4c
  
 2) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) 
    in .map file generated in the build configuration folder (Debug/Release).
 
 NOTE  : On RA MCUs with TrustZone, IDAU boundaries are programmed by this project due to the use of Ethernet and EDMAC peripherals.
         Consequentially, it is necessary to connect the serial programming interface to meet this requirement.
+	For IAR, please initialize device back to factory default using the Renesas Device Partition Manager tool to avoid warnings related to incorrect aligment of Stack pointer.

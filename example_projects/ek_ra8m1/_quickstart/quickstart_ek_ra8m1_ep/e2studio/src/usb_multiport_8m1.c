@@ -501,13 +501,8 @@ void usb_safely_eject(void)
             APP_ERR_TRAP (freertos_fat_error);
         }
 
-        /* Close the FREERTOS_PLUS_FAT_Close instance on safely ejecting */
-        freertos_fat_error = RM_FREERTOS_PLUS_FAT_Close (&g_rm_freertos_plus_fat_ctrl);
-        if (FSP_SUCCESS != freertos_fat_error)
-        {
-            print_to_console((uint8_t *)"\r\nFREERTOS PLUS FAT CLOSE API failed\r\n");
-            APP_ERR_TRAP (freertos_fat_error);
-        }
+        /* Closes the FreeRTOS+FAT instance */
+        clean_up();
 
         print_to_console((uint8_t *)"\r\nUSB Device can be safely removed now\r\n");
         /* Update the flag */
