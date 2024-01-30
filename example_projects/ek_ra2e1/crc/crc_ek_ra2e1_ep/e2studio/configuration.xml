@@ -102,7 +102,7 @@
     <node id="board.clock.moco.freq" option="board.clock.moco.freq.8m" />
     <node id="board.clock.subclk.freq" option="board.clock.subclk.freq.32768" />
     <node id="board.clock.clock.source" option="board.clock.clock.source.hoco" />
-    <node id="board.clock.iclk.div" option="board.clock.iclk.div.1" />
+    <node id="board.clock.iclk.div" option="board.clock.iclk.div.2" />
     <node id="board.clock.iclk.display" option="board.clock.iclk.display.value" />
     <node id="board.clock.pclkb.div" option="board.clock.pclkb.div.2" />
     <node id="board.clock.pclkb.display" option="board.clock.pclkb.display.value" />
@@ -186,7 +186,7 @@
       <property id="module.driver.crc.name" value="g_crc" />
       <property id="module.driver.crc.crc_polynomial" value="module.driver.crc.crc_polynomial.gps_crc_8" />
       <property id="module.driver.crc.crc_bit_order" value="module.driver.crc.crc_bit_order.lms_msb" />
-      <property id="module.driver.crc.snoop_address" value="module.driver.crc.snoop_address.SCI1_frdr" />
+      <property id="module.driver.crc.snoop_address" value="module.driver.crc.snoop_address.SCI1_rdr" />
     </module>
     <context id="_hal.0">
       <stack module="module.driver.ioport_on_ioport.0" />
@@ -201,7 +201,7 @@
     </config>
     <config id="config.driver.sci_uart">
       <property id="config.driver.sci_uart.param_checking_enable" value="config.driver.sci_uart.param_checking_enable.bsp" />
-      <property id="config.driver.sci_uart.fifo_support" value="config.driver.sci_uart.fifo_support.enabled" />
+      <property id="config.driver.sci_uart.fifo_support" value="config.driver.sci_uart.fifo_support.disabled" />
       <property id="config.driver.sci_uart.dtc_support" value="config.driver.sci_uart.dtc_support.disabled" />
       <property id="config.driver.sci_uart.flow_control" value="config.driver.sci_uart.flow_control.disabled" />
     </config>

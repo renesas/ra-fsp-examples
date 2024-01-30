@@ -49,7 +49,7 @@
         <group name="RA Smart Configurator">
             <argVar>
                 <name>RASC_EXE_PATH</name>
-                <value>C:\Renesas\RA\sc_v2023-10_fsp_v5.0.0-beta.2\eclipse\rasc.exe</value>
+                <value>C:\Renesas\sc_v2023-10_fsp_v5.0.0\eclipse\rasc.exe</value>
             </argVar>
         </group>
     </customArgVars>
@@ -93,18 +93,20 @@
             <path>ra/board/ra4m3_ek/board_leds.h</path>
             <path>ra/fsp/inc/api/bsp_api.h</path>
             <path>ra/fsp/inc/api/fsp_common_api.h</path>
-            <path>ra/fsp/inc/api/r_cgc_api.h</path>
             <path>ra/fsp/inc/api/r_external_irq_api.h</path>
             <path>ra/fsp/inc/api/r_ioport_api.h</path>
             <path>ra/fsp/inc/api/r_lpm_api.h</path>
             <path>ra/fsp/inc/api/r_timer_api.h</path>
+            <path>ra/fsp/inc/api/r_transfer_api.h</path>
+            <path>ra/fsp/inc/api/r_uart_api.h</path>
             <path>ra/fsp/inc/fsp_features.h</path>
             <path>ra/fsp/inc/fsp_version.h</path>
             <path>ra/fsp/inc/instances/r_agt.h</path>
-            <path>ra/fsp/inc/instances/r_cgc.h</path>
+            <path>ra/fsp/inc/instances/r_dtc.h</path>
             <path>ra/fsp/inc/instances/r_icu.h</path>
             <path>ra/fsp/inc/instances/r_ioport.h</path>
             <path>ra/fsp/inc/instances/r_lpm.h</path>
+            <path>ra/fsp/inc/instances/r_sci_uart.h</path>
             <path>ra/fsp/src/bsp/cmsis/Device/RENESAS/Include/R7FA4M3AF.h</path>
             <path>ra/fsp/src/bsp/cmsis/Device/RENESAS/Include/renesas.h</path>
             <path>ra/fsp/src/bsp/cmsis/Device/RENESAS/Include/system.h</path>
@@ -139,10 +141,11 @@
             <path>ra/fsp/src/bsp/mcu/ra4m3/bsp_feature.h</path>
             <path>ra/fsp/src/bsp/mcu/ra4m3/bsp_mcu_info.h</path>
             <path>ra/fsp/src/r_agt/r_agt.c</path>
-            <path>ra/fsp/src/r_cgc/r_cgc.c</path>
+            <path>ra/fsp/src/r_dtc/r_dtc.c</path>
             <path>ra/fsp/src/r_icu/r_icu.c</path>
             <path>ra/fsp/src/r_ioport/r_ioport.c</path>
             <path>ra/fsp/src/r_lpm/r_lpm.c</path>
+            <path>ra/fsp/src/r_sci_uart/r_sci_uart.c</path>
         </group>
         <group name="Build Configuration">
             <path>ra_cfg/fsp_cfg/bsp/board_cfg.h</path>
@@ -152,10 +155,11 @@
             <path>ra_cfg/fsp_cfg/bsp/bsp_mcu_family_cfg.h</path>
             <path>ra_cfg/fsp_cfg/bsp/bsp_pin_cfg.h</path>
             <path>ra_cfg/fsp_cfg/r_agt_cfg.h</path>
-            <path>ra_cfg/fsp_cfg/r_cgc_cfg.h</path>
+            <path>ra_cfg/fsp_cfg/r_dtc_cfg.h</path>
             <path>ra_cfg/fsp_cfg/r_icu_cfg.h</path>
             <path>ra_cfg/fsp_cfg/r_ioport_cfg.h</path>
             <path>ra_cfg/fsp_cfg/r_lpm_cfg.h</path>
+            <path>ra_cfg/fsp_cfg/r_sci_uart_cfg.h</path>
         </group>
         <group name="Generated Data">
             <path>ra_gen/bsp_clock_cfg.h</path>
@@ -169,12 +173,14 @@
             <path>ra_gen/vector_data.h</path>
         </group>
         <group name="Program Entry">
+            <path>src/common_utils.h</path>
             <path>src/hal_entry.c</path>
-            <path>src/lpm_app_peripheral.c</path>
-            <path>src/lpm_app_trigger_end_source.c</path>
             <path>src/lpm_ep.c</path>
             <path>src/lpm_ep.h</path>
-            <path>src/lpm_ep_transition_sequence_config.h</path>
+            <path>src/source_cancel_lpm.c</path>
+            <path>src/source_cancel_lpm.h</path>
+            <path>src/uart_terminal.c</path>
+            <path>src/uart_terminal.h</path>
         </group>
     </files>
 </iarProjectConnection>

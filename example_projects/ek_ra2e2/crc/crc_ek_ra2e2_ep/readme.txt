@@ -99,8 +99,8 @@ Note:
 
         RA4E1-FPB
         Channel 3 has been used by SCI_UART Loopback operation.
-        SCI3 P408 ----> RXD 	
-        SCI3 P409 ----> TXD
+        SCI3 P408 ----> RXD 	
+        SCI3 P409 ----> TXD
 
         RA6E1-FPB
         -------
@@ -117,5 +117,5 @@ Note:
 		RA6T2-MCK
         -------
         Channel 1 has been used by SCI_UART Loopback operation.
-        SCI1 P408 ----> RXD 
-        SCI1 P409 ----> TXD
+        SCI1 PB08 ----> RXD 
+        SCI1 PB09 ----> TXD

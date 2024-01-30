@@ -40,8 +40,7 @@ static UX_HOST_CLASS_CDC_ACM * p_cdc_acm = UX_NULL;
 
 static ULONG g_write_actual_length   = RESET_VALUE;
 static ULONG g_read_actual_length    = RESET_VALUE;
-static uint8_t g_read_buf[DATA_LEN]  = {RESET_VALUE};
-static uint8_t g_read_buf1[DATA_LEN] = {RESET_VALUE};
+static uint8_t g_read_buf[MAX_PACKET_SIZE]  = {RESET_VALUE};
 static uint8_t g_write_buf[DATA_LEN] = {RESET_VALUE};
 static uint32_t g_ux_pool_memory[MEMPOOL_SIZE / VALUE_4];
 
@@ -101,7 +100,7 @@ void hcdc_acm_thread_entry(void)
         if (UX_NULL != p_cdc_acm)
         {
             /*Read the data from device*/
-            status = ux_host_class_cdc_acm_read(p_cdc_acm, g_read_buf1, READ_LEN, &g_read_actual_length);
+            status = ux_host_class_cdc_acm_read(p_cdc_acm, g_read_buf, READ_LEN, &g_read_actual_length);
             if (UX_SUCCESS != status)
             {
                 PRINT_ERR_STR("UX_HOST_CLASS_CDC_ACM_READ API FAILED..");
@@ -123,7 +122,7 @@ void hcdc_acm_thread_entry(void)
             memset (g_read_buf, RESET_VALUE, sizeof(g_read_buf));
 
             /* USB receives the data echoed back */
-            status = ux_host_class_cdc_acm_read(p_cdc_acm, g_read_buf, MAX_PACKET_SIZE, &g_read_actual_length);
+            status = ux_host_class_cdc_acm_read(p_cdc_acm, g_read_buf, DATA_LEN, &g_read_actual_length);
             if (UX_SUCCESS != status)
             {
                 PRINT_ERR_STR("UX_HOST_CLASS_CDC_ACM_READ API FAILED..");
@@ -133,7 +132,7 @@ void hcdc_acm_thread_entry(void)
             /*Print read data */
             PRINT_INFO_STR("Loop-back data from USBX_HCDC received.");
             /*compare loop-back data*/
-            if(SUCCESS == (memcmp(g_read_buf,g_write_buf,sizeof(g_read_buf))))
+            if(SUCCESS == (memcmp(g_read_buf, g_write_buf, DATA_LEN)))
             {
                 PRINT_INFO_STR("USBX HCDC Data compared successfully\r\n");
             }

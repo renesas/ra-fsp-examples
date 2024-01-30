@@ -25,7 +25,7 @@
 
 2. Hardware Requirement:
 
-	micro USB Cable : 1 nos
+	micro USB Cable : 2 nos
 	
 3. Hardware connection :
 	

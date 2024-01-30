@@ -161,7 +161,7 @@ static void usb_enumeration(void)
         err = R_USB_PeriControlDataGet(&g_basic_ctrl, (uint8_t *) &g_numlock, SIZE_NUM);
         if (FSP_SUCCESS != err)
         {
-            APP_ERR_PRINT("\r\nR_USB_Read failed\r\n");
+            APP_ERR_PRINT("\r\nR_USB_PeriControlDataGet failed\r\n");
             deinit_usb();
             APP_ERR_TRAP(err);
         }
@@ -286,6 +286,11 @@ static void usb_write_operation(void)
                 deinit_usb();
                 APP_ERR_TRAP(err);
             }
+        }
+        else
+        {
+            data = USAGE_ID_A;
+            g_write_flag = false;
             /* Sending the zero data (8 bytes) */
             err = R_USB_Write(&g_basic_ctrl, (uint8_t *) g_buf, DATA_LEN, USB_CLASS_PHID);
             if (FSP_SUCCESS != err)
@@ -294,11 +299,6 @@ static void usb_write_operation(void)
                 deinit_usb();
                 APP_ERR_TRAP(err);
             }
-        }
-        else
-        {
-            data = USAGE_ID_A;
-            g_write_flag = false;
         }
     }
     else

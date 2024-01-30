@@ -59,12 +59,14 @@
 				  "and status is displayed on RTTViewer.\r\n"
 
 /* Check IO-port API return and trap error(if any error occurs) cleans up and display failure details on RTT viewer */
-#define VALIDATE_IO_PORT_API(API)	({if (FSP_SUCCESS != (API))\
+#define VALIDATE_IO_PORT_API(API)	({\
+                                    if (FSP_SUCCESS != (API))\
 									{	APP_PRINT("%s API failed at Line number %d", \
 													#API, __LINE__);\
 										cleanup();\
 										APP_ERR_TRAP(true);\
-									}})
+									}\
+				                    })
 
 /* Function declaration */
 void toggle_led(void);

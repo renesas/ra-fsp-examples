@@ -91,8 +91,8 @@ Note:
 
         FPB-RA4E1, EK-RA8M1 and EK-RA8D1
         Channel 3 has been used by SCI_UART Loopback operation.
-        SCI3 P408 ----> RXD 	
-        SCI3 P409 ----> TXD
+        SCI3 P408 ----> RXD 	
+        SCI3 P409 ----> TXD
 
         FPB-RA6E1
         -------
@@ -109,8 +109,8 @@ Note:
 	MCK-RA6T2
         -------
         Channel 1 has been used by SCI_UART Loopback operation.
-        SCI1 P408 ----> RXD 
-        SCI1 P409 ----> TXD
+        SCI1 PB08 ----> RXD 
+        SCI1 PB09 ----> TXD
 
 	EK-RA4E2, EK-RA6E2, MCK-RA4T1, MCK-RA6T3
         -------
@@ -123,7 +123,7 @@ Note:
         Channel 9 has been used by SCI_UART Loopback operation.
         SCI2 P302 ----> TXD 
         SCI2 P301 ----> RXD
-		﻿
+		
 1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
    a. e2studio: 0x22000868

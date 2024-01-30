@@ -30,7 +30,7 @@
  **********************************************************************************************************************/
 
 /* global variable */
-bool b_write_flag = false;
+bool g_write_flag = false;
 
 /*******************************************************************************************************************//**
  * @brief       rtt input thread entry
@@ -41,7 +41,7 @@ void rtt_input_thread_entry(void *pvParameters)
 {
     FSP_PARAMETER_NOT_USED (pvParameters);
 
-    char rtt_buff[BUFFER_SIZE_DOWN] = {RESET_VALUE};
+    uint8_t rtt_buff[BUFFER_SIZE_DOWN] = {RESET_VALUE};
     fsp_pack_version_t version = {RESET_VALUE};
 
     /* Version get API for FLEX pack information */
@@ -67,7 +67,7 @@ void rtt_input_thread_entry(void *pvParameters)
             vTaskDelay(DELAY_3_SEC/portTICK_PERIOD_MS);
 
             /* set write flag */
-            b_write_flag = true;
+            g_write_flag = true;
 
             APP_PRINT("\r\nEnter any key from RTTViewer to Write data\r\n");
         }

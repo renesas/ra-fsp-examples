@@ -161,7 +161,7 @@ static void usb_enumeration(void)
         err = R_USB_PeriControlDataGet(&g_basic_ctrl, (uint8_t *) &g_numlock, SIZE_NUM);
         if (FSP_SUCCESS != err)
         {
-            APP_ERR_PRINT("\r\nR_USB_Read failed\r\n");
+            APP_ERR_PRINT("\r\nR_USB_PeriControlDataGet failed\r\n");
             deinit_usb();
             APP_ERR_TRAP(err);
         }
@@ -240,6 +240,11 @@ static void usb_status_update(void)
     {
         /* None */
     }
+    else if (USB_SET_REPORT == (p_usb_phid_event->setup.request_type & USB_BREQUEST))
+    {
+        /* Print status of g_numlock */
+        APP_PRINT("\r\nSET REPORT COMPLETED : g_numlock = 0x%x\r\n", g_numlock);
+    }
     else
     {
         /* Sending the zero data (8 bytes) */
@@ -281,6 +286,11 @@ static void usb_write_operation(void)
                 deinit_usb();
                 APP_ERR_TRAP(err);
             }
+        }
+        else
+        {
+            data = USAGE_ID_A;
+            g_write_flag = false;
             /* Sending the zero data (8 bytes) */
             err = R_USB_Write(&g_basic_ctrl, (uint8_t *) g_buf, DATA_LEN, USB_CLASS_PHID);
             if (FSP_SUCCESS != err)
@@ -289,11 +299,6 @@ static void usb_write_operation(void)
                 deinit_usb();
                 APP_ERR_TRAP(err);
             }
-        }
-        else
-        {
-            data = USAGE_ID_A;
-            g_write_flag = false;
         }
     }
     else

@@ -40,7 +40,7 @@ Note: EK-RA2L1, EK-RA4M1 and EK-RA4W1 boards do not support SHA, ECC and RSA ope
    User can refer Section 5.3 "Setting up Hardware" in the document via link:
    https://www.renesas.com/us/en/document/apn/renesas-ra-security-design-arm-trustzone-ip-protection
    For Renesas Device Partition Manager tool:
-   a. e2studio: 0x220008c8
+      e2studio: Run -> Renesas Debug Tools -> Renesas Device Partition Manager (Available on e2studio).
 
 2) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
