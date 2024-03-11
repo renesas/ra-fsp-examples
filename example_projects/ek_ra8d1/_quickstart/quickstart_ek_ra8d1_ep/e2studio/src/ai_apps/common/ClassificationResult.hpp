@@ -18,6 +18,7 @@
 #define CLASSIFICATION_RESULT_HPP
 
 #include <string>
+#include <stdint.h>
 
 namespace arm {
 namespace app {

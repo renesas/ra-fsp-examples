@@ -115,13 +115,17 @@ keep                                       { section .usb_*};
 /* MCUs with the OPTION_SETTING region do not use the ROM registers at 0x400. */
 if ((OPTION_SETTING_LENGTH == 0) && (FLASH_ORIGIN == FLASH_START))
 {
-  define region VECT_region       = mem:[from VECT_START to VECT_END];
-  define region ROMREG_region     = mem:[from ROMREG_START to ROMREG_END];
-  define region FLASH_region      = mem:[from FLASH_PRV_START to FLASH_END];
+  define region VECT_ROMGAP_region = mem:[from VECT_START to VECT_END];
+  define region FLASH_region       = mem:[from ROMREG_START to FLASH_END];
 
-  place at start of VECT_region  { ro section .fixed_vectors* };
-  place in VECT_region           { ro section .application_vectors* };
-  place in ROMREG_region         { ro section .rom_registers };
+  /* Some devices have a gap of code flash between the vector table and ROM Registers.
+   * The flash gap section allows applications to place code and data in this section. */
+  define block VECT_ROMGAP_BLK with fixed order { ro section .fixed_vectors*,
+                                                  ro section .application_vectors*,
+                                                  ro section .flash_gap* };
+
+  place in VECT_ROMGAP_region    { block VECT_ROMGAP_BLK };
+  place at start of FLASH_region { ro section .rom_registers };
   place in FLASH_region          { ro section .mcuboot_sce9_key* };
 }
 else

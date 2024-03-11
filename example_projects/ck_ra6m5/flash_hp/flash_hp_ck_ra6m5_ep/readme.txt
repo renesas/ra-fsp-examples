@@ -28,7 +28,7 @@ NOTE  : User is expected to enter data of size not exceeding 15 bytes.
 ﻿
 1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x20000734
+   a. e2studio: 0x20000b24
    b. Keil:	N/A
    c. IAR: N/A
  

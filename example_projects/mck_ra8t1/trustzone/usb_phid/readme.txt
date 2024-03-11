@@ -51,7 +51,7 @@
 Note :
 1) Open Device Manager, and check 'Human Interface Devices', to see ' USB Input Device' has been detected.
 
-2) Lower case a - z and numbers 0 - 9 is send from MCU to the host PC.﻿
+2) Lower case a - z and numbers 0 - 9 is send from MCU to the host PC.
 
 3) User can refer Section 5 "Example Project for IP Protection" in the document to run trustzone EP via link:
    https://www.renesas.com/us/en/document/apn/renesas-ra-security-design-arm-trustzone-ip-protection
@@ -72,8 +72,8 @@ Note :
 9) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
    a. e2studio: 0x320025e8
-   b. Keil:	Not Available
-   c. IAR: Not Available
+   b. Keil:	Not available
+   c. IAR: 0x320060c0
  
 10) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) 
     in .map file generated in the build configuration folder (Debug/Release).

@@ -1,0 +1,485 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<raConfiguration version="9">
+  <generalSettings>
+    <option key="#Board#" value="board.ra6m1ek"/>
+    <option key="CPU" value="RA6M1"/>
+    <option key="Core" value="CM4"/>
+    <option key="#TargetName#" value="R7FA6M1AD3CFP"/>
+    <option key="#TargetARCHITECTURE#" value="cortex-m4"/>
+    <option key="#DeviceCommand#" value="R7FA6M1AD"/>
+    <option key="#RTOS#" value="rtos.threadx"/>
+    <option key="#pinconfiguration#" value="R7FA6M1AD3CFP.pincfg"/>
+    <option key="#FSPVersion#" value="5.2.0"/>
+    <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra6m1_ek##"/>
+    <option key="#SELECTED_TOOLCHAIN#" value="gcc-arm-embedded"/>
+    <option key="#ToolchainVersion#" value="13.2.1.arm-13-7"/>
+  </generalSettings>
+  <raBspConfiguration>
+    <config id="config.bsp.ra6m1.R7FA6M1AD3CFP">
+      <property id="config.bsp.part_number" value="config.bsp.part_number.value"/>
+      <property id="config.bsp.rom_size_bytes" value="config.bsp.rom_size_bytes.value"/>
+      <property id="config.bsp.rom_size_bytes_hidden" value="524288"/>
+      <property id="config.bsp.ram_size_bytes" value="config.bsp.ram_size_bytes.value"/>
+      <property id="config.bsp.data_flash_size_bytes" value="config.bsp.data_flash_size_bytes.value"/>
+      <property id="config.bsp.package_style" value="config.bsp.package_style.value"/>
+      <property id="config.bsp.package_pins" value="config.bsp.package_pins.value"/>
+      <property id="config.bsp.irq_count_hidden" value="96"/>
+    </config>
+    <config id="config.bsp.ra6m1">
+      <property id="config.bsp.series" value="config.bsp.series.value"/>
+    </config>
+    <config id="config.bsp.ra6m1.fsp">
+      <property id="config.bsp.fsp.inline_irq_functions" value="config.bsp.common.inline_irq_functions.enabled"/>
+      <property id="config.bsp.fsp.OFS0.iwdt_start_mode" value="config.bsp.fsp.OFS0.iwdt_start_mode.disabled"/>
+      <property id="config.bsp.fsp.OFS0.iwdt_timeout" value="config.bsp.fsp.OFS0.iwdt_timeout.2048"/>
+      <property id="config.bsp.fsp.OFS0.iwdt_divisor" value="config.bsp.fsp.OFS0.iwdt_divisor.128"/>
+      <property id="config.bsp.fsp.OFS0.iwdt_window_end" value="config.bsp.fsp.OFS0.iwdt_window_end.0"/>
+      <property id="config.bsp.fsp.OFS0.iwdt_window_start" value="config.bsp.fsp.OFS0.iwdt_window_start.100"/>
+      <property id="config.bsp.fsp.OFS0.iwdt_reset_interrupt" value="config.bsp.fsp.OFS0.iwdt_reset_interrupt.Reset"/>
+      <property id="config.bsp.fsp.OFS0.iwdt_stop_control" value="config.bsp.fsp.OFS0.iwdt_stop_control.stops"/>
+      <property id="config.bsp.fsp.OFS0.wdt_start_mode" value="config.bsp.fsp.OFS0.wdt_start_mode.register"/>
+      <property id="config.bsp.fsp.OFS0.wdt_timeout" value="config.bsp.fsp.OFS0.wdt_timeout.16384"/>
+      <property id="config.bsp.fsp.OFS0.wdt_divisor" value="config.bsp.fsp.OFS0.wdt_divisor.128"/>
+      <property id="config.bsp.fsp.OFS0.wdt_window_end" value="config.bsp.fsp.OFS0.wdt_window_end.0"/>
+      <property id="config.bsp.fsp.OFS0.wdt_window_start" value="config.bsp.fsp.OFS0.wdt_window_start.100"/>
+      <property id="config.bsp.fsp.OFS0.wdt_reset_interrupt" value="config.bsp.fsp.OFS0.wdt_reset_interrupt.Reset"/>
+      <property id="config.bsp.fsp.OFS0.wdt_stop_control" value="config.bsp.fsp.OFS0.wdt_stop_control.stops"/>
+      <property id="config.bsp.fsp.OFS1.voltage_detection0.start" value="config.bsp.fsp.OFS1.voltage_detection0.start.disabled"/>
+      <property id="config.bsp.fsp.OFS1.voltage_detection0_level" value="config.bsp.fsp.OFS1.voltage_detection0_level.280"/>
+      <property id="config.bsp.fsp.OFS1.hoco_osc" value="config.bsp.fsp.OFS1.hoco_osc.disabled"/>
+      <property id="config.bsp.fsp.mpu_pc0_enable" value="config.bsp.fsp.mpu_pc0_enable.disabled"/>
+      <property id="config.bsp.fsp.mpu_pc0_start" value="0xFFFFFFFC"/>
+      <property id="config.bsp.fsp.mpu_pc0_end" value="0xFFFFFFFF"/>
+      <property id="config.bsp.fsp.mpu_pc1_enable" value="config.bsp.fsp.mpu_pc1_enable.disabled"/>
+      <property id="config.bsp.fsp.mpu_pc1_start" value="0xFFFFFFFC"/>
+      <property id="config.bsp.fsp.mpu_pc1_end" value="0xFFFFFFFF"/>
+      <property id="config.bsp.fsp.mpu_reg0_enable" value="config.bsp.fsp.mpu_reg0_enable.disabled"/>
+      <property id="config.bsp.fsp.mpu_reg0_start" value="0x00FFFFFC"/>
+      <property id="config.bsp.fsp.mpu_reg0_end" value="0x00FFFFFF"/>
+      <property id="config.bsp.fsp.mpu_reg1_enable" value="config.bsp.fsp.mpu_reg1_enable.disabled"/>
+      <property id="config.bsp.fsp.mpu_reg1_start" value="0x200FFFFC"/>
+      <property id="config.bsp.fsp.mpu_reg1_end" value="0x200FFFFF"/>
+      <property id="config.bsp.fsp.mpu_reg2_enable" value="config.bsp.fsp.mpu_reg2_enable.disabled"/>
+      <property id="config.bsp.fsp.mpu_reg2_start" value="0x407FFFFC"/>
+      <property id="config.bsp.fsp.mpu_reg2_end" value="0x407FFFFF"/>
+      <property id="config.bsp.fsp.mpu_reg3_enable" value="config.bsp.fsp.mpu_reg3_enable.disabled"/>
+      <property id="config.bsp.fsp.mpu_reg3_start" value="0x400DFFFC"/>
+      <property id="config.bsp.fsp.mpu_reg3_end" value="0x400DFFFF"/>
+      <property id="config.bsp.fsp.hoco_fll" value="config.bsp.fsp.hoco_fll.disabled"/>
+      <property id="config.bsp.common.main_osc_wait" value="config.bsp.common.main_osc_wait.wait_8163"/>
+      <property id="config.bsp.fsp.mcu.adc.max_freq_hz" value="60000000"/>
+      <property id="config.bsp.fsp.mcu.sci_uart.max_baud" value="20000000"/>
+      <property id="config.bsp.fsp.mcu.adc.sample_and_hold" value="1"/>
+      <property id="config.bsp.fsp.mcu.sci_spi.max_bitrate" value="30000000"/>
+      <property id="config.bsp.fsp.mcu.spi.max_bitrate" value="30000000"/>
+      <property id="config.bsp.fsp.mcu.iic_master.rate.rate_fastplus" value="1"/>
+      <property id="config.bsp.fsp.mcu.iic_master.fastplus_channels" value="0x1"/>
+      <property id="config.bsp.fsp.mcu.iic_slave.rate.rate_fastplus" value="1"/>
+      <property id="config.bsp.fsp.mcu.iic_slave.fastplus_channels" value="0x1"/>
+      <property id="config.bsp.fsp.mcu.sci_uart.cstpen_channels" value="0x0"/>
+      <property id="config.bsp.fsp.mcu.gpt.pin_count_source_channels" value="0xFFFF"/>
+      <property id="config.bsp.common.id_mode" value="config.bsp.common.id_mode.unlocked"/>
+      <property id="config.bsp.common.id_code" value="FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"/>
+      <property id="config.bsp.common.id1" value=""/>
+      <property id="config.bsp.common.id2" value=""/>
+      <property id="config.bsp.common.id3" value=""/>
+      <property id="config.bsp.common.id4" value=""/>
+      <property id="config.bsp.common.id_fixed" value=""/>
+    </config>
+    <config id="config.bsp.ra">
+      <property id="config.bsp.common.main" value="0x400"/>
+      <property id="config.bsp.common.heap" value="0"/>
+      <property id="config.bsp.common.vcc" value="3300"/>
+      <property id="config.bsp.common.checking" value="config.bsp.common.checking.disabled"/>
+      <property id="config.bsp.common.assert" value="config.bsp.common.assert.none"/>
+      <property id="config.bsp.common.error_log" value="config.bsp.common.error_log.none"/>
+      <property id="config.bsp.common.soft_reset" value="config.bsp.common.soft_reset.disabled"/>
+      <property id="config.bsp.common.main_osc_populated" value="config.bsp.common.main_osc_populated.enabled"/>
+      <property id="config.bsp.common.pfs_protect" value="config.bsp.common.pfs_protect.enabled"/>
+      <property id="config.bsp.common.c_runtime_init" value="config.bsp.common.c_runtime_init.enabled"/>
+      <property id="config.bsp.common.early_init" value="config.bsp.common.early_init.disabled"/>
+      <property id="config.bsp.common.main_osc_clock_source" value="config.bsp.common.main_osc_clock_source.crystal"/>
+      <property id="config.bsp.common.subclock_populated" value="config.bsp.common.subclock_populated.enabled"/>
+      <property id="config.bsp.common.subclock_drive" value="config.bsp.common.subclock_drive.standard"/>
+      <property id="config.bsp.common.subclock_stabilization_ms" value="1000"/>
+    </config>
+  </raBspConfiguration>
+  <raClockConfiguration>
+    <node id="board.clock.xtal.freq" mul="12000000" option="_edit"/>
+    <node id="board.clock.pll.source" option="board.clock.pll.source.xtal"/>
+    <node id="board.clock.hoco.freq" option="board.clock.hoco.freq.20m"/>
+    <node id="board.clock.loco.freq" option="board.clock.loco.freq.32768"/>
+    <node id="board.clock.moco.freq" option="board.clock.moco.freq.8m"/>
+    <node id="board.clock.subclk.freq" option="board.clock.subclk.freq.32768"/>
+    <node id="board.clock.pll.div" option="board.clock.pll.div.1"/>
+    <node id="board.clock.pll.mul" option="board.clock.pll.mul.200"/>
+    <node id="board.clock.pll.display" option="board.clock.pll.display.value"/>
+    <node id="board.clock.clock.source" option="board.clock.clock.source.pll"/>
+    <node id="board.clock.iclk.div" option="board.clock.iclk.div.2"/>
+    <node id="board.clock.iclk.display" option="board.clock.iclk.display.value"/>
+    <node id="board.clock.pclka.div" option="board.clock.pclka.div.2"/>
+    <node id="board.clock.pclka.display" option="board.clock.pclka.display.value"/>
+    <node id="board.clock.pclkb.div" option="board.clock.pclkb.div.4"/>
+    <node id="board.clock.pclkb.display" option="board.clock.pclkb.display.value"/>
+    <node id="board.clock.pclkc.div" option="board.clock.pclkc.div.4"/>
+    <node id="board.clock.pclkc.display" option="board.clock.pclkc.display.value"/>
+    <node id="board.clock.pclkd.div" option="board.clock.pclkd.div.2"/>
+    <node id="board.clock.pclkd.display" option="board.clock.pclkd.display.value"/>
+    <node id="board.clock.bclk.div" option="board.clock.bclk.div.2"/>
+    <node id="board.clock.bclk.display" option="board.clock.bclk.display.value"/>
+    <node id="board.clock.bclkout.div" option="board.clock.bclkout.div.2"/>
+    <node id="board.clock.bclkout.display" option="board.clock.bclkout.display.value"/>
+    <node id="board.clock.uclk.div" option="board.clock.uclk.div.5"/>
+    <node id="board.clock.uclk.display" option="board.clock.uclk.display.value"/>
+    <node id="board.clock.fclk.div" option="board.clock.fclk.div.4"/>
+    <node id="board.clock.fclk.display" option="board.clock.fclk.display.value"/>
+    <node id="board.clock.clkout.source" option="board.clock.clkout.source.disabled"/>
+    <node id="board.clock.clkout.div" option="board.clock.clkout.div.1"/>
+    <node id="board.clock.clkout.display" option="board.clock.clkout.display.value"/>
+  </raClockConfiguration>
+  <raComponentSelection>
+    <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="5.9.0+renesas.1.fsp.5.2.0">
+      <description>Arm CMSIS Version 5 - Core (M)</description>
+      <originalPack>Arm.CMSIS5.5.9.0+renesas.1.fsp.5.2.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Azure" condition="" group="FileX" subgroup="fx" variant="" vendor="Microsoft" version="6.2.1+fsp.5.2.0">
+      <description>Azure RTOS FileX</description>
+      <originalPack>Microsoft.FileX.6.2.1+fsp.5.2.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra6m1_ek" variant="" vendor="Renesas" version="5.2.0">
+      <description>RA6M1-EK Board Support Files</description>
+      <originalPack>Renesas.RA_board_ra6m1_ek.5.2.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="RTOS" condition="" group="Azure" subgroup="ThreadX" variant="" vendor="Microsoft" version="6.2.1+fsp.5.2.0">
+      <description>Azure RTOS ThreadX</description>
+      <originalPack>Microsoft.ThreadX.6.2.1+fsp.5.2.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra6m1" subgroup="device" variant="R7FA6M1AD3CFP" vendor="Renesas" version="5.2.0">
+      <description>Board support package for R7FA6M1AD3CFP</description>
+      <originalPack>Renesas.RA_mcu_ra6m1.5.2.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra6m1" subgroup="device" variant="" vendor="Renesas" version="5.2.0">
+      <description>Board support package for RA6M1</description>
+      <originalPack>Renesas.RA_mcu_ra6m1.5.2.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra6m1" subgroup="fsp" variant="" vendor="Renesas" version="5.2.0">
+      <description>Board support package for RA6M1 - FSP Data</description>
+      <originalPack>Renesas.RA_mcu_ra6m1.5.2.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="5.2.0">
+      <description>Board Support Package Common Files</description>
+      <originalPack>Renesas.RA.5.2.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_dmac" variant="" vendor="Renesas" version="5.2.0">
+      <description>Direct Memory Access Controller</description>
+      <originalPack>Renesas.RA.5.2.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="5.2.0">
+      <description>I/O Port</description>
+      <originalPack>Renesas.RA.5.2.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_sdhi" variant="" vendor="Renesas" version="5.2.0">
+      <description>SD/MMC Host Interface</description>
+      <originalPack>Renesas.RA.5.2.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_filex_block_media" variant="" vendor="Renesas" version="5.2.0">
+      <description>FileX Block Media I/O Interface for RA</description>
+      <originalPack>Renesas.RA.5.2.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_block_media_sdmmc" variant="" vendor="Renesas" version="5.2.0">
+      <description>SD/MMC Memory Implementation</description>
+      <originalPack>Renesas.RA.5.2.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_threadx_port" variant="" vendor="Renesas" version="5.2.0">
+      <description>Azure RTOS ThreadX Port</description>
+      <originalPack>Renesas.RA.5.2.0.pack</originalPack>
+    </component>
+  </raComponentSelection>
+  <raElcConfiguration/>
+  <raIcuConfiguration/>
+  <raModuleConfiguration>
+    <module id="module.driver.ioport_on_ioport.0">
+      <property id="module.driver.ioport.name" value="g_ioport"/>
+      <property id="module.driver.ioport.elc_trigger_ioport1" value="_disabled"/>
+      <property id="module.driver.ioport.elc_trigger_ioport2" value="_disabled"/>
+      <property id="module.driver.ioport.elc_trigger_ioport3" value="_disabled"/>
+      <property id="module.driver.ioport.elc_trigger_ioport4" value="_disabled"/>
+      <property id="module.driver.ioport.pincfg" value="g_bsp_pin_cfg"/>
+    </module>
+    <module id="module.middleware.rm_threadx_port.0"/>
+    <module id="module.driver.transfer_on_dmac.1570375669">
+      <property id="module.driver.transfer.name" value="g_transfer"/>
+      <property id="module.driver.transfer.channel" value="0"/>
+      <property id="module.driver.transfer.mode" value="module.driver.transfer.mode.mode_normal"/>
+      <property id="module.driver.transfer.size" value="module.driver.transfer.size.size_2_byte"/>
+      <property id="module.driver.transfer.dest_addr_mode" value="module.driver.transfer.dest_addr_mode.addr_mode_fixed"/>
+      <property id="module.driver.transfer.src_addr_mode" value="module.driver.transfer.src_addr_mode.addr_mode_fixed"/>
+      <property id="module.driver.transfer.repeat_area" value="module.driver.transfer.repeat_area.repeat_area_source"/>
+      <property id="module.driver.transfer.length" value="1"/>
+      <property id="module.driver.transfer.num_blocks" value="0"/>
+      <property id="module.driver.transfer.activation_event" value="enum.elc_none.none"/>
+      <property id="module.driver.transfer.p_callback" value="NULL"/>
+      <property id="module.driver.transfer.ipl" value="board.icu.common.irq.priority3"/>
+      <property id="module.driver.transfer.interrupt" value="module.driver.transfer.interrupt.interrupt_end"/>
+      <property id="module.driver.transfer.offset" value="1"/>
+      <property id="module.driver.transfer.src.buffer" value="1"/>
+    </module>
+    <module id="module.driver.sdmmc_on_sdmmc.361309203">
+      <property id="module.driver.sdmmc.name" value="g_sdmmc"/>
+      <property id="module.driver.sdmmc.channel" value="0"/>
+      <property id="module.driver.sdmmc.bus_width" value="module.driver.sdmmc.bus_width.bus_width_4_bits"/>
+      <property id="module.driver.sdmmc.block_size" value="512"/>
+      <property id="module.driver.sdmmc.card_detect" value="module.driver.sdmmc.card_detect.card_detect_cd"/>
+      <property id="module.driver.sdmmc.write_protect" value="module.driver.sdmmc.write_protect.write_protect_wp"/>
+      <property id="module.driver.sdmmc.p_callback" value="NULL"/>
+      <property id="module.driver.sdmmc.access_ipl" value="board.icu.common.irq.priority12"/>
+      <property id="module.driver.sdmmc.card_ipl" value="board.icu.common.irq.priority12"/>
+      <property id="module.driver.sdmmc.dma_req_ipl" value="_disabled"/>
+    </module>
+    <module id="module.driver.rm_block_media_on_rm_block_media_sdmmc.268321427">
+      <property id="module.driver.rm_block_media.name" value="g_rm_block_media"/>
+      <property id="module.driver.rm_block_media.callback" value="NULL"/>
+    </module>
+    <module id="module.middleware.rm_filex_block_media.768134608">
+      <property id="module.middleware.rm_filex_block_media.name" value="g_rm_filex_block_media"/>
+      <property id="module.middleware.rm_filex_block_media.callback" value="g_rm_filex_block_media_callback"/>
+      <property id="module.middleware.rm_filex_block_media.partition" value="module.middleware.rm_filex_block_media.partition.0"/>
+    </module>
+    <module id="module.azure.fx.block_media.272462517">
+      <property id="module.azure.fx.name" value="g_fx_media"/>
+      <property id="module.azure.fx.volume_name" value="RA SDMMC"/>
+      <property id="module.azure.fx.fat_count" value="1"/>
+      <property id="module.azure.fx.dir_count" value="256"/>
+      <property id="module.azure.fx.hidden_sectors" value="0"/>
+      <property id="module.azure.fx.total_sectors" value="3751936"/>
+      <property id="module.azure.fx.sector_size" value="512"/>
+      <property id="module.azure.fx.cluster_size" value="64"/>
+      <property id="module.azure.fx.volume_serial_number" value="12345"/>
+      <property id="module.azure.fx.boundary_unit" value="128"/>
+      <property id="module.azure.fx.media_size" value="512"/>
+    </module>
+    <object id="rtos.threadx.object.flags.1071793918">
+      <property id="rtos.threadx.object.flags.name" value="Media Event"/>
+      <property id="rtos.threadx.object.flags.symbol" value="g_media_event"/>
+    </object>
+    <object id="rtos.threadx.object.flags.1549143628">
+      <property id="rtos.threadx.object.flags.name" value="Request Event"/>
+      <property id="rtos.threadx.object.flags.symbol" value="g_request_event"/>
+    </object>
+    <object id="rtos.threadx.object.queue.1954772558">
+      <property id="rtos.threadx.object.queue.name" value="RTT Output Queue"/>
+      <property id="rtos.threadx.object.queue.symbol" value="g_rtt_output_queue"/>
+      <property id="rtos.threadx.object.queue.msg_size" value="1"/>
+      <property id="rtos.threadx.object.queue.queue_size" value="40"/>
+    </object>
+    <object id="rtos.threadx.object.queue.772471451">
+      <property id="rtos.threadx.object.queue.name" value="RTT Input Queue"/>
+      <property id="rtos.threadx.object.queue.symbol" value="g_rtt_input_queue"/>
+      <property id="rtos.threadx.object.queue.msg_size" value="1"/>
+      <property id="rtos.threadx.object.queue.queue_size" value="20"/>
+    </object>
+    <context id="_hal.0">
+      <stack module="module.driver.ioport_on_ioport.0"/>
+      <stack module="module.middleware.rm_threadx_port.0"/>
+    </context>
+    <context id="rtos.threadx.thread.1874417043">
+      <property id="_symbol" value="filex_thread"/>
+      <property id="rtos.threadx.thread.name" value="FileX Thread"/>
+      <property id="rtos.threadx.thread.stack" value="4096"/>
+      <property id="rtos.threadx.thread.priority" value="1"/>
+      <property id="rtos.threadx.thread.autostart" value="rtos.threadx.thread.autostart.enabled"/>
+      <property id="rtos.threadx.thread.timeslice" value="1"/>
+      <stack module="module.azure.fx.block_media.272462517">
+        <stack module="module.middleware.rm_filex_block_media.768134608" requires="module.azure.fx.requires.rm_filex_block_media">
+          <stack module="module.driver.rm_block_media_on_rm_block_media_sdmmc.268321427" requires="module.middleware.rm_filex_block_media.requires.block_media">
+            <stack module="module.driver.sdmmc_on_sdmmc.361309203" requires="module.driver.rm_block_media.requires.sdmmc">
+              <stack module="module.driver.transfer_on_dmac.1570375669" requires="module.driver.sdmmc_on_sdmmc.requires.transfer"/>
+            </stack>
+          </stack>
+        </stack>
+      </stack>
+    </context>
+    <context id="rtos.threadx.thread.1837731737">
+      <property id="_symbol" value="console_thread"/>
+      <property id="rtos.threadx.thread.name" value="Console Thread"/>
+      <property id="rtos.threadx.thread.stack" value="1024"/>
+      <property id="rtos.threadx.thread.priority" value="1"/>
+      <property id="rtos.threadx.thread.autostart" value="rtos.threadx.thread.autostart.enabled"/>
+      <property id="rtos.threadx.thread.timeslice" value="1"/>
+    </context>
+    <context id="rtos.threadx.thread.1535607394">
+      <property id="_symbol" value="rtt_thread"/>
+      <property id="rtos.threadx.thread.name" value="RTT Thread"/>
+      <property id="rtos.threadx.thread.stack" value="1024"/>
+      <property id="rtos.threadx.thread.priority" value="1"/>
+      <property id="rtos.threadx.thread.autostart" value="rtos.threadx.thread.autostart.enabled"/>
+      <property id="rtos.threadx.thread.timeslice" value="1"/>
+    </context>
+    <config id="config.azure.fx">
+      <property id="config.azure.fx.error_checking" value="config.azure.fx.error_checking.enabled"/>
+      <property id="config.azure.fx.max_long_name_len" value=""/>
+      <property id="config.azure.fx.max_last_name_len" value=""/>
+      <property id="config.azure.fx.max_sector_cache" value=""/>
+      <property id="config.azure.fx.fat_map_size" value=""/>
+      <property id="config.azure.fx.max_fat_cache" value=""/>
+      <property id="config.azure.fx.update_rate_in_seconds" value=""/>
+      <property id="config.azure.fx.no_timer" value="config.azure.fx.no_timer.disabled"/>
+      <property id="config.azure.fx.single_thread" value="config.azure.fx.single_thread.disabled"/>
+      <property id="config.azure.fx.standalone" value="config.azure.fx.standalone.disabled"/>
+      <property id="config.azure.fx.dont_update_open_files" value="config.azure.fx.dont_update_open_files.disabled"/>
+      <property id="config.azure.fx.media_search_cache" value="config.azure.fx.media_search_cache.enabled"/>
+      <property id="config.azure.fx.direct_data_read_cache_fill" value="config.azure.fx.direct_data_read_cache_fill.enabled"/>
+      <property id="config.azure.fx.media_statistics" value="config.azure.fx.media_statistics.enabled"/>
+      <property id="config.azure.fx.single_open_legacy" value="config.azure.fx.single_open_legacy.disabled"/>
+      <property id="config.azure.fx.rename_path_inherit" value="config.azure.fx.rename_path_inherit.disabled"/>
+      <property id="config.azure.fx.no_local_path" value="config.azure.fx.no_local_path.disabled"/>
+      <property id="config.azure.fx.lba_64bit" value="config.azure.fx.lba_64bit.disabled"/>
+      <property id="config.azure.fx.cache" value="config.azure.fx.cache.enabled"/>
+      <property id="config.azure.fx.file_close" value="config.azure.fx.file_close.enabled"/>
+      <property id="config.azure.fx.fast_close" value="config.azure.fx.fast_close.enabled"/>
+      <property id="config.azure.fx.force_memory_operation" value="config.azure.fx.force_memory_operation.enabled"/>
+      <property id="config.azure.fx.build_options" value="config.azure.fx.build_options.enabled"/>
+      <property id="config.azure.fx.one_line_function" value="config.azure.fx.one_line_function.enabled"/>
+      <property id="config.azure.fx.fat_entry_refresh" value="config.azure.fx.fat_entry_refresh.enabled"/>
+      <property id="config.azure.fx.consecutive_detect" value="config.azure.fx.consecutive_detect.enabled"/>
+      <property id="config.azure.fx.fault_tolerant_service" value="config.azure.fx.fault_tolerant_service.disabled"/>
+      <property id="config.azure.fx.fault_tolerant_data" value="config.azure.fx.fault_tolerant_data.disabled"/>
+      <property id="config.azure.fx.fault_tolerant" value="config.azure.fx.fault_tolerant.disabled"/>
+      <property id="config.azure.fx.fault_tolerant_boot_index" value=""/>
+      <property id="config.azure.fx.ex_fat" value="config.azure.fx.ex_fat.enabled"/>
+    </config>
+    <config id="config.azure.fx.stub"/>
+    <config id="config.driver.dmac">
+      <property id="config.driver.dmac.param_checking_enable" value="config.driver.dmac.param_checking_enable.bsp"/>
+    </config>
+    <config id="config.middleware.rm_filex_block_media">
+      <property id="config.middleware.rm_filex_block_media.param_checking_enable" value="config.middleware.rm_filex_block_media.param_checking_enable.bsp"/>
+    </config>
+    <config id="config.driver.rm_block_media_sdmmc">
+      <property id="config.driver.rm_block_media_sdmmc.param_checking_enable" value="config.driver.rm_block_media_sdmmc.param_checking_enable.bsp"/>
+    </config>
+    <config id="config.driver.ioport">
+      <property id="config.driver.ioport.checking" value="config.driver.ioport.checking.system"/>
+    </config>
+    <config id="config.threadx.thread">
+      <property id="config.azure.tx.custom_tx_user" value=""/>
+      <property id="config.azure.tx.error_checking" value="config.azure.tx.error_checking.enabled"/>
+      <property id="config.azure.tx.timer_ticks_per_second" value="100"/>
+      <property id="config.azure.tx.max_priorities" value="32"/>
+      <property id="config.azure.tx.minimum_stack" value="200"/>
+      <property id="config.azure.tx.timer_thread_stack_size" value="1024"/>
+      <property id="config.azure.tx.timer_thread_priority" value="0"/>
+      <property id="config.azure.tx.timer_process_in_isr" value="config.azure.tx.timer_process_in_isr.enabled"/>
+      <property id="config.azure.tx.reactivate_inline" value="config.azure.tx.reactivate_inline.disabled"/>
+      <property id="config.azure.tx.stack_filling" value="config.azure.tx.stack_filling.enabled"/>
+      <property id="config.azure.tx.preemption_threshold" value="config.azure.tx.preemption_threshold.disabled"/>
+      <property id="config.azure.tx.timer" value="config.azure.tx.timer.enabled"/>
+      <property id="config.azure.tx.notify_callbacks" value="config.azure.tx.notify_callbacks.disabled"/>
+      <property id="config.azure.tx.inline_thread_resume_suspend" value="config.azure.tx.inline_thread_resume_suspend.disabled"/>
+      <property id="config.azure.tx.not_interruptable" value="config.azure.tx.not_interruptable.disabled"/>
+      <property id="config.azure.tx.event_trace" value="config.azure.tx.event_trace.disabled"/>
+      <property id="config.azure.tx.trace_buf_name" value="g_tx_trace_buffer"/>
+      <property id="config.azure.tx.trace_buffer_location" value=".bss"/>
+      <property id="config.azure.tx.trace_buf_size" value="65536"/>
+      <property id="config.azure.tx.num_registries" value="30"/>
+      <property id="config.azure.tx.block_pool_performance_info" value="config.azure.tx.block_pool_performance_info.disabled"/>
+      <property id="config.azure.tx.byte_pool_performance_info" value="config.azure.tx.byte_pool_performance_info.disabled"/>
+      <property id="config.azure.tx.event_flags_performance_info" value="config.azure.tx.event_flags_performance_info.disabled"/>
+      <property id="config.azure.tx.mutex_performance_info" value="config.azure.tx.mutex_performance_info.disabled"/>
+      <property id="config.azure.tx.queue_performance_info" value="config.azure.tx.queue_performance_info.disabled"/>
+      <property id="config.azure.tx.semaphore_performance_info" value="config.azure.tx.semaphore_performance_info.disabled"/>
+      <property id="config.azure.tx.thread_performance_info" value="config.azure.tx.thread_performance_info.disabled"/>
+      <property id="config.azure.tx.timer_performance_info" value="config.azure.tx.timer_performance_info.disabled"/>
+      <property id="config.azure.tx.hw_stack_monitoring" value="config.mcu.hw_stack_monitoring.enabled"/>
+      <property id="config.azure.tx.SysTick_IRQn" value="board.icu.common.irq.priority0"/>
+      <property id="config.azure.tx.max_ipl" value="board.icu.common.irq.priority0"/>
+      <property id="config.azure.tx.iar_library_support" value="config.azure.tx.iar_library_support.disabled"/>
+      <property id="config.azure.tx.bsd_support" value="config.azure.tx.bsd_support.disabled"/>
+      <property id="config.azure.tx.filex_pointer" value="config.azure.tx.filex_pointer.enabled"/>
+    </config>
+    <config id="config.driver.sdmmc">
+      <property id="config.driver.sdmmc.param_checking_enable" value="config.driver.sdmmc.param_checking_enable.bsp"/>
+      <property id="config.driver.sdmmc.unaligned_support_enable" value="config.driver.sdmmc.unaligned_support_enable.enabled"/>
+      <property id="config.driver.sdmmc.sd_support_enable" value="config.driver.sdmmc.sd_support_enable.enabled"/>
+      <property id="config.driver.sdmmc.emmc_support_enable" value="config.driver.sdmmc.emmc_support_enable.disabled"/>
+    </config>
+  </raModuleConfiguration>
+  <raPinConfiguration>
+    <pincfg active="true" name="RA6M1-EK.pincfg" selected="true" symbol="g_bsp_pin_cfg">
+      <configSetting altId="debug0.mode.jtag" configurationId="debug0.mode"/>
+      <configSetting altId="debug0.tck.p300" configurationId="debug0.tck"/>
+      <configSetting altId="debug0.tdi.p110" configurationId="debug0.tdi"/>
+      <configSetting altId="debug0.tdo.p109" configurationId="debug0.tdo"/>
+      <configSetting altId="debug0.tms.p108" configurationId="debug0.tms"/>
+      <configSetting altId="p106.output.low" configurationId="p106"/>
+      <configSetting altId="p106.gpio_mode.gpio_mode_out.low" configurationId="p106.gpio_mode"/>
+      <configSetting altId="p107.output.low" configurationId="p107"/>
+      <configSetting altId="p107.gpio_mode.gpio_mode_out.low" configurationId="p107.gpio_mode"/>
+      <configSetting altId="p108.debug0.tms" configurationId="p108"/>
+      <configSetting altId="p108.gpio_mode.gpio_mode_peripheral" configurationId="p108.gpio_mode"/>
+      <configSetting altId="p109.debug0.tdo" configurationId="p109"/>
+      <configSetting altId="p109.gpio_mode.gpio_mode_peripheral" configurationId="p109.gpio_mode"/>
+      <configSetting altId="p110.debug0.tdi" configurationId="p110"/>
+      <configSetting altId="p110.gpio_mode.gpio_mode_peripheral" configurationId="p110.gpio_mode"/>
+      <configSetting altId="p112.output.low" configurationId="p112"/>
+      <configSetting altId="p112.gpio_mode.gpio_mode_out.low" configurationId="p112.gpio_mode"/>
+      <configSetting altId="p201.input" configurationId="p201"/>
+      <configSetting altId="p201.gpio_mode.gpio_mode_in" configurationId="p201.gpio_mode"/>
+      <configSetting altId="p205.sdhi0.dat3" configurationId="p205"/>
+      <configSetting altId="p205.gpio_speed.gpio_speed_high" configurationId="p205.gpio_drivecapacity"/>
+      <configSetting altId="p205.gpio_mode.gpio_mode_peripheral" configurationId="p205.gpio_mode"/>
+      <configSetting altId="p206.sdhi0.dat2" configurationId="p206"/>
+      <configSetting altId="p206.gpio_speed.gpio_speed_high" configurationId="p206.gpio_drivecapacity"/>
+      <configSetting altId="p206.gpio_mode.gpio_mode_peripheral" configurationId="p206.gpio_mode"/>
+      <configSetting altId="p209.sdhi0.wp" configurationId="p209"/>
+      <configSetting altId="p209.gpio_speed.gpio_speed_high" configurationId="p209.gpio_drivecapacity"/>
+      <configSetting altId="p209.gpio_mode.gpio_mode_peripheral" configurationId="p209.gpio_mode"/>
+      <configSetting altId="p210.sdhi0.cd" configurationId="p210"/>
+      <configSetting altId="p210.gpio_speed.gpio_speed_high" configurationId="p210.gpio_drivecapacity"/>
+      <configSetting altId="p210.gpio_mode.gpio_mode_peripheral" configurationId="p210.gpio_mode"/>
+      <configSetting altId="p300.debug0.tck" configurationId="p300"/>
+      <configSetting altId="p300.gpio_mode.gpio_mode_peripheral" configurationId="p300.gpio_mode"/>
+      <configSetting altId="p407.usbfs0.vbus" configurationId="p407"/>
+      <configSetting altId="p407.gpio_mode.gpio_mode_peripheral" configurationId="p407.gpio_mode"/>
+      <configSetting altId="p410.sdhi0.dat1" configurationId="p410"/>
+      <configSetting altId="p410.gpio_speed.gpio_speed_high" configurationId="p410.gpio_drivecapacity"/>
+      <configSetting altId="p410.gpio_mode.gpio_mode_peripheral" configurationId="p410.gpio_mode"/>
+      <configSetting altId="p411.sdhi0.dat0" configurationId="p411"/>
+      <configSetting altId="p411.gpio_speed.gpio_speed_high" configurationId="p411.gpio_drivecapacity"/>
+      <configSetting altId="p411.gpio_mode.gpio_mode_peripheral" configurationId="p411.gpio_mode"/>
+      <configSetting altId="p412.sdhi0.cmd" configurationId="p412"/>
+      <configSetting altId="p412.gpio_speed.gpio_speed_high" configurationId="p412.gpio_drivecapacity"/>
+      <configSetting altId="p412.gpio_mode.gpio_mode_peripheral" configurationId="p412.gpio_mode"/>
+      <configSetting altId="p413.sdhi0.clk" configurationId="p413"/>
+      <configSetting altId="p413.gpio_speed.gpio_speed_high" configurationId="p413.gpio_drivecapacity"/>
+      <configSetting altId="p413.gpio_mode.gpio_mode_peripheral" configurationId="p413.gpio_mode"/>
+      <configSetting altId="sdhi0.cd.p210" configurationId="sdhi0.cd"/>
+      <configSetting altId="sdhi0.clk.p413" configurationId="sdhi0.clk"/>
+      <configSetting altId="sdhi0.cmd.p412" configurationId="sdhi0.cmd"/>
+      <configSetting altId="sdhi0.dat0.p411" configurationId="sdhi0.dat0"/>
+      <configSetting altId="sdhi0.dat1.p410" configurationId="sdhi0.dat1"/>
+      <configSetting altId="sdhi0.dat2.p206" configurationId="sdhi0.dat2"/>
+      <configSetting altId="sdhi0.dat3.p205" configurationId="sdhi0.dat3"/>
+      <configSetting altId="sdhi0.mode.custom.free" configurationId="sdhi0.mode"/>
+      <configSetting altId="sdhi0.pairing.free" configurationId="sdhi0.pairing"/>
+      <configSetting altId="sdhi0.wp.p209" configurationId="sdhi0.wp"/>
+      <configSetting altId="usbfs0.mode.device" configurationId="usbfs0.mode"/>
+      <configSetting altId="usbfs0.vbus.p407" configurationId="usbfs0.vbus"/>
+    </pincfg>
+    <pincfg active="false" name="R7FA6M1AD3CFP.pincfg" selected="false" symbol="">
+      <configSetting altId="debug0.mode.jtag" configurationId="debug0.mode"/>
+      <configSetting altId="debug0.tck.p300" configurationId="debug0.tck"/>
+      <configSetting altId="debug0.tdi.p110" configurationId="debug0.tdi"/>
+      <configSetting altId="debug0.tdo.p109" configurationId="debug0.tdo"/>
+      <configSetting altId="debug0.tms.p108" configurationId="debug0.tms"/>
+      <configSetting altId="p108.debug0.tms" configurationId="p108"/>
+      <configSetting altId="p108.gpio_mode.gpio_mode_peripheral" configurationId="p108.gpio_mode"/>
+      <configSetting altId="p109.debug0.tdo" configurationId="p109"/>
+      <configSetting altId="p109.gpio_mode.gpio_mode_peripheral" configurationId="p109.gpio_mode"/>
+      <configSetting altId="p110.debug0.tdi" configurationId="p110"/>
+      <configSetting altId="p110.gpio_mode.gpio_mode_peripheral" configurationId="p110.gpio_mode"/>
+      <configSetting altId="p300.debug0.tck" configurationId="p300"/>
+      <configSetting altId="p300.gpio_mode.gpio_mode_peripheral" configurationId="p300.gpio_mode"/>
+    </pincfg>
+  </raPinConfiguration>
+</raConfiguration>

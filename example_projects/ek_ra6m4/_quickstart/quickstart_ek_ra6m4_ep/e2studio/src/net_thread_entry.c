@@ -50,6 +50,7 @@ static char print_buffer [1024] = {};
 #define STATIC_IP_GATEWAY_ADDRESS    {192, 168,   0,   1}
 #define STATIC_IP_NET_MASK           {255, 255, 255,   0}
 #define STATIC_IP_NET_MASK_BOOT      {255, 255, 255, 255}
+#define STATIC_IP_DNS_SERVER_ADDRESS {194, 168,   0,   1}
 
 static uint8_t s_static_ip_mac_address[ 6 ]      = STATIC_IP_MAC_ADDRESS;
 static uint8_t s_static_ip_address[ 4 ]          = STATIC_IP_ADDRESS;

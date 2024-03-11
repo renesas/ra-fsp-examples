@@ -12,7 +12,9 @@ file(GLOB_RECURSE Source_Files
 
 SET(ALL_FILES ${Source_Files})
 
-add_executable(${PROJECT_NAME}.elf ${ALL_FILES})
+add_executable(${PROJECT_NAME}.elf
+	${ALL_FILES}
+)
 
 target_include_directories(${PROJECT_NAME}.elf
     PUBLIC
@@ -33,3 +35,12 @@ add_custom_target(srecord ALL
 )
 
 add_dependencies(srecord ${PROJECT_NAME}.elf)
+
+# Post-build step: run RASC to generate the SmartBundle file
+add_custom_command(
+    TARGET ${PROJECT_NAME}.elf
+    POST_BUILD
+    COMMAND echo Running RASC post-build to generate Smart Bundle (.sbd) file
+    COMMAND ${RASC_EXE_PATH} -nosplash --launcher.suppressErrors --gensmartbundle --devicefamily ra --compiler GCC ${CMAKE_CURRENT_SOURCE_DIR}/configuration.xml ${PROJECT_NAME}.elf
+    VERBATIM
+)

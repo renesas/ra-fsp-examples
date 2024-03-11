@@ -205,21 +205,23 @@ LOAD_REGION_FLASH FLASH_ORIGIN ALIGN 0x80 LIMITED_FLASH_LENGTH
     *(.application_vectors)
   }
 
+  ; MCUs with the OPTION_SETTING region do not use the ROM registers at 0x400.
 #if (OPTION_SETTING_LENGTH == 0) && (FLASH_ORIGIN == FLASH_START)
 
-  /* MCUs with the OPTION_SETTING region do not use the ROM registers at 0x400. */
+  ; Some devices have a gap of code flash between the vector table and ROM Registers.
+  ; The flash gap section allows applications to place code and data in this section.
+  ROMGAP +0 FIXED
+  {
+    *(.flash_gap)
+  }
 
-  VECTORS_FILL +0 FIXED FILL 0xFFFFFFFF (0x400 - ImageLength(VECTORS))
+  ROMGAP_FILL +0 FIXED FILL 0xFFFFFFFF (0x400 - ImageLength(VECTORS) - ImageLength(ROMGAP))
   {
   }
 
   ROM_REGISTERS FLASH_START+0x400 FIXED PADVALUE 0xFFFFFFFF
   {
     bsp_rom_registers.o (.rom_registers)
-  }
-
-  ROM_REGISTERS_FILL +0 FIXED FILL 0xFFFFFFFF (0x100 - ImageLength(ROM_REGISTERS))
-  {
   }
 
 #endif

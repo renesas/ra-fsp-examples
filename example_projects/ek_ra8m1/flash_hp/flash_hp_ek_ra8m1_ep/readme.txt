@@ -37,19 +37,19 @@ Note:   User is expected to enter data of size not exceeding 15 bytes.
 1) Initialize device back to factory default by using Renesas Device Partition Manager before run the example project.
    User can refer Section 5.3 "Setting up Hardware" in the document via link:
    https://www.renesas.com/us/en/document/apn/renesas-ra-security-design-arm-trustzone-ip-protection
-   For Renesas Device Partition Manager tool:
-      - e2studio: Run -> Renesas Debug Tools -> Renesas Device Partition Manager (Available on e2studio)
+   For Renesas Device Partition Manager tool on each IDE:
+   - Start E2Studio -> Run -> Renesas Debug Tools -> Renesas Device Partition Manager (Available on e2studio)
 
-      - Keil: Tools -> Device Partition Manager (User need to set up)
-      	User can refer to set up via link: https://renesas.github.io/fsp/_s_t_a_r_t__d_e_v.html#RASC-MDK-prerequisites
+   - Start Keil -> Tools -> Device Partition Manager (User need to set up)
+     User can refer to set up via link: https://renesas.github.io/fsp/_s_t_a_r_t__d_e_v.html#RASC-MDK-prerequisites
 
-      - IAR: Tools -> Device Partition Manager (User need to set up)
-	User can refer to set up via link: https://renesas.github.io/fsp/_s_t_a_r_t__d_e_v.html#RASC-EWARM-prerequisites
-﻿
+   - Start IAR -> Tools -> Device Partition Manager (User need to set up)
+	 User can refer to set up via link: https://renesas.github.io/fsp/_s_t_a_r_t__d_e_v.html#RASC-EWARM-prerequisites
+
 2) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
    a. e2studio: 0x22000b38
-   b. Keil:	0x220007a0
+   b. Keil:	0x22000798
    c. IAR: 	0x220007d8
  
 3) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) 

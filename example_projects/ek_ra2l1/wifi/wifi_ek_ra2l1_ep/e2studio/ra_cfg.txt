@@ -12,6 +12,7 @@ FSP Configuration
     series: 2
     
   RA2L1 Family
+    Enable inline BSP IRQ functions: Disabled
     OFS0 register settings: Independent WDT: Start Mode: IWDT is Disabled
     OFS0 register settings: Independent WDT: Timeout Period: 2048 cycles
     OFS0 register settings: Independent WDT: Dedicated Clock Frequency Divisor: 128
@@ -55,6 +56,7 @@ FSP Configuration
     ID Code Mode: Unlocked (Ignore ID)
     ID Code (32 Hex Characters): FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
     
+  RA2L1 event data
   RA Common
     Main stack size (bytes): 0x1000
     Heap size (bytes): 0x400
@@ -351,8 +353,6 @@ FSP Configuration
     PKCS11 Malloc: pvPortMalloc
     PKCS11 Free: vPortFree
     PAL Destroy Supported: Disabled
-    Log Name: PKCS11
-    Log Level: LOG_NONE
     OTA Supported: Disabled
     JITP Code Verify Root Cert Supported: Disabled
     HMAC Key: HMAC Key
@@ -752,6 +752,7 @@ FSP Configuration
     Parameter Checking: Default (BSP)
     Code Flash Programming: Disabled
     Data Flash Programming: Enabled
+    Data Flash Background Operation Support: Enabled
     
   Module "AWS FreeRTOS+TCP MbedTLS Bio"
   FreeRTOS
@@ -818,6 +819,8 @@ FSP Configuration
     RA: Hardware Stack Monitor: Disabled
     Logging: Print String Function: printf(x)
     Logging: Logging Include Time and Task Name: Disabled
+    Logging: Debug Logging Name: Log Name
+    Logging: Logging Level: LOG_NONE
     
   HAL
     Instance "g_ioport I/O Port (r_ioport)"
@@ -887,7 +890,7 @@ FSP Configuration
                 Number of Transfer Descriptors: 1
                 Activation Source: SCI9 TXI (Transmit data empty)
                 
-              Instance "g_transfer1 Transfer (r_dtc) SCI9 RXI (Received data full)"
+              Instance "g_transfer1 Transfer (r_dtc) SCI9 RXI (Receive data full)"
                 Name: g_transfer1
                 Mode: Normal
                 Transfer Size: 1 Byte
@@ -898,7 +901,7 @@ FSP Configuration
                 Number of Transfers: 0
                 Number of Blocks (Valid only in Block Mode): 0
                 Number of Transfer Descriptors: 1
-                Activation Source: SCI9 RXI (Received data full)
+                Activation Source: SCI9 RXI (Receive data full)
                 
           Instance "AWS FreeRTOS+TCP MbedTLS Bio"
         Instance "AWS PKCS11 to MbedTLS"

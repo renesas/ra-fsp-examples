@@ -307,9 +307,9 @@ namespace tflite {
                 return false;
             }
 
-            if ((!ReduceSumImpl < T), (U > (input_data, input_dims, output_dims, input_num_dims,
+            if (!ReduceSumImpl < T, U > (input_data, input_dims, output_dims, input_num_dims,
                                             output_num_dims, resolved_axis, num_resolved_axis,
-                                            temp_index, temp_sum)))
+                                            temp_index, temp_sum))
             {
                 return false;
             }
@@ -534,9 +534,9 @@ namespace tflite {
                 return false;
             }
 
-            if ((!ReduceSumImpl < T), (U > (input_data, input_dims, output_dims, input_num_dims,
+            if (!ReduceSumImpl < T, U > (input_data, input_dims, output_dims, input_num_dims,
                                             output_num_dims, resolved_axis, num_resolved_axis,
-                                            temp_index, temp_sum)))
+                                            temp_index, temp_sum))
             {
                 return false;
             }
@@ -628,11 +628,11 @@ namespace tflite {
                 return MultiplyByQuantizedMultiplier(result, scaling_multiplier, scaling_shift);
             };
 
-            if ((!Reduce < T), (int32_t > (
+            if (!Reduce < T, int32_t > (
                                     input_data, input_shape.DimsData(), output_shape.DimsData(),
                                     input_shape.DimensionsCount(), output_shape.DimensionsCount(),
                                     resolved_axis, num_resolved_axis, temp_index, reducer_first,
-                                    reducer_next, temp_prod)))
+                                    reducer_next, temp_prod))
             {
                 return false;
             }

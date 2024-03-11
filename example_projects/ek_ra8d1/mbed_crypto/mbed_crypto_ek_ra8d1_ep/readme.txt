@@ -40,8 +40,8 @@ Note :
 2) Initialize device back to factory default by using Renesas Device Partition Manager before run the example project.
    User can refer Section 5.3 "Setting up Hardware" in the document via link:
    https://www.renesas.com/us/en/document/apn/renesas-ra-security-design-arm-trustzone-ip-protection
-   For Renesas Device Partition Manager tool:
-   	e2studio: Run -> Renesas Debug Tools -> Renesas Device Partition Manager (Available on e2studio)
+   For Renesas Device Partition Manager tool on each IDE:
+   - Start E2Studio -> Run -> Renesas Debug Tools -> Renesas Device Partition Manager (Available on e2studio)
 
 3) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:

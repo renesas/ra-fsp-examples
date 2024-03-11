@@ -74,12 +74,12 @@ NOTE  : While running the application using DHCP or Static Address mode, the fol
 	CAUTION: Do not enable SW1-4 and SW1-5 together
 
 - For EK-RA8M1: Remove jumper J61 to enable Ethernet B
-﻿
+
 1) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: Not Available
-   b. Keil:	Not Available
-   c. IAR:      0x2200d1ec
+   a. e2studio: 0x22000930
+   b. Keil:	0x22005278
+   c. IAR:      0x2200d1f4
  
 2) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) 
    in .map file generated in the build configuration folder (Debug/Release).
