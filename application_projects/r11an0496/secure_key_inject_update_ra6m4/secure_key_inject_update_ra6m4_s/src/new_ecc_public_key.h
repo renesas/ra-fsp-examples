@@ -39,7 +39,7 @@
  Macro definitions
  *********************************************************************************************************************/
 /** Encrypted key byte size **/
-#define NEW_ECC_PUB_BYTE_SIZE (80)
+#define NEW_ECC_PUB_SIZE (80)
 
 /**********************************************************************************************************************
  Global Typedef definitions
@@ -50,7 +50,7 @@ typedef struct NEW_ECC_PUB
     uint32_t    keytype;
     uint32_t    shared_key_number;
     uint8_t     initial_vector[16];
-    uint8_t     encrypted_user_key[NEW_ECC_PUB_BYTE_SIZE];
+    uint8_t     encrypted_user_key[NEW_ECC_PUB_SIZE];
     uint8_t     crc[4];
 } NEW_ECC_PUB_t;
 

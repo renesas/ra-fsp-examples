@@ -36,7 +36,7 @@ static sce_key_update_key_t   kuk_key;
 static sce_ecc_public_wrapped_key_t wrapped_new_ecc_public_key_data_flash;
 static sce_ecc_public_wrapped_key_t ecc_public_key_injected;
 
-static uint8_t encrypted_new_ecc_key[NEW_ECC_PUB_BYTE_SIZE] = {0};
+static uint8_t encrypted_new_ecc_key[NEW_ECC_PUB_SIZE] = {0};
 uint8_t iv_encrypt[IV_SIZE] = {0};
 sce_ecc_public_wrapped_key_t wrapped_new_ecc_public_key;
 
@@ -94,7 +94,7 @@ static uint8_t ECC_SECP256R1ExpectedSignature_new[] =
 /* access the encrypted new ECC public key generated from SKMT */
 void init_encrypted_new_ecc_key(void)
 {
-    memcpy(encrypted_new_ecc_key, g_NEW_ECC_PUB.encrypted_user_key, NEW_ECC_PUB_BYTE_SIZE);
+    memcpy(encrypted_new_ecc_key, g_NEW_ECC_PUB.encrypted_user_key, NEW_ECC_PUB_SIZE);
 }
 
 /* access the initialization vector used for encrypting the new ECC public key */
