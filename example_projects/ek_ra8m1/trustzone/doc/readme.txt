@@ -21,13 +21,19 @@
         Addition Overflow, Subtraction Underflow and compares with the reference data. Upon Success/Failure of operation, the 
         result will be displayed on RTT viewer.LED will turn ON only if the selected event operation is success.
 
+2. Software Requirements:
+	Refer to the Tools section in the Release Notes for set up suitable Software version.
+	https://github.com/renesas/fsp/releases
+
 Note:﻿
-1) User can refer Section 5 "Example Project for IP Protection" in the document to run trustzone EP via link:
+1) User should view section 5 of application note R11AN0467 on how to build and run a trustzone project.
    https://www.renesas.com/us/en/document/apn/renesas-ra-security-design-arm-trustzone-ip-protection
 
-2) For IAR, user can open non-secure (_ns) project. It included multiple workspace which has both secure (_s) and non-secure (_ns) project.
+2) For the IAR project, user can launch the Workspace using the .eww workspace file in the non-secure project folder. 
+   It included multiple workspace which has both secure (_s) and non-secure (_ns) project.
 
-3) For KEIL, user can open .uvmpw file in keil folder for multiple workspace which has both secure (_s) and non-secure (_ns) project.
+3) For the KEIL project, user can launch the Workspace using the .uvmpw file in keil folder. It included multiple workspace 
+   which has both secure (_s) and non-secure (_ns) project.
 
 4) User must build secure project (_s) first, then build non-secure (_ns) project.
 
@@ -35,14 +41,19 @@ Note:﻿
    between EWARM and RSAC operation which described in step 10 of section 5.5.1 in
    https://www.renesas.com/us/en/document/apn/renesas-ra-security-design-arm-trustzone-ip-protection  
 
-6) After building successfully, user must open Renesas Device Partition Manager -> Initialize device back to factory default -> Set Trustzone 
-   secure / non-secure boundaries -> Run non-secure (_ns) project. 
+6) After the projects are built successfully, user should follow these three steps in sequence to launch the debug session:
+   - Initialize device back to factory default. Refer to the corresponding screen shots in the R11AN0467 to perform the action.
+   - Set Trustzone secure / non-secure boundaries. Refer to the corresponding screen shots in the R11AN0467 to perform the action.
+   - Launch the Debug session from the non-secure project.
 
-7) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
+7) For IAR project, User can change setting in the Tools -> Option -> Stack -> Uncheck "Stack pointer(s) not
+   valid until program reaches" option to ignore Stack Warning at launch. 
+
+8) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
    a. e2studio: 0x32002468
-   b. Keil:	Not available
-   c. IAR: 	Not available
+   b. Keil:	Not Available
+   c. IAR: 	0x3200205c
  
-8) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) 
+9) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) 
    in .map file generated in the build configuration folder (Debug/Release).

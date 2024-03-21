@@ -12,6 +12,7 @@ FSP Configuration
     series: 2
     
   RA2E1 Family
+    Enable inline BSP IRQ functions: Disabled
     OFS0 register settings: Independent WDT: Start Mode: IWDT is Disabled
     OFS0 register settings: Independent WDT: Timeout Period: 2048 cycles
     OFS0 register settings: Independent WDT: Dedicated Clock Frequency Divisor: 128
@@ -49,9 +50,11 @@ FSP Configuration
     MPU: Enable or disable Memory Region 3: Disabled
     MPU: Memory Region 3 Start: 0x400DFFFC
     MPU: Memory Region 3 End: 0x400DFFFF
+    Main Oscillator Wait Time: 262144 cycles
     ID Code Mode: Unlocked (Ignore ID)
     ID Code (32 Hex Characters): FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
     
+  RA2E1 event data
   RA Common
     Main stack size (bytes): 0x400
     Heap size (bytes): 0
@@ -59,13 +62,13 @@ FSP Configuration
     Parameter checking: Disabled
     Assert Failures: Return FSP_ERR_ASSERTION
     Error Log: No Error Log
-    Soft Reset: Disabled
-    Main Oscillator Populated: Populated
+    Clock Registers not Reset Values during Startup: Disabled
+    Main Oscillator Populated: Not Populated
     PFS Protect: Enabled
     C Runtime Initialization : Enabled
-    Main Oscillator Wait Time: 32768 us
+    Early BSP Initialization : Disabled
     Main Oscillator Clock Source: Crystal or Resonator
-    Subclock Populated: Populated
+    Subclock Populated: Not Populated
     Subclock Drive (Drive capacitance availability varies by MCU): Standard/Normal mode
     Subclock Stabilization Time (ms): 1000
     
@@ -83,62 +86,62 @@ FSP Configuration
     R7FA2L1AB3CFP.pincfg -> 
       AVCC0 56 ANALOG0_AVCC0 - - - - - - - - IO "Read only" - 
       AVSS0 57 ANALOG0_AVSS0 - - - - - - - - IO "Read only" - 
-      P000 64 - ARDUINO_A0_MIKROBUS_AN - - Disabled - - "ADC0: AN00; CTSU0: TS21; ICU0: IRQ06" - None - - 
-      P001 63 - ARDUINO_A1 - - Disabled - - "ADC0: AN01; CTSU0: TS22; ICU0: IRQ07" - None - - 
-      P002 62 - ARDUINO_A2 - - Disabled - - "ADC0: AN02; CTSU0: TS23; ICU0: IRQ02" - None - - 
-      P003 61 - ARDUINO_A3 - - Disabled - - "ADC0: AN03; CTSU0: TS24" - None - - 
-      P004 60 - SW1 - None Disabled - None "ADC0: AN04; CTSU0: TS25; ICU0: IRQ03" - IO - - 
-      P010 59 - - - - Disabled - - "ADC0: AN05; ANALOG0: VREFH0; CTSU0: CFCTS30" - None - - 
-      P011 58 - - - - Disabled - - "ADC0: AN06; ANALOG0: VREFL0; CTSU0: CFCTS31" - None - - 
-      P012 55 - ARDUINO_A4 - - Disabled - - "ADC0: AN07; CTSU0: CFCTS32" - None - - 
-      P013 54 - ARDUINO_A5 - - Disabled - - "ADC0: AN08; CTSU0: CFCTS33" - None - - 
-      P014 53 - - - - Disabled - - "ADC0: AN09" - None - - 
-      P015 52 - SW2 - None Disabled - None "ADC0: AN10; CTSU0: CFCTS28; ICU0: IRQ07" - IO - - 
-      P100 48 - ARDUINO_MISO_MIKROBUS_MISO_PMOD1_MISO - - Disabled - - "ACMPLP0: CMPIN; ADC0: AN22; AGT0: AGTIO; CTSU0: CFCTS26; GPT_POEG0: GTETRG; GPT8: GTIOCB; ICU0: IRQ02; IIC0: SCL; KINT0: KRM0; SCI0: RXD; SCI0: SCL; SCI1: SCK; SPI0: MISO" - None - - 
-      P101 47 - ARDUINO_MOSI_MIKROBUS_MOSI_PMOD1_MOSI - - Disabled - - "ACMPLP0: CMPREF; ADC0: AN21; AGT0: AGTEE; CTSU0: CFCTS16; GPT_POEG1: GTETRG; GPT8: GTIOCA; ICU0: IRQ01; IIC0: SDA; KINT0: KRM1; SCI0: SDA; SCI0: TXD; SCI1: CTS; SPI0: MOSI" - None - - 
-      P102 46 - ARDUINO_CLK_MIKROBUS_CLK_PMOD1_CLK - - Disabled - - "ACMPLP1: CMPIN; ADC0: ADTRG; ADC0: AN20; AGT0: AGTO; CTSU0: CFCTS15; GPT_OPS0: GTOWLO; GPT5: GTIOCB; KINT0: KRM2; SCI0: SCK; SCI2: SDA; SCI2: TXD; SPI0: RSPCK" - None - - 
-      P103 45 - ARDUINO_SS_MIKROBUS_SS_PMOD1_SS - - Disabled - - "ACMPLP1: CMPREF; ADC0: AN19; CTSU0: CFCTS14; GPT_OPS0: GTOWUP; GPT5: GTIOCA; KINT0: KRM3; SCI0: CTS; SPI0: SSL0" - None - - 
-      P104 44 - ARDUINO_D3 - - Disabled - - "CTSU0: CFCTS13; GPT_POEG1: GTETRG; GPT4: GTIOCB; ICU0: IRQ01; KINT0: KRM4; SCI0: RXD; SCI0: SCL; SPI0: SSL1" - None - - 
-      P105 43 - PMOD1_IO1 - - Disabled - - "CTSU0: CFCTS34; GPT_POEG0: GTETRG; GPT4: GTIOCA; ICU0: IRQ00; KINT0: KRM5; SPI0: SSL2" - None - - 
-      P106 42 - PMOD1_IO2 - - Disabled - - "KINT0: KRM6; SPI0: SSL3" - None - - 
-      P107 41 - ARDUINO_D4 - - Disabled - - "KINT0: KRM7" - None - - 
-      P108 33 DEBUG0_SWDIO - - - "Peripheral mode" - - "DEBUG0: SWDIO; GPT_OPS0: GTOULO; GPT0: GTIOCB; SCI9: CTS" - None - - 
-      P109 34 - ARDUINO_D8 - - Disabled - - "CGC0: CLKOUT; CTSU0: CFCTS10; GPT_OPS0: GTOVUP; GPT4: GTIOCA; SCI1: SCK; SCI9: SDA; SCI9: TXD" - None - - 
-      P110 35 - ARDUINO_D2_MIKROBUS_INT - - Disabled - - "ACMP(0-1): VCOUT; CTSU0: CFCTS11; GPT_OPS0: GTOVLO; GPT4: GTIOCB; ICU0: IRQ03; SCI2: CTS; SCI9: RXD; SCI9: SCL" - None - - 
-      P111 36 - MIKROBUS_PWM - - Disabled - - "AGT0: AGTOA; CTSU0: CFCTS12; GPT6: GTIOCA; ICU0: IRQ04; SCI2: SCK; SCI9: SCK" - None - - 
-      P112 37 - ARDUINO_D9 - - Disabled - - "AGT0: AGTOB; CTSU0: TSCAP; GPT6: GTIOCB; SCI1: SCK; SCI2: SDA; SCI2: TXD" - None - - 
-      P113 38 - ARDUINO_D7 - - Disabled - - "CTSU0: CFCTS27" - None - - 
+      P000 64 - ARDUINO_A0_MIKROBUS_AN - - Disabled - - "ADC0: AN000; CTSU0: TS21; ICU0: IRQ06" - None - - 
+      P001 63 - ARDUINO_A1 - - Disabled - - "ADC0: AN001; CTSU0: TS22; ICU0: IRQ07" - None - - 
+      P002 62 - ARDUINO_A2 - - Disabled - - "ADC0: AN002; CTSU0: TS23; ICU0: IRQ02" - None - - 
+      P003 61 - ARDUINO_A3 - - Disabled - - "ADC0: AN003; CTSU0: TS24" - None - - 
+      P004 60 - SW1 - None Disabled - None "ADC0: AN004; CTSU0: TS25; ICU0: IRQ03" - IO - - 
+      P010 59 - - - - Disabled - - "ADC0: AN005; ANALOG0: VREFH0; CTSU0: TS30-CFC" - None - - 
+      P011 58 - - - - Disabled - - "ADC0: AN006; ANALOG0: VREFL0; CTSU0: TS31-CFC" - None - - 
+      P012 55 - ARDUINO_A4 - - Disabled - - "ADC0: AN007; CTSU0: TS32-CFC" - None - - 
+      P013 54 - ARDUINO_A5 - - Disabled - - "ADC0: AN008; CTSU0: TS33-CFC" - None - - 
+      P014 53 - - - - Disabled - - "ADC0: AN009" - None - - 
+      P015 52 - SW2 - None Disabled - None "ADC0: AN010; CTSU0: TS28-CFC; ICU0: IRQ07" - IO - - 
+      P100 48 - ARDUINO_MISO_MIKROBUS_MISO_PMOD1_MISO - - Disabled - - "ACMPLP0: CMPIN0; AGT0: AGTIO0; CTSU0: TS26-CFC; GPT_POEG0: GTETRGA; GPT8: GTIOC8B; ICU0: IRQ02; IIC0: SCL0; KINT0: KRM00; SCI0: RXD0; SCI0: SCL0; SCI1: SCK1; SPI0: MISOA" - None - - 
+      P101 47 - ARDUINO_MOSI_MIKROBUS_MOSI_PMOD1_MOSI - - Disabled - - "ACMPLP0: CMPREF0; AGT0: AGTEE0; CTSU0: TS16-CFC; GPT_POEG1: GTETRGB; GPT8: GTIOC8A; ICU0: IRQ01; IIC0: SDA0; KINT0: KRM01; SCI0: SDA0; SCI0: TXD0; SCI1: CTS1; SPI0: MOSIA" - None - - 
+      P102 46 - ARDUINO_CLK_MIKROBUS_CLK_PMOD1_CLK - - Disabled - - "ACMPLP1: CMPIN1; ADC0: ADTRG0; AGT0: AGTO0; CTSU0: TS15-CFC; GPT_OPS0: GTOWLO; GPT5: GTIOC5B; KINT0: KRM02; SCI0: SCK0; SCI2: SDA2; SCI2: TXD2; SPI0: RSPCKA" - None - - 
+      P103 45 - ARDUINO_SS_MIKROBUS_SS_PMOD1_SS - - Disabled - - "ACMPLP1: CMPREF1; CTSU0: TS14-CFC; GPT_OPS0: GTOWUP; GPT5: GTIOC5A; KINT0: KRM03; SCI0: CTS0; SPI0: SSLA0" - None - - 
+      P104 44 - ARDUINO_D3 - - Disabled - - "CTSU0: TS13-CFC; GPT_POEG1: GTETRGB; GPT4: GTIOC4B; ICU0: IRQ01; KINT0: KRM04; SCI0: RXD0; SCI0: SCL0; SPI0: SSLA1" - None - - 
+      P105 43 - PMOD1_IO1 - - Disabled - - "CTSU0: TS34-CFC; GPT_POEG0: GTETRGA; GPT4: GTIOC4A; ICU0: IRQ00; KINT0: KRM05; SPI0: SSLA2" - None - - 
+      P106 42 - PMOD1_IO2 - - Disabled - - "KINT0: KRM06; SPI0: SSLA3" - None - - 
+      P107 41 - ARDUINO_D4 - - Disabled - - "KINT0: KRM07" - None - - 
+      P108 33 DEBUG0_SWDIO - - - "Peripheral mode" - - "DEBUG0: SWDIO; GPT_OPS0: GTOULO; GPT0: GTIOC0B; SCI9: CTS9" - None - - 
+      P109 34 - ARDUINO_D8 - - Disabled - - "CGC0: CLKOUT; CTSU0: TS10-CFC; GPT_OPS0: GTOVUP; GPT4: GTIOC4A; SCI1: SCK1; SCI9: SDA9; SCI9: TXD9" - None - - 
+      P110 35 - ARDUINO_D2_MIKROBUS_INT - - Disabled - - "ACMP(0-1): VCOUT; CTSU0: TS11-CFC; GPT_OPS0: GTOVLO; GPT4: GTIOC4B; ICU0: IRQ03; SCI2: CTS2; SCI9: RXD9; SCI9: SCL9" - None - - 
+      P111 36 - MIKROBUS_PWM - - Disabled - - "AGT0: AGTOA0; CTSU0: TS12-CFC; GPT6: GTIOC6A; ICU0: IRQ04; SCI2: SCK2; SCI9: SCK9" - None - - 
+      P112 37 - ARDUINO_D9 - - Disabled - - "AGT0: AGTOB0; CTSU0: TSCAP; GPT6: GTIOC6B; SCI1: SCK1; SCI2: SDA2; SCI2: TXD2" - None - - 
+      P113 38 - ARDUINO_D7 - - Disabled - - "CTSU0: TS27-CFC" - None - - 
       P200 27 - - - - Disabled - - "ICU0: NMI" - None - - 
       P201 26 - - - - Disabled - - "SYSTEM0: MD" - None - - 
-      P204 24 - - - - Disabled - - "AGT1: AGTIO; CAC0: CACREF; CTSU0: TS00; GPT_OPS0: GTIW; IIC0: SCL; SCI0: SCK; SCI9: SCK" - None - - 
-      P205 23 - ARDUINO_TX_MIKROBUS_TX - - Disabled - - "AGT1: AGTO; CGC0: CLKOUT; GPT_OPS0: GTIV; ICU0: IRQ01; SCI0: SDA; SCI0: TXD; SCI9: CTS" - None - - 
-      P206 22 - ARDUINO_RX_MIKROBUS_RX - - Disabled - - "GPT_OPS0: GTIU; ICU0: IRQ00; SCI0: RXD; SCI0: SCL" - None - - 
+      P204 24 - - - - Disabled - - "AGT1: AGTIO1; CAC0: CACREF; CTSU0: TS00; GPT_OPS0: GTIW; IIC0: SCL0; SCI0: SCK0; SCI9: SCK9" - None - - 
+      P205 23 - ARDUINO_TX_MIKROBUS_TX - - Disabled - - "AGT1: AGTO1; CGC0: CLKOUT; GPT_OPS0: GTIV; ICU0: IRQ01; SCI0: SDA0; SCI0: TXD0; SCI9: CTS9" - None - - 
+      P206 22 - ARDUINO_RX_MIKROBUS_RX - - Disabled - - "GPT_OPS0: GTIU; ICU0: IRQ00; SCI0: RXD0; SCI0: SCL0" - None - - 
       P207 21 - ARDUINO_RESET_MIKROBUS_RST - - Disabled - - - - None - - 
-      P208 20 - PMOD1_RST - - Disabled - - "AGT0: AGTOB" - None - - 
-      P212 10 - - - - Disabled - - "AGT1: AGTEE; CGC0: EXTAL; GPT_POEG1: GTETRG; GPT0: GTIOCB; ICU0: IRQ03; SCI1: RXD; SCI1: SCL" - None - - 
-      P213 9 - - - - Disabled - - "CGC0: XTAL; GPT_POEG0: GTETRG; GPT0: GTIOCA; ICU0: IRQ02; SCI1: SDA; SCI1: TXD" - None - - 
+      P208 20 - PMOD1_RST - - Disabled - - "AGT0: AGTOB0" - None - - 
+      P212 10 - - - - Disabled - - "AGT1: AGTEE1; CGC0: EXTAL; GPT_POEG1: GTETRGB; GPT0: GTIOC0B; ICU0: IRQ03; SCI1: RXD1; SCI1: SCL1" - None - - 
+      P213 9 - - - - Disabled - - "CGC0: XTAL; GPT_POEG0: GTETRGA; GPT0: GTIOC0A; ICU0: IRQ02; SCI1: SDA1; SCI1: TXD1" - None - - 
       P214 7 - - - - Disabled - - "CGC0: XCOUT" - None - - 
       P215 6 - - - - Disabled - - "CGC0: XCIN" - None - - 
-      P300 32 DEBUG0_SWCLK - - - "Peripheral mode" - - "DEBUG0: SWCLK; GPT_OPS0: GTOUUP; GPT0: GTIOCA" - None - - 
-      P301 31 - GROVE1_SCL_QWIIC_SCL - - Disabled - - "AGT0: AGTIO; CTSU0: CFCTS09; GPT_OPS0: GTOULO; GPT7: GTIOCB; ICU0: IRQ06; SCI2: RXD; SCI2: SCL; SCI9: CTS" - None - - 
-      P302 30 - GROVE1_SDA_QWIIC_SDA - - Disabled - - "CTSU0: CFCTS08; GPT_OPS0: GTOUUP; GPT7: GTIOCA; ICU0: IRQ05; SCI2: SDA; SCI2: TXD" - None - - 
-      P303 29 - PMOD2_RST - - Disabled - - "CTSU0: CFCTS02" - None - - 
+      P300 32 DEBUG0_SWCLK - - - "Peripheral mode" - - "DEBUG0: SWCLK; GPT_OPS0: GTOUUP; GPT0: GTIOC0A" - None - - 
+      P301 31 - GROVE1_SCL_QWIIC_SCL - - Disabled - - "AGT0: AGTIO0; CTSU0: TS09-CFC; GPT_OPS0: GTOULO; GPT7: GTIOC7B; ICU0: IRQ06; SCI2: RXD2; SCI2: SCL2; SCI9: CTS9" - None - - 
+      P302 30 - GROVE1_SDA_QWIIC_SDA - - Disabled - - "CTSU0: TS08-CFC; GPT_OPS0: GTOUUP; GPT7: GTIOC7A; ICU0: IRQ05; SCI2: SDA2; SCI2: TXD2" - None - - 
+      P303 29 - PMOD2_RST - - Disabled - - "CTSU0: TS02-CFC" - None - - 
       P304 28 - PMOD2_IO2 - - Disabled - - - - None - - 
-      P400 1 - PMOD2_SCK - - Disabled - - "AGT1: AGTIO; CAC0: CACREF; GPT9: GTIOCA; ICU0: IRQ00; IIC0: SCL; SCI0: SCK; SCI1: SCK" - None - - 
-      P401 2 - PMOD2_TXD - - Disabled - - "GPT_POEG0: GTETRG; GPT9: GTIOCB; ICU0: IRQ05; IIC0: SDA; SCI0: CTS; SCI1: SDA; SCI1: TXD" - None - - 
-      P402 3 - PMOD2_RXD - - Disabled - - "AGT0: AGTIO; AGT1: AGTIO; CTSU0: TS18; ICU0: IRQ04; SCI1: RXD; SCI1: SCL" - None - - 
-      P403 4 - PMOD2_CTS - - Disabled - - "AGT0: AGTIO; AGT1: AGTIO; CTSU0: TS17; SCI1: CTS" - None - - 
-      P407 16 - ARDUINO_SDA_MIKROBUS_SDA - - Disabled - - "ADC0: ADTRG; AGT0: AGTIO; IIC0: SDA; RTC0: RTCOUT; SCI0: CTS" - None - - 
-      P408 15 - ARDUINO_SCL_MIKROBUS_SCL - - Disabled - - "CTSU0: TS04; GPT_OPS0: GTOWLO; ICU0: IRQ07; IIC0: SCL; SCI1: CTS" - None - - 
+      P400 1 - PMOD2_SCK - - Disabled - - "AGT1: AGTIO1; CAC0: CACREF; GPT9: GTIOC9A; ICU0: IRQ00; IIC0: SCL0; SCI0: SCK0; SCI1: SCK1" - None - - 
+      P401 2 - PMOD2_TXD - - Disabled - - "GPT_POEG0: GTETRGA; GPT9: GTIOC9B; ICU0: IRQ05; IIC0: SDA0; SCI0: CTS0; SCI1: SDA1; SCI1: TXD1" - None - - 
+      P402 3 - PMOD2_RXD - - Disabled - - "AGT0: AGTIO0; AGT1: AGTIO1; CTSU0: TS18; ICU0: IRQ04; SCI1: RXD1; SCI1: SCL1" - None - - 
+      P403 4 - PMOD2_CTS - - Disabled - - "AGT0: AGTIO0; AGT1: AGTIO1; CTSU0: TS17; SCI1: CTS1" - None - - 
+      P407 16 - ARDUINO_SDA_MIKROBUS_SDA - - Disabled - - "ADC0: ADTRG0; AGT0: AGTIO0; IIC0: SDA0; RTC0: RTCOUT; SCI0: CTS0" - None - - 
+      P408 15 - ARDUINO_SCL_MIKROBUS_SCL - - Disabled - - "CTSU0: TS04; GPT_OPS0: GTOWLO; ICU0: IRQ07; IIC0: SCL0; SCI1: CTS1" - None - - 
       P409 14 - PMOD2_INT - - Disabled - - "CTSU0: TS05; GPT_OPS0: GTOWUP; ICU0: IRQ06" - None - - 
-      P410 13 - PMOD2_CS2 - - Disabled - - "AGT1: AGTOB; CTSU0: TS06; GPT_OPS0: GTOVLO; ICU0: IRQ05; SCI0: RXD; SCI0: SCL; SPI0: MISO" - None - - 
-      P411 12 - PMOD1_INT - - Disabled - - "AGT1: AGTOA; CTSU0: TS07; GPT_OPS0: GTOVUP; ICU0: IRQ04; SCI0: SDA; SCI0: TXD; SPI0: MOSI" - None - - 
-      P500 49 - ARDUINO_D6 - - Disabled - - "GPT_OPS0: GTIU; GPT5: GTIOCA" - None - - 
-      P501 50 - GROVE2_SDA - - Disabled - - "ADC0: AN17; GPT_OPS0: GTIV; GPT5: GTIOCB; SCI1: SDA; SCI1: TXD" - None - - 
-      P502 51 - GROVE2_SCL - - Disabled - - "ADC0: AN18; GPT_OPS0: GTIW; SCI1: RXD; SCI1: SCL" - None - - 
-      P913 19 - LED3 Low - Disabled CMOS - "AGT1: AGTIO; GPT_POEG0: GTETRG" - IO - - 
-      P914 18 - LED2 Low - Disabled CMOS - "AGT1: AGTOA; GPT_POEG1: GTETRG" - IO - - 
-      P915 17 - LED1 Low - Disabled CMOS - - - IO - - 
+      P410 13 - PMOD2_CS2 - - Disabled - - "AGT1: AGTOB1; CTSU0: TS06; GPT_OPS0: GTOVLO; ICU0: IRQ05; SCI0: RXD0; SCI0: SCL0; SPI0: MISOA" - None - - 
+      P411 12 - PMOD1_INT - - Disabled - - "AGT1: AGTOA1; CTSU0: TS07; GPT_OPS0: GTOVUP; ICU0: IRQ04; SCI0: SDA0; SCI0: TXD0; SPI0: MOSIA" - None - - 
+      P500 49 - ARDUINO_D6 - - Disabled - - "GPT_OPS0: GTIU; GPT5: GTIOC5A" - None - - 
+      P501 50 - GROVE2_SDA - - Disabled - - "ADC0: AN017; GPT_OPS0: GTIV; GPT5: GTIOC5B; SCI1: SDA1; SCI1: TXD1" - None - - 
+      P502 51 - GROVE2_SCL - - Disabled - - "ADC0: AN018; GPT_OPS0: GTIW; SCI1: RXD1; SCI1: SCL1" - None - - 
+      P913 19 - LED3 - - Disabled CMOS - "AGT1: AGTIO1; GPT_POEG0: GTETRGA" - IO - - 
+      P914 18 - LED2 - - Disabled CMOS - "AGT1: AGTOA1; GPT_POEG1: GTETRGB" - IO - - 
+      P915 17 - LED1 - - Disabled CMOS - - - IO - - 
       RES# 25 SYSTEM0_RES - - - - - - - - IO "Read only" - 
       VCC 11 SYSTEM0_VCC - - - - - - - - IO "Read only" - 
       VCC 39 SYSTEM0_VCC - - - - - - - - IO "Read only" - 
@@ -148,62 +151,62 @@ FSP Configuration
     RA2E1 EK -> g_bsp_pin_cfg
       AVCC0 56 ANALOG0_AVCC0 - - - - - - - - IO "Read only" - 
       AVSS0 57 ANALOG0_AVSS0 - - - - - - - - IO "Read only" - 
-      P000 64 - ARDUINO_A0_MIKROBUS_AN - - Disabled - - "ADC0: AN00; CTSU0: TS21; ICU0: IRQ06" - None - - 
-      P001 63 - ARDUINO_A1 - - Disabled - - "ADC0: AN01; CTSU0: TS22; ICU0: IRQ07" - None - - 
-      P002 62 - ARDUINO_A2 - - Disabled - - "ADC0: AN02; CTSU0: TS23; ICU0: IRQ02" - None - - 
-      P003 61 - ARDUINO_A3 - - Disabled - - "ADC0: AN03; CTSU0: TS24" - None - - 
-      P004 60 GPIO SW1 - IRQ03 "Input mode" - None "ADC0: AN04; CTSU0: TS25; ICU0: IRQ03" - IO - - 
-      P010 59 - - - - Disabled - - "ADC0: AN05; ANALOG0: VREFH0; CTSU0: CFCTS30" - None - - 
-      P011 58 - - - - Disabled - - "ADC0: AN06; ANALOG0: VREFL0; CTSU0: CFCTS31" - None - - 
-      P012 55 - ARDUINO_A4 - - Disabled - - "ADC0: AN07; CTSU0: CFCTS32" - None - - 
-      P013 54 - ARDUINO_A5 - - Disabled - - "ADC0: AN08; CTSU0: CFCTS33" - None - - 
-      P014 53 - - - - Disabled - - "ADC0: AN09" - None - - 
-      P015 52 GPIO SW2 - IRQ07 "Input mode" - None "ADC0: AN10; CTSU0: CFCTS28; ICU0: IRQ07" - IO - - 
-      P100 48 - ARDUINO_MISO_MIKROBUS_MISO_PMOD1_MISO - - Disabled - - "ACMPLP0: CMPIN; ADC0: AN22; AGT0: AGTIO; CTSU0: CFCTS26; GPT_POEG0: GTETRG; GPT8: GTIOCB; ICU0: IRQ02; IIC0: SCL; KINT0: KRM0; SCI0: RXD; SCI0: SCL; SCI1: SCK; SPI0: MISO" - None - - 
-      P101 47 - ARDUINO_MOSI_MIKROBUS_MOSI_PMOD1_MOSI - - Disabled - - "ACMPLP0: CMPREF; ADC0: AN21; AGT0: AGTEE; CTSU0: CFCTS16; GPT_POEG1: GTETRG; GPT8: GTIOCA; ICU0: IRQ01; IIC0: SDA; KINT0: KRM1; SCI0: SDA; SCI0: TXD; SCI1: CTS; SPI0: MOSI" - None - - 
-      P102 46 - ARDUINO_CLK_MIKROBUS_CLK_PMOD1_CLK - - Disabled - - "ACMPLP1: CMPIN; ADC0: ADTRG; ADC0: AN20; AGT0: AGTO; CTSU0: CFCTS15; GPT_OPS0: GTOWLO; GPT5: GTIOCB; KINT0: KRM2; SCI0: SCK; SCI2: SDA; SCI2: TXD; SPI0: RSPCK" - None - - 
-      P103 45 - ARDUINO_SS_MIKROBUS_SS_PMOD1_SS - - Disabled - - "ACMPLP1: CMPREF; ADC0: AN19; CTSU0: CFCTS14; GPT_OPS0: GTOWUP; GPT5: GTIOCA; KINT0: KRM3; SCI0: CTS; SPI0: SSL0" - None - - 
-      P104 44 - ARDUINO_D3 - - Disabled - - "CTSU0: CFCTS13; GPT_POEG1: GTETRG; GPT4: GTIOCB; ICU0: IRQ01; KINT0: KRM4; SCI0: RXD; SCI0: SCL; SPI0: SSL1" - None - - 
-      P105 43 - PMOD1_IO1 - - Disabled - - "CTSU0: CFCTS34; GPT_POEG0: GTETRG; GPT4: GTIOCA; ICU0: IRQ00; KINT0: KRM5; SPI0: SSL2" - None - - 
-      P106 42 - PMOD1_IO2 - - Disabled - - "KINT0: KRM6; SPI0: SSL3" - None - - 
-      P107 41 - ARDUINO_D4 - - Disabled - - "KINT0: KRM7" - None - - 
-      P108 33 - - - - Disabled - - "DEBUG0: SWDIO; GPT_OPS0: GTOULO; GPT0: GTIOCB; SCI9: CTS" - None - - 
-      P109 34 - ARDUINO_D8 - - Disabled - - "CGC0: CLKOUT; CTSU0: CFCTS10; GPT_OPS0: GTOVUP; GPT4: GTIOCA; SCI1: SCK; SCI9: SDA; SCI9: TXD" - None - - 
-      P110 35 - ARDUINO_D2_MIKROBUS_INT - - Disabled - - "ACMP(0-1): VCOUT; CTSU0: CFCTS11; GPT_OPS0: GTOVLO; GPT4: GTIOCB; ICU0: IRQ03; SCI2: CTS; SCI9: RXD; SCI9: SCL" - None - - 
-      P111 36 - MIKROBUS_PWM - - Disabled - - "AGT0: AGTOA; CTSU0: CFCTS12; GPT6: GTIOCA; ICU0: IRQ04; SCI2: SCK; SCI9: SCK" - None - - 
-      P112 37 - ARDUINO_D9 - - Disabled - - "AGT0: AGTOB; CTSU0: TSCAP; GPT6: GTIOCB; SCI1: SCK; SCI2: SDA; SCI2: TXD" - None - - 
-      P113 38 - ARDUINO_D7 - - Disabled - - "CTSU0: CFCTS27" - None - - 
+      P000 64 - ARDUINO_A0_MIKROBUS_AN - - Disabled - - "ADC0: AN000; CTSU0: TS21; ICU0: IRQ06" - None - - 
+      P001 63 - ARDUINO_A1 - - Disabled - - "ADC0: AN001; CTSU0: TS22; ICU0: IRQ07" - None - - 
+      P002 62 - ARDUINO_A2 - - Disabled - - "ADC0: AN002; CTSU0: TS23; ICU0: IRQ02" - None - - 
+      P003 61 - ARDUINO_A3 - - Disabled - - "ADC0: AN003; CTSU0: TS24" - None - - 
+      P004 60 GPIO SW1 - IRQ03 "Input mode" - None "ADC0: AN004; CTSU0: TS25; ICU0: IRQ03" - IO - - 
+      P010 59 - - - - Disabled - - "ADC0: AN005; ANALOG0: VREFH0; CTSU0: TS30-CFC" - None - - 
+      P011 58 - - - - Disabled - - "ADC0: AN006; ANALOG0: VREFL0; CTSU0: TS31-CFC" - None - - 
+      P012 55 - ARDUINO_A4 - - Disabled - - "ADC0: AN007; CTSU0: TS32-CFC" - None - - 
+      P013 54 - ARDUINO_A5 - - Disabled - - "ADC0: AN008; CTSU0: TS33-CFC" - None - - 
+      P014 53 - - - - Disabled - - "ADC0: AN009" - None - - 
+      P015 52 GPIO SW2 - IRQ07 "Input mode" - None "ADC0: AN010; CTSU0: TS28-CFC; ICU0: IRQ07" - IO - - 
+      P100 48 - ARDUINO_MISO_MIKROBUS_MISO_PMOD1_MISO - - Disabled - - "ACMPLP0: CMPIN0; AGT0: AGTIO0; CTSU0: TS26-CFC; GPT_POEG0: GTETRGA; GPT8: GTIOC8B; ICU0: IRQ02; IIC0: SCL0; KINT0: KRM00; SCI0: RXD0; SCI0: SCL0; SCI1: SCK1; SPI0: MISOA" - None - - 
+      P101 47 - ARDUINO_MOSI_MIKROBUS_MOSI_PMOD1_MOSI - - Disabled - - "ACMPLP0: CMPREF0; AGT0: AGTEE0; CTSU0: TS16-CFC; GPT_POEG1: GTETRGB; GPT8: GTIOC8A; ICU0: IRQ01; IIC0: SDA0; KINT0: KRM01; SCI0: SDA0; SCI0: TXD0; SCI1: CTS1; SPI0: MOSIA" - None - - 
+      P102 46 - ARDUINO_CLK_MIKROBUS_CLK_PMOD1_CLK - - Disabled - - "ACMPLP1: CMPIN1; ADC0: ADTRG0; AGT0: AGTO0; CTSU0: TS15-CFC; GPT_OPS0: GTOWLO; GPT5: GTIOC5B; KINT0: KRM02; SCI0: SCK0; SCI2: SDA2; SCI2: TXD2; SPI0: RSPCKA" - None - - 
+      P103 45 - ARDUINO_SS_MIKROBUS_SS_PMOD1_SS - - Disabled - - "ACMPLP1: CMPREF1; CTSU0: TS14-CFC; GPT_OPS0: GTOWUP; GPT5: GTIOC5A; KINT0: KRM03; SCI0: CTS0; SPI0: SSLA0" - None - - 
+      P104 44 - ARDUINO_D3 - - Disabled - - "CTSU0: TS13-CFC; GPT_POEG1: GTETRGB; GPT4: GTIOC4B; ICU0: IRQ01; KINT0: KRM04; SCI0: RXD0; SCI0: SCL0; SPI0: SSLA1" - None - - 
+      P105 43 - PMOD1_IO1 - - Disabled - - "CTSU0: TS34-CFC; GPT_POEG0: GTETRGA; GPT4: GTIOC4A; ICU0: IRQ00; KINT0: KRM05; SPI0: SSLA2" - None - - 
+      P106 42 - PMOD1_IO2 - - Disabled - - "KINT0: KRM06; SPI0: SSLA3" - None - - 
+      P107 41 - ARDUINO_D4 - - Disabled - - "KINT0: KRM07" - None - - 
+      P108 33 - - - - Disabled - - "DEBUG0: SWDIO; GPT_OPS0: GTOULO; GPT0: GTIOC0B; SCI9: CTS9" - None - - 
+      P109 34 - ARDUINO_D8 - - Disabled - - "CGC0: CLKOUT; CTSU0: TS10-CFC; GPT_OPS0: GTOVUP; GPT4: GTIOC4A; SCI1: SCK1; SCI9: SDA9; SCI9: TXD9" - None - - 
+      P110 35 - ARDUINO_D2_MIKROBUS_INT - - Disabled - - "ACMP(0-1): VCOUT; CTSU0: TS11-CFC; GPT_OPS0: GTOVLO; GPT4: GTIOC4B; ICU0: IRQ03; SCI2: CTS2; SCI9: RXD9; SCI9: SCL9" - None - - 
+      P111 36 - MIKROBUS_PWM - - Disabled - - "AGT0: AGTOA0; CTSU0: TS12-CFC; GPT6: GTIOC6A; ICU0: IRQ04; SCI2: SCK2; SCI9: SCK9" - None - - 
+      P112 37 - ARDUINO_D9 - - Disabled - - "AGT0: AGTOB0; CTSU0: TSCAP; GPT6: GTIOC6B; SCI1: SCK1; SCI2: SDA2; SCI2: TXD2" - None - - 
+      P113 38 - ARDUINO_D7 - - Disabled - - "CTSU0: TS27-CFC" - None - - 
       P200 27 - - - - Disabled - - "ICU0: NMI" - None - - 
       P201 26 - - - - Disabled - - "SYSTEM0: MD" - None - - 
-      P204 24 - - - - Disabled - - "AGT1: AGTIO; CAC0: CACREF; CTSU0: TS00; GPT_OPS0: GTIW; IIC0: SCL; SCI0: SCK; SCI9: SCK" - None - - 
-      P205 23 - ARDUINO_TX_MIKROBUS_TX - - Disabled - - "AGT1: AGTO; CGC0: CLKOUT; GPT_OPS0: GTIV; ICU0: IRQ01; SCI0: SDA; SCI0: TXD; SCI9: CTS" - None - - 
-      P206 22 - ARDUINO_RX_MIKROBUS_RX - - Disabled - - "GPT_OPS0: GTIU; ICU0: IRQ00; SCI0: RXD; SCI0: SCL" - None - - 
+      P204 24 - - - - Disabled - - "AGT1: AGTIO1; CAC0: CACREF; CTSU0: TS00; GPT_OPS0: GTIW; IIC0: SCL0; SCI0: SCK0; SCI9: SCK9" - None - - 
+      P205 23 - ARDUINO_TX_MIKROBUS_TX - - Disabled - - "AGT1: AGTO1; CGC0: CLKOUT; GPT_OPS0: GTIV; ICU0: IRQ01; SCI0: SDA0; SCI0: TXD0; SCI9: CTS9" - None - - 
+      P206 22 - ARDUINO_RX_MIKROBUS_RX - - Disabled - - "GPT_OPS0: GTIU; ICU0: IRQ00; SCI0: RXD0; SCI0: SCL0" - None - - 
       P207 21 - ARDUINO_RESET_MIKROBUS_RST - - Disabled - - - - None - - 
-      P208 20 - PMOD1_RST - - Disabled - - "AGT0: AGTOB" - None - - 
-      P212 10 - - - - Disabled - - "AGT1: AGTEE; CGC0: EXTAL; GPT_POEG1: GTETRG; GPT0: GTIOCB; ICU0: IRQ03; SCI1: RXD; SCI1: SCL" - None - - 
-      P213 9 - - - - Disabled - - "CGC0: XTAL; GPT_POEG0: GTETRG; GPT0: GTIOCA; ICU0: IRQ02; SCI1: SDA; SCI1: TXD" - None - - 
+      P208 20 - PMOD1_RST - - Disabled - - "AGT0: AGTOB0" - None - - 
+      P212 10 - - - - Disabled - - "AGT1: AGTEE1; CGC0: EXTAL; GPT_POEG1: GTETRGB; GPT0: GTIOC0B; ICU0: IRQ03; SCI1: RXD1; SCI1: SCL1" - None - - 
+      P213 9 - - - - Disabled - - "CGC0: XTAL; GPT_POEG0: GTETRGA; GPT0: GTIOC0A; ICU0: IRQ02; SCI1: SDA1; SCI1: TXD1" - None - - 
       P214 7 - - - - Disabled - - "CGC0: XCOUT" - None - - 
       P215 6 - - - - Disabled - - "CGC0: XCIN" - None - - 
-      P300 32 - - - - Disabled - - "DEBUG0: SWCLK; GPT_OPS0: GTOUUP; GPT0: GTIOCA" - None - - 
-      P301 31 - GROVE1_SCL_QWIIC_SCL - - Disabled - - "AGT0: AGTIO; CTSU0: CFCTS09; GPT_OPS0: GTOULO; GPT7: GTIOCB; ICU0: IRQ06; SCI2: RXD; SCI2: SCL; SCI9: CTS" - None - - 
-      P302 30 - GROVE1_SDA_QWIIC_SDA - - Disabled - - "CTSU0: CFCTS08; GPT_OPS0: GTOUUP; GPT7: GTIOCA; ICU0: IRQ05; SCI2: SDA; SCI2: TXD" - None - - 
-      P303 29 - PMOD2_RST - - Disabled - - "CTSU0: CFCTS02" - None - - 
+      P300 32 - - - - Disabled - - "DEBUG0: SWCLK; GPT_OPS0: GTOUUP; GPT0: GTIOC0A" - None - - 
+      P301 31 - GROVE1_SCL_QWIIC_SCL - - Disabled - - "AGT0: AGTIO0; CTSU0: TS09-CFC; GPT_OPS0: GTOULO; GPT7: GTIOC7B; ICU0: IRQ06; SCI2: RXD2; SCI2: SCL2; SCI9: CTS9" - None - - 
+      P302 30 - GROVE1_SDA_QWIIC_SDA - - Disabled - - "CTSU0: TS08-CFC; GPT_OPS0: GTOUUP; GPT7: GTIOC7A; ICU0: IRQ05; SCI2: SDA2; SCI2: TXD2" - None - - 
+      P303 29 - PMOD2_RST - - Disabled - - "CTSU0: TS02-CFC" - None - - 
       P304 28 - PMOD2_IO2 - - Disabled - - - - None - - 
-      P400 1 - PMOD2_SCK - - Disabled - - "AGT1: AGTIO; CAC0: CACREF; GPT9: GTIOCA; ICU0: IRQ00; IIC0: SCL; SCI0: SCK; SCI1: SCK" - None - - 
-      P401 2 - PMOD2_TXD - - Disabled - - "GPT_POEG0: GTETRG; GPT9: GTIOCB; ICU0: IRQ05; IIC0: SDA; SCI0: CTS; SCI1: SDA; SCI1: TXD" - None - - 
-      P402 3 - PMOD2_RXD - - Disabled - - "AGT0: AGTIO; AGT1: AGTIO; CTSU0: TS18; ICU0: IRQ04; SCI1: RXD; SCI1: SCL" - None - - 
-      P403 4 - PMOD2_CTS - - Disabled - - "AGT0: AGTIO; AGT1: AGTIO; CTSU0: TS17; SCI1: CTS" - None - - 
-      P407 16 - ARDUINO_SDA_MIKROBUS_SDA - - Disabled - - "ADC0: ADTRG; AGT0: AGTIO; IIC0: SDA; RTC0: RTCOUT; SCI0: CTS" - None - - 
-      P408 15 - ARDUINO_SCL_MIKROBUS_SCL - - Disabled - - "CTSU0: TS04; GPT_OPS0: GTOWLO; ICU0: IRQ07; IIC0: SCL; SCI1: CTS" - None - - 
+      P400 1 - PMOD2_SCK - - Disabled - - "AGT1: AGTIO1; CAC0: CACREF; GPT9: GTIOC9A; ICU0: IRQ00; IIC0: SCL0; SCI0: SCK0; SCI1: SCK1" - None - - 
+      P401 2 - PMOD2_TXD - - Disabled - - "GPT_POEG0: GTETRGA; GPT9: GTIOC9B; ICU0: IRQ05; IIC0: SDA0; SCI0: CTS0; SCI1: SDA1; SCI1: TXD1" - None - - 
+      P402 3 - PMOD2_RXD - - Disabled - - "AGT0: AGTIO0; AGT1: AGTIO1; CTSU0: TS18; ICU0: IRQ04; SCI1: RXD1; SCI1: SCL1" - None - - 
+      P403 4 - PMOD2_CTS - - Disabled - - "AGT0: AGTIO0; AGT1: AGTIO1; CTSU0: TS17; SCI1: CTS1" - None - - 
+      P407 16 - ARDUINO_SDA_MIKROBUS_SDA - - Disabled - - "ADC0: ADTRG0; AGT0: AGTIO0; IIC0: SDA0; RTC0: RTCOUT; SCI0: CTS0" - None - - 
+      P408 15 - ARDUINO_SCL_MIKROBUS_SCL - - Disabled - - "CTSU0: TS04; GPT_OPS0: GTOWLO; ICU0: IRQ07; IIC0: SCL0; SCI1: CTS1" - None - - 
       P409 14 - PMOD2_INT - - Disabled - - "CTSU0: TS05; GPT_OPS0: GTOWUP; ICU0: IRQ06" - None - - 
-      P410 13 - PMOD2_CS2 - - Disabled - - "AGT1: AGTOB; CTSU0: TS06; GPT_OPS0: GTOVLO; ICU0: IRQ05; SCI0: RXD; SCI0: SCL; SPI0: MISO" - None - - 
-      P411 12 - PMOD1_INT - - Disabled - - "AGT1: AGTOA; CTSU0: TS07; GPT_OPS0: GTOVUP; ICU0: IRQ04; SCI0: SDA; SCI0: TXD; SPI0: MOSI" - None - - 
-      P500 49 - ARDUINO_D6 - - Disabled - - "GPT_OPS0: GTIU; GPT5: GTIOCA" - None - - 
-      P501 50 - GROVE2_SDA - - Disabled - - "ADC0: AN17; GPT_OPS0: GTIV; GPT5: GTIOCB; SCI1: SDA; SCI1: TXD" - None - - 
-      P502 51 - GROVE2_SCL - - Disabled - - "ADC0: AN18; GPT_OPS0: GTIW; SCI1: RXD; SCI1: SCL" - None - - 
-      P913 19 GPIO LED3 Medium - "Output mode (Initial Low)" CMOS - "AGT1: AGTIO; GPT_POEG0: GTETRG" - IO - - 
-      P914 18 GPIO LED2 Medium - "Output mode (Initial Low)" CMOS - "AGT1: AGTOA; GPT_POEG1: GTETRG" - IO - - 
-      P915 17 GPIO LED1 Medium - "Output mode (Initial Low)" CMOS - - - IO - - 
+      P410 13 - PMOD2_CS2 - - Disabled - - "AGT1: AGTOB1; CTSU0: TS06; GPT_OPS0: GTOVLO; ICU0: IRQ05; SCI0: RXD0; SCI0: SCL0; SPI0: MISOA" - None - - 
+      P411 12 - PMOD1_INT - - Disabled - - "AGT1: AGTOA1; CTSU0: TS07; GPT_OPS0: GTOVUP; ICU0: IRQ04; SCI0: SDA0; SCI0: TXD0; SPI0: MOSIA" - None - - 
+      P500 49 - ARDUINO_D6 - - Disabled - - "GPT_OPS0: GTIU; GPT5: GTIOC5A" - None - - 
+      P501 50 - GROVE2_SDA - - Disabled - - "ADC0: AN017; GPT_OPS0: GTIV; GPT5: GTIOC5B; SCI1: SDA1; SCI1: TXD1" - None - - 
+      P502 51 - GROVE2_SCL - - Disabled - - "ADC0: AN018; GPT_OPS0: GTIW; SCI1: RXD1; SCI1: SCL1" - None - - 
+      P913 19 GPIO LED3 - - "Output mode (Initial Low)" CMOS - "AGT1: AGTIO1; GPT_POEG0: GTETRGA" - IO - - 
+      P914 18 GPIO LED2 - - "Output mode (Initial Low)" CMOS - "AGT1: AGTOA1; GPT_POEG1: GTETRGB" - IO - - 
+      P915 17 GPIO LED1 - - "Output mode (Initial Low)" CMOS - - - IO - - 
       RES# 25 SYSTEM0_RES - - - - - - - - IO "Read only" - 
       VCC 11 SYSTEM0_VCC - - - - - - - - IO "Read only" - 
       VCC 39 SYSTEM0_VCC - - - - - - - - IO "Read only" - 
@@ -213,62 +216,62 @@ FSP Configuration
     R7FA2E1A92DFM.pincfg -> g_bsp_pin_cfg
       AVCC0 56 ANALOG0_AVCC0 - - - - - - - - IO "Read only" - 
       AVSS0 57 ANALOG0_AVSS0 - - - - - - - - IO "Read only" - 
-      P000 64 - ARDUINO_A0_MIKROBUS_AN - - Disabled - - "ADC0: AN00; CTSU0: TS21; ICU0: IRQ06" - None - - 
-      P001 63 - ARDUINO_A1 - - Disabled - - "ADC0: AN01; CTSU0: TS22; ICU0: IRQ07" - None - - 
-      P002 62 - ARDUINO_A2 - - Disabled - - "ADC0: AN02; CTSU0: TS23; ICU0: IRQ02" - None - - 
-      P003 61 - ARDUINO_A3 - - Disabled - - "ADC0: AN03; CTSU0: TS24" - None - - 
-      P004 60 - SW1 - None Disabled - None "ADC0: AN04; CTSU0: TS25; ICU0: IRQ03" - IO - - 
-      P010 59 - - - - Disabled - - "ADC0: AN05; ANALOG0: VREFH0; CTSU0: CFCTS30" - None - - 
-      P011 58 - - - - Disabled - - "ADC0: AN06; ANALOG0: VREFL0; CTSU0: CFCTS31" - None - - 
-      P012 55 - ARDUINO_A4 - - Disabled - - "ADC0: AN07; CTSU0: CFCTS32" - None - - 
-      P013 54 - ARDUINO_A5 - - Disabled - - "ADC0: AN08; CTSU0: CFCTS33" - None - - 
-      P014 53 - - - - Disabled - - "ADC0: AN09" - None - - 
-      P015 52 - SW2 - None Disabled - None "ADC0: AN10; CTSU0: CFCTS28; ICU0: IRQ07" - IO - - 
-      P100 48 - ARDUINO_MISO_MIKROBUS_MISO_PMOD1_MISO - - Disabled - - "ACMPLP0: CMPIN; ADC0: AN22; AGT0: AGTIO; CTSU0: CFCTS26; GPT_POEG0: GTETRG; GPT8: GTIOCB; ICU0: IRQ02; IIC0: SCL; KINT0: KRM0; SCI0: RXD; SCI0: SCL; SCI1: SCK; SPI0: MISO" - None - - 
-      P101 47 - ARDUINO_MOSI_MIKROBUS_MOSI_PMOD1_MOSI - - Disabled - - "ACMPLP0: CMPREF; ADC0: AN21; AGT0: AGTEE; CTSU0: CFCTS16; GPT_POEG1: GTETRG; GPT8: GTIOCA; ICU0: IRQ01; IIC0: SDA; KINT0: KRM1; SCI0: SDA; SCI0: TXD; SCI1: CTS; SPI0: MOSI" - None - - 
-      P102 46 - ARDUINO_CLK_MIKROBUS_CLK_PMOD1_CLK - - Disabled - - "ACMPLP1: CMPIN; ADC0: ADTRG; ADC0: AN20; AGT0: AGTO; CTSU0: CFCTS15; GPT_OPS0: GTOWLO; GPT5: GTIOCB; KINT0: KRM2; SCI0: SCK; SCI2: SDA; SCI2: TXD; SPI0: RSPCK" - None - - 
-      P103 45 - ARDUINO_SS_MIKROBUS_SS_PMOD1_SS - - Disabled - - "ACMPLP1: CMPREF; ADC0: AN19; CTSU0: CFCTS14; GPT_OPS0: GTOWUP; GPT5: GTIOCA; KINT0: KRM3; SCI0: CTS; SPI0: SSL0" - None - - 
-      P104 44 - ARDUINO_D3 - - Disabled - - "CTSU0: CFCTS13; GPT_POEG1: GTETRG; GPT4: GTIOCB; ICU0: IRQ01; KINT0: KRM4; SCI0: RXD; SCI0: SCL; SPI0: SSL1" - None - - 
-      P105 43 - PMOD1_IO1 - - Disabled - - "CTSU0: CFCTS34; GPT_POEG0: GTETRG; GPT4: GTIOCA; ICU0: IRQ00; KINT0: KRM5; SPI0: SSL2" - None - - 
-      P106 42 - PMOD1_IO2 - - Disabled - - "KINT0: KRM6; SPI0: SSL3" - None - - 
-      P107 41 - ARDUINO_D4 - - Disabled - - "KINT0: KRM7" - None - - 
-      P108 33 DEBUG0_SWDIO - - - "Peripheral mode" - - "DEBUG0: SWDIO; GPT_OPS0: GTOULO; GPT0: GTIOCB; SCI9: CTS" - None - - 
-      P109 34 - ARDUINO_D8 - - Disabled - - "CGC0: CLKOUT; CTSU0: CFCTS10; GPT_OPS0: GTOVUP; GPT4: GTIOCA; SCI1: SCK; SCI9: SDA; SCI9: TXD" - None - - 
-      P110 35 - ARDUINO_D2_MIKROBUS_INT - - Disabled - - "ACMP(0-1): VCOUT; CTSU0: CFCTS11; GPT_OPS0: GTOVLO; GPT4: GTIOCB; ICU0: IRQ03; SCI2: CTS; SCI9: RXD; SCI9: SCL" - None - - 
-      P111 36 - MIKROBUS_PWM - - Disabled - - "AGT0: AGTOA; CTSU0: CFCTS12; GPT6: GTIOCA; ICU0: IRQ04; SCI2: SCK; SCI9: SCK" - None - - 
-      P112 37 - ARDUINO_D9 - - Disabled - - "AGT0: AGTOB; CTSU0: TSCAP; GPT6: GTIOCB; SCI1: SCK; SCI2: SDA; SCI2: TXD" - None - - 
-      P113 38 - ARDUINO_D7 - - Disabled - - "CTSU0: CFCTS27" - None - - 
+      P000 64 - ARDUINO_A0_MIKROBUS_AN - - Disabled - - "ADC0: AN000; CTSU0: TS21; ICU0: IRQ06" - None - - 
+      P001 63 - ARDUINO_A1 - - Disabled - - "ADC0: AN001; CTSU0: TS22; ICU0: IRQ07" - None - - 
+      P002 62 - ARDUINO_A2 - - Disabled - - "ADC0: AN002; CTSU0: TS23; ICU0: IRQ02" - None - - 
+      P003 61 - ARDUINO_A3 - - Disabled - - "ADC0: AN003; CTSU0: TS24" - None - - 
+      P004 60 - SW1 - None Disabled - None "ADC0: AN004; CTSU0: TS25; ICU0: IRQ03" - IO - - 
+      P010 59 - - - - Disabled - - "ADC0: AN005; ANALOG0: VREFH0; CTSU0: TS30-CFC" - None - - 
+      P011 58 - - - - Disabled - - "ADC0: AN006; ANALOG0: VREFL0; CTSU0: TS31-CFC" - None - - 
+      P012 55 - ARDUINO_A4 - - Disabled - - "ADC0: AN007; CTSU0: TS32-CFC" - None - - 
+      P013 54 - ARDUINO_A5 - - Disabled - - "ADC0: AN008; CTSU0: TS33-CFC" - None - - 
+      P014 53 - - - - Disabled - - "ADC0: AN009" - None - - 
+      P015 52 - SW2 - None Disabled - None "ADC0: AN010; CTSU0: TS28-CFC; ICU0: IRQ07" - IO - - 
+      P100 48 - ARDUINO_MISO_MIKROBUS_MISO_PMOD1_MISO - - Disabled - - "ACMPLP0: CMPIN0; AGT0: AGTIO0; CTSU0: TS26-CFC; GPT_POEG0: GTETRGA; GPT8: GTIOC8B; ICU0: IRQ02; IIC0: SCL0; KINT0: KRM00; SCI0: RXD0; SCI0: SCL0; SCI1: SCK1; SPI0: MISOA" - None - - 
+      P101 47 - ARDUINO_MOSI_MIKROBUS_MOSI_PMOD1_MOSI - - Disabled - - "ACMPLP0: CMPREF0; AGT0: AGTEE0; CTSU0: TS16-CFC; GPT_POEG1: GTETRGB; GPT8: GTIOC8A; ICU0: IRQ01; IIC0: SDA0; KINT0: KRM01; SCI0: SDA0; SCI0: TXD0; SCI1: CTS1; SPI0: MOSIA" - None - - 
+      P102 46 - ARDUINO_CLK_MIKROBUS_CLK_PMOD1_CLK - - Disabled - - "ACMPLP1: CMPIN1; ADC0: ADTRG0; AGT0: AGTO0; CTSU0: TS15-CFC; GPT_OPS0: GTOWLO; GPT5: GTIOC5B; KINT0: KRM02; SCI0: SCK0; SCI2: SDA2; SCI2: TXD2; SPI0: RSPCKA" - None - - 
+      P103 45 - ARDUINO_SS_MIKROBUS_SS_PMOD1_SS - - Disabled - - "ACMPLP1: CMPREF1; CTSU0: TS14-CFC; GPT_OPS0: GTOWUP; GPT5: GTIOC5A; KINT0: KRM03; SCI0: CTS0; SPI0: SSLA0" - None - - 
+      P104 44 - ARDUINO_D3 - - Disabled - - "CTSU0: TS13-CFC; GPT_POEG1: GTETRGB; GPT4: GTIOC4B; ICU0: IRQ01; KINT0: KRM04; SCI0: RXD0; SCI0: SCL0; SPI0: SSLA1" - None - - 
+      P105 43 - PMOD1_IO1 - - Disabled - - "CTSU0: TS34-CFC; GPT_POEG0: GTETRGA; GPT4: GTIOC4A; ICU0: IRQ00; KINT0: KRM05; SPI0: SSLA2" - None - - 
+      P106 42 - PMOD1_IO2 - - Disabled - - "KINT0: KRM06; SPI0: SSLA3" - None - - 
+      P107 41 - ARDUINO_D4 - - Disabled - - "KINT0: KRM07" - None - - 
+      P108 33 DEBUG0_SWDIO - - - "Peripheral mode" - - "DEBUG0: SWDIO; GPT_OPS0: GTOULO; GPT0: GTIOC0B; SCI9: CTS9" - None - - 
+      P109 34 - ARDUINO_D8 - - Disabled - - "CGC0: CLKOUT; CTSU0: TS10-CFC; GPT_OPS0: GTOVUP; GPT4: GTIOC4A; SCI1: SCK1; SCI9: SDA9; SCI9: TXD9" - None - - 
+      P110 35 - ARDUINO_D2_MIKROBUS_INT - - Disabled - - "ACMP(0-1): VCOUT; CTSU0: TS11-CFC; GPT_OPS0: GTOVLO; GPT4: GTIOC4B; ICU0: IRQ03; SCI2: CTS2; SCI9: RXD9; SCI9: SCL9" - None - - 
+      P111 36 - MIKROBUS_PWM - - Disabled - - "AGT0: AGTOA0; CTSU0: TS12-CFC; GPT6: GTIOC6A; ICU0: IRQ04; SCI2: SCK2; SCI9: SCK9" - None - - 
+      P112 37 - ARDUINO_D9 - - Disabled - - "AGT0: AGTOB0; CTSU0: TSCAP; GPT6: GTIOC6B; SCI1: SCK1; SCI2: SDA2; SCI2: TXD2" - None - - 
+      P113 38 - ARDUINO_D7 - - Disabled - - "CTSU0: TS27-CFC" - None - - 
       P200 27 - - - - Disabled - - "ICU0: NMI" - None - - 
       P201 26 - - - - Disabled - - "SYSTEM0: MD" - None - - 
-      P204 24 - - - - Disabled - - "AGT1: AGTIO; CAC0: CACREF; CTSU0: TS00; GPT_OPS0: GTIW; IIC0: SCL; SCI0: SCK; SCI9: SCK" - None - - 
-      P205 23 - ARDUINO_TX_MIKROBUS_TX - - Disabled - - "AGT1: AGTO; CGC0: CLKOUT; GPT_OPS0: GTIV; ICU0: IRQ01; SCI0: SDA; SCI0: TXD; SCI9: CTS" - None - - 
-      P206 22 - ARDUINO_RX_MIKROBUS_RX - - Disabled - - "GPT_OPS0: GTIU; ICU0: IRQ00; SCI0: RXD; SCI0: SCL" - None - - 
+      P204 24 - - - - Disabled - - "AGT1: AGTIO1; CAC0: CACREF; CTSU0: TS00; GPT_OPS0: GTIW; IIC0: SCL0; SCI0: SCK0; SCI9: SCK9" - None - - 
+      P205 23 - ARDUINO_TX_MIKROBUS_TX - - Disabled - - "AGT1: AGTO1; CGC0: CLKOUT; GPT_OPS0: GTIV; ICU0: IRQ01; SCI0: SDA0; SCI0: TXD0; SCI9: CTS9" - None - - 
+      P206 22 - ARDUINO_RX_MIKROBUS_RX - - Disabled - - "GPT_OPS0: GTIU; ICU0: IRQ00; SCI0: RXD0; SCI0: SCL0" - None - - 
       P207 21 - ARDUINO_RESET_MIKROBUS_RST - - Disabled - - - - None - - 
-      P208 20 - PMOD1_RST - - Disabled - - "AGT0: AGTOB" - None - - 
-      P212 10 - - - - Disabled - - "AGT1: AGTEE; CGC0: EXTAL; GPT_POEG1: GTETRG; GPT0: GTIOCB; ICU0: IRQ03; SCI1: RXD; SCI1: SCL" - None - - 
-      P213 9 - - - - Disabled - - "CGC0: XTAL; GPT_POEG0: GTETRG; GPT0: GTIOCA; ICU0: IRQ02; SCI1: SDA; SCI1: TXD" - None - - 
+      P208 20 - PMOD1_RST - - Disabled - - "AGT0: AGTOB0" - None - - 
+      P212 10 - - - - Disabled - - "AGT1: AGTEE1; CGC0: EXTAL; GPT_POEG1: GTETRGB; GPT0: GTIOC0B; ICU0: IRQ03; SCI1: RXD1; SCI1: SCL1" - None - - 
+      P213 9 - - - - Disabled - - "CGC0: XTAL; GPT_POEG0: GTETRGA; GPT0: GTIOC0A; ICU0: IRQ02; SCI1: SDA1; SCI1: TXD1" - None - - 
       P214 7 - - - - Disabled - - "CGC0: XCOUT" - None - - 
       P215 6 - - - - Disabled - - "CGC0: XCIN" - None - - 
-      P300 32 DEBUG0_SWCLK - - - "Peripheral mode" - - "DEBUG0: SWCLK; GPT_OPS0: GTOUUP; GPT0: GTIOCA" - None - - 
-      P301 31 - GROVE1_SCL_QWIIC_SCL - - Disabled - - "AGT0: AGTIO; CTSU0: CFCTS09; GPT_OPS0: GTOULO; GPT7: GTIOCB; ICU0: IRQ06; SCI2: RXD; SCI2: SCL; SCI9: CTS" - None - - 
-      P302 30 - GROVE1_SDA_QWIIC_SDA - - Disabled - - "CTSU0: CFCTS08; GPT_OPS0: GTOUUP; GPT7: GTIOCA; ICU0: IRQ05; SCI2: SDA; SCI2: TXD" - None - - 
-      P303 29 - PMOD2_RST - - Disabled - - "CTSU0: CFCTS02" - None - - 
+      P300 32 DEBUG0_SWCLK - - - "Peripheral mode" - - "DEBUG0: SWCLK; GPT_OPS0: GTOUUP; GPT0: GTIOC0A" - None - - 
+      P301 31 - GROVE1_SCL_QWIIC_SCL - - Disabled - - "AGT0: AGTIO0; CTSU0: TS09-CFC; GPT_OPS0: GTOULO; GPT7: GTIOC7B; ICU0: IRQ06; SCI2: RXD2; SCI2: SCL2; SCI9: CTS9" - None - - 
+      P302 30 - GROVE1_SDA_QWIIC_SDA - - Disabled - - "CTSU0: TS08-CFC; GPT_OPS0: GTOUUP; GPT7: GTIOC7A; ICU0: IRQ05; SCI2: SDA2; SCI2: TXD2" - None - - 
+      P303 29 - PMOD2_RST - - Disabled - - "CTSU0: TS02-CFC" - None - - 
       P304 28 - PMOD2_IO2 - - Disabled - - - - None - - 
-      P400 1 - PMOD2_SCK - - Disabled - - "AGT1: AGTIO; CAC0: CACREF; GPT9: GTIOCA; ICU0: IRQ00; IIC0: SCL; SCI0: SCK; SCI1: SCK" - None - - 
-      P401 2 - PMOD2_TXD - - Disabled - - "GPT_POEG0: GTETRG; GPT9: GTIOCB; ICU0: IRQ05; IIC0: SDA; SCI0: CTS; SCI1: SDA; SCI1: TXD" - None - - 
-      P402 3 - PMOD2_RXD - - Disabled - - "AGT0: AGTIO; AGT1: AGTIO; CTSU0: TS18; ICU0: IRQ04; SCI1: RXD; SCI1: SCL" - None - - 
-      P403 4 - PMOD2_CTS - - Disabled - - "AGT0: AGTIO; AGT1: AGTIO; CTSU0: TS17; SCI1: CTS" - None - - 
-      P407 16 - ARDUINO_SDA_MIKROBUS_SDA - - Disabled - - "ADC0: ADTRG; AGT0: AGTIO; IIC0: SDA; RTC0: RTCOUT; SCI0: CTS" - None - - 
-      P408 15 - ARDUINO_SCL_MIKROBUS_SCL - - Disabled - - "CTSU0: TS04; GPT_OPS0: GTOWLO; ICU0: IRQ07; IIC0: SCL; SCI1: CTS" - None - - 
+      P400 1 - PMOD2_SCK - - Disabled - - "AGT1: AGTIO1; CAC0: CACREF; GPT9: GTIOC9A; ICU0: IRQ00; IIC0: SCL0; SCI0: SCK0; SCI1: SCK1" - None - - 
+      P401 2 - PMOD2_TXD - - Disabled - - "GPT_POEG0: GTETRGA; GPT9: GTIOC9B; ICU0: IRQ05; IIC0: SDA0; SCI0: CTS0; SCI1: SDA1; SCI1: TXD1" - None - - 
+      P402 3 - PMOD2_RXD - - Disabled - - "AGT0: AGTIO0; AGT1: AGTIO1; CTSU0: TS18; ICU0: IRQ04; SCI1: RXD1; SCI1: SCL1" - None - - 
+      P403 4 - PMOD2_CTS - - Disabled - - "AGT0: AGTIO0; AGT1: AGTIO1; CTSU0: TS17; SCI1: CTS1" - None - - 
+      P407 16 - ARDUINO_SDA_MIKROBUS_SDA - - Disabled - - "ADC0: ADTRG0; AGT0: AGTIO0; IIC0: SDA0; RTC0: RTCOUT; SCI0: CTS0" - None - - 
+      P408 15 - ARDUINO_SCL_MIKROBUS_SCL - - Disabled - - "CTSU0: TS04; GPT_OPS0: GTOWLO; ICU0: IRQ07; IIC0: SCL0; SCI1: CTS1" - None - - 
       P409 14 - PMOD2_INT - - Disabled - - "CTSU0: TS05; GPT_OPS0: GTOWUP; ICU0: IRQ06" - None - - 
-      P410 13 - PMOD2_CS2 - - Disabled - - "AGT1: AGTOB; CTSU0: TS06; GPT_OPS0: GTOVLO; ICU0: IRQ05; SCI0: RXD; SCI0: SCL; SPI0: MISO" - None - - 
-      P411 12 - PMOD1_INT - - Disabled - - "AGT1: AGTOA; CTSU0: TS07; GPT_OPS0: GTOVUP; ICU0: IRQ04; SCI0: SDA; SCI0: TXD; SPI0: MOSI" - None - - 
-      P500 49 - ARDUINO_D6 - - Disabled - - "GPT_OPS0: GTIU; GPT5: GTIOCA" - None - - 
-      P501 50 - GROVE2_SDA - - Disabled - - "ADC0: AN17; GPT_OPS0: GTIV; GPT5: GTIOCB; SCI1: SDA; SCI1: TXD" - None - - 
-      P502 51 - GROVE2_SCL - - Disabled - - "ADC0: AN18; GPT_OPS0: GTIW; SCI1: RXD; SCI1: SCL" - None - - 
-      P913 19 - LED3 Low - Disabled CMOS - "AGT1: AGTIO; GPT_POEG0: GTETRG" - IO - - 
-      P914 18 - LED2 Low - Disabled CMOS - "AGT1: AGTOA; GPT_POEG1: GTETRG" - IO - - 
-      P915 17 - LED1 Low - Disabled CMOS - - - IO - - 
+      P410 13 - PMOD2_CS2 - - Disabled - - "AGT1: AGTOB1; CTSU0: TS06; GPT_OPS0: GTOVLO; ICU0: IRQ05; SCI0: RXD0; SCI0: SCL0; SPI0: MISOA" - None - - 
+      P411 12 - PMOD1_INT - - Disabled - - "AGT1: AGTOA1; CTSU0: TS07; GPT_OPS0: GTOVUP; ICU0: IRQ04; SCI0: SDA0; SCI0: TXD0; SPI0: MOSIA" - None - - 
+      P500 49 - ARDUINO_D6 - - Disabled - - "GPT_OPS0: GTIU; GPT5: GTIOC5A" - None - - 
+      P501 50 - GROVE2_SDA - - Disabled - - "ADC0: AN017; GPT_OPS0: GTIV; GPT5: GTIOC5B; SCI1: SDA1; SCI1: TXD1" - None - - 
+      P502 51 - GROVE2_SCL - - Disabled - - "ADC0: AN018; GPT_OPS0: GTIW; SCI1: RXD1; SCI1: SCL1" - None - - 
+      P913 19 - LED3 - - Disabled CMOS - "AGT1: AGTIO1; GPT_POEG0: GTETRGA" - IO - - 
+      P914 18 - LED2 - - Disabled CMOS - "AGT1: AGTOA1; GPT_POEG1: GTETRGB" - IO - - 
+      P915 17 - LED1 - - Disabled CMOS - - - IO - - 
       RES# 25 SYSTEM0_RES - - - - - - - - IO "Read only" - 
       VCC 11 SYSTEM0_VCC - - - - - - - - IO "Read only" - 
       VCC 39 SYSTEM0_VCC - - - - - - - - IO "Read only" - 
@@ -280,34 +283,44 @@ FSP Configuration
     
   User Event Links
     
-  Module "I/O Port Driver on r_ioport"
+  Module "I/O Port (r_ioport)"
     Parameter Checking: Default (BSP)
     
-  Module "Timer Driver on r_gpt"
+  Module "Timer, General PWM (r_gpt)"
     Parameter Checking: Default (BSP)
     Pin Output Support: Disabled
     Write Protect Enable: Disabled
     
-  Module "External IRQ Driver on r_icu"
+  Module "External IRQ (r_icu)"
     Parameter Checking: Default (BSP)
     
-  Module "ADC Driver on r_adc"
+  Module "ADC (r_adc)"
     Parameter Checking: Default (BSP)
     
   HAL
-    Instance "g_ioport I/O Port Driver on r_ioport"
+    Instance "g_ioport I/O Port (r_ioport)"
       Name: g_ioport
-      Port 1 ELC Trigger Source: Disabled
-      Port 2 ELC Trigger Source: Disabled
-      Port 3 ELC Trigger Source: Disabled
-      Port 4 ELC Trigger Source: Disabled
+      1st Port ELC Trigger Source: Disabled
+      2nd Port ELC Trigger Source: Disabled
+      3rd Port ELC Trigger Source: Disabled
+      4th Port ELC Trigger Source: Disabled
+      Pin Configuration Name: g_bsp_pin_cfg
       
-    Instance "g_periodic_timer Timer Driver on r_gpt"
+    Instance "g_periodic_timer Timer, General PWM (r_gpt)"
       General: Name: g_periodic_timer
       General: Channel: 0
       General: Mode: Periodic
       General: Period: 240
       General: Period Unit: Raw Counts
+      Output: Custom Waveform: GTIOA: Initial Output Level: Pin Level Low
+      Output: Custom Waveform: GTIOA: Cycle End Output Level: Pin Level Retain
+      Output: Custom Waveform: GTIOA: Compare Match Output Level: Pin Level Retain
+      Output: Custom Waveform: GTIOA: Retain Output Level at Count Stop: Disabled
+      Output: Custom Waveform: GTIOB: Initial Output Level: Pin Level Low
+      Output: Custom Waveform: GTIOB: Cycle End Output Level: Pin Level Retain
+      Output: Custom Waveform: GTIOB: Compare Match Output Level: Pin Level Retain
+      Output: Custom Waveform: GTIOB: Retain Output Level at Count Stop: Disabled
+      Output: Custom Waveform: Custom Waveform Enable: Disabled
       Output: Duty Cycle Percent (only applicable in PWM mode): 50
       Output: GTIOCA Output Enabled: False
       Output: GTIOCA Stop Level: Pin Level Low
@@ -326,22 +339,22 @@ FSP Configuration
       Interrupts: Overflow/Crest Interrupt Priority: Priority 1
       Interrupts: Capture A Interrupt Priority: Disabled
       Interrupts: Capture B Interrupt Priority: Disabled
-      Interrupts: Trough Interrupt Priority: Disabled
+      Interrupts: Underflow/Trough Interrupt Priority: Disabled
       Extra Features: Extra Features: Disabled
       Extra Features: Output Disable: POEG Link: POEG Channel 0
       Extra Features: Output Disable: Output Disable POEG Trigger: 
-      Extra Features: ADC Trigger: Start Event Trigger (GPTE/GPTEH only): 
-      Extra Features: Dead Time: Dead Time Count Up (Raw Counts): 0
-      Extra Features: Dead Time: Dead Time Count Down (Raw Counts) (GPTE/GPTEH only): 0
-      Extra Features: ADC Trigger (GPTE/GPTEH only): ADC A Compare Match (Raw Counts): 0
-      Extra Features: ADC Trigger (GPTE/GPTEH only): ADC B Compare Match (Raw Counts): 0
-      Extra Features: Interrupt Skipping (GPTE/GPTEH only): Interrupt to Count: None
-      Extra Features: Interrupt Skipping (GPTE/GPTEH only): Interrupt Skip Count: 0
-      Extra Features: Interrupt Skipping (GPTE/GPTEH only): Skip ADC Events: None
+      Extra Features: ADC Trigger: Start Event Trigger (Channels with GTINTAD only): 
+      Extra Features: Dead Time (Value range varies with Channel): Dead Time Count Up (Raw Counts): 0
+      Extra Features: Dead Time (Value range varies with Channel): Dead Time Count Down (Raw Counts) (Channels with GTDVD only): 0
+      Extra Features: ADC Trigger (Channels with GTADTRA only): ADC A Compare Match (Raw Counts): 0
+      Extra Features: ADC Trigger (Channels with GTADTRB only): ADC B Compare Match (Raw Counts): 0
+      Extra Features: Interrupt Skipping (Channels with GTITC only): Interrupt to Count: None
+      Extra Features: Interrupt Skipping (Channels with GTITC only): Interrupt Skip Count: 0
+      Extra Features: Interrupt Skipping (Channels with GTITC only): Skip ADC Events: None
       Extra Features: Output Disable: GTIOCA Disable Setting: Disable Prohibited
       Extra Features: Output Disable: GTIOCB Disable Setting: Disable Prohibited
       
-    Instance "g_external_irq3 External IRQ Driver on r_icu"
+    Instance "g_external_irq3 External IRQ (r_icu)"
       Name: g_external_irq3
       Channel: 3
       Trigger: Rising
@@ -350,7 +363,7 @@ FSP Configuration
       Callback: button_irq3_callback
       Pin Interrupt Priority: Priority 0 (highest)
       
-    Instance "g_external_irq7 External IRQ Driver on r_icu"
+    Instance "g_external_irq7 External IRQ (r_icu)"
       Name: g_external_irq7
       Channel: 7
       Trigger: Rising
@@ -359,7 +372,7 @@ FSP Configuration
       Callback: button_irq7_callback
       Pin Interrupt Priority: Priority 0 (highest)
       
-    Instance "g_adc ADC Driver on r_adc"
+    Instance "g_adc ADC (r_adc)"
       General: Name: g_adc
       General: Unit: 0
       General: Resolution: 12-Bit
@@ -373,20 +386,44 @@ FSP Configuration
       Interrupts: Group B Trigger: Disabled
       Interrupts: Group Priority (Valid only in Group Scan Mode): Group A cannot interrupt Group B
       Input: Add/Average Count: Disabled
-      Input: Reference Voltage control: VREFH0/VREFH
+      Input: Reference Voltage control: AVCC0/AVSS0
       Input: Addition/Averaging Mask (channel availability varies by MCU and unit): 
       Input: Sample and Hold: Sample and Hold Channels (Available only on selected MCUs): 
       Input: Sample and Hold: Sample Hold States (Applies only to channels 0, 1, 2): 24
+      Input: Window Compare: Window Mode: Disabled
+      Input: Window Compare: Event Output: OR
+      Input: Window Compare: Window A: Enable: Disabled
+      Input: Window Compare: Window A: Channels to compare (channel availability varies by MCU and unit): 
+      Input: Window Compare: Window A: Channel comparison mode (channel availability varies by MCU and unit): 
+      Input: Window Compare: Window A: Lower Reference: 0
+      Input: Window Compare: Window A: Upper Reference: 0
+      Input: Window Compare: Window B: Enable: Disabled
+      Input: Window Compare: Window B: Channel to compare (channel availability varies by MCU and unit): Channel 0
+      Input: Window Compare: Window B: Comparison mode: Less Than or Outside Window
+      Input: Window Compare: Window B: Lower Reference: 0
+      Input: Window Compare: Window B: Upper Reference: 0
       Interrupts: Callback: NULL
       Interrupts: Scan End Interrupt Priority: Disabled
       Interrupts: Scan End Group B Interrupt Priority: Disabled
+      Interrupts: Window Compare A Interrupt Priority: Disabled
+      Interrupts: Window Compare B Interrupt Priority: Disabled
+      Extra: ADC Ring Buffer: Not Supported
       
-    Instance "g_gpt_blue Timer Driver on r_gpt"
+    Instance "g_gpt_blue Timer, General PWM (r_gpt)"
       General: Name: g_gpt_blue
       General: Channel: 6
       General: Mode: Periodic
       General: Period: 10000
       General: Period Unit: Raw Counts
+      Output: Custom Waveform: GTIOA: Initial Output Level: Pin Level Low
+      Output: Custom Waveform: GTIOA: Cycle End Output Level: Pin Level Retain
+      Output: Custom Waveform: GTIOA: Compare Match Output Level: Pin Level Retain
+      Output: Custom Waveform: GTIOA: Retain Output Level at Count Stop: Disabled
+      Output: Custom Waveform: GTIOB: Initial Output Level: Pin Level Low
+      Output: Custom Waveform: GTIOB: Cycle End Output Level: Pin Level Retain
+      Output: Custom Waveform: GTIOB: Compare Match Output Level: Pin Level Retain
+      Output: Custom Waveform: GTIOB: Retain Output Level at Count Stop: Disabled
+      Output: Custom Waveform: Custom Waveform Enable: Disabled
       Output: Duty Cycle Percent (only applicable in PWM mode): 50
       Output: GTIOCA Output Enabled: False
       Output: GTIOCA Stop Level: Pin Level Low
@@ -405,18 +442,18 @@ FSP Configuration
       Interrupts: Overflow/Crest Interrupt Priority: Priority 2
       Interrupts: Capture A Interrupt Priority: Disabled
       Interrupts: Capture B Interrupt Priority: Disabled
-      Interrupts: Trough Interrupt Priority: Disabled
+      Interrupts: Underflow/Trough Interrupt Priority: Disabled
       Extra Features: Extra Features: Disabled
       Extra Features: Output Disable: POEG Link: POEG Channel 0
       Extra Features: Output Disable: Output Disable POEG Trigger: 
-      Extra Features: ADC Trigger: Start Event Trigger (GPTE/GPTEH only): 
-      Extra Features: Dead Time: Dead Time Count Up (Raw Counts): 0
-      Extra Features: Dead Time: Dead Time Count Down (Raw Counts) (GPTE/GPTEH only): 0
-      Extra Features: ADC Trigger (GPTE/GPTEH only): ADC A Compare Match (Raw Counts): 0
-      Extra Features: ADC Trigger (GPTE/GPTEH only): ADC B Compare Match (Raw Counts): 0
-      Extra Features: Interrupt Skipping (GPTE/GPTEH only): Interrupt to Count: None
-      Extra Features: Interrupt Skipping (GPTE/GPTEH only): Interrupt Skip Count: 0
-      Extra Features: Interrupt Skipping (GPTE/GPTEH only): Skip ADC Events: None
+      Extra Features: ADC Trigger: Start Event Trigger (Channels with GTINTAD only): 
+      Extra Features: Dead Time (Value range varies with Channel): Dead Time Count Up (Raw Counts): 0
+      Extra Features: Dead Time (Value range varies with Channel): Dead Time Count Down (Raw Counts) (Channels with GTDVD only): 0
+      Extra Features: ADC Trigger (Channels with GTADTRA only): ADC A Compare Match (Raw Counts): 0
+      Extra Features: ADC Trigger (Channels with GTADTRB only): ADC B Compare Match (Raw Counts): 0
+      Extra Features: Interrupt Skipping (Channels with GTITC only): Interrupt to Count: None
+      Extra Features: Interrupt Skipping (Channels with GTITC only): Interrupt Skip Count: 0
+      Extra Features: Interrupt Skipping (Channels with GTITC only): Skip ADC Events: None
       Extra Features: Output Disable: GTIOCA Disable Setting: Disable Prohibited
       Extra Features: Output Disable: GTIOCB Disable Setting: Disable Prohibited
       

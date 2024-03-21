@@ -155,11 +155,16 @@ FSP Configuration
     
   Module "I2C Slave (r_iic_slave)"
     Parameter Checking: Default (BSP)
+    DTC on Transmission and Reception: Enabled
     
   Module "I2C Master (r_iic_master)"
     Parameter Checking: Default (BSP)
-    DTC on Transmission and Reception: Disabled
+    DTC on Transmission and Reception: Enabled
     10-bit slave addressing: Disabled
+    
+  Module "Transfer (r_dtc)"
+    Parameter Checking: Default (BSP)
+    Linker section to keep DTC vector table: .fsp_dtc_vector_table
     
   HAL
     Instance "g_ioport I/O Port (r_ioport)"
@@ -184,6 +189,32 @@ FSP Configuration
       Interrupt Priority Level: Transmit, Receive, and Transmit End: Priority 2
       Interrupt Priority Level: Error: Priority 2
       
+      Instance "g_tx_slave_transfer Transfer (r_dtc) IIC0 TXI (Transmit data empty)"
+        Name: g_tx_slave_transfer
+        Mode: Normal
+        Transfer Size: 1 Byte
+        Destination Address Mode: Fixed
+        Source Address Mode: Incremented
+        Repeat Area (Unused in Normal Mode): Source
+        Interrupt Frequency: After all transfers have completed
+        Number of Transfers: 0
+        Number of Blocks (Valid only in Block Mode): 0
+        Number of Transfer Descriptors: 1
+        Activation Source: IIC0 TXI (Transmit data empty)
+        
+      Instance "g_rx_slave_transfer Transfer (r_dtc) IIC0 RXI (Receive data full)"
+        Name: g_rx_slave_transfer
+        Mode: Normal
+        Transfer Size: 1 Byte
+        Destination Address Mode: Incremented
+        Source Address Mode: Fixed
+        Repeat Area (Unused in Normal Mode): Destination
+        Interrupt Frequency: After all transfers have completed
+        Number of Transfers: 0
+        Number of Blocks (Valid only in Block Mode): 0
+        Number of Transfer Descriptors: 1
+        Activation Source: IIC0 RXI (Receive data full)
+        
     Instance "g_i2c_master I2C Master (r_iic_master)"
       Name: g_i2c_master
       Channel: 1
@@ -198,3 +229,29 @@ FSP Configuration
       Callback: i2c_master_callback
       Interrupt Priority Level: Priority 2
       
+      Instance "g_tx_master_transfer Transfer (r_dtc) IIC1 TXI (Transmit data empty)"
+        Name: g_tx_master_transfer
+        Mode: Normal
+        Transfer Size: 1 Byte
+        Destination Address Mode: Fixed
+        Source Address Mode: Incremented
+        Repeat Area (Unused in Normal Mode): Source
+        Interrupt Frequency: After all transfers have completed
+        Number of Transfers: 0
+        Number of Blocks (Valid only in Block Mode): 0
+        Number of Transfer Descriptors: 1
+        Activation Source: IIC1 TXI (Transmit data empty)
+        
+      Instance "g_rx_master_transfer Transfer (r_dtc) IIC1 RXI (Receive data full)"
+        Name: g_rx_master_transfer
+        Mode: Normal
+        Transfer Size: 1 Byte
+        Destination Address Mode: Incremented
+        Source Address Mode: Fixed
+        Repeat Area (Unused in Normal Mode): Destination
+        Interrupt Frequency: After all transfers have completed
+        Number of Transfers: 0
+        Number of Blocks (Valid only in Block Mode): 0
+        Number of Transfer Descriptors: 1
+        Activation Source: IIC1 RXI (Receive data full)
+        

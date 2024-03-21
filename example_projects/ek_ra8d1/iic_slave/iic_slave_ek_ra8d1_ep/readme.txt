@@ -1,5 +1,5 @@
 /***********************************************************************************************************************
-* Copyright [2020] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
+* Copyright [2020-2024] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
 *
 * This software is supplied by Renesas Electronics America Inc. and may only be used with products of Renesas Electronics Corp.
 * and its affiliates (“Renesas”).  No other uses are authorized.  This software is protected under all applicable laws, 
@@ -166,14 +166,16 @@
         IIC1 P512  ----> SCL
 
 Note:
+	DTC transfer support is configurable and is enabled in the configurator. DTC is helpful for minimizing interrupts during large transactions.
+
 1) For the functioning of IIC Slave on all the boards except for EK-RA6M3,EK-RA6M3G,FPB-RA6E1,EK-RA2L1,EK-RA8M1,EK-RA8D1 external pull up resistors of value
    3.9 or 4.7k ohms are required to be connected on I2C(SDA/SCL) lines.
 
 2) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x22000868
-   b. Keil:	0x22000008
-   c. IAR: 0x22000268
+   a. e2studio: 0x22000a28
+   b. Keil:	0x22000584
+   c. IAR: 	0x22000448
  
 3) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) 
    in .map file generated in the build configuration folder (Debug/Release).

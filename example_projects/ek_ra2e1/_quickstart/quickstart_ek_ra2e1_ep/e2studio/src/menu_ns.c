@@ -33,13 +33,13 @@
 
 #define MODULE_NAME     "\r\n\r\n%d. NEXT STEPS\r\n"
 
-#define SUB_OPTIONS     "\r\nVisit the following URLs to learn about the kit and the RA family of" \
-        "\r\nMCUs, download tools and documentation, and get support" \
-        "\r\n" \
-        "\r\n a) EK-RA2E1 resources:       renesas.com/ra/ek-ra2e1 " \
-        "\r\n b) EK-RA2E1 resources:       renesas.com/ra" \
-        "\r\n c) EK-RA2E1 resources:       renesas.com/ra/forum" \
-        "\r\n d) EK-RA2E1 resources:       renesas.com/support" \
+#define SUB_OPTIONS1        "\r\nVisit the following URLs to learn about the kit and the RA family of"
+#define SUB_OPTIONS2        "\r\nMCUs, download tools and documentation, and get support"
+#define SUB_OPTIONS3        "\r\n"
+#define SUB_OPTIONS4        "\r\n a) EK-RA2E1 resources:       renesas.com/ra/ek-ra2e1 "
+#define SUB_OPTIONS5        "\r\n b) EK-RA2E1 resources:       renesas.com/ra"
+#define SUB_OPTIONS6        "\r\n c) EK-RA2E1 resources:       renesas.com/ra/forum"
+#define SUB_OPTIONS7        "\r\n d) EK-RA2E1 resources:       renesas.com/support"
 
 
 static char_t s_print_buffer[BUFFER_LINE_LENGTH] = {};
@@ -59,7 +59,25 @@ test_fn ns_display_menu(void)
     sprintf(s_print_buffer, MODULE_NAME, g_selected_menu);
     print_to_console(s_print_buffer);
 
-    sprintf(s_print_buffer, SUB_OPTIONS);
+    sprintf(s_print_buffer, SUB_OPTIONS1);
+    print_to_console(s_print_buffer);
+
+    sprintf(s_print_buffer, SUB_OPTIONS2);
+    print_to_console(s_print_buffer);
+
+    sprintf(s_print_buffer, SUB_OPTIONS3);
+    print_to_console(s_print_buffer);
+
+    sprintf(s_print_buffer, SUB_OPTIONS4);
+    print_to_console(s_print_buffer);
+
+    sprintf(s_print_buffer, SUB_OPTIONS5);
+    print_to_console(s_print_buffer);
+
+    sprintf(s_print_buffer, SUB_OPTIONS6);
+    print_to_console(s_print_buffer);
+
+    sprintf(s_print_buffer, SUB_OPTIONS7);
     print_to_console(s_print_buffer);
 
     sprintf(s_print_buffer, MENU_RETURN_INFO);

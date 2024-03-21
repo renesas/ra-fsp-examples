@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<raConfiguration version="7">
+<raConfiguration version="8">
   <generalSettings>
     <option key="#Board#" value="board.ra6m2ek" />
     <option key="CPU" value="RA6M2" />
+    <option key="Core" value="CM4" />
     <option key="#TargetName#" value="R7FA6M2AF3CFB" />
     <option key="#TargetARCHITECTURE#" value="cortex-m4" />
     <option key="#DeviceCommand#" value="R7FA6M2AF" />
     <option key="#RTOS#" value="_none" />
     <option key="#pinconfiguration#" value="RA6M2-EK.pincfg" />
     <option key="#FSPVersion#" value="5.2.0" />
+    <option key="#DefaultLinkerScript#" value="ra6m2.ld" />
     <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra6m2_ek##" />
     <option key="#SELECTED_TOOLCHAIN#" value="iar.arm.toolchain" />
   </generalSettings>
@@ -21,6 +23,7 @@
       <property id="config.bsp.data_flash_size_bytes" value="config.bsp.data_flash_size_bytes.value" />
       <property id="config.bsp.package_style" value="config.bsp.package_style.value" />
       <property id="config.bsp.package_pins" value="config.bsp.package_pins.value" />
+      <property id="config.bsp.irq_count_hidden" value="96" />
     </config>
     <config id="config.bsp.ra6m2">
       <property id="config.bsp.series" value="config.bsp.series.value" />
@@ -69,6 +72,9 @@
       <property id="config.bsp.fsp.mcu.sci_spi.max_bitrate" value="30000000" />
       <property id="config.bsp.fsp.mcu.spi.max_bitrate" value="30000000" />
       <property id="config.bsp.fsp.mcu.iic_master.rate.rate_fastplus" value="1" />
+      <property id="config.bsp.fsp.mcu.iic_master.fastplus_channels" value="0x1" />
+      <property id="config.bsp.fsp.mcu.iic_slave.rate.rate_fastplus" value="1" />
+      <property id="config.bsp.fsp.mcu.iic_slave.fastplus_channels" value="0x1" />
       <property id="config.bsp.fsp.mcu.sci_uart.cstpen_channels" value="0x0" />
       <property id="config.bsp.fsp.mcu.gpt.pin_count_source_channels" value="0xFFFF" />
       <property id="config.bsp.common.id_mode" value="config.bsp.common.id_mode.unlocked" />
@@ -118,7 +124,7 @@
     <node id="board.clock.pclkc.display" option="board.clock.pclkc.display.value" />
     <node id="board.clock.pclkd.div" option="board.clock.pclkd.div.2" />
     <node id="board.clock.pclkd.display" option="board.clock.pclkd.display.value" />
-    <node id="board.clock.sdclkout.div" option="board.clock.sdclkout.div.1" />
+    <node id="board.clock.sdclkout.enable" option="board.clock.sdclkout.enable.enabled" />
     <node id="board.clock.sdclkout.display" option="board.clock.sdclkout.display.value" />
     <node id="board.clock.bclk.div" option="board.clock.bclk.div.2" />
     <node id="board.clock.bclk.display" option="board.clock.bclk.display.value" />
@@ -169,6 +175,10 @@
       <description>RA6M2-EK Board Support Files</description>
       <originalPack>Renesas.RA_board_ra6m2_ek.5.2.0.pack</originalPack>
     </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_dtc" variant="" vendor="Renesas" version="5.2.0">
+      <description>Data Transfer Controller</description>
+      <originalPack>Renesas.RA.5.2.0.pack</originalPack>
+    </component>
   </raComponentSelection>
   <raElcConfiguration />
   <raIcuConfiguration />
@@ -179,27 +189,9 @@
       <property id="module.driver.ioport.elc_trigger_ioport2" value="_disabled" />
       <property id="module.driver.ioport.elc_trigger_ioport3" value="_disabled" />
       <property id="module.driver.ioport.elc_trigger_ioport4" value="_disabled" />
-      <property id="module.driver.ioport.elc_trigger_ioportb" value="_disabled" />
-      <property id="module.driver.ioport.elc_trigger_ioportc" value="_disabled" />
-      <property id="module.driver.ioport.elc_trigger_ioportd" value="_disabled" />
-      <property id="module.driver.ioport.elc_trigger_ioporte" value="_disabled" />
       <property id="module.driver.ioport.pincfg" value="g_bsp_pin_cfg" />
     </module>
-    <module id="module.driver.i2c_on_iic_slave.1852130149">
-      <property id="module.driver.i2c_slave.name" value="g_i2c_slave" />
-      <property id="module.driver.i2c_slave.channel" value="0" />
-      <property id="module.driver.i2c_slave.rate" value="module.driver.i2c_slave.rate.rate_standard" />
-      <property id="module.driver.i2c_slave.cks" value="module.driver.i2c_slave.cks.cks_1" />
-      <property id="module.driver.i2c_slave.dfs" value="module.driver.i2c_slave.dfs.3" />
-      <property id="module.driver.i2c_slave.slave" value="0x4A" />
-      <property id="module.driver.i2c_slave.general_call_enable" value="module.driver.i2c_slave.general_call_enable.disabled" />
-      <property id="module.driver.i2c_slave.addr_mode" value="module.driver.i2c_slave.addr_mode.addr_mode_7bit" />
-      <property id="module.driver.i2c_slave.scl_low_hold_wait_enable" value="module.driver.i2c_slave.scl_low_hold_wait_enable.disabled" />
-      <property id="module.driver.i2c_slave.p_callback" value="i2c_slave_callback" />
-      <property id="module.driver.i2c_slave.ipl" value="board.icu.common.irq.priority2" />
-      <property id="module.driver.i2c_slave.eri_ipl" value="board.icu.common.irq.priority2" />
-    </module>
-    <module id="module.driver.i2c_on_iic_master.1190229272">
+    <module id="module.driver.i2c_on_iic_master.2000012575">
       <property id="module.driver.i2c_master.name" value="g_i2c_master" />
       <property id="module.driver.i2c_master.channel" value="1" />
       <property id="module.driver.i2c_master.rate" value="module.driver.i2c_master.rate.rate_standard" />
@@ -213,30 +205,102 @@
       <property id="module.driver.i2c_master.p_callback" value="i2c_master_callback" />
       <property id="module.driver.i2c_master.ipl" value="board.icu.common.irq.priority2" />
     </module>
+    <module id="module.driver.i2c_on_iic_slave.1251343723">
+      <property id="module.driver.i2c_slave.name" value="g_i2c_slave" />
+      <property id="module.driver.i2c_slave.channel" value="0" />
+      <property id="module.driver.i2c_slave.rate" value="module.driver.i2c_slave.rate.rate_standard" />
+      <property id="module.driver.i2c_slave.cks" value="module.driver.i2c_slave.cks.cks_1" />
+      <property id="module.driver.i2c_slave.dfs" value="module.driver.i2c_slave.dfs.3" />
+      <property id="module.driver.i2c_slave.slave" value="0x4A" />
+      <property id="module.driver.i2c_slave.general_call_enable" value="module.driver.i2c_slave.general_call_enable.disabled" />
+      <property id="module.driver.i2c_slave.addr_mode" value="module.driver.i2c_slave.addr_mode.addr_mode_7bit" />
+      <property id="module.driver.i2c_slave.scl_low_hold_wait_enable" value="module.driver.i2c_slave.scl_low_hold_wait_enable.disabled" />
+      <property id="module.driver.i2c_slave.p_callback" value="i2c_slave_callback" />
+      <property id="module.driver.i2c_slave.ipl" value="board.icu.common.irq.priority2" />
+      <property id="module.driver.i2c_slave.eri_ipl" value="board.icu.common.irq.priority2" />
+    </module>
+    <module id="module.driver.transfer_on_dtc.217689">
+      <property id="module.driver.transfer.name" value="g_tx_master_transfer" />
+      <property id="module.driver.transfer.mode" value="module.driver.transfer.mode.mode_normal" />
+      <property id="module.driver.transfer.size" value="module.driver.transfer.size.size_2_byte" />
+      <property id="module.driver.transfer.dest_addr_mode" value="module.driver.transfer.dest_addr_mode.addr_mode_fixed" />
+      <property id="module.driver.transfer.src_addr_mode" value="module.driver.transfer.src_addr_mode.addr_mode_fixed" />
+      <property id="module.driver.transfer.repeat_area" value="module.driver.transfer.repeat_area.repeat_area_source" />
+      <property id="module.driver.transfer.interrupt" value="module.driver.transfer.interrupt.interrupt_end" />
+      <property id="module.driver.transfer.length" value="0" />
+      <property id="module.driver.transfer.num_blocks" value="0" />
+      <property id="module.driver.transfer.number_of_descriptors" value="1" />
+      <property id="module.driver.transfer.activation_source" value="_disabled" />
+    </module>
+    <module id="module.driver.transfer_on_dtc.2129054304">
+      <property id="module.driver.transfer.name" value="g_rx_master_transfer" />
+      <property id="module.driver.transfer.mode" value="module.driver.transfer.mode.mode_normal" />
+      <property id="module.driver.transfer.size" value="module.driver.transfer.size.size_2_byte" />
+      <property id="module.driver.transfer.dest_addr_mode" value="module.driver.transfer.dest_addr_mode.addr_mode_fixed" />
+      <property id="module.driver.transfer.src_addr_mode" value="module.driver.transfer.src_addr_mode.addr_mode_fixed" />
+      <property id="module.driver.transfer.repeat_area" value="module.driver.transfer.repeat_area.repeat_area_source" />
+      <property id="module.driver.transfer.interrupt" value="module.driver.transfer.interrupt.interrupt_end" />
+      <property id="module.driver.transfer.length" value="0" />
+      <property id="module.driver.transfer.num_blocks" value="0" />
+      <property id="module.driver.transfer.number_of_descriptors" value="1" />
+      <property id="module.driver.transfer.activation_source" value="_disabled" />
+    </module>
+    <module id="module.driver.transfer_on_dtc.1486439861">
+      <property id="module.driver.transfer.name" value="g_tx_slave_transfer" />
+      <property id="module.driver.transfer.mode" value="module.driver.transfer.mode.mode_normal" />
+      <property id="module.driver.transfer.size" value="module.driver.transfer.size.size_2_byte" />
+      <property id="module.driver.transfer.dest_addr_mode" value="module.driver.transfer.dest_addr_mode.addr_mode_fixed" />
+      <property id="module.driver.transfer.src_addr_mode" value="module.driver.transfer.src_addr_mode.addr_mode_fixed" />
+      <property id="module.driver.transfer.repeat_area" value="module.driver.transfer.repeat_area.repeat_area_source" />
+      <property id="module.driver.transfer.interrupt" value="module.driver.transfer.interrupt.interrupt_end" />
+      <property id="module.driver.transfer.length" value="0" />
+      <property id="module.driver.transfer.num_blocks" value="0" />
+      <property id="module.driver.transfer.number_of_descriptors" value="1" />
+      <property id="module.driver.transfer.activation_source" value="_disabled" />
+    </module>
+    <module id="module.driver.transfer_on_dtc.150005578">
+      <property id="module.driver.transfer.name" value="g_rx_slave_transfer" />
+      <property id="module.driver.transfer.mode" value="module.driver.transfer.mode.mode_normal" />
+      <property id="module.driver.transfer.size" value="module.driver.transfer.size.size_2_byte" />
+      <property id="module.driver.transfer.dest_addr_mode" value="module.driver.transfer.dest_addr_mode.addr_mode_fixed" />
+      <property id="module.driver.transfer.src_addr_mode" value="module.driver.transfer.src_addr_mode.addr_mode_fixed" />
+      <property id="module.driver.transfer.repeat_area" value="module.driver.transfer.repeat_area.repeat_area_source" />
+      <property id="module.driver.transfer.interrupt" value="module.driver.transfer.interrupt.interrupt_end" />
+      <property id="module.driver.transfer.length" value="0" />
+      <property id="module.driver.transfer.num_blocks" value="0" />
+      <property id="module.driver.transfer.number_of_descriptors" value="1" />
+      <property id="module.driver.transfer.activation_source" value="_disabled" />
+    </module>
     <context id="_hal.0">
       <stack module="module.driver.ioport_on_ioport.0" />
-      <stack module="module.driver.i2c_on_iic_slave.1852130149" />
-      <stack module="module.driver.i2c_on_iic_master.1190229272" />
+      <stack module="module.driver.i2c_on_iic_master.2000012575">
+        <stack module="module.driver.transfer_on_dtc.217689" requires="module.driver.i2c_on_iic_master.requires.transfer_tx" />
+        <stack module="module.driver.transfer_on_dtc.2129054304" requires="module.driver.i2c_on_iic_master.requires.transfer_rx" />
+      </stack>
+      <stack module="module.driver.i2c_on_iic_slave.1251343723">
+        <stack module="module.driver.transfer_on_dtc.1486439861" requires="module.driver.i2c_on_iic_slave.requires.transfer_tx" />
+        <stack module="module.driver.transfer_on_dtc.150005578" requires="module.driver.i2c_on_iic_slave.requires.transfer_rx" />
+      </stack>
     </context>
+    <config id="config.driver.iic_master">
+      <property id="config.driver.iic_master.param_checking_enable" value="config.driver.iic_master.param_checking_enable.bsp" />
+      <property id="config.driver.iic_master.dtc_enable" value="config.driver.iic_master.dtc_enable.enabled" />
+      <property id="config.driver.iic_master.addr_mode_10_bit_enable" value="config.driver.iic_master.addr_mode_10_bit_enable.disabled" />
+    </config>
     <config id="config.driver.ioport">
       <property id="config.driver.ioport.checking" value="config.driver.ioport.checking.system" />
     </config>
-    <config id="config.driver.iic_master">
-      <property id="config.driver.iic_master.param_checking_enable" value="config.driver.iic_master.param_checking_enable.bsp" />
-      <property id="config.driver.iic_master.dtc_enable" value="config.driver.iic_master.dtc_enable.disabled" />
-      <property id="config.driver.iic_master.addr_mode_10_bit_enable" value="config.driver.iic_master.addr_mode_10_bit_enable.disabled" />
+    <config id="config.driver.dtc">
+      <property id="config.driver.dtc.param_checking_enable" value="config.driver.dtc.param_checking_enable.bsp" />
+      <property id="config.driver.dtc.vector_table" value=".fsp_dtc_vector_table" />
     </config>
     <config id="config.driver.iic_slave">
       <property id="config.driver.iic_slave.param_checking_enable" value="config.driver.iic_slave.param_checking_enable.bsp" />
+      <property id="config.driver.iic_slave.dtc_enable" value="config.driver.iic_slave.dtc_enable.enabled" />
     </config>
   </raModuleConfiguration>
   <raPinConfiguration>
     <pincfg active="true" name="RA6M2-EK.pincfg" selected="true" symbol="g_bsp_pin_cfg">
-      <configSetting altId="adc1.an00.p004" configurationId="adc1.an00" />
-      <configSetting altId="adc1.mode.custom" configurationId="adc1.mode" />
-      <configSetting altId="ctsu0.mode.enabled" configurationId="ctsu0.mode" />
-      <configSetting altId="ctsu0.ts02.p207" configurationId="ctsu0.ts02" />
-      <configSetting altId="ctsu0.tscap.p205" configurationId="ctsu0.tscap" />
       <configSetting altId="debug0.mode.jtag" configurationId="debug0.mode" />
       <configSetting altId="debug0.tck.p300" configurationId="debug0.tck" />
       <configSetting altId="debug0.tdi.p110" configurationId="debug0.tdi" />
@@ -249,8 +313,6 @@
       <configSetting altId="iic1.pairing.free" configurationId="iic1.pairing" />
       <configSetting altId="iic1.scl.p100" configurationId="iic1.scl" />
       <configSetting altId="iic1.sda.p206" configurationId="iic1.sda" />
-      <configSetting altId="p004.adc1.an00" configurationId="p004" />
-      <configSetting altId="p004.gpio_mode.gpio_mode_an" configurationId="p004.gpio_mode" />
       <configSetting altId="p100.iic1.scl" configurationId="p100" />
       <configSetting altId="p100.gpio_speed.gpio_speed_medium" configurationId="p100.gpio_drivecapacity" />
       <configSetting altId="p100.gpio_mode.gpio_mode_peripheral" configurationId="p100.gpio_mode" />
@@ -262,13 +324,9 @@
       <configSetting altId="p109.gpio_mode.gpio_mode_peripheral" configurationId="p109.gpio_mode" />
       <configSetting altId="p110.debug0.tdi" configurationId="p110" />
       <configSetting altId="p110.gpio_mode.gpio_mode_peripheral" configurationId="p110.gpio_mode" />
-      <configSetting altId="p205.ctsu0.tscap" configurationId="p205" />
-      <configSetting altId="p205.gpio_mode.gpio_mode_peripheral" configurationId="p205.gpio_mode" />
       <configSetting altId="p206.iic1.sda" configurationId="p206" />
       <configSetting altId="p206.gpio_speed.gpio_speed_medium" configurationId="p206.gpio_drivecapacity" />
       <configSetting altId="p206.gpio_mode.gpio_mode_peripheral" configurationId="p206.gpio_mode" />
-      <configSetting altId="p207.ctsu0.ts02" configurationId="p207" />
-      <configSetting altId="p207.gpio_mode.gpio_mode_peripheral" configurationId="p207.gpio_mode" />
       <configSetting altId="p300.debug0.tck" configurationId="p300" />
       <configSetting altId="p300.gpio_mode.gpio_mode_peripheral" configurationId="p300.gpio_mode" />
       <configSetting altId="p400.iic0.scl" configurationId="p400" />
@@ -277,10 +335,6 @@
       <configSetting altId="p401.iic0.sda" configurationId="p401" />
       <configSetting altId="p401.gpio_speed.gpio_speed_medium" configurationId="p401.gpio_drivecapacity" />
       <configSetting altId="p401.gpio_mode.gpio_mode_peripheral" configurationId="p401.gpio_mode" />
-      <configSetting altId="p407.usbfs0.vbus" configurationId="p407" />
-      <configSetting altId="p407.gpio_mode.gpio_mode_peripheral" configurationId="p407.gpio_mode" />
-      <configSetting altId="usbfs0.mode.device" configurationId="usbfs0.mode" />
-      <configSetting altId="usbfs0.vbus.p407" configurationId="usbfs0.vbus" />
     </pincfg>
   </raPinConfiguration>
 </raConfiguration>

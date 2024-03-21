@@ -71,6 +71,7 @@ FSP Configuration
     
   Clocks
     XTAL 12000000Hz
+    PLL Src: XTAL
     HOCO 24MHz
     PLL Div /2
     PLL Mul x8
@@ -104,7 +105,7 @@ FSP Configuration
       P013 86 - - - - Disabled - - "ADC: VREFL; ADC0: AN08; OPAMP1: AMP+" - None - - 
       P014 85 - - - - Disabled - - "ADC0: AN09; DAC120: DA" - None - - 
       P015 84 - - - - Disabled - - "ADC0: AN10; CTSU0: TS28; IRQ0: IRQ07" - None - - 
-      P100 75 IIC1_SCL - Medium None "Peripheral mode" CMOS None "ADC0: AN22; AGT0: AGTIO; CMP0: CMPIN0; GPT5: GTIOCB; IIC1: SCL; IRQ0: IRQ02; KINT0: KRM0; POEG0: GTETRG; SCI0: RXD_MISO; SCI0: SCL; SCI1: SCK; SLCDC0: VL1; SPI0: MISO" - IO - - 
+      P100 75 IIC1_SCL1 - Medium None "Peripheral mode" CMOS None "ADC0: AN22; AGT0: AGTIO; CMP0: CMPIN0; GPT5: GTIOCB; IIC1: SCL; IRQ0: IRQ02; KINT0: KRM0; POEG0: GTETRG; SCI0: RXD_MISO; SCI0: SCL; SCI1: SCK; SLCDC0: VL1; SPI0: MISO" - IO - - 
       P101 74 - - - - Disabled - - "ADC0: AN21; AGT0: AGTEE; CMP0: CMPREF0; GPT5: GTIOCA; IIC1: SDA; IRQ0: IRQ01; KINT0: KRM1; POEG1: GTETRG; SCI0: SDA; SCI0: TXD_MOSI; SCI1: CTS_RTS_SS; SLCDC0: VL2; SPI0: MOSI" - None - - 
       P102 73 - - - - Disabled - - "ADC0: ADTRG; ADC0: AN20; AGT0: AGTO; CAN0: CRX; CMP0: CMPIN1; GPT2: GTIOCB; KINT0: KRM2; OPS0: GTOWLO; SCI0: SCK; SCI2: SDA; SCI2: TXD_MOSI; SLCDC0: VL3; SPI0: RSPCK" - None - - 
       P103 72 - - - - Disabled - - "ADC0: AN19; CAN0: CTX; CMP0: CMPREF1; GPT2: GTIOCA; KINT0: KRM3; OPS0: GTOWUP; SCI0: CTS_RTS_SS; SLCDC0: VL4; SPI0: SSL0" - None - - 
@@ -126,7 +127,7 @@ FSP Configuration
       P203 34 - - - - Disabled - - "CTSU0: TSCAP; GPT5: GTIOCA; SCI2: CTS_RTS_SS; SCI9: SDA; SCI9: TXD_MOSI; SLCDC0: SEG15; SPI1: MOSI" - None - - 
       P204 33 - - - - Disabled - - "AGT1: AGTIO; CAC0: CACREF; CTSU0: TS00; GPT4: GTIOCB; IIC0: SCL; OPS0: GTIW; SCI0: SCK; SCI9: SCK; SLCDC0: SEG14; SPI1: RSPCK; USBFS0: OVRCURB" - None - - 
       P205 32 - - - - Disabled - - "AGT1: AGTO; CGC0: CLKOUT; CTSU0: TSCAP; GPT4: GTIOCA; IIC1: SCL; IRQ0: IRQ01; OPS0: GTIV; SCI0: SDA; SCI0: TXD_MOSI; SCI9: CTS_RTS_SS; SLCDC0: SEG13; SPI1: SSL0; USBFS0: OVRCURA" - None - - 
-      P206 31 IIC1_SDA - Medium None "Peripheral mode" CMOS None "CTSU0: TS01; IIC1: SDA; IRQ0: IRQ00; OPS0: GTIU; SCI0: RXD_MISO; SCI0: SCL; SLCDC0: SEG12; SPI1: SSL1; USBFS0: VBUSEN" - IO - - 
+      P206 31 IIC1_SDA1 - Medium None "Peripheral mode" CMOS None "CTSU0: TS01; IIC1: SDA; IRQ0: IRQ00; OPS0: GTIU; SCI0: RXD_MISO; SCI0: SCL; SLCDC0: SEG12; SPI1: SSL1; USBFS0: VBUSEN" - IO - - 
       P212 14 - - - - Disabled - - "AGT1: AGTEE; CGC0: EXTAL; GPT0: GTIOCB; IRQ0: IRQ03; POEG1: GTETRG; SCI1: RXD_MISO; SCI1: SCL" - None - - 
       P213 13 - - - - Disabled - - "CGC0: XTAL; GPT0: GTIOCA; IRQ0: IRQ02; POEG0: GTETRG; SCI1: SDA; SCI1: TXD_MOSI" - None - - 
       P214 11 - - - - Disabled - - "CGC0: XCOUT" - None - - 
@@ -139,8 +140,8 @@ FSP Configuration
       P305 43 - - - - Disabled - - "IRQ0: IRQ08; SLCDC0: SEG19" - None - - 
       P306 42 - - - - Disabled - - "SLCDC0: SEG18" - None - - 
       P307 41 - - - - Disabled - - "SLCDC0: SEG17" - None - - 
-      P400 1 IIC0_SCL - Medium None "Peripheral mode" CMOS None "AGT1: AGTIO; CAC0: CACREF; CTSU0: TS20; GPT6: GTIOCA; IIC0: SCL; IRQ0: IRQ00; SCI0: SCK; SCI1: SCK; SLCDC0: SEG04; SSI: AUDIO_CLK" - IO - - 
-      P401 2 IIC0_SDA - Medium None "Peripheral mode" CMOS None "CAN0: CTX; CTSU0: TS19; GPT6: GTIOCB; IIC0: SDA; IRQ0: IRQ05; POEG0: GTETRG; SCI0: CTS_RTS_SS; SCI1: SDA; SCI1: TXD_MOSI; SLCDC0: SEG05" - IO - - 
+      P400 1 IIC0_SCL0 - Medium None "Peripheral mode" CMOS None "AGT1: AGTIO; CAC0: CACREF; CTSU0: TS20; GPT6: GTIOCA; IIC0: SCL; IRQ0: IRQ00; SCI0: SCK; SCI1: SCK; SLCDC0: SEG04; SSI: AUDIO_CLK" - IO - - 
+      P401 2 IIC0_SDA0 - Medium None "Peripheral mode" CMOS None "CAN0: CTX; CTSU0: TS19; GPT6: GTIOCB; IIC0: SDA; IRQ0: IRQ05; POEG0: GTETRG; SCI0: CTS_RTS_SS; SCI1: SDA; SCI1: TXD_MOSI; SLCDC0: SEG05" - IO - - 
       P402 3 - - - - Disabled - - "AGT0: AGTIO; AGT1: AGTIO; CAN0: CRX; CTSU0: TS18; IRQ0: IRQ04; RTC0: RTCIC0; SCI1: RXD_MISO; SCI1: SCL; SLCDC0: SEG06" - None - - 
       P403 4 GPIO - Low - "Output mode (Initial Low)" CMOS None "AGT0: AGTIO; AGT1: AGTIO; CTSU0: TS17; GPT3: GTIOCA; RTC0: RTCIC1; SCI1: CTS_RTS_SS; SSI0: SSISCK" - IO - - 
       P404 5 - - - - Disabled - - "GPT3: GTIOCB; RTC0: RTCIC2; SSI0: SSIWS" - None - - 
@@ -197,23 +198,24 @@ FSP Configuration
     
   Module "I2C Slave (r_iic_slave)"
     Parameter Checking: Default (BSP)
+    DTC on Transmission and Reception: Enabled
     
   Module "I2C Master (r_iic_master)"
     Parameter Checking: Default (BSP)
-    DTC on Transmission and Reception: Disabled
+    DTC on Transmission and Reception: Enabled
     10-bit slave addressing: Disabled
+    
+  Module "Transfer (r_dtc)"
+    Parameter Checking: Default (BSP)
+    Linker section to keep DTC vector table: .fsp_dtc_vector_table
     
   HAL
     Instance "g_ioport I/O Port (r_ioport)"
       Name: g_ioport
-      Port 1 ELC Trigger Source: Disabled
-      Port 2 ELC Trigger Source: Disabled
-      Port 3 ELC Trigger Source: Disabled
-      Port 4 ELC Trigger Source: Disabled
-      Port B ELC Trigger Source: Disabled
-      Port C ELC Trigger Source: Disabled
-      Port D ELC Trigger Source: Disabled
-      Port E ELC Trigger Source: Disabled
+      1st Port ELC Trigger Source: Disabled
+      2nd Port ELC Trigger Source: Disabled
+      3rd Port ELC Trigger Source: Disabled
+      4th Port ELC Trigger Source: Disabled
       Pin Configuration Name: g_bsp_pin_cfg
       
     Instance "g_i2c_slave I2C Slave (r_iic_slave)"
@@ -230,6 +232,32 @@ FSP Configuration
       Interrupt Priority Level: Transmit, Receive, and Transmit End: Priority 2
       Interrupt Priority Level: Error: Priority 2
       
+      Instance "g_tx_slave_transfer Transfer (r_dtc) IIC0 TXI (Transmit data empty)"
+        Name: g_tx_slave_transfer
+        Mode: Normal
+        Transfer Size: 1 Byte
+        Destination Address Mode: Fixed
+        Source Address Mode: Incremented
+        Repeat Area (Unused in Normal Mode): Source
+        Interrupt Frequency: After all transfers have completed
+        Number of Transfers: 0
+        Number of Blocks (Valid only in Block Mode): 0
+        Number of Transfer Descriptors: 1
+        Activation Source: IIC0 TXI (Transmit data empty)
+        
+      Instance "g_rx_slave_transfer Transfer (r_dtc) IIC0 RXI (Receive data full)"
+        Name: g_rx_slave_transfer
+        Mode: Normal
+        Transfer Size: 1 Byte
+        Destination Address Mode: Incremented
+        Source Address Mode: Fixed
+        Repeat Area (Unused in Normal Mode): Destination
+        Interrupt Frequency: After all transfers have completed
+        Number of Transfers: 0
+        Number of Blocks (Valid only in Block Mode): 0
+        Number of Transfer Descriptors: 1
+        Activation Source: IIC0 RXI (Receive data full)
+        
     Instance "g_i2c_master I2C Master (r_iic_master)"
       Name: g_i2c_master
       Channel: 1
@@ -244,3 +272,29 @@ FSP Configuration
       Callback: i2c_master_callback
       Interrupt Priority Level: Priority 2
       
+      Instance "g_tx_master_transfer Transfer (r_dtc) IIC1 TXI (Transmit data empty)"
+        Name: g_tx_master_transfer
+        Mode: Normal
+        Transfer Size: 1 Byte
+        Destination Address Mode: Fixed
+        Source Address Mode: Incremented
+        Repeat Area (Unused in Normal Mode): Source
+        Interrupt Frequency: After all transfers have completed
+        Number of Transfers: 0
+        Number of Blocks (Valid only in Block Mode): 0
+        Number of Transfer Descriptors: 1
+        Activation Source: IIC1 TXI (Transmit data empty)
+        
+      Instance "g_rx_master_transfer Transfer (r_dtc) IIC1 RXI (Receive data full)"
+        Name: g_rx_master_transfer
+        Mode: Normal
+        Transfer Size: 1 Byte
+        Destination Address Mode: Incremented
+        Source Address Mode: Fixed
+        Repeat Area (Unused in Normal Mode): Destination
+        Interrupt Frequency: After all transfers have completed
+        Number of Transfers: 0
+        Number of Blocks (Valid only in Block Mode): 0
+        Number of Transfer Descriptors: 1
+        Activation Source: IIC1 RXI (Receive data full)
+        

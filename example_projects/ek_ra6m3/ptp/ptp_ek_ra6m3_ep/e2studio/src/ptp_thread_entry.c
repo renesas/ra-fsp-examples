@@ -445,31 +445,42 @@ static UINT dhcpv4_client_init(void)
 void ptp_user_cb(ptp_callback_args_t *p_args)
 {
 #if !PTP_MASTER_MODE
-    switch (p_args->p_message->header.message_type)
-    {
-        case PTP_MESSAGE_TYPE_ANNOUNCE:
-        {
-            /* deactivate the timer.*/
-            tx_timer_deactivate(&g_announce_flag_rec);
-            if(g_port_id != p_args->p_message->header.source_port_id)
-            {
-                /* update source port id and set the master clock id.*/
-                g_port_id = p_args->p_message->header.source_port_id;
-                R_PTP_MasterClockIdSet(&g_ptp0_ctrl,p_args->p_message->announce.clock_id, p_args->p_message->header.source_port_id);
-            }
-            break;
-        }
 
-        case PTP_MESSAGE_TYPE_SYNC:
+    switch (p_args->event)
+    {
+        case PTP_EVENT_SYNC_ACQUIRED:
+        case PTP_EVENT_OFFSET_FROM_MASTER_UPDATED:
         {
             /* Set the event flag. */
             tx_event_flags_set(&g_ptp_event_flags0, PTP_EVENT, TX_OR);
             break;
         }
-
+        case PTP_EVENT_MESSAGE_RECEIVED:
+        {
+            switch (p_args->p_message->header.message_type)
+            {
+                case PTP_MESSAGE_TYPE_ANNOUNCE:
+                {
+                    /* deactivate the timer.*/
+                    tx_timer_deactivate(&g_announce_flag_rec);
+                    if(g_port_id != p_args->p_message->header.source_port_id)
+                    {
+                        /* update source port id and set the master clock id.*/
+                        g_port_id = p_args->p_message->header.source_port_id;
+                        R_PTP_MasterClockIdSet(&g_ptp0_ctrl,p_args->p_message->announce.clock_id, p_args->p_message->header.source_port_id);
+                    }
+                    break;
+                }
+                default:
+                {
+                    /* do nothing. */
+                }
+            }
+            break;
+        }
         default:
         {
-            // do nothing.
+            /* do nothing.*/
         }
     }
 #else

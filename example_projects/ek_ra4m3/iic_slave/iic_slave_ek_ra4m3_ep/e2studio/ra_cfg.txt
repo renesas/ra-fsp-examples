@@ -24,6 +24,7 @@ FSP Configuration
     Security: SRAM Accessibility: Standby RAM: Regions 7-0 are all Secure.
     Security: BUS Accessibility: Bus Security Attribution Register A: Both Secure and Non-Secure State
     Security: BUS Accessibility: Bus Security Attribution Register B: Both Secure and Non-Secure State
+    Security: Uninitialized Non-Secure Application Fallback: Enable Uninitialized Non-Secure Application Fallback
     Startup C-Cache Line Size: 32 Bytes
     OFS0 register settings: Independent WDT: Start Mode: IWDT is Disabled
     OFS0 register settings: Independent WDT: Timeout Period: 2048 cycles
@@ -39,6 +40,8 @@ FSP Configuration
     OFS0 register settings: WDT: Window Start Position: 100% (no window start position)
     OFS0 register settings: WDT: Reset Interrupt Request: Reset
     OFS0 register settings: WDT: Stop Control: Stop counting when entering Sleep mode
+    OFS1_SEL register settings: Voltage Detection 0 Level Security Attribution: VDSEL setting loads from OFS1_SEC
+    OFS1_SEL register settings: Voltage Detection 0 Circuit Start Security Attribution: LVDAS setting loads from OFS1_SEC
     OFS1 register settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
     OFS1 register settings: Voltage Detection 0 Level: 2.80 V
     OFS1 register settings: HOCO Oscillation Enable: HOCO oscillation is disabled after reset
@@ -388,23 +391,24 @@ FSP Configuration
     
   Module "I2C Master (r_iic_master)"
     Parameter Checking: Default (BSP)
-    DTC on Transmission and Reception: Disabled
+    DTC on Transmission and Reception: Enabled
     10-bit slave addressing: Disabled
     
   Module "I2C Slave (r_iic_slave)"
     Parameter Checking: Default (BSP)
+    DTC on Transmission and Reception: Enabled
+    
+  Module "Transfer (r_dtc)"
+    Parameter Checking: Default (BSP)
+    Linker section to keep DTC vector table: .fsp_dtc_vector_table
     
   HAL
     Instance "g_ioport I/O Port (r_ioport)"
       Name: g_ioport
-      Port 1 ELC Trigger Source: Disabled
-      Port 2 ELC Trigger Source: Disabled
-      Port 3 ELC Trigger Source: Disabled
-      Port 4 ELC Trigger Source: Disabled
-      Port B ELC Trigger Source: Disabled
-      Port C ELC Trigger Source: Disabled
-      Port D ELC Trigger Source: Disabled
-      Port E ELC Trigger Source: Disabled
+      1st Port ELC Trigger Source: Disabled
+      2nd Port ELC Trigger Source: Disabled
+      3rd Port ELC Trigger Source: Disabled
+      4th Port ELC Trigger Source: Disabled
       Pin Configuration Name: g_bsp_pin_cfg
       
     Instance "g_i2c_master I2C Master (r_iic_master)"
@@ -421,6 +425,32 @@ FSP Configuration
       Callback: i2c_master_callback
       Interrupt Priority Level: Priority 2
       
+      Instance "g_tx_master_transfer Transfer (r_dtc) IIC1 TXI (Transmit data empty)"
+        Name: g_tx_master_transfer
+        Mode: Normal
+        Transfer Size: 1 Byte
+        Destination Address Mode: Fixed
+        Source Address Mode: Incremented
+        Repeat Area (Unused in Normal Mode): Source
+        Interrupt Frequency: After all transfers have completed
+        Number of Transfers: 0
+        Number of Blocks (Valid only in Block Mode): 0
+        Number of Transfer Descriptors: 1
+        Activation Source: IIC1 TXI (Transmit data empty)
+        
+      Instance "g_rx_master_transfer Transfer (r_dtc) IIC1 RXI (Receive data full)"
+        Name: g_rx_master_transfer
+        Mode: Normal
+        Transfer Size: 1 Byte
+        Destination Address Mode: Incremented
+        Source Address Mode: Fixed
+        Repeat Area (Unused in Normal Mode): Destination
+        Interrupt Frequency: After all transfers have completed
+        Number of Transfers: 0
+        Number of Blocks (Valid only in Block Mode): 0
+        Number of Transfer Descriptors: 1
+        Activation Source: IIC1 RXI (Receive data full)
+        
     Instance "g_i2c_slave I2C Slave (r_iic_slave)"
       Name: g_i2c_slave
       Channel: 0
@@ -435,3 +465,29 @@ FSP Configuration
       Interrupt Priority Level: Transmit, Receive, and Transmit End: Priority 2
       Interrupt Priority Level: Error: Priority 2
       
+      Instance "g_tx_slave_transfer Transfer (r_dtc) IIC0 TXI (Transmit data empty)"
+        Name: g_tx_slave_transfer
+        Mode: Normal
+        Transfer Size: 1 Byte
+        Destination Address Mode: Fixed
+        Source Address Mode: Incremented
+        Repeat Area (Unused in Normal Mode): Source
+        Interrupt Frequency: After all transfers have completed
+        Number of Transfers: 0
+        Number of Blocks (Valid only in Block Mode): 0
+        Number of Transfer Descriptors: 1
+        Activation Source: IIC0 TXI (Transmit data empty)
+        
+      Instance "g_rx_slave_transfer Transfer (r_dtc) IIC0 RXI (Receive data full)"
+        Name: g_rx_slave_transfer
+        Mode: Normal
+        Transfer Size: 1 Byte
+        Destination Address Mode: Incremented
+        Source Address Mode: Fixed
+        Repeat Area (Unused in Normal Mode): Destination
+        Interrupt Frequency: After all transfers have completed
+        Number of Transfers: 0
+        Number of Blocks (Valid only in Block Mode): 0
+        Number of Transfer Descriptors: 1
+        Activation Source: IIC0 RXI (Receive data full)
+        

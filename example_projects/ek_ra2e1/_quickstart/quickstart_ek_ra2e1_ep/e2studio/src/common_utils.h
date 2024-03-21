@@ -24,7 +24,7 @@
 #ifndef COMMON_UTILS_H_
 #define COMMON_UTILS_H_
 
-#define BUFFER_LINE_LENGTH (768)
+#define BUFFER_LINE_LENGTH (200)
 
 /* */
 /* Function Name:   test_fn */

@@ -32,16 +32,13 @@
 #include "common_utils.h"
 #include "menu_kis.h"
 
-#define SUB_OPTIONS     "\r\n a) Kit Name:                         %s "                       \
-        "\r\n b) Kit ordering part number:         %s "                                       \
-        "\r\n c) RA Device part number:            %s "                                       \
-        "\r\n d) RA MCU 128-bit Unique ID (hex):   %08x-"                     \
-                                                    "%08x-"                   \
-                                                    "%08x-"                   \
-                                                    "%08x"                    \
-        "\r\n e) RA MCU Die temperature (F/C):     %d.%02d/%d.%02d         "  \
-        "\r\n f) Blue LED blinking frequency (Hz): %d"                       \
-        "\r\n g) Blue LED blinking intensity (%%%%): %d"                    \
+#define SUB_OPTIONS1  "\r\n a) Kit Name:                         %s "
+#define SUB_OPTIONS2  "\r\n b) Kit ordering part number:         %s "
+#define SUB_OPTIONS3  "\r\n c) RA Device part number:            %s "
+#define SUB_OPTIONS4  "\r\n d) RA MCU 128-bit Unique ID (hex):   %08x-%08x-%08x-%08x"
+#define SUB_OPTIONS5  "\r\n e) RA MCU Die temperature (F/C):     %d.%02d/%d.%02d    "
+#define SUB_OPTIONS6  "\r\n f) Blue LED blinking frequency (Hz): %d"
+#define SUB_OPTIONS7  "\r\n g) Blue LED blinking intensity (%%%%):  %d"
 /* Need to double escape the % */
 
 #define MODULE_NAME     "\r\n%d. KIT INFORMATION\r\n"
@@ -177,14 +174,25 @@ void  update_console(void)
         /*  */
         fr_mcu_temp_f = (uint16_t)abs(r);
 
-        sprintf(s_print_buffer, SUB_OPTIONS, FULL_NAME, PART_NUMBER, DEVICE_NUMBER,
-                (uint_t)p_uid->unique_id_words[0],  (uint_t)p_uid->unique_id_words[1], // typedef uint_t in stdint.h
-                (uint_t)p_uid->unique_id_words[2],  (uint_t)p_uid->unique_id_words[3], // as signed long long int64_t;
-                wn_mcu_temp_f, fr_mcu_temp_f,
-                wn_mcu_temp_c, fr_mcu_temp_c,
-                g_pwm_rates_data[g_board_status.led_frequency],
-                g_pwm_dcs_data[g_board_status.led_intensity]
-        );
+        sprintf(s_print_buffer, SUB_OPTIONS1, FULL_NAME);
+        print_to_console(s_print_buffer);
+
+        sprintf(s_print_buffer, SUB_OPTIONS2, PART_NUMBER);
+        print_to_console(s_print_buffer);
+
+        sprintf(s_print_buffer, SUB_OPTIONS3, DEVICE_NUMBER);
+        print_to_console(s_print_buffer);
+
+        sprintf(s_print_buffer, SUB_OPTIONS4, (uint_t)p_uid->unique_id_words[0],(uint_t)p_uid->unique_id_words[1],(uint_t)p_uid->unique_id_words[2],(uint_t)p_uid->unique_id_words[3]);
+        print_to_console(s_print_buffer);
+
+        sprintf(s_print_buffer, SUB_OPTIONS5, wn_mcu_temp_f,fr_mcu_temp_f,wn_mcu_temp_c,fr_mcu_temp_c);
+        print_to_console(s_print_buffer);
+
+        sprintf(s_print_buffer, SUB_OPTIONS6, g_pwm_rates_data[g_board_status.led_frequency]);
+        print_to_console(s_print_buffer);
+
+        sprintf(s_print_buffer,SUB_OPTIONS7,g_pwm_dcs_data[g_board_status.led_intensity]);
         print_to_console(s_print_buffer);
 
         sprintf(s_print_buffer, MENU_RETURN_INFO);

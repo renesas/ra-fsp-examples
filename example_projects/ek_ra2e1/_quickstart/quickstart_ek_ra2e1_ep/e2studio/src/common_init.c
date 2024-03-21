@@ -298,10 +298,11 @@ bool_t check_for_input_from_console(void)
  *********************************************************************************************************************/
 int8_t input_from_console(void)
 {
-    char_t read_byte_buffer;
+    char_t  read_byte_buffer[BUFFER_SIZE_DOWN] = {'\0'};
 
-    R_CONSOLE_ReadByte(&read_byte_buffer);
-    return (read_byte_buffer);
+    R_CONSOLE_ReadByte(&read_byte_buffer[0]);
+
+   	return read_byte_buffer[0];
 }
 /**********************************************************************************************************************
  End of function input_from_console
