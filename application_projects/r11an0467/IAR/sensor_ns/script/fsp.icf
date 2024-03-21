@@ -1,26 +1,12 @@
 include "memory_regions.icf";
 
-if (!isdefinedsymbol(NS_OFFSET_START))
-{
-  define symbol NS_OFFSET_START = 0;
-}
-
-if (isdefinedsymbol(PROJECT_NONSECURE))
-{
-  define symbol NS_IMAGE_OFFSET = NS_OFFSET_START;
-}
-else
-{
-  define symbol NS_IMAGE_OFFSET = 0;
-}
-
   /* Uncomment and set XIP_SECONDARY_SLOT_IMAGE to 1 below for the secondary XIP application image. */
   /* define symbol XIP_SECONDARY_SLOT_IMAGE = 1; */
 
 if (isdefinedsymbol(FLASH_BOOTLOADER_LENGTH))
 {
-  define exported symbol __bl_FLASH_IMAGE_START = FLASH_APPLICATION_IMAGE_NUMBER == 1 ? FLASH_BOOTLOADER_LENGTH + FLASH_BOOTLOADER_HEADER_LENGTH :
-                                                  FLASH_BOOTLOADER_LENGTH + FLASH_BOOTLOADER_SCRATCH_LENGTH + FLASH_APPLICATION_S_LENGTH + FLASH_BOOTLOADER_HEADER_LENGTH;
+  define exported symbol __bl_FLASH_IMAGE_START = FLASH_APPLICATION_IMAGE_NUMBER == 1 ? FLASH_START + FLASH_BOOTLOADER_LENGTH + FLASH_BOOTLOADER_HEADER_LENGTH :
+                                                  FLASH_START + FLASH_BOOTLOADER_LENGTH + FLASH_BOOTLOADER_SCRATCH_LENGTH + FLASH_APPLICATION_S_LENGTH + FLASH_BOOTLOADER_HEADER_LENGTH;
   define exported symbol __bl_FLASH_IMAGE_LENGTH = FLASH_APPLICATION_S_LENGTH - FLASH_BOOTLOADER_HEADER_LENGTH;
   define exported symbol __bl_FLASH_IMAGE_END = __bl_FLASH_IMAGE_START + __bl_FLASH_IMAGE_LENGTH;
   define exported symbol __bl_XIP_SECONDARY_FLASH_IMAGE_START = FLASH_BOOTLOADER_LENGTH + FLASH_APPLICATION_S_LENGTH + FLASH_BOOTLOADER_HEADER_LENGTH;
@@ -120,9 +106,9 @@ keep                                       { section .usb_*};
 /* MCUs with the OPTION_SETTING region do not use the ROM registers at 0x400. */
 if ((OPTION_SETTING_LENGTH == 0) && (FLASH_ORIGIN == FLASH_START))
 {
-  define region VECT_region       = mem:[from VECT_START + NS_IMAGE_OFFSET      to VECT_END + NS_IMAGE_OFFSET];
-  define region ROMREG_region     = mem:[from ROMREG_START + NS_IMAGE_OFFSET    to ROMREG_END + NS_IMAGE_OFFSET];
-  define region FLASH_region      = mem:[from FLASH_PRV_START + NS_IMAGE_OFFSET to FLASH_END + NS_IMAGE_OFFSET];
+  define region VECT_region       = mem:[from VECT_START to VECT_END];
+  define region ROMREG_region     = mem:[from ROMREG_START to ROMREG_END];
+  define region FLASH_region      = mem:[from FLASH_PRV_START to FLASH_END];
 
   place at start of VECT_region  { ro section .fixed_vectors* };
   place in VECT_region           { ro section .application_vectors* };
@@ -131,7 +117,7 @@ if ((OPTION_SETTING_LENGTH == 0) && (FLASH_ORIGIN == FLASH_START))
 }
 else
 {
-  define region FLASH_region      = mem:[from FLASH_ORIGIN + NS_IMAGE_OFFSET to FLASH_END + NS_IMAGE_OFFSET];  
+  define region FLASH_region      = mem:[from FLASH_ORIGIN to FLASH_END];
   place at start of FLASH_region  { ro section .fixed_vectors* };
   place in FLASH_region           { ro section .application_vectors* };
 }
@@ -145,7 +131,7 @@ place in FLASH_region   { ro,
                           last section END_OF_ROM };
 
 /* create a block to hold the veneers named so e2 tooling will recognize as "_C" */
-define block Image$$__tz_FLASH_C with alignment = __tz_FLASH_C_ALIGN { section Veneer$$CMSE };
+define block Image$$__tz_FLASH_C with alignment = __tz_FLASH_C_ALIGN { section Veneer$$CMSE* };
 /* We need to create an empty section for the non-secure section and nest some blocks to get IAR to place it
     (without outputting data) */
 define section .tz_flash_ns_start {};
@@ -169,11 +155,11 @@ else
   else
   {
     place at end of FLASH_region { block TZ_FLASH };
-  }  
+  }
 }
 
 /************************ RAM Memory **************************************/
-define region RAM_region        = mem:[from RAM_START + NS_IMAGE_OFFSET        to RAM_END + NS_IMAGE_OFFSET];
+define region RAM_region        = mem:[from RAM_START to RAM_END];
 define exported symbol __tz_RAM_S = RAM_START;
 
 /* If DTC is used, put the DTC vector table at the start of SRAM.
@@ -220,7 +206,7 @@ else
 place in RAM_region     { last section FREE_MEM };
 
 /************************ DATA FLASH Memory **************************************/
-define region DF_region         = mem:[from DATA_FLASH_START + NS_IMAGE_OFFSET to DATA_FLASH_END + NS_IMAGE_OFFSET];
+define region DF_region         = mem:[from DATA_FLASH_START to DATA_FLASH_END];
 place in DF_region      { ro section .data_flash };
 define exported symbol __tz_DATA_FLASH_S = DATA_FLASH_START;
 /* We need to create an empty sections for the ns sections and nest some blocks to get linker to place it
@@ -401,7 +387,7 @@ if (isdefinedsymbol(PROJECT_SECURE))
 else
 {
   place at end of OSPI_DEVICE_1_region { block Image$$__tz_OSPI_DEVICE_1_N };
-}  
+}
 
 /************************ ID CODE Memory **************************************/
 if(ID_CODE_LENGTH > 0)
@@ -441,22 +427,25 @@ if(OPTION_SETTING_LENGTH > 0)
   }
   else
   {
-    place at address OPTION_SETTING_START+NS_IMAGE_OFFSET+0 { ro section .option_setting_ofs1 };
-    place at address OPTION_SETTING_START+NS_IMAGE_OFFSET+4 { ro section .option_setting_ofs3 };
-    place at address OPTION_SETTING_START+NS_IMAGE_OFFSET+0x10 { ro section .option_setting_banksel };
-    place at address OPTION_SETTING_START+NS_IMAGE_OFFSET+0x40 { ro section .option_setting_bps0 };
-    place at address OPTION_SETTING_START+NS_IMAGE_OFFSET+0x44 { ro section .option_setting_bps1 };
-    place at address OPTION_SETTING_START+NS_IMAGE_OFFSET+0x48 { ro section .option_setting_bps2 };
-    place at address OPTION_SETTING_START+NS_IMAGE_OFFSET+0x4C { ro section .option_setting_bps3 };
-    place at address OPTION_SETTING_START+NS_IMAGE_OFFSET+0x60 { ro section .option_setting_pbps0 };
-    place at address OPTION_SETTING_START+NS_IMAGE_OFFSET+0x64 { ro section .option_setting_pbps1 };
-    place at address OPTION_SETTING_START+NS_IMAGE_OFFSET+0x68 { ro section .option_setting_pbps2 };
-    place at address OPTION_SETTING_START+NS_IMAGE_OFFSET+0x6C { ro section .option_setting_pbps3 };
+    place at address OPTION_SETTING_START+0 { ro section .option_setting_ofs1 };
+    place at address OPTION_SETTING_START+4 { ro section .option_setting_ofs3 };
+    place at address OPTION_SETTING_START+0x10 { ro section .option_setting_banksel };
+    place at address OPTION_SETTING_START+0x40 { ro section .option_setting_bps0 };
+    place at address OPTION_SETTING_START+0x44 { ro section .option_setting_bps1 };
+    place at address OPTION_SETTING_START+0x48 { ro section .option_setting_bps2 };
+    place at address OPTION_SETTING_START+0x4C { ro section .option_setting_bps3 };
+    place at address OPTION_SETTING_START+0x60 { ro section .option_setting_pbps0 };
+    place at address OPTION_SETTING_START+0x64 { ro section .option_setting_pbps1 };
+    place at address OPTION_SETTING_START+0x68 { ro section .option_setting_pbps2 };
+    place at address OPTION_SETTING_START+0x6C { ro section .option_setting_pbps3 };
   }
 }
 
 define exported symbol __tz_ID_CODE_S = ID_CODE_START;
-define exported symbol __tz_ID_CODE_N = ID_CODE_START + ID_CODE_LENGTH;
+
+/* Set this symbol to the same value as __tz_ID_CODE_S so the RA configuration tool does not split the ID_CODE
+ * memory region between TrustZone projects. */
+define exported symbol __tz_ID_CODE_N = ID_CODE_START;
 
 define symbol OPTION_SETTING_NS_OFFSET = 0x80;
 define exported symbol __tz_OPTION_SETTING_S = OPTION_SETTING_START;
@@ -470,15 +459,45 @@ if (isdefinedsymbol(ITCM_LENGTH))
 {
   /* Define region for storing ITCM data. */
   define symbol ITCM_END = ITCM_START + ITCM_LENGTH - 1;
-  define region ITCM_region = mem:[from ITCM_START + NS_IMAGE_OFFSET to ITCM_END + NS_IMAGE_OFFSET];
+  define region ITCM_region = mem:[from ITCM_START to ITCM_END];
+
+  initialize manually {
+    section .itcm_data
+  };
+
+  define block ITCM_DATA with alignment = 8, end alignment = 8, fixed order {
+    rw section .itcm_data
+  };
+  define block ITCM_DATA_INIT with alignment = 16, end alignment = 8, fixed order {
+    ro section .itcm_data_init
+  };
+
   place in ITCM_region {
-                         ro section .itcm_data,
-                       };
+    block ITCM_DATA
+  };
+  place in FLASH_region {
+    block ITCM_DATA_INIT
+  };
+
+  keep {
+    section .itcm_data,
+    section .itcm_data_init,
+    block ITCM_DATA,
+    block ITCM_DATA_INIT
+  };
 
   define symbol __tz_ITCM_S = ITCM_START;
   export symbol __tz_ITCM_S;
-  define symbol __tz_ITCM_N = ITCM_START + ITCM_LENGTH;
+  /* Ternary doesn't work with undefined symbols. */
+  if (isdefinedsymbol(ITCM_NS_START)) {
+     define symbol __tz_ITCM_N = ITCM_NS_START;
+  } else {
+     define symbol __tz_ITCM_N = alignup(ITCM_START + ITCM_LENGTH, 8192);
+  }
   export symbol __tz_ITCM_N;
+
+  check that size(block ITCM_DATA) % 8 == 0;
+  check that size(block ITCM_DATA_INIT) % 8 == 0;
 }
 
 /************************ DTCM Memory **************************************/
@@ -486,14 +505,53 @@ if (isdefinedsymbol(DTCM_LENGTH))
 {
   /* Define region for storing DTCM data. */
   define symbol DTCM_END = DTCM_START + DTCM_LENGTH - 1;
-  define region DTCM_region        = mem:[from DTCM_START + NS_IMAGE_OFFSET to DTCM_END + NS_IMAGE_OFFSET];
-  place in DTCM_region    {
-                            rw section .dtcm_data,
-                            rw section .dtcm_noinit,
-                          };
+  define region DTCM_region        = mem:[from DTCM_START to DTCM_END];
+
+  initialize manually {
+    section .dtcm_data
+  };
+  do not initialize {
+    section .dtcm_bss
+  };
+
+  define block DTCM_DATA with alignment = 8, end alignment = 8, fixed order {
+    rw section .dtcm_data
+  };
+  define block DTCM_DATA_INIT with alignment = 16, end alignment = 8, fixed order {
+    ro section .dtcm_data_init
+  };
+  define block DTCM_BSS with alignment = 8, end alignment = 8, fixed order {
+    zi section .dtcm_bss
+  };
+
+  place in DTCM_region {
+    block DTCM_DATA,
+    block DTCM_BSS
+  };
+  place in FLASH_region {
+    block DTCM_DATA_INIT
+  };
+
+  keep {
+    section .dtcm_data,
+    section .dtcm_data_init,
+    section .dtcm_bss,
+    block DTCM_DATA,
+    block DTCM_DATA_INIT,
+    block DTCM_BSS
+  };
 
   define symbol __tz_DTCM_S = DTCM_START;
   export symbol __tz_DTCM_S;
-  define symbol __tz_DTCM_N = DTCM_START + DTCM_LENGTH;
+  /* Ternary doesn't work with undefined symbols. */
+  if (isdefinedsymbol(DTCM_NS_START)) {
+     define symbol __tz_DTCM_N = DTCM_NS_START;
+  } else {
+     define symbol __tz_DTCM_N = alignup(DTCM_START + DTCM_LENGTH, 8192);
+  }
   export symbol __tz_DTCM_N;
+
+  check that size(block DTCM_DATA) % 8 == 0;
+  check that size(block DTCM_DATA_INIT) % 8 == 0;
+  check that size(block DTCM_BSS) % 8 == 0;
 }

@@ -23,9 +23,9 @@
 
 if ($debugfile -eq "")
 {
-& "C:\Program Files\IAR Systems\Embedded Workbench 9.321\common\bin\cspybat" -f "C:\MyProjects\IAR\sensor_s\settings\sensor_s.Debug.general.xcl" --backend -f "C:\MyProjects\IAR\sensor_s\settings\sensor_s.Debug.driver.xcl" 
+& "C:\Program Files\IAR Systems\Embedded Workbench 9.40.2\common\bin\cspybat" -f "C:\Users\a5099044\LTM\IAR\sensor_s\settings\sensor_s.Debug.general.xcl" --backend -f "C:\Users\a5099044\LTM\IAR\sensor_s\settings\sensor_s.Debug.driver.xcl" 
 }
 else
 {
-& "C:\Program Files\IAR Systems\Embedded Workbench 9.321\common\bin\cspybat" -f "C:\MyProjects\IAR\sensor_s\settings\sensor_s.Debug.general.xcl" --debug_file=$debugfile --backend -f "C:\MyProjects\IAR\sensor_s\settings\sensor_s.Debug.driver.xcl" 
+& "C:\Program Files\IAR Systems\Embedded Workbench 9.40.2\common\bin\cspybat" -f "C:\Users\a5099044\LTM\IAR\sensor_s\settings\sensor_s.Debug.general.xcl" --debug_file=$debugfile --backend -f "C:\Users\a5099044\LTM\IAR\sensor_s\settings\sensor_s.Debug.driver.xcl" 
 }

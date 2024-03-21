@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<raConfiguration version="7">
+<raConfiguration version="8">
   <generalSettings>
     <option key="#Board#" value="board.ra6m3ek"/>
     <option key="CPU" value="RA6M3"/>
@@ -9,10 +9,10 @@
     <option key="#DeviceCommand#" value="R7FA6M3AH"/>
     <option key="#RTOS#" value="_none"/>
     <option key="#pinconfiguration#" value="R7FA6M3AH3CFC.pincfg"/>
-    <option key="#FSPVersion#" value="4.2.0"/>
+    <option key="#FSPVersion#" value="5.0.0"/>
     <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra6m3_ek##"/>
     <option key="#SELECTED_TOOLCHAIN#" value="gcc-arm-embedded"/>
-    <option key="#ToolchainVersion#" value="10.3.1.20210824"/>
+    <option key="#ToolchainVersion#" value="12.2.1.arm-12-mpacbti-34"/>
   </generalSettings>
   <raBspConfiguration>
     <config id="config.bsp.ra6m3.R7FA6M3AH3CFC">
@@ -72,6 +72,9 @@
       <property id="config.bsp.fsp.mcu.sci_spi.max_bitrate" value="30000000"/>
       <property id="config.bsp.fsp.mcu.spi.max_bitrate" value="30000000"/>
       <property id="config.bsp.fsp.mcu.iic_master.rate.rate_fastplus" value="1"/>
+      <property id="config.bsp.fsp.mcu.iic_master.fastplus_channels" value="0x1"/>
+      <property id="config.bsp.fsp.mcu.iic_slave.rate.rate_fastplus" value="1"/>
+      <property id="config.bsp.fsp.mcu.iic_slave.fastplus_channels" value="0x1"/>
       <property id="config.bsp.fsp.mcu.sci_uart.cstpen_channels" value="0x0"/>
       <property id="config.bsp.fsp.mcu.gpt.pin_count_source_channels" value="0xFFFF"/>
       <property id="config.bsp.common.id_mode" value="config.bsp.common.id_mode.unlocked"/>
@@ -137,61 +140,61 @@
     <node id="board.clock.clkout.display" option="board.clock.clkout.display.value"/>
   </raClockConfiguration>
   <raComponentSelection>
-    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra6m3_ek" variant="" vendor="Renesas" version="4.2.0">
-      <description>RA6M3-EK Board Support Files</description>
-      <originalPack>Renesas.RA_board_ra6m3_ek.4.2.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="boot" condition="" group="all" subgroup="MCUboot" variant="" vendor="Linaro" version="1.9.0+renesas.0.fsp.4.2.0">
-      <description>MCUboot</description>
-      <originalPack>Linaro.MCUboot.1.9.0+renesas.0.fsp.4.2.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="boot" condition="" group="all" subgroup="keys" variant="" vendor="Linaro" version="1.9.0+renesas.0.fsp.4.2.0">
-      <description>MCUboot Example Keys</description>
-      <originalPack>Linaro.MCUboot.1.9.0+renesas.0.fsp.4.2.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="5.9.0+renesas.0.fsp.4.2.0">
+    <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="5.9.0+renesas.0.fsp.5.0.0">
       <description>Arm CMSIS Version 5 - Core (M)</description>
-      <originalPack>Arm.CMSIS5.5.9.0+renesas.0.fsp.4.2.0.pack</originalPack>
+      <originalPack>Arm.CMSIS5.5.9.0+renesas.0.fsp.5.0.0.pack</originalPack>
     </component>
-    <component apiversion="" class="PSA" condition="" group="Crypto" subgroup="mbedCrypto" variant="" vendor="Arm" version="3.2.1+renesas.1.fsp.4.2.0">
+    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra6m3_ek" variant="" vendor="Renesas" version="5.0.0">
+      <description>RA6M3-EK Board Support Files</description>
+      <originalPack>Renesas.RA_board_ra6m3_ek.5.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="boot" condition="" group="all" subgroup="MCUboot" variant="" vendor="Linaro" version="1.10.0+renesas.0.fsp.5.0.0">
+      <description>MCUboot</description>
+      <originalPack>Linaro.MCUboot.1.10.0+renesas.0.fsp.5.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="boot" condition="" group="all" subgroup="keys" variant="" vendor="Linaro" version="1.10.0+renesas.0.fsp.5.0.0">
+      <description>MCUboot Example Keys</description>
+      <originalPack>Linaro.MCUboot.1.10.0+renesas.0.fsp.5.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="PSA" condition="" group="Crypto" subgroup="mbedCrypto" variant="" vendor="Arm" version="3.4.0+renesas.1.fsp.5.0.0">
       <description>Arm PSA Crypto Implementation</description>
-      <originalPack>Arm.MbedCrypto.3.2.1+renesas.1.fsp.4.2.0.pack</originalPack>
+      <originalPack>Arm.MbedCrypto.3.4.0+renesas.1.fsp.5.0.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra6m3" subgroup="device" variant="R7FA6M3AH3CFC" vendor="Renesas" version="4.2.0">
+    <component apiversion="" class="BSP" condition="" group="ra6m3" subgroup="device" variant="R7FA6M3AH3CFC" vendor="Renesas" version="5.0.0">
       <description>Board support package for R7FA6M3AH3CFC</description>
-      <originalPack>Renesas.RA_mcu_ra6m3.4.2.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra6m3.5.0.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra6m3" subgroup="device" variant="" vendor="Renesas" version="4.2.0">
+    <component apiversion="" class="BSP" condition="" group="ra6m3" subgroup="device" variant="" vendor="Renesas" version="5.0.0">
       <description>Board support package for RA6M3</description>
-      <originalPack>Renesas.RA_mcu_ra6m3.4.2.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra6m3.5.0.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra6m3" subgroup="fsp" variant="" vendor="Renesas" version="4.2.0">
+    <component apiversion="" class="BSP" condition="" group="ra6m3" subgroup="fsp" variant="" vendor="Renesas" version="5.0.0">
       <description>Board support package for RA6M3 - FSP Data</description>
-      <originalPack>Renesas.RA_mcu_ra6m3.4.2.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra6m3.5.0.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="4.2.0">
+    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="5.0.0">
       <description>Board Support Package Common Files</description>
-      <originalPack>Renesas.RA.4.2.0.pack</originalPack>
+      <originalPack>Renesas.RA.5.0.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_flash_hp" variant="" vendor="Renesas" version="4.2.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_flash_hp" variant="" vendor="Renesas" version="5.0.0">
       <description>Flash Memory High Performance</description>
-      <originalPack>Renesas.RA.4.2.0.pack</originalPack>
+      <originalPack>Renesas.RA.5.0.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="4.2.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="5.0.0">
       <description>I/O Port</description>
-      <originalPack>Renesas.RA.4.2.0.pack</originalPack>
+      <originalPack>Renesas.RA.5.0.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_sce7_ra6" variant="" vendor="Renesas" version="4.2.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_sce7_ra6" variant="" vendor="Renesas" version="5.0.0">
       <description>Secure Cryptography Engine on RA6 (SCE7)</description>
-      <originalPack>Renesas.RA.4.2.0.pack</originalPack>
+      <originalPack>Renesas.RA.5.0.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_mcuboot_port" variant="" vendor="Renesas" version="4.2.0">
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_mcuboot_port" variant="" vendor="Renesas" version="5.0.0">
       <description>MCUboot Port for RA</description>
-      <originalPack>Renesas.RA.4.2.0.pack</originalPack>
+      <originalPack>Renesas.RA.5.0.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="rm_psa_crypto" variant="" vendor="Renesas" version="4.2.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="rm_psa_crypto" variant="" vendor="Renesas" version="5.0.0">
       <description>MbedCrypto H/W Acceleration</description>
-      <originalPack>Renesas.RA.4.2.0.pack</originalPack>
+      <originalPack>Renesas.RA.5.0.0.pack</originalPack>
     </component>
   </raComponentSelection>
   <raElcConfiguration/>
@@ -306,13 +309,13 @@
       <property id="config.driver.psa_crypto.mbedtls_platform_snprintf_alt" value="config.driver.psa_crypto.mbedtls_platform_snprintf_alt.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_platform_vsnprintf_alt" value="config.driver.psa_crypto.mbedtls_platform_vsnprintf_alt.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_platform_nv_seed_alt" value="config.driver.psa_crypto.mbedtls_platform_nv_seed_alt.disabled"/>
-      <property id="config.driver.psa_crypto.psa_crypto_secure" value="config.driver.psa_crypto.psa_crypto_secure.disabled"/>
+      <property id="config.driver.psa_crypto.mbedtls_psa_crypto_drivers" value="config.driver.psa_crypto.mbedtls_psa_crypto_drivers.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_deprecated_warning" value="config.driver.psa_crypto.mbedtls_deprecated_warning.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_deprecated_removed" value="config.driver.psa_crypto.mbedtls_deprecated_removed.enabled"/>
       <property id="config.driver.psa_crypto.mbedtls_timing_alt" value="config.driver.psa_crypto.mbedtls_timing_alt.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_aria_alt" value="config.driver.psa_crypto.mbedtls_aria_alt.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_camellia_alt" value="config.driver.psa_crypto.mbedtls_camellia_alt.disabled"/>
-      <property id="config.driver.psa_crypto.mbedtls_ccm_alt" value="config.driver.psa_crypto.mbedtls_ccm_alt.disabled"/>
+      <property id="config.driver.psa_crypto.mbedtls_ccm_alt" value="config.driver.psa_crypto.aes_ccm_alt.enabled"/>
       <property id="config.driver.psa_crypto.mbedtls_chacha20_alt" value="config.driver.psa_crypto.mbedtls_chacha20_alt.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_chachapoly_alt" value="config.driver.psa_crypto.mbedtls_chachapoly_alt.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_cmac_alt" value="config.driver.psa_crypto.mbedtls_cmac_alt.disabled"/>
@@ -391,6 +394,7 @@
       <property id="config.driver.psa_crypto.mbedtls_pkcs1_v15" value="config.driver.psa_crypto.mbedtls_pkcs1_v15.enabled"/>
       <property id="config.driver.psa_crypto.mbedtls_pkcs1_v21" value="config.driver.psa_crypto.mbedtls_pkcs1_v21.enabled"/>
       <property id="config.driver.psa_crypto.mbedtls_crypto_builtin_keys" value="config.driver.psa_crypto.mbedtls_crypto_builtin_keys.disabled"/>
+      <property id="config.driver.psa_crypto.psa_crypto_tfm_builtin_keys" value="config.driver.psa_crypto.psa_crypto_tfm_builtin_keys.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_psa_crypto_client" value="config.driver.psa_crypto.mbedtls_psa_crypto_client.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_crypto_external_rng" value="config.driver.psa_crypto.mbedtls_crypto_external_rng.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_psa_crypto_spm" value="config.driver.psa_crypto.mbedtls_psa_crypto_spm.disabled"/>
@@ -428,6 +432,8 @@
       <property id="config.driver.psa_crypto.mbedtls_gcm_c" value="config.driver.psa_crypto.mbedtls_gcm_c.enabled"/>
       <property id="config.driver.psa_crypto.mbedtls_hkdf_c" value="config.driver.psa_crypto.mbedtls_hkdf_c.enabled"/>
       <property id="config.driver.psa_crypto.mbedtls_hmac_drbg_c" value="config.driver.psa_crypto.mbedtls_hmac_drbg_c.disabled"/>
+      <property id="config.driver.psa_crypto.mbedtls_lms_c" value="config.driver.psa_crypto.mbedtls_lms_c.enabled"/>
+      <property id="config.driver.psa_crypto.mbedtls_lms_private" value="config.driver.psa_crypto.mbedtls_lms_private.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_nist_kw_c" value="config.driver.psa_crypto.mbedtls_nist_kw_c.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_md_c" value="config.driver.psa_crypto.mbedtls_md_c.enabled"/>
       <property id="config.driver.psa_crypto.mbedtls_md5_c" value="config.driver.psa_crypto.mbedtls_md5_c.enabled"/>
@@ -439,6 +445,7 @@
       <property id="config.driver.psa_crypto.mbedtls_pk_parse_c" value="config.driver.psa_crypto.mbedtls_pk_parse_c.enabled"/>
       <property id="config.driver.psa_crypto.mbedtls_pk_write_c" value="config.driver.psa_crypto.mbedtls_pk_write_c.enabled"/>
       <property id="config.driver.psa_crypto.mbedtls_pkcs5_c" value="config.driver.psa_crypto.mbedtls_pkcs5_c.enabled"/>
+      <property id="config.driver.psa_crypto.mbedtls_pkcs7_c" value="config.driver.psa_crypto.mbedtls_pkcs7_c.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_pkcs12_c" value="config.driver.psa_crypto.mbedtls_pkcs12_c.enabled"/>
       <property id="config.driver.psa_crypto.mbedtls_platform_c" value="config.driver.psa_crypto.mbedtls_platform_c.enabled"/>
       <property id="config.driver.psa_crypto.mbedtls_poly1305_c" value="config.driver.psa_crypto.mbedtls_poly1305_c.disabled"/>
