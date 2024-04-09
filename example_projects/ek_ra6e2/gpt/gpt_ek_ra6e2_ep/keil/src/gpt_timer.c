@@ -119,7 +119,7 @@ fsp_err_t set_timer_duty_cycle(uint8_t duty_cycle_percent)
          * not required for 16-bit timers. */
         duty_cycle_counts =(uint32_t) ((uint64_t) (current_period_counts * duty_cycle_percent) /
                 GPT_MAX_PERCENT);
-#if defined(BOARD_RA4W1_EK) || defined (BOARD_RA6T1_RSSK)
+#if defined(BOARD_RA4W1_EK) || defined (BOARD_RA6T1_RSSK) ||defined (BOARD_RA6T3_MCK) || defined (BOARD_RA4T1_MCK)
         duty_cycle_counts = (current_period_counts - duty_cycle_counts);
 #endif
 

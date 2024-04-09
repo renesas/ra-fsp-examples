@@ -8,9 +8,9 @@
     <option key="#TargetARCHITECTURE#" value="cortex-m33" />
     <option key="#DeviceCommand#" value="R7FA6E2BB" />
     <option key="#RTOS#" value="_none" />
-    <option key="#pinconfiguration#" value="R7FA6M3AH3CFC.pincfg" />
+    <option key="#pinconfiguration#" value="R7FA6E2BB3CFM.pincfg" />
     <option key="#FSPVersion#" value="5.2.0" />
-    <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra6m3_ek##|Renesas##BSP##Board##ra4e2_ek##|Renesas##BSP##Board##ra6e2_ek##" />
+    <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra6e2_ek##" />
     <option key="#SELECTED_TOOLCHAIN#" value="gcc-arm-embedded" />
     <option key="#ToolchainVersion#" value="13.2.1.arm-13-7" />
   </generalSettings>
@@ -74,7 +74,7 @@
       <property id="config.bsp.fsp.mcu.canfd.rx_fifos" value="2" />
       <property id="config.bsp.fsp.mcu.canfd.buffer_ram" value="1216" />
       <property id="config.bsp.fsp.mcu.canfd.afl_rules" value="32" />
-      <property id="config.bsp.fsp.mcu.canfd.afl_rules_independent" value="1" />
+      <property id="config.bsp.fsp.mcu.canfd.afl_rules_each_chnl" value="32" />
       <property id="config.bsp.fsp.mcu.canfd.max_data_rate_hz" value="5" />
       <property id="config.bsp.fsp.mcu.sci_uart.cstpen_channels" value="0x0201" />
       <property id="config.bsp.fsp.mcu.gpt.pin_count_source_channels" value="0xFFFF" />
@@ -145,9 +145,17 @@
     <node id="board.clock.i3cclk.display" option="board.clock.i3cclk.display.value" />
   </raClockConfiguration>
   <raComponentSelection>
-    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra6e2_ek" variant="" vendor="Renesas" version="5.2.0">
-      <description>RA6E2-EK Board Support Files</description>
-      <originalPack>Renesas.RA_board_ra6e2_ek.5.2.0.pack</originalPack>
+    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="5.2.0">
+      <description>Board Support Package Common Files</description>
+      <originalPack>Renesas.RA.5.2.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="5.2.0">
+      <description>I/O Port</description>
+      <originalPack>Renesas.RA.5.2.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="5.9.0+renesas.1.fsp.5.2.0">
+      <description>Arm CMSIS Version 5 - Core (M)</description>
+      <originalPack>Arm.CMSIS5.5.9.0+renesas.1.fsp.5.2.0.pack</originalPack>
     </component>
     <component apiversion="" class="BSP" condition="" group="ra6e2" subgroup="device" variant="R7FA6E2BB3CFM" vendor="Renesas" version="5.2.0">
       <description>Board support package for R7FA6E2BB3CFM</description>
@@ -161,9 +169,9 @@
       <description>Board support package for RA6E2 - FSP Data</description>
       <originalPack>Renesas.RA_mcu_ra6e2.5.2.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="5.2.0">
-      <description>Board Support Package Common Files</description>
-      <originalPack>Renesas.RA.5.2.0.pack</originalPack>
+    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra6e2_ek" variant="" vendor="Renesas" version="5.2.0">
+      <description>RA6E2-EK Board Support Files</description>
+      <originalPack>Renesas.RA_board_ra6e2_ek.5.2.0.pack</originalPack>
     </component>
     <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_adc" variant="" vendor="Renesas" version="5.2.0">
       <description>A/D Converter</description>
@@ -172,14 +180,6 @@
     <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_dac" variant="" vendor="Renesas" version="5.2.0">
       <description>12-bit D/A Converter</description>
       <originalPack>Renesas.RA.5.2.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="5.2.0">
-      <description>I/O Port</description>
-      <originalPack>Renesas.RA.5.2.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="5.9.0+renesas.1.fsp.5.2.0">
-      <description>Arm CMSIS Version 5 - Core (M)</description>
-      <originalPack>Arm.CMSIS5.5.9.0+renesas.1.fsp.5.2.0.pack</originalPack>
     </component>
   </raComponentSelection>
   <raElcConfiguration />
@@ -193,7 +193,7 @@
       <property id="module.driver.ioport.elc_trigger_ioport4" value="_disabled" />
       <property id="module.driver.ioport.pincfg" value="g_bsp_pin_cfg" />
     </module>
-    <module id="module.driver.adc_on_adc.1639069051">
+    <module id="module.driver.adc_on_adc.620181278">
       <property id="module.driver.adc.name" value="g_adc" />
       <property id="module.driver.adc.unit" value="0" />
       <property id="module.driver.adc.resolution" value="module.driver.adc.resolution.resolution_12_bit" />
@@ -230,20 +230,20 @@
       <property id="module.driver.adc.window_b_ipl" value="_disabled" />
       <property id="module.driver.adc.adbuf" value="module.driver.adc.adbuf.disabled" />
     </module>
-    <module id="module.driver.dac_on_dac.1661912153">
+    <module id="module.driver.dac_on_dac.1762352622">
       <property id="module.driver.dac.name" value="g_dac" />
       <property id="module.driver.dac.channel_id" value="0" />
       <property id="module.driver.dac.ad_da_synchronized" value="module.driver.dac.ad_da_synchronized.disabled" />
       <property id="module.driver.dac.data_format" value="module.driver.dac.data_format.data_format_flush_right" />
-      <property id="module.driver.dac.output_amplifier_enabled" value="module.driver.dac.output_amplifier.enabled" />
+      <property id="module.driver.dac.output_amplifier_enabled" value="module.driver.dac.output_amplifier.disabled" />
       <property id="module.driver.dac.charge_pump_enabled" value="enum.mcu.dac.charge_pump.disabled" />
       <property id="module.driver.dac.internal_output" value="enum.mcu.dac.internal_output.disabled" />
       <property id="module.driver.dac.elc_trigger" value="_disabled" />
     </module>
     <context id="_hal.0">
       <stack module="module.driver.ioport_on_ioport.0" />
-      <stack module="module.driver.adc_on_adc.1639069051" />
-      <stack module="module.driver.dac_on_dac.1661912153" />
+      <stack module="module.driver.adc_on_adc.620181278" />
+      <stack module="module.driver.dac_on_dac.1762352622" />
     </context>
     <config id="config.driver.ioport">
       <property id="config.driver.ioport.checking" value="config.driver.ioport.checking.system" />
@@ -267,35 +267,35 @@
     <symbolicName propertyId="p013.symbolic_name" value="ARDUINO_A5" />
     <symbolicName propertyId="p014.symbolic_name" value="PMOD1_SS3" />
     <symbolicName propertyId="p015.symbolic_name" value="PMOD1_SS2" />
-    <symbolicName propertyId="p100.symbolic_name" value="I3C_SCL" />
-    <symbolicName propertyId="p101.symbolic_name" value="I3C_SDA" />
-    <symbolicName propertyId="p102.symbolic_name" value="PMOD2_RESET" />
-    <symbolicName propertyId="p103.symbolic_name" value="PMOD2_CTS" />
-    <symbolicName propertyId="p104.symbolic_name" value="LED2" />
+    <symbolicName propertyId="p100.symbolic_name" value="I3C_SCL_QSPCLK" />
+    <symbolicName propertyId="p101.symbolic_name" value="I3C_SDA_QIO1" />
+    <symbolicName propertyId="p102.symbolic_name" value="PMOD2_RESET_QIO0" />
+    <symbolicName propertyId="p103.symbolic_name" value="PMOD2_CTS_RTS_QIO3" />
+    <symbolicName propertyId="p104.symbolic_name" value="QIO2" />
     <symbolicName propertyId="p105.symbolic_name" value="PMOD1_IRQ0_MIKROBUS_INT_ARDUINO_D2" />
     <symbolicName propertyId="p106.symbolic_name" value="PMOD2_SS3" />
     <symbolicName propertyId="p107.symbolic_name" value="PMOD2_SS2" />
     <symbolicName propertyId="p108.symbolic_name" value="DEBUG_SWDIO" />
     <symbolicName propertyId="p109.symbolic_name" value="PMOD1_MOSI_MIKROBUS_MOSI_ARDUINO_D11" />
     <symbolicName propertyId="p110.symbolic_name" value="PMOD1_MISO_MIKROBUS_MISO_ARDUINO_D12" />
-    <symbolicName propertyId="p111.symbolic_name" value="PMOD1_MIKROBUS_RSPCK_ARDUINO_D13" />
-    <symbolicName propertyId="p112.symbolic_name" value="LED3" />
-    <symbolicName propertyId="p113.symbolic_name" value="ARDUINO_D6" />
+    <symbolicName propertyId="p111.symbolic_name" value="PMOD1_RSPCKA_MIKROBUS_RSPCK_ARDUINO_D13" />
+    <symbolicName propertyId="p112.symbolic_name" value="QSSL" />
+    <symbolicName propertyId="p113.symbolic_name" value="LED3_ARDUINO_D6" />
     <symbolicName propertyId="p207.symbolic_name" value="LED1" />
     <symbolicName propertyId="p300.symbolic_name" value="DEBUG_SWDCLK" />
-    <symbolicName propertyId="p301.symbolic_name" value="PMOD1_MIKROBUS_SSLA_ARDUINO_D10" />
+    <symbolicName propertyId="p301.symbolic_name" value="PMOD1_SSLA_MIKROBUS_SSLA_ARDUINO_D10" />
     <symbolicName propertyId="p302.symbolic_name" value="PMOD2_CTS_ARDUINO_D3" />
     <symbolicName propertyId="p303.symbolic_name" value="PMOD1_CTS9" />
     <symbolicName propertyId="p304.symbolic_name" value="SW2" />
-    <symbolicName propertyId="p400.symbolic_name" value="IRQ0" />
+    <symbolicName propertyId="p400.symbolic_name" value="LED2" />
     <symbolicName propertyId="p401.symbolic_name" value="CANFD0_CTX" />
     <symbolicName propertyId="p402.symbolic_name" value="CANFD0_CRX" />
     <symbolicName propertyId="p403.symbolic_name" value="MIKROBUS_PWM_ARDUINO_D9" />
     <symbolicName propertyId="p407.symbolic_name" value="USBFS_VBUS" />
-    <symbolicName propertyId="p408.symbolic_name" value="PMOD1_RESET_MIKROBUS_RESET" />
+    <symbolicName propertyId="p408.symbolic_name" value="MIKROBUS_PMOD1_RESET" />
     <symbolicName propertyId="p409.symbolic_name" value="PMOD2_IRQ6_ARDUINO_D5" />
-    <symbolicName propertyId="p410.symbolic_name" value="PMOD2_RX_MIKROBUS_RX_ARDUINO_D0" />
-    <symbolicName propertyId="p411.symbolic_name" value="PMOD2_TX_MIKROBUS_TX_ARDUINO_D1" />
+    <symbolicName propertyId="p410.symbolic_name" value="PMOD2_MIKROBUS_RX_ARDUINO_D0" />
+    <symbolicName propertyId="p411.symbolic_name" value="MIKROBUS_TX_ARDUINO_D1" />
     <symbolicName propertyId="p500.symbolic_name" value="ARDUINO_D4" />
     <pincfg active="true" name="RA6E2 EK" selected="true" symbol="g_bsp_pin_cfg">
       <configSetting altId="adc0.an000.p000" configurationId="adc0.an000" />
@@ -309,6 +309,8 @@
       <configSetting altId="canfd0.ctx0.p401" configurationId="canfd0.ctx0" />
       <configSetting altId="canfd0.mode.enabled.b" configurationId="canfd0.mode" />
       <configSetting altId="canfd0.pairing.b" configurationId="canfd0.pairing" />
+      <configSetting altId="dac120.da0.p014" configurationId="dac120.da0" />
+      <configSetting altId="dac120.mode.enabled.free" configurationId="dac120.mode" />
       <configSetting altId="i3c_fslash_iic.i3c_scl.p100" configurationId="i3c_fslash_iic.i3c_scl" />
       <configSetting altId="i3c_fslash_iic.i3c_sda.p101" configurationId="i3c_fslash_iic.i3c_sda" />
       <configSetting altId="i3c_fslash_iic.mode.i3cmode.free" configurationId="i3c_fslash_iic.mode" />
@@ -333,8 +335,8 @@
       <configSetting altId="p008.gpio_mode.gpio_mode_in" configurationId="p008.gpio_mode" />
       <configSetting altId="p013.adc0.an011" configurationId="p013" />
       <configSetting altId="p013.gpio_mode.gpio_mode_an" configurationId="p013.gpio_mode" />
-      <configSetting altId="p014.input" configurationId="p014" />
-      <configSetting altId="p014.gpio_mode.gpio_mode_in" configurationId="p014.gpio_mode" />
+      <configSetting altId="p014.dac120.da0" configurationId="p014" />
+      <configSetting altId="p014.gpio_mode.gpio_mode_an" configurationId="p014.gpio_mode" />
       <configSetting altId="p015.input" configurationId="p015" />
       <configSetting altId="p015.gpio_mode.gpio_mode_in" configurationId="p015.gpio_mode" />
       <configSetting altId="p100.i3c_fslash_iic.i3c_scl" configurationId="p100" />
@@ -356,7 +358,7 @@
       <configSetting altId="p113.gpio_mode.gpio_mode_out.low" configurationId="p113.gpio_mode" />
       <configSetting altId="p207.output.low" configurationId="p207" />
       <configSetting altId="p207.gpio_speed.gpio_speed_h" configurationId="p207.gpio_drivecapacity" />
-      <configSetting altId="p207.gpio_mode.gpio_mode_peripheral" configurationId="p207.gpio_mode" />
+      <configSetting altId="p207.gpio_mode.gpio_mode_out.low" configurationId="p207.gpio_mode" />
       <configSetting altId="p300.jtag_fslash_swd.swclk" configurationId="p300" />
       <configSetting altId="p300.gpio_mode.gpio_mode_peripheral" configurationId="p300.gpio_mode" />
       <configSetting altId="p301.input" configurationId="p301" />

@@ -192,7 +192,7 @@ fsp_err_t read_Input_from_RTT(void)
             }
 
             /* Print message to indicate user about application status. */
-            APP_PRINT ("\r\nWDT initialized, GPT Timer Started")
+            APP_PRINT ("\r\nWDT initialized, GPT Timer Started");
             APP_PRINT("\r\nTo stop WDT counter from refreshing, press the push button\r\n");
         }
         break;

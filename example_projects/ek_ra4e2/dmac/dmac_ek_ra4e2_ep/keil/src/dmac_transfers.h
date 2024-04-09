@@ -23,8 +23,8 @@
 #ifndef DMAC_TRANSFERS_H_
 #define DMAC_TRANSFERS_H_
 
-#define NEW_LINE    '\n'    // new line character
-#define NULL_CHAR   '\0'    // end of string character
+#define NEW_LINE    ('\n')    // new line character
+#define NULL_CHAR   ('\0')    // end of string character
 
 #define EP_INFO    "\r\nProject initializes 3 DMAC transfer instances. Upon successful initialization, a menu option is \
                      \rdisplayed. On selecting 1 from menu option, AGT generates 100ms interrupt to trigger a transfer \

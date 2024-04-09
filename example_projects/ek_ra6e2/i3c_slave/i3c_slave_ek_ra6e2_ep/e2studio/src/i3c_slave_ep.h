@@ -40,20 +40,20 @@
 /* BCR structure defined by MIPI I3C */
 #define BCR_BIT6_7_FOR_I3C_SLAVE                    (0x0)
 #define BCR_BIT6_7_FOR_I3C_MASTER                   (0x1)
-#define BCR0_Pos                                    (0)
-#define BCR0_Msk                                    (0x01)
-#define BCR1_Pos                                    (1)
-#define BCR1_Msk                                    (0x02)
-#define BCR2_Pos                                    (2)
-#define BCR2_Msk                                    (0x04)
-#define BCR3_Pos                                    (3)
-#define BCR3_Msk                                    (0x08)
-#define BCR4_Pos                                    (4)
-#define BCR4_Msk                                    (0x10)
-#define BCR5_Pos                                    (5)
-#define BCR5_Msk                                    (0x20)
-#define BCR76_Pos                                   (6)
-#define BCR76_Msk                                   (0xc0)
+#define BCR0_POS                                    (0)
+#define BCR0_MSK                                    (0x01)
+#define BCR1_POS                                    (1)
+#define BCR1_MSK                                    (0x02)
+#define BCR2_POS                                    (2)
+#define BCR2_MSK                                    (0x04)
+#define BCR3_POS                                    (3)
+#define BCR3_MSK                                    (0x08)
+#define BCR4_POS                                    (4)
+#define BCR4_MSK                                    (0x10)
+#define BCR5_POS                                    (5)
+#define BCR5_MSK                                    (0x20)
+#define BCR76_POS                                   (6)
+#define BCR76_MSK                                   (0xc0)
 
 /* user defined I3C slave BCR */
 #define I3C_SLAVE_DEVICE_SPEED_LIMITATION           (0)
@@ -64,13 +64,13 @@
 #define I3C_SLAVE_DEVICE_SUPPORT_GETCAPS            (0)
 #define I3C_SLAVE_DEVICE_ROLE                       (BCR_BIT6_7_FOR_I3C_SLAVE)
 
-#define BCR_SETTING (((I3C_SLAVE_DEVICE_SPEED_LIMITATION << BCR0_Pos) & BCR0_Msk) | \
-		             ((I3C_SLAVE_DEVICE_IBI_REQUEST_CAPABLE << BCR1_Pos) & BCR1_Msk) | \
-                     ((I3C_SLAVE_DEVICE_IBI_WITH_PAYLOAD << BCR2_Pos) & BCR2_Msk) | \
-		             ((I3C_SLAVE_DEVICE_OFFLINE_CAPABLE << BCR3_Pos) & BCR3_Msk) | \
-                     ((I3C_SLAVE_DEVICE_IS_BRIDGE << BCR4_Pos) & BCR4_Msk) | \
-                     ((I3C_SLAVE_DEVICE_SUPPORT_GETCAPS << BCR5_Pos) & BCR5_Msk) | \
-                     ((I3C_SLAVE_DEVICE_ROLE << BCR76_Pos) & BCR76_Msk))
+#define BCR_SETTING (((I3C_SLAVE_DEVICE_SPEED_LIMITATION << BCR0_POS) & BCR0_MSK) | \
+		             ((I3C_SLAVE_DEVICE_IBI_REQUEST_CAPABLE << BCR1_POS) & BCR1_MSK) | \
+                     ((I3C_SLAVE_DEVICE_IBI_WITH_PAYLOAD << BCR2_POS) & BCR2_MSK) | \
+		             ((I3C_SLAVE_DEVICE_OFFLINE_CAPABLE << BCR3_POS) & BCR3_MSK) | \
+                     ((I3C_SLAVE_DEVICE_IS_BRIDGE << BCR4_POS) & BCR4_MSK) | \
+                     ((I3C_SLAVE_DEVICE_SUPPORT_GETCAPS << BCR5_POS) & BCR5_MSK) | \
+                     ((I3C_SLAVE_DEVICE_ROLE << BCR76_POS) & BCR76_MSK))
 
 /*  DCR setting */
 #define DCR_SETTING              (0x00)
@@ -81,17 +81,17 @@
 /* MIPI Manufacturer ID */
 #define PID_RENESAS_MANUFACTURER_ID (0x04CCU)
 /* Higher 16Bits in PID structure */
-#define PID_MANUFACTURER_Pos        (1)
-#define PID_MANUFACTURER_Msk        (0xfffe)
-#define PID_TYPE_Pos                (0)
-#define PID_TYPE_Msk                (0x0001)
+#define PID_MANUFACTURER_POS        (1)
+#define PID_MANUFACTURER_MSK        (0xfffe)
+#define PID_TYPE_POS                (0)
+#define PID_TYPE_MSK                (0x0001)
 /* Lower 32Bits in PID structure */
-#define PID_VENDOR_DEF_Pos          (0)
-#define PID_VENDOR_DEF_Msk          (0x00000fff)
-#define PID_INSTANCE_ID_Pos         (12)
-#define PID_INSTANCE_ID_Msk         (0x0000f000)
-#define PID_PART_ID_Pos             (16)
-#define PID_PART_ID_Msk             (0xffff0000)
+#define PID_VENDOR_DEF_POS          (0)
+#define PID_VENDOR_DEF_MSK          (0x00000fff)
+#define PID_INSTANCE_ID_POS         (12)
+#define PID_INSTANCE_ID_MSK         (0x0000f000)
+#define PID_PART_ID_POS             (16)
+#define PID_PART_ID_MSK             (0xffff0000)
 
 /* user config */
 #define PID_MANUFACTURER            (PID_RENESAS_MANUFACTURER_ID)
@@ -101,18 +101,18 @@
 #define PID_VENDOR_DEF              (0x0000U)
 
 /* I3C Event Flag  */
-#define I3C_EVENT_FLAG_ENTDAA_ADDRESS_PHASE             0x00000001
-#define I3C_EVENT_FLAG_IBI_READ_COMPLETE                0x00000002
-#define I3C_EVENT_FLAG_IBI_READ_BUFFER_FULL             0x00000004
-#define I3C_EVENT_FLAG_READ_BUFFER_FULL                 0x00000008
-#define I3C_EVENT_FLAG_IBI_WRITE_COMPLETE               0x00000010
-#define I3C_EVENT_FLAG_HDR_EXIT_PATTERN_DETECTED        0x00000020
-#define I3C_EVENT_FLAG_ADDRESS_ASSIGNMENT_COMPLETE      0x00000040
-#define I3C_EVENT_FLAG_COMMAND_COMPLETE                 0x00000080
-#define I3C_EVENT_FLAG_WRITE_COMPLETE                   0x00000100
-#define I3C_EVENT_FLAG_READ_COMPLETE                    0x00000200
-#define I3C_EVENT_FLAG_TIMEOUT_DETECTED                 0x00000400
-#define I3C_EVENT_FLAG_INTERNAL_ERROR                   0x00000800
+#define I3C_EVENT_FLAG_ENTDAA_ADDRESS_PHASE             (0x00000001)
+#define I3C_EVENT_FLAG_IBI_READ_COMPLETE                (0x00000002)
+#define I3C_EVENT_FLAG_IBI_READ_BUFFER_FULL             (0x00000004)
+#define I3C_EVENT_FLAG_READ_BUFFER_FULL                 (0x00000008)
+#define I3C_EVENT_FLAG_IBI_WRITE_COMPLETE               (0x00000010)
+#define I3C_EVENT_FLAG_HDR_EXIT_PATTERN_DETECTED        (0x00000020)
+#define I3C_EVENT_FLAG_ADDRESS_ASSIGNMENT_COMPLETE      (0x00000040)
+#define I3C_EVENT_FLAG_COMMAND_COMPLETE                 (0x00000080)
+#define I3C_EVENT_FLAG_WRITE_COMPLETE                   (0x00000100)
+#define I3C_EVENT_FLAG_READ_COMPLETE                    (0x00000200)
+#define I3C_EVENT_FLAG_TIMEOUT_DETECTED                 (0x00000400)
+#define I3C_EVENT_FLAG_INTERNAL_ERROR                   (0x00000800)
 
 #define EP_INFO                "This example project demonstrates the typical use of the I3C Driver as slave\r\n"\
                                "device on Renesas RA MCUs based on Renesas FSP. once initialization is successful,\r\n"\

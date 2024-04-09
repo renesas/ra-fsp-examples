@@ -52,7 +52,11 @@ uint8_t read_data              = RESET_VALUE;
 uint16_t period_sec           = RESET_VALUE;
 volatile mipi_dsi_phy_status_t g_phy_status;
 timer_info_t timer_info = { .clock_frequency = RESET_VALUE, .count_direction = RESET_VALUE, .period_counts = RESET_VALUE };
-volatile bool g_vsync_flag, g_message_sent, g_ulps_flag, g_irq_state, g_timer_overflow  = RESET_FLAG;
+volatile bool g_vsync_flag = RESET_FLAG;
+volatile bool g_message_sent = RESET_FLAG;
+volatile bool g_ulps_flag = RESET_FLAG;
+volatile bool g_irq_state = RESET_FLAG;
+volatile bool g_timer_overflow = RESET_FLAG;
 coord_t touch_coordinates[5];
 
 /* This table of commands was adapted from sample code provided by FocusLCD
@@ -324,7 +328,7 @@ void mipi_dsi_start_display(void)
 
                 /* Wait for a Vsync event */
                 g_vsync_flag = RESET_FLAG;
-                while (g_vsync_flag);
+                while (RESET_FLAG == g_vsync_flag);
             }
             else
             {

@@ -206,7 +206,7 @@ void hal_entry(void)
         }
     }
     /* Print menu option.*/
-    APP_PRINT(EP_FUNCTION_MENU)
+    APP_PRINT(EP_FUNCTION_MENU);
 
     while (true)
     {
@@ -251,7 +251,7 @@ void hal_entry(void)
                     break;
                 }
             } /* switch end */
-            APP_PRINT(EP_FUNCTION_MENU)
+            APP_PRINT(EP_FUNCTION_MENU);
         }/* if APP check end */
 
         /* wait for I3C events.*/
@@ -591,19 +591,19 @@ static fsp_err_t  check_disp_i3c_slaveInfo(void)
     {
         APP_PRINT ("\r\nINFO : number of I3C device on bus: %d **\r\n\n", g_num_device_on_bus);
 
-        APP_PRINT("***********************************************\r\n")
-        APP_PRINT("*                 I3C Slave Info              *\r\n")
-        APP_PRINT("***********************************************\r\n")
-        APP_PRINT("- Dynamic Address:   0x%02x\r\n", g_device_slave_info.dynamic_address)
-        APP_PRINT("- BCR:               0x%02x\r\n", g_device_slave_info.slave_info.bcr)
-        APP_PRINT("- DCR:               0x%02x\r\n", g_device_slave_info.slave_info.dcr)
+        APP_PRINT("***********************************************\r\n");
+        APP_PRINT("*                 I3C Slave Info              *\r\n");
+        APP_PRINT("***********************************************\r\n");
+        APP_PRINT("- Dynamic Address:   0x%02x\r\n", g_device_slave_info.dynamic_address);
+        APP_PRINT("- BCR:               0x%02x\r\n", g_device_slave_info.slave_info.bcr);
+        APP_PRINT("- DCR:               0x%02x\r\n", g_device_slave_info.slave_info.dcr);
         APP_PRINT("- PID:               0x%02x%02x%02x%02x%02x%02x\r\n",
                   g_device_slave_info.slave_info.pid[0],
                   g_device_slave_info.slave_info.pid[1],
                   g_device_slave_info.slave_info.pid[2],
                   g_device_slave_info.slave_info.pid[3],
                   g_device_slave_info.slave_info.pid[4],
-                  g_device_slave_info.slave_info.pid[5])
+                  g_device_slave_info.slave_info.pid[5]);
     }
     return FSP_SUCCESS;
 }

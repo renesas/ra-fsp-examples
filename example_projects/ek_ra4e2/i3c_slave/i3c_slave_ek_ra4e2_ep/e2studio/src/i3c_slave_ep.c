@@ -99,11 +99,11 @@ fsp_err_t i3c_slave_init(void)
     /* Set the device configuration for this device. */
     g_slave_device_cfg.slave_info.bcr = BCR_SETTING;
     g_slave_device_cfg.slave_info.dcr = DCR_SETTING;
-    pid_lower_32bits = (uint32_t)(((uint32_t)(PID_VENDOR_PART_ID << PID_PART_ID_Pos) & PID_PART_ID_Msk) |
-            ((uint32_t)(PID_VENDOR_INSTANCE_ID << PID_INSTANCE_ID_Pos) & PID_INSTANCE_ID_Msk) |
-            ((uint32_t)(PID_VENDOR_DEF << PID_VENDOR_DEF_Pos) & PID_VENDOR_DEF_Msk));
-    pid_upper_16bits = (uint16_t) (((uint16_t)(PID_TYPE_SELECTION) & PID_TYPE_Msk) |
-            ((uint16_t)(PID_MANUFACTURER) & PID_MANUFACTURER_Msk));
+    pid_lower_32bits = (uint32_t)(((uint32_t)(PID_VENDOR_PART_ID << PID_PART_ID_POS) & PID_PART_ID_MSK) |
+            ((uint32_t)(PID_VENDOR_INSTANCE_ID << PID_INSTANCE_ID_POS) & PID_INSTANCE_ID_MSK) |
+            ((uint32_t)(PID_VENDOR_DEF << PID_VENDOR_DEF_POS) & PID_VENDOR_DEF_MSK));
+    pid_upper_16bits = (uint16_t) (((uint16_t)(PID_TYPE_SELECTION) & PID_TYPE_MSK) |
+            ((uint16_t)(PID_MANUFACTURER) & PID_MANUFACTURER_MSK));
 
     g_slave_device_cfg.slave_info.pid[0] = (uint8_t)(pid_upper_16bits >> 8);
     g_slave_device_cfg.slave_info.pid[1] = (uint8_t)(pid_upper_16bits >> 0);

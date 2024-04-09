@@ -29,15 +29,15 @@
 #define PERIODIC_MODE_TIMER      (1U)            /* To perform GPT Timer in Periodic mode */
 #define PWM_MODE_TIMER           (2U)            /* To perform GPT Timer in PWM mode */
 #define ONE_SHOT_MODE_TIMER      (3U)            /* To perform GPT Timer in ONE-SHOT mode */
-#define INITIAL_VALUE            '\0'
+#define INITIAL_VALUE            ('\0')
 #define TIMER_UNITS_MILLISECONDS  (1000U)        /* timer unit in millisecond */
 #define CLOCK_TYPE_SPECIFIER      (1ULL)         /* type specifier */
 
 /* GPT Timer Pin for boards */
 #if defined (BOARD_RA6E2_EK)
-#define TIMER_PIN           GPT_IO_PIN_GTIOCA
+#define TIMER_PIN           (GPT_IO_PIN_GTIOCA)
 #elif
-#define TIMER_PIN           GPT_IO_PIN_GTIOCB
+#define TIMER_PIN           (GPT_IO_PIN_GTIOCB)
 #endif
 
 #if defined (BOARD_RA2A1_EK) || defined (BOARD_RA4W1_EK) || defined (BOARD_RA4T1_MCK) || defined (BOARD_RA6E2_EK)

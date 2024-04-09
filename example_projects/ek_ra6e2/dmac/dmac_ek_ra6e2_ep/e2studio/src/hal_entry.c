@@ -122,7 +122,7 @@ void hal_entry(void)
                         agt_timer_deinit();
                         APP_ERR_TRAP(fsp_err);
                     }
-                    APP_PRINT("\r\n Data successfully transferred on LED PORT\r\n")
+                    APP_PRINT("\r\n Data successfully transferred on LED PORT\r\n");
                 }
                 else
                 {

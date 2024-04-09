@@ -25,7 +25,7 @@
 #define TIMER_PWM_H_
 
 /* Board specific macros for conditional compilation */
-#define TIMER_PIN          GPT_IO_PIN_GTIOCB
+#define TIMER_PIN          (GPT_IO_PIN_GTIOCB)
 
 /* Macros definition */
 #define MAX_INTENISTY       (100u)        /* Maximum intensity 100 */

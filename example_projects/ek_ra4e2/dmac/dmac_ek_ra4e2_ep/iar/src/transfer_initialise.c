@@ -29,7 +29,7 @@
  **********************************************************************************************************************/
 
 /* Variable to flag for printing data on RTT console */
-volatile bool send_data_to_console_flag = false;
+volatile bool g_send_data_to_console_flag = false;
 
 /* Destination array to which the DMAC writes GPT timer values */
 uint32_t g_dest_data[DEST_DATA_SIZE];

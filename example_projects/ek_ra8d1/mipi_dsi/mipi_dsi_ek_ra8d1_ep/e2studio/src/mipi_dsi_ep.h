@@ -76,8 +76,6 @@ typedef struct
 extern const lcd_table_setting_t g_lcd_init_focuslcd[];
 void mipi_dsi_push_table (const lcd_table_setting_t *table);
 void mipi_dsi_start_display ();
-void handle_error (fsp_err_t err,  const char *err_str);
-void touch_screen_reset(void);
 void mipi_dsi_entry(void);
 
 #endif /* MIPI_DSI_EP_H_ */

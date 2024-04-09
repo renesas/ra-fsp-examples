@@ -39,9 +39,9 @@
 #define STABILIZATION_DELAY    (1)
 
 /* Macro to set internal reference voltage value as 2.5V*/
-#define VREFADCG_VALUE    0x06
+#define VREFADCG_VALUE    (0x06)
 
 /* Macro to enable VREFADC output*/
-#define VREFADCG_ENABLE   0x18
+#define VREFADCG_ENABLE   (0x18)
 
 #endif /* DAC_EP_H_ */

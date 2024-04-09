@@ -58,8 +58,9 @@ typedef struct
 extern const lcd_table_setting_t g_lcd_init_focuslcd[];
 void mipi_dsi_push_table (const lcd_table_setting_t *table);
 void handle_error (fsp_err_t err,  const char *err_str);
-void DRW_entry(void);
 #endif
+void DRW_entry(void);
+
 
 /* Co-ordinates for various shapes drawn on the display */
 #if defined(BOARD_RA8D1_EK)

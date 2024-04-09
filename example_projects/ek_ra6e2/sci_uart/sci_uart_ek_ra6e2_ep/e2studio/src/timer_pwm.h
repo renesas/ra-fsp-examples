@@ -27,9 +27,9 @@
 /* Board specific macros for conditional compilation */
 
 #if defined (BOARD_RA6E2_EK)
-#define TIMER_PIN          GPT_IO_PIN_GTIOCA
+#define TIMER_PIN          (GPT_IO_PIN_GTIOCA)
 #elif
-#define TIMER_PIN          GPT_IO_PIN_GTIOCB
+#define TIMER_PIN          (GPT_IO_PIN_GTIOCB)
 #endif
 
 /* Macros definition */

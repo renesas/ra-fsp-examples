@@ -8,9 +8,9 @@
     <option key="#TargetARCHITECTURE#" value="cortex-m33" />
     <option key="#DeviceCommand#" value="R7FA6E2BB" />
     <option key="#RTOS#" value="_none" />
-    <option key="#pinconfiguration#" value="R7FA2E2A72DNK.pincfg" />
+    <option key="#pinconfiguration#" value="R7FA6E2BB3CFM.pincfg" />
     <option key="#FSPVersion#" value="5.2.0" />
-    <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra2e2_ek##|Renesas##BSP##Board##ra4e2_ek##|Renesas##BSP##Board##ra6e2_ek##" />
+    <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra6e2_ek##" />
     <option key="#SELECTED_TOOLCHAIN#" value="gcc-arm-embedded" />
     <option key="#ToolchainVersion#" value="13.2.1.arm-13-7" />
   </generalSettings>
@@ -74,7 +74,7 @@
       <property id="config.bsp.fsp.mcu.canfd.rx_fifos" value="2" />
       <property id="config.bsp.fsp.mcu.canfd.buffer_ram" value="1216" />
       <property id="config.bsp.fsp.mcu.canfd.afl_rules" value="32" />
-      <property id="config.bsp.fsp.mcu.canfd.afl_rules_independent" value="1" />
+      <property id="config.bsp.fsp.mcu.canfd.afl_rules_each_chnl" value="32" />
       <property id="config.bsp.fsp.mcu.canfd.max_data_rate_hz" value="5" />
       <property id="config.bsp.fsp.mcu.sci_uart.cstpen_channels" value="0x0201" />
       <property id="config.bsp.fsp.mcu.gpt.pin_count_source_channels" value="0xFFFF" />
@@ -149,14 +149,6 @@
       <description>Board Support Package Common Files</description>
       <originalPack>Renesas.RA.5.2.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_agt" variant="" vendor="Renesas" version="5.2.0">
-      <description>Asynchronous General Purpose Timer</description>
-      <originalPack>Renesas.RA.5.2.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_i3c" variant="" vendor="Renesas" version="5.2.0">
-      <description>I3C</description>
-      <originalPack>Renesas.RA.5.2.0.pack</originalPack>
-    </component>
     <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="5.2.0">
       <description>I/O Port</description>
       <originalPack>Renesas.RA.5.2.0.pack</originalPack>
@@ -181,6 +173,14 @@
       <description>RA6E2-EK Board Support Files</description>
       <originalPack>Renesas.RA_board_ra6e2_ek.5.2.0.pack</originalPack>
     </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_agt" variant="" vendor="Renesas" version="5.2.0">
+      <description>Asynchronous General Purpose Timer</description>
+      <originalPack>Renesas.RA.5.2.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_i3c" variant="" vendor="Renesas" version="5.2.0">
+      <description>I3C</description>
+      <originalPack>Renesas.RA.5.2.0.pack</originalPack>
+    </component>
   </raComponentSelection>
   <raElcConfiguration />
   <raIcuConfiguration />
@@ -193,25 +193,7 @@
       <property id="module.driver.ioport.elc_trigger_ioport4" value="_disabled" />
       <property id="module.driver.ioport.pincfg" value="g_bsp_pin_cfg" />
     </module>
-    <module id="module.driver.timer_on_agt.856544718">
-      <property id="module.driver.timer.name" value="g_timeout_timer" />
-      <property id="module.driver.timer.channel" value="0" />
-      <property id="module.driver.timer.mode" value="module.driver.timer.mode.mode_periodic" />
-      <property id="module.driver.timer.period" value="1" />
-      <property id="module.driver.timer.unit" value="module.driver.timer.unit.unit_period_msec" />
-      <property id="module.driver.timer.duty_cycle" value="50" />
-      <property id="module.driver.timer.count_source" value="module.driver.timer.count_source.clock_pclkb" />
-      <property id="module.driver.timer.agtoa_output_enable" value="module.driver.timer.agtoa_output_enable.false" />
-      <property id="module.driver.timer.agtob_output_enable" value="module.driver.timer.agtob_output_enable.false" />
-      <property id="module.driver.timer.agto_output_enable" value="module.driver.timer.agto_output_enable.false" />
-      <property id="module.driver.timer.measurement_mode" value="module.driver.timer.measurement_mode.measure_disabled" />
-      <property id="module.driver.timer.agtio_filter" value="module.driver.timer.agtio_filter.agtio_filter_none" />
-      <property id="module.driver.timer.enable_pin" value="module.driver.timer.enable_pin.enable_pin_not_used" />
-      <property id="module.driver.timer.trigger_edge" value="module.driver.timer.trigger_edge.trigger_edge_rising" />
-      <property id="module.driver.timer.p_callback" value="g_timeout_timer_callback" />
-      <property id="module.driver.timer.ipl" value="board.icu.common.irq.priority1" />
-    </module>
-    <module id="module.driver.i3c_on_i3c.149479488">
+    <module id="module.driver.i3c_on_i3c.232339635">
       <property id="module.driver.i3c.name" value="g_i3c0" />
       <property id="module.driver.i3c.p_callback" value="g_i3c0_callback" />
       <property id="module.driver.i3c.p_context" value="NULL" />
@@ -259,10 +241,29 @@
       <property id="module.driver.i3c.rcv_status_group3" value="_disabled" />
       <property id="module.driver.i3c.rcv_status_group5" value="board.icu.common.irq.binary_enabled.enabled" />
     </module>
+    <module id="module.driver.timer_on_agt.912326207">
+      <property id="module.driver.timer.name" value="g_timeout_timer" />
+      <property id="module.driver.timer.bit_width" value="module.driver.timer.bit_width.32" />
+      <property id="module.driver.timer.channel" value="0" />
+      <property id="module.driver.timer.mode" value="module.driver.timer.mode.mode_periodic" />
+      <property id="module.driver.timer.period" value="1" />
+      <property id="module.driver.timer.unit" value="module.driver.timer.unit.unit_period_msec" />
+      <property id="module.driver.timer.duty_cycle" value="50" />
+      <property id="module.driver.timer.count_source" value="module.driver.timer.count_source.clock_pclkb" />
+      <property id="module.driver.timer.agtoa_output_enable" value="module.driver.timer.agtoa_output_enable.false" />
+      <property id="module.driver.timer.agtob_output_enable" value="module.driver.timer.agtob_output_enable.false" />
+      <property id="module.driver.timer.agto_output_enable" value="module.driver.timer.agto_output_enable.false" />
+      <property id="module.driver.timer.measurement_mode" value="module.driver.timer.measurement_mode.measure_disabled" />
+      <property id="module.driver.timer.agtio_filter" value="module.driver.timer.agtio_filter.agtio_filter_none" />
+      <property id="module.driver.timer.enable_pin" value="module.driver.timer.enable_pin.enable_pin_not_used" />
+      <property id="module.driver.timer.trigger_edge" value="module.driver.timer.trigger_edge.trigger_edge_rising" />
+      <property id="module.driver.timer.p_callback" value="g_timeout_timer_callback" />
+      <property id="module.driver.timer.ipl" value="board.icu.common.irq.priority1" />
+    </module>
     <context id="_hal.0">
       <stack module="module.driver.ioport_on_ioport.0" />
-      <stack module="module.driver.timer_on_agt.856544718" />
-      <stack module="module.driver.i3c_on_i3c.149479488" />
+      <stack module="module.driver.timer_on_agt.912326207" />
+      <stack module="module.driver.i3c_on_i3c.232339635" />
     </context>
     <config id="config.driver.ioport">
       <property id="config.driver.ioport.checking" value="config.driver.ioport.checking.system" />
@@ -273,7 +274,7 @@
       <property id="config.driver.agt.input_support_enable" value="config.driver.agt.input_support_enable.disabled" />
     </config>
     <config id="config.driver.i3c">
-      <property id="config.driver.i3c.param_checking_enable" value="config.driver.i3c.param_checking_enable.disabled" />
+      <property id="config.driver.i3c.param_checking_enable" value="config.driver.i3c.param_checking_enable.bsp" />
       <property id="config.driver.i3c.unaligned_buffer_support" value="config.driver.i3c.unaligned_buffer_support.enabled" />
       <property id="config.driver.i3c.master_support" value="config.driver.i3c.master_support.enabled" />
       <property id="config.driver.i3c.slave_support" value="config.driver.i3c.slave_support.disabled" />
@@ -286,44 +287,53 @@
     <symbolicName propertyId="p002.symbolic_name" value="ARDUINO_A2" />
     <symbolicName propertyId="p003.symbolic_name" value="ARDUINO_A4" />
     <symbolicName propertyId="p004.symbolic_name" value="ARDUINO_A3" />
+    <symbolicName propertyId="p005.symbolic_name" value="SW1" />
     <symbolicName propertyId="p006.symbolic_name" value="ARDUINO_D8" />
     <symbolicName propertyId="p008.symbolic_name" value="ARDUINO_D7" />
     <symbolicName propertyId="p013.symbolic_name" value="ARDUINO_A5" />
-    <symbolicName propertyId="p014.symbolic_name" value="PMOD1_MIKROBUS_ARDUINO_RESET" />
-    <symbolicName propertyId="p015.symbolic_name" value="LED3_RED_ARDUINO_D2_PMOD2_RESET" />
-    <symbolicName propertyId="p100.symbolic_name" value="ARDUINO_D12_MIKROBUS_MISO_PMOD2_RXD9" />
-    <symbolicName propertyId="p101.symbolic_name" value="ARDUINO_D11_MIKROBUS_MOSI_PMOD2_TXD9" />
-    <symbolicName propertyId="p102.symbolic_name" value="ARDUINO_D13_MIKROBUS_SCK_PMOD2_SCK9" />
-    <symbolicName propertyId="p103.symbolic_name" value="ARDUINO_D10_MIKROBUS_SS_PMOD2_CTS9" />
-    <symbolicName propertyId="p104.symbolic_name" value="LED2" />
+    <symbolicName propertyId="p014.symbolic_name" value="PMOD1_SS3" />
+    <symbolicName propertyId="p015.symbolic_name" value="PMOD1_SS2" />
+    <symbolicName propertyId="p100.symbolic_name" value="I3C_SCL_QSPCLK" />
+    <symbolicName propertyId="p101.symbolic_name" value="I3C_SDA_QIO1" />
+    <symbolicName propertyId="p102.symbolic_name" value="PMOD2_RESET_QIO0" />
+    <symbolicName propertyId="p103.symbolic_name" value="PMOD2_CTS_RTS_QIO3" />
+    <symbolicName propertyId="p104.symbolic_name" value="QIO2" />
     <symbolicName propertyId="p105.symbolic_name" value="PMOD1_IRQ0_MIKROBUS_INT_ARDUINO_D2" />
     <symbolicName propertyId="p106.symbolic_name" value="PMOD2_SS3" />
     <symbolicName propertyId="p107.symbolic_name" value="PMOD2_SS2" />
     <symbolicName propertyId="p108.symbolic_name" value="DEBUG_SWDIO" />
-    <symbolicName propertyId="p109.symbolic_name" value="ARDUINO_D5_MIKROBUS_PWM_PMOD1_RXD9" />
-    <symbolicName propertyId="p110.symbolic_name" value="ARDUINO_D3_MIKROBUS_INT_PMOD1_CTS" />
-    <symbolicName propertyId="p111.symbolic_name" value="SW1" />
-    <symbolicName propertyId="p112.symbolic_name" value="LED1_BLUE" />
-    <symbolicName propertyId="p113.symbolic_name" value="ARDUINO_D6" />
-    <symbolicName propertyId="p200.symbolic_name" value="NMI" />
-    <symbolicName propertyId="p201.symbolic_name" value="MD_ARDUINO_D4_PMOD2_GPIO10" />
+    <symbolicName propertyId="p109.symbolic_name" value="PMOD1_MOSI_MIKROBUS_MOSI_ARDUINO_D11" />
+    <symbolicName propertyId="p110.symbolic_name" value="PMOD1_MISO_MIKROBUS_MISO_ARDUINO_D12" />
+    <symbolicName propertyId="p111.symbolic_name" value="PMOD1_RSPCKA_MIKROBUS_RSPCK_ARDUINO_D13" />
+    <symbolicName propertyId="p112.symbolic_name" value="QSSL" />
+    <symbolicName propertyId="p113.symbolic_name" value="LED3_ARDUINO_D6" />
     <symbolicName propertyId="p207.symbolic_name" value="LED1" />
     <symbolicName propertyId="p300.symbolic_name" value="DEBUG_SWDCLK" />
-    <symbolicName propertyId="p301.symbolic_name" value="PMOD1_MIKROBUS_SSLA_ARDUINO_D10" />
+    <symbolicName propertyId="p301.symbolic_name" value="PMOD1_SSLA_MIKROBUS_SSLA_ARDUINO_D10" />
     <symbolicName propertyId="p302.symbolic_name" value="PMOD2_CTS_ARDUINO_D3" />
     <symbolicName propertyId="p303.symbolic_name" value="PMOD1_CTS9" />
     <symbolicName propertyId="p304.symbolic_name" value="SW2" />
-    <symbolicName propertyId="p400.symbolic_name" value="IIC_SCL0" />
-    <symbolicName propertyId="p401.symbolic_name" value="IIC_SDA0" />
+    <symbolicName propertyId="p400.symbolic_name" value="LED2" />
+    <symbolicName propertyId="p401.symbolic_name" value="CANFD0_CTX" />
     <symbolicName propertyId="p402.symbolic_name" value="CANFD0_CRX" />
     <symbolicName propertyId="p403.symbolic_name" value="MIKROBUS_PWM_ARDUINO_D9" />
     <symbolicName propertyId="p407.symbolic_name" value="USBFS_VBUS" />
-    <symbolicName propertyId="p408.symbolic_name" value="PMOD1_RESET_MIKROBUS_RESET" />
+    <symbolicName propertyId="p408.symbolic_name" value="MIKROBUS_PMOD1_RESET" />
     <symbolicName propertyId="p409.symbolic_name" value="PMOD2_IRQ6_ARDUINO_D5" />
-    <symbolicName propertyId="p410.symbolic_name" value="PMOD2_RX_MIKROBUS_RX_ARDUINO_D0" />
-    <symbolicName propertyId="p411.symbolic_name" value="PMOD2_TX_MIKROBUS_TX_ARDUINO_D1" />
+    <symbolicName propertyId="p410.symbolic_name" value="PMOD2_MIKROBUS_RX_ARDUINO_D0" />
+    <symbolicName propertyId="p411.symbolic_name" value="MIKROBUS_TX_ARDUINO_D1" />
     <symbolicName propertyId="p500.symbolic_name" value="ARDUINO_D4" />
     <pincfg active="true" name="RA6E2 EK" selected="true" symbol="g_bsp_pin_cfg">
+      <configSetting altId="adc0.an000.p000" configurationId="adc0.an000" />
+      <configSetting altId="adc0.an001.p001" configurationId="adc0.an001" />
+      <configSetting altId="adc0.an002.p002" configurationId="adc0.an002" />
+      <configSetting altId="adc0.an004.p004" configurationId="adc0.an004" />
+      <configSetting altId="adc0.an005.p005" configurationId="adc0.an005" />
+      <configSetting altId="adc0.an011.p013" configurationId="adc0.an011" />
+      <configSetting altId="adc0.mode.custom.free" configurationId="adc0.mode" />
+      <configSetting altId="canfd0.crx0.p402" configurationId="canfd0.crx0" />
+      <configSetting altId="canfd0.ctx0.p401" configurationId="canfd0.ctx0" />
+      <configSetting altId="canfd0.mode.enabled.b" configurationId="canfd0.mode" />
       <configSetting altId="canfd0.pairing.b" configurationId="canfd0.pairing" />
       <configSetting altId="i3c_fslash_iic.i3c_scl.p100" configurationId="i3c_fslash_iic.i3c_scl" />
       <configSetting altId="i3c_fslash_iic.i3c_sda.p101" configurationId="i3c_fslash_iic.i3c_sda" />
@@ -331,12 +341,24 @@
       <configSetting altId="jtag_fslash_swd.mode.swd.free" configurationId="jtag_fslash_swd.mode" />
       <configSetting altId="jtag_fslash_swd.swclk.p300" configurationId="jtag_fslash_swd.swclk" />
       <configSetting altId="jtag_fslash_swd.swdio.p108" configurationId="jtag_fslash_swd.swdio" />
+      <configSetting altId="p000.adc0.an000" configurationId="p000" />
+      <configSetting altId="p000.gpio_mode.gpio_mode_an" configurationId="p000.gpio_mode" />
+      <configSetting altId="p001.adc0.an001" configurationId="p001" />
+      <configSetting altId="p001.gpio_mode.gpio_mode_an" configurationId="p001.gpio_mode" />
+      <configSetting altId="p002.adc0.an002" configurationId="p002" />
+      <configSetting altId="p002.gpio_mode.gpio_mode_an" configurationId="p002.gpio_mode" />
       <configSetting altId="p003.input" configurationId="p003" />
       <configSetting altId="p003.gpio_mode.gpio_mode_in" configurationId="p003.gpio_mode" />
+      <configSetting altId="p004.adc0.an004" configurationId="p004" />
+      <configSetting altId="p004.gpio_mode.gpio_mode_an" configurationId="p004.gpio_mode" />
+      <configSetting altId="p005.adc0.an005" configurationId="p005" />
+      <configSetting altId="p005.gpio_mode.gpio_mode_an" configurationId="p005.gpio_mode" />
       <configSetting altId="p006.input" configurationId="p006" />
       <configSetting altId="p006.gpio_mode.gpio_mode_in" configurationId="p006.gpio_mode" />
       <configSetting altId="p008.input" configurationId="p008" />
       <configSetting altId="p008.gpio_mode.gpio_mode_in" configurationId="p008.gpio_mode" />
+      <configSetting altId="p013.adc0.an011" configurationId="p013" />
+      <configSetting altId="p013.gpio_mode.gpio_mode_an" configurationId="p013.gpio_mode" />
       <configSetting altId="p014.input" configurationId="p014" />
       <configSetting altId="p014.gpio_mode.gpio_mode_in" configurationId="p014.gpio_mode" />
       <configSetting altId="p015.input" configurationId="p015" />
@@ -360,7 +382,7 @@
       <configSetting altId="p113.gpio_mode.gpio_mode_out.low" configurationId="p113.gpio_mode" />
       <configSetting altId="p207.output.low" configurationId="p207" />
       <configSetting altId="p207.gpio_speed.gpio_speed_h" configurationId="p207.gpio_drivecapacity" />
-      <configSetting altId="p207.gpio_mode.gpio_mode_peripheral" configurationId="p207.gpio_mode" />
+      <configSetting altId="p207.gpio_mode.gpio_mode_out.low" configurationId="p207.gpio_mode" />
       <configSetting altId="p300.jtag_fslash_swd.swclk" configurationId="p300" />
       <configSetting altId="p300.gpio_mode.gpio_mode_peripheral" configurationId="p300.gpio_mode" />
       <configSetting altId="p301.input" configurationId="p301" />
@@ -372,13 +394,29 @@
       <configSetting altId="p400.output.low" configurationId="p400" />
       <configSetting altId="p400.gpio_speed.gpio_speed_h" configurationId="p400.gpio_drivecapacity" />
       <configSetting altId="p400.gpio_mode.gpio_mode_out.low" configurationId="p400.gpio_mode" />
+      <configSetting altId="p401.canfd0.ctx0" configurationId="p401" />
+      <configSetting altId="p401.gpio_mode.gpio_mode_peripheral" configurationId="p401.gpio_mode" />
+      <configSetting altId="p402.canfd0.crx0" configurationId="p402" />
+      <configSetting altId="p402.gpio_mode.gpio_mode_peripheral" configurationId="p402.gpio_mode" />
       <configSetting altId="p403.input" configurationId="p403" />
       <configSetting altId="p403.gpio_mode.gpio_mode_in" configurationId="p403.gpio_mode" />
+      <configSetting altId="p407.usbfs.usb_vbus" configurationId="p407" />
+      <configSetting altId="p407.gpio_speed.gpio_speed_h" configurationId="p407.gpio_drivecapacity" />
+      <configSetting altId="p407.gpio_mode.gpio_mode_peripheral" configurationId="p407.gpio_mode" />
       <configSetting altId="p408.input" configurationId="p408" />
       <configSetting altId="p408.gpio_mode.gpio_mode_in" configurationId="p408.gpio_mode" />
       <configSetting altId="p409.input" configurationId="p409" />
       <configSetting altId="p409.gpio_mode.gpio_mode_in" configurationId="p409.gpio_mode" />
+      <configSetting altId="p410.sci0.rxd0" configurationId="p410" />
+      <configSetting altId="p410.gpio_mode.gpio_mode_peripheral" configurationId="p410.gpio_mode" />
+      <configSetting altId="p411.sci0.txd0" configurationId="p411" />
+      <configSetting altId="p411.gpio_mode.gpio_mode_peripheral" configurationId="p411.gpio_mode" />
+      <configSetting altId="sci0.mode.asynchronousuart.b" configurationId="sci0.mode" />
       <configSetting altId="sci0.pairing.b" configurationId="sci0.pairing" />
+      <configSetting altId="sci0.rxd0.p410" configurationId="sci0.rxd0" />
+      <configSetting altId="sci0.txd0.p411" configurationId="sci0.txd0" />
+      <configSetting altId="usbfs.mode.custom.free" configurationId="usbfs.mode" />
+      <configSetting altId="usbfs.usb_vbus.p407" configurationId="usbfs.usb_vbus" />
     </pincfg>
     <pincfg active="false" name="R7FA6E2BB3CFM.pincfg" selected="false" symbol="">
       <configSetting altId="jtag_fslash_swd.mode.swd.free" configurationId="jtag_fslash_swd.mode" />

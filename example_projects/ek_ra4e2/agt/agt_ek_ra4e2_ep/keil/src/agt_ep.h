@@ -45,7 +45,7 @@
 #define TIME_PERIOD_MIN  (0U)
 
 /* MACRO for null character */
-#define NULL_CHAR   '\0'
+#define NULL_CHAR   ('\0')
 
 /***********************************************************************************************************************
  * User-defined APIs
@@ -56,8 +56,6 @@
  */
 fsp_err_t agt_init(void);
 fsp_err_t agt_start_oneshot_timer(void);
-void one_shot_timer_callback(timer_callback_args_t *p_args);
-void periodic_timer_callback(timer_callback_args_t *p_args);
 void agt_deinit(void);
 
 /** @} */

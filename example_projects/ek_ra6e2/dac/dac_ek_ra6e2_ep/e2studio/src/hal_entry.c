@@ -141,7 +141,7 @@ void hal_entry(void)
     }
 #endif
 
-    APP_PRINT("\r\nEnter values for DAC conversion. Input Range:1 to 4095\r\n")
+    APP_PRINT("\r\nEnter values for DAC conversion. Input Range:1 to 4095\r\n");
 
     while (true)
     {

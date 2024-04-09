@@ -30,7 +30,7 @@
  **********************************************************************************************************************/
 
 /* global variable */
-volatile i2c_master_event_t    i2c_master_event;
+volatile i2c_master_event_t    g_i2c_master_event;
 
 /* User defined functions */
 static fsp_err_t wait_for_i2c_event (i2c_master_event_t event);
@@ -110,7 +110,7 @@ static fsp_err_t gt911_i2c_write(uint8_t *buf, uint32_t len)
     fsp_err_t err = FSP_SUCCESS;
 
     /* write data to the i2c slave device */
-    i2c_master_event = I2C_MASTER_EVENT_ABORTED;
+    g_i2c_master_event = I2C_MASTER_EVENT_ABORTED;
     err = R_IIC_MASTER_Write (&g_i2c_master_ctrl, buf, len, false);
     APP_ERR_RETURN(err, " ** IIC MASTER_Write API FAILED ** \r\n");
 
@@ -134,7 +134,7 @@ static fsp_err_t gt911_i2c_read(uint8_t *buf, uint32_t len)
     fsp_err_t err = FSP_SUCCESS;
 
     /* Read data back from the I2C slave */
-    i2c_master_event = I2C_MASTER_EVENT_ABORTED;
+    g_i2c_master_event = I2C_MASTER_EVENT_ABORTED;
     err = R_IIC_MASTER_Read(&g_i2c_master_ctrl, buf, len, false);
     APP_ERR_RETURN(err, " ** IIC MASTER_Read API FAILED  ** \r\n");
 
@@ -154,7 +154,7 @@ static fsp_err_t gt911_i2c_read(uint8_t *buf, uint32_t len)
 static fsp_err_t wait_for_i2c_event (i2c_master_event_t event)
 {
     uint32_t timeout = R_FSP_SystemClockHzGet(FSP_PRIV_CLOCK_ICLK) / 10;
-    while (timeout-- && (i2c_master_event != event))
+    while (timeout-- && (g_i2c_master_event != event))
     {
         ;
     }
@@ -171,7 +171,7 @@ void i2c_master_callback(i2c_master_callback_args_t *p_args)
 {
     if (NULL != p_args)
     {
-        i2c_master_event = p_args->event;
+        g_i2c_master_event = p_args->event;
     }
 }
 /*******************************************************************************************************************//**

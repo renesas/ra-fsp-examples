@@ -252,7 +252,7 @@ void DRW_entry(void)
 #if defined(BOARD_RA8D1_EK)
     g_p_single_buffer = (uint32_t *) g_display_cfg.input[ARRAY_INDEX].p_base;
 #else
-    g_p_single_buffer = (uint8_t *) g_display_cfg.input[ARRAY_INDEX].p_base
+    g_p_single_buffer = (uint8_t *) g_display_cfg.input[ARRAY_INDEX].p_base;
 #endif
     /* Double buffer for drawing color bands with good quality */
     g_p_double_buffer = g_p_single_buffer + g_buffer_size;
@@ -607,7 +607,7 @@ static void drw_set(uint8_t * framebuffer)
     error_handler(DRW_err, gp_davey);
 
     /* Set the frame buffer */
-    DRW_err = d2_framebuffer(gp_davey, framebuffer, DRW_TEST_IMAGE_RES_H, DRW_TEST_IMAGE_RES_H, DRW_TEST_IMAGE_RES_V, d2_mode_rgb888);
+    DRW_err = d2_framebuffer(gp_davey, framebuffer, DRW_TEST_IMAGE_RES_H, DRW_TEST_IMAGE_RES_H, DRW_TEST_IMAGE_RES_V, d2_mode_rgb565);
     error_handler(DRW_err, gp_davey);
 
     /* Clear the frame buffer */
