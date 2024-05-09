@@ -74,7 +74,7 @@
 #define WIFI_ONCHIP_SILEX_ERR_ERROR                         (-1)
 
 /* Converting from MCU byte-order to network byte-order */
-#define SOCKETS_htonl( ulIn )    ( ( uint32_t ) ( ( ( ulIn & 0xFF ) << 24 ) | ( ( ulIn & 0xFF00 ) << 8 ) | ( ( ulIn & 0xFF0000 ) >> 8 ) | ( ( ulIn & 0xFF000000 ) >> 24 ) ) )
+#define SOCKETS_HTONL( ulIn )    ( ( uint32_t ) ( ( ( (ulIn) & 0xFF ) << 24 ) | ( ( (ulIn) & 0xFF00 ) << 8 ) | ( ( (ulIn) & 0xFF0000 ) >> 8 ) | ( ( (ulIn) & 0xFF000000 ) >> 24 ) ) )
 
 /* Macro for Menu Options */
 #define SCAN_AP         (1U)
@@ -106,13 +106,13 @@
                                 "\r\nPress 2 for WPA2 Security"                         \
                                 "\r\nUser Input: \r\n"
 
-#define CR              '\r'
-#define LF              '\n'
-#define NULL_CHAR       '\0'
-#define MIN_ZERO        '0'
-#define MAX_TWO         '2'
-#define MAX_NINE        '9'
-#define ONE_SEC_DELAY        1
+#define CR              ('\r')
+#define LF              ('\n')
+#define NULL_CHAR       ('\0')
+#define MIN_ZERO        ('0')
+#define MAX_TWO         ('2')
+#define MAX_NINE        ('9')
+#define ONE_SEC_DELAY        (1)
 
 /* Structure for socket parameters */
 typedef struct

@@ -3,44 +3,15 @@
     <device>
         <name>R7FA2L1AB</name>
     </device>
-    <includePath>
-        <path>$PROJ_DIR$/ra/arm/CMSIS_5/CMSIS/Core/Include</path>
-        <path>$PROJ_DIR$/ra/fsp/inc</path>
-        <path>$PROJ_DIR$/ra/fsp/inc/api</path>
-        <path>$PROJ_DIR$/ra/fsp/inc/instances</path>
-        <path>$PROJ_DIR$/ra_cfg/fsp_cfg</path>
-        <path>$PROJ_DIR$/ra_cfg/fsp_cfg/bsp</path>
-        <path>$PROJ_DIR$/ra_gen</path>
-        <path>$PROJ_DIR$/src</path>
-        <path>$PROJ_DIR$</path>
-    </includePath>
-    <defines>
-        <define>_RA_ORDINAL=1</define>
-        <define>_RENESAS_RA_</define>
-        <define>_RA_CORE=CM23</define>
-    </defines>
-    <asmIncludePath>
-        <path>$PROJ_DIR$/ra/arm/CMSIS_5/CMSIS/Core/Include</path>
-        <path>$PROJ_DIR$/ra/fsp/inc</path>
-        <path>$PROJ_DIR$/ra/fsp/inc/api</path>
-        <path>$PROJ_DIR$/ra/fsp/inc/instances</path>
-        <path>$PROJ_DIR$/ra_cfg/fsp_cfg</path>
-        <path>$PROJ_DIR$/ra_cfg/fsp_cfg/bsp</path>
-        <path>$PROJ_DIR$/ra_gen</path>
-        <path>$PROJ_DIR$/src</path>
-        <path>$PROJ_DIR$</path>
-    </asmIncludePath>
-    <asmDefines>
-        <define>_RA_ORDINAL=1</define>
-        <define>_RENESAS_RA_</define>
-        <define>_RA_CORE=CM23</define>
-    </asmDefines>
     <linkerFile>
         <override>true</override>
         <path>$PROJ_DIR$/script/fsp.icf</path>
     </linkerFile>
+    <extraOptions>
+        <arg>-f "$PROJ_DIR$/xcl/rasc_iccarm"</arg>
+    </extraOptions>
     <linkerExtraOptions>
-        <arg>--config_search "$PROJ_DIR$"</arg>
+        <arg>-f "$PROJ_DIR$/xcl/rasc_ilinkarm"</arg>
     </linkerExtraOptions>
     <programEntryPoint>
         <symbol>Reset_Handler</symbol>
@@ -49,132 +20,137 @@
         <group name="RA Smart Configurator">
             <argVar>
                 <name>RASC_EXE_PATH</name>
-                <value>C:\Renesas\RA\sc_v2024-01.1\eclipse\rasc.exe</value>
+                <value>/opt/rasc/eclipse/rasc</value>
+            </argVar>
+            <argVar>
+                <name>RASC_DEVICE_FAMILY</name>
+                <value>ra</value>
             </argVar>
         </group>
     </customArgVars>
     <files>
         <group name="Components">
-            <path>ra/arm/CMSIS_5/CMSIS/Core/Include/cachel1_armv7.h</path>
-            <path>ra/arm/CMSIS_5/CMSIS/Core/Include/cmsis_armcc.h</path>
-            <path>ra/arm/CMSIS_5/CMSIS/Core/Include/cmsis_armclang.h</path>
-            <path>ra/arm/CMSIS_5/CMSIS/Core/Include/cmsis_armclang_ltm.h</path>
-            <path>ra/arm/CMSIS_5/CMSIS/Core/Include/cmsis_compiler.h</path>
-            <path>ra/arm/CMSIS_5/CMSIS/Core/Include/cmsis_gcc.h</path>
-            <path>ra/arm/CMSIS_5/CMSIS/Core/Include/cmsis_iccarm.h</path>
-            <path>ra/arm/CMSIS_5/CMSIS/Core/Include/cmsis_version.h</path>
-            <path>ra/arm/CMSIS_5/CMSIS/Core/Include/core_armv81mml.h</path>
-            <path>ra/arm/CMSIS_5/CMSIS/Core/Include/core_armv8mbl.h</path>
-            <path>ra/arm/CMSIS_5/CMSIS/Core/Include/core_armv8mml.h</path>
+            <path>ra/arm/CMSIS_5/LICENSE.txt</path>
             <path>ra/arm/CMSIS_5/CMSIS/Core/Include/core_cm0.h</path>
-            <path>ra/arm/CMSIS_5/CMSIS/Core/Include/core_cm0plus.h</path>
-            <path>ra/arm/CMSIS_5/CMSIS/Core/Include/core_cm1.h</path>
-            <path>ra/arm/CMSIS_5/CMSIS/Core/Include/core_cm23.h</path>
-            <path>ra/arm/CMSIS_5/CMSIS/Core/Include/core_cm3.h</path>
-            <path>ra/arm/CMSIS_5/CMSIS/Core/Include/core_cm33.h</path>
-            <path>ra/arm/CMSIS_5/CMSIS/Core/Include/core_cm35p.h</path>
-            <path>ra/arm/CMSIS_5/CMSIS/Core/Include/core_cm4.h</path>
-            <path>ra/arm/CMSIS_5/CMSIS/Core/Include/core_cm55.h</path>
-            <path>ra/arm/CMSIS_5/CMSIS/Core/Include/core_cm7.h</path>
-            <path>ra/arm/CMSIS_5/CMSIS/Core/Include/core_cm85.h</path>
-            <path>ra/arm/CMSIS_5/CMSIS/Core/Include/core_sc000.h</path>
+            <path>ra/arm/CMSIS_5/CMSIS/Core/Include/core_armv8mbl.h</path>
+            <path>ra/arm/CMSIS_5/CMSIS/Core/Include/cachel1_armv7.h</path>
+            <path>ra/arm/CMSIS_5/CMSIS/Core/Include/core_armv81mml.h</path>
+            <path>ra/arm/CMSIS_5/CMSIS/Core/Include/cmsis_version.h</path>
+            <path>ra/arm/CMSIS_5/CMSIS/Core/Include/cmsis_iccarm.h</path>
             <path>ra/arm/CMSIS_5/CMSIS/Core/Include/core_sc300.h</path>
+            <path>ra/arm/CMSIS_5/CMSIS/Core/Include/pac_armv81.h</path>
+            <path>ra/arm/CMSIS_5/CMSIS/Core/Include/core_cm3.h</path>
+            <path>ra/arm/CMSIS_5/CMSIS/Core/Include/tz_context.h</path>
+            <path>ra/arm/CMSIS_5/CMSIS/Core/Include/cmsis_gcc.h</path>
+            <path>ra/arm/CMSIS_5/CMSIS/Core/Include/core_cm1.h</path>
+            <path>ra/arm/CMSIS_5/CMSIS/Core/Include/cmsis_armcc.h</path>
+            <path>ra/arm/CMSIS_5/CMSIS/Core/Include/core_cm55.h</path>
+            <path>ra/arm/CMSIS_5/CMSIS/Core/Include/core_cm23.h</path>
+            <path>ra/arm/CMSIS_5/CMSIS/Core/Include/cmsis_armclang_ltm.h</path>
             <path>ra/arm/CMSIS_5/CMSIS/Core/Include/core_starmc1.h</path>
+            <path>ra/arm/CMSIS_5/CMSIS/Core/Include/core_sc000.h</path>
+            <path>ra/arm/CMSIS_5/CMSIS/Core/Include/core_cm85.h</path>
             <path>ra/arm/CMSIS_5/CMSIS/Core/Include/mpu_armv7.h</path>
             <path>ra/arm/CMSIS_5/CMSIS/Core/Include/mpu_armv8.h</path>
-            <path>ra/arm/CMSIS_5/CMSIS/Core/Include/pac_armv81.h</path>
+            <path>ra/arm/CMSIS_5/CMSIS/Core/Include/core_armv8mml.h</path>
+            <path>ra/arm/CMSIS_5/CMSIS/Core/Include/cmsis_armclang.h</path>
+            <path>ra/arm/CMSIS_5/CMSIS/Core/Include/core_cm4.h</path>
+            <path>ra/arm/CMSIS_5/CMSIS/Core/Include/core_cm7.h</path>
             <path>ra/arm/CMSIS_5/CMSIS/Core/Include/pmu_armv8.h</path>
-            <path>ra/arm/CMSIS_5/CMSIS/Core/Include/tz_context.h</path>
-            <path>ra/arm/CMSIS_5/LICENSE.txt</path>
-            <path>ra/board/ra2l1_ek/board.h</path>
+            <path>ra/arm/CMSIS_5/CMSIS/Core/Include/core_cm0plus.h</path>
+            <path>ra/arm/CMSIS_5/CMSIS/Core/Include/core_cm35p.h</path>
+            <path>ra/arm/CMSIS_5/CMSIS/Core/Include/core_cm33.h</path>
+            <path>ra/arm/CMSIS_5/CMSIS/Core/Include/cmsis_compiler.h</path>
             <path>ra/board/ra2l1_ek/board_init.c</path>
             <path>ra/board/ra2l1_ek/board_init.h</path>
             <path>ra/board/ra2l1_ek/board_leds.c</path>
+            <path>ra/board/ra2l1_ek/board.h</path>
             <path>ra/board/ra2l1_ek/board_leds.h</path>
-            <path>ra/fsp/inc/api/bsp_api.h</path>
-            <path>ra/fsp/inc/api/fsp_common_api.h</path>
-            <path>ra/fsp/inc/api/r_ioport_api.h</path>
-            <path>ra/fsp/inc/api/r_timer_api.h</path>
-            <path>ra/fsp/inc/api/r_transfer_api.h</path>
-            <path>ra/fsp/inc/api/r_uart_api.h</path>
-            <path>ra/fsp/inc/fsp_features.h</path>
-            <path>ra/fsp/inc/fsp_version.h</path>
             <path>ra/fsp/inc/instances/r_gpt.h</path>
             <path>ra/fsp/inc/instances/r_ioport.h</path>
             <path>ra/fsp/inc/instances/r_sci_uart.h</path>
-            <path>ra/fsp/src/bsp/cmsis/Device/RENESAS/Include/R7FA2L1AB.h</path>
-            <path>ra/fsp/src/bsp/cmsis/Device/RENESAS/Include/renesas.h</path>
-            <path>ra/fsp/src/bsp/cmsis/Device/RENESAS/Include/system.h</path>
+            <path>ra/fsp/inc/fsp_version.h</path>
+            <path>ra/fsp/inc/fsp_features.h</path>
+            <path>ra/fsp/inc/api/r_uart_api.h</path>
+            <path>ra/fsp/inc/api/r_ioport_api.h</path>
+            <path>ra/fsp/inc/api/r_timer_api.h</path>
+            <path>ra/fsp/inc/api/r_transfer_api.h</path>
+            <path>ra/fsp/inc/api/fsp_common_api.h</path>
+            <path>ra/fsp/inc/api/bsp_api.h</path>
+            <path>ra/fsp/src/r_gpt/r_gpt.c</path>
+            <path>ra/fsp/src/r_sci_uart/r_sci_uart.c</path>
             <path>ra/fsp/src/bsp/cmsis/Device/RENESAS/Source/startup.c</path>
             <path>ra/fsp/src/bsp/cmsis/Device/RENESAS/Source/system.c</path>
-            <path>ra/fsp/src/bsp/mcu/all/bsp_clocks.c</path>
-            <path>ra/fsp/src/bsp/mcu/all/bsp_clocks.h</path>
-            <path>ra/fsp/src/bsp/mcu/all/bsp_common.c</path>
-            <path>ra/fsp/src/bsp/mcu/all/bsp_common.h</path>
-            <path>ra/fsp/src/bsp/mcu/all/bsp_compiler_support.h</path>
-            <path>ra/fsp/src/bsp/mcu/all/bsp_delay.c</path>
-            <path>ra/fsp/src/bsp/mcu/all/bsp_delay.h</path>
-            <path>ra/fsp/src/bsp/mcu/all/bsp_exceptions.h</path>
-            <path>ra/fsp/src/bsp/mcu/all/bsp_group_irq.c</path>
-            <path>ra/fsp/src/bsp/mcu/all/bsp_group_irq.h</path>
-            <path>ra/fsp/src/bsp/mcu/all/bsp_guard.c</path>
-            <path>ra/fsp/src/bsp/mcu/all/bsp_guard.h</path>
-            <path>ra/fsp/src/bsp/mcu/all/bsp_io.c</path>
-            <path>ra/fsp/src/bsp/mcu/all/bsp_io.h</path>
-            <path>ra/fsp/src/bsp/mcu/all/bsp_irq.c</path>
-            <path>ra/fsp/src/bsp/mcu/all/bsp_irq.h</path>
-            <path>ra/fsp/src/bsp/mcu/all/bsp_macl.c</path>
-            <path>ra/fsp/src/bsp/mcu/all/bsp_macl.h</path>
-            <path>ra/fsp/src/bsp/mcu/all/bsp_mcu_api.h</path>
-            <path>ra/fsp/src/bsp/mcu/all/bsp_module_stop.h</path>
-            <path>ra/fsp/src/bsp/mcu/all/bsp_register_protection.c</path>
-            <path>ra/fsp/src/bsp/mcu/all/bsp_register_protection.h</path>
-            <path>ra/fsp/src/bsp/mcu/all/bsp_rom_registers.c</path>
-            <path>ra/fsp/src/bsp/mcu/all/bsp_sbrk.c</path>
-            <path>ra/fsp/src/bsp/mcu/all/bsp_security.c</path>
-            <path>ra/fsp/src/bsp/mcu/all/bsp_security.h</path>
-            <path>ra/fsp/src/bsp/mcu/all/bsp_tfu.h</path>
-            <path>ra/fsp/src/bsp/mcu/ra2l1/bsp_elc.h</path>
+            <path>ra/fsp/src/bsp/cmsis/Device/RENESAS/Include/renesas.h</path>
+            <path>ra/fsp/src/bsp/cmsis/Device/RENESAS/Include/system.h</path>
+            <path>ra/fsp/src/bsp/cmsis/Device/RENESAS/Include/R7FA2L1AB.h</path>
+            <path>ra/fsp/src/bsp/mcu/ra2l1/bsp_power.h</path>
             <path>ra/fsp/src/bsp/mcu/ra2l1/bsp_feature.h</path>
             <path>ra/fsp/src/bsp/mcu/ra2l1/bsp_mcu_info.h</path>
+            <path>ra/fsp/src/bsp/mcu/ra2l1/bsp_feature_gen.h</path>
+            <path>ra/fsp/src/bsp/mcu/ra2l1/bsp_elc.h</path>
             <path>ra/fsp/src/bsp/mcu/ra2l1/bsp_power.c</path>
-            <path>ra/fsp/src/bsp/mcu/ra2l1/bsp_power.h</path>
-            <path>ra/fsp/src/r_gpt/r_gpt.c</path>
+            <path>ra/fsp/src/bsp/mcu/all/bsp_compiler_support.h</path>
+            <path>ra/fsp/src/bsp/mcu/all/bsp_mcu_api.h</path>
+            <path>ra/fsp/src/bsp/mcu/all/bsp_security.h</path>
+            <path>ra/fsp/src/bsp/mcu/all/bsp_exceptions.h</path>
+            <path>ra/fsp/src/bsp/mcu/all/bsp_clocks.h</path>
+            <path>ra/fsp/src/bsp/mcu/all/bsp_delay.c</path>
+            <path>ra/fsp/src/bsp/mcu/all/bsp_security.c</path>
+            <path>ra/fsp/src/bsp/mcu/all/bsp_io.c</path>
+            <path>ra/fsp/src/bsp/mcu/all/bsp_rom_registers.c</path>
+            <path>ra/fsp/src/bsp/mcu/all/bsp_common.h</path>
+            <path>ra/fsp/src/bsp/mcu/all/bsp_guard.c</path>
+            <path>ra/fsp/src/bsp/mcu/all/bsp_group_irq.h</path>
+            <path>ra/fsp/src/bsp/mcu/all/bsp_guard.h</path>
+            <path>ra/fsp/src/bsp/mcu/all/bsp_common.c</path>
+            <path>ra/fsp/src/bsp/mcu/all/bsp_irq.h</path>
+            <path>ra/fsp/src/bsp/mcu/all/bsp_tfu.h</path>
+            <path>ra/fsp/src/bsp/mcu/all/bsp_irq.c</path>
+            <path>ra/fsp/src/bsp/mcu/all/bsp_delay.h</path>
+            <path>ra/fsp/src/bsp/mcu/all/bsp_group_irq.c</path>
+            <path>ra/fsp/src/bsp/mcu/all/bsp_sbrk.c</path>
+            <path>ra/fsp/src/bsp/mcu/all/bsp_io.h</path>
+            <path>ra/fsp/src/bsp/mcu/all/bsp_macl.h</path>
+            <path>ra/fsp/src/bsp/mcu/all/bsp_register_protection.h</path>
+            <path>ra/fsp/src/bsp/mcu/all/bsp_clocks.c</path>
+            <path>ra/fsp/src/bsp/mcu/all/bsp_macl.c</path>
+            <path>ra/fsp/src/bsp/mcu/all/bsp_register_protection.c</path>
+            <path>ra/fsp/src/bsp/mcu/all/bsp_module_stop.h</path>
             <path>ra/fsp/src/r_ioport/r_ioport.c</path>
-            <path>ra/fsp/src/r_sci_uart/r_sci_uart.c</path>
         </group>
         <group name="Build Configuration">
+            <path>ra_cfg/fsp_cfg/r_ioport_cfg.h</path>
             <path>ra_cfg/fsp_cfg/bsp/board_cfg.h</path>
             <path>ra_cfg/fsp_cfg/bsp/bsp_cfg.h</path>
-            <path>ra_cfg/fsp_cfg/bsp/bsp_mcu_device_cfg.h</path>
             <path>ra_cfg/fsp_cfg/bsp/bsp_mcu_device_pn_cfg.h</path>
             <path>ra_cfg/fsp_cfg/bsp/bsp_mcu_family_cfg.h</path>
             <path>ra_cfg/fsp_cfg/bsp/bsp_pin_cfg.h</path>
-            <path>ra_cfg/fsp_cfg/r_gpt_cfg.h</path>
-            <path>ra_cfg/fsp_cfg/r_ioport_cfg.h</path>
+            <path>ra_cfg/fsp_cfg/bsp/bsp_mcu_device_cfg.h</path>
             <path>ra_cfg/fsp_cfg/r_sci_uart_cfg.h</path>
+            <path>ra_cfg/fsp_cfg/r_gpt_cfg.h</path>
         </group>
         <group name="Generated Data">
-            <path>ra_gen/bsp_clock_cfg.h</path>
             <path>ra_gen/common_data.c</path>
             <path>ra_gen/common_data.h</path>
-            <path>ra_gen/hal_data.c</path>
-            <path>ra_gen/hal_data.h</path>
-            <path>ra_gen/main.c</path>
             <path>ra_gen/pin_data.c</path>
+            <path>ra_gen/bsp_clock_cfg.h</path>
             <path>ra_gen/vector_data.c</path>
+            <path>ra_gen/main.c</path>
+            <path>ra_gen/hal_data.c</path>
             <path>ra_gen/vector_data.h</path>
+            <path>ra_gen/hal_data.h</path>
         </group>
         <group name="Program Entry">
-            <path>src/common_utils.h</path>
+            <path>src/timer_pwm.c</path>
             <path>src/hal_entry.c</path>
-            <path>src/SEGGER_RTT/SEGGER_RTT.c</path>
+            <path>src/uart_ep.c</path>
+            <path>src/timer_pwm.h</path>
+            <path>src/common_utils.h</path>
             <path>src/SEGGER_RTT/SEGGER_RTT.h</path>
+            <path>src/SEGGER_RTT/SEGGER_RTT.c</path>
             <path>src/SEGGER_RTT/SEGGER_RTT_Conf.h</path>
             <path>src/SEGGER_RTT/SEGGER_RTT_printf.c</path>
-            <path>src/timer_pwm.c</path>
-            <path>src/timer_pwm.h</path>
-            <path>src/uart_ep.c</path>
             <path>src/uart_ep.h</path>
         </group>
     </files>

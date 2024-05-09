@@ -188,7 +188,7 @@ static void connectAP()
     uint8_t input_buff[BUFF_LEN] = {RESET_VALUE};
     uint8_t index_menu_option = RESET_VALUE;
     WIFIReturnCode_t wifi_err = eWiFiSuccess;
-    BaseType_t connect_status = pdFALSE;
+    WIFIReturnCode_t connect_status = eWiFiFailure;
 
     /* Connecting to WiFi AP */
     do
@@ -228,7 +228,7 @@ static void connectAP()
                     {
                         /* Status check of WiFi connectivity */
                         connect_status = WIFI_IsConnected(NULL);
-                        if(pdTRUE != connect_status)
+                        if(eWiFiSuccess != connect_status)
                         {
                             APP_PRINT("\r\nWiFi not connected.");
                         }
@@ -247,14 +247,14 @@ static void connectAP()
                 }
                 else
                 {
-                    connect_status = pdTRUE;
+                    connect_status = eWiFiSuccess;
                 }
                 break;
             default:
                 APP_PRINT("\r\nInvalid Input.\r\n");
                 break;
         }
-    }while(pdTRUE != connect_status);
+    }while(eWiFiSuccess != connect_status);
 
     APP_PRINT("\r\nWiFi connected.\r\n");
 }

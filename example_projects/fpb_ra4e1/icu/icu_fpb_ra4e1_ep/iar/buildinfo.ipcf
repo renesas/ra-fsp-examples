@@ -3,44 +3,15 @@
     <device>
         <name>R7FA4E10D</name>
     </device>
-    <includePath>
-        <path>$PROJ_DIR$/ra/arm/CMSIS_5/CMSIS/Core/Include</path>
-        <path>$PROJ_DIR$/ra/fsp/inc</path>
-        <path>$PROJ_DIR$/ra/fsp/inc/api</path>
-        <path>$PROJ_DIR$/ra/fsp/inc/instances</path>
-        <path>$PROJ_DIR$/ra_cfg/fsp_cfg</path>
-        <path>$PROJ_DIR$/ra_cfg/fsp_cfg/bsp</path>
-        <path>$PROJ_DIR$/ra_gen</path>
-        <path>$PROJ_DIR$/src</path>
-        <path>$PROJ_DIR$</path>
-    </includePath>
-    <defines>
-        <define>_RA_CORE=CM33</define>
-        <define>_RA_ORDINAL=1</define>
-        <define>_RENESAS_RA_</define>
-    </defines>
-    <asmIncludePath>
-        <path>$PROJ_DIR$/ra/arm/CMSIS_5/CMSIS/Core/Include</path>
-        <path>$PROJ_DIR$/ra/fsp/inc</path>
-        <path>$PROJ_DIR$/ra/fsp/inc/api</path>
-        <path>$PROJ_DIR$/ra/fsp/inc/instances</path>
-        <path>$PROJ_DIR$/ra_cfg/fsp_cfg</path>
-        <path>$PROJ_DIR$/ra_cfg/fsp_cfg/bsp</path>
-        <path>$PROJ_DIR$/ra_gen</path>
-        <path>$PROJ_DIR$/src</path>
-        <path>$PROJ_DIR$</path>
-    </asmIncludePath>
-    <asmDefines>
-        <define>_RA_CORE=CM33</define>
-        <define>_RA_ORDINAL=1</define>
-        <define>_RENESAS_RA_</define>
-    </asmDefines>
     <linkerFile>
         <override>true</override>
         <path>$PROJ_DIR$/script/fsp.icf</path>
     </linkerFile>
+    <extraOptions>
+        <arg>-f "$PROJ_DIR$/xcl/rasc_iccarm"</arg>
+    </extraOptions>
     <linkerExtraOptions>
-        <arg>--config_search "$PROJ_DIR$"</arg>
+        <arg>-f "$PROJ_DIR$/xcl/rasc_ilinkarm"</arg>
     </linkerExtraOptions>
     <programEntryPoint>
         <symbol>Reset_Handler</symbol>
@@ -49,7 +20,11 @@
         <group name="RA Smart Configurator">
             <argVar>
                 <name>RASC_EXE_PATH</name>
-                <value>C:\Renesas\RA\sc_v2024-01.1\eclipse\rasc.exe</value>
+                <value>C:\Renesas\RA\sc_v2024-04\eclipse\rasc.exe</value>
+            </argVar>
+            <argVar>
+                <name>RASC_DEVICE_FAMILY</name>
+                <value>ra</value>
             </argVar>
         </group>
     </customArgVars>
@@ -133,6 +108,7 @@
             <path>ra/fsp/src/bsp/mcu/all/bsp_tfu.h</path>
             <path>ra/fsp/src/bsp/mcu/ra4e1/bsp_elc.h</path>
             <path>ra/fsp/src/bsp/mcu/ra4e1/bsp_feature.h</path>
+            <path>ra/fsp/src/bsp/mcu/ra4e1/bsp_feature_gen.h</path>
             <path>ra/fsp/src/bsp/mcu/ra4e1/bsp_mcu_info.h</path>
             <path>ra/fsp/src/r_icu/r_icu.c</path>
             <path>ra/fsp/src/r_ioport/r_ioport.c</path>

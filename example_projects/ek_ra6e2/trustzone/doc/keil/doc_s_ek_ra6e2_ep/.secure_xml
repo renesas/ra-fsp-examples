@@ -9,7 +9,7 @@
     <option key="#DeviceCommand#" value="R7FA6E2BB"/>
     <option key="#RTOS#" value="_none"/>
     <option key="#pinconfiguration#" value="R7FA6E2BB3CFM.pincfg"/>
-    <option key="#FSPVersion#" value="5.2.0"/>
+    <option key="#FSPVersion#" value="5.3.0"/>
     <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra6e2_ek##"/>
     <option key="#SELECTED_TOOLCHAIN#" value="com.arm.toolchain"/>
   </generalSettings>
@@ -53,6 +53,20 @@
     <node id="board.clock.cecclk.display" option="board.clock.cecclk.display.value"/>
     <node id="board.clock.i3cclk.display" option="board.clock.i3cclk.display.value"/>
   </raClockConfiguration>
+  <raModuleConfiguration>
+    <module id="module.driver.doc_on_doc.981057169" nsc="true">
+      <property id="module.driver.doc.name" value="g_doc"/>
+      <property id="module.driver.doc.doc_event.event" value="module.driver.doc.doc_event.comparison_mismatch"/>
+      <property id="module.driver.doc.doc_bit_width" value="module.driver.doc.doc_bit_width.16"/>
+      <property id="module.driver.doc.doc_data_setting_register_value" value="0xA5A5"/>
+      <property id="module.driver.doc.doc_data_setting_register_value_2" value="0"/>
+      <property id="module.driver.doc.p_callback" value="NULL"/>
+      <property id="module.driver.doc.ipl" value="board.icu.common.irq.priority2"/>
+    </module>
+    <config id="config.driver.doc">
+      <property id="config.driver.doc.param_checking_enable" value="config.doc.param_checking_enable.bsp"/>
+    </config>
+  </raModuleConfiguration>
   <raPinConfiguration>
     <pincfg active="true" name="" symbol="">
       <configSetting altId="jtag_fslash_swd.swclk.p300" configurationId="jtag_fslash_swd.swclk"/>

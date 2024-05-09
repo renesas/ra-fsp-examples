@@ -44,7 +44,7 @@ void wifi_thread_entry(void *pvParameters)
 
     fsp_err_t err = FSP_SUCCESS;
     WIFIReturnCode_t wifi_err = eWiFiSuccess;
-    char input_buff[BUFF_LEN] = {RESET_VALUE};
+    uint8_t input_buff[BUFF_LEN] = {RESET_VALUE};
     uint8_t ip_addr[IP_BUFF_LEN] = {RESET_VALUE};       // IP address for ping operation
     fsp_pack_version_t version = {RESET_VALUE};
 
@@ -115,8 +115,8 @@ void wifi_thread_entry(void *pvParameters)
     APP_PRINT("\r\nNote: Please give free port number, otherwise UDP connect would fail and application would also fail.\r\n");
     while( g_socket.port < UDP_PORT_MIN || g_socket.port > UDP_PORT_MAX )
     {
-        user_input(input_buff);
-        g_socket.port = (uint32_t)atoi(input_buff);
+        user_input((char *)input_buff);
+        g_socket.port = (uint32_t)atoi((char *)input_buff);
         if( g_socket.port < UDP_PORT_MIN || g_socket.port > UDP_PORT_MAX )
         {
             APP_ERR_PRINT("\r\nUDP port out of range. Re-enter port number(valid range 4096 - 65535)\r\n");
@@ -185,17 +185,17 @@ void wifi_thread_entry(void *pvParameters)
  **********************************************************************************************************************/
 static void connectAP()
 {
-    char input_buff[BUFF_LEN] = {RESET_VALUE};
+    uint8_t input_buff[BUFF_LEN] = {RESET_VALUE};
     uint8_t index_menu_option = RESET_VALUE;
     WIFIReturnCode_t wifi_err = eWiFiSuccess;
-    BaseType_t connect_status = pdFALSE;
+    WIFIReturnCode_t connect_status = eWiFiFailure;
 
     /* Connecting to WiFi AP */
     do
     {
         /* Menu for User Selection */
         APP_PRINT(MENU_OPTIONS);
-        user_input(input_buff);
+        user_input((char *)input_buff);
         index_menu_option = (uint8_t)atoi((char *) input_buff);
 
         switch(index_menu_option)
@@ -228,7 +228,7 @@ static void connectAP()
                     {
                         /* Status check of WiFi connectivity */
                         connect_status = WIFI_IsConnected(NULL);
-                        if(pdTRUE != connect_status)
+                        if(eWiFiSuccess != connect_status)
                         {
                             APP_PRINT("\r\nWiFi not connected.");
                         }
@@ -247,14 +247,14 @@ static void connectAP()
                 }
                 else
                 {
-                    connect_status = pdTRUE;
+                    connect_status = eWiFiSuccess;
                 }
                 break;
             default:
                 APP_PRINT("\r\nInvalid Input.\r\n");
                 break;
         }
-    }while(pdTRUE != connect_status);
+    }while(eWiFiSuccess != connect_status);
 
     APP_PRINT("\r\nWiFi connected.\r\n");
 }
@@ -269,7 +269,7 @@ static void connectAP()
  **********************************************************************************************************************/
 static void pingIP(uint8_t *p_ip_addr)
 {
-    char input_buff[BUFF_LEN] = {RESET_VALUE};
+    uint8_t input_buff[BUFF_LEN] = {RESET_VALUE};
     WIFIReturnCode_t wifi_err = eWiFiFailure;
     uint8_t retry_count = RESET_VALUE;
     uint8_t retry_attempt = RESET_VALUE;
@@ -279,13 +279,13 @@ static void pingIP(uint8_t *p_ip_addr)
     {
         /* User input for IP address or URL to ping */
         APP_PRINT("\r\nEnter the IP Address to ping:\r\n");
-        user_input(input_buff);
+        user_input((char *)input_buff);
 
         while(WIFI_MAX_TRY > retry_count)
         {
             APP_PRINT("\r\nPinging. Please wait...\r\n");
             /* DNS lookup for URL or IP */
-            wifi_err = dns_query(input_buff, p_ip_addr);
+            wifi_err = dns_query((char *)input_buff, p_ip_addr);
             /* Handle error */
             if(eWiFiSuccess != wifi_err)
             {

@@ -3,13 +3,27 @@
 set(RASC_TARGET_DEVICE R7FA6M2AF)
 set(RASC_TARGET_ARCH cortex-m4)
 set(RASC_PROJECT_NAME e2studio)
-SET(RASC_TOOLCHAIN_NAME, GCC)
-SET(RASC_CMAKE_CXX_FLAGS "-g -mfloat-abi=hard -O0 -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -I ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS_5/CMSIS/Core/Include -I ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/inc -I ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/inc/api -I ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/inc/instances -I ${CMAKE_CURRENT_SOURCE_DIR}/ra_cfg/fsp_cfg -I ${CMAKE_CURRENT_SOURCE_DIR}/ra_cfg/fsp_cfg/bsp -I ${CMAKE_CURRENT_SOURCE_DIR}/ra_gen -I ${CMAKE_CURRENT_SOURCE_DIR}/src  -D_RA_CORE=CM4 -D_RA_ORDINAL=1 -D_RENESAS_RA_  -Wunused -Wuninitialized -Wall -Wextra -Wmissing-declarations -Wconversion -Wpointer-arith -Wshadow -Wlogical-op -Waggregate-return -Wfloat-equal -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -mthumb  -std=c99 -MMD -MP -MF <SOURCE>.d -MT <OBJECT>")
-SET(RASC_CMAKE_ASM_FLAGS "-g -mfloat-abi=hard -O0 -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -I ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS_5/CMSIS/Core/Include -I ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/inc -I ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/inc/api -I ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/inc/instances -I ${CMAKE_CURRENT_SOURCE_DIR}/ra_cfg/fsp_cfg -I ${CMAKE_CURRENT_SOURCE_DIR}/ra_cfg/fsp_cfg/bsp -I ${CMAKE_CURRENT_SOURCE_DIR}/ra_gen -I ${CMAKE_CURRENT_SOURCE_DIR}/src  -D_RA_CORE=CM4 -D_RA_ORDINAL=1 -D_RENESAS_RA_  -Wunused -Wuninitialized -Wall -Wextra -Wmissing-declarations -Wconversion -Wpointer-arith -Wshadow -Wlogical-op -Waggregate-return -Wfloat-equal -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -mthumb   -x assembler-with-cpp -MMD -MP")
-SET(RASC_CMAKE_C_FLAGS "-g -mfloat-abi=hard -O0 -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -I ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS_5/CMSIS/Core/Include -I ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/inc -I ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/inc/api -I ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/inc/instances -I ${CMAKE_CURRENT_SOURCE_DIR}/ra_cfg/fsp_cfg -I ${CMAKE_CURRENT_SOURCE_DIR}/ra_cfg/fsp_cfg/bsp -I ${CMAKE_CURRENT_SOURCE_DIR}/ra_gen -I ${CMAKE_CURRENT_SOURCE_DIR}/src  -D_RA_CORE=CM4 -D_RA_ORDINAL=1 -D_RENESAS_RA_  -Wunused -Wuninitialized -Wall -Wextra -Wmissing-declarations -Wconversion -Wpointer-arith -Wshadow -Wlogical-op -Waggregate-return -Wfloat-equal -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -mthumb  -std=c99 -MMD -MP -MF <SOURCE>.d -MT <OBJECT>")
-SET(RASC_CMAKE_EXE_LINKER_FLAGS "-g -mfloat-abi=hard -O0 -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -Wunused -Wuninitialized -Wall -Wextra -Wmissing-declarations -Wconversion -Wpointer-arith -Wshadow -Wlogical-op -Waggregate-return -Wfloat-equal -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -mthumb -T script/fsp.ld -Xlinker --gc-sections -Wl,-Map,${PROJECT_NAME}.map --specs=nano.specs -L ${CMAKE_CURRENT_SOURCE_DIR}// -L ${CMAKE_CURRENT_SOURCE_DIR}//script  -o ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.elf")
-SET(RASC_CMAKE_EXE_LIBRARY_NAME_FLAGS "")
+SET(RASC_TOOLCHAIN_NAME GCC)
+
+SET(RASC_CMAKE_ASM_FLAGS "-mfloat-abi=hard;-mcpu=cortex-m4;-mfpu=fpv4-sp-d16;-Wunused;-Wuninitialized;-Wall;-Wextra;-Wmissing-declarations;-Wconversion;-Wpointer-arith;-Wshadow;-Wlogical-op;-Waggregate-return;-Wfloat-equal;-fmessage-length=0;-fsigned-char;-ffunction-sections;-fdata-sections;-mthumb;-x;assembler-with-cpp;-MMD;-MP")
+SET(RASC_CMAKE_C_FLAGS "-mfloat-abi=hard;-mcpu=cortex-m4;-mfpu=fpv4-sp-d16;-Wunused;-Wuninitialized;-Wall;-Wextra;-Wmissing-declarations;-Wconversion;-Wpointer-arith;-Wshadow;-Wlogical-op;-Waggregate-return;-Wfloat-equal;-fmessage-length=0;-fsigned-char;-ffunction-sections;-fdata-sections;-mthumb;-std=c99;-MMD;-MP")
+SET(RASC_CMAKE_CXX_FLAGS "-mfloat-abi=hard;-mcpu=cortex-m4;-mfpu=fpv4-sp-d16;-Wunused;-Wuninitialized;-Wall;-Wextra;-Wmissing-declarations;-Wconversion;-Wpointer-arith;-Wshadow;-Wlogical-op;-Waggregate-return;-Wfloat-equal;-fmessage-length=0;-fsigned-char;-ffunction-sections;-fdata-sections;-mthumb;-std=c++11;-MMD;-MP")
+SET(RASC_CMAKE_EXE_LINKER_FLAGS "-mfloat-abi=hard;-mcpu=cortex-m4;-mfpu=fpv4-sp-d16;-Wunused;-Wuninitialized;-Wall;-Wextra;-Wmissing-declarations;-Wconversion;-Wpointer-arith;-Wshadow;-Wlogical-op;-Waggregate-return;-Wfloat-equal;-fmessage-length=0;-fsigned-char;-ffunction-sections;-fdata-sections;-mthumb;-T;script/fsp.ld;-Wl,--gc-sections;-Wl,-Map,${PROJECT_NAME}.map;--specs=nano.specs;-o;${CMAKE_BINARY_DIR}/${PROJECT_NAME}.elf")
+SET(RASC_CMAKE_DEFINITIONS "_RA_CORE=CM4;_RA_ORDINAL=1;_RENESAS_RA_")
 SET(RASC_ASM_FILES "${CMAKE_CURRENT_SOURCE_DIR}/ra_gen/*.asm")
+
+
+
+# ADD COMPILE FLAGS FOR GCC version >= 12.2
+if (CMAKE_C_COMPILER_ID STREQUAL "GNU" AND CMAKE_C_COMPILER_VERSION VERSION_GREATER_EQUAL 12.2)
+    list(INSERT RASC_CMAKE_C_FLAGS 0 "--param=min-pagesize=0;-Wno-format-truncation;-Wno-stringop-overflow")
+    list(INSERT RASC_CMAKE_CXX_FLAGS 0 "--param=min-pagesize=0;-Wno-format-truncation;-Wno-stringop-overflow")
+endif()
+
+SET(RASC_DEBUG_FLAGS "-g;-O2")
+SET(RASC_RELEASE_FLAGS "-O2")
+SET(RASC_MIN_SIZE_RELEASE_FLAGS "-Os")
+SET(RASC_RELEASE_WITH_DEBUG_INFO "-g;-O2")
 
 # Custom targets are defined below
 include_guard()

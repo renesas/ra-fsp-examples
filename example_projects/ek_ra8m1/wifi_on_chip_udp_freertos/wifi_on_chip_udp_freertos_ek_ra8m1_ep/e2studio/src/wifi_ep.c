@@ -236,7 +236,7 @@ WIFIReturnCode_t scan_and_select(void)
 WIFIReturnCode_t manual_connect(void)
 {
     WIFIReturnCode_t wifi_err = eWiFiSuccess;
-    BaseType_t connect_status = pdFALSE;
+    WIFIReturnCode_t connect_status = eWiFiFailure;
     char input_buff[BUFF_LEN] = {RESET_VALUE};      // Buffer for storing user input
 
     /* User input for SSID of WiFi AP  */
@@ -278,7 +278,7 @@ WIFIReturnCode_t manual_connect(void)
     {
         /* Status check of WiFi connectivity */
         connect_status = WIFI_IsConnected(NULL);
-        if(pdTRUE != connect_status)
+        if(eWiFiSuccess != connect_status)
         {
             APP_PRINT("\r\nWiFi not connected.");
         }
@@ -300,11 +300,11 @@ WIFIReturnCode_t manual_connect(void)
 WIFIReturnCode_t dns_query(char * p_dns, uint8_t * p_ip_addr)
 {
     WIFIReturnCode_t wifi_err = eWiFiSuccess;
-    BaseType_t connect_status = pdFALSE;
+    WIFIReturnCode_t connect_status = eWiFiFailure;
 
     /* Status check of WiFi connectivity */
     connect_status = WIFI_IsConnected(NULL);
-    if(pdTRUE != connect_status)
+    if( eWiFiSuccess != connect_status)
     {
         APP_PRINT("\r\nWiFi not connected");
         return eWiFiFailure;
@@ -333,11 +333,11 @@ WIFIReturnCode_t dns_query(char * p_dns, uint8_t * p_ip_addr)
 WIFIReturnCode_t ping(uint8_t * p_ip_addr)
 {
     WIFIReturnCode_t wifi_err = eWiFiSuccess;
-    BaseType_t connect_status = pdFALSE;
+    WIFIReturnCode_t connect_status = eWiFiFailure;
 
     /* Status check of WiFi connectivity */
     connect_status = WIFI_IsConnected(NULL);
-    if(pdTRUE != connect_status)
+    if(eWiFiSuccess != connect_status)
     {
         APP_PRINT("\r\nWiFi not connected");
         return eWiFiFailure;
@@ -366,11 +366,11 @@ WIFIReturnCode_t ping(uint8_t * p_ip_addr)
 fsp_err_t udp_socket_create()
 {
     fsp_err_t err = FSP_SUCCESS;
-    BaseType_t connect_status = pdFALSE;
+    WIFIReturnCode_t connect_status = eWiFiFailure;
 
     /* Status check of WiFi connectivity */
     connect_status = WIFI_IsConnected(NULL);
-    if(pdTRUE != connect_status)
+    if(eWiFiSuccess != connect_status)
     {
         APP_PRINT("\r\nWiFi not connected");
         return FSP_ERR_WIFI_FAILED;
@@ -400,11 +400,11 @@ fsp_err_t udp_socket_create()
 fsp_err_t udp_socket_connect(uint32_t ip_addr, uint32_t port)
 {
     fsp_err_t err = FSP_SUCCESS;
-    BaseType_t connect_status = pdFALSE;
+    WIFIReturnCode_t connect_status = eWiFiFailure;
 
     /* Status check of WiFi connectivity */
     connect_status = WIFI_IsConnected(NULL);
-    if(pdTRUE != connect_status)
+    if(eWiFiSuccess != connect_status)
     {
         APP_PRINT("\r\nWiFi not connected");
         return FSP_ERR_WIFI_FAILED;
@@ -497,11 +497,11 @@ fsp_err_t udp_recv_data(uint8_t * p_data)
  **********************************************************************************************************************/
 fsp_err_t network_connectivity_check(void)
 {
-    BaseType_t connect_status = pdFALSE;
+    WIFIReturnCode_t connect_status = eWiFiFailure;
 
     /* Checking WiFi connectivity */
     connect_status = WIFI_IsConnected(NULL);
-    if(pdTRUE != connect_status)
+    if(eWiFiSuccess != connect_status)
     {
         APP_PRINT("\r\nWiFi not connected");
         return FSP_ERR_WIFI_FAILED;
@@ -529,7 +529,7 @@ fsp_err_t network_connectivity_check(void)
 void wifi_deinit(void)
 {
     fsp_err_t err = FSP_SUCCESS;
-    BaseType_t connect_status = pdFALSE;
+    WIFIReturnCode_t connect_status = eWiFiFailure;
     WIFIReturnCode_t wifi_err = eWiFiSuccess;
 
     /* Checking socket connection status */
@@ -547,7 +547,7 @@ void wifi_deinit(void)
 
     /* Checking WiFi connectivity */
     connect_status = WIFI_IsConnected(NULL);
-    if(pdTRUE != connect_status)
+    if(eWiFiSuccess != connect_status)
     {
         /* If WiFi connected, closing WiFi module. Thus disconnecting from connected AP */
         wifi_err = WIFI_Off();

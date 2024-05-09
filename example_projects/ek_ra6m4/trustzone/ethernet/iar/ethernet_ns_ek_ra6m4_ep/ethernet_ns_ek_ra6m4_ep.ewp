@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <project>
     <fileVersion>4</fileVersion>
     <configuration>
@@ -70,7 +70,7 @@
                 </option>
                 <option>
                     <name>OGLastSavedByProductVersion</name>
-                    <state>9.40.1.63870</state>
+                    <state>9.50.2.71646</state>
                 </option>
                 <option>
                     <name>OGChipSelectEditMenu</name>
@@ -714,8 +714,8 @@
             <name>CUSTOM</name>
             <archiveVersion>3</archiveVersion>
             <data>
-                <extensions></extensions>
-                <cmdline></cmdline>
+                <extensions/>
+                <cmdline/>
                 <hasPrio>0</hasPrio>
                 <buildSequence>inputOutputBased</buildSequence>
             </data>
@@ -1121,12 +1121,12 @@
             <data>
                 <buildActions>
                     <buildAction>
-                        <cmdline>cmd /c ""$RASC_EXE_PATH$" --generate --compiler IAR "$PROJ_DIR$\configuration.xml" 2&gt; "%TEMP%\rasc_stderr.out""</cmdline>
+                        <cmdline>cmd /c "start /w cmd /c ""$PROJ_DIR$\rasc_launcher.bat" "$PROJ_DIR$\rasc_version.txt" -nosplash --launcher.suppressErrors --generate --compiler IAR --devicefamily $RASC_DEVICE_FAMILY$ "$PROJ_DIR$\configuration.xml" 2&gt; "%TEMP%\rasc_stderr.out"""</cmdline>
                         <workingDirectory>$PROJ_DIR$</workingDirectory>
                         <buildSequence>preCompile</buildSequence>
                         <outputs>
                             <file>
-                                <name>$BUILD_FILES_DIR$/.prebuild</name>
+<name>$BUILD_FILES_DIR$/.prebuild</name>
                             </file>
                         </outputs>
                     </buildAction>
@@ -1848,8 +1848,8 @@
             <name>CUSTOM</name>
             <archiveVersion>3</archiveVersion>
             <data>
-                <extensions></extensions>
-                <cmdline></cmdline>
+                <extensions/>
+                <cmdline/>
                 <hasPrio>0</hasPrio>
                 <buildSequence>inputOutputBased</buildSequence>
             </data>
@@ -2255,12 +2255,12 @@
             <data>
                 <buildActions>
                     <buildAction>
-                        <cmdline>cmd /c ""$RASC_EXE_PATH$" --generate --compiler IAR "$PROJ_DIR$\configuration.xml" 2&gt; "%TEMP%\rasc_stderr.out""</cmdline>
+                        <cmdline>cmd /c "start /w cmd /c ""$PROJ_DIR$\rasc_launcher.bat" "$PROJ_DIR$\rasc_version.txt" -nosplash --launcher.suppressErrors --generate --compiler IAR --devicefamily $RASC_DEVICE_FAMILY$ "$PROJ_DIR$\configuration.xml" 2&gt; "%TEMP%\rasc_stderr.out"""</cmdline>
                         <workingDirectory>$PROJ_DIR$</workingDirectory>
                         <buildSequence>preCompile</buildSequence>
                         <outputs>
                             <file>
-                                <name>$BUILD_FILES_DIR$/.prebuild</name>
+<name>$BUILD_FILES_DIR$/.prebuild</name>
                             </file>
                         </outputs>
                     </buildAction>
@@ -2385,6 +2385,12 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_irq.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_macl.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_macl.h</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_mcu_api.h</name>

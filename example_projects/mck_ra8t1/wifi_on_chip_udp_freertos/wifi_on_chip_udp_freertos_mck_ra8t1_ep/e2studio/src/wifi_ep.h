@@ -112,7 +112,7 @@
 #define MIN_ZERO        ('0')
 #define MAX_TWO         ('2')
 #define MAX_NINE        ('9')
-#define ONE_SEC_DELAY   (1)
+#define ONE_SEC_DELAY        (1)
 
 /* Structure for socket parameters */
 typedef struct
