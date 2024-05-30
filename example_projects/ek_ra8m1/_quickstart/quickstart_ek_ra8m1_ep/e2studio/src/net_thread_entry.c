@@ -37,7 +37,7 @@
  Macro definitions
  *********************************************************************************************************************/
 
-#define STATIC_IP_MAC_ADDRESS        {0x00, 0x11, 0x22, 0x33, 0x44, 0x98}
+#define STATIC_IP_MAC_ADDRESS        {0x00, 0x11, 0x22, 0x33, 0x44, 0x55}
 #define STATIC_IP_ADDRESS            {192, 168,  10, 142}
 #define STATIC_IP_GATEWAY_ADDRESS    {192, 168,   0,   1}
 #define STATIC_IP_NET_MASK           {255, 255, 255,   0}

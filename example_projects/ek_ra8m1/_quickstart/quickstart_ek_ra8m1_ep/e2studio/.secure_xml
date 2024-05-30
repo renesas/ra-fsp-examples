@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<raConfiguration version="8">
+<raConfiguration version="9">
   <generalSettings>
     <option key="#Board#" value="board.ra8m1ek"/>
     <option key="CPU" value="RA8M1"/>
@@ -9,10 +9,10 @@
     <option key="#DeviceCommand#" value="R7FA8M1AH"/>
     <option key="#RTOS#" value="rtos.awsfreertos"/>
     <option key="#pinconfiguration#" value="R7FA8M1AHECBD.pincfg"/>
-    <option key="#FSPVersion#" value="5.0.0"/>
+    <option key="#FSPVersion#" value="5.3.0"/>
     <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra8m1_ek##"/>
     <option key="#SELECTED_TOOLCHAIN#" value="gcc-arm-embedded"/>
-    <option key="#ToolchainVersion#" value="12.2.1.arm-12-mpacbti-34"/>
+    <option key="#ToolchainVersion#" value="13.2.1.arm-13-7"/>
   </generalSettings>
   <raBspConfiguration/>
   <raClockConfiguration>
@@ -22,7 +22,7 @@
     <node id="board.clock.moco.freq" option="board.clock.moco.freq.8m"/>
     <node id="board.clock.subclk.freq" option="board.clock.subclk.freq.32768"/>
     <node id="board.clock.pll.source" option="board.clock.pll.source.xtal"/>
-    <node id="board.clock.pll.div" option="board.clock.pll.div.1"/>
+    <node id="board.clock.pll.div" option="board.clock.pll.div.2"/>
     <node id="board.clock.pll.mul" option="board.clock.pll.mul.72_00"/>
     <node id="board.clock.pll.display" option="board.clock.pll.display.value"/>
     <node id="board.clock.pll1p.div" option="board.clock.pll1p.div.6"/>
@@ -32,8 +32,8 @@
     <node id="board.clock.pll1r.div" option="board.clock.pll1r.div.6"/>
     <node id="board.clock.pll1r.display" option="board.clock.pll1r.display.value"/>
     <node id="board.clock.pll2.source" option="board.clock.pll2.source.xtal"/>
-    <node id="board.clock.pll2.div" option="board.clock.pll2.div.1"/>
-    <node id="board.clock.pll2.mul" option="board.clock.pll2.mul.40_00"/>
+    <node id="board.clock.pll2.div" option="board.clock.pll2.div.2"/>
+    <node id="board.clock.pll2.mul" option="board.clock.pll2.mul.96_00"/>
     <node id="board.clock.pll2.display" option="board.clock.pll2.display.value"/>
     <node id="board.clock.pll2p.div" option="board.clock.pll2p.div.16"/>
     <node id="board.clock.pll2p.display" option="board.clock.pll2p.display.value"/>
@@ -67,7 +67,7 @@
     <node id="board.clock.canfdclk.div" option="board.clock.canfdclk.div.8"/>
     <node id="board.clock.i3cclk.div" option="board.clock.i3cclk.div.3"/>
     <node id="board.clock.uck.div" option="board.clock.uck.div.1"/>
-    <node id="board.clock.u60ck.div" option="board.clock.u60ck.div.4"/>
+    <node id="board.clock.u60ck.div" option="board.clock.u60ck.div.2"/>
     <node id="board.clock.octaspiclk.div" option="board.clock.octaspiclk.div.1"/>
     <node id="board.clock.cpuclk.display" option="board.clock.cpuclk.display.value"/>
     <node id="board.clock.iclk.display" option="board.clock.iclk.display.value"/>
@@ -147,14 +147,14 @@
       <configSetting altId="spi1.mosi1.p411" configurationId="spi1.mosi1"/>
       <configSetting altId="spi1.rspck1.p412" configurationId="spi1.rspck1"/>
       <configSetting altId="spi1.sslb0.p413" configurationId="spi1.sslb0"/>
-      <configSetting altId="usbfs.usb_dm.p815" configurationId="usbfs.usb_dm"/>
-      <configSetting altId="usbfs.usb_dp.p814" configurationId="usbfs.usb_dp"/>
-      <configSetting altId="usbfs.usb_ovrcura.p501" configurationId="usbfs.usb_ovrcura"/>
-      <configSetting altId="usbfs.usb_vbus.p407" configurationId="usbfs.usb_vbus"/>
-      <configSetting altId="usbfs.usb_vbusen.p500" configurationId="usbfs.usb_vbusen"/>
-      <configSetting altId="usbhs.usbhs_ovrcura.p409" configurationId="usbhs.usbhs_ovrcura"/>
-      <configSetting altId="usbhs.usbhs_vbus.pb01" configurationId="usbhs.usbhs_vbus"/>
-      <configSetting altId="usbhs.usbhs_vbusen.p408" configurationId="usbhs.usbhs_vbusen"/>
+      <configSetting altId="usbfs.usb_dm.p815" configurationId="usbfs.usb_dm" isUsedByDriver="true"/>
+      <configSetting altId="usbfs.usb_dp.p814" configurationId="usbfs.usb_dp" isUsedByDriver="true"/>
+      <configSetting altId="usbfs.usb_ovrcura.p501" configurationId="usbfs.usb_ovrcura" isUsedByDriver="true"/>
+      <configSetting altId="usbfs.usb_vbus.p407" configurationId="usbfs.usb_vbus" isUsedByDriver="true"/>
+      <configSetting altId="usbfs.usb_vbusen.p500" configurationId="usbfs.usb_vbusen" isUsedByDriver="true"/>
+      <configSetting altId="usbhs.usbhs_ovrcura.p409" configurationId="usbhs.usbhs_ovrcura" isUsedByDriver="true"/>
+      <configSetting altId="usbhs.usbhs_vbus.pb01" configurationId="usbhs.usbhs_vbus" isUsedByDriver="true"/>
+      <configSetting altId="usbhs.usbhs_vbusen.p408" configurationId="usbhs.usbhs_vbusen" isUsedByDriver="true"/>
     </pincfg>
   </raPinConfiguration>
 </raConfiguration>

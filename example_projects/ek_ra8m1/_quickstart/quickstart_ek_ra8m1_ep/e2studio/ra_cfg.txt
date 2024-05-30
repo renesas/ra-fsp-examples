@@ -12,6 +12,7 @@ FSP Configuration
     series: 8
     
   RA8M1 Family
+    Enable inline BSP IRQ functions: Enabled
     Security: Exceptions: Exception Response: Non-Maskable Interrupt
     Security: Exceptions: BusFault, HardFault, and NMI Target: Secure State
     Security: System Reset Request Accessibility: Secure State
@@ -74,12 +75,13 @@ FSP Configuration
     Clocks: HOCO FLL Function: Disabled
     Clocks: Clock Settling Delay: Enabled
     Clocks: Sleep Mode Entry and Exit Delays: Enabled
-    Clocks: RTOS Sleep Mode Entry and Exit Delays: Enabled
+    Clocks: RTOS Sleep on Idle: Disabled
     Clocks: MSTP Change Delays: Enabled
     Clocks: Settling Delay (us): 150
     Main Oscillator Wait Time: 8163 cycles
     Cache settings: Data cache: Disabled
     
+  RA8M1 event data
   RA Common
     Main stack size (bytes): 0x4000
     Heap size (bytes): 0x2000
@@ -101,14 +103,14 @@ FSP Configuration
     XTAL 20000000Hz
     HOCO 48MHz
     PLL Src: XTAL
-    PLL Div /1
+    PLL Div /2
     PLL Mul x60-79|Mul x72|PLL Mul x72.00
     PLL1P Div /6
     PLL1Q Div /6
     PLL1R Div /6
     PLL2 Src: XTAL
-    PLL2 Div /1
-    PLL2 Mul x40-59|Mul x40|PLL2 Mul x40.00
+    PLL2 Div /2
+    PLL2 Mul x80-99|Mul x96|PLL2 Mul x96.00
     PLL2P Div /16
     PLL2Q Div /5
     PLL2R Div /2
@@ -138,7 +140,7 @@ FSP Configuration
     CANFDCLK Div /8
     I3CCLK Div /3
     UCK Div /1
-    U60CK Div /4
+    U60CK Div /2
     OCTASPICLK Div /1
     
   Pin Configurations
@@ -825,6 +827,8 @@ FSP Configuration
     RA: Hardware Stack Monitor: Disabled
     Logging: Print String Function: vLoggingPrint(x)
     Logging: Logging Include Time and Task Name: Disabled
+    Logging: Debug Logging Name: Log Name
+    Logging: Logging Level: LOG_NONE
     
   HAL
     Instance "g_ioport I/O Port (r_ioport)"
@@ -847,7 +851,7 @@ FSP Configuration
       General: Double-trigger: Disabled
       Input: Channel Scan Mask (channel availability varies by MCU): Temperature Sensor
       Input: Group B Scan Mask (channel availability varies by MCU): 
-      Interrupts: Normal/Group A Trigger: Software
+      Interrupts: Normal/Group A Trigger: Software Trigger
       Interrupts: Group B Trigger: Disabled
       Interrupts: Group Priority (Valid only in Group Scan Mode): Group A cannot interrupt Group B
       Input: Add/Average Count: Disabled
@@ -897,6 +901,10 @@ FSP Configuration
       General: Channel: 1
       General: Mode: Periodic
       General: Period: 240
+      General: Compare Match: Compare Match A: Status: Disabled
+      General: Compare Match: Compare Match A: Compare match value: 0
+      General: Compare Match: Compare Match B: Status: Disabled
+      General: Compare Match: Compare Match B: Compare match value: 0
       General: Period Unit: Raw Counts
       Output: Custom Waveform: GTIOA: Initial Output Level: Pin Level Low
       Output: Custom Waveform: GTIOA: Cycle End Output Level: Pin Level Retain
@@ -923,17 +931,17 @@ FSP Configuration
       Input: Noise Filter B Sampling Clock Select: No Filter
       Interrupts: Callback: gpt_blinker_callback
       Interrupts: Overflow/Crest Interrupt Priority: Priority 2
-      Interrupts: Capture A Interrupt Priority: Disabled
-      Interrupts: Capture B Interrupt Priority: Disabled
+      Interrupts: Capture/Compare match A Interrupt Priority: Disabled
+      Interrupts: Capture/Compare match B Interrupt Priority: Disabled
       Interrupts: Underflow/Trough Interrupt Priority: Disabled
       Extra Features: Extra Features: Disabled
       Extra Features: Output Disable: POEG Link: POEG Channel 0
       Extra Features: Output Disable: Output Disable POEG Trigger: 
       Extra Features: ADC Trigger: Start Event Trigger (Channels with GTINTAD only): 
+      Extra Features: ADC Trigger: ADC A Compare Match (Raw Counts): 0
+      Extra Features: ADC Trigger: ADC B Compare Match (Raw Counts): 0
       Extra Features: Dead Time (Value range varies with Channel): Dead Time Count Up (Raw Counts): 0
       Extra Features: Dead Time (Value range varies with Channel): Dead Time Count Down (Raw Counts) (Channels with GTDVD only): 0
-      Extra Features: ADC Trigger (Channels with GTADTRA only): ADC A Compare Match (Raw Counts): 0
-      Extra Features: ADC Trigger (Channels with GTADTRB only): ADC B Compare Match (Raw Counts): 0
       Extra Features: Interrupt Skipping (Channels with GTITC only): Interrupt to Count: None
       Extra Features: Interrupt Skipping (Channels with GTITC only): Interrupt Skip Count: 0
       Extra Features: Interrupt Skipping (Channels with GTITC only): Skip ADC Events: None
@@ -945,6 +953,10 @@ FSP Configuration
       General: Channel: 0
       General: Mode: Periodic
       General: Period: 10000
+      General: Compare Match: Compare Match A: Status: Disabled
+      General: Compare Match: Compare Match A: Compare match value: 0
+      General: Compare Match: Compare Match B: Status: Disabled
+      General: Compare Match: Compare Match B: Compare match value: 0
       General: Period Unit: Raw Counts
       Output: Custom Waveform: GTIOA: Initial Output Level: Pin Level Low
       Output: Custom Waveform: GTIOA: Cycle End Output Level: Pin Level Retain
@@ -971,17 +983,17 @@ FSP Configuration
       Input: Noise Filter B Sampling Clock Select: No Filter
       Interrupts: Callback: gpt_blue_callback
       Interrupts: Overflow/Crest Interrupt Priority: Priority 2
-      Interrupts: Capture A Interrupt Priority: Disabled
-      Interrupts: Capture B Interrupt Priority: Disabled
+      Interrupts: Capture/Compare match A Interrupt Priority: Disabled
+      Interrupts: Capture/Compare match B Interrupt Priority: Disabled
       Interrupts: Underflow/Trough Interrupt Priority: Disabled
       Extra Features: Extra Features: Disabled
       Extra Features: Output Disable: POEG Link: POEG Channel 0
       Extra Features: Output Disable: Output Disable POEG Trigger: 
       Extra Features: ADC Trigger: Start Event Trigger (Channels with GTINTAD only): 
+      Extra Features: ADC Trigger: ADC A Compare Match (Raw Counts): 0
+      Extra Features: ADC Trigger: ADC B Compare Match (Raw Counts): 0
       Extra Features: Dead Time (Value range varies with Channel): Dead Time Count Up (Raw Counts): 0
       Extra Features: Dead Time (Value range varies with Channel): Dead Time Count Down (Raw Counts) (Channels with GTDVD only): 0
-      Extra Features: ADC Trigger (Channels with GTADTRA only): ADC A Compare Match (Raw Counts): 0
-      Extra Features: ADC Trigger (Channels with GTADTRB only): ADC B Compare Match (Raw Counts): 0
       Extra Features: Interrupt Skipping (Channels with GTITC only): Interrupt to Count: None
       Extra Features: Interrupt Skipping (Channels with GTITC only): Interrupt Skip Count: 0
       Extra Features: Interrupt Skipping (Channels with GTITC only): Skip ADC Events: None
@@ -993,6 +1005,10 @@ FSP Configuration
       General: Channel: 2
       General: Mode: Periodic
       General: Period: 0x100000000
+      General: Compare Match: Compare Match A: Status: Disabled
+      General: Compare Match: Compare Match A: Compare match value: 0
+      General: Compare Match: Compare Match B: Status: Disabled
+      General: Compare Match: Compare Match B: Compare match value: 0
       General: Period Unit: Milliseconds
       Output: Custom Waveform: GTIOA: Initial Output Level: Pin Level Low
       Output: Custom Waveform: GTIOA: Cycle End Output Level: Pin Level Retain
@@ -1019,17 +1035,17 @@ FSP Configuration
       Input: Noise Filter B Sampling Clock Select: No Filter
       Interrupts: Callback: NULL
       Interrupts: Overflow/Crest Interrupt Priority: Disabled
-      Interrupts: Capture A Interrupt Priority: Disabled
-      Interrupts: Capture B Interrupt Priority: Disabled
+      Interrupts: Capture/Compare match A Interrupt Priority: Disabled
+      Interrupts: Capture/Compare match B Interrupt Priority: Disabled
       Interrupts: Underflow/Trough Interrupt Priority: Disabled
       Extra Features: Extra Features: Disabled
       Extra Features: Output Disable: POEG Link: POEG Channel 0
       Extra Features: Output Disable: Output Disable POEG Trigger: 
       Extra Features: ADC Trigger: Start Event Trigger (Channels with GTINTAD only): 
+      Extra Features: ADC Trigger: ADC A Compare Match (Raw Counts): 0
+      Extra Features: ADC Trigger: ADC B Compare Match (Raw Counts): 0
       Extra Features: Dead Time (Value range varies with Channel): Dead Time Count Up (Raw Counts): 0
       Extra Features: Dead Time (Value range varies with Channel): Dead Time Count Down (Raw Counts) (Channels with GTDVD only): 0
-      Extra Features: ADC Trigger (Channels with GTADTRA only): ADC A Compare Match (Raw Counts): 0
-      Extra Features: ADC Trigger (Channels with GTADTRB only): ADC B Compare Match (Raw Counts): 0
       Extra Features: Interrupt Skipping (Channels with GTITC only): Interrupt to Count: None
       Extra Features: Interrupt Skipping (Channels with GTITC only): Interrupt Skip Count: 0
       Extra Features: Interrupt Skipping (Channels with GTITC only): Skip ADC Events: None
@@ -1138,7 +1154,7 @@ FSP Configuration
         USBHS Interrupt Priority: Priority 2
         USBHS D0FIFO Interrupt Priority: Priority 2
         USBHS D1FIFO Interrupt Priority: Priority 2
-        USB RTOS Callback: rtos_callback
+        USB Callback: rtos_callback
         USB Callback Context: NULL
         
   Thread "USB Monitor"
@@ -1164,7 +1180,7 @@ FSP Configuration
         Instance "g_ether0 Ethernet (r_ether)"
           General: Name: g_ether0
           General: Channel: 0
-          General: MAC address: 00:11:22:33:44:98
+          General: MAC address: 00:11:22:33:44:55
           General: Zero-copy Mode: Disable
           General: Flow control functionality: Disable
           Filters: Multicast Mode: Enable
@@ -1235,7 +1251,7 @@ FSP Configuration
               USBHS Interrupt Priority: Priority 12
               USBHS D0FIFO Interrupt Priority: Priority 12
               USBHS D1FIFO Interrupt Priority: Priority 12
-              USB RTOS Callback: rm_block_media_usb_callback
+              USB Callback: rm_block_media_usb_callback
               USB Callback Context: g_rm_block_media0_ctrl
               
     Instance "TinyCrypt (S/W Only)"

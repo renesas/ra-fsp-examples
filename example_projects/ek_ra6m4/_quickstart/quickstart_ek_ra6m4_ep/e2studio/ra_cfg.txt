@@ -12,6 +12,7 @@ FSP Configuration
     series: 6
     
   RA6M4 Family
+    Enable inline BSP IRQ functions: Enabled
     Security: Exceptions: Exception Response: Non-Maskable Interrupt
     Security: Exceptions: BusFault, HardFault, and NMI Target: Secure State
     Security: System Reset Request Accessibility: Secure State
@@ -24,6 +25,7 @@ FSP Configuration
     Security: SRAM Accessibility: Standby RAM: Regions 7-0 are all Secure.
     Security: BUS Accessibility: Bus Security Attribution Register A: Both Secure and Non-Secure State
     Security: BUS Accessibility: Bus Security Attribution Register B: Both Secure and Non-Secure State
+    Security: Flash Bank Select Accessibility: Both Secure and Non-Secure State
     Security: Uninitialized Non-Secure Application Fallback: Enable Uninitialized Non-Secure Application Fallback
     Startup C-Cache Line Size: 32 Bytes
     OFS0 register settings: Independent WDT: Start Mode: IWDT is Disabled
@@ -40,6 +42,8 @@ FSP Configuration
     OFS0 register settings: WDT: Window Start Position: 100% (no window start position)
     OFS0 register settings: WDT: Reset Interrupt Request: Reset
     OFS0 register settings: WDT: Stop Control: Stop counting when entering Sleep mode
+    OFS1_SEL register settings: Voltage Detection 0 Level Security Attribution: VDSEL setting loads from OFS1_SEC
+    OFS1_SEL register settings: Voltage Detection 0 Circuit Start Security Attribution: LVDAS setting loads from OFS1_SEC
     OFS1 register settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
     OFS1 register settings: Voltage Detection 0 Level: 2.80 V
     OFS1 register settings: HOCO Oscillation Enable: HOCO oscillation is disabled after reset
@@ -53,6 +57,7 @@ FSP Configuration
     Clocks: HOCO FLL Function: Disabled
     Main Oscillator Wait Time: 8163 cycles
     
+  RA6M4 event data
   RA Common
     Main stack size (bytes): 0x400
     Heap size (bytes): 0x1000
@@ -396,6 +401,8 @@ FSP Configuration
     
   Module "FreeRTOS+TCP"
     Print debug messages: Disable
+    Backward Compatible Mode: Yes 
+    Enable IPV6: Disable
     Print info messages: Disable
     Byte order of the target MCU: pdFREERTOS_LITTLE_ENDIAN 
     IP/TCP/UDP checksums: Enable 
@@ -410,7 +417,6 @@ FSP Configuration
     Use DHCP: Enable 
     DHCP Register Hostname: Enable 
     DHCP Uses Unicast: Enable 
-    DHCP Send Discover After Auto IP: Enable 
     DHCP callback function: Enable 
     Interval between transmissions: 120000 / portTICK_PERIOD_MS
     ARP Cache Entries: 6
@@ -431,7 +437,6 @@ FSP Configuration
     FreeRTOS_select() (and associated) API function is available: Enable 
     Filter out non Ethernet II frames.: Enable 
     Responsibility of the Ethernet interface to filter out packets: Disable
-    Send RST packets, when receive unknown packets.: Enable 
     Access 32-bit fields in the IP packets: 2
     Size of the pool of TCP window descriptors: 240
     Size of Rx buffer for TCP sockets: 10000
@@ -453,12 +458,13 @@ FSP Configuration
     
   Module "Ethernet (r_ether_phy)"
     Parameter Checking: Default (BSP)
-    Select PHY(DEPRECATED): Default
-    KSZ8091RNZ Target: Disabled
+    KSZ8091RNB Target: Disabled
     KSZ8041 Target: Disabled
     DP83620 Target: Disabled
     ICS1894 Target: Disabled
+    User Own Target: Disabled
     Reference Clock: Enabled
+    Automatic Phy LSI Initialization: Enabled
     
   Module "FreeRTOS Buffer Allocation 2"
   Module "ADC (r_adc)"
@@ -493,7 +499,6 @@ FSP Configuration
     Parameter Checking: Default (BSP)
     Pin Output Support: Enabled
     Write Protect Enable: Disabled
-    Clock Source: PCLKD
     
   Module "OSPI Flash (r_ospi)"
     Parameter Checking: Default (BSP)
@@ -523,7 +528,7 @@ FSP Configuration
     General: Tick Rate Hz: 1000
     General: Max Priorities: 15
     General: Minimal Stack Size: 128
-    General: Max Task Name Len: 16
+    General: Max Task Name Len: 32
     Stats: Use Trace Facility: Disabled
     Stats: Use Stats Formatting Functions: Disabled
     General: Use 16-bit Ticks: Disabled
@@ -541,6 +546,7 @@ FSP Configuration
     General: Num Thread Local Storage Pointers: 32
     General: Stack Depth Type: uint32_t
     General: Message Buffer Length Type: size_t
+    Memory Allocation: Clear Memory on Free: Disabled
     Memory Allocation: Support Static Allocation: Enabled
     Memory Allocation: Support Dynamic Allocation: Enabled
     Memory Allocation: Total Heap Size: 0x1f000
@@ -572,8 +578,9 @@ FSP Configuration
     Optional Functions: xTaskResumeFromISR() Function: Enabled
     RA: Hardware Stack Monitor: Disabled
     Logging: Print String Function: printf(x)
-    Logging: Logging Max Message Length: 192
     Logging: Logging Include Time and Task Name: Disabled
+    Logging: Debug Logging Name: Log Name
+    Logging: Logging Level: LOG_NONE
     
   HAL
     Instance "g_ioport I/O Port (r_ioport)"
@@ -644,6 +651,10 @@ FSP Configuration
       General: Channel: 1
       General: Mode: Periodic
       General: Period: 0x100000000
+      General: Compare Match: Compare Match A: Status: Disabled
+      General: Compare Match: Compare Match A: Compare match value: 0
+      General: Compare Match: Compare Match B: Status: Disabled
+      General: Compare Match: Compare Match B: Compare match value: 0
       General: Period Unit: Raw Counts
       Output: Custom Waveform: GTIOA: Initial Output Level: Pin Level Low
       Output: Custom Waveform: GTIOA: Cycle End Output Level: Pin Level Retain
@@ -670,17 +681,17 @@ FSP Configuration
       Input: Noise Filter B Sampling Clock Select: No Filter
       Interrupts: Callback: gpt_blinker_callback
       Interrupts: Overflow/Crest Interrupt Priority: Priority 8
-      Interrupts: Capture A Interrupt Priority: Disabled
-      Interrupts: Capture B Interrupt Priority: Disabled
+      Interrupts: Capture/Compare match A Interrupt Priority: Disabled
+      Interrupts: Capture/Compare match B Interrupt Priority: Disabled
       Interrupts: Underflow/Trough Interrupt Priority: Disabled
       Extra Features: Extra Features: Disabled
       Extra Features: Output Disable: POEG Link: POEG Channel 0
       Extra Features: Output Disable: Output Disable POEG Trigger: 
       Extra Features: ADC Trigger: Start Event Trigger (Channels with GTINTAD only): 
-      Extra Features: Dead Time: Dead Time Count Up (Raw Counts): 0
-      Extra Features: Dead Time: Dead Time Count Down (Raw Counts) (Channels with GTDVD only): 0
-      Extra Features: ADC Trigger (Channels with GTADTRA only): ADC A Compare Match (Raw Counts): 0
-      Extra Features: ADC Trigger (Channels with GTADTRB only): ADC B Compare Match (Raw Counts): 0
+      Extra Features: ADC Trigger: ADC A Compare Match (Raw Counts): 0
+      Extra Features: ADC Trigger: ADC B Compare Match (Raw Counts): 0
+      Extra Features: Dead Time (Value range varies with Channel): Dead Time Count Up (Raw Counts): 0
+      Extra Features: Dead Time (Value range varies with Channel): Dead Time Count Down (Raw Counts) (Channels with GTDVD only): 0
       Extra Features: Interrupt Skipping (Channels with GTITC only): Interrupt to Count: None
       Extra Features: Interrupt Skipping (Channels with GTITC only): Interrupt Skip Count: 0
       Extra Features: Interrupt Skipping (Channels with GTITC only): Skip ADC Events: None
@@ -690,8 +701,12 @@ FSP Configuration
     Instance "g_gpt_blue Timer, General PWM (r_gpt)"
       General: Name: g_gpt_blue
       General: Channel: 0
-      General: Mode: PWM
+      General: Mode: Saw-wave PWM
       General: Period: 10000
+      General: Compare Match: Compare Match A: Status: Disabled
+      General: Compare Match: Compare Match A: Compare match value: 0
+      General: Compare Match: Compare Match B: Status: Disabled
+      General: Compare Match: Compare Match B: Compare match value: 0
       General: Period Unit: Raw Counts
       Output: Custom Waveform: GTIOA: Initial Output Level: Pin Level Low
       Output: Custom Waveform: GTIOA: Cycle End Output Level: Pin Level Retain
@@ -718,17 +733,17 @@ FSP Configuration
       Input: Noise Filter B Sampling Clock Select: No Filter
       Interrupts: Callback: NULL
       Interrupts: Overflow/Crest Interrupt Priority: Disabled
-      Interrupts: Capture A Interrupt Priority: Disabled
-      Interrupts: Capture B Interrupt Priority: Disabled
+      Interrupts: Capture/Compare match A Interrupt Priority: Disabled
+      Interrupts: Capture/Compare match B Interrupt Priority: Disabled
       Interrupts: Underflow/Trough Interrupt Priority: Disabled
       Extra Features: Extra Features: Disabled
       Extra Features: Output Disable: POEG Link: POEG Channel 0
       Extra Features: Output Disable: Output Disable POEG Trigger: 
       Extra Features: ADC Trigger: Start Event Trigger (Channels with GTINTAD only): 
-      Extra Features: Dead Time: Dead Time Count Up (Raw Counts): 0
-      Extra Features: Dead Time: Dead Time Count Down (Raw Counts) (Channels with GTDVD only): 0
-      Extra Features: ADC Trigger (Channels with GTADTRA only): ADC A Compare Match (Raw Counts): 0
-      Extra Features: ADC Trigger (Channels with GTADTRB only): ADC B Compare Match (Raw Counts): 0
+      Extra Features: ADC Trigger: ADC A Compare Match (Raw Counts): 0
+      Extra Features: ADC Trigger: ADC B Compare Match (Raw Counts): 0
+      Extra Features: Dead Time (Value range varies with Channel): Dead Time Count Up (Raw Counts): 0
+      Extra Features: Dead Time (Value range varies with Channel): Dead Time Count Down (Raw Counts) (Channels with GTDVD only): 0
       Extra Features: Interrupt Skipping (Channels with GTITC only): Interrupt to Count: None
       Extra Features: Interrupt Skipping (Channels with GTITC only): Interrupt Skip Count: 0
       Extra Features: Interrupt Skipping (Channels with GTITC only): Skip ADC Events: None
@@ -740,6 +755,10 @@ FSP Configuration
       General: Channel: 2
       General: Mode: Periodic
       General: Period: 0x100000000
+      General: Compare Match: Compare Match A: Status: Disabled
+      General: Compare Match: Compare Match A: Compare match value: 0
+      General: Compare Match: Compare Match B: Status: Disabled
+      General: Compare Match: Compare Match B: Compare match value: 0
       General: Period Unit: Milliseconds
       Output: Custom Waveform: GTIOA: Initial Output Level: Pin Level Low
       Output: Custom Waveform: GTIOA: Cycle End Output Level: Pin Level Retain
@@ -766,17 +785,17 @@ FSP Configuration
       Input: Noise Filter B Sampling Clock Select: No Filter
       Interrupts: Callback: NULL
       Interrupts: Overflow/Crest Interrupt Priority: Disabled
-      Interrupts: Capture A Interrupt Priority: Disabled
-      Interrupts: Capture B Interrupt Priority: Disabled
+      Interrupts: Capture/Compare match A Interrupt Priority: Disabled
+      Interrupts: Capture/Compare match B Interrupt Priority: Disabled
       Interrupts: Underflow/Trough Interrupt Priority: Disabled
       Extra Features: Extra Features: Disabled
       Extra Features: Output Disable: POEG Link: POEG Channel 0
       Extra Features: Output Disable: Output Disable POEG Trigger: 
       Extra Features: ADC Trigger: Start Event Trigger (Channels with GTINTAD only): 
-      Extra Features: Dead Time: Dead Time Count Up (Raw Counts): 0
-      Extra Features: Dead Time: Dead Time Count Down (Raw Counts) (Channels with GTDVD only): 0
-      Extra Features: ADC Trigger (Channels with GTADTRA only): ADC A Compare Match (Raw Counts): 0
-      Extra Features: ADC Trigger (Channels with GTADTRB only): ADC B Compare Match (Raw Counts): 0
+      Extra Features: ADC Trigger: ADC A Compare Match (Raw Counts): 0
+      Extra Features: ADC Trigger: ADC B Compare Match (Raw Counts): 0
+      Extra Features: Dead Time (Value range varies with Channel): Dead Time Count Up (Raw Counts): 0
+      Extra Features: Dead Time (Value range varies with Channel): Dead Time Count Down (Raw Counts) (Channels with GTDVD only): 0
       Extra Features: Interrupt Skipping (Channels with GTITC only): Interrupt to Count: None
       Extra Features: Interrupt Skipping (Channels with GTITC only): Interrupt Skip Count: 0
       Extra Features: Interrupt Skipping (Channels with GTITC only): Skip ADC Events: None
@@ -802,6 +821,7 @@ FSP Configuration
       OPI Mode: Command Definitions: Status Command: 0x05FA
       OPI Mode: Command Length Bytes: 2
       OPI Mode: Memory Read Dummy Cycles: 10
+      OPI Mode: Status Read Dummy Cycles: 4
       OPI Mode: OM_DQS Enable Counter: SOPI: 9
       OPI Mode: OM_DQS Enable Counter: DOPI: 6
       OPI Mode: DOPI Byte Order: Byte0, Byte1, Byte2, Byte3
@@ -856,13 +876,10 @@ FSP Configuration
       Destination Address Mode: Incremented
       Source Address Mode: Incremented
       Repeat Area (Unused in Normal Mode): Source
-      Destination Pointer: NULL
-      Source Pointer: 0x60000000
       Number of Transfers: 10
       Number of Blocks (Valid only in Repeat,Block or Repeat-Block Mode): 1
       Activation Source: No ELC Trigger
       Callback: qspi_dma_complete_callback
-      Context: NULL
       Transfer End Interrupt Priority: Priority 2
       Interrupt Frequency: Interrupt after all transfers have completed
       Offset value (Valid only when address mode is \'Offset\'): 1
@@ -870,7 +887,15 @@ FSP Configuration
       
     Instance "g_cgc Clock Generation Circuit (r_cgc)"
       Name: g_cgc
-      NMI Callback: NULL
+      Enable main oscillator stop detection via the NMI interrupt: Enabled
+      Oscillation Stop Detection Callback: NULL
+      Sub Clock Oscillation Stop Detection Settings: Enable sub clock oscillator stop detection via the SOSC_STOP interrupt: Disabled
+      Sub Clock Oscillation Stop Detection Settings: Sub Clock Oscillation Stop Detection Time: 0
+      Sub Clock Oscillation Stop Detection Settings: Sub Clock Oscillation Stop Detection Interrupt Priority: Disabled
+      Main Oscillation Stop Detection Settings: Enable main clock oscillator stop detection via the MOSC_STOP interrupt: Disabled
+      Main Oscillation Stop Detection Settings: Main Oscillation Stop Detection Time: 0
+      Main Oscillation Stop Detection Settings: Main Oscillation Stop Detection Interrupt Priority: Disabled
+      Oscillator Stop Detection Settings: Clock Switch Enable for Oscillation Stop Detected of SDADCCLK: Disabled
       
   Thread "Blinky Thread"
     Symbol: blinky_thread
@@ -935,6 +960,8 @@ FSP Configuration
             PHY-LSI Reset Completion Timeout: 0x00020000
             Select MII type: RMII
             Phy LSI type: Kit Component
+            Port Custom Init Function: NULL
+            Port Custom Link Partner Ability Get Function: NULL
             MII/RMII Register Access Wait-time: 8
             Flow Control: Disable
             
@@ -967,7 +994,7 @@ FSP Configuration
         USBHS Interrupt Priority: Not Supported
         USBHS D0FIFO Interrupt Priority: Not Supported
         USBHS D1FIFO Interrupt Priority: Not Supported
-        USB RTOS Callback: rtos_callback
+        USB Callback: rtos_callback
         USB Callback Context: NULL
         
   Thread "USB Monitor"
