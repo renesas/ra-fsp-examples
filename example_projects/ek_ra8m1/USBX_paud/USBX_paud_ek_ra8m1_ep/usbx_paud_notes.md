@@ -10,7 +10,7 @@ To build and run the USBX PAUD example project, the following resources are need
 
 ### Hardware ###
 * Renesas RA™ MCU kit.
-* 2x Micro USB cables.
+* 2x Micro USB cables (For MCK-RA8T1: 2x Type C cables).
 * Host PC.
 
 Refer to [readme.txt](./readme.txt) for information on how to connect the hardware.
@@ -112,11 +112,11 @@ Refer to [USBX Device Class Considerations](https://docs.microsoft.com/en-us/azu
 ## Verifying operation ##
 *  Import the EP and perform the following update if USB speed configuration is changed in addition to the updates needed based on section “Module Configuration Notes”.  The EP defaults to support USB FS.
 
-  **For High Speed USB on EK-RA6M5, EK-RA6M3 and EK-RA8M1** 
+  **For High Speed USB on EK-RA6M5, EK-RA6M3, EK-RA8M1 and EK-RA8D1** 
     
 	* Uncomment the macro APL_AUDIO_20 and comment macro APL_AUDIO_10 in usbx_paud_ep.h 
 	
-  **For Full Speed USB on EK-RA4M2, EK-RA4M3, EK-RA6M1, EK-RA6M2, EK-RA6M3, EK-RA6M4, EK-RA6M5 and EK-RA8M1**
+  **For Full Speed USB on EK-RA4M2, EK-RA4M3, EK-RA6M1, EK-RA6M2, EK-RA6M3, EK-RA6M4, EK-RA6M5, EK-RA8M1, EK-RA8D1 and MCK-RA8T1**
   
     * Comment the macro APL_AUDIO_20 and uncomment macro APL_AUDIO_10 in usbx_paud_ep.h
 	
@@ -135,7 +135,7 @@ Refer to [USBX Device Class Considerations](https://docs.microsoft.com/en-us/azu
 
 * Start recording Audio from instance created above.
 * Stop the recording.
-* Save the recording by clicking **File > Export as wav > name the audio file > Save**.
+* Save the recording by clicking **File > Export Audio... > Export to computer > name the audio file > Export**.
 
  ![usb_paud](images/Save_Options.jpg "Settings to save Audio file")
 
@@ -189,3 +189,5 @@ The host obtains descriptors from an attached device by sending various standard
 | EK-RA4M2         | SRAM -128 KB    | **File Type** - .wav file <br /> **Bit rate** - 44100 hz (16 bit) <br /> **Mono/Stereo** - Stereo   | 200 msecs   		|         47 KB  |
 | EK-RA4M3         | SRAM -128 KB    | **File Type** - .wav file <br /> **Bit rate** - 44100 hz (16 bit) <br /> **Mono/Stereo** - Stereo   | 200 msecs   		|         47 KB  |
 | EK-RA8M1         | SRAM -1024 KB   | **File Type** - .wav file <br /> **Bit rate** - 44100 hz (16 bit) <br /> **Mono/Stereo** - Stereo   | 4 secs   		  |         750 KB |
+| EK-RA8D1         | SRAM -1024 KB   | **File Type** - .wav file <br /> **Bit rate** - 44100 hz (16 bit) <br /> **Mono/Stereo** - Stereo   | 4 secs   		  |         750 KB |
+| MCK-RA8T1        | SRAM -1024 KB   | **File Type** - .wav file <br /> **Bit rate** - 44100 hz (16 bit) <br /> **Mono/Stereo** - Stereo   | 4 secs   		  |         750 KB |

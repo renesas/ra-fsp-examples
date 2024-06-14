@@ -167,18 +167,6 @@ fsp_err_t i3c_slave_init(void)
     }
 
     APP_PRINT ("\r\nINFO : Address assignment is completed, dynamic address: 0x%02x\r\n", g_slave_dynamic_address);
-    /* Set the buffer for storing data received during a read transfer. */
-    p_next = g_read_data[RESET_VALUE];
-
-    /* Read the data from I3C bus.*/
-    err = R_I3C_Read(&g_i3c0_ctrl, p_next, MAX_READ_DATA_LEN, false);
-    if (FSP_SUCCESS != err)
-    {
-        APP_ERR_PRINT ("\r\nERROR : R_I3C_Read API FAILED \r\n");
-        /* de-initialize the opened I3C module.*/
-        i3c_deinit();
-        return err;
-    }
     return FSP_SUCCESS;
 }
 
@@ -438,6 +426,16 @@ static fsp_err_t i3c_device_daa_participation(void)
             }
             g_wait_count = MAX_WAIT_TIME_BUS_INIT_10S;
         }
+    }
+    /* Set the buffer for storing data received during a read transfer. */
+    p_next = g_read_data[RESET_VALUE];
+
+    /* Read the data from I3C bus.*/
+    status = R_I3C_Read(&g_i3c0_ctrl, p_next, MAX_READ_DATA_LEN, false);
+    if (FSP_SUCCESS != status)
+    {
+        APP_ERR_PRINT ("\r\nERROR : R_I3C_Read API FAILED \r\n");
+        return status;
     }
     return FSP_SUCCESS;
 }

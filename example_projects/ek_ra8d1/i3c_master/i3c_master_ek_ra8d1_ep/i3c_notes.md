@@ -2,8 +2,8 @@
 
 # Introduction #
  
-The sample code accompanying this file shows the operation of the I3C Driver on Renesas EK-RA2E2/EK-RA4E2/EK-RA6E2/EK-RA8M1/EK-RA8D1 MCUs based on Renesas FSP.  
-The I3C master on EK-RA2E2/EK-RA4E2/EK-RA6E2/EK-RA8M1/EK-RA8D1 demonstrates operations associated with an I3C slave running on another EK-RA2E2/EK-RA4E2/EK-RA6E2/EK-RA8M1/EK-RA8D1 board. Once initialization is successful,
+The sample code accompanying this file shows the operation of the I3C Driver on Renesas RA2E2/RA4E2/RA6E2/RA4T1/RA6T3/RA8M1/RA8D1 MCUs based on Renesas FSP.  
+The I3C master on EK-RA2E2/EK-RA4E2/EK-RA6E2/MCK-RA4T1/MCK-RA6T3/EK-RA8M1/EK-RA8D1 demonstrates operations associated with an I3C slave running on another EK-RA2E2/EK-RA4E2/EK-RA6E2/MCK-RA4T1/MCK-RA6T3/EK-RA8M1/EK-RA8D1 board. Once initialization is successful,
 I3C Master device assigns slave address to I3C slave device through DAA (dynamic address assignment) using I3C common command code (CCC).  
 Once Dynamic Address Assignment is completed, the Master EP performs write/read operations, and displays slave device information based on user input. 
 If the on-board switch is pressed on the slave side, it will initiate an IBI transfer request.
@@ -17,9 +17,9 @@ for general information on example projects and [readme.txt](./readme.txt) for s
 To build and run the I3C example project, the following resources are needed.
 
 ### Hardware ###
-* Renesas EK-RA2E2/EK-RA4E2/EK-RA6E/EK-RA8M1/EK-RA8D1 kit - 2x
-* USB A to USB Micro B Cable - 2x
-* Jumper wires to link EK-RA2E2/EK-RA4E2/EK-RA6E2/EK-RA8M1/EK-RA8D1 kits - 5x
+* Renesas EK-RA2E2/EK-RA4E2/EK-RA6E2/MCK-RA4T1/MCK-RA6T3/EK-RA8M1/EK-RA8D1 kit - 2x
+* USB A to USB Micro B Cable or Type C USB Cable (For MCK-RA4T1, MCK-RA6T3) - 2x
+* Jumper wires to link EK-RA2E2/EK-RA4E2/EK-RA6E2/MCK-RA4T1/MCK-RA6T3/EK-RA8M1/EK-RA8D1 kits - 5x
 * Pull up resistor of value 1k, 3.9k or 4.7k ohms - 1x
 
 Refer to [readme.txt](./readme.txt) for information on how to connect the hardware.
@@ -48,7 +48,7 @@ List of important modules that are used in this example project. Refer to the FS
 
 | Module Name | Usage | Searchable Keyword  |
 |-------------|-----------------------------------------------|-----------------------------------------------|
-|I3C | Driver for the I3C peripheral to demonstrate Master and Slave mode on EK-RA2E2/EK-RA4E2/EK-RA6E2/EK-RA8M1/EK-RA8D1 MCUs | i3c|
+|I3C | Driver for the I3C peripheral to demonstrate Master and Slave mode on RA2E2/RA4E2/RA6E2/RA4T1/RA6T3/RA8M1/RA8D1 MCUs | i3c|
 |AGT | Driver for the AGT peripheral is used for demonstrating timeout condition. | agt|
 |ICU | The external_irq interface is for configuring interrupts to fire when a trigger condition is detected on an external IRQ pin | icu|
 
@@ -107,11 +107,12 @@ The table below lists the FSP provided API used at the application layer by this
 ## Verifying operation ##
 1. Import, generate and build both i3c_master and i3c_slave EPs in different workspaces.
    Before running the example project, make sure hardware connections are done on both master and slave side.
-2. Download i3c_master EP to one EK-RA2E2/EK-RA4E2/EK-RA6E2/EK-RA8M1/EK-RA8D1 kit and run the project.
-3. Download i3c_slave EP to another EK-RA2E2/EK-RA4E2/EK-RA6E2/EK-RA8M1/EK-RA8D1 kit and run the project.
+2. Download i3c_master EP to one EK-RA2E2/EK-RA4E2/EK-RA6E2/MCK-RA4T1/MCK-RA6T3/EK-RA8M1/EK-RA8D1 kit and run the project.
+3. Download i3c_slave EP to another EK-RA2E2/EK-RA4E2/EK-RA6E2/MCK-RA4T1/MCK-RA6T3/EK-RA8M1/EK-RA8D1 kit and run the project.
 4. Now open one Jlink RTT Viewer and connect to the master board and open another/second JlinkRTTViewer and connect it to slave board.
 5. User can perform Menu option operations on the master side and check corresponding results for the Master and Slave EPs on the respective JlinkRTTViewer.
 6. Also on slave side user can perform IBI transfer request using Push button(S2) and verify result on JLinkRTT_Viewer.  
+   For MCK-RA4T1/MCK-RA6T3: The user needs to use Toggle switch(S1) instead.
    
    Below images showcases the I3C Master output on JLinkRTT_Viewer:
 
@@ -129,8 +130,14 @@ The table below lists the FSP provided API used at the application layer by this
    
 
 ## LED Status ##
-Below are the obsrvations of the LED operation on slave board :
+Below are the observations of the LED operation on slave board :
 * When Dynamic Address Assignment completes, the onboard Blue LED status will be toggled.
-* When write trasfer completes, the onboard Green LED status will be toggled.
-* When read transfer completes, the onboard Red LED status will be toggled.
-* When IBI write trasfer completes, the onboard Green LED status will be toggled.
+* When write transfer completes, the onboard Green LED status will be toggled.
+* When read trannsfer completes, the onboard Red LED status will be toggled.
+* When IBI write transfer completes, the onboard Green LED status will be toggled.
+
+For MCK-RA4T1 and MCK-RA6T3, below are the observations of the LED operation on slave board :  
+* When Dynamic Address Assignment completes, both onboard LED1 and LED2 status will be toggled.
+* When write transfer completes, the onboard LED1 status will be toggled.
+* When read transfer completes, the onboard LED2 status will be toggled.
+* When IBI write transfer completes, the onboard LED1 status will be toggled.

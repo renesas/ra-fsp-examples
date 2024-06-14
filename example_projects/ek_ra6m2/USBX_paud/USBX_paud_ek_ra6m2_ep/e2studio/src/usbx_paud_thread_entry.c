@@ -58,7 +58,8 @@ static volatile uint32_t g_write_counter            = RESET_VALUE;
 static volatile uint32_t g_length                   = RESET_VALUE;
 static UX_DEVICE_CLASS_AUDIO * volatile g_p_audio   = UX_NULL;
 static ULONG  actual_flags                          = RESET_VALUE;
-volatile ULONG data_length_playback, real_byte_count= RESET_VALUE;
+volatile ULONG data_length_playback                 = RESET_VALUE;
+volatile ULONG real_byte_count                      = RESET_VALUE;
 static UINT g_flag                                  = RESET_VALUE;
 static uint32_t g_counter                             = VALUE_0;
 
@@ -208,6 +209,7 @@ void usbx_paud_thread_entry(void)
     g_audio_control[INDEX_0].ux_device_class_audio10_control_volume_min[INDEX_0] = A10_VOL_MIN_0;
     g_audio_control[INDEX_0].ux_device_class_audio10_control_volume_max[INDEX_0] = A10_VOL_MAX_0;
     g_audio_control[INDEX_0].ux_device_class_audio10_control_volume_res[INDEX_0] = A10_VOL_RES_0;
+    g_audio_control[INDEX_0].ux_device_class_audio10_control_ep_addr             = A10_EP_ADDR_OUT;
 
     g_audio_control[INDEX_1].ux_device_class_audio10_control_fu_id                = A10_FU_ID_1;
     g_audio_control[INDEX_1].ux_device_class_audio10_control_mute[INDEX_0]        = A10_MUTE_1;
@@ -215,6 +217,7 @@ void usbx_paud_thread_entry(void)
     g_audio_control[INDEX_1].ux_device_class_audio10_control_volume_min[INDEX_0]  = A10_VOL_MIN_1;
     g_audio_control[INDEX_1].ux_device_class_audio10_control_volume_max[INDEX_0]  = A10_VOL_MAX_1;
     g_audio_control[INDEX_1].ux_device_class_audio10_control_volume_res[INDEX_0]  = A10_VOL_RES_1;
+    g_audio_control[INDEX_1].ux_device_class_audio10_control_ep_addr              = A10_EP_ADDR_IN;
 
     g_audio_control_group.ux_device_class_audio10_control_group_controls_nb       = VALUE_2;
     g_audio_control_group.ux_device_class_audio10_control_group_controls          = &g_audio_control[INDEX_0];
@@ -306,7 +309,7 @@ static UINT apl_status_change_cb (ULONG status)
             /* do nothing */
         }
     }
-    return UX_SUCCESS;
+    return (UX_SUCCESS);
 }
 
 /******************************************************************************
@@ -582,7 +585,7 @@ static UINT apl_audio20_request_process (UX_DEVICE_CLASS_AUDIO * p_audio, UX_SLA
         PRINT_ERR_STR("ux_device_class_audio10_control_process failed");
     }
 
-    return UX_SUCCESS;
+    return (UX_SUCCESS);
 }
 
 /******************************************************************************
@@ -635,7 +638,7 @@ static UINT apl_audio10_request_process (UX_DEVICE_CLASS_AUDIO * p_audio, UX_SLA
     {
         PRINT_ERR_STR("ux_device_class_audio10_control_process failed");
     }
-    return UX_SUCCESS;
+    return (UX_SUCCESS);
 }
 
 /******************************************************************************

@@ -32,23 +32,23 @@
 #define I3C_SLAVE_DEVICE_DYNAMIC_ADDRESS_START          (0x71)
 #define WAIT_TIME                                       (3000)
 /* MACRO for null character */
-#define NULL_CHAR   '\0'
+#define NULL_CHAR   ('\0')
 #define WORD_ALIGN   (4)
 #define ONE          (1)
 
 /* I3C Event Flags */
-#define I3C_EVENT_FLAG_ENTDAA_ADDRESS_PHASE             0x00000001
-#define I3C_EVENT_FLAG_IBI_READ_COMPLETE                0x00000002
-#define I3C_EVENT_FLAG_IBI_READ_BUFFER_FULL             0x00000004
-#define I3C_EVENT_FLAG_READ_BUFFER_FULL                 0x00000008
-#define I3C_EVENT_FLAG_IBI_WRITE_COMPLETE               0x00000010
-#define I3C_EVENT_FLAG_HDR_EXIT_PATTERN_DETECTED        0x00000020
-#define I3C_EVENT_FLAG_ADDRESS_ASSIGNMENT_COMPLETE      0x00000040
-#define I3C_EVENT_FLAG_COMMAND_COMPLETE                 0x00000080
-#define I3C_EVENT_FLAG_WRITE_COMPLETE                   0x00000100
-#define I3C_EVENT_FLAG_READ_COMPLETE                    0x00000200
-#define I3C_EVENT_FLAG_TIMEOUT_DETECTED                 0x00000400
-#define I3C_EVENT_FLAG_INTERNAL_ERROR                   0x00000800
+#define I3C_EVENT_FLAG_ENTDAA_ADDRESS_PHASE             (0x00000001)
+#define I3C_EVENT_FLAG_IBI_READ_COMPLETE                (0x00000002)
+#define I3C_EVENT_FLAG_IBI_READ_BUFFER_FULL             (0x00000004)
+#define I3C_EVENT_FLAG_READ_BUFFER_FULL                 (0x00000008)
+#define I3C_EVENT_FLAG_IBI_WRITE_COMPLETE               (0x00000010)
+#define I3C_EVENT_FLAG_HDR_EXIT_PATTERN_DETECTED        (0x00000020)
+#define I3C_EVENT_FLAG_ADDRESS_ASSIGNMENT_COMPLETE      (0x00000040)
+#define I3C_EVENT_FLAG_COMMAND_COMPLETE                 (0x00000080)
+#define I3C_EVENT_FLAG_WRITE_COMPLETE                   (0x00000100)
+#define I3C_EVENT_FLAG_READ_COMPLETE                    (0x00000200)
+#define I3C_EVENT_FLAG_TIMEOUT_DETECTED                 (0x00000400)
+#define I3C_EVENT_FLAG_INTERNAL_ERROR                   (0x00000800)
 
 typedef enum rtt_menu_options
 {

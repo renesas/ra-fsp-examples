@@ -25,10 +25,10 @@ To build and run the OSPI_B example project, the following resources are needed.
 * 1 x Micro USB cable
 
 ### Software ###
-* e2studio version 2023-10
-* FSP Pack version 5.0.0
-* J-Link RTT Viewer version 7.92j
-* GCC ARM Embedded toolchain version 12.2.1.arm-12-mpacbti-34
+* Renesas Flexible Software Package (FSP)
+* e2 studio: Version 2024-04
+* SEGGER J-Link RTT Viewer: Version 7.96a
+* GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 
 Refer to the software required section in [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf)
 

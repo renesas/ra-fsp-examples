@@ -25,17 +25,15 @@
 2. Hardware settings for the project:
         Hardware connections:
 
-        RA2A1-EK:
+        EK-RA2A1:
         1)J2 Connector Pin no:36(AVSS0)--------> Pin no: 34(VREFLO) with Jumper or wire
-        Note: No Hardware connections required for other EK boards.
+        Note: No Hardware connections required for other RA boards.
 
 3. Configuration Settings:
-        The example project, by default, runs in continuous scan mode on the boards, with the exception as mentioned in the Note*. In order to switch the scan mode, change the 'Mode' field of ADC Driver in the RA configurator to Single Scan.
+        The example project, by default, runs in continuous scan mode on the boards, with the exception as mentioned in the *Note.
+	In order to switch the scan mode, change the 'Mode' field of ADC Driver in the RA configurator to Single Scan.
 
-*Note: EK-RA2A1, EK-RA2E1, EK-RA2E2, EK-RA2L1, EK-RA4M1, EK-RA4M2, EK-RA4M3, FPB-RA4E1 and FPB-RA6E1 supports only Single Scan mode.
-
-
-
+*Note: EK-RA2A1, EK-RA2E1, EK-RA2E2, EK-RA2L1 and EK-RA4M1 support only Single Scan mode.
 
 1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:

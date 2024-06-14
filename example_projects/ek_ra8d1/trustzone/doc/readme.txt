@@ -37,23 +37,19 @@ Note:
 
 4) User must build secure project (_s) first, then build non-secure (_ns) project.
 
-5) The first compiling in non-secure (_ns) of IAR project may have issue with error message, this is because of timing issue 
-   between EWARM and RSAC operation which described in step 10 of section 5.5.1 in
-   https://www.renesas.com/us/en/document/apn/renesas-ra-security-design-arm-trustzone-ip-protection  
-
-6) After the projects are built successfully, user should follow these three steps in sequence to launch the debug session:
+5) After the projects are built successfully, user should follow these three steps in sequence to launch the debug session:
    - Initialize device back to factory default. Refer to the corresponding screen shots in the R11AN0467 to perform the action.
    - Set Trustzone secure / non-secure boundaries. Refer to the corresponding screen shots in the R11AN0467 to perform the action.
    - Launch the Debug session from the non-secure project.
 
-7) For IAR project, User can change setting in the Tools -> Option -> Stack -> Uncheck "Stack pointer(s) not
+6) For IAR project, User can change setting in the Tools -> Option -> Stack -> Uncheck "Stack pointer(s) not
    valid until program reaches" option to ignore Stack Warning at launch.
 
-8) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
+7) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
    a. e2studio: 0x32002468
-   b. Keil:	Not Available
-   c. IAR: 0x3200205c
+   b. Keil:	0x32002004
+   c. IAR: 	0x3200205c
  
-9) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) 
+8) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) 
    in .map file generated in the build configuration folder (Debug/Release).

@@ -25,10 +25,10 @@ Supported RA Boards: FPB-RA0E1
 Refer to [readme.txt](./readme.txt) for information on how to connect the hardware.
 
 ### Software ###
-* e2studio version 2024-01.1 or later
-* FSP Pack version 5.2.0 or later
-* J-Link RTT Viewer version 7.94g or later
-* GCC ARM Embedded toolchain version 13.2.1.arm-13-7 or later
+* Renesas Flexible Software Package (FSP)
+* e2 studio: Version 2024-04
+* SEGGER J-Link RTT Viewer: Version 7.96a
+* GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 
 Refer to the software required section in [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf) for basic information on setting up and using the above software.
 

@@ -215,7 +215,7 @@ static fsp_err_t cac_measurement_process(void)
         return err;
     }
 
-    APP_PRINT("\r\nCAC measurement started.\r\n")
+    APP_PRINT("\r\nCAC measurement started.\r\n");
 
     /* Wait for measurement complete or error generation event. */
     while (true != b_cac_status_flag)
@@ -244,7 +244,7 @@ static fsp_err_t cac_measurement_process(void)
                 return err;
             }
 
-            APP_PRINT("\r\nCAC measurement completed and selected target clock is accurate.\r\n")
+            APP_PRINT("\r\nCAC measurement completed and selected target clock is accurate.\r\n");
             APP_PRINT("\r\nCAC counter value : %d\r\n",cac_counter_val);
 
             /* Stop a measurement */

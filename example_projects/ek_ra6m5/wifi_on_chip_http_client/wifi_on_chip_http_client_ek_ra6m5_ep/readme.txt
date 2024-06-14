@@ -32,10 +32,10 @@
 	1 x Wi-Fi router Access Point(AP) with internet access. Note: WiFi router AP's credentials should be known.
 	
 3. Software Requirements:
-	e2studio version 2024-04
-	FSP Pack version 5.3.0
-	J-Link RTT Viewer version 7.96a
-	GCC ARM Embedded toolchain version 13.2
+	Renesas Flexible Software Package (FSP)
+	e2 studio: Version 2024-04
+	SEGGER J-Link RTT Viewer: Version 7.96a
+	GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 
 4. Hardware Connections:
 	Plug in the US159-DA16200MEVZ to the Pmod2 connector on the MCU evaluation kit and be careful to align Pin 1 on the module to Pin 1 on the MCU kit.

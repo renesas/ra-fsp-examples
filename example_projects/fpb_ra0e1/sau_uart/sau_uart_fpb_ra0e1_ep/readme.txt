@@ -31,11 +31,11 @@
 	The PmodUSBUART facilitates the conversion of UART signals to USB signals and vice versa, enabling communication between the RA board and the Tera Term application.
 
 2. Software Requirements:
-	e2studio version 2024-01.1
-	FSP Pack version 5.2.0
-	J-Link RTT Viewer version 7.94g
-	GCC ARM Embedded toolchain version 13.2.1.arm-13-7
-	Terminal application (ex. Tera Term v4.99)	
+	Renesas Flexible Software Package (FSP)
+	e2 studio: Version 2024-04
+	SEGGER J-Link RTT Viewer: Version 7.96a
+	GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
+	Terminal Console Application: Tera Term or a similar application	
 
 3. Hardware Requirements:
 	1 x Renesas FPB-RA0E1 board

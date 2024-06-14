@@ -21,9 +21,10 @@ To build and run the usb example project, the following resources are needed.
 Refer to [readme.txt](./readme.txt) for information on how to connect the hardware.
 
 ### Software ###
-* e2studio
-* FSP Pack v3.8.0 or greater
-* JLink RTTViewer version 7.64e or greater
+* Renesas Flexible Software Package (FSP)
+* e2 studio: Version 2024-04
+* SEGGER J-Link RTT Viewer: Version 7.96a
+* GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 
 Refer to software requirements mentioned in [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf)
 

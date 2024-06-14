@@ -132,7 +132,7 @@ static void process_rtt_op_msg(VOID)
                     /* version get API for FLEX pack information */
                     fsp_pack_version_t version = {RESET_VALUE};
                     R_FSP_VersionGet(&version);
-                    APP_PRINT(BANNER_INFO,EP_VERSION,version.version_id_b.major, version.version_id_b.minor, version.version_id_b.patch );
+                    APP_PRINT(BANNER_INFO,EP_VERSION,version.version_id_b.major, version.version_id_b.minor, version.version_id_b.patch);
                     APP_PRINT(EP_INFO);
                 }
                 break;
@@ -211,7 +211,7 @@ UINT app_rtt_print_data(event_id_t id, uint32_t size, void * const p_data)
                              (rtt_msg_t *)&p_display_data,
                              TX_WAIT_FOREVER);
 #endif
-    return err;
+    return (err);
 
 }
 
@@ -237,7 +237,7 @@ static UINT memory_allocate_rtt(TX_BYTE_POOL *pool, rtt_msg_t **p_buf, uint32_t 
         /* assign buffer address */
         *p_buf = buf;
     }
-    return err;
+    return (err);
 #endif
 }
 
@@ -259,7 +259,7 @@ UINT check_for_RTT_user_IP(char *const p_get_data)
     err = tx_queue_receive(&g_rtt_ip_data_queue,(VOID *)&r_data1 , 0xFF);
     if (TX_SUCCESS != err)
     {
-        return err;
+        return (err);
     }
 
     if ( (NULL != r_data1) && ( RTT_INPUT_MESSAGE_TYPE_STR_QUEUED == r_data1->msg_id) )
@@ -271,7 +271,7 @@ UINT check_for_RTT_user_IP(char *const p_get_data)
     /* release print message allocated block */
     err= tx_byte_release(r_data1);
 
-    return err;
+    return (err);
 #endif
 }
 

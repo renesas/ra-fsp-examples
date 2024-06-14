@@ -44,9 +44,9 @@
             "\r\nThe user will be able to play, listen and verify the recorded audio file data.\r\n"\
 
 /* macros to print info, error and trap the error.*/
-#define PRINT_INFO_STR(str)  app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_INFO_STR, sizeof(str), str);
-#define PRINT_ERR_STR(str)   app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_ERR_STR, sizeof(str), str);
-#define ERROR_TRAP(err)      app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_ERR_TRAP, sizeof(UINT *), &err);
+#define PRINT_INFO_STR(str)  (app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_INFO_STR, sizeof(str), (str)))
+#define PRINT_ERR_STR(str)   (app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_ERR_STR, sizeof(str), (str)))
+#define ERROR_TRAP(err)      (app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_ERR_TRAP, sizeof(UINT *), &(err)))
 
 /* USBx device configuration settings */
 #define DEVICE_FRAME_LENGTH_HIGH_SPEED              (103U)
@@ -94,33 +94,35 @@
 #define USB_APL_RESUME              (4)
 #define USB_PLUG_IN                 (1UL << 0)
 #define USB_PLUG_OUT                (1UL << 1)
-#define USB_PLUG_IN_CLEAR           ~(1UL << 0)
-#define USB_PLUG_OUT_CLEAR          ~(1UL << 1)
+#define USB_PLUG_IN_CLEAR           (~(1UL << 0))
+#define USB_PLUG_OUT_CLEAR          (~(1UL << 1))
 
-#define A20_CS_ID                       0x10
-#define A20_SAMPLING_FREQUENCY          48000       //hz
-#define A20_FU_ID_0                     5
-#define A20_FU_ID_1                     8
-#define A20_MUTE                        0
-#define A20_VOL_MIN_0                   0
-#define A20_VOL_MAX_0                   100
-#define A20_SET_VOL_0                   50
-#define A20_VOL_MIN_1                   0
-#define A20_VOL_MAX_1                   200
-#define A20_SET_VOL_1                   100
+#define A20_CS_ID                       (0x10)
+#define A20_SAMPLING_FREQUENCY          (48000)       /* hz */
+#define A20_FU_ID_0                     (5)
+#define A20_FU_ID_1                     (8)
+#define A20_MUTE                        (0)
+#define A20_VOL_MIN_0                   (0)
+#define A20_VOL_MAX_0                   (100)
+#define A20_SET_VOL_0                   (50)
+#define A20_VOL_MIN_1                   (0)
+#define A20_VOL_MAX_1                   (200)
+#define A20_SET_VOL_1                   (100)
 
-#define A10_FU_ID_0                     5
-#define A10_FU_ID_1                     8
-#define A10_MUTE_0                      0
-#define A10_MUTE_1                      0x10
-#define A10_VOL_0                       0
-#define A10_VOL_MIN_0                   0
-#define A10_VOL_MAX_0                   0x80
-#define A10_VOL_RES_0                   0x40
-#define A10_VOL_1                       0
-#define A10_VOL_MIN_1                   0
-#define A10_VOL_MAX_1                   0xF0
-#define A10_VOL_RES_1                   0x80
+#define A10_FU_ID_0                     (5)
+#define A10_FU_ID_1                     (8)
+#define A10_EP_ADDR_OUT                 (0x02)
+#define A10_EP_ADDR_IN                  (0x81)
+#define A10_MUTE_0                      (0)
+#define A10_MUTE_1                      (0x10)
+#define A10_VOL_0                       (0)
+#define A10_VOL_MIN_0                   (0)
+#define A10_VOL_MAX_0                   (0x80)
+#define A10_VOL_RES_0                   (0x40)
+#define A10_VOL_1                       (0)
+#define A10_VOL_MIN_1                   (0)
+#define A10_VOL_MAX_1                   (0xF0)
+#define A10_VOL_RES_1                   (0x80)
 
 /* APL_AUDIO_20
  * macro when enabled uses the HIGH SPEED Interface
@@ -128,7 +130,7 @@
  *
  * macro when disabled uses the FULL SPEED Interface
  * on EK-RA4M2, EK-RA4M3, EK-RA6M1, EK-RA6M2, EK-RA6M3, EK-RA6M4, EK-RA6M5 */
-//#define APL_AUDIO_20
+/* #define APL_AUDIO_20 */
 
 #endif /* USBX_PAUD_EP_H_ */
 /*******************************************************************************************************************//**

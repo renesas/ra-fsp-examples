@@ -135,7 +135,7 @@ Refer to [USBX Device Class Considerations](https://docs.microsoft.com/en-us/azu
 
 * Start recording Audio from instance created above.
 * Stop the recording.
-* Save the recording by clicking **File > Export as wav > name the audio file > Save**.
+* Save the recording by clicking **File > Export Audio... > Export to computer > name the audio file > Export**.
 
  ![usb_paud](images/Save_Options.jpg "Settings to save Audio file")
 

@@ -34,7 +34,7 @@
 
 #define LVL_ERR      (1u)       /* error conditions   */
 #define LVL_DEBUG    (3u)       /* debug-level messages */
-#define LOG_LEVEL    (LVL_ERR)    /* To See the Debug Messages, LOG_LEVEL should be set to LVL_DEBUG */
+#define LOG_LEVEL    (LVL_ERR)  /* To See the Debug Messages, LOG_LEVEL should be set to LVL_DEBUG */
 
 #define BIT_SHIFT_8  (8u)
 #define SIZE_64      (64u)
@@ -43,7 +43,7 @@
 
 #define RESET_VALUE             (0x00)
 
-#define EP_VERSION              ("1.0")
+#define EP_VERSION              ("1.1")
 #define MODULE_NAME             "USBX_paud"
 #define BANNER_INFO	            "\r\n******************************************************************"\
                                 "\r\n*   Renesas FSP Example Project for "MODULE_NAME" Module             *"\

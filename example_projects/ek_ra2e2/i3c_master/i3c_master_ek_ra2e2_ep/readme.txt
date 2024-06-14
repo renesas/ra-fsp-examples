@@ -20,7 +20,7 @@
 1. Project Overview:
  
     This example project demonstrates the typical use of the I3C Driver on Renesas RA2E2 MCUs based on Renesas FSP. 
-    The I3C master on EK-RA2E2 demonstrates operations associated with an I3C slave running on another RA2E2 board. 
+    The I3C master on EK-RA2E2 demonstrates operations associated with an I3C slave running on another EK-RA2E2 board. 
     Once initialization is successful, I3C Master device assigns slave address to I3C slave device through 
     DAA (dynamic address assignment) using I3C common command code (CCC). Once Dynamic Address Assignment is completed, 
     the Master EP performs write/read operations, and displays slave device information based on user input. 
@@ -41,6 +41,8 @@
         * External 3V3 pull-up using 3.9 or 4.7k ohms resistor should be connected on SDA line.
         * Three jumper wires are required to establish loop back connection along I3C lines across the board with pins as mentioned below.
         
+	EK-RA2E2:
+
         Master Board              Slave Board
         -------------             ------------
 	SDA0 Pin P401   ---->     SDA0 Pin 401

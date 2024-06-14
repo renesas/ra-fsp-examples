@@ -20,18 +20,18 @@
 1. Project Overview:
  
     This example project demonstrates the typical use of the I3C Driver on Renesas RA2E2/RA4E2/RA6E2 MCUs based on Renesas FSP. 
-    The I3C master on EK-RA2E2/EK-RA4E2/EK-RA6E2 demonstrates operations associated with an I3C slave running on another RA2E2/RA4E2/RA6E2 board. 
-    Once initialization is successful, I3C Master device assigns slave address to I3C slave device through 
-    DAA (dynamic address assignment) using I3C common command code (CCC). Once Dynamic Address Assignment is completed, 
-    the Master EP performs write/read operations, and displays slave device information based on user input. 
-    If the on-board switch is pressed on the slave side, it will initiate an IBI transfer request. 
-    Error and info messages will be printed on Jlink RTTViewer.
+    The I3C master on EK-RA2E2/EK-RA4E2/EK-RA6E2 demonstrates operations associated with an I3C slave running on another
+    EK-RA2E2/EK-RA4E2/EK-RA6E2 board. Once initialization is successful, I3C Master device assigns slave address to I3C slave
+    device through DAA (dynamic address assignment) using I3C common command code (CCC). Once Dynamic Address Assignment is 
+    completed, the Master EP performs write/read operations, and displays slave device information based on user input. If the
+    on-board switch is pressed on the slave side, it will initiate an IBI transfer request. Error and info messages will be
+    printed on Jlink RTTViewer.
 
 2. Hardware Requirement:
 
 	i. 2x Renesas EK-RA2E2/EK-RA4E2/EK-RA6E2 kit.
        ii. 2x USB A to USB Micro B Cable. 
-      iii. 5x Jumper wires to link RA2E2/RA4E2/RA6E2 boards.
+      iii. 5x Jumper wires to link EK-RA2E2/EK-RA4E2/EK-RA6E2 boards.
        iv. 1x Pull up resistor of value 3.9 or 4.7k ohms.
       
 3. Hardware Connections:

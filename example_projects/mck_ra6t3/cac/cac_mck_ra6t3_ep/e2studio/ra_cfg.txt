@@ -12,6 +12,7 @@ FSP Configuration
     series: 6
     
   RA6T3 Family
+    Enable inline BSP IRQ functions: Enabled
     Security: Exceptions: Exception Response: Non-Maskable Interrupt
     Security: Exceptions: BusFault, HardFault, and NMI Target: Secure State
     Security: System Reset Request Accessibility: Secure State
@@ -51,6 +52,7 @@ FSP Configuration
     ID Code Mode: Unlocked (Ignore ID)
     ID Code (32 Hex Characters): FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
     
+  RA6T3 event data
   RA Common
     Main stack size (bytes): 0x400
     Heap size (bytes): 0x400
@@ -252,8 +254,8 @@ FSP Configuration
       Reference clock edge detect: Rising
       Measurement clock divider: 1
       Measurement clock source: MOCO
-      Upper Limit Threshold: 71
-      Lower Limit Threshold: 57
+      Upper Limit Threshold: 14
+      Lower Limit Threshold: 12
       Frequency Error Interrupt Priority: Priority 3
       Measurement End Interrupt Priority: Priority 2
       Overflow Interrupt Priority: Priority 3
@@ -261,5 +263,13 @@ FSP Configuration
       
     Instance "g_cgc Clock Generation Circuit (r_cgc)"
       Name: g_cgc
-      NMI Callback: NULL
+      Enable main oscillator stop detection via the NMI interrupt: Enabled
+      Oscillation Stop Detection Callback: NULL
+      Sub Clock Oscillation Stop Detection Settings: Enable sub clock oscillator stop detection via the SOSC_STOP interrupt: Disabled
+      Sub Clock Oscillation Stop Detection Settings: Sub Clock Oscillation Stop Detection Time: 0
+      Sub Clock Oscillation Stop Detection Settings: Sub Clock Oscillation Stop Detection Interrupt Priority: Disabled
+      Main Oscillation Stop Detection Settings: Enable main clock oscillator stop detection via the MOSC_STOP interrupt: Disabled
+      Main Oscillation Stop Detection Settings: Main Oscillation Stop Detection Time: 0
+      Main Oscillation Stop Detection Settings: Main Oscillation Stop Detection Interrupt Priority: Disabled
+      Oscillator Stop Detection Settings: Clock Switch Enable for Oscillation Stop Detected of SDADCCLK: Disabled
       

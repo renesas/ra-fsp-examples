@@ -29,7 +29,7 @@
  */
 TX_QUEUE g_rtt_op_data_queue;
 TX_QUEUE g_rtt_ip_data_queue;
-TX_EVENT_FLAGS_GROUP rtt_event;
+TX_EVENT_FLAGS_GROUP g_rtt_event;
 TX_BYTE_POOL   g_byte_pool;
 
 static CHAR *byte_pool_name = "rtt_processing_block";
@@ -47,14 +47,14 @@ UINT rtt_framework_init(VOID)
     err = tx_byte_pool_create(&g_byte_pool,byte_pool_name,(VOID *)&byte_memory[0],BYTE_POOL_SIZE);
     if (TX_SUCCESS != err)
     {
-        return err;
+        return (err);
     }
 
     err = tx_queue_create(&g_rtt_op_data_queue, (CHAR *)"rtt_op_queue", 1, &queue_memory_op_rtt_obj, sizeof(queue_memory_op_rtt_obj));
     if (TX_SUCCESS !=err)
     {
         tx_byte_pool_delete(&g_byte_pool);
-        return err;
+        return (err);
     }
 
     err = tx_queue_create(&g_rtt_ip_data_queue, (CHAR *)"ftp_client_thread_input_queue", 1, &queue_memory_ip_rtt_obj, sizeof(queue_memory_ip_rtt_obj));
@@ -64,7 +64,7 @@ UINT rtt_framework_init(VOID)
         tx_queue_delete(&g_rtt_op_data_queue);
     }
 
-    return err;
+    return (err);
 #endif
 }
 

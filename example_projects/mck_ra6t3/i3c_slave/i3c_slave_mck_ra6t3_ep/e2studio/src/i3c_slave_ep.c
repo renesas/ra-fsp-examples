@@ -99,11 +99,11 @@ fsp_err_t i3c_slave_init(void)
     /* Set the device configuration for this device. */
     g_slave_device_cfg.slave_info.bcr = BCR_SETTING;
     g_slave_device_cfg.slave_info.dcr = DCR_SETTING;
-    pid_lower_32bits = (uint32_t)(((uint32_t)(PID_VENDOR_PART_ID << PID_PART_ID_Pos) & PID_PART_ID_Msk) |
-            ((uint32_t)(PID_VENDOR_INSTANCE_ID << PID_INSTANCE_ID_Pos) & PID_INSTANCE_ID_Msk) |
-            ((uint32_t)(PID_VENDOR_DEF << PID_VENDOR_DEF_Pos) & PID_VENDOR_DEF_Msk));
-    pid_upper_16bits = (uint16_t) (((uint16_t)(PID_TYPE_SELECTION) & PID_TYPE_Msk) |
-            ((uint16_t)(PID_MANUFACTURER) & PID_MANUFACTURER_Msk));
+    pid_lower_32bits = (uint32_t)(((uint32_t)(PID_VENDOR_PART_ID << PID_PART_ID_POS) & PID_PART_ID_MSK) |
+            ((uint32_t)(PID_VENDOR_INSTANCE_ID << PID_INSTANCE_ID_POS) & PID_INSTANCE_ID_MSK) |
+            ((uint32_t)(PID_VENDOR_DEF << PID_VENDOR_DEF_POS) & PID_VENDOR_DEF_MSK));
+    pid_upper_16bits = (uint16_t) (((uint16_t)(PID_TYPE_SELECTION) & PID_TYPE_MSK) |
+            ((uint16_t)(PID_MANUFACTURER) & PID_MANUFACTURER_MSK));
 
     g_slave_device_cfg.slave_info.pid[0] = (uint8_t)(pid_upper_16bits >> 8);
     g_slave_device_cfg.slave_info.pid[1] = (uint8_t)(pid_upper_16bits >> 0);
@@ -167,18 +167,6 @@ fsp_err_t i3c_slave_init(void)
     }
 
     APP_PRINT ("\r\nINFO : Address assignment is completed, dynamic address: 0x%02x\r\n", g_slave_dynamic_address);
-    /* Set the buffer for storing data received during a read transfer. */
-    p_next = g_read_data[RESET_VALUE];
-
-    /* Read the data from I3C bus.*/
-    err = R_I3C_Read(&g_i3c0_ctrl, p_next, MAX_READ_DATA_LEN, false);
-    if (FSP_SUCCESS != err)
-    {
-        APP_ERR_PRINT ("\r\nERROR : R_I3C_Read API FAILED \r\n");
-        /* de-initialize the opened I3C module.*/
-        i3c_deinit();
-        return err;
-    }
     return FSP_SUCCESS;
 }
 
@@ -224,9 +212,17 @@ fsp_err_t i3c_slave_ops(void)
                 return FSP_ERR_INTERNAL;
             }
             APP_PRINT ("\r\nINFO : slave dynamic address is assigned.\r\n");
+#if defined (BOARD_RA6T3_MCK) || defined (BOARD_RA4T1_MCK)
+            /* toggle both led1 and led2.*/
+            R_IOPORT_PinRead(g_ioport.p_ctrl, LED1, &led_status);
+            R_IOPORT_PinWrite(g_ioport.p_ctrl, LED1, (!led_status));
+            R_IOPORT_PinRead(g_ioport.p_ctrl, LED2, &led_status);
+            R_IOPORT_PinWrite(g_ioport.p_ctrl, LED2, (!led_status));
+#else
             /* toggle the blue led.*/
             R_IOPORT_PinRead(g_ioport.p_ctrl, LED1_BLUE, &led_status);
             R_IOPORT_PinWrite(g_ioport.p_ctrl, LED1_BLUE, (!led_status));
+#endif
         }
     }
 
@@ -244,9 +240,15 @@ fsp_err_t i3c_slave_ops(void)
         }
 
         APP_PRINT ("\r\nINFO : Write complete, transfer size: 0x%x\r\n", g_data_transfer_size);
+#if defined (BOARD_RA6T3_MCK) || defined (BOARD_RA4T1_MCK)
+        /* toggle led1.*/
+        R_IOPORT_PinRead(g_ioport.p_ctrl, LED1, &led_status);
+        R_IOPORT_PinWrite(g_ioport.p_ctrl, LED1, (!led_status));
+#else
         /* toggle the green led.*/
         R_IOPORT_PinRead(g_ioport.p_ctrl, LED2_GREEN, &led_status);
         R_IOPORT_PinWrite(g_ioport.p_ctrl, LED2_GREEN, (!led_status));
+#endif
     }
 
     /* check if event is read complete.*/
@@ -266,18 +268,30 @@ fsp_err_t i3c_slave_ops(void)
         }
 
         APP_PRINT ("\r\nINFO : Read complete, transfer size: 0x%x\r\n", g_data_transfer_size);
+#if defined (BOARD_RA6T3_MCK) || defined (BOARD_RA4T1_MCK)
+            /* toggle led2.*/
+        R_IOPORT_PinRead(g_ioport.p_ctrl, LED2, &led_status);
+        R_IOPORT_PinWrite(g_ioport.p_ctrl, LED2, (!led_status));
+#else
         /* toggle the red led.*/
         R_IOPORT_PinRead(g_ioport.p_ctrl, LED3_RED, &led_status);
         R_IOPORT_PinWrite(g_ioport.p_ctrl, LED3_RED, (!led_status));
+#endif
     }
 
     /* check if event is IBI write complete.*/
     if(event_flag & I3C_EVENT_FLAG_IBI_WRITE_COMPLETE)
     {
         APP_PRINT ("\r\nINFO : IBI Write complete, transfer size: 0x%x\r\n", g_data_transfer_size);
+#if defined (BOARD_RA6T3_MCK) || defined (BOARD_RA4T1_MCK)
+        /* toggle led1.*/
+        R_IOPORT_PinRead(g_ioport.p_ctrl, LED1, &led_status);
+        R_IOPORT_PinWrite(g_ioport.p_ctrl, LED1, (!led_status));
+#else
         /* toggle the green led.*/
         R_IOPORT_PinRead(g_ioport.p_ctrl, LED2_GREEN, &led_status);
         R_IOPORT_PinWrite(g_ioport.p_ctrl, LED2_GREEN, (!led_status));
+#endif
     }
 
     /* check if event is read buffer full.*/
@@ -439,6 +453,16 @@ static fsp_err_t i3c_device_daa_participation(void)
             g_wait_count = MAX_WAIT_TIME_BUS_INIT_10S;
         }
     }
+    /* Set the buffer for storing data received during a read transfer. */
+    p_next = g_read_data[RESET_VALUE];
+
+    /* Read the data from I3C bus.*/
+    status = R_I3C_Read(&g_i3c0_ctrl, p_next, MAX_READ_DATA_LEN, false);
+    if (FSP_SUCCESS != status)
+    {
+        APP_ERR_PRINT ("\r\nERROR : R_I3C_Read API FAILED \r\n");
+        return status;
+    }
     return FSP_SUCCESS;
 }
 
@@ -514,7 +538,11 @@ fsp_err_t icu_init(void)
     fsp_err_t err = FSP_SUCCESS;
 
     /* Open ICU module */
+#if defined (BOARD_RA6T3_MCK) || defined (BOARD_RA4T1_MCK)
     err = R_ICU_ExternalIrqOpen(&g_external_irq_sw1_ctrl, &g_external_irq_sw1_cfg);
+#else
+    err = R_ICU_ExternalIrqOpen(&g_external_irq_sw2_ctrl, &g_external_irq_sw2_cfg);
+#endif
     /* Handle error */
     if (FSP_SUCCESS != err)
     {
@@ -523,7 +551,11 @@ fsp_err_t icu_init(void)
     }
 
     /* Enable ICU module */
+#if defined (BOARD_RA6T3_MCK) || defined (BOARD_RA4T1_MCK)
     err = R_ICU_ExternalIrqEnable(&g_external_irq_sw1_ctrl);
+#else
+    err = R_ICU_ExternalIrqEnable(&g_external_irq_sw2_ctrl);
+#endif
     if (FSP_SUCCESS != err)
     {
         APP_ERR_PRINT ("\r\nERROR : R_ICU_ExternalIrqEnable API FAILED.\r\n");
@@ -543,7 +575,11 @@ void icu_deinit(void)
     fsp_err_t err = FSP_SUCCESS;
 
     /* Close ICU module */
+#if defined (BOARD_RA6T3_MCK) || defined (BOARD_RA4T1_MCK)
     err = R_ICU_ExternalIrqClose(&g_external_irq_sw1_ctrl);
+#else
+    err = R_ICU_ExternalIrqClose(&g_external_irq_sw2_ctrl);
+#endif
     /* Handle error */
     if (FSP_SUCCESS != err)
     {
@@ -564,7 +600,7 @@ void external_irq_callback(external_irq_callback_args_t *p_args)
     {
         b_onboard_sw_pressed = true;
 #if defined (BOARD_RA6T3_MCK) || defined (BOARD_RA4T1_MCK)
-        R_IOPORT_PinRead(g_ioport.p_ctrl, BSP_IO_PORT_04_PIN_08, &g_last_switch_status);
+        R_IOPORT_PinRead(g_ioport.p_ctrl, BSP_IO_PORT_03_PIN_04, &g_last_switch_status);
 
 #else
         R_IOPORT_PinRead(g_ioport.p_ctrl, BSP_IO_PORT_02_PIN_05, &g_last_switch_status);
@@ -585,7 +621,7 @@ bool read_onboard_sw_status(void)
         b_onboard_sw_pressed = false;
         /* Read the current status of switch.*/
 #if defined (BOARD_RA6T3_MCK) || defined (BOARD_RA4T1_MCK)
-        R_IOPORT_PinRead(g_ioport.p_ctrl, BSP_IO_PORT_04_PIN_08, &g_cur_switch_status);
+        R_IOPORT_PinRead(g_ioport.p_ctrl, BSP_IO_PORT_03_PIN_04, &g_cur_switch_status);
 
 #else
         R_IOPORT_PinRead(g_ioport.p_ctrl, BSP_IO_PORT_02_PIN_05, &g_cur_switch_status);

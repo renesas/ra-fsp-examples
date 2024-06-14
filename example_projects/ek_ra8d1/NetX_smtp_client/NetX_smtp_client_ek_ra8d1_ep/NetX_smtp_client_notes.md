@@ -58,14 +58,13 @@ This section describes FSP Configurator properties that are important or differe
 
 |   Module Property Path and Identifier   |   Default Value   |   Used Value   |   Reason   |
 | :-------------------------------------: | :---------------: | :------------: | :--------: |
-|   configuration.xml -> g_smtp_client0 NetX Duo SMTP Client > Settings > Property > Module  > azure > nxd_smtp_client > address_type  |  ipv6    | ipv4 |  Selects server address type.  |
-|   configuration.xml -> g_smtp_client0 NetX Duo SMTP Client > Settings > Property > Module  > azure > nxd_smtp_client > server_address_ipv4 |  192.168.0.2   |  192.168.1.50  |  Set up the SMTP Server IP address. User can configure this as per their network environment |
-|   configuration.xml -> g_smtp_client0 NetX Duo SMTP Client > Settings > Property > Module  > azure > nxd_smtp_client > client_name  |  username  |   epdesign   |  The host username during SMTP authentication with the Server  |
-|   configuration.xml -> g_smtp_client0 NetX Duo SMTP Client > Settings > Property > Module  > azure > nxd_smtp_client > client_password  |  password    |   tel@1234   | The user password during SMTP authentication with the Server. |
-|   configuration.xml -> g_smtp_client0 NetX Duo SMTP Client > Settings > Property > Module  > azure > nxd_smtp_client > client_address  |  username@domain.com    |   epdesign@test.local.com   |  Specify the sender address were message is to be delivered. |
-|   configuration.xml -> g_smtp_client0 NetX Duo SMTP Client > Settings > Property > Module  > azure > nxd_smtp_client > client_domain  |  domain.com   |   test.local.com    |  Selects domain name.  |
-|   configuration.xml -> g_smtp_client0 NetX Duo SMTP Client > g_ip0 Azure RTOS NetX Duo IP Instance > Property > Module > IPv4 Address |  192.168.0.2   |    192.168.1.122   |  Set up the SMTP Client IP address. User can configure this as per their network environment   |
-|   configuration.xml -> g_smtp_client0 NetX Duo SMTP Client > g_ip0 Azure RTOS NetX Duo IP Instance > Property > Module > Subnet Mask  |  255.255.255.0  |   255.255.255.0    |  Selects the subnet mask.  |
+|   configuration.xml -> g_smtp_client0 Azure RTOS NetX Duo SMTP Client > Settings > Property > Module g_smtp_client0 Azure RTOS NetX Duo SMTP Client > Server IPv4 Address |  192.168.0.2   |  192.168.1.50  |  Set up the SMTP Server IP address. User can configure this as per their network environment |
+|   configuration.xml -> g_smtp_client0 Azure RTOS NetX Duo SMTP Client > Settings > Property > Module g_smtp_client0 Azure RTOS NetX Duo SMTP Client > Client Name  |  username  |   epdesign   |  The host username during SMTP authentication with the Server  |
+|   configuration.xml -> g_smtp_client0 Azure RTOS NetX Duo SMTP Client > Settings > Property > Module g_smtp_client0 Azure RTOS NetX Duo SMTP Client > Client Password  |  password    |   tel@1234   | The user password during SMTP authentication with the Server. |
+|   configuration.xml -> g_smtp_client0 Azure RTOS NetX Duo SMTP Client > Settings > Property > Module g_smtp_client0 Azure RTOS NetX Duo SMTP Client > Client Address  |  username@domain.com    |   epdesign@test.local.com   |  Specify the sender address were message is to be delivered. |
+|   configuration.xml -> g_smtp_client0 Azure RTOS NetX Duo SMTP Client > Settings > Property > Module g_smtp_client0 Azure RTOS NetX Duo SMTP Client > Client Domain  |  domain.com   |   test.local.com    |  Selects domain name.  |
+|   configuration.xml -> g_smtp_client0 Azure RTOS NetX Duo SMTP Client > g_ip0 Azure RTOS NetX Duo IP Instance > Property > Module g_ip0 Azure RTOS NetX Duo IP Instance > IPv4 Address |  192.168.0.2   |    192.168.1.122   |  Set up the SMTP Client IP address. User can configure this as per their network environment   |
+|   configuration.xml -> g_smtp_client0 Azure RTOS NetX Duo SMTP Client > g_ip0 Azure RTOS NetX Duo IP Instance > Property > Module g_ip0 Azure RTOS NetX Duo IP Instance > Subnet Mask  |  255.255.255.0  |   255.255.255.0    |  Selects the subnet mask.  |
 |   configuration.xml -> RTT Thread > Settings > Property > Thread > priority  |   1   |   2   |   RTT thread priority is lowered to allow the DHCP Client and IP threads to process incoming packets at the fastest rate possible.   |   
 
 ## API Usage ##

@@ -37,7 +37,7 @@
 	port (J11) of the board.  Connect the other end of this cable to USB port of the 
 	host PC. 
 
-Note :
+Note:
 1) Open Device Manager, and check 'Human Interface Devices', to see ' USB Input Device' has been detected.
 
 2) Lower case a - z and numbers 0 - 9 is send from MCU to the host PC.﻿
@@ -51,25 +51,21 @@ Note :
 5) For the KEIL project, user can launch the Workspace using the .uvmpw file in keil folder. It included multiple workspace 
    which has both secure (_s) and non-secure (_ns) project.
 
-6) User must build secure project (_s) first, then build non-secure (_ns) project.
+6) User must build secure project (_s) first, then build non-secure (_ns) project. 
 
-7) The first compiling in non-secure (_ns) of IAR project may have issue with error message, this is because of timing issue 
-   between EWARM and RSAC operation which described in step 10 of section 5.5.1 in
-   https://www.renesas.com/us/en/document/apn/renesas-ra-security-design-arm-trustzone-ip-protection  
-
-8) After the projects are built successfully, user should follow these three steps in sequence to launch the debug session:
+7) After the projects are built successfully, user should follow these three steps in sequence to launch the debug session:
    - Initialize device back to factory default. Refer to the corresponding screen shots in the R11AN0467 to perform the action.
    - Set Trustzone secure / non-secure boundaries. Refer to the corresponding screen shots in the R11AN0467 to perform the action.
    - Launch the Debug session from the non-secure project.
 
-9) For IAR project, User can change setting in the Tools -> Option -> Stack -> Uncheck "Stack pointer(s) not
+8) For IAR project, User can change setting in the Tools -> Option -> Stack -> Uncheck "Stack pointer(s) not
    valid until program reaches" option to ignore Stack Warning at launch.  
 
-10) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
+9) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
    a. e2studio: 0x320025e8
-   b. Keil:	Not Available
-   c. IAR: 0x32005cfc
+   b. Keil:	0x32002174
+   c. IAR: 	0x32005cfc
  
-11) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) 
+10) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) 
     in .map file generated in the build configuration folder (Debug/Release).

@@ -31,15 +31,15 @@
           	Note: No Hardware connections required for other RA boards.
 
 3. Configuration Settings:
-	By default, the example project runs in continuous scan mode on the boards, with the exception as mentioned in the Note. 
+	By default, the example project runs in continuous scan mode on the boards, with the exception as mentioned in the *Note. 
 	In order to switch the scan mode, change the 'Mode' field of ADC Driver in the RA configurator to Single Scan.
 	
 	Note: For FPB-RA0E1, By default, the example project runs in Sequential mode on the board.
 	      In order to switch the scan mode, change the 'Conversion operation' field of ADC_D Driver in the 
 	      RA configurator to One-shot.
 	
-Note: 
-1) EK-RA2A1, EK-RA2E1, EK-RA2E2, EK-RA2L1, EK-RA4M1, EK-RA4M2, EK-RA4M3, FPB-RA4E1, FPB-RA6E1 and EK-RA2A2 support only Single Scan mode.
+*Note: 
+1) EK-RA2A1, EK-RA2E1, EK-RA2E2, EK-RA2L1, EK-RA4M1 and EK-RA2A2 support only Single Scan mode.
 	
 2) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:

@@ -29,10 +29,11 @@
 	        in FileX_block_media_sram_notes.md file.
 
 2. Software:
-	e2studio: 2024-04
-	FSP Version: 5.3.0
-	GCC ARM Embedded 13.2.1.arm-13-7
-	Terminal application (ex. Tera Term v4.99) or SEGGER J-link RTT Viewer V7.96a
+	Renesas Flexible Software Package (FSP)
+	e2 studio: Version 2024-04
+	SEGGER J-Link RTT Viewer: Version 7.96a
+	GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
+	Terminal Console Application: Tera Term or a similar application (for boards that support J-Link OB VCOM)
 
 3. Hardware Requirements:
 	Supported RA boards: EK-RA8M1

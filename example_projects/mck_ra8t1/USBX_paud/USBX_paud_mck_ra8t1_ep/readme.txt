@@ -1,5 +1,5 @@
 /***********************************************************************************************************************
-* Copyright [2020] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
+* Copyright [2020-2024] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
 *
 * This software is supplied by Renesas Electronics America Inc. and may only be used with products of Renesas Electronics Corp.
 * and its affiliates (“Renesas”).  No other uses are authorized.  This software is protected under all applicable laws, 
@@ -61,73 +61,73 @@
 	3) A PC with at least 2 USB port(1 for debug and 1 for emulated USB Audio port)
     
    Software: 
-	1) e2studio.
-	2) JLink RTTViewer.
-	3) FSP v3.5.0 or higher.
+	1) Renesas Flexible Software Package (FSP)
+	2) e2 studio: Version 2024-04
+	3) SEGGER J-Link RTT Viewer: Version 7.96a
 	4) Audacity v3.1.3(Audio Player/Recorder)
 
 4. If user needs to change the USB speed, they can follow below configuration changes.
 
-    	i.  Full-Speed :
+        i.  Full-Speed :
             USB Speed                     :    Full Speed
             USB Module Number             :    USB_IP0 Port
-	    DMA Source Address            :    FS Address
+            DMA Source Address            :    FS Address
             DMA Destination Address       :    FS Address
-	    DMAC Transfer Size            :    2 Bytes
+            DMAC Transfer Size            :    2 Bytes
 
         ii. High-Speed :
             USB Speed                     :    Hi Speed
             USB Module Number             :    USB_IP1 Port
-	    DMA Source Address            :    HS Address
+            DMA Source Address            :    HS Address
             DMA Destination Address       :    HS Address
-	    DMAC Transfer Size            :    4 Bytes
-	
-5. Hardware settings for the project:
-	
-    Jumper Settings:
-     	
-	EK-RA6M1, EK-RA6M2 (Full Speed)
-        1. Connect the micro USB end of the micro USB device cable to micro-AB USB (DEBUG USB) 
-	   port (J11) of the respective board. 
-	2. Connect the micro USB end of the micro USB device cable to micro-AB USB Full Speed 
-	   port (J9) of the board.  Connect the other end of this cable to USB port of the 
-	   host PC.
+            DMAC Transfer Size            :    4 Bytes
 
-	EK-RA6M4, EK-RA4M2, EK_RA4M3 (Full Speed)
+5. Hardware settings for the project:
+
+    Jumper Settings:
+      
+    EK-RA6M1, EK-RA6M2 (Full Speed)
+        1. Connect the micro USB end of the micro USB device cable to micro-AB USB (DEBUG USB) 
+        port (J11) of the respective board. 
+        2. Connect the micro USB end of the micro USB device cable to micro-AB USB Full Speed 
+        port (J9) of the board.  Connect the other end of this cable to USB port of the 
+        host PC.
+
+    EK-RA6M4, EK-RA4M2, EK_RA4M3 (Full Speed)
         1. Jumper J12 placement is pins 2-3
         2. Connect Jumper J15 pins
         3. Connect the micro USB end of the micro USB device cable to micro-AB USB Full Speed 
-	   port (J11) of the board.  Connect the other end of this cable to USB port of the 
-	   host PC.
+        port (J11) of the board.  Connect the other end of this cable to USB port of the 
+        host PC.
 
-	EK-RA6M3 (High Speed)
-	1. Jumper J7: Connect pins 2-3
+    EK-RA6M3 (High Speed)
+        1. Jumper J7: Connect pins 2-3
         2. Connect Jumper J17 pins
-	3. Connect the micro USB end of the micro USB device cable to micro-AB USB High Speed 
-	   port (J6) of the board.  Connect the other end of this cable to USB port of the 
-	   host PC.
+        3. Connect the micro USB end of the micro USB device cable to micro-AB USB High Speed 
+        port (J6) of the board.  Connect the other end of this cable to USB port of the 
+        host PC.
 
-	EK-RA6M5, EK-RA8M1 (High Speed)
-	1. Jumper J7: Connect pins 2-3
+    EK-RA6M5, EK-RA8M1 (High Speed)
+        1. Jumper J7: Connect pins 2-3
         2. Connect Jumper J17 pins
-	3. Connect the micro USB end of the micro USB device cable to micro-AB USB High Speed 
-	   port (J31) of the board.  Connect the other end of this cable to USB port of the 
-	   host PC.
+        3. Connect the micro USB end of the micro USB device cable to micro-AB USB High Speed 
+        port (J31) of the board.  Connect the other end of this cable to USB port of the 
+        host PC.
 
-	EK-RA8D1 (High Speed)
-	  *Note: User must turn-off SW1-6 to use USBHS.
-          1. Jumper j7: Connect pins 2-3
-          2. Connect Jumper j17 pins
-          3. Connect the micro USB end of the micro USB device cable to micro-AB USB High Speed 
-	     port (J31) of the board.  Connect the other end of this cable to USB port of the 
-	     host PC.
+    EK-RA8D1 (High Speed)
+        *Note: User must turn-off SW1-6 to use USBHS.
+        1. Jumper j7: Connect pins 2-3
+        2. Connect Jumper j17 pins
+        3. Connect the micro USB end of the micro USB device cable to micro-AB USB High Speed 
+        port (J31) of the board.  Connect the other end of this cable to USB port of the 
+        host PC.
 
-	MCK-RA8T1 (Full Speed)
-	1. Jumper JP9: Connect pins 2-3
+    MCK-RA8T1 (Full Speed)
+        1. Jumper JP9: Connect pins 2-3
         2. Connect Jumper JP10 pins
-	3. Connect the micro USB end of the micro USB device cable to micro-AB USB Full Speed 
-	   port (CN14) of the board.  Connect the other end of this cable to USB port of the 
-	   host PC.
+        3. Connect the micro USB end of the micro USB device cable to micro-AB USB Full Speed 
+        port (CN14) of the board.  Connect the other end of this cable to USB port of the 
+        host PC.
 
 Note:
 1) Need to update src code as below if user changes USB Speed:

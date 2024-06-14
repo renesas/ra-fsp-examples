@@ -31,11 +31,11 @@ Supported RA Boards: FPB-RA0E1
     * P102-T006 (J2-Pin 22) <--------> P101-TI07 (J2-Pin 23)
 
 ### Software ###
-* e2studio version 2024-04
-* FSP Pack version 5.3.0
-* For using the Serial Terminal (UART): Terminal application (ex. Tera Term v4.99)
-* For using the SEGGER J-Link RTT Viewer: J-Link RTT Viewer version 7.96a
-* GCC ARM Embedded toolchain version 13.2.1.arm-13-7
+* Renesas Flexible Software Package (FSP)
+* e2 studio: Version 2024-04
+* SEGGER J-Link RTT Viewer: Version 7.96a (For using the SEGGER J-Link RTT Viewer)
+* GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
+* Terminal Console Application: Tera Term or a similar application (For using the Serial Terminal (UART))
 
 Refer to the software required section in [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf) for basic information on setting up and using the above software.
 

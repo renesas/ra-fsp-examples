@@ -29,9 +29,9 @@ NOTE:
 Formula to calculate threshold(upper/lower) limits: 
 
 1. Get Measurement clock frequency with clock divider i.e. say 'M'. 
-   for ex. select HOCO(24MHZ on EK_RA4M1) and clock divider as '1', then M = 24MHZ.
+   for ex. select HOCO(24MHZ on EK-RA4M1) and clock divider as '1', then M = 24MHZ.
 2. Get Reference clock frequency with clock divider i.e. say 'R'.
-   for ex. select Main OSC(12MHZ on EK_RA4M1) and clock divider as '32', then R = (12MHZ/32).
+   for ex. select Main OSC(12MHZ on EK-RA4M1) and clock divider as '32', then R = (12MHZ/32).
 3. Calculate count value, say 'C'
    i.e. C = (M/R), so C = 64.
 4. Take a tolerance of 10%, say 'T'.
