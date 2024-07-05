@@ -1,4 +1,4 @@
-#include "RTT_Thread.h"
+#include "rtt_thread.h"
 #include "common_utils.h"
 #include "dhcpv4_client_ep.h"
 

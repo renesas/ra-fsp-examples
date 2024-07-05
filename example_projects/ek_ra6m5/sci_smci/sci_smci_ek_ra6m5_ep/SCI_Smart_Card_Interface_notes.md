@@ -26,9 +26,10 @@ Refer to [readme.txt](./readme.txt) for information on how to connect the hardwa
 
 ### Software ###
 * Refer to software requirements mentioned in [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf)
-* e2studio 2023-04
-* J-Link RTT Viewer 7.86b (https://www.segger.com/downloads/jlink/#J-LinkSoftwareAndDocumentationPack)
-* Flexible Software Package (FSP) v4.5.0 or later (https://github.com/renesas/fsp) 
+* Renesas Flexible Software Package (FSP)
+* e2 studio: Version 2024-04
+* SEGGER J-Link RTT Viewer: Version 7.96j
+* GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 
 ## Related Collateral References ##
 The following documents can be referred to for enhancing your understanding of 

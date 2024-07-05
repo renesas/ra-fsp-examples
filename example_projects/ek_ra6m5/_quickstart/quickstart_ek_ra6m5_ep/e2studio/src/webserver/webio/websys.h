@@ -88,7 +88,7 @@ extern u_long cticks(void);
 /*********** Network portability ***************/
 #include "FreeRTOS.h"
 #include "task.h"
-#include "FreeRTOSconfig.h"
+#include "FreeRTOSConfig.h"
 #include "FreeRTOS_IP.h"
 #include "FreeRTOS_IP_Private.h"
 #include "FreeRTOS_Sockets.h"

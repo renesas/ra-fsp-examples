@@ -35,9 +35,9 @@
 	4) 1x Debit Card and 1x of ISO 7816-3 Card (Should be used ISO 7816-3 AT88SC0104C) If user would like to test for both.	 
     
    Software: 
-	1) e2studio 2023-04
-	2) J-Link RTT Viewer 7.86b 
-	3) Flexible Software Package (FSP) v4.5.0 or later (https://github.com/renesas/fsp) 
+	1) Renesas Flexible Software Package (FSP)
+	2) e2 studio: Version 2024-04
+	3) SEGGER J-Link RTT Viewer: Version 7.96j
 	4) An internal pack file of SCI SMCI driver (https://renesasgroup-my.sharepoint.com/:u:/g/personal/cheng-ping_chan_jc_renesas_com/EfBMYUOfm3lOo4JMbGgs5ZMBo7t5DvDNPs6u_-mrSdTToA?e=DpCCWx)
 
 3. Hardware settings for the project:

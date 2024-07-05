@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
-    <fileVersion>3</fileVersion>
+    <fileVersion>4</fileVersion>
     <configuration>
         <name>Debug</name>
         <toolchain>
@@ -11,7 +11,7 @@
             <name>General</name>
             <archiveVersion>3</archiveVersion>
             <data>
-                <version>34</version>
+                <version>36</version>
                 <wantNonLocal>1</wantNonLocal>
                 <debug>1</debug>
                 <option>
@@ -62,7 +62,7 @@
                 </option>
                 <option>
                     <name>RTDescription</name>
-                    <state>Use the normal configuration of the C/C++ runtime library. No locale interface, C locale, no file descriptor support, no multibytes in printf and scanf, and no hex floats in strtod.</state>
+                    <state>A compact configuration of the C/C++14 runtime library. No locale interface, C locale, no file descriptor support, no multibytes in printf and scanf, and no hex floats in strtod.</state>
                 </option>
                 <option>
                     <name>OGProductVersion</name>
@@ -70,7 +70,7 @@
                 </option>
                 <option>
                     <name>OGLastSavedByProductVersion</name>
-                    <state>9.20.2.43955</state>
+                    <state>9.50.2.71646</state>
                 </option>
                 <option>
                     <name>OGChipSelectEditMenu</name>
@@ -98,8 +98,8 @@
                 </option>
                 <option>
                     <name>GBECoreSlave</name>
-                    <version>31</version>
-                    <state>58</state>
+                    <version>33</version>
+                    <state>60</state>
                 </option>
                 <option>
                     <name>OGUseCmsis</name>
@@ -115,8 +115,8 @@
                 </option>
                 <option>
                     <name>CoreVariant</name>
-                    <version>31</version>
-                    <state>58</state>
+                    <version>33</version>
+                    <state>60</state>
                 </option>
                 <option>
                     <name>GFPUDeviceSlave</name>
@@ -138,8 +138,8 @@
                 </option>
                 <option>
                     <name>GFPUCoreSlave2</name>
-                    <version>31</version>
-                    <state>58</state>
+                    <version>33</version>
+                    <state>60</state>
                 </option>
                 <option>
                     <name>OGCMSISPackSelectDevice</name>
@@ -203,13 +203,26 @@
                     <name>BuildFilesPath</name>
                     <state>Debug</state>
                 </option>
+                <option>
+                    <name>PointerAuthentication</name>
+                    <state>0</state>
+                </option>
+                <option>
+                    <name>FPU64</name>
+                    <state>1</state>
+                </option>
+                <option>
+                    <name>OG_32_64DeviceCoreSlave</name>
+                    <version>33</version>
+                    <state>60</state>
+                </option>
             </data>
         </settings>
         <settings>
             <name>ICCARM</name>
             <archiveVersion>2</archiveVersion>
             <data>
-                <version>37</version>
+                <version>38</version>
                 <wantNonLocal>1</wantNonLocal>
                 <debug>1</debug>
                 <option>
@@ -291,11 +304,11 @@
                 </option>
                 <option>
                     <name>IExtraOptionsCheck</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>IExtraOptions</name>
-                    <state></state>
+                    <state>-f "$PROJ_DIR$/xcl/rasc_iccarm"</state>
                 </option>
                 <option>
                     <name>CCLangConformance</name>
@@ -458,13 +471,21 @@
                     <name>CCStackProtection</name>
                     <state>0</state>
                 </option>
+                <option>
+                    <name>CCPointerAutentiction</name>
+                    <state>0</state>
+                </option>
+                <option>
+                    <name>CCBranchTargetIdentification</name>
+                    <state>0</state>
+                </option>
             </data>
         </settings>
         <settings>
             <name>AARM</name>
             <archiveVersion>2</archiveVersion>
             <data>
-                <version>11</version>
+                <version>12</version>
                 <wantNonLocal>1</wantNonLocal>
                 <debug>1</debug>
                 <option>
@@ -631,6 +652,10 @@
                     <name>PreInclude</name>
                     <state></state>
                 </option>
+                <option>
+                    <name>A_32_64Device</name>
+                    <state>1</state>
+                </option>
             </data>
         </settings>
         <settings>
@@ -674,18 +699,10 @@
             </data>
         </settings>
         <settings>
-            <name>BUILDACTION</name>
-            <archiveVersion>1</archiveVersion>
-            <data>
-                <prebuild>cmd /c ""$RASC_EXE_PATH$" --generate --compiler IAR --devicefamily ra "$PROJ_DIR$\configuration.xml" 2&gt; "%TEMP%\rasc_stderr.out""</prebuild>
-                <postbuild>cmd /c ""$RASC_EXE_PATH$" --gensecurebundle --compiler IAR --devicefamily ra "$PROJ_DIR$\configuration.xml" "$TARGET_PATH$" 2&gt; "%TEMP%\rasc_stderr.out""</postbuild>
-            </data>
-        </settings>
-        <settings>
             <name>ILINK</name>
             <archiveVersion>0</archiveVersion>
             <data>
-                <version>26</version>
+                <version>27</version>
                 <wantNonLocal>1</wantNonLocal>
                 <debug>1</debug>
                 <option>
@@ -799,6 +816,7 @@
                 <option>
                     <name>IlinkExtraOptions</name>
                     <state>--config_search "$PROJ_DIR$"</state>
+                    <state>-f "$PROJ_DIR$/xcl/rasc_ilinkarm"</state>
                 </option>
                 <option>
                     <name>IlinkLowLevelInterfaceSlave</name>
@@ -1045,6 +1063,14 @@
                     <name>IlinkWrapperFile</name>
                     <state></state>
                 </option>
+                <option>
+                    <name>IlinkProcessor</name>
+                    <state>1</state>
+                </option>
+                <option>
+                    <name>IlinkFpuProcessor</name>
+                    <state>1</state>
+                </option>
             </data>
         </settings>
         <settings>
@@ -1068,6 +1094,11 @@
                 </option>
             </data>
         </settings>
+        <settings>
+            <name>BUILDACTION</name>
+            <archiveVersion>2</archiveVersion>
+            <data />
+        </settings>
     </configuration>
     <configuration>
         <name>Release</name>
@@ -1079,7 +1110,7 @@
             <name>General</name>
             <archiveVersion>3</archiveVersion>
             <data>
-                <version>34</version>
+                <version>36</version>
                 <wantNonLocal>1</wantNonLocal>
                 <debug>0</debug>
                 <option>
@@ -1138,7 +1169,7 @@
                 </option>
                 <option>
                     <name>OGLastSavedByProductVersion</name>
-                    <state></state>
+                    <state>9.50.2.71646</state>
                 </option>
                 <option>
                     <name>OGChipSelectEditMenu</name>
@@ -1166,7 +1197,7 @@
                 </option>
                 <option>
                     <name>GBECoreSlave</name>
-                    <version>31</version>
+                    <version>33</version>
                     <state>38</state>
                 </option>
                 <option>
@@ -1183,8 +1214,8 @@
                 </option>
                 <option>
                     <name>CoreVariant</name>
-                    <version>31</version>
-                    <state>38</state>
+                    <version>33</version>
+                    <state>60</state>
                 </option>
                 <option>
                     <name>GFPUDeviceSlave</name>
@@ -1206,7 +1237,7 @@
                 </option>
                 <option>
                     <name>GFPUCoreSlave2</name>
-                    <version>31</version>
+                    <version>33</version>
                     <state>38</state>
                 </option>
                 <option>
@@ -1271,13 +1302,26 @@
                     <name>BuildFilesPath</name>
                     <state>Release</state>
                 </option>
+                <option>
+                    <name>PointerAuthentication</name>
+                    <state>0</state>
+                </option>
+                <option>
+                    <name>FPU64</name>
+                    <state>1</state>
+                </option>
+                <option>
+                    <name>OG_32_64DeviceCoreSlave</name>
+                    <version>33</version>
+                    <state>60</state>
+                </option>
             </data>
         </settings>
         <settings>
             <name>ICCARM</name>
             <archiveVersion>2</archiveVersion>
             <data>
-                <version>37</version>
+                <version>38</version>
                 <wantNonLocal>1</wantNonLocal>
                 <debug>0</debug>
                 <option>
@@ -1360,11 +1404,11 @@
                 </option>
                 <option>
                     <name>IExtraOptionsCheck</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>IExtraOptions</name>
-                    <state></state>
+                    <state>-f "$PROJ_DIR$/xcl/rasc_iccarm"</state>
                 </option>
                 <option>
                     <name>CCLangConformance</name>
@@ -1527,13 +1571,21 @@
                     <name>CCStackProtection</name>
                     <state>0</state>
                 </option>
+                <option>
+                    <name>CCPointerAutentiction</name>
+                    <state>0</state>
+                </option>
+                <option>
+                    <name>CCBranchTargetIdentification</name>
+                    <state>0</state>
+                </option>
             </data>
         </settings>
         <settings>
             <name>AARM</name>
             <archiveVersion>2</archiveVersion>
             <data>
-                <version>11</version>
+                <version>12</version>
                 <wantNonLocal>1</wantNonLocal>
                 <debug>0</debug>
                 <option>
@@ -1700,6 +1752,10 @@
                     <name>PreInclude</name>
                     <state></state>
                 </option>
+                <option>
+                    <name>A_32_64Device</name>
+                    <state>1</state>
+                </option>
             </data>
         </settings>
         <settings>
@@ -1743,18 +1799,10 @@
             </data>
         </settings>
         <settings>
-            <name>BUILDACTION</name>
-            <archiveVersion>1</archiveVersion>
-            <data>
-                <prebuild>cmd /c ""$RASC_EXE_PATH$" --generate --compiler IAR --devicefamily ra "$PROJ_DIR$\configuration.xml" 2&gt; "%TEMP%\rasc_stderr.out""</prebuild>
-                <postbuild>cmd /c ""$RASC_EXE_PATH$" --gensecurebundle --compiler IAR --devicefamily ra "$PROJ_DIR$\configuration.xml" "$TARGET_PATH$" 2&gt; "%TEMP%\rasc_stderr.out""</postbuild>
-            </data>
-        </settings>
-        <settings>
             <name>ILINK</name>
             <archiveVersion>0</archiveVersion>
             <data>
-                <version>26</version>
+                <version>27</version>
                 <wantNonLocal>1</wantNonLocal>
                 <debug>0</debug>
                 <option>
@@ -1868,6 +1916,7 @@
                 <option>
                     <name>IlinkExtraOptions</name>
                     <state>--config_search "$PROJ_DIR$"</state>
+                    <state>-f "$PROJ_DIR$/xcl/rasc_ilinkarm"</state>
                 </option>
                 <option>
                     <name>IlinkLowLevelInterfaceSlave</name>
@@ -2114,6 +2163,14 @@
                     <name>IlinkWrapperFile</name>
                     <state></state>
                 </option>
+                <option>
+                    <name>IlinkProcessor</name>
+                    <state>1</state>
+                </option>
+                <option>
+                    <name>IlinkFpuProcessor</name>
+                    <state>1</state>
+                </option>
             </data>
         </settings>
         <settings>
@@ -2135,6 +2192,34 @@
                     <name>IarchiveOutput</name>
                     <state>###Unitialized###</state>
                 </option>
+            </data>
+        </settings>
+        <settings>
+            <name>BUILDACTION</name>
+            <archiveVersion>2</archiveVersion>
+            <data>
+                <buildActions>
+                    <buildAction>
+                        <cmdline>cmd /c ""$RASC_EXE_PATH$" --generate --compiler IAR --devicefamily ra "$PROJ_DIR$\configuration.xml" 2&gt; "%TEMP%\rasc_stderr.out""</cmdline>
+                        <workingDirectory>$PROJ_DIR$</workingDirectory>
+                        <buildSequence>preCompile</buildSequence>
+                        <outputs>
+                            <file>
+                                <name>$BUILD_FILES_DIR$/.prebuild</name>
+                            </file>
+                        </outputs>
+                    </buildAction>
+                    <buildAction>
+                        <cmdline>cmd /c ""$RASC_EXE_PATH$" --gensecurebundle --compiler IAR --devicefamily ra "$PROJ_DIR$\configuration.xml" "$TARGET_PATH$" 2&gt; "%TEMP%\rasc_stderr.out"" &amp;&amp; echo &gt; "$BUILD_FILES_DIR$/.postbuild"</cmdline>
+                        <workingDirectory>$PROJ_DIR$</workingDirectory>
+                        <buildSequence>postLink</buildSequence>
+                        <outputs>
+                            <file>
+                                <name>$BUILD_FILES_DIR$/.postbuild</name>
+                            </file>
+                        </outputs>
+                    </buildAction>
+                </buildActions>
             </data>
         </settings>
     </configuration>
@@ -2173,9 +2258,6 @@
         <group>
             <name>Components</name>
             <file>
-                <name>$PROJ_DIR$\ra\fsp\src\bsp\cmsis\Device\RENESAS\Include\base_addresses.h</name>
-            </file>
-            <file>
                 <name>$PROJ_DIR$\ra\board\ra2a1_ek\board.h</name>
             </file>
             <file>
@@ -2192,9 +2274,6 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\fsp\inc\api\bsp_api.h</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_arm_exceptions.h</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_clocks.c</name>
@@ -2221,7 +2300,13 @@
                 <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\ra2a1\bsp_elc.h</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_exceptions.h</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\ra2a1\bsp_feature.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\ra2a1\bsp_feature_gen.h</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_group_irq.c</name>
@@ -2246,6 +2331,12 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_irq.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_macl.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_macl.h</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_mcu_api.h</name>
@@ -2341,13 +2432,19 @@
                 <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\core_cm7.h</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\core_cm85.h</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\core_sc000.h</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\core_sc300.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\fsp\inc\fsp_common_api.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\core_starmc1.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\fsp\inc\api\fsp_common_api.h</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\fsp\inc\fsp_features.h</name>
@@ -2365,7 +2462,13 @@
                 <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\mpu_armv8.h</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\pac_armv81.h</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\pmu_armv8.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\fsp\src\bsp\cmsis\Device\RENESAS\Include\R7FA2A1AB.h</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\fsp\src\r_agt\r_agt.c</name>
@@ -2470,5 +2573,6 @@
     </group>
     <file>
         <name>$PROJ_DIR$\buildinfo.ipcf</name>
+        <tag>IAR.ControlFile</tag>
     </file>
 </project>

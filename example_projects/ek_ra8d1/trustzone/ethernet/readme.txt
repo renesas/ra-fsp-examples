@@ -99,7 +99,7 @@ Note:
    RTT Block address for hex file committed in repository are as follows:
    a. e2studio: 0x32002930
    b. Keil:	0x320072a8
-   c. IAR: 	0x32013e50
+   c. IAR: 0x32013e50
  
 8) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) 
    in .map file generated in the build configuration folder (Debug/Release).

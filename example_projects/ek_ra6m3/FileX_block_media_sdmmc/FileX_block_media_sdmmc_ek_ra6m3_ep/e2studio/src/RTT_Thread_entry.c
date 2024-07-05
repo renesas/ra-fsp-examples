@@ -22,7 +22,7 @@
  ***********************************************************************************************************************/
 #include <rtt_thread.h>
 #include "common_utils.h"
-#include "FileX_block_media_sdmmc_ep.h"
+#include "filex_block_media_sdmmc_ep.h"
 
 /*
  * local functions

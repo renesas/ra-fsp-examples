@@ -263,13 +263,13 @@ static void memory_usage_update(void)
     uint32_t mem_total  = RESET_VALUE;
 
     /* Update memory usage.  */
-    mem_total = _ux_system -> ux_system_regular_memory_pool_size + (uint32_t)(
-            (uint8_t *)_ux_system -> ux_system_regular_memory_pool_start -
+    mem_total = _ux_system -> ux_system_memory_byte_pool[UX_MEMORY_BYTE_POOL_REGULAR] -> ux_byte_pool_size + (uint32_t)(
+            (uint8_t *)_ux_system -> ux_system_memory_byte_pool[UX_MEMORY_BYTE_POOL_REGULAR] -> ux_byte_pool_start -
             (uint8_t *)_ux_system);
-    mem_usage.mem_usage = mem_total - _ux_system -> ux_system_regular_memory_pool_free;
+    mem_usage.mem_usage = mem_total - _ux_system -> ux_system_memory_byte_pool[UX_MEMORY_BYTE_POOL_REGULAR] -> ux_byte_pool_available;
 
 #ifdef UX_ENABLE_MEMORY_STATISTICS
-    mem_usage.mem_usage_max = mem_total - _ux_system -> ux_system_regular_memory_pool_min_free;
+    mem_usage.mem_usage_max = mem_total - _ux_system -> ux_system_memory_byte_pool[UX_MEMORY_BYTE_POOL_REGULAR] -> ux_byte_pool_min_free;
 #else   /* Not accurate, there could be alloc/free between checks.  */
     if (mem_usage.mem_usage > mem_usage.mem_usage_max)
         mem_usage.mem_usage_max = mem_usage.mem_usage;

@@ -1,5 +1,5 @@
 /***********************************************************************************************************************
- * File Name    : RTT_Thread_entry.c
+ * File Name    : rtt_thread_entry.c
  * Description  : Contains functions from the rtt main thread
  ***********************************************************************************************************************/
 /***********************************************************************************************************************
@@ -20,9 +20,9 @@
  *
  * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
  ***********************************************************************************************************************/
-#include <RTT_Thread.h>
+#include <rtt_thread.h>
 #include "common_utils.h"
-#include "FileX_block_media_sdmmc_ep.h"
+#include "filex_block_media_sdmmc_ep.h"
 
 /*
  * local functions

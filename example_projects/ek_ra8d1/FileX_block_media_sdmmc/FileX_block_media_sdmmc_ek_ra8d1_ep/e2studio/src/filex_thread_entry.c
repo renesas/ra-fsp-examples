@@ -22,7 +22,7 @@
  ***********************************************************************************************************************/
 #include "filex_thread.h"
 #include "common_utils.h"
-#include "FileX_block_media_sdmmc_ep.h"
+#include "filex_block_media_sdmmc_ep.h"
 
 /*******************************************************************************************************************//**
  * @addtogroup FileX_block_media_sdmmc_ep

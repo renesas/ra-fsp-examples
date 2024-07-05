@@ -31,11 +31,13 @@ i.  Connect RA MCU debug port to the host PC via a micro USB cable.
 
 
 ### Software ###
-1. Refer to the software required section in [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf)
-2. JLink RTT Viewer V7.60f or higher.
-3. Renesas GATTbrowser installed on device.
-4. Install QE tool into E2studio IDE.
-
+* Refer to the software required section in [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf)
+* Renesas GATTbrowser installed on device.
+* Install QE tool into E2studio IDE.
+* Renesas Flexible Software Package (FSP)
+* e2 studio: Version 2024-04
+* SEGGER J-Link RTT Viewer: Version 7.96j
+* GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
  
 ## Related Collateral References ##
 The following documents can be referred to for enhancing and understanding of 

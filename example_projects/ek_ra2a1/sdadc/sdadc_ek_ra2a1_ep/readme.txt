@@ -45,6 +45,3 @@ Note: In absence of power supply with multiple output sources, the voltage can b
 ​
 Example:Output from power supply = 1.6 V. Using resistor(R1 =10ohms) and (R2 =100 ohms) in series(as voltage divider) gives output of 1.45V(approx). Now connect
         1.6V to Pin 9 and 1.45V to Pin 7.
-                                      
-
- 

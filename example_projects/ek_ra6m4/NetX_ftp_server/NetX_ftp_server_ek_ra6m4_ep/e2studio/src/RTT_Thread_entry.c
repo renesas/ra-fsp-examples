@@ -1,5 +1,5 @@
 /***********************************************************************************************************************
- * File Name    : RTT_Thread_entry.c
+ * File Name    : rtt_thread_entry.c
  * Description  : Contains macros data structures and functions used in common_utils.c for RTT rtos aware framework
  **********************************************************************************************************************/
 /***********************************************************************************************************************
@@ -21,7 +21,7 @@
  * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
  ***********************************************************************************************************************/
 
-#include "RTT_Thread.h"
+#include "rtt_thread.h"
 #include "ftp_server_ep.h"
 
 /*

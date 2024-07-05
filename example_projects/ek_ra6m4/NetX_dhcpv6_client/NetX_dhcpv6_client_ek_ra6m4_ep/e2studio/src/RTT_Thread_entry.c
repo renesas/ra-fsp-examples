@@ -1,4 +1,4 @@
-#include "RTT_Thread.h"
+#include "rtt_thread.h"
 #include "common_utils.h"
 #include "dhcpv6_client_ep.h"
 #include "nx_api.h"

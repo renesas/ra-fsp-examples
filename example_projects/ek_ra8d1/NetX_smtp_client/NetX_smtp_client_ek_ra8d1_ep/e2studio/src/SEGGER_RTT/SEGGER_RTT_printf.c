@@ -42,7 +42,7 @@
 *                                                                    *
 **********************************************************************
 *                                                                    *
-*       RTT version: 7.96a                                           *
+*       RTT version: 7.96j                                           *
 *                                                                    *
 **********************************************************************
 
@@ -52,8 +52,8 @@ Purpose : Replacement for printf to write formatted data via RTT
 Revision: $Rev: 17697 $
 ----------------------------------------------------------------------
 */
-#include <SEGGER_RTT/SEGGER_RTT.h>
-#include <SEGGER_RTT/SEGGER_RTT_Conf.h>
+#include "SEGGER_RTT.h"
+#include "SEGGER_RTT_Conf.h"
 
 /*********************************************************************
 *

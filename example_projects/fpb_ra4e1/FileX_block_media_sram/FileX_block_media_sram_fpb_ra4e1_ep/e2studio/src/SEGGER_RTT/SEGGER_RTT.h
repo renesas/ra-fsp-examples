@@ -3,7 +3,7 @@
 *                        The Embedded Experts                        *
 **********************************************************************
 *                                                                    *
-*            (c) 1995 - 2021 SEGGER Microcontroller GmbH             *
+*            (c) 1995 - 2019 SEGGER Microcontroller GmbH             *
 *                                                                    *
 *       www.segger.com     Support: support@segger.com               *
 *                                                                    *
@@ -42,7 +42,7 @@
 *                                                                    *
 **********************************************************************
 *                                                                    *
-*       RTT version: 7.96a                                           *
+*       RTT version: 7.96j                                           *
 *                                                                    *
 **********************************************************************
 
@@ -54,7 +54,7 @@ Purpose : Implementation of SEGGER real-time transfer which allows
 Revision: $Rev: 25842 $
 ----------------------------------------------------------------------
 */
-#if (USE_VIRTUAL_COM == 0)
+
 #ifndef SEGGER_RTT_H
 #define SEGGER_RTT_H
 
@@ -509,5 +509,5 @@ int SEGGER_RTT_vprintf(unsigned BufferIndex, const char * sFormat, va_list * pPa
 
 
 #endif
-#endif /* USE_VIRTUAL_COM */
+
 /*************************** End of file ****************************/

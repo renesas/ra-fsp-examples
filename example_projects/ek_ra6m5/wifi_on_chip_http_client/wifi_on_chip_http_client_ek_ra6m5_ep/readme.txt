@@ -34,7 +34,7 @@
 3. Software Requirements:
 	Renesas Flexible Software Package (FSP)
 	e2 studio: Version 2024-04
-	SEGGER J-Link RTT Viewer: Version 7.96a
+	SEGGER J-Link RTT Viewer: Version 7.96j
 	GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 
 4. Hardware Connections:
