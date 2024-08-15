@@ -1,23 +1,9 @@
-/***********************************************************************************************************************
-* 
-* Copyright [2020] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
-*
-* This software is supplied by Renesas Electronics America Inc. and may only be used with products of Renesas Electronics Corp.
-* and its affiliates (“Renesas”).  No other uses are authorized.  This software is protected under all applicable laws, 
-* including copyright laws.
-* Renesas reserves the right to change or discontinue this software.
-* THE SOFTWARE IS DELIVERED TO YOU “AS IS,” AND RENESAS MAKES NO REPRESENTATIONS OR WARRANTIES, AND TO THE FULLEST EXTENT 
-* PERMISSIBLE UNDER APPLICABLE LAW,DISCLAIMS ALL WARRANTIES, WHETHER EXPLICITLY OR IMPLICITLY, INCLUDING WARRANTIES OF 
-* MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT, WITH RESPECT TO THE SOFTWARE.  TO THE MAXIMUM 
-* EXTENT PERMITTED BY LAW, IN NO EVENT WILL RENESAS BE LIABLE TO YOU IN CONNECTION WITH THE SOFTWARE (OR ANY PERSON 
-* OR ENTITY CLAIMING RIGHTS DERIVED FROM YOU) FOR ANY LOSS, DAMAGES, OR CLAIMS WHATSOEVER, INCLUDING, WITHOUT LIMITATION, 
-* ANY DIRECT, CONSEQUENTIAL, SPECIAL, INDIRECT, PUNITIVE, OR INCIDENTAL DAMAGES;
-* ANY LOST PROFITS, OTHER ECONOMIC DAMAGE, PROPERTY DAMAGE, OR PERSONAL INJURY; AND EVEN IF RENESAS HAS BEEN ADVISED OF 
-* THE POSSIBILITY OF SUCH LOSS,DAMAGES, CLAIMS OR COSTS.
-* 
+/**********************************************************************************************************************
+* File Name    : readme.txt
+* Description  : Contains general information about Example Project and detailed instructions
 **********************************************************************************************************************/
 
-1.Project Overview:
+1. Project Overview:
 	This example project demonstrates Audio Playback with PWM module's functionality. It uses ADPCM module to decode the PCM data.
 	The Decoded PCM data is in signed 16 bit format. Application has to convert this signed PCM data into unsigned PCM data and 
 	provide the converted unsigned data to the audio playback with PWM module. The converted unsigned data is provided as input 
@@ -104,8 +90,8 @@
 	GND                        ---->  GND (Pin 5)
 
 
-	MCK-RA8T1
-	---------------------------------------------
+	MCK-RA8T1				    PMOD AMP2
+	-------------------------------------------------------
 	PWM_OUTPUT_PIN (P411(CN6:P9))        ---->  AIN  (Pin 1)
 	VCC (CN3:P23) --(via 22k ohms resistor)--> ~SHUTDOWN (Pin 4)
 	VCC (CN3:P24)                        ---->  VCC (Pin 6)

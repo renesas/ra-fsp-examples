@@ -1,27 +1,14 @@
-/***********************************************************************************************************************
-* 
-* Copyright [2020] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
-*
-* This software is supplied by Renesas Electronics America Inc. and may only be used with products of Renesas Electronics Corp.
-* and its affiliates (“Renesas”).  No other uses are authorized.  This software is protected under all applicable laws, 
-* including copyright laws.
-* Renesas reserves the right to change or discontinue this software.
-* THE SOFTWARE IS DELIVERED TO YOU “AS IS,” AND RENESAS MAKES NO REPRESENTATIONS OR WARRANTIES, AND TO THE FULLEST EXTENT 
-* PERMISSIBLE UNDER APPLICABLE LAW,DISCLAIMS ALL WARRANTIES, WHETHER EXPLICITLY OR IMPLICITLY, INCLUDING WARRANTIES OF 
-* MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT, WITH RESPECT TO THE SOFTWARE.  TO THE MAXIMUM 
-* EXTENT PERMITTED BY LAW, IN NO EVENT WILL RENESAS BE LIABLE TO YOU IN CONNECTION WITH THE SOFTWARE (OR ANY PERSON 
-* OR ENTITY CLAIMING RIGHTS DERIVED FROM YOU) FOR ANY LOSS, DAMAGES, OR CLAIMS WHATSOEVER, INCLUDING, WITHOUT LIMITATION, 
-* ANY DIRECT, CONSEQUENTIAL, SPECIAL, INDIRECT, PUNITIVE, OR INCIDENTAL DAMAGES;
-* ANY LOST PROFITS, OTHER ECONOMIC DAMAGE, PROPERTY DAMAGE, OR PERSONAL INJURY; AND EVEN IF RENESAS HAS BEEN ADVISED OF 
-* THE POSSIBILITY OF SUCH LOSS,DAMAGES, CLAIMS OR COSTS.
-* 
+/**********************************************************************************************************************
+* File Name    : readme.txt
+* Description  : Contains general information about Example Project and detailed instructions
 **********************************************************************************************************************/
 
 1. Project Overview:
 
-The example project demonstrates the typical use of the SSI HAL module APIs. The project transfers
-sample audio data from source buffer to destination buffer by connecting Tx and Rx pins and compares the transferred
-data of two buffers. The result of comparison will be displayed on RTT viewer.
+The example project illustrates a typical use of the SSI HAL module API. The project continuously transmits and receives
+audio sample data from the source buffer to the destination buffer by looping back connecting the Tx and Rx pins and 
+comparing the transmitted data of the two buffers at 500ms each time apart. The comparison results will be displayed
+on the RTT viewer.
 
 Hardware Connections:
 

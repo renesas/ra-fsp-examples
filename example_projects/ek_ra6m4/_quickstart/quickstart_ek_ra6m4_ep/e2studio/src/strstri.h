@@ -1,9 +1,10 @@
+/***********************************************************************************************************************
+* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
+*
+* SPDX-License-Identifier: BSD-3-Clause
+***********************************************************************************************************************/
+
 /******************************************************************************
-* DISCLAIMER
-* Please refer to http://www.renesas.com/disclaimer
-******************************************************************************
-  Copyright (C) 2011. Renesas Technology Corp., All Rights Reserved.
-*******************************************************************************
 * File Name    : strstri
 * Version      : 1.00
 * Description  : Case insensitive version of the C library function strstr

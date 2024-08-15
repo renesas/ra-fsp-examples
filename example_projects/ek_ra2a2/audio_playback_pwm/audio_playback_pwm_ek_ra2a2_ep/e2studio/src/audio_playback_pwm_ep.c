@@ -3,23 +3,10 @@
  * Description  : Contains variables and functions used in audio_playback_pwm_ep.c.
  **********************************************************************************************************************/
 /***********************************************************************************************************************
- * DISCLAIMER
- * This software is supplied by Renesas Electronics Corporation and is only intended for use with Renesas products. No
- * other uses are authorized. This software is owned by Renesas Electronics Corporation and is protected under all
- * applicable laws, including copyright laws.
- * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
- * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED. TO THE MAXIMUM
- * EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES
- * SHALL BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR ANY REASON RELATED TO THIS
- * SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
- * Renesas reserves the right, without notice, to make changes to this software and to discontinue the availability of
- * this software. By using this software, you agree to the additional terms and conditions found by accessing the
- * following link:
- * http://www.renesas.com/disclaimer
- *
- * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
- ***********************************************************************************************************************/
+* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
+*
+* SPDX-License-Identifier: BSD-3-Clause
+***********************************************************************************************************************/
 #include "common_utils.h"
 #include "audio_playback_pwm_ep.h"
 
@@ -27,7 +14,7 @@
  * Encoded ADPCM data is generated using 16Khz wav file.
  */
 
-const uint8_t g_adpcm_data[ADPCM_BUFFER_SIZE_BYTES] =
+const uint8_t g_adpcm_data[ADPCM_BUFFER_DATA_SIZE] =
 {
  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0F,
  0xF5, 0x80, 0x80, 0xF3, 0x80, 0x08, 0x08, 0x08, 0x08, 0x0F, 0xF4, 0x08, 0x08, 0x08, 0x00, 0x88,
@@ -252,13 +239,15 @@ const uint8_t g_adpcm_data[ADPCM_BUFFER_SIZE_BYTES] =
 
 /* User defined global buffers */
 int16_t g_pcm_stream[ADPCM_BUFFER_SIZE_BYTES * TWO];
-#if defined(BOARD_RA2A2_EK) || defined(BOARD_RA6T2_MCK)
 /* Variable to storage 32bit PCM data*/
+#if defined(BOARD_RA2A2_EK) || defined(BOARD_RA6T2_MCK) || defined(BOARD_RA4E2_EK) || defined(BOARD_RA6E2_EK)\
+    || defined(BOARD_RA4T1_MCK) || defined(BOARD_RA6T3_MCK)
 uint32_t g_unsign_pcm_data[ADPCM_BUFFER_SIZE_BYTES * TWO];
 #else
 /* Variable to storage 16bit PCM data*/
 uint16_t g_unsign_pcm_data[ADPCM_BUFFER_SIZE_BYTES * TWO];
 #endif
+
 
 /* User defined global variables */
 volatile bool g_audio_callback_counter = false; // Flag used to exit while loop after every playback_completed event
@@ -409,12 +398,14 @@ void  sign_to_unsign(void)
 {
     for(uint32_t index = 0; index < (ADPCM_BUFFER_SIZE_BYTES * TWO); index++)
     {
-#if defined(BOARD_RA2A2_EK) || defined(BOARD_RA6T2_MCK)
+#if defined(BOARD_RA2A2_EK) || defined(BOARD_RA6T2_MCK) || defined(BOARD_RA4E2_EK) || defined(BOARD_RA6E2_EK)\
+    || defined(BOARD_RA4T1_MCK) || defined(BOARD_RA6T3_MCK)
         /* Convert PCM data into 32bit type*/
         g_unsign_pcm_data[index] = (uint32_t) (((uint32_t)g_pcm_stream[index] + INT16_MAX) >> EIGHT);
 #else
         /* Convert PCM data into 16bit type*/
         g_unsign_pcm_data[index] = (uint16_t) (((uint32_t)g_pcm_stream[index] + INT16_MAX) >> EIGHT);
 #endif
+
     }
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<raConfiguration version="7">
+<raConfiguration version="9">
   <generalSettings>
     <option key="#Board#" value="board.ra6e2ek" />
     <option key="CPU" value="RA6E2" />
@@ -29,6 +29,7 @@
       <property id="config.bsp.series" value="config.bsp.series.value" />
     </config>
     <config id="config.bsp.ra6e2.fsp">
+      <property id="config.bsp.fsp.inline_irq_functions" value="config.bsp.common.inline_irq_functions.enabled" />
       <property id="config.bsp.fsp.tz.exception_response" value="config.bsp.fsp.tz.exception_response.nmi" />
       <property id="config.bsp.fsp.tz.cmsis.bfhfnmins" value="config.bsp.fsp.tz.cmsis.bfhfnmins.secure" />
       <property id="config.bsp.fsp.tz.cmsis.sysresetreqs" value="config.bsp.fsp.tz.cmsis.sysresetreqs.secure_only" />
@@ -74,7 +75,7 @@
       <property id="config.bsp.fsp.mcu.canfd.rx_fifos" value="2" />
       <property id="config.bsp.fsp.mcu.canfd.buffer_ram" value="1216" />
       <property id="config.bsp.fsp.mcu.canfd.afl_rules" value="32" />
-      <property id="config.bsp.fsp.mcu.canfd.afl_rules_independent" value="1" />
+      <property id="config.bsp.fsp.mcu.canfd.afl_rules_each_chnl" value="32" />
       <property id="config.bsp.fsp.mcu.canfd.max_data_rate_hz" value="5" />
       <property id="config.bsp.fsp.mcu.sci_uart.cstpen_channels" value="0x0201" />
       <property id="config.bsp.fsp.mcu.gpt.pin_count_source_channels" value="0xFFFF" />
@@ -91,7 +92,7 @@
       <property id="config.bsp.common.main" value="0x400" />
       <property id="config.bsp.common.heap" value="0x400" />
       <property id="config.bsp.common.vcc" value="3300" />
-      <property id="config.bsp.common.checking" value="config.bsp.common.checking.disabled" />
+      <property id="config.bsp.common.checking" value="config.bsp.common.checking.enabled" />
       <property id="config.bsp.common.assert" value="config.bsp.common.assert.none" />
       <property id="config.bsp.common.error_log" value="config.bsp.common.error_log.none" />
       <property id="config.bsp.common.soft_reset" value="config.bsp.common.soft_reset.disabled" />
@@ -145,14 +146,6 @@
     <node id="board.clock.i3cclk.display" option="board.clock.i3cclk.display.value" />
   </raClockConfiguration>
   <raComponentSelection>
-    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra6e2_ek" variant="" vendor="Renesas" version="5.4.0">
-      <description>RA6E2-EK Board Support Files</description>
-      <originalPack>Renesas.RA_board_ra6e2_ek.5.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="6.1.0+fsp.5.4.0">
-      <description>Arm CMSIS Version 5 - Core (M)</description>
-      <originalPack>Arm.CMSIS5.6.1.0+fsp.5.4.0.pack</originalPack>
-    </component>
     <component apiversion="" class="BSP" condition="" group="ra6e2" subgroup="device" variant="R7FA6E2BB3CFM" vendor="Renesas" version="5.4.0">
       <description>Board support package for R7FA6E2BB3CFM</description>
       <originalPack>Renesas.RA_mcu_ra6e2.5.4.0.pack</originalPack>
@@ -164,6 +157,14 @@
     <component apiversion="" class="BSP" condition="" group="ra6e2" subgroup="fsp" variant="" vendor="Renesas" version="5.4.0">
       <description>Board support package for RA6E2 - FSP Data</description>
       <originalPack>Renesas.RA_mcu_ra6e2.5.4.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra6e2" subgroup="events" variant="" vendor="Renesas" version="5.4.0">
+      <description>Board support package for RA6E2 - Events</description>
+      <originalPack>Renesas.RA_mcu_ra6e2.5.4.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra6e2_ek" variant="" vendor="Renesas" version="5.4.0">
+      <description>RA6E2-EK Board Support Files</description>
+      <originalPack>Renesas.RA_board_ra6e2_ek.5.4.0.pack</originalPack>
     </component>
     <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="5.4.0">
       <description>Board Support Package Common Files</description>
@@ -188,6 +189,10 @@
     <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_audio_playback_pwm" variant="" vendor="Renesas" version="5.4.0">
       <description>Audio Playback with PWM</description>
       <originalPack>Renesas.RA.5.4.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="6.1.0+fsp.5.4.0">
+      <description>Arm CMSIS Version 5 - Core (M)</description>
+      <originalPack>Arm.CMSIS5.6.1.0+fsp.5.4.0.pack</originalPack>
     </component>
   </raComponentSelection>
   <raElcConfiguration />
@@ -217,15 +222,15 @@
       <property id="module.driver.transfer.dest_addr_mode" value="module.driver.transfer.dest_addr_mode.addr_mode_fixed" />
       <property id="module.driver.transfer.src_addr_mode" value="module.driver.transfer.src_addr_mode.addr_mode_fixed" />
       <property id="module.driver.transfer.repeat_area" value="module.driver.transfer.repeat_area.repeat_area_source" />
-      <property id="module.driver.transfer.p_dest" value="NULL" />
-      <property id="module.driver.transfer.p_src" value="NULL" />
       <property id="module.driver.transfer.interrupt" value="module.driver.transfer.interrupt.interrupt_end" />
       <property id="module.driver.transfer.length" value="0" />
       <property id="module.driver.transfer.num_blocks" value="0" />
-      <property id="module.driver.transfer.activation_source" value="_interrupt.event.agt0.int" />
+      <property id="module.driver.transfer.number_of_descriptors" value="1" />
+      <property id="module.driver.transfer.activation_source" value="_signal.event.agt0.int" />
     </module>
     <module id="module.driver.timer_on_agt.1124920680">
       <property id="module.driver.timer.name" value="g_timer0" />
+      <property id="module.driver.timer.bit_width" value="module.driver.timer.bit_width.32" />
       <property id="module.driver.timer.channel" value="0" />
       <property id="module.driver.timer.mode" value="module.driver.timer.mode.mode_periodic" />
       <property id="module.driver.timer.period" value="0x10000" />
@@ -250,12 +255,12 @@
       </stack>
       <stack module="module.middleware.adpcm_decoder_on_adpcm_decoder.618569742" />
     </context>
-    <config id="config.driver.ioport">
-      <property id="config.driver.ioport.checking" value="config.driver.ioport.checking.system" />
-    </config>
     <config id="config.driver.audio_playback_pwm">
       <property id="config.driver.audio_playback_pwm.param_checking_enable" value="config.driver.audio_playback_pwm.param_checking_enable.bsp" />
       <property id="config.driver.audio_playback_pwm.dmac_support_enable" value="config.driver.audio_playback_pwm.dmac_support_enable.disabled" />
+    </config>
+    <config id="config.driver.ioport">
+      <property id="config.driver.ioport.checking" value="config.driver.ioport.checking.system" />
     </config>
     <config id="config.driver.agt">
       <property id="config.driver.agt.param_checking_enable" value="config.driver.agt.param_checking_enable.bsp" />

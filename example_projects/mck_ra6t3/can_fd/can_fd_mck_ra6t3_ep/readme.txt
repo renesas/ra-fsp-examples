@@ -1,20 +1,6 @@
-/***********************************************************************************************************************
-* 
-* Copyright [2022] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
-*
-* This software is supplied by Renesas Electronics America Inc. and may only be used with products of Renesas Electronics Corp.
-* and its affiliates (“Renesas”).  No other uses are authorized.  This software is protected under all applicable laws, 
-* including copyright laws.
-* Renesas reserves the right to change or discontinue this software.
-* THE SOFTWARE IS DELIVERED TO YOU “AS IS,” AND RENESAS MAKES NO REPRESENTATIONS OR WARRANTIES, AND TO THE FULLEST EXTENT 
-* PERMISSIBLE UNDER APPLICABLE LAW,DISCLAIMS ALL WARRANTIES, WHETHER EXPLICITLY OR IMPLICITLY, INCLUDING WARRANTIES OF 
-* MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT, WITH RESPECT TO THE SOFTWARE.  TO THE MAXIMUM 
-* EXTENT PERMITTED BY LAW, IN NO EVENT WILL RENESAS BE LIABLE TO YOU IN CONNECTION WITH THE SOFTWARE (OR ANY PERSON 
-* OR ENTITY CLAIMING RIGHTS DERIVED FROM YOU) FOR ANY LOSS, DAMAGES, OR CLAIMS WHATSOEVER, INCLUDING, WITHOUT LIMITATION, 
-* ANY DIRECT, CONSEQUENTIAL, SPECIAL, INDIRECT, PUNITIVE, OR INCIDENTAL DAMAGES;
-* ANY LOST PROFITS, OTHER ECONOMIC DAMAGE, PROPERTY DAMAGE, OR PERSONAL INJURY; AND EVEN IF RENESAS HAS BEEN ADVISED OF 
-* THE POSSIBILITY OF SUCH LOSS,DAMAGES, CLAIMS OR COSTS.
-* 
+/**********************************************************************************************************************
+* File Name    : readme.txt
+* Description  : Contains general information about Example Project and detailed instructions
 **********************************************************************************************************************/
 
 1. Project Overview:
@@ -27,9 +13,9 @@
         Boards prints the transmitted & received data on to RTTViewer.
 
 2. Hardware Connections:
-       
-	   Require 2 RA boards to run the project
 
+       Require 2 RA boards to run the project
+	   
 	   The boards can be of the same type (E.g. EK-RA8M1 <--> EK-RA8M1) or different type (E.g. EK-RA8M1 <--> EK-RA6T3). 
        In case of the same type of boards, the on-board CAN transceivers mounted (if populated) can be used for testing by connecting the CANH, CANL and GND. 
        In case of same type of boards (E.g. EK-RA8D1 <--> EK-RA8D1), (if on-board CAN transceivers not populated) external OM13099 board can be used
@@ -53,34 +39,23 @@
                                
         CTX P609 (J3:12)       CAN0 TX (J3:4)                       ---
         CRX P610 (J3:13)       CAN0 RX (J3:2)                       ---
-        VCC (CN2:24)           3V3 (J3:12)                          ---
-        5V0 (CN3:33)           5V0 (J3:14)                          ---
-        GND (CN3:31)           GND (J3:16)                          --- 
+        VCC (J18:4)            3V3 (J3:12)                          ---
+        5V0 (J18:5)            5V0 (J3:14)                          ---
+        GND (J18:6)            GND (J3:16)                          --- 
              ---               CAN1 TX (J1:4)                     CTX P609 (J3:12)
              ---               CAN1 RX (J1:2)                     CRX P610 (J3:13)
              ---               P3:2 <-> P3:13                       ---
              ---               P3:7 <-> P3:18                       ---
+	Note: To use the external CAN transceiver (OM13099), the user must either cut E33, E34, and E35 to prevent conflicts 
+	      with the onboard CAN transceiver or configure alternative CAN CTX and CRX pins instead of cutting E33, E34, and E35.
 
-       EK-RA4E2 / EK-RA6E2:
-       Use onboard CAN Transceiver:
-       J32:1 of board 1 to J32:1 of board 2
-       J32:2 of board 1 to J32:2 of board 2
-       J32:3 of board 1 to J32:3 of board 2
+        EK-RA4E2 / EK-RA6E2:
+        Use onboard CAN Transceiver:
+        J32:1 of board 1 to J32:1 of board 2
+        J32:2 of board 1 to J32:2 of board 2
+        J32:3 of board 1 to J32:3 of board 2
 
-       [Optional] Use External Hardware : OM13099 (CAN Transceiver Board)
-        Board 1                OM13099 (CAN Transceiver Board)    Board 2
-                               
-        CTX P401 (J1:9)        CAN0 TX (J3:4)                       ---
-        CRX P402 (J1:10)       CAN0 RX (J3:2)                       ---
-        VCC (CN2:24)           3V3 (J3:12)                          ---
-        5V0 (CN3:33)           5V0 (J3:14)                          ---
-        GND (CN3:31)           GND (J3:16)                          --- 
-             ---               CAN1 TX (J1:4)                     CTX P401 (J1:9) 
-             ---               CAN1 RX (J1:2)                     CRX P402 (J1:10) 
-             ---               P3:2 <-> P3:13                       ---
-             ---               P3:7 <-> P3:18                       ---
-
-       MCK-RA4T1/MCK-RA6T3:
+        MCK-RA4T1/MCK-RA6T3:
         External Hardware : OM13099 (CAN Transceiver Board) 
         
         Board 1                OM13099 (CAN Transceiver Board)    Board 2
@@ -104,15 +79,17 @@
        [Optional] Use External Hardware : OM13099 (CAN Transceiver Board)
         Board 1                OM13099 (CAN Transceiver Board)    Board 2
                                
-        CTX P312 (J51:12)       CAN0 TX (J3:4)                       ---
-        CRX P311 (J51:8)      CAN0 RX (J3:2)                       ---
-        VCC (CN2:24)           3V3 (J3:12)                          ---
-        5V0 (CN3:33)           5V0 (J3:14)                          ---
-        GND (CN3:31)           GND (J3:16)                          --- 
+        CTX P312 (J51:12)      CAN0 TX (J3:4)                       ---
+        CRX P311 (J51:8)       CAN0 RX (J3:2)                       ---
+        VCC (J18:4)            3V3 (J3:12)                          ---
+        5V0 (J18:5)            5V0 (J3:14)                          ---
+        GND (J18:6)            GND (J3:16)                          --- 
              ---               CAN1 TX (J1:4)                     CTX P312 (J51:12)
              ---               CAN1 RX (J1:2)                     CRX P311 (J51:8)
              ---               P3:2 <-> P3:13                       ---
              ---               P3:7 <-> P3:18                       ---
+	Note: To use the external CAN transceiver (OM13099), the user must either cut E48, E49, and E50 to prevent conflicts 
+	      with the onboard CAN transceiver or configure alternative CAN CTX and CRX pins instead of cutting E33, E34, and E35.
 
 	EK-RA8D1:
         External Hardware : OM13099 (CAN Transceiver Board) 
@@ -121,9 +98,9 @@
                                
         CTX P401 (J51:7)       CAN0 TX (J3:4)                       ---
         CRX P402 (J52:15)      CAN0 RX (J3:2)                       ---
-        VCC                    3V3 (J3:12)                          ---
-        5V0                    5V0 (J3:14)                          ---
-        GND                    GND (J3:16)                          --- 
+        VCC (J18:4)            3V3 (J3:12)                          ---
+        5V0 (J18:5)            5V0 (J3:14)                          ---
+        GND (J18:6)            GND (J3:16)                          --- 
              ---               CAN1 TX (J1:4)                     CTX P401 (J51:7)
              ---               CAN1 RX (J1:2)                     CRX P402 (J52:15)
              ---               P3:2 <-> P3:13                       ---

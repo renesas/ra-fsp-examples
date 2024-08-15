@@ -3,27 +3,47 @@ include "memory_regions.icf";
   /* Uncomment and set XIP_SECONDARY_SLOT_IMAGE to 1 below for the secondary XIP application image. */
   /* define symbol XIP_SECONDARY_SLOT_IMAGE = 1; */
 
+
+ /* This symbol in combination with the mcuboot module is used by the e2 tooling to determine the presence of a bootloader upstream.  */
+  define exported symbol __bl_FSP_BOOTABLE_IMAGE = 1;
+  define exported symbol __bln_FSP_BOOTABLE_IMAGE = 1;
+
 if (isdefinedsymbol(FLASH_BOOTLOADER_LENGTH))
 {
   define exported symbol __bl_FLASH_IMAGE_START = FLASH_APPLICATION_IMAGE_NUMBER == 1 ? FLASH_START + FLASH_BOOTLOADER_LENGTH + FLASH_BOOTLOADER_HEADER_LENGTH :
+                                                  (isdefinedsymbol(BOOTLOADER_SECONDARY_USE_QSPI) || isdefinedsymbol(BOOTLOADER_SECONDARY_USE_OSPI_B)) ? FLASH_START + FLASH_BOOTLOADER_LENGTH + FLASH_BOOTLOADER_SCRATCH_LENGTH + FLASH_BOOTLOADER_HEADER_LENGTH :
                                                   FLASH_START + FLASH_BOOTLOADER_LENGTH + FLASH_BOOTLOADER_SCRATCH_LENGTH + FLASH_APPLICATION_S_LENGTH + FLASH_BOOTLOADER_HEADER_LENGTH;
   define exported symbol __bl_FLASH_IMAGE_LENGTH = FLASH_APPLICATION_S_LENGTH - FLASH_BOOTLOADER_HEADER_LENGTH;
   define exported symbol __bl_FLASH_IMAGE_END = __bl_FLASH_IMAGE_START + __bl_FLASH_IMAGE_LENGTH;
   define exported symbol __bl_XIP_SECONDARY_FLASH_IMAGE_START = FLASH_BOOTLOADER_LENGTH + FLASH_APPLICATION_S_LENGTH + FLASH_BOOTLOADER_HEADER_LENGTH;
   define exported symbol __bl_XIP_SECONDARY_FLASH_IMAGE_END = __bl_XIP_SECONDARY_FLASH_IMAGE_START + __bl_FLASH_IMAGE_LENGTH;
-  define exported symbol __bl_FLASH_NS_START = FLASH_APPLICATION_NS_LENGTH == 0 ? __bl_FLASH_IMAGE_END :
-                                               __bl_FLASH_IMAGE_START - FLASH_BOOTLOADER_HEADER_LENGTH + FLASH_APPLICATION_S_LENGTH;
-  define exported symbol __bl_FLASH_NSC_START = FLASH_APPLICATION_NS_LENGTH == 0 ? __bl_FLASH_IMAGE_END :
-                                                __bl_FLASH_NS_START - FLASH_APPLICATION_NSC_LENGTH;
-  define exported symbol __bl_FLASH_NS_IMAGE_START = FLASH_APPLICATION_NS_LENGTH == 0 ? __bl_FLASH_IMAGE_END :
-                                                     __bl_FLASH_NS_START + FLASH_BOOTLOADER_HEADER_LENGTH_2;
-  define exported symbol __bl_RAM_NS_START    = FLASH_APPLICATION_NS_LENGTH == 0 ? RAM_START + RAM_LENGTH :
-                                                RAM_START + RAM_LENGTH - RAM_APPLICATION_NS_LENGTH;
-  define exported symbol __bl_RAM_NSC_START   = FLASH_APPLICATION_NS_LENGTH == 0 ? RAM_START + RAM_LENGTH :
-                                                __bl_RAM_NS_START - RAM_APPLICATION_NSC_LENGTH;
-  define exported symbol __bln_FLASH_IMAGE_START = __bl_FLASH_NS_IMAGE_START;
-  define exported symbol __bln_FLASH_IMAGE_LENGTH = FLASH_APPLICATION_NS_LENGTH == 0 ? __bl_FLASH_IMAGE_END :
-                                                    FLASH_APPLICATION_NS_LENGTH - FLASH_BOOTLOADER_HEADER_LENGTH_2;
+
+
+  if (isdefinedsymbol(PROJECT_SECURE))
+  {
+    define exported symbol __bl_FLASH_NS_START = FLASH_APPLICATION_NS_LENGTH == 0 ? __bl_FLASH_IMAGE_END :
+                                                __bl_FLASH_IMAGE_START - FLASH_BOOTLOADER_HEADER_LENGTH + FLASH_APPLICATION_S_LENGTH;
+    define exported symbol __bl_FLASH_NSC_START = FLASH_APPLICATION_NS_LENGTH == 0 ? __bl_FLASH_IMAGE_END :
+                                                  __bl_FLASH_NS_START - FLASH_APPLICATION_NSC_LENGTH;
+    if (isdefinedsymbol(NS_OFFSET_START))
+    {
+    	define exported symbol __bl_FLASH_NS_IMAGE_START = FLASH_APPLICATION_NS_LENGTH == 0 ? __bl_FLASH_IMAGE_END :
+                                                      ((__bl_FLASH_NS_START + FLASH_BOOTLOADER_HEADER_LENGTH_2) | NS_OFFSET_START);
+    }
+    else
+    {
+    	define exported symbol __bl_FLASH_NS_IMAGE_START = FLASH_APPLICATION_NS_LENGTH == 0 ? __bl_FLASH_IMAGE_END :
+                                                      (__bl_FLASH_NS_START + FLASH_BOOTLOADER_HEADER_LENGTH_2);
+    }
+    define exported symbol __bl_RAM_NS_START    = FLASH_APPLICATION_NS_LENGTH == 0 ? RAM_START + RAM_LENGTH :
+                                                  RAM_START + RAM_LENGTH - RAM_APPLICATION_NS_LENGTH;
+    define exported symbol __bl_RAM_NSC_START   = FLASH_APPLICATION_NS_LENGTH == 0 ? RAM_START + RAM_LENGTH :
+                                                  __bl_RAM_NS_START - RAM_APPLICATION_NSC_LENGTH;
+    define exported symbol __bln_FLASH_IMAGE_START = __bl_FLASH_NS_IMAGE_START;
+    define exported symbol __bln_FLASH_IMAGE_LENGTH = FLASH_APPLICATION_NS_LENGTH == 0 ? __bl_FLASH_IMAGE_END :
+                                                      FLASH_APPLICATION_NS_LENGTH - FLASH_BOOTLOADER_HEADER_LENGTH_2;
+  }
+
   define symbol FLASH_ORIGIN = FLASH_START;
   define symbol LIMITED_FLASH_LENGTH = FLASH_BOOTLOADER_LENGTH;
 }
@@ -160,6 +180,15 @@ else
   {
     place at end of FLASH_region { block TZ_FLASH };
   }
+}
+
+if (!isdefinedsymbol(FLASH_NS_IMAGE_START))
+{
+  define exported symbol FLASH_NS_IMAGE_START = FLASH_START;
+}
+else
+{
+ export symbol FLASH_NS_IMAGE_START;
 }
 
 /************************ RAM Memory **************************************/

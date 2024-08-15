@@ -1,3 +1,9 @@
+/***********************************************************************************************************************
+* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
+*
+* SPDX-License-Identifier: BSD-3-Clause
+***********************************************************************************************************************/
+
 #include <led.h>
 #include <bsp_api.h>
 #include "r_ble_api.h"
@@ -61,4 +67,3 @@ void ble_core_task_entry(void *pvParameters)
         vTaskDelay (1000 / portTICK_PERIOD_MS);
     }
 }
-

@@ -57,33 +57,42 @@ This section describes FSP Configurator properties which are important or differ
 
 |   Module Property Path and Identifier   |   Default Value   |   Used Value   |   Reason   |
 | :-------------------------------------: | :---------------: | :------------: | :--------: |
-| configuration.xml > Audio Playback PWM Stacks > g_rm_audio_playback Instance > Settings > Property > g_rm_audio_playback > General > Playback Speed(Hz) | 44100 | 16000 | Playback speed is set to 16KHz to match the sampling rate used to encode data used as input for playback.|
+| configuration.xml > Audio Playback PWM Stacks > g_rm_audio_playback Instance > Properties > Settings > Property > g_rm_audio_playback > General > Playback Speed(Hz) | 44100 | 16000 | Playback speed is set to 16KHz to match the sampling rate used to encode data used as input for playback.|
 
 **Configuration Properties for using AGT**
 
 |   Module Property Path and Identifier   |   Default Value   |   Used Value   |   Reason   |
 | :-------------------------------------: | :---------------: | :------------: | :--------: |
-| configuration.xml > Transfer Driver Stacks > g_timer0 Timer, Low-Power (r_agt) > Settings > Property > Module g_timer0 Timer, Low-Power (r_agt) > Common > Pin Output Support| Disabled| Enabled | Configures AGT pin for output. |
-| configuration.xml > Transfer Driver Stacks > g_timer0 Timer, Low-Power (r_agt) > Settings > Property > Module g_timer0 Timer, Low-Power (r_agt) > Output > AGTOA Output| Disabled| Start Level High | Configures AGTOA for output. |
-| configuration.xml > Transfer Driver Stacks > g_timer0 Timer, Low-Power (r_agt) > Settings > Property > Module g_timer0 Timer, Low-Power (r_agt) > Interrupt > Underflow Interrupt Priority| Disabled| Priority 12 |Priority set for optimum functioning of MCU. |
+| configuration.xml > Timer Driver Stacks > g_timer0 Timer, Low-Power (r_agt) > Properties > Settings > Property > Module g_timer0 Timer, Low-Power (r_agt) > Common > Pin Output Support| Disabled| Enabled | Configures AGT pin for output. |
+| configuration.xml > Timer Driver Stacks > g_timer0 Timer, Low-Power (r_agt) > Properties > Settings > Property > Module g_timer0 Timer, Low-Power (r_agt) > Output > AGTOA Output| Disabled| Start Level High | Configures AGTOA for output. |
+| configuration.xml > Timer Driver Stacks > g_timer0 Timer, Low-Power (r_agt) > Properties > Settings > Property > Module g_timer0 Timer, Low-Power (r_agt) > Interrupt > Underflow Interrupt Priority| Disabled| Priority 12 |Priority set for optimum functioning of MCU. |
 
 **For EK-RA2A2:**
 |   Module Property Path and Identifier   |   Default Value   |   Used Value   |   Reason   |
 | :-------------------------------------: | :---------------: | :------------: | :--------: |
-| configuration.xml > g_timer0 Timer, Low-Power (r_agt) > Settings > Property > Module g_timer0 Timer, Low-Power (r_agt) > General > Counter Bit Width | AGTW 16-bit | AGTW 32-bit | Select 32-bit for counter register bit width. |
-| configuration.xml > Transfer Driver Stacks > g_timer0 Timer, Low-Power (r_agt) > Settings > Property > Module g_timer0 Timer, Low-Power (r_agt) > Interrupt > Underflow Interrupt Priority| Disabled| Priority 3 |Priority set for optimum functioning of MCU. |
+| configuration.xml > Timer Driver Stacks > g_timer0 Timer, Low-Power (r_agt) > Properties > Settings > Property > Module g_timer0 Timer, Low-Power (r_agt) > General > Counter Bit Width | AGTW 16-bit | AGTW 32-bit | Select 32-bit for counter register bit width. |
+| configuration.xml > Timer Driver Stacks > g_timer0 Timer, Low-Power (r_agt) > Properties > Settings > Property > Module g_timer0 Timer, Low-Power (r_agt) > Interrupt > Underflow Interrupt Priority| Disabled| Priority 3 |Priority set for optimum functioning of MCU. |
 
+**For EK-RA4E2, EK-RA6E2, MCK-RA4T1, MCK-RA6T3:**
+|   Module Property Path and Identifier   |   Default Value   |   Used Value   |   Reason   |
+| :-------------------------------------: | :---------------: | :------------: | :--------: |
+| configuration.xml > Timer Driver Stacks > g_timer0 Timer, Low-Power (r_agt) > Properties > Settings > Property > Module g_timer0 Timer, Low-Power (r_agt) > General > Counter Bit Width | AGTW 16-bit | AGTW 32-bit | Select 32-bit for counter register bit width. |
+
+**For MCK-RA6T2:**
+|   Module Property Path and Identifier   |   Default Value   |   Used Value   |   Reason   |
+| :-------------------------------------: | :---------------: | :------------: | :--------: |
+| configuration.xml > Timer Driver Stacks > g_timer0 Timer, Low-Power (r_agt) > Properties > Settings > Property > Module g_timer0 Timer, Low-Power (r_agt) > General > Counter Bit Width | AGTW 16-bit | AGT 32-bit | Select 32-bit for counter register bit width. |
 
 **Configuration Properties for using DTC**
 
 |   Module Property Path and Identifier   |   Default Value   |   Used Value   |   Reason   |
 | :-------------------------------------: | :---------------: | :------------: | :--------: |
-| configuration.xml > Transfer Driver Stacks > g_transfer0 Instance > Settings > Property > Module g_transfer0 on r_dtc > Activation Source| Disabled| AGTx INT(AGT Interrupt) | This is enabled to interrupt CPU and notify application that all audio samples have been output. |
+| configuration.xml > Transfer Driver Stacks > g_transfer0 Instance > Properties > Settings > Property > Module g_transfer0 on r_dtc > Activation Source| Disabled| AGTx INT(AGT Interrupt) | This is enabled to interrupt CPU and notify application that all audio samples have been output. |
 
 **For EK-RA2A2:**
 |   Module Property Path and Identifier   |   Default Value   |   Used Value   |   Reason   |
 | :-------------------------------------: | :---------------: | :------------: | :--------: |
-| configuration.xml > Transfer Driver Stacks > g_transfer0 Instance > Settings > Property > Module g_transfer0 on r_dtc > Activation Source| Disabled| AGTW0 INT (AGTW Interrupt) | This is enabled to interrupt CPU and notify application that all audio samples have been output. |
+| configuration.xml > Transfer Driver Stacks > g_transfer0 Instance > Properties > Settings > Property > Module g_transfer0 on r_dtc > Activation Source| Disabled| AGTW0 INT (AGTW Interrupt) | This is enabled to interrupt CPU and notify application that all audio samples have been output. |
 
 The table below lists the FSP provided API used at the application layer by this example project.
 

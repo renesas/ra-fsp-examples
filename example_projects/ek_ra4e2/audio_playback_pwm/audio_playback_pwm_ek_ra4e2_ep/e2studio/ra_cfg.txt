@@ -12,6 +12,7 @@ FSP Configuration
     series: 4
     
   RA4E2 Family
+    Enable inline BSP IRQ functions: Enabled
     Security: Exceptions: Exception Response: Non-Maskable Interrupt
     Security: Exceptions: BusFault, HardFault, and NMI Target: Secure State
     Security: System Reset Request Accessibility: Secure State
@@ -50,6 +51,7 @@ FSP Configuration
     ID Code Mode: Unlocked (Ignore ID)
     ID Code (32 Hex Characters): FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
     
+  RA4E2 event data
   RA Common
     Main stack size (bytes): 0x400
     Heap size (bytes): 0x400
@@ -268,15 +270,15 @@ FSP Configuration
         Destination Address Mode: Fixed
         Source Address Mode: Incremented
         Repeat Area (Unused in Normal Mode): Source
-        Destination Pointer: NULL
-        Source Pointer: NULL
         Interrupt Frequency: After all transfers have completed
         Number of Transfers: 0
         Number of Blocks (Valid only in Block Mode): 0
+        Number of Transfer Descriptors: 1
         Activation Source: AGT0 INT (AGT interrupt)
         
       Instance "g_timer0 Timer, Low-Power (r_agt)"
         General: Name: g_timer0
+        General: Counter Bit Width: AGTW 32-bit
         General: Channel: 0
         General: Mode: PWM
         General: Period: 16000

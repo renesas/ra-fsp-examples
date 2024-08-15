@@ -1,3 +1,8 @@
+/***********************************************************************************************************************
+* Copyright (c) 2023 - 2024 Renesas Electronics Corporation and/or its affiliates
+*
+* SPDX-License-Identifier: BSD-3-Clause
+***********************************************************************************************************************/
 #include "hal_data.h"
 #include "ospi_b_ep.h"
 #include "ospi_b_commands.h"

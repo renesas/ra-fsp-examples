@@ -1,3 +1,9 @@
+/***********************************************************************************************************************
+* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
+*
+* SPDX-License-Identifier: BSD-3-Clause
+***********************************************************************************************************************/
+
 #include "guard.h"
 
 BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_rtc_open_guard(rtc_ctrl_t *const p_ctrl, rtc_cfg_t const *const p_cfg)

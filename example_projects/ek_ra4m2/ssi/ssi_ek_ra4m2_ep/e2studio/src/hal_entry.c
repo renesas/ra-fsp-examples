@@ -3,23 +3,10 @@
  * Description  : Contains data structures and functions used in hal_entry.c.
  **********************************************************************************************************************/
 /***********************************************************************************************************************
- * DISCLAIMER
- * This software is supplied by Renesas Electronics Corporation and is only intended for use with Renesas products. No
- * other uses are authorized. This software is owned by Renesas Electronics Corporation and is protected under all
- * applicable laws, including copyright laws.
- * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
- * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED. TO THE MAXIMUM
- * EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES
- * SHALL BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR ANY REASON RELATED TO THIS
- * SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
- * Renesas reserves the right, without notice, to make changes to this software and to discontinue the availability of
- * this software. By using this software, you agree to the additional terms and conditions found by accessing the
- * following link:
- * http://www.renesas.com/disclaimer
- *
- * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
- ***********************************************************************************************************************/
+* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
+*
+* SPDX-License-Identifier: BSD-3-Clause
+***********************************************************************************************************************/
 #include "common_utils.h"
 #include "audio_data.h"
 
@@ -55,9 +42,11 @@ void hal_entry(void)
 
     /* Example Project information printed on the Console */
     APP_PRINT(BANNER_INFO, EP_VERSION, version.version_id_b.major, version.version_id_b.minor, version.version_id_b.patch );
-    APP_PRINT("\r\nThe project demonstrates SSI module by transmitting and receiving \r\n"
-            "the sample audio data in loop back connection and prints the status  \r\n"
-            "by comparing the transmitted and received data buffers \r\n");
+    APP_PRINT("\r\nThe example project illustrates a typical use of the SSI HAL module API. The project \r\n"
+            "continuously transmits and receives audio sample data from the source buffer to the \r\n"
+            "destination buffer by looping back connecting the Tx and Rx pins and comparing the \r\n"
+            "transmitted data of the two buffers at 500ms each time apart. The comparison results \r\n"
+            "will be displayed on the RTT viewer \r\n");
 
     /* Open SSI module */
     err = R_SSI_Open(&g_i2s_ctrl, &g_i2s_cfg);
@@ -92,39 +81,61 @@ void hal_entry(void)
         APP_ERR_TRAP(err);
     }
 
-    /* Transmit and receive the sample audio data buffer using WriteRead API from source buffer to destination buffer
-     * through loop back connection from SSITXD to SSIRXD */
-    err = R_SSI_WriteRead(&g_i2s_ctrl, g_src_buff, g_dest_buff, BUFF_SIZE);
-    /* Handle error */
-    if (FSP_SUCCESS != err)
-    {
-        APP_ERR_PRINT("\r\n WriteRead API failed, Closing SSI and GPT \r\n");
-        deinit_ssi();
-        deinit_gpt();
-        /* Trap here */
-        APP_ERR_TRAP(err);
-    }
-
-    /*Wait for completion of WriteRead operation using I2S_EVENT_IDLE event and time_out. Using these both ensures
-     *that the DTC transfer will be over by the time transmit underflow occurs during R_SSI_WriteRead processing.
-     *This is important so the receive buffer can be flushed in the transmit underflow error processing.
-     *Without this, the last frame (two samples) could be lost during R_SSI_WriteRead. */
-    while ((I2S_EVENT_IDLE != g_i2s_event) || ((time_out--) > 0));
-
-    /* Compare the transmission of sample audio data from source buffer to destination buffer with WriteRead API */
-    int cmp_result = memcmp(g_src_buff, g_dest_buff, sizeof(g_src_buff));
-    if (RESET_VALUE == cmp_result)
-    {
-        APP_PRINT("\r\nCompared the transmitted sample audio data of SSI with received data is successful");
-    }
-    else
-    {
-        APP_PRINT("\r\nCompared the transmitted sample audio data of SSI with received data is failed");
-    }
-
     while(true)
     {
-        ;
+        /* Transmit and receive the sample audio data buffer using WriteRead API from source buffer to destination buffer
+         * through loop back connection from SSITXD to SSIRXD */
+        err = R_SSI_WriteRead(&g_i2s_ctrl, g_src_buff, g_dest_buff, BUFF_SIZE);
+        /* Handle error */
+        if (FSP_SUCCESS != err)
+        {
+            APP_ERR_PRINT("\r\n WriteRead API failed, Closing SSI and GPT \r\n");
+            deinit_ssi();
+            deinit_gpt();
+            /* Trap here */
+            APP_ERR_TRAP(err);
+        }
+
+        /*Wait for all transfer was complete of WriteRead operation using I2S_EVENT_RX_FULL event.*/
+        while (I2S_EVENT_RX_FULL != g_i2s_event)
+        {
+            __NOP();
+        }
+
+        /*Set the timeout.*/
+        time_out = MAX_TIME;
+
+        /*Wait for completion of WriteRead operation using I2S_EVENT_IDLE event and time_out. Using these both ensures
+         *that the DTC transfer will be over by the time transmit underflow occurs during R_SSI_WriteRead processing.
+         *This is important so the receive buffer can be flushed in the transmit underflow error processing.
+         *Without this, the last frame (two samples) could be lost during R_SSI_WriteRead. */
+        while ((I2S_EVENT_IDLE != g_i2s_event) && --time_out)
+        {
+            __NOP();
+        }
+
+        /*Check if a timeout occurred.*/
+        if (RESET_VALUE == time_out)
+        {
+            APP_PRINT("\r\nWriteRead operation not complete due to timeout");
+            deinit_ssi();
+            deinit_gpt();
+            /* Trap here */
+            APP_ERR_TRAP(FSP_ERR_TIMEOUT);
+        }
+
+        /* Compare the transmission of sample audio data from source buffer to destination buffer with WriteRead API */
+        int cmp_result = memcmp(g_src_buff, g_dest_buff, sizeof(g_src_buff));
+        if (RESET_VALUE == cmp_result)
+        {
+            APP_PRINT("\r\nCompared the transmitted sample audio data of SSI with received data is successful");
+        }
+        else
+        {
+            APP_PRINT("\r\nCompared the transmitted sample audio data of SSI with received data is failed");
+        }
+        /* Delay the WriteRead and compare operation for 500ms */
+        R_BSP_SoftwareDelay(OPERATION_DELAY, BSP_DELAY_UNITS_MILLISECONDS);
     }
 }
 

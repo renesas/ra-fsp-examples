@@ -3,23 +3,10 @@
  * Description  : Contains data structures and functions used in rtc_ep.c.
  **********************************************************************************************************************/
 /***********************************************************************************************************************
- * Copyright (C) 2020-2024 Renesas Electronics Corporation. All rights reserved.
- *
- * This file is part of Renesas RA Flex Software Package (FSP)
- *
- * The contents of this file (the "contents") are proprietary and confidential to Renesas Electronics Corporation
- * and/or its licensors ("Renesas") and subject to statutory and contractual protections.
- *
- * This file is subject to a Renesas FSP license agreement. Unless otherwise agreed in an FSP license agreement with
- * Renesas: 1) you may not use, copy, modify, distribute, display, or perform the contents; 2) you may not use any name
- * or mark of Renesas for advertising or publicity purposes or in connection with your use of the contents; 3) RENESAS
- * MAKES NO WARRANTY OR REPRESENTATIONS ABOUT THE SUITABILITY OF THE CONTENTS FOR ANY PURPOSE; THE CONTENTS ARE PROVIDED
- * "AS IS" WITHOUT ANY EXPRESS OR IMPLIED WARRANTY, INCLUDING THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
- * PARTICULAR PURPOSE, AND NON-INFRINGEMENT; AND 4) RENESAS SHALL NOT BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, OR
- * CONSEQUENTIAL DAMAGES, INCLUDING DAMAGES RESULTING FROM LOSS OF USE, DATA, OR PROJECTS, WHETHER IN AN ACTION OF
- * CONTRACT OR TORT, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THE CONTENTS. Third-party contents
- * included in this file may be subject to different terms.
- **********************************************************************************************************************/
+* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
+*
+* SPDX-License-Identifier: BSD-3-Clause
+***********************************************************************************************************************/
 
 #include "common_utils.h"
 #include "rtc_ep.h"
@@ -40,20 +27,27 @@ static rtc_time_t g_set_time =  {
     .tm_wday    =  RESET_VALUE,
     .tm_yday    =  RESET_VALUE,
     .tm_year    =  RESET_VALUE,
-   };
+    };
 static rtc_time_t g_present_time =  {
- .tm_hour    =  RESET_VALUE,
- .tm_isdst   =  RESET_VALUE,
- .tm_mday    =  RESET_VALUE,
- .tm_min     =  RESET_VALUE,
- .tm_mon     =  RESET_VALUE,
- .tm_sec     =  RESET_VALUE,
- .tm_wday    =  RESET_VALUE,
- .tm_yday    =  RESET_VALUE,
- .tm_year    =  RESET_VALUE,
-                                    };
+    .tm_hour    =  RESET_VALUE,
+    .tm_isdst   =  RESET_VALUE,
+    .tm_mday    =  RESET_VALUE,
+    .tm_min     =  RESET_VALUE,
+    .tm_mon     =  RESET_VALUE,
+    .tm_sec     =  RESET_VALUE,
+    .tm_wday    =  RESET_VALUE,
+    .tm_yday    =  RESET_VALUE,
+    .tm_year    =  RESET_VALUE,
+    };
 static uint32_t set_time_flag = RESET_FLAG;  //Flag to be set on successful RTC Calendar setting
+#if defined (BOARD_RA0E1_FPB)
+/* Number of days in each months start from January to December */
+static const uint8_t days_in_months[12] = {31U, 28U, 31U, 30U, 31U, 30U, 31U, 31U, 30U, 31U, 30U, 31U};
+#endif
 static void rtc_date_time_conversion(rtc_time_t * time, unsigned char read_buffer[]);
+#if defined (BOARD_RA0E1_FPB)
+static fsp_err_t set_day_of_week(void);
+#endif
 
 extern volatile uint32_t g_alarm_irq_flag;
 extern volatile uint32_t g_periodic_irq_flag;
@@ -85,6 +79,78 @@ fsp_err_t rtc_init(void)
     return err;
 }
 
+#if defined (BOARD_RA0E1_FPB)
+/*******************************************************************************************************************//**
+ * @brief       This function calculates day of week.
+ * @param[IN]   None
+ * @retval      FSP_SUCCESS                  Day of the week successfully calculated and set.
+ * @retval      FSP_ERR_INVALID_ARGUMENT     The provided date is out of valid range.
+ **********************************************************************************************************************/
+static fsp_err_t set_day_of_week(void)
+{
+    uint32_t day_of_week;
+    uint32_t num_days_month;
+    uint32_t day_of_a_month;
+    uint32_t temp_month;
+    uint32_t temp_year;
+
+    day_of_a_month = (uint32_t) g_set_time.tm_mday;
+    temp_month = (uint32_t) (g_set_time.tm_mon + 1);
+
+    /* The valid value of year is between 100 to 199, The RTC has a 100 year calendar from 2000 to 2099
+     * to match the starting year 2000, a sample year offset(1900) is added like 117 + 1900 = 2017*/
+    temp_year = (uint32_t) (g_set_time.tm_year + YEAR_ADJUST_VALUE);
+
+    /* Checking the error condition for year and months values, here valid value of year is between 100 to 199
+     * and for month 0 to 11*/
+    if ((g_set_time.tm_year < YEAR_VALUE_MIN) || (g_set_time.tm_year > YEAR_VALUE_MAX) ||
+        (g_set_time.tm_mon < 0) || (g_set_time.tm_mon > MONTHS_IN_A_YEAR))
+    {
+        return FSP_ERR_INVALID_ARGUMENT;
+    }
+
+    /*For particular valid month, number of days in a month is updated */
+    num_days_month = days_in_months[g_set_time.tm_mon];
+
+    /* Checking for February month and Conditions for Leap year : Every fourth year is a leap year,
+     * The RTC has a 100 year calendar from 2000 to 2099  */
+    if ((FEBRUARY_MONTH == temp_month) && (0 == (temp_year % 4U)))
+    {
+        num_days_month = LAST_DAY_OF_LEAP_FEB_MONTH;
+    }
+
+    /* Checking for day of a month values for valid range */
+    if ((day_of_a_month >= FIRST_DAY_OF_A_MONTH) && (day_of_a_month <= num_days_month))
+    {
+        /* Adjust month to run from 3 to 14 for March to February */
+        if (temp_month < MARCH_MONTH)
+        {
+            temp_month = (temp_month + 12U);
+
+            /* Adjust year if January or February*/
+            --temp_year;
+        }
+
+        /*For the Gregorian calendar, Zeller's congruence formulas is
+         * h = ( q + [13(m+1)/5] + Y + [Y/4] - [Y/100] + [Y/400])mod 7 (mod : modulo)
+         * h is the day of the week , q is the day of the month,
+         * m is the month (3 = March, 4 = April,..., 14 = February)
+         * Y is year, which is Y - 1 during January and February */
+        day_of_week  = (uint32_t) g_set_time.tm_mday + ((13 * (temp_month + 1)) / 5) + temp_year + (temp_year / 4);
+        day_of_week  = (day_of_week - ZELLER_ALGM_CONST_FIFTEEN) % 7;
+        /* Day of week between 0 to 6 :- Sunday to Saturday */
+        /* d = (h + 6)mod 7 (mod : modulo) */
+        g_set_time.tm_wday = (int16_t) ((day_of_week + 6U) % 7U);
+    }
+    else
+    {
+        return FSP_ERR_INVALID_ARGUMENT;
+    }
+
+    return FSP_SUCCESS;
+}
+#endif
+
 /*******************************************************************************************************************//**
  * @brief       This functions sets the Calendar time provided by user.
  * @param[IN]   None
@@ -109,8 +175,16 @@ fsp_err_t set_rtc_calendar_time(void)
     /* Modify user provided date and time to standard format */
     rtc_date_time_conversion(&g_set_time, &read_time[0]);
 
-    /* Set the time provided by user */
 #if defined (BOARD_RA0E1_FPB)
+    /* For RTC_C, the user is expected to set the weekday correctly in the application. */
+    err = set_day_of_week();
+    if (FSP_SUCCESS != err)
+    {
+        APP_ERR_PRINT("\r\nset_day_of_week failed.\r\n");
+        return err;
+    }
+
+    /* Set the time provided by user */
     err = R_RTC_C_CalendarTimeSet(&g_rtc_ctrl, &g_set_time);
 #else
     err = R_RTC_CalendarTimeSet(&g_rtc_ctrl, &g_set_time);
@@ -155,6 +229,11 @@ fsp_err_t set_rtc_calendar_alarm(void)
     fsp_err_t err = FSP_SUCCESS;     // Error status
     rtc_alarm_time_t alarm_time_set =
     {
+#if defined (BOARD_RA0E1_FPB)
+         .time_minute       =  RESET_VALUE,
+         .time_hour         =  RESET_VALUE,
+         .weekday_match     =  RESET_VALUE,
+#else
          .sec_match        =  RESET_VALUE,
          .min_match        =  RESET_VALUE,
          .hour_match       =  RESET_VALUE,
@@ -162,9 +241,15 @@ fsp_err_t set_rtc_calendar_alarm(void)
          .mon_match        =  RESET_VALUE,
          .year_match       =  RESET_VALUE,
          .dayofweek_match  =  RESET_VALUE,
+#endif
     };
     rtc_alarm_time_t alarm_time_get =
     {
+#if defined (BOARD_RA0E1_FPB)
+         .time_minute       =  RESET_VALUE,
+         .time_hour         =  RESET_VALUE,
+         .weekday_match     =  RESET_VALUE,
+#else
          .sec_match        =  RESET_VALUE,
          .min_match        =  RESET_VALUE,
          .hour_match       =  RESET_VALUE,
@@ -172,6 +257,7 @@ fsp_err_t set_rtc_calendar_alarm(void)
          .mon_match        =  RESET_VALUE,
          .year_match       =  RESET_VALUE,
          .dayofweek_match  =  RESET_VALUE,
+#endif
     };
     uint8_t read_alarm[BUFFER_SIZE_DOWN] = {NULL_CHAR};
 
@@ -180,15 +266,11 @@ fsp_err_t set_rtc_calendar_alarm(void)
     {
         APP_PRINT("\r\nSetting Calendar Alarm for RTC \r\n");
 
-        /* Set the flags for which the alarm has to be generated */
-        alarm_time_set.mday_match  = false;
-        alarm_time_set.mon_match   = false;
-        alarm_time_set.year_match  = false;
 #if defined (BOARD_RA0E1_FPB)
-        /* Set the flags for which the alarm has to be generated */
-        alarm_time_set.hour_match  = true;
-        alarm_time_set.min_match   = true;
-        alarm_time_set.sec_match   = false;
+        /* Reset the timer variables */
+        alarm_time_set.weekday_match   = RESET_VALUE;
+        alarm_time_set.time_hour       = RESET_VALUE;
+        alarm_time_set.time_minute     = RESET_VALUE;
 
         APP_PRINT("\r\nEnter hours and minutes value (Format: HH:MM) for which recursive alarm has to be set.\n Sample Input: '15:24'\r\n");
 
@@ -198,11 +280,11 @@ fsp_err_t set_rtc_calendar_alarm(void)
         /* Reading time value for which alarm has to be generated */
         APP_READ(read_alarm);
 
-            /* Modify user provided time value to standard format */
-        alarm_time_set.time.tm_hour =  (((read_alarm[0] - ASCII_ZERO) * PLACE_VALUE_TEN )+ (read_alarm[1] - ASCII_ZERO));
-        alarm_time_set.time.tm_min =  (((read_alarm[3] - ASCII_ZERO) * PLACE_VALUE_TEN )+ (read_alarm[4] - ASCII_ZERO));
+        /* Modify user provided time value to standard format */
+        alarm_time_set.time_hour = (((read_alarm[0] - ASCII_ZERO) * PLACE_VALUE_TEN )+ (read_alarm[1] - ASCII_ZERO));
+        alarm_time_set.time_minute = (((read_alarm[3] - ASCII_ZERO) * PLACE_VALUE_TEN )+ (read_alarm[4] - ASCII_ZERO));
         /* Enable ALARMWW */
-        alarm_time_set.time.tm_wday = ALARMWW;
+        alarm_time_set.weekday_match  = ALARMWW;
 
         /* Set the alarm time provided by user*/
         err = R_RTC_C_CalendarAlarmSet(&g_rtc_ctrl, &alarm_time_set);
@@ -222,13 +304,16 @@ fsp_err_t set_rtc_calendar_alarm(void)
             APP_ERR_PRINT("\r\nCalendar alarm Get failed.\r\n");
             return err;
         }
-        APP_PRINT("\r\nHours and minutes value for which alarm is set: %d : %d",alarm_time_get.time.tm_hour,alarm_time_get.time.tm_min);
+        APP_PRINT("\r\nHours and minutes value for which alarm is set: %d : %d",alarm_time_get.time_hour,alarm_time_get.time_minute);
     }
 #else
         /* Set the flags for which the alarm has to be generated */
         alarm_time_set.hour_match  = false;
         alarm_time_set.min_match   = false;
         alarm_time_set.sec_match   = true;
+        alarm_time_set.mday_match  = false;
+        alarm_time_set.mon_match   = false;
+        alarm_time_set.year_match  = false;
 
         APP_PRINT("\r\nEnter seconds value (Format: SS) for which recursive alarm has to be set. "
                   "\nPlease input seconds value in the range between 00 and 59.\nSample Input: '35'\r\n");
@@ -259,7 +344,6 @@ fsp_err_t set_rtc_calendar_alarm(void)
             APP_ERR_PRINT("\r\nCalendar alarm Get failed.\r\n");
             return err;
         }
-
         APP_PRINT("\r\nSeconds value for which alarm is set: %d",alarm_time_get.time.tm_sec);
     }
 #endif

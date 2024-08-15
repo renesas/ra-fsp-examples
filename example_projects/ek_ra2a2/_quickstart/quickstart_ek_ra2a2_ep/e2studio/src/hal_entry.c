@@ -1,3 +1,8 @@
+/***********************************************************************************************************************
+* Copyright (c) 2021 - 2024 Renesas Electronics Corporation and/or its affiliates
+*
+* SPDX-License-Identifier: BSD-3-Clause
+***********************************************************************************************************************/
 #include "hal_data.h"
 #include "r_console_if.h"
 #include "common_init.h"

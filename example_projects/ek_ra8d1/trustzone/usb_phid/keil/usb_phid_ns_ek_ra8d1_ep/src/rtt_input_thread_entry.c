@@ -1,3 +1,8 @@
+/***********************************************************************************************************************
+* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
+*
+* SPDX-License-Identifier: BSD-3-Clause
+***********************************************************************************************************************/
 #include "rtt_input_thread.h"
 #include "common_utils.h"
 #include "usb_phid_ep.h"

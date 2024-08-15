@@ -11,6 +11,7 @@ To build and run the Audio Playback example project, the following resources are
 
 ### Hardware ###
 * Renesas RA™ MCU kit - 1x
+* 1 x Micro USB cable or 1 x Type C USB cable (For MCK-RA6T2,MCK-RA4T1,MCK-RA6T3,MCK-RA8T1) or 1 x Mini USB cable (For RSSK-RA6T1) 
 * Digilent PMOD AMP2 (SKU: 410-233) - 1x
 * Wired Headsets with 3.5mm audio jack) - 1x
 * Connection wires 
@@ -58,34 +59,53 @@ This section describes FSP Configurator properties which are important or differ
 | :-------------------------------------: | :---------------: | :------------: | :--------: |
 | configuration.xml > Audio Playback PWM Stacks > g_rm_audio_playback Instance > Properties > Settings > Property > g_rm_audio_playback > General > Playback Speed(Hz) | 44100 | 16000 | Playback speed is set to 16KHz to match the sampling rate used to encode data used as input for playback.|
 
+**Configuration Properties for using AGT**
+
+|   Module Property Path and Identifier   |   Default Value   |   Used Value   |   Reason   |
+| :-------------------------------------: | :---------------: | :------------: | :--------: |
+| configuration.xml > Timer Driver Stacks > g_timer0 Timer, Low-Power (r_agt) > Properties > Settings > Property > Module g_timer0 Timer, Low-Power (r_agt) > Common > Pin Output Support| Disabled| Enabled | Configures AGT pin for output. |
+| configuration.xml > Timer Driver Stacks > g_timer0 Timer, Low-Power (r_agt) > Properties > Settings > Property > Module g_timer0 Timer, Low-Power (r_agt) > Output > AGTOA Output| Disabled| Start Level High | Configures AGTOA for output. |
+| configuration.xml > Timer Driver Stacks > g_timer0 Timer, Low-Power (r_agt) > Properties > Settings > Property > Module g_timer0 Timer, Low-Power (r_agt) > Interrupt > Underflow Interrupt Priority| Disabled| Priority 12 |Priority set for optimum functioning of MCU. |
+
+**For EK-RA2A2:**
+|   Module Property Path and Identifier   |   Default Value   |   Used Value   |   Reason   |
+| :-------------------------------------: | :---------------: | :------------: | :--------: |
+| configuration.xml > Timer Driver Stacks > g_timer0 Timer, Low-Power (r_agt) > Properties > Settings > Property > Module g_timer0 Timer, Low-Power (r_agt) > General > Counter Bit Width | AGTW 16-bit | AGTW 32-bit | Select 32-bit for counter register bit width. |
+| configuration.xml > Timer Driver Stacks > g_timer0 Timer, Low-Power (r_agt) > Properties > Settings > Property > Module g_timer0 Timer, Low-Power (r_agt) > Interrupt > Underflow Interrupt Priority| Disabled| Priority 3 |Priority set for optimum functioning of MCU. |
+
+**For EK-RA4E2, EK-RA6E2, MCK-RA4T1, MCK-RA6T3:**
+|   Module Property Path and Identifier   |   Default Value   |   Used Value   |   Reason   |
+| :-------------------------------------: | :---------------: | :------------: | :--------: |
+| configuration.xml > Timer Driver Stacks > g_timer0 Timer, Low-Power (r_agt) > Properties > Settings > Property > Module g_timer0 Timer, Low-Power (r_agt) > General > Counter Bit Width | AGTW 16-bit | AGTW 32-bit | Select 32-bit for counter register bit width. |
+
+**For MCK-RA6T2:**
+|   Module Property Path and Identifier   |   Default Value   |   Used Value   |   Reason   |
+| :-------------------------------------: | :---------------: | :------------: | :--------: |
+| configuration.xml > Timer Driver Stacks > g_timer0 Timer, Low-Power (r_agt) > Properties > Settings > Property > Module g_timer0 Timer, Low-Power (r_agt) > General > Counter Bit Width | AGTW 16-bit | AGT 32-bit | Select 32-bit for counter register bit width. |
 
 **Configuration Properties for using DTC**
 
 |   Module Property Path and Identifier   |   Default Value   |   Used Value   |   Reason   |
 | :-------------------------------------: | :---------------: | :------------: | :--------: |
-| configuration.xml > Transfer Driver Stacks > g_transfer0 Instance > Properties > Settings > Property > Module g_transfer0 on r_dtc > Activation Source| Disabled| AGTx INT(AFT Interrupt) | This is enabled to interrupt CPU and notify application that all audio samples have been output. |
+| configuration.xml > Transfer Driver Stacks > g_transfer0 Instance > Properties > Settings > Property > Module g_transfer0 on r_dtc > Activation Source| Disabled| AGTx INT(AGT Interrupt) | This is enabled to interrupt CPU and notify application that all audio samples have been output. |
 
-
-**Configuration Properties for using AGT**
-
+**For EK-RA2A2:**
 |   Module Property Path and Identifier   |   Default Value   |   Used Value   |   Reason   |
 | :-------------------------------------: | :---------------: | :------------: | :--------: |
-| configuration.xml > Transfer Driver Stacks > g_timer0 Instance > Properties > Settings > Property > Common > Pin Output Support| Disabled| Enabled | Configures AGT pin for output |
-| configuration.xml > Transfer Driver Stacks > g_timer0 Instance > Properties > Settings > Property > Module g_timer0 Timer Driver on r_agt > Output > AGTOA Output| Disabled| Start Level High | Configures AGTOB for output |
-| configuration.xml > Transfer Driver Stacks > g_timer0 Instance > Properties > Settings > Property > Module g_timer0 Timer Driver on r_agt > Interrupt > Underflow Interrupt Priority| Disabled| Priority 12 |Priority set for optimum functioning of MCU |
+| configuration.xml > Transfer Driver Stacks > g_transfer0 Instance > Properties > Settings > Property > Module g_transfer0 on r_dtc > Activation Source| Disabled| AGTW0 INT (AGTW Interrupt) | This is enabled to interrupt CPU and notify application that all audio samples have been output. |
 
 The table below lists the FSP provided API used at the application layer by this example project.
 
 | API Name    | Usage                                                                          |
 |-------------|--------------------------------------------------------------------------------|
-|RM_ADPCM_DECODER_Open|This API is used to initializes ADPCM audio decoder device |
-|RM_ADPCM_DECODER_Close|This API is used to close the ADPCM decoder device |
-|RM_ADPCM_DECODER_Decode|This API is used to decode 4bit ADPCM data to 16bit PCM data |
-|RM_AUDIO_PLAYBACK_PWM_Open|This API is used to open and configure the Audio Playback with PWM driver  |
-|RM_AUDIO_PLAYBACK_PWM_Close|This API is used to close the module driver  |
-|RM_AUDIO_PLAYBACK_PWM_Start|This API starts the  audio playback PWM module |
-|RM_AUDIO_PLAYBACK_PWM_Play|This API is used to play a single audio buffer by input samples   |
-|RM_AUDIO_PLAYBACK_PWM_Stop|This API is used to stop the audio playback PWM module  |
+|RM_ADPCM_DECODER_Open|This API is used to initializes ADPCM audio decoder device. |
+|RM_ADPCM_DECODER_Close|This API is used to close the ADPCM decoder device. |
+|RM_ADPCM_DECODER_Decode|This API is used to decode 4bit ADPCM data to 16bit PCM data. |
+|RM_AUDIO_PLAYBACK_PWM_Open|This API is used to open and configure the Audio Playback with PWM driver.  |
+|RM_AUDIO_PLAYBACK_PWM_Close|This API is used to close the module driver.  |
+|RM_AUDIO_PLAYBACK_PWM_Start|This API starts the  audio playback PWM module. |
+|RM_AUDIO_PLAYBACK_PWM_Play|This API is used to play a single audio buffer by input samples.   |
+|RM_AUDIO_PLAYBACK_PWM_Stop|This API is used to stop the audio playback PWM module.  |
 
 
 * Callback:  
@@ -103,9 +123,11 @@ g_rm_audio_playback_callback function is called to identify the audio playback e
 1. Below images showcases the output on JLinkRTT_Viewer for Audio Playback:
   
   Below image shows menu options
+
  ![audio_rtt_log](images/AUDIO_RTT_log1.jpg "RTT output")
   
   Below image shows when start and stop is selected
+  
  ![audio_rtt_log](images/AUDIO_RTT_log2.jpg "RTT output")
  
 ## Special Topics ##

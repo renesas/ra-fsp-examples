@@ -1,3 +1,9 @@
+/***********************************************************************************************************************
+* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
+*
+* SPDX-License-Identifier: BSD-3-Clause
+***********************************************************************************************************************/
+
 #include "hal_data.h"
 
 FSP_CPP_HEADER
@@ -46,5 +52,3 @@ void R_BSP_WarmStart(bsp_warm_start_event_t event)
         R_IOPORT_Open (&g_ioport_ctrl, &g_bsp_pin_cfg);
     }
 }
-
-
