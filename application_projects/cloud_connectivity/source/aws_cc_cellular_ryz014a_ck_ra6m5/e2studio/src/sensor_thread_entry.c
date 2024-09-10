@@ -3,23 +3,10 @@
  * Description  : Contains data structures and functions
  ***********************************************************************************************************************/
 /***********************************************************************************************************************
- * DISCLAIMER
- * This software is supplied by Renesas Electronics Corporation and is only intended for use with Renesas products. No
- * other uses are authorized. This software is owned by Renesas Electronics Corporation and is protected under all
- * applicable laws, including copyright laws.
- * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
- * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED. TO THE MAXIMUM
- * EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES
- * SHALL BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR ANY REASON RELATED TO THIS
- * SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
- * Renesas reserves the right, without notice, to make changes to this software and to discontinue the availability of
- * this software. By using this software, you agree to the additional terms and conditions found by accessing the
- * following link:
- * http://www.renesas.com/disclaimer
- *
- * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
- ***********************************************************************************************************************/
+* Copyright (c) 2023 - 2024 Renesas Electronics Corporation and/or its affiliates
+*
+* SPDX-License-Identifier: BSD-3-Clause
+***********************************************************************************************************************/ 
 #include "sensor_thread.h"
 #include "RA_HS3001.h"
 #include "RA_ZMOD4XXX_Common.h"
@@ -29,113 +16,74 @@
 #include "RmcI2C.h"
 #include "ICM_20948.h"
 #include "usr_data.h"
+#include "icm.h"
+#include "icp.h"
 
-void RA_Init(void);
-void updateData(void);
-
-#define UNUSED(x)  (void)(x)
+#define UNUSED(x)  ((void)(x))
 #define INT_CHANNEL (1)
 
-extern volatile iaq_demo_data_t g_iaq_data;
-extern volatile float gs_demo_air_quality;
-extern volatile sensor_demo_data_t g_demo_data;
-extern uint16_t spo2_val; //value output to display
-extern uint16_t heart_Rate_Val; //value output to display
-extern uint16_t breathing_rate;
-extern float r_p2p;
-extern xyzFloat corrAccRaw, gVal, magValue;
+void updateData(void);
 
-/* For testing purpose later needs to be moved to the right location */
-extern usr_iaq_data_t app_iaq_data;
-extern usr_oaq_data_t app_oaq_data;
-extern usr_hs3001_data_t app_hs3001_data;
-extern usr_icp_data_t app_icp_data;
-extern usr_ob1203_data_t app_ob1203_data;
-extern float Temperature, Pressure;
-extern usr_icm_data_t app_icm_data;
 
-extern uint32_t  console_status;
+
 extern TaskHandle_t sensor_thread;
 extern TaskHandle_t oximeter_thread;
 extern TaskHandle_t zmod_thread;
+extern TaskHandle_t console_thread;
 
-uint32_t  sensor_status = RESET_VALUE;
-
-
-void RA_Init(void);
+/*******************************************************************************************************************//**
+ * @brief       Send ID to queue 
+ * @param[in]   None
+ * @retval      None
+ ***********************************************************************************************************************/
 void updateData(void)
 {
 
-        mqtt_rx_payload_t payload_data = {'\0'};
-        static  uint8_t  msgId = ID_IAQ_DATA_PUSH;
-        BaseType_t xHigherPriorityTaskWokenByPost = pdFALSE;
+    mqtt_rx_payload_t payload_data = {'\0'};
+    static  uint8_t  msgId = ID_IAQ_DATA_PUSH;
+    BaseType_t xHigherPriorityTaskWokenByPost = pdFALSE;
 
-        app_iaq_data.gs_tvoc = g_iaq_data.gs_demo_tvoc;
-        app_iaq_data.gs_eco2 = g_iaq_data.gs_demo_eco2;
-        app_iaq_data.gs_etoh = g_iaq_data.gs_demo_etoh;
-
-        app_oaq_data.gs_air_quality = gs_demo_air_quality;
-
-        app_hs3001_data.gs_humidity = g_demo_data.gs_demo_humidity;
-        app_hs3001_data.gs_temperature = (g_demo_data.gs_demo_temperature * (float)1.8)+(float)32.0;
-
-        app_icm_data.acc_data.x = corrAccRaw.x;
-        app_icm_data.acc_data.y = corrAccRaw.y;
-        app_icm_data.acc_data.z = corrAccRaw.z;
-        app_icm_data.mag_data.x = magValue.x;
-        app_icm_data.mag_data.y = magValue.y;
-        app_icm_data.mag_data.z = magValue.z;
-        app_icm_data.gyr_data.x = gVal.x;
-        app_icm_data.gyr_data.y = gVal.y;
-        app_icm_data.gyr_data.z = gVal.z;
-
-        app_icp_data.pressure_Pa = Pressure;
-        app_icp_data.temperature_C = (Temperature * (float)1.8)+(float)32.0;
-
-        app_ob1203_data.breathing_rate = breathing_rate;
-        app_ob1203_data.heart_rate_Val = heart_Rate_Val;
-        app_ob1203_data.r_p2p = r_p2p;
-        app_ob1203_data.spo2_val = spo2_val;
-
-
-        if(ID_IAQ_DATA_PUSH == msgId)
-        {
-            payload_data.id = ID_IAQ_DATA_PUSH;
-            xQueueGenericSendFromISR (g_topic_queue, &payload_data, &xHigherPriorityTaskWokenByPost, queueSEND_TO_FRONT);
-            msgId = ID_OAQ_DATA_PUSH;
-        }
-        else if (ID_OAQ_DATA_PUSH == msgId)
-        {
-            payload_data.id = ID_OAQ_DATA_PUSH;
-            xQueueGenericSendFromISR (g_topic_queue, &payload_data, &xHigherPriorityTaskWokenByPost, queueSEND_TO_FRONT);
-            msgId = ID_HS_DATA_PUSH;
-        }
-        else if (ID_HS_DATA_PUSH == msgId)
-        {
-            payload_data.id = ID_HS_DATA_PUSH;
-            xQueueGenericSendFromISR (g_topic_queue, &payload_data, &xHigherPriorityTaskWokenByPost, queueSEND_TO_FRONT);
-            msgId = ID_ICM_DATA_PUSH;
-        }
-        else if (ID_ICM_DATA_PUSH == msgId)
-        {
-            payload_data.id = ID_ICM_DATA_PUSH;
-            xQueueGenericSendFromISR (g_topic_queue, &payload_data, &xHigherPriorityTaskWokenByPost, queueSEND_TO_FRONT);
-            msgId = ID_ICP_DATA_PUSH;
-        }
-        else if (ID_ICP_DATA_PUSH == msgId)
-        {
-            payload_data.id = ID_ICP_DATA_PUSH;
-            xQueueGenericSendFromISR (g_topic_queue, &payload_data, &xHigherPriorityTaskWokenByPost, queueSEND_TO_FRONT);
-            msgId = ID_OB1203_DATA_PUSH;
-        }
-        else if (ID_OB1203_DATA_PUSH == msgId)
-        {
-            payload_data.id = ID_OB1203_DATA_PUSH;
-            xQueueGenericSendFromISR (g_topic_queue, &payload_data, &xHigherPriorityTaskWokenByPost, queueSEND_TO_FRONT);
-            msgId = ID_IAQ_DATA_PUSH;
-        }
+    if (ID_IAQ_DATA_PUSH == msgId)
+    {
+        payload_data.id = ID_IAQ_DATA_PUSH;
+        xQueueGenericSendFromISR (g_topic_queue, &payload_data, &xHigherPriorityTaskWokenByPost, queueSEND_TO_FRONT);
+        msgId = ID_OAQ_DATA_PUSH;
+    }
+    else if (ID_OAQ_DATA_PUSH == msgId)
+    {
+        payload_data.id = ID_OAQ_DATA_PUSH;
+        xQueueGenericSendFromISR (g_topic_queue, &payload_data, &xHigherPriorityTaskWokenByPost, queueSEND_TO_FRONT);
+        msgId = ID_HS_DATA_PUSH;
+    }
+    else if (ID_HS_DATA_PUSH == msgId)
+    {
+        payload_data.id = ID_HS_DATA_PUSH;
+        xQueueGenericSendFromISR (g_topic_queue, &payload_data, &xHigherPriorityTaskWokenByPost, queueSEND_TO_FRONT);
+        msgId = ID_ICM_DATA_PUSH;
+    }
+    else if (ID_ICM_DATA_PUSH == msgId)
+    {
+        payload_data.id = ID_ICM_DATA_PUSH;
+        xQueueGenericSendFromISR (g_topic_queue, &payload_data, &xHigherPriorityTaskWokenByPost, queueSEND_TO_FRONT);
+        msgId = ID_ICP_DATA_PUSH;
+    }
+    else if (ID_ICP_DATA_PUSH == msgId)
+    {
+        payload_data.id = ID_ICP_DATA_PUSH;
+        xQueueGenericSendFromISR (g_topic_queue, &payload_data, &xHigherPriorityTaskWokenByPost, queueSEND_TO_FRONT);
+        msgId = ID_OB1203_DATA_PUSH;
+    }
+    else if (ID_OB1203_DATA_PUSH == msgId)
+    {
+        payload_data.id = ID_OB1203_DATA_PUSH;
+        xQueueGenericSendFromISR (g_topic_queue, &payload_data, &xHigherPriorityTaskWokenByPost, queueSEND_TO_FRONT);
+        msgId = ID_IAQ_DATA_PUSH;
+    }
+    else
+    {
+        /* Do nothing */
+    }
 }
-
 
 /*******************************************************************************************************************//**
  * @brief       Quick setup for g_comms_i2c_bus0
@@ -158,7 +106,10 @@ void g_comms_i2c_bus0_quick_setup(void)
     {
         APP_DBG_PRINT("\r\nI2C bus setup success\r\n");
     }
-
+	
+	/* Recover if I2C0 bus is busy */
+    bsp_recover_iic(I2C_SCL_0, I2C_SDA_0);
+    
     /* Create a semaphore for blocking if a semaphore is not NULL */
     if (NULL != g_comms_i2c_bus0_extended_cfg.p_blocking_semaphore)
     {
@@ -176,32 +127,10 @@ void g_comms_i2c_bus0_quick_setup(void)
 }
 
 /*******************************************************************************************************************//**
- * @brief       Initialization of UART and external interrupt
- * @param[in]
- * @retval
- * @retval
+ * @brief       Reset zmod sensor
+ * @param[in]   None
+ * @retval      None
  ***********************************************************************************************************************/
-void RA_Init(void)
-{
-    fsp_err_t err = FSP_SUCCESS;
-    fsp_pack_version_t version =
-    { RESET_VALUE };
-    /* Version get API for FLEX pack information */
-    R_FSP_VersionGet (&version);
-
-    /* opening ExternalIRQ for IRQ14 P403 for OB1203 */
-    err = R_ICU_ExternalIrqOpen (&g_sensorIRQ_ctrl, &g_sensorIRQ_cfg);
-    if (FSP_SUCCESS != err)
-    {
-        APP_DBG_PRINT("\r\nOB1203 Sensor External Irq Open failed \r\n");
-        APP_ERR_TRAP(err);
-    }
-    else
-    {
-        APP_DBG_PRINT("\r\nOB1203 Sensor External Irq Open success \r\n");
-    }
-}
-
 static void reset_zmod_sensor(void)
 {
     R_BSP_PinAccessEnable ();
@@ -222,15 +151,15 @@ static void reset_zmod_sensor(void)
     R_BSP_PinAccessDisable ();
 }
 
-/* Sensor_Thread entry function */
-/* pvParameters contains TaskHandle_t */
+/*******************************************************************************************************************//**
+ * @brief       sensor_thread_entry function
+ * @param[in]   pvParameters
+ * @retval      None
+ ***********************************************************************************************************************/
 void sensor_thread_entry(void *pvParameters)
 {
     FSP_PARAMETER_NOT_USED(pvParameters);
 
-    /* wait for application thread to finish MQTT connection */
-    xTaskNotifyWait(pdFALSE, pdFALSE, (uint32_t* )&sensor_status, portMAX_DELAY);
-    RA_Init ();
     g_comms_i2c_bus0_quick_setup ();
     reset_zmod_sensor ();
 
@@ -247,7 +176,7 @@ void sensor_thread_entry(void *pvParameters)
     g_zmod4xxx_sensor0_quick_setup ();
 #endif
 
-    /* Start sensing ZMOD 4410 sensor datat */
+    /* Start sensing ZMOD 4410 sensor data */
     xTaskNotifyFromISR(zmod_thread, 1, 1, NULL);
 
 #if _ZMOD4510_SENSOR_ENABLE_
@@ -267,6 +196,10 @@ void sensor_thread_entry(void *pvParameters)
     RmComDevice_init_Icm ();
     ICM20948_Sensor_init ();
 #endif
+	xTaskNotifyFromISR(console_thread, 1, 1, NULL);
+
+    /* wait for application thread to finish MQTT connection */
+    xTaskNotifyWait(pdFALSE, pdFALSE, (uint32_t* )&sensor_thread, portMAX_DELAY);
 
     /* start user timer */
     user_timer_start ();
@@ -276,26 +209,23 @@ void sensor_thread_entry(void *pvParameters)
 #if _HS3001_SENSOR_ENABLE_
         /* Read HS3001 sensor data */
         hs3001_get ();
-        vTaskDelay (5);
 #endif
 
 #if  _ICP10101_SENSOR_ENABLE_
-        /* Read ICP10101 sensor data */
-        ICP_10101_get ();
-        vTaskDelay (5);
+        /* Read ICP10101 sensor data and send it to the queue */
+        send_icp_data_to_queue ();
 #endif
 
 #if _ZMOD4510_SENSOR_ENABLE_
         /* Read ZMOD4510 sensor data */
         start_oaq_1st_gen ();
-        vTaskDelay (5);
 #endif
 
 #if _ICM20948_SENSOR_ENABLE_
-        /* Read ICM20948 sensor data */
-        ICM_20948_get ();
-        vTaskDelay (5);
+        /* Read ICM20948 sensor data and send it to the queue */
+        send_icm_data_to_queue ();
 #endif
+        vTaskDelay (5);
 
     }
 }

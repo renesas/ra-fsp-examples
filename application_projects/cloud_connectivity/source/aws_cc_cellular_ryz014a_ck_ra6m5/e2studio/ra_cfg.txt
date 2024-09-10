@@ -24,6 +24,8 @@ FSP Configuration
     Security: SRAM Accessibility: Standby RAM: Regions 7-0 are all Secure.
     Security: BUS Accessibility: Bus Security Attribution Register A: Both Secure and Non-Secure State
     Security: BUS Accessibility: Bus Security Attribution Register B: Both Secure and Non-Secure State
+    Security: Flash Bank Select Accessibility: Both Secure and Non-Secure State
+    Security: Uninitialized Non-Secure Application Fallback: Enable Uninitialized Non-Secure Application Fallback
     Startup C-Cache Line Size: 32 Bytes
     OFS0 register settings: Independent WDT: Start Mode: IWDT is Disabled
     OFS0 register settings: Independent WDT: Timeout Period: 2048 cycles
@@ -39,6 +41,8 @@ FSP Configuration
     OFS0 register settings: WDT: Window Start Position: 100% (no window start position)
     OFS0 register settings: WDT: Reset Interrupt Request: Reset
     OFS0 register settings: WDT: Stop Control: Stop counting when entering Sleep mode
+    OFS1_SEL register settings: Voltage Detection 0 Level Security Attribution: VDSEL setting loads from OFS1_SEC
+    OFS1_SEL register settings: Voltage Detection 0 Circuit Start Security Attribution: LVDAS setting loads from OFS1_SEC
     OFS1 register settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
     OFS1 register settings: Voltage Detection 0 Level: 2.80 V
     OFS1 register settings: HOCO Oscillation Enable: HOCO oscillation is disabled after reset
@@ -54,7 +58,7 @@ FSP Configuration
     
   RA Common
     Main stack size (bytes): 0x2000
-    Heap size (bytes): 0x2000
+    Heap size (bytes): 0x20000
     MCU Vcc (mV): 3300
     Parameter checking: Disabled
     Assert Failures: Return FSP_ERR_ASSERTION
@@ -65,7 +69,7 @@ FSP Configuration
     C Runtime Initialization : Enabled
     Early BSP Initialization : Disabled
     Main Oscillator Clock Source: Crystal or Resonator
-    Subclock Populated: Populated
+    Subclock Populated: Not Populated
     Subclock Drive (Drive capacitance availability varies by MCU): Standard/Normal mode
     Subclock Stabilization Time (ms): 1000
     
@@ -81,20 +85,24 @@ FSP Configuration
     Clock Src: PLL
     CLKOUT Disabled
     UCLK Disabled
+    U60CK Disabled
     OCTASPICLK Disabled
     CANFDCLK Disabled
+    CECCLK Disabled
     ICLK Div /1
     PCLKA Div /2
     PCLKB Div /4
     PCLKC Div /4
     PCLKD Div /2
     BCLK Div /2
-    BCLK/2
+    EBCLK Div /2
     FCLK Div /4
     CLKOUT Div /1
     UCLK Div /5
+    U60CK Div /1
     OCTASPICLK Div /1
     CANFDCLK Div /1
+    CECCLK Div /1
     
   Pin Configurations
     RA6M5 CK -> g_bsp_pin_cfg
@@ -102,10 +110,10 @@ FSP Configuration
       AVCCUSBHS 26 USB_HS0_AVCC_USBHS - - - - - - - - IO "Read only" - 
       AVSS0 156 ANALOG0_AVSS0 - - - - - - - - IO "Read only" - 
       AVSSUSBHS 28 USB_HS0_AVSS_USBHS - - - - - - - - IO "Read only" - 
-      P000 169 ADC0_AN000 ARDUINO_A0 - - "Analog mode" - None "ADC0: AN000; ADC1: AN100; ICU0: IRQ06" - IO - - 
-      P001 168 ADC0_AN001 ARDUINO_A1 - - "Analog mode" - None "ADC0: AN001; ADC1: AN101; ICU0: IRQ07" - IO - - 
-      P002 167 ADC0_AN002 ARDUINO_A2 - - "Analog mode" - None "ADC0: AN002; ADC1: AN102; ICU0: IRQ08" - IO - - 
-      P003 166 ADC0_AN003 ARDUINO_A3 - - "Analog mode" - None "ADC0: AN003" - IO - - 
+      P000 169 - ARDUINO_A0 - - Disabled - - "ADC0: AN000; ADC1: AN100; ICU0: IRQ06" - None - - 
+      P001 168 - ARDUINO_A1 - - Disabled - - "ADC0: AN001; ADC1: AN101; ICU0: IRQ07" - None - - 
+      P002 167 - ARDUINO_A2 - - Disabled - - "ADC0: AN002; ADC1: AN102; ICU0: IRQ08" - None - - 
+      P003 166 - ARDUINO_A3 - - Disabled - - "ADC0: AN003" - None - - 
       P004 165 GPIO PMOD2_INT - IRQ09 "Input mode" - "input pull-up" "ADC0: AN004; ICU0: IRQ09" - IO - - 
       P005 164 GPIO PMOD1_INT - IRQ10 "Input mode" - "input pull-up" "ADC0: AN005; ICU0: IRQ10" - IO - - 
       P006 163 GPIO ARDUINO_D2_INT0 - IRQ11 "Input mode" - "input pull-up" "ADC0: AN006; ICU0: IRQ11" - IO - - 
@@ -113,8 +121,8 @@ FSP Configuration
       P008 161 GPIO MEMS_MOTION_INT - IRQ12 "Input mode" - "input pull-up" "ADC0: AN008; ICU0: IRQ12" - IO - - 
       P009 160 - - - - Disabled - - "ADC0: AN009; ICU0: IRQ13" - None - - 
       P010 159 - - - - Disabled - - "ADC0: AN010; ICU0: IRQ14" - None - - 
-      P014 152 ADC0_AN012 ARDUINO_A4 - - "Analog mode" - None "ADC0: AN012; DAC0: DA0" - IO - - 
-      P015 151 ADC0_AN013 ARDUINO_A5 - - "Analog mode" - None "ADC0: AN013; DAC1: DA1; ICU0: IRQ13" - IO - - 
+      P014 152 - ARDUINO_A4 - - Disabled - - "ADC0: AN012; DAC0: DA0" - None - - 
+      P015 151 - ARDUINO_A5 - - Disabled - - "ADC0: AN013; DAC1: DA1; ICU0: IRQ13" - None - - 
       P100 132 - - - - Disabled - - "AGT0: AGTIO0; BUS_ASYNCH0: D00; GPT_POEG0: GTETRGA; GPT5: GTIOC5B; ICU0: IRQ02; OSPI0: OMSCLK; QSPI0: QSPCLK; SCI0: RXD0; SCI0: SCL0; SCI1: SCK1; SPI1: MISOB" - None - - 
       P101 131 - - - - Disabled - - "AGT0: AGTEE0; BUS_ASYNCH0: D01; GPT_POEG1: GTETRGB; GPT5: GTIOC5A; ICU0: IRQ01; OSPI0: OMSIO7; QSPI0: QIO1; SCI0: SDA0; SCI0: TXD0; SCI1: CTSRTS1; SPI1: MOSIB" - None - - 
       P102 130 - - - - Disabled - - "ADC0: ADTRG0; AGT0: AGTO0; BUS_ASYNCH0: D02; CAN0: CRX0; GPT_OPS0: GTOWLO; GPT2: GTIOC2B; OSPI0: OMSIO1; QSPI0: QIO0; SCI0: SCK0; SPI1: RSPCKB" - None - - 
@@ -139,21 +147,21 @@ FSP Configuration
       P205 51 SCI9_CTSRTS9 PMOD1_SS Low None "Peripheral mode" CMOS None "AGT1: AGTO1; BUS_ASYNCH0: A16; CGC0: CLKOUT; CTSU0: TS01; ETHERC_MII0: ET0_WOL; ETHERC_RMII0: ET0_WOL; GPT_OPS0: GTIV; GPT4: GTIOC4A; ICU0: IRQ01; IIC1: SCL1; SCI4: SDA4; SCI4: TXD4; SCI9: CTSRTS9; SDHI0: SD0DAT3; SPI0: SSLA0; SSI0: SSILRCK0; USB_FS0: USB_OVRCURA" - IO - - 
       P206 50 GPIO PMOD1_SS2_GPIO - None "Input mode" - None "BUS_ASYNCH0: WAIT; CEC0: CECIO; CTSU0: TS02; ETHERC_MII0: ET0_LINKSTA; ETHERC_RMII0: ET0_LINKSTA; GPT_OPS0: GTIU; ICU0: IRQ00; IIC1: SDA1; SCI4: RXD4; SCI4: SCL4; SCI9: CTS9; SDHI0: SD0DAT2; SPI0: SSLA1; SSI0: SSIDATA0; USB_FS0: USB_VBUSEN" - IO - - 
       P207 49 GPIO PMOD1_SS3_GPIO - - "Input mode" - None "BUS_ASYNCH0: A17; CTSU0: TSCAP; QSPI0: QSSL; SCI4: SDA4; SCI4: TXD4; SPI0: SSLA2" - IO - - 
-      P208 66 GPIO ETH_LINK_STATUS - - "Input mode" - None "BUS_ASYNCH0: CS4; ETHERC_MII0: ET0_LINKSTA; ETHERC_RMII0: ET0_LINKSTA; GPT_OPS0: GTOVLO; QSPI0: QIO3; SDHI0: SD0DAT0" - IO - - 
-      P209 65 - - - - Disabled - - "AGT5: AGTEE5; BUS_ASYNCH0: CS5; ETHERC_MII0: ET0_EXOUT; ETHERC_RMII0: ET0_EXOUT; GPT_OPS0: GTOVUP; QSPI0: QIO2; SDHI0: SD0WP" - None - - 
-      P210 64 GPIO ETH_PHY_RESET High - "Output mode (Initial High)" "n-ch open drain" - "AGT5: AGTOB5; BUS_ASYNCH0: CS6; ETHERC_MII0: ET0_WOL; ETHERC_RMII0: ET0_WOL; GPT_OPS0: GTIW; QSPI0: QIO1; SDHI0: SD0CD" - IO - - 
-      P211 63 ETHERC_RMII0_ET0_MDIO ETH_MDIO High - "Peripheral mode" CMOS None "AGT5: AGTOA5; BUS_ASYNCH0: CS7; ETHERC_MII0: ET0_MDIO; ETHERC_RMII0: ET0_MDIO; GPT_OPS0: GTIV; QSPI0: QIO0; SDHI0: SD0CMD" - IO - - 
+      P208 66 GPIO ETH_LINK_STATUS - - "Input mode" - None "BUS_ASYNCH0: CS4; DEBUG_TRACE0: TDATA3; ETHERC_MII0: ET0_LINKSTA; ETHERC_RMII0: ET0_LINKSTA; GPT_OPS0: GTOVLO; QSPI0: QIO3; SDHI0: SD0DAT0" - IO - - 
+      P209 65 - - - - Disabled - - "AGT5: AGTEE5; BUS_ASYNCH0: CS5; DEBUG_TRACE0: TDATA2; ETHERC_MII0: ET0_EXOUT; ETHERC_RMII0: ET0_EXOUT; GPT_OPS0: GTOVUP; QSPI0: QIO2; SDHI0: SD0WP" - None - - 
+      P210 64 GPIO ETH_PHY_RESET High - "Output mode (Initial High)" "n-ch open drain" - "AGT5: AGTOB5; BUS_ASYNCH0: CS6; DEBUG_TRACE0: TDATA1; ETHERC_MII0: ET0_WOL; ETHERC_RMII0: ET0_WOL; GPT_OPS0: GTIW; QSPI0: QIO1; SDHI0: SD0CD" - IO - - 
+      P211 63 ETHERC_RMII0_ET0_MDIO ETH_MDIO High - "Peripheral mode" CMOS None "AGT5: AGTOA5; BUS_ASYNCH0: CS7; DEBUG_TRACE0: TDATA0; ETHERC_MII0: ET0_MDIO; ETHERC_RMII0: ET0_MDIO; GPT_OPS0: GTIV; QSPI0: QIO0; SDHI0: SD0CMD" - IO - - 
       P212 24 CGC0_EXTAL EXTAL Low None "Peripheral mode" CMOS None "AGT1: AGTEE1; CGC0: EXTAL; GPT_POEG3: GTETRGD; GPT0: GTIOC0B; ICU0: IRQ03; SCI1: RXD1; SCI1: SCL1" - IO - - 
       P213 23 CGC0_XTAL XTAL Low None "Peripheral mode" CMOS None "ADC1: ADTRG1; AGT2: AGTEE2; CGC0: XTAL; GPT_POEG2: GTETRGC; GPT0: GTIOC0A; ICU0: IRQ02; SCI1: SDA1; SCI1: TXD1" - IO - - 
-      P214 62 ETHERC_RMII0_ET0_MDC ETH_MDC High - "Peripheral mode" CMOS None "AGT5: AGTO5; ETHERC_MII0: ET0_MDC; ETHERC_RMII0: ET0_MDC; GPT_OPS0: GTIU; QSPI0: QSPCLK; SDHI0: SD0CLK" - IO - - 
+      P214 62 ETHERC_RMII0_ET0_MDC ETH_MDC High - "Peripheral mode" CMOS None "AGT5: AGTO5; DEBUG_TRACE0: TCLK; ETHERC_MII0: ET0_MDC; ETHERC_RMII0: ET0_MDC; GPT_OPS0: GTIU; QSPI0: QSPCLK; SDHI0: SD0CLK" - IO - - 
       P300 88 DEBUG0_SWCLK SWCLK High - "Peripheral mode" CMOS None "DEBUG0: SWCLK; DEBUG0: TCK; GPT_OPS0: GTOUUP; GPT0: GTIOC0A; SPI0: SSLA1" - IO - - 
       P301 87 - - - - Disabled - - "AGT0: AGTIO0; BUS_ASYNCH0: A06; GPT_OPS0: GTOULO; GPT4: GTIOC4B; ICU0: IRQ06; SCI2: RXD2; SCI2: SCL2; SCI9: CTSRTS9; SPI0: SSLA2" - None - - 
       P302 86 - - - - Disabled - - "BUS_ASYNCH0: A07; GPT_OPS0: GTOUUP; GPT4: GTIOC4A; ICU0: IRQ05; SCI2: SDA2; SCI2: TXD2; SPI0: SSLA3" - None - - 
       P303 85 GPIO ARDUINO_RESET High - "Output mode (Initial High)" "n-ch open drain" - "BUS_ASYNCH0: A08; GPT7: GTIOC7B; SCI9: CTS9" - IO - - 
       P304 82 - - - - Disabled - - "AGT2: AGTEE2; BUS_ASYNCH0: A09; GPT_OPS0: GTOWLO; GPT7: GTIOC7A; ICU0: IRQ09; SCI6: RXD6; SCI6: SCL6" - None - - 
       P305 81 - - - - Disabled - - "AGT2: AGTOB2; BUS_ASYNCH0: A10; GPT_OPS0: GTOWUP; ICU0: IRQ08; QSPI0: QSPCLK; SCI6: SDA6; SCI6: TXD6" - None - - 
-      P306 80 GPIO ZMOD4510_RESET High - "Output mode (Initial High)" "n-ch open drain" - "AGT2: AGTOA2; BUS_ASYNCH0: A11; GPT_OPS0: GTOULO; QSPI0: QSSL; SCI6: SCK6" - IO - - 
-      P307 79 GPIO ZMOD4410_RESET High - "Output mode (Initial High)" "n-ch open drain" - "AGT4: AGTEE4; BUS_ASYNCH0: A12; GPT_OPS0: GTOUUP; QSPI0: QIO0; SCI6: CTSRTS6" - IO - - 
+      P306 80 GPIO ZMOD4510_RESET Low - "Output mode (Initial Low)" CMOS - "AGT2: AGTOA2; BUS_ASYNCH0: A11; GPT_OPS0: GTOULO; QSPI0: QSSL; SCI6: SCK6" - IO - - 
+      P307 79 GPIO ZMOD4410_RESET Low - "Output mode (Initial Low)" CMOS - "AGT4: AGTEE4; BUS_ASYNCH0: A12; GPT_OPS0: GTOUUP; QSPI0: QIO0; SCI6: CTSRTS6" - IO - - 
       P308 78 - - - - Disabled - - "AGT4: AGTOB4; BUS_ASYNCH0: A13; QSPI0: QIO1; SCI3: CTS3; SCI6: CTS6" - None - - 
       P309 77 - - - - Disabled - - "AGT4: AGTOA4; BUS_ASYNCH0: A14; QSPI0: QIO2; SCI3: RXD3; SCI3: SCL3" - None - - 
       P310 76 - - - - Disabled - - "AGT1: AGTEE1; BUS_ASYNCH0: A15; QSPI0: QIO3; SCI3: SDA3; SCI3: TXD3" - None - - 
@@ -192,14 +200,14 @@ FSP Configuration
       P513 174 - - - - Disabled - - "SCI5: RXD5; SCI5: SCL5" - None - - 
       P600 122 - - - - Disabled - - "AGT3: AGTIO3; BUS_ASYNCH0: RD; CAC0: CACREF; CGC0: CLKOUT; GPT6: GTIOC6B; OSPI0: OMSIO4; SCI9: SCK9" - None - - 
       P601 121 GPIO LED4 High - "Output mode (Initial Low)" CMOS - "AGT3: AGTEE3; BUS_ASYNCH0: WR; GPT6: GTIOC6A; OSPI0: OMSIO2; SCI9: RXD9; SCI9: SCL9" - IO - - 
-      P602 120 GPIO LED2_RED High - "Output mode (Initial Low)" CMOS - "AGT3: AGTO3; BUS_ASYNCH0: EBCLK; GPT7: GTIOC7B; OSPI0: OMCS1; SCI9: SDA9; SCI9: TXD9" - IO - - 
-      P603 119 GPIO LED2_GREEN High - "Output mode (Initial Low)" CMOS - "AGT4: AGTIO4; BUS_ASYNCH0: D13; GPT7: GTIOC7A; SCI9: CTSRTS9" - IO - - 
+      P602 120 GPIO LED2_RED High - "Output mode (Initial High)" CMOS - "AGT3: AGTO3; BUS_ASYNCH0: EBCLK; GPT7: GTIOC7B; OSPI0: OMCS1; SCI9: SDA9; SCI9: TXD9" - IO - - 
+      P603 119 GPIO LED2_GREEN High - "Output mode (Initial High)" CMOS - "AGT4: AGTIO4; BUS_ASYNCH0: D13; GPT7: GTIOC7A; SCI9: CTSRTS9" - IO - - 
       P604 118 - - - - Disabled - - "AGT4: AGTEE4; BUS_ASYNCH0: D12; GPT8: GTIOC8B; SCI9: CTS9" - None - - 
-      P605 117 GPIO LED2_BLUE High - "Output mode (Initial Low)" CMOS - "AGT4: AGTO4; BUS_ASYNCH0: D11; GPT8: GTIOC8A; SCI8: CTS8" - IO - - 
+      P605 117 GPIO LED2_BLUE High - "Output mode (Initial High)" CMOS - "AGT4: AGTO4; BUS_ASYNCH0: D11; GPT8: GTIOC8A; SCI8: CTS8" - IO - - 
       P606 116 - - - - Disabled - - "RTC0: RTCOUT; SCI8: CTSRTS8" - None - - 
       P607 115 - - - - Disabled - - "SCI8: RXD8; SCI8: SCL8" - None - - 
       P608 99 GPIO ARDUINO_D9 - - "Input mode" - None "BUS_ASYNCH0: A00; GPT4: GTIOC4B" - IO - - 
-      P609 100 GPIO LED3 High - "Output mode (Initial Low)" CMOS - "AGT5: AGTO5; BUS_ASYNCH0: CS1; CAN1: CTX1; GPT5: GTIOC5A" - IO - - 
+      P609 100 GPIO LED3 High - "Output mode (Initial Low)" CMOS - "AGT5: AGTO5; BUS_ASYNCH0: CS1; CAN1: CTX1; GPT5: GTIOC5A; OSPI0: OMECS" - IO - - 
       P610 101 GPIO LED1 High - "Output mode (Initial Low)" CMOS - "AGT4: AGTO4; BUS_ASYNCH0: CS0; CAN1: CRX1; GPT5: GTIOC5B; OSPI0: OMCS0; SCI7: CTS7" - IO - - 
       P611 102 GPIO ARDUINO_D8 - - "Input mode" - None "AGT3: AGTO3; CAC0: CACREF; CGC0: CLKOUT; SCI7: CTSRTS7" - IO - - 
       P612 103 - - - - Disabled - - "AGT2: AGTO2; BUS_ASYNCH0: D08; SCI7: SCK7" - None - - 
@@ -279,10 +287,10 @@ FSP Configuration
       AVCCUSBHS 26 USB_HS0_AVCC_USBHS - - - - - - - - IO "Read only" - 
       AVSS0 156 ANALOG0_AVSS0 - - - - - - - - IO "Read only" - 
       AVSSUSBHS 28 USB_HS0_AVSS_USBHS - - - - - - - - IO "Read only" - 
-      P000 169 - ARDUINO_A0 - - Disabled - None "ADC0: AN000; ADC1: AN100; ICU0: IRQ06" - IO - - 
-      P001 168 - ARDUINO_A1 - - Disabled - None "ADC0: AN001; ADC1: AN101; ICU0: IRQ07" - IO - - 
-      P002 167 - ARDUINO_A2 - - Disabled - None "ADC0: AN002; ADC1: AN102; ICU0: IRQ08" - IO - - 
-      P003 166 - ARDUINO_A3 - - Disabled - None "ADC0: AN003" - IO - - 
+      P000 169 - ARDUINO_A0 - - Disabled - - "ADC0: AN000; ADC1: AN100; ICU0: IRQ06" - None - - 
+      P001 168 - ARDUINO_A1 - - Disabled - - "ADC0: AN001; ADC1: AN101; ICU0: IRQ07" - None - - 
+      P002 167 - ARDUINO_A2 - - Disabled - - "ADC0: AN002; ADC1: AN102; ICU0: IRQ08" - None - - 
+      P003 166 - ARDUINO_A3 - - Disabled - - "ADC0: AN003" - None - - 
       P004 165 - PMOD2_INT - None Disabled - None "ADC0: AN004; ICU0: IRQ09" - IO - - 
       P005 164 - PMOD1_INT - None Disabled - None "ADC0: AN005; ICU0: IRQ10" - IO - - 
       P006 163 - ARDUINO_D2_INT0 - None Disabled - None "ADC0: AN006; ICU0: IRQ11" - IO - - 
@@ -290,8 +298,8 @@ FSP Configuration
       P008 161 - MEMS_MOTION_INT - None Disabled - None "ADC0: AN008; ICU0: IRQ12" - IO - - 
       P009 160 - - - - Disabled - - "ADC0: AN009; ICU0: IRQ13" - None - - 
       P010 159 - - - - Disabled - - "ADC0: AN010; ICU0: IRQ14" - None - - 
-      P014 152 - ARDUINO_A4 - - Disabled - None "ADC0: AN012; DAC0: DA0" - IO - - 
-      P015 151 - ARDUINO_A5 - - Disabled - None "ADC0: AN013; DAC1: DA1; ICU0: IRQ13" - IO - - 
+      P014 152 - ARDUINO_A4 - - Disabled - - "ADC0: AN012; DAC0: DA0" - None - - 
+      P015 151 - ARDUINO_A5 - - Disabled - - "ADC0: AN013; DAC1: DA1; ICU0: IRQ13" - None - - 
       P100 132 - - - - Disabled - - "AGT0: AGTIO0; BUS_ASYNCH0: D00; GPT_POEG0: GTETRGA; GPT5: GTIOC5B; ICU0: IRQ02; OSPI0: OMSCLK; QSPI0: QSPCLK; SCI0: RXD0; SCI0: SCL0; SCI1: SCK1; SPI1: MISOB" - None - - 
       P101 131 - - - - Disabled - - "AGT0: AGTEE0; BUS_ASYNCH0: D01; GPT_POEG1: GTETRGB; GPT5: GTIOC5A; ICU0: IRQ01; OSPI0: OMSIO7; QSPI0: QIO1; SCI0: SDA0; SCI0: TXD0; SCI1: CTSRTS1; SPI1: MOSIB" - None - - 
       P102 130 - - - - Disabled - - "ADC0: ADTRG0; AGT0: AGTO0; BUS_ASYNCH0: D02; CAN0: CRX0; GPT_OPS0: GTOWLO; GPT2: GTIOC2B; OSPI0: OMSIO1; QSPI0: QIO0; SCI0: SCK0; SPI1: RSPCKB" - None - - 
@@ -316,13 +324,13 @@ FSP Configuration
       P205 51 - PMOD1_SS Low None Disabled CMOS None "AGT1: AGTO1; BUS_ASYNCH0: A16; CGC0: CLKOUT; CTSU0: TS01; ETHERC_MII0: ET0_WOL; ETHERC_RMII0: ET0_WOL; GPT_OPS0: GTIV; GPT4: GTIOC4A; ICU0: IRQ01; IIC1: SCL1; SCI4: SDA4; SCI4: TXD4; SCI9: CTSRTS9; SDHI0: SD0DAT3; SPI0: SSLA0; SSI0: SSILRCK0; USB_FS0: USB_OVRCURA" - IO - - 
       P206 50 - PMOD1_SS2_GPIO - None Disabled - None "BUS_ASYNCH0: WAIT; CEC0: CECIO; CTSU0: TS02; ETHERC_MII0: ET0_LINKSTA; ETHERC_RMII0: ET0_LINKSTA; GPT_OPS0: GTIU; ICU0: IRQ00; IIC1: SDA1; SCI4: RXD4; SCI4: SCL4; SCI9: CTS9; SDHI0: SD0DAT2; SPI0: SSLA1; SSI0: SSIDATA0; USB_FS0: USB_VBUSEN" - IO - - 
       P207 49 - PMOD1_SS3_GPIO - - Disabled - None "BUS_ASYNCH0: A17; CTSU0: TSCAP; QSPI0: QSSL; SCI4: SDA4; SCI4: TXD4; SPI0: SSLA2" - IO - - 
-      P208 66 - ETH_LINK_STATUS - - Disabled - None "BUS_ASYNCH0: CS4; ETHERC_MII0: ET0_LINKSTA; ETHERC_RMII0: ET0_LINKSTA; GPT_OPS0: GTOVLO; QSPI0: QIO3; SDHI0: SD0DAT0" - IO - - 
-      P209 65 - - - - Disabled - - "AGT5: AGTEE5; BUS_ASYNCH0: CS5; ETHERC_MII0: ET0_EXOUT; ETHERC_RMII0: ET0_EXOUT; GPT_OPS0: GTOVUP; QSPI0: QIO2; SDHI0: SD0WP" - None - - 
-      P210 64 - ETH_PHY_RESET Low - Disabled CMOS - "AGT5: AGTOB5; BUS_ASYNCH0: CS6; ETHERC_MII0: ET0_WOL; ETHERC_RMII0: ET0_WOL; GPT_OPS0: GTIW; QSPI0: QIO1; SDHI0: SD0CD" - IO - - 
-      P211 63 - ETH_MDIO Low - Disabled CMOS None "AGT5: AGTOA5; BUS_ASYNCH0: CS7; ETHERC_MII0: ET0_MDIO; ETHERC_RMII0: ET0_MDIO; GPT_OPS0: GTIV; QSPI0: QIO0; SDHI0: SD0CMD" - IO - - 
+      P208 66 - ETH_LINK_STATUS - - Disabled - None "BUS_ASYNCH0: CS4; DEBUG_TRACE0: TDATA3; ETHERC_MII0: ET0_LINKSTA; ETHERC_RMII0: ET0_LINKSTA; GPT_OPS0: GTOVLO; QSPI0: QIO3; SDHI0: SD0DAT0" - IO - - 
+      P209 65 - - - - Disabled - - "AGT5: AGTEE5; BUS_ASYNCH0: CS5; DEBUG_TRACE0: TDATA2; ETHERC_MII0: ET0_EXOUT; ETHERC_RMII0: ET0_EXOUT; GPT_OPS0: GTOVUP; QSPI0: QIO2; SDHI0: SD0WP" - None - - 
+      P210 64 - ETH_PHY_RESET Low - Disabled CMOS - "AGT5: AGTOB5; BUS_ASYNCH0: CS6; DEBUG_TRACE0: TDATA1; ETHERC_MII0: ET0_WOL; ETHERC_RMII0: ET0_WOL; GPT_OPS0: GTIW; QSPI0: QIO1; SDHI0: SD0CD" - IO - - 
+      P211 63 - ETH_MDIO Low - Disabled CMOS None "AGT5: AGTOA5; BUS_ASYNCH0: CS7; DEBUG_TRACE0: TDATA0; ETHERC_MII0: ET0_MDIO; ETHERC_RMII0: ET0_MDIO; GPT_OPS0: GTIV; QSPI0: QIO0; SDHI0: SD0CMD" - IO - - 
       P212 24 - EXTAL Low None Disabled CMOS None "AGT1: AGTEE1; CGC0: EXTAL; GPT_POEG3: GTETRGD; GPT0: GTIOC0B; ICU0: IRQ03; SCI1: RXD1; SCI1: SCL1" - IO - - 
       P213 23 - XTAL Low None Disabled CMOS None "ADC1: ADTRG1; AGT2: AGTEE2; CGC0: XTAL; GPT_POEG2: GTETRGC; GPT0: GTIOC0A; ICU0: IRQ02; SCI1: SDA1; SCI1: TXD1" - IO - - 
-      P214 62 - ETH_MDC Low - Disabled CMOS None "AGT5: AGTO5; ETHERC_MII0: ET0_MDC; ETHERC_RMII0: ET0_MDC; GPT_OPS0: GTIU; QSPI0: QSPCLK; SDHI0: SD0CLK" - IO - - 
+      P214 62 - ETH_MDC Low - Disabled CMOS None "AGT5: AGTO5; DEBUG_TRACE0: TCLK; ETHERC_MII0: ET0_MDC; ETHERC_RMII0: ET0_MDC; GPT_OPS0: GTIU; QSPI0: QSPCLK; SDHI0: SD0CLK" - IO - - 
       P300 88 DEBUG0_SWCLK SWCLK Low - "Peripheral mode" CMOS None "DEBUG0: SWCLK; DEBUG0: TCK; GPT_OPS0: GTOUUP; GPT0: GTIOC0A; SPI0: SSLA1" - IO - - 
       P301 87 - - - - Disabled - - "AGT0: AGTIO0; BUS_ASYNCH0: A06; GPT_OPS0: GTOULO; GPT4: GTIOC4B; ICU0: IRQ06; SCI2: RXD2; SCI2: SCL2; SCI9: CTSRTS9; SPI0: SSLA2" - None - - 
       P302 86 - - - - Disabled - - "BUS_ASYNCH0: A07; GPT_OPS0: GTOUUP; GPT4: GTIOC4A; ICU0: IRQ05; SCI2: SDA2; SCI2: TXD2; SPI0: SSLA3" - None - - 
@@ -376,7 +384,7 @@ FSP Configuration
       P606 116 - - - - Disabled - - "RTC0: RTCOUT; SCI8: CTSRTS8" - None - - 
       P607 115 - - - - Disabled - - "SCI8: RXD8; SCI8: SCL8" - None - - 
       P608 99 - ARDUINO_D9 - - Disabled - None "BUS_ASYNCH0: A00; GPT4: GTIOC4B" - IO - - 
-      P609 100 - LED3 Low - Disabled CMOS - "AGT5: AGTO5; BUS_ASYNCH0: CS1; CAN1: CTX1; GPT5: GTIOC5A" - IO - - 
+      P609 100 - LED3 Low - Disabled CMOS - "AGT5: AGTO5; BUS_ASYNCH0: CS1; CAN1: CTX1; GPT5: GTIOC5A; OSPI0: OMECS" - IO - - 
       P610 101 - LED1 Low - Disabled CMOS - "AGT4: AGTO4; BUS_ASYNCH0: CS0; CAN1: CRX1; GPT5: GTIOC5B; OSPI0: OMCS0; SCI7: CTS7" - IO - - 
       P611 102 - ARDUINO_D8 - - Disabled - None "AGT3: AGTO3; CAC0: CACREF; CGC0: CLKOUT; SCI7: CTSRTS7" - IO - - 
       P612 103 - - - - Disabled - - "AGT2: AGTO2; BUS_ASYNCH0: D08; SCI7: SCK7" - None - - 
@@ -460,16 +468,42 @@ FSP Configuration
     Parameter Checking: Default (BSP)
     
   Module "FreeRTOS Port (rm_freertos_port)"
+  Module "FreeRTOS Heap 4"
+  Module "Clock Generation Circuit (r_cgc)"
+    Parameter Checking: Default (BSP)
+    
+  Module "UART (r_sci_uart)"
+    Parameter Checking: Default (BSP)
+    FIFO Support: Enable
+    DTC Support: Enable
+    Flow Control Support: Enable
+    RS-485 Support: Disable
+    
+  Module "Transfer (r_dtc)"
+    Parameter Checking: Default (BSP)
+    Linker section to keep DTC vector table: .fsp_dtc_vector_table
+    
+  Module "Timer, General PWM (r_gpt)"
+    Parameter Checking: Default (BSP)
+    Pin Output Support: Disabled
+    Write Protect Enable: Disabled
+    
+  Module "External IRQ (r_icu)"
+    Parameter Checking: Default (BSP)
+    
   Module "AWS Core MQTT"
     Custom core_mqtt_config.h: 
-    Retry count for reading CONNACK from network: 2
+    Maximum Number of vectors: 4
     State Array Max Count: 10U
     Ping Response Timeout (ms): 500U
     Recieve Polling Timeout (ms): 10U
-    Send Retry Timeout (ms): 10U
+    Send Retry Timeout (ms): 20000U
+    Retry count for reading CONNACK from network: 10
+    Tx Timeout (ms): 30000U
+    Rx Timeout (ms): 30000U
     
   Module "AWS Transport Interface on MbedTLS/PKCS11 (rm_aws_transport_interface_port)"
-  Module "AWS PKCS11 to MbedTLS3"
+  Module "AWS PKCS11 to MbedTLS"
     Custom iot_pkcs11_config.h: 
     PKCS11 Configuration Max Label Length: 32
     PKCS11 Configuration Max Number Of Objects: 6
@@ -488,13 +522,32 @@ FSP Configuration
     Log Level: LOG_NONE
     OTA Supported: Disabled
     JITP Code Verify Root Cert Supported: Disabled
+    HMAC Key: HMAC Key
+    CMAC Key: CMAC Key
     
-  Module "FreeRTOS+Crypto"
+  Module "AWS PKCS11 PAL on LittleFS (rm_aws_pkcs11_pal_littlefs)"
+  Module "LittleFS"
+    Custom lfs_util.h: 
+    Thread Safe: Disabled
+    Use Malloc: Enabled
+    Use Assert: Enabled
+    Debug Messages: Disabled
+    Warning Messages: Disabled
+    Error Messages: Disabled
+    Trace Messages: Disabled
+    Intrinsics: Enabled
+    Instance Name for STDIO wrapper: g_rm_littlefs0
+    
+  Module "LittleFS on Flash (rm_littlefs_flash)"
+    Parameter Checking: Default (BSP)
+    
+  Module "Flash (r_flash_hp)"
+    Parameter Checking: Default (BSP)
+    Code Flash Programming Enable: Disabled
+    Data Flash Programming Enable: Enabled
+    
+  Module "FreeRTOS MbedTLS Port"
   Module "MbedTLS"
-    General: MBEDTLS_CHECK_PARAMS_ASSERT: Undefine
-    General: MBEDTLS_ENABLE_WEAK_CIPHERSUITES: Undefine
-    General: MBEDTLS_REMOVE_ARC4_CIPHERSUITES: Undefine
-    General: MBEDTLS_REMOVE_3DES_CIPHERSUITES: Undefine
     Key Exchange: MBEDTLS_KEY_EXCHANGE_PSK_ENABLED: Undefine
     Key Exchange: MBEDTLS_KEY_EXCHANGE_DHE_PSK_ENABLED: Undefine
     Key Exchange: MBEDTLS_KEY_EXCHANGE_ECDHE_PSK_ENABLED: Undefine
@@ -511,44 +564,41 @@ FSP Configuration
     X509 Options: MBEDTLS_X509_MAX_INTERMEDIATE_CA: Undefine
     SSL Options: MBEDTLS_SSL_ALL_ALERT_MESSAGES: Undefine
     SSL Options: MBEDTLS_SSL_DTLS_CONNECTION_ID: Undefine
+    SSL Options: MBEDTLS_SSL_DTLS_CONNECTION_ID_COMPAT: Undefine
+    SSL Options: MBEDTLS_SSL_DTLS_CONNECTION_ID_COMPAT Value: Reset
     SSL Options: MBEDTLS_SSL_ASYNC_PRIVATE: Undefine
     SSL Options: MBEDTLS_SSL_DEBUG_ALL: Undefine
     SSL Options: MBEDTLS_SSL_ENCRYPT_THEN_MAC: Undefine
     SSL Options: MBEDTLS_SSL_EXTENDED_MASTER_SECRET: Undefine
-    SSL Options: MBEDTLS_SSL_FALLBACK_SCSV: Undefine
     SSL Options: MBEDTLS_SSL_KEEP_PEER_CERTIFICATE: Undefine
-    SSL Options: MBEDTLS_SSL_HW_RECORD_ACCEL: Undefine
-    SSL Options: MBEDTLS_SSL_CBC_RECORD_SPLITTING: Undefine
     SSL Options: MBEDTLS_SSL_RENEGOTIATION: Undefine
-    SSL Options: MBEDTLS_SSL_SRV_SUPPORT_SSLV2_CLIENT_HELLO: Undefine
-    SSL Options: MBEDTLS_SSL_SRV_RESPECT_CLIENT_PREFERENCE: Undefine
     SSL Options: MBEDTLS_SSL_MAX_FRAGMENT_LENGTH: Undefine
-    SSL Options: MBEDTLS_SSL_PROTO_SSL3: Undefine
-    SSL Options: MBEDTLS_SSL_PROTO_TLS1: Undefine
-    SSL Options: MBEDTLS_SSL_PROTO_TLS1_1: Undefine
     SSL Options: MBEDTLS_SSL_PROTO_TLS1_2: Define
+    SSL Options: MBEDTLS_SSL_PROTO_TLS1_3: Undefine
+    SSL Options: MBEDTLS_SSL_TLS1_3_COMPATIBILITY_MODE: Undefine
+    SSL Options: MBEDTLS_SSL_TLS1_3_KEY_EXCHANGE_MODE_PSK_ENABLED: Define
+    SSL Options: MBEDTLS_SSL_TLS1_3_KEY_EXCHANGE_MODE_EPHEMERAL_ENABLED: Define
+    SSL Options: MBEDTLS_SSL_TLS1_3_KEY_EXCHANGE_MODE_PSK_EPHEMERAL_ENABLED: Define
+    SSL Options: MBEDTLS_SSL_TLS1_3_TICKET_AGE_TOLERANCE: Define
+    SSL Options: MBEDTLS_SSL_TLS1_3_TICKET_AGE_TOLERANCE Value: 6000
+    SSL Options: MBEDTLS_SSL_TLS1_3_TICKET_NONCE_LENGTH: Define
+    SSL Options: MBEDTLS_SSL_TLS1_3_TICKET_NONCE_LENGTH Value: 32
+    SSL Options: MBEDTLS_SSL_TLS1_3_DEFAULT_NEW_SESSION_TICKETS: Define
+    SSL Options: MBEDTLS_SSL_TLS1_3_DEFAULT_NEW_SESSION_TICKETS Value: 1
+    SSL Options: MBEDTLS_SSL_EARLY_DATA: Undefine
+    SSL Options: MBEDTLS_SSL_MAX_EARLY_DATA_SIZE Value: 32
     SSL Options: MBEDTLS_SSL_PROTO_DTLS: Undefine
     SSL Options: MBEDTLS_SSL_ALPN: Define
     SSL Options: MBEDTLS_SSL_DTLS_ANTI_REPLAY: Undefine
     SSL Options: MBEDTLS_SSL_DTLS_HELLO_VERIFY: Undefine
     SSL Options: MBEDTLS_SSL_DTLS_CLIENT_PORT_REUSE: Undefine
-    SSL Options: MBEDTLS_SSL_DTLS_BADMAC_LIMIT: Undefine
     SSL Options: MBEDTLS_SSL_SESSION_TICKETS: Undefine
-    SSL Options: MBEDTLS_SSL_EXPORT_KEYS: Undefine
     SSL Options: MBEDTLS_SSL_SERVER_NAME_INDICATION: Undefine
-    SSL Options: MBEDTLS_SSL_TRUNCATED_HMAC: Undefine
-    SSL Options: MBEDTLS_SSL_TRUNCATED_HMAC_COMPAT: Undefine
-    X509 Options: MBEDTLS_X509_ALLOW_EXTENSIONS_NON_V3: Undefine
-    X509 Options: MBEDTLS_X509_ALLOW_UNSUPPORTED_CRITICAL_EXTENSION: Undefine
     X509 Options: MBEDTLS_X509_TRUSTED_CERTIFICATE_CALLBACK: Undefine
-    X509 Options: MBEDTLS_X509_CHECK_KEY_USAGE: Undefine
-    X509 Options: MBEDTLS_X509_CHECK_EXTENDED_KEY_USAGE: Undefine
+    X509 Options: MBEDTLS_X509_REMOVE_INFO: Undefine
     X509 Options: MBEDTLS_X509_RSASSA_PSS_SUPPORT: Undefine
-    General: MBEDTLS_ZLIB_SUPPORT: Undefine
-    General: MBEDTLS_CERTS_C: Define
     General: MBEDTLS_DEBUG_C: Undefine
     General: MBEDTLS_NET_C: Undefine
-    General: MBEDTLS_PKCS11_C: Undefine
     SSL Options: MBEDTLS_SSL_CACHE_C: Undefine
     SSL Options: MBEDTLS_SSL_COOKIE_C: Undefine
     SSL Options: MBEDTLS_SSL_TICKET_C: Undefine
@@ -562,28 +612,24 @@ FSP Configuration
     X509 Options: MBEDTLS_X509_CREATE_C: Undefine
     X509 Options: MBEDTLS_X509_CRT_WRITE_C: Undefine
     X509 Options: MBEDTLS_X509_CSR_WRITE_C: Undefine
-    SSL Options: MBEDTLS_SSL_MAX_CONTENT_LEN: Undefine
-    SSL Options: MBEDTLS_SSL_MAX_CONTENT_LEN Value: 16384
     SSL Options: MBEDTLS_SSL_IN_CONTENT_LEN: Undefine
     SSL Options: MBEDTLS_SSL_IN_CONTENT_LEN Value: 16384
     SSL Options: MBEDTLS_SSL_CID_IN_LEN_MAX: Undefine
     SSL Options: MBEDTLS_SSL_CID_IN_LEN_MAX Value: 32
     SSL Options: MBEDTLS_SSL_CID_OUT_LEN_MAX: Undefine
     SSL Options: MBEDTLS_SSL_CID_OUT_LEN_MAX Value: 32
+    SSL Options: MBEDTLS_SSL_CID_TLS1_3_PADDING_GRANULARITY: Undefine
+    SSL Options: MBEDTLS_SSL_CID_TLS1_3_PADDING_GRANULARITY Value: 16
     SSL Options: MBEDTLS_SSL_CID_PADDING_GRANULARITY: Undefine
     SSL Options: MBEDTLS_SSL_CID_PADDING_GRANULARITY Value: 16
     SSL Options: MBEDTLS_SSL_OUT_CONTENT_LEN: Undefine
     SSL Options: MBEDTLS_SSL_OUT_CONTENT_LEN Value: 16384
     SSL Options: MBEDTLS_SSL_DTLS_MAX_BUFFERING: Undefine
     SSL Options: MBEDTLS_SSL_DTLS_MAX_BUFFERING Value: 32768
-    General: MBEDTLS_PARAM_FAILED: Undefine
-    General: MBEDTLS_PARAM_FAILED Value: assert( cond )
     SSL Options: MBEDTLS_SSL_CACHE_DEFAULT_TIMEOUT: Undefine
     SSL Options: MBEDTLS_SSL_CACHE_DEFAULT_TIMEOUT Value: 86400
     SSL Options: MBEDTLS_SSL_CACHE_DEFAULT_MAX_ENTRIES: Undefine
     SSL Options: MBEDTLS_SSL_CACHE_DEFAULT_MAX_ENTRIES Value: 50
-    SSL Options: MBEDTLS_SSL_DEFAULT_TICKET_LIFETIME: Undefine
-    SSL Options: MBEDTLS_SSL_DEFAULT_TICKET_LIFETIME Value: 86400
     General: MBEDTLS_PSK_MAX_LEN: Undefine
     General: MBEDTLS_PSK_MAX_LEN Value: 32
     SSL Options: MBEDTLS_SSL_COOKIE_TIMEOUT: Undefine
@@ -591,8 +637,6 @@ FSP Configuration
     X509 Options: MBEDTLS_X509_MAX_INTERMEDIATE_CA Value: 8
     X509 Options: MBEDTLS_X509_MAX_FILE_PATH_LEN: Undefine
     X509 Options: MBEDTLS_X509_MAX_FILE_PATH_LEN Value: 512
-    General: MBEDTLS_TLS_DEFAULT_ALLOW_SHA1_IN_CERTIFICATES: Undefine
-    General: MBEDTLS_TLS_DEFAULT_ALLOW_SHA1_IN_KEY_EXCHANGE: Define
     
   Module "MbedTLS (Crypto Only)"
     Hardware Acceleration: TRNG: Enabled
@@ -603,10 +647,11 @@ FSP Configuration
     Hardware Acceleration: Cipher: AES: Use Hardware
     Hardware Acceleration: Public Key Cryptography (PKC): ECC: Use Hardware
     Hardware Acceleration: Public Key Cryptography (PKC): ECDSA : Use Hardware
+    Hardware Acceleration: Public Key Cryptography (PKC): ECDH : Use Hardware
     Hardware Acceleration: Public Key Cryptography (PKC): RSA: Use Hardware
-    Hardware Acceleration: Public Key Cryptography (PKC): RSA 3072 Verify: Disabled
-    Hardware Acceleration: Public Key Cryptography (PKC): RSA 4096 Verify: Disabled
-    Hardware Acceleration: Secure Crypto Engine Initialization: Enabled
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA 3072 Verify: Enabled
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA 4096 Verify: Enabled
+    Hardware Acceleration: Crypto Engine Initialization: Enabled
     Platform: MBEDTLS_HAVE_ASM: Undefine
     Platform: MBEDTLS_NO_UDBL_DIVISION: Undefine
     Platform: MBEDTLS_NO_64BIT_MULTIPLICATION: Undefine
@@ -615,6 +660,7 @@ FSP Configuration
     Platform: MBEDTLS_HAVE_TIME_DATE: Undefine
     Platform: MBEDTLS_PLATFORM_MEMORY: Define
     Platform: MBEDTLS_PLATFORM_NO_STD_FUNCTIONS: Undefine
+    Platform: Alternate: MBEDTLS_PLATFORM_SETBUF_ALT: Undefine
     Platform: Alternate: MBEDTLS_PLATFORM_EXIT_ALT: Undefine
     Platform: Alternate: MBEDTLS_PLATFORM_TIME_ALT: Undefine
     Platform: Alternate: MBEDTLS_PLATFORM_FPRINTF_ALT: Undefine
@@ -622,17 +668,13 @@ FSP Configuration
     Platform: Alternate: MBEDTLS_PLATFORM_SNPRINTF_ALT: Undefine
     Platform: Alternate: MBEDTLS_PLATFORM_VSNPRINTF_ALT: Undefine
     Platform: Alternate: MBEDTLS_PLATFORM_NV_SEED_ALT: Undefine
-    General: PSA_CRYPTO_SECURE: Undefine
+    General: MBEDTLS_PSA_CRYPTO_DRIVERS: Undefine
     General: MBEDTLS_DEPRECATED_WARNING: Undefine
     General: MBEDTLS_DEPRECATED_REMOVED: Define
-    General: MBEDTLS_CHECK_PARAMS: Define
-    General: MBEDTLS_CHECK_PARAMS_ASSERT: Undefine
     Platform: MBEDTLS_TIMING_ALT: Undefine
-    Cipher: Alternate: MBEDTLS_ARC4_ALT: Undefine
     Cipher: Alternate: MBEDTLS_ARIA_ALT: Undefine
-    Cipher: Alternate: MBEDTLS_BLOWFISH_ALT: Undefine
     Cipher: Alternate: MBEDTLS_CAMELLIA_ALT: Undefine
-    Cipher: Alternate: MBEDTLS_CCM_ALT: Undefine
+    Cipher: Alternate: MBEDTLS_CCM_ALT: Define
     Cipher: Alternate: MBEDTLS_CHACHA20_ALT: Undefine
     Cipher: Alternate: MBEDTLS_CHACHAPOLY_ALT: Undefine
     Cipher: Alternate: MBEDTLS_CMAC_ALT: Undefine
@@ -641,16 +683,11 @@ FSP Configuration
     Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECJPAKE_ALT: Undefine
     Cipher: Alternate: MBEDTLS_GCM_ALT: Define
     Cipher: Alternate: MBEDTLS_NIST_KW_ALT: Undefine
-    Hash: Alternate: MBEDTLS_MD2_ALT: Undefine
-    Hash: Alternate: MBEDTLS_MD4_ALT: Undefine
     Hash: Alternate: MBEDTLS_MD5_ALT: Undefine
     Message Authentication Code (MAC): Alternate: MBEDTLS_POLY1305_ALT: Undefine
     Hash: Alternate: MBEDTLS_RIPEMD160_ALT: Undefine
     Hash: Alternate: MBEDTLS_SHA1_ALT: Undefine
     Hash: Alternate: MBEDTLS_SHA512_ALT: Undefine
-    Cipher: Alternate: MBEDTLS_XTEA_ALT: Undefine
-    Hash: Alternate: MBEDTLS_MD2_PROCESS_ALT: Undefine
-    Hash: Alternate: MBEDTLS_MD4_PROCESS_ALT: Undefine
     Hash: Alternate: MBEDTLS_MD5_PROCESS_ALT: Undefine
     Hash: Alternate: MBEDTLS_RIPEMD160_PROCESS_ALT: Undefine
     Hash: Alternate: MBEDTLS_SHA1_PROCESS_ALT: Undefine
@@ -662,6 +699,7 @@ FSP Configuration
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECDH_COMPUTE_SHARED_ALT: Undefine
     Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECDSA_GENKEY_ALT: Undefine
     Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_INTERNAL_ALT: Undefine
+    Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_NO_FALLBACK: Undefine
     Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_RANDOMIZE_JAC_ALT: Undefine
     Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_ADD_MIXED_ALT: Undefine
     Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_DOUBLE_JAC_ALT: Undefine
@@ -670,10 +708,10 @@ FSP Configuration
     Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_DOUBLE_ADD_MXZ_ALT: Undefine
     Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_RANDOMIZE_MXZ_ALT: Undefine
     Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_NORMALIZE_MXZ_ALT: Undefine
-    RNG: MBEDTLS_TEST_NULL_ENTROPY: Undefine
     Cipher: AES: MBEDTLS_AES_ROM_TABLES: Undefine
     Cipher: AES: MBEDTLS_AES_FEWER_TABLES: Undefine
     Cipher: MBEDTLS_CAMELLIA_SMALL_MEMORY: Undefine
+    General: MBEDTLS_CHECK_RETURN_WARNING: Undefine
     Cipher: MBEDTLS_CIPHER_MODE_CBC: Define
     Cipher: MBEDTLS_CIPHER_MODE_CFB: Define
     Cipher: MBEDTLS_CIPHER_MODE_CTR: Define
@@ -699,47 +737,47 @@ FSP Configuration
     Public Key Cryptography (PKC): ECC: Curves: MBEDTLS_ECP_DP_CURVE448_ENABLED: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_NIST_OPTIM: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_RESTARTABLE: Undefine
-    Public Key Cryptography (PKC): ECC: MBEDTLS_ECDH_LEGACY_CONTEXT: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECDSA_DETERMINISTIC: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_PK_PARSE_EC_EXTENDED: Undefine
     General: MBEDTLS_ERROR_STRERROR_DUMMY: Define
     Public Key Cryptography (PKC): MBEDTLS_GENPRIME: Define
-    Storage: MBEDTLS_FS_IO: Undefine
+    Storage: MBEDTLS_FS_IO: Define
     RNG: MBEDTLS_NO_DEFAULT_ENTROPY_SOURCES: Undefine
     Platform: MBEDTLS_NO_PLATFORM_ENTROPY: Define
     RNG: MBEDTLS_ENTROPY_FORCE_SHA256: Undefine
     RNG: MBEDTLS_ENTROPY_NV_SEED: Undefine
-    Storage: MBEDTLS_PSA_CRYPTO_KEY_ID_ENCODES_OWNER: Undefine
+    Key Configuration: MBEDTLS_PSA_CRYPTO_KEY_ID_ENCODES_OWNER: Undefine
     General: MBEDTLS_MEMORY_DEBUG: Undefine
     General: MBEDTLS_MEMORY_BACKTRACE: Undefine
     Public Key Cryptography (PKC): RSA: MBEDTLS_PK_RSA_ALT_SUPPORT: Undefine
     Public Key Cryptography (PKC): MBEDTLS_PKCS1_V15: Define
     Public Key Cryptography (PKC): MBEDTLS_PKCS1_V21: Define
+    Key Configuration: MBEDTLS_PSA_CRYPTO_BUILTIN_KEYS: Undefine
+    Key Configuration: PSA_CRYPTO_DRIVER_TFM_BUILTIN_KEY_LOADER: Undefine
+    General: MBEDTLS_PSA_CRYPTO_CLIENT: Undefine
+    RNG: MBEDTLS_PSA_CRYPTO_EXTERNAL_RNG: Undefine
     General: MBEDTLS_PSA_CRYPTO_SPM: Undefine
     RNG: MBEDTLS_PSA_INJECT_ENTROPY: Undefine
     Public Key Cryptography (PKC): RSA: MBEDTLS_RSA_NO_CRT: Define
     General: MBEDTLS_SELF_TEST: Undefine
     Hash: MBEDTLS_SHA256_SMALLER: Undefine
     Hash: MBEDTLS_SHA512_SMALLER: Undefine
-    Hash: MBEDTLS_SHA512_NO_SHA384: Undefine
     General: MBEDTLS_THREADING_ALT: Define
     General: MBEDTLS_THREADING_PTHREAD: Undefine
     General: MBEDTLS_USE_PSA_CRYPTO: Undefine
     General: MBEDTLS_VERSION_FEATURES: Define
     Cipher: MBEDTLS_AES_C: Define
-    Cipher: MBEDTLS_ARC4_C: Undefine
     Public Key Cryptography (PKC): MBEDTLS_ASN1_PARSE_C: Define
     Public Key Cryptography (PKC): MBEDTLS_ASN1_WRITE_C: Define
     Public Key Cryptography (PKC): MBEDTLS_BASE64_C: Define
     Public Key Cryptography (PKC): MBEDTLS_BIGNUM_C: Define
-    Cipher: MBEDTLS_BLOWFISH_C: Undefine
     Cipher: MBEDTLS_CAMELLIA_C: Undefine
     Cipher: MBEDTLS_ARIA_C: Undefine
     Cipher: MBEDTLS_CCM_C: Define
     Cipher: MBEDTLS_CHACHA20_C: Undefine
     Cipher: MBEDTLS_CHACHAPOLY_C: Undefine
     Cipher: MBEDTLS_CIPHER_C: Define
-    Message Authentication Code (MAC): MBEDTLS_CMAC_C: Undefine
+    Message Authentication Code (MAC): MBEDTLS_CMAC_C: Define
     RNG: MBEDTLS_CTR_DRBG_C: Define
     RNG: MBEDTLS_CTR_DRBG_C_ALT: Define
     Cipher: MBEDTLS_DES_C: Undefine
@@ -749,15 +787,14 @@ FSP Configuration
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_C: Define
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECJPAKE_C: Undefine
     Platform: MBEDTLS_ENTROPY_C: Define
-    General: MBEDTLS_ERROR_C: Undefine
+    General: MBEDTLS_ERROR_C: Define
     Cipher: MBEDTLS_GCM_C: Define
-    RNG: MBEDTLS_HAVEGE_C: Undefine
     Message Authentication Code (MAC): MBEDTLS_HKDF_C: Define
     Message Authentication Code (MAC): MBEDTLS_HMAC_DRBG_C: Undefine
+    Public Key Cryptography (PKC): MBEDTLS_LMS_C: Define
+    Public Key Cryptography (PKC): MBEDTLS_LMS_PRIVATE: Undefine
     Cipher: MBEDTLS_NIST_KW_C: Undefine
     Hash: MBEDTLS_MD_C: Define
-    Hash: MBEDTLS_MD2_C: Undefine
-    Hash: MBEDTLS_MD4_C: Undefine
     Hash: MBEDTLS_MD5_C: Define
     General: MBEDTLS_MEMORY_BUFFER_ALLOC_C: Undefine
     Public Key Cryptography (PKC): MBEDTLS_OID_C: Define
@@ -767,22 +804,24 @@ FSP Configuration
     Public Key Cryptography (PKC): MBEDTLS_PK_PARSE_C: Define
     Public Key Cryptography (PKC): MBEDTLS_PK_WRITE_C: Define
     Public Key Cryptography (PKC): MBEDTLS_PKCS5_C: Define
+    Public Key Cryptography (PKC): MBEDTLS_PKCS7_C: Undefine
     Public Key Cryptography (PKC): MBEDTLS_PKCS12_C: Define
     Platform: MBEDTLS_PLATFORM_C: Define
     Message Authentication Code (MAC): MBEDTLS_POLY1305_C: Undefine
     General: MBEDTLS_PSA_CRYPTO_C: Define
     General: MBEDTLS_PSA_CRYPTO_SE_C: Undefine
-    Storage: MBEDTLS_PSA_CRYPTO_STORAGE_C: Undefine
-    Storage: MBEDTLS_PSA_ITS_FILE_C: Undefine
-    Hash: MBEDTLS_RIPEMD160_C: Define
+    Storage: MBEDTLS_PSA_CRYPTO_STORAGE_C: Define
+    Storage: MBEDTLS_PSA_ITS_FILE_C: Define
+    Hash: MBEDTLS_RIPEMD160_C: Undefine
     Public Key Cryptography (PKC): RSA: MBEDTLS_RSA_C: Define
     Hash: MBEDTLS_SHA1_C: Define
+    Hash: MBEDTLS_SHA224_C: Define
     Hash: MBEDTLS_SHA256_C: Define
+    Hash: MBEDTLS_SHA384_C: Undefine
     Hash: MBEDTLS_SHA512_C: Undefine
     General: MBEDTLS_THREADING_C: Define
     General: MBEDTLS_TIMING_C: Undefine
     General: MBEDTLS_VERSION_C: Define
-    Cipher: MBEDTLS_XTEA_C: Undefine
     Public Key Cryptography (PKC): MBEDTLS_MPI_WINDOW_SIZE: Undefine
     Public Key Cryptography (PKC): MBEDTLS_MPI_WINDOW_SIZE value: 6
     Public Key Cryptography (PKC): MBEDTLS_MPI_MAX_SIZE: Undefine
@@ -806,8 +845,6 @@ FSP Configuration
     RNG: MBEDTLS_HMAC_DRBG_MAX_REQUEST value: 1024
     RNG: MBEDTLS_HMAC_DRBG_MAX_SEED_INPUT: Undefine
     RNG: MBEDTLS_HMAC_DRBG_MAX_SEED_INPUT value: 384
-    Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_MAX_BITS: Undefine
-    Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_MAX_BITS value: 521
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_WINDOW_SIZE: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_WINDOW_SIZE value: 6
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_FIXED_POINT_OPTIM: Undefine
@@ -824,6 +861,8 @@ FSP Configuration
     Platform: MBEDTLS_PLATFORM_STD_CALLOC value: calloc
     Platform: MBEDTLS_PLATFORM_STD_FREE: Undefine
     Platform: MBEDTLS_PLATFORM_STD_FREE value: free
+    Platform: MBEDTLS_PLATFORM_STD_SETBUF: Undefine
+    Platform: MBEDTLS_PLATFORM_STD_SETBUF value: setbuf
     Platform: MBEDTLS_PLATFORM_STD_EXIT: Undefine
     Platform: MBEDTLS_PLATFORM_STD_EXIT value: exit
     Platform: MBEDTLS_PLATFORM_STD_TIME: Undefine
@@ -850,6 +889,8 @@ FSP Configuration
     Platform: MBEDTLS_PLATFORM_FREE_MACRO value: free
     Platform: MBEDTLS_PLATFORM_EXIT_MACRO: Undefine
     Platform: MBEDTLS_PLATFORM_EXIT_MACRO value: exit
+    Platform: MBEDTLS_PLATFORM_SETBUF_MACRO: Define
+    Platform: MBEDTLS_PLATFORM_SETBUF_MACRO value: dummy_setbuf
     Platform: MBEDTLS_PLATFORM_TIME_MACRO: Undefine
     Platform: MBEDTLS_PLATFORM_TIME_MACRO value: time
     Platform: MBEDTLS_PLATFORM_TIME_TYPE_MACRO: Undefine
@@ -864,57 +905,23 @@ FSP Configuration
     Platform: MBEDTLS_PLATFORM_VSNPRINTF_MACRO value: vsnprintf
     Platform: MBEDTLS_PLATFORM_NV_SEED_READ_MACRO: Undefine
     Platform: MBEDTLS_PLATFORM_NV_SEED_READ_MACRO value: mbedtls_platform_std_nv_seed_read
-    Platform: MBEDTLS_PARAM_FAILED: Undefine
     Platform: MBEDTLS_PLATFORM_NV_SEED_WRITE_MACRO: Undefine
     Platform: MBEDTLS_PLATFORM_NV_SEED_WRITE_MACRO value: mbedtls_platform_std_nv_seed_write
+    General: MBEDTLS_CHECK_RETURN: Define
+    General: MBEDTLS_IGNORE_RETURN: Undefine
+    HMAC: MBEDTLS_PSA_HMAC_DRBG_MD_TYPE: Define
     Platform: Alternate: MBEDTLS_PLATFORM_ZEROIZE_ALT: Undefine
+    Key Configuration: MBEDTLS_PSA_KEY_SLOT_COUNT: Undefine
+    Key Configuration: MBEDTLS_PSA_KEY_SLOT_COUNT value: 32
     Platform: Alternate: MBEDTLS_PLATFORM_GMTIME_R_ALT: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECDH_VARIANT_EVEREST_ENABLED: Undefine
     
-  Module "Mbed Crypto HW Acceleration (rm_psa_crypto)"
+  Module "Mbed Crypto H/W Acceleration (rm_psa_crypto)"
   Module "SCE Compatibility Mode"
   Module "MbedTLS FSP Port (rm_mbedtls)"
-  Module "AWS C SDK Logging"
-  Module "AWS IoT Common"
-    Custom iot_config.h: 
-    IoT Logging puts(): configPRINTF( ( "%s\r\n", str ) )
-    Asserts: IoT Metrics Enable Asserts: Enabled
-    Asserts: IoT Containers Enable Asserts: Enabled
-    Asserts: IoT Taskpool Enable Asserts: Enabled
-    Asserts: IoT MQTT Enable Asserts: Enabled
-    Asserts: AWS IoT Shadow Enable Asserts: Enabled
-    Asserts: AWS IoT Defender Enable Asserts: Enabled
-    Asserts: IoT BLE Enable Asserts: Enabled
-    Asserts: IoT Metrics Assert: configASSERT( expression )
-    Asserts: IoT Containers Assert: configASSERT( expression )
-    Asserts: IoT Taskpool Assert: configASSERT( expression )
-    Asserts: IoT MQTT Assert: configASSERT( expression )
-    Asserts: AWS IoT Shadow Assert: configASSERT( expression )
-    Asserts: AWS IoT Defender Assert: configASSERT( expression )
-    Asserts: IoT BLE Assert: configASSERT( expression )
-    IoT Static Memory Only: Disabled
-    IoT Thread Default Priority: 1
-    IoT Thread Default Stack Size: 512
-    IoT Network Receive Task Priority: 0
-    IoT Network Receive Task Stack Size: 4096
-    IoT MQTT Enable Metrics: Disabled
-    IoT SDK Name: FreeRTOS
-    Platform Name: Unknown
-    IoT Cloud Endpoint: clientcredentialMQTT_BROKER_ENDPOINT
-    IoT Device Identifier: getDeviceIdentifier()
-    AWS IoT Metrics Username: getDeviceMetrics()
-    AWS IoT Metrics Username Length: getDeviceMetricsLength()
-    IotMetricsConnectionId_t: void *
-    AWS IoT Defender Format: AWS_IOT_DEFENDER_FORMAT_CBOR
-    AWS IoT Defender Use Long Tag: Enabled
-    
-  Module "AWS Client Credentials"
-    Header file to #include in ra_cfg/aws/aws_clientcredential.h: 
-    
+  Module "AWS Logging"
   Module "AWS Demo dev_mode_key_provisioning"
-    Header file to #include in ra_cfg/aws/aws_clientcredential_keys.h: 
-    
-  Module "AWS Cellular Sockets Wrapper (rm_aws_cellular_sockets_wrapper)"
+  Module "AWS Cellular Sockets Wrapper"
   Module "AWS Cellular Interface on RYZ (rm_cellular_ryz_aws)"
   Module "AWS Cellular Platform (rm_cellular_platform_aws)"
   Module "AWS Cellular Interface Common"
@@ -942,61 +949,21 @@ FSP Configuration
     Socket Max Send Data Length (bytes): 1460
     Socket Max Receive Data Length (bytes): 1500
     GetHostByName Support: Enabled (default)
-    Comm Interface Send Timeout (ms): 200
+    Comm Interface Send Timeout (ms): 1000
     Comm Interface Receive Timeout (ms): 200
-    Static Allocation Context: Enabled (default)
-    Comm Interface Static Allocation Context: Enabled (default)
+    Static Allocation Context: Enabled
+    Comm Interface Static Allocation Context: Enabled
     Default RAT: CATM1
     GSM Support: Disabled (default)
-    Static Socket Context: Enabled (default)
-    Log Level: Off
+    Static Socket Context: Enabled
+    AT Command Timeout (ms): 5000
+    AT Command Raw Timeout (ms): 5000
+    AT Command Response prefix length: 5000
     
   Module "Cellular Comm Interface on UART (rm_cellular_comm_uart_aws)"
     Parameter Checking: Default (BSP)
     Receive Buffer: 65536
     Receive Transfer Size: 512
-    
-  Module "UART (r_sci_uart)"
-    Parameter Checking: Default (BSP)
-    FIFO Support: Enable
-    DTC Support: Enable
-    Flow Control Support: Enable
-    RS-485 Support: Disable
-    
-  Module "AWS PKCS11 PAL on LittleFS (rm_aws_pkcs11_pal_littlefs)"
-  Module "LittleFS"
-    Custom lfs_util.h: 
-    Thread Safe: Disabled
-    Use Malloc: Enabled
-    Use Assert: Enabled
-    Debug Messages: Disabled
-    Warning Messages: Disabled
-    Error Messages: Disabled
-    Trace Messages: Disabled
-    Intrinsics: Enabled
-    Instance Name for STDIO wrapper: g_rm_littlefs0
-    
-  Module "LittleFS on Flash (rm_littlefs_flash)"
-    Parameter Checking: Default (BSP)
-    
-  Module "Flash (r_flash_hp)"
-    Parameter Checking: Default (BSP)
-    Code Flash Programming Enable: Disabled
-    Data Flash Programming Enable: Enabled
-    
-  Module "FreeRTOS Heap 4"
-  Module "Transfer (r_dtc)"
-    Parameter Checking: Default (BSP)
-    Linker section to keep DTC vector table: .fsp_dtc_vector_table
-    
-  Module "Clock Generation Circuit (r_cgc)"
-    Parameter Checking: Default (BSP)
-    
-  Module "Timer, General PWM (r_gpt)"
-    Parameter Checking: Default (BSP)
-    Pin Output Support: Disabled
-    Write Protect Enable: Disabled
-    Clock Source: PCLKD
     
   Module "HS300X Temperature/Humidity Sensor (rm_hs300x)"
     Parameter Checking: Default (BSP)
@@ -1014,16 +981,17 @@ FSP Configuration
     DTC on Transmission and Reception: Disabled
     10-bit slave addressing: Disabled
     
-  Module "External IRQ (r_icu)"
-    Parameter Checking: Default (BSP)
-    
   Module "ZMOD4XXX Gas Sensor (rm_zmod4xxx)"
     Parameter Checking: Default (BSP)
     
-  Module "ZMOD4510 OAQ 1st Generation (rm_zmod4xxx)"
   Module "ZMOD4410 IAQ 1st Generation (rm_zmod4xxx)"
-    [DEPRECATED] Power mode (This will be removed in FSP v4.0.0): Continuous
+  Module "Key Injection for PSA Crypto"
+  Module "ZMOD4510 OAQ 1st Generation (rm_zmod4xxx)"
+  Module "OB1203 Light/Proximity/PPG Sensor (rm_ob1203)"
+    Parameter Checking: Default (BSP)
     
+  Module "OB1203 PPG mode (rm_ob1203)"
+  Module "OB1203 Proximity mode (rm_ob1203)"
   FreeRTOS
     General: Custom FreeRTOSConfig.h: 
     General: Use Preemption: Enabled
@@ -1036,7 +1004,7 @@ FSP Configuration
     General: Cpu Clock Hz: SystemCoreClock
     General: Tick Rate Hz: 1000
     General: Max Priorities: 5
-    General: Minimal Stack Size: 128
+    General: Minimal Stack Size: 512
     General: Max Task Name Len: 16
     Stats: Use Trace Facility: Disabled
     Stats: Use Stats Formatting Functions: Disabled
@@ -1055,9 +1023,10 @@ FSP Configuration
     General: Num Thread Local Storage Pointers: 5
     General: Stack Depth Type: uint32_t
     General: Message Buffer Length Type: size_t
+    Memory Allocation: Clear Memory on Free: Disabled
     Memory Allocation: Support Static Allocation: Enabled
     Memory Allocation: Support Dynamic Allocation: Enabled
-    Memory Allocation: Total Heap Size: 0x30000
+    Memory Allocation: Total Heap Size: 0x20000
     Memory Allocation: Application Allocated Heap: Disabled
     Stats: Generate Run Time Stats: Disabled
     Timers: Use Timers: Enabled
@@ -1086,27 +1055,30 @@ FSP Configuration
     Optional Functions: xTaskResumeFromISR() Function: Enabled
     RA: Hardware Stack Monitor: Disabled
     Logging: Print String Function: printf(x)
-    Logging: Logging Max Message Length: 192
     Logging: Logging Include Time and Task Name: Disabled
     
   HAL
     Instance "g_ioport I/O Port (r_ioport)"
       Name: g_ioport
-      Port 1 ELC Trigger Source: Disabled
-      Port 2 ELC Trigger Source: Disabled
-      Port 3 ELC Trigger Source: Disabled
-      Port 4 ELC Trigger Source: Disabled
-      Port B ELC Trigger Source: Disabled
-      Port C ELC Trigger Source: Disabled
-      Port D ELC Trigger Source: Disabled
-      Port E ELC Trigger Source: Disabled
+      1st Port ELC Trigger Source: Disabled
+      2nd Port ELC Trigger Source: Disabled
+      3rd Port ELC Trigger Source: Disabled
+      4th Port ELC Trigger Source: Disabled
       Pin Configuration Name: g_bsp_pin_cfg
       
     Instance "FreeRTOS Port (rm_freertos_port)"
     Instance "FreeRTOS Heap 4"
     Instance "g_cgc0 Clock Generation Circuit (r_cgc)"
       Name: g_cgc0
-      NMI Callback: NULL
+      Enable main oscillator stop detection via the NMI interrupt: Enabled
+      Oscillation Stop Detection Callback: NULL
+      Sub Clock Oscillation Stop Detection Settings: Enable sub clock oscillator stop detection via the SOSC_STOP interrupt: Disabled
+      Sub Clock Oscillation Stop Detection Settings: Sub Clock Oscillation Stop Detection Time: 0
+      Sub Clock Oscillation Stop Detection Settings: Sub Clock Oscillation Stop Detection Interrupt Priority: Disabled
+      Main Oscillation Stop Detection Settings: Enable main clock oscillator stop detection via the MOSC_STOP interrupt: Disabled
+      Main Oscillation Stop Detection Settings: Main Oscillation Stop Detection Time: 0
+      Main Oscillation Stop Detection Settings: Main Oscillation Stop Detection Interrupt Priority: Disabled
+      Oscillator Stop Detection Settings: Clock Switch Enable for Oscillation Stop Detected of SDADCCLK: Disabled
       
     Instance "g_uart UART (r_sci_uart)"
       General: Name: g_uart
@@ -1141,11 +1113,10 @@ FSP Configuration
         Destination Address Mode: Fixed
         Source Address Mode: Incremented
         Repeat Area (Unused in Normal Mode): Source
-        Destination Pointer: NULL
-        Source Pointer: NULL
         Interrupt Frequency: After all transfers have completed
         Number of Transfers: 0
         Number of Blocks (Valid only in Block Mode): 0
+        Number of Transfer Descriptors: 1
         Activation Source: SCI3 TXI (Transmit data empty)
         
       Instance "g_transfer3 Transfer (r_dtc) SCI3 RXI (Received data full)"
@@ -1155,11 +1126,10 @@ FSP Configuration
         Destination Address Mode: Incremented
         Source Address Mode: Fixed
         Repeat Area (Unused in Normal Mode): Destination
-        Destination Pointer: NULL
-        Source Pointer: NULL
         Interrupt Frequency: After all transfers have completed
         Number of Transfers: 0
         Number of Blocks (Valid only in Block Mode): 0
+        Number of Transfer Descriptors: 1
         Activation Source: SCI3 RXI (Received data full)
         
     Instance "g_timer0 Timer, General PWM (r_gpt)"
@@ -1200,8 +1170,8 @@ FSP Configuration
       Extra Features: Output Disable: POEG Link: POEG Channel 0
       Extra Features: Output Disable: Output Disable POEG Trigger: 
       Extra Features: ADC Trigger: Start Event Trigger (Channels with GTINTAD only): 
-      Extra Features: Dead Time: Dead Time Count Up (Raw Counts): 0
-      Extra Features: Dead Time: Dead Time Count Down (Raw Counts) (Channels with GTDVD only): 0
+      Extra Features: Dead Time (Value range varies with Channel): Dead Time Count Up (Raw Counts): 0
+      Extra Features: Dead Time (Value range varies with Channel): Dead Time Count Down (Raw Counts) (Channels with GTDVD only): 0
       Extra Features: ADC Trigger (Channels with GTADTRA only): ADC A Compare Match (Raw Counts): 0
       Extra Features: ADC Trigger (Channels with GTADTRB only): ADC B Compare Match (Raw Counts): 0
       Extra Features: Interrupt Skipping (Channels with GTITC only): Interrupt to Count: None
@@ -1248,8 +1218,8 @@ FSP Configuration
       Extra Features: Output Disable: POEG Link: POEG Channel 0
       Extra Features: Output Disable: Output Disable POEG Trigger: 
       Extra Features: ADC Trigger: Start Event Trigger (Channels with GTINTAD only): 
-      Extra Features: Dead Time: Dead Time Count Up (Raw Counts): 0
-      Extra Features: Dead Time: Dead Time Count Down (Raw Counts) (Channels with GTDVD only): 0
+      Extra Features: Dead Time (Value range varies with Channel): Dead Time Count Up (Raw Counts): 0
+      Extra Features: Dead Time (Value range varies with Channel): Dead Time Count Down (Raw Counts) (Channels with GTDVD only): 0
       Extra Features: ADC Trigger (Channels with GTADTRA only): ADC A Compare Match (Raw Counts): 0
       Extra Features: ADC Trigger (Channels with GTADTRB only): ADC B Compare Match (Raw Counts): 0
       Extra Features: Interrupt Skipping (Channels with GTITC only): Interrupt to Count: None
@@ -1296,8 +1266,8 @@ FSP Configuration
       Extra Features: Output Disable: POEG Link: POEG Channel 0
       Extra Features: Output Disable: Output Disable POEG Trigger: 
       Extra Features: ADC Trigger: Start Event Trigger (Channels with GTINTAD only): 
-      Extra Features: Dead Time: Dead Time Count Up (Raw Counts): 0
-      Extra Features: Dead Time: Dead Time Count Down (Raw Counts) (Channels with GTDVD only): 0
+      Extra Features: Dead Time (Value range varies with Channel): Dead Time Count Up (Raw Counts): 0
+      Extra Features: Dead Time (Value range varies with Channel): Dead Time Count Down (Raw Counts) (Channels with GTDVD only): 0
       Extra Features: ADC Trigger (Channels with GTADTRA only): ADC A Compare Match (Raw Counts): 0
       Extra Features: ADC Trigger (Channels with GTADTRB only): ADC B Compare Match (Raw Counts): 0
       Extra Features: Interrupt Skipping (Channels with GTITC only): Interrupt to Count: None
@@ -1313,117 +1283,76 @@ FSP Configuration
       Digital Filtering: Disabled
       Digital Filtering Sample Clock (Only valid when Digital Filtering is Enabled): PCLK / 64
       Callback: sensorOBIRQCallback
-      Pin Interrupt Priority: Priority 1
+      Pin Interrupt Priority: Priority 2
       
-  Thread "App Thread"
-    Symbol: app_thread
-    Name: App Thread
-    Stack size (bytes): 16384
-    Priority: 4
+  Thread "Console Thread"
+    Symbol: console_thread
+    Name: Console Thread
+    Stack size (bytes): 4096
+    Priority: 3
     Thread Context: NULL
     Memory Allocation: Static
     Allocate Secure Context: Enable
     
-    Instance "AWS Core MQTT"
-      Instance "AWS Transport Interface on MbedTLS/PKCS11 (rm_aws_transport_interface_port)"
-        Instance "AWS PKCS11 to MbedTLS3"
-          Instance "AWS PKCS11 PAL on LittleFS (rm_aws_pkcs11_pal_littlefs)"
-            Instance "LittleFS"
-              
-              Instance "LittleFS on Flash (rm_littlefs_flash)"
-                Name: g_rm_littlefs0
-                Read Size: 1
-                Program Size: 4
-                Block Size (bytes): 128
-                Block Count: (BSP_DATA_FLASH_SIZE_BYTES/256)
-                Block Cycles: 1024
-                Cache Size: 64
-                Lookahead Size: 16
-                
-                Instance "g_flash0 Flash (r_flash_hp)"
-                  Name: g_flash0
-                  Data Flash Background Operation: Disabled
-                  Callback: NULL
-                  Flash Ready Interrupt Priority: Disabled
-                  Flash Error Interrupt Priority: Disabled
-                  
-          Instance "FreeRTOS+Crypto"
-            Instance "MbedTLS"
-              Instance "MbedTLS (Crypto Only)"
-                Instance "Mbed Crypto HW Acceleration (rm_psa_crypto)"
-                  Instance "SCE Compatibility Mode"
-              Instance "MbedTLS FSP Port (rm_mbedtls)"
-        Instance "AWS C SDK Logging"
-          Instance "AWS IoT Common"
-            Instance "AWS Client Credentials"
-        Instance "AWS Demo dev_mode_key_provisioning"
-          Instance "AWS Client Credentials"
-        Instance "AWS Cellular Sockets Wrapper (rm_aws_cellular_sockets_wrapper)"
-          Cellular Context ID: 1
-          
-          Instance "AWS Cellular Interface on RYZ (rm_cellular_ryz_aws)"
-            Module Reset Pin (Port Number): 04
-            Module Reset Pin (Pin Number): 09
-            
-            Instance "AWS Cellular Platform (rm_cellular_platform_aws)"
-            Instance "AWS Cellular Interface Common"
-            Instance "Cellular Comm Interface on UART (rm_cellular_comm_uart_aws)"
-              Name: g_cellular_comm_interface_on_uart
-              
-              Instance "g_uart0 UART (r_sci_uart)"
-                General: Name: g_uart0
-                General: Channel: 0
-                General: Data Bits: 8bits
-                General: Parity: None
-                General: Stop Bits: 1bit
-                Baud: Baud Rate: 921600
-                Baud: Baud Rate Modulation: Enabled
-                Baud: Max Error (%): 5
-                Flow Control: CTS/RTS Selection: Hardware CTS and Software RTS
-                Flow Control: Software RTS Port: 04
-                Flow Control: Software RTS Pin: 12
-                Extra: Clock Source: Internal Clock
-                Extra: Start bit detection: Falling Edge
-                Extra: Noise Filter: Enable
-                Extra: Receive FIFO Trigger Level: Max
-                Extra: RS-485: DE Pin: Disable
-                Extra: RS-485: DE Pin Polarity: Active High
-                Extra: RS-485: DE Port Number: Disabled
-                Extra: RS-485: DE Pin Number: Disabled
-                Interrupts: Callback: comm_uart_aws_callback
-                Interrupts: Receive Interrupt Priority: Priority 1
-                Interrupts: Transmit Data Empty Interrupt Priority: Priority 2
-                Interrupts: Transmit End Interrupt Priority: Priority 2
-                Interrupts: Error Interrupt Priority: Priority 2
-                
-                Instance "g_transfer0 Transfer (r_dtc) SCI0 TXI (Transmit data empty)"
-                  Name: g_transfer0
-                  Mode: Normal
-                  Transfer Size: 1 Byte
-                  Destination Address Mode: Fixed
-                  Source Address Mode: Incremented
-                  Repeat Area (Unused in Normal Mode): Source
-                  Destination Pointer: NULL
-                  Source Pointer: NULL
-                  Interrupt Frequency: After all transfers have completed
-                  Number of Transfers: 0
-                  Number of Blocks (Valid only in Block Mode): 0
-                  Activation Source: SCI0 TXI (Transmit data empty)
-                  
-                Instance "g_transfer1 Transfer (r_dtc) SCI0 RXI (Receive data full)"
-                  Name: g_transfer1
-                  Mode: Normal
-                  Transfer Size: 1 Byte
-                  Destination Address Mode: Incremented
-                  Source Address Mode: Fixed
-                  Repeat Area (Unused in Normal Mode): Destination
-                  Destination Pointer: NULL
-                  Source Pointer: NULL
-                  Interrupt Frequency: After all transfers have completed
-                  Number of Transfers: 0
-                  Number of Blocks (Valid only in Block Mode): 0
-                  Activation Source: SCI0 RXI (Receive data full)
-                  
+    Instance "g_console_uart UART (r_sci_uart)"
+      General: Name: g_console_uart
+      General: Channel: 5
+      General: Data Bits: 8bits
+      General: Parity: None
+      General: Stop Bits: 1bit
+      Baud: Baud Rate: 115200
+      Baud: Baud Rate Modulation: Disabled
+      Baud: Max Error (%): 5
+      Flow Control: CTS/RTS Selection: Hardware RTS
+      Flow Control: Software RTS Port: Disabled
+      Flow Control: Software RTS Pin: Disabled
+      Extra: Clock Source: Internal Clock
+      Extra: Start bit detection: Falling Edge
+      Extra: Noise Filter: Disable
+      Extra: Receive FIFO Trigger Level: Max
+      Extra: RS-485: DE Pin: Disable
+      Extra: RS-485: DE Pin Polarity: Active High
+      Extra: RS-485: DE Port Number: Disabled
+      Extra: RS-485: DE Pin Number: Disabled
+      Interrupts: Callback: user_uart_callback
+      Interrupts: Receive Interrupt Priority: Priority 12
+      Interrupts: Transmit Data Empty Interrupt Priority: Priority 12
+      Interrupts: Transmit End Interrupt Priority: Priority 12
+      Interrupts: Error Interrupt Priority: Priority 12
+      
+    Instance "user_flash Flash (r_flash_hp)"
+      Name: user_flash
+      Data Flash Background Operation: Disabled
+      Callback: flash_callback
+      Flash Ready Interrupt Priority: Priority 2
+      Flash Error Interrupt Priority: Priority 2
+      
+    Instance "g_catm1_uart UART (r_sci_uart)"
+      General: Name: g_catm1_uart
+      General: Channel: 0
+      General: Data Bits: 8bits
+      General: Parity: None
+      General: Stop Bits: 1bit
+      Baud: Baud Rate: 921600
+      Baud: Baud Rate Modulation: Disabled
+      Baud: Max Error (%): 5
+      Flow Control: CTS/RTS Selection: Hardware RTS
+      Flow Control: Software RTS Port: Disabled
+      Flow Control: Software RTS Pin: Disabled
+      Extra: Clock Source: Internal Clock
+      Extra: Start bit detection: Falling Edge
+      Extra: Noise Filter: Disable
+      Extra: Receive FIFO Trigger Level: Max
+      Extra: RS-485: DE Pin: Disable
+      Extra: RS-485: DE Pin Polarity: Active High
+      Extra: RS-485: DE Port Number: Disabled
+      Extra: RS-485: DE Pin Number: Disabled
+      Interrupts: Callback: catm1_uart_callback
+      Interrupts: Receive Interrupt Priority: Priority 12
+      Interrupts: Transmit Data Empty Interrupt Priority: Priority 12
+      Interrupts: Transmit End Interrupt Priority: Priority 12
+      Interrupts: Error Interrupt Priority: Priority 12
+      
   Thread "Sensor Thread"
     Symbol: sensor_thread
     Name: Sensor Thread
@@ -1561,115 +1490,261 @@ FSP Configuration
           Callback: rm_comms_i2c_callback
           Interrupt Priority Level: Priority 5
           
-  Thread "Console Thread"
-    Symbol: console_thread
-    Name: Console Thread
-    Stack size (bytes): 4096
-    Priority: 5
+  Thread "App Thread"
+    Symbol: app_thread
+    Name: App Thread
+    Stack size (bytes): 0x12000
+    Priority: 3
     Thread Context: NULL
     Memory Allocation: Static
     Allocate Secure Context: Enable
     
-    Instance "g_console_uart UART (r_sci_uart)"
-      General: Name: g_console_uart
-      General: Channel: 5
-      General: Data Bits: 8bits
-      General: Parity: None
-      General: Stop Bits: 1bit
-      Baud: Baud Rate: 115200
-      Baud: Baud Rate Modulation: Disabled
-      Baud: Max Error (%): 5
-      Flow Control: CTS/RTS Selection: Hardware RTS
-      Flow Control: Software RTS Port: Disabled
-      Flow Control: Software RTS Pin: Disabled
-      Extra: Clock Source: Internal Clock
-      Extra: Start bit detection: Falling Edge
-      Extra: Noise Filter: Disable
-      Extra: Receive FIFO Trigger Level: Max
-      Extra: RS-485: DE Pin: Disable
-      Extra: RS-485: DE Pin Polarity: Active High
-      Extra: RS-485: DE Port Number: Disabled
-      Extra: RS-485: DE Pin Number: Disabled
-      Interrupts: Callback: user_uart_callback
-      Interrupts: Receive Interrupt Priority: Priority 12
-      Interrupts: Transmit Data Empty Interrupt Priority: Priority 12
-      Interrupts: Transmit End Interrupt Priority: Priority 12
-      Interrupts: Error Interrupt Priority: Priority 12
-      
-    Instance "user_flash Flash (r_flash_hp)"
-      Name: user_flash
-      Data Flash Background Operation: Disabled
-      Callback: flash_callback
-      Flash Ready Interrupt Priority: Priority 2
-      Flash Error Interrupt Priority: Priority 2
-      
-    Instance "g_catm1_uart UART (r_sci_uart)"
-      General: Name: g_catm1_uart
-      General: Channel: 0
-      General: Data Bits: 8bits
-      General: Parity: None
-      General: Stop Bits: 1bit
-      Baud: Baud Rate: 921600
-      Baud: Baud Rate Modulation: Disabled
-      Baud: Max Error (%): 5
-      Flow Control: CTS/RTS Selection: Hardware RTS
-      Flow Control: Software RTS Port: Disabled
-      Flow Control: Software RTS Pin: Disabled
-      Extra: Clock Source: Internal Clock
-      Extra: Start bit detection: Falling Edge
-      Extra: Noise Filter: Disable
-      Extra: Receive FIFO Trigger Level: Max
-      Extra: RS-485: DE Pin: Disable
-      Extra: RS-485: DE Pin Polarity: Active High
-      Extra: RS-485: DE Port Number: Disabled
-      Extra: RS-485: DE Pin Number: Disabled
-      Interrupts: Callback: catm1_uart_callback
-      Interrupts: Receive Interrupt Priority: Priority 12
-      Interrupts: Transmit Data Empty Interrupt Priority: Priority 12
-      Interrupts: Transmit End Interrupt Priority: Priority 12
-      Interrupts: Error Interrupt Priority: Priority 12
-      
+    Instance "AWS Core MQTT"
+      Instance "AWS Transport Interface on MbedTLS/PKCS11 (rm_aws_transport_interface_port)"
+        Instance "AWS Cellular Sockets Wrapper"
+          Cellular Context ID: 1
+          
+          Instance "AWS Cellular Interface on RYZ (rm_cellular_ryz_aws)"
+            Module Reset Pin (Port Number): 04
+            Module Reset Pin (Pin Number): 09
+            
+            Instance "AWS Cellular Platform (rm_cellular_platform_aws)"
+            Instance "AWS Cellular Interface Common"
+            Instance "Cellular Comm Interface on UART (rm_cellular_comm_uart_aws)"
+              Name: g_cellular_comm_interface_on_uart
+              
+              Instance "g_uart0 UART (r_sci_uart)"
+                General: Name: g_uart0
+                General: Channel: 0
+                General: Data Bits: 8bits
+                General: Parity: None
+                General: Stop Bits: 1bit
+                Baud: Baud Rate: 921600
+                Baud: Baud Rate Modulation: Enabled
+                Baud: Max Error (%): 5
+                Flow Control: CTS/RTS Selection: Hardware CTS and Software RTS
+                Flow Control: Software RTS Port: 04
+                Flow Control: Software RTS Pin: 12
+                Extra: Clock Source: Internal Clock
+                Extra: Start bit detection: Falling Edge
+                Extra: Noise Filter: Disable
+                Extra: Receive FIFO Trigger Level: Max
+                Extra: RS-485: DE Pin: Disable
+                Extra: RS-485: DE Pin Polarity: Active High
+                Extra: RS-485: DE Port Number: Disabled
+                Extra: RS-485: DE Pin Number: Disabled
+                Interrupts: Callback: comm_uart_aws_callback
+                Interrupts: Receive Interrupt Priority: Priority 1
+                Interrupts: Transmit Data Empty Interrupt Priority: Priority 2
+                Interrupts: Transmit End Interrupt Priority: Priority 2
+                Interrupts: Error Interrupt Priority: Priority 2
+                
+                Instance "g_transfer0 Transfer (r_dtc) SCI0 TXI (Transmit data empty)"
+                  Name: g_transfer0
+                  Mode: Normal
+                  Transfer Size: 1 Byte
+                  Destination Address Mode: Fixed
+                  Source Address Mode: Incremented
+                  Repeat Area (Unused in Normal Mode): Source
+                  Interrupt Frequency: After all transfers have completed
+                  Number of Transfers: 0
+                  Number of Blocks (Valid only in Block Mode): 0
+                  Number of Transfer Descriptors: 1
+                  Activation Source: SCI0 TXI (Transmit data empty)
+                  
+                Instance "g_transfer1 Transfer (r_dtc) SCI0 RXI (Receive data full)"
+                  Name: g_transfer1
+                  Mode: Normal
+                  Transfer Size: 1 Byte
+                  Destination Address Mode: Incremented
+                  Source Address Mode: Fixed
+                  Repeat Area (Unused in Normal Mode): Destination
+                  Interrupt Frequency: After all transfers have completed
+                  Number of Transfers: 0
+                  Number of Blocks (Valid only in Block Mode): 0
+                  Number of Transfer Descriptors: 1
+                  Activation Source: SCI0 RXI (Receive data full)
+                  
+        Instance "AWS PKCS11 to MbedTLS"
+          Instance "AWS PKCS11 PAL on LittleFS (rm_aws_pkcs11_pal_littlefs)"
+            Instance "LittleFS"
+              
+              Instance "LittleFS on Flash (rm_littlefs_flash)"
+                Name: g_rm_littlefs0
+                Read Size: 1
+                Program Size: 4
+                Block Size (bytes): 128
+                Block Count: (BSP_DATA_FLASH_SIZE_BYTES/256)
+                Block Cycles: 1024
+                Cache Size: 64
+                Lookahead Size: 16
+                
+                Instance "g_flash0 Flash (r_flash_hp)"
+                  Name: g_flash0
+                  Data Flash Background Operation: Disabled
+                  Callback: NULL
+                  Flash Ready Interrupt Priority: Disabled
+                  Flash Error Interrupt Priority: Disabled
+                  
+          Instance "FreeRTOS MbedTLS Port"
+            Instance "MbedTLS"
+              Instance "MbedTLS (Crypto Only)"
+                Instance "Mbed Crypto H/W Acceleration (rm_psa_crypto)"
+                  Instance "SCE Compatibility Mode"
+                    Instance "Key Injection for PSA Crypto"
+                      General: Name: g_sce9_key_install
+                      
+                Instance "LittleFS"
+                  
+                  Instance "LittleFS on Flash (rm_littlefs_flash)"
+                    Name: g_rm_littlefs0
+                    Read Size: 1
+                    Program Size: 4
+                    Block Size (bytes): 128
+                    Block Count: (BSP_DATA_FLASH_SIZE_BYTES/256)
+                    Block Cycles: 1024
+                    Cache Size: 64
+                    Lookahead Size: 16
+                    
+                    Instance "g_flash0 Flash (r_flash_hp)"
+                      Name: g_flash0
+                      Data Flash Background Operation: Disabled
+                      Callback: NULL
+                      Flash Ready Interrupt Priority: Disabled
+                      Flash Error Interrupt Priority: Disabled
+                      
+              Instance "MbedTLS FSP Port (rm_mbedtls)"
+        Instance "AWS Logging"
+        Instance "AWS Demo dev_mode_key_provisioning"
   Thread "Oximeter Thread"
     Symbol: oximeter_thread
     Name: Oximeter Thread
     Stack size (bytes): 2048
-    Priority: 5
+    Priority: 4
     Thread Context: NULL
     Memory Allocation: Static
     Allocate Secure Context: Enable
     
-    Instance "g_comms_i2c_device3 I2C Communication Device (rm_comms_i2c)"
-      Name: g_comms_i2c_device3
+    Instance "g_ob1203_sensor0 OB1203 Light/Proximity/PPG Sensor (rm_ob1203)"
+      Name: g_ob1203_sensor0
       Semaphore Timeout (RTOS only): 0xFFFFFFFF
-      Slave Address: 0x53
-      Address Mode: 7-Bit
-      Callback: comms_i2c_callback
+      Comms I2C Callback: ob1203_comms_i2c_callback
+      IRQ Callback: ob1203_irq_callback
       
-      Instance "g_comms_i2c_bus0 I2C Shared Bus (rm_comms_i2c)"
-        Name: g_comms_i2c_bus0
-        Bus Timeout: 0xFFFFFFFF
-        Semaphore for Blocking (RTOS only): Use
-        Recursive Mutex for Bus (RTOS only): Use
+      Instance "OB1203 PPG mode (rm_ob1203)"
+        Operation Mode: PPG2 mode
+        Interrupt Type: Data
+        Gain: 1
+        IR LED Current: 0x366
+        Red LED Current: 0x1B3
+        Power Save Mode: Disabled
+        LED Order: IR LED first, Red LED second
+        IR LED Analog Cancellation: Disabled
+        Red LED Analog Cancellation: Disabled
+        Number of Averaged PPG Samples: 8 consecutives samples are averaged
+        Pulse Width and Measurement Period: Pulse width:130us. Measurement Period:1.25ms
+        FIFO Rollover: Enabled
+        FIFO Almost Full Value: 0x0C
         
-        Instance "g_i2c_master0 I2C Master (r_iic_master)"
-          Name: g_i2c_master0
-          Channel: 0
-          Rate: Fast-mode
-          Rise Time (ns): 120
-          Fall Time (ns): 120
-          Duty Cycle (%): 50
-          Slave Address: 0x00
+        Instance "g_comms_i2c_device3 I2C Communication Device (rm_comms_i2c)"
+          Name: g_comms_i2c_device3
+          Semaphore Timeout (RTOS only): 0xFFFFFFFF
+          Slave Address: 0x53
           Address Mode: 7-Bit
-          Timeout Mode: Short Mode
-          Timeout during SCL Low: Enabled
-          Callback: rm_comms_i2c_callback
-          Interrupt Priority Level: Priority 5
+          Callback: rm_ob1203_comms_i2c_callback
           
+          Instance "g_comms_i2c_bus0 I2C Shared Bus (rm_comms_i2c)"
+            Name: g_comms_i2c_bus0
+            Bus Timeout: 0xFFFFFFFF
+            Semaphore for Blocking (RTOS only): Use
+            Recursive Mutex for Bus (RTOS only): Use
+            
+            Instance "g_i2c_master0 I2C Master (r_iic_master)"
+              Name: g_i2c_master0
+              Channel: 0
+              Rate: Fast-mode
+              Rise Time (ns): 120
+              Fall Time (ns): 120
+              Duty Cycle (%): 50
+              Slave Address: 0x00
+              Address Mode: 7-Bit
+              Timeout Mode: Short Mode
+              Timeout during SCL Low: Enabled
+              Callback: rm_comms_i2c_callback
+              Interrupt Priority Level: Priority 5
+              
+      Instance "g_external_irq14 External IRQ (r_icu)"
+        Name: g_external_irq14
+        Channel: 14
+        Trigger: Falling
+        Digital Filtering: Disabled
+        Digital Filtering Sample Clock (Only valid when Digital Filtering is Enabled): PCLK / 64
+        Callback: rm_ob1203_irq_callback
+        Pin Interrupt Priority: Priority 12
+        
+    Instance "g_ob1203_sensor1 OB1203 Light/Proximity/PPG Sensor (rm_ob1203)"
+      Name: g_ob1203_sensor1
+      Semaphore Timeout (RTOS only): 0xFFFFFFFF
+      Comms I2C Callback: ob1203_comms_i2c_callback
+      IRQ Callback: ob1203_irq_callback
+      
+      Instance "OB1203 Proximity mode (rm_ob1203)"
+        Interrupt Type: Normal
+        The Number of Similar Consecutive Interrupt Events: 0x02
+        Sleep after Interrupt: Disabled
+        Gain: 1
+        LED Current: 0x100
+        LED Order: IR LED first, Red LED second
+        LED Analog Cancellation: Disabled
+        LED Digital Cancellation: 0x100
+        Number of LED pulses: 8 pulses
+        Pulse Width and Measurement Period: Pulse width:42us. Measurement Period:100ms
+        Moving Average: Disabled
+        Hysteresis: 0x00
+        Upper Threshold: 0x0600
+        Lower Threshold: 0x0000
+        
+        Instance "g_comms_i2c_device6 I2C Communication Device (rm_comms_i2c)"
+          Name: g_comms_i2c_device6
+          Semaphore Timeout (RTOS only): 0xFFFFFFFF
+          Slave Address: 0x53
+          Address Mode: 7-Bit
+          Callback: rm_ob1203_comms_i2c_callback
+          
+          Instance "g_comms_i2c_bus0 I2C Shared Bus (rm_comms_i2c)"
+            Name: g_comms_i2c_bus0
+            Bus Timeout: 0xFFFFFFFF
+            Semaphore for Blocking (RTOS only): Use
+            Recursive Mutex for Bus (RTOS only): Use
+            
+            Instance "g_i2c_master0 I2C Master (r_iic_master)"
+              Name: g_i2c_master0
+              Channel: 0
+              Rate: Fast-mode
+              Rise Time (ns): 120
+              Fall Time (ns): 120
+              Duty Cycle (%): 50
+              Slave Address: 0x00
+              Address Mode: 7-Bit
+              Timeout Mode: Short Mode
+              Timeout during SCL Low: Enabled
+              Callback: rm_comms_i2c_callback
+              Interrupt Priority Level: Priority 5
+              
+      Instance "g_external_irq14 External IRQ (r_icu)"
+        Name: g_external_irq14
+        Channel: 14
+        Trigger: Falling
+        Digital Filtering: Disabled
+        Digital Filtering Sample Clock (Only valid when Digital Filtering is Enabled): PCLK / 64
+        Callback: rm_ob1203_irq_callback
+        Pin Interrupt Priority: Priority 12
+        
   Thread "Zmod Thread"
     Symbol: zmod_thread
     Name: Zmod Thread
-    Stack size (bytes): 1024
-    Priority: 1
+    Stack size (bytes): 2048
+    Priority: 3
     Thread Context: NULL
     Memory Allocation: Static
     Allocate Secure Context: Enable
@@ -1716,11 +1791,11 @@ FSP Configuration
         Digital Filtering: Disabled
         Digital Filtering Sample Clock (Only valid when Digital Filtering is Enabled): PCLK / 64
         Callback: rm_zmod4xxx_irq_callback
-        Pin Interrupt Priority: Priority 2
+        Pin Interrupt Priority: Priority 3
         
   Object "g_topic_queue Queue"
     Symbol: g_topic_queue
-    Item Size (Bytes): 64
+    Item Size (Bytes): 65
     Queue Length (Items): 16
     Memory Allocation: Static
     
@@ -1745,5 +1820,41 @@ FSP Configuration
     
   Object "g_ob1203_semaphore Binary Semaphore"
     Symbol: g_ob1203_semaphore
+    Memory Allocation: Static
+    
+  Object "g_ob1203_queue Queue"
+    Symbol: g_ob1203_queue
+    Item Size (Bytes): 10
+    Queue Length (Items): 1
+    Memory Allocation: Static
+    
+  Object "g_hs3001_queue Queue"
+    Symbol: g_hs3001_queue
+    Item Size (Bytes): 8
+    Queue Length (Items): 1
+    Memory Allocation: Static
+    
+  Object "g_iaq_queue Queue"
+    Symbol: g_iaq_queue
+    Item Size (Bytes): 12
+    Queue Length (Items): 1
+    Memory Allocation: Static
+    
+  Object "g_oaq_queue Queue"
+    Symbol: g_oaq_queue
+    Item Size (Bytes): 4
+    Queue Length (Items): 1
+    Memory Allocation: Static
+    
+  Object "g_icm_queue Queue"
+    Symbol: g_icm_queue
+    Item Size (Bytes): 72
+    Queue Length (Items): 1
+    Memory Allocation: Static
+    
+  Object "g_icp_queue Queue"
+    Symbol: g_icp_queue
+    Item Size (Bytes): 16
+    Queue Length (Items): 1
     Memory Allocation: Static
     

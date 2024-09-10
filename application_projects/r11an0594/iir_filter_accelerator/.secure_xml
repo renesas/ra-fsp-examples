@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<raConfiguration version="7">
+<raConfiguration version="9">
   <generalSettings>
     <option key="#Board#" value="board.ra6t2mck"/>
     <option key="CPU" value="RA6T2"/>
@@ -9,11 +9,12 @@
     <option key="#DeviceCommand#" value="R7FA6T2BD"/>
     <option key="#RTOS#" value="_none"/>
     <option key="#pinconfiguration#" value="R7FA6T2BD3CFP.pincfg"/>
-    <option key="#FSPVersion#" value="3.6.0"/>
+    <option key="#FSPVersion#" value="5.2.0"/>
     <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra6t2_mck##"/>
     <option key="#SELECTED_TOOLCHAIN#" value="gcc-arm-embedded"/>
-    <option key="#ToolchainVersion#" value="9.3.1.20200408"/>
+    <option key="#ToolchainVersion#" value="13.2.1.arm-13-7"/>
   </generalSettings>
+  <raBspConfiguration/>
   <raClockConfiguration>
     <node id="board.clock.xtal.freq" mul="10000000" option="_edit"/>
     <node id="board.clock.hoco.freq" option="board.clock.hoco.freq.20m"/>
@@ -33,6 +34,7 @@
     <node id="board.clock.canfdclk.source" option="board.clock.canfdclk.source.disabled"/>
     <node id="board.clock.gptclk.source" option="board.clock.gptclk.source.disabled"/>
     <node id="board.clock.iicclk.source" option="board.clock.iicclk.source.disabled"/>
+    <node id="board.clock.gptinputclk.source" option="board.clock.gptinputclk.source.pclkd"/>
     <node id="board.clock.iclk.div" option="board.clock.iclk.div.1"/>
     <node id="board.clock.pclka.div" option="board.clock.pclka.div.2"/>
     <node id="board.clock.pclkb.div" option="board.clock.pclkb.div.4"/>
@@ -55,8 +57,8 @@
     <node id="board.clock.canfdclk.display" option="board.clock.canfdclk.display.value"/>
     <node id="board.clock.gptclk.display" option="board.clock.gptclk.display.value"/>
     <node id="board.clock.iicclk.display" option="board.clock.iicclk.display.value"/>
+    <node id="board.clock.gptinputclk.display" option="board.clock.gptinputclk.display.value"/>
   </raClockConfiguration>
-  <raModuleConfiguration/>
   <raPinConfiguration>
     <pincfg active="true" name="" symbol="">
       <configSetting altId="gpt2.gtioc2a.pd08" configurationId="gpt2.gtioc2a"/>

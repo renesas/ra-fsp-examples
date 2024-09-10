@@ -3,24 +3,11 @@
  * Version      : .
  * Description  : Flash menu details
  *********************************************************************************************************************/
-/**********************************************************************************************************************
- * DISCLAIMER
- * This software is supplied by Renesas Electronics Corporation and is only intended for use with Renesas products. No
- * other uses are authorized. This software is owned by Renesas Electronics Corporation and is protected under all
- * applicable laws, including copyright laws.
- * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
- * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED. TO THE MAXIMUM
- * EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES
- * SHALL BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR ANY REASON RELATED TO
- * THIS SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
- * Renesas reserves the right, without notice, to make changes to this software and to discontinue the availability of
- * this software. By using this software, you agree to the additional terms and conditions found by accessing the
- * following link:
- * http://www.renesas.com/disclaimer
- *
- * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
- *********************************************************************************************************************/
+/***********************************************************************************************************************
+* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
+*
+* SPDX-License-Identifier: BSD-3-Clause
+***********************************************************************************************************************/ 
 #include <console_menu/menu_flash.h>
 #include "FreeRTOS.h"
 #include "FreeRTOSconfig.h"
@@ -37,7 +24,7 @@
 
 static char_t s_print_buffer[BUFFER_LINE_LENGTH] = {};
 
-bool Key_skip = false;
+bool key_skip = false;
 bool g_cred_type_flag = false;
 
 typedef struct menu_fn_tbl
@@ -56,7 +43,7 @@ typedef struct menu_fn_tbl
 test_fn data_flash_menu(void)
 {
     fsp_err_t err = FSP_SUCCESS;
-    char Key_pressed = -1;
+    char key_pressed = -1;
     credentials_t credentials;
 
     /* Init flash memory */
@@ -64,7 +51,7 @@ test_fn data_flash_menu(void)
     assert(FSP_SUCCESS == err);
 
     /* Wait for input from console */
-    while (MENU_EXIT_CRTL != Key_pressed)
+    while (MENU_EXIT_CRTL != key_pressed)
     {
 
         /* Sub menu index initialization*/
@@ -85,27 +72,27 @@ test_fn data_flash_menu(void)
         printf_colour (SUB_OPTIONS7, ndx++);
         printf_colour (SUB_OPTIONS8, ndx++);
 
-        printf_colour (MENU_RETURN_INFO);
+        printf_colour (MENU_FLASH_SELECT);
 
         /* Check for key pressed when wrong key is pressed from Sub menu (other than a to h)*/
-        if (Key_skip == false)
+        if (key_skip == false)
         {
-            Key_pressed = (int8_t) wait_for_keypress ();
+            key_pressed = (int8_t) wait_for_keypress ();
         }
-        switch (Key_pressed)
+        switch (key_pressed)
         {
             case INFO:
             {
-                Key_skip = false;
+                key_skip = false;
                 /* Print data flash memory information on console */
                 flash_info ();
-                while (MENU_EXIT_CRTL != (Key_pressed = (int8_t) wait_for_keypress ()));
-                Key_pressed = 0;
+                while (MENU_EXIT_CRTL != (key_pressed = (int8_t) wait_for_keypress ()));
+                key_pressed = 0;
                 break;
             }
             case WRITE_CERTIFICATE:
             {
-                Key_skip = false;
+                key_skip = false;
                 /* select certificate type */
                 credentials = CERTIFICATE;
                 /* Print certificate write menu on console */
@@ -114,13 +101,13 @@ test_fn data_flash_menu(void)
                 err = aws_certficate_write (credentials);
                 assert(FSP_SUCCESS == err);
                 /* Wait for space key to be pressed to return to sub menu */
-                while (MENU_EXIT_CRTL != (Key_pressed = (int8_t) wait_for_keypress ()));
-                Key_pressed = 0;
+                while (MENU_EXIT_CRTL != (key_pressed = (int8_t) wait_for_keypress ()));
+                key_pressed = 0;
                 break;
             }
-            case WRITE_PRIVET_KEY:
+            case WRITE_PRIVATE_KEY:
             {
-                Key_skip = false;
+                key_skip = false;
                 /* select certificate type */
                 credentials = PRIVATE_KEY;
                 /* Print key write menu on console */
@@ -129,24 +116,24 @@ test_fn data_flash_menu(void)
                 err = aws_certficate_write (credentials);
                 assert(FSP_SUCCESS == err);
                 /* Wait for space key to be pressed to return to sub menu */
-                while (MENU_EXIT_CRTL != (Key_pressed = (int8_t) wait_for_keypress ()));
-                Key_pressed = 0;
+                while (MENU_EXIT_CRTL != (key_pressed = (int8_t) wait_for_keypress ()));
+                key_pressed = 0;
                 break;
             }
             case READ_FLASH:
             {
-                Key_skip = false;
+                key_skip = false;
                 /* Read data from flash memory */
                 err = flash_hp_data_read (true);
                 assert(FSP_SUCCESS == err);
                 /* Wait for space key to be pressed to return to sub menu */
-                while (MENU_EXIT_CRTL != (Key_pressed = (int8_t) wait_for_keypress ()));
-                Key_pressed = 0;
+                while (MENU_EXIT_CRTL != (key_pressed = (int8_t) wait_for_keypress ()));
+                key_pressed = 0;
                 break;
             }
             case WRITE_MQTT_END_POINT:
             {
-                Key_skip = false;
+                key_skip = false;
                 g_cred_type_flag = true;
                 /* select certificate type */
                 credentials = MQTT_ENDPOINT;
@@ -156,13 +143,13 @@ test_fn data_flash_menu(void)
                 err = aws_certficate_write (credentials);
                 assert(FSP_SUCCESS == err);
                 /* Wait for space key to be pressed to return to sub menu */
-                while (MENU_EXIT_CRTL != (Key_pressed = (int8_t) wait_for_keypress ()));
-                Key_pressed = 0;
+                while (MENU_EXIT_CRTL != (key_pressed = (int8_t) wait_for_keypress ()));
+                key_pressed = 0;
                 break;
             }
             case WRITE_IOT_THING_NAME:
             {
-                Key_skip = false;
+                key_skip = false;
                 g_cred_type_flag = true;
                 /* select certificate type */
                 credentials = IOT_THING_NAME;
@@ -172,28 +159,29 @@ test_fn data_flash_menu(void)
                 err = aws_certficate_write (credentials);
                 assert(FSP_SUCCESS == err);
                 /* Wait for space key to be pressed to return to sub menu */
-                while (MENU_EXIT_CRTL != (Key_pressed = (int8_t) wait_for_keypress ()));
-                Key_pressed = 0;
+                while (MENU_EXIT_CRTL != (key_pressed = (int8_t) wait_for_keypress ()));
+                key_pressed = 0;
                 break;
             }
             case CHECK_CREDENTIALS:
             {
-                Key_skip = false;
+                key_skip = false;
                 /* Validate stored credentials */
                 check_credentials_stored ();
                 /* Wait for space key to be pressed to return to sub menu */
-                while (MENU_EXIT_CRTL != (Key_pressed = (int8_t) wait_for_keypress ()));
-                Key_pressed = 0;
+				printf_colour (MENU_RETURN_INFO);
+                while (MENU_EXIT_CRTL != (key_pressed = (int8_t) wait_for_keypress ()));
+                key_pressed = 0;
                 break;
             }
             case HELP:
             {
-                Key_skip = false;
+                key_skip = false;
                 /* Print help contain */
                 help_menu ();
                 /* Wait for space key to be pressed to return to sub menu */
-                while (MENU_EXIT_CRTL != (Key_pressed = (int8_t) wait_for_keypress ()));
-                Key_pressed = 0;
+                while (MENU_EXIT_CRTL != (key_pressed = (int8_t) wait_for_keypress ()));
+                key_pressed = 0;
                 break;
             }
             case ' ':
@@ -206,13 +194,22 @@ test_fn data_flash_menu(void)
                 while (1)
                 {
                     /* Wait till valid option selected */
-                    Key_pressed = wait_for_keypress ();
-                    if ((Key_pressed >= 'a') && (Key_pressed <= 'h'))
+                    key_pressed = wait_for_keypress ();
+                    if ((key_pressed >= 'a') && (key_pressed <= 'h'))
                     {
+                    	key_skip = true;
+						break;
+					}
+					else if (key_pressed == MENU_EXIT_CRTL)
+					{
+						key_skip = false;
                         break;
                     }
+					else
+					{
+						/* Do nothing */
+					}
                 }
-                Key_skip = true;
             }
         }
     }

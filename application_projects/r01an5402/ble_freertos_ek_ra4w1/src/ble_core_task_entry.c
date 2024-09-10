@@ -1,3 +1,8 @@
+/**********************************************************************************************************************
+* Copyright (c) 2019 - 2024 Renesas Electronics Corporation and/or its affiliates
+*
+* SPDX-License-Identifier: BSD-3-Clause
+*********************************************************************************************************************/
 #include "ble_core_task.h"
 
 #define         BLE_TASK_STACK_SIZE (1024)

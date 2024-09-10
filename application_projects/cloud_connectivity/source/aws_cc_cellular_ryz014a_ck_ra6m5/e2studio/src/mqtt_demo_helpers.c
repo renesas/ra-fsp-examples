@@ -27,13 +27,12 @@
  * do MQTT operations over a mutually authenticated TLS connection.
  *
  * A mutually authenticated TLS connection is used to connect to the AWS IoT
- * MQTT message broker in this example.  Define democonfigMQTT_BROKER_ENDPOINT
- * and democonfigROOT_CA_PEM, in shadow_demo_config.h, and the client
- * private key and certificate, in aws_clientcredential_keys.h, to establish a
+ * MQTT message broker in this example.  Define SERVER_CERTIFICATE_PEM in
+ * usr_config.h. The MQTT end point, IOT thing name, the client private
+ *  key and certificate are obtained from the data flash, to establish a
  * mutually authenticated connection.
  */
 #include "common_utils.h"
-#include "iot_config.h"
 #include "common_data.h"
 #include "FreeRTOSConfig.h"
 
@@ -44,21 +43,10 @@
 #include <string.h>
 #include <assert.h>
 
-#include "aws_dev_mode_key_provisioning.h"
-
 #include "mqtt_demo_helpers.h"
 
 /* Retry utilities include. */
 #include "backoff_algorithm.h"
-
-/* Include header for client credentials. */
-#include "aws_clientcredential.h"
-
-/* Include header for root CA certificates. */
-#include "iot_default_root_certificates.h"
-
-/* Include the secure sockets implementation of the transport interface. */
-//#include "transport_secure_sockets.h"
 
 /*-----------------------------------------------------------*/
 
@@ -70,12 +58,12 @@
 /**
  * @brief The maximum back-off delay (in milliseconds) for retrying connection to server.
  */
-#define CONNECTION_RETRY_MAX_BACKOFF_DELAY_MS        ( 5000U )
+#define CONNECTION_RETRY_MAX_BACKOFF_DELAY_MS        ( 15000U )
 
 /**
  * @brief The base back-off delay (in milliseconds) to use for connection retry attempts.
  */
-#define CONNECTION_RETRY_BACKOFF_BASE_MS             ( 500U )
+#define CONNECTION_RETRY_BACKOFF_BASE_MS             ( 10000U )
 
 /**
  * @brief The maximum number of retries for subscribing to topic filter when broker rejects an attempt.
@@ -90,17 +78,17 @@
 /**
  * @brief The base back-off delay (in milliseconds) to use for subscription retry attempts.
  */
-#define SUBSCRIBE_RETRY_BACKOFF_BASE_MS              ( 500U )
+#define SUBSCRIBE_RETRY_BACKOFF_BASE_MS              ( 1000U )
 
 /**
  * @brief Timeout for receiving CONNACK packet in milliseconds.
  */
-#define CONNACK_RECV_TIMEOUT_MS                      ( 1000U )
+#define CONNACK_RECV_TIMEOUT_MS                      ( 3000U )
 
 /**
  * @brief Timeout for MQTT_ProcessLoop in milliseconds.
  */
-#define PROCESS_LOOP_TIMEOUT_MS                      ( 500U )
+#define PROCESS_LOOP_TIMEOUT_MS                      ( 200U )
 
 /**
  * @brief Keep alive time reported to the broker while establishing an MQTT connection.
@@ -116,7 +104,7 @@
  * @brief Maximum number of outgoing publishes maintained in the application
  * until an ack is received from the broker.
  */
-#define MAX_OUTGOING_PUBLISHES                       ( 1U )
+#define MAX_OUTGOING_PUBLISHES                       ( 3U )
 
 /**
  * @brief Milliseconds per second.
@@ -134,7 +122,6 @@
  * @brief IOT thing name.
  */
 extern char g_iot_thing_name[128];
-extern char g_mqtt_endpoint[128];
 /*-----------------------------------------------------------*/
 
 /**
@@ -207,29 +194,6 @@ static bool mqttSessionEstablished = false;
 /*-----------------------------------------------------------*/
 
 /**
- * @brief Calculate and perform an exponential backoff with jitter delay for
- * the next retry attempt of a failed network operation with the server.
- *
- * The function generates a random number, calculates the next backoff period
- * with the generated random number, and performs the backoff delay operation if the
- * number of retries have not exhausted.
- *
- * @note The PKCS11 module is used to generate the random number as it allows access
- * to a True Random Number Generator (TRNG) if the vendor platform supports it.
- * It is recommended to seed the random number generator with a device-specific entropy
- * source so that probability of collisions from devices in connection retries is mitigated.
- *
- * @note The backoff period is calculated using the backoffAlgorithm library.
- *
- * @param[in, out] pxRetryAttempts The context to use for backoff period calculation
- * with the backoffAlgorithm library.
- *
- * @return pdPASS if calculating the backoff period was successful; otherwise pdFAIL
- * if there was failure in random number generation OR all retry attempts had exhausted.
- */
-static BaseType_t prvBackoffForRetry( BackoffAlgorithmContext_t * pxRetryParams );
-
-/**
  * @brief Connect to MQTT broker with reconnection retries.
  *
  * If connection fails, retry is attempted after a timeout.
@@ -240,7 +204,6 @@ static BaseType_t prvBackoffForRetry( BackoffAlgorithmContext_t * pxRetryParams 
  *
  * @return The status of the final connection attempt.
  */
-//static TransportSocketStatus_t prvConnectToServerWithBackoffRetries( NetworkContext_t * pxNetworkContext );
 
 /**
  * @brief Function to get the free index at which an outgoing publish
@@ -292,114 +255,15 @@ static BaseType_t handlePublishResend( MQTTContext_t * pxMqttContext );
  */
 static uint32_t prvGetTimeMs( void );
 
-/*-----------------------------------------------------------*/
-#if 0
-static BaseType_t prvBackoffForRetry( BackoffAlgorithmContext_t * pxRetryParams )
-{
-    BaseType_t xReturnStatus = pdFAIL;
-    uint16_t usNextRetryBackOff = 0U;
-    BackoffAlgorithmStatus_t xBackoffAlgStatus = BackoffAlgorithmSuccess;
-
-    /**
-     * To calculate the backoff period for the next retry attempt, we will
-     * generate a random number to provide to the backoffAlgorithm library.
-     *
-     * Note: The PKCS11 module is used to generate the random number as it allows access
-     * to a True Random Number Generator (TRNG) if the vendor platform supports it.
-     * It is recommended to use a random number generator seeded with a device-specific
-     * entropy source so that probability of collisions from devices in connection retries
-     * is mitigated.
-     */
-    uint32_t ulRandomNum = 0;
-
-    if(FSP_SUCCESS == HW_SCE_RNG_Read(&ulRandomNum))
-    {
-        /* Get back-off value (in milliseconds) for the next retry attempt. */
-        xBackoffAlgStatus = BackoffAlgorithm_GetNextBackoff( pxRetryParams, ulRandomNum, &usNextRetryBackOff );
-
-        if( xBackoffAlgStatus == BackoffAlgorithmRetriesExhausted )
-        {
-            IotLogError("All retry attempts have exhausted. Operation will not be retried\r\n");
-        }
-        else if( xBackoffAlgStatus == BackoffAlgorithmSuccess )
-        {
-            /* Perform the backoff delay. */
-            vTaskDelay( pdMS_TO_TICKS( usNextRetryBackOff ) );
-
-            xReturnStatus = pdPASS;
-            IotLogInfo("Retry attempt %lu out of maximum retry attempts %lu.\r\n", ( pxRetryParams->attemptsDone + 1 ), pxRetryParams->maxRetryAttempts);
-        }
-    }
-    else
-    {
-        IotLogError("Unable to retry operation with broker: Random number generation failed\r\n");
-    }
-
-    return xReturnStatus;
-}
+/* Declare macros and variables for initializing MQTT context with QoS > 0 */
+#define MQTT_EXAMPLE_OUTGOING_PUBLISH_RECORD_LEN (8)
+#define MQTT_EXAMPLE_INCOMING_PUBLISH_RECORD_LEN (9)
+static MQTTPubAckInfo_t pOutgoingPublishRecords[ MQTT_EXAMPLE_OUTGOING_PUBLISH_RECORD_LEN ];
+static MQTTPubAckInfo_t pIncomingPublishRecords[ MQTT_EXAMPLE_INCOMING_PUBLISH_RECORD_LEN ];
 
 /*-----------------------------------------------------------*/
 
-static TransportSocketStatus_t prvConnectToServerWithBackoffRetries( NetworkContext_t * pxNetworkContext )
-{
-    TransportSocketStatus_t xNetworkStatus = TRANSPORT_SOCKET_STATUS_SUCCESS;
-    BackoffAlgorithmContext_t xReconnectParams = { 0 };
-    BaseType_t xBackoffStatus = pdPASS;
-    ServerInfo_t xServerInfo = { 0 };
-    SocketsConfig_t xSocketConfig = { 0 };
 
-    /* Initialize information to connect to the MQTT broker. */
-    xServerInfo.pHostName = g_mqtt_endpoint;
-    xServerInfo.hostNameLength = sizeof( g_mqtt_endpoint ) - 1U;
-    xServerInfo.port = (uint16_t)democonfigMQTT_BROKER_PORT;
-
-    /* Set the Secure Socket configurations. */
-
-    xSocketConfig.enableTls = true;
-    xSocketConfig.pRootCa = democonfigROOT_CA_PEM;
-    xSocketConfig.rootCaSize = sizeof( democonfigROOT_CA_PEM );
-    xSocketConfig.pAlpnProtos = NULL;
-    xSocketConfig.maxFragmentLength = 2048;
-    xSocketConfig.disableSni = false;
-    xSocketConfig.sendTimeoutMs = socketsconfigDEFAULT_SEND_TIMEOUT;
-    xSocketConfig.recvTimeoutMs = socketsconfigDEFAULT_RECV_TIMEOUT;
-
-    /* Initialize reconnect attempts and interval. */
-    BackoffAlgorithm_InitializeParams( &xReconnectParams,
-                                       CONNECTION_RETRY_BACKOFF_BASE_MS,
-                                       CONNECTION_RETRY_MAX_BACKOFF_DELAY_MS,
-                                       CONNECTION_RETRY_MAX_ATTEMPTS );
-
-    /* Attempt to connect to MQTT broker. If connection fails, retry after
-     * a timeout. Timeout value will exponentially increase until maximum
-     * attempts are reached.
-     */
-    do
-    {
-        /* Establish a TCP connection with the MQTT broker. This example connects to
-         * the MQTT broker as specified in democonfigMQTT_BROKER_ENDPOINT and
-         * democonfigMQTT_BROKER_PORT at the top of this file. */
-        IotLogInfo("Create a TCP connection to %s:%d.\r\n", g_mqtt_endpoint, democonfigMQTT_BROKER_PORT);
-        xNetworkStatus = SecureSocketsTransport_Connect( pxNetworkContext,
-                                                         &xServerInfo,
-                                                         &xSocketConfig );
-
-        if( xNetworkStatus != TRANSPORT_SOCKET_STATUS_SUCCESS )
-        {
-            IotLogWarn("Connection to the broker failed. Attempting connection retry after backoff delay.");
-
-            /* As the connection attempt failed, we will retry the connection after an
-             * exponential backoff with jitter delay. */
-
-            /* Calculate the backoff period for the next retry attempt and perform the wait operation. */
-            xBackoffStatus = prvBackoffForRetry( &xReconnectParams );
-        }
-    } while( ( xNetworkStatus != TRANSPORT_SOCKET_STATUS_SUCCESS ) && ( xBackoffStatus == pdPASS ) );
-
-    return xNetworkStatus;
-}
-#endif
-/*-----------------------------------------------------------*/
 
 BaseType_t subscribeToAndRegisterTopicFilter( MQTTContext_t * pContext,
                                               const char * pTopicFilter,
@@ -446,9 +310,9 @@ BaseType_t SubscribeToTopic( MQTTContext_t * pxMqttContext,
     BaseType_t                  xSubscribeStatus = pdFAIL;
     MQTTSubscribeInfo_t         pSubscriptionList[ 1 ];
 
-    assert( pxMqttContext != NULL );
-    assert( pcTopicFilter != NULL );
-    assert( usTopicFilterLength > 0 );
+    configASSERT( pxMqttContext != NULL );
+    configASSERT( pcTopicFilter != NULL );
+    configASSERT( usTopicFilterLength > 0 );
 
     /* Some fields not used so start with everything at 0. */
     ( void ) memset( ( void * ) pSubscriptionList, 0x00, sizeof( pSubscriptionList ) );
@@ -482,7 +346,7 @@ BaseType_t SubscribeToTopic( MQTTContext_t * pxMqttContext,
 
         /* Wait for acknowledgement packet (SUBACK) from the broker in response to the
          * subscribe request. */
-        xMqttStatus = MQTT_ProcessLoop( pxMqttContext, PROCESS_LOOP_TIMEOUT_MS );
+        xMqttStatus = MQTT_ProcessLoop( pxMqttContext );
 
         if( xMqttStatus != MQTTSuccess )
         {
@@ -623,16 +487,16 @@ static void commonEventHandler( MQTTContext_t * pMqttContext,
     uint8_t * pucPayload = NULL;
     size_t xSize = 0;
 
-    assert( pMqttContext != NULL );
-    assert( pPacketInfo != NULL );
-    assert( pDeserializedInfo != NULL );
+    configASSERT( pMqttContext != NULL );
+    configASSERT( pPacketInfo != NULL );
+    configASSERT( pDeserializedInfo != NULL );
 
     /* Handle incoming publish. The lower 4 bits of the publish packet
      * type is used for the dup, QoS, and retain flags. Hence masking
      * out the lower bits to check if the packet is publish. */
     if( ( pPacketInfo->type & 0xF0U ) == MQTT_PACKET_TYPE_PUBLISH )
     {
-        assert( pDeserializedInfo->pPublishInfo != NULL );
+        configASSERT( pDeserializedInfo->pPublishInfo != NULL );
         /* Handle incoming publish. */
         SubscriptionManager_DispatchHandler( pMqttContext, pDeserializedInfo->pPublishInfo );
     }
@@ -716,29 +580,19 @@ BaseType_t EstablishMqttSession( MQTTContext_t * pxMqttContext,
 
     /* Initialize the mqtt context and network context. */
     ( void ) memset( pxMqttContext, 0U, sizeof( MQTTContext_t ) );
- //   ( void ) memset( pxNetworkContext, 0U, sizeof( NetworkContext_t ) );
+ 
 
     /* Set the entry time of the demo application. This entry time will be used
      * to calculate relative time elapsed in the execution of the demo application,
      * by the timer utility function that is provided to the MQTT library.
      */
-    ulGlobalEntryTimeMs = prvGetTimeMs();
-#if 0 // This is not required Lokesh
-    if( prvConnectToServerWithBackoffRetries( pxNetworkContext ) != TRANSPORT_SOCKET_STATUS_SUCCESS )
-    {
-        /* Log error to indicate connection failure after all
-         * reconnect attempts are over. */
-        IotLogError("Failed to connect to MQTT broker %s.\r\n",
-                    g_mqtt_endpoint);
-        xReturnStatus = pdFAIL;
-    }
-    else
-#endif // This is not required Lokesh		
-    {
+    ulGlobalEntryTimeMs = prvGetTimeMs();	
+    
         /* Fill in Transport Interface send and receive function pointers. */
         xTransport.pNetworkContext = pxNetworkContext;
         xTransport.send = TLS_FreeRTOS_send;
         xTransport.recv = TLS_FreeRTOS_recv;
+        xTransport.writev = NULL;
 
         /* Initialize MQTT library. */
         eMqttStatus = MQTT_Init( pxMqttContext,
@@ -755,6 +609,19 @@ BaseType_t EstablishMqttSession( MQTTContext_t * pxMqttContext,
         }
         else
         {
+        	/* Initialize an MQTT context for QoS > 0 */
+        	eMqttStatus = MQTT_InitStatefulQoS( pxMqttContext,
+												pOutgoingPublishRecords,
+												MQTT_EXAMPLE_OUTGOING_PUBLISH_RECORD_LEN,
+												pIncomingPublishRecords,
+												MQTT_EXAMPLE_INCOMING_PUBLISH_RECORD_LEN );
+
+        	if( eMqttStatus != MQTTSuccess )
+        	{
+				xReturnStatus = pdFAIL;
+				IotLogError("MQTT_InitStatefulQos failed with status %s.",
+							MQTT_Status_strerror( eMqttStatus ));
+        	}
             /* Establish MQTT session by sending a CONNECT packet. */
             /* Many fields not used in this demo so start with everything at 0. */
             ( void ) memset( ( void * ) &xConnectInfo, 0x00, sizeof( xConnectInfo ) );
@@ -771,14 +638,21 @@ BaseType_t EstablishMqttSession( MQTTContext_t * pxMqttContext,
             xConnectInfo.pClientIdentifier = IOT_THING_NAME;
             xConnectInfo.clientIdentifierLength = ( uint16_t ) strlen( IOT_THING_NAME );
             /* Username and password for authentication. Not used in this demo. */
+#ifdef IO_USERNAME
             xConnectInfo.pUserName = IO_USERNAME;
             xConnectInfo.userNameLength = (uint16_t) strlen (IO_USERNAME);
             xConnectInfo.pPassword = IO_KEY;
             xConnectInfo.passwordLength = (uint16_t) strlen (IO_KEY);
+#else
+            xConnectInfo.pUserName = NULL;
+			xConnectInfo.userNameLength = 0U;
+			xConnectInfo.pPassword = NULL;
+			xConnectInfo.passwordLength = 0U;
+#endif /* IO_USERNAME */
             /* The maximum time interval in seconds which is allowed to elapse
              * between two Control Packets.
              * It is the responsibility of the Client to ensure that the interval between
-             * Control Packets being sent does not exceed the this Keep Alive value. In the
+             * Control Packets being sent does not exceed this Keep Alive value. In the
              * absence of sending any other Control Packets, the Client MUST send a
              * PINGREQ Packet. */
             xConnectInfo.keepAliveSeconds = KEEP_ALIVE_TIMEOUT_SECONDS;
@@ -800,7 +674,7 @@ BaseType_t EstablishMqttSession( MQTTContext_t * pxMqttContext,
             {
                 IotLogInfo("MQTT connection successfully established with broker.\r\n");
             }
-        }
+        
 
         if( xReturnStatus == pdPASS )
         {
@@ -846,7 +720,6 @@ BaseType_t DisconnectMqttSession( MQTTContext_t * pxMqttContext,
 {
     MQTTStatus_t eMqttStatus = MQTTSuccess;
     BaseType_t xReturnStatus = pdPASS;
- //   TransportSocketStatus_t xNetworkStatus;
 
     assert( pxMqttContext != NULL );
     assert( pxNetworkContext != NULL );
@@ -863,17 +736,7 @@ BaseType_t DisconnectMqttSession( MQTTContext_t * pxMqttContext,
             xReturnStatus = pdFAIL;
         }
     }
-#if 0
-    // This is not needed Lokesh
-    /* Close the network connection.  */
-    xNetworkStatus = SecureSocketsTransport_Disconnect( pxNetworkContext );
 
-    if( xNetworkStatus != TRANSPORT_SOCKET_STATUS_SUCCESS )
-    {
-        IotLogError("Disconnecting from SecureSocket failed with status=%u.\r\n", xNetworkStatus);
-        xReturnStatus = pdFAIL;
-    }
-#endif
     return xReturnStatus;
 }
 
@@ -916,7 +779,7 @@ BaseType_t UnsubscribeFromTopicFilters( MQTTContext_t * pxMqttContext,
         }
 
         /* Process Incoming UNSUBACK packet from the broker. */
-        eMqttStatus = MQTT_ProcessLoop( pxMqttContext, PROCESS_LOOP_TIMEOUT_MS );
+        eMqttStatus = MQTT_ProcessLoop( pxMqttContext );
 
         if( eMqttStatus != MQTTSuccess )
         {
@@ -991,7 +854,7 @@ BaseType_t PublishToTopic( MQTTContext_t * pxMqttContext,
              * sends ping request to broker if MQTT_KEEP_ALIVE_INTERVAL_SECONDS
              * has expired since the last MQTT packet sent and receive
              * ping responses. */
-            eMqttStatus = MQTT_ProcessLoop( pxMqttContext, PROCESS_LOOP_TIMEOUT_MS );
+            eMqttStatus = MQTT_ProcessLoop( pxMqttContext );
 
             if( eMqttStatus != MQTTSuccess )
             {
@@ -1006,13 +869,12 @@ BaseType_t PublishToTopic( MQTTContext_t * pxMqttContext,
 
 /*-----------------------------------------------------------*/
 
-BaseType_t ProcessLoop( MQTTContext_t * pxMqttContext,
-                        uint32_t ulTimeoutMs )
+BaseType_t ProcessLoop( MQTTContext_t * pxMqttContext )
 {
     BaseType_t xReturnStatus = pdFAIL;
     MQTTStatus_t eMqttStatus = MQTTSuccess;
 
-    eMqttStatus = MQTT_ProcessLoop( pxMqttContext, ulTimeoutMs );
+    eMqttStatus = MQTT_ProcessLoop( pxMqttContext );
 
     if( eMqttStatus != MQTTSuccess )
     {
@@ -1048,3 +910,4 @@ static uint32_t prvGetTimeMs( void )
 }
 
 /*-----------------------------------------------------------*/
+

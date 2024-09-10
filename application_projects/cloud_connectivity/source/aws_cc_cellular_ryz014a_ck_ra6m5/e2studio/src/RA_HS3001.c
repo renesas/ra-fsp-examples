@@ -3,38 +3,26 @@
  * Description  : Contains data structures and function definations for HS3001 sensor
  ***********************************************************************************************************************/
 /***********************************************************************************************************************
- * DISCLAIMER
- * This software is supplied by Renesas Electronics Corporation and is only intended for use with Renesas products. No
- * other uses are authorized. This software is owned by Renesas Electronics Corporation and is protected under all
- * applicable laws, including copyright laws.
- * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
- * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED. TO THE MAXIMUM
- * EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES
- * SHALL BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR ANY REASON RELATED TO THIS
- * SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
- * Renesas reserves the right, without notice, to make changes to this software and to discontinue the availability of
- * this software. By using this software, you agree to the additional terms and conditions found by accessing the
- * following link:
- * http://www.renesas.com/disclaimer
- *
- * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
- ***********************************************************************************************************************/
+* Copyright (c) 2023 - 2024 Renesas Electronics Corporation and/or its affiliates
+*
+* SPDX-License-Identifier: BSD-3-Clause
+***********************************************************************************************************************/ 
 #include "RA_HS3001.h"
 #include "common_utils.h"
 #include "sensor_thread.h"
 #include "user_choice.h"
+#include "usr_data.h"
 
 /* Utility MACRO to loop 50ms delays until expression becomes false*/
-#define WAIT_WHILE_FALSE(e) while(!e) { __asm(" nop"); }
+#define WAIT_WHILE_FALSE(e) ({while(!(e)) { vTaskDelay (50); }})
 
 /* Variable declarations*/
 static volatile fsp_err_t g_err; /* FSP Error variable*/
-volatile sensor_demo_data_t g_demo_data; /* Demo data struct*/
+usr_hs3001_data_t g_hs3001_data; /* Demo data struct*/
 volatile bool g_hs300x_completed = false;
 
 /*******************************************************************************************************************//**
- * @brief       Quick snesor setup for HS3001
+ * @brief       Quick sensor setup for HS3001
  * @param[in]
  * @retval
  * @retval
@@ -95,11 +83,12 @@ void hs3001_get(void)
     while (g_err == FSP_ERR_SENSOR_INVALID_DATA);
 
     /* Fill snesor data in structure */
-    g_demo_data.gs_demo_humidity = (float) hs300x_data.humidity.integer_part
+    g_hs3001_data.gs_humidity = (float) hs300x_data.humidity.integer_part
             + (float) hs300x_data.humidity.decimal_part * 0.01F;
-    g_demo_data.gs_demo_temperature = (float) hs300x_data.temperature.integer_part
+    g_hs3001_data.gs_temperature = (float) hs300x_data.temperature.integer_part
             + (float) hs300x_data.temperature.decimal_part * 0.01F;
 
+    xQueueOverwrite(g_hs3001_queue, &g_hs3001_data);
 }
 
 /*******************************************************************************************************************//**

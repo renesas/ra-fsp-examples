@@ -72,6 +72,9 @@ void SubscriptionManager_DispatchHandler( MQTTContext_t * pContext,
     assert( pPublishInfo != NULL );
     assert( pContext != NULL );
 
+    /* Process incoming Publish. */
+    IotLogInfo( "Incoming QoS : %d\n", pPublishInfo->qos );
+
     /* Iterate through record list to find matching topics, and invoke their callbacks. */
     for( listIndex = 0; listIndex < MAX_SUBSCRIPTION_CALLBACK_RECORDS; listIndex++ )
     {
@@ -170,7 +173,6 @@ SubscriptionManagerStatus_t SubscriptionManager_RegisterCallback( const char * p
 }
 
 /*-----------------------------------------------------------*/
-
 void SubscriptionManager_RemoveCallback( const char * pTopicFilter,
                                          uint16_t topicFilterLength )
 {
@@ -214,5 +216,4 @@ void SubscriptionManager_RemoveCallback( const char * pTopicFilter,
                  pTopicFilter);
     }
 }
-
 /*-----------------------------------------------------------*/

@@ -3,36 +3,24 @@
  * Description  : Contains data structures and function definitions
  ***********************************************************************************************************************/
 /***********************************************************************************************************************
- * DISCLAIMER
- * This software is supplied by Renesas Electronics Corporation and is only intended for use with Renesas products. No
- * other uses are authorized. This software is owned by Renesas Electronics Corporation and is protected under all
- * applicable laws, including copyright laws.
- * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
- * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED. TO THE MAXIMUM
- * EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES
- * SHALL BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR ANY REASON RELATED TO THIS
- * SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
- * Renesas reserves the right, without notice, to make changes to this software and to discontinue the availability of
- * this software. By using this software, you agree to the additional terms and conditions found by accessing the
- * following link:
- * http://www.renesas.com/disclaimer
- *
- * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
- ***********************************************************************************************************************/
+* Copyright (c) 2023 - 2024 Renesas Electronics Corporation and/or its affiliates
+*
+* SPDX-License-Identifier: BSD-3-Clause
+***********************************************************************************************************************/ 
 
 #include "hal_data.h"
 #include "RA_ZMOD4XXX_Common.h"
 #include "common_utils.h"
 #include "sensor_thread.h"
 #include "user_choice.h"
+#include "usr_data.h"
 
-volatile iaq_demo_data_t g_iaq_data;
+usr_iaq_data_t g_iaq_data;
 static demo_sequence_t sequence = DEMO_SEQUENCE_1;
 rm_zmod4xxx_raw_data_t raw_data;
 
 /*******************************************************************************************************************//**
- * @brief       Start reading ZMOD4510 data
+ * @brief       Start reading ZMOD4410 data
  * @param[in]
  * @retval
  * @retval
@@ -41,6 +29,7 @@ void start_iaq_1st_gen(void)
 {
     fsp_err_t err;
     rm_zmod4xxx_iaq_1st_data_t zmod4xxx_data;
+	
     switch (sequence)
     {
         case DEMO_SEQUENCE_1:
@@ -199,9 +188,11 @@ void start_iaq_1st_gen(void)
 #endif
 
                 /* Set data */
-                g_iaq_data.gs_demo_etoh = zmod4xxx_data.etoh;
-                g_iaq_data.gs_demo_eco2 = zmod4xxx_data.eco2;
-                g_iaq_data.gs_demo_tvoc = zmod4xxx_data.tvoc;
+                g_iaq_data.gs_etoh = zmod4xxx_data.etoh;
+                g_iaq_data.gs_eco2 = zmod4xxx_data.eco2;
+                g_iaq_data.gs_tvoc = zmod4xxx_data.tvoc;
+
+                xQueueOverwrite(g_iaq_queue, &g_iaq_data);
             }
             else if (FSP_ERR_SENSOR_IN_STABILIZATION == err)
             {

@@ -1,3 +1,9 @@
+/***********************************************************************************************************************
+* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
+*
+* SPDX-License-Identifier: BSD-3-Clause
+***********************************************************************************************************************/
+
 #include "hal_data.h"
 #include "common_utils.h"
 
@@ -234,6 +240,8 @@ void cleanup_procedure(void)
 
 void cb_scan_end(adc_callback_args_t *p_args)
 {
+    FSP_PARAMETER_NOT_USED(p_args);
+
     if(sample_iter >= NUM_SAMPLES)
     {
         b_scan_in_progress = false;

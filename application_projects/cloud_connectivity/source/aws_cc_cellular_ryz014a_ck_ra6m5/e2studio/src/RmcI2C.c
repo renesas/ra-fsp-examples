@@ -3,23 +3,10 @@
  * Description  : Contains data structures and function definitions
  ***********************************************************************************************************************/
 /***********************************************************************************************************************
- * DISCLAIMER
- * This software is supplied by Renesas Electronics Corporation and is only intended for use with Renesas products. No
- * other uses are authorized. This software is owned by Renesas Electronics Corporation and is protected under all
- * applicable laws, including copyright laws.
- * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
- * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED. TO THE MAXIMUM
- * EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES
- * SHALL BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR ANY REASON RELATED TO THIS
- * SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
- * Renesas reserves the right, without notice, to make changes to this software and to discontinue the availability of
- * this software. By using this software, you agree to the additional terms and conditions found by accessing the
- * following link:
- * http://www.renesas.com/disclaimer
- *
- * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
- ***********************************************************************************************************************/
+* Copyright (c) 2023 - 2024 Renesas Electronics Corporation and/or its affiliates
+*
+* SPDX-License-Identifier: BSD-3-Clause
+***********************************************************************************************************************/ 
 
 #include "RmcI2C.h"
 #include  "sensor_thread.h"
@@ -27,11 +14,12 @@
 #include "ICP_10101.h"
 #include "common_utils.h"
 
-#define I2C_TRANSMISSION_IN_PROGRESS        0
-#define I2C_TRANSMISSION_COMPLETE           1
-#define I2C_TRANSMISSION_ABORTED            2
+#define I2C_TRANSMISSION_IN_PROGRESS        (0)
+#define I2C_TRANSMISSION_COMPLETE           (1)
+#define I2C_TRANSMISSION_ABORTED            (2)
 
-static uint8_t transmit_complete_flag, ICP_transmit_complete_flag;
+static uint8_t transmit_complete_flag;
+static uint8_t ICP_transmit_complete_flag;
 /* variable to keep initial pressure as reference point */
 float reference_pressure = 0.0;
 
@@ -47,7 +35,7 @@ void RmComDevice_init(void)
     err = g_comms_i2c_device4.p_api->open (g_comms_i2c_device4.p_ctrl, g_comms_i2c_device4.p_cfg);
     if (FSP_SUCCESS == err)
     {
-        APP_PRINT("\r\nICM30498 sensor setup success\r\n");
+        APP_PRINT("\r\nICP10101 sensor setup success\r\n");
     }
     else
     {
@@ -82,7 +70,7 @@ void RmComDevice_init_Icm(void)
  * @retval
  * @retval
  ***********************************************************************************************************************/
-void ICM20948_Sensor_init()
+void ICM20948_Sensor_init(void)
 {
     whoAmI ();
     icm20948_init ();
@@ -122,7 +110,7 @@ fsp_err_t RmCom_I2C_r(uint8_t reg, uint8_t *val, uint8_t num)
             {
                 break;
             }
-            delay_Microseconds (1);
+            vTaskDelay (1);
         }
 
         transmit_complete_flag = I2C_TRANSMISSION_IN_PROGRESS;
@@ -158,7 +146,7 @@ fsp_err_t RmCom_I2C_w(uint8_t reg, uint8_t *val, uint8_t num)
             {
                 break;
             }
-            delay_Microseconds (1);
+            vTaskDelay (1);
         }
 
         transmit_complete_flag = I2C_TRANSMISSION_IN_PROGRESS;
@@ -209,7 +197,7 @@ fsp_err_t ICP_RmCom_I2C_r(uint8_t *val, uint32_t num)
             {
                 break;
             }
-            delay_Microseconds (1);
+            vTaskDelay (1);
         }
 
         ICP_transmit_complete_flag = I2C_TRANSMISSION_IN_PROGRESS;
@@ -244,7 +232,7 @@ fsp_err_t ICP_RmCom_I2C_w(uint8_t *val, uint32_t num)
             {
                 break;
             }
-            delay_Microseconds (1);
+            vTaskDelay (1);
         }
 
         ICP_transmit_complete_flag = I2C_TRANSMISSION_IN_PROGRESS;
@@ -277,17 +265,6 @@ void ICP_comms_i2c_callback(rm_comms_callback_args_t *p_args)
 }
 
 /**************************************************************************************
- * Name:       delay_Microseconds
- * Function:   delay specified number of microseconds
- * Parameters: us (uint16_t) number of microseconds to delay
- * Return:     None
- **************************************************************************************/
-void delay_Microseconds(uint32_t us)
-{
-    R_BSP_SoftwareDelay (us, BSP_DELAY_UNITS_MICROSECONDS);
-}
-
-/**************************************************************************************
  * Name:       Delay
  * Function:   delay specified number of Milliseconds
  * Parameters: ms (uint32_t) number of Milliseconds to delay
@@ -296,4 +273,42 @@ void delay_Microseconds(uint32_t us)
 void _delay(uint32_t ms)
 {
     R_BSP_SoftwareDelay (ms, BSP_DELAY_UNITS_MILLISECONDS);
+}
+/*******************************************************************************************************************//**
+ * @brief       Re-cover the I2C bus if it is busy 
+ * @param[in]   SCL SCL pin of the IIC bus
+ * @param[in]   SDA SDA pin of the IIC bus
+ * @retval      None
+ ***********************************************************************************************************************/
+void bsp_recover_iic(const bsp_io_port_pin_t SCL, const bsp_io_port_pin_t SDA)
+{
+    const bsp_io_port_pin_t PIN_SCL = SCL;
+    const bsp_io_port_pin_t PIN_SDA = SDA;
+    const uint32_t pinToggleDelay = 5;
+
+    /* switch to GPIO mode, N-channel open-drain with pull-up */
+    R_IOPORT_PinCfg(&g_ioport_ctrl, PIN_SCL, (uint32_t)IOPORT_CFG_NMOS_ENABLE | (uint32_t)IOPORT_CFG_PORT_DIRECTION_OUTPUT | (uint32_t)IOPORT_CFG_PORT_OUTPUT_HIGH | (uint32_t)IOPORT_CFG_PULLUP_ENABLE);
+    R_IOPORT_PinCfg(&g_ioport_ctrl, PIN_SDA, (uint32_t)IOPORT_CFG_NMOS_ENABLE | (uint32_t)IOPORT_CFG_PORT_DIRECTION_OUTPUT | (uint32_t)IOPORT_CFG_PORT_OUTPUT_HIGH | (uint32_t)IOPORT_CFG_PULLUP_ENABLE);
+
+    /* toggle SCL 9+ times */
+    for (uint32_t i = 0; i< 10; i++) {
+        R_IOPORT_PinWrite(&g_ioport_ctrl, PIN_SCL, BSP_IO_LEVEL_LOW);
+        R_BSP_SoftwareDelay(pinToggleDelay, BSP_DELAY_UNITS_MICROSECONDS);
+        R_IOPORT_PinWrite(&g_ioport_ctrl, PIN_SCL, BSP_IO_LEVEL_HIGH);
+        R_BSP_SoftwareDelay(pinToggleDelay, BSP_DELAY_UNITS_MICROSECONDS);
+    }
+
+    /* generate STOP condition (SDA going from LOW to HIGH when SCL is HIGH) */
+    R_IOPORT_PinWrite(&g_ioport_ctrl, PIN_SCL, BSP_IO_LEVEL_LOW);
+    R_BSP_SoftwareDelay(pinToggleDelay, BSP_DELAY_UNITS_MICROSECONDS);
+    R_IOPORT_PinWrite(&g_ioport_ctrl, PIN_SDA, BSP_IO_LEVEL_LOW);
+    R_BSP_SoftwareDelay(pinToggleDelay, BSP_DELAY_UNITS_MICROSECONDS);
+    R_IOPORT_PinWrite(&g_ioport_ctrl, PIN_SCL, BSP_IO_LEVEL_HIGH);
+    R_BSP_SoftwareDelay(pinToggleDelay, BSP_DELAY_UNITS_MICROSECONDS);
+    R_IOPORT_PinWrite(&g_ioport_ctrl, PIN_SDA, BSP_IO_LEVEL_HIGH);
+    R_BSP_SoftwareDelay(pinToggleDelay, BSP_DELAY_UNITS_MICROSECONDS);
+
+    /* switch back to peripheral mode */
+    R_IOPORT_PinCfg(&g_ioport_ctrl, PIN_SCL, (uint32_t)IOPORT_CFG_PERIPHERAL_PIN | (uint32_t)IOPORT_PERIPHERAL_IIC);
+    R_IOPORT_PinCfg(&g_ioport_ctrl, PIN_SDA, (uint32_t)IOPORT_CFG_PERIPHERAL_PIN | (uint32_t)IOPORT_PERIPHERAL_IIC);
 }

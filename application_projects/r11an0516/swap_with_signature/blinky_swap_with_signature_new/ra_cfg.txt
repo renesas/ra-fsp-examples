@@ -12,6 +12,7 @@ FSP Configuration
     series: 2
     
   RA2E1 Family
+    Enable inline BSP IRQ functions: Disabled
     OFS0 register settings: Independent WDT: Start Mode: IWDT is Disabled
     OFS0 register settings: Independent WDT: Timeout Period: 2048 cycles
     OFS0 register settings: Independent WDT: Dedicated Clock Frequency Divisor: 128
@@ -53,6 +54,7 @@ FSP Configuration
     ID Code Mode: Unlocked (Ignore ID)
     ID Code (32 Hex Characters): FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
     
+  RA2E1 event data
   RA Common
     Main stack size (bytes): 0x400
     Heap size (bytes): 0
@@ -220,26 +222,23 @@ FSP Configuration
     Parameter Checking: Default (BSP)
     
   Module "MCUboot Image Utilities"
-    General: Bootloader mcuboot_config.h: E:/Renesas/RA/e2studio/workspace/cache/RA2_merge_mcuboot/swap_with_signature/ra_mcuboot_ra2e1_swap_with_signature/ra_cfg/mcu-tools/include/mcuboot_config/mcuboot_config.h
-    General: Bootloader sysflash.h: E:/Renesas/RA/e2studio/workspace/cache/RA2_merge_mcuboot/swap_with_signature/ra_mcuboot_ra2e1_swap_with_signature/ra_cfg/mcu-tools/include/sysflash/sysflash.h
-    General: Bootloader mcuboot_logging.h: E:/Renesas/RA/e2studio/workspace/cache/RA2_merge_mcuboot/swap_with_signature/ra_mcuboot_ra2e1_swap_with_signature/ra_cfg/mcu-tools/include/mcuboot_config/mcuboot_logging.h
+    General: Bootloader mcuboot_config.h: ../../ra_mcuboot_ra2e1_swap_with_signature/ra_cfg/mcu-tools/include/mcuboot_config/mcuboot_config.h
+    General: Bootloader sysflash.h: ../../ra_mcuboot_ra2e1_swap_with_signature/ra_cfg/mcu-tools/include/sysflash/sysflash.h
+    General: Bootloader mcuboot_logging.h: ../../ra_mcuboot_ra2e1_swap_with_signature/ra_cfg/mcu-tools/include/mcuboot_config/mcuboot_logging.h
     
   Module "Flash (r_flash_lp)"
     Parameter Checking: Default (BSP)
     Code Flash Programming: Enabled
     Data Flash Programming: Disabled
+    Data Flash Background Operation Support: Disabled
     
   HAL
     Instance "g_ioport I/O Port (r_ioport)"
       Name: g_ioport
-      Port 1 ELC Trigger Source: Disabled
-      Port 2 ELC Trigger Source: Disabled
-      Port 3 ELC Trigger Source: Disabled
-      Port 4 ELC Trigger Source: Disabled
-      Port B ELC Trigger Source: Disabled
-      Port C ELC Trigger Source: Disabled
-      Port D ELC Trigger Source: Disabled
-      Port E ELC Trigger Source: Disabled
+      1st Port ELC Trigger Source: Disabled
+      2nd Port ELC Trigger Source: Disabled
+      3rd Port ELC Trigger Source: Disabled
+      4th Port ELC Trigger Source: Disabled
       Pin Configuration Name: g_bsp_pin_cfg
       
     Instance "MCUboot Image Utilities"

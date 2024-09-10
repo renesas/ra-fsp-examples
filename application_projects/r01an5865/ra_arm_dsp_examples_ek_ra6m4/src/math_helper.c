@@ -100,7 +100,7 @@ float arm_snr_f32(float *pRef, float *pTest, uint32_t buffSize)
     }
 
 
-  SNR = 10 * log10 (EnergySignal / EnergyError);
+  SNR = 10 * (float)log10 (EnergySignal / EnergyError);
 
   return (SNR);
 
@@ -146,9 +146,9 @@ void arm_float_to_q12_20(float *pIn, q31_t * pOut, uint32_t numSamples)
 	  /* 1048576.0f corresponds to pow(2, 20) */
       pOut[i] = (q31_t) (pIn[i] * 1048576.0f);
 
-      pOut[i] += pIn[i] > 0 ? 0.5 : -0.5;
+      pOut[i] += (q31_t)(pIn[i] > 0 ? 0.5 : -0.5);
 
-      if (pIn[i] == (float) 1.0)
+      if (fabs(pIn[i] - 1.0) < 1e-6)
         {
           pOut[i] = 0x000FFFFF;
         }
@@ -166,13 +166,14 @@ void arm_float_to_q12_20(float *pIn, q31_t * pOut, uint32_t numSamples)
 uint32_t arm_compare_fixed_q15(q15_t *pIn, q15_t *pOut, uint32_t numSamples)
 {
   uint32_t i;
-  int32_t diff, diffCrnt = 0;
+  int32_t diff = 0;
+  uint32_t diffCrnt = 0;
   uint32_t maxDiff = 0;
 
   for (i = 0; i < numSamples; i++)
   {
   	diff = pIn[i] - pOut[i];
-  	diffCrnt = (diff > 0) ? diff : -diff;
+  	diffCrnt = (uint32_t)((diff > 0) ? diff : -diff);
 
 	if (diffCrnt > maxDiff)
 	{
@@ -194,13 +195,14 @@ uint32_t arm_compare_fixed_q15(q15_t *pIn, q15_t *pOut, uint32_t numSamples)
 uint32_t arm_compare_fixed_q31(q31_t *pIn, q31_t * pOut, uint32_t numSamples)
 {
   uint32_t i;
-  int32_t diff, diffCrnt = 0;
+  int32_t diff = 0;
+  uint32_t diffCrnt = 0;
   uint32_t maxDiff = 0;
 
   for (i = 0; i < numSamples; i++)
   {
   	diff = pIn[i] - pOut[i];
-  	diffCrnt = (diff > 0) ? diff : -diff;
+  	diffCrnt = (uint32_t)((diff > 0) ? diff : -diff);
 
 	if (diffCrnt > maxDiff)
 	{
@@ -299,7 +301,7 @@ void arm_apply_guard_bits (float32_t *pIn,
 
   for (i = 0; i < numSamples; i++)
     {
-      pIn[i] = pIn[i] * arm_calc_2pow(guard_bits);
+      pIn[i] = pIn[i] * (float32_t )arm_calc_2pow(guard_bits);
     }
 }
 
@@ -341,9 +343,9 @@ void arm_float_to_q14 (float *pIn, q15_t *pOut, uint32_t numSamples)
 	  /* 16384.0f corresponds to pow(2, 14) */
       pOut[i] = (q15_t) (pIn[i] * 16384.0f);
 
-      pOut[i] += pIn[i] > 0 ? 0.5 : -0.5;
+      pOut[i] += (q15_t)(pIn[i] > 0 ? 0.5 : -0.5);
 
-      if (pIn[i] == (float) 2.0)
+      if (fabs(pIn[i] - 2.0) < 1e-6)
         {
           pOut[i] = 0x7FFF;
         }
@@ -371,9 +373,9 @@ void arm_float_to_q30 (float *pIn, q31_t * pOut, uint32_t numSamples)
 	  /* 1073741824.0f corresponds to pow(2, 30) */
       pOut[i] = (q31_t) (pIn[i] * 1073741824.0f);
 
-      pOut[i] += pIn[i] > 0 ? 0.5 : -0.5;
+      pOut[i] += (q31_t)(pIn[i] > 0 ? 0.5 : -0.5);
 
-      if (pIn[i] == (float) 2.0)
+      if (fabs(pIn[i] - 2.0) < 1e-6)
         {
           pOut[i] = 0x7FFFFFFF;
         }
@@ -398,9 +400,9 @@ void arm_float_to_q29 (float *pIn, q31_t *pOut, uint32_t numSamples)
 	  /* 1073741824.0f corresponds to pow(2, 30) */
       pOut[i] = (q31_t) (pIn[i] * 536870912.0f);
 
-      pOut[i] += pIn[i] > 0 ? 0.5 : -0.5;
+      pOut[i] += (q31_t)(pIn[i] > 0 ? 0.5 : -0.5);
 
-      if (pIn[i] == (float) 4.0)
+      if (fabs(pIn[i] - 4.0) < 1e-6)
         {
           pOut[i] = 0x7FFFFFFF;
         }
@@ -426,9 +428,9 @@ void arm_float_to_q28 (float *pIn, q31_t *pOut, uint32_t numSamples)
 	/* 268435456.0f corresponds to pow(2, 28) */
       pOut[i] = (q31_t) (pIn[i] * 268435456.0f);
 
-      pOut[i] += pIn[i] > 0 ? 0.5 : -0.5;
+      pOut[i] += (q31_t)(pIn[i] > 0 ? 0.5 : -0.5);
 
-      if (pIn[i] == (float) 8.0)
+      if (fabs(pIn[i] - 8.0) < 1e-6)
         {
           pOut[i] = 0x7FFFFFFF;
         }

@@ -3,27 +3,15 @@
  * Description  : Contains data structures and functions used in Cloud Connectivity application
  **********************************************************************************************************************/
 /***********************************************************************************************************************
- * Copyright [2015-2022] Renesas Electronics Corporation and/or its licensors. All Rights Reserved.
- *
- * The contents of this file (the "contents") are proprietary and confidential to Renesas Electronics Corporation
- * and/or its licensors ("Renesas") and subject to statutory and contractual protections.
- *
- * This file is subject to a Renesas FSP license agreement. Unless otherwise agreed in an FSP license agreement with
- * Renesas: 1) you may not use, copy, modify, distribute, display, or perform the contents; 2) you may not use any name
- * or mark of Renesas for advertising or publicity purposes or in connection with your use of the contents; 3) RENESAS
- * MAKES NO WARRANTY OR REPRESENTATIONS ABOUT THE SUITABILITY OF THE CONTENTS FOR ANY PURPOSE; THE CONTENTS ARE PROVIDED
- * "AS IS" WITHOUT ANY EXPRESS OR IMPLIED WARRANTY, INCLUDING THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
- * PARTICULAR PURPOSE, AND NON-INFRINGEMENT; AND 4) RENESAS SHALL NOT BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, OR
- * CONSEQUENTIAL DAMAGES, INCLUDING DAMAGES RESULTING FROM LOSS OF USE, DATA, OR PROJECTS, WHETHER IN AN ACTION OF
- * CONTRACT OR TORT, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THE CONTENTS. Third-party contents
- * included in this file may be subject to different terms.
- **********************************************************************************************************************/
+* Copyright (c) 2015 - 2024 Renesas Electronics Corporation and/or its affiliates
+*
+* SPDX-License-Identifier: BSD-3-Clause
+***********************************************************************************************************************/ 
 #include <console_thread.h>
 #include "app_thread.h"
-#include "aws_dev_mode_key_provisioning.h"
+//#include "aws_dev_mode_key_provisioning.h"
 #include "common_utils.h"
 #include "mqtt_demo_helpers.h"
-#include "iot_logging_task.h"
 #include "usr_hal.h"
 #include "usr_config.h"
 #include "usr_data.h"
@@ -37,8 +25,16 @@
 #define MQTT_SEND_TIMEOUT                   (500)
 #define MILLISECONDS_PER_SECOND             (1000U)
 #define MILLISECONDS_PER_TICK               ( MILLISECONDS_PER_SECOND / configTICK_RATE_HZ )
-#define APP_DEBUG_MSG_CNTRL                 (1)
 #define APP_DEBUG_MSG_SEQ_CNTRL             (1)
+#define APP_DEBUG_MSG_CNTRL                 (1)
+
+/* Declare variables for receiving data from queue */
+usr_iaq_data_t g_iaq_data_rcv;
+usr_oaq_data_t g_oaq_data_rcv;
+usr_hs3001_data_t g_hs3001_data_rcv;
+usr_icp_data_t g_icp_data_rcv;
+usr_ob1203_data_t g_ob1203_data_rcv;
+usr_icm_data_t g_icm_data_rcv;
 
 /* How many topic filters will be used in this Application Project. */
 #define MAX_NUM_PUBLISH_TOPIC               (8)
@@ -54,9 +50,9 @@
 
 #define PUBLISH_PAYLOAD_FORMAT_IAQ_JSON     "{\r\n"\
                                             "\"IAQ\" : {\r\n"\
-                                            "      \"TVOC (mg/m^3)\" :\"%s\",\r\n"\
-											"      \"Etoh (ppm)\" :\"%s\",\r\n"\
-											"      \"eco2 (ppm)\" :\"%s\"\r\n"\
+                                            "      \"TVOC (mg/m^3)\" :\"%f\",\r\n"\
+											"      \"Etoh (ppm)\" :\"%f\",\r\n"\
+											"      \"eco2 (ppm)\" :\"%f\"\r\n"\
                                             "     }\r\n"\
                                             "}\r\n"
 #define PUBLISH_PAYLOAD_BUFFER_LENGTH_IAQ_JSON ( sizeof( PUBLISH_PAYLOAD_FORMAT_IAQ_JSON ) + 15 )
@@ -64,7 +60,7 @@
 
 #define PUBLISH_PAYLOAD_FORMAT_OAQ_JSON     "{\r\n"\
                                             "\"OAQ\" : {\r\n"\
-                                            "      \"air quality (Index)\" :\"%s\"\r\n"\
+                                            "      \"air quality (Index)\" :\"%f\"\r\n"\
                                             "\r\n         }\r\n"\
                                             "}\r\n"
 #define PUBLISH_PAYLOAD_BUFFER_LENGTH_OAQ_JSON ( sizeof( PUBLISH_PAYLOAD_FORMAT_OAQ_JSON ) + 5 )
@@ -72,8 +68,8 @@
 
 #define PUBLISH_PAYLOAD_FORMAT_HS3001_JSON  "{\r\n"\
                                             "\"HS3001\" : {\r\n"\
-                                            "      \"Humidity ()\" :\"%s\",\r\n"\
-                                            "      \"Temperature (F)\" :\"%s\"\r\n"\
+                                            "      \"Humidity ()\" :\"%f\",\r\n"\
+                                            "      \"Temperature (F)\" :\"%f\"\r\n"\
                                             "\r\n         }\r\n"\
                                             "}\r\n"
 #define PUBLISH_PAYLOAD_BUFFER_LENGTH_HS3001_JSON ( sizeof( PUBLISH_PAYLOAD_FORMAT_HS3001_JSON ) + 10 )
@@ -81,19 +77,19 @@
 #define PUBLISH_PAYLOAD_FORMAT_ICM_JSON     "{\r\n"\
                                             "\"ICM\" : {\r\n"\
                                             "   \"acc\" : {\r\n"\
-                                            "      \"x \" :\"%s\",\r\n"\
-                                            "      \"y \" :\"%s\",\r\n"\
-                                            "      \"z \" :\"%s\"\r\n"\
+                                            "      \"x \" :\"%f\",\r\n"\
+                                            "      \"y \" :\"%f\",\r\n"\
+                                            "      \"z \" :\"%f\"\r\n"\
                                             "   \r\n      },\r\n"\
                                             "   \"mag\" : {\r\n"\
-                                            "      \"x \" :\"%s\",\r\n"\
-                                            "      \"y \" :\"%s\",\r\n"\
-                                            "      \"z \" :\"%s\"\r\n"\
+                                            "      \"x \" :\"%f\",\r\n"\
+                                            "      \"y \" :\"%f\",\r\n"\
+                                            "      \"z \" :\"%f\"\r\n"\
                                             "   \r\n      },\r\n"\
                                             "   \"gyr\" : {\r\n"\
-                                            "      \"x \" :\"%s\",\r\n"\
-                                            "      \"y \" :\"%s\",\r\n"\
-                                            "      \"z \" :\"%s\"\r\n"\
+                                            "      \"x \" :\"%f\",\r\n"\
+                                            "      \"y \" :\"%f\",\r\n"\
+                                            "      \"z \" :\"%f\"\r\n"\
                                             "   \r\n      }\r\n"\
                                             "\r\n      }\r\n"\
                                             "}\r\n"
@@ -101,18 +97,18 @@
 
 #define PUBLISH_PAYLOAD_FORMAT_ICP_JSON     "{\r\n"\
                                             "\"ICP\" : {\r\n"\
-                                            "      \"Temperature (F)\" :\"%s\",\r\n"\
-                                            "      \"Pressure (Pa)\" :\"%s\"\r\n"\
+                                            "      \"Temperature (F)\" :\"%f\",\r\n"\
+                                            "      \"Pressure (Pa)\" :\"%f\"\r\n"\
                                             "\r\n         }\r\n"\
                                             "}\r\n"
 #define PUBLISH_PAYLOAD_BUFFER_LENGTH_ICP_JSON ( sizeof( PUBLISH_PAYLOAD_FORMAT_ICP_JSON ) + 10 )
 
 #define PUBLISH_PAYLOAD_FORMAT_OB1203_JSON  "{\r\n"\
                                             "\"OB1203\" : {\r\n"\
-                                            "      \"spo2 ()\" :\"%s\",\r\n"\
-                                            "      \"Heart Rate ()\" :\"%s\",\r\n"\
-                                            "      \"Breath rate ()\" :\"%s\",\r\n"\
-                                            "      \"P2P ()\" :\"%s\"\r\n"\
+                                            "      \"spo2 ()\" :\"%f\",\r\n"\
+                                            "      \"Heart Rate ()\" :\"%f\",\r\n"\
+                                            "      \"Breath rate ()\" :\"%f\",\r\n"\
+                                            "      \"P2P ()\" :\"%f\"\r\n"\
                                             "\r\n         }\r\n"\
                                             "}\r\n"
 #define PUBLISH_PAYLOAD_BUFFER_LENGTH_OB1203_JSON ( sizeof( PUBLISH_PAYLOAD_FORMAT_OB1203_JSON ) + 20 )
@@ -120,58 +116,56 @@
 
 #define PUBLISH_PAYLOAD_FORMAT_BULK_JSON     "{\r\n"\
                                              "\"IAQ\" : {\r\n"\
-                                             "      \"TVOC (mg/m^3)\" :\"%s\",\r\n"\
-                                             "      \"Etoh (ppm)\" :\"%s\",\r\n"\
-                                             "      \"eco2 (ppm)\" :\"%s\"\r\n"\
+                                             "      \"TVOC (mg/m^3)\" :\"%f\",\r\n"\
+                                             "      \"Etoh (ppm)\" :\"%f\",\r\n"\
+                                             "      \"eco2 (ppm)\" :\"%f\"\r\n"\
                                              "          },\r\n"\
                                              "\"OAQ\" : {\r\n"\
-	                                         "      \"air quality (Index)\" :\"%s\"\r\n"\
+	                                         "      \"air quality (Index)\" :\"%f\"\r\n"\
 	                                         "          },\r\n"\
 	                                         "\"HS3001\" : {\r\n"\
-	                                         "      \"Humidity ()\" :\"%s\",\r\n"\
-	                                         "      \"Temperature (F)\" :\"%s\"\r\n"\
+	                                         "      \"Humidity ()\" :\"%f\",\r\n"\
+	                                         "      \"Temperature (F)\" :\"%f\"\r\n"\
 	                                         "             },\r\n"\
                                              "\"ICM\" : {\r\n"\
                                              "   \"acc\" : {\r\n"\
-                                             "      \"x \" :\"%s\",\r\n"\
-                                             "      \"y \" :\"%s\",\r\n"\
-                                             "      \"z \" :\"%s\"\r\n"\
+                                             "      \"x \" :\"%f\",\r\n"\
+                                             "      \"y \" :\"%f\",\r\n"\
+                                             "      \"z \" :\"%f\"\r\n"\
                                              "             },\r\n"\
                                              "   \"mag\" : {\r\n"\
-                                             "      \"x \" :\"%s\",\r\n"\
-                                             "      \"y \" :\"%s\",\r\n"\
-                                             "      \"z \" :\"%s\"\r\n"\
+                                             "      \"x \" :\"%f\",\r\n"\
+                                             "      \"y \" :\"%f\",\r\n"\
+                                             "      \"z \" :\"%f\"\r\n"\
                                              "             },\r\n"\
                                              "   \"gyr\" : {\r\n"\
-                                             "      \"x \" :\"%s\",\r\n"\
-                                             "      \"y \" :\"%s\",\r\n"\
-                                             "      \"z \" :\"%s\"\r\n"\
+                                             "      \"x \" :\"%f\",\r\n"\
+                                             "      \"y \" :\"%f\",\r\n"\
+                                             "      \"z \" :\"%f\"\r\n"\
                                              "             }\r\n"\
                                              "         },\r\n"\
                                              "\"ICP\" : {\r\n"\
-                                             "      \"Temperature (F)\" :\"%s\",\r\n"\
-                                             "      \"Pressure (Pa)\" :\"%s\"\r\n"\
+                                             "      \"Temperature (F)\" :\"%f\",\r\n"\
+                                             "      \"Pressure (Pa)\" :\"%f\"\r\n"\
                                              "            },\r\n"\
 	                                         "\"OB1203\" : {\r\n"\
-	                                         "      \"spo2 ()\" :\"%s\",\r\n"\
-	                                         "      \"Heart Rate ()\" :\"%s\",\r\n"\
-	                                         "      \"Breath rate ()\" :\"%s\",\r\n"\
-	                                         "      \"P2P ()\" :\"%s\"\r\n"\
+	                                         "      \"spo2 ()\" :\"%f\",\r\n"\
+	                                         "      \"Heart Rate ()\" :\"%f\",\r\n"\
+	                                         "      \"Breath rate ()\" :\"%f\",\r\n"\
+	                                         "      \"P2P ()\" :\"%f\"\r\n"\
 	                                         "              }\r\n"\
                                              "}\r\n"
 #define PUBLISH_PAYLOAD_BUFFER_LENGTH_BULK_JSON ( sizeof( PUBLISH_PAYLOAD_FORMAT_BULK_JSON ) + 130 )
 
-extern void get_time();
 extern char* getDNS();
 extern bool setupCellular( void );
-extern void CRYPTO_Init( void );
 
 
 /*************************************************************************************
  * Private functions
  ************************************************************************************/
-static fsp_err_t config_littlFs_flash(void);
-static BaseType_t sendMessage(const char **pTopicNames, uint8_t Topics_index, char *message, uint8_t sizeIdx);
+static int config_littlFs_flash(void);
+static BaseType_t sendMessage(const char **pTopicNames, uint8_t Topics_index, double *message);
 
 static void IAQDataCallback( MQTTContext_t * pContext, MQTTPublishInfo_t * pPublishInfo );
 static void OAQDataCallback( MQTTContext_t * pContext, MQTTPublishInfo_t * pPublishInfo );
@@ -189,27 +183,34 @@ static int parse_spo2_led_actuation_message(mqtt_rx_payload_t *lmq_data);
  * global functions
  ************************************************************************************/
 void mqtt_cleanup_and_reinit(void);
-uint32_t get_mqtt_fail_count(void);
 
-extern void print_float(char *buffer, size_t buflen, double value);
-
+/**
+ * @brief Each compilation unit that consumes the NetworkContext must define it.
+ * It should contain a single pointer to the type of your desired transport.
+ * When using multiple transports in the same compilation unit, define this pointer as void *.
+ *
+ * @note Transport stacks are defined in FreeRTOS-Plus/Source/Application-Protocols/network_transport.
+ */
+struct NetworkContext
+{
+    TlsTransportParams_t * pParams;
+};
 extern TaskHandle_t sensor_thread;
 extern char g_certificate[CERTIFICATE_SIZE];
 extern char g_private_key[KEY_SIZE];
 extern char g_mqtt_endpoint[ENDPOINT_SIZE];
-extern uint32_t  console_status;
+extern uint32_t  g_console_status;
 
 /*************************************************************************************
  * global variables
  ************************************************************************************/
+
 /* The MQTT context used for MQTT operation. */
 MQTTContext_t xMqttContext;
-
 /* The network context used for TLS operation. */
 NetworkContext_t xNetworkContext;
 
-mqtt_status_t g_mqtt_status =
-{ .mqtt_connect_status = false, .status = pdFALSE};
+mqtt_status_t g_mqtt_status = { .mqtt_connect_status = false, .status = pdFALSE};
 
 char cBuffer[16] = { RESET_VALUE };
 
@@ -253,48 +254,45 @@ const char *pTopics_subscirbe[MAX_NUM_SUBSCRIBE_TOPIC] =
     "aws/topic/set_spo2_led_data",
 };
 
-struct NetworkContext
-{
-    TlsTransportParams_t * pParams;
-};
-
 /*************************************************************************************
  * Private variables
  ************************************************************************************/
-static char CLIENT_CERTIFICATE_PEM[2048];
-static char CLIENT_KEY_PEM[2048];
+char CLIENT_CERTIFICATE_PEM[2048];
+char CLIENT_KEY_PEM[2048];
 static char USER_MQTT_ENDPOINT[128];
 /* Static buffer used to hold MQTT messages being sent and received. */
-static uint8_t ucSharedBuffer[mqttexampleNETWORK_BUFFER_SIZE];
+static uint8_t ucSharedBuffer[MQTT_EXAMPLE_NETWORK_BUFFER_SIZE];
 /* Static buffer used to hold MQTT messages being sent and received. */
 static MQTTFixedBuffer_t xBuffer =
 {
     .pBuffer = ucSharedBuffer,
-    .size    = mqttexampleNETWORK_BUFFER_SIZE
+    .size    = MQTT_EXAMPLE_NETWORK_BUFFER_SIZE
 };
 
 static mqtt_rx_payload_t mq_data = { RESET_VALUE };
 static uint32_t mqtt_fail_count   = RESET_VALUE;
 static char pubPayload[PUBLISH_PAYLOAD_BUFFER_LENGTH_BULK_JSON] = { RESET_VALUE };
 
-
 /* The network context used for TLS operation. */
 NetworkContext_t networkContext;
 
 char * pHostResolvedAddress;
 TlsTransportStatus_t    tls_status;
-char                    temp_str[21][32] =  { RESET_VALUE };
+double   temp_db[21] =  { RESET_VALUE };
 
-
-
-/* Application Thread entry function */
-/* pvParameters contains TaskHandle_t */
+/*******************************************************************************************************************//**
+ * @brief      Application Thread entry function
+ * @param[in]   pvParameters     contains TaskHandle_t
+ * @retval
+ * @retval
+ ***********************************************************************************************************************/
 void app_thread_entry(void *pvParameters)
 {
     FSP_PARAMETER_NOT_USED (pvParameters);
     fsp_pack_version_t      version = {RESET_VALUE};
     fsp_err_t               err = FSP_SUCCESS;
     BaseType_t              bt_status = pdFALSE;
+    int                     lfs_err = LFS_ERR_OK;
     int                     ierr = FSP_SUCCESS;
     const char            * pcTopicFilter = NULL;
     uint16_t                topicFilterLength = RESET_VALUE;
@@ -304,7 +302,7 @@ void app_thread_entry(void *pvParameters)
     bool retCellular = true;
     static uint32_t   sequenceNumber = RESET_VALUE;
 
-    bt_status = xTaskNotifyWait(pdFALSE, pdFALSE, &console_status, portMAX_DELAY);
+    bt_status = xTaskNotifyWait(pdFALSE, pdFALSE, &g_console_status, portMAX_DELAY);
     FSP_PARAMETER_NOT_USED (pvParameters);
 
     /* Copy AWS client certificate, private key and MQTT end point */
@@ -316,33 +314,15 @@ void app_thread_entry(void *pvParameters)
     params.pucClientCertificate      = (uint8_t *) CLIENT_CERTIFICATE_PEM;
     params.ulClientPrivateKeyLength  = 1 + strlen((const char *) params.pucClientPrivateKey);
     params.ulClientCertificateLength = 1 + strlen((const char *) params.pucClientCertificate);
+    params.pucJITPCertificate        = NULL;
+    params.ulJITPCertificateLength   = 0;
 
     /* version get API for FLEX pack information */
     R_FSP_VersionGet(&version);
 
     /* Example Project information printed on the RTT */
-    APP_PRINT (BANNER_INFO, AP_VERSION, version.major, version.minor, version.patch);
+    APP_PRINT (BANNER_INFO, AP_VERSION, version.version_id_b.major, version.version_id_b.minor, version.version_id_b.patch);
 
-    err = config_littlFs_flash();
-    if (FSP_SUCCESS != err)
-    {
-        FAILURE_INDICATION
-        APP_ERR_PRINT("** littleFs flash config failed **\r\n");
-        APP_ERR_TRAP(err);
-    }
-
-    CRYPTO_Init();
-
-    /* Initialize the crypto hardware acceleration. */
-    ierr = mbedtls_platform_setup(NULL);
-    if (FSP_SUCCESS != ierr)
-    {
-        APP_ERR_PRINT("** HW SCE Init failed **\r\n");
-        APP_ERR_TRAP(ierr);
-    }
-
-    /* Start the logging task */
-    xLoggingTaskInitialize(256, 1, 10); // NOLINT(readability-magic-numbers)
 
     /* Initialize network context */
     networkContext.pParams = &transport_params;
@@ -363,6 +343,22 @@ void app_thread_entry(void *pvParameters)
     APP_PRINT ("Cellular Setup Done \r\n");
 
     pHostResolvedAddress = getDNS(USER_MQTT_ENDPOINT);
+    lfs_err = config_littlFs_flash();
+    if (LFS_ERR_OK != lfs_err)
+    {
+        FAILURE_INDICATION;
+        APP_ERR_PRINT("** littleFs flash config failed **\r\n");
+        APP_ERR_TRAP(lfs_err);
+    }
+
+    /* Initialize the crypto hardware acceleration. */
+     ierr = mbedtls_platform_setup(NULL);
+    if (FSP_SUCCESS != ierr)
+    {
+        APP_ERR_PRINT("** HW SCE Init failed **\r\n");
+        APP_ERR_TRAP(ierr);
+    }
+
 
     /* A simple example to demonstrate key and certificate provisioning in code flash using PKCS#11 interface.
      * This should be replaced by production ready key provisioning mechanism. */
@@ -370,7 +366,7 @@ void app_thread_entry(void *pvParameters)
     err = vAlternateKeyProvisioning (&params);
     if (FSP_SUCCESS != err)
     {
-	    FAILURE_INDICATION
+	    FAILURE_INDICATION;
 	    APP_ERR_PRINT("** Alternate Key Provisioning failed **\r\n");
 	    APP_ERR_TRAP(err);
     }
@@ -397,8 +393,8 @@ void app_thread_entry(void *pvParameters)
     else
     {
         APP_PRINT("TLS Connect Failure %d \r\n",tls_status);
+        APP_ERR_TRAP(tls_status);
     }
-
 
     /******** Attempt to establish TLS session with MQTT broker. **********/
     bt_status = EstablishMqttSession(&xMqttContext, &networkContext, &xBuffer, true);
@@ -537,46 +533,65 @@ void app_thread_entry(void *pvParameters)
     APP_PRINT("Device is Ready for Publishing and Subscription of Messages \r\n\r\n");
 
     xTaskNotifyFromISR(sensor_thread, 1, 1, NULL);
+
     while (1)
     {
         bt_status = xQueueReceive (g_topic_queue, &mq_data, QUEUE_WAIT);
         if( pdTRUE == bt_status )
         {
+            if(APP_DEBUG_MSG_SEQ_CNTRL)
+            {
+                APP_PRINT("\r\nMsg Sequence Number = %d \r\n",sequenceNumber++);
+            }
+			
             switch (mq_data.id)
             {
+				
                 case ID_IAQ_DATA_PULL:
                 case ID_IAQ_DATA_PUSH:
                 {
-                    APP_PRINT("Topic Received from Cloud for IAQ Sensor Data \r\n");
-                    AWS_ACTIVITY_INDICATION
-
-                    print_float (temp_str[0], sizeof(temp_str[0]), app_iaq_data.gs_tvoc);
-                    print_float (temp_str[1], sizeof(temp_str[1]), app_iaq_data.gs_etoh);
-                    print_float (temp_str[2], sizeof(temp_str[2]), app_iaq_data.gs_eco2);
+                    /* receive data from queue of IAQ sensor*/
+                    bt_status = xQueuePeek (g_iaq_queue, &g_iaq_data_rcv, 0);
+                    if( pdTRUE == bt_status )
+                    {
+                        APP_PRINT("Msg received from IAQ sensor \r\n");
+                        /* store value to temp_db array */
+                        temp_db[0] = g_iaq_data_rcv.gs_tvoc;
+                        temp_db[1] = g_iaq_data_rcv.gs_etoh;
+                        temp_db[2] = g_iaq_data_rcv.gs_eco2;
+                    }
+                    else
+                    {
+                        memset(temp_db, 0, sizeof(temp_db[0])*3);
+                        #if _ZMOD4410_SENSOR_ENABLE_
+                            APP_PRINT("Can not get value of IAQ sensor \r\n");
+                        #endif
+                    }
+                    AWS_ACTIVITY_INDICATION;
 
                     if(APP_DEBUG_MSG_CNTRL)
                     {
-                        APP_PRINT("IAQ data tvoc  %s \r\n",temp_str[0]);
-                        APP_PRINT("IAQ data etoh  %s \r\n",temp_str[1]);
-                        APP_PRINT("IAQ data eco2  %s \r\n",temp_str[2]);
+                        APP_PRINT("IAQ data tvoc  %f \r\n",temp_db[0]);
+                        APP_PRINT("IAQ data etoh  %f \r\n",temp_db[1]);
+                        APP_PRINT("IAQ data eco2  %f \r\n",temp_db[2]);
                     }
                     if(pdTRUE == g_mqtt_status.status)
                     {
-                        g_mqtt_status.status = sendMessage (pTopics_publish, (uint8_t)ID_IAQ_DATA_PULL, (char *)temp_str,32);
+                        g_mqtt_status.status = sendMessage (pTopics_publish, (uint8_t)ID_IAQ_DATA_PULL, temp_db);
                         if ((pdTRUE != g_mqtt_status.status))
                         {
-                             APP_ERR_PRINT("** IAQ Sensor Message Publish failed **\r\n");
-                             mqtt_fail_count++;
-                             mqtt_cleanup_and_reinit ();
+                                APP_ERR_PRINT("** IAQ Sensor Message Publish failed **\r\n");
+                                mqtt_fail_count++;
+                                mqtt_cleanup_and_reinit ();
                         }
                         else
                         {
-                             AWS_ACTIVITY_INDICATION
+                            AWS_ACTIVITY_INDICATION;
                         }
                     }
                     else
                     {
-                         APP_PRINT("MQTT Cleanup and reinit in Progress. Messages will be published once Up and Running \r\n");
+                        APP_PRINT("MQTT Cleanup and reinit in Progress. Messages will be published once Up and Running \r\n");
                     }
                 }
                 break;
@@ -584,264 +599,404 @@ void app_thread_entry(void *pvParameters)
                 case ID_OAQ_DATA_PULL:
                 case ID_OAQ_DATA_PUSH:
                 {
-                     APP_PRINT("Topic Received from Cloud for OAQ Sensor Data \r\n");
-                     print_float (temp_str[0], sizeof(temp_str[0]), app_oaq_data.gs_air_quality);
+                    /* receive data from queue of OAQ sensor */
+                    bt_status = xQueuePeek (g_oaq_queue, &g_oaq_data_rcv, 0);
+                    if( pdTRUE == bt_status )
+                    {
+                        APP_PRINT("Msg received from OAQ sensor\r\n");
+                        /* store value to temp_db array */
+                        temp_db[0] = g_oaq_data_rcv.gs_air_quality;
+                    }
+                    else
+                    {
+                        memset(temp_db, 0, sizeof(temp_db[0]));
+                        #if  _ZMOD4510_SENSOR_ENABLE_
+                            APP_PRINT("Can not get value of OAQ sensor \r\n");
+                        #endif
+                    }
+                    if(APP_DEBUG_MSG_CNTRL)
+                    {
+                        APP_PRINT("OAQ data  %f \r\n",temp_db[0]);
+                    }
 
-                     if(APP_DEBUG_MSG_CNTRL)
-                     {
-                         APP_PRINT("OAQ data  %s \r\n",temp_str[0]);
-                     }
-
-                     if(pdTRUE == g_mqtt_status.status)
-                     {
-                         g_mqtt_status.status = sendMessage (pTopics_publish, (uint8_t)ID_OAQ_DATA_PULL, (char *)temp_str,32);
-                         if ((pdTRUE != g_mqtt_status.status))
-                         {
-                              APP_ERR_PRINT("** IAQ Sensor Message Publish failed **\r\n");
-                              mqtt_fail_count++;
-                              mqtt_cleanup_and_reinit ();
-                         }
-                         else
-                         {
-                             AWS_ACTIVITY_INDICATION
-                         }
-                     }
-                     else
-                     {
-                          APP_PRINT("MQTT Cleanup and reinit in Progress. Messages will be published once Up and Running \r\n");
-                     }
-
-                 }
-                 break;
+                    if(pdTRUE == g_mqtt_status.status)
+                    {
+                        g_mqtt_status.status = sendMessage (pTopics_publish, (uint8_t)ID_OAQ_DATA_PULL, temp_db);
+                        if ((pdTRUE != g_mqtt_status.status))
+                        {
+                            APP_ERR_PRINT("** OAQ Sensor Message Publish failed **\r\n");
+                            mqtt_fail_count++;
+                            mqtt_cleanup_and_reinit ();
+                        }
+                        else
+                        {
+                            AWS_ACTIVITY_INDICATION;
+                        }
+                    }
+                    else
+                    {
+                        APP_PRINT("MQTT Cleanup and reinit in Progress. Messages will be published once Up and Running \r\n");
+                    }
+                }
+                break;
 
                 case ID_HS_DATA_PULL:
                 case ID_HS_DATA_PUSH:
                 {
-                     APP_PRINT("Topic Received from Cloud for HS3001 Sensor Data \r\n");
-                     print_float (temp_str[0], sizeof(temp_str[0]), app_hs3001_data.gs_humidity);
-                     print_float (temp_str[1], sizeof(temp_str[1]), app_hs3001_data.gs_temperature);
+                    /* receive data from queue of HS3001 sensor*/
+                    bt_status = xQueuePeek (g_hs3001_queue, &g_hs3001_data_rcv, 0);
+                    if( pdTRUE == bt_status )
+                    {
+                        APP_PRINT("Msg data received from HS3001 sensor \r\n");
+                        /* store value to temp_db array */
+                        temp_db[0] = g_hs3001_data_rcv.gs_humidity;
+                        temp_db[1] = (g_hs3001_data_rcv.gs_temperature * (float) 1.8) + (float) 32.0;
+                    }
+                    else
+                    {
+                        memset(temp_db, 0, sizeof(temp_db[0])*2);
+                        #if _HS3001_SENSOR_ENABLE_
+                            APP_PRINT("Can not get value of HS3001 sensor \r\n");
+                        #endif
+                    }
 
-                     if(APP_DEBUG_MSG_CNTRL){
-                         APP_PRINT("HS3001 data  %s \r\n",temp_str[0]);
-                         APP_PRINT("HS3001 data  %s \r\n",temp_str[1]);
-                     }
-
-                     if(pdTRUE == g_mqtt_status.status)
-                     {
-                         g_mqtt_status.status = sendMessage (pTopics_publish, (uint8_t)ID_HS_DATA_PULL, (char *)temp_str,32);
-                         if ((pdTRUE != g_mqtt_status.status))
-                         {
-                              APP_ERR_PRINT("** HS3001 Sensor Message Publish failed **\r\n");
-                              mqtt_fail_count++;
-                              mqtt_cleanup_and_reinit ();
-                         }
-                         else
-                         {
-                              AWS_ACTIVITY_INDICATION
-                         }
-                     }
-                     else
-                     {
-                          APP_PRINT("MQTT Cleanup and reinit in Progress. Messages will be published once Up and Running \r\n");
-                     }
-
-                 }
-                 break;
+                    if(APP_DEBUG_MSG_CNTRL){
+                        APP_PRINT("HS3001 data - humidity: %f \r\n",temp_db[0]);
+                        APP_PRINT("HS3001 data - temperature: %f \r\n",temp_db[1]);
+                    }
+                    if(pdTRUE == g_mqtt_status.status)
+                    {
+                        g_mqtt_status.status = sendMessage (pTopics_publish, (uint8_t)ID_HS_DATA_PULL, temp_db);
+                        if ((pdTRUE != g_mqtt_status.status))
+                        {
+                            APP_ERR_PRINT("** HS3001 Sensor Message Publish failed **\r\n");
+                            mqtt_fail_count++;
+                            mqtt_cleanup_and_reinit ();
+                        }
+                        else
+                        {
+                            AWS_ACTIVITY_INDICATION;
+                        }
+                    }
+                    else
+                    {
+                        APP_PRINT("MQTT Cleanup and reinit in Progress. Messages will be published once Up and Running \r\n");
+                    }
+                }
+                break;
 
                 case ID_ICM_DATA_PULL:
                 case ID_ICM_DATA_PUSH:
                 {
-                     APP_PRINT("Topic Received from Cloud for ICM Sensor Data \r\n");
-                     print_float (temp_str[0], sizeof(temp_str[0]), app_icm_data.acc_data.x);
-                     print_float (temp_str[1], sizeof(temp_str[1]), app_icm_data.acc_data.y);
-                     print_float (temp_str[2], sizeof(temp_str[2]), app_icm_data.acc_data.z);
+                    /* receive data from queue of ICM sensor*/
+                    bt_status = xQueuePeek (g_icm_queue, &g_icm_data_rcv, 0);
+                    if( pdTRUE == bt_status )
+                    {
+                        APP_PRINT("Msg data received from ICM sensor \r\n");
+                         /* store value to temp_db array */
+                        temp_db[0] = g_icm_data_rcv.acc_data.x;
+                        temp_db[1] = g_icm_data_rcv.acc_data.y;
+                        temp_db[2] = g_icm_data_rcv.acc_data.z;
+                        temp_db[3] = g_icm_data_rcv.mag_data.x;
+                        temp_db[4] = g_icm_data_rcv.mag_data.y;
+                        temp_db[5] = g_icm_data_rcv.mag_data.z;
+                        temp_db[6] = g_icm_data_rcv.gyr_data.x;
+                        temp_db[7] = g_icm_data_rcv.gyr_data.y;
+                        temp_db[8] = g_icm_data_rcv.gyr_data.z;
+                    }
+                    else
+                    {
+                        memset(temp_db, 0, sizeof(temp_db[0])*9);
+                        #if _ICM20948_SENSOR_ENABLE_
+                            APP_PRINT("Can not get value of ICM sensor \r\n");
+                        #endif
+                    }
+                    if(APP_DEBUG_MSG_CNTRL)
+                    {
+                        APP_PRINT("ICM data acce x %f \r\n",temp_db[0]);
+                        APP_PRINT("ICM data acce y %f \r\n",temp_db[1]);
+                        APP_PRINT("ICM data acce z %f \r\n",temp_db[2]);
 
-                     print_float (temp_str[3], sizeof(temp_str[3]), app_icm_data.mag_data.x);
-                     print_float (temp_str[4], sizeof(temp_str[4]), app_icm_data.mag_data.y);
-                     print_float (temp_str[5], sizeof(temp_str[5]), app_icm_data.mag_data.z);
+                        APP_PRINT("ICM data mag x %f \r\n",temp_db[3]);
+                        APP_PRINT("ICM data mag y %f \r\n",temp_db[4]);
+                        APP_PRINT("ICM data mag z %f \r\n",temp_db[5]);
 
-                     print_float (temp_str[6], sizeof(temp_str[6]), app_icm_data.gyr_data.x);
-                     print_float (temp_str[7], sizeof(temp_str[7]), app_icm_data.gyr_data.y);
-                     print_float (temp_str[8], sizeof(temp_str[8]), app_icm_data.gyr_data.z);
+                        APP_PRINT("ICM data gyr x %f \r\n",temp_db[6]);
+                        APP_PRINT("ICM data gyr y %f \r\n",temp_db[7]);
+                        APP_PRINT("ICM data gyr z %f \r\n",temp_db[8]);
+                    }
 
-                     if(APP_DEBUG_MSG_CNTRL)
-                     {
-                         APP_PRINT("ICM data acce %s \r\n",temp_str[0]);
-                         APP_PRINT("ICM data acce %s \r\n",temp_str[1]);
-                         APP_PRINT("ICM data acce %s \r\n",temp_str[2]);
+                    if(pdTRUE == g_mqtt_status.status)
+                    {
+                        g_mqtt_status.status = sendMessage (pTopics_publish, (uint8_t)ID_ICM_DATA_PULL,temp_db);
+                        if ((pdTRUE != g_mqtt_status.status))
+                        {
+                            APP_ERR_PRINT("** ICM Sensor Message Publish failed **\r\n");
+                            mqtt_fail_count++;
+                            mqtt_cleanup_and_reinit ();
+                        }
+                        else
+                        {
+                            AWS_ACTIVITY_INDICATION;
+                        }
+                    }
+                    else
+                    {
+                        APP_PRINT("MQTT Cleanup and reinit in Progress. Messages will be published once Up and Running \r\n");
+                    }
 
-                         APP_PRINT("ICM data mag %s \r\n",temp_str[3]);
-                         APP_PRINT("ICM data mag %s \r\n",temp_str[4]);
-                         APP_PRINT("ICM data mag %s \r\n",temp_str[5]);
-
-                         APP_PRINT("ICM data gyr %s \r\n",temp_str[6]);
-                         APP_PRINT("ICM data gyr %s \r\n",temp_str[7]);
-                         APP_PRINT("ICM data gyr %s \r\n",temp_str[8]);
-                     }
-
-                     if(pdTRUE == g_mqtt_status.status)
-                     {
-                         g_mqtt_status.status = sendMessage (pTopics_publish, (uint8_t)ID_ICM_DATA_PULL, (char *)temp_str,32);
-                         if ((pdTRUE != g_mqtt_status.status))
-                         {
-                              APP_ERR_PRINT("** ICM Sensor Message Publish failed **\r\n");
-                              mqtt_fail_count++;
-                              mqtt_cleanup_and_reinit ();
-                         }
-                         else
-                         {
-                              AWS_ACTIVITY_INDICATION
-                         }
-                     }
-                     else
-                     {
-                          APP_PRINT("MQTT Cleanup and reinit in Progress. Messages will be published once Up and Running \r\n");
-                     }
-
-                 }
-                 break;
+                }
+                break;
 
                 case ID_ICP_DATA_PULL:
                 case ID_ICP_DATA_PUSH:
                 {
-                     APP_PRINT("Topic Received from Cloud for ICP Sensor Data \r\n");
-                     print_float (temp_str[0], sizeof(temp_str[0]), app_icp_data.temperature_C);
-                     print_float (temp_str[1], sizeof(temp_str[1]), app_icp_data.pressure_Pa);
+                    /* receive data from queue of ICP sensor*/
+                    bt_status = xQueuePeek (g_icp_queue, &g_icp_data_rcv, 0);
+                    if( pdTRUE == bt_status )
+                    {
+                        APP_PRINT("Msg data received from ICP sensor \r\n");
+                        /* store value to temp_db array */
+                        temp_db[0] = (g_icp_data_rcv.temperature_C * (float) 1.8) + (float) 32.0;
+                        temp_db[1] = g_icp_data_rcv.pressure_Pa;
 
-                     if(APP_DEBUG_MSG_CNTRL)
-                     {
-                         APP_PRINT("ICP data  %s \r\n",temp_str[0]);
-                         APP_PRINT("ICP data  %s \r\n",temp_str[1]);
-                     }
+                    }
+                    else
+                    {
+                        memset(temp_db, 0, sizeof(temp_db[0])*2);
+                        #if _ICP10101_SENSOR_ENABLE_
+                            APP_PRINT("Can not get value of ICP sensor \r\n");
+                        #endif
+                    }
+                    if(APP_DEBUG_MSG_CNTRL)
+                    {
+                        APP_PRINT("ICP data - temperature:  %f \r\n",temp_db[0]);
+                        APP_PRINT("ICP data - pressure:  %f \r\n",temp_db[1]);
+                    }
 
-                     if(pdTRUE == g_mqtt_status.status)
-                     {
-                         g_mqtt_status.status = sendMessage (pTopics_publish, (uint8_t)ID_ICP_DATA_PULL, (char *)temp_str,32);
-                         if ((pdTRUE != g_mqtt_status.status))
-                         {
-                              APP_ERR_PRINT("** ICM Sensor Message Publish failed **\r\n");
-                              mqtt_fail_count++;
-                              mqtt_cleanup_and_reinit ();
-                         }
-                         else
-                         {
-                              AWS_ACTIVITY_INDICATION
-                         }
-                     }
-                     else
-                     {
-                          APP_PRINT("MQTT Cleanup and reinit in Progress. Messages will be published once Up and Running \r\n");
-                     }
-
-                 }
-                 break;
+                    if(pdTRUE == g_mqtt_status.status)
+                    {
+                        g_mqtt_status.status = sendMessage (pTopics_publish, (uint8_t)ID_ICP_DATA_PULL, temp_db);
+                        if ((pdTRUE != g_mqtt_status.status))
+                        {
+                            APP_ERR_PRINT("** ICM Sensor Message Publish failed **\r\n");
+                            mqtt_fail_count++;
+                            mqtt_cleanup_and_reinit ();
+                        }
+                        else
+                        {
+                            AWS_ACTIVITY_INDICATION;
+                        }
+                    }
+                    else
+                    {
+                        APP_PRINT("MQTT Cleanup and reinit in Progress. Messages will be published once Up and Running \r\n");
+                    }
+                }
+                break;
 
                 case ID_OB1203_DATA_PULL:
                 case ID_OB1203_DATA_PUSH:
                 {
+                    /* receive data from queue of OB1203 sensor*/
+                    bt_status = xQueuePeek (g_ob1203_queue, &g_ob1203_data_rcv, 0);
+                    if( pdTRUE == bt_status )
+                    {
+                        APP_PRINT("Msg received from OB1203 sensor \r\n");
+                        /* store value to temp_db array */
+                        temp_db[0] = g_ob1203_data_rcv.spo2_val;
+                        temp_db[1] = g_ob1203_data_rcv.heart_rate_Val;
+                        temp_db[2] = g_ob1203_data_rcv.breathing_rate;
+                        temp_db[3] = g_ob1203_data_rcv.r_p2p;
+                    }
+                    else
+                    {
+                        memset(temp_db, 0, sizeof(temp_db[0])*4);
+                        #if _OB1203_SENSOR_ENABLE_
+                            APP_PRINT("Can not get value of OB1203 sensor \r\n");
+                        #endif
+                    }
 
-                     APP_PRINT("Topic Received from Cloud for OB1203 Sensor Data \r\n");
-                     print_float (temp_str[0], sizeof(temp_str[0]), app_ob1203_data.spo2_val);
-                     print_float (temp_str[1], sizeof(temp_str[1]), app_ob1203_data.heart_rate_Val);
-                     print_float (temp_str[2], sizeof(temp_str[2]), app_ob1203_data.breathing_rate);
-                     print_float (temp_str[3], sizeof(temp_str[3]), app_ob1203_data.r_p2p);
+                    if(APP_DEBUG_MSG_CNTRL)
+                    {
+                        APP_PRINT("OB1203 data - spo2:  %f \r\n",temp_db[0]);
+                        APP_PRINT("OB1203 data - Heart Rate:  %f \r\n",temp_db[1]);
+                        APP_PRINT("OB1203 data - Breath rate:  %f \r\n",temp_db[2]);
+                        APP_PRINT("OB1203 data - P2P:  %f \r\n",temp_db[3]);
+                    }
 
-                     if(APP_DEBUG_MSG_CNTRL)
-                     {
-                         APP_PRINT("OB1203 data  %s \r\n",temp_str[0]);
-                         APP_PRINT("OB1203 data  %s \r\n",temp_str[1]);
-                         APP_PRINT("OB1203 data  %s \r\n",temp_str[2]);
-                         APP_PRINT("OB1203 data  %s \r\n",temp_str[3]);
-                     }
-
-                     if(pdTRUE == g_mqtt_status.status)
-                     {
-                         g_mqtt_status.status = sendMessage (pTopics_publish, (uint8_t)ID_OB1203_DATA_PULL, (char *)temp_str,32);
-                         if ((pdTRUE != g_mqtt_status.status))
-                         {
-                              APP_ERR_PRINT("** ICM Sensor Message Publish failed **\r\n");
-                              mqtt_fail_count++;
-                              mqtt_cleanup_and_reinit ();
-                         }
-                         else
-                         {
-                             AWS_ACTIVITY_INDICATION
-                         }
-                     }
-                     else
-                     {
-                          APP_PRINT("MQTT Cleanup and reinit in Progress. Messages will be published once Up and Running \r\n");
-                     }
-
-                 }
-                 break;
+                    if(pdTRUE == g_mqtt_status.status)
+                    {
+                        g_mqtt_status.status = sendMessage (pTopics_publish, (uint8_t)ID_OB1203_DATA_PULL, temp_db);
+                        if ((pdTRUE != g_mqtt_status.status))
+                        {
+                            APP_ERR_PRINT("** ICM Sensor Message Publish failed **\r\n");
+                            mqtt_fail_count++;
+                            mqtt_cleanup_and_reinit ();
+                        }
+                        else
+                        {
+                            AWS_ACTIVITY_INDICATION;
+                        }
+                    }
+                    else
+                    {
+                        APP_PRINT("MQTT Cleanup and reinit in Progress. Messages will be published once Up and Running \r\n");
+                    }
+                }
+                break;
                 case ID_BULK_SENS_DATA_PULL:
                 case ID_BULK_SENS_DATA_PUSH:
                 {
-                     APP_PRINT("Topic Received from Cloud for Bulk Sensor Data \r\n");
-                     print_float (temp_str[0], sizeof(temp_str[0]), app_iaq_data.gs_etoh);
-                     print_float (temp_str[1], sizeof(temp_str[1]), app_iaq_data.gs_eco2);
-                     print_float (temp_str[2], sizeof(temp_str[2]), app_iaq_data.gs_tvoc);
+                    /* get value of IAQ sensor */
+                    bt_status = xQueuePeek (g_iaq_queue, &app_iaq_data, 0);
+                    if( pdTRUE == bt_status )
+                    {
+                        temp_db[0] = app_iaq_data.gs_tvoc;
+                        temp_db[1] = app_iaq_data.gs_etoh;
+                        temp_db[2] = app_iaq_data.gs_eco2;
+                    }
+                    else
+                    {
+                        temp_db[0] = 0;
+                        temp_db[1] = 0;
+                        temp_db[2] = 0;
+                        #if _ZMOD4410_SENSOR_ENABLE_
+                            APP_PRINT("Can not get value of IAQ sensor \r\n");
+                        #endif
+                    }
 
-                     print_float (temp_str[3], sizeof(temp_str[3]), app_oaq_data.gs_air_quality);
+                    /* get value of OAQ sensor */
+                    bt_status = xQueuePeek (g_oaq_queue, &app_oaq_data, 0);
+                    if( pdTRUE == bt_status )
+                    {
+                        temp_db[3] = app_oaq_data.gs_air_quality;
+                    }
+                    else
+                    {
+                        temp_db[3] = 0;
+                        #if  _ZMOD4510_SENSOR_ENABLE_
+                            APP_PRINT("Can not get value of OAQ sensor \r\n");
+                        #endif
+                    }
 
-                     print_float (temp_str[4], sizeof(temp_str[4]), app_hs3001_data.gs_humidity);
-                     print_float (temp_str[5], sizeof(temp_str[5]), app_hs3001_data.gs_temperature);
+                    /* get value of HS3001 sensor */
+                    bt_status = xQueuePeek (g_hs3001_queue, &app_hs3001_data, 0);
+                    if( pdTRUE == bt_status )
+                    {
+                        temp_db[4] = app_hs3001_data.gs_humidity;
+                        temp_db[5] = (app_hs3001_data.gs_temperature * (float) 1.8) + (float) 32.0;
+                    }
+                    else
+                    {
+                        temp_db[4] = 0;
+                        temp_db[5] = 0;
+                        #if _HS3001_SENSOR_ENABLE_
+                            APP_PRINT("Can not get value of HS3001 sensor \r\n");
+                        #endif
+                    }
 
-                     print_float (temp_str[6], sizeof(temp_str[6]), app_icm_data.acc_data.x);
-                     print_float (temp_str[7], sizeof(temp_str[7]), app_icm_data.acc_data.y);
-                     print_float (temp_str[8], sizeof(temp_str[8]), app_icm_data.acc_data.z);
+                    /* get value of ICM sensor */
+                    bt_status = xQueuePeek (g_icm_queue, &app_icm_data, 0);
+                    if( pdTRUE == bt_status )
+                    {
+                        temp_db[6] = app_icm_data.acc_data.x;
+                        temp_db[7] = app_icm_data.acc_data.y;
+                        temp_db[8] = app_icm_data.acc_data.z;
+                        temp_db[9] = app_icm_data.mag_data.x;
+                        temp_db[10] = app_icm_data.mag_data.y;
+                        temp_db[11] = app_icm_data.mag_data.z;
+                        temp_db[12] = app_icm_data.gyr_data.x;
+                        temp_db[13] = app_icm_data.gyr_data.y;
+                        temp_db[14] = app_icm_data.gyr_data.z;
+                    }
+                    else
+                    {
+                        temp_db[6] = 0;
+                        temp_db[7] = 0;
+                        temp_db[8] = 0;
+                        temp_db[9] = 0;
+                        temp_db[10] = 0;
+                        temp_db[11] = 0;
+                        temp_db[12] = 0;
+                        temp_db[13] = 0;
+                        temp_db[14] = 0;
+                        #if _ICM20948_SENSOR_ENABLE_
+                            APP_PRINT("Can not get value of ICM sensor \r\n");
+                        #endif
+                    }
 
-                     print_float (temp_str[9], sizeof(temp_str[9]), app_icm_data.mag_data.x);
-                     print_float (temp_str[10], sizeof(temp_str[10]), app_icm_data.mag_data.y);
-                     print_float (temp_str[11], sizeof(temp_str[11]), app_icm_data.mag_data.z);
+                    /* get value of ICP sensor */
+                    bt_status = xQueuePeek (g_icp_queue, &app_icp_data, 0);
+                    if( pdTRUE == bt_status )
+                    {
+                        temp_db[15] = (app_icp_data.temperature_C * (float) 1.8) + (float) 32.0;
+                        temp_db[16] = app_icp_data.pressure_Pa;
+                    }
+                    else
+                    {
+                        temp_db[15] = 0;
+                        temp_db[16] = 0;
+                        #if _ICP10101_SENSOR_ENABLE_
+                            APP_PRINT("Can not get value of ICP sensor \r\n");
+                        #endif
+                    }
 
-                     print_float (temp_str[12], sizeof(temp_str[12]), app_icm_data.gyr_data.x);
-                     print_float (temp_str[13], sizeof(temp_str[13]), app_icm_data.gyr_data.y);
-                     print_float (temp_str[14], sizeof(temp_str[14]), app_icm_data.gyr_data.z);
+                    /* get value of OB1203 sensor */
+                    bt_status = xQueuePeek (g_ob1203_queue, &app_ob1203_data, 0);
+                    if( pdTRUE == bt_status )
+                    {
+                        temp_db[17] = app_ob1203_data.spo2_val;
+                        temp_db[18] = app_ob1203_data.heart_rate_Val;
+                        temp_db[19] = app_ob1203_data.breathing_rate;
+                        temp_db[20] = app_ob1203_data.r_p2p;
+                    }
+                    else
+                    {
+                        temp_db[17] = 0;
+                        temp_db[18] = 0;
+                        temp_db[19] = 0;
+                        temp_db[20] = 0;
+                        #if _OB1203_SENSOR_ENABLE_
+                            APP_PRINT("Can not get value of OB1203 sensor \r\n");
+                        #endif
+                    }
 
-                     print_float (temp_str[15], sizeof(temp_str[15]), app_icp_data.temperature_C);
-                     print_float (temp_str[16], sizeof(temp_str[16]), app_icp_data.pressure_Pa);
-
-                     print_float (temp_str[17], sizeof(temp_str[17]), app_ob1203_data.spo2_val);
-                     print_float (temp_str[18], sizeof(temp_str[18]), app_ob1203_data.heart_rate_Val);
-                     print_float (temp_str[19], sizeof(temp_str[19]), app_ob1203_data.breathing_rate);
-                     print_float (temp_str[20], sizeof(temp_str[20]), app_ob1203_data.r_p2p);
+                    APP_PRINT("Msg received for  Bulk Sensor Data \r\n");
 
                      if(APP_DEBUG_MSG_CNTRL)
                      {
-                         APP_PRINT("IAQ etoh  %s \r\n",temp_str[0]);
-                         APP_PRINT("IAQ eco2  %s \r\n",temp_str[1]);
-                         APP_PRINT("IAQ tvoc  %s \r\n",temp_str[2]);
+                         APP_PRINT("IAQ tvoc  %f \r\n",temp_db[0]);
+                         APP_PRINT("IAQ etoh %f \r\n",temp_db[1]);
+                         APP_PRINT("IAQ eco2 %f \r\n",temp_db[2]);
 
-                         APP_PRINT("OAQ air_quality  %s \r\n",temp_str[3]);
+                         APP_PRINT("OAQ air_quality  %f \r\n",temp_db[3]);
 
-                         APP_PRINT("HS3001 Humidity  %s \r\n",temp_str[4]);
-                         APP_PRINT("HS3001 temperature  %s \r\n",temp_str[5]);
+                         APP_PRINT("HS3001 Humidity  %f \r\n",temp_db[4]);
+                         APP_PRINT("HS3001 temperature  %f \r\n",temp_db[5]);
 
-                         APP_PRINT("ICM data  %s \r\n",temp_str[6]);
-                         APP_PRINT("ICM data  %s \r\n",temp_str[7]);
-                         APP_PRINT("ICM data  %s \r\n",temp_str[8]);
-                         APP_PRINT("ICM data  %s \r\n",temp_str[9]);
+                         APP_PRINT("ICM data acce x  %f \r\n",temp_db[6]);
+                         APP_PRINT("ICM data acce y  %f \r\n",temp_db[7]);
+                         APP_PRINT("ICM data acce z  %f \r\n",temp_db[8]);
+                         APP_PRINT("ICM data mag x  %f \r\n",temp_db[9]);
+                         APP_PRINT("ICM data mag y  %f \r\n",temp_db[10]);
+                         APP_PRINT("ICM data mag z  %f \r\n",temp_db[11]);
+                         APP_PRINT("ICM data gyr x  %f \r\n",temp_db[12]);
+                         APP_PRINT("ICM data gyr y  %f \r\n",temp_db[13]);
+                         APP_PRINT("ICM data gyr z  %f \r\n",temp_db[14]);
 
-                         APP_PRINT("ICM data  %s \r\n",temp_str[10]);
-                         APP_PRINT("ICM data  %s \r\n",temp_str[11]);
-                         APP_PRINT("ICM data  %s \r\n",temp_str[12]);
+                         APP_PRINT("ICP data - temperature %f \r\n",temp_db[15]);
+                         APP_PRINT("ICP data - pressure %f \r\n",temp_db[16]);
 
-                         APP_PRINT("ICM data  %s \r\n",temp_str[13]);
-                         APP_PRINT("ICM data  %s \r\n",temp_str[14]);
-                         APP_PRINT("ICM data  %s \r\n",temp_str[15]);
-
-                         APP_PRINT("ICM data  %s \r\n",temp_str[16]);
-                         APP_PRINT("ICM data  %s \r\n",temp_str[17]);
-                         APP_PRINT("ICM data  %s \r\n",temp_str[18]);
-                         APP_PRINT("ICM data  %s \r\n",temp_str[19]);
-                         APP_PRINT("ICM data  %s \r\n",temp_str[20]);
+                         APP_PRINT("OB1203 data - spo2 %f \r\n",temp_db[17]);
+                         APP_PRINT("OB1203 data - Heart rate %f \r\n",temp_db[18]);
+                         APP_PRINT("OB1203 data - Breath rate %f \r\n",temp_db[19]);
+                         APP_PRINT("OB1203 data - P2P %f \r\n",temp_db[20]);
                      }
 
                      if(pdTRUE == g_mqtt_status.status)
                      {
-                         g_mqtt_status.status = sendMessage (pTopics_publish, (uint8_t)ID_BULK_SENS_DATA_PULL, (char *)temp_str,32);
+                         g_mqtt_status.status = sendMessage (pTopics_publish, (uint8_t)ID_BULK_SENS_DATA_PULL, temp_db);
                          if ((pdTRUE != g_mqtt_status.status))
                          {
                               APP_ERR_PRINT("** Bulk Sensor Message Publish failed **\r\n");
@@ -850,7 +1005,7 @@ void app_thread_entry(void *pvParameters)
                          }
                          else
                          {
-                             AWS_ACTIVITY_INDICATION
+                             AWS_ACTIVITY_INDICATION;
                          }
                      }
                      else
@@ -861,7 +1016,7 @@ void app_thread_entry(void *pvParameters)
                  break;
                 case ID_TEMPERATURE_DATA_PUSH:
                 {
-                    APP_PRINT("Topic Received from Cloud %s \r\n",mq_data.value.led_data.led_act_topic_msg);
+                    APP_PRINT("Topic Received from Cloud %s \r\n",mq_data.led_data.led_act_topic_msg);
                     if (FSP_SUCCESS != parse_temperature_led_actuation_message (&mq_data))
                     {
                         APP_ERR_PRINT("** LED Topic Actuation returned  Error **\r\n");
@@ -869,13 +1024,13 @@ void app_thread_entry(void *pvParameters)
                     }
                     else
                     {
-                        AWS_ACTIVITY_INDICATION
+                        AWS_ACTIVITY_INDICATION;
                     }
                 }
                 break;
                 case ID_SPO2_DATA_PUSH:
                 {
-                    APP_PRINT("Topic Received from Cloud %s \r\n",mq_data.value.led_data.led_act_topic_msg);
+                    APP_PRINT("Topic Received from Cloud %s \r\n",mq_data.led_data.led_act_topic_msg);
                     if (FSP_SUCCESS != parse_spo2_led_actuation_message (&mq_data))
                     {
                         APP_ERR_PRINT("** LED Topic Actuation returned  Error **\r\n");
@@ -883,7 +1038,7 @@ void app_thread_entry(void *pvParameters)
                     }
                     else
                     {
-                        AWS_ACTIVITY_INDICATION
+                        AWS_ACTIVITY_INDICATION;
                     }
                 }
                 break;
@@ -896,61 +1051,62 @@ void app_thread_entry(void *pvParameters)
                 }
                 break;
             }
-            if(APP_DEBUG_MSG_SEQ_CNTRL)
-            {
-                APP_PRINT("Msg Sequence Number = %d \r\n",sequenceNumber++);
-            }
         }
         else
         {
             if(g_mqtt_status.mqtt_connect_status)
             {
-                bt_status = ProcessLoop( &xMqttContext, PROCESS_LOOP_TIMEOUT);
+                bt_status = ProcessLoop( &xMqttContext );
                 if( bt_status != pdPASS )
                 {
                     APP_ERR_PRINT("MQTT normal process fail\r\n");
                 }
             }
         }
-        vTaskDelay(100);
     }
-
 }
-
 /*********************************************************************************************************************//**
  * @brief   configures the littleFS Flash.
  *
  * This function sets up the littleFS Flash for Data storage.
  * @param[in]   None
- * @retval      FSP_SUCCESS             If both the connectivity checks are success.
+ * @retval      LFS_ERR_OK              If both the connectivity checks are success.
  * @retval      Any other error         If one of the connectivity check fails.
  *********************************************************************************************************************/
-fsp_err_t config_littlFs_flash(void)
+int config_littlFs_flash(void)
 {
+    int lfs_err = LFS_ERR_OK;
     fsp_err_t err = FSP_SUCCESS;
 
     err = RM_LITTLEFS_FLASH_Open(&g_rm_littlefs0_ctrl, &g_rm_littlefs0_cfg);
     if(FSP_SUCCESS != err)
     {
-        FAILURE_INDICATION
+        FAILURE_INDICATION;
         APP_ERR_PRINT("** littleFs Initialization failed **\r\n");
     }
 
-    err = lfs_format(&g_rm_littlefs0_lfs, &g_rm_littlefs0_lfs_cfg);
-    if(FSP_SUCCESS != err)
+    /* mount the filesystem */
+    lfs_err = lfs_mount(&g_rm_littlefs0_lfs, &g_rm_littlefs0_lfs_cfg);
+    if(LFS_ERR_OK != lfs_err)
     {
-        FAILURE_INDICATION
-        APP_ERR_PRINT("** littleFs Flash Format failed **\r\n");
+        /* reformat if we can't mount the filesystem
+         * this should only happen on the first boot
+         */
+        lfs_err = lfs_format(&g_rm_littlefs0_lfs, &g_rm_littlefs0_lfs_cfg);
+        if(LFS_ERR_OK != lfs_err)
+        {
+            FAILURE_INDICATION;
+            APP_ERR_PRINT("** littleFs Flash Format failed **\r\n");
+        }
+        lfs_err = lfs_mount(&g_rm_littlefs0_lfs, &g_rm_littlefs0_lfs_cfg);
+        if(LFS_ERR_OK != lfs_err)
+        {
+            FAILURE_INDICATION;
+            APP_ERR_PRINT("** littleFs Mount failed **\r\n");
+        }
     }
 
-    err = lfs_mount(&g_rm_littlefs0_lfs, &g_rm_littlefs0_lfs_cfg);
-    if(FSP_SUCCESS != err)
-    {
-        FAILURE_INDICATION
-        APP_ERR_PRINT("** littleFs Mount failed **\r\n");
-    }
-
-    return err;
+    return lfs_err;
 }
 
 /*******************************************************************************************************************//**
@@ -974,7 +1130,7 @@ static void temperatureLedDataCallback( MQTTContext_t * pContext, MQTTPublishInf
     IotLogInfo( ( "Invoked led callback.\r\n" ) );
 
     led_data.id = ID_TEMPERATURE_DATA_PUSH;
-    strncpy ((char *) &led_data.value.led_data.led_act_topic_msg, (const char *) pPublishInfo->pPayload,
+    strncpy ((char *) &led_data.led_data.led_act_topic_msg, (const char *) pPublishInfo->pPayload,
             pPublishInfo->payloadLength);
 
     xQueueGenericSendFromISR (g_topic_queue, &led_data, &xHigherPriorityTaskWokenByPost, queueSEND_TO_FRONT);
@@ -1010,7 +1166,7 @@ static void spo2LedDataCallback( MQTTContext_t * pContext, MQTTPublishInfo_t * p
     IotLogInfo( ( "Invoked led callback.\r\n" ) );
 
     led_data.id = ID_SPO2_DATA_PUSH;
-    strncpy ((char *) &led_data.value.led_data.led_act_topic_msg, (const char *) pPublishInfo->pPayload,
+    strncpy ((char *) &led_data.led_data.led_act_topic_msg, (const char *) pPublishInfo->pPayload,
             pPublishInfo->payloadLength);
 
     xQueueGenericSendFromISR (g_topic_queue, &led_data, &xHigherPriorityTaskWokenByPost, queueSEND_TO_FRONT);
@@ -1046,9 +1202,6 @@ static void IAQDataCallback( MQTTContext_t * pContext, MQTTPublishInfo_t * pPubl
     IotLogInfo( ( "Invoked led callback.\r\n" ) );
 
     payload_data.id = ID_IAQ_DATA_PULL;
-     strncpy ((char *) &payload_data.value.iaq_data.iaq_topic_msg, (const char *) pPublishInfo->pPayload,
-            pPublishInfo->payloadLength);
-
     xQueueGenericSendFromISR (g_topic_queue, &payload_data, &xHigherPriorityTaskWokenByPost, queueSEND_TO_FRONT);
 
     /* Print information about the incoming PUBLISH message. */
@@ -1082,9 +1235,6 @@ static void OAQDataCallback( MQTTContext_t * pContext, MQTTPublishInfo_t * pPubl
     IotLogInfo( ( "Invoked led callback.\r\n" ) );
 
     payload_data.id = ID_OAQ_DATA_PULL;
-    strncpy ((char *) &payload_data.value.oaq_data.oaq_topic_msg, (const char *) pPublishInfo->pPayload,
-            pPublishInfo->payloadLength);
-
     xQueueGenericSendFromISR (g_topic_queue, &payload_data, &xHigherPriorityTaskWokenByPost, queueSEND_TO_FRONT);
 
     /* Print information about the incoming PUBLISH message. */
@@ -1118,9 +1268,6 @@ static void HS3001DataCallback( MQTTContext_t * pContext, MQTTPublishInfo_t * pP
     IotLogInfo( ( "Invoked led callback.\r\n" ) );
 
     payload_data.id = ID_HS_DATA_PULL;
-    strncpy ((char *) &payload_data.value.hs3001_data.hs3001_topic_msg, (const char *) pPublishInfo->pPayload,
-            pPublishInfo->payloadLength);
-
     xQueueGenericSendFromISR (g_topic_queue, &payload_data, &xHigherPriorityTaskWokenByPost, queueSEND_TO_FRONT);
 
     /* Print information about the incoming PUBLISH message. */
@@ -1154,9 +1301,6 @@ static void ICMDataCallback( MQTTContext_t * pContext, MQTTPublishInfo_t * pPubl
     IotLogInfo( ( "Invoked led callback.\r\n" ) );
 
     payload_data.id = ID_ICM_DATA_PULL;
-    strncpy ((char *) &payload_data.value.icm_data.icm_topic_msg, (const char *) pPublishInfo->pPayload,
-            pPublishInfo->payloadLength);
-
     xQueueGenericSendFromISR (g_topic_queue, &payload_data, &xHigherPriorityTaskWokenByPost, queueSEND_TO_FRONT);
 
     /* Print information about the incoming PUBLISH message. */
@@ -1190,9 +1334,6 @@ static void ICPDataCallback( MQTTContext_t * pContext, MQTTPublishInfo_t * pPubl
     IotLogInfo( ( "Invoked led callback.\r\n" ) );
 
     payload_data.id = ID_ICP_DATA_PULL;
-    strncpy ((char *) &payload_data.value.icp_data.icp_topic_msg, (const char *) pPublishInfo->pPayload,
-            pPublishInfo->payloadLength);
-
     xQueueGenericSendFromISR (g_topic_queue, &payload_data, &xHigherPriorityTaskWokenByPost, queueSEND_TO_FRONT);
 
     /* Print information about the incoming PUBLISH message. */
@@ -1226,9 +1367,6 @@ static void OB1203DataCallback( MQTTContext_t * pContext, MQTTPublishInfo_t * pP
     IotLogInfo( ( "Invoked led callback.\r\n" ) );
 
     payload_data.id = ID_OB1203_DATA_PULL;
-    strncpy ((char *) &payload_data.value.ob1203_data.ob1203_topic_msg, (const char *) pPublishInfo->pPayload,
-            pPublishInfo->payloadLength);
-
     xQueueGenericSendFromISR (g_topic_queue, &payload_data, &xHigherPriorityTaskWokenByPost, queueSEND_TO_FRONT);
 
     /* Print information about the incoming PUBLISH message. */
@@ -1262,9 +1400,6 @@ static void BulkDataCallback( MQTTContext_t * pContext, MQTTPublishInfo_t * pPub
     IotLogInfo( ( "Invoked led callback.\r\n" ) );
 
     payload_data.id = ID_BULK_SENS_DATA_PULL;
-    strncpy ((char *) &payload_data.value.bulk_data.bulk_topic_msg, (const char *) pPublishInfo->pPayload,
-            pPublishInfo->payloadLength);
-
     xQueueGenericSendFromISR (g_topic_queue, &payload_data, &xHigherPriorityTaskWokenByPost, queueSEND_TO_FRONT);
 
     /* Print information about the incoming PUBLISH message. */
@@ -1287,7 +1422,7 @@ static void BulkDataCallback( MQTTContext_t * pContext, MQTTPublishInfo_t * pPub
  * @return    EXIT_FAILURE  if Failed to generate MQTT PUBLISH payload for PUBLISH
  * @return    EXIT_SUCCESS  if Published to Topic Successfully
  ******************************************************************************************************************************/
-static BaseType_t sendMessage(const char **pTopicNames, uint8_t Topics_index, char *message,uint8_t sizeIdx)
+static BaseType_t sendMessage(const char **pTopicNames, uint8_t Topics_index, double *message)
 {
     BaseType_t      xReturnStatus = pdFALSE;
     const char    * pcTopicFilter = NULL;
@@ -1298,44 +1433,47 @@ static BaseType_t sendMessage(const char **pTopicNames, uint8_t Topics_index, ch
     topicFilterLength = (uint16_t) strlen (pTopicNames[Topics_index]);
     memset(pubPayload, 0x00, sizeof(pubPayload));
     /* Generate the payload for the PUBLISH. */
-    if(Topics_index == (uint8_t)ID_IAQ_DATA_PULL)
-    {
-        payloadlength = snprintf (pubPayload, sizeof(pubPayload), PUBLISH_PAYLOAD_FORMAT_IAQ_JSON, &message[sizeIdx*0],&message[sizeIdx*1],&message[sizeIdx*2]);
-    }
-    else if(Topics_index == (uint8_t)ID_OAQ_DATA_PULL)
-    {
-        payloadlength = snprintf (pubPayload, sizeof(pubPayload), PUBLISH_PAYLOAD_FORMAT_OAQ_JSON, &message[sizeIdx*0]);
-    }
-    else if(Topics_index == (uint8_t)ID_HS_DATA_PULL)
-    {
-        payloadlength = snprintf (pubPayload, sizeof(pubPayload), PUBLISH_PAYLOAD_FORMAT_HS3001_JSON, &message[sizeIdx*0],&message[sizeIdx*1]);
-    }
-    else if(Topics_index == (uint8_t)ID_ICM_DATA_PULL)
-    {
-        payloadlength = snprintf (pubPayload, sizeof(pubPayload), PUBLISH_PAYLOAD_FORMAT_ICM_JSON, &message[sizeIdx*0],&message[sizeIdx*1],&message[sizeIdx*2],
-                                  &message[sizeIdx*3],&message[sizeIdx*4],&message[sizeIdx*5],&message[sizeIdx*6],&message[sizeIdx*7],&message[sizeIdx*8]);
-    }
-    else if(Topics_index == (uint8_t)ID_ICP_DATA_PULL)
-    {
-        payloadlength = snprintf (pubPayload, sizeof(pubPayload), PUBLISH_PAYLOAD_FORMAT_ICP_JSON, &message[sizeIdx*0],&message[sizeIdx*1]);
-    }
-    else if(Topics_index == (uint8_t)ID_OB1203_DATA_PULL)
-    {
-        payloadlength = snprintf (pubPayload, sizeof(pubPayload), PUBLISH_PAYLOAD_FORMAT_OB1203_JSON, &message[sizeIdx*0],&message[sizeIdx*1],&message[sizeIdx*2],&message[sizeIdx*3]);
-    }
-    else if(Topics_index == (uint8_t)ID_BULK_SENS_DATA_PULL)
-    {
-        payloadlength = snprintf (pubPayload, sizeof(pubPayload), PUBLISH_PAYLOAD_FORMAT_BULK_JSON, &message[sizeIdx*0],&message[sizeIdx*1],&message[sizeIdx*2],&message[sizeIdx*3],
-                                  &message[sizeIdx*4],&message[sizeIdx*5],&message[sizeIdx*6],&message[sizeIdx*7],&message[sizeIdx*8],&message[sizeIdx*9],&message[sizeIdx*10],&message[sizeIdx*11],&message[sizeIdx*12],&message[sizeIdx*13],
-                                  &message[sizeIdx*14],&message[sizeIdx*15],&message[sizeIdx*16],&message[sizeIdx*17],&message[sizeIdx*18],&message[sizeIdx*19],&message[sizeIdx*20],&message[sizeIdx*21]);
-    }
-    else
-    {
-        payloadlength = snprintf (pubPayload, sizeof(pubPayload), message);
-    }
+    switch (Topics_index)
+        {
+            case ID_IAQ_DATA_PULL:
+                payloadlength =
+                        snprintf (pubPayload, sizeof(pubPayload), PUBLISH_PAYLOAD_FORMAT_IAQ_JSON,
+                                message[0], message[1], message[2]);
+                break;
+            case ID_OAQ_DATA_PULL:
+                payloadlength = snprintf (pubPayload, sizeof(pubPayload), PUBLISH_PAYLOAD_FORMAT_OAQ_JSON, message[0]);
+                break;
+            case ID_HS_DATA_PULL:
+                payloadlength =
+                        snprintf (pubPayload, sizeof(pubPayload), PUBLISH_PAYLOAD_FORMAT_HS3001_JSON, message[0],message[1]);
+                break;
+            case ID_ICM_DATA_PULL:
+                payloadlength =
+                        snprintf (pubPayload, sizeof(pubPayload), PUBLISH_PAYLOAD_FORMAT_ICM_JSON,
+                                message[0], message[1], message[2], message[3], message[4], message[5], message[6], message[7],
+                                message[8]);
+                break;
+            case ID_ICP_DATA_PULL:
+                payloadlength = snprintf (pubPayload, sizeof(pubPayload), PUBLISH_PAYLOAD_FORMAT_ICP_JSON, message[0], message[1]);
+                break;
+            case ID_OB1203_DATA_PULL:
+                payloadlength =
+                        snprintf (pubPayload, sizeof(pubPayload), PUBLISH_PAYLOAD_FORMAT_OB1203_JSON, message[0], message[1],
+                                message[2], message[3]);
+                break;
+            case ID_BULK_SENS_DATA_PULL:
+                payloadlength =
+                        snprintf (pubPayload, sizeof(pubPayload), PUBLISH_PAYLOAD_FORMAT_BULK_JSON, message[0], message[1],
+                                message[2], message[3], message[4], message[5], message[6], message[7], message[8], message[9],
+                                message[10], message[11], message[12], message[13], message[14], message[15], message[16],
+                                message[17], message[18], message[19], message[20]);
+                break;
+            default:
+                break;
+        }
 
     /* Check for errors from snprintf. */
-    if (payloadlength < 0)
+    if (payloadlength <= 0)
     {
         IotLogError("** Failed to generate MQTT PUBLISH payload for PUBLISH %s. **\r\n", (char *) pcTopicFilter);
         return EXIT_FAILURE;
@@ -1359,76 +1497,10 @@ static BaseType_t sendMessage(const char **pTopicNames, uint8_t Topics_index, ch
  *********************************************************************************************************************/
 void mqtt_cleanup_and_reinit(void)
 {
-#ifdef TODO
-    BaseType_t      xReturnStatus = pdFALSE;
-    const char    * pcTopicFilter = NULL;
-    uint16_t        topicFilterLength = 0;
-    MQTTSubscribeInfo_t pSubscriptionList[1];
-
     if(!g_mqtt_status.mqtt_connect_status)
         return;
 
-    g_mqtt_status.mqtt_connect_status = false;
-    IotLogInfo("MQTT Client Cleaning up \r\n");
-
-    pcTopicFilter = pTopics_subscirbe[0];
-    topicFilterLength = (uint16_t) strlen (pTopics_subscirbe[0]);
-    /* Remove the callback for subscribed topics. */
-    SubscriptionManager_RemoveCallback( pcTopicFilter, topicFilterLength );
-
-    /* Set the subscription list memory to zero . */
-    ( void ) memset( ( void * ) pSubscriptionList, 0x00, sizeof( pSubscriptionList ) );
-
-    /* Populate the array with topic filters to unsubscribe from.
-     * We will use a single UNSUBSCRIBE packet to unsubscribe from all
-     * topic filters. */
-    pSubscriptionList[ 0 ].pTopicFilter = pcTopicFilter;
-    pSubscriptionList[ 0 ].topicFilterLength = topicFilterLength;
-    /* Unsubscribe from all topic filters of temperature, humidity and
-     * precipitation data. */
-    xReturnStatus = UnsubscribeFromTopicFilters( &xMqttContext,
-                                                 pSubscriptionList,
-                                                 sizeof( pSubscriptionList ) / sizeof( MQTTSubscribeInfo_t ) );
-
-    /* Send an MQTT Disconnect packet over the already connected TCP socket.
-     * There is no corresponding response for the disconnect packet. After sending
-     * disconnect, client must close the network connection. */
-    IotLogInfo("Disconnecting the MQTT connection with %s.\r\n", USER_MQTT_ENDPOINT);
-
-    if( xReturnStatus == pdFAIL )
-    {
-        /* Returned status is not used to update the local status as there
-         * were failures in demo execution. */
-        ( void ) DisconnectMqttSession( &xMqttContext, &networkContext );
-    }
-    else
-    {
-        xReturnStatus = DisconnectMqttSession( &xMqttContext, &networkContext );
-    }
-
-
-    xReturnStatus = EstablishMqttSession(&xMqttContext, &networkContext, &xBuffer, true);
-    if( xReturnStatus == pdFAIL )
-    {
-        /* Log error to indicate connection failure. */
-        IotLogError(("Failed to connect to MQTT broker."));
-        IotLogErrorTrap(xReturnStatus);
-    }
-#if 0
-    xReturnStatus = subscribeToAndRegisterTopicFilter( &xMqttContext,
-                                                 pcTopicFilter,
-                                                 topicFilterLength,
-                                                 RedLedDataCallback );
-    if( xReturnStatus == pdFAIL )
-    {
-        /* Log error to indicate connection failure. */
-        IotLogError(("subscribeToAndRegisterTopicFilter fail"));
-        IotLogErrorTrap(xReturnStatus);
-    }
-#endif
-    g_mqtt_status.status = pdTRUE;
-    g_mqtt_status.mqtt_connect_status = true;
-#endif
+    return;
 }
 
 /*********************************************************************************************************************
@@ -1443,10 +1515,10 @@ static int parse_temperature_led_actuation_message(mqtt_rx_payload_t *lmq_data)
 {
     int status = RESET_VALUE;
 
-    const char msg_cold_led_on[] = "{\"Temperature_LED\":\"COLD\"}";
-    const char msg_warm_led_on[] = "{\"Temperature_LED\":\"WARM\"}";
-    const char msg_hot_led_on[] = "{\"Temperature_LED\":\"HOT\"}";
-    const char msg_temperature_led_off[] = "{\"Temperature_LED\":\"OFF\"}";
+    const char msg_cold_led_on[] = "{\"Temperature_LED\": \"COLD\"}";
+    const char msg_warm_led_on[] = "{\"Temperature_LED\": \"WARM\"}";
+    const char msg_hot_led_on[] = "{\"Temperature_LED\": \"HOT\"}";
+    const char msg_temperature_led_off[] = "{\"Temperature_LED\": \"OFF\"}";
 
     if (NULL == lmq_data)
     {
@@ -1456,14 +1528,14 @@ static int parse_temperature_led_actuation_message(mqtt_rx_payload_t *lmq_data)
     else
     {
         /* BLUE LED */
-        if (RESET_VALUE == strcmp ((char *) lmq_data->value.led_data.led_act_topic_msg, msg_cold_led_on))
+        if (RESET_VALUE == strcmp ((char *) lmq_data->led_data.led_act_topic_msg, msg_cold_led_on))
         {
             led_on_off (RGB_LED_RED, LED_ON);
             led_on_off (RGB_LED_GREEN, LED_ON);
             led_on_off (RGB_LED_BLUE, LED_OFF);
             IotLogInfo("\r\nCOLD LED ON\r\n");
         }
-        else if (RESET_VALUE == strcmp ((char *) lmq_data->value.led_data.led_act_topic_msg, msg_temperature_led_off))
+        else if (RESET_VALUE == strcmp ((char *) lmq_data->led_data.led_act_topic_msg, msg_temperature_led_off))
         {
             led_on_off (RGB_LED_RED, LED_ON);
             led_on_off (RGB_LED_GREEN, LED_ON);
@@ -1472,14 +1544,14 @@ static int parse_temperature_led_actuation_message(mqtt_rx_payload_t *lmq_data)
         }
 
         /* GREEN LED */
-        if (RESET_VALUE == strcmp ((char *) lmq_data->value.led_data.led_act_topic_msg, msg_warm_led_on))
+        if (RESET_VALUE == strcmp ((char *) lmq_data->led_data.led_act_topic_msg, msg_warm_led_on))
         {
             led_on_off (RGB_LED_RED, LED_ON);
             led_on_off (RGB_LED_GREEN, LED_OFF);
             led_on_off (RGB_LED_BLUE, LED_ON);
             IotLogInfo("\r\nWARM LED ON\r\n");
         }
-        else if (RESET_VALUE == strcmp ((char *) lmq_data->value.led_data.led_act_topic_msg, msg_temperature_led_off))
+        else if (RESET_VALUE == strcmp ((char *) lmq_data->led_data.led_act_topic_msg, msg_temperature_led_off))
         {
             led_on_off (RGB_LED_RED, LED_ON);
             led_on_off (RGB_LED_GREEN, LED_ON);
@@ -1489,14 +1561,14 @@ static int parse_temperature_led_actuation_message(mqtt_rx_payload_t *lmq_data)
         }
 
         /* RED LED */
-        if (RESET_VALUE == strcmp ((char *) lmq_data->value.led_data.led_act_topic_msg, msg_hot_led_on))
+        if (RESET_VALUE == strcmp ((char *) lmq_data->led_data.led_act_topic_msg, msg_hot_led_on))
         {
             led_on_off (RGB_LED_RED, LED_OFF);
             led_on_off (RGB_LED_GREEN, LED_ON);
             led_on_off (RGB_LED_BLUE, LED_ON);
             IotLogInfo("\r\nHOT LED ON\r\n");
         }
-        else if (RESET_VALUE == strcmp ((char *) lmq_data->value.led_data.led_act_topic_msg, msg_temperature_led_off))
+        else if (RESET_VALUE == strcmp ((char *) lmq_data->led_data.led_act_topic_msg, msg_temperature_led_off))
         {
             led_on_off (RGB_LED_RED, LED_ON);
             led_on_off (RGB_LED_GREEN, LED_ON);
@@ -1518,8 +1590,8 @@ static int parse_spo2_led_actuation_message(mqtt_rx_payload_t *lmq_data)
 {
     int status = RESET_VALUE;
 
-    const char msg_spo2_led_on[] = "{\"Spo2_LED\":\"ON\"}";
-    const char msg_spo2_led_off[] = "{\"Spo2_LED\":\"OFF\"}";
+    const char msg_spo2_led_on[] = "{\"Spo_LED\": \"ON\"}";
+    const char msg_spo2_led_off[] = "{\"Spo_LED\": \"OFF\"}";
 
     if (NULL == lmq_data)
     {
@@ -1529,12 +1601,12 @@ static int parse_spo2_led_actuation_message(mqtt_rx_payload_t *lmq_data)
     else
     {
         /* BLUE LED */
-        if (RESET_VALUE == strcmp ((char *) lmq_data->value.led_data.led_act_topic_msg, msg_spo2_led_on))
+        if (RESET_VALUE == strcmp ((char *) lmq_data->led_data.led_act_topic_msg, msg_spo2_led_on))
         {
             led_on_off (LED_BLUE, LED_ON);
             IotLogInfo("\r\nSPO2 LED ON\r\n");
         }
-        else if (RESET_VALUE == strcmp ((char *) lmq_data->value.led_data.led_act_topic_msg, msg_spo2_led_off))
+        else if (RESET_VALUE == strcmp ((char *) lmq_data->led_data.led_act_topic_msg, msg_spo2_led_off))
         {
             led_on_off (LED_BLUE, LED_OFF);
             IotLogInfo("\r\nSPO2 LED OFF \r\n");

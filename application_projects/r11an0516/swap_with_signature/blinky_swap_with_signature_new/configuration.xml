@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<raConfiguration version="7">
+<raConfiguration version="9">
   <generalSettings>
     <option key="#Board#" value="board.ra2e1_ek"/>
     <option key="CPU" value="RA2E1"/>
@@ -9,10 +9,10 @@
     <option key="#DeviceCommand#" value="R7FA2E1A9"/>
     <option key="#RTOS#" value="_none"/>
     <option key="#pinconfiguration#" value="R7FA2E1A92DFM.pincfg"/>
-    <option key="#FSPVersion#" value="3.6.0"/>
+    <option key="#FSPVersion#" value="5.2.0"/>
     <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra2e1_ek##"/>
     <option key="#SELECTED_TOOLCHAIN#" value="gcc-arm-embedded"/>
-    <option key="#ToolchainVersion#" value="9.3.1.20200408"/>
+    <option key="#ToolchainVersion#" value="13.2.1.arm-13-7"/>
   </generalSettings>
   <raBspConfiguration>
     <config id="config.bsp.ra2e1.R7FA2E1A92DFM">
@@ -29,6 +29,7 @@
       <property id="config.bsp.series" value="config.bsp.series.value"/>
     </config>
     <config id="config.bsp.ra2e1.fsp">
+      <property id="config.bsp.fsp.inline_irq_functions" value="config.bsp.common.inline_irq_functions.disabled"/>
       <property id="config.bsp.fsp.OFS0.iwdt_start_mode" value="config.bsp.fsp.OFS0.iwdt_start_mode.disabled"/>
       <property id="config.bsp.fsp.OFS0.iwdt_timeout" value="config.bsp.fsp.OFS0.iwdt_timeout.2048"/>
       <property id="config.bsp.fsp.OFS0.iwdt_divisor" value="config.bsp.fsp.OFS0.iwdt_divisor.128"/>
@@ -72,6 +73,9 @@
       <property id="config.bsp.fsp.mcu.sci_spi.max_bitrate" value="8000000"/>
       <property id="config.bsp.fsp.mcu.spi.max_bitrate" value="16000000"/>
       <property id="config.bsp.fsp.mcu.iic_master.rate.rate_fastplus" value="0"/>
+      <property id="config.bsp.fsp.mcu.iic_master.fastplus_channels" value="0"/>
+      <property id="config.bsp.fsp.mcu.iic_slave.rate.rate_fastplus" value="0"/>
+      <property id="config.bsp.fsp.mcu.iic_slave.fastplus_channels" value="0x0"/>
       <property id="config.bsp.fsp.mcu.sci_uart.cstpen_channels" value="0x0"/>
       <property id="config.bsp.fsp.mcu.gpt.pin_count_source_channels" value="0xFFFF"/>
       <property id="config.bsp.common.id_mode" value="config.bsp.common.id_mode.unlocked"/>
@@ -118,41 +122,49 @@
     <node id="board.clock.clkout.display" option="board.clock.clkout.display.value"/>
   </raClockConfiguration>
   <raComponentSelection>
-    <component apiversion="" class="boot" condition="" group="all" subgroup="MCUboot_Image_Utilities" variant="" vendor="Linaro" version="1.8.0+renesas.0.fsp.3.6.0">
-      <description>MCUboot Image Utilities</description>
-      <originalPack>Linaro.MCUboot.1.8.0+renesas.0.fsp.3.6.0.pack</originalPack>
+    <component apiversion="" class="Projects" condition="" group="all" subgroup="baremetal_blinky" variant="" vendor="Renesas" version="5.2.0">
+      <description>Simple application that blinks an LED. No RTOS included.</description>
+      <originalPack>Renesas.RA_baremetal_blinky.5.2.0.pack</originalPack>
     </component>
-    <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="5.8.0+renesas.0.fsp.3.6.0">
-      <description>Arm CMSIS Version 5 - Core (M)</description>
-      <originalPack>Arm.CMSIS5.5.8.0+renesas.0.fsp.3.6.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="3.6.0">
+    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="5.2.0">
       <description>Board Support Package Common Files</description>
-      <originalPack>Renesas.RA.3.6.0.pack</originalPack>
+      <originalPack>Renesas.RA.5.2.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_flash_lp" variant="" vendor="Renesas" version="3.6.0">
-      <description>Flash Memory Low Power</description>
-      <originalPack>Renesas.RA.3.6.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="3.6.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="5.2.0">
       <description>I/O Port</description>
-      <originalPack>Renesas.RA.3.6.0.pack</originalPack>
+      <originalPack>Renesas.RA.5.2.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra2e1_ek" variant="" vendor="Renesas" version="3.6.0">
-      <description>RA2E1-EK Board Support Files</description>
-      <originalPack>Renesas.RA_board_ra2e1_ek.3.6.0.pack</originalPack>
+    <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="5.9.0+renesas.1.fsp.5.2.0">
+      <description>Arm CMSIS Version 5 - Core (M)</description>
+      <originalPack>Arm.CMSIS5.5.9.0+renesas.1.fsp.5.2.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra2e1" subgroup="device" variant="R7FA2E1A92DFM" vendor="Renesas" version="3.6.0">
+    <component apiversion="" class="BSP" condition="" group="ra2e1" subgroup="device" variant="R7FA2E1A92DFM" vendor="Renesas" version="5.2.0">
       <description>Board support package for R7FA2E1A92DFM</description>
-      <originalPack>Renesas.RA_mcu_ra2e1.3.6.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra2e1.5.2.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra2e1" subgroup="device" variant="" vendor="Renesas" version="3.6.0">
+    <component apiversion="" class="BSP" condition="" group="ra2e1" subgroup="device" variant="" vendor="Renesas" version="5.2.0">
       <description>Board support package for RA2E1</description>
-      <originalPack>Renesas.RA_mcu_ra2e1.3.6.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra2e1.5.2.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra2e1" subgroup="fsp" variant="" vendor="Renesas" version="3.6.0">
+    <component apiversion="" class="BSP" condition="" group="ra2e1" subgroup="fsp" variant="" vendor="Renesas" version="5.2.0">
       <description>Board support package for RA2E1 - FSP Data</description>
-      <originalPack>Renesas.RA_mcu_ra2e1.3.6.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra2e1.5.2.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra2e1" subgroup="events" variant="" vendor="Renesas" version="5.2.0">
+      <description>Board support package for RA2E1 - Events</description>
+      <originalPack>Renesas.RA_mcu_ra2e1.5.2.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra2e1_ek" variant="" vendor="Renesas" version="5.2.0">
+      <description>RA2E1-EK Board Support Files</description>
+      <originalPack>Renesas.RA_board_ra2e1_ek.5.2.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="boot" condition="" group="all" subgroup="MCUboot_Image_Utilities" variant="" vendor="Linaro" version="1.10.0+renesas.1.fsp.5.2.0">
+      <description>MCUboot Image Utilities</description>
+      <originalPack>Linaro.MCUboot.1.10.0+renesas.1.fsp.5.2.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_flash_lp" variant="" vendor="Renesas" version="5.2.0">
+      <description>Flash Memory Low Power</description>
+      <originalPack>Renesas.RA.5.2.0.pack</originalPack>
     </component>
   </raComponentSelection>
   <raElcConfiguration/>
@@ -164,14 +176,10 @@
       <property id="module.driver.ioport.elc_trigger_ioport2" value="_disabled"/>
       <property id="module.driver.ioport.elc_trigger_ioport3" value="_disabled"/>
       <property id="module.driver.ioport.elc_trigger_ioport4" value="_disabled"/>
-      <property id="module.driver.ioport.elc_trigger_ioportb" value="_disabled"/>
-      <property id="module.driver.ioport.elc_trigger_ioportc" value="_disabled"/>
-      <property id="module.driver.ioport.elc_trigger_ioportd" value="_disabled"/>
-      <property id="module.driver.ioport.elc_trigger_ioporte" value="_disabled"/>
       <property id="module.driver.ioport.pincfg" value="g_bsp_pin_cfg"/>
     </module>
-    <module id="module.middleware.mcuboot_image_utilities.1993380646"/>
-    <module id="module.driver.flash_on_flash_lp.2089033599">
+    <module id="module.middleware.mcuboot_image_utilities.1764015745"/>
+    <module id="module.driver.flash_on_flash_lp.1670455205">
       <property id="module.driver.flash.name" value="g_flash0"/>
       <property id="module.driver.flash.data_flash_bgo" value="module.driver.flash.data_flash_bgo.disabled"/>
       <property id="module.driver.flash.p_callback" value="NULL"/>
@@ -179,24 +187,25 @@
     </module>
     <context id="_hal.0">
       <stack module="module.driver.ioport_on_ioport.0"/>
-      <stack module="module.middleware.mcuboot_image_utilities.1993380646">
-        <stack module="module.driver.flash_on_flash_lp.2089033599" requires="module.middleware.mcuboot_image_utilities.requires.flash"/>
+      <stack module="module.middleware.mcuboot_image_utilities.1764015745">
+        <stack module="module.driver.flash_on_flash_lp.1670455205" requires="module.middleware.mcuboot_image_utilities.requires.flash"/>
       </stack>
     </context>
-    <config id="config.driver.ioport">
-      <property id="config.driver.ioport.checking" value="config.driver.ioport.checking.system"/>
-    </config>
     <config id="config.middleware.mcuboot_image_utilities">
-      <property id="config.middleware.mcuboot_image_utilities.mcuboot_config" value="E:/Renesas/RA/e2studio/workspace/cache/RA2_merge_mcuboot/swap_with_signature/ra_mcuboot_ra2e1_swap_with_signature/ra_cfg/mcu-tools/include/mcuboot_config/mcuboot_config.h"/>
-      <property id="config.middleware.mcuboot_image_utilities.sysflash" value="E:/Renesas/RA/e2studio/workspace/cache/RA2_merge_mcuboot/swap_with_signature/ra_mcuboot_ra2e1_swap_with_signature/ra_cfg/mcu-tools/include/sysflash/sysflash.h"/>
-      <property id="config.middleware.mcuboot_image_utilities.mcuboot_logging" value="E:/Renesas/RA/e2studio/workspace/cache/RA2_merge_mcuboot/swap_with_signature/ra_mcuboot_ra2e1_swap_with_signature/ra_cfg/mcu-tools/include/mcuboot_config/mcuboot_logging.h"/>
+      <property id="config.middleware.mcuboot_image_utilities.mcuboot_config" value="../../ra_mcuboot_ra2e1_swap_with_signature/ra_cfg/mcu-tools/include/mcuboot_config/mcuboot_config.h"/>
+      <property id="config.middleware.mcuboot_image_utilities.sysflash" value="../../ra_mcuboot_ra2e1_swap_with_signature/ra_cfg/mcu-tools/include/sysflash/sysflash.h"/>
+      <property id="config.middleware.mcuboot_image_utilities.mcuboot_logging" value="../../ra_mcuboot_ra2e1_swap_with_signature/ra_cfg/mcu-tools/include/mcuboot_config/mcuboot_logging.h"/>
     </config>
     <config id="config.middleware.mcuboot_image_utilities_mcuboot_config"/>
     <config id="config.middleware.mcuboot_image_utilities_mcuboot_logging"/>
+    <config id="config.driver.ioport">
+      <property id="config.driver.ioport.checking" value="config.driver.ioport.checking.system"/>
+    </config>
     <config id="config.driver.flash_lp">
       <property id="config.driver.flash_lp.param_checking_enable" value="config.flash_lp.param_checking_enable.bsp"/>
       <property id="config.driver.flash_lp.param_code_flash_programming_enable" value="config.driver.flash_lp.param_code_flash_programming_enable.enabled"/>
       <property id="config.driver.flash_lp.param_data_flash_programming_enable" value="config.driver.flash_lp.param_data_flash_programming_enable.disabled"/>
+      <property id="config.driver.flash_lp.data_flash_bgo_enable" value="config.driver.flash_lp.data_flash_bgo_enable.disabled"/>
     </config>
   </raModuleConfiguration>
   <raPinConfiguration>

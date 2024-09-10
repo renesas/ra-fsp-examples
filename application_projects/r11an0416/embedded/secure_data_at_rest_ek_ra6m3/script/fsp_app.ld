@@ -96,107 +96,107 @@ ENTRY(Reset_Handler)
 SECTIONS
 {
 
-	.vector_table_section :				
-	{			
-        /* Even though the vector table is not 256 entries (1KB) long, we still allocate that much				
-         * space because ROM registers are at address 0x400 and there is very little space				
-         * in between. */				
-         __Vectors_Start = .;				
-		KEEP(*(.fixed_vectors*))			
-        KEEP(*(.application_vectors*))			
-				
-		__Vectors_End = .;		
-		__end__ = .;		
-				
+	.vector_table_section :
+	{
+        /* Even though the vector table is not 256 entries (1KB) long, we still allocate that much
+         * space because ROM registers are at address 0x400 and there is very little space
+         * in between. */
+         __Vectors_Start = .;
+		KEEP(*(.fixed_vectors*))
+        KEEP(*(.application_vectors*))
+
+		__Vectors_End = .;
+		__end__ = .;
+
 	} > VECTOR_TABLE
 
 	__Vectors_Size = __Vectors_End - __Vectors_Start;
-	
+
     .secure_text :
     {
-        	__SECURE_ROM_Start = .;		
-		PROVIDE(__SECURE_ROM_Start = .);		
-				
-		/* ROM Registers start at address 0x00000400 */		
+        	__SECURE_ROM_Start = .;
+		PROVIDE(__SECURE_ROM_Start = .);
+
+		/* ROM Registers start at address 0x00000400 */
 		KEEP(*(.rom_registers*))
 
-        /* Reserving 0x100 bytes of space for ROM registers. */		
-		. = __SECURE_ROM_Start + 0x100;	
+        /* Reserving 0x100 bytes of space for ROM registers. */
+		. = __SECURE_ROM_Start + 0x100;
 
-	*(.secure_text*)		
-				
-		/* .ctors */		
-		*(.secure_ctors)		
-				
-		/* .dtors */		
- 		*(.secure_dtors)		
-				
-		__SECURE_ROM_End = .;		
-		PROVIDE(__SECURE_ROM_End = .);		
-				
-	} > SECURE_PROGRAM			
-				
+	*(.secure_text*)
+
+		/* .ctors */
+		*(.secure_ctors)
+
+		/* .dtors */
+ 		*(.secure_dtors)
+
+		__SECURE_ROM_End = .;
+		PROVIDE(__SECURE_ROM_End = .);
+
+	} > SECURE_PROGRAM
+
 	__e_secure_text = .;
 
-	.secure_rodata :			
- 	{			
- 		__secure_rodata_start__ = .;		
-				
- 	    . = ALIGN(4);			
- 	     			
- 		*(.secure_rodata*)		
- 		        		
- 	    . = ALIGN(4);			
-				
-		/* All data end */		
-		__secure_rodata_end__ = .;		
-				
- 	} > SECURE_DATA			
- 				
- 	.secure_data_section : 			
-	{			
-		__secure_data_start__ = .;		
-				
-		*(.secure_data*)		
-                				
-		. = ALIGN(4);		
-				
-						
-		/* All data end */		
-		__secure_data_end__ = .;		
-				
-	} > SECURE_RAM AT>SECURE_DATA			
-				   				
-    .secure_bss :				
-	{			
-		. = ALIGN(4);		
-		__secure_bss_start__ = .;		
-		*(.secure_bss*)		
-		. = ALIGN(4);		
-		__secure_bss_end__ = .;		
-				
-	} > SECURE_RAM			
-					
-	PROVIDE(__secure_stack = __secure_StackTop);			
-/* Secure application SRAM code and secure flash driver code are stored in this section. */				
-	.secure_sram_program :			
-	{			
-        . = ALIGN(8);				
-	    __secure_sram_program_start = .;			
-		KEEP(*(.secure_sram_program*))		
-				
-		__Code_In_RAM_Start = .;		
-		KEEP(*(.code_in_ram*))		
-		__Code_In_RAM_End = .;		
-				
-		__secure_sram_program_end = .;		
-				
-	} > SECURE_RAM_PROGRAM AT>SECURE_PROGRAM			
-				
-				
+	.secure_rodata :
+ 	{
+ 		__secure_rodata_start__ = .;
+
+ 	    . = ALIGN(4);
+
+ 		*(.secure_rodata*)
+
+ 	    . = ALIGN(4);
+
+		/* All data end */
+		__secure_rodata_end__ = .;
+
+ 	} > SECURE_DATA
+
+ 	.secure_data_section :
+	{
+		__secure_data_start__ = .;
+
+		*(.secure_data*)
+
+		. = ALIGN(4);
+
+
+		/* All data end */
+		__secure_data_end__ = .;
+
+	} > SECURE_RAM AT>SECURE_DATA
+
+    .secure_bss :
+	{
+		. = ALIGN(4);
+		__secure_bss_start__ = .;
+		*(.secure_bss*)
+		. = ALIGN(4);
+		__secure_bss_end__ = .;
+
+	} > SECURE_RAM
+
+	PROVIDE(__secure_stack = __secure_StackTop);
+/* Secure application SRAM code and secure flash driver code are stored in this section. */
+	.secure_sram_program :
+	{
+        . = ALIGN(8);
+	    __secure_sram_program_start = .;
+		KEEP(*(.secure_sram_program*))
+
+		__Code_In_RAM_Start = .;
+		KEEP(*(.code_in_ram*))
+		__Code_In_RAM_End = .;
+
+		__secure_sram_program_end = .;
+
+	} > SECURE_RAM_PROGRAM AT>SECURE_PROGRAM
+
+
     .text :
     {
-       
+
         __ROM_Start = .;
 
         *(.text*)
@@ -290,7 +290,7 @@ SECTIONS
 
     __etext = .;
 
-    __tz_RAM_S = ORIGIN(RAM);
+    ___ddsc_RAM_S = ORIGIN(RAM);
 
     /* If DTC is used, put the DTC vector table at the start of SRAM.
        This avoids memory holes due to 1K alignment required by it. */
@@ -351,17 +351,17 @@ SECTIONS
     .gnu.sgstubs : ALIGN (1024)
     {
         . = DEFINED(FLASH_NSC_START) ? ABSOLUTE(FLASH_NSC_START) : ALIGN(1024);
-        __tz_FLASH_C = DEFINED(FLASH_NSC_START) ? ABSOLUTE(FLASH_NSC_START) : __RESERVE_NS_RAM ? ABSOLUTE(FLASH_START + FLASH_LENGTH) : ALIGN(1024);
+        ___ddsc_FLASH_C = DEFINED(FLASH_NSC_START) ? ABSOLUTE(FLASH_NSC_START) : __RESERVE_NS_RAM ? ABSOLUTE(FLASH_START + FLASH_LENGTH) : ALIGN(1024);
         _start_sg = .;
         *(.gnu.sgstubs*)
         . = ALIGN(32);
         _end_sg = .;
     } > FLASH
 
-    __tz_FLASH_N = DEFINED(FLASH_NS_START) ? ABSOLUTE(FLASH_NS_START) : __RESERVE_NS_RAM ? ABSOLUTE(FLASH_START + FLASH_LENGTH) : ALIGN(32768);
+    ___ddsc_FLASH_N = DEFINED(FLASH_NS_START) ? ABSOLUTE(FLASH_NS_START) : __RESERVE_NS_RAM ? ABSOLUTE(FLASH_START + FLASH_LENGTH) : ALIGN(32768);
 
     /* Note: There are no secure/non-secure boundaries for QSPI.  These symbols are provided for the RA configuration tool. */
-    __tz_QSPI_FLASH_S = ORIGIN(QSPI_FLASH);
+    ___ddsc_QSPI_FLASH_S = ORIGIN(QSPI_FLASH);
 
     /* QSPI_FLASH section to be downloaded via debugger */
     .qspi_flash :
@@ -388,10 +388,10 @@ SECTIONS
     __qspi_region_end_address__ = __qspi_flash_start__ + __qspi_region_max_size__;
 
     /* Note: There are no secure/non-secure boundaries for QSPI.  These symbols are provided for the RA configuration tool. */
-    __tz_QSPI_FLASH_N = __qspi_non_retentive_end__;
+    ___ddsc_QSPI_FLASH_N = __qspi_non_retentive_end__;
 
     /* Note: There are no secure/non-secure boundaries for QSPI.  These symbols are provided for the RA configuration tool. */
-    __tz_OSPI_DEVICE_0_S = ORIGIN(OSPI_DEVICE_0);
+    ___ddsc_OSPI_DEVICE_0_S = ORIGIN(OSPI_DEVICE_0);
 
     /* OSPI_DEVICE_0 section to be downloaded via debugger */
     .OSPI_DEVICE_0 :
@@ -418,10 +418,10 @@ SECTIONS
     __ospi_device_0_region_end_address__ = __ospi_device_0_start__ + __ospi_device_0_region_max_size__;
 
     /* Note: There are no secure/non-secure boundaries for OSPI.  These symbols are provided for the RA configuration tool. */
-    __tz_OSPI_DEVICE_0_N = __ospi_device_0_non_retentive_end__;
+    ___ddsc_OSPI_DEVICE_0_N = __ospi_device_0_non_retentive_end__;
 
     /* Note: There are no secure/non-secure boundaries for OSPI.  These symbols are provided for the RA configuration tool. */
-    __tz_OSPI_DEVICE_1_S = ORIGIN(OSPI_DEVICE_1);
+    ___ddsc_OSPI_DEVICE_1_S = ORIGIN(OSPI_DEVICE_1);
 
     /* OSPI_DEVICE_1 section to be downloaded via debugger */
     .OSPI_DEVICE_1 :
@@ -448,7 +448,7 @@ SECTIONS
     __ospi_device_1_region_end_address__ = __ospi_device_1_start__ + __ospi_device_1_region_max_size__;
 
     /* Note: There are no secure/non-secure boundaries for OSPI.  These symbols are provided for the RA configuration tool. */
-    __tz_OSPI_DEVICE_1_N = __ospi_device_1_non_retentive_end__;
+    ___ddsc_OSPI_DEVICE_1_N = __ospi_device_1_non_retentive_end__;
 
     .noinit (NOLOAD):
     {
@@ -502,13 +502,13 @@ SECTIONS
     /* RAM_NSC_START can be used to set a fixed address for non-secure callable RAM in secure projects.
      * If it is not specified, the address for NSC RAM is the end of RAM aligned to a 1K boundary.
      * In flat projects that require non-secure RAM, this variable is set to the start of non-secure RAM. */
-    __tz_RAM_C = DEFINED(RAM_NSC_START) ? ABSOLUTE(RAM_NSC_START) : __RESERVE_NS_RAM ? ABSOLUTE(RAM_NS_BUFFER_BLOCK_START) : ALIGN(__RAM_segment_used_end__, 1024);
+    ___ddsc_RAM_C = DEFINED(RAM_NSC_START) ? ABSOLUTE(RAM_NSC_START) : __RESERVE_NS_RAM ? ABSOLUTE(RAM_NS_BUFFER_BLOCK_START) : ALIGN(__RAM_segment_used_end__, 1024);
 
     /* RAM_NS_START can be used to set a fixed address for non-secure RAM in secure projects or flat projects.
      * RAM_NS_BUFFER_BLOCK_LENGTH is used to allocate non-secure buffers in a flat project. If it is not
      * specified, the address for NSC RAM is the end of RAM aligned to an 8K boundary.
      * In flat projects that require non-secure RAM, this variable is set to the start of non-secure RAM. */
-    __tz_RAM_N = DEFINED(RAM_NS_START) ? ABSOLUTE(RAM_NS_START) : __RESERVE_NS_RAM ? ABSOLUTE(RAM_NS_BUFFER_BLOCK_START) : ALIGN(__tz_RAM_C, 8192);
+    ___ddsc_RAM_N = DEFINED(RAM_NS_START) ? ABSOLUTE(RAM_NS_START) : __RESERVE_NS_RAM ? ABSOLUTE(RAM_NS_BUFFER_BLOCK_START) : ALIGN(___ddsc_RAM_C, 8192);
 
     /* Non-secure buffers must be in non-secure RAM. This is primarily used for the EDMAC in flat projects.
      * The EDMAC is a non-secure bus master and can only access non-secure RAM. */
@@ -524,16 +524,16 @@ SECTIONS
     .data_flash :
     {
         . = ORIGIN(DATA_FLASH);
-        __tz_DATA_FLASH_S = .;
+        ___ddsc_DATA_FLASH_S = .;
         __Data_Flash_Start = .;
         KEEP(*(.data_flash*))
         __Data_Flash_End = .;
 
-        __tz_DATA_FLASH_N = DEFINED(DATA_FLASH_NS_START) ? ABSOLUTE(DATA_FLASH_NS_START) : __RESERVE_NS_RAM ? ABSOLUTE(DATA_FLASH_START + DATA_FLASH_LENGTH) : ALIGN(1024);
+        ___ddsc_DATA_FLASH_N = DEFINED(DATA_FLASH_NS_START) ? ABSOLUTE(DATA_FLASH_NS_START) : __RESERVE_NS_RAM ? ABSOLUTE(DATA_FLASH_START + DATA_FLASH_LENGTH) : ALIGN(1024);
     } > DATA_FLASH
 
     /* Note: There are no secure/non-secure boundaries for SDRAM.  These symbols are provided for the RA configuration tool. */
-    __tz_SDRAM_S = ORIGIN(SDRAM);
+    ___ddsc_SDRAM_S = ORIGIN(SDRAM);
 
     /* SDRAM */
     .sdram (NOLOAD):
@@ -545,10 +545,10 @@ SECTIONS
     } > SDRAM
 
     /* Note: There are no secure/non-secure boundaries for SDRAM.  These symbols are provided for the RA configuration tool. */
-    __tz_SDRAM_N = __SDRAM_End;
+    ___ddsc_SDRAM_N = __SDRAM_End;
 
     /* Note: There are no secure/non-secure boundaries for ID_CODE.  These symbols are provided for the RA configuration tool. */
-    __tz_ID_CODE_S = ORIGIN(ID_CODE);
+    ___ddsc_ID_CODE_S = ORIGIN(ID_CODE);
 
     .id_code(NOLOAD) :
     {
@@ -558,10 +558,10 @@ SECTIONS
     } > ID_CODE
 
     /* Note: There are no secure/non-secure boundaries for ID_CODE.  These symbols are provided for the RA configuration tool. */
-    __tz_ID_CODE_N = __ID_Code_End;
+    ___ddsc_ID_CODE_N = __ID_Code_End;
 
     /* Symbol required for RA Configuration tool. */
-    __tz_OPTION_SETTING_S = ORIGIN(OPTION_SETTING);
+    ___ddsc_OPTION_SETTING_S = ORIGIN(OPTION_SETTING);
 
     .option_setting(NOLOAD) :
     {
@@ -575,7 +575,7 @@ SECTIONS
     } > OPTION_SETTING = 0xFF
 
     /* Symbol required for RA Configuration tool. */
-    __tz_OPTION_SETTING_N = OPTION_SETTING_START_NS;
+    ___ddsc_OPTION_SETTING_N = OPTION_SETTING_START_NS;
 
     .option_setting_ns(NOLOAD) :
     {
@@ -599,7 +599,7 @@ SECTIONS
     } > OPTION_SETTING = 0xFF
 
     /* Symbol required for RA Configuration tool. */
-    __tz_OPTION_SETTING_S_S = ORIGIN(OPTION_SETTING_S);
+    ___ddsc_OPTION_SETTING_S_S = ORIGIN(OPTION_SETTING_S);
 
     .option_setting_s(NOLOAD) :
     {
@@ -633,5 +633,5 @@ SECTIONS
     } > OPTION_SETTING_S = 0xFF
 
     /* Symbol required for RA Configuration tool. */
-    __tz_OPTION_SETTING_S_N = __OPTION_SETTING_S_End;
+    ___ddsc_OPTION_SETTING_S_N = __OPTION_SETTING_S_End;
 }

@@ -1,3 +1,9 @@
+/**********************************************************************************************************************
+* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
+*
+* SPDX-License-Identifier: BSD-3-Clause
+*********************************************************************************************************************/
+
 #include <string.h>
 #include "common_data.h"
 #include "touch_ft5x06.h"

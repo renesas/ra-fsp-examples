@@ -46,9 +46,9 @@
 
 #include "common_utils.h"
 /*-----------------------------------------------------------*/
-#define CELLULAR_APN "ibasis.iot"
+#define CELLULAR_APN "iot.truphone.com"  /* APN : Truphone SIM Card */
 //#define CELLULAR_APN "broadband"
-
+//#define CELLULAR_APN "VZWINTERNET"
 
 #ifndef CELLULAR_APN
     #error "CELLULAR_APN is not defined in cellular_config.h"
@@ -69,7 +69,7 @@
 /*-----------------------------------------------------------*/
 
 /* the default Cellular comm interface in system. */
-extern CellularCommInterface_t g_cellular_comm_interface_on_uart;
+//extern CellularCommInterface_t g_cellular_comm_interface_on_uart;
 
 static void prvNetworkRegistrationCallback( CellularUrcEvent_t urcEvent,
                                             const CellularServiceStatus_t * pServiceStatus,
@@ -103,7 +103,7 @@ bool setupCellular( void )
     CellularSimCardStatus_t simStatus = { 0 };
     CellularServiceStatus_t serviceStatus = { 0 };
     CellularSignalInfo_t  signalInfo = {0};
-    CellularCommInterface_t * pCommIntf = &g_cellular_comm_interface_on_uart;
+    CellularCommInterface_t * pCommIntf = &g_cellular_comm_interface_on_uart;  //g_rm_cellular_comm_uart0
     uint8_t tries = 0;
     CellularPdnConfig_t pdnConfig = { CELLULAR_PDN_CONTEXT_IPV4V6, CELLULAR_PDN_AUTH_NONE, CELLULAR_APN, "", "" };
     CellularPdnStatus_t PdnStatusBuffers[ CELLULAR_PDN_CONTEXT_NUM ] = { 0 };

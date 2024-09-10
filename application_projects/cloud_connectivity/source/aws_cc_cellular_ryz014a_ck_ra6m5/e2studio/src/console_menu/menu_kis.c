@@ -1,21 +1,8 @@
-/**********************************************************************************************************************
- * DISCLAIMER
- * This software is supplied by Renesas Electronics Corporation and is only intended for use with Renesas products. No
- * other uses are authorized. This software is owned by Renesas Electronics Corporation and is protected under all
- * applicable laws, including copyright laws.
- * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
- * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED. TO THE MAXIMUM
- * EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES
- * SHALL BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR ANY REASON RELATED TO
- * THIS SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
- * Renesas reserves the right, without notice, to make changes to this software and to discontinue the availability of
- * this software. By using this software, you agree to the additional terms and conditions found by accessing the
- * following link:
- * http://www.renesas.com/disclaimer
- *
- * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
- *********************************************************************************************************************/
+/***********************************************************************************************************************
+* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
+*
+* SPDX-License-Identifier: BSD-3-Clause
+***********************************************************************************************************************/ 
 /***********************************************************************************************************************
  * File Name    : menu_kis.c
  * Description  : Main menu screen.
@@ -32,7 +19,7 @@
 #include "menu_flash.h"
 #include "flash/flash_hp.h"
 
-extern TaskHandle_t app_thread;
+extern TaskHandle_t app_thread; // @suppress("Global (API or Non-API) variable prefix")
 
 static char_t s_print_buffer[BUFFER_LENGTH_SHORT] = { };
 static bool cred_save_success_flag = false;
@@ -46,7 +33,7 @@ static bool cred_save_success_flag = false;
  *********************************************************************************************************************/
 test_fn get_version(void)
 {
-    int8_t c = -1;
+    int8_t key_pressed = -1;
     fsp_pack_version_t version = { RESET_VALUE };
 
     sprintf (s_print_buffer, "%s%s", gp_clear_screen, gp_cursor_home);
@@ -62,7 +49,7 @@ test_fn get_version(void)
     /* Version get API for FLEX pack information */
     R_FSP_VersionGet (&version);
 
-    sprintf (s_print_buffer, "   %d.%d.%d", version.major, version.minor, version.patch); //, version.minor, version.patch);
+    sprintf (s_print_buffer, "   %d.%d.%d", version.version_id_b.major, version.version_id_b.minor, version.version_id_b.patch); //, version.minor, version.patch);
 
     /* ignoring -Wpointer-sign is OK when treating signed char_t array as as unsigned */
     printf_colour ((void*) s_print_buffer);
@@ -71,11 +58,11 @@ test_fn get_version(void)
 
     /* ignoring -Wpointer-sign is OK when treating signed char_t array as as unsigned */
     printf_colour ((void*) s_print_buffer);
-    while (CONNECTION_ABORT_CRTL != c)
+    while (CONNECTION_ABORT_CRTL != key_pressed)
     {
         /* Wait for space key to be pressed to return to main menu */
-        c = wait_for_keypress ();
-        if ((MENU_EXIT_CRTL == c) || (CONNECTION_ABORT_CRTL == c))
+        key_pressed = wait_for_keypress ();
+        if ((MENU_EXIT_CRTL == key_pressed) || (CONNECTION_ABORT_CRTL == key_pressed))
         {
             break;
         }
@@ -93,7 +80,7 @@ test_fn get_version(void)
  *********************************************************************************************************************/
 test_fn get_uuid(void)
 {
-    int8_t c = -1;
+    int8_t key_pressed = -1;
     bsp_unique_id_t const *p_uid = R_BSP_UniqueIdGet ();
 
     sprintf (s_print_buffer, "%s%s", gp_clear_screen, gp_cursor_home);
@@ -118,11 +105,11 @@ test_fn get_uuid(void)
 
     printf_colour (MENU_RETURN_INFO);
 
-    while (CONNECTION_ABORT_CRTL != c)
+    while (CONNECTION_ABORT_CRTL != key_pressed)
     {
         /* Wait for space key to be pressed to return to main menu */
-        c = wait_for_keypress ();
-        if ((MENU_EXIT_CRTL == c) || (CONNECTION_ABORT_CRTL == c))
+        key_pressed = wait_for_keypress ();
+        if ((MENU_EXIT_CRTL == key_pressed) || (CONNECTION_ABORT_CRTL == key_pressed))
         {
             break;
         }
@@ -139,7 +126,7 @@ test_fn get_uuid(void)
  *********************************************************************************************************************/
 test_fn help (void)
 {
-    int8_t c = -1;
+    int8_t key_pressed = -1;
 
     sprintf (s_print_buffer, "%s%s", gp_clear_screen, gp_cursor_home);
 
@@ -155,13 +142,27 @@ test_fn help (void)
     /* ignoring -Wpointer-sign is OK when treating signed char_t array as as unsigned */
     printf_colour ((void*) s_print_buffer);
 
+    printf_colour ("\r\n");
+
+    sprintf (s_print_buffer, " %s\r\n %s\r\n %s ", HELP_TAG4, HELP_TAG5, HELP_TAG6);
+
+    /* ignoring -Wpointer-sign is OK when treating signed char_t array as as unsigned */
+    printf_colour ((void*) s_print_buffer);
+
+    printf_colour ("\r\n");
+
+    sprintf (s_print_buffer, " %s\r\n", HELP_TAG7);
+
+        /* ignoring -Wpointer-sign is OK when treating signed char_t array as as unsigned */
+   printf_colour ((void*) s_print_buffer);
+
     printf_colour (MENU_RETURN_INFO);
 
-    while (CONNECTION_ABORT_CRTL != c)
+    while (CONNECTION_ABORT_CRTL != key_pressed)
     {
         /* Wait for space key to be pressed to return to main menu */
-        c = wait_for_keypress ();
-        if ((MENU_EXIT_CRTL == c) || (CONNECTION_ABORT_CRTL == c))
+        key_pressed = wait_for_keypress ();
+        if ((MENU_EXIT_CRTL == key_pressed) || (CONNECTION_ABORT_CRTL == key_pressed))
         {
             break;
         }
@@ -180,7 +181,7 @@ test_fn help (void)
 test_fn start_app(void)
 {
     fsp_err_t err = FSP_SUCCESS;
-    int8_t c = -1;
+    int8_t key_pressed = -1;
 
     sprintf (s_print_buffer, "%s%s", gp_clear_screen, gp_cursor_home);
 
@@ -204,15 +205,19 @@ test_fn start_app(void)
         /* Send notify to start aws thread */
         xTaskNotifyFromISR(app_thread, 1, 1, NULL);
     }
+    else
+    {
+        /* Do nothing */
+    }
 
-    while (MENU_EXIT_CRTL != c)
+    while (MENU_EXIT_CRTL != key_pressed)
     {
         if (cred_save_success_flag == false)
         {
             /* Wait for space key to be pressed to return to main menu */
-            c = wait_for_keypress ();
+            key_pressed = wait_for_keypress ();
         }
-        if ((MENU_EXIT_CRTL == c) || (CONNECTION_ABORT_CRTL == c))
+        if ((MENU_EXIT_CRTL == key_pressed) || (CONNECTION_ABORT_CRTL == key_pressed))
         {
             break;
         }

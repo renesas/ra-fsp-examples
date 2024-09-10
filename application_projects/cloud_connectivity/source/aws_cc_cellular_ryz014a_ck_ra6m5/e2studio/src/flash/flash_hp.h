@@ -3,23 +3,10 @@
  * Description  : Contains macros, data structures and functions used in flash_hp.h
  ***********************************************************************************************************************/
 /***********************************************************************************************************************
- * DISCLAIMER
- * This software is supplied by Renesas Electronics Corporation and is only intended for use with Renesas products. No
- * other uses are authorized. This software is owned by Renesas Electronics Corporation and is protected under all
- * applicable laws, including copyright laws.
- * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
- * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED. TO THE MAXIMUM
- * EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES
- * SHALL BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR ANY REASON RELATED TO THIS
- * SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
- * Renesas reserves the right, without notice, to make changes to this software and to discontinue the availability of
- * this software. By using this software, you agree to the additional terms and conditions found by accessing the
- * following link:
- * http://www.renesas.com/disclaimer
- *
- * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
- ***********************************************************************************************************************/
+* Copyright (c) 2023 - 2024 Renesas Electronics Corporation and/or its affiliates
+*
+* SPDX-License-Identifier: BSD-3-Clause
+***********************************************************************************************************************/ 
 
 #include "common_utils.h"
 
@@ -34,30 +21,34 @@ typedef enum e_credentials
 	IOT_THING_NAME
 }credentials_t;
 
+/* Declare stored status string and its length to write into the data flash when the credential stored */
+#define STRING_SAVE					   "SAVEDONE"
+#define LENGTH_SAVE					   (8)
+
 typedef struct s_credentials_mem_map
 {
 	uint32_t num_bytes;
 	uint32_t addr;
 	uint8_t num_block;
-	bool stored_in_flash;
+	char stored_in_flash[LENGTH_SAVE];
 	uint32_t length;
 }credentials_mem_map_t;
 
 typedef struct s_credentials_stored_info
 {
-	bool stored_in_flash;
+	char stored_in_flash[LENGTH_SAVE];
 	uint32_t num_bytes;
 }credentials_stored_info_t;
 
 #define FLASH_HP_DF_BLOCK_SIZE            (64)
 
 /* Data Flash */
-#define FLASH_HP_DF_BLOCK_0               0x08001000U /*   64 B:    0x80001000 - 0x8000103F */
-#define FLASH_HP_DF_BLOCK_CERTIFICATE     0x08001040U /*   1536 B:  0x08001040 - 0x0800163F */
-#define FLASH_HP_DF_BLOCK_KEY             0x08001640U /*   2048 B:  0x08001640 - 0x08001E3F */
-#define FLASH_HP_DF_MQTT_END_POINT        0x08001E40U /*   128 B:   0x08001E40 - 0x08001EBF */
-#define FLASH_HP_DF_IOT_THING_NAME        0x08001EC0U /*   128 B:   0x08001EC0 - 0x08001F3F */
-#define FLASH_HP_DF_DATA_INFO             0x08001F40U /*   128 B:   0x08001F40 - 0x08001FBF */
+#define FLASH_HP_DF_BLOCK_0               (0x08001000U) /*   64 B:    0x80001000 - 0x8000103F */
+#define FLASH_HP_DF_BLOCK_CERTIFICATE     (0x08001040U) /*   1536 B:  0x08001040 - 0x0800163F */
+#define FLASH_HP_DF_BLOCK_KEY             (0x08001640U) /*   2048 B:  0x08001640 - 0x08001E3F */
+#define FLASH_HP_DF_MQTT_END_POINT        (0x08001E40U) /*   128 B:   0x08001E40 - 0x08001EBF */
+#define FLASH_HP_DF_IOT_THING_NAME        (0x08001EC0U) /*   128 B:   0x08001EC0 - 0x08001F3F */
+#define FLASH_HP_DF_DATA_INFO             (0x08001F40U) /*   128 B:   0x08001F40 - 0x08001FBF */
 
 
 #define TOTAL_BLOCK_SIZE                  (3968)
@@ -112,17 +103,15 @@ typedef struct s_credentials_stored_info
 #define CODE_FLASH                     (1U)
 #define DATA_FLASH                     (2U)
 #define EXIT						   (3U)
-#define BUFF_SIZE					   0x0F
-#define BUFF_INDEX					   0x00
+#define BUFF_SIZE					   (0x0F)
+#define BUFF_INDEX					   (0x00)
 
 /*flash_hp operating functions */
 fsp_err_t aws_certficate_write(uint8_t cert_type);
 fsp_err_t flash_data_write(void);
 fsp_err_t store_flashed_data_info (uint8_t cert_type);
 fsp_err_t flash_hp_data_read(bool print_data);
-fsp_err_t flash_hp_data_flash_operations(void);
 void flash_hp_deinit(void);
-void exit_flash_hp(void);
 void flash_display_menu(uint8_t credential_type);
 void flash_info(void);
 void flash_memory_mapping(void);
@@ -130,7 +119,6 @@ fsp_err_t flash_mem_init(void);
 fsp_err_t flash_stored_data_info (void);
 fsp_err_t check_credentials_stored (void);
 void help_menu(void);
-test_fn TCP_Send_performance_server_IP_address(void);
 /*******************************************************************************************************************//**
  * @} (end defgroup FLASH_HP_EP)
  **********************************************************************************************************************/

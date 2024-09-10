@@ -3,7 +3,8 @@
  *
  *  Created on: Jan 24, 2022
  *      Author: Vivek
- */
+ */ 
+
 #include "ICP_10101.h"
 #include "RmcI2C.h"
 #include "common_utils.h"
@@ -272,8 +273,6 @@ void _calculate(void) {
 	float b = (_pcal[0] - a) * (s1 + c);
 	_pressure_Pa = (float)((a + b / (c + (float)_raw_p)));
 }
-
-
 /**************************************************************************************
  * @brief   Send Command over I2C
  * @param[in]cmd Command

@@ -1,10 +1,8 @@
-/*
- * usb_comms.h
- *
- *  Created on: Jun 27, 2022
- *      Author: a5134013
- */
-
+/**********************************************************************************************************************
+* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
+*
+* SPDX-License-Identifier: BSD-3-Clause
+*********************************************************************************************************************/
 #ifndef USB_COMMS_H_
 #define USB_COMMS_H_
 

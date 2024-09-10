@@ -1,23 +1,30 @@
+/***********************************************************************************************************************
+* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
+*
+* SPDX-License-Identifier: BSD-3-Clause
+***********************************************************************************************************************/
+
 #include "hal_data.h"
 
 FSP_CPP_HEADER
-void R_BSP_WarmStart(bsp_warm_start_event_t event) BSP_PLACE_IN_SECTION(".code_in_gap");
+void R_BSP_WarmStart(bsp_warm_start_event_t event)  BSP_PLACE_IN_SECTION(".flash_gap*");
 FSP_CPP_FOOTER
+
 /* Use the following commands to sign the image, replacing ${ProjName}.elf with the path to your image elf file.
  * Regenerate this template if any MCUboot properties change in the bootloader project.
- Make the following updates to convert to binary, then sign image 1 (primary slot: 3000, secondary/upgrade slot: 5000):
+ Make the following updates to convert to binary, then sign image 1 (primary slot: 3800, secondary/upgrade slot: 5800):
  1. Update ${ProjName} to reflect the location of the image 1 .elf file
- 2. Update ${workspace_loc:ra_mcuboot_ra2e1_swap_no_validate} to reflect the location of the root of the bootloader project
- arm-none-eabi-objcopy -O binary ${ProjName}.elf ${ProjName}.bin & python ${workspace_loc:ra_mcuboot_ra2e1_swap_no_validate}/ra/mcu-tools/MCUboot/scripts/imgtool.py sign --version 1.0.0+0 --header-size 0x100 --align 8 --max-align 8 --slot-size 0x2000 --max-sectors 4 --confirm --pad-header ${ProjName}.bin ${ProjName}_signed.bin
+ 2. Update ${workspace_loc:ra_mcuboot_ra2e1_overwrite_validate} to reflect the location of the root of the bootloader project
+ arm-none-eabi-objcopy -O binary ${ProjName}.elf ${ProjName}.bin & python ${workspace_loc:ra_mcuboot_ra2e1_overwrite_validate}/ra/mcu-tools/MCUboot/scripts/imgtool.py sign -k ${workspace_loc:ra_mcuboot_ra2e1_overwrite_validate}/ra/mcu-tools/MCUboot/root-ec-p256.pem --version 1.0.0+0 --header-size 0x100 --align 8 --max-align 8 --slot-size 0x2000 --max-sectors 4 --overwrite-only --confirm --pad-header ${ProjName}.bin ${ProjName}_signed.bin
  */
 
-
-void mcuboot_quick_setup() BSP_PLACE_IN_SECTION(".code_in_gap");
+void mcuboot_quick_setup()  BSP_PLACE_IN_SECTION(".flash_gap*");
 /* Quick setup for MCUboot.
  *
  * To update the linker regions of an application to be used with this bootloader, add a the *.bld file created during the
  * build as a File property in e2 studio or RASC under Project > Properties, then C/C++ Build > Build Variables with variable
  * name BootloaderDataFile.
+ * If QSPI is used, the QSPI flash must be initialized in Extended-SPI mode by calling R_QSPI_Open() before boot_go() is called.
  */
 void mcuboot_quick_setup()
 {
@@ -35,14 +42,13 @@ void mcuboot_quick_setup()
 /* Initialize Custom Crypto (Protected Mode) driver. */
     assert(FSP_SUCCESS == R_SCE_Open(&sce_ctrl, &sce_cfg));
 #endif
-#if 0
+
     /* (Optional, not required if --pad is used during signing) To check for updates, call boot_set_pending. */
     bool update = 0;
     if (update)
     {
         boot_set_pending(0);
     }
-#endif
 
     /* Verify the boot image and get its location. */
     struct boot_rsp rsp;
@@ -79,7 +85,7 @@ void R_BSP_WarmStart(bsp_warm_start_event_t event)
 #if BSP_FEATURE_FLASH_LP_VERSION != 0
 
         /* Enable reading from data flash. */
-        R_FACI_LP->DFLCTL = 1U;
+//        R_FACI_LP->DFLCTL = 1U;
 
         /* Would normally have to wait tDSTOP(6us) for data flash recovery. Placing the enable here, before clock and
          * C runtime initialization, should negate the need for a delay since the initialization will typically take more than 6us. */
@@ -91,12 +97,13 @@ void R_BSP_WarmStart(bsp_warm_start_event_t event)
         /* C runtime environment and system clocks are setup. */
 
         /* Configure pins. */
-  //      R_IOPORT_Open (&g_ioport_ctrl, g_ioport.p_cfg);
+//        R_IOPORT_Open (&g_ioport_ctrl, &IOPORT_CFG_NAME);
     }
 }
 
 #if BSP_TZ_SECURE_BUILD
 
+FSP_CPP_HEADER
 BSP_CMSE_NONSECURE_ENTRY void template_nonsecure_callable ();
 
 /* Trustzone Secure Projects require at least one nonsecure callable function in order to build (Remove this if it is not required to build). */
@@ -104,4 +111,6 @@ BSP_CMSE_NONSECURE_ENTRY void template_nonsecure_callable ()
 {
 
 }
+FSP_CPP_FOOTER
+
 #endif

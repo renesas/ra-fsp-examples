@@ -3,23 +3,10 @@
  * Description  : Contains macros, data structures and functions used in flash_hp.c
  ***********************************************************************************************************************/
 /***********************************************************************************************************************
- * DISCLAIMER
- * This software is supplied by Renesas Electronics Corporation and is only intended for use with Renesas products. No
- * other uses are authorized. This software is owned by Renesas Electronics Corporation and is protected under all
- * applicable laws, including copyright laws.
- * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
- * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED. TO THE MAXIMUM
- * EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES
- * SHALL BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR ANY REASON RELATED TO THIS
- * SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
- * Renesas reserves the right, without notice, to make changes to this software and to discontinue the availability of
- * this software. By using this software, you agree to the additional terms and conditions found by accessing the
- * following link:
- * http://www.renesas.com/disclaimer
- *
- * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
- ***********************************************************************************************************************/
+* Copyright (c) 2023 - 2024 Renesas Electronics Corporation and/or its affiliates
+*
+* SPDX-License-Identifier: BSD-3-Clause
+***********************************************************************************************************************/ 
 #include <flash/flash_hp.h>
 #include <stdio.h>
 #include <stdarg.h>
@@ -28,10 +15,10 @@
 #include "console_menu/console.h"
 
 /* Flags, set from Callback function */
-static volatile _Bool g_b_flash_event_not_blank = false;
-static volatile _Bool g_b_flash_event_blank = false;
-static volatile _Bool g_b_flash_event_erase_complete = false;
-static volatile _Bool g_b_flash_event_write_complete = false;
+static volatile _Bool is_b_flash_event_not_blank = false;
+static volatile _Bool is_b_flash_event_blank = false;
+static volatile _Bool is_b_flash_event_erase_complete = false;
+static volatile _Bool is_b_flash_event_write_complete = false;
 
 /* Static Function */
 static fsp_err_t blankcheck_event_flag(void);
@@ -40,19 +27,17 @@ extern char g_write_buffer[BUFFER_SIZE];
 extern uint8_t g_start_read_flag;
 extern bool g_cred_type_flag;
 extern uint16_t g_counter;
-
-char *sci_buffer;
-uint16_t buffer_pointer;
-static uint32_t g_allocated_size, g_free_size, g_physical_size;
-credentials_t credentials;
+uint32_t g_allocated_size;
+uint32_t g_free_size;
+uint32_t g_physical_size;
 char g_certificate[2048];
 char g_private_key[2048];
 char g_mqtt_endpoint[128];
 char g_iot_thing_name[128];
-uint16_t g_length[5] = {0};
-uint32_t g_flash_hp_df_block, g_num_bytes, g_num_blocks;
+uint32_t g_flash_hp_df_block;
+uint32_t g_num_bytes;
+uint32_t g_num_blocks;
 bool mem_flash_info_flag = false;
-uint32_t g_uuid[4];
 credentials_mem_map_t g_crdentials_mem[5];
 
 static char read_buffer[2048]= {0};
@@ -92,6 +77,10 @@ void flash_display_menu(uint8_t credential_type)
 	    printf_colour((void*)s_print_buffer);
 	    sprintf (s_print_buffer, TYPE_CREDENTIALS);
 	}
+	else
+	{
+		/* Do nothing */
+	}
 
 	printf_colour((void*)s_print_buffer);
 }
@@ -105,20 +94,27 @@ void flash_display_menu(uint8_t credential_type)
 fsp_err_t aws_certficate_write(uint8_t cert_type)
 {
     fsp_err_t err = FSP_SUCCESS;
-    buffer_pointer = 0;
     flash_memory_mapping ();
 
-    /* enable storing of encoming data on UART to g_write_buffer */
+    /* enable storing of incoming data on UART to g_write_buffer */
     g_start_read_flag = true;
     while (1)
     {
-        /* Check for end of certificate or private key */
-        if ((strstr (g_write_buffer, END_OF_AWS_CERTIFICATE)) || (strstr (g_write_buffer, END_OF_AWS_PRIVATE_KEY)))
+    	/* Check for the end of the certificate */
+		if ((strstr (g_write_buffer, END_OF_AWS_CERTIFICATE)) && (CERTIFICATE == cert_type))
         {
             g_start_read_flag = false;
             APP_DBG_PRINT("\r\nFile content saved in buffer\r\n");
             break;
         }
+        /* Check for the end of the private key */
+        else if (strstr (g_write_buffer, END_OF_AWS_PRIVATE_KEY) && (PRIVATE_KEY == cert_type))
+        {
+            g_start_read_flag = false;
+            APP_DBG_PRINT("\r\nFile content saved in buffer\r\n");
+            break;
+        }
+
         /* Check for end of MQTT end point and IOT topic name */
         if ((g_cred_type_flag == true) && strchr (g_write_buffer, '\r'))
         {
@@ -193,7 +189,6 @@ fsp_err_t aws_certficate_write(uint8_t cert_type)
 fsp_err_t flash_data_write(void)
 {
     fsp_err_t err = FSP_SUCCESS;
-    buffer_pointer = 0;
     flash_result_t blank_check_result = FLASH_RESULT_BLANK;
 
     /* Erase Block */
@@ -208,9 +203,9 @@ fsp_err_t flash_data_write(void)
     /* Wait for the erase complete event flag, if BGO is SET  */
     if (true == user_flash_cfg.data_flash_bgo)
     {
-        APP_DBG_PRINT("\r\nBGO has enabled");
-        while (!g_b_flash_event_erase_complete);
-        g_b_flash_event_erase_complete = false;
+        APP_DBG_PRINT("\r\nBGO has enabled, Data Flash erase is in progress");
+        while (!is_b_flash_event_erase_complete);
+        is_b_flash_event_erase_complete = false;
     }
 
     /* Data flash blank check */
@@ -229,7 +224,7 @@ fsp_err_t flash_data_write(void)
     }
     else if (FLASH_RESULT_NOT_BLANK == blank_check_result)
     {
-        APP_ERR_PRINT("\r\n BlankCheck is not blank,not to write the data. Restart the application");
+        APP_ERR_PRINT("\r\n BlankCheck failed. cannot write the data. Try Restarting the application");
         return (fsp_err_t) FLASH_RESULT_NOT_BLANK;
     }
     else if (FLASH_RESULT_BGO_ACTIVE == blank_check_result)
@@ -274,8 +269,8 @@ fsp_err_t flash_data_write(void)
     /* Wait for the write complete event flag, if BGO is SET  */
     if (true == user_flash_cfg.data_flash_bgo)
     {
-        while (!g_b_flash_event_write_complete);
-        g_b_flash_event_write_complete = false;
+        while (!is_b_flash_event_write_complete);
+        is_b_flash_event_write_complete = false;
     }
 
     memset (g_write_buffer, 0, BUFFER_SIZE);
@@ -286,7 +281,7 @@ fsp_err_t flash_data_write(void)
 }
 
 /*******************************************************************************************************************//**
- * @brief This function stores updated credential details in flash memory in form of stucture
+ * @brief This function stores updated credential details in flash memory in form of structure
  * @param[IN]   None
  * @retval      FSP_SUCCESS             Upon successful FLash_HP data flash operations.
  * @retval      Any Other Error code    Upon unsuccessful Flash_HP data flash operations.
@@ -294,7 +289,6 @@ fsp_err_t flash_data_write(void)
 fsp_err_t store_flashed_data_info (uint8_t cert_type)
 {
     fsp_err_t err = FSP_SUCCESS;
-    buffer_pointer = 0;
 
     /* Assign start address of flash memory to store details related to credentials */
     g_flash_hp_df_block = FLASH_HP_DF_DATA_INFO;
@@ -306,19 +300,19 @@ fsp_err_t store_flashed_data_info (uint8_t cert_type)
     /* assign certificate type */
     if (CERTIFICATE == cert_type)
     {
-        g_crdentials_mem[0].stored_in_flash = true;
+    	strcpy((char *)g_crdentials_mem[0].stored_in_flash, (char *)STRING_SAVE);
     }
     else if (PRIVATE_KEY == cert_type)
     {
-        g_crdentials_mem[1].stored_in_flash = true;
+    	strcpy((char *)g_crdentials_mem[1].stored_in_flash, (char *)STRING_SAVE);
     }
     else if ( MQTT_ENDPOINT == cert_type)
     {
-        g_crdentials_mem[2].stored_in_flash = true;
+    	strcpy((char *)g_crdentials_mem[2].stored_in_flash, (char *)STRING_SAVE);
     }
     else if (IOT_THING_NAME == cert_type)
     {
-        g_crdentials_mem[3].stored_in_flash = true;
+    	strcpy((char *)g_crdentials_mem[3].stored_in_flash, (char *)STRING_SAVE);
     }
 
     /* enable flag to write data into flash */
@@ -359,7 +353,7 @@ fsp_err_t flash_hp_data_read(bool print_data)
         if (count == CERTIFICATE)
         {
             /* Check if certificate is stored in flash memory or not */
-            if (g_crdentials_mem[count].stored_in_flash == true)
+        	if (0 == strncmp ((char *)g_crdentials_mem[count].stored_in_flash, (char *)STRING_SAVE, LENGTH_SAVE))
             {
                 /* Copy certificate from flash memory to buffer and validate certificate */
                 memcpy (read_buffer, (uint8_t*) g_crdentials_mem[count].addr, g_crdentials_mem[count].num_bytes);
@@ -379,7 +373,7 @@ fsp_err_t flash_hp_data_read(bool print_data)
                 else
                 {
                     printf_colour (
-                            "\r\n [RED]Certificate saved in data flash is not saved correctly or corrupted[WHITE]\r\n");
+                            "\r\n [RED]Certificate is not saved in data flash[WHITE]\r\n");
 
                 }
             }
@@ -387,7 +381,7 @@ fsp_err_t flash_hp_data_read(bool print_data)
         }
         if (count == PRIVATE_KEY)
         {
-            if (g_crdentials_mem[count].stored_in_flash == true)
+        	if (0 == strncmp ((char *)g_crdentials_mem[count].stored_in_flash, (char *)STRING_SAVE, LENGTH_SAVE))
             {
                 /* Copy key from flash memory to buffer */
                 memcpy (read_buffer, (uint8_t*) g_crdentials_mem[count].addr, g_crdentials_mem[count].num_bytes);
@@ -404,7 +398,7 @@ fsp_err_t flash_hp_data_read(bool print_data)
         }
         if (count == MQTT_ENDPOINT)
         {
-            if (g_crdentials_mem[count].stored_in_flash == true)
+        	if (0 == strncmp ((char *)g_crdentials_mem[count].stored_in_flash, (char *)STRING_SAVE, LENGTH_SAVE))
             {
                 /* Copy mqtt end point from flash memory to buffer */
                 memcpy (read_buffer, (uint8_t*) g_crdentials_mem[count].addr, g_crdentials_mem[count].num_bytes);
@@ -419,7 +413,7 @@ fsp_err_t flash_hp_data_read(bool print_data)
 
         if (count == IOT_THING_NAME)
         {
-            if (g_crdentials_mem[count].stored_in_flash == true)
+        	if (0 == strncmp ((char *)g_crdentials_mem[count].stored_in_flash, (char *)STRING_SAVE, LENGTH_SAVE))
             {
                 /* Copy IOT thing name from flash memory to buffer */
                 memcpy (read_buffer, (uint8_t*) g_crdentials_mem[count].addr, g_crdentials_mem[count].num_bytes);
@@ -469,30 +463,30 @@ fsp_err_t flash_stored_data_info(void)
     fsp_err_t err = FSP_SUCCESS;
     memcpy (g_crdentials_mem, (credentials_mem_map_t*) FLASH_HP_DF_DATA_INFO, sizeof(g_crdentials_mem));
 
-    if (g_crdentials_mem[CERTIFICATE].stored_in_flash != true)
+    if (0 != strncmp ((char *)g_crdentials_mem[CERTIFICATE].stored_in_flash, (char *)STRING_SAVE, LENGTH_SAVE))
     {
-        g_crdentials_mem[CERTIFICATE].stored_in_flash = false;
+    	memset (g_crdentials_mem[CERTIFICATE].stored_in_flash, 0, LENGTH_SAVE);
     }
 
-    if (g_crdentials_mem[PRIVATE_KEY].stored_in_flash != true)
+    if (0 != strncmp ((char *)g_crdentials_mem[PRIVATE_KEY].stored_in_flash, (char *)STRING_SAVE, LENGTH_SAVE))
     {
-        g_crdentials_mem[PRIVATE_KEY].stored_in_flash = false;
+    	memset (g_crdentials_mem[PRIVATE_KEY].stored_in_flash, 0, LENGTH_SAVE);
     }
 
-    if (g_crdentials_mem[MQTT_ENDPOINT].stored_in_flash != true)
+    if (0 != strncmp ((char *)g_crdentials_mem[MQTT_ENDPOINT].stored_in_flash, (char *)STRING_SAVE, LENGTH_SAVE))
     {
-        g_crdentials_mem[MQTT_ENDPOINT].stored_in_flash = false;
+    	memset (g_crdentials_mem[MQTT_ENDPOINT].stored_in_flash, 0, LENGTH_SAVE);
     }
 
-    if (g_crdentials_mem[IOT_THING_NAME].stored_in_flash != true)
+    if (0 != strncmp ((char *)g_crdentials_mem[IOT_THING_NAME].stored_in_flash, (char *)STRING_SAVE, LENGTH_SAVE))
     {
-        g_crdentials_mem[IOT_THING_NAME].stored_in_flash = false;
+    	memset (g_crdentials_mem[IOT_THING_NAME].stored_in_flash, 0, LENGTH_SAVE);
     }
     return err;
 }
 
 /*******************************************************************************************************************//**
- * @brief This functions stores flash memory details in stucture
+ * @brief This functions stores flash memory details in structure
  **********************************************************************************************************************/
 void flash_memory_mapping(void)
 {
@@ -522,8 +516,8 @@ void flash_memory_mapping(void)
  **********************************************************************************************************************/
 void flash_info(void)
 {
-    static char_t s_print_buffer[BUFFER_LENGTH_SHORT] =
-    { };
+    static char_t s_print_buffer[BUFFER_LENGTH_SHORT] ={ };
+    g_allocated_size = 0;
 
     sprintf (s_print_buffer, "%s%s", gp_clear_screen, gp_cursor_home);
     /* ignoring -Wpointer-sign is OK when treating signed char_t array as as unsigned */
@@ -535,19 +529,19 @@ void flash_info(void)
     /* Total available flash memory */
     g_physical_size = TOTAL_BLOCK_SIZE;
 
-    if (g_crdentials_mem[CERTIFICATE].stored_in_flash == true)
+    if (0 == strncmp ((char *)g_crdentials_mem[CERTIFICATE].stored_in_flash, (char *)STRING_SAVE, LENGTH_SAVE))
     {
         g_allocated_size = g_crdentials_mem[CERTIFICATE].length;
     }
-    if (g_crdentials_mem[PRIVATE_KEY].stored_in_flash == true)
+    if (0 == strncmp ((char *)g_crdentials_mem[PRIVATE_KEY].stored_in_flash, (char *)STRING_SAVE, LENGTH_SAVE))
     {
         g_allocated_size += g_crdentials_mem[PRIVATE_KEY].length;
     }
-    if (g_crdentials_mem[MQTT_ENDPOINT].stored_in_flash == true)
+    if (0 == strncmp ((char *)g_crdentials_mem[MQTT_ENDPOINT].stored_in_flash, (char *)STRING_SAVE, LENGTH_SAVE))
     {
         g_allocated_size += g_crdentials_mem[MQTT_ENDPOINT].length;
     }
-    if (g_crdentials_mem[IOT_THING_NAME].stored_in_flash == true)
+    if (0 == strncmp ((char *)g_crdentials_mem[IOT_THING_NAME].stored_in_flash, (char *)STRING_SAVE, LENGTH_SAVE))
     {
         g_allocated_size += g_crdentials_mem[IOT_THING_NAME].length;
     }
@@ -574,7 +568,8 @@ fsp_err_t check_credentials_stored(void)
     fsp_err_t err = FSP_SUCCESS;
     char_t s_print_buffer[BUFFER_LENGTH_SHORT] =
     { };
-
+    err = flash_stored_data_info ();
+    assert(FSP_SUCCESS == err);
     /* Clear screen */
     sprintf (s_print_buffer, "%s%s", gp_clear_screen, gp_cursor_home);
     printf_colour ((void*) s_print_buffer);
@@ -584,9 +579,9 @@ fsp_err_t check_credentials_stored(void)
     printf_colour ((void*) s_print_buffer);
 
     /* Check if credential is stored in flash */
-    if (g_crdentials_mem[CERTIFICATE].stored_in_flash == true)
+    if (0 == strncmp ((char *)g_crdentials_mem[CERTIFICATE].stored_in_flash, (char *)STRING_SAVE, LENGTH_SAVE))
     {
-        /* Copy credetial from flash memory to buffer */
+        /* Copy credential from flash memory to buffer */
         memcpy (read_buffer, (uint8_t*) g_crdentials_mem[CERTIFICATE].addr, g_crdentials_mem[CERTIFICATE].num_bytes);
         /* Validate credential */
         if ((NULL != strstr (read_buffer, "-----END CERTIFICATE-----"))
@@ -598,8 +593,8 @@ fsp_err_t check_credentials_stored(void)
         }
         else
         {
-            printf_colour ("\r\n [RED]Certificate saved in data flash is not saved correctly or corrupted[WHITE]\r\n");
-            g_crdentials_mem[CERTIFICATE].stored_in_flash = false;
+            printf_colour ("\r\n [RED]Certificate is not saved in data flash[WHITE]\r\n");
+            memset (g_crdentials_mem[CERTIFICATE].stored_in_flash, 0, LENGTH_SAVE);
             return FSP_ERR_ABORTED;
         }
     }
@@ -610,9 +605,9 @@ fsp_err_t check_credentials_stored(void)
     }
 
     /* Check if credential is stored in flash */
-    if (g_crdentials_mem[PRIVATE_KEY].stored_in_flash == true)
+    if (0 == strncmp ((char *)g_crdentials_mem[PRIVATE_KEY].stored_in_flash, (char *)STRING_SAVE, LENGTH_SAVE))
     {
-        /* Copy credetial from flash memory to buffer */
+        /* Copy credential from flash memory to buffer */
         memcpy (read_buffer, (uint8_t*) g_crdentials_mem[PRIVATE_KEY].addr, g_crdentials_mem[PRIVATE_KEY].num_bytes);
         /* Validate credential */
         if ((NULL != strstr (read_buffer, "-----END RSA PRIVATE KEY-----"))
@@ -624,8 +619,8 @@ fsp_err_t check_credentials_stored(void)
         }
         else
         {
-            printf_colour ("\r\n [RED]Private key saved in data flash is not saved correctly or corrupted[WHITE]\r\n");
-            g_crdentials_mem[PRIVATE_KEY].stored_in_flash = false;
+            printf_colour ("\r\n [RED]Private key is not saved in data flash[WHITE]\r\n");
+            memset (g_crdentials_mem[PRIVATE_KEY].stored_in_flash, 0, LENGTH_SAVE);
             return FSP_ERR_ABORTED;
         }
     }
@@ -636,9 +631,9 @@ fsp_err_t check_credentials_stored(void)
     }
 
     /* Check if credential is stored in flash */
-    if (g_crdentials_mem[MQTT_ENDPOINT].stored_in_flash == true)
+    if (0 == strncmp ((char *)g_crdentials_mem[MQTT_ENDPOINT].stored_in_flash, (char *)STRING_SAVE, LENGTH_SAVE))
     {
-        /* Copy credetial from flash memory to buffer */
+        /* Copy credential from flash memory to buffer */
         memcpy (read_buffer, (uint8_t*) g_crdentials_mem[MQTT_ENDPOINT].addr,
                 g_crdentials_mem[MQTT_ENDPOINT].num_bytes);
         /* Validate credential */
@@ -657,8 +652,8 @@ fsp_err_t check_credentials_stored(void)
         else
         {
             printf_colour (
-                    "\r\n [RED]MQTT end point saved in data flash is not saved correctly or corrupted[WHITE]\r\n");
-            g_crdentials_mem[MQTT_ENDPOINT].stored_in_flash = false;
+                    "\r\n [RED]MQTT end point is not saved in data flash[WHITE]\r\n");
+            memset (g_crdentials_mem[MQTT_ENDPOINT].stored_in_flash, 0, LENGTH_SAVE);
             return FSP_ERR_ABORTED;
         }
     }
@@ -669,9 +664,9 @@ fsp_err_t check_credentials_stored(void)
     }
 
     /* Check if credential is stored in flash */
-    if (g_crdentials_mem[IOT_THING_NAME].stored_in_flash == true)
+    if (0 == strncmp ((char *)g_crdentials_mem[IOT_THING_NAME].stored_in_flash, (char *)STRING_SAVE, LENGTH_SAVE))
     {
-        /* Copy credetial from flash memory to buffer */
+        /* Copy credential from flash memory to buffer */
         memcpy (read_buffer, (uint8_t*) g_crdentials_mem[IOT_THING_NAME].addr,
                 g_crdentials_mem[IOT_THING_NAME].num_bytes);
         /* Validate credential */
@@ -690,8 +685,8 @@ fsp_err_t check_credentials_stored(void)
         else
         {
             printf_colour (
-                    "\r\n [RED]IOT thing name saved in data flash is not saved correctly or corrupted[WHITE]\r\n");
-            g_crdentials_mem[IOT_THING_NAME].stored_in_flash = false;
+                    "\r\n [RED]IOT thing name is not saved in data flash[WHITE]\r\n");
+            memset (g_crdentials_mem[IOT_THING_NAME].stored_in_flash, 0, LENGTH_SAVE);
             return FSP_ERR_ABORTED;
         }
     }
@@ -733,24 +728,6 @@ void help_menu(void)
 }
 
 /*******************************************************************************************************************//**
- * @brief This functions de-initializes Flash_HP module.
- * @param[IN]
- * @retval      FSP_SUCCESS             Upon successful Flash_HP is blank
- * @retval      Any Other Error code    Upon unsuccessful Flash_HP is not blank
- **********************************************************************************************************************/
-test_fn TCP_Send_performance_server_IP_address(void)
-{
-    char_t s_print_buffer[BUFFER_LENGTH_SHORT] =
-    { };
-    sprintf (s_print_buffer, "%s%s", gp_clear_screen, gp_cursor_home);
-
-    /* ignoring -Wpointer-sign is OK when treating signed char_t array as as unsigned */
-    printf_colour ((void*) s_print_buffer);
-    printf_colour ("TCP Send performance server IP address");
-    return 0;
-}
-
-/*******************************************************************************************************************//**
  * @brief       This functions de-initializes Flash_HP module.
  **********************************************************************************************************************/
 void flash_hp_deinit(void)
@@ -774,19 +751,19 @@ void flash_callback(flash_callback_args_t *p_args)
 {
     if (FLASH_EVENT_NOT_BLANK == p_args->event)
     {
-        g_b_flash_event_not_blank = true;
+        is_b_flash_event_not_blank = true;
     }
     else if (FLASH_EVENT_BLANK == p_args->event)
     {
-        g_b_flash_event_blank = true;
+        is_b_flash_event_blank = true;
     }
     else if (FLASH_EVENT_ERASE_COMPLETE == p_args->event)
     {
-        g_b_flash_event_erase_complete = true;
+        is_b_flash_event_erase_complete = true;
     }
     else if (FLASH_EVENT_WRITE_COMPLETE == p_args->event)
     {
-        g_b_flash_event_write_complete = true;
+        is_b_flash_event_write_complete = true;
     }
     else
     {
@@ -804,19 +781,19 @@ static fsp_err_t blankcheck_event_flag(void)
 {
     fsp_err_t err = FSP_SUCCESS;
     /* Wait for callback function to set flag */
-    while (!(g_b_flash_event_not_blank || g_b_flash_event_blank));
-    if (g_b_flash_event_not_blank)
+    while (!(is_b_flash_event_not_blank || is_b_flash_event_blank));
+    if (is_b_flash_event_not_blank)
     {
         APP_ERR_PRINT("\n\rFlash is not blank, not to write the data. Restart the application\n");
         /* Reset Flag */
-        g_b_flash_event_not_blank = false;
+        is_b_flash_event_not_blank = false;
         return (fsp_err_t) FLASH_EVENT_NOT_BLANK;
     }
     else
     {
         APP_PRINT("\r\nFlash is blank\n");
         /* Reset Flag */
-        g_b_flash_event_blank = false;
+        is_b_flash_event_blank = false;
     }
     return err;
 }

@@ -32,13 +32,7 @@
 /* MQTT API header. */
 #include "core_mqtt.h"
 
-/* Transport interface implementation include header for TLS. */
-//#include "transport_secure_sockets.h"
-
-/* Include header for connection configurations. */
-#include "aws_clientcredential.h"
-
-#include "usr_config.h"
+#include "transport_interface.h"
 
 /*------------- Demo configurations -------------------------*/
 
@@ -52,40 +46,11 @@
  *   - keyCLIENT_PRIVATE_KEY_PEM for client private key.
  */
 
-//#ifndef democonfigMQTT_BROKER_ENDPOINT
-//    #define democonfigMQTT_BROKER_ENDPOINT      USR_MQTT_ENDPOINT
-//#endif
-
-//#ifndef democonfigCLIENT_IDENTIFIER
-//
-///**
-// * @brief The MQTT client identifier used in this example.  Each client identifier
-// * must be unique so edit as required to ensure no two clients connecting to the
-// * same broker use the same client identifier.
-// */
-//    #define democonfigCLIENT_IDENTIFIER         g_iot_thing_name
-//#endif
-
-#ifndef democonfigMQTT_BROKER_PORT
-
-/**
- * @brief The port to use for the demo.
- */
-    #define democonfigMQTT_BROKER_PORT          USR_MQTT_BROKER_PORT
-#endif
-
-/**
- * @brief The root CA certificate belonging to the broker.
- */
-#ifndef democonfigROOT_CA_PEM
-    #define democonfigROOT_CA_PEM               tlsATS1_ROOT_CERTIFICATE_PEM
-#endif
-
 /**
  * @brief The size to use for the network buffer.
  */
-#ifndef mqttexampleNETWORK_BUFFER_SIZE
-    #define mqttexampleNETWORK_BUFFER_SIZE      ( 2048U )
+#ifndef MQTT_EXAMPLE_NETWORK_BUFFER_SIZE
+    #define MQTT_EXAMPLE_NETWORK_BUFFER_SIZE      ( 2048U )
 #endif
 
 #undef LogInfo
@@ -240,13 +205,11 @@ BaseType_t PublishToTopic( MQTTContext_t * pxMqttContext,
  * @brief Invoke the core MQTT library's process loop function.
  *
  * @param[in] pxMqttContext The MQTT context for the MQTT connection.
- * @param[in] ulTimeoutMs Minimum time for the loop to run, if no error occurs.
  *
  * @return pdPASS if process loop was successful;
  * pdFAIL otherwise.
  */
-BaseType_t ProcessLoop( MQTTContext_t * pxMqttContext,
-                        uint32_t ulTimeoutMs );
+BaseType_t ProcessLoop( MQTTContext_t * pxMqttContext );
 
 BaseType_t subscribePublishLoop( MQTTContext_t * pxMqttContext, NetworkContext_t * pxNetworkContext );
 

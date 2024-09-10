@@ -1,3 +1,9 @@
+/***********************************************************************************************************************
+* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
+*
+* SPDX-License-Identifier: BSD-3-Clause
+***********************************************************************************************************************/
+
 #include "hal_data.h"
 #include "common_utils.h"
 
@@ -45,16 +51,73 @@ iir_filter_state_t gp_iirfa0_filter_state[NUM_STAGES] = {0};
 const iir_filter_coeffs_t gp_iirfa0_filter_coeffs[NUM_STAGES] =
 {
      /* Insert coefficients from 'IIRFA_coeffs.txt' generated from the 'extract_coefficients.m' MATLAB script below this line. */
+{ //stage 1
+	.b0 = 0.0021671222057193517684937F,
+	.b1 = 0.0000000000000000000000000F,
+	.b2 = -0.0021671222057193517684937F,
+	.a1 = 1.9951459169387817382812500F,
+	.a2 = -0.9956698417663574218750000F,
+},
+{ //stage 2
+	.b0 = 0.0035693196114152669906616F,
+	.b1 = 0.0000000000000000000000000F,
+	.b2 = -0.0035693196114152669906616F,
+	.a1 = 1.9944081306457519531250000F,
+	.a2 = -0.9950836896896362304687500F,
+},
+{ //stage 3
+	.b0 = 0.0007819454185664653778076F,
+	.b1 = 0.0000000000000000000000000F,
+	.b2 = -0.0007819454185664653778076F,
+	.a1 = 1.9985574483871459960937500F,
+	.a2 = -0.9990341067314147949218750F,
+},
+{ //stage 4
+	.b0 = 0.0060391305014491081237793F,
+	.b1 = 0.0000000000000000000000000F,
+	.b2 = -0.0060391305014491081237793F,
+	.a1 = 1.9980473518371582031250000F,
+	.a2 = -0.9987925291061401367187500F,
+},
+{ //stage 5
+	.b0 = 0.0033282302320003509521484F,
+	.b1 = 0.0000000000000000000000000F,
+	.b2 = -0.0033282302320003509521484F,
+	.a1 = 1.9941017627716064453125000F,
+	.a2 = -0.9946704506874084472656250F,
+},
+{ //stage 6
+	.b0 = 0.0038115631323307752609253F,
+	.b1 = 0.0000000000000000000000000F,
+	.b2 = -0.0038115631323307752609253F,
+	.a1 = 1.9938050508499145507812500F,
+	.a2 = -0.9944270253181457519531250F,
+},
+{ //stage 7
+	.b0 = 0.0014748690882697701454163F,
+	.b1 = 0.0000000000000000000000000F,
+	.b2 = -0.0014748690882697701454163F,
+	.a1 = 1.9967080354690551757812500F,
+	.a2 = -0.9972006082534790039062500F,
+},
+{ //stage 8
+	.b0 = 0.0052448874339461326599121F,
+	.b1 = 0.0000000000000000000000000F,
+	.b2 = -0.0052448874339461326599121F,
+	.a1 = 1.9958966970443725585937500F,
+	.a2 = -0.9966164231300354003906250F,
+},
+
 
 };
 
 /* Filter configuration */
 iir_filter_cfg_t g_iirfa0_filter_cfg =
 {
-    .p_filter_coeffs = gp_iirfa0_filter_coeffs, // Pointer to filter coefficient array
+    .p_filter_coeffs = (iir_filter_coeffs_t *) gp_iirfa0_filter_coeffs, // Pointer to filter coefficient array
     .p_filter_state  = gp_iirfa0_filter_state,  // Pointer to filter state data array
     .stage_base      = 0,                       // Which hardware biquad stage to start allocation from (0-31)
-    .stage_num       = NUM_STAGES,                       // Number of stages to allocate
+    .stage_num       = NUM_STAGES,              // Number of stages to allocate
 };
 
 
@@ -168,9 +231,9 @@ BSP_CMSE_NONSECURE_ENTRY void template_nonsecure_callable ()
 
 /* AGT callback function which will trigger at 25600Hz */
 void agt_callback(timer_callback_args_t *p_args){
-
+    FSP_PARAMETER_NOT_USED(p_args);
     /* Filter 1 period of the sinusoid with the R_IIRFA_Filter function */
-    err = R_IIRFA_Filter(&g_iirfa0_ctrl, &noise[0], &output[cnt], NUM_SAMP);
+    err = R_IIRFA_Filter(&g_iirfa0_ctrl, &noise[0], (float *) &output[cnt], NUM_SAMP);
 
     /* Handle error */
     if (FSP_SUCCESS != err)

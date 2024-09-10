@@ -79,20 +79,20 @@ void init_kalman(kalman_t* kalman_filt) {
  * Parameters: val
  * Return:     square root of val
  ************************************************************************************/
-//static uint32_t uint_sqrt(uint32_t val)
-//{
-//	//integer sqrt function from http://www.azillionmonkeys.com/qed/sqroot.html
-//	uint32_t temp, g = 0, b = 0x8000, bshft = 15;
-//	do
-//	{
-//		if (val >= (temp = (((g << 1) + b) << bshft--)))
-//		{
-//			g += b;
-//			val -= temp;
-//		}
-//	} while (b >>= 1);
-//	return g;
-//}
+static uint32_t uint_sqrt(uint32_t val)
+{
+	//integer sqrt function from http://www.azillionmonkeys.com/qed/sqroot.html
+	uint32_t temp, g = 0, b = 0x8000, bshft = 15;
+	do
+	{
+		if (val >= (temp = (((g << 1) + b) << bshft--)))
+		{
+			g += b;
+			val -= temp;
+		}
+	} while (b >>= 1);
+	return g;
+}
 
 uint16_t get_std_dev(uint16_t *array, uint8_t array_length) {
   uint32_t var =0;

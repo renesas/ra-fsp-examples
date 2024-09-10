@@ -12,6 +12,7 @@ FSP Configuration
     series: 2
     
   RA2E1 Family
+    Enable inline BSP IRQ functions: Disabled
     OFS0 register settings: Independent WDT: Start Mode: IWDT is Disabled
     OFS0 register settings: Independent WDT: Timeout Period: 2048 cycles
     OFS0 register settings: Independent WDT: Dedicated Clock Frequency Divisor: 128
@@ -53,6 +54,7 @@ FSP Configuration
     ID Code Mode: Unlocked (Ignore ID)
     ID Code (32 Hex Characters): FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
     
+  RA2E1 event data
   RA Common
     Main stack size (bytes): 0x800
     Heap size (bytes): 0
@@ -218,7 +220,7 @@ FSP Configuration
     
   Module "MCUboot"
     General: Custom mcuboot_config.h: 
-    Signing Options: Signature Type: ECDSA P-256
+    Signing and Encryption Options: Signature Type: ECDSA P-256
     General: Upgrade Mode: Swap
     General: Validate Primary Image: Enabled
     General: Downgrade Prevention (Overwrite Only): Disabled
@@ -237,31 +239,39 @@ FSP Configuration
     Flash Layout: TrustZone: Non-Secure Flash Area Size (Bytes) (TrustZone Non-Secure): 0x0
     Flash Layout: TrustZone: Non-Secure Callable RAM Region Size (Bytes): 0x0
     Flash Layout: TrustZone: Non-Secure RAM Region Size (Bytes) (TrustZone Non-Secure): 0x0
-    Flash Layout: TrustZone: Image 2 Header Size (Bytes): 0x100
-    Signing Options: Boot Record: 
-    Signing Options: TrustZone: Boot Record (Image 2): 
-    Signing Options: Custom: --pad
-    Signing Options: TrustZone: Custom (Image 2): --pad
-    Signing Options: Python: python
+    Flash Layout: TrustZone: Image 2 Header Size (Bytes): 0x200
+    Signing and Encryption Options: Boot Record: 
+    Signing and Encryption Options: TrustZone: Boot Record (Image 2): 
+    Signing and Encryption Options: Custom:  --pad
+    Signing and Encryption Options: TrustZone: Custom (Image 2):  --confirm
+    Signing and Encryption Options: Python: python
+    Signing and Encryption Options: Encryption Scheme: Encryption Disabled
     
   Module "MCUboot Port for RA (rm_mcuboot_port)"
-  Module "TinyCrypt (S/W Only)"
+  Module "MCUboot logging"
+    Debugging: Log Level: Off
+    
+  Module "MCUboot TinyCrypt (S/W Only)"
+    Parameter Checking: Default (BSP)
+    
+  Module "MCUboot ASN.1 Parser"
+  Module "MCUboot Example Keys (NOT FOR PRODUCTION)"
   Module "Flash (r_flash_lp)"
     Parameter Checking: Default (BSP)
     Code Flash Programming: Enabled
     Data Flash Programming: Disabled
+    Data Flash Background Operation Support: Disabled
     
-  Module "MCUboot ASN.1 Parser"
-  Module "MCUboot Example Keys (NOT FOR PRODUCTION)"
   HAL
     Instance "MCUboot"
       Instance "MCUboot Port for RA (rm_mcuboot_port)"
-        Instance "TinyCrypt (S/W Only)"
+        Instance "MCUboot TinyCrypt (S/W Only)"
         Instance "g_flash0 Flash (r_flash_lp)"
           Name: g_flash0
           Data Flash Background Operation: Disabled
           Callback: NULL
           Flash Ready Interrupt Priority: Disabled
           
+      Instance "MCUboot logging"
       Instance "MCUboot Example Keys (NOT FOR PRODUCTION)"
       Instance "MCUboot ASN.1 Parser"

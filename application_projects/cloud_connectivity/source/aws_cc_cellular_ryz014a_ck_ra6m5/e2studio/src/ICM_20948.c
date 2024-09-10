@@ -50,7 +50,7 @@ ICM20948_fifoType fifoType;
  **************************************************************************************/
 void ICM_20948_get(void)
 {
-    vTaskDelay (100);
+    vTaskDelay (50);
 
     readSensor ();
     getAccRawValues (&accRaw);
@@ -60,7 +60,7 @@ void ICM_20948_get(void)
     getGyrValues (&gyr);
     getMagValues (&magValue); // returns magnetic flux density [µT]
 
-    vTaskDelay (100);
+    vTaskDelay (50);
 }
 
 /**************************************************************************************
@@ -115,7 +115,7 @@ void autoOffsets(void)
     setGyrRange (ICM20948_GYRO_RANGE_250);
     setAccRange (ICM20948_ACC_RANGE_2G);
     setAccDLPF (ICM20948_DLPF_6);
-    vTaskDelay (100);
+    vTaskDelay (50);
 
     for (int i = 0; i < 50; i++)
     {

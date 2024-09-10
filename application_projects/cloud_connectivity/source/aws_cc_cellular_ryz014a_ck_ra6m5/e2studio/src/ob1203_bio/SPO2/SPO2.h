@@ -1,19 +1,24 @@
 #ifndef __SPO2_H__
 #define __SPO2_H__
 
-#include "bsp_api.h"
-#include "../SAVGOL/savgol.h"
-#include "../oximstruct.h"
-#include "../OB1203/ob1203.h"
-
-/*************change algorithm data sample rate (default 100sps)***********/
-//#define _50sps //takes data at half rate, doubles averages (reduces computation at similar LED current--unverified in Gen 3 alg (Dec 2021)
+#if defined(__CCRX__) || defined(__ICCRX__) || defined(__RX__)
+ #include <stdint.h>
+ #include <stdbool.h>
+#elif defined(__CCRL__) || defined(__ICCRL78__) || defined(__RL78__)
+ #include <stdint.h>
+ #include <stdbool.h>
+#else
+ #include "bsp_api.h"
+#endif
 
 /**************ALGORITHM CONFIG OPTIONS***************************/
 #define COMPUTE_RR //DEFINE THIS TO RUN ALG 2.5x MORE OFTEN FOR CALCULATING RESPIRATION RATE (not verified with this undefined in Gen 3 alg (Dec 2021)
 /****************do not clip spo2 values (useful for calibration)***********/
 //#define SPO2_DEBUG //define to not clip Spo2 values at 100--for R curve calibration purposes during hypoxia testing
-
+/*************change algorithm data sample rate (default 100sps)***********/
+//#define _50sps //takes data at half rate, doubles averages (reduces computation at similar LED current--unverified in Gen 3 alg (Dec 2021)
+/**************use window method for HR*************************/
+#define USE_WINDOW //Define this to use the window-based peak detection
 /*************signal amplitude estimate from recursive window method (default is from threshold crossing)****/
 //#define USE_WINDOW_RMS //otherwise using high pass filtered data estimate of RMS in threshold crossing calc
 /*************use peak to peak instead of rms for SpO2 cal (default is RMS)******************/
@@ -72,6 +77,7 @@ typedef signed long long        int64_t;
 	#define SAMPLE_LENGTH (148) //40.5 BPM at 100sps
 	#define MAX_WINDOW_LENGTH 64 //40% of sample length--rounded to nearest power of 2 for fast masking
 	#define MIN_WINDOW_LENGTH 12 //40% of sample length at max HR
+	#define MIN_PPG_FALLTIME (8)
 	#define ARRAY_LENGTH (320) //set this to at least 2*ARRAY_LENGTH. Threshold crossing count duration will be this minus - 63.
 	#define MIN_HR_PERIOD (32) //max HR is 6000/MIN_HR_PERIOD, so 32 = 187.5 bpm
 	#define MAX_HR_PERIOD (SAMPLE_LENGTH) //min HR is 6000/MAX_HR_PERIOD, so 148 = 41 bpm
@@ -82,7 +88,13 @@ typedef signed long long        int64_t;
 	#define SAMPLE_LENGTH (74) //40.5 BPM at 50sps,
 	#define MAX_WINDOW_LENGTH 32
 	#define MIN_WINDOW_LENGTH 6
+	#define MIN_PPG_FALLTIME (3)
 	#define ARRAY_LENGTH (164) //must be at least twice sample length --can reduce this a little to save some RAM and compute time. Longer is better for lower heart rates, but compute time increases.
+	#ifdef USE_SG
+		#define USE_ARRAY_LENGTH (160) //ARRAY_LENGTH-NUM2AVG
+	#else
+		#define USE_ARRAY_LENGTH ARRAY_LENGTH
+	#endif
 	#define MIN_HR_PERIOD (15) //max HR is 3000/MIN_HR_PERIOD, so 16 = 187.5 bpm
 	#define MAX_HR_PERIOD (SAMPLE_LENGTH) //min HR is 6000/MAX_HR_PERIOD, so 148 = 41 bpm
 	#define STABILITY_PERIOD (100) //add an extra number of samples to collect before analyzing (finger settling motion, signal drift, etc reduce initial accuracy)
@@ -96,7 +108,7 @@ typedef signed long long        int64_t;
 #define B2B_DELAY (10) //number of algorithm runs before we start using the b2b method
 /******************Perfusion Index parameters**********************************/
 #ifdef COMPUTE_RR
-	#define PI_AVGS 12 //number of algorithm iteration runs to average on display
+	#define PI_AVGS 12//12 //number of algorithm iteration runs to average on display
 #else
 	#define PI_AVGS 5 //number of algorithm runs at interval 100 to average on display
 #endif
@@ -163,20 +175,15 @@ typedef signed long long        int64_t;
 // R - curve: SpO2 = Rsquare * R * R + Rlinear * R + Rconstant
 #define Rsquare (0)
 #define Rlinear (-48)
-#define Rconstant (118)
+#define Rconstant (119.5)
 
 #define MIN_SPO2 (60) //when DEBUG_SPO2 is not defined SPO2 below this is clipped to this value (not verifiable below this)
 /********************** Parameters for CHECK_PI*******************************************/
-#define MIN_RMS (25) //the minimum allowable RMS (avg dev) for IR channel --> for comparison with (ppg_rms1f[IR]>>3)
-#define LOW_PI_LEVEL (0.1) ///below this we use a more stringent check on PI rms
-#define NORMAL_PI_MAX_RMS (0.25) //RMS fraction of PI allowable with decent PI
+#define MIN_RMS (25) //8x the minimum allowable RMS (avg dev) for IR channel --> for comparison with (ppg_rms1f[IR]>>3)
+#define LOW_PI_LEVEL (0.15) ///below this we use a more stringent check on PI rms
+#define NORMAL_PI_MAX_RMS (0.3) //RMS fraction of PI allowable with decent PI
 #define LOW_PI_MAX_RMS (0.15) //RMS fraction of PI allowable with crappy PI
 #define MIN_PI (0.04)
-#ifdef COMPUTE_RR
-	#define MAX_DO_NOT_DISP_SPO2 (25) //i.e. 10 seconds at interval 0.4
-#else
-	#define MAX_DO_NOT_DISP_SPO2 (10)
-#endif
 /********************** Parameters for noise correction***********************************/
 #define MAX_NOISE 40 //Tx noise at max IR current (0x3F), for use in Tx-noise limited applications. Define SCALE_TX_NOISE
 //#define TYP_NOISE 10 //for BEST_SNR mode, EK1 demo
@@ -190,7 +197,19 @@ typedef signed long long        int64_t;
 #define PPG_WAVE_RES		(4)
 /**************************End of algorithm parameters section***************************/
 
+#ifdef COMPUTE_RR
+    #define MAX_DO_NOT_DISP_SPO2 (25) //i.e. 10 seconds at interval 0.4
+#else
+    #define MAX_DO_NOT_DISP_SPO2 (10)
+#endif
 
+typedef enum spo2_err{spo2_err_none, spo2_err_lo_pi, spo2_err_lo_pi_hi_var, spo2_err_hi_var, spo2_err_alg_reset} spo2_err_t;
+
+typedef struct st_spo2_target_counts
+{
+    uint32_t ir_led;
+    uint32_t red_led;
+} spo2_target_counts_t;
 
 typedef struct spo2 {
 	uint8_t instance_num;
@@ -222,7 +241,6 @@ typedef struct spo2 {
 	uint8_t ppg_fir_filter_length;
 	uint8_t systole_found;
 	int32_t systole; //for tracking AC sinus rhythm
-#ifdef COMPUTE_RR
 	int32_t hr_data_buffer[MAX_BREATH_ARRAY_LENGTH];
 	uint8_t hr_data_buffer_ind;
 	uint32_t breathing_rate1f; //breaths per minute with fixed precision
@@ -231,8 +249,17 @@ typedef struct spo2 {
 	int16_t iir_rms_smooth[NUM_RR_FILTERS];
 	uint8_t rr_filter_lens[NUM_RR_FILTERS]; //values are set in the class init function
 	uint8_t rr_filter_spans[NUM_RR_FILTERS];
+	int16_t alg_count;
 	uint8_t max_filter;
 	uint8_t rr_display_num2avg;
+	float pi_rms_val;
+	float avg_PI;
+	//declaring these large arrays in global scope to limit stack usage
+	int16_t AC1f[2][ARRAY_LENGTH]; //including 4 bits fixed point after subtracting local mean (max AC amplitude (half of P2P signal must be less than 2^(15-4) = 2^11 = 2048)
+	int16_t raw_data[2][ARRAY_LENGTH];
+	uint16_t period2use1f;
+	uint16_t b2b_rms_norm1f;
+	uint16_t br;
 	int32_t rr_filter[MAX_BREATH_FILTER_SPAN];
 	int32_t lin_buffer[MAX_BREATH_ARRAY_LENGTH];
 	int32_t detrended[MAX_BREATH_FILTER_SPAN];
@@ -243,23 +270,6 @@ typedef struct spo2 {
 	uint8_t filter_tracker;
 	uint8_t current_filter;
 	uint8_t char_array_iir_initialized;
-	#ifdef USE_RR_DISPLAY_AVG
-	int16_t rr_display_avg_buffer[RR_DISPLAY_NUM2AVG];
-	int16_t rr_display_avg_cnt;
-	int16_t rr_display_avg_buffer_ind;
-	#endif
-	uint32_t rr_current_monitor1f; //alg runs per breath
-#endif
-	int16_t alg_count;
-
-	float pi_rms_val;
-	float avg_PI;
-	//declaring these large arrays in global scope to limit stack usage
-	int16_t AC1f[2][ARRAY_LENGTH]; //including 4 bits fixed point after subtracting local mean (max AC amplitude (half of P2P signal must be less than 2^(15-4) = 2^11 = 2048)
-	int16_t raw_data[2][ARRAY_LENGTH];
-	uint16_t period2use1f;
-	uint16_t b2b_rms_norm1f;
-	uint16_t br;
 
 	#ifdef USE_PVI
 	int32_t pvi;
@@ -275,8 +285,13 @@ typedef struct spo2 {
 	uint8_t num_samples;
 	uint8_t bad_crossing_cnt;
 
+	#ifdef USE_RR_DISPLAY_AVG
+	int16_t rr_display_avg_buffer[RR_DISPLAY_NUM2AVG];
+	int16_t rr_display_avg_cnt;
+	int16_t rr_display_avg_buffer_ind;
+	#endif
 
-
+	uint32_t rr_current_monitor1f; //alg runs per breath
 	uint16_t hr_zc;
 	uint16_t est_hr_period_from_zc1f;
 	uint16_t hpf_array_len;
@@ -333,52 +348,52 @@ typedef struct spo2 {
 #endif
 #endif
 
-    uint8_t low_ac_amplitude_cnt;
+
+	uint8_t low_ac_amplitude_cnt;
     uint8_t no_disp_spo2_cnt;
-    uint8_t spo2_err;
-    uint8_t ppg2; /*ppg2 mode measures spo2 in addition to heart rate*/
+    spo2_err_t spo2_err;
 }spo2_t;
 
 extern struct spo2 sp; //share instance
 
-enum spo2_err{spo2_err_none, spo2_err_lo_pi, spo2_err_lo_pi_hi_var, spo2_err_hi_var, spo2_err_alg_reset};
-
 //functions
-void add_sample(struct ob1203 *_ob, struct spo2 *_sp, uint32_t ir_data, uint32_t r_data);
+void spo2_init(struct spo2 *_sp);
+void add_sample(struct spo2 *_sp, spo2_target_counts_t target_counts,uint32_t ir_data, uint32_t r_data);
+void missed_sample_counts_increment(struct spo2 *_sp);
+void read_sample_counts_increment(struct spo2 *_sp);
+void counts_of_samples_clear(struct spo2 *_sp);
+void spo2_reset(struct spo2 *_sp);
+void hr_and_spo2_calculate(struct spo2 *_sp, uint16_t * p_hr, uint16_t * p_spo2, float * p_pi, spo2_target_counts_t target_counts);
+void rr_calculate(struct spo2 *_sp, uint16_t * p_rr);
 void calc_hr(struct spo2*);
 void calc_R(struct spo2*);
 void calc_spo2(struct spo2*);
+void characterize_array_iir(struct spo2*, uint8_t arr_num, int16_t new_val, int16_t* iir_avg, int16_t *iir_rms, int16_t* iir_rms_smooth);
 uint16_t compare_hr(struct spo2*, uint16_t zc_est, uint16_t b2b_est);
-void check_pi(struct oxim *_ox, struct spo2 *_sp);
 void copy_data(struct spo2*);
 int16_t div2n(int16_t num,uint8_t bits); //numerical divide by 2^n for integers. E.g. -1>>1 = -1. But rs(-1,1) = 0, just like 1>>1 = 0;
-uint8_t count_threshold_crossings_int16(struct spo2*, int16_t* arr, uint16_t arr_len,uint8_t polarity);
-void do_noise_correction(struct spo2 *_sp, struct ob1203*_ob);
-float get_avg_PI(float new_PI, float * pi_rms);
-//int8_t get_direction(int32_t data1, int32_t data2);
-void do_algorithm(struct oxim *_ox, struct ob1203 *_ob, struct spo2 *_sp);
-void do_algorithm_part1(struct spo2*);
-void do_algorithm_part2(struct oxim *_ox, struct ob1203 *_ob, struct spo2*);
-#ifdef COMPUTE_RR
-void characterize_array_iir(struct spo2*, uint8_t arr_num, int16_t new_val, int16_t* iir_avg, int16_t *iir_rms, int16_t* iir_rms_smooth);
 uint8_t count_sign_changes(int32_t* arr, uint8_t len);
 uint8_t count_zero_crossings(int32_t* arr, uint8_t len);
+uint8_t count_threshold_crossings_int16(struct spo2*, int16_t* arr, uint16_t arr_len,uint8_t polarity);
+void do_noise_correction(struct spo2 *_sp);
+float get_avg_PI(float new_PI, float * pi_rms);
+int8_t get_direction(int32_t data1, int32_t data2);
+void check_pi(struct spo2 *_sp, uint32_t latest_ir_data, bool * p_valid);
+void do_algorithm_part1(struct spo2*);
+void do_algorithm_part2(struct spo2 *_sp, spo2_target_counts_t target_counts);
 void do_algorithm_part3(struct spo2*);
 void do_algorithm_part4(struct spo2*); //in case we need to split RR algorithm into two parts
-#endif
-void do_algorithm(struct oxim *_ox, struct ob1203 *_ob, struct spo2 *_sp);
-void get_dc_from_baseline(struct ob1203*, struct spo2*);
+//void do_algorithm(struct oxim *_ox, struct ob1203 *_ob, struct spo2 *_sp);
+void get_dc_from_baseline(struct spo2 *_sp, spo2_target_counts_t target_counts);
 void get_pressure(struct spo2*);
 void get_pvi(struct spo2*,uint16_t hpf_len, uint16_t period_1f);
 void get_rms_from_sum_abs(struct spo2*);
 int8_t high_pass_filter(struct spo2*,uint16_t baseline_bits, uint16_t *new_array_len);
-void hpf_window_peak_detect(struct oxim *,struct spo2*);
+void hpf_window_peak_detect(struct spo2 *_sp);
 void hpf_window_peak_detect_init(struct spo2*);
 void ppg_wave_dc_remove(struct spo2 *_sp, int16_t latest_sample, uint8_t *ppg_wave_out);
 uint16_t round_dec_spo2(uint16_t spo2_val);
 int sign(int32_t val);
-void SPO2_init(struct oxim *_ox, struct ob1203 *_ob,struct spo2 *_sp);//call this first AND after any interruption in PPG data collection
-uint32_t uint_sqrt(uint32_t val);
 void window_beat_check(struct spo2*);
 void spo2_config(void);
 
@@ -393,5 +408,7 @@ void spo2_config(void);
 	void sg_filt_raw_data(uint8_t ch);
 	void set_sg_interval(struct spo2 *_sp);
 #endif
+
+
 
 #endif //end spo2.h define

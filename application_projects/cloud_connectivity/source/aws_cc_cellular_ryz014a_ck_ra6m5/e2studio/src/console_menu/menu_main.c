@@ -1,21 +1,8 @@
-/**********************************************************************************************************************
- * DISCLAIMER
- * This software is supplied by Renesas Electronics Corporation and is only intended for use with Renesas products. No
- * other uses are authorized. This software is owned by Renesas Electronics Corporation and is protected under all
- * applicable laws, including copyright laws.
- * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
- * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED. TO THE MAXIMUM
- * EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES
- * SHALL BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR ANY REASON RELATED TO
- * THIS SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
- * Renesas reserves the right, without notice, to make changes to this software and to discontinue the availability of
- * this software. By using this software, you agree to the additional terms and conditions found by accessing the
- * following link:
- * http://www.renesas.com/disclaimer
- *
- * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
- *********************************************************************************************************************/
+/***********************************************************************************************************************
+* Copyright (c) 2023 - 2024 Renesas Electronics Corporation and/or its affiliates
+*
+* SPDX-License-Identifier: BSD-3-Clause
+***********************************************************************************************************************/ 
 /**********************************************************************************************************************
  * File Name    : menu_main.c
  * Description  : The main menu controller.
@@ -50,7 +37,8 @@ static st_menu_fn_tbl_t s_menu_items[] =
     {"Get FSP version"               , get_version},
     {"Data flash"                    , data_flash_menu},
 	{"Get UUID"                      , get_uuid},
-    {"Get CATM Info"                 , catm_display_menu},
+	{"Get CATM Info"                 , catm_display_menu},
+    {"Validate SIM activation"       , ping_display_menu},
 	{"Start Application"             , start_app},
 	{"Help"                          , help},
     {"", NULL }
@@ -65,7 +53,7 @@ static st_menu_fn_tbl_t s_menu_items[] =
  *********************************************************************************************************************/
 int8_t main_display_menu(void)
 {
-    int8_t c = -1;
+    int8_t key_pressed = -1;
     int8_t menu_limit = 0;
 
     sprintf (s_print_buffer, "%s%s", gp_clear_screen, gp_cursor_home);
@@ -85,22 +73,22 @@ int8_t main_display_menu(void)
         /* ignoring -Wpointer-sign is OK when treating signed char_t array as as unsigned */
         printf_colour((void*)s_print_buffer);
     }
-
+    printf_colour (MENU_MAIN_SELECT);
     printf_colour("\r\n");
 
-    while ((0 != c))
+    while ((0 != key_pressed))
     {
         /* Wait for input from console */
-        c = wait_for_keypress ();
-        if (0 != c)
+        key_pressed = wait_for_keypress ();
+        if (0 != key_pressed)
         {
             /* Cast, as compiler will assume calc is int */
-            c = (int8_t) (c - '0');
-            g_selected_menu = c;
+            key_pressed = (int8_t) (key_pressed - '0');
+            g_selected_menu = key_pressed;
 
-            if ((c > 0) && (c <= menu_limit))
+            if ((key_pressed > 0) && (key_pressed <= menu_limit))
             {
-                s_menu_items[c - 1].p_func ();
+                s_menu_items[key_pressed - 1].p_func ();
                 break;
             }
         }
@@ -108,7 +96,7 @@ int8_t main_display_menu(void)
     }
 
     /* Cast, as compiler will assume calc is int */
-    return ((int8_t) (c - '0'));
+    return ((int8_t) (key_pressed - '0'));
 }
 /**********************************************************************************************************************
  End of function main_display_menu

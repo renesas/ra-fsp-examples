@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<raConfiguration version="7">
+<raConfiguration version="8">
   <generalSettings>
     <option key="#Board#" value="board.ra6m4ek"/>
     <option key="CPU" value="RA6M4"/>
@@ -9,11 +9,12 @@
     <option key="#DeviceCommand#" value="R7FA6M4AF"/>
     <option key="#RTOS#" value="rtos.awsfreertos"/>
     <option key="#pinconfiguration#" value="R7FA6M4AF3CFB.pincfg"/>
-    <option key="#FSPVersion#" value="4.0.0"/>
+    <option key="#FSPVersion#" value="5.0.0"/>
     <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra6m4_ek##"/>
     <option key="#SELECTED_TOOLCHAIN#" value="gcc-arm-embedded"/>
-    <option key="#ToolchainVersion#" value="10.3.1.20210824"/>
+    <option key="#ToolchainVersion#" value="12.2.1.arm-12-mpacbti-34"/>
   </generalSettings>
+  <raBspConfiguration/>
   <raClockConfiguration>
     <node id="board.clock.xtal.freq" mul="24000000" option="_edit"/>
     <node id="board.clock.hoco.freq" option="board.clock.hoco.freq.20m"/>
@@ -55,7 +56,6 @@
     <node id="board.clock.uclk.display" option="board.clock.uclk.display.value"/>
     <node id="board.clock.octaspiclk.display" option="board.clock.octaspiclk.display.value"/>
   </raClockConfiguration>
-  <raModuleConfiguration/>
   <raPinConfiguration>
     <pincfg active="true" name="" symbol="">
       <configSetting altId="adc0.an00.p000" configurationId="adc0.an00"/>
@@ -140,9 +140,9 @@
       <configSetting altId="spi1.mosi.p411" configurationId="spi1.mosi"/>
       <configSetting altId="spi1.rspck.p412" configurationId="spi1.rspck"/>
       <configSetting altId="spi1.ssl0.p413" configurationId="spi1.ssl0"/>
-      <configSetting altId="usbfs0.ovrcura.p501" configurationId="usbfs0.ovrcura"/>
-      <configSetting altId="usbfs0.vbus.p407" configurationId="usbfs0.vbus"/>
-      <configSetting altId="usbfs0.vbusen.p500" configurationId="usbfs0.vbusen"/>
+      <configSetting altId="usbfs0.ovrcura.p501" configurationId="usbfs0.ovrcura" isUsedByDriver="true"/>
+      <configSetting altId="usbfs0.vbus.p407" configurationId="usbfs0.vbus" isUsedByDriver="true"/>
+      <configSetting altId="usbfs0.vbusen.p500" configurationId="usbfs0.vbusen" isUsedByDriver="true"/>
     </pincfg>
   </raPinConfiguration>
 </raConfiguration>

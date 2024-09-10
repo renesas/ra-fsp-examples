@@ -3,23 +3,10 @@
  * Description  : Contains data structures and functions used for console
  **********************************************************************************************************************/
 /***********************************************************************************************************************
- * DISCLAIMER
- * This software is supplied by Renesas Electronics Corporation and is only intended for use with Renesas products. No
- * other uses are authorized. This software is owned by Renesas Electronics Corporation and is protected under all
- * applicable laws, including copyright laws.
- * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
- * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED. TO THE MAXIMUM
- * EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES
- * SHALL BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR ANY REASON RELATED TO THIS
- * SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
- * Renesas reserves the right, without notice, to make changes to this software and to discontinue the availability of
- * this software. By using this software, you agree to the additional terms and conditions found by accessing the
- * following link:
- * http://www.renesas.com/disclaimer
- *
- * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
- ***********************************************************************************************************************/
+* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
+*
+* SPDX-License-Identifier: BSD-3-Clause
+***********************************************************************************************************************/ 
 #include <stdio.h>
 #include <stdarg.h>
 #include <string.h>
@@ -30,36 +17,14 @@
 #include "console_thread.h"
 #include "console.h"
 
-static uint8_t  g_out_of_band_received[TRANSFER_LENGTH];
-static uint32_t g_transfer_complete = 0;
-static uint32_t g_receive_complete  = 0;
+static uint8_t  g_out_of_band_received[TRANSFER_LENGTH] = {0};
+static bool_t is_transfer_complete = false;
+static bool_t is_receive_complete  = false;
 static uint32_t g_out_of_band_index = 0;
 
 char g_write_buffer[TRANSFER_LENGTH]= {0};
 uint8_t g_start_read_flag = false;
 uint16_t g_counter = 0;
-
-/*********************************************************************************************************************
- * @brief   open console
- *
- * This function opens SCI uart instance.
- * @param[in]   None
- * @retval      FSP_SUCCESS             If console open is success.
- * @retval      Any other error         If console open is fail.
- *********************************************************************************************************************/
-fsp_err_t open_console(void)
-{
-    fsp_err_t fsp_err = FSP_SUCCESS;
-
-    /* Baud rate is handled in FSP */
-    fsp_err = R_SCI_UART_Open (&g_console_uart_ctrl, &g_console_uart_cfg);
-    if (FSP_SUCCESS != fsp_err)
-    {
-        return fsp_err;
-    }
-
-    return fsp_err;
-}
 
 /*********************************************************************************************************************
  * Function Name: get_colour
@@ -75,14 +40,14 @@ static const char *get_colour(const char *string, bool_t *found)
                                   "[BLUE]", "\x1B[94m", "[MAGENTA]", "\x1B[95m", "[CYAN]", "\x1B[96m", "[WHITE]", "\x1B[97m",
                                   "[ORANGE]", "\x1B[38;5;208m", "[PINK]", "\x1B[38;5;212m", "[BROWN]", "\x1B[38;5;94m",
                                   "[PURPLE]", "\x1B[35m"};
-	uint8_t i;
+	uint8_t index;
 
-    for (i = 0; i < 12; i++)
+    for (index = 0; index < 12; index++)
     {
-        if (0 == strcmp (string, colour_codes[i << 1]))
+        if (0 == strcmp (string, colour_codes[index << 1]))
         {
             *found = true;
-            return colour_codes[(i << 1) + 1];
+            return colour_codes[(index << 1) + 1];
         }
     }
 
@@ -104,8 +69,8 @@ static void detokenise(const char * input, char *output)
     int16_t end_bracket_index;
     int16_t start_bracket_output_index;
     size_t token_length;
-    int16_t i;
-    int16_t o;
+    int16_t index;
+    int16_t o_index;
     bool_t token_found;
     bool_t token_replaced;
     const char_t *colour_code;
@@ -114,24 +79,24 @@ static void detokenise(const char * input, char *output)
     start_bracket_index = -1;
     end_bracket_index = -1;
     start_bracket_output_index = 0;
-    o = 0;
+    o_index = 0;
 
     /* scan the input string */
-    for (i = 0; '\0' != input[i]; i++)
+    for (index = 0; '\0' != input[index]; index++)
     {
         token_replaced = false;
 
         /* token start? */
-        if ('[' == input[i])
+        if ('[' == input[index])
         {
-            start_bracket_index = i;
-            start_bracket_output_index = o;
+            start_bracket_index = index;
+            start_bracket_output_index = o_index;
         }
 
         /* token end? */
-        if (']' == input[i])
+        if (']' == input[index])
         {
-            end_bracket_index = i;
+            end_bracket_index = index;
 
             /* check to see if we have a token */
             if (start_bracket_index >= 0)
@@ -151,7 +116,7 @@ static void detokenise(const char * input, char *output)
                     if (token_found)
                     {
                         strcpy (&output[start_bracket_output_index], colour_code);
-                        o = (int16_t) (start_bracket_output_index + (int16_t) strlen (colour_code));
+                        o_index = (int16_t) (start_bracket_output_index + (int16_t) strlen (colour_code));
                         token_replaced = true;
                     }
                 }
@@ -165,13 +130,13 @@ static void detokenise(const char * input, char *output)
         /* if we didn't replace a token, then carry on copying input to output */
         if (!token_replaced)
         {
-            output[o] = input[i];
-            o++;
+            output[o_index] = input[index];
+            o_index++;
         }
     }
 
     /* terminate the output string */
-    output[o] = '\0';
+    output[o_index] = '\0';
 }
 
 /*********************************************************************************************************************
@@ -186,16 +151,16 @@ void console_write(const char *buffer)
 {
     fsp_err_t err = FSP_SUCCESS;
 
-    g_transfer_complete = false;
+    is_transfer_complete = false;
 
     /* Uart write data */
     err = R_SCI_UART_Write (&g_console_uart_ctrl, (uint8_t*) buffer, strlen (buffer));
 
     assert(FSP_SUCCESS == err);
 
-    while (!g_transfer_complete)
+    while (!is_transfer_complete)
     {
-        R_BSP_SoftwareDelay (1, BSP_DELAY_UNITS_MICROSECONDS);
+      vTaskDelay(1);
     }
 }
 
@@ -206,25 +171,25 @@ void console_write(const char *buffer)
  * @param[in]   None
  * @retval      char                    returns key pressed
  *********************************************************************************************************************/
-char wait_for_keypress(void)
+char wait_for_keypress(void) // @suppress("8.2a Function declaration")
 {
     uint8_t rx_buf = 0;
 
     /* Wait till UART receive compltetes */
-    if (g_receive_complete == true)
-        while (!g_receive_complete)
+    if (is_receive_complete == true)
+        while (!is_receive_complete)
         {
-            R_BSP_SoftwareDelay (1, BSP_DELAY_UNITS_MICROSECONDS);
+             vTaskDelay(1);
         }
 
-    g_receive_complete = false;
+    is_receive_complete = false;
 
     /* Read UART data */
     R_SCI_UART_Read (&g_console_uart_ctrl, &rx_buf, 1);
 
-    while (!g_receive_complete)
+    while (!is_receive_complete)
     {
-        R_BSP_SoftwareDelay (1, BSP_DELAY_UNITS_MICROSECONDS);
+         vTaskDelay(1);
     }
 
     return ((char) rx_buf);
@@ -235,6 +200,12 @@ char wait_for_keypress(void)
 
 
 #ifdef USE_DEBUG_CONSOLE
+/*********************************************************************************************************************
+ * @brief  Print debug's log to console
+ *
+ * @param[in] char *format : the format string
+ * @retval None
+ *********************************************************************************************************************/
 static void printf_colour_debug(const char *format, ...)
 {
     va_list arglist;
@@ -350,13 +321,13 @@ void user_uart_callback(uart_callback_args_t *p_args)
             /* Receive complete */
         case UART_EVENT_RX_COMPLETE:
         {
-            g_receive_complete = 1;
+            is_receive_complete = true;
             break;
         }
             /* Transmit complete */
         case UART_EVENT_TX_COMPLETE:
         {
-            g_transfer_complete = 1;
+            is_transfer_complete = true;
             break;
         }
         default:
