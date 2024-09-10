@@ -1115,22 +1115,12 @@
             <data>
                 <buildActions>
                     <buildAction>
-                        <cmdline>cmd /c "start /w cmd /c ""$PROJ_DIR$\rasc_launcher.bat" "$PROJ_DIR$\rasc_version.txt" -nosplash --launcher.suppressErrors --generate --compiler IAR --devicefamily $RASC_DEVICE_FAMILY$ "$PROJ_DIR$\configuration.xml" 2&gt; "%TEMP%\rasc_stderr.out"""</cmdline>
+                        <cmdline>cmd /c "start "Renesas" /w cmd /c ""$PROJ_DIR$\rasc_launcher.bat" "$PROJ_DIR$\rasc_version.txt" -nosplash --launcher.suppressErrors --generate --compiler IAR --devicefamily $RASC_DEVICE_FAMILY$ "$PROJ_DIR$\configuration.xml" 2&gt; "$BUILD_FILES_DIR$\.rasc_stderr.txt"""</cmdline>
                         <workingDirectory>$PROJ_DIR$</workingDirectory>
                         <buildSequence>preCompile</buildSequence>
                         <outputs>
                             <file>
 <name>$BUILD_FILES_DIR$/.prebuild</name>
-                            </file>
-                        </outputs>
-                    </buildAction>
-                    <buildAction>
-                        <cmdline>cmd /c "start /w cmd /c ""$PROJ_DIR$\rasc_launcher.bat" "$PROJ_DIR$\rasc_version.txt" -nosplash --launcher.suppressErrors --gensmartbundle --compiler IAR --devicefamily $RASC_DEVICE_FAMILY$ "$PROJ_DIR$\configuration.xml" "$TARGET_PATH$" 2&gt; "%TEMP%\rasc_stderr.out"""</cmdline>
-                        <workingDirectory>$PROJ_DIR$</workingDirectory>
-                        <buildSequence>postLink</buildSequence>
-                        <outputs>
-                            <file>
-<name>$BUILD_FILES_DIR$/.postbuild</name>
                             </file>
                         </outputs>
                     </buildAction>
@@ -2253,22 +2243,12 @@
             <data>
                 <buildActions>
                     <buildAction>
-                        <cmdline>cmd /c "start /w cmd /c ""$PROJ_DIR$\rasc_launcher.bat" "$PROJ_DIR$\rasc_version.txt" -nosplash --launcher.suppressErrors --generate --compiler IAR --devicefamily $RASC_DEVICE_FAMILY$ "$PROJ_DIR$\configuration.xml" 2&gt; "%TEMP%\rasc_stderr.out"""</cmdline>
+                        <cmdline>cmd /c "start "Renesas" /w cmd /c ""$PROJ_DIR$\rasc_launcher.bat" "$PROJ_DIR$\rasc_version.txt" -nosplash --launcher.suppressErrors --generate --compiler IAR --devicefamily $RASC_DEVICE_FAMILY$ "$PROJ_DIR$\configuration.xml" 2&gt; "$BUILD_FILES_DIR$\.rasc_stderr.txt"""</cmdline>
                         <workingDirectory>$PROJ_DIR$</workingDirectory>
                         <buildSequence>preCompile</buildSequence>
                         <outputs>
                             <file>
 <name>$BUILD_FILES_DIR$/.prebuild</name>
-                            </file>
-                        </outputs>
-                    </buildAction>
-                    <buildAction>
-                        <cmdline>cmd /c "start /w cmd /c ""$PROJ_DIR$\rasc_launcher.bat" "$PROJ_DIR$\rasc_version.txt" -nosplash --launcher.suppressErrors --gensmartbundle --compiler IAR --devicefamily $RASC_DEVICE_FAMILY$ "$PROJ_DIR$\configuration.xml" "$TARGET_PATH$" 2&gt; "%TEMP%\rasc_stderr.out"""</cmdline>
-                        <workingDirectory>$PROJ_DIR$</workingDirectory>
-                        <buildSequence>postLink</buildSequence>
-                        <outputs>
-                            <file>
-<name>$BUILD_FILES_DIR$/.postbuild</name>
                             </file>
                         </outputs>
                     </buildAction>

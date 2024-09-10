@@ -124,7 +124,7 @@ typedef Socket_t socktype;
 /*********** debug support **************/
 
 #include <stdarg.h>
-#include "Trace.h"
+#include "trace.h"
 #ifndef _DEBUG_WEBIO_
 #undef  TRACE
 #define TRACE(_x_)

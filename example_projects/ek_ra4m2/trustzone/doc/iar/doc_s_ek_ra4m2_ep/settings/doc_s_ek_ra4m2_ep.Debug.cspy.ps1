@@ -23,9 +23,9 @@
 
 if ($debugfile -eq "")
 {
-& "C:\Program Files\IAR Systems\Embedded Workbench 9.50.2\common\bin\cspybat" -f "C:\build_5.3.0\example_projects\ek_ra4m2\trustzone\doc\iar\doc_s_ek_ra4m2_ep\settings\doc_s_ek_ra4m2_ep.Debug.general.xcl" --backend -f "C:\build_5.3.0\example_projects\ek_ra4m2\trustzone\doc\iar\doc_s_ek_ra4m2_ep\settings\doc_s_ek_ra4m2_ep.Debug.driver.xcl" 
+& "C:\Program Files\IAR Systems\Embedded Workbench 9.50.2\common\bin\cspybat" -f "C:\00_Work\01_Project\FSP\00_Repos\Work2_RA_Solutions\example_projects\ek_ra4m2\trustzone\doc\iar\doc_s_ek_ra4m2_ep\settings\doc_s_ek_ra4m2_ep.Debug.general.xcl" --backend -f "C:\00_Work\01_Project\FSP\00_Repos\Work2_RA_Solutions\example_projects\ek_ra4m2\trustzone\doc\iar\doc_s_ek_ra4m2_ep\settings\doc_s_ek_ra4m2_ep.Debug.driver.xcl" 
 }
 else
 {
-& "C:\Program Files\IAR Systems\Embedded Workbench 9.50.2\common\bin\cspybat" -f "C:\build_5.3.0\example_projects\ek_ra4m2\trustzone\doc\iar\doc_s_ek_ra4m2_ep\settings\doc_s_ek_ra4m2_ep.Debug.general.xcl" --debug_file=$debugfile --backend -f "C:\build_5.3.0\example_projects\ek_ra4m2\trustzone\doc\iar\doc_s_ek_ra4m2_ep\settings\doc_s_ek_ra4m2_ep.Debug.driver.xcl" 
+& "C:\Program Files\IAR Systems\Embedded Workbench 9.50.2\common\bin\cspybat" -f "C:\00_Work\01_Project\FSP\00_Repos\Work2_RA_Solutions\example_projects\ek_ra4m2\trustzone\doc\iar\doc_s_ek_ra4m2_ep\settings\doc_s_ek_ra4m2_ep.Debug.general.xcl" --debug_file=$debugfile --backend -f "C:\00_Work\01_Project\FSP\00_Repos\Work2_RA_Solutions\example_projects\ek_ra4m2\trustzone\doc\iar\doc_s_ek_ra4m2_ep\settings\doc_s_ek_ra4m2_ep.Debug.driver.xcl" 
 }

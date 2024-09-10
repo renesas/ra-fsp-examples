@@ -30,8 +30,8 @@ Strength Indicated (RSSI). The connection status and LEDs status messages will d
 4. Software requirements:
  	1) Device client (iphone or ipad,..v.v.) has Renesas GATT browser installed.
 	2) Renesas Flexible Software Package (FSP)
-	3) e2 studio: Version 2024-04
-	4) SEGGER J-Link RTT Viewer: Version 7.96j
+	3) e2 studio: Version 2024-07
+	4) SEGGER J-Link RTT Viewer: Version 7.98b
 
 
 Note: After running EP "ra4w1_proximity_server". The User must use Renesas GATT browser to search and connect to Local Name "RA4W1_SRV" 

@@ -38,8 +38,8 @@ Refer to [readme.txt](./readme.txt) for information on how to connect the hardwa
 
 ### Software ###
 * Renesas Flexible Software Package (FSP)
-* e2 studio: Version 2024-04
-* SEGGER J-Link RTT Viewer: Version 7.96j
+* e2 studio: Version 2024-07
+* SEGGER J-Link RTT Viewer: Version 7.98b
 * GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 * Zadig.exe (v2.0.1.160)
 * dfu-util-0.11-binaries

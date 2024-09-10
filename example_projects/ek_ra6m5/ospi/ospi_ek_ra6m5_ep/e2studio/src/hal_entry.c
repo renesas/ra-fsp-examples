@@ -25,6 +25,7 @@ void hal_entry(void) {
     fsp_err_t          err                =  FSP_SUCCESS;
     uint8_t            read_data          = RESET_VALUE;
     uint32_t           dev_id             = RESET_VALUE;
+    bsp_octaclk_settings_t octaclk        = {RESET_VALUE};
 
     /* version get API for FLEX pack information */
     R_FSP_VersionGet(&version);
@@ -35,6 +36,14 @@ void hal_entry(void) {
 
     /* Reset device */
     reset_device();
+
+    /* Upon power-on or reset, the device defaults to SPI mode.
+     * To ensure proper operation, the OCTACLK clock should be configured to 100 MHz in SPI mode.
+     * Because OM_SCLK (OM_SCLK = OCTACLK/2) only support 50MHz as max.
+     */
+    octaclk.source_clock = BSP_CFG_OCTA_SOURCE;  /* 200MHz */
+    octaclk.divider      = BSP_CLOCKS_OCTA_CLOCK_DIV_2;
+    R_BSP_OctaclkUpdate(&octaclk);
 
     /* Initialize the OSPI driver module.*/
     err = ospi_init();
@@ -67,6 +76,11 @@ void hal_entry(void) {
         /*handle error*/
         handle_error(err, "\r\n** Device_ID read operation failed **\r\n");
     }
+
+    /* Reset the OCTACLK clock to 200 MHz, as specified by the default configuration.*/
+    octaclk.source_clock = BSP_CFG_OCTA_SOURCE;  /* 200MHz */
+    octaclk.divider      = BSP_CFG_OCTA_DIV;
+    R_BSP_OctaclkUpdate(&octaclk);
 
     /*Print device id and main menu*/
     APP_PRINT("\nDevice ID read successfully and Device id : 0x%X\r\n",dev_id);

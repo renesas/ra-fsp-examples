@@ -50,8 +50,8 @@
     
    Software: 
 	1) Renesas Flexible Software Package (FSP)
-	2) e2 studio: Version 2024-04
-	3) SEGGER J-Link RTT Viewer: Version 7.96j
+	2) e2 studio: Version 2024-07
+	3) SEGGER J-Link RTT Viewer: Version 7.98b
 	4) Audacity v3.1.3(Audio Player/Recorder)
 
 4. If user needs to change the USB speed, they can follow below configuration changes.

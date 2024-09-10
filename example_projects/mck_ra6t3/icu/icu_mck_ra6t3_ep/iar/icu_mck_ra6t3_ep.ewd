@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
-    <fileVersion>3</fileVersion>
+    <fileVersion>4</fileVersion>
     <configuration>
         <name>Debug</name>
         <toolchain>
@@ -11,7 +11,7 @@
             <name>C-SPY</name>
             <archiveVersion>2</archiveVersion>
             <data>
-                <version>32</version>
+                <version>33</version>
                 <wantNonLocal>1</wantNonLocal>
                 <debug>1</debug>
                 <option>
@@ -44,7 +44,7 @@
                 </option>
                 <option>
                     <name>MemFile</name>
-                    <state>$TOOLKIT_DIR$\CONFIG\debugger\Renesas\R7FA6T3BB.ddf</state>
+                    <state>$TOOLKIT_DIR$\config\debugger\Renesas\R7FA6T3BB.ddf</state>
                 </option>
                 <option>
                     <name>RunToEnable</name>
@@ -89,7 +89,7 @@
                 </option>
                 <option>
                     <name>OCLastSavedByProductVersion</name>
-                    <state>9.32.2.57275</state>
+                    <state>9.50.2.71646</state>
                 </option>
                 <option>
                     <name>UseFlashLoader</name>
@@ -222,6 +222,38 @@
                 <option>
                     <name>OCTpiuBaseOption</name>
                     <state>1</state>
+                </option>
+                <option>
+                    <name>OCOverrideSlave</name>
+                    <state>0</state>
+                </option>
+                <option>
+                    <name>OCOverrideSlavePath</name>
+                    <state></state>
+                </option>
+                <option>
+                    <name>C_32_64Device</name>
+                    <state>1</state>
+                </option>
+                <option>
+                    <name>AuthEnable</name>
+                    <state>0</state>
+                </option>
+                <option>
+                    <name>AuthSdmSelection</name>
+                    <state>1</state>
+                </option>
+                <option>
+                    <name>AuthSdmManifest</name>
+                    <state></state>
+                </option>
+                <option>
+                    <name>AuthSdmExplicitLib</name>
+                    <state></state>
+                </option>
+                <option>
+                    <name>AuthEnforce</name>
+                    <state>0</state>
                 </option>
             </data>
         </settings>
@@ -459,6 +491,39 @@
             </data>
         </settings>
         <settings>
+            <name>E2_ID</name>
+            <archiveVersion>2</archiveVersion>
+            <data>
+                <version>0</version>
+                <wantNonLocal>1</wantNonLocal>
+                <debug>1</debug>
+                <option>
+                    <name>E2PowerFromProbe</name>
+                    <state>1</state>
+                </option>
+                <option>
+                    <name>CE2UsbSerialNo</name>
+                    <state></state>
+                </option>
+                <option>
+                    <name>CE2IdCodeEditB</name>
+                    <state>0xFFFF'FFFF'FFFF'FFFF'FFFF'FFFF'FFFF'FFFF</state>
+                </option>
+                <option>
+                    <name>CE2LogFileCheck</name>
+                    <state>0</state>
+                </option>
+                <option>
+                    <name>CE2LogFileEditB</name>
+                    <state>$PROJ_DIR$\cspycomm.log</state>
+                </option>
+                <option>
+                    <name>OCDriverInfo</name>
+                    <state>1</state>
+                </option>
+            </data>
+        </settings>
+        <settings>
             <name>GDBSERVER_ID</name>
             <archiveVersion>2</archiveVersion>
             <data>
@@ -492,6 +557,27 @@
                 <option>
                     <name>CCJTagUpdateBreakpoints</name>
                     <state>_call_main</state>
+                </option>
+            </data>
+        </settings>
+        <settings>
+            <name>GPLINK_ID</name>
+            <archiveVersion>2</archiveVersion>
+            <data>
+                <version>0</version>
+                <wantNonLocal>1</wantNonLocal>
+                <debug>1</debug>
+                <option>
+                    <name>OCDriverInfo</name>
+                    <state>1</state>
+                </option>
+                <option>
+                    <name>DoLogfile</name>
+                    <state>0</state>
+                </option>
+                <option>
+                    <name>LogFile</name>
+                    <state>$PROJ_DIR$\cspycomm.log</state>
                 </option>
             </data>
         </settings>
@@ -1188,7 +1274,7 @@
                 </option>
                 <option>
                     <name>CCSTLinkProbeList</name>
-                    <version>1</version>
+                    <version>2</version>
                     <state>0</state>
                 </option>
                 <option>
@@ -1483,6 +1569,10 @@
         </settings>
         <debuggerPlugins>
             <plugin>
+                <file>$TOOLKIT_DIR$\plugins\rtos\Azure\AzureArmPlugin.ENU.ewplugin</file>
+                <loadFlag>0</loadFlag>
+            </plugin>
+            <plugin>
                 <file>$TOOLKIT_DIR$\plugins\rtos\CMX\CmxArmPlugin.ENU.ewplugin</file>
                 <loadFlag>0</loadFlag>
             </plugin>
@@ -1515,11 +1605,7 @@
                 <loadFlag>0</loadFlag>
             </plugin>
             <plugin>
-                <file>$TOOLKIT_DIR$\plugins\rtos\SMX\smxAwareIarArm9.ewplugin</file>
-                <loadFlag>0</loadFlag>
-            </plugin>
-            <plugin>
-                <file>$TOOLKIT_DIR$\plugins\rtos\SMX\smxAwareIarArm9BE.ewplugin</file>
+                <file>$TOOLKIT_DIR$\plugins\rtos\SMX\smxAwareIarArm9a.ewplugin</file>
                 <loadFlag>0</loadFlag>
             </plugin>
             <plugin>
@@ -1562,7 +1648,7 @@
             <name>C-SPY</name>
             <archiveVersion>2</archiveVersion>
             <data>
-                <version>32</version>
+                <version>33</version>
                 <wantNonLocal>1</wantNonLocal>
                 <debug>0</debug>
                 <option>
@@ -1773,6 +1859,38 @@
                 <option>
                     <name>OCTpiuBaseOption</name>
                     <state>1</state>
+                </option>
+                <option>
+                    <name>OCOverrideSlave</name>
+                    <state>0</state>
+                </option>
+                <option>
+                    <name>OCOverrideSlavePath</name>
+                    <state></state>
+                </option>
+                <option>
+                    <name>C_32_64Device</name>
+                    <state>1</state>
+                </option>
+                <option>
+                    <name>AuthEnable</name>
+                    <state>0</state>
+                </option>
+                <option>
+                    <name>AuthSdmSelection</name>
+                    <state>1</state>
+                </option>
+                <option>
+                    <name>AuthSdmManifest</name>
+                    <state></state>
+                </option>
+                <option>
+                    <name>AuthSdmExplicitLib</name>
+                    <state></state>
+                </option>
+                <option>
+                    <name>AuthEnforce</name>
+                    <state>0</state>
                 </option>
             </data>
         </settings>
@@ -2010,6 +2128,39 @@
             </data>
         </settings>
         <settings>
+            <name>E2_ID</name>
+            <archiveVersion>2</archiveVersion>
+            <data>
+                <version>0</version>
+                <wantNonLocal>1</wantNonLocal>
+                <debug>0</debug>
+                <option>
+                    <name>E2PowerFromProbe</name>
+                    <state>1</state>
+                </option>
+                <option>
+                    <name>CE2UsbSerialNo</name>
+                    <state></state>
+                </option>
+                <option>
+                    <name>CE2IdCodeEditB</name>
+                    <state>0xFFFF'FFFF'FFFF'FFFF'FFFF'FFFF'FFFF'FFFF</state>
+                </option>
+                <option>
+                    <name>CE2LogFileCheck</name>
+                    <state>0</state>
+                </option>
+                <option>
+                    <name>CE2LogFileEditB</name>
+                    <state>$PROJ_DIR$\cspycomm.log</state>
+                </option>
+                <option>
+                    <name>OCDriverInfo</name>
+                    <state>1</state>
+                </option>
+            </data>
+        </settings>
+        <settings>
             <name>GDBSERVER_ID</name>
             <archiveVersion>2</archiveVersion>
             <data>
@@ -2043,6 +2194,27 @@
                 <option>
                     <name>CCJTagUpdateBreakpoints</name>
                     <state>_call_main</state>
+                </option>
+            </data>
+        </settings>
+        <settings>
+            <name>GPLINK_ID</name>
+            <archiveVersion>2</archiveVersion>
+            <data>
+                <version>0</version>
+                <wantNonLocal>1</wantNonLocal>
+                <debug>0</debug>
+                <option>
+                    <name>OCDriverInfo</name>
+                    <state>1</state>
+                </option>
+                <option>
+                    <name>DoLogfile</name>
+                    <state>0</state>
+                </option>
+                <option>
+                    <name>LogFile</name>
+                    <state>$PROJ_DIR$\cspycomm.log</state>
                 </option>
             </data>
         </settings>
@@ -2739,7 +2911,7 @@
                 </option>
                 <option>
                     <name>CCSTLinkProbeList</name>
-                    <version>1</version>
+                    <version>2</version>
                     <state>0</state>
                 </option>
                 <option>
@@ -3034,6 +3206,10 @@
         </settings>
         <debuggerPlugins>
             <plugin>
+                <file>$TOOLKIT_DIR$\plugins\rtos\Azure\AzureArmPlugin.ENU.ewplugin</file>
+                <loadFlag>0</loadFlag>
+            </plugin>
+            <plugin>
                 <file>$TOOLKIT_DIR$\plugins\rtos\CMX\CmxArmPlugin.ENU.ewplugin</file>
                 <loadFlag>0</loadFlag>
             </plugin>
@@ -3066,11 +3242,7 @@
                 <loadFlag>0</loadFlag>
             </plugin>
             <plugin>
-                <file>$TOOLKIT_DIR$\plugins\rtos\SMX\smxAwareIarArm9.ewplugin</file>
-                <loadFlag>0</loadFlag>
-            </plugin>
-            <plugin>
-                <file>$TOOLKIT_DIR$\plugins\rtos\SMX\smxAwareIarArm9BE.ewplugin</file>
+                <file>$TOOLKIT_DIR$\plugins\rtos\SMX\smxAwareIarArm9a.ewplugin</file>
                 <loadFlag>0</loadFlag>
             </plugin>
             <plugin>

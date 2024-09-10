@@ -82,7 +82,7 @@
                 </option>
                 <option>
                     <name>OGLastSavedByProductVersion</name>
-                    <state>9.40.1.63870</state>
+                    <state>9.50.2.71646</state>
                 </option>
                 <option>
                     <name>OGChipSelectEditMenu</name>
@@ -305,11 +305,11 @@
                 </option>
                 <option>
                     <name>IExtraOptionsCheck</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>IExtraOptions</name>
-                    <state></state>
+                    <state>-f "$PROJ_DIR$/xcl/rasc_iccarm"</state>
                 </option>
                 <option>
                     <name>CCLangConformance</name>
@@ -698,7 +698,7 @@
             <data>
                 <extensions></extensions>
                 <cmdline></cmdline>
-                <hasPrio>160</hasPrio>
+                <hasPrio>1</hasPrio>
                 <buildSequence>inputOutputBased</buildSequence>
             </data>
         </settings>
@@ -848,6 +848,7 @@
                 <option>
                     <name>IlinkExtraOptions</name>
                     <state>--config_search "$PROJ_DIR$"</state>
+                    <state>-f "$PROJ_DIR$/xcl/rasc_ilinkarm"</state>
                 </option>
                 <option>
                     <name>IlinkLowLevelInterfaceSlave</name>
@@ -1100,20 +1101,7 @@
         <settings>
             <name>BUILDACTION</name>
             <archiveVersion>2</archiveVersion>
-            <data>
-                <buildActions>
-                    <buildAction>
-                        <cmdline>cmd /c ""$RASC_EXE_PATH$" -nosplash --launcher.suppressErrors --gensmartbundle --compiler IAR --devicefamily ra "$PROJ_DIR$\configuration.xml" "$TARGET_PATH$" 2&gt; "%TEMP%\rasc_stderr.out"" &amp;&amp; echo &gt; "$BUILD_FILES_DIR$/.postbuild"</cmdline>
-                        <workingDirectory>$PROJ_DIR$</workingDirectory>
-                        <buildSequence>postLink</buildSequence>
-                        <outputs>
-                            <file>
-                                <name>$BUILD_FILES_DIR$/.postbuild</name>
-                            </file>
-                        </outputs>
-                    </buildAction>
-                </buildActions>
-            </data>
+            <data />
         </settings>
     </configuration>
     <configuration>
@@ -1421,11 +1409,11 @@
                 </option>
                 <option>
                     <name>IExtraOptionsCheck</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>IExtraOptions</name>
-                    <state></state>
+                    <state>-f "$PROJ_DIR$/xcl/rasc_iccarm"</state>
                 </option>
                 <option>
                     <name>CCLangConformance</name>
@@ -1964,6 +1952,7 @@
                 <option>
                     <name>IlinkExtraOptions</name>
                     <state>--config_search "$PROJ_DIR$"</state>
+                    <state>-f "$PROJ_DIR$/xcl/rasc_ilinkarm"</state>
                 </option>
                 <option>
                     <name>IlinkLowLevelInterfaceSlave</name>
@@ -2216,21 +2205,7 @@
         <settings>
             <name>BUILDACTION</name>
             <archiveVersion>2</archiveVersion>
-            <data>
-                <buildActions>
-                    <buildAction>
-                        <cmdline>cmd /c ""$RASC_EXE_PATH$" -nosplash --launcher.suppressErrors --gensmartbundle --compiler IAR --devicefamily ra "$PROJ_DIR$\configuration.xml" "$TARGET_PATH$" 2&gt; "%TEMP%\rasc_stderr.out"" &amp;&amp; echo &gt; "$BUILD_FILES_DIR$/.postbuild"</cmdline>
-                        <workingDirectory>$PROJ_DIR$</workingDirectory>
-                        <buildSequence>postLink</buildSequence>
-                        <outputs>
-                            <file>
-                                <name>$BUILD_FILES_DIR$/.postbuild</name>
-                            </file>
-                        </outputs>
-                    </buildAction>
-                </buildActions>
-            </data>
-        </settings>
+            <data />        </settings>
     </configuration>
     <group>
         <name>Flex Software</name>
@@ -2267,6 +2242,21 @@
         <group>
             <name>Components</name>
             <file>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\m-profile\armv7m_cachel1.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\m-profile\armv7m_mpu.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\m-profile\armv81m_pac.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\m-profile\armv8m_mpu.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\m-profile\armv8m_pmu.h</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\ra\board\ra2a2_ek\board.h</name>
             </file>
             <file>
@@ -2280,6 +2270,9 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\board\ra2a2_ek\board_leds.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\board_sdram.h</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\fsp\inc\api\bsp_api.h</name>
@@ -2315,6 +2308,9 @@
                 <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\ra2a2\bsp_feature.h</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\ra2a2\bsp_feature_gen.h</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_group_irq.c</name>
             </file>
             <file>
@@ -2325,9 +2321,6 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_guard.h</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\ra2a2\bsp_icu.h</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_io.c</name>
@@ -2342,6 +2335,12 @@
                 <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_irq.h</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_macl.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_macl.h</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_mcu_api.h</name>
             </file>
             <file>
@@ -2349,9 +2348,6 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_module_stop.h</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\internal\bsp_module_stop_internal.h</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_register_protection.c</name>
@@ -2366,6 +2362,12 @@
                 <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_sbrk.c</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_sdram.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_sdram.h</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_security.c</name>
             </file>
             <file>
@@ -2375,79 +2377,106 @@
                 <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_tfu.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\cachel1_armv7.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\cmsis_armclang.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\cmsis_armcc.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\a-profile\cmsis_armclang_a.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\cmsis_armclang.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\m-profile\cmsis_armclang_m.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\cmsis_armclang_ltm.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\r-profile\cmsis_armclang_r.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\cmsis_compiler.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\cmsis_clang.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\cmsis_gcc.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\a-profile\cmsis_clang_a.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\cmsis_iccarm.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\m-profile\cmsis_clang_m.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\cmsis_version.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\r-profile\cmsis_clang_r.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\core_armv81mml.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\cmsis_compiler.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\core_armv8mbl.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\a-profile\cmsis_cp15.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\core_armv8mml.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\cmsis_gcc.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\core_cm0.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\a-profile\cmsis_gcc_a.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\core_cm0plus.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\m-profile\cmsis_gcc_m.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\core_cm1.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\r-profile\cmsis_gcc_r.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\core_cm23.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\a-profile\cmsis_iccarm_a.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\core_cm3.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\m-profile\cmsis_iccarm_m.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\core_cm33.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\m-profile\cmsis_tiarmclang_m.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\core_cm35p.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\cmsis_version.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\core_cm4.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\core_ca.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\core_cm55.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\core_cm0.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\core_cm7.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\core_cm0plus.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\core_cm85.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\core_cm1.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\core_sc000.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\core_cm23.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\core_sc300.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\core_cm3.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\core_starmc1.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\core_cm33.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\core_cm35p.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\core_cm4.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\core_cm52.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\core_cm55.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\core_cm7.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\core_cm85.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\core_sc000.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\core_sc300.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\core_starmc1.h</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\fsp\inc\api\fsp_common_api.h</name>
@@ -2459,19 +2488,10 @@
                 <name>$PROJ_DIR$\ra\fsp\inc\fsp_version.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\LICENSE.txt</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\a-profile\irq_ctrl.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\mpu_armv7.h</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\mpu_armv8.h</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\pac_armv81.h</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\pmu_armv8.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\LICENSE</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\fsp\src\bsp\cmsis\Device\RENESAS\Include\R7FA2A2AD.h</name>
@@ -2513,9 +2533,6 @@
                 <name>$PROJ_DIR$\ra\fsp\src\bsp\cmsis\Device\RENESAS\Include\renesas.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\fsp\src\bsp\cmsis\Device\RENESAS\Include\renesas_internal.h</name>
-            </file>
-            <file>
                 <name>$PROJ_DIR$\ra\fsp\src\bsp\cmsis\Device\RENESAS\Source\startup.c</name>
             </file>
             <file>
@@ -2525,7 +2542,7 @@
                 <name>$PROJ_DIR$\ra\fsp\src\bsp\cmsis\Device\RENESAS\Include\system.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\tz_context.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\tz_context.h</name>
             </file>
         </group>
         <group>

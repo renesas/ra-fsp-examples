@@ -56,6 +56,12 @@ fsp_err_t ospi_init(void)
     g_loc_ospi_cfg.p_erase_command_list = &spi_erase_command_list[INITIAL_INDEX];
     g_loc_ospi_cfg.p_extend = &g_loc_ospi_extnd_cfg;
 
+    /* In the current OSPI device model, the default status of the device is set to SPI mode.
+     * Therefore, it is necessary to initialize the OSPI driver module in SPI mode
+     * to ensure compatibility with the device's default SPI protocol.
+     */
+    g_loc_ospi_cfg.spi_protocol = SPI_FLASH_PROTOCOL_EXTENDED_SPI;
+
     /*Open Octa Flash device in Extended SPI Mode */
     err = R_OSPI_Open(&g_ospi_ctrl, &g_loc_ospi_cfg);
     if (FSP_SUCCESS != err)
@@ -390,6 +396,7 @@ fsp_err_t spi_operation(void)
     uint8_t               read_data          = RESET_VALUE;
     fsp_err_t             err                = FSP_SUCCESS;
     uint8_t               *ospi_ref_addr     = (uint8_t *) (SPI_REFERENCE_ADDRESS);
+    bsp_octaclk_settings_t      octaclk  = {RESET_VALUE};
 
     /* Check if Flash is in Extended SPI mode*/
     if(SPI_FLASH_PROTOCOL_EXTENDED_SPI != g_loc_ospi_cfg.spi_protocol)
@@ -402,6 +409,13 @@ fsp_err_t spi_operation(void)
                     return err;
         }
     }
+
+    /* Change the OCTACLK clock to 100 MHz in SPI mode.
+     * Because OM_SCLK (OM_SCLK = OCTACLK/2) only support 50MHz as max
+     */
+    octaclk.source_clock = BSP_CFG_OCTA_SOURCE;  /* 200MHz */
+    octaclk.divider      = BSP_CLOCKS_OCTA_CLOCK_DIV_2;
+    R_BSP_OctaclkUpdate(&octaclk);
 
     /* Print the Sub menu option */
     APP_PRINT(OSPI_SUB_MENU);
@@ -461,6 +475,13 @@ fsp_err_t spi_operation(void)
             case EXIT:
             {
                 APP_PRINT ("\nGO back to Main Menu");
+
+                /* Change the OCTACLK clock to 200 MHz (default setting) for SOPI/DOPI mode
+                 * which support OM_SCLK (OM_SCLK = OCTACLK/2) 100MHz as max
+                 */
+                octaclk.source_clock = BSP_CLOCKS_SOURCE_CLOCK_PLL;
+                octaclk.divider      = BSP_CLOCKS_OCTA_CLOCK_DIV_1;
+                R_BSP_OctaclkUpdate(&octaclk);
             }
             break;
             default:

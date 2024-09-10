@@ -33,11 +33,11 @@ Note :
    User can refer Section 5.3 "Setting up Hardware" in the document via link:
    https://www.renesas.com/us/en/document/apn/renesas-ra-security-design-arm-trustzone-ip-protection
    For Renesas Device Partition Manager tool:
-   a. e2studio: 0x220000bc
+   a. e2studio: 0x220000b4
 
 3) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x220000bc
+   a. e2studio: 0x220000b4
    b. Keil: 	Not Available 
    c. IAR: 	Not Available
  

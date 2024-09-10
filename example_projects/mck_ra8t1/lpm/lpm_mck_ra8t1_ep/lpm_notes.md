@@ -22,7 +22,7 @@ Refer to [readme.txt](./readme.txt) for information on how to connect the hardwa
 
 ### Software ###
 * Renesas Flexible Software Package (FSP)
-* e2 studio: Version 2024-04
+* e2 studio: Version 2024-07
 * GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 * Terminal Console Application: Tera Term or a similar application
 

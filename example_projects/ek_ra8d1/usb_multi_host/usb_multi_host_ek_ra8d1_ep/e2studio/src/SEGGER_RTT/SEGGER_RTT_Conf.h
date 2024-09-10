@@ -42,7 +42,7 @@
 *                                                                    *
 **********************************************************************
 *                                                                    *
-*       RTT version: 7.96a                                           *
+*       RTT version: 7.98b                                           *
 *                                                                    *
 **********************************************************************
 
@@ -54,6 +54,7 @@ Purpose : Implementation of SEGGER real-time transfer (RTT) which
 Revision: $Rev: 24316 $
 
 */
+
 #if (USE_VIRTUAL_COM == 0)
 #ifndef SEGGER_RTT_CONF_H
 #define SEGGER_RTT_CONF_H
@@ -426,5 +427,5 @@ void OS_SIM_LeaveCriticalSection(void);
 #endif
 
 #endif
-#endif /* USE_VIRTUAL_COM */
 /*************************** End of file ****************************/
+#endif

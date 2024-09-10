@@ -307,11 +307,11 @@
                 </option>
                 <option>
                     <name>IExtraOptionsCheck</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>IExtraOptions</name>
-                    <state></state>
+                    <state>-f "$PROJ_DIR$/xcl/rasc_iccarm"</state>
                 </option>
                 <option>
                     <name>CCLangConformance</name>
@@ -862,6 +862,7 @@
                 <option>
                     <name>IlinkExtraOptions</name>
                     <state>--config_search "$PROJ_DIR$"</state>
+                    <state>-f "$PROJ_DIR$/xcl/rasc_ilinkarm"</state>
                 </option>
                 <option>
                     <name>IlinkLowLevelInterfaceSlave</name>
@@ -1117,22 +1118,12 @@
             <data>
                 <buildActions>
                     <buildAction>
-                        <cmdline>cmd /c "start /w cmd /c ""$PROJ_DIR$\rasc_launcher.bat" "$PROJ_DIR$\rasc_version.txt" -nosplash --launcher.suppressErrors --generate --compiler IAR --devicefamily $RASC_DEVICE_FAMILY$ "$PROJ_DIR$\configuration.xml" 2&gt; "%TEMP%\rasc_stderr.out"""</cmdline>
+                        <cmdline>cmd /c "start "Renesas" /w cmd /c ""$PROJ_DIR$\rasc_launcher.bat" "$PROJ_DIR$\rasc_version.txt" -nosplash --launcher.suppressErrors --generate --compiler IAR --devicefamily $RASC_DEVICE_FAMILY$ "$PROJ_DIR$\configuration.xml" 2&gt; "$BUILD_FILES_DIR$\.rasc_stderr.txt"""</cmdline>
                         <workingDirectory>$PROJ_DIR$</workingDirectory>
                         <buildSequence>preCompile</buildSequence>
                         <outputs>
                             <file>
 <name>$BUILD_FILES_DIR$/.prebuild</name>
-                            </file>
-                        </outputs>
-                    </buildAction>
-                    <buildAction>
-                        <cmdline>cmd /c "start /w cmd /c ""$PROJ_DIR$\rasc_launcher.bat" "$PROJ_DIR$\rasc_version.txt" -nosplash --launcher.suppressErrors --gensmartbundle --compiler IAR --devicefamily $RASC_DEVICE_FAMILY$ "$PROJ_DIR$\configuration.xml" "$TARGET_PATH$" 2&gt; "%TEMP%\rasc_stderr.out"""</cmdline>
-                        <workingDirectory>$PROJ_DIR$</workingDirectory>
-                        <buildSequence>postLink</buildSequence>
-                        <outputs>
-                            <file>
-<name>$BUILD_FILES_DIR$/.postbuild</name>
                             </file>
                         </outputs>
                     </buildAction>
@@ -1447,11 +1438,11 @@
                 </option>
                 <option>
                     <name>IExtraOptionsCheck</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>IExtraOptions</name>
-                    <state></state>
+                    <state>-f "$PROJ_DIR$/xcl/rasc_iccarm"</state>
                 </option>
                 <option>
                     <name>CCLangConformance</name>
@@ -2002,6 +1993,7 @@
                 <option>
                     <name>IlinkExtraOptions</name>
                     <state>--config_search "$PROJ_DIR$"</state>
+                    <state>-f "$PROJ_DIR$/xcl/rasc_ilinkarm"</state>
                 </option>
                 <option>
                     <name>IlinkLowLevelInterfaceSlave</name>
@@ -2257,22 +2249,12 @@
             <data>
                 <buildActions>
                     <buildAction>
-                        <cmdline>cmd /c "start /w cmd /c ""$PROJ_DIR$\rasc_launcher.bat" "$PROJ_DIR$\rasc_version.txt" -nosplash --launcher.suppressErrors --generate --compiler IAR --devicefamily $RASC_DEVICE_FAMILY$ "$PROJ_DIR$\configuration.xml" 2&gt; "%TEMP%\rasc_stderr.out"""</cmdline>
+                        <cmdline>cmd /c "start "Renesas" /w cmd /c ""$PROJ_DIR$\rasc_launcher.bat" "$PROJ_DIR$\rasc_version.txt" -nosplash --launcher.suppressErrors --generate --compiler IAR --devicefamily $RASC_DEVICE_FAMILY$ "$PROJ_DIR$\configuration.xml" 2&gt; "$BUILD_FILES_DIR$\.rasc_stderr.txt"""</cmdline>
                         <workingDirectory>$PROJ_DIR$</workingDirectory>
                         <buildSequence>preCompile</buildSequence>
                         <outputs>
                             <file>
 <name>$BUILD_FILES_DIR$/.prebuild</name>
-                            </file>
-                        </outputs>
-                    </buildAction>
-                    <buildAction>
-                        <cmdline>cmd /c "start /w cmd /c ""$PROJ_DIR$\rasc_launcher.bat" "$PROJ_DIR$\rasc_version.txt" -nosplash --launcher.suppressErrors --gensmartbundle --compiler IAR --devicefamily $RASC_DEVICE_FAMILY$ "$PROJ_DIR$\configuration.xml" "$TARGET_PATH$" 2&gt; "%TEMP%\rasc_stderr.out"""</cmdline>
-                        <workingDirectory>$PROJ_DIR$</workingDirectory>
-                        <buildSequence>postLink</buildSequence>
-                        <outputs>
-                            <file>
-<name>$BUILD_FILES_DIR$/.postbuild</name>
                             </file>
                         </outputs>
                     </buildAction>
@@ -2321,6 +2303,21 @@
         <group>
             <name>Components</name>
             <file>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\m-profile\armv7m_cachel1.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\m-profile\armv7m_mpu.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\m-profile\armv81m_pac.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\m-profile\armv8m_mpu.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\m-profile\armv8m_pmu.h</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\ra\aws\FreeRTOS\FreeRTOS\Source\include\atomic.h</name>
             </file>
             <file>
@@ -2340,6 +2337,9 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\board\ra8m1_ek\board_leds.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\board_sdram.h</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\fsp\inc\api\bsp_api.h</name>
@@ -2373,6 +2373,9 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\ra8m1\bsp_feature.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\ra8m1\bsp_feature_gen.h</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_group_irq.c</name>
@@ -2429,6 +2432,12 @@
                 <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_sbrk.c</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_sdram.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_sdram.h</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_security.c</name>
             </file>
             <file>
@@ -2441,79 +2450,106 @@
                 <name>$PROJ_DIR$\ra\aws\FreeRTOS\FreeRTOS-Plus\Source\FreeRTOS-Plus-TCP\source\portable\BufferManagement\BufferAllocation_2.c</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\cachel1_armv7.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\cmsis_armclang.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\cmsis_armcc.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\a-profile\cmsis_armclang_a.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\cmsis_armclang.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\m-profile\cmsis_armclang_m.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\cmsis_armclang_ltm.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\r-profile\cmsis_armclang_r.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\cmsis_compiler.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\cmsis_clang.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\cmsis_gcc.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\a-profile\cmsis_clang_a.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\cmsis_iccarm.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\m-profile\cmsis_clang_m.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\cmsis_version.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\r-profile\cmsis_clang_r.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\core_armv81mml.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\cmsis_compiler.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\core_armv8mbl.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\a-profile\cmsis_cp15.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\core_armv8mml.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\cmsis_gcc.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\core_cm0.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\a-profile\cmsis_gcc_a.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\core_cm0plus.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\m-profile\cmsis_gcc_m.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\core_cm1.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\r-profile\cmsis_gcc_r.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\core_cm23.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\a-profile\cmsis_iccarm_a.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\core_cm3.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\m-profile\cmsis_iccarm_m.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\core_cm33.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\m-profile\cmsis_tiarmclang_m.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\core_cm35p.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\cmsis_version.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\core_cm4.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\core_ca.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\core_cm55.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\core_cm0.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\core_cm7.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\core_cm0plus.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\core_cm85.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\core_cm1.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\core_sc000.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\core_cm23.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\core_sc300.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\core_cm3.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\core_starmc1.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\core_cm33.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\core_cm35p.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\core_cm4.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\core_cm52.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\core_cm55.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\core_cm7.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\core_cm85.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\core_sc000.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\core_sc300.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\core_starmc1.h</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\aws\FreeRTOS\FreeRTOS\Source\include\croutine.h</name>
@@ -2783,13 +2819,16 @@
                 <name>$PROJ_DIR$\ra\aws\FreeRTOS\FreeRTOS-Plus\Source\FreeRTOS-Plus-TCP\source\include\IPTraceMacroDefaults.h</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\a-profile\irq_ctrl.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\LICENSE</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\ra\aws\FreeRTOS\FreeRTOS\Source\LICENSE.md</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\aws\FreeRTOS\LICENSE.md</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\LICENSE.txt</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\aws\FreeRTOS\FreeRTOS\Source\list.c</name>
@@ -2799,12 +2838,6 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\aws\FreeRTOS\FreeRTOS\Source\include\message_buffer.h</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\mpu_armv7.h</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\mpu_armv8.h</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\aws\FreeRTOS\FreeRTOS\Source\include\mpu_prototypes.h</name>
@@ -2823,9 +2856,6 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\aws\FreeRTOS\FreeRTOS\Source\include\newlib-freertos.h</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\pac_armv81.h</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\aws\FreeRTOS\FreeRTOS-Plus\Source\FreeRTOS-Plus-TCP\source\portable\Compiler\GCC\pack_struct_end.h</name>
@@ -2847,9 +2877,6 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\aws\FreeRTOS\FreeRTOS\Source\include\picolibc-freertos.h</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\pmu_armv8.h</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\fsp\src\rm_freertos_port\port.c</name>
@@ -2948,7 +2975,7 @@
                 <name>$PROJ_DIR$\ra\aws\FreeRTOS\FreeRTOS\Source\include\timers.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\arm\CMSIS_5\CMSIS\Core\Include\tz_context.h</name>
+                <name>$PROJ_DIR$\ra\arm\CMSIS_6\CMSIS\Core\Include\tz_context.h</name>
             </file>
         </group>
         <group>

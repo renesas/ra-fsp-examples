@@ -85,8 +85,8 @@ uarta_baud_setting_t g_uart_baud_setting =
 
 /* Baud rate calculated with Acutal_Error 0.08%. */
 /* The permissible baud rate error range during reception: -4.73% ~ 5.22% */
-  .uta0ck_clock_b.utasel = UARTA_CLOCK_SOURCE_HOCO
-, .uta0ck_clock_b.uta0ck = UARTA_CLOCK_DIV_1
+  .utanck_clock_b.utasel = UARTA_CLOCK_SOURCE_HOCO
+, .utanck_clock_b.utanck = UARTA_CLOCK_DIV_1
 , .brgca = 139
  #elif (BSP_CFG_UARTA_CLOCK_SOURCE == BSP_CLOCKS_SOURCE_CLOCK_MOCO)
 
@@ -107,8 +107,7 @@ uarta_baud_setting_t g_uart_baud_setting =
 
 /* UART extended configuration for UART on UARTA HAL driver */
 const uarta_extended_cfg_t g_uart_cfg_extend =
-{ .rxi_mode = UARTA_RXI_MODE_ERROR_TRIGGER_ERI, .transfer_dir = UARTA_DIR_BIT_LSB_FIRST, .transfer_level =
-          UARTA_ALV_BIT_POSITIVE_LOGIC,
+{ .transfer_dir = UARTA_DIR_BIT_LSB_FIRST, .transfer_level = UARTA_ALV_BIT_POSITIVE_LOGIC,
   .p_baud_setting = &g_uart_baud_setting, };
 
 /* UART interface configuration */

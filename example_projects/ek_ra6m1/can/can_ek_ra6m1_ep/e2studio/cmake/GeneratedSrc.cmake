@@ -1,4 +1,5 @@
-# This file was automatically generated and updated by RASC
+# This file was automatically generated and updated by RASC and should not be edited by the user.
+# Use CMakeLists.txt to override the settings in this file 
 
 #source directories
 file(GLOB_RECURSE Source_Files 
@@ -67,7 +68,7 @@ add_custom_command(
     OUTPUT
         configuration.xml.stamp
     COMMAND
-        ${RASC_EXE_PATH}  -nosplash --launcher.suppressErrors --generate --devicefamily ra --compiler GCC ${CMAKE_CURRENT_SOURCE_DIR}/configuration.xml
+        ${RASC_EXE_PATH}  -nosplash --launcher.suppressErrors --generate --devicefamily ra --compiler GCC --toolchainversion ${CMAKE_C_COMPILER_VERSION} ${CMAKE_CURRENT_SOURCE_DIR}/configuration.xml
     COMMAND
         ${CMAKE_COMMAND} -E touch configuration.xml.stamp
     COMMENT
@@ -91,6 +92,6 @@ add_custom_command(
     COMMAND
         echo Running RASC post-build to generate Smart Bundle (.sbd) file
     COMMAND
-        ${RASC_EXE_PATH} -nosplash --launcher.suppressErrors --gensmartbundle --devicefamily ra --compiler GCC ${CMAKE_CURRENT_SOURCE_DIR}/configuration.xml ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.elf
+        ${RASC_EXE_PATH} -nosplash --launcher.suppressErrors --gensmartbundle --devicefamily ra --compiler GCC --toolchainversion ${CMAKE_C_COMPILER_VERSION}  ${CMAKE_CURRENT_SOURCE_DIR}/configuration.xml ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.elf 
     VERBATIM
 )

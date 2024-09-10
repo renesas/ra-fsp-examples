@@ -35,8 +35,8 @@ i.  Connect RA MCU debug port to the host PC via a micro USB cable.
 * Renesas GATTbrowser installed on device.
 * Install QE tool into E2studio IDE.
 * Renesas Flexible Software Package (FSP)
-* e2 studio: Version 2024-04
-* SEGGER J-Link RTT Viewer: Version 7.96j
+* e2 studio: Version 2024-07
+* SEGGER J-Link RTT Viewer: Version 7.98b
 * GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
  
 ## Related Collateral References ##

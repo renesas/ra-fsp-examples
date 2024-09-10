@@ -42,7 +42,7 @@
 *                                                                    *
 **********************************************************************
 *                                                                    *
-*       RTT version: 7.96a                                           *
+*       RTT version: 7.98b                                           *
 *                                                                    *
 **********************************************************************
 
@@ -506,5 +506,5 @@ int SEGGER_RTT_printf(unsigned BufferIndex, const char * sFormat, ...) {
   va_end(ParamList);
   return r;
 }
-#endif /* USE_VIRTUAL_COM */
 /*************************** End of file ****************************/
+#endif

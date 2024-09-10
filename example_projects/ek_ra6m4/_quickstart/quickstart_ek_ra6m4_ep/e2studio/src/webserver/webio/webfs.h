@@ -28,7 +28,7 @@
 /* ++ REE/EDC */
 #include "websys.h"
 #include "efsFile.h"
-#include "fmtOut.h"
+#include "fmtout.h"
 /* -- REE/EDC */
 
 /* wi_file_s - wrapper for a lower layer FILE descriptor. One of these 

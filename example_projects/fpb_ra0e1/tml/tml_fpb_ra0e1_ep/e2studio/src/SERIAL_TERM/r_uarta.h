@@ -25,8 +25,8 @@ FSP_HEADER
 /***********************************************************************************************************************
  * Macro definitions
  **********************************************************************************************************************/
-
-#define UARTA_UTA0CK_SOSC_LOCO_SETTING    (0x08U)
+#define UARTA_UTAnCK_LOCO_SETTING    (0x08U) // for LOCO or FSXP
+#define UARTA_UTAnCK_SOSC_SETTING    (0x09U)
 
 /**********************************************************************************************************************
  * Typedef definitions
@@ -35,10 +35,12 @@ FSP_HEADER
 /** Enumeration for UARTA clock source */
 typedef enum e_uarta_clock_source
 {
-    UARTA_CLOCK_SOURCE_SOSC_LOCO = 0U, ///< SOSC/LOCO
-    UARTA_CLOCK_SOURCE_MOSC      = 1U, ///< MOSC
-    UARTA_CLOCK_SOURCE_HOCO      = 2U, ///< HOCO
-    UARTA_CLOCK_SOURCE_MOCO      = 3U, ///< MOCO
+    UARTA_CLOCK_SOURCE_SOSC_LOCO = 0U,                           ///< SOSC/LOCO
+    UARTA_CLOCK_SOURCE_LOCO      = UARTA_CLOCK_SOURCE_SOSC_LOCO, ///< LOCO
+    UARTA_CLOCK_SOURCE_MOSC      = 1U,                           ///< MOSC
+    UARTA_CLOCK_SOURCE_HOCO      = 2U,                           ///< HOCO
+    UARTA_CLOCK_SOURCE_MOCO      = 3U,                           ///< MOCO
+    UARTA_CLOCK_SOURCE_SOSC      = 4U,                           ///< SOSC
 } uarta_clock_source_t;
 
 /** Enumeration for UARTA clock divider */
@@ -54,12 +56,12 @@ typedef enum e_uarta_clock_div
     UARTA_CLOCK_DIV_COUNT,             ///< Total number of clock divider options.
 } uarta_clock_div_t;
 
-/** Receive interrupt mode select */
-typedef enum e_uarta_rxi_mode
+/** Enabled/Disabled Clock output */
+typedef enum e_uarta_clock_out
 {
-    UARTA_RXI_MODE_ERROR_TRIGGER_ERI = 0U, ///< The receive error interrupt is generated when a reception error occurs.
-    UARTA_RXI_MODE_ERROR_TRIGGER_RXI = 1U, ///< The receive interrupt is generated when a reception error occurs.
-} uarta_rxi_mode_t;
+    UARTA_CLOCK_OUTPUT_DISABLED = 0U,  ///< Disables CLKAn output
+    UARTA_CLOCK_OUTPUT_ENABLED  = 1U,  ///< Enables CLKAn output
+} uarta_clock_out_t;
 
 /** Transmission/reception order configuration. */
 typedef enum e_uarta_dir_bit
@@ -80,24 +82,25 @@ typedef struct st_uarta_baud_setting
 {
     union
     {
-        uint8_t uta0ck_clock;
+        uint8_t utanck_clock;
 
         struct
         {
-            uint8_t uta0ck : 4;        ///< UARTA operation clock select (f_UTA0n)
+            uint8_t utanck : 4;        ///< UARTA operation clock select (f_UTA0n)
             uint8_t utasel : 2;        ///< fSEL clock select
             uint8_t        : 2;
-        } uta0ck_clock_b;
+        } utanck_clock_b;
     };
-    uint8_t brgca;                     ///< Baud rate generator control setting
+    uint8_t  brgca;                    ///< Baud rate generator control setting
+    uint16_t delay_time;               ///< Delay time (us) required to enable TX at open
 } uarta_baud_setting_t;
 
 /** UART on UARTA device Configuration */
 typedef struct st_uarta_extended_cfg
 {
-    uarta_rxi_mode_t       rxi_mode;       ///< Receive interrupt mode select
     uarta_dir_bit_t        transfer_dir;   ///< Transmission/reception order configuration
     uarta_alv_bit_t        transfer_level; ///< Transmission/reception level configuration
+    uarta_clock_out_t      clock_output;   ///< Disable/Enable clock output
     uarta_baud_setting_t * p_baud_setting; ///< Register settings for a desired baud rate.
 } uarta_extended_cfg_t;
 
@@ -119,6 +122,9 @@ typedef struct st_uarta_instance_ctrl
 
     /* Size of destination buffer pointer used for receiving data. */
     uint32_t rx_dest_bytes;
+
+    /* Base register for this channel. */
+    R_UARTA0_Type * p_reg;
 
     /* Pointer to the configuration block. */
     uart_cfg_t const * p_cfg;

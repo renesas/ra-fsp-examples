@@ -24,8 +24,8 @@
     
    Software: 
 	1) Renesas Flexible Software Package (FSP)
-	2) e2 studio: Version 2024-04
-	3) SEGGER J-Link RTT Viewer: Version 7.96j
+	2) e2 studio: Version 2024-07
+	3) SEGGER J-Link RTT Viewer: Version 7.98b
 	4) An internal pack file of SCI SMCI driver (https://renesasgroup-my.sharepoint.com/:u:/g/personal/cheng-ping_chan_jc_renesas_com/EfBMYUOfm3lOo4JMbGgs5ZMBo7t5DvDNPs6u_-mrSdTToA?e=DpCCWx)
 
 3. Hardware settings for the project:

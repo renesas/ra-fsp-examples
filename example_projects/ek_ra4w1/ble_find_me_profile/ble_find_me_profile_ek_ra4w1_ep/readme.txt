@@ -29,8 +29,8 @@
 4. Software requirements:
  	1) Device client (iphone or ipad) has Renesas GATT browser installed.
 	2) Renesas Flexible Software Package (FSP)
-	3) e2 studio: Version 2024-04
-	4) SEGGER J-Link RTT Viewer: Version 7.96j
+	3) e2 studio: Version 2024-07
+	4) SEGGER J-Link RTT Viewer: Version 7.98b
 
 
 Note: After running EP "find me profile". User must use Renesas GATT brower to search and connect to Local Name "RA4W1_BLE" displayed on your
