@@ -13,7 +13,19 @@
 	The user will be able to play, listen and verify the recorded audio file data. USBX status and any errors will be printed 
 	on the JLinkRTTViewer which will be handled in separate thread.
  
-2. To run this example project, user needs to compile and download the example project to the evaluation kit and then follow below instructions to observe the operation of the system.
+2. Software Requirements:
+	Renesas Flexible Software Package (FSP): Version 5.5.0
+	e2 studio: Version 2024-07
+	SEGGER J-Link RTT Viewer: Version 7.98b
+	GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
+	Audacity v3.1.3(Audio Player/Recorder)
+	     
+3. Hardware Requirements:
+	1) RA board 
+	2) 2x Micro USB device cable or 2x Type C USB device cable (For MCK-RA8T1)
+	3) A PC with at least 2 USB port(1 for debug and 1 for emulated USB Audio port)
+
+4. To run this example project, user needs to compile and download the example project to the evaluation kit and then follow below instructions to observe the operation of the system.
 
    Supported Boards: EK-RA4M2, EK-RA4M3, EK RA6M1, EK RA6M2, EK RA6M3, EK-RA6M4, EK-RA6M5, EK-RA8M1, EK-RA8D1 and MCK-RA8T1.
 
@@ -40,21 +52,8 @@
 	9) Import the exported recorded audio into audio player(example Audacity).
 
 	10) Listen to the recorded audio and verify. The playback and recorded audio should be similar. There can be differences if the recorded format differs or a partial record is acquired.
-     
-3. Hardware and Software Requirements:
-   
-   Hardware : 
-	1) RA board 
-	2) 2x Micro USB device cable or 2x Type C USB device cable (For MCK-RA8T1)
-	3) A PC with at least 2 USB port(1 for debug and 1 for emulated USB Audio port)
-    
-   Software: 
-	1) Renesas Flexible Software Package (FSP)
-	2) e2 studio: Version 2024-07
-	3) SEGGER J-Link RTT Viewer: Version 7.98b
-	4) Audacity v3.1.3(Audio Player/Recorder)
 
-4. If user needs to change the USB speed, they can follow below configuration changes.
+5. If user needs to change the USB speed, they can follow below configuration changes.
 
         i.  Full-Speed :
             USB Speed                     :    Full Speed
@@ -70,7 +69,7 @@
             DMA Destination Address       :    HS Address
             DMAC Transfer Size            :    4 Bytes
 
-5. Hardware settings for the project:
+6. Hardware settings for the project:
 
     Jumper Settings:
       

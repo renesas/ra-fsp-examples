@@ -11,21 +11,22 @@
         display on Tera Term. The user can also change the baud rate, stop bit and parity bit configuration at run time through
         Tera Term. The status of the application will be displayed on JLink RTT Viewer.
 
-2. Hardware and Software Requirements:
+2. Software Requirements:
+	Renesas Flexible Software Package (FSP): Version 5.5.0
+	e2 studio: Version 2024-07
+	SEGGER J-Link RTT Viewer: Version 7.98b
+	GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
+	Terminal Console Application: Tera Term or a similar application
+	USB Serial Drivers (included in Windows 10) 
+	Windows® 10 operating system
 
-   Hardware : 
+3. Hardware Requirements:
 	1) RA board 
 	2) 2x Micro USB device cable
 	3) A PC with at least 2 USB port(1 for debug and 1 for COM port)
-        4) Connecting/Jumper wires for shorting pins   
+	4) Connecting/Jumper wires for shorting pins   
     
-   Software: 
-	1) Serial Terminal(TeraTerm)
-        2) Windows® 10 operating system 
-	3) USB Serial Drivers (included in Windows 10) 
-        4) Jlink RTT viewer
-
-3. Hardware settings for the project:
+4. Hardware settings for the project:
    Jumper Settings:
 
 	EK-RA6M3 :

@@ -19,6 +19,13 @@
 /* SEGGER RTT and error related headers */
 #include "SEGGER_RTT/SEGGER_RTT.h"
 
+/* SEGGER RTT disabling macro */
+#define DISABLE_APP_PRINT       (0)
+#define DISABLE_APP_ERR_PRINT   (0)
+#define DISABLE_APP_ERR_TRAP    (0)
+#define DISABLE_APP_READ        (0)
+#define DISABLE_APP_CHECK_DATA  (0)
+
 
 #define BIT_SHIFT_8  (8u)
 #define SIZE_64      (64u)
@@ -52,5 +59,30 @@
 
 #define APP_CHECK_DATA          (SEGGER_RTT_HasKey())
 
+/* Conditional disabling logic */
+#if defined(APP_PRINT) && (DISABLE_APP_PRINT == 1)
+#undef APP_PRINT
+#define APP_PRINT(fn_, ...)
+#endif
+
+#if defined(APP_ERR_PRINT) && (DISABLE_APP_ERR_PRINT == 1)
+#undef APP_ERR_PRINT
+#define APP_ERR_PRINT(fn_, ...)
+#endif
+
+#if defined(APP_ERR_TRAP) && (DISABLE_APP_ERR_TRAP == 1)
+#undef APP_ERR_TRAP
+#define APP_ERR_TRAP(err)
+#endif
+
+#if defined(APP_READ) && (DISABLE_APP_READ == 1)
+#undef APP_READ
+#define APP_READ(read_data)
+#endif
+
+#if defined(APP_CHECK_DATA) && (DISABLE_APP_CHECK_DATA == 1)
+#undef APP_CHECK_DATA
+#define APP_CHECK_DATA (0)
+#endif
 
 #endif /* COMMON_UTILS_H_ */

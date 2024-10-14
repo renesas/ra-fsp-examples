@@ -10,7 +10,13 @@
 	(GET, PUT, POST). After sending each request, EP waits for the HTTP response and prints it to the RTT Viewer.
 	Additionally, status and failure messages are displayed on the RTT Viewer.
 
-2. Hardware Requirements:
+2. Software Requirements:
+	Renesas Flexible Software Package (FSP): Version 5.5.0
+	e2 studio: Version 2024-07
+	SEGGER J-Link RTT Viewer: Version 7.98b
+	GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
+
+3. Hardware Requirements:
 	Board supported: EK-RA6M5, EK-RA2A2, EK-RA2L1, EK-RA4E2, EK-RA4M1, EK-RA4M2, EK-RA4M3, EK-RA6E2, EK-RA6M1, EK-RA6M2,
 	EK-RA6M3, EK-RA6M3G, EK-RA6M4, EK-RA8D1, EK-RA8M1, FPB-RA4E1, FPB-RA6E1, MCK-RA4T1, MCK-RA6T2, MCK-RA6T3, MCK-RA8T1
 	1 x Renesas board
@@ -19,12 +25,6 @@
 	1 x US159-DA16200EVZ Ultra Low Power Wi-Fi Pmod™ (Part Number: US159-DA16200MEVZ).
 	1 x Wi-Fi router Access Point(AP) with internet access. Note: WiFi router AP's credentials should be known.
 	
-3. Software Requirements:
-	Renesas Flexible Software Package (FSP)
-   a. e2studio: 0x20000a74
-	SEGGER J-Link RTT Viewer: Version 7.98b
-	GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
-
 4. Hardware Connections:
 	EK-RA4M1/EK-RA6M1/EK-RA6M2
 	---------

@@ -21,11 +21,12 @@ static fsp_err_t sensor_init ();
 static void sau_spi_handle_error (fsp_err_t err, const char * err_str);
 static fsp_err_t wait_for_sau_spi_event (const spi_event_t event);
 
-/*******************************************************************************************************************//**
- *  @brief       This function is used to start the sau spi example operation.
- *  @param[in]   None
- *  @retval      None
- **********************************************************************************************************************/
+/**********************************************************************************************************************
+ *  Function Name: sau_spi_entry
+ *  Description  : This function is used to start the sau spi example operation.
+ *  Arguments    : None
+ *  Return Value : None
+ *********************************************************************************************************************/
 void sau_spi_entry(void)
 {
     fsp_err_t err                   = FSP_SUCCESS;
@@ -83,14 +84,17 @@ void sau_spi_entry(void)
         R_BSP_SoftwareDelay (PRINT_DELAY, BSP_DELAY_UNITS_SECONDS);
     }
 }
+/**********************************************************************************************************************
+* End of function sau_spi_entry
+**********************************************************************************************************************/
 
-/*******************************************************************************************************************//**
- *  @brief       This function configures sensor register so that sensor behaves as expected
- *  @param[in]   None
- *  @retval      FSP_SUCCESS    Upon successful operation
- *  @retval      Any Other Error code apart from FSP_SUCCES
- **********************************************************************************************************************/
-
+/**********************************************************************************************************************
+ *  Function Name: sensor_init
+ *  Description  : This function configures sensor register so that sensor behaves as expected.
+ *  Arguments    : None
+ *  Return Value : FSP_SUCCESS     FSP_SUCCESS     Upon successful operation
+ *                 Any Other Error code apart from FSP_SUCCESS Unsuccessful operation
+ *********************************************************************************************************************/
 static fsp_err_t sensor_init ()
 {
     fsp_err_t   err                                = FSP_SUCCESS;
@@ -151,13 +155,17 @@ static fsp_err_t sensor_init ()
     }
     return err;
 }
+/**********************************************************************************************************************
+* End of function sensor_init
+**********************************************************************************************************************/
 
-/*******************************************************************************************************************//**
- *  @brief This function wait data transfer complete event until timeout occurs and handles errors.
- *  @param[in]   event          Expected events need to wait
- *  @retval      FSP_SUCCESS    Upon successful operation
- *  @retval      Any other error code apart from FSP_SUCCESS
- **********************************************************************************************************************/
+/**********************************************************************************************************************
+ *  Function Name: wait_for_sau_spi_event
+ *  Description  : This function wait data transfer complete event until timeout occurs and handles error.
+ *  Arguments    : event           Expected events need to wait
+ *  Return Value : FSP_SUCCESS     FSP_SUCCESS     Upon successful operation
+ *                 Any Other Error code apart from FSP_SUCCESS Unsuccessful operation
+ *********************************************************************************************************************/
 static fsp_err_t wait_for_sau_spi_event(const spi_event_t event)
 {
     fsp_err_t   err     = FSP_SUCCESS;
@@ -173,13 +181,17 @@ static fsp_err_t wait_for_sau_spi_event(const spi_event_t event)
     }
     return err;
 }
+/**********************************************************************************************************************
+* End of function wait_for_sau_spi_event
+**********************************************************************************************************************/
 
-/*******************************************************************************************************************//**
- * @brief This function handles errors, closes all opened modules, and prints errors.
- * @param[IN]   err             Error status
- * @param[IN]   err_str         Error message
- * @retval      None
- **********************************************************************************************************************/
+/**********************************************************************************************************************
+ *  Function Name: sau_spi_handle_error
+ *  Description  : This function handles errors, closes all opened modules, and prints errors.
+ *  Arguments    : err             Error status,
+ *                 err_str         Error message
+ *  Return Value : None
+ *********************************************************************************************************************/
 static void sau_spi_handle_error(fsp_err_t err, const char *err_str)
 {
     if (FSP_SUCCESS != err)
@@ -199,12 +211,16 @@ static void sau_spi_handle_error(fsp_err_t err, const char *err_str)
         APP_ERR_TRAP(err);
     }
 }
+/**********************************************************************************************************************
+* End of function sau_spi_handle_error
+**********************************************************************************************************************/
 
-/*******************************************************************************************************************//**
- * @brief Master SAU_SPI callback function.
- * @param[in]  p_args   Callback
- * @retval     None
- **********************************************************************************************************************/
+/**********************************************************************************************************************
+ *  Function Name: sau_spi_callback
+ *  Description  :  Master SAU_SPI callback function.
+ *  Arguments    : p_args          Callback
+ *  Return Value : None
+ *********************************************************************************************************************/
 void sau_spi_callback(spi_callback_args_t *p_args)
 {
     if (NULL != p_args)
@@ -212,3 +228,6 @@ void sau_spi_callback(spi_callback_args_t *p_args)
         g_master_event_flag = p_args->event;
     }
 }
+/**********************************************************************************************************************
+* End of function sau_spi_callback
+**********************************************************************************************************************/

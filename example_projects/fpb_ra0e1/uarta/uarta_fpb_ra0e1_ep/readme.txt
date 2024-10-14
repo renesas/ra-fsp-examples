@@ -13,11 +13,11 @@
 	Additionally, the EP information and any error messages will be displayed on J-Link RTT Viewer.
 	
 2. Software Requirements:
-	Renesas Flexible Software Package (FSP)
+	Renesas Flexible Software Package (FSP): Version 5.5.0
 	e2 studio: Version 2024-07
 	SEGGER J-Link RTT Viewer: Version 7.98b
 	GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
-	Terminal Console application: Tera Term or a similar application	
+	Terminal Console Application: Tera Term or a similar application 
 
 3. Hardware Requirements:
 	Supported RA board: FPB-RA0E1

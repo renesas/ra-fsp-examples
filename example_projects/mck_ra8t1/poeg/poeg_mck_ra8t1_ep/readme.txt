@@ -17,7 +17,13 @@
 	The Port Output can be enabled using the POEG Reset API.
 	The status of each of the mode is displayed on J-Link RTT Viewer. The POEG disabled operation is displayed with LED indications.
  
-2. To run this example project, user needs to compile and download the example project to the evaluation kit and then follow below instructions to observe the operation of the system.
+2. Software Requirements:
+	Renesas Flexible Software Package (FSP): Version 5.5.0
+	e2 studio: Version 2024-07
+	SEGGER J-Link RTT Viewer: Version 7.98b
+	GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
+ 
+3. To run this example project, user needs to compile and download the example project to the evaluation kit and then follow below instructions to observe the operation of the system.
 	
 	1) Connect the RA MCU device to the host PC using a USB Cable.
 
@@ -41,7 +47,7 @@
 	8) The EP performs the GPT output disable functioning using the above mentioned options.
 	Verify the GPT operation using either an Logic analyzer or an LED output.
      
-3. Hardware and Software Requirements:
+4. Hardware Requirements:
    
    Hardware : 
 	1) 1x RA board 
@@ -50,13 +56,8 @@
 	4) 1x Jumper Cable 
 	
    Supported Boards: EK-RA6M1, EK-RA6M2, EK-RA6M3, MCK-RA6T2, RSSK-RA6T1, MCK-RA4T1, MCK-RA6T3, MCK-RA8T1
-   
-   Software: 
-	1) e2studio 2024-01 (24.01.0) or greater.
-	2) FSP v5.2.0
-	3) J-Link RTT Viewer version 7.94d or greater.
 
-4. Hardware settings for the project:
+5. Hardware settings for the project:
 	
 	1) Connect the micro USB or Type C USB (For MCK-RA8T1) end of the micro or Type C device cable to Debug port of the board. Connect the other end of this cable to USB port of the 
 	   host PC.

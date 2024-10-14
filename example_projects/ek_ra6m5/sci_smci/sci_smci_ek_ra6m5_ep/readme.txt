@@ -14,21 +14,22 @@
 	can "Enter" value from Menu and all information of the chip in the card the Smart Card connected to the RA board will be 
 	printed it the RTTViewer...
 
-2. Hardware and Software Requirements:
+2. Software Requirements:
+	Renesas Flexible Software Package (FSP): Version 5.5.0
+	e2 studio: Version 2024-07
+	SEGGER J-Link RTT Viewer: Version 7.98b
+	GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
+	An internal pack file of SCI SMCI driver (https://renesasgroup-my.sharepoint.com/:u:/g/personal/cheng-ping_chan_jc_renesas_com/EfBMYUOfm3lOo4JMbGgs5ZMBo7t5DvDNPs6u_-mrSdTToA?e=DpCCWx)
+
+3. Hardware Requirements:
 
    Hardware : 
 	1) 1x EK-RA6M5 board 
 	2) 1x Micro USB cable for programming and debugging
 	3) 1x SIM Card (the standard SIM, Micro SIM or Nano SIM and) with wires connection soldered are ready on SIM or socket.
 	4) 1x Debit Card and 1x of ISO 7816-3 Card (Should be used ISO 7816-3 AT88SC0104C) If user would like to test for both.	 
-    
-   Software: 
-	1) Renesas Flexible Software Package (FSP)
-	2) e2 studio: Version 2024-07
-	3) SEGGER J-Link RTT Viewer: Version 7.98b
-	4) An internal pack file of SCI SMCI driver (https://renesasgroup-my.sharepoint.com/:u:/g/personal/cheng-ping_chan_jc_renesas_com/EfBMYUOfm3lOo4JMbGgs5ZMBo7t5DvDNPs6u_-mrSdTToA?e=DpCCWx)
 
-3. Hardware settings for the project:
+4. Hardware settings for the project:
    EK-RA6M5 connection:
 	1. Connect Micro USB cable to PC and the other end to J10 debuger on RA board.
 	

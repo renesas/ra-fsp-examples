@@ -8,24 +8,32 @@ for general information on example projects and [readme.txt](./readme.txt) for s
 ## Required Resources ## 
 To build and run the SAU SPI example project, the following resources are needed.
 
-### Hardware ###
+### Hardware Requirements ###
 Supported RA Boards: FPB-RA0E1
 * 1 x Renesas RA board.
 * 1 x USB Type C cable.
 * 1 x Digital thermometer module (PMOD MAX31723PMB1)
-  * Link product: [PMOD MAX31723PMB1](https://www.mouser.vn/ProductDetail/Analog-Devices-Maxim-Integrated/MAX31723PMB1?qs=UmMSjoC1xtH8e742i4OoUA%3D%3D).
+  * Link product: [PMOD MAX31723PMB1](https://www.mouser.com/ProductDetail/Analog-Devices-Maxim-Integrated/MAX31723PMB1?qs=UmMSjoC1xtH8e742i4OoUA%3D%3D).
   * Manufacturer Product Number: MAX31723PMB1#
-* 6 x Jumper cables (4 - both ends female, and 2 - male to female ).
 * 1 x Host PC.
 
 **Select SPI communication protocol on the PMOD MAX31723PMB1 by configuring the following jumper configurations on JP1:**
 
 ![PMOD MAX31723PMB1 configuration](images/sau_spi_pmod_configuration.png "PMOD MAX31723PMB1 configuration")
 
-Refer to [readme.txt](./readme.txt) for information on how to connect the hardware.
+### Hardware connections ###
+* PMOD MAX31723PMB1:
+	* Select SPI communication protocol on the PMOD by configuring the following jumper configurations on JP1:
+  * Connect JP1-3 to JP1-5
+  * Connect JP1-4 to JP1-6
+  * Connect JP1-9 to JP1-10
 
-### Software ###
-* Renesas Flexible Software Package (FSP)
+* FPB_RA0E1:
+  * Connect RA board to Host PC by USB Type C cable.
+  * Connect PMOD MAX31723PMB1 (J1:1) to the RA board via the PMOD1 Port (PMOD1:1).
+
+### Software Requirements ###
+* Renesas Flexible Software Package (FSP): Version 5.5.0
 * e2 studio: Version 2024-07
 * SEGGER J-Link RTT Viewer: Version 7.98b
 * GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
@@ -67,12 +75,14 @@ The SAU channel depend on the board type, refer to [readme.txt](./readme.txt) fo
 | configuration.xml > g_sau_spi SPI (r_sau_spi) > Settings > Property > Module g_sau_spi SPI (r_sau_spi) > Bitrate | 500000 | 5000000 | Use the fastest bitrate support by SAU SPI and the PMOD MAX31723PMB1 module.|
 | configuration.xml > g_sau_spi SPI (r_sau_spi) > Settings > Property > Module g_sau_spi SPI (r_sau_spi) > Callback | sau_spi_callback | sau_spi_callback | A user callback function that is called from the sau spi interrupts when a transfer is completed or an error has occurred. |
 | configuration.xml > g_sau_spi SPI (r_sau_spi) > Settings > Property > Module g_sau_spi SPI (r_sau_spi) > Transmit End Interrupt Priority | Priority 2 | Priority 2 | Select the transmit end interrupt priority. |
+| configuration.xml > g_sau_spi SPI (r_sau_spi) > Settings > Property > Common > DTC Support | Disable | Enable | Enable DTC Support. |
 
 **Configuration Properties for using GPIO**
 
 |   Module Property Path and Identifier   |   Default Value   |   Used Value   |   Reason   |
 |-----------------------------------------|-------------------|----------------|------------|
-| configuration.xml > Pins tab > Pin Selection > Ports > P1 > P109 > Pin Configuration > Mode | Disable | Output mode (Initial Low) | Use P109 as output to drive SS_N pin of slave device during transfer process. |
+| configuration.xml > Pins tab > Pin Selection > Ports > P1 > P103 > Pin Configuration > Mode | Disable | Output mode (Initial Low) | Use P103 as output to drive SS_N pin of slave device during transfer process. |
+
 ## API Usage ##
 The table below lists the FSP provided API used at the application layer by this example project.
 
@@ -83,7 +93,6 @@ The table below lists the FSP provided API used at the application layer by this
 | R_SAU_SPI_WriteRead | This API is used to write command to the digital thermometer module and read temperature values. |
 | R_SAU_SPI_Close | This API is used to de-initialize the SAU SPI module. |
 | R_IOPORT_PinWrite | This API is used to drive Slave Select Pin during transmission. |
-| R_IOPORT_PinCfg | This API is used to change Slave Select Pin from peripheral to output pin. |
 | R_BSP_SoftwareDelay | This API is used to delay a specified period of time. |
 
 ## Verifying operation ##

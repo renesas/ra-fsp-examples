@@ -1,5 +1,5 @@
 FSP Configuration
-  Board "MCK-RA8T1"
+  Board "RA8|RA8T1|MCK-RA8T1"
   R7FA8T1AHECBD
     part_number: R7FA8T1AHECBD
     rom_size_bytes: 2064384
@@ -13,6 +13,21 @@ FSP Configuration
     
   RA8T1 Family
     Enable inline BSP IRQ functions: Enabled
+    SDRAM: SDRAM Support: Disabled
+    SDRAM: Timings: tRAS (cycles): 6 cycles
+    SDRAM: Timings: tRCD (cycles): 3 cycles
+    SDRAM: Timings: tRP (cycles): 3 cycles
+    SDRAM: Timings: tWR (cycles): 2 cycles
+    SDRAM: Timings: tCL (cycles): 3 cycles
+    SDRAM: Timings: tRFC (cycles): 937
+    SDRAM: Timings: tREFW (cycles): 8 cycles
+    SDRAM: Initialization: Auto-Refresh Interval (ARFI): 10 cycles
+    SDRAM: Initialization: Auto-Refresh Count (ARFC): 8 times
+    SDRAM: Initialization: Precharge Cycle Count (PRC): 3 cycles
+    SDRAM: Address Multiplex Shift: 9-bit shift
+    SDRAM: Endian Mode: Little Endian
+    SDRAM: Continuous Access Mode: Enabled
+    SDRAM: Bus Width: 16-bit
     Security: Exceptions: Exception Response: Non-Maskable Interrupt
     Security: Exceptions: BusFault, HardFault, and NMI Target: Secure State
     Security: System Reset Request Accessibility: Secure State
@@ -119,10 +134,8 @@ FSP Configuration
     SCICLK Disabled
     SPICLK Disabled
     CANFDCLK Disabled
-    LCDCLK Disabled
     I3CCLK Disabled
     UCK Disabled
-    U60CK Disabled
     OCTASPICLK Disabled
     CPUCLK Div /1
     ICLK Div /2
@@ -139,10 +152,8 @@ FSP Configuration
     SCICLK Div /4
     SPICLK Div /4
     CANFDCLK Div /8
-    LCDCLK Div /2
     I3CCLK Div /3
     UCK Div /5
-    U60CK Div /5
     OCTASPICLK Div /4
     
   Pin Configurations
@@ -640,6 +651,7 @@ FSP Configuration
   Module "LittleFS"
     Custom lfs_util.h: 
     Thread Safe: Disabled
+    Read Only: Disabled
     Use Malloc: Enabled
     Use Assert: Enabled
     Debug Messages: Disabled
@@ -764,6 +776,8 @@ FSP Configuration
     Hardware Acceleration: Public Key Cryptography (PKC): RSA 3072: Key Generation: Disabled
     Hardware Acceleration: Public Key Cryptography (PKC): RSA 3072: Signing: Disabled
     Hardware Acceleration: Public Key Cryptography (PKC): RSA 3072: Verification: Disabled
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA 4096: Key Generation: Disabled
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA 4096: Signing: Disabled
     Hardware Acceleration: Public Key Cryptography (PKC): RSA 4096: Verification: Disabled
     Hardware Acceleration: Crypto Engine Initialization: Enabled
     Platform: MBEDTLS_HAVE_ASM: Undefine
@@ -782,6 +796,7 @@ FSP Configuration
     Platform: Alternate: MBEDTLS_PLATFORM_SNPRINTF_ALT: Undefine
     Platform: Alternate: MBEDTLS_PLATFORM_VSNPRINTF_ALT: Undefine
     Platform: Alternate: MBEDTLS_PLATFORM_NV_SEED_ALT: Undefine
+    Platform: Alternate: MBEDTLS_PLATFORM_MS_TIME_ALT: Undefine
     General: MBEDTLS_PSA_CRYPTO_DRIVERS: Undefine
     General: MBEDTLS_DEPRECATED_WARNING: Undefine
     General: MBEDTLS_DEPRECATED_REMOVED: Define
@@ -822,6 +837,7 @@ FSP Configuration
     Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_NORMALIZE_MXZ_ALT: Undefine
     Cipher: AES: MBEDTLS_AES_ROM_TABLES: Undefine
     Cipher: AES: MBEDTLS_AES_FEWER_TABLES: Undefine
+    Cipher: AES: MBEDTLS_AES_ONLY_128_BIT_KEY_LENGTH: Undefine
     Cipher: MBEDTLS_CAMELLIA_SMALL_MEMORY: Undefine
     General: MBEDTLS_CHECK_RETURN_WARNING: Undefine
     Cipher: MBEDTLS_CIPHER_MODE_CBC: Define
@@ -850,6 +866,7 @@ FSP Configuration
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_NIST_OPTIM: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_RESTARTABLE: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECDSA_DETERMINISTIC: Undefine
+    Public Key Cryptography (PKC): ECC: MBEDTLS_PK_PARSE_EC_COMPRESSED: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_PK_PARSE_EC_EXTENDED: Undefine
     General: MBEDTLS_ERROR_STRERROR_DUMMY: Define
     Public Key Cryptography (PKC): MBEDTLS_GENPRIME: Define
@@ -870,6 +887,7 @@ FSP Configuration
     RNG: MBEDTLS_PSA_CRYPTO_EXTERNAL_RNG: Undefine
     General: MBEDTLS_PSA_CRYPTO_SPM: Undefine
     RNG: MBEDTLS_PSA_INJECT_ENTROPY: Undefine
+    General: MBEDTLS_PSA_ASSUME_EXCLUSIVE_BUFFERS: Undefine
     Public Key Cryptography (PKC): RSA: MBEDTLS_RSA_NO_CRT: Define
     General: MBEDTLS_SELF_TEST: Undefine
     Hash: MBEDTLS_SHA256_SMALLER: Undefine
@@ -882,6 +900,7 @@ FSP Configuration
     Public Key Cryptography (PKC): MBEDTLS_ASN1_PARSE_C: Define
     Public Key Cryptography (PKC): MBEDTLS_ASN1_WRITE_C: Define
     Public Key Cryptography (PKC): MBEDTLS_BASE64_C: Define
+    Cipher: MBEDTLS_BLOCK_CIPHER_NO_DECRYPT: Undefine
     Public Key Cryptography (PKC): MBEDTLS_BIGNUM_C: Define
     Cipher: MBEDTLS_CAMELLIA_C: Undefine
     Cipher: MBEDTLS_ARIA_C: Undefine
@@ -901,6 +920,7 @@ FSP Configuration
     Platform: MBEDTLS_ENTROPY_C: Define
     General: MBEDTLS_ERROR_C: Define
     Cipher: MBEDTLS_GCM_C: Define
+    Cipher: MBEDTLS_GCM_LARGE_TABLE: Undefine
     Message Authentication Code (MAC): MBEDTLS_HKDF_C: Define
     Message Authentication Code (MAC): MBEDTLS_HMAC_DRBG_C: Undefine
     Public Key Cryptography (PKC): MBEDTLS_LMS_C: Define
@@ -926,7 +946,10 @@ FSP Configuration
     Storage: MBEDTLS_PSA_ITS_FILE_C: Undefine
     Hash: MBEDTLS_RIPEMD160_C: Undefine
     Public Key Cryptography (PKC): RSA: MBEDTLS_RSA_C: Define
+    Public Key Cryptography (PKC): RSA: MBEDTLS_RSA_GEN_KEY_MIN_BITS: Undefine
+    Public Key Cryptography (PKC): RSA: MBEDTLS_RSA_GEN_KEY_MIN_BITS value: 1024
     Hash: MBEDTLS_SHA1_C: Define
+    Hash: MBEDTLS_SHA3_C: Undefine
     Hash: MBEDTLS_SHA224_C: Define
     Hash: MBEDTLS_SHA256_C: Define
     Hash: MBEDTLS_SHA384_C: Undefine
@@ -1007,6 +1030,10 @@ FSP Configuration
     Platform: MBEDTLS_PLATFORM_TIME_MACRO value: time
     Platform: MBEDTLS_PLATFORM_TIME_TYPE_MACRO: Undefine
     Platform: MBEDTLS_PLATFORM_TIME_TYPE_MACRO value: time_t
+    Platform: MBEDTLS_PLATFORM_MS_TIME_TYPE_MACRO: Undefine
+    Platform: MBEDTLS_PLATFORM_MS_TIME_TYPE_MACRO value: int64_t
+    Platform: MBEDTLS_PRINTF_MS_TIME: Undefine
+    Platform: MBEDTLS_PRINTF_MS_TIME value: PRId64
     Platform: MBEDTLS_PLATFORM_FPRINTF_MACRO: Undefine
     Platform: MBEDTLS_PLATFORM_FPRINTF_MACRO value: fprintf
     Platform: MBEDTLS_PLATFORM_PRINTF_MACRO: Undefine
@@ -1027,6 +1054,7 @@ FSP Configuration
     Key Configuration: MBEDTLS_PSA_KEY_SLOT_COUNT value: 32
     Platform: Alternate: MBEDTLS_PLATFORM_GMTIME_R_ALT: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECDH_VARIANT_EVEREST_ENABLED: Undefine
+    General: MBEDTLS_PSA_CRYPTO_CONFIG: Undefine
     
   Module "Mbed Crypto H/W Acceleration (rm_psa_crypto)"
   Module "RSIP Compatibility Mode"
@@ -1090,6 +1118,7 @@ FSP Configuration
     Parameter Checking: Default (BSP)
     ET0_LINKSTA Pin Status Flag: Fall -> Rise
     Link Signal Change Flag: Unused
+    Interrupt event backward compatibility: Do not keep compatibility
     
   Module "Ethernet (r_ether_phy)"
     Parameter Checking: Default (BSP)
@@ -1122,6 +1151,7 @@ FSP Configuration
     General: Use 16-bit Ticks: Disabled
     General: Idle Should Yield: Enabled
     General: Use Task Notifications: Enabled
+    General: Task Notification Array Entries: 1
     General: Use Mutexes: Enabled
     General: Use Recursive Mutexes: Enabled
     General: Use Counting Semaphores: Enabled
@@ -1200,7 +1230,7 @@ FSP Configuration
       General: Double-trigger: Disabled
       Input: Channel Scan Mask (channel availability varies by MCU): Temperature Sensor
       Input: Group B Scan Mask (channel availability varies by MCU): 
-      Interrupts: Normal/Group A Trigger: Software
+      Interrupts: Normal/Group A Trigger: Software Trigger
       Interrupts: Group B Trigger: Disabled
       Interrupts: Group Priority (Valid only in Group Scan Mode): Group A cannot interrupt Group B
       Input: Add/Average Count: Disabled
@@ -1247,6 +1277,8 @@ FSP Configuration
                 Buffers: Buffer size: 1514
                 Buffers: Padding size: Disable
                 Buffers: Padding offset: 1
+                Interrupts: EESR event: RFOF, RDE, FR, TFUF, TDE, TC
+                Interrupts: ECSR event: 
                 Interrupts: Interrupt priority: Priority 12
                 Interrupts: Callback: vEtherISRCallback
                 

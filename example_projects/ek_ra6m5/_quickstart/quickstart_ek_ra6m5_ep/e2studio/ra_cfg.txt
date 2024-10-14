@@ -1,5 +1,5 @@
 FSP Configuration
-  Board "EK-RA6M5"
+  Board "RA6|RA6M5|EK-RA6M5"
   R7FA6M5BH3CFC
     part_number: R7FA6M5BH3CFC
     rom_size_bytes: 2097152
@@ -12,6 +12,7 @@ FSP Configuration
     series: 6
     
   RA6M5 Family
+    Enable inline BSP IRQ functions: Enabled
     Security: Exceptions: Exception Response: Non-Maskable Interrupt
     Security: Exceptions: BusFault, HardFault, and NMI Target: Secure State
     Security: System Reset Request Accessibility: Secure State
@@ -24,9 +25,10 @@ FSP Configuration
     Security: SRAM Accessibility: Standby RAM: Regions 7-0 are all Secure.
     Security: BUS Accessibility: Bus Security Attribution Register A: Both Secure and Non-Secure State
     Security: BUS Accessibility: Bus Security Attribution Register B: Both Secure and Non-Secure State
+    Security: Flash Bank Select Accessibility: Both Secure and Non-Secure State
     Security: Uninitialized Non-Secure Application Fallback: Enable Uninitialized Non-Secure Application Fallback
     Startup C-Cache Line Size: 32 Bytes
-    OFS0 register settings: Independent WDT: Start Mode: IWDT is Disabled
+    OFS0 register settings: Independent WDT: Start Mode: IWDT is stopped after a reset
     OFS0 register settings: Independent WDT: Timeout Period: 2048 cycles
     OFS0 register settings: Independent WDT: Dedicated Clock Frequency Divisor: 128
     OFS0 register settings: Independent WDT: Window End Position:  0% (no window end position)
@@ -40,6 +42,8 @@ FSP Configuration
     OFS0 register settings: WDT: Window Start Position: 100% (no window start position)
     OFS0 register settings: WDT: Reset Interrupt Request: Reset
     OFS0 register settings: WDT: Stop Control: Stop counting when entering Sleep mode
+    OFS1_SEL register settings: Voltage Detection 0 Level Security Attribution: VDSEL setting loads from OFS1_SEC
+    OFS1_SEL register settings: Voltage Detection 0 Circuit Start Security Attribution: LVDAS setting loads from OFS1_SEC
     OFS1 register settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
     OFS1 register settings: Voltage Detection 0 Level: 2.80 V
     OFS1 register settings: HOCO Oscillation Enable: HOCO oscillation is disabled after reset
@@ -53,6 +57,7 @@ FSP Configuration
     Clocks: HOCO FLL Function: Disabled
     Main Oscillator Wait Time: 8163 cycles
     
+  RA6M5 event data
   RA Common
     Main stack size (bytes): 0x2000
     Heap size (bytes): 0x1000
@@ -474,7 +479,6 @@ FSP Configuration
     Parameter Checking: Default (BSP)
     Pin Output Support: Enabled
     Write Protect Enable: Disabled
-    Clock Source: PCLKD
     
   Module "FreeRTOS Heap 4"
   Module "USB PCDC (r_usb_pcdc)"
@@ -493,6 +497,7 @@ FSP Configuration
     Double Buffering: Enabled
     Continuous Transfer Mode: Disabled
     LDO Regulator: Not Supported
+    Type-C: Not Supported
     DMA Support: Disabled
     DMA Source Address: DMA Disabled
     DMA Destination Address: DMA Disabled
@@ -515,6 +520,8 @@ FSP Configuration
     
   Module "FreeRTOS+TCP"
     Print debug messages: Disable
+    Backward Compatible Mode: Yes 
+    Enable IPV6: Disable
     Print info messages: Disable
     Byte order of the target MCU: pdFREERTOS_LITTLE_ENDIAN 
     IP/TCP/UDP checksums: Enable 
@@ -529,7 +536,6 @@ FSP Configuration
     Use DHCP: Enable 
     DHCP Register Hostname: Enable 
     DHCP Uses Unicast: Enable 
-    DHCP Send Discover After Auto IP: Enable 
     DHCP callback function: Enable 
     Interval between transmissions: 120000 / portTICK_PERIOD_MS
     ARP Cache Entries: 6
@@ -550,7 +556,6 @@ FSP Configuration
     FreeRTOS_select() (and associated) API function is available: Enable 
     Filter out non Ethernet II frames.: Enable 
     Responsibility of the Ethernet interface to filter out packets: Disable
-    Send RST packets, when receive unknown packets.: Enable 
     Access 32-bit fields in the IP packets: 2
     Size of the pool of TCP window descriptors: 240
     Size of Rx buffer for TCP sockets: 3000
@@ -569,15 +574,17 @@ FSP Configuration
     Parameter Checking: Default (BSP)
     ET0_LINKSTA Pin Status Flag: Fall -> Rise
     Link Signal Change Flag: Unused
+    Interrupt event backward compatibility: Do not keep compatibility
     
   Module "Ethernet (r_ether_phy)"
     Parameter Checking: Default (BSP)
-    Select PHY(DEPRECATED): Default
-    KSZ8091RNZ Target: Disabled
+    KSZ8091RNB Target: Disabled
     KSZ8041 Target: Disabled
     DP83620 Target: Disabled
     ICS1894 Target: Disabled
+    User Own Target: Disabled
     Reference Clock: Enabled
+    Automatic Phy LSI Initialization: Enabled
     
   Module "FreeRTOS Buffer Allocation 2"
   Module "FreeRTOS+FAT"
@@ -629,14 +636,19 @@ FSP Configuration
     Hardware Acceleration: Key Format: ECC: Plaintext and Wrapped (Vendor)
     Hardware Acceleration: Key Format: RSA: Plaintext and Wrapped (Vendor)
     Hardware Acceleration: Hash: SHA256/224: Use Software
+    Hardware Acceleration: Hash: SHA512/384: Use Software
     Hardware Acceleration: Cipher: AES: Use Hardware
     Hardware Acceleration: Public Key Cryptography (PKC): ECC: Use Hardware
     Hardware Acceleration: Public Key Cryptography (PKC): ECDSA : Use Hardware
     Hardware Acceleration: Public Key Cryptography (PKC): ECDH : Use Hardware
     Hardware Acceleration: Public Key Cryptography (PKC): RSA: Use Hardware
-    Hardware Acceleration: Public Key Cryptography (PKC): RSA 3072 Verify: Disabled
-    Hardware Acceleration: Public Key Cryptography (PKC): RSA 4096 Verify: Disabled
-    Hardware Acceleration: Secure Crypto Engine Initialization: Enabled
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA 3072: Key Generation: Disabled
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA 3072: Signing: Disabled
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA 3072: Verification: Disabled
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA 4096: Key Generation: Disabled
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA 4096: Signing: Disabled
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA 4096: Verification: Disabled
+    Hardware Acceleration: Crypto Engine Initialization: Enabled
     Platform: MBEDTLS_HAVE_ASM: Undefine
     Platform: MBEDTLS_NO_UDBL_DIVISION: Undefine
     Platform: MBEDTLS_NO_64BIT_MULTIPLICATION: Undefine
@@ -653,13 +665,14 @@ FSP Configuration
     Platform: Alternate: MBEDTLS_PLATFORM_SNPRINTF_ALT: Undefine
     Platform: Alternate: MBEDTLS_PLATFORM_VSNPRINTF_ALT: Undefine
     Platform: Alternate: MBEDTLS_PLATFORM_NV_SEED_ALT: Undefine
-    General: PSA_CRYPTO_SECURE: Undefine
+    Platform: Alternate: MBEDTLS_PLATFORM_MS_TIME_ALT: Undefine
+    General: MBEDTLS_PSA_CRYPTO_DRIVERS: Undefine
     General: MBEDTLS_DEPRECATED_WARNING: Undefine
     General: MBEDTLS_DEPRECATED_REMOVED: Define
     Platform: MBEDTLS_TIMING_ALT: Undefine
     Cipher: Alternate: MBEDTLS_ARIA_ALT: Undefine
     Cipher: Alternate: MBEDTLS_CAMELLIA_ALT: Undefine
-    Cipher: Alternate: MBEDTLS_CCM_ALT: Undefine
+    Cipher: Alternate: MBEDTLS_CCM_ALT: Define
     Cipher: Alternate: MBEDTLS_CHACHA20_ALT: Undefine
     Cipher: Alternate: MBEDTLS_CHACHAPOLY_ALT: Undefine
     Cipher: Alternate: MBEDTLS_CMAC_ALT: Undefine
@@ -672,11 +685,9 @@ FSP Configuration
     Message Authentication Code (MAC): Alternate: MBEDTLS_POLY1305_ALT: Undefine
     Hash: Alternate: MBEDTLS_RIPEMD160_ALT: Undefine
     Hash: Alternate: MBEDTLS_SHA1_ALT: Undefine
-    Hash: Alternate: MBEDTLS_SHA512_ALT: Undefine
     Hash: Alternate: MBEDTLS_MD5_PROCESS_ALT: Undefine
     Hash: Alternate: MBEDTLS_RIPEMD160_PROCESS_ALT: Undefine
     Hash: Alternate: MBEDTLS_SHA1_PROCESS_ALT: Undefine
-    Hash: Alternate: MBEDTLS_SHA512_PROCESS_ALT: Undefine
     Cipher: Alternate: MBEDTLS_DES_SETKEY_ALT: Undefine
     Cipher: Alternate: MBEDTLS_DES_CRYPT_ECB_ALT: Undefine
     Cipher: Alternate: MBEDTLS_DES3_CRYPT_ECB_ALT: Undefine
@@ -695,6 +706,7 @@ FSP Configuration
     Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_NORMALIZE_MXZ_ALT: Undefine
     Cipher: AES: MBEDTLS_AES_ROM_TABLES: Undefine
     Cipher: AES: MBEDTLS_AES_FEWER_TABLES: Undefine
+    Cipher: AES: MBEDTLS_AES_ONLY_128_BIT_KEY_LENGTH: Undefine
     Cipher: MBEDTLS_CAMELLIA_SMALL_MEMORY: Undefine
     General: MBEDTLS_CHECK_RETURN_WARNING: Undefine
     Cipher: MBEDTLS_CIPHER_MODE_CBC: Define
@@ -723,6 +735,7 @@ FSP Configuration
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_NIST_OPTIM: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_RESTARTABLE: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECDSA_DETERMINISTIC: Undefine
+    Public Key Cryptography (PKC): ECC: MBEDTLS_PK_PARSE_EC_COMPRESSED: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_PK_PARSE_EC_EXTENDED: Undefine
     General: MBEDTLS_ERROR_STRERROR_DUMMY: Define
     Public Key Cryptography (PKC): MBEDTLS_GENPRIME: Define
@@ -738,10 +751,12 @@ FSP Configuration
     Public Key Cryptography (PKC): MBEDTLS_PKCS1_V15: Define
     Public Key Cryptography (PKC): MBEDTLS_PKCS1_V21: Define
     Key Configuration: MBEDTLS_PSA_CRYPTO_BUILTIN_KEYS: Undefine
+    Key Configuration: PSA_CRYPTO_DRIVER_TFM_BUILTIN_KEY_LOADER: Undefine
     General: MBEDTLS_PSA_CRYPTO_CLIENT: Undefine
     RNG: MBEDTLS_PSA_CRYPTO_EXTERNAL_RNG: Undefine
     General: MBEDTLS_PSA_CRYPTO_SPM: Undefine
     RNG: MBEDTLS_PSA_INJECT_ENTROPY: Undefine
+    General: MBEDTLS_PSA_ASSUME_EXCLUSIVE_BUFFERS: Undefine
     Public Key Cryptography (PKC): RSA: MBEDTLS_RSA_NO_CRT: Define
     General: MBEDTLS_SELF_TEST: Undefine
     Hash: MBEDTLS_SHA256_SMALLER: Undefine
@@ -754,6 +769,7 @@ FSP Configuration
     Public Key Cryptography (PKC): MBEDTLS_ASN1_PARSE_C: Define
     Public Key Cryptography (PKC): MBEDTLS_ASN1_WRITE_C: Define
     Public Key Cryptography (PKC): MBEDTLS_BASE64_C: Define
+    Cipher: MBEDTLS_BLOCK_CIPHER_NO_DECRYPT: Undefine
     Public Key Cryptography (PKC): MBEDTLS_BIGNUM_C: Define
     Cipher: MBEDTLS_CAMELLIA_C: Undefine
     Cipher: MBEDTLS_ARIA_C: Undefine
@@ -773,8 +789,11 @@ FSP Configuration
     Platform: MBEDTLS_ENTROPY_C: Define
     General: MBEDTLS_ERROR_C: Define
     Cipher: MBEDTLS_GCM_C: Define
+    Cipher: MBEDTLS_GCM_LARGE_TABLE: Undefine
     Message Authentication Code (MAC): MBEDTLS_HKDF_C: Define
     Message Authentication Code (MAC): MBEDTLS_HMAC_DRBG_C: Undefine
+    Public Key Cryptography (PKC): MBEDTLS_LMS_C: Define
+    Public Key Cryptography (PKC): MBEDTLS_LMS_PRIVATE: Undefine
     Cipher: MBEDTLS_NIST_KW_C: Undefine
     Hash: MBEDTLS_MD_C: Define
     Hash: MBEDTLS_MD5_C: Define
@@ -786,6 +805,7 @@ FSP Configuration
     Public Key Cryptography (PKC): MBEDTLS_PK_PARSE_C: Define
     Public Key Cryptography (PKC): MBEDTLS_PK_WRITE_C: Define
     Public Key Cryptography (PKC): MBEDTLS_PKCS5_C: Define
+    Public Key Cryptography (PKC): MBEDTLS_PKCS7_C: Undefine
     Public Key Cryptography (PKC): MBEDTLS_PKCS12_C: Define
     Platform: MBEDTLS_PLATFORM_C: Define
     Message Authentication Code (MAC): MBEDTLS_POLY1305_C: Undefine
@@ -795,7 +815,10 @@ FSP Configuration
     Storage: MBEDTLS_PSA_ITS_FILE_C: Define
     Hash: MBEDTLS_RIPEMD160_C: Define
     Public Key Cryptography (PKC): RSA: MBEDTLS_RSA_C: Define
+    Public Key Cryptography (PKC): RSA: MBEDTLS_RSA_GEN_KEY_MIN_BITS: Undefine
+    Public Key Cryptography (PKC): RSA: MBEDTLS_RSA_GEN_KEY_MIN_BITS value: 1024
     Hash: MBEDTLS_SHA1_C: Define
+    Hash: MBEDTLS_SHA3_C: Undefine
     Hash: MBEDTLS_SHA224_C: Define
     Hash: MBEDTLS_SHA256_C: Define
     Hash: MBEDTLS_SHA384_C: Undefine
@@ -876,6 +899,10 @@ FSP Configuration
     Platform: MBEDTLS_PLATFORM_TIME_MACRO value: time
     Platform: MBEDTLS_PLATFORM_TIME_TYPE_MACRO: Undefine
     Platform: MBEDTLS_PLATFORM_TIME_TYPE_MACRO value: time_t
+    Platform: MBEDTLS_PLATFORM_MS_TIME_TYPE_MACRO: Undefine
+    Platform: MBEDTLS_PLATFORM_MS_TIME_TYPE_MACRO value: int64_t
+    Platform: MBEDTLS_PRINTF_MS_TIME: Undefine
+    Platform: MBEDTLS_PRINTF_MS_TIME value: PRId64
     Platform: MBEDTLS_PLATFORM_FPRINTF_MACRO: Undefine
     Platform: MBEDTLS_PLATFORM_FPRINTF_MACRO value: fprintf
     Platform: MBEDTLS_PLATFORM_PRINTF_MACRO: Undefine
@@ -896,12 +923,14 @@ FSP Configuration
     Key Configuration: MBEDTLS_PSA_KEY_SLOT_COUNT value: 32
     Platform: Alternate: MBEDTLS_PLATFORM_GMTIME_R_ALT: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECDH_VARIANT_EVEREST_ENABLED: Undefine
+    General: MBEDTLS_PSA_CRYPTO_CONFIG: Undefine
     
   Module "Mbed Crypto H/W Acceleration (rm_psa_crypto)"
   Module "SCE Compatibility Mode"
   Module "LittleFS"
     Custom lfs_util.h: 
     Thread Safe: Disabled
+    Read Only: Disabled
     Use Malloc: Enabled
     Use Assert: Enabled
     Debug Messages: Enabled
@@ -932,12 +961,13 @@ FSP Configuration
     General: Tick Rate Hz: 1000
     General: Max Priorities: 15
     General: Minimal Stack Size: 128
-    General: Max Task Name Len: 16
+    General: Max Task Name Len: 32
     Stats: Use Trace Facility: Disabled
     Stats: Use Stats Formatting Functions: Disabled
     General: Use 16-bit Ticks: Disabled
     General: Idle Should Yield: Disabled
     General: Use Task Notifications: Enabled
+    General: Task Notification Array Entries: 1
     General: Use Mutexes: Enabled
     General: Use Recursive Mutexes: Enabled
     General: Use Counting Semaphores: Enabled
@@ -950,6 +980,7 @@ FSP Configuration
     General: Num Thread Local Storage Pointers: 5
     General: Stack Depth Type: uint32_t
     General: Message Buffer Length Type: size_t
+    Memory Allocation: Clear Memory on Free: Disabled
     Memory Allocation: Support Static Allocation: Enabled
     Memory Allocation: Support Dynamic Allocation: Enabled
     Memory Allocation: Total Heap Size: 0x1D000
@@ -981,8 +1012,9 @@ FSP Configuration
     Optional Functions: xTaskResumeFromISR() Function: Enabled
     RA: Hardware Stack Monitor: Disabled
     Logging: Print String Function: printf(x)
-    Logging: Logging Max Message Length: 192
     Logging: Logging Include Time and Task Name: Disabled
+    Logging: Debug Logging Name: Log Name
+    Logging: Logging Level: LOG_NONE
     
   HAL
     Instance "g_ioport I/O Port (r_ioport)"
@@ -1053,6 +1085,10 @@ FSP Configuration
       General: Channel: 1
       General: Mode: Periodic
       General: Period: 240
+      General: Compare Match: Compare Match A: Status: Disabled
+      General: Compare Match: Compare Match A: Compare match value: 0
+      General: Compare Match: Compare Match B: Status: Disabled
+      General: Compare Match: Compare Match B: Compare match value: 0
       General: Period Unit: Raw Counts
       Output: Custom Waveform: GTIOA: Initial Output Level: Pin Level Low
       Output: Custom Waveform: GTIOA: Cycle End Output Level: Pin Level Retain
@@ -1079,17 +1115,17 @@ FSP Configuration
       Input: Noise Filter B Sampling Clock Select: No Filter
       Interrupts: Callback: gpt_blinker_callback
       Interrupts: Overflow/Crest Interrupt Priority: Priority 2
-      Interrupts: Capture A Interrupt Priority: Disabled
-      Interrupts: Capture B Interrupt Priority: Disabled
+      Interrupts: Capture/Compare match A Interrupt Priority: Disabled
+      Interrupts: Capture/Compare match B Interrupt Priority: Disabled
       Interrupts: Underflow/Trough Interrupt Priority: Disabled
       Extra Features: Extra Features: Disabled
       Extra Features: Output Disable: POEG Link: POEG Channel 0
       Extra Features: Output Disable: Output Disable POEG Trigger: 
       Extra Features: ADC Trigger: Start Event Trigger (Channels with GTINTAD only): 
-      Extra Features: Dead Time: Dead Time Count Up (Raw Counts): 0
-      Extra Features: Dead Time: Dead Time Count Down (Raw Counts) (Channels with GTDVD only): 0
-      Extra Features: ADC Trigger (Channels with GTADTRA only): ADC A Compare Match (Raw Counts): 0
-      Extra Features: ADC Trigger (Channels with GTADTRB only): ADC B Compare Match (Raw Counts): 0
+      Extra Features: ADC Trigger: ADC A Compare Match (Raw Counts): 0
+      Extra Features: ADC Trigger: ADC B Compare Match (Raw Counts): 0
+      Extra Features: Dead Time (Value range varies with Channel): Dead Time Count Up (Raw Counts): 0
+      Extra Features: Dead Time (Value range varies with Channel): Dead Time Count Down (Raw Counts) (Channels with GTDVD only): 0
       Extra Features: Interrupt Skipping (Channels with GTITC only): Interrupt to Count: None
       Extra Features: Interrupt Skipping (Channels with GTITC only): Interrupt Skip Count: 0
       Extra Features: Interrupt Skipping (Channels with GTITC only): Skip ADC Events: None
@@ -1101,6 +1137,10 @@ FSP Configuration
       General: Channel: 0
       General: Mode: Periodic
       General: Period: 10000
+      General: Compare Match: Compare Match A: Status: Disabled
+      General: Compare Match: Compare Match A: Compare match value: 0
+      General: Compare Match: Compare Match B: Status: Disabled
+      General: Compare Match: Compare Match B: Compare match value: 0
       General: Period Unit: Raw Counts
       Output: Custom Waveform: GTIOA: Initial Output Level: Pin Level Low
       Output: Custom Waveform: GTIOA: Cycle End Output Level: Pin Level Retain
@@ -1127,17 +1167,17 @@ FSP Configuration
       Input: Noise Filter B Sampling Clock Select: No Filter
       Interrupts: Callback: gpt_blue_callback
       Interrupts: Overflow/Crest Interrupt Priority: Priority 2
-      Interrupts: Capture A Interrupt Priority: Disabled
-      Interrupts: Capture B Interrupt Priority: Disabled
+      Interrupts: Capture/Compare match A Interrupt Priority: Disabled
+      Interrupts: Capture/Compare match B Interrupt Priority: Disabled
       Interrupts: Underflow/Trough Interrupt Priority: Disabled
       Extra Features: Extra Features: Disabled
       Extra Features: Output Disable: POEG Link: POEG Channel 0
       Extra Features: Output Disable: Output Disable POEG Trigger: 
       Extra Features: ADC Trigger: Start Event Trigger (Channels with GTINTAD only): 
-      Extra Features: Dead Time: Dead Time Count Up (Raw Counts): 0
-      Extra Features: Dead Time: Dead Time Count Down (Raw Counts) (Channels with GTDVD only): 0
-      Extra Features: ADC Trigger (Channels with GTADTRA only): ADC A Compare Match (Raw Counts): 0
-      Extra Features: ADC Trigger (Channels with GTADTRB only): ADC B Compare Match (Raw Counts): 0
+      Extra Features: ADC Trigger: ADC A Compare Match (Raw Counts): 0
+      Extra Features: ADC Trigger: ADC B Compare Match (Raw Counts): 0
+      Extra Features: Dead Time (Value range varies with Channel): Dead Time Count Up (Raw Counts): 0
+      Extra Features: Dead Time (Value range varies with Channel): Dead Time Count Down (Raw Counts) (Channels with GTDVD only): 0
       Extra Features: Interrupt Skipping (Channels with GTITC only): Interrupt to Count: None
       Extra Features: Interrupt Skipping (Channels with GTITC only): Interrupt Skip Count: 0
       Extra Features: Interrupt Skipping (Channels with GTITC only): Skip ADC Events: None
@@ -1163,6 +1203,7 @@ FSP Configuration
       OPI Mode: Command Definitions: Status Command: 0x05FA
       OPI Mode: Command Length Bytes: 2
       OPI Mode: Memory Read Dummy Cycles: 10
+      OPI Mode: Status Read Dummy Cycles: 4
       OPI Mode: OM_DQS Enable Counter: SOPI: 9
       OPI Mode: OM_DQS Enable Counter: DOPI: 6
       OPI Mode: DOPI Byte Order: Byte0, Byte1, Byte2, Byte3
@@ -1214,6 +1255,10 @@ FSP Configuration
       General: Channel: 2
       General: Mode: Periodic
       General: Period: 0x100000000
+      General: Compare Match: Compare Match A: Status: Disabled
+      General: Compare Match: Compare Match A: Compare match value: 0
+      General: Compare Match: Compare Match B: Status: Disabled
+      General: Compare Match: Compare Match B: Compare match value: 0
       General: Period Unit: Milliseconds
       Output: Custom Waveform: GTIOA: Initial Output Level: Pin Level Low
       Output: Custom Waveform: GTIOA: Cycle End Output Level: Pin Level Retain
@@ -1240,17 +1285,17 @@ FSP Configuration
       Input: Noise Filter B Sampling Clock Select: No Filter
       Interrupts: Callback: NULL
       Interrupts: Overflow/Crest Interrupt Priority: Disabled
-      Interrupts: Capture A Interrupt Priority: Disabled
-      Interrupts: Capture B Interrupt Priority: Disabled
+      Interrupts: Capture/Compare match A Interrupt Priority: Disabled
+      Interrupts: Capture/Compare match B Interrupt Priority: Disabled
       Interrupts: Underflow/Trough Interrupt Priority: Disabled
       Extra Features: Extra Features: Disabled
       Extra Features: Output Disable: POEG Link: POEG Channel 0
       Extra Features: Output Disable: Output Disable POEG Trigger: 
       Extra Features: ADC Trigger: Start Event Trigger (Channels with GTINTAD only): 
-      Extra Features: Dead Time: Dead Time Count Up (Raw Counts): 0
-      Extra Features: Dead Time: Dead Time Count Down (Raw Counts) (Channels with GTDVD only): 0
-      Extra Features: ADC Trigger (Channels with GTADTRA only): ADC A Compare Match (Raw Counts): 0
-      Extra Features: ADC Trigger (Channels with GTADTRB only): ADC B Compare Match (Raw Counts): 0
+      Extra Features: ADC Trigger: ADC A Compare Match (Raw Counts): 0
+      Extra Features: ADC Trigger: ADC B Compare Match (Raw Counts): 0
+      Extra Features: Dead Time (Value range varies with Channel): Dead Time Count Up (Raw Counts): 0
+      Extra Features: Dead Time (Value range varies with Channel): Dead Time Count Down (Raw Counts) (Channels with GTDVD only): 0
       Extra Features: Interrupt Skipping (Channels with GTITC only): Interrupt to Count: None
       Extra Features: Interrupt Skipping (Channels with GTITC only): Interrupt Skip Count: 0
       Extra Features: Interrupt Skipping (Channels with GTITC only): Skip ADC Events: None
@@ -1265,13 +1310,10 @@ FSP Configuration
       Destination Address Mode: Incremented
       Source Address Mode: Incremented
       Repeat Area (Unused in Normal Mode): Source
-      Destination Pointer: NULL
-      Source Pointer: 0x60000000
       Number of Transfers: 1
       Number of Blocks (Valid only in Repeat,Block or Repeat-Block Mode): 0
       Activation Source: No ELC Trigger
       Callback: qspi_dma_complete_callback
-      Context: NULL
       Transfer End Interrupt Priority: Priority 2
       Interrupt Frequency: Interrupt after all transfers have completed
       Offset value (Valid only when address mode is \'Offset\'): 1
@@ -1279,7 +1321,15 @@ FSP Configuration
       
     Instance "g_cgc Clock Generation Circuit (r_cgc)"
       Name: g_cgc
-      NMI Callback: NULL
+      Enable main oscillator stop detection via the NMI interrupt: Enabled
+      Oscillation Stop Detection Callback: NULL
+      Sub Clock Oscillation Stop Detection Settings: Enable sub clock oscillator stop detection via the SOSC_STOP interrupt: Disabled
+      Sub Clock Oscillation Stop Detection Settings: Sub Clock Oscillation Stop Detection Time: 0
+      Sub Clock Oscillation Stop Detection Settings: Sub Clock Oscillation Stop Detection Interrupt Priority: Disabled
+      Main Oscillation Stop Detection Settings: Enable main clock oscillator stop detection via the MOSC_STOP interrupt: Disabled
+      Main Oscillation Stop Detection Settings: Main Oscillation Stop Detection Time: 0
+      Main Oscillation Stop Detection Settings: Main Oscillation Stop Detection Interrupt Priority: Disabled
+      Oscillator Stop Detection Settings: Clock Switch Enable for Oscillation Stop Detected of SDADCCLK: Disabled
       
   Thread "Board Mon Thread"
     Symbol: board_mon_thread
@@ -1327,7 +1377,7 @@ FSP Configuration
         USBHS Interrupt Priority: Priority 2
         USBHS D0FIFO Interrupt Priority: Priority 2
         USBHS D1FIFO Interrupt Priority: Priority 2
-        USB RTOS Callback: rtos_callback
+        USB Callback: rtos_callback
         USB Callback Context: NULL
         
   Thread "USB Monitor"
@@ -1365,6 +1415,8 @@ FSP Configuration
           Buffers: Buffer size: 1514
           Buffers: Padding size: Disable
           Buffers: Padding offset: 1
+          Interrupts: EESR event: RFOF, RDE, FR, TFUF, TDE, TC
+          Interrupts: ECSR event: 
           Interrupts: Interrupt priority: Priority 2
           Interrupts: Callback: vEtherISRCallback
           
@@ -1375,6 +1427,8 @@ FSP Configuration
             PHY-LSI Reset Completion Timeout: 0x00020000
             Select MII type: RMII
             Phy LSI type: Kit Component
+            Port Custom Init Function: NULL
+            Port Custom Link Partner Ability Get Function: NULL
             MII/RMII Register Access Wait-time: 8
             Flow Control: Disable
             
@@ -1431,7 +1485,7 @@ FSP Configuration
               USBHS Interrupt Priority: Priority 1
               USBHS D0FIFO Interrupt Priority: Priority 1
               USBHS D1FIFO Interrupt Priority: Priority 1
-              USB RTOS Callback: rm_block_media_usb_callback
+              USB Callback: rm_block_media_usb_callback
               USB Callback Context: g_rm_block_media0_ctrl
               
     Instance "MbedTLS (Crypto Only)"

@@ -14,11 +14,11 @@
 
     For 4 Bit Width
     Under SDMMC Stack
-        Bus Width: 4 Bits        
+    Bus Width: 4 Bits        
 
 2. Hardware Requirements:
     External Hardware : PMOD based SD card Module:
-                        Full sized SD Card  or Micro SD CARD with Adapter to fit into Full sized SD card Slot
+    Full sized SD Card  or Micro SD CARD with Adapter to fit into Full sized SD card Slot
 
 3. Hardware Connections:
 

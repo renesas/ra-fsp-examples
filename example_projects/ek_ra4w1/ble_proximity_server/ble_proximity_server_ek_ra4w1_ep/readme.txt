@@ -16,23 +16,23 @@ chooses alert level 1, then LED0 blinks slow. If the user chooses alert level 2.
 operation of Immediate Alert Level and Link Loss Alert Level. The user also can read and test Tx_power level (TPS) and test Receive Signal 
 Strength Indicated (RSSI). The connection status and LEDs status messages will display on Jlink RTT viewer.
 
-  	
-2. Hardware Requirement:
+2. Software Requirements:
+	Device client (iphone or ipad,..v.v.) has Renesas GATT browser installed.
+	Renesas Flexible Software Package (FSP): Version 5.5.0
+	e2 studio: Version 2024-07
+	SEGGER J-Link RTT Viewer: Version 7.98b
+	GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
+
+
+3. Hardware Requirement:
 
 	i. 1x micro usb cable.
         ii. 1x board of EK-RA4W1.
         iii. 1x mobile device with Renesas GATT Browser installed.
 
-3. Hardware Connections:
+4. Hardware Connections:
  	Supported Board EK_RA4W1:		
 	i. Connect RA board to Host machine using micro usb cable.
-       	
-4. Software requirements:
- 	1) Device client (iphone or ipad,..v.v.) has Renesas GATT browser installed.
-	2) Renesas Flexible Software Package (FSP)
-	3) e2 studio: Version 2024-07
-	4) SEGGER J-Link RTT Viewer: Version 7.98b
-
 
 Note: After running EP "ra4w1_proximity_server". The User must use Renesas GATT browser to search and connect to Local Name "RA4W1_SRV" 
 	  displayed on your device RA4W1_SRV. Use Write without response "Immediate Alert Level" to set Immediate Alert Level. The User can 

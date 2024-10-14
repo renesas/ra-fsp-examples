@@ -15,23 +15,22 @@
 	LED0 does not blink. If user chooses alert level 1, LED0 blinks slower compared with if use chooses alert level 2. The 
 	connection status and LEDs status messages will display on Jlink RTT viewer.
 
-  	
-2. Hardware Requirement:
+2. Software Requirements:
+	Renesas Flexible Software Package (FSP): Version 5.5.0
+	e2 studio: Version 2024-07
+	SEGGER J-Link RTT Viewer: Version 7.98b
+	GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
+	Device client (iphone or ipad,..v.v.) has Renesas GATT browser installed.
+
+3. Hardware Requirement:
 
 	i. 1x micro usb cable.
         ii. 1x board of EK-RA4W1.
         iii. 1x mobile device with Renesas GATTBrowser installed.
 
-3. Hardware Connections:
+4. Hardware Connections:
  	Supported Board EK_RA4W1:		
 	i. Connect RA board to Host machine using micro usb cable.
-       	
-4. Software requirements:
- 	1) Device client (iphone or ipad) has Renesas GATT browser installed.
-	2) Renesas Flexible Software Package (FSP)
-	3) e2 studio: Version 2024-07
-	4) SEGGER J-Link RTT Viewer: Version 7.98b
-
 
 Note: After running EP "find me profile". User must use Renesas GATT brower to search and connect to Local Name "RA4W1_BLE" displayed on your
       device RA4W1 board server). Send the messages "Alert level" from your device GATTBrowser and the messages will be responded on RTTviewer.

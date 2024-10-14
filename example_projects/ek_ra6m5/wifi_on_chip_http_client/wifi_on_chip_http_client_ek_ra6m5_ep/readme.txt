@@ -10,18 +10,18 @@
 	request, EP waits for the HTTP response and prints it to the RTT Viewer. Additionally, status and failure messages are displayed
 	on the RTT Viewer.
 
-2. Hardware Requirements:
+2. Software Requirements:
+	Renesas Flexible Software Package (FSP): Version 5.5.0
+	e2 studio: Version 2024-07
+	SEGGER J-Link RTT Viewer: Version 7.98b
+	GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
+
+3. Hardware Requirements:
 	Board supported: EK-RA6M5
 	1 x Renesas board
 	1 x Micro USB cable for programming, debugging and observing EP operations on RTT viewer.
 	1 x US159-DA16200EVZ Ultra Low Power Wi-Fi Pmod™ (Part Number: US159-DA16200MEVZ).
 	1 x Wi-Fi router Access Point(AP) with internet access. Note: WiFi router AP's credentials should be known.
-	
-3. Software Requirements:
-	Renesas Flexible Software Package (FSP)
-	e2 studio: Version 2024-07
-	SEGGER J-Link RTT Viewer: Version 7.98b
-	GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 
 4. Hardware Connections:
 	Plug in the US159-DA16200MEVZ to the Pmod2 connector on the MCU evaluation kit and be careful to align Pin 1 on the module to Pin 1 on the MCU kit.

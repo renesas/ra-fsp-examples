@@ -37,7 +37,7 @@ To build and run the SAU I2C Master example project, the following resources are
 Refer to [readme.txt](./readme.txt) for information on how to connect the hardware.
 
 ### Software ###
-* Renesas Flexible Software Package (FSP)
+* Renesas Flexible Software Package (FSP): Version 5.5.0
 * e2 studio: Version 2024-07
 * SEGGER J-Link RTT Viewer: Version 7.98b
 * GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7

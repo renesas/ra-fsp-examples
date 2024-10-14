@@ -42,6 +42,7 @@
 #define OSPI_WIP_BIT_MASK                       (0x01U)
 #define OSPI_TEST_PAGE_SIZE                     (512U)
 #define OSPI_ERASE_BLOCK_SIZE                   (4096U)
+#define DDR_SAMPLING_WINDOW_EXTEND              (1U)
 
 /* Key code for writing PRCR register */
 #define BSP_PRV_PRCR_KEY                        (0xA500U)
@@ -469,6 +470,8 @@ static fsp_err_t ospi_flash_open_test(uint32_t * erase_size_msk)
     if (FSP_SUCCESS == err)
     {
         err = g_ospi0.p_api->open(g_ospi0.p_ctrl, g_ospi0.p_cfg);
+
+        R_XSPI->LIOCFGCS_b[g_ospi0_ctrl.channel].DDRSMPEX = DDR_SAMPLING_WINDOW_EXTEND;
 
         err = g_ospi0.p_api->directTransfer(g_ospi0.p_ctrl, &test_tfr, SPI_FLASH_DIRECT_TRANSFER_DIR_READ);
 

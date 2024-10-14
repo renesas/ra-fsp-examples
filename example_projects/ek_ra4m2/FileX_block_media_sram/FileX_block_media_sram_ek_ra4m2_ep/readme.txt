@@ -18,12 +18,12 @@
 	      - To utilize the SEGGER J-Link RTT Viewer instead of the Serial Terminal, please follow the instructions 
 	        in FileX_block_media_sram_notes.md file.
 
-2. Software:
-	Renesas Flexible Software Package (FSP)
+2. Software Requirements:
+	Renesas Flexible Software Package (FSP): Version 5.5.0
 	e2 studio: Version 2024-07
 	SEGGER J-Link RTT Viewer: Version 7.98b
 	GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
-	Terminal Console Application: Tera Term or a similar application (for boards that support J-Link OB VCOM)
+	Terminal Console Application: Tera Term or a similar application 
 
 3. Hardware Requirements:
 	Supported RA boards: EK-RA8M1, MCK-RA8T1, EK-RA8D1, EK-RA6M3G, EK-RA6M3, CK-RA6M5, EK-RA6M5, EK-RA6M2, EK-RA6M4, EK-RA6M1,

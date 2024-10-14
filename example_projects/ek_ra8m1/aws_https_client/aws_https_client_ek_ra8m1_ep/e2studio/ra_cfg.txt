@@ -1,5 +1,5 @@
 FSP Configuration
-  Board "EK-RA8M1"
+  Board "RA8|RA8M1|EK-RA8M1"
   R7FA8M1AHECBD
     part_number: R7FA8M1AHECBD
     rom_size_bytes: 2064384
@@ -12,6 +12,22 @@ FSP Configuration
     series: 8
     
   RA8M1 Family
+    Enable inline BSP IRQ functions: Enabled
+    SDRAM: SDRAM Support: Disabled
+    SDRAM: Timings: tRAS (cycles): 6 cycles
+    SDRAM: Timings: tRCD (cycles): 3 cycles
+    SDRAM: Timings: tRP (cycles): 3 cycles
+    SDRAM: Timings: tWR (cycles): 2 cycles
+    SDRAM: Timings: tCL (cycles): 3 cycles
+    SDRAM: Timings: tRFC (cycles): 937
+    SDRAM: Timings: tREFW (cycles): 8 cycles
+    SDRAM: Initialization: Auto-Refresh Interval (ARFI): 10 cycles
+    SDRAM: Initialization: Auto-Refresh Count (ARFC): 8 times
+    SDRAM: Initialization: Precharge Cycle Count (PRC): 3 cycles
+    SDRAM: Address Multiplex Shift: 9-bit shift
+    SDRAM: Endian Mode: Little Endian
+    SDRAM: Continuous Access Mode: Enabled
+    SDRAM: Bus Width: 16-bit
     Security: Exceptions: Exception Response: Non-Maskable Interrupt
     Security: Exceptions: BusFault, HardFault, and NMI Target: Secure State
     Security: System Reset Request Accessibility: Secure State
@@ -46,7 +62,7 @@ FSP Configuration
     OFS1_SEL register settings: WDT/IWDT Software Debug Control Security Attribution: SWDBG setting loads from OFS1_SEC
     OFS1_SEL register settings: Tightly Coupled Memory (TCM)/Cache ECC Security Attribution: INITECCEN setting loads from OFS1_SEC
     OFS1 register settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
-    OFS1 register settings: Voltage Detection 0 Level: 2.85 V
+    OFS1 register settings: Voltage Detection 0 Level: 1.60 V
     OFS1 register settings: Voltage Detection 0 Low Power Consumption: Voltage monitor 0 Low Power Consumption Disabled
     OFS1 register settings: HOCO Oscillation Enable: HOCO oscillation is disabled after reset
     OFS1 register settings: WDT/IWDT Software Debug Control: Disabled (WDT and IWDT continue operating while the CPU is in the debug state)
@@ -72,8 +88,15 @@ FSP Configuration
     First Stage Bootloader (FSBL): Code Certificates (SACCn): SACC1: 0xFFFFFFFF
     First Stage Bootloader (FSBL): FSBL Measurement Report Address (SAMR): 0xFFFFFFFF
     Clocks: HOCO FLL Function: Disabled
+    Clocks: Clock Settling Delay: Enabled
+    Clocks: Sleep Mode Entry and Exit Delays: Enabled
+    Clocks: RTOS Sleep on Idle: Disabled
+    Clocks: MSTP Change Delays: Enabled
+    Clocks: Settling Delay (us): 150
     Main Oscillator Wait Time: 8163 cycles
+    Cache settings: Data cache: Disabled
     
+  RA8M1 event data
   RA Common
     Main stack size (bytes): 0x1000
     Heap size (bytes): 0x2000
@@ -95,14 +118,14 @@ FSP Configuration
     XTAL 20000000Hz
     HOCO 48MHz
     PLL Src: XTAL
-    PLL Div /1
-    PLL Mul x40-59|Mul x48|PLL Mul x48.00
+    PLL Div /2
+    PLL Mul x80-99|Mul x96|PLL Mul x96.00
     PLL1P Div /2
     PLL1Q Div /2
     PLL1R Div /2
     PLL2 Disabled
-    PLL2 Div /1
-    PLL2 Mul x40-59|Mul x48|PLL2 Mul x48.00
+    PLL2 Div /2
+    PLL2 Mul x80-99|Mul x96|PLL2 Mul x96.00
     PLL2P Div /2
     PLL2Q Div /2
     PLL2R Div /2
@@ -621,8 +644,6 @@ FSP Configuration
     PKCS11 Malloc: pvPortMalloc
     PKCS11 Free: vPortFree
     PAL Destroy Supported: Disabled
-    Log Name: PKCS11
-    Log Level: LOG_NONE
     OTA Supported: Disabled
     JITP Code Verify Root Cert Supported: Disabled
     HMAC Key: HMAC Key
@@ -632,6 +653,7 @@ FSP Configuration
   Module "LittleFS"
     Custom lfs_util.h: 
     Thread Safe: Disabled
+    Read Only: Disabled
     Use Malloc: Enabled
     Use Assert: Enabled
     Debug Messages: Disabled
@@ -739,13 +761,18 @@ FSP Configuration
     Hardware Acceleration: Key Format: ECC: Plaintext Only
     Hardware Acceleration: Key Format: RSA: Plaintext Only
     Hardware Acceleration: Hash: SHA256/224: Use Software
+    Hardware Acceleration: Hash: SHA512/384: Use Software
     Hardware Acceleration: Cipher: AES: Use Hardware
     Hardware Acceleration: Public Key Cryptography (PKC): ECC: Use Software
     Hardware Acceleration: Public Key Cryptography (PKC): ECDSA : Use Software
     Hardware Acceleration: Public Key Cryptography (PKC): ECDH : Use Software
     Hardware Acceleration: Public Key Cryptography (PKC): RSA: Use Software
-    Hardware Acceleration: Public Key Cryptography (PKC): RSA 3072 Verify: Disabled
-    Hardware Acceleration: Public Key Cryptography (PKC): RSA 4096 Verify: Disabled
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA 3072: Key Generation: Disabled
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA 3072: Signing: Disabled
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA 3072: Verification: Disabled
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA 4096: Key Generation: Disabled
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA 4096: Signing: Disabled
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA 4096: Verification: Disabled
     Hardware Acceleration: Crypto Engine Initialization: Enabled
     Platform: MBEDTLS_HAVE_ASM: Undefine
     Platform: MBEDTLS_NO_UDBL_DIVISION: Undefine
@@ -763,6 +790,7 @@ FSP Configuration
     Platform: Alternate: MBEDTLS_PLATFORM_SNPRINTF_ALT: Undefine
     Platform: Alternate: MBEDTLS_PLATFORM_VSNPRINTF_ALT: Undefine
     Platform: Alternate: MBEDTLS_PLATFORM_NV_SEED_ALT: Undefine
+    Platform: Alternate: MBEDTLS_PLATFORM_MS_TIME_ALT: Undefine
     General: MBEDTLS_PSA_CRYPTO_DRIVERS: Undefine
     General: MBEDTLS_DEPRECATED_WARNING: Undefine
     General: MBEDTLS_DEPRECATED_REMOVED: Define
@@ -782,11 +810,9 @@ FSP Configuration
     Message Authentication Code (MAC): Alternate: MBEDTLS_POLY1305_ALT: Undefine
     Hash: Alternate: MBEDTLS_RIPEMD160_ALT: Undefine
     Hash: Alternate: MBEDTLS_SHA1_ALT: Undefine
-    Hash: Alternate: MBEDTLS_SHA512_ALT: Undefine
     Hash: Alternate: MBEDTLS_MD5_PROCESS_ALT: Undefine
     Hash: Alternate: MBEDTLS_RIPEMD160_PROCESS_ALT: Undefine
     Hash: Alternate: MBEDTLS_SHA1_PROCESS_ALT: Undefine
-    Hash: Alternate: MBEDTLS_SHA512_PROCESS_ALT: Undefine
     Cipher: Alternate: MBEDTLS_DES_SETKEY_ALT: Undefine
     Cipher: Alternate: MBEDTLS_DES_CRYPT_ECB_ALT: Undefine
     Cipher: Alternate: MBEDTLS_DES3_CRYPT_ECB_ALT: Undefine
@@ -805,6 +831,7 @@ FSP Configuration
     Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_NORMALIZE_MXZ_ALT: Undefine
     Cipher: AES: MBEDTLS_AES_ROM_TABLES: Undefine
     Cipher: AES: MBEDTLS_AES_FEWER_TABLES: Undefine
+    Cipher: AES: MBEDTLS_AES_ONLY_128_BIT_KEY_LENGTH: Undefine
     Cipher: MBEDTLS_CAMELLIA_SMALL_MEMORY: Undefine
     General: MBEDTLS_CHECK_RETURN_WARNING: Undefine
     Cipher: MBEDTLS_CIPHER_MODE_CBC: Define
@@ -833,6 +860,7 @@ FSP Configuration
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_NIST_OPTIM: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_RESTARTABLE: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECDSA_DETERMINISTIC: Undefine
+    Public Key Cryptography (PKC): ECC: MBEDTLS_PK_PARSE_EC_COMPRESSED: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_PK_PARSE_EC_EXTENDED: Undefine
     General: MBEDTLS_ERROR_STRERROR_DUMMY: Define
     Public Key Cryptography (PKC): MBEDTLS_GENPRIME: Define
@@ -853,6 +881,7 @@ FSP Configuration
     RNG: MBEDTLS_PSA_CRYPTO_EXTERNAL_RNG: Undefine
     General: MBEDTLS_PSA_CRYPTO_SPM: Undefine
     RNG: MBEDTLS_PSA_INJECT_ENTROPY: Undefine
+    General: MBEDTLS_PSA_ASSUME_EXCLUSIVE_BUFFERS: Undefine
     Public Key Cryptography (PKC): RSA: MBEDTLS_RSA_NO_CRT: Define
     General: MBEDTLS_SELF_TEST: Undefine
     Hash: MBEDTLS_SHA256_SMALLER: Undefine
@@ -865,6 +894,7 @@ FSP Configuration
     Public Key Cryptography (PKC): MBEDTLS_ASN1_PARSE_C: Define
     Public Key Cryptography (PKC): MBEDTLS_ASN1_WRITE_C: Define
     Public Key Cryptography (PKC): MBEDTLS_BASE64_C: Define
+    Cipher: MBEDTLS_BLOCK_CIPHER_NO_DECRYPT: Undefine
     Public Key Cryptography (PKC): MBEDTLS_BIGNUM_C: Define
     Cipher: MBEDTLS_CAMELLIA_C: Undefine
     Cipher: MBEDTLS_ARIA_C: Undefine
@@ -884,6 +914,7 @@ FSP Configuration
     Platform: MBEDTLS_ENTROPY_C: Define
     General: MBEDTLS_ERROR_C: Define
     Cipher: MBEDTLS_GCM_C: Define
+    Cipher: MBEDTLS_GCM_LARGE_TABLE: Undefine
     Message Authentication Code (MAC): MBEDTLS_HKDF_C: Define
     Message Authentication Code (MAC): MBEDTLS_HMAC_DRBG_C: Undefine
     Public Key Cryptography (PKC): MBEDTLS_LMS_C: Define
@@ -909,7 +940,10 @@ FSP Configuration
     Storage: MBEDTLS_PSA_ITS_FILE_C: Undefine
     Hash: MBEDTLS_RIPEMD160_C: Undefine
     Public Key Cryptography (PKC): RSA: MBEDTLS_RSA_C: Define
+    Public Key Cryptography (PKC): RSA: MBEDTLS_RSA_GEN_KEY_MIN_BITS: Undefine
+    Public Key Cryptography (PKC): RSA: MBEDTLS_RSA_GEN_KEY_MIN_BITS value: 1024
     Hash: MBEDTLS_SHA1_C: Define
+    Hash: MBEDTLS_SHA3_C: Undefine
     Hash: MBEDTLS_SHA224_C: Define
     Hash: MBEDTLS_SHA256_C: Define
     Hash: MBEDTLS_SHA384_C: Undefine
@@ -990,6 +1024,10 @@ FSP Configuration
     Platform: MBEDTLS_PLATFORM_TIME_MACRO value: time
     Platform: MBEDTLS_PLATFORM_TIME_TYPE_MACRO: Undefine
     Platform: MBEDTLS_PLATFORM_TIME_TYPE_MACRO value: time_t
+    Platform: MBEDTLS_PLATFORM_MS_TIME_TYPE_MACRO: Undefine
+    Platform: MBEDTLS_PLATFORM_MS_TIME_TYPE_MACRO value: int64_t
+    Platform: MBEDTLS_PRINTF_MS_TIME: Undefine
+    Platform: MBEDTLS_PRINTF_MS_TIME value: PRId64
     Platform: MBEDTLS_PLATFORM_FPRINTF_MACRO: Undefine
     Platform: MBEDTLS_PLATFORM_FPRINTF_MACRO value: fprintf
     Platform: MBEDTLS_PLATFORM_PRINTF_MACRO: Undefine
@@ -1010,14 +1048,13 @@ FSP Configuration
     Key Configuration: MBEDTLS_PSA_KEY_SLOT_COUNT value: 32
     Platform: Alternate: MBEDTLS_PLATFORM_GMTIME_R_ALT: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECDH_VARIANT_EVEREST_ENABLED: Undefine
+    General: MBEDTLS_PSA_CRYPTO_CONFIG: Undefine
     
   Module "Mbed Crypto H/W Acceleration (rm_psa_crypto)"
   Module "RSIP Compatibility Mode"
   Module "MbedTLS FSP Port (rm_mbedtls)"
   Module "AWS Logging"
   Module "AWS Demo dev_mode_key_provisioning"
-    Header file to #include in ra_cfg/aws/aws_clientcredential_keys.h: 
-    
   Module "AWS TCP Sockets Wrapper"
   Module "FreeRTOS+TCP"
     Print debug messages: Disable
@@ -1075,6 +1112,7 @@ FSP Configuration
     Parameter Checking: Default (BSP)
     ET0_LINKSTA Pin Status Flag: Fall -> Rise
     Link Signal Change Flag: Unused
+    Interrupt event backward compatibility: Do not keep compatibility
     
   Module "Ethernet (r_ether_phy)"
     Parameter Checking: Default (BSP)
@@ -1082,7 +1120,9 @@ FSP Configuration
     KSZ8041 Target: Disabled
     DP83620 Target: Disabled
     ICS1894 Target: Disabled
+    User Own Target: Disabled
     Reference Clock: Enabled
+    Automatic Phy LSI Initialization: Enabled
     
   Module "FreeRTOS Buffer Allocation 2"
   Module "AWS FreeRTOS+TCP MbedTLS Bio"
@@ -1113,6 +1153,7 @@ FSP Configuration
     General: Use 16-bit Ticks: Disabled
     General: Idle Should Yield: Enabled
     General: Use Task Notifications: Enabled
+    General: Task Notification Array Entries: 1
     General: Use Mutexes: Enabled
     General: Use Recursive Mutexes: Enabled
     General: Use Counting Semaphores: Enabled
@@ -1158,6 +1199,8 @@ FSP Configuration
     RA: Hardware Stack Monitor: Disabled
     Logging: Print String Function: printf(x)
     Logging: Logging Include Time and Task Name: Disabled
+    Logging: Debug Logging Name: Log Name
+    Logging: Logging Level: LOG_NONE
     
   HAL
     Instance "g_ioport I/O Port (r_ioport)"
@@ -1189,7 +1232,7 @@ FSP Configuration
       General: Double-trigger: Disabled
       Input: Channel Scan Mask (channel availability varies by MCU): Temperature Sensor
       Input: Group B Scan Mask (channel availability varies by MCU): 
-      Interrupts: Normal/Group A Trigger: Software
+      Interrupts: Normal/Group A Trigger: Software Trigger
       Interrupts: Group B Trigger: Disabled
       Interrupts: Group Priority (Valid only in Group Scan Mode): Group A cannot interrupt Group B
       Input: Add/Average Count: Disabled
@@ -1236,6 +1279,8 @@ FSP Configuration
                 Buffers: Buffer size: 1514
                 Buffers: Padding size: Disable
                 Buffers: Padding offset: 1
+                Interrupts: EESR event: RFOF, RDE, FR, TFUF, TDE, TC
+                Interrupts: ECSR event: 
                 Interrupts: Interrupt priority: Priority 12
                 Interrupts: Callback: vEtherISRCallback
                 
@@ -1246,6 +1291,8 @@ FSP Configuration
                   PHY-LSI Reset Completion Timeout: 0x00020000
                   Select MII type: RMII
                   Phy LSI type: Kit Component
+                  Port Custom Init Function: NULL
+                  Port Custom Link Partner Ability Get Function: NULL
                   MII/RMII Register Access Wait-time: 8
                   Flow Control: Disable
                   

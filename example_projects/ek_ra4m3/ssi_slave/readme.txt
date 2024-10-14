@@ -14,8 +14,22 @@
 	On Selecting Slave Write - Master Read on both Master and Slave, the Slave starts writing data, and the Master reads the data. 
 	The result of transfers between SSI Master and SSI Slave is displayed on the J-Link RTT Viewer.
 	The two example projects ssi_master_ek_ra6m3_ep and ssi_slave_ek_ra6m3_ep are provided for the the SSI Slave EP, one intended for Master and other for the Slave.
- 
-2. To run this example project, user needs to compile and download the example project to the evaluation kit and then follow below instructions to observe the operation of the system.
+
+2. Software Requirements:
+	Renesas Flexible Software Package (FSP): Version 5.5.0
+	e2 studio: Version 2024-07
+	SEGGER J-Link RTT Viewer: Version 7.98b
+	GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
+     
+3. Hardware Requirements:
+   
+   Hardware : 
+	1) 2x RA board 
+	2) 2x Micro USB device cable
+	3) A PC with at atleast 2 USB port(1 for Master and 1 for Slave)
+	4) 5x Connecting/Jumper wires
+	
+4. To run this example project, user needs to compile and download the example project to the evaluation kit and then follow below instructions to observe the operation of the system.
 
    Supported Boards: EK-RA4M2, EK-RA4M3, EK-RA6M1, EK-RA6M2, EK-RA6M3, EK-RA6M4, EK-RA6M5.
 
@@ -30,26 +44,13 @@
 	4) For Selecting Master Read - Slave Write operation, press "2" 
 		a) Master starts reading and Slave writes and both RA MCUs display the data transaction/messages on J-Link RTT Viewer.
 		b) Note : For the Master Read - Slave Write operation mode, after the transaction is completed, turn off the Master first by pressing any key.For the Slave, press any key to terminate the process.
-     
-3. Hardware and Software Requirements:
-   
-   Hardware : 
-	1) 2x RA board 
-	2) 2x Micro USB device cable
-	3) A PC with at atleast 2 USB port(1 for Master and 1 for Slave)
-	4) 5x Connecting/Jumper wires
-    
-   Software: 
-	1) e2studio.
-	2) FSP v4.1.0 or higher.
-	3) J-Link RTT Viewer version 7.80c or greater.
 
 
-4. The user cannot change the configuration from Master to Slave at run time.
+5. The user cannot change the configuration from Master to Slave at run time.
 
 	1) The example project ssi_master_ek_ra6m3_ep has Master configuration settings and runs in master mode and the example project ssi_slave_ek_ra6m3_ep has Slave configuration settings and runs in slave mode.
 	
-5. Hardware settings for the project:
+6. Hardware settings for the project:
 	
     Pin and Jumper Settings:
      	

@@ -43,7 +43,7 @@
 #define PRINT_DELAY                 (2U)
 
 /* Function macros to assert and de-assert Slave Select pins */
-#define CS_PIN                      (BSP_IO_PORT_01_PIN_09)
+#define CS_PIN                      (BSP_IO_PORT_01_PIN_03)
 #define CS_DE_ASSERT(x)             (R_IOPORT_PinWrite(&g_ioport_ctrl, (x), BSP_IO_LEVEL_LOW))
 #define CS_ASSERT(x)                (R_IOPORT_PinWrite(&g_ioport_ctrl, (x), BSP_IO_LEVEL_HIGH))
 

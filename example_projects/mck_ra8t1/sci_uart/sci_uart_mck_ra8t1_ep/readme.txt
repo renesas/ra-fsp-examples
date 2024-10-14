@@ -131,8 +131,16 @@
     1) RXD MISO P602 (CN3:P31) --------> TXD Pin of USB-UART
     2) TXD MOSI P603 (CN3:P33) --------> RXD Pin of USB-UART
     3) Common GND    (CN3:P34) --------> GND Pin of USB-UART
-﻿
+
 Note:
+	Users can disable SEGGER RTT features by changing the values of the following macros to 1:
+		DISABLE_APP_PRINT
+		DISABLE_APP_ERR_PRINT
+		DISABLE_APP_ERR_TRAP
+		DISABLE_APP_READ
+		DISABLE_APP_CHECK_DATA
+	These macros are defined in common_utils.h, Please note that disabling part of the application may break its functionality
+
 1) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
    a. e2studio: 0x220004b8
