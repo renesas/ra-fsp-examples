@@ -24,7 +24,7 @@
 extern TaskHandle_t network_thread;
 
 extern volatile uint32_t             dhcp_in_use;
-extern NetworkAddressingParameters_t xNd;
+extern IPV4Parameters_t xNd;
 
 void updateDhcpResponseToUsr(void);
 
@@ -109,7 +109,7 @@ void vApplicationIPNetworkEventHook_Multi (eIPCallbackEvent_t eNetworkEvent, str
 
 #if (ipconfigUSE_DHCP_HOOK == 1)
  #if (ipconfigIPv4_BACKWARD_COMPATIBLE == 1)
-eDHCPCallbackAnswer_t xApplicationDHCPHook_Multi (eDHCPCallbackPhase_t eDHCPPhase, uint32_t lulIPAddress)
+eDHCPCallbackAnswer_t xApplicationDHCPHook (eDHCPCallbackPhase_t eDHCPPhase, uint32_t lulIPAddress)
  #else
 
 /**********************************************************************************************************************
@@ -159,9 +159,9 @@ eDHCPCallbackAnswer_t xApplicationDHCPHook_Multi (eDHCPCallbackPhase_t      eDHC
 
             /* Update the Structure, the DHCP state Machine is not updating this */
  #if (ipconfigIPv4_BACKWARD_COMPATIBLE == 1)
-            xDefaultAddressing.ulDefaultIPAddress = lulIPAddress;
+        	xNd.ulIPAddress = lulIPAddress;
  #else
-            xDefaultAddressing.ulDefaultIPAddress = pxIPAddress->ulIP_IPv4;
+        	xNd.ulIPAddress = pxIPAddress->ulIP_IPv4;
  #endif
             dhcp_in_use = 1;
             updateDhcpResponseToUsr();
@@ -190,12 +190,17 @@ eDHCPCallbackAnswer_t xApplicationDHCPHook_Multi (eDHCPCallbackPhase_t      eDHC
  * Return Value : .
  *********************************************************************************************************************/
 void updateDhcpResponseToUsr (void)
-{
-    if (dhcp_in_use)
-    {
-// memcpy (&xNd, &xNetworkAddressing, sizeof(xNd));
-        memcpy(&xNd, &xDefaultAddressing, sizeof(xNd));
-    }
+ {
+	if (dhcp_in_use)
+	{
+#if ( ipconfigIPv4_BACKWARD_COMPATIBLE == 1 ) && ( ipconfigUSE_IPv4 != 0 )
+
+        xNd.ulNetMask = FreeRTOS_GetNetmask();
+        xNd.ulGatewayAddress = FreeRTOS_GetGatewayAddress();
+        xNd.ulDNSServerAddresses[0] = FreeRTOS_GetDNSServerAddress();
+
+#endif
+	}
 }
 
 /**********************************************************************************************************************

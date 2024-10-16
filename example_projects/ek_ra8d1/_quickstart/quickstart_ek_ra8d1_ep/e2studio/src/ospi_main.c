@@ -66,6 +66,7 @@
 
 #define REG_DUMMY_CYCLES_SPI          (0U)
 #define REG_DUMMY_CYCLES_OPI          (3U)
+#define DDR_SAMPLING_WINDOW_EXTEND    (1U)
 
 // #define REG_DUMMY_CYCLES_OPI   (6U)
 
@@ -439,6 +440,8 @@ void init_ospi (void)
 
     err = g_ospi0.p_api->open(g_ospi0.p_ctrl, g_ospi0.p_cfg);
     assert(FSP_SUCCESS == err);
+
+    R_XSPI->LIOCFGCS_b[g_ospi0_ctrl.channel].DDRSMPEX = DDR_SAMPLING_WINDOW_EXTEND;
 
     spi_flash_direct_transfer_t test_tfr =
     {

@@ -106,7 +106,7 @@ NetworkCredentials_t connConfig                = {RESET_VALUE};
 TlsTransportParams_t xPlaintextTransportParams = {RESET_VALUE};
 
 uint32_t volatile             dhcp_in_use = RESET_VALUE;
-NetworkAddressingParameters_t xNd         = {RESET_VALUE};
+IPV4Parameters_t xNd = { RESET_VALUE };
 void print_ipconfig(void);
 
 static void GetNetworkWeather(void);
@@ -1132,15 +1132,15 @@ void print_ipconfig (void)
         ucGatewayAddress[1] = (uint8_t) ((xNd.ulGatewayAddress & 0x0000FF00) >> 8);
         ucGatewayAddress[0] = (uint8_t) (xNd.ulGatewayAddress & 0x000000FF);
 
-        ucDNSServerAddress[3] = (uint8_t) ((xNd.ulDNSServerAddress & 0xFF000000) >> 24);
-        ucDNSServerAddress[2] = (uint8_t) ((xNd.ulDNSServerAddress & 0x00FF0000) >> 16);
-        ucDNSServerAddress[1] = (uint8_t) ((xNd.ulDNSServerAddress & 0x0000FF00) >> 8);
-        ucDNSServerAddress[0] = (uint8_t) (xNd.ulDNSServerAddress & 0x000000FF);
+        ucDNSServerAddress[3] = (uint8_t)((xNd.ulDNSServerAddresses[0] & 0xFF000000)>> 24);
+        ucDNSServerAddress[2] = (uint8_t)((xNd.ulDNSServerAddresses[0] & 0x00FF0000)>> 16);
+        ucDNSServerAddress[1] = (uint8_t)((xNd.ulDNSServerAddresses[0] & 0x0000FF00)>> 8);
+        ucDNSServerAddress[0] = (uint8_t)(xNd.ulDNSServerAddresses[0] & 0x000000FF);
 
-        ucIPAddress[3] = (uint8_t) ((xNd.ulDefaultIPAddress & 0xFF000000) >> 24);
-        ucIPAddress[2] = (uint8_t) ((xNd.ulDefaultIPAddress & 0x00FF0000) >> 16);
-        ucIPAddress[1] = (uint8_t) ((xNd.ulDefaultIPAddress & 0x0000FF00) >> 8);
-        ucIPAddress[0] = (uint8_t) (xNd.ulDefaultIPAddress & 0x000000FF);
+        ucIPAddress[3] = (uint8_t)((xNd.ulIPAddress & 0xFF000000) >> 24);
+        ucIPAddress[2] = (uint8_t)((xNd.ulIPAddress & 0x00FF0000) >> 16);
+        ucIPAddress[1] = (uint8_t)((xNd.ulIPAddress & 0x0000FF00) >> 8);
+        ucIPAddress[0] = (uint8_t)(xNd.ulIPAddress & 0x000000FF);
 #else
         ucNetMask[3] = (uint8_t) ((xEndPoints[0].ipv4_settings.ulNetMask & 0xFF000000) >> 24);
         ucNetMask[2] = (uint8_t) ((xEndPoints[0].ipv4_settings.ulNetMask & 0x00FF0000) >> 16);
