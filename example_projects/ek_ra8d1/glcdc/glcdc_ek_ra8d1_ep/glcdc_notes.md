@@ -20,9 +20,9 @@ Refer to [readme.txt](./readme.txt) for information on how to connect the hardwa
 If  the user use Jumper wires to connect Graphic Expansion Board to RA board manually, please refer "Hardware Connection" section.
 
 ### Software ###
-* Renesas Flexible Software Package (FSP): Version 5.5.0
-* e2 studio: Version 2024-07
-* SEGGER J-Link RTT Viewer: Version 7.98b
+* Renesas Flexible Software Package (FSP): Version 5.6.0
+* e2 studio: Version 2024-10
+* SEGGER J-Link RTT Viewer: Version 7.98g
 * GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 
 Refer to software requirements mentioned in [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf)

@@ -47,19 +47,22 @@
    5. Follow the instructions displayed in the tera term window.
 
    
-2. Hardware and Software Requirements:
+2. Software Requirements:
+	Renesas Flexible Software Package (FSP): Version 5.6.0
+	e2 studio: Version 2024-10
+	SEGGER J-Link RTT Viewer: Version 7.98g
+	Terminal Console Application: Tera Term or a similar application
+	USB Serial Drivers (included in Windows 10) 
+	Windows® 10 operating system
+   
+3. Hardware Requirements:
    
    Hardware : 
 	1) RA board 
 	2) Micro USB device cable - 2Nos.
 	3) A PC with at least 2 USB port(1 for debug and 1 for com port)
     
-	Software: 
-	1) Serial Terminal/TeraTerm
-        2) Windows® 10 operating system 
-	3) USB Serial Drivers (included in Windows 10) 
-	
-3. Hardware settings for the project:
+4. Hardware settings for the project:
 
 Applicable for EK-RA4M2, EK-RA4M3, EK-RA6M3, EK-RA6M3G, EK-RA6M4 and EK-RA6M5:
 

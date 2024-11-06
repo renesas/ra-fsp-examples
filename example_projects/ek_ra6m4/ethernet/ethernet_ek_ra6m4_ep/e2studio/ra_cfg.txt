@@ -1,5 +1,5 @@
 FSP Configuration
-  Board "EK-RA6M4"
+  Board "RA6|RA6M4|EK-RA6M4"
   R7FA6M4AF3CFB
     part_number: R7FA6M4AF3CFB
     rom_size_bytes: 1048576
@@ -12,6 +12,7 @@ FSP Configuration
     series: 6
     
   RA6M4 Family
+    Enable inline BSP IRQ functions: Enabled
     Security: Exceptions: Exception Response: Non-Maskable Interrupt
     Security: Exceptions: BusFault, HardFault, and NMI Target: Secure State
     Security: System Reset Request Accessibility: Secure State
@@ -24,8 +25,10 @@ FSP Configuration
     Security: SRAM Accessibility: Standby RAM: Regions 7-0 are all Secure.
     Security: BUS Accessibility: Bus Security Attribution Register A: Both Secure and Non-Secure State
     Security: BUS Accessibility: Bus Security Attribution Register B: Both Secure and Non-Secure State
+    Security: Flash Bank Select Accessibility: Both Secure and Non-Secure State
+    Security: Uninitialized Non-Secure Application Fallback: Enable Uninitialized Non-Secure Application Fallback
     Startup C-Cache Line Size: 32 Bytes
-    OFS0 register settings: Independent WDT: Start Mode: IWDT is Disabled
+    OFS0 register settings: Independent WDT: Start Mode: IWDT is stopped after a reset
     OFS0 register settings: Independent WDT: Timeout Period: 2048 cycles
     OFS0 register settings: Independent WDT: Dedicated Clock Frequency Divisor: 128
     OFS0 register settings: Independent WDT: Window End Position:  0% (no window end position)
@@ -39,6 +42,8 @@ FSP Configuration
     OFS0 register settings: WDT: Window Start Position: 100% (no window start position)
     OFS0 register settings: WDT: Reset Interrupt Request: Reset
     OFS0 register settings: WDT: Stop Control: Stop counting when entering Sleep mode
+    OFS1_SEL register settings: Voltage Detection 0 Level Security Attribution: VDSEL setting loads from OFS1_SEC
+    OFS1_SEL register settings: Voltage Detection 0 Circuit Start Security Attribution: LVDAS setting loads from OFS1_SEC
     OFS1 register settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
     OFS1 register settings: Voltage Detection 0 Level: 2.80 V
     OFS1 register settings: HOCO Oscillation Enable: HOCO oscillation is disabled after reset
@@ -52,6 +57,7 @@ FSP Configuration
     Clocks: HOCO FLL Function: Disabled
     Main Oscillator Wait Time: 8163 cycles
     
+  RA6M4 event data
   RA Common
     Main stack size (bytes): 0x1000
     Heap size (bytes): 0x2000
@@ -59,10 +65,11 @@ FSP Configuration
     Parameter checking: Enabled
     Assert Failures: Return FSP_ERR_ASSERTION
     Error Log: No Error Log
-    Soft Reset: Disabled
+    Clock Registers not Reset Values during Startup: Disabled
     Main Oscillator Populated: Populated
     PFS Protect: Enabled
     C Runtime Initialization : Enabled
+    Early BSP Initialization : Disabled
     Main Oscillator Clock Source: Crystal or Resonator
     Subclock Populated: Populated
     Subclock Drive (Drive capacitance availability varies by MCU): Standard/Normal mode
@@ -87,7 +94,7 @@ FSP Configuration
     PCLKC Div /4
     PCLKD Div /2
     BCLK Div /2
-    BCLK/2
+    EBCLK Div /2
     FCLK Div /4
     CLKOUT Div /1
     UCLK Div /5
@@ -121,16 +128,16 @@ FSP Configuration
       P109 74 DEBUG0_TDO - Low - "Peripheral mode" CMOS None "AGT3: AGTOB3; CAN1: CTX1; CGC0: CLKOUT; DEBUG0: TDO; DEBUG0: TRACESWO; GPT_OPS0: GTOVUP; GPT1: GTIOC1A; SCI9: SDA9; SCI9: TXD9; SPI0: MOSIA" - IO - - 
       P110 75 DEBUG0_TDI - Low None "Peripheral mode" CMOS None "AGT3: AGTEE3; CAN1: CRX1; DEBUG0: TDI; GPT_OPS0: GTOVLO; GPT1: GTIOC1B; ICU0: IRQ03; SCI2: CTSRTS2; SCI9: RXD9; SCI9: SCL9; SPI0: MISOA" - IO - - 
       P111 76 GPIO ARDUINO_D3 Low None "Output mode (Initial Low)" CMOS - "AGT5: AGTOA5; BUS_ASYNCH0: A05; GPT3: GTIOC3A; ICU0: IRQ04; SCI2: SCK2; SCI9: SCK9; SPI0: RSPCKA" - IO - - 
-      P112 77 - - - - Disabled - - "AGT5: AGTOB5; BUS_ASYNCH0: A04; GPT3: GTIOC3B; OSPI0: OMCS1; QSPI0: QSSL; SCI1: SCK1; SCI2: SDA2; SCI2: TXD2; SPI0: SSLA0; SSI0: SSISCK0" - None - - 
-      P113 78 - - - - Disabled - - "AGT5: AGTEE5; BUS_ASYNCH0: A03; GPT2: GTIOC2A; SCI2: RXD2; SCI2: SCL2; SSI0: SSIWS0" - None - - 
+      P112 77 - - - - Disabled - - "AGT5: AGTOB5; BUS_ASYNCH0: A04; GPT3: GTIOC3B; OSPI0: OMCS1; QSPI0: QSSL; SCI1: SCK1; SCI2: SDA2; SCI2: TXD2; SPI0: SSLA0; SSI0: SSIBCK0" - None - - 
+      P113 78 - - - - Disabled - - "AGT5: AGTEE5; BUS_ASYNCH0: A03; GPT2: GTIOC2A; SCI2: RXD2; SCI2: SCL2; SSI0: SSILRCK0" - None - - 
       P114 79 - - - - Disabled - - "AGT5: AGTIO5; BUS_ASYNCH0: A02; GPT2: GTIOC2B; SCI9: CTS9; SSI0: SSIRXD0" - None - - 
       P115 80 GPIO MIKROBUS_RST Low - "Output mode (Initial Low)" CMOS - "BUS_ASYNCH0: A01; GPT4: GTIOC4A; SSI0: SSITXD0" - IO - - 
       P200 57 - - - - Disabled - - "ICU0: NMI" - None - - 
       P201 56 - - - - Disabled - - "SYSTEM0: MD" - None - - 
       P202 46 - ARDUILD_MISO_MIKROBUS_MISO - - Disabled - - "AGT3: AGTOB3; BUS_ASYNCH0: BC1; CAN0: CRX0; CTSU0: TS19; ETHERC_MII0: ET0_ERXD2; GPT5: GTIOC5B; ICU0: IRQ03; SCI2: SCK2; SCI9: RXD9; SCI9: SCL9; SDHI0: SD0DAT6; SPI0: MISOA" - None - - 
       P203 45 - ARDUILD_MOSI_MIKROBUS_MOSI - - Disabled - - "AGT3: AGTOA3; BUS_ASYNCH0: A19; CAN0: CTX0; CTSU0: TS18; ETHERC_MII0: ET0_COL; GPT5: GTIOC5A; ICU0: IRQ02; SCI2: CTSRTS2; SCI9: SDA9; SCI9: TXD9; SDHI0: SD0DAT5; SPI0: MOSIA" - None - - 
-      P204 44 - ARDUILD_CLK_MIKROBUS_CLK - - Disabled - - "AGT1: AGTIO1; BUS_ASYNCH0: A18; CAC0: CACREF; CTSU0: TS00; ETHERC_MII0: ET0_RX_DV; GPT_OPS0: GTIW; GPT4: GTIOC4B; SCI4: SCK4; SCI9: SCK9; SDHI0: SD0DAT4; SPI0: RSPCKA; SSI0: SSISCK0; USB_FS0: USB_OVRCURB" - None - - 
-      P205 43 - ARDUILD_SS_MIKROBUS_SS - - Disabled - - "AGT1: AGTO1; BUS_ASYNCH0: A16; CGC0: CLKOUT; CTSU0: TS01; ETHERC_MII0: ET0_WOL; ETHERC_RMII0: ET0_WOL; GPT_OPS0: GTIV; GPT4: GTIOC4A; ICU0: IRQ01; IIC1: SCL1; SCI4: SDA4; SCI4: TXD4; SCI9: CTSRTS9; SDHI0: SD0DAT3; SPI0: SSLA0; SSI0: SSIWS0; USB_FS0: USB_OVRCURA" - None - - 
+      P204 44 - ARDUILD_CLK_MIKROBUS_CLK - - Disabled - - "AGT1: AGTIO1; BUS_ASYNCH0: A18; CAC0: CACREF; CTSU0: TS00; ETHERC_MII0: ET0_RX_DV; GPT_OPS0: GTIW; GPT4: GTIOC4B; SCI4: SCK4; SCI9: SCK9; SDHI0: SD0DAT4; SPI0: RSPCKA; SSI0: SSIBCK0; USB_FS0: USB_OVRCURB" - None - - 
+      P205 43 - ARDUILD_SS_MIKROBUS_SS - - Disabled - - "AGT1: AGTO1; BUS_ASYNCH0: A16; CGC0: CLKOUT; CTSU0: TS01; ETHERC_MII0: ET0_WOL; ETHERC_RMII0: ET0_WOL; GPT_OPS0: GTIV; GPT4: GTIOC4A; ICU0: IRQ01; IIC1: SCL1; SCI4: SDA4; SCI4: TXD4; SCI9: CTSRTS9; SDHI0: SD0DAT3; SPI0: SSLA0; SSI0: SSILRCK0; USB_FS0: USB_OVRCURA" - None - - 
       P206 42 - - - - Disabled - - "BUS_ASYNCH0: WAIT; CTSU0: TS02; ETHERC_MII0: ET0_LINKSTA; ETHERC_RMII0: ET0_LINKSTA; GPT_OPS0: GTIU; ICU0: IRQ00; IIC1: SDA1; SCI4: RXD4; SCI4: SCL4; SCI9: CTS9; SDHI0: SD0DAT2; SPI0: SSLA1; SSI0: SSIDATA0; USB_FS0: USB_VBUSEN" - None - - 
       P207 41 - - - - Disabled - - "BUS_ASYNCH0: A17; CTSU0: TSCAP; QSPI0: QSSL; SCI4: SDA4; SCI4: TXD4; SPI0: SSLA2" - None - - 
       P208 54 - - - - Disabled - - "BUS_ASYNCH0: CS4; DEBUG_TRACE0: TDATA3; ETHERC_MII0: ET0_LINKSTA; ETHERC_RMII0: ET0_LINKSTA; GPT_OPS0: GTOVLO; QSPI0: QIO3; SDHI0: SD0DAT0" - None - - 
@@ -157,8 +164,8 @@ FSP Configuration
       P400 1 GPIO LED3 Low None "Output mode (Initial Low)" CMOS - "ADC1: ADTRG1; AGT1: AGTIO1; ETHERC_MII0: ET0_WOL; ETHERC_RMII0: ET0_WOL; GPT6: GTIOC6A; ICU0: IRQ00; IIC0: SCL0; SCI4: SCK4; SCI7: SCK7; SSI_COMMON0: AUDIO_CLK" - IO - - 
       P401 2 ETHERC_RMII0_ET0_MDC ETH_MDC Low None "Peripheral mode" CMOS None "CAN0: CTX0; ETHERC_MII0: ET0_MDC; ETHERC_RMII0: ET0_MDC; GPT_POEG0: GTETRGA; GPT6: GTIOC6B; ICU0: IRQ05; IIC0: SDA0; SCI4: CTSRTS4; SCI7: SDA7; SCI7: TXD7" - IO - - 
       P402 3 ETHERC_RMII0_ET0_MDIO ETH_MDIO Low None "Peripheral mode" CMOS None "AGT0: AGTIO0; AGT1: AGTIO1; AGT2: AGTIO2; AGT3: AGTIO3; CAC0: CACREF; CAN0: CRX0; ETHERC_MII0: ET0_MDIO; ETHERC_RMII0: ET0_MDIO; ICU0: IRQ04; RTC0: RTCIC0; SCI4: CTS4; SCI7: RXD7; SCI7: SCL7; SSI_COMMON0: AUDIO_CLK" - IO - - 
-      P403 4 ETHERC_RMII0_ET0_LINKSTA ETH_RST Low None "Peripheral mode" CMOS None "AGT0: AGTIO0; AGT1: AGTIO1; AGT2: AGTIO2; AGT3: AGTIO3; ETHERC_MII0: ET0_LINKSTA; ETHERC_RMII0: ET0_LINKSTA; GPT3: GTIOC3A; ICU0: IRQ14; RTC0: RTCIC1; SCI7: CTSRTS7; SSI0: SSISCK0" - IO - - 
-      P404 5 GPIO LED2 Low None "Output mode (Initial Low)" CMOS - "AGT0: AGTIO0; AGT1: AGTIO1; AGT2: AGTIO2; AGT3: AGTIO3; ETHERC_MII0: ET0_EXOUT; ETHERC_RMII0: ET0_EXOUT; GPT3: GTIOC3B; ICU0: IRQ15; RTC0: RTCIC2; SCI7: CTS7; SSI0: SSIWS0" - IO - - 
+      P403 4 ETHERC_RMII0_ET0_LINKSTA ETH_RST Low None "Peripheral mode" CMOS None "AGT0: AGTIO0; AGT1: AGTIO1; AGT2: AGTIO2; AGT3: AGTIO3; ETHERC_MII0: ET0_LINKSTA; ETHERC_RMII0: ET0_LINKSTA; GPT3: GTIOC3A; ICU0: IRQ14; RTC0: RTCIC1; SCI7: CTSRTS7; SSI0: SSIBCK0" - IO - - 
+      P404 5 GPIO LED2 Low None "Output mode (Initial Low)" CMOS - "AGT0: AGTIO0; AGT1: AGTIO1; AGT2: AGTIO2; AGT3: AGTIO3; ETHERC_MII0: ET0_EXOUT; ETHERC_RMII0: ET0_EXOUT; GPT3: GTIOC3B; ICU0: IRQ15; RTC0: RTCIC2; SCI7: CTS7; SSI0: SSILRCK0" - IO - - 
       P405 6 ETHERC_RMII0_RMII_TXD_EN ETH_TXD_EN Low - "Peripheral mode" CMOS None "ETHERC_MII0: ET0_TX_EN; ETHERC_RMII0: RMII_TXD_EN; GPT1: GTIOC1A; SSI0: SSITXD0" - IO - - 
       P406 7 ETHERC_RMII0_RMII_TXD1 ETH_TXD1 Low - "Peripheral mode" CMOS None "AGT5: AGTO5; ETHERC_MII0: ET0_RX_ER; ETHERC_RMII0: RMII_TXD1; GPT1: GTIOC1B; SPI0: SSLA3; SSI0: SSIRXD0" - IO - - 
       P407 36 - USB_VBUS_DETECT - - Disabled - - "ADC0: ADTRG0; AGT0: AGTIO0; CTSU0: TS03; ETHERC_MII0: ET0_EXOUT; ETHERC_RMII0: ET0_EXOUT; GPT6: GTIOC6A; IIC0: SDA0; RTC0: RTCOUT; SCI4: CTSRTS4; SPI0: SSLA3; USB_FS0: USB_VBUS" - None - - 
@@ -187,7 +194,7 @@ FSP Configuration
       P604 94 - - - - Disabled - - "AGT4: AGTEE4; BUS_ASYNCH0: D12; GPT8: GTIOC8B; SCI9: CTS9" - None - - 
       P605 93 - - - - Disabled - - "AGT4: AGTO4; BUS_ASYNCH0: D11; GPT8: GTIOC8A; SCI8: CTS8" - None - - 
       P608 83 - - - - Disabled - - "BUS_ASYNCH0: A00; GPT4: GTIOC4B" - None - - 
-      P609 84 - OSPI_CS - - Disabled - - "AGT5: AGTO5; BUS_ASYNCH0: CS1; CAN1: CTX1; GPT5: GTIOC5A" - None - - 
+      P609 84 - OSPI_CS - - Disabled - - "AGT5: AGTO5; BUS_ASYNCH0: CS1; CAN1: CTX1; GPT5: GTIOC5A; OSPI0: OMECS" - None - - 
       P610 85 - OSPI_CS0 - - Disabled - - "AGT4: AGTO4; BUS_ASYNCH0: CS0; CAN1: CRX1; GPT5: GTIOC5B; OSPI0: OMCS0; SCI7: CTS7" - None - - 
       P611 86 GPIO ARDUINO_D8 Low - "Output mode (Initial Low)" CMOS - "AGT3: AGTO3; CAC0: CACREF; CGC0: CLKOUT; SCI7: CTSRTS7" - IO - - 
       P612 87 GPIO ARDUINO_RST Low - "Output mode (Initial Low)" CMOS - "AGT2: AGTO2; BUS_ASYNCH0: D08; SCI7: SCK7" - IO - - 
@@ -266,16 +273,16 @@ FSP Configuration
       P109 74 DEBUG0_TDO - Low - "Peripheral mode" CMOS None "AGT3: AGTOB3; CAN1: CTX1; CGC0: CLKOUT; DEBUG0: TDO; DEBUG0: TRACESWO; GPT_OPS0: GTOVUP; GPT1: GTIOC1A; SCI9: SDA9; SCI9: TXD9; SPI0: MOSIA" - IO - - 
       P110 75 DEBUG0_TDI - Low None "Peripheral mode" CMOS None "AGT3: AGTEE3; CAN1: CRX1; DEBUG0: TDI; GPT_OPS0: GTOVLO; GPT1: GTIOC1B; ICU0: IRQ03; SCI2: CTSRTS2; SCI9: RXD9; SCI9: SCL9; SPI0: MISOA" - IO - - 
       P111 76 - ARDUINO_D3 Low None Disabled CMOS - "AGT5: AGTOA5; BUS_ASYNCH0: A05; GPT3: GTIOC3A; ICU0: IRQ04; SCI2: SCK2; SCI9: SCK9; SPI0: RSPCKA" - IO - - 
-      P112 77 - - - - Disabled - - "AGT5: AGTOB5; BUS_ASYNCH0: A04; GPT3: GTIOC3B; OSPI0: OMCS1; QSPI0: QSSL; SCI1: SCK1; SCI2: SDA2; SCI2: TXD2; SPI0: SSLA0; SSI0: SSISCK0" - None - - 
-      P113 78 - - - - Disabled - - "AGT5: AGTEE5; BUS_ASYNCH0: A03; GPT2: GTIOC2A; SCI2: RXD2; SCI2: SCL2; SSI0: SSIWS0" - None - - 
+      P112 77 - - - - Disabled - - "AGT5: AGTOB5; BUS_ASYNCH0: A04; GPT3: GTIOC3B; OSPI0: OMCS1; QSPI0: QSSL; SCI1: SCK1; SCI2: SDA2; SCI2: TXD2; SPI0: SSLA0; SSI0: SSIBCK0" - None - - 
+      P113 78 - - - - Disabled - - "AGT5: AGTEE5; BUS_ASYNCH0: A03; GPT2: GTIOC2A; SCI2: RXD2; SCI2: SCL2; SSI0: SSILRCK0" - None - - 
       P114 79 - - - - Disabled - - "AGT5: AGTIO5; BUS_ASYNCH0: A02; GPT2: GTIOC2B; SCI9: CTS9; SSI0: SSIRXD0" - None - - 
       P115 80 - MIKROBUS_RST Low - Disabled CMOS - "BUS_ASYNCH0: A01; GPT4: GTIOC4A; SSI0: SSITXD0" - IO - - 
       P200 57 - - - - Disabled - - "ICU0: NMI" - None - - 
       P201 56 - - - - Disabled - - "SYSTEM0: MD" - None - - 
       P202 46 - ARDUILD_MISO_MIKROBUS_MISO - - Disabled - - "AGT3: AGTOB3; BUS_ASYNCH0: BC1; CAN0: CRX0; CTSU0: TS19; ETHERC_MII0: ET0_ERXD2; GPT5: GTIOC5B; ICU0: IRQ03; SCI2: SCK2; SCI9: RXD9; SCI9: SCL9; SDHI0: SD0DAT6; SPI0: MISOA" - None - - 
       P203 45 - ARDUILD_MOSI_MIKROBUS_MOSI - - Disabled - - "AGT3: AGTOA3; BUS_ASYNCH0: A19; CAN0: CTX0; CTSU0: TS18; ETHERC_MII0: ET0_COL; GPT5: GTIOC5A; ICU0: IRQ02; SCI2: CTSRTS2; SCI9: SDA9; SCI9: TXD9; SDHI0: SD0DAT5; SPI0: MOSIA" - None - - 
-      P204 44 - ARDUILD_CLK_MIKROBUS_CLK - - Disabled - - "AGT1: AGTIO1; BUS_ASYNCH0: A18; CAC0: CACREF; CTSU0: TS00; ETHERC_MII0: ET0_RX_DV; GPT_OPS0: GTIW; GPT4: GTIOC4B; SCI4: SCK4; SCI9: SCK9; SDHI0: SD0DAT4; SPI0: RSPCKA; SSI0: SSISCK0; USB_FS0: USB_OVRCURB" - None - - 
-      P205 43 - ARDUILD_SS_MIKROBUS_SS - - Disabled - - "AGT1: AGTO1; BUS_ASYNCH0: A16; CGC0: CLKOUT; CTSU0: TS01; ETHERC_MII0: ET0_WOL; ETHERC_RMII0: ET0_WOL; GPT_OPS0: GTIV; GPT4: GTIOC4A; ICU0: IRQ01; IIC1: SCL1; SCI4: SDA4; SCI4: TXD4; SCI9: CTSRTS9; SDHI0: SD0DAT3; SPI0: SSLA0; SSI0: SSIWS0; USB_FS0: USB_OVRCURA" - None - - 
+      P204 44 - ARDUILD_CLK_MIKROBUS_CLK - - Disabled - - "AGT1: AGTIO1; BUS_ASYNCH0: A18; CAC0: CACREF; CTSU0: TS00; ETHERC_MII0: ET0_RX_DV; GPT_OPS0: GTIW; GPT4: GTIOC4B; SCI4: SCK4; SCI9: SCK9; SDHI0: SD0DAT4; SPI0: RSPCKA; SSI0: SSIBCK0; USB_FS0: USB_OVRCURB" - None - - 
+      P205 43 - ARDUILD_SS_MIKROBUS_SS - - Disabled - - "AGT1: AGTO1; BUS_ASYNCH0: A16; CGC0: CLKOUT; CTSU0: TS01; ETHERC_MII0: ET0_WOL; ETHERC_RMII0: ET0_WOL; GPT_OPS0: GTIV; GPT4: GTIOC4A; ICU0: IRQ01; IIC1: SCL1; SCI4: SDA4; SCI4: TXD4; SCI9: CTSRTS9; SDHI0: SD0DAT3; SPI0: SSLA0; SSI0: SSILRCK0; USB_FS0: USB_OVRCURA" - None - - 
       P206 42 - - - - Disabled - - "BUS_ASYNCH0: WAIT; CTSU0: TS02; ETHERC_MII0: ET0_LINKSTA; ETHERC_RMII0: ET0_LINKSTA; GPT_OPS0: GTIU; ICU0: IRQ00; IIC1: SDA1; SCI4: RXD4; SCI4: SCL4; SCI9: CTS9; SDHI0: SD0DAT2; SPI0: SSLA1; SSI0: SSIDATA0; USB_FS0: USB_VBUSEN" - None - - 
       P207 41 - - - - Disabled - - "BUS_ASYNCH0: A17; CTSU0: TSCAP; QSPI0: QSSL; SCI4: SDA4; SCI4: TXD4; SPI0: SSLA2" - None - - 
       P208 54 - - - - Disabled - - "BUS_ASYNCH0: CS4; DEBUG_TRACE0: TDATA3; ETHERC_MII0: ET0_LINKSTA; ETHERC_RMII0: ET0_LINKSTA; GPT_OPS0: GTOVLO; QSPI0: QIO3; SDHI0: SD0DAT0" - None - - 
@@ -302,8 +309,8 @@ FSP Configuration
       P400 1 - LED3 Low None Disabled CMOS - "ADC1: ADTRG1; AGT1: AGTIO1; ETHERC_MII0: ET0_WOL; ETHERC_RMII0: ET0_WOL; GPT6: GTIOC6A; ICU0: IRQ00; IIC0: SCL0; SCI4: SCK4; SCI7: SCK7; SSI_COMMON0: AUDIO_CLK" - IO - - 
       P401 2 - ETH_MDC Low None Disabled CMOS None "CAN0: CTX0; ETHERC_MII0: ET0_MDC; ETHERC_RMII0: ET0_MDC; GPT_POEG0: GTETRGA; GPT6: GTIOC6B; ICU0: IRQ05; IIC0: SDA0; SCI4: CTSRTS4; SCI7: SDA7; SCI7: TXD7" - IO - - 
       P402 3 - ETH_MDIO Low None Disabled CMOS None "AGT0: AGTIO0; AGT1: AGTIO1; AGT2: AGTIO2; AGT3: AGTIO3; CAC0: CACREF; CAN0: CRX0; ETHERC_MII0: ET0_MDIO; ETHERC_RMII0: ET0_MDIO; ICU0: IRQ04; RTC0: RTCIC0; SCI4: CTS4; SCI7: RXD7; SCI7: SCL7; SSI_COMMON0: AUDIO_CLK" - IO - - 
-      P403 4 - ETH_RST Low None Disabled CMOS None "AGT0: AGTIO0; AGT1: AGTIO1; AGT2: AGTIO2; AGT3: AGTIO3; ETHERC_MII0: ET0_LINKSTA; ETHERC_RMII0: ET0_LINKSTA; GPT3: GTIOC3A; ICU0: IRQ14; RTC0: RTCIC1; SCI7: CTSRTS7; SSI0: SSISCK0" - IO - - 
-      P404 5 - LED2 Low None Disabled CMOS - "AGT0: AGTIO0; AGT1: AGTIO1; AGT2: AGTIO2; AGT3: AGTIO3; ETHERC_MII0: ET0_EXOUT; ETHERC_RMII0: ET0_EXOUT; GPT3: GTIOC3B; ICU0: IRQ15; RTC0: RTCIC2; SCI7: CTS7; SSI0: SSIWS0" - IO - - 
+      P403 4 - ETH_RST Low None Disabled CMOS None "AGT0: AGTIO0; AGT1: AGTIO1; AGT2: AGTIO2; AGT3: AGTIO3; ETHERC_MII0: ET0_LINKSTA; ETHERC_RMII0: ET0_LINKSTA; GPT3: GTIOC3A; ICU0: IRQ14; RTC0: RTCIC1; SCI7: CTSRTS7; SSI0: SSIBCK0" - IO - - 
+      P404 5 - LED2 Low None Disabled CMOS - "AGT0: AGTIO0; AGT1: AGTIO1; AGT2: AGTIO2; AGT3: AGTIO3; ETHERC_MII0: ET0_EXOUT; ETHERC_RMII0: ET0_EXOUT; GPT3: GTIOC3B; ICU0: IRQ15; RTC0: RTCIC2; SCI7: CTS7; SSI0: SSILRCK0" - IO - - 
       P405 6 - ETH_TXD_EN Low - Disabled CMOS None "ETHERC_MII0: ET0_TX_EN; ETHERC_RMII0: RMII_TXD_EN; GPT1: GTIOC1A; SSI0: SSITXD0" - IO - - 
       P406 7 - ETH_TXD1 Low - Disabled CMOS None "AGT5: AGTO5; ETHERC_MII0: ET0_RX_ER; ETHERC_RMII0: RMII_TXD1; GPT1: GTIOC1B; SPI0: SSLA3; SSI0: SSIRXD0" - IO - - 
       P407 36 - USB_VBUS_DETECT - - Disabled - - "ADC0: ADTRG0; AGT0: AGTIO0; CTSU0: TS03; ETHERC_MII0: ET0_EXOUT; ETHERC_RMII0: ET0_EXOUT; GPT6: GTIOC6A; IIC0: SDA0; RTC0: RTCOUT; SCI4: CTSRTS4; SPI0: SSLA3; USB_FS0: USB_VBUS" - None - - 
@@ -332,7 +339,7 @@ FSP Configuration
       P604 94 - - - - Disabled - - "AGT4: AGTEE4; BUS_ASYNCH0: D12; GPT8: GTIOC8B; SCI9: CTS9" - None - - 
       P605 93 - - - - Disabled - - "AGT4: AGTO4; BUS_ASYNCH0: D11; GPT8: GTIOC8A; SCI8: CTS8" - None - - 
       P608 83 - - - - Disabled - - "BUS_ASYNCH0: A00; GPT4: GTIOC4B" - None - - 
-      P609 84 - OSPI_CS - - Disabled - - "AGT5: AGTO5; BUS_ASYNCH0: CS1; CAN1: CTX1; GPT5: GTIOC5A" - None - - 
+      P609 84 - OSPI_CS - - Disabled - - "AGT5: AGTO5; BUS_ASYNCH0: CS1; CAN1: CTX1; GPT5: GTIOC5A; OSPI0: OMECS" - None - - 
       P610 85 - OSPI_CS0 - - Disabled - - "AGT4: AGTO4; BUS_ASYNCH0: CS0; CAN1: CRX1; GPT5: GTIOC5B; OSPI0: OMCS0; SCI7: CTS7" - None - - 
       P611 86 - ARDUINO_D8 Low - Disabled CMOS - "AGT3: AGTO3; CAC0: CACREF; CGC0: CLKOUT; SCI7: CTSRTS7" - IO - - 
       P612 87 - ARDUINO_RST Low - Disabled CMOS - "AGT2: AGTO2; BUS_ASYNCH0: D08; SCI7: SCK7" - IO - - 
@@ -389,11 +396,13 @@ FSP Configuration
     
   User Event Links
     
-  Module "I/O Port Driver on r_ioport"
+  Module "I/O Port (r_ioport)"
     Parameter Checking: Default (BSP)
     
   Module "FreeRTOS+TCP"
     Print debug messages: Disable
+    Backward Compatible Mode: Yes 
+    Enable IPV6: Disable
     Print info messages: Disable
     Byte order of the target MCU: pdFREERTOS_LITTLE_ENDIAN 
     IP/TCP/UDP checksums: Enable 
@@ -408,7 +417,6 @@ FSP Configuration
     Use DHCP: Enable 
     DHCP Register Hostname: Enable 
     DHCP Uses Unicast: Enable 
-    DHCP Send Discover After Auto IP: Enable 
     DHCP callback function: Enable 
     Interval between transmissions: 120000 / portTICK_PERIOD_MS
     ARP Cache Entries: 6
@@ -429,8 +437,6 @@ FSP Configuration
     FreeRTOS_select() (and associated) API function is available: Disable
     Filter out non Ethernet II frames.: Enable 
     Responsibility of the Ethernet interface to filter out packets: Disable
-    Send RST packets, when receive unknown packets.: Enable 
-    Block time to simulate MAC interrupts: 20 / portTICK_PERIOD_MS
     Access 32-bit fields in the IP packets: 2
     Size of the pool of TCP window descriptors: 240
     Size of Rx buffer for TCP sockets: 3000
@@ -444,18 +450,24 @@ FSP Configuration
     The socket semaphore to unblock the MQTT task (RX_DRIVER): Disable
     Possible optimisation for expert users: Disable
     
-  Module "FreeRTOS+TCP Wrapper to r_ether"
-  Module "Ethernet Driver on r_ether_phy"
-    Parameter Checking: Default (BSP)
-    Select PHY: Default
-    Reference Clock: Default
-    
-  Module "Buffer Allocation 2"
-  Module "Heap 4"
-  Module "Ethernet Driver on r_ether"
+  Module "FreeRTOS+TCP Wrapper to r_ether (rm_freertos_plus_tcp)"
+  Module "FreeRTOS Buffer Allocation 2"
+  Module "FreeRTOS Heap 4"
+  Module "Ethernet (r_ether)"
     Parameter Checking: Default (BSP)
     ET0_LINKSTA Pin Status Flag: Fall -> Rise
     Link Signal Change Flag: Unused
+    Interrupt event backward compatibility: Do not keep compatibility
+    
+  Module "Ethernet (r_ether_phy)"
+    Parameter Checking: Default (BSP)
+    KSZ8091RNB Target: Disabled
+    KSZ8041 Target: Disabled
+    DP83620 Target: Disabled
+    ICS1894 Target: Disabled
+    User Own Target: Disabled
+    Reference Clock: Default
+    Automatic Phy LSI Initialization: Enabled
     
   FreeRTOS
     General: Custom FreeRTOSConfig.h: 
@@ -476,6 +488,7 @@ FSP Configuration
     General: Use 16-bit Ticks: Disabled
     General: Idle Should Yield: Disabled
     General: Use Task Notifications: Enabled
+    General: Task Notification Array Entries: 1
     General: Use Mutexes: Disabled
     General: Use Recursive Mutexes: Disabled
     General: Use Counting Semaphores: Enabled
@@ -488,6 +501,7 @@ FSP Configuration
     General: Num Thread Local Storage Pointers: 5
     General: Stack Depth Type: uint32_t
     General: Message Buffer Length Type: size_t
+    Memory Allocation: Clear Memory on Free: Disabled
     Memory Allocation: Support Static Allocation: Enabled
     Memory Allocation: Support Dynamic Allocation: Enabled
     Memory Allocation: Total Heap Size: 0x8000
@@ -519,16 +533,17 @@ FSP Configuration
     Optional Functions: xTaskResumeFromISR() Function: Enabled
     RA: Hardware Stack Monitor: Disabled
     Logging: Print String Function: printf(x)
-    Logging: Logging Max Message Length: 192
     Logging: Logging Include Time and Task Name: Disabled
+    Logging: Debug Logging Name: Log Name
+    Logging: Logging Level: LOG_NONE
     
   HAL
-    Instance "g_ioport I/O Port Driver on r_ioport"
+    Instance "g_ioport I/O Port (r_ioport)"
       Name: g_ioport
-      Port 1 ELC Trigger Source: Disabled
-      Port 2 ELC Trigger Source: Disabled
-      Port 3 ELC Trigger Source: Disabled
-      Port 4 ELC Trigger Source: Disabled
+      1st Port ELC Trigger Source: Disabled
+      2nd Port ELC Trigger Source: Disabled
+      3rd Port ELC Trigger Source: Disabled
+      4th Port ELC Trigger Source: Disabled
       Pin Configuration Name: g_bsp_pin_cfg
       
   Thread "Net Thread"
@@ -541,11 +556,11 @@ FSP Configuration
     Allocate Secure Context: Disable
     
     Instance "FreeRTOS+TCP"
-      Instance "FreeRTOS+TCP Wrapper to r_ether"
-        Instance "g_ether0 Ethernet Driver on r_ether"
+      Instance "FreeRTOS+TCP Wrapper to r_ether (rm_freertos_plus_tcp)"
+        Instance "g_ether0 Ethernet (r_ether)"
           General: Name: g_ether0
           General: Channel: 0
-          General: MAC address: 00:11:22:33:44:55
+          General: MAC address: 74:90:50:65:64:6D
           General: Zero-copy Mode: Disable
           General: Flow control functionality: Enable
           Filters: Multicast Mode: Enable
@@ -557,17 +572,22 @@ FSP Configuration
           Buffers: Buffer size: 1514
           Buffers: Padding size: Disable
           Buffers: Padding offset: 0
+          Interrupts: EESR event: RFOF, RDE, FR, TFUF, TDE, TC
+          Interrupts: ECSR event: 
           Interrupts: Interrupt priority: Priority 12
           Interrupts: Callback: vEtherISRCallback
           
-          Instance "g_ether_phy1 Ethernet Driver on r_ether_phy"
+          Instance "g_ether_phy1 Ethernet (r_ether_phy)"
             Name: g_ether_phy1
             Channel: 0
             PHY-LSI Address: 0
             PHY-LSI Reset Completion Timeout: 0x00020000
             Select MII type: RMII
+            Phy LSI type: Kit Component
+            Port Custom Init Function: NULL
+            Port Custom Link Partner Ability Get Function: NULL
             MII/RMII Register Access Wait-time: 8
             Flow Control: Disable
             
-        Instance "Buffer Allocation 2"
-    Instance "Heap 4"
+        Instance "FreeRTOS Buffer Allocation 2"
+    Instance "FreeRTOS Heap 4"

@@ -12,7 +12,23 @@
 	On successful validation, EP creates a UDP socket, establishes a connection, and sends a "hello" message to the UDP server. 
 	The EP continuously waits for any incoming messages from the UDP server. The incoming messages are displayed on the J-Link RTT Viewer.
 
-2. To run this example project, user needs to compile and download the example project to the evaluation kit and then follow below 
+2. Software Requirements:
+		Renesas Flexible Software Package (FSP): Version 5.6.0
+		e2 studio: Version 2024-10
+		SEGGER J-Link RTT Viewer: Version 7.98g
+		GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
+	  	PacketSender (https://packetsender.com/download#show)
+	
+3. Hardware Requirements:
+   	Hardware: 
+          	1 x RA board 
+   	  	1 x Renesas Silex UART Pmod module
+	  	1 x Wi-Fi router Access Point(AP) with internet access. Note: WiFi router AP's credentials should be known.
+	  	PC or laptop connected to the same WiFi router AP. On PC/laptop, create UDP server and start listening
+	     	at port which is free. Port of value greater than 10000 is recommended.
+	  	1 x Micro USB cable (For MCK-RA8T1: 1 x Type C USB cable)
+
+4. To run this example project, user needs to compile and download the example project to the evaluation kit and then follow below 
    instructions to observe the operation of the system.
 
 	Supported Boards: EK-RA4M3/EK-RA6M3/EK-RA6M3G/EK-RA6M4/EK-RA6M5/FPB-RA4E1/FPB-RA6E1/EK-RA8M1/EK-RA8D1/MCK-RA8T1/EK-RA2A2/FPB-RA0E1
@@ -46,24 +62,8 @@
             from where the data is recieved.
 
 	12) Data can be sent from the Server to client with the IP address and the port number mentioned in Step 11
-	
-3. Hardware and Software Requirements:
-   	Hardware: 
-          	1 x RA board 
-   	  	1 x Renesas Silex UART Pmod module
-	  	1 x Wi-Fi router Access Point(AP) with internet access. Note: WiFi router AP's credentials should be known.
-	  	PC or laptop connected to the same WiFi router AP. On PC/laptop, create UDP server and start listening
-	     	at port which is free. Port of value greater than 10000 is recommended.
-	  	1 x Micro USB cable (For MCK-RA8T1: 1 x Type C USB cable)
 
-   	Software: 
-		Renesas Flexible Software Package (FSP)
-		e2 studio: Version 2024-07
-		SEGGER J-Link RTT Viewer: Version 7.98b
-		GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
-	  	PacketSender (https://packetsender.com/download#show)
-
-4. Hardware Connections:
+5. Hardware Connections:
 	EK-RA4M3/EK-RA6M3/EK-RA6M3G/EK-RA6M4/EK-RA6M5:
 	-----------
 	Connect

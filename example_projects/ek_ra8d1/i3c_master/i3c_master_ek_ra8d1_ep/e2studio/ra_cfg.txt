@@ -1,5 +1,5 @@
 FSP Configuration
-  Board "EK-RA8D1"
+  Board "RA8|RA8D1|EK-RA8D1"
   R7FA8D1BHECBD
     part_number: R7FA8D1BHECBD
     rom_size_bytes: 2064384
@@ -13,6 +13,21 @@ FSP Configuration
     
   RA8D1 Family
     Enable inline BSP IRQ functions: Enabled
+    SDRAM: SDRAM Support: Disabled
+    SDRAM: Timings: tRAS (cycles): 6 cycles
+    SDRAM: Timings: tRCD (cycles): 3 cycles
+    SDRAM: Timings: tRP (cycles): 3 cycles
+    SDRAM: Timings: tWR (cycles): 2 cycles
+    SDRAM: Timings: tCL (cycles): 3 cycles
+    SDRAM: Timings: tRFC (cycles): 937
+    SDRAM: Timings: tREFW (cycles): 8 cycles
+    SDRAM: Initialization: Auto-Refresh Interval (ARFI): 10 cycles
+    SDRAM: Initialization: Auto-Refresh Count (ARFC): 8 times
+    SDRAM: Initialization: Precharge Cycle Count (PRC): 3 cycles
+    SDRAM: Address Multiplex Shift: 9-bit shift
+    SDRAM: Endian Mode: Little Endian
+    SDRAM: Continuous Access Mode: Enabled
+    SDRAM: Bus Width: 16-bit
     Security: Exceptions: Exception Response: Non-Maskable Interrupt
     Security: Exceptions: BusFault, HardFault, and NMI Target: Secure State
     Security: System Reset Request Accessibility: Secure State
@@ -109,9 +124,9 @@ FSP Configuration
     PLL1P Div /2
     PLL1Q Div /2
     PLL1R Div /2
-    PLL2 Disabled
+    PLL2 Src: XTAL
     PLL2 Div /2
-    PLL2 Mul x80-99|Mul x96|PLL2 Mul x96.00
+    PLL2 Mul x80-99|Mul x80|PLL2 Mul x80.00
     PLL2P Div /2
     PLL2Q Div /2
     PLL2R Div /2
@@ -121,7 +136,7 @@ FSP Configuration
     SPICLK Disabled
     CANFDCLK Disabled
     LCDCLK Disabled
-    I3CCLK Src: PLL1P
+    I3CCLK Src: PLL2P
     UCK Disabled
     U60CK Disabled
     OCTASPICLK Disabled
@@ -141,7 +156,7 @@ FSP Configuration
     SPICLK Div /4
     CANFDCLK Div /8
     LCDCLK Div /2
-    I3CCLK Div /3
+    I3CCLK Div /2
     UCK Div /5
     U60CK Div /5
     OCTASPICLK Div /4
@@ -611,7 +626,7 @@ FSP Configuration
     Pin Input Support: Disabled
     
   Module "I3C (r_i3c)"
-    Parameter Checking: Disabled
+    Parameter Checking: Default (BSP)
     Unaligned Buffer Support: Enabled
     Master Support: Enabled
     Slave Support: Disabled
@@ -652,8 +667,8 @@ FSP Configuration
       Device Type: Main Master
       Bitrate Settings: Standard Mode: Open-Drain: Logic High Period (ns): 167
       Bitrate Settings: Standard Mode: Open-Drain: Frequency: 1000000
-      Bitrate Settings: Standard Mode: Push-Pull: Logic High Period (ns): 167
-      Bitrate Settings: Standard Mode: Push-Pull: Frequency: 3400000
+      Bitrate Settings: Standard Mode: Push-Pull: Logic High Period (ns): 45
+      Bitrate Settings: Standard Mode: Push-Pull: Frequency: 12500000
       Bitrate Settings: Extended Mode: Open-Drain: Logic High Period (ns): 167
       Bitrate Settings: Extended Mode: Open-Drain: Frequency: 1000000
       Bitrate Settings: Extended Mode: Push-Pull: Logic High Period (ns): 167
@@ -688,6 +703,9 @@ FSP Configuration
       Slave Mode: Command Response Info: GETMXDS: Max Read Turnaround Time: 0
       Slave Mode: Command Response Info: GETXTIME: Frequency Byte: 0
       Slave Mode: Command Response Info: GETXTIME: Inaccuracy Byte: 0
+      Slave Mode: Command Response Info: GETCAP/GETHDRCAP: HDR-DDR (Mode 0): Disabled
+      Slave Mode: Command Response Info: GETCAP/GETHDRCAP: HDR-TSP (Mode 1): Not Supported
+      Slave Mode: Command Response Info: GETCAP/GETHDRCAP: HDR-TSL (Mode 2): Not Supported
       Interrupts: Interrupt Priority: Priority 2
       Interrupts: Error and Event Interrupt Priority: Priority 2
       

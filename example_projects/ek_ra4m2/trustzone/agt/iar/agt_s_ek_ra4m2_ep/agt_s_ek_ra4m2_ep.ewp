@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <project>
     <fileVersion>4</fileVersion>
     <configuration>
@@ -700,8 +700,8 @@
             <name>CUSTOM</name>
             <archiveVersion>3</archiveVersion>
             <data>
-                <extensions></extensions>
-                <cmdline></cmdline>
+                <extensions/>
+                <cmdline/>
                 <hasPrio>0</hasPrio>
                 <buildSequence>inputOutputBased</buildSequence>
             </data>
@@ -1108,14 +1108,19 @@
             <data>
                 <buildActions>
                     <buildAction>
-                        <cmdline>cmd /c "start /w cmd /c ""$PROJ_DIR$\rasc_launcher.bat" "$PROJ_DIR$\rasc_version.txt" -nosplash --launcher.suppressErrors --gensmartbundle --compiler IAR --devicefamily $RASC_DEVICE_FAMILY$ "$PROJ_DIR$\configuration.xml" "$TARGET_PATH$" 2&gt; "$PROJ_DIR$\Debug\rasc_stderr.out""" || "$RASC_EXE_PATH$" -nosplash --launcher.suppressErrors --compiler IAR --gensmartbundle --devicefamily $RASC_DEVICE_FAMILY$ "$PROJ_DIR$/configuration.xml" "$TARGET_PATH$" 2&gt; "$PROJ_DIR$/Debug/rasc_stderr.out"</cmdline>
+                        <cmdline>cmd /c ""$PROJ_DIR$\rasc_launcher.bat" "$PROJ_DIR$\rasc_version.txt" -nosplash --launcher.suppressErrors --gensmartbundle --compiler IAR --devicefamily $RASC_DEVICE_FAMILY$ "$PROJ_DIR$\configuration.xml" "$TARGET_PATH$" "$PROJ_DIR$\UserNscApiFiles.txt" 2&gt; "$BUILD_FILES_DIR$\.rasc_stderr.txt""</cmdline>
                         <workingDirectory>$PROJ_DIR$</workingDirectory>
                         <buildSequence>postLink</buildSequence>
                         <outputs>
                             <file>
-                                <name>$BUILD_FILES_DIR$/.postbuild</name>
+<name>$TARGET_BPATH$.sbd</name>
                             </file>
                         </outputs>
+                        <dependencies>
+                            <file>
+<name>$TARGET_PATH$</name>
+                            </file>
+                        </dependencies>
                     </buildAction>
                 </buildActions>
             </data>
@@ -1821,8 +1826,8 @@
             <name>CUSTOM</name>
             <archiveVersion>3</archiveVersion>
             <data>
-                <extensions></extensions>
-                <cmdline></cmdline>
+                <extensions/>
+                <cmdline/>
                 <hasPrio>0</hasPrio>
                 <buildSequence>inputOutputBased</buildSequence>
             </data>
@@ -2229,14 +2234,19 @@
             <data>
                 <buildActions>
                     <buildAction>
-                        <cmdline>cmd /c "start /w cmd /c ""$PROJ_DIR$\rasc_launcher.bat" "$PROJ_DIR$\rasc_version.txt" -nosplash --launcher.suppressErrors --gensmartbundle --compiler IAR --devicefamily $RASC_DEVICE_FAMILY$ "$PROJ_DIR$\configuration.xml" "$TARGET_PATH$" 2&gt; "$PROJ_DIR$\Debug\rasc_stderr.out""" || "$RASC_EXE_PATH$" -nosplash --launcher.suppressErrors --compiler IAR --gensmartbundle --devicefamily $RASC_DEVICE_FAMILY$ "$PROJ_DIR$/configuration.xml" "$TARGET_PATH$" 2&gt; "$PROJ_DIR$/Debug/rasc_stderr.out"</cmdline>
+                        <cmdline>cmd /c ""$PROJ_DIR$\rasc_launcher.bat" "$PROJ_DIR$\rasc_version.txt" -nosplash --launcher.suppressErrors --gensmartbundle --compiler IAR --devicefamily $RASC_DEVICE_FAMILY$ "$PROJ_DIR$\configuration.xml" "$TARGET_PATH$" "$PROJ_DIR$\UserNscApiFiles.txt" 2&gt; "$BUILD_FILES_DIR$\.rasc_stderr.txt""</cmdline>
                         <workingDirectory>$PROJ_DIR$</workingDirectory>
                         <buildSequence>postLink</buildSequence>
                         <outputs>
                             <file>
-                                <name>$BUILD_FILES_DIR$/.postbuild</name>
+<name>$TARGET_BPATH$.sbd</name>
                             </file>
                         </outputs>
+                        <dependencies>
+                            <file>
+<name>$TARGET_PATH$</name>
+                            </file>
+                        </dependencies>
                     </buildAction>
                 </buildActions>
             </data>

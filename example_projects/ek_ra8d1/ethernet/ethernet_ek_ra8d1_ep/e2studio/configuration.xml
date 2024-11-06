@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<raConfiguration version="7">
+<raConfiguration version="9">
   <generalSettings>
     <option key="#Board#" value="board.ra8d1ek" />
     <option key="CPU" value="RA8D1" />
@@ -9,7 +9,7 @@
     <option key="#DeviceCommand#" value="R7FA8D1BH" />
     <option key="#RTOS#" value="rtos.awsfreertos" />
     <option key="#pinconfiguration#" value="R7FA8D1BHECBD.pincfg" />
-    <option key="#FSPVersion#" value="5.5.0" />
+    <option key="#FSPVersion#" value="5.6.0" />
     <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra8d1_ek##" />
     <option key="#SELECTED_TOOLCHAIN#" value="gcc-arm-embedded" />
     <option key="#ToolchainVersion#" value="13.2.1.arm-13-7" />
@@ -29,18 +29,36 @@
       <property id="config.bsp.series" value="config.bsp.series.value" />
     </config>
     <config id="config.bsp.ra8d1.fsp">
+      <property id="config.bsp.fsp.inline_irq_functions" value="config.bsp.common.inline_irq_functions.enabled" />
+      <property id="config.bsp.fsp.sdram.enabled" value="config.bsp.fsp.sdram.enabled.disabled" />
+      <property id="config.bsp.fsp.sdram.tras" value="config.bsp.fsp.sdram.tras.6" />
+      <property id="config.bsp.fsp.sdram.trcd" value="config.bsp.fsp.sdram.trcd.3" />
+      <property id="config.bsp.fsp.sdram.trp" value="config.bsp.fsp.sdram.trp.3" />
+      <property id="config.bsp.fsp.sdram.twr" value="config.bsp.fsp.sdram.twr.2" />
+      <property id="config.bsp.fsp.sdram.tcl" value="config.bsp.fsp.sdram.tcl.3" />
+      <property id="config.bsp.fsp.sdram.trfc" value="937" />
+      <property id="config.bsp.fsp.sdram.trefw" value="config.bsp.fsp.sdram.trefw.8" />
+      <property id="config.bsp.fsp.sdram.arfi" value="config.bsp.fsp.sdram.arfi.10" />
+      <property id="config.bsp.fsp.sdram.arfc" value="config.bsp.fsp.sdram.arfc.8" />
+      <property id="config.bsp.fsp.sdram.prc" value="config.bsp.fsp.sdram.prc.3" />
+      <property id="config.bsp.fsp.sdram.addr_shift" value="config.bsp.fsp.sdram.addr_shift.9" />
+      <property id="config.bsp.fsp.sdram.endian_mode" value="config.bsp.fsp.sdram.endian_mode.little" />
+      <property id="config.bsp.fsp.sdram.continuous_access_mode" value="config.bsp.fsp.sdram.continuous_access_mode.enabled" />
+      <property id="config.bsp.fsp.sdram.bus_width" value="config.bsp.fsp.sdram.bus_width.16" />
       <property id="config.bsp.fsp.tz.exception_response" value="config.bsp.fsp.tz.exception_response.nmi" />
       <property id="config.bsp.fsp.tz.cmsis.bfhfnmins" value="config.bsp.fsp.tz.cmsis.bfhfnmins.secure" />
       <property id="config.bsp.fsp.tz.cmsis.sysresetreqs" value="config.bsp.fsp.tz.cmsis.sysresetreqs.secure_only" />
       <property id="config.bsp.fsp.tz.cmsis.s_priority_boost" value="config.bsp.fsp.tz.cmsis.s_priority_boost.disabled" />
-      <property id="config.bsp.fsp.tz.csar" value="config.bsp.fsp.tz.csar.both" />
       <property id="config.bsp.fsp.tz.rstsar" value="config.bsp.fsp.tz.rstsar.both" />
-      <property id="config.bsp.fsp.tz.sramsar.sramprcr" value="config.bsp.fsp.tz.sramsar.sramprcr.both" />
-      <property id="config.bsp.fsp.tz.sramsar.sramecc" value="config.bsp.fsp.tz.sramsar.sramecc.both" />
-      <property id="config.bsp.fsp.tz.stbramsar" value="config.bsp.fsp.tz.stbramsar.both" />
+      <property id="config.bsp.fsp.tz.bbfsar" value="config.bsp.fsp.tz.bbfsar.both" />
+      <property id="config.bsp.fsp.tz.sramsar.sramsa0" value="config.bsp.fsp.tz.sramsar.sramsa0.both" />
+      <property id="config.bsp.fsp.tz.sramsar.sramsa1" value="config.bsp.fsp.tz.sramsar.sramsa1.both" />
+      <property id="config.bsp.fsp.tz.sramsar.stbramsa" value="config.bsp.fsp.tz.sramsar.stbramsa.both" />
       <property id="config.bsp.fsp.tz.bussara" value="config.bsp.fsp.tz.bussara.both" />
       <property id="config.bsp.fsp.tz.bussarb" value="config.bsp.fsp.tz.bussarb.both" />
+      <property id="config.bsp.fsp.tz.bussarc" value="config.bsp.fsp.tz.bussarc.both" />
       <property id="config.bsp.fsp.tz.banksel_sel" value="config.bsp.fsp.tz.banksel_sel.both" />
+      <property id="config.bsp.fsp.tz.pgcsar" value="config.bsp.fsp.tz.pgcsar.secure_only" />
       <property id="config.bsp.fsp.tz.uninitialized_ns_application_fallback" value="config.bsp.fsp.tz.uninitialized_ns_application_fallback.enabled" />
       <property id="config.bsp.fsp.OFS0.iwdt_start_mode" value="config.bsp.fsp.OFS0.iwdt_start_mode.disabled" />
       <property id="config.bsp.fsp.OFS0.iwdt_timeout" value="config.bsp.fsp.OFS0.iwdt_timeout.2048" />
@@ -56,8 +74,13 @@
       <property id="config.bsp.fsp.OFS0.wdt_window_start" value="config.bsp.fsp.OFS0.wdt_window_start.100" />
       <property id="config.bsp.fsp.OFS0.wdt_reset_interrupt" value="config.bsp.fsp.OFS0.wdt_reset_interrupt.Reset" />
       <property id="config.bsp.fsp.OFS0.wdt_stop_control" value="config.bsp.fsp.OFS0.wdt_stop_control.stops" />
+      <property id="config.bsp.fsp.OFS1_SEL.voltage_detection0_level" value="config.bsp.fsp.OFS1_SEL.voltage_detection0_level.secure" />
+      <property id="config.bsp.fsp.OFS1_SEL.voltage_detection0.start" value="config.bsp.fsp.OFS1_SEL.voltage_detection0.start.secure" />
+      <property id="config.bsp.fsp.OFS1_SEL.voltage_detection0.low_power_consumption" value="config.bsp.fsp.OFS1_SEL.voltage_detection0.low_power_consumption.secure" />
+      <property id="config.bsp.fsp.OFS1_SEL.swdbg" value="config.bsp.fsp.OFS1_SEL.swdbg.secure" />
+      <property id="config.bsp.fsp.OFS1_SEL.initeccen" value="config.bsp.fsp.OFS1_SEL.initeccen.secure" />
       <property id="config.bsp.fsp.OFS1.voltage_detection0.start" value="config.bsp.fsp.OFS1.voltage_detection0.start.disabled" />
-      <property id="config.bsp.fsp.OFS1.voltage_detection0_level" value="config.bsp.fsp.OFS1.voltage_detection0_level.1595" />
+      <property id="config.bsp.fsp.OFS1.voltage_detection0_level" value="config.bsp.fsp.OFS1.voltage_detection0_level.160" />
       <property id="config.bsp.fsp.OFS1.voltage_detection0.low_power_consumption" value="config.bsp.fsp.OFS1.voltage_detection0.low_power_consumption.disabled" />
       <property id="config.bsp.fsp.OFS1.hoco_osc" value="config.bsp.fsp.OFS1.hoco_osc.disabled" />
       <property id="config.bsp.fsp.OFS1.swdbg" value="config.bsp.fsp.OFS1.swdbg.disabled" />
@@ -72,12 +95,28 @@
       <property id="config.bsp.fsp.PBPS.PBPS2" value="" />
       <property id="config.bsp.fsp.PBPS.PBPS3" value="" />
       <property id="config.bsp.fsp.dual_bank" value="config.bsp.fsp.dual_bank.disabled" />
+      <property id="config.bsp.fsp.FSBLCTRL0.FSBLEN" value="config.bsp.fsp.FSBLCTRL0.FSBLEN.disabled" />
+      <property id="config.bsp.fsp.FSBLCTRL0.FSBLSKIPSW" value="config.bsp.fsp.FSBLCTRL0.FSBLSKIPSW.disabled" />
+      <property id="config.bsp.fsp.FSBLCTRL0.FSBLSKIPDS" value="config.bsp.fsp.FSBLCTRL0.FSBLSKIPDS.disabled" />
+      <property id="config.bsp.fsp.FSBLCTRL0.FSBLCLK" value="config.bsp.fsp.FSBLCTRL0.FSBLCLK.240" />
+      <property id="config.bsp.fsp.FSBLCTRL1.FSBLEXMD" value="config.bsp.fsp.FSBLCTRL1.FSBLEXMD.secure_report" />
+      <property id="config.bsp.fsp.FSBLCTRL2.PORTPN" value="config.bsp.fsp.FSBLCTRL2.PORTPN.15" />
+      <property id="config.bsp.fsp.FSBLCTRL2.PORTGN" value="config.bsp.fsp.FSBLCTRL2.PORTGN.reserved" />
+      <property id="config.bsp.fsp.SACC0" value="0xFFFFFFFF" />
+      <property id="config.bsp.fsp.SACC1" value="0xFFFFFFFF" />
+      <property id="config.bsp.fsp.SAMR" value="0xFFFFFFFF" />
       <property id="config.bsp.fsp.hoco_fll" value="config.bsp.fsp.hoco_fll.disabled" />
+      <property id="config.bsp.fsp.clock_settling_delay" value="config.bsp.fsp.clock_settling_delay.enabled" />
+      <property id="config.bsp.fsp.sleep_mode_delays" value="config.bsp.fsp.sleep_mode_delays.enabled" />
+      <property id="config.bsp.fsp.rtos_idle_sleep" value="config.bsp.fsp.rtos_idle_sleep.disabled" />
+      <property id="config.bsp.fsp.mstp_change_delays" value="config.bsp.fsp.mstp_change_delays.enabled" />
+      <property id="config.bsp.fsp.settling_delay_us" value="150" />
       <property id="config.bsp.common.main_osc_wait" value="config.bsp.common.main_osc_wait.wait_8163" />
       <property id="config.bsp.fsp.mcu.adc.max_freq_hz" value="50000000" />
       <property id="config.bsp.fsp.mcu.sci_b_uart.max_baud" value="20000000" />
       <property id="config.bsp.fsp.mcu.sci_b_uart.ctspen_channels" value="0x021F" />
       <property id="config.bsp.fsp.mcu.adc.sample_and_hold" value="0" />
+      <property id="config.bsp.fsp.mcu.adc.sensors_are_exclusive" value="0" />
       <property id="config.bsp.fsp.mcu.sci_spi.max_bitrate" value="30000000" />
       <property id="config.bsp.fsp.mcu.spi.max_bitrate" value="60000000" />
       <property id="config.bsp.fsp.mcu.iic_master.rate.rate_fastplus" value="1" />
@@ -92,6 +131,8 @@
       <property id="config.bsp.fsp.mcu.canfd.afl_rules_each_chnl" value=" 16" />
       <property id="config.bsp.fsp.mcu.canfd.max_data_rate_hz" value="8" />
       <property id="config.bsp.fsp.mcu.adc_dmac.samples_per_channel" value="32767" />
+      <property id="config.bsp.fsp.mcu.sci_b_lin.max_baud" value="7500000" />
+      <property id="config.bsp.fsp.dcache" value="config.bsp.fsp.dcache.disabled" />
     </config>
     <config id="config.bsp.ra">
       <property id="config.bsp.common.main" value="0x1000" />
@@ -189,61 +230,61 @@
     <node id="board.clock.octaspiclk.display" option="board.clock.octaspiclk.display.value" />
   </raClockConfiguration>
   <raComponentSelection>
-    <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="6.1.0+fsp.5.5.0">
-      <description>Arm CMSIS Version 5 - Core (M)</description>
-      <originalPack>Arm.CMSIS5.6.1.0+fsp.5.5.0.pack</originalPack>
+    <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="6.1.0+fsp.5.6.0">
+      <description>Arm CMSIS Version 6 - Core (M)</description>
+      <originalPack>Arm.CMSIS6.6.1.0+fsp.5.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="RTOS" condition="" group="FreeRTOS" subgroup="all" variant="" vendor="AWS" version="10.6.1+fsp.5.5.0">
+    <component apiversion="" class="RTOS" condition="" group="FreeRTOS" subgroup="all" variant="" vendor="AWS" version="10.6.1+fsp.5.6.0">
       <description>FreeRTOS</description>
-      <originalPack>Amazon.FreeRTOS-Kernel.10.6.1+fsp.5.5.0.pack</originalPack>
+      <originalPack>Amazon.FreeRTOS-Kernel.10.6.1+fsp.5.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Heaps" condition="" group="FreeRTOS" subgroup="heap_4" variant="" vendor="AWS" version="10.6.1+fsp.5.5.0">
+    <component apiversion="" class="Heaps" condition="" group="FreeRTOS" subgroup="heap_4" variant="" vendor="AWS" version="10.6.1+fsp.5.6.0">
       <description>FreeRTOS - Memory Management - Heap 4</description>
-      <originalPack>Amazon.FreeRTOS-Kernel.10.6.1+fsp.5.5.0.pack</originalPack>
+      <originalPack>Amazon.FreeRTOS-Kernel.10.6.1+fsp.5.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Libraries" condition="" group="FreeRTOS" subgroup="BufferAllocation2" variant="" vendor="AWS" version="4.2.1+fsp.5.5.0">
+    <component apiversion="" class="Libraries" condition="" group="FreeRTOS" subgroup="BufferAllocation2" variant="" vendor="AWS" version="4.2.1+fsp.5.6.0">
       <description>FreeRTOS - Buffer Allocation 2</description>
-      <originalPack>Amazon.FreeRTOS-Plus-TCP.4.2.1+fsp.5.5.0.pack</originalPack>
+      <originalPack>Amazon.FreeRTOS-Plus-TCP.4.2.1+fsp.5.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Libraries" condition="" group="FreeRTOS_Plus" subgroup="FreeRTOS_Plus_TCP" variant="" vendor="AWS" version="4.2.1+fsp.5.5.0">
+    <component apiversion="" class="Libraries" condition="" group="FreeRTOS_Plus" subgroup="FreeRTOS_Plus_TCP" variant="" vendor="AWS" version="4.2.1+fsp.5.6.0">
       <description>FreeRTOS+TCP</description>
-      <originalPack>Amazon.FreeRTOS-Plus-TCP.4.2.1+fsp.5.5.0.pack</originalPack>
+      <originalPack>Amazon.FreeRTOS-Plus-TCP.4.2.1+fsp.5.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="5.5.0">
+    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="5.6.0">
       <description>Board Support Package Common Files</description>
-      <originalPack>Renesas.RA.5.5.0.pack</originalPack>
+      <originalPack>Renesas.RA.5.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ether_phy" variant="" vendor="Renesas" version="5.5.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ether_phy" variant="" vendor="Renesas" version="5.6.0">
       <description>Ethernet PHY</description>
-      <originalPack>Renesas.RA.5.5.0.pack</originalPack>
+      <originalPack>Renesas.RA.5.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ether" variant="" vendor="Renesas" version="5.5.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ether" variant="" vendor="Renesas" version="5.6.0">
       <description>Ethernet</description>
-      <originalPack>Renesas.RA.5.5.0.pack</originalPack>
+      <originalPack>Renesas.RA.5.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="5.5.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="5.6.0">
       <description>I/O Port</description>
-      <originalPack>Renesas.RA.5.5.0.pack</originalPack>
+      <originalPack>Renesas.RA.5.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_freertos_plus_tcp" variant="" vendor="Renesas" version="5.5.0">
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_freertos_plus_tcp" variant="" vendor="Renesas" version="5.6.0">
       <description>r_ether to FreeRTOS+TCP Wrapper</description>
-      <originalPack>Renesas.RA.5.5.0.pack</originalPack>
+      <originalPack>Renesas.RA.5.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra8d1" subgroup="device" variant="R7FA8D1BHECBD" vendor="Renesas" version="5.5.0">
+    <component apiversion="" class="BSP" condition="" group="ra8d1" subgroup="device" variant="R7FA8D1BHECBD" vendor="Renesas" version="5.6.0">
       <description>Board support package for R7FA8D1BHECBD</description>
-      <originalPack>Renesas.RA_mcu_ra8d1.5.5.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra8d1.5.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra8d1" subgroup="device" variant="" vendor="Renesas" version="5.5.0">
+    <component apiversion="" class="BSP" condition="" group="ra8d1" subgroup="device" variant="" vendor="Renesas" version="5.6.0">
       <description>Board support package for RA8D1</description>
-      <originalPack>Renesas.RA_mcu_ra8d1.5.5.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra8d1.5.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra8d1" subgroup="fsp" variant="" vendor="Renesas" version="5.5.0">
+    <component apiversion="" class="BSP" condition="" group="ra8d1" subgroup="fsp" variant="" vendor="Renesas" version="5.6.0">
       <description>Board support package for RA8D1 - FSP Data</description>
-      <originalPack>Renesas.RA_mcu_ra8d1.5.5.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra8d1.5.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra8d1_ek" variant="" vendor="Renesas" version="5.5.0">
+    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra8d1_ek" variant="" vendor="Renesas" version="5.6.0">
       <description>RA8D1-EK Board Support Files</description>
-      <originalPack>Renesas.RA_board_ra8d1_ek.5.5.0.pack</originalPack>
+      <originalPack>Renesas.RA_board_ra8d1_ek.5.6.0.pack</originalPack>
     </component>
   </raComponentSelection>
   <raElcConfiguration />
@@ -275,6 +316,8 @@
       <property id="module.driver.ether.ether_buffer_size" value="1514" />
       <property id="module.driver.ether.padding" value="module.driver.ether.padding.0" />
       <property id="module.driver.ether.padding_offset" value="1" />
+      <property id="module.driver.ether.eesr_event_mask" value="module.driver.ether.eesr_event_mask.rfof,module.driver.ether.eesr_event_mask.rde,module.driver.ether.eesr_event_mask.fr,module.driver.ether.eesr_event_mask.tfuf,module.driver.ether.eesr_event_mask.tde,module.driver.ether.eesr_event_mask.tc" />
+      <property id="module.driver.ether.ecsr_event_mask" value="" />
       <property id="module.driver.ether.interrupt_priority" value="board.icu.common.irq.priority12" />
       <property id="module.driver.ether.p_callback" value="NULL" />
     </module>
@@ -285,6 +328,8 @@
       <property id="module.driver.ether_phy.phy_reset_wait_time" value="0x00020000" />
       <property id="module.driver.ether_phy.mii_type" value="module.driver.mii_type.rmii" />
       <property id="module.driver.ether_phy.phy_lsi_type" value="module.driver.ether_phy.phy_lsi_type.kit_component" />
+      <property id="module.driver.ether_phy.target_init" value="NULL" />
+      <property id="module.driver.ether_phy.target_link_partner_ability_get" value="NULL" />
       <property id="module.driver.ether_phy.mii_bit_access_wait_time" value="8" />
       <property id="module.driver.ether_phy.flow_control" value="module.driver.ether_phy.flow_control.0" />
     </module>
@@ -314,15 +359,17 @@
       <property id="config.driver.ether.param_checking_enable" value="config.driver.ether.param_checking_enable.bsp" />
       <property id="config.driver.ether.link_present" value="config.driver.ether.link_present.0" />
       <property id="config.driver.ether.use_linksta" value="config.driver.ether.use_linksta.0" />
+      <property id="config.driver.ether.interrupt_event_backword_compatibility" value="config.driver.ether.interrupt_event_backword_compatibility.disabled" />
     </config>
     <config id="config.driver.ether_phy">
       <property id="config.driver.ether_phy.param_checking_enable" value="config.driver.ether_phy.param_checking_enable.bsp" />
-      <property id="config.driver.ether_phy.use_phy" value="config.driver.ether_phy.use_phy.default" />
       <property id="config.driver.ether_phy.target_ksz8091rnb" value="config.driver.ether_phy.target_ksz8091rnb.disabled" />
       <property id="config.driver.ether_phy.target_ksz8041" value="config.driver.ether_phy.target_ksz8041.disabled" />
       <property id="config.driver.ether_phy.target_dp83620" value="config.driver.ether_phy.target_dp83620.disabled" />
       <property id="config.driver.ether_phy.target_ics1894" value="config.driver.ether_phy.target_ics1894.disabled" />
+      <property id="config.driver.ether_phy.use_custom_phy_lsi" value="config.driver.ether_phy.use_custom_phy_lsi.disabled" />
       <property id="config.driver.ether_phy.use_reference_clock" value="config.driver.ether_phy.use_reference_clock.default" />
+      <property id="config.driver.ether_phy.init_phy_lsi_automatic" value="config.driver.ether_phy.init_phy_lsi_automatic.enabled" />
     </config>
     <config id="config.driver.ioport">
       <property id="config.driver.ioport.checking" value="config.driver.ioport.checking.system" />
@@ -346,6 +393,7 @@
       <property id="config.awsfreertos.thread.configuse_16_bit_ticks" value="config.awsfreertos.thread.configuse_16_bit_ticks.disabled" />
       <property id="config.awsfreertos.thread.configidle_should_yield" value="config.awsfreertos.thread.configidle_should_yield.disabled" />
       <property id="config.awsfreertos.thread.configuse_task_notifications" value="config.awsfreertos.thread.configuse_task_notifications.enabled" />
+      <property id="config.awsfreertos.thread.configtask_notifications_array_enteries" value="1" />
       <property id="config.awsfreertos.thread.configuse_mutexes" value="config.awsfreertos.thread.configuse_mutexes.disabled" />
       <property id="config.awsfreertos.thread.configuse_recursive_mutexes" value="config.awsfreertos.thread.configuse_recursive_mutexes.disabled" />
       <property id="config.awsfreertos.thread.configuse_counting_semaphores" value="config.awsfreertos.thread.configuse_counting_semaphores.enabled" />
@@ -358,6 +406,7 @@
       <property id="config.awsfreertos.thread.confignum_thread_local_storage_pointers" value="5" />
       <property id="config.awsfreertos.thread.configstack_depth_type" value="uint32_t" />
       <property id="config.awsfreertos.thread.configmessage_buffer_length_type" value="size_t" />
+      <property id="config.awsfreertos.thread.configheap_clear_memory_on_free" value="config.awsfreertos.thread.configheap_clear_memory_on_free.disabled" />
       <property id="config.awsfreertos.thread.configsupport_static_allocation" value="config.awsfreertos.thread.configsupport_static_allocation.enabled" />
       <property id="config.awsfreertos.thread.configsupport_dynamic_allocation" value="config.awsfreertos.thread.configsupport_dynamic_allocation.enabled" />
       <property id="config.awsfreertos.thread.configtotal_heap_size" value="0x8000" />
@@ -389,11 +438,14 @@
       <property id="config.awsfreertos.thread.include_xtaskresumefromisr" value="config.awsfreertos.thread.include_xtaskresumefromisr.enabled" />
       <property id="config.awsfreertos.thread.include_hw_stack_monitor" value="config.awsfreertos.thread.include_hw_stack_monitor.disabled" />
       <property id="config.awsfreertos.thread.print_function" value="printf(x)" />
-      <property id="config.awsfreertos.thread.max_length" value="192" />
       <property id="config.awsfreertos.thread.include_time_and_task" value="config.awsfreertos.thread.include_time_and_task.disabled" />
+      <property id="config.awsfreertos.thread.debug_logging_name" value="Log Name" />
+      <property id="config.awsfreertos.thread.logging_level" value="config.awsfreertos.thread.logging_level.log_none" />
     </config>
     <config id="config.aws.freertosplus.freertosplus_tcp">
       <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigHAS_DEBUG_PRINTF" value="config.aws.freertosplus.freertosplus_tcp.ipconfigHAS_DEBUG_PRINTF.0" />
+      <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigIPv4_BACKWARD_COMPATIBLE" value="config.aws.freertosplus.freertosplus_tcp.ipconfigIPv4_BACKWARD_COMPATIBLE.1" />
+      <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigUSE_IPv6" value="config.aws.freertosplus.freertosplus_tcp.ipconfigUSE_IPv6.0" />
       <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigHAS_PRINTF" value="config.aws.freertosplus.freertosplus_tcp.ipconfigHAS_PRINTF.0" />
       <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigBYTE_ORDER" value="config.aws.freertosplus.freertosplus_tcp.ipconfigBYTE_ORDER.pdFREERTOS_LITTLE_ENDIAN" />
       <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigDRIVER_INCLUDED_RX_IP_CHECKSUM" value="config.aws.freertosplus.freertosplus_tcp.ipconfigDRIVER_INCLUDED_RX_IP_CHECKSUM.1" />
@@ -408,7 +460,6 @@
       <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigUSE_DHCP" value="config.aws.freertosplus.freertosplus_tcp.ipconfigUSE_DHCP.1" />
       <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigDHCP_REGISTER_HOSTNAME" value="config.aws.freertosplus.freertosplus_tcp.ipconfigDHCP_REGISTER_HOSTNAME.1" />
       <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigDHCP_USES_UNICAST" value="config.aws.freertosplus.freertosplus_tcp.ipconfigDHCP_USES_UNICAST.1" />
-      <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigDHCP_SEND_DISCOVER_AFTER_AUTO_IP" value="config.aws.freertosplus.freertosplus_tcp.ipconfigDHCP_SEND_DISCOVER_AFTER_AUTO_IP.1" />
       <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigUSE_DHCP_HOOK" value="config.aws.freertosplus.freertosplus_tcp.ipconfigUSE_DHCP_HOOK.1" />
       <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigMAXIMUM_DISCOVER_TX_PERIOD" value="120000 / portTICK_PERIOD_MS" />
       <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigARP_CACHE_ENTRIES" value="6" />
@@ -429,7 +480,6 @@
       <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigSUPPORT_SELECT_FUNCTION" value="config.aws.freertosplus.freertosplus_tcp.ipconfigSUPPORT_SELECT_FUNCTION.0" />
       <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigFILTER_OUT_NON_ETHERNET_II_FRAMES" value="config.aws.freertosplus.freertosplus_tcp.ipconfigFILTER_OUT_NON_ETHERNET_II_FRAMES.1" />
       <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigETHERNET_DRIVER_FILTERS_FRAME_TYPES" value="config.aws.freertosplus.freertosplus_tcp.ipconfigETHERNET_DRIVER_FILTERS_FRAME_TYPES.0" />
-      <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigIGNORE_UNKNOWN_PACKETS" value="config.aws.freertosplus.freertosplus_tcp.ipconfigIGNORE_UNKNOWN_PACKETS.1" />
       <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigPACKET_FILLER_SIZE" value="2" />
       <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigTCP_WIN_SEG_COUNT" value="240" />
       <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigTCP_RX_BUFFER_LENGTH" value="3000" />

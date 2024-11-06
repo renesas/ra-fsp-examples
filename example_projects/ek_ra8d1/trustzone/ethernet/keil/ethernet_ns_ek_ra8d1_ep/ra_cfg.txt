@@ -1,5 +1,5 @@
 FSP Configuration
-  Board "EK-RA8D1"
+  Board "RA8|RA8D1|EK-RA8D1"
   R7FA8D1BHECBD
     part_number: R7FA8D1BHECBD
     rom_size_bytes: 2064384
@@ -13,6 +13,21 @@ FSP Configuration
     
   RA8D1 Family
     Enable inline BSP IRQ functions: Enabled
+    SDRAM: SDRAM Support: Disabled
+    SDRAM: Timings: tRAS (cycles): 6 cycles
+    SDRAM: Timings: tRCD (cycles): 3 cycles
+    SDRAM: Timings: tRP (cycles): 3 cycles
+    SDRAM: Timings: tWR (cycles): 2 cycles
+    SDRAM: Timings: tCL (cycles): 3 cycles
+    SDRAM: Timings: tRFC (cycles): 937
+    SDRAM: Timings: tREFW (cycles): 8 cycles
+    SDRAM: Initialization: Auto-Refresh Interval (ARFI): 10 cycles
+    SDRAM: Initialization: Auto-Refresh Count (ARFC): 8 times
+    SDRAM: Initialization: Precharge Cycle Count (PRC): 3 cycles
+    SDRAM: Address Multiplex Shift: 9-bit shift
+    SDRAM: Endian Mode: Little Endian
+    SDRAM: Continuous Access Mode: Enabled
+    SDRAM: Bus Width: 16-bit
     Security: Exceptions: Exception Response: Non-Maskable Interrupt
     Security: Exceptions: BusFault, HardFault, and NMI Target: Secure State
     Security: System Reset Request Accessibility: Secure State
@@ -662,6 +677,7 @@ FSP Configuration
     Parameter Checking: Default (BSP)
     ET0_LINKSTA Pin Status Flag: Fall -> Rise
     Link Signal Change Flag: Unused
+    Interrupt event backward compatibility: Do not keep compatibility
     
   Module "Ethernet (r_ether_phy)"
     Parameter Checking: Default (BSP)
@@ -693,6 +709,7 @@ FSP Configuration
     General: Use 16-bit Ticks: Disabled
     General: Idle Should Yield: Disabled
     General: Use Task Notifications: Enabled
+    General: Task Notification Array Entries: 1
     General: Use Mutexes: Disabled
     General: Use Recursive Mutexes: Disabled
     General: Use Counting Semaphores: Enabled
@@ -765,7 +782,7 @@ FSP Configuration
         Instance "g_ether0 Ethernet (r_ether)"
           General: Name: g_ether0
           General: Channel: 0
-          General: MAC address: 00:11:22:33:44:55
+          General: MAC address: 74:90:50:65:81:64
           General: Zero-copy Mode: Disable
           General: Flow control functionality: Disable
           Filters: Multicast Mode: Enable
@@ -777,6 +794,8 @@ FSP Configuration
           Buffers: Buffer size: 1514
           Buffers: Padding size: Disable
           Buffers: Padding offset: 1
+          Interrupts: EESR event: RFOF, RDE, FR, TFUF, TDE, TC
+          Interrupts: ECSR event: 
           Interrupts: Interrupt priority: Priority 12
           Interrupts: Callback: vEtherISRCallback
           

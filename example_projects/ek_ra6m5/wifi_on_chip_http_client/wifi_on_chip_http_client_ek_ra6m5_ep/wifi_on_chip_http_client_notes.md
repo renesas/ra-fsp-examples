@@ -15,8 +15,10 @@ To build and run the example project, the following resources are needed.
 ### Hardware ###
 * 1 x RA board: EK-RA6M5
 * 1 x Micro USB cable for programming, debugging and observing EP operations on RTT viewer.
-* 1 x US159-DA16200EVZ Ultra Low Power Wi-Fi Pmod™ (Part Number: US159-DA16200MEVZ).
 * 1 x Wi-Fi router Access Point(AP) with internet access. Note: WiFi router AP's credentials should be known.
+* 1 x US159-DA16200EVZ Ultra Low Power Wi-Fi Pmod™ (Part Number: US159-DA16200MEVZ) (SDK v3.2.8.1).  
+    * Note: Please ensure the Pmod™ SDK is up-to-date before executing the project.  
+    For SDK update instructions, please refer to Section 5, 6, and 7 in the provided link: https://www.renesas.com/en/document/apn/da16200da16600-sdk-update-guide
 
 ### Hardware Connections ###
 * Plug in the US159-DA16200MEVZ to the Pmod2 connector on the MCU evaluation kit and be careful to align Pin 1 on the module to Pin 1 on the MCU kit.
@@ -24,9 +26,9 @@ To build and run the example project, the following resources are needed.
 
 
 ### Software ###
-* Renesas Flexible Software Package (FSP): Version 5.5.0
-* e2 studio: Version 2024-07
-* SEGGER J-Link RTT Viewer: Version 7.98b
+* Renesas Flexible Software Package (FSP): Version 5.6.0
+* e2 studio: Version 2024-10
+* SEGGER J-Link RTT Viewer: Version 7.98g
 * GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 
 Refer to the software required section in [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf) for basic information on setting up and using the above software.

@@ -1,5 +1,5 @@
 FSP Configuration
-  Board "EK-RA8D1"
+  Board "RA8|RA8D1|EK-RA8D1"
   R7FA8D1BHECBD
     part_number: R7FA8D1BHECBD
     rom_size_bytes: 2064384
@@ -12,6 +12,22 @@ FSP Configuration
     series: 8
     
   RA8D1 Family
+    Enable inline BSP IRQ functions: Enabled
+    SDRAM: SDRAM Support: Disabled
+    SDRAM: Timings: tRAS (cycles): 6 cycles
+    SDRAM: Timings: tRCD (cycles): 3 cycles
+    SDRAM: Timings: tRP (cycles): 3 cycles
+    SDRAM: Timings: tWR (cycles): 2 cycles
+    SDRAM: Timings: tCL (cycles): 3 cycles
+    SDRAM: Timings: tRFC (cycles): 937
+    SDRAM: Timings: tREFW (cycles): 8 cycles
+    SDRAM: Initialization: Auto-Refresh Interval (ARFI): 10 cycles
+    SDRAM: Initialization: Auto-Refresh Count (ARFC): 8 times
+    SDRAM: Initialization: Precharge Cycle Count (PRC): 3 cycles
+    SDRAM: Address Multiplex Shift: 9-bit shift
+    SDRAM: Endian Mode: Little Endian
+    SDRAM: Continuous Access Mode: Enabled
+    SDRAM: Bus Width: 16-bit
     Security: Exceptions: Exception Response: Non-Maskable Interrupt
     Security: Exceptions: BusFault, HardFault, and NMI Target: Secure State
     Security: System Reset Request Accessibility: Secure State
@@ -62,9 +78,26 @@ FSP Configuration
     Permanent Block Protection Settings (PBPS): PBPS2: 
     Permanent Block Protection Settings (PBPS): PBPS3: 
     Dual Bank Mode: Disabled
+    First Stage Bootloader (FSBL): FSBL Control 0 (FSBLCTRL0): FSBLEN: Disabled
+    First Stage Bootloader (FSBL): FSBL Control 0 (FSBLCTRL0): FSBLSKIPSW: Disabled
+    First Stage Bootloader (FSBL): FSBL Control 0 (FSBLCTRL0): FSBLSKIPDS: Disabled
+    First Stage Bootloader (FSBL): FSBL Control 0 (FSBLCTRL0): FSBLCLK: 240 MHz
+    First Stage Bootloader (FSBL): FSBL Control 1 (FSBLCTRL1): FSBLEXMDFSBLEN: Secure boot with report measurement
+    First Stage Bootloader (FSBL): FSBL Control 2 (FSBLCTRL2): PORTPN: PORTn15
+    First Stage Bootloader (FSBL): FSBL Control 2 (FSBLCTRL2): PORTGN: None
+    First Stage Bootloader (FSBL): Code Certificates (SACCn): SACC0: 0xFFFFFFFF
+    First Stage Bootloader (FSBL): Code Certificates (SACCn): SACC1: 0xFFFFFFFF
+    First Stage Bootloader (FSBL): FSBL Measurement Report Address (SAMR): 0xFFFFFFFF
     Clocks: HOCO FLL Function: Disabled
+    Clocks: Clock Settling Delay: Enabled
+    Clocks: Sleep Mode Entry and Exit Delays: Enabled
+    Clocks: RTOS Sleep on Idle: Disabled
+    Clocks: MSTP Change Delays: Enabled
+    Clocks: Settling Delay (us): 150
     Main Oscillator Wait Time: 8163 cycles
+    Cache settings: Data cache: Disabled
     
+  RA8D1 event data
   RA Common
     Main stack size (bytes): 0x400
     Heap size (bytes): 0x400
@@ -86,14 +119,14 @@ FSP Configuration
     XTAL 20000000Hz
     HOCO 48MHz
     PLL Src: XTAL
-    PLL Div /1
-    PLL Mul x40-59|Mul x48|PLL Mul x48.00
+    PLL Div /2
+    PLL Mul x80-99|Mul x96|PLL Mul x96.00
     PLL1P Div /2
     PLL1Q Div /2
     PLL1R Div /2
     PLL2 Disabled
-    PLL2 Div /1
-    PLL2 Mul x40-59|Mul x48|PLL2 Mul x48.00
+    PLL2 Div /2
+    PLL2 Mul x80-99|Mul x96|PLL2 Mul x96.00
     PLL2P Div /2
     PLL2Q Div /2
     PLL2R Div /2
@@ -216,8 +249,8 @@ FSP Configuration
       P508 M7 - PMOD2_7_INT - - Disabled - - "BUS: D30; IRQ1: IRQ1; SDHI1: SD1DAT7; SDRAM: DQ30" - None - - 
       P509 L8 - ARDUINO_D3 - - Disabled - - "BUS: D31; IRQ2: IRQ2; SDRAM: DQ31; ULPT1: ULPTEVI1" - None - - 
       P510 N7 - DISP_INT - - Disabled - - "BUS: BC3; BUS: WR3; IRQ3: IRQ3; ULPT0: ULPTEVI0" - None - - 
-      P511 K9 IIC1_SDA1 I3C_SDA1 M None "Peripheral mode" - - "CANFD1: CRX1; GPT0: GTIOC0B; IIC1: SDA1; IRQ15: IRQ15" - IO - - 
-      P512 N13 IIC1_SCL1 I3C_SCL1 M None "Peripheral mode" - - "CANFD1: CTX1; GPT0: GTIOC0A; IIC1: SCL1; IRQ14: IRQ14" - IO - - 
+      P511 K9 IIC1_SDA1 I3C_SDA1 - - - - - "CANFD1: CRX1; GPT0: GTIOC0B; IIC1: SDA1; IRQ15: IRQ15" - IO - - 
+      P512 N13 IIC1_SCL1 I3C_SCL1 - - - - - "CANFD1: CTX1; GPT0: GTIOC0A; IIC1: SCL1; IRQ14: IRQ14" - IO - - 
       P513 P13 GLCD_LCD_TCON2 LCD_TCON2 L - "Peripheral mode" - - "ACMPHS1: IVCMP1_0; ADC0: AN016; ADC1: AN116; CEU: VIO_FLD; GLCD: LCD_TCON2" - IO - - 
       P514 P14 GLCD_LCD_EXTCLK LCD_EXTCLK L - "Peripheral mode" - - "GLCD: LCD_EXTCLK" - IO - - 
       P515 R14 GLCD_LCD_TCON3 LCD_TCON3 L - "Peripheral mode" - - "GLCD: LCD_TCON3" - IO - - 
@@ -441,8 +474,8 @@ FSP Configuration
       P508 M7 - PMOD2_7_INT - - Disabled - - "BUS: D30; IRQ1: IRQ1; SDHI1: SD1DAT7; SDRAM: DQ30" - None - - 
       P509 L8 - ARDUINO_D3 - - Disabled - - "BUS: D31; IRQ2: IRQ2; SDRAM: DQ31; ULPT1: ULPTEVI1" - None - - 
       P510 N7 - DISP_INT - - Disabled - - "BUS: BC3; BUS: WR3; IRQ3: IRQ3; ULPT0: ULPTEVI0" - None - - 
-      P511 K9 - I3C_SDA1 L None Disabled - - "CANFD1: CRX1; GPT0: GTIOC0B; IIC1: SDA1; IRQ15: IRQ15" - IO - - 
-      P512 N13 - I3C_SCL1 L None Disabled - - "CANFD1: CTX1; GPT0: GTIOC0A; IIC1: SCL1; IRQ14: IRQ14" - IO - - 
+      P511 K9 IIC1_SDA1 I3C_SDA1 - - - - - "CANFD1: CRX1; GPT0: GTIOC0B; IIC1: SDA1; IRQ15: IRQ15" - IO - - 
+      P512 N13 IIC1_SCL1 I3C_SCL1 - - - - - "CANFD1: CTX1; GPT0: GTIOC0A; IIC1: SCL1; IRQ14: IRQ14" - IO - - 
       P513 P13 - LCD_TCON2 L - Disabled - - "ACMPHS1: IVCMP1_0; ADC0: AN016; ADC1: AN116; CEU: VIO_FLD; GLCD: LCD_TCON2" - IO - - 
       P514 P14 - LCD_EXTCLK L - Disabled - - "GLCD: LCD_EXTCLK" - IO - - 
       P515 R14 - LCD_TCON3 L - Disabled - - "GLCD: LCD_TCON3" - IO - - 
@@ -603,8 +636,9 @@ FSP Configuration
       
     Instance "g_i2c_master I2C Master (r_iic_master)" (NSC)
       Name: g_i2c_master
-      Channel: 0
+      Channel: 1
       Rate: Standard
+      Custom Rate (bps): 0
       Rise Time (ns): 120
       Fall Time (ns): 120
       Duty Cycle (%): 50

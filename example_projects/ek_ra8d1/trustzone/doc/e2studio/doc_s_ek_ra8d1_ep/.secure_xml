@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<raConfiguration version="8">
+<raConfiguration version="9">
   <generalSettings>
     <option key="#Board#" value="board.ra8d1ek"/>
     <option key="CPU" value="RA8D1"/>
@@ -9,7 +9,7 @@
     <option key="#DeviceCommand#" value="R7FA8D1BH"/>
     <option key="#RTOS#" value="_none"/>
     <option key="#pinconfiguration#" value="R7FA8D1BHECBD.pincfg"/>
-    <option key="#FSPVersion#" value="5.5.0"/>
+    <option key="#FSPVersion#" value="5.6.0"/>
     <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra8d1_ek##"/>
     <option key="#SELECTED_TOOLCHAIN#" value="gcc-arm-embedded"/>
     <option key="#ToolchainVersion#" value="13.2.1.arm-13-7"/>
@@ -22,8 +22,8 @@
     <node id="board.clock.moco.freq" option="board.clock.moco.freq.8m"/>
     <node id="board.clock.subclk.freq" option="board.clock.subclk.freq.32768"/>
     <node id="board.clock.pll.source" option="board.clock.pll.source.xtal"/>
-    <node id="board.clock.pll.div" option="board.clock.pll.div.1"/>
-    <node id="board.clock.pll.mul" option="board.clock.pll.mul.48_00"/>
+    <node id="board.clock.pll.div" option="board.clock.pll.div.2"/>
+    <node id="board.clock.pll.mul" option="board.clock.pll.mul.96_00"/>
     <node id="board.clock.pll.display" option="board.clock.pll.display.value"/>
     <node id="board.clock.pll1p.div" option="board.clock.pll1p.div.2"/>
     <node id="board.clock.pll1p.display" option="board.clock.pll1p.display.value"/>
@@ -32,8 +32,8 @@
     <node id="board.clock.pll1r.div" option="board.clock.pll1r.div.2"/>
     <node id="board.clock.pll1r.display" option="board.clock.pll1r.display.value"/>
     <node id="board.clock.pll2.source" option="board.clock.pll2.source.disabled"/>
-    <node id="board.clock.pll2.div" option="board.clock.pll2.div.1"/>
-    <node id="board.clock.pll2.mul" option="board.clock.pll2.mul.48_00"/>
+    <node id="board.clock.pll2.div" option="board.clock.pll2.div.2"/>
+    <node id="board.clock.pll2.mul" option="board.clock.pll2.mul.96_00"/>
     <node id="board.clock.pll2.display" option="board.clock.pll2.display.value"/>
     <node id="board.clock.pll2p.div" option="board.clock.pll2p.div.2"/>
     <node id="board.clock.pll2p.display" option="board.clock.pll2p.display.value"/>
@@ -94,8 +94,10 @@
   </raClockConfiguration>
   <raPinConfiguration>
     <pincfg active="true" name="" symbol="">
-      <configSetting altId="jtag_fslash_swd.swclk.p211" configurationId="jtag_fslash_swd.swclk"/>
-      <configSetting altId="jtag_fslash_swd.swdio.p210" configurationId="jtag_fslash_swd.swdio"/>
+      <configSetting altId="jtag_fslash_swd.tck.p211" configurationId="jtag_fslash_swd.tck"/>
+      <configSetting altId="jtag_fslash_swd.tdi.p208" configurationId="jtag_fslash_swd.tdi"/>
+      <configSetting altId="jtag_fslash_swd.tdo.p209" configurationId="jtag_fslash_swd.tdo"/>
+      <configSetting altId="jtag_fslash_swd.tms.p210" configurationId="jtag_fslash_swd.tms"/>
       <configSetting altId="p600.output.low" configurationId="p600"/>
     </pincfg>
   </raPinConfiguration>

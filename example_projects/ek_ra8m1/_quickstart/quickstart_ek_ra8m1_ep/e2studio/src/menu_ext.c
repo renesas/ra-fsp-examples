@@ -19,7 +19,7 @@
 #include "menu_ext.h"
 #include "r_typedefs.h"
 #include "FreeRTOS.h"
-#include "FreeRTOSconfig.h"
+#include "FreeRTOSConfig.h"
 #include "semphr.h"
 #include "queue.h"
 #include "task.h"

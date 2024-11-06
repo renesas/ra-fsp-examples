@@ -1,5 +1,5 @@
 FSP Configuration
-  Board "EK-RA8M1"
+  Board "RA8|RA8M1|EK-RA8M1"
   R7FA8M1AHECBD
     part_number: R7FA8M1AHECBD
     rom_size_bytes: 2064384
@@ -12,6 +12,22 @@ FSP Configuration
     series: 8
     
   RA8M1 Family
+    Enable inline BSP IRQ functions: Enabled
+    SDRAM: SDRAM Support: Disabled
+    SDRAM: Timings: tRAS (cycles): 6 cycles
+    SDRAM: Timings: tRCD (cycles): 3 cycles
+    SDRAM: Timings: tRP (cycles): 3 cycles
+    SDRAM: Timings: tWR (cycles): 2 cycles
+    SDRAM: Timings: tCL (cycles): 3 cycles
+    SDRAM: Timings: tRFC (cycles): 937
+    SDRAM: Timings: tREFW (cycles): 8 cycles
+    SDRAM: Initialization: Auto-Refresh Interval (ARFI): 10 cycles
+    SDRAM: Initialization: Auto-Refresh Count (ARFC): 8 times
+    SDRAM: Initialization: Precharge Cycle Count (PRC): 3 cycles
+    SDRAM: Address Multiplex Shift: 9-bit shift
+    SDRAM: Endian Mode: Little Endian
+    SDRAM: Continuous Access Mode: Enabled
+    SDRAM: Bus Width: 16-bit
     Security: Exceptions: Exception Response: Non-Maskable Interrupt
     Security: Exceptions: BusFault, HardFault, and NMI Target: Secure State
     Security: System Reset Request Accessibility: Secure State
@@ -72,8 +88,15 @@ FSP Configuration
     First Stage Bootloader (FSBL): Code Certificates (SACCn): SACC1: 0xFFFFFFFF
     First Stage Bootloader (FSBL): FSBL Measurement Report Address (SAMR): 0xFFFFFFFF
     Clocks: HOCO FLL Function: Disabled
+    Clocks: Clock Settling Delay: Enabled
+    Clocks: Sleep Mode Entry and Exit Delays: Enabled
+    Clocks: RTOS Sleep on Idle: Disabled
+    Clocks: MSTP Change Delays: Enabled
+    Clocks: Settling Delay (us): 150
     Main Oscillator Wait Time: 8163 cycles
+    Cache settings: Data cache: Disabled
     
+  RA8M1 event data
   RA Common
     Main stack size (bytes): 0x1000
     Heap size (bytes): 0x2000
@@ -95,14 +118,14 @@ FSP Configuration
     XTAL 20000000Hz
     HOCO 48MHz
     PLL Src: XTAL
-    PLL Div /1
-    PLL Mul x40-59|Mul x48|PLL Mul x48.00
+    PLL Div /2
+    PLL Mul x80-99|Mul x96|PLL Mul x96.00
     PLL1P Div /2
     PLL1Q Div /2
     PLL1R Div /2
     PLL2 Disabled
-    PLL2 Div /1
-    PLL2 Mul x40-59|Mul x48|PLL2 Mul x48.00
+    PLL2 Div /2
+    PLL2 Mul x80-99|Mul x96|PLL2 Mul x96.00
     PLL2P Div /2
     PLL2Q Div /2
     PLL2R Div /2
@@ -651,6 +674,7 @@ FSP Configuration
     Parameter Checking: Default (BSP)
     ET0_LINKSTA Pin Status Flag: Fall -> Rise
     Link Signal Change Flag: Unused
+    Interrupt event backward compatibility: Do not keep compatibility
     
   Module "Ethernet (r_ether_phy)"
     Parameter Checking: Default (BSP)
@@ -658,7 +682,9 @@ FSP Configuration
     KSZ8041 Target: Disabled
     DP83620 Target: Disabled
     ICS1894 Target: Disabled
+    User Own Target: Disabled
     Reference Clock: Default
+    Automatic Phy LSI Initialization: Enabled
     
   Module "FreeRTOS Buffer Allocation 2"
   FreeRTOS
@@ -680,6 +706,7 @@ FSP Configuration
     General: Use 16-bit Ticks: Disabled
     General: Idle Should Yield: Disabled
     General: Use Task Notifications: Enabled
+    General: Task Notification Array Entries: 1
     General: Use Mutexes: Disabled
     General: Use Recursive Mutexes: Disabled
     General: Use Counting Semaphores: Enabled
@@ -725,6 +752,8 @@ FSP Configuration
     RA: Hardware Stack Monitor: Disabled
     Logging: Print String Function: printf(x)
     Logging: Logging Include Time and Task Name: Disabled
+    Logging: Debug Logging Name: Log Name
+    Logging: Logging Level: LOG_NONE
     
   HAL
     Instance "g_ioport I/O Port (r_ioport)"
@@ -750,7 +779,7 @@ FSP Configuration
         Instance "g_ether0 Ethernet (r_ether)"
           General: Name: g_ether0
           General: Channel: 0
-          General: MAC address: 00:11:22:33:44:55
+          General: MAC address: 74:90:50:65:81:6D
           General: Zero-copy Mode: Disable
           General: Flow control functionality: Disable
           Filters: Multicast Mode: Enable
@@ -762,6 +791,8 @@ FSP Configuration
           Buffers: Buffer size: 1514
           Buffers: Padding size: Disable
           Buffers: Padding offset: 1
+          Interrupts: EESR event: RFOF, RDE, FR, TFUF, TDE, TC
+          Interrupts: ECSR event: 
           Interrupts: Interrupt priority: Priority 12
           Interrupts: Callback: vEtherISRCallback
           
@@ -772,6 +803,8 @@ FSP Configuration
             PHY-LSI Reset Completion Timeout: 0x00020000
             Select MII type: RMII
             Phy LSI type: Kit Component
+            Port Custom Init Function: NULL
+            Port Custom Link Partner Ability Get Function: NULL
             MII/RMII Register Access Wait-time: 8
             Flow Control: Disable
             

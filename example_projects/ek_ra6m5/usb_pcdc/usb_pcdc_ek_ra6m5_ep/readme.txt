@@ -14,7 +14,7 @@
    1. On power up or RESET, the three user LEDs (blue LED1, green LED2, and red LED3) start blinking at 
       1 Hz frequency and at 90% intensity. 
 	  
-   Note:  The debug LED (LED5) will blink or light up orange; this can be ignored for now. 
+   Note:  The debug LED will blink or light up; this can be ignored for now. 
 
    2. Press the first user button (S1) on the board to change the blinking frequency of the user LEDs. 
       With every press of the first user button (S1), the frequency will switch from 1 Hz to 5 Hz to 10 Hz and cycle back. 
@@ -34,7 +34,7 @@
    1. On power up or RESET, the  user LED (red LED1) start blinking at 
       1 Hz frequency and at 90% intensity. 
 	  
-   Note:  The debug LED (LED2) will blink or light up orange; this can be ignored for now. 
+   Note:  The debug LED will blink or light up; this can be ignored for now. 
 
    2. Press the first user button (S1) on the board to change the blinking frequency of the user LED. 
       With every press of the first user button (S1), the frequency will switch from 1 Hz to 5 Hz to 10 Hz and cycle back. 
@@ -46,26 +46,28 @@
    
    5. Follow the instructions displayed in the tera term window.
 
+2. Software Requirements:
+	Renesas Flexible Software Package (FSP): Version 5.6.0
+	e2 studio: Version 2024-10
+	SEGGER J-Link RTT Viewer: Version 7.98g
+	Terminal Console Application: Tera Term or a similar application
+	USB Serial Drivers (included in Windows 10) 
+	Windows® 10 operating system
    
-2. Hardware and Software Requirements:
+3. Hardware Requirements:
    
    Hardware : 
 	1) RA board 
 	2) Micro USB device cable - 2Nos.
 	3) A PC with at least 2 USB port(1 for debug and 1 for com port)
     
-	Software: 
-	1) Serial Terminal/TeraTerm
-        2) Windows® 10 operating system 
-	3) USB Serial Drivers (included in Windows 10) 
-	
-3. Hardware settings for the project:
+4. Hardware settings for the project:
 
 Applicable for EK-RA4M2, EK-RA4M3, EK-RA6M3, EK-RA6M3G, EK-RA6M4 and EK-RA6M5:
 
 	1. Connect the micro USB end of the micro USB device cable to micro-AB USB  (DEBUG USB)
 	   port (J10) of the respective board.  
-	2. Connect the other end of this cable to the USB port of the host PC. Power LED (LED4) 
+	2. Connect the other end of this cable to the USB port of the host PC. Power LED 
 	   on the board lights up white, indicating that the connected board is powered on. 
 	3. Connect the micro USB end of the micro USB device cable to micro-AB USB Full Speed 
 	   port (J11) of the board.  Connect the other end of this cable to USB port of the 
@@ -85,7 +87,7 @@ Applicable for EK-RA6M2, EK-RA6M1, EK-RA4M1, EK-RA2A1:
 
     1. Connect the micro USB end of the micro USB device cable to micro-AB USB (DEBUG USB) 
 	   port (J11) of the respective board.  
-	2. Connect the other end of this cable to the USB port of the host PC. Power LED (LED2) 
+	2. Connect the other end of this cable to the USB port of the host PC. Power LED
 	   on the board lights up, indicating that the connected board is powered on. 
 	3. Connect the micro USB end of the micro USB device cable to micro-AB USB Full Speed 
 	   port (J9) of the board.  Connect the other end of this cable to USB port of the 

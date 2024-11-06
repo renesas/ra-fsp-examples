@@ -42,7 +42,7 @@
 *                                                                    *
 **********************************************************************
 *                                                                    *
-*       RTT version: 7.98b                                           *
+*       RTT version: 7.98g                                           *
 *                                                                    *
 **********************************************************************
 
@@ -55,6 +55,7 @@ Revision: $Rev: 25842 $
 ----------------------------------------------------------------------
 */
 
+#if (USE_VIRTUAL_COM == 0)
 #ifndef SEGGER_RTT_H
 #define SEGGER_RTT_H
 
@@ -511,3 +512,4 @@ int SEGGER_RTT_vprintf(unsigned BufferIndex, const char * sFormat, va_list * pPa
 #endif
 
 /*************************** End of file ****************************/
+#endif

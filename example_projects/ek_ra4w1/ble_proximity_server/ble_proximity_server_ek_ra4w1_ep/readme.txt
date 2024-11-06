@@ -18,9 +18,9 @@ Strength Indicated (RSSI). The connection status and LEDs status messages will d
 
 2. Software Requirements:
 	Device client (iphone or ipad,..v.v.) has Renesas GATT browser installed.
-	Renesas Flexible Software Package (FSP): Version 5.5.0
-	e2 studio: Version 2024-07
-	SEGGER J-Link RTT Viewer: Version 7.98b
+	Renesas Flexible Software Package (FSP): Version 5.6.0
+	e2 studio: Version 2024-10
+	SEGGER J-Link RTT Viewer: Version 7.98g
 	GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 
 

@@ -11,9 +11,9 @@
 	by an external interrupt.
 
 2. Software Requirements:
-	Renesas Flexible Software Package (FSP): Version 5.5.0
-	e2 studio: Version 2024-07
-	SEGGER J-Link RTT Viewer: Version 7.98b
+	Renesas Flexible Software Package (FSP): Version 5.6.0
+	e2 studio: Version 2024-10
+	SEGGER J-Link RTT Viewer: Version 7.98g
 	GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 
 3. Hardware Requirements:

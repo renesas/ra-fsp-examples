@@ -34,8 +34,8 @@ To build and run the POEG example project, the following resources are needed.
 Refer to [readme.txt](./readme.txt) for information on how to connect the hardware.
 
 ### Software ###
-* Renesas Flexible Software Package (FSP): Version 5.5.0
-* e2 studio: Version 2024-07
+* Renesas Flexible Software Package (FSP): Version 5.6.0
+* e2 studio: Version 2024-10
 * GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 * Terminal Console Application: Tera Term or a similar application
 

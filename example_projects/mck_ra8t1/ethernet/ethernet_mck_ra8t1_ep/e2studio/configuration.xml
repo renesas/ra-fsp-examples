@@ -9,7 +9,7 @@
     <option key="#DeviceCommand#" value="R7FA8T1AH" />
     <option key="#RTOS#" value="rtos.awsfreertos" />
     <option key="#pinconfiguration#" value="R7FA8T1AHECBD.pincfg" />
-    <option key="#FSPVersion#" value="5.5.0" />
+    <option key="#FSPVersion#" value="5.6.0" />
     <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra8t1_mck##" />
     <option key="#SELECTED_TOOLCHAIN#" value="gcc-arm-embedded" />
     <option key="#ToolchainVersion#" value="13.2.1.arm-13-7" />
@@ -30,6 +30,21 @@
     </config>
     <config id="config.bsp.ra8t1.fsp">
       <property id="config.bsp.fsp.inline_irq_functions" value="config.bsp.common.inline_irq_functions.enabled" />
+      <property id="config.bsp.fsp.sdram.enabled" value="config.bsp.fsp.sdram.enabled.disabled" />
+      <property id="config.bsp.fsp.sdram.tras" value="config.bsp.fsp.sdram.tras.6" />
+      <property id="config.bsp.fsp.sdram.trcd" value="config.bsp.fsp.sdram.trcd.3" />
+      <property id="config.bsp.fsp.sdram.trp" value="config.bsp.fsp.sdram.trp.3" />
+      <property id="config.bsp.fsp.sdram.twr" value="config.bsp.fsp.sdram.twr.2" />
+      <property id="config.bsp.fsp.sdram.tcl" value="config.bsp.fsp.sdram.tcl.3" />
+      <property id="config.bsp.fsp.sdram.trfc" value="937" />
+      <property id="config.bsp.fsp.sdram.trefw" value="config.bsp.fsp.sdram.trefw.8" />
+      <property id="config.bsp.fsp.sdram.arfi" value="config.bsp.fsp.sdram.arfi.10" />
+      <property id="config.bsp.fsp.sdram.arfc" value="config.bsp.fsp.sdram.arfc.8" />
+      <property id="config.bsp.fsp.sdram.prc" value="config.bsp.fsp.sdram.prc.3" />
+      <property id="config.bsp.fsp.sdram.addr_shift" value="config.bsp.fsp.sdram.addr_shift.9" />
+      <property id="config.bsp.fsp.sdram.endian_mode" value="config.bsp.fsp.sdram.endian_mode.little" />
+      <property id="config.bsp.fsp.sdram.continuous_access_mode" value="config.bsp.fsp.sdram.continuous_access_mode.enabled" />
+      <property id="config.bsp.fsp.sdram.bus_width" value="config.bsp.fsp.sdram.bus_width.16" />
       <property id="config.bsp.fsp.tz.exception_response" value="config.bsp.fsp.tz.exception_response.nmi" />
       <property id="config.bsp.fsp.tz.cmsis.bfhfnmins" value="config.bsp.fsp.tz.cmsis.bfhfnmins.secure" />
       <property id="config.bsp.fsp.tz.cmsis.sysresetreqs" value="config.bsp.fsp.tz.cmsis.sysresetreqs.secure_only" />
@@ -100,6 +115,7 @@
       <property id="config.bsp.fsp.mcu.sci_b_uart.max_baud" value="20000000" />
       <property id="config.bsp.fsp.mcu.sci_b_uart.ctspen_channels" value="0x021F" />
       <property id="config.bsp.fsp.mcu.adc.sample_and_hold" value="0" />
+      <property id="config.bsp.fsp.mcu.adc.sensors_are_exclusive" value="0" />
       <property id="config.bsp.fsp.mcu.sci_spi.max_bitrate" value="30000000" />
       <property id="config.bsp.fsp.mcu.spi.max_bitrate" value="60000000" />
       <property id="config.bsp.fsp.mcu.iic_master.rate.rate_fastplus" value="1" />
@@ -166,11 +182,8 @@
     <node id="board.clock.sciclk.source" option="board.clock.sciclk.source.disabled" />
     <node id="board.clock.spiclk.source" option="board.clock.spiclk.source.disabled" />
     <node id="board.clock.canfdclk.source" option="board.clock.canfdclk.source.disabled" />
-    <node id="board.clock.lcdclk.source" option="board.clock.lcdclk.source.disabled" />
     <node id="board.clock.i3cclk.source" option="board.clock.i3cclk.source.disabled" />
     <node id="board.clock.uck.source" option="board.clock.uck.source.disabled" />
-    <node id="board.clock.u60ck.source" option="board.clock.u60ck.source.disabled" />
-    <node id="board.clock.octaspiclk.source" option="board.clock.octaspiclk.source.disabled" />
     <node id="board.clock.cpuclk.div" option="board.clock.cpuclk.div.1" />
     <node id="board.clock.iclk.div" option="board.clock.iclk.div.2" />
     <node id="board.clock.pclka.div" option="board.clock.pclka.div.4" />
@@ -186,11 +199,8 @@
     <node id="board.clock.sciclk.div" option="board.clock.sciclk.div.4" />
     <node id="board.clock.spiclk.div" option="board.clock.spiclk.div.4" />
     <node id="board.clock.canfdclk.div" option="board.clock.canfdclk.div.8" />
-    <node id="board.clock.lcdclk.div" option="board.clock.lcdclk.div.2" />
     <node id="board.clock.i3cclk.div" option="board.clock.i3cclk.div.3" />
     <node id="board.clock.uck.div" option="board.clock.uck.div.5" />
-    <node id="board.clock.u60ck.div" option="board.clock.u60ck.div.5" />
-    <node id="board.clock.octaspiclk.div" option="board.clock.octaspiclk.div.4" />
     <node id="board.clock.cpuclk.display" option="board.clock.cpuclk.display.value" />
     <node id="board.clock.iclk.display" option="board.clock.iclk.display.value" />
     <node id="board.clock.pclka.display" option="board.clock.pclka.display.value" />
@@ -206,68 +216,65 @@
     <node id="board.clock.sciclk.display" option="board.clock.sciclk.display.value" />
     <node id="board.clock.spiclk.display" option="board.clock.spiclk.display.value" />
     <node id="board.clock.canfdclk.display" option="board.clock.canfdclk.display.value" />
-    <node id="board.clock.lcdclk.display" option="board.clock.lcdclk.display.value" />
     <node id="board.clock.i3cclk.display" option="board.clock.i3cclk.display.value" />
     <node id="board.clock.uck.display" option="board.clock.uck.display.value" />
-    <node id="board.clock.u60ck.display" option="board.clock.u60ck.display.value" />
-    <node id="board.clock.octaspiclk.display" option="board.clock.octaspiclk.display.value" />
   </raClockConfiguration>
   <raComponentSelection>
-    <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="6.1.0+fsp.5.5.0">
-      <description>Arm CMSIS Version 5 - Core (M)</description>
-      <originalPack>Arm.CMSIS5.6.1.0+fsp.5.5.0.pack</originalPack>
+    <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="6.1.0+fsp.5.6.0">
+      <description>Arm CMSIS Version 6 - Core (M)</description>
+      <originalPack>Arm.CMSIS6.6.1.0+fsp.5.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Libraries" condition="" group="FreeRTOS" subgroup="BufferAllocation2" variant="" vendor="AWS" version="4.2.1+fsp.5.5.0">
+    <component apiversion="" class="Libraries" condition="" group="FreeRTOS" subgroup="BufferAllocation2" variant="" vendor="AWS" version="4.2.1+fsp.5.6.0">
       <description>FreeRTOS - Buffer Allocation 2</description>
-      <originalPack>Amazon.FreeRTOS-Plus-TCP.4.2.1+fsp.5.5.0.pack</originalPack>
+      <originalPack>Amazon.FreeRTOS-Plus-TCP.4.2.1+fsp.5.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Libraries" condition="" group="FreeRTOS_Plus" subgroup="FreeRTOS_Plus_TCP" variant="" vendor="AWS" version="4.2.1+fsp.5.5.0">
+    <component apiversion="" class="Libraries" condition="" group="FreeRTOS_Plus" subgroup="FreeRTOS_Plus_TCP" variant="" vendor="AWS" version="4.2.1+fsp.5.6.0">
       <description>FreeRTOS+TCP</description>
-      <originalPack>Amazon.FreeRTOS-Plus-TCP.4.2.1+fsp.5.5.0.pack</originalPack>
+      <originalPack>Amazon.FreeRTOS-Plus-TCP.4.2.1+fsp.5.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="RTOS" condition="" group="FreeRTOS" subgroup="all" variant="" vendor="AWS" version="10.6.1+fsp.5.5.0">
+    <component apiversion="" class="RTOS" condition="" group="FreeRTOS" subgroup="all" variant="" vendor="AWS" version="10.6.1+fsp.5.6.0">
       <description>FreeRTOS</description>
-      <originalPack>Amazon.FreeRTOS-Kernel.10.6.1+fsp.5.5.0.pack</originalPack>
+      <originalPack>Amazon.FreeRTOS-Kernel.10.6.1+fsp.5.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Heaps" condition="" group="FreeRTOS" subgroup="heap_4" variant="" vendor="AWS" version="10.6.1+fsp.5.5.0">
+    <component apiversion="" class="Heaps" condition="" group="FreeRTOS" subgroup="heap_4" variant="" vendor="AWS" version="10.6.1+fsp.5.6.0">
       <description>FreeRTOS - Memory Management - Heap 4</description>
-      <originalPack>Amazon.FreeRTOS-Kernel.10.6.1+fsp.5.5.0.pack</originalPack>
+      <originalPack>Amazon.FreeRTOS-Kernel.10.6.1+fsp.5.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra8t1_mck" variant="" vendor="Renesas" version="5.5.0">
+    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra8t1_mck" variant="" vendor="Renesas" version="5.6.0">
       <description>RA8T1-MCK Board Support Files</description>
-      <originalPack>Renesas.RA_board_ra8t1_mck.5.5.0.pack</originalPack>
+      <originalPack>Renesas.RA_board_ra8t1_mck.5.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra8t1" subgroup="device" variant="R7FA8T1AHECBD" vendor="Renesas" version="5.5.0">
+    <component apiversion="" class="BSP" condition="" group="ra8t1" subgroup="device" variant="R7FA8T1AHECBD" vendor="Renesas" version="5.6.0">
       <description>Board support package for R7FA8T1AHECBD</description>
-      <originalPack>Renesas.RA_mcu_ra8t1.5.5.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra8t1.5.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra8t1" subgroup="device" variant="" vendor="Renesas" version="5.5.0">
+    <component apiversion="" class="BSP" condition="" group="ra8t1" subgroup="device" variant="" vendor="Renesas" version="5.6.0">
       <description>Board support package for RA8T1</description>
-      <originalPack>Renesas.RA_mcu_ra8t1.5.5.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra8t1.5.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra8t1" subgroup="fsp" variant="" vendor="Renesas" version="5.5.0">
+    <component apiversion="" class="BSP" condition="" group="ra8t1" subgroup="fsp" variant="" vendor="Renesas" version="5.6.0">
       <description>Board support package for RA8T1 - FSP Data</description>
-      <originalPack>Renesas.RA_mcu_ra8t1.5.5.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra8t1.5.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="5.5.0">
+    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="5.6.0">
       <description>Board Support Package Common Files</description>
-      <originalPack>Renesas.RA.5.5.0.pack</originalPack>
+      <originalPack>Renesas.RA.5.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ether_phy" variant="" vendor="Renesas" version="5.5.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ether_phy" variant="" vendor="Renesas" version="5.6.0">
       <description>Ethernet PHY</description>
-      <originalPack>Renesas.RA.5.5.0.pack</originalPack>
+      <originalPack>Renesas.RA.5.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ether" variant="" vendor="Renesas" version="5.5.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ether" variant="" vendor="Renesas" version="5.6.0">
       <description>Ethernet</description>
-      <originalPack>Renesas.RA.5.5.0.pack</originalPack>
+      <originalPack>Renesas.RA.5.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="5.5.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="5.6.0">
       <description>I/O Port</description>
-      <originalPack>Renesas.RA.5.5.0.pack</originalPack>
+      <originalPack>Renesas.RA.5.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_freertos_plus_tcp" variant="" vendor="Renesas" version="5.5.0">
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_freertos_plus_tcp" variant="" vendor="Renesas" version="5.6.0">
       <description>r_ether to FreeRTOS+TCP Wrapper</description>
-      <originalPack>Renesas.RA.5.5.0.pack</originalPack>
+      <originalPack>Renesas.RA.5.6.0.pack</originalPack>
     </component>
   </raComponentSelection>
   <raElcConfiguration />
@@ -299,6 +306,8 @@
       <property id="module.driver.ether.ether_buffer_size" value="1514" />
       <property id="module.driver.ether.padding" value="module.driver.ether.padding.0" />
       <property id="module.driver.ether.padding_offset" value="1" />
+      <property id="module.driver.ether.eesr_event_mask" value="module.driver.ether.eesr_event_mask.rfof,module.driver.ether.eesr_event_mask.rde,module.driver.ether.eesr_event_mask.fr,module.driver.ether.eesr_event_mask.tfuf,module.driver.ether.eesr_event_mask.tde,module.driver.ether.eesr_event_mask.tc" />
+      <property id="module.driver.ether.ecsr_event_mask" value="" />
       <property id="module.driver.ether.interrupt_priority" value="board.icu.common.irq.priority12" />
       <property id="module.driver.ether.p_callback" value="NULL" />
     </module>
@@ -340,6 +349,7 @@
       <property id="config.driver.ether.param_checking_enable" value="config.driver.ether.param_checking_enable.bsp" />
       <property id="config.driver.ether.link_present" value="config.driver.ether.link_present.0" />
       <property id="config.driver.ether.use_linksta" value="config.driver.ether.use_linksta.0" />
+      <property id="config.driver.ether.interrupt_event_backword_compatibility" value="config.driver.ether.interrupt_event_backword_compatibility.disabled" />
     </config>
     <config id="config.driver.ether_phy">
       <property id="config.driver.ether_phy.param_checking_enable" value="config.driver.ether_phy.param_checking_enable.bsp" />
@@ -373,6 +383,7 @@
       <property id="config.awsfreertos.thread.configuse_16_bit_ticks" value="config.awsfreertos.thread.configuse_16_bit_ticks.disabled" />
       <property id="config.awsfreertos.thread.configidle_should_yield" value="config.awsfreertos.thread.configidle_should_yield.disabled" />
       <property id="config.awsfreertos.thread.configuse_task_notifications" value="config.awsfreertos.thread.configuse_task_notifications.enabled" />
+      <property id="config.awsfreertos.thread.configtask_notifications_array_enteries" value="1" />
       <property id="config.awsfreertos.thread.configuse_mutexes" value="config.awsfreertos.thread.configuse_mutexes.disabled" />
       <property id="config.awsfreertos.thread.configuse_recursive_mutexes" value="config.awsfreertos.thread.configuse_recursive_mutexes.disabled" />
       <property id="config.awsfreertos.thread.configuse_counting_semaphores" value="config.awsfreertos.thread.configuse_counting_semaphores.enabled" />

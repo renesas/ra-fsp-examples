@@ -2,24 +2,38 @@
  * File Name    : i3c_slave_ep.h
  * Description  : Contains declarations of data structures and functions used in hal_entry.c.
  **********************************************************************************************************************/
-/***********************************************************************************************************************
+/**********************************************************************************************************************
 * Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
+**********************************************************************************************************************/
 
 
 #ifndef I3C_SLAVE_EP_H_
 #define I3C_SLAVE_EP_H_
 
+#include "hal_data.h"
+
+/* External global variable */
+extern const i3c_extended_cfg_t g_i3c0_cfg_extend;
+
+/* Macro for RA boards that support I3C HDR-DDR mode */
+#if defined (BOARD_RA8D1_EK)
+#define I3C_HDR_DDR_SUPPORT
+#define I3C_HDR_COMMAND_CODE_WRITE               (0x55)
+#define I3C_HDR_COMMAND_CODE_READ                (0xD5)
+#endif
+
 #define I3C_SLAVE_DEVICE_STATIC_ADDRESS          (0x41)
-#define MAX_WRITE_DATA_LEN                       (64)
-#define MAX_READ_DATA_LEN                        (64)
+#define MAX_WRITE_DATA_LEN                       (32)
+#define MAX_READ_DATA_LEN                        (32)
 #define MAX_IBI_PAYLOAD_SIZE                     (32)
 #define WAIT_TIME                                (100)
 #define MAX_WAIT_TIME_BUS_INIT_10S               (100UL)
-/* External IRQ channel number */
+
+/* Macro for external IRQ */
 #define USER_SW_IRQ_NUMBER                       (0x0C)
+#define USER_SW_PIN                              (BSP_IO_PORT_00_PIN_08)
 
 #define WORD_ALIGN   (4)
 #define ONE          (1)
@@ -48,7 +62,7 @@
 #define I3C_SLAVE_DEVICE_IBI_WITH_PAYLOAD           (1)
 #define I3C_SLAVE_DEVICE_OFFLINE_CAPABLE            (0)
 #define I3C_SLAVE_DEVICE_IS_BRIDGE                  (0)
-#define I3C_SLAVE_DEVICE_SUPPORT_GETCAPS            (0)
+#define I3C_SLAVE_DEVICE_SUPPORT_GETCAPS            (g_i3c0_cfg_extend.slave_command_response_info.hdr_ddr_support)
 #define I3C_SLAVE_DEVICE_ROLE                       (BCR_BIT6_7_FOR_I3C_SLAVE)
 
 #define BCR_SETTING (((I3C_SLAVE_DEVICE_SPEED_LIMITATION << BCR0_POS) & BCR0_MSK) | \
@@ -60,7 +74,7 @@
                      ((I3C_SLAVE_DEVICE_ROLE << BCR76_POS) & BCR76_MSK))
 
 /*  DCR setting */
-#define DCR_SETTING              (0x00)
+#define DCR_SETTING                 (0x00)
 
 /* PID setting */
 #define PID_TYPE_VENDOR_FIXED       (0x0)
@@ -80,7 +94,7 @@
 #define PID_PART_ID_POS             (16)
 #define PID_PART_ID_MSK             (0xffff0000)
 
-/* user config */
+/* User config */
 #define PID_MANUFACTURER            (PID_RENESAS_MANUFACTURER_ID)
 #define PID_TYPE_SELECTION          (PID_TYPE_VENDOR_FIXED)
 #define PID_VENDOR_PART_ID          (0x0005U)
@@ -105,17 +119,11 @@
                                "device on Renesas RA MCUs based on Renesas FSP. once initialization is successful,\r\n"\
                                "The EP waits for DAA, or if DAA is not completed it will initiates hot join request.\r\n"\
                                "If on-board switch is pressed, it will initiate IBI transfer request.\r\n"\
-                               "Error and info messages will be printed on JlinkRTTViewer.\r\n"\
+                               "Error and info messages will be printed on J-Link RTT Viewer.\r\n"\
                                "Refer to readme.txt file for more details on Example Project and\r\n"\
                                "FSP User's Manual for more information about "MODULE_NAME" driver\r\n"
 
-/* function declarations */
-fsp_err_t i3c_slave_init(void);
-fsp_err_t i3c_slave_ops(void);
-fsp_err_t icu_init(void);
-bool read_onboard_sw_status(void);
-void i3c_deinit(void);
-void icu_deinit(void);
-void agt_deinit(void);
+/* Function declarations */
+void i3c_slave_entry(void);
 
 #endif /* I3C_SLAVE_EP_H_ */

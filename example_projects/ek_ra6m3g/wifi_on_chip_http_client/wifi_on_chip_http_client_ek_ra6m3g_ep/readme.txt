@@ -11,9 +11,9 @@
 	Additionally, status and failure messages are displayed on the RTT Viewer.
 
 2. Software Requirements:
-	Renesas Flexible Software Package (FSP): Version 5.5.0
-	e2 studio: Version 2024-07
-	SEGGER J-Link RTT Viewer: Version 7.98b
+	Renesas Flexible Software Package (FSP): Version 5.6.0
+	e2 studio: Version 2024-10
+	SEGGER J-Link RTT Viewer: Version 7.98g
 	GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 	
 3. Hardware Requirements:
@@ -22,8 +22,11 @@
 	1 x Renesas board
 	1 x Micro USB cable for programming, debugging and observing EP operations on RTT viewer (For MCK-RA4T1, MCK-RA6T2,
 	MCK-RA6T3, MCK-RA8T1: Type C USB cable).
-	1 x US159-DA16200EVZ Ultra Low Power Wi-Fi Pmod™ (Part Number: US159-DA16200MEVZ).
 	1 x Wi-Fi router Access Point(AP) with internet access. Note: WiFi router AP's credentials should be known.
+	1 x US159-DA16200EVZ Ultra Low Power Wi-Fi Pmod™ (Part Number: US159-DA16200MEVZ) (SDK v3.2.8.1).
+		**Note: Please ensure the Pmod™ SDK is up-to-date before executing the project. 
+				For SDK update instructions, please refer to Section 5, 6, and 7 in the provided link:
+					https://www.renesas.com/en/document/apn/da16200da16600-sdk-update-guide
 	
 4. Hardware Connections:
 	EK-RA4M1/EK-RA6M1/EK-RA6M2

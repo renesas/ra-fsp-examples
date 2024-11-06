@@ -1115,14 +1115,19 @@
             <data>
                 <buildActions>
                     <buildAction>
-                        <cmdline>cmd /c "start "Renesas" /w cmd /c ""$PROJ_DIR$\rasc_launcher.bat" "$PROJ_DIR$\rasc_version.txt" -nosplash --launcher.suppressErrors --generate --compiler IAR --devicefamily $RASC_DEVICE_FAMILY$ "$PROJ_DIR$\configuration.xml" 2&gt; "$BUILD_FILES_DIR$\.rasc_stderr.txt"""</cmdline>
+                        <cmdline>cmd /c ""$PROJ_DIR$\rasc_launcher.bat" "$PROJ_DIR$\rasc_version.txt" -nosplash --launcher.suppressErrors --generate --compiler IAR --devicefamily $RASC_DEVICE_FAMILY$ "$PROJ_DIR$\configuration.xml" 2&gt; "$BUILD_FILES_DIR$\.rasc_stderr.txt" &amp;&amp; echo. &gt; "$BUILD_FILES_DIR$\$TARGET_BNAME$.rasc""</cmdline>
                         <workingDirectory>$PROJ_DIR$</workingDirectory>
                         <buildSequence>preCompile</buildSequence>
                         <outputs>
                             <file>
-<name>$BUILD_FILES_DIR$/.prebuild</name>
+<name>$BUILD_FILES_DIR$/$TARGET_BNAME$.rasc</name>
                             </file>
                         </outputs>
+                        <dependencies>
+                            <file>
+<name>configuration.xml</name>
+                            </file>
+                        </dependencies>
                     </buildAction>
                 </buildActions>
             </data>
@@ -2243,14 +2248,19 @@
             <data>
                 <buildActions>
                     <buildAction>
-                        <cmdline>cmd /c "start "Renesas" /w cmd /c ""$PROJ_DIR$\rasc_launcher.bat" "$PROJ_DIR$\rasc_version.txt" -nosplash --launcher.suppressErrors --generate --compiler IAR --devicefamily $RASC_DEVICE_FAMILY$ "$PROJ_DIR$\configuration.xml" 2&gt; "$BUILD_FILES_DIR$\.rasc_stderr.txt"""</cmdline>
+                        <cmdline>cmd /c ""$PROJ_DIR$\rasc_launcher.bat" "$PROJ_DIR$\rasc_version.txt" -nosplash --launcher.suppressErrors --generate --compiler IAR --devicefamily $RASC_DEVICE_FAMILY$ "$PROJ_DIR$\configuration.xml" 2&gt; "$BUILD_FILES_DIR$\.rasc_stderr.txt" &amp;&amp; echo. &gt; "$BUILD_FILES_DIR$\$TARGET_BNAME$.rasc""</cmdline>
                         <workingDirectory>$PROJ_DIR$</workingDirectory>
                         <buildSequence>preCompile</buildSequence>
                         <outputs>
                             <file>
-<name>$BUILD_FILES_DIR$/.prebuild</name>
+<name>$BUILD_FILES_DIR$/$TARGET_BNAME$.rasc</name>
                             </file>
                         </outputs>
+                        <dependencies>
+                            <file>
+<name>configuration.xml</name>
+                            </file>
+                        </dependencies>
                     </buildAction>
                 </buildActions>
             </data>

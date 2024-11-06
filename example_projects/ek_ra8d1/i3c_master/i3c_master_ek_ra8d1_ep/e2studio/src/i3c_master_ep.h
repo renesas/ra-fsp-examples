@@ -2,14 +2,20 @@
  * File Name    : i3c_master_ep.h
  * Description  : Contains declarations of data structures and functions used in hal_entry.c.
  **********************************************************************************************************************/
-/***********************************************************************************************************************
+/**********************************************************************************************************************
 * Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
+**********************************************************************************************************************/
+#include "common_utils.h"
 
 #ifndef I3C_MASTER_EP_H_
 #define I3C_MASTER_EP_H_
+
+/* Macro for RA boards that support I3C HDR-DDR mode */
+#if defined (BOARD_RA8D1_EK)
+#define I3C_HDR_DDR_SUPPORT
+#endif
 
 #define MAX_IBI_PAYLOAD_SIZE                            (32)
 #define MAX_WRITE_DATA_LEN                              (32)
@@ -18,10 +24,11 @@
 #define I3C_MASTER_DEVICE_DYNAMIC_ADDRESS               (0x70)
 #define I3C_SLAVE_DEVICE_DYNAMIC_ADDRESS_START          (0x71)
 #define WAIT_TIME                                       (3000)
+
 /* MACRO for null character */
 #define NULL_CHAR   ('\0')
-#define WORD_ALIGN   (4)
-#define ONE          (1)
+#define WORD_ALIGN  (4)
+#define ONE         (1)
 
 /* I3C Event Flags */
 #define I3C_EVENT_FLAG_ENTDAA_ADDRESS_PHASE             (0x00000001)
@@ -40,7 +47,10 @@
 typedef enum rtt_menu_options
 {
     DISPLAY_I3C_SLAVE_INFO = 1,
-    MASTER_WRITE_READ = 2
+    MASTER_WRITE_READ,
+#ifdef I3C_HDR_DDR_SUPPORT
+    MASTER_WRITE_READ_HDR,
+#endif /* I3C_HDR_DDR_SUPPORT */
 }rtt_menu_options_t;
 
 
@@ -63,13 +73,23 @@ typedef struct s_i3c_slave_device_information
                                "with I3C slave connected on another RA board. once initialization is\r\n"\
                                "successful, it will start assigning dynamic addresses to slave devices present on the bus.\r\n"\
                                "The EP performs write/read operation and displays device information based on user input.\r\n"\
-                               "Error and info messages will be printed on JlinkRTTViewer.\r\n"\
+                               "Error and info messages will be printed on J-Link RTT Viewer.\r\n"\
                                "Refer to readme.txt file for more details on Example Project and\r\n"\
                                "FSP User's Manual for more information about "MODULE_NAME" driver\r\n"
-
+#ifdef I3C_HDR_DDR_SUPPORT
+#define EP_FUNCTION_MENU       " \r\nI3C Master operations : \r\n"\
+                               "1. Display I3C slave device Information if exists on I3C bus\r\n"\
+                               "2. I3C Write Read operation in SDR\r\n"\
+                               "3. I3C Write Read operation in HDR-DDR\r\n"
+#else
 #define EP_FUNCTION_MENU       " \r\nI3C Master operations : \r\n"\
                                "1. Display I3C slave device Information if exists on I3C bus\r\n"\
                                "2. I3C Write Read operation\r\n"
+#endif /* I3C_HDR_DDR_SUPPORT */
 
+/* Global function */
+uint32_t i3c_app_event_notify(uint32_t set_event_flag_value, uint32_t timout);
+void set_next_read_buffer(void);
+void i3c_master_entry(void);
 
 #endif /* I3C_MASTER_EP_H_ */

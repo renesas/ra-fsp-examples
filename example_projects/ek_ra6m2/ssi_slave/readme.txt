@@ -13,12 +13,12 @@
 	On Selecting Master Write - Slave Read on both Master and Slave, the Master starts writing data, and the Slave reads the data.
 	On Selecting Slave Write - Master Read on both Master and Slave, the Slave starts writing data, and the Master reads the data. 
 	The result of transfers between SSI Master and SSI Slave is displayed on the J-Link RTT Viewer.
-	The two example projects ssi_master_ek_ra6m3_ep and ssi_slave_ek_ra6m3_ep are provided for the the SSI Slave EP, one intended for Master and other for the Slave.
+	The two example projects ssi_master_ek_ra6m2_ep and ssi_slave_ek_ra6m2_ep are provided for the the SSI Slave EP, one intended for Master and other for the Slave.
 
 2. Software Requirements:
-	Renesas Flexible Software Package (FSP): Version 5.5.0
-	e2 studio: Version 2024-07
-	SEGGER J-Link RTT Viewer: Version 7.98b
+	Renesas Flexible Software Package (FSP): Version 5.6.0
+	e2 studio: Version 2024-10
+	SEGGER J-Link RTT Viewer: Version 7.98g
 	GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
      
 3. Hardware Requirements:
@@ -45,7 +45,7 @@
 
 5. The user cannot change the configuration from Master to Slave at run time.
 
-	1) The example project ssi_master_ek_ra6m3_ep has Master configuration settings and runs in master mode and the example project ssi_slave_ek_ra6m3_ep has Slave configuration settings and runs in slave mode.
+	1) The example project ssi_master_ek_ra6m2_ep has Master configuration settings and runs in master mode and the example project ssi_slave_ek_ra6m2_ep has Slave configuration settings and runs in slave mode.
 	
 6. Hardware settings for the project:
 	

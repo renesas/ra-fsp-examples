@@ -1,12 +1,12 @@
-/***********************************************************************************************************************
+/**********************************************************************************************************************
  * File Name    : hal_entry.c
  * Description  : Contains data structures and functions used in hal_entry.c.
- **********************************************************************************************************************/
-/***********************************************************************************************************************
-* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
+ *********************************************************************************************************************/
+/**********************************************************************************************************************
+* Copyright (c) 2024 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
+**********************************************************************************************************************/
 
 #include "common_utils.h"
 #include "i3c_slave_ep.h"
@@ -26,58 +26,7 @@ FSP_CPP_FOOTER
  **********************************************************************************************************************/
 void hal_entry(void)
 {
-    /* To capture the status(Success/Failure) of each Function/API. */
-    fsp_err_t err = FSP_SUCCESS;
-    fsp_pack_version_t version = {RESET_VALUE};
-
-    /* version get API for FLEX pack information */
-    R_FSP_VersionGet(&version);
-    APP_PRINT(BANNER_INFO,EP_VERSION,version.version_id_b.major, version.version_id_b.minor, version.version_id_b.patch );
-    APP_PRINT(EP_INFO);
-
-    /* Initialize AGT driver */
-    err = R_AGT_Open(&g_timeout_timer_ctrl, &g_timeout_timer_cfg);
-    if (FSP_SUCCESS != err)
-    {
-        APP_ERR_PRINT ("\r\nERROR : R_AGT_Open API FAILED \r\n");
-        APP_ERR_TRAP(err);
-    }
-
-    /* Initialize ICU driver */
-    err = icu_init();
-    if (FSP_SUCCESS != err)
-    {
-        APP_ERR_PRINT ("\r\nERROR : icu_init function failed.\r\n");
-        /* de-initialize the opened AGT timer module.*/
-        agt_deinit();
-        APP_ERR_TRAP(err);
-    }
-
-    /* Initialize I3C slave device.*/
-    err = i3c_slave_init();
-    if (FSP_SUCCESS != err)
-    {
-        APP_ERR_PRINT ("\r\nERROR : i3c_slave_init function failed.\r\n");
-        /* de-initialize the opened AGT timer and ICU modules.*/
-        agt_deinit();
-        icu_deinit();
-        APP_ERR_TRAP(err);
-    }
-
-    while(true)
-    {
-        /* Perform I3C slave operation.*/
-        err = i3c_slave_ops();
-        if (FSP_SUCCESS != err)
-        {
-            APP_ERR_PRINT ("\r\nERROR : init_i3c_slave function failed.\r\n");
-            /* de-initialize the opened AGT timer, I3C and ICU modules.*/
-            agt_deinit();
-            icu_deinit();
-            i3c_deinit();
-            APP_ERR_TRAP(err);
-        }
-    }
+    i3c_slave_entry();
 
 #if BSP_TZ_SECURE_BUILD
     /* Enter non-secure code */
@@ -110,12 +59,19 @@ void R_BSP_WarmStart(bsp_warm_start_event_t event)
         /* C runtime environment and system clocks are setup. */
 
         /* Configure pins. */
-        R_IOPORT_Open (&g_ioport_ctrl, g_ioport.p_cfg);
+        R_IOPORT_Open (&IOPORT_CFG_CTRL, &IOPORT_CFG_NAME);
+
+#if BSP_CFG_SDRAM_ENABLED
+
+        /* Setup SDRAM and initialize it. Must configure pins first. */
+        R_BSP_SdramInit(true);
+#endif
     }
 }
 
 #if BSP_TZ_SECURE_BUILD
 
+FSP_CPP_HEADER
 BSP_CMSE_NONSECURE_ENTRY void template_nonsecure_callable ();
 
 /* Trustzone Secure Projects require at least one nonsecure callable function in order to build (Remove this if it is not required to build). */
@@ -123,8 +79,6 @@ BSP_CMSE_NONSECURE_ENTRY void template_nonsecure_callable ()
 {
 
 }
-#endif
+FSP_CPP_FOOTER
 
-/*******************************************************************************************************************//**
- * @} (end addtogroup i3c_slave_ep)
- **********************************************************************************************************************/
+#endif

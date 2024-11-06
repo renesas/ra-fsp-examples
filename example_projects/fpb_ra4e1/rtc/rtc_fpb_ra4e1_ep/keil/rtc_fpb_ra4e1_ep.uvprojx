@@ -10,13 +10,13 @@
       <TargetName>Target 1</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>6160000::V6.16::.\Arm6.16</pCCUsed>
+      <pCCUsed>6210000::V6.21::ARMCLANG</pCCUsed>
       <uAC6>1</uAC6>
       <TargetOption>
         <TargetCommonOption>
           <Device>R7FA4E10D</Device>
           <Vendor>Renesas</Vendor>
-          <PackID>Renesas.RA_DFP.3.3.0</PackID>
+          <PackID>Renesas.RA_DFP.5.5.0</PackID>
           <PackURL>https://www2.renesas.eu/Keil_MDK_Packs/</PackURL>
           <Cpu>CPUTYPE("Cortex-M33") FPU2 CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -82,7 +82,7 @@
           <AfterMake>
             <RunUserProg1>1</RunUserProg1>
             <RunUserProg2>0</RunUserProg2>
-            <UserProg1Name>cmd /c ""C:\Renesas\RA\sc_v2024-07\eclipse\rasc.exe" --gensecurebundle --compiler ARMv6 "$Pconfiguration.xml" "$L%L" 2&gt; "%%TEMP%%\rasc_stderr.out""</UserProg1Name>
+            <UserProg1Name>cmd /c ""C:\Renesas\RA\sc_v2024-10\eclipse\rasc.exe" --gensecurebundle --compiler ARMv6 "$Pconfiguration.xml" "$L%L" 2&gt; "%%TEMP%%\rasc_stderr.out""</UserProg1Name>
             <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
@@ -129,10 +129,10 @@
         </DebugOption>
         <Utilities>
           <Flash1>
-            <UseTargetDll>0</UseTargetDll>
+            <UseTargetDll>1</UseTargetDll>
             <UseExternalTool>0</UseExternalTool>
             <RunIndependent>0</RunIndependent>
-            <UpdateFlashBeforeDebugging>0</UpdateFlashBeforeDebugging>
+            <UpdateFlashBeforeDebugging>1</UpdateFlashBeforeDebugging>
             <Capability>1</Capability>
             <DriverSelection>-1</DriverSelection>
           </Flash1>
@@ -185,6 +185,8 @@
             <uocXRam>0</uocXRam>
             <RvdsVP>2</RvdsVP>
             <RvdsMve>0</RvdsMve>
+            <RvdsCdeCp>0</RvdsCdeCp>
+            <nBranchProt>0</nBranchProt>
             <hadIRAM2>0</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>0</StupSel>
@@ -351,7 +353,7 @@
             <NoWarn>0</NoWarn>
             <uSurpInc>0</uSurpInc>
             <useXO>0</useXO>
-            <uClangAs>0</uClangAs>
+            <ClangAsOpt>4</ClangAsOpt>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define></Define>

@@ -33,7 +33,7 @@ Includes   <System Includes> , "Project Includes"
 
 #include <stdint.h>
 #include <stddef.h>
-#include "fmtOut.h"
+#include "fmtout.h"
 
 /******************************************************************************
 Typedef definitions

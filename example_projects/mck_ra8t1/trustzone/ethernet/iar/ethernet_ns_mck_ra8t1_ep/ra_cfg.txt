@@ -1,5 +1,5 @@
 FSP Configuration
-  Board "MCK-RA8T1"
+  Board "RA8|RA8T1|MCK-RA8T1"
   R7FA8T1AHECBD
     part_number: R7FA8T1AHECBD
     rom_size_bytes: 2064384
@@ -12,6 +12,22 @@ FSP Configuration
     series: 8
     
   RA8T1 Family
+    Enable inline BSP IRQ functions: Enabled
+    SDRAM: SDRAM Support: Disabled
+    SDRAM: Timings: tRAS (cycles): 6 cycles
+    SDRAM: Timings: tRCD (cycles): 3 cycles
+    SDRAM: Timings: tRP (cycles): 3 cycles
+    SDRAM: Timings: tWR (cycles): 2 cycles
+    SDRAM: Timings: tCL (cycles): 3 cycles
+    SDRAM: Timings: tRFC (cycles): 937
+    SDRAM: Timings: tREFW (cycles): 8 cycles
+    SDRAM: Initialization: Auto-Refresh Interval (ARFI): 10 cycles
+    SDRAM: Initialization: Auto-Refresh Count (ARFC): 8 times
+    SDRAM: Initialization: Precharge Cycle Count (PRC): 3 cycles
+    SDRAM: Address Multiplex Shift: 9-bit shift
+    SDRAM: Endian Mode: Little Endian
+    SDRAM: Continuous Access Mode: Enabled
+    SDRAM: Bus Width: 16-bit
     Security: Exceptions: Exception Response: Non-Maskable Interrupt
     Security: Exceptions: BusFault, HardFault, and NMI Target: Secure State
     Security: System Reset Request Accessibility: Secure State
@@ -74,12 +90,13 @@ FSP Configuration
     Clocks: HOCO FLL Function: Disabled
     Clocks: Clock Settling Delay: Enabled
     Clocks: Sleep Mode Entry and Exit Delays: Enabled
-    Clocks: RTOS Sleep Mode Entry and Exit Delays: Enabled
+    Clocks: RTOS Sleep on Idle: Disabled
     Clocks: MSTP Change Delays: Enabled
     Clocks: Settling Delay (us): 150
     Main Oscillator Wait Time: 8163 cycles
     Cache settings: Data cache: Disabled
     
+  RA8T1 event data
   RA Common
     Main stack size (bytes): 0x1000
     Heap size (bytes): 0x2000
@@ -101,14 +118,14 @@ FSP Configuration
     XTAL 24000000Hz
     HOCO 48MHz
     PLL Src: XTAL
-    PLL Div /1
-    PLL Mul x40-59|Mul x40|PLL Mul x40.00
+    PLL Div /2
+    PLL Mul x80-99|Mul x80|PLL Mul x80.00
     PLL1P Div /2
     PLL1Q Div /2
     PLL1R Div /2
     PLL2 Disabled
-    PLL2 Div /1
-    PLL2 Mul x40-59|Mul x48|PLL2 Mul x48.00
+    PLL2 Div /2
+    PLL2 Mul x80-99|Mul x96|PLL2 Mul x96.00
     PLL2P Div /2
     PLL2Q Div /2
     PLL2R Div /2
@@ -117,11 +134,8 @@ FSP Configuration
     SCICLK Disabled
     SPICLK Disabled
     CANFDCLK Disabled
-    LCDCLK Disabled
     I3CCLK Disabled
     UCK Disabled
-    U60CK Disabled
-    OCTASPICLK Disabled
     CPUCLK Div /1
     ICLK Div /2
     PCLKA Div /4
@@ -137,11 +151,8 @@ FSP Configuration
     SCICLK Div /4
     SPICLK Div /4
     CANFDCLK Div /8
-    LCDCLK Div /2
     I3CCLK Div /3
     UCK Div /5
-    U60CK Div /5
-    OCTASPICLK Div /4
     
   Pin Configurations
     RA8T1 MCK -> g_bsp_pin_cfg
@@ -184,10 +195,10 @@ FSP Configuration
       P205 B12 IIC1_SCL1 SCL1_PMOD M None "Peripheral mode" - - "AGT1: AGTO1; CLKOUT: CLKOUT; GPT4: GTIOC4A; GPT_OPS: GTIV; IIC1: SCL1; IRQ1: IRQ1-DS; SCI4: TXD4; SDHI0: SD0DAT3; SPI0: SSLA1; USB FS: USB_OVRCURA" - IO - - 
       P206 D11 IIC1_SDA1 SDA1_PMOD M None "Peripheral mode" - - "BUS: CS7#; GPT_OPS: GTIU; IIC1: SDA1; IRQ0: IRQ0-DS; SCI4: RXD4; SDHI0: SD0DAT2; SPI0: SSLA2; USB FS: USB_VBUSEN" - IO - - 
       P207 C13 - P207_PMOD - - Disabled - - - - None - - 
-      P208 F8 JTAG/SWD_TDI RXD9_PMOD - - - - - "CANFD1: CRX1; CLKOUT: VCOUT; GPT1: GTIOC1B; GPT_OPS: GTOVLO; IRQ3: IRQ3; JTAG/SWD: TDI; SCI9: RXD9" - IO - - 
-      P209 F9 JTAG/SWD_TDO TXD9_PMOD - - - - - "CANFD1: CTX1; CLKOUT: CLKOUT; GPT1: GTIOC1A; GPT_OPS: GTOVUP; JTAG/SWD: TDO; SCI9: TXD9; TRACE: TRACESWO" - IO - - 
-      P210 D8 JTAG/SWD_TMS SWDIO - - - - - "GPT0: GTIOC0B; GPT_OPS: GTOULO; JTAG/SWD: SWDIO; JTAG/SWD: TMS; SCI9: CTS_RTS9; SCI9: DE9" - IO - - 
-      P211 E10 JTAG/SWD_TCK SWCLK - - - - - "GPT0: GTIOC0A; GPT_OPS: GTOUUP; JTAG/SWD: SWCLK; JTAG/SWD: TCK; SCI9: DE9; SCI9: SCK9" - IO - - 
+      P208 F8 - RXD9_PMOD - - Disabled - - "CANFD1: CRX1; CLKOUT: VCOUT; GPT1: GTIOC1B; GPT_OPS: GTOVLO; IRQ3: IRQ3; JTAG/SWD: TDI; SCI9: RXD9" - None - - 
+      P209 F9 - TXD9_PMOD - - Disabled - - "CANFD1: CTX1; CLKOUT: CLKOUT; GPT1: GTIOC1A; GPT_OPS: GTOVUP; JTAG/SWD: TDO; SCI9: TXD9; TRACE: TRACESWO" - None - - 
+      P210 D8 JTAG/SWD_SWDIO SWDIO L - "Peripheral mode" - - "GPT0: GTIOC0B; GPT_OPS: GTOULO; JTAG/SWD: SWDIO; JTAG/SWD: TMS; SCI9: CTS_RTS9; SCI9: DE9" - IO - - 
+      P211 E10 JTAG/SWD_SWCLK SWCLK L - "Peripheral mode" - - "GPT0: GTIOC0A; GPT_OPS: GTOUUP; JTAG/SWD: SWCLK; JTAG/SWD: TCK; SCI9: DE9; SCI9: SCK9" - IO - - 
       P212 H15 CGC_EXTAL EXTAL L None "Peripheral mode" - - "AGT1: AGTEE1; CGC: EXTAL; GPT0: GTIOC0B; GPT_POEGD: GTETRGD; IRQ3: IRQ3; SCI1: RXD1" - IO - - 
       P213 H14 CGC_XTAL XTAL L None "Peripheral mode" - - "ADC(Digital): ADTRG1; CGC: XTAL; GPT0: GTIOC0A; GPT_POEGC: GTETRGC; IRQ2: IRQ2; SCI1: TXD1; ULPT0: ULPTEE0" - IO - - 
       P300 D5 GPT3_GTIOC3A WP_1 L None "Peripheral mode" - - "BUS: A1; ETHER_MII: ET0_RX_CLK; ETHER_RMII: RMII0_RX_ER; GPT3: GTIOC3A; IRQ4: IRQ4; SCI0: DE0; SCI0: SCK0; SDRAM: A1; SDRAM: DQM3; SPI0: SSLA3; ULPT0: ULPTEVI0_A-DS" - IO - - 
@@ -409,10 +420,10 @@ FSP Configuration
       P205 B12 - SCL1_PMOD L None Disabled - - "AGT1: AGTO1; CLKOUT: CLKOUT; GPT4: GTIOC4A; GPT_OPS: GTIV; IIC1: SCL1; IRQ1: IRQ1-DS; SCI4: TXD4; SDHI0: SD0DAT3; SPI0: SSLA1; USB FS: USB_OVRCURA" - IO - - 
       P206 D11 - SDA1_PMOD L None Disabled - - "BUS: CS7#; GPT_OPS: GTIU; IIC1: SDA1; IRQ0: IRQ0-DS; SCI4: RXD4; SDHI0: SD0DAT2; SPI0: SSLA2; USB FS: USB_VBUSEN" - IO - - 
       P207 C13 - P207_PMOD - - Disabled - - - - None - - 
-      P208 F8 JTAG/SWD_TDI RXD9_PMOD - - - - - "CANFD1: CRX1; CLKOUT: VCOUT; GPT1: GTIOC1B; GPT_OPS: GTOVLO; IRQ3: IRQ3; JTAG/SWD: TDI; SCI9: RXD9" - IO - - 
-      P209 F9 JTAG/SWD_TDO TXD9_PMOD - - - - - "CANFD1: CTX1; CLKOUT: CLKOUT; GPT1: GTIOC1A; GPT_OPS: GTOVUP; JTAG/SWD: TDO; SCI9: TXD9; TRACE: TRACESWO" - IO - - 
-      P210 D8 JTAG/SWD_TMS SWDIO - - - - - "GPT0: GTIOC0B; GPT_OPS: GTOULO; JTAG/SWD: SWDIO; JTAG/SWD: TMS; SCI9: CTS_RTS9; SCI9: DE9" - IO - - 
-      P211 E10 JTAG/SWD_TCK SWCLK - - - - - "GPT0: GTIOC0A; GPT_OPS: GTOUUP; JTAG/SWD: SWCLK; JTAG/SWD: TCK; SCI9: DE9; SCI9: SCK9" - IO - - 
+      P208 F8 - RXD9_PMOD - - Disabled - - "CANFD1: CRX1; CLKOUT: VCOUT; GPT1: GTIOC1B; GPT_OPS: GTOVLO; IRQ3: IRQ3; JTAG/SWD: TDI; SCI9: RXD9" - None - - 
+      P209 F9 - TXD9_PMOD - - Disabled - - "CANFD1: CTX1; CLKOUT: CLKOUT; GPT1: GTIOC1A; GPT_OPS: GTOVUP; JTAG/SWD: TDO; SCI9: TXD9; TRACE: TRACESWO" - None - - 
+      P210 D8 - SWDIO L - Disabled - - "GPT0: GTIOC0B; GPT_OPS: GTOULO; JTAG/SWD: SWDIO; JTAG/SWD: TMS; SCI9: CTS_RTS9; SCI9: DE9" - IO - - 
+      P211 E10 - SWCLK L - Disabled - - "GPT0: GTIOC0A; GPT_OPS: GTOUUP; JTAG/SWD: SWCLK; JTAG/SWD: TCK; SCI9: DE9; SCI9: SCK9" - IO - - 
       P212 H15 - EXTAL L None Disabled - - "AGT1: AGTEE1; CGC: EXTAL; GPT0: GTIOC0B; GPT_POEGD: GTETRGD; IRQ3: IRQ3; SCI1: RXD1" - IO - - 
       P213 H14 - XTAL L None Disabled - - "ADC(Digital): ADTRG1; CGC: XTAL; GPT0: GTIOC0A; GPT_POEGC: GTETRGC; IRQ2: IRQ2; SCI1: TXD1; ULPT0: ULPTEE0" - IO - - 
       P300 D5 - WP_1 L None Disabled - - "BUS: A1; ETHER_MII: ET0_RX_CLK; ETHER_RMII: RMII0_RX_ER; GPT3: GTIOC3A; IRQ4: IRQ4; SCI0: DE0; SCI0: SCK0; SDRAM: A1; SDRAM: DQM3; SPI0: SSLA3; ULPT0: ULPTEVI0_A-DS" - IO - - 
@@ -659,6 +670,7 @@ FSP Configuration
     Parameter Checking: Default (BSP)
     ET0_LINKSTA Pin Status Flag: Fall -> Rise
     Link Signal Change Flag: Unused
+    Interrupt event backward compatibility: Do not keep compatibility
     
   Module "Ethernet (r_ether_phy)"
     Parameter Checking: Default (BSP)
@@ -691,6 +703,7 @@ FSP Configuration
     General: Use 16-bit Ticks: Disabled
     General: Idle Should Yield: Disabled
     General: Use Task Notifications: Enabled
+    General: Task Notification Array Entries: 1
     General: Use Mutexes: Disabled
     General: Use Recursive Mutexes: Disabled
     General: Use Counting Semaphores: Enabled
@@ -736,6 +749,8 @@ FSP Configuration
     RA: Hardware Stack Monitor: Disabled
     Logging: Print String Function: vLoggingPrint(x)
     Logging: Logging Include Time and Task Name: Disabled
+    Logging: Debug Logging Name: Log Name
+    Logging: Logging Level: LOG_NONE
     
   HAL
     Instance "g_ioport I/O Port (r_ioport)"
@@ -761,7 +776,7 @@ FSP Configuration
         Instance "g_ether0 Ethernet (r_ether)"
           General: Name: g_ether0
           General: Channel: 0
-          General: MAC address: 00:11:22:33:44:55
+          General: MAC address: 74:90:50:6D:81:74
           General: Zero-copy Mode: Disable
           General: Flow control functionality: Disable
           Filters: Multicast Mode: Enable
@@ -773,6 +788,8 @@ FSP Configuration
           Buffers: Buffer size: 1514
           Buffers: Padding size: Disable
           Buffers: Padding offset: 1
+          Interrupts: EESR event: RFOF, RDE, FR, TFUF, TDE, TC
+          Interrupts: ECSR event: 
           Interrupts: Interrupt priority: Priority 12
           Interrupts: Callback: vEtherISRCallback
           

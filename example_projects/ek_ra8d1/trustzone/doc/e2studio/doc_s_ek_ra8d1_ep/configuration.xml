@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<raConfiguration version="8">
+<raConfiguration version="9">
   <generalSettings>
     <option key="#Board#" value="board.ra8d1ek" />
     <option key="CPU" value="RA8D1" />
@@ -9,7 +9,7 @@
     <option key="#DeviceCommand#" value="R7FA8D1BH" />
     <option key="#RTOS#" value="_none" />
     <option key="#pinconfiguration#" value="R7FA8D1BHECBD.pincfg" />
-    <option key="#FSPVersion#" value="5.5.0" />
+    <option key="#FSPVersion#" value="5.6.0" />
     <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra8d1_ek##" />
     <option key="#SELECTED_TOOLCHAIN#" value="gcc-arm-embedded" />
     <option key="#ToolchainVersion#" value="13.2.1.arm-13-7" />
@@ -29,6 +29,22 @@
       <property id="config.bsp.series" value="config.bsp.series.value" />
     </config>
     <config id="config.bsp.ra8d1.fsp">
+      <property id="config.bsp.fsp.inline_irq_functions" value="config.bsp.common.inline_irq_functions.enabled" />
+      <property id="config.bsp.fsp.sdram.enabled" value="config.bsp.fsp.sdram.enabled.disabled" />
+      <property id="config.bsp.fsp.sdram.tras" value="config.bsp.fsp.sdram.tras.6" />
+      <property id="config.bsp.fsp.sdram.trcd" value="config.bsp.fsp.sdram.trcd.3" />
+      <property id="config.bsp.fsp.sdram.trp" value="config.bsp.fsp.sdram.trp.3" />
+      <property id="config.bsp.fsp.sdram.twr" value="config.bsp.fsp.sdram.twr.2" />
+      <property id="config.bsp.fsp.sdram.tcl" value="config.bsp.fsp.sdram.tcl.3" />
+      <property id="config.bsp.fsp.sdram.trfc" value="937" />
+      <property id="config.bsp.fsp.sdram.trefw" value="config.bsp.fsp.sdram.trefw.8" />
+      <property id="config.bsp.fsp.sdram.arfi" value="config.bsp.fsp.sdram.arfi.10" />
+      <property id="config.bsp.fsp.sdram.arfc" value="config.bsp.fsp.sdram.arfc.8" />
+      <property id="config.bsp.fsp.sdram.prc" value="config.bsp.fsp.sdram.prc.3" />
+      <property id="config.bsp.fsp.sdram.addr_shift" value="config.bsp.fsp.sdram.addr_shift.9" />
+      <property id="config.bsp.fsp.sdram.endian_mode" value="config.bsp.fsp.sdram.endian_mode.little" />
+      <property id="config.bsp.fsp.sdram.continuous_access_mode" value="config.bsp.fsp.sdram.continuous_access_mode.enabled" />
+      <property id="config.bsp.fsp.sdram.bus_width" value="config.bsp.fsp.sdram.bus_width.16" />
       <property id="config.bsp.fsp.tz.exception_response" value="config.bsp.fsp.tz.exception_response.nmi" />
       <property id="config.bsp.fsp.tz.cmsis.bfhfnmins" value="config.bsp.fsp.tz.cmsis.bfhfnmins.secure" />
       <property id="config.bsp.fsp.tz.cmsis.sysresetreqs" value="config.bsp.fsp.tz.cmsis.sysresetreqs.secure_only" />
@@ -79,7 +95,22 @@
       <property id="config.bsp.fsp.PBPS.PBPS2" value="" />
       <property id="config.bsp.fsp.PBPS.PBPS3" value="" />
       <property id="config.bsp.fsp.dual_bank" value="config.bsp.fsp.dual_bank.disabled" />
+      <property id="config.bsp.fsp.FSBLCTRL0.FSBLEN" value="config.bsp.fsp.FSBLCTRL0.FSBLEN.disabled" />
+      <property id="config.bsp.fsp.FSBLCTRL0.FSBLSKIPSW" value="config.bsp.fsp.FSBLCTRL0.FSBLSKIPSW.disabled" />
+      <property id="config.bsp.fsp.FSBLCTRL0.FSBLSKIPDS" value="config.bsp.fsp.FSBLCTRL0.FSBLSKIPDS.disabled" />
+      <property id="config.bsp.fsp.FSBLCTRL0.FSBLCLK" value="config.bsp.fsp.FSBLCTRL0.FSBLCLK.240" />
+      <property id="config.bsp.fsp.FSBLCTRL1.FSBLEXMD" value="config.bsp.fsp.FSBLCTRL1.FSBLEXMD.secure_report" />
+      <property id="config.bsp.fsp.FSBLCTRL2.PORTPN" value="config.bsp.fsp.FSBLCTRL2.PORTPN.15" />
+      <property id="config.bsp.fsp.FSBLCTRL2.PORTGN" value="config.bsp.fsp.FSBLCTRL2.PORTGN.reserved" />
+      <property id="config.bsp.fsp.SACC0" value="0xFFFFFFFF" />
+      <property id="config.bsp.fsp.SACC1" value="0xFFFFFFFF" />
+      <property id="config.bsp.fsp.SAMR" value="0xFFFFFFFF" />
       <property id="config.bsp.fsp.hoco_fll" value="config.bsp.fsp.hoco_fll.disabled" />
+      <property id="config.bsp.fsp.clock_settling_delay" value="config.bsp.fsp.clock_settling_delay.enabled" />
+      <property id="config.bsp.fsp.sleep_mode_delays" value="config.bsp.fsp.sleep_mode_delays.enabled" />
+      <property id="config.bsp.fsp.rtos_idle_sleep" value="config.bsp.fsp.rtos_idle_sleep.disabled" />
+      <property id="config.bsp.fsp.mstp_change_delays" value="config.bsp.fsp.mstp_change_delays.enabled" />
+      <property id="config.bsp.fsp.settling_delay_us" value="150" />
       <property id="config.bsp.common.main_osc_wait" value="config.bsp.common.main_osc_wait.wait_8163" />
       <property id="config.bsp.fsp.mcu.adc.max_freq_hz" value="50000000" />
       <property id="config.bsp.fsp.mcu.sci_b_uart.max_baud" value="20000000" />
@@ -99,6 +130,8 @@
       <property id="config.bsp.fsp.mcu.canfd.afl_rules_each_chnl" value=" 16" />
       <property id="config.bsp.fsp.mcu.canfd.max_data_rate_hz" value="8" />
       <property id="config.bsp.fsp.mcu.adc_dmac.samples_per_channel" value="32767" />
+      <property id="config.bsp.fsp.mcu.sci_b_lin.max_baud" value="7500000" />
+      <property id="config.bsp.fsp.dcache" value="config.bsp.fsp.dcache.disabled" />
     </config>
     <config id="config.bsp.ra">
       <property id="config.bsp.common.main" value="0x400" />
@@ -196,37 +229,37 @@
     <node id="board.clock.octaspiclk.display" option="board.clock.octaspiclk.display.value" />
   </raClockConfiguration>
   <raComponentSelection>
-    <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="6.1.0+fsp.5.5.0">
-      <description>Arm CMSIS Version 5 - Core (M)</description>
-      <originalPack>Arm.CMSIS5.6.1.0+fsp.5.5.0.pack</originalPack>
+    <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="6.1.0+fsp.5.6.0">
+      <description>Arm CMSIS Version 6 - Core (M)</description>
+      <originalPack>Arm.CMSIS6.6.1.0+fsp.5.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra8d1" subgroup="device" variant="R7FA8D1BHECBD" vendor="Renesas" version="5.5.0">
+    <component apiversion="" class="BSP" condition="" group="ra8d1" subgroup="device" variant="R7FA8D1BHECBD" vendor="Renesas" version="5.6.0">
       <description>Board support package for R7FA8D1BHECBD</description>
-      <originalPack>Renesas.RA_mcu_ra8d1.5.5.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra8d1.5.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra8d1" subgroup="device" variant="" vendor="Renesas" version="5.5.0">
+    <component apiversion="" class="BSP" condition="" group="ra8d1" subgroup="device" variant="" vendor="Renesas" version="5.6.0">
       <description>Board support package for RA8D1</description>
-      <originalPack>Renesas.RA_mcu_ra8d1.5.5.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra8d1.5.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra8d1" subgroup="fsp" variant="" vendor="Renesas" version="5.5.0">
+    <component apiversion="" class="BSP" condition="" group="ra8d1" subgroup="fsp" variant="" vendor="Renesas" version="5.6.0">
       <description>Board support package for RA8D1 - FSP Data</description>
-      <originalPack>Renesas.RA_mcu_ra8d1.5.5.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra8d1.5.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra8d1_ek" variant="" vendor="Renesas" version="5.5.0">
+    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra8d1_ek" variant="" vendor="Renesas" version="5.6.0">
       <description>RA8D1-EK Board Support Files</description>
-      <originalPack>Renesas.RA_board_ra8d1_ek.5.5.0.pack</originalPack>
+      <originalPack>Renesas.RA_board_ra8d1_ek.5.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="5.5.0">
+    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="5.6.0">
       <description>Board Support Package Common Files</description>
-      <originalPack>Renesas.RA.5.5.0.pack</originalPack>
+      <originalPack>Renesas.RA.5.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_doc" variant="" vendor="Renesas" version="5.5.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_doc" variant="" vendor="Renesas" version="5.6.0">
       <description>Data Operation Circuit</description>
-      <originalPack>Renesas.RA.5.5.0.pack</originalPack>
+      <originalPack>Renesas.RA.5.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="5.5.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="5.6.0">
       <description>I/O Port</description>
-      <originalPack>Renesas.RA.5.5.0.pack</originalPack>
+      <originalPack>Renesas.RA.5.6.0.pack</originalPack>
     </component>
   </raComponentSelection>
   <raElcConfiguration />
@@ -539,12 +572,16 @@
       <configSetting altId="p107.output.low" configurationId="p107" />
       <configSetting altId="p107.gpio_mode.gpio_mode_out.low" configurationId="p107.gpio_mode" />
       <configSetting altId="p112.sdram.dqm1" configurationId="p112" />
+      <configSetting altId="p112.gpio_speed.gpio_speed_h" configurationId="p112.gpio_drivecapacity" />
       <configSetting altId="p112.gpio_mode.gpio_mode_peripheral" configurationId="p112.gpio_mode" />
       <configSetting altId="p113.sdram.cke" configurationId="p113" />
+      <configSetting altId="p113.gpio_speed.gpio_speed_h" configurationId="p113.gpio_drivecapacity" />
       <configSetting altId="p113.gpio_mode.gpio_mode_peripheral" configurationId="p113.gpio_mode" />
       <configSetting altId="p114.sdram.we" configurationId="p114" />
+      <configSetting altId="p114.gpio_speed.gpio_speed_h" configurationId="p114.gpio_drivecapacity" />
       <configSetting altId="p114.gpio_mode.gpio_mode_peripheral" configurationId="p114.gpio_mode" />
       <configSetting altId="p115.sdram.sdcs" configurationId="p115" />
+      <configSetting altId="p115.gpio_speed.gpio_speed_h" configurationId="p115.gpio_drivecapacity" />
       <configSetting altId="p115.gpio_mode.gpio_mode_peripheral" configurationId="p115.gpio_mode" />
       <configSetting altId="p206.mipi.dsi_te" configurationId="p206" />
       <configSetting altId="p206.gpio_mode.gpio_mode_peripheral" configurationId="p206.gpio_mode" />
@@ -559,30 +596,43 @@
       <configSetting altId="p211.jtag_fslash_swd.tck" configurationId="p211" />
       <configSetting altId="p211.gpio_mode.gpio_mode_peripheral" configurationId="p211.gpio_mode" />
       <configSetting altId="p300.sdram.a1" configurationId="p300" />
+      <configSetting altId="p300.gpio_speed.gpio_speed_h" configurationId="p300.gpio_drivecapacity" />
       <configSetting altId="p300.gpio_mode.gpio_mode_peripheral" configurationId="p300.gpio_mode" />
       <configSetting altId="p301.sdram.a2" configurationId="p301" />
+      <configSetting altId="p301.gpio_speed.gpio_speed_h" configurationId="p301.gpio_drivecapacity" />
       <configSetting altId="p301.gpio_mode.gpio_mode_peripheral" configurationId="p301.gpio_mode" />
       <configSetting altId="p302.sdram.a3" configurationId="p302" />
+      <configSetting altId="p302.gpio_speed.gpio_speed_h" configurationId="p302.gpio_drivecapacity" />
       <configSetting altId="p302.gpio_mode.gpio_mode_peripheral" configurationId="p302.gpio_mode" />
       <configSetting altId="p303.sdram.a4" configurationId="p303" />
+      <configSetting altId="p303.gpio_speed.gpio_speed_h" configurationId="p303.gpio_drivecapacity" />
       <configSetting altId="p303.gpio_mode.gpio_mode_peripheral" configurationId="p303.gpio_mode" />
       <configSetting altId="p304.sdram.a5" configurationId="p304" />
+      <configSetting altId="p304.gpio_speed.gpio_speed_h" configurationId="p304.gpio_drivecapacity" />
       <configSetting altId="p304.gpio_mode.gpio_mode_peripheral" configurationId="p304.gpio_mode" />
       <configSetting altId="p305.sdram.a6" configurationId="p305" />
+      <configSetting altId="p305.gpio_speed.gpio_speed_h" configurationId="p305.gpio_drivecapacity" />
       <configSetting altId="p305.gpio_mode.gpio_mode_peripheral" configurationId="p305.gpio_mode" />
       <configSetting altId="p306.sdram.a7" configurationId="p306" />
+      <configSetting altId="p306.gpio_speed.gpio_speed_h" configurationId="p306.gpio_drivecapacity" />
       <configSetting altId="p306.gpio_mode.gpio_mode_peripheral" configurationId="p306.gpio_mode" />
       <configSetting altId="p307.sdram.a8" configurationId="p307" />
+      <configSetting altId="p307.gpio_speed.gpio_speed_h" configurationId="p307.gpio_drivecapacity" />
       <configSetting altId="p307.gpio_mode.gpio_mode_peripheral" configurationId="p307.gpio_mode" />
       <configSetting altId="p308.sdram.a9" configurationId="p308" />
+      <configSetting altId="p308.gpio_speed.gpio_speed_h" configurationId="p308.gpio_drivecapacity" />
       <configSetting altId="p308.gpio_mode.gpio_mode_peripheral" configurationId="p308.gpio_mode" />
       <configSetting altId="p309.sdram.a10" configurationId="p309" />
+      <configSetting altId="p309.gpio_speed.gpio_speed_h" configurationId="p309.gpio_drivecapacity" />
       <configSetting altId="p309.gpio_mode.gpio_mode_peripheral" configurationId="p309.gpio_mode" />
       <configSetting altId="p310.sdram.a11" configurationId="p310" />
+      <configSetting altId="p310.gpio_speed.gpio_speed_h" configurationId="p310.gpio_drivecapacity" />
       <configSetting altId="p310.gpio_mode.gpio_mode_peripheral" configurationId="p310.gpio_mode" />
       <configSetting altId="p311.sdram.a12" configurationId="p311" />
+      <configSetting altId="p311.gpio_speed.gpio_speed_h" configurationId="p311.gpio_drivecapacity" />
       <configSetting altId="p311.gpio_mode.gpio_mode_peripheral" configurationId="p311.gpio_mode" />
       <configSetting altId="p312.sdram.a13" configurationId="p312" />
+      <configSetting altId="p312.gpio_speed.gpio_speed_h" configurationId="p312.gpio_drivecapacity" />
       <configSetting altId="p312.gpio_mode.gpio_mode_peripheral" configurationId="p312.gpio_mode" />
       <configSetting altId="p400.ceu.vio_d0" configurationId="p400" />
       <configSetting altId="p400.gpio_mode.gpio_mode_peripheral" configurationId="p400.gpio_mode" />
@@ -645,32 +695,46 @@
       <configSetting altId="p600.output.low" configurationId="p600" />
       <configSetting altId="p600.gpio_mode.gpio_mode_out.low" configurationId="p600.gpio_mode" />
       <configSetting altId="p601.sdram.dq0" configurationId="p601" />
+      <configSetting altId="p601.gpio_speed.gpio_speed_h" configurationId="p601.gpio_drivecapacity" />
       <configSetting altId="p601.gpio_mode.gpio_mode_peripheral" configurationId="p601.gpio_mode" />
       <configSetting altId="p602.sdram.dq1" configurationId="p602" />
+      <configSetting altId="p602.gpio_speed.gpio_speed_h" configurationId="p602.gpio_drivecapacity" />
       <configSetting altId="p602.gpio_mode.gpio_mode_peripheral" configurationId="p602.gpio_mode" />
       <configSetting altId="p603.sdram.dq2" configurationId="p603" />
+      <configSetting altId="p603.gpio_speed.gpio_speed_h" configurationId="p603.gpio_drivecapacity" />
       <configSetting altId="p603.gpio_mode.gpio_mode_peripheral" configurationId="p603.gpio_mode" />
       <configSetting altId="p604.sdram.dq3" configurationId="p604" />
+      <configSetting altId="p604.gpio_speed.gpio_speed_h" configurationId="p604.gpio_drivecapacity" />
       <configSetting altId="p604.gpio_mode.gpio_mode_peripheral" configurationId="p604.gpio_mode" />
       <configSetting altId="p605.sdram.dq4" configurationId="p605" />
+      <configSetting altId="p605.gpio_speed.gpio_speed_h" configurationId="p605.gpio_drivecapacity" />
       <configSetting altId="p605.gpio_mode.gpio_mode_peripheral" configurationId="p605.gpio_mode" />
       <configSetting altId="p606.sdram.dq5" configurationId="p606" />
+      <configSetting altId="p606.gpio_speed.gpio_speed_h" configurationId="p606.gpio_drivecapacity" />
       <configSetting altId="p606.gpio_mode.gpio_mode_peripheral" configurationId="p606.gpio_mode" />
       <configSetting altId="p607.sdram.dq6" configurationId="p607" />
+      <configSetting altId="p607.gpio_speed.gpio_speed_h" configurationId="p607.gpio_drivecapacity" />
       <configSetting altId="p607.gpio_mode.gpio_mode_peripheral" configurationId="p607.gpio_mode" />
       <configSetting altId="p609.sdram.dq8" configurationId="p609" />
+      <configSetting altId="p609.gpio_speed.gpio_speed_h" configurationId="p609.gpio_drivecapacity" />
       <configSetting altId="p609.gpio_mode.gpio_mode_peripheral" configurationId="p609.gpio_mode" />
       <configSetting altId="p610.sdram.dq9" configurationId="p610" />
+      <configSetting altId="p610.gpio_speed.gpio_speed_h" configurationId="p610.gpio_drivecapacity" />
       <configSetting altId="p610.gpio_mode.gpio_mode_peripheral" configurationId="p610.gpio_mode" />
       <configSetting altId="p611.sdram.dq10" configurationId="p611" />
+      <configSetting altId="p611.gpio_speed.gpio_speed_h" configurationId="p611.gpio_drivecapacity" />
       <configSetting altId="p611.gpio_mode.gpio_mode_peripheral" configurationId="p611.gpio_mode" />
       <configSetting altId="p612.sdram.dq11" configurationId="p612" />
+      <configSetting altId="p612.gpio_speed.gpio_speed_h" configurationId="p612.gpio_drivecapacity" />
       <configSetting altId="p612.gpio_mode.gpio_mode_peripheral" configurationId="p612.gpio_mode" />
       <configSetting altId="p613.sdram.dq12" configurationId="p613" />
+      <configSetting altId="p613.gpio_speed.gpio_speed_h" configurationId="p613.gpio_drivecapacity" />
       <configSetting altId="p613.gpio_mode.gpio_mode_peripheral" configurationId="p613.gpio_mode" />
       <configSetting altId="p614.sdram.dq13" configurationId="p614" />
+      <configSetting altId="p614.gpio_speed.gpio_speed_h" configurationId="p614.gpio_drivecapacity" />
       <configSetting altId="p614.gpio_mode.gpio_mode_peripheral" configurationId="p614.gpio_mode" />
       <configSetting altId="p615.sdram.dq14" configurationId="p615" />
+      <configSetting altId="p615.gpio_speed.gpio_speed_h" configurationId="p615.gpio_drivecapacity" />
       <configSetting altId="p615.gpio_mode.gpio_mode_peripheral" configurationId="p615.gpio_mode" />
       <configSetting altId="p700.ether_rmii.rmii0_txd0" configurationId="p700" />
       <configSetting altId="p700.gpio_mode.gpio_mode_peripheral" configurationId="p700.gpio_mode" />
@@ -741,14 +805,18 @@
       <configSetting altId="p904.glcd.lcd_data6" configurationId="p904" />
       <configSetting altId="p904.gpio_mode.gpio_mode_peripheral" configurationId="p904.gpio_mode" />
       <configSetting altId="p905.sdram.a14" configurationId="p905" />
+      <configSetting altId="p905.gpio_speed.gpio_speed_h" configurationId="p905.gpio_drivecapacity" />
       <configSetting altId="p905.gpio_mode.gpio_mode_peripheral" configurationId="p905.gpio_mode" />
       <configSetting altId="p906.sdram.a15" configurationId="p906" />
+      <configSetting altId="p906.gpio_speed.gpio_speed_h" configurationId="p906.gpio_drivecapacity" />
       <configSetting altId="p906.gpio_mode.gpio_mode_peripheral" configurationId="p906.gpio_mode" />
       <configSetting altId="p907.input" configurationId="p907" />
       <configSetting altId="p907.gpio_mode.gpio_mode_in" configurationId="p907.gpio_mode" />
       <configSetting altId="p908.sdram.ras" configurationId="p908" />
+      <configSetting altId="p908.gpio_speed.gpio_speed_h" configurationId="p908.gpio_drivecapacity" />
       <configSetting altId="p908.gpio_mode.gpio_mode_peripheral" configurationId="p908.gpio_mode" />
       <configSetting altId="p909.sdram.cas" configurationId="p909" />
+      <configSetting altId="p909.gpio_speed.gpio_speed_h" configurationId="p909.gpio_drivecapacity" />
       <configSetting altId="p909.gpio_mode.gpio_mode_peripheral" configurationId="p909.gpio_mode" />
       <configSetting altId="p910.glcd.lcd_data2" configurationId="p910" />
       <configSetting altId="p910.gpio_mode.gpio_mode_peripheral" configurationId="p910.gpio_mode" />
@@ -875,12 +943,18 @@
       <configSetting altId="usbfs.usb_vbusen.p500" configurationId="usbfs.usb_vbusen" />
     </pincfg>
     <pincfg active="true" name="R7FA8D1BHECBD.pincfg" selected="true" symbol="g_bsp_pin_cfg">
-      <configSetting altId="jtag_fslash_swd.mode.swd.free" configurationId="jtag_fslash_swd.mode" />
-      <configSetting altId="jtag_fslash_swd.swclk.p211" configurationId="jtag_fslash_swd.swclk" />
-      <configSetting altId="jtag_fslash_swd.swdio.p210" configurationId="jtag_fslash_swd.swdio" />
-      <configSetting altId="p210.jtag_fslash_swd.swdio" configurationId="p210" />
+      <configSetting altId="jtag_fslash_swd.mode.jtag.free" configurationId="jtag_fslash_swd.mode" />
+      <configSetting altId="jtag_fslash_swd.tck.p211" configurationId="jtag_fslash_swd.tck" />
+      <configSetting altId="jtag_fslash_swd.tdi.p208" configurationId="jtag_fslash_swd.tdi" />
+      <configSetting altId="jtag_fslash_swd.tdo.p209" configurationId="jtag_fslash_swd.tdo" />
+      <configSetting altId="jtag_fslash_swd.tms.p210" configurationId="jtag_fslash_swd.tms" />
+      <configSetting altId="p208.jtag_fslash_swd.tdi" configurationId="p208" />
+      <configSetting altId="p208.gpio_mode.gpio_mode_peripheral" configurationId="p208.gpio_mode" />
+      <configSetting altId="p209.jtag_fslash_swd.tdo" configurationId="p209" />
+      <configSetting altId="p209.gpio_mode.gpio_mode_peripheral" configurationId="p209.gpio_mode" />
+      <configSetting altId="p210.jtag_fslash_swd.tms" configurationId="p210" />
       <configSetting altId="p210.gpio_mode.gpio_mode_peripheral" configurationId="p210.gpio_mode" />
-      <configSetting altId="p211.jtag_fslash_swd.swclk" configurationId="p211" />
+      <configSetting altId="p211.jtag_fslash_swd.tck" configurationId="p211" />
       <configSetting altId="p211.gpio_mode.gpio_mode_peripheral" configurationId="p211.gpio_mode" />
       <configSetting altId="p600.output.low" configurationId="p600" />
       <configSetting altId="p600.gpio_mode.gpio_mode_out.low" configurationId="p600.gpio_mode" />

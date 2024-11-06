@@ -42,7 +42,7 @@
 *                                                                    *
 **********************************************************************
 *                                                                    *
-*       RTT version: 7.98b                                           *
+*       RTT version: 7.98g                                           *
 *                                                                    *
 **********************************************************************
 
@@ -73,6 +73,7 @@ Additional information:
 
 ----------------------------------------------------------------------
 */
+
 #if (USE_VIRTUAL_COM == 0)
 #include "SEGGER_RTT.h"
 
@@ -2095,5 +2096,6 @@ unsigned SEGGER_RTT_GetBytesInBuffer(unsigned BufferIndex) {
   }
   return r;
 }
-#endif /* USE_VIRTUAL_COM */
+
 /*************************** End of file ****************************/
+#endif

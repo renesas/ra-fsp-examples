@@ -18,10 +18,10 @@
                 SDRAM_LENGTH = 0x8000000;
                 QSPI_FLASH_START  = 0x60000000;
                 QSPI_FLASH_LENGTH = 0x0;
-                OSPI_DEVICE_0_START  = 0x80000000;
-                OSPI_DEVICE_0_LENGTH = 0x10000000;
-                OSPI_DEVICE_1_START  = 0x90000000;
-                OSPI_DEVICE_1_LENGTH = 0x10000000;
+                OSPI_DEVICE_0_START  = 0x80020000;
+                OSPI_DEVICE_0_LENGTH = 0x0;
+                OSPI_DEVICE_1_START  = 0x80030000;
+                OSPI_DEVICE_1_LENGTH = 0x0;
                 ITCM_START  = 0x00000000;
                 ITCM_LENGTH = 0x10000;
                 DTCM_START  = 0x20000000;

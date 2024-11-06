@@ -13,6 +13,7 @@ file(GLOB_RECURSE Source_Files
 
 SET(ALL_FILES ${Source_Files})
 
+
 add_executable(${PROJECT_NAME}.elf
 	${ALL_FILES}
 )

@@ -1,5 +1,5 @@
 FSP Configuration
-  Board "EK-RA8D1"
+  Board "RA8|RA8D1|EK-RA8D1"
   R7FA8D1BHECBD
     part_number: R7FA8D1BHECBD
     rom_size_bytes: 2064384
@@ -12,6 +12,22 @@ FSP Configuration
     series: 8
     
   RA8D1 Family
+    Enable inline BSP IRQ functions: Enabled
+    SDRAM: SDRAM Support: Disabled
+    SDRAM: Timings: tRAS (cycles): 6 cycles
+    SDRAM: Timings: tRCD (cycles): 3 cycles
+    SDRAM: Timings: tRP (cycles): 3 cycles
+    SDRAM: Timings: tWR (cycles): 2 cycles
+    SDRAM: Timings: tCL (cycles): 3 cycles
+    SDRAM: Timings: tRFC (cycles): 937
+    SDRAM: Timings: tREFW (cycles): 8 cycles
+    SDRAM: Initialization: Auto-Refresh Interval (ARFI): 10 cycles
+    SDRAM: Initialization: Auto-Refresh Count (ARFC): 8 times
+    SDRAM: Initialization: Precharge Cycle Count (PRC): 3 cycles
+    SDRAM: Address Multiplex Shift: 9-bit shift
+    SDRAM: Endian Mode: Little Endian
+    SDRAM: Continuous Access Mode: Enabled
+    SDRAM: Bus Width: 16-bit
     Security: Exceptions: Exception Response: Non-Maskable Interrupt
     Security: Exceptions: BusFault, HardFault, and NMI Target: Secure State
     Security: System Reset Request Accessibility: Secure State
@@ -62,9 +78,26 @@ FSP Configuration
     Permanent Block Protection Settings (PBPS): PBPS2: 
     Permanent Block Protection Settings (PBPS): PBPS3: 
     Dual Bank Mode: Disabled
+    First Stage Bootloader (FSBL): FSBL Control 0 (FSBLCTRL0): FSBLEN: Disabled
+    First Stage Bootloader (FSBL): FSBL Control 0 (FSBLCTRL0): FSBLSKIPSW: Disabled
+    First Stage Bootloader (FSBL): FSBL Control 0 (FSBLCTRL0): FSBLSKIPDS: Disabled
+    First Stage Bootloader (FSBL): FSBL Control 0 (FSBLCTRL0): FSBLCLK: 240 MHz
+    First Stage Bootloader (FSBL): FSBL Control 1 (FSBLCTRL1): FSBLEXMDFSBLEN: Secure boot with report measurement
+    First Stage Bootloader (FSBL): FSBL Control 2 (FSBLCTRL2): PORTPN: PORTn15
+    First Stage Bootloader (FSBL): FSBL Control 2 (FSBLCTRL2): PORTGN: None
+    First Stage Bootloader (FSBL): Code Certificates (SACCn): SACC0: 0xFFFFFFFF
+    First Stage Bootloader (FSBL): Code Certificates (SACCn): SACC1: 0xFFFFFFFF
+    First Stage Bootloader (FSBL): FSBL Measurement Report Address (SAMR): 0xFFFFFFFF
     Clocks: HOCO FLL Function: Disabled
+    Clocks: Clock Settling Delay: Enabled
+    Clocks: Sleep Mode Entry and Exit Delays: Enabled
+    Clocks: RTOS Sleep on Idle: Disabled
+    Clocks: MSTP Change Delays: Enabled
+    Clocks: Settling Delay (us): 150
     Main Oscillator Wait Time: 8163 cycles
+    Cache settings: Data cache: Disabled
     
+  RA8D1 event data
   RA Common
     Main stack size (bytes): 0x400
     Heap size (bytes): 0x400
@@ -86,14 +119,14 @@ FSP Configuration
     XTAL 20000000Hz
     HOCO 48MHz
     PLL Src: XTAL
-    PLL Div /1
-    PLL Mul x40-59|Mul x48|PLL Mul x48.00
+    PLL Div /2
+    PLL Mul x80-99|Mul x96|PLL Mul x96.00
     PLL1P Div /2
     PLL1Q Div /2
     PLL1R Div /2
     PLL2 Disabled
-    PLL2 Div /1
-    PLL2 Mul x40-59|Mul x48|PLL2 Mul x48.00
+    PLL2 Div /2
+    PLL2 Mul x80-99|Mul x96|PLL2 Mul x96.00
     PLL2P Div /2
     PLL2Q Div /2
     PLL2R Div /2
@@ -170,8 +203,8 @@ FSP Configuration
       P201 E9 - MD - - Disabled - - "SYSTEM: MD" - None - - 
       P206 D11 MIPI_DSI_TE MIPI_DSI_TE - - "Peripheral mode" - - "BUS: CS7#; GPT_OPS: GTIU; IIC1: SDA1; IRQ0: IRQ0-DS; MIPI: DSI_TE; SCI4: RXD4; SDHI0: SD0DAT2; SPI0: SSLA2; SSIE1: SSIDATA1; USB FS: USB_VBUSEN" - None - - 
       P207 C13 GLCD_LCD_DATA9 LCD_DATA9 - - "Peripheral mode" - - "GLCD: LCD_DATA9" - None - - 
-      P208 F8 JTAG/SWD_TDI TDI - - "Peripheral mode" - - "CANFD1: CRX1; CLKOUT: VCOUT; GPT1: GTIOC1B; GPT_OPS: GTOVLO; IRQ3: IRQ3; JTAG/SWD: TDI; SCI9: RXD9" - None - - 
-      P209 F9 JTAG/SWD_TDO TDO - - "Peripheral mode" - - "CANFD1: CTX1; CLKOUT: CLKOUT; GPT1: GTIOC1A; GPT_OPS: GTOVUP; JTAG/SWD: TDO; SCI9: TXD9; TRACE: TRACESWO" - None - - 
+      P208 F8 JTAG/SWD_TDI TDI L None "Peripheral mode" - - "CANFD1: CRX1; CLKOUT: VCOUT; GPT1: GTIOC1B; GPT_OPS: GTOVLO; IRQ3: IRQ3; JTAG/SWD: TDI; SCI9: RXD9" - IO - - 
+      P209 F9 JTAG/SWD_TDO TDO L - "Peripheral mode" - - "CANFD1: CTX1; CLKOUT: CLKOUT; GPT1: GTIOC1A; GPT_OPS: GTOVUP; JTAG/SWD: TDO; SCI9: TXD9; TRACE: TRACESWO" - IO - - 
       P210 D8 JTAG/SWD_TMS SWDIO L - "Peripheral mode" - - "GPT0: GTIOC0B; GPT_OPS: GTOULO; JTAG/SWD: SWDIO; JTAG/SWD: TMS; SCI9: CTS_RTS9; SCI9: DE9" - IO - - 
       P211 E10 JTAG/SWD_TCK SWCLK L - "Peripheral mode" - - "GPT0: GTIOC0A; GPT_OPS: GTOUUP; JTAG/SWD: SWCLK; JTAG/SWD: TCK; SCI9: DE9; SCI9: SCK9" - IO - - 
       P212 H15 - EXTAL - - Disabled - - "AGT1: AGTEE1; CGC: EXTAL; GPT0: GTIOC0B; GPT_POEGD: GTETRGD; IRQ3: IRQ3; SCI1: RXD1" - None - - 
@@ -395,10 +428,10 @@ FSP Configuration
       P201 E9 - MD - - Disabled - - "SYSTEM: MD" - None - - 
       P206 D11 - MIPI_DSI_TE - - Disabled - - "BUS: CS7#; GPT_OPS: GTIU; IIC1: SDA1; IRQ0: IRQ0-DS; MIPI: DSI_TE; SCI4: RXD4; SDHI0: SD0DAT2; SPI0: SSLA2; SSIE1: SSIDATA1; USB FS: USB_VBUSEN" - None - - 
       P207 C13 - LCD_DATA9 - - Disabled - - "GLCD: LCD_DATA9" - None - - 
-      P208 F8 - TDI - - Disabled - - "CANFD1: CRX1; CLKOUT: VCOUT; GPT1: GTIOC1B; GPT_OPS: GTOVLO; IRQ3: IRQ3; JTAG/SWD: TDI; SCI9: RXD9" - None - - 
-      P209 F9 - TDO - - Disabled - - "CANFD1: CTX1; CLKOUT: CLKOUT; GPT1: GTIOC1A; GPT_OPS: GTOVUP; JTAG/SWD: TDO; SCI9: TXD9; TRACE: TRACESWO" - None - - 
-      P210 D8 JTAG/SWD_SWDIO SWDIO L - "Peripheral mode" - - "GPT0: GTIOC0B; GPT_OPS: GTOULO; JTAG/SWD: SWDIO; JTAG/SWD: TMS; SCI9: CTS_RTS9; SCI9: DE9" - IO - - 
-      P211 E10 JTAG/SWD_SWCLK SWCLK L - "Peripheral mode" - - "GPT0: GTIOC0A; GPT_OPS: GTOUUP; JTAG/SWD: SWCLK; JTAG/SWD: TCK; SCI9: DE9; SCI9: SCK9" - IO - - 
+      P208 F8 JTAG/SWD_TDI TDI L None "Peripheral mode" - - "CANFD1: CRX1; CLKOUT: VCOUT; GPT1: GTIOC1B; GPT_OPS: GTOVLO; IRQ3: IRQ3; JTAG/SWD: TDI; SCI9: RXD9" - IO - - 
+      P209 F9 JTAG/SWD_TDO TDO L - "Peripheral mode" - - "CANFD1: CTX1; CLKOUT: CLKOUT; GPT1: GTIOC1A; GPT_OPS: GTOVUP; JTAG/SWD: TDO; SCI9: TXD9; TRACE: TRACESWO" - IO - - 
+      P210 D8 JTAG/SWD_TMS SWDIO L - "Peripheral mode" - - "GPT0: GTIOC0B; GPT_OPS: GTOULO; JTAG/SWD: SWDIO; JTAG/SWD: TMS; SCI9: CTS_RTS9; SCI9: DE9" - IO - - 
+      P211 E10 JTAG/SWD_TCK SWCLK L - "Peripheral mode" - - "GPT0: GTIOC0A; GPT_OPS: GTOUUP; JTAG/SWD: SWCLK; JTAG/SWD: TCK; SCI9: DE9; SCI9: SCK9" - IO - - 
       P212 H15 - EXTAL - - Disabled - - "AGT1: AGTEE1; CGC: EXTAL; GPT0: GTIOC0B; GPT_POEGD: GTETRGD; IRQ3: IRQ3; SCI1: RXD1" - None - - 
       P213 H14 - XTAL - - Disabled - - "ADC(Digital): ADTRG1; CGC: XTAL; GPT0: GTIOC0A; GPT_POEGC: GTETRGC; IRQ2: IRQ2; SCI1: TXD1; ULPT0: ULPTEE0" - None - - 
       P300 D5 - SDRAM_A01_ETH_A_RXER - - Disabled - - "BUS: A1; ETHER_MII: ET0_RX_CLK; ETHER_RMII: RMII0_RX_ER; GLCD: LCD_DATA11; GPT3: GTIOC3A; IRQ4: IRQ4; SCI0: DE0; SCI0: SCK0; SDRAM: A1; SDRAM: DQM3; SPI0: SSLA3; ULPT0: ULPTEVI0_A-DS" - None - - 

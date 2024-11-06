@@ -88,7 +88,7 @@ extern u_long cticks(void);
 /*********** Network portability ***************/
 #include "FreeRTOS.h"
 #include "task.h"
-#include "FreeRTOSconfig.h"
+#include "FreeRTOSConfig.h"
 #include "FreeRTOS_IP.h"
 #include "FreeRTOS_IP_Private.h"
 #include "FreeRTOS_Sockets.h"
@@ -123,7 +123,7 @@ typedef Socket_t socktype;
 /*********** debug support **************/
 
 #include <stdarg.h>
-#include "Trace.h"
+#include "trace.h"
 #ifndef _DEBUG_WEBIO_
 #undef  TRACE
 #define TRACE(_x_)

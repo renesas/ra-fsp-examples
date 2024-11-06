@@ -2,11 +2,11 @@
  * File Name    : i3c_slave_ep.c
  * Description  : Contains functions definitions used in hal_entry.c.
  **********************************************************************************************************************/
-/***********************************************************************************************************************
+/**********************************************************************************************************************
 * Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
+**********************************************************************************************************************/
 
 #include "common_utils.h"
 #include "i3c_slave_ep.h"
@@ -52,19 +52,95 @@ static bsp_io_level_t     g_last_switch_status;
 static bsp_io_level_t     g_cur_switch_status;
 static bsp_io_level_t     led_status;
 
-/* private function declarations.*/
+/* Timer related timeout functions */
+static uint32_t timeout_value_in_ms = RESET_VALUE;
+
+/* Private function declarations.*/
+static fsp_err_t i3c_slave_init(void);
+static fsp_err_t i3c_slave_ops(void);
 static fsp_err_t i3c_device_daa_participation(void);
 static void set_next_read_buffer(void);
 static uint32_t i3c_app_event_notify(uint32_t set_event_flag_value, uint32_t timout);
 static fsp_err_t start_timeout_timer_with_defined_ms(uint32_t timeout_ms);
+static fsp_err_t icu_init(void);
+static bool read_onboard_sw_status(void);
+static void i3c_deinit(void);
+static void icu_deinit(void);
+static void agt_deinit(void);
 
-/*******************************************************************************************************************//**
- * @brief     Initializes I3C driver as an I3C slave device.
- * @param[IN] None
- * @retval    FSP_SUCCESS       I3C driver is opened and configured successfully.
- * @retval    err               Any Other Error code apart from FSP_SUCCESS like Unsuccessful Open.
- **********************************************************************************************************************/
-fsp_err_t i3c_slave_init(void)
+/**********************************************************************************************************************
+ *  Function Name: i3c_slave_entry
+ *  Description  : This function is used to start the i3c_slave example operation.
+ *  Arguments    : None
+ *  Return Value : None
+ *********************************************************************************************************************/
+void i3c_slave_entry(void)
+{
+    /* To capture the status(Success/Failure) of each Function/API. */
+        fsp_err_t err = FSP_SUCCESS;
+        fsp_pack_version_t version = {RESET_VALUE};
+
+        /* Version get API for FLEX pack information */
+        R_FSP_VersionGet(&version);
+        APP_PRINT(BANNER_INFO,EP_VERSION,version.version_id_b.major, version.version_id_b.minor, version.version_id_b.patch );
+        APP_PRINT(EP_INFO);
+
+        /* Initialize AGT driver */
+        err = R_AGT_Open(&g_timeout_timer_ctrl, &g_timeout_timer_cfg);
+        if (FSP_SUCCESS != err)
+        {
+            APP_ERR_PRINT ("\r\nERROR : R_AGT_Open API FAILED \r\n");
+            APP_ERR_TRAP(err);
+        }
+
+        /* Initialize ICU driver */
+        err = icu_init();
+        if (FSP_SUCCESS != err)
+        {
+            APP_ERR_PRINT ("\r\nERROR : icu_init function failed.\r\n");
+            /* De-initialize the opened AGT timer module.*/
+            agt_deinit();
+            APP_ERR_TRAP(err);
+        }
+
+        /* Initialize I3C slave device.*/
+        err = i3c_slave_init();
+        if (FSP_SUCCESS != err)
+        {
+            APP_ERR_PRINT ("\r\nERROR : i3c_slave_init function failed.\r\n");
+            /* De-initialize the opened AGT timer and ICU modules.*/
+            agt_deinit();
+            icu_deinit();
+            APP_ERR_TRAP(err);
+        }
+
+        while(true)
+        {
+            /* Perform I3C slave operation.*/
+            err = i3c_slave_ops();
+            if (FSP_SUCCESS != err)
+            {
+                APP_ERR_PRINT ("\r\nERROR : init_i3c_slave function failed.\r\n");
+                /* De-initialize the opened AGT timer, I3C and ICU modules.*/
+                agt_deinit();
+                icu_deinit();
+                i3c_deinit();
+                APP_ERR_TRAP(err);
+            }
+        }
+}
+/**********************************************************************************************************************
+* End of function i3c_slave_entry
+**********************************************************************************************************************/
+
+/**********************************************************************************************************************
+ *  Function Name: i3c_slave_init
+ *  Description  : This function initializes I3C driver as an I3C slave device.
+ *  Arguments    : None
+ *  Return Value : FSP_SUCCESS     Upon successful operation
+ *                 Any Other Error code apart from FSP_SUCCESS Unsuccessful operation
+ *********************************************************************************************************************/
+static fsp_err_t i3c_slave_init(void)
 {
     fsp_err_t err = FSP_SUCCESS;
     uint32_t  pid_lower_32bits = RESET_VALUE;
@@ -136,19 +212,19 @@ fsp_err_t i3c_slave_init(void)
     if (FSP_SUCCESS != err)
     {
         APP_ERR_PRINT ("\r\nERROR : R_I3C_SlaveStatusSet API FAILED \r\n");
-        /* de-initialize the opened I3C module.*/
+        /* De-initialize the opened I3C module.*/
         i3c_deinit();
         return err;
     }
 
     APP_PRINT("\r\nINFO : I3C device is ready and waiting for DAA.\r\n");
 
-    /* waiting for the bus initialization */
+    /* Waiting for the bus initialization */
     err = i3c_device_daa_participation();
     if (FSP_SUCCESS != err)
     {
         APP_ERR_PRINT ("\r\nERROR : i3c_device_daa_participation function failed.\r\n");
-        /* de-initialize the opened I3C module.*/
+        /* De-initialize the opened I3C module.*/
         i3c_deinit();
         return err;
     }
@@ -156,19 +232,23 @@ fsp_err_t i3c_slave_init(void)
     APP_PRINT ("\r\nINFO : Address assignment is completed, dynamic address: 0x%02x\r\n", g_slave_dynamic_address);
     return FSP_SUCCESS;
 }
+/**********************************************************************************************************************
+* End of function i3c_slave_init
+**********************************************************************************************************************/
 
-/*******************************************************************************************************************//**
- * @brief     This functions processes master request or send IBI to master.
- * @param[IN] None
- * @retval    FSP_SUCCESS       Master request processed successfully.
- * @retval    err               Any Other Error code apart from FSP_SUCCESS like Unsuccessful IBI write.
- **********************************************************************************************************************/
-fsp_err_t i3c_slave_ops(void)
+/**********************************************************************************************************************
+ *  Function Name: i3c_slave_ops
+ *  Description  : This function processes master request or send IBI to master.
+ *  Arguments    : None
+ *  Return Value : FSP_SUCCESS     Upon successful operation
+ *                 Any Other Error code apart from FSP_SUCCESS Unsuccessful operation
+ *********************************************************************************************************************/
+static fsp_err_t i3c_slave_ops(void)
 {
     fsp_err_t status = FSP_SUCCESS;
     uint32_t  event_flag = RESET_VALUE;
 
-    /* wait for I3C events.*/
+    /* Wait for I3C events.*/
     event_flag = i3c_app_event_notify((I3C_EVENT_FLAG_ADDRESS_ASSIGNMENT_COMPLETE |
                           I3C_EVENT_FLAG_COMMAND_COMPLETE |
                           I3C_EVENT_FLAG_WRITE_COMPLETE |
@@ -177,21 +257,21 @@ fsp_err_t i3c_slave_ops(void)
                           I3C_EVENT_FLAG_IBI_WRITE_COMPLETE |
                           I3C_EVENT_FLAG_INTERNAL_ERROR), WAIT_TIME);
 
-    /* check if flag is command complete and broadcast flag from master.*/
-    if(I3C_EVENT_FLAG_COMMAND_COMPLETE & event_flag)
+    /* Check if flag is command complete and broadcast flag from master.*/
+    if (I3C_EVENT_FLAG_COMMAND_COMPLETE & event_flag)
     {
         APP_PRINT ("\r\nINFO : received CCC: 0x%x\r\n", g_slave_received_ccc_code);
-        if(g_data_transfer_size)
+        if (g_data_transfer_size)
         {
             APP_PRINT ("INFO : received CCC payload size: 0x%x\r\n", g_data_transfer_size);
         }
 
-        if(I3C_CCC_BROADCAST_RSTDAA == g_slave_received_ccc_code)
+        if (I3C_CCC_BROADCAST_RSTDAA == g_slave_received_ccc_code)
         {
-            /* the current device dynamic address is reset by master */
+            /* The current device dynamic address is reset by master */
             g_slave_dynamic_address = RESET_VALUE;
             APP_PRINT ("\r\nINFO : slave dynamic address is reset.\r\n");
-            /* process i3c device DAA block.*/
+            /* Process i3c device DAA block.*/
             status = i3c_device_daa_participation();
             if (FSP_SUCCESS != status)
             {
@@ -199,14 +279,51 @@ fsp_err_t i3c_slave_ops(void)
                 return FSP_ERR_INTERNAL;
             }
             APP_PRINT ("\r\nINFO : slave dynamic address is assigned.\r\n");
-            /* toggle the blue led.*/
+            /* Toggle the blue led.*/
             R_IOPORT_PinRead(g_ioport.p_ctrl, LED1_BLUE, &led_status);
             R_IOPORT_PinWrite(g_ioport.p_ctrl, LED1_BLUE, (!led_status));
         }
+
+#ifdef I3C_HDR_DDR_SUPPORT
+
+        if (I3C_HDR_COMMAND_CODE_WRITE == g_slave_received_ccc_code)
+        {
+            set_next_read_buffer();
+            /* Prepare write buffer */
+            memcpy (&g_write_data[RESET_VALUE], p_last, g_data_transfer_size);
+            status = R_I3C_Write (&g_i3c0_ctrl, g_write_data, g_data_transfer_size, false);
+	        if (FSP_SUCCESS != status)
+	        {
+	            APP_ERR_PRINT("\r\nERROR : R_I3C_Write API failed.\r\n");
+	            return status;
+	        }
+
+            APP_PRINT ("\r\nINFO : [HDR-DDR] Write complete, transfer size: 0x%x\r\n", g_data_transfer_size);
+            /* Toggle the green led.*/
+            R_IOPORT_PinRead(g_ioport.p_ctrl, LED2_GREEN, &led_status);
+            R_IOPORT_PinWrite(g_ioport.p_ctrl, LED2_GREEN, (!led_status));
+
+        }
+        if (I3C_HDR_COMMAND_CODE_READ == g_slave_received_ccc_code)
+        {
+            status = R_I3C_Read(&g_i3c0_ctrl, p_next, MAX_READ_DATA_LEN, false);
+           	if (FSP_SUCCESS != status)
+	        {
+	            APP_ERR_PRINT("\r\nERROR : R_I3C_Read API failed.\r\n");
+	            return status;
+	        }
+
+            APP_PRINT ("\r\nINFO : [HDR-DDR] Read complete, transfer size: 0x%x\r\n", g_data_transfer_size);
+            /* Toggle the red led.*/
+            R_IOPORT_PinRead(g_ioport.p_ctrl, LED3_RED, &led_status);
+            R_IOPORT_PinWrite(g_ioport.p_ctrl, LED3_RED, (!led_status));
+        }
+#endif /* I3C_HDR_DDR_SUPPORT */
+
     }
 
-    /* check if event is write complete.*/
-    if(event_flag & I3C_EVENT_FLAG_WRITE_COMPLETE)
+    /* Check if event is write complete.*/
+    if (event_flag & I3C_EVENT_FLAG_WRITE_COMPLETE)
     {
         /* Note that the application may also call i3c_api_t::read or i3c_api_t::write from this event
          * In order to set the transfer buffers for the next transfer. */
@@ -219,15 +336,15 @@ fsp_err_t i3c_slave_ops(void)
         }
 
         APP_PRINT ("\r\nINFO : Write complete, transfer size: 0x%x\r\n", g_data_transfer_size);
-        /* toggle the green led.*/
+        /* Toggle the green led.*/
         R_IOPORT_PinRead(g_ioport.p_ctrl, LED2_GREEN, &led_status);
         R_IOPORT_PinWrite(g_ioport.p_ctrl, LED2_GREEN, (!led_status));
     }
 
-    /* check if event is read complete.*/
-    if(event_flag & I3C_EVENT_FLAG_READ_COMPLETE)
+    /* Check if event is read complete.*/
+    if (event_flag & I3C_EVENT_FLAG_READ_COMPLETE)
     {
-        /* set the next read buffer.*/
+        /* Set the next read buffer.*/
         set_next_read_buffer();
        /* Note that the application may also call i3c_api_t::read or i3c_api_t::write from this event
         * In order to set the transfer buffers for the next transfer. */
@@ -241,24 +358,24 @@ fsp_err_t i3c_slave_ops(void)
         }
 
         APP_PRINT ("\r\nINFO : Read complete, transfer size: 0x%x\r\n", g_data_transfer_size);
-        /* toggle the red led.*/
+        /* Toggle the red led.*/
         R_IOPORT_PinRead(g_ioport.p_ctrl, LED3_RED, &led_status);
         R_IOPORT_PinWrite(g_ioport.p_ctrl, LED3_RED, (!led_status));
     }
 
-    /* check if event is IBI write complete.*/
-    if(event_flag & I3C_EVENT_FLAG_IBI_WRITE_COMPLETE)
+    /* Check if event is IBI write complete.*/
+    if (event_flag & I3C_EVENT_FLAG_IBI_WRITE_COMPLETE)
     {
         APP_PRINT ("\r\nINFO : IBI Write complete, transfer size: 0x%x\r\n", g_data_transfer_size);
-        /* toggle the green led.*/
+        /* Toggle the green led.*/
         R_IOPORT_PinRead(g_ioport.p_ctrl, LED2_GREEN, &led_status);
         R_IOPORT_PinWrite(g_ioport.p_ctrl, LED2_GREEN, (!led_status));
     }
 
-    /* check if event is read buffer full.*/
-    if(event_flag & I3C_EVENT_FLAG_READ_BUFFER_FULL)
+    /* Check if event is read buffer full.*/
+    if (event_flag & I3C_EVENT_FLAG_READ_BUFFER_FULL)
     {
-        /*If there is no user provided read buffer, or if the user provided read buffer has been filled,
+        /* If there is no user provided read buffer, or if the user provided read buffer has been filled,
          * the driver will notify the application that the buffer is full. The application may provide
          * a new read buffer by calling i3c_api_t::read. If no read buffer is provided, then any remaining bytes
          * in the transfer will be dropped.*/
@@ -270,16 +387,16 @@ fsp_err_t i3c_slave_ops(void)
         }
     }
 
-    /* check if event is internal error.*/
-    if(event_flag & I3C_EVENT_FLAG_INTERNAL_ERROR)
+    /* Check if event is internal error.*/
+    if (event_flag & I3C_EVENT_FLAG_INTERNAL_ERROR)
     {
         APP_ERR_PRINT ("\r\nERROR : I3C Internal Error occurred.\r\n");
         APP_PRINT ("\r\nINFO : transfer status : 0x%x\r\n", g_i3c_event_status);
         return FSP_ERR_INTERNAL;
     }
 
-    /* check if on-board switch is pressed.*/
-    if(true == read_onboard_sw_status())
+    /* Check if on-board switch is pressed.*/
+    if (true == read_onboard_sw_status())
     {
         /* Notify that user pushbutton is pressed */
         APP_PRINT("\r\nINFO : User Pushbutton Pressed.\r\n");
@@ -303,34 +420,42 @@ fsp_err_t i3c_slave_ops(void)
     }
     return FSP_SUCCESS;
 }
+/**********************************************************************************************************************
+* End of function i3c_slave_ops
+**********************************************************************************************************************/
 
-/*******************************************************************************************************************//**
- * @brief This function closes opened I3C module before the project ends up in an Error Trap.
- * @param[IN]   None
- * @retval      None
- **********************************************************************************************************************/
-void i3c_deinit(void)
+/**********************************************************************************************************************
+ *  Function Name: i3c_deinit
+ *  Description  : This function closes opened I3C module before the project ends up in an Error Trap.
+ *  Arguments    : None
+ *  Return Value : None
+ *********************************************************************************************************************/
+static void i3c_deinit(void)
 {
     fsp_err_t err = FSP_SUCCESS;
 
     /* Close I3C module */
     err = R_I3C_Close(&g_i3c0_ctrl);
-    /* handle error */
+    /* Handle error */
     if (FSP_SUCCESS != err)
     {
         /* I3C Close failure message */
         APP_ERR_PRINT("\r\nERROR : R_I3C_Close API FAILED.\r\n");
     }
 }
+/**********************************************************************************************************************
+* End of function i3c_deinit
+**********************************************************************************************************************/
 
-/*******************************************************************************************************************//**
- * @brief This function is callback for i3c.
- *
- * @param[in] p_args
- **********************************************************************************************************************/
+/**********************************************************************************************************************
+ *  Function Name: g_i3c0_callback
+ *  Description  : This function is callback for i3c.
+ *  Arguments    : p_args   Callback
+ *  Return Value : None
+ *********************************************************************************************************************/
 void g_i3c0_callback(i3c_callback_args_t const *const p_args)
 {
-    /* update the event in global array and this will be used in i3c_app_event_notify function.*/
+    /* Update the event in global array and this will be used in i3c_app_event_notify function.*/
     g_i3c_event_status = p_args->event_status;
     g_i3c_event_count[p_args->event]++;
 
@@ -371,10 +496,9 @@ void g_i3c0_callback(i3c_callback_args_t const *const p_args)
              * If the command code is a Direct Get, then the data will be automatically
              * sent from device SFR. */
             g_slave_received_ccc_code = p_args->command_code;
-            if(p_args->transfer_size)
+            if (p_args->transfer_size)
             {
                 g_data_transfer_size = p_args->transfer_size;
-                set_next_read_buffer();
             }
             break;
         }
@@ -385,23 +509,27 @@ void g_i3c0_callback(i3c_callback_args_t const *const p_args)
         }
     }
 }
+/**********************************************************************************************************************
+* End of function g_i3c0_callback
+**********************************************************************************************************************/
 
-/*******************************************************************************************************************//**
- * @brief     This functions waits for bus initialization and sends IBI hot join request to master.
- * @param[IN] None
- * @retval    FSP_SUCCESS       hot join request processed successfully.
- * @retval    err               Any Other Error code apart from FSP_SUCCESS like Unsuccessful IBI write.
- **********************************************************************************************************************/
+/**********************************************************************************************************************
+ *  Function Name: i3c_device_daa_participation
+ *  Description  : This function waits for bus initialization and sends IBI hot join request to master.
+ *  Arguments    : None
+ *  Return Value : FSP_SUCCESS     Upon successful operation
+ *                 Any Other Error code apart from FSP_SUCCESS Unsuccessful operation
+ *********************************************************************************************************************/
 static fsp_err_t i3c_device_daa_participation(void)
 {
     fsp_err_t status = FSP_SUCCESS;
     uint32_t  event_flag = RESET_VALUE;
 
-    /* waiting for the bus initialization */
+    /* Waiting for the bus initialization */
     while(RESET_VALUE == g_slave_dynamic_address)
     {
         event_flag = i3c_app_event_notify(I3C_EVENT_FLAG_ADDRESS_ASSIGNMENT_COMPLETE, WAIT_TIME);
-        if((--g_wait_count == RESET_VALUE)&&(!(event_flag & I3C_EVENT_FLAG_ADDRESS_ASSIGNMENT_COMPLETE)))
+        if ((--g_wait_count == RESET_VALUE)&&(!(event_flag & I3C_EVENT_FLAG_ADDRESS_ASSIGNMENT_COMPLETE)))
         {
             APP_PRINT ("\r\nINFO : Request Hot-Join IBI\r\n");
             /* Initiate an IBI write operation.*/
@@ -427,12 +555,17 @@ static fsp_err_t i3c_device_daa_participation(void)
     return FSP_SUCCESS;
 }
 
-/*******************************************************************************************************************//**
- * @brief This function starts the timer and wait for the event set in the i3c callback till specified timeout.
- * @param[IN]   set_event_flag_value  requested event flag
- * @param[IN]   timeout               specified timeout
- * @retval      on successful operation, returns i3c event flag value.
- **********************************************************************************************************************/
+/**********************************************************************************************************************
+* End of function i3c_device_daa_participation
+**********************************************************************************************************************/
+
+/**********************************************************************************************************************
+ *  Function Name: i3c_app_event_notify
+ *  Description  : This function starts the timer and waits for the event set in the i3c callback till specified timeout.
+ *  Arguments    : None
+ *  Return Value : FSP_SUCCESS     Upon successful operation
+ *                 Any Other Error code apart from FSP_SUCCESS Unsuccessful operation
+ *********************************************************************************************************************/
 static uint32_t i3c_app_event_notify(uint32_t set_event_flag_value, uint32_t timeout)
 {
     fsp_err_t       err = FSP_SUCCESS;
@@ -440,35 +573,35 @@ static uint32_t i3c_app_event_notify(uint32_t set_event_flag_value, uint32_t tim
     /* Reset the timeout flag. */
     b_process_timeout = false;
 
-    /* start the timer.*/
+    /* Start the timer.*/
     err = start_timeout_timer_with_defined_ms(timeout);
-    if(FSP_SUCCESS != err)
+    if (FSP_SUCCESS != err)
     {
         APP_ERR_PRINT("\r\nERROR : start_timeout_timer_with_defined_ms function failed.\r\n");
-        /* de-initialize the opened I3C and AGT timer module.*/
+        /* De-initialize the opened I3C and AGT timer module.*/
         i3c_deinit();
         agt_deinit();
         APP_ERR_TRAP(err);
     }
 
-    /* wait for the event set in the i3c callback till specified timeout.*/
+    /* Wait for the event set in the i3c callback till specified timeout.*/
     while (!b_process_timeout)
     {
-        /* process for all i3c events.*/
+        /* Process for all i3c events.*/
         for(uint8_t cnt = RESET_VALUE; cnt < (I3C_EVENT_INTERNAL_ERROR+ONE); cnt++)
         {
-            /* check for callback event.*/
-            if(g_i3c_event_count[cnt] > RESET_VALUE)
+            /* Check for callback event.*/
+            if (g_i3c_event_count[cnt] > RESET_VALUE)
             {
-                /* store the event in local variable.*/
+                /* Store the event in local variable.*/
                 get_event_flag_value |= (uint32_t)(0x1 << cnt);
                 g_i3c_event_count[cnt] -= ONE;
             }
         }
 
-        /* check for event received from i3c callback function is similar to event which user wants.*/
+        /* Check for event received from i3c callback function is similar to event which user wants.*/
         get_event_flag_value = (set_event_flag_value & get_event_flag_value);
-        if(get_event_flag_value)
+        if (get_event_flag_value)
         {
             g_i3c_event_status = RESET_VALUE;
             return get_event_flag_value;
@@ -476,25 +609,34 @@ static uint32_t i3c_app_event_notify(uint32_t set_event_flag_value, uint32_t tim
     }
     return 0;
 }
+/**********************************************************************************************************************
+* End of function i3c_app_event_notify
+**********************************************************************************************************************/
 
-/*******************************************************************************************************************//**
- * @brief This function sets the next read buffer.
- * @param[IN]   None
- * @retval      None
- **********************************************************************************************************************/
+/**********************************************************************************************************************
+ *  Function Name: set_next_read_buffer
+ *  Description  : This function sets the next read buffer.
+ *  Arguments    : None
+ *  Return Value : None
+ *********************************************************************************************************************/
 static void set_next_read_buffer(void)
 {
     p_last = p_next;
     p_next = ((p_next == g_read_data[RESET_VALUE]) ? g_read_data[ONE] : g_read_data[RESET_VALUE]);
 }
 
-/*******************************************************************************************************************//**
- * @brief       This functions initializes and enables ICU module.
- * @param[IN]   None
- * @retval      FSP_SUCCESS                  Upon successful open of ICU module
- * @retval      Any Other Error code apart from FSP_SUCCESS  Unsuccessful open
- **********************************************************************************************************************/
-fsp_err_t icu_init(void)
+/**********************************************************************************************************************
+* End of function set_next_read_buffer
+**********************************************************************************************************************/
+
+/**********************************************************************************************************************
+ *  Function Name: icu_init
+ *  Description  : This function initializes and enables ICU module.
+ *  Arguments    : None
+ *  Return Value : FSP_SUCCESS     Upon successful operation
+ *                 Any Other Error code apart from FSP_SUCCESS Unsuccessful operation
+ *********************************************************************************************************************/
+static fsp_err_t icu_init(void)
 {
     fsp_err_t err = FSP_SUCCESS;
 
@@ -512,18 +654,23 @@ fsp_err_t icu_init(void)
     if (FSP_SUCCESS != err)
     {
         APP_ERR_PRINT ("\r\nERROR : R_ICU_ExternalIrqEnable API FAILED.\r\n");
-        /* de-initialize the opened ICU module.*/
+        /* De-initialize the opened ICU module.*/
         icu_deinit();
     }
     return err;
 }
 
-/*******************************************************************************************************************//**
- * @brief       This function closes opened ICU module before the project ends up in an Error Trap.
- * @param[IN]   None
- * @retval      None
- **********************************************************************************************************************/
-void icu_deinit(void)
+/**********************************************************************************************************************
+* End of function icu_init
+**********************************************************************************************************************/
+
+/**********************************************************************************************************************
+ *  Function Name: icu_deinit
+ *  Description  : This function closes opened ICU module before the project ends up in an Error Trap.
+ *  Arguments    : None
+ *  Return Value : None
+ *********************************************************************************************************************/
+static void icu_deinit(void)
 {
     fsp_err_t err = FSP_SUCCESS;
 
@@ -537,74 +684,89 @@ void icu_deinit(void)
     }
 }
 
-/*******************************************************************************************************************//**
- * @brief      User defined external irq callback.
- * @param[IN]  p_args
- * @retval     None
- **********************************************************************************************************************/
+/**********************************************************************************************************************
+* End of function icu_deinit
+**********************************************************************************************************************/
+
+/**********************************************************************************************************************
+ *  Function Name: external_irq_callback
+ *  Description  : User defined external irq callback.
+ *  Arguments    : p_args          Callback
+ *  Return Value : None
+ *********************************************************************************************************************/
 void external_irq_callback(external_irq_callback_args_t *p_args)
 {
-    /* check for the right interrupt*/
-    if(USER_SW_IRQ_NUMBER == p_args->channel)
+    /* Check for the right interrupt*/
+    if (USER_SW_IRQ_NUMBER == p_args->channel)
     {
         b_onboard_sw_pressed = true;
-        R_IOPORT_PinRead(g_ioport.p_ctrl, BSP_IO_PORT_00_PIN_08, &g_last_switch_status);
+        R_IOPORT_PinRead(g_ioport.p_ctrl, USER_SW_PIN, &g_last_switch_status);
     }
 }
+/**********************************************************************************************************************
+* End of function external_irq_callback
+**********************************************************************************************************************/
 
-/*******************************************************************************************************************//**
- * @brief       This function reads the on board switch status.
- * @param[IN]   None
- * @retval      True if switch is pressed else return false.
- **********************************************************************************************************************/
-bool read_onboard_sw_status(void)
+/**********************************************************************************************************************
+ *  Function Name: read_onboard_sw_status
+ *  Description  : This function reads the on board switch status.
+ *  Arguments    : None
+ *  Return Value : True if switch is pressed else return false.
+ *********************************************************************************************************************/
+static bool read_onboard_sw_status(void)
 {
-    if(true == b_onboard_sw_pressed)
+    if (true == b_onboard_sw_pressed)
     {
         /* Reset the flag.*/
         b_onboard_sw_pressed = false;
         /* Read the current status of switch.*/
-        R_IOPORT_PinRead(g_ioport.p_ctrl, BSP_IO_PORT_00_PIN_08, &g_cur_switch_status);
-        if((g_cur_switch_status == BSP_IO_LEVEL_LOW) && (g_last_switch_status == BSP_IO_LEVEL_LOW))
+        R_IOPORT_PinRead(g_ioport.p_ctrl, USER_SW_PIN, &g_cur_switch_status);
+        if ((g_cur_switch_status == BSP_IO_LEVEL_LOW) && (g_last_switch_status == BSP_IO_LEVEL_LOW))
         {
             return true;
         }
     }
     return false;
 }
+/**********************************************************************************************************************
+* End of function read_onboard_sw_status
+**********************************************************************************************************************/
 
-/* timer related functions */
-static uint32_t timeout_value_in_ms = RESET_VALUE;
-
-/*******************************************************************************************************************//**
- * @brief This function is callback for periodic mode timer and stops AGT0 timer in Periodic mode.
- *
- * @param[in] (timer_callback_args_t *) p_args
- **********************************************************************************************************************/
+/**********************************************************************************************************************
+ *  Function Name: g_timeout_timer_callback
+ *  Description  : This function is callback for periodic mode timer and stops AGT0 timer in Periodic mode.
+ *  Arguments    : p_args          Callback
+ *  Return Value : None
+ *********************************************************************************************************************/
 void g_timeout_timer_callback(timer_callback_args_t *p_args)
 {
     FSP_PARAMETER_NOT_USED(p_args);
 
-    /* check if specified timeout is zero.*/
-    if(RESET_VALUE == --timeout_value_in_ms)
+    /* Check if specified timeout is zero.*/
+    if (RESET_VALUE == --timeout_value_in_ms)
     {
-        /* set the timeout flag.*/
+        /* Set the timeout flag.*/
         b_process_timeout = true;
-        /* stop AGT timer.*/
+        /* Stop AGT timer.*/
         R_AGT_Stop(&g_timeout_timer_ctrl);
     }
 }
+/**********************************************************************************************************************
+* End of function g_timeout_timer_callback
+**********************************************************************************************************************/
 
-/*******************************************************************************************************************//**************
- * @brief       This function Resets the counter value and start the AGT timer.
- * @param[IN]   timeout_ms
- * @retval      FSP_SUCCESS or Any Other Error code apart from FSP_SUCCESS upon unsuccessful start_timeout_timer_with_defined_ms.
- ***********************************************************************************************************************************/
+/**********************************************************************************************************************
+ *  Function Name: start_timeout_timer_with_defined_ms
+ *  Description  : This function resets the counter value and start the AGT timer.
+ *  Arguments    : timeout_ms      Specific timeout in ms
+ *  Return Value : FSP_SUCCESS     Upon successful operation
+ *                 Any Other Error code apart from FSP_SUCCESS Unsuccessful operation
+ *********************************************************************************************************************/
 static fsp_err_t start_timeout_timer_with_defined_ms(uint32_t timeout_ms)
 {
     fsp_err_t err = FSP_SUCCESS;
 
-    /* update the specified timeout into a global variable and this will be checked in timer callback.*/
+    /* Update the specified timeout into a global variable and this will be checked in timer callback.*/
     timeout_value_in_ms = timeout_ms;
     /* Resets the counter value.*/
     err = R_AGT_Reset(&g_timeout_timer_ctrl);
@@ -614,7 +776,7 @@ static fsp_err_t start_timeout_timer_with_defined_ms(uint32_t timeout_ms)
         return err;
     }
 
-    /* start the AGT timer.*/
+    /* Start the AGT timer.*/
     err = R_AGT_Start(&g_timeout_timer_ctrl);
     if (FSP_SUCCESS != err)
     {
@@ -622,26 +784,29 @@ static fsp_err_t start_timeout_timer_with_defined_ms(uint32_t timeout_ms)
     }
     return err;
 }
+/**********************************************************************************************************************
+* End of function start_timeout_timer_with_defined_ms
+**********************************************************************************************************************/
 
-/*******************************************************************************************************************//**
- * @brief This function closes opened AGT module before the project ends up in an Error Trap.
- * @param[IN]   None
- * @retval      None
- **********************************************************************************************************************/
-void agt_deinit(void)
+/**********************************************************************************************************************
+ *  Function Name: agt_deinit
+ *  Description  : This function closes opened AGT module before the project ends up in an Error Trap.
+ *  Arguments    : None
+ *  Return Value : None
+ *********************************************************************************************************************/
+static void agt_deinit(void)
 {
     fsp_err_t err = FSP_SUCCESS;
 
     /* Close AGT0 module */
     err = R_AGT_Close(&g_timeout_timer_ctrl);
-    /* handle error */
+    /* Handle error */
     if (FSP_SUCCESS != err)
     {
         /* AGT0 Close failure message */
         APP_ERR_PRINT("\r\nERROR : R_AGT_Close API FAILED.\r\n");
     }
 }
-
-/*******************************************************************************************************************//**
- * @} (end addtogroup i3c_slave_ep)
- **********************************************************************************************************************/
+/**********************************************************************************************************************
+* End of function agt_deinit
+**********************************************************************************************************************/
