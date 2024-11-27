@@ -21,7 +21,8 @@
       
         Hardware connections:
 		
-		ADC Channel Voltage Input Pin:
+		Connect the ground (GND) of the external voltage supply with the board ground, and connect the voltage supply to 
+		the ADC Channel Voltage Input Pin as shown below:
 
 		Board	 Channel(Pin)
 		------------------------------
@@ -67,7 +68,7 @@
 		MCK-RA6T3:
 			AN00(P000)
 		RSSK-RA6T1:
-			AN002(P002)
+			AN003(P008)
 		EK-RA8M1:
 			AN000(P004)
 

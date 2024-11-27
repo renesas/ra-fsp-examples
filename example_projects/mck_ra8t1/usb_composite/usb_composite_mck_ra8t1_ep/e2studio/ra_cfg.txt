@@ -1,5 +1,5 @@
 FSP Configuration
-  Board "MCK-RA8T1"
+  Board "RA8|RA8T1|MCK-RA8T1"
   R7FA8T1AHECBD
     part_number: R7FA8T1AHECBD
     rom_size_bytes: 2064384
@@ -12,6 +12,22 @@ FSP Configuration
     series: 8
     
   RA8T1 Family
+    Enable inline BSP IRQ functions: Enabled
+    SDRAM: SDRAM Support: Disabled
+    SDRAM: Timings: tRAS (cycles): 6 cycles
+    SDRAM: Timings: tRCD (cycles): 3 cycles
+    SDRAM: Timings: tRP (cycles): 3 cycles
+    SDRAM: Timings: tWR (cycles): 2 cycles
+    SDRAM: Timings: tCL (cycles): 3 cycles
+    SDRAM: Timings: tRFC (cycles): 937
+    SDRAM: Timings: tREFW (cycles): 8 cycles
+    SDRAM: Initialization: Auto-Refresh Interval (ARFI): 10 cycles
+    SDRAM: Initialization: Auto-Refresh Count (ARFC): 8 times
+    SDRAM: Initialization: Precharge Cycle Count (PRC): 3 cycles
+    SDRAM: Address Multiplex Shift: 9-bit shift
+    SDRAM: Endian Mode: Little Endian
+    SDRAM: Continuous Access Mode: Enabled
+    SDRAM: Bus Width: 16-bit
     Security: Exceptions: Exception Response: Non-Maskable Interrupt
     Security: Exceptions: BusFault, HardFault, and NMI Target: Secure State
     Security: System Reset Request Accessibility: Secure State
@@ -74,12 +90,13 @@ FSP Configuration
     Clocks: HOCO FLL Function: Disabled
     Clocks: Clock Settling Delay: Enabled
     Clocks: Sleep Mode Entry and Exit Delays: Enabled
-    Clocks: RTOS Sleep Mode Entry and Exit Delays: Enabled
+    Clocks: RTOS Sleep on Idle: Disabled
     Clocks: MSTP Change Delays: Enabled
     Clocks: Settling Delay (us): 150
     Main Oscillator Wait Time: 8163 cycles
     Cache settings: Data cache: Disabled
     
+  RA8T1 event data
   RA Common
     Main stack size (bytes): 0x400
     Heap size (bytes): 0x1000
@@ -101,14 +118,14 @@ FSP Configuration
     XTAL 24000000Hz
     HOCO 48MHz
     PLL Src: XTAL
-    PLL Div /1
-    PLL Mul x40-59|Mul x40|PLL Mul x40.00
+    PLL Div /2
+    PLL Mul x80-99|Mul x80|PLL Mul x80.00
     PLL1P Div /2
     PLL1Q Div /4
     PLL1R Div /2
     PLL2 Disabled
-    PLL2 Div /1
-    PLL2 Mul x40-59|Mul x48|PLL2 Mul x48.00
+    PLL2 Div /2
+    PLL2 Mul x80-99|Mul x96|PLL2 Mul x96.00
     PLL2P Div /2
     PLL2Q Div /2
     PLL2R Div /2
@@ -117,11 +134,8 @@ FSP Configuration
     SCICLK Disabled
     SPICLK Disabled
     CANFDCLK Disabled
-    LCDCLK Disabled
     I3CCLK Disabled
     UCK Src: PLL1Q
-    U60CK Disabled
-    OCTASPICLK Disabled
     CPUCLK Div /1
     ICLK Div /2
     PCLKA Div /4
@@ -137,11 +151,8 @@ FSP Configuration
     SCICLK Div /4
     SPICLK Div /4
     CANFDCLK Div /8
-    LCDCLK Div /2
     I3CCLK Div /3
     UCK Div /5
-    U60CK Div /5
-    OCTASPICLK Div /4
     
   Pin Configurations
     RA8T1 MCK -> g_bsp_pin_cfg
@@ -616,6 +627,7 @@ FSP Configuration
     Double Buffering: Enabled
     Continuous Transfer Mode: Disabled
     LDO Regulator: Not Supported
+    Type-C: Not Supported
     DMA Support: Enabled
     DMA Source Address: FS Address
     DMA Destination Address: FS Address
@@ -658,6 +670,7 @@ FSP Configuration
     General: Use 16-bit Ticks: Disabled
     General: Idle Should Yield: Enabled
     General: Use Task Notifications: Enabled
+    General: Task Notification Array Entries: 1
     General: Use Mutexes: Disabled
     General: Use Recursive Mutexes: Disabled
     General: Use Counting Semaphores: Enabled
@@ -703,6 +716,8 @@ FSP Configuration
     RA: Hardware Stack Monitor: Disabled
     Logging: Print String Function: vLoggingPrint(x)
     Logging: Logging Include Time and Task Name: Disabled
+    Logging: Debug Logging Name: Log Name
+    Logging: Logging Level: LOG_NONE
     
   HAL
     Instance "g_ioport I/O Port (r_ioport)"
@@ -749,7 +764,7 @@ FSP Configuration
           USBHS Interrupt Priority: Not Supported
           USBHS D0FIFO Interrupt Priority: Not Supported
           USBHS D1FIFO Interrupt Priority: Not Supported
-          USB RTOS Callback: usb_composite_callback
+          USB Callback: usb_composite_callback
           USB Callback Context: g_rm_block_media
           
           Instance "g_transfer1 Transfer (r_dmac) USBFS FIFO 1 (DMA transfer request 1)"
@@ -760,13 +775,10 @@ FSP Configuration
             Destination Address Mode: Fixed
             Source Address Mode: Incremented
             Repeat Area (Unused in Normal Mode): Destination
-            Destination Pointer: USB_DEST_ADDRESS
-            Source Pointer: 0
             Number of Transfers: 0
             Number of Blocks (Valid only in Repeat,Block or Repeat-Block Mode): 0
             Activation Source: USBFS FIFO 1 (DMA transfer request 1)
             Callback: usb_ip0_d1fifo_callback
-            Context: NULL
             Transfer End Interrupt Priority: Priority 3
             Interrupt Frequency: Interrupt after all transfers have completed
             Offset value (Valid only when address mode is \'Offset\'): 0
@@ -780,13 +792,10 @@ FSP Configuration
             Destination Address Mode: Incremented
             Source Address Mode: Fixed
             Repeat Area (Unused in Normal Mode): Source
-            Destination Pointer: 0
-            Source Pointer: USB_SRC_ADDRESS
             Number of Transfers: 0
             Number of Blocks (Valid only in Repeat,Block or Repeat-Block Mode): 0
             Activation Source: USBFS FIFO 0 (DMA transfer request 0)
             Callback: NULL
-            Context: NULL
             Transfer End Interrupt Priority: Priority 3
             Interrupt Frequency: Interrupt after all transfers have completed
             Offset value (Valid only when address mode is \'Offset\'): 0

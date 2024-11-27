@@ -76,9 +76,14 @@ void usb_pcdc_thread_entry(void *pvParameters)
 
     while (true)
     {
-        /* process events of usb pcdc */
-        err = process_usb_pcdc_events();
-        handle_error(err, "\r\nprocess_usb_pcdc_events failed.\r\n");
+        /* Check if USB event is received */
+        err_queue = xQueueReceive(g_event_queue, &p_usb_pcdc_event, (TickType_t) (RESET_VALUE));
+        if(pdTRUE == err_queue)
+        {
+            /* process events of usb pcdc */
+            err = process_usb_pcdc_events();
+            handle_error(err, "\r\nprocess_usb_pcdc_events failed.\r\n");
+        }
 
         /* Receive message from queue */
         err_queue = xQueueReceive (g_queue_data_from_hmsc, g_buf, (TickType_t) (RESET_VALUE));
@@ -102,14 +107,6 @@ void usb_pcdc_thread_entry(void *pvParameters)
 fsp_err_t process_usb_pcdc_events(void)
 {
     fsp_err_t err = FSP_SUCCESS;
-    BaseType_t err_queue       = pdFALSE;
-
-    /* Check if USB event is received */
-    err_queue = xQueueReceive(g_event_queue, &p_usb_pcdc_event, (portMAX_DELAY));
-    if(pdTRUE != err_queue)
-    {
-        APP_ERR_PRINT("\r\nNo USB Event received. Please check USB connection \r\n");
-    }
 
     /* USB event received */
     switch (p_usb_pcdc_event->event)

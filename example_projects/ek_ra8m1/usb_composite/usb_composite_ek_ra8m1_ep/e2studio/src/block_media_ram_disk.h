@@ -13,7 +13,6 @@
 
 /* Undefining the usb_pmsc driver related macros.*/
 #undef STRG_SECTSIZE
-#undef USB_MEDIA_ADDRESS
 #undef STRG_MEDIASIZE
 #undef STRG_TOTALSECT
 #undef RAMDISK_MEDIATYPE
@@ -23,7 +22,6 @@
 
 /* macro definitions */
 #define STRG_SECTSIZE                  (0x0200UL)      /* 512 bytes per sector */
-#define USB_MEDIA_ADDRESS              (0x22008000UL)  /* Media Head Address */
 #define STRG_MEDIASIZE                 (32UL * 1024UL) /* Media size */
 #define STRG_TOTALSECT                 (STRG_MEDIASIZE / STRG_SECTSIZE)
 #define RAMDISK_MEDIATYPE              (0xF8u)        /* Fixed media */

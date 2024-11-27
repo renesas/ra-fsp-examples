@@ -34,6 +34,7 @@
           Connect USB flash device to J6 connector with help of micro USB Host cable.
 
  	High-Speed (EK-RA6M5/EK-RA8M1/EK-RA8D1):
+	  Note: For EK-RA8D1, User need to turn OFF SW1-6 to use USBHS
           Jumper j7: Connect pins 1-2.
           Remove Jumper j17 pins.
           Connect USB flash device to J31 connector with help of micro USB Host cable.

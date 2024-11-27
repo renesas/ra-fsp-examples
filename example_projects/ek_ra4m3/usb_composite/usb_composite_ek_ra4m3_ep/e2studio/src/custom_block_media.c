@@ -47,6 +47,7 @@ extern const uint8_t g_usb_pmsc_table1[];
 extern const uint8_t g_usb_pmsc_tablefat1[];
 extern const uint8_t g_usb_pmsc_tablefat2[];
 extern const uint8_t g_usb_pmsc_rootdir[];
+uint32_t g_ram_disk_base_address;
 
 const rm_block_media_api_t g_rm_block_media_on_user_media =
 {
@@ -60,7 +61,7 @@ const rm_block_media_api_t g_rm_block_media_on_user_media =
     .close      = RM_BLOCK_MEDIA_RAM_Close,
 };
 extern uint32_t __RAM_segment_used_end__;
-#define ALIGN_4K 4096
+#define ALIGN_4K (4096)
 /*******************************************************************************************************************//**
  * Opens the module.
  *
@@ -76,9 +77,10 @@ fsp_err_t RM_BLOCK_MEDIA_RAM_Open (rm_block_media_ctrl_t * const p_ctrl, rm_bloc
     uint32_t adr = RESET_VALUE;
 
     /* update the SRAM media address and copy the boot sector data to it.*/
-    adr = (uint32_t)&(__RAM_segment_used_end__);
-    adr = (adr + (ALIGN_4K -1)) & (uint32_t)~(ALIGN_4K - 1);
 
+    g_ram_disk_base_address = (uint32_t)&(__RAM_segment_used_end__);
+    g_ram_disk_base_address = (g_ram_disk_base_address + (ALIGN_4K - 1)) & (uint32_t)~(ALIGN_4K - 1);
+    adr= g_ram_disk_base_address;
     memcpy((void *)adr, (void *)&g_ram_disk_boot_sector, STRG_SECTSIZE);
 
     /* update the SRAM media address and copy the usb_pmsc table data to it.*/
@@ -130,7 +132,7 @@ fsp_err_t RM_BLOCK_MEDIA_RAM_Read (rm_block_media_ctrl_t * const p_ctrl,
     FSP_PARAMETER_NOT_USED(p_ctrl);
 
     /* Copy block from specified ram disk block address to read_buffer. */
-    memcpy(p_dest_address, (void *)(USB_MEDIA_ADDRESS + (block_address * STRG_SECTSIZE)), (STRG_SECTSIZE * num_blocks));
+    memcpy(p_dest_address, (void *)(g_ram_disk_base_address + (block_address * STRG_SECTSIZE)), (STRG_SECTSIZE * num_blocks));
 
     /* set the block media complete event flag.*/
     g_blockmedia_complete_event = true;
@@ -152,7 +154,7 @@ fsp_err_t RM_BLOCK_MEDIA_RAM_Write (rm_block_media_ctrl_t * const p_ctrl,
     FSP_PARAMETER_NOT_USED(p_ctrl);
 
     /* Copy block from write_buffer to appropriate block address in ram disk. */
-    memcpy((void *)(USB_MEDIA_ADDRESS + (block_address * STRG_SECTSIZE)), p_src_address, (STRG_SECTSIZE * num_blocks));
+    memcpy((void *)(g_ram_disk_base_address + (block_address * STRG_SECTSIZE)), p_src_address, (STRG_SECTSIZE * num_blocks));
 
     /* set the block media complete event flag.*/
     g_blockmedia_complete_event = true;
