@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ddscBootloader>
+    <symbols/>
+    <images>
+        <image path="${BuildArtifactFileBaseName}.bin.signed">python ${workspace_loc:ra_mcuboot_ra4m3}/ra/fsp/src/rm_mcuboot_port/rm_mcuboot_port_sign.py sign --header-size 0x200 --align 128 --max-align 128 --slot-size 0x10000 --max-sectors 4 --overwrite-only  --confirm --pad-header ${BuildArtifactFileName} ${BuildArtifactFileBaseName}.bin.signed</image>
+        <image path="${BuildArtifactFileBaseName}.bin.signed" security="n">python ${workspace_loc:ra_mcuboot_ra4m3}/ra/fsp/src/rm_mcuboot_port/rm_mcuboot_port_sign.py sign --header-size 0x200 --align 128 --max-align 128 --slot-size 0x20000 --max-sectors 4 --overwrite-only  --confirm --pad-header ${BuildArtifactFileName} ${BuildArtifactFileBaseName}.bin.signed</image>
+    </images>
+</ddscBootloader>

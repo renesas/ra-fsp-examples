@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<azone>
+    <rzone name="R7FA8M1AHECBD.rzone"/>
+    <partition>
+        <peripheral name="PORT2" group="PORT">
+            <slot name="P208" secure="true"/>
+            <slot name="P209" secure="true"/>
+            <slot name="P210" secure="true"/>
+            <slot name="P211" secure="true"/>
+        </peripheral>
+        <memory parent="RAM" name="RAM_CM85_S" size="0xDE000" offset="0x0" security="s" Pname="CM85"/>
+        <memory parent="FLASH" name="FLASH_CM85_S" size="0x40000" offset="0x0" security="s" Pname="CM85"/>
+        <memory parent="DATA_FLASH" name="DATA_FLASH_CM85_S" size="0x0" offset="0x0" security="s" Pname="CM85"/>
+        <memory parent="OPTION_SETTING" name="OPTION_SETTING_CM85_S" size="0x80" offset="0x0" security="s" Pname="CM85"/>
+        <memory parent="OPTION_SETTING_S" name="OPTION_SETTING_S_CM85_S" size="0x0" offset="0x0" security="s" Pname="CM85"/>
+        <memory parent="OPTION_SETTING_DATA_FLASH_S" name="OPTION_SETTING_DATA_FLASH_S_CM85_S" size="0x0" offset="0x0" security="s" Pname="CM85"/>
+        <memory parent="ID_CODE" name="ID_CODE_CM85_S" size="0x0" offset="0x0" security="s" Pname="CM85"/>
+        <memory parent="SDRAM" name="SDRAM_CM85_S" size="0x0" offset="0x0" security="s" Pname="CM85"/>
+        <memory parent="QSPI_FLASH" name="QSPI_FLASH_CM85_S" size="0x0" offset="0x0" security="s" Pname="CM85"/>
+        <memory parent="OSPI_DEVICE_0" name="OSPI_DEVICE_0_CM85_S" size="0x0" offset="0x0" security="s" Pname="CM85"/>
+        <memory parent="OSPI_DEVICE_1" name="OSPI_DEVICE_1_CM85_S" size="0x0" offset="0x0" security="s" Pname="CM85"/>
+        <memory parent="ITCM" name="ITCM_CM85_S" size="0x0" offset="0x0" security="s" Pname="CM85"/>
+        <memory parent="DTCM" name="DTCM_CM85_S" size="0x0" offset="0x0" security="s" Pname="CM85"/>
+        <peripheral name="PORT0" group="PORT">
+            <slot name="P000" secure="false"/>
+            <slot name="P002" secure="false"/>
+            <slot name="P003" secure="false"/>
+            <slot name="P004" secure="false"/>
+            <slot name="P005" secure="false"/>
+            <slot name="P007" secure="false"/>
+            <slot name="P008" secure="false"/>
+            <slot name="P009" secure="false"/>
+            <slot name="P014" secure="false"/>
+            <slot name="P015" secure="false"/>
+        </peripheral>
+        <peripheral name="PORT1" group="PORT">
+            <slot name="P100" secure="false"/>
+            <slot name="P101" secure="false"/>
+            <slot name="P102" secure="false"/>
+            <slot name="P103" secure="false"/>
+            <slot name="P104" secure="false"/>
+            <slot name="P105" secure="false"/>
+            <slot name="P106" secure="false"/>
+            <slot name="P107" secure="false"/>
+            <slot name="P112" secure="false"/>
+            <slot name="P114" secure="false"/>
+        </peripheral>
+        <peripheral name="PORT3" group="PORT">
+            <slot name="P300" secure="false"/>
+            <slot name="P301" secure="false"/>
+            <slot name="P302" secure="false"/>
+            <slot name="P303" secure="false"/>
+            <slot name="P304" secure="false"/>
+            <slot name="P305" secure="false"/>
+            <slot name="P306" secure="false"/>
+            <slot name="P307" secure="false"/>
+            <slot name="P308" secure="false"/>
+        </peripheral>
+        <peripheral name="PORT4" group="PORT">
+            <slot name="P407" secure="false"/>
+            <slot name="P408" secure="false"/>
+            <slot name="P409" secure="false"/>
+            <slot name="P410" secure="false"/>
+            <slot name="P411" secure="false"/>
+            <slot name="P412" secure="false"/>
+            <slot name="P413" secure="false"/>
+            <slot name="P414" secure="false"/>
+        </peripheral>
+        <peripheral name="PORT5" group="PORT">
+            <slot name="P500" secure="false"/>
+            <slot name="P501" secure="false"/>
+            <slot name="P511" secure="false"/>
+            <slot name="P512" secure="false"/>
+        </peripheral>
+        <peripheral name="PORT6" group="PORT">
+            <slot name="P600" secure="false"/>
+        </peripheral>
+        <peripheral name="PORT8" group="PORT">
+            <slot name="P800" secure="false"/>
+            <slot name="P801" secure="false"/>
+            <slot name="P802" secure="false"/>
+            <slot name="P803" secure="false"/>
+            <slot name="P804" secure="false"/>
+            <slot name="P808" secure="false"/>
+            <slot name="P809" secure="false"/>
+            <slot name="P814" secure="false"/>
+            <slot name="P815" secure="false"/>
+        </peripheral>
+        <peripheral name="PORTB" group="PORT">
+            <slot name="PB01" secure="false"/>
+        </peripheral>
+    </partition>
+    <zones>
+        <zone name="CM85_S" Pname="CM85" security="s">
+            <assign memory="RAM_CM85_S"/>
+            <assign memory="FLASH_CM85_S"/>
+            <assign memory="DATA_FLASH_CM85_S"/>
+            <assign memory="OPTION_SETTING_CM85_S"/>
+            <assign memory="OPTION_SETTING_S_CM85_S"/>
+            <assign memory="OPTION_SETTING_DATA_FLASH_S_CM85_S"/>
+            <assign memory="ID_CODE_CM85_S"/>
+            <assign memory="SDRAM_CM85_S"/>
+            <assign memory="QSPI_FLASH_CM85_S"/>
+            <assign memory="OSPI_DEVICE_0_CM85_S"/>
+            <assign memory="OSPI_DEVICE_1_CM85_S"/>
+            <assign memory="ITCM_CM85_S"/>
+            <assign memory="DTCM_CM85_S"/>
+            <assign group="PORT" peripheral="PORT2.P208"/>
+            <assign group="PORT" peripheral="PORT2.P209"/>
+            <assign group="PORT" peripheral="PORT2.P210"/>
+            <assign group="PORT" peripheral="PORT2.P211"/>
+        </zone>
+    </zones>
+</azone>
