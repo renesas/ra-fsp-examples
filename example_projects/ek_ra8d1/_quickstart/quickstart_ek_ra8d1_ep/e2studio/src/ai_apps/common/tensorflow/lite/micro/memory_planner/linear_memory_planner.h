@@ -16,8 +16,8 @@ limitations under the License.
 #ifndef TENSORFLOW_LITE_MICRO_MEMORY_PLANNER_LINEAR_MEMORY_PLANNER_H_
 #define TENSORFLOW_LITE_MICRO_MEMORY_PLANNER_LINEAR_MEMORY_PLANNER_H_
 
-#include <ai_apps/common/tensorflow/lite/micro/compatibility.h>
-#include <ai_apps/common/tensorflow/lite/micro/memory_planner/micro_memory_planner.h>
+#include "tensorflow/lite/micro/compatibility.h"
+#include "tensorflow/lite/micro/memory_planner/micro_memory_planner.h"
 
 namespace tflite {
 
@@ -34,6 +34,10 @@ class LinearMemoryPlanner : public MicroMemoryPlanner {
   size_t GetMaximumMemorySize() override;
   int GetBufferCount() override;
   TfLiteStatus GetOffsetForBuffer(int buffer_index, int* offset) override;
+
+  // Returns True because the LinearMemoryPlanner preserves all tensors after
+  // invocation.
+  bool preserves_all_tensors() const override { return true; }
 
  private:
   static constexpr int kMaxBufferCount = 1024;

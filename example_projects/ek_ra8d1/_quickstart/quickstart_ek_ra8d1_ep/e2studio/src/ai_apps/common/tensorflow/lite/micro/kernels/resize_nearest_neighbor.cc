@@ -1,4 +1,4 @@
-/* Copyright 2017 The TensorFlow Authors. All Rights Reserved.
+/* Copyright 2023 The TensorFlow Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -24,15 +24,15 @@ limitations under the License.
 #include "tensorflow/lite/micro/micro_log.h"
 
 namespace tflite {
-namespace ops {
-namespace micro {
-namespace resize_nearest_neighbor {
+
+namespace {
 
 constexpr int kInputTensor = 0;
 constexpr int kSizeTensor = 1;
 constexpr int kOutputTensor = 0;
 
-TfLiteStatus Prepare(TfLiteContext* context, TfLiteNode* node) {
+TfLiteStatus ResizeNearestNeighborPrepare(TfLiteContext* context,
+                                          TfLiteNode* node) {
   MicroContext* micro_context = GetMicroContext(context);
 
   TF_LITE_ENSURE_EQ(context, NumInputs(node), 2);
@@ -66,7 +66,8 @@ TfLiteStatus Prepare(TfLiteContext* context, TfLiteNode* node) {
   return kTfLiteOk;
 }
 
-TfLiteStatus Eval(TfLiteContext* context, TfLiteNode* node) {
+TfLiteStatus ResizeNearestNeighborEval(TfLiteContext* context,
+                                       TfLiteNode* node) {
   auto* params =
       reinterpret_cast<TfLiteResizeNearestNeighborParams*>(node->builtin_data);
 
@@ -114,13 +115,12 @@ TfLiteStatus Eval(TfLiteContext* context, TfLiteNode* node) {
 
   return kTfLiteOk;
 }
-}  // namespace resize_nearest_neighbor
 
-TfLiteRegistration Register_RESIZE_NEAREST_NEIGHBOR() {
-  return tflite::micro::RegisterOp(nullptr, resize_nearest_neighbor::Prepare,
-                                   resize_nearest_neighbor::Eval);
+}  // namespace
+
+TFLMRegistration Register_RESIZE_NEAREST_NEIGHBOR() {
+  return tflite::micro::RegisterOp(nullptr, ResizeNearestNeighborPrepare,
+                                   ResizeNearestNeighborEval);
 }
 
-}  // namespace micro
-}  // namespace ops
 }  // namespace tflite

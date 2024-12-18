@@ -1,4 +1,4 @@
-/* Copyright 2020 The TensorFlow Authors. All Rights Reserved.
+/* Copyright 2023 The TensorFlow Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -78,9 +78,14 @@ RecordedAllocation RecordingMicroAllocator::GetRecordedAllocation(
       return recorded_node_and_registration_array_data_;
     case RecordedAllocationType::kOpData:
       return recorded_op_data_;
+    // the function MicroPrintf was never reached outside the switch, because
+    // each case has a return. As the intention of the MicroPrintf is to be
+    // called when no matching case is found, a default case was added to
+    // contemplate an invalid allocation type
+    default:
+      MicroPrintf("Invalid allocation type supplied: %d", allocation_type);
+      return RecordedAllocation();
   }
-  MicroPrintf("Invalid allocation type supplied: %d", allocation_type);
-  return RecordedAllocation();
 }
 
 const RecordingSingleArenaBufferAllocator*
@@ -192,11 +197,12 @@ TfLiteStatus RecordingMicroAllocator::AllocateTfLiteEvalTensors(
 }
 
 TfLiteStatus RecordingMicroAllocator::AllocateVariables(
-    const SubGraph* subgraph, TfLiteEvalTensor* eval_tensors) {
+    const SubGraph* subgraph, TfLiteEvalTensor* eval_tensors,
+    const int32_t* offline_planner_offsets) {
   RecordedAllocation allocations = SnapshotAllocationUsage();
 
-  TfLiteStatus status =
-      MicroAllocator::AllocateVariables(subgraph, eval_tensors);
+  TfLiteStatus status = MicroAllocator::AllocateVariables(
+      subgraph, eval_tensors, offline_planner_offsets);
 
   RecordAllocationUsage(allocations,
                         recorded_tflite_tensor_variable_buffer_data_);

@@ -35,14 +35,14 @@ void ExtractShape(const TfLiteEvalTensor* input, int32_t* output_data) {
   }
 }
 
-TfLiteStatus Prepare(TfLiteContext* context, TfLiteNode* node) {
+TfLiteStatus ShapePrepare(TfLiteContext* context, TfLiteNode* node) {
   TF_LITE_ENSURE_EQ(context, NumInputs(node), 1);
   TF_LITE_ENSURE_EQ(context, NumOutputs(node), 1);
 
   return kTfLiteOk;
 }
 
-TfLiteStatus Eval(TfLiteContext* context, TfLiteNode* node) {
+TfLiteStatus ShapeEval(TfLiteContext* context, TfLiteNode* node) {
   const TfLiteEvalTensor* input =
       tflite::micro::GetEvalInput(context, node, kInputTensor);
   TfLiteEvalTensor* output =
@@ -60,8 +60,8 @@ TfLiteStatus Eval(TfLiteContext* context, TfLiteNode* node) {
 
 }  // namespace
 
-TfLiteRegistration Register_SHAPE() {
-  return tflite::micro::RegisterOp(nullptr, Prepare, Eval);
+TFLMRegistration Register_SHAPE() {
+  return tflite::micro::RegisterOp(nullptr, ShapePrepare, ShapeEval);
 }
 
 }  // namespace tflite

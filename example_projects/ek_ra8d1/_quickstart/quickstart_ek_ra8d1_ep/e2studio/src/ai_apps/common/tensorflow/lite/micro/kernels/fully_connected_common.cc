@@ -57,6 +57,24 @@ TfLiteStatus CalculateOpDataFullyConnected(
     TfLiteType data_type, const TfLiteTensor* input, const TfLiteTensor* filter,
     const TfLiteTensor* bias, TfLiteTensor* output,
     OpDataFullyConnected* data) {
+  // TODO(b/324385802): Support per-channel quantization for FullyConnected.
+  // If you have hit this failure message, you will need to disable this
+  // behavior. This can be done by setting the following flag to true:
+  // TfLiteConverter._experimental_disable_per_channel_quantization_for_dense_layers
+  // https://github.com/tensorflow/tensorflow/blob/377f47694fa790e98db6665b9adecde00b5e0d68/tensorflow/lite/python/lite.py#L674
+  if (filter->quantization.type == kTfLiteAffineQuantization &&
+      filter->quantization.params != nullptr) {
+    TfLiteAffineQuantization* affine_quantization =
+        reinterpret_cast<TfLiteAffineQuantization*>(
+            filter->quantization.params);
+    TF_LITE_ENSURE(context, affine_quantization->scale);
+    TF_LITE_ENSURE_MSG(
+        context, affine_quantization->scale->size == 1,
+        "FullyConnected per-channel quantization not yet supported. Please set "
+        "converter._experimental_disable_per_channel_quantization_for_dense_"
+        "layers = True.");
+  }
+
   if (data_type != kTfLiteFloat32) {
     double real_multiplier = 0.0;
     TF_LITE_ENSURE_STATUS(GetQuantizedConvolutionMultipler(
@@ -64,12 +82,13 @@ TfLiteStatus CalculateOpDataFullyConnected(
     QuantizeMultiplier(real_multiplier, &data->output_multiplier,
                        &data->output_shift);
 
-    data->input_zero_point = input->params.zero_point;
     // Filter weights will always be symmetric quantized since we only support
     // int8 quantization. See
     // https://github.com/tensorflow/tensorflow/issues/44912 for additional
     // context.
     TFLITE_DCHECK(filter->params.zero_point == 0);
+
+    data->input_zero_point = input->params.zero_point;
     data->filter_zero_point = filter->params.zero_point;
     data->output_zero_point = output->params.zero_point;
 

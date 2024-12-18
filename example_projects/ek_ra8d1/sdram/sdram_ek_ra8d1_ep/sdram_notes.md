@@ -32,9 +32,9 @@ Supported RA Boards: EK-RA8D1
 
 
 ### Software ###
-* Renesas Flexible Software Package (FSP): Version 5.6.0
+* Renesas Flexible Software Package (FSP): Version 5.7.0
 * E2 studio: Version 2024-10
-* SEGGER J-Link RTT Viewer: Version 7.98g
+* SEGGER J-Link RTT Viewer: Version 8.10f
 * GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 * Serial Terminal Console Application: Tera Term or a similar application (for boards that support J-Link OB VCOM)
 

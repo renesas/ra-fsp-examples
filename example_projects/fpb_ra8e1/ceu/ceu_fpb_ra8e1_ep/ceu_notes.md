@@ -23,9 +23,9 @@ Note:
 To build and run the CEU example project, the following resources are needed.
 
 ### Software ###
-* Renesas Flexible Software Package (FSP): Version 5.6.0
+* Renesas Flexible Software Package (FSP): Version 5.7.0
 * e2 studio: Version 2024-10
-* SEGGER J-Link RTT Viewer: Version 7.98g
+* SEGGER J-Link RTT Viewer: Version 8.10f
 * LLVM Embedded Toolchain for ARM: Version 18.1.3
 
 Refer to the software required section in [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf)

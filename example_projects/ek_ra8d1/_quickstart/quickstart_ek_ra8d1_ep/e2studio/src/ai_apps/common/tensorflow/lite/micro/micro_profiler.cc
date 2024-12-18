@@ -26,7 +26,11 @@ namespace tflite {
 
 uint32_t MicroProfiler::BeginEvent(const char* tag) {
   if (num_events_ == kMaxEvents) {
-    num_events_ = 0;
+    MicroPrintf(
+        "MicroProfiler errored out because total number of events exceeded the "
+        "maximum of %d.",
+        kMaxEvents);
+    TFLITE_ASSERT_FALSE;
   }
 
   tags_[num_events_] = tag;
@@ -52,8 +56,7 @@ void MicroProfiler::Log() const {
 #if !defined(TF_LITE_STRIP_ERROR_STRINGS)
   for (int i = 0; i < num_events_; ++i) {
     uint32_t ticks = end_ticks_[i] - start_ticks_[i];
-    MicroPrintf("%s took %" PRIu32 " ticks (%d ms).", tags_[i], ticks,
-                TicksToMs(ticks));
+    MicroPrintf("%s took %u ticks (%d ms).", tags_[i], ticks, TicksToMs(ticks));
   }
 #endif
 }
@@ -62,8 +65,13 @@ void MicroProfiler::LogCsv() const {
 #if !defined(TF_LITE_STRIP_ERROR_STRINGS)
   MicroPrintf("\"Event\",\"Tag\",\"Ticks\"");
   for (int i = 0; i < num_events_; ++i) {
+#if defined(HEXAGON) || defined(CMSIS_NN)
+    int ticks = end_ticks_[i] - start_ticks_[i];
+    MicroPrintf("%d,%s,%d", i, tags_[i], ticks);
+#else
     uint32_t ticks = end_ticks_[i] - start_ticks_[i];
     MicroPrintf("%d,%s,%" PRIu32, i, tags_[i], ticks);
+#endif
   }
 #endif
 }
@@ -91,7 +99,7 @@ void MicroProfiler::LogTicksPerTagCsv() {
     }
     MicroPrintf("%s, %d", each_tag_entry.tag, each_tag_entry.ticks);
   }
-  MicroPrintf("total number of ticks, %d", total_ticks);
+  MicroPrintf("\"total number of ticks\", %d", total_ticks);
 #endif
 }
 

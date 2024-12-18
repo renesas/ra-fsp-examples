@@ -234,7 +234,7 @@ fsp_err_t adc_read_data(void)
     fsp_err_t err = FSP_SUCCESS;     // Error status
 
     /* Read the result */
-    err = R_ADC_Read (&g_adc_ctrl, ADC_CHANNEL_2, &g_adc_data);
+    err = R_ADC_Read (&g_adc_ctrl, ADC_CHANNEL_3, &g_adc_data);
     /* handle error */
     if (FSP_SUCCESS != err)
     {

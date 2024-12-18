@@ -30,7 +30,6 @@ void hal_entry(void)
 #endif
 }
 
-
 /*******************************************************************************************************************//**
  * This function is called at various points during the startup process.  This implementation uses the event that is
  * called right before main() to set up the pins.
@@ -56,9 +55,14 @@ void R_BSP_WarmStart(bsp_warm_start_event_t event)
         /* C runtime environment and system clocks are setup. */
 
         /* Configure pins. */
-        R_IOPORT_Open (&g_ioport_ctrl, g_ioport.p_cfg);
-    }
+        R_IOPORT_Open (&IOPORT_CFG_CTRL, &IOPORT_CFG_NAME);
 
+#if BSP_CFG_SDRAM_ENABLED
+
+        /* Setup SDRAM and initialize it. Must configure pins first. */
+        R_BSP_SdramInit(true);
+#endif
+    }
 }
 
 #if BSP_TZ_SECURE_BUILD

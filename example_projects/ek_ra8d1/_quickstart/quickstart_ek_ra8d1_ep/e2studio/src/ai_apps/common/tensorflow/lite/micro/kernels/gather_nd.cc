@@ -28,7 +28,7 @@ constexpr int kIndices = 1;
 constexpr int kOutputTensor = 0;
 constexpr int MAX_INDICES_ND = 5;
 
-TfLiteStatus Prepare(TfLiteContext* context, TfLiteNode* node) {
+TfLiteStatus GatherNdPrepare(TfLiteContext* context, TfLiteNode* node) {
   MicroContext* micro_context = GetMicroContext(context);
 
   TF_LITE_ENSURE_EQ(context, NumInputs(node), 2);
@@ -85,6 +85,13 @@ TfLiteStatus Prepare(TfLiteContext* context, TfLiteNode* node) {
 
   // Assign to output the input type.
   output->type = params->type;
+
+  // The tensor output dims must be relocated
+  // from the FlatBuffer to the persistent storage arena.
+  TfLiteEvalTensor* output_eval =
+      tflite::micro::GetEvalOutput(context, node, kOutputTensor);
+  TF_LITE_ENSURE_OK(context, tflite::micro::CreateWritableTensorDimsWithCopy(
+                                 context, output, output_eval));
 
   // TFLM gather_nd does not create the output tensor, but it needs to ensure
   // that the output shape is correct. The result shape is
@@ -178,7 +185,7 @@ TfLiteStatus EvalGatherNd(TfLiteContext* context,
   return status;
 }
 
-TfLiteStatus Eval(TfLiteContext* context, TfLiteNode* node) {
+TfLiteStatus GatherNdEval(TfLiteContext* context, TfLiteNode* node) {
   const TfLiteEvalTensor* params =
       tflite::micro::GetEvalInput(context, node, kParams);
   const TfLiteEvalTensor* indices =
@@ -198,8 +205,8 @@ TfLiteStatus Eval(TfLiteContext* context, TfLiteNode* node) {
 }
 }  // namespace
 
-TfLiteRegistration Register_GATHER_ND() {
-  return tflite::micro::RegisterOp(nullptr, Prepare, Eval);
+TFLMRegistration Register_GATHER_ND() {
+  return tflite::micro::RegisterOp(nullptr, GatherNdPrepare, GatherNdEval);
 }
 
 }  // namespace tflite

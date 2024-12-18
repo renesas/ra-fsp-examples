@@ -27,6 +27,7 @@ void touch_screen_reset(void);
 static fsp_err_t wait_for_mipi_dsi_event (mipi_dsi_phy_status_t event);
 static void mipi_dsi_ulps_enter(void);
 static void mipi_dsi_ulps_exit(void);
+static fsp_err_t timer_period_set (uint32_t period_time);
 
 /* Variables to store resolution information */
 uint16_t g_hz_size, g_vr_size;
@@ -293,10 +294,18 @@ void mipi_dsi_start_display(void)
         }
         if (g_ulps_flag)
         {
-            if (touch_flag)
+
+            if (touch_flag || g_timer_overflow)
             {
                 /* Exit Ultra-low Power State (ULPS) and turn on the backlight */
                 mipi_dsi_ulps_exit();
+
+                /* Reset g_timer_overflow flag */
+                g_timer_overflow = RESET_FLAG;
+                /* Set display time */
+                err = timer_period_set(period_sec);
+                /* Handle error */
+                handle_error(err, "** Timer period set failed ** \r\n");
             }
         }
         else
@@ -319,8 +328,13 @@ void mipi_dsi_start_display(void)
             }
             else
             {
+                g_timer_overflow = RESET_FLAG;
                 /* Enter Ultra-low Power State (ULPS) and turn off the backlight */
                 mipi_dsi_ulps_enter();
+                /* Set timer to exit  Ultra-low Power State (ULPS)*/
+                err = timer_period_set(ULPS_EXIT_PERIOD_30SEC);
+                /* Handle error */
+                handle_error(err, "** Timer period set failed ** \r\n");
             }
         }
     }
@@ -383,17 +397,9 @@ static uint8_t mipi_dsi_set_display_time (void)
 
             if (RTT_SELECT_DISABLE_ULPS != read_data)
             {
-                /* Calculate the desired period based on the current clock. Note that this calculation could overflow if the
-                 * desired period is larger than UINT32_MAX / pclkd_freq_hz. A cast to uint64_t is used to prevent this. */
-                uint32_t period_counts = (uint32_t) (((uint64_t) timer_info.clock_frequency * period_sec) / GPT_UNITS_SECONDS);
-                /* Set the calculated period. */
-                err = R_GPT_PeriodSet (&g_timer0_ctrl, period_counts);
-                APP_ERR_RETURN(err, " ** GPT PeriodSet API failed ** \r\n");
-                err = R_GPT_Reset (&g_timer0_ctrl);
-                APP_ERR_RETURN(err, " ** GPT Reset API failed ** \r\n");
-                g_timer_overflow = RESET_FLAG;
-                err = R_GPT_Start (&g_timer0_ctrl);
-                APP_ERR_RETURN(err, " ** GPT Start API failed ** \r\n");
+                /* Set display time */
+                err = timer_period_set(period_sec);
+                APP_ERR_RETURN(err, " ** Timer period set failed ** \r\n");
             }
             /* Reset buffer*/
             read_data = RESET_VALUE;
@@ -522,7 +528,15 @@ static void mipi_dsi_ulps_exit(void)
     err = wait_for_mipi_dsi_event(MIPI_DSI_PHY_STATUS_DATA_LANE_ULPS_EXIT);
     handle_error (err, "** MIPI DSI phy event timeout ** \r\n");
     g_ulps_flag = RESET_FLAG;
-    APP_PRINT("\r\nExited Ultra-low Power State (ULPS) due to touch with co-ordinates x: %u, ; y: %u. \r\n", touch_coordinates[0].x, touch_coordinates[0].y);
+    if (g_timer_overflow)
+    {
+        APP_PRINT("\r\nAuto exited Ultra-low Power State (ULPS)\r\n");
+    }
+    else
+    {
+        APP_PRINT("\r\nExited Ultra-low Power State (ULPS) due to touch with co-ordinates x: %u, ; y: %u. \r\n", touch_coordinates[0].x, touch_coordinates[0].y);
+    }
+    APP_PRINT("\r\nPress 1, 2, 3, or 4 to change the display time, or press any other key to return to the menu. \r\n");
 
     /* Display On */
     R_IOPORT_PinWrite (&g_ioport_ctrl, PIN_DISPLAY_BACKLIGHT, BSP_IO_LEVEL_HIGH);
@@ -567,7 +581,7 @@ void touch_screen_reset(void)
 static fsp_err_t wait_for_mipi_dsi_event (mipi_dsi_phy_status_t event)
 {
     uint32_t timeout = R_FSP_SystemClockHzGet(FSP_PRIV_CLOCK_ICLK) / 10;
-    while (timeout-- && ((g_phy_status & event) != event))
+    while (--timeout && ((g_phy_status & event) != event))
     {
         ;
     }
@@ -706,9 +720,6 @@ void mipi_dsi_entry(void)
     APP_PRINT(EP_INFO);
     APP_PRINT(MIPI_DSI_MENU);
 
-    /* Initialize SDRAM. */
-    bsp_sdram_init();
-
     /* Initialize GLCDC module */
     err = R_GLCDC_Open(&g_display_ctrl, &g_display_cfg);
     /* Handle error */
@@ -737,6 +748,31 @@ void mipi_dsi_entry(void)
 
     /* Start display 8-color bars */
     mipi_dsi_start_display();
+}
+
+/*******************************************************************************************************************//**
+ * @brief      This function is used to set the timer period.
+ *
+ * @param[in]  none
+ * @retval     none
+**********************************************************************************************************************/
+static fsp_err_t timer_period_set (uint32_t period_time)
+{
+    fsp_err_t err = FSP_SUCCESS;
+
+    /* Calculate the desired period based on the current clock. Note that this calculation could overflow if the
+     * desired period is larger than UINT32_MAX / pclkd_freq_hz. A cast to uint64_t is used to prevent this. */
+    uint32_t period_counts = (uint32_t) (((uint64_t) timer_info.clock_frequency * period_time) / GPT_UNITS_SECONDS);
+    /* Set the calculated period. */
+    err = R_GPT_PeriodSet (&g_timer0_ctrl, period_counts);
+    APP_ERR_RETURN(err, " ** GPT PeriodSet API failed ** \r\n");
+    err = R_GPT_Reset (&g_timer0_ctrl);
+    APP_ERR_RETURN(err, " ** GPT Reset API failed ** \r\n");
+    g_timer_overflow = RESET_FLAG;
+    err = R_GPT_Start (&g_timer0_ctrl);
+    APP_ERR_RETURN(err, " ** GPT Start API failed ** \r\n");
+
+    return err;
 }
 
 /*******************************************************************************************************************//**

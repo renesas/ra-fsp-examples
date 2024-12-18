@@ -13,6 +13,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
 
+#include <cstdint>
+
 #include "tensorflow/lite/c/common.h"
 #include "tensorflow/lite/kernels/internal/tensor_ctypes.h"
 #include "tensorflow/lite/kernels/kernel_util.h"
@@ -82,7 +84,7 @@ TfLiteStatus VerifyTensorDim(TfLiteContext* context, const TfLiteTensor* input,
   return kTfLiteOk;
 }
 
-TfLiteStatus Prepare(TfLiteContext* context, TfLiteNode* node) {
+TfLiteStatus ExpandDimsPrepare(TfLiteContext* context, TfLiteNode* node) {
   MicroContext* micro_context = GetMicroContext(context);
 
   TF_LITE_ENSURE_EQ(context, NumInputs(node), 2);
@@ -116,7 +118,7 @@ void memCopyN(T* out, const T* in, const int num_elements) {
   }
 }
 
-TfLiteStatus Eval(TfLiteContext* context, TfLiteNode* node) {
+TfLiteStatus ExpandDimsEval(TfLiteContext* context, TfLiteNode* node) {
   const TfLiteEvalTensor* input =
       tflite::micro::GetEvalInput(context, node, kInputTensor);
   TfLiteEvalTensor* output =
@@ -128,13 +130,18 @@ TfLiteStatus Eval(TfLiteContext* context, TfLiteNode* node) {
       memCopyN(tflite::micro::GetTensorData<float>(output),
                tflite::micro::GetTensorData<float>(input), flat_size);
     } break;
+    case kTfLiteInt16: {
+      memCopyN(tflite::micro::GetTensorData<int16_t>(output),
+               tflite::micro::GetTensorData<int16_t>(input), flat_size);
+    } break;
     case kTfLiteInt8: {
       memCopyN(tflite::micro::GetTensorData<int8_t>(output),
                tflite::micro::GetTensorData<int8_t>(input), flat_size);
     } break;
     default:
       MicroPrintf(
-          "Expand_Dims only currently supports int8 and float32, got %d.",
+          "Expand_Dims only currently supports int8, int16 and float32, got "
+          "%d.",
           input->type);
       return kTfLiteError;
   }
@@ -142,8 +149,8 @@ TfLiteStatus Eval(TfLiteContext* context, TfLiteNode* node) {
 }
 }  // namespace
 
-TfLiteRegistration Register_EXPAND_DIMS() {
-  return tflite::micro::RegisterOp(nullptr, Prepare, Eval);
+TFLMRegistration Register_EXPAND_DIMS() {
+  return tflite::micro::RegisterOp(nullptr, ExpandDimsPrepare, ExpandDimsEval);
 }
 
 }  // namespace tflite

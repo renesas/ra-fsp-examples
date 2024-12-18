@@ -29,7 +29,7 @@
 #define RESET_VALUE             (0x00)
 #define MODULE_CLOSE            (0U)
 
-#define EP_VERSION              ("1.0")
+#define EP_VERSION              ("1.1")
 #define MODULE_NAME             "r_tml"
 #define BANNER_INFO	            "\r\n******************************************************************"\
 								"\r\n*   Renesas FSP Example Project for "MODULE_NAME" Module                 *"\

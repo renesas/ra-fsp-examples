@@ -17,10 +17,10 @@
 							"\r\nThe demonstration includes showcasing the TML timer with counter operation"\
 							"\r\nin normal mode, capture operation, and counter operation in low power mode."\
 							"\r\nIn TML counter operation (normal mode), three TML instances (which are configured"\
-							"\r\nas 8-bit, 16-bit, and 32-bit counter modes) operate for the inputted duration by"\
+							"\r\nas 8-bit, 16-bit, and 32-bit counter modes) operate for the input duration by"\
 							"\r\nthe user. In TML 16-bit capture operation, user can trigger an ELC software event"\
 							"\r\nto get the raw counts value of 16-bit timer. In TML counter operation (low power"\
-							"\r\nmodes), the 32-bit timer is configured as counter mode with period 10 seconds."\
+							"\r\nmodes), the 32-bit timer is configured as counter mode with input period time."\
 							"\r\nOnce the 32-bit timer has expired, the RA board is woken up from LPM to normal mode."\
 							"\r\nThe EP information and error messages will be printed to the Host PC.\r\n\r\n"
 
@@ -71,36 +71,52 @@
 #define NAME_LPM_SW_STANDBY_MODE                "MCU enters SW Standby mode"
 
 /* Macro for the conversion */
-#define SECOND_TO_MILLISECOND  (1000)
+#define SECOND_TO_MILLISECOND  		(1000)
 
 /* Enumeration for TML modes use in example project */
 typedef enum e_app_tml_mode
 {
-	APP_TML_8_BIT = 0,
-	APP_TML_16_BIT,
-	APP_TML_32_BIT,
-	APP_TML_16_BIT_CAPTURE,
-	APP_TML_32_BIT_COUNTER_LPM,
-	APP_TML_MAX_MODE
+    APP_TML_8_BIT = 0,
+    APP_TML_16_BIT,
+    APP_TML_32_BIT,
+    APP_TML_16_BIT_CAPTURE,
+    APP_TML_32_BIT_COUNTER_LPM,
+    APP_TML_MAX_MODE
 } app_tml_mode_t;
 
 /* Enumeration for low power modes use in example project */
 typedef enum e_app_lpm_state
 {
-	APP_LPM_SLEEP_STATE = 0,
-	APP_LPM_SW_STANDBY_STATE,
-	APP_LPM_MAX_STATE
+    APP_LPM_SLEEP_STATE = 0,
+    APP_LPM_SW_STANDBY_STATE,
+    APP_LPM_MAX_STATE
 } app_lpm_states_t;
 
 /* Enumeration for LED status */
 typedef enum e_led_power
 {
-	LED_ON = BSP_IO_LEVEL_HIGH,
-	LED_OFF = BSP_IO_LEVEL_LOW
+    LED_ON = BSP_IO_LEVEL_HIGH,
+    LED_OFF = BSP_IO_LEVEL_LOW
 } led_power_t;
 
-/* function declarations */
+
+/* function declarations in tml_ep.c */
 void tml_entry(void);
+fsp_err_t tml_open (app_tml_mode_t tml_mode);
+fsp_err_t tml_close (app_tml_mode_t tml_mode);
+fsp_err_t tml_start (app_tml_mode_t tml_mode);
+fsp_err_t tml_stop (app_tml_mode_t tml_mode);
+uint8_t get_user_input(void);
+
+/* function declarations in tml_counter.c */
+uint16_t tml_get_count_duration (void);
+fsp_err_t tml_counter_operation (uint16_t duration_time, app_tml_mode_t tml_mode);
+
+/* function declaration in tml_capture.c */
+fsp_err_t tml_capture_operation (void);
+
+/* function declaration in tml_capture_in_lpm.c */
+fsp_err_t tml_counter_operation_in_lpm(app_lpm_states_t lpm_mode);
 
 #endif /* TML_EP_H_ */
 

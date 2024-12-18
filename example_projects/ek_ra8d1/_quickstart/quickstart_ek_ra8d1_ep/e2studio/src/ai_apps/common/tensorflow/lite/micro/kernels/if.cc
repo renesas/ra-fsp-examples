@@ -1,4 +1,4 @@
-/* Copyright 2021 The TensorFlow Authors. All Rights Reserved.
+/* Copyright 2023 The TensorFlow Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -31,17 +31,19 @@ namespace tflite {
 
 namespace {
 
+constexpr int kCondTensor = 0;
+
 struct OpData {
   int then_subgraph_index;
   int else_subgraph_index;
 };
 
-void* Init(TfLiteContext* context, const char* buffer, size_t length) {
+void* IfInit(TfLiteContext* context, const char* buffer, size_t length) {
   TFLITE_DCHECK(context->AllocatePersistentBuffer != nullptr);
   return context->AllocatePersistentBuffer(context, sizeof(OpData));
 }
 
-TfLiteStatus Prepare(TfLiteContext* context, TfLiteNode* node) {
+TfLiteStatus IfPrepare(TfLiteContext* context, TfLiteNode* node) {
   OpData* op_data = reinterpret_cast<OpData*>(node->user_data);
   const auto* params =
       reinterpret_cast<const TfLiteIfParams*>(node->builtin_data);
@@ -52,7 +54,8 @@ TfLiteStatus Prepare(TfLiteContext* context, TfLiteNode* node) {
 
   // The first input is the condition.
   tflite::MicroContext* micro_context = tflite::GetMicroContext(context);
-  TfLiteTensor* cond = micro_context->AllocateTempInputTensor(node, 0);
+  TfLiteTensor* cond =
+      micro_context->AllocateTempInputTensor(node, kCondTensor);
 
   TF_LITE_ENSURE(context, cond != nullptr);
   TF_LITE_ENSURE_EQ(context, cond->type, kTfLiteBool);
@@ -64,7 +67,7 @@ TfLiteStatus Prepare(TfLiteContext* context, TfLiteNode* node) {
   // passed to the branch subgraphs. Therefore, the number of subgraph inputs
   // will be the number of node inputs - 1.
   size_t num_inputs = node->inputs->size - 1;
-  size_t num_outputs = node->outputs->size;
+  size_t num_outputs = NumOutputs(node);
 
   MicroGraph& graph_info = micro_context->graph();
 
@@ -82,15 +85,14 @@ TfLiteStatus Prepare(TfLiteContext* context, TfLiteNode* node) {
   return kTfLiteOk;
 }
 
-TfLiteStatus Eval(TfLiteContext* context, TfLiteNode* node) {
+TfLiteStatus IfEval(TfLiteContext* context, TfLiteNode* node) {
   const OpData* op_data = reinterpret_cast<OpData*>(node->user_data);
 
   tflite::MicroContext* micro_context = tflite::GetMicroContext(context);
-  TfLiteTensor* cond = micro_context->AllocateTempInputTensor(node, 0);
-
+  const TfLiteEvalTensor* cond =
+      tflite::micro::GetEvalInput(context, node, kCondTensor);
   TF_LITE_ENSURE(context, cond != nullptr);
-  bool cond_value = cond->data.b[0];
-  micro_context->DeallocateTempTfLiteTensor(cond);
+  const bool cond_value = cond->data.b[0];
 
   MicroGraph* graph_info = &micro_context->graph();
   // Currently we copy the input / output between the subgraphs.
@@ -114,8 +116,8 @@ TfLiteStatus Eval(TfLiteContext* context, TfLiteNode* node) {
 
 }  // namespace.
 
-TfLiteRegistration Register_IF() {
-  return tflite::micro::RegisterOp(Init, Prepare, Eval);
+TFLMRegistration Register_IF() {
+  return tflite::micro::RegisterOp(IfInit, IfPrepare, IfEval);
 }
 
 }  // namespace tflite

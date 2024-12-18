@@ -48,3 +48,12 @@ Note :
 2. If matrix keypad is not available, Please connect the Jumper wires to pins as specified above for particular MCU 
    and short row pin with any of the KINT pin.This will lead to generate key-event.
    The generated key-event is detected and printed on RTTViewer.
+
+1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
+   RTT Block address for hex file committed in repository are as follows:
+   a. e2studio: 0x1ffe044c
+   b. Keil: Not Available
+   c. IAR: Not Available
+ 
+2) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) 
+   in .map file generated in the build configuration folder (Debug/Release).

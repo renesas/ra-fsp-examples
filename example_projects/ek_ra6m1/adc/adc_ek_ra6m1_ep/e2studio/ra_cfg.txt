@@ -1,5 +1,5 @@
 FSP Configuration
-  Board "EK-RA6M1"
+  Board "RA6|RA6M1|EK-RA6M1"
   R7FA6M1AD3CFP
     part_number: R7FA6M1AD3CFP
     rom_size_bytes: 524288
@@ -12,7 +12,8 @@ FSP Configuration
     series: 6
     
   RA6M1 Family
-    OFS0 register settings: Independent WDT: Start Mode: IWDT is Disabled
+    Enable inline BSP IRQ functions: Enabled
+    OFS0 register settings: Independent WDT: Start Mode: IWDT is stopped after a reset
     OFS0 register settings: Independent WDT: Timeout Period: 2048 cycles
     OFS0 register settings: Independent WDT: Dedicated Clock Frequency Divisor: 128
     OFS0 register settings: Independent WDT: Window End Position:  0% (no window end position)
@@ -52,6 +53,7 @@ FSP Configuration
     ID Code Mode: Unlocked (Ignore ID)
     ID Code (32 Hex Characters): FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
     
+  RA6M1 event data
   RA Common
     Main stack size (bytes): 0x400
     Heap size (bytes): 0x400
@@ -317,7 +319,7 @@ FSP Configuration
       General: Resolution: 12-Bit
       General: Alignment: Right
       General: Clear after read: On
-      General: Mode: Single Scan
+      General: Mode: Continuous Scan
       General: Double-trigger: Disabled
       Input: Channel Scan Mask (channel availability varies by MCU): Channel 0
       Input: Group B Scan Mask (channel availability varies by MCU): 
@@ -334,8 +336,8 @@ FSP Configuration
       Input: Window Compare: Window A: Enable: Enabled
       Input: Window Compare: Window A: Channels to compare (channel availability varies by MCU and unit): Channel 0
       Input: Window Compare: Window A: Channel comparison mode (channel availability varies by MCU and unit): 
-      Input: Window Compare: Window A: Lower Reference: 1230
-      Input: Window Compare: Window A: Upper Reference: 3107
+      Input: Window Compare: Window A: Lower Reference: 1241
+      Input: Window Compare: Window A: Upper Reference: 3103
       Input: Window Compare: Window B: Enable: Disabled
       Input: Window Compare: Window B: Channel to compare (channel availability varies by MCU and unit): Channel 0
       Input: Window Compare: Window B: Comparison mode: Less Than or Outside Window

@@ -36,6 +36,7 @@
 #define GPT_DESIRED_PERIOD_5SEC                      (5)
 #define GPT_DESIRED_PERIOD_15SEC                     (15)
 #define GPT_DESIRED_PERIOD_30SEC                     (30)
+#define ULPS_EXIT_PERIOD_30SEC                       (30)
 #define PIN_DISPLAY_INT                              (BSP_IO_PORT_05_PIN_10)
 #define PIN_DISPLAY_RST                              (BSP_IO_PORT_10_PIN_01)
 #define PIN_DISPLAY_BACKLIGHT                        (BSP_IO_PORT_04_PIN_04)
@@ -45,7 +46,8 @@
                                     "\r\n2. Input '2' to enter ULPS after 15s."\
                                     "\r\n3. Input '3' to enter ULPS after 30s."\
                                     "\r\n4. Input '4' to always display(Default).\r\n"\
-                                    "\r\nNote: After entering Ultra Low Power State (ULPS), please touch the screen to exit this mode."\
+                                    "\r\nNote: After entering Ultra Low Power State (ULPS), please touch the screen to exit this mode"\
+                                    "\r\n      Or wait 30s to automatically exit this mode.\r\n"\
                                     "\r\nUser Input:  "
 #define MIPI_DSI_INFO_5S            "Enter ULPS after 5 seconds of display\r\n"
 #define MIPI_DSI_INFO_15S           "Enter ULPS after 15 seconds of display\r\n"

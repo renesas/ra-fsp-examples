@@ -6,9 +6,9 @@
 1. Project Overview:
 	The example project showcases how the TML driver operates on Renesas RA MCUs. The demonstration includes showcasing the TML timer with 
 	counter operation, capture operation in normal mode, and counter operation in low power mode. In TML counter operation (normal mode), 
-	three TML instances (which are configured as 8-bit, 16-bit, and 32-bit counter modes) operate for the inputted duration by the user. 
+	three TML instances (which are configured as 8-bit, 16-bit, and 32-bit counter modes) operate for the input duration by the user. 
 	In TML 16-bit capture operation, user can trigger an ELC software event to get the raw counts value of 16-bit timer. In TML counter
-	operation (low power modes), the 32-bit timer is configured as counter mode with period 10 seconds. Once the 32-bit timer has expired,
+	operation (low power modes), the 32-bit timer is configured as counter mode with input period time. Once the 32-bit timer has expired,
 	the RA board is woken up from LPM to normal mode. The EP information and error messages will be printed to the Host PC.
 
 	NOTE1: To display information, users can select between the SEGGER J-Link RTT Viewer and the Serial Terminal (UART) with J-Link OB VCOM. 

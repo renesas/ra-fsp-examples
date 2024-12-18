@@ -97,7 +97,7 @@ Note: MCK-RA6T2 does not support Window Compare Mode and operates with internal 
 
 1) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x20004604
+   a. e2studio: 0x2000460c
    b. Keil: 	Not Available
    c. IAR: 	Not Available
  

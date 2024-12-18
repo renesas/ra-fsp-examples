@@ -15,9 +15,9 @@
 	After receiving messages from the server, appropriate acknowledgment messages are sent to the server.
 
 2. Software Requirements:
-     	Renesas Flexible Software Package (FSP): Version 5.6.0
+     	Renesas Flexible Software Package (FSP): Version 5.7.0
      	e2 studio: Version 2024-10
-     	SEGGER J-Link RTT Viewer: Version 7.98g
+     	SEGGER J-Link RTT Viewer: Version 8.10f
      	LLVM Embedded Toolchain for ARM: Version 18.1.3
 	Note: TCP server on PC can be created using freely available tool sokit: 
 	      https://www.softpedia.com/get/Network-Tools/Misc-Networking-Tools/sokit.shtml

@@ -1,5 +1,5 @@
 FSP Configuration
-  Board "MCK-RA4T1"
+  Board "RA4|RA4T1|MCK-RA4T1"
   R7FA4T1BB3CFM
     part_number: R7FA4T1BB3CFM
     rom_size_bytes: 262144
@@ -12,21 +12,20 @@ FSP Configuration
     series: 4
     
   RA4T1 Family
+    Enable inline BSP IRQ functions: Enabled
     Security: Exceptions: Exception Response: Non-Maskable Interrupt
     Security: Exceptions: BusFault, HardFault, and NMI Target: Secure State
     Security: System Reset Request Accessibility: Secure State
     Security: Exceptions: Prioritize Secure Exceptions: Disabled
     Security: Cache Accessibility: Both Secure and Non-Secure State
     Security: System Reset Status Accessibility: Both Secure and Non-Secure State
-    Security: Battery Backup Accessibility: Both Secure and Non-Secure State
     Security: SRAM Accessibility: SRAM Protection: Both Secure and Non-Secure State
     Security: SRAM Accessibility: SRAM ECC: Both Secure and Non-Secure State
-    Security: SRAM Accessibility: Standby RAM: Regions 7-0 are all Secure.
     Security: BUS Accessibility: Bus Security Attribution Register A: Both Secure and Non-Secure State
     Security: BUS Accessibility: Bus Security Attribution Register B: Both Secure and Non-Secure State
     Security: Uninitialized Non-Secure Application Fallback: Enable Uninitialized Non-Secure Application Fallback
     Startup C-Cache Line Size: 32 Bytes
-    OFS0 register settings: Independent WDT: Start Mode: IWDT is Disabled
+    OFS0 register settings: Independent WDT: Start Mode: IWDT is stopped after a reset
     OFS0 register settings: Independent WDT: Timeout Period: 2048 cycles
     OFS0 register settings: Independent WDT: Dedicated Clock Frequency Divisor: 128
     OFS0 register settings: Independent WDT: Window End Position:  0% (no window end position)
@@ -51,6 +50,7 @@ FSP Configuration
     ID Code Mode: Unlocked (Ignore ID)
     ID Code (32 Hex Characters): FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
     
+  RA4T1 event data
   RA Common
     Main stack size (bytes): 0x400
     Heap size (bytes): 0x400
@@ -109,14 +109,14 @@ FSP Configuration
       P103 45 GPT2_GTIOC2A V_UPPER L - "Peripheral mode" - - "CANFD0: CTX0; GPT2: GTIOC2A; GPT_OPS: GTOWUP; SCI0: CTS_RTS0; SPI1: SSLB0" - IO - - 
       P104 44 GPT_POEGB_GTETRGB OC_DETECT L None "Peripheral mode" - - "AGT1: AGTIO1; GPT1: GTIOC1B; GPT_POEGB: GTETRGB; IRQ: IRQ1; SPI1: SSLB1" - I - - 
       P105 43 GPT_POEGA_GTETRGA ENC_Z L None "Peripheral mode" - - "GPT1: GTIOC1A; GPT_POEGA: GTETRGA; IRQ: IRQ0; SPI1: SSLB2" - I - - 
-      P106 42 - LED2 - - Disabled - - "AGT0: AGTOB0; SPI1: SSLB3" - None - - 
+      P106 42 GPIO LED2 - - "Input mode" - - "AGT0: AGTOB0; SPI1: SSLB3" - IO - - 
       P107 41 GPIO - - - "Input mode" - - "AGT0: AGTOA0; SPI0: SSLA2" - IO - - 
       P108 33 JTAG/SWD_SWDIO - L - "Peripheral mode" - - "GPT0: GTIOC0B; GPT_OPS: GTOULO; JTAG/SWD: SWDIO; SCI9: CTS_RTS9; SPI0: SSLA0" - IO - - 
       P109 34 SCI9_TXD9 - L - "Peripheral mode" - - "AGT0: AGTOA0; CANFD0: CTX0; CLKOUT: CLKOUT; GPT1: GTIOC1A; GPT_OPS: GTOVUP; SCI9: TXD9; SPI0: MOSI0" - O - - 
       P110 35 SCI9_RXD9 - L IRQ3 "Peripheral mode" - - "AGT0: AGTOB0; CANFD0: CRX0; CLKOUT: VCOUT; GPT1: GTIOC1B; GPT_OPS: GTOVLO; IRQ: IRQ3; SCI9: RXD9; SPI0: MISO0" - I - - 
       P111 36 GPT3_GTIOC3A W_UPPER L None "Peripheral mode" - - "GPT3: GTIOC3A; IRQ: IRQ4; SCI9: SCK9; SPI0: RSPCK0" - IO - - 
       P112 37 GPT3_GTIOC3B W_LOWER L - "Peripheral mode" - - "AGT1: AGTO1; GPT3: GTIOC3B; GPT_POEGD: GTETRGD; SPI0: SSLA0" - IO - - 
-      P113 38 - LED1 - - Disabled - - "GPT2: GTIOC2A" - None - - 
+      P113 38 GPIO LED1 - - "Input mode" - - "GPT2: GTIOC2A" - IO - - 
       P200 27 GPIO SW2 - None "Input mode" - - "IRQ: NMI" - I - - 
       P201 26 SYSTEM_MD - L - "Peripheral mode" - - "SYSTEM: MD" - IO - - 
       P205 23 I3C/IIC_SCL0 - L None "Peripheral mode" - - "AGT1: AGTO1; CLKOUT: CLKOUT; GPT4: GTIOC4A; GPT_OPS: GTIV; I3C/IIC: SCL0; IRQ: IRQ1-DS; SCI9: CTS_RTS9; SPI0: SSLA3" - IO - - 
@@ -174,14 +174,14 @@ FSP Configuration
       P103 45 - V_UPPER L - Disabled - - "CANFD0: CTX0; GPT2: GTIOC2A; GPT_OPS: GTOWUP; SCI0: CTS_RTS0; SPI1: SSLB0" - IO - - 
       P104 44 - OC_DETECT L None Disabled - - "AGT1: AGTIO1; GPT1: GTIOC1B; GPT_POEGB: GTETRGB; IRQ: IRQ1; SPI1: SSLB1" - I - - 
       P105 43 - ENC_Z L None Disabled - - "GPT1: GTIOC1A; GPT_POEGA: GTETRGA; IRQ: IRQ0; SPI1: SSLB2" - I - - 
-      P106 42 - LED2 - - Disabled - - "AGT0: AGTOB0; SPI1: SSLB3" - None - - 
+      P106 42 - LED2 - - Disabled - - "AGT0: AGTOB0; SPI1: SSLB3" - IO - - 
       P107 41 - - - - Disabled - - "AGT0: AGTOA0; SPI0: SSLA2" - IO - - 
       P108 33 JTAG/SWD_SWDIO - L - "Peripheral mode" - - "GPT0: GTIOC0B; GPT_OPS: GTOULO; JTAG/SWD: SWDIO; SCI9: CTS_RTS9; SPI0: SSLA0" - IO - - 
       P109 34 - - L - Disabled - - "AGT0: AGTOA0; CANFD0: CTX0; CLKOUT: CLKOUT; GPT1: GTIOC1A; GPT_OPS: GTOVUP; SCI9: TXD9; SPI0: MOSI0" - O - - 
       P110 35 - - L None Disabled - - "AGT0: AGTOB0; CANFD0: CRX0; CLKOUT: VCOUT; GPT1: GTIOC1B; GPT_OPS: GTOVLO; IRQ: IRQ3; SCI9: RXD9; SPI0: MISO0" - I - - 
       P111 36 - W_UPPER L None Disabled - - "GPT3: GTIOC3A; IRQ: IRQ4; SCI9: SCK9; SPI0: RSPCK0" - IO - - 
       P112 37 - W_LOWER L - Disabled - - "AGT1: AGTO1; GPT3: GTIOC3B; GPT_POEGD: GTETRGD; SPI0: SSLA0" - IO - - 
-      P113 38 - LED1 - - Disabled - - "GPT2: GTIOC2A" - None - - 
+      P113 38 - LED1 - - Disabled - - "GPT2: GTIOC2A" - IO - - 
       P200 27 - SW2 - None Disabled - - "IRQ: NMI" - I - - 
       P201 26 - - L - Disabled - - "SYSTEM: MD" - IO - - 
       P205 23 - - L None Disabled - - "AGT1: AGTO1; CLKOUT: CLKOUT; GPT4: GTIOC4A; GPT_OPS: GTIV; I3C/IIC: SCL0; IRQ: IRQ1-DS; SCI9: CTS_RTS9; SPI0: SSLA3" - IO - - 

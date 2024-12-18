@@ -1,4 +1,4 @@
-/* Copyright 2020 The TensorFlow Authors. All Rights Reserved.
+/* Copyright 2024 The TensorFlow Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@ limitations under the License.
 #include "tensorflow/lite/micro/arena_allocator/single_arena_buffer_allocator.h"
 #include "tensorflow/lite/micro/micro_arena_constants.h"
 #include "tensorflow/lite/micro/micro_log.h"
-#include "tensorflow/lite/micro/test_helpers.h"
 
 namespace tflite {
 namespace micro {
@@ -34,15 +33,26 @@ void ClearBufferApi(TfLiteContext* context_) {
   context_->RequestScratchBufferInArena = nullptr;
 }
 
-KernelRunner::KernelRunner(const TfLiteRegistration& registration,
+KernelRunner::KernelRunner(const TFLMRegistration& registration,
                            TfLiteTensor* tensors, int tensors_size,
                            TfLiteIntArray* inputs, TfLiteIntArray* outputs,
-                           void* builtin_data, TfLiteIntArray* intermediates)
+                           const void* builtin_data,
+                           TfLiteIntArray* intermediates
+#ifdef USE_TFLM_COMPRESSION
+                           ,
+                           const CompressedTensorList* compressed_tensors
+#endif  // USE_TFLM_COMPRESSION
+                           )
     : registration_(registration),
       allocator_(SingleArenaBufferAllocator::Create(kKernelRunnerBuffer_,
                                                     kKernelRunnerBufferSize_)),
       mock_micro_graph_(allocator_),
-      fake_micro_context_(tensors, allocator_, &mock_micro_graph_) {
+      fake_micro_context_(tensors, allocator_, &mock_micro_graph_
+#ifdef USE_TFLM_COMPRESSION
+                          ,
+                          compressed_tensors
+#endif  // USE_TFLM_COMPRESSION
+      ) {
   // Prepare TfLiteContext:
   context_.impl_ = static_cast<void*>(&fake_micro_context_);
   context_.ReportError = MicroContextReportOpError;
@@ -57,7 +67,7 @@ KernelRunner::KernelRunner(const TfLiteRegistration& registration,
   // Prepare TfLiteNode:
   node_.inputs = inputs;
   node_.outputs = outputs;
-  node_.builtin_data = builtin_data;
+  node_.builtin_data = const_cast<void*>(builtin_data);
   node_.intermediates = intermediates;
 }
 
@@ -94,7 +104,7 @@ TfLiteStatus KernelRunner::Invoke() {
   context_.GetScratchBuffer = MicroContextGetScratchBuffer;
 
   if (registration_.invoke == nullptr) {
-    MicroPrintf("TfLiteRegistration missing invoke function pointer!");
+    MicroPrintf("TFLMRegistration missing invoke function pointer!");
     return kTfLiteError;
   }
 
@@ -105,12 +115,25 @@ TfLiteStatus KernelRunner::Invoke() {
   return kTfLiteOk;
 }
 
+TfLiteStatus KernelRunner::Reset() {
+  tflite::micro::ClearBufferApi(&context_);
+  context_.GetScratchBuffer = MicroContextGetScratchBuffer;
+
+  if (registration_.reset == nullptr) {
+    MicroPrintf("TFLMRegistration missing reset function pointer!");
+    return kTfLiteError;
+  }
+
+  registration_.reset(&context_, node_.user_data);
+  return kTfLiteOk;
+}
+
 TfLiteStatus KernelRunner::Free() {
   tflite::micro::ClearBufferApi(&context_);
   context_.GetScratchBuffer = MicroContextGetScratchBuffer;
 
   if (registration_.free == nullptr) {
-    MicroPrintf("TfLiteRegistration missing free function pointer!");
+    MicroPrintf("TFLMRegistration missing free function pointer!");
     return kTfLiteError;
   }
 

@@ -17,124 +17,98 @@
 #ifndef FLATBUFFERS_DETACHED_BUFFER_H_
 #define FLATBUFFERS_DETACHED_BUFFER_H_
 
-#include <ai_apps/common/third_party/flatbuffers/include/flatbuffers/allocator.h>
-#include <ai_apps/common/third_party/flatbuffers/include/flatbuffers/base.h>
-#include <ai_apps/common/third_party/flatbuffers/include/flatbuffers/default_allocator.h>
+#include "flatbuffers/allocator.h"
+#include "flatbuffers/base.h"
+#include "flatbuffers/default_allocator.h"
 
 namespace flatbuffers {
+
 // DetachedBuffer is a finished flatbuffer memory region, detached from its
 // builder. The original memory region and allocator are also stored so that
 // the DetachedBuffer can manage the memory lifetime.
-    class DetachedBuffer {
-public:
-        DetachedBuffer()
-            :allocator_(nullptr),
-            own_allocator_(false),
-            buf_(nullptr),
-            reserved_(0),
-            cur_(nullptr),
-            size_(0)
-        {
-        }
+class DetachedBuffer {
+ public:
+  DetachedBuffer()
+      : allocator_(nullptr),
+        own_allocator_(false),
+        buf_(nullptr),
+        reserved_(0),
+        cur_(nullptr),
+        size_(0) {}
 
-        DetachedBuffer(Allocator * allocator,
-                       bool own_allocator,
-                       uint8_t * buf,
-                       size_t reserved,
-                       uint8_t * cur,
-                       size_t sz)
-            :allocator_(allocator),
-            own_allocator_(own_allocator),
-            buf_(buf),
-            reserved_(reserved),
-            cur_(cur),
-            size_(sz)
-        {
-        }
+  DetachedBuffer(Allocator *allocator, bool own_allocator, uint8_t *buf,
+                 size_t reserved, uint8_t *cur, size_t sz)
+      : allocator_(allocator),
+        own_allocator_(own_allocator),
+        buf_(buf),
+        reserved_(reserved),
+        cur_(cur),
+        size_(sz) {}
 
-        DetachedBuffer(DetachedBuffer && other)
-            :allocator_(other.allocator_),
-            own_allocator_(other.own_allocator_),
-            buf_(other.buf_),
-            reserved_(other.reserved_),
-            cur_(other.cur_),
-            size_(other.size_)
-        {
-            other.reset();
-        }
+  DetachedBuffer(DetachedBuffer &&other) noexcept
+      : allocator_(other.allocator_),
+        own_allocator_(other.own_allocator_),
+        buf_(other.buf_),
+        reserved_(other.reserved_),
+        cur_(other.cur_),
+        size_(other.size_) {
+    other.reset();
+  }
 
-        DetachedBuffer &operator = (DetachedBuffer && other) {
-            if (this == &other)
-            {
-                return *this;
-            }
+  DetachedBuffer &operator=(DetachedBuffer &&other) noexcept {
+    if (this == &other) return *this;
 
-            destroy();
+    destroy();
 
-            allocator_     = other.allocator_;
-            own_allocator_ = other.own_allocator_;
-            buf_           = other.buf_;
-            reserved_      = other.reserved_;
-            cur_           = other.cur_;
-            size_          = other.size_;
+    allocator_ = other.allocator_;
+    own_allocator_ = other.own_allocator_;
+    buf_ = other.buf_;
+    reserved_ = other.reserved_;
+    cur_ = other.cur_;
+    size_ = other.size_;
 
-            other.reset();
+    other.reset();
 
-            return *this;
-        }
+    return *this;
+  }
 
-        ~DetachedBuffer()
-        {
-            destroy();
-        }
+  ~DetachedBuffer() { destroy(); }
 
-        const uint8_t * data () const {
-            return cur_;
-        }
+  const uint8_t *data() const { return cur_; }
 
-        uint8_t * data () {
-            return cur_;
-        }
+  uint8_t *data() { return cur_; }
 
-        size_t size () const {
-            return size_;
-        }
+  size_t size() const { return size_; }
 
-        // These may change access mode, leave these at end of public section
-        FLATBUFFERS_DELETE_FUNC(DetachedBuffer(const DetachedBuffer &other));
-        FLATBUFFERS_DELETE_FUNC(DetachedBuffer &operator = (const DetachedBuffer &other));
+  // These may change access mode, leave these at end of public section
+  FLATBUFFERS_DELETE_FUNC(DetachedBuffer(const DetachedBuffer &other));
+  FLATBUFFERS_DELETE_FUNC(
+      DetachedBuffer &operator=(const DetachedBuffer &other));
 
-protected:
-        Allocator * allocator_;
-        bool        own_allocator_;
-        uint8_t   * buf_;
-        size_t      reserved_;
-        uint8_t   * cur_;
-        size_t      size_;
+ protected:
+  Allocator *allocator_;
+  bool own_allocator_;
+  uint8_t *buf_;
+  size_t reserved_;
+  uint8_t *cur_;
+  size_t size_;
 
-        inline void destroy () {
-            if (buf_)
-            {
-                Deallocate(allocator_, buf_, reserved_);
-            }
+  inline void destroy() {
+    if (buf_) Deallocate(allocator_, buf_, reserved_);
+    if (own_allocator_ && allocator_) { delete allocator_; }
+    reset();
+  }
 
-            if (own_allocator_ && allocator_)
-            {
-                delete allocator_;
-            }
+  inline void reset() {
+    allocator_ = nullptr;
+    own_allocator_ = false;
+    buf_ = nullptr;
+    reserved_ = 0;
+    cur_ = nullptr;
+    size_ = 0;
+  }
+};
 
-            reset();
-        }
-
-        inline void reset () {
-            allocator_     = nullptr;
-            own_allocator_ = false;
-            buf_           = nullptr;
-            reserved_      = 0;
-            cur_           = nullptr;
-            size_          = 0;
-        }
-    };
-}                                      // namespace flatbuffers
+}  // namespace flatbuffers
 
 #endif  // FLATBUFFERS_DETACHED_BUFFER_H_

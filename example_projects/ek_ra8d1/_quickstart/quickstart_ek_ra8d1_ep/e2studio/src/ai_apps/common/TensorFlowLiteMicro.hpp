@@ -37,7 +37,7 @@
     #pragma GCC diagnostic ignored "-Wunused-parameter"
     #include <ai_apps/common/tensorflow/lite/micro/micro_mutable_op_resolver.h>
     #include <ai_apps/common/tensorflow/lite/micro/micro_interpreter.h>
-    #include <ai_apps/common/tensorflow/lite/micro/all_ops_resolver.h>
+    //#include <ai_apps/common/tensorflow/lite/micro/all_ops_resolver.h>
     #pragma GCC diagnostic pop
 #else
     #include <ai_apps/common/tensorflow/lite/micro/micro_mutable_op_resolver.h>
@@ -51,7 +51,7 @@
 #include <ai_apps/common/tensorflow/lite/schema/schema_generated.h>
 #include <ai_apps/common/tensorflow/lite/schema/schema_utils.h>
 
-#include <ai_apps/common/tensorflow/lite/micro/all_ops_resolver.h>
+//#include <ai_apps/common/tensorflow/lite/micro/all_ops_resolver.h>
 //#include "tensorflow/lite/micro/micro_error_reporter.h"
 #include <ai_apps/common/tensorflow/lite/micro/micro_interpreter.h>
 #include <ai_apps/common/tensorflow/lite/micro/system_setup.h>

@@ -20,7 +20,8 @@
       
         Hardware connections:
 		
-		ADC Channel Voltage Input Pin:
+		Connect the ground (GND) of the external voltage supply with the board ground, and connect the voltage supply to 
+		the ADC Channel Voltage Input Pin as shown below:
 
 		Board	 Channel(Pin)
 		------------------------------
@@ -66,7 +67,7 @@
 		MCK-RA6T3:
 			AN00(P000)
 		RSSK-RA6T1:
-			AN005(P014)
+			AN003(P008)
 
 3. Configuration Settings:
         The example project, by default, runs in continuous scan mode on the boards.

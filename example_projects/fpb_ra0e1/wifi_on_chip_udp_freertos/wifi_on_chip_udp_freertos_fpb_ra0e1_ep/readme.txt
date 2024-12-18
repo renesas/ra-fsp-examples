@@ -13,9 +13,9 @@
 	The EP continuously waits for any incoming messages from the UDP server. The incoming messages are displayed on the J-Link RTT Viewer.
 
 2. Software Requirements:
-		Renesas Flexible Software Package (FSP): Version 5.6.0
+		Renesas Flexible Software Package (FSP): Version 5.7.0
 		e2 studio: Version 2024-10
-		SEGGER J-Link RTT Viewer: Version 7.98g
+		SEGGER J-Link RTT Viewer: Version 8.10f
 		GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 	  	PacketSender (https://packetsender.com/download#show)
 	

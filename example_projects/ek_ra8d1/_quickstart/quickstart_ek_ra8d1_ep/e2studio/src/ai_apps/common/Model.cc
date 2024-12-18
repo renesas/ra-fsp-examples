@@ -207,10 +207,9 @@ void arm::app::Model::LogInterpreterInfo()
     for (size_t i = 0 ; i < nOperators; ++i) {
         const tflite::Operator* op = subgraph->operators()->Get(i);
         const tflite::OperatorCode* opcode = opcodes->Get(op->opcode_index());
-        const TfLiteRegistration* reg = nullptr;
-	tflite::ErrorReporter* err = nullptr;
+        const TFLMRegistration* reg = nullptr;
 
-        tflite::GetRegistrationFromOpCode(opcode, this->GetOpResolver(), err, &reg);
+        tflite::GetRegistrationFromOpCode(opcode, this->GetOpResolver(), &reg);
         std::string opName;
 
         if (reg) {

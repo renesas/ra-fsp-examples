@@ -1,4 +1,4 @@
-/* Copyright 2019 The TensorFlow Authors. All Rights Reserved.
+/* Copyright 2022 The TensorFlow Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@ limitations under the License.
 
 #include "tensorflow/lite/c/builtin_op_data.h"
 #include "tensorflow/lite/c/common.h"
-#include "tensorflow/lite/kernels/internal/portable_tensor.h"
 #include "tensorflow/lite/kernels/internal/tensor_ctypes.h"
 #include "tensorflow/lite/kernels/internal/types.h"
 #include "tensorflow/lite/kernels/kernel_util.h"
@@ -26,9 +25,8 @@ limitations under the License.
 #include "tensorflow/lite/micro/micro_log.h"
 
 namespace tflite {
-namespace ops {
-namespace micro {
-namespace concatenation {
+
+namespace {
 
 constexpr int kMaxInputNum = 10;  // Maximum number of input tensors
 constexpr int kOutputTensor = 0;
@@ -105,12 +103,13 @@ void EvalUnquantized(TfLiteContext* context, TfLiteNode* node) {
                                tflite::micro::GetTensorData<data_type>(output));
 }
 
-void* Init(TfLiteContext* context, const char* buffer, size_t length) {
+void* ConcatenationInit(TfLiteContext* context, const char* buffer,
+                        size_t length) {
   TFLITE_DCHECK(context->AllocatePersistentBuffer != nullptr);
   return context->AllocatePersistentBuffer(context, sizeof(OpData));
 }
 
-TfLiteStatus Prepare(TfLiteContext* context, TfLiteNode* node) {
+TfLiteStatus ConcatenationPrepare(TfLiteContext* context, TfLiteNode* node) {
   // This function only checks the types. Additional shape validations are
   // performed in the reference implementation called during Eval().
   const TfLiteConcatenationParams* params =
@@ -216,7 +215,7 @@ TfLiteStatus Prepare(TfLiteContext* context, TfLiteNode* node) {
   return kTfLiteOk;
 }
 
-TfLiteStatus Eval(TfLiteContext* context, TfLiteNode* node) {
+TfLiteStatus ConcatenationEval(TfLiteContext* context, TfLiteNode* node) {
   const TfLiteEvalTensor* output_tensor =
       tflite::micro::GetEvalOutput(context, node, kOutputTensor);
   TF_LITE_ENSURE(context, output_tensor != nullptr);
@@ -251,13 +250,11 @@ TfLiteStatus Eval(TfLiteContext* context, TfLiteNode* node) {
   return kTfLiteOk;
 }
 
-}  // namespace concatenation
+}  // namespace
 
-TfLiteRegistration Register_CONCATENATION() {
-  return tflite::micro::RegisterOp(concatenation::Init, concatenation::Prepare,
-                                   concatenation::Eval);
+TFLMRegistration Register_CONCATENATION() {
+  return tflite::micro::RegisterOp(ConcatenationInit, ConcatenationPrepare,
+                                   ConcatenationEval);
 }
 
-}  // namespace micro
-}  // namespace ops
 }  // namespace tflite

@@ -4,20 +4,20 @@
 **********************************************************************************************************************/
 
 1. Project Overview:
-    This Example Project demonstrates the basic functionalities of the MIPI DSI device driver on Renesas RA MCUs based on Renesas FSP. 
+    	This Example Project demonstrates the basic functionalities of the MIPI DSI device driver on Renesas RA MCUs based on Renesas FSP. 
 	On successful initialization of the MIPI DSI module, the EP will display 8-color bars on the MIPI LCD(external LCD connected to RA MCU) 
 	using the graphics and MPI-DSI modules in FSP. A user menu will be provided over the RTT Viewer. User can choose the time to enter 
-	Ultra-Low-Power State(ULPS) and touch the screen to exit this mode. Status information and error messages will be printed on Jlink RTT Viewer
-	during the execution of the project.
+	Ultra-Low-Power State(ULPS) and touch the screen or wait 30s to exit this mode. Status information and error messages will be printed 
+	on Jlink RTT Viewer during the execution of the project.
 
 2. Hardware Requirements:
-    Renesas RA boards: EK-RA8D1.
+    	Renesas RA boards: EK-RA8D1.
 	MIPI Graphics Expansion Board (included in the kit ) 
-    1 x Micro USB cable.
+    	1 x Micro USB cable.
 	
 
 3. Hardware Connections:
-    Connect the USB Debug port on EK-RA8D1 to the PC using a micro USB cable.
+    	Connect the USB Debug port on EK-RA8D1 to the PC using a micro USB cable.
 	Connect the MIPI Graphics Expansion Board to J58 of EK-RA8D1
 	Set the configuration switches (SW1) on the EK-RA8D1 board as below:
 	

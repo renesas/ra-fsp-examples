@@ -1,4 +1,4 @@
-/* Copyright 2018 The TensorFlow Authors. All Rights Reserved.
+/* Copyright 2022 The TensorFlow Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -26,9 +26,7 @@ limitations under the License.
 #include "tensorflow/lite/micro/micro_log.h"
 
 namespace tflite {
-namespace ops {
-namespace micro {
-namespace maximum_minimum {
+
 namespace {
 
 // This file has a reference implementation of TFMaximum/TFMinimum.
@@ -65,8 +63,6 @@ struct MinimumOp {
   }
 };
 
-}  // namespace
-
 template <typename data_type, typename op_type>
 void TFLiteOperation(TfLiteContext* context, TfLiteNode* node,
                      const OpContext& op_context) {
@@ -92,6 +88,9 @@ TfLiteStatus Eval(TfLiteContext* context, TfLiteNode* node) {
       case kTfLiteInt8:
         TFLiteOperation<int8_t, OpType>(context, node, op_context);
         break;
+      case kTfLiteInt16:
+        TFLiteOperation<int16_t, OpType>(context, node, op_context);
+        break;
       case kTfLiteInt32:
         TFLiteOperation<int32_t, OpType>(context, node, op_context);
         break;
@@ -111,22 +110,16 @@ TfLiteStatus Eval(TfLiteContext* context, TfLiteNode* node) {
   return kTfLiteOk;
 }
 
-}  // namespace maximum_minimum
+}  // namespace
 
-TfLiteRegistration Register_MAXIMUM() {
-  return tflite::micro::RegisterOp(
-      nullptr, nullptr,
-      maximum_minimum::Eval<maximum_minimum::kReference,
-                            maximum_minimum::MaximumOp>);
+TFLMRegistration Register_MAXIMUM() {
+  return tflite::micro::RegisterOp(nullptr, nullptr,
+                                   Eval<kReference, MaximumOp>);
 }
 
-TfLiteRegistration Register_MINIMUM() {
-  return tflite::micro::RegisterOp(
-      nullptr, nullptr,
-      maximum_minimum::Eval<maximum_minimum::kReference,
-                            maximum_minimum::MinimumOp>);
+TFLMRegistration Register_MINIMUM() {
+  return tflite::micro::RegisterOp(nullptr, nullptr,
+                                   Eval<kReference, MinimumOp>);
 }
 
-}  // namespace micro
-}  // namespace ops
 }  // namespace tflite

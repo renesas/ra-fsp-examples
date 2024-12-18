@@ -1,5 +1,5 @@
 FSP Configuration
-  Board "EK-RA6M5"
+  Board "RA6|RA6M5|EK-RA6M5"
   R7FA6M5BH3CFC
     part_number: R7FA6M5BH3CFC
     rom_size_bytes: 2097152
@@ -12,6 +12,7 @@ FSP Configuration
     series: 6
     
   RA6M5 Family
+    Enable inline BSP IRQ functions: Enabled
     Security: Exceptions: Exception Response: Non-Maskable Interrupt
     Security: Exceptions: BusFault, HardFault, and NMI Target: Secure State
     Security: System Reset Request Accessibility: Secure State
@@ -27,7 +28,7 @@ FSP Configuration
     Security: Flash Bank Select Accessibility: Both Secure and Non-Secure State
     Security: Uninitialized Non-Secure Application Fallback: Enable Uninitialized Non-Secure Application Fallback
     Startup C-Cache Line Size: 32 Bytes
-    OFS0 register settings: Independent WDT: Start Mode: IWDT is Disabled
+    OFS0 register settings: Independent WDT: Start Mode: IWDT is stopped after a reset
     OFS0 register settings: Independent WDT: Timeout Period: 2048 cycles
     OFS0 register settings: Independent WDT: Dedicated Clock Frequency Divisor: 128
     OFS0 register settings: Independent WDT: Window End Position:  0% (no window end position)
@@ -56,6 +57,7 @@ FSP Configuration
     Clocks: HOCO FLL Function: Disabled
     Main Oscillator Wait Time: 8163 cycles
     
+  RA6M5 event data
   RA Common
     Main stack size (bytes): 0x1000
     Heap size (bytes): 0x2000
@@ -474,7 +476,6 @@ FSP Configuration
     
   Module "FreeRTOS Heap 4"
   Module "FreeRTOS Port (rm_freertos_port)"
-  Module "SCE Compatibility Mode"
   Module "AWS Core HTTP"
     Custom core_http_config.h: 
     HTTP Receive Retry Timeout (ms): 1
@@ -497,8 +498,6 @@ FSP Configuration
     PKCS11 Malloc: pvPortMalloc
     PKCS11 Free: vPortFree
     PAL Destroy Supported: Disabled
-    Log Name: PKCS11
-    Log Level: LOG_NONE
     OTA Supported: Disabled
     JITP Code Verify Root Cert Supported: Disabled
     HMAC Key: HMAC Key
@@ -508,6 +507,7 @@ FSP Configuration
   Module "LittleFS"
     Custom lfs_util.h: 
     Thread Safe: Disabled
+    Read Only: Disabled
     Use Malloc: Enabled
     Use Assert: Enabled
     Debug Messages: Disabled
@@ -623,13 +623,19 @@ FSP Configuration
     Hardware Acceleration: Key Format: ECC: Plaintext and Wrapped (Vendor)
     Hardware Acceleration: Key Format: RSA: Plaintext and Wrapped (Vendor)
     Hardware Acceleration: Hash: SHA256/224: Use Hardware
+    Hardware Acceleration: Hash: SHA512/384: Use Software
     Hardware Acceleration: Cipher: AES: Use Hardware
     Hardware Acceleration: Public Key Cryptography (PKC): ECC: Use Hardware
     Hardware Acceleration: Public Key Cryptography (PKC): ECDSA : Use Hardware
     Hardware Acceleration: Public Key Cryptography (PKC): ECDH : Use Hardware
-    Hardware Acceleration: Public Key Cryptography (PKC): RSA: Use Hardware
-    Hardware Acceleration: Public Key Cryptography (PKC): RSA 3072 Verify: Disabled
-    Hardware Acceleration: Public Key Cryptography (PKC): RSA 4096 Verify: Disabled
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA 1024: Use Software
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA 2048: Use Hardware
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA 3072: Key Generation: Disabled
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA 3072: Signing: Disabled
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA 3072: Verification: Disabled
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA 4096: Key Generation: Disabled
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA 4096: Signing: Disabled
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA 4096: Verification: Disabled
     Hardware Acceleration: Crypto Engine Initialization: Enabled
     Platform: MBEDTLS_HAVE_ASM: Undefine
     Platform: MBEDTLS_NO_UDBL_DIVISION: Undefine
@@ -647,6 +653,7 @@ FSP Configuration
     Platform: Alternate: MBEDTLS_PLATFORM_SNPRINTF_ALT: Undefine
     Platform: Alternate: MBEDTLS_PLATFORM_VSNPRINTF_ALT: Undefine
     Platform: Alternate: MBEDTLS_PLATFORM_NV_SEED_ALT: Undefine
+    Platform: Alternate: MBEDTLS_PLATFORM_MS_TIME_ALT: Undefine
     General: MBEDTLS_PSA_CRYPTO_DRIVERS: Undefine
     General: MBEDTLS_DEPRECATED_WARNING: Undefine
     General: MBEDTLS_DEPRECATED_REMOVED: Define
@@ -666,11 +673,9 @@ FSP Configuration
     Message Authentication Code (MAC): Alternate: MBEDTLS_POLY1305_ALT: Undefine
     Hash: Alternate: MBEDTLS_RIPEMD160_ALT: Undefine
     Hash: Alternate: MBEDTLS_SHA1_ALT: Undefine
-    Hash: Alternate: MBEDTLS_SHA512_ALT: Undefine
     Hash: Alternate: MBEDTLS_MD5_PROCESS_ALT: Undefine
     Hash: Alternate: MBEDTLS_RIPEMD160_PROCESS_ALT: Undefine
     Hash: Alternate: MBEDTLS_SHA1_PROCESS_ALT: Undefine
-    Hash: Alternate: MBEDTLS_SHA512_PROCESS_ALT: Undefine
     Cipher: Alternate: MBEDTLS_DES_SETKEY_ALT: Undefine
     Cipher: Alternate: MBEDTLS_DES_CRYPT_ECB_ALT: Undefine
     Cipher: Alternate: MBEDTLS_DES3_CRYPT_ECB_ALT: Undefine
@@ -689,6 +694,7 @@ FSP Configuration
     Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_NORMALIZE_MXZ_ALT: Undefine
     Cipher: AES: MBEDTLS_AES_ROM_TABLES: Undefine
     Cipher: AES: MBEDTLS_AES_FEWER_TABLES: Undefine
+    Cipher: AES: MBEDTLS_AES_ONLY_128_BIT_KEY_LENGTH: Undefine
     Cipher: MBEDTLS_CAMELLIA_SMALL_MEMORY: Undefine
     General: MBEDTLS_CHECK_RETURN_WARNING: Undefine
     Cipher: MBEDTLS_CIPHER_MODE_CBC: Define
@@ -717,6 +723,7 @@ FSP Configuration
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_NIST_OPTIM: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_RESTARTABLE: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECDSA_DETERMINISTIC: Undefine
+    Public Key Cryptography (PKC): ECC: MBEDTLS_PK_PARSE_EC_COMPRESSED: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_PK_PARSE_EC_EXTENDED: Undefine
     General: MBEDTLS_ERROR_STRERROR_DUMMY: Define
     Public Key Cryptography (PKC): MBEDTLS_GENPRIME: Define
@@ -736,7 +743,9 @@ FSP Configuration
     General: MBEDTLS_PSA_CRYPTO_CLIENT: Undefine
     RNG: MBEDTLS_PSA_CRYPTO_EXTERNAL_RNG: Undefine
     General: MBEDTLS_PSA_CRYPTO_SPM: Undefine
+    General: MBEDTLS_PSA_KEY_STORE_DYNAMIC: Undefine
     RNG: MBEDTLS_PSA_INJECT_ENTROPY: Undefine
+    General: MBEDTLS_PSA_ASSUME_EXCLUSIVE_BUFFERS: Undefine
     Public Key Cryptography (PKC): RSA: MBEDTLS_RSA_NO_CRT: Define
     General: MBEDTLS_SELF_TEST: Undefine
     Hash: MBEDTLS_SHA256_SMALLER: Undefine
@@ -749,6 +758,7 @@ FSP Configuration
     Public Key Cryptography (PKC): MBEDTLS_ASN1_PARSE_C: Define
     Public Key Cryptography (PKC): MBEDTLS_ASN1_WRITE_C: Define
     Public Key Cryptography (PKC): MBEDTLS_BASE64_C: Define
+    Cipher: MBEDTLS_BLOCK_CIPHER_NO_DECRYPT: Undefine
     Public Key Cryptography (PKC): MBEDTLS_BIGNUM_C: Define
     Cipher: MBEDTLS_CAMELLIA_C: Undefine
     Cipher: MBEDTLS_ARIA_C: Undefine
@@ -768,6 +778,7 @@ FSP Configuration
     Platform: MBEDTLS_ENTROPY_C: Define
     General: MBEDTLS_ERROR_C: Define
     Cipher: MBEDTLS_GCM_C: Define
+    Cipher: MBEDTLS_GCM_LARGE_TABLE: Undefine
     Message Authentication Code (MAC): MBEDTLS_HKDF_C: Define
     Message Authentication Code (MAC): MBEDTLS_HMAC_DRBG_C: Undefine
     Public Key Cryptography (PKC): MBEDTLS_LMS_C: Define
@@ -793,7 +804,10 @@ FSP Configuration
     Storage: MBEDTLS_PSA_ITS_FILE_C: Undefine
     Hash: MBEDTLS_RIPEMD160_C: Undefine
     Public Key Cryptography (PKC): RSA: MBEDTLS_RSA_C: Define
+    Public Key Cryptography (PKC): RSA: MBEDTLS_RSA_GEN_KEY_MIN_BITS: Undefine
+    Public Key Cryptography (PKC): RSA: MBEDTLS_RSA_GEN_KEY_MIN_BITS value: 1024
     Hash: MBEDTLS_SHA1_C: Define
+    Hash: MBEDTLS_SHA3_C: Undefine
     Hash: MBEDTLS_SHA224_C: Define
     Hash: MBEDTLS_SHA256_C: Define
     Hash: MBEDTLS_SHA384_C: Undefine
@@ -874,6 +888,10 @@ FSP Configuration
     Platform: MBEDTLS_PLATFORM_TIME_MACRO value: time
     Platform: MBEDTLS_PLATFORM_TIME_TYPE_MACRO: Undefine
     Platform: MBEDTLS_PLATFORM_TIME_TYPE_MACRO value: time_t
+    Platform: MBEDTLS_PLATFORM_MS_TIME_TYPE_MACRO: Undefine
+    Platform: MBEDTLS_PLATFORM_MS_TIME_TYPE_MACRO value: int64_t
+    Platform: MBEDTLS_PRINTF_MS_TIME: Undefine
+    Platform: MBEDTLS_PRINTF_MS_TIME value: PRId64
     Platform: MBEDTLS_PLATFORM_FPRINTF_MACRO: Undefine
     Platform: MBEDTLS_PLATFORM_FPRINTF_MACRO value: fprintf
     Platform: MBEDTLS_PLATFORM_PRINTF_MACRO: Undefine
@@ -894,15 +912,14 @@ FSP Configuration
     Key Configuration: MBEDTLS_PSA_KEY_SLOT_COUNT value: 32
     Platform: Alternate: MBEDTLS_PLATFORM_GMTIME_R_ALT: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECDH_VARIANT_EVEREST_ENABLED: Undefine
+    General: MBEDTLS_PSA_CRYPTO_CONFIG: Undefine
     
   Module "Mbed Crypto H/W Acceleration (rm_psa_crypto)"
   Module "MbedTLS FSP Port (rm_mbedtls)"
   Module "AWS Logging"
   Module "AWS Demo dev_mode_key_provisioning"
-    Header file to #include in ra_cfg/aws/aws_clientcredential_keys.h: 
-    
   Module "AWS Silex WiFi Sockets Wrapper (rm_aws_sockets_wrapper_silex)"
-  Module "WiFi Onchip Silex Driver using r_sci_uart (rm_wifi_onchip_silex)"
+  Module "WiFi Onchip Silex Driver using UART (rm_wifi_onchip_silex)"
     Parameter Checking: Default (BSP)
     Number of supported socket instances: 1
     Size of RX buffer for socket: 4096
@@ -920,12 +937,14 @@ FSP Configuration
     DTC Support: Enable
     Flow Control Support: Disable
     RS-485 Support: Disable
+    IrDA Support: Disabled
     
   Module "Transfer (r_dtc)"
     Parameter Checking: Default (BSP)
     Linker section to keep DTC vector table: .fsp_dtc_vector_table
     
   Module "AWS FreeRTOS+TCP MbedTLS Bio"
+  Module "SCE Compatibility Mode"
   FreeRTOS
     General: Custom FreeRTOSConfig.h: 
     General: Use Preemption: Enabled
@@ -945,6 +964,7 @@ FSP Configuration
     General: Use 16-bit Ticks: Disabled
     General: Idle Should Yield: Enabled
     General: Use Task Notifications: Enabled
+    General: Task Notification Array Entries: 1
     General: Use Mutexes: Enabled
     General: Use Recursive Mutexes: Disabled
     General: Use Counting Semaphores: Enabled
@@ -990,6 +1010,8 @@ FSP Configuration
     RA: Hardware Stack Monitor: Disabled
     Logging: Print String Function: printf(x)
     Logging: Logging Include Time and Task Name: Disabled
+    Logging: Debug Logging Name: Log Name
+    Logging: Logging Level: LOG_NONE
     
   HAL
     Instance "g_ioport I/O Port (r_ioport)"
@@ -1014,7 +1036,7 @@ FSP Configuration
     Instance "AWS Core HTTP"
       Instance "AWS Transport Interface on MbedTLS/PKCS11 (rm_aws_transport_interface_port)"
         Instance "AWS Silex WiFi Sockets Wrapper (rm_aws_sockets_wrapper_silex)"
-          Instance "WiFi Onchip Silex Driver using r_sci_uart (rm_wifi_onchip_silex)"
+          Instance "WiFi Onchip Silex Driver using UART (rm_wifi_onchip_silex)"
             SNTP server IPv4 address: 0.0.0.0
             SNTP Timezone Offset from UTC Hours: 0
             SNTP Timezone Offset from UTC Minutes: 0
@@ -1037,6 +1059,9 @@ FSP Configuration
               Extra: Start bit detection: Falling Edge
               Extra: Noise Filter: Disable
               Extra: Receive FIFO Trigger Level: Max
+              Extra: IrDA: Enable: Disabled
+              Extra: IrDA: RXD Polarity Switching: Normal
+              Extra: IrDA: TXD Polarity Switching: Normal
               Extra: RS-485: DE Pin: Disable
               Extra: RS-485: DE Pin Polarity: Active High
               Extra: RS-485: DE Port Number: Disabled
@@ -1060,7 +1085,7 @@ FSP Configuration
                 Number of Transfer Descriptors: 1
                 Activation Source: SCI9 TXI (Transmit data empty)
                 
-              Instance "g_transfer1 Transfer (r_dtc) SCI9 RXI (Received data full)"
+              Instance "g_transfer1 Transfer (r_dtc) SCI9 RXI (Receive data full)"
                 Name: g_transfer1
                 Mode: Normal
                 Transfer Size: 1 Byte
@@ -1071,7 +1096,7 @@ FSP Configuration
                 Number of Transfers: 0
                 Number of Blocks (Valid only in Block Mode): 0
                 Number of Transfer Descriptors: 1
-                Activation Source: SCI9 RXI (Received data full)
+                Activation Source: SCI9 RXI (Receive data full)
                 
           Instance "AWS FreeRTOS+TCP MbedTLS Bio"
         Instance "AWS PKCS11 to MbedTLS"
@@ -1099,6 +1124,7 @@ FSP Configuration
             Instance "MbedTLS"
               Instance "MbedTLS (Crypto Only)"
                 Instance "Mbed Crypto H/W Acceleration (rm_psa_crypto)"
+                  Instance "SCE Compatibility Mode"
               Instance "MbedTLS FSP Port (rm_mbedtls)"
         Instance "AWS Logging"
         Instance "AWS Demo dev_mode_key_provisioning"

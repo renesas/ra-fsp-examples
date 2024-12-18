@@ -1,4 +1,4 @@
-/* Copyright 2020 The TensorFlow Authors. All Rights Reserved.
+/* Copyright 2023 The TensorFlow Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -28,10 +28,9 @@ limitations under the License.
 #include "tensorflow/lite/micro/micro_utils.h"
 
 namespace tflite {
-namespace ops {
-namespace micro {
-namespace activations {
+
 namespace {
+
 constexpr int kInputTensor = 0;
 constexpr int kOutputTensor = 0;
 
@@ -119,7 +118,7 @@ TfLiteStatus CalculateArithmeticOpData(TfLiteContext* context, TfLiteNode* node,
 
       data->input_multiplier = static_cast<int32_t>(multiplier);
     }
-
+    TFLITE_DCHECK_LE(data->input_multiplier, 32767);
     int output_scale_log2_rounded;
     TF_LITE_ENSURE(
         context, CheckedLog2(output->params.scale, &output_scale_log2_rounded));
@@ -147,8 +146,6 @@ TfLiteStatus TanhPrepare(TfLiteContext* context, TfLiteNode* node) {
   micro_context->DeallocateTempTfLiteTensor(input);
   return kTfLiteOk;
 }
-
-}  // namespace
 
 TfLiteStatus TanhEval(TfLiteContext* context, TfLiteNode* node) {
   const TfLiteEvalTensor* input =
@@ -193,12 +190,10 @@ TfLiteStatus TanhEval(TfLiteContext* context, TfLiteNode* node) {
   }
 }
 
-}  // namespace activations
+}  // namespace
 
-TfLiteRegistration Register_TANH() {
-  return tflite::micro::RegisterOp(
-      activations::TanhInit, activations::TanhPrepare, activations::TanhEval);
+TFLMRegistration Register_TANH() {
+  return tflite::micro::RegisterOp(TanhInit, TanhPrepare, TanhEval);
 }
-}  // namespace micro
-}  // namespace ops
+
 }  // namespace tflite

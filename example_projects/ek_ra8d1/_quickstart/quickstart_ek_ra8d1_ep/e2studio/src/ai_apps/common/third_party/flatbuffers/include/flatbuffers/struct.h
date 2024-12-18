@@ -17,41 +17,37 @@
 #ifndef FLATBUFFERS_STRUCT_H_
 #define FLATBUFFERS_STRUCT_H_
 
-#include <ai_apps/common/third_party/flatbuffers/include/flatbuffers/base.h>
+#include "flatbuffers/base.h"
 
 namespace flatbuffers {
+
 // "structs" are flat structures that do not have an offset table, thus
 // always have all members present and do not support forwards/backwards
 // compatible extensions.
 
-    class Struct FLATBUFFERS_FINAL_CLASS {
-public:
-        template < typename T > T GetField (uoffset_t o) const {
-            return ReadScalar < T > (&data_[o]);
-        }
+class Struct FLATBUFFERS_FINAL_CLASS {
+ public:
+  template<typename T> T GetField(uoffset_t o) const {
+    return ReadScalar<T>(&data_[o]);
+  }
 
-        template < typename T > T GetStruct (uoffset_t o) const {
-            return reinterpret_cast < T > (&data_[o]);
-        }
+  template<typename T> T GetStruct(uoffset_t o) const {
+    return reinterpret_cast<T>(&data_[o]);
+  }
 
-        const uint8_t * GetAddressOf (uoffset_t o) const {
-            return &data_[o];
-        }
+  const uint8_t *GetAddressOf(uoffset_t o) const { return &data_[o]; }
+  uint8_t *GetAddressOf(uoffset_t o) { return &data_[o]; }
 
-        uint8_t * GetAddressOf (uoffset_t o) {
-            return &data_[o];
-        }
+ private:
+  // private constructor & copy constructor: you obtain instances of this
+  // class by pointing to existing data only
+  Struct();
+  Struct(const Struct &);
+  Struct &operator=(const Struct &);
 
-private:
+  uint8_t data_[1];
+};
 
-        // private constructor & copy constructor: you obtain instances of this
-        // class by pointing to existing data only
-        Struct();
-        Struct(const Struct &);
-        Struct &operator = (const Struct &);
-
-        uint8_t data_[1];
-    };
-}                                      // namespace flatbuffers
+}  // namespace flatbuffers
 
 #endif  // FLATBUFFERS_STRUCT_H_

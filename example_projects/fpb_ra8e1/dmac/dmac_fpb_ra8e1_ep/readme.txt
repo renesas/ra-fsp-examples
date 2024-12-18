@@ -23,7 +23,7 @@ frequency decreases/pauses. Please reset the board in that case, and it will run
    RTT Block address for hex file committed in repository are as follows:
    a. e2studio: 0x22060160
    b. Keil:	0x22060128
-   c. IAR: 	0x22060384
+   c. IAR: 0x22060384
 
 5) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) 
    in .map file generated in the build configuration folder (Debug/Release).

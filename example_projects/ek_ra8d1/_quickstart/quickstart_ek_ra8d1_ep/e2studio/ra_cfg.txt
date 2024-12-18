@@ -1504,7 +1504,8 @@ FSP Configuration
     Hardware Acceleration: Public Key Cryptography (PKC): ECC: Use Hardware
     Hardware Acceleration: Public Key Cryptography (PKC): ECDSA : Use Hardware
     Hardware Acceleration: Public Key Cryptography (PKC): ECDH : Use Hardware
-    Hardware Acceleration: Public Key Cryptography (PKC): RSA: Use Hardware
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA 1024: Use Software
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA 2048: Use Hardware
     Hardware Acceleration: Public Key Cryptography (PKC): RSA 3072: Key Generation: Disabled
     Hardware Acceleration: Public Key Cryptography (PKC): RSA 3072: Signing: Disabled
     Hardware Acceleration: Public Key Cryptography (PKC): RSA 3072: Verification: Enabled
@@ -1618,6 +1619,7 @@ FSP Configuration
     General: MBEDTLS_PSA_CRYPTO_CLIENT: Undefine
     RNG: MBEDTLS_PSA_CRYPTO_EXTERNAL_RNG: Undefine
     General: MBEDTLS_PSA_CRYPTO_SPM: Undefine
+    General: MBEDTLS_PSA_KEY_STORE_DYNAMIC: Undefine
     RNG: MBEDTLS_PSA_INJECT_ENTROPY: Undefine
     General: MBEDTLS_PSA_ASSUME_EXCLUSIVE_BUFFERS: Undefine
     Public Key Cryptography (PKC): RSA: MBEDTLS_RSA_NO_CRT: Define
@@ -2135,7 +2137,6 @@ FSP Configuration
       Output: Byte Swapping: Swap 32-bit units
       Output: Burst Transfer Mode: Transfer in 256-byte units
       Interrupts: Callback: g_ceu_user_callback
-      Interrupts: Callback Context: NULL
       Interrupts: CEU Interrupt Priority: Priority 3
       Interrupts: Selectable CEU Events: One-Frame Capture End Event: Enabled
       Interrupts: Selectable CEU Events: Horizontal Sync Event: Disabled

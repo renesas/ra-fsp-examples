@@ -1,7 +1,7 @@
 # Introduction #
 
 The example project showcases how the TML driver operates on Renesas RA MCUs. The demonstration includes showcasing the TML timer with counter operation, capture operation in normal mode, and counter operation in low power mode.
-In TML counter operation (normal mode), three TML instances (which are configured as 8-bit, 16-bit, and 32-bit counter modes) operate for the inputted duration by the user. In TML 16-bit capture operation, user can trigger an ELC software event to get the raw counts value of 16-bit timer. In TML counter operation (low power modes), the 32-bit timer is configured as counter mode with period 10 seconds. Once the 32-bit timer has expired, the RA board is woken up from LPM to normal mode. The EP information and error messages will be printed to the Host PC.
+In TML counter operation (normal mode), three TML instances (which are configured as 8-bit, 16-bit, and 32-bit counter modes) operate for the input duration by the user. In TML 16-bit capture operation, user can trigger an ELC software event to get the raw counts value of 16-bit timer. In TML counter operation (low power modes), the 32-bit timer is configured as counter mode with input period time. Once the 32-bit timer has expired, the RA board is woken up from LPM to normal mode. The EP information and error messages will be printed to the Host PC.
 
 **NOTE:** To display information, users can select between the SEGGER J-Link RTT Viewer and the Serial Terminal (UART) with J-Link OB VCOM. By default, the Example Project information is printed to the host PC via the Serial Terminal. To utilize SEGGER RTT instead of the Serial Terminal, please follow the instructions in "Verifying Operation" section.
 
@@ -25,9 +25,9 @@ Supported RA Boards: FPB-RA0E1
     * Populate R10 with a resistor ranging from 0 to 150 ohms.
 
 ### Software ###
-* Renesas Flexible Software Package (FSP): Version 5.6.0
+* Renesas Flexible Software Package (FSP): Version 5.7.0
 * e2 studio: Version 2024-10
-* SEGGER J-Link RTT Viewer: Version 7.98g
+* SEGGER J-Link RTT Viewer: Version 8.10f
 * GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 * Terminal Console Application: Tera Term or a similar application
 
@@ -111,8 +111,7 @@ List all the various modules that are used in this example project. Refer to the
 |   Module Property Path and Identifier   |   Default Value   |   Used Value   |   Reason   |
 |-----------------------------------------|-------------------|----------------|------------|
 | configuration.xml > g_timer_32bit 32-bit Interval Timer (r_tml) > Settings > Property > Module g_timer_32bit_counter_lpm 32-bit Interval Timer (r_tml) > General > Mode | 8-bit Counter Mode | 32-bit Counter Mode | Select TML 32-bit Counter mode. |
-| configuration.xml > g_timer_32bit 32-bit Interval Timer (r_tml) > Settings > Property > Module g_timer_32bit_counter_lpm 32-bit Interval Timer (r_tml) > Counter Mode Settings > Period | 0x10000 | 10 | Select specific the timer period is 10. |
-| configuration.xml > g_timer_32bit 32-bit Interval Timer (r_tml) > Settings > Property > Module g_timer_32bit_counter_lpm 32-bit Interval Timer (r_tml) > Counter Mode Settings > Period Unit | Raw Counts | Seconds | Select Unit of period is Seconds. |
+| configuration.xml > g_timer_32bit 32-bit Interval Timer (r_tml) > Settings > Property > Module g_timer_32bit_counter_lpm 32-bit Interval Timer (r_tml) > Counter Mode Settings > Period | 0x10000 | 0x10000 | The timer period will be set according to user input. |
 
 **Configuration Properties for Sleep mode LPM instance**
 |   Module Property Path and Identifier   |   Default Value   |   Used Value   |   Reason   |
@@ -146,6 +145,8 @@ The table below lists the FSP provided API used at the application layer in this
 | R_TML_Start | This API is used to start the TML timer. |
 | R_TML_Stop | This API is used to stop the TML timer. |
 | R_TML_StatusGet | This API is used to get timer status. |
+| R_TML_InfoGet | This API is used to get timer frequency. |
+| R_TML_PeriodSet | This API is used to set period count for timer. |
 | R_ELC_Open | This API is used to initialize all the links in the Event Link Controller. |
 | R_ELC_Enable | This API is used to enable the operation of the Event Link Controller. |
 | R_ELC_Close |	This API is used to disable ELC linking. |

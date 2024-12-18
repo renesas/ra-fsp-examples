@@ -15,10 +15,10 @@ limitations under the License.
 #ifndef TENSORFLOW_LITE_KERNELS_INTERNAL_REFERENCE_INTEGER_OPS_POOLING_H_
 #define TENSORFLOW_LITE_KERNELS_INTERNAL_REFERENCE_INTEGER_OPS_POOLING_H_
 
-#include <ai_apps/common/tensorflow/lite/kernels/internal/common.h>
 #include <algorithm>
 #include <limits>
 
+#include "tensorflow/lite/kernels/internal/common.h"
 
 namespace tflite {
 namespace reference_integer_ops {

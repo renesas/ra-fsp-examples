@@ -11,9 +11,9 @@
 	by an external interrupt.
 
 2. Software Requirements:
-	Renesas Flexible Software Package (FSP): Version 5.6.0
+	Renesas Flexible Software Package (FSP): Version 5.7.0
 	e2 studio: Version 2024-10
-	SEGGER J-Link RTT Viewer: Version 7.98g
+	SEGGER J-Link RTT Viewer: Version 8.10f
 	GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 
 3. Hardware Requirements:
@@ -53,7 +53,7 @@ For the functioning of the SAU I2C Master:
 For Segger RTT block address:
 1) The Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex files committed in repository are as follows:
-   a. e2studio: 0x2000470c
+   a. e2studio: 0x200046d4
    b. Keil: Not Available
    c. IAR: Not Available
  

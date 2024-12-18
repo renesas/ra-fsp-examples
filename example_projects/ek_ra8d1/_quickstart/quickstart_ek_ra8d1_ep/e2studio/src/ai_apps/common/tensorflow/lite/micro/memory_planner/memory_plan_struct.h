@@ -16,10 +16,10 @@ limitations under the License.
 #ifndef TENSORFLOW_LITE_MICRO_MEMORY_PLANNER_MEMORY_PLAN_STRUCT_H_
 #define TENSORFLOW_LITE_MICRO_MEMORY_PLANNER_MEMORY_PLAN_STRUCT_H_
 
-#include <ai_apps/common/tensorflow/lite/micro/micro_utils.h>
 #include <stddef.h>
 #include <stdint.h>
 
+#include "tensorflow/lite/micro/micro_utils.h"
 
 namespace tflite {
 

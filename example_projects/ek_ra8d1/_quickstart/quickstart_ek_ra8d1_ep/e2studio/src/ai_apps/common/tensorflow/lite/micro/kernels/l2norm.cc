@@ -1,4 +1,4 @@
-/* Copyright 2017 The TensorFlow Authors. All Rights Reserved.
+/* Copyright 2023 The TensorFlow Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -14,7 +14,6 @@ limitations under the License.
 ==============================================================================*/
 
 #include "tensorflow/lite/c/common.h"
-#include "tensorflow/lite/kernels/internal/portable_tensor.h"
 #include "tensorflow/lite/kernels/internal/reference/integer_ops/l2normalization.h"
 #include "tensorflow/lite/kernels/internal/reference/l2normalization.h"
 #include "tensorflow/lite/kernels/kernel_util.h"
@@ -22,9 +21,6 @@ limitations under the License.
 #include "tensorflow/lite/micro/micro_log.h"
 
 namespace tflite {
-namespace ops {
-namespace micro {
-namespace l2norm {
 
 namespace {
 
@@ -37,9 +33,7 @@ enum KernelType {
 constexpr int kInputTensor = 0;
 constexpr int kOutputTensor = 0;
 
-}  // namespace
-
-TfLiteStatus Prepare(TfLiteContext* context, TfLiteNode* node) {
+TfLiteStatus L2NormPrepare(TfLiteContext* context, TfLiteNode* node) {
   TFLITE_DCHECK(node->user_data != nullptr);
   TFLITE_DCHECK(node->builtin_data != nullptr);
 
@@ -78,13 +72,13 @@ TfLiteStatus Prepare(TfLiteContext* context, TfLiteNode* node) {
   return kTfLiteOk;
 }
 
-void* Init(TfLiteContext* context, const char* buffer, size_t length) {
+void* L2NormInit(TfLiteContext* context, const char* buffer, size_t length) {
   TFLITE_DCHECK(context->AllocatePersistentBuffer != nullptr);
   return context->AllocatePersistentBuffer(context,
                                            sizeof(L2NormalizationParams));
 }
 
-TfLiteStatus Eval(TfLiteContext* context, TfLiteNode* node) {
+TfLiteStatus L2NormEval(TfLiteContext* context, TfLiteNode* node) {
   TFLITE_DCHECK(node->user_data != nullptr);
   const L2NormalizationParams& data =
       *(static_cast<const L2NormalizationParams*>(node->user_data));
@@ -135,14 +129,12 @@ TfLiteStatus Eval(TfLiteContext* context, TfLiteNode* node) {
   return kTfLiteOk;
 }
 
-}  // namespace l2norm
+}  // namespace
 
-TfLiteRegistration Register_L2NORM_REF() {
-  return tflite::micro::RegisterOp(l2norm::Init, l2norm::Prepare, l2norm::Eval);
+TFLMRegistration Register_L2NORM_REF() {
+  return tflite::micro::RegisterOp(L2NormInit, L2NormPrepare, L2NormEval);
 }
 
-TfLiteRegistration Register_L2_NORMALIZATION() { return Register_L2NORM_REF(); }
+TFLMRegistration Register_L2_NORMALIZATION() { return Register_L2NORM_REF(); }
 
-}  // namespace micro
-}  // namespace ops
 }  // namespace tflite

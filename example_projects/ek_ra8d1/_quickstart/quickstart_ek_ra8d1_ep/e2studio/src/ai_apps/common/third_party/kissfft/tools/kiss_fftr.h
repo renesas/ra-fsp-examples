@@ -1,46 +1,46 @@
 #ifndef KISS_FTR_H
- #define KISS_FTR_H
+#define KISS_FTR_H
 
- #include <ai_apps/common/third_party/kissfft/kiss_fft.h>
- #ifdef __cplusplus
+#include "kiss_fft.h"
+#ifdef __cplusplus
 extern "C++" {
- #endif
+#endif
 
-/*
- *
- * Real optimized version can save about 45% cpu time vs. complex fft of a real seq.
- *
- *
- *
+    
+/* 
+ 
+ Real optimized version can save about 45% cpu time vs. complex fft of a real seq.
+
+ 
+ 
  */
 
-typedef struct kiss_fftr_state * kiss_fftr_cfg;
+typedef struct kiss_fftr_state *kiss_fftr_cfg;
 
-kiss_fftr_cfg kiss_fftr_alloc(int nfft, int inverse_fft, void * mem, size_t * lenmem);
 
+kiss_fftr_cfg kiss_fftr_alloc(int nfft,int inverse_fft,void * mem, size_t * lenmem);
 /*
- * nfft must be even
- *
- * If you don't care to allocate space, use mem = lenmem = NULL
- */
+ nfft must be even
 
-void kiss_fftr(kiss_fftr_cfg cfg, const kiss_fft_scalar * timedata, kiss_fft_cpx * freqdata);
+ If you don't care to allocate space, use mem = lenmem = NULL 
+*/
 
+
+void kiss_fftr(kiss_fftr_cfg cfg,const kiss_fft_scalar *timedata,kiss_fft_cpx *freqdata);
 /*
- * input timedata has nfft scalar points
- * output freqdata has nfft/2+1 complex points
- */
+ input timedata has nfft scalar points
+ output freqdata has nfft/2+1 complex points
+*/
 
-void kiss_fftri(kiss_fftr_cfg cfg, const kiss_fft_cpx * freqdata, kiss_fft_scalar * timedata);
-
+void kiss_fftri(kiss_fftr_cfg cfg,const kiss_fft_cpx *freqdata,kiss_fft_scalar *timedata);
 /*
- * input freqdata has  nfft/2+1 complex points
- * output timedata has nfft scalar points
- */
+ input freqdata has  nfft/2+1 complex points
+ output timedata has nfft scalar points
+*/
 
- #define kiss_fftr_free    free
+#define kiss_fftr_free free
 
- #ifdef __cplusplus
+#ifdef __cplusplus
 }
- #endif
+#endif
 #endif

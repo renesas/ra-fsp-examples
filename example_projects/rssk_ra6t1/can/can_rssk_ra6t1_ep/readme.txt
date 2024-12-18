@@ -40,3 +40,12 @@
        4. On ek-ra2l1, configured channel:0 and pins are CTX:P-103 and CRX:P-102
        5. User should update WAIT_TIME macro in hal_entry.c based on MCU's ICLK because ICLK value varies for each MCU series.
 	   6. Current support is only limited to static baud rate, dynamic Baud rate change is not supported.	   
+
+1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
+   RTT Block address for hex file committed in repository are as follows:
+   a. e2studio: 0x1ffe097c
+   b. Keil: Not Available
+   c. IAR: Not Available
+ 
+2) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) 
+   in .map file generated in the build configuration folder (Debug/Release).

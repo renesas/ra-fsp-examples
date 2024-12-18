@@ -14,9 +14,9 @@ for general information on example projects and [readme.txt](./readme.txt) for s
 To build and run the NetX Wifi example project, the following resources are needed.
 
 ### Software ###
-* Renesas Flexible Software Package (FSP): Version 5.6.0
+* Renesas Flexible Software Package (FSP): Version 5.7.0
 * e2 studio: Version 2024-10
-* SEGGER J-Link RTT Viewer: Version 7.98g
+* SEGGER J-Link RTT Viewer: Version 8.10f
 * LLVM Embedded Toolchain for ARM: Version 18.1.3
 * Sokit software is required for creation of TCP server over specified IP and port(detailed steps mentioned below).
 Download Link : https://softfamous.com/sokit/

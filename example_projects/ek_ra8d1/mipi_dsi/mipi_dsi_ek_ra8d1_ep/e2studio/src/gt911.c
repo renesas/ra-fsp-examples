@@ -141,7 +141,7 @@ static fsp_err_t gt911_i2c_read(uint8_t *buf, uint32_t len)
 static fsp_err_t wait_for_i2c_event (i2c_master_event_t event)
 {
     uint32_t timeout = R_FSP_SystemClockHzGet(FSP_PRIV_CLOCK_ICLK) / 10;
-    while (timeout-- && (g_i2c_master_event != event))
+    while (--timeout && (g_i2c_master_event != event))
     {
         ;
     }

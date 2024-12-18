@@ -3,7 +3,7 @@
 This Example Project demonstrates the basic functionalities of the MIPI DSI device driver on Renesas RA MCUs based on Renesas FSP. On successful initialization of the MIPI DSI module,
 the EP will display 8-color bars on the MIPI LCD(external LCD connected to RA MCU)
 using the graphics and MPI-DSI modules in FSP. A user menu will be provided over the RTT Viewer. User can 
-choose the time to enter Ultra-Low-Power State(ULPS) and touch the screen to exit this mode.
+choose the time to enter Ultra-Low-Power State(ULPS) and touch the screen or wait 30s to exit this mode.
 Status information and error messages will be printed on Jlink RTT Viewer during the execution of the project.
 
 Please refer to the [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf) 
@@ -27,9 +27,9 @@ Set the configuration switches (SW1) on the EK-RA8D1 board as below:
 |  OFF |  OFF | OFF | OFF | OFF | OFF | ON | OFF |
 
 ### Software ###
-* Renesas Flexible Software Package (FSP): Version 5.6.0
-* e2 studio: Version 2024-10
-* SEGGER J-Link RTT Viewer: Version 7.98g
+* Renesas Flexible Software Package (FSP): Version 5.7.0    
+* E2 studio: Version 2024-10
+* SEGGER J-Link RTT Viewer: Version 8.10f
 * GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 
 Refer to software requirements mentioned in [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf)
@@ -73,6 +73,13 @@ This section describes FSP Configurator properties that are important or differe
 |   configuration.xml -> g_i2c_master I2C Master (r_iic_master) > Stacks > Properties > Module g_i2c_master I2C Master (r_iic_master) > Callback | NULL | i2c_master_callback |To assign callback function for the I2C Master event|
 |   configuration.xml -> g_timer0 Timer, General PWM (r_gpt) > Stacks > Properties > Module g_timer0 Timer, General PWM (r_gpt) > Interrupts > Callback | NULL |gpt_callback|To assign callback function for the GPT event |
 |   configuration.xml ->g_timer0 Timer, General PWM (r_gpt) > Stacks > Properties > Module g_timer0 Timer, General PWM (r_gpt) > Interrupts > Overflow/Crest Interrupt Priority | Disable | Priority 1 |To assign interrupt priority for the GPT event|
+
+**SDRAM setups in BSP Configuration**
+|   Module Property Path and Identifier   |   Default Value   |   Used Value   |   Reason   |
+|-----------------------------------------|-------------------|----------------|------------|
+| configuration.xml -> BSP > Properties > Settings > Property > RA8D1 Family > SDRAM > SDRAM Support | Disable | Enable | Initialize SDRAM. |
+![sdram_bsp_configuration](images/sdram_bsp_configuration.png "SDRAM Configuration in BSP")
+
 ## API Usage ##
 
 The table below lists the MIPI DSI API used at the application layer by this example project.
@@ -118,8 +125,8 @@ The table below lists the Callback function used at the application layer by thi
 Import, Build and Debug the EP(see section Starting Development of **FSP User Manual**). After running the EP, open the RTT viewer to view status or
 check any error messages.
 
-Project information printed on the Console:
+Project information printed on the Console:  
 ![mipi_dsi_log](images/rtt_log.jpg "RTT_LOG")
 
-The color bar is seen in the LCD screen:
+The color bar is seen in the LCD screen:  
 ![mipi_dsi_image_demo](images/ek_ra8d1_mipi.jpg "MIPI_DSI_IMAGE_DEMO")

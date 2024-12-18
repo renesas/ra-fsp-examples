@@ -15,11 +15,11 @@ limitations under the License.
 #ifndef TENSORFLOW_LITE_KERNELS_INTERNAL_REFERENCE_INTEGER_OPS_TANH_H_
 #define TENSORFLOW_LITE_KERNELS_INTERNAL_REFERENCE_INTEGER_OPS_TANH_H_
 
-#include <ai_apps/common/tensorflow/lite/kernels/internal/common.h>
-#include <ai_apps/common/third_party/gemmlowp/fixedpoint/fixedpoint.h>
 #include <algorithm>
 #include <limits>
 
+#include "fixedpoint/fixedpoint.h"
+#include "tensorflow/lite/kernels/internal/common.h"
 
 namespace tflite {
 namespace reference_integer_ops {

@@ -16,3 +16,12 @@ Note:
 1. On starting or reseting the board, at times the dmac transfer operation takes more time. Due to this the led blinking 
 frequency decreases/pauses. Please reset the board in that case, and it will run as expected. 
 2. LED blinking pauses in-between and then continues on RA6M3 and RA6M3G.
+
+1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
+   RTT Block address for hex file committed in repository are as follows:
+   a. e2studio: 0x1ffe09bc
+   b. Keil:	0x1ffe0128
+   c. IAR: 0x1ffe0378
+ 
+2) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) 
+   in .map file generated in the build configuration folder (Debug/Release).

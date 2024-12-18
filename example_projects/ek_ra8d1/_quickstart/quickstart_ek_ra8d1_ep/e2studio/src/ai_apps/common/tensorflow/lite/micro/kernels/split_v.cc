@@ -1,4 +1,4 @@
-/* Copyright 2018 The TensorFlow Authors. All Rights Reserved.
+/* Copyright 2023 The TensorFlow Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -22,9 +22,8 @@ limitations under the License.
 #include "tensorflow/lite/micro/micro_log.h"
 
 namespace tflite {
-namespace ops {
-namespace micro {
-namespace split_v {
+
+namespace {
 
 template <typename T>
 TfLiteStatus SplitImpl(TfLiteContext* context, TfLiteNode* node,
@@ -72,7 +71,7 @@ TfLiteStatus SplitImpl(TfLiteContext* context, TfLiteNode* node,
   return kTfLiteOk;
 }
 
-TfLiteStatus Prepare(TfLiteContext* context, TfLiteNode* node) {
+TfLiteStatus SplitVPrepare(TfLiteContext* context, TfLiteNode* node) {
   TF_LITE_ENSURE_EQ(context, NumInputs(node), 3);
 
   MicroContext* micro_context = GetMicroContext(context);
@@ -86,7 +85,7 @@ TfLiteStatus Prepare(TfLiteContext* context, TfLiteNode* node) {
   return kTfLiteOk;
 }
 
-TfLiteStatus Eval(TfLiteContext* context, TfLiteNode* node) {
+TfLiteStatus SplitVEval(TfLiteContext* context, TfLiteNode* node) {
   const TfLiteEvalTensor* input = tflite::micro::GetEvalInput(context, node, 0);
   const TfLiteEvalTensor* axis = tflite::micro::GetEvalInput(context, node, 2);
 
@@ -119,12 +118,10 @@ TfLiteStatus Eval(TfLiteContext* context, TfLiteNode* node) {
   return kTfLiteOk;
 }
 
-}  // namespace split_v
+}  // namespace
 
-TfLiteRegistration Register_SPLIT_V() {
-  return tflite::micro::RegisterOp(nullptr, split_v::Prepare, split_v::Eval);
+TFLMRegistration Register_SPLIT_V() {
+  return tflite::micro::RegisterOp(nullptr, SplitVPrepare, SplitVEval);
 }
 
-}  // namespace micro
-}  // namespace ops
 }  // namespace tflite

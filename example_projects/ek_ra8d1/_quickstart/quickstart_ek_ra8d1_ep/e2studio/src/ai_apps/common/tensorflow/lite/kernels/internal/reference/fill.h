@@ -15,9 +15,9 @@ limitations under the License.
 #ifndef TENSORFLOW_LITE_KERNELS_INTERNAL_REFERENCE_FILL_H_
 #define TENSORFLOW_LITE_KERNELS_INTERNAL_REFERENCE_FILL_H_
 
-#include <ai_apps/common/tensorflow/lite/kernels/internal/types.h>
 #include <cmath>
 
+#include "tensorflow/lite/kernels/internal/types.h"
 
 namespace tflite {
 namespace reference_ops {

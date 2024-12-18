@@ -29,7 +29,9 @@ limitations under the License.
 namespace tflite {
 
 void* InitReduce(TfLiteContext* context, const char* buffer, size_t length) {
-  return context->AllocatePersistentBuffer(context, sizeof(OpDataReduce));
+  void* op_data =
+      context->AllocatePersistentBuffer(context, sizeof(OpDataReduce));
+  return new (op_data) OpDataReduce();
 }
 
 TfLiteStatus PrepareMax(TfLiteContext* context, TfLiteNode* node) {
@@ -57,15 +59,15 @@ TfLiteStatus EvalSum(TfLiteContext* context, TfLiteNode* node) {
                        static_cast<OpDataReduce*>(node->user_data));
 }
 
-TfLiteRegistration Register_MEAN() {
+TFLMRegistration Register_MEAN() {
   return tflite::micro::RegisterOp(InitReduce, PrepareMeanOrSum, EvalMean);
 }
 
-TfLiteRegistration Register_REDUCE_MAX() {
+TFLMRegistration Register_REDUCE_MAX() {
   return tflite::micro::RegisterOp(InitReduce, PrepareMax, EvalMax);
 }
 
-TfLiteRegistration Register_SUM() {
+TFLMRegistration Register_SUM() {
   return tflite::micro::RegisterOp(InitReduce, PrepareMeanOrSum, EvalSum);
 }
 

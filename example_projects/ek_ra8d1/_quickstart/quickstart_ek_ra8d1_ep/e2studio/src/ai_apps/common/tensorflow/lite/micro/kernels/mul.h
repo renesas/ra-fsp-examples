@@ -16,10 +16,10 @@ limitations under the License.
 #ifndef TENSORFLOW_LITE_MICRO_KERNELS_MUL_H_
 #define TENSORFLOW_LITE_MICRO_KERNELS_MUL_H_
 
-#include <ai_apps/common/tensorflow/lite/c/builtin_op_data.h>
-#include <ai_apps/common/tensorflow/lite/c/common.h>
 #include <cstdint>
 
+#include "tensorflow/lite/c/builtin_op_data.h"
+#include "tensorflow/lite/micro/micro_common.h"
 
 namespace tflite {
 
@@ -48,11 +48,11 @@ TfLiteStatus CalculateOpDataMul(TfLiteContext* context, TfLiteNode* node,
 
 TfLiteStatus MulPrepare(TfLiteContext* context, TfLiteNode* node);
 
-void EvalMulQuantizedReference(TfLiteContext* context, TfLiteNode* node,
-                               const OpDataMul* data,
-                               const TfLiteEvalTensor* input1,
-                               const TfLiteEvalTensor* input2,
-                               TfLiteEvalTensor* output);
+TfLiteStatus EvalMulQuantizedReference(TfLiteContext* context, TfLiteNode* node,
+                                       const OpDataMul* data,
+                                       const TfLiteEvalTensor* input1,
+                                       const TfLiteEvalTensor* input2,
+                                       TfLiteEvalTensor* output);
 
 void EvalMulFloatReference(TfLiteContext* context, TfLiteNode* node,
                            TfLiteMulParams* params, const OpDataMul* data,
@@ -61,13 +61,13 @@ void EvalMulFloatReference(TfLiteContext* context, TfLiteNode* node,
                            TfLiteEvalTensor* output);
 
 // Generic must define registration function.
-TfLiteRegistration Register_MUL();
+TFLMRegistration Register_MUL();
 
 #if defined(CMSIS_NN)
-TfLiteRegistration Register_MUL_INT8();
+TFLMRegistration Register_MUL_INT8();
 #else
 // Fallback registration
-inline TfLiteRegistration Register_MUL_INT8() { return Register_MUL(); }
+inline TFLMRegistration Register_MUL_INT8() { return Register_MUL(); }
 #endif
 }  // namespace tflite
 

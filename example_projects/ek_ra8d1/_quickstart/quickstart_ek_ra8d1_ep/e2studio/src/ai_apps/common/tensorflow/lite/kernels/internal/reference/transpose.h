@@ -1,26 +1,30 @@
 /* Copyright 2020 The TensorFlow Authors. All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *  http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * ==============================================================================*/
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+==============================================================================*/
 #ifndef TENSORFLOW_LITE_KERNELS_INTERNAL_REFERENCE_TRANSPOSE_H_
 #define TENSORFLOW_LITE_KERNELS_INTERNAL_REFERENCE_TRANSPOSE_H_
 
-#include <ai_apps/common/tensorflow/lite/kernels/internal/types.h>
 #include <array>
 
+#include "tensorflow/lite/kernels/internal/types.h"
+
 namespace tflite {
-    namespace reference_ops {
-        namespace transpose_internal {
+
+namespace reference_ops {
+
+namespace transpose_internal {
+
 // Recursively explores all the dimensions of the output tensor and writes the
 // corresponding input tensor data.
 //
@@ -28,10 +32,10 @@ namespace tflite {
 // - dims: tensor dimension count, also `perm` size.
 // - perm: permutation array.
 // - input_data: Running input data pointer. If depth == num_dims-1, this points
-// to the first element of the last dimension to traverse.
+//               to the first element of the last dimension to traverse.
 // - input_stride: Reverse partial product of input shapes.
 // - output_data: Running output data pointer. If depth == num_dims-1, this
-// points to the first element of the last dimension to traverse.
+//                points to the first element of the last dimension to traverse.
 // - output_stride: Reverse partial product of output shapes.
 // - output_shape: Shape of the output tensor.
 //
@@ -44,11 +48,11 @@ namespace tflite {
 //
 // ```
 // for(i = 0; i < I; ++i) {
-// for(j = 0; j < J; ++j) {
-// for(k = 0; k < K; ++k) {
-// T.data[i*J*K + j*K + k] = ...
-// }
-// }
+//   for(j = 0; j < J; ++j) {
+//     for(k = 0; k < K; ++k) {
+//        T.data[i*J*K + j*K + k] = ...
+//     }
+//   }
 // }
 // ```
 //
@@ -59,16 +63,16 @@ namespace tflite {
 // stride_j = K;
 // stride_k = 1;
 // for(i = 0; i < I; ++i) {
-// offset_i = i * stride_i;
-// offset_j = 0;
-// for(j = 0; j < J; ++j) {
-// offset_j += stride_j;
-// offset_k = 0;
-// for(k = 0; k < K; ++k) {
-// offset_k += stride_k;
-// T.data[offset_i + offset_j + offset_k] = ...
-// }
-// }
+//   offset_i = i * stride_i;
+//   offset_j = 0;
+//   for(j = 0; j < J; ++j) {
+//     offset_j += stride_j;
+//     offset_k = 0;
+//     for(k = 0; k < K; ++k) {
+//        offset_k += stride_k;
+//        T.data[offset_i + offset_j + offset_k] = ...
+//     }
+//   }
 // }
 // ```
 //
@@ -79,81 +83,61 @@ namespace tflite {
 // shape = [I, J, K]
 // strides = [K*J, K, 1]
 // void recurse(T* data, shape, strides, depth = 0) {
-// if(depth == shape.size) {
-// *data = ...
-// } else {
-// for(a = 0; a < shape[depth]; ++a) {
-// recurse(data, shape, strides, depth+1);
-// data += strides[depth];
-// }
-// }
+//   if(depth == shape.size) {
+//     *data = ...
+//   } else {
+//     for(a = 0; a < shape[depth]; ++a) {
+//       recurse(data, shape, strides, depth+1);
+//       data += strides[depth];
+//     }
+//   }
 // }
 // ```
-            template < typename T >
-            void TransposeImpl (const int       depth,
-                                const int       dims,
-                                const int32_t * perm,
-                                const T       * input_data,
-                                const int     * input_stride,
-                                T             * output_data,
-                                const int     * output_stride,
-                                const int32_t * output_shape) {
-                const int dimension_size = output_shape[depth];
-                if (depth == dims - 1)
-                {
-                    const int loop_stride = input_stride[perm[depth]];
-                    for (int i = 0; i < dimension_size; ++i)
-                    {
-                        output_data[i] = *input_data;
-                        input_data    += loop_stride;
-                    }
-                }
-                else
-                {
-                    for (int i = 0; i < dimension_size; ++i)
-                    {
-                        TransposeImpl(depth + 1,
-                                      dims,
-                                      perm,
-                                      input_data,
-                                      input_stride,
-                                      output_data,
-                                      output_stride,
-                                      output_shape);
+template <typename T>
+void TransposeImpl(const int depth, const int dims, const int32_t* perm,
+                   const T* input_data, const int* input_stride, T* output_data,
+                   const int* output_stride, const int32_t* output_shape) {
+  const int dimension_size = output_shape[depth];
+  if (depth == dims - 1) {
+    const int loop_stride = input_stride[perm[depth]];
+    for (int i = 0; i < dimension_size; ++i) {
+      output_data[i] = *input_data;
+      input_data += loop_stride;
+    }
+  } else {
+    for (int i = 0; i < dimension_size; ++i) {
+      TransposeImpl(depth + 1, dims, perm, input_data, input_stride,
+                    output_data, output_stride, output_shape);
 
-                        input_data  += input_stride[perm[depth]];
-                        output_data += output_stride[depth];
-                    }
-                }
-            }
+      input_data += input_stride[perm[depth]];
+      output_data += output_stride[depth];
+    }
+  }
+}
 
 // Compile-time switch to get the storage type of the transposition.
-            template < int Size >
-            struct TransposeStorageType;
+template <int Size>
+struct TransposeStorageType;
 
-            template < >
-            struct TransposeStorageType < 1 >
-            {
-                using type = int8_t;
-            };
+template <>
+struct TransposeStorageType<1> {
+  using type = int8_t;
+};
 
-            template < >
-            struct TransposeStorageType < 2 >
-            {
-                using type = int16_t;
-            };
+template <>
+struct TransposeStorageType<2> {
+  using type = int16_t;
+};
 
-            template < >
-            struct TransposeStorageType < 4 >
-            {
-                using type = int32_t;
-            };
+template <>
+struct TransposeStorageType<4> {
+  using type = int32_t;
+};
 
-            template < >
-            struct TransposeStorageType < 8 >
-            {
-                using type = int64_t;
-            };
+template <>
+struct TransposeStorageType<8> {
+  using type = int64_t;
+};
 
 // Sets up the stride arrays for the recursive transpose algorithm.
 //
@@ -165,63 +149,55 @@ namespace tflite {
 // shenanigans:
 //
 // ```
-// stride[dims - 1] = 1;
-// std::partial_sum(std::make_reverse_iterator(shape + dims),
-// std::make_reverse_iterator(shape + 1),
-// stride.rend() - input_rank + 1, std::multiplies());
+//   stride[dims - 1] = 1;
+//   std::partial_sum(std::make_reverse_iterator(shape + dims),
+//                    std::make_reverse_iterator(shape + 1),
+//                    stride.rend() - input_rank + 1, std::multiplies());
 // ```
 //
 // Note that Abseil isn't used in kernels implementation. That would make the
 // above solution more readable.
-            inline void SetupTransposeStrides (std::array < int,
-                                               kTransposeMaxDimensions > &stride,
-                                               const int32_t            * shape,
-                                               const int                  dims) {
-                stride[dims - 1] = 1;
-                for (int i = dims - 2; i >= 0; --i)
-                {
-                    stride[i] = stride[i + 1] * shape[i + 1];
-                }
-            }
-        }                              // namespace transpose_internal
+inline void SetupTransposeStrides(
+    std::array<int, kTransposeMaxDimensions>& stride, const int32_t* shape,
+    const int dims) {
+  stride[dims - 1] = 1;
+  for (int i = dims - 2; i >= 0; --i) {
+    stride[i] = stride[i + 1] * shape[i + 1];
+  }
+}
+
+}  // namespace transpose_internal
 
 // Copies a tensor to an other buffer and permutes its dimensions.
 //
 // Note: template parameter N is not used anymore. It is kept for API
 // compatibility with TFLite micro.
-        template < typename T, int N = kTransposeMaxDimensions >
-                                       void Transpose (const TransposeParams &params,
-                                                       const RuntimeShape    &input_shape,
-                                                       const T              * input_data,
-                                                       const RuntimeShape    &output_shape,
-                                                       T                    * output_data) {
-            using transpose_internal::SetupTransposeStrides;
-            using transpose_internal::TransposeImpl;
-            using transpose_internal::TransposeStorageType;
+template <typename T, int N = kTransposeMaxDimensions>
+void Transpose(const TransposeParams& params, const RuntimeShape& input_shape,
+               const T* input_data, const RuntimeShape& output_shape,
+               T* output_data) {
+  using transpose_internal::SetupTransposeStrides;
+  using transpose_internal::TransposeImpl;
+  using transpose_internal::TransposeStorageType;
+  // Transpose kernel only does rearranging values not numeric evaluations on
+  // each cell. It's safe to implement per size of scalar type and this trick
+  // keeps the total code size in a reasonable range.
+  using StorageType = typename TransposeStorageType<sizeof(T)>::type;
+  const StorageType* const input_data_storage =
+      reinterpret_cast<const StorageType*>(input_data);
+  StorageType* const output_data_storage =
+      reinterpret_cast<StorageType*>(output_data);
 
-            // Transpose kernel only does rearranging values not numeric evaluations on
-            // each cell. It's safe to implement per size of scalar type and this trick
-            // keeps the total code size in a reasonable range.
-            using StorageType = typename TransposeStorageType < sizeof(T) > ::type;
-            const StorageType * const input_data_storage =
-                reinterpret_cast < const StorageType * > (input_data);
-            StorageType * const output_data_storage =
-                reinterpret_cast < StorageType * > (output_data);
+  const int dims = input_shape.DimensionsCount();
+  std::array<int, kTransposeMaxDimensions> input_stride, output_stride;
+  SetupTransposeStrides(input_stride, input_shape.DimsData(), dims);
+  SetupTransposeStrides(output_stride, output_shape.DimsData(), dims);
+  TransposeImpl(0, dims, &params.perm[0], input_data_storage,
+                input_stride.data(), output_data_storage, output_stride.data(),
+                output_shape.DimsData());
+}
 
-            const int dims = input_shape.DimensionsCount();
-            std::array < int, kTransposeMaxDimensions > input_stride, output_stride;
-            SetupTransposeStrides(input_stride, input_shape.DimsData(), dims);
-            SetupTransposeStrides(output_stride, output_shape.DimsData(), dims);
-            TransposeImpl(0,
-                          dims,
-                          &params.perm[0],
-                          input_data_storage,
-                          input_stride.data(),
-                          output_data_storage,
-                          output_stride.data(),
-                          output_shape.DimsData());
-        }
-    }                                  // namespace reference_ops
-}                                      // namespace tflite
+}  // namespace reference_ops
+}  // namespace tflite
 
 #endif  // TENSORFLOW_LITE_KERNELS_INTERNAL_REFERENCE_TRANSPOSE_H_

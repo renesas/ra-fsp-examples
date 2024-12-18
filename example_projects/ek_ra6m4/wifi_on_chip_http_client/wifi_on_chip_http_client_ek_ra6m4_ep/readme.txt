@@ -23,9 +23,9 @@
 					https://www.renesas.com/en/document/apn/da16200da16600-sdk-update-guide
 	
 3. Software Requirements:
-	Renesas Flexible Software Package (FSP): Version 5.6.0
+	Renesas Flexible Software Package (FSP): Version 5.7.0
 	e2 studio: Version 2024-10
-	SEGGER J-Link RTT Viewer: Version 7.98g
+	SEGGER J-Link RTT Viewer: Version 8.10f
 	GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 
 4. Hardware Connections:

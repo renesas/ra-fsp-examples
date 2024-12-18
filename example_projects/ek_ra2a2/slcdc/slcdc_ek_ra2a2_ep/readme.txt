@@ -4,72 +4,61 @@
 **********************************************************************************************************************/
 
 1. Project Overview:
-	This example project demonstrates the basic functionalities of SDADC running on Renesas RA MCUs using an RA board and an external variable power supply. 
-	SDADC channel 0 is connected as a single-ended input mode, and channel 2 is connected as a differential-ended input mode to the power supply.
-	For the EK-RA2A2 board, SDADC channel 0 and channel 2 are connected as differential-ended input modes to the power supply.
-	Data read from both channels is displayed on the JLink RTT Viewer.
-       
+    	This example project demonstrates the typical use of the SLCDC HAL module APIs.
+    	The project displays digits from 990 to 9999 on Segment LCD with increment of 21.
+    	If an error occurs in the operation, the project displays "Err" on the LCD screen.
 
-2. Hardware settings for the project:
-	
-     For EK-RA2A1:
+2. Hardware and Software Requirements:
+    	External Hardware:
+          - Segment LCD: Lumex LCD-S401M16KR (https://www.mouser.in/datasheet/2/244/lumex_lumx-s-a0001420318-1-1737691.pdf)
+          - Capacitors: Four 0.47uF 
+          - Connecting wires.
 
-       	Hardware  : External power supply with more than one output source(variable voltages).
+3. Hardware settings for the project:
 
-       	Hardware connections:
-   
-       	RA2A1-EK Board                            Power supply
+ 	For EK-RA4M1:
+   	Wiring details:
+    	LCD Pin 1  --> P104 (COM0)
+    	LCD Pin 2  --> P105 (COM1)
+    	LCD Pin 3  --> P106 (COM2)
+    	LCD Pin 4  --> P107 (COM3)
+    	LCD Pin 5  --> P301 (SEG1)
+    	LCD Pin 6  --> P302 (SEG2)
+    	LCD Pin 7  --> P303 (SEG3)
+    	LCD Pin 8  --> P400 (SEG4)
+    	LCD Pin 9  --> P401 (SEG5)
+    	LCD Pin 10 --> P402 (SEG6)
+    	LCD Pin 11 --> P411 (SEG7)
+    	LCD Pin 12 --> P410 (SEG8)
+    	Open Trace-cut E3 and Isolate P106 from User LED (COM2 Pin).
+   	Additional wiring required as per RA4M1 HW manual (See RA4M1 User's Manual (R01UH0887EJ0100) section 45.7.2 Notes)
+    	Connect/Short P111 (CAPH) & P112 (CAPL) with a non polar capacitor of 0.47uF value.
+    	Connect each of P100 (VL1), P101 (VL2) & P103 (VL4) pins with a 0.47uF capacitor as shown in User's Manual.
 
-       	Header J3 Pin 8(P100)  ----------------  +v supply(variable between 0.2 to 1.8V).
+	For EK-RA2A2:
+    	Wiring details:
+    	LCD Pin 1  --> P206 (COM0)
+    	LCD Pin 2  --> P205 (COM1)
+    	LCD Pin 3  --> P204 (COM2)
+    	LCD Pin 4  --> P203 (COM3)
+    	LCD Pin 5  --> P302 (SEG1)
+    	LCD Pin 6  --> P303 (SEG2)
+    	LCD Pin 7  --> P304 (SEG3)
+    	LCD Pin 8  --> P305 (SEG4)
+    	LCD Pin 9  --> P306 (SEG5)
+    	LCD Pin 10 --> P307 (SEG6)
+    	LCD Pin 11 --> P308 (SEG7)
+    	LCD Pin 12 --> P309 (SEG8)
+    	Additional wiring required as per RA2A2 HW manual (See RA2A2 User's Manual (r01uh1005ej0100) section 36.7.2 Notes)
+    	Connect/Short P209 (CAPH) & P208 (CAPL) with a non polar capacitor of 0.47uF value.
+    	Connect each of VL1, VL2 & VL4 pins with a 0.47uF capacitor as shown in User's Manual.
 
-       	Differential Ended(+ve end voltage should be greater than -ve end.Differential input max difference is 800mv)
-       	Header J1 Pin 9(P104)  ----------------  +v supply(variable between 0.2 to 1.8V)
-       	Header J1 Pin 7(P105)  ----------------  +v supply(variable between 0.2 to 1.8V).
-       	Header J1 Pin 17(VSS)  ----------------  Gnd
-		
-	Note: In absence of power supply with multiple output sources, the voltage can be supplied with single output and voltage divider circuit as explained below.
-
-      	For external power supply with a single output, use resistor (R1 = 10 ohms) and (R2 = 100 ohms) in series (as a voltage divider) across one end of the output. This
-      	setup provides different input voltages to differential ended pins of SDADC. 
-
-	Example: Output from power supply = 1.6 V. Using resistor (R1 =10ohms) and (R2 =100 ohms) in series (as voltage divider) gives output of 1.45V (approx). Now connect
-        1.6V to Pin 9 and 1.45V to Pin 7.
-		
-     For EK-RA2A2:
-	  
-	Hardware  : External power supply with more than one output source(variable voltages).
-		
-	Hardware connections:
-		
-	RA2A2-EK Board                            Power supply
-	
-	Header J1 Pin 23 (ANIP0)  --------------  +v supply(variable between 0 to 0.5V).
-	Header J1 Pin 24 (ANIN0)  --------------  +v supply(variable between 0 to 0.5V).
-
-	Header J1 Pin 19 (ANIP2)  --------------  +v supply(variable between 0 to 0.5V).
-	Header J1 Pin 20 (ANIN2)  --------------  +v supply(variable between 0 to 0.5V).
-
-	Header J1 Pin 28 (AVSS)   --------------  Gnd
-
-	Note: In absence of power supply with multiple output sources, the voltage can be supplied with single output and voltage divider circuit as explained below.
-
-	For external power supply with a single output, use resistor (R1 = 10 kohms),  (R2 = 330 ohms), and (R3 = 330 ohms) in series (as a voltage divider). 
-	This setup provides two different input voltages to differential ended pins of SDADC.
-
-	Example: 
-		Output from power supply = 3.3 V. 
-		Using resistors (R1 = 10 kohms), (R2 = 330 ohms) and (R3 = 330 ohms) in series (as a voltage divider) gives two outputs of 0.204V and 0.102V (approximately).
-		Connect 0.102V to J1 Pin 23 (ANIP0) and 0.204V to J1 Pin 24 (ANIN0). SDADC channel 0 will have a negative value of: 0.102V - 0.204V = -0.102V (approximately).
-		Connect 0.204V to J1 Pin 19 (ANIP2) and 0.102V to J1 Pin 20 (ANIN2). SDADC channel 2 will have a positive value of: 0.204V - 0.102V = 0.102V (approximately).
-
+Note:
 1) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x2000060c
-   b. Keil: Not Available
-   c. IAR: Not Available
+   a. e2studio: 0x2000084c
+   b. Keil: 	Not Available 
+   c. IAR:  	Not Available
  
 2) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) 
    in .map file generated in the build configuration folder (Debug/Release).
-
-3) To enable printing floats to RTT Viewer, edit the project settings and make sure use nano with printf is enabled. 
-   The setting can be found by Properties > C/C++ Build > Settings > Tool Settings > GNU Arm Cross C Linker > Misc > Use float with nano printf

@@ -18,7 +18,6 @@ limitations under the License.
 
 #include "tensorflow/lite/c/builtin_op_data.h"
 #include "tensorflow/lite/c/common.h"
-#include "tensorflow/lite/kernels/internal/portable_tensor.h"
 #include "tensorflow/lite/kernels/internal/types.h"
 #include "tensorflow/lite/kernels/kernel_util.h"
 #include "tensorflow/lite/kernels/op_macros.h"
@@ -33,12 +32,12 @@ struct OpData {
   int32_t output_zero_point;
 };
 
-void* Init(TfLiteContext* context, const char* buffer, size_t length) {
+void* PadInit(TfLiteContext* context, const char* buffer, size_t length) {
   TFLITE_DCHECK(context->AllocatePersistentBuffer != nullptr);
   return context->AllocatePersistentBuffer(context, sizeof(OpData));
 }
 
-TfLiteStatus Eval(TfLiteContext* context, TfLiteNode* node) {
+TfLiteStatus PadEval(TfLiteContext* context, TfLiteNode* node) {
   TFLITE_DCHECK(node->user_data != nullptr);
   const OpData* data = static_cast<const OpData*>(node->user_data);
 
@@ -218,13 +217,13 @@ TfLiteStatus PadPrepare(TfLiteContext* context, TfLiteNode* node) {
   return kTfLiteOk;
 }
 
-TfLiteRegistration Register_PAD() {
-  return tflite::micro::RegisterOp(Init, PadPrepare, Eval);
+TFLMRegistration Register_PAD() {
+  return tflite::micro::RegisterOp(PadInit, PadPrepare, PadEval);
 }
 
 // Also register Pad as PadV2.
-TfLiteRegistration Register_PADV2() {
-  return tflite::micro::RegisterOp(Init, PadPrepare, Eval);
+TFLMRegistration Register_PADV2() {
+  return tflite::micro::RegisterOp(PadInit, PadPrepare, PadEval);
 }
 
 }  // namespace tflite

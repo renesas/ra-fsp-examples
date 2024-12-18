@@ -16,9 +16,9 @@ limitations under the License.
 #ifndef TENSORFLOW_LITE_MICRO_MEMORY_PLANNER_NON_PERSISTENT_MEMORY_PLANNER_SHIM_H__
 #define TENSORFLOW_LITE_MICRO_MEMORY_PLANNER_NON_PERSISTENT_MEMORY_PLANNER_SHIM_H__
 
-#include <ai_apps/common/tensorflow/lite/micro/compatibility.h>
-#include <ai_apps/common/tensorflow/lite/micro/memory_planner/memory_plan_struct.h>
-#include <ai_apps/common/tensorflow/lite/micro/memory_planner/micro_memory_planner.h>
+#include "tensorflow/lite/micro/compatibility.h"
+#include "tensorflow/lite/micro/memory_planner/memory_plan_struct.h"
+#include "tensorflow/lite/micro/memory_planner/micro_memory_planner.h"
 
 namespace tflite {
 
@@ -114,6 +114,10 @@ class NonPersistentMemoryPlannerShim : public MicroMemoryPlanner {
                          int last_time_used) override;
   size_t GetMaximumMemorySize() override;
   int GetBufferCount() override;
+
+  // Returns False because the NonPersistentMemoryPlannerShim doesn't preserves
+  // all tensors after invocation.
+  bool preserves_all_tensors() const override { return false; }
 
  private:
   const BufferPlan* buffer_plan_;  // not owned, can't be null

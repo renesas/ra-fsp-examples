@@ -17,8 +17,8 @@
 #ifndef FLATBUFFERS_DEFAULT_ALLOCATOR_H_
 #define FLATBUFFERS_DEFAULT_ALLOCATOR_H_
 
-#include <ai_apps/common/third_party/flatbuffers/include/flatbuffers/allocator.h>
-#include <ai_apps/common/third_party/flatbuffers/include/flatbuffers/base.h>
+#include "flatbuffers/allocator.h"
+#include "flatbuffers/base.h"
 
 namespace flatbuffers {
 

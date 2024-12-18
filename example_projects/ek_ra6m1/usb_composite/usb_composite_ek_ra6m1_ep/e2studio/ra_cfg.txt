@@ -1,5 +1,5 @@
 FSP Configuration
-  Board "EK-RA6M1"
+  Board "RA6|RA6M1|EK-RA6M1"
   R7FA6M1AD3CFP
     part_number: R7FA6M1AD3CFP
     rom_size_bytes: 524288
@@ -12,7 +12,8 @@ FSP Configuration
     series: 6
     
   RA6M1 Family
-    OFS0 register settings: Independent WDT: Start Mode: IWDT is Disabled
+    Enable inline BSP IRQ functions: Enabled
+    OFS0 register settings: Independent WDT: Start Mode: IWDT is stopped after a reset
     OFS0 register settings: Independent WDT: Timeout Period: 2048 cycles
     OFS0 register settings: Independent WDT: Dedicated Clock Frequency Divisor: 128
     OFS0 register settings: Independent WDT: Window End Position:  0% (no window end position)
@@ -52,6 +53,7 @@ FSP Configuration
     ID Code Mode: Unlocked (Ignore ID)
     ID Code (32 Hex Characters): FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
     
+  RA6M1 event data
   RA Common
     Main stack size (bytes): 0x400
     Heap size (bytes): 0x1000
@@ -59,10 +61,11 @@ FSP Configuration
     Parameter checking: Enabled
     Assert Failures: Return FSP_ERR_ASSERTION
     Error Log: No Error Log
-    Soft Reset: Disabled
+    Clock Registers not Reset Values during Startup: Disabled
     Main Oscillator Populated: Populated
     PFS Protect: Enabled
     C Runtime Initialization : Enabled
+    Early BSP Initialization : Disabled
     Main Oscillator Clock Source: Crystal or Resonator
     Subclock Populated: Populated
     Subclock Drive (Drive capacitance availability varies by MCU): Standard/Normal mode
@@ -81,7 +84,7 @@ FSP Configuration
     PCLKC Div /4
     PCLKD Div /2
     BCLK Div /2
-    BCK/2
+    EBCLK Div /2
     UCLK Div /5
     FCLK Div /4
     CLKOUT Disabled
@@ -295,41 +298,45 @@ FSP Configuration
     
   User Event Links
     
-  Module "I/O Port Driver on r_ioport"
+  Module "I/O Port (r_ioport)"
     Parameter Checking: Default (BSP)
     
-  Module "Heap 4"
-  Module "USB Composite"
-  Module "USB PCDC driver on r_usb_pcdc"
+  Module "FreeRTOS Heap 4"
+  Module "USB Composite (r_usb_composite)"
+  Module "USB PCDC (r_usb_pcdc)"
     Bulk In Pipe: USB PIPE3
     Bulk Out Pipe: USB PIPE4
-    Interrupt Out Pipe: USB PIPE6
+    Interrupt In Pipe: USB PIPE6
     
-  Module "USB PMSC driver on r_usb_pmsc"
+  Module "USB PMSC (r_usb_pmsc)"
     Bulk Input Transfer Pipe: USB PIPE1
     Bulk Output Transfer Pipe: USB PIPE2
     Vendor Information: Vendor  
     Product Information: Mass Storage    
     Product Revision Level: 1.00
+    Sector size: 512
     Number of Transfer Sectors: 8
     
   Module "Block Media Custom Implementation"
-  Module "USB Driver on r_usb_basic"
+  Module "USB (r_usb_basic)"
     Parameter Checking: Default (BSP)
-    PLL Frequency: 24MHz
-    CPU Bus Access Wait Cycles: 9 cycles
-    Battery Charging: Enabled
+    PLL Frequency: Not Supported
+    CPU Bus Access Wait Cycles: Not Supported
+    Battery Charging: Not Supported
     Power IC Shutdown Polarity: Active High
-    Dedicated Charging Port (DCP) Mode: Disabled
+    Dedicated Charging Port (DCP) Mode: Not Supported
     Notifications for SET_INTERFACE/SET_FEATURE/CLEAR_FEATURE: Enabled
     Double Buffering: Enabled
-    Continuous Transfer Mode: Disabled
-    LDO Regulator: Disable
-    DMA Support: Enable
+    Continuous Transfer Mode: Not Supported
+    LDO Regulator: Not Supported
+    Type-C: Not Supported
+    DMA Support: Enabled
     DMA Source Address: FS Address
     DMA Destination Address: FS Address
+    USB Compliance Test mode: Disabled
+    USB TPL table name: NULL
     
-  Module "Transfer Driver on r_dmac"
+  Module "Transfer (r_dmac)"
     Parameter Checking: Default (BSP)
     
   FreeRTOS
@@ -345,12 +352,13 @@ FSP Configuration
     General: Tick Rate Hz: 1000
     General: Max Priorities: 5
     General: Minimal Stack Size: 128
-    General: Max Task Name Len: 16
+    General: Max Task Name Len: 32
     Stats: Use Trace Facility: Disabled
     Stats: Use Stats Formatting Functions: Disabled
     General: Use 16-bit Ticks: Disabled
     General: Idle Should Yield: Enabled
     General: Use Task Notifications: Enabled
+    General: Task Notification Array Entries: 1
     General: Use Mutexes: Disabled
     General: Use Recursive Mutexes: Disabled
     General: Use Counting Semaphores: Enabled
@@ -363,6 +371,7 @@ FSP Configuration
     General: Num Thread Local Storage Pointers: 5
     General: Stack Depth Type: uint32_t
     General: Message Buffer Length Type: size_t
+    Memory Allocation: Clear Memory on Free: Disabled
     Memory Allocation: Support Static Allocation: Enabled
     Memory Allocation: Support Dynamic Allocation: Enabled
     Memory Allocation: Total Heap Size: 10000
@@ -394,16 +403,17 @@ FSP Configuration
     Optional Functions: xTaskResumeFromISR() Function: Enabled
     RA: Hardware Stack Monitor: Disabled
     Logging: Print String Function: printf(x)
-    Logging: Logging Max Message Length: 192
     Logging: Logging Include Time and Task Name: Disabled
+    Logging: Debug Logging Name: Log Name
+    Logging: Logging Level: LOG_NONE
     
   HAL
-    Instance "g_ioport I/O Port Driver on r_ioport"
+    Instance "g_ioport I/O Port (r_ioport)"
       Name: g_ioport
-      Port 1 ELC Trigger Source: Disabled
-      Port 2 ELC Trigger Source: Disabled
-      Port 3 ELC Trigger Source: Disabled
-      Port 4 ELC Trigger Source: Disabled
+      1st Port ELC Trigger Source: Disabled
+      2nd Port ELC Trigger Source: Disabled
+      3rd Port ELC Trigger Source: Disabled
+      4th Port ELC Trigger Source: Disabled
       Pin Configuration Name: g_bsp_pin_cfg
       
   Thread "Composite Thread"
@@ -415,20 +425,20 @@ FSP Configuration
     Memory Allocation: Static
     Allocate Secure Context: Enable
     
-    Instance "Heap 4"
-    Instance "g_usb_composite USB Composite "
+    Instance "FreeRTOS Heap 4"
+    Instance "g_usb_composite USB Composite (r_usb_composite)"
       Name: g_usb_composite
       
-      Instance "g_pcdc USB PCDC driver on r_usb_pcdc"
+      Instance "g_pcdc USB PCDC (r_usb_pcdc)"
         Name: g_pcdc
         
-      Instance "g_pmsc USB PMSC driver on r_usb_pmsc"
+      Instance "g_pmsc USB PMSC (r_usb_pmsc)"
         Name: g_pmsc
         
         Instance "g_rm_block_media Block Media Custom Implementation"
           Name: g_rm_block_media
           
-        Instance "g_basic USB Driver on r_usb_basic"
+        Instance "g_basic USB (r_usb_basic)"
           Name: g_basic
           USB Mode: Peri mode
           USB Speed: Full Speed
@@ -440,13 +450,13 @@ FSP Configuration
           USBFS Resume Priority: Priority 12
           USBFS D0FIFO Interrupt Priority: Priority 12
           USBFS D1FIFO Interrupt Priority: Priority 12
-          USBHS Interrupt Priority: Priority 12
-          USBHS D0FIFO Interrupt Priority: Priority 12
-          USBHS D1FIFO Interrupt Priority: Priority 12
-          USB RTOS Callback: usb_composite_callback
+          USBHS Interrupt Priority: Not Supported
+          USBHS D0FIFO Interrupt Priority: Not Supported
+          USBHS D1FIFO Interrupt Priority: Not Supported
+          USB Callback: usb_composite_callback
           USB Callback Context: g_rm_block_media
           
-          Instance "g_transfer1 Transfer Driver on r_dmac USBFS FIFO 1 (DMA transfer request 1)"
+          Instance "g_transfer1 Transfer (r_dmac) USBFS FIFO 1 (DMA transfer request 1)"
             Name: g_transfer1
             Channel: 1
             Mode: Block
@@ -454,19 +464,16 @@ FSP Configuration
             Destination Address Mode: Fixed
             Source Address Mode: Incremented
             Repeat Area (Unused in Normal Mode): Destination
-            Destination Pointer: USB_DEST_ADDRESS
-            Source Pointer: 0
             Number of Transfers: 0
             Number of Blocks (Valid only in Repeat,Block or Repeat-Block Mode): 0
             Activation Source: USBFS FIFO 1 (DMA transfer request 1)
             Callback: usb_ip0_d1fifo_callback
-            Context: NULL
             Transfer End Interrupt Priority: Priority 3
             Interrupt Frequency: Interrupt after all transfers have completed
             Offset value (Valid only when address mode is \'Offset\'): 0
             Source Buffer Size: 1
             
-          Instance "g_transfer0 Transfer Driver on r_dmac USBFS FIFO 0 (DMA transfer request 0)"
+          Instance "g_transfer0 Transfer (r_dmac) USBFS FIFO 0 (DMA transfer request 0)"
             Name: g_transfer0
             Channel: 0
             Mode: Block
@@ -474,13 +481,10 @@ FSP Configuration
             Destination Address Mode: Incremented
             Source Address Mode: Fixed
             Repeat Area (Unused in Normal Mode): Source
-            Destination Pointer: 0
-            Source Pointer: USB_SRC_ADDRESS
             Number of Transfers: 0
             Number of Blocks (Valid only in Repeat,Block or Repeat-Block Mode): 0
             Activation Source: USBFS FIFO 0 (DMA transfer request 0)
             Callback: NULL
-            Context: NULL
             Transfer End Interrupt Priority: Priority 3
             Interrupt Frequency: Interrupt after all transfers have completed
             Offset value (Valid only when address mode is \'Offset\'): 0

@@ -15,9 +15,9 @@ limitations under the License.
 #ifndef TENSORFLOW_LITE_KERNELS_INTERNAL_COMPATIBILITY_H_
 #define TENSORFLOW_LITE_KERNELS_INTERNAL_COMPATIBILITY_H_
 
-#include <ai_apps/common/tensorflow/lite/kernels/op_macros.h>
 #include <cstdint>
 
+#include "tensorflow/lite/kernels/op_macros.h"
 
 #ifndef TFLITE_DCHECK
 #define TFLITE_DCHECK(condition) (condition) ? (void)0 : TFLITE_ASSERT_FALSE

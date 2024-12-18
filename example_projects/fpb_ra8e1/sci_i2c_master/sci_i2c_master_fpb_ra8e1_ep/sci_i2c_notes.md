@@ -20,9 +20,9 @@ To build and run the SCI I2C example project, the following resources are needed
 Refer to [readme.txt](./readme.txt) for information on how to connect the hardware.
 
 ### Software ###
-* Renesas Flexible Software Package (FSP): Version 5.6.0
+* Renesas Flexible Software Package (FSP): Version 5.7.0
 * e2 studio: Version 2024-10
-* SEGGER J-Link RTT Viewer: Version 7.98g
+* SEGGER J-Link RTT Viewer: Version 8.10f
 * LLVM Embedded Toolchain for ARM: Version 18.1.3
 
 ### Hardware Connections ###  

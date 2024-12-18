@@ -463,7 +463,8 @@ FSP Configuration
     Hardware Acceleration: Public Key Cryptography (PKC): ECC: Use Software
     Hardware Acceleration: Public Key Cryptography (PKC): ECDSA : Use Software
     Hardware Acceleration: Public Key Cryptography (PKC): ECDH : Use Software
-    Hardware Acceleration: Public Key Cryptography (PKC): RSA: Use Software
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA 1024: Use Software
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA 2048: Use Software
     Hardware Acceleration: Public Key Cryptography (PKC): RSA 3072: Key Generation: Disabled
     Hardware Acceleration: Public Key Cryptography (PKC): RSA 3072: Signing: Disabled
     Hardware Acceleration: Public Key Cryptography (PKC): RSA 3072: Verification: Disabled
@@ -577,6 +578,7 @@ FSP Configuration
     General: MBEDTLS_PSA_CRYPTO_CLIENT: Undefine
     RNG: MBEDTLS_PSA_CRYPTO_EXTERNAL_RNG: Undefine
     General: MBEDTLS_PSA_CRYPTO_SPM: Undefine
+    General: MBEDTLS_PSA_KEY_STORE_DYNAMIC: Undefine
     RNG: MBEDTLS_PSA_INJECT_ENTROPY: Undefine
     General: MBEDTLS_PSA_ASSUME_EXCLUSIVE_BUFFERS: Undefine
     Public Key Cryptography (PKC): RSA: MBEDTLS_RSA_NO_CRT: Define
@@ -770,8 +772,10 @@ FSP Configuration
   Module "Flash (r_flash_lp)"
     Parameter Checking: Default (BSP)
     Code Flash Programming: Disabled
+    Code Flash Background Operation Support With Bank Programming: Not Supported
     Data Flash Programming: Enabled
     Data Flash Background Operation Support: Enabled
+    Instant Bank Swap (No Reset Required): Not Supported
     
   Module "AWS FreeRTOS+TCP MbedTLS Bio"
   FreeRTOS

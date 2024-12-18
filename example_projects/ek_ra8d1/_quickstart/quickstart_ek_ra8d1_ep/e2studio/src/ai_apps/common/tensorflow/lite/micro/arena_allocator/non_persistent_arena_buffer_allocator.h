@@ -15,12 +15,12 @@ limitations under the License.
 #ifndef TENSORFLOW_LITE_MICRO_ARENA_ALLOCATOR_NON_PERSISTENT_ARENA_BUFFER_ALLOCATOR_H_
 #define TENSORFLOW_LITE_MICRO_ARENA_ALLOCATOR_NON_PERSISTENT_ARENA_BUFFER_ALLOCATOR_H_
 
-#include <ai_apps/common/tensorflow/lite/c/common.h>
-#include <ai_apps/common/tensorflow/lite/micro/arena_allocator/ibuffer_allocator.h>
-#include <ai_apps/common/tensorflow/lite/micro/compatibility.h>
 #include <cstddef>
 #include <cstdint>
 
+#include "tensorflow/lite/c/common.h"
+#include "tensorflow/lite/micro/arena_allocator/ibuffer_allocator.h"
+#include "tensorflow/lite/micro/compatibility.h"
 
 namespace tflite {
 
