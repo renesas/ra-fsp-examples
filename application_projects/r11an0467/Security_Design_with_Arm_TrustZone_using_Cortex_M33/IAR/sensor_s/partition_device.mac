@@ -1,0 +1,198 @@
+/*
+ * Renesas C-SPY debug macro script for TrustZone devices
+ */
+
+/*
+ * Read-only IDAU register addresses
+ */
+__param PSCU_BASE = 0x400E0000;
+__param ADDR_CFSAMONA = PSCU_BASE + 0x18;
+__param ADDR_CFSAMONB = PSCU_BASE + 0x1C;
+__param ADDR_DFSAMON = PSCU_BASE + 0x20;
+__param ADDR_SSAMONA = PSCU_BASE + 0x24;
+__param ADDR_SSAMONB = PSCU_BASE + 0x28;
+
+/*
+ * Returns the value of the 32-bit register at "addr" on the target device
+ */
+readReg(addr) {
+    __var val;
+    val = __readMemory32(addr, "Memory");
+    return val;
+}
+
+/*
+ * Evaluate argument variables (e.g. $PROJ_DIR$) in given string
+ */
+evalArgVar(var) {
+    __var output;
+    __system2("echo " + var, &output);
+    // Strip \r\n
+    return __subString(output, 0, (sizeof output) - 2);
+}
+
+/*
+ * Get the path to the RA Smart Configurator rasc.exe.
+ * Variable $RASC_EXE_PATH$ is set as a custom argument variable in buildinfo.ipcf.
+ */
+getRascExePath() {
+    return evalArgVar("$RASC_EXE_PATH$");
+}
+
+/*
+ * Get the absolute path to the project's configuration.xml file
+ */
+getCfgXmlPath() {
+    return evalArgVar("$PROJ_DIR$\\configuration.xml");
+}
+
+/*
+ * Get the value of the argument variable $TARGET_PATH$
+ */
+getTargetPath() {
+    return evalArgVar("$TARGET_PATH$");
+}
+
+/*
+ * Runs the specified external command via a batch file to avoid worlds of quoting pain
+ * command - Command line to execute, suitably quoted and with any argument variables evaluated
+ * batFile - Path to batch file to create, write and execute
+ * detach - Whether to detach the process from its parent
+ *
+ * Returns combined stdout and stderr
+ */
+launchViaBatchFile(command, batFile, detach) {
+    __var output;
+    __var fh;
+    
+    fh = __openFile(batFile, "w");
+    __fmessage fh, command;
+    __closeFile(fh);
+    
+    if (detach) {
+        // Appears to not need quoting around batFile (otherwise another batch file would be required)
+        __system1("explorer.exe " + batFile);
+        output = "";
+    } else {
+        __system2(batFile, &output);
+    }
+    
+    return output;
+}
+
+/*
+ * Returns the size of the specified "region", extracted from "content",
+ * as a decimal integer string
+ */
+extractRegionSize(content, region) {
+    __var pattern;
+    pattern = "Region:" + region + "(";
+    __var start;
+    __var end;
+    start = __strFind(content, pattern, 0);
+    if (start == -1) {
+        return "";
+    }
+    
+    // Advance start past pattern
+    start = start + sizeof pattern;
+    
+    end = __strFind(content, ")", start);
+    if (end == -1) {
+        return "";
+    }
+    
+    return __subString(content, start, end - start);
+}
+
+/*
+ * content - Output from RASC run with PARTITION workflow
+ * region - string name of the region to extract from "content"
+ * currVal - Integer value of the current size of the region from the device
+ *
+ * Returns:
+ *       +1 on region size mismatch,
+ *        0 on region size match,
+ *    -1000 on inability to extract required region size
+ */
+checkRegion(content, region, currVal) {
+    __var currValStr;
+    currValStr = __smessage currVal:%d;
+    __var requiredValStr;
+    requiredValStr = extractRegionSize(content, region);
+    if ((sizeof requiredValStr) == 0) {
+        __message "Unable to extract required partition size for: ", region;
+        return -1000;
+    }
+    if (currValStr != requiredValStr) {
+        __message "Partition size mismatch: ", region, ", current: ", currValStr, ", required: ", requiredValStr;
+        return 1;
+    }
+    return 0;
+}
+
+/*
+ * Returns combined stdout and stderr from running RASC with PARTITION workflow
+ */
+getPartitionOutput() {
+    __var output;
+    output = launchViaBatchFile("\"" + getRascExePath() + "\" -partition \"" + getCfgXmlPath() + "\" \"" + getTargetPath() + "\"", "$_TEMP_$\\launch_rascpartition.bat", 0);
+    
+    return output;
+}
+
+/*
+ * Returns:
+ *   a negative number on failure to extract at least one required region size, otherwise
+ *   the number of regions that need their size updating (i.e. returns 0 if all regions
+ *       are already the desired size.
+ */
+checkRegions() {
+   __var partitionOutput;
+    partitionOutput = getPartitionOutput();
+
+    __var flashSecureTotalSize;
+    flashSecureTotalSize = readReg(ADDR_CFSAMONA);
+    __var flashSecureSize;
+    flashSecureSize = readReg(ADDR_CFSAMONB);
+
+    __var ramSecureTotalSize;
+    ramSecureTotalSize = readReg(ADDR_SSAMONA);
+    __var ramSecureSize;
+    ramSecureSize = readReg(ADDR_SSAMONB);
+    
+    __var count;
+    count = checkRegion(partitionOutput, "FLASH_CM33_S", flashSecureSize);
+    count += checkRegion(partitionOutput, "FLASH_CM33_C", flashSecureTotalSize - flashSecureSize);
+    count += checkRegion(partitionOutput, "RAM_CM33_S", ramSecureSize);
+    count += checkRegion(partitionOutput, "RAM_CM33_C", ramSecureTotalSize - ramSecureSize);
+    count += checkRegion(partitionOutput, "DATA_FLASH_CM33_S", readReg(ADDR_DFSAMON));
+    
+    return count;
+}
+
+/*
+ * Launches the DPM UI
+ */
+launchDpm() {
+    launchViaBatchFile("start \"\" \"" + getRascExePath() + "\" -application com.renesas.cdt.ddsc.dpm.ui.dpmapplication \"" + getCfgXmlPath() + "\" \"" + getTargetPath() + "\"", "$_TEMP_$\\launch_dpmui.bat", 1);
+}
+
+/*
+ * C-SPY preload debug macro hook
+ */
+execUserPreload() {
+
+    __message "Checking required vs current TrustZone partition sizes";
+
+	__var checkResult;
+	checkResult = checkRegions();
+    if (checkResult > 0) {
+        if(__messageBoxYesNo("Target device needs TrustZone partition sizes to be changed before debug session can be started.\n\nLaunch the Renesas Device Partition Manager tool?", "Target Device Partitioning")) {
+            launchDpm();
+        }
+        __abortLaunch("Aborting debug launch due to TrustZone partition size mismatch");
+    } else if (checkResult < 0) {
+        __message "Unable to extract at least one required partition size - partition size checking disabled";
+    }
+}
