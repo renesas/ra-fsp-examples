@@ -64,7 +64,6 @@ FSP Configuration
     MCU Vcc (mV): 3300
     Parameter checking: Enabled
     Assert Failures: Return FSP_ERR_ASSERTION
-    Error Log: No Error Log
     Clock Registers not Reset Values during Startup: Disabled
     Main Oscillator Populated: Not Populated
     PFS Protect: Enabled
@@ -296,7 +295,6 @@ FSP Configuration
   Module "I/O Port (r_ioport)"
     Parameter Checking: Default (BSP)
     
-  Module "FreeRTOS Heap 4"
   Module "AWS Core MQTT"
     Custom core_mqtt_config.h: 
     Maximum Number of vectors: 4
@@ -778,6 +776,7 @@ FSP Configuration
     Instant Bank Swap (No Reset Required): Not Supported
     
   Module "AWS FreeRTOS+TCP MbedTLS Bio"
+  Module "FreeRTOS Heap 5"
   FreeRTOS
     General: Custom FreeRTOSConfig.h: 
     General: Use Preemption: Enabled
@@ -864,7 +863,6 @@ FSP Configuration
     Memory Allocation: Static
     Allocate Secure Context: Enable
     
-    Instance "FreeRTOS Heap 4"
     Instance "AWS Core MQTT"
       Instance "AWS Transport Interface on MbedTLS/PKCS11 (rm_aws_transport_interface_port)"
         Instance "AWS Silex WiFi Sockets Wrapper (rm_aws_sockets_wrapper_silex)"
@@ -958,3 +956,4 @@ FSP Configuration
                   Instance "Crypto RA2"
               Instance "MbedTLS FSP Port (rm_mbedtls)"
         Instance "AWS Logging"
+    Instance "FreeRTOS Heap 5"

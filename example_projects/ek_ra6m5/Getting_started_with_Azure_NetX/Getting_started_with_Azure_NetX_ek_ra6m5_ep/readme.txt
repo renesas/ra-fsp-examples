@@ -29,11 +29,11 @@
 		NetX_tcp_udp_notes.md file.
 
 2. Software Requirements:
-	- Renesas Flexible Software Package (FSP): Version 5.7.0
-	- e2 studio: Version 2024-10
+	- Renesas Flexible Software Package (FSP): Version 5.8.0
+	- e2 studio: Version 2025-01
 	- GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 	- Terminal Console Application: Tera Term or a similar application (for boards that support J-Link OB VCOM)
-	- SEGGER J-Link RTT Viewer: Version 8.10f
+	- SEGGER J-Link RTT Viewer: Version 8.12c
 	- Socket Application: sokit version 1.3, etc.
 	- Browser Application: Microsoft Edge, Google Chrome, etc.
 
@@ -122,7 +122,7 @@ Note:
 	For the SEGGER RTT Viewer application: The macro USE_VIRTUAL_COM is set to 0.
 		1. The Segger RTT block address may need to be updated to observe the EP operation using a hex file with SEGGER RTT Viewer.
 			RTT Block addresses for hex file committed in the repository are as follows:
-			a. e2studio: 0x200009dc
+   a. e2studio: 0x200009dc
 			b. Keil: Not Available
 			c. IAR: Not Available
 		2. If an EP is modified, compiled, and downloaded, please find the block address (for the variable in RAM called _SEGGER_RTT)

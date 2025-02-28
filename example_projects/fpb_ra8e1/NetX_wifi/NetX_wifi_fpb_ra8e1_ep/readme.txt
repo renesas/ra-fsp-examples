@@ -17,9 +17,9 @@
      	appropriate acknowledgment messages are sent to the server.
 
 2. Software Requirements:
-     	Renesas Flexible Software Package (FSP): Version 5.7.0
-     	e2 studio: Version 2024-10
-     	SEGGER J-Link RTT Viewer: Version 8.10f
+     	Renesas Flexible Software Package (FSP): Version 5.8.0
+     	e2 studio: Version 2025-01
+     	SEGGER J-Link RTT Viewer: Version 8.12c
      	LLVM Embedded Toolchain for ARM: Version 18.1.3
      	Sokit software is required for creation of TCP server over specified IP and port(detailed steps mentioned below) 
      	Download Link: https://www.softpedia.com/get/Network-Tools/Misc-Networking-Tools/sokit.shtml
@@ -70,7 +70,7 @@
 	For FPB-RA8E1:
      	-----------
      		Connect
-     		Renesas Silex UART Pmod ----> PMOD 2
+     		Renesas Silex UART Pmod ----> PMOD 1
 
 5. Sokit setup on PC as TCP server:
    	1)  Download sokit tool form https://www.softpedia.com/get/Network-Tools/Misc-Networking-Tools/sokit.shtml

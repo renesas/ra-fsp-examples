@@ -18,20 +18,22 @@ This project demonstrates the basic functionality of USBX Device CDC ACM module 
    
    	3) Open the RTT viewer to view the application status messages.
      
-3. Hardware and Software Requirements:
+3. Software Requirements:
+	Renesas Flexible Software Package (FSP): Version 5.8.0
+	e2 studio: Version 2025-01
+	SEGGER J-Link RTT Viewer: Version 8.12c
+	Terminal Console Application: Tera Term or a similar application
+	USB Serial Drivers (included in Windows 10) 
+	Windows® 10 operating system
+	 
+4. Hardware and Software Requirements:
    
    Hardware : 
 	1) RA board 
 	2) 2x Micro USB device cable
 	3) A PC with at least 2 USB port(1 for debug and 1 for COM port)
-    
-   Software: 
-	1) Serial Terminal/TeraTerm
-        2) Windows® 10 operating system 
-	3) USB Serial Drivers (included in Windows 10) 
-        4) Jlink RTT viewer
 
-4. Configuration changes to switch Speed in configurator: 
+5. Configuration changes to switch Speed in configurator: 
 
     	i.  Full-Speed : (EK-RA4M2, EK-RA4M3, EK-RA6M1, EK-RA6M2, EK-RA6M4)
             USB Speed                     :    Full Speed
@@ -41,7 +43,7 @@ This project demonstrates the basic functionality of USBX Device CDC ACM module 
             USB Speed                     :    Hi Speed
             USB Module Number             :    USB_IP1 Port
 	
-5. Hardware settings for the project:
+6. Hardware settings for the project:
 	
     Jumper Settings:
      	

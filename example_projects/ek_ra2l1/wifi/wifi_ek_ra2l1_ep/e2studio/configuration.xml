@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<raConfiguration version="9">
+<raConfiguration version="10">
   <generalSettings>
     <option key="#Board#" value="board.ra2l1_ek"/>
     <option key="CPU" value="RA2L1"/>
@@ -9,7 +9,7 @@
     <option key="#DeviceCommand#" value="R7FA2L1AB"/>
     <option key="#RTOS#" value="rtos.awsfreertos"/>
     <option key="#pinconfiguration#" value="R7FA2L1AB2DFP.pincfg"/>
-    <option key="#FSPVersion#" value="5.7.0"/>
+    <option key="#FSPVersion#" value="5.8.0"/>
     <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra2l1_ek##"/>
     <option key="#SELECTED_TOOLCHAIN#" value="gcc-arm-embedded"/>
     <option key="#ToolchainVersion#" value="13.2.1.arm-13-7"/>
@@ -97,7 +97,6 @@
       <property id="config.bsp.common.vcc" value="3300"/>
       <property id="config.bsp.common.checking" value="config.bsp.common.checking.enabled"/>
       <property id="config.bsp.common.assert" value="config.bsp.common.assert.none"/>
-      <property id="config.bsp.common.error_log" value="config.bsp.common.error_log.none"/>
       <property id="config.bsp.common.soft_reset" value="config.bsp.common.soft_reset.disabled"/>
       <property id="config.bsp.common.main_osc_populated" value="config.bsp.common.main_osc_populated.disabled"/>
       <property id="config.bsp.common.pfs_protect" value="config.bsp.common.pfs_protect.enabled"/>
@@ -127,125 +126,125 @@
     <node id="board.clock.clkout.display" option="board.clock.clkout.display.value"/>
   </raClockConfiguration>
   <raComponentSelection>
-    <component apiversion="" class="PSA" condition="" group="Crypto" subgroup="mbedCrypto" variant="" vendor="Arm" version="3.6.2+renesas.1.fsp.5.7.0">
-      <description>Arm PSA Crypto Implementation</description>
-      <originalPack>Arm.MbedCrypto.3.6.2+renesas.1.fsp.5.7.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra2l1_ek" variant="" vendor="Renesas" version="5.7.0">
-      <description>RA2L1-EK Board Support Files</description>
-      <originalPack>Renesas.RA_board_ra2l1_ek.5.7.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Mbed" condition="" group="Library" subgroup="LittleFS" variant="" vendor="Arm" version="2.2.1+renesas.1.fsp.5.7.0">
-      <description>Arm Mbed LittleFS</description>
-      <originalPack>Arm.LittleFS.2.2.1+renesas.1.fsp.5.7.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra2l1" subgroup="device" variant="R7FA2L1AB2DFP" vendor="Renesas" version="5.7.0">
-      <description>Board support package for R7FA2L1AB2DFP</description>
-      <originalPack>Renesas.RA_mcu_ra2l1.5.7.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra2l1" subgroup="device" variant="" vendor="Renesas" version="5.7.0">
-      <description>Board support package for RA2L1</description>
-      <originalPack>Renesas.RA_mcu_ra2l1.5.7.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra2l1" subgroup="fsp" variant="" vendor="Renesas" version="5.7.0">
-      <description>Board support package for RA2L1 - FSP Data</description>
-      <originalPack>Renesas.RA_mcu_ra2l1.5.7.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra2l1" subgroup="events" variant="" vendor="Renesas" version="5.7.0">
-      <description>Board support package for RA2L1 - Events</description>
-      <originalPack>Renesas.RA_mcu_ra2l1.5.7.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Abstractions" condition="" group="PKCS11" subgroup="mbedtls" variant="" vendor="AWS" version="3.5.0+fsp.5.7.0">
-      <description>AWS PKCS11 to mbedTLS</description>
-      <originalPack>Amazon.corePKCS11.3.5.0+fsp.5.7.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="RTOS" condition="" group="FreeRTOS" subgroup="all" variant="" vendor="AWS" version="10.6.1+fsp.5.7.0">
-      <description>FreeRTOS</description>
-      <originalPack>Amazon.FreeRTOS-Kernel.10.6.1+fsp.5.7.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Heaps" condition="" group="FreeRTOS" subgroup="heap_4" variant="" vendor="AWS" version="10.6.1+fsp.5.7.0">
-      <description>FreeRTOS - Memory Management - Heap 4</description>
-      <originalPack>Amazon.FreeRTOS-Kernel.10.6.1+fsp.5.7.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="6.1.0+fsp.5.7.0">
+    <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="6.1.0+fsp.5.8.0">
       <description>Arm CMSIS Version 6 - Core (M)</description>
-      <originalPack>Arm.CMSIS6.6.1.0+fsp.5.7.0.pack</originalPack>
+      <originalPack>Arm.CMSIS6.6.1.0+fsp.5.8.0.pack</originalPack>
     </component>
-    <component apiversion="" class="c_sdk" condition="" group="standard" subgroup="logging" variant="" vendor="AWS" version="202212.0.1+renesas.2.fsp.5.7.0">
-      <description>AWS Logging</description>
-      <originalPack>Amazon.FreeRTOS.202212.0.1+renesas.2.fsp.5.7.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="FreeRTOS_Plus" condition="" group="utilities" subgroup="mbedtls" variant="" vendor="AWS" version="202212.0.1+renesas.2.fsp.5.7.0">
-      <description>AWS MbedTLS FreeRTOS Port</description>
-      <originalPack>Amazon.FreeRTOS.202212.0.1+renesas.2.fsp.5.7.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Libraries" condition="" group="FreeRTOS_Plus" subgroup="MbedTLS_PKCS11_Transport" variant="" vendor="AWS" version="202212.0.1+renesas.2.fsp.5.7.0">
-      <description>AWS MbedTLS/PKCS11 Transport Interface</description>
-      <originalPack>Amazon.FreeRTOS.202212.0.1+renesas.2.fsp.5.7.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Libraries" condition="" group="FreeRTOS_Plus" subgroup="Plus_TCP_MbedTLS_Bio" variant="" vendor="AWS" version="202212.0.1+renesas.2.fsp.5.7.0">
-      <description>FreeRTOS+TCP MbedTLS Bio</description>
-      <originalPack>Amazon.FreeRTOS.202212.0.1+renesas.2.fsp.5.7.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="5.7.0">
-      <description>Board Support Package Common Files</description>
-      <originalPack>Renesas.RA.5.7.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_dtc" variant="" vendor="Renesas" version="5.7.0">
-      <description>Data Transfer Controller</description>
-      <originalPack>Renesas.RA.5.7.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_flash_lp" variant="" vendor="Renesas" version="5.7.0">
-      <description>Flash Memory Low Power</description>
-      <originalPack>Renesas.RA.5.7.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="5.7.0">
-      <description>I/O Port</description>
-      <originalPack>Renesas.RA.5.7.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_sce_ra2" variant="" vendor="Renesas" version="5.7.0">
-      <description>AES Engine on AES1</description>
-      <originalPack>Renesas.RA.5.7.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_sci_uart" variant="" vendor="Renesas" version="5.7.0">
-      <description>SCI UART</description>
-      <originalPack>Renesas.RA.5.7.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_aws_pkcs11_pal_littlefs" variant="" vendor="Renesas" version="5.7.0">
-      <description>AWS PCKS11 PAL on LittleFS</description>
-      <originalPack>Renesas.RA.5.7.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_aws_sockets_wrapper_silex" variant="" vendor="Renesas" version="5.7.0">
-      <description>AWS Silex WiFi Sockets Wrapper</description>
-      <originalPack>Renesas.RA.5.7.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_littlefs_flash" variant="" vendor="Renesas" version="5.7.0">
-      <description>LittleFS Flash Port</description>
-      <originalPack>Renesas.RA.5.7.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_mbedtls" variant="" vendor="Renesas" version="5.7.0">
-      <description>Modified mbedTLS</description>
-      <originalPack>Renesas.RA.5.7.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="rm_psa_crypto" variant="" vendor="Renesas" version="5.7.0">
-      <description>MbedCrypto H/W Acceleration</description>
-      <originalPack>Renesas.RA.5.7.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="rm_wifi_onchip_silex" variant="" vendor="Renesas" version="5.7.0">
-      <description>WiFi Onchip Silex</description>
-      <originalPack>Renesas.RA.5.7.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_wifi_api" variant="" vendor="Renesas" version="5.7.0">
-      <description>WiFi Common</description>
-      <originalPack>Renesas.RA.5.7.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="mbed" condition="" group="Security" subgroup="mbedTLS" variant="" vendor="Arm" version="3.6.2+renesas.1.fsp.5.7.0">
+    <component apiversion="" class="mbed" condition="" group="Security" subgroup="mbedTLS" variant="" vendor="Arm" version="3.6.2+renesas.1.fsp.5.8.0">
       <description>Arm mbed TLS</description>
-      <originalPack>Arm.MbedTLS.3.6.2+renesas.1.fsp.5.7.0.pack</originalPack>
+      <originalPack>Arm.MbedTLS.3.6.2+renesas.1.fsp.5.8.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Libraries" condition="" group="coreMQTT" subgroup="source" variant="" vendor="AWS" version="2.1.1+fsp.5.7.0">
+    <component apiversion="" class="c_sdk" condition="" group="standard" subgroup="logging" variant="" vendor="AWS" version="202411.0.0+renesas.fsp.5.8.0">
+      <description>AWS Logging</description>
+      <originalPack>Amazon.FreeRTOS.202411.0.0+renesas.fsp.5.8.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="FreeRTOS_Plus" condition="" group="utilities" subgroup="mbedtls" variant="" vendor="AWS" version="202411.0.0+renesas.fsp.5.8.0">
+      <description>AWS MbedTLS FreeRTOS Port</description>
+      <originalPack>Amazon.FreeRTOS.202411.0.0+renesas.fsp.5.8.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Libraries" condition="" group="FreeRTOS_Plus" subgroup="MbedTLS_PKCS11_Transport" variant="" vendor="AWS" version="202411.0.0+renesas.fsp.5.8.0">
+      <description>AWS MbedTLS/PKCS11 Transport Interface</description>
+      <originalPack>Amazon.FreeRTOS.202411.0.0+renesas.fsp.5.8.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Libraries" condition="" group="FreeRTOS_Plus" subgroup="Plus_TCP_MbedTLS_Bio" variant="" vendor="AWS" version="202411.0.0+renesas.fsp.5.8.0">
+      <description>FreeRTOS+TCP MbedTLS Bio</description>
+      <originalPack>Amazon.FreeRTOS.202411.0.0+renesas.fsp.5.8.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="RTOS" condition="" group="FreeRTOS" subgroup="all" variant="" vendor="AWS" version="11.1.0+fsp.5.8.0">
+      <description>FreeRTOS</description>
+      <originalPack>Amazon.FreeRTOS-Kernel.11.1.0+fsp.5.8.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Heaps" condition="" group="FreeRTOS" subgroup="heap_5" variant="" vendor="AWS" version="11.1.0+fsp.5.8.0">
+      <description>FreeRTOS - Memory Management - Heap 5</description>
+      <originalPack>Amazon.FreeRTOS-Kernel.11.1.0+fsp.5.8.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="PSA" condition="" group="Crypto" subgroup="mbedCrypto" variant="" vendor="Arm" version="3.6.2+renesas.1.fsp.5.8.0">
+      <description>Arm PSA Crypto Implementation</description>
+      <originalPack>Arm.MbedCrypto.3.6.2+renesas.1.fsp.5.8.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra2l1" subgroup="device" variant="R7FA2L1AB2DFP" vendor="Renesas" version="5.8.0">
+      <description>Board support package for R7FA2L1AB2DFP</description>
+      <originalPack>Renesas.RA_mcu_ra2l1.5.8.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra2l1" subgroup="device" variant="" vendor="Renesas" version="5.8.0">
+      <description>Board support package for RA2L1</description>
+      <originalPack>Renesas.RA_mcu_ra2l1.5.8.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra2l1" subgroup="fsp" variant="" vendor="Renesas" version="5.8.0">
+      <description>Board support package for RA2L1 - FSP Data</description>
+      <originalPack>Renesas.RA_mcu_ra2l1.5.8.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra2l1" subgroup="events" variant="" vendor="Renesas" version="5.8.0">
+      <description>Board support package for RA2L1 - Events</description>
+      <originalPack>Renesas.RA_mcu_ra2l1.5.8.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra2l1_ek" variant="" vendor="Renesas" version="5.8.0">
+      <description>RA2L1-EK Board Support Files</description>
+      <originalPack>Renesas.RA_board_ra2l1_ek.5.8.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Abstractions" condition="" group="PKCS11" subgroup="mbedtls" variant="" vendor="AWS" version="3.6.2+fsp.5.8.0">
+      <description>AWS PKCS11 to mbedTLS</description>
+      <originalPack>Amazon.corePKCS11.3.6.2+fsp.5.8.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="5.8.0">
+      <description>Board Support Package Common Files</description>
+      <originalPack>Renesas.RA.5.8.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_dtc" variant="" vendor="Renesas" version="5.8.0">
+      <description>Data Transfer Controller</description>
+      <originalPack>Renesas.RA.5.8.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_flash_lp" variant="" vendor="Renesas" version="5.8.0">
+      <description>Flash Memory Low Power</description>
+      <originalPack>Renesas.RA.5.8.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="5.8.0">
+      <description>I/O Port</description>
+      <originalPack>Renesas.RA.5.8.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_sce_ra2" variant="" vendor="Renesas" version="5.8.0">
+      <description>AES Engine on AES1</description>
+      <originalPack>Renesas.RA.5.8.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_sci_uart" variant="" vendor="Renesas" version="5.8.0">
+      <description>SCI UART</description>
+      <originalPack>Renesas.RA.5.8.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_aws_pkcs11_pal_littlefs" variant="" vendor="Renesas" version="5.8.0">
+      <description>AWS PCKS11 PAL on LittleFS</description>
+      <originalPack>Renesas.RA.5.8.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_aws_sockets_wrapper_silex" variant="" vendor="Renesas" version="5.8.0">
+      <description>AWS Silex WiFi Sockets Wrapper</description>
+      <originalPack>Renesas.RA.5.8.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_littlefs_flash" variant="" vendor="Renesas" version="5.8.0">
+      <description>LittleFS Flash Port</description>
+      <originalPack>Renesas.RA.5.8.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_mbedtls" variant="" vendor="Renesas" version="5.8.0">
+      <description>Modified mbedTLS</description>
+      <originalPack>Renesas.RA.5.8.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="rm_psa_crypto" variant="" vendor="Renesas" version="5.8.0">
+      <description>MbedCrypto H/W Acceleration</description>
+      <originalPack>Renesas.RA.5.8.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="rm_wifi_onchip_silex" variant="" vendor="Renesas" version="5.8.0">
+      <description>WiFi Onchip Silex</description>
+      <originalPack>Renesas.RA.5.8.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_wifi_api" variant="" vendor="Renesas" version="5.8.0">
+      <description>WiFi Common</description>
+      <originalPack>Renesas.RA.5.8.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Mbed" condition="" group="Library" subgroup="LittleFS" variant="" vendor="Arm" version="2.2.1+renesas.1.fsp.5.8.0">
+      <description>Arm Mbed LittleFS</description>
+      <originalPack>Arm.LittleFS.2.2.1+renesas.1.fsp.5.8.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Libraries" condition="" group="coreMQTT" subgroup="source" variant="" vendor="AWS" version="2.3.1+fsp.5.8.0">
       <description>AWS Core MQTT</description>
-      <originalPack>Amazon.coreMQTT.2.1.1+fsp.5.7.0.pack</originalPack>
+      <originalPack>Amazon.coreMQTT.2.3.1+fsp.5.8.0.pack</originalPack>
     </component>
   </raComponentSelection>
   <raElcConfiguration/>
@@ -259,7 +258,6 @@
       <property id="module.driver.ioport.elc_trigger_ioport4" value="_disabled"/>
       <property id="module.driver.ioport.pincfg" value="g_bsp_pin_cfg"/>
     </module>
-    <module id="module.freertos.heap.4.23248655"/>
     <module id="module.aws.coreMqttLib.689517970"/>
     <module id="module.aws.transport_interface.mbedtls_pkcs11.237786072"/>
     <module id="module.aws.sockets_wrapper.wifi_silex.1789494691"/>
@@ -352,6 +350,7 @@
       <property id="module.driver.flash.ipl" value="_disabled"/>
     </module>
     <module id="module.aws.mbedtls_bio.plus_tcp.1949722155"/>
+    <module id="module.freertos.heap.5.82118587"/>
     <context id="_hal.0">
       <stack module="module.driver.ioport_on_ioport.0"/>
     </context>
@@ -363,7 +362,6 @@
       <property id="rtos.awsfreertos.thread.context" value="NULL"/>
       <property id="rtos.awsfreertos.thread.allocation" value="rtos.awsfreertos.thread.allocation.static"/>
       <property id="rtos.awsfreertos.thread.secure_context" value="rtos.awsfreertos.thread.secure_context.enable"/>
-      <stack module="module.freertos.heap.4.23248655"/>
       <stack module="module.aws.coreMqttLib.689517970">
         <stack module="module.aws.transport_interface.mbedtls_pkcs11.237786072" requires="module.aws.coreMqttLib.requires.transport_interface">
           <stack module="module.aws.sockets_wrapper.wifi_silex.1789494691" requires="module.aws.transport_interface.mbedtls_pkcs11.requires.sockets_wrapper">
@@ -398,6 +396,7 @@
           <stack module="module.aws.c_sdk.logging.1587266534" requires="module.aws.transport_interface.mbedtls_pkcs11.requires.c_sdk_logging"/>
         </stack>
       </stack>
+      <stack module="module.freertos.heap.5.82118587"/>
     </context>
     <config id="config.middleware.rm_littlefs_flash">
       <property id="config.middleware.rm_littlefs_flash.param_checking_enable" value="config.middleware.rm_littlefs_flash.param_checking_enable.bsp"/>

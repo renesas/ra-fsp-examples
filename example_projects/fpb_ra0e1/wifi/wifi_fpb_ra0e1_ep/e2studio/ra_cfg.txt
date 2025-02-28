@@ -26,7 +26,7 @@ FSP Configuration
     OFS1 register settings: Flash Read Protection Start: 0x01
     OFS1 register settings: Flash Read Protection End: 0x3F
     OFS1 register settings: P206/RES pin selection: RES input
-    Main Oscillation Stabilization Time: 2^18/X1
+    Main Oscillation Stabilization Time: 2^18/MOSC
     Use Low Voltage Mode: Not Supported
     ID Code Mode: Unlocked (Ignore ID)
     ID Code (32 Hex Characters): FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
@@ -39,7 +39,6 @@ FSP Configuration
     MCU Vcc (mV): 3300
     Parameter checking: Enabled
     Assert Failures: Return FSP_ERR_ASSERTION
-    Error Log: No Error Log
     Clock Registers not Reset Values during Startup: Disabled
     Main Oscillator Populated: Not Populated
     PFS Protect: Enabled
@@ -51,8 +50,8 @@ FSP Configuration
     Subclock Stabilization Time (ms): 1000
     
   Clocks
-    X1 20000000Hz
-    X1 Div /1
+    XTAL 20000000Hz
+    XTAL Div /1
     HOCO 32MHz
     HOCO Div /1
     MOCO Div /1
@@ -67,7 +66,7 @@ FSP Configuration
     SAU CK11 Div /1
     CLKOUT Disabled
     CLKOUT Div /1
-    UARTA Src: Disabled
+    UARTA0 Src: Disabled
     FSXP Src: SUBCLK
     TML FITL0 Src: ELC event/No BSP Source Clock
     TML FITL1 Src: ELC event/No BSP Source Clock
@@ -83,27 +82,27 @@ FSP Configuration
       P013 27 GPIO PMOD1_RESET_ARDUINO_A1 - - "Output mode (Initial High)" - - "ADC0: AN005" - IO - - 
       P014 26 ADC0_AN006 PMOD2_GPIO8_ARDUINO_A0 - - "Analog mode" - - "ADC0: AN006" - I - - 
       P015 25 IRQ_IRQ1 PMOD2_INT - IRQ1 "IRQ mode" - - "ADC0: AN007; IRQ: IRQ1" - I - - 
-      P100 24 SAU_UART0_RXD0 PMOD1_MISO_RXD_ARDUINO_D4 - None "Peripheral mode" - - "ADC0: AN022; IRQ: IRQ2; SAU_I2C00: SDA00; SAU_SPI00: SI00; SAU_UART0: RXD0; TAU01: TI01; TAU01: TO01; TAU04: TI04; TAU04: TO04; UARTA: RXDA" - I - - 
-      P101 23 SAU_UART0_TXD0 PMOD1_MOSI_TXD_ARDUINO_D5 - None "Peripheral mode" - - "ADC0: AN021; IRQ: IRQ3; SAU_SPI00: SO00; SAU_UART0: TXD0; TAU00: TI00; TAU07: TI07; TAU07: TO07; UARTA: TXDA" - O - - 
+      P100 24 SAU_UART0_RXD0 PMOD1_MISO_RXD_ARDUINO_D4 - None "Peripheral mode" - - "ADC0: AN022; IICA0: SCLA0; IRQ: IRQ2; SAU_I2C00: SDA00; SAU_SPI00: SI00; SAU_UART0: RXD0; TAU01: TI01; TAU01: TO01; TAU04: TI04; TAU04: TO04; UARTA: RXDA" - I - - 
+      P101 23 SAU_UART0_TXD0 PMOD1_MOSI_TXD_ARDUINO_D5 - None "Peripheral mode" - - "ADC0: AN021; IICA0: SDAA0; IRQ: IRQ3; SAU_SPI00: SO00; SAU_UART0: TXD0; TAU00: TI00; TAU07: TI07; TAU07: TO07; UARTA: TXDA" - O - - 
       P102 22 GPIO PMOD1_SCK_RTS_ARDUINO_D6 - None "Input mode" - - "CGC: PCLBUZ0; IRQ: IRQ4; RTC: RTCOUT; SAU_I2C00: SCL00; SAU_SPI00: SCK00; TAU00: TO00; TAU06: TI06; TAU06: TO06" - IO - - 
       P103 21 GPIO PMOD1_CS_CTS_ARDUINO_D7 - None "Input mode" - - "IRQ: IRQ5; SAU_SPI00: SSI00; TAU05: TI05; TAU05: TO05" - IO - - 
       P108 17 JTAG/SWD_SWDIO - - - "Peripheral mode" - - "JTAG/SWD: SWDIO; TAU03: TI03; TAU03: TO03" - IO - - 
-      P109 18 GPIO PMOD2_RESET_ARDUINO_D8 - None "Input mode" - - "IRQ: IRQ4; SAU_SPI20: SO20; SAU_UART2: TXD2; TAU02: TI02; TAU02: TO02; UARTA: TXDA" - IO - - 
-      P110 19 GPIO PMOD2_SDA_ARDUINO_D9 - None "Input mode" - - "IRQ: IRQ3; SAU_I2C20: SDA20; SAU_SPI20: SI20; SAU_UART2: RXD2; TAU01: TI01; TAU01: TO01; UARTA: RXDA" - IO - - 
+      P109 18 GPIO PMOD2_RESET_ARDUINO_D8 - None "Input mode" - - "IICA0: SDAA0; IRQ: IRQ4; SAU_SPI20: SO20; SAU_UART2: TXD2; TAU02: TI02; TAU02: TO02; UARTA: TXDA" - IO - - 
+      P110 19 GPIO PMOD2_SDA_ARDUINO_D9 - None "Input mode" - - "IICA0: SCLA0; IRQ: IRQ3; SAU_I2C20: SDA20; SAU_SPI20: SI20; SAU_UART2: RXD2; TAU01: TI01; TAU01: TO01; UARTA: RXDA" - IO - - 
       P112 20 GPIO PMOD2_SCL_ARDUINO_D10 - None "Input mode" - - "IRQ: IRQ2; SAU_I2C20: SCL20; SAU_SPI00: SSI00; SAU_SPI20: SCK20; TAU03: TI03; TAU03: TO03" - IO - - 
       P200 15 IRQ_IRQ0 SW - IRQ0 "IRQ mode" - - "IRQ: IRQ0" ARDUINO_D2 I - - 
       P201 14 GPIO PMOD1_INT_ARDUINO_D3 - None "Input mode" - - "CGC: PCLBUZ0; IRQ: IRQ5; RTC: RTCOUT; SAU_I2C11: SCL11; SAU_SPI00: SSI00; SAU_SPI11: SCK11; TAU05: TI05; TAU05: TO05" - IO - - 
       P206 13 SYSTEM_RES RES - - "Peripheral mode" - - "SYSTEM: RES" ARDUINO_RESET IO - - 
       P207 12 UARTA_RXDA ARDUINO_RX - None "Peripheral mode" - - "IRQ: IRQ2; TAU00: TO00; UARTA: RXDA" - I - - 
       P208 11 UARTA_TXDA ARDUINO_TX - None "Peripheral mode" - - "IRQ: IRQ3; TAU00: TI00; UARTA: TXDA" - O - - 
-      P212 6 SAU_SPI11_SI11 ARDUINO_MISO - None "Peripheral mode" - - "CGC: X1; IRQ: IRQ1; SAU_I2C11: SDA11; SAU_SPI11: SI11; SAU_UART1: RXD1; TAU00: TO00; TAU03: TI03; TAU03: TO03; UARTA: RXDA" - I - - 
-      P213 5 SAU_SPI11_SO11 ARDUINO_MOSI - None "Peripheral mode" - - "CGC: EXCLK; CGC: X2; IRQ: IRQ0; SAU_SPI11: SO11; SAU_UART1: TXD1; TAU00: TI00; TAU02: TI02; TAU02: TO02; UARTA: TXDA" - O - - 
+      P212 6 SAU_SPI11_SI11 ARDUINO_MISO - None "Peripheral mode" - - "CGC: X1; IICA0: SCLA0; IRQ: IRQ1; SAU_I2C11: SDA11; SAU_SPI11: SI11; SAU_UART1: RXD1; TAU00: TO00; TAU03: TI03; TAU03: TO03; UARTA: RXDA" - I - - 
+      P213 5 SAU_SPI11_SO11 ARDUINO_MOSI - None "Peripheral mode" - - "CGC: EXCLK; CGC: X2; IICA0: SDAA0; IRQ: IRQ0; SAU_SPI11: SO11; SAU_UART1: TXD1; TAU00: TI00; TAU02: TI02; TAU02: TO02; UARTA: TXDA" - O - - 
       P214 3 CGC_XCOUT - - - "Peripheral mode" - - "CGC: XCOUT" - IO - - 
       P215 2 CGC_XCIN - - - "Peripheral mode" - - "CGC: XCIN" - IO - - 
       P300 16 JTAG/SWD_SWCLK - - - "Peripheral mode" - - "JTAG/SWD: SWCLK; TAU04: TI04; TAU04: TO04" - IO - - 
       P407 8 SAU_SPI11_SCK11 ARDUINO_SCK - None "Peripheral mode" - - "CGC: PCLBUZ0; IRQ: IRQ4; RTC: RTCOUT; SAU_I2C11: SCL11; SAU_SPI11: SCK11" PMOD2_GPIO7 IO - - 
-      P913 10 GPIO PMOD2_GPIO10_ARDUINO_SDA - - "Input mode" - - - - IO - - 
-      P914 9 GPIO PMOD2_GPIO9_ARDUINO_SCL - - "Input mode" - - - - IO - - 
+      P913 10 GPIO PMOD2_GPIO10_ARDUINO_SDA - - "Input mode" - - "IICA0: SDAA0" - IO - - 
+      P914 9 GPIO PMOD2_GPIO9_ARDUINO_SCL - - "Input mode" - - "IICA0: SCLA0" - IO - - 
       VCC 7 SYSTEM_VCC - - - - - - - - IO "Read only" - 
       VCL 1 SYSTEM_VCL - - - - - - - - IO "Read only" - 
       VSS 4 SYSTEM_VSS - - - - - - - - IO "Read only" - 
@@ -116,27 +115,27 @@ FSP Configuration
       P013 27 - PMOD1_RESET_ARDUINO_A1 - - Disabled - - "ADC0: AN005" - IO - - 
       P014 26 - PMOD2_GPIO8_ARDUINO_A0 - - Disabled - - "ADC0: AN006" - I - - 
       P015 25 - PMOD2_INT - None Disabled - - "ADC0: AN007; IRQ: IRQ1" - I - - 
-      P100 24 - PMOD1_MISO_RXD_ARDUINO_D4 - None Disabled - - "ADC0: AN022; IRQ: IRQ2; SAU_I2C00: SDA00; SAU_SPI00: SI00; SAU_UART0: RXD0; TAU01: TI01; TAU01: TO01; TAU04: TI04; TAU04: TO04; UARTA: RXDA" - I - - 
-      P101 23 - PMOD1_MOSI_TXD_ARDUINO_D5 - None Disabled - - "ADC0: AN021; IRQ: IRQ3; SAU_SPI00: SO00; SAU_UART0: TXD0; TAU00: TI00; TAU07: TI07; TAU07: TO07; UARTA: TXDA" - O - - 
+      P100 24 - PMOD1_MISO_RXD_ARDUINO_D4 - None Disabled - - "ADC0: AN022; IICA0: SCLA0; IRQ: IRQ2; SAU_I2C00: SDA00; SAU_SPI00: SI00; SAU_UART0: RXD0; TAU01: TI01; TAU01: TO01; TAU04: TI04; TAU04: TO04; UARTA: RXDA" - I - - 
+      P101 23 - PMOD1_MOSI_TXD_ARDUINO_D5 - None Disabled - - "ADC0: AN021; IICA0: SDAA0; IRQ: IRQ3; SAU_SPI00: SO00; SAU_UART0: TXD0; TAU00: TI00; TAU07: TI07; TAU07: TO07; UARTA: TXDA" - O - - 
       P102 22 - PMOD1_SCK_RTS_ARDUINO_D6 - None Disabled - - "CGC: PCLBUZ0; IRQ: IRQ4; RTC: RTCOUT; SAU_I2C00: SCL00; SAU_SPI00: SCK00; TAU00: TO00; TAU06: TI06; TAU06: TO06" - IO - - 
       P103 21 - PMOD1_CS_CTS_ARDUINO_D7 - None Disabled - - "IRQ: IRQ5; SAU_SPI00: SSI00; TAU05: TI05; TAU05: TO05" - IO - - 
       P108 17 JTAG/SWD_SWDIO - - - "Peripheral mode" - - "JTAG/SWD: SWDIO; TAU03: TI03; TAU03: TO03" - IO - - 
-      P109 18 - PMOD2_RESET_ARDUINO_D8 - None Disabled - - "IRQ: IRQ4; SAU_SPI20: SO20; SAU_UART2: TXD2; TAU02: TI02; TAU02: TO02; UARTA: TXDA" - IO - - 
-      P110 19 - PMOD2_SDA_ARDUINO_D9 - None Disabled - - "IRQ: IRQ3; SAU_I2C20: SDA20; SAU_SPI20: SI20; SAU_UART2: RXD2; TAU01: TI01; TAU01: TO01; UARTA: RXDA" - IO - - 
+      P109 18 - PMOD2_RESET_ARDUINO_D8 - None Disabled - - "IICA0: SDAA0; IRQ: IRQ4; SAU_SPI20: SO20; SAU_UART2: TXD2; TAU02: TI02; TAU02: TO02; UARTA: TXDA" - IO - - 
+      P110 19 - PMOD2_SDA_ARDUINO_D9 - None Disabled - - "IICA0: SCLA0; IRQ: IRQ3; SAU_I2C20: SDA20; SAU_SPI20: SI20; SAU_UART2: RXD2; TAU01: TI01; TAU01: TO01; UARTA: RXDA" - IO - - 
       P112 20 - PMOD2_SCL_ARDUINO_D10 - None Disabled - - "IRQ: IRQ2; SAU_I2C20: SCL20; SAU_SPI00: SSI00; SAU_SPI20: SCK20; TAU03: TI03; TAU03: TO03" - IO - - 
       P200 15 - SW - None Disabled - - "IRQ: IRQ0" ARDUINO_D2 I - - 
       P201 14 - PMOD1_INT_ARDUINO_D3 - None Disabled - - "CGC: PCLBUZ0; IRQ: IRQ5; RTC: RTCOUT; SAU_I2C11: SCL11; SAU_SPI00: SSI00; SAU_SPI11: SCK11; TAU05: TI05; TAU05: TO05" - IO - - 
       P206 13 - RES - - Disabled - - "SYSTEM: RES" ARDUINO_RESET IO - - 
       P207 12 - ARDUINO_RX - None Disabled - - "IRQ: IRQ2; TAU00: TO00; UARTA: RXDA" - I - - 
       P208 11 - ARDUINO_TX - None Disabled - - "IRQ: IRQ3; TAU00: TI00; UARTA: TXDA" - O - - 
-      P212 6 - ARDUINO_MISO - None Disabled - - "CGC: X1; IRQ: IRQ1; SAU_I2C11: SDA11; SAU_SPI11: SI11; SAU_UART1: RXD1; TAU00: TO00; TAU03: TI03; TAU03: TO03; UARTA: RXDA" - I - - 
-      P213 5 - ARDUINO_MOSI - None Disabled - - "CGC: EXCLK; CGC: X2; IRQ: IRQ0; SAU_SPI11: SO11; SAU_UART1: TXD1; TAU00: TI00; TAU02: TI02; TAU02: TO02; UARTA: TXDA" - O - - 
+      P212 6 - ARDUINO_MISO - None Disabled - - "CGC: X1; IICA0: SCLA0; IRQ: IRQ1; SAU_I2C11: SDA11; SAU_SPI11: SI11; SAU_UART1: RXD1; TAU00: TO00; TAU03: TI03; TAU03: TO03; UARTA: RXDA" - I - - 
+      P213 5 - ARDUINO_MOSI - None Disabled - - "CGC: EXCLK; CGC: X2; IICA0: SDAA0; IRQ: IRQ0; SAU_SPI11: SO11; SAU_UART1: TXD1; TAU00: TI00; TAU02: TI02; TAU02: TO02; UARTA: TXDA" - O - - 
       P214 3 - - - - Disabled - - "CGC: XCOUT" - IO - - 
       P215 2 - - - - Disabled - - "CGC: XCIN" - IO - - 
       P300 16 JTAG/SWD_SWCLK - - - "Peripheral mode" - - "JTAG/SWD: SWCLK; TAU04: TI04; TAU04: TO04" - IO - - 
       P407 8 - ARDUINO_SCK - None Disabled - - "CGC: PCLBUZ0; IRQ: IRQ4; RTC: RTCOUT; SAU_I2C11: SCL11; SAU_SPI11: SCK11" PMOD2_GPIO7 IO - - 
-      P913 10 - PMOD2_GPIO10_ARDUINO_SDA - - Disabled - - - - IO - - 
-      P914 9 - PMOD2_GPIO9_ARDUINO_SCL - - Disabled - - - - IO - - 
+      P913 10 - PMOD2_GPIO10_ARDUINO_SDA - - Disabled - - "IICA0: SDAA0" - IO - - 
+      P914 9 - PMOD2_GPIO9_ARDUINO_SCL - - Disabled - - "IICA0: SCLA0" - IO - - 
       VCC 7 SYSTEM_VCC - - - - - - - - IO "Read only" - 
       VCL 1 SYSTEM_VCL - - - - - - - - IO "Read only" - 
       VSS 4 SYSTEM_VSS - - - - - - - - IO "Read only" - 
@@ -179,6 +178,7 @@ FSP Configuration
   Module "LittleFS"
     Custom lfs_util.h: 
     Thread Safe: Disabled
+    Read Only: Disabled
     Use Malloc: Enabled
     Use Assert: Enabled
     Debug Messages: Disabled
@@ -194,8 +194,10 @@ FSP Configuration
   Module "Flash (r_flash_lp)"
     Parameter Checking: Default (BSP)
     Code Flash Programming: Disabled
+    Code Flash Background Operation Support With Bank Programming: Not Supported
     Data Flash Programming: Enabled
     Data Flash Background Operation Support: Enabled
+    Instant Bank Swap (No Reset Required): Not Supported
     
   Module "FreeRTOS MbedTLS Port"
   Module "AWS Logging"
@@ -331,7 +333,8 @@ FSP Configuration
     Hardware Acceleration: Public Key Cryptography (PKC): ECC: Use Software
     Hardware Acceleration: Public Key Cryptography (PKC): ECDSA : Use Software
     Hardware Acceleration: Public Key Cryptography (PKC): ECDH : Use Software
-    Hardware Acceleration: Public Key Cryptography (PKC): RSA: Use Software
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA 1024: Use Software
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA 2048: Use Software
     Hardware Acceleration: Public Key Cryptography (PKC): RSA 3072: Key Generation: Disabled
     Hardware Acceleration: Public Key Cryptography (PKC): RSA 3072: Signing: Disabled
     Hardware Acceleration: Public Key Cryptography (PKC): RSA 3072: Verification: Disabled
@@ -425,6 +428,7 @@ FSP Configuration
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_NIST_OPTIM: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_RESTARTABLE: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECDSA_DETERMINISTIC: Undefine
+    Public Key Cryptography (PKC): ECC: MBEDTLS_PK_PARSE_EC_COMPRESSED: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_PK_PARSE_EC_EXTENDED: Undefine
     General: MBEDTLS_ERROR_STRERROR_DUMMY: Define
     Public Key Cryptography (PKC): MBEDTLS_GENPRIME: Define
@@ -444,7 +448,9 @@ FSP Configuration
     General: MBEDTLS_PSA_CRYPTO_CLIENT: Undefine
     RNG: MBEDTLS_PSA_CRYPTO_EXTERNAL_RNG: Undefine
     General: MBEDTLS_PSA_CRYPTO_SPM: Undefine
+    General: MBEDTLS_PSA_KEY_STORE_DYNAMIC: Undefine
     RNG: MBEDTLS_PSA_INJECT_ENTROPY: Undefine
+    General: MBEDTLS_PSA_ASSUME_EXCLUSIVE_BUFFERS: Undefine
     Public Key Cryptography (PKC): RSA: MBEDTLS_RSA_NO_CRT: Define
     General: MBEDTLS_SELF_TEST: Undefine
     Hash: MBEDTLS_SHA256_SMALLER: Undefine
@@ -457,6 +463,7 @@ FSP Configuration
     Public Key Cryptography (PKC): MBEDTLS_ASN1_PARSE_C: Define
     Public Key Cryptography (PKC): MBEDTLS_ASN1_WRITE_C: Define
     Public Key Cryptography (PKC): MBEDTLS_BASE64_C: Define
+    Cipher: MBEDTLS_BLOCK_CIPHER_NO_DECRYPT: Undefine
     Public Key Cryptography (PKC): MBEDTLS_BIGNUM_C: Define
     Cipher: MBEDTLS_CAMELLIA_C: Undefine
     Cipher: MBEDTLS_ARIA_C: Undefine
@@ -476,6 +483,7 @@ FSP Configuration
     Platform: MBEDTLS_ENTROPY_C: Define
     General: MBEDTLS_ERROR_C: Define
     Cipher: MBEDTLS_GCM_C: Define
+    Cipher: MBEDTLS_GCM_LARGE_TABLE: Undefine
     Message Authentication Code (MAC): MBEDTLS_HKDF_C: Define
     Message Authentication Code (MAC): MBEDTLS_HMAC_DRBG_C: Undefine
     Public Key Cryptography (PKC): MBEDTLS_LMS_C: Define
@@ -614,7 +622,7 @@ FSP Configuration
   Module "Mbed Crypto H/W Acceleration (rm_psa_crypto)"
   Module "TRNG"
   Module "MbedTLS FSP Port (rm_mbedtls)"
-  Module "FreeRTOS Heap 4"
+  Module "FreeRTOS Heap 5"
   FreeRTOS
     General: Custom FreeRTOSConfig.h: 
     General: Use Preemption: Enabled
@@ -780,4 +788,4 @@ FSP Configuration
                   Instance "TRNG"
               Instance "MbedTLS FSP Port (rm_mbedtls)"
         Instance "AWS Logging"
-    Instance "FreeRTOS Heap 4"
+    Instance "FreeRTOS Heap 5"

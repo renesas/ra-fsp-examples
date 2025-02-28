@@ -29,11 +29,11 @@
 		NetX_tcp_udp_notes.md file.
 
 2. Software Requirements:
-	- Renesas Flexible Software Package (FSP): Version 5.7.0
-	- e2 studio: Version 2024-10
+	- Renesas Flexible Software Package (FSP): Version 5.8.0
+	- e2 studio: Version 2025-01
 	- GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 	- Terminal Console Application: Tera Term or a similar application (for boards that support J-Link OB VCOM)
-	- SEGGER J-Link RTT Viewer: Version 8.10f
+	- SEGGER J-Link RTT Viewer: Version 8.12c
 	- Socket Application: sokit version 1.3, etc.
 	- Browser Application: Microsoft Edge, Google Chrome, etc.
 

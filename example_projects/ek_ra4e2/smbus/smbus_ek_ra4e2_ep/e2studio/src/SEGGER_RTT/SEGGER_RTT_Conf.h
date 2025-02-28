@@ -3,7 +3,7 @@
 *                        The Embedded Experts                        *
 **********************************************************************
 *                                                                    *
-*            (c) 1995 - 2021 SEGGER Microcontroller GmbH             *
+*            (c) 1995 - 2020 SEGGER Microcontroller GmbH             *
 *                                                                    *
 *       www.segger.com     Support: support@segger.com               *
 *                                                                    *
@@ -42,7 +42,7 @@
 *                                                                    *
 **********************************************************************
 *                                                                    *
-*       RTT version: 8.10f                                           *
+*       RTT version: 8.12c                                           *
 *                                                                    *
 **********************************************************************
 
@@ -54,6 +54,7 @@ Purpose : Implementation of SEGGER real-time transfer (RTT) which
 Revision: $Rev: 24316 $
 
 */
+
 #if (USE_VIRTUAL_COM == 0)
 #ifndef SEGGER_RTT_CONF_H
 #define SEGGER_RTT_CONF_H
@@ -170,7 +171,7 @@ Revision: $Rev: 24316 $
                                                   :                                                 \
                                                   );                                                \
                                 }
-  #elif (defined(__ARM_ARCH_7M__) || defined(__ARM_ARCH_7EM__) || defined(__ARM_ARCH_8M_MAIN__))
+  #elif (defined(__ARM_ARCH_7M__) || defined(__ARM_ARCH_7EM__) || defined(__ARM_ARCH_8M_MAIN__) || defined(__ARM_ARCH_8_1M_MAIN__))
     #ifndef   SEGGER_RTT_MAX_INTERRUPT_PRIORITY
       #define SEGGER_RTT_MAX_INTERRUPT_PRIORITY   (0x20)
     #endif
@@ -426,5 +427,5 @@ void OS_SIM_LeaveCriticalSection(void);
 #endif
 
 #endif
-#endif /* USE_VIRTUAL_COM */
 /*************************** End of file ****************************/
+#endif

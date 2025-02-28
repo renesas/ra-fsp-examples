@@ -10,9 +10,9 @@ for general information on example projects and [readme.txt](./readme.txt) for s
 To build and run the NetX crypto example project, the following resources are needed.
 
 ### Software ###
-* Renesas Flexible Software Package (FSP): Version 5.7.0
-* e2 studio: Version 2024-10
-* SEGGER J-Link RTT Viewer: Version 8.10f
+* Renesas Flexible Software Package (FSP): Version 5.8.0
+* e2 studio: Version 2025-01
+* SEGGER J-Link RTT Viewer: Version 8.12c
 * LLVM Embedded Toolchain for ARM: Version 18.1.3
 
 1. Refer to the software required section in [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf)
@@ -66,10 +66,10 @@ This section describes FSP Configurator properties which are important or differ
 |   Module Property Path and Identifier   |   Default Value   |   Used Value   |   Reason   |
 | :-------------------------------------: | :---------------: | :------------: | :--------: |
 | configuration.xml -> HAL/Common -> Azure RTOS NetX Crypto HW Acceleration -> Properties > Settings > Property > Common > Hardware Acceleration > TRNG |Disabled | Enabled |The default setting for TRNG is disabled, should be enable to test the random key generation for aes method.|
-| configuration.xml -> ECC Thread -> Properties > Settings > Property > Common > Thread > Stack Size(bytes)| 1024| 0x2000 |Stack size of ecc thread should require minimum of 8KB to execute the algorithms.|
-| configuration.xml -> AES Thread -> Properties > Settings > Property > Common > Thread > Stack Size(bytes)| 1024| 0x2400 |Stack size of aes thread should require minimum of 9KB to execute the algorithms.|
-| configuration.xml -> RSA Thread -> Properties > Settings > Property > Common > Thread > Stack Size(bytes)| 1024| 0x2400 |Stack size of rsa thread should require minimum of 9KB to execute the algorithms.|
-| configuration.xml -> RTT Thread -> Properties > Settings > Property > Common > Thread > Priority |1 | 2 |RTT thread priority is lowered to allow the USBX PCDC ACM data process at the fastest rate possible.|
+| configuration.xml -> ECC Thread -> Properties > Settings > Property > Thread > Stack Size(bytes)| 1024| 0x2000 |Stack size of ecc thread should require minimum of 8KB to execute the algorithms.|
+| configuration.xml -> AES Thread -> Properties > Settings > Property > Thread > Stack Size(bytes)| 1024| 0x2400 |Stack size of aes thread should require minimum of 9KB to execute the algorithms.|
+| configuration.xml -> RSA Thread -> Properties > Settings > Property > Thread > Stack Size(bytes)| 1024| 0x2400 |Stack size of rsa thread should require minimum of 9KB to execute the algorithms.|
+| configuration.xml -> RTT Thread -> Properties > Settings > Property > Thread > Priority |1 | 2 |RTT thread priority is lowered to ensure higher priority for critical crypto processing threads (ECC, AES, and RSA).|
 
 For SCE9/RSIP-E51A:
 

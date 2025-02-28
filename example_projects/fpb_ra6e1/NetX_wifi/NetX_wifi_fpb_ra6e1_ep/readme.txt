@@ -28,7 +28,7 @@ Project setup:
 
 	Hardware connection:
 	********************
-	EK-RA4M2/EK-RA4M3/EK-RA6M3/EK-RA6M4/EK-RA6M5/FPB-RA4E1/FPB-RA6E1:
+	EK-RA4M2/EK-RA4M3/EK-RA6M3/EK-RA6M4/EK-RA6M5:
 	-----------
 	Connect
 	Renesas Silex UART Pmod ----> PMOD 1 (J26)	
@@ -38,7 +38,7 @@ Project setup:
 	Connect
 	Renesas Silex UART Pmod ----> PMOD A (J5)
 
-        EK-RA2L1
+        EK-RA2L1/FPB-RA4E1/FPB-RA6E1:
         -----------
         Connect
         Renesas Silex UART Pmod ----> PMOD 2 
