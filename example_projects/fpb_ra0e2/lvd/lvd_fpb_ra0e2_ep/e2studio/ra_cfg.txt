@@ -1,0 +1,242 @@
+FSP Configuration
+  Board "RA0|RA0E2|FPB-RA0E2"
+  R7FA0E2094CFM
+    part_number: R7FA0E2094CFM
+    rom_size_bytes: 131072
+    ram_size_bytes: 16384
+    data_flash_size_bytes: 2048
+    package_style: LQFP
+    package_pins: 64
+    
+  RA0E2
+    series: 0
+    
+  RA0E2 Family
+    Enable inline BSP IRQ functions: Disabled
+    OFS0 register settings: Independent WDT: Start Mode: IWDT is Disabled
+    OFS0 register settings: Independent WDT: Timeout Period: 2048 cycles
+    OFS0 register settings: Independent WDT: Dedicated Clock Frequency Divisor: 128
+    OFS0 register settings: Independent WDT: Window End Position:  0% (no window end position)
+    OFS0 register settings: Independent WDT: Window Start Position: 100% (no window start position)
+    OFS0 register settings: Independent WDT: Reset Interrupt Request Select: Reset is enabled
+    OFS0 register settings: Independent WDT: Stop Control: Stop counting when in Sleep, Snooze mode, or Software Standby
+    OFS1 register settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is enabled after reset
+    OFS1 register settings: Voltage Detection 0 Level: 2.62 V
+    OFS1 register settings: Enable or disable Flash Read Protection: Disabled
+    OFS1 register settings: Flash Read Protection Start: 0x01
+    OFS1 register settings: Flash Read Protection End: 0x3F
+    OFS1 register settings: P206/RES pin selection: RES input
+    Main Oscillation Stabilization Time: 2^18/MOSC
+    Use Low Voltage Mode: Not Supported
+    ID Code Mode: Unlocked (Ignore ID)
+    ID Code (32 Hex Characters): FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    Fill Flash Gap: Fill gap
+    
+  RA0E2 event data
+  RA Common
+    Main stack size (bytes): 0x400
+    Heap size (bytes): 0x400
+    MCU Vcc (mV): 3300
+    Parameter checking: Disabled
+    Assert Failures: Return FSP_ERR_ASSERTION
+    Clock Registers not Reset Values during Startup: Disabled
+    Main Oscillator Populated: Not Populated
+    PFS Protect: Enabled
+    C Runtime Initialization : Enabled
+    Early BSP Initialization : Disabled
+    Main Oscillator Clock Source: Crystal or Resonator
+    Subclock Populated: Populated
+    Subclock Drive (Drive capacitance availability varies by MCU): Low/Low power mode 1
+    Subclock Stabilization Time (ms): 1000
+    
+  Clocks
+    XTAL 20000000Hz
+    XTAL Div /1
+    HOCO 32MHz
+    HOCO Div /1
+    MOCO Div /1
+    ICLK Src: HOCO
+    TAU CK00 Div /1
+    TAU CK01 Div /1
+    TAU CK02 Div /2
+    TAU CK03 Div /256
+    SAU CK00 Div /2
+    SAU CK01 Div /1
+    SAU CK10 Div /2
+    SAU CK11 Div /1
+    CLKOUT0 Disabled
+    CLKOUT0 Div /1
+    CLKOUT1 Disabled
+    CLKOUT1 Div /1
+    UTASEL Disabled
+    UARTA0 Src: UTASEL
+    UARTA1 Src: UTASEL
+    FSXP Src: SUBCLK
+    TML FITL0 Src: ELC event/No BSP Source Clock
+    TML FITL1 Src: ELC event/No BSP Source Clock
+    TML FITL2 Disabled/No BSP Source Clock
+    
+  Pin Configurations
+    RA0E2 FPB -> g_bsp_pin_cfg
+      P000 64 ADC0_AN008 - - - "Analog mode" - - "ADC0: AN008; IRQ: IRQ6" - I - - 
+      P001 63 ADC0_AN009 - - - "Analog mode" - - "ADC0: AN009; IRQ: IRQ7" - I - - 
+      P002 62 ADC0_AN010 - - - "Analog mode" - - "ADC0: AN010; IRQ: IRQ7" - I - - 
+      P003 61 ADC0_AN011 - - - "Analog mode" - - "ADC0: AN011" - I - - 
+      P004 60 ADC0_AN012 - - - "Analog mode" - - "ADC0: AN012; IRQ: IRQ2" - I - - 
+      P008 57 ADC0_AN002 ARDUINO_A5 - - "Analog mode" - - "ADC0: AN002" - I - - 
+      P009 56 ADC0_AN003 ARDUINO_A4 - - "Analog mode" - - "ADC0: AN003" - I - - 
+      P010 59 SYSTEM_VREFH0 ARDUINO_AREF - - "Peripheral mode" - - "ADC0: AN000; SYSTEM: VREFH0" - IO - - 
+      P011 58 ADC0_AN001 - - - "Analog mode" - - "ADC0: AN001; SYSTEM: VREFL0" - I - - 
+      P012 55 ADC0_AN004 ARDUINO_A3 - - "Analog mode" - - "ADC0: AN004" - I - - 
+      P013 54 ADC0_AN005 ARDUINO_A2 - - "Analog mode" - - "ADC0: AN005" - I - - 
+      P014 53 ADC0_AN006 ARDUINO_A1 - - "Analog mode" - - "ADC0: AN006" - I - - 
+      P015 52 ADC0_AN007 ARDUINO_A0 - - "Analog mode" - - "ADC0: AN007; IRQ: IRQ1" - I - - 
+      P100 48 SAU_UART0_RXD0 VCOM_RXD - None "Peripheral mode" - - "ADC0: AN022; IICA0: SCLA0; IRQ: IRQ2; SAU_I2C00: SDA00; SAU_SPI00: SI00; SAU_UART0: RXD0; TAU01: TI01; TAU01: TO01; TAU04: TI04; TAU04: TO04; UARTA0: RXDA0" - I - - 
+      P101 47 SAU_UART0_TXD0 VCOM_TXD - None "Peripheral mode" - - "ADC0: AN021; IICA0: SDAA0; IRQ: IRQ3; SAU_SPI00: SO00; SAU_UART0: TXD0; TAU00: TI00; TAU07: TI07; TAU07: TO07; UARTA0: TXDA0" - O - - 
+      P102 46 GPIO LED2 - None "Peripheral mode" - - "CGC: PCLBUZ0; IICA1: SCLA1; IRQ: IRQ4; RTC: RTCOUT; SAU_I2C00: SCL00; SAU_SPI00: SCK00; TAU00: TO00; TAU06: TI06; TAU06: TO06; UARTA1: RXDA1" GREEN IO - - 
+      P103 45 GPIO LED1 - None "Output mode (Initial Low)" - - "IICA1: SDAA1; IRQ: IRQ5; SAU_SPI00: SSI00; TAU05: TI05; TAU05: TO05; UARTA1: TXDA1" GREEN IO - - 
+      P104 44 GPIO ARDUINO_D10 - None "Input mode" - - "IRQ: IRQ6; SAU_I2C10: SCL10; SAU_SPI10: SCK10; TAU00: TI00; TAU02: TI02; TAU02: TO02" - IO - - 
+      P105 43 GPIO ARDUINO_D9 - None "Input mode" - - "IRQ: IRQ1; SAU_I2C10: SDA10; SAU_SPI10: SI10; TAU00: TO00; TAU01: TI01; TAU01: TO01; UARTA1: RXDA1" - IO - - 
+      P106 42 GPIO ARDUINO_D8 - None "Input mode" - - "IRQ: IRQ0; SAU_SPI10: SO10; UARTA1: TXDA1" - IO - - 
+      P107 41 GPIO PMOD1_INT - IRQ7 "Input mode" - - "IRQ: IRQ7" - IO - - 
+      P108 33 JTAG/SWD_SWDIO - - - "Peripheral mode" - - "JTAG/SWD: SWDIO; TAU03: TI03; TAU03: TO03" - IO - - 
+      P109 34 UARTA0_TXDA0 ARDUINO_TX - None "Peripheral mode" - - "CGC: PCLBUZ1; IICA0: SDAA0; IRQ: IRQ4; SAU_SPI20: SO20; SAU_UART2: TXD2; TAU02: TI02; TAU02: TO02; UARTA0: TXDA0" - O - - 
+      P110 35 UARTA0_RXDA0 ARDUINO_RX - None "Peripheral mode" - - "IICA0: SCLA0; IRQ: IRQ3; SAU_I2C20: SDA20; SAU_SPI20: SI20; SAU_UART2: RXD2; TAU01: TI01; TAU01: TO01; UARTA0: RXDA0" - I - - 
+      P111 36 GPIO PMOD2_GPIO7 - None "Input mode" - - "IRQ: IRQ1; TAU07: TI07; TAU07: TO07" - IO - - 
+      P112 37 GPIO PMOD1_GPIO10 - None "Input mode" - - "IRQ: IRQ2; SAU_I2C20: SCL20; SAU_SPI00: SSI00; SAU_SPI20: SCK20; TAU03: TI03; TAU03: TO03" - IO - - 
+      P113 38 GPIO PMOD1_GPIO9 - - "Input mode" - - "SAU_SPI21: SO21" - IO - - 
+      P114 39 GPIO PMOD1_RESET - - "Input mode" - - "SAU_I2C21: SDA21; SAU_SPI21: SI21" - IO - - 
+      P115 40 GPIO ARDUINO_D7 - - "Input mode" - - "SAU_I2C21: SCL21; SAU_SPI21: SCK21" - IO - - 
+      P200 27 GPIO SW1 - IRQ0 "Input mode" - - "IRQ: IRQ0" - I - - 
+      P201 26 GPIO ARDUINO_D5 - None "Input mode" - - "CGC: PCLBUZ0; IRQ: IRQ5; RTC: RTCOUT; SAU_I2C11: SCL11; SAU_SPI00: SSI00; SAU_SPI11: SCK11; TAU05: TI05; TAU05: TO05" - IO - - 
+      P204 24 GPIO PMOD1_SCK_RTS - - "Input mode" - - "SAU_I2C01: SCL01; SAU_SPI01: SCK01" - IO - - 
+      P205 23 GPIO PMOD1_MISO_RXD - None "Input mode" - - "CGC: PCLBUZ1; IICA1: SCLA1; IRQ: IRQ5; SAU_I2C01: SDA01; SAU_SPI01: SI01; UARTA1: RXDA1" - IO - - 
+      P206 22 GPIO PMOD1_MOSI_TXD - None "Input mode" - - "IICA1: SDAA1; IRQ: IRQ0; SAU_SPI01: SO01; UARTA1: TXDA1" - IO - - 
+      P207 21 GPIO PMOD1_CS_CTS - None "Input mode" - - "IICA1: SCLA1; IRQ: IRQ2; SAU_I2C01: SDA01; SAU_SPI01: SI01; TAU00: TO00; UARTA0: RXDA0" - IO - - 
+      P208 20 GPIO PMOD2_GPIO8 - None "Input mode" - - "IICA1: SDAA1; IRQ: IRQ3; SAU_I2C01: SCL01; SAU_SPI01: SCK01; TAU00: TI00; UARTA0: TXDA0" - IO - - 
+      P212 10 GPIO - - None "Input mode" - - "CGC: X1; IICA0: SCLA0; IRQ: IRQ1; SAU_I2C11: SDA11; SAU_SPI11: SI11; SAU_UART1: RXD1; TAU00: TO00; TAU03: TI03; TAU03: TO03; UARTA0: RXDA0" - IO - - 
+      P213 9 GPIO - - None "Input mode" - - "CGC: EXCLK; CGC: X2; IICA0: SDAA0; IRQ: IRQ0; SAU_SPI11: SO11; SAU_UART1: TXD1; TAU00: TI00; TAU02: TI02; TAU02: TO02; UARTA0: TXDA0" - IO - - 
+      P214 7 CGC_XCOUT - - - "Peripheral mode" - - "CGC: XCOUT" - IO - - 
+      P215 6 CGC_XCIN - - - "Peripheral mode" - - "CGC: XCIN" - IO - - 
+      P300 32 JTAG/SWD_SWCLK - - - "Peripheral mode" - - "JTAG/SWD: SWCLK; TAU04: TI04; TAU04: TO04" - IO - - 
+      P301 31 GPIO ARDUINO_D6 - None "Input mode" - - "IICA1: SCLA1; IRQ: IRQ6; SAU_I2C21: SDA21; SAU_SPI21: SI21; TAU06: TI06; TAU06: TO06; UARTA1: RXDA1" - IO - - 
+      P302 30 GPIO PMOD2_INT - IRQ0 "Input mode" - - "IICA1: SDAA1; IRQ: IRQ0; SAU_I2C21: SCL21; SAU_SPI21: SCK21; TAU05: TI05; TAU05: TO05; UARTA1: TXDA1" - IO - - 
+      P303 29 GPIO - - - "Input mode" - - "SAU_SPI21: SO21" - IO - - 
+      P304 28 GPIO - - - "Input mode" - - - - IO - - 
+      P400 1 IICA1_SCLA1 PMOD2_SCL - - "Peripheral mode" - - "IICA1: SCLA1" - IO - - 
+      P401 2 IICA1_SDAA1 PMOD2_SDA - - "Peripheral mode" - - "IICA1: SDAA1" - IO - - 
+      P402 3 GPIO PMOD2_RESET - None "Input mode" - - "IRQ: IRQ2; SAU_SPI20: SO20; SAU_UART2: TXD2; UARTA0: TXDA0" - IO - - 
+      P403 4 GPIO - - None "Input mode" - - "IRQ: IRQ4; SAU_I2C20: SDA20; SAU_SPI20: SI20; SAU_UART2: RXD2; UARTA0: RXDA0" PMOD2_MISO_RXD IO - - 
+      P407 16 GPIO PMOD2_GPIO10 - None "Input mode" - - "CGC: PCLBUZ0; IICA1: SDAA1; IRQ: IRQ4; RTC: RTCOUT; SAU_I2C11: SCL11; SAU_SPI11: SCK11" - IO - - 
+      P408 15 GPIO ARDUINO_D4 - None "Input mode" - - "IICA1: SCLA1; IRQ: IRQ7; TAU04: TI04; TAU04: TO04" - IO - - 
+      P409 14 GPIO ARDUINO_D3 - None "Input mode" - - "IRQ: IRQ6; SAU_I2C11: SCL11; SAU_SPI11: SCK11; TAU03: TI03; TAU03: TO03" - IO - - 
+      P410 13 GPIO - - None "Input mode" - - "IICA0: SCLA0; IRQ: IRQ4; SAU_I2C20: SCL20; SAU_SPI00: SSI00; SAU_SPI20: SCK20; TAU02: TI02; TAU02: TO02; UARTA1: RXDA1" PMOD2_SCK_RTS IO - - 
+      P411 12 GPIO ARDUINO_D2 - None "Input mode" - - "IICA0: SDAA0; IRQ: IRQ3; SAU_I2C11: SCL11; SAU_SPI11: SCK11; TAU01: TI01; TAU01: TO01; UARTA1: TXDA1" - IO - - 
+      P500 49 SAU_SPI00_SCK00 ARDUINO_SCK - - "Peripheral mode" - - "SAU_I2C00: SCL00; SAU_SPI00: SCK00; TAU03: TI03; TAU03: TO03" - IO - - 
+      P501 50 SAU_SPI00_SO00 ARDUINO_MOSI - - "Peripheral mode" - - "IICA0: SDAA0; SAU_SPI00: SO00; SAU_UART0: TXD0; TAU04: TI04; TAU04: TO04; UARTA0: TXDA0" - O - - 
+      P502 51 SAU_SPI00_SI00 ARDUINO_MISO - None "Peripheral mode" - - "IICA0: SCLA0; IRQ: IRQ5; SAU_I2C00: SDA00; SAU_SPI00: SI00; SAU_UART0: RXD0; UARTA0: RXDA0" - I - - 
+      P913 19 IICA0_SDAA0 ARDUINO_SDA - - "Peripheral mode" - - "IICA0: SDAA0" PMOD1_SDA IO - - 
+      P914 18 IICA0_SCLA0 ARDUINO_SCL - - "Peripheral mode" - - "IICA0: SCLA0" PMOD1_SCL IO - - 
+      P915 17 GPIO PMOD2_GPIO9 - - "Input mode" - - "SAU_SPI01: SO01" - IO - - 
+      RES 25 SYSTEM_RES - - - - - - - - IO "Read only" - 
+      VCC 11 SYSTEM_VCC - - - - - - - - IO "Read only" - 
+      VCL 5 SYSTEM_VCL - - - - - - - - IO "Read only" - 
+      VSS 8 SYSTEM_VSS - - - - - - - - IO "Read only" - 
+    R7FA0E2094CFM.pincfg -> 
+      P000 64 - - - - Disabled - - "ADC0: AN008; IRQ: IRQ6" - I - - 
+      P001 63 - - - - Disabled - - "ADC0: AN009; IRQ: IRQ7" - I - - 
+      P002 62 - - - - Disabled - - "ADC0: AN010; IRQ: IRQ7" - I - - 
+      P003 61 - - - - Disabled - - "ADC0: AN011" - I - - 
+      P004 60 - - - - Disabled - - "ADC0: AN012; IRQ: IRQ2" - I - - 
+      P008 57 - ARDUINO_A5 - - Disabled - - "ADC0: AN002" - I - - 
+      P009 56 - ARDUINO_A4 - - Disabled - - "ADC0: AN003" - I - - 
+      P010 59 - ARDUINO_AREF - - Disabled - - "ADC0: AN000; SYSTEM: VREFH0" - IO - - 
+      P011 58 - - - - Disabled - - "ADC0: AN001; SYSTEM: VREFL0" - I - - 
+      P012 55 - ARDUINO_A3 - - Disabled - - "ADC0: AN004" - I - - 
+      P013 54 - ARDUINO_A2 - - Disabled - - "ADC0: AN005" - I - - 
+      P014 53 - ARDUINO_A1 - - Disabled - - "ADC0: AN006" - I - - 
+      P015 52 - ARDUINO_A0 - - Disabled - - "ADC0: AN007; IRQ: IRQ1" - I - - 
+      P100 48 - VCOM_RXD - None Disabled - - "ADC0: AN022; IICA0: SCLA0; IRQ: IRQ2; SAU_I2C00: SDA00; SAU_SPI00: SI00; SAU_UART0: RXD0; TAU01: TI01; TAU01: TO01; TAU04: TI04; TAU04: TO04; UARTA0: RXDA0" - I - - 
+      P101 47 - VCOM_TXD - None Disabled - - "ADC0: AN021; IICA0: SDAA0; IRQ: IRQ3; SAU_SPI00: SO00; SAU_UART0: TXD0; TAU00: TI00; TAU07: TI07; TAU07: TO07; UARTA0: TXDA0" - O - - 
+      P102 46 - LED2 - None Disabled - - "CGC: PCLBUZ0; IICA1: SCLA1; IRQ: IRQ4; RTC: RTCOUT; SAU_I2C00: SCL00; SAU_SPI00: SCK00; TAU00: TO00; TAU06: TI06; TAU06: TO06; UARTA1: RXDA1" GREEN IO - - 
+      P103 45 - LED1 - None Disabled - - "IICA1: SDAA1; IRQ: IRQ5; SAU_SPI00: SSI00; TAU05: TI05; TAU05: TO05; UARTA1: TXDA1" GREEN IO - - 
+      P104 44 - ARDUINO_D10 - None Disabled - - "IRQ: IRQ6; SAU_I2C10: SCL10; SAU_SPI10: SCK10; TAU00: TI00; TAU02: TI02; TAU02: TO02" - IO - - 
+      P105 43 - ARDUINO_D9 - None Disabled - - "IRQ: IRQ1; SAU_I2C10: SDA10; SAU_SPI10: SI10; TAU00: TO00; TAU01: TI01; TAU01: TO01; UARTA1: RXDA1" - IO - - 
+      P106 42 - ARDUINO_D8 - None Disabled - - "IRQ: IRQ0; SAU_SPI10: SO10; UARTA1: TXDA1" - IO - - 
+      P107 41 - PMOD1_INT - None Disabled - - "IRQ: IRQ7" - IO - - 
+      P108 33 JTAG/SWD_SWDIO - - - "Peripheral mode" - - "JTAG/SWD: SWDIO; TAU03: TI03; TAU03: TO03" - IO - - 
+      P109 34 - ARDUINO_TX - None Disabled - - "CGC: PCLBUZ1; IICA0: SDAA0; IRQ: IRQ4; SAU_SPI20: SO20; SAU_UART2: TXD2; TAU02: TI02; TAU02: TO02; UARTA0: TXDA0" - O - - 
+      P110 35 - ARDUINO_RX - None Disabled - - "IICA0: SCLA0; IRQ: IRQ3; SAU_I2C20: SDA20; SAU_SPI20: SI20; SAU_UART2: RXD2; TAU01: TI01; TAU01: TO01; UARTA0: RXDA0" - I - - 
+      P111 36 - PMOD2_GPIO7 - None Disabled - - "IRQ: IRQ1; TAU07: TI07; TAU07: TO07" - IO - - 
+      P112 37 - PMOD1_GPIO10 - None Disabled - - "IRQ: IRQ2; SAU_I2C20: SCL20; SAU_SPI00: SSI00; SAU_SPI20: SCK20; TAU03: TI03; TAU03: TO03" - IO - - 
+      P113 38 - PMOD1_GPIO9 - - Disabled - - "SAU_SPI21: SO21" - IO - - 
+      P114 39 - PMOD1_RESET - - Disabled - - "SAU_I2C21: SDA21; SAU_SPI21: SI21" - IO - - 
+      P115 40 - ARDUINO_D7 - - Disabled - - "SAU_I2C21: SCL21; SAU_SPI21: SCK21" - IO - - 
+      P200 27 - SW1 - None Disabled - - "IRQ: IRQ0" - I - - 
+      P201 26 - ARDUINO_D5 - None Disabled - - "CGC: PCLBUZ0; IRQ: IRQ5; RTC: RTCOUT; SAU_I2C11: SCL11; SAU_SPI00: SSI00; SAU_SPI11: SCK11; TAU05: TI05; TAU05: TO05" - IO - - 
+      P204 24 - PMOD1_SCK_RTS - - Disabled - - "SAU_I2C01: SCL01; SAU_SPI01: SCK01" - IO - - 
+      P205 23 - PMOD1_MISO_RXD - None Disabled - - "CGC: PCLBUZ1; IICA1: SCLA1; IRQ: IRQ5; SAU_I2C01: SDA01; SAU_SPI01: SI01; UARTA1: RXDA1" - IO - - 
+      P206 22 - PMOD1_MOSI_TXD - None Disabled - - "IICA1: SDAA1; IRQ: IRQ0; SAU_SPI01: SO01; UARTA1: TXDA1" - IO - - 
+      P207 21 - PMOD1_CS_CTS - None Disabled - - "IICA1: SCLA1; IRQ: IRQ2; SAU_I2C01: SDA01; SAU_SPI01: SI01; TAU00: TO00; UARTA0: RXDA0" - IO - - 
+      P208 20 - PMOD2_GPIO8 - None Disabled - - "IICA1: SDAA1; IRQ: IRQ3; SAU_I2C01: SCL01; SAU_SPI01: SCK01; TAU00: TI00; UARTA0: TXDA0" - IO - - 
+      P212 10 - - - None Disabled - - "CGC: X1; IICA0: SCLA0; IRQ: IRQ1; SAU_I2C11: SDA11; SAU_SPI11: SI11; SAU_UART1: RXD1; TAU00: TO00; TAU03: TI03; TAU03: TO03; UARTA0: RXDA0" - IO - - 
+      P213 9 - - - None Disabled - - "CGC: EXCLK; CGC: X2; IICA0: SDAA0; IRQ: IRQ0; SAU_SPI11: SO11; SAU_UART1: TXD1; TAU00: TI00; TAU02: TI02; TAU02: TO02; UARTA0: TXDA0" - IO - - 
+      P214 7 - - - - Disabled - - "CGC: XCOUT" - IO - - 
+      P215 6 - - - - Disabled - - "CGC: XCIN" - IO - - 
+      P300 32 JTAG/SWD_SWCLK - - - "Peripheral mode" - - "JTAG/SWD: SWCLK; TAU04: TI04; TAU04: TO04" - IO - - 
+      P301 31 - ARDUINO_D6 - None Disabled - - "IICA1: SCLA1; IRQ: IRQ6; SAU_I2C21: SDA21; SAU_SPI21: SI21; TAU06: TI06; TAU06: TO06; UARTA1: RXDA1" - IO - - 
+      P302 30 - PMOD2_INT - None Disabled - - "IICA1: SDAA1; IRQ: IRQ0; SAU_I2C21: SCL21; SAU_SPI21: SCK21; TAU05: TI05; TAU05: TO05; UARTA1: TXDA1" - IO - - 
+      P303 29 - - - - Disabled - - "SAU_SPI21: SO21" - IO - - 
+      P304 28 - - - - Disabled - - - - IO - - 
+      P400 1 - PMOD2_SCL - - Disabled - - "IICA1: SCLA1" - IO - - 
+      P401 2 - PMOD2_SDA - - Disabled - - "IICA1: SDAA1" - IO - - 
+      P402 3 - PMOD2_RESET - None Disabled - - "IRQ: IRQ2; SAU_SPI20: SO20; SAU_UART2: TXD2; UARTA0: TXDA0" - IO - - 
+      P403 4 - - - None Disabled - - "IRQ: IRQ4; SAU_I2C20: SDA20; SAU_SPI20: SI20; SAU_UART2: RXD2; UARTA0: RXDA0" PMOD2_MISO_RXD IO - - 
+      P407 16 - PMOD2_GPIO10 - None Disabled - - "CGC: PCLBUZ0; IICA1: SDAA1; IRQ: IRQ4; RTC: RTCOUT; SAU_I2C11: SCL11; SAU_SPI11: SCK11" - IO - - 
+      P408 15 - ARDUINO_D4 - None Disabled - - "IICA1: SCLA1; IRQ: IRQ7; TAU04: TI04; TAU04: TO04" - IO - - 
+      P409 14 - ARDUINO_D3 - None Disabled - - "IRQ: IRQ6; SAU_I2C11: SCL11; SAU_SPI11: SCK11; TAU03: TI03; TAU03: TO03" - IO - - 
+      P410 13 - - - None Disabled - - "IICA0: SCLA0; IRQ: IRQ4; SAU_I2C20: SCL20; SAU_SPI00: SSI00; SAU_SPI20: SCK20; TAU02: TI02; TAU02: TO02; UARTA1: RXDA1" PMOD2_SCK_RTS IO - - 
+      P411 12 - ARDUINO_D2 - None Disabled - - "IICA0: SDAA0; IRQ: IRQ3; SAU_I2C11: SCL11; SAU_SPI11: SCK11; TAU01: TI01; TAU01: TO01; UARTA1: TXDA1" - IO - - 
+      P500 49 - ARDUINO_SCK - - Disabled - - "SAU_I2C00: SCL00; SAU_SPI00: SCK00; TAU03: TI03; TAU03: TO03" - IO - - 
+      P501 50 - ARDUINO_MOSI - - Disabled - - "IICA0: SDAA0; SAU_SPI00: SO00; SAU_UART0: TXD0; TAU04: TI04; TAU04: TO04; UARTA0: TXDA0" - O - - 
+      P502 51 - ARDUINO_MISO - None Disabled - - "IICA0: SCLA0; IRQ: IRQ5; SAU_I2C00: SDA00; SAU_SPI00: SI00; SAU_UART0: RXD0; UARTA0: RXDA0" - I - - 
+      P913 19 - ARDUINO_SDA - - Disabled - - "IICA0: SDAA0" PMOD1_SDA IO - - 
+      P914 18 - ARDUINO_SCL - - Disabled - - "IICA0: SCLA0" PMOD1_SCL IO - - 
+      P915 17 - PMOD2_GPIO9 - - Disabled - - "SAU_SPI01: SO01" - IO - - 
+      RES 25 SYSTEM_RES - - - - - - - - IO "Read only" - 
+      VCC 11 SYSTEM_VCC - - - - - - - - IO "Read only" - 
+      VCL 5 SYSTEM_VCL - - - - - - - - IO "Read only" - 
+      VSS 8 SYSTEM_VSS - - - - - - - - IO "Read only" - 
+    
+  User Events
+    
+  User Event Links
+    
+  Linker Section Mappings
+    
+  Module "I/O Port (r_ioport)"
+    Parameter Checking: Default (BSP)
+    
+  Module "Low/Programmable Voltage Detection (r_lvd)"
+    Parameter Checking: Default (BSP)
+    
+  HAL
+    Instance "g_ioport I/O Port (r_ioport)"
+      Name: g_ioport
+      1st Port ELC Trigger Source: Disabled
+      2nd Port ELC Trigger Source: Disabled
+      3rd Port ELC Trigger Source: Disabled
+      4th Port ELC Trigger Source: Disabled
+      Pin Configuration Name: g_bsp_pin_cfg
+      
+    Instance "g_lvd Low/Programmable Voltage Detection (r_lvd)"
+      Name: g_lvd
+      Monitor Number: 1
+      Digital Filter: Disabled
+      Voltage Threshold: Monitor 1 (2.91V)
+      Detection Response: Maskable interrupt
+      Voltage Slope: Not supported
+      Negation Delay: Not Supported
+      Monitor Interrupt Callback: lvd1_callback
+      LVD Monitor Interrupt Priority: Priority 2
+      

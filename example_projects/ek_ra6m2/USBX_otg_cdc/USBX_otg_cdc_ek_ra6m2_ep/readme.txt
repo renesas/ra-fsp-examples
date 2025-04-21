@@ -36,7 +36,7 @@ USBX status and any errors will be printed on the JLinkRTTViewer which will be h
    
    Hardware : 
 	1) Renesas RA board: 2 X EK-RA6M2
-	2) 2 X EB-USB-OTG1 board.(https://circuithub.com/projects/REA-MLP/EB-USB-OTG1_v0/revisions/44025/project)
+	2) 2 X EB-USB-OTG1 board.(https://app.circuithub.com/projects/REA-MLP/EB-USB-OTG1_v1/revisions/35287/project)
 	3) 2 X Micro USB cable.
 	4) 1 X Micro USB OTG cable.
     

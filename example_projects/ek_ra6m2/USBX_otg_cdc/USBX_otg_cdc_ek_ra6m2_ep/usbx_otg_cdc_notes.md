@@ -16,7 +16,7 @@ To build and run the USBX OTG-CDC example project, the following resources are n
 
 ### Hardware ###
 * 2x Renesas RA™ MCU kit.
-* 2x EB-USB-OTG1 board.(https://circuithub.com/projects/REA-MLP/EB-USB-OTG1_v0/revisions/44025/project)
+* 2x EB-USB-OTG1 board.(https://app.circuithub.com/projects/REA-MLP/EB-USB-OTG1_v1/revisions/35287/project)
 * 2x Micro USB cables.
 * 1x Micro USB OTG cable.
 
@@ -154,7 +154,7 @@ The host obtains descriptors from an attached device by sending various standard
 
 #### Hardware Changes Required
 
-1. EB-USB-OTG1 (https://circuithub.com/projects/REA-MLP/EB-USB-OTG1_v0/revisions/44025/project)
+1. EB-USB-OTG1 (https://app.circuithub.com/projects/REA-MLP/EB-USB-OTG1_v1/revisions/35287/project)
 
    Short positive side of C4 to the trace cut jumper E7 on both the OTG boards.
 
