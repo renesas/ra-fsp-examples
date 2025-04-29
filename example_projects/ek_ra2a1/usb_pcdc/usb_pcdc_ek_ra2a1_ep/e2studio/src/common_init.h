@@ -31,7 +31,7 @@ extern bsp_leds_t g_bsp_leds;
 #define APP_ERR_TRAP(a)             if(a) {__asm("BKPT #0\n");} /* trap the error location */
 
 fsp_err_t common_init(void);
-uint16_t adc_reading(void);
+fsp_err_t adc_reading(uint16_t * p_adc_data);
 
 
 

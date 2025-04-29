@@ -14,9 +14,9 @@
 	messages from the UDP server. The incoming messages are displayed on the J-Link RTT Viewer.
 
 2. Software Requirements: 
-	Renesas Flexible Software Package (FSP): Version 5.8.0
-	e2 studio: Version 2025-01
-	SEGGER J-Link RTT Viewer: Version 8.12c
+	Renesas Flexible Software Package (FSP): Version 5.9.0
+	e2 studio: Version 2025-04
+	SEGGER J-Link RTT Viewer: Version 8.12f
 	LLVM Embedded Toolchain for ARM: Version 18.1.3
 	PacketSender (https://packetsender.com/download#show)
 	
@@ -93,7 +93,7 @@ Note:
 
 2) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x22060240
+   a. e2studio: 0x220600c0
    b. Keil: 	Not Available
    c. IAR: 	Not Available
  

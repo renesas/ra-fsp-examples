@@ -25,8 +25,8 @@ To build and run the LPM example project, the following resources are needed.
 Refer to [readme.txt](./readme.txt) for information on how to connect the hardware.
 
 ### Software ###
-* Renesas Flexible Software Package (FSP): Version 5.8.0
-* e2 studio: Version 2025-01
+* Renesas Flexible Software Package (FSP): Version 5.9.0
+* e2 studio: Version 2025-04
 * SEGGER J-Link RTT Viewer: Version 7.98g
 * LLVM Embedded Toolchain for ARM: Version 18.1.3
 * Terminal Console Application: Tera Term or a similar application
@@ -332,9 +332,9 @@ The table below lists the FSP provided API used at the application layer by this
 **For RA8 boards:**
 | API Name | Usage |
 |-------------|--------------------------------------------------------------------------------|
-| R_LPM_Open | This API is used to initialize the LMP module. |
+| R_LPM_Open | This API is used to initialize the LPM module. |
 | R_LPM_LowPowerModeEnter | This API is used to enter low power mode. |
-| R_LPM_Close | This API is used to de-initialize the LMP module. |
+| R_LPM_Close | This API is used to de-initialize the LPM module. |
 | R_SCI_B_UART_Open | This API is used to initialize the SCI UART module. |
 | R_SCI_B_UART_Write | This API is used to perform a write operation via the UART interface. |
 | R_SCI_B_UART_Close | This API is used to de-initialize the SCI UART module. |
@@ -352,9 +352,9 @@ The table below lists the FSP provided API used at the application layer by this
 **For FPB-RA0E1:**  
 | API Name | Usage |
 |-------------|--------------------------------------------------------------------------------|
-| R_LPM_Open | This API is used to initialize the LMP module. |
+| R_LPM_Open | This API is used to initialize the LPM module. |
 | R_LPM_LowPowerModeEnter | This API is used to enter low power mode. |
-| R_LPM_Close | This API is used to de-initialize the LMP module. |
+| R_LPM_Close | This API is used to de-initialize the LPM module. |
 | R_UARTA_Open | This API is used to initialize the UART module. |
 | R_UARTA_Write | This API is used to perform a write operation via the UART interface. |
 | R_UARTA_Close | This API is used to de-initialize the UART module. |
@@ -376,9 +376,9 @@ The table below lists the FSP provided API used at the application layer by this
 **For other boards:**
 | API Name | Usage |
 |-------------|--------------------------------------------------------------------------------|
-| R_LPM_Open | This API is used to initialize the LMP module. |
+| R_LPM_Open | This API is used to initialize the LPM module. |
 | R_LPM_LowPowerModeEnter | This API is used to enter low power mode. |
-| R_LPM_Close | This API is used to de-initialize the LMP module. |
+| R_LPM_Close | This API is used to de-initialize the LPM module. |
 | R_SCI_UART_Open | This API is used to initialize the SCI UART module. |
 | R_SCI_UART_Write | This API is used to perform a write operation via the UART interface. |
 | R_SCI_UART_Close | This API is used to de-initialize the SCI UART module. |

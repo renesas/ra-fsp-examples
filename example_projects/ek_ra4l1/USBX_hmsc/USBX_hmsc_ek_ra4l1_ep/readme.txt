@@ -38,7 +38,7 @@
         	Connect USB device to CN14 connector with help of Type-C Host cable.
 		
 	For EK-RA4L1 (Full-Speed):
-		Turn ON S4-4 to select USB device mode. 
+		Turn OFF S4-4 to select USB Host mode. 
 		Set J17 jumper to pins 2-3, Set J7 jumper to use P407 for USBFS VBUS.
         	Connect USB device to J11 connector with help of Type-C USB Host cable.
 

@@ -3,7 +3,7 @@
  * Description  : Contains macros, data structures and functions used  common to the EP
  ***********************************************************************************************************************/
 /***********************************************************************************************************************
-* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
+* Copyright (c) 2020 - 2025 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
 ***********************************************************************************************************************/
@@ -30,7 +30,7 @@
 #define MODULE_CLOSE    (0U)
 
 
-#define EP_VERSION      "1.0"
+#define EP_VERSION      "1.1"
 #define MODULE_NAME     "r_sau_i2c"
 #define BANNER_INFO     "\r\n******************************************************************"\
                         "\r\n*   Renesas FSP Example Project for "MODULE_NAME" Module             *"\

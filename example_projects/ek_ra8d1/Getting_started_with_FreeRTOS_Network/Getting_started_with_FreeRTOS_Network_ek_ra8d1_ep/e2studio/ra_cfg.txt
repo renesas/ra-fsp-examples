@@ -82,7 +82,7 @@ FSP Configuration
     First Stage Bootloader (FSBL): FSBL Control 0 (FSBLCTRL0): FSBLSKIPSW: Disabled
     First Stage Bootloader (FSBL): FSBL Control 0 (FSBLCTRL0): FSBLSKIPDS: Disabled
     First Stage Bootloader (FSBL): FSBL Control 0 (FSBLCTRL0): FSBLCLK: 240 MHz
-    First Stage Bootloader (FSBL): FSBL Control 1 (FSBLCTRL1): FSBLEXMDFSBLEN: Secure boot with report measurement
+    First Stage Bootloader (FSBL): FSBL Control 1 (FSBLCTRL1): FSBLEXMD: Secure boot with report measurement
     First Stage Bootloader (FSBL): FSBL Control 2 (FSBLCTRL2): PORTPN: PORTn15
     First Stage Bootloader (FSBL): FSBL Control 2 (FSBLCTRL2): PORTGN: None
     First Stage Bootloader (FSBL): Code Certificates (SACCn): SACC0: 0xFFFFFFFF
@@ -104,7 +104,6 @@ FSP Configuration
     MCU Vcc (mV): 3300
     Parameter checking: Enabled
     Assert Failures: Return FSP_ERR_ASSERTION
-    Error Log: No Error Log
     Clock Registers not Reset Values during Startup: Disabled
     Main Oscillator Populated: Populated
     PFS Protect: Enabled
@@ -621,6 +620,8 @@ FSP Configuration
     
   User Event Links
     
+  Linker Section Mappings
+    
   Module "I/O Port (r_ioport)"
     Parameter Checking: Default (BSP)
     
@@ -889,7 +890,8 @@ FSP Configuration
           
           Instance "g_ospi0 OSPI Flash (r_ospi_b)"
             General: Name: g_ospi0
-            General: Channel: 1
+            General: Unit: OSPI_B0
+            General: Channel: CS1
             General: Initial Protocol Mode: SPI (1S-1S-1S)
             General: Initial Address Bytes: 4
             General: Write Status Bit: 0

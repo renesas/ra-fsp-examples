@@ -42,7 +42,7 @@
 *                                                                    *
 **********************************************************************
 *                                                                    *
-*       RTT version: 8.12c                                           *
+*       RTT version: 8.12f                                           *
 *                                                                    *
 **********************************************************************
 
@@ -121,12 +121,6 @@ Additional information:
 
 #ifndef   SEGGER_RTT_MAX_NUM_DOWN_BUFFERS
   #define SEGGER_RTT_MAX_NUM_DOWN_BUFFERS                  2    // Number of down-buffers (H->T) available on this target
-#endif
-
-#ifndef SEGGER_RTT_BUFFER_SECTION
-  #if defined(SEGGER_RTT_SECTION)
-    #define SEGGER_RTT_BUFFER_SECTION SEGGER_RTT_SECTION
-  #endif
 #endif
 
 #ifndef   SEGGER_RTT_ALIGNMENT
@@ -210,7 +204,7 @@ Additional information:
 #define SEGGER_RTT_PUT_SECTION(Var, Section) RTT_PRAGMA(location=Section) \
                                         Var
   #elif (defined __CC_ARM)
-    #define SEGGER_RTT_PUT_SECTION(Var, Section) __attribute__ ((section (Section), zero_init))  Var
+    #define SEGGER_RTT_PUT_SECTION(Var, Section) __attribute__ ((section (Section)))  Var
   #else
     #error "Section placement not supported for this compiler."
   #endif

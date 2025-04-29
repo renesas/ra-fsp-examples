@@ -39,8 +39,12 @@
 4. Hardware settings for the project:
 	
     Jumper Settings:
-
-     	EK-RA4M2, EK-RA4M3, EK-RA6M1, EK-RA6M2, EK-RA6M3, EK-RA6M4 and EK-RA6M5 (Full Speed)
+	
+	EK-RA6M1, EK-RA6M2 (Full Speed)
+	1. Connect the micro USB end of the micro USB device cable to micro-AB USB Full-Speed 
+	port (J9) of the board. Connect the other end of this cable to USB port of the host PC.
+	
+	EK-RA4M2, EK-RA4M3, EK-RA6M3, EK-RA6M4 and EK-RA6M5 (Full Speed)
 	1. Jumper J12: Connect pins 2-3
         2. Connect Jumper J15 pins
 	3. Connect the micro USB end of the micro USB device cable to micro-AB USB Full Speed 
@@ -50,11 +54,17 @@
 	Connect the micro USB end of the micro USB device cable to micro-AB USB Full Speed 
         port (J11) of the board. Connect the other end of this cable to USB port of the host PC.
 
-	EK-RA6M3 and EK-RA6M5 (High Speed)
+	EK-RA6M3 (High Speed)
 	1. Jumper J7: Connect pins 2-3
         2. Connect Jumper J17 pins
 	3. Connect the micro USB end of the micro USB device cable to micro-AB USB High Speed
            port (J6) of the board. Connect the other end of this cable to USB port of the host PC.
+
+	EK-RA6M5 (High Speed)
+	1. Jumper J7: Connect pins 2-3
+        2. Connect Jumper J17 pins
+	3. Connect the micro USB end of the micro USB device cable to micro-AB USB High Speed
+           port (J31) of the board. Connect the other end of this cable to USB port of the host PC.
 
 NOTE:
 1) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.

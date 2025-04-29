@@ -11,18 +11,19 @@
 	by an external interrupt.
 
 2. Software Requirements:
-	Renesas Flexible Software Package (FSP): Version 5.8.0
-	e2 studio: Version 2025-01
-	SEGGER J-Link RTT Viewer: Version 8.12c
+	Renesas Flexible Software Package (FSP): Version 5.9.0
+	e2 studio: Version 2025-04
+	SEGGER J-Link RTT Viewer: Version 8.12f
 	GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 
 3. Hardware Requirements:
-	1 x Renesas board: FPB-RA0E1.
+	Supported RA boards: FPB-RA0E1.
+	1 x Renesas RA board.
 	1 x USB type C cable for programming and debugging.
-	1 x PmodACL™ Board(Part Number: 410-097) as a slave device.
+	1 x PmodACL™ Board (Part Number: 410-097) as a slave device.
 	2 x Resistor (from 1k to 4.7k ohms) used to pull up the I2C bus.
 	1 x Breadboard.
-	8 x Jumper cable(6 x Male-Female, 1 x Male-Male, 1 x Female-Female) used to connect the RA board to the PmodACL™ and pull up the I2C bus.
+	8 x Jumper cables (6 x Male-Female, 1 x Male-Male, 1 x Female-Female) used to connect the RA board to the PmodACL™ and pull up the I2C bus.
 
 4. Hardware Connections:
 	Connect the USB Debug port on the RA board to the host PC via a USB type C cable.
@@ -53,9 +54,9 @@ For the functioning of the SAU I2C Master:
 For Segger RTT block address:
 1) The Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex files committed in repository are as follows:
-   a. e2studio: 0x200046d4
-   b. Keil: Not Available
-   c. IAR: Not Available
+   a. e2studio: 0x2000465c
+   b. Keil:     Not Available
+   c. IAR:      Not Available
  
 2) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) 
    in .map file generated in the build configuration folder (Debug/Release)

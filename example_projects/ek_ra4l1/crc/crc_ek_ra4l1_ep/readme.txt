@@ -59,9 +59,9 @@
         	SCI1 P501 ----> TXD
 
         For FPB-RA6E1:
-        	Channel 2 has been used by SCI_UART Loopback operation.
-        	SCI2 P301 ----> RXD 
-        	SCI2 P302 ----> TXD
+        	Channel 0 has been used by SCI_UART Loopback operation.
+        	SCI2 P100 ----> RXD 
+        	SCI2 P101 ----> TXD
 
         For EK-RA2E2:
         	Channel 9 has been used by SCI_UART Loopback operation.

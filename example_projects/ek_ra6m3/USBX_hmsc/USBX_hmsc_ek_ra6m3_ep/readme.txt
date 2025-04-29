@@ -33,10 +33,15 @@
         DMAC Transfer Size             :    4 Bytes
 
 5. Hardware Connections:
-    High-Speed: (EK-RA6M3, EK-RA6M5)
+    High-Speed: (EK-RA6M3)
         Jumper j7: Connect pins 1-2
         Remove Jumper j17 pins
         Connect USB device to J6 connector with help of micro USB Host cable.
+
+    High-Speed: (EK-RA6M5)
+        Jumper j7: Connect pins 1-2
+        Remove Jumper j17 pins
+        Connect USB device to J31 connector with help of micro USB Host cable.
 
     Full-Speed: (EK-RA6M4, EK-RA4M2, EK-RA4M3)
         Jumper j12 placement is pins 1-2

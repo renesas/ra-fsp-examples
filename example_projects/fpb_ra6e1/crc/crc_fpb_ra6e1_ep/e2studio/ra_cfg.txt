@@ -1,5 +1,5 @@
 FSP Configuration
-  Board "FPB-RA6E1"
+  Board "RA6|RA6E1|FPB-RA6E1"
   R7FA6E10F2CFP
     part_number: R7FA6E10F2CFP
     rom_size_bytes: 1048576
@@ -12,6 +12,7 @@ FSP Configuration
     series: 6
     
   RA6E1 Family
+    Enable inline BSP IRQ functions: Enabled
     Security: Exceptions: Exception Response: Non-Maskable Interrupt
     Security: Exceptions: BusFault, HardFault, and NMI Target: Secure State
     Security: System Reset Request Accessibility: Secure State
@@ -20,13 +21,13 @@ FSP Configuration
     Security: System Reset Status Accessibility: Both Secure and Non-Secure State
     Security: Battery Backup Accessibility: Both Secure and Non-Secure State
     Security: SRAM Accessibility: SRAM Protection: Both Secure and Non-Secure State
-    Security: SRAM Accessibility: SRAM ECC: Both Secure and Non-Secure State
     Security: SRAM Accessibility: Standby RAM: Regions 7-0 are all Secure.
     Security: BUS Accessibility: Bus Security Attribution Register A: Both Secure and Non-Secure State
     Security: BUS Accessibility: Bus Security Attribution Register B: Both Secure and Non-Secure State
+    Security: Flash Bank Select Accessibility: Both Secure and Non-Secure State
     Security: Uninitialized Non-Secure Application Fallback: Enable Uninitialized Non-Secure Application Fallback
     Startup C-Cache Line Size: 32 Bytes
-    OFS0 register settings: Independent WDT: Start Mode: IWDT is Disabled
+    OFS0 register settings: Independent WDT: Start Mode: IWDT is stopped after a reset
     OFS0 register settings: Independent WDT: Timeout Period: 2048 cycles
     OFS0 register settings: Independent WDT: Dedicated Clock Frequency Divisor: 128
     OFS0 register settings: Independent WDT: Window End Position:  0% (no window end position)
@@ -40,6 +41,8 @@ FSP Configuration
     OFS0 register settings: WDT: Window Start Position: 100% (no window start position)
     OFS0 register settings: WDT: Reset Interrupt Request: Reset
     OFS0 register settings: WDT: Stop Control: Stop counting when entering Sleep mode
+    OFS1_SEL register settings: Voltage Detection 0 Level Security Attribution: VDSEL setting loads from OFS1_SEC
+    OFS1_SEL register settings: Voltage Detection 0 Circuit Start Security Attribution: LVDAS setting loads from OFS1_SEC
     OFS1 register settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
     OFS1 register settings: Voltage Detection 0 Level: 2.80 V
     OFS1 register settings: HOCO Oscillation Enable: HOCO oscillation is disabled after reset
@@ -53,15 +56,15 @@ FSP Configuration
     Clocks: HOCO FLL Function: Disabled
     Main Oscillator Wait Time: 8163 cycles
     
+  RA6E1 event data
   RA Common
     Main stack size (bytes): 0x400
     Heap size (bytes): 0x400
     MCU Vcc (mV): 3300
     Parameter checking: Enabled
     Assert Failures: Return FSP_ERR_ASSERTION
-    Error Log: No Error Log
     Clock Registers not Reset Values during Startup: Disabled
-    Main Oscillator Populated: Populated
+    Main Oscillator Populated: Not Populated
     PFS Protect: Enabled
     C Runtime Initialization : Enabled
     Early BSP Initialization : Disabled
@@ -128,7 +131,7 @@ FSP Configuration
       P206 31 - - - - Disabled - - "ETHER_RMII: ET0_LINKSTA; ICU: IRQ0-DS; IIC1: SDA1; SCI4: RXD4; SCI9: CTS9; SDHI0: SD0DAT2; SPI0: SSLA1; SSIE0: SSIDATA0; USB FS: USB_VBUSEN" - None - - 
       P207 30 - - - - Disabled - - "QSPI: QSSL; SCI4: TXD4; SPI0: SSLA2" - None - - 
       P208 37 - - - - Disabled - - "ETHER_RMII: ET0_LINKSTA; QSPI: QIO3; SDHI0: SD0DAT0; TRACE: TRDATA3" - None - - 
-      P209 36 - - - - Disabled - - "AGT5: AGTEE5; ETHER_RMII: ET_EXOUT; QSPI: QIO2; SDHI0: SD0WP; TRACE: TRDATA2" - None - - 
+      P209 36 - - - - Disabled - - "AGT5: AGTEE5; ETHER_RMII: ET0_EXOUT; QSPI: QIO2; SDHI0: SD0WP; TRACE: TRDATA2" - None - - 
       P210 35 - - - - Disabled - - "AGT5: AGTOB5; ETHER_RMII: ET0_WOL; QSPI: QIO1; SDHI0: SD0CD; TRACE: TRDATA1" - None - - 
       P211 34 - - - - Disabled - - "AGT5: AGTOA5; ETHER_RMII: ET0_MDIO; QSPI: QIO0; SDHI0: SD0CMD; TRACE: TRDATA0" - None - - 
       P212 14 - - - - Disabled - - "AGT1: AGTEE1; CGC: EXTAL; GPT_POEGD: GTETRGD; ICU: IRQ3; SCI1: RXD1" - None - - 
@@ -229,7 +232,7 @@ FSP Configuration
       P206 31 - - - - Disabled - - "ETHER_RMII: ET0_LINKSTA; ICU: IRQ0-DS; IIC1: SDA1; SCI4: RXD4; SCI9: CTS9; SDHI0: SD0DAT2; SPI0: SSLA1; SSIE0: SSIDATA0; USB FS: USB_VBUSEN" - None - - 
       P207 30 - - - - Disabled - - "QSPI: QSSL; SCI4: TXD4; SPI0: SSLA2" - None - - 
       P208 37 - - - - Disabled - - "ETHER_RMII: ET0_LINKSTA; QSPI: QIO3; SDHI0: SD0DAT0; TRACE: TRDATA3" - None - - 
-      P209 36 - - - - Disabled - - "AGT5: AGTEE5; ETHER_RMII: ET_EXOUT; QSPI: QIO2; SDHI0: SD0WP; TRACE: TRDATA2" - None - - 
+      P209 36 - - - - Disabled - - "AGT5: AGTEE5; ETHER_RMII: ET0_EXOUT; QSPI: QIO2; SDHI0: SD0WP; TRACE: TRDATA2" - None - - 
       P210 35 - - - - Disabled - - "AGT5: AGTOB5; ETHER_RMII: ET0_WOL; QSPI: QIO1; SDHI0: SD0CD; TRACE: TRDATA1" - None - - 
       P211 34 - - - - Disabled - - "AGT5: AGTOA5; ETHER_RMII: ET0_MDIO; QSPI: QIO0; SDHI0: SD0CMD; TRACE: TRDATA0" - None - - 
       P212 14 - - - - Disabled - - "AGT1: AGTEE1; CGC: EXTAL; GPT_POEGD: GTETRGD; ICU: IRQ3; SCI1: RXD1" - None - - 
@@ -299,6 +302,8 @@ FSP Configuration
     
   User Event Links
     
+  Linker Section Mappings
+    
   Module "I/O Port (r_ioport)"
     Parameter Checking: Default (BSP)
     
@@ -308,6 +313,7 @@ FSP Configuration
     DTC Support: Disable
     Flow Control Support: Disable
     RS-485 Support: Disable
+    IrDA Support: Disabled
     
   Module "CRC (r_crc)"
     Parameter Checking: Default (BSP)
@@ -323,7 +329,7 @@ FSP Configuration
       
     Instance "g_uart UART (r_sci_uart)"
       General: Name: g_uart
-      General: Channel: 2
+      General: Channel: 0
       General: Data Bits: 8bits
       General: Parity: None
       General: Stop Bits: 1bit
@@ -337,6 +343,9 @@ FSP Configuration
       Extra: Start bit detection: Falling Edge
       Extra: Noise Filter: Disable
       Extra: Receive FIFO Trigger Level: One
+      Extra: IrDA: Enable: Disabled
+      Extra: IrDA: RXD Polarity Switching: Normal
+      Extra: IrDA: TXD Polarity Switching: Normal
       Extra: RS-485: DE Pin: Disable
       Extra: RS-485: DE Pin Polarity: Active High
       Extra: RS-485: DE Port Number: Disabled

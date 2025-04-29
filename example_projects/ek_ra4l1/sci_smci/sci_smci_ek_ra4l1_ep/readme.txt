@@ -18,9 +18,9 @@
 	of the chip in the Smart Card connected to the RA board will be printed in the RTT Viewer.
 
 2. Software Requirements:
-	Renesas Flexible Software Package (FSP): Version 5.8.0
-	e2 studio: Version 2025-01
-	SEGGER J-Link RTT Viewer: Version 8.12c
+	Renesas Flexible Software Package (FSP): Version 5.9.0
+	e2 studio: Version 2025-04
+	SEGGER J-Link RTT Viewer: Version 8.12f
 	GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 
 3. Hardware Requirements:

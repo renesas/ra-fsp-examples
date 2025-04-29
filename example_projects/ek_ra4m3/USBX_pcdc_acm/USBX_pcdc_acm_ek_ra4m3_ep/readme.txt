@@ -20,9 +20,9 @@ This project demonstrates the basic functionality of USBX Device CDC ACM module 
    	3) Open the RTT viewer to view the application status messages.
      
 3. Software Requirements:
-	Renesas Flexible Software Package (FSP): Version 5.8.0
-	e2 studio: Version 2025-01
-	SEGGER J-Link RTT Viewer: Version 8.12c
+	Renesas Flexible Software Package (FSP): Version 5.9.0
+	e2 studio: Version 2025-04
+	SEGGER J-Link RTT Viewer: Version 8.12f
 	Terminal Console Application: Tera Term or a similar application
 	USB Serial Drivers (included in Windows 10) 
 	Windows® 10 operating system
@@ -62,11 +62,18 @@ This project demonstrates the basic functionality of USBX Device CDC ACM module 
 	   	   port (J11) of the board.  Connect the other end of this cable to USB port of the 
 	   	   host PC.
 
-	EK-RA6M3, EK-RA6M5 (High Speed)
+	EK-RA6M3 (High Speed)
 	       	1. Jumper J7: Connect pins 2-3
         	2. Connect Jumper J17 pins
 		3. Connect the micro USB end of the micro USB device cable to micro-AB USB High Speed 
 	   	   port (J6) of the board.  Connect the other end of this cable to USB port of the 
+	   	   host PC.
+
+	EK-RA6M5 (High Speed)
+	       	1. Jumper J7: Connect pins 2-3
+        	2. Connect Jumper J17 pins
+		3. Connect the micro USB end of the micro USB device cable to micro-AB USB High Speed 
+	   	   port (J31) of the board.  Connect the other end of this cable to USB port of the 
 	   	   host PC.
 NOTE:
 1) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.

@@ -109,7 +109,7 @@ static void test_temperature_change()
     {
         int32_t reference_calibration_data = (int32_t) g_adc_info_rtn.calibration_data;
 
-        int32_t slope_uv_per_c = BSP_FEATURE_ADC_TSN_SLOPE;
+        int32_t slope_uv_per_c = BSP_FEATURE_TSN_SLOPE;
         int32_t v1_uv          = (ADC_EXAMPLE_VCC_MICROVOLT >> ADC_EXAMPLE_TEMPERATURE_RESOLUTION) * reference_calibration_data;
         int32_t vs_uv          = (ADC_EXAMPLE_VCC_MICROVOLT >> ADC_EXAMPLE_TEMPERATURE_RESOLUTION) * s_adc_data;
 

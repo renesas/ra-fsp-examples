@@ -42,7 +42,11 @@
 	
     Jumper Settings:
 	
-	EK-RA4M2, EK-RA4M3, EK-RA6M1, EK-RA6M2, EK-RA6M3, EK-RA6M4, EK-RA6M5, EK-RA8M1 and EK-RA8D1 (Full Speed)
+	EK-RA6M1, EK-RA6M2 (Full Speed)
+	1. Connect the micro USB end of the micro USB device cable to micro-AB USB Full-Speed 
+	port (J9) of the board. Connect the other end of this cable to USB port of the host PC.
+	
+	EK-RA4M2, EK-RA4M3, EK-RA6M3, EK-RA6M4, EK-RA6M5, EK-RA8M1 and EK-RA8D1 (Full Speed)
 	1. Jumper J12: Connect pins 2-3
 	2. Connect Jumper J15 pins
 	3. Connect the micro USB end of the micro USB device cable to micro-AB USB Full Speed 

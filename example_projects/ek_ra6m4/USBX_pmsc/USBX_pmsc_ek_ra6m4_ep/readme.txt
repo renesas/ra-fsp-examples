@@ -28,11 +28,19 @@
         - Connect the micro USB end of the micro USB device cable to micro-AB USB (DEBUG USB) 
 	  port (J10) of the respective board.
 
-    High Speed:(For EK-RA6M3, EK-RA6M5 boards)
+    High Speed:(For EK-RA6M3 boards)
         - Jumper j7: Connect pins 2-3
         - Connect Jumper j17 pins
         - Connect the micro USB end of the micro USB device cable to micro-AB USB High Speed 
 	  port (J6) of the board.  Connect the other end of this cable to USB port of the host PC.
+        - Connect the micro USB end of the micro USB device cable to micro-AB USB (DEBUG USB) 
+	  port (J10) of the respective board.
+	  
+    High Speed:(For EK-RA6M5 boards)
+        - Jumper j7: Connect pins 2-3
+        - Connect Jumper j17 pins
+        - Connect the micro USB end of the micro USB device cable to micro-AB USB High Speed 
+	  port (J31) of the board.  Connect the other end of this cable to USB port of the host PC.
         - Connect the micro USB end of the micro USB device cable to micro-AB USB (DEBUG USB) 
 	  port (J10) of the respective board.
 

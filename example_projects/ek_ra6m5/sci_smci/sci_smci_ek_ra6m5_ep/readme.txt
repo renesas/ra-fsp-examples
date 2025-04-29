@@ -15,9 +15,9 @@
 	printed it the RTTViewer...
 
 2. Software Requirements:
-	Renesas Flexible Software Package (FSP): Version 5.8.0
-	e2 studio: Version 2025-01
-	SEGGER J-Link RTT Viewer: Version 8.12c
+	Renesas Flexible Software Package (FSP): Version 5.9.0
+	e2 studio: Version 2025-04
+	SEGGER J-Link RTT Viewer: Version 8.12f
 	GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 	An internal pack file of SCI SMCI driver (https://renesasgroup-my.sharepoint.com/:u:/g/personal/cheng-ping_chan_jc_renesas_com/EfBMYUOfm3lOo4JMbGgs5ZMBo7t5DvDNPs6u_-mrSdTToA?e=DpCCWx)
 
@@ -35,7 +35,7 @@
 	
    SIM or Debit Card connect to EK-RA6M5 pins:
 	SIM or Debit Card			EK-RA6M5 
-	1. 	pin 1 VCC = 3.3V	=>	pin VCC  = 3.3V
+	1. 	pin 1 VCC		=>	pin VCC  = P804
 	2. 	pin 2 RESET 		=>	pin P803 = Reset
 	3. 	pin 3 SCK		=>	pin P612 = Clock
 	4.	pin 4 GND		=>	pin GND	 = Ground

@@ -16,9 +16,9 @@
 	The two example projects ssi_master_ek_ra4m2_ep and ssi_slave_ek_ra4m2_ep are provided for the the SSI Slave EP, one intended for Master and other for the Slave.
 
 2. Software Requirements:
-	Renesas Flexible Software Package (FSP): Version 5.8.0
-	e2 studio: Version 2025-01
-	SEGGER J-Link RTT Viewer: Version 8.12c
+	Renesas Flexible Software Package (FSP): Version 5.9.0
+	e2 studio: Version 2025-04
+	SEGGER J-Link RTT Viewer: Version 8.12f
 	GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
      
 3. Hardware Requirements:
@@ -103,3 +103,12 @@
 	   
 	8) Connect the micro USB end of the micro USB device cable to Debug port of the board. Connect the other end of this cable to USB port of the 
 	   host PC.
+
+1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
+   RTT Block address for hex file committed in repository are as follows:
+   a. e2studio: 0x200000c4
+   b. Keil: Not Available
+   c. IAR: Not Available
+ 
+2) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) 
+   in .map file generated in the build configuration folder (Debug/Release).

@@ -12,6 +12,36 @@ set "RascVersionHandler=%~dp0rasc_version.bat"
 REM Shift to leave remaining parameters as input parameters to RASC
 shift
 
+REM Define input and output files
+set "InputFile=%~dp0configuration.xml"
+set "OutputFile=%~dp0output.rasc"
+
+REM Check if --gensmartbundle is passed, 9th param is .axf file
+if "%~3"=="--gensmartbundle" (
+    set "InputFile=%~9"
+    set "OutputFile=%~dpn9.sbd"
+)
+REM Check if input file exists
+if not exist "%InputFile%" (
+    echo [ERROR] Input file "%InputFile%" does not exist. Exiting.
+    exit /b 1
+)
+REM Check if output file exists
+if not exist "%OutputFile%" (
+    echo [INFO] Output file "%OutputFile%" does not exist. Proceeding with RASC invocation...
+    goto :InvokeRasc
+)
+REM Compare timestamps of input and output files
+xcopy /L /D /Y "%InputFile%" "%OutputFile%" | findstr /B /C:"1 " > nul
+if not errorlevel 1 (
+    echo [INFO] Input file "%InputFile%" is newer than output file "%OutputFile%". Proceeding with RASC invocation...
+    goto :InvokeRasc
+) else (
+    echo [INFO] Input file "%InputFile%" is older than output file "%OutputFile%". Skipping RASC invocation.
+    exit /b 0
+)
+:InvokeRasc
+
 REM Invoke rasc_version.bat to check rasc_version.txt and update it if required
 REM If user selection of RASC version is required then the first non-interactive call will exit with error status
 REM In that case we re-invoke in a new command shell to allow user interaction

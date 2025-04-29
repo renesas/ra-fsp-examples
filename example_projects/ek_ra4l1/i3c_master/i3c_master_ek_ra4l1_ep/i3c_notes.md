@@ -103,8 +103,8 @@ To build and run the I3C example project, the following resources are needed.
 * For EK-RA4L1: The user needs to turn OFF S4-5 to enable I3C function.
 
 ### Software ###
-* Renesas Flexible Software Package (FSP): Version 5.8.0
-* e2 studio: Version 2025-01
+* Renesas Flexible Software Package (FSP): Version 5.9.0
+* e2 studio: Version 2025-04
 * SEGGER J-Link RTT Viewer: Version 8.10l
 * GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 

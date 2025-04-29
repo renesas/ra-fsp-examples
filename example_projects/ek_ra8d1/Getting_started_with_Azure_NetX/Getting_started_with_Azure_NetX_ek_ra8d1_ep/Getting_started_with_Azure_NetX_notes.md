@@ -45,8 +45,8 @@ To build and run the NetX_tcp_udp example project, the following resources are n
     |     OFF     |     OFF     |      OFF     |     OFF    |     ON     |     OFF    |     OFF     |    OFF    |
 
 ### Software Requirements ###
-* Renesas Flexible Software Package (FSP): Version 5.8.0
-* e2 studio: Version 2025-01
+* Renesas Flexible Software Package (FSP): Version 5.9.0
+* e2 studio: Version 2025-04
 * GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 * Terminal Console Application: Tera Term version 4.99 or SEGGER RTT J-Link Viewer version 7.98g
 * Web Browser Application: Microsoft Edge, Google Chrome.

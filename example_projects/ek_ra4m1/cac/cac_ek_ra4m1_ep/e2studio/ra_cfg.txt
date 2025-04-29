@@ -1,5 +1,5 @@
 FSP Configuration
-  Board "EK-RA4M1"
+  Board "RA4|RA4M1|EK-RA4M1"
   R7FA4M1AB3CFP
     part_number: R7FA4M1AB3CFP
     rom_size_bytes: 262144
@@ -12,6 +12,7 @@ FSP Configuration
     series: 4
     
   RA4M1 Family
+    Enable inline BSP IRQ functions: Enabled
     OFS0 register settings: Independent WDT: Start Mode: IWDT is automatically activated after a reset (Autostart mode)
     OFS0 register settings: Independent WDT: Timeout Period: 2048 cycles
     OFS0 register settings: Independent WDT: Dedicated Clock Frequency Divisor: 1
@@ -52,13 +53,13 @@ FSP Configuration
     ID Code Mode: Unlocked (Ignore ID)
     ID Code (32 Hex Characters): FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
     
+  RA4M1 event data
   RA Common
     Main stack size (bytes): 0x400
     Heap size (bytes): 0x400
     MCU Vcc (mV): 3300
     Parameter checking: Enabled
     Assert Failures: Return FSP_ERR_ASSERTION
-    Error Log: No Error Log
     Clock Registers not Reset Values during Startup: Disabled
     Main Oscillator Populated: Populated
     PFS Protect: Enabled
@@ -294,6 +295,8 @@ FSP Configuration
     
   User Event Links
     
+  Linker Section Mappings
+    
   Module "I/O Port (r_ioport)"
     Parameter Checking: Default (BSP)
     
@@ -315,19 +318,27 @@ FSP Configuration
     Instance "g_cac Clock Accuracy Circuit (r_cac)"
       Name: g_cac
       Reference clock divider: 32
-      Reference clock source: Main Oscillator
+      Reference clock source: MOCO
       Reference clock digital filter: Disabled
       Reference clock edge detect: Rising
       Measurement clock divider: 1
       Measurement clock source: HOCO
-      Upper Limit Threshold: 70
-      Lower Limit Threshold: 58
-      Frequency Error Interrupt Priority: Priority 3
+      Upper Limit Threshold: 105
+      Lower Limit Threshold: 87
+      Frequency Error Interrupt Priority: Priority 2
       Measurement End Interrupt Priority: Priority 2
-      Overflow Interrupt Priority: Priority 3
+      Overflow Interrupt Priority: Priority 2
       Callback: cac_callback
       
     Instance "g_cgc Clock Generation Circuit (r_cgc)"
       Name: g_cgc
-      NMI Callback: NULL
+      Enable main oscillator stop detection via the NMI interrupt: Enabled
+      Oscillation Stop Detection Callback: NULL
+      Sub Clock Oscillation Stop Detection Settings: Enable sub clock oscillator stop detection via the SOSC_STOP interrupt: Disabled
+      Sub Clock Oscillation Stop Detection Settings: Sub Clock Oscillation Stop Detection Time: 0
+      Sub Clock Oscillation Stop Detection Settings: Sub Clock Oscillation Stop Detection Interrupt Priority: Disabled
+      Main Oscillation Stop Detection Settings: Enable main clock oscillator stop detection via the MOSC_STOP interrupt: Disabled
+      Main Oscillation Stop Detection Settings: Main Oscillation Stop Detection Time: 0
+      Main Oscillation Stop Detection Settings: Main Oscillation Stop Detection Interrupt Priority: Disabled
+      Oscillator Stop Detection Settings: Clock Switch Enable for Oscillation Stop Detected of SDADCCLK: Disabled
       

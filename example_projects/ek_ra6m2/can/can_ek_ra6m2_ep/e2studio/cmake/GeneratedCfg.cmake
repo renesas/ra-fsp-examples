@@ -3,14 +3,14 @@
 
 set(RASC_TARGET_DEVICE R7FA6M2AF)
 set(RASC_TARGET_ARCH cortex-m4)
-set(RASC_PROJECT_NAME e2studio)
+set(RASC_PROJECT_NAME can_ek_ra6m2_ep)
 SET(RASC_TOOLCHAIN_NAME GCC)
 
 SET(RASC_CMAKE_ASM_FLAGS "-mfloat-abi=hard;-mcpu=cortex-m4;-mfpu=fpv4-sp-d16;-Wunused;-Wuninitialized;-Wall;-Wextra;-Wmissing-declarations;-Wconversion;-Wpointer-arith;-Wshadow;-Wlogical-op;-Waggregate-return;-Wfloat-equal;-fmessage-length=0;-fsigned-char;-ffunction-sections;-fdata-sections;-mthumb;-x;assembler-with-cpp;-MMD;-MP")
 SET(RASC_CMAKE_C_FLAGS "-mfloat-abi=hard;-mcpu=cortex-m4;-mfpu=fpv4-sp-d16;-Wunused;-Wuninitialized;-Wall;-Wextra;-Wmissing-declarations;-Wconversion;-Wpointer-arith;-Wshadow;-Wlogical-op;-Waggregate-return;-Wfloat-equal;-fmessage-length=0;-fsigned-char;-ffunction-sections;-fdata-sections;-mthumb;-std=c99;-MMD;-MP")
 SET(RASC_CMAKE_CXX_FLAGS "-mfloat-abi=hard;-mcpu=cortex-m4;-mfpu=fpv4-sp-d16;-Wunused;-Wuninitialized;-Wall;-Wextra;-Wmissing-declarations;-Wconversion;-Wpointer-arith;-Wshadow;-Wlogical-op;-Waggregate-return;-Wfloat-equal;-fmessage-length=0;-fsigned-char;-ffunction-sections;-fdata-sections;-mthumb;-std=c++11;-MMD;-MP")
-SET(RASC_CMAKE_EXE_LINKER_FLAGS "-mfloat-abi=hard;-mcpu=cortex-m4;-mfpu=fpv4-sp-d16;-Wunused;-Wuninitialized;-Wall;-Wextra;-Wmissing-declarations;-Wconversion;-Wpointer-arith;-Wshadow;-Wlogical-op;-Waggregate-return;-Wfloat-equal;-fmessage-length=0;-fsigned-char;-ffunction-sections;-fdata-sections;-mthumb;-T;script/fsp.ld;-Wl,--gc-sections;-Wl,-Map,${PROJECT_NAME}.map;--specs=nano.specs;-o;${CMAKE_BINARY_DIR}/${PROJECT_NAME}.elf")
-SET(RASC_CMAKE_DEFINITIONS "_RA_CORE=CM4;_RA_ORDINAL=1;_RENESAS_RA_")
+SET(RASC_CMAKE_EXE_LINKER_FLAGS "-mfloat-abi=hard;-mcpu=cortex-m4;-mfpu=fpv4-sp-d16;-Wunused;-Wuninitialized;-Wall;-Wextra;-Wmissing-declarations;-Wconversion;-Wpointer-arith;-Wshadow;-Wlogical-op;-Waggregate-return;-Wfloat-equal;-fmessage-length=0;-fsigned-char;-ffunction-sections;-fdata-sections;-mthumb;-T;fsp.ld;-Wl,--gc-sections;-Wl,-Map,${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.map;--specs=nano.specs;-o;${CMAKE_BINARY_DIR}/${PROJECT_NAME}.elf")
+SET(RASC_CMAKE_DEFINITIONS "_RENESAS_RA_;_RA_CORE=CM4;_RA_ORDINAL=1")
 SET(RASC_ASM_FILES "${CMAKE_CURRENT_SOURCE_DIR}/ra_gen/*.asm")
 
 
@@ -39,7 +39,7 @@ else()
 endif()
 
 # Make target for opening the FSP Configuration in Smart Configurator
-add_custom_target(rasc
+add_custom_target(open_rasc_${PROJECT_NAME}
     COMMAND ${RASC_COMMAND}
     WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}"
     COMMENT "FSP Smart Configurator"

@@ -332,11 +332,12 @@ static void process_kit_info(void)
     fsp_err_t err = FSP_SUCCESS;
 
     /* Read die temperature */
-    err = R_ADC_Read (&g_adc_ctrl, ADC_CHANNEL_TEMPERATURE, &adc_data);
+    err = adc_reading(&adc_data);
+
     /* Handle error */
     if (FSP_SUCCESS != err)
     {
-        print_to_console ("** R_ADC_Read API failed ** \r\n");
+        print_to_console ("** ADC reading failed ** \r\n");
         /* Turn ON RED LED to indicate fatal error */
         TURN_RED_ON
         APP_ERR_TRAP(err);

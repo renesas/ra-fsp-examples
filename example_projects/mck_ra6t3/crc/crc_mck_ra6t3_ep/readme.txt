@@ -92,9 +92,9 @@ Note:
 
         RA6E1-FPB
         -------
-        Channel 2 has been used by SCI_UART Loopback operation.
-        SCI2 P301 ----> RXD 
-        SCI2 P302 ----> TXD
+        Channel 0 has been used by SCI_UART Loopback operation.
+        SCI0 P100 ----> RXD 
+        SCI0 P101 ----> TXD
 
         RA2E2-EK
         -------

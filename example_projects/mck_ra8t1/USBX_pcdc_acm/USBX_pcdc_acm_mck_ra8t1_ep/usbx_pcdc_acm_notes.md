@@ -21,8 +21,8 @@ Refer to [readme.txt](./readme.txt) for information on how to connect the hardwa
 1. Refer to the software required section in [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf)
 2. Refer to [Special Topics](#special-topics) for more information of USBX pcdc setup.
 
-* Renesas Flexible Software Package (FSP): Version 5.8.0
-* e2 studio: Version 2025-01
+* Renesas Flexible Software Package (FSP): Version 5.9.0
+* e2 studio: Version 2025-04
 * GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 * Terminal Console Application: Tera Term or a similar application
 * USB Serial Drivers (included in Windows 10) 

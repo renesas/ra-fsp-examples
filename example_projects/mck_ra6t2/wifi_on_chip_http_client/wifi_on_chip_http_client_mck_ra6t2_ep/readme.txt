@@ -23,9 +23,9 @@
 					https://www.renesas.com/en/document/apn/da16200da16600-sdk-update-guide
 	
 3. Software Requirements:
-	Renesas Flexible Software Package (FSP): Version 5.8.0
-   a. e2studio: 0x20000a74
-	SEGGER J-Link RTT Viewer: Version 8.12c
+	Renesas Flexible Software Package (FSP): Version 5.9.0
+   a. e2studio: 0x20000904
+	SEGGER J-Link RTT Viewer: Version 8.12f
 	GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 
 4. Hardware Connections:
@@ -82,7 +82,7 @@
 Note :	  
 1) The segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x20000a74
+   a. e2studio: 0x20000904
    b. Keil: Not Available 
    c. IAR: Not Available
  

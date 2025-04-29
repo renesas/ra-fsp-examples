@@ -11,18 +11,23 @@ Project Overview:
     the USB Flash drive.Error and EP status messages will be printed on J-link RTT Viewer.
 
 Hardware Connections:
-   EK-RA6M3:
-    High-Speed: (For EK-RA6M3/EK-RA6M3G, EK-RA6M5)
+
+    High-Speed: (For EK-RA6M3/EK-RA6M3G)
         Jumper J7: Connect pins 1-2
         Remove Jumper J17 pins
         Connect USB device to J6 connector with help of micro USB Host cable.
+
+    High-Speed: (For EK-RA6M5)
+        Jumper J7: Connect pins 1-2
+        Remove Jumper J17 pins
+        Connect USB device to J31 connector with help of micro USB Host cable.
 
     Full-Speed: (For EK-RA4M3/EK-RA6M3/EK-RA6M3G/EK-RA6M4/EK-RA4M2)
         Jumper J12 placement is pins 1-2
         Remove Jumper J15 pins
         Connect USB device to J11 connector with help of micro USB Host cable.
 
-   MCK-RA8T1:
+    MCK-RA8T1:
     Full-Speed:
         Jumper JP9 placement is pins 1-2
         Remove Jumper J10 pins

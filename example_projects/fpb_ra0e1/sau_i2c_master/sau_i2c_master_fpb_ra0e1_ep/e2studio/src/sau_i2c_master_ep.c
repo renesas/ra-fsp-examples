@@ -3,10 +3,10 @@
  * Description  : Contains data structures and functions
  **********************************************************************************************************************/
 /***********************************************************************************************************************
-* Copyright (c) 2024 Renesas Electronics Corporation and/or its affiliates
-*
-* SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
+-* Copyright (c) 2024 - 2025 Renesas Electronics Corporation and/or its affiliates
+-*
+-* SPDX-License-Identifier: BSD-3-Clause
+-**********************************************************************************************************************/
 
 #include "sau_i2c_master_ep.h"
 #include "common_utils.h"
@@ -165,9 +165,25 @@ static fsp_err_t sensor_write_reg(uint8_t addr, uint8_t value)
     err = R_SAU_I2C_Write(&g_sau_i2c_master_ctrl, i2c_buf, I2C_TWO_BYTE, false);
     APP_ERR_RETURN(err, "**R_SAU_I2C_Write API failed**\r\n");
 
+#if SAU_I2C_CFG_MANUAL_START_STOP_ENABLE
+    err = R_SAU_I2C_Start(&g_sau_i2c_master_ctrl);
+    APP_ERR_RETURN(err, "**R_SAU_I2C_Start API failed**\r\n");
+#endif
+
     /* Wait I2C event TX COMPLETE */
     err = sau_i2c_wait_event(I2C_MASTER_EVENT_TX_COMPLETE);
     APP_ERR_RETURN(err, "**sau_i2c_wait_event failed**\r\n");
+
+#if SAU_I2C_CFG_MANUAL_START_STOP_ENABLE
+  #if SAU_I2C_CFG_RESTART_ENABLE
+    if (false == g_sau_i2c_master_ctrl.restarted)
+  #endif
+    {
+        err = R_SAU_I2C_Stop(&g_sau_i2c_master_ctrl);
+        APP_ERR_RETURN(err, "**R_SAU_I2C_Stop API failed**\r\n");
+    }
+#endif
+
     return err;
 }
 
@@ -190,9 +206,24 @@ static fsp_err_t sensor_read_reg(uint8_t addr, uint8_t * p_value)
     err = R_SAU_I2C_Write(&g_sau_i2c_master_ctrl, &reg_addr, I2C_ONE_BYTE, true);
     APP_ERR_RETURN(err, "**R_SAU_I2C_Write API failed**\r\n");
 
+#if SAU_I2C_CFG_MANUAL_START_STOP_ENABLE
+    err = R_SAU_I2C_Start(&g_sau_i2c_master_ctrl);
+    APP_ERR_RETURN(err, "**R_SAU_I2C_Start API failed**\r\n");
+#endif
+
     /* Wait I2C event TX COMPLETE */
     err = sau_i2c_wait_event(I2C_MASTER_EVENT_TX_COMPLETE);
     APP_ERR_RETURN(err, "**sau_i2c_wait_event failed**\r\n");
+
+#if SAU_I2C_CFG_MANUAL_START_STOP_ENABLE
+  #if SAU_I2C_CFG_RESTART_ENABLE
+    if (false == g_sau_i2c_master_ctrl.restarted)
+  #endif
+    {
+        err = R_SAU_I2C_Stop(&g_sau_i2c_master_ctrl);
+        APP_ERR_RETURN(err, "**R_SAU_I2C_Stop API failed**\r\n");
+    }
+#endif
 
     /* Reset SAU I2C callback event */
     g_sau_i2c_event = (i2c_master_event_t)RESET_VALUE;
@@ -201,9 +232,24 @@ static fsp_err_t sensor_read_reg(uint8_t addr, uint8_t * p_value)
     err = R_SAU_I2C_Read(&g_sau_i2c_master_ctrl, p_value, I2C_ONE_BYTE, false);
     APP_ERR_RETURN(err, "**R_SAU_I2C_Read API failed**\r\n");
 
+#if SAU_I2C_CFG_MANUAL_START_STOP_ENABLE
+    err = R_SAU_I2C_Start(&g_sau_i2c_master_ctrl);
+    APP_ERR_RETURN(err, "**R_SAU_I2C_Start API failed**\r\n");
+#endif
+
     /* Wait I2C event RX COMPLETE */
     err = sau_i2c_wait_event(I2C_MASTER_EVENT_RX_COMPLETE);
     APP_ERR_RETURN(err, "**sau_i2c_wait_event failed**\r\n");
+
+#if SAU_I2C_CFG_MANUAL_START_STOP_ENABLE
+  #if SAU_I2C_CFG_RESTART_ENABLE
+    if (false == g_sau_i2c_master_ctrl.restarted)
+  #endif
+    {
+        err = R_SAU_I2C_Stop(&g_sau_i2c_master_ctrl);
+        APP_ERR_RETURN(err, "**R_SAU_I2C_Stop API failed**\r\n");
+    }
+#endif
 
     return err;
 }
@@ -382,9 +428,24 @@ static fsp_err_t sensor_read_data(uint8_t * p_data)
     err = R_SAU_I2C_Write(&g_sau_i2c_master_ctrl, &reg_addr, I2C_ONE_BYTE, true);
     APP_ERR_RETURN(err, "**R_SAU_I2C_Write API failed**\r\n");
 
+#if SAU_I2C_CFG_MANUAL_START_STOP_ENABLE
+    err = R_SAU_I2C_Start(&g_sau_i2c_master_ctrl);
+    APP_ERR_RETURN(err, "**R_SAU_I2C_Start API failed**\r\n");
+#endif
+
     /* Wait SAU I2C event TX COMPLETE */
     err = sau_i2c_wait_event(I2C_MASTER_EVENT_TX_COMPLETE);
     APP_ERR_RETURN(err, "**i2c_wait_event failed**\r\n");
+
+#if SAU_I2C_CFG_MANUAL_START_STOP_ENABLE
+  #if SAU_I2C_CFG_RESTART_ENABLE
+    if (false == g_sau_i2c_master_ctrl.restarted)
+  #endif
+    {
+        err = R_SAU_I2C_Stop(&g_sau_i2c_master_ctrl);
+        APP_ERR_RETURN(err, "**R_SAU_I2C_Stop API failed**\r\n");
+    }
+#endif
 
     /* Reset SAU I2C callback event */
     g_sau_i2c_event = (i2c_master_event_t)RESET_VALUE;
@@ -393,9 +454,24 @@ static fsp_err_t sensor_read_data(uint8_t * p_data)
     err = R_SAU_I2C_Read(&g_sau_i2c_master_ctrl, p_data, I2C_DATA_BYTE, false);
     APP_ERR_RETURN(err, "**R_SAU_I2C_Read API failed**\r\n");
 
+#if SAU_I2C_CFG_MANUAL_START_STOP_ENABLE
+    err = R_SAU_I2C_Start(&g_sau_i2c_master_ctrl);
+    APP_ERR_RETURN(err, "**R_SAU_I2C_Start API failed**\r\n");
+#endif
+
     /* Wait I2C event RX COMPLETE */
     err = sau_i2c_wait_event(I2C_MASTER_EVENT_RX_COMPLETE);
     APP_ERR_RETURN(err, "**i2c_wait_event failed**\r\n");
+
+#if SAU_I2C_CFG_MANUAL_START_STOP_ENABLE
+  #if SAU_I2C_CFG_RESTART_ENABLE
+    if (false == g_sau_i2c_master_ctrl.restarted)
+  #endif
+    {
+        err = R_SAU_I2C_Stop(&g_sau_i2c_master_ctrl);
+        APP_ERR_RETURN(err, "**R_SAU_I2C_Stop API failed**\r\n");
+    }
+#endif
 
     return err;
 }

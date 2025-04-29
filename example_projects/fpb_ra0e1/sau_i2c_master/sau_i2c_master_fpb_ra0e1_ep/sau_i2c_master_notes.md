@@ -10,12 +10,13 @@ for general information on example projects and [readme.txt](./readme.txt) for s
 To build and run the SAU I2C Master example project, the following resources are needed.
 
 ### Hardware ###
-* 1 x Renesas FPB-RA0E1 board.
+Supported RA boards: FPB-RA0E1.
+* 1 x Renesas RA board.
 * 1 x USB type C cable for programming and debugging.
-* 1 x PmodACL™ Board(Part Number: 410-097) as a slave device.
+* 1 x PmodACL™ Board (Part Number: 410-097) as a slave device.
 * 2 x Resistor (from 1k to 4.7k ohms) used to pull up the I2C bus.
 * 1 x Breadboard.
-* 8 x Jumper cable(6 x Male-Female, 1 x Male-Male, 1 x Female-Female) used to connect the RA board to the PmodACL™ and pull up the I2C bus.
+* 8 x Jumper cables (6 x Male-Female, 1 x Male-Male, 1 x Female-Female) used to connect the RA board to the PmodACL™ and pull up the I2C bus.
 
 ### Hardware Connections ###
 * Connect the USB Debug port on the RA board to the host PC via a USB type C cable.
@@ -37,9 +38,9 @@ To build and run the SAU I2C Master example project, the following resources are
 Refer to [readme.txt](./readme.txt) for information on how to connect the hardware.
 
 ### Software ###
-* Renesas Flexible Software Package (FSP): Version 5.8.0
-* e2 studio: Version 2025-01
-* SEGGER J-Link RTT Viewer: Version 8.12c
+* Renesas Flexible Software Package (FSP): Version 5.9.0
+* e2 studio: Version 2025-04
+* SEGGER J-Link RTT Viewer: Version 8.12f
 * GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 
 Refer to the software required section in [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf) for basic information on setting up and using the above software.
@@ -73,8 +74,9 @@ This section describes FSP Configurator properties which are important or differ
 |   Module Property Path and Identifier   |   Default Value   |   Used Value   |   Reason   |
 |-----------------------------------------|-------------------|----------------|------------|
 | configuration.xml > g_sau_i2c_master I2C Master (r_sau_i2c) > Settings > Property > Common > DTC Support | Disabled | Enabled | Enable DTC for support the SAU I2C module. |
+| configuration.xml > g_sau_i2c_master I2C Master (r_sau_i2c) > Settings > Property > Common > Manual Start-Stop | Disabled | Enabled | Enable Manual Start-Stop. |
 | configuration.xml > g_sau_i2c_master I2C Master (r_sau_i2c) > Settings > Property > Module g_sau_i2c_master I2C Master (r_sau_i2c) > Channel | 00 | 20 | Use IIC channel 20 to communicate with the PmodACL ADXL345. |
-| configuration.xml > g_sau_i2c_master I2C Master (r_sau_i2c) > Settings > Property > Module g_sau_i2c_master I2C Master (r_sau_i2c) > Operation clock | CK0 | CK0 | Select CK0 as the clock source for IIC00. |
+| configuration.xml > g_sau_i2c_master I2C Master (r_sau_i2c) > Settings > Property > Module g_sau_i2c_master I2C Master (r_sau_i2c) > Operation clock | CKm0 | CKm0 | Select CKm0 as the clock source for IIC20. |
 | configuration.xml > g_sau_i2c_master I2C Master (r_sau_i2c) > Settings > Property > Module g_sau_i2c_master I2C Master (r_sau_i2c) > Slave Address | 0x00 | 0x1D | Specific slave address of the PmodACL ADXL345. |
 | configuration.xml > g_sau_i2c_master I2C Master (r_sau_i2c) > Settings > Property > Module g_sau_i2c_master I2C Master (r_sau_i2c) > Rate | Standard | Standard | Select the standard rate of 100 kHz to communicate with the PmodACL ADXL345. |
 | configuration.xml > g_sau_i2c_master I2C Master (r_sau_i2c) > Settings > Property > Module g_sau_i2c_master I2C Master (r_sau_i2c) > Callback | sau_i2c_master_callback | sau_i2c_master_callback | It is called from the interrupt service routine (ISR) upon IIC transaction completion reporting the transaction status. |
@@ -100,6 +102,8 @@ The table below lists the FSP provided API used at the application layer by this
 | R_SAU_I2C_Open | This API is used to initialize the SAU I2C Master module. |
 | R_SAU_I2C_Write | This API is used to perform a write operation to the sensor register. |
 | R_SAU_I2C_Read | This API is used to perform a read operation from the sensor register. |
+| R_SAU_I2C_Start | This API is used to start/restart the IIC condition. |
+| R_SAU_I2C_Stop | This API is used to stop the IIC condition. |
 | R_SAU_I2C_Close | This API is used to de-initialize the SAU I2C Master module. |
 | R_BSP_SoftwareDelay | This API is used to delay a specified period of time. |
 

@@ -15,9 +15,9 @@
      	one intended for Master and other for the Slave.
 
 2. Software Requirements:
-     	Renesas Flexible Software Package (FSP): Version 5.8.0
-     	e2 studio: Version 2025-01
-     	SEGGER J-Link RTT Viewer: Version 8.12c
+     	Renesas Flexible Software Package (FSP): Version 5.9.0
+     	e2 studio: Version 2025-04
+     	SEGGER J-Link RTT Viewer: Version 8.12f
      	LLVM Embedded Toolchain for ARM: Version 18.1.3
 
 3. Hardware Requirements:
@@ -145,7 +145,7 @@ Note:
 
 2) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x220601e0
+   a. e2studio: 0x22060080
    b. Keil:     Not Available 
    c. IAR:      Not Available
    

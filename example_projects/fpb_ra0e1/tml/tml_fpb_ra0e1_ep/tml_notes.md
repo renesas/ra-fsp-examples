@@ -25,9 +25,9 @@ Supported RA Boards: FPB-RA0E1
     * Populate R10 with a resistor ranging from 0 to 150 ohms.
 
 ### Software ###
-* Renesas Flexible Software Package (FSP): Version 5.8.0
-* e2 studio: Version 2025-01
-* SEGGER J-Link RTT Viewer: Version 8.12c
+* Renesas Flexible Software Package (FSP): Version 5.9.0
+* e2 studio: Version 2025-04
+* SEGGER J-Link RTT Viewer: Version 8.12f
 * GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 * Terminal Console Application: Tera Term or a similar application
 
@@ -151,9 +151,9 @@ The table below lists the FSP provided API used at the application layer in this
 | R_ELC_Enable | This API is used to enable the operation of the Event Link Controller. |
 | R_ELC_Close |	This API is used to disable ELC linking. |
 | R_ELC_SoftwareEventGenerate |	This API is used to generate a software event in the Event Link Controller. |
-| R_LPM_Open | This API is used to initialize the LMP module. |
+| R_LPM_Open | This API is used to initialize the LPM module. |
 | R_LPM_LowPowerModeEnter |	This API is used to enter low power mode. |
-| R_LPM_Close |	This API is used to de-initialize the LMP module. |
+| R_LPM_Close |	This API is used to de-initialize the LPM module. |
 | R_IOPORT_PinWrite | This API is used to control LED state. |
 | R_BSP_SoftwareDelay | This API is used to delay a specified period of time. |
 

@@ -17,7 +17,7 @@
  ******************************************************************************/
 /** User Configurable Macros **/
 /** @brief User has to provide the server IP address from where the FileZilla server running. For FTP server
- * setup please refer ftp_client notes under Special Topics.
+ * setup please refer ftp_client notes under Special Torvccs.
  * User can create their own credentials viz., "username" and "password" according to their settings,
  * same it should modify in the respective macro fields.
  */

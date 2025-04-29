@@ -101,9 +101,8 @@
    		6. Follow the instructions displayed in the tera term window.
 
 2. Software Requirements:
-	Renesas Flexible Software Package (FSP): Version 5.8.0
-	e2 studio: Version 2025-01
-	SEGGER J-Link RTT Viewer: Version 8.10l
+	Renesas Flexible Software Package (FSP): Version 5.9.0
+	e2 studio: Version 2025-04
 	Terminal Console Application: Tera Term or a similar application
 	USB Serial Drivers (included in Windows 10) 
 	Windows 10 operating system

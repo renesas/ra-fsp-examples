@@ -39,7 +39,7 @@ NOTE  : While running the application using DHCP or Static Address mode, the fol
    RTT Block address for hex file committed in repository are as follows:
    a. e2studio: 0x200028ec
    b. Keil:	0x20007290
-   c. IAR: 0x2001163c
+   c. IAR: 0x200114c0
  
 2) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) 
    in .map file generated in the build configuration folder (Debug/Release).

@@ -793,7 +793,8 @@ static uint8_t get_user_input(void)
 {
     uint8_t input_value = RESET_VALUE;
 
-    char user_input = NULL_CHAR;
+    char user_input[TERM_BUFFER_SIZE + 1];
+    memset(&user_input[0], NULL_CHAR, sizeof(user_input));
 
     /* Wait until there is any user input */
     while (!APP_CHECK_DATA)
@@ -802,10 +803,10 @@ static uint8_t get_user_input(void)
     }
 
     /* Read user input from the terminal */
-    APP_READ(&user_input, TERM_BUFFER_SIZE);
+    APP_READ(&user_input[0], TERM_BUFFER_SIZE);
 
     /* Convert to integer value */
-    input_value = (uint8_t)atoi((char*) &user_input);
+    input_value = (uint8_t)atoi((char*) &user_input[0]);
 
     return input_value;
 }

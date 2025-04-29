@@ -52,7 +52,7 @@
 	1. Jumper J7: Connect pins 1-2
         	2. Remove Jumper J17 pins
 	3. Connect the micro USB end of the micro USB device cable to micro-AB USB High Speed 
-           	port (J31) of the board. Connect the other end of this cable to USB port of the Printer device.
+           	port (J6) of the board. Connect the other end of this cable to USB port of the Printer device.
 
      	EK-RA6M4 (Full Speed)
 	1. Jumper J12: Connect pins 1-2

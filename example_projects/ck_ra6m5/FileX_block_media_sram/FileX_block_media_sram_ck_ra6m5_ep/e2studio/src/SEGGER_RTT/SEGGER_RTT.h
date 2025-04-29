@@ -3,7 +3,7 @@
 *                        The Embedded Experts                        *
 **********************************************************************
 *                                                                    *
-*            (c) 1995 - 2019 SEGGER Microcontroller GmbH             *
+*            (c) 1995 - 2021 SEGGER Microcontroller GmbH             *
 *                                                                    *
 *       www.segger.com     Support: support@segger.com               *
 *                                                                    *
@@ -42,7 +42,7 @@
 *                                                                    *
 **********************************************************************
 *                                                                    *
-*       RTT version: 8.12c                                           *
+*       RTT version: 8.12f                                           *
 *                                                                    *
 **********************************************************************
 
@@ -136,7 +136,7 @@ Revision: $Rev: 25842 $
       #define _CORE_NEEDS_DMB           1
       #define RTT__DMB() __asm volatile ("dmb\n" : : :);
     #elif \
-    ((defined __ARM_ARCH_7A__) || (defined __ARM_ARCH_7R__)) || \   // Cortex-A/R ARMv7-A/R & ARMv8-A/R
+    ((defined __ARM_ARCH_7A__) || (defined __ARM_ARCH_7R__)) || \
     ((defined __ARM_ARCH_8A__) || (defined __ARM_ARCH_8R__))
       //
       // Cortex-A/R ARMv7-A/R & ARMv8-A/R

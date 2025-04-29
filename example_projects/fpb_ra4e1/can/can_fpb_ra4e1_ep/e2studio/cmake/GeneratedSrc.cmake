@@ -35,14 +35,16 @@ target_compile_definitions(${PROJECT_NAME}.elf PRIVATE ${RASC_CMAKE_DEFINITIONS}
 
 target_include_directories(${PROJECT_NAME}.elf
     PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS_6/CMSIS/Core/Include
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
     ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/inc
     ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/inc/api
     ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/inc/instances
-    ${CMAKE_CURRENT_SOURCE_DIR}/ra_cfg/fsp_cfg
-    ${CMAKE_CURRENT_SOURCE_DIR}/ra_cfg/fsp_cfg/bsp
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS_5/CMSIS/Core/Include
     ${CMAKE_CURRENT_SOURCE_DIR}/ra_gen
-    ${CMAKE_CURRENT_SOURCE_DIR}/src
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra_cfg/fsp_cfg/bsp
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra_cfg/fsp_cfg
+    ${CMAKE_CURRENT_SOURCE_DIR}/"."
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS_6/CMSIS/Core/Include
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
@@ -57,42 +59,69 @@ target_link_libraries(${PROJECT_NAME}.elf
     
 )
 
-add_custom_target(obj_copy ALL
+add_custom_command(
+    TARGET
+        ${PROJECT_NAME}.elf
+    POST_BUILD
     COMMAND ${CMAKE_OBJCOPY} -O srec ${PROJECT_NAME}.elf ${PROJECT_NAME}.srec
     COMMENT "Creating S-record file in ${PROJECT_BINARY_DIR}"
 )
 
-add_dependencies(obj_copy ${PROJECT_NAME}.elf)
 
 # Pre-build step: run RASC to generate project content if configuration.xml is changed
 add_custom_command(
     OUTPUT
         configuration.xml.stamp
     COMMAND
+        echo "Running RASC for generating project ${PROJECT_NAME} content since modification is detected in configuration.xml:"
+    COMMAND
+        echo ${RASC_EXE_PATH}  -nosplash --launcher.suppressErrors --generate --devicefamily ra --compiler GCC --toolchainversion ${CMAKE_C_COMPILER_VERSION} ${CMAKE_CURRENT_SOURCE_DIR}/configuration.xml
+    COMMAND
         ${RASC_EXE_PATH}  -nosplash --launcher.suppressErrors --generate --devicefamily ra --compiler GCC --toolchainversion ${CMAKE_C_COMPILER_VERSION} ${CMAKE_CURRENT_SOURCE_DIR}/configuration.xml
     COMMAND
         ${CMAKE_COMMAND} -E touch configuration.xml.stamp
     COMMENT
-        "RASC pre-build to generate project content"
+        "RASC pre-build to generate project content for ${PROJECT_NAME}"
     DEPENDS
         ${CMAKE_CURRENT_SOURCE_DIR}/configuration.xml
 )
 
-add_custom_target(generate_content ALL
+add_custom_target(generate_content_${PROJECT_NAME}
   DEPENDS configuration.xml.stamp
 )
 
-add_dependencies(${PROJECT_NAME}.elf generate_content)
+add_dependencies(${PROJECT_NAME}.elf generate_content_${PROJECT_NAME})
 
 
 # Post-build step: run RASC to generate the SmartBundle file
+add_custom_command(
+	OUTPUT
+         ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.sbd
+    COMMAND
+        echo "Running RASC post-build to generate Smart Bundle (.sbd) file for ${PROJECT_NAME}:"
+    COMMAND
+        echo ${RASC_EXE_PATH} -nosplash --launcher.suppressErrors --gensmartbundle --devicefamily ra --compiler GCC --toolchainversion ${CMAKE_C_COMPILER_VERSION}  ${CMAKE_CURRENT_SOURCE_DIR}/configuration.xml ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.elf 
+    COMMAND
+        ${RASC_EXE_PATH} -nosplash --launcher.suppressErrors --gensmartbundle --devicefamily ra --compiler GCC --toolchainversion ${CMAKE_C_COMPILER_VERSION}  ${CMAKE_CURRENT_SOURCE_DIR}/configuration.xml ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.elf 
+)
+
+add_custom_target(generate_sbd_${PROJECT_NAME} ALL
+	DEPENDS
+		${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.sbd
+		${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.elf
+	VERBATIM
+)
+
+add_dependencies(generate_sbd_${PROJECT_NAME} ${PROJECT_NAME}.elf)
+
+
 add_custom_command(
     TARGET
         ${PROJECT_NAME}.elf
     POST_BUILD
     COMMAND
-        echo Running RASC post-build to generate Smart Bundle (.sbd) file
+        echo ${RASC_EXE_PATH} -nosplash --launcher.suppressErrors --gensmartbundle --devicefamily ra --compiler GCC --toolchainversion ${CMAKE_C_COMPILER_VERSION}  ${CMAKE_CURRENT_SOURCE_DIR}/configuration.xml ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.elf 
     COMMAND
         ${RASC_EXE_PATH} -nosplash --launcher.suppressErrors --gensmartbundle --devicefamily ra --compiler GCC --toolchainversion ${CMAKE_C_COMPILER_VERSION}  ${CMAKE_CURRENT_SOURCE_DIR}/configuration.xml ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.elf 
-    VERBATIM
+	VERBATIM
 )

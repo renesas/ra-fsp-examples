@@ -19,9 +19,9 @@
 	The PmodUSBUART facilitates the conversion of UART signals to USB signals and vice versa, enabling communication between the RA board and the Tera Term application.
 
 2. Software Requirements:
-	Renesas Flexible Software Package (FSP): Version 5.8.0
-	e2 studio: Version 2025-01
-	SEGGER J-Link RTT Viewer: Version 8.12c
+	Renesas Flexible Software Package (FSP): Version 5.9.0
+	e2 studio: Version 2025-04
+	SEGGER J-Link RTT Viewer: Version 8.12f
 	GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 	Terminal Console Application: Tera Term or a similar application 
 
@@ -39,7 +39,7 @@
 For Segger RTT block address:
 1) The Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block addresses for hex files committed in repository are as follows:
-   a. e2studio: 0x20004514
+   a. e2studio: 0x200044dc
    b. Keil: Not Available
    c. IAR: Not Available
  

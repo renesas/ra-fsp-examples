@@ -23,8 +23,8 @@ To build and run the LPM example project, the following resources are needed.
 Refer to [readme.txt](./readme.txt) for information on how to connect the hardware.
 
 ### Software ###
-* Renesas Flexible Software Package (FSP): Version 5.8.0
-* e2 studio: Version 2025-01
+* Renesas Flexible Software Package (FSP): Version 5.9.0
+* e2 studio: Version 2025-04
 * GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 * Terminal Console Application: Tera Term or a similar application
 
@@ -174,9 +174,9 @@ For RA8 boards:
 
 | API Name    | Usage                                                                          |
 |-------------|--------------------------------------------------------------------------------|
-| R_LPM_Open | This API is used to initialize the LMP module. |
+| R_LPM_Open | This API is used to initialize the LPM module. |
 | R_LPM_LowPowerModeEnter | This API is used to enter low power mode. |
-| R_LPM_Close | This API is used to de-initialize the LMP module. |
+| R_LPM_Close | This API is used to de-initialize the LPM module. |
 | R_SCI_B_UART_Open | This API is used to initialize the SCI UART module. |
 | R_SCI_B_UART_Write | This API is used to perform a write operation via the UART interface. |
 | R_SCI_B_UART_Close | This API is used to de-initialize the SCI UART module. |
@@ -195,9 +195,9 @@ For other boards:
 
 | API Name    | Usage                                                                          |
 |-------------|--------------------------------------------------------------------------------|
-| R_LPM_Open | This API is used to initialize the LMP module. |
+| R_LPM_Open | This API is used to initialize the LPM module. |
 | R_LPM_LowPowerModeEnter | This API is used to enter low power mode. |
-| R_LPM_Close | This API is used to de-initialize the LMP module. |
+| R_LPM_Close | This API is used to de-initialize the LPM module. |
 | R_SCI_UART_Open | This API is used to initialize the SCI UART module. |
 | R_SCI_UART_Write | This API is used to perform a write operation via the UART interface. |
 | R_SCI_UART_Close | This API is used to de-initialize the SCI UART module. |

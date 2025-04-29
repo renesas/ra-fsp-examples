@@ -12,21 +12,22 @@
 	reads the content and sends the data to usb_pcdc which is displayed on the Tera term. Data
 	captured from Tera term(max 512 bytes) will be written to file.
 	
-2. Hardware and Software Requirements:
-   
-   	Hardware : 
+2. Software Requirements:: 
+	Renesas Flexible Software Package (FSP): Version 5.9.0
+	e2 studio: Version 2025-04
+	SEGGER J-Link RTT Viewer: Version 8.12f
+	Terminal Console Application: Tera Term or a similar application
+	USB Serial Drivers (included in Windows 10) 
+	Windows® 10 operating system
+
+3. Hardware Requirements:
 	  1) RA board (EK-RA6M3/EK-RA6M3G/EK-RA6M5/EK-RA8M1/EK-RA8D1).
 	  2) Micro USB device cable - 2Nos.
 	  3) A PC with at least 2 USB port(1 for debug and 1 for com port).
 	  4) USB flash drive - 1Nos.
 	  5) USB OTG cable   - 1Nos.
-    
-	Software: 
-	  1) Serial Terminal/TeraTerm.
-    	  2) Windows® 10 operating system.
-	  3) USB Serial Drivers (included in Windows 10). 
 	
-3. Hardware Connections:
+4. Hardware Connections:
         *Note: User need to connect both USBFS and USBHS to run EP.
     	High-Speed (EK-RA6M3/EK-RA6M3G):
           Jumper j7: Connect pins 1-2.

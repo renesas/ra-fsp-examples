@@ -70,13 +70,13 @@ const char *p_led_freq = "\r\n c) Current blinking frequency (Hz): ";
 const char *p_kit_menu_ret = "\r\n Press 1 for Kit Information or 2 for Next Steps.\r\n";
 
 static bool  b_usb_attach = false;
+static bool  g_usb_write_complete = false;
 
 /* Private functions */
-static fsp_err_t check_for_write_complete(void);
 static fsp_err_t print_to_console(char *p_data);
 static void process_kit_info(void);
+void handle_usb_command (uint8_t user_input);
 
-fsp_err_t g_err = FSP_SUCCESS;
 
 
 /*******************************************************************************************************************//**
@@ -134,6 +134,8 @@ void hal_entry(void)
                     TURN_RED_ON
                     APP_ERR_TRAP(err);
                 }
+
+                g_usb_write_complete = true;
                 break;
             }
 
@@ -149,45 +151,6 @@ void hal_entry(void)
                     /* Turn ON RED LED to indicate fatal error */
                     TURN_RED_ON
                     APP_ERR_TRAP(err);
-                }
-
-                /* Switch case evaluation of user input */
-                switch (g_buf[0])
-                {
-                    case KIT_INFO:
-                    {
-                        process_kit_info();
-                        break;
-                    }
-                    case NEXT_STEPS:
-                    {
-                        err = print_to_console(nextsteps);
-                        if (FSP_SUCCESS != err)
-                        {
-                            /* Turn ON RED LED to indicate fatal error */
-                            TURN_RED_ON
-                            APP_ERR_TRAP(err);
-                        }
-                        break;
-                    }
-
-                    case CARRIAGE_RETURN:
-                    {
-                        /* Print banner info to console */
-                        err = print_to_console(p_welcome);
-                        if (FSP_SUCCESS != err)
-                        {
-                            /* Turn ON RED LED to indicate fatal error */
-                            TURN_RED_ON
-                            APP_ERR_TRAP(err);
-                        }
-                        break;
-                    }
-
-                    default:
-                    {
-                        break;
-                    }
                 }
                 break;
             }
@@ -222,7 +185,6 @@ void hal_entry(void)
                     err = R_USB_PeriControlStatusSet (&g_basic0_ctrl, USB_SETUP_STATUS_ACK);
                     /* Handle error */
                     if (FSP_SUCCESS != err)
-                        //if (FSP_SUCCESS != g_err)
                     {
                         /* Turn ON RED LED to indicate fatal error */
                         TURN_RED_ON
@@ -234,6 +196,12 @@ void hal_entry(void)
                     /* none */
                 }
 
+                break;
+            }
+            case USB_STATUS_WRITE_COMPLETE:
+            {
+                /* USB is ready for new write operations */
+                g_usb_write_complete = true;
                 break;
             }
 
@@ -253,6 +221,63 @@ void hal_entry(void)
             {
                 break;
             }
+        }
+
+        /* Check if the USB is ready for writing */
+        if (g_usb_write_complete)
+        {
+            /* Handle user input */
+            handle_usb_command(g_buf[0]);
+            memset(g_buf, 0, sizeof(g_buf));
+        }
+    }
+}
+
+/*******************************************************************************************************************//**
+ * @brief                This function is called to perform USB actions based on the input command.
+ * @param[IN] user_input The input received from the user.
+ * @retval    None
+ **********************************************************************************************************************/
+void handle_usb_command(uint8_t user_input)
+{
+    fsp_err_t err = FSP_SUCCESS;
+
+    /* Switch case evaluation of user input */
+    switch (user_input)
+    {
+        case KIT_INFO:
+        {
+            process_kit_info ();
+            break;
+        }
+        case NEXT_STEPS:
+        {
+            err = print_to_console (nextsteps);
+            if (FSP_SUCCESS != err)
+            {
+                /* Turn ON RED LED to indicate fatal error */
+                TURN_RED_ON
+                APP_ERR_TRAP(err);
+            }
+            break;
+        }
+
+        case CARRIAGE_RETURN:
+        {
+            /* Print banner info to console */
+            err = print_to_console (p_welcome);
+            if (FSP_SUCCESS != err)
+            {
+                /* Turn ON RED LED to indicate fatal error */
+                TURN_RED_ON
+                APP_ERR_TRAP(err);
+            }
+            break;
+        }
+
+        default:
+        {
+            break;
         }
     }
 }
@@ -284,52 +309,14 @@ static fsp_err_t print_to_console(char *p_data)
     fsp_err_t err = FSP_SUCCESS;
     uint32_t len = ((uint32_t)strlen(p_data));
 
+    /* Clear ready flag for USB write in progress */
+    g_usb_write_complete = false;
     err = R_USB_Write (&g_basic0_ctrl, (uint8_t*)p_data, len, USB_CLASS_PCDC);
     /* Handle error */
     if (FSP_SUCCESS != err)
     {
         return err;
     }
-
-    err = check_for_write_complete();
-    if (FSP_SUCCESS != err)
-    {
-        /* Did not get the event hence returning error */
-        return FSP_ERR_USB_FAILED;
-    }
-    return err;
-}
-
-/*****************************************************************************************************************
- *  @brief      Check for write completion
- *  @param[in]  None
- *  @retval     FSP_SUCCESS     Upon success
- *  @retval     any other error code apart from FSP_SUCCESS
- ****************************************************************************************************************/
-static fsp_err_t check_for_write_complete(void)
-{
-    usb_status_t usb_write_event = USB_STATUS_NONE;
-    int32_t timeout_count = UINT16_MAX;
-    fsp_err_t err = FSP_SUCCESS;
-    usb_event_info_t    event_info = {0};
-
-    do
-    {
-        err = R_USB_EventGet (&event_info, &usb_write_event);
-        if (FSP_SUCCESS != err)
-        {
-            return err;
-        }
-
-        --timeout_count;
-
-        if (0 > timeout_count)
-        {
-            timeout_count = 0;
-            err = (fsp_err_t)USB_STATUS_NONE;
-            break;
-        }
-    }while(USB_STATUS_WRITE_COMPLETE != usb_write_event);
 
     return err;
 }
@@ -348,11 +335,11 @@ static void process_kit_info(void)
     fsp_err_t err = FSP_SUCCESS;
 
     /* Read die temperature */
-    err = R_ADC_Read (&g_adc_ctrl, ADC_CHANNEL_TEMPERATURE, &adc_data);
+    err = adc_reading(&adc_data);
     /* Handle error */
     if (FSP_SUCCESS != err)
     {
-        print_to_console ("** R_ADC_Read API failed ** \r\n");
+        print_to_console ("** ADC reading failed ** \r\n");
         /* Turn ON RED LED to indicate fatal error */
         TURN_RED_ON
         APP_ERR_TRAP(err);

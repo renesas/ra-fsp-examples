@@ -40,14 +40,14 @@ For MCK-RA8T1 (Full-Speed):
    * Connect USB device to CN14 connector with help of Type-C Host cable.
 		
 For EK-RA4L1 (Full-Speed):
-   * Turn ON S4-4 to select USB device mode. 
+   * Turn OFF S4-4 to select USB Host mode. 
    * Set J17 jumper to pins 2-3, Set J7 jumper to use P407 for USBFS VBUS.
    * Connect USB device to J11 connector with help of Type-C USB Host cable.
 
 ### Software ###
-* Renesas Flexible Software Package (FSP): Version 5.8.0
-* e2 studio: Version 2025-01
-* SEGGER J-Link RTT Viewer: Version 8.12c
+* Renesas Flexible Software Package (FSP): Version 5.9.0
+* e2 studio: Version 2025-04
+* SEGGER J-Link RTT Viewer: Version 8.12f
 * GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 * Refer to the software required section in [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf)
 
