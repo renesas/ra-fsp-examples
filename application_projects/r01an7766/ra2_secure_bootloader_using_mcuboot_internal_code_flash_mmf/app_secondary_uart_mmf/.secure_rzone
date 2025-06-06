@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<rzone>
+    <device Dvendor="Renesas" Dname="R7FA2A2">
+        <processor Pname="CM23" Dcore="Cortex-M23" Dfpu="0" Dmpu="1" Dtz="NO_TZ" Ddsp="1" Dendian="Little-endian" Dclock="48000000" DcoreVersion="r1p0" DnumInterrupts="68" DnumSauRegions="0"/>
+    </device>
+    <resources>
+        <memories>
+            <memory name="RAM" type="RAM" start="0x20000000" size="0x0000c000" security=""/>
+            <memory name="FLASH" type="ROM" start="0x00000000" size="0x00080000" security=""/>
+            <memory name="DATA_FLASH" type="ROM" start="0x40100000" size="0x00002000" security=""/>
+            <memory name="OPTION_SETTING" type="ROM" start="0x00000000" size="0x00000000" security=""/>
+            <memory name="OPTION_SETTING_S" type="ROM" start="0x80000000" size="0x00000000" security=""/>
+            <memory name="ID_CODE" type="ROM" start="0x01010018" size="0x00000020" security=""/>
+            <memory name="SDRAM" type="RAM" start="0x80010000" size="0x00000000" security=""/>
+            <memory name="QSPI_FLASH" type="ROM" start="0x60000000" size="0x0" security=""/>
+            <memory name="OSPI_DEVICE_0" type="ROM" start="0x80020000" size="0x00000000" security=""/>
+            <memory name="OSPI_DEVICE_1" type="ROM" start="0x80030000" size="0x00000000" security=""/>
+        </memories>
+        <peripherals>
+            <group name="ADC" start="0x4005c000" size="0x00000200" info="A/D Converter">
+                <peripheral name="ADC0" start="0x4005c000" size="0x00000200"/>
+            </group>
+            <group name="AGT" start="0x40084200" size="0x00000100" info="Asynchronous General Purpose Timer">
+                <peripheral name="AGT0" start="0x40084200" size="0x00000100"/>
+                <peripheral name="AGT1" start="0x40084300" size="0x00000100"/>
+                <peripheral name="AGT2" start="0x40084400" size="0x00000100"/>
+                <peripheral name="AGT3" start="0x40084500" size="0x00000100"/>
+                <peripheral name="AGT4" start="0x40084600" size="0x00000100"/>
+                <peripheral name="AGT5" start="0x40084700" size="0x00000100"/>
+                <peripheral name="AGT6" start="0x40084800" size="0x00000100"/>
+                <peripheral name="AGT7" start="0x40084900" size="0x00000100"/>
+            </group>
+            <group name="AGTW" start="0x40084000" size="0x00000100" info="32-Bit Asynchronous General Purpose Timer">
+                <peripheral name="AGTW0" start="0x40084000" size="0x00000100"/>
+                <peripheral name="AGTW1" start="0x40084100" size="0x00000100"/>
+            </group>
+            <peripheral name="ANALOG" start="0x00000000" size="0x00000000" info="Analog-Pins"/>
+            <peripheral name="CAC" start="0x40044600" size="0x00000100" info="Clock Frequency Accuracy Measurement Circuit"/>
+            <peripheral name="CGC" start="0x00000000" size="0x00000000" info="Clock Generation Circuit"/>
+            <peripheral name="CRC" start="0x40074000" size="0x00000100" info="Cyclic Redundancy Check (CRC) Calculator"/>
+            <peripheral name="DEBUG" start="0x4001b000" size="0x00000000" info="Debug Function"/>
+            <peripheral name="DOC" start="0x40054100" size="0x00000010" info="Data Operation Circuit"/>
+            <peripheral name="DTC" start="0x40005400" size="0x00000100" info="Data Transfer Controller"/>
+            <peripheral name="ELC" start="0x40041000" size="0x00000100" info="Event Link Controller">
+                <slot name="GPT_A"/>
+                <slot name="GPT_B"/>
+                <slot name="GPT_C"/>
+                <slot name="GPT_D"/>
+                <slot name="ADC0"/>
+                <slot name="ADC0_B"/>
+                <slot name="IOPORT1"/>
+                <slot name="IOPORT2"/>
+                <slot name="CTSU"/>
+            </peripheral>
+            <peripheral name="FLASH" start="0x407ec000" size="0x00000100" info="Flash"/>
+            <peripheral name="FLASH_LP" start="0x00000000" size="0x00000100" info="Low Power Flash"/>
+            <group name="GPT" start="0x40078000" size="0x00000100" info="General PWM Timer">
+                <peripheral name="GPT4" start="0x40078400" size="0x00000100"/>
+                <peripheral name="GPT5" start="0x40078500" size="0x00000100"/>
+                <peripheral name="GPT6" start="0x40078600" size="0x00000100"/>
+                <peripheral name="GPT7" start="0x40078700" size="0x00000100"/>
+                <peripheral name="GPT8" start="0x40078800" size="0x00000100"/>
+                <peripheral name="GPT9" start="0x40078900" size="0x00000100"/>
+            </group>
+            <peripheral name="GPT_OPS" start="0x40078ff0" size="0x00000010" info="Output Phase Switching Controller"/>
+            <group name="GPT_POEG" start="0x40042000" size="0x00000100" info="Port Output Enable for GPT">
+                <peripheral name="GPT_POEG0" start="0x40042000" size="0x00000100"/>
+                <peripheral name="GPT_POEG1" start="0x40042100" size="0x00000100"/>
+            </group>
+            <peripheral name="ICU" start="0x40006000" size="0x00000100" info="Interrupt Controller Unit">
+                <slot name="IRQ0"/>
+                <slot name="IRQ1"/>
+                <slot name="IRQ2"/>
+                <slot name="IRQ3"/>
+                <slot name="IRQ4"/>
+                <slot name="IRQ5"/>
+                <slot name="IRQ6"/>
+                <slot name="IRQ7"/>
+                <slot name="IRQ8"/>
+                <slot name="IRQ9"/>
+                <slot name="IRQ10"/>
+                <slot name="IRQ11"/>
+                <slot name="IRQ12"/>
+                <slot name="IRQ13"/>
+                <slot name="IRQ14"/>
+                <slot name="IRQ15"/>
+                <slot name="IRQ16"/>
+                <slot name="IRQ17"/>
+                <slot name="IRQ18"/>
+                <slot name="IRQ19"/>
+                <slot name="IRQ20"/>
+                <slot name="IRQ21"/>
+                <slot name="IRQ22"/>
+                <slot name="IRQ23"/>
+                <slot name="IRQ24"/>
+                <slot name="IRQ25"/>
+                <slot name="IRQ26"/>
+                <slot name="IRQ27"/>
+                <slot name="IRQ28"/>
+                <slot name="IRQ29"/>
+                <slot name="IRQ30"/>
+                <slot name="IRQ31"/>
+                <slot name="IRQ32"/>
+                <slot name="IRQ33"/>
+                <slot name="IRQ34"/>
+                <slot name="IRQ35"/>
+                <slot name="IRQ36"/>
+                <slot name="IRQ37"/>
+                <slot name="IRQ38"/>
+                <slot name="IRQ39"/>
+                <slot name="IRQ40"/>
+                <slot name="IRQ41"/>
+                <slot name="IRQ42"/>
+                <slot name="IRQ43"/>
+                <slot name="IRQ44"/>
+                <slot name="IRQ45"/>
+                <slot name="IRQ46"/>
+                <slot name="IRQ47"/>
+                <slot name="IRQ48"/>
+                <slot name="IRQ49"/>
+                <slot name="IRQ50"/>
+                <slot name="IRQ51"/>
+                <slot name="IRQ52"/>
+                <slot name="IRQ53"/>
+                <slot name="IRQ54"/>
+                <slot name="IRQ55"/>
+                <slot name="IRQ56"/>
+                <slot name="IRQ57"/>
+                <slot name="IRQ58"/>
+                <slot name="IRQ59"/>
+                <slot name="IRQ60"/>
+                <slot name="IRQ61"/>
+                <slot name="IRQ62"/>
+                <slot name="IRQ63"/>
+                <slot name="IRQ64"/>
+                <slot name="IRQ65"/>
+                <slot name="IRQ66"/>
+                <slot name="IRQ67"/>
+            </peripheral>
+            <peripheral name="ICU_EXT_IRQ" start="0x40006000" size="0x00000001" info="Interrupt Controller Unit (External Pins Only)">
+                <slot name="ICU_EXT_IRQ0"/>
+                <slot name="ICU_EXT_IRQ1"/>
+                <slot name="ICU_EXT_IRQ2"/>
+                <slot name="ICU_EXT_IRQ3"/>
+                <slot name="ICU_EXT_IRQ4"/>
+                <slot name="ICU_EXT_IRQ5"/>
+                <slot name="ICU_EXT_IRQ6"/>
+                <slot name="ICU_EXT_IRQ7"/>
+                <slot name="ICU_EXT_IRQ8"/>
+                <slot name="ICU_EXT_IRQ9"/>
+                <slot name="ICU_EXT_IRQ10"/>
+                <slot name="ICU_EXT_IRQ11"/>
+                <slot name="ICU_EXT_SNZCANCEL"/>
+            </peripheral>
+            <group name="IIC" start="0x40053000" size="0x00000100" info="I2C Bus Interface">
+                <peripheral name="IIC0" start="0x40053000" size="0x00000100"/>
+                <peripheral name="IIC1" start="0x40053100" size="0x00000100"/>
+            </group>
+            <peripheral name="IIC0WU" start="0x40053014" size="0x00000004" info="Inter-Integrated Circuit Wake-up"/>
+            <peripheral name="IRTC" start="0x40044000" size="0x00000100" info="Realtime Clock with Independent Power Supply"/>
+            <peripheral name="IWDT" start="0x40044400" size="0x00000100" info="Independent Watchdog Timer"/>
+            <peripheral name="MACL" start="0x400a0000" size="0x00000000" info="Multiply-Accumulator"/>
+            <peripheral name="MMF" start="0x40001000" size="0x00000020" info="Memory Mirror Function"/>
+            <group name="MPU" start="0x40000000" size="0x00001000" info="Memory Protection Unit">
+                <peripheral name="MPU0" start="0x40000000" size="0x00001000"/>
+            </group>
+            <peripheral name="MSTP" start="0x40047000" size="0x00000000" info="System-Module Stop"/>
+            <peripheral name="PFS" start="0x40040800" size="0x00000004" info="Pin Function Control Register"/>
+            <group name="PORT" start="0x40040000" size="0x00000020" info="I/O Ports">
+                <peripheral name="PORT0" start="0x40040000" size="0x00000020">
+                    <slot name="P001"/>
+                    <slot name="P002"/>
+                    <slot name="P010"/>
+                    <slot name="P011"/>
+                    <slot name="P012"/>
+                    <slot name="P013"/>
+                    <slot name="P014"/>
+                    <slot name="P015"/>
+                </peripheral>
+                <peripheral name="PORT1" start="0x40040020" size="0x00000020">
+                    <slot name="P100"/>
+                    <slot name="P101"/>
+                    <slot name="P102"/>
+                    <slot name="P103"/>
+                    <slot name="P104"/>
+                    <slot name="P105"/>
+                    <slot name="P106"/>
+                    <slot name="P107"/>
+                    <slot name="P108"/>
+                    <slot name="P109"/>
+                    <slot name="P110"/>
+                    <slot name="P111"/>
+                    <slot name="P112"/>
+                    <slot name="P113"/>
+                    <slot name="P114"/>
+                    <slot name="P115"/>
+                </peripheral>
+                <peripheral name="PORT2" start="0x40040040" size="0x00000020">
+                    <slot name="P200"/>
+                    <slot name="P201"/>
+                    <slot name="P203"/>
+                    <slot name="P204"/>
+                    <slot name="P205"/>
+                    <slot name="P206"/>
+                    <slot name="P207"/>
+                    <slot name="P208"/>
+                    <slot name="P209"/>
+                    <slot name="P210"/>
+                    <slot name="P211"/>
+                    <slot name="P212"/>
+                    <slot name="P213"/>
+                    <slot name="P214"/>
+                    <slot name="P215"/>
+                </peripheral>
+                <peripheral name="PORT3" start="0x40040060" size="0x00000020">
+                    <slot name="P300"/>
+                    <slot name="P301"/>
+                    <slot name="P302"/>
+                    <slot name="P303"/>
+                    <slot name="P304"/>
+                    <slot name="P305"/>
+                    <slot name="P306"/>
+                    <slot name="P307"/>
+                    <slot name="P308"/>
+                    <slot name="P309"/>
+                    <slot name="P310"/>
+                    <slot name="P311"/>
+                    <slot name="P312"/>
+                    <slot name="P313"/>
+                </peripheral>
+                <peripheral name="PORT4" start="0x40040080" size="0x00000020">
+                    <slot name="P400"/>
+                    <slot name="P401"/>
+                    <slot name="P402"/>
+                    <slot name="P403"/>
+                    <slot name="P404"/>
+                    <slot name="P405"/>
+                    <slot name="P408"/>
+                    <slot name="P409"/>
+                    <slot name="P410"/>
+                    <slot name="P411"/>
+                </peripheral>
+                <peripheral name="PORT5" start="0x400400a0" size="0x00000020">
+                    <slot name="P500"/>
+                    <slot name="P501"/>
+                    <slot name="P502"/>
+                    <slot name="P503"/>
+                    <slot name="P504"/>
+                    <slot name="P505"/>
+                    <slot name="P506"/>
+                </peripheral>
+                <peripheral name="PORT6" start="0x400400c0" size="0x00000020">
+                    <slot name="P600"/>
+                </peripheral>
+            </group>
+            <peripheral name="RSIP" start="0x00000000" size="0x00000000" info="Renesas Secure IP"/>
+            <group name="SCI" start="0x40070000" size="0x00000020" info="Serial Communications Interface">
+                <peripheral name="SCI0" start="0x40070000" size="0x00000020"/>
+                <peripheral name="SCI1" start="0x40070020" size="0x00000020"/>
+                <peripheral name="SCI2" start="0x40070040" size="0x00000020"/>
+                <peripheral name="SCI3" start="0x40070060" size="0x00000020"/>
+                <peripheral name="SCI9" start="0x40070120" size="0x00000020"/>
+            </group>
+            <group name="SDADC_B" start="0x4009c000" size="0x00000000" info="Sigma Delta A/D Converter">
+                <peripheral name="SDADC_B0" start="0x4009c000" size="0x00000000"/>
+            </group>
+            <peripheral name="SLCDC" start="0x40082000" size="0x00000200" info="Segment LCD Controller"/>
+            <group name="SPI" start="0x40072000" size="0x00000100" info="Serial Peripheral Interface">
+                <peripheral name="SPI0" start="0x40072000" size="0x00000100"/>
+            </group>
+            <peripheral name="SRAM" start="0x40002000" size="0x00000008" info="SRAM Control"/>
+            <peripheral name="SYSTEM" start="0x4001e000" size="0x00001000" info="System Pins"/>
+            <group name="WDT" start="0x40044200" size="0x00000100" info="Watchdog Timer">
+                <peripheral name="WDT0" start="0x40044200" size="0x00000100"/>
+            </group>
+        </peripherals>
+    </resources>
+</rzone>
