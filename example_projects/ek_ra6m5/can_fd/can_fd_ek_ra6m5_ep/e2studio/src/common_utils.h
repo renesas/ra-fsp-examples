@@ -21,7 +21,6 @@
 
 
 #define BIT_SHIFT_8  (8u)
-#define SIZE_64      (64u)
 
 #define LVL_ERR      (1u)       /* error conditions   */
 #define LVL_DEBUG    (3u)       /* debug-level messages */
@@ -30,17 +29,9 @@
 
 #define RESET_VALUE             (0x00)
 
-#define EP_VERSION              ("1.0")
-#define MODULE_NAME             "CAN FD"
-#define BANNER_INFO             "\r\n************************************************************************"\
-                                "\r\n*   Renesas FSP Example Project for "MODULE_NAME" Module                      *"\
-                                "\r\n*   Example Project Version %s                                        *"\
-                                "\r\n*   Flex Software Pack Version  %d.%d.%d                                  *"\
-                                "\r\n************************************************************************"\
-                                "\r\nRefer to readme.txt file for more details on Example Project and" \
-                                "\r\nFSP User's Manual for more information about "MODULE_NAME" driver\r\n"
-
 #define SEGGER_INDEX            (0)
+
+#define MODULE_CLOSE            (0)
 
 #define APP_PRINT(fn_, ...)      (SEGGER_RTT_printf (SEGGER_INDEX,(fn_), ##__VA_ARGS__))
 
@@ -49,9 +40,17 @@
                                  SEGGER_RTT_printf (SEGGER_INDEX, "[ERR] In Function: %s(), %s",__FUNCTION__,(fn_),##__VA_ARGS__);\
                                  })
 
+#define APP_ERR_RETURN(err, fn_, ...)   ({\
+                                        if(err){\
+                                            APP_ERR_PRINT((fn_), ##__VA_ARGS__);\
+                                            return (err);\
+                                        }\
+                                        })
+
 #define APP_ERR_TRAP(err)        ({\
                                     if((err)) {\
                                     SEGGER_RTT_printf(SEGGER_INDEX, "\r\nReturned Error Code: 0x%x  \r\n", (err));\
+                                    led_update(red);\
                                     __asm("BKPT #0\n");} /* trap upon the error  */\
                                     })
 

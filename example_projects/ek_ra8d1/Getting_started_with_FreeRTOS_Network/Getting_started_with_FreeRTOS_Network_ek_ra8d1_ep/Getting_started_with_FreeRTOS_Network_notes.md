@@ -29,7 +29,7 @@ To build and run the FreeRTOS Network Example project, the following resources a
 * Browser Application: Microsoft Edge, Google Chrome, etc.
 
 ### Hardware Requirements ###
-* Supported RA boards: EK-RA8D1
+* Supported RA boards: EK-RA8D1, EK-RA6M3, EK-RA6M3G, EK-RA6M4, EK-RA6M5, EK-RA8M1
 * 1 x Ethernet router with an internet connection
 * 2 x Ethernet cables to connect the RA board and the host PC to the router
 * 1 x Micro USB cable for programming, debugging, and status display on the terminal (Tera Term or SEGGER RTT J-Link Viewer)
@@ -52,6 +52,7 @@ To build and run the FreeRTOS Network Example project, the following resources a
 | SW1-1 PMOD1 | SW1-2 TRACE | SW1-3 CAMERA | SW1-4 ETHA | SW1-5 ETHB | SW1-6 GLCD | SW1-7 SDRAM | SW1-8 I3C |
 |-------------|-------------|--------------|------------|------------|------------|-------------|-----------|
 | OFF | OFF | OFF | OFF | ON | OFF | OFF | OFF |
+* For EK-RA8M1: Remove jumper J61 to enable Ethernet B.
 
 ## Related Collateral References ##
 The following documents can be referred to for enhancing your understanding of 
@@ -73,10 +74,16 @@ List all the various modules that are used in this example project. Refer to the
 | FreeRTOS+FAT | This module Provides a FAT file system for managing files on block devices  | FreeRTOS+FAT |
 | FreeRTOS+FAT Port for RA | This module provides the hardware port layer for FreeRTOS+FAT file system  | rm_freertos_plus_fat |
 | Block Media SPI Flash | Middleware to implement the block media interface on SPI flash memory  | rm_block_media_spi |
-| OSPI Flash | Utilized for block media storage and file system implementation | r_ospi_b |
 | FreeRTOS+TCP | This module implements a lightweight TCP/IP stack for enabling network communication | FreeRTOS+TCP |
 | FreeRTOS+TCP Wrapper to r_ether | This module provides the network interface required to use FreeRTOS Plus TCP with the Ethernet (r_ether) driver  | rm_freertos_plus_tcp |
 | Ethernet  | This module performs Ethernet frame transmission and reception using an Ethernet controller  | r_ether |
+| OSPI Flash | Utilized for block media storage and file system implementation | r_ospi_b |
+
+For EK-RA6M3, EK-RA6M3G, EK-RA6M4, EK-RA6M5
+
+| Module Name | Usage | Searchable Keyword  |
+|-------------|-----------------------------------------------|-----------------------------------------------|
+| QSPI Flash | Utilized for block media storage and file system implementation | r_qspi |
 
 ## Module Configuration Notes ##
 This section describes FSP Configurator properties which are important or different than those selected by default. 
@@ -88,7 +95,7 @@ This section describes FSP Configurator properties which are important or differ
 |   configuration.xml -> Net Thread > FreeRTOS+TCP > Settings > Property > Common > DHCP callback function |   Disabled   |   Enabled   |   Enable DHCP callback function  |
 |   configuration.xml -> Net Thread > FreeRTOS+TCP > Settings > Property > Common > FreeRTOS_select() (and associated) API function is available |   Disable   |   Enable   |  Enabled to facilitate multiple socket handling  |
 |   configuration.xml -> Net Thread > FreeRTOS+TCP > Settings > Property > Common > FreeRTOS_SendPingRequest() is available |   Disable   |   Enable   |  Enabled to allow ping requests for network connectivity verification  |
-|   configuration.xml -> Net Thread > Thread > Settings > Property > Stack size (bytes) |   1024   |   4096   |  Increased stack size   |
+|   configuration.xml -> Net Thread > Thread > Settings > Property > Stack size (bytes) |   1024   |   8192   |  Increased stack size   |
 |   configuration.xml -> Net Thread > FreeRTOS+FAT > Settings > Property > General > FAT12 Support|   Disable   |   Enable   |  Enabled FAT12 format  |
 
 ## API Usage ##
@@ -128,12 +135,13 @@ The table below lists the FSP provided API used at the application layer by this
 ## Verifying operation ##
 
 1. Import the example project.
-2. Double click Configuration.xml file, and click Generate Project Content. Next, build the project.
+2. Double click Configuration.xml file, and click Generate Project Content. Next, build the project (Keep the project path short to prevent errors during the build process). (Keep the project path short to prevent errors during the build process).
 3. Connect the RA MCU debug port to the host PC via a micro USB cable.
-4. Open a serial terminal application on the host PC (Tera Term) and connect to the COM Port provided by the J-Link onboard. 
+4. Open a serial terminal application on the host PC (Tera Term) and connect to the COM Port provided by the J-Link onboard 
    or Open J-link RTT Viewer (In case user selected SEGGER J-Link RTT Viewer).
    * Note: For using the serial terminal:
         * Please ensure that the connection to the RTT viewer has been terminated if it was previously established.
+        * Please ensure that 'Local echo' is checked to echo back characters typed in serial terminal.
         * The COM port is provided by the J-Link onboard, with a baud rate of 115200 bps, a data length of 8 bits, no parity check, one stop bit, and no flow control.
 
 5. Debug or flash the EP project to the RA board.

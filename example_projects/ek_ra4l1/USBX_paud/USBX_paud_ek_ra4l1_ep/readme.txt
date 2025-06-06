@@ -97,6 +97,10 @@
 	   	Verify "Headphones (USB Audio Demonstration)" and "Microphone (USB Audio Demonstration)" appears.
 
 	3. Open the J-Link RTT Viewer to view the application status messages.
+	
+Note: Due to limited RAM, EK-RA4L1 cannot support the default Host Interface MME, which requires a minimum audio buffer of 100ms.
+      Please change the Host Interface to Windows WASAPI (requires a minimum audio buffer of 10ms) in all Audacity windows. 
+      For detail, please refer to the usbx_paud_notes.md.
 
 	4. Play an audio file (eg. .wav, .mp3) using an audio player (example Audacity) on host PC.
 

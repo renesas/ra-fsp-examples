@@ -5,134 +5,88 @@
 
 1. Project Overview:
 	 
-	This Example Project demonstrates CAN-FD operations on Renesas RA MCUs using 2 RA boards.
-        On pressing any key on the RTTViewer(connected to any one of the 2 boards), data is transmitted from Board1 to Board2.
-        On data reception, Board2 displays the received data on the RTTViewer and Board2 transmits updated data back to Board1 as an acknowledgment. 
-        Board1 on reception of data, changes mode from CAN frame to CAN-FD frame and transmits data to board2.
-        On reception, board2 transmits updated data back to board1 as an acknowledgment. On successful transmission and reception,
-        Boards prints the transmitted & received data on to RTTViewer.
+	This example project showcases CAN FD communication using two Renesas RA boards. Users can configure the nominal
+	baud rate, data baud rate, and sample point at runtime, and initiate data transmission with the selected settings.
+	To stop the transmission and return to the baud rate configuration menu, users simply press the Enter key without
+	entering any input.
+	During transmission, data is sent from Board1 to Board2. Upon receiving the data, Board2 displays it on the terminal
+	and sends an updated message back to Board1. When Board1 receives this data, it converts the CAN frame to a CAN FD
+	frame and transmits it back to Board2. Board2, upon receiving this frame, further updates the data and sends it to
+	Board1 using the CAN FD format.
+	Finally, once the transmission cycle completes, Board1 prints the received data on the terminal.
+
+	Note: In this example project, the same code runs on both boards. The board from which the user initiates the
+	transmission becomes board1, and the board which receives the data becomes board2.
+
+2. Hardware Requirements:
+	Supported RA boards: EK-RA6M5
+	2 x RA boards
+	2 x Micro USB cables  
+	For using on board CAN Transceivers: 3 x Jumper wires with both ends female
+	For using external CAN-FD Transceiver Board (eg.OM13099): 
+	    + 1 x OM13099 (CAN-FD Transceiver Board): 
+	    + Link product: [OM13099 (CAN-FD Transceiver Board)](https://www.nxp.com/products/interfaces/can-transceivers/can-with-flexible-data-rate/dual-can-fd-transceiver-shield:OM13099).
+	    + Manufacturer Product Number: OM13099
+	    + 9 x Jumper wires with both ends female
 
 2. Hardware Connections:
 
-       Require 2 RA boards to run the project
-	   
-	   The boards can be of the same type (E.g. EK-RA8M1 <--> EK-RA8M1) or different type (E.g. EK-RA8M1 <--> EK-RA6T3). 
-       In case of the same type of boards, the on-board CAN transceivers mounted (if populated) can be used for testing by connecting the CANH, CANL and GND. 
-       In case of same type of boards (E.g. EK-RA8D1 <--> EK-RA8D1), (if on-board CAN transceivers not populated) external OM13099 board can be used
-       to test the application by connecting the required wires as described in the readme.txt below - Reference: External Hardware: OM13099 (CAN Transceiver Board) ".
-       For testing the application on boards of different types (EK-RA8D1 <--> EK-RA6T3), which doesn't contain on-board CAN transceivers, 
-       OM13099 can be used as externally to test the application by connecting the required wires as described in the optional sections, 
-       for the particular boards in the readme.txt". Additionally, users are required to check the connections and settings as noted in the Note: section. ". 
-       The CAN settings such as Clock and Bitrate needs to match.
+	Note: This project requires two RA boards, which may be the same MCUs (e.g., EK-RA8M1 <-> EK-RA8M1) or different MCUs
+	(e.g., EK-RA8M1 <-> EK-RA6T3).
 
-       Supported RA Boards: EK-RA6M5, EK-RA4E2, EK-RA6E2, MCK-RA4T1, MCK-RA6T3, EK-RA8M1, EK-RA8D1
+	Identical boards with onboard CAN transceivers populated: simply connect CANH, CANL, and GND between the two boards.
+
+	Identical boards without populated transceivers (e.g., EK-RA8D1 <-> EK-RA8D1) or different board types lacking onboard
+	transceivers (e.g., EK-RA8D1 <-> EK-RA6T3): use an external OM13099 board and wire it as detailed in the optional sections
+	for each board combination.
+
+	Supported RA Boards: EK-RA6M5.
  
-       EK-RA6M5:
-       Short E33, E34 & E35 inorder to use onboard CAN Transceivers 
-
-       J33:1 of board 1 to J33:1 of board 2
-       J33:2 of board 1 to J33:2 of board 2
-       J33:3 of board 1 to J33:3 of board 2
+	EK-RA6M5:
+	    - For using on board CAN Transceivers:
+		+ Short E33, E34 & E35 
+		+ J33:1 of board 1 to J33:1 of board 2
+		+ J33:2 of board 1 to J33:2 of board 2
+		+ J33:3 of board 1 to J33:3 of board 2
        
-       [Optional] Use External Hardware : OM13099 (CAN Transceiver Board)
-        Board 1                OM13099 (CAN Transceiver Board)    Board 2
-                               
-        CTX P609 (J3:12)       CAN0 TX (J3:4)                       ---
-        CRX P610 (J3:13)       CAN0 RX (J3:2)                       ---
-        VCC (J18:4)            3V3 (J3:12)                          ---
-        5V0 (J18:5)            5V0 (J3:14)                          ---
-        GND (J18:6)            GND (J3:16)                          --- 
-             ---               CAN1 TX (J1:4)                     CTX P609 (J3:12)
-             ---               CAN1 RX (J1:2)                     CRX P610 (J3:13)
-             ---               P3:2 <-> P3:13                       ---
-             ---               P3:7 <-> P3:18                       ---
-	Note: To use the external CAN transceiver (OM13099), the user must either cut E33, E34, and E35 to prevent conflicts 
-	      with the onboard CAN transceiver or configure alternative CAN CTX and CRX pins instead of cutting E33, E34, and E35.
+	    - (Optional) For using external CAN Transceiver Board:
+		Note: To use the external CAN transceiver, the user must either cut E33, E34, and E35 to prevent conflicts with
+		the onboard CAN transceiver or configure alternative CAN CTX and CRX pins instead of cutting E33, E34, and E35.
+		
+		|     Board 1      | OM13099 (CAN-FD Transceiver Board) |     Board 2      |
+		|------------------+------------------------------------+------------------|
+		| CTX P609 (J3:12) |           CAN0 TX (J3:4)           |        ---       |
+		| CRX P610 (J3:13) |           CAN0 RX (J3:2)           |        ---       |
+		|   VCC (J18:4)    |            3V3 (J3:12)             |        ---       |
+		|   5V0 (J18:5)    |            5V0 (J3:14)             |        ---       |
+		|   GND (J18:6)    |            GND (J3:16)             |        ---       |
+		|        ---       |           CAN1 TX (J1:4)           | CTX P609 (J3:12) |
+		|        ---       |           CAN1 RX (J1:2)           | CRX P610 (J3:13) |
+		|        ---       |           P3:2 <-> P3:13           |        ---       |
+		|        ---       |           P3:7 <-> P3:18           |        ---       |
 
-        EK-RA4E2 / EK-RA6E2:
-        Use onboard CAN Transceiver:
-        J32:1 of board 1 to J32:1 of board 2
-        J32:2 of board 1 to J32:2 of board 2
-        J32:3 of board 1 to J32:3 of board 2
+	Note:
+	1. Ensure the configured bitrate of 2 Boards are same.
+	2. In this example project, the same code runs on both boards. The board from which the user initiates the transmission
+	becomes board1, and the board which receives the data becomes board2.
+	3. User is expected to enter data of size not exceeding above 15 bytes.
+	4. For OM13099 (CAN Transceiver Board):
+	    a. Connect P3 loopback connection on CAN Transceiver Board with jumper cables instead of a db9 serial cable.
+	    b. Connect jumpers J3, J4, J5 and J6 on OM13099 (CAN Transceiver Board) to establish connection to CAN termination resistors.
 
-        MCK-RA4T1/MCK-RA6T3:
-        External Hardware : OM13099 (CAN Transceiver Board) 
-        
-        Board 1                OM13099 (CAN Transceiver Board)    Board 2
-                               
-        CTX P401 (CN6:2)       CAN0 TX (J3:4)                       ---
-        CRX P402 (CN6:3)       CAN0 RX (J3:2)                       ---
-        VCC (CN2:24)           3V3 (J3:12)                          ---
-        5V0 (CN3:33)           5V0 (J3:14)                          ---
-        GND (CN3:31)           GND (J3:16)                          --- 
-             ---               CAN1 TX (J1:4)                     CTX P401 (CN6:2)
-             ---               CAN1 RX (J1:2)                     CRX P402 (CN6:3)
-             ---               P3:2 <-> P3:13                       ---
-             ---               P3:7 <-> P3:18                       ---
-
-	EK-RA8M1:
-        Use onboard CAN Transceiver:
-       	J62:1 of board 1 to J62:1 of board 2
-       	J62:2 of board 1 to J62:2 of board 2
-       	J62:3 of board 1 to J62:3 of board 2
-        
-       [Optional] Use External Hardware : OM13099 (CAN Transceiver Board)
-        Board 1                OM13099 (CAN Transceiver Board)    Board 2
-                               
-        CTX P312 (J51:12)      CAN0 TX (J3:4)                       ---
-        CRX P311 (J51:8)       CAN0 RX (J3:2)                       ---
-        VCC (J18:4)            3V3 (J3:12)                          ---
-        5V0 (J18:5)            5V0 (J3:14)                          ---
-        GND (J18:6)            GND (J3:16)                          --- 
-             ---               CAN1 TX (J1:4)                     CTX P312 (J51:12)
-             ---               CAN1 RX (J1:2)                     CRX P311 (J51:8)
-             ---               P3:2 <-> P3:13                       ---
-             ---               P3:7 <-> P3:18                       ---
-	Note: To use the external CAN transceiver (OM13099), the user must either cut E48, E49, and E50 to prevent conflicts 
-	      with the onboard CAN transceiver or configure alternative CAN CTX and CRX pins instead of cutting E33, E34, and E35.
-
-	EK-RA8D1:
-        External Hardware : OM13099 (CAN Transceiver Board) 
-        
-        Board 1                OM13099 (CAN Transceiver Board)    Board 2
-                               
-        CTX P401 (J51:7)       CAN0 TX (J3:4)                       ---
-        CRX P402 (J52:15)      CAN0 RX (J3:2)                       ---
-        VCC (J18:4)            3V3 (J3:12)                          ---
-        5V0 (J18:5)            5V0 (J3:14)                          ---
-        GND (J18:6)            GND (J3:16)                          --- 
-             ---               CAN1 TX (J1:4)                     CTX P401 (J51:7)
-             ---               CAN1 RX (J1:2)                     CRX P402 (J52:15)
-             ---               P3:2 <-> P3:13                       ---
-             ---               P3:7 <-> P3:18                       ---
-
-      Note:
-      1. In this example project, the same code runs on both boards. The board from which the user initiates the transmission becomes the board1
-      and board which receives the data becomes board2.
-      2. User is expected to enter data of size not exceeding above 15 bytes.
-      3. For OM13099 (CAN Transceiver Board):
-         a. Connect P3 loopback connection on CAN Transceiver Board with jumper cables instead of a db9 serial cable.
-         b. Connect jumpers J3, J4, J5 and J6 on OM13099 (CAN Transceiver Board) to establish connection to CAN termination resistors.
-      4. For using different hardware in transmission and reception (Ex. Transmission is EK-RA8D1 board, reception is MCK-RA6T3 board), 
-      if EP didn't work, please recheck actual data bitrate information (in hal_data.c)and ensure they are matched between transmission and reception. 
-      Recommend to set CANFDCLK is 40MHz/80MHz to have same data bitrate between boards.
-
-3. Hardware Configuration:
-
-- For EK-RA8D1: Set the configuration switches (SW1) as below to avoid potential failures.
-	+-------------+-------------+--------------+------------+------------+------------+-------------+-----------+
-	| SW1-1 PMOD1 | SW1-2 TRACE | SW1-3 CAMERA | SW1-4 ETHA | SW1-5 ETHB | SW1-6 GLCD | SW1-7 SDRAM | SW1-8 I3C |
-	+-------------+-------------+--------------+------------+------------+------------+-------------+-----------+
-	|     OFF     |     OFF     |      OFF     |     OFF    |     OFF    |      OFF   |      OFF    |     OFF   |
-	+-------------+-------------+--------------+------------+------------+------------+-------------+-----------+	
-
-	CAUTION: Do not enable SW1-4 and SW1-5 together
-       
-1) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
+Note:
+1) Ensure the configured bitrate of 2 Boards are same.
+2) In this example project, the same code runs on both boards. The board from which the user initiates the transmission
+   becomes board1, and the board which receives the data becomes board2.
+3) The user is expected to enter data not exceeding 15 bytes in size.
+4) For OM13099 (CAN Transceiver Board):
+   a. Connect P3 loopback connection on CAN Transceiver Board with jumper cables instead of a db9 serial cable.
+   b. Connect jumpers J3, J4, J5 and J6 on OM13099 (CAN Transceiver Board) to establish connection to CAN termination resistors.
+5) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x20000964
+   a. e2studio: 0x2000094c
    b. Keil: Not Available 
    c. IAR: Not Available
  
-2) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) 
+6) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) 
    in .map file generated in the build configuration folder (Debug/Release).

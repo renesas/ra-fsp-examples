@@ -9,9 +9,9 @@ for general information on example projects and [readme.txt](./readme.txt) for s
 To build and run the USBX PAUD example project, the following resources are needed.
 
 ### Software ###
-* Renesas Flexible Software Package (FSP): Version 5.8.0
-* e2 studio: Version 2025-01
-* SEGGER J-Link RTT Viewer: Version 8.12c
+* Renesas Flexible Software Package (FSP): Version 5.9.0
+* e2 studio: Version 2025-04
+* SEGGER J-Link RTT Viewer: Version 8.12f
 * GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 * Audacity v3.1.3 (Audio Player/Recorder)
 1. Refer to the software required section in [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf)
@@ -20,7 +20,7 @@ To build and run the USBX PAUD example project, the following resources are need
 ### Hardware ###
 * Supported RA boards: EK-RA4M2, EK-RA4M3, EK-RA6M1, EK-RA6M2, EK-RA6M3, EK-RA6M4, EK-RA6M5, EK-RA8M1, EK-RA8D1, MCK-RA8T1, EK-RA4L1
 * 1 x Renesas RA board.
-* 2 x Type-C USB cables for programming and debugging.
+* 2 x Type-C USB cables.
 * 1 x PC with at least 2 USB ports (1 for debug and 1 for emulated USB Audio port).
 
 Refer to [readme.txt](./readme.txt) for information on how to connect the hardware.
@@ -155,6 +155,11 @@ Refer to [USBX Device Class Considerations](https://docs.microsoft.com/en-us/azu
  ![usb_paud](images/Audio_IO_Settings.jpg "Audio IO Settings")
 
 * Click **File > Open** and select the audio sample file.
+
+* Note: Due to limited RAM, EK-RA4L1 cannot support the default Host Interface MME, which requires a minimum audio buffer of 100 ms. Please change the Host Interface to Windows WASAPI (requires a minimum audio buffer of 10 ms) in all Audacity windows.
+
+![usb_paud](images/Setting_host_interface.jpg "Setting host interface") 
+
 * Play the selected audio sample from the host.
 * Create a new instance by clicking **File > New**.
 * Select the MIC and Speaker from the PC application to use the enumerated Audio Peripheral Device “**Headset Earphone (USB Audio Demonstration)** ” and “**Microphone (USB Audio Demonstration)** ”.

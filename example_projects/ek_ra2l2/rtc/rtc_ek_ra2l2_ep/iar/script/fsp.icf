@@ -1,0 +1,607 @@
+include "memory_regions.icf";
+
+  /* Uncomment and set XIP_SECONDARY_SLOT_IMAGE to 1 below for the secondary XIP application image. */
+  /* define symbol XIP_SECONDARY_SLOT_IMAGE = 1; */
+
+
+ /* This symbol in combination with the mcuboot module is used by the e2 tooling to determine the presence of a bootloader upstream.  */
+  define exported symbol __bl_FSP_BOOTABLE_IMAGE = 1;
+  define exported symbol __bln_FSP_BOOTABLE_IMAGE = 1;
+
+if (isdefinedsymbol(FLASH_BOOTLOADER_LENGTH))
+{
+
+  define exported symbol __bl_FLASH_IMAGE_START = FLASH_APPLICATION_IMAGE_NUMBER == 1 ? FLASH_START + FLASH_BOOTLOADER_LENGTH + FLASH_BOOTLOADER_HEADER_LENGTH :
+                                                (isdefinedsymbol(BOOTLOADER_SECONDARY_USE_QSPI) || isdefinedsymbol(BOOTLOADER_SECONDARY_USE_OSPI_B)) ? FLASH_START + FLASH_BOOTLOADER_LENGTH + FLASH_BOOTLOADER_SCRATCH_LENGTH + FLASH_BOOTLOADER_HEADER_LENGTH :
+                                                FLASH_START + FLASH_BOOTLOADER_LENGTH + FLASH_BOOTLOADER_SCRATCH_LENGTH + FLASH_APPLICATION_S_LENGTH + FLASH_BOOTLOADER_HEADER_LENGTH;
+
+  if (isdefinedsymbol(BOOT_IMAGE_FROM_MMF_REGION))
+  {
+      define exported symbol __bl_FLASH_IMAGE_START_FROM_MMF_REGION = BOOT_IMAGE_FROM_MMF_REGION;
+      define exported symbol __bl_MEMORY_MIRROR_REGION_START = MMF_REGION_START_ADDR;
+  }
+  else
+  {
+    define exported symbol __bl_FLASH_IMAGE_START_FROM_MMF_REGION = 0;
+    define exported symbol __bl_MEMORY_MIRROR_REGION_START = 0;
+  }
+
+  define exported symbol __bl_FLASH_IMAGE_LENGTH = FLASH_APPLICATION_S_LENGTH - FLASH_BOOTLOADER_HEADER_LENGTH;
+  define exported symbol __bl_FLASH_IMAGE_END = __bl_FLASH_IMAGE_START + __bl_FLASH_IMAGE_LENGTH;
+  define exported symbol __bl_XIP_SECONDARY_FLASH_IMAGE_START = FLASH_START + FLASH_BOOTLOADER_LENGTH + FLASH_APPLICATION_S_LENGTH + FLASH_BOOTLOADER_HEADER_LENGTH;
+  define exported symbol __bl_XIP_SECONDARY_FLASH_IMAGE_END = __bl_XIP_SECONDARY_FLASH_IMAGE_START + __bl_FLASH_IMAGE_LENGTH;
+
+
+  if (isdefinedsymbol(PROJECT_SECURE))
+  {
+    define exported symbol __bl_FLASH_NS_START = FLASH_APPLICATION_NS_LENGTH == 0 ? __bl_FLASH_IMAGE_END :
+                                                __bl_FLASH_IMAGE_START - FLASH_BOOTLOADER_HEADER_LENGTH + FLASH_APPLICATION_S_LENGTH;
+    define exported symbol __bl_FLASH_NSC_START = FLASH_APPLICATION_NS_LENGTH == 0 ? __bl_FLASH_IMAGE_END :
+                                                  __bl_FLASH_NS_START - FLASH_APPLICATION_NSC_LENGTH;
+    if (isdefinedsymbol(NS_OFFSET_START))
+    {
+    	define exported symbol __bl_FLASH_NS_IMAGE_START = FLASH_APPLICATION_NS_LENGTH == 0 ? __bl_FLASH_IMAGE_END :
+                                                      ((__bl_FLASH_NS_START + FLASH_BOOTLOADER_HEADER_LENGTH_2) | NS_OFFSET_START);
+    }
+    else
+    {
+    	define exported symbol __bl_FLASH_NS_IMAGE_START = FLASH_APPLICATION_NS_LENGTH == 0 ? __bl_FLASH_IMAGE_END :
+                                                      (__bl_FLASH_NS_START + FLASH_BOOTLOADER_HEADER_LENGTH_2);
+    }
+    define exported symbol __bl_RAM_NS_START    = FLASH_APPLICATION_NS_LENGTH == 0 ? RAM_START + RAM_LENGTH :
+                                                  RAM_START + RAM_LENGTH - RAM_APPLICATION_NS_LENGTH;
+    define exported symbol __bl_RAM_NSC_START   = FLASH_APPLICATION_NS_LENGTH == 0 ? RAM_START + RAM_LENGTH :
+                                                  __bl_RAM_NS_START - RAM_APPLICATION_NSC_LENGTH;
+    define exported symbol __bln_FLASH_IMAGE_START = __bl_FLASH_NS_IMAGE_START;
+    define exported symbol __bln_FLASH_IMAGE_LENGTH = FLASH_APPLICATION_NS_LENGTH == 0 ? __bl_FLASH_IMAGE_END :
+                                                      FLASH_APPLICATION_NS_LENGTH - FLASH_BOOTLOADER_HEADER_LENGTH_2;
+  }
+
+  define symbol FLASH_ORIGIN = FLASH_START;
+  define symbol LIMITED_FLASH_LENGTH = FLASH_BOOTLOADER_LENGTH;
+}
+else if (isdefinedsymbol(FLASH_IMAGE_START))
+{
+  if (isdefinedsymbol(XIP_SECONDARY_SLOT_IMAGE))
+  {
+    define symbol FLASH_ORIGIN = XIP_SECONDARY_SLOT_IMAGE == 1 ? XIP_SECONDARY_FLASH_IMAGE_START : FLASH_IMAGE_START;
+  }
+  else if (isdefinedsymbol(FLASH_IMAGE_START_FROM_MMF_REGION))
+  {
+    define symbol FLASH_ORIGIN = FLASH_IMAGE_START_FROM_MMF_REGION == 1 ? MEMORY_MIRROR_REGION_START : FLASH_IMAGE_START;
+  }
+  else
+  {
+    define symbol FLASH_ORIGIN = FLASH_IMAGE_START;
+  }
+
+  define symbol LIMITED_FLASH_LENGTH = FLASH_IMAGE_LENGTH;
+}
+else
+{
+  define symbol FLASH_ORIGIN = FLASH_START;
+  define symbol LIMITED_FLASH_LENGTH = FLASH_LENGTH;
+}
+define symbol FLASH_END             = FLASH_ORIGIN + LIMITED_FLASH_LENGTH - 1;
+define symbol RAM_END               = RAM_START + RAM_LENGTH - 1;
+define symbol DATA_FLASH_END        = DATA_FLASH_START + DATA_FLASH_LENGTH - 1;
+
+/*-Memory Regions-*/
+define symbol VECT_START      = FLASH_ORIGIN;
+define symbol VECT_END        = FLASH_ORIGIN + 0x3FF;
+define symbol ROMREG_START    = FLASH_ORIGIN + 0x400;
+define symbol ROMREG_END      = FLASH_ORIGIN + 0x4FF;
+define symbol FLASH_PRV_START = FLASH_ORIGIN + 0x500;
+
+/* Stack and heap sizes are defined in bsp_cfg.h */
+
+if (isdefinedsymbol(PROJECT_SECURE) || isdefinedsymbol(RAM_NS_BUFFER_LENGTH))
+{
+  /* we're either a secure project or a flat using NS memory, therefore using TZ boundaries */
+  /* using the boundary limits of our current devices (CFS1/CFS2/SS1/SS2/DFS register fields) */
+  define symbol __tz_FLASH_C_ALIGN = 1024;
+  define symbol __tz_FLASH_N_ALIGN = 32768;
+  define symbol __tz_RAM_C_ALIGN = 1024;
+  define symbol __tz_RAM_N_ALIGN = 8192;
+  define symbol __tz_DATA_FLASH_N_ALIGN = 1024;
+}
+else
+{
+  /* we're not using the TZ boundaries, therefore set to values that won't intefere with small device linking */
+  define symbol __tz_FLASH_C_ALIGN = 256;
+  define symbol __tz_FLASH_N_ALIGN = 256;
+  define symbol __tz_RAM_C_ALIGN = 256;
+  define symbol __tz_RAM_N_ALIGN = 256;
+  define symbol __tz_DATA_FLASH_N_ALIGN = 256;
+}
+/* while no alignment is enforced as no hardware boundary, align on practical page boundary */
+define symbol __tz_OTHER_ALIGN = 256;
+
+initialize manually { readwrite };
+do not initialize   { zeroinit };
+initialize manually { section .code_in_ram };
+/* Main thread local storage */
+initialize manually { section __DLIB_PERTHREAD };
+
+define block RAM_INIT_CODE   { section .code_in_ram_init };
+define block RAM_CODE        { section .code_in_ram };
+
+keep                                       { section .vector*};
+
+define block USB_DEV_DESC_BLK with fixed order, alignment = 1
+                                           { ro data section .usb_device_desc_fs,
+                                             ro data section .usb_config_desc_fs,
+                                             ro data section .usb_interface_desc_fs,
+                                             ro data section .usb_device_desc_hs,
+                                             ro data section .usb_config_desc_hs,
+                                             ro data section .usb_interface_desc_hs,
+                                             ro data section .usb_dev_descriptor_start_fs,
+                                             ro data section .usb_descriptor_end_fs };
+keep                                       { section .usb_*};
+
+/************************ FLASH Memory **************************************/
+/* MCUs with the OPTION_SETTING region do not use the ROM registers at 0x400. */
+if ((OPTION_SETTING_LENGTH == 0) && (FLASH_ORIGIN == FLASH_START))
+{
+  define region VECT_ROMGAP_region = mem:[from VECT_START to VECT_END];
+  define region FLASH_region       = mem:[from ROMREG_START to FLASH_END];
+
+  /* Some devices have a gap of code flash between the vector table and ROM Registers.
+   * The flash gap section allows applications to place code and data in this section. */
+  define block VECT_ROMGAP_BLK with fixed order { ro section .fixed_vectors*,
+                                                  ro section .application_vectors*,
+                                                  ro section .flash_gap* };
+
+  place in VECT_ROMGAP_region    { block VECT_ROMGAP_BLK };
+  place at start of FLASH_region { ro section .rom_registers };
+  place in FLASH_region          { ro section .mcuboot_sce9_key* };
+}
+else
+{
+  define region FLASH_region      = mem:[from FLASH_ORIGIN to FLASH_END];
+  place at start of FLASH_region  { ro section .fixed_vectors* };
+  place in FLASH_region           { ro section .application_vectors* };
+}
+
+define exported symbol __tz_FLASH_S = FLASH_ORIGIN;
+
+place in FLASH_region   { ro,
+                          ro section .rodata,
+                          block RAM_INIT_CODE,
+                          block USB_DEV_DESC_BLK,
+                          last section END_OF_ROM };
+
+/* create a block to hold the veneers named so e2 tooling will recognize as "_C" */
+define block Image$$__tz_FLASH_C with alignment = __tz_FLASH_C_ALIGN { section Veneer$$CMSE* };
+/* We need to create an empty section for the non-secure section and nest some blocks to get IAR to place it
+    (without outputting data) */
+define section .tz_flash_ns_start {};
+/* create a block to hold the ns_start section named so e2 tooling will recognize as "_N" */
+define block Image$$__tz_FLASH_N with alignment = __tz_FLASH_N_ALIGN {section .tz_flash_ns_start};
+/* keep these blocks even if no data so available to e2 */
+keep {block Image$$__tz_FLASH_C, section .tz_flash_ns_start};
+/* either use the customer defined symbols, or let linker place */
+if (isdefinedsymbol(FLASH_NS_START) && isdefinedsymbol(FLASH_NSC_START))
+{
+  place at address FLASH_NSC_START {block Image$$__tz_FLASH_C };
+  place at address FLASH_NS_START {block Image$$__tz_FLASH_N};
+}
+else
+{
+  define block TZ_FLASH with fixed order {block Image$$__tz_FLASH_C, block Image$$__tz_FLASH_N};
+  if (isdefinedsymbol(PROJECT_SECURE))
+  {
+    place in FLASH_region { last block TZ_FLASH };
+  }
+  else
+  {
+    place at end of FLASH_region { block TZ_FLASH };
+  }
+}
+
+if (!isdefinedsymbol(FLASH_NS_IMAGE_START))
+{
+  define exported symbol FLASH_NS_IMAGE_START = FLASH_START;
+}
+else
+{
+ export symbol FLASH_NS_IMAGE_START;
+}
+
+/************************ RAM Memory **************************************/
+define region RAM_region        = mem:[from RAM_START to RAM_END];
+define exported symbol __tz_RAM_S = RAM_START;
+
+/* If DTC is used, put the DTC vector table at the start of SRAM.
+This avoids memory holes due to 1K alignment required by it. */
+define block START_OF_RAM with fixed order { rw section .fsp_dtc_vector_table,
+                                             block RAM_CODE };
+place at start of RAM_region { block START_OF_RAM };
+place in RAM_region     { rw,
+                          rw section .noinit,
+                          rw section .bss,
+                          rw section .data,
+                          rw section HEAP,
+                          rw section .stack };
+
+/* We need to create an empty sections for the nsc/ns sections and nest some blocks to get linker to place it
+    without outputting data */
+define section .tz_ram_nsc_start {};
+keep {section .tz_ram_nsc_start};
+/* create a block to hold the ns_start section named so e2 tooling will recognize as "_C" */
+define block Image$$__tz_RAM_C with fixed order, alignment = __tz_RAM_C_ALIGN {section .tz_ram_nsc_start};
+
+define section .tz_ram_ns_start {};
+keep {section .tz_ram_ns_start};
+/* create a block to hold the ns_start section named so e2 tooling will recognize as "_N"  */
+define block Image$$__tz_RAM_N with fixed order, alignment = __tz_RAM_N_ALIGN {section .tz_ram_ns_start, rw section .ns_buffer*};
+
+if (isdefinedsymbol(RAM_NS_START) && isdefinedsymbol(RAM_NSC_START))
+{
+  place at address RAM_NSC_START {block Image$$__tz_RAM_C};
+  place at address RAM_NS_START  {block Image$$__tz_RAM_N};
+}
+else
+{
+  define block TZ_RAM with fixed order {block Image$$__tz_RAM_C, block Image$$__tz_RAM_N};
+  if (isdefinedsymbol(PROJECT_SECURE))
+  {
+    place in RAM_region { last block TZ_RAM };
+  }
+  else
+  {
+    place at end of RAM_region { block TZ_RAM };
+  }
+}
+place in RAM_region     { last section FREE_MEM };
+
+/************************ DATA FLASH Memory **************************************/
+define region DF_region         = mem:[from DATA_FLASH_START to DATA_FLASH_END];
+place in DF_region      { ro section .data_flash };
+define exported symbol __tz_DATA_FLASH_S = DATA_FLASH_START;
+/* We need to create an empty sections for the ns sections and nest some blocks to get linker to place it
+    without outputting data */
+define section .tz_data_flash_ns_start {};
+keep {section .tz_data_flash_ns_start};
+/* create a block to hold the ns_start section named so e2 tooling will recognize as "_N" */
+define block Image$$__tz_DATA_FLASH_N with alignment = __tz_DATA_FLASH_N_ALIGN {section .tz_data_flash_ns_start};
+
+if (isdefinedsymbol(DATA_FLASH_NS_START))
+{
+  place at address DATA_FLASH_NS_START  { block Image$$__tz_DATA_FLASH_N };
+}
+else
+{
+  if (isdefinedsymbol(PROJECT_SECURE))
+  {
+    place in DF_region    { last block Image$$__tz_DATA_FLASH_N };
+  }
+  else
+  {
+    place at end of DF_region { block Image$$__tz_DATA_FLASH_N };
+  }
+}
+
+/************************ SDRAM Memory **************************************/
+define exported symbol __tz_SDRAM_S = SDRAM_START;
+
+define symbol SDRAM_END             = (SDRAM_LENGTH == 0) ? SDRAM_START : SDRAM_START + SDRAM_LENGTH - 1;
+define region SDRAM_region      = mem:[from SDRAM_START to SDRAM_END];
+place in SDRAM_region    { rw section .sdram, rw section .frame };
+/* We need to create an empty section for the non-secure section and nest some blocks to get IAR to place it
+    (without outputting data) */
+define section .tz_sdram_ns_start {};
+keep {section .tz_sdram_ns_start};
+/* create a block to hold the ns_start section named so e2 tooling will recognize as "_N" */
+define block Image$$__tz_SDRAM_N with alignment = __tz_OTHER_ALIGN {section .tz_sdram_ns_start};
+if (isdefinedsymbol(PROJECT_SECURE))
+{
+  place in SDRAM_region    { last block Image$$__tz_SDRAM_N };
+}
+else
+{
+  place at end of SDRAM_region { block Image$$__tz_SDRAM_N };
+}
+
+/************************ QSPI Memory **************************************/
+define exported symbol __tz_QSPI_FLASH_S = QSPI_FLASH_START;
+
+if (isdefinedsymbol(QSPI_FLASH_SIZE))
+{
+  define symbol QSPI_FLASH_PRV_LENGTH = QSPI_FLASH_SIZE;
+}
+else
+{
+  define symbol QSPI_FLASH_PRV_LENGTH = QSPI_FLASH_LENGTH;
+}
+define symbol QSPI_FLASH_END = (QSPI_FLASH_PRV_LENGTH == 0) ? QSPI_FLASH_START : QSPI_FLASH_START + QSPI_FLASH_PRV_LENGTH - 1;
+define region QSPI_region    = mem:[from QSPI_FLASH_START  to QSPI_FLASH_END];
+define block QSPI_NON_RETENTIVE_INIT_BLOCK { section .qspi_non_retentive_init };
+define block QSPI_NON_RETENTIVE_BLOCK      { section .qspi_non_retentive };
+place in QSPI_region    { section .qspi_flash  };
+place in QSPI_region    { section .code_in_qspi  };
+place in QSPI_region    { block QSPI_NON_RETENTIVE_BLOCK};
+
+initialize manually { section .qspi_non_retentive };
+do not initialize   { section .qspi_flash };
+do not initialize   { section .code_in_qspi };
+
+define exported symbol __qspi_max_size__ = size(QSPI_region);
+define exported symbol __qspi_START_address__ = QSPI_FLASH_START;
+define exported symbol __qspi_END_address__ = QSPI_FLASH_END;
+
+place in FLASH_region   { block QSPI_NON_RETENTIVE_INIT_BLOCK };
+
+/* We need to create an empty section for the non-secure section and nest some blocks to get IAR to place it
+    (without outputting data) */
+define section .tz_qspi_flash_ns_start {};
+keep {section .tz_qspi_flash_ns_start};
+/* create a block to hold the ns_start section named so e2 tooling will recognize as "_N" */
+define block Image$$__tz_QSPI_FLASH_N with alignment = __tz_OTHER_ALIGN {section .tz_qspi_flash_ns_start};
+if (isdefinedsymbol(PROJECT_SECURE))
+{
+  place in QSPI_region    { last block Image$$__tz_QSPI_FLASH_N };
+}
+else
+{
+  place at end of QSPI_region { block Image$$__tz_QSPI_FLASH_N };
+}
+
+/************************ OSPI 0 Memory **************************************/
+define exported symbol __tz_OSPI_DEVICE_0_S = OSPI_DEVICE_0_START;
+
+if (isdefinedsymbol(OSPI_DEVICE_0_SIZE))
+{
+  define symbol OSPI_DEVICE_0_PRV_LENGTH = OSPI_DEVICE_0_SIZE;
+}
+else
+{
+  define symbol OSPI_DEVICE_0_PRV_LENGTH = OSPI_DEVICE_0_LENGTH;
+}
+define symbol OSPI_DEVICE_0_END = (OSPI_DEVICE_0_PRV_LENGTH == 0) ? OSPI_DEVICE_0_START : OSPI_DEVICE_0_START + OSPI_DEVICE_0_PRV_LENGTH - 1;
+define region OSPI_DEVICE_0_region    = mem:[from OSPI_DEVICE_0_START  to OSPI_DEVICE_0_END];
+define block OSPI_DEVICE_0_NON_RETENTIVE_INIT_BLOCK { section .ospi_device_0_non_retentive_init };
+define block OSPI_DEVICE_0_NON_RETENTIVE_BLOCK      { section .ospi_device_0_non_retentive };
+define block OSPI_DEVICE_0_NON_RETENTIVE_RAM_BLOCK  { section .ospi_device_0_no_load }; /* Support for OctaRAM */
+place in OSPI_DEVICE_0_region    { section .ospi_device_0  };
+place in OSPI_DEVICE_0_region    { section .code_in_ospi_device_0 };
+place in OSPI_DEVICE_0_region    { block OSPI_DEVICE_0_NON_RETENTIVE_BLOCK};
+place in OSPI_DEVICE_0_region    { block OSPI_DEVICE_0_NON_RETENTIVE_RAM_BLOCK};
+
+initialize manually { section .ospi_device_0_non_retentive };
+do not initialize   { section .ospi_device_0_flash };
+do not initialize   { section .code_in_ospi_device_0};
+
+define exported symbol __ospi_device_0_max_size__ = size(OSPI_DEVICE_0_region);
+define exported symbol __ospi_device_0_START_address__ = OSPI_DEVICE_0_START;
+define exported symbol __ospi_device_0_END_address__ = OSPI_DEVICE_0_END;
+
+place in FLASH_region   { block OSPI_DEVICE_0_NON_RETENTIVE_INIT_BLOCK };
+
+/* We need to create an empty section for the non-secure section and nest some blocks to get IAR to place it
+    (without outputting data) */
+define section .tz_ospi_device_0_ns_start {};
+keep {section .tz_ospi_device_0_ns_start};
+/* create a block to hold the ns_start section named so e2 tooling will recognize as "_N" */
+define block Image$$__tz_OSPI_DEVICE_0_N with alignment = __tz_OTHER_ALIGN {section .tz_ospi_device_0_ns_start};
+if (isdefinedsymbol(PROJECT_SECURE))
+{
+  place in OSPI_DEVICE_0_region    { last block Image$$__tz_OSPI_DEVICE_0_N };
+}
+else
+{
+  place at end of OSPI_DEVICE_0_region { block Image$$__tz_OSPI_DEVICE_0_N };
+}
+
+/************************ OSPI 1 Memory **************************************/
+define exported symbol __tz_OSPI_DEVICE_1_S = OSPI_DEVICE_1_START;
+
+if (isdefinedsymbol(OSPI_DEVICE_1_SIZE))
+{
+  define symbol OSPI_DEVICE_1_PRV_LENGTH = OSPI_DEVICE_1_SIZE;
+}
+else
+{
+  define symbol OSPI_DEVICE_1_PRV_LENGTH = OSPI_DEVICE_1_LENGTH;
+}
+define symbol OSPI_DEVICE_1_END = (OSPI_DEVICE_1_PRV_LENGTH == 0) ? OSPI_DEVICE_1_START : OSPI_DEVICE_1_START + OSPI_DEVICE_1_PRV_LENGTH - 1;
+define region OSPI_DEVICE_1_region    = mem:[from OSPI_DEVICE_1_START  to OSPI_DEVICE_1_END];
+define block OSPI_DEVICE_1_NON_RETENTIVE_INIT_BLOCK { section .ospi_device_1_non_retentive_init };
+define block OSPI_DEVICE_1_NON_RETENTIVE_BLOCK      { section .ospi_device_1_non_retentive };
+define block OSPI_DEVICE_1_NON_RETENTIVE_RAM_BLOCK  { section .ospi_device_1_no_load };
+place in OSPI_DEVICE_1_region    { section .ospi_device_1  };
+place in OSPI_DEVICE_1_region    { section .code_in_ospi_device_1 };
+place in OSPI_DEVICE_1_region    { block OSPI_DEVICE_1_NON_RETENTIVE_BLOCK};
+place in OSPI_DEVICE_1_region    { block OSPI_DEVICE_1_NON_RETENTIVE_RAM_BLOCK}; /* Support for OctaRAM */
+
+initialize manually { section .ospi_device_1_non_retentive };
+do not initialize   { section .ospi_device_1_flash };
+do not initialize   { section .code_in_ospi_device_1};
+
+define exported symbol __ospi_device_1_max_size__ = size(OSPI_DEVICE_1_region);
+define exported symbol __ospi_device_1_START_address__ = OSPI_DEVICE_1_START;
+define exported symbol __ospi_device_1_END_address__ = OSPI_DEVICE_1_END;
+
+place in FLASH_region   { block OSPI_DEVICE_1_NON_RETENTIVE_INIT_BLOCK };
+
+/* We need to create an empty section for the non-secure section and nest some blocks to get IAR to place it
+    (without outputting data) */
+define section .tz_ospi_device_1_ns_start {};
+keep {section .tz_ospi_device_1_ns_start};
+/* create a block to hold the ns_start section named so e2 tooling will recognize as "_N" */
+define block Image$$__tz_OSPI_DEVICE_1_N with alignment = __tz_OTHER_ALIGN {section .tz_ospi_device_1_ns_start};
+if (isdefinedsymbol(PROJECT_SECURE))
+{
+  place in OSPI_DEVICE_1_region    { last block Image$$__tz_OSPI_DEVICE_1_N };
+}
+else
+{
+  place at end of OSPI_DEVICE_1_region { block Image$$__tz_OSPI_DEVICE_1_N };
+}
+
+/************************ ID CODE Memory **************************************/
+if(ID_CODE_LENGTH > 0)
+{
+  define symbol ID_CODE_END           = ID_CODE_START + ID_CODE_LENGTH - 1;
+  define region ID_CODE_region    = mem:[from ID_CODE_START     to ID_CODE_END];
+  place in ID_CODE_region  { ro section .id_code };
+}
+
+/************************ OPTION Memory **************************************/
+if(OPTION_SETTING_LENGTH > 0)
+{
+  if (!isdefinedsymbol(PROJECT_NONSECURE))
+  {
+    place at address OPTION_SETTING_START { ro section .option_setting_ofs0 };
+    place at address OPTION_SETTING_START+0x04 { ro section .option_setting_ofs2 };
+    place at address OPTION_SETTING_START+0x10 { ro section .option_setting_dualsel };
+    place at address OPTION_SETTING_START+0x34 { ro section .option_setting_sas };
+    place at address OPTION_SETTING_S_START+0x00 { ro section .option_setting_ofs1_sec };
+    place at address OPTION_SETTING_S_START+0x04 { ro section .option_setting_ofs3_sec };
+    place at address OPTION_SETTING_S_START+0x10 { ro section .option_setting_banksel_sec };
+    place at address OPTION_SETTING_S_START+0x40 { ro section .option_setting_bps_sec0 };
+    place at address OPTION_SETTING_S_START+0x44 { ro section .option_setting_bps_sec1 };
+    place at address OPTION_SETTING_S_START+0x48 { ro section .option_setting_bps_sec2 };
+    place at address OPTION_SETTING_S_START+0x4C { ro section .option_setting_bps_sec3 };
+    place at address OPTION_SETTING_S_START+0x60 { ro section .option_setting_pbps_sec0 };
+    place at address OPTION_SETTING_S_START+0x64 { ro section .option_setting_pbps_sec1 };
+    place at address OPTION_SETTING_S_START+0x68 { ro section .option_setting_pbps_sec2 };
+    place at address OPTION_SETTING_S_START+0x6C { ro section .option_setting_pbps_sec3 };
+    place at address OPTION_SETTING_S_START+0x80 { ro section .option_setting_ofs1_sel };
+    place at address OPTION_SETTING_S_START+0x84 { ro section .option_setting_ofs3_sel };
+    place at address OPTION_SETTING_S_START+0x90 { ro section .option_setting_banksel_sel };
+    place at address OPTION_SETTING_S_START+0xC0 { ro section .option_setting_bps_sel0 };
+    place at address OPTION_SETTING_S_START+0xC4 { ro section .option_setting_bps_sel1 };
+    place at address OPTION_SETTING_S_START+0xC8 { ro section .option_setting_bps_sel2 };
+    place at address OPTION_SETTING_S_START+0xCC { ro section .option_setting_bps_sel3 };
+  }
+  else
+  {
+    place at address OPTION_SETTING_START+0 { ro section .option_setting_ofs1 };
+    place at address OPTION_SETTING_START+4 { ro section .option_setting_ofs3 };
+    place at address OPTION_SETTING_START+0x10 { ro section .option_setting_banksel };
+    place at address OPTION_SETTING_START+0x40 { ro section .option_setting_bps0 };
+    place at address OPTION_SETTING_START+0x44 { ro section .option_setting_bps1 };
+    place at address OPTION_SETTING_START+0x48 { ro section .option_setting_bps2 };
+    place at address OPTION_SETTING_START+0x4C { ro section .option_setting_bps3 };
+    place at address OPTION_SETTING_START+0x60 { ro section .option_setting_pbps0 };
+    place at address OPTION_SETTING_START+0x64 { ro section .option_setting_pbps1 };
+    place at address OPTION_SETTING_START+0x68 { ro section .option_setting_pbps2 };
+    place at address OPTION_SETTING_START+0x6C { ro section .option_setting_pbps3 };
+  }
+}
+
+define exported symbol __tz_ID_CODE_S = ID_CODE_START;
+
+/* Set this symbol to the same value as __tz_ID_CODE_S so the RA configuration tool does not split the ID_CODE
+ * memory region between TrustZone projects. */
+define exported symbol __tz_ID_CODE_N = ID_CODE_START;
+
+define symbol OPTION_SETTING_NS_OFFSET = 0x80;
+define exported symbol __tz_OPTION_SETTING_S = OPTION_SETTING_START;
+define exported symbol __tz_OPTION_SETTING_N = OPTION_SETTING_START + OPTION_SETTING_NS_OFFSET;
+
+define exported symbol __tz_OPTION_SETTING_S_S = OPTION_SETTING_S_START;
+define exported symbol __tz_OPTION_SETTING_S_N = OPTION_SETTING_S_START + OPTION_SETTING_S_LENGTH;
+
+/************************ ITCM Memory **************************************/
+if (isdefinedsymbol(ITCM_LENGTH))
+{
+  /* Define region for storing ITCM data. */
+  define symbol ITCM_END = ITCM_START + ITCM_LENGTH - 1;
+  define region ITCM_region = mem:[from ITCM_START to ITCM_END];
+
+  initialize manually {
+    section .itcm_data
+  };
+
+  define block ITCM_DATA with alignment = 8, end alignment = 8, fixed order {
+    rw section .itcm_data
+  };
+  define block ITCM_DATA_INIT with alignment = 16, end alignment = 8, fixed order {
+    ro section .itcm_data_init
+  };
+
+  place in ITCM_region {
+    block ITCM_DATA
+  };
+  place in FLASH_region {
+    block ITCM_DATA_INIT
+  };
+
+  keep {
+    section .itcm_data,
+    section .itcm_data_init,
+    block ITCM_DATA,
+    block ITCM_DATA_INIT
+  };
+
+  define symbol __tz_ITCM_S = ITCM_START;
+  export symbol __tz_ITCM_S;
+  /* Ternary doesn't work with undefined symbols. */
+  if (isdefinedsymbol(ITCM_NS_START)) {
+     define symbol __tz_ITCM_N = ITCM_NS_START;
+  } else {
+     define symbol __tz_ITCM_N = alignup(ITCM_START + ITCM_LENGTH, 8192);
+  }
+  export symbol __tz_ITCM_N;
+
+  check that size(block ITCM_DATA) % 8 == 0;
+  check that size(block ITCM_DATA_INIT) % 8 == 0;
+}
+
+/************************ DTCM Memory **************************************/
+if (isdefinedsymbol(DTCM_LENGTH))
+{
+  /* Define region for storing DTCM data. */
+  define symbol DTCM_END = DTCM_START + DTCM_LENGTH - 1;
+  define region DTCM_region        = mem:[from DTCM_START to DTCM_END];
+
+  initialize manually {
+    section .dtcm_data
+  };
+  do not initialize {
+    section .dtcm_bss
+  };
+
+  define block DTCM_DATA with alignment = 8, end alignment = 8, fixed order {
+    rw section .dtcm_data
+  };
+  define block DTCM_DATA_INIT with alignment = 16, end alignment = 8, fixed order {
+    ro section .dtcm_data_init
+  };
+  define block DTCM_BSS with alignment = 8, end alignment = 8, fixed order {
+    zi section .dtcm_bss
+  };
+
+  place in DTCM_region {
+    block DTCM_DATA,
+    block DTCM_BSS
+  };
+  place in FLASH_region {
+    block DTCM_DATA_INIT
+  };
+
+  keep {
+    section .dtcm_data,
+    section .dtcm_data_init,
+    section .dtcm_bss,
+    block DTCM_DATA,
+    block DTCM_DATA_INIT,
+    block DTCM_BSS
+  };
+
+  define symbol __tz_DTCM_S = DTCM_START;
+  export symbol __tz_DTCM_S;
+  /* Ternary doesn't work with undefined symbols. */
+  if (isdefinedsymbol(DTCM_NS_START)) {
+     define symbol __tz_DTCM_N = DTCM_NS_START;
+  } else {
+     define symbol __tz_DTCM_N = alignup(DTCM_START + DTCM_LENGTH, 8192);
+  }
+  export symbol __tz_DTCM_N;
+
+  check that size(block DTCM_DATA) % 8 == 0;
+  check that size(block DTCM_DATA_INIT) % 8 == 0;
+  check that size(block DTCM_BSS) % 8 == 0;
+}
