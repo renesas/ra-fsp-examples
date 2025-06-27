@@ -1,0 +1,985 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<raConfiguration version="11">
+  <generalSettings>
+    <option key="#Board#" value="board.ra8p1ek" />
+    <option key="CPU" value="RA8P1" />
+    <option key="Core" value="CPU0" />
+    <option key="#TargetName#" value="R7KA8P1KFLCAC" />
+    <option key="#TargetARCHITECTURE#" value="cortex-m85" />
+    <option key="#DeviceCommand#" value="R7KA8P1KF" />
+    <option key="#RTOS#" value="rtos.awsfreertos" />
+    <option key="#pinconfiguration#" value="R7KA8P1KFLCAC.pincfg" />
+    <option key="#FSPVersion#" value="6.0.0" />
+    <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra8p1_ek##" />
+    <option key="#SELECTED_TOOLCHAIN#" value="clang_arm" />
+    <option key="#ToolchainVersion#" value="18.1.3" />
+  </generalSettings>
+  <raBspConfiguration>
+    <config id="config.bsp.ra8p1.R7KA8P1KFLCAC">
+      <property id="config.bsp.part_number" value="config.bsp.part_number.value" />
+      <property id="config.bsp.rom_size_bytes" value="config.bsp.rom_size_bytes.value" />
+      <property id="config.bsp.rom_size_bytes_hidden" value="1048576" />
+      <property id="config.bsp.ram_size_bytes" value="config.bsp.ram_size_bytes.value" />
+      <property id="config.bsp.data_flash_size_bytes" value="config.bsp.data_flash_size_bytes.value" />
+      <property id="config.bsp.package_style" value="config.bsp.package_style.value" />
+      <property id="config.bsp.package_pins" value="config.bsp.package_pins.value" />
+      <property id="config.bsp.number_of_cores" value="2" />
+      <property id="config.bsp.irq_count_hidden" value="96" />
+    </config>
+    <config id="config.bsp.ra8p1">
+      <property id="config.bsp.series" value="config.bsp.series.value" />
+    </config>
+    <config id="config.bsp.ra8p1.fsp">
+      <property id="config.bsp.fsp.inline_irq_functions" value="config.bsp.common.inline_irq_functions.enabled" />
+      <property id="config.bsp.fsp.sdram.enabled" value="config.bsp.fsp.sdram.enabled.disabled" />
+      <property id="config.bsp.fsp.sdram.tras" value="config.bsp.fsp.sdram.tras.6" />
+      <property id="config.bsp.fsp.sdram.trcd" value="config.bsp.fsp.sdram.trcd.3" />
+      <property id="config.bsp.fsp.sdram.trp" value="config.bsp.fsp.sdram.trp.3" />
+      <property id="config.bsp.fsp.sdram.twr" value="config.bsp.fsp.sdram.twr.2" />
+      <property id="config.bsp.fsp.sdram.tcl" value="config.bsp.fsp.sdram.tcl.3" />
+      <property id="config.bsp.fsp.sdram.trfc" value="937" />
+      <property id="config.bsp.fsp.sdram.trefw" value="config.bsp.fsp.sdram.trefw.8" />
+      <property id="config.bsp.fsp.sdram.arfi" value="config.bsp.fsp.sdram.arfi.10" />
+      <property id="config.bsp.fsp.sdram.arfc" value="config.bsp.fsp.sdram.arfc.8" />
+      <property id="config.bsp.fsp.sdram.prc" value="config.bsp.fsp.sdram.prc.3" />
+      <property id="config.bsp.fsp.sdram.addr_shift" value="config.bsp.fsp.sdram.addr_shift.9" />
+      <property id="config.bsp.fsp.sdram.endian_mode" value="config.bsp.fsp.sdram.endian_mode.little" />
+      <property id="config.bsp.fsp.sdram.continuous_access_mode" value="config.bsp.fsp.sdram.continuous_access_mode.enabled" />
+      <property id="config.bsp.fsp.sdram.bus_width" value="config.bsp.fsp.sdram.bus_width.32" />
+      <property id="config.bsp.fsp.tz.exception_response" value="config.bsp.fsp.tz.exception_response.nmi" />
+      <property id="config.bsp.fsp.tz.cmsis.bfhfnmins" value="config.bsp.fsp.tz.cmsis.bfhfnmins.secure" />
+      <property id="config.bsp.fsp.tz.cmsis.sysresetreqs" value="config.bsp.fsp.tz.cmsis.sysresetreqs.secure_only" />
+      <property id="config.bsp.fsp.tz.cmsis.s_priority_boost" value="config.bsp.fsp.tz.cmsis.s_priority_boost.disabled" />
+      <property id="config.bsp.fsp.tz.cachesar" value="config.bsp.fsp.tz.cachesar.secure" />
+      <property id="config.bsp.fsp.tz.rstsar" value="config.bsp.fsp.tz.rstsar.both" />
+      <property id="config.bsp.fsp.tz.bbfsar" value="config.bsp.fsp.tz.bbfsar.both" />
+      <property id="config.bsp.fsp.tz.sramsar.sramsa0" value="config.bsp.fsp.tz.sramsar.sramsa0.both" />
+      <property id="config.bsp.fsp.tz.sramsar.sramsa1" value="config.bsp.fsp.tz.sramsar.sramsa1.both" />
+      <property id="config.bsp.fsp.tz.sramsar.sramsa2" value="config.bsp.fsp.tz.sramsar.sramsa2.both" />
+      <property id="config.bsp.fsp.tz.sramsar.sramsa3" value="config.bsp.fsp.tz.sramsar.sramsa3.both" />
+      <property id="config.bsp.fsp.tz.bussara" value="config.bsp.fsp.tz.bussara.both" />
+      <property id="config.bsp.fsp.tz.bussarb" value="config.bsp.fsp.tz.bussarb.both" />
+      <property id="config.bsp.fsp.tz.bussarc" value="config.bsp.fsp.tz.bussarc.both" />
+      <property id="config.bsp.fsp.tz.saipcsem0" value="config.bsp.fsp.tz.saipcsem0.secure_only" />
+      <property id="config.bsp.fsp.tz.saipcsem1" value="config.bsp.fsp.tz.saipcsem1.secure_only" />
+      <property id="config.bsp.fsp.tz.saipcnmi0" value="config.bsp.fsp.tz.saipcnmi0.secure_only" />
+      <property id="config.bsp.fsp.tz.saipcnmi1" value="config.bsp.fsp.tz.saipcnmi1.secure_only" />
+      <property id="config.bsp.fsp.tz.pgcsar" value="config.bsp.fsp.tz.pgcsar.secure_only" />
+      <property id="config.bsp.fsp.tz.uninitialized_ns_application_fallback" value="config.bsp.fsp.tz.uninitialized_ns_application_fallback.enabled" />
+      <property id="config.bsp.fsp.hoco_fll" value="config.bsp.fsp.hoco_fll.disabled" />
+      <property id="config.bsp.fsp.clock_settling_delay" value="config.bsp.fsp.clock_settling_delay.enabled" />
+      <property id="config.bsp.fsp.sleep_mode_delays" value="config.bsp.fsp.sleep_mode_delays.enabled" />
+      <property id="config.bsp.fsp.rtos_sleep_delay" value="config.bsp.fsp.rtos_sleep_delay.enabled" />
+      <property id="config.bsp.fsp.mstp_change_delays" value="config.bsp.fsp.mstp_change_delays.enabled" />
+      <property id="config.bsp.fsp.settling_delay_us" value="150" />
+      <property id="config.bsp.common.main_osc_wait" value="config.bsp.common.main_osc_wait.wait_8163" />
+      <property id="config.bsp.fsp.mcu.adc.max_freq_hz" value="60000000" />
+      <property id="config.bsp.fsp.mcu.sci_b_uart.max_baud" value="20000000" />
+      <property id="config.bsp.fsp.mcu.sci_b_uart.ctspen_channels" value="0x03FF" />
+      <property id="config.bsp.fsp.mcu.adc.sample_and_hold" value="1" />
+      <property id="config.bsp.fsp.mcu.adc.sensors_are_exclusive" value="0" />
+      <property id="config.bsp.fsp.mcu.sci_spi.max_bitrate" value="60000000" />
+      <property id="config.bsp.fsp.mcu.spi.max_bitrate" value="60000000" />
+      <property id="config.bsp.fsp.mcu.iic_master.rate.rate_fastplus" value="1" />
+      <property id="config.bsp.fsp.mcu.iic_master.fastplus_channels" value="0x7" />
+      <property id="config.bsp.fsp.mcu.iic_slave.rate.rate_fastplus" value="1" />
+      <property id="config.bsp.fsp.mcu.iic_slave.fastplus_channels" value="0x7" />
+      <property id="config.bsp.fsp.mcu.gpt.pin_count_source_channels" value="0x3FFF" />
+      <property id="config.bsp.fsp.mcu.canfd.num_channels" value="2" />
+      <property id="config.bsp.fsp.mcu.canfd.rx_fifos" value="2" />
+      <property id="config.bsp.fsp.mcu.canfd.buffer_ram" value="1216" />
+      <property id="config.bsp.fsp.mcu.canfd.afl_rules" value="32" />
+      <property id="config.bsp.fsp.mcu.canfd.afl_rules_each_chnl" value=" 16" />
+      <property id="config.bsp.fsp.mcu.canfd.max_data_rate_hz" value="8" />
+      <property id="config.bsp.fsp.mcu.adc_dmac.samples_per_channel" value="32767" />
+      <property id="config.bsp.fsp.mcu.sci_b_lin.max_baud" value="7812500" />
+      <property id="config.bsp.fsp.mcu.ospi_b.spi_dspi_qspi_mode_max_freq_hz" value="120000000" />
+      <property id="config.bsp.fsp.dcache" value="config.bsp.fsp.dcache.disabled" />
+      <property id="config.bsp.fsp.mscr.forcewt" value="config.bsp.fsp.mscr.forcewt.disabled" />
+      <property id="config.bsp.fsp.mcu.rtc.err_adjustment_value.max_value" value="63" />
+    </config>
+    <config id="config.bsp.ra8p1.linker">
+      <property id="config.bsp.option_setting.ofs0" value="config.bsp.option_setting.ofs0.disabled" />
+      <property id="config.bsp.option_setting.ofs0.iwdt_start_mode" value="config.bsp.option_setting.ofs0.iwdt_start_mode.disabled" />
+      <property id="config.bsp.option_setting.ofs0.iwdt_timeout" value="config.bsp.option_setting.ofs0.iwdt_timeout.2048" />
+      <property id="config.bsp.option_setting.ofs0.iwdt_divisor" value="config.bsp.option_setting.ofs0.iwdt_divisor.128" />
+      <property id="config.bsp.option_setting.ofs0.iwdt_window_end" value="config.bsp.option_setting.ofs0.iwdt_window_end.0" />
+      <property id="config.bsp.option_setting.ofs0.iwdt_window_start" value="config.bsp.option_setting.ofs0.iwdt_window_start.100" />
+      <property id="config.bsp.option_setting.ofs0.iwdt_reset_interrupt" value="config.bsp.option_setting.ofs0.iwdt_reset_interrupt.Reset" />
+      <property id="config.bsp.option_setting.ofs0.iwdt_stop_control" value="config.bsp.option_setting.ofs0.iwdt_stop_control.stops" />
+      <property id="config.bsp.option_setting.ofs0.wdt_start_mode" value="config.bsp.option_setting.ofs0.wdt_start_mode.register" />
+      <property id="config.bsp.option_setting.ofs0.wdt_timeout" value="config.bsp.option_setting.ofs0.wdt_timeout.16384" />
+      <property id="config.bsp.option_setting.ofs0.wdt_divisor" value="config.bsp.option_setting.ofs0.wdt_divisor.128" />
+      <property id="config.bsp.option_setting.ofs0.wdt_window_end" value="config.bsp.option_setting.ofs0.wdt_window_end.0" />
+      <property id="config.bsp.option_setting.ofs0.wdt_window_start" value="config.bsp.option_setting.ofs0.wdt_window_start.100" />
+      <property id="config.bsp.option_setting.ofs0.wdt_reset_interrupt" value="config.bsp.option_setting.ofs0.wdt_reset_interrupt.Reset" />
+      <property id="config.bsp.option_setting.ofs0.wdt_stop_control" value="config.bsp.option_setting.ofs0.wdt_stop_control.stops" />
+      <property id="config.bsp.option_setting.ofs2" value="config.bsp.option_setting.ofs2.disabled" />
+      <property id="config.bsp.option_setting.ofs2.dcdc" value="config.bsp.option_setting.ofs2.dcdc.enabled" />
+      <property id="config.bsp.option_setting.ofs2.cvm_reset" value="config.bsp.option_setting.ofs2.cvm_reset.enabled" />
+      <property id="config.bsp.option_setting.ofs2.npusa" value="config.bsp.option_setting.ofs2.npusa.nonsecure" />
+      <property id="config.bsp.option_setting.ofs2.npupa" value="config.bsp.option_setting.ofs2.npupa.unprivilege" />
+      <property id="config.bsp.option_setting.sas" value="config.bsp.option_setting.sas.disabled" />
+      <property id="config.bsp.option_setting.sas.btsize" value="config.bsp.option_setting.sas.btsize.8k" />
+      <property id="config.bsp.option_setting.ofs1" value="config.bsp.option_setting.ofs1.disabled" />
+      <property id="config.bsp.option_setting.ofs1.voltage_detection0.start" value="config.bsp.option_setting.ofs1.voltage_detection0.start.disabled" />
+      <property id="config.bsp.option_setting.ofs1.voltage_detection0_level" value="config.bsp.option_setting.ofs1.voltage_detection0_level.160" />
+      <property id="config.bsp.option_setting.ofs1.hoco_osc" value="config.bsp.option_setting.ofs1.hoco_osc.disabled" />
+      <property id="config.bsp.option_setting.ofs1.voltage_detection0.low_power_consumption" value="config.bsp.option_setting.ofs1.voltage_detection0.low_power_consumption.disabled" />
+      <property id="config.bsp.option_setting.ofs1.swdbg" value="config.bsp.option_setting.ofs1.swdbg.disabled" />
+      <property id="config.bsp.option_setting.ofs1.initeccen" value="config.bsp.option_setting.ofs1.initeccen.disabled" />
+      <property id="config.bsp.option_setting.ofs1_sec" value="config.bsp.option_setting.ofs1_sec.disabled" />
+      <property id="config.bsp.option_setting.ofs1_sec.voltage_detection0.start" value="config.bsp.option_setting.ofs1_sec.voltage_detection0.start.disabled" />
+      <property id="config.bsp.option_setting.ofs1_sec.voltage_detection0_level" value="config.bsp.option_setting.ofs1_sec.voltage_detection0_level.160" />
+      <property id="config.bsp.option_setting.ofs1_sec.hoco_osc" value="config.bsp.option_setting.ofs1_sec.hoco_osc.disabled" />
+      <property id="config.bsp.option_setting.ofs1_sec.voltage_detection0.low_power_consumption" value="config.bsp.option_setting.ofs1_sec.voltage_detection0.low_power_consumption.disabled" />
+      <property id="config.bsp.option_setting.ofs1_sec.swdbg" value="config.bsp.option_setting.ofs1_sec.swdbg.disabled" />
+      <property id="config.bsp.option_setting.ofs1_sec.initeccen" value="config.bsp.option_setting.ofs1_sec.initeccen.disabled" />
+      <property id="config.bsp.option_setting.ofs1_sel" value="config.bsp.option_setting.ofs1_sel.disabled" />
+      <property id="config.bsp.option_setting.ofs1_sel.voltage_detection0_level" value="config.bsp.option_setting.ofs1_sel.voltage_detection0_level.secure" />
+      <property id="config.bsp.option_setting.ofs1_sel.voltage_detection0.start" value="config.bsp.option_setting.ofs1_sel.voltage_detection0.start.secure" />
+      <property id="config.bsp.option_setting.ofs1_sel.voltage_detection0.low_power_consumption" value="config.bsp.option_setting.ofs1_sel.voltage_detection0.low_power_consumption.secure" />
+      <property id="config.bsp.option_setting.ofs1_sel.swdbg" value="config.bsp.option_setting.ofs1_sel.swdbg.secure" />
+      <property id="config.bsp.option_setting.ofs1_sel.initeccen" value="config.bsp.option_setting.ofs1_sel.initeccen.secure" />
+      <property id="config.bsp.option_setting.ofs3" value="config.bsp.option_setting.ofs3.disabled" />
+      <property id="config.bsp.option_setting.ofs3.wdt1_start_mode" value="config.bsp.option_setting.ofs3.wdt1_start_mode.disabled" />
+      <property id="config.bsp.option_setting.ofs3.wdt1_timeout" value="config.bsp.option_setting.ofs3.wdt1_timeout.16384" />
+      <property id="config.bsp.option_setting.ofs3.wdt1_divisor" value="config.bsp.option_setting.ofs3.wdt1_divisor.128" />
+      <property id="config.bsp.option_setting.ofs3.wdt1_window_end" value="config.bsp.option_setting.ofs3.wdt1_window_end.0" />
+      <property id="config.bsp.option_setting.ofs3.wdt1_window_start" value="config.bsp.option_setting.ofs3.wdt1_window_start.100" />
+      <property id="config.bsp.option_setting.ofs3.wdt1_reset_interrupt" value="config.bsp.option_setting.ofs3.wdt1_reset_interrupt.Reset" />
+      <property id="config.bsp.option_setting.ofs3.wdt1_stop_control" value="config.bsp.option_setting.ofs3.wdt1_stop_control.stops" />
+      <property id="config.bsp.option_setting.ofs3_sec" value="config.bsp.option_setting.ofs3_sec.disabled" />
+      <property id="config.bsp.option_setting.ofs3_sec.wdt1_start_mode" value="config.bsp.option_setting.ofs3_sec.wdt1_start_mode.disabled" />
+      <property id="config.bsp.option_setting.ofs3_sec.wdt1_timeout" value="config.bsp.option_setting.ofs3_sec.wdt1_timeout.16384" />
+      <property id="config.bsp.option_setting.ofs3_sec.wdt1_divisor" value="config.bsp.option_setting.ofs3_sec.wdt1_divisor.128" />
+      <property id="config.bsp.option_setting.ofs3_sec.wdt1_window_end" value="config.bsp.option_setting.ofs3_sec.wdt1_window_end.0" />
+      <property id="config.bsp.option_setting.ofs3_sec.wdt1_window_start" value="config.bsp.option_setting.ofs3_sec.wdt1_window_start.100" />
+      <property id="config.bsp.option_setting.ofs3_sec.wdt1_reset_interrupt" value="config.bsp.option_setting.ofs3_sec.wdt1_reset_interrupt.Reset" />
+      <property id="config.bsp.option_setting.ofs3_sec.wdt1_stop_control" value="config.bsp.option_setting.ofs3_sec.wdt1_stop_control.stops" />
+      <property id="config.bsp.option_setting.ofs3_sel" value="config.bsp.option_setting.ofs3_sel.disabled" />
+      <property id="config.bsp.option_setting.ofs3_sel.wdt1_start_mode" value="config.bsp.option_setting.ofs3_sel.wdt1_start_mode.secure" />
+      <property id="config.bsp.option_setting.ofs3_sel.wdt1_timeout" value="config.bsp.option_setting.ofs3_sel.wdt1_timeout.secure" />
+      <property id="config.bsp.option_setting.ofs3_sel.wdt1_divisor" value="config.bsp.option_setting.ofs3_sel.wdt1_divisor.secure" />
+      <property id="config.bsp.option_setting.ofs3_sel.wdt1_window_end" value="config.bsp.option_setting.ofs3_sel.wdt1_window_end.secure" />
+      <property id="config.bsp.option_setting.ofs3_sel.wdt1_window_start" value="config.bsp.option_setting.ofs3_sel.wdt1_window_start.secure" />
+      <property id="config.bsp.option_setting.ofs3_sel.wdt1_reset_interrupt" value="config.bsp.option_setting.ofs3_sel.wdt1_reset_interrupt.secure" />
+      <property id="config.bsp.option_setting.ofs3_sel.wdt1_stop_control" value="config.bsp.option_setting.ofs3_sel.wdt1_stop_control.secure" />
+      <property id="config.bsp.option_setting.bps" value="config.bsp.option_setting.bps.disabled" />
+      <property id="config.bsp.option_setting.bps.0" value="" />
+      <property id="config.bsp.option_setting.bps.1" value="" />
+      <property id="config.bsp.option_setting.bps.2" value="" />
+      <property id="config.bsp.option_setting.bps.3" value="" />
+      <property id="config.bsp.option_setting.bps.4" value="" />
+      <property id="config.bsp.option_setting.bps.5" value="" />
+      <property id="config.bsp.option_setting.bps.6" value="" />
+      <property id="config.bsp.option_setting.bps.7" value="" />
+      <property id="config.bsp.option_setting.bps.8" value="" />
+      <property id="config.bsp.option_setting.bps.9" value="" />
+      <property id="config.bsp.option_setting.bps.10" value="" />
+      <property id="config.bsp.option_setting.bps.11" value="" />
+      <property id="config.bsp.option_setting.bps.12" value="" />
+      <property id="config.bsp.option_setting.bps.13" value="" />
+      <property id="config.bsp.option_setting.bps.14" value="" />
+      <property id="config.bsp.option_setting.bps.15" value="" />
+      <property id="config.bsp.option_setting.bps.16" value="" />
+      <property id="config.bsp.option_setting.bps_sec" value="config.bsp.option_setting.bps_sec.disabled" />
+      <property id="config.bsp.option_setting.bps_sec.0" value="" />
+      <property id="config.bsp.option_setting.bps_sec.1" value="" />
+      <property id="config.bsp.option_setting.bps_sec.2" value="" />
+      <property id="config.bsp.option_setting.bps_sec.3" value="" />
+      <property id="config.bsp.option_setting.bps_sec.4" value="" />
+      <property id="config.bsp.option_setting.bps_sec.5" value="" />
+      <property id="config.bsp.option_setting.bps_sec.6" value="" />
+      <property id="config.bsp.option_setting.bps_sec.7" value="" />
+      <property id="config.bsp.option_setting.bps_sec.8" value="" />
+      <property id="config.bsp.option_setting.bps_sec.9" value="" />
+      <property id="config.bsp.option_setting.bps_sec.10" value="" />
+      <property id="config.bsp.option_setting.bps_sec.11" value="" />
+      <property id="config.bsp.option_setting.bps_sec.12" value="" />
+      <property id="config.bsp.option_setting.bps_sec.13" value="" />
+      <property id="config.bsp.option_setting.bps_sec.14" value="" />
+      <property id="config.bsp.option_setting.bps_sec.15" value="" />
+      <property id="config.bsp.option_setting.bps_sec.16" value="" />
+      <property id="config.bsp.option_setting_otp.pbps_sec" value="config.bsp.option_setting_otp.pbps_sec.disabled" />
+      <property id="config.bsp.option_setting_otp.pbps_sec.0" value="" />
+      <property id="config.bsp.option_setting_otp.pbps_sec.1" value="" />
+      <property id="config.bsp.option_setting_otp.pbps_sec.2" value="" />
+      <property id="config.bsp.option_setting_otp.pbps_sec.3" value="" />
+      <property id="config.bsp.option_setting_otp.pbps_sec.4" value="" />
+      <property id="config.bsp.option_setting_otp.pbps_sec.5" value="" />
+      <property id="config.bsp.option_setting_otp.pbps_sec.6" value="" />
+      <property id="config.bsp.option_setting_otp.pbps_sec.7" value="" />
+      <property id="config.bsp.option_setting_otp.pbps_sec.8" value="" />
+      <property id="config.bsp.option_setting_otp.pbps_sec.9" value="" />
+      <property id="config.bsp.option_setting_otp.pbps_sec.10" value="" />
+      <property id="config.bsp.option_setting_otp.pbps_sec.11" value="" />
+      <property id="config.bsp.option_setting_otp.pbps_sec.12" value="" />
+      <property id="config.bsp.option_setting_otp.pbps_sec.13" value="" />
+      <property id="config.bsp.option_setting_otp.pbps_sec.14" value="" />
+      <property id="config.bsp.option_setting_otp.pbps_sec.15" value="" />
+      <property id="config.bsp.option_setting_otp.pbps_sec.16" value="" />
+      <property id="config.bsp.option_setting_otp.pbps" value="config.bsp.option_setting_otp.pbps.disabled" />
+      <property id="config.bsp.option_setting_otp.pbps.0" value="" />
+      <property id="config.bsp.option_setting_otp.pbps.1" value="" />
+      <property id="config.bsp.option_setting_otp.pbps.2" value="" />
+      <property id="config.bsp.option_setting_otp.pbps.3" value="" />
+      <property id="config.bsp.option_setting_otp.pbps.4" value="" />
+      <property id="config.bsp.option_setting_otp.pbps.5" value="" />
+      <property id="config.bsp.option_setting_otp.pbps.6" value="" />
+      <property id="config.bsp.option_setting_otp.pbps.7" value="" />
+      <property id="config.bsp.option_setting_otp.pbps.8" value="" />
+      <property id="config.bsp.option_setting_otp.pbps.9" value="" />
+      <property id="config.bsp.option_setting_otp.pbps.10" value="" />
+      <property id="config.bsp.option_setting_otp.pbps.11" value="" />
+      <property id="config.bsp.option_setting_otp.pbps.12" value="" />
+      <property id="config.bsp.option_setting_otp.pbps.13" value="" />
+      <property id="config.bsp.option_setting_otp.pbps.14" value="" />
+      <property id="config.bsp.option_setting_otp.pbps.15" value="" />
+      <property id="config.bsp.option_setting_otp.pbps.16" value="" />
+    </config>
+    <config id="config.bsp.ra">
+      <property id="config.bsp.common.main" value="0x400" />
+      <property id="config.bsp.common.heap" value="0x400" />
+      <property id="config.bsp.common.bootloader.xip_enable" value="config.bsp.common.bootloader.xip_enable.disabled" />
+      <property id="config.bsp.common.vcc" value="3300" />
+      <property id="config.bsp.common.checking" value="config.bsp.common.checking.disabled" />
+      <property id="config.bsp.common.assert" value="config.bsp.common.assert.none" />
+      <property id="config.bsp.common.soft_reset" value="config.bsp.common.soft_reset.disabled" />
+      <property id="config.bsp.common.main_osc_populated" value="config.bsp.common.main_osc_populated.enabled" />
+      <property id="config.bsp.common.pfs_protect" value="config.bsp.common.pfs_protect.enabled" />
+      <property id="config.bsp.common.c_runtime_init" value="config.bsp.common.c_runtime_init.enabled" />
+      <property id="config.bsp.common.early_init" value="config.bsp.common.early_init.disabled" />
+      <property id="config.bsp.common.main_osc_clock_source" value="config.bsp.common.main_osc_clock_source.crystal" />
+      <property id="config.bsp.common.subclock_populated" value="config.bsp.common.subclock_populated.enabled" />
+      <property id="config.bsp.common.subclock_drive" value="config.bsp.common.subclock_drive.standard" />
+      <property id="config.bsp.common.subclock_stabilization_ms" value="1000" />
+    </config>
+  </raBspConfiguration>
+  <raClockConfiguration>
+    <node id="board.clock.xtal.freq" mul="24000000" option="_edit" />
+    <node id="board.clock.hoco.freq" option="board.clock.hoco.freq.48m" />
+    <node id="board.clock.loco.freq" option="board.clock.loco.freq.32768" />
+    <node id="board.clock.moco.freq" option="board.clock.moco.freq.8m" />
+    <node id="board.clock.subclk.freq" option="board.clock.subclk.freq.32768" />
+    <node id="board.clock.pll.source" option="board.clock.pll.source.xtal" />
+    <node id="board.clock.pll.div" option="board.clock.pll.div.3" />
+    <node id="board.clock.pll.mul" option="board.clock.pll.mul.250_00" />
+    <node id="board.clock.pll.display" option="board.clock.pll.display.value" />
+    <node id="board.clock.pll1p.div" option="board.clock.pll1p.div.2" />
+    <node id="board.clock.pll1p.display" option="board.clock.pll1p.display.value" />
+    <node id="board.clock.pll1q.div" option="board.clock.pll1q.div.6" />
+    <node id="board.clock.pll1q.display" option="board.clock.pll1q.display.value" />
+    <node id="board.clock.pll1r.div" option="board.clock.pll1r.div.5" />
+    <node id="board.clock.pll1r.display" option="board.clock.pll1r.display.value" />
+    <node id="board.clock.pll2.source" option="board.clock.pll2.source.xtal" />
+    <node id="board.clock.pll2.div" option="board.clock.pll2.div.3" />
+    <node id="board.clock.pll2.mul" option="board.clock.pll2.mul.300_00" />
+    <node id="board.clock.pll2.display" option="board.clock.pll2.display.value" />
+    <node id="board.clock.pll2p.div" option="board.clock.pll2p.div.4" />
+    <node id="board.clock.pll2p.display" option="board.clock.pll2p.display.value" />
+    <node id="board.clock.pll2q.div" option="board.clock.pll2q.div.3" />
+    <node id="board.clock.pll2q.display" option="board.clock.pll2q.display.value" />
+    <node id="board.clock.pll2r.div" option="board.clock.pll2r.div.5" />
+    <node id="board.clock.pll2r.display" option="board.clock.pll2r.display.value" />
+    <node id="board.clock.clock.source" option="board.clock.clock.source.pll1p" />
+    <node id="board.clock.cpuclk.div" option="board.clock.cpuclk.div.1" />
+    <node id="board.clock.cpuclk.display" option="board.clock.cpuclk.display.value" />
+    <node id="board.clock.cpuclk1.div" option="board.clock.cpuclk1.div.4" />
+    <node id="board.clock.cpuclk1.display" option="board.clock.cpuclk1.display.value" />
+    <node id="board.clock.npuclk.div" option="board.clock.npuclk.div.2" />
+    <node id="board.clock.npuclk.display" option="board.clock.npuclk.display.value" />
+    <node id="board.clock.mriclk.div" option="board.clock.mriclk.div.4" />
+    <node id="board.clock.mriclk.display" option="board.clock.mriclk.display.value" />
+    <node id="board.clock.mrpclk.div" option="board.clock.mrpclk.div.8" />
+    <node id="board.clock.mrpclk.display" option="board.clock.mrpclk.display.value" />
+    <node id="board.clock.iclk.div" option="board.clock.iclk.div.4" />
+    <node id="board.clock.iclk.display" option="board.clock.iclk.display.value" />
+    <node id="board.clock.pclka.div" option="board.clock.pclka.div.8" />
+    <node id="board.clock.pclka.display" option="board.clock.pclka.display.value" />
+    <node id="board.clock.pclkb.div" option="board.clock.pclkb.div.16" />
+    <node id="board.clock.pclkb.display" option="board.clock.pclkb.display.value" />
+    <node id="board.clock.pclkc.div" option="board.clock.pclkc.div.8" />
+    <node id="board.clock.pclkc.display" option="board.clock.pclkc.display.value" />
+    <node id="board.clock.pclkd.div" option="board.clock.pclkd.div.4" />
+    <node id="board.clock.pclkd.display" option="board.clock.pclkd.display.value" />
+    <node id="board.clock.pclke.div" option="board.clock.pclke.div.4" />
+    <node id="board.clock.pclke.display" option="board.clock.pclke.display.value" />
+    <node id="board.clock.bclk.div" option="board.clock.bclk.div.8" />
+    <node id="board.clock.bclk.display" option="board.clock.bclk.display.value" />
+    <node id="board.clock.bclka.source" option="board.clock.bclka.source.pll2q" />
+    <node id="board.clock.bclka.div" option="board.clock.bclka.div.6" />
+    <node id="board.clock.bclka.display" option="board.clock.bclka.display.value" />
+    <node id="board.clock.sdclkout.enable" option="board.clock.sdclkout.enable.enabled" />
+    <node id="board.clock.sdclkout.display" option="board.clock.sdclkout.display.value" />
+    <node id="board.clock.ebclk.source" option="board.clock.ebclk.source.bclk" />
+    <node id="board.clock.bclkout.div" option="board.clock.bclkout.div.2" />
+    <node id="board.clock.bclkout.display" option="board.clock.bclkout.display.value" />
+    <node id="board.clock.clkout.source" option="board.clock.clkout.source.hoco" />
+    <node id="board.clock.clkout.div" option="board.clock.clkout.div.1" />
+    <node id="board.clock.clkout.display" option="board.clock.clkout.display.value" />
+    <node id="board.clock.sciclk.source" option="board.clock.sciclk.source.pll2r" />
+    <node id="board.clock.sciclk.div" option="board.clock.sciclk.div.4" />
+    <node id="board.clock.sciclk.display" option="board.clock.sciclk.display.value" />
+    <node id="board.clock.spiclk.source" option="board.clock.spiclk.source.pll1q" />
+    <node id="board.clock.spiclk.div" option="board.clock.spiclk.div.1" />
+    <node id="board.clock.spiclk.display" option="board.clock.spiclk.display.value" />
+    <node id="board.clock.canfdclk.source" option="board.clock.canfdclk.source.pll2r" />
+    <node id="board.clock.canfdclk.div" option="board.clock.canfdclk.div.6" />
+    <node id="board.clock.canfdclk.display" option="board.clock.canfdclk.display.value" />
+    <node id="board.clock.gptclk.source" option="board.clock.gptclk.source.pll2p" />
+    <node id="board.clock.gptclk.div" option="board.clock.gptclk.div.2" />
+    <node id="board.clock.gptclk.display" option="board.clock.gptclk.display.value" />
+    <node id="board.clock.gtclk.source" option="board.clock.gtclk.source.gptclk" />
+    <node id="board.clock.gtclk.display" option="board.clock.gtclk.display.value" />
+    <node id="board.clock.lcdclk.source" option="board.clock.lcdclk.source.pll2r" />
+    <node id="board.clock.lcdclk.div" option="board.clock.lcdclk.div.2" />
+    <node id="board.clock.lcdclk.display" option="board.clock.lcdclk.display.value" />
+    <node id="board.clock.i3cclk.source" option="board.clock.i3cclk.source.pll2q" />
+    <node id="board.clock.i3cclk.div" option="board.clock.i3cclk.div.4" />
+    <node id="board.clock.i3cclk.display" option="board.clock.i3cclk.display.value" />
+    <node id="board.clock.uck.source" option="board.clock.uck.source.pll2r" />
+    <node id="board.clock.uck.div" option="board.clock.uck.div.10" />
+    <node id="board.clock.uck.display" option="board.clock.uck.display.value" />
+    <node id="board.clock.u60ck.source" option="board.clock.u60ck.source.pll2r" />
+    <node id="board.clock.u60ck.div" option="board.clock.u60ck.div.8" />
+    <node id="board.clock.u60ck.display" option="board.clock.u60ck.display.value" />
+    <node id="board.clock.octaspiclk.source" option="board.clock.octaspiclk.source.pll1q" />
+    <node id="board.clock.octaspiclk.div" option="board.clock.octaspiclk.div.1" />
+    <node id="board.clock.octaspiclk.display" option="board.clock.octaspiclk.display.value" />
+    <node id="board.clock.adcclk.source" option="board.clock.adcclk.source.pll2r" />
+    <node id="board.clock.adcclk.div" option="board.clock.adcclk.div.4" />
+    <node id="board.clock.adcclk.display" option="board.clock.adcclk.display.value" />
+    <node id="board.clock.eswclk.source" option="board.clock.eswclk.source.pll1p" />
+    <node id="board.clock.eswclk.div" option="board.clock.eswclk.div.4" />
+    <node id="board.clock.eswclk.display" option="board.clock.eswclk.display.value" />
+    <node id="board.clock.eswphyclk.source" option="board.clock.eswphyclk.source.pll1p" />
+    <node id="board.clock.eswphyclk.div" option="board.clock.eswphyclk.div.2" />
+    <node id="board.clock.eswphyclk.display" option="board.clock.eswphyclk.display.value" />
+    <node id="board.clock.ethphyclk.source" option="board.clock.ethphyclk.source.pll2q" />
+    <node id="board.clock.ethphyclk.div" option="board.clock.ethphyclk.div.32" />
+    <node id="board.clock.ethphyclk.display" option="board.clock.ethphyclk.display.value" />
+  </raClockConfiguration>
+  <raComponentSelection>
+    <component apiversion="" class="CMSIS" condition="" group="Main" subgroup="CoreM" variant="" vendor="Arm" version="6.1.0+fsp.6.0.0">
+      <description>Arm CMSIS Version 6 - Core (M)</description>
+      <originalPack>Arm.CMSIS6.6.1.0+fsp.6.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="6.0.0">
+      <description>Board Support Package Common Files</description>
+      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_dmac" variant="" vendor="Renesas" version="6.0.0">
+      <description>Direct Memory Access Controller</description>
+      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="6.0.0">
+      <description>I/O Port</description>
+      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_sdhi" variant="" vendor="Renesas" version="6.0.0">
+      <description>SD/MMC Host Interface</description>
+      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_usb_basic" variant="" vendor="Renesas" version="6.0.0">
+      <description>USB Basic</description>
+      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_usb_pmsc" variant="" vendor="Renesas" version="6.0.0">
+      <description>USB Peripheral Mass Storage Class</description>
+      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_block_media_sdmmc" variant="" vendor="Renesas" version="6.0.0">
+      <description>SD/MMC Memory Implementation</description>
+      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="RTOS" condition="" group="FreeRTOS" subgroup="all" variant="" vendor="AWS" version="11.1.0+fsp.6.0.0">
+      <description>FreeRTOS</description>
+      <originalPack>Amazon.FreeRTOS-Kernel.11.1.0+fsp.6.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Heaps" condition="" group="FreeRTOS" subgroup="heap_4" variant="" vendor="AWS" version="11.1.0+fsp.6.0.0">
+      <description>FreeRTOS - Memory Management - Heap 4</description>
+      <originalPack>Amazon.FreeRTOS-Kernel.11.1.0+fsp.6.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra8p1_ek" variant="" vendor="Renesas" version="6.0.0">
+      <description>RA8P1-EK Board Support Files</description>
+      <originalPack>Renesas.RA_board_ra8p1_ek.6.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra8p1" subgroup="device" variant="R7KA8P1KFLCAC" vendor="Renesas" version="6.0.0">
+      <description>Board support package for R7KA8P1KFLCAC</description>
+      <originalPack>Renesas.RA_mcu_ra8p1.6.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra8p1" subgroup="device" variant="" vendor="Renesas" version="6.0.0">
+      <description>Board support package for RA8P1</description>
+      <originalPack>Renesas.RA_mcu_ra8p1.6.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra8p1" subgroup="fsp" variant="" vendor="Renesas" version="6.0.0">
+      <description>Board support package for RA8P1 - FSP Data</description>
+      <originalPack>Renesas.RA_mcu_ra8p1.6.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra8p1" subgroup="events" variant="" vendor="Renesas" version="6.0.0">
+      <description>Board support package for RA8P1 - Events</description>
+      <originalPack>Renesas.RA_mcu_ra8p1.6.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra8p1" subgroup="linker" variant="" vendor="Renesas" version="6.0.0">
+      <description>Board support package for RA8P1 - Linker</description>
+      <originalPack>Renesas.RA_mcu_ra8p1.6.0.0.pack</originalPack>
+    </component>
+  </raComponentSelection>
+  <raElcConfiguration />
+  <raIcuConfiguration />
+  <raLinkMapConfiguration />
+  <raModuleConfiguration>
+    <module id="module.driver.ioport_on_ioport.0">
+      <property id="module.driver.ioport.name" value="g_ioport" />
+      <property id="module.driver.ioport.elc_trigger_ioport1" value="_disabled" />
+      <property id="module.driver.ioport.elc_trigger_ioport2" value="_disabled" />
+      <property id="module.driver.ioport.elc_trigger_ioport3" value="_disabled" />
+      <property id="module.driver.ioport.elc_trigger_ioport4" value="_disabled" />
+      <property id="module.driver.ioport.pincfg" value="g_bsp_pin_cfg" />
+    </module>
+    <module id="module.driver.pmsc_on_usb.49829762">
+      <property id="module.driver.pmsc.name" value="g_pmsc" />
+    </module>
+    <module id="module.driver.basic_on_usb.754909495">
+      <property id="module.driver.basic.name" value="g_basic" />
+      <property id="module.driver.usb_basic.usb_mode" value="module.driver.usb_basic.usb_mode.host" />
+      <property id="module.driver.usb_basic.usb_speed" value="module.driver.usb_basic.usb_speed.hs" />
+      <property id="module.driver.usb_basic.usb_modulenumber" value="module.driver.usb_basic.usb_modulenumber.1" />
+      <property id="module.driver.usb_basic.usb_classtype" value="module.driver.usb_basic.usb_classtype.pcdc" />
+      <property id="module.driver.usb_basic.p_usb_reg" value="g_usb_descriptor" />
+      <property id="module.driver.usb_basic.complience_cb" value="NULL" />
+      <property id="module.driver.usb_basic.ipl" value="board.icu.common.irq.priority12" />
+      <property id="module.driver.usb_basic.ipl_r" value="board.icu.common.irq.priority12" />
+      <property id="module.driver.usb_basic.ipl_d0" value="board.icu.common.irq.priority12" />
+      <property id="module.driver.usb_basic.ipl_d1" value="board.icu.common.irq.priority12" />
+      <property id="module.driver.usb_basic.hsipl" value="board.icu.common.irq.priority12" />
+      <property id="module.driver.usb_basic.hsipl_d0" value="board.icu.common.irq.priority12" />
+      <property id="module.driver.usb_basic.hsipl_d1" value="board.icu.common.irq.priority12" />
+      <property id="module.driver.usb_basic.rtos_callback" value="pmsc_freertos_callback" />
+      <property id="module.driver.usb_basic.other_context" value="NULL" />
+    </module>
+    <module id="module.driver.rm_block_media_on_rm_block_media_sdmmc.1018516068">
+      <property id="module.driver.rm_block_media.name" value="g_rm_block_media" />
+      <property id="module.driver.rm_block_media.callback" value="NULL" />
+    </module>
+    <module id="module.driver.sdmmc_on_sdmmc.29447014">
+      <property id="module.driver.sdmmc.name" value="g_sdmmc" />
+      <property id="module.driver.sdmmc.channel" value="0" />
+      <property id="module.driver.sdmmc.bus_width" value="module.driver.sdmmc.bus_width.bus_width_1_bit" />
+      <property id="module.driver.sdmmc.card_detect" value="module.driver.sdmmc.card_detect.card_detect_none" />
+      <property id="module.driver.sdmmc.write_protect" value="module.driver.sdmmc.write_protect.write_protect_wp" />
+      <property id="module.driver.sdmmc.p_callback" value="NULL" />
+      <property id="module.driver.sdmmc.access_ipl" value="board.icu.common.irq.priority12" />
+      <property id="module.driver.sdmmc.card_ipl" value="_disabled" />
+      <property id="module.driver.sdmmc.dma_req_ipl" value="_disabled" />
+    </module>
+    <module id="module.driver.transfer_on_dmac.260568543">
+      <property id="module.driver.transfer.name" value="g_transfer0" />
+      <property id="module.driver.transfer.channel" value="0" />
+      <property id="module.driver.transfer.mode" value="module.driver.transfer.mode.mode_normal" />
+      <property id="module.driver.transfer.size" value="module.driver.transfer.size.size_2_byte" />
+      <property id="module.driver.transfer.dest_addr_mode" value="module.driver.transfer.dest_addr_mode.addr_mode_fixed" />
+      <property id="module.driver.transfer.src_addr_mode" value="module.driver.transfer.src_addr_mode.addr_mode_fixed" />
+      <property id="module.driver.transfer.repeat_area" value="module.driver.transfer.repeat_area.repeat_area_source" />
+      <property id="module.driver.transfer.length" value="1" />
+      <property id="module.driver.transfer.num_blocks" value="0" />
+      <property id="module.driver.transfer.activation_event" value="enum.elc_none.none" />
+      <property id="module.driver.transfer.p_callback" value="NULL" />
+      <property id="module.driver.transfer.ipl" value="board.icu.common.irq.priority12" />
+      <property id="module.driver.transfer.interrupt" value="module.driver.transfer.interrupt.interrupt_end" />
+      <property id="module.driver.transfer.offset" value="1" />
+      <property id="module.driver.transfer.src.buffer" value="1" />
+    </module>
+    <module id="module.freertos.heap.4.2068035907" />
+    <object id="rtos.awsfreertos.object.queue.1549496451">
+      <property id="rtos.awsfreertos.object.queue.symbol" value="g_event_queue" />
+      <property id="rtos.awsfreertos.object.queue.item_size" value="4" />
+      <property id="rtos.awsfreertos.object.queue.queue_length" value="20" />
+      <property id="rtos.awsfreertos.object.queue.allocation" value="rtos.awsfreertos.object.queue.allocation.static" />
+    </object>
+    <context id="_hal.0">
+      <stack module="module.driver.ioport_on_ioport.0" />
+    </context>
+    <context id="rtos.awsfreertos.thread.1229670716">
+      <property id="_symbol" value="pmsc_thread" />
+      <property id="rtos.awsfreertos.thread.name" value="pmsc thread" />
+      <property id="rtos.awsfreertos.thread.stack" value="8192" />
+      <property id="rtos.awsfreertos.thread.priority" value="1" />
+      <property id="rtos.awsfreertos.thread.context" value="NULL" />
+      <property id="rtos.awsfreertos.thread.allocation" value="rtos.awsfreertos.thread.allocation.static" />
+      <property id="rtos.awsfreertos.thread.secure_context" value="rtos.awsfreertos.thread.secure_context.enable" />
+      <stack module="module.driver.pmsc_on_usb.49829762">
+        <stack module="module.driver.rm_block_media_on_rm_block_media_sdmmc.1018516068" requires="module.driver.pmsc_on_usb.requires.rm_block_media">
+          <stack module="module.driver.sdmmc_on_sdmmc.29447014" requires="module.driver.rm_block_media.requires.sdmmc">
+            <stack module="module.driver.transfer_on_dmac.260568543" requires="module.driver.sdmmc_on_sdmmc.requires.transfer" />
+          </stack>
+        </stack>
+        <stack module="module.driver.basic_on_usb.754909495" requires="module.driver.basic_on_usb.requires.basic" />
+      </stack>
+      <stack module="module.freertos.heap.4.2068035907" />
+    </context>
+    <config id="config.driver.usb_pmsc">
+      <property id="config.driver.usb_pmsc.vendor" value="Vendor  " />
+      <property id="config.driver.usb_pmsc.product" value="Mass Storage    " />
+      <property id="config.driver.usb_pmsc.revision" value="1.00" />
+      <property id="config.driver.usb_pmsc.sectorsize" value="config.driver.usb_pmsc.sectorsize.512" />
+      <property id="config.driver.usb_pmsc.transCount" value="8" />
+    </config>
+    <config id="config.driver.usb_pmsc_class" />
+    <config id="config.driver.usb_basic">
+      <property id="config.driver.usb_basic.param_checking_enable" value="config.driver.usb_basic.param_checking_enable.bsp" />
+      <property id="config.driver.usb_basic.pll_clock_frequency" value="config.driver.usb_basic.pll_clock_frequency.24mhz" />
+      <property id="config.driver.usb_basic.buswait" value="config.driver.usb_basic.buswait.7" />
+      <property id="config.driver.usb_basic.bc_function" value="config.driver.usb_basic.bc_function.enable" />
+      <property id="config.driver.usb_basic.power_source" value="config.driver.usb_basic.power_source.high" />
+      <property id="config.driver.usb_basic.dcp_function" value="config.driver.usb_basic.dcp_function.disable" />
+      <property id="config.driver.usb_basic.request" value="config.driver.usb_basic.request.enable" />
+      <property id="config.driver.usb_basic.dblb" value="config.driver.usb_basic.dblb.enable" />
+      <property id="config.driver.usb_basic.cntmd" value="config.driver.usb_basic.cntmd.disable" />
+      <property id="config.driver.usb_basic.ldo_regulator" value="config.driver.usb_basic.ldo_regulator.disable" />
+      <property id="config.driver.usb_basic.dma" value="config.driver.usb_basic.dma.disable" />
+      <property id="config.driver.usb_basic.source_address" value="config.driver.usb_basic.source_address.none" />
+      <property id="config.driver.usb_basic.dest_address" value="config.driver.usb_basic.dest_address.none" />
+      <property id="config.driver.usb_basic.compliance_mode" value="config.driver.usb_basic.compliance_mode.disable" />
+      <property id="config.driver.usb_basic.tpl_table" value="NULL" />
+    </config>
+    <config id="config.driver.dmac">
+      <property id="config.driver.dmac.param_checking_enable" value="config.driver.dmac.param_checking_enable.bsp" />
+    </config>
+    <config id="config.driver.rm_block_media_sdmmc">
+      <property id="config.driver.rm_block_media_sdmmc.param_checking_enable" value="config.driver.rm_block_media_sdmmc.param_checking_enable.bsp" />
+    </config>
+    <config id="config.driver.ioport">
+      <property id="config.driver.ioport.checking" value="config.driver.ioport.checking.system" />
+    </config>
+    <config id="config.awsfreertos.thread">
+      <property id="config.awsfreertos.custom_freertosconfig" value="" />
+      <property id="config.awsfreertos.thread.configuse_preemption" value="config.awsfreertos.thread.configuse_preemption.enabled" />
+      <property id="config.awsfreertos.thread.configuse_port_optimised_task_selection" value="config.awsfreertos.thread.configuse_port_optimised_task_selection.disabled" />
+      <property id="config.awsfreertos.thread.configuse_tickless_idle" value="config.awsfreertos.thread.configuse_tickless_idle.disabled" />
+      <property id="config.awsfreertos.thread.configuse_idle_hook" value="config.awsfreertos.thread.configuse_idle_hook.enabled" />
+      <property id="config.awsfreertos.thread.configuse_malloc_failed_hook" value="config.awsfreertos.thread.configuse_malloc_failed_hook.disabled" />
+      <property id="config.awsfreertos.thread.configuse_daemon_task_startup_hook" value="config.awsfreertos.thread.configuse_daemon_task_startup_hook.disabled" />
+      <property id="config.awsfreertos.thread.configuse_tick_hook" value="config.awsfreertos.thread.configuse_tick_hook.disabled" />
+      <property id="config.awsfreertos.thread.configcpu_clock_hz" value="SystemCoreClock" />
+      <property id="config.awsfreertos.thread.configtick_rate_hz" value="1000" />
+      <property id="config.awsfreertos.thread.configmax_priorities" value="5" />
+      <property id="config.awsfreertos.thread.configminimal_stack_size" value="128" />
+      <property id="config.awsfreertos.thread.configmax_task_name_len" value="16" />
+      <property id="config.awsfreertos.thread.configuse_trace_facility" value="config.awsfreertos.thread.configuse_trace_facility.disabled" />
+      <property id="config.awsfreertos.thread.configuse_stats_formatting_functions" value="config.awsfreertos.thread.configuse_stats_formatting_functions.disabled" />
+      <property id="config.awsfreertos.thread.configuse_16_bit_ticks" value="config.awsfreertos.thread.configuse_16_bit_ticks.disabled" />
+      <property id="config.awsfreertos.thread.configidle_should_yield" value="config.awsfreertos.thread.configidle_should_yield.enabled" />
+      <property id="config.awsfreertos.thread.configuse_task_notifications" value="config.awsfreertos.thread.configuse_task_notifications.enabled" />
+      <property id="config.awsfreertos.thread.configtask_notifications_array_enteries" value="1" />
+      <property id="config.awsfreertos.thread.configuse_mutexes" value="config.awsfreertos.thread.configuse_mutexes.disabled" />
+      <property id="config.awsfreertos.thread.configuse_recursive_mutexes" value="config.awsfreertos.thread.configuse_recursive_mutexes.disabled" />
+      <property id="config.awsfreertos.thread.configuse_counting_semaphores" value="config.awsfreertos.thread.configuse_counting_semaphores.enabled" />
+      <property id="config.awsfreertos.thread.configcheck_for_stack_overflow" value="config.awsfreertos.thread.configcheck_for_stack_overflow.disabled" />
+      <property id="config.awsfreertos.thread.configqueue_registry_size" value="10" />
+      <property id="config.awsfreertos.thread.configuse_queue_sets" value="config.awsfreertos.thread.configuse_queue_sets.disabled" />
+      <property id="config.awsfreertos.thread.configuse_time_slicing" value="config.awsfreertos.thread.configuse_time_slicing.disabled" />
+      <property id="config.awsfreertos.thread.configuse_newlib_reentrant" value="config.awsfreertos.thread.configuse_newlib_reentrant.disabled" />
+      <property id="config.awsfreertos.thread.configenable_backward_compatibility" value="config.awsfreertos.thread.configenable_backward_compatibility.disabled" />
+      <property id="config.awsfreertos.thread.confignum_thread_local_storage_pointers" value="5" />
+      <property id="config.awsfreertos.thread.configstack_depth_type" value="uint32_t" />
+      <property id="config.awsfreertos.thread.configmessage_buffer_length_type" value="size_t" />
+      <property id="config.awsfreertos.thread.configheap_clear_memory_on_free" value="config.awsfreertos.thread.configheap_clear_memory_on_free.disabled" />
+      <property id="config.awsfreertos.thread.configsupport_static_allocation" value="config.awsfreertos.thread.configsupport_static_allocation.enabled" />
+      <property id="config.awsfreertos.thread.configsupport_dynamic_allocation" value="config.awsfreertos.thread.configsupport_dynamic_allocation.enabled" />
+      <property id="config.awsfreertos.thread.configtotal_heap_size" value="61440" />
+      <property id="config.awsfreertos.thread.configapplication_allocated_heap" value="config.awsfreertos.thread.configapplication_allocated_heap.disabled" />
+      <property id="config.awsfreertos.thread.configgenerate_run_time_stats" value="config.awsfreertos.thread.configgenerate_run_time_stats.disabled" />
+      <property id="config.awsfreertos.thread.configuse_timers" value="config.awsfreertos.thread.configuse_timers.enabled" />
+      <property id="config.awsfreertos.thread.configtimer_task_priority" value="3" />
+      <property id="config.awsfreertos.thread.configtimer_queue_length" value="10" />
+      <property id="config.awsfreertos.thread.configtimer_task_stack_depth" value="128" />
+      <property id="config.awsfreertos.thread.configlibrary_max_syscall_interrupt_priority" value="board.icu.common.irq.priority1" />
+      <property id="config.awsfreertos.thread.configassert" value="assert(x)" />
+      <property id="config.awsfreertos.thread.configinclude_application_defined_privileged_functions" value="config.awsfreertos.thread.configinclude_application_defined_privileged_functions.disabled" />
+      <property id="config.awsfreertos.thread.include_vtaskpriorityset" value="config.awsfreertos.thread.include_vtaskpriorityset.enabled" />
+      <property id="config.awsfreertos.thread.include_uxtaskpriorityget" value="config.awsfreertos.thread.include_uxtaskpriorityget.enabled" />
+      <property id="config.awsfreertos.thread.include_vtaskdelete" value="config.awsfreertos.thread.include_vtaskdelete.enabled" />
+      <property id="config.awsfreertos.thread.include_vtasksuspend" value="config.awsfreertos.thread.include_vtasksuspend.enabled" />
+      <property id="config.awsfreertos.thread.include_xresumefromisr" value="config.awsfreertos.thread.include_xresumefromisr.enabled" />
+      <property id="config.awsfreertos.thread.include_vtaskdelayuntil" value="config.awsfreertos.thread.include_vtaskdelayuntil.enabled" />
+      <property id="config.awsfreertos.thread.include_vtaskdelay" value="config.awsfreertos.thread.include_vtaskdelay.enabled" />
+      <property id="config.awsfreertos.thread.include_xtaskgetschedulerstate" value="config.awsfreertos.thread.include_xtaskgetschedulerstate.enabled" />
+      <property id="config.awsfreertos.thread.include_xtaskgetcurrenttaskhandle" value="config.awsfreertos.thread.include_xtaskgetcurrenttaskhandle.enabled" />
+      <property id="config.awsfreertos.thread.include_uxtaskgetstackhighwatermark" value="config.awsfreertos.thread.include_uxtaskgetstackhighwatermark.disabled" />
+      <property id="config.awsfreertos.thread.include_xtaskgetidletaskhandle" value="config.awsfreertos.thread.include_xtaskgetidletaskhandle.disabled" />
+      <property id="config.awsfreertos.thread.include_etaskgetstate" value="config.awsfreertos.thread.include_etaskgetstate.disabled" />
+      <property id="config.awsfreertos.thread.include_xeventgroupsetbitfromisr" value="config.awsfreertos.thread.include_xeventgroupsetbitfromisr.enabled" />
+      <property id="config.awsfreertos.thread.include_xtimerpendfunctioncall" value="config.awsfreertos.thread.include_xtimerpendfunctioncall.disabled" />
+      <property id="config.awsfreertos.thread.include_xtaskabortdelay" value="config.awsfreertos.thread.include_xtaskabortdelay.disabled" />
+      <property id="config.awsfreertos.thread.include_xtaskgethandle" value="config.awsfreertos.thread.include_xtaskgethandle.disabled" />
+      <property id="config.awsfreertos.thread.include_xtaskresumefromisr" value="config.awsfreertos.thread.include_xtaskresumefromisr.enabled" />
+      <property id="config.awsfreertos.thread.include_hw_stack_monitor" value="config.awsfreertos.thread.include_hw_stack_monitor.disabled" />
+      <property id="config.awsfreertos.thread.print_function" value="printf(x)" />
+      <property id="config.awsfreertos.thread.include_time_and_task" value="config.awsfreertos.thread.include_time_and_task.disabled" />
+      <property id="config.awsfreertos.thread.debug_logging_name" value="Log Name" />
+      <property id="config.awsfreertos.thread.logging_level" value="config.awsfreertos.thread.logging_level.log_none" />
+    </config>
+    <config id="config.driver.sdmmc">
+      <property id="config.driver.sdmmc.param_checking_enable" value="config.driver.sdmmc.param_checking_enable.bsp" />
+      <property id="config.driver.sdmmc.unaligned_support_enable" value="config.driver.sdmmc.unaligned_support_enable.enabled" />
+      <property id="config.driver.sdmmc.sd_support_enable" value="config.driver.sdmmc.sd_support_enable.enabled" />
+      <property id="config.driver.sdmmc.emmc_support_enable" value="config.driver.sdmmc.emmc_support_enable.disabled" />
+    </config>
+  </raModuleConfiguration>
+  <raPinConfiguration>
+    <symbolicName propertyId="p000.symbolic_name" value="USER_SW_CFG_INT" />
+    <symbolicName propertyId="p001.symbolic_name" value="ARDUINO_AN0" />
+    <symbolicName propertyId="p002.symbolic_name" value="GROVE2_AN0" />
+    <symbolicName propertyId="p003.symbolic_name" value="ARDUINO_AN2" />
+    <symbolicName propertyId="p004.symbolic_name" value="ARDUINO_AN3" />
+    <symbolicName propertyId="p005.symbolic_name" value="GROVE2_AN1" />
+    <symbolicName propertyId="p006.symbolic_name" value="PMOD1_IRQ" />
+    <symbolicName propertyId="p007.symbolic_name" value="ARDUINO_AN1" />
+    <symbolicName propertyId="p008.symbolic_name" value="USER_SW2" />
+    <symbolicName propertyId="p009.symbolic_name" value="USER_SW1" />
+    <symbolicName propertyId="p010.symbolic_name" value="CAMERA_IRQ" />
+    <symbolicName propertyId="p011.symbolic_name" value="ARDUINO_D2_INT0" />
+    <symbolicName propertyId="p012.symbolic_name" value="PMOD2_INT" />
+    <symbolicName propertyId="p013.symbolic_name" value="I3C_SCL_PU" />
+    <symbolicName propertyId="p014.symbolic_name" value="ARDUINO_AN4" />
+    <symbolicName propertyId="p015.symbolic_name" value="ARDUINO_AN5" />
+    <symbolicName propertyId="p100.symbolic_name" value="OSPI_SIO0_ARDUINO_MISO" />
+    <symbolicName propertyId="p101.symbolic_name" value="OSPI_SIO3_ARDUINO_MOSI" />
+    <symbolicName propertyId="p102.symbolic_name" value="OSPI_SIO4_ARDUINO_D13_SCK" />
+    <symbolicName propertyId="p103.symbolic_name" value="OSPI_SIO2_ARDUINO_D10_SS" />
+    <symbolicName propertyId="p104.symbolic_name" value="OSPI_CS_ARDUINO_D5" />
+    <symbolicName propertyId="p105.symbolic_name" value="OSPI_ECS_ARDUINO_D6" />
+    <symbolicName propertyId="p106.symbolic_name" value="OSPI_RESET" />
+    <symbolicName propertyId="p107.symbolic_name" value="ETHERNET_MDINT" />
+    <symbolicName propertyId="p108.symbolic_name" value="J2_30" />
+    <symbolicName propertyId="p109.symbolic_name" value="I3C_SDA_PU" />
+    <symbolicName propertyId="p110.symbolic_name" value="ARDUINO_D9" />
+    <symbolicName propertyId="p111.symbolic_name" value="MIPI_INT" />
+    <symbolicName propertyId="p112.symbolic_name" value="SDRAM_DQ3" />
+    <symbolicName propertyId="p113.symbolic_name" value="SDRAM_DQ4" />
+    <symbolicName propertyId="p114.symbolic_name" value="SDRAM_DQ5" />
+    <symbolicName propertyId="p115.symbolic_name" value="SDRAM_DQ6" />
+    <symbolicName propertyId="p200.symbolic_name" value="NMI" />
+    <symbolicName propertyId="p201.symbolic_name" value="BOOT_MODE" />
+    <symbolicName propertyId="p206.symbolic_name" value="ETHERNET_RXCTL" />
+    <symbolicName propertyId="p207.symbolic_name" value="PARLCD_D9G1" />
+    <symbolicName propertyId="p208.symbolic_name" value="JTAG_SWD_TDI" />
+    <symbolicName propertyId="p209.symbolic_name" value="JTAG_SWD_TDO" />
+    <symbolicName propertyId="p210.symbolic_name" value="JTAG_SWD_TMS" />
+    <symbolicName propertyId="p211.symbolic_name" value="JTAG_SWD_TCK" />
+    <symbolicName propertyId="p212.symbolic_name" value="EXTAL" />
+    <symbolicName propertyId="p213.symbolic_name" value="XTAL" />
+    <symbolicName propertyId="p214.symbolic_name" value="XCOUT" />
+    <symbolicName propertyId="p215.symbolic_name" value="XCIN" />
+    <symbolicName propertyId="p300.symbolic_name" value="SDRAM_DQ2" />
+    <symbolicName propertyId="p301.symbolic_name" value="SDRAM_DQ1" />
+    <symbolicName propertyId="p302.symbolic_name" value="SDRAM_DQ0" />
+    <symbolicName propertyId="p303.symbolic_name" value="USER_LED_GREEN" />
+    <symbolicName propertyId="p304.symbolic_name" value="ETHERNET_TXD3_TDATA3" />
+    <symbolicName propertyId="p305.symbolic_name" value="ETHERNET_TXD2_TDATA2" />
+    <symbolicName propertyId="p306.symbolic_name" value="ETHERNET_TXD1_TDATA1" />
+    <symbolicName propertyId="p307.symbolic_name" value="ETHERNET_TXD0_TDATA0" />
+    <symbolicName propertyId="p308.symbolic_name" value="TCLK" />
+    <symbolicName propertyId="p309.symbolic_name" value="ETHERNET_TCLK" />
+    <symbolicName propertyId="p310.symbolic_name" value="ETHERNET_TCTL" />
+    <symbolicName propertyId="p312.symbolic_name" value="ARDUINO_D7" />
+    <symbolicName propertyId="p400.symbolic_name" value="I3C_SCL" />
+    <symbolicName propertyId="p401.symbolic_name" value="I3C_SDA" />
+    <symbolicName propertyId="p402.symbolic_name" value="PMOD1_RST" />
+    <symbolicName propertyId="p403.symbolic_name" value="AUDIO_BCLK" />
+    <symbolicName propertyId="p404.symbolic_name" value="AUDIO_WCLK" />
+    <symbolicName propertyId="p405.symbolic_name" value="AUDIO_SSITX" />
+    <symbolicName propertyId="p406.symbolic_name" value="AUDIO_SSIRX_DCAM_D2" />
+    <symbolicName propertyId="p407.symbolic_name" value="USB_FS_VBUS" />
+    <symbolicName propertyId="p408.symbolic_name" value="USB_HS_VBUS" />
+    <symbolicName propertyId="p409.symbolic_name" value="PMOD2_GPIO1" />
+    <symbolicName propertyId="p410.symbolic_name" value="PMOD2_RST" />
+    <symbolicName propertyId="p411.symbolic_name" value="MIPI_TE" />
+    <symbolicName propertyId="p412.symbolic_name" value="PMOD1_GPIO1" />
+    <symbolicName propertyId="p413.symbolic_name" value="PMOD1_GPIO2" />
+    <symbolicName propertyId="p414.symbolic_name" value="ETHERNET_MDIO" />
+    <symbolicName propertyId="p415.symbolic_name" value="ETHERNET_MDC" />
+    <symbolicName propertyId="p500.symbolic_name" value="USB_FS_VBUSEN" />
+    <symbolicName propertyId="p501.symbolic_name" value="CAM_XCLK" />
+    <symbolicName propertyId="p502.symbolic_name" value="MIC_DAT" />
+    <symbolicName propertyId="p503.symbolic_name" value="SDRAM_A4_32BIT" />
+    <symbolicName propertyId="p504.symbolic_name" value="SDRAM_A5_32BIT" />
+    <symbolicName propertyId="p505.symbolic_name" value="SDRAM_A6_32BIT" />
+    <symbolicName propertyId="p506.symbolic_name" value="SDRAM_A7_32BIT" />
+    <symbolicName propertyId="p507.symbolic_name" value="SDRAM_A8_32BIT" />
+    <symbolicName propertyId="p508.symbolic_name" value="SDRAM_A9_32BIT" />
+    <symbolicName propertyId="p509.symbolic_name" value="SDRAM_A10_32BIT" />
+    <symbolicName propertyId="p510.symbolic_name" value="SDRAM_A11_32BIT" />
+    <symbolicName propertyId="p511.symbolic_name" value="SYS_I2C_SDA" />
+    <symbolicName propertyId="p512.symbolic_name" value="SYS_I2C_SCL" />
+    <symbolicName propertyId="p513.symbolic_name" value="DISP_TCON3" />
+    <symbolicName propertyId="p514.symbolic_name" value="DISP_BLEN" />
+    <symbolicName propertyId="p515.symbolic_name" value="DISP_CLK" />
+    <symbolicName propertyId="p600.symbolic_name" value="USER_LED_BLUE" />
+    <symbolicName propertyId="p601.symbolic_name" value="PMOD2_RTS_SSL" />
+    <symbolicName propertyId="p602.symbolic_name" value="PMOD2_RX" />
+    <symbolicName propertyId="p603.symbolic_name" value="PMOD2_TX" />
+    <symbolicName propertyId="p604.symbolic_name" value="PMOD2_CTS" />
+    <symbolicName propertyId="p605.symbolic_name" value="PMOD2_SSL" />
+    <symbolicName propertyId="p606.symbolic_name" value="DISP_RESET" />
+    <symbolicName propertyId="p607.symbolic_name" value="SDRAM_DQ31" />
+    <symbolicName propertyId="p608.symbolic_name" value="SDRAM_A12_32BIT" />
+    <symbolicName propertyId="p609.symbolic_name" value="SDRAM_DQ7" />
+    <symbolicName propertyId="p610.symbolic_name" value="SDRAM_DQ12" />
+    <symbolicName propertyId="p611.symbolic_name" value="SDRAM_DQ13" />
+    <symbolicName propertyId="p612.symbolic_name" value="SDRAM_DQ14" />
+    <symbolicName propertyId="p613.symbolic_name" value="SDRAM_DQ15" />
+    <symbolicName propertyId="p614.symbolic_name" value="SDRAM_DQM0" />
+    <symbolicName propertyId="p615.symbolic_name" value="SDRAM_DQM2" />
+    <symbolicName propertyId="p700.symbolic_name" value="DCAM_D4" />
+    <symbolicName propertyId="p701.symbolic_name" value="DCAM_D5" />
+    <symbolicName propertyId="p702.symbolic_name" value="DCAM_D6" />
+    <symbolicName propertyId="p703.symbolic_name" value="DCAM_D7" />
+    <symbolicName propertyId="p704.symbolic_name" value="PMOD2_GPIO2" />
+    <symbolicName propertyId="p707.symbolic_name" value="PARLCD_D18R2" />
+    <symbolicName propertyId="p708.symbolic_name" value="ETHERNET_RST" />
+    <symbolicName propertyId="p709.symbolic_name" value="CAMERA_RESET" />
+    <symbolicName propertyId="p710.symbolic_name" value="PARLCD_EXTCLK" />
+    <symbolicName propertyId="p711.symbolic_name" value="PARLCD_D19R3" />
+    <symbolicName propertyId="p712.symbolic_name" value="PARLCD_D20R4" />
+    <symbolicName propertyId="p713.symbolic_name" value="PARLCD_D21R5" />
+    <symbolicName propertyId="p714.symbolic_name" value="PARLCD_D22R6" />
+    <symbolicName propertyId="p715.symbolic_name" value="PARLCD_D23R7" />
+    <symbolicName propertyId="p800.symbolic_name" value="OSPI_SIO5_PMOD1_CTS_IRQ" />
+    <symbolicName propertyId="p801.symbolic_name" value="OSPI_DQS_PMOD1_TXD_MOSI" />
+    <symbolicName propertyId="p802.symbolic_name" value="OSPI_SIO6_PMOD1_RXD_MISO" />
+    <symbolicName propertyId="p803.symbolic_name" value="OSPI_SIO1_PMOD1_SCK" />
+    <symbolicName propertyId="p804.symbolic_name" value="OSPI_SIO7_PMOD1_CTSRTS_SS" />
+    <symbolicName propertyId="p805.symbolic_name" value="PARLCD_HSYNC" />
+    <symbolicName propertyId="p806.symbolic_name" value="PARLCD_VSYNC" />
+    <symbolicName propertyId="p807.symbolic_name" value="PARLCD_DE" />
+    <symbolicName propertyId="p808.symbolic_name" value="OSPI_CLK_ARDUINO_MISO" />
+    <symbolicName propertyId="p809.symbolic_name" value="ARDUINO_D1TX_MIKROBUS_TX" />
+    <symbolicName propertyId="p810.symbolic_name" value="ARDUINO_D4_MIKROBUS_PWM" />
+    <symbolicName propertyId="p811.symbolic_name" value="ARDUINO_D3" />
+    <symbolicName propertyId="p812.symbolic_name" value="MIC_CLK" />
+    <symbolicName propertyId="p813.symbolic_name" value="SDRAM_CS" />
+    <symbolicName propertyId="p814.symbolic_name" value="USB_FS_DP" />
+    <symbolicName propertyId="p815.symbolic_name" value="USB_FS_DM" />
+    <symbolicName propertyId="p902.symbolic_name" value="PARLCD_D3B3_PARCAM_D1" />
+    <symbolicName propertyId="p903.symbolic_name" value="PARLCD_D2B2" />
+    <symbolicName propertyId="p904.symbolic_name" value="PARLCD_D8G0" />
+    <symbolicName propertyId="p905.symbolic_name" value="ETHERNET_RXC" />
+    <symbolicName propertyId="p906.symbolic_name" value="ETHERNET_RXD0" />
+    <symbolicName propertyId="p907.symbolic_name" value="ETHERNET_RXD1" />
+    <symbolicName propertyId="p908.symbolic_name" value="ETHERNET_RXD2" />
+    <symbolicName propertyId="p909.symbolic_name" value="ETHERNET_RXD3" />
+    <symbolicName propertyId="p910.symbolic_name" value="PARLCD_D4B4" />
+    <symbolicName propertyId="p911.symbolic_name" value="PARLCD_D5B5" />
+    <symbolicName propertyId="p912.symbolic_name" value="PARLCD_D6B6" />
+    <symbolicName propertyId="p913.symbolic_name" value="PARLCD_D7B7" />
+    <symbolicName propertyId="p914.symbolic_name" value="PARLCD_D0B0" />
+    <symbolicName propertyId="p915.symbolic_name" value="PARLCD_D1B1" />
+    <symbolicName propertyId="pa00.symbolic_name" value="SDRAM_A3_32BIT" />
+    <symbolicName propertyId="pa01.symbolic_name" value="SDRAM_A2_32BIT" />
+    <symbolicName propertyId="pa02.symbolic_name" value="SDRAM_A1_32BIT" />
+    <symbolicName propertyId="pa03.symbolic_name" value="SDRAM_A0_32BIT" />
+    <symbolicName propertyId="pa04.symbolic_name" value="SDRAM_DQM3" />
+    <symbolicName propertyId="pa05.symbolic_name" value="SDRAM_DQM1" />
+    <symbolicName propertyId="pa06.symbolic_name" value="SDRAM_CKE" />
+    <symbolicName propertyId="pa07.symbolic_name" value="USER_LED_RED" />
+    <symbolicName propertyId="pa08.symbolic_name" value="SDRAM_WE" />
+    <symbolicName propertyId="pa09.symbolic_name" value="SDRAM_CAS" />
+    <symbolicName propertyId="pa10.symbolic_name" value="SDRAM_RAS" />
+    <symbolicName propertyId="pa11.symbolic_name" value="SDRAM_DQ8" />
+    <symbolicName propertyId="pa12.symbolic_name" value="SDRAM_DQ9" />
+    <symbolicName propertyId="pa13.symbolic_name" value="SDRAM_DQ10" />
+    <symbolicName propertyId="pa14.symbolic_name" value="SDRAM_DQ11" />
+    <symbolicName propertyId="pa15.symbolic_name" value="SDRAM_CLK" />
+    <symbolicName propertyId="pb00.symbolic_name" value="PARLCD_D17R1" />
+    <symbolicName propertyId="pb01.symbolic_name" value="PARLCD_D13G5" />
+    <symbolicName propertyId="pb02.symbolic_name" value="PARLCD_D16R0_PARCAM_VSYNC" />
+    <symbolicName propertyId="pb03.symbolic_name" value="PARLCD_D15G7_PARCAM_HSYNC" />
+    <symbolicName propertyId="pb04.symbolic_name" value="PARLCD_D14G6_PARCAM_PCLK" />
+    <symbolicName propertyId="pb05.symbolic_name" value="PARLCD_D12G4" />
+    <symbolicName propertyId="pb06.symbolic_name" value="PARLCD_D11G3" />
+    <symbolicName propertyId="pb07.symbolic_name" value="PARLCD_D10G2" />
+    <symbolicName propertyId="pc00.symbolic_name" value="SDRAM_DQ30" />
+    <symbolicName propertyId="pc01.symbolic_name" value="SDRAM_DQ29" />
+    <symbolicName propertyId="pc02.symbolic_name" value="SDRAM_DQ28" />
+    <symbolicName propertyId="pc03.symbolic_name" value="SDRAM_DQ27" />
+    <symbolicName propertyId="pc04.symbolic_name" value="SDRAM_DQ26" />
+    <symbolicName propertyId="pc05.symbolic_name" value="SDRAM_DQ25" />
+    <symbolicName propertyId="pc06.symbolic_name" value="SDRAM_DQ24" />
+    <symbolicName propertyId="pc07.symbolic_name" value="SDRAM_DQ23" />
+    <symbolicName propertyId="pc08.symbolic_name" value="SDRAM_DQ22" />
+    <symbolicName propertyId="pc09.symbolic_name" value="SDRAM_DQ21" />
+    <symbolicName propertyId="pc10.symbolic_name" value="SDRAM_DQ20" />
+    <symbolicName propertyId="pc11.symbolic_name" value="SDRAM_DQ19" />
+    <symbolicName propertyId="pc12.symbolic_name" value="SDRAM_DQ18" />
+    <symbolicName propertyId="pc13.symbolic_name" value="SDRAM_DQ17" />
+    <symbolicName propertyId="pc14.symbolic_name" value="SDRAM_DQ16" />
+    <symbolicName propertyId="pc15.symbolic_name" value="SDRAM_BA1" />
+    <symbolicName propertyId="pd00.symbolic_name" value="SDRAM_BA0" />
+    <symbolicName propertyId="pd01.symbolic_name" value="ARDUINO_D8_MIKROBUS_INT" />
+    <symbolicName propertyId="pd02.symbolic_name" value="VCOMM_TXD_TO_EXT" />
+    <symbolicName propertyId="pd03.symbolic_name" value="VCOMM_RXD_FROM_EXT" />
+    <symbolicName propertyId="pd04.symbolic_name" value="VCOMM_RTS_FROM_EXT" />
+    <symbolicName propertyId="pd05.symbolic_name" value="VCOMM_CTS_TO_EXT" />
+    <symbolicName propertyId="pd06.symbolic_name" value="AUDIO_MCLK" />
+    <symbolicName propertyId="pd07.symbolic_name" value="USB_HS_VBUSEN" />
+    <comment propertyId="p001.comment" value="Enable when connected" />
+    <comment propertyId="p002.comment" value="Reference E42 / E40" />
+    <comment propertyId="p003.comment" value="Enable when connected" />
+    <comment propertyId="p004.comment" value="Enable when connected" />
+    <comment propertyId="p005.comment" value="Reference E41 / E39" />
+    <comment propertyId="p007.comment" value="Enable when connected" />
+    <comment propertyId="p010.comment" value="Enable when connected" />
+    <comment propertyId="p011.comment" value="Enable when connected" />
+    <comment propertyId="p013.comment" value="Enable I3C_SEL_L to use" />
+    <comment propertyId="p014.comment" value="Enable when connected" />
+    <comment propertyId="p015.comment" value="Enable when connected" />
+    <comment propertyId="p100.comment" value="See SW4 in manual" />
+    <comment propertyId="p101.comment" value="See SW4 in manual" />
+    <comment propertyId="p102.comment" value="See SW4 in manual" />
+    <comment propertyId="p103.comment" value="See SW4 in manual" />
+    <comment propertyId="p104.comment" value="See SW4 in manual" />
+    <comment propertyId="p105.comment" value="See SW4 in manual" />
+    <comment propertyId="p106.comment" value="See SW4 in manual" />
+    <comment propertyId="p108.comment" value="Enable when connected" />
+    <comment propertyId="p109.comment" value="Enable I3C_SEL_L to use" />
+    <comment propertyId="p110.comment" value="Enable when connected" />
+    <comment propertyId="p111.comment" value="See SW4 in manual" />
+    <comment propertyId="p201.comment" value="See Manual" />
+    <comment propertyId="p206.comment" value="Reference E38 in manual" />
+    <comment propertyId="p212.comment" value="Main clock" />
+    <comment propertyId="p213.comment" value="Main clock" />
+    <comment propertyId="p214.comment" value="Subclock" />
+    <comment propertyId="p215.comment" value="Subclock" />
+    <comment propertyId="p304.comment" value="Reference SW4 /  E44 / E18 in manual" />
+    <comment propertyId="p305.comment" value="Reference SW4 /  E45 / E19 in manual" />
+    <comment propertyId="p306.comment" value="Reference SW4 /  E46 / E20 in manual" />
+    <comment propertyId="p307.comment" value="Reference SW4 /  E47 / E21 in manual" />
+    <comment propertyId="p308.comment" value="Reference SW4 /  E48 in manual" />
+    <comment propertyId="p309.comment" value="Reference SW4 /  E23 in manual" />
+    <comment propertyId="p310.comment" value="Reference SW4 /  E22 in manual" />
+    <comment propertyId="p312.comment" value="Enable when connected" />
+    <comment propertyId="p402.comment" value="Enable when connected" />
+    <comment propertyId="p405.comment" value="See J41 in manual" />
+    <comment propertyId="p406.comment" value="See J41 in manual" />
+    <comment propertyId="p409.comment" value="Enable when connected" />
+    <comment propertyId="p410.comment" value="Enable when connected" />
+    <comment propertyId="p412.comment" value="Enable when connected" />
+    <comment propertyId="p413.comment" value="Enable when connected" />
+    <comment propertyId="p501.comment" value="Required for communication / operation" />
+    <comment propertyId="p515.comment" value="Enable when connected" />
+    <comment propertyId="p601.comment" value="See E16 / E14 in manual" />
+    <comment propertyId="p604.comment" value="See E14 / E15 in manual" />
+    <comment propertyId="p605.comment" value="See E10 in manual" />
+    <comment propertyId="p700.comment" value="See SW4 in manual" />
+    <comment propertyId="p701.comment" value="See SW4 in manual" />
+    <comment propertyId="p702.comment" value="See SW4 in manual" />
+    <comment propertyId="p703.comment" value="See SW4 in manual" />
+    <comment propertyId="p704.comment" value="Enable when connected" />
+    <comment propertyId="p800.comment" value="See SW4 in manual" />
+    <comment propertyId="p801.comment" value="See SW4 in manual" />
+    <comment propertyId="p802.comment" value="See SW4 in manual" />
+    <comment propertyId="p803.comment" value="See SW4 in manual" />
+    <comment propertyId="p804.comment" value="See SW4 in manual" />
+    <comment propertyId="p805.comment" value="See SW4 in manual" />
+    <comment propertyId="p806.comment" value="See SW4 in manual" />
+    <comment propertyId="p807.comment" value="See SW4 in manual" />
+    <comment propertyId="p808.comment" value="See SW4 in manual" />
+    <comment propertyId="p809.comment" value="Enable when connected" />
+    <comment propertyId="p810.comment" value="Enable when connected" />
+    <comment propertyId="p811.comment" value="Enable when connected" />
+    <comment propertyId="p813.comment" value="See E50 in manual" />
+    <comment propertyId="p902.comment" value="See SW4 in manual" />
+    <comment propertyId="p905.comment" value="See E37 in manual" />
+    <comment propertyId="p906.comment" value="See E36 in manual" />
+    <comment propertyId="p907.comment" value="See E34 in manual" />
+    <comment propertyId="p908.comment" value="See E33 in manual" />
+    <comment propertyId="p909.comment" value="See E24 in manual" />
+    <comment propertyId="p910.comment" value="See SW4 in manual" />
+    <comment propertyId="p911.comment" value="See SW4 in manual" />
+    <comment propertyId="p912.comment" value="See SW4 in manual" />
+    <comment propertyId="p913.comment" value="See SW4 in manual" />
+    <comment propertyId="p914.comment" value="See SW4 in manual" />
+    <comment propertyId="p915.comment" value="See SW4 in manual" />
+    <comment propertyId="pb02.comment" value="See SW4 in manual" />
+    <comment propertyId="pb03.comment" value="See SW4 in manual" />
+    <comment propertyId="pb04.comment" value="See SW4 in manual" />
+    <comment propertyId="pd01.comment" value="Enable when connected" />
+    <comment propertyId="pd04.comment" value="See E17 in manual" />
+    <comment propertyId="pd05.comment" value="See E9 in manual" />
+    <comment propertyId="pd06.comment" value="Enable when connected" />
+    <pincfg active="true" name="RA8P1 EK" selected="true" symbol="g_bsp_pin_cfg">
+      <configSetting altId="jtag_fslash_swd.mode.jtag.free" configurationId="jtag_fslash_swd.mode" />
+      <configSetting altId="jtag_fslash_swd.tck.p211" configurationId="jtag_fslash_swd.tck" />
+      <configSetting altId="jtag_fslash_swd.tdi.p208" configurationId="jtag_fslash_swd.tdi" />
+      <configSetting altId="jtag_fslash_swd.tdo.p209" configurationId="jtag_fslash_swd.tdo" />
+      <configSetting altId="jtag_fslash_swd.tms.p210" configurationId="jtag_fslash_swd.tms" />
+      <configSetting altId="p111.sdhi0.sd0dat3" configurationId="p111" />
+      <configSetting altId="p111.gpio_speed.gpio_speed_h" configurationId="p111.gpio_drivecapacity" />
+      <configSetting altId="p111.gpio_mode.gpio_mode_peripheral" configurationId="p111.gpio_mode" />
+      <configSetting altId="p208.jtag_fslash_swd.tdi" configurationId="p208" />
+      <configSetting altId="p208.gpio_mode.gpio_mode_peripheral" configurationId="p208.gpio_mode" />
+      <configSetting altId="p209.jtag_fslash_swd.tdo" configurationId="p209" />
+      <configSetting altId="p209.gpio_mode.gpio_mode_peripheral" configurationId="p209.gpio_mode" />
+      <configSetting altId="p210.jtag_fslash_swd.tms" configurationId="p210" />
+      <configSetting altId="p210.gpio_mode.gpio_mode_peripheral" configurationId="p210.gpio_mode" />
+      <configSetting altId="p211.jtag_fslash_swd.tck" configurationId="p211" />
+      <configSetting altId="p211.gpio_mode.gpio_mode_peripheral" configurationId="p211.gpio_mode" />
+      <configSetting altId="p407.usbfs.usb_vbus" configurationId="p407" />
+      <configSetting altId="p407.gpio_mode.gpio_mode_peripheral" configurationId="p407.gpio_mode" />
+      <configSetting altId="p408.usbhs.usbhs_vbus" configurationId="p408" />
+      <configSetting altId="p408.gpio_mode.gpio_mode_peripheral" configurationId="p408.gpio_mode" />
+      <configSetting altId="p500.output.low" configurationId="p500" />
+      <configSetting altId="p500.gpio_mode.gpio_mode_out.low" configurationId="p500.gpio_mode" />
+      <configSetting altId="pd01.sdhi0.sd0dat2" configurationId="pd01" />
+      <configSetting altId="pd01.gpio_speed.gpio_speed_h" configurationId="pd01.gpio_drivecapacity" />
+      <configSetting altId="pd01.gpio_mode.gpio_mode_peripheral" configurationId="pd01.gpio_mode" />
+      <configSetting altId="pd02.sdhi0.sd0dat1" configurationId="pd02" />
+      <configSetting altId="pd02.gpio_speed.gpio_speed_h" configurationId="pd02.gpio_drivecapacity" />
+      <configSetting altId="pd02.gpio_mode.gpio_mode_peripheral" configurationId="pd02.gpio_mode" />
+      <configSetting altId="pd03.sdhi0.sd0dat0" configurationId="pd03" />
+      <configSetting altId="pd03.gpio_speed.gpio_speed_h" configurationId="pd03.gpio_drivecapacity" />
+      <configSetting altId="pd03.gpio_mode.gpio_mode_peripheral" configurationId="pd03.gpio_mode" />
+      <configSetting altId="pd04.sdhi0.sd0cmd" configurationId="pd04" />
+      <configSetting altId="pd04.gpio_speed.gpio_speed_h" configurationId="pd04.gpio_drivecapacity" />
+      <configSetting altId="pd04.gpio_mode.gpio_mode_peripheral" configurationId="pd04.gpio_mode" />
+      <configSetting altId="pd05.sdhi0.sd0clk" configurationId="pd05" />
+      <configSetting altId="pd05.gpio_speed.gpio_speed_hh" configurationId="pd05.gpio_drivecapacity" />
+      <configSetting altId="pd05.gpio_mode.gpio_mode_peripheral" configurationId="pd05.gpio_mode" />
+      <configSetting altId="pd06.sdhi0.sd0wp" configurationId="pd06" />
+      <configSetting altId="pd06.gpio_speed.gpio_speed_h" configurationId="pd06.gpio_drivecapacity" />
+      <configSetting altId="pd06.gpio_mode.gpio_mode_peripheral" configurationId="pd06.gpio_mode" />
+      <configSetting altId="pd07.output.low" configurationId="pd07" />
+      <configSetting altId="pd07.gpio_mode.gpio_mode_out.low" configurationId="pd07.gpio_mode" />
+      <configSetting altId="sdhi0.mode.custom.free" configurationId="sdhi0.mode" />
+      <configSetting altId="sdhi0.sd0clk.pd05" configurationId="sdhi0.sd0clk" />
+      <configSetting altId="sdhi0.sd0cmd.pd04" configurationId="sdhi0.sd0cmd" />
+      <configSetting altId="sdhi0.sd0dat0.pd03" configurationId="sdhi0.sd0dat0" />
+      <configSetting altId="sdhi0.sd0dat1.pd02" configurationId="sdhi0.sd0dat1" />
+      <configSetting altId="sdhi0.sd0dat2.pd01" configurationId="sdhi0.sd0dat2" />
+      <configSetting altId="sdhi0.sd0dat3.p111" configurationId="sdhi0.sd0dat3" />
+      <configSetting altId="sdhi0.sd0wp.pd06" configurationId="sdhi0.sd0wp" />
+      <configSetting altId="usbfs.mode.custom.free" configurationId="usbfs.mode" />
+      <configSetting altId="usbfs.usb_vbus.p407" configurationId="usbfs.usb_vbus" />
+      <configSetting altId="usbhs.mode.custom.free" configurationId="usbhs.mode" />
+      <configSetting altId="usbhs.usbhs_vbus.p408" configurationId="usbhs.usbhs_vbus" />
+    </pincfg>
+    <pincfg active="false" name="R7KA8P1KFLCAC.pincfg" selected="false" symbol="">
+      <configSetting altId="jtag_fslash_swd.mode.jtag.free" configurationId="jtag_fslash_swd.mode" />
+      <configSetting altId="jtag_fslash_swd.tck.p211" configurationId="jtag_fslash_swd.tck" />
+      <configSetting altId="jtag_fslash_swd.tdi.p208" configurationId="jtag_fslash_swd.tdi" />
+      <configSetting altId="jtag_fslash_swd.tdo.p209" configurationId="jtag_fslash_swd.tdo" />
+      <configSetting altId="jtag_fslash_swd.tms.p210" configurationId="jtag_fslash_swd.tms" />
+      <configSetting altId="p208.jtag_fslash_swd.tdi" configurationId="p208" />
+      <configSetting altId="p208.gpio_mode.gpio_mode_peripheral" configurationId="p208.gpio_mode" />
+      <configSetting altId="p209.jtag_fslash_swd.tdo" configurationId="p209" />
+      <configSetting altId="p209.gpio_mode.gpio_mode_peripheral" configurationId="p209.gpio_mode" />
+      <configSetting altId="p210.jtag_fslash_swd.tms" configurationId="p210" />
+      <configSetting altId="p210.gpio_mode.gpio_mode_peripheral" configurationId="p210.gpio_mode" />
+      <configSetting altId="p211.jtag_fslash_swd.tck" configurationId="p211" />
+      <configSetting altId="p211.gpio_mode.gpio_mode_peripheral" configurationId="p211.gpio_mode" />
+    </pincfg>
+  </raPinConfiguration>
+</raConfiguration>
