@@ -48,7 +48,7 @@ BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_doc_write_guard (doc_ctrl_t *const p_api_ct
 }
 
 BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_doc_callback_set_guard (doc_ctrl_t *const p_api_ctrl, \
-        void(*p_callback)(doc_callback_args_t *), void const *const p_context, \
+        void(*p_callback)(doc_callback_args_t *), void *const p_context, \
         doc_callback_args_t *const p_callback_memory)
 {
     /* Verify all pointers are in non-secure memory */

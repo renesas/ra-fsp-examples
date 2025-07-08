@@ -11,12 +11,13 @@
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
       <pArmCC>6230000::V6.23::.\ArmCompilerforEmbedded6.23</pArmCC>
+      <pCCUsed>6230000::V6.23::.\ArmCompilerforEmbedded6.23</pCCUsed>
       <uAC6>1</uAC6>
       <TargetOption>
         <TargetCommonOption>
           <Device>R7FA4M3AF</Device>
           <Vendor>Renesas</Vendor>
-          <PackID>Renesas.RA_DFP.5.5.0</PackID>
+          <PackID>Renesas.RA_DFP.5.9.0</PackID>
           <PackURL>https://www2.renesas.eu/Keil_MDK_Packs/</PackURL>
           <Cpu>CPUTYPE("Cortex-M33") FPU2 CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -330,14 +331,14 @@
             <uGnu>0</uGnu>
             <useXO>0</useXO>
             <v6Lang>3</v6Lang>
-            <v6LangP>3</v6LangP>
+            <v6LangP>6</v6LangP>
             <vShortEn>0</vShortEn>
             <vShortWch>0</vShortWch>
             <v6Lto>0</v6Lto>
             <v6WtE>0</v6WtE>
             <v6Rtti>0</v6Rtti>
             <VariousControls>
-              <MiscControls>-Wno-license-management -Wunused -Wuninitialized -Wall -Wextra -Wmissing-declarations -Wconversion -Wpointer-arith -Wshadow -Waggregate-return -Wfloat-equal</MiscControls>
+              <MiscControls>@via/rasc_armclang.via</MiscControls>
               <Define>_RA_TZ_NONSECURE</Define>
               <Undefine></Undefine>
               <IncludePath></IncludePath>
@@ -374,9 +375,9 @@
             <ScatterFile>.\script\fsp.scat</ScatterFile>
             <IncludeLibs></IncludeLibs>
             <IncludeLibsPath></IncludeLibsPath>
-            <Misc>--entry=Reset_Handler --no_startup --via=".\script\ac6\fsp_keep.via"</Misc>
+            <Misc>--entry=Reset_Handler --no_startup --via=via/rasc_armlink.via</Misc>
             <LinkerInputFile></LinkerInputFile>
-            <DisabledWarnings>6319,6314</DisabledWarnings>
+            <DisabledWarnings></DisabledWarnings>
           </LDads>
         </TargetArmAds>
       </TargetOption>

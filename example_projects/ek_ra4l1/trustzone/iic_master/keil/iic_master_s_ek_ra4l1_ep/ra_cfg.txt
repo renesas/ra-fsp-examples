@@ -7,7 +7,9 @@ FSP Configuration
     data_flash_size_bytes: 8192
     package_style: LQFP
     package_pins: 100
+    number of cores: 1
     
+  R7FA4L1BD4CFP
   RA4L1
     series: 4
     
@@ -22,44 +24,72 @@ FSP Configuration
     Security: SRAM Accessibility: SRAM ECC: Both Secure and Non-Secure State
     Security: BUS Accessibility: Bus Security Attribution Register A: Both Secure and Non-Secure State
     Security: BUS Accessibility: Bus Security Attribution Register B: Both Secure and Non-Secure State
-    Security: Flash Bank Select Accessibility: Both Secure and Non-Secure State
     Security: Uninitialized Non-Secure Application Fallback: Enable Uninitialized Non-Secure Application Fallback
     Startup C-Cache Line Size: 32 Bytes
-    OFS0 register settings: Independent WDT: Start Mode: IWDT is stopped after a reset
-    OFS0 register settings: Independent WDT: Timeout Period: 2048 cycles
-    OFS0 register settings: Independent WDT: Dedicated Clock Frequency Divisor: 128
-    OFS0 register settings: Independent WDT: Window End Position:  0% (no window end position)
-    OFS0 register settings: Independent WDT: Window Start Position: 100% (no window start position)
-    OFS0 register settings: Independent WDT: Reset Interrupt Request Select: Reset is enabled
-    OFS0 register settings: Independent WDT: Stop Control: Stop counting when in Sleep, Snooze mode, or Software Standby
-    OFS0 register settings: WDT: Start Mode Select: Stop WDT after a reset (register-start mode)
-    OFS0 register settings: WDT: Timeout Period: 16384 cycles
-    OFS0 register settings: WDT: Clock Frequency Division Ratio: 128
-    OFS0 register settings: WDT: Window End Position:  0% (no window end position)
-    OFS0 register settings: WDT: Window Start Position: 100% (no window start position)
-    OFS0 register settings: WDT: Reset Interrupt Request: Reset
-    OFS0 register settings: WDT: Stop Control: Stop counting when entering Sleep mode
-    OFS1_SEL register settings: Voltage Detection 0 Level Security Attribution: VDSEL setting loads from OFS1_SEC
-    OFS1_SEL register settings: Voltage Detection 0 Circuit Start Security Attribution: LVDAS setting loads from OFS1_SEC
-    OFS1 register settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
-    OFS1 register settings: Voltage Detection 0 Level: 1.90 V
-    OFS1 register settings: HOCO Oscillation Enable: HOCO oscillation is disabled after reset
-    Block Protection Settings (BPS): BPS0: 
-    Block Protection Settings (BPS): BPS2: 
-    Permanent Block Protection Settings (PBPS): PBPS0: 
-    Permanent Block Protection Settings (PBPS): PBPS2: 
-    Dual Bank Mode: Disabled
     Clocks: HOCO FLL Function: Disabled
     Main Oscillator Wait Time: 262144 cycles
+    
+  RA4L1 Device Options
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Enabled
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Start Mode: IWDT is stopped after a reset
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Timeout Period: 2048 cycles
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Dedicated Clock Frequency Divisor: 128
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Window End Position:  0% (no window end position)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Window Start Position: 100% (no window start position)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Reset Interrupt Request Select: Reset is enabled
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Stop Control: Stop counting when in Sleep,Snooze modec, or Software Standby
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT: Start Mode Select: Stop WDT after a reset (register-start mode)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT: Timeout Period: 16384 cycles
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT: Clock Frequency Division Ratio: 128
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT: Window End Position:  0% (no window end position)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT: Window Start Position: 100% (no window start position)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT: Reset Interrupt Request: Reset
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT: Stop Control: Stop counting when entering Sleep mode
+    OFS Registers: DUALSEL (Dual Mode Select Register) Settings: Disabled
+    OFS Registers: DUALSEL (Dual Mode Select Register) Settings: Bank Mode: Linear
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Disabled
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Voltage Detection 0 Level: 1.90 V
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: HOCO Oscillation Enable: HOCO oscillation is disabled after reset
+    OFS Registers: BANKSEL (Bank Select Register) Settings: Disabled
+    OFS Registers: BANKSEL (Bank Select Register) Settings: Bank Swap Switch: Disabled
+    OFS Registers: BANKSEL (Bank Select Register) Settings: Block Swap Select: Disabled
+    OFS Registers: BPS (Block Protect Setting Register) Settings: Disabled
+    OFS Registers: BPS (Block Protect Setting Register) Settings: BPS0: 
+    OFS Registers: BPS (Block Protect Setting Register) Settings: BPS2: 
+    OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: Disabled
+    OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS0: 
+    OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS2: 
+    OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: Enabled
+    OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
+    OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: Voltage Detection 0 Level: 1.90 V
+    OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: HOCO Oscillation Enable: HOCO oscillation is disabled after reset
+    OFS Registers: BANKSEL_SEC (Bank Select Register Secure) Settings: Disabled
+    OFS Registers: BANKSEL_SEC (Bank Select Register Secure) Settings: Bank Swap Switch: Disabled
+    OFS Registers: BANKSEL_SEC (Bank Select Register Secure) Settings: Block Swap Select: Disabled
+    OFS Registers: BPS_SEC (Block Protect Setting Register Secure) Settings: Disabled
+    OFS Registers: BPS_SEC (Block Protect Setting Register Secure) Settings: BPS_SEC0: 
+    OFS Registers: BPS_SEC (Block Protect Setting Register Secure) Settings: BPS_SEC2: 
+    OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: Disabled
+    OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: PBPS_SEC0: 
+    OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: PBPS_SEC2: 
+    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: Enabled
+    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: Voltage Detection 0 Level Security Attribution: VDSEL setting loads from OFS1_SEC
+    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: Voltage Detection 0 Circuit Start Security Attribution: LVDAS setting loads from OFS1_SEC
+    OFS Registers: BANKSEL_SEL (Banksel Register Select) Settings: Disabled
+    OFS Registers: BANKSEL_SEL (Banksel Register Select) Settings: Flash Bank Select Accessibility: Both Secure and Non-Secure State
+    OFS Registers: BPS_SEL (BPS Register Select) Settings: Disabled
+    OFS Registers: BPS_SEL (BPS Register Select) Settings: BPS_SEL0: 
+    OFS Registers: BPS_SEL (BPS Register Select) Settings: BPS_SEL2: 
     
   RA4L1 event data
   RA Common
     Main stack size (bytes): 0x400
     Heap size (bytes): 0x400
+    Bootloader Secondary XIP: Disabled
     MCU Vcc (mV): 3300
     Parameter checking: Disabled
     Assert Failures: Return FSP_ERR_ASSERTION
-    Error Log: No Error Log
     Clock Registers not Reset Values during Startup: Disabled
     Main Oscillator Populated: Populated
     PFS Protect: Enabled
@@ -81,7 +111,7 @@ FSP Configuration
     CANFDCLK Disabled
     I3CCLK Disabled
     UTASEL Src: Disabled
-    UCLK Disabled
+    USBCLK Disabled
     ICLK Div /1
     PCLKA Div /1
     PCLKB Div /2
@@ -101,8 +131,8 @@ FSP Configuration
       P000 100 - USER_S1 - - Disabled - - "ADC0: AN005; IRQ: IRQ6" - None - - 
       P001 99 - USER_S2 - - Disabled - - "ADC0: AN006; IRQ: IRQ7" - None - - 
       P002 98 - IO_EXPANDER_ISR - - Disabled - - "ADC0: AN000; IRQ: IRQ8" - None - - 
-      P003 97 - - - - Disabled - - "ADC0: AN001" - None - - 
-      P004 96 - - - - Disabled - - "ADC0: AN002; DAC120: DA0; IRQ: IRQ9" - None - - 
+      P003 97 - ARDUINO_A4_GROVE2 - - Disabled - - "ADC0: AN001" - None - - 
+      P004 96 - ARDUINO_A5_GROVE2 - - Disabled - - "ADC0: AN002; DAC120: DA0; IRQ: IRQ9" - None - - 
       P010 95 - VREFH0 - - Disabled - - "ADC0: AN003; IRQ: IRQ10; SYSTEM: VREFH0" - None - - 
       P011 94 - VREFL0 - - Disabled - - "ADC0: AN004; IRQ: IRQ11; SYSTEM: VREFL0" - None - - 
       P100 75 IIC0_SDA0 IIC_SYSTEM_SDA0_PMOD1_RXD0 - None "Peripheral mode" - - "ACMPLP0: CMPIN0; AGT0: AGTIO0; CTSU: TS3; GPT5: GTIOC5B; GPT_POEGA: GTETRGA; IIC0: SDA0; IRQ: IRQ2; QSPI: QIO1; SCI0: RXD0; SLCDC: SEG45" - IO - - 
@@ -202,8 +232,8 @@ FSP Configuration
       P000 100 IRQ_IRQ6 USER_S1 - - "IRQ mode" - - "ADC0: AN005; IRQ: IRQ6" - None - - 
       P001 99 IRQ_IRQ7 USER_S2 - - "IRQ mode" - - "ADC0: AN006; IRQ: IRQ7" - None - - 
       P002 98 ADC0_AN000 IO_EXPANDER_ISR - - "Analog mode" - - "ADC0: AN000; IRQ: IRQ8" - None - - 
-      P003 97 ADC0_AN001 - - - "Analog mode" - - "ADC0: AN001" - None - - 
-      P004 96 ADC0_AN002 - - - "Analog mode" - - "ADC0: AN002; DAC120: DA0; IRQ: IRQ9" - None - - 
+      P003 97 ADC0_AN001 ARDUINO_A4_GROVE2 - - "Analog mode" - - "ADC0: AN001" - None - - 
+      P004 96 ADC0_AN002 ARDUINO_A5_GROVE2 - - "Analog mode" - - "ADC0: AN002; DAC120: DA0; IRQ: IRQ9" - None - - 
       P010 95 SYSTEM_VREFH0 VREFH0 - - "Peripheral mode" - - "ADC0: AN003; IRQ: IRQ10; SYSTEM: VREFH0" - None - - 
       P011 94 SYSTEM_VREFL0 VREFL0 - - "Peripheral mode" - - "ADC0: AN004; IRQ: IRQ11; SYSTEM: VREFL0" - None - - 
       P100 75 IIC0_SDA0 IIC_SYSTEM_SDA0_PMOD1_RXD0 - None "Peripheral mode" - - "ACMPLP0: CMPIN0; AGT0: AGTIO0; CTSU: TS3; GPT5: GTIOC5B; GPT_POEGA: GTETRGA; IIC0: SDA0; IRQ: IRQ2; QSPI: QIO1; SCI0: RXD0; SLCDC: SEG45" - IO - - 

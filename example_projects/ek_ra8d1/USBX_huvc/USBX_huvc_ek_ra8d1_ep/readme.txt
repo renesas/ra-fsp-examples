@@ -38,6 +38,6 @@ NOTE:
 1) Please refer to USBX_huvc_notes.md for how to view JPEG images via memory view on e2studio.
 2) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x22000a38
+   a. e2studio: 0x22000e30
 3) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) 
    in .map file generated in the build configuration folder (Debug/Release).

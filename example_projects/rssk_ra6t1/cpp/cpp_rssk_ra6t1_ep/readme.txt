@@ -24,7 +24,7 @@
 *Note: EK-RA2A1, EK-RA2E1, EK-RA2E2, EK-RA2L1 and EK-RA4M1 support only Single Scan mode.
 1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x1ffe08bc
+   a. e2studio: 0x1ffe0cb4
    b. Keil: Not Available
    c. IAR: Not Available
  

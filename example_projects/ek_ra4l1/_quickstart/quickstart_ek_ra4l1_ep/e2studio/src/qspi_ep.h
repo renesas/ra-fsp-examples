@@ -2,7 +2,6 @@
  * File Name    : qspi_ep.h
  * Description  : Contains data structures and functions used in qspi_ep.h.
  **********************************************************************************************************************/
-
 /***********************************************************************************************************************
 * Copyright (c) 2020 - 2025 Renesas Electronics Corporation and/or its affiliates
 *

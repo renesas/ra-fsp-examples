@@ -14,9 +14,9 @@
 	on the J-Link RTT Viewer which will be handled in separate thread.
  
 2. Software Requirements:
-	Renesas Flexible Software Package (FSP): Version 5.9.0
-	e2 studio: Version 2025-04
-	SEGGER J-Link RTT Viewer: Version 8.12f
+	Renesas Flexible Software Package (FSP): Version 6.0.0
+	e2 studio: Version 2025-04.1
+	SEGGER J-Link RTT Viewer: Version 8.44a
 	LLVM Embedded Toolchain for ARM: Version 18.1.3
 	Audacity v3.1.3 (Audio Player/Recorder)
 	     
@@ -122,7 +122,7 @@ Note:
 
 2) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x22040340
+   a. e2studio: 0x22040750
    b. Keil: 	Not Available
    c. IAR:  	Not Available
 

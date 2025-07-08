@@ -9,9 +9,9 @@ for general information on example projects and [readme.txt](./readme.txt) for s
 To build and run the usb example project, the following resources are needed.
 
 ### Software ###
-* Renesas Flexible Software Package (FSP): Version 5.9.0
-* e2 studio: Version 2025-04
-* SEGGER J-Link RTT Viewer: Version 8.12f
+* Renesas Flexible Software Package (FSP): Version 6.0.0
+* e2 studio: Version 2025-04.1
+* SEGGER J-Link RTT Viewer: Version 8.44a
 * LLVM Embedded Toolchain for ARM: Version 18.1.3
 * Terminal Console Application: Tera Term or a similar application
 * USB Serial Drivers

@@ -42,7 +42,7 @@
 *                                                                    *
 **********************************************************************
 *                                                                    *
-*       RTT version: 8.12f                                           *
+*       RTT version: 8.44a                                           *
 *                                                                    *
 **********************************************************************
 
@@ -74,7 +74,6 @@ Additional information:
 ----------------------------------------------------------------------
 */
 
-#if (USE_SERIAL_TERM == 0)
 #include "SEGGER_RTT.h"
 
 #include <string.h>                 // for memcpy
@@ -2090,5 +2089,5 @@ unsigned SEGGER_RTT_GetBytesInBuffer(unsigned BufferIndex) {
   }
   return r;
 }
-#endif /* USE_SERIAL_TERM */
+
 /*************************** End of file ****************************/

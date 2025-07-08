@@ -111,9 +111,9 @@ Note:
     3.9 or 4.7K ohms are required to be connected on I2C(SDA/SCL) lines.﻿
 1) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x20000614
+   a. e2studio: 0x20000e08
    b. Keil: Not Available 
-   c. IAR: 0x200000a8
+   c. IAR: 0x200008e0
  
 2) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) 
    in .map file generated in the build configuration folder (Debug/Release).

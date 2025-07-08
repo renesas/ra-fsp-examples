@@ -134,7 +134,7 @@ BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_timer_one_shot_open_guard(timer_ctrl_t *con
 }
 
 BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_timer_one_shot_callback_set_guard(timer_ctrl_t *const p_api_ctrl,
-        void (*p_callback)(timer_callback_args_t*), void const *const p_context,
+        void (*p_callback)(timer_callback_args_t*), void *const p_context,
         timer_callback_args_t *const p_callback_memory)
 {
     /* Verify all pointers are in non-secure memory. */

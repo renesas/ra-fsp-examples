@@ -41,9 +41,14 @@
 	8) The EP performs the GPT output disable functioning using the above mentioned options.
 	Verify the GPT operation using either an Logic analyzer or an LED output.
      
-3. Hardware and Software Requirements:
+3. Software Requirements:
+	Renesas Flexible Software Package (FSP): Version 6.0.0
+	e2 studio: Version 2025-04.1
+	SEGGER J-Link RTT Viewer: Version 8.44a
+	GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
    
-   Hardware : 
+4. Hardware Requirements:
+   Hardware:
 	1) 1x RA board 
 	2) 1x Micro USB cable for programming and debugging
 	3) 1x Logic Analyzer (Optional)
@@ -54,19 +59,16 @@
    Hardware Connection:
 	MCK-RA6T2 :
 		PA07(CN4:11) --> PA00(CN4:9)
-   Software: 
-	1) e2studio 2022-10 (22.10.0) or greater.
-	2) FSP v4.1.0 or greater.
-	3) J-Link RTT Viewer version 7.80c or greater.
 
-4. Hardware settings for the project:
+5. Hardware settings for the project:
 	
 	1) Connect the micro USB end of the micro USB device cable to Debug port of the board. Connect the other end of this cable to USB port of the 
 	   host PC.
 
+Note:
 1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x1ffe10b4
+   a. e2studio: 0x1ffe14ac
    b. Keil: Not Available
    c. IAR: Not Available
  

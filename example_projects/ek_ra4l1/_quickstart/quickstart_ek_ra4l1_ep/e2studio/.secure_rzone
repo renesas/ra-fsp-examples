@@ -1,20 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <rzone>
     <device Dvendor="Renesas" Dname="R7FA4L1">
-        <processor Pname="CM33" Dcore="Cortex-M33" Dfpu="1" Dmpu="1" Dtz="TZ" Ddsp="1" Dendian="Little-endian" Dclock="80000000" DcoreVersion="r0p4" DnumInterrupts="112" DnumSauRegions="0"/>
+        <processor Pname="CM33" Dcore="Cortex-M33" Dfpu="1" Dmpu="1" Dtz="TZ" Ddsp="1" Dendian="Little-endian" Dclock="80000000" DcoreVersion="r0p4" DnumInterrupts="64" DnumSauRegions="0"/>
     </device>
     <resources>
         <memories>
-            <memory name="RAM" type="RAM" start="0x20000000" size="0x00010000" security=""/>
-            <memory name="FLASH" type="ROM" start="0x00000000" size="0x00080000" security=""/>
-            <memory name="DATA_FLASH" type="ROM" start="0x08000000" size="0x00002000" security=""/>
-            <memory name="OPTION_SETTING" type="ROM" start="0x0100a100" size="0x00000100" security=""/>
-            <memory name="OPTION_SETTING_S" type="ROM" start="0x0100a200" size="0x00000100" security=""/>
-            <memory name="ID_CODE" type="ROM" start="0x00000000" size="0x00000000" security=""/>
-            <memory name="SDRAM" type="RAM" start="0x80010000" size="0x00000000" security=""/>
-            <memory name="QSPI_FLASH" type="ROM" start="0x60000000" size="0x4000000" security=""/>
-            <memory name="OSPI_DEVICE_0" type="ROM" start="0x80020000" size="0x00000000" security=""/>
-            <memory name="OSPI_DEVICE_1" type="ROM" start="0x80030000" size="0x00000000" security=""/>
+            <memory name="RAM" type="RAM" start="0x20000000" size="0x00010000" access="rwx" security="" info="On chip RAM memory @nsAlign:0x00002000 @nscAlign:0x00000400"/>
+            <memory name="FLASH" type="ROM" start="0x00000000" size="0x00080000" access="rx" security="" info="On chip flash memory @nsAlign:0x00008000 @nscAlign:0x00000400"/>
+            <memory name="DATA_FLASH" type="ROM" start="0x08000000" size="0x00002000" access="rx" security="" info="On chip data flash memory @nsAlign:0x00000400"/>
+            <memory name="QSPI_FLASH" type="ROM" start="0x60000000" size="0x08000000" access="rx" security="" info="external quad spi region"/>
+            <memory name="OPTION_SETTING_OFS0" type="ROM" start="0x0100a100" size="0x00000004" access="r" security="s" info="Option Function Select Register 0"/>
+            <memory name="OPTION_SETTING_DUALSEL" type="ROM" start="0x0100a110" size="0x00000004" access="r" security="s" info="Dual Mode Select Register"/>
+            <memory name="OPTION_SETTING_OFS1" type="ROM" start="0x0100a180" size="0x00000004" access="r" security="n" info="Option Function Select Register 1"/>
+            <memory name="OPTION_SETTING_BANKSEL" type="ROM" start="0x0100a190" size="0x00000004" access="r" security="n" info="Bank Select Register"/>
+            <memory name="OPTION_SETTING_BPS" type="ROM" start="0x0100a1c0" size="0x0000000c" access="r" security="n" info="Block Protect Setting Register"/>
+            <memory name="OPTION_SETTING_PBPS" type="ROM" start="0x0100a1e0" size="0x0000000c" access="r" security="n" info="Permanent Block Protect Setting Register"/>
+            <memory name="OPTION_SETTING_OFS1_SEC" type="ROM" start="0x0100a200" size="0x00000004" access="r" security="s" info="Option Function Select Register 1 Secure"/>
+            <memory name="OPTION_SETTING_BANKSEL_SEC" type="ROM" start="0x0100a210" size="0x00000004" access="r" security="s" info="Bank Select Register Secure"/>
+            <memory name="OPTION_SETTING_BPS_SEC" type="ROM" start="0x0100a240" size="0x0000000c" access="r" security="s" info="Block Protect Setting Register Secure"/>
+            <memory name="OPTION_SETTING_PBPS_SEC" type="ROM" start="0x0100a260" size="0x0000000c" access="r" security="s" info="Permanent Block Protect Setting Register Secure"/>
+            <memory name="OPTION_SETTING_OFS1_SEL" type="ROM" start="0x0100a280" size="0x00000004" access="r" security="s" info="OFS1 Register Select"/>
+            <memory name="OPTION_SETTING_BANKSEL_SEL" type="ROM" start="0x0100a290" size="0x00000004" access="r" security="s" info="Banksel Register Select"/>
+            <memory name="OPTION_SETTING_BPS_SEL" type="ROM" start="0x0100a2c0" size="0x0000000c" access="r" security="s" info="BPS Register Select"/>
         </memories>
         <peripherals>
             <group name="ACMPLP" start="0x400f4000" size="0x00000100" info="Low Power Analog Comparator">
@@ -169,54 +176,6 @@
                 <slot name="IRQ61"/>
                 <slot name="IRQ62"/>
                 <slot name="IRQ63"/>
-                <slot name="IRQ64"/>
-                <slot name="IRQ65"/>
-                <slot name="IRQ66"/>
-                <slot name="IRQ67"/>
-                <slot name="IRQ68"/>
-                <slot name="IRQ69"/>
-                <slot name="IRQ70"/>
-                <slot name="IRQ71"/>
-                <slot name="IRQ72"/>
-                <slot name="IRQ73"/>
-                <slot name="IRQ74"/>
-                <slot name="IRQ75"/>
-                <slot name="IRQ76"/>
-                <slot name="IRQ77"/>
-                <slot name="IRQ78"/>
-                <slot name="IRQ79"/>
-                <slot name="IRQ80"/>
-                <slot name="IRQ81"/>
-                <slot name="IRQ82"/>
-                <slot name="IRQ83"/>
-                <slot name="IRQ84"/>
-                <slot name="IRQ85"/>
-                <slot name="IRQ86"/>
-                <slot name="IRQ87"/>
-                <slot name="IRQ88"/>
-                <slot name="IRQ89"/>
-                <slot name="IRQ90"/>
-                <slot name="IRQ91"/>
-                <slot name="IRQ92"/>
-                <slot name="IRQ93"/>
-                <slot name="IRQ94"/>
-                <slot name="IRQ95"/>
-                <slot name="IRQ96"/>
-                <slot name="IRQ97"/>
-                <slot name="IRQ98"/>
-                <slot name="IRQ99"/>
-                <slot name="IRQ100"/>
-                <slot name="IRQ101"/>
-                <slot name="IRQ102"/>
-                <slot name="IRQ103"/>
-                <slot name="IRQ104"/>
-                <slot name="IRQ105"/>
-                <slot name="IRQ106"/>
-                <slot name="IRQ107"/>
-                <slot name="IRQ108"/>
-                <slot name="IRQ109"/>
-                <slot name="IRQ110"/>
-                <slot name="IRQ111"/>
             </peripheral>
             <peripheral name="ICU_EXT_IRQ" start="0x40006000" size="0x00000001" info="Interrupt Controller Unit (External Pins Only)">
                 <slot name="ICU_EXT_IRQ0"/>

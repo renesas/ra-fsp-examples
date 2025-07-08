@@ -22,9 +22,9 @@
    	3) Open the RTT viewer to view the application status messages.
      
 3. Software Requirements:
-	Renesas Flexible Software Package (FSP): Version 5.9.0
-	e2 studio: Version 2025-04
-	SEGGER J-Link RTT Viewer: Version 8.12f
+	Renesas Flexible Software Package (FSP): Version 6.0.0
+	e2 studio: Version 2025-04.1
+	SEGGER J-Link RTT Viewer: Version 8.44a
 	Terminal Console Application: Tera Term or a similar application
 	USB Serial Drivers (included in Windows 10) 
 	Windows® 10 operating system
@@ -91,7 +91,7 @@ Note:
 
 2) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x22000ad8
+   a. e2studio: 0x22000ee0
    b. Keil: 	Not Available 
    c. IAR:  	Not Available
 

@@ -299,7 +299,7 @@ fsp_err_t ospi_init(void)
      * To ensure proper operation, the OCTACLK clock should be configured to 100 MHz in SPI mode.
      * Because OM_SCLK (OM_SCLK = OCTACLK/2) only support 50MHz as max.
      */
-    octaclk.source_clock = BSP_CFG_OCTA_SOURCE; /* 200MHz */
+    octaclk.source_clock = BSP_CFG_OCTACLK_SOURCE; /* 200MHz */
     octaclk.divider      = BSP_CLOCKS_OCTA_CLOCK_DIV_2;
     R_BSP_OctaclkUpdate(&octaclk);
 
@@ -320,8 +320,8 @@ fsp_err_t ospi_init(void)
     APP_ERR_RET(FSP_SUCCESS != err, err, "\r\nospi_write_enable failed!!!\r\n");
 
     /* Set the OCTACLK clock to 200 MHz, as specified by the default configuration.*/
-    octaclk.source_clock = BSP_CFG_OCTA_SOURCE; /* 200MHz */
-    octaclk.divider      = BSP_CFG_OCTA_DIV;
+    octaclk.source_clock = BSP_CFG_OCTACLK_SOURCE; /* 200MHz */
+    octaclk.divider      = BSP_CFG_OCTACLK_DIV;
     R_BSP_OctaclkUpdate(&octaclk);
 
     /* Configure OSPI flash to OPI mode */

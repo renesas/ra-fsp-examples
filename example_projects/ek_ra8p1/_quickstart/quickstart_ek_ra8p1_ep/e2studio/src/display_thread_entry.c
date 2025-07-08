@@ -34,8 +34,8 @@
 
 #include "tp_thread_entry.h"
 
-#include "images\user_font_title\user_font_title_if.h"
-#include "images\user_font_body\user_font_body_if.h"
+#include "images/user_font_title/user_font_title_if.h"
+#include "images/user_font_body/user_font_body_if.h"
 
 /**********************************************************************************************************************
  Macro definitions

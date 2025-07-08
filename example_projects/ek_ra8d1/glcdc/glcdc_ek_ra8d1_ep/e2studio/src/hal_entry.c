@@ -51,7 +51,7 @@ void hal_entry(void)
 
     /* Initialize sdram */
 #ifdef BOARD_RA8D1_EK
-    bsp_sdram_init();
+    R_BSP_SdramInit(true);
 #endif
 
     /* Get LCDC configuration */

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<raConfiguration version="7">
+<raConfiguration version="11">
   <generalSettings>
     <option key="#Board#" value="board.ra4m2ek"/>
     <option key="CPU" value="RA4M2"/>
@@ -9,10 +9,11 @@
     <option key="#DeviceCommand#" value="R7FA4M2AD"/>
     <option key="#RTOS#" value="_none"/>
     <option key="#pinconfiguration#" value="R7FA4M2AD3CFP.pincfg"/>
-    <option key="#FSPVersion#" value="5.9.0"/>
+    <option key="#FSPVersion#" value="6.0.0"/>
     <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra4m2_ek##"/>
     <option key="#SELECTED_TOOLCHAIN#" value="com.arm.toolchain"/>
   </generalSettings>
+  <raBspConfiguration/>
   <raClockConfiguration>
     <node id="board.clock.xtal.freq" mul="24000000" option="_edit"/>
     <node id="board.clock.hoco.freq" option="board.clock.hoco.freq.20m"/>
@@ -47,32 +48,13 @@
     <node id="board.clock.clkout.display" option="board.clock.clkout.display.value"/>
     <node id="board.clock.uclk.display" option="board.clock.uclk.display.value"/>
   </raClockConfiguration>
-  <raModuleConfiguration>
-    <module id="module.driver.rtc_on_rtc.1717903810" nsc="true">
-      <property id="module.driver.rtc.name" value="g_rtc"/>
-      <property id="module.driver.rtc.clock_source" value="module.driver.rtc.clock_source.clock_source_subclk"/>
-      <property id="module.driver.rtc.freq_cmpr_value_loco" value="255"/>
-      <property id="module.driver.rtc.err_adjustment_mode" value="module.driver.rtc.err_adjustment_mode.m1"/>
-      <property id="module.driver.rtc.err_adjustment_period" value="module.driver.rtc.err_adjustment_period.p2"/>
-      <property id="module.driver.rtc.err_adjustment_type" value="module.driver.rtc.err_adjustment_type.t2"/>
-      <property id="module.driver.rtc.err_adjustment_value" value="0"/>
-      <property id="module.driver.rtc.p_callback" value="NULL"/>
-      <property id="module.driver.rtc.alarm_ipl" value="board.icu.common.irq.priority2"/>
-      <property id="module.driver.rtc.periodic_ipl" value="board.icu.common.irq.priority2"/>
-      <property id="module.driver.rtc.carry_ipl" value="board.icu.common.irq.priority2"/>
-    </module>
-    <config id="config.driver.rtc">
-      <property id="config.driver.rtc.param_checking_enable" value="config.driver.rtc.param_checking_enable.bsp"/>
-      <property id="config.driver.rtc.open_set_source_clock" value="config.driver.rtc.open_set_source_clock.enabled"/>
-    </config>
-  </raModuleConfiguration>
   <raPinConfiguration>
     <pincfg active="true" name="" symbol="">
-      <configSetting altId="debug0.tck.p300" configurationId="debug0.tck" isUsedByDriver="true"/>
-      <configSetting altId="debug0.tdi.p110" configurationId="debug0.tdi" isUsedByDriver="true"/>
-      <configSetting altId="debug0.tdo.p109" configurationId="debug0.tdo" isUsedByDriver="true"/>
-      <configSetting altId="debug0.tms.p108" configurationId="debug0.tms" isUsedByDriver="true"/>
-      <configSetting altId="gpt3.gtioca.p111" configurationId="gpt3.gtioca"/>
+      <configSetting altId="debug0.tck.p300" configurationId="debug0.tck" isUsedByDriver="true" peripheral="DEBUG0"/>
+      <configSetting altId="debug0.tdi.p110" configurationId="debug0.tdi" isUsedByDriver="true" peripheral="DEBUG0"/>
+      <configSetting altId="debug0.tdo.p109" configurationId="debug0.tdo" isUsedByDriver="true" peripheral="DEBUG0"/>
+      <configSetting altId="debug0.tms.p108" configurationId="debug0.tms" isUsedByDriver="true" peripheral="DEBUG0"/>
+      <configSetting altId="gpt3.gtioca.p111" configurationId="gpt3.gtioca" peripheral="GPT3"/>
     </pincfg>
   </raPinConfiguration>
 </raConfiguration>

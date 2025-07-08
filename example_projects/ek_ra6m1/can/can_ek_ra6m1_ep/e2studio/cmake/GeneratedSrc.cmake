@@ -98,7 +98,7 @@ add_custom_command(
 	OUTPUT
          ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.sbd
     COMMAND
-        echo "Running RASC post-build to generate Smart Bundle (.sbd) file for ${PROJECT_NAME}:"
+        echo "Running RASC post-build to generate Smart Bundle file for ${PROJECT_NAME}:"
     COMMAND
         echo ${RASC_EXE_PATH} -nosplash --launcher.suppressErrors --gensmartbundle --devicefamily ra --compiler GCC --toolchainversion ${CMAKE_C_COMPILER_VERSION}  ${CMAKE_CURRENT_SOURCE_DIR}/configuration.xml ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.elf 
     COMMAND

@@ -20,20 +20,24 @@ The algorithms being executed, and the operational status will be displayed on J
 	SCE9 	- EK-RA4M2, EK-RA4M3, EK-RA6M4, EK-RA6M5 
 	RSIP7 	- EK-RA8M1, EK-RA8D1
 
-3. Hardware and Software Requirements:
+3. Software Requirements:
+	Renesas Flexible Software Package (FSP): Version 6.0.0
+	e2 studio: Version 2025-04.1
+	SEGGER J-Link RTT Viewer: Version 8.44a
+	GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
+   
+4. Hardware Requirements:
    
    Hardware : 
 	1) RA board 
 	2) 1x Micro USB device cable
 	3) A PC running Windows 10 with at least 1 USB port for debug
-    
-   Software: 
-	1) Jlink RTT viewer
+
 
 NOTE:
 1) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x22000a00
+   a. e2studio: 0x22001a00
    b. Keil: Not Available 
    c. IAR: Not Available
  

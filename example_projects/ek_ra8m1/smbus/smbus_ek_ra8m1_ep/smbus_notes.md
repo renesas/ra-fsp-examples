@@ -41,9 +41,9 @@ Supported RA Boards: EK-RA8M1
     | VCC (J56-Pin40) | VDD (J1-Pin6) |
 
 ### Software ###
-* Renesas Flexible Software Package (FSP): Version 5.9.0
-* E2 studio: Version 2025-04
-* SEGGER J-Link RTT Viewer: Version 8.12f
+* Renesas Flexible Software Package (FSP): Version 6.0.0
+* E2 studio: Version 2025-04.1
+* SEGGER J-Link RTT Viewer: Version 8.44a
 * GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 * Serial Terminal Console Application: Tera Term or a similar application (for boards that support J-Link OB VCOM)
 

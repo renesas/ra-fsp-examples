@@ -1,0 +1,259 @@
+FSP Configuration
+  Board "RA2|RA2T1|FPB-RA2T1"
+  R7FA2T1074CFL
+    part_number: R7FA2T1074CFL
+    rom_size_bytes: 65536
+    ram_size_bytes: 8192
+    data_flash_size_bytes: 2048
+    package_style: LQFP
+    package_pins: 48
+    number of cores: 1
+    
+  RA2T1
+    series: 2
+    
+  RA2T1 Family
+    Enable inline BSP IRQ functions: Disabled
+    Use Low Voltage Mode: Not Supported
+    Main Oscillator Wait Time: 262144 cycles
+    
+  RA2T1 Device Options
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Enabled
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Start Mode: IWDT is stopped after a reset
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Timeout Period: 2048 cycles
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Dedicated Clock Frequency Divisor: 128
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Window End Position:  0% (no window end position)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Window Start Position: 100% (no window start position)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Reset Interrupt Request Select: Reset is enabled
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Stop Control: Stop counting when in Sleep,Snooze modec, or Software Standby
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT: Start Mode Select: Stop WDT after a reset (register-start mode)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT: Timeout Period: 16384 cycles
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT: Clock Frequency Division Ratio: 128
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT: Window End Position:  0% (no window end position)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT: Window Start Position: 100% (no window start position)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT: Reset Interrupt Request: Reset
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT: Stop Control: Stop counting when entering Sleep mode
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Enabled
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Voltage Detection 0 Level: 1.90 V
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: HOCO Oscillation Enable: HOCO oscillation is disabled after reset
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Internal Clock Supply Architecture Type: Type A
+    OFS Registers: SECMPU (Security MPU Registers) Settings: Disabled
+    OFS Registers: SECMPU (Security MPU Registers) Settings: PC 0 Enable: Disabled
+    OFS Registers: SECMPU (Security MPU Registers) Settings: PC 0 Start: 0x0000FFFC
+    OFS Registers: SECMPU (Security MPU Registers) Settings: PC 0 End: 0x0000FFFF
+    OFS Registers: SECMPU (Security MPU Registers) Settings: PC 1 Enable: Disabled
+    OFS Registers: SECMPU (Security MPU Registers) Settings: PC 1 Start: 0x0000FFFC
+    OFS Registers: SECMPU (Security MPU Registers) Settings: PC 1 End: 0x0000FFFF
+    OFS Registers: SECMPU (Security MPU Registers) Settings: Region 0 Enable: Disabled
+    OFS Registers: SECMPU (Security MPU Registers) Settings: Region 0 Start: 0x0000FFFC
+    OFS Registers: SECMPU (Security MPU Registers) Settings: Region 0 End: 0x0000FFFF
+    OFS Registers: SECMPU (Security MPU Registers) Settings: Region 1 Enable: Disabled
+    OFS Registers: SECMPU (Security MPU Registers) Settings: Region 1 Start: 0x20005FFC
+    OFS Registers: SECMPU (Security MPU Registers) Settings: Region 1 End: 0x20005FFF
+    OFS Registers: SECMPU (Security MPU Registers) Settings: Region 2 Enable: Disabled
+    OFS Registers: SECMPU (Security MPU Registers) Settings: Region 2 Start: 0x400DFFFC
+    OFS Registers: SECMPU (Security MPU Registers) Settings: Region 2 End: 0x400DFFFF
+    OFS Registers: SECMPU (Security MPU Registers) Settings: Region 3 Enable: Disabled
+    OFS Registers: SECMPU (Security MPU Registers) Settings: Region 3 Start: 0x400DFFFC
+    OFS Registers: SECMPU (Security MPU Registers) Settings: Region 3 End: 0x400DFFFF
+    OFS Registers: OSIS (OCD/Serial Programmer ID setting register) Settings: Disabled
+    OFS Registers: OSIS (OCD/Serial Programmer ID setting register) Settings: ID Code Mode: Unlocked (Ignore ID)
+    OFS Registers: OSIS (OCD/Serial Programmer ID setting register) Settings: ID Code (32 Hex Characters): FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    
+  RA2T1 event data
+  RA Common
+    Main stack size (bytes): 0x400
+    Heap size (bytes): 0x1000
+    Bootloader Secondary XIP: Disabled
+    MCU Vcc (mV): 3300
+    Parameter checking: Disabled
+    Assert Failures: Return FSP_ERR_ASSERTION
+    Clock Registers not Reset Values during Startup: Disabled
+    Main Oscillator Populated: Populated
+    PFS Protect: Enabled
+    C Runtime Initialization : Enabled
+    Early BSP Initialization : Disabled
+    Main Oscillator Clock Source: Crystal or Resonator
+    Subclock Populated: Not Populated
+    Subclock Drive (Drive capacitance availability varies by MCU): Standard/Normal mode
+    Subclock Stabilization Time (ms): 1000
+    
+  Clocks
+    XTAL 20000000Hz
+    HOCO 64MHz
+    Clock Src: HOCO
+    ICLK Div /1
+    PCLKB Div /2
+    PCLKD Div /1
+    CLKOUT Disabled
+    CLKOUT Div /1
+    
+  Pin Configurations
+    RA2T1 FPB -> g_bsp_pin_cfg
+      AVCC0 42 SYSTEM_AVCC0 - - - - - - - - IO "Read only" - 
+      AVSS0 43 SYSTEM_AVSS0 - - - - - - - - IO "Read only" - 
+      P000 48 ADC0_AN008 ARDUINO_A0 - - "Analog mode" - - "ADC0: AN008" - I - - 
+      P001 47 ADC0_AN009 ARDUINO_A1 - - "Analog mode" - - "ADC0: AN009; IRQ: IRQ7" - I - - 
+      P002 46 ADC0_AN010 ARDUINO_A2 - - "Analog mode" - - "ADC0: AN010" - I - - 
+      P010 45 GPIO - - - "Input mode" - - "ADC: VREFH0; ADC0: AN005" ARDUINO_AREF IO - - 
+      P011 44 GPIO - - - "Input mode" - - "ADC: VREFL0; ADC0: AN006" - IO - - 
+      P012 41 GPIO ARDUINO_D4 - - "Input mode" - - "ADC0: AN007" - IO - - 
+      P013 40 ADC0_AN000 ARDUINO_A3 - - "Analog mode" - - "ADC0: AN000; CMP0: CMPIN03; GPT_OPS: GTIW; IRQ: IRQ1" - I - - 
+      P014 39 ADC0_AN001 ARDUINO_A4 - - "Analog mode" - - "ADC0: AN001; CMP0: CMPIN02; GPT_OPS: GTIV; IRQ: IRQ3" - I - - 
+      P015 38 GPIO PMOD1_INT_ARDUINO_A5 - None "Input mode" - - "ADC0: AN002; CMP0: CMPIN01; GPT_OPS: GTIU; IRQ: IRQ2" - IO - - 
+      P100 36 SCI0_RXD0 PMOD1_MISO_RXD_ARDUINO_MISO - None "Peripheral mode" - - "ADC0: AN022; AGTW0: AGTIO0; GPT1: GTIOC1B; GPT_OPS: GTOVLO; IIC0: SCL0; IRQ: IRQ0; KINT: KRM00; SCI0: RXD0; SCI1: SCK1; SPI0: MISO0" - I - - 
+      P101 35 SCI0_TXD0 PMOD1_MOSI_TXD_ARDUINO_MOSI - None "Peripheral mode" - - "ADC0: AN021; AGTW0: AGTEE0; GPT1: GTIOC1A; GPT_OPS: GTOVUP; IIC0: SDA0; IRQ: IRQ2; KINT: KRM01; SCI0: TXD0; SCI1: CTS1_RTS1; SPI0: MOSI0" - O - - 
+      P102 34 SCI0_SCK0 PMOD1_SCK_ARDUINO_SCK - None "Peripheral mode" - - "ADC0: AN020; ADC0(Digital): ADTRG0; AGTW0: AGTO0; CMP0: CMPREF0; GPT2: GTIOC2B; GPT_OPS: GTOWLO; IRQ: IRQ1; KINT: KRM02; SCI0: SCK0; SCI2: TXD2; SPI0: RSPCK0" - IO - - 
+      P103 33 GPIO PMOD1_CS_CTS_ARDUINO_SS - None "Output mode (Initial Low)" - - "ADC0: AN019; CMP1: CMPIN1; GPT: GTCPPO3; GPT2: GTIOC2A; GPT_OPS: GTOWUP; IRQ: IRQ4; KINT: KRM03; SCI0: CTS0_RTS0; SCI2: RXD2; SPI0: SSLA0" - IO - - 
+      P104 32 GPIO ARDUINO_D8 - None "Input mode" - - "GPT_POEGB: GTETRGB; IRQ: IRQ1; KINT: KRM04; SCI0: RXD0; SPI0: SSLA1" - IO - - 
+      P108 25 JTAG/SWD_SWDIO - - None "Peripheral mode" - - "AGTW1: AGTEE1; GPT: GTCPPO2; GPT3: GTIOC3B; GPT_POEGB: GTETRGB; IRQ: IRQ6; JTAG/SWD: SWDIO; SCI1: RXD1; SCI9: CTS9_RTS9" - IO - - 
+      P109 26 SCI9_TXD9 VCOM_TXD - - "Peripheral mode" - - "AGTW1: AGTOA1; CLKOUT: CLKOUT; GPT2: GTIOC2A; GPT_OPS: GTOWUP; SCI1: SCK1; SCI9: TXD9" - O - - 
+      P110 27 SCI9_RXD9 VCOM_RXD - None "Peripheral mode" - - "AGTW1: AGTIO1; CLKOUT: VCOUT; GPT2: GTIOC2B; GPT_OPS: GTOWLO; IRQ: IRQ3; SCI2: CTS2_RTS2; SCI9: RXD9" - I - - 
+      P111 28 GPIO ARDUINO_D3 - None "Input mode" - - "AGTW0: AGTOA0; GPT1: GTIOC1A; IRQ: IRQ4; SCI2: SCK2; SCI9: SCK9" - IO - - 
+      P112 29 GPIO ARDUINO_D9 - - "Input mode" - - "AGTW0: AGTOB0; GPT1: GTIOC1B; SCI1: SCK1" - IO - - 
+      P200 21 IRQ_NMI SW - NMI "IRQ mode" - - "IRQ: NMI" - IO - - 
+      P201 20 GPIO - - - "Input mode" - - "SYSTEM: MD" - IO - - 
+      P206 18 GPIO PMOD2_GPIO9_ARDUINO_D7 - None "Input mode" - - "GPT_OPS: GTIU; IRQ: IRQ0; SCI0: TXD0" - IO - - 
+      P207 17 GPIO PMOD2_GPIO8 - - "Input mode" - - - - IO - - 
+      P208 16 GPIO PMOD2_GPIO7 - - "Input mode" - - "AGTW0: AGTOB0; GPT0: GTIOC0A; GPT_OPS: GTOUUP" - IO - - 
+      P212 8 - PMOD2_RESET - - Disabled - - "AGTW1: AGTEE1; CGC: EXTAL; GPT0: GTIOC0B; GPT_OPS: GTOULO; IRQ: IRQ7" - None - - 
+      P213 7 - LED1 - - Disabled - - "CGC: XTAL; GPT0: GTIOC0A; GPT_OPS: GTOUUP; IRQ: IRQ2" GREEN None - - 
+      P300 24 JTAG/SWD_SWCLK - - None "Peripheral mode" - - "GPT: GTCPPO1; GPT3: GTIOC3A; GPT_POEGA: GTETRGA; IRQ: IRQ5; JTAG/SWD: SWCLK; SCI1: TXD1" - IO - - 
+      P301 23 SCI2_RXD2 ARDUINO_RX - None "Peripheral mode" - - "AGTW0: AGTIO0; GPT_POEGB: GTETRGB; IRQ: IRQ6; SCI2: RXD2; SCI9: CTS9_RTS9" PMOD2_GPIO10 I - - 
+      P302 22 SCI2_TXD2 ARDUINO_TX - None "Peripheral mode" - - "GPT_POEGA: GTETRGA; IRQ: IRQ5; SCI2: TXD2" - O - - 
+      P400 1 IIC0_SCL0 PMOD2_SCL_ARDUINO_SCL - None "Peripheral mode" - - "AGTW1: AGTIO1; CAC: CACREF; GPT3: GTIOC3A; IIC0: SCL0; IRQ: IRQ0; SCI0: SCK0; SCI1: SCK1" PMOD1_SCL IO - - 
+      P401 2 IIC0_SDA0 PMOD2_SDA_ARDUINO_SDA - None "Peripheral mode" - - "GPT3: GTIOC3B; GPT_POEGA: GTETRGA; IIC0: SDA0; IRQ: IRQ5; SCI0: CTS0_RTS0" PMOD1_SDA IO - - 
+      P402 4 GPIO - - - "Input mode" - - "GPT: GTADSM0" - IO - - 
+      P403 5 GPIO - - - "Input mode" - - "GPT: GTADSM1" - IO - - 
+      P407 12 GPIO - - - "Input mode" - - "ADC0(Digital): ADTRG0; AGTW0: AGTIO0; CMP1: CMPREF1; GPT: GTCPPO0; GPT0: GTIOC0B; GPT_OPS: GTOULO; IIC0: SDA0; SCI0: CTS0_RTS0" PMOD1_RTS IO - - 
+      P408 11 GPIO PMOD2_INT - IRQ7 "Input mode" - - "GPT_OPS: GTIW; IIC0: SCL0; IRQ: IRQ7; SCI1: CTS1_RTS1" - IO - - 
+      P409 10 GPIO ARDUINO_D2 - None "Input mode" - - "GPT_OPS: GTIV; IRQ: IRQ6" - IO - - 
+      P500 37 GPIO ARDUINO_D6 - - "Input mode" - - "GPT2: GTIOC2A; GPT_POEGA: GTETRGA" - IO - - 
+      P913 15 GPIO PMOD1_GPIO10_ARDUINO_D5 - - "Input mode" - - "AGTW1: AGTIO1; GPT1: GTIOC1B; GPT_OPS: GTOVLO" - IO - - 
+      P914 14 GPIO LED2 - - "Output mode (Initial Low)" - - "AGTW1: AGTOA1; GPT1: GTIOC1A; GPT_OPS: GTOVUP" GREEN_PMOD1_GPIO9 IO - - 
+      P915 13 GPIO PMOD1_RESET - - "Input mode" - - - - IO - - 
+      RES 19 SYSTEM_RES - - - - - - - - IO "Read only" - 
+      VCC 30 SYSTEM_VCC - - - - - - - - IO "Read only" - 
+      VCC 9 SYSTEM_VCC - - - - - - - - IO "Read only" - 
+      VCL 3 SYSTEM_VCL - - - - - - - - IO "Read only" - 
+      VSS 31 SYSTEM_VSS - - - - - - - - IO "Read only" - 
+      VSS 6 SYSTEM_VSS - - - - - - - - IO "Read only" - 
+    R7FA2T1074CFL.pincfg -> 
+      AVCC0 42 SYSTEM_AVCC0 - - - - - - - - IO "Read only" - 
+      AVSS0 43 SYSTEM_AVSS0 - - - - - - - - IO "Read only" - 
+      P000 48 - ARDUINO_A0 - - Disabled - - "ADC0: AN008" - I - - 
+      P001 47 - ARDUINO_A1 - - Disabled - - "ADC0: AN009; IRQ: IRQ7" - I - - 
+      P002 46 - ARDUINO_A2 - - Disabled - - "ADC0: AN010" - I - - 
+      P010 45 - - - - Disabled - - "ADC: VREFH0; ADC0: AN005" ARDUINO_AREF IO - - 
+      P011 44 - - - - Disabled - - "ADC: VREFL0; ADC0: AN006" - IO - - 
+      P012 41 - ARDUINO_D4 - - Disabled - - "ADC0: AN007" - IO - - 
+      P013 40 - ARDUINO_A3 - - Disabled - - "ADC0: AN000; CMP0: CMPIN03; GPT_OPS: GTIW; IRQ: IRQ1" - I - - 
+      P014 39 - ARDUINO_A4 - - Disabled - - "ADC0: AN001; CMP0: CMPIN02; GPT_OPS: GTIV; IRQ: IRQ3" - I - - 
+      P015 38 - PMOD1_INT_ARDUINO_A5 - None Disabled - - "ADC0: AN002; CMP0: CMPIN01; GPT_OPS: GTIU; IRQ: IRQ2" - IO - - 
+      P100 36 - PMOD1_MISO_RXD_ARDUINO_MISO - None Disabled - - "ADC0: AN022; AGTW0: AGTIO0; GPT1: GTIOC1B; GPT_OPS: GTOVLO; IIC0: SCL0; IRQ: IRQ0; KINT: KRM00; SCI0: RXD0; SCI1: SCK1; SPI0: MISO0" - I - - 
+      P101 35 - PMOD1_MOSI_TXD_ARDUINO_MOSI - None Disabled - - "ADC0: AN021; AGTW0: AGTEE0; GPT1: GTIOC1A; GPT_OPS: GTOVUP; IIC0: SDA0; IRQ: IRQ2; KINT: KRM01; SCI0: TXD0; SCI1: CTS1_RTS1; SPI0: MOSI0" - O - - 
+      P102 34 - PMOD1_SCK_ARDUINO_SCK - None Disabled - - "ADC0: AN020; ADC0(Digital): ADTRG0; AGTW0: AGTO0; CMP0: CMPREF0; GPT2: GTIOC2B; GPT_OPS: GTOWLO; IRQ: IRQ1; KINT: KRM02; SCI0: SCK0; SCI2: TXD2; SPI0: RSPCK0" - IO - - 
+      P103 33 - PMOD1_CS_CTS_ARDUINO_SS - None Disabled - - "ADC0: AN019; CMP1: CMPIN1; GPT: GTCPPO3; GPT2: GTIOC2A; GPT_OPS: GTOWUP; IRQ: IRQ4; KINT: KRM03; SCI0: CTS0_RTS0; SCI2: RXD2; SPI0: SSLA0" - IO - - 
+      P104 32 - ARDUINO_D8 - None Disabled - - "GPT_POEGB: GTETRGB; IRQ: IRQ1; KINT: KRM04; SCI0: RXD0; SPI0: SSLA1" - IO - - 
+      P108 25 JTAG/SWD_SWDIO - - None "Peripheral mode" - - "AGTW1: AGTEE1; GPT: GTCPPO2; GPT3: GTIOC3B; GPT_POEGB: GTETRGB; IRQ: IRQ6; JTAG/SWD: SWDIO; SCI1: RXD1; SCI9: CTS9_RTS9" - IO - - 
+      P109 26 - VCOM_TXD - - Disabled - - "AGTW1: AGTOA1; CLKOUT: CLKOUT; GPT2: GTIOC2A; GPT_OPS: GTOWUP; SCI1: SCK1; SCI9: TXD9" - O - - 
+      P110 27 - VCOM_RXD - None Disabled - - "AGTW1: AGTIO1; CLKOUT: VCOUT; GPT2: GTIOC2B; GPT_OPS: GTOWLO; IRQ: IRQ3; SCI2: CTS2_RTS2; SCI9: RXD9" - I - - 
+      P111 28 - ARDUINO_D3 - None Disabled - - "AGTW0: AGTOA0; GPT1: GTIOC1A; IRQ: IRQ4; SCI2: SCK2; SCI9: SCK9" - IO - - 
+      P112 29 - ARDUINO_D9 - - Disabled - - "AGTW0: AGTOB0; GPT1: GTIOC1B; SCI1: SCK1" - IO - - 
+      P200 21 - SW - None Disabled - - "IRQ: NMI" - IO - - 
+      P201 20 - - - - Disabled - - "SYSTEM: MD" - IO - - 
+      P206 18 - PMOD2_GPIO9_ARDUINO_D7 - None Disabled - - "GPT_OPS: GTIU; IRQ: IRQ0; SCI0: TXD0" - IO - - 
+      P207 17 - PMOD2_GPIO8 - - Disabled - - - - IO - - 
+      P208 16 - PMOD2_GPIO7 - - Disabled - - "AGTW0: AGTOB0; GPT0: GTIOC0A; GPT_OPS: GTOUUP" - IO - - 
+      P212 8 - PMOD2_RESET - - Disabled - - "AGTW1: AGTEE1; CGC: EXTAL; GPT0: GTIOC0B; GPT_OPS: GTOULO; IRQ: IRQ7" - None - - 
+      P213 7 - LED1 - - Disabled - - "CGC: XTAL; GPT0: GTIOC0A; GPT_OPS: GTOUUP; IRQ: IRQ2" GREEN None - - 
+      P300 24 JTAG/SWD_SWCLK - - None "Peripheral mode" - - "GPT: GTCPPO1; GPT3: GTIOC3A; GPT_POEGA: GTETRGA; IRQ: IRQ5; JTAG/SWD: SWCLK; SCI1: TXD1" - IO - - 
+      P301 23 - ARDUINO_RX - None Disabled - - "AGTW0: AGTIO0; GPT_POEGB: GTETRGB; IRQ: IRQ6; SCI2: RXD2; SCI9: CTS9_RTS9" PMOD2_GPIO10 I - - 
+      P302 22 - ARDUINO_TX - None Disabled - - "GPT_POEGA: GTETRGA; IRQ: IRQ5; SCI2: TXD2" - O - - 
+      P400 1 - PMOD2_SCL_ARDUINO_SCL - None Disabled - - "AGTW1: AGTIO1; CAC: CACREF; GPT3: GTIOC3A; IIC0: SCL0; IRQ: IRQ0; SCI0: SCK0; SCI1: SCK1" PMOD1_SCL IO - - 
+      P401 2 - PMOD2_SDA_ARDUINO_SDA - None Disabled - - "GPT3: GTIOC3B; GPT_POEGA: GTETRGA; IIC0: SDA0; IRQ: IRQ5; SCI0: CTS0_RTS0" PMOD1_SDA IO - - 
+      P402 4 - - - - Disabled - - "GPT: GTADSM0" - IO - - 
+      P403 5 - - - - Disabled - - "GPT: GTADSM1" - IO - - 
+      P407 12 - - - - Disabled - - "ADC0(Digital): ADTRG0; AGTW0: AGTIO0; CMP1: CMPREF1; GPT: GTCPPO0; GPT0: GTIOC0B; GPT_OPS: GTOULO; IIC0: SDA0; SCI0: CTS0_RTS0" PMOD1_RTS IO - - 
+      P408 11 - PMOD2_INT - None Disabled - - "GPT_OPS: GTIW; IIC0: SCL0; IRQ: IRQ7; SCI1: CTS1_RTS1" - IO - - 
+      P409 10 - ARDUINO_D2 - None Disabled - - "GPT_OPS: GTIV; IRQ: IRQ6" - IO - - 
+      P500 37 - ARDUINO_D6 - - Disabled - - "GPT2: GTIOC2A; GPT_POEGA: GTETRGA" - IO - - 
+      P913 15 - PMOD1_GPIO10_ARDUINO_D5 - - Disabled - - "AGTW1: AGTIO1; GPT1: GTIOC1B; GPT_OPS: GTOVLO" - IO - - 
+      P914 14 - LED2 - - Disabled - - "AGTW1: AGTOA1; GPT1: GTIOC1A; GPT_OPS: GTOVUP" GREEN_PMOD1_GPIO9 IO - - 
+      P915 13 - PMOD1_RESET - - Disabled - - - - IO - - 
+      RES 19 SYSTEM_RES - - - - - - - - IO "Read only" - 
+      VCC 30 SYSTEM_VCC - - - - - - - - IO "Read only" - 
+      VCC 9 SYSTEM_VCC - - - - - - - - IO "Read only" - 
+      VCL 3 SYSTEM_VCL - - - - - - - - IO "Read only" - 
+      VSS 31 SYSTEM_VSS - - - - - - - - IO "Read only" - 
+      VSS 6 SYSTEM_VSS - - - - - - - - IO "Read only" - 
+    
+  User Events
+    
+  User Event Links
+    
+  Linker Section Mappings
+    
+  Module "I/O Port (r_ioport)"
+    Parameter Checking: Default (BSP)
+    
+  Module "SPI (r_sci_spi)"
+    Parameter Checking: Default (BSP)
+    DTC Support: Enabled
+    
+  Module "Transfer (r_dtc)"
+    Parameter Checking: Default (BSP)
+    Linker section to keep DTC vector table: .fsp_dtc_vector_table
+    
+  HAL
+    Instance "g_ioport I/O Port (r_ioport)"
+      Name: g_ioport
+      1st Port ELC Trigger Source: Disabled
+      2nd Port ELC Trigger Source: Disabled
+      3rd Port ELC Trigger Source: Disabled
+      4th Port ELC Trigger Source: Disabled
+      Pin Configuration Name: g_bsp_pin_cfg
+      
+    Instance "g_spi SPI (r_sci_spi)"
+      Name: g_spi
+      Channel: 0
+      Operating Mode: Master
+      Clock Phase: Data sampling on even edge, data variation on odd edge
+      Clock Polarity: Low when idle
+      Mode Fault Error: Disable
+      Bit Order: MSB First
+      Callback: sci_spi_callback
+      Receive Interrupt Priority: Priority 2
+      Transmit Interrupt Priority: Priority 2
+      Transmit End Interrupt Priority: Priority 2
+      Error Interrupt Priority: Priority 2
+      Bitrate: 50000
+      Bitrate Modulation: Disabled
+      
+      Instance "g_transfer0 Transfer (r_dtc) SCI0 TXI (Transmit data empty)"
+        Name: g_transfer0
+        Mode: Normal
+        Transfer Size: 1 Byte
+        Destination Address Mode: Fixed
+        Source Address Mode: Incremented
+        Repeat Area (Unused in Normal Mode): Source
+        Interrupt Frequency: After all transfers have completed
+        Number of Transfers: 0
+        Number of Blocks (Valid only in Block Mode): 0
+        Number of Transfer Descriptors: 1
+        Activation Source: SCI0 TXI (Transmit data empty)
+        
+      Instance "g_transfer1 Transfer (r_dtc) SCI0 RXI (Receive data full)"
+        Name: g_transfer1
+        Mode: Normal
+        Transfer Size: 1 Byte
+        Destination Address Mode: Incremented
+        Source Address Mode: Fixed
+        Repeat Area (Unused in Normal Mode): Destination
+        Interrupt Frequency: After all transfers have completed
+        Number of Transfers: 0
+        Number of Blocks (Valid only in Block Mode): 0
+        Number of Transfer Descriptors: 1
+        Activation Source: SCI0 RXI (Receive data full)
+        

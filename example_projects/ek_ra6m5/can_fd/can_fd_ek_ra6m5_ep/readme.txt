@@ -84,7 +84,7 @@ Note:
    b. Connect jumpers J3, J4, J5 and J6 on OM13099 (CAN Transceiver Board) to establish connection to CAN termination resistors.
 5) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x2000094c
+   a. e2studio: 0x20000d48
    b. Keil: Not Available 
    c. IAR: Not Available
  

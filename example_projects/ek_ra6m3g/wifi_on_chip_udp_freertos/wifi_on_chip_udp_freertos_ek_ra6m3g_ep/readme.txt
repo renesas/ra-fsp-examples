@@ -46,26 +46,25 @@ instructions to observe the operation of the system.
 
 	12) Data can be sent from the Server to client with the IP address and the port number mentioned in Step 11
 	
+3. Software Requirements:
 
-3. Hardware and Software Requirements:
+	Renesas Flexible Software Package (FSP): Version 6.0.0
+	e2 studio: Version 2025-04.1
+	SEGGER J-Link RTT Viewer: Version 8.44a
+	GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
+	PacketSender (https://packetsender.com/download#show)
+   
+4. Hardware Requirements:
    
    	Hardware : 
-    1. 1 x RA board 
-   	2. 1 x Renesas Silex UART Pmod module
+	1. 1 x RA board 
+	2. 1 x Renesas Silex UART Pmod module
 	3. 1 x Wi-Fi router Access Point(AP) with internet access. Note: WiFi router AP's credentials should be known.
 	4. PC or laptop connected to the same WiFi router AP. On PC/laptop, create UDP server and start listening
 	   at port which is free. Port of value greater than 10000 is recommended.
 	5. 1 x Micro USB cable
 
-    
-   Software: 
-	1. e2studio 2022-10 (22.10.0)
-	2. J-Link RTT Viewer - v7.80c
-	3. FSP v4.1.0 or higher.
-	4. PacketSender (https://packetsender.com/download#show)
-
-
-4. Hardware settings for the project:
+5. Hardware settings for the project:
 	EK-RA4M3/EK-RA6M3/EK-RA6M3G/EK-RA6M4/EK-RA6M5:
 	-----------
 	Connect

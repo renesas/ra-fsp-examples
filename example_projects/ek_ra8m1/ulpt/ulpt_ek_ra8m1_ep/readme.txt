@@ -21,7 +21,7 @@ Deep SW Standby mode and wait for the ULPT0 underflow interrupt to reset the MCU
 	Connect the USB Debug port on the EK-RA8M1 board to the host PC via a micro USB cable.
 1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x22000468
+   a. e2studio: 0x22000860
    b. Keil: Not Available 
    c. IAR: Not Available
  

@@ -62,7 +62,7 @@ const rm_block_media_api_t g_rm_block_media_on_user_media =
     .statusGet  = RM_BLOCK_MEDIA_RAM_StatusGet,
     .close      = RM_BLOCK_MEDIA_RAM_Close,
 };
-extern uint32_t __RAM_segment_used_end__;
+extern uint32_t __ddsc_RAM_END;
 #define ALIGN_4K (4096)
 
 /*******************************************************************************************************************//**
@@ -81,7 +81,7 @@ fsp_err_t RM_BLOCK_MEDIA_RAM_Open (rm_block_media_ctrl_t * const p_ctrl, rm_bloc
 
     /* Update the SRAM media address and copy the boot sector data to it.*/
 
-    g_ram_disk_base_address = (uint32_t)&(__RAM_segment_used_end__);
+    g_ram_disk_base_address = (uint32_t)&(__ddsc_RAM_END);
     g_ram_disk_base_address = (g_ram_disk_base_address + (ALIGN_4K - 1)) & (uint32_t)~(ALIGN_4K - 1);
     adr= g_ram_disk_base_address;
     memcpy((void *)adr, (void *)&g_ram_disk_boot_sector, STRG_SECTSIZE);

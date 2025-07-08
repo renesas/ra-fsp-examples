@@ -121,7 +121,7 @@ BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_rtc_info_get_guard (rtc_ctrl_t *const p_ctr
 
 BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_rtc_callback_set_guard (rtc_ctrl_t *const p_ctrl, 
                                                              void(*p_callback)(rtc_callback_args_t *), 
-                                                             void const *const p_context, 
+                                                             void *const p_context, 
                                                              rtc_callback_args_t *const p_callback_memory)
 {
     /* Verify all pointers are in non-secure memory. */

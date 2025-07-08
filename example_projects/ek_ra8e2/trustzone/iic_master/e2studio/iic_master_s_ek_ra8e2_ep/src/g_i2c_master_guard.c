@@ -76,7 +76,7 @@ BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_i2c_master_close_guard (i2c_master_ctrl_t *
 
 BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_i2c_master_callback_set_guard (i2c_master_ctrl_t *const p_api_ctrl,
                                                                     void(*p_callback)(i2c_master_callback_args_t *),
-                                                                    void const *const p_context,
+                                                                    void *const p_context,
                                                                     i2c_master_callback_args_t *const p_callback_memory)
 {
     /* Verify all pointers are in non-secure memory. */

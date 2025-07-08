@@ -10,7 +10,7 @@
 
 #include "filex_thread.h"
 #include "common_utils.h"
-#include "filex_block_media_qspi_levelx_ep.h"
+#include "FileX_block_media_qspi_LevelX_ep.h"
 #include "setup_qspi.h"
 
 /*******************************************************************************************************************//**

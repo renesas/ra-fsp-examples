@@ -116,11 +116,11 @@ Note: Connect PMOD: use short wiring connections (should be shorter than 10cm).
 ![device_mode_connection_snapshot](images/Device_mode_connection.png "Snapshots of device mode connections")
 
 ### Software Requirements ###
-* Renesas Flexible Software Package (FSP): Version 5.9.0
-* e2 studio: Version 2025-04
+* Renesas Flexible Software Package (FSP): Version 6.0.0
+* e2 studio: Version 2025-04.1
 * GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 * Serial Terminal Console Application: Tera Term or a similar application
-* SEGGER J-Link RTT Viewer: Version 8.12f
+* SEGGER J-Link RTT Viewer: Version 8.44a
 
 Refer to the software required section in [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf)
 

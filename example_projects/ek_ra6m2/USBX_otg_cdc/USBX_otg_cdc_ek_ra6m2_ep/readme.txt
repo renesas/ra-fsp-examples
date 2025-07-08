@@ -31,22 +31,20 @@ USBX status and any errors will be printed on the JLinkRTTViewer which will be h
     1) Connect P1(All Pins) of EB-USB-OTG1 to J1(All Pins) of EK-RA6M2.	
 	2) Connect P2(All Pins) of EB-USB-OTG1 to J2(All Pins) of EK-RA6M2.
 	
-     
-3. Hardware and Software Requirements:
+3. Software Requirements:
+	Renesas Flexible Software Package (FSP): Version 4.4.0
+	e2 studio: Version 2023-04
+	SEGGER J-Link RTT Viewer: Version 7.86b
+	GCC ARM Embedded Toolchain: Version 10.3.1.20210824
+   
+4. Hardware Requirements:
    
    Hardware : 
 	1) Renesas RA board: 2 X EK-RA6M2
 	2) 2 X EB-USB-OTG1 board.(https://app.circuithub.com/projects/REA-MLP/EB-USB-OTG1_v1/revisions/35287/project)
 	3) 2 X Micro USB cable.
 	4) 1 X Micro USB OTG cable.
-    
-   Software: 
-	1) e2studio.
-	2) JLink RTTViewer.
-	3) FSP v3.8.0 or higher.
-		
 
-	
 
 NOTE: USBX OTG-CDC Example Project runs on USB Full-speed mode only. USB High-speed mode is not supported.  
 

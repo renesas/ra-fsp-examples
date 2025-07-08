@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<raConfiguration version="7">
+<raConfiguration version="11">
   <generalSettings>
     <option key="#Board#" value="board.ra6e2ek"/>
     <option key="CPU" value="RA6E2"/>
@@ -9,10 +9,11 @@
     <option key="#DeviceCommand#" value="R7FA6E2BB"/>
     <option key="#RTOS#" value="_none"/>
     <option key="#pinconfiguration#" value="R7FA6E2BB3CFM.pincfg"/>
-    <option key="#FSPVersion#" value="5.9.0"/>
+    <option key="#FSPVersion#" value="6.0.0"/>
     <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra6e2_ek##"/>
     <option key="#SELECTED_TOOLCHAIN#" value="com.arm.toolchain"/>
   </generalSettings>
+  <raBspConfiguration/>
   <raClockConfiguration>
     <node id="board.clock.xtal.freq" mul="20000000" option="_edit"/>
     <node id="board.clock.hoco.freq" option="board.clock.hoco.freq.20m"/>
@@ -52,11 +53,10 @@
     <node id="board.clock.cecclk.display" option="board.clock.cecclk.display.value"/>
     <node id="board.clock.i3cclk.display" option="board.clock.i3cclk.display.value"/>
   </raClockConfiguration>
-  <raModuleConfiguration/>
   <raPinConfiguration>
     <pincfg active="true" name="" symbol="">
-      <configSetting altId="jtag_fslash_swd.swclk.p300" configurationId="jtag_fslash_swd.swclk"/>
-      <configSetting altId="jtag_fslash_swd.swdio.p108" configurationId="jtag_fslash_swd.swdio"/>
+      <configSetting altId="jtag_fslash_swd.swclk.p300" configurationId="jtag_fslash_swd.swclk" peripheral="JTAG/SWD"/>
+      <configSetting altId="jtag_fslash_swd.swdio.p108" configurationId="jtag_fslash_swd.swdio" peripheral="JTAG/SWD"/>
     </pincfg>
   </raPinConfiguration>
 </raConfiguration>

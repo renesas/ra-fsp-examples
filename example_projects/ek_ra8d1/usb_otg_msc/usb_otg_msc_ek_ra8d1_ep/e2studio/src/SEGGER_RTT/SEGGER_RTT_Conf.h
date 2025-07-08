@@ -42,7 +42,7 @@
 *                                                                    *
 **********************************************************************
 *                                                                    *
-*       RTT version: 8.12c                                           *
+*       RTT version: 8.44a                                           *
 *                                                                    *
 **********************************************************************
 
@@ -54,13 +54,14 @@ Purpose : Implementation of SEGGER real-time transfer (RTT) which
 Revision: $Rev: 24316 $
 
 */
-#if (USE_VIRTUAL_COM == 0)
+
 #ifndef SEGGER_RTT_CONF_H
 #define SEGGER_RTT_CONF_H
 
 #ifdef __IAR_SYSTEMS_ICC__
   #include <intrinsics.h>
 #endif
+
 /*********************************************************************
 *
 *       Defines, configurable
@@ -424,6 +425,16 @@ void OS_SIM_LeaveCriticalSection(void);
   #define SEGGER_RTT_UNLOCK()              // Unlock RTT (nestable) (i.e. enable previous interrupt lock state)
 #endif
 
+/*********************************************************************
+*
+*       If SEGGER_RTT_SECTION is defined but SEGGER_RTT_BUFFER_SECTION
+*       is not, use the same section for SEGGER_RTT_BUFFER_SECTION.
+*/
+#ifndef SEGGER_RTT_BUFFER_SECTION
+  #if defined(SEGGER_RTT_SECTION)
+    #define SEGGER_RTT_BUFFER_SECTION SEGGER_RTT_SECTION
+  #endif
 #endif
-#endif /* USE_VIRTUAL_COM */
+
+#endif
 /*************************** End of file ****************************/

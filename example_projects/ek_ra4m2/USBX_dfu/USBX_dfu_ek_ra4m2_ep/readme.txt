@@ -36,9 +36,9 @@
         e. The settings and errors will be displayed on the J-Link RTT Viewer.
 	
 2. Software Requirements:
-	Renesas Flexible Software Package (FSP): Version 5.9.0
-	e2 studio: Version 2025-04
-	SEGGER J-Link RTT Viewer: Version 8.12f
+	Renesas Flexible Software Package (FSP): Version 6.0.0
+	e2 studio: Version 2025-04.1
+	SEGGER J-Link RTT Viewer: Version 8.44a
 	GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 	Zadig.exe - v2.0.1.160 (https://sourceforge.net/projects/libwdi/files/zadig/)
 	dfu-util-0.11-binaries.tar.xz (https://sourceforge.net/projects/dfu-util/files/)
@@ -71,7 +71,7 @@
 
 1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x200088a4
+   a. e2studio: 0x20008c9c
    b. Keil: Not Available 
    c. IAR: Not Available
  

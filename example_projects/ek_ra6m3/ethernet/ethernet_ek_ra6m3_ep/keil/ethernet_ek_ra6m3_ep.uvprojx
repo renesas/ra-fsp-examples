@@ -16,7 +16,7 @@
         <TargetCommonOption>
           <Device>R7FA6M3AH</Device>
           <Vendor>Renesas</Vendor>
-          <PackID>Renesas.RA_DFP.5.5.0</PackID>
+          <PackID>Renesas.RA_DFP.5.6.0</PackID>
           <PackURL>https://www2.renesas.eu/Keil_MDK_Packs/</PackURL>
           <Cpu>IRAM(0x1FFE0000,0x020000) IRAM2(0x20000000,0x080000) IROM(0x00000000,0x200000) CPUTYPE("Cortex-M4") FPU2 DSP CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -337,7 +337,7 @@
             <v6WtE>0</v6WtE>
             <v6Rtti>0</v6Rtti>
             <VariousControls>
-              <MiscControls>-Wno-license-management -Os -Wunused -Wuninitialized -Wall -Wextra -Wmissing-declarations -Wconversion -Wpointer-arith -Wshadow -Waggregate-return -Wfloat-equal</MiscControls>
+              <MiscControls>@via/rasc_armclang.via</MiscControls>
               <Define></Define>
               <Undefine></Undefine>
               <IncludePath></IncludePath>
@@ -374,7 +374,7 @@
             <ScatterFile>.\script\fsp.scat</ScatterFile>
             <IncludeLibs></IncludeLibs>
             <IncludeLibsPath></IncludeLibsPath>
-            <Misc>--entry=Reset_Handler --no_startup --library_type=microlib --via=".\script\ac6\fsp_keep.via"</Misc>
+            <Misc>--entry=Reset_Handler --no_startup --via=via/rasc_armlink.via</Misc>
             <LinkerInputFile></LinkerInputFile>
             <DisabledWarnings>6319,6314</DisabledWarnings>
           </LDads>

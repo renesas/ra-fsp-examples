@@ -10,9 +10,9 @@
         result will be displayed on RTT viewer.LED will turn ON only if the selected event operation is success.﻿
 1) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x20002454
-   b. Keil:	0x20002004
-   c. IAR: 0x2000205c
+   a. e2studio: 0x20002848
+   b. Keil:	0x20002820
+   c. IAR: 0x20002878
  
 2) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) 
    in .map file generated in the build configuration folder (Debug/Release).

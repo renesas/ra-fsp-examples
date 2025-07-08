@@ -15,9 +15,9 @@
 	printed it the RTTViewer...
 
 2. Software Requirements:
-	Renesas Flexible Software Package (FSP): Version 5.9.0
-	e2 studio: Version 2025-04
-	SEGGER J-Link RTT Viewer: Version 8.12f
+	Renesas Flexible Software Package (FSP): Version 6.0.0
+	e2 studio: Version 2025-04.1
+	SEGGER J-Link RTT Viewer: Version 8.44a
 	GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 	An internal pack file of SCI SMCI driver (https://renesasgroup-my.sharepoint.com/:u:/g/personal/cheng-ping_chan_jc_renesas_com/EfBMYUOfm3lOo4JMbGgs5ZMBo7t5DvDNPs6u_-mrSdTToA?e=DpCCWx)
 
@@ -49,4 +49,4 @@ Note:
 3. To test the option 3 user needs to reconnect pin P708 to GND (Pin P708 goes low = Card removed) before Enter "3". Disconnect pin P708 from GND (P708 goes high) then MCU will detect Card inserted. 
 4. Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x200004ac
+   a. e2studio: 0x200008a8

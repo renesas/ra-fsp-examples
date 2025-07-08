@@ -5,16 +5,13 @@
     </device>
     <resources>
         <memories>
-            <memory name="RAM" type="RAM" start="0x20004000" size="0x00004000" security=""/>
-            <memory name="FLASH" type="ROM" start="0x00000000" size="0x00020000" security=""/>
-            <memory name="DATA_FLASH" type="ROM" start="0x40100000" size="0x00001000" security=""/>
-            <memory name="OPTION_SETTING" type="ROM" start="0x00000000" size="0x00000000" security=""/>
-            <memory name="OPTION_SETTING_S" type="ROM" start="0x80000000" size="0x00000000" security=""/>
-            <memory name="ID_CODE" type="ROM" start="0x01010018" size="0x00000020" security=""/>
-            <memory name="SDRAM" type="RAM" start="0x80010000" size="0x00000000" security=""/>
-            <memory name="QSPI_FLASH" type="ROM" start="0x60000000" size="0x0" security=""/>
-            <memory name="OSPI_DEVICE_0" type="ROM" start="0x80020000" size="0x00000000" security=""/>
-            <memory name="OSPI_DEVICE_1" type="ROM" start="0x80030000" size="0x00000000" security=""/>
+            <memory name="RAM" type="RAM" start="0x20004000" size="0x00004000" access="rwx" security="" info="On chip RAM memory"/>
+            <memory name="FLASH" type="ROM" start="0x00000000" size="0x00020000" access="rx" security="" info="On chip flash memory"/>
+            <memory name="DATA_FLASH" type="ROM" start="0x40100000" size="0x00001000" access="rx" security="" info="On chip data flash memory"/>
+            <memory name="OPTION_SETTING_OFS0" type="ROM" start="0x00000400" size="0x00000004" access="r" security="" info="Option Function Select Register 0"/>
+            <memory name="OPTION_SETTING_OFS1" type="ROM" start="0x00000404" size="0x00000004" access="r" security="" info="Option Function Select Register 1"/>
+            <memory name="OPTION_SETTING_SECMPU" type="ROM" start="0x00000408" size="0x00000034" access="r" security="" info="Security MPU Registers"/>
+            <memory name="OPTION_SETTING_OSIS" type="ROM" start="0x01010018" size="0x00000020" access="r" security="" info="OCD/Serial Programmer ID setting register"/>
         </memories>
         <peripherals>
             <group name="ADC" start="0x4005c000" size="0x00000200" info="A/D Converter">

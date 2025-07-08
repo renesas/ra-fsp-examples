@@ -42,7 +42,7 @@
 *                                                                    *
 **********************************************************************
 *                                                                    *
-*       RTT version: 8.12f                                           *
+*       RTT version: 8.44a                                           *
 *                                                                    *
 **********************************************************************
 
@@ -55,7 +55,6 @@ Revision: $Rev: 24316 $
 
 */
 
-#if (USE_SERIAL_TERM == 0)
 #ifndef SEGGER_RTT_CONF_H
 #define SEGGER_RTT_CONF_H
 
@@ -438,5 +437,4 @@ void OS_SIM_LeaveCriticalSection(void);
 #endif
 
 #endif
-#endif /* USE_SERIAL_TERM */
 /*************************** End of file ****************************/

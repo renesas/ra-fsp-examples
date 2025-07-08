@@ -28,9 +28,9 @@
 	  the 'Special Topic' section of Getting_started_with_FreeRTOS_Network_notes.md.
 
 2. Software Requirements:
-	Renesas Flexible Software Package (FSP): Version 5.9.0
-	e2 studio: Version 2025-04
-	SEGGER J-Link RTT Viewer: Version 8.12f
+	Renesas Flexible Software Package (FSP): Version 6.0.0
+	e2 studio: Version 2025-04.1
+	SEGGER J-Link RTT Viewer: Version 8.44a
 	GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 	Terminal Console Application: Tera Term or a similar application
 	Socket Application: sokit version 1.3, etc.
@@ -79,7 +79,7 @@ Note:
 2. For the SEGGER RTT Viewer application: The macro USE_VIRTUAL_COM is set to 0.
    The Segger RTT block address may need to be updated to observe the EP operation using a hex file with SEGGER RTT Viewer.
    RTT Block addresses for hex file committed in the repository are as follows:
-   a. e2studio: 0x2000091c
+   a. e2studio: 0x20001d1c
    b. Keil: Not Available
    c. IAR: Not Available
 

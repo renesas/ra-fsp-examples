@@ -46,8 +46,8 @@ To build and run the NetX_tcp_udp example project, the following resources are n
 * For EK-RA8M1: Remove jumper J61 to enable Ethernet B.
 
 ### Software Requirements ###
-* Renesas Flexible Software Package (FSP): Version 5.9.0
-* e2 studio: Version 2025-04
+* Renesas Flexible Software Package (FSP): Version 6.0.0
+* e2 studio: Version 2025-04.1
 * GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 * Terminal Console Application: Tera Term version 4.99 or SEGGER RTT J-Link Viewer version 8.10f
 * Web Browser Application: Microsoft Edge, Google Chrome.

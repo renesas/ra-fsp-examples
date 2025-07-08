@@ -153,13 +153,17 @@ static void usb_enumeration(void)
     /* Check for request type */
     if (USB_SET_REPORT == (p_usb_basic_event->setup.request_type & USB_BREQUEST))
     {
-        /* Get the NumLock data */
-        err = R_USB_Read(&g_basic0_ctrl, (uint8_t *) &g_key_numlock, KEY_SIZE_NUM, USB_CLASS_PHID);
-        if (FSP_SUCCESS != err)
+        /* Check for keyboard report descriptor request */
+        if (0U == p_usb_basic_event->setup.request_index)
         {
-            APP_ERR_PRINT("\r\nR_USB_Read failed\r\n");
-            deinit_usb();
-            APP_ERR_TRAP(err);
+            /* Get the NumLock data */
+            err = R_USB_PeriControlDataGet(&g_basic0_ctrl, (uint8_t *) &g_key_numlock, KEY_SIZE_NUM);
+            if (FSP_SUCCESS != err)
+            {
+                APP_ERR_PRINT("\r\nR_USB_PeriControlDataGet API failed\r\n");
+                deinit_usb();
+                APP_ERR_TRAP(err);
+            }
         }
     }
     else if (USB_GET_DESCRIPTOR == (p_usb_basic_event->setup.request_type & USB_BREQUEST))
@@ -331,7 +335,7 @@ static void usb_status_update(void)
 static void usb_write_operation(void)
 {
     /* Check writing complete keyboard report */
-    if(USB_CFG_PHID_INT_IN == p_usb_basic_event->pipe)
+    if(USB_CLASS_PHID == p_usb_basic_event->type)
     {
         /* Write mouse report */
         user_mouse_emulator();

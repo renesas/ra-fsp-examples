@@ -88,9 +88,9 @@ Supported Boards: EK-RA2E2/EK-RA4E2/EK-RA6E2/MCK-RA4T1/MCK-RA6T3/EK-RA8M1/EK-RA8
 | OFF | OFF | OFF | OFF | OFF | OFF | OFF | OFF |
 
 ### Software ###
-* Renesas Flexible Software Package (FSP): Version 5.9.0
-* E2 studio: Version 2025-04
-* SEGGER J-Link RTT Viewer: Version 8.12f
+* Renesas Flexible Software Package (FSP): Version 6.0.0
+* e2 studio: Version 2025-04.1
+* SEGGER J-Link RTT Viewer: Version 8.44a
 * GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 
 Refer to the software required section in [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf)

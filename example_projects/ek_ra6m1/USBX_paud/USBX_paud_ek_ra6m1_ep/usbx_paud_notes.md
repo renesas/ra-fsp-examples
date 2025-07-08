@@ -17,9 +17,9 @@ Refer to [readme.txt](./readme.txt) for information on how to connect the hardwa
 
 
 ### Software ###
-* Renesas Flexible Software Package (FSP): Version 5.9.0
-* e2 studio: Version 2025-04
-* SEGGER J-Link RTT Viewer: Version 8.12f
+* Renesas Flexible Software Package (FSP): Version 6.0.0
+* e2 studio: Version 2025-04.1
+* SEGGER J-Link RTT Viewer: Version 8.44a
 * GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 * Audacity v3.1.3(Audio Player/Recorder)
 * Refer to the software required section in [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf)

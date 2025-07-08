@@ -79,7 +79,7 @@ The table below lists the FSP provided API used at the application layer by this
 | API Name    | Usage                                                                          |
 |-------------|--------------------------------------------------------------------------------|
 |R_USB_Open|This API opens the USB basic driver. |
-|R_USB_Read|This API is used to read data from the host when receiving the USB_STATUS_REQUEST or USB_SET_REPORT event. |
+| R_USB_PeriControlDataGet | This API is used to receive data from the host when receiving the USB_STATUS_REQUEST or USB_SET_REPORT event. |
 |R_USB_PeriControlDataSet|This API is used to perform USB transfer to the keyboard or mouse when receiving the USB_GET_REPORT_DESCRIPTOR, or USB_GET_HID_DESCRIPTOR event. |
 |R_USB_PeriControlStatusSet|This API sets the response to the setup packet.|
 |R_USB_Write|This API is used to write data to the host when receiving USB_STATUS_REQUEST_COMPLETE or USB_STATUS_WRITE_COMPLETE event. |

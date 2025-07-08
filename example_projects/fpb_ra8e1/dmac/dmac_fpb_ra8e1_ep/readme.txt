@@ -22,8 +22,8 @@ frequency decreases/pauses. Please reset the board in that case, and it will run
 4) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
    a. e2studio: 0x22060160
-   b. Keil:	0x22060128
-   c. IAR: 0x22060210
+   b. Keil:	0x22060970
+   c. IAR: 0x22060a3c
 
 5) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) 
    in .map file generated in the build configuration folder (Debug/Release).

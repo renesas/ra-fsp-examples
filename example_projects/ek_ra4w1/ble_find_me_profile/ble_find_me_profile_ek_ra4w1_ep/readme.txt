@@ -16,9 +16,9 @@
 	connection status and LEDs status messages will display on Jlink RTT viewer.
 
 2. Software Requirements:
-	Renesas Flexible Software Package (FSP): Version 5.9.0
-	e2 studio: Version 2025-04
-	SEGGER J-Link RTT Viewer: Version 8.12f
+	Renesas Flexible Software Package (FSP): Version 6.0.0
+	e2 studio: Version 2025-04.1
+	SEGGER J-Link RTT Viewer: Version 8.44a
 	GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 	Device client (iphone or ipad,..v.v.) has Renesas GATT browser installed.
 

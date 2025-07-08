@@ -1,5 +1,5 @@
 FSP Configuration
-  Board "MCK-RA8T1"
+  Board "RA8|RA8T1|MCK-RA8T1"
   R7FA8T1AHECBD
     part_number: R7FA8T1AHECBD
     rom_size_bytes: 2064384
@@ -7,12 +7,29 @@ FSP Configuration
     data_flash_size_bytes: 12288
     package_style: FBGA
     package_pins: 224
+    number of cores: 1
     
+  R7FA8T1AHECBD
   RA8T1
     series: 8
     
   RA8T1 Family
     Enable inline BSP IRQ functions: Enabled
+    SDRAM: SDRAM Support: Disabled
+    SDRAM: Timings: tRAS (cycles): 6 cycles
+    SDRAM: Timings: tRCD (cycles): 3 cycles
+    SDRAM: Timings: tRP (cycles): 3 cycles
+    SDRAM: Timings: tWR (cycles): 2 cycles
+    SDRAM: Timings: tCL (cycles): 3 cycles
+    SDRAM: Timings: tRFC (cycles): 937
+    SDRAM: Timings: tREFW (cycles): 8 cycles
+    SDRAM: Initialization: Auto-Refresh Interval (ARFI): 10 cycles
+    SDRAM: Initialization: Auto-Refresh Count (ARFC): 8 times
+    SDRAM: Initialization: Precharge Cycle Count (PRC): 3 cycles
+    SDRAM: Address Multiplex Shift: 9-bit shift
+    SDRAM: Endian Mode: Little Endian
+    SDRAM: Continuous Access Mode: Enabled
+    SDRAM: Bus Width: 16-bit
     Security: Exceptions: Exception Response: Non-Maskable Interrupt
     Security: Exceptions: BusFault, HardFault, and NMI Target: Secure State
     Security: System Reset Request Accessibility: Secure State
@@ -25,53 +42,7 @@ FSP Configuration
     Security: BUS Accessibility: Bus Security Attribution Register A: Both Secure and Non-Secure State
     Security: BUS Accessibility: Bus Security Attribution Register B: Both Secure and Non-Secure State
     Security: BUS Accessibility: Bus Security Attribution Register C: Both Secure and Non-Secure State
-    Security: Flash Bank Select Accessibility: Both Secure and Non-Secure State
     Security: Uninitialized Non-Secure Application Fallback: Enable Uninitialized Non-Secure Application Fallback
-    OFS0 register settings: Independent WDT: Start Mode: IWDT is stopped after a reset (Register-start mode)
-    OFS0 register settings: Independent WDT: Timeout Period: 2048 cycles
-    OFS0 register settings: Independent WDT: Dedicated Clock Frequency Divisor: 128
-    OFS0 register settings: Independent WDT: Window End Position:  0% (no window end position)
-    OFS0 register settings: Independent WDT: Window Start Position: 100% (no window start position)
-    OFS0 register settings: Independent WDT: Reset Interrupt Request Select: Reset is enabled
-    OFS0 register settings: Independent WDT: Stop Control: Stop counting when in Sleep, Deep Sleep, or Software Standby
-    OFS0 register settings: WDT0: Start Mode Select: Stop WDT after a reset (register-start mode)
-    OFS0 register settings: WDT0: Timeout Period: 16384 cycles
-    OFS0 register settings: WDT0: Clock Frequency Division Ratio: 128
-    OFS0 register settings: WDT0: Window End Position:  0% (no window end position)
-    OFS0 register settings: WDT0: Window Start Position: 100% (no window start position)
-    OFS0 register settings: WDT0: Reset Interrupt Request: Reset
-    OFS0 register settings: WDT0: Stop Control: Stop counting when entering Sleep mode
-    OFS1_SEL register settings: Voltage Detection 0 Level Security Attribution: VDSEL setting loads from OFS1_SEC
-    OFS1_SEL register settings: Voltage Detection 0 Circuit Start Security Attribution: PVDAS setting loads from OFS1_SEC
-    OFS1_SEL register settings: Voltage Detection 0 Low Power Consumption Security Attribution: PVDLPSEL setting loads from OFS1_SEC
-    OFS1_SEL register settings: WDT/IWDT Software Debug Control Security Attribution: SWDBG setting loads from OFS1_SEC
-    OFS1_SEL register settings: Tightly Coupled Memory (TCM)/Cache ECC Security Attribution: INITECCEN setting loads from OFS1_SEC
-    OFS1 register settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
-    OFS1 register settings: Voltage Detection 0 Level: 1.60 V
-    OFS1 register settings: Voltage Detection 0 Low Power Consumption: Voltage monitor 0 Low Power Consumption Disabled
-    OFS1 register settings: HOCO Oscillation Enable: HOCO oscillation is disabled after reset
-    OFS1 register settings: WDT/IWDT Software Debug Control: Disabled (WDT and IWDT continue operating while the CPU is in the debug state)
-    OFS1 register settings: Tightly Coupled Memory (TCM)/Cache ECC: Enable ECC function for TCM and Cache
-    OFS2 register settings: DCDC: Enabled
-    Block Protection Settings (BPS): BPS0: 
-    Block Protection Settings (BPS): BPS1: 
-    Block Protection Settings (BPS): BPS2: 
-    Block Protection Settings (BPS): BPS3: 
-    Permanent Block Protection Settings (PBPS): PBPS0: 
-    Permanent Block Protection Settings (PBPS): PBPS1: 
-    Permanent Block Protection Settings (PBPS): PBPS2: 
-    Permanent Block Protection Settings (PBPS): PBPS3: 
-    Dual Bank Mode: Disabled
-    First Stage Bootloader (FSBL): FSBL Control 0 (FSBLCTRL0): FSBLEN: Disabled
-    First Stage Bootloader (FSBL): FSBL Control 0 (FSBLCTRL0): FSBLSKIPSW: Disabled
-    First Stage Bootloader (FSBL): FSBL Control 0 (FSBLCTRL0): FSBLSKIPDS: Disabled
-    First Stage Bootloader (FSBL): FSBL Control 0 (FSBLCTRL0): FSBLCLK: 240 MHz
-    First Stage Bootloader (FSBL): FSBL Control 1 (FSBLCTRL1): FSBLEXMDFSBLEN: Secure boot with report measurement
-    First Stage Bootloader (FSBL): FSBL Control 2 (FSBLCTRL2): PORTPN: PORTn15
-    First Stage Bootloader (FSBL): FSBL Control 2 (FSBLCTRL2): PORTGN: None
-    First Stage Bootloader (FSBL): Code Certificates (SACCn): SACC0: 0xFFFFFFFF
-    First Stage Bootloader (FSBL): Code Certificates (SACCn): SACC1: 0xFFFFFFFF
-    First Stage Bootloader (FSBL): FSBL Measurement Report Address (SAMR): 0xFFFFFFFF
     Clocks: HOCO FLL Function: Disabled
     Clocks: Clock Settling Delay: Enabled
     Clocks: Sleep Mode Entry and Exit Delays: Enabled
@@ -80,15 +51,90 @@ FSP Configuration
     Clocks: Settling Delay (us): 150
     Main Oscillator Wait Time: 8163 cycles
     Cache settings: Data cache: Disabled
+    : Enabled
+    
+  RA8T1 Device Options
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Enabled
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Start Mode: IWDT is stopped after a reset (Register-start mode)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Timeout Period: 2048 cycles
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Dedicated Clock Frequency Divisor: 128
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Window End Position:  0% (no window end position)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Window Start Position: 100% (no window start position)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Reset Interrupt Request Select: Reset is enabled
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Stop Control: Stop counting when in Sleep,Deep SleepSnooze modec, or Software Standby
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT0: Start Mode Select: Stop WDT after a reset (register-start mode)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT0: Timeout Period: 16384 cycles
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT0: Clock Frequency Division Ratio: 128
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT0: Window End Position:  0% (no window end position)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT0: Window Start Position: 100% (no window start position)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT0: Reset Interrupt Request: Reset
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT0: Stop Control: Stop counting when entering Sleep mode
+    OFS Registers: OFS2 (Option Function Select Register 2) Settings: Enabled
+    OFS Registers: OFS2 (Option Function Select Register 2) Settings: DCDC: Enabled
+    OFS Registers: DUALSEL (Dual Mode Select Register) Settings: Disabled
+    OFS Registers: DUALSEL (Dual Mode Select Register) Settings: Bank Mode: Linear
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Disabled
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Voltage Detection 0 Level: 1.60 V
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: HOCO Oscillation Enable: HOCO oscillation is disabled after reset
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Voltage Detection 0 Low Power Consumption: Voltage monitor 0 Low Power Consumption Disabled
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: WDT/IWDT Software Debug Control: Disabled (WDT and IWDT continue operating while the CPU is in the debug state)
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Tightly Coupled Memory (TCM)/Cache ECC: Disable ECC function for TCM and Cache
+    OFS Registers: BANKSEL (Bank Select Register) Settings: Disabled
+    OFS Registers: BANKSEL (Bank Select Register) Settings: Bank Swap Switch: Disabled
+    OFS Registers: BANKSEL (Bank Select Register) Settings: Block Swap Select: Disabled
+    OFS Registers: BPS (Block Protect Setting Register) Settings: Disabled
+    OFS Registers: BPS (Block Protect Setting Register) Settings: BPS0: 
+    OFS Registers: BPS (Block Protect Setting Register) Settings: BPS1: 
+    OFS Registers: BPS (Block Protect Setting Register) Settings: BPS2: 
+    OFS Registers: BPS (Block Protect Setting Register) Settings: BPS3: 
+    OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: Disabled
+    OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS0: 
+    OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS1: 
+    OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS2: 
+    OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS3: 
+    OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: Enabled
+    OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
+    OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: Voltage Detection 0 Level: 1.60 V
+    OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: HOCO Oscillation Enable: HOCO oscillation is disabled after reset
+    OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: Voltage Detection 0 Low Power Consumption: Voltage monitor 0 Low Power Consumption Disabled
+    OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: WDT/IWDT Software Debug Control: Disabled (WDT and IWDT continue operating while the CPU is in the debug state)
+    OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: Tightly Coupled Memory (TCM)/Cache ECC: Disable ECC function for TCM and Cache
+    OFS Registers: BANKSEL_SEC (Bank Select Register Secure) Settings: Disabled
+    OFS Registers: BANKSEL_SEC (Bank Select Register Secure) Settings: Bank Swap Switch: Disabled
+    OFS Registers: BANKSEL_SEC (Bank Select Register Secure) Settings: Block Swap Select: Disabled
+    OFS Registers: BPS_SEC (Block Protect Setting Register Secure) Settings: Disabled
+    OFS Registers: BPS_SEC (Block Protect Setting Register Secure) Settings: BPS_SEC0: 
+    OFS Registers: BPS_SEC (Block Protect Setting Register Secure) Settings: BPS_SEC1: 
+    OFS Registers: BPS_SEC (Block Protect Setting Register Secure) Settings: BPS_SEC2: 
+    OFS Registers: BPS_SEC (Block Protect Setting Register Secure) Settings: BPS_SEC3: 
+    OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: Disabled
+    OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: PBPS_SEC0: 
+    OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: PBPS_SEC1: 
+    OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: PBPS_SEC2: 
+    OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: PBPS_SEC3: 
+    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: Enabled
+    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: Voltage Detection 0 Level Security Attribution: VDSEL setting loads from OFS1_SEC
+    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: Voltage Detection 0 Circuit Start Security Attribution: PVDAS setting loads from OFS1_SEC
+    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: Voltage Detection 0 Low Power Consumption Security Attribution: PVDLPSEL setting loads from OFS1_SEC
+    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: WDT/IWDT Software Debug Control Security Attribution: SWDBG setting loads from OFS1_SEC
+    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: Tightly Coupled Memory (TCM)/Cache ECC Security Attribution: INITECCEN setting loads from OFS1_SEC
+    OFS Registers: BANKSEL_SEL (Banksel Register Select) Settings: Disabled
+    OFS Registers: BANKSEL_SEL (Banksel Register Select) Settings: Flash Bank Select Accessibility: Both Secure and Non-Secure State
+    OFS Registers: BPS_SEL (BPS Register Select) Settings: Disabled
+    OFS Registers: BPS_SEL (BPS Register Select) Settings: BPS_SEL0: 
+    OFS Registers: BPS_SEL (BPS Register Select) Settings: BPS_SEL1: 
+    OFS Registers: BPS_SEL (BPS Register Select) Settings: BPS_SEL2: 
+    OFS Registers: BPS_SEL (BPS Register Select) Settings: BPS_SEL3: 
     
   RA8T1 event data
   RA Common
     Main stack size (bytes): 0x1000
     Heap size (bytes): 0x2000
+    Bootloader Secondary XIP: Disabled
     MCU Vcc (mV): 3300
     Parameter checking: Enabled
     Assert Failures: Return FSP_ERR_ASSERTION
-    Error Log: No Error Log
     Clock Registers not Reset Values during Startup: Disabled
     Main Oscillator Populated: Populated
     PFS Protect: Enabled
@@ -119,11 +165,8 @@ FSP Configuration
     SCICLK Disabled
     SPICLK Disabled
     CANFDCLK Disabled
-    LCDCLK Disabled
     I3CCLK Disabled
-    UCK Disabled
-    U60CK Disabled
-    OCTASPICLK Disabled
+    USBCLK Disabled
     CPUCLK Div /1
     ICLK Div /2
     PCLKA Div /4
@@ -139,11 +182,8 @@ FSP Configuration
     SCICLK Div /4
     SPICLK Div /4
     CANFDCLK Div /8
-    LCDCLK Div /2
     I3CCLK Div /3
-    UCK Div /5
-    U60CK Div /5
-    OCTASPICLK Div /4
+    USBCLK Div /5
     
   Pin Configurations
     RA8T1 MCK -> g_bsp_pin_cfg
@@ -261,7 +301,7 @@ FSP Configuration
       P703 L11 ETHER_RMII_RMII0_RXD1 ETHER_RXD1 H - "Peripheral mode" - - "AGT1: AGTO1; CLKOUT: VCOUT; ETHER_MII: ET0_ERXD0; ETHER_RMII: RMII0_RXD1; GPT6: GTIOC6B; SDHI1: SD1DAT6; SPI0: SSLA0" - IO - - 
       P704 K12 ETHER_RMII_RMII0_RX_ER ETHER_RXER H - "Peripheral mode" - - "AGT0: AGTO0; CANFD0: CTX0; ETHER_MII: ET0_RX_CLK; ETHER_RMII: RMII0_RX_ER; GPT_OPS: GTADSM0; SDHI1: SD1DAT7; SPI0: SSLA1" - IO - - 
       P705 K10 ETHER_RMII_RMII0_CRS_DV ETHER_RXDV H - "Peripheral mode" - - "AGT0: AGTIO0; CANFD0: CRX0; ETHER_MII: ET0_CRS; ETHER_RMII: RMII0_CRS_DV; GPT_OPS: GTADSM1; SCI1: CTS1; SPI0: SSLA2" - IO - - 
-      P706 K13 GPIO ETHER_RST H None "Output mode (Initial High)" - - "AGT0: AGTIO0; IRQ7: IRQ7; SCI1: RXD1" - IO - - 
+      P706 K13 GPIO ETHER_RST H - "Output mode (Initial High)" - - "AGT0: AGTIO0; IRQ7: IRQ7; SCI1: RXD1" - IO - - 
       P707 K11 - - - - Disabled - - "IRQ8: IRQ8; SCI1: TXD1" - None - - 
       P708 E13 - P708_PMOD - - Disabled - - "BUS: BC1; BUS: WR1; CAC: CACREF; IRQ11: IRQ11; SCI4: DE4; SCI4: SCK4; SPI1: SSLB3" - None - - 
       P709 E15 SCI4_CTS_RTS4 CTS_RTS4_PMOD L None "Peripheral mode" - - "BUS: CS4#; IRQ10: IRQ10; SCI4: CTS_RTS4; SCI4: DE4" - IO - - 
@@ -486,7 +526,7 @@ FSP Configuration
       P703 L11 - ETHER_RXD1 L - Disabled - - "AGT1: AGTO1; CLKOUT: VCOUT; ETHER_MII: ET0_ERXD0; ETHER_RMII: RMII0_RXD1; GPT6: GTIOC6B; SDHI1: SD1DAT6; SPI0: SSLA0" - IO - - 
       P704 K12 - ETHER_RXER L - Disabled - - "AGT0: AGTO0; CANFD0: CTX0; ETHER_MII: ET0_RX_CLK; ETHER_RMII: RMII0_RX_ER; GPT_OPS: GTADSM0; SDHI1: SD1DAT7; SPI0: SSLA1" - IO - - 
       P705 K10 - ETHER_RXDV L - Disabled - - "AGT0: AGTIO0; CANFD0: CRX0; ETHER_MII: ET0_CRS; ETHER_RMII: RMII0_CRS_DV; GPT_OPS: GTADSM1; SCI1: CTS1; SPI0: SSLA2" - IO - - 
-      P706 K13 - ETHER_RST L None Disabled - - "AGT0: AGTIO0; IRQ7: IRQ7; SCI1: RXD1" - IO - - 
+      P706 K13 - ETHER_RST L - Disabled - - "AGT0: AGTIO0; IRQ7: IRQ7; SCI1: RXD1" - IO - - 
       P707 K11 - - - - Disabled - - "IRQ8: IRQ8; SCI1: TXD1" - None - - 
       P708 E13 - P708_PMOD - - Disabled - - "BUS: BC1; BUS: WR1; CAC: CACREF; IRQ11: IRQ11; SCI4: DE4; SCI4: SCK4; SPI1: SSLB3" - None - - 
       P709 E15 - CTS_RTS4_PMOD L None Disabled - - "BUS: CS4#; IRQ10: IRQ10; SCI4: CTS_RTS4; SCI4: DE4" - IO - - 
@@ -601,6 +641,8 @@ FSP Configuration
     
   User Event Links
     
+  Linker Section Mappings
+    
   Module "I/O Port (r_ioport)"
     Parameter Checking: Default (BSP)
     
@@ -679,7 +721,7 @@ FSP Configuration
     Common: Retain older cache table entries till timeout option: Disabled (default)
     Common: IPv6 Neighbor Cache table entry limit.: 
     Common: Neighbor Solicitation message count for IPv6 Neighbor Discovery protocol: 
-    Common: Neighbor Solicitation message count to determine neighbor’s reachability: 
+    Common: Neighbor Solicitation message count to determine neighborâ€™s reachability: 
     Common: Maximum entries in ND cache queue: 
     Common: Duration for address to be 'reachable' with no packets received from it (seconds): 
     Common: Delay between solicitation packets (milliseconds): 
@@ -812,8 +854,8 @@ FSP Configuration
     DHCP: Server: IPv6: Time interval after which client IP is deprecated (seconds): 2 * NX_DHCPV6_DEFAULT_T1_TIME
     DHCP: Server: IPv6: Time interval after which leased IP is invalid (seconds): 2 * NX_DHCPV6_DEFAULT_PREFERRED_TIME
     DHCP: Server: IPv6: Maximum server status option message size (bytes): 100
-    DHCP: Server: IPv6: Maximum Size of the Server’s IP lease table (count): 100
-    DHCP: Server: IPv6: Size of the Server’s Client record table (count): 120
+    DHCP: Server: IPv6: Maximum Size of the Serverâ€™s IP lease table (count): 100
+    DHCP: Server: IPv6: Size of the Serverâ€™s Client record table (count): 120
     DHCP: Server: IPv6: Server socket fragmentation option: Dont fragment
     DHCP: Server: IPv6: Vendor assigned unique ID: abcdeffghijklmnopqrstuvwxyz
     DHCP: Server: IPv6: Private vendor ID: 0x12345678
@@ -973,7 +1015,6 @@ FSP Configuration
     Web HTTP: Server: Server Next Re-transmission timeout shift: 1
     Common: TCP/IP Offload: Disable
     Common: Interface Capability: Disable
-    Azure IoT: Defender Security Module: Disable
     
   Module "Azure RTOS NetX Duo IP Instance"
     Common: Error Checking: Enabled (default)
@@ -1050,7 +1091,7 @@ FSP Configuration
     Common: Retain older cache table entries till timeout option: Disabled (default)
     Common: IPv6 Neighbor Cache table entry limit.: 
     Common: Neighbor Solicitation message count for IPv6 Neighbor Discovery protocol: 
-    Common: Neighbor Solicitation message count to determine neighbor’s reachability: 
+    Common: Neighbor Solicitation message count to determine neighborâ€™s reachability: 
     Common: Maximum entries in ND cache queue: 
     Common: Duration for address to be 'reachable' with no packets received from it (seconds): 
     Common: Delay between solicitation packets (milliseconds): 
@@ -1183,8 +1224,8 @@ FSP Configuration
     DHCP: Server: IPv6: Time interval after which client IP is deprecated (seconds): 2 * NX_DHCPV6_DEFAULT_T1_TIME
     DHCP: Server: IPv6: Time interval after which leased IP is invalid (seconds): 2 * NX_DHCPV6_DEFAULT_PREFERRED_TIME
     DHCP: Server: IPv6: Maximum server status option message size (bytes): 100
-    DHCP: Server: IPv6: Maximum Size of the Server’s IP lease table (count): 100
-    DHCP: Server: IPv6: Size of the Server’s Client record table (count): 120
+    DHCP: Server: IPv6: Maximum Size of the Serverâ€™s IP lease table (count): 100
+    DHCP: Server: IPv6: Size of the Serverâ€™s Client record table (count): 120
     DHCP: Server: IPv6: Server socket fragmentation option: Dont fragment
     DHCP: Server: IPv6: Vendor assigned unique ID: abcdeffghijklmnopqrstuvwxyz
     DHCP: Server: IPv6: Private vendor ID: 0x12345678
@@ -1344,7 +1385,6 @@ FSP Configuration
     Web HTTP: Server: Server Next Re-transmission timeout shift: 1
     Common: TCP/IP Offload: Disable
     Common: Interface Capability: Disable
-    Azure IoT: Defender Security Module: Disable
     
   Module "Azure RTOS NetX Duo Packet Pool Instance"
     Common: Error Checking: Enabled (default)
@@ -1421,7 +1461,7 @@ FSP Configuration
     Common: Retain older cache table entries till timeout option: Disabled (default)
     Common: IPv6 Neighbor Cache table entry limit.: 
     Common: Neighbor Solicitation message count for IPv6 Neighbor Discovery protocol: 
-    Common: Neighbor Solicitation message count to determine neighbor’s reachability: 
+    Common: Neighbor Solicitation message count to determine neighborâ€™s reachability: 
     Common: Maximum entries in ND cache queue: 
     Common: Duration for address to be 'reachable' with no packets received from it (seconds): 
     Common: Delay between solicitation packets (milliseconds): 
@@ -1554,8 +1594,8 @@ FSP Configuration
     DHCP: Server: IPv6: Time interval after which client IP is deprecated (seconds): 2 * NX_DHCPV6_DEFAULT_T1_TIME
     DHCP: Server: IPv6: Time interval after which leased IP is invalid (seconds): 2 * NX_DHCPV6_DEFAULT_PREFERRED_TIME
     DHCP: Server: IPv6: Maximum server status option message size (bytes): 100
-    DHCP: Server: IPv6: Maximum Size of the Server’s IP lease table (count): 100
-    DHCP: Server: IPv6: Size of the Server’s Client record table (count): 120
+    DHCP: Server: IPv6: Maximum Size of the Serverâ€™s IP lease table (count): 100
+    DHCP: Server: IPv6: Size of the Serverâ€™s Client record table (count): 120
     DHCP: Server: IPv6: Server socket fragmentation option: Dont fragment
     DHCP: Server: IPv6: Vendor assigned unique ID: abcdeffghijklmnopqrstuvwxyz
     DHCP: Server: IPv6: Private vendor ID: 0x12345678
@@ -1715,23 +1755,12 @@ FSP Configuration
     Web HTTP: Server: Server Next Re-transmission timeout shift: 1
     Common: TCP/IP Offload: Disable
     Common: Interface Capability: Disable
-    Azure IoT: Defender Security Module: Disable
     
   Module "NetX Duo Ethernet Driver (rm_netxduo_ether)"
   Module "Ethernet (r_ether)"
     Parameter Checking: Default (BSP)
     ET0_LINKSTA Pin Status Flag: Fall -> Rise
     Link Signal Change Flag: Unused
-    
-  Module "Ethernet (r_ether_phy)"
-    Parameter Checking: Default (BSP)
-    KSZ8091RNB Target: Disabled
-    KSZ8041 Target: Disabled
-    DP83620 Target: Disabled
-    ICS1894 Target: Disabled
-    User Own Target: Disabled
-    Reference Clock: Default
-    Automatic Phy LSI Initialization: Enabled
     
   Module "Azure RTOS NetX Duo Common"
     Common: Error Checking: Enabled (default)
@@ -1808,7 +1837,7 @@ FSP Configuration
     Common: Retain older cache table entries till timeout option: Disabled (default)
     Common: IPv6 Neighbor Cache table entry limit.: 
     Common: Neighbor Solicitation message count for IPv6 Neighbor Discovery protocol: 
-    Common: Neighbor Solicitation message count to determine neighbor’s reachability: 
+    Common: Neighbor Solicitation message count to determine neighborâ€™s reachability: 
     Common: Maximum entries in ND cache queue: 
     Common: Duration for address to be 'reachable' with no packets received from it (seconds): 
     Common: Delay between solicitation packets (milliseconds): 
@@ -1941,8 +1970,8 @@ FSP Configuration
     DHCP: Server: IPv6: Time interval after which client IP is deprecated (seconds): 2 * NX_DHCPV6_DEFAULT_T1_TIME
     DHCP: Server: IPv6: Time interval after which leased IP is invalid (seconds): 2 * NX_DHCPV6_DEFAULT_PREFERRED_TIME
     DHCP: Server: IPv6: Maximum server status option message size (bytes): 100
-    DHCP: Server: IPv6: Maximum Size of the Server’s IP lease table (count): 100
-    DHCP: Server: IPv6: Size of the Server’s Client record table (count): 120
+    DHCP: Server: IPv6: Maximum Size of the Serverâ€™s IP lease table (count): 100
+    DHCP: Server: IPv6: Size of the Serverâ€™s Client record table (count): 120
     DHCP: Server: IPv6: Server socket fragmentation option: Dont fragment
     DHCP: Server: IPv6: Vendor assigned unique ID: abcdeffghijklmnopqrstuvwxyz
     DHCP: Server: IPv6: Private vendor ID: 0x12345678
@@ -2102,7 +2131,26 @@ FSP Configuration
     Web HTTP: Server: Server Next Re-transmission timeout shift: 1
     Common: TCP/IP Offload: Disable
     Common: Interface Capability: Disable
-    Azure IoT: Defender Security Module: Disable
+    
+  Module "Ethernet (r_ether_phy)"
+    Parameter Checking: Default (BSP)
+    KSZ8091RNB Target: Disabled
+    KSZ8041 Target: Disabled
+    DP83620 Target: Disabled
+    ICS1894 Target: Disabled
+    User Own Target: Disabled
+    Reference Clock: Default
+    Automatic PHY-LSI Initialization: Enabled
+    
+  Module "Ethernet PHY-LSI"
+    Parameter Checking: Default (BSP)
+    KSZ8091RNB Target: Disabled
+    KSZ8041 Target: Disabled
+    DP83620 Target: Disabled
+    ICS1894 Target: Disabled
+    User Own Target: Disabled
+    Reference Clock: Default
+    Automatic PHY-LSI Initialization: Enabled
     
   Azure RTOS ThreadX
     General: Custom tx_user.h: 
@@ -2196,6 +2244,8 @@ FSP Configuration
             Buffers: Buffer size: 1514
             Buffers: Padding size: 2 Bytes
             Buffers: Padding offset: 14
+            Interrupts: EESR event: RFOF, RDE, FR, TFUF, TDE, TC
+            Interrupts: ECSR event: 
             Interrupts: Interrupt priority: Priority 12
             Interrupts: Callback: rm_netxduo_ether_callback
             
@@ -2203,14 +2253,20 @@ FSP Configuration
               Name: g_ether_phy0
               Channel: 0
               PHY-LSI Address: 5
+              Default PHY-LSI port: 0
               PHY-LSI Reset Completion Timeout: 0x00020000
               Select MII type: RMII
-              Phy LSI type: Kit Component
+              PHY-LSI type: Kit Component
               Port Custom Init Function: NULL
               Port Custom Link Partner Ability Get Function: NULL
               MII/RMII Register Access Wait-time: 8
               Flow Control: Disable
               
+              Instance "g_ether_phy_lsi0 Ethernet PHY-LSI"
+                Name: g_ether_phy_lsi0
+                PHY-LSI Address: 5
+                PHY-LSI type: Kit Component
+                
           Instance "Azure RTOS NetX Duo Common"
       Instance "g_packet_pool0 Azure RTOS NetX Duo Packet Pool Instance"
         Name: g_packet_pool0

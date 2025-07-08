@@ -226,9 +226,9 @@ fsp_err_t ospi_b_init (void)
     APP_ERR_RETURN(err, "R_OSPI_B_SpiProtocolSet API FAILED \r\n");
 
     /* Reset flash device by driving OM_RESET pin */
-    R_XSPI->LIOCTL_b.RSTCS0 = 0;
+    R_XSPI0->LIOCTL_b.RSTCS0 = 0;
     R_BSP_SoftwareDelay(OSPI_B_TIME_RESET_PULSE, OSPI_B_TIME_UNIT);
-    R_XSPI->LIOCTL_b.RSTCS0 = 1;
+    R_XSPI0->LIOCTL_b.RSTCS0 = 1;
     R_BSP_SoftwareDelay(OSPI_B_TIME_RESET_SETUP, OSPI_B_TIME_UNIT);
 
     /* Transfer write enable command */

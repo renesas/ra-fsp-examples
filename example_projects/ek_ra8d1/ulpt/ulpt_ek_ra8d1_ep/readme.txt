@@ -23,7 +23,7 @@ Deep SW Standby mode and wait for the ULPT0 underflow interrupt to reset the MCU
 NOTE:
 1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x22000464
+   a. e2studio: 0x22000858
    b. Keil: Not Available 
    c. IAR: Not Available
  

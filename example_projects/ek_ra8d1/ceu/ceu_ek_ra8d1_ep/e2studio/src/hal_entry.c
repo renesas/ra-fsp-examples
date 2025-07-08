@@ -42,7 +42,7 @@ void hal_entry(void)
     APP_PRINT (EP_INFO);
     APP_PRINT_WAIT;
     /* Initialize SDRAM */
-    bsp_sdram_init();
+    R_BSP_SdramInit(true);
 
     /* Initialize GPT module */
     err = R_GPT_Open(&g_timer_periodic_ctrl, &g_timer_periodic_cfg);

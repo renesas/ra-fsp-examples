@@ -7,7 +7,9 @@ FSP Configuration
     data_flash_size_bytes: 12288
     package_style: BGA
     package_pins: 224
+    number of cores: 1
     
+  R7FA8M1AHECBD
   RA8M1
     series: 8
     
@@ -40,53 +42,7 @@ FSP Configuration
     Security: BUS Accessibility: Bus Security Attribution Register A: Both Secure and Non-Secure State
     Security: BUS Accessibility: Bus Security Attribution Register B: Both Secure and Non-Secure State
     Security: BUS Accessibility: Bus Security Attribution Register C: Both Secure and Non-Secure State
-    Security: Flash Bank Select Accessibility: Both Secure and Non-Secure State
     Security: Uninitialized Non-Secure Application Fallback: Enable Uninitialized Non-Secure Application Fallback
-    OFS0 register settings: Independent WDT: Start Mode: IWDT is stopped after a reset (Register-start mode)
-    OFS0 register settings: Independent WDT: Timeout Period: 2048 cycles
-    OFS0 register settings: Independent WDT: Dedicated Clock Frequency Divisor: 128
-    OFS0 register settings: Independent WDT: Window End Position:  0% (no window end position)
-    OFS0 register settings: Independent WDT: Window Start Position: 100% (no window start position)
-    OFS0 register settings: Independent WDT: Reset Interrupt Request Select: Reset is enabled
-    OFS0 register settings: Independent WDT: Stop Control: Stop counting when in Sleep, Deep Sleep, or Software Standby
-    OFS0 register settings: WDT0: Start Mode Select: Stop WDT after a reset (register-start mode)
-    OFS0 register settings: WDT0: Timeout Period: 16384 cycles
-    OFS0 register settings: WDT0: Clock Frequency Division Ratio: 128
-    OFS0 register settings: WDT0: Window End Position:  0% (no window end position)
-    OFS0 register settings: WDT0: Window Start Position: 100% (no window start position)
-    OFS0 register settings: WDT0: Reset Interrupt Request: Reset
-    OFS0 register settings: WDT0: Stop Control: Stop counting when entering Sleep mode
-    OFS1_SEL register settings: Voltage Detection 0 Level Security Attribution: VDSEL setting loads from OFS1_SEC
-    OFS1_SEL register settings: Voltage Detection 0 Circuit Start Security Attribution: PVDAS setting loads from OFS1_SEC
-    OFS1_SEL register settings: Voltage Detection 0 Low Power Consumption Security Attribution: PVDLPSEL setting loads from OFS1_SEC
-    OFS1_SEL register settings: WDT/IWDT Software Debug Control Security Attribution: SWDBG setting loads from OFS1_SEC
-    OFS1_SEL register settings: Tightly Coupled Memory (TCM)/Cache ECC Security Attribution: INITECCEN setting loads from OFS1_SEC
-    OFS1 register settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
-    OFS1 register settings: Voltage Detection 0 Level: 1.60 V
-    OFS1 register settings: Voltage Detection 0 Low Power Consumption: Voltage monitor 0 Low Power Consumption Disabled
-    OFS1 register settings: HOCO Oscillation Enable: HOCO oscillation is disabled after reset
-    OFS1 register settings: WDT/IWDT Software Debug Control: Disabled (WDT and IWDT continue operating while the CPU is in the debug state)
-    OFS1 register settings: Tightly Coupled Memory (TCM)/Cache ECC: Disable ECC function for TCM and Cache
-    OFS2 register settings: DCDC: Enabled
-    Block Protection Settings (BPS): BPS0: 
-    Block Protection Settings (BPS): BPS1: 
-    Block Protection Settings (BPS): BPS2: 
-    Block Protection Settings (BPS): BPS3: 
-    Permanent Block Protection Settings (PBPS): PBPS0: 
-    Permanent Block Protection Settings (PBPS): PBPS1: 
-    Permanent Block Protection Settings (PBPS): PBPS2: 
-    Permanent Block Protection Settings (PBPS): PBPS3: 
-    Dual Bank Mode: Disabled
-    First Stage Bootloader (FSBL): FSBL Control 0 (FSBLCTRL0): FSBLEN: Disabled
-    First Stage Bootloader (FSBL): FSBL Control 0 (FSBLCTRL0): FSBLSKIPSW: Disabled
-    First Stage Bootloader (FSBL): FSBL Control 0 (FSBLCTRL0): FSBLSKIPDS: Disabled
-    First Stage Bootloader (FSBL): FSBL Control 0 (FSBLCTRL0): FSBLCLK: 240 MHz
-    First Stage Bootloader (FSBL): FSBL Control 1 (FSBLCTRL1): FSBLEXMD: Secure boot with report measurement
-    First Stage Bootloader (FSBL): FSBL Control 2 (FSBLCTRL2): PORTPN: PORTn15
-    First Stage Bootloader (FSBL): FSBL Control 2 (FSBLCTRL2): PORTGN: None
-    First Stage Bootloader (FSBL): Code Certificates (SACCn): SACC0: 0xFFFFFFFF
-    First Stage Bootloader (FSBL): Code Certificates (SACCn): SACC1: 0xFFFFFFFF
-    First Stage Bootloader (FSBL): FSBL Measurement Report Address (SAMR): 0xFFFFFFFF
     Clocks: HOCO FLL Function: Disabled
     Clocks: Clock Settling Delay: Enabled
     Clocks: Sleep Mode Entry and Exit Delays: Enabled
@@ -95,11 +51,87 @@ FSP Configuration
     Clocks: Settling Delay (us): 150
     Main Oscillator Wait Time: 8163 cycles
     Cache settings: Data cache: Disabled
+    : Enabled
+    
+  RA8M1 Device Options
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Enabled
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Start Mode: IWDT is stopped after a reset (Register-start mode)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Timeout Period: 2048 cycles
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Dedicated Clock Frequency Divisor: 128
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Window End Position:  0% (no window end position)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Window Start Position: 100% (no window start position)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Reset Interrupt Request Select: Reset is enabled
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Stop Control: Stop counting when in Sleep,Deep SleepSnooze modec, or Software Standby
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT0: Start Mode Select: Stop WDT after a reset (register-start mode)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT0: Timeout Period: 16384 cycles
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT0: Clock Frequency Division Ratio: 128
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT0: Window End Position:  0% (no window end position)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT0: Window Start Position: 100% (no window start position)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT0: Reset Interrupt Request: Reset
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT0: Stop Control: Stop counting when entering Sleep mode
+    OFS Registers: OFS2 (Option Function Select Register 2) Settings: Enabled
+    OFS Registers: OFS2 (Option Function Select Register 2) Settings: DCDC: Enabled
+    OFS Registers: DUALSEL (Dual Mode Select Register) Settings: Disabled
+    OFS Registers: DUALSEL (Dual Mode Select Register) Settings: Bank Mode: Linear
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Disabled
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Voltage Detection 0 Level: 1.60 V
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: HOCO Oscillation Enable: HOCO oscillation is disabled after reset
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Voltage Detection 0 Low Power Consumption: Voltage monitor 0 Low Power Consumption Disabled
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: WDT/IWDT Software Debug Control: Disabled (WDT and IWDT continue operating while the CPU is in the debug state)
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Tightly Coupled Memory (TCM)/Cache ECC: Disable ECC function for TCM and Cache
+    OFS Registers: BANKSEL (Bank Select Register) Settings: Disabled
+    OFS Registers: BANKSEL (Bank Select Register) Settings: Bank Swap Switch: Disabled
+    OFS Registers: BANKSEL (Bank Select Register) Settings: Block Swap Select: Disabled
+    OFS Registers: BPS (Block Protect Setting Register) Settings: Disabled
+    OFS Registers: BPS (Block Protect Setting Register) Settings: BPS0: 
+    OFS Registers: BPS (Block Protect Setting Register) Settings: BPS1: 
+    OFS Registers: BPS (Block Protect Setting Register) Settings: BPS2: 
+    OFS Registers: BPS (Block Protect Setting Register) Settings: BPS3: 
+    OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: Disabled
+    OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS0: 
+    OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS1: 
+    OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS2: 
+    OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS3: 
+    OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: Enabled
+    OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
+    OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: Voltage Detection 0 Level: 1.60 V
+    OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: HOCO Oscillation Enable: HOCO oscillation is disabled after reset
+    OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: Voltage Detection 0 Low Power Consumption: Voltage monitor 0 Low Power Consumption Disabled
+    OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: WDT/IWDT Software Debug Control: Disabled (WDT and IWDT continue operating while the CPU is in the debug state)
+    OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: Tightly Coupled Memory (TCM)/Cache ECC: Disable ECC function for TCM and Cache
+    OFS Registers: BANKSEL_SEC (Bank Select Register Secure) Settings: Disabled
+    OFS Registers: BANKSEL_SEC (Bank Select Register Secure) Settings: Bank Swap Switch: Disabled
+    OFS Registers: BANKSEL_SEC (Bank Select Register Secure) Settings: Block Swap Select: Disabled
+    OFS Registers: BPS_SEC (Block Protect Setting Register Secure) Settings: Disabled
+    OFS Registers: BPS_SEC (Block Protect Setting Register Secure) Settings: BPS_SEC0: 
+    OFS Registers: BPS_SEC (Block Protect Setting Register Secure) Settings: BPS_SEC1: 
+    OFS Registers: BPS_SEC (Block Protect Setting Register Secure) Settings: BPS_SEC2: 
+    OFS Registers: BPS_SEC (Block Protect Setting Register Secure) Settings: BPS_SEC3: 
+    OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: Disabled
+    OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: PBPS_SEC0: 
+    OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: PBPS_SEC1: 
+    OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: PBPS_SEC2: 
+    OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: PBPS_SEC3: 
+    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: Enabled
+    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: Voltage Detection 0 Level Security Attribution: VDSEL setting loads from OFS1_SEC
+    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: Voltage Detection 0 Circuit Start Security Attribution: PVDAS setting loads from OFS1_SEC
+    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: Voltage Detection 0 Low Power Consumption Security Attribution: PVDLPSEL setting loads from OFS1_SEC
+    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: WDT/IWDT Software Debug Control Security Attribution: SWDBG setting loads from OFS1_SEC
+    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: Tightly Coupled Memory (TCM)/Cache ECC Security Attribution: INITECCEN setting loads from OFS1_SEC
+    OFS Registers: BANKSEL_SEL (Banksel Register Select) Settings: Disabled
+    OFS Registers: BANKSEL_SEL (Banksel Register Select) Settings: Flash Bank Select Accessibility: Both Secure and Non-Secure State
+    OFS Registers: BPS_SEL (BPS Register Select) Settings: Disabled
+    OFS Registers: BPS_SEL (BPS Register Select) Settings: BPS_SEL0: 
+    OFS Registers: BPS_SEL (BPS Register Select) Settings: BPS_SEL1: 
+    OFS Registers: BPS_SEL (BPS Register Select) Settings: BPS_SEL2: 
+    OFS Registers: BPS_SEL (BPS Register Select) Settings: BPS_SEL3: 
     
   RA8M1 event data
   RA Common
     Main stack size (bytes): 0x400
     Heap size (bytes): 0x1000
+    Bootloader Secondary XIP: Disabled
     MCU Vcc (mV): 3300
     Parameter checking: Disabled
     Assert Failures: Return FSP_ERR_ASSERTION
@@ -134,9 +166,9 @@ FSP Configuration
     SPICLK Disabled
     CANFDCLK Disabled
     I3CCLK Disabled
-    UCK Disabled
-    U60CK Disabled
-    OCTASPICLK Src: PLL1P
+    USBCLK Disabled
+    USB60CLK Disabled
+    OCTACLK Src: PLL1P
     CPUCLK Div /1
     ICLK Div /2
     PCLKA Div /4
@@ -153,9 +185,9 @@ FSP Configuration
     SPICLK Div /4
     CANFDCLK Div /8
     I3CCLK Div /3
-    UCK Div /5
-    U60CK Div /5
-    OCTASPICLK Div /5
+    USBCLK Div /5
+    USB60CLK Div /5
+    OCTACLK Div /5
     
   Pin Configurations
     RA8M1 EK -> g_bsp_pin_cfg
@@ -184,16 +216,16 @@ FSP Configuration
       P105 L3 OSPI_OM_ECSINT1 OSPI_INT L None "Peripheral mode" - - "GPT1: GTIOC1A; IRQ0: IRQ0; OSPI: OM_ECSINT1; SPI1: SSLB2; ULPT1: ULPTO1_A-DS" - IO - - 
       P106 K2 OSPI_OM_RESET OSPI_RESET L - "Peripheral mode" - - "AGT0: AGTOB0; GPT8: GTIOC8B; GPT_OPS: GTOWLO; OSPI: OM_RESET; SPI1: SSLB3; ULPT1: ULPTEE1_A-DS" - IO - - 
       P107 K1 GPIO LED3 L - "Output mode (Initial Low)" - - "AGT0: AGTOA0; GPT8: GTIOC8A; GPT_OPS: GTOWUP; OSPI: OM_CS0" - IO - - 
-      P112 B2 - ETH_A_RMII_RMII_RXDV - - Disabled - - "BUS: A0; BUS: BC0; ETHER_MII: ET0_CRS; ETHER_RMII: RMII0_CRS_DV; GPT3: GTIOC3B; SCI0: TXD0; SDRAM: A0; SDRAM: DQM1; SPI0: SSLA2; SSIE0: SSISCK0; ULPT0: ULPTOB0_A-DS" - None - - 
-      P113 C3 - - - - Disabled - - "BUS: CS1#; ETHER_MII: ET0_EXOUT; ETHER_RMII: ET0_EXOUT; GPT2: GTIOC2A; SCI0: RXD0; SDRAM: CKE; SPI0: SSLA1; SSIE0: SSIWS0; ULPT0: ULPTOA0_A-DS" - None - - 
+      P112 B2 - ETH_A_RMII_RMII_RXDV - - Disabled - - "BUS: A0; BUS: BC0; ETHER_MII: ET0_CRS; ETHER_RMII: RMII0_CRS_DV; GPT3: GTIOC3B; SCI0: TXD0; SDRAM: A0; SDRAM: DQM1; SPI0: SSLA2; SSIE: SSIBLK0; ULPT0: ULPTOB0_A-DS" - None - - 
+      P113 C3 - - - - Disabled - - "BUS: CS1#; ETHER_MII: ET0_EXOUT; ETHER_RMII: ET0_EXOUT; GPT2: GTIOC2A; SCI0: RXD0; SDRAM: CKE; SPI0: SSLA1; SSIE: SSIFS0; SSIE: SSILRCK0; ULPT0: ULPTOA0_A-DS" - None - - 
       P114 C2 - ETH_A_LINKSTA - - Disabled - - "BUS: CS0#; ETHER_MII: ET0_LINKSTA; ETHER_RMII: ET0_LINKSTA; GPT2: GTIOC2B; SCI0: CTS_RTS0; SCI0: DE0; SDRAM: WE; SPI0: SSLA0; SSIE0: SSIRXD0" - None - - 
       P115 D3 - MPLX_CTRL - - Disabled - - "ETHER_MII: ET0_WOL; ETHER_RMII: ET0_WOL; GPT5: GTIOC5A; SCI0: CTS0; SDRAM: SDCS; SPI0: MOSI0; SSIE0: SSITXD0" - None - - 
       P200 B8 - NMI - - Disabled - - "IRQ: NMI" - None - - 
       P201 E9 - MD - - Disabled - - "SYSTEM: MD" - None - - 
       P202 A11 - - - - Disabled - - "CANFD0: CRX0; GPT5: GTIOC5B; IRQ3: IRQ3-DS; SDHI0: SD0DAT6; SPI0: MOSI0; ULPT1: ULPTOB1" - None - - 
       P203 B11 - - - - Disabled - - "CANFD0: CTX0; GPT5: GTIOC5A; IRQ2: IRQ2-DS; SDHI0: SD0DAT5; SPI0: RSPCK0; ULPT1: ULPTOA1" - None - - 
-      P204 A12 - - - - Disabled - - "AGT1: AGTIO1; CAC: CACREF; GPT4: GTIOC4B; GPT_OPS: GTIW; SCI4: DE4; SCI4: SCK4; SDHI0: SD0DAT4; SPI0: SSLA0; SSIE1: SSISCK1; USB FS: USB_OVRCURB" - None - - 
-      P205 B12 - - - - Disabled - - "AGT1: AGTO1; CLKOUT: CLKOUT; GPT4: GTIOC4A; GPT_OPS: GTIV; IIC1: SCL1; IRQ1: IRQ1-DS; SCI4: TXD4; SDHI0: SD0DAT3; SPI0: SSLA1; SSIE1: SSIWS1; USB FS: USB_OVRCURA" - None - - 
+      P204 A12 - - - - Disabled - - "AGT1: AGTIO1; CAC: CACREF; GPT4: GTIOC4B; GPT_OPS: GTIW; SCI4: DE4; SCI4: SCK4; SDHI0: SD0DAT4; SPI0: SSLA0; SSIE: SSIBLK1; USB FS: USB_OVRCURB" - None - - 
+      P205 B12 - - - - Disabled - - "AGT1: AGTO1; CLKOUT: CLKOUT; GPT4: GTIOC4A; GPT_OPS: GTIV; IIC1: SCL1; IRQ1: IRQ1-DS; SCI4: TXD4; SDHI0: SD0DAT3; SPI0: SSLA1; SSIE: SSIFS1; SSIE: SSILRCK1; USB FS: USB_OVRCURA" - None - - 
       P206 D11 - - - - Disabled - - "BUS: CS7#; GPT_OPS: GTIU; IIC1: SDA1; IRQ0: IRQ0-DS; SCI4: RXD4; SDHI0: SD0DAT2; SPI0: SSLA2; SSIE1: SSIDATA1; USB FS: USB_VBUSEN" - None - - 
       P207 C13 - CAN_STB - - Disabled - - - - None - - 
       P208 F8 JTAG/SWD_TDI TDI L None "Peripheral mode" - - "CANFD1: CRX1; CLKOUT: VCOUT; GPT1: GTIOC1B; GPT_OPS: GTOVLO; IRQ3: IRQ3; JTAG/SWD: TDI; SCI9: RXD9" - IO - - 
@@ -221,8 +253,8 @@ FSP Configuration
       P400 R15 - I3C_SCL0_ARDUINO_MIKROBUS_PMOD1_3_qwiic - - Disabled - - "ADC(Digital): ADTRG1; AGT1: AGTIO1; CEU: VIO_D0; ETHER_MII: ET0_WOL; ETHER_RMII: ET0_WOL; GPT6: GTIOC6A; I3C0: I3C_SCL0; IRQ0: IRQ0; SCI1: TXD1; SDHI1: SD1CLK; SSIE: AUDIO_CLK" - None - - 
       P401 P15 ETHER_RMII_ET0_MDC I3C_SDA0_ARDUINO_MIKROBUS_PMOD1_4_qwiic M None "Peripheral mode" - - "CANFD0: CTX0; CEU: VIO_D1; ETHER_MII: ET0_MDC; ETHER_RMII: ET0_MDC; GPT6: GTIOC6B; GPT_POEGA: GTETRGA; I3C0: I3C_SDA0; IRQ5: IRQ5-DS; SCI1: RXD1; SDHI1: SD1CMD" - IO - - 
       P402 M12 ETHER_RMII_ET0_MDIO ETH_B_MDIO M None "Peripheral mode" - - "CAC: CACREF; CANFD0: CRX0; ETHER_MII: ET0_MDIO; ETHER_RMII: ET0_MDIO; IRQ4: IRQ4-DS; RTC: RTCIC0; SCI1: DE1; SCI1: SCK1; SDHI1: SD1DAT0; SSIE: AUDIO_CLK" - IO - - 
-      P403 N14 ETHER_RMII_ET0_LINKSTA ETH_B_LINKSTA H None "Peripheral mode" - - "ETHER_MII: ET0_LINKSTA; ETHER_RMII: ET0_LINKSTA; GPT3: GTIOC3A; IRQ14: IRQ14-DS; RTC: RTCIC1; SCI1: CTS_RTS1; SCI1: DE1; SDHI1: SD1DAT1; SSIE0: SSISCK0" - IO - - 
-      P404 L10 - ETH_B_RST_N - - Disabled - - "CEU: VIO_D3; ETHER_MII: ET0_EXOUT; ETHER_RMII: ET0_EXOUT; GPT3: GTIOC3B; IRQ15: IRQ15-DS; RTC: RTCIC2; SCI1: CTS1; SDHI1: SD1DAT2; SSIE0: SSIWS0" - None - - 
+      P403 N14 ETHER_RMII_ET0_LINKSTA ETH_B_LINKSTA H None "Peripheral mode" - - "ETHER_MII: ET0_LINKSTA; ETHER_RMII: ET0_LINKSTA; GPT3: GTIOC3A; IRQ14: IRQ14-DS; RTC: RTCIC1; SCI1: CTS_RTS1; SCI1: DE1; SDHI1: SD1DAT1; SSIE: SSIBLK0" - IO - - 
+      P404 L10 - ETH_B_RST_N - - Disabled - - "CEU: VIO_D3; ETHER_MII: ET0_EXOUT; ETHER_RMII: ET0_EXOUT; GPT3: GTIOC3B; IRQ15: IRQ15-DS; RTC: RTCIC2; SCI1: CTS1; SDHI1: SD1DAT2; SSIE: SSIFS0; SSIE: SSILRCK0" - None - - 
       P405 N15 ETHER_RMII_RMII0_TXD_EN ETH_B_TXEN H - "Peripheral mode" - - "AGT1: AGTIO1; CEU: VIO_D2; ETHER_MII: ET0_TX_EN; ETHER_RMII: RMII0_TXD_EN; GPT1: GTIOC1A; SCI2: DE2; SCI2: SCK2; SDHI1: SD1DAT3; SSIE0: SSITXD0" - IO - - 
       P406 M13 ETHER_RMII_RMII0_TXD1 ETH_B_TXD1 H - "Peripheral mode" - - "CEU: VIO_D3; CGC: EXCIN; ETHER_MII: ET0_RX_ER; ETHER_RMII: RMII0_TXD1; GPT1: GTIOC1B; SCI2: TXD2; SDHI1: SD1CD; SPI0: SSLA3; SSIE0: SSIRXD0" - IO - - 
       P407 D12 "USB FS_USB_VBUS" USBFS_VBUS L - "Peripheral mode" - - "ADC(Digital): ADTRG0; AGT0: AGTIO0; BUS: CS6#; GPT10: GTIOC10B; IIC0: SDA0; RTC: RTCOUT; SCI4: CTS_RTS4; SCI4: DE4; SPI0: SSLA3; USB FS: USB_VBUS" - IO - - 
@@ -232,7 +264,7 @@ FSP Configuration
       P411 D13 SPI1_MOSI1 MOSIB_B_ARDUINO_MIKROBUS H None "Peripheral mode" - - "AGT1: AGTOA1; BUS: A20; GPT9: GTIOC9A; GPT_OPS: GTOVUP; IRQ4: IRQ4; SCI3: CTS_RTS3; SCI3: DE3; SDHI0: SD0DAT0; SPI1: MOSI1; USB FS: USB_ID; USB HS: USBHS_ID" - IO - - 
       P412 C15 SPI1_RSPCK1 RSPCKB_B_ARDUINO_MIKROBUS H - "Peripheral mode" - - "AGT1: AGTEE1; BUS: A21; GPT_OPS: GTOULO; SCI3: CTS3; SDHI0: SD0CMD; SPI1: RSPCK1; USB FS: USB_EXICEN; USB HS: USBHS_EXICEN" - IO - - 
       P413 A15 SPI1_SSLB0 SSLB0_B_ARDUINO_D10_MIKROBUS H - "Peripheral mode" - - "BUS: A22; GPT_OPS: GTOUUP; SDHI0: SD0CLK; SPI1: SSLB0; ULPT1: ULPTEE1" - IO - - 
-      P414 D15 GPIO USER_LED2_GREEN L None "Output mode (Initial Low)" - - "BUS: A23; CANFD1: CRX1; CEU: VIO_D13; GPT0: GTIOC0B; GPT_OPS: GTADSM1; IRQ9: IRQ9; SCI4: RXD4; SDHI0: SD0WP; SPI1: SSLB1" - IO - - 
+      P414 D15 GPIO USER_LED2_GREEN L - "Output mode (Initial Low)" - - "BUS: A23; CANFD1: CRX1; CEU: VIO_D13; GPT0: GTIOC0B; GPT_OPS: GTADSM1; IRQ9: IRQ9; SCI4: RXD4; SDHI0: SD0WP; SPI1: SSLB1" - IO - - 
       P415 C14 - - - - Disabled - - "BUS: WAIT; CANFD1: CTX1; CEU: VIO_D12; GPT0: GTIOC0A; GPT_OPS: GTADSM0; IRQ8: IRQ8; SCI4: TXD4; SDHI0: SD0CD; SPI1: SSLB2" - None - - 
       P500 P5 "USB FS_USB_VBUSEN" USBFS_VBUS_EN L - "Peripheral mode" - - "ADC1: AN121; CAC: CACREF; SDHI1: SD1DAT1; USB FS: USB_VBUSEN" - IO - - 
       P501 R5 "USB FS_USB_OVRCURA" USBFS_OVERCURA L - "Peripheral mode" - - "ADC1: AN120; SDHI1: SD1DAT2; USB FS: USB_OVRCURA" - IO - - 
@@ -266,8 +298,8 @@ FSP Configuration
       P614 F4 - PMOD1_9_GPIO - - Disabled - - "AGT0: AGTO0; BUS: D13; GPT_POEGB: GTETRGB; SDRAM: DQ13" - None - - 
       P615 E3 - PMOD1_10_GPIO - - Disabled - - "BUS: D14; GPT_POEGC: GTETRGC; IRQ7: IRQ7; SDRAM: DQ14; USB FS: USB_VBUSEN" - None - - 
       P700 M14 ETHER_RMII_RMII0_TXD0 ETH_B_TXD0 H - "Peripheral mode" - - "CEU: VIO_D4; ETHER_MII: ET0_ETXD1; ETHER_RMII: RMII0_TXD0; GPT5: GTIOC5A; SCI2: RXD2; SDHI1: SD1WP; SPI0: MISO0; SSIE1: SSIDATA1" - IO - - 
-      P701 L12 ETHER_RMII_REF50CK0 ETH_B_REFCLK H - "Peripheral mode" - - "CEU: VIO_D5; ETHER_MII: ET0_ETXD0; ETHER_RMII: REF50CK0; GPT5: GTIOC5B; SCI2: CTS_RTS2; SCI2: DE2; SDHI1: SD1DAT4; SPI0: MOSI0; SSIE1: SSIWS1; ULPT1: ULPTO1" - IO - - 
-      P702 L13 ETHER_RMII_RMII0_RXD0 ETH_B_RXD0 H - "Peripheral mode" - - "CEU: VIO_D6; ETHER_MII: ET0_ERXD1; ETHER_RMII: RMII0_RXD0; GPT6: GTIOC6A; SCI2: CTS2; SDHI1: SD1DAT5; SPI0: RSPCK0; SSIE1: SSISCK1; ULPT0: ULPTO0" - IO - - 
+      P701 L12 ETHER_RMII_REF50CK0 ETH_B_REFCLK H - "Peripheral mode" - - "CEU: VIO_D5; ETHER_MII: ET0_ETXD0; ETHER_RMII: REF50CK0; GPT5: GTIOC5B; SCI2: CTS_RTS2; SCI2: DE2; SDHI1: SD1DAT4; SPI0: MOSI0; SSIE: SSIFS1; SSIE: SSILRCK1; ULPT1: ULPTO1" - IO - - 
+      P702 L13 ETHER_RMII_RMII0_RXD0 ETH_B_RXD0 H - "Peripheral mode" - - "CEU: VIO_D6; ETHER_MII: ET0_ERXD1; ETHER_RMII: RMII0_RXD0; GPT6: GTIOC6A; SCI2: CTS2; SDHI1: SD1DAT5; SPI0: RSPCK0; SSIE: SSIBLK1; ULPT0: ULPTO0" - IO - - 
       P703 L11 ETHER_RMII_RMII0_RXD1 ETH_B_RXD1 H - "Peripheral mode" - - "AGT1: AGTO1; CEU: VIO_D7; CLKOUT: VCOUT; ETHER_MII: ET0_ERXD0; ETHER_RMII: RMII0_RXD1; GPT6: GTIOC6B; SDHI1: SD1DAT6; SPI0: SSLA0" - IO - - 
       P704 K12 ETHER_RMII_RMII0_RX_ER ETH_B_RXER H - "Peripheral mode" - - "AGT0: AGTO0; CANFD0: CTX0; CEU: VIO_D8; ETHER_MII: ET0_RX_CLK; ETHER_RMII: RMII0_RX_ER; GPT_OPS: GTADSM0; SDHI1: SD1DAT7; SPI0: SSLA1" - IO - - 
       P705 K10 ETHER_RMII_RMII0_CRS_DV ETH_B_RMII_RXDV H - "Peripheral mode" - - "AGT0: AGTIO0; CANFD0: CRX0; CEU: VIO_D9; ETHER_MII: ET0_CRS; ETHER_RMII: RMII0_CRS_DV; GPT_OPS: GTADSM1; SCI1: CTS1; SPI0: SSLA2" - IO - - 
@@ -409,16 +441,16 @@ FSP Configuration
       P105 L3 - OSPI_INT L None Disabled - - "GPT1: GTIOC1A; IRQ0: IRQ0; OSPI: OM_ECSINT1; SPI1: SSLB2; ULPT1: ULPTO1_A-DS" - IO - - 
       P106 K2 - OSPI_RESET L - Disabled - - "AGT0: AGTOB0; GPT8: GTIOC8B; GPT_OPS: GTOWLO; OSPI: OM_RESET; SPI1: SSLB3; ULPT1: ULPTEE1_A-DS" - IO - - 
       P107 K1 - LED3 L - Disabled - - "AGT0: AGTOA0; GPT8: GTIOC8A; GPT_OPS: GTOWUP; OSPI: OM_CS0" - IO - - 
-      P112 B2 - ETH_A_RMII_RMII_RXDV - - Disabled - - "BUS: A0; BUS: BC0; ETHER_MII: ET0_CRS; ETHER_RMII: RMII0_CRS_DV; GPT3: GTIOC3B; SCI0: TXD0; SDRAM: A0; SDRAM: DQM1; SPI0: SSLA2; SSIE0: SSISCK0; ULPT0: ULPTOB0_A-DS" - None - - 
-      P113 C3 - - - - Disabled - - "BUS: CS1#; ETHER_MII: ET0_EXOUT; ETHER_RMII: ET0_EXOUT; GPT2: GTIOC2A; SCI0: RXD0; SDRAM: CKE; SPI0: SSLA1; SSIE0: SSIWS0; ULPT0: ULPTOA0_A-DS" - None - - 
+      P112 B2 - ETH_A_RMII_RMII_RXDV - - Disabled - - "BUS: A0; BUS: BC0; ETHER_MII: ET0_CRS; ETHER_RMII: RMII0_CRS_DV; GPT3: GTIOC3B; SCI0: TXD0; SDRAM: A0; SDRAM: DQM1; SPI0: SSLA2; SSIE: SSIBLK0; ULPT0: ULPTOB0_A-DS" - None - - 
+      P113 C3 - - - - Disabled - - "BUS: CS1#; ETHER_MII: ET0_EXOUT; ETHER_RMII: ET0_EXOUT; GPT2: GTIOC2A; SCI0: RXD0; SDRAM: CKE; SPI0: SSLA1; SSIE: SSIFS0; SSIE: SSILRCK0; ULPT0: ULPTOA0_A-DS" - None - - 
       P114 C2 - ETH_A_LINKSTA - - Disabled - - "BUS: CS0#; ETHER_MII: ET0_LINKSTA; ETHER_RMII: ET0_LINKSTA; GPT2: GTIOC2B; SCI0: CTS_RTS0; SCI0: DE0; SDRAM: WE; SPI0: SSLA0; SSIE0: SSIRXD0" - None - - 
       P115 D3 - MPLX_CTRL - - Disabled - - "ETHER_MII: ET0_WOL; ETHER_RMII: ET0_WOL; GPT5: GTIOC5A; SCI0: CTS0; SDRAM: SDCS; SPI0: MOSI0; SSIE0: SSITXD0" - None - - 
       P200 B8 - NMI - - Disabled - - "IRQ: NMI" - None - - 
       P201 E9 - MD - - Disabled - - "SYSTEM: MD" - None - - 
       P202 A11 - - - - Disabled - - "CANFD0: CRX0; GPT5: GTIOC5B; IRQ3: IRQ3-DS; SDHI0: SD0DAT6; SPI0: MOSI0; ULPT1: ULPTOB1" - None - - 
       P203 B11 - - - - Disabled - - "CANFD0: CTX0; GPT5: GTIOC5A; IRQ2: IRQ2-DS; SDHI0: SD0DAT5; SPI0: RSPCK0; ULPT1: ULPTOA1" - None - - 
-      P204 A12 - - - - Disabled - - "AGT1: AGTIO1; CAC: CACREF; GPT4: GTIOC4B; GPT_OPS: GTIW; SCI4: DE4; SCI4: SCK4; SDHI0: SD0DAT4; SPI0: SSLA0; SSIE1: SSISCK1; USB FS: USB_OVRCURB" - None - - 
-      P205 B12 - - - - Disabled - - "AGT1: AGTO1; CLKOUT: CLKOUT; GPT4: GTIOC4A; GPT_OPS: GTIV; IIC1: SCL1; IRQ1: IRQ1-DS; SCI4: TXD4; SDHI0: SD0DAT3; SPI0: SSLA1; SSIE1: SSIWS1; USB FS: USB_OVRCURA" - None - - 
+      P204 A12 - - - - Disabled - - "AGT1: AGTIO1; CAC: CACREF; GPT4: GTIOC4B; GPT_OPS: GTIW; SCI4: DE4; SCI4: SCK4; SDHI0: SD0DAT4; SPI0: SSLA0; SSIE: SSIBLK1; USB FS: USB_OVRCURB" - None - - 
+      P205 B12 - - - - Disabled - - "AGT1: AGTO1; CLKOUT: CLKOUT; GPT4: GTIOC4A; GPT_OPS: GTIV; IIC1: SCL1; IRQ1: IRQ1-DS; SCI4: TXD4; SDHI0: SD0DAT3; SPI0: SSLA1; SSIE: SSIFS1; SSIE: SSILRCK1; USB FS: USB_OVRCURA" - None - - 
       P206 D11 - - - - Disabled - - "BUS: CS7#; GPT_OPS: GTIU; IIC1: SDA1; IRQ0: IRQ0-DS; SCI4: RXD4; SDHI0: SD0DAT2; SPI0: SSLA2; SSIE1: SSIDATA1; USB FS: USB_VBUSEN" - None - - 
       P207 C13 - CAN_STB - - Disabled - - - - None - - 
       P208 F8 JTAG/SWD_TDI TDI L None "Peripheral mode" - - "CANFD1: CRX1; CLKOUT: VCOUT; GPT1: GTIOC1B; GPT_OPS: GTOVLO; IRQ3: IRQ3; JTAG/SWD: TDI; SCI9: RXD9" - IO - - 
@@ -446,8 +478,8 @@ FSP Configuration
       P400 R15 - I3C_SCL0_ARDUINO_MIKROBUS_PMOD1_3_qwiic - - Disabled - - "ADC(Digital): ADTRG1; AGT1: AGTIO1; CEU: VIO_D0; ETHER_MII: ET0_WOL; ETHER_RMII: ET0_WOL; GPT6: GTIOC6A; I3C0: I3C_SCL0; IRQ0: IRQ0; SCI1: TXD1; SDHI1: SD1CLK; SSIE: AUDIO_CLK" - None - - 
       P401 P15 - I3C_SDA0_ARDUINO_MIKROBUS_PMOD1_4_qwiic L None Disabled - - "CANFD0: CTX0; CEU: VIO_D1; ETHER_MII: ET0_MDC; ETHER_RMII: ET0_MDC; GPT6: GTIOC6B; GPT_POEGA: GTETRGA; I3C0: I3C_SDA0; IRQ5: IRQ5-DS; SCI1: RXD1; SDHI1: SD1CMD" - IO - - 
       P402 M12 - ETH_B_MDIO L None Disabled - - "CAC: CACREF; CANFD0: CRX0; ETHER_MII: ET0_MDIO; ETHER_RMII: ET0_MDIO; IRQ4: IRQ4-DS; RTC: RTCIC0; SCI1: DE1; SCI1: SCK1; SDHI1: SD1DAT0; SSIE: AUDIO_CLK" - IO - - 
-      P403 N14 - ETH_B_LINKSTA L None Disabled - - "ETHER_MII: ET0_LINKSTA; ETHER_RMII: ET0_LINKSTA; GPT3: GTIOC3A; IRQ14: IRQ14-DS; RTC: RTCIC1; SCI1: CTS_RTS1; SCI1: DE1; SDHI1: SD1DAT1; SSIE0: SSISCK0" - IO - - 
-      P404 L10 - ETH_B_RST_N - - Disabled - - "CEU: VIO_D3; ETHER_MII: ET0_EXOUT; ETHER_RMII: ET0_EXOUT; GPT3: GTIOC3B; IRQ15: IRQ15-DS; RTC: RTCIC2; SCI1: CTS1; SDHI1: SD1DAT2; SSIE0: SSIWS0" - None - - 
+      P403 N14 - ETH_B_LINKSTA L None Disabled - - "ETHER_MII: ET0_LINKSTA; ETHER_RMII: ET0_LINKSTA; GPT3: GTIOC3A; IRQ14: IRQ14-DS; RTC: RTCIC1; SCI1: CTS_RTS1; SCI1: DE1; SDHI1: SD1DAT1; SSIE: SSIBLK0" - IO - - 
+      P404 L10 - ETH_B_RST_N - - Disabled - - "CEU: VIO_D3; ETHER_MII: ET0_EXOUT; ETHER_RMII: ET0_EXOUT; GPT3: GTIOC3B; IRQ15: IRQ15-DS; RTC: RTCIC2; SCI1: CTS1; SDHI1: SD1DAT2; SSIE: SSIFS0; SSIE: SSILRCK0" - None - - 
       P405 N15 - ETH_B_TXEN L - Disabled - - "AGT1: AGTIO1; CEU: VIO_D2; ETHER_MII: ET0_TX_EN; ETHER_RMII: RMII0_TXD_EN; GPT1: GTIOC1A; SCI2: DE2; SCI2: SCK2; SDHI1: SD1DAT3; SSIE0: SSITXD0" - IO - - 
       P406 M13 - ETH_B_TXD1 L - Disabled - - "CEU: VIO_D3; CGC: EXCIN; ETHER_MII: ET0_RX_ER; ETHER_RMII: RMII0_TXD1; GPT1: GTIOC1B; SCI2: TXD2; SDHI1: SD1CD; SPI0: SSLA3; SSIE0: SSIRXD0" - IO - - 
       P407 D12 - USBFS_VBUS L - Disabled - - "ADC(Digital): ADTRG0; AGT0: AGTIO0; BUS: CS6#; GPT10: GTIOC10B; IIC0: SDA0; RTC: RTCOUT; SCI4: CTS_RTS4; SCI4: DE4; SPI0: SSLA3; USB FS: USB_VBUS" - IO - - 
@@ -457,7 +489,7 @@ FSP Configuration
       P411 D13 - MOSIB_B_ARDUINO_MIKROBUS L None Disabled - - "AGT1: AGTOA1; BUS: A20; GPT9: GTIOC9A; GPT_OPS: GTOVUP; IRQ4: IRQ4; SCI3: CTS_RTS3; SCI3: DE3; SDHI0: SD0DAT0; SPI1: MOSI1; USB FS: USB_ID; USB HS: USBHS_ID" - IO - - 
       P412 C15 - RSPCKB_B_ARDUINO_MIKROBUS L - Disabled - - "AGT1: AGTEE1; BUS: A21; GPT_OPS: GTOULO; SCI3: CTS3; SDHI0: SD0CMD; SPI1: RSPCK1; USB FS: USB_EXICEN; USB HS: USBHS_EXICEN" - IO - - 
       P413 A15 - SSLB0_B_ARDUINO_D10_MIKROBUS L - Disabled - - "BUS: A22; GPT_OPS: GTOUUP; SDHI0: SD0CLK; SPI1: SSLB0; ULPT1: ULPTEE1" - IO - - 
-      P414 D15 - USER_LED2_GREEN L None Disabled - - "BUS: A23; CANFD1: CRX1; CEU: VIO_D13; GPT0: GTIOC0B; GPT_OPS: GTADSM1; IRQ9: IRQ9; SCI4: RXD4; SDHI0: SD0WP; SPI1: SSLB1" - IO - - 
+      P414 D15 - USER_LED2_GREEN L - Disabled - - "BUS: A23; CANFD1: CRX1; CEU: VIO_D13; GPT0: GTIOC0B; GPT_OPS: GTADSM1; IRQ9: IRQ9; SCI4: RXD4; SDHI0: SD0WP; SPI1: SSLB1" - IO - - 
       P415 C14 - - - - Disabled - - "BUS: WAIT; CANFD1: CTX1; CEU: VIO_D12; GPT0: GTIOC0A; GPT_OPS: GTADSM0; IRQ8: IRQ8; SCI4: TXD4; SDHI0: SD0CD; SPI1: SSLB2" - None - - 
       P500 P5 - USBFS_VBUS_EN L - Disabled - - "ADC1: AN121; CAC: CACREF; SDHI1: SD1DAT1; USB FS: USB_VBUSEN" - IO - - 
       P501 R5 - USBFS_OVERCURA L - Disabled - - "ADC1: AN120; SDHI1: SD1DAT2; USB FS: USB_OVRCURA" - IO - - 
@@ -491,8 +523,8 @@ FSP Configuration
       P614 F4 - PMOD1_9_GPIO - - Disabled - - "AGT0: AGTO0; BUS: D13; GPT_POEGB: GTETRGB; SDRAM: DQ13" - None - - 
       P615 E3 - PMOD1_10_GPIO - - Disabled - - "BUS: D14; GPT_POEGC: GTETRGC; IRQ7: IRQ7; SDRAM: DQ14; USB FS: USB_VBUSEN" - None - - 
       P700 M14 - ETH_B_TXD0 L - Disabled - - "CEU: VIO_D4; ETHER_MII: ET0_ETXD1; ETHER_RMII: RMII0_TXD0; GPT5: GTIOC5A; SCI2: RXD2; SDHI1: SD1WP; SPI0: MISO0; SSIE1: SSIDATA1" - IO - - 
-      P701 L12 - ETH_B_REFCLK L - Disabled - - "CEU: VIO_D5; ETHER_MII: ET0_ETXD0; ETHER_RMII: REF50CK0; GPT5: GTIOC5B; SCI2: CTS_RTS2; SCI2: DE2; SDHI1: SD1DAT4; SPI0: MOSI0; SSIE1: SSIWS1; ULPT1: ULPTO1" - IO - - 
-      P702 L13 - ETH_B_RXD0 L - Disabled - - "CEU: VIO_D6; ETHER_MII: ET0_ERXD1; ETHER_RMII: RMII0_RXD0; GPT6: GTIOC6A; SCI2: CTS2; SDHI1: SD1DAT5; SPI0: RSPCK0; SSIE1: SSISCK1; ULPT0: ULPTO0" - IO - - 
+      P701 L12 - ETH_B_REFCLK L - Disabled - - "CEU: VIO_D5; ETHER_MII: ET0_ETXD0; ETHER_RMII: REF50CK0; GPT5: GTIOC5B; SCI2: CTS_RTS2; SCI2: DE2; SDHI1: SD1DAT4; SPI0: MOSI0; SSIE: SSIFS1; SSIE: SSILRCK1; ULPT1: ULPTO1" - IO - - 
+      P702 L13 - ETH_B_RXD0 L - Disabled - - "CEU: VIO_D6; ETHER_MII: ET0_ERXD1; ETHER_RMII: RMII0_RXD0; GPT6: GTIOC6A; SCI2: CTS2; SDHI1: SD1DAT5; SPI0: RSPCK0; SSIE: SSIBLK1; ULPT0: ULPTO0" - IO - - 
       P703 L11 - ETH_B_RXD1 L - Disabled - - "AGT1: AGTO1; CEU: VIO_D7; CLKOUT: VCOUT; ETHER_MII: ET0_ERXD0; ETHER_RMII: RMII0_RXD1; GPT6: GTIOC6B; SDHI1: SD1DAT6; SPI0: SSLA0" - IO - - 
       P704 K12 - ETH_B_RXER L - Disabled - - "AGT0: AGTO0; CANFD0: CTX0; CEU: VIO_D8; ETHER_MII: ET0_RX_CLK; ETHER_RMII: RMII0_RX_ER; GPT_OPS: GTADSM0; SDHI1: SD1DAT7; SPI0: SSLA1" - IO - - 
       P705 K10 - ETH_B_RMII_RXDV L - Disabled - - "AGT0: AGTIO0; CANFD0: CRX0; CEU: VIO_D9; ETHER_MII: ET0_CRS; ETHER_RMII: RMII0_CRS_DV; GPT_OPS: GTADSM1; SCI1: CTS1; SPI0: SSLA2" - IO - - 
@@ -680,17 +712,6 @@ FSP Configuration
     Parameter Checking: Default (BSP)
     ET0_LINKSTA Pin Status Flag: Fall -> Rise
     Link Signal Change Flag: Unused
-    Interrupt event backward compatibility: Do not keep compatibility
-    
-  Module "Ethernet (r_ether_phy)"
-    Parameter Checking: Default (BSP)
-    KSZ8091RNB Target: Disabled
-    KSZ8041 Target: Disabled
-    DP83620 Target: Disabled
-    ICS1894 Target: Disabled
-    User Own Target: Disabled
-    Reference Clock: Default
-    Automatic Phy LSI Initialization: Enabled
     
   Module "FreeRTOS+FAT"
     General: Has CWD: Disabled
@@ -735,17 +756,38 @@ FSP Configuration
   Module "Block Media SPI Flash (rm_block_media_spi)"
     Parameter Checking: Default (BSP)
     
-  Module "OSPI Flash (r_ospi_b)"
+  Module "OSPI (r_ospi_b)"
     Parameter Checking: Default (BSP)
     DMAC Support: Enable
     Autocalibration Support: Disable
     Memory-mapping Support: Prefetch Function: Enable
-    Memory-mapping Support: Combination Function: 64 Byte
+    Memory-mapping Support: Combination Function: 64 Bytes
     Memory-mapping Support: XiP Support: Disable
     DOTF Support: Disable
+    Row Addressing Support: Disable
     
   Module "Transfer (r_dmac)"
     Parameter Checking: Default (BSP)
+    
+  Module "Ethernet (r_ether_phy)"
+    Parameter Checking: Default (BSP)
+    KSZ8091RNB Target: Disabled
+    KSZ8041 Target: Disabled
+    DP83620 Target: Disabled
+    ICS1894 Target: Disabled
+    User Own Target: Disabled
+    Reference Clock: Default
+    Automatic PHY-LSI Initialization: Enabled
+    
+  Module "Ethernet PHY-LSI"
+    Parameter Checking: Default (BSP)
+    KSZ8091RNB Target: Disabled
+    KSZ8041 Target: Disabled
+    DP83620 Target: Disabled
+    ICS1894 Target: Disabled
+    User Own Target: Disabled
+    Reference Clock: Default
+    Automatic PHY-LSI Initialization: Enabled
     
   FreeRTOS
     General: Custom FreeRTOSConfig.h: usr_freertos_config.h
@@ -860,14 +902,20 @@ FSP Configuration
             Name: g_ether_phy0
             Channel: 0
             PHY-LSI Address: 5
+            Default PHY-LSI port: 0
             PHY-LSI Reset Completion Timeout: 0x00020000
             Select MII type: RMII
-            Phy LSI type: Kit Component
+            PHY-LSI type: Kit Component
             Port Custom Init Function: NULL
             Port Custom Link Partner Ability Get Function: NULL
             MII/RMII Register Access Wait-time: 8
             Flow Control: Disable
             
+            Instance "g_ether_phy_lsi0 Ethernet PHY-LSI"
+              Name: g_ether_phy_lsi0
+              PHY-LSI Address: 5
+              PHY-LSI type: Kit Component
+              
         Instance "FreeRTOS Buffer Allocation 2"
     Instance "FreeRTOS+FAT"
       Instance "FreeRTOS+FAT Port for RA (rm_freertos_plus_fat)"
@@ -885,43 +933,69 @@ FSP Configuration
           Base Address: 0
           Callback Function: rm_freertos_plus_fat_memory_callback
           
-          Instance "g_ospi0 OSPI Flash (r_ospi_b)"
+          Instance "g_ospi0 OSPI (r_ospi_b)"
             General: Name: g_ospi0
             General: Unit: OSPI_B0
-            General: Channel: CS1
-            General: Initial Protocol Mode: SPI (1S-1S-1S)
-            General: Initial Address Bytes: 4
-            General: Write Status Bit: 0
-            General: Write Enable Bit: 1
-            General: Sector Erase Size: 4096
-            General: Block Erase Size: 262144
-            Defaults: Command Definitions: Page Program Command: 0x12
-            Defaults: Command Definitions: Read Command: 0x13
-            Defaults: Command Definitions: Write Enable Command: 0x06
-            Defaults: Command Definitions: Status Command: 0x05
-            Defaults: Erase Command Definitions: Sector Erase Command: 0x2121
-            Defaults: Erase Command Definitions: Block Erase Command: 0xDCDC
-            Defaults: Erase Command Definitions: Chip Erase Command: 0x6060
-            Defaults: Dummy Cycles: Memory Read Dummy Cycles: 0
-            Defaults: Dummy Cycles: Status Read Dummy Cycles: 0
-            General: Command Set Table: 
-            General: Command Set Table Length: 0
-            High-speed Mode: Protocol: Dual data rate OPI (8D-8D-8D)
-            High-speed Mode: Command Length Bytes: 2
-            High-speed Mode: Auto-Calibration: Data latching delay: 0x08
-            High-speed Mode: Auto-Calibration: Auto-Calibration Address: 0x00
-            High-speed Mode: Command Definitions: Page Program Command: 0x1212
-            High-speed Mode: Command Definitions: Dual Read Command: 0xEEEE
-            High-speed Mode: Command Definitions: Write Enable Command: 0x0606
-            High-speed Mode: Command Definitions: Status Command: 0x0505
-            High-speed Mode: Command Definitions: Sector Erase Command: 0
-            High-speed Mode: Command Definitions: Block Erase Command: 0
-            High-speed Mode: Command Definitions: Chip Erase Command: 0
-            High-speed Mode: Memory Read Dummy Cycles: 20
-            High-speed Mode: Status Read Dummy Cycles: 3
-            Chip Select Timing Setting: Command Interval: 2
-            Chip Select Timing Setting: Pull-up Timing: No Extension
-            Chip Select Timing Setting: Pull-down Timing: No Extension
+            General: Chip Select: CS1
+            General: Write Status Bit: b0
+            General: Write Enable Bit: b1
+            General: DS Auto-calibration Pattern Address: 0x00
+            Command Sets: Custom Table: Table Pointer: 
+            Command Sets: Custom Table: Table Length: 0
+            Command Sets: Erase Sizes: Sector Erase: 4096
+            Command Sets: Erase Sizes: Block Erase: 262144
+            Command Sets: Initial Mode: Protocol Mode: SPI (1S-1S-1S)
+            Command Sets: Initial Mode: Frame Format: Standard
+            Command Sets: Initial Mode: Latency Mode: Fixed
+            Command Sets: Initial Mode: Address Length: 4 bytes
+            Command Sets: Initial Mode: Address MSB Mask: 0xF0
+            Command Sets: Initial Mode: Command Code Length: 1 byte
+            Command Sets: Initial Mode: Status Register Address Length: No address
+            Command Sets: Initial Mode: Status Register Address: 0x00
+            Command Sets: Initial Mode: Read: Command Code: 0x13
+            Command Sets: Initial Mode: Read: Dummy Cycles: 0
+            Command Sets: Initial Mode: Program: Command Code: 0x12
+            Command Sets: Initial Mode: Program: Dummy Cycles: 0
+            Command Sets: Initial Mode: Row Load: Command Code: 0x00
+            Command Sets: Initial Mode: Row Load: Dummy Cycles: 0
+            Command Sets: Initial Mode: Row Store: Command Code: 0x00
+            Command Sets: Initial Mode: Row Store: Dummy Cycles: 0
+            Command Sets: Initial Mode: Write Enable: Command Code: 0x06
+            Command Sets: Initial Mode: Status Read: Command Code: 0x05
+            Command Sets: Initial Mode: Status Read: Dummy Cycles: 0
+            Command Sets: Initial Mode: Sector Erase: Command Code: 0x21
+            Command Sets: Initial Mode: Block Erase: Command Code: 0xDC
+            Command Sets: Initial Mode: Chip Erase: Command Code: 0x60
+            Command Sets: High-speed Mode: Protocol Mode: Dual data rate OPI (8D-8D-8D)
+            Command Sets: High-speed Mode: Frame Format: xSPI Profile 1.0
+            Command Sets: High-speed Mode: Latency Mode: Fixed
+            Command Sets: High-speed Mode: Address Length: 4 bytes
+            Command Sets: High-speed Mode: Address MSB Mask: 0xF0
+            Command Sets: High-speed Mode: Command Code Length: 2 bytes
+            Command Sets: High-speed Mode: Status Register Address Length: 4 bytes
+            Command Sets: High-speed Mode: Status Register Address: 0x00
+            Command Sets: High-speed Mode: Read: Command Code: 0xEEEE
+            Command Sets: High-speed Mode: Read: Dummy Cycles: 20
+            Command Sets: High-speed Mode: Program: Command Code: 0x1212
+            Command Sets: High-speed Mode: Program: Dummy Cycles: 0
+            Command Sets: High-speed Mode: Row Load: Command Code: 0x00
+            Command Sets: High-speed Mode: Row Load: Dummy Cycles: 0
+            Command Sets: High-speed Mode: Row Store: Command Code: 0x00
+            Command Sets: High-speed Mode: Row Store: Dummy Cycles: 0
+            Command Sets: High-speed Mode: Write Enable: Command Code: 0x0606
+            Command Sets: High-speed Mode: Status Read: Command Code: 0x0505
+            Command Sets: High-speed Mode: Status Read: Dummy Cycles: 3
+            Command Sets: High-speed Mode: Sector Erase: Command Code: 0
+            Command Sets: High-speed Mode: Block Erase: Command Code: 0
+            Command Sets: High-speed Mode: Chip Erase: Command Code: 0
+            Timing Settings: Chip Select: Command Interval: 2 cycles
+            Timing Settings: Chip Select: Pull-up Timing: No Extension
+            Timing Settings: Chip Select: Pull-down Timing: No Extension
+            Timing Settings: DS Latching Delay: Auto-calibrate
+            Timing Settings: SDR: Drive Timing: Drive 1/2 cycle before CK
+            Timing Settings: SDR: CK Sampling Edge: Falling edge
+            Timing Settings: SDR: Sampling Delay: None
+            Timing Settings: DDR: Sampling Window Extension: None
             XiP Mode: XiP Enter Code: 0
             XiP Mode: XiP Exit Code: 0
             DOTF: Name: g_ospi_dotf
@@ -931,6 +1005,7 @@ FSP Configuration
             DOTF: Key Format: Plaintext
             DOTF: Decryption start address: 0x90000000
             DOTF: Decryption end address: 0x90001FFF
+            Row Addressing: Row Address Length: No address
             
             Instance "g_transfer0 Transfer (r_dmac) No ELC Trigger"
               Name: g_transfer0

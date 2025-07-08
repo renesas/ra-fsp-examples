@@ -228,7 +228,7 @@ void DRW_entry(void)
 
 #if defined(BOARD_RA8D1_EK)
     /* Initialize SDRAM. */
-    bsp_sdram_init();
+    R_BSP_SdramInit(true);
 #endif
 
     /* Get LCDC configuration */

@@ -27,9 +27,9 @@ Set the configuration switches (SW1) on the EK-RA8D1 board as below:
 |  OFF |  OFF | OFF | OFF | OFF | OFF | ON | OFF |
 
 ### Software ###
-* Renesas Flexible Software Package (FSP): Version 5.9.0
-* E2 studio: Version 2025-04
-* SEGGER J-Link RTT Viewer: Version 8.12f
+* Renesas Flexible Software Package (FSP): Version 6.0.0
+* E2 studio: Version 2025-04.1
+* SEGGER J-Link RTT Viewer: Version 8.44a
 * GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 
 Refer to software requirements mentioned in [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf)

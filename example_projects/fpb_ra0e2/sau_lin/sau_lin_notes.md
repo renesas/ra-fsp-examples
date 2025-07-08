@@ -102,11 +102,11 @@ Note:
 | JP2   | MODE       | Left    | Communication mode selection: Left position (Slave mode), Right position (Master mode). |
 
 ### Software Requirements ###
-* Renesas Flexible Software Package (FSP): Version 5.9.0
-* e2 studio: Version 2025-04
+* Renesas Flexible Software Package (FSP): Version 6.0.0
+* e2 studio: Version 2025-04.1
+* SEGGER J-Link RTT Viewer: Version 8.44a
 * GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
-* Serial Terminal Console Application: Tera Term or a similar application
-* SEGGER J-Link RTT Viewer: Version 8.12f
+* Terminal Console Application: Tera Term or a similar application
 
 Refer to the software required section in [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf)
 

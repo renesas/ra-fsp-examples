@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<raConfiguration version="7">
+<raConfiguration version="11">
   <generalSettings>
     <option key="#Board#" value="board.ra4e2ek"/>
     <option key="CPU" value="RA4E2"/>
@@ -9,11 +9,12 @@
     <option key="#DeviceCommand#" value="R7FA4E2B9"/>
     <option key="#RTOS#" value="rtos.awsfreertos"/>
     <option key="#pinconfiguration#" value="R7FA4E2B93CFM.pincfg"/>
-    <option key="#FSPVersion#" value="4.3.0"/>
+    <option key="#FSPVersion#" value="6.0.0"/>
     <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra4e2_ek##"/>
     <option key="#SELECTED_TOOLCHAIN#" value="gcc-arm-embedded"/>
-    <option key="#ToolchainVersion#" value="10.3.1.20210824"/>
+    <option key="#ToolchainVersion#" value="13.2.1.arm-13-7"/>
   </generalSettings>
+  <raBspConfiguration/>
   <raClockConfiguration>
     <node id="board.clock.xtal.freq" mul="20000000" option="_edit"/>
     <node id="board.clock.hoco.freq" option="board.clock.hoco.freq.20m"/>
@@ -53,24 +54,23 @@
     <node id="board.clock.cecclk.display" option="board.clock.cecclk.display.value"/>
     <node id="board.clock.i3cclk.display" option="board.clock.i3cclk.display.value"/>
   </raClockConfiguration>
-  <raModuleConfiguration/>
   <raPinConfiguration>
     <pincfg active="true" name="" symbol="">
-      <configSetting altId="adc0.an000.p000" configurationId="adc0.an000" isUsedByDriver="true"/>
-      <configSetting altId="adc0.an001.p001" configurationId="adc0.an001" isUsedByDriver="true"/>
-      <configSetting altId="adc0.an002.p002" configurationId="adc0.an002" isUsedByDriver="true"/>
-      <configSetting altId="adc0.an004.p004" configurationId="adc0.an004" isUsedByDriver="true"/>
-      <configSetting altId="adc0.an007.p003" configurationId="adc0.an007" isUsedByDriver="true"/>
-      <configSetting altId="adc0.an011.p013" configurationId="adc0.an011" isUsedByDriver="true"/>
-      <configSetting altId="canfd0.crx0.p402" configurationId="canfd0.crx0"/>
-      <configSetting altId="canfd0.ctx0.p401" configurationId="canfd0.ctx0"/>
-      <configSetting altId="gpt5.gtioc5a.p207" configurationId="gpt5.gtioc5a" isUsedByDriver="true"/>
-      <configSetting altId="i3c_fslash_iic.i3c_scl.p100" configurationId="i3c_fslash_iic.i3c_scl"/>
-      <configSetting altId="i3c_fslash_iic.i3c_sda.p101" configurationId="i3c_fslash_iic.i3c_sda"/>
-      <configSetting altId="irq.irq10_dash_ds.p005" configurationId="irq.irq10_dash_ds"/>
-      <configSetting altId="irq.irq9.p304" configurationId="irq.irq9"/>
-      <configSetting altId="jtag_fslash_swd.swclk.p300" configurationId="jtag_fslash_swd.swclk"/>
-      <configSetting altId="jtag_fslash_swd.swdio.p108" configurationId="jtag_fslash_swd.swdio"/>
+      <configSetting altId="adc0.an000.p000" configurationId="adc0.an000" isUsedByDriver="true" peripheral="ADC0"/>
+      <configSetting altId="adc0.an001.p001" configurationId="adc0.an001" isUsedByDriver="true" peripheral="ADC0"/>
+      <configSetting altId="adc0.an002.p002" configurationId="adc0.an002" isUsedByDriver="true" peripheral="ADC0"/>
+      <configSetting altId="adc0.an004.p004" configurationId="adc0.an004" isUsedByDriver="true" peripheral="ADC0"/>
+      <configSetting altId="adc0.an007.p003" configurationId="adc0.an007" isUsedByDriver="true" peripheral="ADC0"/>
+      <configSetting altId="adc0.an011.p013" configurationId="adc0.an011" isUsedByDriver="true" peripheral="ADC0"/>
+      <configSetting altId="canfd0.crx0.p402" configurationId="canfd0.crx0" peripheral="CANFD0"/>
+      <configSetting altId="canfd0.ctx0.p401" configurationId="canfd0.ctx0" peripheral="CANFD0"/>
+      <configSetting altId="gpt5.gtioc5a.p207" configurationId="gpt5.gtioc5a" isUsedByDriver="true" peripheral="GPT5"/>
+      <configSetting altId="i3c_fslash_iic.i3c_scl.p100" configurationId="i3c_fslash_iic.i3c_scl" peripheral="I3C/IIC"/>
+      <configSetting altId="i3c_fslash_iic.i3c_sda.p101" configurationId="i3c_fslash_iic.i3c_sda" peripheral="I3C/IIC"/>
+      <configSetting altId="irq.irq10_dash_ds.p005" configurationId="irq.irq10_dash_ds" isUsedByDriver="true" peripheral="IRQ"/>
+      <configSetting altId="irq.irq9.p304" configurationId="irq.irq9" isUsedByDriver="true" peripheral="IRQ"/>
+      <configSetting altId="jtag_fslash_swd.swclk.p300" configurationId="jtag_fslash_swd.swclk" peripheral="JTAG/SWD"/>
+      <configSetting altId="jtag_fslash_swd.swdio.p108" configurationId="jtag_fslash_swd.swdio" peripheral="JTAG/SWD"/>
       <configSetting altId="p006.input" configurationId="p006"/>
       <configSetting altId="p008.input" configurationId="p008"/>
       <configSetting altId="p014.input" configurationId="p014"/>
@@ -89,12 +89,12 @@
       <configSetting altId="p403.input" configurationId="p403"/>
       <configSetting altId="p409.input" configurationId="p409"/>
       <configSetting altId="p500.input" configurationId="p500"/>
-      <configSetting altId="sci0.rxd0.p410" configurationId="sci0.rxd0"/>
-      <configSetting altId="sci0.txd0.p411" configurationId="sci0.txd0"/>
-      <configSetting altId="sci9.rxd9.p110" configurationId="sci9.rxd9"/>
-      <configSetting altId="sci9.sck9.p111" configurationId="sci9.sck9"/>
-      <configSetting altId="sci9.txd9.p109" configurationId="sci9.txd9"/>
-      <configSetting altId="usbfs.usb_vbus.p407" configurationId="usbfs.usb_vbus"/>
+      <configSetting altId="sci0.rxd0.p410" configurationId="sci0.rxd0" peripheral="SCI0"/>
+      <configSetting altId="sci0.txd0.p411" configurationId="sci0.txd0" peripheral="SCI0"/>
+      <configSetting altId="sci9.rxd9.p110" configurationId="sci9.rxd9" peripheral="SCI9"/>
+      <configSetting altId="sci9.sck9.p111" configurationId="sci9.sck9" peripheral="SCI9"/>
+      <configSetting altId="sci9.txd9.p109" configurationId="sci9.txd9" peripheral="SCI9"/>
+      <configSetting altId="usbfs.usb_vbus.p407" configurationId="usbfs.usb_vbus" isUsedByDriver="true" peripheral="USB FS"/>
     </pincfg>
   </raPinConfiguration>
 </raConfiguration>

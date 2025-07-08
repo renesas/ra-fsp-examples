@@ -12,9 +12,9 @@
         Tera Term. The status of the application will be displayed on J-Link RTT Viewer.
 
 2. Software Requirements:
-	Renesas Flexible Software Package (FSP): Version 5.9.0
-	e2 studio: Version 2025-04
-	SEGGER J-Link RTT Viewer: Version 8.12f
+	Renesas Flexible Software Package (FSP): Version 6.0.0
+	e2 studio: Version 2025-04.1
+	SEGGER J-Link RTT Viewer: Version 8.44a
 	LLVM Embedded Toolchain for ARM: Version 18.1.3
 	Terminal Console Application: Tera Term or a similar application
 	USB Serial Drivers
@@ -198,7 +198,7 @@ Note:
 
 4) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x220402c0
+   a. e2studio: 0x220406d0
    b. Keil:     Not Available 
    c. IAR:      Not Available
  

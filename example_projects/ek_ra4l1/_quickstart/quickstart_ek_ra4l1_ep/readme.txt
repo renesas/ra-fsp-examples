@@ -1,18 +1,6 @@
 /***********************************************************************************************************************
-* Copyright [2025] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
-*
-* This software is supplied by Renesas Electronics America Inc. and may only be used with products of Renesas 
-* Electronics Corp. and its affiliates (“Renesas”). No other uses are authorized.  This software is protected under all
-* applicable laws, including copyright laws.
-* Renesas reserves the right to change or discontinue this software.
-* THE SOFTWARE IS DELIVERED TO YOU “AS IS,” AND RENESAS MAKES NO REPRESENTATIONS OR WARRANTIES, AND TO THE FULLEST EXTENT 
-* PERMISSIBLE UNDER APPLICABLE LAW,DISCLAIMS ALL WARRANTIES, WHETHER EXPLICITLY OR IMPLICITLY, INCLUDING WARRANTIES OF 
-* MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT, WITH RESPECT TO THE SOFTWARE.  TO THE MAXIMUM 
-* EXTENT PERMITTED BY LAW, IN NO EVENT WILL RENESAS BE LIABLE TO YOU IN CONNECTION WITH THE SOFTWARE (OR ANY PERSON 
-* OR ENTITY CLAIMING RIGHTS DERIVED FROM YOU) FOR ANY LOSS, DAMAGES, OR CLAIMS WHATSOEVER, INCLUDING, WITHOUT LIMITATION, 
-* ANY DIRECT, CONSEQUENTIAL, SPECIAL, INDIRECT, PUNITIVE, OR INCIDENTAL DAMAGES;
-* ANY LOST PROFITS, OTHER ECONOMIC DAMAGE, PROPERTY DAMAGE, OR PERSONAL INJURY; AND EVEN IF RENESAS HAS BEEN ADVISED OF 
-* THE POSSIBILITY OF SUCH LOSS,DAMAGES, CLAIMS OR COSTS.
+* File Name    : readme.txt
+* Description  : Contains general information about Example Project and detailed instructions
 * **********************************************************************************************************************/
 
 1. Project Overview:
@@ -24,13 +12,23 @@
         On the attached Segment LCD panel the user can interact with the application, please read the following document
         d020244_11_s01_v01_r20qs0081eg0100 Evaluation Kit for RA4L1 Microcontroller Group EK-RA4L1 Quick Start Guide
 
-2. Hardware settings for the project:
-        Please configure the Jumper settings as described below:
+2. Software Requirements:
+        Renesas Flexible Software Package (FSP): Version 6.0.0
+        e2 studio: Version 2025-04.1
+        GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
+        Terminal Console Application: Tera Term or a similar application
+        USB Serial Drivers (included in Windows 10) 
+        Windows® 10 operating system
+
+3. Hardware settings for the project:
+        Please configure the Jumper settings as described in the Quick Start Guide.
+        Link to access Quick Start Guide - https://www.renesas.com/en/document/qsg/ek-ra4l1-v1-quick-start-guide
+
         Configuration switch (SW1) settings 
             SW4-1 SW4-2 SW4-3 SW4-4 SW4-5 SW4-6 SW4-7 SW4-8
              OFF   OFF   OFF   OFF   OFF   OFF   OFF   OFF
-        
-3. Configuration Settings:
+
+4. Configuration Settings:
         Please explore the configuration settings of each module in the RA configurator.
 
  

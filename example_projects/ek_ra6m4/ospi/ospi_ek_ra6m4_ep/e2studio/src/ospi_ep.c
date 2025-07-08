@@ -413,7 +413,7 @@ fsp_err_t spi_operation(void)
     /* Change the OCTACLK clock to 100 MHz in SPI mode.
      * Because OM_SCLK (OM_SCLK = OCTACLK/2) only support 50MHz as max.
      */
-    octaclk.source_clock = BSP_CFG_OCTA_SOURCE;  /* 200MHz */
+    octaclk.source_clock = BSP_CFG_OCTACLK_SOURCE;  /* 200MHz */
     octaclk.divider      = BSP_CLOCKS_OCTA_CLOCK_DIV_2;
     R_BSP_OctaclkUpdate(&octaclk);
 
