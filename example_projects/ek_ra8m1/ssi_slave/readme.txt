@@ -16,9 +16,9 @@
 	The two example projects ssi_master_ek_ra8m1_ep and ssi_slave_ek_ra8m1_ep are provided for the the SSI Slave EP, one intended for Master and other for the Slave.
  
 2. Software Requirements:
-	Renesas Flexible Software Package (FSP): Version 5.9.0
-	e2 studio: Version 2025-04
-	SEGGER J-Link RTT Viewer: Version 8.12f
+	Renesas Flexible Software Package (FSP): Version 6.0.0
+	e2 studio: Version 2025-04.1
+	SEGGER J-Link RTT Viewer: Version 8.44a
 	GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
      
 3. Hardware Requirements:
@@ -120,11 +120,11 @@
 
 	   
 	   EK-RA8M1                   EK-RA8M1
-	9) P112 SSISCK(Master) -----> P112 SSISCK(Slave) 
-	   P113 SSIWS(Master)  -----> P113 SSIWS(Slave) 
-	   P405 SSITXD(Master) -----> P114 SSIRXD(Slave) 
-	   P114 SSIRXD(Master) -----> P405 SSITXD(Slave) 
-	   GND                 -----> GND  
+	9) P112 SSIBLK0(Master) -----> P112 SSIBLK0(Slave) 
+	   P113 SSILRCK0(Master)-----> P113 SSILRCK0(Slave) 
+	   P405 SSITXD(Master)  -----> P114 SSIRXD(Slave) 
+	   P114 SSIRXD(Master)  -----> P405 SSITXD(Slave) 
+	   GND                  -----> GND  
 	   EK-RA8M1: Remove Jumper J61 to use P112, P114, P405 for SSI.
 	
 	10) Connect the micro USB end of the micro USB device cable to Debug port of the board. Connect the other end of this cable to USB port of the 
@@ -133,7 +133,7 @@ NOTE:
 
 1) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x220010e8
+   a. e2studio: 0x220018e0
    b. Keil: Not Available 
    c. IAR: Not Available
    

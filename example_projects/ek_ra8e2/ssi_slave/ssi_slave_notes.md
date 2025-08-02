@@ -12,9 +12,9 @@ for general information on example projects and [readme.txt](./readme.txt) for s
 To build and run the SSI example project, the following resources are needed.
 
 ### Software ###
-* Renesas Flexible Software Package (FSP): Version 5.9.0
-* e2 studio: Version 2025-04
-* SEGGER J-Link RTT Viewer: Version 8.12f
+* Renesas Flexible Software Package (FSP): Version 6.0.0
+* e2 studio: Version 2025-04.01
+* SEGGER J-Link RTT Viewer: Version 8.44a
 * LLVM Embedded Toolchain for ARM: Version 18.1.3
 
 Refer to software requirements mentioned in [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf)
@@ -92,7 +92,7 @@ Pin and Jumper Settings:
    * GND (Master) (J4:25)           -----> GND (Slave) (J4:25)
 
 * For EK-RA8E2:
-   * P112 SSIBCK0  (Master) (J14:24) -----> P112 SSIBCK0  (Slave) (J14:24)
+   * P112 SSIBLK0  (Master) (J14:24) -----> P112 SSIBLK0  (Slave) (J14:24)
    * P113 SSILRCK0 (Master) (J14:22) -----> P113 SSILRCK0 (Slave) (J14:22)
    * P115 SSITXD0  (Master) (J14:8) -----> P114 SSIRXD0  (Slave) (J14:10)
    * P114 SSIRXD0  (Master) (J14:10) -----> P115 SSITXD0  (Slave) (J14:8)

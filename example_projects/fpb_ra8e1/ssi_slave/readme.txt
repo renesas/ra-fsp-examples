@@ -15,10 +15,10 @@
      	one intended for Master and other for the Slave.
 
 2. Software Requirements:
-     	Renesas Flexible Software Package (FSP): Version 5.9.0
-     	e2 studio: Version 2025-04
-     	SEGGER J-Link RTT Viewer: Version 8.12f
-     	LLVM Embedded Toolchain for ARM: Version 18.1.3
+     	Renesas Flexible Software Package (FSP): Version 6.0.0
+		e2 studio: Version 2025-04.1
+		SEGGER J-Link RTT Viewer: Version 8.44a
+		GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 
 3. Hardware Requirements:
      	Supported RA boards: EK-RA4M2, EK-RA4M3, EK-RA6M1, EK-RA6M2, EK-RA6M3, EK-RA6M4, EK-RA6M5, EK-RA4E2, EK-RA6E2,
@@ -112,7 +112,7 @@
 	   		EK-RA8M1: Remove Jumper J61 to use P112, P114, P405 for SSI.
 
        		12) For FPB-RA8E1:
-	   		P112 SSIBCK0  (Master) (J3:18) -----> P112 SSIBCK0  (Slave) (J3:18)
+	   		P112 SSIBLK0  (Master) (J3:18) -----> P112 SSIBLK0  (Slave) (J3:18)
 	   		P113 SSILRCK0 (Master) (J3:17) -----> P113 SSILRCK0 (Slave) (J3:17)
 	   		P405 SSITXD0  (Master) (J4:14) -----> P114 SSIRXD0  (Slave) (J3:15)
 	   		P114 SSIRXD0  (Master) (J3:15) -----> P405 SSITXD0  (Slave) (J4:14)
@@ -145,7 +145,7 @@ Note:
 
 2) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x22060080
+   a. e2studio: 0x22060870
    b. Keil:     Not Available 
    c. IAR:      Not Available
    
