@@ -1,5 +1,5 @@
 FSP Configuration
-  Board "FPB-RA4E1"
+  Board "RA4|RA4E1|FPB-RA4E1"
   R7FA4E10D2CFM
     part_number: R7FA4E10D2CFM
     rom_size_bytes: 524288
@@ -7,7 +7,9 @@ FSP Configuration
     data_flash_size_bytes: 8192
     package_style: QFP
     package_pins: 64
+    number of cores: 1
     
+  R7FA4E10D2CFM
   RA4E1
     series: 4
     
@@ -20,43 +22,59 @@ FSP Configuration
     Security: System Reset Status Accessibility: Both Secure and Non-Secure State
     Security: Battery Backup Accessibility: Both Secure and Non-Secure State
     Security: SRAM Accessibility: SRAM Protection: Both Secure and Non-Secure State
-    Security: SRAM Accessibility: SRAM ECC: Both Secure and Non-Secure State
     Security: SRAM Accessibility: Standby RAM: Regions 7-0 are all Secure.
     Security: BUS Accessibility: Bus Security Attribution Register A: Both Secure and Non-Secure State
     Security: BUS Accessibility: Bus Security Attribution Register B: Both Secure and Non-Secure State
     Security: Uninitialized Non-Secure Application Fallback: Enable Uninitialized Non-Secure Application Fallback
-    OFS0 register settings: Independent WDT: Start Mode: IWDT is Disabled
-    OFS0 register settings: Independent WDT: Timeout Period: 2048 cycles
-    OFS0 register settings: Independent WDT: Dedicated Clock Frequency Divisor: 128
-    OFS0 register settings: Independent WDT: Window End Position:  0% (no window end position)
-    OFS0 register settings: Independent WDT: Window Start Position: 100% (no window start position)
-    OFS0 register settings: Independent WDT: Reset Interrupt Request Select: Reset is enabled
-    OFS0 register settings: Independent WDT: Stop Control: Stop counting when in Sleep, Snooze mode, or Software Standby
-    OFS0 register settings: WDT: Start Mode Select: Stop WDT after a reset (register-start mode)
-    OFS0 register settings: WDT: Timeout Period: 16384 cycles
-    OFS0 register settings: WDT: Clock Frequency Division Ratio: 128
-    OFS0 register settings: WDT: Window End Position:  0% (no window end position)
-    OFS0 register settings: WDT: Window Start Position: 100% (no window start position)
-    OFS0 register settings: WDT: Reset Interrupt Request: Reset
-    OFS0 register settings: WDT: Stop Control: Stop counting when entering Sleep mode
-    OFS1_SEL register settings: Voltage Detection 0 Level Security Attribution: VDSEL setting loads from OFS1_SEC
-    OFS1_SEL register settings: Voltage Detection 0 Circuit Start Security Attribution: LVDAS setting loads from OFS1_SEC
-    OFS1 register settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
-    OFS1 register settings: Voltage Detection 0 Level: 2.80 V
-    OFS1 register settings: HOCO Oscillation Enable: HOCO oscillation is enabled after reset
-    Block Protection Settings (BPS): BPS: 
-    Permanent Block Protection Settings (PBPS): PBPS: 
     Clocks: HOCO FLL Function: Disabled
     Main Oscillator Wait Time: 8163 cycles
+    
+  RA4E1 Device Options
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Enabled
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Start Mode: IWDT is stopped after a reset
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Timeout Period: 2048 cycles
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Dedicated Clock Frequency Divisor: 128
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Window End Position:  0% (no window end position)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Window Start Position: 100% (no window start position)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Reset Interrupt Request Select: Reset is enabled
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Stop Control: Stop counting when in Sleep,Snooze modec, or Software Standby
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT: Start Mode Select: Stop WDT after a reset (register-start mode)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT: Timeout Period: 16384 cycles
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT: Clock Frequency Division Ratio: 128
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT: Window End Position:  0% (no window end position)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT: Window Start Position: 100% (no window start position)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT: Reset Interrupt Request: Reset
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT: Stop Control: Stop counting when entering Sleep mode
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Disabled
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Voltage Detection 0 Level: 2.80 V
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: HOCO Oscillation Enable: HOCO oscillation is disabled after reset
+    OFS Registers: BPS (Block Protect Setting Register) Settings: Disabled
+    OFS Registers: BPS (Block Protect Setting Register) Settings: BPS0: 
+    OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: Disabled
+    OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS0: 
+    OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: Enabled
+    OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
+    OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: Voltage Detection 0 Level: 2.80 V
+    OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: HOCO Oscillation Enable: HOCO oscillation is disabled after reset
+    OFS Registers: BPS_SEC (Block Protect Setting Register Secure) Settings: Disabled
+    OFS Registers: BPS_SEC (Block Protect Setting Register Secure) Settings: BPS_SEC0: 
+    OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: Disabled
+    OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: PBPS_SEC0: 
+    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: Enabled
+    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: Voltage Detection 0 Level Security Attribution: VDSEL setting loads from OFS1_SEC
+    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: Voltage Detection 0 Circuit Start Security Attribution: LVDAS setting loads from OFS1_SEC
+    OFS Registers: BPS_SEL (BPS Register Select) Settings: Disabled
+    OFS Registers: BPS_SEL (BPS Register Select) Settings: BPS_SEL0: 
     
   RA4E1 event data
   RA Common
     Main stack size (bytes): 0x400
     Heap size (bytes): 0
+    Bootloader Secondary XIP: Disabled
     MCU Vcc (mV): 3300
     Parameter checking: Disabled
     Assert Failures: Return FSP_ERR_ASSERTION
-    Error Log: No Error Log
     Clock Registers not Reset Values during Startup: Disabled
     Main Oscillator Populated: Not Populated
     PFS Protect: Enabled
@@ -78,7 +96,7 @@ FSP Configuration
     PLL2 Mul x20.0
     Clock Src: PLL
     CLKOUT Disabled
-    UCLK Disabled
+    USBCLK Disabled
     ICLK Div /2
     PCLKA Div /2
     PCLKB Div /4
@@ -86,7 +104,7 @@ FSP Configuration
     PCLKD Div /2
     FCLK Div /4
     CLKOUT Div /1
-    UCLK Div /5
+    USBCLK Div /5
     
   Pin Configurations
     FPB_RA4E1.pincfg -> g_bsp_pin_cfg
@@ -131,7 +149,7 @@ FSP Configuration
       P401 2 - ARDUINO_SDA - - Disabled - - "CAN0: CTX0; GPT_POEGA: GTETRGA; ICU: IRQ5-DS; IIC0: SDA0; SCI4: CTS_RTS4" - None - - 
       P402 3 - ARDUINO_D8 - - Disabled - - "AGT0: AGTIO0; AGT1: AGTIO1; AGT2: AGTIO2; AGT3: AGTIO3; CAC: CACREF; CAN0: CRX0; ICU: IRQ4-DS; RTC: RTCIC0; SCI4: CTS4" - None - - 
       P407 16 GPIO LED2 H - "Output mode (Initial Low)" - - "ADC0: ADTRG0; AGT0: AGTIO0; IIC0: SDA0; RTC: RTCOUT; SCI4: CTS_RTS4; USB FS: USB_VBUS" - IO - - 
-      P408 15 GPIO LED1 H None "Output mode (Initial Low)" - - "AGT2: AGTOB2; ICU: IRQ7; IIC0: SCL0; SCI3: RXD3; SCI4: CTS4" - IO - - 
+      P408 15 GPIO LED1 H - "Output mode (Initial Low)" - - "AGT2: AGTOB2; ICU: IRQ7; IIC0: SCL0; SCI3: RXD3; SCI4: CTS4" - IO - - 
       P409 14 - ARDUINO_D2 - - Disabled - - "AGT2: AGTOA2; ICU: IRQ6; SCI3: TXD3" - None - - 
       P410 13 - PMOD2_GPIO2 - - Disabled - - "AGT1: AGTOB1; ICU: IRQ5; SCI0: RXD0; SCI3: SCK3" - None - - 
       P411 12 - - - - Disabled - - "AGT1: AGTOA1; ICU: IRQ4; SCI0: TXD0; SCI3: CTS_RTS3" - None - - 
@@ -196,7 +214,7 @@ FSP Configuration
       P401 2 - ARDUINO_SDA - - Disabled - - "CAN0: CTX0; GPT_POEGA: GTETRGA; ICU: IRQ5-DS; IIC0: SDA0; SCI4: CTS_RTS4" - None - - 
       P402 3 - ARDUINO_D8 - - Disabled - - "AGT0: AGTIO0; AGT1: AGTIO1; AGT2: AGTIO2; AGT3: AGTIO3; CAC: CACREF; CAN0: CRX0; ICU: IRQ4-DS; RTC: RTCIC0; SCI4: CTS4" - None - - 
       P407 16 - LED2 L - Disabled - - "ADC0: ADTRG0; AGT0: AGTIO0; IIC0: SDA0; RTC: RTCOUT; SCI4: CTS_RTS4; USB FS: USB_VBUS" - IO - - 
-      P408 15 - LED1 L None Disabled - - "AGT2: AGTOB2; ICU: IRQ7; IIC0: SCL0; SCI3: RXD3; SCI4: CTS4" - IO - - 
+      P408 15 - LED1 L - Disabled - - "AGT2: AGTOB2; ICU: IRQ7; IIC0: SCL0; SCI3: RXD3; SCI4: CTS4" - IO - - 
       P409 14 - ARDUINO_D2 - - Disabled - - "AGT2: AGTOA2; ICU: IRQ6; SCI3: TXD3" - None - - 
       P410 13 - PMOD2_GPIO2 - - Disabled - - "AGT1: AGTOB1; ICU: IRQ5; SCI0: RXD0; SCI3: SCK3" - None - - 
       P411 12 - - - - Disabled - - "AGT1: AGTOA1; ICU: IRQ4; SCI0: TXD0; SCI3: CTS_RTS3" - None - - 
@@ -223,6 +241,8 @@ FSP Configuration
   User Events
     
   User Event Links
+    
+  Linker Section Mappings
     
   Module "I/O Port (r_ioport)"
     Parameter Checking: Default (BSP)
@@ -259,6 +279,7 @@ FSP Configuration
     DTC Support: Disable
     Flow Control Support: Disable
     RS-485 Support: Disable
+    IrDA Support: Disabled
     
   Module "Data Operation Circuit (r_doc)"
     Parameter Checking: Default (BSP)
@@ -275,8 +296,12 @@ FSP Configuration
     Instance "g_lpm Low Power Modes (r_lpm)"
       General: Name: g_lpm
       General: Low Power Mode: Snooze mode
-      General: Output port state in standby and deep standby: Not Available
+      General: Output port state in standby and deep standby: Not Supported
+      General: Supply of SOSC clock to peripheral function in standby: Not Supported
+      General: Startup speed of the HOCO in Standby and Snooze modes: Not Supported
+      General: Flash mode in sleep or snooze: Not Supported
       Deep Sleep and Standby Options: Wake Sources: IRQ1, RTC Alarm
+      Deep Sleep and Standby Options: Wake Sources 2: 
       Deep Sleep and Standby Options: Snooze Options (Not available on every MCU): Snooze Request Source: AGT1 Underflow
       Deep Sleep and Standby Options: Snooze Options (Not available on every MCU): Snooze End Sources: DTC Transfer Completion Negated signal
       Deep Sleep and Standby Options: Snooze Options (Not available on every MCU): DTC state in Snooze Mode: Enabled
@@ -287,10 +312,10 @@ FSP Configuration
       Oscillator LDO Control (Not available on every MCU): PLL1 LDO State in standby mode: Not Supported
       Oscillator LDO Control (Not available on every MCU): PLL2 LDO State in standby mode: Not Supported
       Oscillator LDO Control (Not available on every MCU): HOCO LDO State in standby mode: Not Supported
-      Deep Standby Options: I/O Port Retention: Maintain the IO port states
-      Deep Standby Options: Power-Supply Control: Supply power to the Standby RAM, low-speed on-chip oscillator, AGTn (n = 0-3) and USBFS resume detecting unit
-      Deep Standby Options: Cancel Sources: 
-      Deep Standby Options: Cancel Edges: 
+      Deep Standby Options (Not available on every MCU): I/O Port Retention: Maintain the IO port states
+      Deep Standby Options (Not available on every MCU): Power-Supply Control: Supply power to the Standby RAM, low-speed on-chip oscillator, AGTn (n = 0-3) and USBFS resume detecting unit
+      Deep Standby Options (Not available on every MCU): Cancel Sources: 
+      Deep Standby Options (Not available on every MCU): Cancel Edges: 
       
     Instance "g_adc0 ADC (r_adc)"
       General: Name: g_adc0
@@ -337,6 +362,7 @@ FSP Configuration
       Channel: 1
       Trigger: Falling
       Digital Filtering: Disabled
+      Filter Source: PCLK filter
       Digital Filtering Sample Clock (Only valid when Digital Filtering is Enabled): PCLK / 64
       Callback: irq_manual_lpm_cancel_callback
       Pin Interrupt Priority: Priority 2
@@ -382,7 +408,7 @@ FSP Configuration
     Instance "g_rtc Realtime Clock (r_rtc)"
       Name: g_rtc
       Clock Source: LOCO
-      Frequency Comparision Value (LOCO): 255
+      Frequency Comparison Value (LOCO): 255
       Automatic Adjustment Mode: Enabled
       Automatic Adjustment Period: 10 Seconds
       Adjustment Type (Plus-Minus): NONE
@@ -421,6 +447,9 @@ FSP Configuration
       Extra: Start bit detection: Falling Edge
       Extra: Noise Filter: Disable
       Extra: Receive FIFO Trigger Level: Max
+      Extra: IrDA: Enable: Disabled
+      Extra: IrDA: RXD Polarity Switching: Normal
+      Extra: IrDA: TXD Polarity Switching: Normal
       Extra: RS-485: DE Pin: Disable
       Extra: RS-485: DE Pin Polarity: Active High
       Extra: RS-485: DE Port Number: Disabled

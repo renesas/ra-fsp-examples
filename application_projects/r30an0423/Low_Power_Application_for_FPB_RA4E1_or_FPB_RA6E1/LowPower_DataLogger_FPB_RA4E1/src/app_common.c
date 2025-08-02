@@ -4,24 +4,10 @@
  **********************************************************************************************************************/
 
 /***********************************************************************************************************************
- * DISCLAIMER
- * This software is supplied by Renesas Electronics Corporation and is only intended for use with Renesas products. No
- * other uses are authorized. This software is owned by Renesas Electronics Corporation and is protected under all
- * applicable laws, including copyright laws.
- * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
- * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED. TO THE MAXIMUM
- * EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES
- * SHALL BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR ANY REASON RELATED TO THIS
- * SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
- * Renesas reserves the right, without notice, to make changes to this software and to discontinue the availability of
- * this software. By using this software, you agree to the additional terms and conditions found by accessing the
- * following link:
- * http://www.renesas.com/disclaimer
- *
- * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
- ***********************************************************************************************************************/
-
+* Copyright (c) 2022 - 2025 Renesas Electronics Corporation and/or its affiliates
+*
+* SPDX-License-Identifier: BSD-3-Clause
+************************************************************************************************************************/
 
 #include "hal_data.h"
 #include "math.h"
@@ -148,7 +134,7 @@ void doc_callback(doc_callback_args_t *p_args)
  **********************************************************************************************************************/
 void rtc_24h_callback(rtc_callback_args_t *p_args)
 {
-    if(p_args->event == RTC_EVENT_ALARM_IRQ)
+    if (p_args->event == RTC_EVENT_ALARM_IRQ)
     {
         /* Set a flag */
         g_24h_flag = SET_FLAG;
@@ -162,7 +148,7 @@ void rtc_24h_callback(rtc_callback_args_t *p_args)
  **********************************************************************************************************************/
 void sci_uart_callback(uart_callback_args_t *p_args)
 {
-    if(p_args->event == UART_EVENT_TX_COMPLETE)
+    if (p_args->event == UART_EVENT_TX_COMPLETE)
 	{
 		/* Set a flag */
 		g_uart_transmit_complete_flag = SET_FLAG;
@@ -191,7 +177,7 @@ void adc_initialize(void)
 
 	/* Open the ADC module */
 	err = R_ADC_Open(&g_adc0_ctrl, &g_adc0_cfg);
-	if(err != FSP_SUCCESS)
+	if (err != FSP_SUCCESS)
 	{
 	    pin_state_change(ERROR_LED, PIN_HIGH__LED_ON);
 		__BKPT(0);
@@ -199,7 +185,7 @@ void adc_initialize(void)
 
 	/* Configure the ADC scan parameters */
 	err = R_ADC_ScanCfg(&g_adc0_ctrl, &g_adc0_channel_cfg);
-	if(err != FSP_SUCCESS)
+	if (err != FSP_SUCCESS)
 	{
 	    pin_state_change(ERROR_LED, PIN_HIGH__LED_ON);
 		__BKPT(0);
@@ -230,7 +216,7 @@ void lpm_initialize(void)
 
 	/* Open the LPM module */
 	err = R_LPM_Open(&g_lpm_ctrl, &g_lpm_cfg);
-	if(err != FSP_SUCCESS)
+	if (err != FSP_SUCCESS)
 	{
 	    pin_state_change(ERROR_LED, PIN_HIGH__LED_ON);
 		__BKPT(0);
@@ -248,7 +234,7 @@ void icu_initialize(void)
 
 	/* Open the External IRQ module */
 	err = R_ICU_ExternalIrqOpen(&g_external_irq_manual_lpm_cancel_ctrl, &g_external_irq_manual_lpm_cancel_cfg);
-	if(err != FSP_SUCCESS)
+	if (err != FSP_SUCCESS)
 	{
 	    pin_state_change(ERROR_LED, PIN_HIGH__LED_ON);
 		__BKPT(0);
@@ -256,7 +242,7 @@ void icu_initialize(void)
 
 	/* Enable the External IRQ */
 	err = R_ICU_ExternalIrqEnable(&g_external_irq_manual_lpm_cancel_ctrl);
-	if(err != FSP_SUCCESS)
+	if (err != FSP_SUCCESS)
 	{
 		pin_state_change(ERROR_LED, PIN_HIGH__LED_ON);
 		__BKPT(0);
@@ -274,7 +260,7 @@ void dtc_initialize(void)
 
 	/* Open the DTC module */
 	err = R_DTC_Open(&g_dtc_data_transfer_ctrl, &g_dtc_data_transfer_cfg);
-	if(err != FSP_SUCCESS)
+	if (err != FSP_SUCCESS)
 	{
 	    pin_state_change(ERROR_LED, PIN_HIGH__LED_ON);
 		__BKPT(0);
@@ -282,7 +268,7 @@ void dtc_initialize(void)
 
 	/* Enable DTC transfer */
 	err = R_DTC_Enable(&g_dtc_data_transfer_ctrl);
-	if(err != FSP_SUCCESS)
+	if (err != FSP_SUCCESS)
 	{
 	    pin_state_change(ERROR_LED, PIN_HIGH__LED_ON);
 		__BKPT(0);
@@ -300,7 +286,7 @@ void doc_initialize(void)
 
 	/* Open the DOC module */
 	err = R_DOC_Open(&g_doc_ctrl, &g_doc_cfg);
-	if(err != FSP_SUCCESS)
+	if (err != FSP_SUCCESS)
 	{
 	    pin_state_change(ERROR_LED, PIN_HIGH__LED_ON);
 		__BKPT(0);
@@ -321,7 +307,7 @@ void elc_initialize(void)
 
 	/* Open the ELC module */
 	err = R_ELC_Open(&g_elc_ctrl, &g_elc_cfg);
-	if(err != FSP_SUCCESS)
+	if (err != FSP_SUCCESS)
 	{
 	    pin_state_change(ERROR_LED, PIN_HIGH__LED_ON);
 		__BKPT(0);
@@ -329,7 +315,7 @@ void elc_initialize(void)
 
 	/* Enable the ELC */
 	err = R_ELC_Enable(&g_elc_ctrl);
-	if(err != FSP_SUCCESS)
+	if (err != FSP_SUCCESS)
 	{
 	    pin_state_change(ERROR_LED, PIN_HIGH__LED_ON);
 		__BKPT(0);
@@ -347,7 +333,7 @@ void agt_initialize(void)
 
 	/* Open the AGT0 module */
 	err = R_AGT_Open(&g_agt_timer0_ctrl, &g_agt_timer0_cfg);
-    if(err != FSP_SUCCESS)
+    if (err != FSP_SUCCESS)
     {
         pin_state_change(ERROR_LED, PIN_HIGH__LED_ON);
         __BKPT(0);
@@ -355,7 +341,7 @@ void agt_initialize(void)
 
 	/* Open the AGT1 module */
 	err = R_AGT_Open(&g_agt_timer1_ctrl, &g_agt_timer1_cfg);
-	if(err != FSP_SUCCESS)
+	if (err != FSP_SUCCESS)
 	{
 	    pin_state_change(ERROR_LED, PIN_HIGH__LED_ON);
 		__BKPT(0);
@@ -365,7 +351,7 @@ void agt_initialize(void)
     /* Set a 1sec count value for fast cycle debugging */
     uint32_t agt_count_value = (uint32_t)(g_agt_timer0_cfg.period_counts / 60);
     err = R_AGT_PeriodSet(&g_agt_timer0_ctrl, agt_count_value);
-    if(err != FSP_SUCCESS)
+    if (err != FSP_SUCCESS)
     {
         __BKPT(0);
     }
@@ -410,7 +396,8 @@ void rtc_initialize(void)
 	FSP_HARDWARE_REGISTER_WAIT(R_RTC->RCR2_b.START, 0);
 
 	/* Set the frequency register */
-	if(R_RTC->RCR4_b.RCKSEL != 0){
+	if (R_RTC->RCR4_b.RCKSEL != 0)
+	{
 		R_RTC->RFRL_b.RFC = 0x00FF;
 	}
 
@@ -469,7 +456,7 @@ void agt_start(void)
 
 	/* Start the AGT1 counting */
 	err = R_AGT_Start(&g_agt_timer1_ctrl);
-	if(err != FSP_SUCCESS)
+	if (err != FSP_SUCCESS)
 	{
 	    pin_state_change(ERROR_LED, PIN_HIGH__LED_ON);
 		__BKPT(0);
@@ -477,7 +464,7 @@ void agt_start(void)
 
 	/* Start the AGT0 counting */
 	err = R_AGT_Start(&g_agt_timer0_ctrl);
-    if(err != FSP_SUCCESS)
+    if (err != FSP_SUCCESS)
     {
         pin_state_change(ERROR_LED, PIN_HIGH__LED_ON);
         __BKPT(0);
@@ -496,7 +483,7 @@ void pin_state_change(bsp_io_port_pin_t pin, bsp_io_level_t state)
 	R_BSP_PinAccessEnable();
 
 	/* Change the state */
-	if(state == PIN_HIGH__LED_ON)
+	if (state == PIN_HIGH__LED_ON)
 	{
 		R_BSP_PinWrite(pin, BSP_IO_LEVEL_HIGH);
 	}
@@ -518,7 +505,7 @@ void pin_state_change(bsp_io_port_pin_t pin, bsp_io_level_t state)
 bool all_flags_clearing_check(void){
 
     /* Check status of all flags */
-    if((g_manual_lpm_cancel_flag == CLEAR_FLAG) && (g_level_jedgement_result_flag == CLEAR_FLAG) && (g_24h_flag == CLEAR_FLAG))
+    if ((g_manual_lpm_cancel_flag == CLEAR_FLAG) && (g_level_jedgement_result_flag == CLEAR_FLAG) && (g_24h_flag == CLEAR_FLAG))
     {
         return CLEAR_FLAG;
     }
@@ -641,14 +628,16 @@ void adc_scan_start_event_change(elc_event_t event)
 
 	/* Set a ELC link */
 	err = R_ELC_LinkSet(&g_elc_ctrl, ELC_PERIPHERAL_ADC0, event);
-	if(err != FSP_SUCCESS){
+	if (err != FSP_SUCCESS)
+	{
 	    pin_state_change(ERROR_LED, PIN_HIGH__LED_ON);
 		__BKPT(0);
 	}
 
 	/* Enable the ELC */
 	err = R_ELC_Enable(&g_elc_ctrl);
-	if(err != FSP_SUCCESS){
+	if (err != FSP_SUCCESS)
+	{
 	    pin_state_change(ERROR_LED, PIN_HIGH__LED_ON);
 		__BKPT(0);
 	}

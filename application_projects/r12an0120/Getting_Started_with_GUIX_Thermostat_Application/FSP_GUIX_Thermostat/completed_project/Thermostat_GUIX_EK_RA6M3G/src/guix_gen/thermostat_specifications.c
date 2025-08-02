@@ -5,8 +5,8 @@
 /*  specification file(s). For more information please refer to the Azure RTOS */
 /*  GUIX Studio User Guide, or visit our web site at azure.com/rtos            */
 /*                                                                             */
-/*  GUIX Studio Revision 6.1.7.0                                               */
-/*  Date (dd.mm.yyyy): 28. 6.2021   Time (hh:mm): 17:13                        */
+/*  GUIX Studio Revision 6.4.0.0                                               */
+/*  Date (dd.mm.yyyy): 21. 5.2025   Time (hh:mm): 11:43                        */
 /*******************************************************************************/
 
 
@@ -71,6 +71,10 @@ UINT gx_studio_icon_create(GX_CONST GX_STUDIO_WIDGET *info, GX_WIDGET *control_b
     if (props->selected_pixelmap_id)
     {
         gx_icon_pixelmap_set(icon, props->normal_pixelmap_id, props->selected_pixelmap_id);
+    }
+    else
+    {
+        gx_widget_resize((GX_WIDGET *)icon, (GX_RECTANGLE *)&info->size);
     }
     return status;
 }
@@ -144,7 +148,7 @@ GX_PROMPT_PROPERTIES Help_TimeText_properties =
 };
 GX_PROMPT_PROPERTIES Help_DateText_properties =
 {
-    GX_STRING_ID_SPLASH_DATE_PLACEHOLDER,    /* string id                      */
+    GX_STRING_ID_STRING_8,                   /* string id                      */
     GX_FONT_ID_NOTIFICATION_BAR,             /* font id                        */
     GX_COLOR_ID_TEXT_INPUT_TEXT,             /* normal text color              */
     GX_COLOR_ID_TEXT_INPUT_TEXT,             /* selected text color            */
@@ -634,7 +638,7 @@ GX_PROMPT_PROPERTIES Thermostat_TimeText_1_properties =
 };
 GX_PROMPT_PROPERTIES Thermostat_DateText_1_properties =
 {
-    GX_STRING_ID_SPLASH_DATE_PLACEHOLDER,    /* string id                      */
+    GX_STRING_ID_STRING_8,                   /* string id                      */
     GX_FONT_ID_NOTIFICATION_BAR,             /* font id                        */
     GX_COLOR_ID_TEXT_INPUT_TEXT,             /* normal text color              */
     GX_COLOR_ID_TEXT_INPUT_TEXT,             /* selected text color            */
@@ -1908,7 +1912,7 @@ GX_PROMPT_PROPERTIES Settings_TimeText_2_properties =
 };
 GX_PROMPT_PROPERTIES Settings_DateText_2_properties =
 {
-    GX_STRING_ID_SPLASH_DATE_PLACEHOLDER,    /* string id                      */
+    GX_STRING_ID_STRING_8,                   /* string id                      */
     GX_FONT_ID_NOTIFICATION_BAR,             /* font id                        */
     GX_COLOR_ID_TEXT_INPUT_TEXT,             /* normal text color              */
     GX_COLOR_ID_TEXT_INPUT_TEXT,             /* selected text color            */
@@ -3353,7 +3357,7 @@ GX_CONST GX_STUDIO_WIDGET Settings_MenuItemNone_define =
     gx_studio_icon_create,                   /* create function                */
     GX_NULL,                                 /* drawing function override      */
     GX_NULL,                                 /* event function override        */
-    {330, 212, 479, 251},                    /* widget size                    */
+    {331, 253, 480, 270},                    /* widget size                    */
     GX_NULL,                                 /* no next widget                 */
     GX_NULL,                                 /* no child widgets               */ 
     offsetof(SETTINGS_CONTROL_BLOCK, Settings_MenuItemNone), /* control block  */
@@ -3377,7 +3381,7 @@ GX_CONST GX_STUDIO_WIDGET Settings_MenuItemDate_define =
     gx_studio_pixelmap_button_create,        /* create function                */
     GX_NULL,                                 /* drawing function override      */
     GX_NULL,                                 /* event function override        */
-    {330, 190, 479, 239},                    /* widget size                    */
+    {330, 190, 479, 247},                    /* widget size                    */
     &Settings_MenuItemNone_define,           /* next widget definition         */
     &Settings_DateTitle_define,              /* child widget definition        */
     offsetof(SETTINGS_CONTROL_BLOCK, Settings_MenuItemDate), /* control block  */
@@ -3865,7 +3869,7 @@ GX_PROMPT_PROPERTIES MainPage_TimeText_3_properties =
 };
 GX_PROMPT_PROPERTIES MainPage_DateText_3_properties =
 {
-    GX_STRING_ID_SPLASH_DATE_PLACEHOLDER,    /* string id                      */
+    GX_STRING_ID_STRING_8,                   /* string id                      */
     GX_FONT_ID_NOTIFICATION_BAR,             /* font id                        */
     GX_COLOR_ID_TEXT_INPUT_TEXT,             /* normal text color              */
     GX_COLOR_ID_TEXT_INPUT_TEXT,             /* selected text color            */
@@ -4506,7 +4510,7 @@ GX_WINDOW_PROPERTIES Splash_properties =
 };
 GX_PROMPT_PROPERTIES Splash_DayText_properties =
 {
-    GX_STRING_ID_WD1,                        /* string id                      */
+    GX_STRING_ID_WD3,                        /* string id                      */
     GX_FONT_ID_SCREENSAVER_DATE,             /* font id                        */
     GX_COLOR_ID_TEXT_INPUT_TEXT,             /* normal text color              */
     GX_COLOR_ID_TEXT_INPUT_TEXT,             /* selected text color            */
@@ -4514,7 +4518,7 @@ GX_PROMPT_PROPERTIES Splash_DayText_properties =
 };
 GX_PROMPT_PROPERTIES Splash_DateText_properties =
 {
-    GX_STRING_ID_STRING_4,                   /* string id                      */
+    GX_STRING_ID_STRING_8,                   /* string id                      */
     GX_FONT_ID_SCREENSAVER_DT,               /* font id                        */
     GX_COLOR_ID_TEXT_INPUT_TEXT,             /* normal text color              */
     GX_COLOR_ID_TEXT_INPUT_TEXT,             /* selected text color            */
@@ -4826,9 +4830,15 @@ UINT gx_studio_display_configure(USHORT display, UINT (*driver)(GX_DISPLAY *),
             gx_display_pixelmap_table_set(display_info->display, theme_ptr->theme_pixelmap_table, theme_ptr->theme_pixelmap_table_size);
             gx_system_scroll_appearance_set(theme_ptr->theme_vertical_scroll_style, (GX_SCROLLBAR_APPEARANCE *) &theme_ptr->theme_vertical_scrollbar_appearance);
             gx_system_scroll_appearance_set(theme_ptr->theme_horizontal_scroll_style, (GX_SCROLLBAR_APPEARANCE *) &theme_ptr->theme_horizontal_scrollbar_appearance);
-            gx_display_language_table_set_ext(display_info->display, display_info->language_table, (GX_UBYTE) display_info->language_table_size, display_info->string_table_size);
-            gx_display_active_language_set(display_info->display, language);
         }
+    }
+
+/* Install the language table.                                                 */
+
+    if(display_info->language_table)
+    {
+        gx_display_language_table_set_ext(display_info->display, display_info->language_table, (GX_UBYTE) display_info->language_table_size, display_info->string_table_size);
+        gx_display_active_language_set(display_info->display, language);
     }
 
 /* Set screen rotation angle.                                                  */

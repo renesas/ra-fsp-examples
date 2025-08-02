@@ -4,23 +4,10 @@
  * Description  : Contains functions to initialize and adjust RTC
  ***********************************************************************************************************************/
 /***********************************************************************************************************************
- * DISCLAIMER
- * This software is supplied by Renesas Electronics Corporation and is only intended for use with Renesas products. No
- * other uses are authorized. This software is owned by Renesas Electronics Corporation and is protected under all
- * applicable laws, including copyright laws.
- * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
- * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED. TO THE MAXIMUM
- * EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES
- * SHALL BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR ANY REASON RELATED TO THIS
- * SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
- * Renesas reserves the right, without notice, to make changes to this software and to discontinue the availability of
- * this software. By using this software, you agree to the additional terms and conditions found by accessing the
- * following link:
- * http://www.renesas.com/disclaimer
- *
- * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
- ***********************************************************************************************************************/
+* Copyright (c) 2020 - 2025 Renesas Electronics Corporation and/or its affiliates
+*
+* SPDX-License-Identifier: BSD-3-Clause
+************************************************************************************************************************/
 /***********************************************************************************************************************
  * Includes
  **********************************************************************************************************************/
@@ -41,7 +28,7 @@ static const uint8_t days_in_month[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31
  * Private functions
  **********************************************************************************************************************/
 static int weekday_get(rtc_time_t * p_time);
-static void time_validate(int * time, int max);
+static void time_validate(int * time, int max, bool day_flag);
 
 /***********************************************************************************************************************
  * Global Variables
@@ -75,18 +62,31 @@ void time_update_callback (rtc_callback_args_t * p_context)
  * @param[in]   p_time  Time value
  * @param[in]   max     Maximum value for this time
 ***********************************************************************************************************************/
-static void time_validate(int * p_time, int max)
+static void time_validate(int * p_time, int max, bool day_flag)
 {
-    if (*p_time < 0)
+    if (day_flag == false)
     {
-        *p_time = max - 1;
+        if (*p_time < 0)
+        {
+            *p_time = max - 1;
+        }
+        if (*p_time >= max)
+        {
+            *p_time = 0;
+        }
     }
-    if (*p_time >= max)
+    else
     {
-        *p_time = 0;
+        if (*p_time <= 0)
+        {
+            *p_time = max - 1;
+        }
+        if (*p_time >= max)
+        {
+            *p_time = 1;
+        }
     }
 }
-
 /*******************************************************************************************************************//**
  * @brief   Modifies the current time variable by the amount of time requested.  Wrap around events will not affect the
  *
@@ -124,10 +124,10 @@ void adjust_time(rtc_time_t * p_time)
     }
 
     /** Ensure that all time values are valid. */
-    time_validate(&t.tm_sec, 60);
-    time_validate(&t.tm_min, 60);
-    time_validate(&t.tm_hour, 24);
-    time_validate(&t.tm_mon, 12);
+    time_validate(&t.tm_sec, 60, false);
+    time_validate(&t.tm_min, 60, false);
+    time_validate(&t.tm_hour, 24, false);
+    time_validate(&t.tm_mon, 12, false);
 
     /** Calculate the maximum days in the current month. */
     int32_t temp_month = (t.tm_mon + 12) % 12;
@@ -137,7 +137,7 @@ void adjust_time(rtc_time_t * p_time)
         days_in_current_month++;
     }
 
-    time_validate(&t.tm_mday, days_in_current_month+1);
+    time_validate(&t.tm_mday, days_in_current_month+1, true);
     t.tm_wday = weekday_get(&t);
 
     /* Set time.*/

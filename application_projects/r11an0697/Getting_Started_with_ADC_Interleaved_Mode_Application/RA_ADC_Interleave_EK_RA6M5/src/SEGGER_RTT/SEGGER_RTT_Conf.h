@@ -42,7 +42,7 @@
 *                                                                    *
 **********************************************************************
 *                                                                    *
-*       RTT version: 7.56b                                           *
+*       RTT version: 8.44a                                           *
 *                                                                    *
 **********************************************************************
 
@@ -92,7 +92,7 @@ Revision: $Rev: 24316 $
 #endif
 
 #ifndef   BUFFER_SIZE_UP
-  #define BUFFER_SIZE_UP                            (2048)  // Size of the buffer for terminal output of target, up to host (Default: 1k)
+  #define BUFFER_SIZE_UP                            (1024)  // Size of the buffer for terminal output of target, up to host (Default: 1k)
 #endif
 
 #ifndef   BUFFER_SIZE_DOWN
@@ -100,7 +100,7 @@ Revision: $Rev: 24316 $
 #endif
 
 #ifndef   SEGGER_RTT_PRINTF_BUFFER_SIZE
-  #define SEGGER_RTT_PRINTF_BUFFER_SIZE             (128u)    // Size of buffer for RTT printf to bulk-send chars via RTT     (Default: 64)
+  #define SEGGER_RTT_PRINTF_BUFFER_SIZE             (64u)    // Size of buffer for RTT printf to bulk-send chars via RTT     (Default: 64)
 #endif
 
 #ifndef   SEGGER_RTT_MODE_DEFAULT
@@ -170,7 +170,7 @@ Revision: $Rev: 24316 $
                                                   :                                                 \
                                                   );                                                \
                                 }
-  #elif (defined(__ARM_ARCH_7M__) || defined(__ARM_ARCH_7EM__) || defined(__ARM_ARCH_8M_MAIN__))
+  #elif (defined(__ARM_ARCH_7M__) || defined(__ARM_ARCH_7EM__) || defined(__ARM_ARCH_8M_MAIN__) || defined(__ARM_ARCH_8_1M_MAIN__))
     #ifndef   SEGGER_RTT_MAX_INTERRUPT_PRIORITY
       #define SEGGER_RTT_MAX_INTERRUPT_PRIORITY   (0x20)
     #endif
@@ -423,6 +423,17 @@ void OS_SIM_LeaveCriticalSection(void);
 
 #ifndef   SEGGER_RTT_UNLOCK
   #define SEGGER_RTT_UNLOCK()              // Unlock RTT (nestable) (i.e. enable previous interrupt lock state)
+#endif
+
+/*********************************************************************
+*
+*       If SEGGER_RTT_SECTION is defined but SEGGER_RTT_BUFFER_SECTION
+*       is not, use the same section for SEGGER_RTT_BUFFER_SECTION.
+*/
+#ifndef SEGGER_RTT_BUFFER_SECTION
+  #if defined(SEGGER_RTT_SECTION)
+    #define SEGGER_RTT_BUFFER_SECTION SEGGER_RTT_SECTION
+  #endif
 #endif
 
 #endif

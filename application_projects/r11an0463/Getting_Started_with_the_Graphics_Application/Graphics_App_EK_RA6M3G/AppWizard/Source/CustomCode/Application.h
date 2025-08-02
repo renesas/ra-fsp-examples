@@ -28,16 +28,17 @@ Purpose     : Content to be managed by customer
 #define THERMO_TARGET_TEMP_LOW   (66U)
 #define GPT_PWM_MAX_PERCENT      (100U)
 #define GUI_CUSTOM_COLOR         (0x6F89B6U)
-/* Default Time: Monday 9:30:00 November 25, 2024, daylight saving time */
+
+/* Default Time: Tuesday 9:30:00 July 1, 2025, daylight saving time */
 #define TM_SEC                   (0U)
 #define TM_MIN                   (30U)
 #define TM_HOUR                  (9U)
-#define TM_MDAY                  (25U)
-#define TM_MON                   (10U)
-#define TM_YEAR                  (124U)
-#define TM_WDAY                  (1U)
-#define TM_YDAY                  (329U)
-#define TM_ISDST                 (1U)
+#define TM_MDAY                  (1U)
+#define TM_MON                   (6U)    /* July = 6 */
+#define TM_YEAR                  (125U)  /* 2025 - 1900 */
+#define TM_WDAY                  (2U)    /* Tuesday = 2 */
+#define TM_YDAY                  (181U)  /* July 1st = 182nd day, zero-based */
+#define TM_ISDST                 (1U)    /* Daylight saving time */
 
 /* Event Logging */
 #define LOG_CHAR_MAX             (272U)

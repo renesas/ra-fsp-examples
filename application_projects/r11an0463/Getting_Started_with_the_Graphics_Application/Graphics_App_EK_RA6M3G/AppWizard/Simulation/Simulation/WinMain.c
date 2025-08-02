@@ -19,9 +19,9 @@ File        : WinMain.c
 ---------------------------END-OF-HEADER------------------------------
 */
 
-#include <windows.h>
-
 #include "GUI_SIM_Win32.h"
+#include "LCD_SIM.h"
+#include "AppWizard.h"
 
 /*********************************************************************
 *
@@ -34,6 +34,13 @@ File        : WinMain.c
 *       WinMain
 */
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,  LPSTR lpCmdLine, int nCmdShow) {
+  //
+  // Set function for taking screenshots
+  //
+  APPW_SetScreenshotFunc(SIM_GUI_TakeScreenshot);
+  //
+  // Start application
+  //
   return SIM_GUI_App(hInstance, lpCmdLine);
 }
 

@@ -42,7 +42,7 @@
 *                                                                    *
 **********************************************************************
 *                                                                    *
-*       RTT version: 7.50a                                           *
+*       RTT version: 8.44a                                           *
 *                                                                    *
 **********************************************************************
 
@@ -51,7 +51,7 @@ File    : SEGGER_RTT_Conf.h
 Purpose : Implementation of SEGGER real-time transfer (RTT) which
           allows real-time communication on targets which support
           debugger memory accesses while the CPU is running.
-Revision: $Rev: 23635 $
+Revision: $Rev: 24316 $
 
 */
 
@@ -170,7 +170,7 @@ Revision: $Rev: 23635 $
                                                   :                                                 \
                                                   );                                                \
                                 }
-  #elif (defined(__ARM_ARCH_7M__) || defined(__ARM_ARCH_7EM__) || defined(__ARM_ARCH_8M_MAIN__))
+  #elif (defined(__ARM_ARCH_7M__) || defined(__ARM_ARCH_7EM__) || defined(__ARM_ARCH_8M_MAIN__) || defined(__ARM_ARCH_8_1M_MAIN__))
     #ifndef   SEGGER_RTT_MAX_INTERRUPT_PRIORITY
       #define SEGGER_RTT_MAX_INTERRUPT_PRIORITY   (0x20)
     #endif
@@ -423,6 +423,17 @@ void OS_SIM_LeaveCriticalSection(void);
 
 #ifndef   SEGGER_RTT_UNLOCK
   #define SEGGER_RTT_UNLOCK()              // Unlock RTT (nestable) (i.e. enable previous interrupt lock state)
+#endif
+
+/*********************************************************************
+*
+*       If SEGGER_RTT_SECTION is defined but SEGGER_RTT_BUFFER_SECTION
+*       is not, use the same section for SEGGER_RTT_BUFFER_SECTION.
+*/
+#ifndef SEGGER_RTT_BUFFER_SECTION
+  #if defined(SEGGER_RTT_SECTION)
+    #define SEGGER_RTT_BUFFER_SECTION SEGGER_RTT_SECTION
+  #endif
 #endif
 
 #endif

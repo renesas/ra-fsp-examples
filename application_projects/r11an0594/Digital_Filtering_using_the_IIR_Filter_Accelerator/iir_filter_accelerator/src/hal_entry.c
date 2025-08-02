@@ -1,5 +1,10 @@
 /***********************************************************************************************************************
-* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
+ * File Name    : hal_entry.c
+ * Description  : Entry point of the application. This file initializes the IIRFA module, configures filter coefficients,
+ *                and performs filtering operations on the input signal.
+ ***********************************************************************************************************************/
+/***********************************************************************************************************************
+* Copyright (c) 2020 - 2025 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
 ***********************************************************************************************************************/
@@ -214,12 +219,19 @@ void R_BSP_WarmStart(bsp_warm_start_event_t event)
         /* C runtime environment and system clocks are setup. */
 
         /* Configure pins. */
-        R_IOPORT_Open (&g_ioport_ctrl, g_ioport.p_cfg);
+        R_IOPORT_Open (&IOPORT_CFG_CTRL, &IOPORT_CFG_NAME);
+
+#if BSP_CFG_SDRAM_ENABLED
+
+        /* Setup SDRAM and initialize it. Must configure pins first. */
+        R_BSP_SdramInit(true);
+#endif
     }
 }
 
 #if BSP_TZ_SECURE_BUILD
 
+FSP_CPP_HEADER
 BSP_CMSE_NONSECURE_ENTRY void template_nonsecure_callable ();
 
 /* Trustzone Secure Projects require at least one nonsecure callable function in order to build (Remove this if it is not required to build). */
@@ -227,6 +239,7 @@ BSP_CMSE_NONSECURE_ENTRY void template_nonsecure_callable ()
 {
 
 }
+FSP_CPP_FOOTER
 #endif
 
 /* AGT callback function which will trigger at 25600Hz */

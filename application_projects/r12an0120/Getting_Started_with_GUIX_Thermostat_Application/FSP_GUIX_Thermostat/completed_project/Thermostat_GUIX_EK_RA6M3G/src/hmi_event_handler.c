@@ -3,23 +3,10 @@
  * Description  : Contains event handler for GUIX Thermostat.
  ***********************************************************************************************************************/
 /***********************************************************************************************************************
- * DISCLAIMER
- * This software is supplied by Renesas Electronics Corporation and is only intended for use with Renesas products. No
- * other uses are authorized. This software is owned by Renesas Electronics Corporation and is protected under all
- * applicable laws, including copyright laws.
- * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
- * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED. TO THE MAXIMUM
- * EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES
- * SHALL BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR ANY REASON RELATED TO THIS
- * SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
- * Renesas reserves the right, without notice, to make changes to this software and to discontinue the availability of
- * this software. By using this software, you agree to the additional terms and conditions found by accessing the
- * following link:
- * http://www.renesas.com/disclaimer
- *
- * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
- ***********************************************************************************************************************/
+* Copyright (c) 2020 - 2025 Renesas Electronics Corporation and/or its affiliates
+*
+* SPDX-License-Identifier: BSD-3-Clause
+************************************************************************************************************************/
 
 /***********************************************************************************************************************
  * Includes
@@ -161,16 +148,6 @@ UINT help_screen_event(GX_WINDOW *widget, GX_EVENT *event_ptr)
             update_time ((GX_WIDGET *) widget, &g_gui_state);
             update_date((GX_WIDGET *) widget, &g_gui_state);
             break;
-        case GXEVENT_MSG_FAN_TOGGLE:
-            if (g_gui_state.fan_on)
-            {
-                show_hide_widget((GX_WIDGET *) widget, ID_FAN_ICON, 1);
-            }
-            else
-            {
-                show_hide_widget((GX_WIDGET *) widget, ID_FAN_ICON, 0);
-            }
-            break;
         case GX_SIGNAL(ID_HELP_CLOSE_BUTTON, GX_EVENT_CLICKED):
             /** Hides the help screen and returns to the thermostat screen. */
             toggle_screen(p_thermostat_screen, p_help_screen);
@@ -181,6 +158,16 @@ UINT help_screen_event(GX_WINDOW *widget, GX_EVENT *event_ptr)
             if(GX_SUCCESS != gx_err) {
                 APP_ERR_TRAP(FSP_ERR_ASSERTION);
             }
+            /** Set the initial temperature units. */
+            if(SYSTEM_TEMP_UNITS_F == g_gui_state.temp_units) {
+                update_text_id((GX_WIDGET *) widget, ID_TEMP_UNIT_TEXT, GX_STRING_ID_FAHRENHEIT);
+            }
+            else
+            {
+                update_text_id((GX_WIDGET *) widget, ID_TEMP_UNIT_TEXT, GX_STRING_ID_CELSIUS);
+            }
+            /** Show/Hide fan icon. */
+            show_hide_widget((GX_WIDGET *) widget, ID_FAN_ICON, g_gui_state.fan_on);
             break;
         default:
             gx_err = gx_window_event_process(widget, event_ptr);
@@ -215,16 +202,6 @@ UINT mainpage_event(GX_WINDOW *widget, GX_EVENT *event_ptr)
         case GXEVENT_MSG_TIME_UPDATE:
             update_time ((GX_WIDGET *) widget, &g_gui_state);
             update_date((GX_WIDGET *) widget, &g_gui_state);
-            break;
-        case GXEVENT_MSG_FAN_TOGGLE:
-            if (g_gui_state.fan_on)
-            {
-                show_hide_widget((GX_WIDGET *) widget, ID_FAN_ICON, 1);
-            }
-            else
-            {
-                show_hide_widget((GX_WIDGET *) widget, ID_FAN_ICON, 0);
-            }
             break;
         case GX_SIGNAL(ID_THERMO_BUTTON, GX_EVENT_CLICKED):
             /** Shows the thermostat control screen. */
@@ -370,6 +347,11 @@ UINT thermostat_screen_event(GX_WINDOW * p_window, GX_EVENT *event_ptr)
             {
                 int integer = (int)floorf(g_gui_state.target_temp);
                 int frac    = (int)roundf((g_gui_state.target_temp - (float)integer) * 10.0f);
+                if (frac == 10u)
+                {
+                    frac = 0;
+                    integer++;
+                }
                 snprintf(g_target_temp_str, sizeof(g_target_temp_str), "%2d.%1d", integer, frac);
             }
             else
@@ -394,6 +376,11 @@ UINT thermostat_screen_event(GX_WINDOW * p_window, GX_EVENT *event_ptr)
             {
                 int integer = (int)floorf(g_gui_state.target_temp);
                 int frac    = (int)roundf((g_gui_state.target_temp - (float)integer) * 10.0f);
+                if (frac == 10u)
+                {
+                    frac = 0;
+                    integer++;
+                }
                 snprintf(g_target_temp_str, sizeof(g_target_temp_str), "%2d.%1d", integer, frac);
             }
             else
@@ -481,9 +468,11 @@ UINT thermostat_screen_event(GX_WINDOW * p_window, GX_EVENT *event_ptr)
             if(SYSTEM_TEMP_UNITS_F == g_gui_state.temp_units) {
                 update_text_id((GX_WIDGET *) p_widget, ID_TEMP_UNIT_TEXT, GX_STRING_ID_FAHRENHEIT);
                 update_text_id((GX_WIDGET *) p_widget, ID_TEMP_UNIT_TEXT_1, GX_STRING_ID_FAHRENHEIT);
+                update_text_id((GX_WIDGET *) p_widget, ID_TEMP_UNIT_TEXT_2, GX_STRING_ID_FAHRENHEIT);
             } else {
                update_text_id((GX_WIDGET *) p_widget, ID_TEMP_UNIT_TEXT, GX_STRING_ID_CELSIUS);
                update_text_id((GX_WIDGET *) p_widget, ID_TEMP_UNIT_TEXT_1, GX_STRING_ID_CELSIUS);
+               update_text_id((GX_WIDGET *) p_widget, ID_TEMP_UNIT_TEXT_2, GX_STRING_ID_CELSIUS);
             }
 
             /** Show hide widgets based on the system mode. */

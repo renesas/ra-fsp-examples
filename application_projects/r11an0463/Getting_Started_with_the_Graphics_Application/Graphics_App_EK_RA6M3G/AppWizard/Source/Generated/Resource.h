@@ -3,7 +3,7 @@
 *        Solutions for real time microcontroller applications        *
 **********************************************************************
 *                                                                    *
-*        (c) 1996 - 2024  SEGGER Microcontroller GmbH                *
+*        (c) 1996 - 2025  SEGGER Microcontroller GmbH                *
 *                                                                    *
 *        Internet: www.segger.com    Support:  support@segger.com    *
 *                                                                    *
@@ -124,7 +124,7 @@ extern APPW_ROOT_INFO ID_SCREEN_LOG_RootInfo;
 *
 *       Project path
 */
-#define APPW_PROJECT_PATH "C:/ra-solutions-rvc/application_projects/fsp_graphics_ap/Graphics_App_EK_RA6M3G/AppWizard"
+#define APPW_PROJECT_PATH "C:/ra-solutions-rvc/application_projects/r11an0463/Getting_Started_with_the_Graphics_Application/Graphics_App_EK_RA6M3G/AppWizard"
 
 #endif  // RESOURCE_H
 

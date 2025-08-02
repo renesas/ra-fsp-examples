@@ -4,23 +4,10 @@
  **********************************************************************************************************************/
 
 /***********************************************************************************************************************
- * DISCLAIMER
- * This software is supplied by Renesas Electronics Corporation and is only intended for use with Renesas products. No
- * other uses are authorized. This software is owned by Renesas Electronics Corporation and is protected under all
- * applicable laws, including copyright laws.
- * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
- * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED. TO THE MAXIMUM
- * EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES
- * SHALL BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR ANY REASON RELATED TO THIS
- * SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
- * Renesas reserves the right, without notice, to make changes to this software and to discontinue the availability of
- * this software. By using this software, you agree to the additional terms and conditions found by accessing the
- * following link:
- * http://www.renesas.com/disclaimer
- *
- * Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
- ***********************************************************************************************************************/
+* Copyright (c) 2022 - 2025 Renesas Electronics Corporation and/or its affiliates
+*
+* SPDX-License-Identifier: BSD-3-Clause
+************************************************************************************************************************/
 
 #include "hal_data.h"
 #include "stdio.h"
@@ -48,7 +35,7 @@ void data_output(uint8_t send_mode)
 
     /* Open the SCI module */
     err = R_SCI_UART_Open(&g_sci_uart0_ctrl, &g_sci_uart0_cfg);
-    if(err != FSP_SUCCESS)
+    if (err != FSP_SUCCESS)
     {
         pin_state_change(ERROR_LED, PIN_HIGH__LED_ON);
         __BKPT(0);
@@ -59,7 +46,7 @@ void data_output(uint8_t send_mode)
 
     /* Close the SCI module */
     err = R_SCI_UART_Close(&g_sci_uart0_ctrl);
-    if(err != FSP_SUCCESS)
+    if (err != FSP_SUCCESS)
     {
         pin_state_change(ERROR_LED, PIN_HIGH__LED_ON);
         __BKPT(0);
@@ -85,7 +72,7 @@ void data_send(uint8_t send_mode)
     rtc_current_time = rtc_current_time_get();
 
     /* Get current ADC read value when SEND_CURRENT_ANA mode */
-    if(send_mode == SEND_LEVEL_JUDGEMENT_RESULT)
+    if (send_mode == SEND_LEVEL_JUDGEMENT_RESULT)
     {
         current_analog_value_ch00 = ADC0_CH00_DATA_REGISTER;
         current_analog_value_ch01 = ADC0_CH01_DATA_REGISTER;
@@ -97,14 +84,14 @@ void data_send(uint8_t send_mode)
 
     /* Send the packet */
     err = R_SCI_UART_Write(&g_sci_uart0_ctrl, &uart_send_buff[0], packet_size);
-    if(err != FSP_SUCCESS)     
+    if (err != FSP_SUCCESS)
     {
         pin_state_change(ERROR_LED, PIN_HIGH__LED_ON);
         __BKPT(0);
     }
 
     /* Wait for transmit complete */
-    while(g_uart_transmit_complete_flag != SET_FLAG);
+    while (g_uart_transmit_complete_flag != SET_FLAG);
     g_uart_transmit_complete_flag = CLEAR_FLAG;
 }
 
@@ -141,7 +128,7 @@ uint16_t  packet_create(uint8_t send_mode, uint16_t* raw_light_data_buff, uint16
     send_buff_addr = (uint16_t)(send_buff_addr + PACKET_FORMAT_SIZE_START_CODE);
 
     // Attribute code
-    switch(send_mode)
+    switch (send_mode)
     {
         case SEND_AT_24H_PERIOD:
             send_buff[send_buff_addr] = ATTRIBUTE_24H_PERIOD;
@@ -196,7 +183,7 @@ uint16_t  packet_create(uint8_t send_mode, uint16_t* raw_light_data_buff, uint16
             buff_read_point = past_transfer_addr;
 
             // Data
-            while(buff_read_point != current_transfer_addr)
+            while (buff_read_point != current_transfer_addr)
             {
                 ASCII_data_count = (uint16_t)sprintf(ASCII_data, ",%04d/%04d",
                                                      (int)raw_light_data_buff[buff_read_point],
@@ -209,7 +196,7 @@ uint16_t  packet_create(uint8_t send_mode, uint16_t* raw_light_data_buff, uint16
                 buff_data_count++;
 
                 buff_read_point++;
-                if(buff_read_point == RAW_DATA_BUFF_SIZE)
+                if (buff_read_point == RAW_DATA_BUFF_SIZE)
                 {
                     buff_read_point = 0;
                 }
@@ -223,13 +210,11 @@ uint16_t  packet_create(uint8_t send_mode, uint16_t* raw_light_data_buff, uint16
             // Number of data
             ASCII_data_count = (uint16_t)sprintf(ASCII_data, "%02d",
                                                  buff_data_count);
-            memcpy(send_buff + PACKET_POSITION_DATA_NUMBER,
-                    ASCII_data, ASCII_data_count);
+            memcpy(send_buff + PACKET_POSITION_DATA_NUMBER, ASCII_data, ASCII_data_count);
 
             // Data length
             ASCII_data_count = (uint16_t)sprintf(ASCII_data, "%04d", packet_data_count);
-            memcpy(send_buff + PACKET_POSITION_DATA_LENGTH,
-                    ASCII_data, ASCII_data_count);
+            memcpy(send_buff + PACKET_POSITION_DATA_LENGTH, ASCII_data, ASCII_data_count);
 
             break;
 
@@ -247,8 +232,7 @@ uint16_t  packet_create(uint8_t send_mode, uint16_t* raw_light_data_buff, uint16
 
             // Data length
             ASCII_data_count = (uint16_t)sprintf(ASCII_data, "%04d", packet_data_count);
-            memcpy(send_buff + PACKET_POSITION_DATA_LENGTH,
-                    ASCII_data, ASCII_data_count);
+            memcpy(send_buff + PACKET_POSITION_DATA_LENGTH, ASCII_data, ASCII_data_count);
 
             break;
 
@@ -280,7 +264,7 @@ uint8_t current_dtc_transfer_addr_get(void)
     transfer_properties_t dtc_current_transfer_info;
 
     err = R_DTC_InfoGet(&g_dtc_data_transfer_ctrl, &dtc_current_transfer_info);
-    if(err != FSP_SUCCESS)
+    if (err != FSP_SUCCESS)
     {
         pin_state_change(ERROR_LED, PIN_HIGH__LED_ON);
         __BKPT(0);

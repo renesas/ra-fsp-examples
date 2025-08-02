@@ -3,7 +3,7 @@
 *        Solutions for real time microcontroller applications        *
 **********************************************************************
 *                                                                    *
-*        (c) 1996 - 2024  SEGGER Microcontroller GmbH                *
+*        (c) 1996 - 2025  SEGGER Microcontroller GmbH                *
 *                                                                    *
 *        Internet: www.segger.com    Support:  support@segger.com    *
 *                                                                    *
@@ -40,7 +40,7 @@ void MainTask(void) {
   //
   // ...and keep it alive
   //
-  while (1) {
+  for (APPW_Run = 1; APPW_Run; ) {
     APPW_Exec();
     GUI_X_Delay(5);
   }

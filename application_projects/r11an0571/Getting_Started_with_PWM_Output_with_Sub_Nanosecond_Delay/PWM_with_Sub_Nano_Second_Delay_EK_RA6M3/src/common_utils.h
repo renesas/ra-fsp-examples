@@ -3,23 +3,10 @@
  * Description  : Contains macros, data structures and functions used  common to the EP
  ***********************************************************************************************************************/
 /***********************************************************************************************************************
- * DISCLAIMER
- * This software is supplied by Renesas Electronics Corporation and is only intended for use with Renesas products. No
- * other uses are authorized. This software is owned by Renesas Electronics Corporation and is protected under all
- * applicable laws, including copyright laws.
- * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
- * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED. TO THE MAXIMUM
- * EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES
- * SHALL BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR ANY REASON RELATED TO THIS
- * SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
- * Renesas reserves the right, without notice, to make changes to this software and to discontinue the availability of
- * this software. By using this software, you agree to the additional terms and conditions found by accessing the
- * following link:
- * http://www.renesas.com/disclaimer
- *
- * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
- ***********************************************************************************************************************/
+* Copyright (c) 2022 - 2025 Renesas Electronics Corporation and/or its affiliates
+*
+* SPDX-License-Identifier: BSD-3-Clause
+***********************************************************************************************************************/
 
 #ifndef COMMON_UTILS_H_
 #define COMMON_UTILS_H_
@@ -40,18 +27,19 @@
 
 #define RESET_VALUE             (0x00)
 
-#define EP_VERSION              ("1.0")
+#define AP_VERSION              ("1.03")
 #define MODULE_NAME             "PWM with Sub-Nano Delay"
-#define BANNER_INFO             "\r\n********************************************************************"\
-                                "\r\n*   Renesas FSP Example Project for "MODULE_NAME" Module *"\
-                                "\r\n*   Example Project Version %s                                    *"\
-                                "\r\n*   Flex Software Pack Version  %d.%d.%d                              *"\
-                                "\r\n********************************************************************"\
-                                "\r\nRefer to readme.txt file for more details on Example Project and" \
+#define BANNER_INFO             "\r\n*******************************************************************************"\
+                                "\r\n*   Renesas FSP Application Project for "MODULE_NAME" Module        *"\
+                                "\r\n*   Application Project Version %s                                          *"\
+                                "\r\n*   Flex Software Pack Version  %d.%d.%d                                         *"\
+                                "\r\n*******************************************************************************"\
+                                "\r\nRefer to application note r11an0571 for more details on Application Project and"\
                                 "\r\nFSP User's Manual for more information about "MODULE_NAME" driver\r\n"
 
-#define EP_INFO    "\r\nThis Example Project demonstrates the PWM with Sub-Nano Second Delay.\r\n" \
-		           "On pressing the user push button S1, the PWM outputs will be adjusted with Sub-Nano Second Delay.\r\n"
+#define AP_INFO    "\r\nThis Application Project demonstrates the PWM with Sub-Nano Second Delay.\r\n" \
+		           "On pressing the user push button S1, the PWM outputs will be adjusted with \r\n"\
+                   "Sub-Nano Second Delay.\r\n"
 
 #define SEGGER_INDEX            (0)
 

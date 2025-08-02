@@ -70,13 +70,13 @@ UINT splashscreen_event(GX_WINDOW *widget, GX_EVENT *event_ptr)
             gx_system_timer_start(widget, 10 , SPLASH_TIMEOUT, SPLASH_TIMEOUT);
             gx_err = gx_window_event_process(widget, event_ptr);
             if(GX_SUCCESS != gx_err) {
-                while(1);
+                APP_ERR_TRAP(FSP_ERR_ASSERTION);
             }
             break;
         default:
             gx_err = gx_window_event_process(widget, event_ptr);
             if(GX_SUCCESS != gx_err) {
-                while(1);
+                APP_ERR_TRAP(FSP_ERR_ASSERTION);
             }
             break;
     }
@@ -99,13 +99,13 @@ UINT help_screen_event(GX_WINDOW *widget, GX_EVENT *event_ptr)
         case GX_EVENT_SHOW:
             gx_err = gx_window_event_process(widget, event_ptr);
             if(GX_SUCCESS != gx_err) {
-                while(1);
+                APP_ERR_TRAP(FSP_ERR_ASSERTION);
             }
             break;
         default:
             gx_err = gx_window_event_process(widget, event_ptr);
             if(GX_SUCCESS != gx_err) {
-                while(1);
+                APP_ERR_TRAP(FSP_ERR_ASSERTION);
             }
             break;
     }
@@ -137,13 +137,13 @@ UINT mainpage_event(GX_WINDOW *widget, GX_EVENT *event_ptr)
         case GX_EVENT_SHOW:
             gx_err = gx_window_event_process(widget, event_ptr);
             if(GX_SUCCESS != gx_err) {
-                while(1);
+                APP_ERR_TRAP(FSP_ERR_ASSERTION);
             }
             break;
         default:
             gx_err = gx_window_event_process(widget, event_ptr);
             if(GX_SUCCESS != gx_err) {
-                while(1);
+                APP_ERR_TRAP(FSP_ERR_ASSERTION);
             }
             break;
     }

@@ -3,7 +3,7 @@
  * Description  : Contains code to initialize emWin.
  **********************************************************************************************************************/
 /***********************************************************************************************************************
-* Copyright (c) 2019 - 2024 Renesas Electronics Corporation and/or its affiliates
+* Copyright (c) 2019 - 2025 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
 ***********************************************************************************************************************/

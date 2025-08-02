@@ -3,23 +3,10 @@
  * Description  : Contains data structures and functions used in hal_entry.c.
  **********************************************************************************************************************/
 /***********************************************************************************************************************
- * DISCLAIMER
- * This software is supplied by Renesas Electronics Corporation and is only intended for use with Renesas products. No
- * other uses are authorized. This software is owned by Renesas Electronics Corporation and is protected under all
- * applicable laws, including copyright laws.
- * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
- * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED. TO THE MAXIMUM
- * EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES
- * SHALL BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR ANY REASON RELATED TO THIS
- * SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
- * Renesas reserves the right, without notice, to make changes to this software and to discontinue the availability of
- * this software. By using this software, you agree to the additional terms and conditions found by accessing the
- * following link:
- * http://www.renesas.com/disclaimer
- *
- * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
- ***********************************************************************************************************************/
+* Copyright (c) 2022 - 2025 Renesas Electronics Corporation and/or its affiliates
+*
+* SPDX-License-Identifier: BSD-3-Clause
+***********************************************************************************************************************/
 #include "hal_data.h"
 #include <io_ep.h>
 #include "common_utils.h"
@@ -47,8 +34,8 @@ void hal_entry(void)
    R_FSP_VersionGet(&version);
 
    /* Example Project information printed on the RTT */
-   APP_PRINT(BANNER_INFO, EP_VERSION, version.version_id_b.major, version.version_id_b.minor, version.version_id_b.patch);
-   APP_PRINT(EP_INFO);
+   APP_PRINT(BANNER_INFO, AP_VERSION, version.version_id_b.major, version.version_id_b.minor, version.version_id_b.patch);
+   APP_PRINT(AP_INFO);
 
    /* Initialize External IRQ driver*/
    err = icu_init();
@@ -184,12 +171,19 @@ void R_BSP_WarmStart(bsp_warm_start_event_t event)
         /* C runtime environment and system clocks are setup. */
 
         /* Configure pins. */
-        R_IOPORT_Open (&g_ioport_ctrl, g_ioport.p_cfg);
+        R_IOPORT_Open (&IOPORT_CFG_CTRL, &IOPORT_CFG_NAME);
+
+#if BSP_CFG_SDRAM_ENABLED
+
+        /* Setup SDRAM and initialize it. Must configure pins first. */
+        R_BSP_SdramInit(true);
+#endif
     }
 }
 
 #if BSP_TZ_SECURE_BUILD
 
+FSP_CPP_HEADER
 BSP_CMSE_NONSECURE_ENTRY void template_nonsecure_callable ();
 
 /* Trustzone Secure Projects require at least one nonsecure callable function in order to build (Remove this if it is not required to build). */
@@ -197,4 +191,6 @@ BSP_CMSE_NONSECURE_ENTRY void template_nonsecure_callable ()
 {
 
 }
+FSP_CPP_FOOTER
+
 #endif
