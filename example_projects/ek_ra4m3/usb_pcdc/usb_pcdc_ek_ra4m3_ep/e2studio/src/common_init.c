@@ -34,8 +34,8 @@ static const struct
     const gpt_io_pin_t              pin;
 } pwm_pins[] =
 {
-    {&g_gpt_red, GPT_IO_PIN_GTIOCB},
-    {&g_gpt_green, GPT_IO_PIN_GTIOCA},
+    {&g_gpt_red, GPT_IO_PIN_GTIOCA},
+    {&g_gpt_green, GPT_IO_PIN_GTIOCB},
     {&g_gpt_blue, GPT_IO_PIN_GTIOCA},
 };
 
@@ -43,11 +43,11 @@ static const struct
 static uint32_t cur_dc = 0, cur_rate = 0;
 
 int curr_led_freq = 0;
-uint32_t pwm_dcs[3] = {LED_INTENSITY_10, LED_INTENSITY_50, LED_INTENSITY_90};
+uint32_t pwm_dcs[3] = {LED_INTENSITY_90, LED_INTENSITY_50, LED_INTENSITY_10};
 uint32_t pwm_rates[3] = {BLINK_FREQ_1HZ, BLINK_FREQ_5HZ, BLINK_FREQ_10HZ};
 
 
-void button_irq11_callback(external_irq_callback_args_t *p_args)
+void button_irq10_callback(external_irq_callback_args_t *p_args)
 {
     FSP_PARAMETER_NOT_USED(p_args);
 
@@ -59,7 +59,7 @@ void button_irq11_callback(external_irq_callback_args_t *p_args)
     g_curr_led_freq = (int)pwm_rates[cur_rate];
 }
 
-void button_irq10_callback(external_irq_callback_args_t *p_args)
+void button_irq11_callback(external_irq_callback_args_t *p_args)
 {
     FSP_PARAMETER_NOT_USED(p_args);
 
@@ -148,31 +148,6 @@ static fsp_err_t GPT_Initialize(void)
     }
 
     return fsp_err;
-}
-
-uint16_t adc_reading(void)
-{
-    fsp_err_t err = FSP_SUCCESS;
-    adc_status_t p_status;
-    uint16_t adc_data = 0;
-
-    err = R_ADC_ScanStart(g_adc.p_ctrl);
-    APP_ERR_TRAP(err);
-
-    do
-    {
-        err = R_ADC_StatusGet(g_adc.p_ctrl, &p_status);
-        APP_ERR_TRAP(err);
-
-    }while (ADC_STATE_IDLE != p_status.state);
-
-    /* Read die temperature */
-    R_ADC_Read(g_adc.p_ctrl, ADC_CHANNEL_TEMPERATURE, &adc_data);
-
-    err = R_ADC_ScanStop(g_adc.p_ctrl);
-    APP_ERR_TRAP(err);
-
-    return (adc_data);
 }
 
 static fsp_err_t ADC_Initialize(void)

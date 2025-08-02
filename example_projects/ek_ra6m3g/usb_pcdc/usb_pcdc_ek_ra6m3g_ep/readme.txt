@@ -56,9 +56,10 @@
 3. Hardware Requirements:
    
    Hardware : 
-	1) RA board 
+	1) RA board.
 	2) Micro USB device cable - 2Nos.
-	3) A PC with at least 2 USB port(1 for debug and 1 for com port)
+	3) A PC with at least 2 USB port(1 for debug and 1 for com port).
+   4) Jumper wires (For EK-RA6M5).
     
 4. Hardware settings for the project:
 
@@ -99,6 +100,11 @@ Applicable only for EK-RA2A1:
  
 	Note:  If the respective board is not powered through micro-AB USB (DEBUG USB) port (J11) 
 	       from the host PC, then the functionality cannot be demonstrated.
+
+Note:
+	To ensure proper handling of USB events without RTOS, The function R_USB_EventGet should be invoked 
+	from one location only as registered events are removed from the queue upon return from R_USB_EventGet.
+	Multiple invocations may lead to missed or incorrect USB event handling.
 
     Link to Errata:https://www.renesas.com/us/en/document/mat/ek-ra6m3-v1-errata?language=en&r=1168086
 

@@ -82,7 +82,7 @@
                 </option>
                 <option>
                     <name>OGLastSavedByProductVersion</name>
-                    <state>9.60.2.5384</state>
+                    <state>9.70.1.13552</state>
                 </option>
                 <option>
                     <name>OGChipSelectEditMenu</name>
@@ -110,7 +110,7 @@
                 </option>
                 <option>
                     <name>GBECoreSlave</name>
-                    <version>34</version>
+                    <version>35</version>
                     <state>65</state>
                 </option>
                 <option>
@@ -127,7 +127,7 @@
                 </option>
                 <option>
                     <name>CoreVariant</name>
-                    <version>34</version>
+                    <version>35</version>
                     <state>65</state>
                 </option>
                 <option>
@@ -150,7 +150,7 @@
                 </option>
                 <option>
                     <name>GFPUCoreSlave2</name>
-                    <version>34</version>
+                    <version>35</version>
                     <state>65</state>
                 </option>
                 <option>
@@ -213,7 +213,7 @@
                 </option>
                 <option>
                     <name>OG_32_64DeviceCoreSlave</name>
-                    <version>34</version>
+                    <version>35</version>
                     <state>65</state>
                 </option>
                 <option>
@@ -226,7 +226,7 @@
             <name>ICCARM</name>
             <archiveVersion>2</archiveVersion>
             <data>
-                <version>39</version>
+                <version>40</version>
                 <wantNonLocal>1</wantNonLocal>
                 <debug>1</debug>
                 <option>
@@ -498,6 +498,14 @@
                 </option>
                 <option>
                     <name>CCPosSharedSlave</name>
+                    <state>0</state>
+                </option>
+                <option>
+                    <name>CCUseIarExtensions</name>
+                    <state>1</state>
+                </option>
+                <option>
+                    <name>CCUseGnuExtensions</name>
                     <state>0</state>
                 </option>
             </data>
@@ -1110,7 +1118,7 @@
             <name>IARCHIVE</name>
             <archiveVersion>0</archiveVersion>
             <data>
-                <version>0</version>
+                <version>1</version>
                 <wantNonLocal>1</wantNonLocal>
                 <debug>1</debug>
                 <option>
@@ -1124,6 +1132,14 @@
                 <option>
                     <name>IarchiveOutput</name>
                     <state>###Unitialized###</state>
+                </option>
+                <option>
+                    <name>IarchiveExtraOptionsCheck</name>
+                    <state>0</state>
+                </option>
+                <option>
+                    <name>IarchiveExtraOptions</name>
+                    <state></state>
                 </option>
             </data>
         </settings>
@@ -1242,7 +1258,7 @@
                 </option>
                 <option>
                     <name>GBECoreSlave</name>
-                    <version>34</version>
+                    <version>35</version>
                     <state>38</state>
                 </option>
                 <option>
@@ -1259,7 +1275,7 @@
                 </option>
                 <option>
                     <name>CoreVariant</name>
-                    <version>34</version>
+                    <version>35</version>
                     <state>38</state>
                 </option>
                 <option>
@@ -1282,7 +1298,7 @@
                 </option>
                 <option>
                     <name>GFPUCoreSlave2</name>
-                    <version>34</version>
+                    <version>35</version>
                     <state>38</state>
                 </option>
                 <option>
@@ -1345,7 +1361,7 @@
                 </option>
                 <option>
                     <name>OG_32_64DeviceCoreSlave</name>
-                    <version>34</version>
+                    <version>35</version>
                     <state>38</state>
                 </option>
                 <option>
@@ -1358,7 +1374,7 @@
             <name>ICCARM</name>
             <archiveVersion>2</archiveVersion>
             <data>
-                <version>39</version>
+                <version>40</version>
                 <wantNonLocal>1</wantNonLocal>
                 <debug>0</debug>
                 <option>
@@ -1631,6 +1647,14 @@
                 </option>
                 <option>
                     <name>CCPosSharedSlave</name>
+                    <state>0</state>
+                </option>
+                <option>
+                    <name>CCUseIarExtensions</name>
+                    <state>1</state>
+                </option>
+                <option>
+                    <name>CCUseGnuExtensions</name>
                     <state>0</state>
                 </option>
             </data>
@@ -2243,7 +2267,7 @@
             <name>IARCHIVE</name>
             <archiveVersion>0</archiveVersion>
             <data>
-                <version>0</version>
+                <version>1</version>
                 <wantNonLocal>1</wantNonLocal>
                 <debug>0</debug>
                 <option>
@@ -2257,6 +2281,14 @@
                 <option>
                     <name>IarchiveOutput</name>
                     <state>###Unitialized###</state>
+                </option>
+                <option>
+                    <name>IarchiveExtraOptionsCheck</name>
+                    <state>0</state>
+                </option>
+                <option>
+                    <name>IarchiveExtraOptions</name>
+                    <state></state>
                 </option>
             </data>
         </settings>
@@ -2284,6 +2316,9 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\ra_cfg\fsp_cfg\bsp\bsp_mcu_family_cfg.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra_cfg\fsp_cfg\bsp\bsp_mcu_ofs_cfg.h</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\ra_cfg\fsp_cfg\bsp\bsp_pin_cfg.h</name>
@@ -2343,9 +2378,6 @@
                 <name>$PROJ_DIR$\ra\board\ra8t1_mck\board_leds.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\board_sdram.h</name>
-            </file>
-            <file>
                 <name>$PROJ_DIR$\ra\fsp\inc\api\bsp_api.h</name>
             </file>
             <file>
@@ -2379,9 +2411,6 @@
                 <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\ra8t1\bsp_feature.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\ra8t1\bsp_feature_gen.h</name>
-            </file>
-            <file>
                 <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_group_irq.c</name>
             </file>
             <file>
@@ -2400,10 +2429,19 @@
                 <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_io.h</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_ipc.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_ipc.h</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_irq.c</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_irq.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\ra8t1\bsp_linker.c</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_macl.c</name>
@@ -2427,13 +2465,13 @@
                 <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\ra8t1\bsp_override.h</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\ra8t1\bsp_peripheral.h</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_register_protection.c</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_register_protection.h</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_rom_registers.c</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\ra\fsp\src\bsp\mcu\all\bsp_sbrk.c</name>
@@ -3053,4 +3091,9 @@
         <name>$PROJ_DIR$\buildinfo.ipcf</name>
         <tag>IAR.ControlFile</tag>
     </file>
+    <projectSettings>
+        <general>
+            <resolveSourceForBinaries>true</resolveSourceForBinaries>
+        </general>
+    </projectSettings>
 </project>

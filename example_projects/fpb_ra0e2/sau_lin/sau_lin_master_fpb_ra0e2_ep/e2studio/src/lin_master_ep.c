@@ -35,18 +35,18 @@ static uint8_t g_master_tx_buf_id_23h[FRAME_ID_23H_DATA_LENGTH] = { 0x31, 0x32, 
 
 static lin_transfer_params_t lin_master_tx_transfer_info[MAX_NUMBER_OF_TX_FRAME_ID] =
 {
-  { WRITE_FRAME_ID_20H, g_master_tx_buf_id_20h, FRAME_ID_20H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED },
-  { WRITE_FRAME_ID_21H, g_master_tx_buf_id_21h, FRAME_ID_21H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED },
-  { WRITE_FRAME_ID_22H, g_master_tx_buf_id_22h, FRAME_ID_22H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED },
-  { WRITE_FRAME_ID_23H, g_master_tx_buf_id_23h, FRAME_ID_23H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED },
+  { WRITE_FRAME_ID_20H, {g_master_tx_buf_id_20h}, FRAME_ID_20H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED },
+  { WRITE_FRAME_ID_21H, {g_master_tx_buf_id_21h}, FRAME_ID_21H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED },
+  { WRITE_FRAME_ID_22H, {g_master_tx_buf_id_22h}, FRAME_ID_22H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED },
+  { WRITE_FRAME_ID_23H, {g_master_tx_buf_id_23h}, FRAME_ID_23H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED },
 };
 
 static lin_transfer_params_t lin_master_rx_transfer_info[MAX_NUMBER_OF_RX_FRAME_ID] =
 {
-  { READ_FRAME_ID_10H, g_master_rx_buf, FRAME_ID_10H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED },
-  { READ_FRAME_ID_11H, g_master_rx_buf, FRAME_ID_11H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED },
-  { READ_FRAME_ID_12H, g_master_rx_buf, FRAME_ID_12H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED },
-  { READ_FRAME_ID_13H, g_master_rx_buf, FRAME_ID_13H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED },
+  { READ_FRAME_ID_10H, {g_master_rx_buf}, FRAME_ID_10H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED },
+  { READ_FRAME_ID_11H, {g_master_rx_buf}, FRAME_ID_11H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED },
+  { READ_FRAME_ID_12H, {g_master_rx_buf}, FRAME_ID_12H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED },
+  { READ_FRAME_ID_13H, {g_master_rx_buf}, FRAME_ID_13H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED },
 };
 
 static const uint8_t g_expected_data_id_20h[] = { 0x01, 0x02 };
@@ -234,7 +234,7 @@ static fsp_err_t handle_lin_master_transmit(bool is_write)
             }
         }
     }
-    return FSP_SUCCESS;
+    return err;
 }
 
 /**********************************************************************************************************************
@@ -279,7 +279,7 @@ static fsp_err_t lin_master_configure_baudrate(void)
         }
     }
 
-    return FSP_SUCCESS;
+    return err;
 }
 
 #if ENABLE_MASTER_TIMEOUT_MANAGEMENT
@@ -341,7 +341,7 @@ static fsp_err_t lin_master_write(uint8_t frame_id_index)
 
     APP_PRINT("\r\nMaster writes message with frame ID=0x%x successfully\r\n", tx_frame_id[frame_id_index]);
 
-    return FSP_SUCCESS;
+    return err;
 
 }
 
@@ -394,10 +394,10 @@ static fsp_err_t lin_master_read(uint8_t frame_id_index)
         ptr += sprintf (ptr, "0x%02x ", g_master_rx_buf[i]);
     }
 
-    APP_PRINT("\r\nMaster received data of ID=0x%x:: %s\r\n",g_received_id, recv_str);
+    APP_PRINT("\r\nMaster received data of ID=0x%x: %s\r\n",g_received_id, recv_str);
     lin_validate_frame(rx_frame_id[frame_id_index],g_master_rx_buf,lin_master_rx_transfer_info[frame_id_index].num_bytes);
 
-    return FSP_SUCCESS;
+    return err;
 
 }
 
@@ -465,7 +465,7 @@ static fsp_err_t lin_master_set_timeout(uint32_t timeout_us)
     err = TIMER_START (&g_lin_master_timeout_ctrl);
     APP_ERR_RET(err, err, "Error: Failed to start timer\r\n");
 
-    return FSP_SUCCESS;
+    return err;
 }
 #endif /* ENABLE_MASTER_TIMEOUT_MANAGEMENT */
 
@@ -524,7 +524,7 @@ static fsp_err_t lin_master_baudset(uint32_t baud_rate)
 
 #endif /* BSP_FEATURE_SAU_IS_AVAILABLE || BSP_FEATURE_SCI_IS_AVAILABLE */
 
-    return FSP_SUCCESS;
+    return err;
 }
 
 #if BSP_FEATURE_SAU_IS_AVAILABLE
@@ -554,7 +554,7 @@ fsp_err_t lin_master_send_wakeup(void)
         R_BSP_SoftwareDelay (1, BSP_DELAY_UNITS_MICROSECONDS);
     }
 
-    return FSP_SUCCESS;
+    return err;
 }
 #endif /* BSP_FEATURE_SAU_IS_AVAILABLE */
 
@@ -565,13 +565,16 @@ fsp_err_t lin_master_send_wakeup(void)
  ***********************************************************************************************************************/
 static fsp_err_t wait_for_event(uint32_t expected_event)
 {
-#if ENABLE_MASTER_TIMEOUT_MANAGEMENT
     fsp_err_t err = FSP_SUCCESS;
+#if ENABLE_MASTER_TIMEOUT_MANAGEMENT
     /* Wait for event or timeout flag */
     while (!(g_lin_event_flags & expected_event))
     {
         if (g_lin_timeout_flag)
         {
+            err = LIN_COMMUNICATION_ABORT(&g_master_ctrl);
+            APP_ERR_RET(err, err, "\r\nError: Failed to Abort LIN communication\r\n");
+
             return FSP_ERR_TIMEOUT;
         }
     }
@@ -588,13 +591,16 @@ static fsp_err_t wait_for_event(uint32_t expected_event)
         timeout_counter++;
         if (timeout_counter >= TIMEOUT_LIMIT)
         {
+            err = LIN_COMMUNICATION_ABORT(&g_master_ctrl);
+            APP_ERR_RET(err, err, "\r\nError: Failed to Abort LIN communication\r\n");
+
             return FSP_ERR_TIMEOUT;
         }
         R_BSP_SoftwareDelay(1U, BSP_DELAY_UNITS_MICROSECONDS);
     }
 #endif
 
-    return FSP_SUCCESS;
+    return err;
 }
 
 /***********************************************************************************************************************
@@ -663,7 +669,6 @@ void lin_master_callback(lin_callback_args_t *p_args)
     {
         /* Store the event */
         g_lin_event_flags |= p_args->event;
-        
         if (g_lin_event_flags & LIN_EVENT_RX_INFORMATION_FRAME_COMPLETE)
         {
             /* Store the received ID */

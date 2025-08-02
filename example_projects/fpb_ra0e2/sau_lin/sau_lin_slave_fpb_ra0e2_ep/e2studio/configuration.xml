@@ -23,6 +23,7 @@
       <property id="config.bsp.data_flash_size_bytes" value="config.bsp.data_flash_size_bytes.value"/>
       <property id="config.bsp.package_style" value="config.bsp.package_style.value"/>
       <property id="config.bsp.package_pins" value="config.bsp.package_pins.value"/>
+      <property id="config.bsp.number_of_cores" value="1"/>
       <property id="config.bsp.irq_count_hidden" value="64"/>
     </config>
     <config id="config.bsp.ra0e2">
@@ -30,19 +31,6 @@
     </config>
     <config id="config.bsp.ra0e2.fsp">
       <property id="config.bsp.fsp.inline_irq_functions" value="config.bsp.common.inline_irq_functions.disabled"/>
-      <property id="config.bsp.fsp.OFS0.iwdt_start_mode" value="config.bsp.fsp.OFS0.iwdt_start_mode.disabled"/>
-      <property id="config.bsp.fsp.OFS0.iwdt_timeout" value="config.bsp.fsp.OFS0.iwdt_timeout.2048"/>
-      <property id="config.bsp.fsp.OFS0.iwdt_divisor" value="config.bsp.fsp.OFS0.iwdt_divisor.128"/>
-      <property id="config.bsp.fsp.OFS0.iwdt_window_end" value="config.bsp.fsp.OFS0.iwdt_window_end.0"/>
-      <property id="config.bsp.fsp.OFS0.iwdt_window_start" value="config.bsp.fsp.OFS0.iwdt_window_start.100"/>
-      <property id="config.bsp.fsp.OFS0.iwdt_reset_interrupt" value="config.bsp.fsp.OFS0.iwdt_reset_interrupt.Reset"/>
-      <property id="config.bsp.fsp.OFS0.iwdt_stop_control" value="config.bsp.fsp.OFS0.iwdt_stop_control.stops"/>
-      <property id="config.bsp.fsp.OFS1.voltage_detection0.start" value="config.bsp.fsp.OFS1.voltage_detection0.start.disabled"/>
-      <property id="config.bsp.fsp.OFS1.voltage_detection0_level" value="config.bsp.fsp.OFS1.voltage_detection0_level.186"/>
-      <property id="config.bsp.fsp.OFS1.flash_readprotection" value="config.bsp.fsp.flash_readprotection.disabled"/>
-      <property id="config.bsp.fsp.OFS1.flash_readprotection_start" value="0x01"/>
-      <property id="config.bsp.fsp.OFS1.flash_readprotection_end" value="0x3F"/>
-      <property id="config.bsp.fsp.OFS1.res_pin_selection" value="config.bsp.fsp.res_pin_selection.res_input"/>
       <property id="config.bsp.common.main_osc_wait" value="config.bsp.common.main_osc_wait.2_power_of_18_div_xtal"/>
       <property id="config.bsp.low_voltage_mode" value="config.bsp.low_voltage_mode.disabled"/>
       <property id="config.bsp.fsp.mcu.adc.max_freq_hz" value="32000000"/>
@@ -56,18 +44,35 @@
       <property id="config.bsp.fsp.mcu.iic_slave.rate.rate_fastplus" value="1"/>
       <property id="config.bsp.fsp.mcu.iic_slave.fastplus_channels" value="0x0"/>
       <property id="config.bsp.fsp.mcu.adc_d.max_scan_channel" value="9"/>
-      <property id="config.bsp.common.id_mode" value="config.bsp.common.id_mode.unlocked"/>
-      <property id="config.bsp.common.id_code" value="FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"/>
-      <property id="config.bsp.common.id1" value=""/>
-      <property id="config.bsp.common.id2" value=""/>
-      <property id="config.bsp.common.id3" value=""/>
-      <property id="config.bsp.common.id4" value=""/>
-      <property id="config.bsp.common.id_fixed" value=""/>
-      <property id="config.bsp.common.fill_flash_gap" value="config.bsp.common.fill_flash_gap.enabled"/>
+    </config>
+    <config id="config.bsp.ra0e2.linker">
+      <property id="config.bsp.option_setting.ofs0" value="config.bsp.option_setting.ofs0.enabled"/>
+      <property id="config.bsp.option_setting.ofs0.iwdt_start_mode" value="config.bsp.option_setting.ofs0.iwdt_start_mode.disabled"/>
+      <property id="config.bsp.option_setting.ofs0.iwdt_timeout" value="config.bsp.option_setting.ofs0.iwdt_timeout.2048"/>
+      <property id="config.bsp.option_setting.ofs0.iwdt_divisor" value="config.bsp.option_setting.ofs0.iwdt_divisor.128"/>
+      <property id="config.bsp.option_setting.ofs0.iwdt_window_end" value="config.bsp.option_setting.ofs0.iwdt_window_end.0"/>
+      <property id="config.bsp.option_setting.ofs0.iwdt_window_start" value="config.bsp.option_setting.ofs0.iwdt_window_start.100"/>
+      <property id="config.bsp.option_setting.ofs0.iwdt_reset_interrupt" value="config.bsp.option_setting.ofs0.iwdt_reset_interrupt.Reset"/>
+      <property id="config.bsp.option_setting.ofs0.iwdt_stop_control" value="config.bsp.option_setting.ofs0.iwdt_stop_control.stops"/>
+      <property id="config.bsp.option_setting.ofs1" value="config.bsp.option_setting.ofs1.enabled"/>
+      <property id="config.bsp.option_setting.ofs1.voltage_detection0.start" value="config.bsp.option_setting.ofs1.voltage_detection0.start.disabled"/>
+      <property id="config.bsp.option_setting.ofs1.voltage_detection0_level" value="config.bsp.option_setting.ofs1.voltage_detection0_level.186"/>
+      <property id="config.bsp.option_setting.ofs1.flash_readprotection" value="config.bsp.option_setting.ofs1.flash_readprotection.disabled"/>
+      <property id="config.bsp.option_setting.ofs1.flash_readprotection_start" value="0x01"/>
+      <property id="config.bsp.option_setting.ofs1.flash_readprotection_end" value="0x3F"/>
+      <property id="config.bsp.option_setting.ofs1.res_pin_selection" value="config.bsp.option_setting.ofs1.res_pin_selection.res_input"/>
+      <property id="config.bsp.option_setting.osis" value="config.bsp.option_setting.osis.disabled"/>
+      <property id="config.bsp.option_setting.osis.id_mode" value="config.bsp.option_setting.osis.id_mode.unlocked"/>
+      <property id="config.bsp.option_setting.osis.id_code" value="FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"/>
+      <property id="config.bsp.option_setting.osis.id_fixed.1" value=""/>
+      <property id="config.bsp.option_setting.osis.id_fixed.2" value=""/>
+      <property id="config.bsp.option_setting.osis.id_fixed.3" value=""/>
+      <property id="config.bsp.option_setting.osis.id_fixed.4" value=""/>
     </config>
     <config id="config.bsp.ra">
       <property id="config.bsp.common.main" value="0x400"/>
       <property id="config.bsp.common.heap" value="0"/>
+      <property id="config.bsp.common.bootloader.xip_enable" value="config.bsp.common.bootloader.xip_enable.disabled"/>
       <property id="config.bsp.common.vcc" value="3300"/>
       <property id="config.bsp.common.checking" value="config.bsp.common.checking.disabled"/>
       <property id="config.bsp.common.assert" value="config.bsp.common.assert.none"/>
@@ -146,9 +151,17 @@
       <description>Board support package for RA0E2 - Events</description>
       <originalPack>Renesas.RA_mcu_ra0e2.6.0.0.pack</originalPack>
     </component>
+    <component apiversion="" class="BSP" condition="" group="ra0e2" subgroup="linker" variant="" vendor="Renesas" version="6.0.0">
+      <description>Board support package for RA0E2 - Linker</description>
+      <originalPack>Renesas.RA_mcu_ra0e2.6.0.0.pack</originalPack>
+    </component>
     <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra0e2_fpb" variant="" vendor="Renesas" version="6.0.0">
-      <description>FPB-RA0E2 Board Support Files</description>
+      <description>RA0E2-FPB Board Support Files</description>
       <originalPack>Renesas.RA_board_ra0e2_fpb.6.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="CMSIS" condition="" group="Main" subgroup="CoreM" variant="" vendor="Arm" version="6.1.0+fsp.6.0.0">
+      <description>Arm CMSIS Version 6 - Core (M)</description>
+      <originalPack>Arm.CMSIS6.6.1.0+fsp.6.0.0.pack</originalPack>
     </component>
     <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="6.0.0">
       <description>Board Support Package Common Files</description>
@@ -177,10 +190,6 @@
     <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_tau" variant="" vendor="Renesas" version="6.0.0">
       <description>Timer Array Unit (Independent Channels)</description>
       <originalPack>Renesas.RA.6.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="CMSIS" condition="" group="Main" subgroup="CoreM" variant="" vendor="Arm" version="6.1.0+fsp.6.0.0">
-      <description>Arm CMSIS Version 6 - Core (M)</description>
-      <originalPack>Arm.CMSIS6.6.1.0+fsp.6.0.0.pack</originalPack>
     </component>
     <component apiversion="" class="BSP" condition="" group="ra0e2" subgroup="linker" variant="" vendor="Renesas" version="6.0.0">
         <description>Board support package for RA0E2 - Linker</description>
@@ -538,7 +547,6 @@
       <configSetting altId="p915.input" configurationId="p915"/>
       <configSetting altId="p915.gpio_mode.gpio_mode_in" configurationId="p915.gpio_mode"/>
       <configSetting altId="p915.gpio_pupd.gpio_pupd_ip_up" configurationId="p915.gpio_pupd"/>
-      <configSetting altId="sau_uart2.mode.uart.free" configurationId="sau_uart2.mode"/>
       <configSetting altId="sau_uart2.rxd2.p403" configurationId="sau_uart2.rxd2"/>
       <configSetting altId="sau_uart2.txd2.p402" configurationId="sau_uart2.txd2"/>
       <configSetting altId="system.mode.custom.free" configurationId="system.mode"/>

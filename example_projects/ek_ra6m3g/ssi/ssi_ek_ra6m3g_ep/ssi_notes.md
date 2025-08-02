@@ -20,7 +20,7 @@ Refer to software requirements mentioned in [Example Project Usage Guide](https:
 * 1 x Renesas RA board.
 * 1 x Micro USB cable or Type-C USB cable (for EK-RA4L1, EK-RA8E2, FPB-RA8E1).
 * 1 x Host PC.
-* 1 x Jumper wire.
+* 1 x Jumper wire (For EK-RA4E2, FPB-RA6E1: 2 x Jumper wires).
 
 Refer to [readme.txt](./readme.txt) for information on how to connect the hardware.
 
@@ -167,7 +167,7 @@ The images below showcase the output of waveform rendering for SSI:
 * Waveform Rendering of SSI destination buffer (g_dest_buff):
    * Note: 
       * The `g_dest_buff` buffer is cleared before new incoming data is stored, which may cause differences between the waveform viewed in **Memory View** and the capture image below. This is expected behavior due to the double-buffering mechanism used in streaming.
-      * For accurate validation, the user should set a breakpoint at **line 143** (This code line used memcmp function to compare `g_src_buff` and `g_dest_buff`) in `...\e2studio\src\ssi_ep.c` to validate the waveform.
+      * For accurate validation, the user should set a breakpoint at **line 142** (This code line used memcmp function to compare `g_src_buff` and `g_dest_buff`) in `...\e2studio\src\ssi_ep.c` to validate the waveform.
 
 ![waveform_dest_buffer](images/waveform_dest_buffer.png "Waveform Rendering of SSI destination buffer")
 

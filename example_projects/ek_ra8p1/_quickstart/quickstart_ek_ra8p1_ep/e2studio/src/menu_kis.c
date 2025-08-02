@@ -49,8 +49,8 @@
                         "\r\n\x1b[2m\x1b[37m d) RA MCU 128-bit Unique ID (hex):     "                                  \
                         "\x1b[32m%08x\x1b[37m-\x1b[32m%08x\x1b[37m-\x1b[32m%08x\x1b[37m-\x1b[32m%08x\x1b[37m"          \
                         "\r\n\x1b[2m\x1b[37m e) RA MCU Die temperature (F/C):       \x1b[32m%d.%02d/%d.%02d\x1b[37m"   \
-                        "\r\n\x1b[2m\x1b[37m f) Blue LED blinking frequency (Hz):   \x1b[32m%2d\x1b[37m"                \
-                        "\r\n\x1b[2m\x1b[37m g) Blue LED blinking intensity (%%):    \x1b[32m%2d\x1b[37m"                \
+                        "\r\n\x1b[2m\x1b[37m f) Blue LED blinking frequency (Hz):   \x1b[32m%d\x1b[37m"                \
+                        "\r\n\x1b[2m\x1b[37m g) Blue LED blinking intensity (%%):    \x1b[32m%d\x1b[37m"                \
 
 /**********************************************************************************************************************
  Local Typedef definitions

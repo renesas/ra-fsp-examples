@@ -134,29 +134,42 @@ static fsp_err_t GPT_Initialize(void)
     return fsp_err;
 }
 
-uint16_t adc_reading(void)
+fsp_err_t adc_reading(uint16_t *p_adc_data)
 {
     fsp_err_t err = FSP_SUCCESS;
     adc_status_t p_status;
-    uint16_t adc_data = 0;
 
-    err = R_ADC_ScanStart(g_adc.p_ctrl);
-    APP_ERR_TRAP(err);
+    err = R_ADC_ScanStart (g_adc.p_ctrl);
+    if (FSP_SUCCESS != err)
+    {
+        return err;
+    }
 
     do
     {
-        err = R_ADC_StatusGet(g_adc.p_ctrl, &p_status);
-        APP_ERR_TRAP(err);
+        err = R_ADC_StatusGet (g_adc.p_ctrl, &p_status);
+        if (FSP_SUCCESS != err)
+        {
+            return err;
+        }
 
-    }while (ADC_STATE_IDLE != p_status.state);
+    }
+    while (ADC_STATE_IDLE != p_status.state);
 
     /* Read die temperature */
-    R_ADC_Read(g_adc.p_ctrl, ADC_CHANNEL_TEMPERATURE, &adc_data);
+    err = R_ADC_Read (g_adc.p_ctrl, ADC_CHANNEL_TEMPERATURE, p_adc_data);
+    if (FSP_SUCCESS != err)
+    {
+        return err;
+    }
 
-    err = R_ADC_ScanStop(g_adc.p_ctrl);
-    APP_ERR_TRAP(err);
+    err = R_ADC_ScanStop (g_adc.p_ctrl);
+    if (FSP_SUCCESS != err)
+    {
+        return err;
+    }
 
-    return (adc_data);
+    return FSP_SUCCESS;
 }
 
 static fsp_err_t ADC_Initialize(void)

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="shortcut	icon" type="image/x-icon" href="favicon.ico">
+	<link rel="icon" type="image/x-icon" href="favicon.ico">
+	<script	src="script.js"></script>
+    <title>RA Web Server</title>
+</head>
+<body onload="fetchPage()">
+    <header class="d-flex flex-column align-items-start justify-content-between">
+        <div class="w-100 p-4 text-white d-flex flex-column align-items-center" style="background-color: rgb(42 40 157);">
+            <div class="container">
+                <img src="logo.png" alt="Renesas logo" class="img-fluid" />
+            </div>
+        </div>
+        <div class="w-100 p-3 d-flex flex-column align-items-center" style="background-color: rgb(19 17 132);">
+            <nav class="container">
+                <div class="row g-4">
+                    <a class="col-md-auto text-white fw-bold text-decoration-none" href="https://www.renesas.com/ra/ek-ra8d1">EK-RA8D1 Resources</a>
+                    <a class="col-md-auto text-white fw-bold text-decoration-none" href="https://www.renesas.com/ra/fsp">Flexible Software Package (FSP)</a>
+                    <a class="col-md-auto text-white fw-bold text-decoration-none" href="https://www.renesas.com/ra/forum">RA Forum</a>
+                    <a class="col-md-auto text-white fw-bold text-decoration-none" href="https://www.renesas.com/support">Help & Support</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+<main class="d-flex flex-column align-items-center justify-content-between pt-4">
+  <div class="bg-white container d-flex flex-column">
+    <div class="container mt-1">
+      <div class="row g-4">
+        <!-- Network Configuration Panel -->
+        <div class="col-md-6">
+        <div class="bg-light mb-2 rounded border border-secondary h-100">
+            <div class="p-3 h-100 d-flex flex-column">
+            <div class="mb-2">
+                <h3 class="fs-2 mb-2">Network Configuration</h3>
+                <hr class="mt-0 mb-3 border-secondary border-2" />
+            </div>
+            <div class="row h-100">
+                <div class="col-6 d-flex flex-column justify-content-between fw-semibold">
+                <div>Physical Address</div>
+                <div>IPv4 Address</div>
+                <div>Subnet Mask</div>
+                </div>
+                <div class="col-6 d-flex flex-column justify-content-between fw-semibold text-uppercase">
+                <div id="physical-address"></div>
+                <div id="ipv4-address"></div>
+                <div id="subnet-mask"></div>
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+                <!-- LED Control Panel -->
+        <div class="col-md-6">
+        <div class="bg-light mb-4 rounded border border-secondary h-100">
+            <div class="p-3 h-100 d-flex flex-column">
+            <div class="mb-2">
+                <h3 class="fs-2 mb-2">LED Control Panel</h3>
+                <hr class="mt-0 mb-3 border-secondary border-2" />
+            </div>
+            <div class="d-flex flex-column justify-content-between h-100">
+                <div class="row align-items-center">
+                <div class="col-2">
+                    <span id="led1-indicator" class="btn rounded-circle" style="width: 40px; height: 40px;"></span>
+                </div>
+                <div class="col-4 fw-semibold" id="led1-status">LED1 OFF</div>
+                <div class="col-2">
+                    <span id="led2-indicator" class="btn rounded-circle" style="width: 40px; height: 40px;"></span>
+                </div>
+                <div class="col-4 fw-semibold" id="led2-status">LED2 ON</div>
+                </div>
+
+                <div class="row align-items-center">
+                <div class="col-2">
+                    <button class="btn btn-info rounded-circle" style="width: 40px; height: 40px;" onclick="pushEvent('/switch1')"></button>
+                </div>
+                <div class="col-4 fw-semibold">SW 1</div>
+                <div class="col-2">
+                    <button class="btn btn-info rounded-circle" style="width: 40px; height: 40px;" onclick="pushEvent('/switch2')"></button>
+                </div>
+                <div class="col-4 fw-semibold">SW 2</div>
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</main>
+
+
+
+
+
+
+</body>
+</html>

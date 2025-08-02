@@ -29,14 +29,19 @@
 
 #if BSP_FEATURE_SAU_IS_AVAILABLE
 
-#define EP_INFO                 "\r\nThis project demonstrates the basic functionalities of LIN on Renesas"\
-                                "\r\nRA MCUs based on Renesas FSP. The Master defines four distinct messages,"\
-                                "\r\neach assigned a unique ID, allowing the user to select and transmit"\
-                                "\r\na specific message to the Slave. The Master sends a start frame with"\
-                                "\r\nthe selected ID to retrieve data, and the Slave responds accordingly."\
-                                "\r\nAdditionally, users can configure the baud rate to other supported values."\
-                                "\r\nFor the Slave, users can enter Low Power Mode (Software Standby) via"\
-                                "\r\nthe EP menu and wake up when triggered by the Master.\r\n\r\n"
+#define EP_INFO                  "\r\nThis project demonstrates the basic functionalities of Local Interconnect"\
+                                 "\r\nNetwork (LIN) on Renesas RA MCUs based on the Renesas FSP. The LIN"\
+                                 "\r\nmodules communicate with transceivers that satisfy the ISO9141 protocol."\
+                                 "\r\nThe Master defines four distinct messages, each assigned a unique ID,"\
+                                 "\r\nallowing the user to select and transmit a specific message to the Slave."\
+                                 "\r\nThe Master sends a start frame with the selected ID to retrieve data,"\
+                                 "\r\nand the Slave responds accordingly. The user can select a baud rate"\
+                                 "\r\n(2400, 4800, 9600, 10400, 14400, 19200) from the application menu."\
+                                 "\r\nAdditionally, the LIN module's baud rate can be configured to other"\
+                                 "\r\nsupported values, as specified in the markdown file, by modifying the"\
+                                 "\r\nconfiguration.xml. For the SAU LIN Slave, users can enter Low Power"\
+                                 "\r\nMode (Software Standby) via the EP menu and wake up when triggered"\
+                                 "\r\nby the Master.\r\n\r\n"
 
 #define MAIN_MENU               "\r\n=== LIN Slave Main Menu ==="\
                                 "\r\n1. Configure baud rate"\
@@ -48,6 +53,7 @@
 #define LIN_START_FRAME_WRITE    (R_SAU_LIN_StartFrameWrite)
 #define LIN_INFO_FRAME_WRITE     (R_SAU_LIN_InformationFrameWrite)
 #define LIN_INFO_FRAME_READ      (R_SAU_LIN_InformationFrameRead)
+#define LIN_COMMUNICATION_ABORT  (R_SAU_LIN_CommunicationAbort)
 #define LIN_BAUD_CALCULATE       (R_SAU_UART_BaudCalculate)
 #define LIN_CLOSE                (R_SAU_LIN_Close)
 
@@ -62,12 +68,17 @@
 
 #elif BSP_FEATURE_SCI_IS_AVAILABLE
 
-#define EP_INFO                  "\r\nThis project demonstrates the basic functionalities of LIN on Renesas"\
-                                 "\r\nRA MCUs based on Renesas FSP. The Master defines four distinct messages,"\
-                                 "\r\neach assigned a unique ID, allowing the user to select and transmit"\
-                                 "\r\na specific message to the Slave. The Master sends a start frame with"\
-                                 "\r\nthe selected ID to retrieve data, and the Slave responds accordingly."\
-                                 "\r\nAdditionally, users can configure the baud rate to other supported values.\r\n\r\n"
+#define EP_INFO                  "\r\nThis project demonstrates the basic functionalities of Local Interconnect"\
+                                 "\r\nNetwork (LIN) on Renesas RA MCUs based on the Renesas FSP. The LIN"\
+                                 "\r\nmodules communicate with transceivers that satisfy the ISO9141 protocol."\
+                                 "\r\nThe Master defines four distinct messages, each assigned a unique ID,"\
+                                 "\r\nallowing the user to select and transmit a specific message to the Slave."\
+                                 "\r\nThe Master sends a start frame with the selected ID to retrieve data,"\
+                                 "\r\nand the Slave responds accordingly. The user can select a baud rate"\
+                                 "\r\n(2400, 4800, 9600, 10400, 14400, 19200) from the application menu."\
+                                 "\r\nAdditionally, the LIN module's baud rate can be configured to other"\
+                                 "\r\nsupported values, as specified in the markdown file, by modifying the"\
+                                 "\r\nconfiguration.xml.\r\n\r\n"
 
 #define MAIN_MENU                "\r\n=== LIN Slave Main Menu ==="\
                                  "\r\n1. Configure baud rate"\
@@ -77,6 +88,7 @@
 #define LIN_OPEN                 (R_SCI_B_LIN_Open)
 #define LIN_START_FRAME_WRITE    (R_SCI_B_LIN_StartFrameWrite)
 #define LIN_INFO_FRAME_WRITE     (R_SCI_B_LIN_InformationFrameWrite)
+#define LIN_COMMUNICATION_ABORT  (R_SCI_B_LIN_CommunicationAbort)
 #define LIN_BAUD_CALCULATE       (R_SCI_B_LIN_BaudCalculate)
 #define LIN_INFO_FRAME_READ      (R_SCI_B_LIN_InformationFrameRead)
 #define LIN_CLOSE                (R_SCI_B_LIN_Close)

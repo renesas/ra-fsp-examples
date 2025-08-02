@@ -1,0 +1,54 @@
+/***********************************************************************************************************************
+ * File Name    : qspi_ep.h
+ * Description  : Contains data structures and functions used in qspi_ep.h.
+ **********************************************************************************************************************/
+/***********************************************************************************************************************
+* Copyright (c) 2020 - 2025 Renesas Electronics Corporation and/or its affiliates
+*
+* SPDX-License-Identifier: BSD-3-Clause
+***********************************************************************************************************************/
+
+#ifndef QSPI_EP_H_
+#define QSPI_EP_H_
+
+#define EP_INFO                         "\r\nThis Example Project demonstrates the functionality of\r\n"  \
+                                        "QSPI module in QPI and Extended SPI modes. The SPI Protocol\r\n" \
+                                        "is selected from RA configurator.\r\n"                           \
+                                        "Fixed data is written to QSPI Flash device and read back.\r\n"   \
+                                        "Read and Write data is compared and the result is displayed\r\n" \
+                                        "on RTT Viewer.\r\n"
+
+#ifdef BOARD_RA6E2_EK
+#define QSPI_DEVICE_AT25SF128A          (1)
+#define STATUS_REG_PAYLOAD              {0x01,0x00}         /* Status register payload */
+#define SET_SREG_VALUE                  (0x00)              /* Data written to status register */
+#define SREG_SIZE                       (0x02)              /* SREG payload size */
+#else
+
+#define QSPI_DEVICE_MX25L               (1)
+#define STATUS_REG_PAYLOAD              {0x01,0x40,0x00}    /* Status register payload */
+#define SET_SREG_VALUE                  (0x40)              /* Data written to status register */
+#define QSPI_MX25L_CMD_EXIT_QPI_MODE    (0xF5)              /* QPI mode exit command */
+#define QSPI_MX25L_CMD_ENTER_QPI_MODE   (0x35)              /* QPI mode entry command */
+#define SREG_SIZE                       (0x03)              /* SREG payload size */
+#endif
+
+/* QSPI flash page number to be written */
+#define PAGE_FIRST                      (0U)
+
+/* QSPI flash page Size */
+#define PAGE_WRITE_SIZE                 (256U)
+
+/* QSPI flash address through page*/
+#define QSPI_FLASH_ADDRESS(page_no)     ((uint8_t *) (QSPI_DEVICE_START_ADDRESS + ((page_no) * PAGE_WRITE_SIZE)))
+
+/* Sector size of QSPI flash device */
+#define SECTOR_SIZE                     (4096U)
+
+/* One byte data transfer */
+#define ONE_BYTE                        (0x01)
+
+/* Default memory value */
+#define DEFAULT_MEM_VAL                 (0xFF)
+
+#endif /* QSPI_EP_H_ */

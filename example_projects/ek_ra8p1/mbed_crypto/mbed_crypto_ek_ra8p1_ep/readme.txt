@@ -1,0 +1,49 @@
+/**********************************************************************************************************************
+* File Name    : readme.txt
+* Description  : Contains general information about Example Project and detailed instructions
+**********************************************************************************************************************/
+
+1. Project Overview:
+	This example project demonstrates basic functionalities of mbed crypto driver on Renesas RA MCUs based on Renesas FSP.
+	The EP performs following mbed crypto operations:
+	1. AES256 Key generation (for GCM Mode), Encryption and Decryption.
+	2. SHA256 - setup and calculate hash, compare calculated hash value and length with their expected values.
+	3. ECC - P256R1 Key pair generation, Signing the hashed message with private key & verify hashed message with public key.
+	4. RSA 2048 Key pair generation, Signing the hashed message with private key & verify hashed message with public key.
+	On successful completion of each operation, success message will be displayed on the J-Link RTT Viewer.
+	Error and info messages will be printed on J-Link RTT Viewer.
+
+	Note:
+	1) EK-RA2L1, EK-RA4M1 and EK-RA4W1 boards do not support SHA, ECC, and RSA operations.
+	2) EK-RA4L1 board does not support RSA operation.
+	3) Some MCUs support hardware crypto operations, some MCUs support software crypto operations. 
+           Refer to configuration.xml -> Stacks -> MbedTLS (Crypto Only) -> Properties -> Settings -> Property ->
+	   Common -> Hardware Acceleration configuration for the specific configurations for each example project.
+
+2. Hardware Requirements:
+	Supported RA boards: EK-RA2L1, EK-RA4M1, EK-RA4M2, EK-RA4M3, EK-RA4W1, EK-RA6M1, EK-RA6M2, EK-RA6M3, EK-RA6M3G
+			     EK-RA6M4, EK-RA6M5, RSSK-RA6T1, EK-RA8M1, EK-RA8D1, MCK-RA8T1, FPB-RA8E1, EK-RA4L1,
+			     EK-RA8P1
+	1 x Renesas RA board.	
+	1 x Type-C USB cable for programming and debugging.
+
+3. Hardware Connections:
+	Connect the USB Debug port on the RA board to the host PC via a Type-C USB cable.
+
+Note:
+1) After the example project is built successfully, the user should follow these steps in sequence to launch
+   the debug session:
+   - Start E2Studio -> Run -> Renesas Debug Tools -> Renesas Device Partition Manager (Available on e2studio),
+     then choose "Connection Type" as SWD.
+   - Initialize device. The user can refer to "Setting up Hardware" section of R11AN0467 application note via link:
+     https://www.renesas.com/en/document/apn/security-design-arm-trustzone-using-cortex-m33 to perform the action.
+   - Launch the Debug session from the example project.
+
+2) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
+   RTT Block address for hex file committed in repository are as follows:
+   a. e2studio: 0x22004570
+   b. Keil:  	Not Available
+   c. IAR: 	Not Available
+
+3) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT)
+   in .map file generated in the project folder (e2studio\Debug or e2studio\Release).

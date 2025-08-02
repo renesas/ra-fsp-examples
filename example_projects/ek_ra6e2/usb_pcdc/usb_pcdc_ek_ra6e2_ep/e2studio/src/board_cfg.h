@@ -18,11 +18,9 @@ extern bsp_leds_t g_bsp_leds;
 
 #ifdef BOARD_RA6E2_EK
 #define BLUE                                      (BSP_LED_LED1)
-#define GREEN                                     (BSP_LED_LED2)
 #define RED                                       (BSP_LED_LED3)
 
 #define TURN_RED_ON                               R_IOPORT_PinWrite(&g_ioport_ctrl, g_bsp_leds.p_leds[RED], ON); \
-		                                          R_IOPORT_PinWrite(&g_ioport_ctrl, g_bsp_leds.p_leds[GREEN], OFF);\
 		                                          R_IOPORT_PinWrite(&g_ioport_ctrl, g_bsp_leds.p_leds[BLUE], OFF);
 #endif
 

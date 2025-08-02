@@ -1,6 +1,6 @@
 # Introduction #
 
-This project demonstrates the basic functionalities of LIN on Renesas RA MCUs based on Renesas FSP. The LIN modules communicate with transceivers that satisfy the ISO9141 protocol. The Master defines four distinct messages, each assigned a unique ID, allowing the user to select and transmit a specific message to the Slave. The Master sends a start frame with the selected ID to retrieve data,  and the Slave responds accordingly. Additionally, users can configure the baud rate to other supported values. For the SAU LIN Slave, users can enter Low Power Mode (Software Standby) via the EP menu and wake up when triggered by the Master.
+This project demonstrates the basic functionalities of Local Interconnect Network (LIN) on Renesas RA MCUs based on the Renesas FSP. The LIN modules communicate with transceivers that satisfy the ISO9141 protocol. The Master defines four distinct messages, each assigned a unique ID, allowing the user to select and transmit a specific message to the Slave. The Master sends a start frame with the selected ID to retrieve data,  and the Slave responds accordingly. The user can select a baud rate (2400, 4800, 9600, 10400, 14400, 19200) from the application menu. Additionally, the LIN module's baud rate can be configured to other supported values, as specified in the markdown file, by modifying the configuration.xml. For the SAU LIN Slave, users can enter Low Power Mode (Software Standby) via the EP menu and wake up when triggered by the Master.
 
 
 **Key Features**
@@ -104,9 +104,9 @@ Note:
 ### Software Requirements ###
 * Renesas Flexible Software Package (FSP): Version 6.0.0
 * e2 studio: Version 2025-04.1
-* SEGGER J-Link RTT Viewer: Version 8.44a
 * GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
-* Terminal Console Application: Tera Term or a similar application
+* Serial Terminal Console Application: Tera Term or a similar application
+* SEGGER J-Link RTT Viewer: Version 8.44a
 
 Refer to the software required section in [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf)
 
@@ -165,6 +165,7 @@ This section describes FSP configuration properties that are important or differ
 | `configuration.xml > Stacks > r_sau_lin > Settings > Property > Common > Slave Support`                             | Enabled           | Disabled               | Disable slave support in master mode           |
 | `configuration.xml > Stacks > r_sau_lin > Settings > Property > Common > Wake-up Support`                           | Disabled          | Enabled                | Enable LIN wake-up signal                      |
 | `configuration.xml > Stacks > r_sau_lin > Settings > Property > Module g_master LIN (r_sau_lin) > Callback`         | sau_lin0_callback | lin_master_callback    | Set user-defined callback for SAU LIN module      |
+| `configuration.xml > Stacks > r_sau_lin > Settings > Property > Module g_master LIN (r_sau_lin) > Baud Rate`         | 19200 | 19200    | Select the LIN baudrate       |
 | `configuration.xml > Stacks > r_tau > Settings > Property > Module g_lin_master_timeout > General > Period`         | 0x10000           | 1                      | Specify the timer period                       |
 | `configuration.xml > Stacks > r_tau > Settings > Property > Module g_lin_master_timeout > General > Period Unit`    | Raw Counts        | Microseconds           | Define timer period unit                       |
 | `configuration.xml > Stacks > r_tau > Settings > Property > Module g_lin_master_timeout > Callback`                 | NULL | lin_master_overflow_callback    | Set user-defined callback for timer module     |
@@ -176,6 +177,7 @@ This section describes FSP configuration properties that are important or differ
 | `configuration.xml > Stacks > r_sau_lin > Settings > Property > Common > Wake-up Support`                               | Disabled          | Enabled                      | Enable LIN wake-up signal                       |
 | `configuration.xml > Stacks > r_sau_lin > Settings > Property > Common > Auto Synchronization Support`                  | Disabled          | Enabled                      | Enable automatic synchronization                |
 | `configuration.xml > Stacks > r_sau_lin > Settings > Property > Module g_slave LIN (r_sau_lin) > Callback`             | sau_lin0_callback | lin_slave_callback    | Set user-defined callback for SAU LIN module      |
+| `configuration.xml > Stacks > r_sau_lin > Settings > Property > Module g_slave LIN (r_sau_lin) > Baud Rate`         | 19200 | 19200    | Select the LIN baudrate       |
 
 
 
@@ -186,6 +188,7 @@ This section describes FSP configuration properties that are important or differ
 |----------------------------------------------------------------------------------------------------------------------|-------------------|------------------------|------------------------------------------------|
 | `configuration.xml > Stacks > r_sci_b_lin > Settings > Property > Module g_master LIN (r_sci_b_lin) > General > Mode`         | Master | Master    | 	Select the LIN operating in master mode      |
 | `configuration.xml > Stacks > r_sci_b_lin > Settings > Property > Module g_master LIN (r_sci_b_lin) > Interrupts > Callback`         | sci_b_lin_callback | lin_master_callback    | Set user-defined callback for SCI B LIN module      |
+| `configuration.xml > Stacks > r_sci_b_lin > Settings > Property > Module g_master LIN (r_sci_b_lin) > Baud Rate`         | 19200 | 19200    | Select the LIN baudrate       |
 | `configuration.xml > Stacks > r_gpt > Settings > Property > Module g_lin_master_timeout > General > Period`         | 0x10000           | 1                      | Specify the timer period                       |
 | `configuration.xml > Stacks > r_gpt > Settings > Property > Module g_lin_master_timeout > General > Period Unit`    | Raw Counts        | Microseconds           | Define timer period unit                       |
 | `configuration.xml > Stacks > r_gpt > Settings > Property > Module g_lin_master_timeout > Callback`                 | NULL | lin_master_overflow_callback    | Set user-defined callback for timer module     |
@@ -202,7 +205,8 @@ This section describes FSP configuration properties that are important or differ
 | `configuration.xml > Stacks > r_sci_b_lin > Settings > Property > Module g_slave LIN (r_sci_b_lin) > Framing > Break Field Bits/Break Detection Threshold (bits)`         | 13 | 11    | 	When configuring this setting in slave mode, take care to set the detection threshold less than the master break field length.  |
 | `configuration.xml > Stacks > r_sci_b_lin > Settings > Property > Module g_slave LIN (r_sci_b_lin) > Framing > ID Filter (Slave Mode) > Priority Interrupt Bit Enable`         | Disabled | Enabled    | 	Enable the Priority Interrupt Bit filter    |
 | `configuration.xml > Stacks > r_sci_b_lin > Settings > Property > Module g_slave LIN (r_sci_b_lin) > Framing > ID Filter (Slave Mode) > Priority Interrupt Bit`         | 0 | 3    | 	This is the bit position used for an additional check    |
-| `configuration.xml > Stacks > r_sci_b_lin > Settings > Property > Module g_slave LIN (r_sci_b_lin) > Interrupts > Callback`         | sci_b_lin_callback | lin_slave_callback    | Set user-defined callback for SCI B LIN module      |
+| `configuration.xml > Stacks > r_sci_b_lin > Settings > Property > Module g_slave LIN (r_sci_b_lin) > Callback`         | sci_b_lin_callback | lin_slave_callback    | Set user-defined callback for SCI B LIN module      |
+| `configuration.xml > Stacks > r_sci_b_lin > Settings > Property > Module g_slave LIN (r_sci_b_lin) > Baud Rate`         | 19200 | 19200    | Select the LIN baudrate       |
 
 
 

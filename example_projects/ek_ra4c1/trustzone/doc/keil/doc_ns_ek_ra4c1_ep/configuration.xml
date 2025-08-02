@@ -1,0 +1,521 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<raConfiguration version="11">
+  <generalSettings>
+    <option key="#Board#" value="board.ra4c1ek"/>
+    <option key="CPU" value="RA4C1"/>
+    <option key="Core" value="CM33"/>
+    <option key="#TargetName#" value="R7FA4C1BD3CFP"/>
+    <option key="#TargetARCHITECTURE#" value="cortex-m33"/>
+    <option key="#DeviceCommand#" value="R7FA4C1BD"/>
+    <option key="#RTOS#" value="_none"/>
+    <option key="#pinconfiguration#" value="R7FA4C1BD3CFP.pincfg"/>
+    <option key="#FSPVersion#" value="6.0.0"/>
+    <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra4c1_ek##"/>
+    <option key="#SELECTED_TOOLCHAIN#" value="com.arm.toolchain"/>
+  </generalSettings>
+  <raBspConfiguration>
+    <config id="config.bsp.ra4c1.R7FA4C1BD3CFP">
+      <property id="config.bsp.part_number" value="config.bsp.part_number.value"/>
+      <property id="config.bsp.rom_size_bytes" value="config.bsp.rom_size_bytes.value"/>
+      <property id="config.bsp.rom_size_bytes_hidden" value="524288"/>
+      <property id="config.bsp.ram_size_bytes" value="config.bsp.ram_size_bytes.value"/>
+      <property id="config.bsp.data_flash_size_bytes" value="config.bsp.data_flash_size_bytes.value"/>
+      <property id="config.bsp.package_style" value="config.bsp.package_style.value"/>
+      <property id="config.bsp.package_pins" value="config.bsp.package_pins.value"/>
+      <property id="config.bsp.number_of_cores" value="1"/>
+      <property id="config.bsp.irq_count_hidden" value="64"/>
+    </config>
+    <config id="config.bsp.ra4c1">
+      <property id="config.bsp.series" value="config.bsp.series.value"/>
+    </config>
+    <config id="config.bsp.ra4c1.fsp">
+      <property id="config.bsp.fsp.inline_irq_functions" value="config.bsp.common.inline_irq_functions.enabled"/>
+      <property id="config.bsp.fsp.tz.exception_response" value="config.bsp.fsp.tz.exception_response.nmi"/>
+      <property id="config.bsp.fsp.tz.cmsis.bfhfnmins" value="config.bsp.fsp.tz.cmsis.bfhfnmins.secure"/>
+      <property id="config.bsp.fsp.tz.cmsis.sysresetreqs" value="config.bsp.fsp.tz.cmsis.sysresetreqs.secure_only"/>
+      <property id="config.bsp.fsp.tz.cmsis.s_priority_boost" value="config.bsp.fsp.tz.cmsis.s_priority_boost.disabled"/>
+      <property id="config.bsp.fsp.tz.csar" value="config.bsp.fsp.tz.csar.both"/>
+      <property id="config.bsp.fsp.tz.rstsar" value="config.bsp.fsp.tz.rstsar.both"/>
+      <property id="config.bsp.fsp.tz.sramsar.sramprcr" value="config.bsp.fsp.tz.sramsar.sramprcr.both"/>
+      <property id="config.bsp.fsp.tz.sramsar.sramecc" value="config.bsp.fsp.tz.sramsar.sramecc.both"/>
+      <property id="config.bsp.fsp.tz.bussara" value="config.bsp.fsp.tz.bussara.both"/>
+      <property id="config.bsp.fsp.tz.bussarb" value="config.bsp.fsp.tz.bussarb.both"/>
+      <property id="config.bsp.fsp.tz.uninitialized_ns_application_fallback" value="config.bsp.fsp.tz.uninitialized_ns_application_fallback.enabled"/>
+      <property id="config.bsp.fsp.cache_line_size" value="config.bsp.fsp.cache_line_size.32"/>
+      <property id="config.bsp.fsp.hoco_fll" value="config.bsp.fsp.hoco_fll.disabled"/>
+      <property id="config.bsp.common.main_osc_wait" value="config.bsp.common.main_osc_wait.wait_8163"/>
+      <property id="config.bsp.fsp.mcu.adc.max_freq_hz" value="48000000"/>
+      <property id="config.bsp.fsp.mcu.sci_uart.max_baud" value="13333333"/>
+      <property id="config.bsp.fsp.mcu.adc.sample_and_hold" value="0"/>
+      <property id="config.bsp.fsp.mcu.adc.sensors_are_exclusive" value="1"/>
+      <property id="config.bsp.fsp.mcu.sci_spi.max_bitrate" value="20000000"/>
+      <property id="config.bsp.fsp.mcu.spi.max_bitrate" value="40000000"/>
+      <property id="config.bsp.fsp.mcu.iic_master.rate.rate_fastplus" value="1"/>
+      <property id="config.bsp.fsp.mcu.iic_master.fastplus_channels" value="0x1"/>
+      <property id="config.bsp.fsp.mcu.iic_slave.rate.rate_fastplus" value="1"/>
+      <property id="config.bsp.fsp.mcu.iic_slave.fastplus_channels" value="0x1"/>
+      <property id="config.bsp.fsp.mcu.sci_uart.cstpen_channels" value="0x0239"/>
+      <property id="config.bsp.fsp.mcu.sci.irda.channel" value="5"/>
+      <property id="config.bsp.fsp.mcu.gpt.pin_count_source_channels" value="0xFFFF"/>
+      <property id="config.bsp.fsp.mcu.canfd.num_channels" value="1"/>
+      <property id="config.bsp.fsp.mcu.canfd.rx_fifos" value="2"/>
+      <property id="config.bsp.fsp.mcu.canfd.buffer_ram" value="1216"/>
+      <property id="config.bsp.fsp.mcu.uarta.max_baud" value="153600"/>
+      <property id="config.bsp.fsp.mcu.canfd.afl_rules" value="32"/>
+      <property id="config.bsp.fsp.mcu.canfd.afl_rules_each_chnl" value=" 16"/>
+      <property id="config.bsp.fsp.mcu.canfd.max_data_rate_hz" value="8"/>
+      <property id="config.bsp.fsp.mcu.adc_dmac.samples_per_channel" value="65535"/>
+      <property id="config.bsp.fsp.mcu.sci_lin.max_baud" value="5000000"/>
+      <property id="config.bsp.fsp.mcu.slcdc.1_4_bias_method" value="1"/>
+      <property id="config.bsp.fsp.mcu.slcdc.max_contrast_on_1_4_bias" value="9"/>
+      <property id="config.bsp.fsp.mcu.rtc.err_adjustment_value.max_value" value="127"/>
+    </config>
+    <config id="config.bsp.ra4c1.linker">
+      <property id="config.bsp.option_setting.ofs0" value="config.bsp.option_setting.ofs0.enabled"/>
+      <property id="config.bsp.option_setting.ofs0.iwdt_start_mode" value="config.bsp.option_setting.ofs0.iwdt_start_mode.disabled"/>
+      <property id="config.bsp.option_setting.ofs0.iwdt_timeout" value="config.bsp.option_setting.ofs0.iwdt_timeout.2048"/>
+      <property id="config.bsp.option_setting.ofs0.iwdt_divisor" value="config.bsp.option_setting.ofs0.iwdt_divisor.128"/>
+      <property id="config.bsp.option_setting.ofs0.iwdt_window_end" value="config.bsp.option_setting.ofs0.iwdt_window_end.0"/>
+      <property id="config.bsp.option_setting.ofs0.iwdt_window_start" value="config.bsp.option_setting.ofs0.iwdt_window_start.100"/>
+      <property id="config.bsp.option_setting.ofs0.iwdt_reset_interrupt" value="config.bsp.option_setting.ofs0.iwdt_reset_interrupt.Reset"/>
+      <property id="config.bsp.option_setting.ofs0.iwdt_stop_control" value="config.bsp.option_setting.ofs0.iwdt_stop_control.stops"/>
+      <property id="config.bsp.option_setting.ofs0.wdt_start_mode" value="config.bsp.option_setting.ofs0.wdt_start_mode.register"/>
+      <property id="config.bsp.option_setting.ofs0.wdt_timeout" value="config.bsp.option_setting.ofs0.wdt_timeout.16384"/>
+      <property id="config.bsp.option_setting.ofs0.wdt_divisor" value="config.bsp.option_setting.ofs0.wdt_divisor.128"/>
+      <property id="config.bsp.option_setting.ofs0.wdt_window_end" value="config.bsp.option_setting.ofs0.wdt_window_end.0"/>
+      <property id="config.bsp.option_setting.ofs0.wdt_window_start" value="config.bsp.option_setting.ofs0.wdt_window_start.100"/>
+      <property id="config.bsp.option_setting.ofs0.wdt_reset_interrupt" value="config.bsp.option_setting.ofs0.wdt_reset_interrupt.Reset"/>
+      <property id="config.bsp.option_setting.ofs0.wdt_stop_control" value="config.bsp.option_setting.ofs0.wdt_stop_control.stops"/>
+      <property id="config.bsp.option_setting.dualsel" value="config.bsp.option_setting.dualsel.disabled"/>
+      <property id="config.bsp.option_setting.dualsel.mode" value="config.bsp.option_setting.dualsel.mode.linear"/>
+      <property id="config.bsp.option_setting.ofs1" value="config.bsp.option_setting.ofs1.disabled"/>
+      <property id="config.bsp.option_setting.ofs1.voltage_detection0.start" value="config.bsp.option_setting.ofs1.voltage_detection0.start.disabled"/>
+      <property id="config.bsp.option_setting.ofs1.voltage_detection0_level" value="config.bsp.option_setting.ofs1.voltage_detection0_level.190"/>
+      <property id="config.bsp.option_setting.ofs1.hoco_osc" value="config.bsp.option_setting.ofs1.hoco_osc.disabled"/>
+      <property id="config.bsp.option_setting.banksel" value="config.bsp.option_setting.banksel.disabled"/>
+      <property id="config.bsp.option_setting.banksel.bankswap" value="config.bsp.option_setting.banksel.bankswap.disabled"/>
+      <property id="config.bsp.option_setting.banksel.blockswap" value="config.bsp.option_setting.banksel.blockswap.disabled"/>
+      <property id="config.bsp.option_setting.bps" value="config.bsp.option_setting.bps.disabled"/>
+      <property id="config.bsp.option_setting.bps.0" value=""/>
+      <property id="config.bsp.option_setting.bps.2" value=""/>
+      <property id="config.bsp.option_setting.pbps" value="config.bsp.option_setting.pbps.disabled"/>
+      <property id="config.bsp.option_setting.pbps.0" value=""/>
+      <property id="config.bsp.option_setting.pbps.2" value=""/>
+      <property id="config.bsp.option_setting.ofs1_sec" value="config.bsp.option_setting.ofs1_sec.enabled"/>
+      <property id="config.bsp.option_setting.ofs1_sec.voltage_detection0.start" value="config.bsp.option_setting.ofs1_sec.voltage_detection0.start.disabled"/>
+      <property id="config.bsp.option_setting.ofs1_sec.voltage_detection0_level" value="config.bsp.option_setting.ofs1_sec.voltage_detection0_level.190"/>
+      <property id="config.bsp.option_setting.ofs1_sec.hoco_osc" value="config.bsp.option_setting.ofs1_sec.hoco_osc.disabled"/>
+      <property id="config.bsp.option_setting.banksel_sec" value="config.bsp.option_setting.banksel_sec.disabled"/>
+      <property id="config.bsp.option_setting.banksel_sec.bankswap" value="config.bsp.option_setting.banksel_sec.bankswap.disabled"/>
+      <property id="config.bsp.option_setting.banksel_sec.blockswap" value="config.bsp.option_setting.banksel_sec.blockswap.disabled"/>
+      <property id="config.bsp.option_setting.bps_sec" value="config.bsp.option_setting.bps_sec.disabled"/>
+      <property id="config.bsp.option_setting.bps_sec.0" value=""/>
+      <property id="config.bsp.option_setting.bps_sec.2" value=""/>
+      <property id="config.bsp.option_setting.pbps_sec" value="config.bsp.option_setting.pbps_sec.disabled"/>
+      <property id="config.bsp.option_setting.pbps_sec.0" value=""/>
+      <property id="config.bsp.option_setting.pbps_sec.2" value=""/>
+      <property id="config.bsp.option_setting.ofs1_sel" value="config.bsp.option_setting.ofs1_sel.enabled"/>
+      <property id="config.bsp.option_setting.ofs1_sel.voltage_detection0_level" value="config.bsp.option_setting.ofs1_sel.voltage_detection0_level.secure"/>
+      <property id="config.bsp.option_setting.ofs1_sel.voltage_detection0.start" value="config.bsp.option_setting.ofs1_sel.voltage_detection0.start.secure"/>
+      <property id="config.bsp.option_setting.banksel_sel" value="config.bsp.option_setting.banksel_sel.disabled"/>
+      <property id="config.bsp.option_setting.banksel_sel.mode" value="config.bsp.option_setting.banksel_sel.mode.both"/>
+      <property id="config.bsp.option_setting.bps_sel" value="config.bsp.option_setting.bps_sel.disabled"/>
+      <property id="config.bsp.option_setting.bps_sel.0" value=""/>
+      <property id="config.bsp.option_setting.bps_sel.2" value=""/>
+    </config>
+    <config id="config.bsp.ra">
+      <property id="config.bsp.common.main" value="0x400"/>
+      <property id="config.bsp.common.heap" value="0x400"/>
+      <property id="config.bsp.common.bootloader.xip_enable" value="config.bsp.common.bootloader.xip_enable.disabled"/>
+      <property id="config.bsp.common.vcc" value="3300"/>
+      <property id="config.bsp.common.checking" value="config.bsp.common.checking.disabled"/>
+      <property id="config.bsp.common.assert" value="config.bsp.common.assert.none"/>
+      <property id="config.bsp.common.soft_reset" value="config.bsp.common.soft_reset.disabled"/>
+      <property id="config.bsp.common.main_osc_populated" value="config.bsp.common.main_osc_populated.enabled"/>
+      <property id="config.bsp.common.pfs_protect" value="config.bsp.common.pfs_protect.enabled"/>
+      <property id="config.bsp.common.c_runtime_init" value="config.bsp.common.c_runtime_init.enabled"/>
+      <property id="config.bsp.common.early_init" value="config.bsp.common.early_init.disabled"/>
+      <property id="config.bsp.common.main_osc_clock_source" value="config.bsp.common.main_osc_clock_source.crystal"/>
+      <property id="config.bsp.common.subclock_populated" value="config.bsp.common.subclock_populated.enabled"/>
+      <property id="config.bsp.common.subclock_drive" value="config.bsp.common.subclock_drive.standard"/>
+      <property id="config.bsp.common.subclock_stabilization_ms" value="500"/>
+    </config>
+  </raBspConfiguration>
+  <raComponentSelection>
+    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="6.0.0">
+      <description>Board Support Package Common Files</description>
+      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="6.0.0">
+      <description>I/O Port</description>
+      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="CMSIS" condition="" group="Main" subgroup="CoreM" variant="" vendor="Arm" version="6.1.0+fsp.6.0.0">
+      <description>Arm CMSIS Version 6 - Core (M)</description>
+      <originalPack>Arm.CMSIS6.6.1.0+fsp.6.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra4c1" subgroup="device" variant="R7FA4C1BD3CFP" vendor="Renesas" version="6.0.0">
+      <description>Board support package for R7FA4C1BD3CFP</description>
+      <originalPack>Renesas.RA_mcu_ra4c1.6.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra4c1" subgroup="device" variant="" vendor="Renesas" version="6.0.0">
+      <description>Board support package for RA4C1</description>
+      <originalPack>Renesas.RA_mcu_ra4c1.6.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra4c1" subgroup="fsp" variant="" vendor="Renesas" version="6.0.0">
+      <description>Board support package for RA4C1 - FSP Data</description>
+      <originalPack>Renesas.RA_mcu_ra4c1.6.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra4c1" subgroup="events" variant="" vendor="Renesas" version="6.0.0">
+      <description>Board support package for RA4C1 - Events</description>
+      <originalPack>Renesas.RA_mcu_ra4c1.6.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra4c1" subgroup="linker" variant="" vendor="Renesas" version="6.0.0">
+      <description>Board support package for RA4C1 - Linker</description>
+      <originalPack>Renesas.RA_mcu_ra4c1.6.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra4c1_ek" variant="" vendor="Renesas" version="6.0.0">
+      <description>RA4C1-EK Board Support Files</description>
+      <originalPack>Renesas.RA_board_ra4c1_ek.6.0.0.pack</originalPack>
+    </component>
+  </raComponentSelection>
+  <raElcConfiguration/>
+  <raIcuConfiguration/>
+  <raModuleConfiguration>
+    <module id="module.driver.ioport_on_ioport.0">
+      <property id="module.driver.ioport.name" value="g_ioport"/>
+      <property id="module.driver.ioport.elc_trigger_ioport1" value="_disabled"/>
+      <property id="module.driver.ioport.elc_trigger_ioport2" value="_disabled"/>
+      <property id="module.driver.ioport.elc_trigger_ioport3" value="_disabled"/>
+      <property id="module.driver.ioport.elc_trigger_ioport4" value="_disabled"/>
+      <property id="module.driver.ioport.pincfg" value="g_bsp_pin_cfg"/>
+    </module>
+    <context id="_hal.0">
+      <stack module="module.driver.ioport_on_ioport.0"/>
+      <stack module="module.driver.doc_on_doc.544062151"/>
+    </context>
+    <config id="config.driver.ioport">
+      <property id="config.driver.ioport.checking" value="config.driver.ioport.checking.system"/>
+    </config>
+  </raModuleConfiguration>
+  <raPinConfiguration>
+    <symbolicName propertyId="p000.symbolic_name" value="ARDUINO_A5_MIKROBUS_AN"/>
+    <symbolicName propertyId="p001.symbolic_name" value="ARDUINO_A4_AN006"/>
+    <symbolicName propertyId="p002.symbolic_name" value="ARDUINO_A0_AN000"/>
+    <symbolicName propertyId="p003.symbolic_name" value="ARDUINO_A1_AN001"/>
+    <symbolicName propertyId="p004.symbolic_name" value="ARDUINO_A2_AN002"/>
+    <symbolicName propertyId="p010.symbolic_name" value="VREFH0"/>
+    <symbolicName propertyId="p011.symbolic_name" value="VREFL0"/>
+    <symbolicName propertyId="p100.symbolic_name" value="SLCD_SEG41_ARDUINO_D5"/>
+    <symbolicName propertyId="p101.symbolic_name" value="SLCD_SEG40_ARDUINO_D6"/>
+    <symbolicName propertyId="p102.symbolic_name" value="CANFD_TXD"/>
+    <symbolicName propertyId="p103.symbolic_name" value="CANFD_RXD"/>
+    <symbolicName propertyId="p104.symbolic_name" value="SLCD_SEG37_MIKROBUS_RST"/>
+    <symbolicName propertyId="p105.symbolic_name" value="USER_SW2_IRQ0"/>
+    <symbolicName propertyId="p106.symbolic_name" value="SLCD_SEG35_ARDUINO_D4"/>
+    <symbolicName propertyId="p107.symbolic_name" value="SLCD_SEG34"/>
+    <symbolicName propertyId="p108.symbolic_name" value="DEBUG_SWDIO"/>
+    <symbolicName propertyId="p109.symbolic_name" value="PMOD1_P2_MOSIA_TXD9"/>
+    <symbolicName propertyId="p110.symbolic_name" value="PMOD1_P3_MISOA_RXD9_P1_IRQ3"/>
+    <symbolicName propertyId="p111.symbolic_name" value="PMOD1_P4_RSPCKA_SCK9_P2_RESET"/>
+    <symbolicName propertyId="p112.symbolic_name" value="PMOD1_P1_SSLA0_P4_CTS_RTS9"/>
+    <symbolicName propertyId="p113.symbolic_name" value="SLCD_SEG25"/>
+    <symbolicName propertyId="p114.symbolic_name" value="PMOD1_P1_CTS9"/>
+    <symbolicName propertyId="p115.symbolic_name" value="SLCD_SEG27"/>
+    <symbolicName propertyId="p200.symbolic_name" value="NMI"/>
+    <symbolicName propertyId="p201.symbolic_name" value="MD"/>
+    <symbolicName propertyId="p204.symbolic_name" value="SLCD_SEG14_PMOD2_P10_GPIO"/>
+    <symbolicName propertyId="p205.symbolic_name" value="SLCD_COM0"/>
+    <symbolicName propertyId="p206.symbolic_name" value="JLINK_RXD"/>
+    <symbolicName propertyId="p207.symbolic_name" value="JLINK_TXD"/>
+    <symbolicName propertyId="p208.symbolic_name" value="SLCD_COM1"/>
+    <symbolicName propertyId="p209.symbolic_name" value="SLCD_SEG17_PMOD1_P10_GPIO"/>
+    <symbolicName propertyId="p210.symbolic_name" value="SLCD_SEG16_PMOD1_P9_GPIO"/>
+    <symbolicName propertyId="p211.symbolic_name" value="SLCD_SEG15"/>
+    <symbolicName propertyId="p212.symbolic_name" value="EXTAL"/>
+    <symbolicName propertyId="p213.symbolic_name" value="XTAL"/>
+    <symbolicName propertyId="p214.symbolic_name" value="XCOUT"/>
+    <symbolicName propertyId="p215.symbolic_name" value="XCIN"/>
+    <symbolicName propertyId="p300.symbolic_name" value="DEBUG_SWCLK"/>
+    <symbolicName propertyId="p301.symbolic_name" value="SLCD_SEG22_ARDUINO_D0_RXD"/>
+    <symbolicName propertyId="p302.symbolic_name" value="SLCD_SEG21_ARDUINO_D1_TXD"/>
+    <symbolicName propertyId="p303.symbolic_name" value="SLCD_COM3"/>
+    <symbolicName propertyId="p304.symbolic_name" value="SLCD_COM2"/>
+    <symbolicName propertyId="p305.symbolic_name" value="SLCD_SEG20_PMOD2_P8_RST"/>
+    <symbolicName propertyId="p306.symbolic_name" value="SLCD_SEG19"/>
+    <symbolicName propertyId="p307.symbolic_name" value="SLCD_SEG18"/>
+    <symbolicName propertyId="p400.symbolic_name" value="IIC_SYSTEM_SCL"/>
+    <symbolicName propertyId="p401.symbolic_name" value="IIC_SYSTEM_SDA"/>
+    <symbolicName propertyId="p402.symbolic_name" value="SLCD_SEG6_PMOD1_P8_RST"/>
+    <symbolicName propertyId="p403.symbolic_name" value="SLCDC_SEG7_ARDUINO_D2"/>
+    <symbolicName propertyId="p404.symbolic_name" value="USER_LED3_RED"/>
+    <symbolicName propertyId="p405.symbolic_name" value="SLCD_SEG24"/>
+    <symbolicName propertyId="p407.symbolic_name" value="USER_LED2_GREEN"/>
+    <symbolicName propertyId="p408.symbolic_name" value="SLCD_VL3_PMOD2_P4_RSPCKB"/>
+    <symbolicName propertyId="p409.symbolic_name" value="SLCD_VL4_PMOD2_P3_MISOB"/>
+    <symbolicName propertyId="p410.symbolic_name" value="SLCD_VL2_PMOD2_P2_MOSIB"/>
+    <symbolicName propertyId="p411.symbolic_name" value="SLCD_VL1_PMOD2_P1_SSLB"/>
+    <symbolicName propertyId="p412.symbolic_name" value="SLCD_SEG12_PMOD2_P1_CTS3"/>
+    <symbolicName propertyId="p413.symbolic_name" value="SLCD_SEG11_PMOD2_P9_GPIO"/>
+    <symbolicName propertyId="p414.symbolic_name" value="SLCD_SEG10_PMOD2_P7_IRQ9"/>
+    <symbolicName propertyId="p415.symbolic_name" value="SLCD_SEG9_ARDUINO_D3"/>
+    <symbolicName propertyId="p500.symbolic_name" value="QSPI_SCLK"/>
+    <symbolicName propertyId="p501.symbolic_name" value="QSPI_SSL"/>
+    <symbolicName propertyId="p502.symbolic_name" value="QSPI_SIO0"/>
+    <symbolicName propertyId="p503.symbolic_name" value="QSPI_SIO1"/>
+    <symbolicName propertyId="p504.symbolic_name" value="QSPI_SIO2"/>
+    <symbolicName propertyId="p505.symbolic_name" value="QSPI_SIO3"/>
+    <symbolicName propertyId="p506.symbolic_name" value="ARDUINO_D11_MOSIC_MIKROBUS_MOSIC"/>
+    <symbolicName propertyId="p507.symbolic_name" value="ARDUINO_D12_MISOC_MIKROBUS_MISOC"/>
+    <symbolicName propertyId="p508.symbolic_name" value="ARDUINO_D13_RSPCKC_MIKROBUS_SCK"/>
+    <symbolicName propertyId="p509.symbolic_name" value="ARDUINO_D10_SSLC_MIKROBUS_CS"/>
+    <symbolicName propertyId="p510.symbolic_name" value="ARDUINO_D7"/>
+    <symbolicName propertyId="p511.symbolic_name" value="ARDUINO_D8"/>
+    <symbolicName propertyId="p512.symbolic_name" value="AN023_ARDUINO_A3"/>
+    <symbolicName propertyId="p513.symbolic_name" value="USER_SW1_IRQ15"/>
+    <symbolicName propertyId="p600.symbolic_name" value="SLCD_SEG33_ARDUINO_D9"/>
+    <symbolicName propertyId="p601.symbolic_name" value="SLCD_SEG32"/>
+    <symbolicName propertyId="p602.symbolic_name" value="SLCD_SEG31"/>
+    <symbolicName propertyId="p608.symbolic_name" value="SLCD_SEG28"/>
+    <symbolicName propertyId="p609.symbolic_name" value="SLCD_SEG29"/>
+    <symbolicName propertyId="p610.symbolic_name" value="USER_LED1_BLUE"/>
+    <symbolicName propertyId="p708.symbolic_name" value="PMOD1_P7_IRQ11"/>
+    <symbolicName propertyId="p814.symbolic_name" value="SLCD_CAPL"/>
+    <symbolicName propertyId="p815.symbolic_name" value="SLCD_CAPH"/>
+    <pincfg active="true" name="RA4C1 EK" selected="true" symbol="g_bsp_pin_cfg">
+      <configSetting altId="adc0.an000.p002" configurationId="adc0.an000"/>
+      <configSetting altId="adc0.an001.p003" configurationId="adc0.an001"/>
+      <configSetting altId="adc0.an002.p004" configurationId="adc0.an002"/>
+      <configSetting altId="adc0.an005.p000" configurationId="adc0.an005"/>
+      <configSetting altId="adc0.an006.p001" configurationId="adc0.an006"/>
+      <configSetting altId="adc0.mode.custom.free" configurationId="adc0.mode"/>
+      <configSetting altId="canfd0.crx0.p103" configurationId="canfd0.crx0"/>
+      <configSetting altId="canfd0.ctx0.p102" configurationId="canfd0.ctx0"/>
+      <configSetting altId="canfd0.mode.enabled.free" configurationId="canfd0.mode"/>
+      <configSetting altId="cgc.extal.p212" configurationId="cgc.extal"/>
+      <configSetting altId="cgc.mode.custom.free" configurationId="cgc.mode"/>
+      <configSetting altId="cgc.xcin.p215" configurationId="cgc.xcin"/>
+      <configSetting altId="cgc.xcout.p214" configurationId="cgc.xcout"/>
+      <configSetting altId="cgc.xtal.p213" configurationId="cgc.xtal"/>
+      <configSetting altId="iic1.scl1.p400" configurationId="iic1.scl1"/>
+      <configSetting altId="iic1.sda1.p401" configurationId="iic1.sda1"/>
+      <configSetting altId="irq.mode.custom.free" configurationId="irq.mode"/>
+      <configSetting altId="irq.nmi.p200" configurationId="irq.nmi"/>
+      <configSetting altId="jtag_fslash_swd.mode.swd.free" configurationId="jtag_fslash_swd.mode"/>
+      <configSetting altId="p000.adc0.an005" configurationId="p000"/>
+      <configSetting altId="p000.gpio_mode.gpio_mode_an" configurationId="p000.gpio_mode"/>
+      <configSetting altId="p001.adc0.an006" configurationId="p001"/>
+      <configSetting altId="p001.gpio_mode.gpio_mode_an" configurationId="p001.gpio_mode"/>
+      <configSetting altId="p002.adc0.an000" configurationId="p002"/>
+      <configSetting altId="p002.gpio_mode.gpio_mode_an" configurationId="p002.gpio_mode"/>
+      <configSetting altId="p003.adc0.an001" configurationId="p003"/>
+      <configSetting altId="p003.gpio_mode.gpio_mode_an" configurationId="p003.gpio_mode"/>
+      <configSetting altId="p004.adc0.an002" configurationId="p004"/>
+      <configSetting altId="p004.gpio_mode.gpio_mode_an" configurationId="p004.gpio_mode"/>
+      <configSetting altId="p010.system.vrefh0" configurationId="p010"/>
+      <configSetting altId="p010.gpio_mode.gpio_mode_peripheral" configurationId="p010.gpio_mode"/>
+      <configSetting altId="p011.system.vrefl0" configurationId="p011"/>
+      <configSetting altId="p011.gpio_mode.gpio_mode_peripheral" configurationId="p011.gpio_mode"/>
+      <configSetting altId="p100.slcdc.seg41" configurationId="p100"/>
+      <configSetting altId="p100.gpio_mode.gpio_mode_peripheral" configurationId="p100.gpio_mode"/>
+      <configSetting altId="p101.slcdc.seg40" configurationId="p101"/>
+      <configSetting altId="p101.gpio_mode.gpio_mode_peripheral" configurationId="p101.gpio_mode"/>
+      <configSetting altId="p102.canfd0.ctx0" configurationId="p102"/>
+      <configSetting altId="p102.gpio_mode.gpio_mode_peripheral" configurationId="p102.gpio_mode"/>
+      <configSetting altId="p103.canfd0.crx0" configurationId="p103"/>
+      <configSetting altId="p103.gpio_mode.gpio_mode_peripheral" configurationId="p103.gpio_mode"/>
+      <configSetting altId="p104.slcdc.seg37" configurationId="p104"/>
+      <configSetting altId="p104.gpio_mode.gpio_mode_peripheral" configurationId="p104.gpio_mode"/>
+      <configSetting altId="p105.input" configurationId="p105"/>
+      <configSetting altId="p105.gpio_mode.gpio_mode_in" configurationId="p105.gpio_mode"/>
+      <configSetting altId="p106.slcdc.seg35" configurationId="p106"/>
+      <configSetting altId="p106.gpio_mode.gpio_mode_peripheral" configurationId="p106.gpio_mode"/>
+      <configSetting altId="p107.slcdc.seg34" configurationId="p107"/>
+      <configSetting altId="p107.gpio_mode.gpio_mode_peripheral" configurationId="p107.gpio_mode"/>
+      <configSetting altId="p109.spi0.mosi0" configurationId="p109"/>
+      <configSetting altId="p109.gpio_mode.gpio_mode_peripheral" configurationId="p109.gpio_mode"/>
+      <configSetting altId="p110.spi0.miso0" configurationId="p110"/>
+      <configSetting altId="p110.gpio_mode.gpio_mode_peripheral" configurationId="p110.gpio_mode"/>
+      <configSetting altId="p111.spi0.rspck0" configurationId="p111"/>
+      <configSetting altId="p111.gpio_mode.gpio_mode_peripheral" configurationId="p111.gpio_mode"/>
+      <configSetting altId="p112.spi0.ssla0" configurationId="p112"/>
+      <configSetting altId="p112.gpio_mode.gpio_mode_peripheral" configurationId="p112.gpio_mode"/>
+      <configSetting altId="p113.slcdc.seg25" configurationId="p113"/>
+      <configSetting altId="p113.gpio_mode.gpio_mode_peripheral" configurationId="p113.gpio_mode"/>
+      <configSetting altId="p115.slcdc.seg27" configurationId="p115"/>
+      <configSetting altId="p115.gpio_mode.gpio_mode_peripheral" configurationId="p115.gpio_mode"/>
+      <configSetting altId="p200.irq.nmi" configurationId="p200"/>
+      <configSetting altId="p200.gpio_irq.gpio_irq_enabled" configurationId="p200.gpio_irq"/>
+      <configSetting altId="p200.gpio_mode.gpio_mode_irq" configurationId="p200.gpio_mode"/>
+      <configSetting altId="p201.system.md" configurationId="p201"/>
+      <configSetting altId="p201.gpio_mode.gpio_mode_peripheral" configurationId="p201.gpio_mode"/>
+      <configSetting altId="p204.slcdc.seg14" configurationId="p204"/>
+      <configSetting altId="p204.gpio_mode.gpio_mode_peripheral" configurationId="p204.gpio_mode"/>
+      <configSetting altId="p205.slcdc.com0" configurationId="p205"/>
+      <configSetting altId="p205.gpio_mode.gpio_mode_peripheral" configurationId="p205.gpio_mode"/>
+      <configSetting altId="p206.sci4.rxd4" configurationId="p206"/>
+      <configSetting altId="p206.gpio_mode.gpio_mode_peripheral" configurationId="p206.gpio_mode"/>
+      <configSetting altId="p207.sci4.txd4" configurationId="p207"/>
+      <configSetting altId="p207.gpio_mode.gpio_mode_peripheral" configurationId="p207.gpio_mode"/>
+      <configSetting altId="p208.slcdc.com1" configurationId="p208"/>
+      <configSetting altId="p208.gpio_mode.gpio_mode_peripheral" configurationId="p208.gpio_mode"/>
+      <configSetting altId="p209.slcdc.seg17" configurationId="p209"/>
+      <configSetting altId="p209.gpio_mode.gpio_mode_peripheral" configurationId="p209.gpio_mode"/>
+      <configSetting altId="p210.slcdc.seg16" configurationId="p210"/>
+      <configSetting altId="p210.gpio_mode.gpio_mode_peripheral" configurationId="p210.gpio_mode"/>
+      <configSetting altId="p211.slcdc.seg15" configurationId="p211"/>
+      <configSetting altId="p211.gpio_mode.gpio_mode_peripheral" configurationId="p211.gpio_mode"/>
+      <configSetting altId="p212.cgc.extal" configurationId="p212"/>
+      <configSetting altId="p212.gpio_mode.gpio_mode_peripheral" configurationId="p212.gpio_mode"/>
+      <configSetting altId="p213.cgc.xtal" configurationId="p213"/>
+      <configSetting altId="p213.gpio_mode.gpio_mode_peripheral" configurationId="p213.gpio_mode"/>
+      <configSetting altId="p214.cgc.xcout" configurationId="p214"/>
+      <configSetting altId="p214.gpio_mode.gpio_mode_peripheral" configurationId="p214.gpio_mode"/>
+      <configSetting altId="p215.cgc.xcin" configurationId="p215"/>
+      <configSetting altId="p215.gpio_mode.gpio_mode_peripheral" configurationId="p215.gpio_mode"/>
+      <configSetting altId="p301.slcdc.seg22" configurationId="p301"/>
+      <configSetting altId="p301.gpio_mode.gpio_mode_peripheral" configurationId="p301.gpio_mode"/>
+      <configSetting altId="p302.slcdc.seg21" configurationId="p302"/>
+      <configSetting altId="p302.gpio_mode.gpio_mode_peripheral" configurationId="p302.gpio_mode"/>
+      <configSetting altId="p303.slcdc.com3" configurationId="p303"/>
+      <configSetting altId="p303.gpio_mode.gpio_mode_peripheral" configurationId="p303.gpio_mode"/>
+      <configSetting altId="p304.slcdc.com2" configurationId="p304"/>
+      <configSetting altId="p304.gpio_mode.gpio_mode_peripheral" configurationId="p304.gpio_mode"/>
+      <configSetting altId="p305.slcdc.seg20" configurationId="p305"/>
+      <configSetting altId="p305.gpio_mode.gpio_mode_peripheral" configurationId="p305.gpio_mode"/>
+      <configSetting altId="p306.slcdc.seg19" configurationId="p306"/>
+      <configSetting altId="p306.gpio_mode.gpio_mode_peripheral" configurationId="p306.gpio_mode"/>
+      <configSetting altId="p307.slcdc.seg18" configurationId="p307"/>
+      <configSetting altId="p307.gpio_mode.gpio_mode_peripheral" configurationId="p307.gpio_mode"/>
+      <configSetting altId="p400.iic1.scl1" configurationId="p400"/>
+      <configSetting altId="p400.gpio_mode.gpio_mode_peripheral" configurationId="p400.gpio_mode"/>
+      <configSetting altId="p401.iic1.sda1" configurationId="p401"/>
+      <configSetting altId="p401.gpio_mode.gpio_mode_peripheral" configurationId="p401.gpio_mode"/>
+      <configSetting altId="p402.slcdc.seg6" configurationId="p402"/>
+      <configSetting altId="p402.gpio_mode.gpio_mode_peripheral" configurationId="p402.gpio_mode"/>
+      <configSetting altId="p403.slcdc.seg7" configurationId="p403"/>
+      <configSetting altId="p403.gpio_mode.gpio_mode_peripheral" configurationId="p403.gpio_mode"/>
+      <configSetting altId="p405.slcdc.seg24" configurationId="p405"/>
+      <configSetting altId="p405.gpio_mode.gpio_mode_peripheral" configurationId="p405.gpio_mode"/>
+      <configSetting altId="p408.slcdc.vl3" configurationId="p408"/>
+      <configSetting altId="p408.gpio_mode.gpio_mode_peripheral" configurationId="p408.gpio_mode"/>
+      <configSetting altId="p409.slcdc.vl4" configurationId="p409"/>
+      <configSetting altId="p409.gpio_mode.gpio_mode_peripheral" configurationId="p409.gpio_mode"/>
+      <configSetting altId="p410.slcdc.vl2" configurationId="p410"/>
+      <configSetting altId="p410.gpio_mode.gpio_mode_peripheral" configurationId="p410.gpio_mode"/>
+      <configSetting altId="p411.slcdc.vl1" configurationId="p411"/>
+      <configSetting altId="p411.gpio_mode.gpio_mode_peripheral" configurationId="p411.gpio_mode"/>
+      <configSetting altId="p412.slcdc.seg12" configurationId="p412"/>
+      <configSetting altId="p412.gpio_mode.gpio_mode_peripheral" configurationId="p412.gpio_mode"/>
+      <configSetting altId="p413.slcdc.seg11" configurationId="p413"/>
+      <configSetting altId="p413.gpio_mode.gpio_mode_peripheral" configurationId="p413.gpio_mode"/>
+      <configSetting altId="p414.slcdc.seg10" configurationId="p414"/>
+      <configSetting altId="p414.gpio_mode.gpio_mode_peripheral" configurationId="p414.gpio_mode"/>
+      <configSetting altId="p415.slcdc.seg9" configurationId="p415"/>
+      <configSetting altId="p415.gpio_mode.gpio_mode_peripheral" configurationId="p415.gpio_mode"/>
+      <configSetting altId="p500.qspi.qspclk" configurationId="p500"/>
+      <configSetting altId="p500.gpio_mode.gpio_mode_peripheral" configurationId="p500.gpio_mode"/>
+      <configSetting altId="p501.qspi.qssl" configurationId="p501"/>
+      <configSetting altId="p501.gpio_mode.gpio_mode_peripheral" configurationId="p501.gpio_mode"/>
+      <configSetting altId="p502.qspi.qio0" configurationId="p502"/>
+      <configSetting altId="p502.gpio_mode.gpio_mode_peripheral" configurationId="p502.gpio_mode"/>
+      <configSetting altId="p503.qspi.qio1" configurationId="p503"/>
+      <configSetting altId="p503.gpio_mode.gpio_mode_peripheral" configurationId="p503.gpio_mode"/>
+      <configSetting altId="p504.qspi.qio2" configurationId="p504"/>
+      <configSetting altId="p504.gpio_mode.gpio_mode_peripheral" configurationId="p504.gpio_mode"/>
+      <configSetting altId="p505.qspi.qio3" configurationId="p505"/>
+      <configSetting altId="p505.gpio_mode.gpio_mode_peripheral" configurationId="p505.gpio_mode"/>
+      <configSetting altId="p506.input" configurationId="p506"/>
+      <configSetting altId="p506.gpio_mode.gpio_mode_in" configurationId="p506.gpio_mode"/>
+      <configSetting altId="p507.input" configurationId="p507"/>
+      <configSetting altId="p507.gpio_mode.gpio_mode_in" configurationId="p507.gpio_mode"/>
+      <configSetting altId="p508.input" configurationId="p508"/>
+      <configSetting altId="p508.gpio_mode.gpio_mode_in" configurationId="p508.gpio_mode"/>
+      <configSetting altId="p509.input" configurationId="p509"/>
+      <configSetting altId="p509.gpio_mode.gpio_mode_in" configurationId="p509.gpio_mode"/>
+      <configSetting altId="p510.input" configurationId="p510"/>
+      <configSetting altId="p510.gpio_mode.gpio_mode_in" configurationId="p510.gpio_mode"/>
+      <configSetting altId="p511.input" configurationId="p511"/>
+      <configSetting altId="p511.gpio_mode.gpio_mode_in" configurationId="p511.gpio_mode"/>
+      <configSetting altId="p512.input" configurationId="p512"/>
+      <configSetting altId="p512.gpio_mode.gpio_mode_in" configurationId="p512.gpio_mode"/>
+      <configSetting altId="p513.input" configurationId="p513"/>
+      <configSetting altId="p513.gpio_mode.gpio_mode_in" configurationId="p513.gpio_mode"/>
+      <configSetting altId="p600.slcdc.seg33" configurationId="p600"/>
+      <configSetting altId="p600.gpio_mode.gpio_mode_peripheral" configurationId="p600.gpio_mode"/>
+      <configSetting altId="p601.slcdc.seg32" configurationId="p601"/>
+      <configSetting altId="p601.gpio_mode.gpio_mode_peripheral" configurationId="p601.gpio_mode"/>
+      <configSetting altId="p602.slcdc.seg31" configurationId="p602"/>
+      <configSetting altId="p602.gpio_mode.gpio_mode_peripheral" configurationId="p602.gpio_mode"/>
+      <configSetting altId="p608.slcdc.seg28" configurationId="p608"/>
+      <configSetting altId="p608.gpio_mode.gpio_mode_peripheral" configurationId="p608.gpio_mode"/>
+      <configSetting altId="p609.slcdc.seg29" configurationId="p609"/>
+      <configSetting altId="p609.gpio_mode.gpio_mode_peripheral" configurationId="p609.gpio_mode"/>
+      <configSetting altId="p708.input" configurationId="p708"/>
+      <configSetting altId="p708.gpio_mode.gpio_mode_in" configurationId="p708.gpio_mode"/>
+      <configSetting altId="p814.slcdc.capl" configurationId="p814"/>
+      <configSetting altId="p814.gpio_mode.gpio_mode_peripheral" configurationId="p814.gpio_mode"/>
+      <configSetting altId="p815.slcdc.caph" configurationId="p815"/>
+      <configSetting altId="p815.gpio_mode.gpio_mode_peripheral" configurationId="p815.gpio_mode"/>
+      <configSetting altId="qspi.qio0.p502" configurationId="qspi.qio0"/>
+      <configSetting altId="qspi.qio1.p503" configurationId="qspi.qio1"/>
+      <configSetting altId="qspi.qio2.p504" configurationId="qspi.qio2"/>
+      <configSetting altId="qspi.qio3.p505" configurationId="qspi.qio3"/>
+      <configSetting altId="qspi.qspclk.p500" configurationId="qspi.qspclk"/>
+      <configSetting altId="qspi.qssl.p501" configurationId="qspi.qssl"/>
+      <configSetting altId="sci4.mode.asynchronousuart.free" configurationId="sci4.mode"/>
+      <configSetting altId="sci4.rxd4.p206" configurationId="sci4.rxd4"/>
+      <configSetting altId="sci4.txd4.p207" configurationId="sci4.txd4"/>
+      <configSetting altId="slcdc.caph.p815" configurationId="slcdc.caph"/>
+      <configSetting altId="slcdc.capl.p814" configurationId="slcdc.capl"/>
+      <configSetting altId="slcdc.com0.p205" configurationId="slcdc.com0"/>
+      <configSetting altId="slcdc.com1.p208" configurationId="slcdc.com1"/>
+      <configSetting altId="slcdc.com2.p304" configurationId="slcdc.com2"/>
+      <configSetting altId="slcdc.com3.p303" configurationId="slcdc.com3"/>
+      <configSetting altId="slcdc.mode.4xslice.free" configurationId="slcdc.mode"/>
+      <configSetting altId="slcdc.seg10.p414" configurationId="slcdc.seg10"/>
+      <configSetting altId="slcdc.seg11.p413" configurationId="slcdc.seg11"/>
+      <configSetting altId="slcdc.seg12.p412" configurationId="slcdc.seg12"/>
+      <configSetting altId="slcdc.seg14.p204" configurationId="slcdc.seg14"/>
+      <configSetting altId="slcdc.seg15.p211" configurationId="slcdc.seg15"/>
+      <configSetting altId="slcdc.seg16.p210" configurationId="slcdc.seg16"/>
+      <configSetting altId="slcdc.seg17.p209" configurationId="slcdc.seg17"/>
+      <configSetting altId="slcdc.seg18.p307" configurationId="slcdc.seg18"/>
+      <configSetting altId="slcdc.seg19.p306" configurationId="slcdc.seg19"/>
+      <configSetting altId="slcdc.seg20.p305" configurationId="slcdc.seg20"/>
+      <configSetting altId="slcdc.seg21.p302" configurationId="slcdc.seg21"/>
+      <configSetting altId="slcdc.seg22.p301" configurationId="slcdc.seg22"/>
+      <configSetting altId="slcdc.seg24.p405" configurationId="slcdc.seg24"/>
+      <configSetting altId="slcdc.seg25.p113" configurationId="slcdc.seg25"/>
+      <configSetting altId="slcdc.seg27.p115" configurationId="slcdc.seg27"/>
+      <configSetting altId="slcdc.seg28.p608" configurationId="slcdc.seg28"/>
+      <configSetting altId="slcdc.seg29.p609" configurationId="slcdc.seg29"/>
+      <configSetting altId="slcdc.seg31.p602" configurationId="slcdc.seg31"/>
+      <configSetting altId="slcdc.seg32.p601" configurationId="slcdc.seg32"/>
+      <configSetting altId="slcdc.seg33.p600" configurationId="slcdc.seg33"/>
+      <configSetting altId="slcdc.seg34.p107" configurationId="slcdc.seg34"/>
+      <configSetting altId="slcdc.seg35.p106" configurationId="slcdc.seg35"/>
+      <configSetting altId="slcdc.seg37.p104" configurationId="slcdc.seg37"/>
+      <configSetting altId="slcdc.seg40.p101" configurationId="slcdc.seg40"/>
+      <configSetting altId="slcdc.seg41.p100" configurationId="slcdc.seg41"/>
+      <configSetting altId="slcdc.seg6.p402" configurationId="slcdc.seg6"/>
+      <configSetting altId="slcdc.seg7.p403" configurationId="slcdc.seg7"/>
+      <configSetting altId="slcdc.seg9.p415" configurationId="slcdc.seg9"/>
+      <configSetting altId="slcdc.vl1.p411" configurationId="slcdc.vl1"/>
+      <configSetting altId="slcdc.vl2.p410" configurationId="slcdc.vl2"/>
+      <configSetting altId="slcdc.vl3.p408" configurationId="slcdc.vl3"/>
+      <configSetting altId="slcdc.vl4.p409" configurationId="slcdc.vl4"/>
+      <configSetting altId="spi0.miso0.p110" configurationId="spi0.miso0"/>
+      <configSetting altId="spi0.mosi0.p109" configurationId="spi0.mosi0"/>
+      <configSetting altId="spi0.rspck0.p111" configurationId="spi0.rspck0"/>
+      <configSetting altId="spi0.ssla0.p112" configurationId="spi0.ssla0"/>
+      <configSetting altId="system.md.p201" configurationId="system.md"/>
+      <configSetting altId="system.mode.custom.free" configurationId="system.mode"/>
+      <configSetting altId="system.vrefh0.p010" configurationId="system.vrefh0"/>
+      <configSetting altId="system.vrefl0.p011" configurationId="system.vrefl0"/>
+    </pincfg>
+    <pincfg active="false" name="R7FA4C1BD3CFP.pincfg" selected="false" symbol="">
+      <configSetting altId="jtag_fslash_swd.mode.swd.free" configurationId="jtag_fslash_swd.mode"/>
+    </pincfg>
+  </raPinConfiguration>
+</raConfiguration>

@@ -464,15 +464,15 @@ uint8_t ov5640_init(void)
     R_GPT_Start(&g_timer_camera_xclk_ctrl);
 
     /* Enter power-down and reset state */
-    ov5640_hw_init();               /* OV5640模块硬件初始化 */
+    ov5640_hw_init();               
     delay_ms(300);
 
     /* Exit power-down and reset state */
-    ov5640_exit_power_down();       /* OV5640模块退出掉电模式 */
+    ov5640_exit_power_down();       
 
     /* Reset using GPIO */
     ov5640_hw_reset();
-    ov5640_sw_reset();              /* OV5640模块软件复位 */
+    ov5640_sw_reset();              
     delay_ms(20); // Register access permitted after 20 ms
 
     /* Check Camera is connected */

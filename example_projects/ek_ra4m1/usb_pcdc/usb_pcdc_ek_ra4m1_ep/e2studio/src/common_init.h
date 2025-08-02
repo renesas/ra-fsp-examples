@@ -10,10 +10,6 @@
 
 #include "hal_data.h"
 
-#define LED_INTENSITY_10      (0x3E7)         // 10 percent
-#define LED_INTENSITY_50      (0x1388)        // 50 percent
-#define LED_INTENSITY_90      (0x2328)        // 90 percent
-
 #define BLINK_FREQ_1HZ        (24000000)
 #define BLINK_FREQ_5HZ        (4800000)
 #define BLINK_FREQ_10HZ       (2400000)
@@ -36,4 +32,4 @@ extern bsp_leds_t g_bsp_leds;
 
 
 fsp_err_t common_init(void);
-uint16_t adc_reading(void);
+fsp_err_t adc_reading(uint16_t * p_adc_data);

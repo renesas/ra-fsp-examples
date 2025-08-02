@@ -1,5 +1,5 @@
 FSP Configuration
-  Board "EK-RA4E2"
+  Board "RA4|RA4E2|EK-RA4E2"
   R7FA4E2B93CFM
     part_number: R7FA4E2B93CFM
     rom_size_bytes: 131072
@@ -12,13 +12,13 @@ FSP Configuration
     series: 4
     
   RA4E2 Family
+    Enable inline BSP IRQ functions: Enabled
     Security: Exceptions: Exception Response: Non-Maskable Interrupt
     Security: Exceptions: BusFault, HardFault, and NMI Target: Secure State
     Security: System Reset Request Accessibility: Secure State
     Security: Exceptions: Prioritize Secure Exceptions: Disabled
     Security: Cache Accessibility: Both Secure and Non-Secure State
     Security: System Reset Status Accessibility: Both Secure and Non-Secure State
-    Security: Battery Backup Accessibility: Both Secure and Non-Secure State
     Security: SRAM Accessibility: SRAM Protection: Both Secure and Non-Secure State
     Security: SRAM Accessibility: SRAM ECC: Both Secure and Non-Secure State
     Security: SRAM Accessibility: Standby RAM: Regions 7-0 are all Secure.
@@ -26,7 +26,7 @@ FSP Configuration
     Security: BUS Accessibility: Bus Security Attribution Register B: Both Secure and Non-Secure State
     Security: Uninitialized Non-Secure Application Fallback: Enable Uninitialized Non-Secure Application Fallback
     Startup C-Cache Line Size: 32 Bytes
-    OFS0 register settings: Independent WDT: Start Mode: IWDT is Disabled
+    OFS0 register settings: Independent WDT: Start Mode: IWDT is stopped after a reset
     OFS0 register settings: Independent WDT: Timeout Period: 2048 cycles
     OFS0 register settings: Independent WDT: Dedicated Clock Frequency Divisor: 128
     OFS0 register settings: Independent WDT: Window End Position:  0% (no window end position)
@@ -50,13 +50,13 @@ FSP Configuration
     ID Code Mode: Unlocked (Ignore ID)
     ID Code (32 Hex Characters): FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
     
+  RA4E2 event data
   RA Common
     Main stack size (bytes): 0x400
     Heap size (bytes): 0x400
     MCU Vcc (mV): 3300
     Parameter checking: Enabled
     Assert Failures: Return FSP_ERR_ASSERTION
-    Error Log: No Error Log
     Clock Registers not Reset Values during Startup: Disabled
     Main Oscillator Populated: Populated
     PFS Protect: Enabled
@@ -100,7 +100,7 @@ FSP Configuration
       P002 62 ADC0_AN002 ARDUINO_A2 - - "Analog mode" - - "ADC0: AN002; IRQ: IRQ8-DS" - I - - 
       P003 55 GPIO ARDUINO_A4 - - "Input mode" - - "ADC0: AN007; ADC0: PGAVSS000" - I - - 
       P004 61 ADC0_AN004 ARDUINO_A3 - - "Analog mode" - - "ADC0: AN004; IRQ: IRQ9-DS" - I - - 
-      P005 60 ADC0_AN005 SW1 - - "Analog mode" - - "ADC0: AN005; IRQ: IRQ10-DS" - I - - 
+      P005 60 IRQ_IRQ10-DS SW1 - IRQ10-DS "IRQ mode" - - "ADC0: AN005; IRQ: IRQ10-DS" - IO - - 
       P006 51 GPIO ARDUINO_D8 - None "Input mode" - - "ADC0: AN006; IRQ: IRQ11-DS" - IO - - 
       P008 50 GPIO ARDUINO_D7 - None "Input mode" - - "ADC0: AN008; IRQ: IRQ12-DS" - IO - - 
       P013 54 ADC0_AN011 ARDUINO_A5 - - "Analog mode" - - "ADC0: AN011" - I - - 
@@ -109,7 +109,7 @@ FSP Configuration
       P100 48 I3C/IIC_I3C_SCL I3C_SCL L None "Peripheral mode" - - "AGT0: AGTIO0; GPT5: GTIOC5B; GPT_POEGA: GTETRGA; I3C/IIC: I3C_SCL; IRQ: IRQ2; SCI0: RXD0; SPI1: MISO1; SSIE: AUDIO_CLK" - IO - - 
       P101 47 I3C/IIC_I3C_SDA I3C_SDA L None "Peripheral mode" - - "AGT0: AGTEE0; GPT5: GTIOC5A; GPT_POEGB: GTETRGB; I3C/IIC: I3C_SDA; IRQ: IRQ1; SCI0: TXD0; SPI1: MOSI1" - IO - - 
       P102 46 GPIO PMOD2_RESET - - "Input mode" - - "ADC0(Digital): ADTRG0; AGT0: AGTO0; CANFD0: CRX0; GPT_OPS: GTOWLO; SCI0: SCK0; SPI1: RSPCK1; SSIE0: SSIBCK0" - IO - - 
-      P103 45 GPIO PMOD2_CTS - - "Input mode" - - "CANFD0: CTX0; GPT_OPS: GTOWUP; SCI0: CTS_RTS0; SPI1: SSLB0; SSIE: SSIFS0; SSIE0: SSILRCK0" - IO - - 
+      P103 45 GPIO PMOD2_CTS - - "Input mode" - - "CANFD0: CTX0; GPT_OPS: GTOWUP; SCI0: CTS_RTS0; SPI1: SSLB0; SSIE0: SSIFS0; SSIE0: SSILRCK0" - IO - - 
       P104 44 GPT1_GTIOC1B LED2 L None "Peripheral mode" - - "AGT1: AGTIO1; GPT1: GTIOC1B; GPT_POEGB: GTETRGB; IRQ: IRQ1; SPI1: SSLB1" - IO - - 
       P105 43 - PMOD1_IRQ0_MIKROBUS_INT_ARDUINO_D2 - - Disabled - - "GPT1: GTIOC1A; GPT_POEGA: GTETRGA; IRQ: IRQ0; SPI1: SSLB2" - None - - 
       P106 42 GPIO PMOD2_SS3 - - "Input mode" - - "AGT0: AGTOB0; SPI1: SSLB3" - IO - - 
@@ -124,7 +124,7 @@ FSP Configuration
       P201 26 - - - - Disabled - - "SYSTEM: MD" - None - - 
       P205 23 - - - - Disabled - - "AGT1: AGTO1; CLKOUT: CLKOUT; GPT4: GTIOC4A; GPT_OPS: GTIV; I3C/IIC: SCL0; IRQ: IRQ1-DS; SCI9: CTS_RTS9; SPI0: SSLA3" - None - - 
       P206 22 - - - - Disabled - - "CEC: CECIO; GPT5: GTIOC5B; GPT_OPS: GTIU; I3C/IIC: SDA0; IRQ: IRQ0-DS; SCI9: CTS9; SPI0: MISO0; SSIE0: SSIDATA0" - None - - 
-      P207 21 GPT5_GTIOC5A LED1 L - "Peripheral mode" - - "AGT1: AGTIO1; CAC: CACREF; GPT5: GTIOC5A; GPT_OPS: GTIW; SCI9: SCK9; SPI0: MOSI0; SSIE: SSIFS0; SSIE0: SSILRCK0" - IO - - 
+      P207 21 GPT5_GTIOC5A LED1 L - "Peripheral mode" - - "AGT1: AGTIO1; CAC: CACREF; GPT5: GTIOC5A; GPT_OPS: GTIW; SCI9: SCK9; SPI0: MOSI0; SSIE0: SSIFS0; SSIE0: SSILRCK0" - IO - - 
       P208 24 - - - - Disabled - - "ADC0(Digital): ADTRG0; GPT_OPS: GTOVLO" - None - - 
       P212 10 - - - - Disabled - - "AGT1: AGTEE1; CGC: EXTAL; GPT0: GTIOC0B; GPT_POEGD: GTETRGD; IRQ: IRQ3; SCI0: RXD0" - None - - 
       P213 9 - - - - Disabled - - "CGC: XTAL; GPT0: GTIOC0A; GPT_POEGC: GTETRGC; IRQ: IRQ2; SCI0: TXD0; SSIE: AUDIO_CLK" - None - - 
@@ -132,7 +132,7 @@ FSP Configuration
       P301 31 - PMOD1_MIKROBUS_SSLA_ARDUINO_D10 - - Disabled - - "AGT0: AGTIO0; GPT4: GTIOC4B; GPT_OPS: GTOULO; IRQ: IRQ6; SCI9: CTS_RTS9; SPI0: SSLA0; SSIE0: SSIRXD0" - None - - 
       P302 30 GPIO PMOD2_CTS_ARDUINO_D3 - None "Input mode" - - "GPT4: GTIOC4A; GPT_OPS: GTOUUP; IRQ: IRQ5; RTC: RTCOUT; SCI0: CTS0; SCI9: SCK9; SPI0: RSPCK0; SSIE0: SSITXD0" - IO - - 
       P303 29 - PMOD1_CTS9 - - Disabled - - "SCI9: CTS9" - None - - 
-      P304 28 GPIO SW2 - IRQ9 "Input mode" - - "GPT_OPS: GTOWLO; IRQ: IRQ9" - IO - - 
+      P304 28 IRQ_IRQ9 SW2 - IRQ9 "IRQ mode" - - "GPT_OPS: GTOWLO; IRQ: IRQ9" - IO - - 
       P400 1 GPIO CANFD0_EN H None "Output mode (Initial High)" - - "AGT1: AGTIO1; I3C/IIC: SCL0; IRQ: IRQ0" - IO - - 
       P401 2 CANFD0_CTX0 CANFD0_CTX L None "Peripheral mode" - - "CANFD0: CTX0; GPT_POEGA: GTETRGA; I3C/IIC: SDA0; IRQ: IRQ5-DS" - O - - 
       P402 3 CANFD0_CRX0 CANFD0_CRX L None "Peripheral mode" - - "AGT0: AGTIO0; AGT1: AGTIO1; CAC: CACREF; CANFD0: CRX0; GPT: GTADSM1; IRQ: IRQ4-DS; RTC: RTCIC0; SSIE: AUDIO_CLK" - I - - 
@@ -165,7 +165,7 @@ FSP Configuration
       P002 62 - ARDUINO_A2 - - Disabled - - "ADC0: AN002; IRQ: IRQ8-DS" - I - - 
       P003 55 - ARDUINO_A4 - - Disabled - - "ADC0: AN007; ADC0: PGAVSS000" - I - - 
       P004 61 - ARDUINO_A3 - - Disabled - - "ADC0: AN004; IRQ: IRQ9-DS" - I - - 
-      P005 60 - SW1 - - Disabled - - "ADC0: AN005; IRQ: IRQ10-DS" - I - - 
+      P005 60 - SW1 - None Disabled - - "ADC0: AN005; IRQ: IRQ10-DS" - IO - - 
       P006 51 - ARDUINO_D8 - None Disabled - - "ADC0: AN006; IRQ: IRQ11-DS" - IO - - 
       P008 50 - ARDUINO_D7 - None Disabled - - "ADC0: AN008; IRQ: IRQ12-DS" - IO - - 
       P013 54 - ARDUINO_A5 - - Disabled - - "ADC0: AN011" - I - - 
@@ -174,7 +174,7 @@ FSP Configuration
       P100 48 - I3C_SCL L None Disabled - - "AGT0: AGTIO0; GPT5: GTIOC5B; GPT_POEGA: GTETRGA; I3C/IIC: I3C_SCL; IRQ: IRQ2; SCI0: RXD0; SPI1: MISO1; SSIE: AUDIO_CLK" - IO - - 
       P101 47 - I3C_SDA L None Disabled - - "AGT0: AGTEE0; GPT5: GTIOC5A; GPT_POEGB: GTETRGB; I3C/IIC: I3C_SDA; IRQ: IRQ1; SCI0: TXD0; SPI1: MOSI1" - IO - - 
       P102 46 - PMOD2_RESET - - Disabled - - "ADC0(Digital): ADTRG0; AGT0: AGTO0; CANFD0: CRX0; GPT_OPS: GTOWLO; SCI0: SCK0; SPI1: RSPCK1; SSIE0: SSIBCK0" - IO - - 
-      P103 45 - PMOD2_CTS - - Disabled - - "CANFD0: CTX0; GPT_OPS: GTOWUP; SCI0: CTS_RTS0; SPI1: SSLB0; SSIE: SSIFS0; SSIE0: SSILRCK0" - IO - - 
+      P103 45 - PMOD2_CTS - - Disabled - - "CANFD0: CTX0; GPT_OPS: GTOWUP; SCI0: CTS_RTS0; SPI1: SSLB0; SSIE0: SSIFS0; SSIE0: SSILRCK0" - IO - - 
       P104 44 - LED2 L None Disabled - - "AGT1: AGTIO1; GPT1: GTIOC1B; GPT_POEGB: GTETRGB; IRQ: IRQ1; SPI1: SSLB1" - IO - - 
       P105 43 - PMOD1_IRQ0_MIKROBUS_INT_ARDUINO_D2 - - Disabled - - "GPT1: GTIOC1A; GPT_POEGA: GTETRGA; IRQ: IRQ0; SPI1: SSLB2" - None - - 
       P106 42 - PMOD2_SS3 - - Disabled - - "AGT0: AGTOB0; SPI1: SSLB3" - IO - - 
@@ -189,7 +189,7 @@ FSP Configuration
       P201 26 - - - - Disabled - - "SYSTEM: MD" - None - - 
       P205 23 - - - - Disabled - - "AGT1: AGTO1; CLKOUT: CLKOUT; GPT4: GTIOC4A; GPT_OPS: GTIV; I3C/IIC: SCL0; IRQ: IRQ1-DS; SCI9: CTS_RTS9; SPI0: SSLA3" - None - - 
       P206 22 - - - - Disabled - - "CEC: CECIO; GPT5: GTIOC5B; GPT_OPS: GTIU; I3C/IIC: SDA0; IRQ: IRQ0-DS; SCI9: CTS9; SPI0: MISO0; SSIE0: SSIDATA0" - None - - 
-      P207 21 - LED1 L - Disabled - - "AGT1: AGTIO1; CAC: CACREF; GPT5: GTIOC5A; GPT_OPS: GTIW; SCI9: SCK9; SPI0: MOSI0; SSIE: SSIFS0; SSIE0: SSILRCK0" - IO - - 
+      P207 21 - LED1 L - Disabled - - "AGT1: AGTIO1; CAC: CACREF; GPT5: GTIOC5A; GPT_OPS: GTIW; SCI9: SCK9; SPI0: MOSI0; SSIE0: SSIFS0; SSIE0: SSILRCK0" - IO - - 
       P208 24 - - - - Disabled - - "ADC0(Digital): ADTRG0; GPT_OPS: GTOVLO" - None - - 
       P212 10 - - - - Disabled - - "AGT1: AGTEE1; CGC: EXTAL; GPT0: GTIOC0B; GPT_POEGD: GTETRGD; IRQ: IRQ3; SCI0: RXD0" - None - - 
       P213 9 - - - - Disabled - - "CGC: XTAL; GPT0: GTIOC0A; GPT_POEGC: GTETRGC; IRQ: IRQ2; SCI0: TXD0; SSIE: AUDIO_CLK" - None - - 
@@ -227,6 +227,8 @@ FSP Configuration
     
   User Event Links
     
+  Linker Section Mappings
+    
   Module "I/O Port (r_ioport)"
     Parameter Checking: Default (BSP)
     
@@ -246,9 +248,9 @@ FSP Configuration
     Double Buffering: Enabled
     Continuous Transfer Mode: Disabled
     LDO Regulator: Not Supported
-    DMA Support: Disabled
-    DMA Source Address: DMA Disabled
-    DMA Destination Address: DMA Disabled
+    DMA/DTC Support: Not Supported
+    DMA/DTC Source Address: Not Supported
+    DMA/DTC Destination Address: Not Supported
     USB Compliance Test mode: Disabled
     USB TPL table name: NULL
     
@@ -259,7 +261,6 @@ FSP Configuration
     Parameter Checking: Default (BSP)
     Pin Output Support: Enabled
     Write Protect Enable: Disabled
-    Clock Source: PCLKD
     
   Module "External IRQ (r_icu)"
     Parameter Checking: Default (BSP)
@@ -291,7 +292,7 @@ FSP Configuration
         USBHS Interrupt Priority: Not Supported
         USBHS D0FIFO Interrupt Priority: Not Supported
         USBHS D1FIFO Interrupt Priority: Not Supported
-        USB RTOS Callback: NULL
+        USB Callback: NULL
         USB Callback Context: NULL
         
     Instance "g_adc ADC (r_adc)"
@@ -336,6 +337,10 @@ FSP Configuration
       General: Channel: 0
       General: Mode: Periodic
       General: Period: 30000000
+      General: Compare Match: Compare Match A: Status: Disabled
+      General: Compare Match: Compare Match A: Compare match value: 0
+      General: Compare Match: Compare Match B: Status: Disabled
+      General: Compare Match: Compare Match B: Compare match value: 0
       General: Period Unit: Raw Counts
       Output: Custom Waveform: GTIOA: Initial Output Level: Pin Level Low
       Output: Custom Waveform: GTIOA: Cycle End Output Level: Pin Level Retain
@@ -362,65 +367,17 @@ FSP Configuration
       Input: Noise Filter B Sampling Clock Select: No Filter
       Interrupts: Callback: gpt_blink_callback
       Interrupts: Overflow/Crest Interrupt Priority: Priority 2
-      Interrupts: Capture A Interrupt Priority: Disabled
-      Interrupts: Capture B Interrupt Priority: Disabled
+      Interrupts: Capture/Compare match A Interrupt Priority: Disabled
+      Interrupts: Capture/Compare match B Interrupt Priority: Disabled
       Interrupts: Underflow/Trough Interrupt Priority: Disabled
       Extra Features: Extra Features: Disabled
       Extra Features: Output Disable: POEG Link: POEG Channel 0
       Extra Features: Output Disable: Output Disable POEG Trigger: 
       Extra Features: ADC Trigger: Start Event Trigger (Channels with GTINTAD only): 
-      Extra Features: Dead Time: Dead Time Count Up (Raw Counts): 0
-      Extra Features: Dead Time: Dead Time Count Down (Raw Counts) (Channels with GTDVD only): 0
-      Extra Features: ADC Trigger (Channels with GTADTRA only): ADC A Compare Match (Raw Counts): 0
-      Extra Features: ADC Trigger (Channels with GTADTRB only): ADC B Compare Match (Raw Counts): 0
-      Extra Features: Interrupt Skipping (Channels with GTITC only): Interrupt to Count: None
-      Extra Features: Interrupt Skipping (Channels with GTITC only): Interrupt Skip Count: 0
-      Extra Features: Interrupt Skipping (Channels with GTITC only): Skip ADC Events: None
-      Extra Features: Output Disable: GTIOCA Disable Setting: Disable Prohibited
-      Extra Features: Output Disable: GTIOCB Disable Setting: Disable Prohibited
-      
-    Instance "g_gpt_red Timer, General PWM (r_gpt)"
-      General: Name: g_gpt_red
-      General: Channel: 4
-      General: Mode: PWM
-      General: Period: 10000
-      General: Period Unit: Raw Counts
-      Output: Custom Waveform: GTIOA: Initial Output Level: Pin Level Low
-      Output: Custom Waveform: GTIOA: Cycle End Output Level: Pin Level Retain
-      Output: Custom Waveform: GTIOA: Compare Match Output Level: Pin Level Retain
-      Output: Custom Waveform: GTIOA: Retain Output Level at Count Stop: Disabled
-      Output: Custom Waveform: GTIOB: Initial Output Level: Pin Level Low
-      Output: Custom Waveform: GTIOB: Cycle End Output Level: Pin Level Retain
-      Output: Custom Waveform: GTIOB: Compare Match Output Level: Pin Level Retain
-      Output: Custom Waveform: GTIOB: Retain Output Level at Count Stop: Disabled
-      Output: Custom Waveform: Custom Waveform Enable: Disabled
-      Output: Duty Cycle Percent (only applicable in PWM mode): 50
-      Output: GTIOCA Output Enabled: False
-      Output: GTIOCA Stop Level: Pin Level Low
-      Output: GTIOCB Output Enabled: False
-      Output: GTIOCB Stop Level: Pin Level Low
-      Input: Count Up Source: 
-      Input: Count Down Source: 
-      Input: Start Source: 
-      Input: Stop Source: 
-      Input: Clear Source: 
-      Input: Capture A Source: 
-      Input: Capture B Source: 
-      Input: Noise Filter A Sampling Clock Select: No Filter
-      Input: Noise Filter B Sampling Clock Select: No Filter
-      Interrupts: Callback: NULL
-      Interrupts: Overflow/Crest Interrupt Priority: Disabled
-      Interrupts: Capture A Interrupt Priority: Disabled
-      Interrupts: Capture B Interrupt Priority: Disabled
-      Interrupts: Underflow/Trough Interrupt Priority: Disabled
-      Extra Features: Extra Features: Disabled
-      Extra Features: Output Disable: POEG Link: POEG Channel 0
-      Extra Features: Output Disable: Output Disable POEG Trigger: 
-      Extra Features: ADC Trigger: Start Event Trigger (Channels with GTINTAD only): 
-      Extra Features: Dead Time: Dead Time Count Up (Raw Counts): 0
-      Extra Features: Dead Time: Dead Time Count Down (Raw Counts) (Channels with GTDVD only): 0
-      Extra Features: ADC Trigger (Channels with GTADTRA only): ADC A Compare Match (Raw Counts): 0
-      Extra Features: ADC Trigger (Channels with GTADTRB only): ADC B Compare Match (Raw Counts): 0
+      Extra Features: ADC Trigger: ADC A Compare Match (Raw Counts): 0
+      Extra Features: ADC Trigger: ADC B Compare Match (Raw Counts): 0
+      Extra Features: Dead Time (Value range varies with Channel): Dead Time Count Up (Raw Counts): 0
+      Extra Features: Dead Time (Value range varies with Channel): Dead Time Count Down (Raw Counts) (Channels with GTDVD only): 0
       Extra Features: Interrupt Skipping (Channels with GTITC only): Interrupt to Count: None
       Extra Features: Interrupt Skipping (Channels with GTITC only): Interrupt Skip Count: 0
       Extra Features: Interrupt Skipping (Channels with GTITC only): Skip ADC Events: None
@@ -430,8 +387,12 @@ FSP Configuration
     Instance "g_gpt_green Timer, General PWM (r_gpt)"
       General: Name: g_gpt_green
       General: Channel: 1
-      General: Mode: PWM
+      General: Mode: Saw-wave PWM
       General: Period: 10000
+      General: Compare Match: Compare Match A: Status: Disabled
+      General: Compare Match: Compare Match A: Compare match value: 0
+      General: Compare Match: Compare Match B: Status: Disabled
+      General: Compare Match: Compare Match B: Compare match value: 0
       General: Period Unit: Raw Counts
       Output: Custom Waveform: GTIOA: Initial Output Level: Pin Level Low
       Output: Custom Waveform: GTIOA: Cycle End Output Level: Pin Level Retain
@@ -442,7 +403,7 @@ FSP Configuration
       Output: Custom Waveform: GTIOB: Compare Match Output Level: Pin Level Retain
       Output: Custom Waveform: GTIOB: Retain Output Level at Count Stop: Disabled
       Output: Custom Waveform: Custom Waveform Enable: Disabled
-      Output: Duty Cycle Percent (only applicable in PWM mode): 50
+      Output: Duty Cycle Percent (only applicable in PWM mode): 90
       Output: GTIOCA Output Enabled: False
       Output: GTIOCA Stop Level: Pin Level Low
       Output: GTIOCB Output Enabled: True
@@ -458,17 +419,17 @@ FSP Configuration
       Input: Noise Filter B Sampling Clock Select: No Filter
       Interrupts: Callback: NULL
       Interrupts: Overflow/Crest Interrupt Priority: Disabled
-      Interrupts: Capture A Interrupt Priority: Disabled
-      Interrupts: Capture B Interrupt Priority: Disabled
+      Interrupts: Capture/Compare match A Interrupt Priority: Disabled
+      Interrupts: Capture/Compare match B Interrupt Priority: Disabled
       Interrupts: Underflow/Trough Interrupt Priority: Disabled
       Extra Features: Extra Features: Disabled
       Extra Features: Output Disable: POEG Link: POEG Channel 0
       Extra Features: Output Disable: Output Disable POEG Trigger: 
       Extra Features: ADC Trigger: Start Event Trigger (Channels with GTINTAD only): 
-      Extra Features: Dead Time: Dead Time Count Up (Raw Counts): 0
-      Extra Features: Dead Time: Dead Time Count Down (Raw Counts) (Channels with GTDVD only): 0
-      Extra Features: ADC Trigger (Channels with GTADTRA only): ADC A Compare Match (Raw Counts): 0
-      Extra Features: ADC Trigger (Channels with GTADTRB only): ADC B Compare Match (Raw Counts): 0
+      Extra Features: ADC Trigger: ADC A Compare Match (Raw Counts): 0
+      Extra Features: ADC Trigger: ADC B Compare Match (Raw Counts): 0
+      Extra Features: Dead Time (Value range varies with Channel): Dead Time Count Up (Raw Counts): 0
+      Extra Features: Dead Time (Value range varies with Channel): Dead Time Count Down (Raw Counts) (Channels with GTDVD only): 0
       Extra Features: Interrupt Skipping (Channels with GTITC only): Interrupt to Count: None
       Extra Features: Interrupt Skipping (Channels with GTITC only): Interrupt Skip Count: 0
       Extra Features: Interrupt Skipping (Channels with GTITC only): Skip ADC Events: None
@@ -478,8 +439,12 @@ FSP Configuration
     Instance "g_gpt_blue Timer, General PWM (r_gpt)"
       General: Name: g_gpt_blue
       General: Channel: 5
-      General: Mode: PWM
+      General: Mode: Saw-wave PWM
       General: Period: 10000
+      General: Compare Match: Compare Match A: Status: Disabled
+      General: Compare Match: Compare Match A: Compare match value: 0
+      General: Compare Match: Compare Match B: Status: Disabled
+      General: Compare Match: Compare Match B: Compare match value: 0
       General: Period Unit: Raw Counts
       Output: Custom Waveform: GTIOA: Initial Output Level: Pin Level Low
       Output: Custom Waveform: GTIOA: Cycle End Output Level: Pin Level Retain
@@ -490,7 +455,7 @@ FSP Configuration
       Output: Custom Waveform: GTIOB: Compare Match Output Level: Pin Level Retain
       Output: Custom Waveform: GTIOB: Retain Output Level at Count Stop: Disabled
       Output: Custom Waveform: Custom Waveform Enable: Disabled
-      Output: Duty Cycle Percent (only applicable in PWM mode): 50
+      Output: Duty Cycle Percent (only applicable in PWM mode): 90
       Output: GTIOCA Output Enabled: True
       Output: GTIOCA Stop Level: Pin Level Low
       Output: GTIOCB Output Enabled: False
@@ -506,17 +471,17 @@ FSP Configuration
       Input: Noise Filter B Sampling Clock Select: No Filter
       Interrupts: Callback: NULL
       Interrupts: Overflow/Crest Interrupt Priority: Disabled
-      Interrupts: Capture A Interrupt Priority: Disabled
-      Interrupts: Capture B Interrupt Priority: Disabled
+      Interrupts: Capture/Compare match A Interrupt Priority: Disabled
+      Interrupts: Capture/Compare match B Interrupt Priority: Disabled
       Interrupts: Underflow/Trough Interrupt Priority: Disabled
       Extra Features: Extra Features: Disabled
       Extra Features: Output Disable: POEG Link: POEG Channel 0
       Extra Features: Output Disable: Output Disable POEG Trigger: 
       Extra Features: ADC Trigger: Start Event Trigger (Channels with GTINTAD only): 
-      Extra Features: Dead Time: Dead Time Count Up (Raw Counts): 0
-      Extra Features: Dead Time: Dead Time Count Down (Raw Counts) (Channels with GTDVD only): 0
-      Extra Features: ADC Trigger (Channels with GTADTRA only): ADC A Compare Match (Raw Counts): 0
-      Extra Features: ADC Trigger (Channels with GTADTRB only): ADC B Compare Match (Raw Counts): 0
+      Extra Features: ADC Trigger: ADC A Compare Match (Raw Counts): 0
+      Extra Features: ADC Trigger: ADC B Compare Match (Raw Counts): 0
+      Extra Features: Dead Time (Value range varies with Channel): Dead Time Count Up (Raw Counts): 0
+      Extra Features: Dead Time (Value range varies with Channel): Dead Time Count Down (Raw Counts) (Channels with GTDVD only): 0
       Extra Features: Interrupt Skipping (Channels with GTITC only): Interrupt to Count: None
       Extra Features: Interrupt Skipping (Channels with GTITC only): Interrupt Skip Count: 0
       Extra Features: Interrupt Skipping (Channels with GTITC only): Skip ADC Events: None
@@ -528,16 +493,18 @@ FSP Configuration
       Channel: 9
       Trigger: Falling
       Digital Filtering: Enabled
+      Filter Source: PCLK filter
       Digital Filtering Sample Clock (Only valid when Digital Filtering is Enabled): PCLK / 64
       Callback: button_irq9_callback
       Pin Interrupt Priority: Priority 5
       
-    Instance "g_external_irq7 External IRQ (r_icu)"
-      Name: g_external_irq7
-      Channel: 7
+    Instance "g_external_irq10 External IRQ (r_icu)"
+      Name: g_external_irq10
+      Channel: 10
       Trigger: Falling
       Digital Filtering: Enabled
+      Filter Source: PCLK filter
       Digital Filtering Sample Clock (Only valid when Digital Filtering is Enabled): PCLK / 64
-      Callback: button_irq7_callback
+      Callback: button_irq10_callback
       Pin Interrupt Priority: Priority 5
       

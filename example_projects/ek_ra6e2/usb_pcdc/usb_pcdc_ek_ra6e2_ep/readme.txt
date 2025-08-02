@@ -48,7 +48,7 @@
 
    Applicable for EK-RA6E2:
 
-   1. On power up or RESET, the three user LEDs (blue LED1, and red LED2) start blinking at 
+   1. On power up or RESET, the three user LEDs (blue LED1, and red LED3) start blinking at 
       1 Hz frequency and at 90% intensity. 
 	  
    Note:  The debug LED (LED6) will blink or light up orange; this can be ignored for now. 
@@ -76,9 +76,10 @@
 3. Hardware Requirements:
    
    Hardware : 
-	1) RA board 
+	1) RA board.
 	2) Micro USB device cable - 2Nos.
-	3) A PC with at least 2 USB port(1 for debug and 1 for com port)
+	3) A PC with at least 2 USB port(1 for debug and 1 for com port).
+   4) Jumper wires (For EK-RA6M5).
     
 4. Hardware settings for the project:
 
@@ -130,4 +131,8 @@ Applicable only for EK-RA2A1:
 	Note:  If the respective board is not powered through micro-AB USB (DEBUG USB) port (J11) 
 	       from the host PC, then the functionality cannot be demonstrated.
 
+Note:
+	To ensure proper handling of USB events without RTOS, The function R_USB_EventGet should be invoked 
+	from one location only as registered events are removed from the queue upon return from R_USB_EventGet.
+	Multiple invocations may lead to missed or incorrect USB event handling.
 

@@ -24,7 +24,7 @@ static const struct
     const external_irq_instance_t * const p_irq;
 } irq_pins[] =
 {
-        {&g_external_irq7},
+        {&g_external_irq10},
         {&g_external_irq9},
 };
 
@@ -34,7 +34,6 @@ static const struct
     const gpt_io_pin_t              pin;
 } pwm_pins[] =
 {
-    {&g_gpt_red, GPT_IO_PIN_GTIOCA},
     {&g_gpt_green, GPT_IO_PIN_GTIOCB},
     {&g_gpt_blue, GPT_IO_PIN_GTIOCA},
 };
@@ -43,11 +42,11 @@ static const struct
 static uint32_t cur_dc = 0, cur_rate = 0;
 
 int curr_led_freq = 0;
-uint32_t pwm_dcs[3] = {LED_INTENSITY_10, LED_INTENSITY_50, LED_INTENSITY_90};
+uint32_t pwm_dcs[3] = {LED_INTENSITY_90, LED_INTENSITY_50, LED_INTENSITY_10};
 uint32_t pwm_rates[3] = {BLINK_FREQ_1HZ, BLINK_FREQ_5HZ, BLINK_FREQ_10HZ};
 
 
-void button_irq7_callback(external_irq_callback_args_t *p_args)
+void button_irq10_callback(external_irq_callback_args_t *p_args)
 {
     FSP_PARAMETER_NOT_USED(p_args);
 
@@ -66,7 +65,7 @@ void button_irq9_callback(external_irq_callback_args_t *p_args)
     if(++cur_dc > (NUM_DCS - 1))
         cur_dc = 0;
 
-    for(int j = 0; j < g_bsp_leds.led_count; j++)
+    for(uint32_t j = 0; j < (sizeof(pwm_pins) / sizeof(pwm_pins[0])); j++)
     {
         R_GPT_DutyCycleSet(pwm_pins[j].p_timer->p_ctrl, pwm_dcs[cur_dc], pwm_pins[j].pin);
     }
@@ -98,7 +97,7 @@ void gpt_blink_callback(timer_callback_args_t *p_args)
 
         R_GPT_StatusGet(pwm_pins[0].p_timer->p_ctrl, &status);
 
-        for(uint32_t i = 0; i < g_bsp_leds.led_count; i++)
+        for(uint32_t i = 0; i < (sizeof(pwm_pins) / sizeof(pwm_pins[0])); i++)
         {
             if (TIMER_STATE_COUNTING == status.state)
             {

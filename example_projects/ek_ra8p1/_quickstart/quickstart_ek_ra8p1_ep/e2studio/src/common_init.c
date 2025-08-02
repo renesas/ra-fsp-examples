@@ -183,9 +183,9 @@ void led_duty_cycle_update(void)
 
 /**********************************************************************************************************************
  * Function Name: gpt_blinker_blue_callback
- * Description  : .
+ * Description  : user callback assigned to g_blinker_blue stack.
  * Argument     : p_args
- * Return Value : .
+ * Return Value : None.
  *********************************************************************************************************************/
 void gpt_blinker_blue_callback(timer_callback_args_t *p_args)
 {

@@ -36,4 +36,3 @@ extern bsp_leds_t g_bsp_leds;
 
 
 fsp_err_t common_init(void);
-uint16_t adc_reading(void);

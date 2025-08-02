@@ -1,5 +1,5 @@
 FSP Configuration
-  Board "EK-RA6M1"
+  Board "RA6|RA6M1|EK-RA6M1"
   R7FA6M1AD3CFP
     part_number: R7FA6M1AD3CFP
     rom_size_bytes: 524288
@@ -12,7 +12,8 @@ FSP Configuration
     series: 6
     
   RA6M1 Family
-    OFS0 register settings: Independent WDT: Start Mode: IWDT is Disabled
+    Enable inline BSP IRQ functions: Enabled
+    OFS0 register settings: Independent WDT: Start Mode: IWDT is stopped after a reset
     OFS0 register settings: Independent WDT: Timeout Period: 2048 cycles
     OFS0 register settings: Independent WDT: Dedicated Clock Frequency Divisor: 128
     OFS0 register settings: Independent WDT: Window End Position:  0% (no window end position)
@@ -48,21 +49,23 @@ FSP Configuration
     MPU: Memory Region 3 Start: 0x400DFFFC
     MPU: Memory Region 3 End: 0x400DFFFF
     Clocks: HOCO FLL Function: Disabled
-    Main Oscillator Wait Time: 8163 cycles
+    Clocks: MOSC Drive Capability Auto Switching: Disabled
+    Clocks: Main Oscillator Wait Time: 8163 cycles
     ID Code Mode: Unlocked (Ignore ID)
     ID Code (32 Hex Characters): FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
     
+  RA6M1 event data
   RA Common
     Main stack size (bytes): 0x400
     Heap size (bytes): 0x400
     MCU Vcc (mV): 3300
     Parameter checking: Enabled
     Assert Failures: Return FSP_ERR_ASSERTION
-    Error Log: No Error Log
-    Soft Reset: Disabled
+    Clock Registers not Reset Values during Startup: Disabled
     Main Oscillator Populated: Populated
     PFS Protect: Enabled
     C Runtime Initialization : Enabled
+    Early BSP Initialization : Disabled
     Main Oscillator Clock Source: Crystal or Resonator
     Subclock Populated: Populated
     Subclock Drive (Drive capacitance availability varies by MCU): Standard/Normal mode
@@ -81,7 +84,7 @@ FSP Configuration
     PCLKC Div /4
     PCLKD Div /2
     BCLK Div /2
-    BCK/2
+    EBCLK Div /2
     UCLK Div /5
     FCLK Div /4
     CLKOUT Disabled
@@ -194,53 +197,57 @@ FSP Configuration
     
   User Event Links
     
-  Module "I/O Port Driver on r_ioport"
+  Linker Section Mappings
+    
+  Module "I/O Port (r_ioport)"
     Parameter Checking: Default (BSP)
     
-  Module "USB PCDC driver on r_usb_pcdc"
+  Module "USB PCDC (r_usb_pcdc)"
     Bulk In Pipe: USB PIPE4
     Bulk Out Pipe: USB PIPE5
-    Interrupt Out Pipe: USB PIPE6
+    Interrupt In Pipe: USB PIPE6
     
-  Module "USB Driver on r_usb_basic"
+  Module "USB (r_usb_basic)"
     Parameter Checking: Default (BSP)
-    PLL Frequency: 24MHz
-    CPU Bus Access Wait Cycles: 9 cycles
-    Battery Charging: Enabled
+    PLL Frequency: Not Supported
+    CPU Bus Access Wait Cycles: Not Supported
+    Battery Charging: Not Supported
     Power IC Shutdown Polarity: Active High
-    Dedicated Charging Port (DCP) Mode: Disabled
+    Dedicated Charging Port (DCP) Mode: Not Supported
     Notifications for SET_INTERFACE/SET_FEATURE/CLEAR_FEATURE: Enabled
     Double Buffering: Enabled
-    Continuous Transfer Mode: Enabled
-    LDO Regulator: Disable
-    DMA Support: Disable
-    DMA Source Address: DMA Disabled
-    DMA Destination Address: DMA Disabled
+    Continuous Transfer Mode: Not Supported
+    LDO Regulator: Not Supported
+    DMA/DTC Support: DMA Disabled
+    DMA/DTC Source Address: DMA Disabled
+    DMA/DTC Destination Address: DMA Disabled
+    USB Compliance Test mode: Disabled
+    USB TPL table name: NULL
     
-  Module "ADC Driver on r_adc"
+  Module "ADC (r_adc)"
     Parameter Checking: Default (BSP)
     
-  Module "Timer Driver on r_gpt"
+  Module "Timer, General PWM (r_gpt)"
     Parameter Checking: Default (BSP)
     Pin Output Support: Enabled
     Write Protect Enable: Disabled
     
-  Module "External IRQ Driver on r_icu"
+  Module "External IRQ (r_icu)"
     Parameter Checking: Default (BSP)
     
   HAL
-    Instance "g_ioport I/O Port Driver on r_ioport"
+    Instance "g_ioport I/O Port (r_ioport)"
       Name: g_ioport
-      Port 1 ELC Trigger Source: Disabled
-      Port 2 ELC Trigger Source: Disabled
-      Port 3 ELC Trigger Source: Disabled
-      Port 4 ELC Trigger Source: Disabled
+      1st Port ELC Trigger Source: Disabled
+      2nd Port ELC Trigger Source: Disabled
+      3rd Port ELC Trigger Source: Disabled
+      4th Port ELC Trigger Source: Disabled
       Pin Configuration Name: g_bsp_pin_cfg
       
-    Instance "g_pcdc0 USB PCDC driver on r_usb_pcdc"
+    Instance "g_pcdc0 USB PCDC (r_usb_pcdc)"
       Name: g_pcdc0
       
-      Instance "g_basic0 USB Driver on r_usb_basic"
+      Instance "g_basic0 USB (r_usb_basic)"
         Name: g_basic0
         USB Mode: Peri mode
         USB Speed: Full Speed
@@ -252,13 +259,13 @@ FSP Configuration
         USBFS Resume Priority: Priority 12
         USBFS D0FIFO Interrupt Priority: Priority 12
         USBFS D1FIFO Interrupt Priority: Priority 12
-        USBHS Interrupt Priority: Priority 12
-        USBHS D0FIFO Interrupt Priority: Priority 12
-        USBHS D1FIFO Interrupt Priority: Priority 12
-        USB RTOS Callback: NULL
+        USBHS Interrupt Priority: Not Supported
+        USBHS D0FIFO Interrupt Priority: Not Supported
+        USBHS D1FIFO Interrupt Priority: Not Supported
+        USB Callback: NULL
         USB Callback Context: NULL
         
-    Instance "g_adc ADC Driver on r_adc"
+    Instance "g_adc ADC (r_adc)"
       General: Name: g_adc
       General: Unit: 1
       General: Resolution: 12-Bit
@@ -295,11 +302,15 @@ FSP Configuration
       Interrupts: Window Compare B Interrupt Priority: Disabled
       Extra: ADC Ring Buffer: Not Supported
       
-    Instance "g_gpt_red Timer Driver on r_gpt"
+    Instance "g_gpt_red Timer, General PWM (r_gpt)"
       General: Name: g_gpt_red
       General: Channel: 3
-      General: Mode: PWM
+      General: Mode: Saw-wave PWM
       General: Period: 10000
+      General: Compare Match: Compare Match A: Status: Disabled
+      General: Compare Match: Compare Match A: Compare match value: 0
+      General: Compare Match: Compare Match B: Status: Disabled
+      General: Compare Match: Compare Match B: Compare match value: 0
       General: Period Unit: Raw Counts
       Output: Custom Waveform: GTIOA: Initial Output Level: Pin Level Low
       Output: Custom Waveform: GTIOA: Cycle End Output Level: Pin Level Retain
@@ -310,7 +321,7 @@ FSP Configuration
       Output: Custom Waveform: GTIOB: Compare Match Output Level: Pin Level Retain
       Output: Custom Waveform: GTIOB: Retain Output Level at Count Stop: Disabled
       Output: Custom Waveform: Custom Waveform Enable: Disabled
-      Output: Duty Cycle Percent (only applicable in PWM mode): 50
+      Output: Duty Cycle Percent (only applicable in PWM mode): 90
       Output: GTIOCA Output Enabled: False
       Output: GTIOCA Stop Level: Pin Level Low
       Output: GTIOCB Output Enabled: True
@@ -326,37 +337,42 @@ FSP Configuration
       Input: Noise Filter B Sampling Clock Select: No Filter
       Interrupts: Callback: NULL
       Interrupts: Overflow/Crest Interrupt Priority: Disabled
-      Interrupts: Capture A Interrupt Priority: Disabled
-      Interrupts: Capture B Interrupt Priority: Disabled
+      Interrupts: Capture/Compare match A Interrupt Priority: Disabled
+      Interrupts: Capture/Compare match B Interrupt Priority: Disabled
       Interrupts: Underflow/Trough Interrupt Priority: Disabled
       Extra Features: Extra Features: Disabled
       Extra Features: Output Disable: POEG Link: POEG Channel 0
       Extra Features: Output Disable: Output Disable POEG Trigger: 
-      Extra Features: ADC Trigger: Start Event Trigger (GPTE/GPTEH only): 
-      Extra Features: Dead Time: Dead Time Count Up (Raw Counts): 0
-      Extra Features: Dead Time: Dead Time Count Down (Raw Counts) (GPTE/GPTEH only): 0
-      Extra Features: ADC Trigger (GPTE/GPTEH only): ADC A Compare Match (Raw Counts): 0
-      Extra Features: ADC Trigger (GPTE/GPTEH only): ADC B Compare Match (Raw Counts): 0
-      Extra Features: Interrupt Skipping (GPTE/GPTEH only): Interrupt to Count: None
-      Extra Features: Interrupt Skipping (GPTE/GPTEH only): Interrupt Skip Count: 0
-      Extra Features: Interrupt Skipping (GPTE/GPTEH only): Skip ADC Events: None
+      Extra Features: ADC Trigger: Start Event Trigger (Channels with GTINTAD only): 
+      Extra Features: ADC Trigger: ADC A Compare Match (Raw Counts): 0
+      Extra Features: ADC Trigger: ADC B Compare Match (Raw Counts): 0
+      Extra Features: Dead Time (Value range varies with Channel): Dead Time Count Up (Raw Counts): 0
+      Extra Features: Dead Time (Value range varies with Channel): Dead Time Count Down (Raw Counts) (Channels with GTDVD only): 0
+      Extra Features: Interrupt Skipping (Channels with GTITC only): Interrupt to Count: None
+      Extra Features: Interrupt Skipping (Channels with GTITC only): Interrupt Skip Count: 0
+      Extra Features: Interrupt Skipping (Channels with GTITC only): Skip ADC Events: None
       Extra Features: Output Disable: GTIOCA Disable Setting: Disable Prohibited
       Extra Features: Output Disable: GTIOCB Disable Setting: Disable Prohibited
       
-    Instance "g_external_irq08 External IRQ Driver on r_icu"
+    Instance "g_external_irq08 External IRQ (r_icu)"
       Name: g_external_irq08
       Channel: 8
       Trigger: Falling
       Digital Filtering: Enabled
+      Filter Source: PCLK filter
       Digital Filtering Sample Clock (Only valid when Digital Filtering is Enabled): PCLK / 64
       Callback: button_irq08_callback
       Pin Interrupt Priority: Priority 5
       
-    Instance "g_blinker Timer Driver on r_gpt"
+    Instance "g_blinker Timer, General PWM (r_gpt)"
       General: Name: g_blinker
       General: Channel: 0
       General: Mode: Periodic
       General: Period: 120000000
+      General: Compare Match: Compare Match A: Status: Disabled
+      General: Compare Match: Compare Match A: Compare match value: 0
+      General: Compare Match: Compare Match B: Status: Disabled
+      General: Compare Match: Compare Match B: Compare match value: 0
       General: Period Unit: Raw Counts
       Output: Custom Waveform: GTIOA: Initial Output Level: Pin Level Low
       Output: Custom Waveform: GTIOA: Cycle End Output Level: Pin Level Retain
@@ -383,20 +399,20 @@ FSP Configuration
       Input: Noise Filter B Sampling Clock Select: No Filter
       Interrupts: Callback: gpt_blink_callback
       Interrupts: Overflow/Crest Interrupt Priority: Priority 12
-      Interrupts: Capture A Interrupt Priority: Disabled
-      Interrupts: Capture B Interrupt Priority: Disabled
+      Interrupts: Capture/Compare match A Interrupt Priority: Disabled
+      Interrupts: Capture/Compare match B Interrupt Priority: Disabled
       Interrupts: Underflow/Trough Interrupt Priority: Disabled
       Extra Features: Extra Features: Disabled
       Extra Features: Output Disable: POEG Link: POEG Channel 0
       Extra Features: Output Disable: Output Disable POEG Trigger: 
-      Extra Features: ADC Trigger: Start Event Trigger (GPTE/GPTEH only): 
-      Extra Features: Dead Time: Dead Time Count Up (Raw Counts): 0
-      Extra Features: Dead Time: Dead Time Count Down (Raw Counts) (GPTE/GPTEH only): 0
-      Extra Features: ADC Trigger (GPTE/GPTEH only): ADC A Compare Match (Raw Counts): 0
-      Extra Features: ADC Trigger (GPTE/GPTEH only): ADC B Compare Match (Raw Counts): 0
-      Extra Features: Interrupt Skipping (GPTE/GPTEH only): Interrupt to Count: None
-      Extra Features: Interrupt Skipping (GPTE/GPTEH only): Interrupt Skip Count: 0
-      Extra Features: Interrupt Skipping (GPTE/GPTEH only): Skip ADC Events: None
+      Extra Features: ADC Trigger: Start Event Trigger (Channels with GTINTAD only): 
+      Extra Features: ADC Trigger: ADC A Compare Match (Raw Counts): 0
+      Extra Features: ADC Trigger: ADC B Compare Match (Raw Counts): 0
+      Extra Features: Dead Time (Value range varies with Channel): Dead Time Count Up (Raw Counts): 0
+      Extra Features: Dead Time (Value range varies with Channel): Dead Time Count Down (Raw Counts) (Channels with GTDVD only): 0
+      Extra Features: Interrupt Skipping (Channels with GTITC only): Interrupt to Count: None
+      Extra Features: Interrupt Skipping (Channels with GTITC only): Interrupt Skip Count: 0
+      Extra Features: Interrupt Skipping (Channels with GTITC only): Skip ADC Events: None
       Extra Features: Output Disable: GTIOCA Disable Setting: Disable Prohibited
       Extra Features: Output Disable: GTIOCB Disable Setting: Disable Prohibited
       

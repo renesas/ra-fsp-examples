@@ -185,3 +185,8 @@
 			1. Connect P111 (J2:29) to P204 (J2:17) 
 			2. Connect P103 (J2:36) to P304 (J2:21)
 			3. Connect P105 (J2:34) to P303 (J2:22)
+			
+Note:
+	To ensure proper handling of USB events without RTOS, The function R_USB_EventGet should be invoked 
+	from one location only as registered events are removed from the queue upon return from R_USB_EventGet.
+	Multiple invocations may lead to missed or incorrect USB event handling.

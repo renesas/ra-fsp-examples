@@ -15,9 +15,9 @@
 #define LED_INTENSITY_50        (0x1388)        /* 50 percent */
 #define LED_INTENSITY_90        (0x2328)        /* 90 percent */
 
-#define BLINK_FREQ_1HZ          (60000000)
-#define BLINK_FREQ_5HZ          (12000000)
-#define BLINK_FREQ_10HZ         (6000000)
+#define BLINK_FREQ_1HZ          (150000000)
+#define BLINK_FREQ_5HZ          (30000000)
+#define BLINK_FREQ_10HZ         (15000000)
 
 #define KIT_INFO                ('1')
 #define NEXT_STEPS              ('2')

@@ -10,10 +10,6 @@
 
 #include "hal_data.h"
 
-#define LED_INTENSITY_10      (0x3E7)         // 10 percent
-#define LED_INTENSITY_50      (0x1388)        // 50 percent
-#define LED_INTENSITY_90      (0x2328)        // 90 percent
-
 #define BLINK_FREQ_1HZ        (60000000)
 #define BLINK_FREQ_5HZ        (12000000)
 #define BLINK_FREQ_10HZ       (6000000)

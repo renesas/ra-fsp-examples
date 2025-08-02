@@ -56,9 +56,10 @@
 3. Hardware Requirements:
    
    Hardware : 
-	1) RA board 
+	1) RA board. 
 	2) Micro USB device cable - 2Nos.
-	3) A PC with at least 2 USB port(1 for debug and 1 for com port)
+	3) A PC with at least 2 USB port(1 for debug and 1 for com port).
+   4) Jumper wires (For EK-RA6M5).
     
 4. Hardware settings for the project:
 

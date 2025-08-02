@@ -45,7 +45,7 @@
 
    	For EK-RA4E2:
 
-   		1. On power up or RESET, the three user LEDs (blue LED1, green LED2) start blinking at 1 Hz frequency and at 90% intensity. 
+   		1. On power up or RESET, the two user LEDs (blue LED1, green LED2) start blinking at 1 Hz frequency and at 90% intensity. 
 	  
    		Note: The debug LED (LED6) will blink or light up orange; this can be ignored for now. 
 
@@ -64,7 +64,7 @@
 
    	For EK-RA6E2:
 
-   		1. On power up or RESET, the three user LEDs (blue LED1, red LED3) start blinking at 1 Hz frequency and at 90% intensity. 
+   		1. On power up or RESET, the two user LEDs (blue LED1, red LED3) start blinking at 1 Hz frequency and at 90% intensity. 
 	  
    		Note:  The debug LED (LED6) will blink or light up orange; this can be ignored for now. 
 
@@ -111,6 +111,9 @@
 	1 x Renesas RA board.
    	2 x Type-C USB device cables.
 	1 x PC with at least 2 USB ports (1 for debug and 1 for COM port).
+	1 x Pmod BTN (For MCK-RA8T1).
+	Jumper wires (For EK-RA6M5, MCK-RA8T1).
+
     
 4. Hardware Connections:
 	For EK-RA4M2, EK-RA4M3, EK-RA6M3, EK-RA6M3G, EK-RA6M4, EK-RA6M5, EK-RA8M1 and EK-RA8D1:
@@ -171,3 +174,8 @@
 	   	   port (J11) of the board. Connect the other end of this cable to USB port of the host PC.
     		4. The user must turn ON S4-4 to select USB device mode.
     		5. Set J17 jumper to pins 2-3, Set J7 jumper to use P407 for USBFS VBUS.
+
+Note:
+	To ensure proper handling of USB events without RTOS, The function R_USB_EventGet should be invoked 
+	from one location only as registered events are removed from the queue upon return from R_USB_EventGet.
+	Multiple invocations may lead to missed or incorrect USB event handling.

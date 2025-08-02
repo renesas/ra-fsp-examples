@@ -7,35 +7,42 @@ FSP Configuration
     data_flash_size_bytes: 2048
     package_style: LQFP
     package_pins: 64
+    number of cores: 1
     
+  R7FA0E2094CFM
   RA0E2
     series: 0
     
   RA0E2 Family
     Enable inline BSP IRQ functions: Disabled
-    OFS0 register settings: Independent WDT: Start Mode: IWDT is Disabled
-    OFS0 register settings: Independent WDT: Timeout Period: 2048 cycles
-    OFS0 register settings: Independent WDT: Dedicated Clock Frequency Divisor: 128
-    OFS0 register settings: Independent WDT: Window End Position:  0% (no window end position)
-    OFS0 register settings: Independent WDT: Window Start Position: 100% (no window start position)
-    OFS0 register settings: Independent WDT: Reset Interrupt Request Select: Reset is enabled
-    OFS0 register settings: Independent WDT: Stop Control: Stop counting when in Sleep, Snooze mode, or Software Standby
-    OFS1 register settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
-    OFS1 register settings: Voltage Detection 0 Level: 1.86 V
-    OFS1 register settings: Enable or disable Flash Read Protection: Disabled
-    OFS1 register settings: Flash Read Protection Start: 0x01
-    OFS1 register settings: Flash Read Protection End: 0x3F
-    OFS1 register settings: P206/RES pin selection: RES input
     Main Oscillation Stabilization Time: 2^18/MOSC
     Use Low Voltage Mode: Not Supported
-    ID Code Mode: Unlocked (Ignore ID)
-    ID Code (32 Hex Characters): FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-    Fill Flash Gap: Fill gap
+    
+  RA0E2 Device Options
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Enabled
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Start Mode: IWDT is stopped after a reset
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Timeout Period: 2048 cycles
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Dedicated Clock Frequency Divisor: 128
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Window End Position:  0% (no window end position)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Window Start Position: 100% (no window start position)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Reset Interrupt Request Select: Reset is enabled
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Stop Control: Stop counting when in Sleep,Snooze modec, or Software Standby
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Enabled
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Voltage Detection 0 Level: 1.86 V
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Enable or disable Flash Read Protection: Disabled
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Flash Read Protection Start: 0x01
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Flash Read Protection End: 0x3F
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: P206/RES pin selection: RES input
+    OFS Registers: OSIS (OCD/Serial Programmer ID setting register) Settings: Disabled
+    OFS Registers: OSIS (OCD/Serial Programmer ID setting register) Settings: ID Code Mode: Unlocked (Ignore ID)
+    OFS Registers: OSIS (OCD/Serial Programmer ID setting register) Settings: ID Code (32 Hex Characters): FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
     
   RA0E2 event data
   RA Common
     Main stack size (bytes): 0x400
     Heap size (bytes): 0
+    Bootloader Secondary XIP: Disabled
     MCU Vcc (mV): 3300
     Parameter checking: Disabled
     Assert Failures: Return FSP_ERR_ASSERTION
@@ -94,7 +101,7 @@ FSP Configuration
       P100 48 UARTA0_RXDA0 VCOM_RXD - None "Peripheral mode" - - "ADC0: AN022; IICA0: SCLA0; IRQ: IRQ2; SAU_I2C00: SDA00; SAU_SPI00: SI00; SAU_UART0: RXD0; TAU01: TI01; TAU01: TO01; TAU04: TI04; TAU04: TO04; UARTA0: RXDA0" - I - - 
       P101 47 UARTA0_TXDA0 VCOM_TXD - None "Peripheral mode" - - "ADC0: AN021; IICA0: SDAA0; IRQ: IRQ3; SAU_SPI00: SO00; SAU_UART0: TXD0; TAU00: TI00; TAU07: TI07; TAU07: TO07; UARTA0: TXDA0" - O - - 
       P102 46 GPIO LED2 - None "Peripheral mode" - - "CGC: PCLBUZ0; IICA1: SCLA1; IRQ: IRQ4; RTC: RTCOUT; SAU_I2C00: SCL00; SAU_SPI00: SCK00; TAU00: TO00; TAU06: TI06; TAU06: TO06; UARTA1: RXDA1" GREEN IO - - 
-      P103 45 GPIO LED1 - None "Output mode (Initial Low)" - - "IICA1: SDAA1; IRQ: IRQ5; SAU_SPI00: SSI00; TAU05: TI05; TAU05: TO05; UARTA1: TXDA1" GREEN IO - - 
+      P103 45 GPIO LED1 - - "Output mode (Initial Low)" - - "IICA1: SDAA1; IRQ: IRQ5; SAU_SPI00: SSI00; TAU05: TI05; TAU05: TO05; UARTA1: TXDA1" GREEN IO - - 
       P104 44 GPIO ARDUINO_D10 - None "Input mode" - - "IRQ: IRQ6; SAU_I2C10: SCL10; SAU_SPI10: SCK10; TAU00: TI00; TAU02: TI02; TAU02: TO02" - IO - - 
       P105 43 GPIO ARDUINO_D9 - None "Input mode" - - "IRQ: IRQ1; SAU_I2C10: SDA10; SAU_SPI10: SI10; TAU00: TO00; TAU01: TI01; TAU01: TO01; UARTA1: RXDA1" - IO - - 
       P106 42 GPIO ARDUINO_D8 - None "Input mode" - - "IRQ: IRQ0; SAU_SPI10: SO10; UARTA1: TXDA1" - IO - - 
@@ -159,7 +166,7 @@ FSP Configuration
       P100 48 - VCOM_RXD - None Disabled - - "ADC0: AN022; IICA0: SCLA0; IRQ: IRQ2; SAU_I2C00: SDA00; SAU_SPI00: SI00; SAU_UART0: RXD0; TAU01: TI01; TAU01: TO01; TAU04: TI04; TAU04: TO04; UARTA0: RXDA0" - I - - 
       P101 47 - VCOM_TXD - None Disabled - - "ADC0: AN021; IICA0: SDAA0; IRQ: IRQ3; SAU_SPI00: SO00; SAU_UART0: TXD0; TAU00: TI00; TAU07: TI07; TAU07: TO07; UARTA0: TXDA0" - O - - 
       P102 46 - LED2 - None Disabled - - "CGC: PCLBUZ0; IICA1: SCLA1; IRQ: IRQ4; RTC: RTCOUT; SAU_I2C00: SCL00; SAU_SPI00: SCK00; TAU00: TO00; TAU06: TI06; TAU06: TO06; UARTA1: RXDA1" GREEN IO - - 
-      P103 45 - LED1 - None Disabled - - "IICA1: SDAA1; IRQ: IRQ5; SAU_SPI00: SSI00; TAU05: TI05; TAU05: TO05; UARTA1: TXDA1" GREEN IO - - 
+      P103 45 - LED1 - - Disabled - - "IICA1: SDAA1; IRQ: IRQ5; SAU_SPI00: SSI00; TAU05: TI05; TAU05: TO05; UARTA1: TXDA1" GREEN IO - - 
       P104 44 - ARDUINO_D10 - None Disabled - - "IRQ: IRQ6; SAU_I2C10: SCL10; SAU_SPI10: SCK10; TAU00: TI00; TAU02: TI02; TAU02: TO02" - IO - - 
       P105 43 - ARDUINO_D9 - None Disabled - - "IRQ: IRQ1; SAU_I2C10: SDA10; SAU_SPI10: SI10; TAU00: TO00; TAU01: TI01; TAU01: TO01; UARTA1: RXDA1" - IO - - 
       P106 42 - ARDUINO_D8 - None Disabled - - "IRQ: IRQ0; SAU_SPI10: SO10; UARTA1: TXDA1" - IO - - 

@@ -79,6 +79,8 @@
 	1) RA board 
 	2) Micro USB device cable - 2Nos or Type C USB device cable : 2Nos (For MCK-RA8T1).
 	3) A PC with at least 2 USB port(1 for debug and 1 for com port)
+	4) 1 x Pmod BTN (For MCK-RA8T1) 
+	5) Jumper wires (For MCK-RA8T1, EK-RA6M5).
     
 4. Hardware settings for the project:
 
@@ -146,3 +148,8 @@ Applicable only for MCK-RA8T1:
         1. Connect PA14(CN2:P19) to P112(CN2:P1)
         2. Connect P606(CN4:P18) to P410(CN1:P27)
         3. Connect Pmod BTN (J1:1) to PMOD(CN6:1)
+
+Note:
+	To ensure proper handling of USB events without RTOS, The function R_USB_EventGet should be invoked 
+	from one location only as registered events are removed from the queue upon return from R_USB_EventGet.
+	Multiple invocations may lead to missed or incorrect USB event handling.

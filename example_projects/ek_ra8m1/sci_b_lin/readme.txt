@@ -5,12 +5,14 @@
 
 1. Project Overview:
 
-    This project demonstrates the basic functionalities of LIN on Renesas RA MCUs based on Renesas FSP. The LIN modules 
-    communicate with transceivers that satisfy the ISO9141 protocol. The Master defines four distinct messages, each assigned 
-    a unique ID, allowing the user to select and transmit a specific message to the Slave. The Master sends a start frame 
-    with the selected ID to retrieve data, and the Slave responds accordingly. Additionally, users can configure the baud rate 
-    to other supported values. For the SAU LIN Slave, users can enter Low Power Mode (Software Standby) via the EP menu 
-    and wake up when triggered by the Master.
+    This project demonstrates the basic functionalities of Local Interconnect Network (LIN) on Renesas RA MCUs based on 
+    the Renesas FSP. The LIN modules communicate with transceivers that satisfy the ISO9141 protocol. The Master defines 
+    four distinct messages, each assigned a unique ID, allowing the user to select and transmit a specific message to 
+    the Slave. The Master sends a start frame with the selected ID to retrieve data, and the Slave responds accordingly. 
+    The user can select a baud rate (2400, 4800, 9600, 10400, 14400, 19200) from the application menu. Additionally, 
+    the LIN module's baud rate can be configured to other supported values, as specified in the markdown file, by modifying 
+    the configuration.xml. For the SAU LIN Slave, users can enter Low Power Mode (Software Standby) via the EP menu and 
+    wake up when triggered by the Master.
 
     Information can be displayed using either the SEGGER J-Link RTT Viewer or a serial terminal (UART) via J-Link OB VCOM, 
     depending on availability. If J-Link OB VCOM is unsupported, the example project defaults to the SEGGER J-Link RTT Viewer. 
@@ -67,7 +69,7 @@
          1. The LIN transceiver requires a 12V supply. Connect VS to 12V and GND to ground.
          2. For LIN transceiver (TLE7259-3), digital I/O levels compatible with 3.3V and 5V microcontrollers.
          3. The RX pin of LIN transceiver requires an external pull-up resistor connected to the microcontroller supply to define 
-            the output voltage level (as shown in the image above).
+            the output voltage level (refer to the hardware connections image in the .md file).
          4. For LIN transceiver Master Mode, the resistor at JP2 (MODE) must be relocated to the right side: Removing the resistor 
             at the left side and soldering it at the right side.
 

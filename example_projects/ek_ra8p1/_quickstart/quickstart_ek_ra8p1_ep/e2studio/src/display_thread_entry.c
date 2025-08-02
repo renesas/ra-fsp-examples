@@ -607,9 +607,9 @@ static void set_display_image_text(st_rgb565_text_block_page_t *text)
  **********************************************************************************************************************/
 /**********************************************************************************************************************
  * Function Name: graphics_wait_vsync
- * Description  : .
- * Argument     :
- * Return Value : .
+ * Description  : Wait in this function single vsync events.
+ * Argument     : None
+ * Return Value : None
  *********************************************************************************************************************/
 void graphics_wait_vsync(void)
 {

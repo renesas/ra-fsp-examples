@@ -32,15 +32,15 @@ static uint8_t g_slave_tx_buf_id_13h[FRAME_ID_13H_DATA_LENGTH] = { 0x07, 0x08 };
 
 lin_transfer_params_t lin_slave_transfer_info[] =
 {
-  { READ_FRAME_ID_10H, g_slave_tx_buf_id_10h, FRAME_ID_10H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED },
-  { READ_FRAME_ID_11H, g_slave_tx_buf_id_11h, FRAME_ID_11H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED },
-  { READ_FRAME_ID_12H, g_slave_tx_buf_id_12h, FRAME_ID_12H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED },
-  { READ_FRAME_ID_13H, g_slave_tx_buf_id_13h, FRAME_ID_13H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED },
+  { READ_FRAME_ID_10H, {g_slave_tx_buf_id_10h}, FRAME_ID_10H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED },
+  { READ_FRAME_ID_11H, {g_slave_tx_buf_id_11h}, FRAME_ID_11H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED },
+  { READ_FRAME_ID_12H, {g_slave_tx_buf_id_12h}, FRAME_ID_12H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED },
+  { READ_FRAME_ID_13H, {g_slave_tx_buf_id_13h}, FRAME_ID_13H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED },
 
-  { READ_FRAME_ID_20H, g_rx_buf, FRAME_ID_20H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED },
-  { READ_FRAME_ID_21H, g_rx_buf, FRAME_ID_21H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED },
-  { READ_FRAME_ID_22H, g_rx_buf, FRAME_ID_22H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED },
-  { READ_FRAME_ID_23H, g_rx_buf, FRAME_ID_23H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED },
+  { READ_FRAME_ID_20H, {g_rx_buf}, FRAME_ID_20H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED },
+  { READ_FRAME_ID_21H, {g_rx_buf}, FRAME_ID_21H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED },
+  { READ_FRAME_ID_22H, {g_rx_buf}, FRAME_ID_22H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED },
+  { READ_FRAME_ID_23H, {g_rx_buf}, FRAME_ID_23H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED },
 };
 
 static const uint8_t g_expected_data_id_20h[] = { 0x01, 0x02, 0x03 };
@@ -62,7 +62,7 @@ static const lin_frame_expectation_t g_expected_frames[] =
 static fsp_err_t lin_slave_baudset(uint32_t baud_rate);
 static int find_lin_transfer_index(uint8_t id);
 static fsp_err_t lin_slave_configure_baudrate(void);
-static bool wait_for_event(uint32_t expected_event);
+static fsp_err_t wait_for_event(uint32_t expected_event);
 static void handle_error(fsp_err_t err, char *err_str);
 static void lin_validate_frame(uint8_t id, const uint8_t *p_data, size_t len);
 #if BSP_FEATURE_SAU_IS_AVAILABLE
@@ -81,6 +81,7 @@ void lin_slave_operation(void)
     fsp_pack_version_t version              = { RESET_VALUE };
     fsp_err_t err                           = FSP_SUCCESS;
     char recv_str[32]                       = {NULL_CHAR};
+    char trans_str[32]                      = {NULL_CHAR};
     char *ptr                               = NULL;
     uint8_t terminal_read[TERM_BUFFER_SIZE] = { RESET_VALUE };
     int id_index                            = RESET_VALUE;
@@ -190,9 +191,20 @@ void lin_slave_operation(void)
             {
                 g_lin_event_flags &= (uint32_t) (~LIN_EVENT_TX_INFORMATION_FRAME_COMPLETE);
                 err = LIN_INFO_FRAME_WRITE (&g_slave_ctrl, &lin_slave_transfer_info[id_index]);
+                handle_error (err, "Error: Writing LIN information frame failed.\r\n");
 
                 /* Wait for information frame transmission to complete */
                 err = wait_for_event (LIN_EVENT_TX_INFORMATION_FRAME_COMPLETE);
+                handle_error (err, "Error: TX Event timeout!\r\n");
+
+                ptr = trans_str;
+                for (size_t i = 0; i < lin_slave_transfer_info[id_index].num_bytes; i++)
+                {
+                    ptr += sprintf (ptr, "0x%02x ", lin_slave_transfer_info[id_index].p_information[i]);
+                }
+
+                /* Display Slave's transmitted data on terminal */
+                APP_PRINT("\r\nSlave transmitted data with ID=0x%x: %s\r\n", g_received_id, trans_str);
             }
             else
             {
@@ -279,7 +291,7 @@ static fsp_err_t lin_slave_configure_baudrate(void)
         }
     }
 
-    return FSP_SUCCESS;
+    return err;
 }
 
 /**********************************************************************************************************************
@@ -340,7 +352,7 @@ static fsp_err_t lin_slave_sleep_enter(void)
     err = R_LPM_LowPowerModeEnter (&g_lpm_ctrl);
     APP_ERR_RET(err, err, "\r\nR_LPM_LowPowerModeEnter FAILED\r\n");
 
-    return FSP_SUCCESS;
+    return err;
 }
 
 /***********************************************************************************************************************
@@ -362,7 +374,7 @@ static fsp_err_t lin_slave_sleep_exit(void)
         APP_ERR_RET(err, err, "\r\nR_SAU_LIN_SleepExit FAILED\r\n");
     }
 
-    return FSP_SUCCESS;
+    return err;
 
 }
 #endif /* BSP_FEATURE_SAU_IS_AVAILABLE */
@@ -372,22 +384,26 @@ static fsp_err_t lin_slave_sleep_exit(void)
  * @param[IN]   expected_event The LIN event bitmask to wait for
  * @retval      FSP_SUCCESS if the operation was successful; otherwise, an error code is returned
  ***********************************************************************************************************************/
-static bool wait_for_event(uint32_t expected_event)
+static fsp_err_t wait_for_event(uint32_t expected_event)
 {
     uint32_t timeout = RESET_VALUE;
+    fsp_err_t err    = FSP_SUCCESS;
 
     while (!(g_lin_event_flags & expected_event))
     {
         timeout++;
         if (timeout >= TIMEOUT_LIMIT)
         {
+            err = LIN_COMMUNICATION_ABORT(&g_slave_ctrl);
+            APP_ERR_RET(err, err, "\r\nError: Failed to Abort LIN communication\r\n");
+
             return FSP_ERR_TIMEOUT;
         }
 
         R_BSP_SoftwareDelay (1, BSP_DELAY_UNITS_MICROSECONDS);
     }
 
-    return FSP_SUCCESS;
+    return err;
 }
 
 /***********************************************************************************************************************
@@ -443,7 +459,7 @@ static fsp_err_t lin_slave_baudset(uint32_t baud_rate)
     APP_ERR_RET(err, err, "Error: LIN initialization failed.\r\n");
 
 #endif /* BSP_FEATURE_SAU_IS_AVAILABLE || BSP_FEATURE_SCI_IS_AVAILABLE*/
-    return FSP_SUCCESS;
+    return err;
 
 }
 
