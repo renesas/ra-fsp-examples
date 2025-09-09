@@ -46,9 +46,9 @@
 	12) Data can be sent from the Server to client with the IP address and the port number mentioned in Step 11
 	
 3. Software Requirements:
-	Renesas Flexible Software Package (FSP): Version 6.0.0
-	e2 studio: Version 2025-04.1
-	SEGGER J-Link RTT Viewer: Version 8.44a
+	Renesas Flexible Software Package (FSP): Version 6.1.0
+	e2 studio: Version 2025-07
+	SEGGER J-Link RTT Viewer: Version 8.58
 	GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 	PacketSender (https://packetsender.com/download#show)
    

@@ -17,9 +17,9 @@
      	appropriate acknowledgment messages are sent to the server.
 
 2. Software Requirements:
-     	Renesas Flexible Software Package (FSP): Version 5.9.0
-     	e2 studio: Version 2025-04
-     	SEGGER J-Link RTT Viewer: Version 8.12f
+     	Renesas Flexible Software Package (FSP): Version 6.1.0
+     	e2 studio: Version 2025-07
+     	SEGGER J-Link RTT Viewer: Version 8.58
      	LLVM Embedded Toolchain for ARM: Version 18.1.3
      	Sokit software is required for creation of TCP server over specified IP and port(detailed steps mentioned below) 
      	Download Link: https://www.softpedia.com/get/Network-Tools/Misc-Networking-Tools/sokit.shtml
@@ -34,7 +34,7 @@
 	    at port which is free.
 
 4. Hardware Connections:
-     	For EK-RA4M2/EK-RA4M3/EK-RA6M3/EK-RA6M4/EK-RA6M5/FPB-RA4E1/FPB-RA6E1:
+     	For EK-RA4M2/EK-RA4M3/EK-RA6M3/EK-RA6M4/EK-RA6M5:
      	-----------
      		Connect
      		Renesas Silex UART Pmod ----> PMOD 1 (J26)	
@@ -44,7 +44,7 @@
      		Connect
      		Renesas Silex UART Pmod ----> PMOD A (J5)
 
-     	For EK-RA2L1/EK-RA4E2/EK-RA6E2/MCK-RA4T1/MCK-RA6T3/EK-RA8M1/EK-RA8D1:
+     	For EK-RA2L1/FPB-RA4E1/FPB-RA6E1/EK-RA4E2/EK-RA6E2/MCK-RA4T1/MCK-RA6T3/EK-RA8M1/EK-RA8D1:
      	-----------
      		Connect
      		Renesas Silex UART Pmod ----> PMOD 2
@@ -73,7 +73,7 @@
      		Renesas Silex UART Pmod ----> PMOD 1
 
 5. Sokit setup on PC as TCP server:
-   	1)  Download sokit tool form https://www.softpedia.com/get/Network-Tools/Misc-Networking-Tools/sokit.shtml
+   	1)  Download sokit tool from https://www.softpedia.com/get/Network-Tools/Misc-Networking-Tools/sokit.shtml
    	2)  Once downloaded, extract the contents and start sokit.exe.
    	3)  Once started, in the 'Server' tab configure the 'Network Setup'.
    	4)  In the 'TCP Addr' field, enter the PC's IPv4 address. And in 'Port' field, enter the port number.
@@ -98,7 +98,7 @@ Note:
 
 2) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x22060100
+   a. e2studio: 0x220604f0
    b. Keil:     Not Available 
    c. IAR:      Not Available
  

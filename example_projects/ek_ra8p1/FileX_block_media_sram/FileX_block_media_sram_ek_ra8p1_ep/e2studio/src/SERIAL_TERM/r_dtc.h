@@ -38,6 +38,9 @@ FSP_HEADER
 /** Max configurable number of blocks to transfer in BLOCK MODE */
 #define DTC_MAX_BLOCK_COUNT               (0x10000)
 
+/** Alignment required for transfer_info_t structures. */
+#define DTC_TRANSFER_INFO_ALIGNMENT       BSP_ALIGN_VARIABLE(BSP_FEATURE_DTC_TRANSFER_INFO_ALIGNMENT)
+
 /***********************************************************************************************************************
  * Typedef definitions
  **********************************************************************************************************************/
@@ -86,7 +89,7 @@ fsp_err_t R_DTC_Reload(transfer_ctrl_t * const p_api_ctrl,
                        uint32_t const          num_transfers);
 fsp_err_t R_DTC_CallbackSet(transfer_ctrl_t * const          p_api_ctrl,
                             void (                         * p_callback)(transfer_callback_args_t *),
-                            void const * const               p_context,
+                            void * const                     p_context,
                             transfer_callback_args_t * const p_callback_memory);
 fsp_err_t R_DTC_Close(transfer_ctrl_t * const p_api_ctrl);
 

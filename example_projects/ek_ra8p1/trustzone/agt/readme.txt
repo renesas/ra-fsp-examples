@@ -27,7 +27,7 @@
 		  go to the next steps.
    		- Set Trustzone secure/ non-secure boundaries: On RDPM, uncheck "Initialize device", select only
 		  "Set Trustzone secure/ non-secure boundaries" -> Select "Use Renesas Partition Data file" -> 
-		  Use "Browse" to select the .rpd file generated from the secure project (For e2studio: e2studio\secure_project\Debug,
+   a. e2studio: 0x32002450
 		  for Keil: keil\secure_project\Objects, and for IAR: iar\secure_project\Debug\Exe), then click "Run". If successful,
 		  go to the next steps.
 		- Only setting used for IAR project: The user can change setting in the Tools -> Option -> Stack ->
@@ -61,7 +61,7 @@ Note:
    RTT Block address for hex file committed in repository are as follows:
    a. e2studio: 0x32002450
    b. Keil:	Not Available
-   c. IAR:  	0x320028d8
+   c. IAR:  	0x320028dc
 
 9) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT)
    in .map file generated in the project folder (e2studio\Debug or e2studio\Release, keil\Listings, iar\Debug\List).

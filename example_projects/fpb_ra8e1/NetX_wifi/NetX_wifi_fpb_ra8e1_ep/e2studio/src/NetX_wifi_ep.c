@@ -50,7 +50,7 @@ fsp_err_t get_user_input(char * user_buff)
     /*Remove new line character from Input password String*/
     while(*user_buff)
     {
-        if(* user_buff=='\n')
+        if((* user_buff == '\r' ) || (* user_buff == '\n' ))
         {
             *user_buff = NULL_CHAR;
         }

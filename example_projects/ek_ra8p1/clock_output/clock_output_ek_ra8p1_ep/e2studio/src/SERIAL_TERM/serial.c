@@ -119,7 +119,6 @@ void serial_callback(uart_callback_args_t *p_args)
 * End of function serial_callback
 ***********************************************************************************************************************/
 
-
 /***********************************************************************************************************************
  *  Function Name: serial_init
  *  Description  : This function initializes the UART module, sets up the transmit/receive pins, configures the 
@@ -271,7 +270,7 @@ uint32_t serial_printf(char * p_format, ...)
         timeout --;
         R_BSP_SoftwareDelay(SERIAL_TIME_US, BSP_DELAY_UNITS_MICROSECONDS);
 
-        if (SERIAL_DATA_ZERO == timeout)
+        if (RESET_VALUE == timeout)
         {
             return FSP_ERR_TIMEOUT;
         }

@@ -13,7 +13,7 @@
 #include <math.h>
 
 #include "FreeRTOS.h"
-#include "FreeRTOSconfig.h"
+#include "FreeRTOSConfig.h"
 #include "semphr.h"
 #include "queue.h"
 #include "task.h"
@@ -31,7 +31,7 @@
 #include "dsi_layer.h"
 
 #include "camera_layer.h"
-#include "graphics\graphics.h"
+#include "graphics/graphics.h"
 
 #include "r_glcdc.h"
 #include "r_glcdc_cfg.h"
@@ -263,7 +263,7 @@ void do_face_reconition_screen (void)
                         CAM_IMG_SIZE_Y,
                         CAM_IMG_SIZE_Y,                                        // Source width/height
                         (d2_blitpos) 0,
-                        0,                                                     // Source position
+                        (d2_blitpos) 40,                                                     // Source position
                         (d2_width) ((CAM_LAYER_SIZE_Y) << 4),
                         (d2_width) ((CAM_LAYER_SIZE_Y) << 4),                  // Destination size width/height
                         (d2_width) ((((480 - 38) - CAM_LAYER_SIZE_Y) / 2) << 4),
@@ -302,13 +302,7 @@ void do_face_reconition_screen (void)
 
             {
                 uint32_t face_count = 0;
-                d2_point x_off      = (480 - BSP_CAM_HEIGHT) / 2;
-                d2_point comp       = 40;
-                d2_point y_off      = ((858 + comp) - BSP_CAM_WIDTH) / 2;
-
-                d2_point x_disp_off = x_off + DET_MODEL_IMG_SIZE_X;
-                d2_point y_disp_off = y_off - ((BSP_CAM_WIDTH - BSP_CAM_HEIGHT) / 2);
-                d2_f32   scale_bb   = 240.0 / DET_MODEL_IMG_SIZE_X;
+                d2_f32   scale_bb   = 360.0 / DET_MODEL_IMG_SIZE_X;
 
                 for (int_t i = 0; i < 5; i++)
                 {
@@ -316,51 +310,23 @@ void do_face_reconition_screen (void)
                     d2_point y = g_ai_detection[i].m_y;
                     d2_point w = g_ai_detection[i].m_w;
                     d2_point h = g_ai_detection[i].m_h;
-                    d2_f32   compensate_ratio_w = w / 80.0f;
-                    d2_f32   compensate_ratio_h = w / 100.0f;
-                    if (compensate_ratio_w < 1.0f)
-                    {
-                        compensate_ratio_w = 1.0f;
-                    }
 
-                    if (compensate_ratio_h < 1.0f)
-                    {
-                        compensate_ratio_h = 1.0f;
-                    }
 
                     x = (d2_point) (x * scale_bb);
                     y = (d2_point) (y * scale_bb);
                     w = (d2_point) (w * scale_bb);
                     h = (d2_point) (h * scale_bb);
 
-                    d2_point center_x = x + (w / 2);
-                    d2_point center_y = y + (h / 2);
 
-                    w *= compensate_ratio_w;
-                    h *= compensate_ratio_h;
-                    x  = center_x - (w / 2);
-                    y  = center_y - (h / 2);
 
-                    d2_point f_x = x_disp_off - y;
-                    d2_point f_y = y_disp_off + x;
 
-                    if (h != 0)
-                    {
-                        face_count++;
-                        d2_point right_top_x   = f_x;
-                        d2_point right_top_y   = f_y;
-                        d2_point left_bottom_x = f_x - h;
-                        d2_point left_bottom_y = f_y + w;
-
-                        if (left_bottom_y > ((y_off + BSP_CAM_WIDTH) - comp))
-                        {
-                            left_bottom_y = (d2_point) (y_off + BSP_CAM_WIDTH) - comp;
-                        }
-
-                        if (left_bottom_x < (x_off / 2))
-                        {
-                            left_bottom_x = x_off / 2;
-                        }
+					if((h != 0) && (w != 0))
+					{
+						face_count++;
+						d2_point right_top_x = (d2_point)(xe_pos - y);
+						d2_point right_top_y = (d2_point)(ys_pos + x);
+						d2_point left_bottom_x = (d2_point)(xe_pos - y - h);
+						d2_point left_bottom_y = (d2_point)(ys_pos + x + w);
 
                         d2_setcolor(d2_handle, 0, 0xFF0000);
                         d2_renderline(d2_handle, (d2_point) ((right_top_x) << 4), (d2_point) (right_top_y << 4),

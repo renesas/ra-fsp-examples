@@ -33,9 +33,9 @@
 	Please carefully align pin 1 on the Temperature sensor with pin 1 on the PMOD1.
 		
 4. Software Requirements
-	Renesas Flexible Software Package (FSP): Version 6.0.0
-	e2 studio: Version 2025-04.1
-	SEGGER J-Link RTT Viewer: Version 8.44a
+	Renesas Flexible Software Package (FSP): Version 6.1.0
+	e2 studio: Version 2025-07
+	SEGGER J-Link RTT Viewer: Version 8.58
 	GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 	Terminal Console Application: Tera Term or a similar application
 	

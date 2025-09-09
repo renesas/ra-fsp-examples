@@ -2,11 +2,11 @@
  * File Name    : serial_data.c
  * Description  : Contains declarations of data structures and functions used in serial_terminal.c
  ***********************************************************************************************************************/
-/**********************************************************************************************************************
-* Copyright (c) 2024 Renesas Electronics Corporation and/or its affiliates
+/***********************************************************************************************************************
+* Copyright (c) 2025 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
-**********************************************************************************************************************/
+***********************************************************************************************************************/
 
 #if (USE_VIRTUAL_COM == 1)
 
@@ -47,6 +47,8 @@ transfer_info_t g_transfer_tx_info =
 const dtc_extended_cfg_t g_transfer_rx_cfg_extend =
 #if defined (BOARD_RA8P1_EK)
 { .activation_source = VECTOR_NUMBER_SCI8_RXI, };
+#elif defined (BOARD_RA8T1_MCK)
+{ .activation_source = VECTOR_NUMBER_SCI3_RXI, };
 #else
 { .activation_source = VECTOR_NUMBER_SCI9_RXI, };
 #endif /* defined (BOARD_RA8P1_EK) */
@@ -65,6 +67,8 @@ const transfer_cfg_t g_transfer_rx_cfg =
 const dtc_extended_cfg_t g_transfer_tx_cfg_extend =
 #if defined (BOARD_RA8P1_EK)
 { .activation_source = VECTOR_NUMBER_SCI8_TXI, };
+#elif defined (BOARD_RA8T1_MCK)
+{ .activation_source = VECTOR_NUMBER_SCI3_TXI, };
 #else
 { .activation_source = VECTOR_NUMBER_SCI9_TXI, };
 #endif /* defined (BOARD_RA8P1_EK) */
@@ -120,10 +124,13 @@ const uart_cfg_t g_serial_cfg =
 #if defined (BOARD_RA8P1_EK)
 { .channel = 8, .data_bits = UART_DATA_BITS_8, .parity = UART_PARITY_OFF, .stop_bits = UART_STOP_BITS_1, .p_callback =
           serial_callback,
+#elif defined (BOARD_RA8T1_MCK)
+{ .channel = 3, .data_bits = UART_DATA_BITS_8, .parity = UART_PARITY_OFF, .stop_bits = UART_STOP_BITS_1, .p_callback =
+          serial_callback,
 #else
 { .channel = 9, .data_bits = UART_DATA_BITS_8, .parity = UART_PARITY_OFF, .stop_bits = UART_STOP_BITS_1, .p_callback =
           serial_callback,
-#endif
+#endif /* defined (BOARD_RA8P1_EK) */
   .p_context = NULL, .p_extend = &g_serial_cfg_extend,
 #define RA_NOT_DEFINED (1)
 #if (RA_NOT_DEFINED == g_transfer_tx)
@@ -157,6 +164,27 @@ const uart_cfg_t g_serial_cfg =
 #endif
 #if defined(VECTOR_NUMBER_SCI8_ERI)
                 .eri_irq             = VECTOR_NUMBER_SCI8_ERI,
+#else
+  .eri_irq = FSP_INVALID_VECTOR,
+#endif
+#elif defined (BOARD_RA8T1_MCK)
+#if defined(VECTOR_NUMBER_SCI3_RXI)
+                .rxi_irq             = VECTOR_NUMBER_SCI3_RXI,
+#else
+  .rxi_irq = FSP_INVALID_VECTOR,
+#endif
+#if defined(VECTOR_NUMBER_SCI3_TXI)
+                .txi_irq             = VECTOR_NUMBER_SCI3_TXI,
+#else
+  .txi_irq = FSP_INVALID_VECTOR,
+#endif
+#if defined(VECTOR_NUMBER_SCI3_TEI)
+                .tei_irq             = VECTOR_NUMBER_SCI3_TEI,
+#else
+  .tei_irq = FSP_INVALID_VECTOR,
+#endif
+#if defined(VECTOR_NUMBER_SCI3_ERI)
+                .eri_irq             = VECTOR_NUMBER_SCI3_ERI,
 #else
   .eri_irq = FSP_INVALID_VECTOR,
 #endif

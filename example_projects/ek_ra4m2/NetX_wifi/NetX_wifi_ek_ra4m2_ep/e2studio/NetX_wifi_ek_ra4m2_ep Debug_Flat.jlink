@@ -1,7 +1,7 @@
 [BREAKPOINTS]
 ForceImpTypeAny = 0
 ShowInfoWin = 1
-EnableFlashBP = 2
+EnableFlashBP = 1
 BPDuringExecution = 0
 [CFI]
 CFISize = 0x00
@@ -12,9 +12,11 @@ MonModeDebug = 0
 MaxNumAPs = 0
 LowPowerHandlingMode = 0
 OverrideMemMap = 0
-AllowSimulation = 1
+AllowSimulation = 0
 ScriptFile=""
 [FLASH]
+RMWThreshold = 0x200
+Loaders=""
 EraseType = 0x00
 CacheExcludeSize = 0x00
 CacheExcludeAddr = 0x00
@@ -26,8 +28,9 @@ EnableFlashDL = 2
 Override = 0
 Device="ARM7"
 [GENERAL]
-WorkRAMSize = 0x00
-WorkRAMAddr = 0x00
+MaxNumTransfers = 0x00
+WorkRAMSize = 0x3000
+WorkRAMAddr = 0x2000D000
 RAMUsageLimit = 0x00
 [SWO]
 SWOLogFile=""
@@ -40,3 +43,6 @@ WrOverrideAndMask = 0xFFFFFFFF
 WrOverrideAddr = 0xFFFFFFFF
 [RAM]
 VerifyDownload = 0x00
+[MEM_MAP]
+[DYN_MEM_MAP]
+NumUserRegion = 0x00

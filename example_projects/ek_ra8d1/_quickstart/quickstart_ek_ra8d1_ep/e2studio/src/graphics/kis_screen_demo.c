@@ -13,7 +13,7 @@
 #include <math.h>
 
 #include "FreeRTOS.h"
-#include "FreeRTOSconfig.h"
+#include "FreeRTOSConfig.h"
 #include "semphr.h"
 #include "queue.h"
 #include "task.h"
@@ -30,7 +30,7 @@
 #include "dsi_layer.h"
 
 #include "camera_layer.h"
-#include "graphics\graphics.h"
+#include "graphics/graphics.h"
 
 #include "r_glcdc.h"
 #include "r_glcdc_cfg.h"

@@ -18,7 +18,7 @@
 #define DTC_OPEN                    (0x44544300)
 
 /** Size of vector table is based on number of vectors defined in BSP. */
-#define DTC_VECTOR_TABLE_ENTRIES    (BSP_ICU_VECTOR_MAX_ENTRIES)
+#define DTC_VECTOR_TABLE_ENTRIES    (BSP_ICU_VECTOR_NUM_ENTRIES)
 
 /** The size of transfer_info_t is defined in the Hardware Manual therefore it must be 16 bytes. */
 #define DTC_TRANSFER_INFO_SIZE      (16U)
@@ -54,6 +54,13 @@
 
 /* DTC Control Register RRS Disable value. */
 #define DTC_PRV_RRS_DISABLE           (0x08)
+
+/* DTC security attribution for the core */
+#if (1U == BSP_CFG_CPU_CORE)
+ #define DTC_PRV_DTCSAR_DTCSTSA       (R_CPSCU->DTCSAR_b.DTCSTSA1)
+#else
+ #define DTC_PRV_DTCSAR_DTCSTSA       ((R_CPSCU->DTCSAR & R_CPSCU_DTCSAR_DTCSTSA_Msk) >> R_CPSCU_DTCSAR_DTCSTSA_Pos)
+#endif
 
 /***********************************************************************************************************************
  * Private function prototypes
@@ -243,7 +250,7 @@ fsp_err_t R_DTC_Reset (transfer_ctrl_t * const p_api_ctrl,
     r_dtc_wait_for_transfer_complete(p_ctrl);
 
     /* Disable read skip prior to modifying settings. It will be enabled later
-     * (See DTC Section 18.4.1 of the RA6M3 manual R01UH0886EJ0100). */
+     * (See "Transfer Information Read Skip Function" in the DTC section of the relevant hardware manual). */
 #if !BSP_TZ_NONSECURE_BUILD && BSP_FEATURE_TZ_HAS_TRUSTZONE
     R_DTC->DTCCR_SEC = DTC_PRV_RRS_DISABLE;
 #else
@@ -431,7 +438,7 @@ fsp_err_t R_DTC_Reload (transfer_ctrl_t * const p_api_ctrl,
  **********************************************************************************************************************/
 fsp_err_t R_DTC_CallbackSet (transfer_ctrl_t * const          p_api_ctrl,
                              void (                         * p_callback)(transfer_callback_args_t *),
-                             void const * const               p_context,
+                             void * const                     p_context,
                              transfer_callback_args_t * const p_callback_memory)
 {
     /* This function isn't supported.  It is defined only to implement a required function of transfer_api_t.
@@ -538,7 +545,7 @@ static void r_dtc_state_initialize (void)
 #endif
 
 #if BSP_FEATURE_TZ_HAS_TRUSTZONE && BSP_TZ_NONSECURE_BUILD
-        if (1 == R_CPSCU->DTCSAR_b.DTCSTSA)
+        if (1 == DTC_PRV_DTCSAR_DTCSTSA)
         {
             /* Enable the DTC Peripheral */
             R_DTC->DTCST = 1U;
@@ -561,7 +568,7 @@ static void r_dtc_set_info (dtc_instance_ctrl_t * p_ctrl, transfer_info_t * p_in
     r_dtc_block_repeat_initialize(p_info);
 
     /* Disable read skip prior to modifying settings. It will be enabled later
-     * (See DTC Section 18.4.1 of the RA6M3 manual R01UH0886EJ0100). */
+     * (See "Transfer Information Read Skip Function" in the DTC section of the relevant hardware manual). */
 #if !BSP_TZ_NONSECURE_BUILD && BSP_FEATURE_TZ_HAS_TRUSTZONE
     R_DTC->DTCCR_SEC = DTC_PRV_RRS_DISABLE;
 #else
@@ -668,7 +675,7 @@ static void r_dtc_wait_for_transfer_complete (dtc_instance_ctrl_t * p_ctrl)
     uint32_t in_progress = (1U << DTC_PRV_OFFSET_IN_PROGRESS) | (uint32_t) p_ctrl->irq;
 
     /* Wait for the DTCSTS.ACT flag to be clear if the current vector is the activation source.*/
-    FSP_HARDWARE_REGISTER_WAIT((FSP_STYPE3_REG16_READ(R_DTC->DTCSTS, !R_CPSCU->DTCSAR_b.DTCSTSA) == in_progress), 0);
+    FSP_HARDWARE_REGISTER_WAIT((FSP_STYPE3_REG16_READ(R_DTC->DTCSTS, !DTC_PRV_DTCSAR_DTCSTSA) == in_progress), 0);
 }
 
 /*******************************************************************************************************************//**

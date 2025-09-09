@@ -16,9 +16,9 @@
 	The two example projects ssi_master_ek_ra6m1_ep and ssi_slave_ek_ra6m1_ep are provided for the the SSI Slave EP, one intended for Master and other for the Slave.
 
 2. Software Requirements:
-	Renesas Flexible Software Package (FSP): Version 6.0.0
-	e2 studio: Version 2025-04.1
-	SEGGER J-Link RTT Viewer: Version 8.44a
+	Renesas Flexible Software Package (FSP): Version 6.1.0
+	e2 studio: Version 2025-07
+	SEGGER J-Link RTT Viewer: Version 8.58
 	GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
      
 3. Hardware Requirements:

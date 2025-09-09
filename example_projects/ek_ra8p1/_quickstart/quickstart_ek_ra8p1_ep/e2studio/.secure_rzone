@@ -22,14 +22,27 @@
             <memory name="OPTION_SETTING_SAS" type="ROM" start="0x02c9f074" size="0x00000004" access="r" security="s" info="Startup Area Setting Register"/>
             <memory name="OPTION_SETTING_OFS1" type="ROM" start="0x12c9f4c0" size="0x00000004" access="r" security="n" info="Option Function Select Register 1"/>
             <memory name="OPTION_SETTING_OFS1_SEC" type="ROM" start="0x02c9f0c0" size="0x00000004" access="r" security="s" info="Option Function Select Register 1 Secure"/>
-            <memory name="OPTION_SETTING_OFS1_SEL" type="ROM" start="0x02c9f120" size="0x00000004" access="r" security="s" info="OFS1 Register Select"/>
+            <memory name="OPTION_SETTING_OFS1_SEL" type="ROM" start="0x02c9f120" size="0x00000004" access="r" security="s" info="OFS1 Security Attribution"/>
             <memory name="OPTION_SETTING_OFS3" type="ROM" start="0x12c9f4c4" size="0x00000004" access="r" security="n" info="Option Function Select Register 3"/>
             <memory name="OPTION_SETTING_OFS3_SEC" type="ROM" start="0x02c9f0c4" size="0x00000004" access="r" security="s" info="Option Function Select Register 3 Secure"/>
-            <memory name="OPTION_SETTING_OFS3_SEL" type="ROM" start="0x02c9f124" size="0x00000004" access="r" security="s" info="OFS3 Register Select"/>
+            <memory name="OPTION_SETTING_OFS3_SEL" type="ROM" start="0x02c9f124" size="0x00000004" access="r" security="s" info="OFS3 Security Attribution"/>
             <memory name="OPTION_SETTING_BPS" type="ROM" start="0x12c9f600" size="0x00000080" access="r" security="n" info="Block Protect Setting Register"/>
             <memory name="OPTION_SETTING_BPS_SEC" type="ROM" start="0x02c9f200" size="0x00000080" access="r" security="s" info="Block Protect Setting Register Secure"/>
-            <memory name="OPTION_SETTING_OTP_PBPS_SEC" type="ROM" start="0x02e07700" size="0x00000080" access="r" security="s" info="Permanent Block Protect Setting Register Secure"/>
-            <memory name="OPTION_SETTING_OTP_PBPS" type="ROM" start="0x12e07780" size="0x00000080" access="r" security="n" info="Permanent Block Protect Setting Register"/>
+            <memory name="OPTION_SETTING_OTP_FSBLCTRL0" type="ROM" start="0x02e07600" size="0x00000004" access="r" security="s" info="FSBL Control Register 0"/>
+            <memory name="OPTION_SETTING_OTP_FSBLCTRL1" type="ROM" start="0x02e07604" size="0x00000004" access="r" security="s" info="FSBL Control Register 1"/>
+            <memory name="OPTION_SETTING_OTP_FSBLCTRL2" type="ROM" start="0x02e07608" size="0x00000004" access="r" security="s" info="FSBL Control Register 2"/>
+            <memory name="OPTION_SETTING_OTP_SAMR" type="ROM" start="0x02e07614" size="0x00000004" access="r" security="s" info="Start Address of Measurement Report"/>
+            <memory name="OPTION_SETTING_OTP_SACC00" type="ROM" start="0x02e07620" size="0x00000004" access="r" security="s" info="Start Address of Code Certificate 00"/>
+            <memory name="OPTION_SETTING_OTP_SACC10" type="ROM" start="0x02e07630" size="0x00000004" access="r" security="s" info="Start Address of Code Certificate 10"/>
+            <memory name="OPTION_SETTING_OTP_SACC01" type="ROM" start="0x02e07640" size="0x00000004" access="r" security="s" info="Start Address of Code Certificate 01"/>
+            <memory name="OPTION_SETTING_OTP_SACC11" type="ROM" start="0x02e07650" size="0x00000004" access="r" security="s" info="Start Address of Code Certificate 11"/>
+            <memory name="OPTION_SETTING_OTP_SACC02" type="ROM" start="0x02e07660" size="0x00000004" access="r" security="s" info="Start Address of Code Certificate 02"/>
+            <memory name="OPTION_SETTING_OTP_SACC12" type="ROM" start="0x02e07670" size="0x00000004" access="r" security="s" info="Start Address of Code Certificate 12"/>
+            <memory name="OPTION_SETTING_OTP_SACC03" type="ROM" start="0x02e07680" size="0x00000004" access="r" security="s" info="Start Address of Code Certificate 03"/>
+            <memory name="OPTION_SETTING_OTP_SACC13" type="ROM" start="0x02e07690" size="0x00000004" access="r" security="s" info="Start Address of Code Certificate 13"/>
+            <memory name="OPTION_SETTING_OTP_PBPS_SEC" type="ROM" start="0x02e17700" size="0x00000080" access="r" security="s" info="Permanent Block Protect Setting Register Secure"/>
+            <memory name="OPTION_SETTING_OTP_PBPS" type="ROM" start="0x12e17780" size="0x00000080" access="r" security="n" info="Permanent Block Protect Setting Register"/>
+            <memory name="OPTION_SETTING_OTP_ZHUK" type="ROM" start="0x02e17920" size="0x00000004" access="r" security="s" info="Zerorization HUK Register"/>
             <memory name="ITCM_NS" type="RAM" start="0x10000000" physical="0x00000000" size="0x00020000" access="rwx" security="n" Pname="CPU0" info="internal instruction tightly coupled memory @nsAlign:0x00002000"/>
             <memory name="ITCM" type="RAM" start="0x00000000" size="0x00020000" access="rwx" security="s" Pname="CPU0" info="internal instruction tightly coupled memory"/>
             <memory name="DTCM_NS" type="RAM" start="0x30000000" physical="0x20000000" size="0x00020000" access="rwx" security="n" Pname="CPU0" info="internal data tightly coupled memory @nsAlign:0x00002000"/>

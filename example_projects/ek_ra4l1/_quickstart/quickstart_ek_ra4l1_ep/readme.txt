@@ -13,8 +13,8 @@
         d020244_11_s01_v01_r20qs0081eg0100 Evaluation Kit for RA4L1 Microcontroller Group EK-RA4L1 Quick Start Guide
 
 2. Software Requirements:
-        Renesas Flexible Software Package (FSP): Version 6.0.0
-        e2 studio: Version 2025-04.1
+        Renesas Flexible Software Package (FSP): Version 6.1.0
+        e2 studio: Version 2025-07
         GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
         Terminal Console Application: Tera Term or a similar application
         USB Serial Drivers (included in Windows 10) 

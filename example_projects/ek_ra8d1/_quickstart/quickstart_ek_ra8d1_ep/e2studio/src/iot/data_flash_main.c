@@ -1,5 +1,5 @@
 /***********************************************************************************************************************
-* Copyright (c) 2023 - 2024 Renesas Electronics Corporation and/or its affiliates
+* Copyright (c) 2023 - 2025 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
 ***********************************************************************************************************************/
@@ -25,6 +25,7 @@
 #include "board_cfg.h"
 #include "common_init.h"
 #include "jlink_console.h"
+#include "bsp_api.h"
 
 #define FLASH_DF_BLOCK_0         0x27000000U /*   64 B:  0x40100000 - 0x4010003F */
 #define FLASH_DATA_BLOCK_SIZE    (1024)
@@ -53,7 +54,7 @@ typedef struct hp_flash_data_block
     st_hp_flash_data_hdr_t table[4];
 } st_hp_flash_data_block_t;
 
-static uint8_t * const          s_hp_stored_flash_data = (uint8_t *) (void *) 0x27000000U;
+static uint8_t g_key_buffer[FLASH_DATA_BLOCK_SIZE] BSP_PLACE_IN_SECTION(".data_flash");
 static st_hp_flash_data_block_t s_hp_new_flash_data    = {};
 static bool_t initialised = false;
 static char_t s_print_buffer[BUFFER_LINE_LENGTH] = {};
@@ -67,7 +68,7 @@ bool_t erase_stored_keys(void);
 
 static uint8_t fifo_chars[KEY_SIZE_IN_BYTES + 8];
 static int8_t  g_new_api_key_str[KEY_SIZE_IN_BYTES + 8];
-static st_hp_flash_data_block_t * stored_iot = (st_hp_flash_data_block_t *) s_hp_stored_flash_data;
+static st_hp_flash_data_block_t * stored_iot = (st_hp_flash_data_block_t *) &g_key_buffer[0];
 
 static uint8_t idx           = 0U;
 static uint8_t num_new_chars = 0U;
@@ -201,7 +202,7 @@ bool_t initialise_data_flash (void)
 
     R_FLASH_HP_Close(&g_flash1_ctrl);
 
-    memcpy(&s_hp_new_flash_data, FLASH_DF_BLOCK_0, sizeof(s_hp_new_flash_data));
+    memcpy(&s_hp_new_flash_data, &g_key_buffer[0], sizeof(s_hp_new_flash_data));
 
     return err;
 }
@@ -552,7 +553,7 @@ bool_t update_stored_keys (void)
     if (err == FSP_SUCCESS)
     {
         status = FLASH_STATUS_BUSY;
-        err    = R_FLASH_HP_Erase(&g_flash1_ctrl, FLASH_DF_BLOCK_0, BLOCK_ERASE_SIZE);
+        err    = R_FLASH_HP_Erase(&g_flash1_ctrl, (uint32_t) &g_key_buffer[0], BLOCK_ERASE_SIZE);
 
         while (status == FLASH_STATUS_BUSY)
         {
@@ -561,7 +562,7 @@ bool_t update_stored_keys (void)
 
         err = R_FLASH_HP_Write(&g_flash1_ctrl,
                                (const uint32_t) &s_hp_new_flash_data,
-                               FLASH_DF_BLOCK_0,
+							   (uint32_t) &g_key_buffer[0],
                                FLASH_DATA_BLOCK_SIZE);
 
         while (status == FLASH_STATUS_BUSY)
@@ -617,7 +618,7 @@ bool_t is_key_data_available (e_hp_data_flash_iot_keys_t id)
 // print_to_console("Invalid iot keys stored:\r\n");
 
                 status = FLASH_STATUS_BUSY;
-                err    = R_FLASH_HP_Erase(&g_flash1_ctrl, FLASH_DF_BLOCK_0, BLOCK_ERASE_SIZE);
+                err    = R_FLASH_HP_Erase(&g_flash1_ctrl, (uint32_t) &g_key_buffer[0], BLOCK_ERASE_SIZE);
 
                 while (status == FLASH_STATUS_BUSY)
                 {
@@ -640,7 +641,7 @@ bool_t is_key_data_available (e_hp_data_flash_iot_keys_t id)
                 status = FLASH_STATUS_BUSY;
                 err    = R_FLASH_HP_Write(&g_flash1_ctrl,
                                           (const uint32_t) &s_hp_new_flash_data,
-                                          FLASH_DF_BLOCK_0,
+										  (uint32_t) &g_key_buffer[0],
                                           FLASH_DATA_BLOCK_SIZE);
 
                 while (status == FLASH_STATUS_BUSY)
@@ -650,7 +651,7 @@ bool_t is_key_data_available (e_hp_data_flash_iot_keys_t id)
             }
             else
             {
-                memcpy(&s_hp_new_flash_data, FLASH_DF_BLOCK_0, sizeof(s_hp_new_flash_data));
+                memcpy(&s_hp_new_flash_data, &g_key_buffer[0], sizeof(s_hp_new_flash_data));
 
                 /* record is (id -1) as id 0 is not used */
                 res = s_hp_new_flash_data.table[id - 1].key_valid;

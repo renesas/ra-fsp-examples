@@ -17,7 +17,7 @@
 #include "dave_driver.h"
 #include "gimp.h"
 #include "camera_layer.h"
-#include "graphics\graphics.h"
+#include "graphics/graphics.h"
 
 #ifndef FG_FONT_22_FULL_H_
  #define FG_FONT_22_FULL_H_

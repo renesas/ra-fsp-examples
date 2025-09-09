@@ -13,8 +13,8 @@
         d018944_11_s01_r20qs0065eg0100 Evaluation Kit for RA8D1 Microcontroller Group EK-RA8D1 Quick Start Guide
 
 2. Software Requirements:
-        Renesas Flexible Software Package (FSP): Version 5.9.0
-        e2 studio: Version 2025-04
+        Renesas Flexible Software Package (FSP): Version 6.0.0
+        e2 studio: Version  2025-04.1
         GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
         Terminal Console Application: Tera Term or a similar application
         USB Serial Drivers (included in Windows 10) 

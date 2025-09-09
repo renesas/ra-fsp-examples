@@ -47,8 +47,7 @@ void rtt_thread_entry(void)
         if (APP_CHECK_DATA)
         {
             UINT read_bytes = APP_READ(rtt_buffer);
-
-            err = memory_allocate_rtt(&byte_pool, &p_data, sizeof(rtt_msg_t) + read_bytes);
+            err = memory_allocate_rtt(&byte_pool, &p_data, sizeof(rtt_msg_t) + read_bytes + 1);
             if (TX_SUCCESS != err)
             {
                 APP_PRINT("Error in processing, please check again\r\n")
@@ -218,7 +217,7 @@ UINT app_rtt_print_data(event_id_t id, uint32_t size, void * const p_data)
     rtt_msg_t *p_display_data = NULL;
     UINT err = TX_SUCCESS;
 
-    /* allocates memory for rtt display message data structure.*/
+    /* allocates memory for rtt display message data structure. */
     err = memory_allocate_rtt(&byte_pool,
                               &p_display_data,
                               sizeof(rtt_msg_t) + size);
@@ -343,3 +342,4 @@ VOID rtt_thread_init_check(VOID)
     }while(err==TX_SUCCESS);
 #endif
 }
+

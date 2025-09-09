@@ -5,7 +5,7 @@ In this example code, A NetX Duo IP instance is created upon call to NetX Duo Ne
 Upon successful initialization of WiFi Onchip Silex module, user is asked to select the SSID to connect in auto scan mode or to Enter the desired SSID for wifi connection in Manual mode. Once Entered the SSID name the user is asked for security to be entered (Open, WPA or WPA2) as menu option, after this the password (according to security) is to be entered by the user to connect to particular SSID.
 The Azure NetX Duo initializes the packet pool creation with definite packet payload size, where the network packets are utilized in data transfer from client and server via TCP.
 The connection to TCP server (Details of requirements and steps to connect are mentioned in below sections) is done in client mode using NetX APIs for creation of TCP socket, binding of the specified port and connecting to the entered address of running TCP server by the user. Upon successful connection with TCP server data packets are sent to the server and received from the server by the application, On board LED state is changed (on or off) as per the message received from the connected TCP server.
-The status messages, like MCU IP address, Ping status, TCP connection status, message from the  TCP server and errors (if any) are displayed on the J-Link RTT Viewer.
+The status messages, like MCU IP address, Ping status, TCP connection status, message from the TCP server and errors (if any) are displayed on the J-Link RTT Viewer.
 
 Please refer to the [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf) 
 for general information on example projects and [readme.txt](./readme.txt) for specifics of the operation.
@@ -14,9 +14,9 @@ for general information on example projects and [readme.txt](./readme.txt) for s
 To build and run the NetX Wifi example project, the following resources are needed.
 
 ### Software ###
-* Renesas Flexible Software Package (FSP): Version 5.9.0
-* e2 studio: Version 2025-04
-* SEGGER J-Link RTT Viewer: Version 8.12f
+* Renesas Flexible Software Package (FSP): Version 6.1.0
+* e2 studio: Version 2025-07
+* SEGGER J-Link RTT Viewer: Version 8.58
 * LLVM Embedded Toolchain for ARM: Version 18.1.3
 * Sokit software is required for creation of TCP server over specified IP and port(detailed steps mentioned below).
 Download Link : https://softfamous.com/sokit/
@@ -32,13 +32,13 @@ Supported RA boards: EK-RA4M2, EK-RA6M4, EK-RA6M5, EK-RA4M3, FPB-RA4E1, FPB-RA6E
 Refer to [readme.txt](./readme.txt) for information on how to connect the hardware and start the TCP server.
 
 ### Hardware connections: ###
-For EK-RA4M2/EK-RA4M3/EK-RA6M3/EK-RA6M4/EK-RA6M5/FPB-RA4E1/FPB-RA6E1:
+For EK-RA4M2/EK-RA4M3/EK-RA6M3/EK-RA6M4/EK-RA6M5:
 * Connect Renesas Silex UART Pmod ----> PMOD 1 (J26)	
 
 For EK-RA6M1/EK-RA6M2/EK-RA4M1:
 * Connect Renesas Silex UART Pmod ----> PMOD A (J5)
 
-For EK-RA2L1/EK-RA4E2/EK-RA6E2/MCK-RA4T1/MCK-RA6T3/EK-RA8M1/EK-RA8D1:
+For EK-RA2L1/FPB-RA4E1/FPB-RA6E1/EK-RA4E2/EK-RA6E2/MCK-RA4T1/MCK-RA6T3/EK-RA8M1/EK-RA8D1:
 * Connect Renesas Silex UART Pmod ----> PMOD 2
 
 For MCK-RA8T1:  
@@ -58,7 +58,7 @@ Connect
 * Renesas Silex UART Pmod (CN1:8) ----> P203 (J3:9)
 
 FPB-RA8E1:
-* Connect Renesas Silex UART Pmod ----> PMOD 2
+* Connect Renesas Silex UART Pmod ----> PMOD 1
 
 ## Related Collateral References ##
 The following documents can be referred to for enhancing your understanding of 
@@ -91,7 +91,7 @@ This section describes FSP Configurator properties that are important or differe
 |   configuration.xml -> BSP > Properties > Settings > Property > Heap Size (bytes)| 0 |0x1000| Higher Heap size is required for standard library functions to be used as per FSP recommendation. |
 |   configuration.xml -> BSP > Properties > Settings > Property > Main Stack Size (bytes)| 0 |0x400| Main Program thread stack is configured to store the local variables of different functions in the code. |
 |   configuration.xml -> RTT Thread > Settings > Property > Thread > Priority  |   1   |   5   |   RTT thread priority is lowered to allow the IP threads to process incoming packets at the fastest rate possible.   |
-|   configuration.xml -> Azure Wifi thread > Settings > Property > Thread > Priority  |   1   |   4   |   Priority of the Application threads generally given  lower priority compared to system services threads.   |
+|   configuration.xml -> Azure Wifi thread > Settings > Property > Thread > Priority  |   1   |   4   |   Priority of the Application threads generally given lower priority compared to system services threads.   |
 |   configuration.xml -> g_ip0 Azure RTOS NetX Duo IP Instance > g_ip0 Azure RTOS NetX Duo IP Instance  > Default Gateway Address >| 0.0.0.0 | 192.168.0.1   |   Valid Gateway adress for IP routing.   |
 |   configuration.xml -> g_ip0 Azure RTOS NetX Duo IP Instance > g_ip0 Azure RTOS NetX Duo IP Instance  > Subnet Mask >| 255.255.255.0 | 0.0.0.0   |   Subnet mask for IP routing.   |
 |   configuration.xml -> Azure Wifi thread > Settings > Property > Thread > Stack size  |   1024   |   4096   |   Updated to handle thread its worst-case function call nesting and local variable usage.   |
@@ -110,15 +110,15 @@ The table below lists the Azure RTOS NetX Duo Network Drivers API used at the ap
 
 | API Name    | Usage                                                                          |
 |-------------|--------------------------------------------------------------------------------|
-|rm_wifi_onchip_silex_open| This API is used to  initialize the WiFi module driver. |
+|rm_wifi_onchip_silex_open| This API is used to initialize the WiFi module driver. |
 |rm_wifi_onchip_silex_scan| This API is used to scan all Wifi Access points. |
 |rm_wifi_onchip_silex_connect| This API is used to connect with specified Wifi Access point. |
-rm_wifi_onchip_silex_dns_query| This API is used to preform a DNS lookup. |	
+rm_wifi_onchip_silex_dns_query| This API is used to perform a DNS lookup. |	
 rm_wifi_onchip_silex_ip_addr_get|This API fetches the IP address assigned to MCU.|	
 rm_wifi_onchip_silex_ping|This API Performs the Ping operation. |	
 nx_system_initialize| This API Initializes NetX System.|	
 nx_packet_pool_create | This service creates a packet pool of the specified packet size in the memory area.| 	
-nx_ip_create|Creates an IP Instasnce.|
+nx_ip_create|Creates an IP instance.|
 nx_tcp_enable|This API enables the Transmission Control Protocol (TCP) component of NetX.|	
 nx_tcp_socket_create|This API creates a TCP client or server socket for the specified IP instance.|	
 nx_tcp_client_socket_bind|This API binds the previously created TCP client socket to the specified TCP port.|	
@@ -131,7 +131,7 @@ nx_tcp_socket_receive|This service receives TCP data from the specified socket.|
 Import, Build and Debug the EP (see section Starting Development of **FSP User Manual**). After running the EP, open the J-Link RTT Viewer to see the output.
 Before running the example project, refer to the below steps for hardware connections:
 * Connect RA MCU debug port to the host PC via a type-C USB cable. 
-* Connect an Silex Module to the UART PMOD on RA board.
+* Connect a Silex Module to the UART PMOD on RA board.
 * TCP Server must be running at valid IP address on same network on which Application is running.
 *Note*: If TCP server not started before MCU tries to connect, then application would fail.
 
@@ -176,7 +176,7 @@ On sending "on", user LED turns ON and on sending "off" User LED is turned OFF. 
 ## Special Topics ##
 ### Running tips ###
 * Presuming all necessary hardware connections done, a user should connect their PC or laptop connected to the same WiFi router AP. 
-* On PC/laptop, user neeeds to create TCP server and start listening at port which is free.
+* On PC/laptop, user needs to create TCP server and start listening at port which is free.
 * TCP server on PC can be created using freely available tool sokit and using **[Steps for TCP server creation and connection](# Steps for TCP server creation and connection)**.
 * TCP server must be running before the application tries to connect otherwise TCP connection functionality will fail on running application. 
 * Values Sent from connected TCP server other than 'on' or 'off' will have no effect on LED.

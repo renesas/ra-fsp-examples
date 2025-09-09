@@ -1,4 +1,4 @@
-/* Copyright 2022 The TensorFlow Authors. All Rights Reserved.
+/* Copyright 2024 The TensorFlow Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -13,12 +13,14 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
 
-#include "tensorflow/lite/kernels/internal/reference/maximum_minimum.h"
+#ifndef TENSORFLOW_LITE_MICRO_KERNELS_MAXIMUM_MINIMUM_H_
+#define TENSORFLOW_LITE_MICRO_KERNELS_MAXIMUM_MINIMUM_H_
 
 #include "tensorflow/lite/c/builtin_op_data.h"
 #include "tensorflow/lite/c/common.h"
 #include "tensorflow/lite/kernels/internal/common.h"
 #include "tensorflow/lite/kernels/internal/quantization_util.h"
+#include "tensorflow/lite/kernels/internal/reference/maximum_minimum.h"
 #include "tensorflow/lite/kernels/internal/tensor_ctypes.h"
 #include "tensorflow/lite/kernels/kernel_util.h"
 #include "tensorflow/lite/kernels/op_macros.h"
@@ -26,8 +28,6 @@ limitations under the License.
 #include "tensorflow/lite/micro/micro_log.h"
 
 namespace tflite {
-
-namespace {
 
 // This file has a reference implementation of TFMaximum/TFMinimum.
 enum KernelType {
@@ -76,50 +76,30 @@ void TFLiteOperation(TfLiteContext* context, TfLiteNode* node,
       op_type::template op<data_type>);
 }
 
-template <KernelType kernel_type, typename OpType>
-TfLiteStatus Eval(TfLiteContext* context, TfLiteNode* node) {
-  OpContext op_context(context, node);
+TFLMRegistration Register_MAXIMUM();
 
-  if (kernel_type == kReference) {
-    switch (op_context.output->type) {
-      case kTfLiteFloat32:
-        TFLiteOperation<float, OpType>(context, node, op_context);
-        break;
-      case kTfLiteInt8:
-        TFLiteOperation<int8_t, OpType>(context, node, op_context);
-        break;
-      case kTfLiteInt16:
-        TFLiteOperation<int16_t, OpType>(context, node, op_context);
-        break;
-      case kTfLiteInt32:
-        TFLiteOperation<int32_t, OpType>(context, node, op_context);
-        break;
-      case kTfLiteInt64:
-        TFLiteOperation<int64_t, OpType>(context, node, op_context);
-        break;
-      default:
-        MicroPrintf("Type %s (%d) is not supported by Maximum/Minimum.",
-                    TfLiteTypeGetName(op_context.output->type),
-                    op_context.output->type);
-        return kTfLiteError;
-    }
-  } else {
-    MicroPrintf("Kernel type not supported by Maximum/Minimum.");
-    return kTfLiteError;
-  }
-  return kTfLiteOk;
-}
+TFLMRegistration Register_MINIMUM();
 
-}  // namespace
+#if defined(CMSIS_NN)
+// Returns a TFLMRegistration struct for kernel variant that only supports
+// int8.
+TFLMRegistration Register_MAXIMUM_INT8();
 
-TFLMRegistration Register_MAXIMUM() {
-  return tflite::micro::RegisterOp(nullptr, nullptr,
-                                   Eval<kReference, MaximumOp>);
-}
+// Returns a TFLMRegistration struct for kernel variant that only supports
+// int8.
+TFLMRegistration Register_MINIMUM_INT8();
 
-TFLMRegistration Register_MINIMUM() {
-  return tflite::micro::RegisterOp(nullptr, nullptr,
-                                   Eval<kReference, MinimumOp>);
-}
+#else
+// Note that while this block gets used for both reference and optimized kernels
+// that do not have any specialized implementations, the only goal here is to
+// define fallback implementation that allow reference kernels to still be used
+// from applications that call a more specific kernel variant.
+inline TFLMRegistration Register_MAXIMUM_INT8() { return Register_MAXIMUM(); }
+
+inline TFLMRegistration Register_MINIMUM_INT8() { return Register_MINIMUM(); }
+
+#endif
 
 }  // namespace tflite
+
+#endif  // TENSORFLOW_LITE_MICRO_KERNELS_MAXIMUM_MINIMUM_H_

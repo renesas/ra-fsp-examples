@@ -12,7 +12,7 @@
 
 #include "blinky_thread.h"
 #include "FreeRTOS.h"
-#include "FreeRTOSconfig.h"
+#include "FreeRTOSConfig.h"
 #include "semphr.h"
 #include "queue.h"
 #include "task.h"

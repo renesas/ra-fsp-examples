@@ -36,9 +36,11 @@
 		Connect P104 (J2:35) to P204 (J2:17).
 
 	For FPB-RA2T1:
+		The user must Close E8, E15 and Cut E10 to use P213 for LED1.
+	
+	For EK-RA4C1:
 		The user must place jumper J6 on pins 2-3, J8 on pins 1-2, J9 on pins 2-3 and turn OFF SW4-4 to use
 		the on-board debug functionality.
-		The user must Close E8, E15 and Cut E10 to use P213 for LED1.
 
 Note:
 1) Timer period range in millisecond as per EP configuration:
@@ -61,7 +63,7 @@ Note:
 4) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT Viewer.
    RTT Block address for hex file committed in repository are as follows:
    a. e2studio: 0x20000ca4
-   b. Keil:     0x2000083c
+   b. Keil:	0x2000083c
    c. IAR:      0x200008d0
  
 5) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT)

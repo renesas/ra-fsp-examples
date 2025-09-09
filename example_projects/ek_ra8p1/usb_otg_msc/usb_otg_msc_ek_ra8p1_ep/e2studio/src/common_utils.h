@@ -58,6 +58,7 @@
 #define LVL_ERR                         (1U)       /* Error conditions */
 #define RESET_VALUE                     (0x00)
 #define NULL_CHAR                       ('\0')
+#define MODULE_CLOSE                    (0U)
 
 #define APP_PRINT(fn_, ...)             (TERM_PRINTF((fn_), ##__VA_ARGS__))
 

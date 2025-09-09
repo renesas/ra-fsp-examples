@@ -3,7 +3,7 @@
 *                        The Embedded Experts                        *
 **********************************************************************
 *                                                                    *
-*            (c) 1995 - 2021 SEGGER Microcontroller GmbH             *
+*            (c) 1995 - 2025 SEGGER Microcontroller GmbH             *
 *                                                                    *
 *       www.segger.com     Support: support@segger.com               *
 *                                                                    *
@@ -42,7 +42,7 @@
 *                                                                    *
 **********************************************************************
 *                                                                    *
-*       RTT version: 8.44a                                           *
+*       RTT version: 8.58                                           *
 *                                                                    *
 **********************************************************************
 
@@ -52,7 +52,6 @@ Purpose : Replacement for printf to write formatted data via RTT
 Revision: $Rev: 17697 $
 ----------------------------------------------------------------------
 */
-#if (USE_VIRTUAL_COM == 0)
 #include "SEGGER_RTT.h"
 #include "SEGGER_RTT_Conf.h"
 
@@ -520,5 +519,4 @@ int SEGGER_RTT_printf(unsigned BufferIndex, const char * sFormat, ...) {
   va_end(ParamList);
   return r;
 }
-#endif /* USE_VIRTUAL_COM */
 /*************************** End of file ****************************/

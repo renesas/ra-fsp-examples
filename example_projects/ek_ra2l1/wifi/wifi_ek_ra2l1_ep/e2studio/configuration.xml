@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<raConfiguration version="11">
+<raConfiguration version="12">
   <generalSettings>
     <option key="#Board#" value="board.ra2l1_ek"/>
     <option key="CPU" value="RA2L1"/>
@@ -9,7 +9,7 @@
     <option key="#DeviceCommand#" value="R7FA2L1AB"/>
     <option key="#RTOS#" value="rtos.awsfreertos"/>
     <option key="#pinconfiguration#" value="R7FA2L1AB2DFP.pincfg"/>
-    <option key="#FSPVersion#" value="6.0.0"/>
+    <option key="#FSPVersion#" value="6.1.0"/>
     <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra2l1_ek##"/>
     <option key="#SELECTED_TOOLCHAIN#" value="gcc-arm-embedded"/>
     <option key="#ToolchainVersion#" value="13.2.1.arm-13-7"/>
@@ -23,6 +23,7 @@
       <property id="config.bsp.data_flash_size_bytes" value="config.bsp.data_flash_size_bytes.value"/>
       <property id="config.bsp.package_style" value="config.bsp.package_style.value"/>
       <property id="config.bsp.package_pins" value="config.bsp.package_pins.value"/>
+      <property id="config.bsp.number_of_cores" value="1"/>
       <property id="config.bsp.irq_count_hidden" value="32"/>
     </config>
     <config id="config.bsp.ra2l1">
@@ -30,43 +31,7 @@
     </config>
     <config id="config.bsp.ra2l1.fsp">
       <property id="config.bsp.fsp.inline_irq_functions" value="config.bsp.common.inline_irq_functions.disabled"/>
-      <property id="config.bsp.fsp.OFS0.iwdt_start_mode" value="config.bsp.fsp.OFS0.iwdt_start_mode.disabled"/>
-      <property id="config.bsp.fsp.OFS0.iwdt_timeout" value="config.bsp.fsp.OFS0.iwdt_timeout.2048"/>
-      <property id="config.bsp.fsp.OFS0.iwdt_divisor" value="config.bsp.fsp.OFS0.iwdt_divisor.128"/>
-      <property id="config.bsp.fsp.OFS0.iwdt_window_end" value="config.bsp.fsp.OFS0.iwdt_window_end.0"/>
-      <property id="config.bsp.fsp.OFS0.iwdt_window_start" value="config.bsp.fsp.OFS0.iwdt_window_start.100"/>
-      <property id="config.bsp.fsp.OFS0.iwdt_reset_interrupt" value="config.bsp.fsp.OFS0.iwdt_reset_interrupt.Reset"/>
-      <property id="config.bsp.fsp.OFS0.iwdt_stop_control" value="config.bsp.fsp.OFS0.iwdt_stop_control.stops"/>
-      <property id="config.bsp.fsp.OFS0.wdt_start_mode" value="config.bsp.fsp.OFS0.wdt_start_mode.register"/>
-      <property id="config.bsp.fsp.OFS0.wdt_timeout" value="config.bsp.fsp.OFS0.wdt_timeout.16384"/>
-      <property id="config.bsp.fsp.OFS0.wdt_divisor" value="config.bsp.fsp.OFS0.wdt_divisor.128"/>
-      <property id="config.bsp.fsp.OFS0.wdt_window_end" value="config.bsp.fsp.OFS0.wdt_window_end.0"/>
-      <property id="config.bsp.fsp.OFS0.wdt_window_start" value="config.bsp.fsp.OFS0.wdt_window_start.100"/>
-      <property id="config.bsp.fsp.OFS0.wdt_reset_interrupt" value="config.bsp.fsp.OFS0.wdt_reset_interrupt.Reset"/>
-      <property id="config.bsp.fsp.OFS0.wdt_stop_control" value="config.bsp.fsp.OFS0.wdt_stop_control.stops"/>
-      <property id="config.bsp.fsp.OFS1.internal_clock_supply" value="config.bsp.fsp.OFS1.internal_clock_supply.type_a"/>
-      <property id="config.bsp.fsp.OFS1.voltage_detection0.start" value="config.bsp.fsp.OFS1.voltage_detection0.start.disabled"/>
-      <property id="config.bsp.fsp.OFS1.voltage_detection0_level" value="config.bsp.fsp.OFS1.voltage_detection0_level.190"/>
-      <property id="config.bsp.fsp.OFS1.hoco_osc" value="config.bsp.fsp.OFS1.hoco_osc.enabled"/>
       <property id="config.bsp.low_voltage_mode" value="config.bsp.low_voltage_mode.disabled"/>
-      <property id="config.bsp.fsp.mpu_pc0_enable" value="config.bsp.fsp.mpu_pc0_enable.disabled"/>
-      <property id="config.bsp.fsp.mpu_pc0_start" value="0x000FFFFC"/>
-      <property id="config.bsp.fsp.mpu_pc0_end" value="0x000FFFFF"/>
-      <property id="config.bsp.fsp.mpu_pc1_enable" value="config.bsp.fsp.mpu_pc1_enable.disabled"/>
-      <property id="config.bsp.fsp.mpu_pc1_start" value="0x000FFFFC"/>
-      <property id="config.bsp.fsp.mpu_pc1_end" value="0x000FFFFF"/>
-      <property id="config.bsp.fsp.mpu_reg0_enable" value="config.bsp.fsp.mpu_reg0_enable.disabled"/>
-      <property id="config.bsp.fsp.mpu_reg0_start" value="0x000FFFFC"/>
-      <property id="config.bsp.fsp.mpu_reg0_end" value="0x000FFFFF"/>
-      <property id="config.bsp.fsp.mpu_reg1_enable" value="config.bsp.fsp.mpu_reg1_enable.disabled"/>
-      <property id="config.bsp.fsp.mpu_reg1_start" value="0x200FFFFC"/>
-      <property id="config.bsp.fsp.mpu_reg1_end" value="0x200FFFFF"/>
-      <property id="config.bsp.fsp.mpu_reg2_enable" value="config.bsp.fsp.mpu_reg2_enable.disabled"/>
-      <property id="config.bsp.fsp.mpu_reg2_start" value="0x407FFFFC"/>
-      <property id="config.bsp.fsp.mpu_reg2_end" value="0x407FFFFF"/>
-      <property id="config.bsp.fsp.mpu_reg3_enable" value="config.bsp.fsp.mpu_reg3_enable.disabled"/>
-      <property id="config.bsp.fsp.mpu_reg3_start" value="0x400DFFFC"/>
-      <property id="config.bsp.fsp.mpu_reg3_end" value="0x400DFFFF"/>
       <property id="config.bsp.fsp.dcdc" value="config.bsp.fsp.dcdc.disabled"/>
       <property id="config.bsp.fsp.dcdc_range" value="config.bsp.fsp.dcdc_range.2v7_3v6"/>
       <property id="config.bsp.common.main_osc_wait" value="config.bsp.common.main_osc_wait.wait_8163"/>
@@ -83,18 +48,60 @@
       <property id="config.bsp.fsp.mcu.sci_uart.cstpen_channels" value="0x0"/>
       <property id="config.bsp.fsp.mcu.gpt.pin_count_source_channels" value="0xFFFF"/>
       <property id="config.bsp.fsp.mcu.rtc.err_adjustment_value.max_value" value="63"/>
-      <property id="config.bsp.common.id_mode" value="config.bsp.common.id_mode.unlocked"/>
-      <property id="config.bsp.common.id_code" value="FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"/>
-      <property id="config.bsp.common.id1" value=""/>
-      <property id="config.bsp.common.id2" value=""/>
-      <property id="config.bsp.common.id3" value=""/>
-      <property id="config.bsp.common.id4" value=""/>
-      <property id="config.bsp.common.id_fixed" value=""/>
-      <property id="config.bsp.common.fill_flash_gap" value="config.bsp.common.fill_flash_gap.disabled"/>
+    </config>
+    <config id="config.bsp.ra2l1.linker">
+      <property id="config.bsp.option_setting.ofs0" value="config.bsp.option_setting.ofs0.enabled"/>
+      <property id="config.bsp.option_setting.ofs0.iwdt_start_mode" value="config.bsp.option_setting.ofs0.iwdt_start_mode.disabled"/>
+      <property id="config.bsp.option_setting.ofs0.iwdt_timeout" value="config.bsp.option_setting.ofs0.iwdt_timeout.2048"/>
+      <property id="config.bsp.option_setting.ofs0.iwdt_divisor" value="config.bsp.option_setting.ofs0.iwdt_divisor.128"/>
+      <property id="config.bsp.option_setting.ofs0.iwdt_window_end" value="config.bsp.option_setting.ofs0.iwdt_window_end.0"/>
+      <property id="config.bsp.option_setting.ofs0.iwdt_window_start" value="config.bsp.option_setting.ofs0.iwdt_window_start.100"/>
+      <property id="config.bsp.option_setting.ofs0.iwdt_reset_interrupt" value="config.bsp.option_setting.ofs0.iwdt_reset_interrupt.Reset"/>
+      <property id="config.bsp.option_setting.ofs0.iwdt_stop_control" value="config.bsp.option_setting.ofs0.iwdt_stop_control.stops"/>
+      <property id="config.bsp.option_setting.ofs0.wdt_start_mode" value="config.bsp.option_setting.ofs0.wdt_start_mode.register"/>
+      <property id="config.bsp.option_setting.ofs0.wdt_timeout" value="config.bsp.option_setting.ofs0.wdt_timeout.16384"/>
+      <property id="config.bsp.option_setting.ofs0.wdt_divisor" value="config.bsp.option_setting.ofs0.wdt_divisor.128"/>
+      <property id="config.bsp.option_setting.ofs0.wdt_window_end" value="config.bsp.option_setting.ofs0.wdt_window_end.0"/>
+      <property id="config.bsp.option_setting.ofs0.wdt_window_start" value="config.bsp.option_setting.ofs0.wdt_window_start.100"/>
+      <property id="config.bsp.option_setting.ofs0.wdt_reset_interrupt" value="config.bsp.option_setting.ofs0.wdt_reset_interrupt.Reset"/>
+      <property id="config.bsp.option_setting.ofs0.wdt_stop_control" value="config.bsp.option_setting.ofs0.wdt_stop_control.stops"/>
+      <property id="config.bsp.option_setting.ofs1" value="config.bsp.option_setting.ofs1.enabled"/>
+      <property id="config.bsp.option_setting.ofs1.voltage_detection0.start" value="config.bsp.option_setting.ofs1.voltage_detection0.start.disabled"/>
+      <property id="config.bsp.option_setting.ofs1.voltage_detection0_level" value="config.bsp.option_setting.ofs1.voltage_detection0_level.190"/>
+      <property id="config.bsp.option_setting.ofs1.hoco_osc" value="config.bsp.option_setting.ofs1.hoco_osc.disabled"/>
+      <property id="config.bsp.option_setting.ofs1.internal_clock_supply" value="config.bsp.option_setting.ofs1.internal_clock_supply.type_a"/>
+      <property id="config.bsp.option_setting.secmpu" value="config.bsp.option_setting.secmpu.disabled"/>
+      <property id="config.bsp.option_setting.secmpu.pc0.enable" value="config.bsp.option_setting.secmpu.pc0.enable.disabled"/>
+      <property id="config.bsp.option_setting.secmpu.pc0.start" value="0x0003FFFC"/>
+      <property id="config.bsp.option_setting.secmpu.pc0.end" value="0x0003FFFF"/>
+      <property id="config.bsp.option_setting.secmpu.pc1.enable" value="config.bsp.option_setting.secmpu.pc1.enable.disabled"/>
+      <property id="config.bsp.option_setting.secmpu.pc1.start" value="0x0003FFFC"/>
+      <property id="config.bsp.option_setting.secmpu.pc1.end" value="0x0003FFFF"/>
+      <property id="config.bsp.option_setting.secmpu.region0.enable" value="config.bsp.option_setting.secmpu.region0.enable.disabled"/>
+      <property id="config.bsp.option_setting.secmpu.region0.start" value="0x0003FFFC"/>
+      <property id="config.bsp.option_setting.secmpu.region0.end" value="0x0003FFFF"/>
+      <property id="config.bsp.option_setting.secmpu.region1.enable" value="config.bsp.option_setting.secmpu.region1.enable.disabled"/>
+      <property id="config.bsp.option_setting.secmpu.region1.start" value="0x20007FFC"/>
+      <property id="config.bsp.option_setting.secmpu.region1.end" value="0x20007FFF"/>
+      <property id="config.bsp.option_setting.secmpu.region2.enable" value="config.bsp.option_setting.secmpu.region2.enable.disabled"/>
+      <property id="config.bsp.option_setting.secmpu.region2.start" value="0x400DFFFC"/>
+      <property id="config.bsp.option_setting.secmpu.region2.end" value="0x400DFFFF"/>
+      <property id="config.bsp.option_setting.secmpu.region3.enable" value="config.bsp.option_setting.secmpu.region3.enable.disabled"/>
+      <property id="config.bsp.option_setting.secmpu.region3.start" value="0x400DFFFC"/>
+      <property id="config.bsp.option_setting.secmpu.region3.end" value="0x400DFFFF"/>
+      <property id="config.bsp.option_setting.secmpu.enable" value=""/>
+      <property id="config.bsp.option_setting.osis" value="config.bsp.option_setting.osis.disabled"/>
+      <property id="config.bsp.option_setting.osis.id_mode" value="config.bsp.option_setting.osis.id_mode.unlocked"/>
+      <property id="config.bsp.option_setting.osis.id_code" value="FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"/>
+      <property id="config.bsp.option_setting.osis.id_fixed.1" value=""/>
+      <property id="config.bsp.option_setting.osis.id_fixed.2" value=""/>
+      <property id="config.bsp.option_setting.osis.id_fixed.3" value=""/>
+      <property id="config.bsp.option_setting.osis.id_fixed.4" value=""/>
     </config>
     <config id="config.bsp.ra">
       <property id="config.bsp.common.main" value="0x1000"/>
       <property id="config.bsp.common.heap" value="0x400"/>
+      <property id="config.bsp.common.bootloader.xip_enable" value="config.bsp.common.bootloader.xip_enable.disabled"/>
       <property id="config.bsp.common.vcc" value="3300"/>
       <property id="config.bsp.common.checking" value="config.bsp.common.checking.enabled"/>
       <property id="config.bsp.common.assert" value="config.bsp.common.assert.none"/>
@@ -127,131 +134,131 @@
     <node id="board.clock.clkout.display" option="board.clock.clkout.display.value"/>
   </raClockConfiguration>
   <raComponentSelection>
-    <component apiversion="" class="Libraries" condition="" group="coreMQTT" subgroup="source" variant="" vendor="AWS" version="2.3.1+fsp.6.0.0">
-      <description>AWS Core MQTT</description>
-      <originalPack>Amazon.coreMQTT.2.3.1+fsp.6.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Abstractions" condition="" group="PKCS11" subgroup="mbedtls" variant="" vendor="AWS" version="3.6.2+fsp.6.0.0">
-      <description>AWS PKCS11 to mbedTLS</description>
-      <originalPack>Amazon.corePKCS11.3.6.2+fsp.6.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra2l1" subgroup="device" variant="R7FA2L1AB2DFP" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="BSP" condition="" group="ra2l1" subgroup="device" variant="R7FA2L1AB2DFP" vendor="Renesas" version="6.1.0">
       <description>Board support package for R7FA2L1AB2DFP</description>
-      <originalPack>Renesas.RA_mcu_ra2l1.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra2l1.6.1.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra2l1" subgroup="device" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="BSP" condition="" group="ra2l1" subgroup="device" variant="" vendor="Renesas" version="6.1.0">
       <description>Board support package for RA2L1</description>
-      <originalPack>Renesas.RA_mcu_ra2l1.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra2l1.6.1.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra2l1" subgroup="fsp" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="BSP" condition="" group="ra2l1" subgroup="fsp" variant="" vendor="Renesas" version="6.1.0">
       <description>Board support package for RA2L1 - FSP Data</description>
-      <originalPack>Renesas.RA_mcu_ra2l1.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra2l1.6.1.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra2l1" subgroup="events" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="BSP" condition="" group="ra2l1" subgroup="events" variant="" vendor="Renesas" version="6.1.0">
       <description>Board support package for RA2L1 - Events</description>
-      <originalPack>Renesas.RA_mcu_ra2l1.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra2l1.6.1.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="6.0.0">
-      <description>Board Support Package Common Files</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+    <component apiversion="" class="BSP" condition="" group="ra2l1" subgroup="linker" variant="" vendor="Renesas" version="6.1.0">
+      <description>Board support package for RA2L1 - Linker</description>
+      <originalPack>Renesas.RA_mcu_ra2l1.6.1.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_dtc" variant="" vendor="Renesas" version="6.0.0">
-      <description>Data Transfer Controller</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_flash_lp" variant="" vendor="Renesas" version="6.0.0">
-      <description>Flash Memory Low Power</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="6.0.0">
-      <description>I/O Port</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_sce_ra2" variant="" vendor="Renesas" version="6.0.0">
-      <description>AES Engine on AES1</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_sci_uart" variant="" vendor="Renesas" version="6.0.0">
-      <description>SCI UART</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_aws_pkcs11_pal_littlefs" variant="" vendor="Renesas" version="6.0.0">
-      <description>AWS PCKS11 PAL on LittleFS</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_aws_sockets_wrapper_silex" variant="" vendor="Renesas" version="6.0.0">
-      <description>AWS Silex WiFi Sockets Wrapper</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_littlefs_flash" variant="" vendor="Renesas" version="6.0.0">
-      <description>LittleFS Flash Port</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_mbedtls" variant="" vendor="Renesas" version="6.0.0">
-      <description>Modified mbedTLS</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="rm_psa_crypto" variant="" vendor="Renesas" version="6.0.0">
-      <description>MbedCrypto H/W Acceleration</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="rm_wifi_onchip_silex" variant="" vendor="Renesas" version="6.0.0">
-      <description>WiFi Onchip Silex</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_wifi_api" variant="" vendor="Renesas" version="6.0.0">
-      <description>WiFi Common</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="CMSIS" condition="" group="Main" subgroup="CoreM" variant="" vendor="Arm" version="6.1.0+fsp.6.0.0">
-      <description>Arm CMSIS Version 6 - Core (M)</description>
-      <originalPack>Arm.CMSIS6.6.1.0+fsp.6.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra2l1_ek" variant="" vendor="Renesas" version="6.0.0">
-      <description>EK-RA2L1 Board Support Files</description>
-      <originalPack>Renesas.RA_board_ra2l1_ek.6.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="c_sdk" condition="" group="standard" subgroup="logging" variant="" vendor="AWS" version="202411.0.0+renesas.fsp.6.0.0">
-      <description>AWS Logging</description>
-      <originalPack>Amazon.FreeRTOS.202411.0.0+renesas.fsp.6.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="FreeRTOS_Plus" condition="" group="utilities" subgroup="mbedtls" variant="" vendor="AWS" version="202411.0.0+renesas.fsp.6.0.0">
-      <description>AWS MbedTLS FreeRTOS Port</description>
-      <originalPack>Amazon.FreeRTOS.202411.0.0+renesas.fsp.6.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Libraries" condition="" group="FreeRTOS_Plus" subgroup="MbedTLS_PKCS11_Transport" variant="" vendor="AWS" version="202411.0.0+renesas.fsp.6.0.0">
-      <description>AWS MbedTLS/PKCS11 Transport Interface</description>
-      <originalPack>Amazon.FreeRTOS.202411.0.0+renesas.fsp.6.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Libraries" condition="" group="FreeRTOS_Plus" subgroup="Plus_TCP_MbedTLS_Bio" variant="" vendor="AWS" version="202411.0.0+renesas.fsp.6.0.0">
-      <description>FreeRTOS+TCP MbedTLS Bio</description>
-      <originalPack>Amazon.FreeRTOS.202411.0.0+renesas.fsp.6.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="PSA" condition="" group="Crypto" subgroup="mbedCrypto" variant="" vendor="Arm" version="3.6.2+renesas.2.fsp.6.0.0">
-      <description>Arm PSA Crypto Implementation</description>
-      <originalPack>Arm.MbedCrypto.3.6.2+renesas.2.fsp.6.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="mbed" condition="" group="Security" subgroup="mbedTLS" variant="" vendor="Arm" version="3.6.2+renesas.2.fsp.6.0.0">
-      <description>Arm mbed TLS</description>
-      <originalPack>Arm.MbedTLS.3.6.2+renesas.2.fsp.6.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Mbed" condition="" group="Library" subgroup="LittleFS" variant="" vendor="Arm" version="2.2.1+renesas.1.fsp.6.0.0">
-      <description>Arm Mbed LittleFS</description>
-      <originalPack>Arm.LittleFS.2.2.1+renesas.1.fsp.6.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="RTOS" condition="" group="FreeRTOS" subgroup="all" variant="" vendor="AWS" version="11.1.0+fsp.6.0.0">
+    <component apiversion="" class="RTOS" condition="" group="FreeRTOS" subgroup="all" variant="" vendor="AWS" version="11.1.0+fsp.6.1.0">
       <description>FreeRTOS</description>
-      <originalPack>Amazon.FreeRTOS-Kernel.11.1.0+fsp.6.0.0.pack</originalPack>
+      <originalPack>Amazon.FreeRTOS-Kernel.11.1.0+fsp.6.1.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Heaps" condition="" group="FreeRTOS" subgroup="heap_5" variant="" vendor="AWS" version="11.1.0+fsp.6.0.0">
+    <component apiversion="" class="Heaps" condition="" group="FreeRTOS" subgroup="heap_5" variant="" vendor="AWS" version="11.1.0+fsp.6.1.0">
       <description>FreeRTOS - Memory Management - Heap 5</description>
-      <originalPack>Amazon.FreeRTOS-Kernel.11.1.0+fsp.6.0.0.pack</originalPack>
+      <originalPack>Amazon.FreeRTOS-Kernel.11.1.0+fsp.6.1.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra2l1" subgroup="linker" variant="" vendor="Renesas" version="6.0.0">
-        <description>Board support package for RA2L1 - Linker</description>
-        <originalPack>Renesas.RA_mcu_ra2l1.6.0.0.pack</originalPack>
-        </component> 
-    </raComponentSelection>
+    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra2l1_ek" variant="" vendor="Renesas" version="6.1.0">
+      <description>RA2L1-EK Board Support Files</description>
+      <originalPack>Renesas.RA_board_ra2l1_ek.6.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Mbed" condition="" group="Library" subgroup="LittleFS" variant="" vendor="Arm" version="2.2.1+renesas.1.fsp.6.1.0">
+      <description>Arm Mbed LittleFS</description>
+      <originalPack>Arm.LittleFS.2.2.1+renesas.1.fsp.6.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="PSA" condition="" group="Crypto" subgroup="mbedCrypto" variant="" vendor="Arm" version="3.6.2+renesas.3.fsp.6.1.0">
+      <description>Arm PSA Crypto Implementation</description>
+      <originalPack>Arm.MbedCrypto.3.6.2+renesas.3.fsp.6.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Libraries" condition="" group="coreMQTT" subgroup="source" variant="" vendor="AWS" version="2.3.1+fsp.6.1.0">
+      <description>AWS Core MQTT</description>
+      <originalPack>Amazon.coreMQTT.2.3.1+fsp.6.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="CMSIS" condition="" group="Main" subgroup="CoreM" variant="" vendor="Arm" version="6.1.0+fsp.6.1.0">
+      <description>Arm CMSIS Version 6 - Core (M)</description>
+      <originalPack>Arm.CMSIS6.6.1.0+fsp.6.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="c_sdk" condition="" group="standard" subgroup="logging" variant="" vendor="AWS" version="202411.0.0+renesas.1.fsp.6.1.0">
+      <description>AWS Logging</description>
+      <originalPack>Amazon.FreeRTOS.202411.0.0+renesas.1.fsp.6.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="FreeRTOS_Plus" condition="" group="utilities" subgroup="mbedtls" variant="" vendor="AWS" version="202411.0.0+renesas.1.fsp.6.1.0">
+      <description>AWS MbedTLS FreeRTOS Port</description>
+      <originalPack>Amazon.FreeRTOS.202411.0.0+renesas.1.fsp.6.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Libraries" condition="" group="FreeRTOS_Plus" subgroup="MbedTLS_PKCS11_Transport" variant="" vendor="AWS" version="202411.0.0+renesas.1.fsp.6.1.0">
+      <description>AWS MbedTLS/PKCS11 Transport Interface</description>
+      <originalPack>Amazon.FreeRTOS.202411.0.0+renesas.1.fsp.6.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Libraries" condition="" group="FreeRTOS_Plus" subgroup="Plus_TCP_MbedTLS_Bio" variant="" vendor="AWS" version="202411.0.0+renesas.1.fsp.6.1.0">
+      <description>FreeRTOS+TCP MbedTLS Bio</description>
+      <originalPack>Amazon.FreeRTOS.202411.0.0+renesas.1.fsp.6.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="mbed" condition="" group="Security" subgroup="mbedTLS" variant="" vendor="Arm" version="3.6.2+renesas.3.fsp.6.1.0">
+      <description>Arm mbed TLS</description>
+      <originalPack>Arm.MbedTLS.3.6.2+renesas.3.fsp.6.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Abstractions" condition="" group="PKCS11" subgroup="mbedtls" variant="" vendor="AWS" version="3.6.2+fsp.6.1.0">
+      <description>AWS PKCS11 to mbedTLS</description>
+      <originalPack>Amazon.corePKCS11.3.6.2+fsp.6.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="6.1.0">
+      <description>Board Support Package Common Files</description>
+      <originalPack>Renesas.RA.6.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_dtc" variant="" vendor="Renesas" version="6.1.0">
+      <description>Data Transfer Controller</description>
+      <originalPack>Renesas.RA.6.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_flash_lp" variant="" vendor="Renesas" version="6.1.0">
+      <description>Flash Memory Low Power</description>
+      <originalPack>Renesas.RA.6.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="6.1.0">
+      <description>I/O Port</description>
+      <originalPack>Renesas.RA.6.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_sce_ra2" variant="" vendor="Renesas" version="6.1.0">
+      <description>AES Engine on AES1</description>
+      <originalPack>Renesas.RA.6.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_sci_uart" variant="" vendor="Renesas" version="6.1.0">
+      <description>SCI UART</description>
+      <originalPack>Renesas.RA.6.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_aws_pkcs11_pal_littlefs" variant="" vendor="Renesas" version="6.1.0">
+      <description>AWS PCKS11 PAL on LittleFS</description>
+      <originalPack>Renesas.RA.6.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_aws_sockets_wrapper_silex" variant="" vendor="Renesas" version="6.1.0">
+      <description>AWS Silex WiFi Sockets Wrapper</description>
+      <originalPack>Renesas.RA.6.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_littlefs_flash" variant="" vendor="Renesas" version="6.1.0">
+      <description>LittleFS Flash Port</description>
+      <originalPack>Renesas.RA.6.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_mbedtls" variant="" vendor="Renesas" version="6.1.0">
+      <description>Modified mbedTLS</description>
+      <originalPack>Renesas.RA.6.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="rm_psa_crypto" variant="" vendor="Renesas" version="6.1.0">
+      <description>MbedCrypto H/W Acceleration</description>
+      <originalPack>Renesas.RA.6.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="rm_wifi_onchip_silex" variant="" vendor="Renesas" version="6.1.0">
+      <description>WiFi Onchip Silex</description>
+      <originalPack>Renesas.RA.6.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_wifi_api" variant="" vendor="Renesas" version="6.1.0">
+      <description>WiFi Common</description>
+      <originalPack>Renesas.RA.6.1.0.pack</originalPack>
+    </component>
+  </raComponentSelection>
   <raElcConfiguration/>
   <raIcuConfiguration/>
   <raLinkMapConfiguration/>
@@ -343,6 +350,7 @@
       <property id="module.middleware.rm_littlefs.name" value="g_rm_littlefs0"/>
       <property id="module.middleware.rm_littlefs.read_size" value="1"/>
       <property id="module.middleware.rm_littlefs.prog_size" value="4"/>
+      <property id="module.middleware.rm_littlefs.memory_start_address" value="BSP_FEATURE_FLASH_DATA_FLASH_START"/>
       <property id="module.middleware.rm_littlefs.block_size" value="128"/>
       <property id="module.middleware.rm_littlefs.block_count" value="(BSP_DATA_FLASH_SIZE_BYTES/128)"/>
       <property id="module.middleware.rm_littlefs.block_cycles" value="1024"/>
@@ -453,6 +461,7 @@
       <property id="config.driver.psa_crypto.rsa_format" value="config.driver.psa_crypto.rsa_format.plaintext"/>
       <property id="config.driver.psa_crypto.sha256_alt" value="config.driver.psa_crypto.sha256_alt.disabled"/>
       <property id="config.driver.psa_crypto.sha512_alt" value="config.driver.psa_crypto.sha512_alt.disabled"/>
+      <property id="config.driver.psa_crypto.sha3_alt" value="config.driver.psa_crypto.sha3_alt.disabled"/>
       <property id="config.driver.psa_crypto.aes_alt" value="config.driver.psa_crypto.aes_alt.enabled"/>
       <property id="config.driver.psa_crypto.mbedtls_ecp_alt" value="config.driver.psa_crypto.ecp_alt.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_ecdsa_alt" value="config.driver.psa_crypto.ecdsa_alt.disabled"/>
@@ -616,6 +625,8 @@
       <property id="config.driver.psa_crypto.mbedtls_md_c" value="config.driver.psa_crypto.mbedtls_md_c.enabled"/>
       <property id="config.driver.psa_crypto.mbedtls_md5_c" value="config.driver.psa_crypto.mbedtls_md5_c.enabled"/>
       <property id="config.driver.psa_crypto.mbedtls_memory_buffer_alloc_c" value="config.driver.psa_crypto.mbedtls_memory_buffer_alloc_c.disabled"/>
+      <property id="config.driver.psa_crypto.mbedtls_mlkem_c" value="config.driver.psa_crypto.mbedtls_mlkem_c.disabled"/>
+      <property id="config.driver.psa_crypto.mbedtls_mldsa_c" value="config.driver.psa_crypto.mbedtls_mldsa_c.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_oid_c" value="config.driver.psa_crypto.mbedtls_oid_c.enabled"/>
       <property id="config.driver.psa_crypto.mbedtls_pem_parse_c" value="config.driver.psa_crypto.mbedtls_pem_parse_c.enabled"/>
       <property id="config.driver.psa_crypto.mbedtls_pem_write_c" value="config.driver.psa_crypto.mbedtls_pem_write_c.enabled"/>
@@ -769,6 +780,7 @@
     </config>
     <config id="config.driver.ioport">
       <property id="config.driver.ioport.checking" value="config.driver.ioport.checking.system"/>
+      <property id="config.driver.ioport.ccd_support_enable" value="config.driver.ioport.ccd_support_enable.disabled"/>
     </config>
     <config id="config.aws.pkcs11.mbedtls">
       <property id="config.aws.pkcs11.mbedtls.custom_pkcs11_config" value=""/>

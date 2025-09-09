@@ -1,4 +1,4 @@
-/* Copyright 2021 The TensorFlow Authors. All Rights Reserved.
+/* Copyright 2025 The TensorFlow Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -20,9 +20,16 @@ limitations under the License.
 #include "tensorflow/lite/kernels/internal/compatibility.h"
 #include "tensorflow/lite/micro/flatbuffer_utils.h"
 #include "tensorflow/lite/micro/memory_helpers.h"
+#include "tensorflow/lite/micro/micro_context.h"
 #include "tensorflow/lite/micro/micro_log.h"
 #include "tensorflow/lite/micro/micro_profiler.h"
 #include "tensorflow/lite/schema/schema_generated.h"
+
+#ifdef USE_TFLM_COMPRESSION
+
+#include "tensorflow/lite/micro/micro_context.h"
+
+#endif  // USE_TFLM_COMPRESSION
 
 namespace tflite {
 namespace {
@@ -115,6 +122,9 @@ TfLiteStatus MicroInterpreterGraph::PrepareSubgraphs() {
                       current_operator_index_, prepare_status);
           return kTfLiteError;
         }
+#ifdef USE_TFLM_COMPRESSION
+        GetMicroContext(context_)->ResetDecompressionMemoryAllocations();
+#endif  // USE_TFLM_COMPRESSION
       }
       allocator_->FinishPrepareNodeAllocations(
           /*node_id=*/current_operator_index_);
@@ -217,6 +227,9 @@ TfLiteStatus MicroInterpreterGraph::InvokeSubgraph(int subgraph_idx) {
 
     TFLITE_DCHECK(registration->invoke);
     TfLiteStatus invoke_status = registration->invoke(context_, node);
+#ifdef USE_TFLM_COMPRESSION
+    GetMicroContext(context_)->ResetDecompressionMemoryAllocations();
+#endif  // USE_TFLM_COMPRESSION
 
     // All TfLiteTensor structs used in the kernel are allocated from temp
     // memory in the allocator. This creates a chain of allocations in the
@@ -224,12 +237,12 @@ TfLiteStatus MicroInterpreterGraph::InvokeSubgraph(int subgraph_idx) {
     // prepare for the next call.
     allocator_->ResetTempAllocations();
 
-    if (invoke_status == kTfLiteError) {
-      MicroPrintf("Node %s (number %d) failed to invoke with status %d",
-                  OpNameFromRegistration(registration), current_operator_index_,
-                  invoke_status);
-      return kTfLiteError;
-    } else if (invoke_status != kTfLiteOk) {
+    if (invoke_status != kTfLiteOk) {
+      if (invoke_status != kTfLiteAbort) {
+        MicroPrintf("Node %s (number %d) failed to invoke with status %d",
+                    OpNameFromRegistration(registration),
+                    current_operator_index_, invoke_status);
+      }
       return invoke_status;
     }
   }

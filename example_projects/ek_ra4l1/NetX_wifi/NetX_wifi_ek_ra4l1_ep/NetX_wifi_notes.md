@@ -13,9 +13,9 @@ for general information on example projects and [readme.txt](./readme.txt) for s
 To build and run the NetX Wifi example project, the following resources are needed.
 
 ### Software ###
-* Renesas Flexible Software Package (FSP): Version 5.9.0
-* e2 studio: Version 2025-04
-* SEGGER J-Link RTT Viewer: Version 8.12f
+* Renesas Flexible Software Package (FSP): Version 6.1.0
+* e2 studio: Version 2025-07
+* SEGGER J-Link RTT Viewer: Version 8.58
 * GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 * Sokit software is required for creation of TCP server over specified IP and port (detailed steps mentioned below).
 Download Link : https://softfamous.com/sokit/
@@ -40,7 +40,7 @@ For EK-RA6M1, EK-RA6M2, EK-RA4M1:
 Connect
 * Renesas Silex UART Pmod ----> PMOD A (J5)
 
-For EK-RA2L1, FPB-RA4E1, FPB-RA6E1, EK-RA4E2, EK-RA6E2, MCK-RA4T1, MCK-RA6T3, EK-RA8M1, EK-RA8D1, FPB-RA8E1:  
+For EK-RA2L1, FPB-RA4E1, FPB-RA6E1, EK-RA4E2, EK-RA6E2, MCK-RA4T1, MCK-RA6T3, EK-RA8M1, EK-RA8D1:  
 Connect
 * Renesas Silex UART Pmod ----> PMOD 2
 
@@ -59,6 +59,10 @@ Connect
 * Renesas Silex UART Pmod (CN1:5) ----> GND
 * Renesas Silex UART Pmod (CN1:6) ----> VCC
 * Renesas Silex UART Pmod (CN1:8) ----> P203 (J3:9)
+
+For FPB-RA8E1:  
+Connect
+* Renesas Silex UART Pmod ----> PMOD 1
 
 For EK-RA4L1:  
 Connect

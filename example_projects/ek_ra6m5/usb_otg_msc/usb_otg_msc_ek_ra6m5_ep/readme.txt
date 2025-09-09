@@ -33,9 +33,9 @@
 		- RA boards that support J-Link OB VCOM: EK-RA8M1, EK-RA8D1, and MCK-RA8T1.
 
 2. Software Requirements
-	Renesas Flexible Software Package (FSP): Version 6.0.0
-	e2 studio: Version 2025-04.1
-	SEGGER J-Link RTT Viewer: Version 8.44a
+	Renesas Flexible Software Package (FSP): Version 6.1.0
+	e2 studio: Version 2025-07
+	SEGGER J-Link RTT Viewer: Version 8.58
 	GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 	Terminal Console Application: Tera Term or a similar application
 
@@ -278,7 +278,7 @@ Note:
 	
     2. Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
        RTT Block address for hex file committed in repository are as follows:
-       a. e2studio: 0x2000346c
+   a. e2studio: 0x2000346c
        b. Keil: 	Not Available 
        c. IAR: 	    Not Available
     

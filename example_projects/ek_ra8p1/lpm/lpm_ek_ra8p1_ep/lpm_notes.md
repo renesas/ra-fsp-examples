@@ -18,8 +18,8 @@ To build and run the LPM example project, the following resources are needed.
 Refer to [readme.txt](./readme.txt) for information on how to connect the hardware.
 
 ### Software ###
-* Renesas Flexible Software Package (FSP): Version 6.0.0
-* e2 studio: Version 2025-04.1
+* Renesas Flexible Software Package (FSP): Version 6.1.0
+* e2 studio: Version 2025-07
 * LLVM Embedded Toolchain for ARM: Version 18.1.3
 * Terminal Console Application: Tera Term or a similar application
 

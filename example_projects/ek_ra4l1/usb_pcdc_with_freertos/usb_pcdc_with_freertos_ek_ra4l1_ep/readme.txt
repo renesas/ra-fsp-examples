@@ -12,9 +12,9 @@
         Tera Term. The status of the application will be displayed on J-Link RTT Viewer.
 
 2. Software Requirements:
-	Renesas Flexible Software Package (FSP): Version 6.0.0
-	e2 studio: Version 2025-04.1
-	SEGGER J-Link RTT Viewer: Version 8.44a
+	Renesas Flexible Software Package (FSP): Version 6.1.0
+	e2 studio: Version 2025-07
+	SEGGER J-Link RTT Viewer: Version 8.58
 	GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 	Terminal Console Application: Tera Term or a similar application
 	USB Serial Drivers

@@ -50,7 +50,7 @@ fsp_err_t get_user_input(char * user_buff)
     /*Remove new line character from Input password String*/
     while(*user_buff)
     {
-        if(* user_buff=='\n')
+        if((* user_buff == '\r' ) || (* user_buff == '\n' ))
         {
             *user_buff = NULL_CHAR;
         }
@@ -156,6 +156,7 @@ fsp_err_t scan_and_select(void)
         PRINT_STR("Enter password for");
         PRINT_STR(g_wifi.ssid);
         get_user_input(input_buff);
+        memcpy(g_wifi.pwd, input_buff,sizeof(g_wifi.pwd));
     }
     return err;
 }

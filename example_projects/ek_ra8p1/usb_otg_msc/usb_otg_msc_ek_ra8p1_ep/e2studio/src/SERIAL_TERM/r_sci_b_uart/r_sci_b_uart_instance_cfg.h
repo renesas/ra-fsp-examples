@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 #include "bsp_api.h"
 
-#if (BSP_FEATURE_SCI_VERSION == 2U)
+#if BSP_PERIPHERAL_SCI_B_PRESENT
 #include "r_sci_b_uart.h"
 #include "../r_uart_api.h"
 
@@ -40,6 +40,6 @@ extern const sci_b_uart_extended_cfg_t g_serial_cfg_extend;
 void serial_callback(uart_callback_args_t *p_args);
 #endif
 
-#endif /* BSP_FEATURE_SCI_VERSION */
+#endif /* BSP_PERIPHERAL_SCI_B_PRESENT */
 #endif /* USE_VIRTUAL_COM */
 #endif /* R_SCI_B_UART_INSTANCE_CFG_H_ */

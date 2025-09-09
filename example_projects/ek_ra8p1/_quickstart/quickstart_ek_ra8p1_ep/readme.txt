@@ -11,15 +11,15 @@
         There is a serial console which can be activated by connecting USB cable to DEBUG1 (J10), 
         connection settings are Speed 115200, Data 8-bit, Parity None, Stop 1-bit, Flow Control None.
         Once application is running the user can control the board by button presses on the board and see regularly updated 
-        board configuration on the kit information screen using the serila console. 
+        board configuration on the kit information screen using the serial console. 
         Attaching the LCD panel (supplied) a user can interact with the application using the screen.
         Attach OV5640 camera module in addition to the panel to allow 'Display' demo on application menu or option 4 on console
         to show live image, please read the following document for full description of the application:
         r20qs0051eg Evaluation Kit for RA8P1 Microcontroller Group EK-RA8P1 v1 Quick Start Guide.
 
 2. Software Requirements:
-        Renesas Flexible Software Package (FSP): Version 6.0.0
-        e2 studio: Version 2025-04.1
+        Renesas Flexible Software Package (FSP): Version 6.1.0
+        e2 studio: Version 2025-07
         Terminal Console Application: Tera Term or a similar application
         USB Serial Drivers (included in Windows 10) 
         Windows® 10 operating system

@@ -213,8 +213,8 @@ namespace app {
 
             e_printf("%" PRIu32 ") (%f) -> %s {x=%f,y=%f,w=%f,h=%f}", i,
                 results[i].m_normalisedVal, "Detection box:",
-				DST_WIDTH - results[i].m_x0*1.0, results[i].m_y0*1.0, results[i].m_w*1.0, results[i].m_h*1.0 );
-            update_detection_result(i, DST_WIDTH - results[i].m_x0, results[i].m_y0, results[i].m_w, results[i].m_h );
+				results[i].m_x0*1.0, results[i].m_y0*1.0, results[i].m_w*1.0, results[i].m_h*1.0 );
+            update_detection_result(i,results[i].m_x0, results[i].m_y0, results[i].m_w, results[i].m_h );
         }
 
         return true;

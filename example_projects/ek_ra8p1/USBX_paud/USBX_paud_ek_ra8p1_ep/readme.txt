@@ -15,9 +15,9 @@
 	Viewer which will be handled in separate thread.
  
 2. Software Requirements:
-	Renesas Flexible Software Package (FSP): Version 6.0.0
-	e2 studio: Version 2025-04.1
-	SEGGER J-Link RTT Viewer: Version 8.44a
+	Renesas Flexible Software Package (FSP): Version 6.1.0
+	e2 studio: Version 2025-07
+	SEGGER J-Link RTT Viewer: Version 8.58
 	LLVM Embedded Toolchain for ARM: Version 18.1.3
 	Audacity v3.7.3 (Audio Player/Recorder)
 	     

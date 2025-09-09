@@ -15,7 +15,6 @@
 /* Local functions */
 static void process_rtt_op_msg(VOID);
 static UINT memory_allocate_rtt(TX_BYTE_POOL *pool, rtt_msg_t **p_buf, uint32_t size);
-static uint32_t trim_newline(char *str);
 
 extern TX_THREAD rtt_thread;
 
@@ -48,7 +47,6 @@ void rtt_thread_entry(void)
         if (APP_CHECK_DATA)
         {
             UINT read_bytes = APP_READ(rtt_buffer);
-            read_bytes = trim_newline((char *) rtt_buffer);
             err = memory_allocate_rtt(&g_byte_pool, &p_data, sizeof(rtt_msg_t) + read_bytes + 1);
             if (TX_SUCCESS != err)
             {
@@ -356,17 +354,3 @@ VOID rtt_thread_init_check(VOID)
 #endif
 }
 
-/**********************************************************************************************************************
- *  @brief      Removes trailing newline ('\n') and carriage return ('\r') characters from a string.
- *  @param[in]  str: str pointer.
- *  @retval     len: The length of the string after trimming.
- *********************************************************************************************************************/
-uint32_t trim_newline(char *str)
-{
-    uint32_t len = strlen(str);
-    while (len > 0 && (str[len - 1] == '\n' || str[len - 1] == '\r'))
-    {
-        str[--len] = '\0';
-    }
-    return len;
-}

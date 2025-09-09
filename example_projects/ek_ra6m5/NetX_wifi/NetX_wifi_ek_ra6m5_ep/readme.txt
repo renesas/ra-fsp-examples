@@ -5,14 +5,14 @@
 
 Project Overview:
 	The example project demonstrates the functionalities of NetX Duo WiFi Driver using Azure RTOS running on Renesas RA MCUs using Renesas 
-	Silex UART Pmod hardware.The project utilises some functionalities of WiFi_OnChip_Silex module which are not supported by Netx Duo.The project gives user options to either scan WiFi networks or manually enter network credentials 
+	Silex UART Pmod hardware. The project utilises some functionalities of WiFi_OnChip_Silex module which are not supported by Netx Duo. The project gives user options to either scan WiFi networks or manually enter network credentials 
 	in JlinkRTTViewer and connect. Then it performs ping operation on user entered URL or IP address. If successful,  
 	'Ping Successful' message printed on JlinkRTTViewer. The project also demonstrates TCP socket operations in client mode. It tries
 	connecting to the user entered TCP server IP address and port number. It is expected that TCP socket in server mode would be 
 	running on user PC and listening on a free port before the EP tries to connect. Once connected to the TCP server, the user 
 	should send 'on' or 'off' message from the server. Based on the message, on-board user LED would turn on/off and the same 
 	would be displayed on JlinkRTTViewer. If an invalid message is received, then previous LED state would be maintained.
-	After receiving messages from the server, appropriate acknowledgment  messages are sent to the server.
+	After receiving messages from the server, appropriate acknowledgment messages are sent to the server.
 
 Project setup:
 
@@ -28,7 +28,7 @@ Project setup:
 
 	Hardware connection:
 	********************
-	EK-RA4M2/EK-RA4M3/EK-RA6M3/EK-RA6M4/EK-RA6M5/FPB-RA4E1/FPB-RA6E1:
+	EK-RA4M2/EK-RA4M3/EK-RA6M3/EK-RA6M4/EK-RA6M5:
 	-----------
 	Connect
 	Renesas Silex UART Pmod ----> PMOD 1 (J26)	
@@ -38,7 +38,7 @@ Project setup:
 	Connect
 	Renesas Silex UART Pmod ----> PMOD A (J5)
 
-        EK-RA2L1
+        EK-RA2L1/FPB-RA4E1/FPB-RA6E1:
         -----------
         Connect
         Renesas Silex UART Pmod ----> PMOD 2 
@@ -69,7 +69,7 @@ Sokit setup on PC as TCP server:
 
 1) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x20001154
+   a. e2studio: 0x2000255c
    b. Keil: Not Available 
    c. IAR: Not Available
  

@@ -28,7 +28,7 @@
 NOTE  : User should wait for message "Ethernet link is up." on RTT viewer for ethernet/network link up status case and please wait for 10s to connect with server before start DHCPv6 server.
 1) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x22000960
+   a. e2studio: 0x22001160
    b. Keil: Not Available 
    c. IAR: Not Available
  

@@ -20,10 +20,10 @@ To build and run the SDADC example project, the following resources are needed.
 ![hardware_connection](images/hardware_connection.jpg "Hardware Connection")
 
 ### Software ###
-* e2studio version 2024-01
-* FSP version 5.2.0
-* J-Link RTT Viewer version 7.94d
-* GCC ARM Embedded toolchain version 13.2.1.arm-13-7
+* Renesas Flexible Software Package (FSP): Version 6.1.0
+* e2 studio: Version 2025-07
+* SEGGER J-Link RTT Viewer: Version 8.58
+* GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 
 Refer to the software required section in [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf)
 

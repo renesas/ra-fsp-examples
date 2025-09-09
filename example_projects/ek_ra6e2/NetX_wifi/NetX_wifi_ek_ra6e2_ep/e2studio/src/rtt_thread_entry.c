@@ -48,7 +48,7 @@ void rtt_thread_entry(void)
         {
             UINT read_bytes = APP_READ(rtt_buffer);
 
-            err = memory_allocate_rtt(&byte_pool, &p_data, sizeof(rtt_msg_t) + read_bytes);
+            err = memory_allocate_rtt(&byte_pool, &p_data, sizeof(rtt_msg_t) + read_bytes + 1);
             if (TX_SUCCESS != err)
             {
                 APP_PRINT("Error in processing, please check again\r\n")
@@ -343,3 +343,4 @@ VOID rtt_thread_init_check(VOID)
     }while(err==TX_SUCCESS);
 #endif
 }
+

@@ -13,9 +13,9 @@
 	To see user input values on Serial terminal, enable local echo option.
 
 2. Software Requirements:
-	Renesas Flexible Software Package (FSP): Version 6.0.0
-	e2 studio: Version 2025-04.1
-	SEGGER J-Link RTT Viewer: Version 8.44a
+	Renesas Flexible Software Package (FSP): Version 6.1.0
+	e2 studio: Version 2025-07
+	SEGGER J-Link RTT Viewer: Version 8.58
 	LLVM Embedded Toolchain for ARM: Version 18.1.3
 	Terminal Console Application: Tera Term or a similar application.
 
@@ -118,9 +118,9 @@
 Note:
 1) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x22060040
+   a. e2studio: 0x22060450
    b. Keil:	0x22060850
-   c. IAR: 0x22060900
+   c. IAR: 0x22060904
 	 
 2) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) 
    in .map file generated in the build configuration folder (Debug/Release).

@@ -29,8 +29,8 @@
       Link to access Quick Start Guide - https://www.renesas.com/us/en/document/qsg/ek-ra6m1-quick-start-guide
    
 2. Software Requirements:
-        Renesas Flexible Software Package (FSP): Version 6.0.0
-        e2 studio: Version 2025-04.1
+        Renesas Flexible Software Package (FSP): Version 6.1.0
+        e2 studio: Version 2025-07
         GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
         Terminal Console Application: Tera Term or a similar application
         USB Serial Drivers (included in Windows 10) 

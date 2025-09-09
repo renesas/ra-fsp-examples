@@ -75,15 +75,26 @@
                                              (uint32_t) IOPORT_PERIPHERAL_UARTA5)
   #define SERIAL_PIN_TX_CFG                 ((uint32_t) IOPORT_CFG_PERIPHERAL_PIN | \
                                              (uint32_t) IOPORT_PERIPHERAL_UARTA5_OUT)
+
 #elif defined(BOARD_RA8P1_EK)
   #define SERIAL_CHANNEL                    (8U)
   #define SERIAL_RX_PIN                     (BSP_IO_PORT_13_PIN_03)
   #define SERIAL_TX_PIN                     (BSP_IO_PORT_13_PIN_02)
   #define SERIAL_PIN_CFG                    ((uint32_t) IOPORT_CFG_DRIVE_HIGH | \
-                                             (uint32_t) IOPORT_CFG_PERIPHERAL_PIN | \
-                                             (uint32_t) IOPORT_PERIPHERAL_SCI0_2_4_6_8)
+                                            (uint32_t) IOPORT_CFG_PERIPHERAL_PIN | \
+                                            (uint32_t) IOPORT_PERIPHERAL_SCI0_2_4_6_8)
   #define SERIAL_PIN_RX_CFG                  (SERIAL_PIN_CFG)
   #define SERIAL_PIN_TX_CFG                  (SERIAL_PIN_CFG)
+
+#elif defined(BOARD_RA0L1_FPB)
+  #define SERIAL_CHANNEL                    (1U)
+  #define SERIAL_RX_PIN                     (BSP_IO_PORT_01_PIN_05)
+  #define SERIAL_TX_PIN                     (BSP_IO_PORT_01_PIN_06)
+  #define SERIAL_PIN_RX_CFG                 ((uint32_t) IOPORT_CFG_PERIPHERAL_PIN | \
+                                             (uint32_t) IOPORT_PERIPHERAL_UARTA4)
+  #define SERIAL_PIN_TX_CFG                 ((uint32_t) IOPORT_CFG_PERIPHERAL_PIN | \
+                                             (uint32_t) IOPORT_PERIPHERAL_UARTA4_OUT)
+
 #endif
 
 /* Macros for the UART baud rate configuration */
@@ -121,6 +132,8 @@
 #elif SERIAL_CHANNEL == 1
   #if defined(VECTOR_NUMBER_SCI1_RXI)
     #define VECTOR_NUMBER_UARTX_RXI (VECTOR_NUMBER_SCI1_RXI)
+  #elif defined (VECTOR_NUMBER_UARTA1_RXI)
+    #define VECTOR_NUMBER_UARTX_RXI (VECTOR_NUMBER_UARTA1_RXI)
   #endif
 #elif SERIAL_CHANNEL == 2
   #if defined(VECTOR_NUMBER_SCI2_RXI)
@@ -165,6 +178,8 @@
 #elif SERIAL_CHANNEL == 1
   #if defined(VECTOR_NUMBER_SCI1_TXI)
     #define VECTOR_NUMBER_UARTX_TXI (VECTOR_NUMBER_SCI1_TXI)
+  #elif defined (VECTOR_NUMBER_UARTA1_TXI)
+    #define VECTOR_NUMBER_UARTX_TXI (VECTOR_NUMBER_UARTA1_TXI)
   #endif
 #elif SERIAL_CHANNEL == 2
   #if defined(VECTOR_NUMBER_SCI2_TXI)
@@ -251,6 +266,8 @@
 #elif SERIAL_CHANNEL == 1
   #if defined(VECTOR_NUMBER_SCI1_ERI)
     #define VECTOR_NUMBER_UARTX_ERI (VECTOR_NUMBER_SCI1_ERI)
+  #elif defined (VECTOR_NUMBER_UARTA1_ERRI)
+    #define VECTOR_NUMBER_UARTX_ERI (VECTOR_NUMBER_UARTA1_ERRI)
   #endif
 #elif SERIAL_CHANNEL == 2
   #if defined(VECTOR_NUMBER_SCI2_ERI)

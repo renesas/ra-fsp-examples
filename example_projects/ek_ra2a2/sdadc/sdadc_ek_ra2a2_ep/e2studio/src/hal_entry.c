@@ -3,7 +3,7 @@
  * Description  : Contains data structures and functions used in hal_entry.c.
  **********************************************************************************************************************/
 /***********************************************************************************************************************
-* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
+* Copyright (c) 2020 - 2025 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
 ***********************************************************************************************************************/
@@ -15,28 +15,14 @@
  * @{
  **********************************************************************************************************************/
 
-#if defined(BOARD_RA2A1_EK)
-    #define BSP_FEATURE_SDADC_VERSION           (1U)
-#else
-    #define BSP_FEATURE_SDADC_VERSION           (2U)
-#endif
-
 void R_BSP_WarmStart(bsp_warm_start_event_t event);
 
-#if (BSP_FEATURE_SDADC_VERSION == 1U)
+#if (BSP_PERIPHERAL_SDADC_PRESENT == 1U)
 /*
  * static variables declaration
  */
 /* Flag to notify successful calibration completion */
 static volatile bool b_is_calibration_complete = false;
-
-float vref_volt[LEN] = {VREF_VOLT_0_8_V, VREF_VOLT_1_0_V, VREF_VOLT_1_2_V,
-                        VREF_VOLT_1_4_V, VREF_VOLT_1_6_V, VREF_VOLT_1_8_V,
-                        VREF_VOLT_2_0_V, VREF_VOLT_2_2_V};
-#else
-#define VREF_VOLT           (0.69F)
-#define VREF_FULL_SCALE     (VREF_VOLT * 2.0)
-extern const sdadc_b_scan_cfg_t g_sdadc_channel_cfg;
 #endif
 
 /*******************************************************************************************************************//**
@@ -52,7 +38,6 @@ void hal_entry(void)
     float voltageOut = RESET_VALUE;
     char dataBuff[BUFF_SIZE] = {RESET_VALUE};
 
-
     /* version get API for FLEX pack information */
     R_FSP_VersionGet (&version);
 
@@ -61,7 +46,7 @@ void hal_entry(void)
     APP_PRINT(EP_INFO);
 
     /* Open the SDADC channel */
-#if (BSP_FEATURE_SDADC_VERSION == 1U)
+#if (BSP_PERIPHERAL_SDADC_PRESENT == 1U)
     err = R_SDADC_Open (&g_sdadc_ctrl, &g_sdadc_cfg);
 #else
     err = R_SDADC_B_Open (&g_sdadc_ctrl, &g_sdadc_cfg);
@@ -75,7 +60,7 @@ void hal_entry(void)
     }
 
     /* Configures the enabled channels of the ADC */
-#if (BSP_FEATURE_SDADC_VERSION == 1U)
+#if (BSP_PERIPHERAL_SDADC_PRESENT == 1U)
     err = R_SDADC_ScanCfg (&g_sdadc_ctrl, &g_sdadc_channel_cfg);
 #else
     err = R_SDADC_B_ScanCfg (&g_sdadc_ctrl, &g_sdadc_channel_cfg);
@@ -85,7 +70,7 @@ void hal_entry(void)
     {
         APP_ERR_PRINT("\r\n ** SDADC configure channel fails ** \r\n");
         /* close the SDADC module */
-#if (BSP_FEATURE_SDADC_VERSION == 1U)
+#if (BSP_PERIPHERAL_SDADC_PRESENT == 1U)
         if (FSP_SUCCESS != R_SDADC_Close (&g_sdadc_ctrl))
 #else
         if (FSP_SUCCESS != R_SDADC_B_Close (&g_sdadc_ctrl))
@@ -96,8 +81,8 @@ void hal_entry(void)
         APP_ERR_TRAP(err);
     }
 
-#if (BSP_FEATURE_SDADC_VERSION == 1U)
-    /* Calibrate the differential channel which is channel 1 here. */
+#if (BSP_PERIPHERAL_SDADC_PRESENT == 1U)
+    /* Calibrate the differential channel which is channel 2 here. */
     sdadc_calibrate_args_t calibrate_args;
     calibrate_args.mode = SDADC_CALIBRATION_INTERNAL_GAIN_OFFSET;
     calibrate_args.channel = ADC_CHANNEL_2;
@@ -126,7 +111,7 @@ void hal_entry(void)
     }
 #endif
 
-#if (BSP_FEATURE_SDADC_VERSION == 1U)
+#if (BSP_PERIPHERAL_SDADC_PRESENT == 1U)
     /* Start the scan if the calibration is completed successfully*/
     if (b_is_calibration_complete)
     {
@@ -135,7 +120,7 @@ void hal_entry(void)
         APP_PRINT("\r\n ** SDADC Scan start initiated ** \r\n");
 
         /* In software trigger mode, start a scan by calling R_SDADC_ScanStart() */
-#if (BSP_FEATURE_SDADC_VERSION == 1U)
+#if (BSP_PERIPHERAL_SDADC_PRESENT == 1U)
         err = R_SDADC_ScanStart (&g_sdadc_ctrl);
 #else
         err = R_SDADC_B_ScanStart (&g_sdadc_ctrl);
@@ -145,7 +130,7 @@ void hal_entry(void)
         {
             APP_ERR_PRINT("\r\n ** SDADC scanstart failed ** \r\n");
             /* close the SDADC module */
-#if (BSP_FEATURE_SDADC_VERSION == 1U)
+#if (BSP_PERIPHERAL_SDADC_PRESENT == 1U)
             if (FSP_SUCCESS != R_SDADC_Close (&g_sdadc_ctrl))
 #else
             if (FSP_SUCCESS != R_SDADC_B_Close (&g_sdadc_ctrl))
@@ -158,7 +143,7 @@ void hal_entry(void)
         }
 
         APP_PRINT("\r\n ** SDADC Scan start is successful ** \r\n");
-#if (BSP_FEATURE_SDADC_VERSION == 1U)
+#if (BSP_PERIPHERAL_SDADC_PRESENT == 1U)
     }
     else
     {
@@ -172,7 +157,7 @@ void hal_entry(void)
     }
 #endif
 
-#if (BSP_FEATURE_SDADC_VERSION == 2U)
+#if (BSP_PERIPHERAL_SDADC_B_PRESENT == 1U)
     /* Wait for setup time to complete. */
     adc_status_t status;
     status.state = ADC_STATE_IDLE;
@@ -187,7 +172,7 @@ void hal_entry(void)
     {
 
         /* Read converted data from channel 0. */
-#if (BSP_FEATURE_SDADC_VERSION == 1U)
+#if (BSP_PERIPHERAL_SDADC_PRESENT == 1U)
         err = R_SDADC_Read32(&g_sdadc_ctrl, ADC_CHANNEL_0, (uint32_t*)&channel_conversion_result);
 #else
         err = R_SDADC_B_Read32(&g_sdadc_ctrl, ADC_CHANNEL_0, (uint32_t*)&channel_conversion_result);
@@ -197,7 +182,7 @@ void hal_entry(void)
         {
             APP_ERR_PRINT("\r\n ** SDADC Read from channel 0 failed ** \r\n");
             /* close the SDADC module */
-#if (BSP_FEATURE_SDADC_VERSION == 1U)
+#if (BSP_PERIPHERAL_SDADC_PRESENT == 1U)
             if (FSP_SUCCESS != R_SDADC_Close (&g_sdadc_ctrl))
 #else
             if (FSP_SUCCESS != R_SDADC_B_Close (&g_sdadc_ctrl))
@@ -208,15 +193,13 @@ void hal_entry(void)
             APP_ERR_TRAP(err);
         }
 
-#if (BSP_FEATURE_SDADC_VERSION == 1U)
+#if (BSP_PERIPHERAL_SDADC_PRESENT == 1U)
         /*
          * Conversion of SDADC out to voltage
-         *single-ended input  = vref_voltage × (ADCDATA / 2^24) + 0.2 V: page number 999 of ra2a1 manual
+         *single-ended input  = 1.6 × (ADCDATA / 2^24) + 0.2 V: page number 1001 of ra2a1 manual
          */
-
-        sdadc_extended_cfg_t const * p_cfg_extend_temp = g_sdadc_cfg.p_extend;
         voltageOut=(float)((float)channel_conversion_result/SDADC_RESOLUTION);
-        voltageOut = (float)((float)vref_volt[p_cfg_extend_temp->vref_voltage]* voltageOut)+ OFFSET_VOLTAGE;
+        voltageOut = (float)(SDADC_FULL_SCALE_VOLTAGE * voltageOut) + OFFSET_VOLTAGE;
 #else
         /* Input voltage for the SDADC24(differential ended) = (2 * vref_voltage / Gain) × (ADC_DATA / 2^24) */
         voltageOut = (float)(VREF_FULL_SCALE / GAIN_TOTAL) * (float)((float)channel_conversion_result / SDADC_RESOLUTION);
@@ -226,7 +209,7 @@ void hal_entry(void)
         APP_PRINT("\r\nVoltage at Channel 0:  %s\r\n",dataBuff);
 
         /* Read converted data from channel 2 */
-#if (BSP_FEATURE_SDADC_VERSION == 1U)
+#if (BSP_PERIPHERAL_SDADC_PRESENT == 1U)
         err = R_SDADC_Read32 (&g_sdadc_ctrl, ADC_CHANNEL_2,(uint32_t*) &channel_conversion_result);
 #else
         err = R_SDADC_B_Read32 (&g_sdadc_ctrl, ADC_CHANNEL_2,(uint32_t*) &channel_conversion_result);
@@ -236,7 +219,7 @@ void hal_entry(void)
         {
             APP_ERR_PRINT("\r\n ** SDADC Read from channel 2 failed ** \r\n");
             /* close the SDADC module */
-#if (BSP_FEATURE_SDADC_VERSION == 1U)
+#if (BSP_PERIPHERAL_SDADC_PRESENT == 1U)
             if (FSP_SUCCESS != R_SDADC_Close (&g_sdadc_ctrl))
 #else
             if (FSP_SUCCESS != R_SDADC_B_Close (&g_sdadc_ctrl))
@@ -247,16 +230,16 @@ void hal_entry(void)
             APP_ERR_TRAP(err);
         }
 
-#if (BSP_FEATURE_SDADC_VERSION == 1U)
+#if (BSP_PERIPHERAL_SDADC_PRESENT == 1U)
         /* mask off any unwanted data from the result and sign extend the result */
         channel_conversion_result = ((channel_conversion_result & MASK) << SHIFT) >> SHIFT;
 
         /*
-         * Input voltage for the SDADC24(differential ended) = (vref_voltage / GTOTAL) × (ADCDATA1 / 2^24)
-         * from page number 999 of ra2a1 manual
+         * Input voltage for the SDADC24(differential ended) = (1.6 / GTOTAL) × (ADCDATA1 / 2^24)
+         * from page number 1001 of ra2a1 manual
          */
         voltageOut=(float)((float)channel_conversion_result/SDADC_RESOLUTION);
-        voltageOut = (float)(((float)vref_volt[p_cfg_extend_temp->vref_voltage]/GAIN_TOTAL) * voltageOut);
+        voltageOut = (float)((SDADC_FULL_SCALE_VOLTAGE/GAIN_TOTAL) * voltageOut);
 #else
         /* Input voltage for the SDADC24(differential ended) = (2 * vref_voltage / Gain) × (ADC_DATA / 2^24) */
         voltageOut = (float)(VREF_FULL_SCALE / GAIN_TOTAL) * (float)((float)channel_conversion_result / SDADC_RESOLUTION);
@@ -282,7 +265,7 @@ void g_sdadc_callback(adc_callback_args_t *p_args)
     /*Check if calibration is complete and set flag */
     if (ADC_EVENT_CALIBRATION_COMPLETE == p_args->event)
     {
-#if (BSP_FEATURE_SDADC_VERSION == 1U)
+#if (BSP_PERIPHERAL_SDADC_PRESENT == 1U)
         b_is_calibration_complete = true;
 #endif
     }

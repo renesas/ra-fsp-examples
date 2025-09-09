@@ -17,7 +17,7 @@
 #include "dave_driver.h"
 #include "gimp.h"
 #include "camera_layer.h"
-#include "graphics\graphics.h"
+#include "graphics/graphics.h"
 
 #ifndef BG_FONT_18_FULL_H_
  #define BG_FONT_18_FULL_H_

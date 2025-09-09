@@ -9,8 +9,8 @@
         by combining with the inverter board supplied with "MCK-RA6T3".
 
 2. Software Requirements:
-        Renesas Flexible Software Package (FSP): Version 6.0.0
-        e2 studio: Version 2025-04.1
+        Renesas Flexible Software Package (FSP): Version 6.1.0
+        e2 studio: Version 2025-07
         GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 
 3. Hardware settings for the project:
