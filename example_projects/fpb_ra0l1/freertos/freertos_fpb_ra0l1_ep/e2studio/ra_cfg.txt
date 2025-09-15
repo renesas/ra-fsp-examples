@@ -1,0 +1,362 @@
+FSP Configuration
+  Board "RA0|RA0L1|FPB-RA0L1"
+  R7FA0L1074CFL
+    part_number: R7FA0L1074CFL
+    rom_size_bytes: 65536
+    ram_size_bytes: 16384
+    data_flash_size_bytes: 1024
+    package_style: LQFP
+    package_pins: 48
+    number of cores: 1
+    
+  R7FA0L1074CFL
+  RA0L1
+    series: 0
+    
+  RA0L1 Family
+    Enable inline BSP IRQ functions: Disabled
+    Main Oscillation Stabilization Time: 2^18/MOSC
+    Use Low Voltage Mode: Not Supported
+    
+  RA0L1 Device Options
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Enabled
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Start Mode: IWDT is stopped after a reset
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Timeout Period: 2048 cycles
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Dedicated Clock Frequency Divisor: 128
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Window End Position:  0% (no window end position)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Window Start Position: 100% (no window start position)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Reset Interrupt Request Select: Reset is enabled
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Stop Control: Stop counting when in Sleep,Snooze modec, or Software Standby
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Enabled
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Voltage Detection 0 Level: 1.86 V
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Enable or disable Flash Read Protection: Disabled
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Flash Read Protection Start: 0x01
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Flash Read Protection End: 0x3F
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: P206/RES pin selection: RES input
+    OFS Registers: OSIS (OCD/Serial Programmer ID setting register) Settings: Disabled
+    OFS Registers: OSIS (OCD/Serial Programmer ID setting register) Settings: ID Code Mode: Unlocked (Ignore ID)
+    OFS Registers: OSIS (OCD/Serial Programmer ID setting register) Settings: ID Code (32 Hex Characters): FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    
+  RA0L1 event data
+  RA Common
+    Main stack size (bytes): 0x400
+    Heap size (bytes): 0x400
+    Bootloader Secondary XIP: Disabled
+    MCU Vcc (mV): 3300
+    Parameter checking: Disabled
+    Assert Failures: Return FSP_ERR_ASSERTION
+    Clock Registers not Reset Values during Startup: Disabled
+    Main Oscillator Populated: Not Populated
+    PFS Protect: Enabled
+    C Runtime Initialization : Enabled
+    Early BSP Initialization : Disabled
+    Main Oscillator Clock Source: Crystal or Resonator
+    Subclock Populated: Populated
+    Subclock Drive (Drive capacitance availability varies by MCU): Low/Low power mode 1
+    Subclock Stabilization Time (ms): 1000
+    
+  Clocks
+    XTAL 20000000Hz
+    XTAL Div /1
+    HOCO 32MHz
+    HOCO Div /1
+    MOCO Div /1
+    ICLK Src: HOCO
+    TAU CK00 Div /1
+    TAU CK01 Div /1
+    TAU CK02 Div /2
+    TAU CK03 Div /1024
+    SAU CK00 Div /2
+    SAU CK01 Div /1
+    SAU CK10 Div /2
+    SAU CK11 Div /1
+    CLKOUT0 Disabled
+    CLKOUT0 Div /1
+    CLKOUT1 Disabled
+    CLKOUT1 Div /1
+    UTASEL Disabled
+    UARTA0 Src: UTASEL
+    UARTA1 Src: UTASEL
+    FSXP Src: SUBCLK
+    TML FITL0 Src: ELC event/No BSP Source Clock
+    TML FITL1 Src: ELC event/No BSP Source Clock
+    TML FITL2 Disabled/No BSP Source Clock
+    
+  Pin Configurations
+    FPB-RA0L1 -> g_bsp_pin_cfg
+      P000 48 CTSU_TS23 BUTTON2 - None "Peripheral mode" - - "ADC0: AN008; CTSU: TS23; IRQ: IRQ6" - IO - - 
+      P001 47 CTSU_TS22 BUTTON1 - None "Peripheral mode" - - "ADC0: AN009; CTSU: TS22; IRQ: IRQ7" - IO - - 
+      P002 46 GPIO LED1 - - "Output mode (Initial Low)" - - "ADC0: AN010; CTSU: TS21; IRQ: IRQ7" "Green, Hi: Turn on" IO - - 
+      P008 43 ADC0_AN002 ARDUINO_A5 - - "Analog mode" - - "ADC0: AN002; CTSU: TS18" - I - - 
+      P009 42 ADC0_AN003 PMOD1_GPIO10_ARDUINO_A4 - - "Analog mode" - - "ADC0: AN003; CTSU: TS17" - I - - 
+      P010 45 ADC0_AN000 ARDUINO_AREF - - "Analog mode" - - "ADC0: AN000; CTSU: TS20; SYSTEM: VREFH0" - I - - 
+      P011 44 ADC0_AN001 - - - "Analog mode" - - "ADC0: AN001; CTSU: TS19; SYSTEM: VREFL0" - I - - 
+      P012 41 ADC0_AN004 PMOD1_GPIO9_ARDUINO_A3 - - "Analog mode" - - "ADC0: AN004; CTSU: TS16" - I - - 
+      P013 40 ADC0_AN005 PMOD1_GPIO8_ARDUINO_A2 - - "Analog mode" - - "ADC0: AN005; CTSU: TS15" - I - - 
+      P014 39 ADC0_AN006 ARDUINO_A1 - - "Analog mode" - - "ADC0: AN006; CTSU: TS14" - I - - 
+      P015 38 ADC0_AN007 ARDUINO_A0 - - "Analog mode" - - "ADC0: AN007; CTSU: TS13; IRQ: IRQ1" - I - - 
+      P100 36 GPIO PMOD1_MISO_RXD_ARDUINO_D4 - None "Input mode" - - "ADC0: AN022; CCD: CCD0; CTSU: TS11; IICA0: SCLA0; IICA1: SCLA1; IRQ: IRQ2; SAU_I2C00: SDA00; SAU_SPI00: SI00; SAU_UART0: RXD0; TAU01: TI01; TAU01: TO01; TAU04: TI04; TAU04: TO04; UARTA0: RXDA0" - IO - - 
+      P101 35 GPIO PMOD1_MOSI_TXD_ARDUINO_D5 - None "Input mode" - - "ADC0: AN021; CCD: CCD1; CTSU: TS10; IICA0: SDAA0; IICA1: SDAA1; IRQ: IRQ3; SAU_SPI00: SO00; SAU_UART0: TXD0; TAU00: TI00; TAU07: TI07; TAU07: TO07; UARTA0: TXDA0" - IO - - 
+      P102 34 GPIO PMOD1_SCK - None "Input mode" - - "CGC: PCLBUZ0; CTSU: TS9; IICA1: SCLA1; IRQ: IRQ4; RTC: RTCOUT; SAU_I2C00: SCL00; SAU_SPI00: SCK00; TAU00: TO00; TAU06: TI06; TAU06: TO06; UARTA1: RXDA1" - IO - - 
+      P103 33 GPIO PMOD1_CS_ARDUINO_D7 - None "Input mode" - - "CTSU: TS8; IICA1: SDAA1; IRQ: IRQ5; SAU_SPI00: SSI00; TAU05: TI05; TAU05: TO05; UARTA1: TXDA1" PMOD1_INT IO - - 
+      P104 32 GPIO LED2 - - "Output mode (Initial Low)" - - "CTSU: TS7; IRQ: IRQ6; SAU_I2C10: SCL10; SAU_SPI10: SCK10; TAU00: TI00; TAU02: TI02; TAU02: TO02" "Green, Hi: Turn on" IO - - 
+      P105 31 UARTA1_RXDA1 VCOM_RXD - None "Peripheral mode" - - "CTSU: TS6; IRQ: IRQ1; SAU_I2C10: SDA10; SAU_SPI10: SI10; TAU00: TO00; TAU01: TI01; TAU01: TO01; UARTA1: RXDA1" - I - - 
+      P106 30 UARTA1_TXDA1 VCOM_TXD - None "Peripheral mode" - - "CTSU: TS5; IRQ: IRQ0; SAU_SPI10: SO10; UARTA1: TXDA1" - O - - 
+      P108 25 JTAG/SWD_SWDIO - - - "Peripheral mode" - - "JTAG/SWD: SWDIO; TAU03: TI03; TAU03: TO03" - IO - - 
+      P109 26 GPIO ARDUINO_D8 - None "Input mode" - - "CCD: CCD3; CGC: PCLBUZ1; CTSU: TS2; IICA0: SDAA0; IRQ: IRQ4; SAU_SPI20: SO20; SAU_UART2: TXD2; TAU02: TI02; TAU02: TO02; UARTA0: TXDA0" PMOD1_SDA IO - - 
+      P110 27 GPIO ARDUINO_D10 - None "Input mode" - - "CCD: CCD2; CTSU: TS3; IICA0: SCLA0; IRQ: IRQ3; SAU_I2C20: SDA20; SAU_SPI20: SI20; SAU_UART2: RXD2; TAU01: TI01; TAU01: TO01; UARTA0: RXDA0" PMOD1_SCL IO - - 
+      P111 28 GPIO ARDUINO_D2 - None "Input mode" - - "CTSU: TS4; IRQ: IRQ1; TAU07: TI07; TAU07: TO07" - IO - - 
+      P112 29 CTSU_TSCAP TSCAP - None "Peripheral mode" - - "CTSU: TSCAP; IRQ: IRQ2; SAU_I2C20: SCL20; SAU_SPI00: SSI00; SAU_SPI20: SCK20; TAU03: TI03; TAU03: TO03" - IO - - 
+      P200 21 IRQ_IRQ0 SW1 - IRQ0 "IRQ mode" - - "IRQ: IRQ0; IRQ: NMI" - I - - 
+      P201 20 GPIO PMOD1_INT_ARDUINO_D3 - None "Input mode" - - "CGC: PCLBUZ0; IRQ: IRQ5; RTC: RTCOUT; SAU_I2C11: SCL11; SAU_SPI00: SSI00; SAU_SPI11: SCK11; TAU05: TI05; TAU05: TO05" - IO - - 
+      P206 18 GPIO PMOD2_GPIO7 - None "Input mode" - - "IRQ: IRQ0" PMOD2_INT IO - - 
+      P207 17 UARTA0_RXDA0 ARDUINO_RX - None "Peripheral mode" - - "IICA1: SCLA1; IRQ: IRQ2; SAU_I2C01: SDA01; SAU_SPI01: SI01; TAU00: TO00; UARTA0: RXDA0" - I - - 
+      P208 16 UARTA0_TXDA0 ARDUINO_TX - None "Peripheral mode" - - "IICA1: SDAA1; IRQ: IRQ3; SAU_I2C01: SCL01; SAU_SPI01: SCK01; TAU00: TI00; UARTA0: TXDA0" - O - - 
+      P212 8 GPIO ARDUINO_MISO - None "Input mode" - - "CGC: X1; CGC: XCIN; IICA0: SCLA0; IRQ: IRQ1; SAU_I2C11: SDA11; SAU_SPI11: SI11; SAU_UART1: RXD1; TAU00: TO00; TAU03: TI03; TAU03: TO03; UARTA0: RXDA0" PMOD2_MISO_RXD IO - - 
+      P213 7 GPIO ARDUINO_MOSI - None "Input mode" - - "CGC: EXCLK; CGC: X2; CGC: XCOUT; IICA0: SDAA0; IRQ: IRQ0; SAU_SPI11: SO11; SAU_UART1: TXD1; TAU00: TI00; TAU02: TI02; TAU02: TO02; UARTA0: TXDA0" PMOD2_MOSI_TXD IO - - 
+      P214 5 CGC_XCOUT - - - "Peripheral mode" - - "CGC: XCOUT" - IO - - 
+      P215 4 CGC_XCIN - - - "Peripheral mode" - - "CGC: XCIN" - IO - - 
+      P300 24 JTAG/SWD_SWCLK - - - "Peripheral mode" - - "JTAG/SWD: SWCLK; TAU04: TI04; TAU04: TO04" - IO - - 
+      P301 23 GPIO PMOD2_GPIO10_ARDUINO_D9 - None "Input mode" - - "CTSU: TS1; IICA1: SCLA1; IRQ: IRQ6; SAU_I2C21: SDA21; TAU06: TI06; TAU06: TO06; UARTA1: RXDA1" - IO - - 
+      P302 22 GPIO PMOD2_GPIO9 - None "Input mode" - - "CTSU: TS0; IICA1: SDAA1; IRQ: IRQ0; SAU_I2C21: SCL21; TAU05: TI05; TAU05: TO05; UARTA1: TXDA1" - IO - - 
+      P400 1 GPIO LED6 - - "Output mode (Initial High)" - - "CCD: CCD7; IICA1: SCLA1" "Green, Lo: Turn on" IO - - 
+      P401 2 GPIO LED5 - - "Output mode (Initial High)" - - "CCD: CCD6; IICA1: SDAA1" "Green, Lo: Turn on" IO - - 
+      P407 12 GPIO PMOD2_SDA_ARDUINO_SCK - None "Input mode" - - "CGC: PCLBUZ0; IICA1: SDAA1; IRQ: IRQ4; RTC: RTCOUT; SAU_I2C11: SCL11; SAU_SPI11: SCK11" PMOD2_SCK IO - - 
+      P408 11 GPIO PMOD2_SCL - None "Input mode" - - "IICA1: SCLA1; IRQ: IRQ7; TAU04: TI04; TAU04: TO04" - IO - - 
+      P409 10 GPIO PMOD2_INT - None "Input mode" - - "IRQ: IRQ6; SAU_I2C11: SCL11; SAU_SPI11: SCK11; TAU03: TI03; TAU03: TO03" - IO - - 
+      P500 37 GPIO ARDUINO_D6 - - "Input mode" - - "CTSU: TS12; TAU03: TI03; TAU03: TO03" - IO - - 
+      P913 15 IICA0_SDAA0 ARDUINO_SDA - - "Peripheral mode" - - "CCD: CCD4; IICA0: SDAA0" - IO - - 
+      P914 14 IICA0_SCLA0 ARDUINO_SCL - - "Peripheral mode" - - "CCD: CCD5; IICA0: SCLA0" - IO - - 
+      P915 13 GPIO PMOD2_GPIO8 - - "Input mode" - - "SAU_SPI01: SO01" - IO - - 
+      RES 19 SYSTEM_RES - - - - - - - - IO "Read only" - 
+      VCC 9 SYSTEM_VCC - - - - - - - - IO "Read only" - 
+      VCL 3 SYSTEM_VCL - - - - - - - - IO "Read only" - 
+      VSS 6 SYSTEM_VSS - - - - - - - - IO "Read only" - 
+    R7FA0L1074CFL.pincfg -> 
+      P000 48 - BUTTON2 - None Disabled - - "ADC0: AN008; CTSU: TS23; IRQ: IRQ6" - IO - - 
+      P001 47 - BUTTON1 - None Disabled - - "ADC0: AN009; CTSU: TS22; IRQ: IRQ7" - IO - - 
+      P002 46 - LED1 - - Disabled - - "ADC0: AN010; CTSU: TS21; IRQ: IRQ7" "Green, Hi: Turn on" IO - - 
+      P008 43 - ARDUINO_A5 - - Disabled - - "ADC0: AN002; CTSU: TS18" - I - - 
+      P009 42 - PMOD1_GPIO10_ARDUINO_A4 - - Disabled - - "ADC0: AN003; CTSU: TS17" - I - - 
+      P010 45 - ARDUINO_AREF - - Disabled - - "ADC0: AN000; CTSU: TS20; SYSTEM: VREFH0" - I - - 
+      P011 44 - - - - Disabled - - "ADC0: AN001; CTSU: TS19; SYSTEM: VREFL0" - I - - 
+      P012 41 - PMOD1_GPIO9_ARDUINO_A3 - - Disabled - - "ADC0: AN004; CTSU: TS16" - I - - 
+      P013 40 - PMOD1_GPIO8_ARDUINO_A2 - - Disabled - - "ADC0: AN005; CTSU: TS15" - I - - 
+      P014 39 - ARDUINO_A1 - - Disabled - - "ADC0: AN006; CTSU: TS14" - I - - 
+      P015 38 - ARDUINO_A0 - - Disabled - - "ADC0: AN007; CTSU: TS13; IRQ: IRQ1" - I - - 
+      P100 36 - PMOD1_MISO_RXD_ARDUINO_D4 - None Disabled - - "ADC0: AN022; CCD: CCD0; CTSU: TS11; IICA0: SCLA0; IICA1: SCLA1; IRQ: IRQ2; SAU_I2C00: SDA00; SAU_SPI00: SI00; SAU_UART0: RXD0; TAU01: TI01; TAU01: TO01; TAU04: TI04; TAU04: TO04; UARTA0: RXDA0" - IO - - 
+      P101 35 - PMOD1_MOSI_TXD_ARDUINO_D5 - None Disabled - - "ADC0: AN021; CCD: CCD1; CTSU: TS10; IICA0: SDAA0; IICA1: SDAA1; IRQ: IRQ3; SAU_SPI00: SO00; SAU_UART0: TXD0; TAU00: TI00; TAU07: TI07; TAU07: TO07; UARTA0: TXDA0" - IO - - 
+      P102 34 - PMOD1_SCK - None Disabled - - "CGC: PCLBUZ0; CTSU: TS9; IICA1: SCLA1; IRQ: IRQ4; RTC: RTCOUT; SAU_I2C00: SCL00; SAU_SPI00: SCK00; TAU00: TO00; TAU06: TI06; TAU06: TO06; UARTA1: RXDA1" - IO - - 
+      P103 33 - PMOD1_CS_ARDUINO_D7 - None Disabled - - "CTSU: TS8; IICA1: SDAA1; IRQ: IRQ5; SAU_SPI00: SSI00; TAU05: TI05; TAU05: TO05; UARTA1: TXDA1" PMOD1_INT IO - - 
+      P104 32 - LED2 - - Disabled - - "CTSU: TS7; IRQ: IRQ6; SAU_I2C10: SCL10; SAU_SPI10: SCK10; TAU00: TI00; TAU02: TI02; TAU02: TO02" "Green, Hi: Turn on" IO - - 
+      P105 31 - VCOM_RXD - None Disabled - - "CTSU: TS6; IRQ: IRQ1; SAU_I2C10: SDA10; SAU_SPI10: SI10; TAU00: TO00; TAU01: TI01; TAU01: TO01; UARTA1: RXDA1" - I - - 
+      P106 30 - VCOM_TXD - None Disabled - - "CTSU: TS5; IRQ: IRQ0; SAU_SPI10: SO10; UARTA1: TXDA1" - O - - 
+      P108 25 JTAG/SWD_SWDIO - - - "Peripheral mode" - - "JTAG/SWD: SWDIO; TAU03: TI03; TAU03: TO03" - IO - - 
+      P109 26 - ARDUINO_D8 - None Disabled - - "CCD: CCD3; CGC: PCLBUZ1; CTSU: TS2; IICA0: SDAA0; IRQ: IRQ4; SAU_SPI20: SO20; SAU_UART2: TXD2; TAU02: TI02; TAU02: TO02; UARTA0: TXDA0" PMOD1_SDA IO - - 
+      P110 27 - ARDUINO_D10 - None Disabled - - "CCD: CCD2; CTSU: TS3; IICA0: SCLA0; IRQ: IRQ3; SAU_I2C20: SDA20; SAU_SPI20: SI20; SAU_UART2: RXD2; TAU01: TI01; TAU01: TO01; UARTA0: RXDA0" PMOD1_SCL IO - - 
+      P111 28 - ARDUINO_D2 - None Disabled - - "CTSU: TS4; IRQ: IRQ1; TAU07: TI07; TAU07: TO07" - IO - - 
+      P112 29 - TSCAP - None Disabled - - "CTSU: TSCAP; IRQ: IRQ2; SAU_I2C20: SCL20; SAU_SPI00: SSI00; SAU_SPI20: SCK20; TAU03: TI03; TAU03: TO03" - IO - - 
+      P200 21 - SW1 - None Disabled - - "IRQ: IRQ0; IRQ: NMI" - I - - 
+      P201 20 - PMOD1_INT_ARDUINO_D3 - None Disabled - - "CGC: PCLBUZ0; IRQ: IRQ5; RTC: RTCOUT; SAU_I2C11: SCL11; SAU_SPI00: SSI00; SAU_SPI11: SCK11; TAU05: TI05; TAU05: TO05" - IO - - 
+      P206 18 - PMOD2_GPIO7 - None Disabled - - "IRQ: IRQ0" PMOD2_INT IO - - 
+      P207 17 - ARDUINO_RX - None Disabled - - "IICA1: SCLA1; IRQ: IRQ2; SAU_I2C01: SDA01; SAU_SPI01: SI01; TAU00: TO00; UARTA0: RXDA0" - I - - 
+      P208 16 - ARDUINO_TX - None Disabled - - "IICA1: SDAA1; IRQ: IRQ3; SAU_I2C01: SCL01; SAU_SPI01: SCK01; TAU00: TI00; UARTA0: TXDA0" - O - - 
+      P212 8 - ARDUINO_MISO - None Disabled - - "CGC: X1; CGC: XCIN; IICA0: SCLA0; IRQ: IRQ1; SAU_I2C11: SDA11; SAU_SPI11: SI11; SAU_UART1: RXD1; TAU00: TO00; TAU03: TI03; TAU03: TO03; UARTA0: RXDA0" PMOD2_MISO_RXD IO - - 
+      P213 7 - ARDUINO_MOSI - None Disabled - - "CGC: EXCLK; CGC: X2; CGC: XCOUT; IICA0: SDAA0; IRQ: IRQ0; SAU_SPI11: SO11; SAU_UART1: TXD1; TAU00: TI00; TAU02: TI02; TAU02: TO02; UARTA0: TXDA0" PMOD2_MOSI_TXD IO - - 
+      P214 5 - - - - Disabled - - "CGC: XCOUT" - IO - - 
+      P215 4 - - - - Disabled - - "CGC: XCIN" - IO - - 
+      P300 24 JTAG/SWD_SWCLK - - - "Peripheral mode" - - "JTAG/SWD: SWCLK; TAU04: TI04; TAU04: TO04" - IO - - 
+      P301 23 - PMOD2_GPIO10_ARDUINO_D9 - None Disabled - - "CTSU: TS1; IICA1: SCLA1; IRQ: IRQ6; SAU_I2C21: SDA21; TAU06: TI06; TAU06: TO06; UARTA1: RXDA1" - IO - - 
+      P302 22 - PMOD2_GPIO9 - None Disabled - - "CTSU: TS0; IICA1: SDAA1; IRQ: IRQ0; SAU_I2C21: SCL21; TAU05: TI05; TAU05: TO05; UARTA1: TXDA1" - IO - - 
+      P400 1 - LED6 - - Disabled - - "CCD: CCD7; IICA1: SCLA1" "Green, Lo: Turn on" IO - - 
+      P401 2 - LED5 - - Disabled - - "CCD: CCD6; IICA1: SDAA1" "Green, Lo: Turn on" IO - - 
+      P407 12 - PMOD2_SDA_ARDUINO_SCK - None Disabled - - "CGC: PCLBUZ0; IICA1: SDAA1; IRQ: IRQ4; RTC: RTCOUT; SAU_I2C11: SCL11; SAU_SPI11: SCK11" PMOD2_SCK IO - - 
+      P408 11 - PMOD2_SCL - None Disabled - - "IICA1: SCLA1; IRQ: IRQ7; TAU04: TI04; TAU04: TO04" - IO - - 
+      P409 10 - PMOD2_INT - None Disabled - - "IRQ: IRQ6; SAU_I2C11: SCL11; SAU_SPI11: SCK11; TAU03: TI03; TAU03: TO03" - IO - - 
+      P500 37 - ARDUINO_D6 - - Disabled - - "CTSU: TS12; TAU03: TI03; TAU03: TO03" - IO - - 
+      P913 15 - ARDUINO_SDA - - Disabled - - "CCD: CCD4; IICA0: SDAA0" - IO - - 
+      P914 14 - ARDUINO_SCL - - Disabled - - "CCD: CCD5; IICA0: SCLA0" - IO - - 
+      P915 13 - PMOD2_GPIO8 - - Disabled - - "SAU_SPI01: SO01" - IO - - 
+      RES 19 SYSTEM_RES - - - - - - - - IO "Read only" - 
+      VCC 9 SYSTEM_VCC - - - - - - - - IO "Read only" - 
+      VCL 3 SYSTEM_VCL - - - - - - - - IO "Read only" - 
+      VSS 6 SYSTEM_VSS - - - - - - - - IO "Read only" - 
+    
+  User Events
+    
+  User Event Links
+    
+  Linker Section Mappings
+    *bsp_linker.?*(.rodata.*): FLASH Constant Data (OFS Gap)
+    *startup.?*(.text.Reset_Handler): FLASH Code (OFS Gap)
+    *system.?*(.text.*): FLASH Code (OFS Gap)
+    *(.bss.g_heap): RAM Uninitialized
+    *(.bss.g_main_stack): RAM Uninitialized
+    
+  Module "I/O Port (r_ioport)"
+    Parameter Checking: Default (BSP)
+    CCD Support: Disabled
+    
+  Module "FreeRTOS Heap 2"
+  Module "Timer, Independent Channel, 16-bit and 8-bit Timer Operation (r_tau)"
+    Parameter Checking: Default (BSP)
+    Interrupt Support: Enabled
+    Pin Output Support: Disabled
+    Pin Input Support: Disabled
+    Extra Input Mode Support: Disabled
+    8-Bit Mode Support: Disabled
+    
+  FreeRTOS
+    General: Custom FreeRTOSConfig.h: 
+    General: Use Preemption: Enabled
+    General: Use Port Optimised Task Selection: Disabled
+    General: Use Tickless Idle: Disabled
+    Hooks: Use Idle Hook: Enabled
+    Hooks: Use Malloc Failed Hook: Disabled
+    Hooks: Use Daemon Task Startup Hook: Disabled
+    Hooks: Use Tick Hook: Disabled
+    General: Cpu Clock Hz: SystemCoreClock
+    General: Tick Rate Hz: 1000
+    General: Max Priorities: 5
+    General: Minimal Stack Size: 128
+    General: Max Task Name Len: 16
+    Stats: Use Trace Facility: Disabled
+    Stats: Use Stats Formatting Functions: Disabled
+    General: Use 16-bit Ticks: Disabled
+    General: Idle Should Yield: Enabled
+    General: Use Task Notifications: Enabled
+    General: Task Notification Array Entries: 1
+    General: Use Mutexes: Disabled
+    General: Use Recursive Mutexes: Disabled
+    General: Use Counting Semaphores: Enabled
+    Hooks: Check For Stack Overflow: Disabled
+    General: Queue Registry Size: 10
+    General: Use Queue Sets: Disabled
+    General: Use Time Slicing: Disabled
+    General: Use Newlib Reentrant: Disabled
+    General: Enable Backward Compatibility: Disabled
+    General: Num Thread Local Storage Pointers: 5
+    General: Stack Depth Type: uint32_t
+    General: Message Buffer Length Type: size_t
+    Memory Allocation: Clear Memory on Free: Disabled
+    Memory Allocation: Support Static Allocation: Enabled
+    Memory Allocation: Support Dynamic Allocation: Enabled
+    Memory Allocation: Total Heap Size: 0x1000
+    Memory Allocation: Application Allocated Heap: Disabled
+    Stats: Generate Run Time Stats: Disabled
+    Timers: Use Timers: Enabled
+    Timers: Timer Task Priority: 3
+    Timers: Timer Queue Length: 10
+    Timers: Timer Task Stack Depth: 128
+    General: Library Max Syscall Interrupt Priority: Priority 1
+    General: Assert: assert(x)
+    General: Include Application Defined Privileged Functions: Disabled
+    Optional Functions: vTaskPrioritySet() Function: Enabled
+    Optional Functions: uxTaskPriorityGet() Function: Enabled
+    Optional Functions: vTaskDelete() Function: Enabled
+    Optional Functions: vTaskSuspend() Function: Enabled
+    Optional Functions: xResumeFromISR() Function: Enabled
+    Optional Functions: vTaskDelayUntil() Function: Enabled
+    Optional Functions: vTaskDelay() Function: Enabled
+    Optional Functions: xTaskGetSchedulerState() Function: Enabled
+    Optional Functions: xTaskGetCurrentTaskHandle() Function: Enabled
+    Optional Functions: uxTaskGetStackHighWaterMark() Function: Disabled
+    Optional Functions: xTaskGetIdleTaskHandle() Function: Disabled
+    Optional Functions: eTaskGetState() Function: Enabled
+    Optional Functions: xEventGroupSetBitFromISR() Function: Enabled
+    Optional Functions: xTimerPendFunctionCall() Function: Disabled
+    Optional Functions: xTaskAbortDelay() Function: Disabled
+    Optional Functions: xTaskGetHandle() Function: Disabled
+    Optional Functions: xTaskResumeFromISR() Function: Enabled
+    RA: Hardware Stack Monitor: Enabled
+    Logging: Print String Function: printf(x)
+    Logging: Logging Include Time and Task Name: Disabled
+    Logging: Debug Logging Name: Log Name
+    Logging: Logging Level: LOG_NONE
+    
+  HAL
+    Instance "g_ioport I/O Port (r_ioport)"
+      Name: g_ioport
+      1st Port ELC Trigger Source: Disabled
+      2nd Port ELC Trigger Source: Disabled
+      3rd Port ELC Trigger Source: Disabled
+      4th Port ELC Trigger Source: Disabled
+      Pin Configuration Name: g_bsp_pin_cfg
+      
+    Instance "FreeRTOS Heap 2"
+    Instance "g_periodic_timer_msgq Timer, Independent Channel, 16-bit and 8-bit Timer Operation (r_tau)"
+      General: Name: g_periodic_timer_msgq
+      General: Channel: 1
+      General: Function: Interval Timer
+      General: Bit Timer Mode: 16-bit timer
+      General: Operation Clock: CK03
+      General: Period: 1
+      General: Period Unit: Seconds
+      General: Period (Higher 8-bit timer): 0x100
+      General: Period Unit (Higher 8-bit timer): Raw Counts
+      Input: Input Source: No input signal
+      Input: Trigger Edge: Trigger Edge Rising
+      Input: Input Filter: Disabled
+      Output: Initial Output: Disabled
+      Interrupts: Setting of starting count and interrupt: Timer interrupt is generated when counting is started/Start trigger is valid during counting operation.
+      Interrupts: Callback: periodic_timer_msgq_cb
+      Interrupts: Interrupt Priority: Priority 2
+      Interrupts: Higher 8-bit Interrupt Priority: Disabled
+      
+    Instance "g_periodic_timer_sem Timer, Independent Channel, 16-bit and 8-bit Timer Operation (r_tau)"
+      General: Name: g_periodic_timer_sem
+      General: Channel: 1
+      General: Function: Interval Timer
+      General: Bit Timer Mode: 16-bit timer
+      General: Operation Clock: CK03
+      General: Period: 1
+      General: Period Unit: Seconds
+      General: Period (Higher 8-bit timer): 0x100
+      General: Period Unit (Higher 8-bit timer): Raw Counts
+      Input: Input Source: No input signal
+      Input: Trigger Edge: Trigger Edge Rising
+      Input: Input Filter: Disabled
+      Output: Initial Output: Disabled
+      Interrupts: Setting of starting count and interrupt: Timer interrupt is not generated when counting is started/Start trigger is invalid during counting operation.
+      Interrupts: Callback: periodic_timer_semphr_cb
+      Interrupts: Interrupt Priority: Priority 2
+      Interrupts: Higher 8-bit Interrupt Priority: Disabled
+      
+  Thread "Sender Task"
+    Symbol: sender_task
+    Name: Sender Task
+    Stack size (bytes): 1024
+    Priority: 1
+    Thread Context: NULL
+    Memory Allocation: Static
+    Allocate Secure Context: Enable
+    
+  Thread "Receiver Task"
+    Symbol: receiver_task
+    Name: Receiver Task
+    Stack size (bytes): 512
+    Priority: 1
+    Thread Context: NULL
+    Memory Allocation: Dynamic
+    Allocate Secure Context: Enable
+    
+  Thread "Semaphore Task"
+    Symbol: semaphore_task
+    Name: Semaphore Task
+    Stack size (bytes): 1024
+    Priority: 1
+    Thread Context: NULL
+    Memory Allocation: Dynamic
+    Allocate Secure Context: Enable
+    
+  Object "g_queue Queue"
+    Symbol: g_queue
+    Item Size (Bytes): 15
+    Queue Length (Items): 4
+    Memory Allocation: Static
+    
+  Object "g_binary_semaphore Binary Semaphore"
+    Symbol: g_binary_semaphore
+    Memory Allocation: Static
+    

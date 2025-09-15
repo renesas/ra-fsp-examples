@@ -33,9 +33,9 @@
 		  go to the next steps.
    		- Set Trustzone secure/ non-secure boundaries: On RDPM, uncheck "Initialize device", select only
 		  "Set Trustzone secure/ non-secure boundaries" -> Select "Use Renesas Partition Data file" -> 
-   a. e2studio: 0x200028b4
-   b. Keil:	0x2000283c
-		  go to the next steps.
+		  Use "Browse" to select the .rpd file generated from the secure project (For "e2studio":
+		  e2studio\secure_project\Debug, for "Keil": keil\secure_project\Objects, and for "IAR":
+		  iar\secure_project\Debug\Exe), then click "Run". If successful, go to the next steps.
 		- Only setting used for IAR project: The user can change setting in the Tools -> Option -> Stack ->
 		  Uncheck "Stack pointer(s) not valid until program reaches" option to ignore Stack Warning at launch.
    		- Launch the debug session from the non-secure project.

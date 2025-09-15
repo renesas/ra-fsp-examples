@@ -4,10 +4,10 @@
 **********************************************************************************************************************/
 
 1. Project Overview:
-        The example project demonstrates the typical use of the DOC HAL module APIs. The project performs the different 
-        event operations selected by the user in configurator properties. Events can be selected viz., Compare Match, 
-        Compare Mismatch, Addition Overflow, Subtraction Underflow. Upon Success/Failure of operation, the result will
-        be displayed on RTT Viewer. LED will turn ON only if the selected event operation is success and stays OFF if
+	The example project demonstrates the typical use of the DOC HAL module APIs. The project performs the different
+	event operations selected by the user in configurator properties. Events can be selected viz., Compare Match,
+	Compare Mismatch, Addition Overflow, Subtraction Underflow. Upon Success/Failure of operation, the result will
+	be displayed on RTT Viewer. LED will turn ON only if the selected event operation is success and stays OFF if
 	the operation fails.
 
 2. Software Requirements:
@@ -28,15 +28,15 @@
 		  go to the next steps.
    		- Set Trustzone secure/ non-secure boundaries: On RDPM, uncheck "Initialize device", select only
 		  "Set Trustzone secure/ non-secure boundaries" -> Select "Use Renesas Partition Data file" -> 
-   a. e2studio: 0x32002430
-		  for Keil: keil\secure_project\Objects, and for IAR: iar\secure_project\Debug\Exe), then click "Run". If successful,
-		  go to the next steps.
+		  Use "Browse" to select the .rpd file generated from the secure project (For "e2studio":
+		  e2studio\secure_project\Debug, for "Keil": keil\secure_project\Objects, and for "IAR":
+		  iar\secure_project\Debug\Exe), then click "Run". If successful, go to the next steps.
 		- Only setting used for IAR project: The user can change setting in the Tools -> Option -> Stack ->
 		  Uncheck "Stack pointer(s) not valid until program reaches" option to ignore Stack Warning at launch.
-   		- Launch the debug session from the non-secure project.
+		- Launch the debug session from the non-secure project.
 	c) Open J-Link RTT Viewer to view the example project operation.
 
-Note:﻿
+Note:
 1) The user should view "Example Project for IP Protection" section of application note R11AN0467 on how to build and run
    a trustzone project via link: https://www.renesas.com/en/document/apn/security-design-arm-trustzone-using-cortex-m33
 
@@ -55,9 +55,10 @@ Note:﻿
 
 6) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x32002430
-   b. Keil:	Not Available
-   c. IAR:    	0x320028a0
+   a. e2studio:	0x32002430
+   b. Keil:	0x32002830
+   c. IAR:	0x320028a0
 
-7) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT)
-   in .map file generated in the project folder (e2studio\Debug or e2studio\Release, keil\Listings, iar\Debug\List).
+7) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called
+   _SEGGER_RTT) in .map file generated in the project folder (e2studio\Debug or e2studio\Release, keil\Listings,
+   iar\Debug\List).
