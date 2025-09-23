@@ -34,7 +34,7 @@
 |   |   | [Related: r11an0471 - Getting Started with Low Power Applications for RA6 and RA4 Groups](https://www.renesas.com/en/document/apn/getting-started-low-power-applications-ra6-and-ra4-groups) |   |
 | 27 | r11an0486 | [Getting Started with Wi-Fi Modules on FSP](https://www.renesas.com/en/document/apn/getting-started-wi-fi-modules-fsp) | 5.5.0 |
 | 28 | r11an0493 | [Using Trusted Firmware-M (TF-M) with FSP v2.0.3](https://www.renesas.com/en/document/apn/using-trusted-firmware-m-tf-m-fsp-v203-application-project) | 2.0.3 |
-| 29 | r11an0496 | [Injecting and Updating Secure User Keys](https://www.renesas.com/en/document/apn/injecting-and-updating-secure-user-keys-ra-family-application-project) | 5.5.0 |
+| 29 | r11an0496 | [Injecting and Updating Secure User Keys](https://www.renesas.com/en/document/apn/injecting-and-updating-secure-user-keys-ra-family-application-project) | 6.0.0 |
 | 30 | r11an0497 | [RA6 Basic Secure Bootloader Using MCUboot and Internal Code Flash](https://www.renesas.com/en/document/apn/ra6-basic-secure-bootloader-using-mcuboot-and-internal-code-flash) | 5.5.0 |
 | 31 | r11an0498 | [Renesas Security Engine Operational Modes](https://www.renesas.com/en/document/apn/renesas-security-engine-operational-modes) | 5.5.0 |
 | 32 | r11an0516 | [Secure Bootloader for RA2 MCU Series](https://www.renesas.com/en/document/apn/secure-bootloader-ra2-mcu-series-application-project) | 5.2.0 |
