@@ -41,6 +41,7 @@ EK-RA4M2/EK-RA4M3/EK-RA6M3/EK-RA6M3G
 EK-RA6M5/EK-RA2L1/EK-RA4E2/EK-RA6E2/EK-RA6M4/EK-RA8D1/EK-RA8M1/FPB-RA4E1/FPB-RA6E1/MCK-RA4T1/MCK-RA6T3
 * Plug in the US159-DA16200MEVZ to the Pmod2 connector on the MCU evaluation kit and be careful to align Pin 1 on the module to Pin 1 on the MCU kit.
 * Connect the USB Debug port on the RA board to the PC using a micro USB cable (For MCK-RA4T1/MCK-RA6T3: using a type C USB cable).
+* For EK-RA6E2: The user must open jumper J35 to use P102 as the RST pin of PMOD2.
 
 EK-RA2A2  
 Connect

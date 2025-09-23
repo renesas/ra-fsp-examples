@@ -48,6 +48,7 @@
 	to Pin 1 on the MCU kit.
 	Connect the USB Debug port on the RA board to the PC using a micro USB cable.
 	(For MCK-RA4T1/MCK-RA6T3: using a type C USB cable).
+	For EK-RA6E2: The user must open jumper J35 to use P102 as the RST pin of PMOD2.
 
 	EK-RA2A2
 	---------

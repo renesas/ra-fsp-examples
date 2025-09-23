@@ -11,7 +11,7 @@
 
 #include "hal_data.h"
 #include <errno.h>
-#include <sys\stat.h>
+#include <sys/stat.h>
 
 int _open (const char *path, int file);
 int _close (int file);

@@ -19,7 +19,7 @@
  **********************************************************************************************************************/
 
 /*user buffer */
-#if BSP_FEATURE_ADC_UNIT_1_CHANNELS
+#if BSP_FEATURE_ADC_UNIT_1_CHANNELS_MASK
 uint16_t g_buffer_adc[ADC_UNIT_NUM][ADC_GROUP_SCAN_NUM][NUM_ADC_CHANNELS][NUM_SAMPLE_BUFFER][NUM_SAMPLES_PER_CHANNEL];
 #else
 uint16_t g_buffer_adc[ADC_UNIT_1][ADC_GROUP_SCAN_NUM][NUM_ADC_CHANNELS][NUM_SAMPLE_BUFFER][NUM_SAMPLES_PER_CHANNEL];
@@ -27,14 +27,14 @@ uint16_t g_buffer_adc[ADC_UNIT_1][ADC_GROUP_SCAN_NUM][NUM_ADC_CHANNELS][NUM_SAMP
 /*flags to capture adc 0/1 events*/
 volatile bool g_adc0_group_a_flag = false ;
 volatile bool g_adc0_group_b_flag = false;
-#if BSP_FEATURE_ADC_UNIT_1_CHANNELS
+#if BSP_FEATURE_ADC_UNIT_1_CHANNELS_MASK
 volatile bool g_adc1_group_a_flag = false;
 volatile bool g_adc1_group_b_flag = false;
 #endif
 
 /* flag to capture error event*/
 volatile bool g_err_flag_adc0 = false;
-#if BSP_FEATURE_ADC_UNIT_1_CHANNELS
+#if BSP_FEATURE_ADC_UNIT_1_CHANNELS_MASK
 volatile bool g_err_flag_adc1 = false;
 #endif
 /*transfer info for ADC unit 0/1 and group A */
@@ -70,7 +70,7 @@ transfer_info_t g_transfer_adc_group_a[] =
       .length = NUM_SAMPLES_PER_CHANNEL,
      },
 
-#if BSP_FEATURE_ADC_UNIT_1_CHANNELS
+#if BSP_FEATURE_ADC_UNIT_1_CHANNELS_MASK
      [TWO] =
      {
       .dest_addr_mode = TRANSFER_ADDR_MODE_INCREMENTED,
@@ -136,7 +136,7 @@ transfer_info_t g_transfer_adc_group_b[] =
       .length = NUM_SAMPLES_PER_CHANNEL,
      },
 
-#if BSP_FEATURE_ADC_UNIT_1_CHANNELS
+#if BSP_FEATURE_ADC_UNIT_1_CHANNELS_MASK
      [TWO] =
      {
       .dest_addr_mode = TRANSFER_ADDR_MODE_INCREMENTED,
@@ -293,7 +293,7 @@ void g_adc0_callback(adc_callback_args_t *p_args)
     }
 }
 
-#if BSP_FEATURE_ADC_UNIT_1_CHANNELS
+#if BSP_FEATURE_ADC_UNIT_1_CHANNELS_MASK
 /*******************************************************************************************************************//**
  *  @brief        User defined callback function for ADC unit 1.
  *  @param[IN]    p_args

@@ -30,7 +30,7 @@ static void general_signal_acquisition_init (void);
 static void handle_error(fsp_err_t err, char *err_str, module_name_t module);
 
 /*extern variables */
-#if BSP_FEATURE_ADC_UNIT_1_CHANNELS
+#if BSP_FEATURE_ADC_UNIT_1_CHANNELS_MASK
 extern uint16_t g_buffer_adc[ADC_UNIT_NUM][ADC_GROUP_SCAN_NUM][NUM_ADC_CHANNELS][NUM_SAMPLE_BUFFER][NUM_SAMPLES_PER_CHANNEL];
 #else
 extern uint16_t g_buffer_adc[ADC_UNIT_1][ADC_GROUP_SCAN_NUM][NUM_ADC_CHANNELS][NUM_SAMPLE_BUFFER][NUM_SAMPLES_PER_CHANNEL];
@@ -39,7 +39,7 @@ extern transfer_info_t g_transfer_adc_group_a[];
 extern transfer_info_t g_transfer_adc_group_b[];
 extern volatile bool g_adc0_group_a_flag;
 extern volatile bool g_adc0_group_b_flag;
-#if BSP_FEATURE_ADC_UNIT_1_CHANNELS
+#if BSP_FEATURE_ADC_UNIT_1_CHANNELS_MASK
 extern volatile bool g_adc1_group_a_flag;
 extern volatile bool g_adc1_group_b_flag;
 extern volatile bool g_err_flag_adc1;
@@ -72,7 +72,7 @@ void hal_entry(void)
     err = scan_start_adc(&g_adc0_ctrl);
     handle_error(err,"\r\n** start_adc for Unit 0 FAILED ** \r\n", ALL);
 
-#if BSP_FEATURE_ADC_UNIT_1_CHANNELS
+#if BSP_FEATURE_ADC_UNIT_1_CHANNELS_MASK
     /* start ADC Unit 1*/
     err = scan_start_adc(&g_adc1_ctrl);
     handle_error(err,"\r\n** start_adc for Unit 1 FAILED ** \r\n", ALL);
@@ -132,7 +132,7 @@ void hal_entry(void)
             /*reset the variable */
             g_adc0_group_b_flag = false;
         }
-#if BSP_FEATURE_ADC_UNIT_1_CHANNELS
+#if BSP_FEATURE_ADC_UNIT_1_CHANNELS_MASK
         /* Check if adc 1 scan complete event for group A is received */
         else if(true == g_adc1_group_a_flag)
         {
@@ -179,7 +179,7 @@ void hal_entry(void)
         }
 #endif
         /* check if adc 1 or 0 scan complete event is not received */
-#if BSP_FEATURE_ADC_UNIT_1_CHANNELS
+#if BSP_FEATURE_ADC_UNIT_1_CHANNELS_MASK
         else if ((true == g_err_flag_adc0) || (true == g_err_flag_adc1))
         {
             handle_error(FSP_ERR_ABORTED,"\r\n** adc scan complete event for group A or B on Unit 1 or 0 is not received  ** \r\n", ALL);
@@ -234,7 +234,7 @@ static void general_signal_acquisition_init (void)
     err = dtc_hal_reconfigure(&g_transfer_adc0_group_b_ctrl, &g_transfer_adc_group_b[ZERO]);
     handle_error(err,"\r\n** dtc reconfiguration for unit 1, group b failed ** \r\n", ELC_DTC_123);
 
-#if BSP_FEATURE_ADC_UNIT_1_CHANNELS
+#if BSP_FEATURE_ADC_UNIT_1_CHANNELS_MASK
     /* Initialize DTC instance and reconfigure in chain mode for instance unit 1, group a */
     err = init_hal_dtc(&g_transfer_adc1_group_a_ctrl, &g_transfer_adc1_group_a_cfg);
     handle_error(err,"\r\n** dtc_init for unit 1, group a failed ** \r\n", ELC_DTC1);
@@ -256,7 +256,7 @@ static void general_signal_acquisition_init (void)
     err = adc_channel_config(&g_adc0_ctrl, &g_adc0_channel_cfg);
     handle_error(err,"\r\n** adc_channel_config for unit 0 failed ** \r\n", ELC_DTC_ADC0_MODULE);
 
-#if BSP_FEATURE_ADC_UNIT_1_CHANNELS
+#if BSP_FEATURE_ADC_UNIT_1_CHANNELS_MASK
     err = init_hal_adc(&g_adc1_ctrl,&g_adc1_cfg);
     handle_error(err,"\r\n** adc_init for unit 1 failed ** \r\n", ELC_DTC_ADC0_MODULE);
 
@@ -279,7 +279,7 @@ static void general_signal_acquisition_init (void)
     err = dtc_enable(&g_transfer_adc0_group_b_ctrl);
     handle_error(err,"\r\n** dtc_enable for ADC unit 0 group b failed ** \r\n", ALL);
 
-#if BSP_FEATURE_ADC_UNIT_1_CHANNELS
+#if BSP_FEATURE_ADC_UNIT_1_CHANNELS_MASK
     /*Enable transfers for adc unit 0 group a*/
     err = dtc_enable(&g_transfer_adc1_group_a_ctrl);
     handle_error(err,"\r\n** dtc_enable for ADC unit 1 group a failed ** \r\n", ALL);
@@ -328,7 +328,7 @@ static void handle_error( fsp_err_t err, char *err_str, module_name_t module)
                 deinit_hal_dtc(&g_transfer_adc0_group_b_ctrl);
             }
             break;
-#if BSP_FEATURE_ADC_UNIT_1_CHANNELS
+#if BSP_FEATURE_ADC_UNIT_1_CHANNELS_MASK
             case ELC_DTC_123:
             {
                 /* close elc instance */
@@ -361,7 +361,7 @@ static void handle_error( fsp_err_t err, char *err_str, module_name_t module)
                 /* close dtc instances */
                 deinit_hal_dtc(&g_transfer_adc0_group_a_ctrl);
                 deinit_hal_dtc(&g_transfer_adc0_group_b_ctrl);
-#if BSP_FEATURE_ADC_UNIT_1_CHANNELS
+#if BSP_FEATURE_ADC_UNIT_1_CHANNELS_MASK
                 deinit_hal_dtc(&g_transfer_adc1_group_a_ctrl);
                 deinit_hal_dtc(&g_transfer_adc1_group_b_ctrl);
 #endif
@@ -378,14 +378,14 @@ static void handle_error( fsp_err_t err, char *err_str, module_name_t module)
                 /* close DTC opened instance */
                 deinit_hal_dtc(&g_transfer_adc0_group_a_ctrl);
                 deinit_hal_dtc(&g_transfer_adc0_group_b_ctrl);
-#if BSP_FEATURE_ADC_UNIT_1_CHANNELS
+#if BSP_FEATURE_ADC_UNIT_1_CHANNELS_MASK
                 deinit_hal_dtc(&g_transfer_adc1_group_a_ctrl);
                 deinit_hal_dtc(&g_transfer_adc1_group_b_ctrl);
 #endif
 
                 /* close adc instance */
                 deinit_hal_adc(&g_adc0_ctrl);
-#if BSP_FEATURE_ADC_UNIT_1_CHANNELS
+#if BSP_FEATURE_ADC_UNIT_1_CHANNELS_MASK
                 deinit_hal_adc(&g_adc1_ctrl);
 #endif
             }
@@ -398,14 +398,14 @@ static void handle_error( fsp_err_t err, char *err_str, module_name_t module)
                 /* close DTC instances */
                 deinit_hal_dtc(&g_transfer_adc0_group_a_ctrl);
                 deinit_hal_dtc(&g_transfer_adc0_group_b_ctrl);
-#if BSP_FEATURE_ADC_UNIT_1_CHANNELS
+#if BSP_FEATURE_ADC_UNIT_1_CHANNELS_MASK
                 deinit_hal_dtc(&g_transfer_adc1_group_a_ctrl);
                 deinit_hal_dtc(&g_transfer_adc1_group_b_ctrl);
 #endif
 
                 /*close adc instances*/
                 deinit_hal_adc(&g_adc0_ctrl);
-#if BSP_FEATURE_ADC_UNIT_1_CHANNELS
+#if BSP_FEATURE_ADC_UNIT_1_CHANNELS_MASK
                 deinit_hal_adc(&g_adc1_ctrl);
 #endif
 
@@ -420,7 +420,7 @@ static void handle_error( fsp_err_t err, char *err_str, module_name_t module)
 
                 /*close adc instances*/
                 deinit_hal_adc(&g_adc0_ctrl);
-#if BSP_FEATURE_ADC_UNIT_1_CHANNELS
+#if BSP_FEATURE_ADC_UNIT_1_CHANNELS_MASK
                 deinit_hal_adc(&g_adc1_ctrl);
 #endif
 
@@ -430,7 +430,7 @@ static void handle_error( fsp_err_t err, char *err_str, module_name_t module)
                 /* close DTC opened instance */
                 deinit_hal_dtc(&g_transfer_adc0_group_a_ctrl);
                 deinit_hal_dtc(&g_transfer_adc0_group_b_ctrl);
-#if BSP_FEATURE_ADC_UNIT_1_CHANNELS
+#if BSP_FEATURE_ADC_UNIT_1_CHANNELS_MASK
                 deinit_hal_dtc(&g_transfer_adc1_group_a_ctrl);
                 deinit_hal_dtc(&g_transfer_adc1_group_b_ctrl);
 #endif

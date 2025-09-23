@@ -1,5 +1,5 @@
 FSP Configuration
-  Board "EK-RA6M3"
+  Board "RA6|RA6M3|EK-RA6M3"
   R7FA6M3AH3CFC
     part_number: R7FA6M3AH3CFC
     rom_size_bytes: 2097152
@@ -7,60 +7,84 @@ FSP Configuration
     data_flash_size_bytes: 65536
     package_style: LQFP
     package_pins: 176
+    number of cores: 1
     
+  R7FA6M3AH3CFC
   RA6M3
     series: 6
     
   RA6M3 Family
     Enable inline BSP IRQ functions: Enabled
-    OFS0 register settings: Independent WDT: Start Mode: IWDT is Disabled
-    OFS0 register settings: Independent WDT: Timeout Period: 2048 cycles
-    OFS0 register settings: Independent WDT: Dedicated Clock Frequency Divisor: 128
-    OFS0 register settings: Independent WDT: Window End Position:  0% (no window end position)
-    OFS0 register settings: Independent WDT: Window Start Position: 100% (no window start position)
-    OFS0 register settings: Independent WDT: Reset Interrupt Request Select: Reset is enabled
-    OFS0 register settings: Independent WDT: Stop Control: Stop counting when in Sleep, Snooze mode, or Software Standby
-    OFS0 register settings: WDT: Start Mode Select: Stop WDT after a reset (register-start mode)
-    OFS0 register settings: WDT: Timeout Period: 16384 cycles
-    OFS0 register settings: WDT: Clock Frequency Division Ratio: 128
-    OFS0 register settings: WDT: Window End Position:  0% (no window end position)
-    OFS0 register settings: WDT: Window Start Position: 100% (no window start position)
-    OFS0 register settings: WDT: Reset Interrupt Request: Reset
-    OFS0 register settings: WDT: Stop Control: Stop counting when entering Sleep mode
-    OFS1 register settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
-    OFS1 register settings: Voltage Detection 0 Level: 2.80 V
-    OFS1 register settings: HOCO Oscillation Enable: HOCO oscillation is disabled after reset
-    MPU: Enable or disable PC Region 0: Disabled
-    MPU: PC0 Start: 0xFFFFFFFC
-    MPU: PC0 End: 0xFFFFFFFF
-    MPU: Enable or disable PC Region 1: Disabled
-    MPU: PC1 Start: 0xFFFFFFFC
-    MPU: PC1 End: 0xFFFFFFFF
-    MPU: Enable or disable Memory Region 0: Disabled
-    MPU: Memory Region 0 Start: 0x00FFFFFC
-    MPU: Memory Region 0 End: 0x00FFFFFF
-    MPU: Enable or disable Memory Region 1: Disabled
-    MPU: Memory Region 1 Start: 0x200FFFFC
-    MPU: Memory Region 1 End: 0x200FFFFF
-    MPU: Enable or disable Memory Region 2: Disabled
-    MPU: Memory Region 2 Start: 0x407FFFFC
-    MPU: Memory Region 2 End: 0x407FFFFF
-    MPU: Enable or disable Memory Region 3: Disabled
-    MPU: Memory Region 3 Start: 0x400DFFFC
-    MPU: Memory Region 3 End: 0x400DFFFF
+    SDRAM: SDRAM Support: Disabled
+    SDRAM: Timings: tRAS (cycles): 6 cycles
+    SDRAM: Timings: tRCD (cycles): 3 cycles
+    SDRAM: Timings: tRP (cycles): 3 cycles
+    SDRAM: Timings: tWR (cycles): 2 cycles
+    SDRAM: Timings: tCL (cycles): 3 cycles
+    SDRAM: Timings: tRFC (cycles): 937
+    SDRAM: Timings: tREFW (cycles): 8 cycles
+    SDRAM: Initialization: Auto-Refresh Interval (ARFI): 10 cycles
+    SDRAM: Initialization: Auto-Refresh Count (ARFC): 8 times
+    SDRAM: Initialization: Precharge Cycle Count (PRC): 3 cycles
+    SDRAM: Address Multiplex Shift: 9-bit shift
+    SDRAM: Endian Mode: Little Endian
+    SDRAM: Continuous Access Mode: Enabled
+    SDRAM: Bus Width: 16-bit
     Clocks: HOCO FLL Function: Disabled
-    Main Oscillator Wait Time: 8163 cycles
-    ID Code Mode: Unlocked (Ignore ID)
-    ID Code (32 Hex Characters): FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    Clocks: MOSC Drive Capability Auto Switching: Disabled
+    Clocks: Main Oscillator Wait Time: 8163 cycles
+    
+  RA6M3 Device Options
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Enabled
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Start Mode: IWDT is stopped after a reset
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Timeout Period: 2048 cycles
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Dedicated Clock Frequency Divisor: 128
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Window End Position:  0% (no window end position)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Window Start Position: 100% (no window start position)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Reset Interrupt Request Select: Reset is enabled
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Stop Control: Stop counting when in Sleep,Snooze modec, or Software Standby
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT: Start Mode Select: Stop WDT after a reset (register-start mode)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT: Timeout Period: 16384 cycles
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT: Clock Frequency Division Ratio: 128
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT: Window End Position:  0% (no window end position)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT: Window Start Position: 100% (no window start position)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT: Reset Interrupt Request: Reset
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT: Stop Control: Stop counting when entering Sleep mode
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Enabled
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Voltage Detection 0 Level: 2.80 V
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: HOCO Oscillation Enable: HOCO oscillation is disabled after reset
+    OFS Registers: SECMPU (Security MPU Registers) Settings: Disabled
+    OFS Registers: SECMPU (Security MPU Registers) Settings: PC 0 Enable: Disabled
+    OFS Registers: SECMPU (Security MPU Registers) Settings: PC 0 Start: 0xFFFFFFFC
+    OFS Registers: SECMPU (Security MPU Registers) Settings: PC 0 End: 0xFFFFFFFF
+    OFS Registers: SECMPU (Security MPU Registers) Settings: PC 1 Enable: Disabled
+    OFS Registers: SECMPU (Security MPU Registers) Settings: PC 1 Start: 0xFFFFFFFC
+    OFS Registers: SECMPU (Security MPU Registers) Settings: PC 1 End: 0xFFFFFFFF
+    OFS Registers: SECMPU (Security MPU Registers) Settings: Region 0 Enable: Disabled
+    OFS Registers: SECMPU (Security MPU Registers) Settings: Region 0 Start: 0x001FFFFC
+    OFS Registers: SECMPU (Security MPU Registers) Settings: Region 0 End: 0x001FFFFF
+    OFS Registers: SECMPU (Security MPU Registers) Settings: Region 1 Enable: Disabled
+    OFS Registers: SECMPU (Security MPU Registers) Settings: Region 1 Start: 0x2007FFFC
+    OFS Registers: SECMPU (Security MPU Registers) Settings: Region 1 End: 0x2007FFFF
+    OFS Registers: SECMPU (Security MPU Registers) Settings: Region 2 Enable: Disabled
+    OFS Registers: SECMPU (Security MPU Registers) Settings: Region 2 Start: 0x400DFFFC
+    OFS Registers: SECMPU (Security MPU Registers) Settings: Region 2 End: 0x400DFFFF
+    OFS Registers: SECMPU (Security MPU Registers) Settings: Region 3 Enable: Disabled
+    OFS Registers: SECMPU (Security MPU Registers) Settings: Region 3 Start: 0x400DFFFC
+    OFS Registers: SECMPU (Security MPU Registers) Settings: Region 3 End: 0x400DFFFF
+    OFS Registers: OSIS (OCD/Serial Programmer ID setting register) Settings: Disabled
+    OFS Registers: OSIS (OCD/Serial Programmer ID setting register) Settings: ID Code Mode: Unlocked (Ignore ID)
+    OFS Registers: OSIS (OCD/Serial Programmer ID setting register) Settings: ID Code (32 Hex Characters): FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
     
   RA6M3 event data
   RA Common
     Main stack size (bytes): 0x400
     Heap size (bytes): 0x1000
+    Bootloader Secondary XIP: Disabled
     MCU Vcc (mV): 3300
     Parameter checking: Enabled
     Assert Failures: Return FSP_ERR_ASSERTION
-    Error Log: No Error Log
     Clock Registers not Reset Values during Startup: Disabled
     Main Oscillator Populated: Populated
     PFS Protect: Enabled
@@ -451,8 +475,14 @@ FSP Configuration
     
   User Event Links
     
+  Linker Section Mappings
+    *bsp_linker.?*(.rodata.*): FLASH Constant Data (OFS Gap)
+    *(.bss.g_heap): RAM Uninitialized
+    *(.bss.g_main_stack): RAM Uninitialized
+    
   Module "I/O Port (r_ioport)"
     Parameter Checking: Default (BSP)
+    CCD Support: Not Supported
     
   Module "Azure RTOS NetX Duo SMTP Client"
     Common: Error Checking: Enabled (default)
@@ -529,7 +559,7 @@ FSP Configuration
     Common: Retain older cache table entries till timeout option: Disabled (default)
     Common: IPv6 Neighbor Cache table entry limit.: 
     Common: Neighbor Solicitation message count for IPv6 Neighbor Discovery protocol: 
-    Common: Neighbor Solicitation message count to determine neighbor’s reachability: 
+    Common: Neighbor Solicitation message count to determine neighborâ€™s reachability: 
     Common: Maximum entries in ND cache queue: 
     Common: Duration for address to be 'reachable' with no packets received from it (seconds): 
     Common: Delay between solicitation packets (milliseconds): 
@@ -662,8 +692,8 @@ FSP Configuration
     DHCP: Server: IPv6: Time interval after which client IP is deprecated (seconds): 2 * NX_DHCPV6_DEFAULT_T1_TIME
     DHCP: Server: IPv6: Time interval after which leased IP is invalid (seconds): 2 * NX_DHCPV6_DEFAULT_PREFERRED_TIME
     DHCP: Server: IPv6: Maximum server status option message size (bytes): 100
-    DHCP: Server: IPv6: Maximum Size of the Server’s IP lease table (count): 100
-    DHCP: Server: IPv6: Size of the Server’s Client record table (count): 120
+    DHCP: Server: IPv6: Maximum Size of the Serverâ€™s IP lease table (count): 100
+    DHCP: Server: IPv6: Size of the Serverâ€™s Client record table (count): 120
     DHCP: Server: IPv6: Server socket fragmentation option: Dont fragment
     DHCP: Server: IPv6: Vendor assigned unique ID: abcdeffghijklmnopqrstuvwxyz
     DHCP: Server: IPv6: Private vendor ID: 0x12345678
@@ -823,7 +853,6 @@ FSP Configuration
     Web HTTP: Server: Server Next Re-transmission timeout shift: 1
     Common: TCP/IP Offload: Disable
     Common: Interface Capability: Disable
-    Azure IoT: Defender Security Module: Disable
     
   Module "Azure RTOS NetX Duo IP Instance"
     Common: Error Checking: Enabled (default)
@@ -900,7 +929,7 @@ FSP Configuration
     Common: Retain older cache table entries till timeout option: Disabled (default)
     Common: IPv6 Neighbor Cache table entry limit.: 
     Common: Neighbor Solicitation message count for IPv6 Neighbor Discovery protocol: 
-    Common: Neighbor Solicitation message count to determine neighbor’s reachability: 
+    Common: Neighbor Solicitation message count to determine neighborâ€™s reachability: 
     Common: Maximum entries in ND cache queue: 
     Common: Duration for address to be 'reachable' with no packets received from it (seconds): 
     Common: Delay between solicitation packets (milliseconds): 
@@ -1033,8 +1062,8 @@ FSP Configuration
     DHCP: Server: IPv6: Time interval after which client IP is deprecated (seconds): 2 * NX_DHCPV6_DEFAULT_T1_TIME
     DHCP: Server: IPv6: Time interval after which leased IP is invalid (seconds): 2 * NX_DHCPV6_DEFAULT_PREFERRED_TIME
     DHCP: Server: IPv6: Maximum server status option message size (bytes): 100
-    DHCP: Server: IPv6: Maximum Size of the Server’s IP lease table (count): 100
-    DHCP: Server: IPv6: Size of the Server’s Client record table (count): 120
+    DHCP: Server: IPv6: Maximum Size of the Serverâ€™s IP lease table (count): 100
+    DHCP: Server: IPv6: Size of the Serverâ€™s Client record table (count): 120
     DHCP: Server: IPv6: Server socket fragmentation option: Dont fragment
     DHCP: Server: IPv6: Vendor assigned unique ID: abcdeffghijklmnopqrstuvwxyz
     DHCP: Server: IPv6: Private vendor ID: 0x12345678
@@ -1194,7 +1223,6 @@ FSP Configuration
     Web HTTP: Server: Server Next Re-transmission timeout shift: 1
     Common: TCP/IP Offload: Disable
     Common: Interface Capability: Disable
-    Azure IoT: Defender Security Module: Disable
     
   Module "Azure RTOS NetX Duo Packet Pool Instance"
     Common: Error Checking: Enabled (default)
@@ -1271,7 +1299,7 @@ FSP Configuration
     Common: Retain older cache table entries till timeout option: Disabled (default)
     Common: IPv6 Neighbor Cache table entry limit.: 
     Common: Neighbor Solicitation message count for IPv6 Neighbor Discovery protocol: 
-    Common: Neighbor Solicitation message count to determine neighbor’s reachability: 
+    Common: Neighbor Solicitation message count to determine neighborâ€™s reachability: 
     Common: Maximum entries in ND cache queue: 
     Common: Duration for address to be 'reachable' with no packets received from it (seconds): 
     Common: Delay between solicitation packets (milliseconds): 
@@ -1404,8 +1432,8 @@ FSP Configuration
     DHCP: Server: IPv6: Time interval after which client IP is deprecated (seconds): 2 * NX_DHCPV6_DEFAULT_T1_TIME
     DHCP: Server: IPv6: Time interval after which leased IP is invalid (seconds): 2 * NX_DHCPV6_DEFAULT_PREFERRED_TIME
     DHCP: Server: IPv6: Maximum server status option message size (bytes): 100
-    DHCP: Server: IPv6: Maximum Size of the Server’s IP lease table (count): 100
-    DHCP: Server: IPv6: Size of the Server’s Client record table (count): 120
+    DHCP: Server: IPv6: Maximum Size of the Serverâ€™s IP lease table (count): 100
+    DHCP: Server: IPv6: Size of the Serverâ€™s Client record table (count): 120
     DHCP: Server: IPv6: Server socket fragmentation option: Dont fragment
     DHCP: Server: IPv6: Vendor assigned unique ID: abcdeffghijklmnopqrstuvwxyz
     DHCP: Server: IPv6: Private vendor ID: 0x12345678
@@ -1565,7 +1593,6 @@ FSP Configuration
     Web HTTP: Server: Server Next Re-transmission timeout shift: 1
     Common: TCP/IP Offload: Disable
     Common: Interface Capability: Disable
-    Azure IoT: Defender Security Module: Disable
     
   Module "NetX Duo Ethernet Driver (rm_netxduo_ether)"
   Module "Ethernet (r_ether)"
@@ -1581,7 +1608,7 @@ FSP Configuration
     ICS1894 Target: Disabled
     User Own Target: Disabled
     Reference Clock: Default
-    Automatic Phy LSI Initialization: Enabled
+    Automatic PHY-LSI Initialization: Enabled
     
   Module "Azure RTOS NetX Duo Common"
     Common: Error Checking: Enabled (default)
@@ -1658,7 +1685,7 @@ FSP Configuration
     Common: Retain older cache table entries till timeout option: Disabled (default)
     Common: IPv6 Neighbor Cache table entry limit.: 
     Common: Neighbor Solicitation message count for IPv6 Neighbor Discovery protocol: 
-    Common: Neighbor Solicitation message count to determine neighbor’s reachability: 
+    Common: Neighbor Solicitation message count to determine neighborâ€™s reachability: 
     Common: Maximum entries in ND cache queue: 
     Common: Duration for address to be 'reachable' with no packets received from it (seconds): 
     Common: Delay between solicitation packets (milliseconds): 
@@ -1791,8 +1818,8 @@ FSP Configuration
     DHCP: Server: IPv6: Time interval after which client IP is deprecated (seconds): 2 * NX_DHCPV6_DEFAULT_T1_TIME
     DHCP: Server: IPv6: Time interval after which leased IP is invalid (seconds): 2 * NX_DHCPV6_DEFAULT_PREFERRED_TIME
     DHCP: Server: IPv6: Maximum server status option message size (bytes): 100
-    DHCP: Server: IPv6: Maximum Size of the Server’s IP lease table (count): 100
-    DHCP: Server: IPv6: Size of the Server’s Client record table (count): 120
+    DHCP: Server: IPv6: Maximum Size of the Serverâ€™s IP lease table (count): 100
+    DHCP: Server: IPv6: Size of the Serverâ€™s Client record table (count): 120
     DHCP: Server: IPv6: Server socket fragmentation option: Dont fragment
     DHCP: Server: IPv6: Vendor assigned unique ID: abcdeffghijklmnopqrstuvwxyz
     DHCP: Server: IPv6: Private vendor ID: 0x12345678
@@ -1952,7 +1979,16 @@ FSP Configuration
     Web HTTP: Server: Server Next Re-transmission timeout shift: 1
     Common: TCP/IP Offload: Disable
     Common: Interface Capability: Disable
-    Azure IoT: Defender Security Module: Disable
+    
+  Module "Ethernet PHY-LSI"
+    Parameter Checking: Default (BSP)
+    KSZ8091RNB Target: Disabled
+    KSZ8041 Target: Disabled
+    DP83620 Target: Disabled
+    ICS1894 Target: Disabled
+    User Own Target: Disabled
+    Reference Clock: Default
+    Automatic PHY-LSI Initialization: Enabled
     
   Azure RTOS ThreadX
     General: Custom tx_user.h: 
@@ -2054,6 +2090,8 @@ FSP Configuration
             Buffers: Buffer size: 1514
             Buffers: Padding size: 2 Bytes
             Buffers: Padding offset: 14
+            Interrupts: EESR event: RFOF, RDE, FR, TFUF, TDE, TC
+            Interrupts: ECSR event: 
             Interrupts: Interrupt priority: Priority 12
             Interrupts: Callback: rm_netxduo_ether_callback
             
@@ -2061,14 +2099,20 @@ FSP Configuration
               Name: g_ether_phy0
               Channel: 0
               PHY-LSI Address: 0
+              Default PHY-LSI port: 0
               PHY-LSI Reset Completion Timeout: 0x00020000
               Select MII type: RMII
-              Phy LSI type: Kit Component
+              PHY-LSI type: Kit Component
               Port Custom Init Function: NULL
               Port Custom Link Partner Ability Get Function: NULL
               MII/RMII Register Access Wait-time: 8
               Flow Control: Disable
               
+              Instance "g_ether_phy_lsi0 Ethernet PHY-LSI"
+                Name: g_ether_phy_lsi0
+                PHY-LSI Address: 0
+                PHY-LSI type: Kit Component
+                
           Instance "Azure RTOS NetX Duo Common"
       Instance "g_packet_pool0 Azure RTOS NetX Duo Packet Pool Instance"
         Name: g_packet_pool0

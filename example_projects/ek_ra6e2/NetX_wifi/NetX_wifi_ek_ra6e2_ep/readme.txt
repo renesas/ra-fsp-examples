@@ -5,7 +5,8 @@
 
 Project Overview:
 	The example project demonstrates the functionalities of NetX Duo WiFi Driver using Azure RTOS running on Renesas RA MCUs using Renesas 
-	Silex UART Pmod hardware. The project utilises some functionalities of WiFi_OnChip_Silex module which are not supported by Netx Duo. The project gives user options to either scan WiFi networks or manually enter network credentials 
+	Silex UART Pmod hardware. The project utilises some functionalities of WiFi_OnChip_Silex module which are not supported by Netx Duo.
+	The project gives user options to either scan WiFi networks or manually enter network credentials 
 	in JlinkRTTViewer and connect. Then it performs ping operation on user entered URL or IP address. If successful,  
 	'Ping Successful' message printed on JlinkRTTViewer. The project also demonstrates TCP socket operations in client mode. It tries
 	connecting to the user entered TCP server IP address and port number. It is expected that TCP socket in server mode would be 
@@ -30,18 +31,16 @@ Project setup:
 	********************
 	EK-RA4M2/EK-RA4M3/EK-RA6M3/EK-RA6M4/EK-RA6M5:
 	-----------
-	Connect
-	Renesas Silex UART Pmod ----> PMOD 1 (J26)	
+		Connect Renesas Silex UART Pmod ----> PMOD 1 (J26)	
 
-        EK-RA6M1/EK-RA6M2/EK-RA4M1:
+	EK-RA6M1/EK-RA6M2/EK-RA4M1:
 	-----------
-	Connect
-	Renesas Silex UART Pmod ----> PMOD A (J5)
+		Connect Renesas Silex UART Pmod ----> PMOD A (J5)
 
-        EK-RA2L1/FPB-RA4E1/FPB-RA6E1/EK-RA6E2:
-        -----------
-        Connect
-        Renesas Silex UART Pmod ----> PMOD 2 
+	EK-RA2L1/FPB-RA4E1/FPB-RA6E1/EK-RA6E2:
+	-----------
+		For EK-RA6E2: The user must open jumper J35 to use P102 as the RST pin of PMOD2
+		Connect Renesas Silex UART Pmod ----> PMOD 2 
        
 
 	
