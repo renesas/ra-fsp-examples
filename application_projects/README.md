@@ -67,9 +67,10 @@
 |   |   | Related: r11an0914 - RA AWS Cloud Connectivity and Firmware Update OTA on CK-RA6M5 v2 with Ethernet – Getting Started Guide |   |
 | 55 | r11an0979 | [Establishing and Protecting Device Identity using RSIP](https://www.renesas.com/en/document/apn/establishing-and-protecting-device-identity-using-rsip) | 6.0.0 |
 | 56 | r11an0995 | [Building a Vision AI Application using the RA8P1 MCU with Ethos-U55 NPU](https://www.renesas.com/en/document/apn/building-vision-ai-application-using-ra8p1-mcu-ethos-u55-npu) | 6.0.0 |
-| 57 | r12an0120 | [Getting Started with GUIX Thermostat Application](https://www.renesas.com/en/document/apn/getting-started-guix-thermostat-application) | 6.0.0 |
-| 58 | r21qs0007 | [RYZ024A PMOD LTE Connectivity with RA6M5 MCU Quick Start Guide](https://www.renesas.com/en/document/qsg/ryz024a-pmod-lte-connectivity-ra6m5-mcu-quick-start-guide) | 5.0.0 |
-| 59 | r21qs0008 | [RYZ024A PMOD LTE Connectivity with RA4M2 MCU Quick Start Guide](https://www.renesas.com/en/document/qsg/ryz024a-pmod-lte-connectivity-ek-ra4m2-mcu-quick-start-guide) | 5.0.0 |
-| 60 | r30an0384 | [Example of Low Power Application (Data Logger)](https://www.renesas.com/en/document/apn/ra2l1ra2e1-group-example-low-power-application-data-logger) | 5.5.0 |
-| 61 | r30an0392 | [Low Power Application (Use of ADC, DTC and ELC at Snooze mode) for FPB-RA2E1 and FPB-RA2E2](https://www.renesas.com/en/document/apn/low-power-application-use-adc-dtc-and-elc-snooze-mode-fpb-ra2e1-and-fpb-ra2e2) | 5.5.0 |
-| 62 | r30an0423 | [Low Power Application for FPB-RA4E1 or FPB-RA6E1](https://www.renesas.com/en/document/apn/low-power-application-fpb-ra4e1-or-fpb-ra6e1-application-project) | 6.0.0 |
+| 57 | r11an1048 | [RA6 Secure Bootloader Using MCUboot with Protected mode and Internal Code Flash](https://www.renesas.com/en/document/apn/ra6-secure-bootloader-using-mcuboot-protected-mode-and-internal-code-flash) | 6.1.0 |
+| 58 | r12an0120 | [Getting Started with GUIX Thermostat Application](https://www.renesas.com/en/document/apn/getting-started-guix-thermostat-application) | 6.0.0 |
+| 59 | r21qs0007 | [RYZ024A PMOD LTE Connectivity with RA6M5 MCU Quick Start Guide](https://www.renesas.com/en/document/qsg/ryz024a-pmod-lte-connectivity-ra6m5-mcu-quick-start-guide) | 5.0.0 |
+| 60 | r21qs0008 | [RYZ024A PMOD LTE Connectivity with RA4M2 MCU Quick Start Guide](https://www.renesas.com/en/document/qsg/ryz024a-pmod-lte-connectivity-ek-ra4m2-mcu-quick-start-guide) | 5.0.0 |
+| 61 | r30an0384 | [Example of Low Power Application (Data Logger)](https://www.renesas.com/en/document/apn/ra2l1ra2e1-group-example-low-power-application-data-logger) | 5.5.0 |
+| 62 | r30an0392 | [Low Power Application (Use of ADC, DTC and ELC at Snooze mode) for FPB-RA2E1 and FPB-RA2E2](https://www.renesas.com/en/document/apn/low-power-application-use-adc-dtc-and-elc-snooze-mode-fpb-ra2e1-and-fpb-ra2e2) | 5.5.0 |
+| 63 | r30an0423 | [Low Power Application for FPB-RA4E1 or FPB-RA6E1](https://www.renesas.com/en/document/apn/low-power-application-fpb-ra4e1-or-fpb-ra6e1-application-project) | 6.0.0 |
