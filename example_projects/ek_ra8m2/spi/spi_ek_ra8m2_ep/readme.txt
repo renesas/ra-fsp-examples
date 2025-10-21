@@ -1,0 +1,125 @@
+/**********************************************************************************************************************
+* File Name    : readme.txt
+* Description  : Contains general information about Example Project and detailed instructions
+**********************************************************************************************************************/
+
+1. Project Overview:
+	The example project demonstrates the typical use of the SPI HAL module APIs using SPI and DTC modules.
+	The project configures SPI channels (Channel 0 and Channel 1) in Master and Slave mode. Once the modules are
+	initialized and the SPI channels are configured, Master and Slave can transmit and receive data based on
+	commands from the user sent through J-Link RTT Viewer. SPI data transmission and reception are handled by
+	the DTC module.
+
+2. Hardware Requirements:
+	Supported RA boards: EK-RA2A1, EK-RA2L1, EK-RA4E2, EK-RA4M1, EK-RA4W1, EK-RA6E2, EK-RA6M1, EK-RA6M2, EK-RA6M3,
+	                     EK-RA6M3G, EK-RA6M4, EK-RA6M5, EK-RA8D1, EK-RA8M1, FPB-RA6E1, MCK-RA4T1, MCK-RA6T2,
+	                     MCK-RA6T3, MCK-RA8T1, RSSK-RA6T1, FPB-RA8E1, EK-RA8E2, EK-RA8P1, EK-RA4C1, EK-RA8M2
+	1 x Renesas RA board.
+	1 x Type-C USB cable for programming and debugging.
+	3 x Jumper wires.
+
+3. Hardware Connections:
+	For EK-RA2A1:
+		MISO  ----> P109 - P104
+		MOSI  ----> P400 - P105
+		RSPCK ----> P110 - P103
+
+	For EK-RA4M1, EK-RA6M2, EK-RA6M3, EK-RA6M3G, EK-RA6M4:
+		MISO  ----> P410 - P202
+		MOSI  ----> P411 - P203
+		RSPCK ----> P412 - P204
+
+	For EK-RA4W1, EK-RA6M1, RSSK-RA6T1, EK-RA6E2:
+		MISO  ----> P100 - P110
+		MOSI  ----> P101 - P109
+		RSPCK ----> P102 - P111
+
+	For EK-RA2L1, EK-RA6M5:
+		MISO  ----> P410 - P202
+		MOSI  ----> P411 - P203
+		RSPCK ----> P412 - P204
+
+	For FPB-RA6E1:
+		MISO  ----> P410 - P110
+		MOSI  ----> P411 - P109
+		RSPCK ----> P412 - P111
+
+	For MCK-RA6T2:
+		MISO  ----> PE13 - PB14
+		MOSI  ----> PE14 - PB15
+		RSPCK ----> PE12 - PB13
+
+	For MCK-RA4T1, MCK-RA6T3, EK-RA4E2:
+		MISO  ----> P206 - P100
+		MOSI  ----> P207 - P101
+		RSPCK ----> P302 - P102
+
+	For EK-RA8M1:
+		MISO  ----> P700 - P410
+		MOSI  ----> P701 - P411
+		RSPCK ----> P702 - P412
+		Install jumper J61 to disable Ethernet B (Use P700, P701 for SPI channel 0).
+
+	For EK-RA8D1:
+		MISO  ----> P700 - P410
+		MOSI  ----> P701 - P411
+		RSPCK ----> P702 - P412
+		Turn OFF SW1-3 and SW1-5 to use P700, P701, P702 for SPI channel 0.
+
+	For MCK-RA8T1:
+		MISO  ----> P313 (CN6:3) - P100 (CN2:7)
+		MOSI  ----> P202 (CN6:2) - P101 (CN4:6)
+		RSPCK ----> P203 (CN6:4) - P102 (CN2:5)
+
+	For FPB-RA8E1:
+		MISO  ----> P609 (J3:13) - P410 (J2:12)
+		MOSI  ----> P611 (J3:12) - P411 (J2:9)
+		RSPCK ----> P610 (J3:14) - P412 (J2:10)
+
+	For EK-RA8E2:
+		MISO  ----> P700 (J2:10) - P410 (J2:26)
+		MOSI  ----> P701 (J2:09) - P411 (J2:25)
+		RSPCK ----> P702 (J2:12) - P412 (J2:23)
+
+	For EK-RA8P1:
+		The user must turn OFF SW4-6 to use P700, P701, P702 for SPI channel 0.
+		The user must turn ON SW4-3 and turn OFF SW4-4 to use P100, P101, P102 for SPI channel 1.
+		MISO  ----> P700 (J3:9)  - P100 (J2:2)
+		MOSI  ----> P701 (J3:12) - P101 (J2:12)
+		RSPCK ----> P702 (J3:13) - P102 (J2:13)
+
+	For EK-RA4C1:
+		The user must place jumper J6 on pins 2-3, J8 on pins 1-2, J9 on pins 2-3 and turn OFF SW4-4 to use
+		the on-board debug functionality.
+		The user must close E59, E61, E47, and E48 to use P209, P210, P100, and P101.
+		MISO  ----> P210 (J2:45) - P100 (J2:27)
+		MOSI  ----> P211 (J2:43) - P101 (J2:29)
+		RSPCK ----> P209 (J2:39) - P102 (J4:7)
+
+	For EK-RA8M2:
+		The user must place jumper J6 on pins 2-3, J8 on pins 1-2, J9 on pins 2-3, and J29 on pins 1-2,
+		3-4, 5-6, 7-8 to use the on-board debug functionality.
+		MISO  ----> P609 (J1:13) - P709 (J24:5)
+		MOSI  ----> P611 (J1:6)  - P708 (J24:4)
+		RSPCK ----> P610 (J1:5)  - P415 (J24:6)
+
+Note:
+1) The user is expected to enter data that is less than 64 bytes in size.
+
+2) As SPI bit width is set to 32 bits, each 4 bytes of user data input will be transferred in single
+   SPI transmission.
+
+3) The bytes sent for Slave should be lesser than the bytes sent for Master when using WriteRead operation.
+
+4) Operation is not guaranteed for any user input value other than integer, char (e.g., float, special char)
+   through RTT Viewer.
+
+5) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
+   RTT Block address for hex file committed in repository are as follows:
+   a. e2studio: 0x220004b0
+   b. Keil:	0x220008b0
+   c. IAR:	0x22000bc0
+
+6) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called
+   _SEGGER_RTT) in .map file generated in the project folder (e2studio\Debug or e2studio\Release, keil\Listings,
+   iar\Debug\List).
