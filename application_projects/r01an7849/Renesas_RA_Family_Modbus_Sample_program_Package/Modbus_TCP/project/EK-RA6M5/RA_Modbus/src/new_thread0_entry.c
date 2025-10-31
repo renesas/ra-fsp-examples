@@ -21,7 +21,7 @@ void new_thread0_entry(void *pvParameters)
 
     FSP_PARAMETER_NOT_USED (pvParameters);
 
-    FreeRTOS_IPInit (ucIPAddress, ucNetMask, ucGatewayAddress, ucDNSServerAddress, gp_freertos_ether->p_cfg->p_mac_address);
+    FreeRTOS_IPInit (ucIPAddress, ucNetMask, ucGatewayAddress, ucDNSServerAddress, g_ether0.p_cfg->p_mac_address);
 
     R_MODBUS_TCP_SERVER_Open(&g_modbus_tcp_server0_ctrl, &g_modbus_tcp_server0_cfg);
 

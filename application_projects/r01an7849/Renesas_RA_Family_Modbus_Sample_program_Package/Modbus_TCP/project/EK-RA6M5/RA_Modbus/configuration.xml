@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<raConfiguration version="11">
+<raConfiguration version="12">
   <generalSettings>
     <option key="#Board#" value="board.ra6m5ek"/>
     <option key="CPU" value="RA6M5"/>
@@ -9,10 +9,10 @@
     <option key="#DeviceCommand#" value="R7FA6M5BH"/>
     <option key="#RTOS#" value="rtos.awsfreertos"/>
     <option key="#pinconfiguration#" value="R7FA6M5BH3CFC.pincfg"/>
-    <option key="#FSPVersion#" value="6.0.0"/>
+    <option key="#FSPVersion#" value="6.1.0"/>
     <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra6m5_ek##"/>
     <option key="#SELECTED_TOOLCHAIN#" value="gcc-arm-embedded"/>
-    <option key="#ToolchainVersion#" value="13.3.1.arm-13-24"/>
+    <option key="#ToolchainVersion#" value="13.2.1.arm-13-7"/>
   </generalSettings>
   <raBspConfiguration>
     <config id="config.bsp.ra6m5.R7FA6M5BH3CFC">
@@ -201,81 +201,85 @@
     <node id="board.clock.cecclk.display" option="board.clock.cecclk.display.value"/>
   </raClockConfiguration>
   <raComponentSelection>
-    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="Projects" condition="" group="all" subgroup="common" variant="" vendor="Renesas" version="6.1.0">
+      <description>Common source for all template projects.</description>
+      <originalPack>Renesas.RA_common.6.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="6.1.0">
       <description>Board Support Package Common Files</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.6.1.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="6.1.0">
       <description>I/O Port</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.6.1.0.pack</originalPack>
     </component>
-    <component apiversion="" class="RTOS" condition="" group="FreeRTOS" subgroup="all" variant="" vendor="AWS" version="11.1.0+fsp.6.0.0">
+    <component apiversion="" class="RTOS" condition="" group="FreeRTOS" subgroup="all" variant="" vendor="AWS" version="11.1.0+fsp.6.1.0">
       <description>FreeRTOS</description>
-      <originalPack>Amazon.FreeRTOS-Kernel.11.1.0+fsp.6.0.0.pack</originalPack>
+      <originalPack>Amazon.FreeRTOS-Kernel.11.1.0+fsp.6.1.0.pack</originalPack>
     </component>
-    <component apiversion="" class="CMSIS" condition="" group="Main" subgroup="CoreM" variant="" vendor="Arm" version="6.1.0+fsp.6.0.0">
+    <component apiversion="" class="CMSIS" condition="" group="Main" subgroup="CoreM" variant="" vendor="Arm" version="6.1.0+fsp.6.1.0">
       <description>Arm CMSIS Version 6 - Core (M)</description>
-      <originalPack>Arm.CMSIS6.6.1.0+fsp.6.0.0.pack</originalPack>
+      <originalPack>Arm.CMSIS6.6.1.0+fsp.6.1.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_freertos_port" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_freertos_port" variant="" vendor="Renesas" version="6.1.0">
       <description>FreeRTOS Port</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.6.1.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra6m5_ek" variant="" vendor="Renesas" version="6.0.0">
-      <description>RA6M5-EK Board Support Files</description>
-      <originalPack>Renesas.RA_board_ra6m5_ek.6.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra6m5" subgroup="device" variant="R7FA6M5BH3CFC" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="BSP" condition="" group="ra6m5" subgroup="device" variant="R7FA6M5BH3CFC" vendor="Renesas" version="6.1.0">
       <description>Board support package for R7FA6M5BH3CFC</description>
-      <originalPack>Renesas.RA_mcu_ra6m5.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra6m5.6.1.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra6m5" subgroup="device" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="BSP" condition="" group="ra6m5" subgroup="device" variant="" vendor="Renesas" version="6.1.0">
       <description>Board support package for RA6M5</description>
-      <originalPack>Renesas.RA_mcu_ra6m5.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra6m5.6.1.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra6m5" subgroup="fsp" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="BSP" condition="" group="ra6m5" subgroup="fsp" variant="" vendor="Renesas" version="6.1.0">
       <description>Board support package for RA6M5 - FSP Data</description>
-      <originalPack>Renesas.RA_mcu_ra6m5.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra6m5.6.1.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra6m5" subgroup="events" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="BSP" condition="" group="ra6m5" subgroup="events" variant="" vendor="Renesas" version="6.1.0">
       <description>Board support package for RA6M5 - Events</description>
-      <originalPack>Renesas.RA_mcu_ra6m5.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra6m5.6.1.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra6m5" subgroup="linker" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="BSP" condition="" group="ra6m5" subgroup="linker" variant="" vendor="Renesas" version="6.1.0">
       <description>Board support package for RA6M5 - Linker</description>
-      <originalPack>Renesas.RA_mcu_ra6m5.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra6m5.6.1.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Heaps" condition="" group="FreeRTOS" subgroup="heap_4" variant="" vendor="AWS" version="11.1.0+fsp.6.0.0">
-      <description>FreeRTOS - Memory Management - Heap 4</description>
-      <originalPack>Amazon.FreeRTOS-Kernel.11.1.0+fsp.6.0.0.pack</originalPack>
+    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra6m5_ek" variant="" vendor="Renesas" version="6.1.0">
+      <description>RA6M5-EK Board Support Files</description>
+      <originalPack>Renesas.RA_board_ra6m5_ek.6.1.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Libraries" condition="" group="FreeRTOS" subgroup="BufferAllocation2" variant="" vendor="AWS" version="4.2.2+fsp.6.0.0">
-      <description>FreeRTOS - Buffer Allocation 2</description>
-      <originalPack>Amazon.FreeRTOS-Plus-TCP.4.2.2+fsp.6.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Libraries" condition="" group="FreeRTOS_Plus" subgroup="FreeRTOS_Plus_TCP" variant="" vendor="AWS" version="4.2.2+fsp.6.0.0">
-      <description>FreeRTOS+TCP</description>
-      <originalPack>Amazon.FreeRTOS-Plus-TCP.4.2.2+fsp.6.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="r_modbus_tcp_server" variant="" vendor="Renesas" version="1.0.0+fsp.6.0.0">
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="r_modbus_tcp_server" variant="" vendor="Renesas" version="1.1.0+fsp.6.1.0">
       <description>Modbus TCP Server Stack</description>
-      <originalPack>Renesas.modbus_tcp_server.1.0.0+fsp.6.0.0.pack</originalPack>
+      <originalPack>Renesas.modbus_tcp_server.1.1.0+fsp.6.1.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="r_tcp_trans_freertos_plus_tcp" variant="" vendor="Renesas" version="1.0.0+fsp.6.0.0">
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="r_tcp_trans_freertos_plus_tcp" variant="" vendor="Renesas" version="1.1.0+fsp.6.1.0">
       <description>TCP Transport Interface on FreeRTOS plus TCP</description>
-      <originalPack>Renesas.modbus_tcp_server.1.0.0+fsp.6.0.0.pack</originalPack>
+      <originalPack>Renesas.modbus_tcp_server.1.1.0+fsp.6.1.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ether_phy" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="Libraries" condition="" group="FreeRTOS" subgroup="BufferAllocation2" variant="" vendor="AWS" version="4.3.3+fsp.6.1.0">
+      <description>FreeRTOS - Buffer Allocation 2</description>
+      <originalPack>Amazon.FreeRTOS-Plus-TCP.4.3.3+fsp.6.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Libraries" condition="" group="FreeRTOS_Plus" subgroup="FreeRTOS_Plus_TCP" variant="" vendor="AWS" version="4.3.3+fsp.6.1.0">
+      <description>FreeRTOS+TCP</description>
+      <originalPack>Amazon.FreeRTOS-Plus-TCP.4.3.3+fsp.6.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Heaps" condition="" group="FreeRTOS" subgroup="heap_4" variant="" vendor="AWS" version="11.1.0+fsp.6.1.0">
+      <description>FreeRTOS - Memory Management - Heap 4</description>
+      <originalPack>Amazon.FreeRTOS-Kernel.11.1.0+fsp.6.1.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ether_phy" variant="" vendor="Renesas" version="6.1.0">
       <description>Ethernet PHY</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.6.1.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ether" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ether" variant="" vendor="Renesas" version="6.1.0">
       <description>Ethernet</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.6.1.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_freertos_plus_tcp" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_freertos_plus_tcp" variant="" vendor="Renesas" version="6.1.0">
       <description>r_ether to FreeRTOS+TCP Wrapper</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.6.1.0.pack</originalPack>
     </component>
   </raComponentSelection>
   <raElcConfiguration/>
@@ -291,7 +295,7 @@
       <property id="module.driver.ioport.pincfg" value="g_bsp_pin_cfg"/>
     </module>
     <module id="module.middleware.rm_freertos_port.0"/>
-    <module id="module.middleware.modbus_tcp_server.1156920691">
+    <module id="module.middleware.modbus_tcp_server.1149094609">
       <property id="module.middleware.modbus_tcp_server.name" value="g_modbus_tcp_server0"/>
       <property id="module.middleware.modbus_tcp_server.callback_for_function_code" value="function_code_callback"/>
       <property id="module.middleware.modbus_tcp_server.additional_port" value="0"/>
@@ -299,12 +303,18 @@
       <property id="module.middleware.modbus_tcp_server.ip_list_mode" value="module.middleware.modbus_tcp_server.ip_list_mode.1"/>
       <property id="module.middleware.modbus_tcp_server.ip_addresses" value="192.168.1.101"/>
     </module>
-    <module id="module.freertos.heap.4.1868339949"/>
-    <module id="module.middleware.tcp_transport_on_tcp_trans_freertos_plus_tcp.668864841"/>
-    <module id="module.aws.freertosplus.freertosplus_tcp.1366605104"/>
-    <module id="module.driver.freertos_plus_tcp_on_ether.97918494"/>
-    <module id="module.freertos.bufferallocation2.135781480"/>
-    <module id="module.driver.ether_on_ether.654413274">
+    <module id="module.middleware.tcp_transport_on_tcp_trans_freertos_plus_tcp.1163270519"/>
+    <module id="module.aws.freertosplus.freertosplus_tcp.1380204633"/>
+    <module id="module.driver.freertos_plus_tcp_on_ether.145152370">
+      <property id="module.driver.freertos_plus_tcp_on_ether.name" value="g_freertos_plus_tcp0"/>
+      <property id="module.driver.freertos_plus_tcp_on_ether.rx_task_stacksize" value="configMINIMAL_STACK_SIZE"/>
+      <property id="module.driver.freertos_plus_tcp_on_ether.rx_task_priority" value="configMAX_PRIORITIES - 1"/>
+      <property id="module.driver.freertos_plus_tcp_on_ether.link_status_task_stacksize" value="configMINIMAL_STACK_SIZE"/>
+      <property id="module.driver.freertos_plus_tcp_on_ether.link_status_task_priority" value="configMAX_PRIORITIES - 1"/>
+      <property id="module.driver.freertos_plus_tcp_on_ether.link_check_interval" value="1000"/>
+    </module>
+    <module id="module.freertos.bufferallocation2.472653627"/>
+    <module id="module.driver.ether_on_ether.835521417">
       <property id="module.driver.ether.name" value="g_ether0"/>
       <property id="module.driver.ether.channel" value="module.driver.ether.channel.0"/>
       <property id="module.driver.ether.mac_address" value="00:11:22:33:44:55"/>
@@ -324,7 +334,7 @@
       <property id="module.driver.ether.interrupt_priority" value="board.icu.common.irq.priority12"/>
       <property id="module.driver.ether.p_callback" value="NULL"/>
     </module>
-    <module id="module.driver.ether_phy_on_ether_phy.1071864881">
+    <module id="module.driver.ether_phy_on_ether_phy.1221658535">
       <property id="module.driver.ether_phy.name" value="g_ether_phy0"/>
       <property id="module.driver.ether_phy.channel" value="module.driver.ether_phy.channel.0"/>
       <property id="module.driver.ether_phy.phy_lsi_address" value="0"/>
@@ -337,16 +347,17 @@
       <property id="module.driver.ether_phy.mii_bit_access_wait_time" value="8"/>
       <property id="module.driver.ether_phy.flow_control" value="module.driver.ether_phy.flow_control.0"/>
     </module>
-    <module id="module.driver.ether_phy_lsi_on_ether_phy.291848921">
+    <module id="module.driver.ether_phy_lsi_on_ether_phy.92607360">
       <property id="module.driver.ether_phy_lsi.name" value="g_ether_phy_lsi0"/>
       <property id="module.driver.ether_phy_lsi.phy_lsi_address" value="0"/>
       <property id="module.driver.ether_phy_lsi.phy_lsi_type" value="module.driver.ether_phy_lsi.phy_lsi_type.kit_component"/>
     </module>
+    <module id="module.freertos.heap.4.47056303"/>
     <context id="_hal.0">
       <stack module="module.driver.ioport_on_ioport.0"/>
       <stack module="module.middleware.rm_freertos_port.0"/>
     </context>
-    <context id="rtos.awsfreertos.thread.1701299259">
+    <context id="rtos.awsfreertos.thread.0">
       <property id="_symbol" value="new_thread0"/>
       <property id="rtos.awsfreertos.thread.name" value="New Thread"/>
       <property id="rtos.awsfreertos.thread.stack" value="1024"/>
@@ -354,21 +365,21 @@
       <property id="rtos.awsfreertos.thread.context" value="NULL"/>
       <property id="rtos.awsfreertos.thread.allocation" value="rtos.awsfreertos.thread.allocation.static"/>
       <property id="rtos.awsfreertos.thread.secure_context" value="rtos.awsfreertos.thread.secure_context.enable"/>
-      <stack module="module.middleware.modbus_tcp_server.1156920691">
-        <stack module="module.middleware.tcp_transport_on_tcp_trans_freertos_plus_tcp.668864841" requires="module.middleware.modbus_tcp_server.requires.tcp_trans_freertos_plus_tcp">
-          <stack module="module.aws.freertosplus.freertosplus_tcp.1366605104" requires="module.middleware.modbus_tcp_server.requires.freertosplus_tcp">
-            <stack module="module.driver.freertos_plus_tcp_on_ether.97918494" requires="module.aws.freertosplus.freertosplus_tcp.requires.freertosplus_tcp_driver">
-              <stack module="module.driver.ether_on_ether.654413274" requires="module.driver.freertos_plus_tcp_on_ether.requires.ether">
-                <stack module="module.driver.ether_phy_on_ether_phy.1071864881" requires="module.driver.ether.requires.ether_phy">
-                  <stack module="module.driver.ether_phy_lsi_on_ether_phy.291848921" requires="module.driver.ether_phy.requires.phy_lsi0"/>
+      <stack module="module.middleware.modbus_tcp_server.1149094609">
+        <stack module="module.middleware.tcp_transport_on_tcp_trans_freertos_plus_tcp.1163270519" requires="module.middleware.modbus_tcp_server.requires.tcp_trans_freertos_plus_tcp">
+          <stack module="module.aws.freertosplus.freertosplus_tcp.1380204633" requires="module.middleware.modbus_tcp_server.requires.freertosplus_tcp">
+            <stack module="module.driver.freertos_plus_tcp_on_ether.145152370" requires="module.aws.freertosplus.freertosplus_tcp.requires.freertosplus_tcp_driver">
+              <stack module="module.driver.ether_on_ether.835521417" requires="module.driver.freertos_plus_tcp_on_ether.requires.ether">
+                <stack module="module.driver.ether_phy_on_ether_phy.1221658535" requires="module.driver.ether.requires.ether_phy">
+                  <stack module="module.driver.ether_phy_lsi_on_ether_phy.92607360" requires="module.driver.ether_phy.requires.phy_lsi0"/>
                 </stack>
               </stack>
-              <stack module="module.freertos.bufferallocation2.135781480" requires="module.driver.freertos_plus_tcp_on_ether.requires.bufferallocation2"/>
+              <stack module="module.freertos.bufferallocation2.472653627" requires="module.driver.freertos_plus_tcp_on_ether.requires.bufferallocation2"/>
             </stack>
           </stack>
         </stack>
       </stack>
-      <stack module="module.freertos.heap.4.1868339949"/>
+      <stack module="module.freertos.heap.4.47056303"/>
     </context>
     <config id="config.driver.ether">
       <property id="config.driver.ether.param_checking_enable" value="config.driver.ether.param_checking_enable.bsp"/>
@@ -378,12 +389,12 @@
     <config id="config.middleware.modbus_tcp_server">
       <property id="config.middleware.modbus_tcp_server.parameter_checking_enable" value="config.middleware.modbus_tcp_server.parameter_checking_enable.bsp"/>
       <property id="config.middleware.modbus_tcp_server.accept_task_stack_size" value="0x400"/>
-      <property id="config.middleware.modbus_tcp_server.accept_task_priority" value="3"/>
+      <property id="config.middleware.modbus_tcp_server.accept_task_priority" value="2"/>
       <property id="config.middleware.modbus_tcp_server.receive_task_stack_size" value="0x400"/>
-      <property id="config.middleware.modbus_tcp_server.receive_task_priority" value="3"/>
+      <property id="config.middleware.modbus_tcp_server.receive_task_priority" value="2"/>
       <property id="config.middleware.modbus_tcp_server.service_task_stack_size" value="0x400"/>
-      <property id="config.middleware.modbus_tcp_server.service_task_priority" value="3"/>
-      <property id="config.middleware.modbus_tcp_server.max_no_of_clients" value="1"/>
+      <property id="config.middleware.modbus_tcp_server.service_task_priority" value="2"/>
+      <property id="config.middleware.modbus_tcp_server.max_no_of_clients" value="3"/>
       <property id="config.middleware.modbus_tcp_server.receive_queue_length" value="8"/>
       <property id="config.middleware.modbus_tcp_server.server_id" value="255"/>
     </config>
@@ -399,6 +410,7 @@
     </config>
     <config id="config.driver.ioport">
       <property id="config.driver.ioport.checking" value="config.driver.ioport.checking.system"/>
+      <property id="config.driver.ioport.ccd_support_enable" value="config.driver.ioport.ccd_support_enable.disabled"/>
     </config>
     <config id="config.awsfreertos.thread">
       <property id="config.awsfreertos.custom_freertosconfig" value=""/>
@@ -492,7 +504,7 @@
       <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigMAX_ARP_RETRANSMISSIONS" value="5"/>
       <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigMAX_ARP_AGE" value="150"/>
       <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigINCLUDE_FULL_INET_ADDR" value="config.aws.freertosplus.freertosplus_tcp.ipconfigINCLUDE_FULL_INET_ADDR.1"/>
-      <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigNUM_NETWORK_BUFFER_DESCRIPTORS" value="10"/>
+      <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigNUM_NETWORK_BUFFER_DESCRIPTORS" value="30"/>
       <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigEVENT_QUEUE_LENGTH" value="ipconfigNUM_NETWORK_BUFFER_DESCRIPTORS + 5"/>
       <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigALLOW_SOCKET_SEND_WITHOUT_BIND" value="config.aws.freertosplus.freertosplus_tcp.ipconfigALLOW_SOCKET_SEND_WITHOUT_BIND.0"/>
       <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigUDP_TIME_TO_LIVE" value="128"/>

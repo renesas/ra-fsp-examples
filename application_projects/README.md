@@ -14,7 +14,7 @@
 | 11 | r01an7556 | [RA8 MCU Advanced Secure Bootloader Design using MCUboot and Code Flash Dualbank Mode](https://www.renesas.com/en/document/apn/ra8-mcu-advanced-secure-bootloader-design-using-mcuboot-and-code-flash-dualbank-mode) | 5.6.0 |
 | 12 | r01an7712 | [Using the Ethos-U NPU with RA8 MCUs](https://www.renesas.com/en/document/apn/using-ethos-u-npu-ra8-mcus) | 6.0.0 |
 | 13 | r01an7766 | [RA2 MCU Advanced Secure Bootloader Design using MCUboot Internal Code Flash and Memory Mirror Function](https://www.renesas.com/en/document/apn/ra2-mcu-advanced-secure-bootloader-design-using-mcuboot-internal-code-flash-and-memory-mirror) | 5.8.0 |
-| 14 | r01an7849 | [Renesas RA Family Modbus Sample program Package - EN version](https://www.renesas.com/en/document/rln/renesas-ra-family-modbus-sample-program-package) | 6.0.0 |
+| 14 | r01an7849 | [Renesas RA Family Modbus Sample program Package - EN version](https://www.renesas.com/en/document/rln/renesas-ra-family-modbus-sample-program-package) | 6.1.0 |
 |   |   | [Renesas RA Family Modbus Sample program Package - JP version](https://www.renesas.com/ja/document/rln/renesas-ra-family-modbus-sample-program-package) |   |
 |   |   | [Related: r20an0790 - Quick Start Guide: Modbus TCP - EN version](https://www.renesas.com/en/document/qsg/renesas-ra-family-quick-start-guide-modbus-tcp) |   |
 |   |   | [Related: r20an0790 - Quick Start Guide: Modbus TCP - JP version](https://www.renesas.com/ja/document/qsg/renesas-ra-family-quick-start-guide-modbus-tcp) |   |
