@@ -19,9 +19,9 @@ This project demonstrates the basic functionality of USBX Device CDC ACM module 
    	3) Open the RTT viewer to view the application status messages.
      
 3. Software Requirements:
-	Renesas Flexible Software Package (FSP): Version 6.1.0
-	e2 studio: Version 2025-07
-	SEGGER J-Link RTT Viewer: Version 8.58
+	Renesas Flexible Software Package (FSP): Version 6.2.0
+	e2 studio: Version 2025-10
+	SEGGER J-Link RTT Viewer: Version 8.74
 	Terminal Console Application: Tera Term or a similar application
 	USB Serial Drivers (included in Windows 10) 
 	Windows® 10 operating system

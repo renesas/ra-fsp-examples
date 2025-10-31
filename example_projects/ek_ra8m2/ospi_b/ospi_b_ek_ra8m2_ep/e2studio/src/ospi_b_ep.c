@@ -264,10 +264,6 @@ fsp_err_t ospi_b_init(void)
     err = R_OSPI_B_DirectTransfer(&g_ospi_b_ctrl, &transfer, SPI_FLASH_DIRECT_TRANSFER_DIR_WRITE);
     APP_ERR_RETURN(err, "R_OSPI_B_DirectTransfer API FAILED\r\n");
 
-    /* Transfer write enable command */
-    err = ospi_b_write_enable();
-    APP_ERR_RETURN(err, "ospi_b_write_enable FAILED\r\n");
-
     /* Write to CFR3V to configure Volatile Register Read Latency */
     transfer = g_ospi_b_direct_transfer[OSPI_B_TRANSFER_WRITE_CFR3V_SPI];
     err = R_OSPI_B_DirectTransfer(&g_ospi_b_ctrl, &transfer, SPI_FLASH_DIRECT_TRANSFER_DIR_WRITE);
@@ -382,12 +378,12 @@ fsp_err_t ospi_b_set_protocol_to_spi(void)
         err = R_OSPI_B_DirectTransfer(&g_ospi_b_ctrl, &transfer, SPI_FLASH_DIRECT_TRANSFER_DIR_WRITE);
         APP_ERR_RETURN(err, "R_OSPI_B_DirectTransfer API FAILED\r\n");
 
-#if defined (BOARD_RA8E2_EK) || defined (BOARD_RA8P1_EK)
-        /* Change the OCTACLK clock to 100 MHz in SDR mode without OM_DQS */
-        octaclk.source_clock = BSP_CLOCKS_SOURCE_CLOCK_PLL2P;
-        octaclk.divider      = BSP_CLOCKS_OCTA_CLOCK_DIV_3;
+#if defined (BOARD_RA8E2_EK)
+        /* Change the OCTACLK clock to 96 MHz in SDR mode without OM_DQS */
+        octaclk.source_clock = BSP_CLOCKS_SOURCE_CLOCK_PLL1Q;
+        octaclk.divider      = BSP_CLOCKS_OCTA_CLOCK_DIV_2;
         R_BSP_OctaclkUpdate(&octaclk);
-#elif defined (BOARD_RA8M2_EK)
+#elif defined (BOARD_RA8P1_EK) || defined (BOARD_RA8M2_EK)
         /* Change the OCTACLK clock to 118 MHz in SDR mode without OM_DQS */
         octaclk.source_clock = BSP_CLOCKS_SOURCE_CLOCK_PLL2Q;
         octaclk.divider      = BSP_CLOCKS_OCTA_CLOCK_DIV_1;
@@ -483,21 +479,10 @@ fsp_err_t ospi_b_set_protocol_to_opi(void)
         err = R_OSPI_B_DirectTransfer(&g_ospi_b_ctrl, &transfer, SPI_FLASH_DIRECT_TRANSFER_DIR_WRITE);
         APP_ERR_RETURN(err, "R_OSPI_B_DirectTransfer API FAILED\r\n");
 
-        /* Transfer write enable command */
-        err = ospi_b_write_enable();
-        APP_ERR_RETURN(err, "ospi_b_write_enable FAILED\r\n");
-
-#if defined (BOARD_RA8E2_EK) || defined (BOARD_RA8P1_EK) || defined (BOARD_RA8M2_EK)
-        /* Change the OCTACLK clock to 150 MHz in DDR mode with OM_DQS */
-        octaclk.source_clock = BSP_CLOCKS_SOURCE_CLOCK_PLL2P;
-        octaclk.divider      = BSP_CLOCKS_OCTA_CLOCK_DIV_2;
-        R_BSP_OctaclkUpdate(&octaclk);
-#elif defined (BOARD_RA8M2_EK)
         /* Change the OCTACLK clock to 266 MHz in DDR mode with OM_DQS */
         octaclk.source_clock = BSP_CLOCKS_SOURCE_CLOCK_PLL2P;
         octaclk.divider      = BSP_CLOCKS_OCTA_CLOCK_DIV_1;
         R_BSP_OctaclkUpdate(&octaclk);
-#endif /* OCTACLK clock settings for EK-RA8E2/EK-RA8P1/EK-RA8M2 */
 
         /* Switch OSPI module mode to OPI mode */
         err = R_OSPI_B_SpiProtocolSet(&g_ospi_b_ctrl, SPI_FLASH_PROTOCOL_8D_8D_8D);

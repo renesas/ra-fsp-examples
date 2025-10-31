@@ -35,12 +35,12 @@
 		+-------------+-------------+--------------+------------+------------+------------+-------------+-----------+
 
 	For EK-RA8E2:
-		- Connect J1 on Graphic Expandsion Board to J1 on EK-RA8E2. Please carefully align pin 2 on the Graphic
-                  Expandsion Board with pin 1 on the EK-RA8E2.
+		- Connect J1 on Graphic Expansion Board to J1 on EK-RA8E2. Please carefully align pin 2 on the Graphic
+                  Expansion Board with pin 1 on the EK-RA8E2.
 		- Connect the USB Debug port on EK-RA8E2 to the PC using a Type-C USB cable.
 
 	For EK-RA8P1:
-		- Connect J1 on Graphics Expandsion Board to J1 on EK-RA8P1. Please carefully align pin 1 on the Graphic
+		- Connect J1 on Graphics Expansion Board to J1 on EK-RA8P1. Please carefully align pin 1 on the Graphic
 	          Expansion Board with pin 1 on the EK-RA8P1.
 		- Connect the USB Debug port on EK-RA8P1 to the PC using a Type-C USB cable.
 

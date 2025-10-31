@@ -1,12 +1,12 @@
 /***********************************************************************************************************************
  * File Name    : sdram_ep.c
- * Description  : Contains data structures and functions.
+ * Description  : Contains data structures and functions
  **********************************************************************************************************************/
-/***********************************************************************************************************************
-* Copyright (c) 2024 - 2025 Renesas Electronics Corporation and/or its affiliates
+/**********************************************************************************************************************
+* Copyright (c) 2024 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
+**********************************************************************************************************************/
 
 #include "sdram_ep.h"
 
@@ -28,7 +28,7 @@ static fsp_err_t sdram_transmission(uint32_t start_addr, sdram_trans_dir_t dir);
 /* Public function declaration */
 void handle_error(fsp_err_t err, uint8_t * err_str);
 
-/* Private variables */
+/* Private Variables */
 static uint32_t p_buf_write[BLOCK_DATA_SIZE] BSP_ALIGN_VARIABLE(32) = {RESET_VALUE};
 static uint32_t p_buf_read[BLOCK_DATA_SIZE] BSP_ALIGN_VARIABLE(32) = {RESET_VALUE};
 static volatile _Bool g_sdram_transmission_complete = false;
@@ -38,8 +38,8 @@ static uint32_t g_buf_sdram[SDRAM_SIZE/4] BSP_ALIGN_VARIABLE(32) BSP_PLACE_IN_SE
 /***********************************************************************************************************************
  *  Function Name: sdram_entry
  *  Description  : This function is used to start the SDRAM example operation.
- *  Arguments    : None.
- *  Return Value : None.
+ *  Arguments    : None
+ *  Return Value : None
  **********************************************************************************************************************/
 void sdram_entry(void)
 {
@@ -50,26 +50,22 @@ void sdram_entry(void)
     led_error_state_set(LED_POWER_OFF);
     led_lpm_state_set(LED_POWER_OFF);
 
-#if (USE_VIRTUAL_COM == 1)
-
     /* Initialize UART module first to print log to serial terminal */
-    err = uart_init();
+    err = TERM_INIT();
     if (FSP_SUCCESS != err)
     {
         /* Turn on error LED to indicate an error has occurred */
         led_error_state_set(LED_POWER_ON);
 
         /* Error trap */
-        UART_ERR_TRAP();
+        ERROR_TRAP;
     }
-#endif /* USE_VIRTUAL_COM */
 
     /* Version get API for FSP information */
-    R_FSP_VersionGet(&version);
+    R_FSP_VersionGet (&version);
 
     /* Print the EP banner on the terminal */
-    APP_PRINT(BANNER_INFO, EP_VERSION, version.version_id_b.major, version.version_id_b.minor,\
-              version.version_id_b.patch);
+    APP_PRINT(BANNER_INFO, EP_VERSION, version.version_id_b.major, version.version_id_b.minor, version.version_id_b.patch);
 
     /* Print the EP information on the terminal */
     APP_PRINT(EP_INFO);
@@ -80,7 +76,7 @@ void sdram_entry(void)
 
     /* Initialize the DMAC module for SDRAM transmission */
     err = R_DMAC_Open(&g_sdram_transmission_ctrl, &g_sdram_transmission_cfg);
-    APP_ERR_HANDLE(err, "**R_DMAC_Open API failed**\r\n");
+    APP_ERR_HANDLE(err,"**R_DMAC_Open API failed**\r\n");
 
     /* Write to entire SDRAM */
     APP_PRINT("Writing to the entire SDRAM...\r\n");
@@ -110,8 +106,8 @@ void sdram_entry(void)
     APP_PRINT("\r\nPlease reset the MCU to restart the Example Project\r\n");
 
     /* De-Initialize the DMAC module */
-    err = R_DMAC_Close(&g_sdram_transmission_ctrl);
-    APP_ERR_HANDLE(err, "\r\n**R_DMAC_Close API failed**\r\n");
+    err = R_DMAC_Close (&g_sdram_transmission_ctrl);
+    APP_ERR_HANDLE(err,"\r\n**R_DMAC_Close API failed**\r\n");
 }
 /***********************************************************************************************************************
 * End of function sdram_entry
@@ -120,8 +116,8 @@ void sdram_entry(void)
 /***********************************************************************************************************************
  *  Function Name: make_buffer
  *  Description  : This function makes a buffer with data depending on the corresponding to the addresses.
- *  Arguments    : start_addr      Start address of each transfer data block.
- *  Return Value : None.
+ *  Arguments    : start_addr      Start address of each transfer data block
+ *  Return Value : None
  **********************************************************************************************************************/
 static void make_buffer(uint32_t start_addr)
 {
@@ -139,10 +135,10 @@ static void make_buffer(uint32_t start_addr)
 /***********************************************************************************************************************
  *  Function Name: sdram_transmission
  *  Description  : This function performs SDRAM transmission.
- *  Arguments    : start_addr      Start address of each transfer data block.
- *                 dir             Direction of transmission.
- *  Return Value : FSP_SUCCESS     Upon successful operation.
- *                 Any other error code apart from FSP_SUCCESS.
+ *  Arguments    : start_addr      Start address of each transfer data block
+ *                 dir             Direction of transmission
+ *  Return Value : FSP_SUCCESS     Upon successful operation
+ *                 Any Other Error code apart from FSP_SUCCESS
  **********************************************************************************************************************/
 static fsp_err_t sdram_transmission(uint32_t start_addr, sdram_trans_dir_t dir)
 {
@@ -156,14 +152,13 @@ static fsp_err_t sdram_transmission(uint32_t start_addr, sdram_trans_dir_t dir)
         make_buffer(start_addr);
 
 #ifdef BSP_CFG_DCACHE_ENABLED
-        /* Clean cache before executing any transmission to ensure that DMAC can see the data we initialized */
+        /* Clean cache before executing any transmission to ensure that DMAC can see the data we initialized. */
         SCB_CleanDCache_by_Addr(p_buf_write, BLOCK_DATA_SIZE);
 #endif /* BSP_CFG_DCACHE_ENABLED */
 
         /* Set the information of DMAC module for SDRAM write operation */
-        err = R_DMAC_Reset(&g_sdram_transmission_ctrl, (void*) p_buf_write, (void*) &g_buf_sdram[start_value],\
-                           BLOCK_DATA_SIZE);
-        APP_ERR_RETURN(err, "**R_DMAC_Reset API failed**\r\n");
+        err = R_DMAC_Reset(&g_sdram_transmission_ctrl, (void*) p_buf_write, (void*) &g_buf_sdram[start_value], BLOCK_DATA_SIZE);
+        APP_ERR_RET(err != FSP_SUCCESS,err, "**R_DMAC_Reset API failed**\r\n");
     }
 
     else /* READ == dir */
@@ -172,26 +167,25 @@ static fsp_err_t sdram_transmission(uint32_t start_addr, sdram_trans_dir_t dir)
         memset(p_buf_read, RESET_VALUE, sizeof(p_buf_read));
 
         /* Set the information of DMAC module for SDRAM read operation */
-        err = R_DMAC_Reset(&g_sdram_transmission_ctrl, (void*) &g_buf_sdram[start_value], (void*) p_buf_read ,\
-                           BLOCK_DATA_SIZE);
-        APP_ERR_RETURN(err, "**R_DMAC_Reset API failed**\r\n");
+        err = R_DMAC_Reset(&g_sdram_transmission_ctrl, (void*) &g_buf_sdram[start_value], (void*) p_buf_read , BLOCK_DATA_SIZE);
+        APP_ERR_RET(err != FSP_SUCCESS,err, "**R_DMAC_Reset API failed**\r\n");
     }
 
     /* Clear the transfer complete flag */
     g_sdram_transmission_complete = false;
 
     /* Start transfer operation */
-    err = R_DMAC_SoftwareStart(&g_sdram_transmission_ctrl, TRANSFER_START_MODE_REPEAT);
-    APP_ERR_RETURN(err, "**R_DMAC_SoftwareStart API failed**\r\n");
+    err = R_DMAC_SoftwareStart (&g_sdram_transmission_ctrl, TRANSFER_START_MODE_REPEAT);
+    APP_ERR_RET(err != FSP_SUCCESS,err, "**R_DMAC_SoftwareStart API failed**\r\n");
 
     /* Wait for transfer complete */
     while (!g_sdram_transmission_complete && --timeout)
     {
-        R_BSP_SoftwareDelay(1, BSP_DELAY_UNITS_MICROSECONDS);
+        R_BSP_SoftwareDelay (1, BSP_DELAY_UNITS_MICROSECONDS);
     }
     if (RESET_VALUE == timeout)
     {
-        APP_ERR_RETURN(FSP_ERR_TIMEOUT, "\r\nWrite operation timeout\r\n");
+        APP_ERR_RET(FSP_ERR_TIMEOUT != FSP_SUCCESS,FSP_ERR_TIMEOUT, "\r\nWrite operation timeout\r\n");
     }
 
     return err;
@@ -203,9 +197,9 @@ static fsp_err_t sdram_transmission(uint32_t start_addr, sdram_trans_dir_t dir)
 /***********************************************************************************************************************
  *  Function Name: sdram_verify_data
  *  Description  : This function is used to verify the expected data in SDRAM.
- *  Arguments    : None.
- *  Return Value : FSP_SUCCESS     Upon successful operation.
- *                 Any other error code apart from FSP_SUCCESS.
+ *  Arguments    : None
+ *  Return Value : FSP_SUCCESS     Upon successful operation
+ *                 Any Other Error code apart from FSP_SUCCESS
  **********************************************************************************************************************/
 static fsp_err_t sdram_verify_data(void)
 {
@@ -222,18 +216,18 @@ static fsp_err_t sdram_verify_data(void)
 
         /* Read data from SDRAM and store in p_buf_read */
         err = sdram_transmission(block_start_addr, READ);
-        APP_ERR_RETURN(err, "sdram_transmission failed\r\n");
+        APP_ERR_RET(err != FSP_SUCCESS,err, "sdram_transmission failed\r\n");
 
 #ifdef BSP_CFG_DCACHE_ENABLED
-        /* Invalidate cache to reflect data from memory to cache before checking the data */
+        /* Invalidate cache to reflect data from memory to cache before checking the data. */
         SCB_InvalidateDCache_by_Addr(&p_buf_read, BLOCK_DATA_SIZE);
 #endif /* BSP_CFG_DCACHE_ENABLED */
 
         /* Compare data of p_buf_write with p_buf_read */
-        int ret = memcmp(&p_buf_write, &p_buf_read, BLOCK_DATA_SIZE);
+        int ret = memcmp (&p_buf_write, &p_buf_read, BLOCK_DATA_SIZE);
         if(RESET_VALUE != ret)
         {
-            APP_ERR_RETURN(FSP_ERR_INVALID_DATA, "Data is mismatch\r\n");
+            APP_ERR_RET(FSP_ERR_INVALID_DATA != FSP_SUCCESS,FSP_ERR_INVALID_DATA,"Data is mismatch\r\n");
         }
     }
     return FSP_SUCCESS;
@@ -245,8 +239,8 @@ static fsp_err_t sdram_verify_data(void)
 /***********************************************************************************************************************
  *  Function Name: led_lpm_state_set
  *  Description  : This function sets the state of the LPM state LED.
- *  Arguments    : state           LED state want to set.
- *  Return Value : None.
+ *  Arguments    : state           LED state want to set
+ *  Return Value : None
  **********************************************************************************************************************/
 static void led_lpm_state_set(led_power_t state)
 {
@@ -263,8 +257,8 @@ static void led_lpm_state_set(led_power_t state)
 /***********************************************************************************************************************
  *  Function Name: led_error_state_set
  *  Description  : This function sets the state of the Error LED.
- *  Arguments    : state           LED state want to set.
- *  Return Value : None.
+ *  Arguments    : state           LED state want to set
+ *  Return Value : None
  **********************************************************************************************************************/
 static void led_error_state_set(led_power_t state)
 {
@@ -281,9 +275,9 @@ static void led_error_state_set(led_power_t state)
 /***********************************************************************************************************************
  *  Function Name: sdram_self_refresh
  *  Description  : This function performs SDRAM self-refresh operation.
- *  Arguments    : None.
- *  Return Value : FSP_SUCCESS     Upon successful operation.
- *                 Any other error code apart from FSP_SUCCESS.
+ *  Arguments    : None
+ *  Return Value : FSP_SUCCESS     Upon successful operation
+ *                 Any Other Error code apart from FSP_SUCCESS
  **********************************************************************************************************************/
 static fsp_err_t sdram_self_refresh(void)
 {
@@ -298,22 +292,22 @@ static fsp_err_t sdram_self_refresh(void)
 
     /* Start ULPT timer */
     err = R_ULPT_Start(&g_timer_cancel_lpm_ctrl);
-    APP_ERR_RETURN(err, "**R_ULPT_Start API failed**\r\n");
+    APP_ERR_RET(err != FSP_SUCCESS,err, "**R_ULPT_Start API failed**\r\n");
 
     /* Enter LPM mode */
     err = enter_lpm();
-    APP_ERR_RETURN(err, "erter_lpm failed\r\n");
+    APP_ERR_RET(err != FSP_SUCCESS,err, "erter_lpm failed\r\n");
 
     /* Stop timer */
     err = R_ULPT_Stop(&g_timer_cancel_lpm_ctrl);
-    APP_ERR_RETURN(err, "**R_ULPT_Stop API failed**\r\n");
+    APP_ERR_RET(err != FSP_SUCCESS,err, "**R_ULPT_Stop API failed**\r\n");
 
     /* Disable SDRAM self-refresh */
     R_BSP_SdramSelfRefreshDisable();
 
     /* Verify written data */
     err = sdram_verify_data();
-    APP_ERR_RETURN(err, "sdram_verify_data failed\r\n");
+    APP_ERR_RET(err != FSP_SUCCESS,err, "sdram_verify_data failed\r\n");
 
     return err;
 }
@@ -324,17 +318,17 @@ static fsp_err_t sdram_self_refresh(void)
 /***********************************************************************************************************************
  *  Function Name: enter_lpm
  *  Description  : This function performs a procedure when MCU enters LPM mode.
- *  Arguments    : None.
- *  Return Value : FSP_SUCCESS     Upon successful operation.
- *                 Any other error code apart from FSP_SUCCESS.
+ *  Arguments    : None
+ *  Return Value : FSP_SUCCESS     Upon successful operation
+ *                 Any Other Error code apart from FSP_SUCCESS
  **********************************************************************************************************************/
 static fsp_err_t enter_lpm(void)
 {
     fsp_err_t err = FSP_SUCCESS;
 
-    /* Initialize LPM SW Standby mode */
+    /* Initialize LPM sw standby mode */
     err = R_LPM_Open(&g_sw_standby_ctrl, &g_sw_standby_cfg);
-    APP_ERR_RETURN(err, "**R_LPM_Open API failed**\r\n");
+    APP_ERR_RET(err != FSP_SUCCESS,err, "**R_LPM_Open failed**\r\n");
 
     /* Turn ON LPM state LED in one second */
     led_lpm_state_set(LED_POWER_ON);
@@ -348,32 +342,29 @@ static fsp_err_t enter_lpm(void)
     /* Delay to ensure message was printed before enter LPM mode */
     R_BSP_SoftwareDelay(PRINT_DELAY, BSP_DELAY_UNITS_MILLISECONDS);
 
-#if (USE_VIRTUAL_COM == 1)
-#if defined(BOARD_RA8D1_EK) || defined(BOARD_RA8E2_EK) || defined(BOARD_RA8P1_EK)
+#if defined(BOARD_RA8D1_EK)  || defined(BOARD_RA8E2_EK) || defined(BOARD_RA8P1_EK)
     /* SCI UART module Stop with Undefined in SW Standby mode */
-    uart_deinit();
+    TERM_DEINIT();
 #endif
-#endif /* USE_VIRTUAL_COM */
 
     /* Enter LPM SW standby mode */
     err = R_LPM_LowPowerModeEnter(&g_sw_standby_ctrl);
-    APP_ERR_RETURN(err, "**R_LPM_LowPowerModeEnter API failed**\r\n");
+    APP_ERR_RET(err != FSP_SUCCESS,err, "**R_LPM_LowPowerModeEnter failed**\r\n");
 
-#if (USE_VIRTUAL_COM == 1)
-#if defined(BOARD_RA8D1_EK) || defined(BOARD_RA8E2_EK) || defined(BOARD_RA8P1_EK)
+#if defined(BOARD_RA8D1_EK)  || defined(BOARD_RA8E2_EK) || defined(BOARD_RA8P1_EK)
     /* Re-initialize SCI UART after SW Standby Mode */
-    uart_init();
+    TERM_INIT();
 #endif
-#endif /* USE_VIRTUAL_COM */
 
     /* Turn ON LPM led when MCU is returned to the normal mode */
     led_lpm_state_set(LED_POWER_ON);
 
     /* De-initialize LPM SW standby mode */
     err = R_LPM_Close(&g_sw_standby_ctrl);
-    APP_ERR_RETURN(err, "**R_LPM_Close API failed**\r\n");
+    APP_ERR_RET(err != FSP_SUCCESS,err, "**R_LPM_Close failed**\r\n");
 
-    APP_PRINT(CTRL_TEXT_BRIGHT_GREEN "MCU returned to the normal mode\r\n\r\n" CTRL_RESET);
+    APP_PRINT("MCU returned to the normal mode\r\n\r\n");
+//    APP_PRINT(CTRL_TEXT_BRIGHT_GREEN "MCU returned to the normal mode\r\n\r\n" CTRL_RESET);
     return err;
 }
 /***********************************************************************************************************************
@@ -383,8 +374,8 @@ static fsp_err_t enter_lpm(void)
 /***********************************************************************************************************************
  *  Function Name: transmission_sdram_callback
  *  Description  : This function is a callback function of SDRAM transmission.
- *  Arguments    : p_args.
- *  Return Value : None.
+ *  Arguments    : p_args
+ *  Return Value : None
  **********************************************************************************************************************/
 void transmission_sdram_callback(dmac_callback_args_t *p_args)
 {
@@ -393,6 +384,7 @@ void transmission_sdram_callback(dmac_callback_args_t *p_args)
         /* Set the transmission complete flag */
         g_sdram_transmission_complete = true;
     }
+
 }
 /***********************************************************************************************************************
 * End of function transmission_sdram_callback
@@ -400,9 +392,9 @@ void transmission_sdram_callback(dmac_callback_args_t *p_args)
 
 /***********************************************************************************************************************
  *  Function Name: dmac_deinit
- *  Description  : This function closes opened DMAC module before the project ends up in an error trap.
- *  Arguments    : None.
- *  Return Value : None.
+ *  Description  : This function closes opened DMAC module before the project ends up in an Error Trap.
+ *  Arguments    : None
+ *  Return Value : None
  **********************************************************************************************************************/
 static void dmac_deinit(void)
 {
@@ -421,9 +413,9 @@ static void dmac_deinit(void)
 
 /***********************************************************************************************************************
  *  Function Name: lpm_deinit
- *  Description  : This function closes opened LPM module before the project ends up in an error trap.
- *  Arguments    : None.
- *  Return Value : None.
+ *  Description  : This function closes opened LPM module before the project ends up in an Error Trap.
+ *  Arguments    : None
+ *  Return Value : None
  **********************************************************************************************************************/
 static void lpm_deinit(void)
 {
@@ -442,9 +434,9 @@ static void lpm_deinit(void)
 
 /***********************************************************************************************************************
  *  Function Name: timer_deinit
- *  Description  : This function closes opened timer module before the project ends up in an error trap.
- *  Arguments    : None.
- *  Return Value : None.
+ *  Description  : This function closes opened timer module before the project ends up in an Error Trap.
+ *  Arguments    : None
+ *  Return Value : None
  **********************************************************************************************************************/
 static void timer_deinit(void)
 {
@@ -464,9 +456,9 @@ static void timer_deinit(void)
 /***********************************************************************************************************************
  *  Function Name: handle_error
  *  Description  : This function handles error if error occurred, closes all opened modules, prints and traps error.
- *  Arguments    : err             Error status.
- *                 err_str         Error string.
- *  Return Value : None.
+ *  Arguments    : err             error status
+ *                 err_str         error string
+ *  Return Value : None
  **********************************************************************************************************************/
 void handle_error(fsp_err_t err, uint8_t * err_str)
 {
@@ -488,6 +480,8 @@ void handle_error(fsp_err_t err, uint8_t * err_str)
     /* Trap the error */
     APP_ERR_TRAP(err);
 }
+
+
 /***********************************************************************************************************************
 * End of function handle_error
 ***********************************************************************************************************************/

@@ -3,13 +3,14 @@
  * Description  : Contains data structures and functions used in clock_output_ep.c
  **********************************************************************************************************************/
 /***********************************************************************************************************************
-* Copyright (c) 2024 - 2025 Renesas Electronics Corporation and/or its affiliates
+* Copyright (c) 2024 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
 ***********************************************************************************************************************/
 
 #ifndef CLOCK_OUTPUT_EP_H_
 #define CLOCK_OUTPUT_EP_H_
+
 
 #define EP_VERSION      ("1.0")
 
@@ -34,6 +35,8 @@
 		            "\r\nEnter 2 to Start Sub_Clock Output"\
 					"\r\nEnter 3 to Stop Clock Output\r\n"\
 					"User Input:  "
+
+#define ERR_LED                         (0U)
 
 /* Key code for writing PRCR register. */
 #define PRV_PRCR_KEY                        (0xA500U)
@@ -65,18 +68,23 @@
 /* Macro for clock output pin. */
 #if defined (BOARD_RA2A1_EK)
 #define CLKOUT_PIN      (BSP_IO_PORT_01_PIN_10)
+#elif defined (BOARD_RA2A2_EK)
+#define CLKOUT_PIN      (BSP_IO_PORT_02_PIN_10)
 #elif defined (BOARD_RA2E1_EK) || defined (BOARD_RA2L1_EK) || defined (BOARD_RA4E2_EK) || defined (BOARD_RA6E2_EK)
 #define CLKOUT_PIN      (BSP_IO_PORT_01_PIN_09)
 #elif defined (BOARD_RA8D1_EK)
 #define CLKOUT_PIN      (BSP_IO_PORT_09_PIN_13)
-#elif defined (BOARD_RA8P1_EK)
-#define CLKOUT_PIN      (BSP_IO_PORT_06_PIN_11)
 #else
 #define CLKOUT_PIN      (BSP_IO_PORT_02_PIN_05)
 #endif
 
-/* Macro for error LED */
-#define ERR_LED                         (0U)
+/* Macro for handle error */
+#define APP_ERR_HANDLE(err, fn_)   ({\
+    if(err){\
+        handle_error((err), (uint8_t *)(fn_));\
+    }\
+})
+
 
 /* Public function declarations */
 /***********************************************************************************************************************

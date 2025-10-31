@@ -476,9 +476,13 @@ FSP Configuration
   User Event Links
     
   Linker Section Mappings
+    *bsp_linker.?*(.rodata.*): FLASH Constant Data (OFS Gap)
+    *(.bss.g_heap): RAM Uninitialized
+    *(.bss.g_main_stack): RAM Uninitialized
     
   Module "I/O Port (r_ioport)"
     Parameter Checking: Default (BSP)
+    CCD Support: Not Supported
     
   Module "Azure RTOS ThreadX Port (rm_threadx_port)"
   Module "External IRQ (r_icu)"
@@ -860,6 +864,8 @@ FSP Configuration
     Link Signal Change Flag: Unused
     
   Module "NetX Duo Ethernet Driver (rm_netxduo_ether)"
+    Zero Copy Support: Enabled
+    
   Module "Azure RTOS NetX Duo Packet Pool Instance"
     Common: Error Checking: Enabled (default)
     Common: IP Packet Filter: Disabled (default)
@@ -2860,8 +2866,8 @@ FSP Configuration
             Filters: Multicast Mode: Enable
             Filters: Promiscuous Mode: Disable
             Filters: Broadcast filter: 0
-            Buffers: Number of TX buffer: 4
-            Buffers: Number of RX buffer: 4
+            Buffers: Number of TX buffer: 1
+            Buffers: Number of RX buffer: 1
             Buffers: Allocate RX buffer: Disable
             Buffers: Buffer size: 1514
             Buffers: Padding size: 2 Bytes
@@ -2936,8 +2942,8 @@ FSP Configuration
             Filters: Multicast Mode: Enable
             Filters: Promiscuous Mode: Disable
             Filters: Broadcast filter: 0
-            Buffers: Number of TX buffer: 4
-            Buffers: Number of RX buffer: 4
+            Buffers: Number of TX buffer: 1
+            Buffers: Number of RX buffer: 1
             Buffers: Allocate RX buffer: Disable
             Buffers: Buffer size: 1514
             Buffers: Padding size: 2 Bytes
@@ -3006,8 +3012,8 @@ FSP Configuration
             Filters: Multicast Mode: Enable
             Filters: Promiscuous Mode: Disable
             Filters: Broadcast filter: 0
-            Buffers: Number of TX buffer: 4
-            Buffers: Number of RX buffer: 4
+            Buffers: Number of TX buffer: 1
+            Buffers: Number of RX buffer: 1
             Buffers: Allocate RX buffer: Disable
             Buffers: Buffer size: 1514
             Buffers: Padding size: 2 Bytes

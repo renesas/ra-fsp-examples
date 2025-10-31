@@ -229,11 +229,6 @@ void sci_uart_tei_isr(void);
  * Private global variables
  **********************************************************************************************************************/
 
-/* Name of module used by error logger macro */
-#if BSP_CFG_ERROR_LOG != 0
-static const char g_module_name[] = "sci_uart";
-#endif
-
 /* Baud rate divisor information (UART mode) */
 static const baud_setting_const_t g_async_baud[SCI_UART_NUM_DIVISORS_ASYNC] =
 {
@@ -281,6 +276,8 @@ const uart_api_t g_uart_on_sci =
     .communicationAbort = R_SCI_UART_Abort,
     .callbackSet        = R_SCI_UART_CallbackSet,
     .readStop           = R_SCI_UART_ReadStop,
+    .receiveSuspend     = R_SCI_UART_ReceiveSuspend,
+    .receiveResume      = R_SCI_UART_ReceiveResume,
 };
 
 /*******************************************************************************************************************//**
@@ -325,7 +322,7 @@ fsp_err_t R_SCI_UART_Open (uart_ctrl_t * const p_api_ctrl, uart_cfg_t const * co
     FSP_ERROR_RETURN(SCI_UART_OPEN != p_ctrl->open, FSP_ERR_ALREADY_OPEN);
 
     /* Make sure this channel exists. */
-    FSP_ERROR_RETURN(BSP_FEATURE_SCI_CHANNELS & (1U << p_cfg->channel), FSP_ERR_IP_CHANNEL_NOT_PRESENT);
+    FSP_ERROR_RETURN(BSP_FEATURE_SCI_CHANNELS_MASK & (1U << p_cfg->channel), FSP_ERR_IP_CHANNEL_NOT_PRESENT);
 
     if (((sci_uart_extended_cfg_t *) p_cfg->p_extend)->flow_control == SCI_UART_FLOW_CONTROL_CTSRTS)
     {
@@ -336,7 +333,7 @@ fsp_err_t R_SCI_UART_Open (uart_ctrl_t * const p_api_ctrl, uart_cfg_t const * co
 
     if (((sci_uart_extended_cfg_t *) p_cfg->p_extend)->flow_control == SCI_UART_FLOW_CONTROL_HARDWARE_CTSRTS)
     {
-        FSP_ERROR_RETURN((0U != (((1U << (p_cfg->channel)) & BSP_FEATURE_SCI_UART_CSTPEN_CHANNELS))),
+        FSP_ERROR_RETURN((0U != (((1U << (p_cfg->channel)) & BSP_FEATURE_SCI_UART_CSTPEN_CHANNELS_MASK))),
                          FSP_ERR_INVALID_ARGUMENT);
     }
 
@@ -353,7 +350,7 @@ fsp_err_t R_SCI_UART_Open (uart_ctrl_t * const p_api_ctrl, uart_cfg_t const * co
   #if SCI_UART_CFG_IRDA_SUPPORT
     if (((sci_uart_extended_cfg_t *) p_cfg->p_extend)->irda_setting.ircr_bits_b.ire)
     {
-        FSP_ERROR_RETURN(BSP_PERIPHERAL_IRDA_CHANNEL_MASK & (1 << p_cfg->channel), FSP_ERR_INVALID_CHANNEL);
+        FSP_ERROR_RETURN(BSP_FEATURE_SCI_IRDA_CHANNEL_MASK & (1 << p_cfg->channel), FSP_ERR_INVALID_CHANNEL);
     }
   #endif
  #endif
@@ -365,7 +362,7 @@ fsp_err_t R_SCI_UART_Open (uart_ctrl_t * const p_api_ctrl, uart_cfg_t const * co
 #endif
 
     /* Verify that the selected channel is not among the restricted channels when ABCSE is 1. Refer "Limitations" section of r_sci_uart module in FSP User Manual */
-    FSP_ERROR_RETURN(!((BSP_FEATURE_SCI_UART_ABCSE_RESTRICTED_CHANNELS & (1 << p_cfg->channel)) &&
+    FSP_ERROR_RETURN(!((BSP_FEATURE_SCI_UART_ABCSE_RESTRICTED_CHANNELS_MASK & (1 << p_cfg->channel)) &&
                        ((sci_uart_extended_cfg_t *) p_cfg->p_extend)->p_baud_setting->semr_baudrate_bits_b.abcse),
                      FSP_ERR_INVALID_ARGUMENT);
 
@@ -375,7 +372,7 @@ fsp_err_t R_SCI_UART_Open (uart_ctrl_t * const p_api_ctrl, uart_cfg_t const * co
 #if SCI_UART_CFG_FIFO_SUPPORT
 
     /* Check if the channel supports fifo */
-    if (BSP_FEATURE_SCI_UART_FIFO_CHANNELS & (1U << p_cfg->channel))
+    if (BSP_FEATURE_SCI_UART_FIFO_CHANNELS_MASK & (1U << p_cfg->channel))
     {
         p_ctrl->fifo_depth = BSP_FEATURE_SCI_UART_FIFO_DEPTH;
     }
@@ -418,8 +415,8 @@ fsp_err_t R_SCI_UART_Open (uart_ctrl_t * const p_api_ctrl, uart_cfg_t const * co
     /* Enable the SCI channel */
     R_BSP_MODULE_START(FSP_IP_SCI, p_cfg->channel);
 
-    /* Initialize registers as defined in section 34.3.7 "SCI Initialization in Asynchronous Mode" in the RA6M3 manual
-     * R01UH0886EJ0100 or the relevant section for the MCU being used. */
+    /* Initialize registers as defined in section "SCI Initialization in Asynchronous Mode"
+     * in the relevant hardware manual */
     p_ctrl->p_reg->SCR   = 0U;
     p_ctrl->p_reg->SSR   = 0U;
     p_ctrl->p_reg->SIMR1 = 0U;
@@ -428,7 +425,7 @@ fsp_err_t R_SCI_UART_Open (uart_ctrl_t * const p_api_ctrl, uart_cfg_t const * co
     p_ctrl->p_reg->CDR   = 0U;
 
     /* Check if the channel supports address matching */
-    if (BSP_FEATURE_SCI_ADDRESS_MATCH_CHANNELS & (1U << p_cfg->channel))
+    if (BSP_FEATURE_SCI_ADDRESS_MATCH_CHANNELS_MASK & (1U << p_cfg->channel))
     {
         p_ctrl->p_reg->DCCR = SCI_UART_DCCR_DEFAULT_VALUE;
     }
@@ -729,7 +726,7 @@ fsp_err_t R_SCI_UART_Write (uart_ctrl_t * const p_api_ctrl, uint8_t const * cons
  **********************************************************************************************************************/
 fsp_err_t R_SCI_UART_CallbackSet (uart_ctrl_t * const          p_api_ctrl,
                                   void (                     * p_callback)(uart_callback_args_t *),
-                                  void const * const           p_context,
+                                  void * const                 p_context,
                                   uart_callback_args_t * const p_callback_memory)
 {
     sci_uart_instance_ctrl_t * p_ctrl = (sci_uart_instance_ctrl_t *) p_api_ctrl;
@@ -793,7 +790,7 @@ fsp_err_t R_SCI_UART_BaudSet (uart_ctrl_t * const p_api_ctrl, void const * const
 #endif
 
     /* Verify that the selected channel is not among the restricted channels when ABCSE is 1. Refer "Limitations" section of r_sci_uart module in FSP User Manual */
-    FSP_ERROR_RETURN(!((BSP_FEATURE_SCI_UART_ABCSE_RESTRICTED_CHANNELS & (1 << p_ctrl->p_cfg->channel)) &&
+    FSP_ERROR_RETURN(!((BSP_FEATURE_SCI_UART_ABCSE_RESTRICTED_CHANNELS_MASK & (1 << p_ctrl->p_cfg->channel)) &&
                        (((baud_setting_t *) p_baud_setting)->semr_baudrate_bits_b.abcse)),
                      FSP_ERR_INVALID_ARGUMENT);
 
@@ -907,8 +904,8 @@ fsp_err_t R_SCI_UART_Abort (uart_ctrl_t * const p_api_ctrl, uart_dir_t communica
             /* Reset the transmit fifo */
             p_ctrl->p_reg->FCR_b.TFRST = 1U;
 
-            /* Wait until TFRST cleared after 1 PCLK according to section 34.2.26 "FIFO Control Register (FCR) in the
-             * RA6M3 manual R01UH0886EJ0100 or the relevant section for the MCU being used.*/
+            /* Wait until TFRST cleared after 1 PCLK according to "FIFO Control Register (FCR)" description
+             * in the SCI section of the relevant hardware manual.*/
             FSP_HARDWARE_REGISTER_WAIT(p_ctrl->p_reg->FCR_b.TFRST, 0U);
         }
  #endif
@@ -938,8 +935,8 @@ fsp_err_t R_SCI_UART_Abort (uart_ctrl_t * const p_api_ctrl, uart_dir_t communica
             /* Reset the receive fifo */
             p_ctrl->p_reg->FCR_b.RFRST = 1U;
 
-            /* Wait until RFRST cleared after 1 PCLK according to section 34.2.26 "FIFO Control Register (FCR) in the
-             * RA6M3 manual R01UH0886EJ0100 or the relevant section for the MCU being used.*/
+            /* Wait until RFRST cleared after 1 PCLK according to "FIFO Control Register (FCR)" description
+             * in the SCI section of the relevant hardware manual.*/
             FSP_HARDWARE_REGISTER_WAIT(p_ctrl->p_reg->FCR_b.RFRST, 0U);
         }
  #endif
@@ -1045,8 +1042,8 @@ fsp_err_t R_SCI_UART_BaudCalculate (uint32_t               baudrate,
     {
         for (uint32_t i = 0U; i < SCI_UART_NUM_DIVISORS_ASYNC; i++)
         {
-            /* if select_16_base_clk_cycles == true:  Skip this calculation for divisors that are not acheivable with 16 base clk cycles per bit.
-             *  if select_16_base_clk_cycles == false: Skip this calculation for divisors that are only acheivable without 16 base clk cycles per bit.
+            /* if select_16_base_clk_cycles == true:  Skip this calculation for divisors that are not achievable with 16 base clk cycles per bit.
+             *  if select_16_base_clk_cycles == false: Skip this calculation for divisors that are only achievable without 16 base clk cycles per bit.
              */
             if (((uint8_t) select_16_base_clk_cycles) ^ (g_async_baud[i].abcs | g_async_baud[i].abcse))
             {
@@ -1148,6 +1145,30 @@ fsp_err_t R_SCI_UART_BaudCalculate (uint32_t               baudrate,
     FSP_ERROR_RETURN((hit_bit_err <= (int32_t) baud_rate_error_x_1000), FSP_ERR_INVALID_ARGUMENT);
 
     return FSP_SUCCESS;
+}
+
+/*******************************************************************************************************************//**
+ * Suspend Reception
+ *
+ * @retval     FSP_ERR_UNSUPPORTED       Functionality not supported by this driver instance
+ **********************************************************************************************************************/
+fsp_err_t R_SCI_UART_ReceiveSuspend (uart_ctrl_t * const p_api_ctrl)
+{
+    FSP_PARAMETER_NOT_USED(p_api_ctrl);
+
+    return FSP_ERR_UNSUPPORTED;
+}
+
+/*******************************************************************************************************************//**
+ * Resume Reception
+ *
+ * @retval     FSP_ERR_UNSUPPORTED       Functionality not supported by this driver instance
+ **********************************************************************************************************************/
+fsp_err_t R_SCI_UART_ReceiveResume (uart_ctrl_t * const p_api_ctrl)
+{
+    FSP_PARAMETER_NOT_USED(p_api_ctrl);
+
+    return FSP_ERR_UNSUPPORTED;
 }
 
 /*******************************************************************************************************************//**
@@ -1393,7 +1414,7 @@ static void r_sci_uart_config_set (sci_uart_instance_ctrl_t * const p_ctrl, uart
 #else
 
     /* If fifo support is disabled and the current channel supports fifo make sure it's disabled. */
-    if (BSP_FEATURE_SCI_UART_FIFO_CHANNELS & (1U << p_cfg->channel))
+    if (BSP_FEATURE_SCI_UART_FIFO_CHANNELS_MASK & (1U << p_cfg->channel))
     {
         p_ctrl->p_reg->FCR = SCI_UART_FCR_DEFAULT_VALUE;
     }
@@ -1436,7 +1457,7 @@ static void r_sci_uart_config_set (sci_uart_instance_ctrl_t * const p_ctrl, uart
     sci_uart_extended_cfg_t * p_extend = (sci_uart_extended_cfg_t *) p_cfg->p_extend;
 
     /* Configure flow control if CTS/RTS flow control is enabled. */
-#if BSP_FEATURE_SCI_UART_CSTPEN_CHANNELS
+#if BSP_FEATURE_SCI_UART_CSTPEN_CHANNELS_MASK
     if (p_extend->flow_control == SCI_UART_FLOW_CONTROL_HARDWARE_CTSRTS)
     {
         p_ctrl->p_reg->SPMR = R_SCI0_SPMR_CSTPEN_Msk | R_SCI0_SPMR_CTSE_Msk;
@@ -1508,8 +1529,7 @@ static void r_sci_uart_fifo_cfg (sci_uart_instance_ctrl_t * const p_ctrl)
             /* RTRG(Receive FIFO Data Trigger Number) controls when the RXI interrupt will be generated. If data is
              * received but the trigger number is not met the RXI interrupt will be generated after 15 ETUs from
              * the last stop bit in asynchronous mode. For more information see the FIFO Selected section of "Serial
-             * Data Reception in Asynchronous Mode" in the RA6M3 manual R01UH0886EJ0100 or the relevant section for
-             * the MCU being used. */
+             * Data Reception in Asynchronous Mode" in the SCI section of the relevant hardware manual */
             fcr |= (((p_ctrl->fifo_depth - 1U) & p_extend->rx_fifo_trigger) & SCI_UART_FCR_TRIGGER_MASK) <<
                    SCI_UART_FCR_RTRG_OFFSET;
         }
@@ -1521,8 +1541,8 @@ static void r_sci_uart_fifo_cfg (sci_uart_instance_ctrl_t * const p_ctrl)
         /* Set the FCR and reset the fifos. */
         p_ctrl->p_reg->FCR = (uint16_t) (fcr | SCI_UART_FCR_RESET_TX_RX);
 
-        /* Wait for the fifo reset to complete after 1 PCLK according to section 34.2.26 "FIFO Control Register (FCR)
-         * in the RA6M3 manual R01UH0886EJ0100 or the relevant section for the MCU being used.*/
+        /* Wait for the fifo reset to complete after 1 PCLK according to "FIFO Control Register (FCR)" description
+         * in the SCI section of the relevant hardware manual.*/
         FSP_HARDWARE_REGISTER_WAIT(p_ctrl->p_reg->FCR, fcr);
     }
 }
@@ -2039,4 +2059,3 @@ void sci_uart_eri_isr (void)
     /* Do nothing */
 }
 #endif /* USE_VIRTUAL_COM */
-

@@ -26,16 +26,15 @@ In the File Operations Menu, the user selects operation to perform.
 4. Delete the File.
 5. Go back to the Main Menu.
 
-Please refer to the [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf) 
-for general information on example projects and [readme.txt](./readme.txt) for specifics of operation.
+Please refer to the [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf) for general information on example projects and [readme.txt](./readme.txt) for specifics of operation.
 
 ## Required Resources ## 
 The following resources are needed to build and run the littlefs_qspi example project.
 
 ### Software ###
-* Renesas Flexible Software Package (FSP): Version 6.0.0
-* e2 studio: Version 2025-04.1
-* SEGGER J-Link RTT Viewer: Version 8.44a
+* Renesas Flexible Software Package (FSP): Version 6.2.0
+* e2 studio: Version 2025-10
+* SEGGER J-Link RTT Viewer: Version 8.74
 * GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 * Terminal Console Application: Tera Term or a similar application
 
@@ -146,12 +145,15 @@ The table below lists the FSP provided API used at the application layer in this
 | R_QSPI_StatusGet | This API is used to get the write or erase status of the flash. |
 
 ## Verifying Operation ##
-1. Import the example project. Note that the EP supports the Serial Terminal by default for RA boards that support J-Link OB VCOM.
-	* By default, the EP supports Serial Terminal for RA boards that support J-Link OB VCOM
-		* Define USE_VIRTUAL_COM=1 macro in Project Properties -> C/C++ Build -> Settings -> Tool Settings -> Compiler -> Includes
-	
-	* To use SEGGER J-Link RTT Viewer, please follow the instructions as below:
-		* Define USE_VIRTUAL_COM=0 macro in Project Properties -> C/C++ Build -> Settings -> Tool Settings -> Compiler -> Includes 
+1. Import the example project.
+	* By default, the EP supports Serial terminal for RA boards that support J-link OB VCOM
+
+			Define USE_VIRTUAL_COM=1 macro in Project Properties -> C/C++ Build -> Settings -> Tool Settings -> GNU ARM Cross C Compiler -> Preprocessor
+
+	* To use SEGGER J-Link RTT Viewer, please follow the instructions below:
+
+			Define USE_VIRTUAL_COM=0 macro in Project Properties -> C/C++ Build -> Settings -> Tool Settings -> GNU ARM Cross C Compiler -> Preprocessor
+
 2. Generate, build the example project.
 3. Connect the RA MCU debug port to the host PC via a Type-C cable.
 4. Debug or flash the example project to the RA board.
@@ -188,7 +190,7 @@ The table below lists the FSP provided API used at the application layer in this
 			* Stop bit: 1-bit  
 			* Flow control: none
 			  
-The below images showcase the output on the J-Link RTT Viewer:
+The images below showcase the output on the J-Link RTT Viewer:
 
 The EP information:
 

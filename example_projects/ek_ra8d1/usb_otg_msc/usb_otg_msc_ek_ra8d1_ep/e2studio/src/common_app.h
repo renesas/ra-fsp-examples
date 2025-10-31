@@ -67,29 +67,14 @@
 #define PRINT_EP_MENU                   (term_send_output_queue(TERM_OUTPUT_EP_MENU, NULL, RESET_VALUE))
 #define PRINT_INFO_STR(str)             (term_send_output_queue(TERM_OUTPUT_INFO_STR, (str), strlen(str)))
 #define PRINT_ERR_STR(str)              (term_send_output_queue(TERM_OUTPUT_ERR_STR, (str), strlen(str)))
-#define PRINT_ID_STR(id, str)           (term_send_output_queue((id), (str), strlen(str)))
-#define PRINT_ID_DATA(id, data)         (term_send_output_queue((id), &(data), sizeof(data)))
-#define INFO_RET(cond, str)             ({\
-                                            if (cond)\
-                                            {\
-                                                term_send_output_queue(TERM_OUTPUT_INFO_STR, (str), strlen(str));\
-                                                return (0U);\
-                                            }\
-                                        })
-#define ERROR_RET(cond, err, str)       ({\
+#define TERM_ERR_RET(cond, err, str)    ({\
                                             if (cond)\
                                             {\
                                                 term_send_output_queue(TERM_OUTPUT_ERR_STR, (str), strlen(str));\
                                                 return (err);\
                                             }\
-})
-#define ERROR_PRINT(cond, str)          ({\
-                                            if (cond)\
-                                            {\
-                                                term_send_output_queue(TERM_OUTPUT_ERR_STR, (str), strlen(str));\
-                                            }\
                                         })
-#define ERROR_TRAP(cond, err, str)      ({\
+#define TERM_ERR_TRAP(cond, err, str)   ({\
                                             if (cond)\
                                             {\
                                                 term_send_output_queue(TERM_OUTPUT_ERR_STR, (str), strlen(str));\

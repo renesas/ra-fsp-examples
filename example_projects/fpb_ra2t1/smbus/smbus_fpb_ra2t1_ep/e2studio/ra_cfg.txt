@@ -9,6 +9,7 @@ FSP Configuration
     package_pins: 48
     number of cores: 1
     
+  R7FA2T1074CFL
   RA2T1
     series: 2
     
@@ -198,9 +199,15 @@ FSP Configuration
   User Event Links
     
   Linker Section Mappings
+    *bsp_linker.?*(.rodata.*): FLASH Constant Data (OFS Gap)
+    *startup.?*(.text.Reset_Handler): FLASH Code (OFS Gap)
+    *system.?*(.text.*): FLASH Code (OFS Gap)
+    *(.bss.g_heap): RAM Uninitialized
+    *(.bss.g_main_stack): RAM Uninitialized
     
   Module "I/O Port (r_ioport)"
     Parameter Checking: Default (BSP)
+    CCD Support: Not Supported
     
   Module "SMBus Communication Device (rm_comms_smbus)"
     Parameter Checking: Default (BSP)
@@ -301,6 +308,8 @@ FSP Configuration
           Input: Capture B Source: 
           Input: Noise Filter A Sampling Clock Select: No Filter
           Input: Noise Filter B Sampling Clock Select: No Filter
+          Pin Polarity: GTIOCnA Polarity: Normal
+          Pin Polarity: GTIOCnB Polarity: Normal
           Interrupts: Callback: rm_comms_smbus_timeout_callback
           Interrupts: Overflow/Crest Interrupt Priority: Priority 2
           Interrupts: Capture/Compare match A Interrupt Priority: Priority 0 (highest)

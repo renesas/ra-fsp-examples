@@ -16,7 +16,7 @@
 	1 x Renesas RA board.
 	1 x MIPI Graphics Expansion Board.
 	1 x Type-C USB cable.
-	
+
 3. Hardware Connections:
     	For EK-RA8D1:
 		1. Connect the USB Debug port on EK-RA8D1 to the PC using a micro USB cable.
@@ -35,10 +35,10 @@
 		+------------------+------------------+------------+---------------+-----------+------------+------------------+------------------+
 		| SW4-1 PMOD1_SEL0 | SW4-2 PMOD1_SEL1 | SW4-3 OSPI | SW4-4 ARDUINO | SW4-5 I3C | SW4-6 MIPI | SW4-7 USBFS_ROLE | SW4-8 USBHS_ROLE |
 		+------------------+------------------+------------+---------------+-----------+------------+------------------+------------------+
-		|       OFF        |       OFF        |     OFF    |      OFF      |    OFF    |    OFF     |       OFF        |       OFF        |
+		|       OFF        |       OFF        |     OFF    |      OFF      |    OFF    |     ON     |       OFF        |       OFF        |
 		+------------------+------------------+------------+---------------+-----------+------------+------------------+------------------+
 
-Note:	  
+Note:
 1) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT Viewer.
    RTT Block address for hex file committed in repository are as follows:
    a. e2studio: 0x22000450

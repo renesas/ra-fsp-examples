@@ -86,7 +86,7 @@ const uarta_extended_cfg_t g_serial_cfg_extend =
 
 /** UART interface configuration */
 const uart_cfg_t g_serial_cfg =
-{ .channel = 0, .data_bits = UART_DATA_BITS_8, .parity = UART_PARITY_OFF, .stop_bits = UART_STOP_BITS_1, .p_callback =
+{ .channel = SERIAL_CHANNEL, .data_bits = UART_DATA_BITS_8, .parity = UART_PARITY_OFF, .stop_bits = UART_STOP_BITS_1, .p_callback =
           serial_callback,
   .p_context = NULL, .p_extend = &g_serial_cfg_extend,
 #define RA_NOT_DEFINED (1)

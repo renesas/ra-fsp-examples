@@ -1,14 +1,13 @@
 /***********************************************************************************************************************
+ * File Name    : usb_hmsc_thread_entry.c
+ * Version      : .
+ * Description  : Handle USB HMSC (Host MSC) operations.
+ **********************************************************************************************************************/
+/***********************************************************************************************************************
 * Copyright (c) 2024 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
 ***********************************************************************************************************************/
-
-/**********************************************************************************************************************
- * File Name    : usb_hmsc_thread_entry.c
- * Version      : .
- * Description  : Handle USB HMSC (Host MSC) operations.
- *********************************************************************************************************************/
 
 #include "common_utils.h"
 #include "usb_hmsc_thread.h"
@@ -70,7 +69,7 @@ void usb_hmsc_thread_entry(void *pvParameters)
         }
 
         /* get user input */
-        if (APP_GET_USER_INPUT(true))
+        if (APP_GET_USER_INPUT())
         {
             /* Convert the first character of the input to an integer */
             key_index = (int8_t) g_new_api_key_str[INDEX_ZERO] - '0';
@@ -168,7 +167,7 @@ static void process_usb_msc_operation(uint8_t input_buffer)
             usb_safely_eject ();
 
             /* Get user input and process USB operation */
-            if (INPUT_STATUS_HAVE_INPUT == APP_GET_USER_INPUT(true))
+            if (INPUT_STATUS_HAVE_INPUT == APP_GET_USER_INPUT())
             {
                 /* Clear event group bits and initialize FreeRTOS+FAT */
                 xEventGroupClearBits (g_usb_event_group, ALL_BIT);

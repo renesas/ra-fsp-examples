@@ -25,9 +25,9 @@
 		- RA boards supported for J-Link OB VCOM: EK-RA8D1, EK-RA8M1 and MCK-RA8T1.
 
 2. Software Requirements:
-     	Renesas Flexible Software Package (FSP): Version 6.0.0
-     	e2 studio: Version 2025-04.1
-     	SEGGER J-Link RTT Viewer: Version 8.44a
+     	Renesas Flexible Software Package (FSP): Version 6.2.0
+     	e2 studio: Version 2025-10
+     	SEGGER J-Link RTT Viewer: Version 8.74
 	GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 	Terminal Console Application: Tera Term or a similar application
    
@@ -102,8 +102,10 @@ NOTE:
       data may get corrupted.
    d. If USB is removed without "safely_eject" option, user is recommended to perform "safely_eject" and re-initialise USB. 
       This will make sure no USB operations fail after unexpected removal of USB.
+
+3) For CDC operation: The user is expected to enter data not exceeding 64 bytes in size.
 	   
-3) To use the Terminal Application, configure the serial port with the following parameters:
+4) To use the Terminal Application, configure the serial port with the following parameters:
     	- COM port is port provided by the J-Link on-board.
       	- Baud rate: 115200 bps
       	- Data length: 8-bits  

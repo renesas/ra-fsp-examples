@@ -18,9 +18,9 @@ for general information on example projects and [readme.txt](./readme.txt) for s
 To build and run the USBX Device Firmware Update (DFU) example project, the following resources are needed.
 
 ### Software ###
-* Renesas Flexible Software Package (FSP): Version 6.1.0
-* e2 studio: Version 2025-07
-* SEGGER J-Link RTT Viewer: Version 8.58
+* Renesas Flexible Software Package (FSP): Version 6.2.0
+* e2 studio: Version 2025-10
+* SEGGER J-Link RTT Viewer: Version 8.74
 * LLVM Embedded Toolchain for ARM: Version 18.1.3
 * Zadig.exe - v2.0.1.160 (https://sourceforge.net/projects/libwdi/files/zadig/)
 * dfu-util-0.11-binaries.tar.xz (https://sourceforge.net/projects/dfu-util/files/)

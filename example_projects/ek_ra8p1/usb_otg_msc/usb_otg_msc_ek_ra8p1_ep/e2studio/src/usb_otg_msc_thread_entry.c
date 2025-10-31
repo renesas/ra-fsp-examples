@@ -173,7 +173,7 @@ void usb_otg_msc_thread_entry(void *pvParameters)
 
     /* Perform USB OTG startup procedures */
     status = usb_otg_start_up();
-    ERROR_TRAP(FSP_SUCCESS != status, status, "USB OTG startup failed!");
+    TERM_ERR_TRAP(FSP_SUCCESS != status, status, "USB OTG startup failed!");
 
     while (true)
     {
@@ -202,7 +202,7 @@ void usb_otg_msc_thread_entry(void *pvParameters)
         {
             g_usb_host_active = false;
             usb_otg_change_mode(&USB_OTG_HOST_MODE, &USB_OTG_DEVICE_MODE);
-            ERROR_TRAP(FSP_SUCCESS != status, status, "Failed to switch USB to Device mode.");
+            TERM_ERR_TRAP(FSP_SUCCESS != status, status, "Failed to switch USB to Device mode.");
             PRINT_INFO_STR("********************************************************");
             PRINT_INFO_STR("The USB mode changed to Device.\r\n");
         }
@@ -212,13 +212,13 @@ void usb_otg_msc_thread_entry(void *pvParameters)
         {
             g_usb_host_active = true;
             usb_otg_change_mode(&USB_OTG_DEVICE_MODE, &USB_OTG_HOST_MODE);
-            ERROR_TRAP(FSP_SUCCESS != status, status, "Failed to switch USB to Host mode.");
+            TERM_ERR_TRAP(FSP_SUCCESS != status, status, "Failed to switch USB to Host mode.");
             PRINT_INFO_STR("********************************************************");
             PRINT_INFO_STR("The USB mode changed to Host.\r\n");
 
             /* Notify the FAT thread to open all disks */
             os_status = xTaskNotify(fat_thread, FAT_ALL_DISK_REQUEST_OPEN, eSetBits);
-            ERROR_TRAP(pdTRUE != os_status, os_status, "Failed to notify FAT thread to open all disks.");
+            TERM_ERR_TRAP(pdTRUE != os_status, os_status, "Failed to notify FAT thread to open all disks.");
         }
 
         /* Yield the MCU to other tasks */
@@ -241,24 +241,24 @@ static uint32_t usb_otg_start_up(void)
 
     /* Open USB in Device mode to set up the PMSC thread */
     status = R_USB_Open(&g_basic_pmsc_ctrl, &g_basic_pmsc_cfg);
-    ERROR_RET(FSP_SUCCESS != status, status, "Failed to open USB in Device mode.");
+    TERM_ERR_RET(FSP_SUCCESS != status, status, "Failed to open USB in Device mode.");
 
     PRINT_INFO_STR("********************************************************");
     PRINT_INFO_STR("USB initialized in Device mode.\r\n");
 
     /* Open the USB OTG ID pin interrupt */
     status = R_ICU_ExternalIrqOpen(&g_external_irq_usb_otg_id_ctrl, &g_external_irq_usb_otg_id_cfg);
-    ERROR_RET(FSP_SUCCESS != status, status, "Failed to initialize USB OTG ID pin interrupt.");
+    TERM_ERR_RET(FSP_SUCCESS != status, status, "Failed to initialize USB OTG ID pin interrupt.");
 
     /* Enable the USB OTG ID pin interrupt */
     status = R_ICU_ExternalIrqEnable(&g_external_irq_usb_otg_id_ctrl);
-    ERROR_RET(FSP_SUCCESS != status, status, "Failed to enable USB OTG ID pin interrupt.");
+    TERM_ERR_RET(FSP_SUCCESS != status, status, "Failed to enable USB OTG ID pin interrupt.");
 
     /* Check the state of the USB OTG ID pin */
     if (BSP_IO_LEVEL_LOW == R_BSP_PinRead(USB_OTG_ID_PIN))
     {
         os_status = xTaskNotify(usb_otg_msc_thread, USB_OTG_CHANGE_TO_HOST, eSetBits);
-        ERROR_RET(pdTRUE != os_status, FSP_ERR_ASSERTION, "Failed to notify USB OTG thread to switch to Host mode.");
+        TERM_ERR_RET(pdTRUE != os_status, FSP_ERR_ASSERTION, "Failed to notify USB OTG thread to switch to Host mode.");
     }
     return status;
 }
@@ -289,14 +289,14 @@ static uint32_t usb_otg_change_mode(usb_otg_msc_t * cur_mode, usb_otg_msc_t * ta
 
             /* Initialize FreeRTOS FAT for USB Host media */
             status = RM_FREERTOS_PLUS_FAT_Open(&g_rm_freertos_plus_fat_usb_ctrl, &g_rm_freertos_plus_fat_usb_cfg);
-            ERROR_RET(FSP_SUCCESS != status, status, "Failed to initialize FreeRTOS FAT for USB Host.");
+            TERM_ERR_RET(FSP_SUCCESS != status, status, "Failed to initialize FreeRTOS FAT for USB Host.");
             return status;
         }
     }
 
     /* Open the target USB instance */
     status = R_USB_Open(target_mode->ctrl, target_mode->cfg);
-    ERROR_RET(FSP_SUCCESS != status, status, "Failed to open USB.");
+    TERM_ERR_RET(FSP_SUCCESS != status, status, "Failed to open USB.");
 
     return status;
 }

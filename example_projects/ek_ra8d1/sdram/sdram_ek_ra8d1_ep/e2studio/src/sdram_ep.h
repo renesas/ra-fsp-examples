@@ -13,6 +13,15 @@
 
 
 #include "common_utils.h"
+#define EP_VERSION              ("1.0")
+#define MODULE_NAME             "SDRAM"
+#define BANNER_INFO             "\r\n******************************************************************"\
+                                "\r\n*   Renesas FSP Example Project for "MODULE_NAME" Module                 *"\
+                                "\r\n*   Example Project Version %s                                  *"\
+                                "\r\n*   Flex Software Pack Version  %d.%d.%d                            *"\
+                                "\r\n******************************************************************"\
+                                "\r\nRefer to readme.txt file for more details on Example Project and" \
+                                "\r\nFSP User's Manual for more information about "MODULE_NAME" BSP\r\n"
 
 
 #define EP_INFO             "\r\nThis project demonstrates the basic functionalities of SDRAM on Renesas RA MCUs based"\
@@ -45,6 +54,12 @@
 #define BUFF_SIZE                 (30U)
 #define PRINT_DELAY               (100)
 
+/* Macro for handle error */
+#define APP_ERR_HANDLE(err, fn_)   ({\
+    if(err){\
+        handle_error((err), (uint8_t *)(fn_));\
+    }\
+})
 
 /* Enumeration for led state use in application */
 typedef enum e_led_power

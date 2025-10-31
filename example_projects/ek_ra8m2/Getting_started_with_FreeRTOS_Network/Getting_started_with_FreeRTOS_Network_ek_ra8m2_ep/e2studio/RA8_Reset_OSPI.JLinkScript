@@ -1,0 +1,20 @@
+int HandleBeforeFlashProg(void)
+{
+
+JLINK_MEM_WriteU8(0x40400d14, 0x00);//PWR_S
+JLINK_MEM_WriteU8(0x40400d14, 0x40);//PWR_S
+
+JLINK_MEM_WriteU32(0x40400858, 0x00000005);//P1_06 PFS, output high
+JLINK_SYS_Sleep(1);
+
+JLINK_MEM_WriteU32(0x40400858, 0x00000004);//P1_06 PFS, output Low
+JLINK_SYS_Sleep(1);
+
+JLINK_MEM_WriteU32(0x40400858, 0x00000005);//P1_06 PFS, output high
+JLINK_SYS_Sleep(1);
+
+JLINK_MEM_WriteU8(0x40400d14, 0x00);//PWR_S
+JLINK_MEM_WriteU8(0x40400d14, 0x80);//PWR_S
+
+return 0;
+}

@@ -14,7 +14,20 @@
 /***********************************************************************************************************************
  * Macro definitions
  **********************************************************************************************************************/
-#define USB_OTG_ID_PIN                     (BSP_IO_PORT_04_PIN_11)
+#if defined(BOARD_RA8D1_EK) || defined(BOARD_RA8P1_EK) || defined(BOARD_RA8M1_EK) || defined(BOARD_RA8T1_MCK)
+#define USB_OTG_ID_PIN                  (BSP_IO_PORT_04_PIN_11)
+#elif defined(BOARD_RA4M2_EK) || defined(BOARD_RA4M3_EK) || defined(BOARD_RA6M3_EK) || defined(BOARD_RA6M3G_EK)\
+|| defined(BOARD_RA6M4_EK) || defined(BOARD_RA6M5_EK)
+#define USB_OTG_ID_PIN                  (BSP_IO_PORT_04_PIN_08)
+#endif
+
+#if defined(BOARD_RA8P1_EK)
+    #if USB_IP0
+#define USB_VBUSEN                      (BSP_IO_PORT_05_PIN_00) /* USB_FS_VBUSEN */
+    #else
+#define USB_VBUSEN                      (BSP_IO_PORT_13_PIN_07) /* USB_HS_VBUSEN */
+    #endif
+#endif
 
 /***********************************************************************************************************************
  * Typedefs

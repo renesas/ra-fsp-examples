@@ -1,4 +1,3 @@
-/* generated configuration header file - do not edit */
 #ifndef R_SCI_B_UART_CFG_H_
 #define R_SCI_B_UART_CFG_H_
 
@@ -15,6 +14,6 @@
 #ifdef __cplusplus
             }
             #endif
-
+            
 #endif /* USE_VIRTUAL_COM */
-#endif
+#endif /* R_SCI_B_UART_CFG_H_ */

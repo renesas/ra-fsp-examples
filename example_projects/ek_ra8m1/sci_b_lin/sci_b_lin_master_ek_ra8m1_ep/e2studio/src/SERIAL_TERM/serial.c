@@ -17,14 +17,12 @@
 #include <stdbool.h>
 #include <hal_data.h>
 #include "serial.h"
-#if defined (USE_SCI_UART_MODULE)
+#if BSP_PERIPHERAL_SCI_PRESENT
   #include "r_sci_uart/r_sci_uart_instance_cfg.h"
-#elif defined (USE_SCI_B_UART_MODULE)
+#elif BSP_PERIPHERAL_SCI_B_PRESENT
   #include "r_sci_b_uart/r_sci_b_uart_instance_cfg.h"
-#elif defined (USE_UARTA_MODULE)
+#elif BSP_PERIPHERAL_UARTA_PRESENT
   #include "r_uarta/r_uarta_instance_cfg.h"
-#elif defined (USE_SAU_UART_MODULE)
-  #include "r_sau_uart/r_sau_uart_instance_cfg.h"
 #endif
 
 /***********************************************************************************************************************
@@ -81,6 +79,12 @@ void serial_callback(uart_callback_args_t *p_args)
                     break;
                 }
 
+                if (SERIAL_RX_MAX_SIZE > g_serial_rx_count)
+                {
+                    g_serial_rx_buffer[g_serial_rx_count ++] = (char)p_args->data;
+                    g_serial_event |= UART_EVENT_RX_CHAR;
+                }
+
                 /* Store received data if enabled. */
                 switch ((char)p_args->data)
                 {
@@ -95,7 +99,7 @@ void serial_callback(uart_callback_args_t *p_args)
 
                     /* Handle Backspace character and remove the last character from the buffer. */
                     case SERIAL_CHAR_BS:
-                        if (SERIAL_DATA_ZERO != g_serial_rx_count)
+                        if (g_serial_rx_count > SERIAL_DATA_ONE)
                         {
                             g_serial_rx_count --;
                         }
@@ -103,11 +107,6 @@ void serial_callback(uart_callback_args_t *p_args)
 
                     /* Store received data bytes into the buffer. */
                     default:
-                        if (SERIAL_RX_MAX_SIZE > g_serial_rx_count)
-                        {
-                            g_serial_rx_buffer[g_serial_rx_count ++] = (char)p_args->data;
-                            g_serial_event |= UART_EVENT_RX_CHAR;
-                        }
                         break;
                 }
                 break;
@@ -120,7 +119,6 @@ void serial_callback(uart_callback_args_t *p_args)
 /***********************************************************************************************************************
 * End of function serial_callback
 ***********************************************************************************************************************/
-
 
 /***********************************************************************************************************************
  *  Function Name: serial_init
@@ -141,14 +139,12 @@ uint32_t serial_init(void)
     R_BSP_PinAccessDisable();
 
     /* Initialize the UART module. */
-#if defined (USE_SCI_UART_MODULE)
+#if BSP_PERIPHERAL_SCI_PRESENT
     status = R_SCI_UART_Open(&g_serial_ctrl, &g_serial_cfg);
-#elif defined (USE_SCI_B_UART_MODULE)
+#elif BSP_PERIPHERAL_SCI_B_PRESENT
     status = R_SCI_B_UART_Open(&g_serial_ctrl, &g_serial_cfg);
-#elif defined (USE_UARTA_MODULE)
+#elif BSP_PERIPHERAL_UARTA_PRESENT
     status = R_UARTA_Open(&g_serial_ctrl, &g_serial_cfg);
-#elif defined (USE_SAU_UART_MODULE)
-    status = R_SAU_UART_Open(&g_serial_ctrl, &g_serial_cfg);
 #endif
     if (FSP_SUCCESS != status)
     {
@@ -156,14 +152,12 @@ uint32_t serial_init(void)
     }
 
     /* Calculate baud rate settings based on the user-configured baud rate. */
-#if defined (USE_SCI_UART_MODULE)
+#if BSP_PERIPHERAL_SCI_PRESENT
     status = R_SCI_UART_BaudCalculate(SERIAL_BAUD_RATE, SERIAL_MODULATION, SERIAL_ERR_X1000, g_serial_cfg_extend.p_baud_setting);
-#elif defined (USE_SCI_B_UART_MODULE)
+#elif BSP_PERIPHERAL_SCI_B_PRESENT
     status = R_SCI_B_UART_BaudCalculate(SERIAL_BAUD_RATE, SERIAL_MODULATION, SERIAL_ERR_X1000, g_serial_cfg_extend.p_baud_setting);
-#elif defined (USE_UARTA_MODULE)
+#elif BSP_PERIPHERAL_UARTA_PRESENT
     status = R_UARTA_BaudCalculate(SERIAL_BAUD_RATE, SERIAL_ERR_X1000, UARTA_CLOCK_SOURCE_HOCO, g_serial_cfg_extend.p_baud_setting);
-    #elif defined (USE_SAU_UART_MODULE)
-    status = R_SAU_UART_BaudCalculate(&g_serial_ctrl, SERIAL_BAUD_RATE, g_serial_cfg_extend.p_baudrate);
 #endif
     if (FSP_SUCCESS != status)
     {
@@ -171,14 +165,12 @@ uint32_t serial_init(void)
     }
 
     /* Set the baud rate settings. */
-#if defined (USE_SCI_UART_MODULE)
+#if BSP_PERIPHERAL_SCI_PRESENT
     status = R_SCI_UART_BaudSet(&g_serial_ctrl, g_serial_cfg_extend.p_baud_setting);
-#elif defined (USE_SCI_B_UART_MODULE)
+#elif BSP_PERIPHERAL_SCI_B_PRESENT
     status = R_SCI_B_UART_BaudSet(&g_serial_ctrl, g_serial_cfg_extend.p_baud_setting);
-#elif defined (USE_UARTA_MODULE)
+#elif BSP_PERIPHERAL_UARTA_PRESENT
     status = R_UARTA_BaudSet(&g_serial_ctrl, g_serial_cfg_extend.p_baud_setting);
-#elif defined (USE_SAU_UART_MODULE)
-    status = R_SAU_UART_BaudSet(&g_serial_ctrl, g_serial_cfg_extend.p_baudrate);
 #endif
     if (FSP_SUCCESS != status)
     {
@@ -195,6 +187,30 @@ uint32_t serial_init(void)
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
+ *  Function Name: serial_deinit
+ *  Description  : This function de-initializes the UART module.
+ *  Arguments    : None
+ *  Return Value : None
+ **********************************************************************************************************************/
+void serial_deinit(void)
+{
+    /* De-initialize the opened UART module. */
+    if (MODULE_CLOSE != g_serial_ctrl.open)
+    {
+#if BSP_PERIPHERAL_SCI_PRESENT
+        R_SCI_UART_Close(&g_serial_ctrl);
+#elif BSP_PERIPHERAL_SCI_B_PRESENT
+        R_SCI_B_UART_Close(&g_serial_ctrl);
+#elif BSP_PERIPHERAL_UARTA_PRESENT
+        R_UARTA_Close(&g_serial_ctrl);
+#endif
+    }
+}
+/***********************************************************************************************************************
+* End of function serial_deinit
+***********************************************************************************************************************/
+
+/***********************************************************************************************************************
  *  Function Name: serial_printf
  *  Description  : This function formats a string using a variable argument list and sends it to the UART interface.
  *                 It waits for the transmission to complete and returns the status of the operation.
@@ -206,7 +222,7 @@ uint32_t serial_printf(char * p_format, ...)
 {
     uint32_t status = FSP_SUCCESS;
     va_list aptr;
-    uint32_t timeout = 0;
+    uint32_t timeout = RESET_VALUE;
 
     /* Initialize the argument list. */
     va_start(aptr, p_format);
@@ -231,20 +247,18 @@ uint32_t serial_printf(char * p_format, ...)
     }
 
     /* Set the timeout value for serial transfer based on the message length. */
-    timeout = (2 * length * 10U) * (BSP_DELAY_UNITS_SECONDS / SERIAL_BAUD_RATE);
+    timeout = SAFETY_FACTOR * length * (SECOND_TO_MICROSECOND / SERIAL_BAUD_RATE);
 
     /* Clear the serial transmit complete event. */
     g_serial_event &= ~UART_EVENT_TX_COMPLETE;
 
     /* Send the transmit buffer to the UART interface. */
-#if defined (USE_SCI_UART_MODULE)
+#if BSP_PERIPHERAL_SCI_PRESENT
     status = R_SCI_UART_Write(&g_serial_ctrl, (uint8_t *)g_serial_tx_buffer, length);
-#elif defined (USE_SCI_B_UART_MODULE)
+#elif BSP_PERIPHERAL_SCI_B_PRESENT
     status = R_SCI_B_UART_Write(&g_serial_ctrl, (uint8_t *)g_serial_tx_buffer, length);
-#elif defined (USE_UARTA_MODULE)
+#elif BSP_PERIPHERAL_UARTA_PRESENT
     status = R_UARTA_Write(&g_serial_ctrl, (uint8_t *)g_serial_tx_buffer, length);
-#elif defined (USE_SAU_UART_MODULE)
-    status = R_SAU_UART_Write(&g_serial_ctrl, (uint8_t *)g_serial_tx_buffer, length);
 #endif
     if (FSP_SUCCESS != status)
     {
@@ -255,9 +269,9 @@ uint32_t serial_printf(char * p_format, ...)
     while (UART_EVENT_TX_COMPLETE != (UART_EVENT_TX_COMPLETE & g_serial_event))
     {
         timeout --;
-        R_BSP_SoftwareDelay(1, BSP_DELAY_UNITS_MICROSECONDS);
+        R_BSP_SoftwareDelay(SERIAL_TIME_US, BSP_DELAY_UNITS_MICROSECONDS);
 
-        if (SERIAL_DATA_ZERO == timeout)
+        if (RESET_VALUE == timeout)
         {
             return FSP_ERR_TIMEOUT;
         }

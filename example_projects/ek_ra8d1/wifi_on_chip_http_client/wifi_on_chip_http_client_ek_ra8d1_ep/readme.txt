@@ -11,9 +11,9 @@
 	Additionally, status and failure messages are displayed on the RTT Viewer.
 
 2. Software Requirements:
-	Renesas Flexible Software Package (FSP): Version 6.1.0
-	e2 studio: Version 2025-07
-	SEGGER J-Link RTT Viewer: Version 8.58
+	Renesas Flexible Software Package (FSP): Version 6.2.0
+	e2 studio: Version 2025-10
+	SEGGER J-Link RTT Viewer: Version 8.74
 	GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 
 3. Hardware Requirements:
@@ -80,7 +80,7 @@
 	Connect the USB Debug port on MCK-RA8T1 to the PC using a type C USB cable.
 
 Note :	  
-1) The segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
+1) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
    a. e2studio: 0x22001130
    b. Keil: Not Available 

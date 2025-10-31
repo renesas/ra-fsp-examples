@@ -41,7 +41,7 @@
                                              (uint32_t) IOPORT_PERIPHERAL_SCI0_2_4_6_8)
   #define SERIAL_PIN_RX_CFG                  (SERIAL_PIN_CFG)
   #define SERIAL_PIN_TX_CFG                  (SERIAL_PIN_CFG)
-#elif defined(BOARD_RA2E3_FPB) || defined(BOARD_RA4T1_MCK) || defined(BOARD_RA6T3_MCK)
+#elif defined(BOARD_RA2E3_FPB) || defined(BOARD_RA4T1_MCK) || defined(BOARD_RA6T3_MCK) || defined(BOARD_RA2A2_EK) || defined(BOARD_RA2T1_FPB)
   #define SERIAL_CHANNEL                    (9U)
   #define SERIAL_RX_PIN                     (BSP_IO_PORT_01_PIN_10)
   #define SERIAL_TX_PIN                     (BSP_IO_PORT_01_PIN_09)
@@ -94,7 +94,32 @@
                                              (uint32_t) IOPORT_PERIPHERAL_UARTA4)
   #define SERIAL_PIN_TX_CFG                 ((uint32_t) IOPORT_CFG_PERIPHERAL_PIN | \
                                              (uint32_t) IOPORT_PERIPHERAL_UARTA4_OUT)
-
+#elif defined(BOARD_RA8E2_EK)
+  #define SERIAL_CHANNEL                    (4U)
+  #define SERIAL_RX_PIN                     (BSP_IO_PORT_04_PIN_14)
+  #define SERIAL_TX_PIN                     (BSP_IO_PORT_04_PIN_15)
+  #define SERIAL_PIN_CFG                    ((uint32_t) IOPORT_CFG_DRIVE_HIGH | \
+                                            (uint32_t) IOPORT_CFG_PERIPHERAL_PIN | \
+                                            (uint32_t) IOPORT_PERIPHERAL_SCI0_2_4_6_8)
+  #define SERIAL_PIN_RX_CFG                  (SERIAL_PIN_CFG)
+  #define SERIAL_PIN_TX_CFG                  (SERIAL_PIN_CFG)
+#elif defined(BOARD_RA8E1_FPB)
+  #define SERIAL_CHANNEL                    (9U)
+  #define SERIAL_RX_PIN                     (BSP_IO_PORT_01_PIN_01)
+  #define SERIAL_TX_PIN                     (BSP_IO_PORT_01_PIN_02)
+  #define SERIAL_PIN_CFG                    ((uint32_t) IOPORT_CFG_PERIPHERAL_PIN | \
+                                            (uint32_t) IOPORT_PERIPHERAL_SCI1_3_5_7_9)
+  #define SERIAL_PIN_RX_CFG                  (SERIAL_PIN_CFG)
+  #define SERIAL_PIN_TX_CFG                  (SERIAL_PIN_CFG)
+#elif defined(BOARD_RA8T2_MCK)
+  #define SERIAL_CHANNEL                    (9U)
+  #define SERIAL_RX_PIN                     (BSP_IO_PORT_10_PIN_12)
+  #define SERIAL_TX_PIN                     (BSP_IO_PORT_10_PIN_14)
+  #define SERIAL_PIN_CFG                    ((uint32_t) IOPORT_CFG_DRIVE_HIGH | \
+                                            (uint32_t) IOPORT_CFG_PERIPHERAL_PIN | \
+                                            (uint32_t) IOPORT_PERIPHERAL_SCI1_3_5_7_9)
+  #define SERIAL_PIN_RX_CFG                 (SERIAL_PIN_CFG)
+  #define SERIAL_PIN_TX_CFG                 (SERIAL_PIN_CFG)
 #endif
 
 /* Macros for the UART baud rate configuration */
@@ -121,6 +146,7 @@
 #define SERIAL_TRUE                         (1U)
 #define SERIAL_FALSE                        (0U)
 #define SERIAL_DATA_ZERO                    (0x00)
+#define SERIAL_DATA_ONE                     (0x01)
 
 /* Macros for setting interrupt */
 #if SERIAL_CHANNEL == 0

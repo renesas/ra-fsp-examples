@@ -7,7 +7,7 @@
 *
 * SPDX-License-Identifier: BSD-3-Clause
 **********************************************************************************************************************/
-
+#include "hal_data.h"
 #include "smbus_ep.h"
 
 FSP_CPP_HEADER
@@ -54,8 +54,8 @@ void R_BSP_WarmStart(bsp_warm_start_event_t event)
         /* C runtime environment and system clocks are setup */
 
         /* Configure pins */
-        R_IOPORT_Open (&IOPORT_CFG_CTRL, &IOPORT_CFG_NAME);
-
+        R_IOPORT_Open (&g_ioport_ctrl, &IOPORT_CFG_NAME);
+        
 #if BSP_CFG_SDRAM_ENABLED
 
         /* Setup SDRAM and initialize it. Must configure pins first */

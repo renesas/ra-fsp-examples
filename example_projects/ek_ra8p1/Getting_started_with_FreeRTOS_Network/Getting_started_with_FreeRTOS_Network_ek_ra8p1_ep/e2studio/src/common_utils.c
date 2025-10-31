@@ -1,6 +1,6 @@
 /***********************************************************************************************************************
 * File Name    : common_utils.c
-* Description  : Contains macros, data structures, and functions commonly used in the EP.
+* Description  : Contains macros, data structures, and functions commonly used in the EP
 ***********************************************************************************************************************/
 /***********************************************************************************************************************
 * Copyright (c) 2024 - 2025 Renesas Electronics Corporation and/or its affiliates
@@ -9,13 +9,22 @@
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
- *  Includes
+ * Includes
  **********************************************************************************************************************/
 #include "common_utils.h"
 
 #if (BSP_CFG_RTOS != 0U)
+/***********************************************************************************************************************
+ * Exported global variables
+ **********************************************************************************************************************/
 
-/* Private global variables */
+/***********************************************************************************************************************
+ * Private function prototypes
+ **********************************************************************************************************************/
+
+/***********************************************************************************************************************
+ * Private global variables
+ **********************************************************************************************************************/
 #if (BSP_CFG_RTOS == 1U)
 #include "tx_api.h"
   static TX_BYTE_POOL g_term_byte_pool;
@@ -29,10 +38,17 @@
 
 static volatile bool g_term_init_flag = false;
 
+/***********************************************************************************************************************
+ * Global Variables
+ **********************************************************************************************************************/
+
+/***********************************************************************************************************************
+ * Functions
+ **********************************************************************************************************************/
+
 /*******************************************************************************************************************//**
  * @brief      Waits until the terminal framework is initialized before sending data to it.
- * @param[in]  None.
- * @retval     None.
+ * @retval     None
  **********************************************************************************************************************/
 void term_framework_init_check(void)
 {
@@ -42,14 +58,13 @@ void term_framework_init_check(void)
 #if (BSP_CFG_RTOS == 1U)
         tx_thread_sleep(1U);
 #elif (BSP_CFG_RTOS == 2U)
-        vTaskDelay(1);
+        vTaskDelay (1);
 #endif
     }
 }
 
 /*******************************************************************************************************************//**
  * @brief      Initializes the terminal framework by creating necessary queues and memory pools.
- * @param[in]  None
  * @retval     FSP_SUCCESS on successful operation, other error codes otherwise.
  **********************************************************************************************************************/
 uint32_t term_framework_init(void)
@@ -59,33 +74,54 @@ uint32_t term_framework_init(void)
 
     /* Create a memory byte pool for the terminal */
     uint32_t status = tx_byte_pool_create(&g_term_byte_pool, (CHAR*) "Term Byte Pool",
-                                          (VOID *) g_term_byte_pool_memory, TERM_BYTE_POOL_SIZE);
-    APP_ERR_RET(TX_SUCCESS != status, status, "tx_byte_pool_create failed");
+                                 (VOID *)g_term_byte_pool_memory, TERM_BYTE_POOL_SIZE);
+    if (TX_SUCCESS != status)
+    {
+        return status;
+    }
 
     /* Create an output queue for the terminal */
     status = tx_byte_allocate(&g_term_byte_pool, (VOID **) &p_mem, TERM_OUTPUT_QUEUE_SIZE, TX_NO_WAIT);
-    APP_ERR_RET(TX_SUCCESS != status, status, "tx_byte_allocate failed");
+    if (TX_SUCCESS != status)
+    {
+        return status;
+    }
 
-    status = tx_queue_create(&g_term_output_queue, (CHAR*) "Term Output Queue", 1,
-                             p_mem, TERM_OUTPUT_QUEUE_SIZE);
-    APP_ERR_RET(TX_SUCCESS != status, status, "tx_queue_create failed");
+    status = tx_queue_create (&g_term_output_queue, (CHAR*) "Term Output Queue", 1,
+                              p_mem, TERM_OUTPUT_QUEUE_SIZE);
+    if (TX_SUCCESS != status)
+    {
+        return status;
+    }
 
     /* Create an input queue for the terminal */
     status = tx_byte_allocate(&g_term_byte_pool, (VOID **) &p_mem, TERM_INPUT_QUEUE_SIZE, TX_NO_WAIT);
-    APP_ERR_RET(TX_SUCCESS != status, status, "tx_byte_allocate failed");
+    if (TX_SUCCESS != status)
+    {
+        return status;
+    }
 
-    status = tx_queue_create(&g_term_input_queue, (CHAR*) "Term Input Queue", 1,
-                             p_mem, TERM_INPUT_QUEUE_SIZE);
-    APP_ERR_RET(TX_SUCCESS != status, status, "tx_queue_create failed");
+    status = tx_queue_create (&g_term_input_queue, (CHAR*) "Term Input Queue", 1,
+                              p_mem, TERM_INPUT_QUEUE_SIZE);
+    if (TX_SUCCESS != status)
+    {
+        return status;
+    }
 
 #elif (BSP_CFG_RTOS == 2U)
     /* Create an output queue for the terminal */
     g_term_output_queue = xQueueCreate(TERM_OUTPUT_QUEUE_SIZE/sizeof(void *), sizeof(void *));
-    APP_ERR_RET(NULL == g_term_output_queue, FSP_ERR_INVALID_POINTER, "xQueueCreat failed");
+    if (NULL == g_term_output_queue)
+    {
+        return FSP_ERR_INVALID_POINTER;
+    }
 
     /* Create an input queue for the terminal */
     g_term_input_queue = xQueueCreate(TERM_INPUT_QUEUE_SIZE/sizeof(void *), sizeof(void *));
-    APP_ERR_RET(NULL == g_term_output_queue, FSP_ERR_INVALID_POINTER, "xQueueCreat failed");
+    if (NULL == g_term_input_queue)
+    {
+        return FSP_ERR_INVALID_POINTER;
+    }
 #endif
 
     /* Set the initialization flag to notify that the terminal framework has been initialized */
@@ -108,15 +144,15 @@ uint32_t term_get_input_queue(char * p_msg, uint32_t * p_size, uint32_t wait)
 
     /* Wait for an input queue */
 #if (BSP_CFG_RTOS == 1U)
-    uint32_t status = tx_queue_receive(&g_term_input_queue, (VOID *)&p_term_msg, wait);
+    uint32_t status = tx_queue_receive(&g_term_input_queue, (VOID *)&p_term_msg , wait);
     if (TX_SUCCESS != status)
     {
         return status;
     }
 
 #elif (BSP_CFG_RTOS == 2U)
-    uint32_t status = (uint32_t) xQueueReceive(g_term_input_queue, &p_term_msg, wait);
-    if ((uint32_t) pdTRUE != status)
+    uint32_t status = (uint32_t)xQueueReceive(g_term_input_queue, &p_term_msg, wait);
+    if ((uint32_t)pdTRUE != status)
     {
         return FSP_ERR_ASSERTION;
     }
@@ -131,6 +167,7 @@ uint32_t term_get_input_queue(char * p_msg, uint32_t * p_size, uint32_t wait)
     /* Release the memory allocated for this terminal frame */
 #if (BSP_CFG_RTOS == 1U)
     tx_byte_release(p_term_msg);
+
 #elif (BSP_CFG_RTOS == 2U)
     vPortFree(p_term_msg);
 #endif
@@ -149,14 +186,15 @@ uint32_t term_get_output_queue(void ** pp_msg_st, uint32_t wait)
 {
     /* Wait for an output queue */
 #if (BSP_CFG_RTOS == 1U)
-    uint32_t status = tx_queue_receive(&g_term_output_queue, (VOID *) pp_msg_st, wait);
+    uint32_t status = tx_queue_receive(&g_term_output_queue, (VOID *)pp_msg_st , wait);
     if (TX_SUCCESS != status)
     {
         return status;
     }
+
 #elif (BSP_CFG_RTOS == 2U)
-    uint32_t status = (uint32_t) xQueueReceive(g_term_output_queue, (void *) pp_msg_st, wait);
-    if ((uint32_t) pdTRUE != status)
+    uint32_t status = (uint32_t)xQueueReceive(g_term_output_queue, (void *)pp_msg_st, wait);
+    if ((uint32_t)pdTRUE != status)
     {
         return FSP_ERR_ASSERTION;
     }
@@ -179,12 +217,19 @@ uint32_t term_send_input_queue(uint32_t id, void * const p_data, uint32_t size)
 
     /* Allocate memory for terminal message structure and output message */
 #if (BSP_CFG_RTOS == 1U)
-    uint32_t status = tx_byte_allocate(&g_term_byte_pool, (VOID **) &p_term_msg,
-                                       sizeof(term_msg_t) + size + sizeof(char), TX_WAIT_FOREVER);
-    APP_ERR_RET(TX_SUCCESS != status, status);
+    uint32_t status = tx_byte_allocate(&g_term_byte_pool, (VOID **)&p_term_msg,
+                              sizeof(term_msg_t) + size + sizeof(char), TX_WAIT_FOREVER);
+    if (TX_SUCCESS != status)
+    {
+        return status;
+    }
+
 #elif (BSP_CFG_RTOS == 2U)
     p_term_msg = (term_msg_t*) pvPortMalloc(sizeof(term_msg_t) + size + sizeof(char));
-    APP_ERR_RET(NULL == p_term_msg, FSP_ERR_INVALID_POINTER, "pPortMalloc failed");
+    if (NULL == p_term_msg)
+    {
+        return FSP_ERR_INVALID_POINTER;
+    }
 #endif
 
     /* Copy the message */
@@ -204,7 +249,7 @@ uint32_t term_send_input_queue(uint32_t id, void * const p_data, uint32_t size)
 
     /* Send the terminal message structure pointer to the input queue */
 #if (BSP_CFG_RTOS == 1U)
-    status = tx_queue_send(&g_term_input_queue, (VOID *) &p_term_msg, TX_WAIT_FOREVER);
+    status = tx_queue_send(&g_term_input_queue, (VOID *)&p_term_msg, TX_WAIT_FOREVER);
     if (TX_SUCCESS != status)
     {
         tx_byte_release((VOID *)p_term_msg);
@@ -212,7 +257,7 @@ uint32_t term_send_input_queue(uint32_t id, void * const p_data, uint32_t size)
     }
 
 #elif (BSP_CFG_RTOS == 2U)
-    uint32_t status = (uint32_t)xQueueSend(g_term_input_queue, (void *) &p_term_msg, portMAX_DELAY);
+    uint32_t status = (uint32_t)xQueueSend(g_term_input_queue, (void *)&p_term_msg, portMAX_DELAY);
     if (pdTRUE != status)
     {
         vPortFree(p_term_msg);
@@ -238,12 +283,18 @@ uint32_t term_send_output_queue(uint32_t id, void * const p_data, uint32_t size)
     /* Allocate memory for terminal message structure and output message */
 #if (BSP_CFG_RTOS == 1U)
     uint32_t status = tx_byte_allocate(&g_term_byte_pool, (VOID **)&p_term_msg,
-                                       sizeof(term_msg_t) + size + sizeof(char), TX_WAIT_FOREVER);
-    APP_ERR_RET(TX_SUCCESS != status, status);
+                              sizeof(term_msg_t) + size + sizeof(char), TX_WAIT_FOREVER);
+    if (TX_SUCCESS != status)
+    {
+        return status;
+    }
 
 #elif (BSP_CFG_RTOS == 2U)
     p_term_msg = (term_msg_t*) pvPortMalloc(sizeof(term_msg_t) + size + sizeof(char));
-    APP_ERR_RET(NULL == p_term_msg, FSP_ERR_INVALID_POINTER, "pvPortMalloc failed");
+    if (NULL == p_term_msg)
+    {
+        return FSP_ERR_INVALID_POINTER;
+    }
 #endif
 
     /* Copy the message into the terminal message structure */
@@ -272,7 +323,7 @@ uint32_t term_send_output_queue(uint32_t id, void * const p_data, uint32_t size)
 
 #elif (BSP_CFG_RTOS == 2U)
     uint32_t status = (uint32_t)xQueueSend(g_term_output_queue, (void *)&p_term_msg, portMAX_DELAY);
-    if (pdTRUE != status)
+    if (pdTRUE  != status)
     {
         vPortFree(p_term_msg);
         return FSP_ERR_ASSERTION;

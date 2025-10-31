@@ -39,7 +39,8 @@
 /* Flash device address space mapping */
 #define OSPI_B_CS0_START_ADDRESS            (0x80000000)
 #define OSPI_B_CS1_START_ADDRESS            (0x90000000)
-#define OSPI_B_APP_ADDRESS(sector_no)       ((uint8_t *)(OSPI_B_CS1_START_ADDRESS + ((sector_no) * OSPI_B_SECTOR_SIZE_4K)))
+#define OSPI_B_APP_ADDRESS(sector_no)       ((uint8_t *)(OSPI_B_CS1_START_ADDRESS + ((sector_no)\
+                                            * OSPI_B_SECTOR_SIZE_4K)))
 #define OSPI_B_SECTOR_FIRST                 (0U)
 #define OSPI_B_SECTOR_SECOND                (1U)
 #define OSPI_B_SECTOR_THREE                 (2U)

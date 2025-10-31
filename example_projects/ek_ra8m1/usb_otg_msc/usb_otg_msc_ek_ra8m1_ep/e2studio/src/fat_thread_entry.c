@@ -155,13 +155,13 @@ void fat_thread_entry(void *pvParameters)
     status = fat_disk_create(&g_internal_fat_disk, FAT_INTERNAL_DISK_PATH, true,
                              &g_rm_freertos_plus_fat_internal,
                              &g_rm_freertos_plus_fat_internal_disk_cfg);
-    ERROR_TRAP(FSP_SUCCESS != status, status, "Failed to create the internal disk for the FAT file system.\r\n");
+    TERM_ERR_TRAP(FSP_SUCCESS != status, status, "Failed to create the internal disk for the FAT file system.\r\n");
 
     /* Create the USB disk for the FAT file system */
     status = fat_disk_create(&g_usb_fat_disk, FAT_USB_DISK_PATH, false,
                              &g_rm_freertos_plus_fat_usb,
                              &g_rm_freertos_plus_fat_usb_disk_cfg);
-    ERROR_TRAP(FSP_SUCCESS != status, status, "Failed to create the USB disk for the FAT file system.\r\n");
+    TERM_ERR_TRAP(FSP_SUCCESS != status, status, "Failed to create the USB disk for the FAT file system.\r\n");
 
     /* Main loop for input and event processing */
     while (true)
@@ -185,7 +185,7 @@ void fat_thread_entry(void *pvParameters)
         {
             memset(msg_buff, 0, sizeof(msg_buff));
             status = term_get_input_queue(msg_buff, &msg_size, 0);
-            ERROR_TRAP(FSP_SUCCESS != status, status, "Failed to get the user input.");
+            TERM_ERR_TRAP(FSP_SUCCESS != status, status, "Failed to get the user input.");
 
             /* Ensure both USB and internal disks are mounted before processing commands */
             if (true == g_usb_fat_disk.is_mount && true == g_internal_fat_disk.is_mount)
@@ -203,7 +203,7 @@ void fat_thread_entry(void *pvParameters)
         {
             PRINT_INFO_STR("USB disk inserted.");
             status = fat_disk_mount(&g_usb_fat_disk);
-            ERROR_TRAP(FSP_SUCCESS != status, status, "Failed to mount the USB disk.");
+            TERM_ERR_TRAP(FSP_SUCCESS != status, status, "Failed to mount the USB disk.");
             if (g_usb_fat_disk.is_mount && g_internal_fat_disk.is_mount)
             {
                 PRINT_EP_MENU;
@@ -215,7 +215,7 @@ void fat_thread_entry(void *pvParameters)
         {
             PRINT_INFO_STR("USB disk removed.");
             status = fat_disk_unmount(&g_usb_fat_disk);
-            ERROR_TRAP(FSP_SUCCESS != status, status, "Failed to unmount the USB disk.");
+            TERM_ERR_TRAP(FSP_SUCCESS != status, status, "Failed to unmount the USB disk.");
         }
 
         /* Handle internal disk insert event */
@@ -223,7 +223,7 @@ void fat_thread_entry(void *pvParameters)
         {
             PRINT_INFO_STR("Internal disk inserted.");
             status = fat_disk_mount(&g_internal_fat_disk);
-            ERROR_TRAP(FSP_SUCCESS != status, status, "Failed to mount the internal disk.");
+            TERM_ERR_TRAP(FSP_SUCCESS != status, status, "Failed to mount the internal disk.");
             if (g_usb_fat_disk.is_mount && g_internal_fat_disk.is_mount)
             {
                 PRINT_EP_MENU;
@@ -235,40 +235,40 @@ void fat_thread_entry(void *pvParameters)
         {
             PRINT_INFO_STR("Internal disk removed.");
             status = fat_disk_unmount(&g_internal_fat_disk);
-            ERROR_TRAP(FSP_SUCCESS != status, status, "Failed to unmount the internal disk.");
+            TERM_ERR_TRAP(FSP_SUCCESS != status, status, "Failed to unmount the internal disk.");
         }
 
         /* Handle request to open all disks */
         if (FAT_ALL_DISK_REQUEST_OPEN == (notified & FAT_ALL_DISK_REQUEST_OPEN))
         {
             status = fat_disk_open(&g_usb_fat_disk);
-            ERROR_TRAP(FSP_SUCCESS != status, status, "Failed to open the USB disk.");
+            TERM_ERR_TRAP(FSP_SUCCESS != status, status, "Failed to open the USB disk.");
 
             status = fat_disk_open(&g_internal_fat_disk);
-            ERROR_TRAP(FSP_SUCCESS != status, status, "Failed to open the internal disk.");
+            TERM_ERR_TRAP(FSP_SUCCESS != status, status, "Failed to open the internal disk.");
 
             status = fat_disk_mount(&g_internal_fat_disk);
-            ERROR_TRAP(FSP_SUCCESS != status, status, "Failed to mount the internal disk.");
+            TERM_ERR_TRAP(FSP_SUCCESS != status, status, "Failed to mount the internal disk.");
         }
 
         /* Handle request to close all disks */
         if (FAT_ALL_DISK_REQUEST_CLOSE == (notified & FAT_ALL_DISK_REQUEST_CLOSE))
         {
             status = fat_disk_unmount(&g_usb_fat_disk);
-            ERROR_TRAP(FSP_SUCCESS != status, status, "Failed to unmount the USB disk.");
+            TERM_ERR_TRAP(FSP_SUCCESS != status, status, "Failed to unmount the USB disk.");
 
             status = fat_disk_unmount(&g_internal_fat_disk);
-            ERROR_TRAP(FSP_SUCCESS != status, status, "Failed to unmount the internal disk.");
+            TERM_ERR_TRAP(FSP_SUCCESS != status, status, "Failed to unmount the internal disk.");
 
             status = fat_disk_close(&g_usb_fat_disk);
-            ERROR_TRAP(FSP_SUCCESS != status, status, "Failed to close the USB disk.");
+            TERM_ERR_TRAP(FSP_SUCCESS != status, status, "Failed to close the USB disk.");
 
             status = fat_disk_close(&g_internal_fat_disk);
-            ERROR_TRAP(FSP_SUCCESS != status, status, "Failed to close the internal disk.");
+            TERM_ERR_TRAP(FSP_SUCCESS != status, status, "Failed to close the internal disk.");
 
             /* Notify USB OTG thread to switch to device mode */
             os_status = xTaskNotify(usb_otg_msc_thread, USB_OTG_CHANGE_TO_DEVICE, eSetBits);
-            ERROR_TRAP(pdTRUE != os_status, os_status, "Failed to notify USB OTG thread to switch to device mode.");
+            TERM_ERR_TRAP(pdTRUE != os_status, os_status, "Failed to notify USB OTG thread to switch to device mode.");
         }
 
         /* Yield the MCU to other tasks */

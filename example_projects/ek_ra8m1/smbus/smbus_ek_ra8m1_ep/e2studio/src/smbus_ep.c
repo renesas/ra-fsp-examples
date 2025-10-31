@@ -57,20 +57,17 @@ void smbus_entry(void)
         R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t)g_bsp_leds.p_leds[i], (bsp_io_level_t)LED_POWER_OFF);
     }
 
-#if (USE_VIRTUAL_COM == 1)
-
-    /* Initialize UART module first to print log to serial terminal */
-    err = uart_init();
-
+    /* Initialize terminal */
+    err = TERM_INIT();
     if (FSP_SUCCESS != err)
     {
         /* Turn on error LED to indicate an error has occurred */
         led_error_state_set(LED_POWER_ON);
 
         /* Error trap */
-        UART_ERR_TRAP();
+        ERROR_TRAP;
     }
-#endif /* USE_VIRTUAL_COM */
+
 
     /* Version get API for FSP information */
     R_FSP_VersionGet (&version);
@@ -124,20 +121,25 @@ static fsp_err_t smbus_init(void)
     fsp_err_t err = FSP_SUCCESS;
 
     /* Open IIC master module to communicate with sensor */
+#if defined (USE_IIC_MODULE)
     err = R_IIC_MASTER_Open(&g_i2c_master0_ctrl, &g_i2c_master0_cfg);
-    APP_ERR_RETURN(err, "**R_IIC_MASTER_Open API failed**\r\n");
+    APP_ERR_RET(err != FSP_SUCCESS, err, "**R_IIC_MASTER_Open API failed**\r\n");
+#elif defined (USE_IIC_B_MODULE)
+    err = R_IIC_B_MASTER_Open(&g_i2c_master0_ctrl, &g_i2c_master0_cfg);
+    APP_ERR_RET(err != FSP_SUCCESS,err, "**R_IIC_B_MASTER_Open API failed**\r\n");
+#endif
 
     /* Open GPT module to handle timeout for SMBus standard */
     err = R_GPT_Open(&g_comms_smbus_rsc_ctrl0_timer_ctrl, &g_comms_smbus_rsc_ctrl0_timer_cfg);
-    APP_ERR_RETURN(err, "**R_GPT_Open API failed**\r\n");
+    APP_ERR_RET(err != FSP_SUCCESS,err, "**R_GPT_Open API failed**\r\n");
 
     /* Open ELC module to link IIC event to GPT */
     err = R_ELC_Open(&g_elc_ctrl, &g_elc_cfg);
-    APP_ERR_RETURN(err, "**R_ELC_Open API failed**\r\n");
+    APP_ERR_RET(err != FSP_SUCCESS,err, "**R_ELC_Open API failed**\r\n");
 
     /* Open SMBus Middleware driver */
     err = RM_COMMS_SMBUS_Open(&g_comms_smbus0_ctrl, &g_comms_smbus0_cfg);
-    APP_ERR_RETURN(err, "**RM_COMMS_SMBUS_Open API failed**\r\n");
+    APP_ERR_RET(err != FSP_SUCCESS,err, "**RM_COMMS_SMBUS_Open API failed**\r\n");
 
     return err;
 }
@@ -165,11 +167,11 @@ static fsp_err_t sensor_write_reg(uint8_t value1, uint8_t value2)
 
     /* Write input values to configuration register of sensor via SMBus  */
     err = RM_COMMS_SMBUS_Write(&g_comms_smbus0_ctrl, smbus_buf, SMBUS_THREE_BYTE);
-    APP_ERR_RETURN(err, "**RM_COMMS_SMBUS_Write API failed**\r\n");
+    APP_ERR_RET(err != FSP_SUCCESS,err, "**RM_COMMS_SMBUS_Write API failed**\r\n");
 
     /* Wait SMBus event */
     err = smbus_wait_event();
-    APP_ERR_RETURN(err, "smbus_wait_event failed\r\n");
+    APP_ERR_RET(err != FSP_SUCCESS,err, "smbus_wait_event failed\r\n");
 
     return err;
 }
@@ -202,11 +204,11 @@ static fsp_err_t sensor_read_reg(uint8_t adr , uint8_t * p_value)
 
     /* Read data from register of sensor  */
     err = RM_COMMS_SMBUS_WriteRead(&g_comms_smbus0_ctrl, write_read_param);
-    APP_ERR_RETURN(err, "**RM_COMMS_SMBUS_WriteRead API failed**\r\n");
+    APP_ERR_RET(err != FSP_SUCCESS,err, "**RM_COMMS_SMBUS_WriteRead API failed**\r\n");
 
     /* Wait SMBus transmission complete */
     err = smbus_wait_event();
-    APP_ERR_RETURN(err, "smbus_wait_event failed\r\n");
+    APP_ERR_RET(err != FSP_SUCCESS,err, "smbus_wait_event failed\r\n");
 
     return err;
 }
@@ -233,19 +235,19 @@ static fsp_err_t smbus_wait_event(void)
             switch (smbus_error->smbus_event)
             {
                 case RM_COMMS_SMBUS_MEXT_TIMEOUT:
-                    APP_ERR_RETURN(FSP_ERR_TIMEOUT, "Transmission time between each event exceeded 10 ms\r\n");
+                    APP_ERR_RET(FSP_ERR_TIMEOUT != FSP_SUCCESS,FSP_ERR_TIMEOUT, "Transmission time between each event exceeded 10 ms\r\n");
                     break;
 
                 case RM_COMMS_SMBUS_SEXT_TIMEOUT:
-                    APP_ERR_RETURN(FSP_ERR_TIMEOUT, "Total transmission time exceeded 25 ms\r\n");
+                    APP_ERR_RET(FSP_ERR_TIMEOUT != FSP_SUCCESS,FSP_ERR_TIMEOUT, "Total transmission time exceeded 25 ms\r\n");
                     break;
 
                 case RM_COMMS_SMBUS_DATA_CORRUPT:
-                    APP_ERR_RETURN(FSP_ERR_INVALID_DATA, "PEC byte is incorrect\r\n");
+                    APP_ERR_RET(FSP_ERR_INVALID_DATA != FSP_SUCCESS,FSP_ERR_INVALID_DATA, "PEC byte is incorrect\r\n");
                     break;
 
                 case RM_COMMS_SMBUS_MISC_ERROR:
-                    APP_ERR_RETURN(FSP_ERR_ASSERTION, "SMBus dependency modules failed\r\n");
+                    APP_ERR_RET(FSP_ERR_ASSERTION != FSP_SUCCESS,FSP_ERR_ASSERTION, "SMBus dependency modules failed\r\n");
                     break;
 
                 default:
@@ -275,11 +277,11 @@ static fsp_err_t sensor_set_reg(void)
 
     /* Write data to register */
     err = sensor_write_reg(CFG_8BIT_HIGHER, CFG_8BIT_LOWER);
-    APP_ERR_RETURN(err, "sensor_write_reg failed\r\n");
+    APP_ERR_RET(err != FSP_SUCCESS,err, "sensor_write_reg failed\r\n");
 
     /* Read back data from register */
     err = sensor_read_reg(CFG_ADR,read_buff);
-    APP_ERR_RETURN(err, "sensor_read_reg failed\r\n");
+    APP_ERR_RET(err != FSP_SUCCESS,err, "sensor_read_reg failed\r\n");
 
     /* Verify data */
     if(CFG_8BIT_HIGHER == read_buff[0] && CFG_8BIT_LOWER == read_buff[1])
@@ -288,7 +290,7 @@ static fsp_err_t sensor_set_reg(void)
     }
     else
     {
-        APP_ERR_RETURN(FSP_ERR_ASSERTION, "Data read back mismatch data written\r\n");
+        APP_ERR_RET(FSP_ERR_ASSERTION != FSP_SUCCESS,FSP_ERR_ASSERTION, "Data read back mismatch data written\r\n");
     }
 
     return err;
@@ -310,11 +312,11 @@ static fsp_err_t sensor_init(void)
 
     /* Initialize the necessary hardware to control the sensor */
     err = smbus_init();
-    APP_ERR_RETURN(err, "**smbus_init failed**\r\n");
+    APP_ERR_RET(err != FSP_SUCCESS,err, "**smbus_init failed**\r\n");
 
     /* Configure sensor registers */
     err = sensor_set_reg();
-    APP_ERR_RETURN(err, "**sensor_set_reg failed**\r\n");
+    APP_ERR_RET(err != FSP_SUCCESS,err, "**sensor_set_reg failed**\r\n");
 
     return err;
 }
@@ -357,11 +359,20 @@ static void sensor_deinit(void)
     /* Close the IIC master module if already open */
     if (MODULE_CLOSE != g_i2c_master0_ctrl.open)
     {
+
+#if defined (USE_IIC_MODULE)
         err = R_IIC_MASTER_Close(&g_i2c_master0_ctrl);
         if(FSP_SUCCESS != err)
         {
             APP_ERR_PRINT("**R_IIC_MASTER_Close API failed**\r\n");
         }
+#elif defined (USE_IIC_B_MODULE)
+        err = R_IIC_B_MASTER_Close(&g_i2c_master0_ctrl);
+        if(FSP_SUCCESS != err)
+        {
+            APP_ERR_PRINT("**R_IIC_B_MASTER_Close API failed**\r\n");
+        }
+#endif
     }
 
     /* Close the GPT module if already open */

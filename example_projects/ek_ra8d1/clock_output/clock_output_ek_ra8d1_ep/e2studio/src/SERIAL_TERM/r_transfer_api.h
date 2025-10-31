@@ -1,5 +1,5 @@
 /***********************************************************************************************************************
-* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
+* Copyright (c) 2020 - 2025 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
 ***********************************************************************************************************************/
@@ -16,9 +16,11 @@
  *
  * @{
  **********************************************************************************************************************/
-#if (USE_VIRTUAL_COM == 1)
+
 #ifndef R_TRANSFER_API_H
 #define R_TRANSFER_API_H
+
+#if (USE_VIRTUAL_COM == 1)
 
 /***********************************************************************************************************************
  * Includes
@@ -91,7 +93,8 @@ typedef enum e_transfer_size
 {
     TRANSFER_SIZE_1_BYTE = 0,          ///< Each transfer transfers a 8-bit value
     TRANSFER_SIZE_2_BYTE = 1,          ///< Each transfer transfers a 16-bit value
-    TRANSFER_SIZE_4_BYTE = 2           ///< Each transfer transfers a 32-bit value
+    TRANSFER_SIZE_4_BYTE = 2,          ///< Each transfer transfers a 32-bit value
+    TRANSFER_SIZE_8_BYTE = 3           ///< Each transfer transfers a 64-bit value
 } transfer_size_t;
 
 #endif
@@ -173,7 +176,7 @@ typedef enum e_transfer_irq
 /** Callback function parameter data. */
 typedef struct st_transfer_callback_args_t
 {
-    void const * p_context;            ///< Placeholder for user data.  Set in @ref transfer_api_t::open function in ::transfer_cfg_t.
+    void * p_context;                  ///< Placeholder for user data.  Set in @ref transfer_api_t::open function in ::transfer_cfg_t.
 } transfer_callback_args_t;
 
 #endif
@@ -367,7 +370,7 @@ typedef struct st_transfer_api
      *                                       Callback arguments allocated here are only valid during the callback.
      */
     fsp_err_t (* callbackSet)(transfer_ctrl_t * const p_ctrl, void (* p_callback)(transfer_callback_args_t *),
-                              void const * const p_context, transfer_callback_args_t * const p_callback_memory);
+                              void * const p_context, transfer_callback_args_t * const p_callback_memory);
 } transfer_api_t;
 
 /** This structure encompasses everything that is needed to use an instance of this interface. */
@@ -381,8 +384,9 @@ typedef struct st_transfer_instance
 /* Common macro for FSP header files. There is also a corresponding FSP_HEADER macro at the top of this file. */
 FSP_FOOTER
 
-#endif
 #endif /* USE_VIRTUAL_COM */
+#endif
+
 /*******************************************************************************************************************//**
  * @} (end defgroup TRANSFER_API)
  **********************************************************************************************************************/

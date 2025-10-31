@@ -14,7 +14,7 @@
  **********************************************************************************************************************/
 #include "bsp_api.h"
 
-#if (BSP_FEATURE_SCI_VERSION == 1U)
+#if BSP_PERIPHERAL_SCI_PRESENT
 #include "r_sci_uart_instance_cfg.h"
 #include "../serial.h"
 /***********************************************************************************************************************
@@ -108,5 +108,5 @@ const uart_cfg_t g_serial_cfg =
 const uart_instance_t g_serial =
 { .p_ctrl = &g_serial_ctrl, .p_cfg = &g_serial_cfg, .p_api = &g_uart_on_sci };
 
-#endif /* BSP_FEATURE_SCI_VERSION */
+#endif /* BSP_PERIPHERAL_SCI_PRESENT */
 #endif /* USE_VIRTUAL_COM */

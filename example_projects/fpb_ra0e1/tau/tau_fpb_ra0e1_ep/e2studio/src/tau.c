@@ -35,13 +35,9 @@ static uint8_t g_led1_blink_times  = RESET_VALUE;
 static uint8_t g_interrupt_counter = RESET_VALUE;
 static uint8_t g_measure_times     = RESET_VALUE;
 
-#if (USE_VIRTUAL_COM == 1)
-/* Flag to detect the Enter key is pressed, in the Callback function "serial_callback" */
-extern volatile _Bool g_rx_complete_flag;
-#endif /* USE_VIRTUAL_COM */
 
 /* The buffer contains user input */
-char g_rx_buffer [BUFFER_SIZE_DOWN] = {RESET_VALUE};
+char g_rx_buffer [TERM_BUFFER_SIZE] = {RESET_VALUE};
 
 /* Timer information */
 static timer_info_t periodic_info =
@@ -89,16 +85,14 @@ void tau_entry(void)
 {
     fsp_err_t err = FSP_SUCCESS;
     fsp_pack_version_t version      = { RESET_VALUE };
-
-#if (USE_VIRTUAL_COM == 1)
-    /* Initialize UARTA module first to print log to serial terminal */
-    err = uart_init();
+    /* Initialize terminal */
+    err = TERM_INIT();
     if (FSP_SUCCESS != err)
     {
         /* Error trap */
-        __asm("BKPT #0\n");
+        ERROR_TRAP;
     }
-#endif /* USE_VIRTUAL_COM */
+
     /* Get FSP version */
     R_FSP_VersionGet (&version);
 
@@ -123,18 +117,12 @@ void tau_entry(void)
         err = tau_measure_low_level_pulse_width_operation ();
         APP_ERR_HANDLE(err, "\r\n **tau_measure_low_level_pulse_width_operation failed**");
         APP_PRINT("\r\n=======End of Application. Please enter any key to restart!=======\r\n");
-#if (USE_VIRTUAL_COM == 1)
-        /* Reset g_rx_complete_flag */
-        g_rx_complete_flag = false;
-        /* Wait until any key is sent */
-        while (!g_rx_complete_flag)
+
+        /* Wait until there is any user input */
+        while (!APP_CHECK_DATA)
         {
             ;
         }
-#else
-        /* Wait until any key is pressed */
-        APP_WAIT_DATA;
-#endif /* USE_VIRTUAL_COM */
     }
 }
 
@@ -150,25 +138,25 @@ static fsp_err_t tau_interval_and_delay_timer_operation(void)
 
     /* Open instance TAU interval timer */
     err = R_TAU_Open (&g_interval_timer_ctrl, &g_interval_timer_cfg);
-    APP_ERR_RETURN(err,"\r\n **Open instance TAU interval timer failed**");
+    APP_ERR_RET(err != FSP_SUCCESS,err,"\r\n **Open instance TAU interval timer failed**");
     /* Open instance TAU delay timer */
     err = R_TAU_Open (&g_delay_timer_ctrl, &g_delay_timer_cfg);
-    APP_ERR_RETURN(err,"\r\n **Open instance TAU delay timer failed**");
+    APP_ERR_RET(err != FSP_SUCCESS,err,"\r\n **Open instance TAU delay timer failed**");
 
     /* Set led1 turn-on time */
     err = led1_on_time_set ();
-    APP_ERR_RETURN(err, "Set turn-on time for Led 1 failed");
+    APP_ERR_RET(err != FSP_SUCCESS,err, "Set turn-on time for Led 1 failed");
     /* Set led1 turn-off time */
     err = led1_off_time_set ();
-    APP_ERR_RETURN(err, "Set turn-off time for Led 1 failed");
+    APP_ERR_RET(err != FSP_SUCCESS,err, "Set turn-off time for Led 1 failed");
 
     /* Start instance TAU interval timer after set period blink for LED 1  */
     err = R_TAU_Start(&g_interval_timer_ctrl);
-    APP_ERR_RETURN (err, "\r\n **Start instance TAU interval timer failed**");
+    APP_ERR_RET (err != FSP_SUCCESS,err, "\r\n **Start instance TAU interval timer failed**");
 
     /* Enable instance TAU delay timer */
     err = R_TAU_Enable(&g_delay_timer_ctrl);
-    APP_ERR_RETURN (err, "\r\n **Enable instance TAU delay timer failed**");
+    APP_ERR_RET (err != FSP_SUCCESS,err, "\r\n **Enable instance TAU delay timer failed**");
 
     APP_PRINT("\r\nPlease observe LED1's behavior to verify\r\n");
     while (true)
@@ -179,7 +167,7 @@ static fsp_err_t tau_interval_and_delay_timer_operation(void)
             g_led1_status_flag_cur = false;
             /* Reset interval timer */
             err = R_TAU_Reset(&g_interval_timer_ctrl);
-            APP_ERR_RETURN(err,"Reset interval timer failed");
+            APP_ERR_RET(err != FSP_SUCCESS,err,"Reset interval timer failed");
         }
 
         /* Check blink times of LED 1 */
@@ -204,10 +192,10 @@ static fsp_err_t tau_interval_and_delay_timer_operation(void)
         {
             /* Close instance TAU interval timer */
             err = R_TAU_Close (&g_interval_timer_ctrl);
-            APP_ERR_RETURN(err, "Close instance TAU interval timer failed");
+            APP_ERR_RET(err != FSP_SUCCESS,err, "Close instance TAU interval timer failed");
             /* Close instance TAU delay timer */
             err = R_TAU_Close (&g_delay_timer_ctrl);
-            APP_ERR_RETURN(err, "Close instance TAU delay timer failed");
+            APP_ERR_RET(err != FSP_SUCCESS,err, "Close instance TAU delay timer failed");
 
             APP_PRINT("\r\nLed 1 blink times: %d\r\n", g_led1_blink_times);
             /* Reset led 1 blink times */
@@ -241,16 +229,16 @@ static fsp_err_t tau_external_event_counter_operation(void)
 
     /* Open instance TAU square wave output sequence 2*/
     err = R_TAU_Open (&g_square_wave_output_sequence2_ctrl, &g_square_wave_output_sequence2_cfg);
-    APP_ERR_RETURN (err, "\r\n **Open instance TAU square wave output sequence 2 failed**");
+    APP_ERR_RET (err != FSP_SUCCESS,err, "\r\n **Open instance TAU square wave output sequence 2 failed**");
     /* Open instance TAU divider */
     err = R_TAU_Open (&g_divider_timer_ctrl, &g_divider_timer_cfg);
-    APP_ERR_RETURN (err, "\r\n **Open instance TAU divider failed**");
+    APP_ERR_RET (err != FSP_SUCCESS,err, "\r\n **Open instance TAU divider failed**");
     /* Open instance TAU input capture */
     err = R_TAU_Open (&g_input_capture_ctrl, &g_input_capture_cfg);
-    APP_ERR_RETURN (err, "\r\n **Open instance TAU input capture failed**");
+    APP_ERR_RET (err != FSP_SUCCESS,err, "\r\n **Open instance TAU input capture failed**");
     /* Open instance TAU external event counter */
     err = R_TAU_Open (&g_external_event_counter_timer_ctrl, &g_external_event_counter_timer_cfg);
-    APP_ERR_RETURN (err, "\r\n **Open instance TAU external event counter failed**");
+    APP_ERR_RET (err != FSP_SUCCESS,err, "\r\n **Open instance TAU external event counter failed**");
 
     /* The limit of measurable input signal is based on the configured clock frequency. */
     input_pulse_min = min_timer_calculate(INPUT_CAPTURE);
@@ -262,20 +250,20 @@ static fsp_err_t tau_external_event_counter_operation(void)
     square_wave_frequency = square_wave_frequency_set ();
     /* Set divider */
     divided_output = divider_set (square_wave_frequency);
-    APP_ERR_RETURN (err, "\r\n **Set divider failed**");
+    APP_ERR_RET(err != FSP_SUCCESS,err, "\r\n **Set divider failed**");
 
     /* Start instance TAU square wave output sequence 2 after set frequency */
     err = R_TAU_Start (&g_square_wave_output_sequence2_ctrl);
-    APP_ERR_RETURN (err, "\r\n **Start instance TAU square wave output sequence 2 failed**");
+    APP_ERR_RET(err != FSP_SUCCESS,err, "\r\n **Start instance TAU square wave output sequence 2 failed**");
     /* Start divider square wave */
     err = R_TAU_Start (&g_divider_timer_ctrl);
-    APP_ERR_RETURN (err, "\r\n **Start instance TAU divider timer failed**");
+    APP_ERR_RET(err != FSP_SUCCESS,err, "\r\n **Start instance TAU divider timer failed**");
     /* Enable instance TAU input capture to measure pulse width */
     err = R_TAU_Enable (&g_input_capture_ctrl);
-    APP_ERR_RETURN (err, "\r\n **Enable instance TAU input capture failed**");
+    APP_ERR_RET(err != FSP_SUCCESS,err, "\r\n **Enable instance TAU input capture failed**");
     /* Enable instance TAU external event counter to count turn-on times of LED 2*/
     err = R_TAU_Enable (&g_external_event_counter_timer_ctrl);
-    APP_ERR_RETURN (err, "\r\n **Enable instance TAU external event counter failed**");
+    APP_ERR_RET(err != FSP_SUCCESS,err, "\r\n **Enable instance TAU external event counter failed**");
 
     /* Print warning message if the input pulse is out of the measurable range */
     if (input_pulse_min > divided_output || (float)input_pulse_max < divided_output)
@@ -296,7 +284,7 @@ static fsp_err_t tau_external_event_counter_operation(void)
                 /* Turn ON LED 2 */
                 R_IOPORT_PinWrite (&g_ioport_ctrl, g_bsp_leds.p_leds[LED_SEQUENCE2] , BSP_IO_LEVEL_HIGH);
                 err = R_TAU_InfoGet (&g_input_capture_ctrl, &periodic_info);
-                APP_ERR_RETURN (err, "\r\n **Get periodic info of input capture failed**");
+                APP_ERR_RET(err != FSP_SUCCESS,err, "\r\n **Get periodic info of input capture failed**");
                 /* Calculate input pulse width  */
                 input_pulse_frequency_value = (float) ((float) (periodic_info.clock_frequency) / (float) (g_capture_value));
                 sprintf (timer_buffer, "%.03f", input_pulse_frequency_value);
@@ -325,7 +313,7 @@ static fsp_err_t tau_external_event_counter_operation(void)
             else
             {
                 /* Return error due to external event count value not matching expectation */
-                APP_ERR_RETURN (FSP_ERR_ASSERTION, "External event count operation did not work as expected");
+                APP_ERR_RET(FSP_ERR_ASSERTION != FSP_SUCCESS,FSP_ERR_ASSERTION, "External event count operation did not work as expected");
             }
 
             /* Reset external counter flag */
@@ -337,16 +325,16 @@ static fsp_err_t tau_external_event_counter_operation(void)
 
             /* Close instance TAU square wave output sequence 2 */
             err = R_TAU_Close (&g_square_wave_output_sequence2_ctrl);
-            APP_ERR_RETURN (err, "Close instance TAU square wave output sequence 2 failed");
+            APP_ERR_RET(err != FSP_SUCCESS,err, "Close instance TAU square wave output sequence 2 failed");
             /* Close instance TAU divider */
             err = R_TAU_Close (&g_divider_timer_ctrl);
-            APP_ERR_RETURN (err, "Close instance TAU divider failed");
+            APP_ERR_RET(err != FSP_SUCCESS,err, "Close instance TAU divider failed");
             /* Close instance TAU input capture */
             err = R_TAU_Close (&g_input_capture_ctrl);
-            APP_ERR_RETURN (err, "Close instance TAU input capture failed");
+            APP_ERR_RET(err != FSP_SUCCESS,err, "Close instance TAU input capture failed");
             /* Close instance TAU external event counter */
             err = R_TAU_Close (&g_external_event_counter_timer_ctrl);
-            APP_ERR_RETURN (err, "Close instance TAU external event counter failed");
+            APP_ERR_RET(err != FSP_SUCCESS,err, "Close instance TAU external event counter failed");
 
             APP_PRINT("\r\n*** Go to measure low level pulse width mode ***\n");
             break;
@@ -374,22 +362,22 @@ static fsp_err_t tau_measure_low_level_pulse_width_operation(void)
 
     /* Open instance TAU square wave output sequence 3 */
     err = R_TAU_Open (&g_square_wave_output_sequence3_ctrl, &g_square_wave_output_sequence3_cfg);
-    APP_ERR_RETURN (err, "\r\n **Open instance TAU square wave output sequence 3 failed**");
+    APP_ERR_RET(err != FSP_SUCCESS,err, "\r\n **Open instance TAU square wave output sequence 3 failed**");
     /* Open instance TAU measure low level pulse width */
     err = R_TAU_Open (&g_measure_low_level_pulse_width_ctrl, &g_measure_low_level_pulse_width_cfg);
-    APP_ERR_RETURN (err, "\r\n **Open instance TAU measure low level pulse width failed**");
+    APP_ERR_RET(err != FSP_SUCCESS,err, "\r\n **Open instance TAU measure low level pulse width failed**");
 
     /* Enable instance TAU to measure low level pulse width of square wave */
     err = R_TAU_Enable (&g_measure_low_level_pulse_width_ctrl);
-    APP_ERR_RETURN (err, "\r\n **Enable instance TAU measure low level pulse width failed**");
+    APP_ERR_RET(err != FSP_SUCCESS,err, "\r\n **Enable instance TAU measure low level pulse width failed**");
 
     /* Set period of square wave */
     err = square_wave_period_set ();
-    APP_ERR_RETURN (err, "\r\n **Set period of square wave output failed**");
+    APP_ERR_RET(err != FSP_SUCCESS,err, "\r\n **Set period of square wave output failed**");
 
     /* Start instance TAU square wave output sequence 3 after set period */
     err = R_TAU_Start (&g_square_wave_output_sequence3_ctrl);
-    APP_ERR_RETURN (err, "\r\n **Start instance TAU square wave output sequence 3 failed**");
+    APP_ERR_RET(err != FSP_SUCCESS,err, "\r\n **Start instance TAU square wave output sequence 3 failed**");
 
     while (DEMO_TIMES > g_measure_times)
     {
@@ -398,7 +386,7 @@ static fsp_err_t tau_measure_low_level_pulse_width_operation(void)
         {
             /* Get clock frequency to calculate pulse width  */
             err = R_TAU_InfoGet (&g_measure_low_level_pulse_width_ctrl, &periodic_info);
-            APP_ERR_RETURN (err, "\r\n **Get periodic info of measure low level pulse width failed**");
+            APP_ERR_RET(err != FSP_SUCCESS,err, "\r\n **Get periodic info of measure low level pulse width failed**");
             /* Calculate low level pulse width  */
             low_level_pulse_width = (float) (( (float) (g_capture_value) / (float) (periodic_info.clock_frequency)) * CONVERT_SECOND_TO_MILISECOND);
             sprintf (timer_buffer, "%.03f", low_level_pulse_width);
@@ -413,10 +401,10 @@ static fsp_err_t tau_measure_low_level_pulse_width_operation(void)
     }
     /* Close instance TAU square wave output sequence 3 */
     err = R_TAU_Close (&g_square_wave_output_sequence3_ctrl);
-    APP_ERR_RETURN(err, "Close instance TAU square wave output sequence 3 failed");
+    APP_ERR_RET(err != FSP_SUCCESS,err, "Close instance TAU square wave output sequence 3 failed");
     /* Close instance TAU measure low level pulse width */
     err = R_TAU_Close (&g_measure_low_level_pulse_width_ctrl);
-    APP_ERR_RETURN(err, "Close instance TAU measure low level pulse width failed");
+    APP_ERR_RET(err != FSP_SUCCESS,err, "Close instance TAU measure low level pulse width failed");
     /* Reset low level measurement times */
     g_measure_times = RESET_VALUE;
     /* Reset interrupt counter */
@@ -449,11 +437,11 @@ static fsp_err_t led1_on_time_set(void)
     /* Depending on the user selected clock source, raw counts value can be calculated
        for the user given time-period values */
      err = R_TAU_InfoGet(&g_delay_timer_ctrl, &periodic_info);
-     APP_ERR_RETURN(err,"\r\n **Get periodic info of delay timer failed**");
+     APP_ERR_RET(err != FSP_SUCCESS,err,"\r\n **Get periodic info of delay timer failed**");
      raw_counts = (uint32_t)((time_period_ms_led_on * periodic_info.clock_frequency ) / CONVERT_SECOND_TO_MILISECOND);
      /* Set period value */
      err = R_TAU_PeriodSet(&g_delay_timer_ctrl, raw_counts);
-     APP_ERR_RETURN(err,"\r\n **Set delay timer failed**");
+     APP_ERR_RET(err != FSP_SUCCESS,err,"\r\n **Set delay timer failed**");
      /* Reset LED1 turn-on time value */
      time_period_ms_led_on = RESET_VALUE;
 
@@ -483,14 +471,14 @@ static fsp_err_t led1_off_time_set(void)
     APP_PRINT("\r\nTime period for Led OFF: %d ms\r\n", time_period_ms_led_off);
     /* Calculation of raw counts value for given milliseconds value */
     err = R_TAU_InfoGet (&g_interval_timer_ctrl, &periodic_info);
-    APP_ERR_RETURN(err,"\r\n **Get periodic info of interval timer failed**");
+    APP_ERR_RET(err != FSP_SUCCESS,err,"\r\n **Get periodic info of interval timer failed**");
 
     /* Depending on the user selected clock source, raw counts value can be calculated
      * for the user given time-period values */
     raw_counts = (uint32_t) ((time_period_ms_led_off * periodic_info.clock_frequency) / CONVERT_SECOND_TO_MILISECOND);
     /* Set period value */
     err = R_TAU_PeriodSet (&g_interval_timer_ctrl, raw_counts);
-    APP_ERR_RETURN(err,"\r\n **Set interval timer failed**");
+    APP_ERR_RET(err != FSP_SUCCESS,err,"\r\n **Set interval timer failed**");
     /* Reset LED1 off time value */
     time_period_ms_led_off = RESET_VALUE;
 
@@ -590,14 +578,14 @@ static fsp_err_t square_wave_period_set(void)
 
     /* Calculation of raw counts value for given milliseconds value */
     err = R_TAU_InfoGet (&g_square_wave_output_sequence3_ctrl, &periodic_info);
-    APP_ERR_RETURN(err,"\r\n **Get periodic info of square wave output sequence 3 failed**");
+    APP_ERR_RET(err != FSP_SUCCESS,err,"\r\n **Get periodic info of square wave output sequence 3 failed**");
 
     /* Depending on the user selected clock source, raw counts value can be calculated
      * for the user given square wave period values */
     raw_counts = (uint32_t) ((periodic_info.clock_frequency * square_wave_period) / (CONVERT_HALF_TO_ONE_CYCLE * CONVERT_SECOND_TO_MILISECOND));
     /* Set period value */
     err = R_TAU_PeriodSet (&g_square_wave_output_sequence3_ctrl, raw_counts);
-    APP_ERR_RETURN(err,"\r\n **Set frequency for square wave output sequence 3 failed**");
+    APP_ERR_RET(err != FSP_SUCCESS,err,"\r\n **Set frequency for square wave output sequence 3 failed**");
     /* Reset period of square wave */
     square_wave_period = RESET_VALUE;
 
@@ -617,22 +605,15 @@ uint32_t get_user_input(uint32_t min_value, uint32_t max_value)
     {
         /* Cleaning buffer */
         memset (g_rx_buffer, NULL_CHAR, sizeof(g_rx_buffer));
-#if (USE_VIRTUAL_COM == 1)
-        g_rx_complete_flag = false;
-        /* Wait for enter key */
-        while (!g_rx_complete_flag)
-        {
-            ;
-        }
-#else
-        /* Wait until has any user input */
-        while (!APP_CHECK_DATA)
-        {
-            ;
-        }
-        /* Get user input and stored in g_rx_buffer */
-        APP_READ(g_rx_buffer);
-#endif /* USE_VIRTUAL_COM */
+        /* Wait until there is any user input */
+            while (!APP_CHECK_DATA)
+            {
+                ;
+            }
+
+        /* Read First byte of data provided by user */
+        APP_READ (g_rx_buffer,sizeof(g_rx_buffer));
+
         /* Convert data in g_rx_buffer to integer */
         input_value = (uint32_t) atoi (g_rx_buffer);
         if (input_value >= min_value && input_value <= max_value)

@@ -85,7 +85,7 @@ void net_app_thread_entry(void)
 
     /* Create the necessary resources for the operations of all network operations. */
     status = net_app_create();
-    ERROR_TRAP(NX_SUCCESS != status, status, "net_app_create failed");
+    TERM_ERR_TRAP(NX_SUCCESS != status, status, "net_app_create failed");
 
     while (true)
     {
@@ -101,7 +101,7 @@ void net_app_thread_entry(void)
             memset(argv, RESET_VALUE, sizeof(argv));
 
             /* Wait for user input from the input queue. */
-            status = terminal_get_input_queue(input, (uint32_t *)&len, TX_WAIT_FOREVER);
+            status = term_get_input_queue(input, (uint32_t *)&len, TX_WAIT_FOREVER);
             if (TX_SUCCESS == status)
             {
                 break;
@@ -191,40 +191,40 @@ static UINT net_app_create(void)
     /* Create a TCP socket. */
     status = nx_tcp_socket_create(&g_ip0, &g_tcp_client_socket, "TCP Client Socket",
                                   NX_IP_NORMAL, NX_FRAGMENT_OKAY, NX_IP_TIME_TO_LIVE, 200, NX_NULL, NX_NULL);
-    ERROR_RET(NX_SUCCESS != status, status, "nx_tcp_socket_create failed");
+    APP_ERR_RET(NX_SUCCESS != status, status, "nx_tcp_socket_create failed");
 
     /* Bind the TCP client socket to an available port number.  */
     status = nx_tcp_client_socket_bind(&g_tcp_client_socket, NX_ANY_PORT, NX_IP_PERIODIC_RATE);
-    ERROR_RET(NX_SUCCESS != status, status, "nx_tcp_client_socket_bind failed");
+    APP_ERR_RET(NX_SUCCESS != status, status, "nx_tcp_client_socket_bind failed");
 
     /* Create a UDP socket. */
     status = nx_udp_socket_create(&g_ip0, &g_udp_client_socket, "UDP Client Socket",
                                   NX_IP_NORMAL, NX_FRAGMENT_OKAY, NX_IP_TIME_TO_LIVE, NET_UDP_CLIENT_QUEUE_SIZE);
-    ERROR_RET(NX_SUCCESS != status, status, "nx_udp_socket_create failed");
+    APP_ERR_RET(NX_SUCCESS != status, status, "nx_udp_socket_create failed");
 
     /* Bind the UDP client socket to an available port number. */
     status = nx_udp_socket_bind(&g_udp_client_socket, NX_ANY_PORT, NX_IP_PERIODIC_RATE);
-    ERROR_RET(NX_SUCCESS != status, status, "nx_udp_socket_bind failed");
+    APP_ERR_RET(NX_SUCCESS != status, status, "nx_udp_socket_bind failed");
 
     /* Create a DNS instance for the DNS client. */
     status = nx_dns_create(&g_dns_client, &g_ip0, (UCHAR *)"DNS Client Socket");
-    ERROR_RET(NX_SUCCESS != status, status, "nx_dns_create failed");
+    APP_ERR_RET(NX_SUCCESS != status, status, "nx_dns_create failed");
 
     /* Set the packet poll for the DNS client instance. */
     status = nx_dns_packet_pool_set(&g_dns_client, &g_packet_pool0);
-    ERROR_RET(NX_SUCCESS != status, status, "nx_dns_packet_pool_set failed");
+    APP_ERR_RET(NX_SUCCESS != status, status, "nx_dns_packet_pool_set failed");
 
     /* Add the primary Google Public DNS server. */
     status = nx_dns_server_add(&g_dns_client, NET_DNS_SERVER_ADDR_1);
-    ERROR_RET(NX_SUCCESS != status, status, "nx_dns_server_add failed");
+    APP_ERR_RET(NX_SUCCESS != status, status, "nx_dns_server_add failed");
 
     /* Add the secondary Google Public DNS server. */
     status = nx_dns_server_add(&g_dns_client, NET_DNS_SERVER_ADDR_2);
-    ERROR_RET(NX_SUCCESS != status, status, "nx_dns_server_add failed");
+    APP_ERR_RET(NX_SUCCESS != status, status, "nx_dns_server_add failed");
 
     /* Create the file system for the web HTTP server. */
     status = file_system_create();
-    ERROR_RET(NX_SUCCESS != status, status, "web_http_server_file_system_create failed");
+    APP_ERR_RET(NX_SUCCESS != status, status, "web_http_server_file_system_create failed");
 
     /* Create the Web HTTP Server. */
     status = nx_web_http_server_create(&g_web_http_server0,
@@ -232,7 +232,7 @@ static UINT net_app_create(void)
                                         G_WEB_HTTP_SERVER0_PORT_NUMBER, &g_fx_media0,
                                         g_web_http_server0_stack_memory, G_WEB_HTTP_SERVER0_STACK_SIZE,
                                         &g_packet_pool0, NX_NULL, server_request_callback);
-    ERROR_RET(NX_SUCCESS != status, status, "nx_web_http_server_create failed");
+    APP_ERR_RET(NX_SUCCESS != status, status, "nx_web_http_server_create failed");
 
     return status;
 }
@@ -258,7 +258,7 @@ static UINT file_system_create(void)
 
     /* Initializes the block media driver used by FileX. */
     status = (UINT)RM_FILEX_BLOCK_MEDIA_Open(&g_rm_filex_block_media_0_ctrl, &g_rm_filex_block_media_0_cfg);
-    ERROR_RET(FX_SUCCESS != status, status, "RM_FILEX_BLOCK_MEDIA_Open failed");
+    APP_ERR_RET(FX_SUCCESS != status, status, "RM_FILEX_BLOCK_MEDIA_Open failed");
 
     /* Open the media for file system operations. */
     status = fx_media_open(&g_fx_media0,
@@ -267,7 +267,7 @@ static UINT file_system_create(void)
                           (void *) &g_rm_filex_block_media_0_instance,
                           g_fx_media0_media_memory,
                           G_FX_MEDIA0_MEDIA_MEMORY_SIZE);
-    ERROR_RET(FX_SUCCESS != status, status, "fx_media_open failed");
+    APP_ERR_RET(FX_SUCCESS != status, status, "fx_media_open failed");
 
     return status;
 }
@@ -293,7 +293,7 @@ static UINT tcp_client_operation(CHAR * p_input)
     NX_PACKET * p_packet = NX_NULL;
 
     /* Check length of the input string. */
-    INFO_RET(NX_NULL == strlen(p_input), "The input arguments are invalid");
+    TERM_INFO_RET(NX_NULL == strlen(p_input), "The input arguments are invalid");
 
     /* Parse TCP client operation parameters. */
     sscanf(p_input, "%d.%d.%d.%d:%d", &ipv4_a, &ipv4_b, &ipv4_c, &ipv4_d, &port);
@@ -301,11 +301,11 @@ static UINT tcp_client_operation(CHAR * p_input)
 
     /* Ping the TCP server to verify the connection. */
     status = net_system_ping(ipv4);
-    INFO_RET(NX_SUCCESS != status, "Ping to the TCP server failed");
+    TERM_INFO_RET(NX_SUCCESS != status, "Ping to the TCP server failed");
 
     /* Connect to the TCP server. */
     status = nx_tcp_client_socket_connect(&g_tcp_client_socket, ipv4, port, NET_TCP_CLIENT_WAIT);
-    INFO_RET(NX_SUCCESS != status, "Connection to the TCP server failed");
+    TERM_INFO_RET(NX_SUCCESS != status, "Connection to the TCP server failed");
 
     /* Allocate a TCP packet. */
     status = nx_packet_allocate(&g_packet_pool0, &p_packet, NX_TCP_PACKET, NX_IP_PERIODIC_RATE);
@@ -314,7 +314,7 @@ static UINT tcp_client_operation(CHAR * p_input)
         /* Disconnect from the TCP server. */
         nx_tcp_socket_disconnect(&g_tcp_client_socket, NET_TCP_CLIENT_WAIT);
         /* Print the error information */
-        INFO_RET(NX_SUCCESS != status, "Allocating a TCP packet failed");
+        TERM_INFO_RET(NX_SUCCESS != status, "Allocating a TCP packet failed");
     }
 
     /* Write fixed data into the packet payload. */
@@ -326,7 +326,7 @@ static UINT tcp_client_operation(CHAR * p_input)
         /* Disconnect from the TCP server. */
         nx_tcp_socket_disconnect(&g_tcp_client_socket, NET_TCP_CLIENT_WAIT);
         /* Print the error information. */
-        INFO_RET(NX_SUCCESS != status, "Appending data to the TCP packet failed");
+        TERM_INFO_RET(NX_SUCCESS != status, "Appending data to the TCP packet failed");
     }
 
     /* Send the TCP packet. */
@@ -338,7 +338,7 @@ static UINT tcp_client_operation(CHAR * p_input)
         /* Disconnect from the TCP server. */
         nx_tcp_socket_disconnect(&g_tcp_client_socket, NET_TCP_CLIENT_WAIT);
         /* Print the error information */
-        INFO_RET(NX_SUCCESS != status, "Sending the TCP packet to the TCP server failed");
+        TERM_INFO_RET(NX_SUCCESS != status, "Sending the TCP packet to the TCP server failed");
     }
 
     /* Send an output queue to print the TCP sent data. */
@@ -351,7 +351,7 @@ static UINT tcp_client_operation(CHAR * p_input)
         /* Disconnect from the TCP server. */
         nx_tcp_socket_disconnect(&g_tcp_client_socket, NET_TCP_CLIENT_WAIT);
         /* Print the error information. */
-        INFO_RET(NX_SUCCESS != status, "Receiving a TCP packet from the TCP server failed");
+        TERM_INFO_RET(NX_SUCCESS != status, "Receiving a TCP packet from the TCP server failed");
     }
 
     /* Retrieve data from the packet. */
@@ -363,7 +363,7 @@ static UINT tcp_client_operation(CHAR * p_input)
         /* Disconnect from the TCP server. */
         nx_tcp_socket_disconnect(&g_tcp_client_socket, NET_TCP_CLIENT_WAIT);
         /* Print the error information. */
-        INFO_RET(NX_SUCCESS != status, "Retrieving data from the TCP packet failed");
+        TERM_INFO_RET(NX_SUCCESS != status, "Retrieving data from the TCP packet failed");
     }
 
     /* Null-terminate the buffer string. */
@@ -402,7 +402,7 @@ static UINT udp_client_operation(CHAR * p_input)
     NX_PACKET * p_packet = NX_NULL;
 
     /* Check length of input string */
-    INFO_RET(NX_NULL == strlen(p_input), "The input arguments are invalid");
+    TERM_INFO_RET(NX_NULL == strlen(p_input), "The input arguments are invalid");
 
     /* Parse UDP client operation parameters. */
     sscanf(p_input, "%d.%d.%d.%d:%d", &ipv4_a, &ipv4_b, &ipv4_c, &ipv4_d, &port);
@@ -410,11 +410,11 @@ static UINT udp_client_operation(CHAR * p_input)
 
     /* Ping the UDP server to verify the connection. */
     status = net_system_ping(ipv4);
-    INFO_RET(NX_SUCCESS != status, "Ping to the UDP server failed");
+    TERM_INFO_RET(NX_SUCCESS != status, "Ping to the UDP server failed");
 
     /* Allocate a UDP packet. */
     status = nx_packet_allocate(&g_packet_pool0, &p_packet, NX_UDP_PACKET, NX_IP_PERIODIC_RATE);
-    INFO_RET(NX_SUCCESS != status, "Allocating a UDP packet failed");
+    TERM_INFO_RET(NX_SUCCESS != status, "Allocating a UDP packet failed");
 
     /* Write fixed data into the packet payload. */
     status = nx_packet_data_append(p_packet, NET_UDP_CLIENT_SEND_DATA, sizeof(NET_UDP_CLIENT_SEND_DATA), &g_packet_pool0, NX_IP_PERIODIC_RATE);
@@ -423,7 +423,7 @@ static UINT udp_client_operation(CHAR * p_input)
         /* Release the UDP packet. */
         nx_packet_release(p_packet);
         /* Print the error information. */
-        INFO_RET(NX_SUCCESS != status, "Appending data to the UDP packet failed");
+        TERM_INFO_RET(NX_SUCCESS != status, "Appending data to the UDP packet failed");
     }
 
     /* Send the UDP packet. */
@@ -433,7 +433,7 @@ static UINT udp_client_operation(CHAR * p_input)
         /* Release the UDP packet. */
         nx_packet_release(p_packet);
         /* Print the error information. */
-        INFO_RET(NX_SUCCESS != status, "Sending the UDP packet to the UDP server failed");
+        TERM_INFO_RET(NX_SUCCESS != status, "Sending the UDP packet to the UDP server failed");
     }
 
     /* Send an output queue to print the sent data. */
@@ -441,7 +441,7 @@ static UINT udp_client_operation(CHAR * p_input)
 
     /* Receive a UDP packet from the UDP server. */
     status = nx_udp_socket_receive(&g_udp_client_socket, &p_packet, NET_UDP_CLIENT_WAIT);
-    INFO_RET(NX_SUCCESS != status, "Receiving a UDP packet from the UDP server failed");
+    TERM_INFO_RET(NX_SUCCESS != status, "Receiving a UDP packet from the UDP server failed");
 
     /* Retrieve data from the packet. */
     status = nx_packet_data_retrieve(p_packet, buffer, &len);
@@ -450,7 +450,7 @@ static UINT udp_client_operation(CHAR * p_input)
         /* Release the UDP packet. */
         nx_packet_release(p_packet);
         /* Print the error information. */
-        INFO_RET(NX_SUCCESS != status, "Retrieving data from the UDP packet failed");
+        TERM_INFO_RET(NX_SUCCESS != status, "Retrieving data from the UDP packet failed");
     }
 
     /* Null-terminate the buffer string. */
@@ -484,11 +484,11 @@ static UINT dns_client_operation(CHAR * p_input)
     CHAR name[NET_DNS_NAME_MAX_LEN];
 
     /* Check length of input string */
-    INFO_RET(NX_NULL == strlen(p_input), "The input arguments are invalid");
+    TERM_INFO_RET(NX_NULL == strlen(p_input), "The input arguments are invalid");
 
     /* Ping the Google DNS server to verify the Internet connection. */
     status = net_system_ping(NET_DNS_SERVER_ADDR_1);
-    INFO_RET(NX_SUCCESS != status, "The Internet connection is not available");
+    TERM_INFO_RET(NX_SUCCESS != status, "The Internet connection is not available");
 
     /* Determine whether the input string is a host name or an IP address. */
     for (UINT i = 0; i < strlen(p_input); i ++)
@@ -508,7 +508,7 @@ static UINT dns_client_operation(CHAR * p_input)
     {
         /* Perform a DNS query to resolve a given hostname into its corresponding IP address. */
         status = nx_dns_host_by_name_get(&g_dns_client, (UCHAR *)p_input, &ipv4, NET_DNS_CLIENT_WAIT);
-        INFO_RET(NX_SUCCESS != status, "Resolving the IP address by the host name failed");
+        TERM_INFO_RET(NX_SUCCESS != status, "Resolving the IP address by the host name failed");
 
         /* Send an output queue to print the DNS Address record. */
         PRINT_ID_DATA(TERMINAL_OUTPUT_DNS_HOST_ADDR, ipv4);
@@ -526,7 +526,7 @@ static UINT dns_client_operation(CHAR * p_input)
 
         /* Perform a DNS query to determine the hostname associated with a given IP address. */
         status = nx_dns_host_by_address_get(&g_dns_client, ipv4, (UCHAR *)name, sizeof(name), NET_DNS_CLIENT_WAIT);
-        INFO_RET(NX_SUCCESS != status, "Resolving the host name by the host's IP address failed");
+        TERM_INFO_RET(NX_SUCCESS != status, "Resolving the host name by the host's IP address failed");
 
         /* Send an output queue to print the DNS PTR record. */
         PRINT_ID_STR(TERMINAL_OUTPUT_DNS_HOST_NAME, name);
@@ -548,16 +548,16 @@ static UINT web_server_operation(void)
 
     /* Start the web server's internal thread. */
     status = nx_web_http_server_start(&g_web_http_server0);
-    INFO_RET(NX_SUCCESS != status, "Starting the web server failed");
+    TERM_INFO_RET(NX_SUCCESS != status, "Starting the web server failed");
 
     PRINT_INFO_STR("Type any key to stop the web server\r\n");
 
     /* Wait for any user input form terminal input queue. */
-    terminal_get_input_queue(input, (uint32_t *)&len, TX_WAIT_FOREVER);
+    term_get_input_queue(input, (uint32_t *)&len, TX_WAIT_FOREVER);
 
     /* Stop the web server's internal thread. */
     status = nx_web_http_server_stop(&g_web_http_server0);
-    INFO_RET(NX_SUCCESS != status, "Stopping the web server failed");
+    TERM_INFO_RET(NX_SUCCESS != status, "Stopping the web server failed");
 
     return status;
 }

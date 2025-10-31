@@ -17,6 +17,7 @@
  **********************************************************************************************************************/
 #include <stdint.h>
 #include <vector_data.h>
+#include "common_utils.h"
 
 /***********************************************************************************************************************
  * Macro definitions
@@ -40,7 +41,7 @@
                                              (uint32_t) IOPORT_PERIPHERAL_SCI0_2_4_6_8)
   #define SERIAL_PIN_RX_CFG                  (SERIAL_PIN_CFG)
   #define SERIAL_PIN_TX_CFG                  (SERIAL_PIN_CFG)
-#elif defined(BOARD_RA2E3_FPB) || defined(BOARD_RA4T1_MCK) || defined(BOARD_RA6T3_MCK)
+#elif defined(BOARD_RA2E3_FPB) || defined(BOARD_RA4T1_MCK) || defined(BOARD_RA6T3_MCK) || defined(BOARD_RA2A2_EK) || defined(BOARD_RA2T1_FPB)
   #define SERIAL_CHANNEL                    (9U)
   #define SERIAL_RX_PIN                     (BSP_IO_PORT_01_PIN_10)
   #define SERIAL_TX_PIN                     (BSP_IO_PORT_01_PIN_09)
@@ -74,15 +75,51 @@
                                              (uint32_t) IOPORT_PERIPHERAL_UARTA5)
   #define SERIAL_PIN_TX_CFG                 ((uint32_t) IOPORT_CFG_PERIPHERAL_PIN | \
                                              (uint32_t) IOPORT_PERIPHERAL_UARTA5_OUT)
-#endif
 
-/* Macro for used UART version */
-#if (BSP_FEATURE_SCI_VERSION == 1U)
-    #define USE_SCI_UART_MODULE
-#elif (BSP_FEATURE_SCI_VERSION == 2U)
-    #define USE_SCI_B_UART_MODULE
-#elif defined (BOARD_RA0E1_FPB) || defined (BOARD_RA0E2_FPB)
-    #define USE_UARTA_MODULE
+#elif defined(BOARD_RA8P1_EK)
+  #define SERIAL_CHANNEL                    (8U)
+  #define SERIAL_RX_PIN                     (BSP_IO_PORT_13_PIN_03)
+  #define SERIAL_TX_PIN                     (BSP_IO_PORT_13_PIN_02)
+  #define SERIAL_PIN_CFG                    ((uint32_t) IOPORT_CFG_DRIVE_HIGH | \
+                                            (uint32_t) IOPORT_CFG_PERIPHERAL_PIN | \
+                                            (uint32_t) IOPORT_PERIPHERAL_SCI0_2_4_6_8)
+  #define SERIAL_PIN_RX_CFG                  (SERIAL_PIN_CFG)
+  #define SERIAL_PIN_TX_CFG                  (SERIAL_PIN_CFG)
+
+#elif defined(BOARD_RA0L1_FPB)
+  #define SERIAL_CHANNEL                    (1U)
+  #define SERIAL_RX_PIN                     (BSP_IO_PORT_01_PIN_05)
+  #define SERIAL_TX_PIN                     (BSP_IO_PORT_01_PIN_06)
+  #define SERIAL_PIN_RX_CFG                 ((uint32_t) IOPORT_CFG_PERIPHERAL_PIN | \
+                                             (uint32_t) IOPORT_PERIPHERAL_UARTA4)
+  #define SERIAL_PIN_TX_CFG                 ((uint32_t) IOPORT_CFG_PERIPHERAL_PIN | \
+                                             (uint32_t) IOPORT_PERIPHERAL_UARTA4_OUT)
+#elif defined(BOARD_RA8E2_EK)
+  #define SERIAL_CHANNEL                    (4U)
+  #define SERIAL_RX_PIN                     (BSP_IO_PORT_04_PIN_14)
+  #define SERIAL_TX_PIN                     (BSP_IO_PORT_04_PIN_15)
+  #define SERIAL_PIN_CFG                    ((uint32_t) IOPORT_CFG_DRIVE_HIGH | \
+                                            (uint32_t) IOPORT_CFG_PERIPHERAL_PIN | \
+                                            (uint32_t) IOPORT_PERIPHERAL_SCI0_2_4_6_8)
+  #define SERIAL_PIN_RX_CFG                  (SERIAL_PIN_CFG)
+  #define SERIAL_PIN_TX_CFG                  (SERIAL_PIN_CFG)
+#elif defined(BOARD_RA8E1_FPB)
+  #define SERIAL_CHANNEL                    (9U)
+  #define SERIAL_RX_PIN                     (BSP_IO_PORT_01_PIN_01)
+  #define SERIAL_TX_PIN                     (BSP_IO_PORT_01_PIN_02)
+  #define SERIAL_PIN_CFG                    ((uint32_t) IOPORT_CFG_PERIPHERAL_PIN | \
+                                            (uint32_t) IOPORT_PERIPHERAL_SCI1_3_5_7_9)
+  #define SERIAL_PIN_RX_CFG                  (SERIAL_PIN_CFG)
+  #define SERIAL_PIN_TX_CFG                  (SERIAL_PIN_CFG)
+#elif defined(BOARD_RA8T2_MCK)
+  #define SERIAL_CHANNEL                    (9U)
+  #define SERIAL_RX_PIN                     (BSP_IO_PORT_10_PIN_12)
+  #define SERIAL_TX_PIN                     (BSP_IO_PORT_10_PIN_14)
+  #define SERIAL_PIN_CFG                    ((uint32_t) IOPORT_CFG_DRIVE_HIGH | \
+                                            (uint32_t) IOPORT_CFG_PERIPHERAL_PIN | \
+                                            (uint32_t) IOPORT_PERIPHERAL_SCI1_3_5_7_9)
+  #define SERIAL_PIN_RX_CFG                 (SERIAL_PIN_CFG)
+  #define SERIAL_PIN_TX_CFG                 (SERIAL_PIN_CFG)
 #endif
 
 /* Macros for the UART baud rate configuration */
@@ -90,10 +127,15 @@
 #define SERIAL_ERR_X1000                    (4000U)
 #define SERIAL_MODULATION                   (0U)
 
+/* Macros for time-out operation */
+#define SAFETY_FACTOR                       (2U)
+#define SERIAL_BIT_FRAME                    (10U)
+#define SECOND_TO_MICROSECOND               (1000000U)
+#define SERIAL_TIME_US                      (SECOND_TO_MICROSECOND / (SERIAL_BAUD_RATE / SERIAL_BIT_FRAME))
+
 /* Macros for the UART software configuration */
 #define SERIAL_TX_MAX_SIZE                  (2048U)
 #define SERIAL_RX_MAX_SIZE                  (64U)
-#define SERIAL_TIME_US_X10                  (10* (10U  / SERIAL_BAUD_RATE))
 
 /* Macros for special character definitions */
 #define SERIAL_CHAR_BS                      (0x08)
@@ -104,6 +146,7 @@
 #define SERIAL_TRUE                         (1U)
 #define SERIAL_FALSE                        (0U)
 #define SERIAL_DATA_ZERO                    (0x00)
+#define SERIAL_DATA_ONE                     (0x01)
 
 /* Macros for setting interrupt */
 #if SERIAL_CHANNEL == 0
@@ -111,12 +154,12 @@
     #define VECTOR_NUMBER_UARTX_RXI (VECTOR_NUMBER_SCI0_RXI)
   #elif defined (VECTOR_NUMBER_UARTA0_RXI)
     #define VECTOR_NUMBER_UARTX_RXI (VECTOR_NUMBER_UARTA0_RXI)
-  #elif defined (VECTOR_NUMBER_SAU0_UART_RXI0)
-    #define VECTOR_NUMBER_UARTX_RXI (VECTOR_NUMBER_SAU0_UART_RXI0)
   #endif
 #elif SERIAL_CHANNEL == 1
   #if defined(VECTOR_NUMBER_SCI1_RXI)
     #define VECTOR_NUMBER_UARTX_RXI (VECTOR_NUMBER_SCI1_RXI)
+  #elif defined (VECTOR_NUMBER_UARTA1_RXI)
+    #define VECTOR_NUMBER_UARTX_RXI (VECTOR_NUMBER_UARTA1_RXI)
   #endif
 #elif SERIAL_CHANNEL == 2
   #if defined(VECTOR_NUMBER_SCI2_RXI)
@@ -157,12 +200,12 @@
     #define VECTOR_NUMBER_UARTX_TXI (VECTOR_NUMBER_SCI0_TXI)
   #elif defined (VECTOR_NUMBER_UARTA0_TXI)
     #define VECTOR_NUMBER_UARTX_TXI (VECTOR_NUMBER_UARTA0_TXI)
-  #elif defined (VECTOR_NUMBER_SAU0_UART_TXI0)
-    #define VECTOR_NUMBER_UARTX_TXI (VECTOR_NUMBER_SAU0_UART_TXI0)
   #endif
 #elif SERIAL_CHANNEL == 1
   #if defined(VECTOR_NUMBER_SCI1_TXI)
     #define VECTOR_NUMBER_UARTX_TXI (VECTOR_NUMBER_SCI1_TXI)
+  #elif defined (VECTOR_NUMBER_UARTA1_TXI)
+    #define VECTOR_NUMBER_UARTX_TXI (VECTOR_NUMBER_UARTA1_TXI)
   #endif
 #elif SERIAL_CHANNEL == 2
   #if defined(VECTOR_NUMBER_SCI2_TXI)
@@ -245,12 +288,12 @@
     #define VECTOR_NUMBER_UARTX_ERI (VECTOR_NUMBER_SCI0_ERI)
   #elif defined (VECTOR_NUMBER_UARTA0_ERRI)
     #define VECTOR_NUMBER_UARTX_ERI (VECTOR_NUMBER_UARTA0_ERRI)
-  #elif defined (VECTOR_NUMBER_SAU0_UART_ERRI0)
-    #define VECTOR_NUMBER_UARTX_ERI (VECTOR_NUMBER_SAU0_UART_ERRI0)
   #endif
 #elif SERIAL_CHANNEL == 1
   #if defined(VECTOR_NUMBER_SCI1_ERI)
     #define VECTOR_NUMBER_UARTX_ERI (VECTOR_NUMBER_SCI1_ERI)
+  #elif defined (VECTOR_NUMBER_UARTA1_ERRI)
+    #define VECTOR_NUMBER_UARTX_ERI (VECTOR_NUMBER_UARTA1_ERRI)
   #endif
 #elif SERIAL_CHANNEL == 2
   #if defined(VECTOR_NUMBER_SCI2_ERI)
@@ -290,6 +333,7 @@
  * Public function prototypes
  **********************************************************************************************************************/
 uint32_t serial_init(void);
+void serial_deinit(void);
 uint32_t serial_printf(char * p_format, ...);
 uint32_t serial_read(void * const p_buffer, uint32_t buffer_size);
 uint32_t serial_has_data(void);

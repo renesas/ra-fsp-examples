@@ -45,9 +45,9 @@ Snapshots of hardware connections:
  ![hw_connection_snapshot](images/hardware_connection.jpg "Snapshots of hardware connections")
 
 ### Software ###
-* Renesas Flexible Software Package (FSP): Version 6.0.0
-* e2 studio: Version 2025-04.1
-* SEGGER J-Link RTT Viewer: Version 8.44a
+* Renesas Flexible Software Package (FSP): Version 6.2.0
+* e2 studio: Version 2025-10
+* SEGGER J-Link RTT Viewer: Version 8.74
 * GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 * Terminal Console Application: Tera Term or a similar application
 
@@ -267,4 +267,5 @@ Special notes:
 	   may get corrupted.
 	4) If USB is removed without "safely_eject" option, user is recommended to perform "safely_eject" and re-initialise USB. 
 	   This will make sure no USB operations fail after unexpected removal of USB.
+* For CDC operation: The user is expected to enter data not exceeding 64 bytes in size.
 	   

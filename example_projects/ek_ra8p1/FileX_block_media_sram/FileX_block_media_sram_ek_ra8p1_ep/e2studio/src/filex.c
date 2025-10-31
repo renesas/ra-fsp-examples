@@ -1,6 +1,6 @@
 /***********************************************************************************************************************
  * File Name    : filex.c
- * Description  : Contains data structures and functions
+ * Description  : Contains data structures and functions.
  **********************************************************************************************************************/
 /***********************************************************************************************************************
 * Copyright (c) 2024 - 2025 Renesas Electronics Corporation and/or its affiliates
@@ -79,7 +79,7 @@ UINT file_system_init(void)
 {
     UINT status = FX_SUCCESS;
     time_app_t time = {.date = RESET_VALUE, .hour = RESET_VALUE, .min = RESET_VALUE,\
-                      .month = RESET_VALUE, .sec = RESET_VALUE, .year = RESET_VALUE};
+                       .month = RESET_VALUE, .sec = RESET_VALUE, .year = RESET_VALUE};
 
     /* Extract current Date from compiler macros */
     time.month = get_month(&__DATE__[MONTH_INDEX]);
@@ -93,24 +93,24 @@ UINT file_system_init(void)
 
     /* Open and configure FileX Block Media interface */
     status = (UINT)RM_FILEX_BLOCK_MEDIA_Open(&g_rm_filex_block_media_ctrl, &g_rm_filex_block_media_cfg);
-    RETURN_ERR_STR(status, "RM_FILEX_BLOCK_MEDIA_Open failed\r\n");
+    TERM_ERR_RET(FSP_SUCCESS != status, status, "RM_FILEX_BLOCK_MEDIA_Open failed\r\n");
 
     /* Initialize the FileX system */
     fx_system_initialize();
 
     /* Set date for FileX system */
     status = fx_system_date_set(time.year, time.month, time.date);
-    RETURN_ERR_STR(status, "fx_system_date_set failed\r\n");
+    TERM_ERR_RET(FX_SUCCESS != status, status, "fx_system_date_set failed\r\n");
 
     /* Set time for FileX system */
     status = fx_system_time_set(time.hour, time.min, time.sec);
-    RETURN_ERR_STR(status, "fx_system_time_set failed\r\n");
+    TERM_ERR_RET(FX_SUCCESS != status, status, "fx_system_time_set failed\r\n");
 
     /* Open media using the Azure FileX API */
     status = fx_media_open(&g_fx_media, "g_fx_media", RM_FILEX_BLOCK_MEDIA_BlockDriver,\
                            (void *) &g_rm_filex_block_media_instance, g_fx_media_media_memory,\
                            G_FX_MEDIA_MEDIA_MEMORY_SIZE);
-    RETURN_ERR_STR(status, "fx_media_open failed\r\n");
+    TERM_ERR_RET(FX_SUCCESS != status, status, "fx_media_open failed\r\n");
 
     return status;
 }
@@ -129,42 +129,42 @@ UINT file_system_operation(UINT request)
     {
         case REQUEST_MEDIA_FORMAT:
             status = media_format();
-            RETURN_ERR_STR (status, "media_format failed\r\n");
+            TERM_ERR_RET(FX_SUCCESS != status, status, "media_format failed\r\n");
             break;
 
         case REQUEST_DIR_CREATE:
             status = dir_create();
-            RETURN_ERR_STR (status, "dir_create failed\r\n");
+            TERM_ERR_RET(FX_SUCCESS != status, status, "dir_create failed\r\n");
             break;
 
         case REQUEST_DIR_PROPERTY:
             status = dir_get_property();
-            RETURN_ERR_STR (status, "dir_get_property failed\r\n");
+            TERM_ERR_RET(FX_SUCCESS != status, status, "dir_get_property failed\r\n");
             break;
 
         case REQUEST_DIR_DELETE:
             status = dir_delete();
-            RETURN_ERR_STR (status, "dir_delete failed\r\n");
+            TERM_ERR_RET(FX_SUCCESS != status, status, "dir_delete failed\r\n");
             break;
 
         case REQUEST_FILE_CREATE:
             status = file_create();
-            RETURN_ERR_STR (status, "file_create failed\r\n");
+            TERM_ERR_RET(FX_SUCCESS != status, status, "file_create failed\r\n");
             break;
 
         case REQUEST_FILE_WRITE:
             status = file_write();
-            RETURN_ERR_STR (status, "file_write failed\r\n");
+            TERM_ERR_RET(FX_SUCCESS != status, status, "file_write failed\r\n");
             break;
 
         case REQUEST_FILE_READ:
             status = file_read();
-            RETURN_ERR_STR (status, "file_read failed\r\n");
+            TERM_ERR_RET(FX_SUCCESS != status, status, "file_read failed\r\n");
             break;
 
         case REQUEST_FILE_DELETE:
             status = file_delete();
-            RETURN_ERR_STR (status, "file_delete failed\r\n");
+            TERM_ERR_RET(FX_SUCCESS != status, status, "file_delete failed\r\n");
             break;
 
         default:
@@ -189,10 +189,7 @@ static UINT media_format(void)
 
     /* Close media before format */
     status = fx_media_close(&g_fx_media);
-    if (FX_SUCCESS != status && FX_MEDIA_NOT_OPEN != status)
-    {
-        RETURN_ERR_STR(status, "fx_media_close failed\r\n");
-    }
+    TERM_ERR_RET(FX_SUCCESS != status && FX_MEDIA_NOT_OPEN != status, status, "fx_media_close failed\r\n");
 
     /* Format the media */
     status = fx_media_format(&g_fx_media,                               /* Pointer to FileX media control block */
@@ -209,13 +206,13 @@ static UINT media_format(void)
                              G_FX_MEDIA_SECTORS_PER_CLUSTER,            /* Sectors per cluster */
                              G_FX_MEDIA_HEADS,                          /* Heads (disk media) */
                              G_FX_MEDIA_SECTORS_PER_TRACK);             /* Sectors per track (disk media) */
-    RETURN_ERR_STR(status, "fx_media_format FileX failed\r\n");
+    TERM_ERR_RET(FX_SUCCESS != status, status, "fx_media_format FileX failed\r\n");
 
     /* Open media using the Azure FileX API */
     status = fx_media_open(&g_fx_media, "g_fx_media", RM_FILEX_BLOCK_MEDIA_BlockDriver,\
                            (void *) &g_rm_filex_block_media_instance, g_fx_media_media_memory,\
                            G_FX_MEDIA_MEDIA_MEMORY_SIZE);
-    RETURN_ERR_STR(status, "fx_media_open failed\r\n");
+    TERM_ERR_RET(FX_SUCCESS != status, status, "fx_media_open failed\r\n");
 
     /* Format the media successfully */
     PRINT_INFO_STR("\r\nMedia has been formatted\r\n");
@@ -240,21 +237,18 @@ static UINT dir_create(void)
     PRINT_INFO_STR("\r\n\r\nCreate a new directory ...\r\n\r\n");
 
     /* Create directory using Azure FileX API */
-    status = fx_directory_create (&g_fx_media, g_dir_name);
+    status = fx_directory_create(&g_fx_media, g_dir_name);
     if (FX_ALREADY_CREATED == status)
     {
         PRINT_INFO_STR("Directory already exists\r\n");
         return FX_SUCCESS;
     }
 
-    if (FX_SUCCESS != status)
-    {
-        RETURN_ERR_STR(status, "fx_directory_create failed\r\n");
-    }
+    TERM_ERR_RET(FX_SUCCESS != status, status, "fx_directory_create failed\r\n");
 
     /* Flush data into the physical media */
     status = fx_media_flush(&g_fx_media);
-    RETURN_ERR_STR(status, "fx_media_flush failed\r\n");
+    TERM_ERR_RET(FX_SUCCESS != status, status, "fx_media_flush failed\r\n");
 
     /* Retrieve a directory name */
     strcpy(entry.name, g_dir_name);
@@ -263,7 +257,7 @@ static UINT dir_create(void)
     status = fx_directory_information_get(&g_fx_media, entry.name, &entry.attr, &entry.size,\
                                           &entry.time.year, &entry.time.month, &entry.time.date,\
                                           &entry.time.hour, &entry.time.min, &entry.time.sec);
-    RETURN_ERR_STR(status, "fx_directory_information_get failed\r\n");
+    TERM_ERR_RET(FX_SUCCESS != status, status, "fx_directory_information_get failed\r\n");
 
     /* Display directory information */
     PRINT_ENTRY_INFO(entry);
@@ -293,8 +287,8 @@ static UINT dir_get_property(void)
 
     /* Extract first entry details in the current directory */
     status = fx_directory_first_full_entry_find(&g_fx_media, entry.name, &entry.attr, &entry.size,\
-                                               &entry.time.year, &entry.time.month, &entry.time.date,\
-                                               &entry.time.hour, &entry.time.min, &entry.time.sec);
+                                                &entry.time.year, &entry.time.month, &entry.time.date,\
+                                                &entry.time.hour, &entry.time.min, &entry.time.sec);
     /* Return in the case of a local directory that is empty */
     if (FX_NO_MORE_ENTRIES == status)
     {
@@ -303,10 +297,7 @@ static UINT dir_get_property(void)
     }
 
     /* Return fails in other failed cases */
-    if (FX_SUCCESS != status)
-    {
-        RETURN_ERR_STR(status, "fx_directory_first_full_entry_find failed\r\n");
-    }
+    TERM_ERR_RET(FX_SUCCESS != status, status, "fx_directory_first_full_entry_find failed\r\n");
 
     /* Print root directory name */
     PRINT_INFO_STR("\r\nDirectory of:\\ \r\n\r\n");
@@ -344,10 +335,7 @@ static UINT dir_get_property(void)
         status = fx_directory_next_full_entry_find(&g_fx_media, entry.name, &entry.attr, &entry.size,\
                                                    &entry.time.year, &entry.time.month, &entry.time.date,\
                                                    &entry.time.hour, &entry.time.min, &entry.time.sec);
-        if ((FX_SUCCESS != status) && (FX_NO_MORE_ENTRIES != status))
-        {
-            RETURN_ERR_STR(status, "fx_directory_next_full_entry_find failed\r\n");
-        }
+        TERM_ERR_RET((FX_SUCCESS != status) && (FX_NO_MORE_ENTRIES != status), status, "fx_directory_next_full_entry_find failed\r\n");
     }
     while (FX_NO_MORE_ENTRIES != status);
 
@@ -387,14 +375,11 @@ static UINT dir_delete(void)
         return FX_SUCCESS;
     }
 
-    if (FX_SUCCESS != status)
-    {
-        RETURN_ERR_STR(status, "fx_directory_delete failed\r\n");
-    }
+    TERM_ERR_RET(FX_SUCCESS != status, status, "fx_directory_delete failed\r\n");
 
     /* Flush data to physical media */
     status = (ULONG)fx_media_flush(&g_fx_media);
-    RETURN_ERR_STR(status, "fx_media_flush failed\r\n");
+    TERM_ERR_RET(FX_SUCCESS != status, status, "fx_media_flush failed\r\n");
 
     /* Delete a directory successfully */
     PRINT_INFO_STR("Directory has been deleted\r\n");
@@ -427,14 +412,11 @@ static UINT file_create(void)
         return FX_SUCCESS;
     }
 
-    if (FX_SUCCESS != status)
-    {
-        RETURN_ERR_STR(status, "fx_file_create failed\r\n");
-    }
+    TERM_ERR_RET(FX_SUCCESS != status, status, "fx_file_create failed\r\n");
 
     /* Flush data into the physical media */
     status = fx_media_flush(&g_fx_media);
-    RETURN_ERR_STR(status, "fx_media_flush failed\r\n");
+    TERM_ERR_RET(FX_SUCCESS != status, status, "fx_media_flush failed\r\n");
 
     /* Retrieve a file name */
     strcpy(entry.name, g_file_name);
@@ -443,7 +425,7 @@ static UINT file_create(void)
     status = fx_directory_information_get(&g_fx_media, entry.name, &entry.attr, &entry.size,\
                                           &entry.time.year, &entry.time.month, &entry.time.date,\
                                           &entry.time.hour, &entry.time.min, &entry.time.sec);
-    RETURN_ERR_STR(status, "fx_directory_information_get failed\r\n");
+    TERM_ERR_RET(FX_SUCCESS != status, status, "fx_directory_information_get failed\r\n");
 
     /* Display file information */
     PRINT_ENTRY_INFO(entry);
@@ -467,7 +449,7 @@ static UINT file_write(void)
     ULONG actual_event = RESET_VALUE;
     FX_FILE file = {.fx_file_name = RESET_VALUE};
     time_app_t time = {.month = RESET_VALUE, .date = RESET_VALUE, .year = RESET_VALUE,\
-                      .hour = RESET_VALUE, .min = RESET_VALUE, .sec = RESET_VALUE};
+                       .hour = RESET_VALUE, .min = RESET_VALUE, .sec = RESET_VALUE};
     entry_info_t entry = {.name = {RESET_VALUE}, .attr = RESET_VALUE, .size = RESET_VALUE,\
                           .time = {.month = RESET_VALUE, .date = RESET_VALUE, .year = RESET_VALUE,\
                                    .hour = RESET_VALUE, .min = RESET_VALUE, .sec = RESET_VALUE}\
@@ -484,10 +466,7 @@ static UINT file_write(void)
         return FX_SUCCESS;
     }
 
-    if (FX_SUCCESS != status)
-    {
-        RETURN_ERR_STR(status, "fx_file_open failed\r\n");
-    }
+    TERM_ERR_RET(FX_SUCCESS != status, status, "fx_file_open failed\r\n");
 
     /* Clean the file contents */
     status = fx_file_truncate(&file, TRUNCATE_VALUE);
@@ -495,10 +474,10 @@ static UINT file_write(void)
     {
         /* Close the file using the Azure FileX API */
         status_temp = fx_file_close(&file);
-        RETURN_ERR_STR(status_temp, "fx_file_close failed\r\n");
+        TERM_ERR_RET(FX_SUCCESS != status_temp, status_temp, "fx_file_close failed\r\n");
 
         /* Return fx_file_extended_truncate failed status */
-        RETURN_ERR_STR(status, "fx_file_truncate failed\r\n");
+        TERM_ERR_RET(FX_SUCCESS != status, status, "fx_file_truncate failed\r\n");
     }
 
     /* Create fixed buffer */
@@ -510,10 +489,10 @@ static UINT file_write(void)
     {
         /* Close the file using the Azure FileX API */
         status_temp = fx_file_close(&file);
-        RETURN_ERR_STR(status_temp, "fx_file_close failed\r\n");
+        TERM_ERR_RET(FX_SUCCESS != status_temp, status_temp, "fx_file_close failed\r\n");
 
         /* Return fx_file_write failed status */
-        RETURN_ERR_STR(status, "fx_file_write failed\r\n");
+        TERM_ERR_RET(FX_SUCCESS != status, status, "fx_file_write failed\r\n");
     }
 
     /* Wait until the complete event flag is received */
@@ -523,34 +502,34 @@ static UINT file_write(void)
     {
         /* Close the file using the Azure FileX API */
         status_temp = fx_file_close(&file);
-        RETURN_ERR_STR(status_temp, "fx_file_close failed\r\n");
+        TERM_ERR_RET(FX_SUCCESS != status_temp, status_temp, "fx_file_close failed\r\n");
 
         /* Return tx_event_flags_get failed status */
-        RETURN_ERR_STR(status, "tx_event_flags_get for RM_BLOCK_MEDIA_EVENT_WAIT_END event failed\r\n");
+        TERM_ERR_RET(FX_SUCCESS != status, status, "tx_event_flags_get for RM_BLOCK_MEDIA_EVENT_WAIT_END event failed\r\n");
     }
 
     /* Get system time */
-    status = fx_system_time_get(&time.hour, & time.min, &time.sec);
+    status = fx_system_time_get(&time.hour, &time.min, &time.sec);
     if (FX_SUCCESS != status)
     {
         /* Close the file using the Azure FileX API */
         status_temp = fx_file_close(&file);
-        RETURN_ERR_STR(status_temp, "fx_file_close failed\r\n");
+        TERM_ERR_RET(FX_SUCCESS != status_temp, status_temp, "fx_file_close failed\r\n");
 
         /* Return fx_system_time_get failed status */
-        RETURN_ERR_STR(status, "fx_system_time_get failed\r\n");
+        TERM_ERR_RET(FX_SUCCESS != status, status, "fx_system_time_get failed\r\n");
     }
 
     /* Get system date */
-    status = fx_system_date_get(&time.year, & time.month, &time.date);
+    status = fx_system_date_get(&time.year, &time.month, &time.date);
     if (FX_SUCCESS != status)
     {
         /* Close the file using the Azure FileX API */
         status_temp = fx_file_close(&file);
-        RETURN_ERR_STR(status_temp, "fx_file_close failed\r\n");
+        TERM_ERR_RET(FX_SUCCESS != status_temp, status_temp, "fx_file_close failed\r\n");
 
         /* Return fx_system_date_get failed status */
-        RETURN_ERR_STR(status, "fx_system_date_get failed\r\n");
+        TERM_ERR_RET(FX_SUCCESS != status, status, "fx_system_date_get failed\r\n");
     }
 
     /* Set the date and time information for the opened file */
@@ -561,19 +540,19 @@ static UINT file_write(void)
     {
         /* Close the file using the Azure FileX API */
         status_temp = fx_file_close(&file);
-        RETURN_ERR_STR(status_temp, "fx_file_close failed\r\n");
+        TERM_ERR_RET(FX_SUCCESS != status_temp, status_temp, "fx_file_close failed\r\n");
 
         /* Return fx_file_date_time_set failed status */
-        RETURN_ERR_STR(status, "fx_file_date_time_set failed\r\n");
+        TERM_ERR_RET(FX_SUCCESS != status, status, "fx_file_date_time_set failed\r\n");
     }
 
     /* Close the file using the Azure FileX API */
     status = fx_file_close(&file);
-    RETURN_ERR_STR(status, "fx_file_close failed\r\n");
+    TERM_ERR_RET(FX_SUCCESS != status, status, "fx_file_close failed\r\n");
 
     /* Flush data into the physical media */
     status = fx_media_flush(&g_fx_media);
-    RETURN_ERR_STR(status, "fx_media_flush failed\r\n");
+    TERM_ERR_RET(FX_SUCCESS != status, status, "fx_media_flush failed\r\n");
 
     /* Get file name */
     strcpy(entry.name, g_file_name);
@@ -582,7 +561,7 @@ static UINT file_write(void)
     status = fx_directory_information_get(&g_fx_media, entry.name, &entry.attr, &entry.size,\
                                           &entry.time.year, &entry.time.month, &entry.time.date,\
                                           &entry.time.hour, &entry.time.min, &entry.time.sec);
-    RETURN_ERR_STR(status, "fx_directory_information_get failed\r\n");
+    TERM_ERR_RET(FX_SUCCESS != status, status, "fx_directory_information_get failed\r\n");
 
     /* Display file information */
     PRINT_ENTRY_INFO(entry);
@@ -623,10 +602,7 @@ static UINT file_read(void)
         return FX_SUCCESS;
     }
 
-    if (FX_SUCCESS != status)
-    {
-        RETURN_ERR_STR(status, "fx_file_open failed\r\n");
-    }
+    TERM_ERR_RET(FX_SUCCESS != status, status, "fx_file_open failed\r\n");
 
     /* Seek to the beginning of the file */
     status = fx_file_seek(&file, SEEK_VALUE);
@@ -634,10 +610,10 @@ static UINT file_read(void)
     {
        /* Close the file using the Azure FileX API */
        status_temp = fx_file_close(&file);
-       RETURN_ERR_STR(status_temp, "fx_file_close failed\r\n");
+       TERM_ERR_RET(FX_SUCCESS != status_temp, status_temp, "fx_file_close failed\r\n");
 
        /* Return fx_file_seek failed status */
-       RETURN_ERR_STR(status, "fx_file_extended_seek failed\r\n");
+       TERM_ERR_RET(FX_SUCCESS != status, status, "fx_file_extended_seek failed\r\n");
     }
 
     /* Read data from the file */
@@ -648,10 +624,10 @@ static UINT file_read(void)
     {
         /* Close the file using the Azure FileX API */
         status_temp = fx_file_close(&file);
-        RETURN_ERR_STR(status_temp, "fx_file_close failed\r\n");
+        TERM_ERR_RET(FX_SUCCESS != status_temp, status_temp, "fx_file_close failed\r\n");
 
         /* Return fx_file_read failed status */
-        RETURN_ERR_STR(status, "fx_file_read failed\r\n");
+        TERM_ERR_RET(FX_SUCCESS != status, status, "fx_file_read failed\r\n");
     }
 
     /* Wait until the complete event flag is received */
@@ -661,15 +637,15 @@ static UINT file_read(void)
     {
         /* Close the file using the Azure FileX API */
         status_temp = fx_file_close(&file);
-        RETURN_ERR_STR(status_temp, "fx_file_close failed\r\n");
+        TERM_ERR_RET(FX_SUCCESS != status_temp, status_temp, "fx_file_close failed\r\n");
 
         /* Return tx_event_flags_get failed status */
-        RETURN_ERR_STR(status, "tx_event_flags_get media completed flag failed\r\n");
+        TERM_ERR_RET(FX_SUCCESS != status, status, "tx_event_flags_get media completed flag failed\r\n");
     }
 
     /* Close the file using the Azure FileX API */
     status = fx_file_close(&file);
-    RETURN_ERR_STR(status, "fx_file_close failed\r\n");
+    TERM_ERR_RET(FX_SUCCESS != status, status, "fx_file_close failed\r\n");
 
     /* Retrieve file name */
     strcpy(entry.name, g_file_name);
@@ -678,7 +654,7 @@ static UINT file_read(void)
     status = fx_directory_information_get(&g_fx_media, entry.name, &entry.attr, &entry.size,\
                                           &entry.time.year, &entry.time.month, &entry.time.date,\
                                           &entry.time.hour, &entry.time.min, &entry.time.sec);
-    RETURN_ERR_STR(status, "fx_directory_information_get failed\r\n");
+    TERM_ERR_RET(FX_SUCCESS != status, status, "fx_directory_information_get failed\r\n");
 
     /* Display file information */
     PRINT_ENTRY_INFO(entry);
@@ -687,13 +663,13 @@ static UINT file_read(void)
     {
         /* Display content of the file */
         PRINT_INFO_STR("\r\nContent of the file\r\n\r\n");
-        terminal_send_output_queue(TERMINAL_OUTPUT_APP_INFO_STR, len + ONE_BYTE, read_data);
+        term_send_output_queue(TERMINAL_OUTPUT_APP_INFO_STR, read_data, len + ONE_BYTE);
     }
     else
     {
         /* Display content of the first 1 kB of the file */
         PRINT_INFO_STR("\r\nContent of the first 1 kB of the file\r\n\r\n");
-        terminal_send_output_queue(TERMINAL_OUTPUT_APP_INFO_STR, READ_BUFFER_SIZE + ONE_BYTE, read_data);
+        term_send_output_queue(TERMINAL_OUTPUT_APP_INFO_STR, read_data, READ_BUFFER_SIZE + ONE_BYTE);
     }
 
     /* Read a file successfully */
@@ -723,14 +699,11 @@ static UINT file_delete(void)
         return FX_SUCCESS;
     }
 
-    if (FX_SUCCESS != status)
-    {
-        RETURN_ERR_STR(status, "fx_file_delete failed\r\n");
-    }
+    TERM_ERR_RET(FX_SUCCESS != status, status, "fx_file_delete failed\r\n");
 
     /* Flush data into the physical media */
     status = fx_media_flush(&g_fx_media);
-    RETURN_ERR_STR(status, "fx_media_flush failed\r\n");
+    TERM_ERR_RET(FX_SUCCESS != status, status, "fx_media_flush failed\r\n");
 
     /* Delete the file successfully */
     PRINT_INFO_STR("\r\nDeleted a file successfully\r\n");

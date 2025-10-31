@@ -47,12 +47,8 @@ void term_thread_entry(void *pvParameters)
     uint32_t status = FSP_SUCCESS;
 
     /* Initialize the terminal module */
-#if (USE_VIRTUAL_COM == 1U)
     status = TERM_INIT();
     APP_ERR_TRAP(status);
-#else
-    TERM_INIT();
-#endif
 
     /* Initialize terminal framework resources */
     status = term_framework_init();

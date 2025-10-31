@@ -11,7 +11,7 @@
 #ifndef LITTLEFS_OSPI_EP_H_
 #define LITTLEFS_OSPI_EP_H_
 
-#include "common_utils.h"
+#include <common_utils.h>
 #include "board_ospi.h"
 #include "lfs.h"
 

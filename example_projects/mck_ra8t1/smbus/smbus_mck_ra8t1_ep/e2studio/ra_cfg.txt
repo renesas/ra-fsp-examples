@@ -7,7 +7,9 @@ FSP Configuration
     data_flash_size_bytes: 12288
     package_style: FBGA
     package_pins: 224
+    number of cores: 1
     
+  R7FA8T1AHECBD
   RA8T1
     series: 8
     
@@ -40,53 +42,7 @@ FSP Configuration
     Security: BUS Accessibility: Bus Security Attribution Register A: Both Secure and Non-Secure State
     Security: BUS Accessibility: Bus Security Attribution Register B: Both Secure and Non-Secure State
     Security: BUS Accessibility: Bus Security Attribution Register C: Both Secure and Non-Secure State
-    Security: Flash Bank Select Accessibility: Both Secure and Non-Secure State
     Security: Uninitialized Non-Secure Application Fallback: Enable Uninitialized Non-Secure Application Fallback
-    OFS0 register settings: Independent WDT: Start Mode: IWDT is stopped after a reset (Register-start mode)
-    OFS0 register settings: Independent WDT: Timeout Period: 2048 cycles
-    OFS0 register settings: Independent WDT: Dedicated Clock Frequency Divisor: 128
-    OFS0 register settings: Independent WDT: Window End Position:  0% (no window end position)
-    OFS0 register settings: Independent WDT: Window Start Position: 100% (no window start position)
-    OFS0 register settings: Independent WDT: Reset Interrupt Request Select: Reset is enabled
-    OFS0 register settings: Independent WDT: Stop Control: Stop counting when in Sleep, Deep Sleep, or Software Standby
-    OFS0 register settings: WDT0: Start Mode Select: Stop WDT after a reset (register-start mode)
-    OFS0 register settings: WDT0: Timeout Period: 16384 cycles
-    OFS0 register settings: WDT0: Clock Frequency Division Ratio: 128
-    OFS0 register settings: WDT0: Window End Position:  0% (no window end position)
-    OFS0 register settings: WDT0: Window Start Position: 100% (no window start position)
-    OFS0 register settings: WDT0: Reset Interrupt Request: Reset
-    OFS0 register settings: WDT0: Stop Control: Stop counting when entering Sleep mode
-    OFS1_SEL register settings: Voltage Detection 0 Level Security Attribution: VDSEL setting loads from OFS1_SEC
-    OFS1_SEL register settings: Voltage Detection 0 Circuit Start Security Attribution: PVDAS setting loads from OFS1_SEC
-    OFS1_SEL register settings: Voltage Detection 0 Low Power Consumption Security Attribution: PVDLPSEL setting loads from OFS1_SEC
-    OFS1_SEL register settings: WDT/IWDT Software Debug Control Security Attribution: SWDBG setting loads from OFS1_SEC
-    OFS1_SEL register settings: Tightly Coupled Memory (TCM)/Cache ECC Security Attribution: INITECCEN setting loads from OFS1_SEC
-    OFS1 register settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
-    OFS1 register settings: Voltage Detection 0 Level: 1.60 V
-    OFS1 register settings: Voltage Detection 0 Low Power Consumption: Voltage monitor 0 Low Power Consumption Disabled
-    OFS1 register settings: HOCO Oscillation Enable: HOCO oscillation is disabled after reset
-    OFS1 register settings: WDT/IWDT Software Debug Control: Disabled (WDT and IWDT continue operating while the CPU is in the debug state)
-    OFS1 register settings: Tightly Coupled Memory (TCM)/Cache ECC: Disable ECC function for TCM and Cache
-    OFS2 register settings: DCDC: Enabled
-    Block Protection Settings (BPS): BPS0: 
-    Block Protection Settings (BPS): BPS1: 
-    Block Protection Settings (BPS): BPS2: 
-    Block Protection Settings (BPS): BPS3: 
-    Permanent Block Protection Settings (PBPS): PBPS0: 
-    Permanent Block Protection Settings (PBPS): PBPS1: 
-    Permanent Block Protection Settings (PBPS): PBPS2: 
-    Permanent Block Protection Settings (PBPS): PBPS3: 
-    Dual Bank Mode: Disabled
-    First Stage Bootloader (FSBL): FSBL Control 0 (FSBLCTRL0): FSBLEN: Disabled
-    First Stage Bootloader (FSBL): FSBL Control 0 (FSBLCTRL0): FSBLSKIPSW: Disabled
-    First Stage Bootloader (FSBL): FSBL Control 0 (FSBLCTRL0): FSBLSKIPDS: Disabled
-    First Stage Bootloader (FSBL): FSBL Control 0 (FSBLCTRL0): FSBLCLK: 240 MHz
-    First Stage Bootloader (FSBL): FSBL Control 1 (FSBLCTRL1): FSBLEXMDFSBLEN: Secure boot with report measurement
-    First Stage Bootloader (FSBL): FSBL Control 2 (FSBLCTRL2): PORTPN: PORTn15
-    First Stage Bootloader (FSBL): FSBL Control 2 (FSBLCTRL2): PORTGN: None
-    First Stage Bootloader (FSBL): Code Certificates (SACCn): SACC0: 0xFFFFFFFF
-    First Stage Bootloader (FSBL): Code Certificates (SACCn): SACC1: 0xFFFFFFFF
-    First Stage Bootloader (FSBL): FSBL Measurement Report Address (SAMR): 0xFFFFFFFF
     Clocks: HOCO FLL Function: Disabled
     Clocks: Clock Settling Delay: Enabled
     Clocks: Sleep Mode Entry and Exit Delays: Enabled
@@ -96,14 +52,104 @@ FSP Configuration
     Main Oscillator Wait Time: 8163 cycles
     Cache settings: Data cache: Disabled
     
+  RA8T1 Device Options
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Enabled
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Start Mode: IWDT is stopped after a reset (Register-start mode)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Timeout Period: 2048 cycles
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Dedicated Clock Frequency Divisor: 128
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Window End Position:  0% (no window end position)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Window Start Position: 100% (no window start position)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Reset Interrupt Request Select: Reset is enabled
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Stop Control: Stop counting when in Sleep,Deep SleepSnooze modec, or Software Standby
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT0: Start Mode Select: Stop WDT after a reset (register-start mode)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT0: Timeout Period: 16384 cycles
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT0: Clock Frequency Division Ratio: 128
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT0: Window End Position:  0% (no window end position)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT0: Window Start Position: 100% (no window start position)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT0: Reset Interrupt Request: Reset
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT0: Stop Control: Stop counting when entering Sleep mode
+    OFS Registers: OFS2 (Option Function Select Register 2) Settings: Enabled
+    OFS Registers: OFS2 (Option Function Select Register 2) Settings: DCDC: Enabled
+    OFS Registers: DUALSEL (Dual Mode Select Register) Settings: Disabled
+    OFS Registers: DUALSEL (Dual Mode Select Register) Settings: Bank Mode: Linear
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Disabled
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Voltage Detection 0 Level: 1.60 V
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: HOCO Oscillation Enable: HOCO oscillation is disabled after reset
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Voltage Detection 0 Low Power Consumption: Voltage monitor 0 Low Power Consumption Disabled
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: WDT/IWDT Software Debug Control: Disabled (WDT and IWDT continue operating while the CPU is in the debug state)
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Tightly Coupled Memory (TCM)/Cache ECC: Disable ECC function for TCM and Cache
+    OFS Registers: BANKSEL (Bank Select Register) Settings: Disabled
+    OFS Registers: BANKSEL (Bank Select Register) Settings: Startup Bank Switch: Disabled
+    OFS Registers: BANKSEL (Bank Select Register) Settings: Block Swap Select: Disabled
+    OFS Registers: BPS (Block Protect Setting Register) Settings: Disabled
+    OFS Registers: BPS (Block Protect Setting Register) Settings: BPS0: 
+    OFS Registers: BPS (Block Protect Setting Register) Settings: BPS1: 
+    OFS Registers: BPS (Block Protect Setting Register) Settings: BPS2: 
+    OFS Registers: BPS (Block Protect Setting Register) Settings: BPS3: 
+    OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: Disabled
+    OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS0: 
+    OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS1: 
+    OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS2: 
+    OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS3: 
+    OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: Enabled
+    OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
+    OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: Voltage Detection 0 Level: 1.60 V
+    OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: HOCO Oscillation Enable: HOCO oscillation is disabled after reset
+    OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: Voltage Detection 0 Low Power Consumption: Voltage monitor 0 Low Power Consumption Disabled
+    OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: WDT/IWDT Software Debug Control: Disabled (WDT and IWDT continue operating while the CPU is in the debug state)
+    OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: Tightly Coupled Memory (TCM)/Cache ECC: Disable ECC function for TCM and Cache
+    OFS Registers: BANKSEL_SEC (Bank Select Register Secure) Settings: Disabled
+    OFS Registers: BANKSEL_SEC (Bank Select Register Secure) Settings: Startup Bank Switch: Disabled
+    OFS Registers: BANKSEL_SEC (Bank Select Register Secure) Settings: Block Swap Select: Disabled
+    OFS Registers: BPS_SEC (Block Protect Setting Register Secure) Settings: Disabled
+    OFS Registers: BPS_SEC (Block Protect Setting Register Secure) Settings: BPS_SEC0: 
+    OFS Registers: BPS_SEC (Block Protect Setting Register Secure) Settings: BPS_SEC1: 
+    OFS Registers: BPS_SEC (Block Protect Setting Register Secure) Settings: BPS_SEC2: 
+    OFS Registers: BPS_SEC (Block Protect Setting Register Secure) Settings: BPS_SEC3: 
+    OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: Disabled
+    OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: PBPS_SEC0: 
+    OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: PBPS_SEC1: 
+    OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: PBPS_SEC2: 
+    OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: PBPS_SEC3: 
+    OFS Registers: OFS1_SEL (OFS1 Security Attribution) Settings: Enabled
+    OFS Registers: OFS1_SEL (OFS1 Security Attribution) Settings: Voltage Detection 0 Level Security Attribution: VDSEL setting loads from OFS1_SEC
+    OFS Registers: OFS1_SEL (OFS1 Security Attribution) Settings: Voltage Detection 0 Circuit Start Security Attribution: PVDAS setting loads from OFS1_SEC
+    OFS Registers: OFS1_SEL (OFS1 Security Attribution) Settings: Voltage Detection 0 Low Power Consumption Security Attribution: PVDLPSEL setting loads from OFS1_SEC
+    OFS Registers: OFS1_SEL (OFS1 Security Attribution) Settings: WDT/IWDT Software Debug Control Security Attribution: SWDBG setting loads from OFS1_SEC
+    OFS Registers: OFS1_SEL (OFS1 Security Attribution) Settings: Tightly Coupled Memory (TCM)/Cache ECC Security Attribution: INITECCEN setting loads from OFS1_SEC
+    OFS Registers: BANKSEL_SEL (Banksel Security Attribution) Settings: Disabled
+    OFS Registers: BANKSEL_SEL (Banksel Security Attribution) Settings: Flash Bank Select Accessibility: Non-Secure State
+    OFS Registers: BPS_SEL (BPS Security Attribution) Settings: Disabled
+    OFS Registers: BPS_SEL (BPS Security Attribution) Settings: BPS_SEL0: 
+    OFS Registers: BPS_SEL (BPS Security Attribution) Settings: BPS_SEL1: 
+    OFS Registers: BPS_SEL (BPS Security Attribution) Settings: BPS_SEL2: 
+    OFS Registers: BPS_SEL (BPS Security Attribution) Settings: BPS_SEL3: 
+    OFS Registers: First Stage Bootloader (FSBL): FSBLCTRL0 (FSBL Control Register 0) Settings: Disabled
+    OFS Registers: First Stage Bootloader (FSBL): FSBLCTRL0 (FSBL Control Register 0) Settings: FSBLEN: Disabled
+    OFS Registers: First Stage Bootloader (FSBL): FSBLCTRL0 (FSBL Control Register 0) Settings: FSBLSKIPSW: Disabled
+    OFS Registers: First Stage Bootloader (FSBL): FSBLCTRL0 (FSBL Control Register 0) Settings: FSBLSKIPDS: Disabled
+    OFS Registers: First Stage Bootloader (FSBL): FSBLCTRL0 (FSBL Control Register 0) Settings: FSBLCLK: 240 MHz
+    OFS Registers: First Stage Bootloader (FSBL): FSBLCTRL1 (FSBL Control Register 1) Settings: Disabled
+    OFS Registers: First Stage Bootloader (FSBL): FSBLCTRL1 (FSBL Control Register 1) Settings: FSBLEXMDFSBLEN: Secure boot with report measurement
+    OFS Registers: First Stage Bootloader (FSBL): FSBLCTRL2 (FSBL Control Register 2) Settings: Disabled
+    OFS Registers: First Stage Bootloader (FSBL): FSBLCTRL2 (FSBL Control Register 2) Settings: PORTPN: PORTn15
+    OFS Registers: First Stage Bootloader (FSBL): FSBLCTRL2 (FSBL Control Register 2) Settings: PORTGN: None
+    OFS Registers: First Stage Bootloader (FSBL): Code Certificate: SACC0 (Start Address of Code Certificate 0) Settings: Disabled
+    OFS Registers: First Stage Bootloader (FSBL): Code Certificate: SACC0 (Start Address of Code Certificate 0) Settings: Address: 0xFFFFFFFF
+    OFS Registers: First Stage Bootloader (FSBL): Code Certificate: SACC1 (Start Address of Code Certificate 1) Settings: Disabled
+    OFS Registers: First Stage Bootloader (FSBL): Code Certificate: SACC1 (Start Address of Code Certificate 1) Settings: Address: 0xFFFFFFFF
+    OFS Registers: First Stage Bootloader (FSBL): SAMR (Start Address of Measurement Report) Settings: Disabled
+    OFS Registers: First Stage Bootloader (FSBL): SAMR (Start Address of Measurement Report) Settings: Address: 0xFFFFFFFF
+    
   RA8T1 event data
   RA Common
     Main stack size (bytes): 0x1000
     Heap size (bytes): 0x400
+    Bootloader Secondary XIP: Disabled
     MCU Vcc (mV): 3300
     Parameter checking: Enabled
     Assert Failures: Return FSP_ERR_ASSERTION
-    Error Log: No Error Log
     Clock Registers not Reset Values during Startup: Disabled
     Main Oscillator Populated: Populated
     PFS Protect: Enabled
@@ -135,7 +181,7 @@ FSP Configuration
     SPICLK Disabled
     CANFDCLK Disabled
     I3CCLK Disabled
-    UCK Disabled
+    USBCLK Disabled
     CPUCLK Div /1
     ICLK Div /2
     PCLKA Div /4
@@ -152,7 +198,7 @@ FSP Configuration
     SPICLK Div /4
     CANFDCLK Div /8
     I3CCLK Div /3
-    UCK Div /5
+    USBCLK Div /5
     
   Pin Configurations
     RA8T1 MCK -> g_bsp_pin_cfg
@@ -270,7 +316,7 @@ FSP Configuration
       P703 L11 ETHER_RMII_RMII0_RXD1 ETHER_RXD1 L - "Peripheral mode" - - "AGT1: AGTO1; CLKOUT: VCOUT; ETHER_MII: ET0_ERXD0; ETHER_RMII: RMII0_RXD1; GPT6: GTIOC6B; SDHI1: SD1DAT6; SPI0: SSLA0" - IO - - 
       P704 K12 ETHER_RMII_RMII0_RX_ER ETHER_RXER L - "Peripheral mode" - - "AGT0: AGTO0; CANFD0: CTX0; ETHER_MII: ET0_RX_CLK; ETHER_RMII: RMII0_RX_ER; GPT_OPS: GTADSM0; SDHI1: SD1DAT7; SPI0: SSLA1" - IO - - 
       P705 K10 ETHER_RMII_RMII0_CRS_DV ETHER_RXDV L - "Peripheral mode" - - "AGT0: AGTIO0; CANFD0: CRX0; ETHER_MII: ET0_CRS; ETHER_RMII: RMII0_CRS_DV; GPT_OPS: GTADSM1; SCI1: CTS1; SPI0: SSLA2" - IO - - 
-      P706 K13 GPIO ETHER_RST L None "Output mode (Initial Low)" - - "AGT0: AGTIO0; IRQ7: IRQ7; SCI1: RXD1" - IO - - 
+      P706 K13 GPIO ETHER_RST L - "Output mode (Initial Low)" - - "AGT0: AGTIO0; IRQ7: IRQ7; SCI1: RXD1" - IO - - 
       P707 K11 - - - - Disabled - - "IRQ8: IRQ8; SCI1: TXD1" - None - - 
       P708 E13 - P708_PMOD - - Disabled - - "BUS: BC1; BUS: WR1; CAC: CACREF; IRQ11: IRQ11; SCI4: DE4; SCI4: SCK4; SPI1: SSLB3" - None - - 
       P709 E15 SCI4_CTS_RTS4 CTS_RTS4_PMOD L None "Peripheral mode" - - "BUS: CS4#; IRQ10: IRQ10; SCI4: CTS_RTS4; SCI4: DE4" - IO - - 
@@ -495,7 +541,7 @@ FSP Configuration
       P703 L11 - ETHER_RXD1 L - Disabled - - "AGT1: AGTO1; CLKOUT: VCOUT; ETHER_MII: ET0_ERXD0; ETHER_RMII: RMII0_RXD1; GPT6: GTIOC6B; SDHI1: SD1DAT6; SPI0: SSLA0" - IO - - 
       P704 K12 - ETHER_RXER L - Disabled - - "AGT0: AGTO0; CANFD0: CTX0; ETHER_MII: ET0_RX_CLK; ETHER_RMII: RMII0_RX_ER; GPT_OPS: GTADSM0; SDHI1: SD1DAT7; SPI0: SSLA1" - IO - - 
       P705 K10 - ETHER_RXDV L - Disabled - - "AGT0: AGTIO0; CANFD0: CRX0; ETHER_MII: ET0_CRS; ETHER_RMII: RMII0_CRS_DV; GPT_OPS: GTADSM1; SCI1: CTS1; SPI0: SSLA2" - IO - - 
-      P706 K13 - ETHER_RST L None Disabled - - "AGT0: AGTIO0; IRQ7: IRQ7; SCI1: RXD1" - IO - - 
+      P706 K13 - ETHER_RST L - Disabled - - "AGT0: AGTIO0; IRQ7: IRQ7; SCI1: RXD1" - IO - - 
       P707 K11 - - - - Disabled - - "IRQ8: IRQ8; SCI1: TXD1" - None - - 
       P708 E13 - P708_PMOD - - Disabled - - "BUS: BC1; BUS: WR1; CAC: CACREF; IRQ11: IRQ11; SCI4: DE4; SCI4: SCK4; SPI1: SSLB3" - None - - 
       P709 E15 - CTS_RTS4_PMOD L None Disabled - - "BUS: CS4#; IRQ10: IRQ10; SCI4: CTS_RTS4; SCI4: DE4" - IO - - 
@@ -614,8 +660,13 @@ FSP Configuration
     
   User Event Links
     
+  Linker Section Mappings
+    *(.bss.g_heap): RAM Uninitialized
+    *(.bss.g_main_stack): RAM Uninitialized
+    
   Module "I/O Port (r_ioport)"
     Parameter Checking: Default (BSP)
+    CCD Support: Not Supported
     
   Module "SMBus Communication Device (rm_comms_smbus)"
     Parameter Checking: Default (BSP)
@@ -716,6 +767,8 @@ FSP Configuration
           Input: Capture B Source: 
           Input: Noise Filter A Sampling Clock Select: No Filter
           Input: Noise Filter B Sampling Clock Select: No Filter
+          Pin Polarity: GTIOCnA Polarity: Normal
+          Pin Polarity: GTIOCnB Polarity: Normal
           Interrupts: Callback: rm_comms_smbus_timeout_callback
           Interrupts: Overflow/Crest Interrupt Priority: Priority 2
           Interrupts: Capture/Compare match A Interrupt Priority: Priority 0 (highest)

@@ -11,9 +11,9 @@
 	prints it to the RTT Viewer. Additionally, status and failure messages are displayed on the RTT Viewer.
 
 2. Software Requirements:
-	Renesas Flexible Software Package (FSP): Version 6.1.0
-	e2 studio: Version 2025-07
-	SEGGER J-Link RTT Viewer: Version 8.58
+	Renesas Flexible Software Package (FSP): Version 6.2.0
+	e2 studio: Version 2025-10
+	SEGGER J-Link RTT Viewer: Version 8.74
 	GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 
 3. Hardware Requirements:
@@ -99,7 +99,7 @@
 		Connect the USB Debug port on EK-RA4C1 to the PC using a Type-C USB cable.
 
 Note:	  
-1) The segger RTT block address may be needed to download and observe EP operation using a hex file with RTT Viewer.
+1) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT Viewer.
    RTT Block address for hex file committed in repository are as follows:
    a. e2studio: 0x20001114
    b. Keil:     Not Available 
@@ -108,11 +108,3 @@ Note:
 2) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) 
    in .map file generated in the project folder (e2studio\Debug or e2studio\Release).
 
-1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
-   RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: Not Available
-   b. Keil: Not Available
-   c. IAR: Not Available
- 
-2) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) 
-   in .map file generated in the build configuration folder (Debug/Release).

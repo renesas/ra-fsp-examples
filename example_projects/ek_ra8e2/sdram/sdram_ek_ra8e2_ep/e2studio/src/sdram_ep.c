@@ -50,26 +50,22 @@ void sdram_entry(void)
     led_error_state_set(LED_POWER_OFF);
     led_lpm_state_set(LED_POWER_OFF);
 
-#if (USE_VIRTUAL_COM == 1)
-
     /* Initialize UART module first to print log to serial terminal */
-    err = uart_init();
+    err = TERM_INIT();
     if (FSP_SUCCESS != err)
     {
         /* Turn on error LED to indicate an error has occurred */
         led_error_state_set(LED_POWER_ON);
 
         /* Error trap */
-        UART_ERR_TRAP();
+        ERROR_TRAP;
     }
-#endif /* USE_VIRTUAL_COM */
 
     /* Version get API for FSP information */
     R_FSP_VersionGet (&version);
 
     /* Print the EP banner on the terminal */
-    APP_PRINT(BANNER_INFO, EP_VERSION, version.version_id_b.major, version.version_id_b.minor,\
-              version.version_id_b.patch);
+    APP_PRINT(BANNER_INFO, EP_VERSION, version.version_id_b.major, version.version_id_b.minor, version.version_id_b.patch);
 
     /* Print the EP information on the terminal */
     APP_PRINT(EP_INFO);
@@ -161,9 +157,8 @@ static fsp_err_t sdram_transmission(uint32_t start_addr, sdram_trans_dir_t dir)
 #endif /* BSP_CFG_DCACHE_ENABLED */
 
         /* Set the information of DMAC module for SDRAM write operation */
-        err = R_DMAC_Reset(&g_sdram_transmission_ctrl, (void*) p_buf_write, (void*) &g_buf_sdram[start_value],\
-                           BLOCK_DATA_SIZE);
-        APP_ERR_RETURN(err, "**R_DMAC_Reset API failed**\r\n");
+        err = R_DMAC_Reset(&g_sdram_transmission_ctrl, (void*) p_buf_write, (void*) &g_buf_sdram[start_value], BLOCK_DATA_SIZE);
+        APP_ERR_RET(err != FSP_SUCCESS,err, "**R_DMAC_Reset API failed**\r\n");
     }
 
     else /* READ == dir */
@@ -172,9 +167,8 @@ static fsp_err_t sdram_transmission(uint32_t start_addr, sdram_trans_dir_t dir)
         memset(p_buf_read, RESET_VALUE, sizeof(p_buf_read));
 
         /* Set the information of DMAC module for SDRAM read operation */
-        err = R_DMAC_Reset(&g_sdram_transmission_ctrl, (void*) &g_buf_sdram[start_value], (void*) p_buf_read ,\
-                           BLOCK_DATA_SIZE);
-        APP_ERR_RETURN(err, "**R_DMAC_Reset API failed**\r\n");
+        err = R_DMAC_Reset(&g_sdram_transmission_ctrl, (void*) &g_buf_sdram[start_value], (void*) p_buf_read , BLOCK_DATA_SIZE);
+        APP_ERR_RET(err != FSP_SUCCESS,err, "**R_DMAC_Reset API failed**\r\n");
     }
 
     /* Clear the transfer complete flag */
@@ -182,7 +176,7 @@ static fsp_err_t sdram_transmission(uint32_t start_addr, sdram_trans_dir_t dir)
 
     /* Start transfer operation */
     err = R_DMAC_SoftwareStart (&g_sdram_transmission_ctrl, TRANSFER_START_MODE_REPEAT);
-    APP_ERR_RETURN(err, "**R_DMAC_SoftwareStart API failed**\r\n");
+    APP_ERR_RET(err != FSP_SUCCESS,err, "**R_DMAC_SoftwareStart API failed**\r\n");
 
     /* Wait for transfer complete */
     while (!g_sdram_transmission_complete && --timeout)
@@ -191,7 +185,7 @@ static fsp_err_t sdram_transmission(uint32_t start_addr, sdram_trans_dir_t dir)
     }
     if (RESET_VALUE == timeout)
     {
-        APP_ERR_RETURN(FSP_ERR_TIMEOUT, "\r\nWrite operation timeout\r\n");
+        APP_ERR_RET(FSP_ERR_TIMEOUT != FSP_SUCCESS,FSP_ERR_TIMEOUT, "\r\nWrite operation timeout\r\n");
     }
 
     return err;
@@ -222,7 +216,7 @@ static fsp_err_t sdram_verify_data(void)
 
         /* Read data from SDRAM and store in p_buf_read */
         err = sdram_transmission(block_start_addr, READ);
-        APP_ERR_RETURN(err, "sdram_transmission failed\r\n");
+        APP_ERR_RET(err != FSP_SUCCESS,err, "sdram_transmission failed\r\n");
 
 #ifdef BSP_CFG_DCACHE_ENABLED
         /* Invalidate cache to reflect data from memory to cache before checking the data. */
@@ -233,7 +227,7 @@ static fsp_err_t sdram_verify_data(void)
         int ret = memcmp (&p_buf_write, &p_buf_read, BLOCK_DATA_SIZE);
         if(RESET_VALUE != ret)
         {
-            APP_ERR_RETURN(FSP_ERR_INVALID_DATA,"Data is mismatch\r\n");
+            APP_ERR_RET(FSP_ERR_INVALID_DATA != FSP_SUCCESS,FSP_ERR_INVALID_DATA,"Data is mismatch\r\n");
         }
     }
     return FSP_SUCCESS;
@@ -298,22 +292,22 @@ static fsp_err_t sdram_self_refresh(void)
 
     /* Start ULPT timer */
     err = R_ULPT_Start(&g_timer_cancel_lpm_ctrl);
-    APP_ERR_RETURN(err, "**R_ULPT_Start API failed**\r\n");
+    APP_ERR_RET(err != FSP_SUCCESS,err, "**R_ULPT_Start API failed**\r\n");
 
     /* Enter LPM mode */
     err = enter_lpm();
-    APP_ERR_RETURN(err, "erter_lpm failed\r\n");
+    APP_ERR_RET(err != FSP_SUCCESS,err, "erter_lpm failed\r\n");
 
     /* Stop timer */
     err = R_ULPT_Stop(&g_timer_cancel_lpm_ctrl);
-    APP_ERR_RETURN(err, "**R_ULPT_Stop API failed**\r\n");
+    APP_ERR_RET(err != FSP_SUCCESS,err, "**R_ULPT_Stop API failed**\r\n");
 
     /* Disable SDRAM self-refresh */
     R_BSP_SdramSelfRefreshDisable();
 
     /* Verify written data */
     err = sdram_verify_data();
-    APP_ERR_RETURN(err, "sdram_verify_data failed\r\n");
+    APP_ERR_RET(err != FSP_SUCCESS,err, "sdram_verify_data failed\r\n");
 
     return err;
 }
@@ -334,7 +328,7 @@ static fsp_err_t enter_lpm(void)
 
     /* Initialize LPM sw standby mode */
     err = R_LPM_Open(&g_sw_standby_ctrl, &g_sw_standby_cfg);
-    APP_ERR_RETURN(err, "**R_LPM_Open failed**\r\n");
+    APP_ERR_RET(err != FSP_SUCCESS,err, "**R_LPM_Open failed**\r\n");
 
     /* Turn ON LPM state LED in one second */
     led_lpm_state_set(LED_POWER_ON);
@@ -348,32 +342,29 @@ static fsp_err_t enter_lpm(void)
     /* Delay to ensure message was printed before enter LPM mode */
     R_BSP_SoftwareDelay(PRINT_DELAY, BSP_DELAY_UNITS_MILLISECONDS);
 
-#if (USE_VIRTUAL_COM == 1)
-#if defined(BOARD_RA8D1_EK) || defined(BOARD_RA8E2_EK)
+#if defined(BOARD_RA8D1_EK)  || defined(BOARD_RA8E2_EK)
     /* SCI UART module Stop with Undefined in SW Standby mode */
-    uart_deinit();
+    TERM_DEINIT();
 #endif
-#endif /* USE_VIRTUAL_COM */
 
     /* Enter LPM SW standby mode */
     err = R_LPM_LowPowerModeEnter(&g_sw_standby_ctrl);
-    APP_ERR_RETURN(err, "**R_LPM_LowPowerModeEnter failed**\r\n");
+    APP_ERR_RET(err != FSP_SUCCESS,err, "**R_LPM_LowPowerModeEnter failed**\r\n");
 
-#if (USE_VIRTUAL_COM == 1)
-#if defined(BOARD_RA8D1_EK) || defined(BOARD_RA8E2_EK)
+#if defined(BOARD_RA8D1_EK)  || defined(BOARD_RA8E2_EK)
     /* Re-initialize SCI UART after SW Standby Mode */
-    uart_init();
+    TERM_INIT();
 #endif
-#endif /* USE_VIRTUAL_COM */
 
     /* Turn ON LPM led when MCU is returned to the normal mode */
     led_lpm_state_set(LED_POWER_ON);
 
     /* De-initialize LPM SW standby mode */
     err = R_LPM_Close(&g_sw_standby_ctrl);
-    APP_ERR_RETURN(err, "**R_LPM_Close failed**\r\n");
+    APP_ERR_RET(err != FSP_SUCCESS,err, "**R_LPM_Close failed**\r\n");
 
-    APP_PRINT(CTRL_TEXT_BRIGHT_GREEN "MCU returned to the normal mode\r\n\r\n" CTRL_RESET);
+    APP_PRINT("MCU returned to the normal mode\r\n\r\n");
+//    APP_PRINT(CTRL_TEXT_BRIGHT_GREEN "MCU returned to the normal mode\r\n\r\n" CTRL_RESET);
     return err;
 }
 /***********************************************************************************************************************
@@ -393,6 +384,7 @@ void transmission_sdram_callback(dmac_callback_args_t *p_args)
         /* Set the transmission complete flag */
         g_sdram_transmission_complete = true;
     }
+
 }
 /***********************************************************************************************************************
 * End of function transmission_sdram_callback
@@ -488,6 +480,8 @@ void handle_error(fsp_err_t err, uint8_t * err_str)
     /* Trap the error */
     APP_ERR_TRAP(err);
 }
+
+
 /***********************************************************************************************************************
 * End of function handle_error
 ***********************************************************************************************************************/

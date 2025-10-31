@@ -79,6 +79,12 @@ void serial_callback(uart_callback_args_t *p_args)
                     break;
                 }
 
+                if (SERIAL_RX_MAX_SIZE > g_serial_rx_count)
+                {
+                    g_serial_rx_buffer[g_serial_rx_count ++] = (char)p_args->data;
+                    g_serial_event |= UART_EVENT_RX_CHAR;
+                }
+
                 /* Store received data if enabled. */
                 switch ((char)p_args->data)
                 {
@@ -93,7 +99,7 @@ void serial_callback(uart_callback_args_t *p_args)
 
                     /* Handle Backspace character and remove the last character from the buffer. */
                     case SERIAL_CHAR_BS:
-                        if (SERIAL_DATA_ZERO != g_serial_rx_count)
+                        if (g_serial_rx_count > SERIAL_DATA_ONE)
                         {
                             g_serial_rx_count --;
                         }
@@ -101,11 +107,6 @@ void serial_callback(uart_callback_args_t *p_args)
 
                     /* Store received data bytes into the buffer. */
                     default:
-                        if (SERIAL_RX_MAX_SIZE > g_serial_rx_count)
-                        {
-                            g_serial_rx_buffer[g_serial_rx_count ++] = (char)p_args->data;
-                            g_serial_event |= UART_EVENT_RX_CHAR;
-                        }
                         break;
                 }
                 break;
@@ -118,7 +119,6 @@ void serial_callback(uart_callback_args_t *p_args)
 /***********************************************************************************************************************
 * End of function serial_callback
 ***********************************************************************************************************************/
-
 
 /***********************************************************************************************************************
  *  Function Name: serial_init
@@ -271,7 +271,7 @@ uint32_t serial_printf(char * p_format, ...)
         timeout --;
         R_BSP_SoftwareDelay(SERIAL_TIME_US, BSP_DELAY_UNITS_MICROSECONDS);
 
-        if (SERIAL_DATA_ZERO == timeout)
+        if (RESET_VALUE == timeout)
         {
             return FSP_ERR_TIMEOUT;
         }

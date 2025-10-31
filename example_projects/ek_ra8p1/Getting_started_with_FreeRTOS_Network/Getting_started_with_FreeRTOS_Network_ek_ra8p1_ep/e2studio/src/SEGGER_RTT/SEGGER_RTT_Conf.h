@@ -3,7 +3,7 @@
 *                        The Embedded Experts                        *
 **********************************************************************
 *                                                                    *
-*            (c) 1995 - 2020 SEGGER Microcontroller GmbH             *
+*            (c) 1995 - 2021 SEGGER Microcontroller GmbH             *
 *                                                                    *
 *       www.segger.com     Support: support@segger.com               *
 *                                                                    *
@@ -42,7 +42,7 @@
 *                                                                    *
 **********************************************************************
 *                                                                    *
-*       RTT version: 8.58                                           *
+*       RTT version: 8.74                                            *
 *                                                                    *
 **********************************************************************
 
@@ -56,7 +56,6 @@ Revision: $Rev: 24316 $
 */
 
 #if (USE_VIRTUAL_COM == 0)
-
 #ifndef SEGGER_RTT_CONF_H
 #define SEGGER_RTT_CONF_H
 
@@ -439,5 +438,5 @@ void OS_SIM_LeaveCriticalSection(void);
 #endif
 
 #endif
-#endif /* USE_VIRTUAL_COM */
 /*************************** End of file ****************************/
+#endif

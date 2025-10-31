@@ -11,6 +11,19 @@
 #ifndef CLOCK_OUTPUT_EP_H_
 #define CLOCK_OUTPUT_EP_H_
 
+
+#define EP_VERSION      ("1.0")
+
+#define MODULE_NAME     "Multiple Clocks Output"
+
+#define BANNER_INFO     "\r\n*********************************************************************"\
+                        "\r\n*   Renesas FSP Example Project for "MODULE_NAME" Module   *"\
+                        "\r\n*   Example Project Version %s                                     *"\
+                        "\r\n*   Flex Software Pack Version  %d.%d.%d                               *"\
+                        "\r\n*********************************************************************"\
+                        "\r\nRefer to readme.txt file for more details on Example Project and" \
+                        "\r\nFSP User's Manual for more information about "MODULE_NAME" module\r\n"
+
 #define EP_INFO     "\r\nThis example project demonstrates the typical use of the Multiple Clocks Output."\
 		            "\r\nThe user inputs key from Terminal Application to start Clocks Output Option to the"\
 					"\r\nclock output pin."\
@@ -22,6 +35,8 @@
 		            "\r\nEnter 2 to Start Sub_Clock Output"\
 					"\r\nEnter 3 to Stop Clock Output\r\n"\
 					"User Input:  "
+
+#define ERR_LED                         (0U)
 
 /* Key code for writing PRCR register. */
 #define PRV_PRCR_KEY                        (0xA500U)
@@ -62,6 +77,14 @@
 #else
 #define CLKOUT_PIN      (BSP_IO_PORT_02_PIN_05)
 #endif
+
+/* Macro for handle error */
+#define APP_ERR_HANDLE(err, fn_)   ({\
+    if(err){\
+        handle_error((err), (uint8_t *)(fn_));\
+    }\
+})
+
 
 /* Public function declarations */
 /***********************************************************************************************************************

@@ -7,6 +7,10 @@ FSP Configuration
     data_flash_size_bytes: 12288
     package_style: BGA
     package_pins: 224
+    ospi0_cs0_start_address: 2147483648
+    ospi0_cs0_size_bytes: 268435456
+    ospi0_cs1_start_address: 2415919104
+    ospi0_cs1_size_bytes: 268435456
     number of cores: 1
     
   R7FA8D1BHECBD
@@ -30,6 +34,7 @@ FSP Configuration
     SDRAM: Endian Mode: Little Endian
     SDRAM: Continuous Access Mode: Enabled
     SDRAM: Bus Width: 16-bit
+    OSPI_B: Startup Support: Disabled
     Security: Exceptions: Exception Response: Non-Maskable Interrupt
     Security: Exceptions: BusFault, HardFault, and NMI Target: Secure State
     Security: System Reset Request Accessibility: Secure State
@@ -52,7 +57,8 @@ FSP Configuration
     Clocks: Settling Delay (us): 150
     Main Oscillator Wait Time: 8163 cycles
     Cache settings: Data cache: Disabled
-    : Enabled
+    I/O Ports: Voltage Mode: VCC: High (VCC >= 2.7 V)
+    I/O Ports: Voltage Mode: VCC2: High (VCC2 >= 2.7 V)
     
   RA8D1 Device Options
     OFS Registers: OFS0 (Option Function Select Register 0) Settings: Enabled
@@ -82,7 +88,7 @@ FSP Configuration
     OFS Registers: OFS1 (Option Function Select Register 1) Settings: WDT/IWDT Software Debug Control: Disabled (WDT and IWDT continue operating while the CPU is in the debug state)
     OFS Registers: OFS1 (Option Function Select Register 1) Settings: Tightly Coupled Memory (TCM)/Cache ECC: Disable ECC function for TCM and Cache
     OFS Registers: BANKSEL (Bank Select Register) Settings: Disabled
-    OFS Registers: BANKSEL (Bank Select Register) Settings: Bank Swap Switch: Disabled
+    OFS Registers: BANKSEL (Bank Select Register) Settings: Startup Bank Switch: Disabled
     OFS Registers: BANKSEL (Bank Select Register) Settings: Block Swap Select: Disabled
     OFS Registers: BPS (Block Protect Setting Register) Settings: Disabled
     OFS Registers: BPS (Block Protect Setting Register) Settings: BPS0: 
@@ -102,7 +108,7 @@ FSP Configuration
     OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: WDT/IWDT Software Debug Control: Disabled (WDT and IWDT continue operating while the CPU is in the debug state)
     OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: Tightly Coupled Memory (TCM)/Cache ECC: Disable ECC function for TCM and Cache
     OFS Registers: BANKSEL_SEC (Bank Select Register Secure) Settings: Disabled
-    OFS Registers: BANKSEL_SEC (Bank Select Register Secure) Settings: Bank Swap Switch: Disabled
+    OFS Registers: BANKSEL_SEC (Bank Select Register Secure) Settings: Startup Bank Switch: Disabled
     OFS Registers: BANKSEL_SEC (Bank Select Register Secure) Settings: Block Swap Select: Disabled
     OFS Registers: BPS_SEC (Block Protect Setting Register Secure) Settings: Disabled
     OFS Registers: BPS_SEC (Block Protect Setting Register Secure) Settings: BPS_SEC0: 
@@ -114,19 +120,35 @@ FSP Configuration
     OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: PBPS_SEC1: 
     OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: PBPS_SEC2: 
     OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: PBPS_SEC3: 
-    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: Enabled
-    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: Voltage Detection 0 Level Security Attribution: VDSEL setting loads from OFS1_SEC
-    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: Voltage Detection 0 Circuit Start Security Attribution: PVDAS setting loads from OFS1_SEC
-    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: Voltage Detection 0 Low Power Consumption Security Attribution: PVDLPSEL setting loads from OFS1_SEC
-    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: WDT/IWDT Software Debug Control Security Attribution: SWDBG setting loads from OFS1_SEC
-    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: Tightly Coupled Memory (TCM)/Cache ECC Security Attribution: INITECCEN setting loads from OFS1_SEC
-    OFS Registers: BANKSEL_SEL (Banksel Register Select) Settings: Disabled
-    OFS Registers: BANKSEL_SEL (Banksel Register Select) Settings: Flash Bank Select Accessibility: Both Secure and Non-Secure State
-    OFS Registers: BPS_SEL (BPS Register Select) Settings: Disabled
-    OFS Registers: BPS_SEL (BPS Register Select) Settings: BPS_SEL0: 
-    OFS Registers: BPS_SEL (BPS Register Select) Settings: BPS_SEL1: 
-    OFS Registers: BPS_SEL (BPS Register Select) Settings: BPS_SEL2: 
-    OFS Registers: BPS_SEL (BPS Register Select) Settings: BPS_SEL3: 
+    OFS Registers: OFS1_SEL (OFS1 Security Attribution) Settings: Enabled
+    OFS Registers: OFS1_SEL (OFS1 Security Attribution) Settings: Voltage Detection 0 Level Security Attribution: VDSEL setting loads from OFS1_SEC
+    OFS Registers: OFS1_SEL (OFS1 Security Attribution) Settings: Voltage Detection 0 Circuit Start Security Attribution: PVDAS setting loads from OFS1_SEC
+    OFS Registers: OFS1_SEL (OFS1 Security Attribution) Settings: Voltage Detection 0 Low Power Consumption Security Attribution: PVDLPSEL setting loads from OFS1_SEC
+    OFS Registers: OFS1_SEL (OFS1 Security Attribution) Settings: WDT/IWDT Software Debug Control Security Attribution: SWDBG setting loads from OFS1_SEC
+    OFS Registers: OFS1_SEL (OFS1 Security Attribution) Settings: Tightly Coupled Memory (TCM)/Cache ECC Security Attribution: INITECCEN setting loads from OFS1_SEC
+    OFS Registers: BANKSEL_SEL (Banksel Security Attribution) Settings: Disabled
+    OFS Registers: BANKSEL_SEL (Banksel Security Attribution) Settings: Flash Bank Select Accessibility: Non-Secure State
+    OFS Registers: BPS_SEL (BPS Security Attribution) Settings: Disabled
+    OFS Registers: BPS_SEL (BPS Security Attribution) Settings: BPS_SEL0: 
+    OFS Registers: BPS_SEL (BPS Security Attribution) Settings: BPS_SEL1: 
+    OFS Registers: BPS_SEL (BPS Security Attribution) Settings: BPS_SEL2: 
+    OFS Registers: BPS_SEL (BPS Security Attribution) Settings: BPS_SEL3: 
+    OFS Registers: First Stage Bootloader (FSBL): FSBLCTRL0 (FSBL Control Register 0) Settings: Disabled
+    OFS Registers: First Stage Bootloader (FSBL): FSBLCTRL0 (FSBL Control Register 0) Settings: FSBLEN: Disabled
+    OFS Registers: First Stage Bootloader (FSBL): FSBLCTRL0 (FSBL Control Register 0) Settings: FSBLSKIPSW: Disabled
+    OFS Registers: First Stage Bootloader (FSBL): FSBLCTRL0 (FSBL Control Register 0) Settings: FSBLSKIPDS: Disabled
+    OFS Registers: First Stage Bootloader (FSBL): FSBLCTRL0 (FSBL Control Register 0) Settings: FSBLCLK: 240 MHz
+    OFS Registers: First Stage Bootloader (FSBL): FSBLCTRL1 (FSBL Control Register 1) Settings: Disabled
+    OFS Registers: First Stage Bootloader (FSBL): FSBLCTRL1 (FSBL Control Register 1) Settings: FSBLEXMDFSBLEN: Secure boot with report measurement
+    OFS Registers: First Stage Bootloader (FSBL): FSBLCTRL2 (FSBL Control Register 2) Settings: Disabled
+    OFS Registers: First Stage Bootloader (FSBL): FSBLCTRL2 (FSBL Control Register 2) Settings: PORTPN: PORTn15
+    OFS Registers: First Stage Bootloader (FSBL): FSBLCTRL2 (FSBL Control Register 2) Settings: PORTGN: None
+    OFS Registers: First Stage Bootloader (FSBL): Code Certificate: SACC0 (Start Address of Code Certificate 0) Settings: Disabled
+    OFS Registers: First Stage Bootloader (FSBL): Code Certificate: SACC0 (Start Address of Code Certificate 0) Settings: Address: 0xFFFFFFFF
+    OFS Registers: First Stage Bootloader (FSBL): Code Certificate: SACC1 (Start Address of Code Certificate 1) Settings: Disabled
+    OFS Registers: First Stage Bootloader (FSBL): Code Certificate: SACC1 (Start Address of Code Certificate 1) Settings: Address: 0xFFFFFFFF
+    OFS Registers: First Stage Bootloader (FSBL): SAMR (Start Address of Measurement Report) Settings: Disabled
+    OFS Registers: First Stage Bootloader (FSBL): SAMR (Start Address of Measurement Report) Settings: Address: 0xFFFFFFFF
     
   RA8D1 event data
   RA Common
@@ -649,9 +671,12 @@ FSP Configuration
   User Event Links
     
   Linker Section Mappings
+    *(.bss.g_heap): RAM Uninitialized
+    *(.bss.g_main_stack): RAM Uninitialized
     
   Module "I/O Port (r_ioport)"
     Parameter Checking: Default (BSP)
+    CCD Support: Not Supported
     
   Module "FreeRTOS Port (rm_freertos_port)"
   Module "FreeRTOS Heap 4"
@@ -844,8 +869,8 @@ FSP Configuration
     Cipher: Alternate: MBEDTLS_ARIA_ALT: Undefine
     Cipher: Alternate: MBEDTLS_CAMELLIA_ALT: Undefine
     Cipher: Alternate: MBEDTLS_CCM_ALT: Undefine
-    Cipher: Alternate: MBEDTLS_CHACHA20_ALT: Undefine
-    Cipher: Alternate: MBEDTLS_CHACHAPOLY_ALT: Undefine
+    Cipher: Alternate: MBEDTLS_CHACHA20_ALT: Use Software
+    Cipher: Alternate: MBEDTLS_CHACHAPOLY_ALT: Use Software
     Cipher: Alternate: MBEDTLS_CMAC_ALT: Define
     Cipher: Alternate: MBEDTLS_DES_ALT: Undefine
     Public Key Cryptography (PKC): DHM: Alternate: MBEDTLS_DHM_ALT: Undefine
@@ -970,6 +995,8 @@ FSP Configuration
     Hash: MBEDTLS_MD_C: Define
     Hash: MBEDTLS_MD5_C: Define
     General: MBEDTLS_MEMORY_BUFFER_ALLOC_C: Undefine
+    Post Quantum Cryptography (PQC): MBEDTLS_MLKEM_C: Undefine
+    Post Quantum Cryptography (PQC): MBEDTLS_ML_DSA_C: Undefine
     Public Key Cryptography (PKC): MBEDTLS_OID_C: Define
     Public Key Cryptography (PKC): MBEDTLS_PEM_PARSE_C: Define
     Public Key Cryptography (PKC): MBEDTLS_PEM_WRITE_C: Define
@@ -1152,7 +1179,7 @@ FSP Configuration
     The socket semaphore to unblock the MQTT task (RX_DRIVER): Disable
     Possible optimisation for expert users: Disable
     
-  Module "FreeRTOS+TCP Wrapper to r_ether (rm_freertos_plus_tcp)"
+  Module "FreeRTOS+TCP Wrapper to ethernet driver (rm_freertos_plus_tcp)"
   Module "Ethernet (r_ether)"
     Parameter Checking: Default (BSP)
     ET0_LINKSTA Pin Status Flag: Fall -> Rise
@@ -1160,7 +1187,7 @@ FSP Configuration
     
   Module "FreeRTOS Buffer Allocation 2"
   Module "AWS FreeRTOS+TCP MbedTLS Bio"
-  Module "Mbed Crypto H/W Acceleration (rm_psa_crypto)"
+  Module "MbedTLS Crypto Port (rm_psa_crypto)"
   Module "RSIP Compatibility Mode"
   Module "Ethernet (r_ether_phy)"
     Parameter Checking: Default (BSP)
@@ -1311,11 +1338,18 @@ FSP Configuration
       Instance "AWS Transport Interface on MbedTLS/PKCS11 (rm_aws_transport_interface_port)"
         Instance "AWS TCP Sockets Wrapper"
           Instance "FreeRTOS+TCP"
-            Instance "FreeRTOS+TCP Wrapper to r_ether (rm_freertos_plus_tcp)"
+            Instance "g_freertos_plus_tcp0 FreeRTOS+TCP Wrapper to ethernet driver (rm_freertos_plus_tcp)"
+              Name: g_freertos_plus_tcp0
+              RX Handler Task Stack Size: configMINIMAL_STACK_SIZE
+              RX Handler Task Priority: configMAX_PRIORITIES - 1
+              Check Link Status Task Stack Size: configMINIMAL_STACK_SIZE
+              Check Link Status Task Priority: configMAX_PRIORITIES - 1
+              Link check interval: 1000
+              
               Instance "g_ether0 Ethernet (r_ether)"
                 General: Name: g_ether0
                 General: Channel: 0
-                General: MAC address: 00:11:22:33:44:55
+                General: MAC address: 00:11:22:33:44:54
                 General: Zero-copy Mode: Disable
                 General: Flow control functionality: Enable
                 Filters: Multicast Mode: Enable
@@ -1360,8 +1394,9 @@ FSP Configuration
                 Name: g_rm_littlefs0
                 Read Size: 1
                 Program Size: 4
+                Memory Start Address: BSP_FEATURE_FLASH_DATA_FLASH_START
                 Block Size (bytes): 128
-                Block Count: (BSP_DATA_FLASH_SIZE_BYTES/128)
+                Block Count: 32
                 Block Cycles: 1024
                 Cache Size: 64
                 Lookahead Size: 16
@@ -1376,7 +1411,7 @@ FSP Configuration
           Instance "FreeRTOS MbedTLS Port"
             Instance "MbedTLS"
               Instance "MbedTLS (Crypto Only)"
-                Instance "Mbed Crypto H/W Acceleration (rm_psa_crypto)"
+                Instance "MbedTLS Crypto Port (rm_psa_crypto)"
                   Instance "RSIP Compatibility Mode"
               Instance "MbedTLS FSP Port (rm_mbedtls)"
         Instance "AWS Logging"

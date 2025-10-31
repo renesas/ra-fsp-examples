@@ -13,6 +13,25 @@
 
 #include "common_utils.h"
 
+#define EP_VERSION              ("1.0")
+#define MODULE_NAME             "r_tau"
+#define BANNER_INFO             "\r\n******************************************************************"\
+                                "\r\n*   Renesas FSP Example Project for "MODULE_NAME" Module                 *"\
+                                "\r\n*   Example Project Version %s                                  *"\
+                                "\r\n*   Flex Software Pack Version  %d.%d.%d                            *"\
+                                "\r\n******************************************************************"\
+                                "\r\nRefer to readme.txt file for more details on Example Project and" \
+                                "\r\nFSP User's Manual for more information about "MODULE_NAME" driver\r\n"
+
+#define EP_INFO                 "\r\nThis Example Project demonstrates the basic usage of TAU driver on"\
+                                "\r\nRenesas RA MCUs based on Renesas FSP. It consists of 7 independent"\
+                                "\r\noperations coordinated together to create 3 sequences. They include"\
+                                "\r\nsetting the period for LED on and off times, counting external events,"\
+                                "\r\nand measuring low-level pulse width. The user will input the required"\
+                                "\r\nparameters for each sequence to configure the corresponding independent"\
+                                "\r\nchannel operation function of TAU. The EP information and error messages"\
+                                "\r\nwill be printed to the Host PC.\r\n"
+
 
 /* Macro for the sequence1 information */
 #define SEQUENCE1_INFO          "\r\n******************************************************************"\
@@ -74,6 +93,13 @@
 /* Macro for the period counts */
 #define MAX_PERIOD                      (65536)
 #define MIN_PERIOD                      (1)
+
+/* Macro for handle error */
+#define APP_ERR_HANDLE(err, fn_)   ({\
+    if(err){\
+        handle_error((err), (uint8_t *)(fn_));\
+    }\
+})
 
 /* Enumeration for TAU operation */
 typedef enum e_tau_mode

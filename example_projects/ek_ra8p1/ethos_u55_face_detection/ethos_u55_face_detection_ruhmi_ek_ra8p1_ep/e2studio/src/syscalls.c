@@ -16,7 +16,9 @@
 static int putchar_wrapper(char c, FILE *file)
 {
     (void) file;            /* Not used in this function */
-    TERM_PUTCHAR(c);        /* Defined by underlying system */
+    char string[2];
+    sprintf(string,"%c",c);
+    APP_PRINT(string);        /* Defined by underlying system */
     return c;
 }
 

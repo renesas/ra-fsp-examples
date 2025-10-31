@@ -23,7 +23,7 @@
 
 3. Hardware Connections:
 	For EK-RA6M3G:
-		- Connect Graphics Expandsion Board to J1, please refer to section 8.1 in EK-RA6M3G - User Manual 
+		- Connect Graphics Expansion Board to J1, please refer to section 8.1 in EK-RA6M3G - User Manual 
 		  https://www.renesas.com/us/en/document/mat/ek-ra6m3g-v1-users-manual?r=1168091
 		- Connect the USB Debug port on EK-RA6M3G to the PC using a micro USB cable.
 	
@@ -36,7 +36,7 @@
 		+-------------+-------------+--------------+------------+------------+------------+-------------+-----------+
 		
 		- If the user uses Renesas APP-LCD-CONV1 board:
-			Connect Graphics Expandsion Board to APP-LCD-CONV1.
+			Connect Graphics Expansion Board to APP-LCD-CONV1.
 			Connect APP-LCD-CONV1 Board to J57.
 			Connect the USB Debug port on EK-RA8D1 to the PC using a micro USB cable.
 		
@@ -45,12 +45,12 @@
 			please refer "Hardware Connection" section in glcdc_notes.md to connect correctly.
 			Connect the USB Debug port on EK-RA8D1 to the PC using a micro USB cable.
 	For EK-RA8E2:
-		- Connect J1 on Graphics Expandsion Board to J1 on EK-RA8E2. Please carefully align pin 2 on the Graphic
+		- Connect J1 on Graphics Expansion Board to J1 on EK-RA8E2. Please carefully align pin 2 on the Graphic
                   Expansion Board with pin 1 on the EK-RA8E2.
 		- Connect the USB Debug port on EK-RA8E2 to the PC using a Type-C USB cable.
 
 	For EK-RA8P1:
-		- Connect J1 on Graphics Expandsion Board to J1 on EK-RA8P1. Please carefully align pin 1 on the Graphic
+		- Connect J1 on Graphics Expansion Board to J1 on EK-RA8P1. Please carefully align pin 1 on the Graphic
 		  Expansion Board with pin 1 on the EK-RA8P1.
 		- Connect the USB Debug port on EK-RA8P1 to the PC using a Type-C USB cable.
 

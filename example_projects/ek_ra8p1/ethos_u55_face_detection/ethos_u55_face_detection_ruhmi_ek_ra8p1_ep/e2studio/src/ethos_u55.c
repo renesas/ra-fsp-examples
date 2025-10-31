@@ -30,13 +30,11 @@ void face_detection_entry(void)
     fsp_err_t err = FSP_SUCCESS;
     fsp_pack_version_t version = { RESET_VALUE };
 
-#if (USE_VIRTUAL_COM == 1)
-    err = TERM_INIT;
+    err = TERM_INIT();
     if (FSP_SUCCESS != err)
     {
         ERROR_TRAP;
     }
-#endif /* USE_VIRTUAL_COM */
 
     /* Version get API for FLEX pack information */
     R_FSP_VersionGet (&version);

@@ -26,9 +26,9 @@
 	        in "Verifying Operation" section.
 		
 2. Software Requirements:
-	Renesas Flexible Software Package (FSP): Version 6.0.0
-	e2 studio: Version 2025-04.1
-	SEGGER J-Link RTT Viewer: Version 8.44a
+	Renesas Flexible Software Package (FSP): Version 6.2.0
+	e2 studio: Version 2025-10
+	SEGGER J-Link RTT Viewer: Version 8.74
 	GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 	Terminal Console Application: Tera Term or a similar application
 	
@@ -165,3 +165,12 @@
 		Parity: none
 		Stop bit: 1-bit
 		Flow control: none
+
+1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
+   RTT Block address for hex file committed in repository are as follows:
+   a. e2studio: 0x20001894
+   b. Keil: Not Available
+   c. IAR: Not Available
+ 
+2) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) 
+   in .map file generated in the build configuration folder (Debug/Release).

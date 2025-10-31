@@ -28,10 +28,14 @@ FSP_HEADER
  **********************************************************************************************************************/
 #if defined(BOARD_RA8D1_EK) || defined(BOARD_RA8P1_EK)
 #define SDMMC_CHANNEL                        (1U)
+#else
+#define SDMMC_CHANNEL                        (0U) 
 #endif
 
-#if defined(BOARD_RA8D1_EK) || defined(BOARD_RA8P1_EK)
-#define SDMMC_WRITE_PROTECT                (SDMMC_WRITE_PROTECT_WP)
+#if defined(BOARD_RA8T1_MCK)
+#define SDMMC_WRITE_PROTECT                  (SDMMC_WRITE_PROTECT_NONE)
+#else
+#define SDMMC_WRITE_PROTECT                  (SDMMC_WRITE_PROTECT_WP)
 #endif
 
 /* Transfer on DTC Instance */

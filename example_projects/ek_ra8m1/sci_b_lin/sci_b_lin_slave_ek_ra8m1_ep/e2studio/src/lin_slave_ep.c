@@ -86,13 +86,11 @@ void lin_slave_operation(void)
     uint8_t terminal_read[TERM_BUFFER_SIZE] = { RESET_VALUE };
     int id_index                            = RESET_VALUE;
 
-#if (USE_VIRTUAL_COM == 1U)
     err = TERM_INIT();
     if (FSP_SUCCESS != err)
     {
         ERROR_TRAP;
     }
-#endif /* USE_VIRTUAL_COM */
 
     /* version get API for FLEX pack information */
     R_FSP_VersionGet (&version);
@@ -278,7 +276,7 @@ static fsp_err_t lin_slave_configure_baudrate(void)
             {
                 APP_PRINT("\r\nSelected baud rate: %d bps\r\n", lin_baudrate_options[selection - 1]);
                 err = lin_slave_baudset (lin_baudrate_options[selection - 1]);
-                APP_ERR_RET(err, err, "Failed to set LIN baud rate.\r\n");
+                APP_ERR_RET(FSP_SUCCESS != err, err, "Failed to set LIN baud rate.\r\n");
 
                 APP_PRINT("\r\nLIN baud rate successfully updated.\r\n");
                 break;
@@ -344,13 +342,13 @@ static fsp_err_t lin_slave_sleep_enter(void)
     fsp_err_t err = FSP_SUCCESS;
     /* Open IRQ to prepare getting LIN_EVENT_RX_WAKEUP_COMPLETE */
     err = R_SAU_LIN_SleepEnter (&g_slave_ctrl);
-    APP_ERR_RET(err, err, "\r\nR_SAU_LIN_SleepEnter FAILED\r\n");
+    APP_ERR_RET(FSP_SUCCESS != err, err, "\r\nR_SAU_LIN_SleepEnter FAILED\r\n");
 
     APP_PRINT("\r\nEntering software standby mode...\r\n");
     R_BSP_SoftwareDelay (50, BSP_DELAY_UNITS_MILLISECONDS);
 
     err = R_LPM_LowPowerModeEnter (&g_lpm_ctrl);
-    APP_ERR_RET(err, err, "\r\nR_LPM_LowPowerModeEnter FAILED\r\n");
+    APP_ERR_RET(FSP_SUCCESS != err, err, "\r\nR_LPM_LowPowerModeEnter FAILED\r\n");
 
     return err;
 }
@@ -371,7 +369,7 @@ static fsp_err_t lin_slave_sleep_exit(void)
 
         /* Exit the bus sleep mode for LIN device.*/
         err = R_SAU_LIN_SleepExit (&g_slave_ctrl);
-        APP_ERR_RET(err, err, "\r\nR_SAU_LIN_SleepExit FAILED\r\n");
+        APP_ERR_RET(FSP_SUCCESS != err, err, "\r\nR_SAU_LIN_SleepExit FAILED\r\n");
     }
 
     return err;
@@ -395,7 +393,7 @@ static fsp_err_t wait_for_event(uint32_t expected_event)
         if (timeout >= TIMEOUT_LIMIT)
         {
             err = LIN_COMMUNICATION_ABORT(&g_slave_ctrl);
-            APP_ERR_RET(err, err, "\r\nError: Failed to Abort LIN communication\r\n");
+            APP_ERR_RET(FSP_SUCCESS != err, err, "\r\nError: Failed to Abort LIN communication\r\n");
 
             return FSP_ERR_TIMEOUT;
         }
@@ -419,15 +417,15 @@ static fsp_err_t lin_slave_baudset(uint32_t baud_rate)
     uint32_t breakBaudRate = (9 * baud_rate) / 13;
     /* Calculate baud rate for normal communication */
     err = LIN_BAUD_CALCULATE (&g_uart0_ctrl, baud_rate, &g_uart0_baud_setting);
-    APP_ERR_RET(err, err, "Error: Failed to calculate LIN baud rate\r\n");
+    APP_ERR_RET(FSP_SUCCESS != err, err, "Error: Failed to calculate LIN baud rate\r\n");
 
     /* Calculate baud rate for break field */
     err = LIN_BAUD_CALCULATE (&g_uart0_ctrl, breakBaudRate, &g_slave_break_field_baud_setting);
-    APP_ERR_RET(err, err, "Error: Failed to calculate LIN baud rate\r\n");
+    APP_ERR_RET(FSP_SUCCESS != err, err, "Error: Failed to calculate LIN baud rate\r\n");
 
     /* Set calculated baud rate */
     err = R_SAU_UART_BaudSet(&g_uart0_ctrl, &g_slave_break_field_baud_setting);
-    APP_ERR_RET(err, err, "Error: Failed to set LIN baud rate\r\n");
+    APP_ERR_RET(FSP_SUCCESS != err, err, "Error: Failed to set LIN baud rate\r\n");
 
 #elif defined(BSP_FEATURE_SCI_IS_AVAILABLE)
 
@@ -440,7 +438,7 @@ static fsp_err_t lin_slave_baudset(uint32_t baud_rate)
     lin_slave_cfg.p_extend = &lin_slave_cfg_extend;
 
     err = LIN_CLOSE(&g_slave_ctrl);
-    APP_ERR_RET(err, err, "Error: LIN deinitialization  failed.\r\n");
+    APP_ERR_RET(FSP_SUCCESS != err, err, "Error: LIN deinitialization  failed.\r\n");
 
     /* Set baud parameters */
     sci_b_lin_baud_params_t user_baud_params = {
@@ -452,11 +450,11 @@ static fsp_err_t lin_slave_baudset(uint32_t baud_rate)
 
     /* Calculate the baud rate */
     err = LIN_BAUD_CALCULATE(&user_baud_params, &lin_slave_cfg_extend.baud_setting);
-    APP_ERR_RET(err,err,"Failed to calculate LIN baud rate\r\n");
+    APP_ERR_RET(FSP_SUCCESS != err,err,"Failed to calculate LIN baud rate\r\n");
 
     /* Reinitialize LIN */
     err = LIN_OPEN(&g_slave_ctrl, &lin_slave_cfg);
-    APP_ERR_RET(err, err, "Error: LIN initialization failed.\r\n");
+    APP_ERR_RET(FSP_SUCCESS != err, err, "Error: LIN initialization failed.\r\n");
 
 #endif /* BSP_FEATURE_SAU_IS_AVAILABLE || BSP_FEATURE_SCI_IS_AVAILABLE*/
     return err;

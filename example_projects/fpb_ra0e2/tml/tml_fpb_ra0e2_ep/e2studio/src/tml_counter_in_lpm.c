@@ -62,18 +62,18 @@ static fsp_err_t tml_set_timer_cancel_lpm (uint8_t* g_time_cancel_lpm)
 
     /* Get the clock frequency of timer */
     err = R_TML_InfoGet(&g_timer_32bit_counter_lpm_ctrl, &info);
-    APP_ERR_RETURN(err, "\r\n**R_TML_InfoGet API failed**\r\n");
+    APP_ERR_RET(FSP_SUCCESS != err, err, "\r\n**R_TML_InfoGet API failed**\r\n");
 
     /* Calculate the period counts */
     period_counts = (*g_time_cancel_lpm) * info.clock_frequency;
 
     /* The timer must be stopped before updating the period */
     err = tml_stop(APP_TML_32_BIT_COUNTER_LPM);
-    APP_ERR_RETURN(err, "\r\n**tml_stop for 32-bit counter operates in LPM failed**\r\n");
+    APP_ERR_RET(FSP_SUCCESS != err, err, "\r\n**tml_stop for 32-bit counter operates in LPM failed**\r\n");
 
     /* Set the period value */
     err = R_TML_PeriodSet(&g_timer_32bit_counter_lpm_ctrl, period_counts);
-    APP_ERR_RETURN(err, "\r\n**R_TML_PeriodSet API failed**\r\n");
+    APP_ERR_RET(FSP_SUCCESS != err, err, "\r\n**R_TML_PeriodSet API failed**\r\n");
     
     return err;
 }
@@ -89,23 +89,23 @@ fsp_err_t tml_counter_operation_in_lpm(app_lpm_states_t lpm_mode)
 
     /* Open this LPM instance */
     err = R_LPM_Open(g_lpm_instance[lpm_mode]->p_ctrl, g_lpm_instance[lpm_mode]->p_cfg);
-    APP_ERR_RETURN(err, "\r\n**R_LPM_Open API Failed**\r\n");
+    APP_ERR_RET(FSP_SUCCESS != err, err, "\r\n**R_LPM_Open API Failed**\r\n");
 
     /* Procedure before enter to LPM */
     err = lpm_enter_procedure(lpm_mode);
-    APP_ERR_RETURN(err, "\r\n**lpm_enter_procedure Failed**\r\n");
+    APP_ERR_RET(FSP_SUCCESS != err, err, "\r\n**lpm_enter_procedure Failed**\r\n");
 
     /* Enter to LPM */
     err = R_LPM_LowPowerModeEnter(g_lpm_instance[lpm_mode]->p_ctrl);
-    APP_ERR_RETURN(err, "\r\n**R_LPM_LowPowerModeEnter API Failed**\r\n");
+    APP_ERR_RET(FSP_SUCCESS != err, err, "\r\n**R_LPM_LowPowerModeEnter API Failed**\r\n");
 
     /* Procedure after exit LPM */
     err = lpm_exit_procedure();
-    APP_ERR_RETURN(err, "\r\n**lpm_exit_procedure Failed**\r\n");
+    APP_ERR_RET(FSP_SUCCESS != err, err, "\r\n**lpm_exit_procedure Failed**\r\n");
 
     /* Close this LPM instance */
     err = R_LPM_Close(g_lpm_instance[lpm_mode]->p_ctrl);
-    APP_ERR_RETURN(err, "\r\n**R_LPM_Close API Failed**\r\n");
+    APP_ERR_RET(FSP_SUCCESS != err, err, "\r\n**R_LPM_Close API Failed**\r\n");
 
     return err;
 }
@@ -123,7 +123,7 @@ static fsp_err_t lpm_enter_procedure(app_lpm_states_t lpm_mode)
 
     /* Set the timer period to cancel from LPM mode */
     err = tml_set_timer_cancel_lpm(&g_time_cancel_lpm);
-    APP_ERR_RETURN(err, "\r\n**tml_set_timer_cancel_lpm failed**\r\n");
+    APP_ERR_RET(FSP_SUCCESS != err, err, "\r\n**tml_set_timer_cancel_lpm failed**\r\n");
 
     /* Print LPM mode name */
     APP_PRINT("\r\n\r\n%s. Please wait %d seconds to return to normal mode\r\n", g_lpm_mode_name[lpm_mode], \
@@ -137,11 +137,11 @@ static fsp_err_t lpm_enter_procedure(app_lpm_states_t lpm_mode)
 
     /* Disable IO port before entering LPM mode */
     err = R_IOPORT_PinsCfg(&g_ioport_ctrl, &g_bsp_pin_lpm_cfg);
-    APP_ERR_RETURN(err, "\r\n**R_IOPORT_PinsCfg API failed**\r\n");
+    APP_ERR_RET(FSP_SUCCESS != err, err, "\r\n**R_IOPORT_PinsCfg API failed**\r\n");
 
     /* Start 32-bit counter operating in LPM mode */
     err = tml_start(APP_TML_32_BIT_COUNTER_LPM);
-    APP_ERR_RETURN(err, "\r\n**tml_start for 32-bit counter in LPM mode failed**\r\n");
+    APP_ERR_RET(FSP_SUCCESS != err, err, "\r\n**tml_start for 32-bit counter in LPM mode failed**\r\n");
 
     return err;
 }
@@ -157,7 +157,7 @@ static fsp_err_t lpm_exit_procedure(void)
 
     /* Put IO port configuration back to user's selections */
     err = R_IOPORT_PinsCfg(&g_ioport_ctrl, &g_bsp_pin_cfg);
-    APP_ERR_RETURN(err, "\r\n**R_IOPORT_PinsCfg API failed**\r\n");
+    APP_ERR_RET(FSP_SUCCESS != err, err, "\r\n**R_IOPORT_PinsCfg API failed**\r\n");
 
     APP_PRINT("\r\nMCU returned to the normal mode\r\n");
 

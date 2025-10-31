@@ -31,11 +31,11 @@
 	  the 'Special Topic' section of usb_otg_msc_notes.md.
 
 2. Software Requirements
-   - Renesas Flexible Software Package (FSP): Version 6.0.0
-   - e2 studio: Version 2025-04.1
+   - Renesas Flexible Software Package (FSP): Version 6.2.0
+   - e2 studio: Version 2025-10
    - GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
    - Serial Terminal Console Application: Tera Term or a similar application
-   - SEGGER J-Link RTT Viewer: Version 8.44a
+   - SEGGER J-Link RTT Viewer: Version 8.74
 
 3. Hardware Requirements
 	Supported RA Boards: EK-RA8D1

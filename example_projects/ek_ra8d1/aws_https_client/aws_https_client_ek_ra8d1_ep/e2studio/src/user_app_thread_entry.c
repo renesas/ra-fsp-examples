@@ -78,6 +78,7 @@ struct NetworkContext
     TlsTransportParams_t * pParams;
 };
 
+volatile uint8_t flash_write_buffer[4096] BSP_PLACE_IN_SECTION(".data_flash") BSP_ALIGN_VARIABLE(4);
 
 /*******************************************************************************************************************//**
 * @brief      This is the User Thread for the EP.
@@ -111,6 +112,9 @@ void user_app_thread_entry(void *pvParameters)
 
 
     FSP_PARAMETER_NOT_USED(pvParameters);
+
+    /* Workaround: Toolchains may not keep unused variables placed with BSP_PLACE_IN_SECTION */
+    (void) flash_write_buffer[0];
 
     /* Version get API for FLEX Pack version */
     R_FSP_VersionGet (&version);

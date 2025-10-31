@@ -37,7 +37,6 @@ void sau_spi_slave_entry(void)
     /* Get FSP version */
     R_FSP_VersionGet(&version);
 
-#if (USE_VIRTUAL_COM == 1)
     /* Initialize the UART module first to print logs to the serial terminal */
     err = TERM_INIT();
     if (FSP_SUCCESS != err)
@@ -45,7 +44,6 @@ void sau_spi_slave_entry(void)
         /* Error trap */
         ERROR_TRAP;
     }
-#endif /* USE_VIRTUAL_COM */
 
     /* Example project information printed on the Console */
     APP_PRINT(BANNER_INFO, EP_VERSION, version.version_id_b.major, version.version_id_b.minor,

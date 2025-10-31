@@ -12,9 +12,9 @@
 	captured from Tera Term (max 512 bytes) will be written to file.
 	
 2. Software Requirements:
-	Renesas Flexible Software Package (FSP): Version 6.1.0
-	e2 studio: Version 2025-07
-	SEGGER J-Link RTT Viewer: Version 8.58
+	Renesas Flexible Software Package (FSP): Version 6.2.0
+	e2 studio: Version 2025-10
+	SEGGER J-Link RTT Viewer: Version 8.74
 	Terminal Console Application: Tera Term or a similar application
 	USB Serial Drivers (included in Windows 10) 
 	Windows 10 operating system
@@ -64,7 +64,7 @@ Note:
 
 4) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x22000710
+   a. e2studio: 0x22000730
    b. Keil: 	Not Available 
    c. IAR: 	Not Available
  

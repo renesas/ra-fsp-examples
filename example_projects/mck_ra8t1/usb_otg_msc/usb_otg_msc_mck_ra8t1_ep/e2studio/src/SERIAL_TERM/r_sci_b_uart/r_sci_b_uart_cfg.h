@@ -14,6 +14,6 @@
 #ifdef __cplusplus
             }
             #endif
-
+            
 #endif /* USE_VIRTUAL_COM */
-#endif
+#endif /* R_SCI_B_UART_CFG_H_ */

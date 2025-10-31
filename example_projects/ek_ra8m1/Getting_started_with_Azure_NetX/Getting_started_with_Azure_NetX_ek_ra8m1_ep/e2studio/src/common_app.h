@@ -50,34 +50,48 @@
 #define LED_CONTROL_THREAD_SLEEP_TICK   (1U)
 #define TERMINAL_THREAD_SLEEP_TICK      (1U)
 /* Macros for printing info, handling errors, and trapping errors. */
-#define PRINT_EP_BANNER                 (terminal_send_output_queue(TERMINAL_OUTPUT_EP_BANNER, NULL, RESET_VALUE))
-#define PRINT_EP_INFO                   (terminal_send_output_queue(TERMINAL_OUTPUT_EP_INFO, NULL, RESET_VALUE))
-#define PRINT_EP_MENU                   (terminal_send_output_queue(TERMINAL_OUTPUT_EP_MENU, NULL, RESET_VALUE))
-#define PRINT_INFO_STR(str)             (terminal_send_output_queue(TERMINAL_OUTPUT_INFO_STR, (str), strlen(str)))
-#define PRINT_ERR_STR(str)              (terminal_send_output_queue(TERMINAL_OUTPUT_ERR_STR, (str), strlen(str)))
-#define PRINT_ID_STR(id, str)           (terminal_send_output_queue((id), (str), strlen(str)))
-#define PRINT_ID_DATA(id, data)         (terminal_send_output_queue((id), &(data), sizeof(data)))
-#define INFO_RET(cond, str)             ({\
+#define PRINT_EP_BANNER                 (term_send_output_queue(TERMINAL_OUTPUT_EP_BANNER, NULL, RESET_VALUE))
+#define PRINT_EP_INFO                   (term_send_output_queue(TERMINAL_OUTPUT_EP_INFO, NULL, RESET_VALUE))
+#define PRINT_EP_MENU                   (term_send_output_queue(TERMINAL_OUTPUT_EP_MENU, NULL, RESET_VALUE))
+#define PRINT_INFO_STR(str)             (term_send_output_queue(TERMINAL_OUTPUT_INFO_STR, (str), strlen(str)))
+#define PRINT_ERR_STR(str)              (term_send_output_queue(TERMINAL_OUTPUT_ERR_STR, (str), strlen(str)))
+#define PRINT_ID_STR(id, str)           (term_send_output_queue((id), (str), strlen(str)))
+#define PRINT_ID_DATA(id, data)         (term_send_output_queue((id), &(data), sizeof(data)))
+
+#define TERM_INFO_RET(cond, str)             ({\
     if (cond)\
     {\
-        terminal_send_output_queue(TERMINAL_OUTPUT_INFO_STR, (str), strlen(str));\
+        term_send_output_queue(TERMINAL_OUTPUT_INFO_STR, (str), strlen(str));\
         return (0U);\
     }\
 })
-#define ERROR_RET(cond, err, str)       ({\
+
+#define TERM_ERR_RET(cond, err, str)       ({\
     if (cond)\
     {\
-        terminal_send_output_queue(TERMINAL_OUTPUT_ERR_STR, (str), strlen(str));\
+        term_send_output_queue(TERMINAL_OUTPUT_ERR_STR, (str), strlen(str));\
         return (err);\
     }\
 })
-#define ERROR_TRAP(cond, err, str)      ({\
+
+
+#define TERM_ERR_TRAP(cond, err, str)      ({\
     if (cond)\
     {\
-        terminal_send_output_queue(TERMINAL_OUTPUT_ERR_STR, (str), strlen(str));\
-        terminal_send_output_queue(TERMINAL_OUTPUT_ERR_TRAP, &(err), sizeof(uint32_t));\
+        term_send_output_queue(TERMINAL_OUTPUT_ERR_STR, (str), strlen(str));\
+        term_send_output_queue(TERMINAL_OUTPUT_ERR_TRAP, &(err), sizeof(uint32_t));\
+        tx_thread_suspend(tx_thread_identify());\
     }\
 })
+
+#define ERROR_RET(con, err) ({\
+     if (con)\
+     {\
+         return (err); \
+     }\
+     })
+
+
 #endif
 
 /***********************************************************************************************************************

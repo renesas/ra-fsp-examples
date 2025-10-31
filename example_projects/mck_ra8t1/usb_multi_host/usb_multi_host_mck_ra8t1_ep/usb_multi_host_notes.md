@@ -18,9 +18,9 @@ for general information on example projects and [readme.txt](./readme.txt) for s
 To build and run the usb host vendor example project, the following resources are needed.
 
 ### Software Requirements ###
-* Renesas Flexible Software Package (FSP): Version 6.0.0
-* e2 studio: Version 2025-04.1
-* SEGGER J-Link RTT Viewer: Version 8.44a
+* Renesas Flexible Software Package (FSP): Version 6.2.0
+* e2 studio: Version 2025-10
+* SEGGER J-Link RTT Viewer: Version 8.74
 * GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 * Serial Terminal Console Application: Tera Term or a similar application
 
@@ -320,4 +320,5 @@ Special notes:
 	2) Data written can also be manually verified in file ra_usb.txt.
 	3) User is expected to execute "safely_eject" option before removing USB else further file operations may fail and USB data may get corrupted.
 	4) If USB is removed without "safely_eject" option, user is recommended to perform "safely_eject" and re-initialise USB. This will make sure no USB operations fail after unexpected removal of USB.
+* For CDC operation: The user is expected to enter data not exceeding 64 bytes in size.
 	   

@@ -20,9 +20,9 @@
    the serial terminal (UART) with J-Link OB VCOM for the terminal application. Note that the EP supports the serial terminal by default.
 
 2. Software Requirements:
-	Renesas Flexible Software Package (FSP): Version 6.0.0
-	e2 studio: Version 2025-04.1
-	SEGGER J-Link RTT Viewer: Version 8.44a
+	Renesas Flexible Software Package (FSP): Version 6.2.0
+	e2 studio: Version 2025-10
+	SEGGER J-Link RTT Viewer: Version 8.74
 	GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 	Terminal Console Application: Tera Term or a similar application 
    
@@ -64,6 +64,8 @@ For HMSC operation:
 	   may get corrupted.
 	4) If USB is removed without "safely_eject" option, user is recommended to perform "safely_eject" and re-initialise USB. 
 	   This will make sure no USB operations fail after unexpected removal of USB.
+
+For CDC operation: The user is expected to enter data not exceeding 64 bytes in size.
 	   
 Using Terminal Application: 
 	1) By default, EP information is printed to the host PC via the Serial Terminal. To use the SEGGER J-Link RTT Viewer instead of the Serial Terminal, please follow the instructions in the usb_multi_host_notes.md file.

@@ -17,9 +17,9 @@ for general information on example projects and [readme.txt](./readme.txt) for s
 To build and run the SMBus example project, the following resources are needed.
 
 ### Software ###
-* Renesas Flexible Software Package (FSP): Version 6.0.0
-* E2 studio: Version 2025-04.1
-* SEGGER J-Link RTT Viewer: Version 8.44a
+* Renesas Flexible Software Package (FSP): Version 6.2.0
+* E2 studio: Version 2025-10
+* SEGGER J-Link RTT Viewer: Version 8.74
 * GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 * Serial Terminal Console Application: Tera Term or a similar application (for boards that support J-Link OB VCOM)
 

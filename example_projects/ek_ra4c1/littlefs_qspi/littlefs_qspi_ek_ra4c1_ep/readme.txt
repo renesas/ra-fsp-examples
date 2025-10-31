@@ -7,7 +7,7 @@
 	This example project demonstrates basic functionalities of LittleFS for external flash (e.g., SPI, OSPI, QSPI)
 	on RA MCU based on FSP. The project will perform various file system operations based on the user's selection
 	from menu options, such as erase entire flash, erase 32 KB flash, format file system, directory management
-	(create, get properties, delete), and file management (create, write, read, delete). The terminal application 
+	(create, get properties, delete), and file management (create, write, read, delete). The terminal application
 	is used as the user interface. The menu options and system messages (errors and information messages)
 	will be printed on the terminal application during the execution of the project.
 
@@ -27,11 +27,11 @@
 
 4. Software Configurations:
 	By default, to create an empty file or open an existed file with malloc
-		LittleFS | Use Malloc		 : Enabled
+		LittleFS | Use Malloc        : Enabled
 		BSP 	 | Heap size (bytes) : 0x400
 
 	To create an empty file or open an existed file without malloc
-		LittleFS | Use Malloc		 : Disabled
+		LittleFS | Use Malloc        : Disabled
 		BSP 	 | Heap size (bytes) : 0
 
 5. Verifying Operation:
@@ -67,17 +67,17 @@
 			Type '5' and enter to go back to the Main Menu.
 
 Note:
-1) For using the Serial Terminal (UART):
-   The serial terminal setting parameters are as follows:
-		Select the COM port provided by the J-Link on-board.
+1) For using the Serial terminal application:
+	a) To echo back characters typed in Tera Term, the user needs to enable it through
+		[Setup] -> [Terminal...] -> Check [Local echo].
+	b) The configuration parameters of the serial port on the terminal application are as follows:
+		COM port is port provided by the J-Link on-board.
 		Baud rate: 115200 bps
 		Data length: 8-bits  
 		Parity: none
 		Stop bit: 1-bit
 		Flow control: none
-   To show the degree Celsius symbol (°C), the user needs to select the "Consolas" font through:
-   [Setup] -> [Font...] -> [Font:]
- 
+
 2) For using the J-Link RTT Viewer:
-   If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) 
-   in .map file generated in the project folder (e2studio\Debug or e2studio\Release).
+   If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called
+   _SEGGER_RTT) in .map file generated in the project folder (e2studio\Debug or e2studio\Release).

@@ -11,7 +11,7 @@
 #ifndef BOARD_OSPI_H_
 #define BOARD_OSPI_H_
 
-#include "common_utils.h"
+#include <common_utils.h>
 
 /***********************************************************************************************************************
  * Macro definitions

@@ -89,13 +89,13 @@ void net_link_thread_entry(void)
 
     /* Startup the network system. */
     status = net_system_startup();
-    ERROR_TRAP(TX_SUCCESS != status, status, "net_system_startup failed\r\n");
+    TERM_ERROR_TRAP(TX_SUCCESS != status, status, "net_system_startup failed\r\n");
 
     while (true)
     {
         /* Wait for USB attach event flag.  */
         tx_event_flags_get (&g_usb_event_flags, USB_CONNECTION_ANY_EVENT, TX_OR_CLEAR, &events, TX_WAIT_FOREVER);
-        ERROR_TRAP(TX_SUCCESS != status, status, "tx_event_flags_get for USB event failed\r\n");
+        TERM_ERROR_TRAP(TX_SUCCESS != status, status, "tx_event_flags_get for USB event failed\r\n");
 
         if(events & USB_ATTACH_FLAG)
         {
@@ -109,7 +109,7 @@ void net_link_thread_entry(void)
 
             /* Get the network configuration details. */
             status = net_system_get_info(&g_usb_network_info);
-            ERROR_TRAP(NX_SUCCESS != status, status, "net_system_get_info failed\r\n");
+            TERM_ERROR_TRAP(NX_SUCCESS != status, status, "net_system_get_info failed\r\n");
 
             /* Send an output queue to print the DHCP server network configuration. */
             PRINT_INFO_STR("\r\nThe RA board network information:");
@@ -151,7 +151,7 @@ static UINT usbx_rndis_init(void)
 
     /* Initialize the USBX system. */
     status = ux_system_initialize(g_ux_pool_memory, MEMPOOL_SIZE, UX_NULL, RESET_VALUE);
-    ERROR_RET(UX_SUCCESS != status, status, "ux_system_initialize failed");
+    TERM_ERROR_RET(UX_SUCCESS != status, status, "ux_system_initialize failed");
 
     /* Initialize the RNDIS parameters */
     UX_SLAVE_CLASS_RNDIS_PARAMETER parameter;
@@ -191,20 +191,20 @@ static UINT usbx_rndis_init(void)
                                         g_language_id_framework,
                                         LANGUAGE_ID_FRAME_WORK_LENGTH,
                                         &usbx_status_callback);
-    ERROR_RET(UX_SUCCESS != status, status, "ux_device_stack_initialize failed");
+    TERM_ERROR_RET(UX_SUCCESS != status, status, "ux_device_stack_initialize failed");
 
     /* Register the device RNDIS class to USBX device stack. */
     status = ux_device_stack_class_register (_ux_system_slave_class_rndis_name, _ux_device_class_rndis_entry,
                                              USB_CONFIG_NUMB, USB_INTERFACE_NUMB0, &parameter);
-    ERROR_RET(UX_SUCCESS != status, status, "ux_device_stack_class_register failed");
+    TERM_ERROR_RET(UX_SUCCESS != status, status, "ux_device_stack_class_register failed");
 
     /* Initialize the USBX network layer.*/
     status = ux_network_driver_init();
-    ERROR_RET(UX_SUCCESS != status, status, "ux_network_driver_init failed");
+    TERM_ERROR_RET(UX_SUCCESS != status, status, "ux_network_driver_init failed");
 
     /* Initialize the USB basic module */
     err = (UINT) R_USB_Open(&g_basic0_ctrl, &g_basic0_cfg);
-    ERROR_RET(FSP_SUCCESS != err, (UINT) err, "R_USB_Open API failed");
+    TERM_ERROR_RET(FSP_SUCCESS != err, (UINT) err, "R_USB_Open API failed");
 
     PRINT_INFO_STR("Initialize USBX RNDIS stack successfully.");
 
@@ -224,22 +224,22 @@ static UINT dhcpv4_server_init(void)
     /* Create the DHCP server instance. */
     status = nx_dhcp_server_create (&g_dhcp_server0, &g_ip0, g_dhcp_server0_stack_memory, G_DHCP_SERVER0_TASK_STACK_SIZE,
                                     "g_dhcp_server0", &g_packet_pool0);
-    ERROR_RET(NX_SUCCESS != status, status, "nx_dhcp_server_create failed");
+    TERM_ERROR_RET(NX_SUCCESS != status, status, "nx_dhcp_server_create failed");
 
     /* Create a pool of IP addresses from the given range. */
     status = nx_dhcp_create_server_ip_address_list(&g_dhcp_server0, USB_RNDIS_PORT_INTERFACE_INDEX,
                                                    START_IP_ADDRESS_LIST, END_IP_ADDRESS_LIST, &addresses_added);
-    ERROR_RET(NX_SUCCESS != status, status, "nx_dhcp_create_server_ip_address_list failed");
+    TERM_ERROR_RET(NX_SUCCESS != status, status, "nx_dhcp_create_server_ip_address_list failed");
 
 
     /* Set network parameters for RNDIS interface. */
     status = nx_dhcp_set_interface_network_parameters(&g_dhcp_server0, USB_RNDIS_PORT_INTERFACE_INDEX, NX_DHCP_SUBNET_MASK,
                                                       USB_RNDIS_DHCP_SERVER_DEFAULT_GATEWAY, USB_RNDIS_DHCP_SERVER_IP_ADDRESS);
-    ERROR_RET(NX_SUCCESS != status, status, "nx_dhcp_set_interface_network_parameters failed");
+    TERM_ERROR_RET(NX_SUCCESS != status, status, "nx_dhcp_set_interface_network_parameters failed");
 
     /* Start the DHCP Server. */
     status = nx_dhcp_server_start(&g_dhcp_server0);
-    ERROR_RET(NX_SUCCESS != status, status, "nx_dhcp_server_start failed");
+    TERM_ERROR_RET(NX_SUCCESS != status, status, "nx_dhcp_server_start failed");
 
     return status;
 }
@@ -271,55 +271,55 @@ static UINT net_system_startup(void)
 
     /* Initialize the USBX RNDIS class. */
     status = usbx_rndis_init();
-    ERROR_RET(TX_SUCCESS != status, status, "usbx_rndis_init failed\r\n");
+    TERM_ERROR_RET(TX_SUCCESS != status, status, "usbx_rndis_init failed\r\n");
 
     /* Create a packet pool for the network packet buffer. */
     status = nx_packet_pool_create(&g_packet_pool0, "NX Packet Pool",
                                     G_PACKET_POOL0_PACKET_SIZE, &g_packet_pool0_pool_memory[0],
                                     G_PACKET_POOL0_PACKET_NUM * (G_PACKET_POOL0_PACKET_SIZE + sizeof(NX_PACKET)));
-    ERROR_RET(NX_SUCCESS != status, status, "nx_packet_pool_create failed");
+    TERM_ERROR_RET(NX_SUCCESS != status, status, "nx_packet_pool_create failed");
 
     /* Create an IP instance for the Ethernet interface. */
     status = nx_ip_create(&g_ip0, "g_ip0 IP Instance", G_IP0_ADDRESS, G_IP0_SUBNET_MASK,
                           &g_packet_pool0, G_IP0_NETWORK_DRIVER, &g_ip0_stack_memory[0],
                           G_IP0_TASK_STACK_SIZE, G_IP0_TASK_PRIORITY);
-    ERROR_RET(NX_SUCCESS != status, status, "nx_ip_create failed");
+    TERM_ERROR_RET(NX_SUCCESS != status, status, "nx_ip_create failed");
 
     /* Attach the secondary interface to the IP instance */
     status =  nx_ip_interface_attach(&g_ip0, "RNDIS_PORT", USB_RNDIS_DHCP_SERVER_IP_ADDRESS, G_IP0_SUBNET_MASK, _ux_network_driver_entry);
-    ERROR_RET(NX_SUCCESS != status, status, "nx_ip_interface_attach failed");
+    TERM_ERROR_RET(NX_SUCCESS != status, status, "nx_ip_interface_attach failed");
 
     status = nx_ip_interface_status_check(&g_ip0, USB_RNDIS_PORT_INTERFACE_INDEX, NX_IP_INITIALIZE_DONE, &links, NET_IP_ADDRESS_RESOLVED_WAIT);
-    ERROR_RET(NX_SUCCESS != status, status, "nx_ip_interface_status_check failed");
+    TERM_ERROR_RET(NX_SUCCESS != status, status, "nx_ip_interface_status_check failed");
 
     PRINT_INFO_STR("Initialize the IP instance for the USB RNDIS interface successfully.");
 
     /* Wait for USB attach event flags. */
     tx_event_flags_get (&g_usb_event_flags, USB_ATTACH_FLAG, TX_OR, &events, TX_WAIT_FOREVER);
-    ERROR_RET(TX_SUCCESS != status, status, "tx_event_flags_get for USB event failed\r\n");
+    TERM_ERROR_RET(TX_SUCCESS != status, status, "tx_event_flags_get for USB event failed\r\n");
 
     /* Enable the Address Resolution Protocol (ARP). */
     status = nx_arp_enable(&g_ip0, &g_ip0_arp_cache_memory[0], G_IP0_ARP_CACHE_SIZE);
-    ERROR_RET(NX_SUCCESS != status, status, "nx_arp_enable failed");
+    TERM_ERROR_RET(NX_SUCCESS != status, status, "nx_arp_enable failed");
 
     /* Enable the Internet Control Message Protocol (ICMP). */
     status = nx_icmp_enable(&g_ip0);
-    ERROR_RET(NX_SUCCESS != status, status, "nx_icmp_enable failed");
+    TERM_ERROR_RET(NX_SUCCESS != status, status, "nx_icmp_enable failed");
 
     /* Enable the User Datagram Protocol (UDP). */
     status = nx_udp_enable(&g_ip0);
-    ERROR_RET(NX_SUCCESS != status, status, "nx_udp_enable failed");
+    TERM_ERROR_RET(NX_SUCCESS != status, status, "nx_udp_enable failed");
 
     /* Enable the Transmission Control Protocol (TCP). */
     status = nx_tcp_enable(&g_ip0);
-    ERROR_RET(NX_SUCCESS != status, status, "nx_tcp_enable failed");
+    TERM_ERROR_RET(NX_SUCCESS != status, status, "nx_tcp_enable failed");
 
     status = nx_ip_interface_status_check (&g_ip0, USB_RNDIS_PORT_INTERFACE_INDEX, NX_IP_LINK_ENABLED, &links,
                                            NET_IP_LINK_WAIT);
-    ERROR_RET(NX_SUCCESS != status, status, "nx_ip_interface_status_check failed");
+    TERM_ERROR_RET(NX_SUCCESS != status, status, "nx_ip_interface_status_check failed");
 
     status = dhcpv4_server_init();
-    ERROR_RET(NX_SUCCESS != status, status, "dhcpv4_server_init failed");
+    TERM_ERROR_RET(NX_SUCCESS != status, status, "dhcpv4_server_init failed");
 
     return status;
 }
@@ -382,14 +382,14 @@ static UINT net_system_get_info(net_info_t * p_info)
     ULONG mac_addr_lsb = NX_NULL;
 
     status = nx_ip_interface_physical_address_get(&g_ip0, USB_RNDIS_PORT_INTERFACE_INDEX, &mac_addr_msb, &mac_addr_lsb);
-    ERROR_RET(NX_SUCCESS != status, status, "nx_ip_interface_physical_address_get failed");
+    TERM_ERROR_RET(NX_SUCCESS != status, status, "nx_ip_interface_physical_address_get failed");
 
     /* Get the IPv4 address of the RA board. */
     ULONG dev_ip_addr = NX_NULL;
     ULONG dev_subnet_mask = NX_NULL;
 
     status = nx_ip_interface_address_get(&g_ip0, USB_RNDIS_PORT_INTERFACE_INDEX, &dev_ip_addr, &dev_subnet_mask);
-    ERROR_RET(NX_SUCCESS != status, status, "nx_ip_interface_address_get failed");
+    TERM_ERROR_RET(NX_SUCCESS != status, status, "nx_ip_interface_address_get failed");
 
     /* Store the network configuration. */
     p_info->phy_addr.group.msb = mac_addr_msb;

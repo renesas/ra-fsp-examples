@@ -480,9 +480,13 @@ FSP Configuration
   User Event Links
     
   Linker Section Mappings
+    *bsp_linker.?*(.rodata.*): FLASH Constant Data (OFS Gap)
+    *(.bss.g_heap): RAM Uninitialized
+    *(.bss.g_main_stack): RAM Uninitialized
     
   Module "I/O Port (r_ioport)"
     Parameter Checking: Default (BSP)
+    CCD Support: Not Supported
     
   Module "FreeRTOS Port (rm_freertos_port)"
   Module "FreeRTOS+TCP"
@@ -536,7 +540,7 @@ FSP Configuration
     The socket semaphore to unblock the MQTT task (RX_DRIVER): Disable
     Possible optimisation for expert users: Disable
     
-  Module "FreeRTOS+TCP Wrapper to r_ether (rm_freertos_plus_tcp)"
+  Module "FreeRTOS+TCP Wrapper to ethernet driver (rm_freertos_plus_tcp)"
   Module "FreeRTOS Buffer Allocation 2"
   Module "FreeRTOS+FAT"
     General: Has CWD: Disabled
@@ -698,7 +702,14 @@ FSP Configuration
     Allocate Secure Context: Enable
     
     Instance "FreeRTOS+TCP"
-      Instance "FreeRTOS+TCP Wrapper to r_ether (rm_freertos_plus_tcp)"
+      Instance "g_freertos_plus_tcp0 FreeRTOS+TCP Wrapper to ethernet driver (rm_freertos_plus_tcp)"
+        Name: g_freertos_plus_tcp0
+        RX Handler Task Stack Size: configMINIMAL_STACK_SIZE
+        RX Handler Task Priority: configMAX_PRIORITIES - 1
+        Check Link Status Task Stack Size: configMINIMAL_STACK_SIZE
+        Check Link Status Task Priority: configMAX_PRIORITIES - 1
+        Link check interval: 1000
+        
         Instance "g_ether0 Ethernet (r_ether)"
           General: Name: g_ether0
           General: Channel: 0

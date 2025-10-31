@@ -13,6 +13,19 @@
 
 #include "common_utils.h"
 
+#define EP_VERSION              ("1.0")
+
+#define MODULE_NAME             "rm_comms_smbus"
+
+#define BANNER_INFO             "\r\n******************************************************************"\
+                                "\r\n*   Renesas FSP Example Project for "MODULE_NAME" Module        *"\
+                                "\r\n*   Example Project Version %s                                  *"\
+                                "\r\n*   Flex Software Pack Version  %d.%d.%d                            *"\
+                                "\r\n******************************************************************"\
+                                "\r\nRefer to readme.txt file for more details on Example Project and" \
+                                "\r\nFSP User's Manual for more information about "MODULE_NAME" driver\r\n"
+
+
 #define EP_INFO             "\r\nThis example project demonstrates the basic usage of I2C communication conforming to"\
                             "\r\nthe SMBus Specification (version 2.0) on Renesas RA MCUs using the Renesas Flexible"\
                             "\r\nSoftware Package (FSP). The project involves writing commands to the MAX31875 sensor"\
@@ -66,8 +79,15 @@
 || defined (BOARD_RA6T1_RSSK) || defined (BOARD_RA8E1_FPB)
     #define LED_ERROR_STATE           (1U)
 #else
-    #define LED_ERROR_STATE           (2U)
+#define LED_ERROR_STATE           (2U)
 #endif
+
+/* Macro for handle error */
+#define APP_ERR_HANDLE(err, fn_)   ({\
+    if(err){\
+        handle_error((err), (uint8_t *)(fn_));\
+    }\
+})
 
 /* Enumeration for led state use in application */
 #if defined (BOARD_RA4W1_EK) || defined (BOARD_RA4T1_MCK)|| defined (BOARD_RA6T2_MCK) || defined (BOARD_RA6T3_MCK) \

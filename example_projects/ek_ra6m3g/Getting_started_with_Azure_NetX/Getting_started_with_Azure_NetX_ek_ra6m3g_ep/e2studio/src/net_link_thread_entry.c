@@ -89,7 +89,7 @@ void net_link_thread_entry(void)
 
     /* Startup the network system. */
     status = net_system_startup();
-    ERROR_TRAP(TX_SUCCESS != status, status, "net_system_startup failed\r\n");
+    TERM_ERR_TRAP(TX_SUCCESS != status, status, "net_system_startup failed\r\n");
 
     /* Send an output queue to print the current network configuration. */
     PRINT_ID_DATA(TERMINAL_OUTPUT_NET_INFO, g_network_info);
@@ -101,14 +101,14 @@ void net_link_thread_entry(void)
     {
         /* Wait for any NetX link status change event flags.  */
         status = tx_event_flags_get(&g_net_link_event_flags, LINK_ANY_EVENT, TX_OR_CLEAR, &events, TX_WAIT_FOREVER);
-        ERROR_TRAP(TX_SUCCESS != status, status, "tx_event_flags_get for NetX link event failed\r\n");
+        TERM_ERR_TRAP(TX_SUCCESS != status, status, "tx_event_flags_get for NetX link event failed\r\n");
 
         /* Handling the physical link-up event. */
         if (events & LINK_UP_EVENT)
         {
             /* Perform necessary procedures when physical link-up. */
             status = net_system_link_up_process();
-            ERROR_TRAP(TX_SUCCESS != status, status, "net_system_link_up_process failed\r\n");
+            TERM_ERR_TRAP(TX_SUCCESS != status, status, "net_system_link_up_process failed\r\n");
 
             /* Send an output queue to print the current network configuration. */
             PRINT_ID_DATA(TERMINAL_OUTPUT_NET_INFO, g_network_info);
@@ -156,65 +156,65 @@ static UINT net_system_startup(void)
 
     /* Create the network physical link event flags. */
     status = tx_event_flags_create(&g_net_link_event_flags, "Network Link Events");
-    ERROR_RET(NX_SUCCESS != status, status, "tx_event_flags_create for NetX link event failed");
+    APP_ERR_RET(NX_SUCCESS != status, status, "tx_event_flags_create for NetX link event failed");
 
     /* Create a packet pool for the network packet buffer. */
     status = nx_packet_pool_create(&g_packet_pool0, "NX Packet Pool",
                                     G_PACKET_POOL0_PACKET_SIZE, &g_packet_pool0_pool_memory[0],
                                     G_PACKET_POOL0_PACKET_NUM * (G_PACKET_POOL0_PACKET_SIZE + sizeof(NX_PACKET)));
-    ERROR_RET(NX_SUCCESS != status, status, "nx_packet_pool_create failed");
+    APP_ERR_RET(NX_SUCCESS != status, status, "nx_packet_pool_create failed");
 
     /* Create an IP instance for the Ethernet interface. */
     status = nx_ip_create(&g_ip0, "g_ip0 IP Instance", NX_NULL, NX_NULL,
                           &g_packet_pool0, G_IP0_NETWORK_DRIVER, &g_ip0_stack_memory[0],
                           G_IP0_TASK_STACK_SIZE, G_IP0_TASK_PRIORITY);
-    ERROR_RET(NX_SUCCESS != status, status, "nx_ip_create failed");
+    TERM_ERR_TRAP(NX_SUCCESS != status, status, "nx_ip_create failed");
 
     /* Set a callback function to notify the physical interface of changes. */
     status = nx_ip_link_status_change_notify_set(&g_ip0, net_link_status_change_callback);
-    ERROR_RET(NX_SUCCESS != status, status, "nx_ip_link_status_change_notify_set failed");
+    TERM_ERR_TRAP(NX_SUCCESS != status, status, "nx_ip_link_status_change_notify_set failed");
 
     /* Enable the Address Resolution Protocol (ARP). */
     status = nx_arp_enable(&g_ip0, &g_ip0_arp_cache_memory[0], G_IP0_ARP_CACHE_SIZE);
-    ERROR_RET(NX_SUCCESS != status, status, "nx_arp_enable failed");
+    TERM_ERR_TRAP(NX_SUCCESS != status, status, "nx_arp_enable failed");
 
     /* Enable the Internet Control Message Protocol (ICMP). */
     status = nx_icmp_enable(&g_ip0);
-    ERROR_RET(NX_SUCCESS != status, status, "nx_icmp_enable failed");
+    TERM_ERR_TRAP(NX_SUCCESS != status, status, "nx_icmp_enable failed");
 
     /* Enable the User Datagram Protocol (UDP). */
     status = nx_udp_enable(&g_ip0);
-    ERROR_RET(NX_SUCCESS != status, status, "nx_udp_enable failed");
+    TERM_ERR_TRAP(NX_SUCCESS != status, status, "nx_udp_enable failed");
 
     /* Enable the Transmission Control Protocol (TCP). */
     status = nx_tcp_enable(&g_ip0);
-    ERROR_RET(NX_SUCCESS != status, status, "nx_tcp_enable failed");
+    TERM_ERR_TRAP(NX_SUCCESS != status, status, "nx_tcp_enable failed");
 
     /* Wait for the network physical link to be established. */
     ULONG events = NX_NULL;
     status = tx_event_flags_get(&g_net_link_event_flags, LINK_UP_EVENT, TX_AND_CLEAR, &events, TX_WAIT_FOREVER);
-    ERROR_RET(NX_SUCCESS != status, status, "tx_event_flags_get for NetX link up event failed");
+    TERM_ERR_TRAP(NX_SUCCESS != status, status, "tx_event_flags_get for NetX link up event failed");
 
     /* Create a DHCP instance for the DHCP client service. */
     status = nx_dhcp_create(&g_dhcp_client0, &g_ip0, "NX DHCP Client");
-    ERROR_RET(NX_SUCCESS != status, status, "nx_dhcp_create failed");
+    TERM_ERR_TRAP(NX_SUCCESS != status, status, "nx_dhcp_create failed");
 
     /* Set the packet pool for the DHCP client instance. */
     status = nx_dhcp_packet_pool_set(&g_dhcp_client0, &g_packet_pool0);
-    ERROR_RET(NX_SUCCESS != status, status, "nx_dhcp_packet_pool_set failed");
+    TERM_ERR_TRAP(NX_SUCCESS != status, status, "nx_dhcp_packet_pool_set failed");
 
     /* Start the DHCP client service process. */
     status = nx_dhcp_start(&g_dhcp_client0);
-    ERROR_RET(NX_SUCCESS != status, status, "nx_dhcp_start failed");
+    TERM_ERR_TRAP(NX_SUCCESS != status, status, "nx_dhcp_start failed");
 
     /* Wait for the DHCP client to resolve the IP address. */
     ULONG link = NX_NULL;
-    status = nx_ip_status_check(&g_ip0, NX_IP_ADDRESS_RESOLVED, &link, NET_IP_ADDRESS_RESOLVED_WAIT);
-    ERROR_RET(NX_SUCCESS != status, status, "nx_ip_status_check for resolving the IP address failed");
+    status = nx_ip_status_check(&g_ip0, NX_IP_ADDRESS_RESOLVED, &link, NX_WAIT_FOREVER);
+    TERM_ERR_TRAP(NX_SUCCESS != status, status, "nx_ip_status_check for resolving the IP address failed");
 
     /* Get the network configuration details. */
     status = net_system_get_info(&g_network_info);
-    ERROR_RET(NX_SUCCESS != status, status, "net_system_get_info failed");
+    TERM_ERR_TRAP(NX_SUCCESS != status, status, "net_system_get_info failed");
 
     return status;
 }
@@ -235,33 +235,33 @@ static UINT net_system_link_up_process(void)
     ULONG link = NX_NULL;
 
     /* Wait for the DHCP client to resolve the IP address. */
-    status = nx_ip_status_check(&g_ip0, NX_IP_ADDRESS_RESOLVED, &link, NET_IP_ADDRESS_RESOLVED_WAIT);
+    status = nx_ip_status_check(&g_ip0, NX_IP_ADDRESS_RESOLVED, &link, NX_WAIT_FOREVER);
     if (NX_SUCCESS != status)
     {
         /* Send a direct command to enable the link. */
         status = nx_ip_driver_direct_command(&g_ip0, NX_LINK_ENABLE, &link);
-        ERROR_RET(NX_SUCCESS != status, status, "nx_ip_driver_direct_command for enabling the link failed");
+        TERM_ERR_TRAP(NX_SUCCESS != status, status, "nx_ip_driver_direct_command for enabling the link failed");
 
         /* Stop the DHCP client service. */
         status = nx_dhcp_stop(&g_dhcp_client0);
-        ERROR_RET(NX_SUCCESS != status, status, "nx_dhcp_stop failed");
+        TERM_ERR_TRAP(NX_SUCCESS != status, status, "nx_dhcp_stop failed");
 
         /* Reinitialize the DHCP client to clean up parameters. */
         status = nx_dhcp_reinitialize(&g_dhcp_client0);
-        ERROR_RET(NX_SUCCESS != status, status, "nx_dhcp_reinitialize failed");
+        TERM_ERR_TRAP(NX_SUCCESS != status, status, "nx_dhcp_reinitialize failed");
 
         /* Start the DHCP Client service. */
         status = nx_dhcp_start(&g_dhcp_client0);
-        ERROR_RET(NX_SUCCESS != status, status, "nx_dhcp_start failed");
+        TERM_ERR_TRAP(NX_SUCCESS != status, status, "nx_dhcp_start failed");
 
         /* Wait for the DHCP client to resolve the IP address. */
-        status = nx_ip_status_check(&g_ip0, NX_IP_ADDRESS_RESOLVED, &link, NET_IP_ADDRESS_RESOLVED_WAIT);
-        ERROR_RET(NX_SUCCESS != status, status, "nx_ip_status_check for resolving the IP address failed");
+        status = nx_ip_status_check(&g_ip0, NX_IP_ADDRESS_RESOLVED, &link, NX_WAIT_FOREVER);
+        TERM_ERR_TRAP(NX_SUCCESS != status, status, "nx_ip_status_check for resolving the IP address failed");
     }
 
     /* Get the network configuration details. */
     status = net_system_get_info(&g_network_info);
-    ERROR_RET(NX_SUCCESS != status, status, "net_system_get_info failed");
+    TERM_ERR_TRAP(NX_SUCCESS != status, status, "net_system_get_info failed");
 
     return status;
 }
@@ -285,25 +285,25 @@ static UINT net_system_get_info(net_info_t * p_info)
     ULONG mac_addr_msb = NX_NULL;
     ULONG mac_addr_lsb = NX_NULL;
     status = nx_ip_interface_physical_address_get(&g_ip0, 0, &mac_addr_msb, &mac_addr_lsb);
-    ERROR_RET(NX_SUCCESS != status, status, "nx_ip_interface_physical_address_get failed");
+    TERM_ERR_TRAP(NX_SUCCESS != status, status, "nx_ip_interface_physical_address_get failed");
 
     /* Get the IPv4 address of the RA board. */
     ULONG dev_ip_addr = NX_NULL;
     ULONG dev_subnet_mask = NX_NULL;
     status = nx_ip_address_get(&g_ip0, &dev_ip_addr, &dev_subnet_mask);
-    ERROR_RET(NX_SUCCESS != status, status, "nx_ip_address_get failed");
+    TERM_ERR_TRAP(NX_SUCCESS != status, status, "nx_ip_address_get failed");
 
     /* Retrieve the IP address of the default gateway. */
     UCHAR dhcp_option[NET_DHCP_OPTION_SIZE];
     UINT dhcp_option_size = NET_DHCP_OPTION_SIZE;
     status = nx_dhcp_user_option_retrieve(&g_dhcp_client0, NX_DHCP_OPTION_GATEWAYS, dhcp_option, &dhcp_option_size);
-    ERROR_RET(NX_SUCCESS != status, status, "nx_dhcp_user_option_retrieve for retrieving the default gateway's IP address failed");
+    TERM_ERR_TRAP(NX_SUCCESS != status, status, "nx_dhcp_user_option_retrieve for retrieving the default gateway's IP address failed");
     ULONG default_gateway_addr = IP_ADDRESS(dhcp_option[3], dhcp_option[2], dhcp_option[1], dhcp_option[0]);
 
     /* Retrieve the IP address of the DHCP server. */
     dhcp_option_size = NET_DHCP_OPTION_SIZE;
     status = nx_dhcp_user_option_retrieve(&g_dhcp_client0, NX_DHCP_OPTION_DHCP_SERVER, dhcp_option, &dhcp_option_size);
-    ERROR_RET(NX_SUCCESS != status, status, "nx_dhcp_user_option_retrieve for retrieving the DHCP server's IP address failed");
+    TERM_ERR_TRAP(NX_SUCCESS != status, status, "nx_dhcp_user_option_retrieve for retrieving the DHCP server's IP address failed");
     ULONG dhcp_server_addr = IP_ADDRESS(dhcp_option[3], dhcp_option[2], dhcp_option[1], dhcp_option[0]);
 
     /* Store the network configuration. */

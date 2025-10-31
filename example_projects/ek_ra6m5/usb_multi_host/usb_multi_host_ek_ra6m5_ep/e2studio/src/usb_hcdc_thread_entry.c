@@ -72,6 +72,9 @@ void usb_hcdc_thread_entry(void *pvParameters)
                     /* Wait for the USB MSC (Mass Storage Class) command completion event if USB MSC device is connected */
                     xEventGroupWaitBits (g_usb_event_group, USB_MSC_CMD_COMPLETE, pdFALSE, pdFALSE, DELAY_200_TICK);
 
+                    /* Set internal class identifier to USB_CLASS_INTERNAL_HCDC */
+                    g_basic0_ctrl.type = (usb_class_t) USB_CLASS_INTERNAL_HCDC;
+
                     /* CDC Class request "SetLineCoding" */
                     set_line_coding (&g_basic0_ctrl, p_usb_cdc_event_info->device_address);
                     break;
@@ -79,7 +82,8 @@ void usb_hcdc_thread_entry(void *pvParameters)
 
                 case USB_STATUS_READ_COMPLETE:
                 {
-                    APP_PRINT("\r\nReceived data from the CDC device: "GREEN"'%s'\r\n"RESET, g_rcv_buf);
+                    APP_PRINT("\r\nReceived data from the CDC device: " GREEN "'%.*s'" RESET "\r\n",
+                              p_usb_cdc_event_info->data_size, g_rcv_buf);
                     g_cdc_read_complete_flag = true;
                     break;
                 }
@@ -177,11 +181,11 @@ static void usb_cdc_operation(void)
             APP_PRINT("\r\nPlease enter text data to write to the CDC device\r\n");
 
             /* Check if user has provided input */
-            if (APP_GET_USER_INPUT(false))
+            if (APP_GET_USER_INPUT())
             {
                 /* Trim new line character and perform CDC write operation */
                 g_cdc_read_complete_flag = false;
-                trim_new_line ((char*) g_new_api_key_str);
+                trim_line_endings ((char*) g_new_api_key_str);
                 usb_cdc_write_operation ((char*) g_new_api_key_str, CDC_WRITE_DATA_LEN);
                 memset (g_new_api_key_str, NULL_CHAR, sizeof(g_new_api_key_str));
             }
@@ -197,12 +201,12 @@ static void usb_cdc_operation(void)
         APP_PRINT("\r\n!! The CDC device is connected !!");
         APP_PRINT("\r\nPlease enter text data to write to the CDC device\r\n");
 
-        if (INPUT_STATUS_HAVE_INPUT == APP_GET_USER_INPUT(true))
+        if (INPUT_STATUS_HAVE_INPUT == APP_GET_USER_INPUT())
         {
             char input_char = g_new_api_key_str[INDEX_ZERO];
 
             /* Check if the input character is valid ('1', '2', or Enter key) when testing with USB PCDC EP*/
-            if (input_char == '1' || input_char == '2' || input_char == '\r')
+            if (input_char == '1' || input_char == '2' || input_char == CARRIAGE_CHAR)
             {
                 g_cdc_read_complete_flag = false;
                 usb_cdc_write_operation ((char*) g_new_api_key_str, 1);

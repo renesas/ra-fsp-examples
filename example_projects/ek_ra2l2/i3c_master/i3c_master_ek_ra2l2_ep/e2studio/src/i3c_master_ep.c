@@ -650,7 +650,7 @@ static fsp_err_t master_write_read_verify(void)
    }
 
    /* Wait for slave device prepare buffer */
-   R_BSP_SoftwareDelay(50, BSP_DELAY_UNITS_MICROSECONDS);
+   R_BSP_SoftwareDelay(100, BSP_DELAY_UNITS_MICROSECONDS);
 
    /* Start a read operation */
    err = R_I3C_Read(&g_i3c0_ctrl, p_next, MAX_READ_DATA_LEN, false);

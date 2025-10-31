@@ -45,8 +45,7 @@ void R_BSP_WarmStart(bsp_warm_start_event_t event)
         R_FACI_LP->DFLCTL = 1U;
 
         /* Would normally have to wait tDSTOP(6us) for data flash recovery. Placing the enable here, before clock and
-         * C runtime initialization, should negate the need for a delay since the initialization will typically
-         * take more than 6us. */
+         * C runtime initialization, should negate the need for a delay since the initialization will typically take more than 6us. */
 #endif
     }
 
@@ -70,8 +69,7 @@ void R_BSP_WarmStart(bsp_warm_start_event_t event)
 FSP_CPP_HEADER
 BSP_CMSE_NONSECURE_ENTRY void template_nonsecure_callable ();
 
-/* Trustzone Secure Projects require at least one nonsecure callable function in order to build
- * (Remove this if it is not required to build). */
+/* Trustzone Secure Projects require at least one nonsecure callable function in order to build (Remove this if it is not required to build). */
 BSP_CMSE_NONSECURE_ENTRY void template_nonsecure_callable ()
 {
 

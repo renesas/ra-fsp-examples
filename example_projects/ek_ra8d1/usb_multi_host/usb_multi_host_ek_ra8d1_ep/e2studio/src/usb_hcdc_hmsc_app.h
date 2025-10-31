@@ -1,24 +1,25 @@
 /***********************************************************************************************************************
+ * File Name    : usb_hcdc_hmsc_app.h
+ * Version      : .
+ * Description  : Contains data structures and functions used in usb_hcdc_thread_entry.c and usb_hmsc_thread_entry.c.
+ **********************************************************************************************************************/
+/***********************************************************************************************************************
 * Copyright (c) 2024 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
 ***********************************************************************************************************************/
 
-/**********************************************************************************************************************
- * File Name    : usb_hcdc_hmsc_app.h
- * Version      : .
- * Description  : Contains data structures and functions used in usb_hcdc_thread_entry.c and usb_hmsc_thread_entry.c.
- *********************************************************************************************************************/
 #ifndef USB_HCDC_HMSC_APP_H_
 #define USB_HCDC_HMSC_APP_H_
 
 #include "common_utils.h"
+#include "r_usb_typedef.h"
 /** Macros definitions **/
 #define EP_INFO                 "\r\nThis project demonstrates the basic functionalities of USB Host"\
-                                "\r\nComposite(CDC and MSC) on Renesas RA MCUs based on Renesas FSP."\
+                                "\r\nComposite (CDC and MSC) on Renesas RA MCUs based on Renesas FSP."\
                                 "\r\nIn this example, the application will configure the MCU as a Host "\
-                                "\r\nCommunications Device Class(HCDC) and as a Host Mass Storage"\
-                                "\r\nClass(HMSC). The EP will present a menu list for user to communicate"\
+                                "\r\nCommunications Device Class (HCDC) and as a Host Mass Storage"\
+                                "\r\nClass (HMSC). The EP will present a menu list for user to communicate"\
                                 "\r\nwith both the PMSC and PCDC devices. The usb_composite EP can be"\
                                 "\r\nused as the PCDC device and the PMSC device to demonstrate this "\
                                 "\r\nUSB Multi Host example. For HCDC operation, the host prompts the"\
@@ -94,9 +95,52 @@
 #define INPUT_STATUS_NO_INPUT       (0)
 #define INPUT_STATUS_HAVE_INPUT     (1)
 
+#define NEWLINE_CHAR                ('\n')
+#define CARRIAGE_CHAR               ('\r')
+#define SPACE_CHAR                  (' ')
+#define KEY_SIZE_IN_BYTES           (64)
+#define FALSE                       (0)
+#define TRUE                        (1)
+
+/* EP contents */
+#define EP_VERSION                  ("1.0")
+#define MODULE_NAME                 "USB Multiple Host"
+#define BANNER_INFO                 "\r\n******************************************************************"\
+                                    "\r\n*   Renesas FSP Example Project for "MODULE_NAME" Module     *"\
+                                    "\r\n*   Example Project Version %s                                  *"\
+                                    "\r\n*   Flex Software Pack Version  %d.%d.%d                            *"\
+                                    "\r\n******************************************************************"\
+                                    "\r\nRefer to readme.txt file for more details on Example Project and" \
+                                    "\r\nFSP User's Manual for more information about "MODULE_NAME" driver\r\n"
+
 /* Define color macros */
 #define GREEN   "\033[1;32m"
 #define RESET   "\033[0m"
+
+/* Define user input macro */
+bool handle_use_input();
+void trim_line_endings(char *str);
+#define APP_GET_USER_INPUT()        ({\
+                                    bool input_status = false;\
+                                    if (xSemaphoreTake(g_user_input_semaphore, portMAX_DELAY)) {\
+                                    input_status = handle_use_input(); \
+                                    xSemaphoreGive(g_user_input_semaphore);\
+                                    vTaskDelay (10);\
+                                    }\
+                                    input_status;\
+                                    })
+
+/* Overwrite macro */
+#undef APP_PRINT
+#define APP_PRINT(fn_, ...)         ({\
+                                    if (xSemaphoreTake(g_app_print_semaphore, portMAX_DELAY))\
+                                    {\
+		                            TERM_PRINTF((fn_), ##__VA_ARGS__);\
+		                            xSemaphoreGive(g_app_print_semaphore);\
+                                    }\
+                                    })
+
+
 
 /** Function declarations **/
 void handle_error(fsp_err_t err, char *err_str);

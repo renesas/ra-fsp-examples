@@ -102,13 +102,11 @@ void lin_master_operation(void)
     uint8_t terminal_read[TERM_BUFFER_SIZE] = { RESET_VALUE };
     fsp_pack_version_t version              = { RESET_VALUE };
 
-#if (USE_VIRTUAL_COM == 1U)
     err = TERM_INIT();
     if (FSP_SUCCESS != err)
     {
         ERROR_TRAP;
     }
-#endif /* USE_VIRTUAL_COM */
 
     /* version get API for FLEX pack information */
     R_FSP_VersionGet (&version);
@@ -226,7 +224,7 @@ static fsp_err_t handle_lin_master_transmit(bool is_write)
             if (selection >= MIN_NUMBER_OF_RX_FRAME_ID && selection <= MAX_NUMBER_OF_RX_FRAME_ID)
             {
                 err = is_write ? lin_master_write (selection - 1) : lin_master_read (selection - 1);
-                APP_ERR_RET (err, err, is_write ? "lin_master_write failed.\r\n" : "lin_master_read failed.\r\n");
+                APP_ERR_RET (FSP_SUCCESS != err, err, is_write ? "lin_master_write failed.\r\n" : "lin_master_read failed.\r\n");
             }
             else
             {
@@ -315,29 +313,29 @@ static fsp_err_t lin_master_write(uint8_t frame_id_index)
     lin_timing_t lin_timing = lin_master_calculate_timings (g_baudrate,
                                                             lin_master_tx_transfer_info[frame_id_index].num_bytes);
     err = lin_master_set_timeout (lin_timing.header_timeout_us);
-    APP_ERR_RET(err, err, "lin_master_set_timeout FAILED!\r\n");
+    APP_ERR_RET(FSP_SUCCESS != err, err, "lin_master_set_timeout FAILED!\r\n");
     #endif /* ENABLE_MASTER_TIMEOUT_MANAGEMENT */
     /* Send the LIN start frame: break, sync, and protected identifier */
     g_lin_event_flags &= (uint32_t) (~LIN_EVENT_TX_START_FRAME_COMPLETE);
     err = LIN_START_FRAME_WRITE (&g_master_ctrl, tx_frame_id[frame_id_index]);
-    APP_ERR_RET(err, err, "Error: Writing LIN start frame failed.\r\n");
+    APP_ERR_RET(FSP_SUCCESS != err, err, "Error: Writing LIN start frame failed.\r\n");
 
     /* Wait for start frame transmission to complete before sending the information frame */
     err = wait_for_event (LIN_EVENT_TX_START_FRAME_COMPLETE);
-    APP_ERR_RET(err, err, "Error: TX Event timeout!\r\n");
+    APP_ERR_RET(FSP_SUCCESS != err, err, "Error: TX Event timeout!\r\n");
 
     #if ENABLE_MASTER_TIMEOUT_MANAGEMENT
     err = lin_master_set_timeout (lin_timing.response_timeout_us);
-    APP_ERR_RET(err, err, "lin_master_set_timeout FAILED!\r\n");
+    APP_ERR_RET(FSP_SUCCESS != err, err, "lin_master_set_timeout FAILED!\r\n");
     #endif /* ENABLE_MASTER_TIMEOUT_MANAGEMENT */
 
     g_lin_event_flags &= (uint32_t) (~LIN_EVENT_TX_INFORMATION_FRAME_COMPLETE);
     err = LIN_INFO_FRAME_WRITE (&g_master_ctrl, &lin_master_tx_transfer_info[frame_id_index]);
-    APP_ERR_RET(err, err, "Error: Writing LIN information frame failed.\r\n");
+    APP_ERR_RET(FSP_SUCCESS != err, err, "Error: Writing LIN information frame failed.\r\n");
 
     /* Wait for information frame transmission to complete */
     err = wait_for_event (LIN_EVENT_TX_INFORMATION_FRAME_COMPLETE);
-    APP_ERR_RET(err, err, "Error: TX Event timeout!\r\n");
+    APP_ERR_RET(FSP_SUCCESS != err, err, "Error: TX Event timeout!\r\n");
 
     APP_PRINT("\r\nMaster writes message with frame ID=0x%x successfully\r\n", tx_frame_id[frame_id_index]);
 
@@ -361,32 +359,31 @@ static fsp_err_t lin_master_read(uint8_t frame_id_index)
                                                             lin_master_rx_transfer_info[frame_id_index].num_bytes);
 
     err = lin_master_set_timeout (lin_timing.header_timeout_us);
-    APP_ERR_RET(err, err, "lin_master_set_timeout FAILED!\r\n");
+    APP_ERR_RET(FSP_SUCCESS != err, err, "lin_master_set_timeout FAILED!\r\n");
     #endif /* ENABLE_MASTER_TIMEOUT_MANAGEMENT */
 
     /* Send the LIN start frame: break, sync, and protected identifier */
     g_lin_event_flags &= (uint32_t) (~LIN_EVENT_TX_START_FRAME_COMPLETE);
     err = LIN_START_FRAME_WRITE (&g_master_ctrl, rx_frame_id[frame_id_index]);
-    APP_ERR_RET(err, err, "Error: Writing LIN start frame failed.\r\n");
+    APP_ERR_RET(FSP_SUCCESS != err, err, "Error: Writing LIN start frame failed.\r\n");
 
     /* Wait for start frame transmission to complete before sending the information frame */
     err = wait_for_event (LIN_EVENT_TX_START_FRAME_COMPLETE);
-    APP_ERR_RET(err, err, "Error: TX Event timeout!\r\n");
+    APP_ERR_RET(FSP_SUCCESS != err, err, "Error: TX Event timeout!\r\n");
 
     #if ENABLE_MASTER_TIMEOUT_MANAGEMENT
     err = lin_master_set_timeout (lin_timing.response_timeout_us);
-    APP_ERR_RET(err, err, "lin_master_set_timeout FAILED!\r\n");
+    APP_ERR_RET(FSP_SUCCESS != err, err, "lin_master_set_timeout FAILED!\r\n");
     #endif /* ENABLE_MASTER_TIMEOUT_MANAGEMENT */
 
     /* Begin reception of the information frame data */
     g_lin_event_flags &= (uint32_t) (~LIN_EVENT_RX_INFORMATION_FRAME_COMPLETE);
     err = LIN_INFO_FRAME_READ (&g_master_ctrl, &lin_master_rx_transfer_info[frame_id_index]);
-
-    APP_ERR_RET(err, err, "Error: Reading LIN information frame failed.\r\n");
+    APP_ERR_RET(FSP_SUCCESS != err, err, "Error: Reading LIN information frame failed.\r\n");
 
     /* Wait for information frame transmission to complete */
     err = wait_for_event (LIN_EVENT_RX_INFORMATION_FRAME_COMPLETE);
-    APP_ERR_RET(err, err, "Error: RX Event timeout!\r\n");
+    APP_ERR_RET(FSP_SUCCESS != err, err, "Error: RX Event timeout!\r\n");
 
     ptr = recv_str;
     for (size_t i = 0; i < lin_master_rx_transfer_info[frame_id_index].num_bytes; i++)
@@ -450,20 +447,20 @@ static fsp_err_t lin_master_set_timeout(uint32_t timeout_us)
     uint32_t period_counts = RESET_VALUE;
 
     err = TIMER_INFO_GET (&g_lin_master_timeout_ctrl, &lin_master_timer_info);
-    APP_ERR_RET (err, err, "Error: Failed to get timer information\r\n");
+    APP_ERR_RET(FSP_SUCCESS != err, err, "Error: Failed to get timer information\r\n");
 
     period_counts = (uint32_t) (timeout_us * (lin_master_timer_info.clock_frequency / 1000000));
 
     g_lin_timeout_flag = false;
 
     err = TIMER_RESET (&g_lin_master_timeout_ctrl);
-    APP_ERR_RET(err, err, "Error: Failed to reset timer\r\n");
+    APP_ERR_RET(FSP_SUCCESS != err, err, "Error: Failed to reset timer\r\n");
 
     err = TIMER_PERIOD_SET (&g_lin_master_timeout_ctrl, period_counts);
-    APP_ERR_RET(err, err, "Error: Failed to set timer periodic\r\n");
+    APP_ERR_RET(FSP_SUCCESS != err, err, "Error: Failed to set timer periodic\r\n");
 
     err = TIMER_START (&g_lin_master_timeout_ctrl);
-    APP_ERR_RET(err, err, "Error: Failed to start timer\r\n");
+    APP_ERR_RET(FSP_SUCCESS != err, err, "Error: Failed to start timer\r\n");
 
     return err;
 }
@@ -483,15 +480,15 @@ static fsp_err_t lin_master_baudset(uint32_t baud_rate)
     uint32_t breakBaudRate = (9 * baud_rate) / 13;
     /* Calculate baud rate for normal communication */
     err = LIN_BAUD_CALCULATE (&g_uart0_ctrl, baud_rate, &g_uart0_baud_setting);
-    APP_ERR_RET(err, err, "Error: Failed to calculate LIN baud rate\r\n");
+    APP_ERR_RET(FSP_SUCCESS != err, err, "Error: Failed to calculate LIN baud rate\r\n");
 
     /* Calculate baud rate for break field */
     err = LIN_BAUD_CALCULATE (&g_uart0_ctrl, breakBaudRate, &g_master_break_field_baud_setting);
-    APP_ERR_RET(err, err, "Error: Failed to calculate LIN baud rate\r\n");
+    APP_ERR_RET(FSP_SUCCESS != err, err, "Error: Failed to calculate LIN baud rate\r\n");
 
     /* Set calculated baud rate */
     err = R_SAU_UART_BaudSet(&g_uart0_ctrl, &g_master_break_field_baud_setting);
-    APP_ERR_RET(err, err, "Error: Failed to set LIN baud rate\r\n");
+    APP_ERR_RET(FSP_SUCCESS != err, err, "Error: Failed to set LIN baud rate\r\n");
 
 #elif BSP_FEATURE_SCI_IS_AVAILABLE
 
@@ -504,7 +501,7 @@ static fsp_err_t lin_master_baudset(uint32_t baud_rate)
     lin_master_cfg.p_extend = &lin_master_cfg_extend;
 
     err = LIN_CLOSE(&g_master_ctrl);
-    APP_ERR_RET(err, err, "Error: LIN de-initialization failed.\r\n");
+    APP_ERR_RET(FSP_SUCCESS != err, err, "Error: LIN de-initialization failed.\r\n");
 
     /* Set baud parameters */
     sci_b_lin_baud_params_t user_baud_params = {
@@ -516,11 +513,11 @@ static fsp_err_t lin_master_baudset(uint32_t baud_rate)
 
     /* Calculate the baud rate */
     err = LIN_BAUD_CALCULATE(&user_baud_params, &lin_master_cfg_extend.baud_setting);
-    APP_ERR_RET(err,err,"Failed to calculate LIN baud rate\r\n");
+    APP_ERR_RET(FSP_SUCCESS != err,err,"Failed to calculate LIN baud rate\r\n");
 
     /* Reinitialize LIN */
     err = LIN_OPEN(&g_master_ctrl, &lin_master_cfg);
-    APP_ERR_RET(err, err, "Error: LIN initialization failed.\r\n");
+    APP_ERR_RET(FSP_SUCCESS != err, err, "Error: LIN initialization failed.\r\n");
 
 #endif /* BSP_FEATURE_SAU_IS_AVAILABLE || BSP_FEATURE_SCI_IS_AVAILABLE */
 
@@ -541,7 +538,7 @@ fsp_err_t lin_master_send_wakeup(void)
     /* Send the LIN wake up signal */
     g_lin_event_flags &= (uint32_t) (~LIN_EVENT_TX_WAKEUP_COMPLETE);
     err = R_SAU_LIN_WakeupSend (&g_master_ctrl);
-    APP_ERR_RET(err, err, "Error: Failed to send LIN wake-up signal.\r\n");
+    APP_ERR_RET(FSP_SUCCESS != err, err, "Error: Failed to send LIN wake-up signal.\r\n");
 
     while (!(g_lin_event_flags & LIN_EVENT_TX_WAKEUP_COMPLETE))
     {
@@ -573,7 +570,7 @@ static fsp_err_t wait_for_event(uint32_t expected_event)
         if (g_lin_timeout_flag)
         {
             err = LIN_COMMUNICATION_ABORT(&g_master_ctrl);
-            APP_ERR_RET(err, err, "\r\nError: Failed to Abort LIN communication\r\n");
+            APP_ERR_RET(FSP_SUCCESS != err, err, "\r\nError: Failed to Abort LIN communication\r\n");
 
             return FSP_ERR_TIMEOUT;
         }
@@ -581,7 +578,7 @@ static fsp_err_t wait_for_event(uint32_t expected_event)
 
     /* Stop the timeout timer */
     err = TIMER_STOP (&g_lin_master_timeout_ctrl);
-    APP_ERR_RET(err, err, "Error: Failed to stop Timer\r\n");
+    APP_ERR_RET(FSP_SUCCESS != err, err, "Error: Failed to stop Timer\r\n");
 
 #else
     uint32_t timeout_counter = RESET_VALUE;
@@ -592,7 +589,7 @@ static fsp_err_t wait_for_event(uint32_t expected_event)
         if (timeout_counter >= TIMEOUT_LIMIT)
         {
             err = LIN_COMMUNICATION_ABORT(&g_master_ctrl);
-            APP_ERR_RET(err, err, "\r\nError: Failed to Abort LIN communication\r\n");
+            APP_ERR_RET(FSP_SUCCESS != err, err, "\r\nError: Failed to Abort LIN communication\r\n");
 
             return FSP_ERR_TIMEOUT;
         }

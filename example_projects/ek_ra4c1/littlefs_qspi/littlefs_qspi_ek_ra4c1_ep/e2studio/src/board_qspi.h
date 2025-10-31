@@ -3,7 +3,7 @@
  * Description  : Contains declarations of data structures and functions used in board_qspi.c
  **********************************************************************************************************************/
 /***********************************************************************************************************************
-* Copyright (c) 2024 - 2025 Renesas Electronics Corporation and/or its affiliates
+* Copyright (c) 2024 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
 ***********************************************************************************************************************/
@@ -17,11 +17,7 @@
  * Macro definitions
  **********************************************************************************************************************/
 /* Macros for QSPI flash device pins */
-#if defined(BOARD_RA4C1_EK)
-#define RESET_SIO3_PIN              (BSP_IO_PORT_05_PIN_05)
-#else
 #define RESET_SIO3_PIN              (BSP_IO_PORT_03_PIN_10)
-#endif
 
 /* Flash device Register/Setting Commands */
 #define WRITE_ENABLE                (0x06)
@@ -57,10 +53,10 @@
 
 /* Flash device timing */
 #define QSPI_TIME_UNIT              (BSP_DELAY_UNITS_MICROSECONDS)
-#define QSPI_TIME_RESET             (10000U)    /* Typical 10 ms */ 
-#define QSPI_TIME_SECTOR_ERASE      (400000U)   /* Typical sector erase cycle time is 30 ms (Max: 400 ms) */ 
-#define QSPI_TIME_32KB_BLOCK_ERASE  (1000000U)  /* Typical 32KB block erase cycle time is 0.18 s (Max: 1 s) */ 
-#define QSPI_TIME_64KB_BLOCK_ERASE  (1000000U)  /* Typical 64KB block erase cycle time is 0.38 s (Max: 2 s) */ 
+#define QSPI_TIME_RESET             (10000U)    //  Type 10 ms
+#define QSPI_TIME_SECTOR_ERASE      (400000U)   //  Typical sector erase cycle time is 30 ms (Max: 400 ms)
+#define QSPI_TIME_32KB_BLOCK_ERASE  (1000000U)  //  Typical 32KB block erase cycle time is 0.18 s (Max: 1 s)
+#define QSPI_TIME_64KB_BLOCK_ERASE  (1000000U)  //  Typical 64KB block erase cycle time is 0.38 s (Max: 2 s)
 
 /* Macros for periodic delay and periodic line feed */
 #define PERIODIC_PRINT_OUT          (0x10000U)
@@ -82,7 +78,7 @@ typedef enum qspi_protocol
  *  Arguments    : None
  *  Return Value : FSP_SUCCESS     Upon successful initialization of QSPI module and Flash device
  *                 FSP_ERR_ABORTED Upon incorrect read data
- *                 Any other error code apart from FSP_SUCCESS Unsuccessful operation
+ *                 Any Other Error code apart from FSP_SUCCESS Unsuccessful operation
  **********************************************************************************************************************/
 fsp_err_t qspi_init (void);
 
@@ -91,7 +87,7 @@ fsp_err_t qspi_init (void);
  *  Description  : This function erases the flash memory using lower level flash APIs.
  *  Arguments    : erase_size      The size of flash to be erased
  *  Return Value : FSP_SUCCESS     Upon successful operation
- *                 Any other error code apart from FSP_SUCCESS Unsuccessful operation
+ *                 Any Other Error code apart from FSP_SUCCESS Unsuccessful operation
  **********************************************************************************************************************/
 fsp_err_t erase_qspi_flash (uint32_t erase_size);
 

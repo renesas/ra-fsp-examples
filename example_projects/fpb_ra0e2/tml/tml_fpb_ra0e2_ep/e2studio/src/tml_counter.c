@@ -71,14 +71,14 @@ fsp_err_t tml_counter_operation (uint16_t duration_time, app_tml_mode_t tml_mode
 
     /* Open the timer */
     err = tml_open(tml_mode);
-    APP_ERR_RETURN(err, "\r\n**tml_open for the %s failed**\r\n",g_tml_mode_name[tml_mode]);
+    APP_ERR_RET(FSP_SUCCESS != err, err, "\r\n**tml_open for the %s failed**\r\n",g_tml_mode_name[tml_mode]);
 
     APP_PRINT("\r\n------------%s is running------------\r\n",g_tml_mode_name[tml_mode]);
 	APP_PRINT("\r\nLED will be toggled after end of each cycle\r\n");
     
     /* Start the timer */
     err = tml_start(tml_mode);
-    APP_ERR_RETURN(err, "\r\n**tml_start for the %s failed**\r\n", g_tml_mode_name[tml_mode]);
+    APP_ERR_RET(FSP_SUCCESS != err, err, "\r\n**tml_start for the %s failed**\r\n", g_tml_mode_name[tml_mode]);
     
     while (true)
     {
@@ -99,7 +99,7 @@ fsp_err_t tml_counter_operation (uint16_t duration_time, app_tml_mode_t tml_mode
                 
                 /* Stop the timer */
                 err = tml_stop(tml_mode);
-                APP_ERR_RETURN(err, "\r\n**tml_stop for the %s failed**\r\n", g_tml_mode_name[tml_mode]);
+                APP_ERR_RET(FSP_SUCCESS != err, err, "\r\n**tml_stop for the %s failed**\r\n", g_tml_mode_name[tml_mode]);
                 
                 /* Close the timer */
                 if (tml_mode == APP_TML_8_BIT || tml_mode == APP_TML_16_BIT)
@@ -111,7 +111,7 @@ fsp_err_t tml_counter_operation (uint16_t duration_time, app_tml_mode_t tml_mode
                     APP_PRINT("\r\nClose %s\r\n",g_tml_mode_name[tml_mode]);
                 }
                 err = tml_close(tml_mode);
-                APP_ERR_RETURN(err, "\r\n**tml_close for the %s failed**\r\n", g_tml_mode_name[tml_mode]);
+                APP_ERR_RET(FSP_SUCCESS != err, err, "\r\n**tml_close for the %s failed**\r\n", g_tml_mode_name[tml_mode]);
                 
                 break;
             }

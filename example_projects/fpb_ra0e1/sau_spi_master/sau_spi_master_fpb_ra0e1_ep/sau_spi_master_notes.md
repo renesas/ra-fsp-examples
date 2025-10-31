@@ -40,9 +40,9 @@ Supported RA Boards: FPB-RA0E1
   * Connect PMOD MAX31723PMB1 (J1) to the RA board via the PMOD1 Port (PMOD1). Please carefully align pin 1 on the Temperature sensor with pin 1 on the PMOD1.
 
 ### Software Requirements ###
-* Renesas Flexible Software Package (FSP): Version 6.1.0
-* e2 studio: Version 2025-07
-* SEGGER J-Link RTT Viewer: Version 8.58
+* Renesas Flexible Software Package (FSP): Version 6.2.0
+* e2 studio: Version 2025-10
+* SEGGER J-Link RTT Viewer: Version 8.74
 * GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 * Terminal Console Application: Tera Term or a similar application
 

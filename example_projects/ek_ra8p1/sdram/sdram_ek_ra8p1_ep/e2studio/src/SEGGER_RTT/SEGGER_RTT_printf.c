@@ -42,7 +42,7 @@
 *                                                                    *
 **********************************************************************
 *                                                                    *
-*       RTT version: 8.44a                                           *
+*       RTT version: 8.74                                            *
 *                                                                    *
 **********************************************************************
 
@@ -52,7 +52,6 @@ Purpose : Replacement for printf to write formatted data via RTT
 Revision: $Rev: 17697 $
 ----------------------------------------------------------------------
 */
-
 #if (USE_VIRTUAL_COM == 0)
 #include "SEGGER_RTT.h"
 #include "SEGGER_RTT_Conf.h"

@@ -16,8 +16,8 @@
         r20qs0090eg Evaluation Kit for RA8E2 Microcontroller Group EK-RA8E2 v1 Quick Start Guide.
 
 2. Software Requirements:
-        Renesas Flexible Software Package (FSP): Version 6.1.0
-        e2 studio: Version 2025-07
+        Renesas Flexible Software Package (FSP): Version 6.2.0
+        e2 studio: Version 2025-10
         Terminal Console Application: Tera Term or a similar application
         USB Serial Drivers (included in Windows 10) 
         Windows® 10 operating system

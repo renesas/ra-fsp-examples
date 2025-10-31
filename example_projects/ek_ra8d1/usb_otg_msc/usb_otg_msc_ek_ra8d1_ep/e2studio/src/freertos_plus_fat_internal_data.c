@@ -42,7 +42,11 @@ transfer_info_t g_transfer_sdmmc_internal_info[1] DTC_TRANSFER_INFO_ALIGNMENT;
 
 const dtc_extended_cfg_t g_transfer_sdmmc_internal_cfg_extend =
 {
+#if defined(VECTOR_NUMBER_SDHIMMC1_DMA_REQ)
     .activation_source = VECTOR_NUMBER_SDHIMMC1_DMA_REQ,
+#elif defined(VECTOR_NUMBER_SDHIMMC0_DMA_REQ)
+    .activation_source = VECTOR_NUMBER_SDHIMMC0_DMA_REQ,
+#endif
 };
 
 const transfer_cfg_t g_transfer_sdmmc_internal_cfg =
@@ -83,12 +87,12 @@ sdhi_instance_ctrl_t g_sdmmc_internal_ctrl;
 sdmmc_cfg_t g_sdmmc_internal_cfg =
 {
     .bus_width = SDMMC_BUS_WIDTH_4_BITS,
-    .channel = 1,
+    .channel = SDMMC_CHANNEL,
     .p_callback = rm_block_media_sdmmc_callback,
     .p_context = &g_rm_block_media_internal_ctrl,
     .block_size = 512,
     .card_detect = SDMMC_CARD_DETECT_CD,
-    .write_protect = SDMMC_WRITE_PROTECT_WP,
+    .write_protect = SDMMC_WRITE_PROTECT,
     .p_extend = NULL,
     .p_lower_lvl_transfer = &g_transfer_sdmmc_internal,
     .access_ipl = 12,
@@ -97,17 +101,26 @@ sdmmc_cfg_t g_sdmmc_internal_cfg =
     .dma_req_ipl = 12,
 #if defined(VECTOR_NUMBER_SDHIMMC1_ACCS)
     .access_irq = VECTOR_NUMBER_SDHIMMC1_ACCS,
+#elif defined(VECTOR_NUMBER_SDHIMMC0_ACCS)
+    .access_irq = VECTOR_NUMBER_SDHIMMC0_ACCS,
 #else
     .access_irq = FSP_INVALID_VECTOR,
 #endif
+
 #if defined(VECTOR_NUMBER_SDHIMMC1_CARD)
     .card_irq = VECTOR_NUMBER_SDHIMMC1_CARD,
+#elif defined(VECTOR_NUMBER_SDHIMMC0_CARD)
+    .card_irq = VECTOR_NUMBER_SDHIMMC0_CARD,
 #else
     .card_irq = FSP_INVALID_VECTOR,
 #endif
+
     .sdio_irq = FSP_INVALID_VECTOR,
+
 #if defined(VECTOR_NUMBER_SDHIMMC1_DMA_REQ)
     .dma_req_irq = VECTOR_NUMBER_SDHIMMC1_DMA_REQ,
+#elif defined(VECTOR_NUMBER_SDHIMMC0_DMA_REQ)
+    .dma_req_irq = VECTOR_NUMBER_SDHIMMC0_DMA_REQ,
 #else
     .dma_req_irq = FSP_INVALID_VECTOR,
 #endif

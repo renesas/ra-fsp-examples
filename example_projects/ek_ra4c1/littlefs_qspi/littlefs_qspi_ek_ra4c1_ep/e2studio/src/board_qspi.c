@@ -3,7 +3,7 @@
  * Description  : Contains data structures and functions used in board_qspi.c and littlefs_qspi_ep.c
  **********************************************************************************************************************/
 /***********************************************************************************************************************
-* Copyright (c) 2024 - 2025 Renesas Electronics Corporation and/or its affiliates
+* Copyright (c) 2024 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
 ***********************************************************************************************************************/
@@ -132,7 +132,7 @@ fsp_err_t qspi_init(void)
     /* Close QSPI module */
     err = R_QSPI_Close(&g_qspi_ctrl);
     APP_ERR_RET(FSP_SUCCESS != err, err, "\r\n**R_QSPI_Close API FAILED!!!**\r\n");
-    
+
     return err;
 }
 /***********************************************************************************************************************
@@ -190,6 +190,7 @@ fsp_err_t erase_qspi_flash(uint32_t erase_size)
         APP_PRINT("\r\n\r\nThis EP only supports erase entire flash or 32 KB flash!\r\n\r\n");
         return err;
     }
+
     return err;
 }
 /***********************************************************************************************************************
@@ -227,6 +228,7 @@ static fsp_err_t qspi_wait_operation(uint32_t timeout)
         APP_PRINT(RESET_VALUE == (timeout % PERIODIC_PRINT_OUT) ? ".":"");
         APP_PRINT(RESET_VALUE == (timeout % PERIODIC_LINE_FEED) ? "\r\n":"");
     }
+
     return err;
 }
 /***********************************************************************************************************************

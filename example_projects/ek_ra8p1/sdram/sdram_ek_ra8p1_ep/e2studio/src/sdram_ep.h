@@ -1,26 +1,36 @@
 /***********************************************************************************************************************
  * File Name    : sdram_ep.h
- * Description  : Contains data structures and functions used in sdram_ep.c.
+ * Description  : Contains data structures and functions used in sdram_ep.c
  **********************************************************************************************************************/
-/***********************************************************************************************************************
-* Copyright (c) 2024 - 2025 Renesas Electronics Corporation and/or its affiliates
+/**********************************************************************************************************************
+* Copyright (c) 2024 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
+**********************************************************************************************************************/
 
 #ifndef SDRAM_EP_H_
 #define SDRAM_EP_H_
 
+
 #include "common_utils.h"
+#define EP_VERSION              ("1.0")
+#define MODULE_NAME             "SDRAM"
+#define BANNER_INFO             "\r\n******************************************************************"\
+                                "\r\n*   Renesas FSP Example Project for "MODULE_NAME" Module                 *"\
+                                "\r\n*   Example Project Version %s                                  *"\
+                                "\r\n*   Flex Software Pack Version  %d.%d.%d                            *"\
+                                "\r\n******************************************************************"\
+                                "\r\nRefer to readme.txt file for more details on Example Project and" \
+                                "\r\nFSP User's Manual for more information about "MODULE_NAME" BSP\r\n"
+
 
 #define EP_INFO             "\r\nThis project demonstrates the basic functionalities of SDRAM on Renesas RA MCUs based"\
                             "\r\non Renesas FSP. The example project writes data to the entire SDRAM using DMAC. It"\
                             "\r\ndemonstrates SDRAM settings and data retention by enabling self-refresh in low power"\
                             "\r\nmode. When the Ultra-Low-Power Timer (ULPT) expires, the MCU returns to normal mode"\
                             "\r\nand reads the SDRAM to ensure the data is still retained. The EP status information"\
-                            "\r\nand error messages are displayed on the host PC. LED1 is turned ON for 1 second before"\
-                            "\r\nthe MCU enters low power mode, then turned OFF. Additionally, LED3 is turned ON if an"\
-                            "\r\nerror occurs.\r\n\r\n"
+                            "\r\nand error messages are displayed on the host PC. Additionally, the error LED will"\
+                            "\r\nturn on if an error occurs.\r\n\r\n"
 
 /* Macros for text color */
 #define CTRL_RESET                "\x1B[0m"
@@ -30,6 +40,7 @@
 #define LED_ERROR_STATE           (2U)
 #define LED_LPM_STATE             (0U)
 #define LED_LPM_LIGHT_TIME        (1)
+
 
 /* Macros for SDRAM transfer size */
 #define BLOCK_DATA_SIZE           (4096u)
@@ -42,6 +53,13 @@
 
 #define BUFF_SIZE                 (30U)
 #define PRINT_DELAY               (100)
+
+/* Macro for handle error */
+#define APP_ERR_HANDLE(err, fn_)   ({\
+    if(err){\
+        handle_error((err), (uint8_t *)(fn_));\
+    }\
+})
 
 /* Enumeration for led state use in application */
 typedef enum e_led_power
@@ -57,7 +75,7 @@ typedef enum e_sdram_trans_dir
     READ,
 }sdram_trans_dir_t;
 
-/* Public function declaration */
-void sdram_entry(void);
+/* Public function declarations */
+void sdram_entry (void);
 
 #endif /* SDRAM_EP_H_ */

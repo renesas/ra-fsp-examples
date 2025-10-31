@@ -109,7 +109,7 @@
 		2) Connect the USB Debug port on the RA board to the PC using a Type-C USB cable.
 
 Note:
-1) The segger RTT block address may be needed to download and observe EP operation using a hex file with RTT Viewer.
+1) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT Viewer.
    RTT Block address for hex file committed in repository are as follows:
    a. e2studio: 0x22000490
    b. Keil:	Not Available

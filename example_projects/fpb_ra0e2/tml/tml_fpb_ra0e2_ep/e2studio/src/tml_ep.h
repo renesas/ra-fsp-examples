@@ -13,6 +13,16 @@
 #ifndef TML_EP_H_
 #define TML_EP_H_
 
+#define EP_VERSION          ("1.1")
+#define MODULE_NAME         "r_tml"
+#define BANNER_INFO	        "\r\n******************************************************************"\
+							"\r\n*   Renesas FSP Example Project for "MODULE_NAME" Module                 *"\
+							"\r\n*   Example Project Version %s                                  *"\
+							"\r\n*   Flex Software Pack Version  %d.%d.%d                            *"\
+							"\r\n******************************************************************"\
+							"\r\nRefer to readme.txt file for more details on Example Project and" \
+							"\r\nFSP User's Manual for more information about "MODULE_NAME" driver\r\n"
+
 #define EP_INFO             "\r\nThe example project showcases how the TML driver operates on Renesas RA MCUs."\
 							"\r\nThe demonstration includes showcasing the TML timer with counter operation"\
 							"\r\nin normal mode, capture operation, and counter operation in low power mode."\
@@ -98,6 +108,13 @@ typedef enum e_led_power
     LED_ON = BSP_IO_LEVEL_HIGH,
     LED_OFF = BSP_IO_LEVEL_LOW
 } led_power_t;
+
+/* Macro for handle error */
+#define APP_ERR_HANDLE(err, fn_)   			({\
+											if(err){\
+											handle_error((err), (uint8_t *)(fn_));\
+											}\
+						   	   	   	   	   	})
 
 /* Function declarations in tml_ep.c */
 void tml_entry(void);

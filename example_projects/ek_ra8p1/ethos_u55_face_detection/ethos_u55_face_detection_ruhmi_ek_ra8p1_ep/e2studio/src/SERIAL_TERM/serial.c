@@ -79,6 +79,12 @@ void serial_callback(uart_callback_args_t *p_args)
                     break;
                 }
 
+                if (SERIAL_RX_MAX_SIZE > g_serial_rx_count)
+                {
+                    g_serial_rx_buffer[g_serial_rx_count ++] = (char)p_args->data;
+                    g_serial_event |= UART_EVENT_RX_CHAR;
+                }
+
                 /* Store received data if enabled. */
                 switch ((char)p_args->data)
                 {
@@ -93,7 +99,7 @@ void serial_callback(uart_callback_args_t *p_args)
 
                     /* Handle Backspace character and remove the last character from the buffer. */
                     case SERIAL_CHAR_BS:
-                        if (SERIAL_DATA_ZERO != g_serial_rx_count)
+                        if (g_serial_rx_count > SERIAL_DATA_ONE)
                         {
                             g_serial_rx_count --;
                         }
@@ -101,11 +107,6 @@ void serial_callback(uart_callback_args_t *p_args)
 
                     /* Store received data bytes into the buffer. */
                     default:
-                        if (SERIAL_RX_MAX_SIZE > g_serial_rx_count)
-                        {
-                            g_serial_rx_buffer[g_serial_rx_count ++] = (char)p_args->data;
-                            g_serial_event |= UART_EVENT_RX_CHAR;
-                        }
                         break;
                 }
                 break;
@@ -118,7 +119,6 @@ void serial_callback(uart_callback_args_t *p_args)
 /***********************************************************************************************************************
 * End of function serial_callback
 ***********************************************************************************************************************/
-
 
 /***********************************************************************************************************************
  *  Function Name: serial_init
@@ -247,7 +247,7 @@ uint32_t serial_printf(char * p_format, ...)
     }
 
     /* Set the timeout value for serial transfer based on the message length. */
-    timeout = (2 * length * 10U) * (BSP_DELAY_UNITS_SECONDS / SERIAL_BAUD_RATE);
+    timeout = SAFETY_FACTOR * length * (SECOND_TO_MICROSECOND / SERIAL_BAUD_RATE);
 
     /* Clear the serial transmit complete event. */
     g_serial_event &= ~UART_EVENT_TX_COMPLETE;
@@ -269,9 +269,9 @@ uint32_t serial_printf(char * p_format, ...)
     while (UART_EVENT_TX_COMPLETE != (UART_EVENT_TX_COMPLETE & g_serial_event))
     {
         timeout --;
-        R_BSP_SoftwareDelay(1, BSP_DELAY_UNITS_MICROSECONDS);
+        R_BSP_SoftwareDelay(SERIAL_TIME_US, BSP_DELAY_UNITS_MICROSECONDS);
 
-        if (SERIAL_DATA_ZERO == timeout)
+        if (RESET_VALUE == timeout)
         {
             return FSP_ERR_TIMEOUT;
         }
@@ -282,49 +282,6 @@ uint32_t serial_printf(char * p_format, ...)
 /***********************************************************************************************************************
 * End of function serial_printf
 ***********************************************************************************************************************/
-
-/***********************************************************************************************************************
- *  Function Name: serial_putchar
- *  Description  : This function sends a single character over the UART interface.
- *  Arguments[in]: c               The character to be transmitted.
- *  Return Value : FSP_SUCCESS     Upon successful operation
- *                 Any Other Error code apart from FSP_SUCCESS
- **********************************************************************************************************************/
-uint32_t serial_putchar(char c)
-{
-    uint32_t status = FSP_SUCCESS;
-    uint32_t timeout = RESET_VALUE;
-
-    /* Clear the serial transmit complete event. */
-    g_serial_event &= ~UART_EVENT_TX_COMPLETE;
-
-    status = R_SCI_B_UART_Write(&g_serial_ctrl, (uint8_t *)&c, 1);
-    if (FSP_SUCCESS != status)
-    {
-        return status;
-    }
-
-    /* Set the timeout value for serial transfer based on the message length. */
-    timeout = (2 * 1 * 10U) * (BSP_DELAY_UNITS_SECONDS / SERIAL_BAUD_RATE);
-
-    /* Wait for the transmission to complete. */
-    while (UART_EVENT_TX_COMPLETE != (UART_EVENT_TX_COMPLETE & g_serial_event))
-    {
-        timeout --;
-        R_BSP_SoftwareDelay(1, BSP_DELAY_UNITS_MICROSECONDS);
-
-        if (SERIAL_DATA_ZERO == timeout)
-        {
-            return FSP_ERR_TIMEOUT;
-        }
-    }
-
-    return FSP_SUCCESS;
-}
-/***********************************************************************************************************************
-* End of function serial_putchar
-***********************************************************************************************************************/
-
 
 /***********************************************************************************************************************
  *  Function Name: serial_read

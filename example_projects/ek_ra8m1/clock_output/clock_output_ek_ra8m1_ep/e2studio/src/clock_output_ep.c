@@ -13,17 +13,10 @@
 #include "bsp_clocks.h"
 #include "bsp_common.h"
 
-#if (USE_VIRTUAL_COM == 1)
 extern bsp_leds_t g_bsp_leds;
-#endif /* USE_VIRTUAL_COM */
 
 /* The buffer contains user input */
-char g_rx_buffer [BUFFER_SIZE_DOWN] = {RESET_VALUE};
-
-#if (USE_VIRTUAL_COM == 1)
-/* Flag to detect the Enter key is pressed, in the Callback function "serial_callback" */
-extern volatile _Bool g_rx_complete_flag;
-#endif /* USE_VIRTUAL_COM */
+char g_rx_buffer [TERM_BUFFER_SIZE] = {RESET_VALUE};
 
 /* Private function declarations */
 static void start_main_clock (void);
@@ -46,23 +39,21 @@ void clock_output_ep_entry(void)
     /* Version get API for FLEX pack information */
     R_FSP_VersionGet (&version);
 
-#if (USE_VIRTUAL_COM == 1)
     fsp_err_t err = FSP_SUCCESS;
 
     /* Turn OFF error LED */
     R_IOPORT_PinWrite(&g_ioport_ctrl, g_bsp_leds.p_leds[ERR_LED], (bsp_io_level_t)BSP_IO_LEVEL_LOW);
 
-    /* Initialize UART module first to print log to serial terminal */
-    err = uart_init();
+    /* Initialize terminal */
+    err = TERM_INIT();
     if (FSP_SUCCESS != err)
     {
         /* Turn ON error LED to indicate uart_init failed */
         R_IOPORT_PinWrite(&g_ioport_ctrl, g_bsp_leds.p_leds[ERR_LED], (bsp_io_level_t)BSP_IO_LEVEL_HIGH);
 
         /* Error trap */
-        __asm("BKPT #0\n");
+        ERROR_TRAP;
     }
-#endif /* USE_VIRTUAL_COM */
 
     /* Print the EP banner on the RTT viewer */
     APP_PRINT (BANNER_INFO, EP_VERSION, version.version_id_b.major, version.version_id_b.minor,
@@ -149,16 +140,6 @@ static uint8_t get_user_input(void)
     /* Clean buffer */
     memset(g_rx_buffer, NULL_CHAR, sizeof(g_rx_buffer));
 
-#if (USE_VIRTUAL_COM == 1)
-    g_rx_complete_flag = false;
-
-    /* Wait for enter key */
-    while (!g_rx_complete_flag)
-    {
-        __NOP();
-    }
-#else
-
     /* Wait until there is any user input */
     while (!APP_CHECK_DATA)
     {
@@ -166,9 +147,7 @@ static uint8_t get_user_input(void)
     }
 
     /* Read First byte of data provided by user */
-    APP_READ (g_rx_buffer);
-#endif /* USE_VIRTUAL_COM */
-
+    APP_READ (g_rx_buffer,sizeof(g_rx_buffer));
     /* Convert to integer value */
     input_value = (uint8_t)atoi((char*) &g_rx_buffer);
 

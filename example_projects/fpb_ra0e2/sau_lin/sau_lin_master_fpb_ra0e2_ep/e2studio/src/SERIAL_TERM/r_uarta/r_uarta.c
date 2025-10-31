@@ -10,7 +10,7 @@
  **********************************************************************************************************************/
 #include "bsp_api.h"
 
-#if defined(BOARD_RA0E1_FPB) || defined(BOARD_RA0E2_FPB)
+#if BSP_PERIPHERAL_UARTA_PRESENT
 #include "r_uarta.h"
 #include <string.h>
 
@@ -186,6 +186,8 @@ const uart_api_t g_uart_on_uarta =
     .communicationAbort = R_UARTA_Abort,
     .callbackSet        = R_UARTA_CallbackSet,
     .readStop           = R_UARTA_ReadStop,
+    .receiveSuspend     = R_UARTA_ReceiveSuspend,
+    .receiveResume      = R_UARTA_ReceiveResume,
 };
 
 /*******************************************************************************************************************//**
@@ -539,7 +541,7 @@ fsp_err_t R_UARTA_Write (uart_ctrl_t * const p_api_ctrl, uint8_t const * const p
  **********************************************************************************************************************/
 fsp_err_t R_UARTA_CallbackSet (uart_ctrl_t * const          p_api_ctrl,
                                void (                     * p_callback)(uart_callback_args_t *),
-                               void const * const           p_context,
+                               void * const                 p_context,
                                uart_callback_args_t * const p_callback_memory)
 {
     uarta_instance_ctrl_t * p_ctrl = (uarta_instance_ctrl_t *) p_api_ctrl;
@@ -868,6 +870,30 @@ fsp_err_t R_UARTA_BaudCalculate (uint32_t                     baudrate,
     }
 
     return ret;
+}
+
+/*******************************************************************************************************************//**
+ * Suspend Reception
+ *
+ * @retval     FSP_ERR_UNSUPPORTED       Functionality not supported by this driver instance
+ **********************************************************************************************************************/
+fsp_err_t R_UARTA_ReceiveSuspend (uart_ctrl_t * const p_api_ctrl)
+{
+    FSP_PARAMETER_NOT_USED(p_api_ctrl);
+
+    return FSP_ERR_UNSUPPORTED;
+}
+
+/*******************************************************************************************************************//**
+ * Resume Reception
+ *
+ * @retval     FSP_ERR_UNSUPPORTED       Functionality not supported by this driver instance
+ **********************************************************************************************************************/
+fsp_err_t R_UARTA_ReceiveResume (uart_ctrl_t * const p_api_ctrl)
+{
+    FSP_PARAMETER_NOT_USED(p_api_ctrl);
+
+    return FSP_ERR_UNSUPPORTED;
 }
 
 /*******************************************************************************************************************//**
@@ -1318,7 +1344,7 @@ void uarta_eri_isr (void)
 
 #endif
 
-#endif /* BOARD_RA0E1_FPB */
+#endif /* BSP_PERIPHERAL_UARTA_PRESENT */
 
 #else /* USE_VIRTUAL_COM = 0 */
 /* Add empty interrupt functions to avoid building errors when the user selects RTT Viewer */

@@ -3,7 +3,7 @@
  * Description  : Contains macros data structures and functions used in littlefs_qspi_ep.c and hal_entry.c
  **********************************************************************************************************************/
 /***********************************************************************************************************************
-* Copyright (c) 2024 - 2025 Renesas Electronics Corporation and/or its affiliates
+* Copyright (c) 2024 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
 ***********************************************************************************************************************/
@@ -731,7 +731,7 @@ static int32_t file_delete(void)
 
     struct  lfs_info file_info = {RESET_VALUE};
 
-    APP_PRINT("\r\n\r\nDelete a file...\r\n");
+    APP_PRINT("\r\n\r\nDeleta a file...\r\n");
 
     /* Delete the file */
     lfs_err = lfs_remove(&g_rm_littlefs_lfs, g_file_name);

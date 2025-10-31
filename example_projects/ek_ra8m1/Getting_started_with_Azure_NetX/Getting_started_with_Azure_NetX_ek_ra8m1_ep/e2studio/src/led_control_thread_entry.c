@@ -89,29 +89,29 @@ void led_control_thread_entry(void)
 
     /* Initialize the external interrupt pin for LED 1 control. */
     status = (UINT)R_ICU_ExternalIrqOpen(&g_external_irq_sw1_ctrl, &g_external_irq_sw1_cfg);
-    ERROR_TRAP(TX_SUCCESS != status, status, "R_ICU_ExternalIrqOpen for the SW1 failed\r\n");
+    TERM_ERR_TRAP(TX_SUCCESS != status, status, "R_ICU_ExternalIrqOpen for the SW1 failed\r\n");
 
     /* Initialize the external interrupt pin for LED 2 control. */
     status = (UINT)R_ICU_ExternalIrqOpen(&g_external_irq_sw2_ctrl, &g_external_irq_sw2_cfg);
-    ERROR_TRAP(TX_SUCCESS != status, status, "R_ICU_ExternalIrqOpen for the SW2 failed\r\n");
+    TERM_ERR_TRAP(TX_SUCCESS != status, status, "R_ICU_ExternalIrqOpen for the SW2 failed\r\n");
 
     /* Create an event flag group for LED control. */
     status = tx_event_flags_create(&g_led_event_flags, "LED Control Events");
-    ERROR_TRAP(TX_SUCCESS != status, status, "tx_event_flags_create for the LED control failed\r\n");
+    TERM_ERR_TRAP(TX_SUCCESS != status, status, "tx_event_flags_create for the LED control failed\r\n");
 
     /* Enable external pins to generate interrupts for SW1. */
     status = (UINT)R_ICU_ExternalIrqEnable(&g_external_irq_sw1_ctrl);
-    ERROR_TRAP(TX_SUCCESS != status, status, "R_ICU_ExternalIrqEnable for the SW1 failed\r\n");
+    TERM_ERR_TRAP(TX_SUCCESS != status, status, "R_ICU_ExternalIrqEnable for the SW1 failed\r\n");
 
     /* Enable external pins to generate interrupts for SW2. */
     status = (UINT)R_ICU_ExternalIrqEnable(&g_external_irq_sw2_ctrl);
-    ERROR_TRAP(TX_SUCCESS != status, status, "R_ICU_ExternalIrqEnable for the SW2 failed\r\n");
+    TERM_ERR_TRAP(TX_SUCCESS != status, status, "R_ICU_ExternalIrqEnable for the SW2 failed\r\n");
 
     while (true)
     {
         /* Wait for any LED control events. */
         status = tx_event_flags_get(&g_led_event_flags, LED_ANY_EVENT, TX_OR_CLEAR, &events, TX_WAIT_FOREVER);
-        ERROR_TRAP(TX_SUCCESS != status, status, "tx_event_flags_get for the LED control event failed\r\n");
+        TERM_ERR_TRAP(TX_SUCCESS != status, status, "tx_event_flags_get for the LED control event failed\r\n");
 
         /* Toggle the state of LED 1. */
         if (LED_1_TOGGLE_EVENT == (events & LED_1_TOGGLE_EVENT))

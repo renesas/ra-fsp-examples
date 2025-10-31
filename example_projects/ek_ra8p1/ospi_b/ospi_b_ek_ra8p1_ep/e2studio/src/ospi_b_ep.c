@@ -262,11 +262,7 @@ fsp_err_t ospi_b_init(void)
     transfer = g_ospi_b_direct_transfer[OSPI_B_TRANSFER_WRITE_CFR2V_SPI];
     transfer.address_length = OSPI_B_ADDRESS_LENGTH_THREE;  /* Default Address Byte Length is 3 bytes */
     err = R_OSPI_B_DirectTransfer(&g_ospi_b_ctrl, &transfer, SPI_FLASH_DIRECT_TRANSFER_DIR_WRITE);
-    APP_ERR_RETURN(err, "R_OSPI_B_DirectTransfer API FAILED\r\n");
-
-    /* Transfer write enable command */
-    err = ospi_b_write_enable();
-    APP_ERR_RETURN(err, "ospi_b_write_enable FAILED\r\n");
+    APP_ERR_RETURN(err, "R_OSPI_B_DirectTransfer API FAILED\r\n");;
 
     /* Write to CFR3V to configure Volatile Register Read Latency */
     transfer = g_ospi_b_direct_transfer[OSPI_B_TRANSFER_WRITE_CFR3V_SPI];
@@ -382,10 +378,17 @@ fsp_err_t ospi_b_set_protocol_to_spi(void)
         err = R_OSPI_B_DirectTransfer(&g_ospi_b_ctrl, &transfer, SPI_FLASH_DIRECT_TRANSFER_DIR_WRITE);
         APP_ERR_RETURN(err, "R_OSPI_B_DirectTransfer API FAILED\r\n");
 
-        /* Change the OCTACLK clock to 100 MHz in SDR mode without OM_DQS */
-        octaclk.source_clock = BSP_CLOCKS_SOURCE_CLOCK_PLL2P;
-        octaclk.divider      = BSP_CLOCKS_OCTA_CLOCK_DIV_4;
+#if defined (BOARD_RA8E2_EK)
+        /* Change the OCTACLK clock to 96 MHz in SDR mode without OM_DQS */
+        octaclk.source_clock = BSP_CLOCKS_SOURCE_CLOCK_PLL1Q;
+        octaclk.divider      = BSP_CLOCKS_OCTA_CLOCK_DIV_2;
         R_BSP_OctaclkUpdate(&octaclk);
+#elif defined (BOARD_RA8P1_EK)
+        /* Change the OCTACLK clock to 118 MHz in SDR mode without OM_DQS */
+        octaclk.source_clock = BSP_CLOCKS_SOURCE_CLOCK_PLL2Q;
+        octaclk.divider      = BSP_CLOCKS_OCTA_CLOCK_DIV_1;
+        R_BSP_OctaclkUpdate(&octaclk);
+#endif /* OCTACLK clock settings for EK-RA8E2/EK-RA8P1*/
 
         /* Switch OSPI module mode to SPI mode */
         err = R_OSPI_B_SpiProtocolSet(&g_ospi_b_ctrl, SPI_FLASH_PROTOCOL_EXTENDED_SPI);
@@ -476,13 +479,9 @@ fsp_err_t ospi_b_set_protocol_to_opi(void)
         err = R_OSPI_B_DirectTransfer(&g_ospi_b_ctrl, &transfer, SPI_FLASH_DIRECT_TRANSFER_DIR_WRITE);
         APP_ERR_RETURN(err, "R_OSPI_B_DirectTransfer API FAILED\r\n");
 
-        /* Transfer write enable command */
-        err = ospi_b_write_enable();
-        APP_ERR_RETURN(err, "ospi_b_write_enable FAILED\r\n");
-
-        /* Change the OCTACLK clock to 200 MHz in DDR mode with OM_DQS */
+        /* Change the OCTACLK clock to 266 MHz in DDR mode with OM_DQS */
         octaclk.source_clock = BSP_CLOCKS_SOURCE_CLOCK_PLL2P;
-        octaclk.divider      = BSP_CLOCKS_OCTA_CLOCK_DIV_2;
+        octaclk.divider      = BSP_CLOCKS_OCTA_CLOCK_DIV_1;
         R_BSP_OctaclkUpdate(&octaclk);
 
         /* Switch OSPI module mode to SPI mode */

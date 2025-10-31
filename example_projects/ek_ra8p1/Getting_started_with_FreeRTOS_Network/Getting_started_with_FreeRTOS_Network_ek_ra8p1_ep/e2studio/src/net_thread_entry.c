@@ -169,7 +169,7 @@ void net_thread_entry(void *pvParameters)
     fsp_pack_version_t version   = {RESET_VALUE};
     uint32_t g_usr_print_ability = RESET_VALUE;
 
-    TERM_INIT;
+    TERM_INIT();
 
     /* Version get API for FLEX pack information */
     R_FSP_VersionGet(&version);

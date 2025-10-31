@@ -25,9 +25,9 @@ Supported RA Boards: FPB-RA0E1
     * Populate R10 with a resistor ranging from 0 to 150 ohms.
 
 ### Software ###
-* Renesas Flexible Software Package (FSP): Version 6.1.0
-* e2 studio: Version 2025-07
-* SEGGER J-Link RTT Viewer: Version 8.58
+* Renesas Flexible Software Package (FSP): Version 6.2.0
+* e2 studio: Version 2025-10
+* SEGGER J-Link RTT Viewer: Version 8.74
 * GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 * Terminal Console Application: Tera Term or a similar application
 

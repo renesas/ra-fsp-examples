@@ -34,7 +34,7 @@ Supported RA boards: EK-RA6M3, EK-RA6M4, EK-RA6M5, EK-RA8M1, EK-RA8D1, MCK-RA8T1
 
         | SW1-1 PMOD1 | SW1-2 TRACE | SW1-3 CAMERA | SW1-4 ETHA | SW1-5 ETHB | SW1-6 GLCD | SW1-7 SDRAM | SW1-8 I3C |
         |-------------|-------------|--------------|------------|------------|------------|-------------|-----------|
-        | OFF | OFF | OFF | OFF | OFF | OFF | ON | OFF |
+        | OFF | OFF | OFF | OFF | ON | OFF | OFF | OFF |
 
 * For MCK-RA8T1, EK-RA8M2:
     * Note: For EK-RA8M2, the user must place jumper J6 on pins 2-3, J8 on pins 1-2, J9 on pins 2-3, and J29 on pins 1-2, 3-4, 5-6, 7-8 to use the on-board debug functionality.

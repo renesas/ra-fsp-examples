@@ -13,15 +13,28 @@
 
 #include "common_utils.h"
 
-#define EP_INFO     "\r\nThis example project demonstrates the basic usage of I2C communication conforming to"\
-                    "\r\nthe SMBus Specification (version 2.0) on Renesas RA MCUs using the Renesas Flexible"\
-                    "\r\nSoftware Package (FSP). The project involves writing commands to the MAX31875 sensor"\
-                    "\r\nand reading the resulting temperature values. The SMBus transmission time is monitored"\
-                    "\r\nby the GPT module to ensure the MCU acting as a master device complies with the SMBus"\
-                    "\r\ntimeout standard. The Packet Error Check (PEC) byte is calculated in CRC-8 format at"\
-                    "\r\nboth transmission and reception. These temperature values are continuously printed to a"\
-                    "\r\nterminal. Additionally, status information and error messages are displayed on the host PC."\
-                    "\r\nThe error LED will turn on if an error occurs.\r\n\r\n"
+#define EP_VERSION              ("1.0")
+
+#define MODULE_NAME             "rm_comms_smbus"
+
+#define BANNER_INFO             "\r\n******************************************************************"\
+                                "\r\n*   Renesas FSP Example Project for "MODULE_NAME" Module        *"\
+                                "\r\n*   Example Project Version %s                                  *"\
+                                "\r\n*   Flex Software Pack Version  %d.%d.%d                            *"\
+                                "\r\n******************************************************************"\
+                                "\r\nRefer to readme.txt file for more details on Example Project and" \
+                                "\r\nFSP User's Manual for more information about "MODULE_NAME" driver\r\n"
+
+
+#define EP_INFO             "\r\nThis example project demonstrates the basic usage of I2C communication conforming to"\
+                            "\r\nthe SMBus Specification (version 2.0) on Renesas RA MCUs using the Renesas Flexible"\
+                            "\r\nSoftware Package (FSP). The project involves writing commands to the MAX31875 sensor"\
+                            "\r\nand reading the resulting temperature values. The SMBus transmission time is monitored"\
+                            "\r\nby the GPT module to ensure the MCU acting as a master device complies with the SMBus"\
+                            "\r\ntimeout standard. The Packet Error Check (PEC) byte is calculated in CRC-8 format at"\
+                            "\r\nboth transmission and reception. These temperature values are continuously printed to a"\
+                            "\r\nterminal. Additionally, status information and error messages are displayed on the host PC."\
+                            "\r\nThe error LED will turn on if an error occurs.\r\n\r\n"
 
 /* Macros for text color */
 #define CTRL_RESET                      "\x1B[0m"
@@ -63,11 +76,18 @@
     #define LED_ERROR_STATE             (0U)
 #elif defined (BOARD_RA4W1_EK) || defined (BOARD_RA2E3_FPB) || defined (BOARD_RA4E1_FPB) || defined (BOARD_RA6E1_FPB) \
 || defined (BOARD_RA4T1_MCK) || defined (BOARD_RA6T2_MCK) || defined (BOARD_RA6T3_MCK) || defined (BOARD_RA8T1_MCK) \
-|| defined (BOARD_RA6T1_RSSK) || defined (BOARD_RA8E1_FPB) || defined (BOARD_RA2T1_FPB)
+|| defined (BOARD_RA6T1_RSSK) || defined (BOARD_RA8E1_FPB)
     #define LED_ERROR_STATE             (1U)
 #else
     #define LED_ERROR_STATE             (2U)
 #endif
+
+/* Macro for handle error */
+#define APP_ERR_HANDLE(err, fn_)   ({\
+    if(err){\
+        handle_error((err), (uint8_t *)(fn_));\
+    }\
+})
 
 /* Enumeration for led state use in application */
 #if defined (BOARD_RA4W1_EK) || defined (BOARD_RA4T1_MCK)|| defined (BOARD_RA6T2_MCK) || defined (BOARD_RA6T3_MCK) \

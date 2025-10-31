@@ -1,9 +1,9 @@
 /***********************************************************************************************************************
-* File Name    : r_sci_b_uart_instance_cfg.c
+* File Name    : r_sci_uart_instance_cfg.c
 * Description  : Contains macros, data structures, and common functions used for the UART configuration.
 ***********************************************************************************************************************/
 /***********************************************************************************************************************
-* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
+* Copyright (c) 2024 - 2025 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
 ***********************************************************************************************************************/
@@ -14,7 +14,7 @@
  **********************************************************************************************************************/
 #include "bsp_api.h"
 
-#if (BSP_FEATURE_SCI_VERSION == 1U)
+#if BSP_PERIPHERAL_SCI_PRESENT
 #include "r_sci_uart_instance_cfg.h"
 #include "../serial.h"
 /***********************************************************************************************************************
@@ -82,23 +82,23 @@ const uart_cfg_t g_serial_cfg =
 #undef RA_NOT_DEFINED
   .rxi_ipl = (12),
   .txi_ipl = (12), .tei_ipl = (12), .eri_ipl = (12),
-#if defined(VECTOR_NUMBER_SCIX_RXI)
-                .rxi_irq             = VECTOR_NUMBER_SCIX_RXI,
+#if defined(VECTOR_NUMBER_UARTX_RXI)
+                .rxi_irq             = VECTOR_NUMBER_UARTX_RXI,
 #else
   .rxi_irq = FSP_INVALID_VECTOR,
 #endif
-#if defined(VECTOR_NUMBER_SCIX_TXI)
-                .txi_irq             = VECTOR_NUMBER_SCIX_TXI,
+#if defined(VECTOR_NUMBER_UARTX_TXI)
+                .txi_irq             = VECTOR_NUMBER_UARTX_TXI,
 #else
   .txi_irq = FSP_INVALID_VECTOR,
 #endif
-#if defined(VECTOR_NUMBER_SCIX_TEI)
-                .tei_irq             = VECTOR_NUMBER_SCIX_TEI,
+#if defined(VECTOR_NUMBER_UARTX_TEI)
+                .tei_irq             = VECTOR_NUMBER_UARTX_TEI,
 #else
   .tei_irq = FSP_INVALID_VECTOR,
 #endif
-#if defined(VECTOR_NUMBER_SCIX_ERI)
-                .eri_irq             = VECTOR_NUMBER_SCIX_ERI,
+#if defined(VECTOR_NUMBER_UARTX_ERI)
+                .eri_irq             = VECTOR_NUMBER_UARTX_ERI,
 #else
   .eri_irq = FSP_INVALID_VECTOR,
 #endif
@@ -108,5 +108,5 @@ const uart_cfg_t g_serial_cfg =
 const uart_instance_t g_serial =
 { .p_ctrl = &g_serial_ctrl, .p_cfg = &g_serial_cfg, .p_api = &g_uart_on_sci };
 
-#endif /* BSP_FEATURE_SCI_VERSION */
+#endif /* BSP_PERIPHERAL_SCI_PRESENT */
 #endif /* USE_VIRTUAL_COM */

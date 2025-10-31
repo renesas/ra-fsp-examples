@@ -25,6 +25,7 @@ static EventBits_t g_usb_status;
  Public variables and functions
  *********************************************************************************************************************/
 extern usb_callback_t *g_usb_apl_callback[USB_NUM_USBIP];
+int8_t g_new_api_key_str[KEY_SIZE_IN_BYTES + 8];
 
 /**********************************************************************************************************************
  * @brief     USB Common Thread entry function.
@@ -35,15 +36,18 @@ void usb_common_thread_entry(void *pvParameters)
 {
     FSP_PARAMETER_NOT_USED(pvParameters);
     fsp_pack_version_t version = { RESET_VALUE };
+    fsp_err_t err = FSP_SUCCESS;
 
     /* version get API for FLEX pack information */
     R_FSP_VersionGet (&version);
     xSemaphoreGive(g_app_print_semaphore);
     xSemaphoreGive(g_user_input_semaphore);
 
-#if (USE_VIRTUAL_COM == 1)
-    jlink_console_init ();
-#endif /* End of USE_VIRTUAL_COM == 1 */
+    err = TERM_INIT();
+    if (FSP_SUCCESS != err)
+    {
+        ERROR_TRAP;
+    }
 
     /* Example Project information printed on the Console */
     APP_PRINT(BANNER_INFO, EP_VERSION, version.version_id_b.major, version.version_id_b.minor,
@@ -240,6 +244,58 @@ static void usb_app_common_callback(usb_event_info_t *p_event_info, usb_hdl_t cu
         }
     }
 } /* End of function usb_app_common_callback() */
+
+/*******************************************************************************************************************//**
+ * @brief       Receive input from terminal via USB.
+ *              This function waits for user input from the USB terminal (APP_READ), checks the USB connection,
+ *              and continues polling until valid data is received.
+ * @retval      INPUT_STATUS_NO_INPUT   No input received because the USB connection is lost.
+ * @retval      INPUT_STATUS_HAVE_INPUT Valid input data has been received and stored in g_new_api_key_str.
+ **********************************************************************************************************************/
+bool handle_use_input()
+{
+    char rByte[TERM_BUFFER_SIZE];
+    uint32_t num_bytes = BYTES_RECEIVED_ZERO;
+
+    while (BYTES_RECEIVED_ZERO == num_bytes)
+    {
+        if (false == check_usb_connection (true,true))
+        {
+            return INPUT_STATUS_NO_INPUT;
+        }
+        if (TERM_HAS_DATA())
+        {
+            num_bytes = (uint32_t) APP_READ(rByte, TERM_BUFFER_SIZE);
+            if (BYTES_RECEIVED_ZERO == num_bytes)
+            {
+                APP_PRINT("\r\nNo Input\r\n");
+            }
+        }
+        vTaskDelay (1);
+    }
+    memcpy (g_new_api_key_str, rByte, (size_t) num_bytes);
+    return INPUT_STATUS_HAVE_INPUT;
+} /* End of function handle_use_input() */
+
+/*******************************************************************************************************************//**
+ * @brief       Remove trailing newline ('\n') and carriage return ('\r') characters from the end of a string.
+ *              This function iteratively checks the last character of the input string:
+ *                  - If it is either LINE_FEED_CHAR ('\n') or CARRIAGE_CHAR ('\r'),
+ *                    it replaces it with NULL_CHAR ('\0') and continues checking backward.
+ *                  - Otherwise, the process stops.
+ *              This ensures that the resulting string will not end with '\r' or '\n'.
+ * @param[in]   str   Input string to be modified. After the call, the string will no longer
+ *                    end with any combination of '\r' or '\n'.
+ **********************************************************************************************************************/
+void trim_line_endings(char *str)
+{
+    size_t len = strlen(str);
+    while (len > 0 && (str[len - 1] == '\r' || str[len - 1] == '\n'))
+    {
+        str[len - 1] = '\0';
+        len--;
+    }
+} /* End of function trim_line_endings() */
 
 /**********************************************************************************************************************
  * End  Of File

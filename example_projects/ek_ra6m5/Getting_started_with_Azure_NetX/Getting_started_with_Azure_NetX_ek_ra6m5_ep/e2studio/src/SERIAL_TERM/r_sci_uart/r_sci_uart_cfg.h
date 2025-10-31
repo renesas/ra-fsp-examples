@@ -1,4 +1,3 @@
-/* generated configuration header file - do not edit */
 #ifndef R_SCI_UART_CFG_H_
 #define R_SCI_UART_CFG_H_
 

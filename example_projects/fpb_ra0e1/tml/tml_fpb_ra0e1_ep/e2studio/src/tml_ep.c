@@ -50,20 +50,14 @@ const uint8_t * g_tml_mode_name [APP_TML_MAX_MODE] =
     [APP_TML_16_BIT_CAPTURE] = (uint8_t *) NAME_16BIT_CAPTURE_MODE,
 };
 
-
-/* function declarations */
+/* Function declarations */
 static void tml_deinit (void);
 static void elc_deinit (void);
 static void lpm_deinit (void);
 static void handle_error(fsp_err_t err, uint8_t * err_str);
 
 /* The buffer contains user input */
-char g_rx_buffer [BUFFER_SIZE_DOWN] = {RESET_VALUE};
-
-#if (USE_VIRTUAL_COM == 1)
-/* Flag to detect the Enter key is Pressed, in the Callback function "serial_callback" */
-extern volatile _Bool g_rx_complete_flag;
-#endif /* USE_VIRTUAL_COM */
+char g_rx_buffer [TERM_BUFFER_SIZE] = {RESET_VALUE};
 
 /*******************************************************************************************************************//**
  * @brief      This function initializes the TML modules and starts TML operation.
@@ -84,28 +78,26 @@ void tml_entry(void)
         R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t)g_bsp_leds.p_leds[i], (bsp_io_level_t)BSP_IO_LEVEL_LOW);
     }
 
-
-#if (USE_VIRTUAL_COM == 1)
-    /* Initialize UARTA module first to print log to serial terminal */
-    err = uart_init();
+    err = TERM_INIT();
     if (FSP_SUCCESS != err)
     {
         /* Turn on all LEDs on board if uart_init fails */
         for (int i =0; i < g_bsp_leds.led_count; i++)
         {
-            R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t)g_bsp_leds.p_leds[i], (bsp_io_level_t)BSP_IO_LEVEL_HIGH);
+            R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t)g_bsp_leds.p_leds[i], \
+                              (bsp_io_level_t)BSP_IO_LEVEL_HIGH);
         }
 
         /* Error trap */
-        __asm("BKPT #0\n");
+        ERROR_TRAP;
     }
-#endif /* USE_VIRTUAL_COM */
 
     /* Version get API for FLEX pack information */
     R_FSP_VersionGet (&version);
 
     /* Example Project information printed on the Console */
-    APP_PRINT(BANNER_INFO,EP_VERSION,version.version_id_b.major, version.version_id_b.minor, version.version_id_b.patch );
+    APP_PRINT(BANNER_INFO,EP_VERSION,version.version_id_b.major, version.version_id_b.minor, \
+              version.version_id_b.patch );
     APP_PRINT(EP_INFO);
 
     while (true)
@@ -179,22 +171,13 @@ uint8_t get_user_input(void)
 
     /* Clean buffer */
     memset(g_rx_buffer, NULL_CHAR, sizeof(g_rx_buffer));
-#if (USE_VIRTUAL_COM == 1)
-    g_rx_complete_flag = false;
-    /* Wait for enter key */
-    while (!g_rx_complete_flag)
-    {
-        ;
-    }
-#else
-        /* Wait until has any user input */
-        while (!APP_CHECK_DATA)
-        {
-            ;
-        }
-        /* Get user input and stored in g_rx_buffer */
-        APP_READ(g_rx_buffer);
-#endif /* USE_VIRTUAL_COM */
+	/* Wait until has any user input */
+	while (!APP_CHECK_DATA)
+	{
+		;
+	}
+	/* Get user input and stored in g_rx_buffer */
+	APP_READ(g_rx_buffer, sizeof(g_rx_buffer));
     /* Convert data in g_rx_buffer to integer */
     input_value = (uint8_t) atoi(g_rx_buffer);
     return input_value;
@@ -212,7 +195,7 @@ fsp_err_t tml_open (app_tml_mode_t tml_mode)
 
     /* Open timer */
     err = R_TML_Open(g_tml_instance[tml_mode]->p_ctrl, g_tml_instance[tml_mode]->p_cfg);
-    APP_ERR_RETURN(err, "\r\n**R_TML_Open API failed**\r\n");
+    APP_ERR_RET(FSP_SUCCESS != err, err, "\r\n**R_TML_Open API failed**\r\n");
 
     return err;
 }
@@ -230,7 +213,7 @@ fsp_err_t tml_close (app_tml_mode_t tml_mode)
     if (MODULE_CLOSED != g_tml_instance_ctrl[tml_mode]->open)
     {
         err = R_TML_Close(g_tml_instance[tml_mode]->p_ctrl);
-        APP_ERR_RETURN(err, "\r\n**R_TML_Close API failed**\r\n");
+        APP_ERR_RET(FSP_SUCCESS != err, err, "\r\n**R_TML_Close API failed**\r\n");
     }
     return err;
 }
@@ -246,7 +229,7 @@ fsp_err_t tml_start (app_tml_mode_t tml_mode)
     fsp_err_t err = FSP_SUCCESS;
     /* Start timer */
     err = R_TML_Start(g_tml_instance[tml_mode]->p_ctrl);
-    APP_ERR_RETURN(err, "\r\n**R_TML_Start API failed**\r\n");
+    APP_ERR_RET(FSP_SUCCESS != err, err, "\r\n**R_TML_Start API failed**\r\n");
 
     return err;
 }
@@ -264,13 +247,13 @@ fsp_err_t tml_stop (app_tml_mode_t tml_mode)
 
     /* Get status of count timer */
     err= R_TML_StatusGet(g_tml_instance[tml_mode]->p_ctrl, &timer_status);
-    APP_ERR_RETURN(err, "\r\n**R_TML_StatusGet API failed**\r\n");
+    APP_ERR_RET(FSP_SUCCESS != err, err, "\r\n**R_TML_StatusGet API failed**\r\n");
 
     if(TIMER_STATE_STOPPED != timer_status.state)
     {
         /* Stop timer */
         err = R_TML_Stop(g_tml_instance[tml_mode]->p_ctrl);
-        APP_ERR_RETURN(err, "\r\n**R_TML_Stop API failed**\r\n");
+        APP_ERR_RET(FSP_SUCCESS != err, err, "\r\n**R_TML_Stop API failed**\r\n");
     }
     return err;
 }
@@ -351,6 +334,7 @@ static void lpm_deinit (void)
     }
 
 }
+
 /*******************************************************************************************************************//**
  *  @brief       This function handles error if error occurred, closes all opened modules, prints and traps error.
  *  @param[in]   err       error status

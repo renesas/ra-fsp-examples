@@ -13,6 +13,19 @@
 
 #include "common_utils.h"
 
+#define EP_VERSION              ("1.0")
+
+#define MODULE_NAME             "rm_comms_smbus"
+
+#define BANNER_INFO             "\r\n******************************************************************"\
+                                "\r\n*   Renesas FSP Example Project for "MODULE_NAME" Module        *"\
+                                "\r\n*   Example Project Version %s                                  *"\
+                                "\r\n*   Flex Software Pack Version  %d.%d.%d                            *"\
+                                "\r\n******************************************************************"\
+                                "\r\nRefer to readme.txt file for more details on Example Project and" \
+                                "\r\nFSP User's Manual for more information about "MODULE_NAME" driver\r\n"
+
+
 #define EP_INFO             "\r\nThis example project demonstrates the basic usage of I2C communication conforming to"\
                             "\r\nthe SMBus Specification (version 2.0) on Renesas RA MCUs using the Renesas Flexible"\
                             "\r\nSoftware Package (FSP). The project involves writing commands to the MAX31875 sensor"\
@@ -58,14 +71,46 @@
 #define PRINT_DELAY                 (2U)
 
 /* Macro for Error LED */
+#if defined (BOARD_RA2A1_EK) || defined (BOARD_RA4M1_EK) || defined (BOARD_RA6M1_EK) || defined (BOARD_RA6M2_EK) \
+|| defined (BOARD_RA6M5_CK)
+    #define LED_ERROR_STATE           (0U)
+#elif defined (BOARD_RA4W1_EK) || defined (BOARD_RA2E3_FPB) || defined (BOARD_RA4E1_FPB) || defined (BOARD_RA6E1_FPB) \
+|| defined (BOARD_RA4T1_MCK) || defined (BOARD_RA6T2_MCK) || defined (BOARD_RA6T3_MCK) || defined (BOARD_RA8T1_MCK) \
+|| defined (BOARD_RA6T1_RSSK) || defined (BOARD_RA8E1_FPB)
+    #define LED_ERROR_STATE           (1U)
+#else
 #define LED_ERROR_STATE           (2U)
+#endif
+
+/* Macro for handle error */
+#define APP_ERR_HANDLE(err, fn_)   ({\
+    if(err){\
+        handle_error((err), (uint8_t *)(fn_));\
+    }\
+})
 
 /* Enumeration for led state use in application */
+#if defined (BOARD_RA4W1_EK) || defined (BOARD_RA4T1_MCK)|| defined (BOARD_RA6T2_MCK) || defined (BOARD_RA6T3_MCK) \
+|| defined (BOARD_RA8T1_MCK) || defined (BOARD_RA6T1_RSSK)
+typedef enum e_led_power
+{
+    LED_POWER_ON = BSP_IO_LEVEL_LOW,
+    LED_POWER_OFF = BSP_IO_LEVEL_HIGH,
+}led_power_t;
+#else
 typedef enum e_led_power
 {
     LED_POWER_ON = BSP_IO_LEVEL_HIGH,
     LED_POWER_OFF = BSP_IO_LEVEL_LOW,
 }led_power_t;
+#endif
+
+/* Macro for IIC used version */
+#if __has_include("r_iic_master.h")
+    #define USE_IIC_MODULE
+#elif __has_include("r_iic_b_master.h")
+    #define USE_IIC_B_MODULE
+#endif
 
 /* Public function declaration */
 void smbus_entry (void);

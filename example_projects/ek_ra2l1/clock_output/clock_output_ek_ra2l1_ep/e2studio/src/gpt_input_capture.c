@@ -40,18 +40,18 @@ fsp_err_t gpt_capture_operation(void)
 
     /* Open GPT instance as input capture */
     err = R_GPT_Open (&g_input_capture_ctrl, &g_input_capture_cfg);
-    APP_ERR_RETURN (err, "\r\n ** R_GPT_Open API failed ** \r\n");
+    APP_ERR_RET (FSP_SUCCESS != err,err, "\r\n ** R_GPT_Open API failed ** \r\n");
 
     /* Get the GPT information */
     err = R_GPT_InfoGet (&g_input_capture_ctrl, &info);
-    APP_ERR_RETURN (err, "\r\n ** R_GPT_InfoGet API failed ** \r\n");
+    APP_ERR_RET (FSP_SUCCESS != err,err, "\r\n ** R_GPT_InfoGet API failed ** \r\n");
 
     /* Get the GPT frequency */
     g_frequency = info.clock_frequency;
 
     /* Enable GPT input capture */
     err = R_GPT_Enable (&g_input_capture_ctrl);
-    APP_ERR_RETURN (err, "\r\n ** R_GPT_Enable API failed ** \r\n");
+    APP_ERR_RET (FSP_SUCCESS != err,err, "\r\n ** R_GPT_Enable API failed ** \r\n");
 
     /* Wait for GPT capture event */
     while (!g_start_measurement)

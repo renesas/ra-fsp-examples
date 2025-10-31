@@ -3,7 +3,7 @@
 * Description  : Contains macros, data structures, and common functions used for the terminal operations.
 ***********************************************************************************************************************/
 /***********************************************************************************************************************
-* Copyright (c) 2024 Renesas Electronics Corporation and/or its affiliates
+* Copyright (c) 2024 - 2025 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
 ***********************************************************************************************************************/
@@ -17,10 +17,12 @@
 #include <stdbool.h>
 #include <hal_data.h>
 #include "serial.h"
-#if (BSP_FEATURE_SCI_VERSION == 1U)
+#if BSP_PERIPHERAL_SCI_PRESENT
   #include "r_sci_uart/r_sci_uart_instance_cfg.h"
-#else
+#elif BSP_PERIPHERAL_SCI_B_PRESENT
   #include "r_sci_b_uart/r_sci_b_uart_instance_cfg.h"
+#elif BSP_PERIPHERAL_UARTA_PRESENT
+  #include "r_uarta/r_uarta_instance_cfg.h"
 #endif
 
 /***********************************************************************************************************************
@@ -39,7 +41,6 @@ static char g_serial_rx_buffer [SERIAL_RX_MAX_SIZE];
 
 static volatile uart_event_t g_serial_event = (uart_event_t)SERIAL_DATA_ZERO;
 static volatile uint32_t g_serial_rx_count = SERIAL_DATA_ZERO;
-static volatile uint32_t g_serial_rx_length = SERIAL_DATA_ZERO;
 static volatile bool g_serial_rx_enable = false;
 
 /***********************************************************************************************************************
@@ -50,14 +51,14 @@ static volatile bool g_serial_rx_enable = false;
  * Functions
  **********************************************************************************************************************/
 
-/*******************************************************************************************************************//**
- * @brief SCI UART callback function for handling UART events.
- *
- * This function processes UART events such as transmit complete, receive character, and receive complete.
- * It manages storing received data into the buffer and handles special characters like Enter and Backspace.
- *
- * @param[in] p_args  Pointer to UART callback arguments.
- * @retval None
+/***********************************************************************************************************************
+ *  Function Name: serial_callback
+ *  Description  : SCI UART callback function for handling UART events.
+ *                 This function processes UART events such as transmit complete, receive character, and receive
+ *                 complete. It manages storing received data into the buffer and handles special characters like Enter
+ *                 and Backspace. 
+ *  Arguments[in]: p_args  Pointer to UART callback arguments.
+ *  Return Value : None
  **********************************************************************************************************************/
 void serial_callback(uart_callback_args_t *p_args)
 {
@@ -78,6 +79,12 @@ void serial_callback(uart_callback_args_t *p_args)
                     break;
                 }
 
+                if (SERIAL_RX_MAX_SIZE > g_serial_rx_count)
+                {
+                    g_serial_rx_buffer[g_serial_rx_count ++] = (char)p_args->data;
+                    g_serial_event |= UART_EVENT_RX_CHAR;
+                }
+
                 /* Store received data if enabled. */
                 switch ((char)p_args->data)
                 {
@@ -86,14 +93,13 @@ void serial_callback(uart_callback_args_t *p_args)
                     case SERIAL_CHAR_CR:
                         if (SERIAL_DATA_ZERO != g_serial_rx_count)
                         {
-                            g_serial_rx_length = g_serial_rx_count;
                             g_serial_event |= UART_EVENT_RX_COMPLETE;
                         }
                         break;
 
                     /* Handle Backspace character and remove the last character from the buffer. */
                     case SERIAL_CHAR_BS:
-                        if (SERIAL_DATA_ZERO != g_serial_rx_count)
+                        if (g_serial_rx_count > SERIAL_DATA_ONE)
                         {
                             g_serial_rx_count --;
                         }
@@ -101,11 +107,6 @@ void serial_callback(uart_callback_args_t *p_args)
 
                     /* Store received data bytes into the buffer. */
                     default:
-                        if (SERIAL_RX_MAX_SIZE > g_serial_rx_count)
-                        {
-                            g_serial_rx_buffer[g_serial_rx_count ++] = (char)p_args->data;
-                            g_serial_event |= UART_EVENT_RX_CHAR;
-                        }
                         break;
                 }
                 break;
@@ -115,14 +116,17 @@ void serial_callback(uart_callback_args_t *p_args)
         }
     }
 }
+/***********************************************************************************************************************
+* End of function serial_callback
+***********************************************************************************************************************/
 
-/*******************************************************************************************************************//**
- * @brief Initializes the SCI UART module and configures the baud rate.
- *
- * This function initializes the UART module, sets up the transmit/receive pins, configures the baud rate,
- * and enables receiving data into the buffer.
- *
- * @retval FSP_SUCCESS on successful operation, other error codes otherwise.
+/***********************************************************************************************************************
+ *  Function Name: serial_init
+ *  Description  : This function initializes the UART module, sets up the transmit/receive pins, configures the 
+ *                 baud rate, and enables receiving data into the buffer.
+ *  Arguments    : None
+ *  Return Value : FSP_SUCCESS    Upon successful operation
+ *                 Any Other Error code apart from FSP_SUCCESS
  **********************************************************************************************************************/
 uint32_t serial_init(void)
 {
@@ -130,15 +134,17 @@ uint32_t serial_init(void)
 
     /* Initialize the UART pins. */
     R_BSP_PinAccessEnable();
-    R_BSP_PinCfg(SERIAL_RX_PIN, SERIAL_PIN_CFG);
-    R_BSP_PinCfg(SERIAL_TX_PIN, SERIAL_PIN_CFG);
+    R_BSP_PinCfg(SERIAL_RX_PIN, SERIAL_PIN_RX_CFG);
+    R_BSP_PinCfg(SERIAL_TX_PIN, SERIAL_PIN_TX_CFG);
     R_BSP_PinAccessDisable();
 
     /* Initialize the UART module. */
-#if (BSP_FEATURE_SCI_VERSION == 1U)
+#if BSP_PERIPHERAL_SCI_PRESENT
     status = R_SCI_UART_Open(&g_serial_ctrl, &g_serial_cfg);
-#else
+#elif BSP_PERIPHERAL_SCI_B_PRESENT
     status = R_SCI_B_UART_Open(&g_serial_ctrl, &g_serial_cfg);
+#elif BSP_PERIPHERAL_UARTA_PRESENT
+    status = R_UARTA_Open(&g_serial_ctrl, &g_serial_cfg);
 #endif
     if (FSP_SUCCESS != status)
     {
@@ -146,10 +152,12 @@ uint32_t serial_init(void)
     }
 
     /* Calculate baud rate settings based on the user-configured baud rate. */
-#if (BSP_FEATURE_SCI_VERSION == 1U)
+#if BSP_PERIPHERAL_SCI_PRESENT
     status = R_SCI_UART_BaudCalculate(SERIAL_BAUD_RATE, SERIAL_MODULATION, SERIAL_ERR_X1000, g_serial_cfg_extend.p_baud_setting);
-#else
+#elif BSP_PERIPHERAL_SCI_B_PRESENT
     status = R_SCI_B_UART_BaudCalculate(SERIAL_BAUD_RATE, SERIAL_MODULATION, SERIAL_ERR_X1000, g_serial_cfg_extend.p_baud_setting);
+#elif BSP_PERIPHERAL_UARTA_PRESENT
+    status = R_UARTA_BaudCalculate(SERIAL_BAUD_RATE, SERIAL_ERR_X1000, UARTA_CLOCK_SOURCE_HOCO, g_serial_cfg_extend.p_baud_setting);
 #endif
     if (FSP_SUCCESS != status)
     {
@@ -157,10 +165,12 @@ uint32_t serial_init(void)
     }
 
     /* Set the baud rate settings. */
-#if (BSP_FEATURE_SCI_VERSION == 1U)
+#if BSP_PERIPHERAL_SCI_PRESENT
     status = R_SCI_UART_BaudSet(&g_serial_ctrl, g_serial_cfg_extend.p_baud_setting);
-#else
+#elif BSP_PERIPHERAL_SCI_B_PRESENT
     status = R_SCI_B_UART_BaudSet(&g_serial_ctrl, g_serial_cfg_extend.p_baud_setting);
+#elif BSP_PERIPHERAL_UARTA_PRESENT
+    status = R_UARTA_BaudSet(&g_serial_ctrl, g_serial_cfg_extend.p_baud_setting);
 #endif
     if (FSP_SUCCESS != status)
     {
@@ -172,20 +182,47 @@ uint32_t serial_init(void)
 
     return FSP_SUCCESS;
 }
+/***********************************************************************************************************************
+* End of function serial_init
+***********************************************************************************************************************/
 
-/*******************************************************************************************************************//**
- * @brief Sends a formatted string to the UART interface.
- *
- * This function formats a string using a variable argument list and sends it to the UART interface.
- * It waits for the transmission to complete and returns the status of the operation.
- *
- * @param[in] p_format  Pointer to the formatted string.
- * @retval FSP_SUCCESS on successful operation, other error codes otherwise.
+/***********************************************************************************************************************
+ *  Function Name: serial_deinit
+ *  Description  : This function de-initializes the UART module.
+ *  Arguments    : None
+ *  Return Value : None
+ **********************************************************************************************************************/
+void serial_deinit(void)
+{
+    /* De-initialize the opened UART module. */
+    if (MODULE_CLOSE != g_serial_ctrl.open)
+    {
+#if BSP_PERIPHERAL_SCI_PRESENT
+        R_SCI_UART_Close(&g_serial_ctrl);
+#elif BSP_PERIPHERAL_SCI_B_PRESENT
+        R_SCI_B_UART_Close(&g_serial_ctrl);
+#elif BSP_PERIPHERAL_UARTA_PRESENT
+        R_UARTA_Close(&g_serial_ctrl);
+#endif
+    }
+}
+/***********************************************************************************************************************
+* End of function serial_deinit
+***********************************************************************************************************************/
+
+/***********************************************************************************************************************
+ *  Function Name: serial_printf
+ *  Description  : This function formats a string using a variable argument list and sends it to the UART interface.
+ *                 It waits for the transmission to complete and returns the status of the operation.
+ *  Arguments[in]: p_format  Pointer to the formatted string.
+ *  Return Value : FSP_SUCCESS    Upon successful operation
+ *                 Any Other Error code apart from FSP_SUCCESS
  **********************************************************************************************************************/
 uint32_t serial_printf(char * p_format, ...)
 {
     uint32_t status = FSP_SUCCESS;
     va_list aptr;
+    uint32_t timeout = RESET_VALUE;
 
     /* Initialize the argument list. */
     va_start(aptr, p_format);
@@ -210,16 +247,18 @@ uint32_t serial_printf(char * p_format, ...)
     }
 
     /* Set the timeout value for serial transfer based on the message length. */
-    volatile uint32_t timeout = length * (BSP_DELAY_UNITS_SECONDS / SERIAL_BAUD_RATE);
+    timeout = SAFETY_FACTOR * length * (SECOND_TO_MICROSECOND / SERIAL_BAUD_RATE);
 
     /* Clear the serial transmit complete event. */
     g_serial_event &= ~UART_EVENT_TX_COMPLETE;
 
     /* Send the transmit buffer to the UART interface. */
-#if (BSP_FEATURE_SCI_VERSION == 1U)
+#if BSP_PERIPHERAL_SCI_PRESENT
     status = R_SCI_UART_Write(&g_serial_ctrl, (uint8_t *)g_serial_tx_buffer, length);
-#else
+#elif BSP_PERIPHERAL_SCI_B_PRESENT
     status = R_SCI_B_UART_Write(&g_serial_ctrl, (uint8_t *)g_serial_tx_buffer, length);
+#elif BSP_PERIPHERAL_UARTA_PRESENT
+    status = R_UARTA_Write(&g_serial_ctrl, (uint8_t *)g_serial_tx_buffer, length);
 #endif
     if (FSP_SUCCESS != status)
     {
@@ -230,9 +269,9 @@ uint32_t serial_printf(char * p_format, ...)
     while (UART_EVENT_TX_COMPLETE != (UART_EVENT_TX_COMPLETE & g_serial_event))
     {
         timeout --;
-        R_BSP_SoftwareDelay(SERIAL_TIME_US_X10, BSP_DELAY_UNITS_MICROSECONDS);
+        R_BSP_SoftwareDelay(SERIAL_TIME_US, BSP_DELAY_UNITS_MICROSECONDS);
 
-        if (SERIAL_DATA_ZERO == timeout)
+        if (RESET_VALUE == timeout)
         {
             return FSP_ERR_TIMEOUT;
         }
@@ -240,16 +279,17 @@ uint32_t serial_printf(char * p_format, ...)
 
     return FSP_SUCCESS;
 }
+/***********************************************************************************************************************
+* End of function serial_printf
+***********************************************************************************************************************/
 
-/*******************************************************************************************************************//**
- * @brief Reads data from the UART receive buffer.
- *
- * This function reads the received data from the UART buffer and returns the number of bytes read.
- * It supports reading a single character or the entire buffer that ends with an Enter character.
- *
- * @param[out] p_buffer     Pointer to the buffer to store the received data.
- * @param[in]  buffer_size  Size of the buffer.
- * @retval Number of bytes read from the receive buffer.
+/***********************************************************************************************************************
+ *  Function Name: serial_read
+ *  Description  : This function reads data from the UART receive buffer.
+ *                 It reads the received data from the UART buffer and returns the number of bytes read.
+ *                 It supports reading a single character or the entire buffer that ends with an Enter character.
+ *  Arguments[in]: p_format  Pointer to the formatted string.
+ *  Return Value : Number of bytes read from the receive buffer.
  **********************************************************************************************************************/
 uint32_t serial_read(void * const p_buffer, uint32_t buffer_size)
 {
@@ -261,6 +301,7 @@ uint32_t serial_read(void * const p_buffer, uint32_t buffer_size)
     /* Read only the newest character if buffer size is 1. */
     if ((1U == buffer_size) && (SERIAL_DATA_ZERO != g_serial_rx_count))
     {
+        /* Remove the Enter character. */
         g_serial_rx_count --;
         *(char *)p_buffer = g_serial_rx_buffer[g_serial_rx_count];
         return 1U;
@@ -269,13 +310,12 @@ uint32_t serial_read(void * const p_buffer, uint32_t buffer_size)
     /* Read the entire buffer that ends with the Enter character. */
     else
     {
-        read_len = (g_serial_rx_length >= buffer_size) ? buffer_size: g_serial_rx_length;
+        read_len = (g_serial_rx_count >= buffer_size) ? buffer_size: g_serial_rx_count;
         memcpy(p_buffer, g_serial_rx_buffer, read_len);
     }
 
     /* Clear all control variables before receiving data. */
     g_serial_event &= ~(UART_EVENT_RX_COMPLETE | UART_EVENT_RX_CHAR);
-    g_serial_rx_length = SERIAL_DATA_ZERO;
     g_serial_rx_count = SERIAL_DATA_ZERO;
 
     /* Enable storing received data into the buffer. */
@@ -283,13 +323,16 @@ uint32_t serial_read(void * const p_buffer, uint32_t buffer_size)
 
     return read_len;
 }
+/***********************************************************************************************************************
+* End of function serial_read
+***********************************************************************************************************************/
 
-/*******************************************************************************************************************//**
- * @brief Checks if there is complete data in the UART receive buffer.
- *
- * This function checks if a complete message (ending with Enter) has been received.
- *
- * @retval SERIAL_TRUE if has a complete data, otherwise SERIAL_FALSE.
+/***********************************************************************************************************************
+ *  Function Name: serial_has_data
+ *  Description  : This function checks if there is complete data in the UART receive buffer.
+ *                 It checks if a complete message (ending with Enter) has been received.
+ *  Arguments    : None.
+ *  Return Value : SERIAL_TRUE if has a complete data, otherwise SERIAL_FALSE.
  **********************************************************************************************************************/
 uint32_t serial_has_data(void)
 {
@@ -299,13 +342,16 @@ uint32_t serial_has_data(void)
     }
     return SERIAL_FALSE;
 }
+/***********************************************************************************************************************
+* End of function serial_has_data
+***********************************************************************************************************************/
 
-/*******************************************************************************************************************//**
- * @brief Checks if there is any character in the UART receive buffer.
- *
- * This function checks if a character has been received but not yet processed.
- *
- * @retval SERIAL_TRUE if has any character, otherwise SERIAL_FALSE.
+/***********************************************************************************************************************
+ *  Function Name: serial_has_key
+ *  Description  : This function checks if there is any character in the UART receive buffer.
+ *                 It checks if a character has been received but not yet processed.
+ *  Arguments    : None.
+ *  Return Value : SERIAL_TRUE if has a complete data, otherwise SERIAL_FALSE.
  **********************************************************************************************************************/
 uint32_t serial_has_key(void)
 {
@@ -315,5 +361,8 @@ uint32_t serial_has_key(void)
     }
     return SERIAL_FALSE;
 }
+/***********************************************************************************************************************
+* End of function serial_has_key
+***********************************************************************************************************************/
 
 #endif /* USE_VIRTUAL_COM */

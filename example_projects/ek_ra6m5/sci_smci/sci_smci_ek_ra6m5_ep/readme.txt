@@ -15,9 +15,9 @@
 	printed it the RTTViewer...
 
 2. Software Requirements:
-	Renesas Flexible Software Package (FSP): Version 6.1.0
-	e2 studio: Version 2025-07
-	SEGGER J-Link RTT Viewer: Version 8.58
+	Renesas Flexible Software Package (FSP): Version 6.2.0
+	e2 studio: Version 2025-10
+	SEGGER J-Link RTT Viewer: Version 8.74
 	GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 	An internal pack file of SCI SMCI driver (https://renesasgroup-my.sharepoint.com/:u:/g/personal/cheng-ping_chan_jc_renesas_com/EfBMYUOfm3lOo4JMbGgs5ZMBo7t5DvDNPs6u_-mrSdTToA?e=DpCCWx)
 

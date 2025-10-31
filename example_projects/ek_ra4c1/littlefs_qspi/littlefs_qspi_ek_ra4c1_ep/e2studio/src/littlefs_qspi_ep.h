@@ -3,7 +3,7 @@
  * Description  : Contains macros data structures and functions used in littlefs_qspi_ep.c
  **********************************************************************************************************************/
 /***********************************************************************************************************************
-* Copyright (c) 2024 - 2025 Renesas Electronics Corporation and/or its affiliates
+* Copyright (c) 2024 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
 ***********************************************************************************************************************/
@@ -100,7 +100,7 @@
                     "\r\n  3. Read from the File."\
                     "\r\n  4. Delete the File."\
                     "\r\n  5. Go back to the Main Menu."\
-                    "\r\n  User Input:  "
+                    "\r\nUser Input:  "
 
 /* Enumerate for user requests */
 typedef enum e_request_event
@@ -117,7 +117,7 @@ typedef enum e_request_event
     REQUEST_FILE_DELETE,
 } request_event_t;
 
-/* Enumerate for the menu */
+/* Enumerate for the menus */
 typedef enum e_menu
 {
     MENU_MAIN = 0,

@@ -576,6 +576,8 @@ fsp_err_t timer_init (void)
 static fsp_err_t ospi_b_setup_calibrate_data(void)
 {
     fsp_err_t err = FSP_SUCCESS;
+    ospi_b_extended_cfg_t * p_extended_cfg = (ospi_b_extended_cfg_t *)g_ospi_b_cfg.p_extend;
+
     uint32_t g_autocalibration_data[] =
     {
         0xFFFF0000U,
@@ -585,27 +587,29 @@ static fsp_err_t ospi_b_setup_calibrate_data(void)
     };
 
     /* Verify auto-calibration data */
-    if (RESET_VALUE != memcmp((uint8_t *)OSPI_B_APP_ADDRESS(OSPI_B_SECTOR_THREE),
+    if (RESET_VALUE != memcmp((uint8_t *)p_extended_cfg->p_autocalibration_preamble_pattern_addr,
             &g_autocalibration_data, sizeof(g_autocalibration_data)))
     {
         /* Erase the flash sector that stores auto-calibration data */
-        err = R_OSPI_B_Erase (&g_ospi_b_ctrl,
-                              (uint8_t *)OSPI_B_APP_ADDRESS(OSPI_B_SECTOR_THREE), OSPI_B_SECTOR_SIZE_4K);
-        APP_ERR_RETURN(err, "R_OSPI_B_Erase API FAILED \r\n");
+        err = R_OSPI_B_Erase(&g_ospi_b_ctrl,
+                            (uint8_t *)p_extended_cfg->p_autocalibration_preamble_pattern_addr, OSPI_B_SECTOR_SIZE_4K);
+        APP_ERR_RETURN(err, "R_OSPI_B_Erase API FAILED\r\n");
 
         /* Wait until erase operation completes */
         err = ospi_b_wait_operation(OSPI_B_TIME_ERASE_4K);
         APP_ERR_RETURN(err, "ospi_b_wait_operation FAILED\r\n");
 
         /* Write auto-calibration data to the flash */
-        err = R_OSPI_B_Write(&g_ospi_b_ctrl, (uint8_t *)&g_autocalibration_data,
-                             (uint8_t *)OSPI_B_APP_ADDRESS(OSPI_B_SECTOR_THREE), sizeof(g_autocalibration_data));
-        APP_ERR_RETURN(err, "R_OSPI_B_Write API FAILED \r\n");
+        err = R_OSPI_B_Write(&g_ospi_b_ctrl, (uint8_t *)&g_autocalibration_data,\
+                             (uint8_t *)p_extended_cfg->p_autocalibration_preamble_pattern_addr,\
+                             sizeof(g_autocalibration_data));
+        APP_ERR_RETURN(err, "R_OSPI_B_Write API FAILED\r\n");
 
         /* Wait until write operation completes */
         err = ospi_b_wait_operation(OSPI_B_TIME_WRITE);
         APP_ERR_RETURN(err, "ospi_b_wait_operation FAILED\r\n");
     }
+    __NOP();
     return err;
 }
 

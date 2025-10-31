@@ -47,12 +47,8 @@ void term_thread_entry(void *pvParameters)
     uint32_t status = FSP_SUCCESS;
 
     /* Initialize the terminal module */
-#if (USE_VIRTUAL_COM == 1U)
     status = TERM_INIT();
     APP_ERR_TRAP(status);
-#else
-    TERM_INIT();
-#endif
 
     /* Initialize terminal framework resources */
     status = term_framework_init();
@@ -136,44 +132,52 @@ static uint32_t term_output_handle(void)
             switch (p_term_msg->id)
             {
                 case TERM_OUTPUT_EP_BANNER:
+                {
                     /* Print package version information */
                     fsp_pack_version_t version = {RESET_VALUE};
                     R_FSP_VersionGet(&version);
                     APP_PRINT(BANNER_INFO, EP_VERSION,
                               version.version_id_b.major, version.version_id_b.minor, version.version_id_b.patch);
                     break;
-
+                }
                 case TERM_OUTPUT_EP_INFO:
+                {
                     /* Print project information */
                     APP_PRINT(EP_INFO);
                     break;
-
+                }
                 case TERM_OUTPUT_INFO_STR:
+                {
                     /* Print a generic information message */
                     APP_PRINT("\r\n%s", p_term_msg->msg);
                     break;
-
+                }
                 case TERM_OUTPUT_ERR_STR:
+                {
                     /* Print an error message */
                     APP_PRINT("\r\nERROR: %s", p_term_msg->msg);
                     break;
-
+                }
                 case TERM_OUTPUT_ERR_TRAP:
-                    /* Print an error code and trap */
+                {
                     uint32_t err = *(uint32_t *)p_term_msg->msg;
+                    /* Print an error code and trap */
                     APP_PRINT("\r\nReturned Error Code: 0x%x\r\n", err);
                     APP_ERR_TRAP(err);
                     break;
-
+                }
                 case TERM_OUTPUT_EP_MENU:
+                {
                     /* Print the terminal menu */
                     APP_PRINT(MENU);
                     break;
-
+                }
                 default:
+                {
                     /* Handle unsupported message types */
                     APP_PRINT("\r\nUnsupported message type.");
                     break;
+                }
             }
 
             /* Free allocated memory for the message */

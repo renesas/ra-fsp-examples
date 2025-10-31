@@ -29,11 +29,12 @@ Supported RA boards: EK-RA6M3, EK-RA6M4, EK-RA6M5, EK-RA8M1, EK-RA8D1, MCK-RA8T1
 * For EK-RA8D1:
     * Connect the RA board USB device port to the host machine via a micro USB cable.
     * Connect LAN cable on RA board at ethernet port and other end connect to Ethernet switch/router.
-    * Set the configuration switches (SW1) as below.
+    * Set the configuration switches (SW1) as below to avoid potential failures:
+        * CAUTION: Do not enable SW1-4 and SW1-5 together. 
 
         | SW1-1 PMOD1 | SW1-2 TRACE | SW1-3 CAMERA | SW1-4 ETHA | SW1-5 ETHB | SW1-6 GLCD | SW1-7 SDRAM | SW1-8 I3C |
         |-------------|-------------|--------------|------------|------------|------------|-------------|-----------|
-        | OFF | OFF | OFF | OFF | OFF | OFF | ON | OFF |
+        | OFF | OFF | OFF | OFF | ON | OFF | OFF | OFF |
 
 * For MCK-RA8T1, EK-RA8P1:
     * Connect the RA board USB device port to the host machine via a Type-C USB cable.

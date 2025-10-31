@@ -114,16 +114,29 @@ typedef enum e_led_power
     LED_OFF = BSP_IO_LEVEL_LOW
 } led_power_t;
 
-/* Function declarations */
+/* Macro for handle error */
+#define APP_ERR_HANDLE(err, fn_)   			({\
+											if(err){\
+											handle_error((err), (uint8_t *)(fn_));\
+											}\
+						   	   	   	   	   	})
+
+/* Function declarations in tml_ep.c */
 void tml_entry(void);
-fsp_err_t tml_open(app_tml_mode_t tml_mode);
-fsp_err_t tml_close(app_tml_mode_t tml_mode);
-fsp_err_t tml_start(app_tml_mode_t tml_mode);
-fsp_err_t tml_stop(app_tml_mode_t tml_mode);
+fsp_err_t tml_open (app_tml_mode_t tml_mode);
+fsp_err_t tml_close (app_tml_mode_t tml_mode);
+fsp_err_t tml_start (app_tml_mode_t tml_mode);
+fsp_err_t tml_stop (app_tml_mode_t tml_mode);
 uint8_t get_user_input(void);
-uint16_t tml_get_count_duration(void);
-fsp_err_t tml_counter_operation(uint16_t duration_time, app_tml_mode_t tml_mode);
-fsp_err_t tml_capture_operation(void);
+
+/* Function declarations in tml_counter.c */
+uint16_t tml_get_count_duration (void);
+fsp_err_t tml_counter_operation (uint16_t duration_time, app_tml_mode_t tml_mode);
+
+/* Function declaration in tml_capture.c */
+fsp_err_t tml_capture_operation (void);
+
+/* Function declaration in tml_capture_in_lpm.c */
 fsp_err_t tml_counter_operation_in_lpm(app_lpm_states_t lpm_mode);
 
 #endif /* TML_EP_H_ */

@@ -7,6 +7,7 @@
 *
 * SPDX-License-Identifier: BSD-3-Clause
 ***********************************************************************************************************************/
+
 #include "tml_ep.h"
 
 extern bsp_leds_t g_bsp_leds;
@@ -70,14 +71,14 @@ fsp_err_t tml_counter_operation (uint16_t duration_time, app_tml_mode_t tml_mode
 
     /* Open the timer */
     err = tml_open(tml_mode);
-    APP_ERR_RETURN(err, "\r\n**tml_open for the %s failed**\r\n",g_tml_mode_name[tml_mode]);
+    APP_ERR_RET(FSP_SUCCESS != err, err, "\r\n**tml_open for the %s failed**\r\n",g_tml_mode_name[tml_mode]);
 
     APP_PRINT("\r\n------------%s is running------------\r\n",g_tml_mode_name[tml_mode]);
 	APP_PRINT("\r\nLED will be toggled after end of each cycle\r\n");
     
     /* Start the timer */
     err = tml_start(tml_mode);
-    APP_ERR_RETURN(err, "\r\n**tml_start for the %s failed**\r\n", g_tml_mode_name[tml_mode]);
+    APP_ERR_RET(FSP_SUCCESS != err, err, "\r\n**tml_start for the %s failed**\r\n", g_tml_mode_name[tml_mode]);
     
     while (true)
     {
@@ -87,7 +88,7 @@ fsp_err_t tml_counter_operation (uint16_t duration_time, app_tml_mode_t tml_mode
             g_timer_flag[tml_mode] = false;
             
             /* Toggle User LED */
-            /* In the TML 8-bit timer counter operation, LED may be blink so quickly so we cannot see LED operation  */
+            /* In the TML 8-bit timer counter operation, LED may be blink so quickly so we cannot see LED operation */
             R_IOPORT_PinRead(&g_ioport_ctrl, g_bsp_leds.p_leds[LED_COUNTER_MODE], (bsp_io_level_t *)led_state);
             led_state = led_state ^ BSP_IO_LEVEL_HIGH;
             R_IOPORT_PinWrite(&g_ioport_ctrl, g_bsp_leds.p_leds[LED_COUNTER_MODE], (bsp_io_level_t)led_state);
@@ -98,7 +99,7 @@ fsp_err_t tml_counter_operation (uint16_t duration_time, app_tml_mode_t tml_mode
                 
                 /* Stop the timer */
                 err = tml_stop(tml_mode);
-                APP_ERR_RETURN(err, "\r\n**tml_stop for the %s failed**\r\n", g_tml_mode_name[tml_mode]);
+                APP_ERR_RET(FSP_SUCCESS != err, err, "\r\n**tml_stop for the %s failed**\r\n", g_tml_mode_name[tml_mode]);
                 
                 /* Close the timer */
                 if (tml_mode == APP_TML_8_BIT || tml_mode == APP_TML_16_BIT)
@@ -110,7 +111,7 @@ fsp_err_t tml_counter_operation (uint16_t duration_time, app_tml_mode_t tml_mode
                     APP_PRINT("\r\nClose %s\r\n",g_tml_mode_name[tml_mode]);
                 }
                 err = tml_close(tml_mode);
-                APP_ERR_RETURN(err, "\r\n**tml_close for the %s failed**\r\n", g_tml_mode_name[tml_mode]);
+                APP_ERR_RET(FSP_SUCCESS != err, err, "\r\n**tml_close for the %s failed**\r\n", g_tml_mode_name[tml_mode]);
                 
                 break;
             }

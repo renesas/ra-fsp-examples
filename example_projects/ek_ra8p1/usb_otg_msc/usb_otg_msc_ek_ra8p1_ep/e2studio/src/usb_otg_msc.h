@@ -14,8 +14,11 @@
 /***********************************************************************************************************************
  * Macro definitions
  **********************************************************************************************************************/
-#if defined(BOARD_RA8D1_EK) || defined(BOARD_RA8P1_EK)
+#if defined(BOARD_RA8D1_EK) || defined(BOARD_RA8P1_EK) || defined(BOARD_RA8M1_EK) || defined(BOARD_RA8T1_MCK)
 #define USB_OTG_ID_PIN                  (BSP_IO_PORT_04_PIN_11)
+#elif defined(BOARD_RA4M2_EK) || defined(BOARD_RA4M3_EK) || defined(BOARD_RA6M3_EK) || defined(BOARD_RA6M3G_EK)\
+|| defined(BOARD_RA6M4_EK) || defined(BOARD_RA6M5_EK)
+#define USB_OTG_ID_PIN                  (BSP_IO_PORT_04_PIN_08)
 #endif
 
 #if defined(BOARD_RA8P1_EK)

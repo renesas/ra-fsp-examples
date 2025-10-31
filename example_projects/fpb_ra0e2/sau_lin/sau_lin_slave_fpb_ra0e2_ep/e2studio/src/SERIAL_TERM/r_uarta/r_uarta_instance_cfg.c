@@ -1,5 +1,5 @@
 /***********************************************************************************************************************
-* File Name    : r_sci_uart_instance_cfg.c
+* File Name    : r_uarta_instance_cfg.c
 * Description  : Contains macros, data structures, and common functions used for the UART configuration.
 ***********************************************************************************************************************/
 /***********************************************************************************************************************
@@ -14,7 +14,7 @@
  **********************************************************************************************************************/
 #include "bsp_api.h"
 
-#if defined (BOARD_RA0E1_FPB) || defined (BOARD_RA0E2_FPB)
+#if BSP_PERIPHERAL_UARTA_PRESENT
 #include "r_uarta_instance_cfg.h"
 #include "../serial.h"
 /***********************************************************************************************************************
@@ -86,7 +86,7 @@ const uarta_extended_cfg_t g_serial_cfg_extend =
 
 /** UART interface configuration */
 const uart_cfg_t g_serial_cfg =
-{ .channel = 0, .data_bits = UART_DATA_BITS_8, .parity = UART_PARITY_OFF, .stop_bits = UART_STOP_BITS_1, .p_callback =
+{ .channel = SERIAL_CHANNEL, .data_bits = UART_DATA_BITS_8, .parity = UART_PARITY_OFF, .stop_bits = UART_STOP_BITS_1, .p_callback =
           serial_callback,
   .p_context = NULL, .p_extend = &g_serial_cfg_extend,
 #define RA_NOT_DEFINED (1)
@@ -128,5 +128,5 @@ const uart_cfg_t g_serial_cfg =
 const uart_instance_t g_serial =
 { .p_ctrl = &g_serial_ctrl, .p_cfg = &g_serial_cfg, .p_api = &g_uart_on_uarta };
 
-#endif /* BOARD_RA0E1_FPB */
+#endif /* BSP_PERIPHERAL_UARTA_PRESENT */
 #endif /* USE_VIRTUAL_COM */

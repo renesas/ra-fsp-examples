@@ -1,9 +1,9 @@
 /***********************************************************************************************************************
  * File Name    : tau.h
- * Description  : Contains macros and functions used in tau.c.
+ * Description  : Contains macros and functions used in tau.c
  **********************************************************************************************************************/
 /***********************************************************************************************************************
-* Copyright (c) 2024 - 2025 Renesas Electronics Corporation and/or its affiliates
+* Copyright (c) 2024 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
 ***********************************************************************************************************************/
@@ -18,12 +18,12 @@
 #define BANNER_INFO             "\r\n******************************************************************"\
                                 "\r\n*   Renesas FSP Example Project for "MODULE_NAME" Module                 *"\
                                 "\r\n*   Example Project Version %s                                  *"\
-                                "\r\n*   Flex Software Pack Version %d.%d.%d                             *"\
+                                "\r\n*   Flex Software Pack Version  %d.%d.%d                            *"\
                                 "\r\n******************************************************************"\
-                                "\r\nRefer to readme.txt file for more details on Example Project and"\
+                                "\r\nRefer to readme.txt file for more details on Example Project and" \
                                 "\r\nFSP User's Manual for more information about "MODULE_NAME" driver\r\n"
 
-#define EP_INFO                 "\r\nThis example project demonstrates the basic usage of TAU driver on"\
+#define EP_INFO                 "\r\nThis Example Project demonstrates the basic usage of TAU driver on"\
                                 "\r\nRenesas RA MCUs based on Renesas FSP. It consists of 7 independent"\
                                 "\r\noperations coordinated together to create 3 sequences. They include"\
                                 "\r\nsetting the period for LED on and off times, counting external events,"\
@@ -31,6 +31,7 @@
                                 "\r\nparameters for each sequence to configure the corresponding independent"\
                                 "\r\nchannel operation function of TAU. The EP information and error messages"\
                                 "\r\nwill be printed to the Host PC.\r\n"
+
 
 /* Macro for the sequence1 information */
 #define SEQUENCE1_INFO          "\r\n******************************************************************"\
@@ -58,25 +59,24 @@
 
 /* Macro for the measurable input signal information */
 #define MEASURABLE_WARNING      "\r\n\r\nWARNING: The input signal cannot be measured because it is outside the\r\n"\
-                                "\r\nmeasurable range, limit values will be displayed instead of the expected\r\n"\
-                                "\r\nvalue.\r\n\r\n"
+                                "\r\nmeasurable range, limit values will be displayed instead of the expected value.\r\n\r\n"
 
 /* Macro for the input square wave frequency requirement */
 #define FREQUENCY_INPUT         "\r\n\r\nNOTE: Please input a frequency that is a divisor of %dHz"\
                                 "\r\nto generate a square wave as expected.\r\n\r\n"
 
-/* Common macros */
+/* Common macro */
 #define BUFF_SIZE                       (30U)
 #define ONE                             (1)
 
-/* Macros for define LEDs on board */
+/* Macro for define LEDs on board */
 #define LED_SEQUENCE1                   (0U)
 #define LED_SEQUENCE2                   (1U)
 
-/* Macro for the maximum value TAU can capture due to overflow limitation */
+/* Macro for the maximum value TAU can capture due to overflow limitation*/
 #define CAPTURE_VALUE_MAX               (65536 * 2)
 
-/* Macros for the minimum value of user input */
+/* Macro for the minimum value of user input */
 #define TIME_PERIOD_MIN                 (1)
 #define SQUARE_WAVE_FREQUENCY_MIN       (1)
 #define DIVIDER_MIN                     (1)
@@ -85,13 +85,20 @@
 /* Macro for the demonstration times */
 #define DEMO_TIMES                      (5)
 
-/* Macros for the conversion */
+/* Macro for the conversion */
 #define CONVERT_SECOND_TO_MILISECOND    (1000)
 #define CONVERT_HALF_TO_ONE_CYCLE       (2)
 
-/* Macros for the period counts */
+/* Macro for the period counts  */
 #define MAX_PERIOD                      (65536)
 #define MIN_PERIOD                      (1)
+
+/* Macro for handle error */
+#define APP_ERR_HANDLE(err, fn_)   ({\
+    if(err){\
+        handle_error((err), (uint8_t *)(fn_));\
+    }\
+})
 
 /* Enumeration for TAU operation */
 typedef enum e_tau_mode
@@ -107,7 +114,7 @@ typedef enum e_tau_mode
     TAU_MAX_MODE
 } tau_mode_t;
 
-/* Public function declaration */
-void tau_entry(void);
+/* Public function declarations */
+void tau_entry (void);
 
 #endif /* TAU_H_ */

@@ -21,9 +21,9 @@
 	        in FileX_block_media_sram_notes.md file.
 
 2. Software Requirements:
-	Renesas Flexible Software Package (FSP): Version 6.0.0
-	e2 studio: Version 2025-04.1
-	SEGGER J-Link RTT Viewer: Version 8.44a
+	Renesas Flexible Software Package (FSP): Version 6.2.0
+	e2 studio: Version 2025-10
+	SEGGER J-Link RTT Viewer: Version 8.74
 	GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 	Terminal Console Application: Tera Term or a similar application 
 
@@ -75,11 +75,6 @@ Note:
 		Stop bit: 1-bit
 		Flow control: none
 
-2) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT Viewer.
-   RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x20000d24
-   b. Keil:     Not Available
-   c. IAR:      Not Available
- 
-3) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) 
-   in .map file generated in the project folder (e2studio\Debug or e2studio\Release).
+2) For using J-Link RTT Viewer:
+   If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called
+   _SEGGER_RTT) in .map file generated in the project folder (e2studio\Debug or e2studio\Release).

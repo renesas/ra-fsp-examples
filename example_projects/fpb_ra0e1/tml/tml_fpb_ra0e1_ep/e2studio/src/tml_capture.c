@@ -27,30 +27,31 @@ fsp_err_t tml_capture_operation (void)
 
     /* Initialize timer 16-bit capture */
     err = tml_open(APP_TML_16_BIT_CAPTURE);
-    APP_ERR_RETURN(err, "\r\n**tml_open for the %s failed**\r\n", g_tml_mode_name[APP_TML_16_BIT_CAPTURE]);
+    APP_ERR_RET(FSP_SUCCESS != err, err, "\r\n**tml_open for the %s failed**\r\n", g_tml_mode_name[APP_TML_16_BIT_CAPTURE]);
 
     /* Start timer 16-bit capture */
     err = tml_start(APP_TML_16_BIT_CAPTURE);
-    APP_ERR_RETURN(err, "\r\n**tml_start for the %s failed**\r\n", g_tml_mode_name[APP_TML_16_BIT_CAPTURE]);
+    APP_ERR_RET(FSP_SUCCESS != err, err, "\r\n**tml_start for the %s failed**\r\n", g_tml_mode_name[APP_TML_16_BIT_CAPTURE]);
 
     /* Initialize ELC module */
     err = R_ELC_Open(&g_elc_ctrl, &g_elc_cfg);
-    APP_ERR_RETURN(err, "\r\n**R_ELC_Open API failed**\r\n");
+    APP_ERR_RET(FSP_SUCCESS != err, err, "\r\n**R_ELC_Open API failed**\r\n");
 
     /* Enable ELC module */
     err = R_ELC_Enable(&g_elc_ctrl);
-    APP_ERR_RETURN(err, "\r\n**R_ELC_Enable API failed**\r\n");
+    APP_ERR_RET(FSP_SUCCESS != err, err, "\r\n**R_ELC_Enable API failed**\r\n");
 
     while (true)
     {
-        APP_PRINT("\r\nEnter 1 to capture the raw counts value of 16-bit timer, or enter 2 to back to the main menu\r\n");
+        APP_PRINT("\r\nEnter 1 to capture the raw counts value of 16-bit timer, or enter 2 "\
+                  "to back to the main menu\r\n");
         APP_PRINT("\r\nUser Input: ");
         user_input = get_user_input();
         if (CAPTURE == user_input)
         {
             /* Generate an ELC software event to trigger capture */
             err = R_ELC_SoftwareEventGenerate(&g_elc_ctrl, ELC_SOFTWARE_EVENT_0);
-            APP_ERR_RETURN(err, "\r\n**R_ELC_SoftwareEventGenerate API failed**\r\n");
+            APP_ERR_RET(FSP_SUCCESS != err, err, "\r\n**R_ELC_SoftwareEventGenerate API failed**\r\n");
 
             while (false == g_timer_flag[APP_TML_16_BIT_CAPTURE])
             {
@@ -63,11 +64,11 @@ fsp_err_t tml_capture_operation (void)
         {
             /* De-initialize ELC module */
             err = R_ELC_Close(&g_elc_ctrl);
-            APP_ERR_RETURN(err, "\r\n**R_ELC_Close API failed**\r\n");
+            APP_ERR_RET(FSP_SUCCESS != err, err, "\r\n**R_ELC_Close API failed**\r\n");
 
             /* De-initialize timer 16-bit capture */
             err = tml_close(APP_TML_16_BIT_CAPTURE);
-            APP_ERR_RETURN(err, "\r\n**tml_close timer 16-bit capture mode failed**\r\n");
+            APP_ERR_RET(FSP_SUCCESS != err, err, "\r\n**tml_close timer 16-bit capture mode failed**\r\n");
             break;
         }
         else

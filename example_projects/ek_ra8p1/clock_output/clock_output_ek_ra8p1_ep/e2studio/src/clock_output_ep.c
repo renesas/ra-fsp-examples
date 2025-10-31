@@ -3,7 +3,7 @@
  * Description  : Contains data structures and functions.
  **********************************************************************************************************************/
 /***********************************************************************************************************************
-* Copyright (c) 2024 - 2025 Renesas Electronics Corporation and/or its affiliates
+* Copyright (c) 2024 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
 ***********************************************************************************************************************/
@@ -13,9 +13,7 @@
 #include "bsp_clocks.h"
 #include "bsp_common.h"
 
-#if (USE_VIRTUAL_COM == 1)
 extern bsp_leds_t g_bsp_leds;
-#endif /* USE_VIRTUAL_COM */
 
 /* The buffer contains user input */
 char g_rx_buffer [TERM_BUFFER_SIZE] = {RESET_VALUE};
@@ -41,26 +39,24 @@ void clock_output_ep_entry(void)
     /* Version get API for FLEX pack information */
     R_FSP_VersionGet (&version);
 
-#if (USE_VIRTUAL_COM == 1)
     fsp_err_t err = FSP_SUCCESS;
 
     /* Turn OFF error LED */
     R_IOPORT_PinWrite(&g_ioport_ctrl, g_bsp_leds.p_leds[ERR_LED], (bsp_io_level_t)BSP_IO_LEVEL_LOW);
 
-    /* Initialize UART module first to print log to serial terminal */
-    err = serial_init();
+    /* Initialize terminal */
+    err = TERM_INIT();
     if (FSP_SUCCESS != err)
     {
         /* Turn ON error LED to indicate uart_init failed */
         R_IOPORT_PinWrite(&g_ioport_ctrl, g_bsp_leds.p_leds[ERR_LED], (bsp_io_level_t)BSP_IO_LEVEL_HIGH);
 
         /* Error trap */
-        __asm("BKPT #0\n");
+        ERROR_TRAP;
     }
-#endif /* USE_VIRTUAL_COM */
 
     /* Print the EP banner on the RTT viewer */
-    APP_PRINT (BANNER_INFO, EP_VERSION, version.version_id_b.major, version.version_id_b.minor,\
+    APP_PRINT (BANNER_INFO, EP_VERSION, version.version_id_b.major, version.version_id_b.minor,
                 version.version_id_b.patch);
 
     /* Print the EP information on the RTT viewer */
@@ -140,22 +136,20 @@ static void clock_output_operation(void)
 static uint8_t get_user_input(void)
 {
     uint8_t input_value = RESET_VALUE;
-    char    user_input[TERM_BUFFER_SIZE + 1];
 
     /* Clean buffer */
-    memset(&user_input[0], NULL_CHAR, sizeof(user_input));
+    memset(g_rx_buffer, NULL_CHAR, sizeof(g_rx_buffer));
 
     /* Wait until there is any user input */
     while (!APP_CHECK_DATA)
     {
-        __NOP();
+        ;
     }
 
-    /* Read user input from the terminal */
-    APP_READ(&user_input[0], TERM_BUFFER_SIZE);
-
+    /* Read First byte of data provided by user */
+    APP_READ (g_rx_buffer,sizeof(g_rx_buffer));
     /* Convert to integer value */
-    input_value = (uint8_t)atoi((char*) &user_input[0]);
+    input_value = (uint8_t)atoi((char*) &g_rx_buffer);
 
     return input_value;
 }
@@ -171,7 +165,7 @@ static uint8_t get_user_input(void)
  **********************************************************************************************************************/
 static void start_main_clock(void)
 {
-    APP_PRINT ("\r\n\r\n** Start Main Clock Output **\r\n");
+    APP_PRINT ("\r\n\r\n ** Start Main Clock Output ** \r\n");
 
     /* Unlock protect register */
     R_SYSTEM->PRCR = (uint16_t) PRV_PRCR_UNLOCK;
@@ -203,7 +197,7 @@ static void start_main_clock(void)
     err = gpt_capture_operation ();
 
     /* Handle error */
-    APP_ERR_HANDLE (err, "\r\ngpt_capture_operation failed!!!\r\n");
+    APP_ERR_HANDLE (err, "\r\n gpt_capture_operation failed!!! \r\n");
 
 #endif /* GPT_MEASURE_CLKOUT */
 }
@@ -219,7 +213,7 @@ static void start_main_clock(void)
  **********************************************************************************************************************/
 static void start_sub_clock(void)
 {
-    APP_PRINT ("\r\n\r\n** Start Sub-Clock Output **\r\n");
+    APP_PRINT ("\r\n\r\n ** Start Sub-Clock Output ** \r\n");
 
     /* Unlock protect register */
     R_SYSTEM->PRCR = (uint16_t) PRV_PRCR_UNLOCK;
@@ -251,7 +245,7 @@ static void start_sub_clock(void)
     err = gpt_capture_operation ();
 
     /* Handle error */
-    APP_ERR_HANDLE (err, "\r\ngpt_capture_operation failed!!!\r\n");
+    APP_ERR_HANDLE (err, "\r\n gpt_capture_operation failed!!! \r\n");
 
 #endif /* GPT_MEASURE_CLKOUT */
 }
@@ -267,7 +261,7 @@ static void start_sub_clock(void)
  **********************************************************************************************************************/
 static void stop_all_clocks(void)
 {
-    APP_PRINT ("\r\n\r\n** Stop all Clocks Output **\r\n");
+    APP_PRINT ("\r\n\r\n ** Stop all Clocks Output ** \r\n");
 
     /* Unlock protect register */
     R_SYSTEM->PRCR = (uint16_t) PRV_PRCR_UNLOCK;

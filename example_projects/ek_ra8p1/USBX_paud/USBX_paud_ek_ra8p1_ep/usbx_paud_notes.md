@@ -8,9 +8,9 @@ for general information on example projects and [readme.txt](./readme.txt) for s
 To build and run the USBX PAUD example project, the following resources are needed.
 
 ### Software ###
-* Renesas Flexible Software Package (FSP): Version 6.0.0
-* e2 studio: Version 2025-04.1
-* SEGGER J-Link RTT Viewer: Version 8.44a
+* Renesas Flexible Software Package (FSP): Version 6.2.0
+* e2 studio: Version 2025-10
+* SEGGER J-Link RTT Viewer: Version 8.74
 * LLVM Embedded Toolchain for ARM: Version 18.1.3
 * Audacity v3.7.3 (Audio Player/Recorder)
 

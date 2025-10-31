@@ -26,7 +26,7 @@
 	Use Switch S1 (push button) on FPB-RA2E3, Connect wire to short P200/NMI (J3-21) to P206 (J3-18).
 
 	Use Switch BTN1 (push button on Pmod BTN) on MCK-RA8T1.
-﻿
+
 Note: 	
 1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:

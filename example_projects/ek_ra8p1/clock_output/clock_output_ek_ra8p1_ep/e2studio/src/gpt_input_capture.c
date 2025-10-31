@@ -3,7 +3,7 @@
  * Description  : Contains data structures and functions.
  **********************************************************************************************************************/
 /***********************************************************************************************************************
-* Copyright (c) 2024 - 2025 Renesas Electronics Corporation and/or its affiliates
+* Copyright (c) 2024 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
 ***********************************************************************************************************************/
@@ -40,18 +40,18 @@ fsp_err_t gpt_capture_operation(void)
 
     /* Open GPT instance as input capture */
     err = R_GPT_Open (&g_input_capture_ctrl, &g_input_capture_cfg);
-    APP_ERR_RET (FSP_SUCCESS != err, err, "\r\n** R_GPT_Open API failed **\r\n");
+    APP_ERR_RET (FSP_SUCCESS != err,err, "\r\n ** R_GPT_Open API failed ** \r\n");
 
     /* Get the GPT information */
     err = R_GPT_InfoGet (&g_input_capture_ctrl, &info);
-    APP_ERR_RET (FSP_SUCCESS != err, err, "\r\n** R_GPT_InfoGet API failed **\r\n");
+    APP_ERR_RET (FSP_SUCCESS != err,err, "\r\n ** R_GPT_InfoGet API failed ** \r\n");
 
     /* Get the GPT frequency */
     g_frequency = info.clock_frequency;
 
     /* Enable GPT input capture */
     err = R_GPT_Enable (&g_input_capture_ctrl);
-    APP_ERR_RET (FSP_SUCCESS != err, err, "\r\n** R_GPT_Enable API failed **\r\n");
+    APP_ERR_RET (FSP_SUCCESS != err,err, "\r\n ** R_GPT_Enable API failed ** \r\n");
 
     /* Wait for GPT capture event */
     while (!g_start_measurement)
@@ -104,7 +104,7 @@ void input_capture_user_callback(timer_callback_args_t *p_args)
 
                 /* Disable GPT input capture */
                 err = R_GPT_Disable (&g_input_capture_ctrl);
-                APP_ERR_HANDLE (err, "\r\n** R_GPT_Disable API failed **\r\n");
+                APP_ERR_HANDLE (err, "\r\n ** R_GPT_Disable API failed ** \r\n");
 
                 /* De-initailize GPT input capture */
                 gpt_deinit ();
@@ -137,7 +137,7 @@ static void gpt_deinit(void)
         err = R_GPT_Close (&g_input_capture_ctrl);
         if (FSP_SUCCESS != err)
         {
-            APP_ERR_PRINT ("\r\n** R_GPT_Close API failed **\r\n");
+            APP_ERR_PRINT ("\r\n ** R_GPT_Close API failed ** \r\n");
         }
     }
 }

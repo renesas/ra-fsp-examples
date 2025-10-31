@@ -24,11 +24,11 @@ for general information on example projects and [readme.txt](./readme.txt) for s
 To build and run the USB OTG MSC example project, the following resources are needed.
 
 ### Software Requirements ###
-* Renesas Flexible Software Package (FSP): Version 6.1.0
-* e2 studio: Version 2025-07
+* Renesas Flexible Software Package (FSP): Version 6.2.0
+* e2 studio: Version 2025-10
 * GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 * Serial Terminal Console Application: Tera Term or a similar application
-* SEGGER J-Link RTT Viewer: Version 8.58
+* SEGGER J-Link RTT Viewer: Version 8.74
 
 ### Hardware Requirements ###
 Supported RA boards: EK-RA4M2, EK-RA4M3, EK-RA6M3, EK-RA6M3G, EK-RA6M4, EK-RA6M5, EK-RA8M1, EK-RA8D1, MCK-RA8T1.
@@ -139,7 +139,7 @@ Note: When connecting the PMOD interface, use short wiring connections (should b
         - GND                     --->    Pmod SD GND  (J1:5)
         - +3V3(VCC)             	--->    Pmod SD VCC  (J1:6)
         - SD0CD   P210 (J4:P19)   --->    Pmod SD CD   (J1:9)
-        - SD0WP   P20  (J4:P20)   --->    Pmod SD WP   (J1:10)
+        - SD0WP   P209 (J4:P20)   --->    Pmod SD WP   (J1:10)
 
     * 4-Bit Width Additional Connections:  
         - SD0DAT1 P410 (J1:36)	--->	Pmod SD DAT1 (J1:7)

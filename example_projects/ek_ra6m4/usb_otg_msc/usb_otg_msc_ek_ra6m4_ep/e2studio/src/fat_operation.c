@@ -30,8 +30,8 @@
  * @retval     FSP_SUCCESS on successful operation, other error codes otherwise.
  **********************************************************************************************************************/
 fsp_err_t fat_disk_create(fat_disk_t * p_disk, char * p_ff_fs_path, bool required_open_rm_fat,
-                         rm_freertos_plus_fat_instance_t const * p_rm_fat_instance,
-                         rm_freertos_plus_fat_disk_cfg_t * p_rm_fat_disk_cfg)
+                          rm_freertos_plus_fat_instance_t const * p_rm_fat_instance,
+                          rm_freertos_plus_fat_disk_cfg_t * p_rm_fat_disk_cfg)
 {
     /* Check if any of the provided pointers is NULL to avoid dereferencing invalid memory */
     if (NULL == p_disk || NULL == p_ff_fs_path || NULL == p_rm_fat_instance || NULL == p_rm_fat_disk_cfg)
@@ -85,7 +85,7 @@ fsp_err_t fat_disk_open(fat_disk_t * p_disk)
         status = RM_FREERTOS_PLUS_FAT_Open(p_disk->p_rm_fat_instance->p_ctrl, p_disk->p_rm_fat_instance->p_cfg);
 
         /* If the operation fails, log an error message and return the error code */
-        ERROR_RET(FSP_SUCCESS != status, status, "RM_FREERTOS_PLUS_FAT_Open failed\r\n");
+        TERM_ERR_RET(FSP_SUCCESS != status, status, "RM_FREERTOS_PLUS_FAT_Open failed\r\n");
     }
 
     /* Mark the disk as open to indicate it is now ready for operations */
@@ -125,19 +125,19 @@ fsp_err_t fat_disk_mount(fat_disk_t * p_disk)
 
     /* Initialize the media device for the FAT disk */
     status = RM_FREERTOS_PLUS_FAT_MediaInit(p_disk->p_rm_fat_instance->p_ctrl, &p_disk->rm_device);
-    ERROR_RET(FSP_SUCCESS != status, status, "RM_FREERTOS_PLUS_FAT_MediaInit failed\r\n");
+    TERM_ERR_RET(FSP_SUCCESS != status, status, "RM_FREERTOS_PLUS_FAT_MediaInit failed\r\n");
 
     /* Initialize the disk structure for the FAT disk */
     status = RM_FREERTOS_PLUS_FAT_DiskInit(p_disk->p_rm_fat_instance->p_ctrl, p_disk->p_rm_fat_disk_cfg, &p_disk->ff_disk);
-    ERROR_RET(FSP_SUCCESS != status, status, "RM_FREERTOS_PLUS_FAT_DiskInit failed\r\n");
+    TERM_ERR_RET(FSP_SUCCESS != status, status, "RM_FREERTOS_PLUS_FAT_DiskInit failed\r\n");
 
     /* Mount the disk on the FAT file system */
     ff_status = FF_Mount(&p_disk->ff_disk, p_disk->ff_disk.xStatus.bPartitionNumber);
-    ERROR_RET(FF_ERR_NONE != ff_status, (uint32_t)ff_status, "FF_Mount failed\r\n");
+    TERM_ERR_RET(FF_ERR_NONE != ff_status, (uint32_t)ff_status, "FF_Mount failed\r\n");
 
     /* Add the FAT disk to the FAT file system for file access */
     fs_status = FF_FS_Add(p_disk->p_ff_fs_path, &p_disk->ff_disk);
-    ERROR_RET(pdTRUE != fs_status, FSP_ERR_ASSERTION, "FF_FS_Add failed\r\n");
+    TERM_ERR_RET(pdTRUE != fs_status, FSP_ERR_ASSERTION, "FF_FS_Add failed\r\n");
 
     /* Mark the disk as mounted to indicate it is ready for file operations */
     p_disk->is_mount = true;
@@ -178,11 +178,11 @@ fsp_err_t fat_disk_unmount(fat_disk_t * p_disk)
 
     /* Unmount the disk from the FAT file system */
     ff_status = FF_Unmount(&p_disk->ff_disk);
-    ERROR_RET(FF_ERR_NONE != ff_status, (uint32_t)ff_status, "FF_Unmount failed\r\n");
+    TERM_ERR_RET(FF_ERR_NONE != ff_status, (uint32_t)ff_status, "FF_Unmount failed\r\n");
 
     /* De-initialize the disk to release associated resources */
     status = RM_FREERTOS_PLUS_FAT_DiskDeinit(p_disk->p_rm_fat_instance->p_ctrl, &p_disk->ff_disk);
-    ERROR_RET(FSP_SUCCESS != status, status, "RM_FREERTOS_PLUS_FAT_DiskDeinit failed\r\n");
+    TERM_ERR_RET(FSP_SUCCESS != status, status, "RM_FREERTOS_PLUS_FAT_DiskDeinit failed\r\n");
 
     /* Mark the disk as unmounted to update its operational state */
     p_disk->is_mount = false;
@@ -218,7 +218,7 @@ fsp_err_t fat_disk_close(fat_disk_t * p_disk)
         status = RM_FREERTOS_PLUS_FAT_Close(p_disk->p_rm_fat_instance->p_ctrl);
 
         /* Handle any errors returned by the close operation */
-        ERROR_RET(FSP_SUCCESS != status, status, "RM_FREERTOS_PLUS_FAT_Close failed\r\n");
+        TERM_ERR_RET(FSP_SUCCESS != status, status, "RM_FREERTOS_PLUS_FAT_Close failed\r\n");
     }
 
     /* Mark the disk as closed by updating its operational state */
@@ -265,20 +265,20 @@ fsp_err_t fat_disk_format(fat_disk_t * p_disk)
 
     /* Partition the disk using the specified partition parameters */
     ff_status = FF_Partition(&p_disk->ff_disk, &partition_params);
-    ERROR_RET(FF_ERR_NONE != ff_status, (uint32_t)ff_status, "FF_Partition failed\r\n");
+    TERM_ERR_RET(FF_ERR_NONE != ff_status, (uint32_t)ff_status, "FF_Partition failed\r\n");
 
     /* Format the partition on the disk to create a FAT file system */
     ff_status = FF_FormatDisk(&p_disk->ff_disk, p_disk->ff_disk.xStatus.bPartitionNumber,
                               pdFALSE, pdFALSE, p_disk->p_ff_fs_path);
-    ERROR_RET(FF_ERR_NONE != ff_status, (uint32_t)ff_status, "FF_FormatDisk failed\r\n");
+    TERM_ERR_RET(FF_ERR_NONE != ff_status, (uint32_t)ff_status, "FF_FormatDisk failed\r\n");
 
     /* Mount the newly formatted disk to make it accessible for file operations */
     ff_status = FF_Mount(&p_disk->ff_disk, p_disk->ff_disk.xStatus.bPartitionNumber);
-    ERROR_RET(FF_ERR_NONE != ff_status, (uint32_t)ff_status, "FF_Mount failed\r\n");
+    TERM_ERR_RET(FF_ERR_NONE != ff_status, (uint32_t)ff_status, "FF_Mount failed\r\n");
 
     /* Add the formatted disk to the FAT file system for file access */
     fs_status = FF_FS_Add(p_disk->p_ff_fs_path, &p_disk->ff_disk);
-    ERROR_RET(pdTRUE != fs_status, FSP_ERR_ASSERTION, "FF_FS_Add failed\r\n");
+    TERM_ERR_RET(pdTRUE != fs_status, FSP_ERR_ASSERTION, "FF_FS_Add failed\r\n");
 
     /* Mark the disk as mounted to update its operational state */
     p_disk->is_mount = true;
@@ -382,7 +382,7 @@ void fat_dir_list(char * p_path)
             /* Format the complete entry information, including attributes, date, time, size, and name */
             memset(str_info, FILE_DATA_ZERO, sizeof(str_info));
             snprintf(str_info, ENTRY_INFO_STR_LEN, ENTRY_INFO_FORMAT,
-                     str_mode, str_date, str_time, entry.ulFileSize, entry.pcFileName);
+                     str_mode, str_date, str_time, (unsigned long) entry.ulFileSize, entry.pcFileName);
 
             /* Print the formatted entry information */
             PRINT_INFO_STR(str_info);
@@ -417,11 +417,11 @@ fsp_err_t fat_file_copy(char * p_src_path, char * p_dest_path)
 
     /* Open the source file in read mode */
     p_src_file = ff_fopen((const char *)p_src_path, FILE_OPEN_FOR_READ);
-    ERROR_RET(NULL == p_src_file, FSP_ERR_INVALID_POINTER, "ff_fopen for the source file failed");
+    TERM_ERR_RET(NULL == p_src_file, FSP_ERR_INVALID_POINTER, "ff_fopen for the source file failed");
 
     /* Open the destination file in write mode */
     p_dest_file = ff_fopen((const char *)p_dest_path, FILE_OPEN_FOR_WRITE);
-    ERROR_RET(NULL == p_dest_file, FSP_ERR_INVALID_POINTER, "ff_fopen for the destination file failed");
+    TERM_ERR_RET(NULL == p_dest_file, FSP_ERR_INVALID_POINTER, "ff_fopen for the destination file failed");
 
     /* Allocate a buffer for copying data between the source and destination files */
     char *p_buf = (char *)pvPortMalloc(FILE_BUFF_MAX_SIZE);
@@ -477,11 +477,11 @@ fsp_err_t fat_file_copy(char * p_src_path, char * p_dest_path)
 
     /* Close the destination file */
     ff_status = ff_fclose(p_dest_file);
-    ERROR_RET(FF_ERR_NONE != ff_status, (uint32_t)ff_status, "ff_fclose failed");
+    TERM_ERR_RET(FF_ERR_NONE != ff_status, (uint32_t)ff_status, "ff_fclose failed");
 
     /* Close the source file */
     ff_status = ff_fclose(p_src_file);
-    ERROR_RET(FF_ERR_NONE != ff_status, (uint32_t)ff_status, "ff_fclose failed");
+    TERM_ERR_RET(FF_ERR_NONE != ff_status, (uint32_t)ff_status, "ff_fclose failed");
 
     /* Retrieve metadata for the source file */
     FF_Stat_t src_details;
@@ -500,7 +500,7 @@ fsp_err_t fat_file_copy(char * p_src_path, char * p_dest_path)
     }
 
     /* Verify that the size of the source file matches the destination file */
-    ERROR_RET(src_details.st_size != dest_details.st_size, (uint32_t)FSP_ERR_INVALID_SIZE, "The file size is incorrect");
+    TERM_ERR_RET(src_details.st_size != dest_details.st_size, (uint32_t)FSP_ERR_INVALID_SIZE, "The file size is incorrect");
 
     return FSP_SUCCESS;
 }
@@ -524,7 +524,7 @@ fsp_err_t fat_file_create(char * p_path)
 
     /* Open the file in write mode. If it doesn't exist, it will be created */
     p_file = ff_fopen((const char *)p_path, FILE_OPEN_FOR_WRITE);
-    ERROR_RET(NULL == p_file, FSP_ERR_INVALID_POINTER, "ff_fopen for a file failed");
+    TERM_ERR_RET(NULL == p_file, FSP_ERR_INVALID_POINTER, "ff_fopen for a file failed");
 
     /* Allocate a buffer for writing data to the file */
     char *p_buf = (char *)pvPortMalloc(FILE_BUFF_MAX_SIZE);
@@ -572,15 +572,15 @@ fsp_err_t fat_file_create(char * p_path)
 
     /* Close the file after writing */
     ff_status = ff_fclose(p_file);
-    ERROR_RET(FF_ERR_NONE != ff_status, (uint32_t)ff_status, "ff_fclose failed");
+    TERM_ERR_RET(FF_ERR_NONE != ff_status, (uint32_t)ff_status, "ff_fclose failed");
 
     /* Retrieve the file's metadata after the write operation */
     FF_Stat_t details;
     ff_status = ff_stat(p_path, &details);
-    ERROR_RET(FF_ERR_NONE != ff_status, (uint32_t)ff_status, "ff_stat failed");
+    TERM_ERR_RET(FF_ERR_NONE != ff_status, (uint32_t)ff_status, "ff_stat failed");
 
     /* Verify that the size of the file matches the expected size */
-    ERROR_RET((FILE_BUFF_MAX_SIZE * FILE_WRITE_TIMES) != details.st_size,
+    TERM_ERR_RET((FILE_BUFF_MAX_SIZE * FILE_WRITE_TIMES) != details.st_size,
             FSP_ERR_INVALID_SIZE, "The file size is incorrect");
 
     return FSP_SUCCESS;

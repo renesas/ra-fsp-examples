@@ -16,6 +16,10 @@ REM Define input and output files
 set "InputFile=%~dp0configuration.xml"
 set "OutputFile=%~dp0output.rasc"
 
+REM Check if --gensolutionbundle is passed
+if "%~3"=="--gensolutionbundle" (
+set "InputFile=%~dp0solution.xml"
+)
 REM Check if --gensmartbundle is passed, 9th param is .axf file
 if "%~3"=="--gensmartbundle" (
     set "InputFile=%~9"
