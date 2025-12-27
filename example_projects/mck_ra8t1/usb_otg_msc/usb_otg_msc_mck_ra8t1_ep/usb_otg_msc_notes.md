@@ -24,11 +24,11 @@ for general information on example projects and [readme.txt](./readme.txt) for s
 To build and run the USB OTG MSC example project, the following resources are needed.
 
 ### Software Requirements ###
-* Renesas Flexible Software Package (FSP): Version 6.2.0
-* e2 studio: Version 2025-10
+* Renesas Flexible Software Package (FSP): Version 6.3.0
+* e2 studio: Version 2025-12
 * GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 * Serial Terminal Console Application: Tera Term or a similar application
-* SEGGER J-Link RTT Viewer: Version 8.74
+* SEGGER J-Link RTT Viewer: Version 8.92
 
 ### Hardware Requirements ###
 Supported RA boards: EK-RA4M2, EK-RA4M3, EK-RA6M3, EK-RA6M3G, EK-RA6M4, EK-RA6M5, EK-RA8M1, EK-RA8D1, MCK-RA8T1.

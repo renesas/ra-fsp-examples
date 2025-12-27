@@ -7,6 +7,10 @@ FSP Configuration
     data_flash_size_bytes: 12288
     package_style: BGA
     package_pins: 224
+    ospi0_cs0_start_address: 2147483648
+    ospi0_cs0_size_bytes: 268435456
+    ospi0_cs1_start_address: 2415919104
+    ospi0_cs1_size_bytes: 268435456
     number of cores: 1
     
   R7FA8D1BHECBD
@@ -30,6 +34,7 @@ FSP Configuration
     SDRAM: Endian Mode: Little Endian
     SDRAM: Continuous Access Mode: Enabled
     SDRAM: Bus Width: 16-bit
+    OSPI_B: Startup Support: Disabled
     Security: Exceptions: Exception Response: Non-Maskable Interrupt
     Security: Exceptions: BusFault, HardFault, and NMI Target: Secure State
     Security: System Reset Request Accessibility: Secure State
@@ -52,7 +57,8 @@ FSP Configuration
     Clocks: Settling Delay (us): 150
     Main Oscillator Wait Time: 8163 cycles
     Cache settings: Data cache: Disabled
-    : Enabled
+    I/O Ports: Voltage Mode: VCC: High (VCC >= 2.7 V)
+    I/O Ports: Voltage Mode: VCC2: High (VCC2 >= 2.7 V)
     
   RA8D1 Device Options
     OFS Registers: OFS0 (Option Function Select Register 0) Settings: Enabled
@@ -82,7 +88,7 @@ FSP Configuration
     OFS Registers: OFS1 (Option Function Select Register 1) Settings: WDT/IWDT Software Debug Control: Disabled (WDT and IWDT continue operating while the CPU is in the debug state)
     OFS Registers: OFS1 (Option Function Select Register 1) Settings: Tightly Coupled Memory (TCM)/Cache ECC: Disable ECC function for TCM and Cache
     OFS Registers: BANKSEL (Bank Select Register) Settings: Disabled
-    OFS Registers: BANKSEL (Bank Select Register) Settings: Bank Swap Switch: Disabled
+    OFS Registers: BANKSEL (Bank Select Register) Settings: Startup Bank Switch: Disabled
     OFS Registers: BANKSEL (Bank Select Register) Settings: Block Swap Select: Disabled
     OFS Registers: BPS (Block Protect Setting Register) Settings: Disabled
     OFS Registers: BPS (Block Protect Setting Register) Settings: BPS0: 
@@ -102,7 +108,7 @@ FSP Configuration
     OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: WDT/IWDT Software Debug Control: Disabled (WDT and IWDT continue operating while the CPU is in the debug state)
     OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: Tightly Coupled Memory (TCM)/Cache ECC: Disable ECC function for TCM and Cache
     OFS Registers: BANKSEL_SEC (Bank Select Register Secure) Settings: Disabled
-    OFS Registers: BANKSEL_SEC (Bank Select Register Secure) Settings: Bank Swap Switch: Disabled
+    OFS Registers: BANKSEL_SEC (Bank Select Register Secure) Settings: Startup Bank Switch: Disabled
     OFS Registers: BANKSEL_SEC (Bank Select Register Secure) Settings: Block Swap Select: Disabled
     OFS Registers: BPS_SEC (Block Protect Setting Register Secure) Settings: Disabled
     OFS Registers: BPS_SEC (Block Protect Setting Register Secure) Settings: BPS_SEC0: 
@@ -114,19 +120,35 @@ FSP Configuration
     OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: PBPS_SEC1: 
     OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: PBPS_SEC2: 
     OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: PBPS_SEC3: 
-    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: Enabled
-    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: Voltage Detection 0 Level Security Attribution: VDSEL setting loads from OFS1_SEC
-    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: Voltage Detection 0 Circuit Start Security Attribution: PVDAS setting loads from OFS1_SEC
-    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: Voltage Detection 0 Low Power Consumption Security Attribution: PVDLPSEL setting loads from OFS1_SEC
-    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: WDT/IWDT Software Debug Control Security Attribution: SWDBG setting loads from OFS1_SEC
-    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: Tightly Coupled Memory (TCM)/Cache ECC Security Attribution: INITECCEN setting loads from OFS1_SEC
-    OFS Registers: BANKSEL_SEL (Banksel Register Select) Settings: Disabled
-    OFS Registers: BANKSEL_SEL (Banksel Register Select) Settings: Flash Bank Select Accessibility: Both Secure and Non-Secure State
-    OFS Registers: BPS_SEL (BPS Register Select) Settings: Disabled
-    OFS Registers: BPS_SEL (BPS Register Select) Settings: BPS_SEL0: 
-    OFS Registers: BPS_SEL (BPS Register Select) Settings: BPS_SEL1: 
-    OFS Registers: BPS_SEL (BPS Register Select) Settings: BPS_SEL2: 
-    OFS Registers: BPS_SEL (BPS Register Select) Settings: BPS_SEL3: 
+    OFS Registers: OFS1_SEL (OFS1 Security Attribution) Settings: Enabled
+    OFS Registers: OFS1_SEL (OFS1 Security Attribution) Settings: Voltage Detection 0 Level Security Attribution: VDSEL setting loads from OFS1_SEC
+    OFS Registers: OFS1_SEL (OFS1 Security Attribution) Settings: Voltage Detection 0 Circuit Start Security Attribution: PVDAS setting loads from OFS1_SEC
+    OFS Registers: OFS1_SEL (OFS1 Security Attribution) Settings: Voltage Detection 0 Low Power Consumption Security Attribution: PVDLPSEL setting loads from OFS1_SEC
+    OFS Registers: OFS1_SEL (OFS1 Security Attribution) Settings: WDT/IWDT Software Debug Control Security Attribution: SWDBG setting loads from OFS1_SEC
+    OFS Registers: OFS1_SEL (OFS1 Security Attribution) Settings: Tightly Coupled Memory (TCM)/Cache ECC Security Attribution: INITECCEN setting loads from OFS1_SEC
+    OFS Registers: BANKSEL_SEL (Banksel Security Attribution) Settings: Disabled
+    OFS Registers: BANKSEL_SEL (Banksel Security Attribution) Settings: Flash Bank Select Accessibility: Non-Secure State
+    OFS Registers: BPS_SEL (BPS Security Attribution) Settings: Disabled
+    OFS Registers: BPS_SEL (BPS Security Attribution) Settings: BPS_SEL0: 
+    OFS Registers: BPS_SEL (BPS Security Attribution) Settings: BPS_SEL1: 
+    OFS Registers: BPS_SEL (BPS Security Attribution) Settings: BPS_SEL2: 
+    OFS Registers: BPS_SEL (BPS Security Attribution) Settings: BPS_SEL3: 
+    OFS Registers: First Stage Bootloader (FSBL): FSBLCTRL0 (FSBL Control Register 0) Settings: Disabled
+    OFS Registers: First Stage Bootloader (FSBL): FSBLCTRL0 (FSBL Control Register 0) Settings: FSBLEN: Disabled
+    OFS Registers: First Stage Bootloader (FSBL): FSBLCTRL0 (FSBL Control Register 0) Settings: FSBLSKIPSW: Disabled
+    OFS Registers: First Stage Bootloader (FSBL): FSBLCTRL0 (FSBL Control Register 0) Settings: FSBLSKIPDS: Disabled
+    OFS Registers: First Stage Bootloader (FSBL): FSBLCTRL0 (FSBL Control Register 0) Settings: FSBLCLK: 240 MHz
+    OFS Registers: First Stage Bootloader (FSBL): FSBLCTRL1 (FSBL Control Register 1) Settings: Disabled
+    OFS Registers: First Stage Bootloader (FSBL): FSBLCTRL1 (FSBL Control Register 1) Settings: FSBLEXMDFSBLEN: Secure boot with report measurement
+    OFS Registers: First Stage Bootloader (FSBL): FSBLCTRL2 (FSBL Control Register 2) Settings: Disabled
+    OFS Registers: First Stage Bootloader (FSBL): FSBLCTRL2 (FSBL Control Register 2) Settings: PORTPN: PORTn15
+    OFS Registers: First Stage Bootloader (FSBL): FSBLCTRL2 (FSBL Control Register 2) Settings: PORTGN: None
+    OFS Registers: First Stage Bootloader (FSBL): Code Certificate: SACC0 (Start Address of Code Certificate 0) Settings: Disabled
+    OFS Registers: First Stage Bootloader (FSBL): Code Certificate: SACC0 (Start Address of Code Certificate 0) Settings: Address: 0xFFFFFFFF
+    OFS Registers: First Stage Bootloader (FSBL): Code Certificate: SACC1 (Start Address of Code Certificate 1) Settings: Disabled
+    OFS Registers: First Stage Bootloader (FSBL): Code Certificate: SACC1 (Start Address of Code Certificate 1) Settings: Address: 0xFFFFFFFF
+    OFS Registers: First Stage Bootloader (FSBL): SAMR (Start Address of Measurement Report) Settings: Disabled
+    OFS Registers: First Stage Bootloader (FSBL): SAMR (Start Address of Measurement Report) Settings: Address: 0xFFFFFFFF
     
   RA8D1 event data
   RA Common
@@ -1324,9 +1346,12 @@ FSP Configuration
   User Event Links
     
   Linker Section Mappings
+    *(.bss.g_heap): RAM Uninitialized
+    *(.bss.g_main_stack): RAM Uninitialized
     
   Module "I/O Port (r_ioport)"
     Parameter Checking: Default (BSP)
+    CCD Support: Not Supported
     
   Module "FreeRTOS Port (rm_freertos_port)"
   Module "FreeRTOS Heap 4"
@@ -1443,10 +1468,12 @@ FSP Configuration
     SSL Options: MBEDTLS_SSL_DTLS_CONNECTION_ID_COMPAT: Undefine
     SSL Options: MBEDTLS_SSL_DTLS_CONNECTION_ID_COMPAT Value: Reset
     SSL Options: MBEDTLS_SSL_ASYNC_PRIVATE: Undefine
+    SSL Options: MBEDTLS_SSL_CLI_ALLOW_WEAK_CERTIFICATE_VERIFICATION_WITHOUT_HOSTNAME: Undefine
     SSL Options: MBEDTLS_SSL_DEBUG_ALL: Undefine
     SSL Options: MBEDTLS_SSL_ENCRYPT_THEN_MAC: Undefine
     SSL Options: MBEDTLS_SSL_EXTENDED_MASTER_SECRET: Undefine
     SSL Options: MBEDTLS_SSL_KEEP_PEER_CERTIFICATE: Undefine
+    SSL Options: MBEDTLS_SSL_KEYING_MATERIAL_EXPORT: Undefine
     SSL Options: MBEDTLS_SSL_RENEGOTIATION: Undefine
     SSL Options: MBEDTLS_SSL_MAX_FRAGMENT_LENGTH: Undefine
     SSL Options: MBEDTLS_SSL_PROTO_TLS1_2: Define
@@ -1559,8 +1586,8 @@ FSP Configuration
     Cipher: Alternate: MBEDTLS_ARIA_ALT: Undefine
     Cipher: Alternate: MBEDTLS_CAMELLIA_ALT: Undefine
     Cipher: Alternate: MBEDTLS_CCM_ALT: Define
-    Cipher: Alternate: MBEDTLS_CHACHA20_ALT: Undefine
-    Cipher: Alternate: MBEDTLS_CHACHAPOLY_ALT: Undefine
+    Cipher: Alternate: MBEDTLS_CHACHA20_ALT: Use Software
+    Cipher: Alternate: MBEDTLS_CHACHAPOLY_ALT: Use Software
     Cipher: Alternate: MBEDTLS_CMAC_ALT: Define
     Cipher: Alternate: MBEDTLS_DES_ALT: Undefine
     Public Key Cryptography (PKC): DHM: Alternate: MBEDTLS_DHM_ALT: Undefine
@@ -1685,6 +1712,8 @@ FSP Configuration
     Hash: MBEDTLS_MD_C: Define
     Hash: MBEDTLS_MD5_C: Define
     General: MBEDTLS_MEMORY_BUFFER_ALLOC_C: Undefine
+    Post Quantum Cryptography (PQC): MBEDTLS_MLKEM_C: Undefine
+    Post Quantum Cryptography (PQC): MBEDTLS_ML_DSA_C: Undefine
     Public Key Cryptography (PKC): MBEDTLS_OID_C: Define
     Public Key Cryptography (PKC): MBEDTLS_PEM_PARSE_C: Define
     Public Key Cryptography (PKC): MBEDTLS_PEM_WRITE_C: Define
@@ -1700,6 +1729,7 @@ FSP Configuration
     General: MBEDTLS_PSA_CRYPTO_SE_C: Undefine
     Storage: MBEDTLS_PSA_CRYPTO_STORAGE_C: Undefine
     Storage: MBEDTLS_PSA_ITS_FILE_C: Undefine
+    Storage: MBEDTLS_PSA_STATIC_KEY_SLOTS: Undefine
     Hash: MBEDTLS_RIPEMD160_C: Undefine
     Public Key Cryptography (PKC): RSA: MBEDTLS_RSA_C: Define
     Public Key Cryptography (PKC): RSA: MBEDTLS_RSA_GEN_KEY_MIN_BITS: Undefine
@@ -1808,11 +1838,12 @@ FSP Configuration
     Platform: Alternate: MBEDTLS_PLATFORM_ZEROIZE_ALT: Undefine
     Key Configuration: MBEDTLS_PSA_KEY_SLOT_COUNT: Undefine
     Key Configuration: MBEDTLS_PSA_KEY_SLOT_COUNT value: 32
+    Key Configuration: MBEDTLS_PSA_STATIC_KEY_SLOT_BUFFER_SIZE value: 256
     Platform: Alternate: MBEDTLS_PLATFORM_GMTIME_R_ALT: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECDH_VARIANT_EVEREST_ENABLED: Undefine
     General: MBEDTLS_PSA_CRYPTO_CONFIG: Undefine
     
-  Module "Mbed Crypto H/W Acceleration (rm_psa_crypto)"
+  Module "MbedTLS Crypto Port (rm_psa_crypto)"
   Module "RSIP Compatibility Mode"
   Module "MbedTLS FSP Port (rm_mbedtls)"
   Module "AWS Logging"
@@ -1820,7 +1851,7 @@ FSP Configuration
   Module "AWS TCP Sockets Wrapper"
   Module "FreeRTOS+TCP"
     Print debug messages: Enable 
-    Backward Compatible Mode: No
+    Backward Compatible Mode: Yes 
     Enable IPV6: Disable
     Print info messages: Disable
     Byte order of the target MCU: pdFREERTOS_LITTLE_ENDIAN 
@@ -1869,11 +1900,12 @@ FSP Configuration
     The socket semaphore to unblock the MQTT task (RX_DRIVER): Disable
     Possible optimisation for expert users: Disable
     
-  Module "FreeRTOS+TCP Wrapper to r_ether (rm_freertos_plus_tcp)"
+  Module "FreeRTOS+TCP Wrapper to ethernet driver (rm_freertos_plus_tcp)"
   Module "Ethernet (r_ether)"
     Parameter Checking: Default (BSP)
     ET0_LINKSTA Pin Status Flag: Fall -> Rise
     Link Signal Change Flag: Unused
+    Read Buffer Size Checking: Disabled
     
   Module "FreeRTOS Buffer Allocation 2"
   Module "AWS FreeRTOS+TCP MbedTLS Bio"
@@ -2118,8 +2150,12 @@ FSP Configuration
       Input: Data Bus Specifications: Data Bus Size: 8-bit
       Input: Data Bus Specifications: HSYNC Polarity: High
       Input: Data Bus Specifications: VSYNC Polarity: High
+      Input: Image Component Input Order (Image Capture Mode Only): Cb0, Y0, Cr0, Y1
       Output: Byte Swapping: Swap 32-bit units
       Output: Burst Transfer Mode: Transfer in 256-byte units
+      Output: Format: Conversion: YCbCr422 (No Conversion)
+      Output: Scale-Down: Horizontal Size: 0
+      Output: Scale-Down: Vertical Size: 0
       Interrupts: Callback: g_ceu_user_callback
       Interrupts: CEU Interrupt Priority: Priority 3
       Interrupts: Selectable CEU Events: One-Frame Capture End Event: Enabled
@@ -2423,6 +2459,14 @@ FSP Configuration
       General: Compare Match: Compare Match A: Compare match value: 0
       General: Compare Match: Compare Match B: Status: Disabled
       General: Compare Match: Compare Match B: Compare match value: 0
+      General: Compare Match: Compare Match C: Status: Disabled
+      General: Compare Match: Compare Match C: Compare match value: 0x10000
+      General: Compare Match: Compare Match D: Status: Disabled
+      General: Compare Match: Compare Match D: Compare match value: 0x10000
+      General: Compare Match: Compare Match E: Status: Disabled
+      General: Compare Match: Compare Match E: Compare match value: 0x10000
+      General: Compare Match: Compare Match F: Status: Disabled
+      General: Compare Match: Compare Match F: Compare match value: 0x10000
       General: Period Unit: Raw Counts
       Output: Custom Waveform: GTIOA: Initial Output Level: Pin Level Low
       Output: Custom Waveform: GTIOA: Cycle End Output Level: Pin Level Retain
@@ -2447,10 +2491,16 @@ FSP Configuration
       Input: Capture B Source: 
       Input: Noise Filter A Sampling Clock Select: No Filter
       Input: Noise Filter B Sampling Clock Select: No Filter
+      Pin Polarity: GTIOCnA Polarity: Normal
+      Pin Polarity: GTIOCnB Polarity: Normal
       Interrupts: Callback: g_timer_overflow_callback
       Interrupts: Overflow/Crest Interrupt Priority: Priority 10
       Interrupts: Capture/Compare match A Interrupt Priority: Disabled
       Interrupts: Capture/Compare match B Interrupt Priority: Disabled
+      Interrupts: Compare Match C Interrupt Priority: Disabled
+      Interrupts: Compare Match D Interrupt Priority: Disabled
+      Interrupts: Compare Match E Interrupt Priority: Disabled
+      Interrupts: Compare Match F Interrupt Priority: Disabled
       Interrupts: Underflow/Trough Interrupt Priority: Disabled
       Extra Features: Extra Features: Disabled
       Extra Features: Output Disable: POEG Link: POEG Channel 0
@@ -2475,6 +2525,14 @@ FSP Configuration
       General: Compare Match: Compare Match A: Compare match value: 0
       General: Compare Match: Compare Match B: Status: Disabled
       General: Compare Match: Compare Match B: Compare match value: 0
+      General: Compare Match: Compare Match C: Status: Disabled
+      General: Compare Match: Compare Match C: Compare match value: 0x10000
+      General: Compare Match: Compare Match D: Status: Disabled
+      General: Compare Match: Compare Match D: Compare match value: 0x10000
+      General: Compare Match: Compare Match E: Status: Disabled
+      General: Compare Match: Compare Match E: Compare match value: 0x10000
+      General: Compare Match: Compare Match F: Status: Disabled
+      General: Compare Match: Compare Match F: Compare match value: 0x10000
       General: Period Unit: Raw Counts
       Output: Custom Waveform: GTIOA: Initial Output Level: Pin Level Low
       Output: Custom Waveform: GTIOA: Cycle End Output Level: Pin Level Retain
@@ -2499,10 +2557,16 @@ FSP Configuration
       Input: Capture B Source: 
       Input: Noise Filter A Sampling Clock Select: No Filter
       Input: Noise Filter B Sampling Clock Select: No Filter
+      Pin Polarity: GTIOCnA Polarity: Normal
+      Pin Polarity: GTIOCnB Polarity: Normal
       Interrupts: Callback: gpt_blinker_callback
       Interrupts: Overflow/Crest Interrupt Priority: Priority 4
       Interrupts: Capture/Compare match A Interrupt Priority: Disabled
       Interrupts: Capture/Compare match B Interrupt Priority: Disabled
+      Interrupts: Compare Match C Interrupt Priority: Disabled
+      Interrupts: Compare Match D Interrupt Priority: Disabled
+      Interrupts: Compare Match E Interrupt Priority: Disabled
+      Interrupts: Compare Match F Interrupt Priority: Disabled
       Interrupts: Underflow/Trough Interrupt Priority: Disabled
       Extra Features: Extra Features: Disabled
       Extra Features: Output Disable: POEG Link: POEG Channel 0
@@ -2527,6 +2591,14 @@ FSP Configuration
       General: Compare Match: Compare Match A: Compare match value: 0
       General: Compare Match: Compare Match B: Status: Disabled
       General: Compare Match: Compare Match B: Compare match value: 0
+      General: Compare Match: Compare Match C: Status: Disabled
+      General: Compare Match: Compare Match C: Compare match value: 0x10000
+      General: Compare Match: Compare Match D: Status: Disabled
+      General: Compare Match: Compare Match D: Compare match value: 0x10000
+      General: Compare Match: Compare Match E: Status: Disabled
+      General: Compare Match: Compare Match E: Compare match value: 0x10000
+      General: Compare Match: Compare Match F: Status: Disabled
+      General: Compare Match: Compare Match F: Compare match value: 0x10000
       General: Period Unit: Raw Counts
       Output: Custom Waveform: GTIOA: Initial Output Level: Pin Level Low
       Output: Custom Waveform: GTIOA: Cycle End Output Level: Pin Level Retain
@@ -2551,10 +2623,16 @@ FSP Configuration
       Input: Capture B Source: 
       Input: Noise Filter A Sampling Clock Select: No Filter
       Input: Noise Filter B Sampling Clock Select: No Filter
+      Pin Polarity: GTIOCnA Polarity: Normal
+      Pin Polarity: GTIOCnB Polarity: Normal
       Interrupts: Callback: led_scr_red_blink_cb
       Interrupts: Overflow/Crest Interrupt Priority: Priority 14
       Interrupts: Capture/Compare match A Interrupt Priority: Disabled
       Interrupts: Capture/Compare match B Interrupt Priority: Disabled
+      Interrupts: Compare Match C Interrupt Priority: Disabled
+      Interrupts: Compare Match D Interrupt Priority: Disabled
+      Interrupts: Compare Match E Interrupt Priority: Disabled
+      Interrupts: Compare Match F Interrupt Priority: Disabled
       Interrupts: Underflow/Trough Interrupt Priority: Disabled
       Extra Features: Extra Features: Disabled
       Extra Features: Output Disable: POEG Link: POEG Channel 0
@@ -2579,6 +2657,14 @@ FSP Configuration
       General: Compare Match: Compare Match A: Compare match value: 0
       General: Compare Match: Compare Match B: Status: Disabled
       General: Compare Match: Compare Match B: Compare match value: 0
+      General: Compare Match: Compare Match C: Status: Disabled
+      General: Compare Match: Compare Match C: Compare match value: 0x10000
+      General: Compare Match: Compare Match D: Status: Disabled
+      General: Compare Match: Compare Match D: Compare match value: 0x10000
+      General: Compare Match: Compare Match E: Status: Disabled
+      General: Compare Match: Compare Match E: Compare match value: 0x10000
+      General: Compare Match: Compare Match F: Status: Disabled
+      General: Compare Match: Compare Match F: Compare match value: 0x10000
       General: Period Unit: Kilohertz
       Output: Custom Waveform: GTIOA: Initial Output Level: Pin Level Low
       Output: Custom Waveform: GTIOA: Cycle End Output Level: Pin Level Retain
@@ -2603,10 +2689,16 @@ FSP Configuration
       Input: Capture B Source: 
       Input: Noise Filter A Sampling Clock Select: No Filter
       Input: Noise Filter B Sampling Clock Select: No Filter
+      Pin Polarity: GTIOCnA Polarity: Normal
+      Pin Polarity: GTIOCnB Polarity: Normal
       Interrupts: Callback: NULL
       Interrupts: Overflow/Crest Interrupt Priority: Disabled
       Interrupts: Capture/Compare match A Interrupt Priority: Disabled
       Interrupts: Capture/Compare match B Interrupt Priority: Disabled
+      Interrupts: Compare Match C Interrupt Priority: Disabled
+      Interrupts: Compare Match D Interrupt Priority: Disabled
+      Interrupts: Compare Match E Interrupt Priority: Disabled
+      Interrupts: Compare Match F Interrupt Priority: Disabled
       Interrupts: Underflow/Trough Interrupt Priority: Disabled
       Extra Features: Extra Features: Disabled
       Extra Features: Output Disable: POEG Link: POEG Channel 0
@@ -2631,6 +2723,14 @@ FSP Configuration
       General: Compare Match: Compare Match A: Compare match value: 0
       General: Compare Match: Compare Match B: Status: Disabled
       General: Compare Match: Compare Match B: Compare match value: 0
+      General: Compare Match: Compare Match C: Status: Disabled
+      General: Compare Match: Compare Match C: Compare match value: 0x10000
+      General: Compare Match: Compare Match D: Status: Disabled
+      General: Compare Match: Compare Match D: Compare match value: 0x10000
+      General: Compare Match: Compare Match E: Status: Disabled
+      General: Compare Match: Compare Match E: Compare match value: 0x10000
+      General: Compare Match: Compare Match F: Status: Disabled
+      General: Compare Match: Compare Match F: Compare match value: 0x10000
       General: Period Unit: Raw Counts
       Output: Custom Waveform: GTIOA: Initial Output Level: Pin Level Low
       Output: Custom Waveform: GTIOA: Cycle End Output Level: Pin Level Retain
@@ -2655,10 +2755,16 @@ FSP Configuration
       Input: Capture B Source: 
       Input: Noise Filter A Sampling Clock Select: No Filter
       Input: Noise Filter B Sampling Clock Select: No Filter
+      Pin Polarity: GTIOCnA Polarity: Normal
+      Pin Polarity: GTIOCnB Polarity: Normal
       Interrupts: Callback: NULL
       Interrupts: Overflow/Crest Interrupt Priority: Disabled
       Interrupts: Capture/Compare match A Interrupt Priority: Disabled
       Interrupts: Capture/Compare match B Interrupt Priority: Disabled
+      Interrupts: Compare Match C Interrupt Priority: Disabled
+      Interrupts: Compare Match D Interrupt Priority: Disabled
+      Interrupts: Compare Match E Interrupt Priority: Disabled
+      Interrupts: Compare Match F Interrupt Priority: Disabled
       Interrupts: Underflow/Trough Interrupt Priority: Disabled
       Extra Features: Extra Features: Disabled
       Extra Features: Output Disable: POEG Link: POEG Channel 0
@@ -2690,6 +2796,14 @@ FSP Configuration
       General: Compare Match: Compare Match A: Compare match value: 0
       General: Compare Match: Compare Match B: Status: Disabled
       General: Compare Match: Compare Match B: Compare match value: 0
+      General: Compare Match: Compare Match C: Status: Disabled
+      General: Compare Match: Compare Match C: Compare match value: 0x10000
+      General: Compare Match: Compare Match D: Status: Disabled
+      General: Compare Match: Compare Match D: Compare match value: 0x10000
+      General: Compare Match: Compare Match E: Status: Disabled
+      General: Compare Match: Compare Match E: Compare match value: 0x10000
+      General: Compare Match: Compare Match F: Status: Disabled
+      General: Compare Match: Compare Match F: Compare match value: 0x10000
       General: Period Unit: Raw Counts
       Output: Custom Waveform: GTIOA: Initial Output Level: Pin Level Low
       Output: Custom Waveform: GTIOA: Cycle End Output Level: Pin Level Retain
@@ -2714,10 +2828,16 @@ FSP Configuration
       Input: Capture B Source: 
       Input: Noise Filter A Sampling Clock Select: No Filter
       Input: Noise Filter B Sampling Clock Select: No Filter
+      Pin Polarity: GTIOCnA Polarity: Normal
+      Pin Polarity: GTIOCnB Polarity: Normal
       Interrupts: Callback: led_scr_green_blink_cb
       Interrupts: Overflow/Crest Interrupt Priority: Priority 14
       Interrupts: Capture/Compare match A Interrupt Priority: Disabled
       Interrupts: Capture/Compare match B Interrupt Priority: Disabled
+      Interrupts: Compare Match C Interrupt Priority: Disabled
+      Interrupts: Compare Match D Interrupt Priority: Disabled
+      Interrupts: Compare Match E Interrupt Priority: Disabled
+      Interrupts: Compare Match F Interrupt Priority: Disabled
       Interrupts: Underflow/Trough Interrupt Priority: Disabled
       Extra Features: Extra Features: Disabled
       Extra Features: Output Disable: POEG Link: POEG Channel 0
@@ -2742,6 +2862,14 @@ FSP Configuration
       General: Compare Match: Compare Match A: Compare match value: 0
       General: Compare Match: Compare Match B: Status: Disabled
       General: Compare Match: Compare Match B: Compare match value: 0
+      General: Compare Match: Compare Match C: Status: Disabled
+      General: Compare Match: Compare Match C: Compare match value: 0x10000
+      General: Compare Match: Compare Match D: Status: Disabled
+      General: Compare Match: Compare Match D: Compare match value: 0x10000
+      General: Compare Match: Compare Match E: Status: Disabled
+      General: Compare Match: Compare Match E: Compare match value: 0x10000
+      General: Compare Match: Compare Match F: Status: Disabled
+      General: Compare Match: Compare Match F: Compare match value: 0x10000
       General: Period Unit: Raw Counts
       Output: Custom Waveform: GTIOA: Initial Output Level: Pin Level Low
       Output: Custom Waveform: GTIOA: Cycle End Output Level: Pin Level Retain
@@ -2766,10 +2894,16 @@ FSP Configuration
       Input: Capture B Source: 
       Input: Noise Filter A Sampling Clock Select: No Filter
       Input: Noise Filter B Sampling Clock Select: No Filter
+      Pin Polarity: GTIOCnA Polarity: Normal
+      Pin Polarity: GTIOCnB Polarity: Normal
       Interrupts: Callback: led_scr_blue_blink_cb
       Interrupts: Overflow/Crest Interrupt Priority: Priority 14
       Interrupts: Capture/Compare match A Interrupt Priority: Disabled
       Interrupts: Capture/Compare match B Interrupt Priority: Disabled
+      Interrupts: Compare Match C Interrupt Priority: Disabled
+      Interrupts: Compare Match D Interrupt Priority: Disabled
+      Interrupts: Compare Match E Interrupt Priority: Disabled
+      Interrupts: Compare Match F Interrupt Priority: Disabled
       Interrupts: Underflow/Trough Interrupt Priority: Disabled
       Extra Features: Extra Features: Disabled
       Extra Features: Output Disable: POEG Link: POEG Channel 0
@@ -2794,6 +2928,14 @@ FSP Configuration
       General: Compare Match: Compare Match A: Compare match value: 0
       General: Compare Match: Compare Match B: Status: Disabled
       General: Compare Match: Compare Match B: Compare match value: 0
+      General: Compare Match: Compare Match C: Status: Disabled
+      General: Compare Match: Compare Match C: Compare match value: 0x10000
+      General: Compare Match: Compare Match D: Status: Disabled
+      General: Compare Match: Compare Match D: Compare match value: 0x10000
+      General: Compare Match: Compare Match E: Status: Disabled
+      General: Compare Match: Compare Match E: Compare match value: 0x10000
+      General: Compare Match: Compare Match F: Status: Disabled
+      General: Compare Match: Compare Match F: Compare match value: 0x10000
       General: Period Unit: Kilohertz
       Output: Custom Waveform: GTIOA: Initial Output Level: Pin Level Low
       Output: Custom Waveform: GTIOA: Cycle End Output Level: Pin Level Retain
@@ -2818,10 +2960,16 @@ FSP Configuration
       Input: Capture B Source: 
       Input: Noise Filter A Sampling Clock Select: No Filter
       Input: Noise Filter B Sampling Clock Select: No Filter
+      Pin Polarity: GTIOCnA Polarity: Normal
+      Pin Polarity: GTIOCnB Polarity: Normal
       Interrupts: Callback: led_scr_red_bright_cb
       Interrupts: Overflow/Crest Interrupt Priority: Priority 13
       Interrupts: Capture/Compare match A Interrupt Priority: Disabled
       Interrupts: Capture/Compare match B Interrupt Priority: Disabled
+      Interrupts: Compare Match C Interrupt Priority: Disabled
+      Interrupts: Compare Match D Interrupt Priority: Disabled
+      Interrupts: Compare Match E Interrupt Priority: Disabled
+      Interrupts: Compare Match F Interrupt Priority: Disabled
       Interrupts: Underflow/Trough Interrupt Priority: Disabled
       Extra Features: Extra Features: Disabled
       Extra Features: Output Disable: POEG Link: POEG Channel 0
@@ -2846,6 +2994,14 @@ FSP Configuration
       General: Compare Match: Compare Match A: Compare match value: 0
       General: Compare Match: Compare Match B: Status: Disabled
       General: Compare Match: Compare Match B: Compare match value: 0
+      General: Compare Match: Compare Match C: Status: Disabled
+      General: Compare Match: Compare Match C: Compare match value: 0x10000
+      General: Compare Match: Compare Match D: Status: Disabled
+      General: Compare Match: Compare Match D: Compare match value: 0x10000
+      General: Compare Match: Compare Match E: Status: Disabled
+      General: Compare Match: Compare Match E: Compare match value: 0x10000
+      General: Compare Match: Compare Match F: Status: Disabled
+      General: Compare Match: Compare Match F: Compare match value: 0x10000
       General: Period Unit: Kilohertz
       Output: Custom Waveform: GTIOA: Initial Output Level: Pin Level Low
       Output: Custom Waveform: GTIOA: Cycle End Output Level: Pin Level Retain
@@ -2870,10 +3026,16 @@ FSP Configuration
       Input: Capture B Source: 
       Input: Noise Filter A Sampling Clock Select: No Filter
       Input: Noise Filter B Sampling Clock Select: No Filter
+      Pin Polarity: GTIOCnA Polarity: Normal
+      Pin Polarity: GTIOCnB Polarity: Normal
       Interrupts: Callback: led_scr_green_bright_cb
       Interrupts: Overflow/Crest Interrupt Priority: Priority 13
       Interrupts: Capture/Compare match A Interrupt Priority: Disabled
       Interrupts: Capture/Compare match B Interrupt Priority: Disabled
+      Interrupts: Compare Match C Interrupt Priority: Disabled
+      Interrupts: Compare Match D Interrupt Priority: Disabled
+      Interrupts: Compare Match E Interrupt Priority: Disabled
+      Interrupts: Compare Match F Interrupt Priority: Disabled
       Interrupts: Underflow/Trough Interrupt Priority: Disabled
       Extra Features: Extra Features: Disabled
       Extra Features: Output Disable: POEG Link: POEG Channel 0
@@ -2898,6 +3060,14 @@ FSP Configuration
       General: Compare Match: Compare Match A: Compare match value: 0
       General: Compare Match: Compare Match B: Status: Disabled
       General: Compare Match: Compare Match B: Compare match value: 0
+      General: Compare Match: Compare Match C: Status: Disabled
+      General: Compare Match: Compare Match C: Compare match value: 0x10000
+      General: Compare Match: Compare Match D: Status: Disabled
+      General: Compare Match: Compare Match D: Compare match value: 0x10000
+      General: Compare Match: Compare Match E: Status: Disabled
+      General: Compare Match: Compare Match E: Compare match value: 0x10000
+      General: Compare Match: Compare Match F: Status: Disabled
+      General: Compare Match: Compare Match F: Compare match value: 0x10000
       General: Period Unit: Kilohertz
       Output: Custom Waveform: GTIOA: Initial Output Level: Pin Level Low
       Output: Custom Waveform: GTIOA: Cycle End Output Level: Pin Level Retain
@@ -2922,10 +3092,16 @@ FSP Configuration
       Input: Capture B Source: 
       Input: Noise Filter A Sampling Clock Select: No Filter
       Input: Noise Filter B Sampling Clock Select: No Filter
+      Pin Polarity: GTIOCnA Polarity: Normal
+      Pin Polarity: GTIOCnB Polarity: Normal
       Interrupts: Callback: led_scr_blue_bright_cb
       Interrupts: Overflow/Crest Interrupt Priority: Priority 13
       Interrupts: Capture/Compare match A Interrupt Priority: Disabled
       Interrupts: Capture/Compare match B Interrupt Priority: Disabled
+      Interrupts: Compare Match C Interrupt Priority: Disabled
+      Interrupts: Compare Match D Interrupt Priority: Disabled
+      Interrupts: Compare Match E Interrupt Priority: Disabled
+      Interrupts: Compare Match F Interrupt Priority: Disabled
       Interrupts: Underflow/Trough Interrupt Priority: Disabled
       Extra Features: Extra Features: Disabled
       Extra Features: Output Disable: POEG Link: POEG Channel 0
@@ -2950,6 +3126,8 @@ FSP Configuration
       General: DS Auto-calibration Pattern Address: 0
       Command Sets: Custom Table: Table Pointer: 
       Command Sets: Custom Table: Table Length: 0
+      Command Sets: Custom Table: Erase Command Table: 
+      Command Sets: Custom Table: Erase Command Table Length: 0
       Command Sets: Erase Sizes: Sector Erase: 4096
       Command Sets: Erase Sizes: Block Erase: 262144
       Command Sets: Initial Mode: Protocol Mode: SPI (1S-1S-1S)
@@ -2958,7 +3136,7 @@ FSP Configuration
       Command Sets: Initial Mode: Address Length: 3 bytes
       Command Sets: Initial Mode: Address MSB Mask: 0xF0
       Command Sets: Initial Mode: Command Code Length: 1 byte
-      Command Sets: Initial Mode: Status Register Address Length: No address
+      Command Sets: Initial Mode: Status Register: No address
       Command Sets: Initial Mode: Status Register Address: 0x00
       Command Sets: Initial Mode: Read: Command Code: 0x13
       Command Sets: Initial Mode: Read: Dummy Cycles: 0
@@ -2980,7 +3158,7 @@ FSP Configuration
       Command Sets: High-speed Mode: Address Length: 4 bytes
       Command Sets: High-speed Mode: Address MSB Mask: 0xF0
       Command Sets: High-speed Mode: Command Code Length: 2 bytes
-      Command Sets: High-speed Mode: Status Register Address Length: 4 bytes
+      Command Sets: High-speed Mode: Status Register: 4 bytes
       Command Sets: High-speed Mode: Status Register Address: 0x00
       Command Sets: High-speed Mode: Read: Command Code: 0xEEEE
       Command Sets: High-speed Mode: Read: Dummy Cycles: 20
@@ -2997,8 +3175,8 @@ FSP Configuration
       Command Sets: High-speed Mode: Block Erase: Command Code: 0xDCDC
       Command Sets: High-speed Mode: Chip Erase: Command Code: 0x6060
       Timing Settings: Chip Select: Command Interval: 2 cycles
-      Timing Settings: Chip Select: Pull-up Timing: No Extension
-      Timing Settings: Chip Select: Pull-down Timing: No Extension
+      Timing Settings: Chip Select: Assertion Extension: No extension
+      Timing Settings: Chip Select: Negation Extension: No extension
       Timing Settings: DS Latching Delay: Auto-calibrate
       Timing Settings: SDR: Drive Timing: Drive 1/2 cycle before CK
       Timing Settings: SDR: CK Sampling Edge: Falling edge
@@ -3011,8 +3189,8 @@ FSP Configuration
       DOTF: AES IV: g_ospi_dotf_iv
       DOTF: AES Key Length: 128
       DOTF: Key Format: Plaintext
-      DOTF: Decryption start address: 0x90000000
-      DOTF: Decryption end address: 0x90001FFF
+      DOTF: Decryption Start Address: 0x90000000
+      DOTF: Decryption End Address: 0x90001FFF
       Row Addressing: Row Address Length: No address
       
       Instance "g_transfer0 Transfer (r_dmac) No ELC Trigger"
@@ -3029,7 +3207,7 @@ FSP Configuration
         Callback: NULL
         Transfer End Interrupt Priority: Disabled
         Interrupt Frequency: Interrupt after all transfers have completed
-        Offset value (Valid only when address mode is \'Offset\'): 0
+        Offset value (Valid only when address mode is Offset addition): 0
         Source Buffer Size: 0
         
   Thread "Blinky Thread"
@@ -3091,7 +3269,14 @@ FSP Configuration
       Instance "AWS Transport Interface on MbedTLS/PKCS11 (rm_aws_transport_interface_port)"
         Instance "AWS TCP Sockets Wrapper"
           Instance "FreeRTOS+TCP"
-            Instance "FreeRTOS+TCP Wrapper to r_ether (rm_freertos_plus_tcp)"
+            Instance "g_freertos_plus_tcp0 FreeRTOS+TCP Wrapper to ethernet driver (rm_freertos_plus_tcp)"
+              Name: g_freertos_plus_tcp0
+              RX Handler Task Stack Size: configMINIMAL_STACK_SIZE
+              RX Handler Task Priority: configMAX_PRIORITIES - 1
+              Check Link Status Task Stack Size: configMINIMAL_STACK_SIZE
+              Check Link Status Task Priority: configMAX_PRIORITIES - 1
+              Link check interval: 1000
+              
               Instance "g_ether0 Ethernet (r_ether)"
                 General: Name: g_ether0
                 General: Channel: 0
@@ -3140,6 +3325,7 @@ FSP Configuration
                 Name: g_rm_littlefs0
                 Read Size: 1
                 Program Size: 4
+                Memory Start Address: BSP_FEATURE_FLASH_DATA_FLASH_START
                 Block Size (bytes): 128
                 Block Count: (BSP_DATA_FLASH_SIZE_BYTES/128)
                 Block Cycles: 1024
@@ -3156,7 +3342,7 @@ FSP Configuration
           Instance "FreeRTOS MbedTLS Port"
             Instance "MbedTLS"
               Instance "MbedTLS (Crypto Only)"
-                Instance "Mbed Crypto H/W Acceleration (rm_psa_crypto)"
+                Instance "MbedTLS Crypto Port (rm_psa_crypto)"
                   Instance "RSIP Compatibility Mode"
               Instance "MbedTLS FSP Port (rm_mbedtls)"
         Instance "AWS Logging"

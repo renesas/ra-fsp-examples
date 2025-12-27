@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<raConfiguration version="11">
+<raConfiguration version="12">
   <generalSettings>
     <option key="#Board#" value="board.ra2e1_ek"/>
     <option key="CPU" value="RA2E1"/>
@@ -9,7 +9,7 @@
     <option key="#DeviceCommand#" value="R7FA2E1A9"/>
     <option key="#RTOS#" value="_none"/>
     <option key="#pinconfiguration#" value="R7FA2E1A92DFM.pincfg"/>
-    <option key="#FSPVersion#" value="6.0.0"/>
+    <option key="#FSPVersion#" value="6.3.0"/>
     <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra2e1_ek##"/>
     <option key="#SELECTED_TOOLCHAIN#" value="gcc-arm-embedded"/>
     <option key="#ToolchainVersion#" value="13.2.1.arm-13-7"/>
@@ -18,11 +18,12 @@
     <config id="config.bsp.ra2e1.R7FA2E1A92DFM">
       <property id="config.bsp.part_number" value="config.bsp.part_number.value"/>
       <property id="config.bsp.rom_size_bytes" value="config.bsp.rom_size_bytes.value"/>
-      <property id="config.bsp.rom_size_bytes_hidden" value="131072"/>
+      <property id="config.bsp.rom_size_bytes_hidden" value="config.bsp.rom_size_bytes_hidden.value"/>
       <property id="config.bsp.ram_size_bytes" value="config.bsp.ram_size_bytes.value"/>
       <property id="config.bsp.data_flash_size_bytes" value="config.bsp.data_flash_size_bytes.value"/>
       <property id="config.bsp.package_style" value="config.bsp.package_style.value"/>
       <property id="config.bsp.package_pins" value="config.bsp.package_pins.value"/>
+      <property id="config.bsp.number_of_cores" value="1"/>
       <property id="config.bsp.irq_count_hidden" value="32"/>
     </config>
     <config id="config.bsp.ra2e1">
@@ -30,43 +31,7 @@
     </config>
     <config id="config.bsp.ra2e1.fsp">
       <property id="config.bsp.fsp.inline_irq_functions" value="config.bsp.common.inline_irq_functions.disabled"/>
-      <property id="config.bsp.fsp.OFS0.iwdt_start_mode" value="config.bsp.fsp.OFS0.iwdt_start_mode.disabled"/>
-      <property id="config.bsp.fsp.OFS0.iwdt_timeout" value="config.bsp.fsp.OFS0.iwdt_timeout.2048"/>
-      <property id="config.bsp.fsp.OFS0.iwdt_divisor" value="config.bsp.fsp.OFS0.iwdt_divisor.128"/>
-      <property id="config.bsp.fsp.OFS0.iwdt_window_end" value="config.bsp.fsp.OFS0.iwdt_window_end.0"/>
-      <property id="config.bsp.fsp.OFS0.iwdt_window_start" value="config.bsp.fsp.OFS0.iwdt_window_start.100"/>
-      <property id="config.bsp.fsp.OFS0.iwdt_reset_interrupt" value="config.bsp.fsp.OFS0.iwdt_reset_interrupt.Reset"/>
-      <property id="config.bsp.fsp.OFS0.iwdt_stop_control" value="config.bsp.fsp.OFS0.iwdt_stop_control.stops"/>
-      <property id="config.bsp.fsp.OFS0.wdt_start_mode" value="config.bsp.fsp.OFS0.wdt_start_mode.register"/>
-      <property id="config.bsp.fsp.OFS0.wdt_timeout" value="config.bsp.fsp.OFS0.wdt_timeout.16384"/>
-      <property id="config.bsp.fsp.OFS0.wdt_divisor" value="config.bsp.fsp.OFS0.wdt_divisor.128"/>
-      <property id="config.bsp.fsp.OFS0.wdt_window_end" value="config.bsp.fsp.OFS0.wdt_window_end.0"/>
-      <property id="config.bsp.fsp.OFS0.wdt_window_start" value="config.bsp.fsp.OFS0.wdt_window_start.100"/>
-      <property id="config.bsp.fsp.OFS0.wdt_reset_interrupt" value="config.bsp.fsp.OFS0.wdt_reset_interrupt.Reset"/>
-      <property id="config.bsp.fsp.OFS0.wdt_stop_control" value="config.bsp.fsp.OFS0.wdt_stop_control.stops"/>
-      <property id="config.bsp.fsp.OFS1.internal_clock_supply" value="config.bsp.fsp.OFS1.internal_clock_supply.type_a"/>
-      <property id="config.bsp.fsp.OFS1.voltage_detection0.start" value="config.bsp.fsp.OFS1.voltage_detection0.start.disabled"/>
-      <property id="config.bsp.fsp.OFS1.voltage_detection0_level" value="config.bsp.fsp.OFS1.voltage_detection0_level.190"/>
-      <property id="config.bsp.fsp.OFS1.hoco_osc" value="config.bsp.fsp.OFS1.hoco_osc.enabled"/>
       <property id="config.bsp.low_voltage_mode" value="config.bsp.low_voltage_mode.disabled"/>
-      <property id="config.bsp.fsp.mpu_pc0_enable" value="config.bsp.fsp.mpu_pc0_enable.disabled"/>
-      <property id="config.bsp.fsp.mpu_pc0_start" value="0x000FFFFC"/>
-      <property id="config.bsp.fsp.mpu_pc0_end" value="0x000FFFFF"/>
-      <property id="config.bsp.fsp.mpu_pc1_enable" value="config.bsp.fsp.mpu_pc1_enable.disabled"/>
-      <property id="config.bsp.fsp.mpu_pc1_start" value="0x000FFFFC"/>
-      <property id="config.bsp.fsp.mpu_pc1_end" value="0x000FFFFF"/>
-      <property id="config.bsp.fsp.mpu_reg0_enable" value="config.bsp.fsp.mpu_reg0_enable.disabled"/>
-      <property id="config.bsp.fsp.mpu_reg0_start" value="0x000FFFFC"/>
-      <property id="config.bsp.fsp.mpu_reg0_end" value="0x000FFFFF"/>
-      <property id="config.bsp.fsp.mpu_reg1_enable" value="config.bsp.fsp.mpu_reg1_enable.disabled"/>
-      <property id="config.bsp.fsp.mpu_reg1_start" value="0x200FFFFC"/>
-      <property id="config.bsp.fsp.mpu_reg1_end" value="0x200FFFFF"/>
-      <property id="config.bsp.fsp.mpu_reg2_enable" value="config.bsp.fsp.mpu_reg2_enable.disabled"/>
-      <property id="config.bsp.fsp.mpu_reg2_start" value="0x407FFFFC"/>
-      <property id="config.bsp.fsp.mpu_reg2_end" value="0x407FFFFF"/>
-      <property id="config.bsp.fsp.mpu_reg3_enable" value="config.bsp.fsp.mpu_reg3_enable.disabled"/>
-      <property id="config.bsp.fsp.mpu_reg3_start" value="0x400DFFFC"/>
-      <property id="config.bsp.fsp.mpu_reg3_end" value="0x400DFFFF"/>
       <property id="config.bsp.common.main_osc_wait" value="config.bsp.common.main_osc_wait.wait_8163"/>
       <property id="config.bsp.fsp.mcu.adc.max_freq_hz" value="64000000"/>
       <property id="config.bsp.fsp.mcu.sci_uart.max_baud" value="3333333"/>
@@ -80,18 +45,60 @@
       <property id="config.bsp.fsp.mcu.sci_uart.cstpen_channels" value="0x0"/>
       <property id="config.bsp.fsp.mcu.gpt.pin_count_source_channels" value="0xFFFF"/>
       <property id="config.bsp.fsp.mcu.rtc.err_adjustment_value.max_value" value="63"/>
-      <property id="config.bsp.common.id_mode" value="config.bsp.common.id_mode.unlocked"/>
-      <property id="config.bsp.common.id_code" value="FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"/>
-      <property id="config.bsp.common.id1" value=""/>
-      <property id="config.bsp.common.id2" value=""/>
-      <property id="config.bsp.common.id3" value=""/>
-      <property id="config.bsp.common.id4" value=""/>
-      <property id="config.bsp.common.id_fixed" value=""/>
-      <property id="config.bsp.common.fill_flash_gap" value="config.bsp.common.fill_flash_gap.disabled"/>
+    </config>
+    <config id="config.bsp.ra2e1.linker">
+      <property id="config.bsp.option_setting.ofs0" value="config.bsp.option_setting.ofs0.enabled"/>
+      <property id="config.bsp.option_setting.ofs0.iwdt_start_mode" value="config.bsp.option_setting.ofs0.iwdt_start_mode.disabled"/>
+      <property id="config.bsp.option_setting.ofs0.iwdt_timeout" value="config.bsp.option_setting.ofs0.iwdt_timeout.2048"/>
+      <property id="config.bsp.option_setting.ofs0.iwdt_divisor" value="config.bsp.option_setting.ofs0.iwdt_divisor.128"/>
+      <property id="config.bsp.option_setting.ofs0.iwdt_window_end" value="config.bsp.option_setting.ofs0.iwdt_window_end.0"/>
+      <property id="config.bsp.option_setting.ofs0.iwdt_window_start" value="config.bsp.option_setting.ofs0.iwdt_window_start.100"/>
+      <property id="config.bsp.option_setting.ofs0.iwdt_reset_interrupt" value="config.bsp.option_setting.ofs0.iwdt_reset_interrupt.Reset"/>
+      <property id="config.bsp.option_setting.ofs0.iwdt_stop_control" value="config.bsp.option_setting.ofs0.iwdt_stop_control.stops"/>
+      <property id="config.bsp.option_setting.ofs0.wdt_start_mode" value="config.bsp.option_setting.ofs0.wdt_start_mode.register"/>
+      <property id="config.bsp.option_setting.ofs0.wdt_timeout" value="config.bsp.option_setting.ofs0.wdt_timeout.16384"/>
+      <property id="config.bsp.option_setting.ofs0.wdt_divisor" value="config.bsp.option_setting.ofs0.wdt_divisor.128"/>
+      <property id="config.bsp.option_setting.ofs0.wdt_window_end" value="config.bsp.option_setting.ofs0.wdt_window_end.0"/>
+      <property id="config.bsp.option_setting.ofs0.wdt_window_start" value="config.bsp.option_setting.ofs0.wdt_window_start.100"/>
+      <property id="config.bsp.option_setting.ofs0.wdt_reset_interrupt" value="config.bsp.option_setting.ofs0.wdt_reset_interrupt.Reset"/>
+      <property id="config.bsp.option_setting.ofs0.wdt_stop_control" value="config.bsp.option_setting.ofs0.wdt_stop_control.stops"/>
+      <property id="config.bsp.option_setting.ofs1" value="config.bsp.option_setting.ofs1.enabled"/>
+      <property id="config.bsp.option_setting.ofs1.voltage_detection0.start" value="config.bsp.option_setting.ofs1.voltage_detection0.start.disabled"/>
+      <property id="config.bsp.option_setting.ofs1.voltage_detection0_level" value="config.bsp.option_setting.ofs1.voltage_detection0_level.190"/>
+      <property id="config.bsp.option_setting.ofs1.hoco_osc" value="config.bsp.option_setting.ofs1.hoco_osc.disabled"/>
+      <property id="config.bsp.option_setting.ofs1.internal_clock_supply" value="config.bsp.option_setting.ofs1.internal_clock_supply.type_a"/>
+      <property id="config.bsp.option_setting.secmpu" value="config.bsp.option_setting.secmpu.disabled"/>
+      <property id="config.bsp.option_setting.secmpu.pc0.enable" value="config.bsp.option_setting.secmpu.pc0.enable.disabled"/>
+      <property id="config.bsp.option_setting.secmpu.pc0.start" value="0x0001FFFC"/>
+      <property id="config.bsp.option_setting.secmpu.pc0.end" value="0x0001FFFF"/>
+      <property id="config.bsp.option_setting.secmpu.pc1.enable" value="config.bsp.option_setting.secmpu.pc1.enable.disabled"/>
+      <property id="config.bsp.option_setting.secmpu.pc1.start" value="0x0001FFFC"/>
+      <property id="config.bsp.option_setting.secmpu.pc1.end" value="0x0001FFFF"/>
+      <property id="config.bsp.option_setting.secmpu.region0.enable" value="config.bsp.option_setting.secmpu.region0.enable.disabled"/>
+      <property id="config.bsp.option_setting.secmpu.region0.start" value="0x0001FFFC"/>
+      <property id="config.bsp.option_setting.secmpu.region0.end" value="0x0001FFFF"/>
+      <property id="config.bsp.option_setting.secmpu.region1.enable" value="config.bsp.option_setting.secmpu.region1.enable.disabled"/>
+      <property id="config.bsp.option_setting.secmpu.region1.start" value="0x20007FFC"/>
+      <property id="config.bsp.option_setting.secmpu.region1.end" value="0x20007FFF"/>
+      <property id="config.bsp.option_setting.secmpu.region2.enable" value="config.bsp.option_setting.secmpu.region2.enable.disabled"/>
+      <property id="config.bsp.option_setting.secmpu.region2.start" value="0x400DFFFC"/>
+      <property id="config.bsp.option_setting.secmpu.region2.end" value="0x400DFFFF"/>
+      <property id="config.bsp.option_setting.secmpu.region3.enable" value="config.bsp.option_setting.secmpu.region3.enable.disabled"/>
+      <property id="config.bsp.option_setting.secmpu.region3.start" value="0x400DFFFC"/>
+      <property id="config.bsp.option_setting.secmpu.region3.end" value="0x400DFFFF"/>
+      <property id="config.bsp.option_setting.secmpu.enable" value=""/>
+      <property id="config.bsp.option_setting.osis" value="config.bsp.option_setting.osis.disabled"/>
+      <property id="config.bsp.option_setting.osis.id_mode" value="config.bsp.option_setting.osis.id_mode.unlocked"/>
+      <property id="config.bsp.option_setting.osis.id_code" value="FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"/>
+      <property id="config.bsp.option_setting.osis.id_fixed.1" value=""/>
+      <property id="config.bsp.option_setting.osis.id_fixed.2" value=""/>
+      <property id="config.bsp.option_setting.osis.id_fixed.3" value=""/>
+      <property id="config.bsp.option_setting.osis.id_fixed.4" value=""/>
     </config>
     <config id="config.bsp.ra">
       <property id="config.bsp.common.main" value="0x1000"/>
       <property id="config.bsp.common.heap" value="0"/>
+      <property id="config.bsp.common.bootloader.xip_enable" value="config.bsp.common.bootloader.xip_enable.disabled"/>
       <property id="config.bsp.common.vcc" value="3300"/>
       <property id="config.bsp.common.checking" value="config.bsp.common.checking.disabled"/>
       <property id="config.bsp.common.assert" value="config.bsp.common.assert.none"/>
@@ -124,59 +131,59 @@
     <node id="board.clock.clkout.display" option="board.clock.clkout.display.value"/>
   </raClockConfiguration>
   <raComponentSelection>
-    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="6.3.0">
       <description>Board Support Package Common Files</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.6.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_gpt" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_gpt" variant="" vendor="Renesas" version="6.3.0">
       <description>General PWM Timer</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.6.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_icu" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_icu" variant="" vendor="Renesas" version="6.3.0">
       <description>External Interrupt</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.6.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_iic_slave" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_iic_slave" variant="" vendor="Renesas" version="6.3.0">
       <description>I2C Slave Interface</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.6.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="6.3.0">
       <description>I/O Port</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.6.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_lpm" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_lpm" variant="" vendor="Renesas" version="6.3.0">
       <description>Low Power Modes</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.6.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra2e1_ek" variant="" vendor="Renesas" version="6.0.0">
-      <description>EK-RA2E1 Board Support Files</description>
-      <originalPack>Renesas.RA_board_ra2e1_ek.6.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="CMSIS" condition="" group="Main" subgroup="CoreM" variant="" vendor="Arm" version="6.1.0+fsp.6.0.0">
-      <description>Arm CMSIS Version 6 - Core (M)</description>
-      <originalPack>Arm.CMSIS6.6.1.0+fsp.6.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra2e1" subgroup="device" variant="R7FA2E1A92DFM" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="BSP" condition="" group="ra2e1" subgroup="device" variant="R7FA2E1A92DFM" vendor="Renesas" version="6.3.0">
       <description>Board support package for R7FA2E1A92DFM</description>
-      <originalPack>Renesas.RA_mcu_ra2e1.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra2e1.6.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra2e1" subgroup="device" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="BSP" condition="" group="ra2e1" subgroup="device" variant="" vendor="Renesas" version="6.3.0">
       <description>Board support package for RA2E1</description>
-      <originalPack>Renesas.RA_mcu_ra2e1.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra2e1.6.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra2e1" subgroup="fsp" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="BSP" condition="" group="ra2e1" subgroup="fsp" variant="" vendor="Renesas" version="6.3.0">
       <description>Board support package for RA2E1 - FSP Data</description>
-      <originalPack>Renesas.RA_mcu_ra2e1.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra2e1.6.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra2e1" subgroup="events" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="BSP" condition="" group="ra2e1" subgroup="events" variant="" vendor="Renesas" version="6.3.0">
       <description>Board support package for RA2E1 - Events</description>
-      <originalPack>Renesas.RA_mcu_ra2e1.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra2e1.6.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra2e1" subgroup="linker" variant="" vendor="Renesas" version="6.0.0">
-        <description>Board support package for RA2E1 - Linker</description>
-        <originalPack>Renesas.RA_mcu_ra2e1.6.0.0.pack</originalPack>
-        </component> 
-    </raComponentSelection>
+    <component apiversion="" class="BSP" condition="" group="ra2e1" subgroup="linker" variant="" vendor="Renesas" version="6.3.0">
+      <description>Board support package for RA2E1 - Linker</description>
+      <originalPack>Renesas.RA_mcu_ra2e1.6.3.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra2e1_ek" variant="" vendor="Renesas" version="6.3.0">
+      <description>RA2E1-EK Board Support Files</description>
+      <originalPack>Renesas.RA_board_ra2e1_ek.6.3.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="CMSIS" condition="" group="Main" subgroup="CoreM" variant="" vendor="Arm" version="6.1.0+fsp.6.3.0">
+      <description>Arm CMSIS Version 6 - Core (M)</description>
+      <originalPack>Arm.CMSIS6.6.1.0+fsp.6.3.0.pack</originalPack>
+    </component>
+  </raComponentSelection>
   <raElcConfiguration/>
   <raIcuConfiguration>
     <interrupt event="event.iic0.wui" isr="iic_slave_wu_isr"/>
@@ -232,6 +239,7 @@
       <property id="module.driver.lpm.power_supply_deep_standby" value="module.driver.lpm.power_supply_deep_standby.deepcut0"/>
       <property id="module.driver.lpm.deep_standby_cancel_sources" value=""/>
       <property id="module.driver.lpm.deep_standby_cancel_edges" value=""/>
+      <property id="module.driver.lpm.deep_standby_soft_start_mode" value="module.driver.lpm.deep_standby_soft_start_mode.disabled"/>
     </module>
     <module id="module.driver.external_irq_on_icu.1665831632">
       <property id="module.driver.external_irq.name" value="g_external_irq"/>
@@ -252,6 +260,14 @@
       <property id="module.driver.timer.compare_match.a.value" value="0"/>
       <property id="module.driver.timer.compare_match.b.status" value="module.driver.timer.compare_match.b.status.disabled"/>
       <property id="module.driver.timer.compare_match.b.value" value="0"/>
+      <property id="module.driver.timer.compare_match.c.status" value="module.driver.timer.compare_match.c.status.disabled"/>
+      <property id="module.driver.timer.compare_match.c.value" value="0x10000"/>
+      <property id="module.driver.timer.compare_match.d.status" value="module.driver.timer.compare_match.d.status.disabled"/>
+      <property id="module.driver.timer.compare_match.d.value" value="0x10000"/>
+      <property id="module.driver.timer.compare_match.e.status" value="module.driver.timer.compare_match.e.status.disabled"/>
+      <property id="module.driver.timer.compare_match.e.value" value="0x10000"/>
+      <property id="module.driver.timer.compare_match.f.status" value="module.driver.timer.compare_match.f.status.disabled"/>
+      <property id="module.driver.timer.compare_match.f.value" value="0x10000"/>
       <property id="module.driver.timer.unit" value="module.driver.timer.unit.unit_period_sec"/>
       <property id="module.driver.timer.gtior.gtioa.initial_output_level" value="module.driver.timer.gtior.gtioa.initial_output_level.low"/>
       <property id="module.driver.timer.gtior.gtioa.cycle_end_output_level" value="module.driver.timer.gtior.gtioa.cycle_end_output_level.retain"/>
@@ -276,10 +292,16 @@
       <property id="module.driver.timer.capture_b_source" value=""/>
       <property id="module.driver.timer.gtioca_filter" value="module.driver.timer.gtioc_filter.gtioc_filter_none"/>
       <property id="module.driver.timer.gtiocb_filter" value="module.driver.timer.gtioc_filter.gtioc_filter_none"/>
+      <property id="module.driver.timer.gtioca_polarity" value="module.driver.timer.gtioc_polarity.normal"/>
+      <property id="module.driver.timer.gtiocb_polarity" value="module.driver.timer.gtioc_polarity.normal"/>
       <property id="module.driver.timer.p_callback" value="timer_sleep_callback"/>
       <property id="module.driver.timer.ipl" value="board.icu.common.irq.priority2"/>
       <property id="module.driver.timer.capture_a_ipl" value="_disabled"/>
       <property id="module.driver.timer.capture_b_ipl" value="_disabled"/>
+      <property id="module.driver.timer.compare_match_c_ipl" value="_disabled"/>
+      <property id="module.driver.timer.compare_match_d_ipl" value="_disabled"/>
+      <property id="module.driver.timer.compare_match_e_ipl" value="_disabled"/>
+      <property id="module.driver.timer.compare_match_f_ipl" value="_disabled"/>
       <property id="module.driver.timer.trough_ipl" value="_disabled"/>
       <property id="module.driver.timer.extra" value="module.driver.timer.extra.disabled"/>
       <property id="module.driver.timer.poeg_link" value="enum.driver.poeg.channels.poeg_link_poeg0"/>
@@ -313,6 +335,7 @@
     </config>
     <config id="config.driver.ioport">
       <property id="config.driver.ioport.checking" value="config.driver.ioport.checking.system"/>
+      <property id="config.driver.ioport.ccd_support_enable" value="config.driver.ioport.ccd_support_enable.disabled"/>
     </config>
     <config id="config.driver.icu">
       <property id="config.driver.icu.param_checking_enable" value="config.driver.icu.param_checking_enable.bsp"/>

@@ -16,10 +16,10 @@ for general information on example projects and [readme.txt](./readme.txt) for s
 The following resources are needed to build and run the SDRAM example project.
 
 ### Software ###
-* Renesas Flexible Software Package (FSP): Version 6.2.0
-* e2 studio: Version 2025-10
-* SEGGER J-Link RTT Viewer: Version 8.74
-* LLVM Embedded Toolchain for ARM: Version 18.1.3
+* Renesas Flexible Software Package (FSP): Version 6.3.0
+* e2 studio: Version 2025-12
+* SEGGER J-Link RTT Viewer: Version 8.92
+* LLVM Embedded Toolchain for ARM: Version 21.1.1
 * Serial Terminal Console Application: Tera Term or a similar application (for boards that support J-Link OB VCOM)
 
 Refer to the software required section in [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf)

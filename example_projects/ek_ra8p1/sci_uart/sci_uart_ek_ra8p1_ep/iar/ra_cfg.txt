@@ -7,6 +7,14 @@ FSP Configuration
     data_flash_size_bytes: 0
     package_style: LFBGA
     package_pins: 289
+    ospi0_cs0_start_address: 2147483648
+    ospi0_cs0_size_bytes: 268435456
+    ospi0_cs1_start_address: 2415919104
+    ospi0_cs1_size_bytes: 268435456
+    ospi1_cs0_start_address: 1879048192
+    ospi1_cs0_size_bytes: 134217728
+    ospi1_cs1_start_address: 2013265920
+    ospi1_cs1_size_bytes: 134217728
     number of cores: 2
     
   R7KA8P1KFLCAC
@@ -30,6 +38,7 @@ FSP Configuration
     SDRAM: Endian Mode: Little Endian
     SDRAM: Continuous Access Mode: Enabled
     SDRAM: Bus Width: 32-bit
+    OSPI_B: Startup Support: Disabled
     Security: Exceptions: Exception Response: Non-Maskable Interrupt
     Security: Exceptions: BusFault, HardFault, and NMI Target: Secure State
     Security: System Reset Request Accessibility: Secure State
@@ -59,6 +68,8 @@ FSP Configuration
     Main Oscillator Wait Time: 8163 cycles
     Cache settings: Data cache: Disabled
     Cache settings: Data cache forced write-through: Disabled
+    I/O Ports: Voltage Mode: VCC: High (VCC >= 2.7 V)
+    I/O Ports: Voltage Mode: VCC2: High (VCC2 >= 2.7 V)
     
   RA8P1 Device Options
     OFS Registers: OFS0 (Option Function Select Register 0) Settings: Disabled
@@ -416,10 +427,10 @@ FSP Configuration
       P513 R13 - DISP_TCON3 - - Disabled - - "ACMPHS: IVCMP0; ADC0: AN016; ADC1: AN016; CEU: VIO_FLD; ESWM_GMII/MII: ET0_INT; ESWM_RGMII0: ET0_INT; ESWM_RMII0: ET0_INT; GLCDC: LCD_TCON3; GPT13: GTIOC13B; IRQ: IRQ31; SCI8: DE8; SCI8: SCK8" - None - - 
       P514 R14 - DISP_BLEN - - Disabled - - "ESWM_GMII/MII: ET_TAS_STA1; ESWM_RGMII: ET_TAS_STA1; ESWM_RMII: ET_TAS_STA1; GLCDC: LCD_EXTCLK; GPT13: GTIOC13B; IIC2: SDA2; IRQ: IRQ13; SCI4: DE4; SCI4: SCK4" - None - - 
       P515 P15 - DISP_CLK - - Disabled - - "ESWM_GMII/MII: ET_TAS_STA0; ESWM_RGMII: ET_TAS_STA0; ESWM_RMII: ET_TAS_STA0; GLCDC: LCD_CLK; GPT13: GTIOC13A; IIC2: SCL2; IRQ: IRQ12; SCI4: CTS_RTS4; SCI4: DE4" "Enable when connected" None - - 
-      P600 P3 - USER_LED_BLUE - - Disabled - - "CAC: CACREF; ESWM_GMII/MII: ET1_WOL; ESWM_RGMII1: ET1_WOL; ESWM_RMII1: ET1_WOL; GPT6: GTIOC6B; IRQ: IRQ30; OSPI0: OM_0_RSTO1; ULPT1: ULPTEVI1-DS" - None - - 
+      P600 P3 GPT6_GTIOC6B USER_LED_BLUE L None "Peripheral mode" - - "CAC: CACREF; ESWM_GMII/MII: ET1_WOL; ESWM_RGMII1: ET1_WOL; ESWM_RMII1: ET1_WOL; GPT6: GTIOC6B; IRQ: IRQ30; OSPI0: OM_0_RSTO1; ULPT1: ULPTEVI1-DS" - IO - - 
       P601 P4 - PMOD2_RTS_SSL - - Disabled - - "GPT6: GTIOC6A; IRQ: IRQ29; OSPI0: OM_0_WP1; RTC: RTCOUT; SCI0: DE0; SCI0: SCK0; ULPT0: ULPTEVI0" "See E16 / E14 in manual" None - - 
-      P602 P2 - PMOD2_RX - - Disabled - - "GPT7: GTIOC7B; IRQ: IRQ28; OSPI1: OM_1_SCLKN; SCI0: RXD0; ULPT0: ULPTEE0" - None - - 
-      P603 P1 - PMOD2_TX - - Disabled - - "GPT7: GTIOC7A; IRQ: IRQ27; OSPI1: OM_1_SCLK; SCI0: TXD0; ULPT0: ULPTO0" - None - - 
+      P602 P2 SCI0_RXD0 PMOD2_RX L None "Peripheral mode" - - "GPT7: GTIOC7B; IRQ: IRQ28; OSPI1: OM_1_SCLKN; SCI0: RXD0; ULPT0: ULPTEE0" - I - - 
+      P603 P1 SCI0_TXD0 PMOD2_TX L None "Peripheral mode" - - "GPT7: GTIOC7A; IRQ: IRQ27; OSPI1: OM_1_SCLK; SCI0: TXD0; ULPT0: ULPTO0" - O - - 
       P604 N2 - PMOD2_CTS - - Disabled - - "GPT8: GTIOC8B; IRQ: IRQ26; OSPI1: OM_1_SIO7; SCI0: CTS_RTS0; SCI0: DE0" "See E14 / E15 in manual" None - - 
       P605 N1 - PMOD2_SSL - - Disabled - - "GPT8: GTIOC8A; IRQ: IRQ25; OSPI1: OM_1_SIO1; SCI0: CTS0" "See E10 in manual" None - - 
       P606 N3 - DISP_RESET - - Disabled - - "BUS: BC3; BUS: WR3; IRQ: IRQ24; OSPI1: OM_1_SIO6" - None - - 
@@ -706,10 +717,10 @@ FSP Configuration
       P513 R13 GLCDC_LCD_TCON3 DISP_TCON3 - - "Peripheral mode" - - "ACMPHS: IVCMP0; ADC0: AN016; ADC1: AN016; CEU: VIO_FLD; ESWM_GMII/MII: ET0_INT; ESWM_RGMII0: ET0_INT; ESWM_RMII0: ET0_INT; GLCDC: LCD_TCON3; GPT13: GTIOC13B; IRQ: IRQ31; SCI8: DE8; SCI8: SCK8" - None - - 
       P514 R14 GPIO DISP_BLEN - - "Output mode (Initial Low)" - - "ESWM_GMII/MII: ET_TAS_STA1; ESWM_RGMII: ET_TAS_STA1; ESWM_RMII: ET_TAS_STA1; GLCDC: LCD_EXTCLK; GPT13: GTIOC13B; IIC2: SDA2; IRQ: IRQ13; SCI4: DE4; SCI4: SCK4" - None - - 
       P515 P15 GLCDC_LCD_CLK DISP_CLK - - "Peripheral mode" - - "ESWM_GMII/MII: ET_TAS_STA0; ESWM_RGMII: ET_TAS_STA0; ESWM_RMII: ET_TAS_STA0; GLCDC: LCD_CLK; GPT13: GTIOC13A; IIC2: SCL2; IRQ: IRQ12; SCI4: CTS_RTS4; SCI4: DE4" "Enable when connected" None - - 
-      P600 P3 GPIO USER_LED_BLUE - - "Output mode (Initial Low)" - - "CAC: CACREF; ESWM_GMII/MII: ET1_WOL; ESWM_RGMII1: ET1_WOL; ESWM_RMII1: ET1_WOL; GPT6: GTIOC6B; IRQ: IRQ30; OSPI0: OM_0_RSTO1; ULPT1: ULPTEVI1-DS" - None - - 
+      P600 P3 GPIO USER_LED_BLUE H None "Output mode (Initial Low)" - - "CAC: CACREF; ESWM_GMII/MII: ET1_WOL; ESWM_RGMII1: ET1_WOL; ESWM_RMII1: ET1_WOL; GPT6: GTIOC6B; IRQ: IRQ30; OSPI0: OM_0_RSTO1; ULPT1: ULPTEVI1-DS" - IO - - 
       P601 P4 - PMOD2_RTS_SSL - - Disabled - - "GPT6: GTIOC6A; IRQ: IRQ29; OSPI0: OM_0_WP1; RTC: RTCOUT; SCI0: DE0; SCI0: SCK0; ULPT0: ULPTEVI0" "See E16 / E14 in manual" None - - 
-      P602 P2 - PMOD2_RX - - Disabled - - "GPT7: GTIOC7B; IRQ: IRQ28; OSPI1: OM_1_SCLKN; SCI0: RXD0; ULPT0: ULPTEE0" - None - - 
-      P603 P1 - PMOD2_TX - - Disabled - - "GPT7: GTIOC7A; IRQ: IRQ27; OSPI1: OM_1_SCLK; SCI0: TXD0; ULPT0: ULPTO0" - None - - 
+      P602 P2 - PMOD2_RX L None Disabled - - "GPT7: GTIOC7B; IRQ: IRQ28; OSPI1: OM_1_SCLKN; SCI0: RXD0; ULPT0: ULPTEE0" - I - - 
+      P603 P1 - PMOD2_TX L None Disabled - - "GPT7: GTIOC7A; IRQ: IRQ27; OSPI1: OM_1_SCLK; SCI0: TXD0; ULPT0: ULPTO0" - O - - 
       P604 N2 - PMOD2_CTS - - Disabled - - "GPT8: GTIOC8B; IRQ: IRQ26; OSPI1: OM_1_SIO7; SCI0: CTS_RTS0; SCI0: DE0" "See E14 / E15 in manual" None - - 
       P605 N1 - PMOD2_SSL - - Disabled - - "GPT8: GTIOC8A; IRQ: IRQ25; OSPI1: OM_1_SIO1; SCI0: CTS0" "See E10 in manual" None - - 
       P606 N3 GPIO DISP_RESET - - "Output mode (Initial Low)" - - "BUS: BC3; BUS: WR3; IRQ: IRQ24; OSPI1: OM_1_SIO6" - None - - 
@@ -901,6 +912,10 @@ FSP Configuration
     
   User Event Links
     
+  Linker Section Mappings
+    *(.bss.g_heap): RAM Uninitialized
+    *(.bss.g_main_stack): RAM Uninitialized
+    
   Module "I/O Port (r_ioport)"
     Parameter Checking: Default (BSP)
     CCD Support: Not Supported
@@ -960,6 +975,14 @@ FSP Configuration
       General: Compare Match: Compare Match A: Compare match value: 0
       General: Compare Match: Compare Match B: Status: Disabled
       General: Compare Match: Compare Match B: Compare match value: 0
+      General: Compare Match: Compare Match C: Status: Disabled
+      General: Compare Match: Compare Match C: Compare match value: 0x10000
+      General: Compare Match: Compare Match D: Status: Disabled
+      General: Compare Match: Compare Match D: Compare match value: 0x10000
+      General: Compare Match: Compare Match E: Status: Disabled
+      General: Compare Match: Compare Match E: Compare match value: 0x10000
+      General: Compare Match: Compare Match F: Status: Disabled
+      General: Compare Match: Compare Match F: Compare match value: 0x10000
       General: Period Unit: Raw Counts
       Output: Custom Waveform: GTIOA: Initial Output Level: Pin Level Low
       Output: Custom Waveform: GTIOA: Cycle End Output Level: Pin Level Retain
@@ -990,6 +1013,10 @@ FSP Configuration
       Interrupts: Overflow/Crest Interrupt Priority: Disabled
       Interrupts: Capture/Compare match A Interrupt Priority: Disabled
       Interrupts: Capture/Compare match B Interrupt Priority: Disabled
+      Interrupts: Compare Match C Interrupt Priority: Disabled
+      Interrupts: Compare Match D Interrupt Priority: Disabled
+      Interrupts: Compare Match E Interrupt Priority: Disabled
+      Interrupts: Compare Match F Interrupt Priority: Disabled
       Interrupts: Underflow/Trough Interrupt Priority: Disabled
       Extra Features: Extra Features: Disabled
       Extra Features: Output Disable: POEG Link: POEG Channel 0

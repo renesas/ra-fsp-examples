@@ -15,9 +15,9 @@ for general information on example projects and [readme.txt](./readme.txt) for s
 To build and run the i2c_addr_match_wakeup example project, the following resources are needed.
 
 ### Software ###
-* Renesas Flexible Software Package (FSP): Version 5.9.0
-* e2 studio: Version 2025-04
-* SEGGER J-Link RTT Viewer: Version 8.12f
+* Renesas Flexible Software Package (FSP): Version 6.3.0
+* e2 studio: Version 2025-12
+* SEGGER J-Link RTT Viewer: Version 8.92
 * GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 * Terminal Console Application: Tera Term or a similar application
 

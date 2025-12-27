@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<raConfiguration version="11">
+<raConfiguration version="12">
   <generalSettings>
     <option key="#Board#" value="board.ra8d1ek"/>
     <option key="CPU" value="RA8D1"/>
@@ -9,7 +9,7 @@
     <option key="#DeviceCommand#" value="R7FA8D1BH"/>
     <option key="#RTOS#" value="rtos.awsfreertos"/>
     <option key="#pinconfiguration#" value="R7FA8D1BHECBD.pincfg"/>
-    <option key="#FSPVersion#" value="6.0.0"/>
+    <option key="#FSPVersion#" value="6.3.0"/>
     <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra8d1_ek##"/>
     <option key="#SELECTED_TOOLCHAIN#" value="gcc-arm-embedded"/>
     <option key="#ToolchainVersion#" value="13.2.1.arm-13-7"/>
@@ -18,11 +18,15 @@
     <config id="config.bsp.ra8d1.R7FA8D1BHECBD">
       <property id="config.bsp.part_number" value="config.bsp.part_number.value"/>
       <property id="config.bsp.rom_size_bytes" value="config.bsp.rom_size_bytes.value"/>
-      <property id="config.bsp.rom_size_bytes_hidden" value="2064384"/>
+      <property id="config.bsp.rom_size_bytes_hidden" value="config.bsp.rom_size_bytes_hidden.value"/>
       <property id="config.bsp.ram_size_bytes" value="config.bsp.ram_size_bytes.value"/>
       <property id="config.bsp.data_flash_size_bytes" value="config.bsp.data_flash_size_bytes.value"/>
       <property id="config.bsp.package_style" value="config.bsp.package_style.value"/>
       <property id="config.bsp.package_pins" value="config.bsp.package_pins.value"/>
+      <property id="config.bsp.ospi0_cs0_start_address" value="config.bsp.ospi0_cs0_start_address.value"/>
+      <property id="config.bsp.ospi0_cs0_size_bytes" value="config.bsp.ospi0_cs0_size_bytes.value"/>
+      <property id="config.bsp.ospi0_cs1_start_address" value="config.bsp.ospi0_cs1_start_address.value"/>
+      <property id="config.bsp.ospi0_cs1_size_bytes" value="config.bsp.ospi0_cs1_size_bytes.value"/>
       <property id="config.bsp.number_of_cores" value="1"/>
       <property id="config.bsp.irq_count_hidden" value="96"/>
     </config>
@@ -46,6 +50,7 @@
       <property id="config.bsp.fsp.sdram.endian_mode" value="config.bsp.fsp.sdram.endian_mode.little"/>
       <property id="config.bsp.fsp.sdram.continuous_access_mode" value="config.bsp.fsp.sdram.continuous_access_mode.enabled"/>
       <property id="config.bsp.fsp.sdram.bus_width" value="config.bsp.fsp.sdram.bus_width.16"/>
+      <property id="config.bsp.fsp.ospi_b_startup" value="config.bsp.fsp.ospi_b_startup.disabled"/>
       <property id="config.bsp.fsp.tz.exception_response" value="config.bsp.fsp.tz.exception_response.nmi"/>
       <property id="config.bsp.fsp.tz.cmsis.bfhfnmins" value="config.bsp.fsp.tz.cmsis.bfhfnmins.secure"/>
       <property id="config.bsp.fsp.tz.cmsis.sysresetreqs" value="config.bsp.fsp.tz.cmsis.sysresetreqs.secure_only"/>
@@ -91,6 +96,8 @@
       <property id="config.bsp.fsp.dcache" value="config.bsp.fsp.dcache.disabled"/>
       <property id="config.bsp.fsp.mscr.forcewt" value="config.bsp.fsp.mscr.forcewt.enabled"/>
       <property id="config.bsp.fsp.mcu.rtc.err_adjustment_value.max_value" value="63"/>
+      <property id="config.bsp.fsp.ioport.voltage_mode.vcc" value="config.bsp.fsp.ioport.voltage_mode.vcc.high"/>
+      <property id="config.bsp.fsp.ioport.voltage_mode.vcc2" value="config.bsp.fsp.ioport.voltage_mode.vcc2.high"/>
     </config>
     <config id="config.bsp.ra8d1.linker">
       <property id="config.bsp.option_setting.ofs0" value="config.bsp.option_setting.ofs0.enabled"/>
@@ -165,6 +172,22 @@
       <property id="config.bsp.option_setting.bps_sel.1" value=""/>
       <property id="config.bsp.option_setting.bps_sel.2" value=""/>
       <property id="config.bsp.option_setting.bps_sel.3" value=""/>
+      <property id="config.bsp.option_setting_data_flash.fsblctrl0" value="config.bsp.option_setting_data_flash.fsblctrl0.disabled"/>
+      <property id="config.bsp.option_setting_data_flash.fsblctrl0.FSBLEN" value="config.bsp.option_setting_data_flash.fsblctrl0.FSBLEN.disabled"/>
+      <property id="config.bsp.option_setting_data_flash.fsblctrl0.FSBLSKIPSW" value="config.bsp.option_setting_data_flash.fsblctrl0.FSBLSKIPSW.disabled"/>
+      <property id="config.bsp.option_setting_data_flash.fsblctrl0.FSBLSKIPDS" value="config.bsp.option_setting_data_flash.fsblctrl0.FSBLSKIPDS.disabled"/>
+      <property id="config.bsp.option_setting_data_flash.fsblctrl0.FSBLCLK" value="config.bsp.option_setting_data_flash.fsblctrl0.FSBLCLK.7"/>
+      <property id="config.bsp.option_setting_data_flash.fsblctrl1" value="config.bsp.option_setting_data_flash.fsblctrl1.disabled"/>
+      <property id="config.bsp.option_setting_data_flash.fsblctrl1.FSBLEXMD" value="config.bsp.option_setting_data_flash.fsblctrl1.FSBLEXMD.secure_report"/>
+      <property id="config.bsp.option_setting_data_flash.fsblctrl2" value="config.bsp.option_setting_data_flash.fsblctrl2.disabled"/>
+      <property id="config.bsp.option_setting_data_flash.fsblctrl2.PORTPN" value="config.bsp.option_setting_data_flash.fsblctrl2.PORTPN.15"/>
+      <property id="config.bsp.option_setting_data_flash.fsblctrl2.PORTGN" value="config.bsp.option_setting_data_flash.fsblctrl2.PORTGN.reserved"/>
+      <property id="config.bsp.option_setting_data_flash.sacc0" value="config.bsp.option_setting_data_flash.sacc0.disabled"/>
+      <property id="config.bsp.option_setting_data_flash.sacc0.address" value="0xFFFFFFFF"/>
+      <property id="config.bsp.option_setting_data_flash.sacc1" value="config.bsp.option_setting_data_flash.sacc1.disabled"/>
+      <property id="config.bsp.option_setting_data_flash.sacc1.address" value="0xFFFFFFFF"/>
+      <property id="config.bsp.option_setting_data_flash.samr" value="config.bsp.option_setting_data_flash.samr.disabled"/>
+      <property id="config.bsp.option_setting_data_flash.samr.address" value="0xFFFFFFFF"/>
     </config>
     <config id="config.bsp.ra">
       <property id="config.bsp.common.main" value="0x2000"/>
@@ -260,211 +283,212 @@
     <node id="board.clock.uck.display" option="board.clock.uck.display.value"/>
     <node id="board.clock.u60ck.display" option="board.clock.u60ck.display.value"/>
     <node id="board.clock.octaspiclk.display" option="board.clock.octaspiclk.display.value"/>
+    <node id="board.clock.octaspiclk.om_sclk.display" option="board.clock.octaspiclk.om_sclk.display.value"/>
   </raClockConfiguration>
   <raComponentSelection>
-    <component apiversion="" class="CMSIS" condition="" group="Main" subgroup="DSP" variant="" vendor="Arm" version="1.16.2+fsp.6.0.0">
-      <description>Arm DSP Library Source</description>
-      <originalPack>Arm.CMSIS-DSP.1.16.2+fsp.6.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra8d1" subgroup="device" variant="R7FA8D1BHECBD" vendor="Renesas" version="6.0.0">
-      <description>Board support package for R7FA8D1BHECBD</description>
-      <originalPack>Renesas.RA_mcu_ra8d1.6.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra8d1" subgroup="device" variant="" vendor="Renesas" version="6.0.0">
-      <description>Board support package for RA8D1</description>
-      <originalPack>Renesas.RA_mcu_ra8d1.6.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra8d1" subgroup="fsp" variant="" vendor="Renesas" version="6.0.0">
-      <description>Board support package for RA8D1 - FSP Data</description>
-      <originalPack>Renesas.RA_mcu_ra8d1.6.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra8d1" subgroup="events" variant="" vendor="Renesas" version="6.0.0">
-      <description>Board support package for RA8D1 - Events</description>
-      <originalPack>Renesas.RA_mcu_ra8d1.6.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra8d1" subgroup="linker" variant="" vendor="Renesas" version="6.0.0">
-      <description>Board support package for RA8D1 - Linker</description>
-      <originalPack>Renesas.RA_mcu_ra8d1.6.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="PSA" condition="" group="Crypto" subgroup="mbedCrypto" variant="" vendor="Arm" version="3.6.2+renesas.2.fsp.6.0.0">
-      <description>Arm PSA Crypto Implementation</description>
-      <originalPack>Arm.MbedCrypto.3.6.2+renesas.2.fsp.6.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="mbed" condition="" group="Security" subgroup="mbedTLS" variant="" vendor="Arm" version="3.6.2+renesas.2.fsp.6.0.0">
+    <component apiversion="" class="mbed" condition="" group="Security" subgroup="mbedTLS" variant="" vendor="Arm" version="3.6.4+renesas.2.fsp.6.3.0">
       <description>Arm mbed TLS</description>
-      <originalPack>Arm.MbedTLS.3.6.2+renesas.2.fsp.6.0.0.pack</originalPack>
+      <originalPack>Arm.MbedTLS.3.6.4+renesas.2.fsp.6.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="CMSIS" condition="" group="Main" subgroup="NN" variant="" vendor="Arm" version="7.0.0+fsp.6.0.0">
+    <component apiversion="" class="BSP" condition="" group="ra8d1" subgroup="device" variant="R7FA8D1BHECBD" vendor="Renesas" version="6.3.0">
+      <description>Board support package for R7FA8D1BHECBD</description>
+      <originalPack>Renesas.RA_mcu_ra8d1.6.3.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra8d1" subgroup="device" variant="" vendor="Renesas" version="6.3.0">
+      <description>Board support package for RA8D1</description>
+      <originalPack>Renesas.RA_mcu_ra8d1.6.3.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra8d1" subgroup="fsp" variant="" vendor="Renesas" version="6.3.0">
+      <description>Board support package for RA8D1 - FSP Data</description>
+      <originalPack>Renesas.RA_mcu_ra8d1.6.3.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra8d1" subgroup="events" variant="" vendor="Renesas" version="6.3.0">
+      <description>Board support package for RA8D1 - Events</description>
+      <originalPack>Renesas.RA_mcu_ra8d1.6.3.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra8d1" subgroup="linker" variant="" vendor="Renesas" version="6.3.0">
+      <description>Board support package for RA8D1 - Linker</description>
+      <originalPack>Renesas.RA_mcu_ra8d1.6.3.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="CMSIS" condition="" group="Main" subgroup="NN" variant="" vendor="Arm" version="7.0.0+fsp.6.3.0">
       <description>Arm NN Library Source</description>
-      <originalPack>Arm.CMSIS-NN.7.0.0+fsp.6.0.0.pack</originalPack>
+      <originalPack>Arm.CMSIS-NN.7.0.0+fsp.6.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Libraries" condition="" group="coreHTTP" subgroup="source" variant="" vendor="AWS" version="3.1.1+renesas.0.fsp.6.0.0">
-      <description>AWS Core HTTPS</description>
-      <originalPack>Amazon.coreHTTP.3.1.1+renesas.0.fsp.6.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="RTOS" condition="" group="FreeRTOS" subgroup="all" variant="" vendor="AWS" version="11.1.0+fsp.6.0.0">
+    <component apiversion="" class="RTOS" condition="" group="FreeRTOS" subgroup="all" variant="" vendor="AWS" version="11.1.0+fsp.6.3.0">
       <description>FreeRTOS</description>
-      <originalPack>Amazon.FreeRTOS-Kernel.11.1.0+fsp.6.0.0.pack</originalPack>
+      <originalPack>Amazon.FreeRTOS-Kernel.11.1.0+fsp.6.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Heaps" condition="" group="FreeRTOS" subgroup="heap_4" variant="" vendor="AWS" version="11.1.0+fsp.6.0.0">
+    <component apiversion="" class="Heaps" condition="" group="FreeRTOS" subgroup="heap_4" variant="" vendor="AWS" version="11.1.0+fsp.6.3.0">
       <description>FreeRTOS - Memory Management - Heap 4</description>
-      <originalPack>Amazon.FreeRTOS-Kernel.11.1.0+fsp.6.0.0.pack</originalPack>
+      <originalPack>Amazon.FreeRTOS-Kernel.11.1.0+fsp.6.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Libraries" condition="" group="FreeRTOS" subgroup="BufferAllocation2" variant="" vendor="AWS" version="4.2.2+fsp.6.0.0">
-      <description>FreeRTOS - Buffer Allocation 2</description>
-      <originalPack>Amazon.FreeRTOS-Plus-TCP.4.2.2+fsp.6.0.0.pack</originalPack>
+    <component apiversion="" class="CMSIS" condition="" group="Main" subgroup="DSP" variant="" vendor="Arm" version="1.16.2+fsp.6.3.0">
+      <description>Arm DSP Library Source</description>
+      <originalPack>Arm.CMSIS-DSP.1.16.2+fsp.6.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Libraries" condition="" group="FreeRTOS_Plus" subgroup="FreeRTOS_Plus_TCP" variant="" vendor="AWS" version="4.2.2+fsp.6.0.0">
-      <description>FreeRTOS+TCP</description>
-      <originalPack>Amazon.FreeRTOS-Plus-TCP.4.2.2+fsp.6.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Mbed" condition="" group="Library" subgroup="LittleFS" variant="" vendor="Arm" version="2.2.1+renesas.1.fsp.6.0.0">
-      <description>Arm Mbed LittleFS</description>
-      <originalPack>Arm.LittleFS.2.2.1+renesas.1.fsp.6.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra8d1_ek" variant="" vendor="Renesas" version="6.0.0">
-      <description>RA8D1-EK Board Support Files</description>
-      <originalPack>Renesas.RA_board_ra8d1_ek.6.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="TES" condition="" group="all" subgroup="dave2d" variant="" vendor="Renesas" version="3.8.0+fsp.6.0.0">
+    <component apiversion="" class="TES" condition="" group="all" subgroup="dave2d" variant="" vendor="Renesas" version="3.8.0+fsp.6.3.0">
       <description>TES DAVE 2D Drawing Engine</description>
-      <originalPack>TES.Dave2D.3.8.0+fsp.6.0.0.pack</originalPack>
+      <originalPack>TES.Dave2D.3.8.0+fsp.6.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="c_sdk" condition="" group="standard" subgroup="logging" variant="" vendor="AWS" version="202411.0.0+renesas.fsp.6.0.0">
-      <description>AWS Logging</description>
-      <originalPack>Amazon.FreeRTOS.202411.0.0+renesas.fsp.6.0.0.pack</originalPack>
+    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra8d1_ek" variant="" vendor="Renesas" version="6.3.0">
+      <description>RA8D1-EK Board Support Files</description>
+      <originalPack>Renesas.RA_board_ra8d1_ek.6.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="FreeRTOS_Plus" condition="" group="utilities" subgroup="mbedtls" variant="" vendor="AWS" version="202411.0.0+renesas.fsp.6.0.0">
-      <description>AWS MbedTLS FreeRTOS Port</description>
-      <originalPack>Amazon.FreeRTOS.202411.0.0+renesas.fsp.6.0.0.pack</originalPack>
+    <component apiversion="" class="Mbed" condition="" group="Library" subgroup="LittleFS" variant="" vendor="Arm" version="2.2.1+renesas.1.fsp.6.3.0">
+      <description>Arm Mbed LittleFS</description>
+      <originalPack>Arm.LittleFS.2.2.1+renesas.1.fsp.6.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Libraries" condition="" group="FreeRTOS_Plus" subgroup="MbedTLS_PKCS11_Transport" variant="" vendor="AWS" version="202411.0.0+renesas.fsp.6.0.0">
-      <description>AWS MbedTLS/PKCS11 Transport Interface</description>
-      <originalPack>Amazon.FreeRTOS.202411.0.0+renesas.fsp.6.0.0.pack</originalPack>
+    <component apiversion="" class="Libraries" condition="" group="FreeRTOS" subgroup="BufferAllocation2" variant="" vendor="AWS" version="4.3.3+fsp.6.3.0">
+      <description>FreeRTOS - Buffer Allocation 2</description>
+      <originalPack>Amazon.FreeRTOS-Plus-TCP.4.3.3+fsp.6.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Libraries" condition="" group="FreeRTOS_Plus" subgroup="TCP_Sockets_Wrapper" variant="" vendor="AWS" version="202411.0.0+renesas.fsp.6.0.0">
-      <description>AWS FreeRTOS+TCP Sockets Wrapper</description>
-      <originalPack>Amazon.FreeRTOS.202411.0.0+renesas.fsp.6.0.0.pack</originalPack>
+    <component apiversion="" class="Libraries" condition="" group="FreeRTOS_Plus" subgroup="FreeRTOS_Plus_TCP" variant="" vendor="AWS" version="4.3.3+fsp.6.3.0">
+      <description>FreeRTOS+TCP</description>
+      <originalPack>Amazon.FreeRTOS-Plus-TCP.4.3.3+fsp.6.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Libraries" condition="" group="FreeRTOS_Plus" subgroup="Plus_TCP_MbedTLS_Bio" variant="" vendor="AWS" version="202411.0.0+renesas.fsp.6.0.0">
-      <description>FreeRTOS+TCP MbedTLS Bio</description>
-      <originalPack>Amazon.FreeRTOS.202411.0.0+renesas.fsp.6.0.0.pack</originalPack>
+    <component apiversion="" class="PSA" condition="" group="Crypto" subgroup="mbedCrypto" variant="" vendor="Arm" version="3.6.4+renesas.2.fsp.6.3.0">
+      <description>Arm PSA Crypto Implementation</description>
+      <originalPack>Arm.MbedCrypto.3.6.4+renesas.2.fsp.6.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="FreeRTOS" condition="" group="demo" subgroup="key_provisioning_transport" variant="" vendor="AWS" version="202411.0.0+renesas.fsp.6.0.0">
-      <description>AWS Demo key_provisioning_transport</description>
-      <originalPack>Amazon.FreeRTOS.202411.0.0+renesas.fsp.6.0.0.pack</originalPack>
+    <component apiversion="" class="Libraries" condition="" group="coreHTTP" subgroup="source" variant="" vendor="AWS" version="3.1.1+renesas.0.fsp.6.3.0">
+      <description>AWS Core HTTPS</description>
+      <originalPack>Amazon.coreHTTP.3.1.1+renesas.0.fsp.6.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="CMSIS" condition="" group="Main" subgroup="CoreM" variant="" vendor="Arm" version="6.1.0+fsp.6.0.0">
-      <description>Arm CMSIS Version 6 - Core (M)</description>
-      <originalPack>Arm.CMSIS6.6.1.0+fsp.6.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Abstractions" condition="" group="PKCS11" subgroup="mbedtls" variant="" vendor="AWS" version="3.6.2+fsp.6.0.0">
+    <component apiversion="" class="Abstractions" condition="" group="PKCS11" subgroup="mbedtls" variant="" vendor="AWS" version="3.6.2+fsp.6.3.0">
       <description>AWS PKCS11 to mbedTLS</description>
-      <originalPack>Amazon.corePKCS11.3.6.2+fsp.6.0.0.pack</originalPack>
+      <originalPack>Amazon.corePKCS11.3.6.2+fsp.6.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="6.3.0">
       <description>Board Support Package Common Files</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.6.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_adc" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_adc" variant="" vendor="Renesas" version="6.3.0">
       <description>A/D Converter</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.6.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ceu" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ceu" variant="" vendor="Renesas" version="6.3.0">
       <description>Capture Engine Unit (r_ceu)</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.6.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_cgc" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_cgc" variant="" vendor="Renesas" version="6.3.0">
       <description>Clock Generation Circuit</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.6.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_dmac" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_dmac" variant="" vendor="Renesas" version="6.3.0">
       <description>Direct Memory Access Controller</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.6.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_drw" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_drw" variant="" vendor="Renesas" version="6.3.0">
       <description>TES D/AVE 2D Port</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.6.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ether_phy" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ether_phy" variant="" vendor="Renesas" version="6.3.0">
       <description>Ethernet PHY</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.6.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ether" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ether" variant="" vendor="Renesas" version="6.3.0">
       <description>Ethernet</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.6.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_flash_hp" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_flash_hp" variant="" vendor="Renesas" version="6.3.0">
       <description>Flash Memory High Performance</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.6.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_glcdc" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_glcdc" variant="" vendor="Renesas" version="6.3.0">
       <description>Graphics LCD Controller</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.6.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_gpt" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_gpt" variant="" vendor="Renesas" version="6.3.0">
       <description>General PWM Timer</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.6.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_icu" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_icu" variant="" vendor="Renesas" version="6.3.0">
       <description>External Interrupt</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.6.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_iic_master" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_iic_master" variant="" vendor="Renesas" version="6.3.0">
       <description>I2C Master Interface</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.6.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="6.3.0">
       <description>I/O Port</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.6.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_mipi_dsi" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_mipi_dsi" variant="" vendor="Renesas" version="6.3.0">
       <description>MIPI DSI Host</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.6.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_mipi_phy" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_mipi_phy" variant="" vendor="Renesas" version="6.3.0">
       <description>MIPI PHY Host</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.6.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ospi_b" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ospi_b" variant="" vendor="Renesas" version="6.3.0">
       <description>Octa Serial Peripheral Interface Flash</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.6.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_rtc" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_rtc" variant="" vendor="Renesas" version="6.3.0">
       <description>Real Time Clock</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.6.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_rsip_e51a_ra8_plaintext" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_rsip_e51a_ra8_plaintext" variant="" vendor="Renesas" version="6.3.0">
       <description>Secure Cryptography Engine on RA8 (RSIP-E51A) Compatibility Mode</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.6.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_sci_b_uart" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_sci_b_uart" variant="" vendor="Renesas" version="6.3.0">
       <description>SCI UART</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.6.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_aws_pkcs11_pal_littlefs" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_aws_pkcs11_pal_littlefs" variant="" vendor="Renesas" version="6.3.0">
       <description>AWS PCKS11 PAL on LittleFS</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.6.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_freertos_plus_tcp" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_freertos_plus_tcp" variant="" vendor="Renesas" version="6.3.0">
       <description>r_ether to FreeRTOS+TCP Wrapper</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.6.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_freertos_port" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_freertos_port" variant="" vendor="Renesas" version="6.3.0">
       <description>FreeRTOS Port</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.6.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_littlefs_flash" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_littlefs_flash" variant="" vendor="Renesas" version="6.3.0">
       <description>LittleFS Flash Port</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.6.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_mbedtls" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_mbedtls" variant="" vendor="Renesas" version="6.3.0">
       <description>Modified mbedTLS</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.6.3.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="rm_psa_crypto" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="rm_psa_crypto" variant="" vendor="Renesas" version="6.3.0">
       <description>MbedCrypto H/W Acceleration</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.6.3.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="c_sdk" condition="" group="standard" subgroup="logging" variant="" vendor="AWS" version="202411.0.0+renesas.1.fsp.6.3.0">
+      <description>AWS Logging</description>
+      <originalPack>Amazon.FreeRTOS.202411.0.0+renesas.1.fsp.6.3.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="FreeRTOS_Plus" condition="" group="utilities" subgroup="mbedtls" variant="" vendor="AWS" version="202411.0.0+renesas.1.fsp.6.3.0">
+      <description>AWS MbedTLS FreeRTOS Port</description>
+      <originalPack>Amazon.FreeRTOS.202411.0.0+renesas.1.fsp.6.3.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Libraries" condition="" group="FreeRTOS_Plus" subgroup="MbedTLS_PKCS11_Transport" variant="" vendor="AWS" version="202411.0.0+renesas.1.fsp.6.3.0">
+      <description>AWS MbedTLS/PKCS11 Transport Interface</description>
+      <originalPack>Amazon.FreeRTOS.202411.0.0+renesas.1.fsp.6.3.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Libraries" condition="" group="FreeRTOS_Plus" subgroup="TCP_Sockets_Wrapper" variant="" vendor="AWS" version="202411.0.0+renesas.1.fsp.6.3.0">
+      <description>AWS FreeRTOS+TCP Sockets Wrapper</description>
+      <originalPack>Amazon.FreeRTOS.202411.0.0+renesas.1.fsp.6.3.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Libraries" condition="" group="FreeRTOS_Plus" subgroup="Plus_TCP_MbedTLS_Bio" variant="" vendor="AWS" version="202411.0.0+renesas.1.fsp.6.3.0">
+      <description>FreeRTOS+TCP MbedTLS Bio</description>
+      <originalPack>Amazon.FreeRTOS.202411.0.0+renesas.1.fsp.6.3.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="FreeRTOS" condition="" group="demo" subgroup="key_provisioning_transport" variant="" vendor="AWS" version="202411.0.0+renesas.1.fsp.6.3.0">
+      <description>AWS Demo key_provisioning_transport</description>
+      <originalPack>Amazon.FreeRTOS.202411.0.0+renesas.1.fsp.6.3.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="CMSIS" condition="" group="Main" subgroup="CoreM" variant="" vendor="Arm" version="6.1.0+fsp.6.3.0">
+      <description>Arm CMSIS Version 6 - Core (M)</description>
+      <originalPack>Arm.CMSIS6.6.1.0+fsp.6.3.0.pack</originalPack>
     </component>
   </raComponentSelection>
   <raElcConfiguration/>
@@ -554,7 +578,7 @@
       <property id="module.driver.adc.compare.window_a.ref_upper" value="0"/>
       <property id="module.driver.adc.compare.window_b.enable" value="module.driver.adc.compare.window_b.enable.disabled"/>
       <property id="module.driver.adc.compare.window_b.channel" value="module.driver.adc.compare.window_b.channel.channel_0"/>
-      <property id="module.driver.adc.compare.window_b.mode" value="module.driver.adc.compare.window_b.mode"/>
+      <property id="module.driver.adc.compare.window_b.mode" value="module.driver.adc.compare.window_b.mode.less_outside"/>
       <property id="module.driver.adc.compare.window_b.ref_lower" value="0"/>
       <property id="module.driver.adc.compare.window_b.ref_upper" value="0"/>
       <property id="module.driver.adc.p_callback" value="NULL"/>
@@ -573,6 +597,14 @@
       <property id="module.driver.timer.compare_match.a.value" value="0"/>
       <property id="module.driver.timer.compare_match.b.status" value="module.driver.timer.compare_match.b.status.disabled"/>
       <property id="module.driver.timer.compare_match.b.value" value="0"/>
+      <property id="module.driver.timer.compare_match.c.status" value="module.driver.timer.compare_match.c.status.disabled"/>
+      <property id="module.driver.timer.compare_match.c.value" value="0x10000"/>
+      <property id="module.driver.timer.compare_match.d.status" value="module.driver.timer.compare_match.d.status.disabled"/>
+      <property id="module.driver.timer.compare_match.d.value" value="0x10000"/>
+      <property id="module.driver.timer.compare_match.e.status" value="module.driver.timer.compare_match.e.status.disabled"/>
+      <property id="module.driver.timer.compare_match.e.value" value="0x10000"/>
+      <property id="module.driver.timer.compare_match.f.status" value="module.driver.timer.compare_match.f.status.disabled"/>
+      <property id="module.driver.timer.compare_match.f.value" value="0x10000"/>
       <property id="module.driver.timer.unit" value="module.driver.timer.unit.unit_period_raw_counts"/>
       <property id="module.driver.timer.gtior.gtioa.initial_output_level" value="module.driver.timer.gtior.gtioa.initial_output_level.low"/>
       <property id="module.driver.timer.gtior.gtioa.cycle_end_output_level" value="module.driver.timer.gtior.gtioa.cycle_end_output_level.retain"/>
@@ -597,10 +629,16 @@
       <property id="module.driver.timer.capture_b_source" value=""/>
       <property id="module.driver.timer.gtioca_filter" value="module.driver.timer.gtioc_filter.gtioc_filter_none"/>
       <property id="module.driver.timer.gtiocb_filter" value="module.driver.timer.gtioc_filter.gtioc_filter_none"/>
+      <property id="module.driver.timer.gtioca_polarity" value="module.driver.timer.gtioc_polarity.normal"/>
+      <property id="module.driver.timer.gtiocb_polarity" value="module.driver.timer.gtioc_polarity.normal"/>
       <property id="module.driver.timer.p_callback" value="gpt_blinker_callback"/>
       <property id="module.driver.timer.ipl" value="board.icu.common.irq.priority4"/>
       <property id="module.driver.timer.capture_a_ipl" value="_disabled"/>
       <property id="module.driver.timer.capture_b_ipl" value="_disabled"/>
+      <property id="module.driver.timer.compare_match_c_ipl" value="_disabled"/>
+      <property id="module.driver.timer.compare_match_d_ipl" value="_disabled"/>
+      <property id="module.driver.timer.compare_match_e_ipl" value="_disabled"/>
+      <property id="module.driver.timer.compare_match_f_ipl" value="_disabled"/>
       <property id="module.driver.timer.trough_ipl" value="_disabled"/>
       <property id="module.driver.timer.extra" value="module.driver.timer.extra.disabled"/>
       <property id="module.driver.timer.poeg_link" value="enum.driver.poeg.channels.poeg_link_poeg0"/>
@@ -625,6 +663,14 @@
       <property id="module.driver.timer.compare_match.a.value" value="0"/>
       <property id="module.driver.timer.compare_match.b.status" value="module.driver.timer.compare_match.b.status.disabled"/>
       <property id="module.driver.timer.compare_match.b.value" value="0"/>
+      <property id="module.driver.timer.compare_match.c.status" value="module.driver.timer.compare_match.c.status.disabled"/>
+      <property id="module.driver.timer.compare_match.c.value" value="0x10000"/>
+      <property id="module.driver.timer.compare_match.d.status" value="module.driver.timer.compare_match.d.status.disabled"/>
+      <property id="module.driver.timer.compare_match.d.value" value="0x10000"/>
+      <property id="module.driver.timer.compare_match.e.status" value="module.driver.timer.compare_match.e.status.disabled"/>
+      <property id="module.driver.timer.compare_match.e.value" value="0x10000"/>
+      <property id="module.driver.timer.compare_match.f.status" value="module.driver.timer.compare_match.f.status.disabled"/>
+      <property id="module.driver.timer.compare_match.f.value" value="0x10000"/>
       <property id="module.driver.timer.unit" value="module.driver.timer.unit.unit_period_raw_counts"/>
       <property id="module.driver.timer.gtior.gtioa.initial_output_level" value="module.driver.timer.gtior.gtioa.initial_output_level.low"/>
       <property id="module.driver.timer.gtior.gtioa.cycle_end_output_level" value="module.driver.timer.gtior.gtioa.cycle_end_output_level.retain"/>
@@ -649,10 +695,16 @@
       <property id="module.driver.timer.capture_b_source" value=""/>
       <property id="module.driver.timer.gtioca_filter" value="module.driver.timer.gtioc_filter.gtioc_filter_none"/>
       <property id="module.driver.timer.gtiocb_filter" value="module.driver.timer.gtioc_filter.gtioc_filter_none"/>
+      <property id="module.driver.timer.gtioca_polarity" value="module.driver.timer.gtioc_polarity.normal"/>
+      <property id="module.driver.timer.gtiocb_polarity" value="module.driver.timer.gtioc_polarity.normal"/>
       <property id="module.driver.timer.p_callback" value="NULL"/>
       <property id="module.driver.timer.ipl" value="_disabled"/>
       <property id="module.driver.timer.capture_a_ipl" value="_disabled"/>
       <property id="module.driver.timer.capture_b_ipl" value="_disabled"/>
+      <property id="module.driver.timer.compare_match_c_ipl" value="_disabled"/>
+      <property id="module.driver.timer.compare_match_d_ipl" value="_disabled"/>
+      <property id="module.driver.timer.compare_match_e_ipl" value="_disabled"/>
+      <property id="module.driver.timer.compare_match_f_ipl" value="_disabled"/>
       <property id="module.driver.timer.trough_ipl" value="_disabled"/>
       <property id="module.driver.timer.extra" value="module.driver.timer.extra.disabled"/>
       <property id="module.driver.timer.poeg_link" value="enum.driver.poeg.channels.poeg_link_poeg0"/>
@@ -711,8 +763,12 @@
       <property id="module.driver.ceu.bus_size" value="module.driver.ceu.bus_size.8_bit"/>
       <property id="module.driver.ceu.hsync_polarity" value="module.driver.ceu.hsync_polarity.high"/>
       <property id="module.driver.ceu.vsync_polarity" value="module.driver.ceu.vsync_polarity.high"/>
+      <property id="module.driver.ceu.input_order" value="module.driver.ceu.input_order.cb0y0cr0y1"/>
       <property id="module.driver.ceu.byte_swapping" value="module.driver.ceu.swap_bits.32bit_units"/>
       <property id="module.driver.ceu.burst_mode" value="module.driver.ceu.burst_mode.x8"/>
+      <property id="module.driver.ceu.output_format" value="module.driver.ceu.output_format.YCbCr422"/>
+      <property id="module.driver.ceu.h_output_size" value="0"/>
+      <property id="module.driver.ceu.v_output_size" value="0"/>
       <property id="module.driver.ceu.p_callback" value="g_ceu_user_callback"/>
       <property id="module.driver.ceu.ipl" value="board.icu.common.irq.priority3"/>
       <property id="module.driver.ceu.interrupts_enabled.cpeie" value="module.driver.ceu.interrupts_enabled.cpeie.enabled"/>
@@ -742,6 +798,14 @@
       <property id="module.driver.timer.compare_match.a.value" value="0"/>
       <property id="module.driver.timer.compare_match.b.status" value="module.driver.timer.compare_match.b.status.disabled"/>
       <property id="module.driver.timer.compare_match.b.value" value="0"/>
+      <property id="module.driver.timer.compare_match.c.status" value="module.driver.timer.compare_match.c.status.disabled"/>
+      <property id="module.driver.timer.compare_match.c.value" value="0x10000"/>
+      <property id="module.driver.timer.compare_match.d.status" value="module.driver.timer.compare_match.d.status.disabled"/>
+      <property id="module.driver.timer.compare_match.d.value" value="0x10000"/>
+      <property id="module.driver.timer.compare_match.e.status" value="module.driver.timer.compare_match.e.status.disabled"/>
+      <property id="module.driver.timer.compare_match.e.value" value="0x10000"/>
+      <property id="module.driver.timer.compare_match.f.status" value="module.driver.timer.compare_match.f.status.disabled"/>
+      <property id="module.driver.timer.compare_match.f.value" value="0x10000"/>
       <property id="module.driver.timer.unit" value="module.driver.timer.unit.unit_frequency_khz"/>
       <property id="module.driver.timer.gtior.gtioa.initial_output_level" value="module.driver.timer.gtior.gtioa.initial_output_level.low"/>
       <property id="module.driver.timer.gtior.gtioa.cycle_end_output_level" value="module.driver.timer.gtior.gtioa.cycle_end_output_level.retain"/>
@@ -766,10 +830,16 @@
       <property id="module.driver.timer.capture_b_source" value=""/>
       <property id="module.driver.timer.gtioca_filter" value="module.driver.timer.gtioc_filter.gtioc_filter_none"/>
       <property id="module.driver.timer.gtiocb_filter" value="module.driver.timer.gtioc_filter.gtioc_filter_none"/>
+      <property id="module.driver.timer.gtioca_polarity" value="module.driver.timer.gtioc_polarity.normal"/>
+      <property id="module.driver.timer.gtiocb_polarity" value="module.driver.timer.gtioc_polarity.normal"/>
       <property id="module.driver.timer.p_callback" value="NULL"/>
       <property id="module.driver.timer.ipl" value="_disabled"/>
       <property id="module.driver.timer.capture_a_ipl" value="_disabled"/>
       <property id="module.driver.timer.capture_b_ipl" value="_disabled"/>
+      <property id="module.driver.timer.compare_match_c_ipl" value="_disabled"/>
+      <property id="module.driver.timer.compare_match_d_ipl" value="_disabled"/>
+      <property id="module.driver.timer.compare_match_e_ipl" value="_disabled"/>
+      <property id="module.driver.timer.compare_match_f_ipl" value="_disabled"/>
       <property id="module.driver.timer.trough_ipl" value="_disabled"/>
       <property id="module.driver.timer.extra" value="module.driver.timer.extra.disabled"/>
       <property id="module.driver.timer.poeg_link" value="enum.driver.poeg.channels.poeg_link_poeg0"/>
@@ -1055,6 +1125,14 @@
       <property id="module.driver.timer.compare_match.a.value" value="0"/>
       <property id="module.driver.timer.compare_match.b.status" value="module.driver.timer.compare_match.b.status.disabled"/>
       <property id="module.driver.timer.compare_match.b.value" value="0"/>
+      <property id="module.driver.timer.compare_match.c.status" value="module.driver.timer.compare_match.c.status.disabled"/>
+      <property id="module.driver.timer.compare_match.c.value" value="0x10000"/>
+      <property id="module.driver.timer.compare_match.d.status" value="module.driver.timer.compare_match.d.status.disabled"/>
+      <property id="module.driver.timer.compare_match.d.value" value="0x10000"/>
+      <property id="module.driver.timer.compare_match.e.status" value="module.driver.timer.compare_match.e.status.disabled"/>
+      <property id="module.driver.timer.compare_match.e.value" value="0x10000"/>
+      <property id="module.driver.timer.compare_match.f.status" value="module.driver.timer.compare_match.f.status.disabled"/>
+      <property id="module.driver.timer.compare_match.f.value" value="0x10000"/>
       <property id="module.driver.timer.unit" value="module.driver.timer.unit.unit_period_raw_counts"/>
       <property id="module.driver.timer.gtior.gtioa.initial_output_level" value="module.driver.timer.gtior.gtioa.initial_output_level.low"/>
       <property id="module.driver.timer.gtior.gtioa.cycle_end_output_level" value="module.driver.timer.gtior.gtioa.cycle_end_output_level.retain"/>
@@ -1079,10 +1157,16 @@
       <property id="module.driver.timer.capture_b_source" value=""/>
       <property id="module.driver.timer.gtioca_filter" value="module.driver.timer.gtioc_filter.gtioc_filter_none"/>
       <property id="module.driver.timer.gtiocb_filter" value="module.driver.timer.gtioc_filter.gtioc_filter_none"/>
+      <property id="module.driver.timer.gtioca_polarity" value="module.driver.timer.gtioc_polarity.normal"/>
+      <property id="module.driver.timer.gtiocb_polarity" value="module.driver.timer.gtioc_polarity.normal"/>
       <property id="module.driver.timer.p_callback" value="led_scr_red_blink_cb"/>
       <property id="module.driver.timer.ipl" value="board.icu.common.irq.priority14"/>
       <property id="module.driver.timer.capture_a_ipl" value="_disabled"/>
       <property id="module.driver.timer.capture_b_ipl" value="_disabled"/>
+      <property id="module.driver.timer.compare_match_c_ipl" value="_disabled"/>
+      <property id="module.driver.timer.compare_match_d_ipl" value="_disabled"/>
+      <property id="module.driver.timer.compare_match_e_ipl" value="_disabled"/>
+      <property id="module.driver.timer.compare_match_f_ipl" value="_disabled"/>
       <property id="module.driver.timer.trough_ipl" value="_disabled"/>
       <property id="module.driver.timer.extra" value="module.driver.timer.extra.disabled"/>
       <property id="module.driver.timer.poeg_link" value="enum.driver.poeg.channels.poeg_link_poeg0"/>
@@ -1107,6 +1191,7 @@
       <property id="module.middleware.rm_littlefs.name" value="g_rm_littlefs0"/>
       <property id="module.middleware.rm_littlefs.read_size" value="1"/>
       <property id="module.middleware.rm_littlefs.prog_size" value="4"/>
+      <property id="module.middleware.rm_littlefs.memory_start_address" value="BSP_FEATURE_FLASH_DATA_FLASH_START"/>
       <property id="module.middleware.rm_littlefs.block_size" value="128"/>
       <property id="module.middleware.rm_littlefs.block_count" value="(BSP_DATA_FLASH_SIZE_BYTES/128)"/>
       <property id="module.middleware.rm_littlefs.block_cycles" value="1024"/>
@@ -1130,7 +1215,14 @@
     <module id="module.aws.freertos.dev_mode_key_provisioning_mbed_transport_interface.984199801"/>
     <module id="module.aws.sockets_wrapper.tcp.1166764962"/>
     <module id="module.aws.freertosplus.freertosplus_tcp.1281295365"/>
-    <module id="module.driver.freertos_plus_tcp_on_ether.1014848678"/>
+    <module id="module.driver.freertos_plus_tcp_on_ether.1014848678">
+      <property id="module.driver.freertos_plus_tcp_on_ether.name" value="g_freertos_plus_tcp0"/>
+      <property id="module.driver.freertos_plus_tcp_on_ether.rx_task_stacksize" value="configMINIMAL_STACK_SIZE"/>
+      <property id="module.driver.freertos_plus_tcp_on_ether.rx_task_priority" value="configMAX_PRIORITIES - 1"/>
+      <property id="module.driver.freertos_plus_tcp_on_ether.link_status_task_stacksize" value="configMINIMAL_STACK_SIZE"/>
+      <property id="module.driver.freertos_plus_tcp_on_ether.link_status_task_priority" value="configMAX_PRIORITIES - 1"/>
+      <property id="module.driver.freertos_plus_tcp_on_ether.link_check_interval" value="1000"/>
+    </module>
     <module id="module.driver.ether_on_ether.683945311">
       <property id="module.driver.ether.name" value="g_ether0"/>
       <property id="module.driver.ether.channel" value="module.driver.ether.channel.0"/>
@@ -1175,6 +1267,14 @@
       <property id="module.driver.timer.compare_match.a.value" value="0"/>
       <property id="module.driver.timer.compare_match.b.status" value="module.driver.timer.compare_match.b.status.disabled"/>
       <property id="module.driver.timer.compare_match.b.value" value="0"/>
+      <property id="module.driver.timer.compare_match.c.status" value="module.driver.timer.compare_match.c.status.disabled"/>
+      <property id="module.driver.timer.compare_match.c.value" value="0x10000"/>
+      <property id="module.driver.timer.compare_match.d.status" value="module.driver.timer.compare_match.d.status.disabled"/>
+      <property id="module.driver.timer.compare_match.d.value" value="0x10000"/>
+      <property id="module.driver.timer.compare_match.e.status" value="module.driver.timer.compare_match.e.status.disabled"/>
+      <property id="module.driver.timer.compare_match.e.value" value="0x10000"/>
+      <property id="module.driver.timer.compare_match.f.status" value="module.driver.timer.compare_match.f.status.disabled"/>
+      <property id="module.driver.timer.compare_match.f.value" value="0x10000"/>
       <property id="module.driver.timer.unit" value="module.driver.timer.unit.unit_period_raw_counts"/>
       <property id="module.driver.timer.gtior.gtioa.initial_output_level" value="module.driver.timer.gtior.gtioa.initial_output_level.low"/>
       <property id="module.driver.timer.gtior.gtioa.cycle_end_output_level" value="module.driver.timer.gtior.gtioa.cycle_end_output_level.retain"/>
@@ -1199,10 +1299,16 @@
       <property id="module.driver.timer.capture_b_source" value=""/>
       <property id="module.driver.timer.gtioca_filter" value="module.driver.timer.gtioc_filter.gtioc_filter_none"/>
       <property id="module.driver.timer.gtiocb_filter" value="module.driver.timer.gtioc_filter.gtioc_filter_none"/>
+      <property id="module.driver.timer.gtioca_polarity" value="module.driver.timer.gtioc_polarity.normal"/>
+      <property id="module.driver.timer.gtiocb_polarity" value="module.driver.timer.gtioc_polarity.normal"/>
       <property id="module.driver.timer.p_callback" value="g_timer_overflow_callback"/>
       <property id="module.driver.timer.ipl" value="board.icu.common.irq.priority10"/>
       <property id="module.driver.timer.capture_a_ipl" value="_disabled"/>
       <property id="module.driver.timer.capture_b_ipl" value="_disabled"/>
+      <property id="module.driver.timer.compare_match_c_ipl" value="_disabled"/>
+      <property id="module.driver.timer.compare_match_d_ipl" value="_disabled"/>
+      <property id="module.driver.timer.compare_match_e_ipl" value="_disabled"/>
+      <property id="module.driver.timer.compare_match_f_ipl" value="_disabled"/>
       <property id="module.driver.timer.trough_ipl" value="_disabled"/>
       <property id="module.driver.timer.extra" value="module.driver.timer.extra.disabled"/>
       <property id="module.driver.timer.poeg_link" value="enum.driver.poeg.channels.poeg_link_poeg0"/>
@@ -1234,6 +1340,14 @@
       <property id="module.driver.timer.compare_match.a.value" value="0"/>
       <property id="module.driver.timer.compare_match.b.status" value="module.driver.timer.compare_match.b.status.disabled"/>
       <property id="module.driver.timer.compare_match.b.value" value="0"/>
+      <property id="module.driver.timer.compare_match.c.status" value="module.driver.timer.compare_match.c.status.disabled"/>
+      <property id="module.driver.timer.compare_match.c.value" value="0x10000"/>
+      <property id="module.driver.timer.compare_match.d.status" value="module.driver.timer.compare_match.d.status.disabled"/>
+      <property id="module.driver.timer.compare_match.d.value" value="0x10000"/>
+      <property id="module.driver.timer.compare_match.e.status" value="module.driver.timer.compare_match.e.status.disabled"/>
+      <property id="module.driver.timer.compare_match.e.value" value="0x10000"/>
+      <property id="module.driver.timer.compare_match.f.status" value="module.driver.timer.compare_match.f.status.disabled"/>
+      <property id="module.driver.timer.compare_match.f.value" value="0x10000"/>
       <property id="module.driver.timer.unit" value="module.driver.timer.unit.unit_period_raw_counts"/>
       <property id="module.driver.timer.gtior.gtioa.initial_output_level" value="module.driver.timer.gtior.gtioa.initial_output_level.low"/>
       <property id="module.driver.timer.gtior.gtioa.cycle_end_output_level" value="module.driver.timer.gtior.gtioa.cycle_end_output_level.retain"/>
@@ -1258,10 +1372,16 @@
       <property id="module.driver.timer.capture_b_source" value=""/>
       <property id="module.driver.timer.gtioca_filter" value="module.driver.timer.gtioc_filter.gtioc_filter_none"/>
       <property id="module.driver.timer.gtiocb_filter" value="module.driver.timer.gtioc_filter.gtioc_filter_none"/>
+      <property id="module.driver.timer.gtioca_polarity" value="module.driver.timer.gtioc_polarity.normal"/>
+      <property id="module.driver.timer.gtiocb_polarity" value="module.driver.timer.gtioc_polarity.normal"/>
       <property id="module.driver.timer.p_callback" value="led_scr_green_blink_cb"/>
       <property id="module.driver.timer.ipl" value="board.icu.common.irq.priority14"/>
       <property id="module.driver.timer.capture_a_ipl" value="_disabled"/>
       <property id="module.driver.timer.capture_b_ipl" value="_disabled"/>
+      <property id="module.driver.timer.compare_match_c_ipl" value="_disabled"/>
+      <property id="module.driver.timer.compare_match_d_ipl" value="_disabled"/>
+      <property id="module.driver.timer.compare_match_e_ipl" value="_disabled"/>
+      <property id="module.driver.timer.compare_match_f_ipl" value="_disabled"/>
       <property id="module.driver.timer.trough_ipl" value="_disabled"/>
       <property id="module.driver.timer.extra" value="module.driver.timer.extra.disabled"/>
       <property id="module.driver.timer.poeg_link" value="enum.driver.poeg.channels.poeg_link_poeg0"/>
@@ -1286,6 +1406,14 @@
       <property id="module.driver.timer.compare_match.a.value" value="0"/>
       <property id="module.driver.timer.compare_match.b.status" value="module.driver.timer.compare_match.b.status.disabled"/>
       <property id="module.driver.timer.compare_match.b.value" value="0"/>
+      <property id="module.driver.timer.compare_match.c.status" value="module.driver.timer.compare_match.c.status.disabled"/>
+      <property id="module.driver.timer.compare_match.c.value" value="0x10000"/>
+      <property id="module.driver.timer.compare_match.d.status" value="module.driver.timer.compare_match.d.status.disabled"/>
+      <property id="module.driver.timer.compare_match.d.value" value="0x10000"/>
+      <property id="module.driver.timer.compare_match.e.status" value="module.driver.timer.compare_match.e.status.disabled"/>
+      <property id="module.driver.timer.compare_match.e.value" value="0x10000"/>
+      <property id="module.driver.timer.compare_match.f.status" value="module.driver.timer.compare_match.f.status.disabled"/>
+      <property id="module.driver.timer.compare_match.f.value" value="0x10000"/>
       <property id="module.driver.timer.unit" value="module.driver.timer.unit.unit_period_raw_counts"/>
       <property id="module.driver.timer.gtior.gtioa.initial_output_level" value="module.driver.timer.gtior.gtioa.initial_output_level.low"/>
       <property id="module.driver.timer.gtior.gtioa.cycle_end_output_level" value="module.driver.timer.gtior.gtioa.cycle_end_output_level.retain"/>
@@ -1310,10 +1438,16 @@
       <property id="module.driver.timer.capture_b_source" value=""/>
       <property id="module.driver.timer.gtioca_filter" value="module.driver.timer.gtioc_filter.gtioc_filter_none"/>
       <property id="module.driver.timer.gtiocb_filter" value="module.driver.timer.gtioc_filter.gtioc_filter_none"/>
+      <property id="module.driver.timer.gtioca_polarity" value="module.driver.timer.gtioc_polarity.normal"/>
+      <property id="module.driver.timer.gtiocb_polarity" value="module.driver.timer.gtioc_polarity.normal"/>
       <property id="module.driver.timer.p_callback" value="led_scr_blue_blink_cb"/>
       <property id="module.driver.timer.ipl" value="board.icu.common.irq.priority14"/>
       <property id="module.driver.timer.capture_a_ipl" value="_disabled"/>
       <property id="module.driver.timer.capture_b_ipl" value="_disabled"/>
+      <property id="module.driver.timer.compare_match_c_ipl" value="_disabled"/>
+      <property id="module.driver.timer.compare_match_d_ipl" value="_disabled"/>
+      <property id="module.driver.timer.compare_match_e_ipl" value="_disabled"/>
+      <property id="module.driver.timer.compare_match_f_ipl" value="_disabled"/>
       <property id="module.driver.timer.trough_ipl" value="_disabled"/>
       <property id="module.driver.timer.extra" value="module.driver.timer.extra.disabled"/>
       <property id="module.driver.timer.poeg_link" value="enum.driver.poeg.channels.poeg_link_poeg0"/>
@@ -1338,6 +1472,14 @@
       <property id="module.driver.timer.compare_match.a.value" value="0"/>
       <property id="module.driver.timer.compare_match.b.status" value="module.driver.timer.compare_match.b.status.disabled"/>
       <property id="module.driver.timer.compare_match.b.value" value="0"/>
+      <property id="module.driver.timer.compare_match.c.status" value="module.driver.timer.compare_match.c.status.disabled"/>
+      <property id="module.driver.timer.compare_match.c.value" value="0x10000"/>
+      <property id="module.driver.timer.compare_match.d.status" value="module.driver.timer.compare_match.d.status.disabled"/>
+      <property id="module.driver.timer.compare_match.d.value" value="0x10000"/>
+      <property id="module.driver.timer.compare_match.e.status" value="module.driver.timer.compare_match.e.status.disabled"/>
+      <property id="module.driver.timer.compare_match.e.value" value="0x10000"/>
+      <property id="module.driver.timer.compare_match.f.status" value="module.driver.timer.compare_match.f.status.disabled"/>
+      <property id="module.driver.timer.compare_match.f.value" value="0x10000"/>
       <property id="module.driver.timer.unit" value="module.driver.timer.unit.unit_frequency_khz"/>
       <property id="module.driver.timer.gtior.gtioa.initial_output_level" value="module.driver.timer.gtior.gtioa.initial_output_level.low"/>
       <property id="module.driver.timer.gtior.gtioa.cycle_end_output_level" value="module.driver.timer.gtior.gtioa.cycle_end_output_level.retain"/>
@@ -1362,10 +1504,16 @@
       <property id="module.driver.timer.capture_b_source" value=""/>
       <property id="module.driver.timer.gtioca_filter" value="module.driver.timer.gtioc_filter.gtioc_filter_none"/>
       <property id="module.driver.timer.gtiocb_filter" value="module.driver.timer.gtioc_filter.gtioc_filter_none"/>
+      <property id="module.driver.timer.gtioca_polarity" value="module.driver.timer.gtioc_polarity.normal"/>
+      <property id="module.driver.timer.gtiocb_polarity" value="module.driver.timer.gtioc_polarity.normal"/>
       <property id="module.driver.timer.p_callback" value="led_scr_red_bright_cb"/>
       <property id="module.driver.timer.ipl" value="board.icu.common.irq.priority13"/>
       <property id="module.driver.timer.capture_a_ipl" value="_disabled"/>
       <property id="module.driver.timer.capture_b_ipl" value="_disabled"/>
+      <property id="module.driver.timer.compare_match_c_ipl" value="_disabled"/>
+      <property id="module.driver.timer.compare_match_d_ipl" value="_disabled"/>
+      <property id="module.driver.timer.compare_match_e_ipl" value="_disabled"/>
+      <property id="module.driver.timer.compare_match_f_ipl" value="_disabled"/>
       <property id="module.driver.timer.trough_ipl" value="_disabled"/>
       <property id="module.driver.timer.extra" value="module.driver.timer.extra.disabled"/>
       <property id="module.driver.timer.poeg_link" value="enum.driver.poeg.channels.poeg_link_poeg0"/>
@@ -1390,6 +1538,14 @@
       <property id="module.driver.timer.compare_match.a.value" value="0"/>
       <property id="module.driver.timer.compare_match.b.status" value="module.driver.timer.compare_match.b.status.disabled"/>
       <property id="module.driver.timer.compare_match.b.value" value="0"/>
+      <property id="module.driver.timer.compare_match.c.status" value="module.driver.timer.compare_match.c.status.disabled"/>
+      <property id="module.driver.timer.compare_match.c.value" value="0x10000"/>
+      <property id="module.driver.timer.compare_match.d.status" value="module.driver.timer.compare_match.d.status.disabled"/>
+      <property id="module.driver.timer.compare_match.d.value" value="0x10000"/>
+      <property id="module.driver.timer.compare_match.e.status" value="module.driver.timer.compare_match.e.status.disabled"/>
+      <property id="module.driver.timer.compare_match.e.value" value="0x10000"/>
+      <property id="module.driver.timer.compare_match.f.status" value="module.driver.timer.compare_match.f.status.disabled"/>
+      <property id="module.driver.timer.compare_match.f.value" value="0x10000"/>
       <property id="module.driver.timer.unit" value="module.driver.timer.unit.unit_frequency_khz"/>
       <property id="module.driver.timer.gtior.gtioa.initial_output_level" value="module.driver.timer.gtior.gtioa.initial_output_level.low"/>
       <property id="module.driver.timer.gtior.gtioa.cycle_end_output_level" value="module.driver.timer.gtior.gtioa.cycle_end_output_level.retain"/>
@@ -1414,10 +1570,16 @@
       <property id="module.driver.timer.capture_b_source" value=""/>
       <property id="module.driver.timer.gtioca_filter" value="module.driver.timer.gtioc_filter.gtioc_filter_none"/>
       <property id="module.driver.timer.gtiocb_filter" value="module.driver.timer.gtioc_filter.gtioc_filter_none"/>
+      <property id="module.driver.timer.gtioca_polarity" value="module.driver.timer.gtioc_polarity.normal"/>
+      <property id="module.driver.timer.gtiocb_polarity" value="module.driver.timer.gtioc_polarity.normal"/>
       <property id="module.driver.timer.p_callback" value="led_scr_green_bright_cb"/>
       <property id="module.driver.timer.ipl" value="board.icu.common.irq.priority13"/>
       <property id="module.driver.timer.capture_a_ipl" value="_disabled"/>
       <property id="module.driver.timer.capture_b_ipl" value="_disabled"/>
+      <property id="module.driver.timer.compare_match_c_ipl" value="_disabled"/>
+      <property id="module.driver.timer.compare_match_d_ipl" value="_disabled"/>
+      <property id="module.driver.timer.compare_match_e_ipl" value="_disabled"/>
+      <property id="module.driver.timer.compare_match_f_ipl" value="_disabled"/>
       <property id="module.driver.timer.trough_ipl" value="_disabled"/>
       <property id="module.driver.timer.extra" value="module.driver.timer.extra.disabled"/>
       <property id="module.driver.timer.poeg_link" value="enum.driver.poeg.channels.poeg_link_poeg0"/>
@@ -1442,6 +1604,14 @@
       <property id="module.driver.timer.compare_match.a.value" value="0"/>
       <property id="module.driver.timer.compare_match.b.status" value="module.driver.timer.compare_match.b.status.disabled"/>
       <property id="module.driver.timer.compare_match.b.value" value="0"/>
+      <property id="module.driver.timer.compare_match.c.status" value="module.driver.timer.compare_match.c.status.disabled"/>
+      <property id="module.driver.timer.compare_match.c.value" value="0x10000"/>
+      <property id="module.driver.timer.compare_match.d.status" value="module.driver.timer.compare_match.d.status.disabled"/>
+      <property id="module.driver.timer.compare_match.d.value" value="0x10000"/>
+      <property id="module.driver.timer.compare_match.e.status" value="module.driver.timer.compare_match.e.status.disabled"/>
+      <property id="module.driver.timer.compare_match.e.value" value="0x10000"/>
+      <property id="module.driver.timer.compare_match.f.status" value="module.driver.timer.compare_match.f.status.disabled"/>
+      <property id="module.driver.timer.compare_match.f.value" value="0x10000"/>
       <property id="module.driver.timer.unit" value="module.driver.timer.unit.unit_frequency_khz"/>
       <property id="module.driver.timer.gtior.gtioa.initial_output_level" value="module.driver.timer.gtior.gtioa.initial_output_level.low"/>
       <property id="module.driver.timer.gtior.gtioa.cycle_end_output_level" value="module.driver.timer.gtior.gtioa.cycle_end_output_level.retain"/>
@@ -1466,10 +1636,16 @@
       <property id="module.driver.timer.capture_b_source" value=""/>
       <property id="module.driver.timer.gtioca_filter" value="module.driver.timer.gtioc_filter.gtioc_filter_none"/>
       <property id="module.driver.timer.gtiocb_filter" value="module.driver.timer.gtioc_filter.gtioc_filter_none"/>
+      <property id="module.driver.timer.gtioca_polarity" value="module.driver.timer.gtioc_polarity.normal"/>
+      <property id="module.driver.timer.gtiocb_polarity" value="module.driver.timer.gtioc_polarity.normal"/>
       <property id="module.driver.timer.p_callback" value="led_scr_blue_bright_cb"/>
       <property id="module.driver.timer.ipl" value="board.icu.common.irq.priority13"/>
       <property id="module.driver.timer.capture_a_ipl" value="_disabled"/>
       <property id="module.driver.timer.capture_b_ipl" value="_disabled"/>
+      <property id="module.driver.timer.compare_match_c_ipl" value="_disabled"/>
+      <property id="module.driver.timer.compare_match_d_ipl" value="_disabled"/>
+      <property id="module.driver.timer.compare_match_e_ipl" value="_disabled"/>
+      <property id="module.driver.timer.compare_match_f_ipl" value="_disabled"/>
       <property id="module.driver.timer.trough_ipl" value="_disabled"/>
       <property id="module.driver.timer.extra" value="module.driver.timer.extra.disabled"/>
       <property id="module.driver.timer.poeg_link" value="enum.driver.poeg.channels.poeg_link_poeg0"/>
@@ -1494,6 +1670,8 @@
       <property id="module.driver.ospi_b.auto_callibration_address" value="0"/>
       <property id="module.driver.ospi_b.command_set_table" value=""/>
       <property id="module.driver.ospi_b.command_set_table_length" value="0"/>
+      <property id="module.driver.ospi_b.erase_command_table" value=""/>
+      <property id="module.driver.ospi_b.erase_command_table_length" value="0"/>
       <property id="module.driver.ospi_b.sector_erase_size" value="4096"/>
       <property id="module.driver.ospi_b.block_erase_size" value="262144"/>
       <property id="module.driver.ospi_b.spi_protocol" value="module.driver.ospi_b.protocol_mode.protocol_1S_1S_1S"/>
@@ -1794,6 +1972,7 @@
       <property id="config.driver.ether.param_checking_enable" value="config.driver.ether.param_checking_enable.bsp"/>
       <property id="config.driver.ether.link_present" value="config.driver.ether.link_present.0"/>
       <property id="config.driver.ether.use_linksta" value="config.driver.ether.use_linksta.0"/>
+      <property id="config.driver.ether.read_buffer_size_check" value="config.driver.ether.read_buffer_size_check.disabled"/>
     </config>
     <config id="config.driver.psa_crypto">
       <property id="config.driver.psa_crypto.mbedtls_entropy_hardware_alt" value="config.driver.psa_crypto.mbedtls_entropy_hardware_alt.enabled"/>
@@ -1840,8 +2019,8 @@
       <property id="config.driver.psa_crypto.mbedtls_aria_alt" value="config.driver.psa_crypto.mbedtls_aria_alt.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_camellia_alt" value="config.driver.psa_crypto.mbedtls_camellia_alt.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_ccm_alt" value="config.driver.psa_crypto.aes_ccm_alt.enabled"/>
-      <property id="config.driver.psa_crypto.mbedtls_chacha20_alt" value="config.driver.psa_crypto.mbedtls_chacha20_alt.disabled"/>
-      <property id="config.driver.psa_crypto.mbedtls_chachapoly_alt" value="config.driver.psa_crypto.mbedtls_chachapoly_alt.disabled"/>
+      <property id="config.driver.psa_crypto.mbedtls_chacha20_alt" value="config.driver.psa_crypto.chacha20_alt.disabled"/>
+      <property id="config.driver.psa_crypto.mbedtls_chachapoly_alt" value="config.driver.psa_crypto.chachapoly_alt.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_cmac_alt" value="config.driver.psa_crypto.mbedtls_cmac_alt.enabled"/>
       <property id="config.driver.psa_crypto.mbedtls_des_alt" value="config.driver.psa_crypto.mbedtls_des_alt.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_dhm_alt" value="config.driver.psa_crypto.mbedtls_dhm_alt.disabled"/>
@@ -1966,6 +2145,8 @@
       <property id="config.driver.psa_crypto.mbedtls_md_c" value="config.driver.psa_crypto.mbedtls_md_c.enabled"/>
       <property id="config.driver.psa_crypto.mbedtls_md5_c" value="config.driver.psa_crypto.mbedtls_md5_c.enabled"/>
       <property id="config.driver.psa_crypto.mbedtls_memory_buffer_alloc_c" value="config.driver.psa_crypto.mbedtls_memory_buffer_alloc_c.disabled"/>
+      <property id="config.driver.psa_crypto.mbedtls_mlkem_c" value="config.driver.psa_crypto.mbedtls_mlkem_c.disabled"/>
+      <property id="config.driver.psa_crypto.mbedtls_mldsa_c" value="config.driver.psa_crypto.mbedtls_mldsa_c.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_oid_c" value="config.driver.psa_crypto.mbedtls_oid_c.enabled"/>
       <property id="config.driver.psa_crypto.mbedtls_pem_parse_c" value="config.driver.psa_crypto.mbedtls_pem_parse_c.enabled"/>
       <property id="config.driver.psa_crypto.mbedtls_pem_write_c" value="config.driver.psa_crypto.mbedtls_pem_write_c.enabled"/>
@@ -1981,6 +2162,7 @@
       <property id="config.driver.psa_crypto.mbedtls_psa_crypto_se_c" value="config.driver.psa_crypto.mbedtls_psa_crypto_se_c.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_psa_crypto_storage_c" value="config.driver.psa_crypto.mbedtls_psa_crypto_storage_c.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_psa_its_file_c" value="config.driver.psa_crypto.mbedtls_psa_its_file_c.disabled"/>
+      <property id="config.driver.psa_crypto.mbedtls_psa_static_key_slots" value="config.driver.psa_crypto.mbedtls_psa_static_key_slots.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_ripemd160_c" value="config.driver.psa_crypto.mbedtls_ripemd160_c.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_rsa_c" value="config.driver.psa_crypto.mbedtls_rsa_c.enabled"/>
       <property id="config.driver.psa_crypto.mbedtls_rsa_gen_key_min_bits" value="config.driver.psa_crypto.mbedtls_rsa_gen_key_min_bits.disabled"/>
@@ -2089,6 +2271,7 @@
       <property id="config.driver.psa_crypto.mbedtls_platform_zeroize_alt" value="config.driver.psa_crypto.mbedtls_platform_zeroize_alt.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_psa_key_slot_count" value="config.driver.psa_crypto.mbedtls_psa_key_slot_count.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_psa_key_slot_count_value" value="32"/>
+      <property id="config.driver.psa_crypto.mbedtls_psa_static_key_slot_buffer_size_value" value="256"/>
       <property id="config.driver.psa_crypto.mbedtls_platform_gmtime_r_alt" value="config.driver.psa_crypto.mbedtls_platform_gmtime_r_alt.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_ecdh_variant_everest_enabled" value="config.driver.psa_crypto.mbedtls_ecdh_variant_everest_enabled.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_psa_crypto_config" value="config.driver.psa_crypto.mbedtls_psa_crypto_config.disabled"/>
@@ -2131,6 +2314,7 @@
     </config>
     <config id="config.driver.ioport">
       <property id="config.driver.ioport.checking" value="config.driver.ioport.checking.system"/>
+      <property id="config.driver.ioport.ccd_support_enable" value="config.driver.ioport.ccd_support_enable.disabled"/>
     </config>
     <config id="config.aws.pkcs11.mbedtls">
       <property id="config.aws.pkcs11.mbedtls.custom_pkcs11_config" value=""/>
@@ -2175,10 +2359,12 @@
       <property id="config.arm.mbedtls.mbedtls_ssl_dtls_connection_id_compat_enabled" value="config.arm.mbedtls.mbedtls_ssl_dtls_connection_id_compat_enabled.disabled"/>
       <property id="config.arm.mbedtls.mbedtls_ssl_dtls_connection_id_compat" value="config.arm.mbedtls.mbedtls_ssl_dtls_connection_id_compat.disabled"/>
       <property id="config.arm.mbedtls.mbedtls_ssl_async_private" value="config.arm.mbedtls.mbedtls_ssl_async_private.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_cli_allow_weak_certificate_verification_without_hostname" value="config.arm.mbedtls.mbedtls_ssl_cli_allow_weak_certificate_verification_without_hostname.disabled"/>
       <property id="config.arm.mbedtls.mbedtls_ssl_debug_all" value="config.arm.mbedtls.mbedtls_ssl_debug_all.disabled"/>
       <property id="config.arm.mbedtls.mbedtls_ssl_encrypt_then_mac" value="config.arm.mbedtls.mbedtls_ssl_encrypt_then_mac.disabled"/>
       <property id="config.arm.mbedtls.mbedtls_ssl_extended_master_secret" value="config.arm.mbedtls.mbedtls_ssl_extended_master_secret.disabled"/>
       <property id="config.arm.mbedtls.mbedtls_ssl_keep_peer_certificate" value="config.arm.mbedtls.mbedtls_ssl_keep_peer_certificate.disabled"/>
+      <property id="config.arm.mbedtls.mbedtls_ssl_keying_material_export" value="config.arm.mbedtls.mbedtls_ssl_keying_material_export.disabled"/>
       <property id="config.arm.mbedtls.mbedtls_ssl_renegotiation" value="config.arm.mbedtls.mbedtls_ssl_renegotiation.disabled"/>
       <property id="config.arm.mbedtls.mbedtls_ssl_max_fragment_length" value="config.arm.mbedtls.mbedtls_ssl_max_fragment_length.disabled"/>
       <property id="config.arm.mbedtls.mbedtls_ssl_proto_tls1_2" value="config.arm.mbedtls.mbedtls_ssl_proto_tls1_2.enabled"/>
@@ -2316,7 +2502,7 @@
     </config>
     <config id="config.aws.freertosplus.freertosplus_tcp">
       <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigHAS_DEBUG_PRINTF" value="config.aws.freertosplus.freertosplus_tcp.ipconfigHAS_DEBUG_PRINTF.1"/>
-      <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigIPv4_BACKWARD_COMPATIBLE" value="config.aws.freertosplus.freertosplus_tcp.ipconfigIPv4_BACKWARD_COMPATIBLE.0"/>
+      <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigIPv4_BACKWARD_COMPATIBLE" value="config.aws.freertosplus.freertosplus_tcp.ipconfigIPv4_BACKWARD_COMPATIBLE.1"/>
       <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigUSE_IPv6" value="config.aws.freertosplus.freertosplus_tcp.ipconfigUSE_IPv6.0"/>
       <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigHAS_PRINTF" value="config.aws.freertosplus.freertosplus_tcp.ipconfigHAS_PRINTF.0"/>
       <property id="config.aws.freertosplus.freertosplus_tcp.ipconfigBYTE_ORDER" value="config.aws.freertosplus.freertosplus_tcp.ipconfigBYTE_ORDER.pdFREERTOS_LITTLE_ENDIAN"/>

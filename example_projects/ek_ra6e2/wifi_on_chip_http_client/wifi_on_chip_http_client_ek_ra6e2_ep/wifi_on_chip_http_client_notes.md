@@ -22,9 +22,9 @@ To build and run the example project, the following resources are needed.
     For SDK update instructions, please refer to Section 5, 6, and 7 in the provided link: https://www.renesas.com/en/document/apn/da16200da16600-sdk-update-guide
 
 ### Software ###
-* Renesas Flexible Software Package (FSP): Version 6.2.0
-* e2 studio: Version 2025-10
-* SEGGER J-Link RTT Viewer: Version 8.74
+* Renesas Flexible Software Package (FSP): Version 6.3.0
+* e2 studio: Version 2025-12
+* SEGGER J-Link RTT Viewer: Version 8.92
 * GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 
 Refer to the software required section in [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf) for basic information on setting up and using the above software.

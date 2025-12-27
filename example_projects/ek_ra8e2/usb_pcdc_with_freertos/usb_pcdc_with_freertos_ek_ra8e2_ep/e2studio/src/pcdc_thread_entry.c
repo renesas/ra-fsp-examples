@@ -647,16 +647,11 @@ void user_uart_callback(uart_callback_args_t *p_args)
         {
             {
                 queue_evt_t linstance;
-#if BSP_PERIPHERAL_SCI_B_PRESENT
-                sci_b_uart_instance_ctrl_t const * const p_ctrl = p_args->p_context;
-#else
-                sci_uart_instance_ctrl_t const * const p_ctrl = p_args->p_context;
-#endif
-
                 linstance.peripheral = PERIPHERAL_UART;
-                linstance.u.data_size = (2 == p_ctrl->data_bytes) ? 2 : 1;
+                linstance.u.data_size = (2 == g_uart_ctrl.data_bytes) ? 2 : 1;
 
-                QueueHandle_t * p_queue = (2 == p_ctrl->data_bytes)  ? &g_usb_tx_x2_queue : &g_usb_tx_queue;
+                QueueHandle_t * p_queue = (2 == g_uart_ctrl.data_bytes)  ? &g_usb_tx_x2_queue : &g_usb_tx_queue;
+
                 /* Send the event from queue */
                 if (pdTRUE != (xQueueSendFromISR(*p_queue, &p_args->data, NULL)))
                 {

@@ -13,10 +13,10 @@
 	J-Link RTT Viewer.
 
 2. Software Requirements:
-	Renesas Flexible Software Package (FSP): Version 6.2.0
-	e2 studio: Version 2025-10
-	SEGGER J-Link RTT Viewer: Version 8.74
-	LLVM Embedded Toolchain for ARM: Version 18.1.3
+	Renesas Flexible Software Package (FSP): Version 6.3.0
+	e2 studio: Version 2025-12
+	SEGGER J-Link RTT Viewer: Version 8.92
+	LLVM Embedded Toolchain for ARM: Version 21.1.1
 	Terminal Console Application: Tera Term or a similar application
 	USB Serial Drivers
 
@@ -199,11 +199,11 @@
 		3-4, 5-6, 7-8 to use the on-board debug functionality.
 
 		USB PCDC (High Speed): Default USB speed mode
-			1. Connect the Type-C USB end of the Type-C USB device cable to Type-C USB Full Speed
+			1. Connect the Type-C USB end of the Type-C USB device cable to Type-C USB High Speed
 			   port (J7) of the board. Connect the other end of this cable to USB port of the host PC.
 
 		USB PCDC (Full Speed):
-			1. Connect the Type-C USB end of the Type-C USB device cable to Type-C USB High Speed 
+			1. Connect the Type-C USB end of the Type-C USB device cable to Type-C USB Full Speed 
 			   port (J11) of the board. Connect the other end of this cable to USB port of the host PC.
 
 		UART:

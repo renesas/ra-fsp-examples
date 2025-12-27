@@ -29,11 +29,11 @@
 	- For the RA boards support J-Link OB VCOM, the EP uses the Serial Terminal by default instead.
 
 2. Software Requirements:
-	- Renesas Flexible Software Package (FSP): Version 6.2.0
-	- e2 studio: Version 2025-10
+	- Renesas Flexible Software Package (FSP): Version 6.3.0
+	- e2 studio: Version 2025-12
 	- GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 	- Terminal Console Application: Tera Term or a similar application
-	- SEGGER J-Link RTT Viewer: Version 8.74
+	- SEGGER J-Link RTT Viewer: Version 8.92
 	- Socket Application: sokit version 1.3, etc
 	- Browser Application: Microsoft Edge, Google Chrome, etc
 	- RNDIS (Remote Network Driver Interface Specification) driver installed to recognize the MCU as a USB Ethernet interface

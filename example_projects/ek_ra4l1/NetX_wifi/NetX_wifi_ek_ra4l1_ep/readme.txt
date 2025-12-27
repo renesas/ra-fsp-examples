@@ -17,9 +17,9 @@
 	appropriate acknowledgment messages are sent to the server.
 
 2. Software Requirements:
-	Renesas Flexible Software Package (FSP): Version 6.2.0
-	e2 studio: Version 2025-10
-	SEGGER J-Link RTT Viewer: Version 8.74
+	Renesas Flexible Software Package (FSP): Version 6.3.0
+	e2 studio: Version 2025-12
+	SEGGER J-Link RTT Viewer: Version 8.92
 	GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 	Sokit software is required for creation of TCP server over specified IP and port (detailed steps mentioned below)
 	Download Link: https://www.softpedia.com/get/Network-Tools/Misc-Networking-Tools/sokit.shtml

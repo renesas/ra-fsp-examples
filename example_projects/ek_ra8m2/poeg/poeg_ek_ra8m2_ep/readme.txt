@@ -21,10 +21,10 @@
 	The user can refer the "Verifying Operation" section to run the example project properly. 
 
 2. Software Requirements:
-	Renesas Flexible Software Package (FSP): Version 6.2.0
-	e2 studio: Version 2025-10
-	SEGGER J-Link RTT Viewer: Version 8.74
-	LLVM Embedded Toolchain for ARM: Version 18.1.3
+	Renesas Flexible Software Package (FSP): Version 6.3.0
+	e2 studio: Version 2025-12
+	SEGGER J-Link RTT Viewer: Version 8.92
+	LLVM Embedded Toolchain for ARM: Version 21.1.1
 
 3. Hardware Requirements:
    	Supported RA boards: EK-RA6M1, EK-RA6M2, EK-RA6M3, RSSK-RA6T1, MCK-RA4T1, MCK-RA6T2, MCK-RA6T3, EK-RA8D1,
@@ -212,7 +212,7 @@ Note:
 
 3) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT Viewer.
    RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x22000450
+   a. e2studio: 0x2200044c
    b. Keil:     Not Available
    c. IAR:      Not Available
  

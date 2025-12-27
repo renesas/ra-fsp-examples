@@ -31,10 +31,10 @@
 	  in the 'Special Topic' section of Getting_started_with_FreeRTOS_Network_notes.md.
 
 2. Software Requirements:
-	Renesas Flexible Software Package (FSP): Version 6.2.0
-	e2 studio: Version 2025-10
-	SEGGER J-Link RTT Viewer: Version 8.74
-	LLVM Embedded Toolchain for ARM: Version 18.1.3
+	Renesas Flexible Software Package (FSP): Version 6.3.0
+	e2 studio: Version 2025-12
+	SEGGER J-Link RTT Viewer: Version 8.92
+	LLVM Embedded Toolchain for ARM: Version 21.1.1
 	Terminal Console Application: Tera Term or a similar application
 	Socket Application: sokit version 1.3, etc.
 	Browser Application: Microsoft Edge, Google Chrome, etc.

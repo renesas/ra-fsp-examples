@@ -22,9 +22,9 @@
     J-Link OB VCOM support: EK-RA8M1, FPB-RA0E2.
 
 2. Software Requirements:
-    Renesas Flexible Software Package (FSP): Version 6.2.0
-    e2 studio: Version 2025-10
-    SEGGER J-Link RTT Viewer: Version 8.74
+    Renesas Flexible Software Package (FSP): Version 6.3.0
+    e2 studio: Version 2025-12
+    SEGGER J-Link RTT Viewer: Version 8.92
     GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
     Terminal Console Application: Tera Term or a similar application
 

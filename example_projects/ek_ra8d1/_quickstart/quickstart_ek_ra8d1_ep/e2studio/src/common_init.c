@@ -354,7 +354,7 @@ static bool_t is_ethernet_connected (void)
         vTaskDelay(1000);
 
         uint32_t reg = 0;
-        R_ETHER_PHY_Read(gp_freertos_ether->p_cfg->p_ether_phy_instance->p_ctrl, 0x00, &reg);
+        R_ETHER_PHY_Read(g_ether0.p_cfg->p_ether_phy_instance->p_ctrl, 0x00, &reg);
 
         if (reg != 0)
         {

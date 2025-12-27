@@ -15,10 +15,10 @@
 	After receiving messages from the server, appropriate acknowledgment messages are sent to the server.
 
 2. Software Requirements:
-     	Renesas Flexible Software Package (FSP): Version 6.2.0
-     	e2 studio: Version 2025-10
-     	SEGGER J-Link RTT Viewer: Version 8.74
-     	LLVM Embedded Toolchain for ARM: Version 18.1.3
+     	Renesas Flexible Software Package (FSP): Version 6.3.0
+     	e2 studio: Version 2025-12
+     	SEGGER J-Link RTT Viewer: Version 8.92
+     	LLVM Embedded Toolchain for ARM: Version 21.1.1
 	Note: TCP server on PC can be created using freely available tool sokit: 
 	      https://www.softpedia.com/get/Network-Tools/Misc-Networking-Tools/sokit.shtml
 
@@ -104,7 +104,7 @@ Note:
 
 4) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT Viewer.
    RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x22061070
+   a. e2studio: 0x2206106c
    b. Keil: 	Not Available 
    c. IAR: 	Not Available
  

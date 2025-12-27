@@ -222,9 +222,15 @@ FSP Configuration
   User Event Links
     
   Linker Section Mappings
+    *bsp_linker.?*(.rodata.*): FLASH Constant Data (OFS Gap)
+    *startup.?*(.text.Reset_Handler): FLASH Code (OFS Gap)
+    *system.?*(.text.*): FLASH Code (OFS Gap)
+    *(.bss.g_heap): RAM Uninitialized
+    *(.bss.g_main_stack): RAM Uninitialized
     
   Module "I/O Port (r_ioport)"
     Parameter Checking: Default (BSP)
+    CCD Support: Not Supported
     
   Module "LIN (r_sau_lin)"
     Parameter Checking: Default (BSP)

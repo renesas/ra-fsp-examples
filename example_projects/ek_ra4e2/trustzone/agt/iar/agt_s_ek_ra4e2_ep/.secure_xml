@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<raConfiguration version="7">
+<raConfiguration version="12">
   <generalSettings>
     <option key="#Board#" value="board.ra4e2ek"/>
     <option key="CPU" value="RA4E2"/>
@@ -9,10 +9,11 @@
     <option key="#DeviceCommand#" value="R7FA4E2B9"/>
     <option key="#RTOS#" value="_none"/>
     <option key="#pinconfiguration#" value="R7FA4E2B93CFM.pincfg"/>
-    <option key="#FSPVersion#" value="6.1.0"/>
+    <option key="#FSPVersion#" value="6.3.0"/>
     <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra4e2_ek##"/>
     <option key="#SELECTED_TOOLCHAIN#" value="iar.arm.toolchain"/>
   </generalSettings>
+  <raBspConfiguration/>
   <raClockConfiguration>
     <node id="board.clock.xtal.freq" mul="20000000" option="_edit"/>
     <node id="board.clock.hoco.freq" option="board.clock.hoco.freq.20m"/>
@@ -53,7 +54,7 @@
     <node id="board.clock.i3cclk.display" option="board.clock.i3cclk.display.value"/>
   </raClockConfiguration>
   <raModuleConfiguration>
-    <module id="module.driver.timer_on_agt.809645443" nsc="true">
+    <module id="module.driver.timer_on_agt.486039809" nsc="true">
       <property id="module.driver.timer.name" value="g_timer_one_shot"/>
       <property id="module.driver.timer.channel" value="0"/>
       <property id="module.driver.timer.mode" value="module.driver.timer.mode.mode_one_shot"/>
@@ -71,7 +72,7 @@
       <property id="module.driver.timer.p_callback" value="NULL"/>
       <property id="module.driver.timer.ipl" value="board.icu.common.irq.priority2"/>
     </module>
-    <module id="module.driver.timer_on_agt.1545133853" nsc="true">
+    <module id="module.driver.timer_on_agt.598663569" nsc="true">
       <property id="module.driver.timer.name" value="g_timer_periodic"/>
       <property id="module.driver.timer.channel" value="1"/>
       <property id="module.driver.timer.mode" value="module.driver.timer.mode.mode_periodic"/>
@@ -97,8 +98,10 @@
   </raModuleConfiguration>
   <raPinConfiguration>
     <pincfg active="true" name="" symbol="">
-      <configSetting altId="jtag_fslash_swd.swclk.p300" configurationId="jtag_fslash_swd.swclk"/>
-      <configSetting altId="jtag_fslash_swd.swdio.p108" configurationId="jtag_fslash_swd.swdio"/>
+      <configSetting altId="jtag_fslash_swd.swclk.p300" configurationId="jtag_fslash_swd.swclk" peripheral="JTAG/SWD"/>
+      <configSetting altId="jtag_fslash_swd.swdio.p108" configurationId="jtag_fslash_swd.swdio" peripheral="JTAG/SWD"/>
+      <configSetting altId="p108.gpio_mode.gpio_mode_peripheral" configurationId="p108.gpio_mode"/>
+      <configSetting altId="p300.gpio_mode.gpio_mode_peripheral" configurationId="p300.gpio_mode"/>
     </pincfg>
   </raPinConfiguration>
 </raConfiguration>

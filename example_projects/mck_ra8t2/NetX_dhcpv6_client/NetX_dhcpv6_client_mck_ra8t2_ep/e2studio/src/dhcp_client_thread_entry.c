@@ -1,0 +1,475 @@
+/***********************************************************************************************************************
+ * File Name    : dhcp_client_thread_entry.c
+ * Description  : Contains entry function of DHCPV6 Client.
+ **********************************************************************************************************************/
+/***********************************************************************************************************************
+* Copyright (c) 2020 - 2025 Renesas Electronics Corporation and/or its affiliates
+*
+* SPDX-License-Identifier: BSD-3-Clause
+***********************************************************************************************************************/
+
+#include "dhcp_client_thread.h"
+#include "common_utils.h"
+#include "dhcpv6_client_ep.h"
+
+/*******************************************************************************************************************//**
+ * @addtogroup NetX_dhcpv6_client_ep
+ * @{
+ **********************************************************************************************************************/
+
+/* Function declarations */
+static UINT run_dhcpv6_client_session(NX_IP *ip_ptr, NX_DHCPV6 *client_ptr);
+static void nx_common_init0(void);
+static void packet_pool_init0(void);
+static void ip_init0(void);
+static void dhcpv6_client_init0(void);
+/* State change notification handler */
+static VOID dhcpv6_state_change_notify(struct NX_DHCPV6_STRUCT *dhcpv6_ptr, UINT old_state, UINT new_state);
+/* Server error handler */
+static VOID dhcpv6_server_error_handler(struct NX_DHCPV6_STRUCT *dhcpv6_ptr, UINT op_code,\
+                                        UINT status_code, UINT message_type);
+
+/* Global variables */
+/* Event flag group variable to synchronize DHCPv6 client bound mechanism */
+TX_EVENT_FLAGS_GROUP dhcpv6_client_event_flags_group;
+/* Packet pool instance (If this is a Trustzone part, the memory must be placed in Non-secure memory) */
+NX_PACKET_POOL g_packet_pool0;
+uint8_t g_packet_pool0_pool_memory[G_PACKET_POOL0_PACKET_NUM * (G_PACKET_POOL0_PACKET_SIZE + sizeof(NX_PACKET))]\
+        BSP_ALIGN_VARIABLE(4);
+
+/* IP instance */
+NX_IP g_ip0;
+
+/* Stack memory for g_ip0 */
+uint8_t g_ip0_stack_memory[G_IP0_TASK_STACK_SIZE] BSP_PLACE_IN_SECTION(".stack.g_ip0")\
+                                                  BSP_ALIGN_VARIABLE(BSP_STACK_ALIGNMENT);
+
+/* ARP cache memory for g_ip0 */
+uint8_t g_ip0_arp_cache_memory[G_IP0_ARP_CACHE_SIZE] BSP_ALIGN_VARIABLE(4);
+
+/* DHCP instance */
+NX_DHCPV6 g_dhcpv6_client0;
+uint8_t g_dhcpv6_client0_stack_memory[G_DHCPV6_CLIENT0_TASK_STACK_SIZE]\
+        BSP_PLACE_IN_SECTION(".stack.g_dhcpv6_client0") BSP_ALIGN_VARIABLE(BSP_STACK_ALIGNMENT);
+
+/*******************************************************************************************************************//**
+ * @brief     This is entry function of DHCP Client thread.
+ * @param[IN] None.
+ * @retval    None.
+ **********************************************************************************************************************/
+void dhcp_client_thread_entry(void)
+{
+    UINT status = NX_SUCCESS;
+
+    /* Initialize the RTT Thread */
+    rtt_thread_init_check();
+
+    /* Print the banner and EP info */
+    app_rtt_print_data(RTT_OUTPUT_MESSAGE_BANNER, RESET_VALUE, NULL);
+
+    /* Initialize the NetX system */
+    nx_common_init0();
+
+    /* Initialize the packet pool */
+    packet_pool_init0();
+
+    /* Create the IP instance */
+    ip_init0();
+
+    /* Initialize the DHCPv6 client */
+    dhcpv6_client_init0();
+    PRINT_INFO_STR("Network initialization completed successfully");
+
+    /* Start and run a brief DHCPv6 client session */
+    status = run_dhcpv6_client_session(&g_ip0, &g_dhcpv6_client0);
+    if (NX_SUCCESS != status)
+    {
+        PRINT_ERR_STR("run_dhcpv6_client_session failed");
+        /* Internal DHCP error or NetX internal error */
+        nx_dhcpv6_client_delete(&g_dhcpv6_client0);
+        ERROR_TRAP(status);
+    }
+    PRINT_INFO_STR("DHCPv6 client EP completed");
+
+    while (true)
+    {
+        tx_thread_sleep(1);
+    }
+}
+
+/*******************************************************************************************************************//**
+ * @brief     Initialization of NetX system.
+ * @param[IN] None.
+ * @retval    None.
+ **********************************************************************************************************************/
+static void nx_common_init0(void)
+{
+    /* Initialize the NetX system */
+    nx_system_initialize();
+}
+
+/*******************************************************************************************************************//**
+ * @brief     Create the packet pool.
+ * @param[IN] None.
+ * @retval    None.
+ **********************************************************************************************************************/
+static void packet_pool_init0(void)
+{
+    /* Create the packet pool */
+    UINT status = nx_packet_pool_create(&g_packet_pool0, "g_packet_pool0 Packet Pool",\
+                                        G_PACKET_POOL0_PACKET_SIZE, &g_packet_pool0_pool_memory[0],\
+                                        G_PACKET_POOL0_PACKET_NUM * (G_PACKET_POOL0_PACKET_SIZE + sizeof(NX_PACKET)));
+    if (NX_SUCCESS != status)
+    {
+        PRINT_ERR_STR("nx_packet_pool_create failed");
+        ERROR_TRAP(status);
+    }
+}
+
+/*******************************************************************************************************************//**
+ * @brief     Create the IP instance and enable ARP, UDP, ICMP, nx_ipv6, nxd_icmp.
+ * @param[IN] None.
+ * @retval    None.
+ **********************************************************************************************************************/
+static void ip_init0(void)
+{
+    UINT status        = NX_SUCCESS;
+    UINT address_index = RESET_VALUE;
+
+    /* Create the IP instance */
+    status = nx_ip_create(&g_ip0,
+                          "g_ip0 IP Instance",
+                          G_IP0_ADDRESS,
+                          G_IP0_SUBNET_MASK,
+                          &g_packet_pool0,
+                          g_netxduo_ether_0,
+                          &g_ip0_stack_memory[0],
+                          G_IP0_TASK_STACK_SIZE,
+                          G_IP0_TASK_PRIORITY);
+    if (NX_SUCCESS != status)
+    {
+        PRINT_ERR_STR("nx_ip_create failed.");
+        ERROR_TRAP(status);
+    }
+
+    /* Enables Address Resolution Protocol (ARP) */
+    status = nx_arp_enable(&g_ip0, &g_ip0_arp_cache_memory[0], G_IP0_ARP_CACHE_SIZE);
+    if (NX_SUCCESS != status)
+    {
+        PRINT_ERR_STR("nx_arp_enable failed.");
+        ERROR_TRAP(status);
+    }
+
+    /* Enable UDP */
+    status = nx_udp_enable(&g_ip0);
+    if (NX_SUCCESS != status)
+    {
+        PRINT_ERR_STR("nx_udp_enable failed.");
+        ERROR_TRAP(status);
+    }
+
+    /* Enable ICMP */
+    status = nx_icmp_enable(&g_ip0);
+    if (NX_SUCCESS != status)
+    {
+        PRINT_ERR_STR("nx_icmp_enable failed.");
+        ERROR_TRAP(status);
+    }
+
+    /* Enable IPv6 */
+    status = nxd_ipv6_enable(&g_ip0);
+    if (NX_SUCCESS != status)
+    {
+        PRINT_ERR_STR("nxd_ipv6_enable failed.");
+        ERROR_TRAP(status);
+    }
+
+    /* Enable ICMPv6 (Required for neighbor discovery) */
+    status = nxd_icmp_enable(&g_ip0);
+    if (NX_SUCCESS != status)
+    {
+        PRINT_ERR_STR("nxd_icmp_enable failed.");
+        ERROR_TRAP(status);
+    }
+
+    /* Wait for the link to be enabled */
+    ULONG actual_state;
+    /* Wait for linking to be initialized so MAC address is valid */
+    /* Wait for initializing to finish */
+    status = nx_ip_interface_status_check(&g_ip0, 0, NX_IP_INITIALIZE_DONE, &actual_state, NX_WAIT_FOREVER);
+    if (NX_SUCCESS != status)
+    {
+        PRINT_ERR_STR("nx_ip_interface_status_check failed.");
+        ERROR_TRAP(status);
+    }
+
+    /* Set the link local IPv6 address (Prefix set to 10) */
+    status = nxd_ipv6_address_set(&g_ip0, address_index, NULL, 10, NULL);
+    if (NX_SUCCESS != status)
+    {
+        PRINT_ERR_STR("nxd_ipv6_address_set failed.");
+        ERROR_TRAP(status);
+    }
+}
+
+/*******************************************************************************************************************//**
+ * @brief     Create the DHCPv6 client instance.
+ * @param[IN] None.
+ * @retval    None.
+ **********************************************************************************************************************/
+static void dhcpv6_client_init0(void)
+{
+    /* Create the DHCP instance */
+    UINT status = nx_dhcpv6_client_create(&g_dhcpv6_client0,
+                                          &g_ip0,
+                                          "g_dhcpv6_client0",
+                                          &g_packet_pool0,
+                                          g_dhcpv6_client0_stack_memory,
+                                          G_DHCPV6_CLIENT0_TASK_STACK_SIZE,
+                                          dhcpv6_state_change_notify,
+                                          dhcpv6_server_error_handler);
+
+    if (NX_SUCCESS != status)
+    {
+        PRINT_ERR_STR("nx_dhcpv6_client_create failed.");
+        ERROR_TRAP(status);
+    }
+}
+
+/*******************************************************************************************************************//**
+ * @brief     This function runs a DHCP client session.
+ * @param[IN] *client_ptr    Pointer to an NX_DHCPV6 instance, an already created DHCPv6 client instance.
+ * @param[IN] *ip_ptr        Pointer to an NX_IP instance, an already created IP instance.
+ * @retval    Any other error code apart from NX_SUCCESS on unsuccessful operation.
+ **********************************************************************************************************************/
+static UINT run_dhcpv6_client_session(NX_IP *ip_ptr, NX_DHCPV6 *client_ptr)
+{
+    UINT        status             = NX_SUCCESS;
+    ULONG       actual_status      = RESET_VALUE;
+    ULONG       actual_events      = RESET_VALUE;
+    UINT        address_count      = RESET_VALUE;
+    ULONG       T1                 = RESET_VALUE;
+    ULONG       T2                 = RESET_VALUE;
+    ULONG       preferred_lifetime = RESET_VALUE;
+    ULONG       valid_lifetime     = RESET_VALUE;
+    NX_PACKET   *packet_ptr        = NULL;
+    NXD_ADDRESS dns_server_address = {0};
+    NXD_ADDRESS client_address     = {0};
+
+    PRINT_INFO_STR("Checking Ethernet Link...");
+
+    /* Wait for the link to come up */
+    do
+    {
+        status = nx_ip_driver_direct_command(&g_ip0, NX_LINK_GET_STATUS, &actual_status);
+
+    } while (NX_TRUE != actual_status);
+
+    PRINT_INFO_STR("Ethernet link is up.");
+
+    /* Create an event flags group to synchronize DHCPv6 client bound mechanism */
+    status = tx_event_flags_create(&dhcpv6_client_event_flags_group, "my_event_group_name");
+    if (TX_SUCCESS != status)
+    {
+        PRINT_ERR_STR("tx_event_flags_create failed.");
+        return status;
+    }
+
+    /* Create a Link Layer Plus Time DUID for the DHCPv6 Client. Set time ID field to NULL 
+     * the DHCPv6 client API will supply one */
+    status = nx_dhcpv6_create_client_duid(client_ptr, NX_DHCPV6_DUID_TYPE_LINK_TIME,
+                                          NX_DHCPV6_HW_TYPE_IEEE_802, 0);
+    if (NX_SUCCESS != status)
+    {
+        PRINT_ERR_STR("nx_dhcpv6_create_client_duid failed.");
+        return status;
+    }
+
+    /* Create the IANA (Also required) for the DHCPv6 Client. Request lease renewal times T1 and T2 */
+    status = nx_dhcpv6_create_client_iana(client_ptr, DHCPV6_IANA_ID, DHCPV6_T1, DHCPV6_T2);
+    if (NX_SUCCESS != status)
+    {
+        PRINT_ERR_STR("nx_dhcpv6_create_client_iana failed.");
+        return status;
+    }
+
+    /* Set the time zone as request to server and add requests for the IPv6 addresses of the DNS and NTP
+     * servers on the network */
+    status = nx_dhcpv6_request_option_timezone(client_ptr, NX_TRUE);
+    status += nx_dhcpv6_request_option_DNS_server(client_ptr, NX_TRUE);
+    if (NX_SUCCESS != status)
+    {
+        PRINT_ERR_STR("nx_dhcpv6_request_option_DNS_server failed.");
+        return status;
+    }
+
+    /* Start up the NetX DHCPv6 client thread task */
+    status = nx_dhcpv6_start(client_ptr);
+    if (NX_SUCCESS != status)
+    {
+        PRINT_ERR_STR("nx_dhcpv6_start failed.");
+        return status;
+    }
+    PRINT_INFO_STR("DHCPV6 Client started.");
+
+    /* Start the DHCPv6 by broadcasting a Solicit message */
+    status = nx_dhcpv6_request_solicit(client_ptr);
+    if (NX_SUCCESS != status)
+    {
+        PRINT_ERR_STR("nx_dhcpv6_request_solicit failed.");
+        return status;
+    }
+    PRINT_INFO_STR("Sent the Solicit message. Waiting for bound state...");
+
+    /* Check if the client is bound. This is set in the state change callback */
+    status = tx_event_flags_get(&dhcpv6_client_event_flags_group, DHCP_EVENT, TX_AND_CLEAR,\
+                                &actual_events, DHCPV6_EVENT_WAIT_TIME);
+    if ((TX_SUCCESS == status) && (true == actual_events))
+    {
+        /* Check if the IPv6 address is registered with the IP instance */
+        nx_dhcpv6_get_valid_ip_address_count(client_ptr, &address_count);
+
+        /* Check if the IP instance have at least one valid IP address */
+        if (RESET_VALUE >= address_count)
+        {
+            actual_events = NX_FALSE;
+            PRINT_ERR_STR("Client is bound but the IPv6 address not registered with the IP instance.");
+            return NX_IP_ADDRESS_ERROR;
+        }
+
+        /* Check if the DHCPv6 client bound to an IPv6 address registered with the IP instance */
+        /* Query the DHCPv6 client for our IPv6 address, only so that we can display it */
+        status = nx_dhcpv6_get_IP_address(client_ptr, &client_address);
+        if (NX_SUCCESS != status)
+        {
+            PRINT_ERR_STR("nx_dhcpv6_get_IP_address failed.");
+            return status;
+        }
+        /* Print the client bound IPv6 address */
+        app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_PRINT_CLIENT_IP, sizeof(NXD_ADDRESS), &client_address);
+
+        /* Obtain the DNS Server address */
+        status = nx_dhcpv6_get_DNS_server_address(client_ptr, 0, &dns_server_address);
+        if (NX_SUCCESS != status)
+        {
+            PRINT_ERR_STR("nx_dhcpv6_get_DNS_server_address failed.");
+            return status;
+        }
+        /* Print the DNS server address */
+        app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_PRINT_DNS_SERVER_IP, sizeof(NXD_ADDRESS), &dns_server_address);
+
+        /* Ping the DNS server to test our IPv6 address */
+        status = nxd_icmp_ping(ip_ptr, &dns_server_address, "ABCDE", sizeof("ABCDE"),\
+                               &packet_ptr, 3 * NX_IP_PERIODIC_RATE);
+        if (NX_SUCCESS != status)
+        {
+            PRINT_ERR_STR("nxd_icmp_ping failed.");
+            return status;
+        }
+        PRINT_INFO_STR("Pinged the DNS Server successfully.");
+
+        /* Retrieve the client’s assigned IA lease data */
+        status = nx_dhcpv6_get_lease_time_data(client_ptr, &T1, &T2, &preferred_lifetime, &valid_lifetime);
+        if (NX_SUCCESS != status)
+        {
+            PRINT_ERR_STR("nx_dhcpv6_get_lease_time_data failed.");
+            return status;
+        }
+        /* Print client’s assigned IA lease data */
+        ULONG lease_data[4] = {RESET_VALUE};
+        lease_data[0] = T1;
+        lease_data[1] = T2;
+        lease_data[2] = preferred_lifetime;
+        lease_data[3] = valid_lifetime;
+        app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_VAL, sizeof(lease_data), &lease_data);
+
+        /* Release the IPv6 address */
+        status = nx_dhcpv6_request_release(client_ptr);
+        if (NX_SUCCESS != status)
+        {
+            PRINT_ERR_STR("nx_dhcpv6_request_release failed.");
+            return status;
+        }
+        PRINT_INFO_STR("Released IP address back to Server.");
+    }
+    PRINT_INFO_STR("Now Stopping and deleting the DHCPv6 Client.");
+
+    /* Stop the DHCPv6 client thread task */
+    status = nx_dhcpv6_stop(client_ptr);
+    if (NX_SUCCESS != status)
+    {
+        PRINT_ERR_STR("nx_dhcpv6_stop failed.");
+        return status;
+    }
+
+    /* Delete the DHCPv6 client */
+    status = nx_dhcpv6_client_delete(client_ptr);
+    if (NX_SUCCESS != status)
+    {
+        PRINT_ERR_STR("nx_dhcpv6_client_delete failed.");
+    }
+    return status;
+}
+
+/*******************************************************************************************************************//**
+ * @brief       This function is called when the DHCPv6 client changes DHCPv6 state. Since this
+ *              is called from the DHCPv6 stack, the code should be brief with no blocking calls.
+ *              and we set a event flag for the application to check.
+ * @param[IN]   dhcpv6_ptr    Pointer to the DHCPv6 client instance.
+ * @param[IN]   old_state     Previous state the DHCPv6 client was in.
+ * @param[IN]   new_state     Current state the DHCPv6 client just changed to.
+ * @retval      None.
+ **********************************************************************************************************************/
+static VOID dhcpv6_state_change_notify(struct NX_DHCPV6_STRUCT *dhcpv6_ptr, UINT old_state, UINT new_state)
+{
+    NX_PARAMETER_NOT_USED(dhcpv6_ptr);
+    NX_PARAMETER_NOT_USED(old_state);
+
+    if (new_state == NX_DHCPV6_STATE_BOUND_TO_ADDRESS)
+    {
+        /* Set event flag */
+        tx_event_flags_set(&dhcpv6_client_event_flags_group, DHCP_EVENT, TX_OR);
+    }
+}
+
+/*******************************************************************************************************************//**
+ * @brief       This function is called when the DHCPv6 client receives an error code from
+ *              the server. Since this is called from the DHCPv6 stack, the code should be brief
+ *              with no blocking calls.
+ * @param[IN]   dhcpv6_ptr    Pointer to the DHCPv6 client instance.
+ * @param[IN]   op_code       Section of DHCPv6 request causing the error e.g. IA_ADDRESS, IA-NA, Option Field.
+ * @param[IN]   status_code   Specifies the error status code received from the Server.
+ * @param[IN]   message_type  Specifies which type of response ADVERTISE, REPLY etc) associated with the error status.
+ * @retval      None.
+ **********************************************************************************************************************/
+static VOID dhcpv6_server_error_handler(struct NX_DHCPV6_STRUCT *dhcpv6_ptr, UINT op_code,\
+                                        UINT status_code, UINT message_type)
+{
+    NX_PARAMETER_NOT_USED(op_code);
+    NX_PARAMETER_NOT_USED(dhcpv6_ptr);
+    NX_PARAMETER_NOT_USED(status_code);
+    NX_PARAMETER_NOT_USED(message_type);
+}
+
+/*******************************************************************************************************************//**
+ * @brief       This function processes IPv6 address into string to print.
+ * @param[IN]   ipv6     IPv6 address.
+ * @param[OUT]  str      Converted string.
+ * @retval      None.
+ **********************************************************************************************************************/
+void str_ipv6(UCHAR * str, NXD_ADDRESS ipv6)
+{
+    sprintf((char *)str,"%X:%X:%X:%X:%X:%X:%X:%X",
+            (((uint32_t)ipv6.nxd_ip_address.v6[0] & 0xFFFF0000) >> 16),
+            (((uint32_t)ipv6.nxd_ip_address.v6[0] & 0x0000FFFF) >> 0),
+            (((uint32_t)ipv6.nxd_ip_address.v6[1] & 0xFFFF0000) >> 16),
+            (((uint32_t)ipv6.nxd_ip_address.v6[1] & 0x0000FFFF) >> 0),
+            (((uint32_t)ipv6.nxd_ip_address.v6[2] & 0xFFFF0000) >> 16),
+            (((uint32_t)ipv6.nxd_ip_address.v6[2] & 0x0000FFFF) >> 0),
+            (((uint32_t)ipv6.nxd_ip_address.v6[3] & 0xFFFF0000) >> 16),
+            (((uint32_t)ipv6.nxd_ip_address.v6[3] & 0x0000FFFF) >> 0));
+}
+
+/*******************************************************************************************************************//**
+ * @} (end addtogroup NetX_dhcpv6_client_ep)
+ **********************************************************************************************************************/
