@@ -1,0 +1,1 @@
+start "J-Link" "..\JLink\JLink.exe" -commanderscript erase_ospi_16kB_CPU0.jlink

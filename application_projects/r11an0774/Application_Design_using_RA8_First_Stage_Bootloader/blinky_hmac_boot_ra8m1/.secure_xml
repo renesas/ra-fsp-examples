@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<raConfiguration version="8">
+<raConfiguration version="12">
   <generalSettings>
     <option key="#Board#" value="board.ra8m1ek"/>
     <option key="CPU" value="RA8M1"/>
@@ -9,7 +9,7 @@
     <option key="#DeviceCommand#" value="R7FA8M1AH"/>
     <option key="#RTOS#" value="_none"/>
     <option key="#pinconfiguration#" value="R7FA8M1AHECBD.pincfg"/>
-    <option key="#FSPVersion#" value="5.1.0"/>
+    <option key="#FSPVersion#" value="6.1.0"/>
     <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra8m1_ek##"/>
     <option key="#SELECTED_TOOLCHAIN#" value="gcc-arm-embedded"/>
     <option key="#ToolchainVersion#" value="13.2.1.arm-13-7"/>
@@ -22,8 +22,8 @@
     <node id="board.clock.moco.freq" option="board.clock.moco.freq.8m"/>
     <node id="board.clock.subclk.freq" option="board.clock.subclk.freq.32768"/>
     <node id="board.clock.pll.source" option="board.clock.pll.source.xtal"/>
-    <node id="board.clock.pll.div" option="board.clock.pll.div.1"/>
-    <node id="board.clock.pll.mul" option="board.clock.pll.mul.48_00"/>
+    <node id="board.clock.pll.div" option="board.clock.pll.div.2"/>
+    <node id="board.clock.pll.mul" option="board.clock.pll.mul.96_00"/>
     <node id="board.clock.pll.display" option="board.clock.pll.display.value"/>
     <node id="board.clock.pll1p.div" option="board.clock.pll1p.div.2"/>
     <node id="board.clock.pll1p.display" option="board.clock.pll1p.display.value"/>
@@ -33,7 +33,7 @@
     <node id="board.clock.pll1r.display" option="board.clock.pll1r.display.value"/>
     <node id="board.clock.pll2.source" option="board.clock.pll2.source.disabled"/>
     <node id="board.clock.pll2.div" option="board.clock.pll2.div.1"/>
-    <node id="board.clock.pll2.mul" option="board.clock.pll2.mul.48_00"/>
+    <node id="board.clock.pll2.mul" option="board.clock.pll2.mul.96_00"/>
     <node id="board.clock.pll2.display" option="board.clock.pll2.display.value"/>
     <node id="board.clock.pll2p.div" option="board.clock.pll2p.div.2"/>
     <node id="board.clock.pll2p.display" option="board.clock.pll2p.display.value"/>
@@ -91,46 +91,46 @@
   </raClockConfiguration>
   <raPinConfiguration>
     <pincfg active="true" name="" symbol="">
-      <configSetting altId="adc0.an000.p004" configurationId="adc0.an000"/>
-      <configSetting altId="adc0.an001.p005" configurationId="adc0.an001"/>
-      <configSetting altId="adc0.an004.p007" configurationId="adc0.an004"/>
-      <configSetting altId="adc0.an007.p014" configurationId="adc0.an007"/>
-      <configSetting altId="adc1.an102.p002" configurationId="adc1.an102"/>
-      <configSetting altId="adc1.an104.p003" configurationId="adc1.an104"/>
-      <configSetting altId="adc1.an105.p015" configurationId="adc1.an105"/>
-      <configSetting altId="adc1.an106.p011" configurationId="adc1.an106"/>
-      <configSetting altId="ether_rmii.et0_linksta.p114" configurationId="ether_rmii.et0_linksta"/>
-      <configSetting altId="ether_rmii.et0_mdc.p308" configurationId="ether_rmii.et0_mdc"/>
-      <configSetting altId="ether_rmii.et0_mdio.p307" configurationId="ether_rmii.et0_mdio"/>
-      <configSetting altId="ether_rmii.ref50ck0.p303" configurationId="ether_rmii.ref50ck0"/>
-      <configSetting altId="ether_rmii.rmii0_crs_dv.p112" configurationId="ether_rmii.rmii0_crs_dv"/>
-      <configSetting altId="ether_rmii.rmii0_rx_er.p300" configurationId="ether_rmii.rmii0_rx_er"/>
-      <configSetting altId="ether_rmii.rmii0_rxd0.p302" configurationId="ether_rmii.rmii0_rxd0"/>
-      <configSetting altId="ether_rmii.rmii0_rxd1.p301" configurationId="ether_rmii.rmii0_rxd1"/>
-      <configSetting altId="ether_rmii.rmii0_txd0.p304" configurationId="ether_rmii.rmii0_txd0"/>
-      <configSetting altId="ether_rmii.rmii0_txd1.p305" configurationId="ether_rmii.rmii0_txd1"/>
-      <configSetting altId="ether_rmii.rmii0_txd_en.p306" configurationId="ether_rmii.rmii0_txd_en"/>
-      <configSetting altId="iic1.scl1.p512" configurationId="iic1.scl1"/>
-      <configSetting altId="iic1.sda1.p511" configurationId="iic1.sda1"/>
-      <configSetting altId="irq12.irq12_dash_ds.p008" configurationId="irq12.irq12_dash_ds"/>
-      <configSetting altId="irq13.irq13_dash_ds.p009" configurationId="irq13.irq13_dash_ds"/>
-      <configSetting altId="jtag_fslash_swd.tck.p211" configurationId="jtag_fslash_swd.tck"/>
-      <configSetting altId="jtag_fslash_swd.tdi.p208" configurationId="jtag_fslash_swd.tdi"/>
-      <configSetting altId="jtag_fslash_swd.tdo.p209" configurationId="jtag_fslash_swd.tdo"/>
-      <configSetting altId="jtag_fslash_swd.tms.p210" configurationId="jtag_fslash_swd.tms"/>
-      <configSetting altId="ospi.om_cs1.p104" configurationId="ospi.om_cs1"/>
-      <configSetting altId="ospi.om_dqs.p801" configurationId="ospi.om_dqs"/>
-      <configSetting altId="ospi.om_ecsint1.p105" configurationId="ospi.om_ecsint1"/>
-      <configSetting altId="ospi.om_reset.p106" configurationId="ospi.om_reset"/>
-      <configSetting altId="ospi.om_sclk.p808" configurationId="ospi.om_sclk"/>
-      <configSetting altId="ospi.om_sio0.p100" configurationId="ospi.om_sio0"/>
-      <configSetting altId="ospi.om_sio1.p803" configurationId="ospi.om_sio1"/>
-      <configSetting altId="ospi.om_sio2.p103" configurationId="ospi.om_sio2"/>
-      <configSetting altId="ospi.om_sio3.p101" configurationId="ospi.om_sio3"/>
-      <configSetting altId="ospi.om_sio4.p102" configurationId="ospi.om_sio4"/>
-      <configSetting altId="ospi.om_sio5.p800" configurationId="ospi.om_sio5"/>
-      <configSetting altId="ospi.om_sio6.p802" configurationId="ospi.om_sio6"/>
-      <configSetting altId="ospi.om_sio7.p804" configurationId="ospi.om_sio7"/>
+      <configSetting altId="adc0.an000.p004" configurationId="adc0.an000" peripheral="ADC0"/>
+      <configSetting altId="adc0.an001.p005" configurationId="adc0.an001" peripheral="ADC0"/>
+      <configSetting altId="adc0.an004.p007" configurationId="adc0.an004" peripheral="ADC0"/>
+      <configSetting altId="adc0.an007.p014" configurationId="adc0.an007" peripheral="ADC0"/>
+      <configSetting altId="adc1.an102.p002" configurationId="adc1.an102" peripheral="ADC1"/>
+      <configSetting altId="adc1.an104.p003" configurationId="adc1.an104" peripheral="ADC1"/>
+      <configSetting altId="adc1.an105.p015" configurationId="adc1.an105" peripheral="ADC1"/>
+      <configSetting altId="adc1.an106.p011" configurationId="adc1.an106" peripheral="ADC1"/>
+      <configSetting altId="ether_rmii.et0_linksta.p114" configurationId="ether_rmii.et0_linksta" peripheral="ETHER_RMII"/>
+      <configSetting altId="ether_rmii.et0_mdc.p308" configurationId="ether_rmii.et0_mdc" peripheral="ETHER_RMII"/>
+      <configSetting altId="ether_rmii.et0_mdio.p307" configurationId="ether_rmii.et0_mdio" peripheral="ETHER_RMII"/>
+      <configSetting altId="ether_rmii.ref50ck0.p303" configurationId="ether_rmii.ref50ck0" peripheral="ETHER_RMII"/>
+      <configSetting altId="ether_rmii.rmii0_crs_dv.p112" configurationId="ether_rmii.rmii0_crs_dv" peripheral="ETHER_RMII"/>
+      <configSetting altId="ether_rmii.rmii0_rx_er.p300" configurationId="ether_rmii.rmii0_rx_er" peripheral="ETHER_RMII"/>
+      <configSetting altId="ether_rmii.rmii0_rxd0.p302" configurationId="ether_rmii.rmii0_rxd0" peripheral="ETHER_RMII"/>
+      <configSetting altId="ether_rmii.rmii0_rxd1.p301" configurationId="ether_rmii.rmii0_rxd1" peripheral="ETHER_RMII"/>
+      <configSetting altId="ether_rmii.rmii0_txd0.p304" configurationId="ether_rmii.rmii0_txd0" peripheral="ETHER_RMII"/>
+      <configSetting altId="ether_rmii.rmii0_txd1.p305" configurationId="ether_rmii.rmii0_txd1" peripheral="ETHER_RMII"/>
+      <configSetting altId="ether_rmii.rmii0_txd_en.p306" configurationId="ether_rmii.rmii0_txd_en" peripheral="ETHER_RMII"/>
+      <configSetting altId="iic1.scl1.p512" configurationId="iic1.scl1" peripheral="IIC1"/>
+      <configSetting altId="iic1.sda1.p511" configurationId="iic1.sda1" peripheral="IIC1"/>
+      <configSetting altId="irq12.irq12_dash_ds.p008" configurationId="irq12.irq12_dash_ds" peripheral="IRQ12"/>
+      <configSetting altId="irq13.irq13_dash_ds.p009" configurationId="irq13.irq13_dash_ds" peripheral="IRQ13"/>
+      <configSetting altId="jtag_fslash_swd.tck.p211" configurationId="jtag_fslash_swd.tck" peripheral="JTAG/SWD"/>
+      <configSetting altId="jtag_fslash_swd.tdi.p208" configurationId="jtag_fslash_swd.tdi" peripheral="JTAG/SWD"/>
+      <configSetting altId="jtag_fslash_swd.tdo.p209" configurationId="jtag_fslash_swd.tdo" peripheral="JTAG/SWD"/>
+      <configSetting altId="jtag_fslash_swd.tms.p210" configurationId="jtag_fslash_swd.tms" peripheral="JTAG/SWD"/>
+      <configSetting altId="ospi.om_cs1.p104" configurationId="ospi.om_cs1" peripheral="OSPI"/>
+      <configSetting altId="ospi.om_dqs.p801" configurationId="ospi.om_dqs" peripheral="OSPI"/>
+      <configSetting altId="ospi.om_ecsint1.p105" configurationId="ospi.om_ecsint1" peripheral="OSPI"/>
+      <configSetting altId="ospi.om_reset.p106" configurationId="ospi.om_reset" peripheral="OSPI"/>
+      <configSetting altId="ospi.om_sclk.p808" configurationId="ospi.om_sclk" peripheral="OSPI"/>
+      <configSetting altId="ospi.om_sio0.p100" configurationId="ospi.om_sio0" peripheral="OSPI"/>
+      <configSetting altId="ospi.om_sio1.p803" configurationId="ospi.om_sio1" peripheral="OSPI"/>
+      <configSetting altId="ospi.om_sio2.p103" configurationId="ospi.om_sio2" peripheral="OSPI"/>
+      <configSetting altId="ospi.om_sio3.p101" configurationId="ospi.om_sio3" peripheral="OSPI"/>
+      <configSetting altId="ospi.om_sio4.p102" configurationId="ospi.om_sio4" peripheral="OSPI"/>
+      <configSetting altId="ospi.om_sio5.p800" configurationId="ospi.om_sio5" peripheral="OSPI"/>
+      <configSetting altId="ospi.om_sio6.p802" configurationId="ospi.om_sio6" peripheral="OSPI"/>
+      <configSetting altId="ospi.om_sio7.p804" configurationId="ospi.om_sio7" peripheral="OSPI"/>
       <configSetting altId="p000.input" configurationId="p000"/>
       <configSetting altId="p107.output.low" configurationId="p107"/>
       <configSetting altId="p414.output.low" configurationId="p414"/>
@@ -138,24 +138,24 @@
       <configSetting altId="p807.output.low" configurationId="p807"/>
       <configSetting altId="p809.output.low" configurationId="p809"/>
       <configSetting altId="pa06.input" configurationId="pa06"/>
-      <configSetting altId="sci2.cts_rts2.pa05" configurationId="sci2.cts_rts2"/>
-      <configSetting altId="sci2.rxd2.pa02" configurationId="sci2.rxd2"/>
-      <configSetting altId="sci2.sck2.pa04" configurationId="sci2.sck2"/>
-      <configSetting altId="sci2.txd2.pa03" configurationId="sci2.txd2"/>
-      <configSetting altId="sci9.rxd9.pa15" configurationId="sci9.rxd9" isUsedByDriver="true"/>
-      <configSetting altId="sci9.txd9.pa14" configurationId="sci9.txd9" isUsedByDriver="true"/>
-      <configSetting altId="spi1.miso1.p410" configurationId="spi1.miso1"/>
-      <configSetting altId="spi1.mosi1.p411" configurationId="spi1.mosi1"/>
-      <configSetting altId="spi1.rspck1.p412" configurationId="spi1.rspck1"/>
-      <configSetting altId="spi1.sslb0.p413" configurationId="spi1.sslb0"/>
-      <configSetting altId="usbfs.usb_dm.p815" configurationId="usbfs.usb_dm"/>
-      <configSetting altId="usbfs.usb_dp.p814" configurationId="usbfs.usb_dp"/>
-      <configSetting altId="usbfs.usb_ovrcura.p501" configurationId="usbfs.usb_ovrcura"/>
-      <configSetting altId="usbfs.usb_vbus.p407" configurationId="usbfs.usb_vbus"/>
-      <configSetting altId="usbfs.usb_vbusen.p500" configurationId="usbfs.usb_vbusen"/>
-      <configSetting altId="usbhs.usbhs_ovrcura.p409" configurationId="usbhs.usbhs_ovrcura"/>
-      <configSetting altId="usbhs.usbhs_vbus.pb01" configurationId="usbhs.usbhs_vbus"/>
-      <configSetting altId="usbhs.usbhs_vbusen.p408" configurationId="usbhs.usbhs_vbusen"/>
+      <configSetting altId="sci2.cts_rts2.pa05" configurationId="sci2.cts_rts2" peripheral="SCI2"/>
+      <configSetting altId="sci2.rxd2.pa02" configurationId="sci2.rxd2" peripheral="SCI2"/>
+      <configSetting altId="sci2.sck2.pa04" configurationId="sci2.sck2" peripheral="SCI2"/>
+      <configSetting altId="sci2.txd2.pa03" configurationId="sci2.txd2" peripheral="SCI2"/>
+      <configSetting altId="sci9.rxd9.pa15" configurationId="sci9.rxd9" isUsedByDriver="true" peripheral="SCI9"/>
+      <configSetting altId="sci9.txd9.pa14" configurationId="sci9.txd9" isUsedByDriver="true" peripheral="SCI9"/>
+      <configSetting altId="spi1.miso1.p410" configurationId="spi1.miso1" peripheral="SPI1"/>
+      <configSetting altId="spi1.mosi1.p411" configurationId="spi1.mosi1" peripheral="SPI1"/>
+      <configSetting altId="spi1.rspck1.p412" configurationId="spi1.rspck1" peripheral="SPI1"/>
+      <configSetting altId="spi1.sslb0.p413" configurationId="spi1.sslb0" peripheral="SPI1"/>
+      <configSetting altId="usbfs.usb_dm.p815" configurationId="usbfs.usb_dm" peripheral="USB FS"/>
+      <configSetting altId="usbfs.usb_dp.p814" configurationId="usbfs.usb_dp" peripheral="USB FS"/>
+      <configSetting altId="usbfs.usb_ovrcura.p501" configurationId="usbfs.usb_ovrcura" peripheral="USB FS"/>
+      <configSetting altId="usbfs.usb_vbus.p407" configurationId="usbfs.usb_vbus" peripheral="USB FS"/>
+      <configSetting altId="usbfs.usb_vbusen.p500" configurationId="usbfs.usb_vbusen" peripheral="USB FS"/>
+      <configSetting altId="usbhs.usbhs_ovrcura.p409" configurationId="usbhs.usbhs_ovrcura" peripheral="USB HS"/>
+      <configSetting altId="usbhs.usbhs_vbus.pb01" configurationId="usbhs.usbhs_vbus" peripheral="USB HS"/>
+      <configSetting altId="usbhs.usbhs_vbusen.p408" configurationId="usbhs.usbhs_vbusen" peripheral="USB HS"/>
     </pincfg>
   </raPinConfiguration>
 </raConfiguration>

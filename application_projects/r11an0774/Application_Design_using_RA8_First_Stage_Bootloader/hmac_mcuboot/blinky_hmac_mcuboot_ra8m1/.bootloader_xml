@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ddscBootloader>
+    <symbols/>
+    <images>
+        <image path="${BuildArtifactFileBaseName}.bin.signed">python ${workspace_loc:blinky_hmac_mcuboot_ra8m1}/ra/fsp/src/rm_mcuboot_port/rm_mcuboot_port_sign.py sign --align 128 --max-align 128 --flash_erase_size_bytes 32768 --overwrite-only  --confirm --pad-header ${BuildArtifactFileName} ${BuildArtifactFileBaseName}.bin.signed</image>
+        <image path="${BuildArtifactFileBaseName}.bin.signed" security="n">python ${workspace_loc:blinky_hmac_mcuboot_ra8m1}/ra/fsp/src/rm_mcuboot_port/rm_mcuboot_port_sign.py sign --align 128 --max-align 128 --flash_erase_size_bytes 32768 --overwrite-only  --confirm --pad-header ${BuildArtifactFileName} ${BuildArtifactFileBaseName}.bin.signed</image>
+    </images>
+</ddscBootloader>

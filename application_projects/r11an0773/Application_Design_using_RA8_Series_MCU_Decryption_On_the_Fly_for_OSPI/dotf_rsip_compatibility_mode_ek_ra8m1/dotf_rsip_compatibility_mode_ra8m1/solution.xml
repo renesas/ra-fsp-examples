@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<raSolution>
+  <generalSettings>
+    <option key="#Board#" value="board.ra8m1ek"/>
+    <option key="#TargetName#" value="R7FA8M1AHECBD"/>
+    <option key="#FSPVersion#" value="6.0.0"/>
+    <option key="#SELECTED_TOOLCHAIN#" value="gcc-arm-embedded"/>
+    <option key="#ToolchainVersion#" value="13.2.1.arm-13-7"/>
+  </generalSettings>
+  <raPartitions>
+    <memory Pname="CM85" name="RAM_CM85_S" offset="0x0" parent="RAM" security="s" size="0xE0000"/>
+    <memory Pname="CM85" name="RAM_CM85_C" offset="0xE0000" parent="RAM" security="c" size="0x0"/>
+    <memory Pname="CM85" name="FLASH_CM85_S" offset="0x0" parent="FLASH" security="s" size="0x1F8000"/>
+    <memory Pname="CM85" name="FLASH_CM85_C" offset="0x1F8000" parent="FLASH" security="c" size="0x0"/>
+    <memory Pname="CM85" name="DATA_FLASH_CM85_S" offset="0x0" parent="DATA_FLASH" security="s" size="0x3000"/>
+    <memory Pname="CM85" name="SDRAM_CM85_S" offset="0x0" parent="SDRAM" security="s" size="0x8000000"/>
+    <memory Pname="CM85" name="OSPI0_CS0_CM85_S" offset="0x0" parent="OSPI0_CS0" security="s" size="0x10000000"/>
+    <memory Pname="CM85" name="OSPI0_CS1_CM85_S" offset="0x0" parent="OSPI0_CS1" security="s" size="0x1000"/>
+    <memory Pname="CM85" name="OPTION_SETTING_OFS0_CM85_S" offset="0x0" parent="OPTION_SETTING_OFS0" security="s" size="0x4"/>
+    <memory Pname="CM85" name="OPTION_SETTING_OFS2_CM85_S" offset="0x0" parent="OPTION_SETTING_OFS2" security="s" size="0x4"/>
+    <memory Pname="CM85" name="OPTION_SETTING_DUALSEL_CM85_S" offset="0x0" parent="OPTION_SETTING_DUALSEL" security="s" size="0x4"/>
+    <memory Pname="CM85" name="OPTION_SETTING_OFS1_SEC_CM85_S" offset="0x0" parent="OPTION_SETTING_OFS1_SEC" security="s" size="0x4"/>
+    <memory Pname="CM85" name="OPTION_SETTING_BANKSEL_SEC_CM85_S" offset="0x0" parent="OPTION_SETTING_BANKSEL_SEC" security="s" size="0x4"/>
+    <memory Pname="CM85" name="OPTION_SETTING_BPS_SEC_CM85_S" offset="0x0" parent="OPTION_SETTING_BPS_SEC" security="s" size="0x10"/>
+    <memory Pname="CM85" name="OPTION_SETTING_PBPS_SEC_CM85_S" offset="0x0" parent="OPTION_SETTING_PBPS_SEC" security="s" size="0x10"/>
+    <memory Pname="CM85" name="OPTION_SETTING_OFS1_SEL_CM85_S" offset="0x0" parent="OPTION_SETTING_OFS1_SEL" security="s" size="0x4"/>
+    <memory Pname="CM85" name="OPTION_SETTING_BANKSEL_SEL_CM85_S" offset="0x0" parent="OPTION_SETTING_BANKSEL_SEL" security="s" size="0x4"/>
+    <memory Pname="CM85" name="OPTION_SETTING_BPS_SEL_CM85_S" offset="0x0" parent="OPTION_SETTING_BPS_SEL" security="s" size="0x10"/>
+    <memory Pname="CM85" name="ITCM_CM85_S" offset="0x0" parent="ITCM" security="s" size="0x10000"/>
+    <memory Pname="CM85" name="DTCM_CM85_S" offset="0x0" parent="DTCM" security="s" size="0x10000"/>
+    <memory Pname="CM85" name="PLAINTEXT_DATA_S" offset="0x1000" parent="OSPI0_CS1" security="s" size="0xFFFF000" userDefined="true"/>
+  </raPartitions>
+  <raSmartBundles>
+    <bundle>${workspace_loc:/dotf_rsip_compatibility_mode_ra8m1_CM85}/Debug/dotf_rsip_compatibility_mode_ra8m1_CM85.sbd</bundle>
+  </raSmartBundles>
+</raSolution>

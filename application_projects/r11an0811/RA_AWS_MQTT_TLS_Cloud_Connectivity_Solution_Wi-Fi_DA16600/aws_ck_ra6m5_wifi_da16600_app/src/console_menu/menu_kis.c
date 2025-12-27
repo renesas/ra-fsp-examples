@@ -1,21 +1,8 @@
-/**********************************************************************************************************************
- * DISCLAIMER
- * This software is supplied by Renesas Electronics Corporation and is only intended for use with Renesas products. No
- * other uses are authorized. This software is owned by Renesas Electronics Corporation and is protected under all
- * applicable laws, including copyright laws.
- * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
- * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED. TO THE MAXIMUM
- * EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES
- * SHALL BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR ANY REASON RELATED TO
- * THIS SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
- * Renesas reserves the right, without notice, to make changes to this software and to discontinue the availability of
- * this software. By using this software, you agree to the additional terms and conditions found by accessing the
- * following link:
- * http://www.renesas.com/disclaimer
- *
- * Copyright (C) 2023 Renesas Electronics Corporation. All rights reserved.
- *********************************************************************************************************************/
+/***********************************************************************************************************************
+* Copyright (c) 2023 - 2024 Renesas Electronics Corporation and/or its affiliates
+*
+* SPDX-License-Identifier: BSD-3-Clause
+***********************************************************************************************************************/ 
 /***********************************************************************************************************************
  * File Name    : menu_kis.c
  * Description  : Main menu screen.
@@ -112,8 +99,12 @@ test_fn get_uuid(void)
     printf_colour ((void*) s_print_buffer);
 
     memset (s_print_buffer, 0, BUFFER_LENGTH_SHORT);
-    sprintf (s_print_buffer, " %08x-%08x-%08x-%08x\r\n", (int_t) p_uid->unique_id_words[0], (int_t) p_uid->unique_id_words[1],
-             (int_t) p_uid->unique_id_words[2], (int_t) p_uid->unique_id_words[3]);
+
+    sprintf (s_print_buffer, " %x%x%x%x-%x%x%x%x-%x%x%x%x-%x%x%x%x\r\n",
+            (int_t) p_uid->unique_id_bytes[0], (int_t) p_uid->unique_id_bytes[1], (int_t) p_uid->unique_id_bytes[2], (int_t) p_uid->unique_id_bytes[3],
+            (int_t) p_uid->unique_id_bytes[4], (int_t) p_uid->unique_id_bytes[5],(int_t) p_uid->unique_id_bytes[6], (int_t)p_uid->unique_id_bytes[7],
+            (int_t)p_uid->unique_id_bytes[8], (int_t) p_uid->unique_id_bytes[9], (int_t) p_uid->unique_id_bytes[10], (int_t)p_uid->unique_id_bytes[11],
+            (int_t)p_uid->unique_id_bytes[12], (int_t) p_uid->unique_id_bytes[13], (int_t) p_uid->unique_id_bytes[14], (int_t)p_uid->unique_id_bytes[15]);
     printf_colour (s_print_buffer);
 
     printf_colour (MENU_RETURN_INFO);

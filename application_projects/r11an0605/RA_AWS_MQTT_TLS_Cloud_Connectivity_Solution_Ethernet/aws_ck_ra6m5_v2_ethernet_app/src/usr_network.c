@@ -3,21 +3,10 @@
  * Description  : Contains Ethernet and network related data structures and functions used in the application
  **********************************************************************************************************************/
 /***********************************************************************************************************************
- * Copyright [2015-2023] Renesas Electronics Corporation and/or its licensors. All Rights Reserved.
- *
- * The contents of this file (the "contents") are proprietary and confidential to Renesas Electronics Corporation
- * and/or its licensors ("Renesas") and subject to statutory and contractual protections.
- *
- * This file is subject to a Renesas FSP license agreement. Unless otherwise agreed in an FSP license agreement with
- * Renesas: 1) you may not use, copy, modify, distribute, display, or perform the contents; 2) you may not use any name
- * or mark of Renesas for advertising or publicity purposes or in connection with your use of the contents; 3) RENESAS
- * MAKES NO WARRANTY OR REPRESENTATIONS ABOUT THE SUITABILITY OF THE CONTENTS FOR ANY PURPOSE; THE CONTENTS ARE PROVIDED
- * "AS IS" WITHOUT ANY EXPRESS OR IMPLIED WARRANTY, INCLUDING THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
- * PARTICULAR PURPOSE, AND NON-INFRINGEMENT; AND 4) RENESAS SHALL NOT BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, OR
- * CONSEQUENTIAL DAMAGES, INCLUDING DAMAGES RESULTING FROM LOSS OF USE, DATA, OR PROJECTS, WHETHER IN AN ACTION OF
- * CONTRACT OR TORT, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THE CONTENTS. Third-party contents
- * included in this file may be subject to different terms.
- **********************************************************************************************************************/
+* Copyright (c) 2015 - 2024 Renesas Electronics Corporation and/or its affiliates
+*
+* SPDX-License-Identifier: BSD-3-Clause
+***********************************************************************************************************************/ 
 #include <console_thread.h>
 #include "usr_network.h"
 #include "common_utils.h"
@@ -36,13 +25,15 @@ extern eDHCPCallbackAnswer_t xApplicationDHCPHook(eDHCPCallbackPhase_t eDHCPPhas
 extern const char* pcApplicationHostnameHook(void);
 #endif /* ipconfigDHCP_REGISTER_HOSTNAME */
 
+extern uint8_t g_ether0_mac_address[6];
+
 #if( ipconfigUSE_DHCP != 0 )
 IPV4Parameters_t xNd = {RESET_VALUE, RESET_VALUE, RESET_VALUE, {RESET_VALUE, RESET_VALUE}, RESET_VALUE, RESET_VALUE};
 
 /* DHCP populates these IP address, Sub net mask and Gateway Address. So start with this is zeroed out values
  * The MAC address is Test MAC address.
  */
-static uint8_t ucMACAddress[6] =       { 0x00, 0x11, 0x22, 0x33, 0x44, 0x55 };
+static uint8_t *ucMACAddress =         g_ether0_mac_address;
 static uint8_t ucIPAddress[4] =        { RESET_VALUE };
 static uint8_t ucNetMask[4] =          { 255, 255, 255, 255 };
 static uint8_t ucGatewayAddress[4] =   { RESET_VALUE };
@@ -53,7 +44,7 @@ static uint8_t ucDNSServerAddress[4] = {75, 75, 75, 75};
      * This sample address taken from the LAN where it is tested. This is different for different LAN.
      * get the Address using the PC IPconfig details.
      */
-    static  uint8_t ucMACAddress[ 6 ]       = {0x00, 0x11, 0x22, 0x33, 0x44, 0x55};
+    static  uint8_t *ucMACAddress           = g_ether0_mac_address;
     static  uint8_t ucIPAddress[ 4 ]        = {10, 0, 0, 241};
     static  uint8_t ucNetMask[ 4 ]          = {255, 255, 255, 255};
     static  uint8_t ucGatewayAddress[ 4 ]   = {10, 0, 0, 1};

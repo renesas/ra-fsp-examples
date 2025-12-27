@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<raConfiguration version="9">
+<raConfiguration version="11">
   <generalSettings>
     <option key="#Board#" value="board.ra6m5ckv2"/>
     <option key="CPU" value="RA6M5"/>
@@ -9,8 +9,8 @@
     <option key="#DeviceCommand#" value="R7FA6M5BH"/>
     <option key="#RTOS#" value="rtos.threadx"/>
     <option key="#pinconfiguration#" value="R7FA6M5BH3CFC.pincfg"/>
-    <option key="#FSPVersion#" value="5.3.0"/>
-    <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra6m5_ck##|Renesas##BSP##Board##ra6m5_ck_v2##"/>
+    <option key="#FSPVersion#" value="6.0.0"/>
+    <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra6m5_ck_v2##"/>
     <option key="#SELECTED_TOOLCHAIN#" value="gcc-arm-embedded"/>
     <option key="#ToolchainVersion#" value="13.2.1.arm-13-7"/>
   </generalSettings>
@@ -23,6 +23,7 @@
       <property id="config.bsp.data_flash_size_bytes" value="config.bsp.data_flash_size_bytes.value"/>
       <property id="config.bsp.package_style" value="config.bsp.package_style.value"/>
       <property id="config.bsp.package_pins" value="config.bsp.package_pins.value"/>
+      <property id="config.bsp.number_of_cores" value="1"/>
       <property id="config.bsp.irq_count_hidden" value="96"/>
     </config>
     <config id="config.bsp.ra6m5">
@@ -42,40 +43,14 @@
       <property id="config.bsp.fsp.tz.stbramsar" value="config.bsp.fsp.tz.stbramsar.both"/>
       <property id="config.bsp.fsp.tz.bussara" value="config.bsp.fsp.tz.bussara.both"/>
       <property id="config.bsp.fsp.tz.bussarb" value="config.bsp.fsp.tz.bussarb.both"/>
-      <property id="config.bsp.fsp.tz.banksel_sel" value="config.bsp.fsp.tz.banksel_sel.both"/>
       <property id="config.bsp.fsp.tz.uninitialized_ns_application_fallback" value="config.bsp.fsp.tz.uninitialized_ns_application_fallback.enabled"/>
       <property id="config.bsp.fsp.cache_line_size" value="config.bsp.fsp.cache_line_size.32"/>
-      <property id="config.bsp.fsp.OFS0.iwdt_start_mode" value="config.bsp.fsp.OFS0.iwdt_start_mode.disabled"/>
-      <property id="config.bsp.fsp.OFS0.iwdt_timeout" value="config.bsp.fsp.OFS0.iwdt_timeout.2048"/>
-      <property id="config.bsp.fsp.OFS0.iwdt_divisor" value="config.bsp.fsp.OFS0.iwdt_divisor.128"/>
-      <property id="config.bsp.fsp.OFS0.iwdt_window_end" value="config.bsp.fsp.OFS0.iwdt_window_end.0"/>
-      <property id="config.bsp.fsp.OFS0.iwdt_window_start" value="config.bsp.fsp.OFS0.iwdt_window_start.100"/>
-      <property id="config.bsp.fsp.OFS0.iwdt_reset_interrupt" value="config.bsp.fsp.OFS0.iwdt_reset_interrupt.Reset"/>
-      <property id="config.bsp.fsp.OFS0.iwdt_stop_control" value="config.bsp.fsp.OFS0.iwdt_stop_control.stops"/>
-      <property id="config.bsp.fsp.OFS0.wdt_start_mode" value="config.bsp.fsp.OFS0.wdt_start_mode.register"/>
-      <property id="config.bsp.fsp.OFS0.wdt_timeout" value="config.bsp.fsp.OFS0.wdt_timeout.16384"/>
-      <property id="config.bsp.fsp.OFS0.wdt_divisor" value="config.bsp.fsp.OFS0.wdt_divisor.128"/>
-      <property id="config.bsp.fsp.OFS0.wdt_window_end" value="config.bsp.fsp.OFS0.wdt_window_end.0"/>
-      <property id="config.bsp.fsp.OFS0.wdt_window_start" value="config.bsp.fsp.OFS0.wdt_window_start.100"/>
-      <property id="config.bsp.fsp.OFS0.wdt_reset_interrupt" value="config.bsp.fsp.OFS0.wdt_reset_interrupt.Reset"/>
-      <property id="config.bsp.fsp.OFS0.wdt_stop_control" value="config.bsp.fsp.OFS0.wdt_stop_control.stops"/>
-      <property id="config.bsp.fsp.OFS1_SEL.voltage_detection0_level" value="config.bsp.fsp.OFS1_SEL.voltage_detection0_level.secure"/>
-      <property id="config.bsp.fsp.OFS1_SEL.voltage_detection0.start" value="config.bsp.fsp.OFS1_SEL.voltage_detection0.start.secure"/>
-      <property id="config.bsp.fsp.OFS1.voltage_detection0.start" value="config.bsp.fsp.OFS1.voltage_detection0.start.disabled"/>
-      <property id="config.bsp.fsp.OFS1.voltage_detection0_level" value="config.bsp.fsp.OFS1.voltage_detection0_level.280"/>
-      <property id="config.bsp.fsp.OFS1.hoco_osc" value="config.bsp.fsp.OFS1.hoco_osc.disabled"/>
-      <property id="config.bsp.fsp.BPS.BPS0" value=""/>
-      <property id="config.bsp.fsp.BPS.BPS1" value=""/>
-      <property id="config.bsp.fsp.BPS.BPS2" value=""/>
-      <property id="config.bsp.fsp.PBPS.PBPS0" value=""/>
-      <property id="config.bsp.fsp.PBPS.PBPS1" value=""/>
-      <property id="config.bsp.fsp.PBPS.PBPS2" value=""/>
-      <property id="config.bsp.fsp.dual_bank" value="config.bsp.fsp.dual_bank.disabled"/>
       <property id="config.bsp.fsp.hoco_fll" value="config.bsp.fsp.hoco_fll.disabled"/>
       <property id="config.bsp.common.main_osc_wait" value="config.bsp.common.main_osc_wait.wait_8163"/>
       <property id="config.bsp.fsp.mcu.adc.max_freq_hz" value="50000000"/>
-      <property id="config.bsp.fsp.mcu.sci_uart.max_baud" value="20000000"/>
+      <property id="config.bsp.fsp.mcu.sci_uart.max_baud" value="16666666"/>
       <property id="config.bsp.fsp.mcu.adc.sample_and_hold" value="0"/>
+      <property id="config.bsp.fsp.mcu.adc.sensors_are_exclusive" value="0"/>
       <property id="config.bsp.fsp.mcu.sci_spi.max_bitrate" value="25000000"/>
       <property id="config.bsp.fsp.mcu.spi.max_bitrate" value="50000000"/>
       <property id="config.bsp.fsp.mcu.iic_master.rate.rate_fastplus" value="1"/>
@@ -91,14 +66,79 @@
       <property id="config.bsp.fsp.mcu.sci_uart.cstpen_channels" value="0x03F9"/>
       <property id="config.bsp.fsp.mcu.gpt.pin_count_source_channels" value="0xFFFF"/>
       <property id="config.bsp.fsp.mcu.adc_dmac.samples_per_channel" value="65535"/>
+      <property id="config.bsp.fsp.mcu.rtc.err_adjustment_value.max_value" value="63"/>
+      <property id="config.bsp.fsp.mcu.sci_lin.max_baud" value="6250000"/>
+    </config>
+    <config id="config.bsp.ra6m5.linker">
+      <property id="config.bsp.option_setting.ofs0" value="config.bsp.option_setting.ofs0.enabled"/>
+      <property id="config.bsp.option_setting.ofs0.iwdt_start_mode" value="config.bsp.option_setting.ofs0.iwdt_start_mode.disabled"/>
+      <property id="config.bsp.option_setting.ofs0.iwdt_timeout" value="config.bsp.option_setting.ofs0.iwdt_timeout.2048"/>
+      <property id="config.bsp.option_setting.ofs0.iwdt_divisor" value="config.bsp.option_setting.ofs0.iwdt_divisor.128"/>
+      <property id="config.bsp.option_setting.ofs0.iwdt_window_end" value="config.bsp.option_setting.ofs0.iwdt_window_end.0"/>
+      <property id="config.bsp.option_setting.ofs0.iwdt_window_start" value="config.bsp.option_setting.ofs0.iwdt_window_start.100"/>
+      <property id="config.bsp.option_setting.ofs0.iwdt_reset_interrupt" value="config.bsp.option_setting.ofs0.iwdt_reset_interrupt.Reset"/>
+      <property id="config.bsp.option_setting.ofs0.iwdt_stop_control" value="config.bsp.option_setting.ofs0.iwdt_stop_control.stops"/>
+      <property id="config.bsp.option_setting.ofs0.wdt_start_mode" value="config.bsp.option_setting.ofs0.wdt_start_mode.register"/>
+      <property id="config.bsp.option_setting.ofs0.wdt_timeout" value="config.bsp.option_setting.ofs0.wdt_timeout.16384"/>
+      <property id="config.bsp.option_setting.ofs0.wdt_divisor" value="config.bsp.option_setting.ofs0.wdt_divisor.128"/>
+      <property id="config.bsp.option_setting.ofs0.wdt_window_end" value="config.bsp.option_setting.ofs0.wdt_window_end.0"/>
+      <property id="config.bsp.option_setting.ofs0.wdt_window_start" value="config.bsp.option_setting.ofs0.wdt_window_start.100"/>
+      <property id="config.bsp.option_setting.ofs0.wdt_reset_interrupt" value="config.bsp.option_setting.ofs0.wdt_reset_interrupt.Reset"/>
+      <property id="config.bsp.option_setting.ofs0.wdt_stop_control" value="config.bsp.option_setting.ofs0.wdt_stop_control.stops"/>
+      <property id="config.bsp.option_setting.dualsel" value="config.bsp.option_setting.dualsel.disabled"/>
+      <property id="config.bsp.option_setting.dualsel.mode" value="config.bsp.option_setting.dualsel.mode.linear"/>
+      <property id="config.bsp.option_setting.ofs1" value="config.bsp.option_setting.ofs1.disabled"/>
+      <property id="config.bsp.option_setting.ofs1.voltage_detection0.start" value="config.bsp.option_setting.ofs1.voltage_detection0.start.disabled"/>
+      <property id="config.bsp.option_setting.ofs1.voltage_detection0_level" value="config.bsp.option_setting.ofs1.voltage_detection0_level.280"/>
+      <property id="config.bsp.option_setting.ofs1.hoco_osc" value="config.bsp.option_setting.ofs1.hoco_osc.disabled"/>
+      <property id="config.bsp.option_setting.banksel" value="config.bsp.option_setting.banksel.disabled"/>
+      <property id="config.bsp.option_setting.banksel.bankswap" value="config.bsp.option_setting.banksel.bankswap.disabled"/>
+      <property id="config.bsp.option_setting.banksel.blockswap" value="config.bsp.option_setting.banksel.blockswap.disabled"/>
+      <property id="config.bsp.option_setting.bps" value="config.bsp.option_setting.bps.disabled"/>
+      <property id="config.bsp.option_setting.bps.0" value=""/>
+      <property id="config.bsp.option_setting.bps.1" value=""/>
+      <property id="config.bsp.option_setting.bps.2" value=""/>
+      <property id="config.bsp.option_setting.bps.3" value=""/>
+      <property id="config.bsp.option_setting.pbps" value="config.bsp.option_setting.pbps.disabled"/>
+      <property id="config.bsp.option_setting.pbps.0" value=""/>
+      <property id="config.bsp.option_setting.pbps.1" value=""/>
+      <property id="config.bsp.option_setting.pbps.2" value=""/>
+      <property id="config.bsp.option_setting.pbps.3" value=""/>
+      <property id="config.bsp.option_setting.ofs1_sec" value="config.bsp.option_setting.ofs1_sec.enabled"/>
+      <property id="config.bsp.option_setting.ofs1_sec.voltage_detection0.start" value="config.bsp.option_setting.ofs1_sec.voltage_detection0.start.disabled"/>
+      <property id="config.bsp.option_setting.ofs1_sec.voltage_detection0_level" value="config.bsp.option_setting.ofs1_sec.voltage_detection0_level.280"/>
+      <property id="config.bsp.option_setting.ofs1_sec.hoco_osc" value="config.bsp.option_setting.ofs1_sec.hoco_osc.disabled"/>
+      <property id="config.bsp.option_setting.banksel_sec" value="config.bsp.option_setting.banksel_sec.disabled"/>
+      <property id="config.bsp.option_setting.banksel_sec.bankswap" value="config.bsp.option_setting.banksel_sec.bankswap.disabled"/>
+      <property id="config.bsp.option_setting.banksel_sec.blockswap" value="config.bsp.option_setting.banksel_sec.blockswap.disabled"/>
+      <property id="config.bsp.option_setting.bps_sec" value="config.bsp.option_setting.bps_sec.disabled"/>
+      <property id="config.bsp.option_setting.bps_sec.0" value=""/>
+      <property id="config.bsp.option_setting.bps_sec.1" value=""/>
+      <property id="config.bsp.option_setting.bps_sec.2" value=""/>
+      <property id="config.bsp.option_setting.bps_sec.3" value=""/>
+      <property id="config.bsp.option_setting.pbps_sec" value="config.bsp.option_setting.pbps_sec.disabled"/>
+      <property id="config.bsp.option_setting.pbps_sec.0" value=""/>
+      <property id="config.bsp.option_setting.pbps_sec.1" value=""/>
+      <property id="config.bsp.option_setting.pbps_sec.2" value=""/>
+      <property id="config.bsp.option_setting.pbps_sec.3" value=""/>
+      <property id="config.bsp.option_setting.ofs1_sel" value="config.bsp.option_setting.ofs1_sel.enabled"/>
+      <property id="config.bsp.option_setting.ofs1_sel.voltage_detection0_level" value="config.bsp.option_setting.ofs1_sel.voltage_detection0_level.secure"/>
+      <property id="config.bsp.option_setting.ofs1_sel.voltage_detection0.start" value="config.bsp.option_setting.ofs1_sel.voltage_detection0.start.secure"/>
+      <property id="config.bsp.option_setting.banksel_sel" value="config.bsp.option_setting.banksel_sel.disabled"/>
+      <property id="config.bsp.option_setting.banksel_sel.mode" value="config.bsp.option_setting.banksel_sel.mode.both"/>
+      <property id="config.bsp.option_setting.bps_sel" value="config.bsp.option_setting.bps_sel.disabled"/>
+      <property id="config.bsp.option_setting.bps_sel.0" value=""/>
+      <property id="config.bsp.option_setting.bps_sel.1" value=""/>
+      <property id="config.bsp.option_setting.bps_sel.2" value=""/>
+      <property id="config.bsp.option_setting.bps_sel.3" value=""/>
     </config>
     <config id="config.bsp.ra">
       <property id="config.bsp.common.main" value="0x1000"/>
       <property id="config.bsp.common.heap" value="0x1000"/>
+      <property id="config.bsp.common.bootloader.xip_enable" value="config.bsp.common.bootloader.xip_enable.disabled"/>
       <property id="config.bsp.common.vcc" value="3300"/>
       <property id="config.bsp.common.checking" value="config.bsp.common.checking.disabled"/>
       <property id="config.bsp.common.assert" value="config.bsp.common.assert.none"/>
-      <property id="config.bsp.common.error_log" value="config.bsp.common.error_log.none"/>
       <property id="config.bsp.common.soft_reset" value="config.bsp.common.soft_reset.disabled"/>
       <property id="config.bsp.common.main_osc_populated" value="config.bsp.common.main_osc_populated.disabled"/>
       <property id="config.bsp.common.pfs_protect" value="config.bsp.common.pfs_protect.enabled"/>
@@ -161,133 +201,130 @@
     <node id="board.clock.cecclk.display" option="board.clock.cecclk.display.value"/>
   </raClockConfiguration>
   <raComponentSelection>
-    <component apiversion="" class="Azure" condition="" group="NetX Duo" subgroup="nxd" variant="" vendor="Microsoft" version="6.2.1+renesas.1.fsp.5.3.0">
-      <description>Azure RTOS NetX Duo</description>
-      <originalPack>Microsoft.NetXDuo.6.2.1+renesas.1.fsp.5.3.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Azure" condition="" group="NetX Duo" subgroup="azure_iot" variant="" vendor="Microsoft" version="6.2.1+renesas.1.fsp.5.3.0">
-      <description>Azure IoT Middleware for Azure RTOS</description>
-      <originalPack>Microsoft.NetXDuo.6.2.1+renesas.1.fsp.5.3.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Azure" condition="" group="NetX Duo" subgroup="nx_crypto" variant="" vendor="Microsoft" version="6.2.1+renesas.1.fsp.5.3.0">
-      <description>Azure RTOS NetX Crypto</description>
-      <originalPack>Microsoft.NetXDuo.6.2.1+renesas.1.fsp.5.3.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Azure" condition="" group="NetX Duo" subgroup="nx_secure" variant="" vendor="Microsoft" version="6.2.1+renesas.1.fsp.5.3.0">
-      <description>Azure RTOS NetX Secure</description>
-      <originalPack>Microsoft.NetXDuo.6.2.1+renesas.1.fsp.5.3.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="5.3.0">
+    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="6.0.0">
       <description>Board Support Package Common Files</description>
-      <originalPack>Renesas.RA.5.3.0.pack</originalPack>
+      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ether_phy" variant="" vendor="Renesas" version="5.3.0">
-      <description>Ethernet PHY</description>
-      <originalPack>Renesas.RA.5.3.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ether" variant="" vendor="Renesas" version="5.3.0">
-      <description>Ethernet</description>
-      <originalPack>Renesas.RA.5.3.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_flash_hp" variant="" vendor="Renesas" version="5.3.0">
-      <description>Flash Memory High Performance</description>
-      <originalPack>Renesas.RA.5.3.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_gpt" variant="" vendor="Renesas" version="5.3.0">
-      <description>General PWM Timer</description>
-      <originalPack>Renesas.RA.5.3.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_icu" variant="" vendor="Renesas" version="5.3.0">
-      <description>External Interrupt</description>
-      <originalPack>Renesas.RA.5.3.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_iic_master" variant="" vendor="Renesas" version="5.3.0">
-      <description>I2C Master Interface</description>
-      <originalPack>Renesas.RA.5.3.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="5.3.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="6.0.0">
       <description>I/O Port</description>
-      <originalPack>Renesas.RA.5.3.0.pack</originalPack>
+      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_sce9_ra6_plaintext" variant="" vendor="Renesas" version="5.3.0">
-      <description>Secure Cryptography Engine on RA6 (SCE9) Compatibility Mode</description>
-      <originalPack>Renesas.RA.5.3.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_sci_uart" variant="" vendor="Renesas" version="5.3.0">
-      <description>SCI UART</description>
-      <originalPack>Renesas.RA.5.3.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_netxduo_ether" variant="" vendor="Renesas" version="5.3.0">
-      <description>NetX Duo Ethernet Driver</description>
-      <originalPack>Renesas.RA.5.3.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_netx_secure_crypto" variant="" vendor="Renesas" version="5.3.0">
-      <description>NetX Secure Crypto H/W Acceleration</description>
-      <originalPack>Renesas.RA.5.3.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_threadx_port" variant="" vendor="Renesas" version="5.3.0">
-      <description>Azure RTOS ThreadX Port</description>
-      <originalPack>Renesas.RA.5.3.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_comms_i2c" variant="" vendor="Renesas" version="5.3.0">
-      <description>I2C Communications Implementation</description>
-      <originalPack>Renesas.RA.5.3.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_hs300x" variant="" vendor="Renesas" version="5.3.0">
-      <description>HS300X Sensor Implementation</description>
-      <originalPack>Renesas.RA.5.3.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_ob1203" variant="" vendor="Renesas" version="5.3.0">
-      <description>OB1203 Light/Proximity/PPG Sensor Implementation</description>
-      <originalPack>Renesas.RA.5.3.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_ob1203_proximity" variant="" vendor="Renesas" version="5.3.0">
-      <description>OB1203 Proximity mode</description>
-      <originalPack>Renesas.RA.5.3.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_ob1203_ppg" variant="" vendor="Renesas" version="5.3.0">
-      <description>OB1203 PPG mode</description>
-      <originalPack>Renesas.RA.5.3.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_zmod4xxx" variant="" vendor="Renesas" version="5.3.0">
-      <description>ZMOD4XXX Sensor Implementation</description>
-      <originalPack>Renesas.RA.5.3.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_zmod4410_iaq_1st" variant="" vendor="Renesas" version="5.3.0">
-      <description>ZMOD4XXX Sensor Lib IAQ 1st</description>
-      <originalPack>Renesas.RA.5.3.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_zmod4510_oaq_1st" variant="" vendor="Renesas" version="5.3.0">
-      <description>ZMOD4XXX Sensor Lib OAQ 1st</description>
-      <originalPack>Renesas.RA.5.3.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreM" variant="" vendor="Arm" version="5.9.0+renesas.1.fsp.5.3.0">
-      <description>Arm CMSIS Version 5 - Core (M)</description>
-      <originalPack>Arm.CMSIS5.5.9.0+renesas.1.fsp.5.3.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra6m5_ck_v2" variant="" vendor="Renesas" version="5.3.0">
-      <description>CK-RA6M5 V2 Board Support Files</description>
-      <originalPack>Renesas.RA_board_ra6m5_ck_v2.5.3.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra6m5" subgroup="device" variant="R7FA6M5BH3CFC" vendor="Renesas" version="5.3.0">
-      <description>Board support package for R7FA6M5BH3CFC</description>
-      <originalPack>Renesas.RA_mcu_ra6m5.5.3.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra6m5" subgroup="device" variant="" vendor="Renesas" version="5.3.0">
-      <description>Board support package for RA6M5</description>
-      <originalPack>Renesas.RA_mcu_ra6m5.5.3.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra6m5" subgroup="fsp" variant="" vendor="Renesas" version="5.3.0">
-      <description>Board support package for RA6M5 - FSP Data</description>
-      <originalPack>Renesas.RA_mcu_ra6m5.5.3.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="RTOS" condition="" group="Azure" subgroup="ThreadX" variant="" vendor="Microsoft" version="6.2.1+fsp.5.3.0">
+    <component apiversion="" class="RTOS" condition="" group="Azure" subgroup="ThreadX" variant="" vendor="Microsoft" version="6.4.0+fsp.6.0.0">
       <description>Azure RTOS ThreadX</description>
-      <originalPack>Microsoft.ThreadX.6.2.1+fsp.5.3.0.pack</originalPack>
+      <originalPack>Microsoft.ThreadX.6.4.0+fsp.6.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="CMSIS" condition="" group="Main" subgroup="CoreM" variant="" vendor="Arm" version="6.1.0+fsp.6.0.0">
+      <description>Arm CMSIS Version 6 - Core (M)</description>
+      <originalPack>Arm.CMSIS6.6.1.0+fsp.6.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_threadx_port" variant="" vendor="Renesas" version="6.0.0">
+      <description>Azure RTOS ThreadX Port</description>
+      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra6m5_ck_v2" variant="" vendor="Renesas" version="6.0.0">
+      <description>CK-RA6M5 V2 Board Support Files</description>
+      <originalPack>Renesas.RA_board_ra6m5_ck_v2.6.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra6m5" subgroup="device" variant="R7FA6M5BH3CFC" vendor="Renesas" version="6.0.0">
+      <description>Board support package for R7FA6M5BH3CFC</description>
+      <originalPack>Renesas.RA_mcu_ra6m5.6.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra6m5" subgroup="device" variant="" vendor="Renesas" version="6.0.0">
+      <description>Board support package for RA6M5</description>
+      <originalPack>Renesas.RA_mcu_ra6m5.6.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra6m5" subgroup="fsp" variant="" vendor="Renesas" version="6.0.0">
+      <description>Board support package for RA6M5 - FSP Data</description>
+      <originalPack>Renesas.RA_mcu_ra6m5.6.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra6m5" subgroup="events" variant="" vendor="Renesas" version="6.0.0">
+      <description>Board support package for RA6M5 - Events</description>
+      <originalPack>Renesas.RA_mcu_ra6m5.6.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra6m5" subgroup="linker" variant="" vendor="Renesas" version="6.0.0">
+      <description>Board support package for RA6M5 - Linker</description>
+      <originalPack>Renesas.RA_mcu_ra6m5.6.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Azure" condition="" group="NetX Duo" subgroup="nxd" variant="" vendor="Microsoft" version="6.4.0+renesas.0.fsp.6.0.0">
+      <description>Azure RTOS NetX Duo</description>
+      <originalPack>Microsoft.NetXDuo.6.4.0+renesas.0.fsp.6.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Azure" condition="" group="NetX Duo" subgroup="azure_iot" variant="" vendor="Microsoft" version="6.4.0+renesas.0.fsp.6.0.0">
+      <description>Azure IoT Middleware for Azure RTOS</description>
+      <originalPack>Microsoft.NetXDuo.6.4.0+renesas.0.fsp.6.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Azure" condition="" group="NetX Duo" subgroup="nx_crypto" variant="" vendor="Microsoft" version="6.4.0+renesas.0.fsp.6.0.0">
+      <description>Azure RTOS NetX Crypto</description>
+      <originalPack>Microsoft.NetXDuo.6.4.0+renesas.0.fsp.6.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Azure" condition="" group="NetX Duo" subgroup="nx_secure" variant="" vendor="Microsoft" version="6.4.0+renesas.0.fsp.6.0.0">
+      <description>Azure RTOS NetX Secure</description>
+      <originalPack>Microsoft.NetXDuo.6.4.0+renesas.0.fsp.6.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ether_phy" variant="" vendor="Renesas" version="6.0.0">
+      <description>Ethernet PHY</description>
+      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ether" variant="" vendor="Renesas" version="6.0.0">
+      <description>Ethernet</description>
+      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_gpt" variant="" vendor="Renesas" version="6.0.0">
+      <description>General PWM Timer</description>
+      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_sce9_ra6_plaintext" variant="" vendor="Renesas" version="6.0.0">
+      <description>Secure Cryptography Engine on RA6 (SCE9) Compatibility Mode</description>
+      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_netxduo_ether" variant="" vendor="Renesas" version="6.0.0">
+      <description>NetX Duo Ethernet Driver</description>
+      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_netx_secure_crypto" variant="" vendor="Renesas" version="6.0.0">
+      <description>NetX Secure Crypto H/W Acceleration</description>
+      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_flash_hp" variant="" vendor="Renesas" version="6.0.0">
+      <description>Flash Memory High Performance</description>
+      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_icu" variant="" vendor="Renesas" version="6.0.0">
+      <description>External Interrupt</description>
+      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_iic_master" variant="" vendor="Renesas" version="6.0.0">
+      <description>I2C Master Interface</description>
+      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_sci_uart" variant="" vendor="Renesas" version="6.0.0">
+      <description>SCI UART</description>
+      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_comms_i2c" variant="" vendor="Renesas" version="6.0.0">
+      <description>I2C Communications Implementation</description>
+      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_hs300x" variant="" vendor="Renesas" version="6.0.0">
+      <description>HS300X Sensor Implementation</description>
+      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_zmod4xxx" variant="" vendor="Renesas" version="6.0.0">
+      <description>ZMOD4XXX Sensor Implementation</description>
+      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_zmod4410_iaq_1st" variant="" vendor="Renesas" version="6.0.0">
+      <description>ZMOD4XXX Sensor Lib IAQ 1st</description>
+      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_zmod4510_no2_o3" variant="" vendor="Renesas" version="6.0.0">
+      <description>ZMOD4XXX Sensor Lib NO2 O3</description>
+      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
     </component>
   </raComponentSelection>
   <raElcConfiguration/>
   <raIcuConfiguration/>
+  <raLinkMapConfiguration/>
   <raModuleConfiguration>
     <module id="module.driver.ioport_on_ioport.0">
       <property id="module.driver.ioport.name" value="g_ioport"/>
@@ -298,10 +335,10 @@
       <property id="module.driver.ioport.pincfg" value="g_bsp_pin_cfg"/>
     </module>
     <module id="module.middleware.rm_threadx_port.0"/>
-    <module id="module.azure.nxd_dhcp_client.130322522">
+    <module id="module.azure.nxd_dhcp_client.541519574">
       <property id="module.azure.nxd_dhcp_client.name" value="g_dhcp_client0"/>
     </module>
-    <module id="module.azure.nxd.ip.248318935">
+    <module id="module.azure.nxd.ip.1726485467">
       <property id="module.azure.nxd.ip.name" value="g_ip0"/>
       <property id="module.azure.nxd.ip.address" value="192.168.0.2"/>
       <property id="module.azure.nxd.ip.subnet_mask" value="255.255.255.0"/>
@@ -313,19 +350,19 @@
       <property id="module.azure.nxd.ip.arp_cache_size_units" value="module.azure.nxd.ip.arp_cache_size_units.bytes"/>
       <property id="module.azure.nxd.ip.arp_cache_size" value="520"/>
     </module>
-    <module id="module.azure.nxd.packet_pool.884171870">
+    <module id="module.azure.nxd.packet_pool.1043842914">
       <property id="module.azure.nxd.packet_pool.name" value="g_packet_pool0"/>
       <property id="module.azure.nxd.packet_pool.packet_size" value="1568"/>
       <property id="module.azure.nxd.packet_pool.number_of_packets" value="50"/>
     </module>
-    <module id="module.middleware.rm_netxduo_ether.243603850">
+    <module id="module.middleware.rm_netxduo_ether.1302735814">
       <property id="module.middleware.rm_netxduo_ether.name" value="g_netxduo_ether_0"/>
       <property id="module.middleware.rm_netxduo_ether.ip_mtu" value="1500"/>
     </module>
-    <module id="module.driver.ether_on_ether.1868061254">
+    <module id="module.driver.ether_on_ether.1811279709">
       <property id="module.driver.ether.name" value="g_ether0"/>
       <property id="module.driver.ether.channel" value="module.driver.ether.channel.0"/>
-      <property id="module.driver.ether.mac_address" value="00:11:22:33:44:56"/>
+      <property id="module.driver.ether.mac_address" value="74:90:50:10:A5:57"/>
       <property id="module.driver.ether.zerocopy" value="module.driver.ether.zerocopy.0"/>
       <property id="module.driver.ether.flow_control" value="module.driver.ether.flow_control.0"/>
       <property id="module.driver.ether.multicast" value="module.driver.ether.multicast.1"/>
@@ -337,13 +374,16 @@
       <property id="module.driver.ether.ether_buffer_size" value="1514"/>
       <property id="module.driver.ether.padding" value="module.driver.ether.padding.0"/>
       <property id="module.driver.ether.padding_offset" value="0"/>
+      <property id="module.driver.ether.eesr_event_mask" value="module.driver.ether.eesr_event_mask.rfof,module.driver.ether.eesr_event_mask.rde,module.driver.ether.eesr_event_mask.fr,module.driver.ether.eesr_event_mask.tfuf,module.driver.ether.eesr_event_mask.tde,module.driver.ether.eesr_event_mask.tc"/>
+      <property id="module.driver.ether.ecsr_event_mask" value=""/>
       <property id="module.driver.ether.interrupt_priority" value="board.icu.common.irq.priority12"/>
       <property id="module.driver.ether.p_callback" value="NULL"/>
     </module>
-    <module id="module.driver.ether_phy_on_ether_phy.1469022114">
+    <module id="module.driver.ether_phy_on_ether_phy.377239194">
       <property id="module.driver.ether_phy.name" value="g_ether_phy0"/>
       <property id="module.driver.ether_phy.channel" value="module.driver.ether_phy.channel.0"/>
       <property id="module.driver.ether_phy.phy_lsi_address" value="5"/>
+      <property id="module.driver.ether_phy.default_phy_lsi_port" value="module.driver.ether_phy.default_phy_lsi_port.0"/>
       <property id="module.driver.ether_phy.phy_reset_wait_time" value="0x00020000"/>
       <property id="module.driver.ether_phy.mii_type" value="module.driver.mii_type.rmii"/>
       <property id="module.driver.ether_phy.phy_lsi_type" value="module.driver.ether_phy.phy_lsi_type.kit_component"/>
@@ -352,20 +392,21 @@
       <property id="module.driver.ether_phy.mii_bit_access_wait_time" value="8"/>
       <property id="module.driver.ether_phy.flow_control" value="module.driver.ether_phy.flow_control.0"/>
     </module>
-    <module id="module.azure.nxd.common.1672621877"/>
-    <module id="module.azure.nxd.azure_iot.912950283"/>
-    <module id="module.azure.nxd_nx_secure.602663156"/>
-    <module id="module.azure.nxd_nx_crypto.781335447"/>
-    <module id="module.azure.nxd_dns_client.889888321">
+    <module id="module.driver.ether_phy_lsi_on_ether_phy.949046476">
+      <property id="module.driver.ether_phy_lsi.name" value="g_ether_phy_lsi0"/>
+      <property id="module.driver.ether_phy_lsi.phy_lsi_address" value="5"/>
+      <property id="module.driver.ether_phy_lsi.phy_lsi_type" value="module.driver.ether_phy_lsi.phy_lsi_type.kit_component"/>
+    </module>
+    <module id="module.azure.nxd.common.1855143180"/>
+    <module id="module.azure.nxd.azure_iot.2125868870"/>
+    <module id="module.azure.nxd_dns_client.476372607">
       <property id="module.azure.nxd_dns_client.name" value="g_dns0"/>
     </module>
-    <module id="module.middleware.rm_netx_secure_crypto.1575508984"/>
-    <module id="module.driver.sce9.plaintext.2113772498"/>
-    <module id="module.azure.nxd_sntp_client.1513822242">
-      <property id="module.azure.nxd_sntp_client.name" value="g_sntp_client0"/>
-      <property id="module.azure.nxd_sntp_client.index_network_interface" value="0"/>
-    </module>
-    <module id="module.driver.timer_on_gpt.774725586">
+    <module id="module.azure.nxd_nx_secure.640668321"/>
+    <module id="module.azure.nxd_nx_crypto.163052966"/>
+    <module id="module.middleware.rm_netx_secure_crypto.682649407"/>
+    <module id="module.driver.sce9.plaintext.2016419711"/>
+    <module id="module.driver.timer_on_gpt.1497617716">
       <property id="module.driver.timer.name" value="gpt"/>
       <property id="module.driver.timer.channel" value="0"/>
       <property id="module.driver.timer.mode" value="module.driver.timer.mode.mode_periodic"/>
@@ -404,7 +445,7 @@
       <property id="module.driver.timer.capture_b_ipl" value="_disabled"/>
       <property id="module.driver.timer.trough_ipl" value="_disabled"/>
       <property id="module.driver.timer.extra" value="module.driver.timer.extra.disabled"/>
-      <property id="module.driver.timer.poeg_link" value="module.driver.timer.poeg_link.poeg_link_poeg0"/>
+      <property id="module.driver.timer.poeg_link" value="enum.driver.poeg.channels.poeg_link_poeg0"/>
       <property id="module.driver.timer.output_disable" value=""/>
       <property id="module.driver.timer.adc_trigger" value=""/>
       <property id="module.driver.timer.adc_a_compare_match" value="0"/>
@@ -413,74 +454,207 @@
       <property id="module.driver.timer.dead_time_count_down" value="0"/>
       <property id="module.driver.timer.interrupt_skip.source" value="module.driver.timer.interrupt_skip.source.none"/>
       <property id="module.driver.timer.interrupt_skip.count" value="module.driver.timer.interrupt_skip.count.count_0"/>
-      <property id="module.driver.timer.interrupt_skip.adc" value="module.driver.timer.interrupt_skip.adc.none"/>
+      <property id="module.driver.timer.interrupt_skip.adc" value="module.driver.timer.interrupt_skip.skip_sources.interrupt_skip.adc.none"/>
       <property id="module.driver.timer.gtioca_disable_setting" value="module.driver.timer.gtioca_disable_setting.gtioc_disable_prohibited"/>
       <property id="module.driver.timer.gtiocb_disable_setting" value="module.driver.timer.gtiocb_disable_setting.gtioc_disable_prohibited"/>
     </module>
-    <module id="module.driver.hs300x_on_hs300x.2120579689">
+    <module id="module.driver.hs300x_on_hs300x.1554909457">
       <property id="module.driver.hs300x.name" value="g_hs300x_sensor0"/>
       <property id="module.driver.hs300x.p_callback" value="hs300x_callback"/>
     </module>
-    <module id="module.driver.comms_i2c_on_comms_i2c_device.1911335804">
+    <module id="module.driver.comms_i2c_on_comms_i2c_device.678055787">
       <property id="module.driver.comms_i2c_device.name" value="g_comms_i2c_device0"/>
       <property id="module.driver.comms_i2c_device.semaphore_timeout" value="0xFFFFFFFF"/>
       <property id="module.driver.comms_i2c_device.slave_address" value="0x00"/>
       <property id="module.driver.comms_i2c_device.address_mode" value="module.driver.comms_i2c_device.address_mode.address_mode_7bit"/>
       <property id="module.driver.comms_i2c_device.p_callback" value="comms_i2c_callback"/>
     </module>
-    <module id="module.driver.comms_i2c_on_comms_i2c_bus.1118655782">
+    <module id="module.driver.comms_i2c_on_comms_i2c_bus.1967088059">
       <property id="module.driver.comms_i2c_bus.name" value="g_comms_i2c_bus0"/>
       <property id="module.driver.comms_i2c_bus.bus_timeout" value="0xFFFFFFFF"/>
       <property id="module.driver.comms_i2c_bus.blocking_semaphore" value="module.driver.comms_i2c_bus.blocking_semaphore.use"/>
       <property id="module.driver.comms_i2c_bus.bus_recursive_mutex" value="module.driver.comms_i2c_bus.bus_recursive_mutex.use"/>
+      <property id="module.driver.comms_i2c_bus.channel" value="0"/>
+      <property id="module.driver.comms_i2c_bus.rate" value="module.driver.comms_i2c_bus.rate.rate_fast"/>
     </module>
-    <module id="module.driver.zmod4xxx_on_zmod4xxx.1961586579">
+    <module id="module.driver.i2c_on_iic_master.1894226979">
+      <property id="module.driver.i2c_master.name" value="g_i2c_master0"/>
+      <property id="module.driver.i2c_master.channel" value="0"/>
+      <property id="module.driver.i2c_master.rate" value="module.driver.i2c_master.rate.rate_standard"/>
+      <property id="module.driver.i2c_master.rate_value" value="0"/>
+      <property id="module.driver.i2c_master.rise_time_ns" value="120"/>
+      <property id="module.driver.i2c_master.fall_time_ns" value="120"/>
+      <property id="module.driver.i2c_master.duty" value="50"/>
+      <property id="module.driver.i2c_master.slave" value="0x00"/>
+      <property id="module.driver.i2c_master.addr_mode" value="module.driver.i2c_master.addr_mode.addr_mode_7bit"/>
+      <property id="module.driver.i2c_master.timeout_mode" value="module.driver.i2c_master.timeout_mode.short_mode"/>
+      <property id="module.driver.i2c_master.timeout_scl_low" value="module.driver.i2c_master.timeout_scl_low.enabled"/>
+      <property id="module.driver.i2c_master.p_callback" value="NULL"/>
+      <property id="module.driver.i2c_master.ipl" value="board.icu.common.irq.priority12"/>
+    </module>
+    <module id="module.driver.comms_i2c_on_comms_i2c_device.2145005119">
+      <property id="module.driver.comms_i2c_device.name" value="g_comms_i2c_device4"/>
+      <property id="module.driver.comms_i2c_device.semaphore_timeout" value="0xFFFFFFFF"/>
+      <property id="module.driver.comms_i2c_device.slave_address" value="0x63"/>
+      <property id="module.driver.comms_i2c_device.address_mode" value="module.driver.comms_i2c_device.address_mode.address_mode_7bit"/>
+      <property id="module.driver.comms_i2c_device.p_callback" value="ICP_comms_i2c_callback"/>
+    </module>
+    <module id="module.driver.external_irq_on_icu.1722288126">
+      <property id="module.driver.external_irq.name" value="g_external_irq6"/>
+      <property id="module.driver.external_irq.channel" value="6"/>
+      <property id="module.driver.external_irq.trigger" value="module.driver.external_irq.trigger.trig_falling"/>
+      <property id="module.driver.external_irq.filter_enable" value="module.driver.external_irq.filter_enable.false"/>
+      <property id="module.driver.external_irq.filter_source" value="module.driver.external_irq.filter_source.pclk"/>
+      <property id="module.driver.external_irq.clock_source_div" value="module.driver.external_irq.clock_source_div.clock_source_div_by_64"/>
+      <property id="module.driver.external_irq.p_callback" value="ICP_IRQ_CALLBACK"/>
+      <property id="module.driver.external_irq.ipl" value="board.icu.common.irq.priority12"/>
+    </module>
+    <module id="module.driver.comms_i2c_on_comms_i2c_device.628513341">
+      <property id="module.driver.comms_i2c_device.name" value="g_comms_i2c_device5"/>
+      <property id="module.driver.comms_i2c_device.semaphore_timeout" value="0xFFFFFFFF"/>
+      <property id="module.driver.comms_i2c_device.slave_address" value="0x68"/>
+      <property id="module.driver.comms_i2c_device.address_mode" value="module.driver.comms_i2c_device.address_mode.address_mode_7bit"/>
+      <property id="module.driver.comms_i2c_device.p_callback" value="ICM_comms_i2c_callback"/>
+    </module>
+    <module id="module.driver.external_irq_on_icu.497179514">
+      <property id="module.driver.external_irq.name" value="g_external_irq12"/>
+      <property id="module.driver.external_irq.channel" value="12"/>
+      <property id="module.driver.external_irq.trigger" value="module.driver.external_irq.trigger.trig_falling"/>
+      <property id="module.driver.external_irq.filter_enable" value="module.driver.external_irq.filter_enable.false"/>
+      <property id="module.driver.external_irq.filter_source" value="module.driver.external_irq.filter_source.pclk"/>
+      <property id="module.driver.external_irq.clock_source_div" value="module.driver.external_irq.clock_source_div.clock_source_div_by_64"/>
+      <property id="module.driver.external_irq.p_callback" value="ICM_42605_Callback1"/>
+      <property id="module.driver.external_irq.ipl" value="board.icu.common.irq.priority12"/>
+    </module>
+    <module id="module.driver.external_irq_on_icu.960156204">
+      <property id="module.driver.external_irq.name" value="g_external_irq3"/>
+      <property id="module.driver.external_irq.channel" value="3"/>
+      <property id="module.driver.external_irq.trigger" value="module.driver.external_irq.trigger.trig_falling"/>
+      <property id="module.driver.external_irq.filter_enable" value="module.driver.external_irq.filter_enable.false"/>
+      <property id="module.driver.external_irq.filter_source" value="module.driver.external_irq.filter_source.pclk"/>
+      <property id="module.driver.external_irq.clock_source_div" value="module.driver.external_irq.clock_source_div.clock_source_div_by_64"/>
+      <property id="module.driver.external_irq.p_callback" value="ICM_42605_Callback2"/>
+      <property id="module.driver.external_irq.ipl" value="board.icu.common.irq.priority12"/>
+    </module>
+    <module id="module.driver.zmod4xxx_on_zmod4xxx.1865895503">
       <property id="module.driver.zmod4xxx.name" value="g_zmod4xxx_sensor0"/>
       <property id="module.driver.zmod4xxx.p_callback" value="zmod4xxx_comms_i2c_callback"/>
       <property id="module.driver.zmod4xxx.p_irq_callback" value="zmod4xxx_irq0_callback"/>
     </module>
-    <module id="module.driver.zmod4410_iaq_1st_on_zmod4xxx.1195330645">
+    <module id="module.driver.zmod4410_iaq_1st_on_zmod4xxx.1518523190">
       <property id="module.driver.zmod4xxx_lib.operation_mode" value="module.driver.zmod4xxx_lib.operation_mode.continuous"/>
     </module>
-    <module id="module.driver.comms_i2c_on_comms_i2c_device.986957746">
+    <module id="module.driver.comms_i2c_on_comms_i2c_device.1048102185">
       <property id="module.driver.comms_i2c_device.name" value="g_comms_i2c_device1"/>
       <property id="module.driver.comms_i2c_device.semaphore_timeout" value="0xFFFFFFFF"/>
       <property id="module.driver.comms_i2c_device.slave_address" value="0x00"/>
       <property id="module.driver.comms_i2c_device.address_mode" value="module.driver.comms_i2c_device.address_mode.address_mode_7bit"/>
       <property id="module.driver.comms_i2c_device.p_callback" value="comms_i2c_callback"/>
     </module>
-    <module id="module.driver.external_irq_on_icu.1571644523">
+    <module id="module.driver.comms_i2c_on_comms_i2c_bus.714648227">
+      <property id="module.driver.comms_i2c_bus.name" value="g_comms_i2c_bus2"/>
+      <property id="module.driver.comms_i2c_bus.bus_timeout" value="0xFFFFFFFF"/>
+      <property id="module.driver.comms_i2c_bus.blocking_semaphore" value="module.driver.comms_i2c_bus.blocking_semaphore.use"/>
+      <property id="module.driver.comms_i2c_bus.bus_recursive_mutex" value="module.driver.comms_i2c_bus.bus_recursive_mutex.use"/>
+      <property id="module.driver.comms_i2c_bus.channel" value="2"/>
+      <property id="module.driver.comms_i2c_bus.rate" value="module.driver.comms_i2c_bus.rate.rate_fast"/>
+    </module>
+    <module id="module.driver.i2c_on_iic_master.1621189223">
+      <property id="module.driver.i2c_master.name" value="g_i2c_master2"/>
+      <property id="module.driver.i2c_master.channel" value="0"/>
+      <property id="module.driver.i2c_master.rate" value="module.driver.i2c_master.rate.rate_standard"/>
+      <property id="module.driver.i2c_master.rate_value" value="0"/>
+      <property id="module.driver.i2c_master.rise_time_ns" value="120"/>
+      <property id="module.driver.i2c_master.fall_time_ns" value="120"/>
+      <property id="module.driver.i2c_master.duty" value="50"/>
+      <property id="module.driver.i2c_master.slave" value="0x00"/>
+      <property id="module.driver.i2c_master.addr_mode" value="module.driver.i2c_master.addr_mode.addr_mode_7bit"/>
+      <property id="module.driver.i2c_master.timeout_mode" value="module.driver.i2c_master.timeout_mode.short_mode"/>
+      <property id="module.driver.i2c_master.timeout_scl_low" value="module.driver.i2c_master.timeout_scl_low.enabled"/>
+      <property id="module.driver.i2c_master.p_callback" value="NULL"/>
+      <property id="module.driver.i2c_master.ipl" value="board.icu.common.irq.priority12"/>
+    </module>
+    <module id="module.driver.external_irq_on_icu.115739721">
       <property id="module.driver.external_irq.name" value="g_external_irq4"/>
       <property id="module.driver.external_irq.channel" value="4"/>
       <property id="module.driver.external_irq.trigger" value="module.driver.external_irq.trigger.trig_falling"/>
       <property id="module.driver.external_irq.filter_enable" value="module.driver.external_irq.filter_enable.false"/>
+      <property id="module.driver.external_irq.filter_source" value="module.driver.external_irq.filter_source.pclk"/>
       <property id="module.driver.external_irq.clock_source_div" value="module.driver.external_irq.clock_source_div.clock_source_div_by_64"/>
       <property id="module.driver.external_irq.p_callback" value="NULL"/>
       <property id="module.driver.external_irq.ipl" value="board.icu.common.irq.priority3"/>
     </module>
-    <module id="module.driver.zmod4xxx_on_zmod4xxx.1638852982">
+    <module id="module.driver.zmod4xxx_on_zmod4xxx.1870005184">
       <property id="module.driver.zmod4xxx.name" value="g_zmod4xxx_sensor1"/>
       <property id="module.driver.zmod4xxx.p_callback" value="zmod4xxx_comms_i2c1_callback"/>
       <property id="module.driver.zmod4xxx.p_irq_callback" value="zmod4xxx_irq1_callback"/>
     </module>
-    <module id="module.driver.zmod4510_oaq_1st_on_zmod4xxx.156730829"/>
-    <module id="module.driver.comms_i2c_on_comms_i2c_device.1795737399">
+    <module id="module.driver.zmod4510_no2_o3_on_zmod4xxx.404619566"/>
+    <module id="module.driver.comms_i2c_on_comms_i2c_device.2125139256">
       <property id="module.driver.comms_i2c_device.name" value="g_comms_i2c_device2"/>
       <property id="module.driver.comms_i2c_device.semaphore_timeout" value="0xFFFFFFFF"/>
       <property id="module.driver.comms_i2c_device.slave_address" value="0x00"/>
       <property id="module.driver.comms_i2c_device.address_mode" value="module.driver.comms_i2c_device.address_mode.address_mode_7bit"/>
       <property id="module.driver.comms_i2c_device.p_callback" value="comms_i2c_callback"/>
     </module>
-    <module id="module.driver.external_irq_on_icu.642506057">
+    <module id="module.driver.external_irq_on_icu.1259077972">
       <property id="module.driver.external_irq.name" value="g_external_irq15"/>
       <property id="module.driver.external_irq.channel" value="15"/>
       <property id="module.driver.external_irq.trigger" value="module.driver.external_irq.trigger.trig_falling"/>
       <property id="module.driver.external_irq.filter_enable" value="module.driver.external_irq.filter_enable.false"/>
+      <property id="module.driver.external_irq.filter_source" value="module.driver.external_irq.filter_source.pclk"/>
       <property id="module.driver.external_irq.clock_source_div" value="module.driver.external_irq.clock_source_div.clock_source_div_by_64"/>
       <property id="module.driver.external_irq.p_callback" value="NULL"/>
       <property id="module.driver.external_irq.ipl" value="board.icu.common.irq.priority12"/>
     </module>
-    <module id="module.driver.uart_on_sci_uart.1411718450">
+    <module id="module.driver.comms_i2c_on_comms_i2c_device.944304290">
+      <property id="module.driver.comms_i2c_device.name" value="g_comms_i2c_device3"/>
+      <property id="module.driver.comms_i2c_device.semaphore_timeout" value="0xFFFFFFFF"/>
+      <property id="module.driver.comms_i2c_device.slave_address" value="0x53"/>
+      <property id="module.driver.comms_i2c_device.address_mode" value="module.driver.comms_i2c_device.address_mode.address_mode_7bit"/>
+      <property id="module.driver.comms_i2c_device.p_callback" value="rm_ob1203_comms_i2c_callback"/>
+    </module>
+    <module id="module.driver.comms_i2c_on_comms_i2c_bus.2586262">
+      <property id="module.driver.comms_i2c_bus.name" value="g_comms_i2c_bus1"/>
+      <property id="module.driver.comms_i2c_bus.bus_timeout" value="0xFFFFFFFF"/>
+      <property id="module.driver.comms_i2c_bus.blocking_semaphore" value="module.driver.comms_i2c_bus.blocking_semaphore.use"/>
+      <property id="module.driver.comms_i2c_bus.bus_recursive_mutex" value="module.driver.comms_i2c_bus.bus_recursive_mutex.use"/>
+      <property id="module.driver.comms_i2c_bus.channel" value="1"/>
+      <property id="module.driver.comms_i2c_bus.rate" value="module.driver.comms_i2c_bus.rate.rate_standard"/>
+    </module>
+    <module id="module.driver.i2c_on_iic_master.171038132">
+      <property id="module.driver.i2c_master.name" value="g_i2c_master1"/>
+      <property id="module.driver.i2c_master.channel" value="0"/>
+      <property id="module.driver.i2c_master.rate" value="module.driver.i2c_master.rate.rate_standard"/>
+      <property id="module.driver.i2c_master.rate_value" value="0"/>
+      <property id="module.driver.i2c_master.rise_time_ns" value="120"/>
+      <property id="module.driver.i2c_master.fall_time_ns" value="120"/>
+      <property id="module.driver.i2c_master.duty" value="50"/>
+      <property id="module.driver.i2c_master.slave" value="0x00"/>
+      <property id="module.driver.i2c_master.addr_mode" value="module.driver.i2c_master.addr_mode.addr_mode_7bit"/>
+      <property id="module.driver.i2c_master.timeout_mode" value="module.driver.i2c_master.timeout_mode.short_mode"/>
+      <property id="module.driver.i2c_master.timeout_scl_low" value="module.driver.i2c_master.timeout_scl_low.enabled"/>
+      <property id="module.driver.i2c_master.p_callback" value="NULL"/>
+      <property id="module.driver.i2c_master.ipl" value="board.icu.common.irq.priority12"/>
+    </module>
+    <module id="module.driver.comms_i2c_on_comms_i2c_device.1926458259">
+      <property id="module.driver.comms_i2c_device.name" value="g_comms_i2c_device6"/>
+      <property id="module.driver.comms_i2c_device.semaphore_timeout" value="0xFFFFFFFF"/>
+      <property id="module.driver.comms_i2c_device.slave_address" value="0x53"/>
+      <property id="module.driver.comms_i2c_device.address_mode" value="module.driver.comms_i2c_device.address_mode.address_mode_7bit"/>
+      <property id="module.driver.comms_i2c_device.p_callback" value="rm_ob1203_comms_i2c_callback"/>
+    </module>
+    <module id="module.driver.external_irq_on_icu.878705927">
+      <property id="module.driver.external_irq.name" value="g_external_irq14"/>
+      <property id="module.driver.external_irq.channel" value="14"/>
+      <property id="module.driver.external_irq.trigger" value="module.driver.external_irq.trigger.trig_falling"/>
+      <property id="module.driver.external_irq.filter_enable" value="module.driver.external_irq.filter_enable.false"/>
+      <property id="module.driver.external_irq.filter_source" value="module.driver.external_irq.filter_source.pclk"/>
+      <property id="module.driver.external_irq.clock_source_div" value="module.driver.external_irq.clock_source_div.clock_source_div_by_64"/>
+      <property id="module.driver.external_irq.p_callback" value="rm_ob1203_irq_callback"/>
+      <property id="module.driver.external_irq.ipl" value="board.icu.common.irq.priority12"/>
+    </module>
+    <module id="module.driver.uart_on_sci_uart.24970999">
       <property id="module.driver.uart.name" value="g_console_uart"/>
       <property id="module.driver.uart.channel" value="5"/>
       <property id="module.driver.uart.data_bits" value="module.driver.uart.data_bits.data_bits_8"/>
@@ -496,6 +670,9 @@
       <property id="module.driver.uart.rx_edge_start" value="module.driver.uart.rx_edge_start.falling_edge"/>
       <property id="module.driver.uart.noisecancel_en" value="module.driver.uart.noisecancel_en.disabled"/>
       <property id="module.driver.uart.rx_fifo_trigger" value="module.driver.uart.rx_fifo_trigger.max"/>
+      <property id="module.driver.uart.irda.ire" value="module.driver.uart.irda.ire.disabled"/>
+      <property id="module.driver.uart.irda.irrxinv" value="module.driver.uart.irda.irrxinv.disabled"/>
+      <property id="module.driver.uart.irda.irtxinv" value="module.driver.uart.irda.irtxinv.disabled"/>
       <property id="module.driver.uart.rs485.de_enable" value="module.driver.uart.rs485.de_enable.disabled"/>
       <property id="module.driver.uart.rs485.de_polarity" value="module.driver.uart.rs485.de_polarity.high"/>
       <property id="module.driver.uart.rs485.de_port_number" value="module.driver.uart.rs485.de_port_number.PORT_DISABLE"/>
@@ -506,281 +683,130 @@
       <property id="module.driver.uart.tei_ipl" value="board.icu.common.irq.priority12"/>
       <property id="module.driver.uart.eri_ipl" value="board.icu.common.irq.priority12"/>
     </module>
-    <module id="module.driver.flash_on_flash_hp.837541723">
+    <module id="module.driver.flash_on_flash_hp.707387349">
       <property id="module.driver.flash.name" value="user_flash"/>
       <property id="module.driver.flash.data_flash_bgo" value="module.driver.flash.data_flash_bgo.disabled"/>
       <property id="module.driver.flash.p_callback" value="flash_callback"/>
       <property id="module.driver.flash.ipl" value="board.icu.common.irq.priority6"/>
       <property id="module.driver.flash.err_ipl" value="board.icu.common.irq.priority6"/>
     </module>
-    <module id="module.driver.ob1203_on_ob1203.225659354">
-      <property id="module.driver.ob1203.name" value="g_ob1203_sensor0"/>
-      <property id="module.driver.ob1203.semaphore_timeout" value="0xFFFFFFFF"/>
-      <property id="module.driver.ob1203.p_callback" value="ob1203_comms_i2c_callback"/>
-      <property id="module.driver.ob1203.p_irq_callback" value="ob1203_irq_callback"/>
+    <module id="module.azure.nxd_sntp_client.1456087730">
+      <property id="module.azure.nxd_sntp_client.name" value="g_sntp_client0"/>
+      <property id="module.azure.nxd_sntp_client.index_network_interface" value="0"/>
     </module>
-    <module id="module.driver.ob1203_ppg_mode_on_ob1203.1685904868">
-      <property id="module.driver.ob1203_mode.ppg_mode" value="module.driver.ob1203_mode.ppg_mode.ppg2"/>
-      <property id="module.driver.ob1203_mode.ppg_interrupt_type" value="module.driver.ob1203_mode.ppg_interrupt_type.data"/>
-      <property id="module.driver.ob1203_mode.ppg_gain" value="module.driver.ob1203_mode.ppg_gain.mode_1"/>
-      <property id="module.driver.ob1203_mode.ppg_ir_led_current" value="0x366"/>
-      <property id="module.driver.ob1203_mode.ppg_red_led_current" value="0x1B3"/>
-      <property id="module.driver.ob1203_mode.ppg_power_save_mode" value="module.driver.ob1203_mode.ppg_power_save_mode.disabled"/>
-      <property id="module.driver.ob1203_mode.ppg_led_order" value="module.driver.ob1203_mode.ppg_led_order.ir_red_order"/>
-      <property id="module.driver.ob1203_mode.ppg_ir_led_analog_cancel" value="module.driver.ob1203_mode.ppg_ir_led_analog_cancel.disabled"/>
-      <property id="module.driver.ob1203_mode.ppg_red_led_analog_cancel" value="module.driver.ob1203_mode.ppg_red_led_analog_cancel.disabled"/>
-      <property id="module.driver.ob1203_mode.ppg_num_averaged_samples" value="module.driver.ob1203_mode.ppg_num_averaged_samples.num_8"/>
-      <property id="module.driver.ob1203_mode.ppg_width_period" value="module.driver.ob1203_mode.ppg_width_period.130us_1p25ms"/>
-      <property id="module.driver.ob1203_mode.ppg_fifo_rollover" value="module.driver.ob1203_mode.ppg_fifo_rollover.enabled"/>
-      <property id="module.driver.ob1203_mode.ppg_fifo_empty_num" value="0x0C"/>
-    </module>
-    <module id="module.driver.external_irq_on_icu.1439947649">
-      <property id="module.driver.external_irq.name" value="g_external_irq14"/>
-      <property id="module.driver.external_irq.channel" value="14"/>
-      <property id="module.driver.external_irq.trigger" value="module.driver.external_irq.trigger.trig_falling"/>
-      <property id="module.driver.external_irq.filter_enable" value="module.driver.external_irq.filter_enable.false"/>
-      <property id="module.driver.external_irq.clock_source_div" value="module.driver.external_irq.clock_source_div.clock_source_div_by_64"/>
-      <property id="module.driver.external_irq.p_callback" value="NULL"/>
-      <property id="module.driver.external_irq.ipl" value="board.icu.common.irq.priority12"/>
-    </module>
-    <module id="module.driver.ob1203_on_ob1203.598270001">
-      <property id="module.driver.ob1203.name" value="g_ob1203_sensor1"/>
-      <property id="module.driver.ob1203.semaphore_timeout" value="0xFFFFFFFF"/>
-      <property id="module.driver.ob1203.p_callback" value="ob1203_comms_i2c_callback"/>
-      <property id="module.driver.ob1203.p_irq_callback" value="ob1203_irq_callback"/>
-    </module>
-    <module id="module.driver.ob1203_prox_mode_on_ob1203.1377270765">
-      <property id="module.driver.ob1203_mode.prox_interrupt_type" value="module.driver.ob1203_mode.prox_interrupt_type.normal"/>
-      <property id="module.driver.ob1203_mode.prox_interrupt_persist" value="0x02"/>
-      <property id="module.driver.ob1203_mode.prox_sleep_after_interrupt" value="module.driver.ob1203_mode.prox_sleep_after_interrupt.disabled"/>
-      <property id="module.driver.ob1203_mode.prox_gain" value="module.driver.ob1203_mode.prox_gain.mode_1"/>
-      <property id="module.driver.ob1203_mode.prox_led_current" value="0x100"/>
-      <property id="module.driver.ob1203_mode.prox_led_order" value="module.driver.ob1203_mode.prox_led_order.ir_red_order"/>
-      <property id="module.driver.ob1203_mode.prox_led_analog_cancel" value="module.driver.ob1203_mode.prox_led_analog_cancel.disabled"/>
-      <property id="module.driver.ob1203_mode.prox_led_digital_cancel" value="0x100"/>
-      <property id="module.driver.ob1203_mode.prox_num_led_pulses" value="module.driver.ob1203_mode.prox_num_led_pulses.num_8"/>
-      <property id="module.driver.ob1203_mode.prox_width_period" value="module.driver.ob1203_mode.prox_width_period.42us_100ms"/>
-      <property id="module.driver.ob1203_mode.prox_moving_average" value="module.driver.ob1203_mode.prox_moving_average.disabled"/>
-      <property id="module.driver.ob1203_mode.prox_hysteresis" value="0x00"/>
-      <property id="module.driver.ob1203_mode.prox_upper_threshold" value="0x0600"/>
-      <property id="module.driver.ob1203_mode.prox_lower_threshold" value="0x0000"/>
-    </module>
-    <module id="module.driver.external_irq_on_icu.924967351">
-      <property id="module.driver.external_irq.name" value="g_external_irq6"/>
-      <property id="module.driver.external_irq.channel" value="6"/>
-      <property id="module.driver.external_irq.trigger" value="module.driver.external_irq.trigger.trig_falling"/>
-      <property id="module.driver.external_irq.filter_enable" value="module.driver.external_irq.filter_enable.false"/>
-      <property id="module.driver.external_irq.clock_source_div" value="module.driver.external_irq.clock_source_div.clock_source_div_by_64"/>
-      <property id="module.driver.external_irq.p_callback" value="ICP_IRQ_CALLBACK"/>
-      <property id="module.driver.external_irq.ipl" value="board.icu.common.irq.priority12"/>
-    </module>
-    <module id="module.driver.external_irq_on_icu.1350732964">
-      <property id="module.driver.external_irq.name" value="g_external_irq3"/>
-      <property id="module.driver.external_irq.channel" value="3"/>
-      <property id="module.driver.external_irq.trigger" value="module.driver.external_irq.trigger.trig_falling"/>
-      <property id="module.driver.external_irq.filter_enable" value="module.driver.external_irq.filter_enable.false"/>
-      <property id="module.driver.external_irq.clock_source_div" value="module.driver.external_irq.clock_source_div.clock_source_div_by_64"/>
-      <property id="module.driver.external_irq.p_callback" value="ICM_42605_Callback2"/>
-      <property id="module.driver.external_irq.ipl" value="board.icu.common.irq.priority12"/>
-    </module>
-    <module id="module.driver.external_irq_on_icu.686921453">
-      <property id="module.driver.external_irq.name" value="g_external_irq12"/>
-      <property id="module.driver.external_irq.channel" value="12"/>
-      <property id="module.driver.external_irq.trigger" value="module.driver.external_irq.trigger.trig_falling"/>
-      <property id="module.driver.external_irq.filter_enable" value="module.driver.external_irq.filter_enable.false"/>
-      <property id="module.driver.external_irq.clock_source_div" value="module.driver.external_irq.clock_source_div.clock_source_div_by_64"/>
-      <property id="module.driver.external_irq.p_callback" value="ICM_42605_Callback1"/>
-      <property id="module.driver.external_irq.ipl" value="board.icu.common.irq.priority12"/>
-    </module>
-    <module id="module.driver.i2c_on_iic_master.1360794107">
-      <property id="module.driver.i2c_master.name" value="g_i2c_master0"/>
-      <property id="module.driver.i2c_master.channel" value="0"/>
-      <property id="module.driver.i2c_master.rate" value="module.driver.i2c_master.rate.rate_fast"/>
-      <property id="module.driver.i2c_master.rise_time_ns" value="120"/>
-      <property id="module.driver.i2c_master.fall_time_ns" value="120"/>
-      <property id="module.driver.i2c_master.duty" value="50"/>
-      <property id="module.driver.i2c_master.slave" value="0x00"/>
-      <property id="module.driver.i2c_master.addr_mode" value="module.driver.i2c_master.addr_mode.addr_mode_7bit"/>
-      <property id="module.driver.i2c_master.timeout_mode" value="module.driver.i2c_master.timeout_mode.short_mode"/>
-      <property id="module.driver.i2c_master.timeout_scl_low" value="module.driver.i2c_master.timeout_scl_low.enabled"/>
-      <property id="module.driver.i2c_master.p_callback" value="NULL"/>
-      <property id="module.driver.i2c_master.ipl" value="board.icu.common.irq.priority12"/>
-    </module>
-    <module id="module.driver.comms_i2c_on_comms_i2c_device.756343114">
-      <property id="module.driver.comms_i2c_device.name" value="g_comms_i2c_device3"/>
-      <property id="module.driver.comms_i2c_device.semaphore_timeout" value="0xFFFFFFFF"/>
-      <property id="module.driver.comms_i2c_device.slave_address" value="0x00"/>
-      <property id="module.driver.comms_i2c_device.address_mode" value="module.driver.comms_i2c_device.address_mode.address_mode_7bit"/>
-      <property id="module.driver.comms_i2c_device.p_callback" value="comms_i2c_callback"/>
-    </module>
-    <module id="module.driver.comms_i2c_on_comms_i2c_bus.1415023569">
-      <property id="module.driver.comms_i2c_bus.name" value="g_comms_i2c_bus1"/>
-      <property id="module.driver.comms_i2c_bus.bus_timeout" value="0xFFFFFFFF"/>
-      <property id="module.driver.comms_i2c_bus.blocking_semaphore" value="module.driver.comms_i2c_bus.blocking_semaphore.use"/>
-      <property id="module.driver.comms_i2c_bus.bus_recursive_mutex" value="module.driver.comms_i2c_bus.bus_recursive_mutex.use"/>
-    </module>
-    <module id="module.driver.i2c_on_iic_master.1100915592">
-      <property id="module.driver.i2c_master.name" value="g_i2c_master1"/>
-      <property id="module.driver.i2c_master.channel" value="1"/>
-      <property id="module.driver.i2c_master.rate" value="module.driver.i2c_master.rate.rate_standard"/>
-      <property id="module.driver.i2c_master.rise_time_ns" value="120"/>
-      <property id="module.driver.i2c_master.fall_time_ns" value="120"/>
-      <property id="module.driver.i2c_master.duty" value="50"/>
-      <property id="module.driver.i2c_master.slave" value="0x00"/>
-      <property id="module.driver.i2c_master.addr_mode" value="module.driver.i2c_master.addr_mode.addr_mode_7bit"/>
-      <property id="module.driver.i2c_master.timeout_mode" value="module.driver.i2c_master.timeout_mode.short_mode"/>
-      <property id="module.driver.i2c_master.timeout_scl_low" value="module.driver.i2c_master.timeout_scl_low.enabled"/>
-      <property id="module.driver.i2c_master.p_callback" value="NULL"/>
-      <property id="module.driver.i2c_master.ipl" value="board.icu.common.irq.priority12"/>
-    </module>
-    <module id="module.driver.comms_i2c_on_comms_i2c_device.291595924">
-      <property id="module.driver.comms_i2c_device.name" value="g_comms_i2c_device6"/>
-      <property id="module.driver.comms_i2c_device.semaphore_timeout" value="0xFFFFFFFF"/>
-      <property id="module.driver.comms_i2c_device.slave_address" value="0x00"/>
-      <property id="module.driver.comms_i2c_device.address_mode" value="module.driver.comms_i2c_device.address_mode.address_mode_7bit"/>
-      <property id="module.driver.comms_i2c_device.p_callback" value="comms_i2c_callback"/>
-    </module>
-    <module id="module.driver.comms_i2c_on_comms_i2c_bus.1134771412">
-      <property id="module.driver.comms_i2c_bus.name" value="g_comms_i2c_bus2"/>
-      <property id="module.driver.comms_i2c_bus.bus_timeout" value="0xFFFFFFFF"/>
-      <property id="module.driver.comms_i2c_bus.blocking_semaphore" value="module.driver.comms_i2c_bus.blocking_semaphore.use"/>
-      <property id="module.driver.comms_i2c_bus.bus_recursive_mutex" value="module.driver.comms_i2c_bus.bus_recursive_mutex.use"/>
-    </module>
-    <module id="module.driver.i2c_on_iic_master.221947565">
-      <property id="module.driver.i2c_master.name" value="g_i2c_master2"/>
-      <property id="module.driver.i2c_master.channel" value="2"/>
-      <property id="module.driver.i2c_master.rate" value="module.driver.i2c_master.rate.rate_fast"/>
-      <property id="module.driver.i2c_master.rise_time_ns" value="120"/>
-      <property id="module.driver.i2c_master.fall_time_ns" value="120"/>
-      <property id="module.driver.i2c_master.duty" value="50"/>
-      <property id="module.driver.i2c_master.slave" value="0x00"/>
-      <property id="module.driver.i2c_master.addr_mode" value="module.driver.i2c_master.addr_mode.addr_mode_7bit"/>
-      <property id="module.driver.i2c_master.timeout_mode" value="module.driver.i2c_master.timeout_mode.short_mode"/>
-      <property id="module.driver.i2c_master.timeout_scl_low" value="module.driver.i2c_master.timeout_scl_low.enabled"/>
-      <property id="module.driver.i2c_master.p_callback" value="NULL"/>
-      <property id="module.driver.i2c_master.ipl" value="board.icu.common.irq.priority12"/>
-    </module>
-    <module id="module.driver.comms_i2c_on_comms_i2c_device.795864834">
-      <property id="module.driver.comms_i2c_device.name" value="g_comms_i2c_device4"/>
-      <property id="module.driver.comms_i2c_device.semaphore_timeout" value="0xFFFFFFFF"/>
-      <property id="module.driver.comms_i2c_device.slave_address" value="0x63"/>
-      <property id="module.driver.comms_i2c_device.address_mode" value="module.driver.comms_i2c_device.address_mode.address_mode_7bit"/>
-      <property id="module.driver.comms_i2c_device.p_callback" value="ICP_comms_i2c_callback"/>
-    </module>
-    <module id="module.driver.comms_i2c_on_comms_i2c_device.54509055">
-      <property id="module.driver.comms_i2c_device.name" value="g_comms_i2c_device5"/>
-      <property id="module.driver.comms_i2c_device.semaphore_timeout" value="0xFFFFFFFF"/>
-      <property id="module.driver.comms_i2c_device.slave_address" value="0x68"/>
-      <property id="module.driver.comms_i2c_device.address_mode" value="module.driver.comms_i2c_device.address_mode.address_mode_7bit"/>
-      <property id="module.driver.comms_i2c_device.p_callback" value="ICM_comms_i2c_callback"/>
-    </module>
-    <object id="rtos.threadx.object.queue.67352098">
+    <object id="rtos.threadx.object.queue.1565553045">
       <property id="rtos.threadx.object.queue.name" value="Topic Queue"/>
       <property id="rtos.threadx.object.queue.symbol" value="g_topic_queue"/>
       <property id="rtos.threadx.object.queue.msg_size" value="16"/>
       <property id="rtos.threadx.object.queue.queue_size" value="64"/>
     </object>
-    <object id="rtos.threadx.object.mutex.1619351712">
+    <object id="rtos.threadx.object.mutex.980141222">
       <property id="rtos.threadx.object.mutex.name" value="consolprint_mutex"/>
       <property id="rtos.threadx.object.mutex.symbol" value="consolprint_mutex"/>
       <property id="rtos.threadx.object.mutex.inherit" value="rtos.threadx.object.mutex.inherit.disabled"/>
     </object>
-    <object id="rtos.threadx.object.queue.1999721104">
-      <property id="rtos.threadx.object.queue.name" value="OB1203 Queue"/>
-      <property id="rtos.threadx.object.queue.symbol" value="g_ob1203_queue"/>
-      <property id="rtos.threadx.object.queue.msg_size" value="3"/>
-      <property id="rtos.threadx.object.queue.queue_size" value="12"/>
-    </object>
-    <object id="rtos.threadx.object.queue.1730034067">
+    <object id="rtos.threadx.object.queue.759822902">
       <property id="rtos.threadx.object.queue.name" value="HS3001 Queue"/>
       <property id="rtos.threadx.object.queue.symbol" value="g_hs3001_queue"/>
       <property id="rtos.threadx.object.queue.msg_size" value="2"/>
       <property id="rtos.threadx.object.queue.queue_size" value="8"/>
     </object>
-    <object id="rtos.threadx.object.queue.1669768740">
+    <object id="rtos.threadx.object.queue.2065043014">
       <property id="rtos.threadx.object.queue.name" value="ZMOD4410 Queue"/>
       <property id="rtos.threadx.object.queue.symbol" value="g_iaq_queue"/>
       <property id="rtos.threadx.object.queue.msg_size" value="3"/>
       <property id="rtos.threadx.object.queue.queue_size" value="12"/>
     </object>
-    <object id="rtos.threadx.object.queue.667053876">
+    <object id="rtos.threadx.object.queue.749516755">
       <property id="rtos.threadx.object.queue.name" value="ZMOD4510 Queue"/>
       <property id="rtos.threadx.object.queue.symbol" value="g_oaq_queue"/>
       <property id="rtos.threadx.object.queue.msg_size" value="1"/>
       <property id="rtos.threadx.object.queue.queue_size" value="4"/>
     </object>
-    <object id="rtos.threadx.object.queue.582489422">
-      <property id="rtos.threadx.object.queue.name" value="ICM Queue"/>
-      <property id="rtos.threadx.object.queue.symbol" value="g_icm_queue"/>
-      <property id="rtos.threadx.object.queue.msg_size" value="12"/>
-      <property id="rtos.threadx.object.queue.queue_size" value="48"/>
-    </object>
-    <object id="rtos.threadx.object.queue.661293">
+    <object id="rtos.threadx.object.queue.1957528448">
       <property id="rtos.threadx.object.queue.name" value="ICP Queue"/>
       <property id="rtos.threadx.object.queue.symbol" value="g_icp_queue"/>
       <property id="rtos.threadx.object.queue.msg_size" value="4"/>
       <property id="rtos.threadx.object.queue.queue_size" value="16"/>
     </object>
+    <object id="rtos.threadx.object.queue.1619256741">
+      <property id="rtos.threadx.object.queue.name" value="ICM Queue"/>
+      <property id="rtos.threadx.object.queue.symbol" value="g_icm_queue"/>
+      <property id="rtos.threadx.object.queue.msg_size" value="12"/>
+      <property id="rtos.threadx.object.queue.queue_size" value="48"/>
+    </object>
+    <object id="rtos.threadx.object.queue.129035562">
+      <property id="rtos.threadx.object.queue.name" value="OB1203 Queue"/>
+      <property id="rtos.threadx.object.queue.symbol" value="g_ob1203_queue"/>
+      <property id="rtos.threadx.object.queue.msg_size" value="3"/>
+      <property id="rtos.threadx.object.queue.queue_size" value="12"/>
+    </object>
     <context id="_hal.0">
       <stack module="module.driver.ioport_on_ioport.0"/>
       <stack module="module.middleware.rm_threadx_port.0"/>
-      <stack module="module.driver.timer_on_gpt.774725586"/>
+      <stack module="module.driver.timer_on_gpt.1497617716"/>
     </context>
-    <context id="rtos.threadx.thread.1351809697">
+    <context id="rtos.threadx.thread.2141760596">
       <property id="_symbol" value="application_thread"/>
       <property id="rtos.threadx.thread.name" value="Application Thread"/>
       <property id="rtos.threadx.thread.stack" value="0x2400"/>
       <property id="rtos.threadx.thread.priority" value="1"/>
       <property id="rtos.threadx.thread.autostart" value="rtos.threadx.thread.autostart.disabled"/>
       <property id="rtos.threadx.thread.timeslice" value="25"/>
-      <stack module="module.azure.nxd_dhcp_client.130322522">
-        <stack module="module.azure.nxd.ip.248318935" requires="module.azure.nxd_dhcp_client.requires.nxd.ip">
-          <stack module="module.azure.nxd.packet_pool.884171870" requires="module.azure.nxd.ip.requires.nxd.packet_pool"/>
-          <stack module="module.middleware.rm_netxduo_ether.243603850" requires="module.azure.nxd.ip.requires.nxd.driver">
-            <stack module="module.driver.ether_on_ether.1868061254" requires="module.middleware.rm_netxduo_ether.requires.ether">
-              <stack module="module.driver.ether_phy_on_ether_phy.1469022114" requires="module.driver.ether.requires.ether_phy"/>
-            </stack>
-            <stack module="module.azure.nxd.common.1672621877" requires="module.middleware.rm_netxduo_ether.requires.nxd.common"/>
-          </stack>
-        </stack>
-        <stack module="module.azure.nxd.packet_pool.884171870" requires="module.azure.nxd_dhcp_client.requires.nxd.packet_pool"/>
-      </stack>
-      <stack module="module.azure.nxd.azure_iot.912950283">
-        <stack module="module.azure.nxd_nx_secure.602663156" requires="module.azure.nxd.azure_iot.requires.nx_secure">
-          <stack module="module.azure.nxd_nx_crypto.781335447" requires="module.azure.nxd_nx_secure.requires.nx_crypto">
-            <stack module="module.middleware.rm_netx_secure_crypto.1575508984" requires="module.azure.nxd_nx_crypto.requires.nx_crypto_implementation">
-              <stack module="module.driver.sce9.plaintext.2113772498" requires="module.middleware.rm_netx_secure_crypto.requires.sce_for_nx"/>
-            </stack>
-          </stack>
-          <stack module="module.azure.nxd.common.1672621877" requires="module.azure.nxd_nx_secure.requires.nxd.common"/>
-        </stack>
-        <stack module="module.azure.nxd_dns_client.889888321" requires="module.azure.nxd.azure_iot.requires.nx_dns_client">
-          <stack module="module.azure.nxd.ip.248318935" requires="module.azure.nxd_dns_client.requires.nxd.ip">
-            <stack module="module.azure.nxd.packet_pool.884171870" requires="module.azure.nxd.ip.requires.nxd.packet_pool"/>
-            <stack module="module.middleware.rm_netxduo_ether.243603850" requires="module.azure.nxd.ip.requires.nxd.driver">
-              <stack module="module.driver.ether_on_ether.1868061254" requires="module.middleware.rm_netxduo_ether.requires.ether">
-                <stack module="module.driver.ether_phy_on_ether_phy.1469022114" requires="module.driver.ether.requires.ether_phy"/>
+      <stack module="module.azure.nxd_dhcp_client.541519574">
+        <stack module="module.azure.nxd.ip.1726485467" requires="module.azure.nxd_dhcp_client.requires.nxd.ip">
+          <stack module="module.azure.nxd.packet_pool.1043842914" requires="module.azure.nxd.ip.requires.nxd.packet_pool"/>
+          <stack module="module.middleware.rm_netxduo_ether.1302735814" requires="module.azure.nxd.ip.requires.nxd.driver">
+            <stack module="module.driver.ether_on_ether.1811279709" requires="module.middleware.rm_netxduo_ether.requires.ether">
+              <stack module="module.driver.ether_phy_on_ether_phy.377239194" requires="module.driver.ether.requires.ether_phy">
+                <stack module="module.driver.ether_phy_lsi_on_ether_phy.949046476" requires="module.driver.ether_phy.requires.phy_lsi0"/>
               </stack>
-              <stack module="module.azure.nxd.common.1672621877" requires="module.middleware.rm_netxduo_ether.requires.nxd.common"/>
+            </stack>
+            <stack module="module.azure.nxd.common.1855143180" requires="module.middleware.rm_netxduo_ether.requires.nxd.common"/>
+          </stack>
+        </stack>
+        <stack module="module.azure.nxd.packet_pool.1043842914" requires="module.azure.nxd_dhcp_client.requires.nxd.packet_pool"/>
+      </stack>
+      <stack module="module.azure.nxd.azure_iot.2125868870">
+        <stack module="module.azure.nxd_nx_secure.640668321" requires="module.azure.nxd.azure_iot.requires.nx_secure">
+          <stack module="module.azure.nxd_nx_crypto.163052966" requires="module.azure.nxd_nx_secure.requires.nx_crypto">
+            <stack module="module.middleware.rm_netx_secure_crypto.682649407" requires="module.azure.nxd_nx_crypto.requires.nx_crypto_implementation">
+              <stack module="module.driver.sce9.plaintext.2016419711" requires="module.middleware.rm_netx_secure_crypto.requires.sce_for_nx"/>
             </stack>
           </stack>
-          <stack module="module.azure.nxd.packet_pool.884171870" requires="module.azure.nxd_dhcp_client.requires.nxd.packet_pool"/>
+          <stack module="module.azure.nxd.common.1855143180" requires="module.azure.nxd_nx_secure.requires.nxd.common"/>
+        </stack>
+        <stack module="module.azure.nxd_dns_client.476372607" requires="module.azure.nxd.azure_iot.requires.nx_dns_client">
+          <stack module="module.azure.nxd.ip.1726485467" requires="module.azure.nxd_dns_client.requires.nxd.ip">
+            <stack module="module.azure.nxd.packet_pool.1043842914" requires="module.azure.nxd.ip.requires.nxd.packet_pool"/>
+            <stack module="module.middleware.rm_netxduo_ether.1302735814" requires="module.azure.nxd.ip.requires.nxd.driver">
+              <stack module="module.driver.ether_on_ether.1811279709" requires="module.middleware.rm_netxduo_ether.requires.ether">
+                <stack module="module.driver.ether_phy_on_ether_phy.377239194" requires="module.driver.ether.requires.ether_phy">
+                  <stack module="module.driver.ether_phy_lsi_on_ether_phy.949046476" requires="module.driver.ether_phy.requires.phy_lsi0"/>
+                </stack>
+              </stack>
+              <stack module="module.azure.nxd.common.1855143180" requires="module.middleware.rm_netxduo_ether.requires.nxd.common"/>
+            </stack>
+          </stack>
+          <stack module="module.azure.nxd.packet_pool.1043842914" requires="module.azure.nxd_dhcp_client.requires.nxd.packet_pool"/>
         </stack>
       </stack>
-      <stack module="module.azure.nxd_sntp_client.1513822242">
-        <stack module="module.azure.nxd.ip.248318935" requires="module.azure.nxd_sntp_client.requires.nxd.ip">
-          <stack module="module.azure.nxd.packet_pool.884171870" requires="module.azure.nxd.ip.requires.nxd.packet_pool"/>
-          <stack module="module.middleware.rm_netxduo_ether.243603850" requires="module.azure.nxd.ip.requires.nxd.driver">
-            <stack module="module.driver.ether_on_ether.1868061254" requires="module.middleware.rm_netxduo_ether.requires.ether">
-              <stack module="module.driver.ether_phy_on_ether_phy.1469022114" requires="module.driver.ether.requires.ether_phy"/>
+      <stack module="module.azure.nxd_sntp_client.1456087730">
+        <stack module="module.azure.nxd.ip.1726485467" requires="module.azure.nxd_sntp_client.requires.nxd.ip">
+          <stack module="module.azure.nxd.packet_pool.1043842914" requires="module.azure.nxd.ip.requires.nxd.packet_pool"/>
+          <stack module="module.middleware.rm_netxduo_ether.1302735814" requires="module.azure.nxd.ip.requires.nxd.driver">
+            <stack module="module.driver.ether_on_ether.1811279709" requires="module.middleware.rm_netxduo_ether.requires.ether">
+              <stack module="module.driver.ether_phy_on_ether_phy.377239194" requires="module.driver.ether.requires.ether_phy">
+                <stack module="module.driver.ether_phy_lsi_on_ether_phy.949046476" requires="module.driver.ether_phy.requires.phy_lsi0"/>
+              </stack>
             </stack>
-            <stack module="module.azure.nxd.common.1672621877" requires="module.middleware.rm_netxduo_ether.requires.nxd.common"/>
+            <stack module="module.azure.nxd.common.1855143180" requires="module.middleware.rm_netxduo_ether.requires.nxd.common"/>
           </stack>
         </stack>
-        <stack module="module.azure.nxd.packet_pool.884171870" requires="module.azure.nxd_sntp_client.requires.nxd.packet_pool"/>
+        <stack module="module.azure.nxd.packet_pool.1043842914" requires="module.azure.nxd_sntp_client.requires.nxd.packet_pool"/>
       </stack>
     </context>
-    <context id="rtos.threadx.thread.1351998175">
+    <context id="rtos.threadx.thread.229566628">
       <property id="_symbol" value="c2d_thread"/>
       <property id="rtos.threadx.thread.name" value="Cloud2Device Thread"/>
       <property id="rtos.threadx.thread.stack" value="2048"/>
@@ -788,109 +814,100 @@
       <property id="rtos.threadx.thread.autostart" value="rtos.threadx.thread.autostart.disabled"/>
       <property id="rtos.threadx.thread.timeslice" value="25"/>
     </context>
-    <context id="rtos.threadx.thread.1814876180">
+    <context id="rtos.threadx.thread.1149608476">
       <property id="_symbol" value="Sensor_Thread"/>
       <property id="rtos.threadx.thread.name" value="Sensor_Thread"/>
       <property id="rtos.threadx.thread.stack" value="8192"/>
       <property id="rtos.threadx.thread.priority" value="3"/>
       <property id="rtos.threadx.thread.autostart" value="rtos.threadx.thread.autostart.disabled"/>
       <property id="rtos.threadx.thread.timeslice" value="200"/>
-      <stack module="module.driver.hs300x_on_hs300x.2120579689">
-        <stack module="module.driver.comms_i2c_on_comms_i2c_device.1911335804" requires="module.driver.hs300x.requires.comms_i2c_device">
-          <stack module="module.driver.comms_i2c_on_comms_i2c_bus.1118655782" requires="module.driver.comms_i2c_device.requires.comms_i2c_bus">
-            <stack module="module.driver.i2c_on_iic_master.1360794107" requires="module.driver.comms_i2c_bus.requires.i2c"/>
+      <stack module="module.driver.hs300x_on_hs300x.1554909457">
+        <stack module="module.driver.comms_i2c_on_comms_i2c_device.678055787" requires="module.driver.hs300x.requires.comms_i2c_device">
+          <stack module="module.driver.comms_i2c_on_comms_i2c_bus.1967088059" requires="module.driver.comms_i2c_device.requires.comms_i2c_bus">
+            <stack module="module.driver.i2c_on_iic_master.1894226979" requires="module.driver.comms_i2c_bus.requires.i2c"/>
           </stack>
         </stack>
       </stack>
-      <stack module="module.driver.comms_i2c_on_comms_i2c_device.795864834">
-        <stack module="module.driver.comms_i2c_on_comms_i2c_bus.1118655782" requires="module.driver.comms_i2c_device.requires.comms_i2c_bus">
-          <stack module="module.driver.i2c_on_iic_master.1360794107" requires="module.driver.comms_i2c_bus.requires.i2c"/>
+      <stack module="module.driver.comms_i2c_on_comms_i2c_device.2145005119">
+        <stack module="module.driver.comms_i2c_on_comms_i2c_bus.1967088059" requires="module.driver.comms_i2c_device.requires.comms_i2c_bus">
+          <stack module="module.driver.i2c_on_iic_master.1894226979" requires="module.driver.comms_i2c_bus.requires.i2c"/>
         </stack>
       </stack>
-      <stack module="module.driver.external_irq_on_icu.924967351"/>
-      <stack module="module.driver.comms_i2c_on_comms_i2c_device.54509055">
-        <stack module="module.driver.comms_i2c_on_comms_i2c_bus.1118655782" requires="module.driver.comms_i2c_device.requires.comms_i2c_bus">
-          <stack module="module.driver.i2c_on_iic_master.1360794107" requires="module.driver.comms_i2c_bus.requires.i2c"/>
+      <stack module="module.driver.external_irq_on_icu.1722288126"/>
+      <stack module="module.driver.comms_i2c_on_comms_i2c_device.628513341">
+        <stack module="module.driver.comms_i2c_on_comms_i2c_bus.1967088059" requires="module.driver.comms_i2c_device.requires.comms_i2c_bus">
+          <stack module="module.driver.i2c_on_iic_master.1894226979" requires="module.driver.comms_i2c_bus.requires.i2c"/>
         </stack>
       </stack>
-      <stack module="module.driver.external_irq_on_icu.1350732964"/>
-      <stack module="module.driver.external_irq_on_icu.686921453"/>
+      <stack module="module.driver.external_irq_on_icu.497179514"/>
+      <stack module="module.driver.external_irq_on_icu.960156204"/>
     </context>
-    <context id="rtos.threadx.thread.1547248645">
+    <context id="rtos.threadx.thread.713393403">
       <property id="_symbol" value="ZMOD4410_Thread"/>
       <property id="rtos.threadx.thread.name" value="ZMOD4410_Thread"/>
       <property id="rtos.threadx.thread.stack" value="2048"/>
       <property id="rtos.threadx.thread.priority" value="3"/>
       <property id="rtos.threadx.thread.autostart" value="rtos.threadx.thread.autostart.disabled"/>
       <property id="rtos.threadx.thread.timeslice" value="1"/>
-      <stack module="module.driver.zmod4xxx_on_zmod4xxx.1961586579">
-        <stack module="module.driver.zmod4410_iaq_1st_on_zmod4xxx.1195330645" requires="module.driver.zmod4xxx.requires.zmod4xxx_lib">
-          <stack module="module.driver.comms_i2c_on_comms_i2c_device.986957746" requires="module.driver.zmod4xxx.requires.comms_i2c_device">
-            <stack module="module.driver.comms_i2c_on_comms_i2c_bus.1134771412" requires="module.driver.comms_i2c_device.requires.comms_i2c_bus">
-              <stack module="module.driver.i2c_on_iic_master.221947565" requires="module.driver.comms_i2c_bus.requires.i2c"/>
+      <stack module="module.driver.zmod4xxx_on_zmod4xxx.1865895503">
+        <stack module="module.driver.zmod4410_iaq_1st_on_zmod4xxx.1518523190" requires="module.driver.zmod4xxx.requires.zmod4xxx_lib">
+          <stack module="module.driver.comms_i2c_on_comms_i2c_device.1048102185" requires="module.driver.zmod4xxx.requires.comms_i2c_device">
+            <stack module="module.driver.comms_i2c_on_comms_i2c_bus.714648227" requires="module.driver.comms_i2c_device.requires.comms_i2c_bus">
+              <stack module="module.driver.i2c_on_iic_master.1621189223" requires="module.driver.comms_i2c_bus.requires.i2c"/>
             </stack>
           </stack>
         </stack>
-        <stack module="module.driver.external_irq_on_icu.1571644523" requires="module.driver.zmod4xxx.requires.irq"/>
+        <stack module="module.driver.external_irq_on_icu.115739721" requires="module.driver.zmod4xxx.requires.irq"/>
       </stack>
     </context>
-    <context id="rtos.threadx.thread.1113610918">
+    <context id="rtos.threadx.thread.596392920">
       <property id="_symbol" value="ZMOD4510_Thread"/>
       <property id="rtos.threadx.thread.name" value="ZMOD4510_Thread"/>
       <property id="rtos.threadx.thread.stack" value="2048"/>
       <property id="rtos.threadx.thread.priority" value="2"/>
       <property id="rtos.threadx.thread.autostart" value="rtos.threadx.thread.autostart.disabled"/>
       <property id="rtos.threadx.thread.timeslice" value="1"/>
-      <stack module="module.driver.zmod4xxx_on_zmod4xxx.1638852982">
-        <stack module="module.driver.zmod4510_oaq_1st_on_zmod4xxx.156730829" requires="module.driver.zmod4xxx.requires.zmod4xxx_lib">
-          <stack module="module.driver.comms_i2c_on_comms_i2c_device.1795737399" requires="module.driver.zmod4xxx.requires.comms_i2c_device">
-            <stack module="module.driver.comms_i2c_on_comms_i2c_bus.1134771412" requires="module.driver.comms_i2c_device.requires.comms_i2c_bus">
-              <stack module="module.driver.i2c_on_iic_master.221947565" requires="module.driver.comms_i2c_bus.requires.i2c"/>
+      <stack module="module.driver.zmod4xxx_on_zmod4xxx.1870005184">
+        <stack module="module.driver.zmod4510_no2_o3_on_zmod4xxx.404619566" requires="module.driver.zmod4xxx.requires.zmod4xxx_lib">
+          <stack module="module.driver.comms_i2c_on_comms_i2c_device.2125139256" requires="module.driver.zmod4xxx.requires.comms_i2c_device">
+            <stack module="module.driver.comms_i2c_on_comms_i2c_bus.714648227" requires="module.driver.comms_i2c_device.requires.comms_i2c_bus">
+              <stack module="module.driver.i2c_on_iic_master.1621189223" requires="module.driver.comms_i2c_bus.requires.i2c"/>
             </stack>
           </stack>
         </stack>
-        <stack module="module.driver.external_irq_on_icu.642506057" requires="module.driver.zmod4xxx.requires.irq"/>
+        <stack module="module.driver.external_irq_on_icu.1259077972" requires="module.driver.zmod4xxx.requires.irq"/>
       </stack>
     </context>
-    <context id="rtos.threadx.thread.230262450">
+    <context id="rtos.threadx.thread.202727632">
       <property id="_symbol" value="OB_1203_Thread"/>
       <property id="rtos.threadx.thread.name" value="OB_1203_Thread"/>
       <property id="rtos.threadx.thread.stack" value="2048"/>
       <property id="rtos.threadx.thread.priority" value="2"/>
       <property id="rtos.threadx.thread.autostart" value="rtos.threadx.thread.autostart.disabled"/>
       <property id="rtos.threadx.thread.timeslice" value="25"/>
-      <stack module="module.driver.ob1203_on_ob1203.225659354">
-        <stack module="module.driver.ob1203_ppg_mode_on_ob1203.1685904868" requires="module.driver.ob1203.requires.ob1203_mode">
-          <stack module="module.driver.comms_i2c_on_comms_i2c_device.756343114" requires="module.driver.ob1203.requires.comms_i2c_device">
-            <stack module="module.driver.comms_i2c_on_comms_i2c_bus.1415023569" requires="module.driver.comms_i2c_device.requires.comms_i2c_bus">
-              <stack module="module.driver.i2c_on_iic_master.1100915592" requires="module.driver.comms_i2c_bus.requires.i2c"/>
-            </stack>
-          </stack>
+      <stack module="module.driver.comms_i2c_on_comms_i2c_device.944304290">
+        <stack module="module.driver.comms_i2c_on_comms_i2c_bus.2586262" requires="module.driver.comms_i2c_device.requires.comms_i2c_bus">
+          <stack module="module.driver.i2c_on_iic_master.171038132" requires="module.driver.comms_i2c_bus.requires.i2c"/>
         </stack>
-        <stack module="module.driver.external_irq_on_icu.1439947649" requires="module.driver.ob1203.requires.irq"/>
       </stack>
-      <stack module="module.driver.ob1203_on_ob1203.598270001">
-        <stack module="module.driver.ob1203_prox_mode_on_ob1203.1377270765" requires="module.driver.ob1203.requires.ob1203_mode">
-          <stack module="module.driver.comms_i2c_on_comms_i2c_device.291595924" requires="module.driver.ob1203.requires.comms_i2c_device">
-            <stack module="module.driver.comms_i2c_on_comms_i2c_bus.1415023569" requires="module.driver.comms_i2c_device.requires.comms_i2c_bus">
-              <stack module="module.driver.i2c_on_iic_master.1100915592" requires="module.driver.comms_i2c_bus.requires.i2c"/>
-            </stack>
-          </stack>
+      <stack module="module.driver.comms_i2c_on_comms_i2c_device.1926458259">
+        <stack module="module.driver.comms_i2c_on_comms_i2c_bus.2586262" requires="module.driver.comms_i2c_device.requires.comms_i2c_bus">
+          <stack module="module.driver.i2c_on_iic_master.171038132" requires="module.driver.comms_i2c_bus.requires.i2c"/>
         </stack>
-        <stack module="module.driver.external_irq_on_icu.1439947649" requires="module.driver.ob1203.requires.irq"/>
       </stack>
+      <stack module="module.driver.external_irq_on_icu.878705927"/>
     </context>
-    <context id="rtos.threadx.thread.266966734">
+    <context id="rtos.threadx.thread.667231270">
       <property id="_symbol" value="Console_Thread"/>
       <property id="rtos.threadx.thread.name" value="Console_Thread"/>
       <property id="rtos.threadx.thread.stack" value="4096"/>
       <property id="rtos.threadx.thread.priority" value="4"/>
       <property id="rtos.threadx.thread.autostart" value="rtos.threadx.thread.autostart.enabled"/>
       <property id="rtos.threadx.thread.timeslice" value="50"/>
-      <stack module="module.driver.uart_on_sci_uart.1411718450"/>
-      <stack module="module.driver.flash_on_flash_hp.837541723"/>
+      <stack module="module.driver.uart_on_sci_uart.24970999"/>
+      <stack module="module.driver.flash_on_flash_hp.707387349"/>
     </context>
-    <context id="rtos.threadx.thread.141878192">
+    <context id="rtos.threadx.thread.1732070847">
       <property id="_symbol" value="CommandRX_Thread"/>
       <property id="rtos.threadx.thread.name" value="CommandRX_Thread"/>
       <property id="rtos.threadx.thread.stack" value="2048"/>
@@ -907,11 +924,13 @@
       <property id="config.middleware.rm_netx_secure_crypto.standalone" value="config.middleware.rm_netx_secure_crypto.standalone.disabled"/>
       <property id="config.middleware.rm_netx_secure_crypto.trng" value="config.middleware.rm_netx_secure_crypto.trng.enabled"/>
       <property id="config.middleware.rm_netx_secure_crypto.sha256_alt" value="config.driver.psa_crypto.sha256_alt.enabled"/>
+      <property id="config.middleware.rm_netx_secure_crypto.sha512_alt" value="config.driver.psa_crypto.sha512_alt.disabled"/>
       <property id="config.middleware.rm_netx_secure_crypto.aes_alt" value="config.driver.psa_crypto.aes_alt.enabled"/>
       <property id="config.middleware.rm_netx_secure_crypto.ecp_alt" value="config.driver.psa_crypto.ecp_alt.enabled"/>
       <property id="config.middleware.rm_netx_secure_crypto.ecdsa.scratch_buffer_size" value="3016"/>
       <property id="config.middleware.rm_netx_secure_crypto.ecdh.scratch_buffer_size" value="2464"/>
       <property id="config.middleware.rm_netx_secure_crypto.rsa_alt" value="config.driver.psa_crypto.rsa_alt.enabled"/>
+      <property id="config.middleware.rm_netx_secure_crypto.rsa_1024_alt" value="config.driver.psa_crypto.rsa_1024_alt.disabled"/>
       <property id="config.middleware.rm_netx_secure_crypto.rsa_2048_alt" value="config.middleware.rm_netx_secure_crypto.rsa_2048_alt.enabled"/>
       <property id="config.middleware.rm_netx_secure_crypto.rsa_3072_alt" value="config.driver.psa_crypto.rsa_3072.enabled"/>
       <property id="config.middleware.rm_netx_secure_crypto.rsa_4096_alt" value="config.driver.psa_crypto.rsa_4096.enabled"/>
@@ -947,6 +966,7 @@
       <property id="config.driver.sci_uart.dtc_support" value="config.driver.sci_uart.dtc_support.enabled"/>
       <property id="config.driver.sci_uart.flow_control" value="config.driver.sci_uart.flow_control.enabled"/>
       <property id="config.driver.sci_uart.rs485" value="config.driver.sci_uart.rs485.disabled"/>
+      <property id="config.driver.sci_uart.irda" value="config.driver.sci_uart.irda.disabled"/>
     </config>
     <config id="config.driver.gpt">
       <property id="config.driver.gpt.param_checking_enable" value="config.driver.gpt.param_checking_enable.bsp"/>
@@ -955,9 +975,6 @@
     </config>
     <config id="config.driver.ioport">
       <property id="config.driver.ioport.checking" value="config.driver.ioport.checking.system"/>
-    </config>
-    <config id="config.driver.ob1203">
-      <property id="config.driver.ob1203.param_checking_enable" value="config.driver.ob1203.param_checking_enable.bsp"/>
     </config>
     <config id="config.driver.icu">
       <property id="config.driver.icu.param_checking_enable" value="config.driver.icu.param_checking_enable.bsp"/>
@@ -1336,7 +1353,6 @@
       <property id="config.azure.nxd_web_http_server.retry_shift" value="1"/>
       <property id="config.azure.nxd_src.hardware_tcp_ip" value="config.azure.nxd_src.hardware_tcp_ip.disable"/>
       <property id="config.azure.nxd_src.interface_capability" value="config.azure.nxd_src.interface_capability.disable"/>
-      <property id="config.azure.nxd_azure_iot.security_module" value="config.azure.nxd_azure_iot.security_module.disable"/>
     </config>
     <config id="config.threadx.thread">
       <property id="config.azure.tx.custom_tx_user" value=""/>
@@ -1400,38 +1416,38 @@
     <symbolicName propertyId="p001.symbolic_name" value="ARDUINO_A1"/>
     <symbolicName propertyId="p002.symbolic_name" value="ARDUINO_A2"/>
     <symbolicName propertyId="p003.symbolic_name" value="ARDUINO_A3"/>
-    <symbolicName propertyId="p004.symbolic_name" value="PMOD2_INT"/>
-    <symbolicName propertyId="p005.symbolic_name" value="PMOD1_INT"/>
-    <symbolicName propertyId="p006.symbolic_name" value="ARDUINO_D2_INT0"/>
-    <symbolicName propertyId="p008.symbolic_name" value="MEMS_MOTION_INT"/>
+    <symbolicName propertyId="p004.symbolic_name" value="PMOD2_ISR"/>
+    <symbolicName propertyId="p005.symbolic_name" value="PMOD1_ISR"/>
+    <symbolicName propertyId="p006.symbolic_name" value="ARDUNIO_D2"/>
+    <symbolicName propertyId="p008.symbolic_name" value="MEMS_motion_IRQ12"/>
     <symbolicName propertyId="p014.symbolic_name" value="ARDUINO_A4"/>
     <symbolicName propertyId="p015.symbolic_name" value="ARDUINO_A5"/>
     <symbolicName propertyId="p100.symbolic_name" value="PMOD2_MISO"/>
     <symbolicName propertyId="p101.symbolic_name" value="PMOD2_RST"/>
     <symbolicName propertyId="p102.symbolic_name" value="OSPI_SIO1"/>
     <symbolicName propertyId="p103.symbolic_name" value="OSPI_SIO6"/>
-    <symbolicName propertyId="p104.symbolic_name" value="ARDUINO_D6"/>
-    <symbolicName propertyId="p105.symbolic_name" value="ARDUINO_D5"/>
+    <symbolicName propertyId="p104.symbolic_name" value="ARDUINO_D6_PWM"/>
+    <symbolicName propertyId="p105.symbolic_name" value="ARDUINO_D5_PWM"/>
     <symbolicName propertyId="p106.symbolic_name" value="OSPI_SIO0"/>
     <symbolicName propertyId="p107.symbolic_name" value="OSPI_SIO3"/>
     <symbolicName propertyId="p108.symbolic_name" value="SWDIO"/>
     <symbolicName propertyId="p109.symbolic_name" value="TDO"/>
     <symbolicName propertyId="p110.symbolic_name" value="TDI"/>
-    <symbolicName propertyId="p111.symbolic_name" value="ARDUINO_D3_PWM"/>
+    <symbolicName propertyId="p111.symbolic_name" value="ARDUINO_D3"/>
     <symbolicName propertyId="p112.symbolic_name" value="MIC_SCK"/>
-    <symbolicName propertyId="p113.symbolic_name" value="MIC_LRCK"/>
+    <symbolicName propertyId="p113.symbolic_name" value="MIC_WS"/>
     <symbolicName propertyId="p114.symbolic_name" value="MIC_RXD"/>
-    <symbolicName propertyId="p115.symbolic_name" value="ARDUINO_D7"/>
+    <symbolicName propertyId="p115.symbolic_name" value="ARDUINO_D7_PWM"/>
     <symbolicName propertyId="p200.symbolic_name" value="NMI"/>
     <symbolicName propertyId="p201.symbolic_name" value="BOOT_MODE"/>
     <symbolicName propertyId="p202.symbolic_name" value="PMOD1_MISO"/>
     <symbolicName propertyId="p203.symbolic_name" value="PMOD1_MOSI"/>
-    <symbolicName propertyId="p204.symbolic_name" value="PMOD1_SCK"/>
-    <symbolicName propertyId="p205.symbolic_name" value="PMOD1_SS"/>
-    <symbolicName propertyId="p206.symbolic_name" value="PMOD1_SS2_GPIO"/>
-    <symbolicName propertyId="p207.symbolic_name" value="PMOD1_SS3_GPIO"/>
-    <symbolicName propertyId="p208.symbolic_name" value="ETH_LINK_STATUS"/>
-    <symbolicName propertyId="p210.symbolic_name" value="ETH_PHY_RESET"/>
+    <symbolicName propertyId="p204.symbolic_name" value="PMOD1_RSPCKA"/>
+    <symbolicName propertyId="p205.symbolic_name" value="PMOD1_CTS_RTS"/>
+    <symbolicName propertyId="p206.symbolic_name" value="PMOD1_SS"/>
+    <symbolicName propertyId="p207.symbolic_name" value="ARDUINO_D8"/>
+    <symbolicName propertyId="p208.symbolic_name" value="ETH_STATUS"/>
+    <symbolicName propertyId="p210.symbolic_name" value="ETH_RESET"/>
     <symbolicName propertyId="p211.symbolic_name" value="ETH_MDIO"/>
     <symbolicName propertyId="p212.symbolic_name" value="EXTAL"/>
     <symbolicName propertyId="p213.symbolic_name" value="XTAL"/>
@@ -1441,17 +1457,17 @@
     <symbolicName propertyId="p302.symbolic_name" value="PMOD1_SS3"/>
     <symbolicName propertyId="p303.symbolic_name" value="ARDUINO_RESET"/>
     <symbolicName propertyId="p305.symbolic_name" value="QSPI_CLK"/>
-    <symbolicName propertyId="p306.symbolic_name" value="ZMOD4510_RESET"/>
-    <symbolicName propertyId="p307.symbolic_name" value="ZMOD4410_RESET"/>
+    <symbolicName propertyId="p306.symbolic_name" value="ZMOD4510_RST"/>
+    <symbolicName propertyId="p307.symbolic_name" value="ZMOD4410_RST"/>
     <symbolicName propertyId="p308.symbolic_name" value="QSPI_IO1"/>
     <symbolicName propertyId="p309.symbolic_name" value="QSPI_IO2"/>
     <symbolicName propertyId="p310.symbolic_name" value="QSPI_IO3"/>
-    <symbolicName propertyId="p311.symbolic_name" value="PMOD1_RESET"/>
-    <symbolicName propertyId="p400.symbolic_name" value="SENSOR_SCL"/>
+    <symbolicName propertyId="p311.symbolic_name" value="PMOD1_RST"/>
+    <symbolicName propertyId="p400.symbolic_name" value="PMOD2_IRQ"/>
     <symbolicName propertyId="p401.symbolic_name" value="SENSOR_SDA"/>
-    <symbolicName propertyId="p402.symbolic_name" value="ZMOD4410_INT"/>
-    <symbolicName propertyId="p403.symbolic_name" value="OB1203_INT"/>
-    <symbolicName propertyId="p404.symbolic_name" value="ZMOD4510_INT"/>
+    <symbolicName propertyId="p402.symbolic_name" value="ZMOD4410_IRQ4"/>
+    <symbolicName propertyId="p403.symbolic_name" value="OB1203_IRQ14"/>
+    <symbolicName propertyId="p404.symbolic_name" value="ZMOD4510_IRQ15"/>
     <symbolicName propertyId="p405.symbolic_name" value="ETH_TXEN"/>
     <symbolicName propertyId="p406.symbolic_name" value="ETH_TXD1"/>
     <symbolicName propertyId="p407.symbolic_name" value="USBFS_VBUS"/>
@@ -1460,344 +1476,42 @@
     <symbolicName propertyId="p410.symbolic_name" value="PMOD2_Sensors_SCL2"/>
     <symbolicName propertyId="p411.symbolic_name" value="PMOD2_MOSI"/>
     <symbolicName propertyId="p412.symbolic_name" value="PMOD2_SCK"/>
-    <symbolicName propertyId="p413.symbolic_name" value="PMOD2_SS"/>
-    <symbolicName propertyId="p414.symbolic_name" value="PMOD2_SS2_GPIO"/>
-    <symbolicName propertyId="p415.symbolic_name" value="ARDUINO_D4"/>
-    <symbolicName propertyId="p500.symbolic_name" value="USB_SERIAL_CTS"/>
+    <symbolicName propertyId="p413.symbolic_name" value="PMOS2_SS"/>
+    <symbolicName propertyId="p414.symbolic_name" value="PMOD2_SS"/>
+    <symbolicName propertyId="p415.symbolic_name" value="ARDUNIO_D4"/>
     <symbolicName propertyId="p501.symbolic_name" value="USB_SERIAL_TXD"/>
     <symbolicName propertyId="p502.symbolic_name" value="USB_SERIAL_RXD"/>
     <symbolicName propertyId="p503.symbolic_name" value="ARDUINO_D10_SS"/>
     <symbolicName propertyId="p504.symbolic_name" value="ARDUINO_D13_SCK"/>
-    <symbolicName propertyId="p505.symbolic_name" value="ARDUINO_D11_MISO"/>
-    <symbolicName propertyId="p506.symbolic_name" value="ARDUINO_D12_MOSI"/>
-    <symbolicName propertyId="p508.symbolic_name" value="USB_SERIAL_RTS"/>
+    <symbolicName propertyId="p505.symbolic_name" value="ARDUINO_D12"/>
+    <symbolicName propertyId="p506.symbolic_name" value="ARDUINO_D11"/>
     <symbolicName propertyId="p511.symbolic_name" value="ARDUINO_SDA"/>
     <symbolicName propertyId="p512.symbolic_name" value="ARDUINO_SCL"/>
     <symbolicName propertyId="p600.symbolic_name" value="OSPI_SIO4"/>
-    <symbolicName propertyId="p601.symbolic_name" value="LED4"/>
-    <symbolicName propertyId="p602.symbolic_name" value="LED2_RED"/>
-    <symbolicName propertyId="p603.symbolic_name" value="LED2_GREEN"/>
+    <symbolicName propertyId="p601.symbolic_name" value="LED1_BLUE"/>
+    <symbolicName propertyId="p602.symbolic_name" value="LED2_TRI_COLOUR_RED"/>
+    <symbolicName propertyId="p603.symbolic_name" value="LED2_TRI_COLOUR_GREEN"/>
     <symbolicName propertyId="p604.symbolic_name" value="PMOD1_CTS"/>
-    <symbolicName propertyId="p605.symbolic_name" value="LED2_BLUE"/>
+    <symbolicName propertyId="p605.symbolic_name" value="LED2_TRI_COLOUR_BLUE"/>
     <symbolicName propertyId="p608.symbolic_name" value="ARDUINO_D9"/>
-    <symbolicName propertyId="p609.symbolic_name" value="LED3"/>
-    <symbolicName propertyId="p610.symbolic_name" value="LED1"/>
-    <symbolicName propertyId="p611.symbolic_name" value="ARDUINO_D8"/>
-    <symbolicName propertyId="p613.symbolic_name" value="IIC_TXD7"/>
-    <symbolicName propertyId="p614.symbolic_name" value="IIC_RXD7"/>
-    <symbolicName propertyId="p615.symbolic_name" value="USBFS_VBUS_EN"/>
+    <symbolicName propertyId="p609.symbolic_name" value="LED1_GREEN"/>
+    <symbolicName propertyId="p610.symbolic_name" value="LED1_RED"/>
+    <symbolicName propertyId="p611.symbolic_name" value="ARDUNIO_D8"/>
+    <symbolicName propertyId="p615.symbolic_name" value="USBFS_VBUSEN"/>
     <symbolicName propertyId="p700.symbolic_name" value="ETH_TXD0"/>
     <symbolicName propertyId="p701.symbolic_name" value="ETH_50REF"/>
     <symbolicName propertyId="p702.symbolic_name" value="ETH_RXD0"/>
     <symbolicName propertyId="p703.symbolic_name" value="ETH_RXD1"/>
-    <symbolicName propertyId="p704.symbolic_name" value="ETH_RXER"/>
+    <symbolicName propertyId="p704.symbolic_name" value="ETH_RXERR"/>
     <symbolicName propertyId="p705.symbolic_name" value="ETH_CRSDV"/>
-    <symbolicName propertyId="p706.symbolic_name" value="ARDUINO_D1_RX"/>
-    <symbolicName propertyId="p707.symbolic_name" value="ARDUINO_D1_TX"/>
-    <symbolicName propertyId="p708.symbolic_name" value="PMOD2_SS3_GPIO"/>
+    <symbolicName propertyId="p706.symbolic_name" value="ARDUINO_D0"/>
+    <symbolicName propertyId="p707.symbolic_name" value="ARDUINO_D1"/>
+    <symbolicName propertyId="p708.symbolic_name" value="PMOD2_SS3"/>
     <symbolicName propertyId="p802.symbolic_name" value="MEMS_IRQ3"/>
     <symbolicName propertyId="p803.symbolic_name" value="ETH_INT"/>
-    <symbolicName propertyId="p804.symbolic_name" value="SWITCH_S2"/>
+    <symbolicName propertyId="p804.symbolic_name" value="USER_SW2_CK"/>
     <symbolicName propertyId="pa08.symbolic_name" value="USBFS_OVERCURA"/>
-    <pincfg active="true" name="RA6M5 CK" selected="true" symbol="g_bsp_pin_cfg">
-      <configSetting altId="adc0.an00.p000" configurationId="adc0.an00"/>
-      <configSetting altId="adc0.an01.p001" configurationId="adc0.an01"/>
-      <configSetting altId="adc0.an02.p002" configurationId="adc0.an02"/>
-      <configSetting altId="adc0.an03.p003" configurationId="adc0.an03"/>
-      <configSetting altId="adc0.an12.p014" configurationId="adc0.an12"/>
-      <configSetting altId="adc0.an13.p015" configurationId="adc0.an13"/>
-      <configSetting altId="adc0.mode.custom" configurationId="adc0.mode"/>
-      <configSetting altId="debug0.mode.swd" configurationId="debug0.mode"/>
-      <configSetting altId="debug0.swclk.p300" configurationId="debug0.swclk"/>
-      <configSetting altId="debug0.swdio.p108" configurationId="debug0.swdio"/>
-      <configSetting altId="etherc0.rmii.crs_dv.p705" configurationId="etherc0.rmii.crs_dv"/>
-      <configSetting altId="etherc0.rmii.mdc.p214" configurationId="etherc0.rmii.mdc"/>
-      <configSetting altId="etherc0.rmii.mdio.p211" configurationId="etherc0.rmii.mdio"/>
-      <configSetting altId="etherc0.rmii.mode.rmii.free" configurationId="etherc0.rmii.mode"/>
-      <configSetting altId="etherc0.rmii.pairing.free" configurationId="etherc0.rmii.pairing"/>
-      <configSetting altId="etherc0.rmii.ref50ck.p701" configurationId="etherc0.rmii.ref50ck"/>
-      <configSetting altId="etherc0.rmii.rx_er.p704" configurationId="etherc0.rmii.rx_er"/>
-      <configSetting altId="etherc0.rmii.rxd0.p702" configurationId="etherc0.rmii.rxd0"/>
-      <configSetting altId="etherc0.rmii.rxd1.p703" configurationId="etherc0.rmii.rxd1"/>
-      <configSetting altId="etherc0.rmii.txd0.p700" configurationId="etherc0.rmii.txd0"/>
-      <configSetting altId="etherc0.rmii.txd1.p406" configurationId="etherc0.rmii.txd1"/>
-      <configSetting altId="etherc0.rmii.txd_en.p405" configurationId="etherc0.rmii.txd_en"/>
-      <configSetting altId="iic0.mode.enabled.free" configurationId="iic0.mode"/>
-      <configSetting altId="iic0.pairing.free" configurationId="iic0.pairing"/>
-      <configSetting altId="iic0.scl.p400" configurationId="iic0.scl"/>
-      <configSetting altId="iic0.sda.p401" configurationId="iic0.sda"/>
-      <configSetting altId="iic1.mode.enabled.a" configurationId="iic1.mode"/>
-      <configSetting altId="iic1.scl.p512" configurationId="iic1.scl"/>
-      <configSetting altId="iic1.sda.p511" configurationId="iic1.sda"/>
-      <configSetting altId="iic2.mode.enabled.free" configurationId="iic2.mode"/>
-      <configSetting altId="iic2.pairing.free" configurationId="iic2.pairing"/>
-      <configSetting altId="iic2.scl.p410" configurationId="iic2.scl"/>
-      <configSetting altId="iic2.sda.p409" configurationId="iic2.sda"/>
-      <configSetting altId="irq0.irq03.p802" configurationId="irq0.irq03"/>
-      <configSetting altId="irq0.irq04.p402" configurationId="irq0.irq04"/>
-      <configSetting altId="irq0.irq06.p301" configurationId="irq0.irq06"/>
-      <configSetting altId="irq0.irq12.p008" configurationId="irq0.irq12"/>
-      <configSetting altId="irq0.irq14.p403" configurationId="irq0.irq14"/>
-      <configSetting altId="irq0.irq15.p404" configurationId="irq0.irq15"/>
-      <configSetting altId="irq0.mode.enabled" configurationId="irq0.mode"/>
-      <configSetting altId="p000.asel" configurationId="p000"/>
-      <configSetting altId="p000.gpio_mode.gpio_mode_an" configurationId="p000.gpio_mode"/>
-      <configSetting altId="p001.asel" configurationId="p001"/>
-      <configSetting altId="p001.gpio_mode.gpio_mode_an" configurationId="p001.gpio_mode"/>
-      <configSetting altId="p002.asel" configurationId="p002"/>
-      <configSetting altId="p002.gpio_mode.gpio_mode_an" configurationId="p002.gpio_mode"/>
-      <configSetting altId="p003.asel" configurationId="p003"/>
-      <configSetting altId="p003.gpio_mode.gpio_mode_an" configurationId="p003.gpio_mode"/>
-      <configSetting altId="p004.input" configurationId="p004"/>
-      <configSetting altId="p004.gpio_irq.gpio_irq_enabled" configurationId="p004.gpio_irq"/>
-      <configSetting altId="p004.gpio_mode.gpio_mode_in" configurationId="p004.gpio_mode"/>
-      <configSetting altId="p004.gpio_pupd.gpio_pupd_ip_up" configurationId="p004.gpio_pupd"/>
-      <configSetting altId="p005.input" configurationId="p005"/>
-      <configSetting altId="p005.gpio_irq.gpio_irq_enabled" configurationId="p005.gpio_irq"/>
-      <configSetting altId="p005.gpio_mode.gpio_mode_in" configurationId="p005.gpio_mode"/>
-      <configSetting altId="p005.gpio_pupd.gpio_pupd_ip_up" configurationId="p005.gpio_pupd"/>
-      <configSetting altId="p006.input" configurationId="p006"/>
-      <configSetting altId="p006.gpio_irq.gpio_irq_enabled" configurationId="p006.gpio_irq"/>
-      <configSetting altId="p006.gpio_mode.gpio_mode_in" configurationId="p006.gpio_mode"/>
-      <configSetting altId="p006.gpio_pupd.gpio_pupd_ip_up" configurationId="p006.gpio_pupd"/>
-      <configSetting altId="p008.irq0.irq12" configurationId="p008"/>
-      <configSetting altId="p008.gpio_irq.gpio_irq_enabled" configurationId="p008.gpio_irq"/>
-      <configSetting altId="p008.gpio_mode.gpio_mode_irq" configurationId="p008.gpio_mode"/>
-      <configSetting altId="p014.asel" configurationId="p014"/>
-      <configSetting altId="p014.gpio_mode.gpio_mode_an" configurationId="p014.gpio_mode"/>
-      <configSetting altId="p015.asel" configurationId="p015"/>
-      <configSetting altId="p015.gpio_mode.gpio_mode_an" configurationId="p015.gpio_mode"/>
-      <configSetting altId="p104.input" configurationId="p104"/>
-      <configSetting altId="p104.gpio_mode.gpio_mode_in" configurationId="p104.gpio_mode"/>
-      <configSetting altId="p105.input" configurationId="p105"/>
-      <configSetting altId="p105.gpio_mode.gpio_mode_in" configurationId="p105.gpio_mode"/>
-      <configSetting altId="p108.debug0.swdio" configurationId="p108"/>
-      <configSetting altId="p108.gpio_speed.gpio_speed_high" configurationId="p108.gpio_drivecapacity"/>
-      <configSetting altId="p108.gpio_mode.gpio_mode_peripheral" configurationId="p108.gpio_mode"/>
-      <configSetting altId="p111.input" configurationId="p111"/>
-      <configSetting altId="p111.gpio_mode.gpio_mode_in" configurationId="p111.gpio_mode"/>
-      <configSetting altId="p112.ssi0.ssisck" configurationId="p112"/>
-      <configSetting altId="p112.gpio_speed.gpio_speed_high" configurationId="p112.gpio_drivecapacity"/>
-      <configSetting altId="p112.gpio_mode.gpio_mode_peripheral" configurationId="p112.gpio_mode"/>
-      <configSetting altId="p113.ssi0.ssiws" configurationId="p113"/>
-      <configSetting altId="p113.gpio_speed.gpio_speed_high" configurationId="p113.gpio_drivecapacity"/>
-      <configSetting altId="p113.gpio_mode.gpio_mode_peripheral" configurationId="p113.gpio_mode"/>
-      <configSetting altId="p114.ssi0.ssirxd" configurationId="p114"/>
-      <configSetting altId="p114.gpio_speed.gpio_speed_high" configurationId="p114.gpio_drivecapacity"/>
-      <configSetting altId="p114.gpio_mode.gpio_mode_peripheral" configurationId="p114.gpio_mode"/>
-      <configSetting altId="p115.input" configurationId="p115"/>
-      <configSetting altId="p115.gpio_mode.gpio_mode_in" configurationId="p115.gpio_mode"/>
-      <configSetting altId="p202.sci9.rxd" configurationId="p202"/>
-      <configSetting altId="p202.gpio_mode.gpio_mode_peripheral" configurationId="p202.gpio_mode"/>
-      <configSetting altId="p203.sci9.txd" configurationId="p203"/>
-      <configSetting altId="p203.gpio_mode.gpio_mode_peripheral" configurationId="p203.gpio_mode"/>
-      <configSetting altId="p204.sci9.sck" configurationId="p204"/>
-      <configSetting altId="p204.gpio_mode.gpio_mode_peripheral" configurationId="p204.gpio_mode"/>
-      <configSetting altId="p205.sci9.ctsrts" configurationId="p205"/>
-      <configSetting altId="p205.gpio_mode.gpio_mode_peripheral" configurationId="p205.gpio_mode"/>
-      <configSetting altId="p206.input" configurationId="p206"/>
-      <configSetting altId="p206.gpio_mode.gpio_mode_in" configurationId="p206.gpio_mode"/>
-      <configSetting altId="p207.input" configurationId="p207"/>
-      <configSetting altId="p207.gpio_mode.gpio_mode_in" configurationId="p207.gpio_mode"/>
-      <configSetting altId="p208.input" configurationId="p208"/>
-      <configSetting altId="p208.gpio_mode.gpio_mode_in" configurationId="p208.gpio_mode"/>
-      <configSetting altId="p210.output.high" configurationId="p210"/>
-      <configSetting altId="p210.gpio_speed.gpio_speed_high" configurationId="p210.gpio_drivecapacity"/>
-      <configSetting altId="p210.gpio_mode.gpio_mode_out.high" configurationId="p210.gpio_mode"/>
-      <configSetting altId="p210.gpio_otype.gpio_otype_n_ch_od" configurationId="p210.gpio_otype"/>
-      <configSetting altId="p211.etherc0.rmii.mdio" configurationId="p211"/>
-      <configSetting altId="p211.gpio_speed.gpio_speed_high" configurationId="p211.gpio_drivecapacity"/>
-      <configSetting altId="p211.gpio_mode.gpio_mode_peripheral" configurationId="p211.gpio_mode"/>
-      <configSetting altId="p214.etherc0.rmii.mdc" configurationId="p214"/>
-      <configSetting altId="p214.gpio_speed.gpio_speed_high" configurationId="p214.gpio_drivecapacity"/>
-      <configSetting altId="p214.gpio_mode.gpio_mode_peripheral" configurationId="p214.gpio_mode"/>
-      <configSetting altId="p300.debug0.swclk" configurationId="p300"/>
-      <configSetting altId="p300.gpio_speed.gpio_speed_high" configurationId="p300.gpio_drivecapacity"/>
-      <configSetting altId="p300.gpio_mode.gpio_mode_peripheral" configurationId="p300.gpio_mode"/>
-      <configSetting altId="p301.irq0.irq06" configurationId="p301"/>
-      <configSetting altId="p301.gpio_irq.gpio_irq_enabled" configurationId="p301.gpio_irq"/>
-      <configSetting altId="p301.gpio_mode.gpio_mode_irq" configurationId="p301.gpio_mode"/>
-      <configSetting altId="p303.output.high" configurationId="p303"/>
-      <configSetting altId="p303.gpio_speed.gpio_speed_high" configurationId="p303.gpio_drivecapacity"/>
-      <configSetting altId="p303.gpio_mode.gpio_mode_out.high" configurationId="p303.gpio_mode"/>
-      <configSetting altId="p303.gpio_otype.gpio_otype_n_ch_od" configurationId="p303.gpio_otype"/>
-      <configSetting altId="p306.output.low" configurationId="p306"/>
-      <configSetting altId="p306.gpio_mode.gpio_mode_out.low" configurationId="p306.gpio_mode"/>
-      <configSetting altId="p307.output.low" configurationId="p307"/>
-      <configSetting altId="p307.gpio_mode.gpio_mode_out.low" configurationId="p307.gpio_mode"/>
-      <configSetting altId="p311.output.high" configurationId="p311"/>
-      <configSetting altId="p311.gpio_speed.gpio_speed_high" configurationId="p311.gpio_drivecapacity"/>
-      <configSetting altId="p311.gpio_mode.gpio_mode_out.high" configurationId="p311.gpio_mode"/>
-      <configSetting altId="p311.gpio_otype.gpio_otype_n_ch_od" configurationId="p311.gpio_otype"/>
-      <configSetting altId="p400.iic0.scl" configurationId="p400"/>
-      <configSetting altId="p400.gpio_speed.gpio_speed_medium" configurationId="p400.gpio_drivecapacity"/>
-      <configSetting altId="p400.gpio_mode.gpio_mode_peripheral" configurationId="p400.gpio_mode"/>
-      <configSetting altId="p401.iic0.sda" configurationId="p401"/>
-      <configSetting altId="p401.gpio_speed.gpio_speed_medium" configurationId="p401.gpio_drivecapacity"/>
-      <configSetting altId="p401.gpio_mode.gpio_mode_peripheral" configurationId="p401.gpio_mode"/>
-      <configSetting altId="p402.irq0.irq04" configurationId="p402"/>
-      <configSetting altId="p402.gpio_irq.gpio_irq_enabled" configurationId="p402.gpio_irq"/>
-      <configSetting altId="p402.gpio_mode.gpio_mode_irq" configurationId="p402.gpio_mode"/>
-      <configSetting altId="p403.irq0.irq14" configurationId="p403"/>
-      <configSetting altId="p403.gpio_irq.gpio_irq_enabled" configurationId="p403.gpio_irq"/>
-      <configSetting altId="p403.gpio_mode.gpio_mode_irq" configurationId="p403.gpio_mode"/>
-      <configSetting altId="p404.irq0.irq15" configurationId="p404"/>
-      <configSetting altId="p404.gpio_irq.gpio_irq_enabled" configurationId="p404.gpio_irq"/>
-      <configSetting altId="p404.gpio_mode.gpio_mode_irq" configurationId="p404.gpio_mode"/>
-      <configSetting altId="p405.etherc0.rmii.txd_en" configurationId="p405"/>
-      <configSetting altId="p405.gpio_speed.gpio_speed_high" configurationId="p405.gpio_drivecapacity"/>
-      <configSetting altId="p405.gpio_mode.gpio_mode_peripheral" configurationId="p405.gpio_mode"/>
-      <configSetting altId="p406.etherc0.rmii.txd1" configurationId="p406"/>
-      <configSetting altId="p406.gpio_speed.gpio_speed_high" configurationId="p406.gpio_drivecapacity"/>
-      <configSetting altId="p406.gpio_mode.gpio_mode_peripheral" configurationId="p406.gpio_mode"/>
-      <configSetting altId="p407.usbfs0.vbus" configurationId="p407"/>
-      <configSetting altId="p407.gpio_speed.gpio_speed_high" configurationId="p407.gpio_drivecapacity"/>
-      <configSetting altId="p407.gpio_mode.gpio_mode_peripheral" configurationId="p407.gpio_mode"/>
-      <configSetting altId="p409.iic2.sda" configurationId="p409"/>
-      <configSetting altId="p409.gpio_speed.gpio_speed_medium" configurationId="p409.gpio_drivecapacity"/>
-      <configSetting altId="p409.gpio_mode.gpio_mode_peripheral" configurationId="p409.gpio_mode"/>
-      <configSetting altId="p410.iic2.scl" configurationId="p410"/>
-      <configSetting altId="p410.gpio_speed.gpio_speed_medium" configurationId="p410.gpio_drivecapacity"/>
-      <configSetting altId="p410.gpio_mode.gpio_mode_peripheral" configurationId="p410.gpio_mode"/>
-      <configSetting altId="p414.input" configurationId="p414"/>
-      <configSetting altId="p414.gpio_mode.gpio_mode_in" configurationId="p414.gpio_mode"/>
-      <configSetting altId="p415.input" configurationId="p415"/>
-      <configSetting altId="p415.gpio_mode.gpio_mode_in" configurationId="p415.gpio_mode"/>
-      <configSetting altId="p500.sci5.cts" configurationId="p500"/>
-      <configSetting altId="p500.gpio_speed.gpio_speed_high" configurationId="p500.gpio_drivecapacity"/>
-      <configSetting altId="p500.gpio_mode.gpio_mode_peripheral" configurationId="p500.gpio_mode"/>
-      <configSetting altId="p501.sci5.txd" configurationId="p501"/>
-      <configSetting altId="p501.gpio_speed.gpio_speed_high" configurationId="p501.gpio_drivecapacity"/>
-      <configSetting altId="p501.gpio_mode.gpio_mode_peripheral" configurationId="p501.gpio_mode"/>
-      <configSetting altId="p502.sci5.rxd" configurationId="p502"/>
-      <configSetting altId="p502.gpio_speed.gpio_speed_high" configurationId="p502.gpio_drivecapacity"/>
-      <configSetting altId="p502.gpio_mode.gpio_mode_peripheral" configurationId="p502.gpio_mode"/>
-      <configSetting altId="p503.input" configurationId="p503"/>
-      <configSetting altId="p503.gpio_mode.gpio_mode_in" configurationId="p503.gpio_mode"/>
-      <configSetting altId="p505.input" configurationId="p505"/>
-      <configSetting altId="p505.gpio_mode.gpio_mode_in" configurationId="p505.gpio_mode"/>
-      <configSetting altId="p506.input" configurationId="p506"/>
-      <configSetting altId="p506.gpio_mode.gpio_mode_in" configurationId="p506.gpio_mode"/>
-      <configSetting altId="p508.sci5.ctsrts" configurationId="p508"/>
-      <configSetting altId="p508.gpio_speed.gpio_speed_high" configurationId="p508.gpio_drivecapacity"/>
-      <configSetting altId="p508.gpio_mode.gpio_mode_peripheral" configurationId="p508.gpio_mode"/>
-      <configSetting altId="p511.iic1.sda" configurationId="p511"/>
-      <configSetting altId="p511.gpio_speed.gpio_speed_medium" configurationId="p511.gpio_drivecapacity"/>
-      <configSetting altId="p511.gpio_mode.gpio_mode_peripheral" configurationId="p511.gpio_mode"/>
-      <configSetting altId="p512.iic1.scl" configurationId="p512"/>
-      <configSetting altId="p512.gpio_speed.gpio_speed_medium" configurationId="p512.gpio_drivecapacity"/>
-      <configSetting altId="p512.gpio_mode.gpio_mode_peripheral" configurationId="p512.gpio_mode"/>
-      <configSetting altId="p601.output.low" configurationId="p601"/>
-      <configSetting altId="p601.gpio_speed.gpio_speed_high" configurationId="p601.gpio_drivecapacity"/>
-      <configSetting altId="p601.gpio_mode.gpio_mode_out.low" configurationId="p601.gpio_mode"/>
-      <configSetting altId="p602.output.low" configurationId="p602"/>
-      <configSetting altId="p602.gpio_speed.gpio_speed_high" configurationId="p602.gpio_drivecapacity"/>
-      <configSetting altId="p602.gpio_mode.gpio_mode_out.low" configurationId="p602.gpio_mode"/>
-      <configSetting altId="p603.output.low" configurationId="p603"/>
-      <configSetting altId="p603.gpio_speed.gpio_speed_high" configurationId="p603.gpio_drivecapacity"/>
-      <configSetting altId="p603.gpio_mode.gpio_mode_out.low" configurationId="p603.gpio_mode"/>
-      <configSetting altId="p605.output.low" configurationId="p605"/>
-      <configSetting altId="p605.gpio_speed.gpio_speed_high" configurationId="p605.gpio_drivecapacity"/>
-      <configSetting altId="p605.gpio_mode.gpio_mode_out.low" configurationId="p605.gpio_mode"/>
-      <configSetting altId="p608.input" configurationId="p608"/>
-      <configSetting altId="p608.gpio_mode.gpio_mode_in" configurationId="p608.gpio_mode"/>
-      <configSetting altId="p609.output.low" configurationId="p609"/>
-      <configSetting altId="p609.gpio_speed.gpio_speed_high" configurationId="p609.gpio_drivecapacity"/>
-      <configSetting altId="p609.gpio_mode.gpio_mode_out.low" configurationId="p609.gpio_mode"/>
-      <configSetting altId="p610.output.low" configurationId="p610"/>
-      <configSetting altId="p610.gpio_speed.gpio_speed_high" configurationId="p610.gpio_drivecapacity"/>
-      <configSetting altId="p610.gpio_mode.gpio_mode_out.low" configurationId="p610.gpio_mode"/>
-      <configSetting altId="p611.input" configurationId="p611"/>
-      <configSetting altId="p611.gpio_mode.gpio_mode_in" configurationId="p611.gpio_mode"/>
-      <configSetting altId="p613.sci7.sda" configurationId="p613"/>
-      <configSetting altId="p613.gpio_speed.gpio_speed_high" configurationId="p613.gpio_drivecapacity"/>
-      <configSetting altId="p613.gpio_mode.gpio_mode_peripheral" configurationId="p613.gpio_mode"/>
-      <configSetting altId="p613.gpio_otype.gpio_otype_n_ch_od" configurationId="p613.gpio_otype"/>
-      <configSetting altId="p614.sci7.scl" configurationId="p614"/>
-      <configSetting altId="p614.gpio_speed.gpio_speed_high" configurationId="p614.gpio_drivecapacity"/>
-      <configSetting altId="p614.gpio_mode.gpio_mode_peripheral" configurationId="p614.gpio_mode"/>
-      <configSetting altId="p614.gpio_otype.gpio_otype_n_ch_od" configurationId="p614.gpio_otype"/>
-      <configSetting altId="p615.usbfs0.vbusen" configurationId="p615"/>
-      <configSetting altId="p615.gpio_speed.gpio_speed_high" configurationId="p615.gpio_drivecapacity"/>
-      <configSetting altId="p615.gpio_mode.gpio_mode_peripheral" configurationId="p615.gpio_mode"/>
-      <configSetting altId="p700.etherc0.rmii.txd0" configurationId="p700"/>
-      <configSetting altId="p700.gpio_speed.gpio_speed_high" configurationId="p700.gpio_drivecapacity"/>
-      <configSetting altId="p700.gpio_mode.gpio_mode_peripheral" configurationId="p700.gpio_mode"/>
-      <configSetting altId="p701.etherc0.rmii.ref50ck" configurationId="p701"/>
-      <configSetting altId="p701.gpio_speed.gpio_speed_high" configurationId="p701.gpio_drivecapacity"/>
-      <configSetting altId="p701.gpio_mode.gpio_mode_peripheral" configurationId="p701.gpio_mode"/>
-      <configSetting altId="p702.etherc0.rmii.rxd0" configurationId="p702"/>
-      <configSetting altId="p702.gpio_speed.gpio_speed_high" configurationId="p702.gpio_drivecapacity"/>
-      <configSetting altId="p702.gpio_mode.gpio_mode_peripheral" configurationId="p702.gpio_mode"/>
-      <configSetting altId="p703.etherc0.rmii.rxd1" configurationId="p703"/>
-      <configSetting altId="p703.gpio_speed.gpio_speed_high" configurationId="p703.gpio_drivecapacity"/>
-      <configSetting altId="p703.gpio_mode.gpio_mode_peripheral" configurationId="p703.gpio_mode"/>
-      <configSetting altId="p704.etherc0.rmii.rx_er" configurationId="p704"/>
-      <configSetting altId="p704.gpio_speed.gpio_speed_high" configurationId="p704.gpio_drivecapacity"/>
-      <configSetting altId="p704.gpio_mode.gpio_mode_peripheral" configurationId="p704.gpio_mode"/>
-      <configSetting altId="p705.etherc0.rmii.crs_dv" configurationId="p705"/>
-      <configSetting altId="p705.gpio_speed.gpio_speed_high" configurationId="p705.gpio_drivecapacity"/>
-      <configSetting altId="p705.gpio_mode.gpio_mode_peripheral" configurationId="p705.gpio_mode"/>
-      <configSetting altId="p706.sci3.rxd" configurationId="p706"/>
-      <configSetting altId="p706.gpio_speed.gpio_speed_high" configurationId="p706.gpio_drivecapacity"/>
-      <configSetting altId="p706.gpio_mode.gpio_mode_peripheral" configurationId="p706.gpio_mode"/>
-      <configSetting altId="p707.sci3.txd" configurationId="p707"/>
-      <configSetting altId="p707.gpio_speed.gpio_speed_high" configurationId="p707.gpio_drivecapacity"/>
-      <configSetting altId="p707.gpio_mode.gpio_mode_peripheral" configurationId="p707.gpio_mode"/>
-      <configSetting altId="p708.input" configurationId="p708"/>
-      <configSetting altId="p708.gpio_mode.gpio_mode_in" configurationId="p708.gpio_mode"/>
-      <configSetting altId="p802.irq0.irq03" configurationId="p802"/>
-      <configSetting altId="p802.gpio_irq.gpio_irq_enabled" configurationId="p802.gpio_irq"/>
-      <configSetting altId="p802.gpio_mode.gpio_mode_irq" configurationId="p802.gpio_mode"/>
-      <configSetting altId="p803.input" configurationId="p803"/>
-      <configSetting altId="p803.gpio_irq.gpio_irq_enabled" configurationId="p803.gpio_irq"/>
-      <configSetting altId="p803.gpio_mode.gpio_mode_in" configurationId="p803.gpio_mode"/>
-      <configSetting altId="p804.input" configurationId="p804"/>
-      <configSetting altId="p804.gpio_irq.gpio_irq_enabled" configurationId="p804.gpio_irq"/>
-      <configSetting altId="p804.gpio_mode.gpio_mode_in" configurationId="p804.gpio_mode"/>
-      <configSetting altId="pa08.usbfs0.ovrcura" configurationId="pa08"/>
-      <configSetting altId="pa08.gpio_speed.gpio_speed_high" configurationId="pa08.gpio_drivecapacity"/>
-      <configSetting altId="pa08.gpio_mode.gpio_mode_peripheral" configurationId="pa08.gpio_mode"/>
-      <configSetting altId="sci3.mode.asynchronous.b" configurationId="sci3.mode"/>
-      <configSetting altId="sci3.pairing.b" configurationId="sci3.pairing"/>
-      <configSetting altId="sci3.rxd.p706" configurationId="sci3.rxd"/>
-      <configSetting altId="sci3.txd.p707" configurationId="sci3.txd"/>
-      <configSetting altId="sci5.cts.p500" configurationId="sci5.cts"/>
-      <configSetting altId="sci5.ctsrts.p508" configurationId="sci5.ctsrts"/>
-      <configSetting altId="sci5.mode.custom.free" configurationId="sci5.mode"/>
-      <configSetting altId="sci5.rxd.p502" configurationId="sci5.rxd"/>
-      <configSetting altId="sci5.txd.p501" configurationId="sci5.txd"/>
-      <configSetting altId="sci6.mode.custom.free" configurationId="sci6.mode"/>
-      <configSetting altId="sci7.mode.iic.c" configurationId="sci7.mode"/>
-      <configSetting altId="sci7.pairing.c" configurationId="sci7.pairing"/>
-      <configSetting altId="sci7.scl.p614" configurationId="sci7.scl"/>
-      <configSetting altId="sci7.sda.p613" configurationId="sci7.sda"/>
-      <configSetting altId="sci9.ctsrts.p205" configurationId="sci9.ctsrts"/>
-      <configSetting altId="sci9.mode.spi.free" configurationId="sci9.mode"/>
-      <configSetting altId="sci9.rxd.p202" configurationId="sci9.rxd"/>
-      <configSetting altId="sci9.sck.p204" configurationId="sci9.sck"/>
-      <configSetting altId="sci9.txd.p203" configurationId="sci9.txd"/>
-      <configSetting altId="ssi0.mode.custom.free" configurationId="ssi0.mode"/>
-      <configSetting altId="ssi0.pairing.free" configurationId="ssi0.pairing"/>
-      <configSetting altId="ssi0.ssirxd.p114" configurationId="ssi0.ssirxd"/>
-      <configSetting altId="ssi0.ssisck.p112" configurationId="ssi0.ssisck"/>
-      <configSetting altId="ssi0.ssiws.p113" configurationId="ssi0.ssiws"/>
-      <configSetting altId="usbfs0.mode.custom" configurationId="usbfs0.mode"/>
-      <configSetting altId="usbfs0.ovrcura.pa08" configurationId="usbfs0.ovrcura"/>
-      <configSetting altId="usbfs0.vbus.p407" configurationId="usbfs0.vbus"/>
-      <configSetting altId="usbfs0.vbusen.p615" configurationId="usbfs0.vbusen"/>
-      <lockSetting id="irq0.irq04" lock="true"/>
-    </pincfg>
-    <pincfg active="false" name="R7FA6M5BH3CFC.pincfg" selected="false" symbol="">
-      <configSetting altId="debug0.mode.swd" configurationId="debug0.mode"/>
-      <configSetting altId="debug0.swclk.p300" configurationId="debug0.swclk"/>
-      <configSetting altId="debug0.swdio.p108" configurationId="debug0.swdio"/>
-      <configSetting altId="p108.debug0.swdio" configurationId="p108"/>
-      <configSetting altId="p108.gpio_mode.gpio_mode_peripheral" configurationId="p108.gpio_mode"/>
-      <configSetting altId="p300.debug0.swclk" configurationId="p300"/>
-      <configSetting altId="p300.gpio_mode.gpio_mode_peripheral" configurationId="p300.gpio_mode"/>
-    </pincfg>
-    <pincfg active="false" name="RA6M5_2 CK" selected="false" symbol="">
+    <pincfg active="true" name="RA6M5_2 CK" selected="true" symbol="g_bsp_pin_cfg">
       <configSetting altId="adc0.mode.custom" configurationId="adc0.mode"/>
       <configSetting altId="debug0.mode.jtag" configurationId="debug0.mode"/>
       <configSetting altId="debug0.tck.p300" configurationId="debug0.tck"/>
@@ -1805,7 +1519,6 @@
       <configSetting altId="debug0.tdo.p109" configurationId="debug0.tdo"/>
       <configSetting altId="debug0.tms.p108" configurationId="debug0.tms"/>
       <configSetting altId="etherc0.rmii.crs_dv.p705" configurationId="etherc0.rmii.crs_dv"/>
-      <configSetting altId="etherc0.rmii.linksta.p208" configurationId="etherc0.rmii.linksta"/>
       <configSetting altId="etherc0.rmii.mdc.p214" configurationId="etherc0.rmii.mdc"/>
       <configSetting altId="etherc0.rmii.mdio.p211" configurationId="etherc0.rmii.mdio"/>
       <configSetting altId="etherc0.rmii.mode.custom.free" configurationId="etherc0.rmii.mode"/>
@@ -1817,7 +1530,6 @@
       <configSetting altId="etherc0.rmii.txd0.p700" configurationId="etherc0.rmii.txd0"/>
       <configSetting altId="etherc0.rmii.txd1.p406" configurationId="etherc0.rmii.txd1"/>
       <configSetting altId="etherc0.rmii.txd_en.p405" configurationId="etherc0.rmii.txd_en"/>
-      <configSetting altId="etherc0.rmii.wol.p210" configurationId="etherc0.rmii.wol"/>
       <configSetting altId="iic0.mode.enabled.free" configurationId="iic0.mode"/>
       <configSetting altId="iic0.pairing.free" configurationId="iic0.pairing"/>
       <configSetting altId="iic0.scl.p400" configurationId="iic0.scl"/>
@@ -1907,10 +1619,6 @@
       <configSetting altId="p206.gpio_mode.gpio_mode_out.low" configurationId="p206.gpio_mode"/>
       <configSetting altId="p207.output.low" configurationId="p207"/>
       <configSetting altId="p207.gpio_mode.gpio_mode_out.low" configurationId="p207.gpio_mode"/>
-      <configSetting altId="p208.etherc0.rmii.linksta" configurationId="p208"/>
-      <configSetting altId="p208.gpio_mode.gpio_mode_peripheral" configurationId="p208.gpio_mode"/>
-      <configSetting altId="p210.etherc0.rmii.wol" configurationId="p210"/>
-      <configSetting altId="p210.gpio_mode.gpio_mode_peripheral" configurationId="p210.gpio_mode"/>
       <configSetting altId="p211.etherc0.rmii.mdio" configurationId="p211"/>
       <configSetting altId="p211.gpio_speed.gpio_speed_high" configurationId="p211.gpio_drivecapacity"/>
       <configSetting altId="p211.gpio_mode.gpio_mode_peripheral" configurationId="p211.gpio_mode"/>
@@ -2075,6 +1783,15 @@
       <configSetting altId="usbfs0.ovrcura.pa08" configurationId="usbfs0.ovrcura"/>
       <configSetting altId="usbfs0.vbus.p407" configurationId="usbfs0.vbus"/>
       <configSetting altId="usbfs0.vbusen.p615" configurationId="usbfs0.vbusen"/>
+    </pincfg>
+    <pincfg active="false" name="R7FA6M5BH3CFC.pincfg" selected="false" symbol="">
+      <configSetting altId="debug0.mode.swd" configurationId="debug0.mode"/>
+      <configSetting altId="debug0.swclk.p300" configurationId="debug0.swclk"/>
+      <configSetting altId="debug0.swdio.p108" configurationId="debug0.swdio"/>
+      <configSetting altId="p108.debug0.swdio" configurationId="p108"/>
+      <configSetting altId="p108.gpio_mode.gpio_mode_peripheral" configurationId="p108.gpio_mode"/>
+      <configSetting altId="p300.debug0.swclk" configurationId="p300"/>
+      <configSetting altId="p300.gpio_mode.gpio_mode_peripheral" configurationId="p300.gpio_mode"/>
     </pincfg>
   </raPinConfiguration>
 </raConfiguration>

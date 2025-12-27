@@ -21,7 +21,7 @@ import serial.tools.list_ports
 # Adjust these delays for your hardware system
 SHORT_DELAY = 0.15
 LONG_DELAY = 3
-INITIALIZE_DELAY = 120
+INITIALIZE_DELAY = 5
 
 #########################################################
 # Establish communication with the boot firmware

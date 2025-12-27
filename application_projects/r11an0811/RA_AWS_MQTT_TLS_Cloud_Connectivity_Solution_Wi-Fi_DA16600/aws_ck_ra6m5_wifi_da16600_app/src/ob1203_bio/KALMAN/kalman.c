@@ -12,7 +12,7 @@
 #endif
 #include <string.h>
 #include <math.h>
-#include "KALMAN.h"
+#include "kalman.h"
 
 const uint8_t max_alg_fail_cnt_init[] = { ZC_MAX_ALG_FAIL_COUNT, HR_MAX_ALG_FAIL_COUNT , SPO2_MAX_ALG_FAIL_COUNT ,ZC_MAX_ALG_FAIL_COUNT, RR_MAX_ALG_FAIL_COUNT };
 const uint8_t max_outlier_cnt_init[] = {ZC_MAX_OUTLIER_COUNT , HR_MAX_OUTLIER_COUNT,  SPO2_MAX_OUTLIER_COUNT , ZC_MAX_OUTLIER_COUNT,RR_MAX_OUTLIER_COUNT};

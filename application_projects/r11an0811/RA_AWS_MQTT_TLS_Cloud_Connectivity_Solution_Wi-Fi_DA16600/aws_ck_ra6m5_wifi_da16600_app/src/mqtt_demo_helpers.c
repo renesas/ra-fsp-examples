@@ -34,7 +34,6 @@
  */
 #include "common_utils.h"
 #include "common_data.h"
-#include "FreeRTOSConfig.h"
 #include "flash/flash_hp.h"
 
 /* Standard includes. */
@@ -59,7 +58,7 @@
 /**
  * @brief The maximum number of retries for connecting to server.
  */
-#define CONNECTION_RETRY_MAX_ATTEMPTS                ( 5U )
+#define CONNECTION_RETRY_MAX_ATTEMPTS                ( 0U )
 
 /**
  * @brief The maximum back-off delay (in milliseconds) for retrying connection to server.

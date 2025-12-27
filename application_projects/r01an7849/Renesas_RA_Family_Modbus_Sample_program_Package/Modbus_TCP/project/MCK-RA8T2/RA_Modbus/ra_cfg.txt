@@ -7,6 +7,14 @@ FSP Configuration
     data_flash_size_bytes: 0
     package_style: LFBGA
     package_pins: 289
+    ospi0_cs0_start_address: 2147483648
+    ospi0_cs0_size_bytes: 268435456
+    ospi0_cs1_start_address: 2415919104
+    ospi0_cs1_size_bytes: 268435456
+    ospi1_cs0_start_address: 1879048192
+    ospi1_cs0_size_bytes: 134217728
+    ospi1_cs1_start_address: 2013265920
+    ospi1_cs1_size_bytes: 134217728
     number of cores: 2
     
   R7KA8T2LFECAC
@@ -30,6 +38,7 @@ FSP Configuration
     SDRAM: Endian Mode: Little Endian
     SDRAM: Continuous Access Mode: Enabled
     SDRAM: Bus Width: 32-bit
+    OSPI_B: Startup Support: Disabled
     Security: Exceptions: Exception Response: Non-Maskable Interrupt
     Security: Exceptions: BusFault, HardFault, and NMI Target: Secure State
     Security: System Reset Request Accessibility: Secure State
@@ -59,6 +68,8 @@ FSP Configuration
     Main Oscillator Wait Time: 8163 cycles
     Cache settings: Data cache: Disabled
     Cache settings: Data cache forced write-through: Disabled
+    I/O Ports: Voltage Mode: VCC: High (VCC >= 2.7 V)
+    I/O Ports: Voltage Mode: VCC2: High (VCC2 >= 2.7 V)
     
   RA8T2 Device Options
     OFS Registers: OFS0 (Option Function Select Register 0) Settings: Enabled
@@ -944,7 +955,7 @@ FSP Configuration
     ARP Request Retransmissions: 5
     Maximum time before ARP table entry becomes stale: 150
     Use string for IP Address: Enable 
-    Total number of available network buffers: 10
+    Total number of available network buffers: 30
     Set the maximum number of events: ipconfigNUM_NETWORK_BUFFER_DESCRIPTORS + 5
     Enable FreeRTOS_sendto() without calling Bind: Disable
     TTL values for UDP packets: 128
@@ -979,6 +990,7 @@ FSP Configuration
   Module "Switch (r_layer3_switch)"
     Parameter Checking: Default (BSP)
     Available queue num: 4
+    gPTP enable: Disabled
     Time Aware Shaper: Disabled
     
   Module "Ethernet (r_rmac_phy)"
@@ -1014,7 +1026,7 @@ FSP Configuration
     General: Cpu Clock Hz: SystemCoreClock
     General: Tick Rate Hz: 1000
     General: Max Priorities: 5
-    General: Minimal Stack Size: 128
+    General: Minimal Stack Size: 512
     General: Max Task Name Len: 16
     Stats: Use Trace Facility: Disabled
     Stats: Use Stats Formatting Functions: Disabled
@@ -1118,14 +1130,18 @@ FSP Configuration
               Buffers: Padding offset: 0
               Filters: Broadcast filter: 0
               General: MAC address: 00:11:22:33:44:55
-              Buffers: TX queue length: 4
-              Buffers: RX queue length: 4
+              Buffers: TX queue length: 3
+              Buffers: RX queue length: 3
               Buffers: TX queue num: 2
               Buffers: RX queue num: 2
+              Buffers: Number of TX buffer: 12
+              Buffers: Number of RX buffer: 12
               Buffers: Buffer size: 1514
               Interrupts: Magic packet interrupt priority: Disabled
               Interrupts: Callback: vEtherISRCallback
               Buffers: Allocate RX buffer: Enable
+              Buffers: Number of node num: 24
+              Timestamp: TS queue length: 8
               
               Instance "g_layer3_switch0 Switch (r_layer3_switch)"
                 Name: g_layer3_switch0
@@ -1157,6 +1173,8 @@ FSP Configuration
                 Ports: Port 1: Callback: NULL
                 Ports: Port 0: Context: NULL
                 Ports: Port 1: Context: NULL
+                Ports: Port 0: GPTP timer number: Timer 0
+                Ports: Port 1: GPTP timer number: Timer 1
                 Number of Layer 3 routing entries: 10
                 Interrupts: ETHA0 error interrupt priority: Priority 12
                 Interrupts: ETHA1 error interrupt priority: Priority 12

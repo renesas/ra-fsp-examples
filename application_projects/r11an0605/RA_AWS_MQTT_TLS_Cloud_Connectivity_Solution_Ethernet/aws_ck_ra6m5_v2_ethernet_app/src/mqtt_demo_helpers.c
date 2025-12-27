@@ -34,7 +34,6 @@
  */
 #include "common_utils.h"
 #include "common_data.h"
-#include "FreeRTOSConfig.h"
 #include "flash/flash_hp.h"
 
 /* Standard includes. */

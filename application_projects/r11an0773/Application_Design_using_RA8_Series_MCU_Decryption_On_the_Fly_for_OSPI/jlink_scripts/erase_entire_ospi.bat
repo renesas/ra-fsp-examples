@@ -1,1 +1,0 @@
-start "J-Link" "JLink\JLink.exe" -commanderscript erase_entire_ospi.jlink

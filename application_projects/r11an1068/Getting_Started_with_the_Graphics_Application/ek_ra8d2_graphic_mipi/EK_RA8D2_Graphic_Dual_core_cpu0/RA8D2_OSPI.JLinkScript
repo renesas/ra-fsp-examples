@@ -1,0 +1,56 @@
+int HandleBeforeFlashProg(void)
+{
+    // JLinkScript For RA8D2 to reset OSPI after target reset
+    // Declare and initialize all variables at the top
+    U32 PORT;
+    U32 PIN;
+    U32 PmnPFS_BASE_ADDRESS;
+    U32 PmnPFS_OFFSET;
+    U32 REG_PmnPFS;
+    U32 REG_PWPR_S;
+    U8 PWPR_B0WI_Mask;
+    U8 PWPR_PFSWE_Mask;
+    U32 PmnPFS_PODR_Mask;
+    U32 PmnPFS_PDR_Mask;
+    U32 PmnPFS_output_high;
+    U32 PmnPFS_output_low;
+    
+    // STEP 2: Initialize all variables (separate from declaration)
+    PORT                = 1;
+    PIN                 = 6;
+    PmnPFS_BASE_ADDRESS = 0x40400800;
+    PmnPFS_OFFSET       = (0x040 * PORT) + (0x004 * PIN);
+    REG_PmnPFS          = PmnPFS_BASE_ADDRESS + PmnPFS_OFFSET;
+    REG_PWPR_S          = 0x40400800 + 0x514;
+    PWPR_B0WI_Mask      = 0x80;
+    PWPR_PFSWE_Mask     = 0x40;
+    PmnPFS_PODR_Mask    = 0x00000001;
+    PmnPFS_PDR_Mask     = 0x00000004;
+    PmnPFS_output_high  = PmnPFS_PDR_Mask | PmnPFS_PODR_Mask;  // Output high
+    PmnPFS_output_low   = PmnPFS_PDR_Mask;  // Output low
+    
+    JLINK_SYS_Report("Resetting the OSPI...");
+
+    // First, enable writing to the PmnPFS register by setting PWPR_S register
+    JLINK_MEM_WriteU8(REG_PWPR_S, 0x00); // clear B0WI bit to enable writing to PFSWE
+    JLINK_MEM_WriteU8(REG_PWPR_S, PWPR_PFSWE_Mask);    // set PFSWE bit to enable writing to PmnPFS
+
+    // Set the output of Port M Pin N to High 
+    JLINK_MEM_WriteU32(REG_PmnPFS, PmnPFS_output_high); // Pin is output, output 1
+    JLINK_SYS_Sleep(10);
+
+    // Then set to low for some time to trigger the reset
+    JLINK_MEM_WriteU32(REG_PmnPFS, PmnPFS_output_low); // Pin is output, output 0
+    JLINK_SYS_Sleep(100);
+
+    // Then set to high again 
+    JLINK_MEM_WriteU32(REG_PmnPFS, PmnPFS_output_high); // Pin is output, output 1
+    JLINK_SYS_Sleep(10);
+
+    // Then disable writes to PmnPFS register
+    JLINK_MEM_WriteU8(REG_PWPR_S, 0x00); // Clear the PFSWE bit
+    JLINK_MEM_WriteU8(REG_PWPR_S, PWPR_B0WI_Mask); // Set the B0WI bit
+    JLINK_SYS_Report("OSPI Reset done");
+
+    return 0;
+}

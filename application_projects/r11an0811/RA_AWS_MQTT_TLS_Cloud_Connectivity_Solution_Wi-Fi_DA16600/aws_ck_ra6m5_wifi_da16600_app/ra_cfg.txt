@@ -1,5 +1,5 @@
 FSP Configuration
-  Board "CK-RA6M5 V2"
+  Board "RA6|RA6M5|CK-RA6M5 V2"
   R7FA6M5BH3CFC
     part_number: R7FA6M5BH3CFC
     rom_size_bytes: 2097152
@@ -7,7 +7,9 @@ FSP Configuration
     data_flash_size_bytes: 8192
     package_style: LQFP
     package_pins: 176
+    number of cores: 1
     
+  R7FA6M5BH3CFC
   RA6M5
     series: 6
     
@@ -25,46 +27,82 @@ FSP Configuration
     Security: SRAM Accessibility: Standby RAM: Regions 7-0 are all Secure.
     Security: BUS Accessibility: Bus Security Attribution Register A: Both Secure and Non-Secure State
     Security: BUS Accessibility: Bus Security Attribution Register B: Both Secure and Non-Secure State
-    Security: Flash Bank Select Accessibility: Both Secure and Non-Secure State
     Security: Uninitialized Non-Secure Application Fallback: Enable Uninitialized Non-Secure Application Fallback
     Startup C-Cache Line Size: 32 Bytes
-    OFS0 register settings: Independent WDT: Start Mode: IWDT is Disabled
-    OFS0 register settings: Independent WDT: Timeout Period: 2048 cycles
-    OFS0 register settings: Independent WDT: Dedicated Clock Frequency Divisor: 128
-    OFS0 register settings: Independent WDT: Window End Position:  0% (no window end position)
-    OFS0 register settings: Independent WDT: Window Start Position: 100% (no window start position)
-    OFS0 register settings: Independent WDT: Reset Interrupt Request Select: Reset is enabled
-    OFS0 register settings: Independent WDT: Stop Control: Stop counting when in Sleep, Snooze mode, or Software Standby
-    OFS0 register settings: WDT: Start Mode Select: Stop WDT after a reset (register-start mode)
-    OFS0 register settings: WDT: Timeout Period: 16384 cycles
-    OFS0 register settings: WDT: Clock Frequency Division Ratio: 128
-    OFS0 register settings: WDT: Window End Position:  0% (no window end position)
-    OFS0 register settings: WDT: Window Start Position: 100% (no window start position)
-    OFS0 register settings: WDT: Reset Interrupt Request: Reset
-    OFS0 register settings: WDT: Stop Control: Stop counting when entering Sleep mode
-    OFS1_SEL register settings: Voltage Detection 0 Level Security Attribution: VDSEL setting loads from OFS1_SEC
-    OFS1_SEL register settings: Voltage Detection 0 Circuit Start Security Attribution: LVDAS setting loads from OFS1_SEC
-    OFS1 register settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
-    OFS1 register settings: Voltage Detection 0 Level: 2.80 V
-    OFS1 register settings: HOCO Oscillation Enable: HOCO oscillation is disabled after reset
-    Block Protection Settings (BPS): BPS0: 
-    Block Protection Settings (BPS): BPS1: 
-    Block Protection Settings (BPS): BPS2: 
-    Permanent Block Protection Settings (PBPS): PBPS0: 
-    Permanent Block Protection Settings (PBPS): PBPS1: 
-    Permanent Block Protection Settings (PBPS): PBPS2: 
-    Dual Bank Mode: Disabled
     Clocks: HOCO FLL Function: Disabled
     Main Oscillator Wait Time: 8163 cycles
+    
+  RA6M5 Device Options
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Enabled
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Start Mode: IWDT is stopped after a reset
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Timeout Period: 2048 cycles
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Dedicated Clock Frequency Divisor: 128
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Window End Position:  0% (no window end position)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Window Start Position: 100% (no window start position)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Reset Interrupt Request Select: Reset is enabled
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Stop Control: Stop counting when in Sleep,Snooze modec, or Software Standby
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT: Start Mode Select: Stop WDT after a reset (register-start mode)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT: Timeout Period: 16384 cycles
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT: Clock Frequency Division Ratio: 128
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT: Window End Position:  0% (no window end position)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT: Window Start Position: 100% (no window start position)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT: Reset Interrupt Request: Reset
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT: Stop Control: Stop counting when entering Sleep mode
+    OFS Registers: DUALSEL (Dual Mode Select Register) Settings: Disabled
+    OFS Registers: DUALSEL (Dual Mode Select Register) Settings: Bank Mode: Linear
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Disabled
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Voltage Detection 0 Level: 2.80 V
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: HOCO Oscillation Enable: HOCO oscillation is disabled after reset
+    OFS Registers: BANKSEL (Bank Select Register) Settings: Disabled
+    OFS Registers: BANKSEL (Bank Select Register) Settings: Bank Swap Switch: Disabled
+    OFS Registers: BANKSEL (Bank Select Register) Settings: Block Swap Select: Disabled
+    OFS Registers: BPS (Block Protect Setting Register) Settings: Disabled
+    OFS Registers: BPS (Block Protect Setting Register) Settings: BPS0: 
+    OFS Registers: BPS (Block Protect Setting Register) Settings: BPS1: 
+    OFS Registers: BPS (Block Protect Setting Register) Settings: BPS2: 
+    OFS Registers: BPS (Block Protect Setting Register) Settings: BPS3: 
+    OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: Disabled
+    OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS0: 
+    OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS1: 
+    OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS2: 
+    OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS3: 
+    OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: Enabled
+    OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
+    OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: Voltage Detection 0 Level: 2.80 V
+    OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: HOCO Oscillation Enable: HOCO oscillation is disabled after reset
+    OFS Registers: BANKSEL_SEC (Bank Select Register Secure) Settings: Disabled
+    OFS Registers: BANKSEL_SEC (Bank Select Register Secure) Settings: Bank Swap Switch: Disabled
+    OFS Registers: BANKSEL_SEC (Bank Select Register Secure) Settings: Block Swap Select: Disabled
+    OFS Registers: BPS_SEC (Block Protect Setting Register Secure) Settings: Disabled
+    OFS Registers: BPS_SEC (Block Protect Setting Register Secure) Settings: BPS_SEC0: 
+    OFS Registers: BPS_SEC (Block Protect Setting Register Secure) Settings: BPS_SEC1: 
+    OFS Registers: BPS_SEC (Block Protect Setting Register Secure) Settings: BPS_SEC2: 
+    OFS Registers: BPS_SEC (Block Protect Setting Register Secure) Settings: BPS_SEC3: 
+    OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: Disabled
+    OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: PBPS_SEC0: 
+    OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: PBPS_SEC1: 
+    OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: PBPS_SEC2: 
+    OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: PBPS_SEC3: 
+    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: Enabled
+    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: Voltage Detection 0 Level Security Attribution: VDSEL setting loads from OFS1_SEC
+    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: Voltage Detection 0 Circuit Start Security Attribution: LVDAS setting loads from OFS1_SEC
+    OFS Registers: BANKSEL_SEL (Banksel Register Select) Settings: Disabled
+    OFS Registers: BANKSEL_SEL (Banksel Register Select) Settings: Flash Bank Select Accessibility: Both Secure and Non-Secure State
+    OFS Registers: BPS_SEL (BPS Register Select) Settings: Disabled
+    OFS Registers: BPS_SEL (BPS Register Select) Settings: BPS_SEL0: 
+    OFS Registers: BPS_SEL (BPS Register Select) Settings: BPS_SEL1: 
+    OFS Registers: BPS_SEL (BPS Register Select) Settings: BPS_SEL2: 
+    OFS Registers: BPS_SEL (BPS Register Select) Settings: BPS_SEL3: 
     
   RA6M5 event data
   RA Common
     Main stack size (bytes): 0x2000
     Heap size (bytes): 0x20000
+    Bootloader Secondary XIP: Disabled
     MCU Vcc (mV): 3300
     Parameter checking: Disabled
     Assert Failures: Return FSP_ERR_ASSERTION
-    Error Log: No Error Log
     Clock Registers not Reset Values during Startup: Disabled
     Main Oscillator Populated: Not Populated
     PFS Protect: Enabled
@@ -86,9 +124,9 @@ FSP Configuration
     PLL2 Mul x20.0
     Clock Src: PLL
     CLKOUT Disabled
-    UCLK Disabled
-    U60CK Disabled
-    OCTASPICLK Disabled
+    USBCLK Disabled
+    USB60CLK Disabled
+    OCTACLK Disabled
     CANFDCLK Disabled
     CECCLK Disabled
     ICLK Div /1
@@ -100,9 +138,9 @@ FSP Configuration
     EBCLK Div /2
     FCLK Div /4
     CLKOUT Div /1
-    UCLK Div /5
-    U60CK Div /1
-    OCTASPICLK Div /1
+    USBCLK Div /5
+    USB60CLK Div /1
+    OCTACLK Div /1
     CANFDCLK Div /6
     CECCLK Div /1
     
@@ -466,6 +504,8 @@ FSP Configuration
     
   User Event Links
     
+  Linker Section Mappings
+    
   Module "I/O Port (r_ioport)"
     Parameter Checking: Default (BSP)
     
@@ -476,13 +516,14 @@ FSP Configuration
     Maximum Number of vectors: 4
     State Array Max Count: 10U
     Ping Response Timeout (ms): 500U
-    Recieve Polling Timeout (ms): 10U
+    Receive Polling Timeout (ms): 10U
     Send Retry Timeout (ms): 20000U
     Retry count for reading CONNACK from network: 10
     Tx Timeout (ms): 30000U
     Rx Timeout (ms): 30000U
     
   Module "AWS Transport Interface on MbedTLS/PKCS11 (rm_aws_transport_interface_port)"
+  Module "AWS Logging"
   Module "AWS PKCS11 to MbedTLS"
     Custom iot_pkcs11_config.h: 
     PKCS11 Configuration Max Label Length: 32
@@ -507,6 +548,7 @@ FSP Configuration
   Module "LittleFS"
     Custom lfs_util.h: 
     Thread Safe: Disabled
+    Read Only: Disabled
     Use Malloc: Enabled
     Use Assert: Enabled
     Debug Messages: Disabled
@@ -515,14 +557,6 @@ FSP Configuration
     Trace Messages: Disabled
     Intrinsics: Enabled
     Instance Name for STDIO wrapper: g_rm_littlefs0
-    
-  Module "LittleFS on Flash (rm_littlefs_flash)"
-    Parameter Checking: Default (BSP)
-    
-  Module "Flash (r_flash_hp)"
-    Parameter Checking: Default (BSP)
-    Code Flash Programming Enable: Disabled
-    Data Flash Programming Enable: Enabled
     
   Module "FreeRTOS MbedTLS Port"
   Module "MbedTLS"
@@ -623,15 +657,18 @@ FSP Configuration
     Hardware Acceleration: Key Format: RSA: Plaintext and Wrapped (Vendor)
     Hardware Acceleration: Hash: SHA256/224: Use Hardware
     Hardware Acceleration: Hash: SHA512/384: Use Software
+    Hardware Acceleration: Hash: SHA3_224/256/384/512: Use Software
     Hardware Acceleration: Cipher: AES: Use Hardware
     Hardware Acceleration: Public Key Cryptography (PKC): ECC: Use Hardware
     Hardware Acceleration: Public Key Cryptography (PKC): ECDSA : Use Hardware
     Hardware Acceleration: Public Key Cryptography (PKC): ECDH : Use Hardware
-    Hardware Acceleration: Public Key Cryptography (PKC): RSA: Use Hardware
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA 1024: Use Software
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA 2048: Use Hardware
     Hardware Acceleration: Public Key Cryptography (PKC): RSA 3072: Key Generation: Disabled
     Hardware Acceleration: Public Key Cryptography (PKC): RSA 3072: Signing: Disabled
     Hardware Acceleration: Public Key Cryptography (PKC): RSA 3072: Verification: Enabled
     Hardware Acceleration: Public Key Cryptography (PKC): RSA 4096: Key Generation: Disabled
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA 4096: Signing: Disabled
     Hardware Acceleration: Public Key Cryptography (PKC): RSA 4096: Verification: Enabled
     Hardware Acceleration: Crypto Engine Initialization: Enabled
     Platform: MBEDTLS_HAVE_ASM: Undefine
@@ -650,6 +687,7 @@ FSP Configuration
     Platform: Alternate: MBEDTLS_PLATFORM_SNPRINTF_ALT: Undefine
     Platform: Alternate: MBEDTLS_PLATFORM_VSNPRINTF_ALT: Undefine
     Platform: Alternate: MBEDTLS_PLATFORM_NV_SEED_ALT: Undefine
+    Platform: Alternate: MBEDTLS_PLATFORM_MS_TIME_ALT: Undefine
     General: MBEDTLS_PSA_CRYPTO_DRIVERS: Undefine
     General: MBEDTLS_DEPRECATED_WARNING: Undefine
     General: MBEDTLS_DEPRECATED_REMOVED: Define
@@ -690,6 +728,7 @@ FSP Configuration
     Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_NORMALIZE_MXZ_ALT: Undefine
     Cipher: AES: MBEDTLS_AES_ROM_TABLES: Undefine
     Cipher: AES: MBEDTLS_AES_FEWER_TABLES: Undefine
+    Cipher: AES: MBEDTLS_AES_ONLY_128_BIT_KEY_LENGTH: Undefine
     Cipher: MBEDTLS_CAMELLIA_SMALL_MEMORY: Undefine
     General: MBEDTLS_CHECK_RETURN_WARNING: Undefine
     Cipher: MBEDTLS_CIPHER_MODE_CBC: Define
@@ -718,6 +757,7 @@ FSP Configuration
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_NIST_OPTIM: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_RESTARTABLE: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECDSA_DETERMINISTIC: Undefine
+    Public Key Cryptography (PKC): ECC: MBEDTLS_PK_PARSE_EC_COMPRESSED: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_PK_PARSE_EC_EXTENDED: Undefine
     General: MBEDTLS_ERROR_STRERROR_DUMMY: Define
     Public Key Cryptography (PKC): MBEDTLS_GENPRIME: Define
@@ -737,7 +777,9 @@ FSP Configuration
     General: MBEDTLS_PSA_CRYPTO_CLIENT: Undefine
     RNG: MBEDTLS_PSA_CRYPTO_EXTERNAL_RNG: Undefine
     General: MBEDTLS_PSA_CRYPTO_SPM: Undefine
+    General: MBEDTLS_PSA_KEY_STORE_DYNAMIC: Undefine
     RNG: MBEDTLS_PSA_INJECT_ENTROPY: Undefine
+    General: MBEDTLS_PSA_ASSUME_EXCLUSIVE_BUFFERS: Undefine
     Public Key Cryptography (PKC): RSA: MBEDTLS_RSA_NO_CRT: Define
     General: MBEDTLS_SELF_TEST: Undefine
     Hash: MBEDTLS_SHA256_SMALLER: Undefine
@@ -750,6 +792,7 @@ FSP Configuration
     Public Key Cryptography (PKC): MBEDTLS_ASN1_PARSE_C: Define
     Public Key Cryptography (PKC): MBEDTLS_ASN1_WRITE_C: Define
     Public Key Cryptography (PKC): MBEDTLS_BASE64_C: Define
+    Cipher: MBEDTLS_BLOCK_CIPHER_NO_DECRYPT: Undefine
     Public Key Cryptography (PKC): MBEDTLS_BIGNUM_C: Define
     Cipher: MBEDTLS_CAMELLIA_C: Undefine
     Cipher: MBEDTLS_ARIA_C: Undefine
@@ -769,6 +812,7 @@ FSP Configuration
     Platform: MBEDTLS_ENTROPY_C: Define
     General: MBEDTLS_ERROR_C: Define
     Cipher: MBEDTLS_GCM_C: Define
+    Cipher: MBEDTLS_GCM_LARGE_TABLE: Undefine
     Message Authentication Code (MAC): MBEDTLS_HKDF_C: Define
     Message Authentication Code (MAC): MBEDTLS_HMAC_DRBG_C: Undefine
     Public Key Cryptography (PKC): MBEDTLS_LMS_C: Define
@@ -794,7 +838,10 @@ FSP Configuration
     Storage: MBEDTLS_PSA_ITS_FILE_C: Define
     Hash: MBEDTLS_RIPEMD160_C: Undefine
     Public Key Cryptography (PKC): RSA: MBEDTLS_RSA_C: Define
+    Public Key Cryptography (PKC): RSA: MBEDTLS_RSA_GEN_KEY_MIN_BITS: Undefine
+    Public Key Cryptography (PKC): RSA: MBEDTLS_RSA_GEN_KEY_MIN_BITS value: 1024
     Hash: MBEDTLS_SHA1_C: Define
+    Hash: MBEDTLS_SHA3_C: Undefine
     Hash: MBEDTLS_SHA224_C: Define
     Hash: MBEDTLS_SHA256_C: Define
     Hash: MBEDTLS_SHA384_C: Undefine
@@ -875,6 +922,10 @@ FSP Configuration
     Platform: MBEDTLS_PLATFORM_TIME_MACRO value: time
     Platform: MBEDTLS_PLATFORM_TIME_TYPE_MACRO: Undefine
     Platform: MBEDTLS_PLATFORM_TIME_TYPE_MACRO value: time_t
+    Platform: MBEDTLS_PLATFORM_MS_TIME_TYPE_MACRO: Undefine
+    Platform: MBEDTLS_PLATFORM_MS_TIME_TYPE_MACRO value: int64_t
+    Platform: MBEDTLS_PRINTF_MS_TIME: Undefine
+    Platform: MBEDTLS_PRINTF_MS_TIME value: PRId64
     Platform: MBEDTLS_PLATFORM_FPRINTF_MACRO: Undefine
     Platform: MBEDTLS_PLATFORM_FPRINTF_MACRO value: fprintf
     Platform: MBEDTLS_PLATFORM_PRINTF_MACRO: Undefine
@@ -895,18 +946,58 @@ FSP Configuration
     Key Configuration: MBEDTLS_PSA_KEY_SLOT_COUNT value: 32
     Platform: Alternate: MBEDTLS_PLATFORM_GMTIME_R_ALT: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECDH_VARIANT_EVEREST_ENABLED: Undefine
+    General: MBEDTLS_PSA_CRYPTO_CONFIG: Undefine
     
   Module "Mbed Crypto H/W Acceleration (rm_psa_crypto)"
   Module "SCE Compatibility Mode"
   Module "MbedTLS FSP Port (rm_mbedtls)"
-  Module "AWS Logging"
   Module "AWS Demo dev_mode_key_provisioning"
+  Module "AWS DA16xxx WiFi Sockets Wrapper (rm_aws_sockets_wrapper_da16xxx)"
+  Module "WiFi DA16XXX Framework Driver (rm_wifi_da16xxx)"
+    Parameter Checking: Default (BSP)
+    Enable DA16600 Support: Enabled
+    Check Minimum SDK Version: Enabled
+    Number of supported socket instances (not used with on-chip APIs): 1
+    Size of RX buffer for socket (not used with on-chip APIs): 8192
+    Size of TX buffer for CMD Port: 1500
+    Size of RX buffer for CMD Port: 3000
+    Enable SNTP Client: Disabled
+    
+  Module "DA16XXX Transport on UART (rm_at_transport_da16xxx_uart)"
+    Parameter Checking: Default (BSP)
+    Size of RX buffer for CMD Port: 3000
+    Semaphore maximum timeout: 10000
+    Number of retries for AT commands: 10
+    Module Reset Port: 03
+    Module Reset Pin: 11
+    
+  Module "UART (r_sci_uart)"
+    Parameter Checking: Default (BSP)
+    FIFO Support: Enable
+    DTC Support: Enable
+    Flow Control Support: Enable
+    RS-485 Support: Disable
+    IrDA Support: Disabled
+    
   Module "WiFi Common"
     Max SSID Length: 32
     Max BSSID Length: 6
     Max Passphrase Length: 32
     
+  Module "AWS FreeRTOS+TCP MbedTLS Bio"
   Module "Key Injection for PSA Crypto"
+  Module "LittleFS on Flash (rm_littlefs_flash)"
+    Parameter Checking: Default (BSP)
+    
+  Module "Flash (r_flash_hp)"
+    Parameter Checking: Default (BSP)
+    Code Flash Programming Enable: Disabled
+    Data Flash Programming Enable: Enabled
+    
+  Module "Transfer (r_dtc)"
+    Parameter Checking: Default (BSP)
+    Linker section to keep DTC vector table: .fsp_dtc_vector_table
+    
   Module "Clock Generation Circuit (r_cgc)"
     Parameter Checking: Default (BSP)
     
@@ -915,7 +1006,7 @@ FSP Configuration
     Pin Output Support: Disabled
     Write Protect Enable: Disabled
     
-  Module "HS300X Temperature/Humidity Sensor (rm_hs300x)"
+  Module "HS300X Temperature/Humidity Sensor (rm_hs300x) [Deprecated]"
     Parameter Checking: Default (BSP)
     Data type: Both humidity and temperature
     Programming Mode: OFF
@@ -934,46 +1025,11 @@ FSP Configuration
   Module "External IRQ (r_icu)"
     Parameter Checking: Default (BSP)
     
-  Module "OB1203 Light/Proximity/PPG Sensor (rm_ob1203)"
-    Parameter Checking: Default (BSP)
-    
-  Module "OB1203 PPG mode (rm_ob1203)"
-  Module "OB1203 Proximity mode (rm_ob1203)"
   Module "ZMOD4XXX Gas Sensor (rm_zmod4xxx)"
     Parameter Checking: Default (BSP)
     
-  Module "ZMOD4410 IAQ 1st Generation (rm_zmod4xxx)"
-  Module "ZMOD4510 OAQ 1st Generation (rm_zmod4xxx)"
-  Module "UART (r_sci_uart)"
-    Parameter Checking: Default (BSP)
-    FIFO Support: Enable
-    DTC Support: Enable
-    Flow Control Support: Enable
-    RS-485 Support: Disable
-    
-  Module "AWS DA16xxx WiFi Sockets Wrapper (rm_aws_sockets_wrapper_da16xxx)"
-  Module "WiFi DA16XXX Framework Driver (rm_wifi_da16xxx)"
-    Parameter Checking: Default (BSP)
-    Enable DA16600 Support: Enabled
-    Number of supported socket instances (not used with on-chip APIs): 1
-    Size of RX buffer for socket (not used with on-chip APIs): 8192
-    Size of TX buffer for CMD Port: 1500
-    Size of RX buffer for CMD Port: 3000
-    Enable SNTP Client: Disabled
-    
-  Module "DA16XXX Transport on UART (rm_at_transport_da16xxx_uart)"
-    Parameter Checking: Default (BSP)
-    Size of RX buffer for CMD Port: 3000
-    Semaphore maximum timeout: 10000
-    Number of retries for AT commands: 10
-    Module Reset Port: 06
-    Module Reset Pin: 03
-    
-  Module "AWS FreeRTOS+TCP MbedTLS Bio"
-  Module "Transfer (r_dtc)"
-    Parameter Checking: Default (BSP)
-    Linker section to keep DTC vector table: .fsp_dtc_vector_table
-    
+  Module "ZMOD4410 IAQ 1st Generation (rm_zmod4xxx) [Deprecated]"
+  Module "ZMOD4510 NO2 O3 (rm_zmod4xxx)"
   FreeRTOS
     General: Custom FreeRTOSConfig.h: 
     General: Use Preemption: Enabled
@@ -993,6 +1049,7 @@ FSP Configuration
     General: Use 16-bit Ticks: Disabled
     General: Idle Should Yield: Enabled
     General: Use Task Notifications: Enabled
+    General: Task Notification Array Entries: 1
     General: Use Mutexes: Enabled
     General: Use Recursive Mutexes: Enabled
     General: Use Counting Semaphores: Enabled
@@ -1036,7 +1093,7 @@ FSP Configuration
     Optional Functions: xTaskGetHandle() Function: Disabled
     Optional Functions: xTaskResumeFromISR() Function: Enabled
     RA: Hardware Stack Monitor: Disabled
-    Logging: Print String Function: printf(x)
+    Logging: Print String Function: vLoggingPrint(x)
     Logging: Logging Include Time and Task Name: Disabled
     Logging: Debug Logging Name: Log Name
     Logging: Logging Level: LOG_NONE
@@ -1152,6 +1209,9 @@ FSP Configuration
                 Extra: Start bit detection: Falling Edge
                 Extra: Noise Filter: Disable
                 Extra: Receive FIFO Trigger Level: Max
+                Extra: IrDA: Enable: Disabled
+                Extra: IrDA: RXD Polarity Switching: Normal
+                Extra: IrDA: TXD Polarity Switching: Normal
                 Extra: RS-485: DE Pin: Disable
                 Extra: RS-485: DE Pin Polarity: Active High
                 Extra: RS-485: DE Port Number: Disabled
@@ -1265,6 +1325,9 @@ FSP Configuration
       Extra: Start bit detection: Falling Edge
       Extra: Noise Filter: Disable
       Extra: Receive FIFO Trigger Level: Max
+      Extra: IrDA: Enable: Disabled
+      Extra: IrDA: RXD Polarity Switching: Normal
+      Extra: IrDA: TXD Polarity Switching: Normal
       Extra: RS-485: DE Pin: Disable
       Extra: RS-485: DE Pin Polarity: Active High
       Extra: RS-485: DE Port Number: Disabled
@@ -1291,7 +1354,7 @@ FSP Configuration
     Memory Allocation: Static
     Allocate Secure Context: Enable
     
-    Instance "g_hs300x_sensor0 HS300X Temperature/Humidity Sensor (rm_hs300x)"
+    Instance "g_hs300x_sensor0 HS300X Temperature/Humidity Sensor (rm_hs300x) [Deprecated]"
       Name: g_hs300x_sensor0
       Callback: hs300x_callback
       
@@ -1307,11 +1370,14 @@ FSP Configuration
           Bus Timeout: 0xFFFFFFFF
           Semaphore for Blocking (RTOS only): Use
           Recursive Mutex for Bus (RTOS only): Use
+          Channel: 0
+          Rate: Fast-mode
           
           Instance "g_i2c_master0 I2C Master (r_iic_master)"
             Name: g_i2c_master0
             Channel: 0
             Rate: Fast-mode
+            Custom Rate (bps): 0
             Rise Time (ns): 120
             Fall Time (ns): 120
             Duty Cycle (%): 50
@@ -1334,11 +1400,14 @@ FSP Configuration
         Bus Timeout: 0xFFFFFFFF
         Semaphore for Blocking (RTOS only): Use
         Recursive Mutex for Bus (RTOS only): Use
+        Channel: 0
+        Rate: Fast-mode
         
         Instance "g_i2c_master0 I2C Master (r_iic_master)"
           Name: g_i2c_master0
           Channel: 0
           Rate: Fast-mode
+          Custom Rate (bps): 0
           Rise Time (ns): 120
           Fall Time (ns): 120
           Duty Cycle (%): 50
@@ -1354,6 +1423,7 @@ FSP Configuration
       Channel: 6
       Trigger: Falling
       Digital Filtering: Disabled
+      Filter Source: PCLK filter
       Digital Filtering Sample Clock (Only valid when Digital Filtering is Enabled): PCLK / 64
       Callback: ICP_IRQ_CALLBACK
       Pin Interrupt Priority: Priority 12
@@ -1370,11 +1440,14 @@ FSP Configuration
         Bus Timeout: 0xFFFFFFFF
         Semaphore for Blocking (RTOS only): Use
         Recursive Mutex for Bus (RTOS only): Use
+        Channel: 0
+        Rate: Fast-mode
         
         Instance "g_i2c_master0 I2C Master (r_iic_master)"
           Name: g_i2c_master0
           Channel: 0
           Rate: Fast-mode
+          Custom Rate (bps): 0
           Rise Time (ns): 120
           Fall Time (ns): 120
           Duty Cycle (%): 50
@@ -1390,6 +1463,7 @@ FSP Configuration
       Channel: 3
       Trigger: Falling
       Digital Filtering: Disabled
+      Filter Source: PCLK filter
       Digital Filtering Sample Clock (Only valid when Digital Filtering is Enabled): PCLK / 64
       Callback: ICM_42605_Callback2
       Pin Interrupt Priority: Priority 12
@@ -1399,6 +1473,7 @@ FSP Configuration
       Channel: 12
       Trigger: Falling
       Digital Filtering: Disabled
+      Filter Source: PCLK filter
       Digital Filtering Sample Clock (Only valid when Digital Filtering is Enabled): PCLK / 64
       Callback: ICM_42605_Callback1
       Pin Interrupt Priority: Priority 12
@@ -1412,121 +1487,76 @@ FSP Configuration
     Memory Allocation: Static
     Allocate Secure Context: Enable
     
-    Instance "g_ob1203_sensor0 OB1203 Light/Proximity/PPG Sensor (rm_ob1203)"
-      Name: g_ob1203_sensor0
+    Instance "g_comms_i2c_device3 I2C Communication Device (rm_comms_i2c)"
+      Name: g_comms_i2c_device3
       Semaphore Timeout (RTOS only): 0xFFFFFFFF
-      Comms I2C Callback: ob1203_comms_i2c_callback
-      IRQ Callback: ob1203_irq_callback
+      Slave Address: 0x53
+      Address Mode: 7-Bit
+      Callback: rm_ob1203_comms_i2c_callback
       
-      Instance "OB1203 PPG mode (rm_ob1203)"
-        Operation Mode: PPG2 mode
-        Interrupt Type: Data
-        Gain: 1
-        IR LED Current: 0x366
-        Red LED Current: 0x1B3
-        Power Save Mode: Disabled
-        LED Order: IR LED first, Red LED second
-        IR LED Analog Cancellation: Disabled
-        Red LED Analog Cancellation: Disabled
-        Number of Averaged PPG Samples: 8 consecutives samples are averaged
-        Pulse Width and Measurement Period: Pulse width:130us. Measurement Period:1.25ms
-        FIFO Rollover: Enabled
-        FIFO Almost Full Value: 0x0C
+      Instance "g_comms_i2c_bus1 I2C Shared Bus (rm_comms_i2c)"
+        Name: g_comms_i2c_bus1
+        Bus Timeout: 0xFFFFFFFF
+        Semaphore for Blocking (RTOS only): Use
+        Recursive Mutex for Bus (RTOS only): Use
+        Channel: 1
+        Rate: Standard
         
-        Instance "g_comms_i2c_device3 I2C Communication Device (rm_comms_i2c)"
-          Name: g_comms_i2c_device3
-          Semaphore Timeout (RTOS only): 0xFFFFFFFF
-          Slave Address: 0x53
+        Instance "g_i2c_master1 I2C Master (r_iic_master)"
+          Name: g_i2c_master1
+          Channel: 1
+          Rate: Standard
+          Custom Rate (bps): 0
+          Rise Time (ns): 120
+          Fall Time (ns): 120
+          Duty Cycle (%): 50
+          Slave Address: 0x00
           Address Mode: 7-Bit
-          Callback: rm_ob1203_comms_i2c_callback
+          Timeout Mode: Short Mode
+          Timeout during SCL Low: Enabled
+          Callback: rm_comms_i2c_callback
+          Interrupt Priority Level: Priority 12
           
-          Instance "g_comms_i2c_bus1 I2C Shared Bus (rm_comms_i2c)"
-            Name: g_comms_i2c_bus1
-            Bus Timeout: 0xFFFFFFFF
-            Semaphore for Blocking (RTOS only): Use
-            Recursive Mutex for Bus (RTOS only): Use
-            
-            Instance "g_i2c_master1 I2C Master (r_iic_master)"
-              Name: g_i2c_master1
-              Channel: 1
-              Rate: Standard
-              Rise Time (ns): 120
-              Fall Time (ns): 120
-              Duty Cycle (%): 50
-              Slave Address: 0x00
-              Address Mode: 7-Bit
-              Timeout Mode: Short Mode
-              Timeout during SCL Low: Enabled
-              Callback: rm_comms_i2c_callback
-              Interrupt Priority Level: Priority 12
-              
-      Instance "g_external_irq14 External IRQ (r_icu)"
-        Name: g_external_irq14
-        Channel: 14
-        Trigger: Falling
-        Digital Filtering: Disabled
-        Digital Filtering Sample Clock (Only valid when Digital Filtering is Enabled): PCLK / 64
-        Callback: rm_ob1203_irq_callback
-        Pin Interrupt Priority: Priority 12
-        
-    Instance "g_ob1203_sensor1 OB1203 Light/Proximity/PPG Sensor (rm_ob1203)"
-      Name: g_ob1203_sensor1
+    Instance "g_comms_i2c_device6 I2C Communication Device (rm_comms_i2c)"
+      Name: g_comms_i2c_device6
       Semaphore Timeout (RTOS only): 0xFFFFFFFF
-      Comms I2C Callback: ob1203_comms_i2c_callback
-      IRQ Callback: ob1203_irq_callback
+      Slave Address: 0x53
+      Address Mode: 7-Bit
+      Callback: rm_ob1203_comms_i2c_callback
       
-      Instance "OB1203 Proximity mode (rm_ob1203)"
-        Interrupt Type: Normal
-        The Number of Similar Consecutive Interrupt Events: 0x02
-        Sleep after Interrupt: Disabled
-        Gain: 1
-        LED Current: 0x100
-        LED Order: IR LED first, Red LED second
-        LED Analog Cancellation: Disabled
-        LED Digital Cancellation: 0x100
-        Number of LED pulses: 8 pulses
-        Pulse Width and Measurement Period: Pulse width:42us. Measurement Period:100ms
-        Moving Average: Disabled
-        Hysteresis: 0x00
-        Upper Threshold: 0x0600
-        Lower Threshold: 0x0000
+      Instance "g_comms_i2c_bus1 I2C Shared Bus (rm_comms_i2c)"
+        Name: g_comms_i2c_bus1
+        Bus Timeout: 0xFFFFFFFF
+        Semaphore for Blocking (RTOS only): Use
+        Recursive Mutex for Bus (RTOS only): Use
+        Channel: 1
+        Rate: Standard
         
-        Instance "g_comms_i2c_device6 I2C Communication Device (rm_comms_i2c)"
-          Name: g_comms_i2c_device6
-          Semaphore Timeout (RTOS only): 0xFFFFFFFF
-          Slave Address: 0x53
+        Instance "g_i2c_master1 I2C Master (r_iic_master)"
+          Name: g_i2c_master1
+          Channel: 1
+          Rate: Standard
+          Custom Rate (bps): 0
+          Rise Time (ns): 120
+          Fall Time (ns): 120
+          Duty Cycle (%): 50
+          Slave Address: 0x00
           Address Mode: 7-Bit
-          Callback: rm_ob1203_comms_i2c_callback
+          Timeout Mode: Short Mode
+          Timeout during SCL Low: Enabled
+          Callback: rm_comms_i2c_callback
+          Interrupt Priority Level: Priority 12
           
-          Instance "g_comms_i2c_bus1 I2C Shared Bus (rm_comms_i2c)"
-            Name: g_comms_i2c_bus1
-            Bus Timeout: 0xFFFFFFFF
-            Semaphore for Blocking (RTOS only): Use
-            Recursive Mutex for Bus (RTOS only): Use
-            
-            Instance "g_i2c_master1 I2C Master (r_iic_master)"
-              Name: g_i2c_master1
-              Channel: 1
-              Rate: Standard
-              Rise Time (ns): 120
-              Fall Time (ns): 120
-              Duty Cycle (%): 50
-              Slave Address: 0x00
-              Address Mode: 7-Bit
-              Timeout Mode: Short Mode
-              Timeout during SCL Low: Enabled
-              Callback: rm_comms_i2c_callback
-              Interrupt Priority Level: Priority 12
-              
-      Instance "g_external_irq14 External IRQ (r_icu)"
-        Name: g_external_irq14
-        Channel: 14
-        Trigger: Falling
-        Digital Filtering: Disabled
-        Digital Filtering Sample Clock (Only valid when Digital Filtering is Enabled): PCLK / 64
-        Callback: rm_ob1203_irq_callback
-        Pin Interrupt Priority: Priority 12
-        
+    Instance "g_external_irq14 External IRQ (r_icu)"
+      Name: g_external_irq14
+      Channel: 14
+      Trigger: Falling
+      Digital Filtering: Disabled
+      Filter Source: PCLK filter
+      Digital Filtering Sample Clock (Only valid when Digital Filtering is Enabled): PCLK / 64
+      Callback: rm_ob1203_irq_callback
+      Pin Interrupt Priority: Priority 12
+      
   Thread "Zmod Thread"
     Symbol: zmod_thread
     Name: Zmod Thread
@@ -1541,7 +1571,7 @@ FSP Configuration
       Comms I2C Callback: zmod4xxx_comms_i2c_callback
       IRQ Callback: zmod4xxx_irq0_callback
       
-      Instance "ZMOD4410 IAQ 1st Generation (rm_zmod4xxx)"
+      Instance "ZMOD4410 IAQ 1st Generation (rm_zmod4xxx) [Deprecated]"
         Operation Mode: Continuous
         
         Instance "g_comms_i2c_device1 I2C Communication Device (rm_comms_i2c)"
@@ -1556,11 +1586,14 @@ FSP Configuration
             Bus Timeout: 0xFFFFFFFF
             Semaphore for Blocking (RTOS only): Use
             Recursive Mutex for Bus (RTOS only): Use
+            Channel: 2
+            Rate: Fast-mode
             
             Instance "g_i2c_master2 I2C Master (r_iic_master)"
               Name: g_i2c_master2
               Channel: 2
               Rate: Fast-mode
+              Custom Rate (bps): 0
               Rise Time (ns): 120
               Fall Time (ns): 120
               Duty Cycle (%): 50
@@ -1576,6 +1609,7 @@ FSP Configuration
         Channel: 4
         Trigger: Falling
         Digital Filtering: Disabled
+        Filter Source: PCLK filter
         Digital Filtering Sample Clock (Only valid when Digital Filtering is Enabled): PCLK / 64
         Callback: rm_zmod4xxx_irq_callback
         Pin Interrupt Priority: Priority 3
@@ -1585,7 +1619,7 @@ FSP Configuration
       Comms I2C Callback: zmod4xxx_comms_i2c1_callback
       IRQ Callback: zmod4xxx_irq1_callback
       
-      Instance "ZMOD4510 OAQ 1st Generation (rm_zmod4xxx)"
+      Instance "ZMOD4510 NO2 O3 (rm_zmod4xxx)"
         
         Instance "g_comms_i2c_device2 I2C Communication Device (rm_comms_i2c)"
           Name: g_comms_i2c_device2
@@ -1599,11 +1633,14 @@ FSP Configuration
             Bus Timeout: 0xFFFFFFFF
             Semaphore for Blocking (RTOS only): Use
             Recursive Mutex for Bus (RTOS only): Use
+            Channel: 2
+            Rate: Fast-mode
             
             Instance "g_i2c_master2 I2C Master (r_iic_master)"
               Name: g_i2c_master2
               Channel: 2
               Rate: Fast-mode
+              Custom Rate (bps): 0
               Rise Time (ns): 120
               Fall Time (ns): 120
               Duty Cycle (%): 50
@@ -1619,6 +1656,7 @@ FSP Configuration
         Channel: 15
         Trigger: Falling
         Digital Filtering: Disabled
+        Filter Source: PCLK filter
         Digital Filtering Sample Clock (Only valid when Digital Filtering is Enabled): PCLK / 64
         Callback: rm_zmod4xxx_irq_callback
         Pin Interrupt Priority: Priority 12

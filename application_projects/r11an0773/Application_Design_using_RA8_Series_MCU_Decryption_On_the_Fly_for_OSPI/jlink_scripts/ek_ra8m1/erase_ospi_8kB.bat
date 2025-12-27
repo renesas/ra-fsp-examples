@@ -1,0 +1,1 @@
+start "J-Link" "..\JLink\JLink.exe" -commanderscript erase_ospi_8kB.jlink

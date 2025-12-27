@@ -36,7 +36,7 @@ INVOKE_DISABLE_INITIALIZE_COMMAND = 0
 # Adjust these delays for your hardware system
 SHORT_DELAY = 0.15
 LONG_DELAY = 3
-AL_DATA_RESPONSE_DELAY = 120
+AL_DATA_RESPONSE_DELAY = 5
 
 # Unknown DLM Key Type
 UNKNOWN_KEY = 0xFF
