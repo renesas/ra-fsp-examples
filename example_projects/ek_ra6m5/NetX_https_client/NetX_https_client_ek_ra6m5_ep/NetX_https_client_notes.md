@@ -132,8 +132,11 @@ The table below lists the FSP provided API used at the application layer by this
 
 Import, Build and Debug the EP (*see section Starting Development* of **FSP User Manual**). After running the EP, open RTT viewer to see the output on the console.
 
-**Note**: User must create an account on the Adafruit (https://io.adafruit.com), before running the Application. 
+**Note**: 
+* User must create an account on the Adafruit (https://io.adafruit.com), before running the Application. 
 The details of creating the Account and getting the required credentials and IO Keys for successful running of the application are described in the **[Special Topics](#special-topics)** Section.
+* On RA6 devices (RA6M4/RA6M5), Ethernet may fail if TrustZone memory boundaries are not properly configured, even for flat applications. When debugging with e² studio, the required TrustZone boundaries (IDAU) for Ethernet operation are configured automatically but these settings are not applied when programming the device using a standalone method (e.g., via a HEX file). In such cases, users must configure the TrustZone memory partitions using Renesas Device Partition Manager (RDPM) or Renesas Flash Programmer.
+* For more information on configuring TrustZone on RA devices, refer to: https://www.renesas.com/en/document/apn/security-design-arm-trustzone-using-cortex-m33 
 
 Below images showcase the output on J-Link RTT Viewer:
 

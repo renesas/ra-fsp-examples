@@ -111,6 +111,10 @@ Before running the example project, refer to the below steps for hardware connec
 * Connect an Ethernet cable to the RJ45 connector on RA MCU via ethernet switch/hub which is connected to Router or LAN where DHCP server is residing.
 * A DHCP Server needs to exist on the network to assign  an IP address to the RA MCU running this SNTP Client Example Project.
 
+**Note**: 
+* On RA6 devices (RA6M4/RA6M5), Ethernet may fail if TrustZone memory boundaries are not properly configured, even for flat applications. When debugging with e² studio, the required TrustZone boundaries (IDAU) for Ethernet operation are configured automatically but these settings are not applied when programming the device using a standalone method (e.g., via a HEX file). In such cases, users must configure the TrustZone memory partitions using Renesas Device Partition Manager (RDPM) or Renesas Flash Programmer.
+* For more information on configuring TrustZone on RA devices, refer to: https://www.renesas.com/en/document/apn/security-design-arm-trustzone-using-cortex-m33 
+
 Below image showcases the hardware connection setup required for running the EP :
 
 ![sntp_client_hardware_setup](images/sntp_client.jpg "SNTP Client Hardware Setup")

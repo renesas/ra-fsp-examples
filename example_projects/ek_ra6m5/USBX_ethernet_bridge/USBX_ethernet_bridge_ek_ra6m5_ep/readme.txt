@@ -29,7 +29,7 @@
 	- For the RA boards support J-Link OB VCOM, the EP uses the Serial Terminal by default instead.
 
 2. Software Requirements:
-	- Renesas Flexible Software Package (FSP): Version 6.3.0
+	- Renesas Flexible Software Package (FSP): Version 6.3.1
 	- e2 studio: Version 2025-12
 	- GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 	- Terminal Console Application: Tera Term or a similar application

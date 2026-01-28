@@ -111,6 +111,10 @@ Before running the example project, refer to the below steps for hardware connec
   Note: Linux machine or Raspberry pi is used as the Machine which runs the SNMP Manager services.
 * Verify SNMP Agent Example Project operation on the RA MCU using Jlink RTTViewer. 
 
+**Note**: 
+* On RA6 devices (RA6M4/RA6M5), Ethernet may fail if TrustZone memory boundaries are not properly configured, even for flat applications. When debugging with e² studio, the required TrustZone boundaries (IDAU) for Ethernet operation are configured automatically but these settings are not applied when programming the device using a standalone method (e.g., via a HEX file). In such cases, users must configure the TrustZone memory partitions using Renesas Device Partition Manager (RDPM) or Renesas Flash Programmer.
+* For more information on configuring TrustZone on RA devices, refer to: https://www.renesas.com/en/document/apn/security-design-arm-trustzone-using-cortex-m33 
+
 Below image showcases the hardware connection setup required for running the EP :
 
 ![snmp_agaent_hardware_setup](images/snmp_agent_hardware_connection.jpg "SNMP Agent Hardware Setup")

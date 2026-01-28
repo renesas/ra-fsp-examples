@@ -29,7 +29,7 @@
 		NetX_tcp_udp_notes.md file.
 
 2. Software Requirements:
-	- Renesas Flexible Software Package (FSP): Version 6.3.0
+	- Renesas Flexible Software Package (FSP): Version 6.3.1
 	- e2 studio: Version 2025-12
 	- GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 	- Terminal Console Application: Tera Term or a similar application (for boards that support J-Link OB VCOM)
@@ -122,9 +122,16 @@ Note:
 	For the SEGGER RTT Viewer application: The macro USE_VIRTUAL_COM is set to 0.
 		1. The Segger RTT block address may need to be updated to observe the EP operation using a hex file with SEGGER RTT Viewer.
 			RTT Block addresses for hex file committed in the repository are as follows:
-   a. e2studio: 0x200049dc
+			a. e2studio: 0x200049dc
 			b. Keil: Not Available
 			c. IAR: Not Available
 		2. If an EP is modified, compiled, and downloaded, please find the block address (for the variable in RAM called _SEGGER_RTT)
 			in the .map file generated in the build configuration folder (Debug/Release).
+
+NOTE:	On RA6 devices (RA6M4/RA6M5), Ethernet may fail if TrustZone memory boundaries are not properly configured, 
+	even for flat applications. When debugging with e² studio, the required TrustZone boundaries (IDAU) for Ethernet operation 
+	are configured automatically but these settings are not applied when programming the device using a standalone method (e.g., via a HEX file).
+	In such cases, users must configure the TrustZone memory partitions using Renesas Device Partition Manager (RDPM) or Renesas Flash Programmer.
+	For more information on configuring TrustZone on RA devices, refer to:
+	https://www.renesas.com/en/document/apn/security-design-arm-trustzone-using-cortex-m33 
 

@@ -20,7 +20,7 @@ for general information on example projects and [readme.txt](./readme.txt) for s
 To build and run the FreeRTOS Network Example project, the following resources are needed.
 
 ### Software Requirements ###
-* Renesas Flexible Software Package (FSP): Version 6.3.0
+* Renesas Flexible Software Package (FSP): Version 6.3.1
 * e2 studio: Version 2025-12
 * SEGGER J-Link RTT Viewer: Version 8.92
 * GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7

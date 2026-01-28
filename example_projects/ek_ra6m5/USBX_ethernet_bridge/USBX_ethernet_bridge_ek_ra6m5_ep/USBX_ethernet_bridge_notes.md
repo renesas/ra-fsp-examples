@@ -45,7 +45,7 @@ To build and run the example project, the following resources are needed.
             * Short Pin 2-3 of jumper J12.
 
 ### Software Requirements ###
-* Renesas Flexible Software Package (FSP): Version 6.3.0
+* Renesas Flexible Software Package (FSP): Version 6.3.1
 * e2 studio: Version 2025-12
 * GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 * Terminal Console Application: Tera Term version 4.99

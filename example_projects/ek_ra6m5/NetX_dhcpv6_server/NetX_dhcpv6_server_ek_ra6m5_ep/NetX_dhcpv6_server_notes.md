@@ -81,6 +81,10 @@ Before running the example project, refer to the below steps for hardware connec
 * Connect RA MCU debug port to the host PC via a micro USB cable. 
 * Connect an Ethernet cable to the RJ45 connector on RA MCU and connect another end to the ethernet port of PC/another RA board where dhcpv6 client is residing.
 
+**Note**: 
+* On RA6 devices (RA6M4/RA6M5), Ethernet may fail if TrustZone memory boundaries are not properly configured, even for flat applications. When debugging with e² studio, the required TrustZone boundaries (IDAU) for Ethernet operation are configured automatically but these settings are not applied when programming the device using a standalone method (e.g., via a HEX file). In such cases, users must configure the TrustZone memory partitions using Renesas Device Partition Manager (RDPM) or Renesas Flash Programmer.
+* For more information on configuring TrustZone on RA devices, refer to: https://www.renesas.com/en/document/apn/security-design-arm-trustzone-using-cortex-m33 
+
 **Steps to be followed when using another RA board as dhcpv6 client :**
 * Presuming all necessary hardware connections done, run the dhcpv6 server EP on RA board and based on menu option, start the server.
 * once the server is started, run the dhcpv6 client EP on another RA board and observe the output/info on RTT viewer.

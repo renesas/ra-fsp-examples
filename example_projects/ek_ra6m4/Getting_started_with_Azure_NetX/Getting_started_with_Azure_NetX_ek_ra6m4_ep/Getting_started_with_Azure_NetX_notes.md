@@ -46,7 +46,7 @@ To build and run the NetX_tcp_udp example project, the following resources are n
 * For EK-RA8M1: Remove jumper J61 to enable Ethernet B.
 
 ### Software Requirements ###
-* Renesas Flexible Software Package (FSP): Version 6.3.0
+* Renesas Flexible Software Package (FSP): Version 6.3.1
 * e2 studio: Version 2025-12
 * GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 * Terminal Console Application: Tera Term version 4.99 or SEGGER RTT J-Link Viewer version 8.10f
@@ -286,6 +286,10 @@ The table below lists the FSP provided API used at the application layer in this
         - Keil: Not Available
         - IAR: Not Available
     2. If an EP is modified, compiled, and downloaded, please find the block address (for the variable in RAM called _SEGGER_RTT) in the .map file generated in the build configuration folder (Debug/Release).
+
+**Note**: 
+* On RA6 devices (RA6M4/RA6M5), Ethernet may fail if TrustZone memory boundaries are not properly configured, even for flat applications. When debugging with e² studio, the required TrustZone boundaries (IDAU) for Ethernet operation are configured automatically but these settings are not applied when programming the device using a standalone method (e.g., via a HEX file). In such cases, users must configure the TrustZone memory partitions using Renesas Device Partition Manager (RDPM) or Renesas Flash Programmer.
+* For more information on configuring TrustZone on RA devices, refer to: https://www.renesas.com/en/document/apn/security-design-arm-trustzone-using-cortex-m33 
 
 ### The below images showcase the output on the Serial terminal application (Tera Term) ###
 **The EP information**
