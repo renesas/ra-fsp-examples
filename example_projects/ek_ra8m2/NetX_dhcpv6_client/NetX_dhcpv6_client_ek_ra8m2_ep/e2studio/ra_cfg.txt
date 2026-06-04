@@ -236,11 +236,11 @@ FSP Configuration
     OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS14: 
     OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS15: 
     OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS16: 
-    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: ZHUK (Zerorization HUK Register) Settings: Disabled
-    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: ZHUK (Zerorization HUK Register) Settings: Configuration setting for RTCIC0: W-HUK zeroization by RTCIC0 tamper event is disabled
-    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: ZHUK (Zerorization HUK Register) Settings: Configuration setting for RTCIC1: W-HUK zeroization by RTCIC1 tamper event is disabled
-    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: ZHUK (Zerorization HUK Register) Settings: Configuration setting for RTCIC2: W-HUK zeroization by RTCIC2 tamper event is disabled
-    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: ZHUK (Zerorization HUK Register) Settings: Configuration setting for RTCIC3: W-HUK zeroization by RTCIC3 tamper event is disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Configuration setting for RTCIC0: W-HUK zeroization by RTCIC0 tamper event is disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Configuration setting for RTCIC1: W-HUK zeroization by RTCIC1 tamper event is disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Configuration setting for RTCIC2: W-HUK zeroization by RTCIC2 tamper event is disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Configuration setting for RTCIC3: W-HUK zeroization by RTCIC3 tamper event is disabled
     
   RA8M2 Core 0 Options
   RA8M2 event data
@@ -292,7 +292,7 @@ FSP Configuration
     BCLKA Div /6
     SDCLK Enabled
     EBCLK Src: BCLK (Synchronous)
-    EBCLK Div /2
+    EBCLK Disabled
     CLKOUT Src: HOCO
     CLKOUT Div /1
     SCICLK Src: PLL2R
@@ -908,6 +908,7 @@ FSP Configuration
   User Event Links
     
   Linker Section Mappings
+    *(.bss.*_fsp_nocache): RAM Zeroed (Uncached)
     *(.bss.g_heap): RAM Uninitialized
     *(.bss.g_main_stack): RAM Uninitialized
     
@@ -2031,6 +2032,7 @@ FSP Configuration
     
   Module "Ethernet MAC (r_rmac)"
     Parameter Checking: Default (BSP)
+    Read Buffer Size Checking: Disabled
     
   Module "Switch (r_layer3_switch)"
     Parameter Checking: Default (BSP)
@@ -2415,6 +2417,7 @@ FSP Configuration
     DP83620 Target: Disabled
     ICS1894 Target: Disabled
     GPY111 Target: Disabled
+    VSC8541 Target: Disabled
     User Own Target: Disabled
     Reference Clock: Default
     
@@ -2425,6 +2428,7 @@ FSP Configuration
     DP83620 Target: Disabled
     ICS1894 Target: Disabled
     GPY111 Target: Disabled
+    VSC8541 Target: Disabled
     User Own Target: Disabled
     Reference Clock: Default
     
@@ -2517,7 +2521,7 @@ FSP Configuration
             Buffers: Padding size: Disable
             Buffers: Padding offset: 14
             Filters: Broadcast filter: 20
-            General: MAC address: 11:22:33:44:55:66
+            General: MAC address: 00:11:22:33:44:55
             Buffers: TX queue length: 4
             Buffers: RX queue length: 4
             Buffers: TX queue num: 2
@@ -2530,6 +2534,10 @@ FSP Configuration
             Buffers: Allocate RX buffer: Disable
             Buffers: Number of node num: 24
             Timestamp: TS queue length: 8
+            Forwarding: Transmission descriptor format: Transmission direct descriptor
+            Forwarding: Port based forwarding for reception: Disabled
+            Link: Link monitored ports: 
+            Link: Link Detection: Default port (same as Channel)
             
             Instance "g_layer3_switch0 Switch (r_layer3_switch)"
               Name: g_layer3_switch0
@@ -2537,8 +2545,13 @@ FSP Configuration
               Context: NULL
               Callback: NULL
               Interrupts: Interrupt priority: Priority 12
-              Ports: Port 0: Fowarding: CPU
-              Ports: Port 1: Fowarding: CPU
+              Ports: Port 0: Forwarding: CPU
+              Ports: Port 1: Forwarding: CPU
+              Ports: CPU: Forwarding: 
+              Ports: Port 0: IPV queues for preemptable frames: 
+              Ports: Port 1: IPV queues for preemptable frames: 
+              Ports: Port 0: Minimum fragment size of preemptable frames: 64 bytes
+              Ports: Port 1: Minimum fragment size of preemptable frames: 64 bytes
               Ports: Port 0: MAC address: 11:22:33:44:55:66
               Ports: Port 1: MAC address: 00:11:22:33:44:55
               Ports: Port 0: IPV queue depth: Queue 0: 64
@@ -2612,6 +2625,12 @@ FSP Configuration
                 MDC clock rate (Hz): 2500000
                 MDIO hold timing adjustment: 0
                 MDIO capture timing adjustment: 0
+                Frame preemption: Disable
+                Verify frame interval: 10
+                Interrupts: Context: NULL
+                Interrupts: Callback: NULL
+                Interrupts: ETHA0 status interrupt priority: Disabled
+                Interrupts: ETHA1 status interrupt priority: Disabled
                 
                 Instance "g_rmac_phy_lsi0 Ethernet PHY-LSI"
                   Name: g_rmac_phy_lsi0

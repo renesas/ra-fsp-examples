@@ -66,7 +66,7 @@
 		+-------+-------+-------+-------+-------+-------+-------+-------+
 		| SW4-1 | SW4-2 | SW4-3 | SW4-4 | SW4-5 | SW4-6 | SW4-7 | SW4-8 |
 		+-------+-------+-------+-------+-------+-------+-------+-------+
-		|  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  ON   |  OFF  |  OFF  |
+		|  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |
 		+-------+-------+-------+-------+-------+-------+-------+-------+
 		Connect RA board ethernet port 0 (J15) to the ethernet switch/router via a LAN cable.
 
@@ -104,7 +104,7 @@ Note:
    RTT Block address for hex file committed in repository are as follows:
    a. e2studio: 0x220011ac
    b. Keil:     0x2200841c
-   c. IAR:      0x2201b2c4
+   c. IAR:      0x2201b2d4
 
 4) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called
    _SEGGER_RTT) in .map file generated in the project folder (e2studio\Debug or e2studio\Release, keil\Listings,

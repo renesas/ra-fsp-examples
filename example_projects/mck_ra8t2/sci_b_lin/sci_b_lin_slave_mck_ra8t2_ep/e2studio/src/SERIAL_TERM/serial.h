@@ -3,7 +3,7 @@
 * Description  : Contains macros, data structures, and common functions used for serial.c.
 ***********************************************************************************************************************/
 /***********************************************************************************************************************
-* Copyright (c) 2024 - 2025 Renesas Electronics Corporation and/or its affiliates
+* Copyright (c) 2024 - 2026 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
 ***********************************************************************************************************************/
@@ -77,7 +77,7 @@
   #define SERIAL_PIN_TX_CFG                 ((uint32_t) IOPORT_CFG_PERIPHERAL_PIN | \
                                              (uint32_t) IOPORT_PERIPHERAL_UARTA5_OUT)
 
-#elif defined(BOARD_RA8P1_EK) || defined(BOARD_RA8M2_EK)
+#elif defined(BOARD_RA8P1_EK) || defined(BOARD_RA8M2_EK) || defined(BOARD_RA8D2_EK)
   #define SERIAL_CHANNEL                    (8U)
   #define SERIAL_RX_PIN                     (BSP_IO_PORT_13_PIN_03)
   #define SERIAL_TX_PIN                     (BSP_IO_PORT_13_PIN_02)
@@ -122,6 +122,24 @@
                                             (uint32_t) IOPORT_PERIPHERAL_SCI1_3_5_7_9)
   #define SERIAL_PIN_RX_CFG                 (SERIAL_PIN_CFG)
   #define SERIAL_PIN_TX_CFG                 (SERIAL_PIN_CFG)
+#elif defined(BOARD_RA4L1_EK)
+  #define SERIAL_CHANNEL                    (5U)
+  #define SERIAL_RX_PIN                     (BSP_IO_PORT_05_PIN_07)
+  #define SERIAL_TX_PIN                     (BSP_IO_PORT_05_PIN_06)
+  #define SERIAL_PIN_CFG                    ((uint32_t) IOPORT_CFG_DRIVE_HIGH | \
+                                             (uint32_t) IOPORT_CFG_PERIPHERAL_PIN | \
+                                             (uint32_t) IOPORT_PERIPHERAL_SCI1_3_5_7_9)
+  #define SERIAL_PIN_RX_CFG                  (SERIAL_PIN_CFG)
+  #define SERIAL_PIN_TX_CFG                  (SERIAL_PIN_CFG)
+#elif defined(BOARD_RA4C1_EK)
+  #define SERIAL_CHANNEL                    (4U)
+  #define SERIAL_RX_PIN                     (BSP_IO_PORT_02_PIN_06)
+  #define SERIAL_TX_PIN                     (BSP_IO_PORT_02_PIN_07)
+  #define SERIAL_PIN_CFG                    ((uint32_t) IOPORT_CFG_DRIVE_HIGH | \
+                                            (uint32_t) IOPORT_CFG_PERIPHERAL_PIN | \
+                                            (uint32_t) IOPORT_PERIPHERAL_SCI0_2_4_6_8)
+  #define SERIAL_PIN_RX_CFG                  (SERIAL_PIN_CFG)
+  #define SERIAL_PIN_TX_CFG                  (SERIAL_PIN_CFG)
 #endif
 
 /* Macros for the UART baud rate configuration */

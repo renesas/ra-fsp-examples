@@ -122,6 +122,24 @@
                                             (uint32_t) IOPORT_PERIPHERAL_SCI1_3_5_7_9)
   #define SERIAL_PIN_RX_CFG                 (SERIAL_PIN_CFG)
   #define SERIAL_PIN_TX_CFG                 (SERIAL_PIN_CFG)
+#elif defined(BOARD_RA4L1_EK)
+  #define SERIAL_CHANNEL                    (5U)
+  #define SERIAL_RX_PIN                     (BSP_IO_PORT_05_PIN_07)
+  #define SERIAL_TX_PIN                     (BSP_IO_PORT_05_PIN_06)
+  #define SERIAL_PIN_CFG                    ((uint32_t) IOPORT_CFG_DRIVE_HIGH | \
+                                             (uint32_t) IOPORT_CFG_PERIPHERAL_PIN | \
+                                             (uint32_t) IOPORT_PERIPHERAL_SCI1_3_5_7_9)
+  #define SERIAL_PIN_RX_CFG                  (SERIAL_PIN_CFG)
+  #define SERIAL_PIN_TX_CFG                  (SERIAL_PIN_CFG)
+#elif defined(BOARD_RA4C1_EK)
+  #define SERIAL_CHANNEL                    (4U)
+  #define SERIAL_RX_PIN                     (BSP_IO_PORT_02_PIN_06)
+  #define SERIAL_TX_PIN                     (BSP_IO_PORT_02_PIN_07)
+  #define SERIAL_PIN_CFG                    ((uint32_t) IOPORT_CFG_DRIVE_HIGH | \
+                                            (uint32_t) IOPORT_CFG_PERIPHERAL_PIN | \
+                                            (uint32_t) IOPORT_PERIPHERAL_SCI0_2_4_6_8)
+  #define SERIAL_PIN_RX_CFG                  (SERIAL_PIN_CFG)
+  #define SERIAL_PIN_TX_CFG                  (SERIAL_PIN_CFG)
 #endif
 
 /* Macros for the UART baud rate configuration */

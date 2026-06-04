@@ -17,9 +17,11 @@
 
 #if BSP_PERIPHERAL_SAU_PRESENT
 #define MODULE_NAME             "sau_lin Module  "
+#elif BSP_PERIPHERAL_SCI_PRESENT
+#define MODULE_NAME             "sci_lin Module  "
 #elif BSP_PERIPHERAL_SCI_B_PRESENT
 #define MODULE_NAME             "sci_b_lin Module"
-#endif /* BSP_PERIPHERAL_SAU_PRESENT || BSP_PERIPHERAL_SCI_B_PRESENT */
+#endif /* BSP_PERIPHERAL_SAU_PRESENT || BSP_PERIPHERAL_SCI_PRESENT || BSP_PERIPHERAL_SCI_B_PRESENT */
 
 #define BANNER_INFO             "\r\n******************************************************************"\
                                 "\r\n*   Renesas FSP Example Project for "MODULE_NAME"             *"\
@@ -116,7 +118,7 @@
 #define TIMER_STOP               (R_TAU_Stop)
 #define TIMER_CLOSE              (R_TAU_Close)
 
-#elif BSP_PERIPHERAL_SCI_B_PRESENT
+#elif BSP_PERIPHERAL_SCI_B_PRESENT || BSP_PERIPHERAL_SCI_PRESENT
 
 #define EP_INFO                  "\r\nThis project demonstrates the basic functionalities of Local Interconnect"\
                                  "\r\nNetwork (LIN) on Renesas RA MCUs based on the Renesas FSP. The LIN"\
@@ -137,12 +139,25 @@
                                  "\r\n\nSelect an option:"
 
 /* LIN API mapping */
+#if BSP_PERIPHERAL_SCI_PRESENT
+
+#define LIN_OPEN                 (R_SCI_LIN_Open)
+#define LIN_WRITE                (R_SCI_LIN_Write)
+#define LIN_COMMUNICATION_ABORT  (R_SCI_LIN_CommunicationAbort)
+#define LIN_BAUD_CALCULATE       (R_SCI_LIN_BaudCalculate)
+#define LIN_READ                 (R_SCI_LIN_Read)
+#define LIN_CLOSE                (R_SCI_LIN_Close)
+
+#elif BSP_PERIPHERAL_SCI_B_PRESENT
+
 #define LIN_OPEN                 (R_SCI_B_LIN_Open)
 #define LIN_WRITE                (R_SCI_B_LIN_Write)
 #define LIN_COMMUNICATION_ABORT  (R_SCI_B_LIN_CommunicationAbort)
 #define LIN_BAUD_CALCULATE       (R_SCI_B_LIN_BaudCalculate)
 #define LIN_READ                 (R_SCI_B_LIN_Read)
 #define LIN_CLOSE                (R_SCI_B_LIN_Close)
+
+#endif
 
 /* Timer API mapping */
 #define TIMER_OPEN               (R_GPT_Open)
@@ -153,7 +168,7 @@
 #define TIMER_STOP               (R_GPT_Stop)
 #define TIMER_CLOSE              (R_GPT_Close)
 
-#endif /* BSP_PERIPHERAL_SAU_PRESENT || BSP_PERIPHERAL_SCI_B_PRESENT */
+#endif /* BSP_PERIPHERAL_SAU_PRESENT || BSP_PERIPHERAL_SCI_PRESENT || BSP_PERIPHERAL_SCI_B_PRESENT */
 
 #define WRITE_MENU          "\r\n=== LIN Write Selection ==="\
                             "\r\n1. Frame ID: 0x20"\

@@ -12,9 +12,9 @@
 	captured from Tera Term (max 512 bytes) will be written to file.
 
 2. Software Requirements:
-	Renesas Flexible Software Package (FSP): Version 6.4.0
-	e2 studio: Version 2025-12
-	SEGGER J-Link RTT Viewer: Version 9.14a
+	Renesas Flexible Software Package (FSP): Version 6.5.0
+	e2 studio: Version 2026-04.2
+	SEGGER J-Link RTT Viewer: Version 9.42
 	Terminal Console Application: Tera Term or a similar application
 
 3. Hardware Requirements:

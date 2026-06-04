@@ -53,7 +53,7 @@ FSP Configuration
     OFS Registers: OFS1 (Option Function Select Register 1) Settings: Voltage Detection 0 Level: 1.90 V
     OFS Registers: OFS1 (Option Function Select Register 1) Settings: HOCO Oscillation Enable: HOCO oscillation is disabled after reset
     OFS Registers: BANKSEL (Bank Select Register) Settings: Disabled
-    OFS Registers: BANKSEL (Bank Select Register) Settings: Bank Swap Switch: Disabled
+    OFS Registers: BANKSEL (Bank Select Register) Settings: Startup Bank Switch: Disabled
     OFS Registers: BANKSEL (Bank Select Register) Settings: Block Swap Select: Disabled
     OFS Registers: BPS (Block Protect Setting Register) Settings: Disabled
     OFS Registers: BPS (Block Protect Setting Register) Settings: BPS0: 
@@ -66,7 +66,7 @@ FSP Configuration
     OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: Voltage Detection 0 Level: 1.90 V
     OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: HOCO Oscillation Enable: HOCO oscillation is disabled after reset
     OFS Registers: BANKSEL_SEC (Bank Select Register Secure) Settings: Disabled
-    OFS Registers: BANKSEL_SEC (Bank Select Register Secure) Settings: Bank Swap Switch: Disabled
+    OFS Registers: BANKSEL_SEC (Bank Select Register Secure) Settings: Startup Bank Switch: Disabled
     OFS Registers: BANKSEL_SEC (Bank Select Register Secure) Settings: Block Swap Select: Disabled
     OFS Registers: BPS_SEC (Block Protect Setting Register Secure) Settings: Disabled
     OFS Registers: BPS_SEC (Block Protect Setting Register Secure) Settings: BPS_SEC0: 
@@ -74,14 +74,14 @@ FSP Configuration
     OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: Disabled
     OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: PBPS_SEC0: 
     OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: PBPS_SEC2: 
-    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: Enabled
-    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: Voltage Detection 0 Level Security Attribution: VDSEL setting loads from OFS1_SEC
-    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: Voltage Detection 0 Circuit Start Security Attribution: LVDAS setting loads from OFS1_SEC
-    OFS Registers: BANKSEL_SEL (Banksel Register Select) Settings: Disabled
-    OFS Registers: BANKSEL_SEL (Banksel Register Select) Settings: Flash Bank Select Accessibility: Both Secure and Non-Secure State
-    OFS Registers: BPS_SEL (BPS Register Select) Settings: Disabled
-    OFS Registers: BPS_SEL (BPS Register Select) Settings: BPS_SEL0: 
-    OFS Registers: BPS_SEL (BPS Register Select) Settings: BPS_SEL2: 
+    OFS Registers: OFS1_SEL (OFS1 Security Attribution) Settings: Enabled
+    OFS Registers: OFS1_SEL (OFS1 Security Attribution) Settings: Voltage Detection 0 Level Security Attribution: VDSEL setting loads from OFS1_SEC
+    OFS Registers: OFS1_SEL (OFS1 Security Attribution) Settings: Voltage Detection 0 Circuit Start Security Attribution: LVDAS setting loads from OFS1_SEC
+    OFS Registers: BANKSEL_SEL (Banksel Security Attribution) Settings: Disabled
+    OFS Registers: BANKSEL_SEL (Banksel Security Attribution) Settings: Flash Bank Select Accessibility: Non-Secure State
+    OFS Registers: BPS_SEL (BPS Security Attribution) Settings: Disabled
+    OFS Registers: BPS_SEL (BPS Security Attribution) Settings: BPS_SEL0: 
+    OFS Registers: BPS_SEL (BPS Security Attribution) Settings: BPS_SEL2: 
     
   RA4C1 event data
   RA Common
@@ -106,11 +106,11 @@ FSP Configuration
     HOCO 48MHz
     PLL Src: HOCO
     PLL Div /6
-    PLL Mul x8.0
+    PLL Mul x10.0
     Clock Src: PLL
     CLKOUT Disabled
     CANFDCLK Src: PLL
-    UTASEL Src: Disabled
+    UTASEL Src: HOCO
     ICLK Div /1
     PCLKA Div /1
     PCLKB Div /2
@@ -327,13 +327,21 @@ FSP Configuration
       VSS 83 SYSTEM_VSS - - - - - - - - IO "Read only" - 
     
   User Events
+    SCI4 RXI (Receive data full): sci_uart_rxi_isr
+    SCI4 ERI (Receive error): sci_uart_eri_isr
+    SCI4 TEI (Transmit end): sci_uart_tei_isr
+    SCI4 TXI (Transmit data empty): sci_uart_txi_isr
     
   User Event Links
     
   Linker Section Mappings
+    *(.bss.*_fsp_nocache): RAM Zeroed (Uncached)
+    *(.bss.g_heap): RAM Uninitialized
+    *(.bss.g_main_stack): RAM Uninitialized
     
   Module "I/O Port (r_ioport)"
     Parameter Checking: Default (BSP)
+    CCD Support: Not Supported
     
   Module "CAN FD Lite (r_canfdlite)"
     Parameter Checking: Default (BSP)
@@ -343,6 +351,11 @@ FSP Configuration
     Flexible Data (FD): Protocol Exceptions: Enabled (ISO 11898-1)
     Reception: Acceptance Filtering: Channel 0 Rule Count: 16
     Reception: Acceptance Filtering: Channel 1 Rule Count: 0
+    
+  Module "Timer, General PWM (r_gpt)"
+    Parameter Checking: Default (BSP)
+    Pin Output Support: Disabled
+    Write Protect Enable: Disabled
     
   HAL
     Instance "g_ioport I/O Port (r_ioport)"
@@ -368,13 +381,13 @@ FSP Configuration
       Bitrate: Manual: Data: Time Segment 1 (Tq): 5
       Bitrate: Manual: Data: Time Segment 2 (Tq): 2
       Bitrate: Manual: Data: Sync Jump Width (Tq): 1
-      Bitrate: Manual: Use manual settings: No
+      Bitrate: Manual: Use manual settings: Yes
       Interrupts: Callback: canfd0_callback
       Transmit Interrupts: TXMB 0
       Channel Error Interrupts: Error Warning, Error Passive, Bus-Off Entry, Bus-Off Recovery, Overload
       Interrupts: Channel Interrupt Priority Level: Priority 12
       Filter List Array: p_canfd0_afl
-      Global Error Interrupt: Sources: 
+      Global Error Interrupt: Sources: DLC Check, Message Lost, FD Payload Overflow
       Transmission Priority: Buffer Number
       DLC Check: Disabled
       Flexible Data (FD): Payload Overflow: Reject
@@ -384,13 +397,13 @@ FSP Configuration
       Reception: FIFOs: FIFO 0: Enable: Enabled
       Reception: FIFOs: FIFO 0: Interrupt Mode: Every Frame
       Reception: FIFOs: FIFO 0: Interrupt Threshold: 1/2 full
-      Reception: FIFOs: FIFO 0: Payload Size: 32 bytes
-      Reception: FIFOs: FIFO 0: Depth: 16 stages
+      Reception: FIFOs: FIFO 0: Payload Size: 64 bytes
+      Reception: FIFOs: FIFO 0: Depth: 8 stages
       Reception: FIFOs: FIFO 1: Enable: Disabled
       Reception: FIFOs: FIFO 1: Interrupt Mode: Every Frame
       Reception: FIFOs: FIFO 1: Interrupt Threshold: 1/2 full
-      Reception: FIFOs: FIFO 1: Payload Size: 8 bytes
-      Reception: FIFOs: FIFO 1: Depth: 16 stages
+      Reception: FIFOs: FIFO 1: Payload Size: 64 bytes
+      Reception: FIFOs: FIFO 1: Depth: 8 stages
       Common FIFOs: FIFO 0: Enable: Disabled
       Common FIFOs: FIFO 0: Mode: Receive
       Common FIFOs: FIFO 0: RX Interrupt Enable: Disabled
@@ -403,4 +416,70 @@ FSP Configuration
       Common FIFOs: FIFO 0: Interval TX Delay: 0
       Common FIFOs: FIFO 0: Interval Timer: Reference clock
       Common FIFOs: FIFO 0: Interval Timer Reference Clock Resolution: x1
+      
+    Instance "g_timer Timer, General PWM (r_gpt)"
+      General: Name: g_timer
+      General: Channel: 0
+      General: Mode: Periodic
+      General: Period: 0x100000000
+      General: Compare Match: Compare Match A: Status: Disabled
+      General: Compare Match: Compare Match A: Compare match value: 0x10000
+      General: Compare Match: Compare Match B: Status: Disabled
+      General: Compare Match: Compare Match B: Compare match value: 0x10000
+      General: Compare Match: Compare Match C: Status: Disabled
+      General: Compare Match: Compare Match C: Compare match value: 0x10000
+      General: Compare Match: Compare Match D: Status: Disabled
+      General: Compare Match: Compare Match D: Compare match value: 0x10000
+      General: Compare Match: Compare Match E: Status: Disabled
+      General: Compare Match: Compare Match E: Compare match value: 0x10000
+      General: Compare Match: Compare Match F: Status: Disabled
+      General: Compare Match: Compare Match F: Compare match value: 0x10000
+      General: Period Unit: Raw Counts
+      Output: Custom Waveform: GTIOA: Initial Output Level: Pin Level Low
+      Output: Custom Waveform: GTIOA: Cycle End Output Level: Pin Level Retain
+      Output: Custom Waveform: GTIOA: Compare Match Output Level: Pin Level Retain
+      Output: Custom Waveform: GTIOA: Retain Output Level at Count Stop: Disabled
+      Output: Custom Waveform: GTIOB: Initial Output Level: Pin Level Low
+      Output: Custom Waveform: GTIOB: Cycle End Output Level: Pin Level Retain
+      Output: Custom Waveform: GTIOB: Compare Match Output Level: Pin Level Retain
+      Output: Custom Waveform: GTIOB: Retain Output Level at Count Stop: Disabled
+      Output: Custom Waveform: Custom Waveform Enable: Disabled
+      Output: Duty Cycle Percent (only applicable in PWM mode): 50
+      Output: GTIOCA Output Enabled: False
+      Output: GTIOCA Stop Level: Pin Level Low
+      Output: GTIOCB Output Enabled: False
+      Output: GTIOCB Stop Level: Pin Level Low
+      Input: Count Up Source: 
+      Input: Count Down Source: 
+      Input: Start Source: 
+      Input: Stop Source: 
+      Input: Clear Source: 
+      Input: Capture A Source: 
+      Input: Capture B Source: 
+      Input: Noise Filter A Sampling Clock Select: No Filter
+      Input: Noise Filter B Sampling Clock Select: No Filter
+      Pin Polarity: GTIOCnA Polarity: Normal
+      Pin Polarity: GTIOCnB Polarity: Normal
+      Interrupts: Callback: NULL
+      Interrupts: Overflow/Crest Interrupt Priority: Disabled
+      Interrupts: Capture/Compare match A Interrupt Priority: Disabled
+      Interrupts: Capture/Compare match B Interrupt Priority: Disabled
+      Interrupts: Compare Match C Interrupt Priority: Disabled
+      Interrupts: Compare Match D Interrupt Priority: Disabled
+      Interrupts: Compare Match E Interrupt Priority: Disabled
+      Interrupts: Compare Match F Interrupt Priority: Disabled
+      Interrupts: Underflow/Trough Interrupt Priority: Disabled
+      Extra Features: Extra Features: Disabled
+      Extra Features: Output Disable: POEG Link: POEG Channel 0
+      Extra Features: Output Disable: Output Disable POEG Trigger: 
+      Extra Features: ADC Trigger: Start Event Trigger (Channels with GTINTAD only): 
+      Extra Features: ADC Trigger: ADC A Compare Match (Raw Counts): 0
+      Extra Features: ADC Trigger: ADC B Compare Match (Raw Counts): 0
+      Extra Features: Dead Time (Value range varies with Channel): Dead Time Count Up (Raw Counts): 0
+      Extra Features: Dead Time (Value range varies with Channel): Dead Time Count Down (Raw Counts) (Channels with GTDVD only): 0
+      Extra Features: Interrupt Skipping (Channels with GTITC only): Interrupt to Count: None
+      Extra Features: Interrupt Skipping (Channels with GTITC only): Interrupt Skip Count: 0
+      Extra Features: Interrupt Skipping (Channels with GTITC only): Skip ADC Events: None
+      Extra Features: Output Disable: GTIOCA Disable Setting: Disable Prohibited
+      Extra Features: Output Disable: GTIOCB Disable Setting: Disable Prohibited
       

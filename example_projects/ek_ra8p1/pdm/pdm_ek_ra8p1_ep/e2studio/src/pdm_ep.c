@@ -17,18 +17,18 @@ static pdm_buf_size_t pdm_calc_buffer_from_seconds(uint8_t seconds);
 static fsp_err_t pdm_error_check(void);
 
 /* Public global variables */
-int32_t g_pdm0_buffer[PDM_BUFFER_NUM_SAMPLES] BSP_PLACE_IN_SECTION (BSP_UNINIT_SECTION_PREFIX ".sdram") = {0};
+int32_t g_pcm32_buffer [ONE_SEC_FRAME_SAMPLE * 2] = {0};
+int32_t g_record_buffer[RECORD_BUFFER_SAMPLE] BSP_PLACE_IN_SECTION (BSP_UNINIT_SECTION_PREFIX ".sdram") = {0};
 pdm_buf_size_t g_buf_size = {RESET_VALUE, RESET_VALUE};
 uint8_t g_pcm_bits = RESET_VALUE;
-
-#if (ENABLE_PLAYBACK == 1U)
-uint16_t g_dac_buf[PDM_BUFFER_NUM_SAMPLES] BSP_PLACE_IN_SECTION (BSP_UNINIT_SECTION_PREFIX ".sdram")= {0};
-#endif /* ENABLE_PLAYBACK */
+uint8_t recorded_seconds = RESET_VALUE;
 
 /* Private global variables */
 static volatile bool g_stop_receive_data = false;
 static volatile bool g_sound_detect = false;
 static volatile pdm_error_t g_pdm_error = PDM_ERROR_NONE;
+static uint8_t total_record_seconds = RESET_VALUE;
+static uint8_t g_pcm32_frame_idx = RESET_VALUE;
 
 /***********************************************************************************************************************
  *  Function Name: pdm_ep_entry
@@ -40,7 +40,6 @@ void pdm_ep_entry(void)
 {
     fsp_pack_version_t  version = {RESET_VALUE};
     fsp_err_t err = FSP_SUCCESS;
-    uint8_t record_time = RESET_VALUE;
 
     /* Initialize the terminal */
     err = TERM_INIT();
@@ -87,9 +86,9 @@ void pdm_ep_entry(void)
         while (!APP_CHECK_DATA) {;}
 
         /* Get recorded time from user input */
-        record_time = user_input_get();
+        total_record_seconds = user_input_get();
 
-        if (PDM_DURATION_MAX_IN_SEC < record_time || RESET_VALUE >= record_time)
+        if (PDM_DURATION_MAX_IN_SEC < total_record_seconds || RESET_VALUE >= total_record_seconds)
         {
             APP_PRINT("\r\nInvalid input \r\n");
             continue;
@@ -123,12 +122,12 @@ void pdm_ep_entry(void)
         handle_error(err, "**R_PDM_SoundDetectionDisable API failed**\r\n");
 
         /* Calculate size of record audio */
-        g_buf_size = pdm_calc_buffer_from_seconds(record_time);
+        g_buf_size = pdm_calc_buffer_from_seconds(total_record_seconds);
 
-        APP_PRINT("\r\nStart recording in %d seconds ...\r\n", record_time);
+        APP_PRINT("\r\nStart recording in %d seconds ...\r\n", total_record_seconds);
 
         /* Start recording data */
-        err = R_PDM_Start(&g_pdm0_ctrl, g_pdm0_buffer, g_buf_size.bytes, (g_buf_size.samples)/2);
+        err = R_PDM_Start(&g_pdm0_ctrl, g_pcm32_buffer, sizeof(g_pcm32_buffer), ONE_SEC_FRAME_SAMPLE);
         handle_error(err, "**R_PDM_Start API failed**\r\n");
 
         /* Wait until the desired data is fully recorded */
@@ -219,12 +218,34 @@ static pdm_buf_size_t pdm_calc_buffer_from_seconds(uint8_t seconds)
  **********************************************************************************************************************/
 void pdm_callback(pdm_callback_args_t *p_args)
 {
+    uint32_t dst_offset = ONE_SEC_FRAME_SAMPLE * recorded_seconds;        /* Record buffer offset */
+    uint32_t src_offset = g_pcm32_frame_idx * ONE_SEC_FRAME_SAMPLE;       /* Ping-pong buffer offset */
+
+    int32_t *p_write = &g_record_buffer[dst_offset];
+    int32_t *p_read = &g_pcm32_buffer[src_offset];
+
     switch (p_args->event)
     {
-
         case PDM_EVENT_DATA:
         {
-            g_stop_receive_data = true;
+            /* Check recording completion */
+            if (recorded_seconds >= total_record_seconds)
+            {
+                recorded_seconds = RESET_VALUE;
+                g_stop_receive_data = true;
+                break;
+            }
+
+            /*  Left-align data to MSB */
+            for (uint32_t i = 0; i < ONE_SEC_FRAME_SAMPLE; i++)
+            {
+                *p_write++ = (*p_read++) << (32 - g_pcm_bits);
+            }
+
+            /* Update state */
+            recorded_seconds++;
+            g_pcm32_frame_idx ^= 1U;
+
             break;
         }
 

@@ -509,7 +509,35 @@ static fsp_err_t lin_master_baudset(uint32_t baud_rate)
     err = LIN_OPEN(&g_master_ctrl, &lin_master_cfg);
     APP_ERR_RET(FSP_SUCCESS != err, err, "Error: LIN initialization failed.\r\n");
 
-#endif /* BSP_PERIPHERAL_SAU_PRESENT || BSP_PERIPHERAL_SCI_B_PRESENT */
+#elif BSP_PERIPHERAL_SCI_PRESENT
+
+    lin_cfg_t lin_master_cfg;
+    sci_lin_extended_cfg_t lin_master_cfg_extend;
+
+    /* Copy LIN configuration */
+    memcpy(&lin_master_cfg, &g_master_cfg, sizeof(lin_cfg_t));
+    memcpy(&lin_master_cfg_extend, &g_master_cfg_extend, sizeof(lin_master_cfg_extend));
+    lin_master_cfg.p_extend = &lin_master_cfg_extend;
+
+    err = LIN_CLOSE(&g_master_ctrl);
+    APP_ERR_RET(FSP_SUCCESS != err, err, "Error: LIN de-initialization failed.\r\n");
+
+    /* Set baud parameters */
+    sci_lin_baud_params_t user_baud_params = {
+        .baudrate = baud_rate,
+        .break_bits = g_master_cfg_extend.break_bits,
+        .delimiter_bits = g_master_cfg_extend.delimiter_bits,
+    };
+
+    /* Calculate the baud rate */
+    err = LIN_BAUD_CALCULATE(&user_baud_params, lin_master_cfg_extend.p_baud_setting);
+    APP_ERR_RET(FSP_SUCCESS != err, err, "Failed to calculate LIN baud rate\r\n");
+
+    /* Reinitialize LIN */
+    err = LIN_OPEN(&g_master_ctrl, &lin_master_cfg);
+    APP_ERR_RET(FSP_SUCCESS != err, err, "Error: LIN initialization failed.\r\n");
+
+#endif /* BSP_PERIPHERAL_SAU_PRESENT || BSP_PERIPHERAL_SCI_PRESENT || BSP_PERIPHERAL_SCI_B_PRESENT */
 
     return err;
 }

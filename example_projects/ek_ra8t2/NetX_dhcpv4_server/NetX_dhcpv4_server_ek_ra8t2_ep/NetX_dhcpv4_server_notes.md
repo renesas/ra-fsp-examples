@@ -89,7 +89,7 @@ Refer to software requirements mentioned in [Example Project Usage Guide](https:
 
 		| SW4-1 | SW4-2 | SW4-3 | SW4-4 | SW4-5 | SW4-6 | SW4-7 | SW4-8 |
 		|-------|-------|-------|-------|-------|-------|-------|-------|
-		|  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  ON   |  OFF  |  OFF  |
+		|  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |
     * Connect the RA board USB debug port (J10) to the host machine via a Type-C USB cable.
 	* Without ethernet switch:
         * Connect the ethernet port 0 (J15) of the RA board to the ethernet port of the PC/another RA board running DHCPv4 Client using a LAN cable.

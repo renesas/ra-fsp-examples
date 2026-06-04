@@ -3,7 +3,7 @@
 * Description  : Contains macros, data structures, and common functions used for the UART configuration.
 ***********************************************************************************************************************/
 /***********************************************************************************************************************
-* Copyright (c) 2025 Renesas Electronics Corporation and/or its affiliates
+* Copyright (c) 2026 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
 ***********************************************************************************************************************/
@@ -17,6 +17,8 @@
 #if BSP_PERIPHERAL_UARTA_PRESENT
 #include "r_uarta_instance_cfg.h"
 #include "../serial.h"
+
+#if !defined(BOARD_RA4C1_EK) && !defined(BOARD_RA4L1_EK)
 /***********************************************************************************************************************
  * Exported global variables
  **********************************************************************************************************************/
@@ -128,5 +130,6 @@ const uart_cfg_t g_serial_cfg =
 const uart_instance_t g_serial =
 { .p_ctrl = &g_serial_ctrl, .p_cfg = &g_serial_cfg, .p_api = &g_uart_on_uarta };
 
+#endif /* BOARD_RA4C1_EK & BOARD_RA4L1_EK */
 #endif /* BSP_PERIPHERAL_UARTA_PRESENT */
 #endif /* USE_VIRTUAL_COM */

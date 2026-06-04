@@ -17,11 +17,10 @@ static volatile bool g_playback_started = false;
 static volatile bool g_audio_stop = false;
 static volatile bool g_exit_flag = false;
 static uint32_t g_sample_offset = RESET_VALUE;
+static uint16_t g_playback_buffer[RECORD_BUFFER_SAMPLE] BSP_PLACE_IN_SECTION (BSP_UNINIT_SECTION_PREFIX ".sdram") = {0};
 
 /* External variables */
-extern uint16_t g_dac_buf[PDM_BUFFER_NUM_SAMPLES];
-extern int16_t g_pdm0_buffer[PDM_BUFFER_NUM_SAMPLES];
-extern uint8_t g_pcm_bits;
+extern int32_t g_record_buffer[RECORD_BUFFER_SAMPLE];
 extern pdm_buf_size_t g_buf_size;
 
 /* Private functions declarations */
@@ -71,11 +70,11 @@ fsp_err_t playback_operation (void)
             g_playback_started = false;
 
             /* Transfer DAC data from SDRAM to DAC register */
-            err = R_DMAC_Reset(&g_transfer0_ctrl, &g_dac_buf[g_sample_offset], (void *) DAC12_DATA_REG, 1);
+            err = R_DMAC_Reset(&g_transfer0_ctrl, &g_playback_buffer[g_sample_offset], (void *) DAC12_DATA_REG, ONE_SEC_FRAME_SAMPLE);
             APP_ERR_RET(FSP_SUCCESS != err, err, "** R_DMAC_Reset API failed **\r\n");
 
             /* Replay the audio */
-            if (g_sample_offset >= g_buf_size.samples)
+            if (g_sample_offset >= (g_buf_size.samples - ONE_SEC_FRAME_SAMPLE))
             {
                 APP_PRINT("\r\nAudio replaying...\r\n");
                 g_sample_offset = RESET_VALUE;
@@ -214,6 +213,7 @@ static fsp_err_t process_audio_control(uint8_t user_input)
 
             /* Break the playback operation loop */
             g_exit_flag = true;
+
         }
         break;
         default:
@@ -237,23 +237,20 @@ static fsp_err_t process_audio_control(uint8_t user_input)
  **********************************************************************************************************************/
 static uint16_t pcm_to_dac12_with_gain(int32_t pcm_data, uint32_t gain_q15)
 {
+    /* Apply gain (Q15 format) */
     int64_t pcm_with_gain = ((int64_t)pcm_data * (int64_t)gain_q15) >> 15;
 
-    /* Signed PCM range */
-    int32_t min_val = -(1 << (g_pcm_bits - 1));         /* -2^(N-1) */
-    int32_t max_val =  (1 << (g_pcm_bits - 1)) - 1;     /* 2^(N-1)-1 */
+    /* Clamp to 32-bit signed range */
+    if (pcm_with_gain < INT32_MIN) pcm_with_gain = INT32_MIN;
+    if (pcm_with_gain > INT32_MAX) pcm_with_gain = INT32_MAX;
 
-    /* Clamp pcm_with_gain within signed PCM range */
-    if (pcm_with_gain < min_val) pcm_with_gain = min_val;
-    if (pcm_with_gain > max_val) pcm_with_gain = max_val;
+    int32_t dac_value = ((int32_t)pcm_with_gain >> 20) + 2048;
 
-    uint32_t pcm_unsigned = (uint32_t)(pcm_with_gain + (1 << (g_pcm_bits - 1)));
+    /* Clamp to 12-bit DAC range */
+    if (dac_value < 0) return 0;
+    if (dac_value > DAC12_MAX) return DAC12_MAX;
 
-    /* Scale to 12-bit DAC range with rounding */
-    uint32_t max_unsigned = (1 << g_pcm_bits) - 1;
-    uint32_t dac_val = (uint32_t)(pcm_unsigned * DAC12_MAX + (max_unsigned >> 1)) / max_unsigned;
-
-    return (uint16_t) dac_val;
+    return (uint16_t)dac_value;
 }
 /***********************************************************************************************************************
 * End of function pcm_to_dac12_with_gain.
@@ -274,7 +271,7 @@ static void convert_block_pcm_to_dac12(size_t samples, uint16_t volume_percent)
     for (size_t i = 0; i < samples; ++i)
     {
         /* Convert PCM data to DAC 12-bit data */
-        g_dac_buf[i] = pcm_to_dac12_with_gain(g_pdm0_buffer[i], gain_q15);
+        g_playback_buffer[i] = pcm_to_dac12_with_gain(g_record_buffer[i], gain_q15);
     }
 }
 /***********************************************************************************************************************
@@ -294,8 +291,8 @@ void transfer_callback(transfer_callback_args_t *p_args)
         /* Continue playback operation */
         g_playback_started = true;
 
-        /* Transfer next sample */
-        g_sample_offset++;
+        /* Transfer next frame */
+        g_sample_offset += ONE_SEC_FRAME_SAMPLE;
     }
 }
 /***********************************************************************************************************************

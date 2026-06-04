@@ -13,7 +13,7 @@ To build and run the SCI_SMCI example project, the following resources are neede
 
 ### Software ###
 * Renesas Flexible Software Package (FSP): Version 6.3.0
-* e2 studio: Version 2025-12
+* e2 studio: Version 2026-04.2
 * SEGGER J-Link RTT Viewer: Version 8.92
 * GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 

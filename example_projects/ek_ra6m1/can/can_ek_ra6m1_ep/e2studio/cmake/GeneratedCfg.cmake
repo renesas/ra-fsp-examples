@@ -13,7 +13,23 @@ SET(RASC_CMAKE_EXE_LINKER_FLAGS "-mfloat-abi=hard;-mcpu=cortex-m4;-mfpu=fpv4-sp-
 SET(RASC_CMAKE_DEFINITIONS "_RENESAS_RA_;_RA_CORE=CM4;_RA_ORDINAL=1")
 SET(RASC_ASM_FILES "${CMAKE_CURRENT_SOURCE_DIR}/ra_gen/*.asm")
 
+SET(EXCLUDED_SOURCE_FILES )
 
+cmake_path(GET CMAKE_CURRENT_SOURCE_DIR PARENT_PATH PROJECT_PARENT_DIR)
+
+file(RELATIVE_PATH  VAR_CMAKE_BUILD_CONFIG_OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_CURRENT_BINARY_DIR}")
+
+
+
+
+if(DEVICE AND (NOT "${RASC_TARGET_DEVICE}" STREQUAL "${DEVICE}"))
+	message(FATAL_ERROR "Incorrect device specified ${DEVICE} but project is built for ${RASC_TARGET_DEVICE}")
+endif()
+
+if(RENESAS_IDE AND RENESAS_IDE STREQUAL "e2studio" AND EXISTS "${CMAKE_CURRENT_BINARY_DIR}/.fsp_content_generation_error.txt" )
+  file(READ "${CMAKE_CURRENT_BINARY_DIR}/.fsp_content_generation_error.txt" contentGenerationError 1000)
+  message(FATAL_ERROR "DDSC Content generation failed: ${contentGenerationError}")
+endif()
 
 # ADD COMPILE FLAGS FOR GCC version >= 12.2
 if (CMAKE_C_COMPILER_ID STREQUAL "GNU" AND CMAKE_C_COMPILER_VERSION VERSION_GREATER_EQUAL 12.2)

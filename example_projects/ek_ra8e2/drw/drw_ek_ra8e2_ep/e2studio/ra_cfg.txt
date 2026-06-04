@@ -132,7 +132,7 @@ FSP Configuration
   RA8E2 event data
   RA Common
     Main stack size (bytes): 0x1000
-    Heap size (bytes): 0x1500
+    Heap size (bytes): 0x2000
     Bootloader Secondary XIP: Disabled
     MCU Vcc (mV): 3300
     Parameter checking: Enabled
@@ -646,6 +646,7 @@ FSP Configuration
   User Event Links
     
   Linker Section Mappings
+    *(.bss.*_fsp_nocache): RAM Zeroed (Uncached)
     *(.bss.g_heap): RAM Uninitialized
     *(.bss.g_main_stack): RAM Uninitialized
     

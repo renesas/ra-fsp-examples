@@ -3,7 +3,7 @@
  * Description  : Contains macros, data structures, and functions commonly used in the EP.
  **********************************************************************************************************************/
 /***********************************************************************************************************************
-* Copyright (c) 2020 - 2025 Renesas Electronics Corporation and/or its affiliates
+* Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
 ***********************************************************************************************************************/
@@ -56,7 +56,7 @@
 #endif /* BSP_CFG_RTOS != 0U */
 
 /* Macros commonly used */
-#define LVL_ERR                         (1U)       /* Error conditions */
+#define LVL_ERR                         (1U)    /* Error condition */
 #define RESET_VALUE                     (0x00)
 #define NULL_CHAR                       ('\0')
 #define MODULE_CLOSE                    (0U)
@@ -73,13 +73,13 @@
 #define APP_ERR_RET(con, err, fn_, ...) ({\
                                         if (con)\
                                         {\
-                                        APP_ERR_PRINT((fn_), ##__VA_ARGS__); \
-                                        return (err); \
+                                        APP_ERR_PRINT((fn_), ##__VA_ARGS__);\
+                                        return (err);\
                                         }\
                                         })
 
-#define ERROR_TRAP                      ({ \
-                                        __asm("BKPT #0\n"); \
+#define ERROR_TRAP                      ({\
+                                        __asm("BKPT #0\n");\
                                         })
 
 /* Trap upon the error */
@@ -87,8 +87,8 @@
                                         if(err)\
                                         {\
                                         APP_PRINT("\r\nReturned Error Code: 0x%x  \r\n", (err));\
-                                        TERM_DEINIT(); \
-                                        ERROR_TRAP; \
+                                        TERM_DEINIT();\
+                                        ERROR_TRAP;\
                                         }\
                                         })
 

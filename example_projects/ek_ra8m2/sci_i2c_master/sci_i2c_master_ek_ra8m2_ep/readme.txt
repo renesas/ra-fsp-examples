@@ -130,7 +130,7 @@
 		GND pin    (CN1:25) ----> GND  (on Pmod ACL J2 - Pin 3/7)
 		VCC pin    (CN1:23) ----> VCC  (on Pmod ACL J2 - Pin 4/8)
 
-	For MCK-RA8M2:
+	For EK-RA8M2:
 	--------
 		The user must place jumper J6 on pins 2-3, J8 on pins 1-2, J9 on pins 2-3, and J29 on pins 1-2,
 		3-4, 5-6, 7-8 to use the on-board debug functionality.

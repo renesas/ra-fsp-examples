@@ -34,7 +34,7 @@
 						"\r\n*   Flex Software Pack Version  %d.%d.%d                                          *"\
 						"\r\n********************************************************************************"
 
-#define BANNER_INFO		"\r\nRefer to readme.txt file for more details on Example Project and"\
+#define BANNER_INFO		"\r\nRefer to the README.md for the Example Project documentation and"\
 						"\r\nFSP User's Manual for more information about "MODULE_NAME" driver.\r\n"\
                         "\r\nThe Example Project demonstrates the basic functionality of LPM driver on Renesas \r\n"\
                         "RA MCUs based on FSP. On successful initialization of necessary hardware modules,\r\n"\

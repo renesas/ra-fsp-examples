@@ -14,9 +14,9 @@
 	messages from the UDP server. The incoming messages are displayed on the J-Link RTT Viewer.
 
 2. Software Requirements: 
-	Renesas Flexible Software Package (FSP): Version 6.4.0
-	e2 studio: Version 2025-12
-	SEGGER J-Link RTT Viewer: Version 9.14a
+	Renesas Flexible Software Package (FSP): Version 6.5.0
+	e2 studio: Version 2026-04.2
+	SEGGER J-Link RTT Viewer: Version 9.42
 	LLVM Embedded Toolchain for ARM: Version 21.1.1
 	PacketSender (https://packetsender.com/download#show)
 	

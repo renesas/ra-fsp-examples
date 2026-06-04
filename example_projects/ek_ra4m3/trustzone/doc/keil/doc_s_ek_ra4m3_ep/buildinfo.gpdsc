@@ -9,7 +9,12 @@
   </releases>
   <generators>
     <generator id="Renesas RA Smart Configurator">
-      <project_files/>
+      <project_files>
+        <file category="include" name="src/"/>
+        <file category="header" name="src/custom_guard.h" path=""/>
+        <file category="source" name="src/g_doc_guard.c"/>
+        <file category="source" name="src/hal_entry.c"/>
+      </project_files>
     </generator>
   </generators>
   <components generator="Renesas RA Smart Configurator">
@@ -125,6 +130,8 @@
     </component>
     <component Cclass="Flex Software" Cgroup="Build Configuration">
       <files>
+        <file category="include" name="ra_cfg/fsp_cfg/"/>
+        <file category="include" name="ra_cfg/fsp_cfg/bsp/"/>
         <file category="header" name="ra_cfg/fsp_cfg/bsp/board_cfg.h" path=""/>
         <file category="header" name="ra_cfg/fsp_cfg/bsp/bsp_cfg.h" path=""/>
         <file category="header" name="ra_cfg/fsp_cfg/bsp/bsp_mcu_device_cfg.h" path=""/>
@@ -136,10 +143,19 @@
         <file category="header" name="ra_cfg/fsp_cfg/r_ioport_cfg.h" path=""/>
       </files>
     </component>
-    <component Cclass="Flex Software" Cgroup="Include Paths">
+    <component Cclass="Flex Software" Cgroup="Generated Data">
       <files>
         <file category="include" name="ra_gen/"/>
-        <file category="include" name="src/"/>
+        <file category="header" name="ra_gen/bsp_clock_cfg.h" path=""/>
+        <file category="source" name="ra_gen/common_data.c"/>
+        <file category="header" name="ra_gen/common_data.h" path=""/>
+        <file category="header" name="ra_gen/guard.h" path=""/>
+        <file category="source" name="ra_gen/hal_data.c"/>
+        <file category="header" name="ra_gen/hal_data.h" path=""/>
+        <file category="source" name="ra_gen/main.c"/>
+        <file category="source" name="ra_gen/pin_data.c"/>
+        <file category="source" name="ra_gen/vector_data.c"/>
+        <file category="header" name="ra_gen/vector_data.h" path=""/>
       </files>
     </component>
     <component Cclass="Flex Software" Cgroup="Linker Script">

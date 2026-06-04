@@ -9,9 +9,9 @@ Please refer to the [Example Project Usage Guide](https://github.com/renesas/ra-
 To build and run the NetX Wifi example project, the following resources are needed.
 
 ### Software ###
-* Renesas Flexible Software Package (FSP): Version 6.4.0
-* e2 studio: Version 2025-12
-* SEGGER J-Link RTT Viewer: Version 9.14a
+* Renesas Flexible Software Package (FSP): Version 6.5.0
+* e2 studio: Version 2026-04.2
+* SEGGER J-Link RTT Viewer: Version 9.42
 * GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 * Sokit software is required for creation of TCP server over specified IP and port (detailed steps mentioned below). Download Link : https://softfamous.com/sokit/
 * Refer to software requirements mentioned in [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf)

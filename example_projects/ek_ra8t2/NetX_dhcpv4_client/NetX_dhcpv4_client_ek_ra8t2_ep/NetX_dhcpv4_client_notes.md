@@ -61,7 +61,7 @@ Refer to software requirements mentioned in [Example Project Usage Guide](https:
 
 		| SW4-1 | SW4-2 | SW4-3 | SW4-4 | SW4-5 | SW4-6 | SW4-7 | SW4-8 |
 		|-------|-------|-------|-------|-------|-------|-------|-------|
-		|  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  ON   |  OFF  |  OFF  |
+		|  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |
 
     * Connect the RA board USB debug port (J10) to the host machine via a Type-C USB cable.
     * Connect LAN cable on RA board at ethernet port 0 (J15) and other end connect to Ethernet switch/router.

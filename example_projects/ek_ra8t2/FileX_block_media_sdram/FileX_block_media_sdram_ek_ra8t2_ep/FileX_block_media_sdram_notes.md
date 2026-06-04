@@ -23,9 +23,9 @@ Please refer to the [Example Project Usage Guide](https://github.com/renesas/ra-
 The following resources are needed to build and run the FileX_block_media_sdram example project.
 
 ### Software ###
-* Renesas Flexible Software Package (FSP): Version 6.4.0
-* e2 studio: Version 2025-12
-* SEGGER J-Link RTT Viewer: Version 9.14a
+* Renesas Flexible Software Package (FSP): Version 6.5.0
+* e2 studio: Version 2026-04.2
+* SEGGER J-Link RTT Viewer: Version 9.42
 * LLVM Embedded Toolchain for ARM: Version 21.1.1
 * Terminal Console Application: Tera Term or a similar application
 

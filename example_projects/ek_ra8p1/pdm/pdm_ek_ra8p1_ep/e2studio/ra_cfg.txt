@@ -238,11 +238,11 @@ FSP Configuration
     OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS14: 
     OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS15: 
     OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS16: 
-    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: ZHUK (Zerorization HUK Register) Settings: Disabled
-    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: ZHUK (Zerorization HUK Register) Settings: Configuration setting for RTCIC0: W-HUK zeroization by RTCIC0 tamper event is disabled
-    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: ZHUK (Zerorization HUK Register) Settings: Configuration setting for RTCIC1: W-HUK zeroization by RTCIC1 tamper event is disabled
-    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: ZHUK (Zerorization HUK Register) Settings: Configuration setting for RTCIC2: W-HUK zeroization by RTCIC2 tamper event is disabled
-    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: ZHUK (Zerorization HUK Register) Settings: Configuration setting for RTCIC3: W-HUK zeroization by RTCIC3 tamper event is disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Configuration setting for RTCIC0: W-HUK zeroization by RTCIC0 tamper event is disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Configuration setting for RTCIC1: W-HUK zeroization by RTCIC1 tamper event is disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Configuration setting for RTCIC2: W-HUK zeroization by RTCIC2 tamper event is disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Configuration setting for RTCIC3: W-HUK zeroization by RTCIC3 tamper event is disabled
     
   RA8P1 Core 0 Options
   RA8P1 event data
@@ -292,10 +292,10 @@ FSP Configuration
     PCLKE Div /4
     BCLK Div /8
     BCLKA Src: PLL2Q
-    BCLKA Div /8
+    BCLKA Div /6
     SDCLK Enabled
-    EBCLK Src: BCLKA (Asynchronous)
-    EBCLK Div /2
+    EBCLK Src: BCLK (Synchronous)
+    EBCLK Disabled
     CLKOUT Src: HOCO
     CLKOUT Div /1
     SCICLK Src: PLL2R
@@ -917,6 +917,7 @@ FSP Configuration
   User Event Links
     
   Linker Section Mappings
+    *(.bss.*_fsp_nocache): RAM Zeroed (Uncached)
     *(.bss.g_heap): RAM Uninitialized
     *(.bss.g_main_stack): RAM Uninitialized
     
@@ -941,7 +942,7 @@ FSP Configuration
     
   Module "PDM (r_pdm)"
     Parameter Checking: Default (BSP)
-    DMAC Support: Disabled
+    DMAC Support: Enabled
     
   HAL
     Instance "g_ioport I/O Port (r_ioport)"
@@ -968,13 +969,13 @@ FSP Configuration
       Destination Address Mode: Fixed
       Source Address Mode: Incremented
       Repeat Area (Unused in Normal Mode): Source
-      Number of Transfers: 1
+      Number of Transfers: 32000
       Number of Blocks (Valid only in Repeat,Block or Repeat-Block Mode): 0
       Activation Source: AGT0 INT (AGT interrupt)
       Callback: transfer_callback
       Transfer End Interrupt Priority: Priority 12
       Interrupt Frequency: Interrupt after all transfers have completed
-      Offset value (Valid only when address mode is Offset addition): 4
+      Offset value (Valid only when address mode is Offset addition): 1
       Source Buffer Size: 1
       
     Instance "g_timer0 Timer, Low-Power (r_agt)"
@@ -1080,6 +1081,23 @@ FSP Configuration
       Overvoltage Detection: Overvoltage Detection Upper Limit: 0x7A120
       Interrupt: Callback: pdm_callback
       Interrupt: Sound Detection Interrupt Priority: Priority 12
-      Interrupt: Data Reception Interrupt Priority: Priority 12
+      Interrupt: Data Reception Interrupt Priority: Disabled
       Interrupt: Error Detection Interrupt Priority: Priority 12
       
+      Instance "g_transfer1 Transfer (r_dmac) PDM DAT2 (Data reception interrupt channel 2)"
+        Name: g_transfer1
+        Channel: 1
+        Mode: Block
+        Transfer Size: 4 Bytes
+        Destination Address Mode: Incremented
+        Source Address Mode: Fixed
+        Repeat Area (Unused in Normal Mode): Source
+        Number of Transfers: 0
+        Number of Blocks (Valid only in Repeat,Block or Repeat-Block Mode): 0
+        Activation Source: PDM DAT2 (Data reception interrupt channel 2)
+        Callback: pdm_rxi_dmac_isr
+        Transfer End Interrupt Priority: Priority 12
+        Interrupt Frequency: Interrupt after all transfers have completed
+        Offset value (Valid only when address mode is Offset addition): 1
+        Source Buffer Size: 1
+        

@@ -4,13 +4,12 @@
  *                It handles LIN frame transmission, reception, and error handling.
  **********************************************************************************************************************/
 /***********************************************************************************************************************
- * Copyright (c) 2025 Renesas Electronics Corporation and/or its affiliates
+ * Copyright (c) 2025 - 2026 Renesas Electronics Corporation and/or its affiliates
  *
  * SPDX-License-Identifier: BSD-3-Clause
  **********************************************************************************************************************/
 
 #include "lin_master_ep.h"
-#include "common_utils.h"
 
 /***********************************************************************************************************************
  * Private global variable
@@ -18,15 +17,8 @@
 static volatile uint32_t g_lin_event_flags                      = RESET_VALUE;
 static volatile bool g_lin_timeout_flag                         = false;
 static uint32_t g_baudrate                                      = LIN_DEFAULT_BAUDRATE;
-
 static uint8_t g_master_rx_buf[MAX_TRANSFER_LENGTH]             = {RESET_VALUE};
 static volatile uint8_t g_received_id                           = RESET_VALUE;
-
-static const uint8_t tx_frame_id[MAX_NUMBER_OF_TX_FRAME_ID]     = {WRITE_FRAME_ID_20H, WRITE_FRAME_ID_21H,
-                                                                   WRITE_FRAME_ID_22H, WRITE_FRAME_ID_23H};
-
-static const uint8_t rx_frame_id[MAX_NUMBER_OF_RX_FRAME_ID]     = {READ_FRAME_ID_10H, READ_FRAME_ID_11H,
-                                                                   READ_FRAME_ID_12H, READ_FRAME_ID_13H};
 
 static const uint32_t lin_baudrate_options[LIN_BAUDRATE_COUNT]  = {2400, 4800, 9600, 10400, 14400, 19200};
 static uint8_t g_master_tx_buf_id_20h[FRAME_ID_20H_DATA_LENGTH] = {0x01, 0x02, 0x03};
@@ -36,18 +28,26 @@ static uint8_t g_master_tx_buf_id_23h[FRAME_ID_23H_DATA_LENGTH] = {0x31, 0x32, 0
 
 static lin_transfer_params_t lin_master_tx_transfer_info[MAX_NUMBER_OF_TX_FRAME_ID] =
 {
- {WRITE_FRAME_ID_20H, {g_master_tx_buf_id_20h}, FRAME_ID_20H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED},
- {WRITE_FRAME_ID_21H, {g_master_tx_buf_id_21h}, FRAME_ID_21H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED},
- {WRITE_FRAME_ID_22H, {g_master_tx_buf_id_22h}, FRAME_ID_22H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED},
- {WRITE_FRAME_ID_23H, {g_master_tx_buf_id_23h}, FRAME_ID_23H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED},
+  {WRITE_FRAME_ID_20H, {.p_data = g_master_tx_buf_id_20h}, FRAME_ID_20H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED},
+  {WRITE_FRAME_ID_21H, {.p_data = g_master_tx_buf_id_21h}, FRAME_ID_21H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED},
+  {WRITE_FRAME_ID_22H, {.p_data = g_master_tx_buf_id_22h}, FRAME_ID_22H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED},
+  {WRITE_FRAME_ID_23H, {.p_data = g_master_tx_buf_id_23h}, FRAME_ID_23H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED},
+};
+
+static lin_transfer_params_t lin_master_tx_header_transfer[MAX_NUMBER_OF_RX_FRAME_ID] =
+{
+  {READ_FRAME_ID_10H, {.p_data = NULL}, RESET_VALUE, LIN_CHECKSUM_TYPE_NONE},
+  {READ_FRAME_ID_11H, {.p_data = NULL}, RESET_VALUE, LIN_CHECKSUM_TYPE_NONE},
+  {READ_FRAME_ID_12H, {.p_data = NULL}, RESET_VALUE, LIN_CHECKSUM_TYPE_NONE},
+  {READ_FRAME_ID_13H, {.p_data = NULL}, RESET_VALUE, LIN_CHECKSUM_TYPE_NONE},
 };
 
 static lin_transfer_params_t lin_master_rx_transfer_info[MAX_NUMBER_OF_RX_FRAME_ID] =
 {
- {READ_FRAME_ID_10H, {g_master_rx_buf}, FRAME_ID_10H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED},
- {READ_FRAME_ID_11H, {g_master_rx_buf}, FRAME_ID_11H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED},
- {READ_FRAME_ID_12H, {g_master_rx_buf}, FRAME_ID_12H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED},
- {READ_FRAME_ID_13H, {g_master_rx_buf}, FRAME_ID_13H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED},
+  {READ_FRAME_ID_10H, {.p_data = g_master_rx_buf}, FRAME_ID_10H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED},
+  {READ_FRAME_ID_11H, {.p_data = g_master_rx_buf}, FRAME_ID_11H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED},
+  {READ_FRAME_ID_12H, {.p_data = g_master_rx_buf}, FRAME_ID_12H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED},
+  {READ_FRAME_ID_13H, {.p_data = g_master_rx_buf}, FRAME_ID_13H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED},
 };
 
 static const uint8_t g_expected_data_id_20h[] = {0x01, 0x02};
@@ -57,49 +57,44 @@ static const uint8_t g_expected_data_id_23h[] = {0x07, 0x08};
 
 static const lin_frame_expectation_t g_expected_frames[] =
 {
- {READ_FRAME_ID_10H, g_expected_data_id_20h, sizeof(g_expected_data_id_20h)},
- {READ_FRAME_ID_11H, g_expected_data_id_21h, sizeof(g_expected_data_id_21h)},
- {READ_FRAME_ID_12H, g_expected_data_id_22h, sizeof(g_expected_data_id_22h)},
- {READ_FRAME_ID_13H, g_expected_data_id_23h, sizeof(g_expected_data_id_23h)},
+    {READ_FRAME_ID_10H, g_expected_data_id_20h, sizeof(g_expected_data_id_20h)},
+    {READ_FRAME_ID_11H, g_expected_data_id_21h, sizeof(g_expected_data_id_21h)},
+    {READ_FRAME_ID_12H, g_expected_data_id_22h, sizeof(g_expected_data_id_22h)},
+    {READ_FRAME_ID_13H, g_expected_data_id_23h, sizeof(g_expected_data_id_23h)},
 };
 
-
 #if BSP_PERIPHERAL_SAU_PRESENT
-    extern sau_uart_baudrate_setting_t g_uart0_baud_setting;
-    extern sau_uart_baudrate_setting_t g_master_break_field_baud_setting;
+extern sau_uart_baudrate_setting_t g_uart0_baud_setting;
+extern sau_uart_baudrate_setting_t g_master_break_field_baud_setting;
 #endif /* BSP_PERIPHERAL_SAU_PRESENT */
 
 /***********************************************************************************************************************
  * Private function prototypes
  **********************************************************************************************************************/
-static void handle_error(fsp_err_t err, char *err_str);
+static void handle_error(fsp_err_t err, char * err_str);
 static fsp_err_t lin_master_write(uint8_t frame_id);
 static fsp_err_t lin_master_read(uint8_t frame_id);
 static fsp_err_t lin_master_baudset(uint32_t baud_rate);
 static fsp_err_t wait_for_event(uint32_t expected_event);
 static fsp_err_t handle_lin_master_transmit(bool is_write);
-static void lin_validate_frame(uint8_t id, const uint8_t *p_data, size_t len);
+static void lin_validate_frame(uint8_t id, const uint8_t * p_data, size_t len);
+
 #if ENABLE_MASTER_TIMEOUT_MANAGEMENT
-static timer_info_t lin_master_timer_info =
-{
- .count_direction = RESET_VALUE,
- .clock_frequency = RESET_VALUE,
- .period_counts = RESET_VALUE
-};
+static timer_info_t lin_master_timer_info = {RESET_VALUE};
 static inline lin_timing_t lin_master_calculate_timings(uint32_t baudrate, uint8_t n_data);
 static fsp_err_t lin_master_set_timeout(uint32_t timeout_us);
 #endif /* ENABLE_MASTER_TIMEOUT_MANAGEMENT */
+
 static fsp_err_t lin_master_configure_baudrate(void);
 
 #if BSP_PERIPHERAL_SAU_PRESENT
 static fsp_err_t lin_master_send_wakeup(void);
-#elif BSP_PERIPHERAL_SCI_B_PRESENT
-#endif /* BSP_PERIPHERAL_SAU_PRESENT || BSP_PERIPHERAL_SCI_B_PRESENT */
+#endif /* BSP_PERIPHERAL_SAU_PRESENT */
 
 /***********************************************************************************************************************
  * @brief       This function initializes the necessary peripherals and enables the LIN Master for transmitting 
  *              and receiving frames.
- * @param[in]   None.
+ * @param[IN]   None.
  * @retval      None.
  **********************************************************************************************************************/
 void lin_master_operation(void)
@@ -118,15 +113,11 @@ void lin_master_operation(void)
     R_FSP_VersionGet(&version);
 
     /* Example project information printed on the console */
-    APP_PRINT(BANNER_1);
-    APP_PRINT(BANNER_2);
-    APP_PRINT(BANNER_3, EP_VERSION);
-    APP_PRINT(BANNER_4, version.version_id_b.major, version.version_id_b.minor, version.version_id_b.patch);
-    APP_PRINT(BANNER_5);
-    APP_PRINT(BANNER_6);
+    APP_PRINT(BANNER_INFO, EP_VERSION, version.version_id_b.major, version.version_id_b.minor,
+              version.version_id_b.patch);
     APP_PRINT(EP_INFO);
 
-    /* Open LIN Master interface */
+    /* Open LIN master interface */
     err = LIN_OPEN(&g_master_ctrl, &g_master_cfg);
     handle_error(err, "Error: LIN initialization failed.\r\n");
 
@@ -160,7 +151,6 @@ void lin_master_operation(void)
                     APP_PRINT(MAIN_MENU);
                     break;
                 }
-
                 case MASTER_WRITE:
                 {
                     err = handle_lin_master_transmit(IS_WRITE);
@@ -170,7 +160,6 @@ void lin_master_operation(void)
                     APP_PRINT(MAIN_MENU);
                     break;
                 }
-
                 case MASTER_READ:
                 {
                     err = handle_lin_master_transmit(IS_READ);
@@ -186,13 +175,14 @@ void lin_master_operation(void)
                 {
                     err = lin_master_send_wakeup();
                     handle_error(err, "Error: Failed to send a wake-up signal.\r\n");
+
                     /* Reprint the main menu after send a wake-up signal */
                     APP_PRINT(MAIN_MENU);
                     break;
                 }
                 #endif /* BSP_PERIPHERAL_SAU_PRESENT */
 
-                    /* Invalid input */
+                /* Invalid input */
                 default:
                 {
                     APP_PRINT("\r\nInvalid input. Provide a valid input\r\n");
@@ -206,8 +196,8 @@ void lin_master_operation(void)
 
 /***********************************************************************************************************************
  * @brief       This function handles LIN frame transmission or reception based on user selection.
- * @param[in]   is_write    Operation mode (1: transmit, 0: receive).
- * @retval      FSP_SUCCESS if operation successful, otherwise an error code is returned.
+ * @param[IN]   is_write        Operation mode (1: transmit, 0: receive).
+ * @retval      FSP_SUCCESS     If operation successful, otherwise an error code is returned.
  **********************************************************************************************************************/
 static fsp_err_t handle_lin_master_transmit(bool is_write)
 {
@@ -233,7 +223,7 @@ static fsp_err_t handle_lin_master_transmit(bool is_write)
             {
                 err = is_write ? lin_master_write (selection - 1) : lin_master_read (selection - 1);
                 APP_ERR_RET(FSP_SUCCESS != err, err,
-                            is_write ? "lin_master_write failed.\r\n" : "lin_master_read failed.\r\n");
+                        is_write ? "lin_master_write failed.\r\n" : "lin_master_read failed.\r\n");
             }
             else
             {
@@ -241,19 +231,20 @@ static fsp_err_t handle_lin_master_transmit(bool is_write)
             }
         }
     }
+
     return err;
 }
 
 /***********************************************************************************************************************
  * @brief       This function retrieves the LIN baud rate and updates the baud rate configuration in the LIN driver.
- * @param[in]   None.
+ * @param[IN]   None.
  * @retval      FSP_SUCCESS if the baud rate is successfully configured, otherwise an error code is returned.
  **********************************************************************************************************************/
 static fsp_err_t lin_master_configure_baudrate(void)
 {
     uint8_t terminal_read[TERM_BUFFER_SIZE] = {RESET_VALUE};
-    uint8_t selection = RESET_VALUE;
-    fsp_err_t err = FSP_SUCCESS;
+    uint8_t selection                       = RESET_VALUE;
+    fsp_err_t err                           = FSP_SUCCESS;
 
     APP_PRINT(BAUDRATE_OPTION);
     while (true)
@@ -265,7 +256,7 @@ static fsp_err_t lin_master_configure_baudrate(void)
             memset(terminal_read, NULL_CHAR, sizeof(terminal_read));
             APP_READ(terminal_read, TERMINAL_READ_SIZE);
 
-            selection = (uint8_t) (terminal_read[0] - '0');
+            selection = (uint8_t)(terminal_read[0] - '0');
 
             if (selection >= MIN_BAUDRATE_INDEX && selection <= LIN_BAUDRATE_COUNT)
             {
@@ -282,7 +273,6 @@ static fsp_err_t lin_master_configure_baudrate(void)
             {
                 APP_PRINT("\r\nInvalid selection. Please enter a number between 1 and 6.\r\n");
             }
-
         }
     }
 
@@ -292,8 +282,8 @@ static fsp_err_t lin_master_configure_baudrate(void)
 #if ENABLE_MASTER_TIMEOUT_MANAGEMENT
 /***********************************************************************************************************************
  * @brief       This function calculates LIN timing values based on the baud rate and data length.
- * @param[in]   baudrate    The LIN communication baud rate.
- * @param[in]   n_data      The data length of the LIN frame.
+ * @param[IN]   baudrate        The LIN communication baud rate.
+ * @param[IN]   n_data          The data length of the LIN frame.
  * @retval      The calculated LIN timing values.
  **********************************************************************************************************************/
 static inline lin_timing_t lin_master_calculate_timings(uint32_t baudrate, uint8_t n_data)
@@ -313,8 +303,8 @@ static inline lin_timing_t lin_master_calculate_timings(uint32_t baudrate, uint8
 
 /***********************************************************************************************************************
  * @brief       This function executes the LIN write operation and manages the timeout if enabled.
- * @param[in]   frame_id_index    The ID of the LIN frame to be transmitted.
- * @retval      FSP_SUCCESS if the operation was successful; otherwise, an error code is returned.
+ * @param[IN]   frame_id        The ID of the LIN frame to be transmitted.
+ * @retval      FSP_SUCCESS     If the operation was successful; otherwise, an error code is returned.
  **********************************************************************************************************************/
 static fsp_err_t lin_master_write(uint8_t frame_id_index)
 {
@@ -323,41 +313,29 @@ static fsp_err_t lin_master_write(uint8_t frame_id_index)
     #if ENABLE_MASTER_TIMEOUT_MANAGEMENT
     lin_timing_t lin_timing = lin_master_calculate_timings(g_baudrate,
                                                            lin_master_tx_transfer_info[frame_id_index].num_bytes);
-    err = lin_master_set_timeout(lin_timing.header_timeout_us);
+    err = lin_master_set_timeout(lin_timing.header_timeout_us + lin_timing.response_timeout_us);
     APP_ERR_RET(FSP_SUCCESS != err, err, "lin_master_set_timeout failed!\r\n");
     #endif /* ENABLE_MASTER_TIMEOUT_MANAGEMENT */
 
-    /* Send the LIN start frame: break, sync, and protected identifier */
-    g_lin_event_flags &= (uint32_t) (~LIN_EVENT_TX_START_FRAME_COMPLETE);
-    err = LIN_START_FRAME_WRITE(&g_master_ctrl, tx_frame_id[frame_id_index]);
-    APP_ERR_RET(FSP_SUCCESS != err, err, "Error: Writing LIN start frame failed.\r\n");
-
-    /* Wait for start frame transmission to complete before sending the information frame */
-    err = wait_for_event(LIN_EVENT_TX_START_FRAME_COMPLETE);
-    APP_ERR_RET(FSP_SUCCESS != err, err, "Error: TX Event timeout!\r\n");
-
-    #if ENABLE_MASTER_TIMEOUT_MANAGEMENT
-    err = lin_master_set_timeout(lin_timing.response_timeout_us);
-    APP_ERR_RET(FSP_SUCCESS != err, err, "lin_master_set_timeout failed!\r\n");
-    #endif /* ENABLE_MASTER_TIMEOUT_MANAGEMENT */
-
-    g_lin_event_flags &= (uint32_t) (~LIN_EVENT_TX_INFORMATION_FRAME_COMPLETE);
-    err = LIN_INFO_FRAME_WRITE(&g_master_ctrl, &lin_master_tx_transfer_info[frame_id_index]);
-    APP_ERR_RET(FSP_SUCCESS != err, err, "Error: Writing LIN information frame failed.\r\n");
+    /* Send the header and data */
+    g_lin_event_flags &= (uint32_t)(~LIN_EVENT_TX_DATA_COMPLETE);
+    err = LIN_WRITE(&g_master_ctrl, &lin_master_tx_transfer_info[frame_id_index]);
+    APP_ERR_RET(FSP_SUCCESS != err, err, "Error: Writing LIN frame failed.\r\n");
 
     /* Wait for information frame transmission to complete */
-    err = wait_for_event(LIN_EVENT_TX_INFORMATION_FRAME_COMPLETE);
+    err = wait_for_event(LIN_EVENT_TX_DATA_COMPLETE);
     APP_ERR_RET(FSP_SUCCESS != err, err, "Error: TX Event timeout!\r\n");
 
-    APP_PRINT("\r\nMaster writes message with frame ID=0x%x successfully\r\n", tx_frame_id[frame_id_index]);
+    APP_PRINT("\r\nMaster writes message with frame ID=0x%x successfully\r\n",\
+            lin_master_tx_transfer_info[frame_id_index].id);
 
     return err;
 }
 
 /***********************************************************************************************************************
  * @brief       This function executes the LIN read operation and manages the timeout if enabled.
- * @param[in]   frame_id_index  The ID of the LIN frame to be received.
- * @retval      FSP_SUCCESS if the operation was successful; otherwise, an error code is returned.
+ * @param[IN]   frame_id_index      The ID of the LIN frame to be received.
+ * @retval      FSP_SUCCESS         If the operation was successful; otherwise, an error code is returned.
  **********************************************************************************************************************/
 static fsp_err_t lin_master_read(uint8_t frame_id_index)
 {
@@ -373,28 +351,28 @@ static fsp_err_t lin_master_read(uint8_t frame_id_index)
     APP_ERR_RET(FSP_SUCCESS != err, err, "lin_master_set_timeout failed!\r\n");
     #endif /* ENABLE_MASTER_TIMEOUT_MANAGEMENT */
 
-    /* Send the LIN start frame: break, sync, and protected identifier */
-    g_lin_event_flags &= (uint32_t) (~LIN_EVENT_TX_START_FRAME_COMPLETE);
-    err = LIN_START_FRAME_WRITE(&g_master_ctrl, rx_frame_id[frame_id_index]);
-    APP_ERR_RET(FSP_SUCCESS != err, err, "Error: Writing LIN start frame failed.\r\n");
+    /* Send the header only */
+    g_lin_event_flags &= (uint32_t)(~LIN_EVENT_TX_HEADER_COMPLETE);
+    err = LIN_WRITE(&g_master_ctrl, &lin_master_tx_header_transfer[frame_id_index]);
+    APP_ERR_RET(FSP_SUCCESS != err, err, "Error: Writing LIN header frame failed.\r\n");
 
     /* Wait for start frame transmission to complete before sending the information frame */
-    err = wait_for_event(LIN_EVENT_TX_START_FRAME_COMPLETE);
+    err = wait_for_event(LIN_EVENT_TX_HEADER_COMPLETE);
     APP_ERR_RET(FSP_SUCCESS != err, err, "Error: TX Event timeout!\r\n");
 
     #if ENABLE_MASTER_TIMEOUT_MANAGEMENT
     err = lin_master_set_timeout(lin_timing.response_timeout_us);
-    APP_ERR_RET(FSP_SUCCESS != err, err, "lin_master_set_timeout failed!\r\n");
+    APP_ERR_RET(FSP_SUCCESS != err, err, "lin_master_set_timeout FAILED!\r\n");
     #endif /* ENABLE_MASTER_TIMEOUT_MANAGEMENT */
 
-    /* Begin reception of the information frame data */
-    g_lin_event_flags &= (uint32_t) (~LIN_EVENT_RX_INFORMATION_FRAME_COMPLETE);
-    err = LIN_INFO_FRAME_READ(&g_master_ctrl, &lin_master_rx_transfer_info[frame_id_index]);
+    /* Begin reception of the data frame data */
+    g_lin_event_flags &= (uint32_t)(~LIN_EVENT_RX_DATA_COMPLETE);
+    err = LIN_READ(&g_master_ctrl, &lin_master_rx_transfer_info[frame_id_index]);
 
-    APP_ERR_RET(FSP_SUCCESS != err, err, "Error: Reading LIN information frame failed.\r\n");
+    APP_ERR_RET(FSP_SUCCESS != err, err, "Error: Reading LIN data frame failed.\r\n");
 
     /* Wait for information frame transmission to complete */
-    err = wait_for_event(LIN_EVENT_RX_INFORMATION_FRAME_COMPLETE);
+    err = wait_for_event(LIN_EVENT_RX_DATA_COMPLETE);
     APP_ERR_RET(FSP_SUCCESS != err, err, "Error: RX Event timeout!\r\n");
 
     ptr = recv_str;
@@ -403,19 +381,18 @@ static fsp_err_t lin_master_read(uint8_t frame_id_index)
         ptr += sprintf(ptr, "0x%02x ", g_master_rx_buf[i]);
     }
 
-    APP_PRINT("\r\nMaster received data of ID=0x%x: %s\r\n", g_received_id, recv_str);
-    lin_validate_frame(rx_frame_id[frame_id_index], g_master_rx_buf,
-                       lin_master_rx_transfer_info[frame_id_index].num_bytes);
+    APP_PRINT("\r\nMaster received data of ID=0x%x: %s\r\n",g_received_id, recv_str);
+    lin_validate_frame(lin_master_tx_header_transfer[frame_id_index].id, g_master_rx_buf,\
+            lin_master_rx_transfer_info[frame_id_index].num_bytes);
 
     return err;
-
 }
 
 /***********************************************************************************************************************
- * @brief       Validate the received LIN frame against the expected frame data.
- * @param[in]   id       The ID of the received frame.
- * @param[in]   p_data   Pointer to the received frame data.
- * @param[in]   len      The length of the received frame data.
+ * @brief       This function validates the received LIN frame against the expected frame data.
+ * @param[IN]   id       The ID of the received frame.
+ * @param[IN]   p_data   Pointer to the received frame data.
+ * @param[IN]   len      The length of the received frame data.
  * @retval      None.
  **********************************************************************************************************************/
 static void lin_validate_frame(uint8_t id, const uint8_t *p_data, size_t len)
@@ -450,9 +427,9 @@ static void lin_validate_frame(uint8_t id, const uint8_t *p_data, size_t len)
 
 #if ENABLE_MASTER_TIMEOUT_MANAGEMENT
 /***********************************************************************************************************************
- * @brief       Sets the LIN timeout and starts the timer.
- * @param[in]   timeout_us  The timeout duration in microseconds.
- * @retval      FSP_SUCCESS if the operation was successful; otherwise, an error code is returned.
+ * @brief       This function sets the LIN timeout and starts the timer.
+ * @param[IN]   timeout_us   The timeout duration in microseconds.
+ * @retval      FSP_SUCCESS  If the operation was successful; otherwise, an error code is returned.
  **********************************************************************************************************************/
 static fsp_err_t lin_master_set_timeout(uint32_t timeout_us)
 {
@@ -462,7 +439,7 @@ static fsp_err_t lin_master_set_timeout(uint32_t timeout_us)
     err = TIMER_INFO_GET(&g_lin_master_timeout_ctrl, &lin_master_timer_info);
     APP_ERR_RET(FSP_SUCCESS != err, err, "Error: Failed to get timer information\r\n");
 
-    period_counts = (uint32_t) (timeout_us * (lin_master_timer_info.clock_frequency / 1000000));
+    period_counts = (uint32_t)((uint64_t)timeout_us * lin_master_timer_info.clock_frequency / 1000000);
 
     g_lin_timeout_flag = false;
 
@@ -470,7 +447,7 @@ static fsp_err_t lin_master_set_timeout(uint32_t timeout_us)
     APP_ERR_RET(FSP_SUCCESS != err, err, "Error: Failed to reset timer\r\n");
 
     err = TIMER_PERIOD_SET(&g_lin_master_timeout_ctrl, period_counts);
-    APP_ERR_RET(FSP_SUCCESS != err, err, "Error: Failed to set timer period\r\n");
+    APP_ERR_RET(FSP_SUCCESS != err, err, "Error: Failed to set timer periodic\r\n");
 
     err = TIMER_START(&g_lin_master_timeout_ctrl);
     APP_ERR_RET(FSP_SUCCESS != err, err, "Error: Failed to start timer\r\n");
@@ -480,9 +457,9 @@ static fsp_err_t lin_master_set_timeout(uint32_t timeout_us)
 #endif /* ENABLE_MASTER_TIMEOUT_MANAGEMENT */
 
 /***********************************************************************************************************************
- * @brief       Calculates the LIN baud rate and restarts the LIN module.
- * @param[in]   baud_rate: The desired LIN baud rate.
- * @retval      FSP_SUCCESS if the operation was successful; otherwise, an error code is returned.
+ * @brief       This function calculates the LIN baud rate and restarts the LIN module.
+ * @param[IN]   baud_rate    The desired LIN baud rate.
+ * @retval      FSP_SUCCESS  If the operation was successful; otherwise, an error code is returned.
  **********************************************************************************************************************/
 static fsp_err_t lin_master_baudset(uint32_t baud_rate)
 {
@@ -500,7 +477,7 @@ static fsp_err_t lin_master_baudset(uint32_t baud_rate)
     APP_ERR_RET(FSP_SUCCESS != err, err, "Error: Failed to calculate LIN baud rate\r\n");
 
     /* Set calculated baud rate */
-    err = R_SAU_UART_BaudSet(&g_uart0_ctrl, &g_master_break_field_baud_setting);
+    err = R_SAU_UART_BaudSet(&g_uart0_ctrl, &g_uart0_baud_setting);
     APP_ERR_RET(FSP_SUCCESS != err, err, "Error: Failed to set LIN baud rate\r\n");
 
 #elif BSP_PERIPHERAL_SCI_B_PRESENT
@@ -532,7 +509,35 @@ static fsp_err_t lin_master_baudset(uint32_t baud_rate)
     err = LIN_OPEN(&g_master_ctrl, &lin_master_cfg);
     APP_ERR_RET(FSP_SUCCESS != err, err, "Error: LIN initialization failed.\r\n");
 
-#endif /* BSP_PERIPHERAL_SAU_PRESENT || BSP_PERIPHERAL_SCI_B_PRESENT */
+#elif BSP_PERIPHERAL_SCI_PRESENT
+
+    lin_cfg_t lin_master_cfg;
+    sci_lin_extended_cfg_t lin_master_cfg_extend;
+
+    /* Copy LIN configuration */
+    memcpy(&lin_master_cfg, &g_master_cfg, sizeof(lin_cfg_t));
+    memcpy(&lin_master_cfg_extend, &g_master_cfg_extend, sizeof(lin_master_cfg_extend));
+    lin_master_cfg.p_extend = &lin_master_cfg_extend;
+
+    err = LIN_CLOSE(&g_master_ctrl);
+    APP_ERR_RET(FSP_SUCCESS != err, err, "Error: LIN de-initialization failed.\r\n");
+
+    /* Set baud parameters */
+    sci_lin_baud_params_t user_baud_params = {
+        .baudrate = baud_rate,
+        .break_bits = g_master_cfg_extend.break_bits,
+        .delimiter_bits = g_master_cfg_extend.delimiter_bits,
+    };
+
+    /* Calculate the baud rate */
+    err = LIN_BAUD_CALCULATE(&user_baud_params, lin_master_cfg_extend.p_baud_setting);
+    APP_ERR_RET(FSP_SUCCESS != err, err, "Failed to calculate LIN baud rate\r\n");
+
+    /* Reinitialize LIN */
+    err = LIN_OPEN(&g_master_ctrl, &lin_master_cfg);
+    APP_ERR_RET(FSP_SUCCESS != err, err, "Error: LIN initialization failed.\r\n");
+
+#endif /* BSP_PERIPHERAL_SAU_PRESENT || BSP_PERIPHERAL_SCI_PRESENT || BSP_PERIPHERAL_SCI_B_PRESENT */
 
     return err;
 }
@@ -540,7 +545,7 @@ static fsp_err_t lin_master_baudset(uint32_t baud_rate)
 #if BSP_PERIPHERAL_SAU_PRESENT
 /***********************************************************************************************************************
  * @brief       This function sends the LIN wake-up signal.
- * @param[in]   None.
+ * @param[IN]   None.
  * @retval      FSP_SUCCESS if the operation was successful; otherwise, an error code is returned.
  **********************************************************************************************************************/
 fsp_err_t lin_master_send_wakeup(void)
@@ -548,8 +553,8 @@ fsp_err_t lin_master_send_wakeup(void)
     fsp_err_t err = FSP_SUCCESS;
     uint32_t timeout = RESET_VALUE;
 
-    /* Send the LIN wake-up signal */
-    g_lin_event_flags &= (uint32_t) (~LIN_EVENT_TX_WAKEUP_COMPLETE);
+    /* Send the LIN wake up signal */
+    g_lin_event_flags &= (uint32_t)(~LIN_EVENT_TX_WAKEUP_COMPLETE);
     err = R_SAU_LIN_WakeupSend(&g_master_ctrl);
     APP_ERR_RET(FSP_SUCCESS != err, err, "Error: Failed to send LIN wake-up signal.\r\n");
 
@@ -570,7 +575,7 @@ fsp_err_t lin_master_send_wakeup(void)
 
 /***********************************************************************************************************************
  * @brief       This function waits for an event flag to be set with timeout handling.
- * @param[in]   expected_event  The LIN event bitmask to wait for.
+ * @param[IN]   expected_event The LIN event bitmask to wait for.
  * @retval      FSP_SUCCESS if the operation was successful; otherwise, an error code is returned.
  **********************************************************************************************************************/
 static fsp_err_t wait_for_event(uint32_t expected_event)
@@ -615,8 +620,8 @@ static fsp_err_t wait_for_event(uint32_t expected_event)
 
 /***********************************************************************************************************************
  * @brief       Close all modules and perform error trapping if an error occurs.
- * @param[in]   err         Return values from the API calls.
- * @param[in]   err_str     Error message from the failed API call.
+ * @param[IN]   err         Return values from the API calls.
+ * @param[IN]   err_str     Error message from the failed API call.
  * @retval      None.
  **********************************************************************************************************************/
 static void handle_error(fsp_err_t err, char *err_str)
@@ -644,18 +649,17 @@ static void handle_error(fsp_err_t err, char *err_str)
             {
                 APP_ERR_PRINT("Error: Timer close failed.\r\n");
             }
-
         }
 #endif /* ENABLE_MASTER_TIMEOUT_MANAGEMENT */
+
         APP_ERR_TRAP(err);
     }
-
 }
 
 #if ENABLE_MASTER_TIMEOUT_MANAGEMENT
 /***********************************************************************************************************************
- * @brief       Callback function to handle the timer overflow event for the LIN Master.
- * @param[in]   p_args      Pointer to the callback arguments.
+ * @brief       Callback function to handle the timer overflow event for the LIN master.
+ * @param[IN]   p_args     Pointer to the callback arguments.
  * @retval      None.
  **********************************************************************************************************************/
 void lin_master_overflow_callback(timer_callback_args_t *p_args)
@@ -670,7 +674,7 @@ void lin_master_overflow_callback(timer_callback_args_t *p_args)
 
 /***********************************************************************************************************************
  * @brief       Callback function to handle LIN communication events.
- * @param[in]   p_args      Pointer to the callback arguments.
+ * @param[IN]   p_args   Pointer to the callback arguments.
  * @retval      None.
  **********************************************************************************************************************/
 void lin_master_callback(lin_callback_args_t *p_args)
@@ -679,7 +683,7 @@ void lin_master_callback(lin_callback_args_t *p_args)
     {
         /* Store the event */
         g_lin_event_flags |= p_args->event;
-        if (g_lin_event_flags & LIN_EVENT_RX_INFORMATION_FRAME_COMPLETE)
+        if (g_lin_event_flags & LIN_EVENT_RX_DATA_COMPLETE)
         {
             /* Store the received ID */
             g_received_id = p_args->pid & LIN_PID_MASK_ID;

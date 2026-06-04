@@ -35,9 +35,9 @@ Supported RA boards: EK-RA8M1
     * Connect the USB Debug port on the EK-RA8M1 board to the host PC via a micro USB cable.
 
 ### Software ###
-* Renesas Flexible Software Package (FSP): Version 6.4.0
-* e2 studio: Version 2025-12
-* SEGGER J-Link RTT Viewer: Version 9.14a
+* Renesas Flexible Software Package (FSP): Version 6.5.0
+* e2 studio: Version 2026-04.2
+* SEGGER J-Link RTT Viewer: Version 9.42
 * GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 * Terminal Console Application: Tera Term or a similar application
 

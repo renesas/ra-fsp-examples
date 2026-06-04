@@ -110,7 +110,7 @@ FSP Configuration
       P002 62 ADC0_AN002 ARDUINO_A2 - - "Analog mode" - - "ADC0: AN002; IRQ: IRQ8-DS" - I - - 
       P003 55 GPIO ARDUINO_A4 - - "Input mode" - - "ADC0: AN007" - I - - 
       P004 61 ADC0_AN004 ARDUINO_A3 - - "Analog mode" - - "ADC0: AN004; IRQ: IRQ9-DS" - I - - 
-      P005 60 ADC0_AN005 SW1 - - "Analog mode" - - "ADC0: AN005; IRQ: IRQ10-DS" - I - - 
+      P005 60 GPIO SW1 - None "Input mode" - - "ADC0: AN005; IRQ: IRQ10-DS" - IO - - 
       P006 51 GPIO ARDUINO_D8 - None "Input mode" - - "ADC0: AN006; IRQ: IRQ11-DS" - IO - - 
       P008 50 GPIO ARDUINO_D7 - None "Input mode" - - "ADC0: AN008; IRQ: IRQ12-DS" - IO - - 
       P013 54 ADC0_AN011 ARDUINO_A5 - - "Analog mode" - - "ADC0: AN011" - I - - 
@@ -175,7 +175,7 @@ FSP Configuration
       P002 62 - ARDUINO_A2 - - Disabled - - "ADC0: AN002; IRQ: IRQ8-DS" - I - - 
       P003 55 - ARDUINO_A4 - - Disabled - - "ADC0: AN007" - I - - 
       P004 61 - ARDUINO_A3 - - Disabled - - "ADC0: AN004; IRQ: IRQ9-DS" - I - - 
-      P005 60 - SW1 - - Disabled - - "ADC0: AN005; IRQ: IRQ10-DS" - I - - 
+      P005 60 - SW1 - None Disabled - - "ADC0: AN005; IRQ: IRQ10-DS" - IO - - 
       P006 51 - ARDUINO_D8 - None Disabled - - "ADC0: AN006; IRQ: IRQ11-DS" - IO - - 
       P008 50 - ARDUINO_D7 - None Disabled - - "ADC0: AN008; IRQ: IRQ12-DS" - IO - - 
       P013 54 - ARDUINO_A5 - - Disabled - - "ADC0: AN011" - I - - 
@@ -238,6 +238,7 @@ FSP Configuration
   User Event Links
     
   Linker Section Mappings
+    *(.bss.*_fsp_nocache): RAM Zeroed (Uncached)
     *(.bss.g_heap): RAM Uninitialized
     *(.bss.g_main_stack): RAM Uninitialized
     

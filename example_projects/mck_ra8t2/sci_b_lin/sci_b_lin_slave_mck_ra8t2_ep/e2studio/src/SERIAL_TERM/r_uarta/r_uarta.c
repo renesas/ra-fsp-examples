@@ -1,5 +1,5 @@
 /***********************************************************************************************************************
-* Copyright (c) 2020 - 2025 Renesas Electronics Corporation and/or its affiliates
+* Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
 ***********************************************************************************************************************/
@@ -14,6 +14,7 @@
 #include "r_uarta.h"
 #include <string.h>
 
+#if !defined(BOARD_RA4C1_EK) && !defined(BOARD_RA4L1_EK)
 /***********************************************************************************************************************
  * Macro definitions
  **********************************************************************************************************************/
@@ -1343,7 +1344,7 @@ void uarta_eri_isr (void)
 }
 
 #endif
-
+#endif /* BOARD_RA4C1_EK & BOARD_RA4L1_EK */
 #endif /* BSP_PERIPHERAL_UARTA_PRESENT */
 
 #else /* USE_VIRTUAL_COM = 0 */

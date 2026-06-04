@@ -3,7 +3,7 @@
 * Description  : Contains macros, data structures, and common functions used for the terminal operations.
 ***********************************************************************************************************************/
 /***********************************************************************************************************************
-* Copyright (c) 2024 - 2025 Renesas Electronics Corporation and/or its affiliates
+* Copyright (c) 2024 - 2026 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
 ***********************************************************************************************************************/
@@ -99,7 +99,7 @@ void serial_callback(uart_callback_args_t *p_args)
 
                     /* Handle Backspace character and remove the last character from the buffer. */
                     case SERIAL_CHAR_BS:
-                        if (g_serial_rx_count > SERIAL_DATA_ONE)
+                        if (SERIAL_DATA_ZERO < g_serial_rx_count)
                         {
                             g_serial_rx_count --;
                         }

@@ -64,6 +64,7 @@
 #define PDM_CHANNELS                (1U)
 
 /* Target duration (seconds) of audio captured in the buffer */
+#define PDM_DURATION_MIN_IN_SEC     (1U)
 #define PDM_DURATION_MAX_IN_SEC     (20U)
 
 /* PCM output data bits per sample */
@@ -77,11 +78,13 @@
 #define PDM_ALIGN_UP(n,a)           (((uint32_t)((n) + (a) - 1U) / (uint32_t)(a)) * (uint32_t)(a) )
 
 /*
- * Total number of interleaved samples to hold PDM_DURATION_MAX_IN_SEC seconds.
+ * Total number of interleaved samples.
  * samples_raw = duration * Fs_out * channels
  * samples     = align_up(samples_raw, frame_samples)
  */
-#define PDM_BUFFER_NUM_SAMPLES    PDM_ALIGN_UP((uint32_t)((uint64_t)PDM_DURATION_MAX_IN_SEC * PDM_FS_HZ * PDM_CHANNELS), PDM_FRAME_SAMPLES)
+#define RECORD_BUFFER_SAMPLE    PDM_ALIGN_UP((uint32_t)((uint64_t)PDM_DURATION_MAX_IN_SEC * PDM_FS_HZ * PDM_CHANNELS), PDM_FRAME_SAMPLES)
+#define ONE_SEC_FRAME_SAMPLE    PDM_ALIGN_UP((uint32_t)((uint64_t)PDM_DURATION_MIN_IN_SEC * PDM_FS_HZ * PDM_CHANNELS), PDM_FRAME_SAMPLES)
+
 
 /* PDM buffer size */
 typedef struct

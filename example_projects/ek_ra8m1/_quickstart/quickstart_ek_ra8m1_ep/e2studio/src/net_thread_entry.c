@@ -24,7 +24,7 @@
  Macro definitions
  *********************************************************************************************************************/
 
-#define STATIC_IP_MAC_ADDRESS        {0x00, 0x11, 0x22, 0x33, 0x44, 0x55}
+#define STATIC_IP_MAC_ADDRESS        {0x74, 0x90, 0x50, 0x65, 0x63, 0x6D}
 #define STATIC_IP_ADDRESS            {192, 168,  10, 142}
 #define STATIC_IP_GATEWAY_ADDRESS    {192, 168,   0,   1}
 #define STATIC_IP_NET_MASK           {255, 255, 255,   0}
@@ -44,8 +44,8 @@
 #define ETHER_TEST_TRANSMIT_ETHERNET_FRAME_SIZE_PRV_    (60)
 
 /* mac addresses identical for loopback */
-#define ETHER_TEST_SOURCE_MAC_ADDRESS_PRV_              (0x00, 0x11, 0x22, 0x33, 0x44, 0x55)
-#define ETHER_TEST_DESTINATION_MAC_ADDRESS_PRV_         (0x00, 0x11, 0x22, 0x33, 0x44, 0x55)
+#define ETHER_TEST_SOURCE_MAC_ADDRESS_PRV_              (0x74, 0x90, 0x50, 0x65, 0x63, 0x6D)
+#define ETHER_TEST_DESTINATION_MAC_ADDRESS_PRV_         (0x74, 0x90, 0x50, 0x65, 0x63, 0x6D)
 #define ETHER_TEST_FRAME_TYPE_PRV_                      (0x00, 0x2E)
 #define ETHER_TEST_EMPTY_PAYLOAD_PRV_                   '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', \
                                                         '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', \
@@ -101,7 +101,6 @@ uint8_t g_dns_server_address[4] = STATIC_IP_DNS_SERVER_ADDRESS;
 NetworkAddressingParameters_t xNetworkAddressing;
 NetworkAddressingParameters_t g_xnd = {RESET_VALUE, RESET_VALUE, RESET_VALUE, RESET_VALUE, RESET_VALUE};
 
-NetworkInterface_t xInterfaces[ 1 ];
 NetworkEndPoint_t xEndPoints[ 1 ];
 
 /* IP address of the PC or any Device on the LAN/WAN where the Ping request is sent.
@@ -126,6 +125,7 @@ static st_ping_data_t s_ping_data   = {RESET_VALUE, RESET_VALUE, RESET_VALUE};
 static uint32_t is_network_up (void);
 static void update_ipconfig (void);
 
+extern NetworkInterface_t g_freertos_plus_tcp0_xInterface;
 extern bool_t wsStart (uint16_t usPortNumber);
 extern NetworkInterface_t * pxFSP_Eth_FillInterfaceDescriptor (BaseType_t xEMACIndex, NetworkInterface_t * pxInterface);
 
@@ -297,8 +297,8 @@ void net_thread_entry(void *pvParameters)
 
     /* IF the following function should be declared in the NetworkInterface.c
      * linked in the project. */
-    pxFSP_Eth_FillInterfaceDescriptor( 0, &( xInterfaces[ 0 ] ) );
-    FreeRTOS_FillEndPoint( &( xInterfaces[ 0 ] ), &( xEndPoints[ 0 ] ), g_ip_address, g_net_mask, g_gateway_address, g_dns_server_address, g_mac_address );
+    pxFSP_Eth_FillInterfaceDescriptor( 0, &g_freertos_plus_tcp0_xInterface );
+    FreeRTOS_FillEndPoint( &g_freertos_plus_tcp0_xInterface, &( xEndPoints[ 0 ] ), g_ip_address, g_net_mask, g_gateway_address, g_dns_server_address, g_mac_address );
 
     #if ( ipconfigUSE_DHCP != 0 )
         {

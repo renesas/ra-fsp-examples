@@ -3,7 +3,7 @@
  * Description  : Contains data structures and functions used in hal_warmstart.c.
  **********************************************************************************************************************/
 /***********************************************************************************************************************
-* Copyright (c) 2020 - 2025 Renesas Electronics Corporation and/or its affiliates
+* Copyright (c) 2025 - 2026  Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
 ***********************************************************************************************************************/
@@ -12,6 +12,7 @@
 
 FSP_CPP_HEADER
 void R_BSP_WarmStart(bsp_warm_start_event_t event);
+
 FSP_CPP_FOOTER
 
 /*******************************************************************************************************************//**

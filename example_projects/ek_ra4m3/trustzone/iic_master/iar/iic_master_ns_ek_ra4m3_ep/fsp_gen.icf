@@ -1,0 +1,260 @@
+  define region RAM = mem:[from RAM_START size RAM_LENGTH];
+  define region FLASH = mem:[from FLASH_START size FLASH_LENGTH];
+  define region DATA_FLASH = mem:[from DATA_FLASH_START size DATA_FLASH_LENGTH];
+  define region QSPI_FLASH = mem:[from QSPI_FLASH_START size QSPI_FLASH_LENGTH];
+  define region OPTION_SETTING_OFS1 = mem:[from OPTION_SETTING_OFS1_START size OPTION_SETTING_OFS1_LENGTH];
+  define region OPTION_SETTING_BANKSEL = mem:[from OPTION_SETTING_BANKSEL_START size OPTION_SETTING_BANKSEL_LENGTH];
+  define region OPTION_SETTING_BPS = mem:[from OPTION_SETTING_BPS_START size OPTION_SETTING_BPS_LENGTH];
+  define region OPTION_SETTING_PBPS = mem:[from OPTION_SETTING_PBPS_START size OPTION_SETTING_PBPS_LENGTH];
+/***** QSPI_FLASH memory section allocations ******/
+define section __ddsc_QSPI_FLASH_START {public __ddsc_QSPI_FLASH_START:};
+keep {section __ddsc_QSPI_FLASH_START};
+define section __ddsc_QSPI_FLASH_END {public __ddsc_QSPI_FLASH_END:};
+keep {section __ddsc_QSPI_FLASH_END};
+define block qspi_flash_BLOCK with fixed order {
+    block .qspi_flash.startof with fixed order {
+      block __ddsc_QSPI_FLASH_START {section __ddsc_QSPI_FLASH_START},},
+    /* ram initialized from qspi_flash */
+    block __qspi_flash_init_ram_from_qspi_flash with fixed order {
+  /* section.ram.from_qspi_flash */
+        section .ram_from_qspi_flash_init,
+  /* section.ram.code_from_qspi_flash */
+        section .ram_code_from_qspi_flash_init},
+    block __qspi_flash_readonly with fixed order {
+  /* section.qspi_flash.readonly */
+        section .qspi_flash,
+  /* section.qspi_flash.code */
+        section .qspi_flash_code},
+    block __qspi_flash_noinit with fixed order {
+  /* section.qspi_flash.noinit */
+        section .qspi_flash_noinit},
+    block .qspi_flash.endof with alignment = 512, fixed order {
+      block __ddsc_QSPI_FLASH_END {section __ddsc_QSPI_FLASH_END},},
+};
+
+place in QSPI_FLASH { block qspi_flash_BLOCK };
+/***** DATA_FLASH memory section allocations ******/
+define section __ddsc_DATA_FLASH_START {public __ddsc_DATA_FLASH_START:};
+keep {section __ddsc_DATA_FLASH_START};
+define section __ddsc_DATA_FLASH_END {public __ddsc_DATA_FLASH_END:};
+keep {section __ddsc_DATA_FLASH_END};
+define block data_flash_BLOCK with fixed order {
+    block .data_flash.startof with fixed order {
+      block __ddsc_DATA_FLASH_START {section __ddsc_DATA_FLASH_START},},
+    /* ram initialized from data_flash */
+    block __data_flash_init_ram_from_data_flash with fixed order {
+  /* section.ram.from_data_flash */
+        section .ram_from_data_flash_init,
+  /* section.ram.code_from_data_flash */
+        section .ram_code_from_data_flash_init},
+    block __data_flash_readonly with fixed order {
+  /* section.data_flash.readonly */
+        section .data_flash,
+  /* section.data_flash.code */
+        section .data_flash_code},
+    block __data_flash_noinit with fixed order {
+  /* section.data_flash.noinit */
+        section .data_flash_noinit},
+    block .data_flash.endof with alignment = 512, fixed order {
+      block __ddsc_DATA_FLASH_END {section __ddsc_DATA_FLASH_END},},
+};
+
+place in DATA_FLASH { block data_flash_BLOCK };
+/***** FLASH memory section allocations ******/
+define section __ddsc_FLASH_START {public __ddsc_FLASH_START:};
+keep {section __ddsc_FLASH_START};
+define section _VECTORS {public _VECTORS:};
+keep {section _VECTORS};
+define section __ddsc_FLASH_END {public __ddsc_FLASH_END:};
+keep {section __ddsc_FLASH_END};
+define block flash_BLOCK with fixed order {
+    block .flash.startof with fixed order {
+      block __ddsc_FLASH_START {section __ddsc_FLASH_START},},
+    /* MCU vector table */
+    block __flash_vectors with fixed order {
+      block _VECTORS {section _VECTORS},
+        section .fixed_vectors,
+        section .application_vectors},
+    block __flash_noinit with fixed order {
+  /* section.flash.noinit */
+        section .flash_noinit},
+    /* ram initialized from flash */
+    block __flash_init_ram_from_flash with fixed order {
+  /* section.ram.from_flash */
+        section .ram_from_flash_init,
+  /* section.ram.code_from_flash */
+        section .ram_code_from_flash_init,
+        section .data*_init,
+        section vtable_init},
+    block __flash_readonly with fixed order {
+  /* section.flash.readonly */
+        section .flash,
+  /* section.flash.code */
+        section .flash_code,
+        ro code ,
+        ro data ,
+        section .mcuboot_sce9_key,
+        section .version},
+
+    block .flash.endof with alignment = 1024, fixed order {
+      block __ddsc_FLASH_END {section __ddsc_FLASH_END},},
+};
+
+place at start of FLASH { block flash_BLOCK };
+/***** RAM memory section allocations ******/
+define section __ddsc_RAM_START {public __ddsc_RAM_START:};
+keep {section __ddsc_RAM_START};
+define section __ddsc_RAM_END {public __ddsc_RAM_END:};
+keep {section __ddsc_RAM_END};
+define block ram_BLOCK with fixed order {
+    block .ram.startof with fixed order {
+      block __ddsc_RAM_START {section __ddsc_RAM_START},},
+    block __ram_dtc_vector with fixed order {
+        section .fsp_dtc_vector_table},
+    /* ram initialized from qspi_flash */
+    block __ram_from_qspi_flash with fixed order {
+  /* section.ram.from_qspi_flash */
+        section .ram_from_qspi_flash,
+  /* section.ram.code_from_qspi_flash */
+        section .ram_code_from_qspi_flash},
+    /* ram initialized from data_flash */
+    block __ram_from_data_flash with fixed order {
+  /* section.ram.from_data_flash */
+        section .ram_from_data_flash,
+  /* section.ram.code_from_data_flash */
+        section .ram_code_from_data_flash},
+    /* ram initialized from flash */
+    block __ram_from_flash with fixed order {
+  /* section.ram.from_flash */
+        section .ram_from_flash,
+  /* section.ram.code_from_flash */
+        section .ram_code_from_flash,
+        section .data*,
+        section vtable},
+    /* Non-initialized, non-cached ram */
+    block __ram_noinit_nocache with alignment = 32, fixed order {
+  /* section.ram.noinit_nocache */
+        section .ram_noinit_nocache},
+    /* Zeroed, non-cached ram */
+    block __ram_zero_nocache with end alignment = 32, fixed order {
+  /* section.ram.zero_nocache */
+         section .bss object * symbol *_fsp_nocache,
+        section .ram_nocache},
+    /* Non-initialized ram */
+    block __ram_noinit with fixed order {
+  /* section.ram.noinit */
+        block HEAP { section .bss object * symbol g_heap},
+         section .bss object * symbol g_main_stack,
+        section .ram_noinit,
+        section .noinit},
+    /* Zeroed ram */
+    block __ram_zero with fixed order {
+  /* section.ram.zero */
+        section .ram,
+        zi },
+    /* Thread Stacks */
+    block __ram_thread_stack with alignment = 8, fixed order {
+        section .stack?*},
+
+    block .ram.endof with alignment = 1024, fixed order {
+      block __ddsc_RAM_END {section __ddsc_RAM_END},},
+};
+
+place at start of RAM { block ram_BLOCK };
+/***** OPTION_SETTING_OFS1 memory section allocations ******/
+define section __ddsc_OPTION_SETTING_OFS1_START {public __ddsc_OPTION_SETTING_OFS1_START:};
+keep {section __ddsc_OPTION_SETTING_OFS1_START};
+define section __ddsc_OPTION_SETTING_OFS1_END {public __ddsc_OPTION_SETTING_OFS1_END:};
+keep {section __ddsc_OPTION_SETTING_OFS1_END};
+define block option_setting_ofs1_BLOCK with fixed order {
+    block .option_setting_ofs1.startof with fixed order {
+      block __ddsc_OPTION_SETTING_OFS1_START {section __ddsc_OPTION_SETTING_OFS1_START},},
+    /* Option Function Select Register 1 */
+    block __option_setting_ofs1_reg with fixed order {
+        section .option_setting_ofs1},
+    block .option_setting_ofs1.endof with fixed order {
+      block __ddsc_OPTION_SETTING_OFS1_END {section __ddsc_OPTION_SETTING_OFS1_END},},
+};
+
+place in OPTION_SETTING_OFS1 { block option_setting_ofs1_BLOCK };
+/***** OPTION_SETTING_BANKSEL memory section allocations ******/
+define section __ddsc_OPTION_SETTING_BANKSEL_START {public __ddsc_OPTION_SETTING_BANKSEL_START:};
+keep {section __ddsc_OPTION_SETTING_BANKSEL_START};
+define section __ddsc_OPTION_SETTING_BANKSEL_END {public __ddsc_OPTION_SETTING_BANKSEL_END:};
+keep {section __ddsc_OPTION_SETTING_BANKSEL_END};
+define block option_setting_banksel_BLOCK with fixed order {
+    block .option_setting_banksel.startof with fixed order {
+      block __ddsc_OPTION_SETTING_BANKSEL_START {section __ddsc_OPTION_SETTING_BANKSEL_START},},
+    /* Bank Select Register */
+    block __option_setting_banksel_reg with fixed order {
+        section .option_setting_banksel},
+    block .option_setting_banksel.endof with fixed order {
+      block __ddsc_OPTION_SETTING_BANKSEL_END {section __ddsc_OPTION_SETTING_BANKSEL_END},},
+};
+
+place in OPTION_SETTING_BANKSEL { block option_setting_banksel_BLOCK };
+/***** OPTION_SETTING_BPS memory section allocations ******/
+define section __ddsc_OPTION_SETTING_BPS_START {public __ddsc_OPTION_SETTING_BPS_START:};
+keep {section __ddsc_OPTION_SETTING_BPS_START};
+define section __ddsc_OPTION_SETTING_BPS_END {public __ddsc_OPTION_SETTING_BPS_END:};
+keep {section __ddsc_OPTION_SETTING_BPS_END};
+define block option_setting_bps_BLOCK with fixed order {
+    block .option_setting_bps.startof with fixed order {
+      block __ddsc_OPTION_SETTING_BPS_START {section __ddsc_OPTION_SETTING_BPS_START},},
+    /* Block Protect Setting Register */
+    block __option_setting_bps_reg with fixed order {
+        section .option_setting_bps},
+    block .option_setting_bps.endof with fixed order {
+      block __ddsc_OPTION_SETTING_BPS_END {section __ddsc_OPTION_SETTING_BPS_END},},
+};
+
+place in OPTION_SETTING_BPS { block option_setting_bps_BLOCK };
+/***** OPTION_SETTING_PBPS memory section allocations ******/
+define section __ddsc_OPTION_SETTING_PBPS_START {public __ddsc_OPTION_SETTING_PBPS_START:};
+keep {section __ddsc_OPTION_SETTING_PBPS_START};
+define section __ddsc_OPTION_SETTING_PBPS_END {public __ddsc_OPTION_SETTING_PBPS_END:};
+keep {section __ddsc_OPTION_SETTING_PBPS_END};
+define block option_setting_pbps_BLOCK with fixed order {
+    block .option_setting_pbps.startof with fixed order {
+      block __ddsc_OPTION_SETTING_PBPS_START {section __ddsc_OPTION_SETTING_PBPS_START},},
+    /* Permanent Block Protect Setting Register */
+    block __option_setting_pbps_reg with fixed order {
+        section .option_setting_pbps},
+    block .option_setting_pbps.endof with fixed order {
+      block __ddsc_OPTION_SETTING_PBPS_END {section __ddsc_OPTION_SETTING_PBPS_END},},
+};
+
+place in OPTION_SETTING_PBPS { block option_setting_pbps_BLOCK };
+
+
+/***** Selectors that must be kept ******/
+keep{
+  section .fixed_vectors,
+  section .application_vectors,
+  section .mcuboot_sce9_key,
+  section .version,
+  section .stack?*,
+  section .option_setting_ofs1,
+  section .option_setting_banksel,
+  section .option_setting_bps,
+  section .option_setting_pbps,};
+
+/***** FSP handles all initialization ******/
+initialize manually with alignment preservation{
+  /* section.ram.from_qspi_flash */
+  section .ram_from_qspi_flash,
+  /* section.ram.code_from_qspi_flash */
+  section .ram_code_from_qspi_flash,
+  /* section.ram.from_data_flash */
+  section .ram_from_data_flash,
+  /* section.ram.code_from_data_flash */
+  section .ram_code_from_data_flash,
+  /* section.ram.from_flash */
+  section .ram_from_flash,
+  /* section.ram.code_from_flash */
+  section .ram_code_from_flash,
+  section .data*,
+  section vtable};
+do not initialize{zi};
+initialize manually with alignment preservation{rw};
+

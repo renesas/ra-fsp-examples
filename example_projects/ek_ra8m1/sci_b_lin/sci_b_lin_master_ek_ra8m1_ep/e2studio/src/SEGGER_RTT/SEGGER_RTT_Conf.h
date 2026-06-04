@@ -438,5 +438,5 @@ void OS_SIM_LeaveCriticalSection(void);
 #endif
 
 #endif
+#endif /* USE_VIRTUAL_COM */
 /*************************** End of file ****************************/
-#endif

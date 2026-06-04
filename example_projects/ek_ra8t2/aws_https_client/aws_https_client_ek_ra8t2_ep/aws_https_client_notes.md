@@ -40,7 +40,7 @@ To build and run the aws_https_client example project, the following resources a
     
     | SW4-1 | SW4-2 | SW4-3 | SW4-4 | SW4-5 | SW4-6 | SW4-7 | SW4-8 |
     |:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
-    |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  ON   |  OFF  |  OFF  |
+    |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |
 
 ## Related Collateral References ##
 The following documents can be referred to for enhancing your understanding of the operation of this example project:

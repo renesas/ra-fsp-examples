@@ -98,9 +98,9 @@ void canfd_baudrate_set(void)
                     g_baudrate_set_status = canfd_baudrate_get_from_input(menu_option, &nominal_rate_req,
                                                                           &data_rate_req, &sample_pnt_req);
                 }
-
                 break;
             }
+
             case DATA_BAUDRATE_SET:
             {
                 while (RESET_VALUE == (g_baudrate_set_status & DATA_SET_SUCCESS))
@@ -110,6 +110,7 @@ void canfd_baudrate_set(void)
                 }
                 break;
             }
+
             case SAMPLE_POINT_SET:
             {
                 while (RESET_VALUE == (g_baudrate_set_status & SAMPLE_POINT_SET_SUCCESS))
@@ -121,6 +122,7 @@ void canfd_baudrate_set(void)
                 }
                 break;
             }
+
             case START_TRANSMISSION:
             {
                 canfd_change_baudrate(nominal_rate_req, data_rate_req, sample_pnt_req);
@@ -132,10 +134,9 @@ void canfd_baudrate_set(void)
             default:
             {
                 APP_PRINT("Invalid input");
+                break;
             }
-            break;
-    }
-
+        }
     }
 }
 /***********************************************************************************************************************
@@ -204,7 +205,6 @@ static bool calculate_bit_timings(can_timing_t *result, const can_timing_t min, 
     {
         return false;
     }
-
 
     /* Calculate default sjw as phase_seg2 / 2 and clamp the result */
     temp.sjw = temp.phase_seg1 > (temp.phase_seg2 /2) ? (temp.phase_seg2 /2) : temp.phase_seg1;
@@ -329,18 +329,21 @@ static baudrate_set_status_t canfd_baudrate_get_from_input(menu_t menu_option, u
                 case KBPS_250:
                 {
                     *nominal_rate_req = KBPS_250_VAL;
+                    break;
                 }
-                break;
+
                 case KBPS_500:
                 {
                     *nominal_rate_req = KBPS_500_VAL;
+                    break;
                 }
-                break;
+
                 case KBPS_1000:
                 {
                     *nominal_rate_req = MBPS_1_VAL;
+                    break;
                 }
-                break;
+
                 case NOMINAL_CUSTOM:
                 {
                     APP_PRINT("\r\nEnter nominal rate(bits/s): Valid value from %d to %d\r\n", NOMINAL_BAUDRATE_MIN,
@@ -355,15 +358,19 @@ static baudrate_set_status_t canfd_baudrate_get_from_input(menu_t menu_option, u
                         APP_PRINT("The input is out of range\r\n");
                         g_baudrate_set_status &= !NOMINAL_SET_SUCCESS;
                     }
+                    break;
                 }
-                break;
+
                 default:
+                {
                     APP_PRINT("Invalid option\r\n");
                     g_baudrate_set_status &= !NOMINAL_SET_SUCCESS;
-                break;
+                    break;
+                }
             }
+            break;
         }
-        break;
+
         case DATA_BAUDRATE_SET:
         {
             g_baudrate_set_status |= DATA_SET_SUCCESS;
@@ -376,25 +383,29 @@ static baudrate_set_status_t canfd_baudrate_get_from_input(menu_t menu_option, u
                 case MBPS_1:
                 {
                     *data_rate_req = MBPS_1_VAL;
+                    break;
                 }
-                break;
+
                 case MBPS_2:
                 {
                     *data_rate_req = MBPS_2_VAL;
+                    break;
                 }
-                break;
+
 #if defined (SUPPORT_MAX_DATA_RATE_5MBPS)
                 case MBPS_5:
                 {
                     *data_rate_req = MBPS_5_VAL;
+                    break;
                 }
 #elif defined (SUPPORT_MAX_DATA_RATE_8MBPS)
                 case MBPS_8:
                 {
                     *data_rate_req = MBPS_8_VAL;
+                    break;
                 }
 #endif /* SUPPORT_MAX_DATA_RATE */
-                break;
+
                 case DATA_CUSTOM:
                 {
                     APP_PRINT("\r\nEnter data rate(bits/s): Valid value from %d to %d\r\n", DATA_BAUDRATE_MIN,
@@ -409,15 +420,19 @@ static baudrate_set_status_t canfd_baudrate_get_from_input(menu_t menu_option, u
                     {
                         APP_PRINT("The input is out of range\r\n");
                     }
+                    break;
                 }
-                break;
+
                 default:
+                {
                     APP_PRINT("Invalid option\r\n");
                     g_baudrate_set_status &= !DATA_SET_SUCCESS;
-                break;
+                    break;
+                }
             }
             break;
         }
+
         case SAMPLE_POINT_SET:
         {
             custom_input = get_user_input();
@@ -432,15 +447,18 @@ static baudrate_set_status_t canfd_baudrate_get_from_input(menu_t menu_option, u
             }
             break;
         }
+
         case START_TRANSMISSION:
         {
             break;
         }
+
         default:
+        {
             APP_PRINT("Invalid option\r\n");
             break;
+        }
     }
-
     return g_baudrate_set_status;
 }
 /***********************************************************************************************************************

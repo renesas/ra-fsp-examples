@@ -19,9 +19,9 @@ Please refer to the [Example Project Usage Guide](https://github.com/renesas/ra-
 To build and run the FreeRTOS Network example project, the following resources are needed.
 
 ### Software ###
-* Renesas Flexible Software Package (FSP): Version 6.4.0
-* e2 studio: Version 2025-12
-* SEGGER J-Link RTT Viewer: Version 9.14a
+* Renesas Flexible Software Package (FSP): Version 6.5.0
+* e2 studio: Version 2026-04.2
+* SEGGER J-Link RTT Viewer: Version 9.42
 * LLVM Embedded Toolchain for ARM: Version 21.1.1
 * Terminal Console Application: Tera Term or a similar application
 * Socket Application: sokit version 1.3, etc.
@@ -65,7 +65,7 @@ To build and run the FreeRTOS Network example project, the following resources a
 
 	  | SW4-1 | SW4-2 | SW4-3 | SW4-4 | SW4-5 | SW4-6 | SW4-7 | SW4-8 |
 	  |-------|-------|-------|-------|-------|-------|-------|-------|
-	  |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  ON   |  OFF  |  OFF  |
+	  |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |
 
 ## Related Collateral References ##
 The following documents can be referred to for enhancing your understanding of the operation of this example project:

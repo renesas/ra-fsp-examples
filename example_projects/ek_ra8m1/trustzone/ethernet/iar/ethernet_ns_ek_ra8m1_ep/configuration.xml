@@ -9,7 +9,7 @@
     <option key="#DeviceCommand#" value="R7FA8M1AH"/>
     <option key="#RTOS#" value="rtos.awsfreertos"/>
     <option key="#pinconfiguration#" value="R7FA8M1AHECBD.pincfg"/>
-    <option key="#FSPVersion#" value="6.4.0"/>
+    <option key="#FSPVersion#" value="6.5.0"/>
     <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra8m1_ek##"/>
     <option key="#SELECTED_TOOLCHAIN#" value="iar.arm.toolchain"/>
   </generalSettings>
@@ -71,17 +71,17 @@
       <property id="config.bsp.fsp.settling_delay_us" value="150"/>
       <property id="config.bsp.common.main_osc_wait" value="config.bsp.common.main_osc_wait.wait_8163"/>
       <property id="config.bsp.fsp.mcu.adc.max_freq_hz" value="60000000"/>
-      <property id="config.bsp.fsp.mcu.sci_b_uart.max_baud" value="20000000"/>
+      <property id="config.bsp.fsp.mcu.sci_b_uart.max_baud" value="30000000"/>
       <property id="config.bsp.fsp.mcu.sci_b_uart.ctspen_channels" value="0x021F"/>
       <property id="config.bsp.fsp.mcu.adc.sample_and_hold" value="1"/>
       <property id="config.bsp.fsp.mcu.adc.sensors_are_exclusive" value="0"/>
-      <property id="config.bsp.fsp.mcu.sci_spi.max_bitrate" value="30000000"/>
+      <property id="config.bsp.fsp.mcu.sci_spi.max_bitrate" value="60000000"/>
       <property id="config.bsp.fsp.mcu.spi.max_bitrate" value="60000000"/>
       <property id="config.bsp.fsp.mcu.iic_master.rate.rate_fastplus" value="1"/>
       <property id="config.bsp.fsp.mcu.iic_master.fastplus_channels" value="0x3"/>
       <property id="config.bsp.fsp.mcu.iic_slave.rate.rate_fastplus" value="1"/>
       <property id="config.bsp.fsp.mcu.iic_slave.fastplus_channels" value="0x3"/>
-      <property id="config.bsp.fsp.mcu.gpt.pin_count_source_channels" value="0xFF0F"/>
+      <property id="config.bsp.fsp.mcu.gpt.pin_count_source_channels" value="0x3FFF"/>
       <property id="config.bsp.fsp.mcu.canfd.num_channels" value="2"/>
       <property id="config.bsp.fsp.mcu.canfd.rx_fifos" value="2"/>
       <property id="config.bsp.fsp.mcu.canfd.buffer_ram" value="1216"/>
@@ -206,69 +206,77 @@
     </config>
   </raBspConfiguration>
   <raComponentSelection>
-    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra8m1_ek" variant="" vendor="Renesas" version="6.4.0">
-      <description>RA8M1-EK Board Support Files</description>
-      <originalPack>Renesas.RA_board_ra8m1_ek.6.4.0.pack</originalPack>
+    <component apiversion="" class="Projects" condition="" group="all" subgroup="common" variant="" vendor="Renesas" version="6.5.0">
+      <description>Common source for all template projects.</description>
+      <originalPack>Renesas.RA_common.6.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra8m1" subgroup="device" variant="R7FA8M1AHECBD" vendor="Renesas" version="6.4.0">
-      <description>Board support package for R7FA8M1AHECBD</description>
-      <originalPack>Renesas.RA_mcu_ra8m1.6.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra8m1" subgroup="device" variant="" vendor="Renesas" version="6.4.0">
-      <description>Board support package for RA8M1</description>
-      <originalPack>Renesas.RA_mcu_ra8m1.6.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra8m1" subgroup="fsp" variant="" vendor="Renesas" version="6.4.0">
-      <description>Board support package for RA8M1 - FSP Data</description>
-      <originalPack>Renesas.RA_mcu_ra8m1.6.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra8m1" subgroup="events" variant="" vendor="Renesas" version="6.4.0">
-      <description>Board support package for RA8M1 - Events</description>
-      <originalPack>Renesas.RA_mcu_ra8m1.6.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra8m1" subgroup="linker" variant="" vendor="Renesas" version="6.4.0">
-      <description>Board support package for RA8M1 - Linker</description>
-      <originalPack>Renesas.RA_mcu_ra8m1.6.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="CMSIS" condition="" group="Main" subgroup="CoreM" variant="" vendor="Arm" version="6.1.0+fsp.6.4.0">
-      <description>Arm CMSIS Version 6 - Core (M)</description>
-      <originalPack>Arm.CMSIS6.6.1.0+fsp.6.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="6.4.0">
+    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="6.5.0">
       <description>Board Support Package Common Files</description>
-      <originalPack>Renesas.RA.6.4.0.pack</originalPack>
+      <originalPack>Renesas.RA.6.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ether_phy" variant="" vendor="Renesas" version="6.4.0">
-      <description>Ethernet PHY</description>
-      <originalPack>Renesas.RA.6.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ether" variant="" vendor="Renesas" version="6.4.0">
-      <description>Ethernet</description>
-      <originalPack>Renesas.RA.6.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="6.4.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="6.5.0">
       <description>I/O Port</description>
-      <originalPack>Renesas.RA.6.4.0.pack</originalPack>
+      <originalPack>Renesas.RA.6.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_freertos_plus_tcp" variant="" vendor="Renesas" version="6.4.0">
-      <description>r_ether to FreeRTOS+TCP Wrapper</description>
-      <originalPack>Renesas.RA.6.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="RTOS" condition="" group="FreeRTOS" subgroup="all" variant="" vendor="AWS" version="11.1.0+fsp.6.4.0">
+    <component apiversion="" class="RTOS" condition="" group="FreeRTOS" subgroup="all" variant="" vendor="AWS" version="11.1.0+fsp.6.5.0">
       <description>FreeRTOS</description>
-      <originalPack>Amazon.FreeRTOS-Kernel.11.1.0+fsp.6.4.0.pack</originalPack>
+      <originalPack>Amazon.FreeRTOS-Kernel.11.1.0+fsp.6.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Heaps" condition="" group="FreeRTOS" subgroup="heap_4" variant="" vendor="AWS" version="11.1.0+fsp.6.4.0">
-      <description>FreeRTOS - Memory Management - Heap 4</description>
-      <originalPack>Amazon.FreeRTOS-Kernel.11.1.0+fsp.6.4.0.pack</originalPack>
+    <component apiversion="" class="CMSIS" condition="" group="Main" subgroup="CoreM" variant="" vendor="Arm" version="6.1.0+fsp.6.5.0">
+      <description>Arm CMSIS Version 6 - Core (M)</description>
+      <originalPack>Arm.CMSIS6.6.1.0+fsp.6.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Libraries" condition="" group="FreeRTOS" subgroup="BufferAllocation2" variant="" vendor="AWS" version="4.3.3+fsp.6.4.0">
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_freertos_port" variant="" vendor="Renesas" version="6.5.0">
+      <description>FreeRTOS Port</description>
+      <originalPack>Renesas.RA.6.5.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra8m1" subgroup="device" variant="R7FA8M1AHECBD" vendor="Renesas" version="6.5.0">
+      <description>Board support package for R7FA8M1AHECBD</description>
+      <originalPack>Renesas.RA_mcu_ra8m1.6.5.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra8m1" subgroup="device" variant="" vendor="Renesas" version="6.5.0">
+      <description>Board support package for RA8M1</description>
+      <originalPack>Renesas.RA_mcu_ra8m1.6.5.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra8m1" subgroup="fsp" variant="" vendor="Renesas" version="6.5.0">
+      <description>Board support package for RA8M1 - FSP Data</description>
+      <originalPack>Renesas.RA_mcu_ra8m1.6.5.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra8m1" subgroup="events" variant="" vendor="Renesas" version="6.5.0">
+      <description>Board support package for RA8M1 - Events</description>
+      <originalPack>Renesas.RA_mcu_ra8m1.6.5.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra8m1" subgroup="linker" variant="" vendor="Renesas" version="6.5.0">
+      <description>Board support package for RA8M1 - Linker</description>
+      <originalPack>Renesas.RA_mcu_ra8m1.6.5.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra8m1_ek" variant="" vendor="Renesas" version="6.5.0">
+      <description>RA8M1-EK Board Support Files</description>
+      <originalPack>Renesas.RA_board_ra8m1_ek.6.5.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ether_phy" variant="" vendor="Renesas" version="6.5.0">
+      <description>Ethernet PHY</description>
+      <originalPack>Renesas.RA.6.5.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ether" variant="" vendor="Renesas" version="6.5.0">
+      <description>Ethernet</description>
+      <originalPack>Renesas.RA.6.5.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_freertos_plus_tcp" variant="" vendor="Renesas" version="6.5.0">
+      <description>r_ether to FreeRTOS+TCP Wrapper</description>
+      <originalPack>Renesas.RA.6.5.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Libraries" condition="" group="FreeRTOS" subgroup="BufferAllocation2" variant="" vendor="AWS" version="4.3.3+fsp.6.5.0">
       <description>FreeRTOS - Buffer Allocation 2</description>
-      <originalPack>Amazon.FreeRTOS-Plus-TCP.4.3.3+fsp.6.4.0.pack</originalPack>
+      <originalPack>Amazon.FreeRTOS-Plus-TCP.4.3.3+fsp.6.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Libraries" condition="" group="FreeRTOS_Plus" subgroup="FreeRTOS_Plus_TCP" variant="" vendor="AWS" version="4.3.3+fsp.6.4.0">
+    <component apiversion="" class="Libraries" condition="" group="FreeRTOS_Plus" subgroup="FreeRTOS_Plus_TCP" variant="" vendor="AWS" version="4.3.3+fsp.6.5.0">
       <description>FreeRTOS+TCP</description>
-      <originalPack>Amazon.FreeRTOS-Plus-TCP.4.3.3+fsp.6.4.0.pack</originalPack>
+      <originalPack>Amazon.FreeRTOS-Plus-TCP.4.3.3+fsp.6.5.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Heaps" condition="" group="FreeRTOS" subgroup="heap_4" variant="" vendor="AWS" version="11.1.0+fsp.6.5.0">
+      <description>FreeRTOS - Memory Management - Heap 4</description>
+      <originalPack>Amazon.FreeRTOS-Kernel.11.1.0+fsp.6.5.0.pack</originalPack>
     </component>
   </raComponentSelection>
   <raElcConfiguration/>
@@ -283,9 +291,10 @@
       <property id="module.driver.ioport.elc_trigger_ioport4" value="_disabled"/>
       <property id="module.driver.ioport.pincfg" value="g_bsp_pin_cfg"/>
     </module>
-    <module id="module.freertos.heap.4.246585300"/>
-    <module id="module.aws.freertosplus.freertosplus_tcp.848799914"/>
-    <module id="module.driver.freertos_plus_tcp_on_ether.35376425">
+    <module id="module.middleware.rm_freertos_port.0"/>
+    <module id="module.freertos.heap.4.1474187626"/>
+    <module id="module.aws.freertosplus.freertosplus_tcp.1673699240"/>
+    <module id="module.driver.freertos_plus_tcp_on_ether.302145108">
       <property id="module.driver.freertos_plus_tcp_on_ether.name" value="g_freertos_plus_tcp0"/>
       <property id="module.driver.freertos_plus_tcp_on_ether.rx_task_stacksize" value="configMINIMAL_STACK_SIZE"/>
       <property id="module.driver.freertos_plus_tcp_on_ether.rx_task_priority" value="configMAX_PRIORITIES - 1"/>
@@ -293,7 +302,8 @@
       <property id="module.driver.freertos_plus_tcp_on_ether.link_status_task_priority" value="configMAX_PRIORITIES - 1"/>
       <property id="module.driver.freertos_plus_tcp_on_ether.link_check_interval" value="1000"/>
     </module>
-    <module id="module.driver.ether_on_ether.30906354">
+    <module id="module.freertos.bufferallocation2.1908968077"/>
+    <module id="module.driver.ether_on_ether.617224136">
       <property id="module.driver.ether.name" value="g_ether0"/>
       <property id="module.driver.ether.channel" value="module.driver.ether.channel.0"/>
       <property id="module.driver.ether.mac_address" value="00:11:22:33:44:55"/>
@@ -313,8 +323,7 @@
       <property id="module.driver.ether.interrupt_priority" value="board.icu.common.irq.priority12"/>
       <property id="module.driver.ether.p_callback" value="NULL"/>
     </module>
-    <module id="module.freertos.bufferallocation2.529316615"/>
-    <module id="module.driver.ether_phy_on_ether_phy.695889705">
+    <module id="module.driver.ether_phy_on_ether_phy.1364052233">
       <property id="module.driver.ether_phy.name" value="g_ether_phy0"/>
       <property id="module.driver.ether_phy.channel" value="module.driver.ether_phy.channel.0"/>
       <property id="module.driver.ether_phy.phy_lsi_address" value="5"/>
@@ -327,15 +336,16 @@
       <property id="module.driver.ether_phy.mii_bit_access_wait_time" value="8"/>
       <property id="module.driver.ether_phy.flow_control" value="module.driver.ether_phy.flow_control.0"/>
     </module>
-    <module id="module.driver.ether_phy_lsi_on_ether_phy.973463730">
+    <module id="module.driver.ether_phy_lsi_on_ether_phy.1264121860">
       <property id="module.driver.ether_phy_lsi.name" value="g_ether_phy_lsi0"/>
       <property id="module.driver.ether_phy_lsi.phy_lsi_address" value="5"/>
       <property id="module.driver.ether_phy_lsi.phy_lsi_type" value="module.driver.ether_phy_lsi.phy_lsi_type.kit_component"/>
     </module>
     <context id="_hal.0">
       <stack module="module.driver.ioport_on_ioport.0"/>
+      <stack module="module.middleware.rm_freertos_port.0"/>
     </context>
-    <context id="rtos.awsfreertos.thread.1966500168">
+    <context id="rtos.awsfreertos.thread.0">
       <property id="_symbol" value="net_thread"/>
       <property id="rtos.awsfreertos.thread.name" value="Net Thread"/>
       <property id="rtos.awsfreertos.thread.stack" value="4096"/>
@@ -343,15 +353,15 @@
       <property id="rtos.awsfreertos.thread.context" value="NULL"/>
       <property id="rtos.awsfreertos.thread.allocation" value="rtos.awsfreertos.thread.allocation.static"/>
       <property id="rtos.awsfreertos.thread.secure_context" value="rtos.awsfreertos.thread.secure_context.enable"/>
-      <stack module="module.freertos.heap.4.246585300"/>
-      <stack module="module.aws.freertosplus.freertosplus_tcp.848799914">
-        <stack module="module.driver.freertos_plus_tcp_on_ether.35376425" requires="module.aws.freertosplus.freertosplus_tcp.requires.freertosplus_tcp_driver">
-          <stack module="module.driver.ether_on_ether.30906354" requires="module.driver.freertos_plus_tcp_on_ether.requires.ether">
-            <stack module="module.driver.ether_phy_on_ether_phy.695889705" requires="module.driver.ether.requires.ether_phy">
-              <stack module="module.driver.ether_phy_lsi_on_ether_phy.973463730" requires="module.driver.ether_phy.requires.phy_lsi0"/>
+      <stack module="module.freertos.heap.4.1474187626"/>
+      <stack module="module.aws.freertosplus.freertosplus_tcp.1673699240">
+        <stack module="module.driver.freertos_plus_tcp_on_ether.302145108" requires="module.aws.freertosplus.freertosplus_tcp.requires.freertosplus_tcp_driver">
+          <stack module="module.driver.ether_on_ether.617224136" requires="module.driver.freertos_plus_tcp_on_ether.requires.ether">
+            <stack module="module.driver.ether_phy_on_ether_phy.1364052233" requires="module.driver.ether.requires.ether_phy">
+              <stack module="module.driver.ether_phy_lsi_on_ether_phy.1264121860" requires="module.driver.ether_phy.requires.phy_lsi0"/>
             </stack>
           </stack>
-          <stack module="module.freertos.bufferallocation2.529316615" requires="module.driver.freertos_plus_tcp_on_ether.requires.bufferallocation2"/>
+          <stack module="module.freertos.bufferallocation2.1908968077" requires="module.driver.freertos_plus_tcp_on_ether.requires.bufferallocation2"/>
         </stack>
       </stack>
     </context>
@@ -680,14 +690,19 @@
       <configSetting altId="p015.adc1.an105" configurationId="p015"/>
       <configSetting altId="p015.gpio_mode.gpio_mode_an" configurationId="p015.gpio_mode"/>
       <configSetting altId="p100.ospi.om_sio0" configurationId="p100"/>
+      <configSetting altId="p100.gpio_speed.gpio_speed_hh" configurationId="p100.gpio_drivecapacity"/>
       <configSetting altId="p100.gpio_mode.gpio_mode_peripheral" configurationId="p100.gpio_mode"/>
       <configSetting altId="p101.ospi.om_sio3" configurationId="p101"/>
+      <configSetting altId="p101.gpio_speed.gpio_speed_hh" configurationId="p101.gpio_drivecapacity"/>
       <configSetting altId="p101.gpio_mode.gpio_mode_peripheral" configurationId="p101.gpio_mode"/>
       <configSetting altId="p102.ospi.om_sio4" configurationId="p102"/>
+      <configSetting altId="p102.gpio_speed.gpio_speed_hh" configurationId="p102.gpio_drivecapacity"/>
       <configSetting altId="p102.gpio_mode.gpio_mode_peripheral" configurationId="p102.gpio_mode"/>
       <configSetting altId="p103.ospi.om_sio2" configurationId="p103"/>
+      <configSetting altId="p103.gpio_speed.gpio_speed_hh" configurationId="p103.gpio_drivecapacity"/>
       <configSetting altId="p103.gpio_mode.gpio_mode_peripheral" configurationId="p103.gpio_mode"/>
       <configSetting altId="p104.ospi.om_cs1" configurationId="p104"/>
+      <configSetting altId="p104.gpio_speed.gpio_speed_h" configurationId="p104.gpio_drivecapacity"/>
       <configSetting altId="p104.gpio_mode.gpio_mode_peripheral" configurationId="p104.gpio_mode"/>
       <configSetting altId="p105.ospi.om_ecsint1" configurationId="p105"/>
       <configSetting altId="p105.gpio_mode.gpio_mode_peripheral" configurationId="p105.gpio_mode"/>
@@ -720,15 +735,16 @@
       <configSetting altId="p409.usbhs.usbhs_ovrcura" configurationId="p409"/>
       <configSetting altId="p409.gpio_mode.gpio_mode_peripheral" configurationId="p409.gpio_mode"/>
       <configSetting altId="p410.spi1.miso1" configurationId="p410"/>
-      <configSetting altId="p410.gpio_speed.gpio_speed_m" configurationId="p410.gpio_drivecapacity"/>
+      <configSetting altId="p410.gpio_speed.gpio_speed_h" configurationId="p410.gpio_drivecapacity"/>
       <configSetting altId="p410.gpio_mode.gpio_mode_peripheral" configurationId="p410.gpio_mode"/>
       <configSetting altId="p411.spi1.mosi1" configurationId="p411"/>
-      <configSetting altId="p411.gpio_speed.gpio_speed_m" configurationId="p411.gpio_drivecapacity"/>
+      <configSetting altId="p411.gpio_speed.gpio_speed_h" configurationId="p411.gpio_drivecapacity"/>
       <configSetting altId="p411.gpio_mode.gpio_mode_peripheral" configurationId="p411.gpio_mode"/>
       <configSetting altId="p412.spi1.rspck1" configurationId="p412"/>
+      <configSetting altId="p412.gpio_speed.gpio_speed_h" configurationId="p412.gpio_drivecapacity"/>
       <configSetting altId="p412.gpio_mode.gpio_mode_peripheral" configurationId="p412.gpio_mode"/>
       <configSetting altId="p413.spi1.sslb0" configurationId="p413"/>
-      <configSetting altId="p413.gpio_speed.gpio_speed_m" configurationId="p413.gpio_drivecapacity"/>
+      <configSetting altId="p413.gpio_speed.gpio_speed_h" configurationId="p413.gpio_drivecapacity"/>
       <configSetting altId="p413.gpio_mode.gpio_mode_peripheral" configurationId="p413.gpio_mode"/>
       <configSetting altId="p414.output.low" configurationId="p414"/>
       <configSetting altId="p414.gpio_mode.gpio_mode_out.low" configurationId="p414.gpio_mode"/>
@@ -763,16 +779,22 @@
       <configSetting altId="p705.gpio_speed.gpio_speed_h" configurationId="p705.gpio_drivecapacity"/>
       <configSetting altId="p705.gpio_mode.gpio_mode_peripheral" configurationId="p705.gpio_mode"/>
       <configSetting altId="p800.ospi.om_sio5" configurationId="p800"/>
+      <configSetting altId="p800.gpio_speed.gpio_speed_hh" configurationId="p800.gpio_drivecapacity"/>
       <configSetting altId="p800.gpio_mode.gpio_mode_peripheral" configurationId="p800.gpio_mode"/>
       <configSetting altId="p801.ospi.om_dqs" configurationId="p801"/>
+      <configSetting altId="p801.gpio_speed.gpio_speed_hh" configurationId="p801.gpio_drivecapacity"/>
       <configSetting altId="p801.gpio_mode.gpio_mode_peripheral" configurationId="p801.gpio_mode"/>
       <configSetting altId="p802.ospi.om_sio6" configurationId="p802"/>
+      <configSetting altId="p802.gpio_speed.gpio_speed_hh" configurationId="p802.gpio_drivecapacity"/>
       <configSetting altId="p802.gpio_mode.gpio_mode_peripheral" configurationId="p802.gpio_mode"/>
       <configSetting altId="p803.ospi.om_sio1" configurationId="p803"/>
+      <configSetting altId="p803.gpio_speed.gpio_speed_hh" configurationId="p803.gpio_drivecapacity"/>
       <configSetting altId="p803.gpio_mode.gpio_mode_peripheral" configurationId="p803.gpio_mode"/>
       <configSetting altId="p804.ospi.om_sio7" configurationId="p804"/>
+      <configSetting altId="p804.gpio_speed.gpio_speed_hh" configurationId="p804.gpio_drivecapacity"/>
       <configSetting altId="p804.gpio_mode.gpio_mode_peripheral" configurationId="p804.gpio_mode"/>
       <configSetting altId="p808.ospi.om_sclk" configurationId="p808"/>
+      <configSetting altId="p808.gpio_speed.gpio_speed_hh" configurationId="p808.gpio_drivecapacity"/>
       <configSetting altId="p808.gpio_mode.gpio_mode_peripheral" configurationId="p808.gpio_mode"/>
       <configSetting altId="p809.output.low" configurationId="p809"/>
       <configSetting altId="p809.gpio_mode.gpio_mode_out.low" configurationId="p809.gpio_mode"/>
@@ -781,12 +803,16 @@
       <configSetting altId="p815.usbfs.usb_dm" configurationId="p815"/>
       <configSetting altId="p815.gpio_mode.gpio_mode_peripheral" configurationId="p815.gpio_mode"/>
       <configSetting altId="pa02.sci2.rxd2" configurationId="pa02"/>
+      <configSetting altId="pa02.gpio_speed.gpio_speed_h" configurationId="pa02.gpio_drivecapacity"/>
       <configSetting altId="pa02.gpio_mode.gpio_mode_peripheral" configurationId="pa02.gpio_mode"/>
       <configSetting altId="pa03.sci2.txd2" configurationId="pa03"/>
+      <configSetting altId="pa03.gpio_speed.gpio_speed_h" configurationId="pa03.gpio_drivecapacity"/>
       <configSetting altId="pa03.gpio_mode.gpio_mode_peripheral" configurationId="pa03.gpio_mode"/>
       <configSetting altId="pa04.sci2.sck2" configurationId="pa04"/>
+      <configSetting altId="pa04.gpio_speed.gpio_speed_h" configurationId="pa04.gpio_drivecapacity"/>
       <configSetting altId="pa04.gpio_mode.gpio_mode_peripheral" configurationId="pa04.gpio_mode"/>
       <configSetting altId="pa05.sci2.cts_rts2" configurationId="pa05"/>
+      <configSetting altId="pa05.gpio_speed.gpio_speed_h" configurationId="pa05.gpio_drivecapacity"/>
       <configSetting altId="pa05.gpio_mode.gpio_mode_peripheral" configurationId="pa05.gpio_mode"/>
       <configSetting altId="pa06.input" configurationId="pa06"/>
       <configSetting altId="pa06.gpio_mode.gpio_mode_in" configurationId="pa06.gpio_mode"/>

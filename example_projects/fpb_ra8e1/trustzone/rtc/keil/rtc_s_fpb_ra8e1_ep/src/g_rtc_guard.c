@@ -122,7 +122,7 @@ BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_rtc_info_get_guard (rtc_ctrl_t *const p_ctr
     return R_RTC_InfoGet(&g_rtc_ctrl, p_rtc_info_checked);
 }
 
-BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_rtc_callback_set_guard (rtc_ctrl_t *const p_ctrl, void(*p_callback)(rtc_callback_args_t *), void const *const p_context, rtc_callback_args_t *const p_callback_memory)
+BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_rtc_callback_set_guard (rtc_ctrl_t *const p_ctrl, void(*p_callback)(rtc_callback_args_t *), void *const p_context, rtc_callback_args_t *const p_callback_memory)
 {
     /* Verify all pointers are in non-secure memory. */
     void(*p_callback_checked)(rtc_callback_args_t *) = (void(*)(rtc_callback_args_t *)) cmse_check_address_range((void *) p_callback, sizeof(void *), CMSE_AU_NONSECURE);

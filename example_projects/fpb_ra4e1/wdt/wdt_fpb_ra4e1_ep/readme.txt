@@ -14,9 +14,9 @@ Note:
 2. On RA2E2-EK/RA6T1-RSSK/RA6M3-EK board/RA6T2-MCK, use Switch S2 to stop WDT from refreshing.﻿
 1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x200004a4
-   b. Keil:	0x2000000c
-   c. IAR: 0x2000021c
+   a. e2studio: 0x200008a0
+   b. Keil:	0x20000828
+   c. IAR: 0x200008bc
  
 2) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) 
    in .map file generated in the build configuration folder (Debug/Release).

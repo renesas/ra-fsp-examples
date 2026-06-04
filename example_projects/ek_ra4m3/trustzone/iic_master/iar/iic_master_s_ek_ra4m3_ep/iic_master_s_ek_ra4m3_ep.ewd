@@ -15,6 +15,38 @@
                 <wantNonLocal>1</wantNonLocal>
                 <debug>1</debug>
                 <option>
+                    <name>OCOverrideSlave</name>
+                    <state>0</state>
+                </option>
+                <option>
+                    <name>OCOverrideSlavePath</name>
+                    <state></state>
+                </option>
+                <option>
+                    <name>C_32_64Device</name>
+                    <state>1</state>
+                </option>
+                <option>
+                    <name>AuthEnable</name>
+                    <state>0</state>
+                </option>
+                <option>
+                    <name>AuthSdmSelection</name>
+                    <state>1</state>
+                </option>
+                <option>
+                    <name>AuthSdmManifest</name>
+                    <state></state>
+                </option>
+                <option>
+                    <name>AuthSdmExplicitLib</name>
+                    <state></state>
+                </option>
+                <option>
+                    <name>AuthEnforce</name>
+                    <state>0</state>
+                </option>
+                <option>
                     <name>CInput</name>
                     <state>1</state>
                 </option>
@@ -32,7 +64,7 @@
                 </option>
                 <option>
                     <name>MacOverride</name>
-                    <state>1</state>
+                    <state>0</state>
                 </option>
                 <option>
                     <name>MacFile</name>
@@ -44,7 +76,7 @@
                 </option>
                 <option>
                     <name>MemFile</name>
-                    <state></state>
+                    <state>$TOOLKIT_DIR$\config\debugger\Renesas\R7FA4M3AF.ddf</state>
                 </option>
                 <option>
                     <name>RunToEnable</name>
@@ -60,7 +92,8 @@
                 </option>
                 <option>
                     <name>CExtraOptions</name>
-                    <state>--drv_vector_table_base=0x0</state>
+                    <state>--drv_reset_to_cpu_start</state>
+                    <state>--proc_stack_main=g_main_stack,g_main_stack+sizeof(g_main_stack)</state>
                 </option>
                 <option>
                     <name>CFpuProcessor</name>
@@ -88,11 +121,11 @@
                 </option>
                 <option>
                     <name>OCLastSavedByProductVersion</name>
-                    <state></state>
+                    <state>9.70.4.21192</state>
                 </option>
                 <option>
                     <name>UseFlashLoader</name>
-                    <state>1</state>
+                    <state>0</state>
                 </option>
                 <option>
                     <name>CLowLevel</name>
@@ -112,7 +145,7 @@
                 </option>
                 <option>
                     <name>FlashLoadersV3</name>
-                    <state></state>
+                    <state>$TOOLKIT_DIR$/config/flashloader/Renesas/FlashR7FA4M3AF.board</state>
                 </option>
                 <option>
                     <name>OCImagesSuppressCheck1</name>
@@ -180,7 +213,7 @@
                 </option>
                 <option>
                     <name>OCMulticoreNrOfCores</name>
-                    <state></state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>OCMulticoreWorkspace</name>
@@ -221,38 +254,6 @@
                 <option>
                     <name>OCTpiuBaseOption</name>
                     <state>1</state>
-                </option>
-                <option>
-                    <name>OCOverrideSlave</name>
-                    <state>0</state>
-                </option>
-                <option>
-                    <name>OCOverrideSlavePath</name>
-                    <state></state>
-                </option>
-                <option>
-                    <name>C_32_64Device</name>
-                    <state>1</state>
-                </option>
-                <option>
-                    <name>AuthEnable</name>
-                    <state>0</state>
-                </option>
-                <option>
-                    <name>AuthSdmSelection</name>
-                    <state>1</state>
-                </option>
-                <option>
-                    <name>AuthSdmManifest</name>
-                    <state></state>
-                </option>
-                <option>
-                    <name>AuthSdmExplicitLib</name>
-                    <state></state>
-                </option>
-                <option>
-                    <name>AuthEnforce</name>
-                    <state>0</state>
                 </option>
                 <option>
                     <name>VectorTableOverride</name>
@@ -600,6 +601,62 @@
                 <wantNonLocal>1</wantNonLocal>
                 <debug>1</debug>
                 <option>
+                    <name>CatchV8ARReset</name>
+                    <state>0</state>
+                </option>
+                <option>
+                    <name>CatchV8AREREL1NS</name>
+                    <state>0</state>
+                </option>
+                <option>
+                    <name>CatchV8AREREL1S</name>
+                    <state>0</state>
+                </option>
+                <option>
+                    <name>CatchV8AREREL2NS</name>
+                    <state>0</state>
+                </option>
+                <option>
+                    <name>CatchV8AREREL3S</name>
+                    <state>0</state>
+                </option>
+                <option>
+                    <name>CatchV8AREEL1NS</name>
+                    <state>0</state>
+                </option>
+                <option>
+                    <name>CatchV8ARREL1NS</name>
+                    <state>0</state>
+                </option>
+                <option>
+                    <name>CatchV8AREEL1S</name>
+                    <state>0</state>
+                </option>
+                <option>
+                    <name>CatchV8ARREL1S</name>
+                    <state>0</state>
+                </option>
+                <option>
+                    <name>CatchV8AREEL2NS</name>
+                    <state>0</state>
+                </option>
+                <option>
+                    <name>CatchV8ARREL2NS</name>
+                    <state>0</state>
+                </option>
+                <option>
+                    <name>CatchV8AREEL3S</name>
+                    <state>0</state>
+                </option>
+                <option>
+                    <name>CatchV8ARREL3S</name>
+                    <state>0</state>
+                </option>
+                <option>
+                    <name>IjetHWResetTimingOverride</name>
+                    <state>0</state>
+                </option>
+                <option>
                     <name>OCDriverInfo</name>
                     <state>1</state>
                 </option>
@@ -820,62 +877,6 @@
                     <name>CCIjetUsbSerialNoSelect</name>
                     <state>0</state>
                 </option>
-                <option>
-                    <name>CatchV8ARReset</name>
-                    <state>0</state>
-                </option>
-                <option>
-                    <name>CatchV8AREREL1NS</name>
-                    <state>0</state>
-                </option>
-                <option>
-                    <name>CatchV8AREREL1S</name>
-                    <state>0</state>
-                </option>
-                <option>
-                    <name>CatchV8AREREL2NS</name>
-                    <state>0</state>
-                </option>
-                <option>
-                    <name>CatchV8AREREL3S</name>
-                    <state>0</state>
-                </option>
-                <option>
-                    <name>CatchV8AREEL1NS</name>
-                    <state>0</state>
-                </option>
-                <option>
-                    <name>CatchV8ARREL1NS</name>
-                    <state>0</state>
-                </option>
-                <option>
-                    <name>CatchV8AREEL1S</name>
-                    <state>0</state>
-                </option>
-                <option>
-                    <name>CatchV8ARREL1S</name>
-                    <state>0</state>
-                </option>
-                <option>
-                    <name>CatchV8AREEL2NS</name>
-                    <state>0</state>
-                </option>
-                <option>
-                    <name>CatchV8ARREL2NS</name>
-                    <state>0</state>
-                </option>
-                <option>
-                    <name>CatchV8AREEL3S</name>
-                    <state>0</state>
-                </option>
-                <option>
-                    <name>CatchV8ARREL3S</name>
-                    <state>0</state>
-                </option>
-                <option>
-                    <name>IjetHWResetTimingOverride</name>
-                    <state>1</state>
-                </option>
             </data>
         </settings>
         <settings>
@@ -989,7 +990,7 @@
                 <option>
                     <name>CCJLinkResetList</name>
                     <version>6</version>
-                    <state>5</state>
+                    <state>7</state>
                 </option>
                 <option>
                     <name>CCJLinkInterfaceCmdLine</name>
@@ -1054,7 +1055,7 @@
                 </option>
                 <option>
                     <name>CCCpuClockEdit</name>
-                    <state></state>
+                    <state>50.0</state>
                 </option>
                 <option>
                     <name>CCSwoClockAuto</name>
@@ -1086,6 +1087,19 @@
                 <wantNonLocal>1</wantNonLocal>
                 <debug>1</debug>
                 <option>
+                    <name>CCLmiftdiUsbSerialNo</name>
+                    <state></state>
+                </option>
+                <option>
+                    <name>CCLmiftdiUsbSerialNoSelect</name>
+                    <state>0</state>
+                </option>
+                <option>
+                    <name>CCLmiftdiResetList</name>
+                    <version>0</version>
+                    <state>0</state>
+                </option>
+                <option>
                     <name>OCDriverInfo</name>
                     <state>1</state>
                 </option>
@@ -1107,19 +1121,6 @@
                 </option>
                 <option>
                     <name>CCLmiFtdiInterfaceCmdLine</name>
-                    <state>0</state>
-                </option>
-                <option>
-                    <name>CCLmiftdiUsbSerialNo</name>
-                    <state></state>
-                </option>
-                <option>
-                    <name>CCLmiftdiUsbSerialNoSelect</name>
-                    <state>0</state>
-                </option>
-                <option>
-                    <name>CCLmiftdiResetList</name>
-                    <version>0</version>
                     <state>0</state>
                 </option>
             </data>
@@ -1177,6 +1178,14 @@
                 <version>8</version>
                 <wantNonLocal>1</wantNonLocal>
                 <debug>1</debug>
+                <option>
+                    <name>CCSTLinkTargetVccEnable</name>
+                    <state>1</state>
+                </option>
+                <option>
+                    <name>CCSTLinkTargetVoltage</name>
+                    <state>###Uninitialized###</state>
+                </option>
                 <option>
                     <name>OCDriverInfo</name>
                     <state>1</state>
@@ -1292,14 +1301,6 @@
                     <version>2</version>
                     <state>0</state>
                 </option>
-                <option>
-                    <name>CCSTLinkTargetVccEnable</name>
-                    <state>1</state>
-                </option>
-                <option>
-                    <name>CCSTLinkTargetVoltage</name>
-                    <state>###Uninitialized###</state>
-                </option>
             </data>
         </settings>
         <settings>
@@ -1405,6 +1406,10 @@
                 <version>9</version>
                 <wantNonLocal>1</wantNonLocal>
                 <debug>1</debug>
+                <option>
+                    <name>OCSelectedCoreName</name>
+                    <state>1</state>
+                </option>
                 <option>
                     <name>OCDriverInfo</name>
                     <state>1</state>
@@ -1574,10 +1579,6 @@
                 </option>
                 <option>
                     <name>OCXDSDigitalStatesConfigFile</name>
-                    <state>1</state>
-                </option>
-                <option>
-                    <name>OCSelectedCoreName</name>
                     <state>1</state>
                 </option>
             </data>
@@ -1675,6 +1676,38 @@
                 <wantNonLocal>1</wantNonLocal>
                 <debug>0</debug>
                 <option>
+                    <name>OCOverrideSlave</name>
+                    <state>0</state>
+                </option>
+                <option>
+                    <name>OCOverrideSlavePath</name>
+                    <state></state>
+                </option>
+                <option>
+                    <name>C_32_64Device</name>
+                    <state>1</state>
+                </option>
+                <option>
+                    <name>AuthEnable</name>
+                    <state>0</state>
+                </option>
+                <option>
+                    <name>AuthSdmSelection</name>
+                    <state>1</state>
+                </option>
+                <option>
+                    <name>AuthSdmManifest</name>
+                    <state></state>
+                </option>
+                <option>
+                    <name>AuthSdmExplicitLib</name>
+                    <state></state>
+                </option>
+                <option>
+                    <name>AuthEnforce</name>
+                    <state>0</state>
+                </option>
+                <option>
                     <name>CInput</name>
                     <state>1</state>
                 </option>
@@ -1720,7 +1753,8 @@
                 </option>
                 <option>
                     <name>CExtraOptions</name>
-                    <state>--drv_vector_table_base=0x0</state>
+                    <state>--drv_reset_to_cpu_start</state>
+                    <state>--proc_stack_main=g_main_stack,g_main_stack+sizeof(g_main_stack)</state>
                 </option>
                 <option>
                     <name>CFpuProcessor</name>
@@ -1752,7 +1786,7 @@
                 </option>
                 <option>
                     <name>UseFlashLoader</name>
-                    <state>1</state>
+                    <state>0</state>
                 </option>
                 <option>
                     <name>CLowLevel</name>
@@ -1881,38 +1915,6 @@
                 <option>
                     <name>OCTpiuBaseOption</name>
                     <state>1</state>
-                </option>
-                <option>
-                    <name>OCOverrideSlave</name>
-                    <state>0</state>
-                </option>
-                <option>
-                    <name>OCOverrideSlavePath</name>
-                    <state></state>
-                </option>
-                <option>
-                    <name>C_32_64Device</name>
-                    <state>1</state>
-                </option>
-                <option>
-                    <name>AuthEnable</name>
-                    <state>0</state>
-                </option>
-                <option>
-                    <name>AuthSdmSelection</name>
-                    <state>1</state>
-                </option>
-                <option>
-                    <name>AuthSdmManifest</name>
-                    <state></state>
-                </option>
-                <option>
-                    <name>AuthSdmExplicitLib</name>
-                    <state></state>
-                </option>
-                <option>
-                    <name>AuthEnforce</name>
-                    <state>0</state>
                 </option>
                 <option>
                     <name>VectorTableOverride</name>
@@ -2260,6 +2262,62 @@
                 <wantNonLocal>1</wantNonLocal>
                 <debug>0</debug>
                 <option>
+                    <name>CatchV8ARReset</name>
+                    <state>0</state>
+                </option>
+                <option>
+                    <name>CatchV8AREREL1NS</name>
+                    <state>0</state>
+                </option>
+                <option>
+                    <name>CatchV8AREREL1S</name>
+                    <state>0</state>
+                </option>
+                <option>
+                    <name>CatchV8AREREL2NS</name>
+                    <state>0</state>
+                </option>
+                <option>
+                    <name>CatchV8AREREL3S</name>
+                    <state>0</state>
+                </option>
+                <option>
+                    <name>CatchV8AREEL1NS</name>
+                    <state>0</state>
+                </option>
+                <option>
+                    <name>CatchV8ARREL1NS</name>
+                    <state>0</state>
+                </option>
+                <option>
+                    <name>CatchV8AREEL1S</name>
+                    <state>0</state>
+                </option>
+                <option>
+                    <name>CatchV8ARREL1S</name>
+                    <state>0</state>
+                </option>
+                <option>
+                    <name>CatchV8AREEL2NS</name>
+                    <state>0</state>
+                </option>
+                <option>
+                    <name>CatchV8ARREL2NS</name>
+                    <state>0</state>
+                </option>
+                <option>
+                    <name>CatchV8AREEL3S</name>
+                    <state>0</state>
+                </option>
+                <option>
+                    <name>CatchV8ARREL3S</name>
+                    <state>0</state>
+                </option>
+                <option>
+                    <name>IjetHWResetTimingOverride</name>
+                    <state>0</state>
+                </option>
+                <option>
                     <name>OCDriverInfo</name>
                     <state>1</state>
                 </option>
@@ -2480,62 +2538,6 @@
                     <name>CCIjetUsbSerialNoSelect</name>
                     <state>0</state>
                 </option>
-                <option>
-                    <name>CatchV8ARReset</name>
-                    <state>0</state>
-                </option>
-                <option>
-                    <name>CatchV8AREREL1NS</name>
-                    <state>0</state>
-                </option>
-                <option>
-                    <name>CatchV8AREREL1S</name>
-                    <state>0</state>
-                </option>
-                <option>
-                    <name>CatchV8AREREL2NS</name>
-                    <state>0</state>
-                </option>
-                <option>
-                    <name>CatchV8AREREL3S</name>
-                    <state>0</state>
-                </option>
-                <option>
-                    <name>CatchV8AREEL1NS</name>
-                    <state>0</state>
-                </option>
-                <option>
-                    <name>CatchV8ARREL1NS</name>
-                    <state>0</state>
-                </option>
-                <option>
-                    <name>CatchV8AREEL1S</name>
-                    <state>0</state>
-                </option>
-                <option>
-                    <name>CatchV8ARREL1S</name>
-                    <state>0</state>
-                </option>
-                <option>
-                    <name>CatchV8AREEL2NS</name>
-                    <state>0</state>
-                </option>
-                <option>
-                    <name>CatchV8ARREL2NS</name>
-                    <state>0</state>
-                </option>
-                <option>
-                    <name>CatchV8AREEL3S</name>
-                    <state>0</state>
-                </option>
-                <option>
-                    <name>CatchV8ARREL3S</name>
-                    <state>0</state>
-                </option>
-                <option>
-                    <name>IjetHWResetTimingOverride</name>
-                    <state>1</state>
-                </option>
             </data>
         </settings>
         <settings>
@@ -2746,6 +2748,19 @@
                 <wantNonLocal>1</wantNonLocal>
                 <debug>0</debug>
                 <option>
+                    <name>CCLmiftdiUsbSerialNo</name>
+                    <state></state>
+                </option>
+                <option>
+                    <name>CCLmiftdiUsbSerialNoSelect</name>
+                    <state>0</state>
+                </option>
+                <option>
+                    <name>CCLmiftdiResetList</name>
+                    <version>0</version>
+                    <state>0</state>
+                </option>
+                <option>
                     <name>OCDriverInfo</name>
                     <state>1</state>
                 </option>
@@ -2767,19 +2782,6 @@
                 </option>
                 <option>
                     <name>CCLmiFtdiInterfaceCmdLine</name>
-                    <state>0</state>
-                </option>
-                <option>
-                    <name>CCLmiftdiUsbSerialNo</name>
-                    <state></state>
-                </option>
-                <option>
-                    <name>CCLmiftdiUsbSerialNoSelect</name>
-                    <state>0</state>
-                </option>
-                <option>
-                    <name>CCLmiftdiResetList</name>
-                    <version>0</version>
                     <state>0</state>
                 </option>
             </data>
@@ -2837,6 +2839,14 @@
                 <version>8</version>
                 <wantNonLocal>1</wantNonLocal>
                 <debug>0</debug>
+                <option>
+                    <name>CCSTLinkTargetVccEnable</name>
+                    <state>1</state>
+                </option>
+                <option>
+                    <name>CCSTLinkTargetVoltage</name>
+                    <state>###Uninitialized###</state>
+                </option>
                 <option>
                     <name>OCDriverInfo</name>
                     <state>1</state>
@@ -2952,14 +2962,6 @@
                     <version>2</version>
                     <state>0</state>
                 </option>
-                <option>
-                    <name>CCSTLinkTargetVccEnable</name>
-                    <state>1</state>
-                </option>
-                <option>
-                    <name>CCSTLinkTargetVoltage</name>
-                    <state>###Uninitialized###</state>
-                </option>
             </data>
         </settings>
         <settings>
@@ -3065,6 +3067,10 @@
                 <version>9</version>
                 <wantNonLocal>1</wantNonLocal>
                 <debug>0</debug>
+                <option>
+                    <name>OCSelectedCoreName</name>
+                    <state>1</state>
+                </option>
                 <option>
                     <name>OCDriverInfo</name>
                     <state>1</state>
@@ -3234,10 +3240,6 @@
                 </option>
                 <option>
                     <name>OCXDSDigitalStatesConfigFile</name>
-                    <state>1</state>
-                </option>
-                <option>
-                    <name>OCSelectedCoreName</name>
                     <state>1</state>
                 </option>
             </data>

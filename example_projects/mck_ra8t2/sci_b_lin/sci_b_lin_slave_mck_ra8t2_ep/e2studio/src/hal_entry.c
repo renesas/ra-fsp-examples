@@ -3,7 +3,7 @@
  * Description  : Entry point and system initialization for the LIN Slave example project.
  **********************************************************************************************************************/
 /***********************************************************************************************************************
- * Copyright (c) 2025 Renesas Electronics Corporation and/or its affiliates
+ * Copyright (c) 2025 - 2026 Renesas Electronics Corporation and/or its affiliates
  *
  * SPDX-License-Identifier: BSD-3-Clause
  **********************************************************************************************************************/
@@ -58,11 +58,11 @@ void hal_entry(void)
 #if BSP_TZ_SECURE_BUILD
 
 FSP_CPP_HEADER
-BSP_CMSE_NONSECURE_ENTRY void template_nonsecure_callable ();
+BSP_CMSE_NONSECURE_ENTRY void template_nonsecure_callable();
 
-/* Trustzone Secure Projects require at least one nonsecure callable function in order to build
+/* Trustzone Secure Projects require at least one nonsecure callable function in order to build.
  * (Remove this if it is not required to build). */
-BSP_CMSE_NONSECURE_ENTRY void template_nonsecure_callable ()
+BSP_CMSE_NONSECURE_ENTRY void template_nonsecure_callable()
 {
 
 }

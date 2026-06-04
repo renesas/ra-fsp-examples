@@ -35,6 +35,14 @@ void R_BSP_WarmStart (bsp_warm_start_event_t event)
 #endif
     }
 
+#if BSP_CFG_OSPI_B_STARTUP_ENABLED && defined(BSP_CFG_OSPI_B_STARTUP_FN)
+    if (BSP_WARM_START_POST_CLOCK == event)
+    {
+        /* Setup OSPI_B SiP flash and initialize it. */
+        R_BSP_OspiBInit(BSP_CFG_OSPI_B_STARTUP_FN, true);
+    }
+#endif
+
     if (BSP_WARM_START_POST_C == event)
     {
         /* C runtime environment and system clocks are setup. */

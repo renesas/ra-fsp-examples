@@ -3,7 +3,7 @@
 * Description  : Contains data structures and functions used in r_uarta_instance_cfg.c.
 ***********************************************************************************************************************/
 /***********************************************************************************************************************
-* Copyright (c) 2025 Renesas Electronics Corporation and/or its affiliates
+* Copyright (c) 2026 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
 ***********************************************************************************************************************/
@@ -21,6 +21,7 @@
 #include "r_uarta.h"
 #include "../r_uart_api.h"
 
+#if !defined(BOARD_RA4C1_EK) && !defined(BOARD_RA4L1_EK)
 /***********************************************************************************************************************
  * Macro definitions
  **********************************************************************************************************************/
@@ -40,6 +41,7 @@ extern const uarta_extended_cfg_t g_serial_cfg_extend;
 void serial_callback(uart_callback_args_t *p_args);
 #endif
 
+#endif /* BOARD_RA4C1_EK & BOARD_RA4L1_EK*/
 #endif /* BSP_PERIPHERAL_UARTA_PRESENT */
 #endif /* USE_VIRTUAL_COM */
 #endif /* R_UARTA_INSTANCE_CFG_H_ */

@@ -45,11 +45,11 @@ To build and run the example project, the following resources are needed.
             * Short Pin 2-3 of jumper J12.
 
 ### Software Requirements ###
-* Renesas Flexible Software Package (FSP): Version 6.4.0
-* e2 studio: Version 2025-12
+* Renesas Flexible Software Package (FSP): Version 6.5.0
+* e2 studio: Version 2026-04.2
 * GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 * Terminal Console Application: Tera Term version 4.99
-* SEGGER J-Link RTT Viewer: Version 9.14a
+* SEGGER J-Link RTT Viewer: Version 9.42
 * Web Browser Application: Microsoft Edge, Google Chrome
 * Socket Application: Sokit
 * RNDIS (Remote Network Driver Interface Specification) driver installed to recognize the MCU as a USB Ethernet interface.

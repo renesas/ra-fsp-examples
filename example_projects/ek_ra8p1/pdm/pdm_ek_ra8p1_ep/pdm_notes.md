@@ -83,9 +83,9 @@ To build and run the PDM example project, the following resources are needed.
   * DAC output pin: DA0 P014 (J2:04)
 
 ## Software Requirements
-* Renesas Flexible Software Package (FSP): Version 6.4.0
-* e2 studio: Version 2025-12
-* SEGGER J-Link RTT Viewer: Version 9.14a
+* Renesas Flexible Software Package (FSP): Version 6.5.0
+* e2 studio: Version 2026-04.2
+* SEGGER J-Link RTT Viewer: Version 9.42
 * Terminal Console Application: Tera Term version 4.99
 * LLVM Embedded Toolchain for ARM: Version 21.1.1
 
@@ -146,6 +146,41 @@ Note:
 
     ![record_audio_without_vox_wakeup](images/record_audio_without_vox_wakeup.png "Record audio without VOX wakeup operation")
 
+## Setting up waveform rendering to listen to audio while debugging on PC ##
+* While debugging the project, enter the memory view and add "g_record_buffer" (recorded data) and "g_playback_buffer" (playback data) as variables to monitor.
+* Then click on New Rendering -> Waveform -> Waveform properties
+* Set the waveform properties: 
+  * Data Size to 32 bit (for g_record_buffer ) and 16 bit (for g_playback_buffer )
+  * Y-axis precision as 32bit
+  * Channel to Mono
+  * Buffer Size as "<time_record> x 2 x 32000" (e.g. Time record is 5 seconds in this case, so the Buffer Size is 320000)
+
+* Waveform Properties for Record buffer
+
+    ![waveform_properties](images/waveform_properties_record.png "Waveform Properties for Record buffer")
+
+* Waveform Properties for Playback buffer
+
+    ![waveform_properties](images/waveform_properties_playback.png "Waveform Properties for Playback buffer")
+   
+**Note:** User can add the buffer address of each channel in the memory to view the waveform of each channel connected.
+
+* Right-click on waveform to get the Play Sample Rate for listening on PC.
+
+    ![play_sample_rate](images/play_sample_rate.png "Choosing the Play Sample Rate")
+
+**Note:** Click "Real-Time Refresh ![Refresh](images/refreshbutton.png)" and "Play ![Play](images/playbutton.png)" buttons on the Memory tab to see the waveform and listen to the audio on your PC.
+   
+The images below showcase the output of waveform rendering for PDM:
+
+* Waveform Rendering of Record buffer (g_record_buffer):
+
+    ![waveform_record_buffer](images/waveform_record_buffer.png "Waveform Rendering of Record buffer")
+
+* Waveform Rendering of Playback buffer (g_playback_buffer):
+
+    ![waveform_dest_buffer](images/waveform_playback_buffer.png "Waveform Rendering of Playback buffer")
+  
 # Project Notes
 
 This section provides a system-level block diagram of the PDM EP that visually represents the overall architecture, highlighting how different modules interact and how data flows through the system. 
@@ -179,12 +214,13 @@ This section describes FSP Configurator properties which are important or differ
 
 |   Module Property Path and Identifier   |   Default Value   |   Used Value   |   Reason   |
 |-----------------------------------------|-------------------|----------------|------------|
+| configuration.xml > g_pdm0 PDM (r_pdm) > Properties > Settings > Property > Common > DMAC support | Disabled | Enabled | Enable DMAC support |
 | configuration.xml > g_pdm0 PDM (r_pdm) > Properties > Settings > Property > Module g_pdm0 PDM (r_pdm) > Output > Bit Format | 20 Bits mode {1 Sign bit  and [18:0] bits of the buffer} | 20 Bits mode {1 Sign bit  and [18:0] bits of the buffer} | Use 20 bits mode output. Refer [Note #4 in Special Topics](#4-select-between-16-bit-and-20-bit-pdm-bit-formats-output-notes) to change to other bit formats. |
 | configuration.xml > g_pdm0 PDM (r_pdm) > Properties > Settings > Property > Module g_pdm0 PDM (r_pdm) > Output > Target Sampling Frequency (Hz) | 32000 | 32000 | Use 32KHz as target samplng output. |
 | configuration.xml > g_pdm0 PDM (r_pdm) > Properties > Settings > Property > Module g_pdm0 PDM (r_pdm) > Data Reception > Buffer Overwrite Detection Enable | Enabled | Enabled | Enable Buffer Overwrite Detection. |
 | configuration.xml > g_pdm0 PDM (r_pdm) > Properties > Settings > Property > Module g_pdm0 PDM (r_pdm) > Interrupt > Callback | NULL | pdm_callback | It is called from the interrupt service routine (ISR) upon PDM events. |
 | configuration.xml > g_pdm0 PDM (r_pdm) > Properties > Settings > Property > Module g_pdm0 PDM (r_pdm) > Interrupt > Sound Detection Interrupt Priority | Disabled | Priority 12 | Specify the Sound Detection Interrupt Priority. |
-| configuration.xml > g_pdm0 PDM (r_pdm) > Properties > Settings > Property > Module g_pdm0 PDM (r_pdm) > Interrupt > Data Reception Interrupt Priority | Disabled | Priority 12 | Specify the Data Reception Interrupt Priority. |
+| configuration.xml > g_pdm0 PDM (r_pdm) > Properties > Settings > Property > Module g_pdm0 PDM (r_pdm) > Interrupt > Data Reception Interrupt Priority | Disabled | Disabled | Specify the Data Reception Interrupt Priority. |
 | configuration.xml > g_pdm0 PDM (r_pdm) > Properties > Settings > Property > Module g_pdm0 PDM (r_pdm) > Interrupt > Error Detection Interrupt Priority | Disabled | Priority 12 | Specify the Error Detection Interrupt Priority. |
 | configuration.xml > g_pdm0 PDM (r_pdm) > Properties > Settings > Property > Module g_pdm0 PDM (r_pdm) > Channel | 0 | 2 | Use PDM Channel 2. |
 | configuration.xml > g_pdm0 PDM (r_pdm) > Properties > Settings > Property > Module g_pdm0 PDM (r_pdm) > Short Circuit Detection > Short Circuit Detection Enable | Disabled | Enabled | Enable the short circuit detection. |
@@ -207,7 +243,7 @@ This section describes FSP Configurator properties which are important or differ
 |-----------------------------------------|-------------------|----------------|------------|
 | configuration.xml > g_transfer0 Transfer (r_dmac) > Properties > Settings > Property > Module g_transfer0 Transfer (r_dmac) > Mode | Normal | Normal | Specify the DMAC transfer mode. |
 | configuration.xml > g_transfer0 Transfer (r_dmac) > Properties > Settings > Property > Module g_transfer0 Transfer (r_dmac) > Transfer Size | 2 Bytes | 2 Bytes | Set the transfer size to 2 bytes to send one DAC sample per activation. |
-| configuration.xml > g_transfer0 Transfer (r_dmac) > Properties > Settings > Property > Module g_transfer0 Transfer (r_dmac) > Number of transfer | 1 | 1 | Specify the number of transfer to 1, the transfer will be controlled by software |
+| configuration.xml > g_transfer0 Transfer (r_dmac) > Properties > Settings > Property > Module g_transfer0 Transfer (r_dmac) > Number of transfer | 1 | 32000 | Specify the number of transfer to 32000 |
 | configuration.xml > g_transfer0 Transfer (r_dmac) > Properties > Settings > Property > Module g_transfer0 Transfer (r_dmac) > Activation Source | No ELC Trigger | AGT0 INT (AGT interrupt) | Configure AGT0 INT as activation source. |
 | configuration.xml > g_transfer0 Transfer (r_dmac) > Properties > Settings > Property > Module g_transfer0 Transfer (r_dmac) > Callback | NULL | transfer_callback | It is called from the interrupt service routine (ISR) upon all transfers have completed. |
 | configuration.xml > g_transfer0 Transfer (r_dmac) > Properties > Settings > Property > Module g_transfer0 Transfer (r_dmac) > Transfer End Interrupt Priority | Disabled | Priority 12 | Specify the Transfer End Interrupt Priority. |

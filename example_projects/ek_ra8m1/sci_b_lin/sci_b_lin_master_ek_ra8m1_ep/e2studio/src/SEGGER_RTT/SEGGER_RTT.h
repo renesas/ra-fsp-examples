@@ -517,6 +517,5 @@ int SEGGER_RTT_vprintf(unsigned BufferIndex, const char * sFormat, va_list * pPa
 
 
 #endif
-
+#endif /* USE_VIRTUAL_COM */
 /*************************** End of file ****************************/
-#endif

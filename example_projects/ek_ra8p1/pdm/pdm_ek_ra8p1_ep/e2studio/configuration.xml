@@ -9,7 +9,7 @@
     <option key="#DeviceCommand#" value="R7KA8P1KF"/>
     <option key="#RTOS#" value="_none"/>
     <option key="#pinconfiguration#" value="R7KA8P1KFLCAC.pincfg"/>
-    <option key="#FSPVersion#" value="6.4.0"/>
+    <option key="#FSPVersion#" value="6.5.0"/>
     <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra8p1_ek##"/>
     <option key="#SELECTED_TOOLCHAIN#" value="clang_arm"/>
     <option key="#ToolchainVersion#" value="21.1.1"/>
@@ -352,12 +352,12 @@
     <node id="board.clock.bclk.div" option="board.clock.bclk.div.8"/>
     <node id="board.clock.bclk.display" option="board.clock.bclk.display.value"/>
     <node id="board.clock.bclka.source" option="board.clock.bclka.source.pll2q"/>
-    <node id="board.clock.bclka.div" option="board.clock.bclka.div.8"/>
+    <node id="board.clock.bclka.div" option="board.clock.bclka.div.6"/>
     <node id="board.clock.bclka.display" option="board.clock.bclka.display.value"/>
     <node id="board.clock.sdclkout.enable" option="board.clock.sdclkout.enable.enabled"/>
     <node id="board.clock.sdclkout.display" option="board.clock.sdclkout.display.value"/>
-    <node id="board.clock.ebclk.source" option="board.clock.ebclk.source.bclka"/>
-    <node id="board.clock.bclkout.div" option="board.clock.bclkout.div.2"/>
+    <node id="board.clock.ebclk.source" option="board.clock.ebclk.source.bclk"/>
+    <node id="board.clock.bclkout.div" option="board.clock.bclkout.div.0"/>
     <node id="board.clock.bclkout.display" option="board.clock.bclkout.display.value"/>
     <node id="board.clock.clkout.source" option="board.clock.clkout.source.hoco"/>
     <node id="board.clock.clkout.div" option="board.clock.clkout.div.1"/>
@@ -406,61 +406,61 @@
     <node id="board.clock.ethphyclk.display" option="board.clock.ethphyclk.display.value"/>
   </raClockConfiguration>
   <raComponentSelection>
-    <component apiversion="" class="CMSIS" condition="" group="Main" subgroup="CoreM" variant="" vendor="Arm" version="6.1.0+fsp.6.4.0">
-      <description>Arm CMSIS Version 6 - Core (M)</description>
-      <originalPack>Arm.CMSIS6.6.1.0+fsp.6.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra8p1" subgroup="device" variant="R7KA8P1KFLCAC" vendor="Renesas" version="6.4.0">
-      <description>Board support package for R7KA8P1KFLCAC</description>
-      <originalPack>Renesas.RA_mcu_ra8p1.6.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra8p1" subgroup="device" variant="" vendor="Renesas" version="6.4.0">
-      <description>Board support package for RA8P1</description>
-      <originalPack>Renesas.RA_mcu_ra8p1.6.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra8p1" subgroup="fsp" variant="" vendor="Renesas" version="6.4.0">
-      <description>Board support package for RA8P1 - FSP Data</description>
-      <originalPack>Renesas.RA_mcu_ra8p1.6.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra8p1" subgroup="events" variant="" vendor="Renesas" version="6.4.0">
-      <description>Board support package for RA8P1 - Events</description>
-      <originalPack>Renesas.RA_mcu_ra8p1.6.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra8p1" subgroup="linker" variant="" vendor="Renesas" version="6.4.0">
-      <description>Board support package for RA8P1 - Linker</description>
-      <originalPack>Renesas.RA_mcu_ra8p1.6.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="6.4.0">
-      <description>Board Support Package Common Files</description>
-      <originalPack>Renesas.RA.6.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_agt" variant="" vendor="Renesas" version="6.4.0">
-      <description>Asynchronous General Purpose Timer</description>
-      <originalPack>Renesas.RA.6.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_dac_b" variant="" vendor="Renesas" version="6.4.0">
-      <description>12-bit D/A Converter</description>
-      <originalPack>Renesas.RA.6.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_dmac" variant="" vendor="Renesas" version="6.4.0">
-      <description>Direct Memory Access Controller</description>
-      <originalPack>Renesas.RA.6.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="6.4.0">
-      <description>I/O Port</description>
-      <originalPack>Renesas.RA.6.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_lpm" variant="" vendor="Renesas" version="6.4.0">
-      <description>Low Power Modes</description>
-      <originalPack>Renesas.RA.6.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_pdm" variant="" vendor="Renesas" version="6.4.0">
-      <description>PDM</description>
-      <originalPack>Renesas.RA.6.4.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra8p1_ek" variant="" vendor="Renesas" version="6.4.0">
+    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra8p1_ek" variant="" vendor="Renesas" version="6.5.0">
       <description>RA8P1-EK Board Support Files</description>
-      <originalPack>Renesas.RA_board_ra8p1_ek.6.4.0.pack</originalPack>
+      <originalPack>Renesas.RA_board_ra8p1_ek.6.5.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra8p1" subgroup="device" variant="R7KA8P1KFLCAC" vendor="Renesas" version="6.5.0">
+      <description>Board support package for R7KA8P1KFLCAC</description>
+      <originalPack>Renesas.RA_mcu_ra8p1.6.5.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra8p1" subgroup="device" variant="" vendor="Renesas" version="6.5.0">
+      <description>Board support package for RA8P1</description>
+      <originalPack>Renesas.RA_mcu_ra8p1.6.5.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra8p1" subgroup="fsp" variant="" vendor="Renesas" version="6.5.0">
+      <description>Board support package for RA8P1 - FSP Data</description>
+      <originalPack>Renesas.RA_mcu_ra8p1.6.5.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra8p1" subgroup="events" variant="" vendor="Renesas" version="6.5.0">
+      <description>Board support package for RA8P1 - Events</description>
+      <originalPack>Renesas.RA_mcu_ra8p1.6.5.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra8p1" subgroup="linker" variant="" vendor="Renesas" version="6.5.0">
+      <description>Board support package for RA8P1 - Linker</description>
+      <originalPack>Renesas.RA_mcu_ra8p1.6.5.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="CMSIS" condition="" group="Main" subgroup="CoreM" variant="" vendor="Arm" version="6.1.0+fsp.6.5.0">
+      <description>Arm CMSIS Version 6 - Core (M)</description>
+      <originalPack>Arm.CMSIS6.6.1.0+fsp.6.5.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="6.5.0">
+      <description>Board Support Package Common Files</description>
+      <originalPack>Renesas.RA.6.5.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_agt" variant="" vendor="Renesas" version="6.5.0">
+      <description>Asynchronous General Purpose Timer</description>
+      <originalPack>Renesas.RA.6.5.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_dac_b" variant="" vendor="Renesas" version="6.5.0">
+      <description>12-bit D/A Converter</description>
+      <originalPack>Renesas.RA.6.5.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_dmac" variant="" vendor="Renesas" version="6.5.0">
+      <description>Direct Memory Access Controller</description>
+      <originalPack>Renesas.RA.6.5.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="6.5.0">
+      <description>I/O Port</description>
+      <originalPack>Renesas.RA.6.5.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_lpm" variant="" vendor="Renesas" version="6.5.0">
+      <description>Low Power Modes</description>
+      <originalPack>Renesas.RA.6.5.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_pdm" variant="" vendor="Renesas" version="6.5.0">
+      <description>PDM</description>
+      <originalPack>Renesas.RA.6.5.0.pack</originalPack>
     </component>
   </raComponentSelection>
   <raElcConfiguration/>
@@ -496,13 +496,13 @@
       <property id="module.driver.transfer.dest_addr_mode" value="module.driver.transfer.dest_addr_mode.addr_mode_fixed"/>
       <property id="module.driver.transfer.src_addr_mode" value="module.driver.transfer.src_addr_mode.addr_mode_incremented"/>
       <property id="module.driver.transfer.repeat_area" value="module.driver.transfer.repeat_area.repeat_area_source"/>
-      <property id="module.driver.transfer.length" value="1"/>
+      <property id="module.driver.transfer.length" value="32000"/>
       <property id="module.driver.transfer.num_blocks" value="0"/>
       <property id="module.driver.transfer.activation_event" value="_signal.event.agt0.int"/>
       <property id="module.driver.transfer.p_callback" value="transfer_callback"/>
       <property id="module.driver.transfer.ipl" value="board.icu.common.irq.priority12"/>
       <property id="module.driver.transfer.interrupt" value="module.driver.transfer.interrupt.interrupt_end"/>
-      <property id="module.driver.transfer.offset" value="4"/>
+      <property id="module.driver.transfer.offset" value="1"/>
       <property id="module.driver.transfer.src.buffer" value="1"/>
     </module>
     <module id="module.driver.timer_on_agt.701922778">
@@ -608,8 +608,25 @@
       <property id="module.driver.pdm.overvoltage_detection_upper_limit" value="0x7A120"/>
       <property id="module.driver.pdm.callback" value="pdm_callback"/>
       <property id="module.driver.pdm.sdet_ipl" value="board.icu.common.irq.priority12"/>
-      <property id="module.driver.pdm.dat_ipl" value="board.icu.common.irq.priority12"/>
+      <property id="module.driver.pdm.dat_ipl" value="_disabled"/>
       <property id="module.driver.pdm.err_ipl" value="board.icu.common.irq.priority12"/>
+    </module>
+    <module id="module.driver.transfer_on_dmac.1602097057">
+      <property id="module.driver.transfer.name" value="g_transfer1"/>
+      <property id="module.driver.transfer.channel" value="1"/>
+      <property id="module.driver.transfer.mode" value="module.driver.transfer.mode.mode_normal"/>
+      <property id="module.driver.transfer.size" value="module.driver.transfer.size.size_2_byte"/>
+      <property id="module.driver.transfer.dest_addr_mode" value="module.driver.transfer.dest_addr_mode.addr_mode_fixed"/>
+      <property id="module.driver.transfer.src_addr_mode" value="module.driver.transfer.src_addr_mode.addr_mode_fixed"/>
+      <property id="module.driver.transfer.repeat_area" value="module.driver.transfer.repeat_area.repeat_area_source"/>
+      <property id="module.driver.transfer.length" value="1"/>
+      <property id="module.driver.transfer.num_blocks" value="0"/>
+      <property id="module.driver.transfer.activation_event" value="enum.elc_none.none"/>
+      <property id="module.driver.transfer.p_callback" value="NULL"/>
+      <property id="module.driver.transfer.ipl" value="board.icu.common.irq.priority12"/>
+      <property id="module.driver.transfer.interrupt" value="module.driver.transfer.interrupt.interrupt_end"/>
+      <property id="module.driver.transfer.offset" value="1"/>
+      <property id="module.driver.transfer.src.buffer" value="1"/>
     </module>
     <context id="_hal.0">
       <stack module="module.driver.ioport_on_ioport.0"/>
@@ -617,7 +634,9 @@
       <stack module="module.driver.transfer_on_dmac.1603674695"/>
       <stack module="module.driver.timer_on_agt.701922778"/>
       <stack module="module.driver.lpm.1324758578"/>
-      <stack module="module.driver.pdm_on_pdm.701167940"/>
+      <stack module="module.driver.pdm_on_pdm.701167940">
+        <stack module="module.driver.transfer_on_dmac.1602097057" requires="module.driver.pdm_on_pdm.requires.transfer_rx"/>
+      </stack>
     </context>
     <config id="config.driver.dmac">
       <property id="config.driver.dmac.param_checking_enable" value="config.driver.dmac.param_checking_enable.bsp"/>
@@ -640,7 +659,7 @@
     </config>
     <config id="config.driver.pdm">
       <property id="config.driver.pdm.param_checking_enable" value="config.driver.pdm.param_checking_enable.bsp"/>
-      <property id="config.driver.pdm.dmac_enable" value="config.driver.pdm.dmac_enable.disabled"/>
+      <property id="config.driver.pdm.dmac_enable" value="config.driver.pdm.dmac_enable.enabled"/>
     </config>
   </raModuleConfiguration>
   <raPinConfiguration>

@@ -1,5 +1,5 @@
 FSP Configuration
-  Board "EK-RA6E2"
+  Board "RA6|RA6E2|EK-RA6E2"
   R7FA6E2BB3CFM
     part_number: R7FA6E2BB3CFM
     rom_size_bytes: 262144
@@ -7,18 +7,20 @@ FSP Configuration
     data_flash_size_bytes: 4096
     package_style: LQFP
     package_pins: 64
+    number of cores: 1
     
+  R7FA6E2BB3CFM
   RA6E2
     series: 6
     
   RA6E2 Family
+    Enable inline BSP IRQ functions: Enabled
     Security: Exceptions: Exception Response: Non-Maskable Interrupt
     Security: Exceptions: BusFault, HardFault, and NMI Target: Secure State
     Security: System Reset Request Accessibility: Secure State
     Security: Exceptions: Prioritize Secure Exceptions: Disabled
     Security: Cache Accessibility: Both Secure and Non-Secure State
     Security: System Reset Status Accessibility: Both Secure and Non-Secure State
-    Security: Battery Backup Accessibility: Both Secure and Non-Secure State
     Security: SRAM Accessibility: SRAM Protection: Both Secure and Non-Secure State
     Security: SRAM Accessibility: SRAM ECC: Both Secure and Non-Secure State
     Security: SRAM Accessibility: Standby RAM: Regions 7-0 are all Secure.
@@ -26,37 +28,45 @@ FSP Configuration
     Security: BUS Accessibility: Bus Security Attribution Register B: Both Secure and Non-Secure State
     Security: Uninitialized Non-Secure Application Fallback: Enable Uninitialized Non-Secure Application Fallback
     Startup C-Cache Line Size: 32 Bytes
-    OFS0 register settings: Independent WDT: Start Mode: IWDT is Disabled
-    OFS0 register settings: Independent WDT: Timeout Period: 2048 cycles
-    OFS0 register settings: Independent WDT: Dedicated Clock Frequency Divisor: 128
-    OFS0 register settings: Independent WDT: Window End Position:  0% (no window end position)
-    OFS0 register settings: Independent WDT: Window Start Position: 100% (no window start position)
-    OFS0 register settings: Independent WDT: Reset Interrupt Request Select: Reset is enabled
-    OFS0 register settings: Independent WDT: Stop Control: Stop counting when in Sleep, Snooze mode, or Software Standby
-    OFS0 register settings: WDT: Start Mode Select: Stop WDT after a reset (register-start mode)
-    OFS0 register settings: WDT: Timeout Period: 16384 cycles
-    OFS0 register settings: WDT: Clock Frequency Division Ratio: 128
-    OFS0 register settings: WDT: Window End Position:  0% (no window end position)
-    OFS0 register settings: WDT: Window Start Position: 100% (no window start position)
-    OFS0 register settings: WDT: Reset Interrupt Request: Reset
-    OFS0 register settings: WDT: Stop Control: Stop counting when entering Sleep mode
-    OFS1 register settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
-    OFS1 register settings: Voltage Detection 0 Level: 2.80 V
-    OFS1 register settings: HOCO Oscillation Enable: HOCO oscillation is disabled after reset
-    Block Protection Settings (BPS): BPS0: 
-    Permanent Block Protection Settings (PBPS): PBPS0: 
     Clocks: HOCO FLL Function: Disabled
     Main Oscillator Wait Time: 8163 cycles
-    ID Code Mode: Unlocked (Ignore ID)
-    ID Code (32 Hex Characters): FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
     
+  RA6E2 Device Options
+    OFS Registers: OFS0 (Option Function Select Register 0 Secure) Settings: Enabled
+    OFS Registers: OFS0 (Option Function Select Register 0 Secure) Settings: Independent WDT: Start Mode: IWDT is stopped after a reset
+    OFS Registers: OFS0 (Option Function Select Register 0 Secure) Settings: Independent WDT: Timeout Period: 2048 cycles
+    OFS Registers: OFS0 (Option Function Select Register 0 Secure) Settings: Independent WDT: Dedicated Clock Frequency Divisor: 128
+    OFS Registers: OFS0 (Option Function Select Register 0 Secure) Settings: Independent WDT: Window End Position:  0% (no window end position)
+    OFS Registers: OFS0 (Option Function Select Register 0 Secure) Settings: Independent WDT: Window Start Position: 100% (no window start position)
+    OFS Registers: OFS0 (Option Function Select Register 0 Secure) Settings: Independent WDT: Reset Interrupt Request Select: Reset is enabled
+    OFS Registers: OFS0 (Option Function Select Register 0 Secure) Settings: Independent WDT: Stop Control: Stop counting when in Sleep,Snooze modec, or Software Standby
+    OFS Registers: OFS0 (Option Function Select Register 0 Secure) Settings: WDT: Start Mode Select: Stop WDT after a reset (register-start mode)
+    OFS Registers: OFS0 (Option Function Select Register 0 Secure) Settings: WDT: Timeout Period: 16384 cycles
+    OFS Registers: OFS0 (Option Function Select Register 0 Secure) Settings: WDT: Clock Frequency Division Ratio: 128
+    OFS Registers: OFS0 (Option Function Select Register 0 Secure) Settings: WDT: Window End Position:  0% (no window end position)
+    OFS Registers: OFS0 (Option Function Select Register 0 Secure) Settings: WDT: Window Start Position: 100% (no window start position)
+    OFS Registers: OFS0 (Option Function Select Register 0 Secure) Settings: WDT: Reset Interrupt Request: Reset
+    OFS Registers: OFS0 (Option Function Select Register 0 Secure) Settings: WDT: Stop Control: Stop counting when entering Sleep mode
+    OFS Registers: OSIS (OCD/Serial Programmer ID setting register Secure) Settings: Disabled
+    OFS Registers: OSIS (OCD/Serial Programmer ID setting register Secure) Settings: ID Code Mode: Unlocked (Ignore ID)
+    OFS Registers: OSIS (OCD/Serial Programmer ID setting register Secure) Settings: ID Code (32 Hex Characters): FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: Enabled
+    OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
+    OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: Voltage Detection 0 Level: 2.80 V
+    OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: HOCO Oscillation Enable: HOCO oscillation is disabled after reset
+    OFS Registers: BPS_SEC (Block Protect Setting Register Secure) Settings: Disabled
+    OFS Registers: BPS_SEC (Block Protect Setting Register Secure) Settings: BPS_SEC0: 
+    OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: Disabled
+    OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: PBPS_SEC0: 
+    
+  RA6E2 event data
   RA Common
     Main stack size (bytes): 0x400
     Heap size (bytes): 0x400
+    Bootloader Secondary XIP: Disabled
     MCU Vcc (mV): 3300
-    Parameter checking: Enabled
+    Parameter checking: Disabled
     Assert Failures: Return FSP_ERR_ASSERTION
-    Error Log: No Error Log
     Clock Registers not Reset Values during Startup: Disabled
     Main Oscillator Populated: Populated
     PFS Protect: Enabled
@@ -71,11 +81,11 @@ FSP Configuration
     XTAL 20000000Hz
     HOCO 20MHz
     PLL Src: XTAL
-    PLL Div /1
-    PLL Mul x10.0
+    PLL Div /2
+    PLL Mul x16.0
     Clock Src: PLL
     CLKOUT Disabled
-    UCLK Disabled
+    USBCLK Disabled
     CANFDCLK Src: PLL
     CECCLK Disabled
     I3CCLK Disabled
@@ -86,8 +96,8 @@ FSP Configuration
     PCLKD Div /2
     FCLK Div /4
     CLKOUT Div /1
-    UCLK Div /5
-    CANFDCLK Div /6
+    USBCLK Div /5
+    CANFDCLK Div /4
     CECCLK Div /1
     I3CCLK Div /1
     
@@ -133,7 +143,7 @@ FSP Configuration
       P302 30 GPIO PMOD2_CTS_ARDUINO_D3 - None "Input mode" - - "GPT4: GTIOC4A; GPT_OPS: GTOUUP; IRQ: IRQ5; RTC: RTCOUT; SCI0: CTS0; SCI9: SCK9; SPI0: RSPCK0; SSIE0: SSITXD0" - IO - - 
       P303 29 - PMOD1_CTS9 - - Disabled - - "SCI9: CTS9" - None - - 
       P304 28 GPIO SW2 - None "Input mode" - - "GPT_OPS: GTOWLO; IRQ: IRQ9" - IO - - 
-      P400 1 GPIO LED2 H None "Output mode (Initial Low)" - - "AGT1: AGTIO1; I3C/IIC: SCL0; IRQ: IRQ0" - IO - - 
+      P400 1 GPIO LED2 H - "Output mode (Initial Low)" - - "AGT1: AGTIO1; I3C/IIC: SCL0; IRQ: IRQ0" - IO - - 
       P401 2 CANFD0_CTX0 CANFD0_CTX L None "Peripheral mode" - - "CANFD0: CTX0; GPT_POEGA: GTETRGA; I3C/IIC: SDA0; IRQ: IRQ5-DS" - O - - 
       P402 3 CANFD0_CRX0 CANFD0_CRX L None "Peripheral mode" - - "AGT0: AGTIO0; AGT1: AGTIO1; CAC: CACREF; CANFD0: CRX0; GPT: GTADSM1; IRQ: IRQ4-DS; RTC: RTCIC0; SSIE: AUDIO_CLK" - I - - 
       P403 4 GPIO MIKROBUS_PWM_ARDUINO_D9 - None "Input mode" - - "AGT0: AGTIO0; AGT1: AGTIO1; GPT3: GTIOC3A; IRQ: IRQ14-DS; RTC: RTCIC1" - IO - - 
@@ -143,8 +153,8 @@ FSP Configuration
       P410 13 SCI0_RXD0 PMOD2_MIKROBUS_RX_ARDUINO_D0 L None "Peripheral mode" - - "GPT_OPS: GTOVLO; IRQ: IRQ5; SCI0: RXD0" - I - - 
       P411 12 SCI0_TXD0 MIKROBUS_TX_ARDUINO_D1 L None "Peripheral mode" - - "GPT_OPS: GTOVUP; IRQ: IRQ4; SCI0: TXD0" - O - - 
       P500 49 - ARDUINO_D4 - - Disabled - - "ADC0: AN016; AGT0: AGTOA0; CAC: CACREF; GPT_OPS: GTIU; QSPI: QSPCLK" - None - - 
-      P814 19 - - - - Disabled - - "GPT0: GTIOC0B; GPT_POEGB: GTETRGB; SYSTEM: USB_DP" - None - - 
-      P815 18 - - - - Disabled - - "GPT0: GTIOC0A; GPT_POEGC: GTETRGC; SYSTEM: USB_DM" - None - - 
+      P814 19 - - - - Disabled - - "GPT0: GTIOC0B; GPT_POEGB: GTETRGB; USB FS: USB_DP" - None - - 
+      P815 18 - - - - Disabled - - "GPT0: GTIOC0A; GPT_POEGC: GTETRGC; USB FS: USB_DM" - None - - 
       RES# 25 SYSTEM_RES# - - - - - - - - IO "Read only" - 
       VCC 39 SYSTEM_VCC - - - - - - - - IO "Read only" - 
       VCC_SOSC 11 SYSTEM_VCC_SOSC - - - - - - - - IO "Read only" - 
@@ -198,7 +208,7 @@ FSP Configuration
       P302 30 - PMOD2_CTS_ARDUINO_D3 - None Disabled - - "GPT4: GTIOC4A; GPT_OPS: GTOUUP; IRQ: IRQ5; RTC: RTCOUT; SCI0: CTS0; SCI9: SCK9; SPI0: RSPCK0; SSIE0: SSITXD0" - IO - - 
       P303 29 - PMOD1_CTS9 - - Disabled - - "SCI9: CTS9" - None - - 
       P304 28 - SW2 - None Disabled - - "GPT_OPS: GTOWLO; IRQ: IRQ9" - IO - - 
-      P400 1 - LED2 L None Disabled - - "AGT1: AGTIO1; I3C/IIC: SCL0; IRQ: IRQ0" - IO - - 
+      P400 1 - LED2 L - Disabled - - "AGT1: AGTIO1; I3C/IIC: SCL0; IRQ: IRQ0" - IO - - 
       P401 2 - CANFD0_CTX L None Disabled - - "CANFD0: CTX0; GPT_POEGA: GTETRGA; I3C/IIC: SDA0; IRQ: IRQ5-DS" - O - - 
       P402 3 - CANFD0_CRX L None Disabled - - "AGT0: AGTIO0; AGT1: AGTIO1; CAC: CACREF; CANFD0: CRX0; GPT: GTADSM1; IRQ: IRQ4-DS; RTC: RTCIC0; SSIE: AUDIO_CLK" - I - - 
       P403 4 - MIKROBUS_PWM_ARDUINO_D9 - None Disabled - - "AGT0: AGTIO0; AGT1: AGTIO1; GPT3: GTIOC3A; IRQ: IRQ14-DS; RTC: RTCIC1" - IO - - 
@@ -208,8 +218,8 @@ FSP Configuration
       P410 13 - PMOD2_MIKROBUS_RX_ARDUINO_D0 L None Disabled - - "GPT_OPS: GTOVLO; IRQ: IRQ5; SCI0: RXD0" - I - - 
       P411 12 - MIKROBUS_TX_ARDUINO_D1 L None Disabled - - "GPT_OPS: GTOVUP; IRQ: IRQ4; SCI0: TXD0" - O - - 
       P500 49 - ARDUINO_D4 - - Disabled - - "ADC0: AN016; AGT0: AGTOA0; CAC: CACREF; GPT_OPS: GTIU; QSPI: QSPCLK" - None - - 
-      P814 19 - - - - Disabled - - "GPT0: GTIOC0B; GPT_POEGB: GTETRGB; SYSTEM: USB_DP" - None - - 
-      P815 18 - - - - Disabled - - "GPT0: GTIOC0A; GPT_POEGC: GTETRGC; SYSTEM: USB_DM" - None - - 
+      P814 19 - - - - Disabled - - "GPT0: GTIOC0B; GPT_POEGB: GTETRGB; USB FS: USB_DP" - None - - 
+      P815 18 - - - - Disabled - - "GPT0: GTIOC0A; GPT_POEGC: GTETRGC; USB FS: USB_DM" - None - - 
       RES# 25 SYSTEM_RES# - - - - - - - - IO "Read only" - 
       VCC 39 SYSTEM_VCC - - - - - - - - IO "Read only" - 
       VCC_SOSC 11 SYSTEM_VCC_SOSC - - - - - - - - IO "Read only" - 
@@ -224,21 +234,35 @@ FSP Configuration
       XCOUT 7 CGC_XCOUT - - - - - - - - IO "Read only" - 
     
   User Events
+    SCI0 RXI (Receive data full): sci_uart_rxi_isr
+    SCI0 ERI (Receive error): sci_uart_eri_isr
+    SCI0 TEI (Transmit end): sci_uart_tei_isr
+    SCI0 TXI (Transmit data empty): sci_uart_txi_isr
     
   User Event Links
     
+  Linker Section Mappings
+    *(.bss.*_fsp_nocache): RAM Zeroed (Uncached)
+    *(.bss.g_heap): RAM Uninitialized
+    *(.bss.g_main_stack): RAM Uninitialized
+    
   Module "I/O Port (r_ioport)"
     Parameter Checking: Default (BSP)
+    CCD Support: Not Supported
     
   Module "CAN FD Lite (r_canfdlite)"
     Parameter Checking: Default (BSP)
     Global Error Interrupt: Callback Channel: Channel 0
     Global Error Interrupt: Priority: Priority 2
     Reception: FIFOs: Interrupt Priority: Priority 12
-    Flexible Data (FD): FD Frame Format: ISO 11898-1
     Flexible Data (FD): Protocol Exceptions: Enabled (ISO 11898-1)
-    Reception: Acceptance Filtering: Channel 0 Rule Count: 32
+    Reception: Acceptance Filtering: Channel 0 Rule Count: 16
     Reception: Acceptance Filtering: Channel 1 Rule Count: 0
+    
+  Module "Timer, General PWM (r_gpt)"
+    Parameter Checking: Default (BSP)
+    Pin Output Support: Disabled
+    Write Protect Enable: Disabled
     
   HAL
     Instance "g_ioport I/O Port (r_ioport)"
@@ -264,26 +288,105 @@ FSP Configuration
       Bitrate: Manual: Data: Time Segment 1 (Tq): 5
       Bitrate: Manual: Data: Time Segment 2 (Tq): 2
       Bitrate: Manual: Data: Sync Jump Width (Tq): 1
-      Bitrate: Manual: Use manual settings: No
+      Bitrate: Manual: Use manual settings: Yes
       Interrupts: Callback: canfd0_callback
       Transmit Interrupts: TXMB 0
       Channel Error Interrupts: Error Warning, Error Passive, Bus-Off Entry, Bus-Off Recovery, Overload
       Interrupts: Channel Interrupt Priority Level: Priority 12
       Filter List Array: p_canfd0_afl
-      Global Error Interrupt: Sources: 
+      Global Error Interrupt: Sources: DLC Check, Message Lost, FD Payload Overflow
       Transmission Priority: Buffer Number
       DLC Check: Disabled
       Flexible Data (FD): Payload Overflow: Reject
       Reception: Message Buffers: Number of Buffers: 0
       Reception: Message Buffers: Payload Size: 64 bytes
+      Interval Timer Prescaler: 0
       Reception: FIFOs: FIFO 0: Enable: Enabled
       Reception: FIFOs: FIFO 0: Interrupt Mode: Every Frame
       Reception: FIFOs: FIFO 0: Interrupt Threshold: 1/2 full
-      Reception: FIFOs: FIFO 0: Payload Size: 32 bytes
-      Reception: FIFOs: FIFO 0: Depth: 16 stages
+      Reception: FIFOs: FIFO 0: Payload Size: 64 bytes
+      Reception: FIFOs: FIFO 0: Depth: 8 stages
       Reception: FIFOs: FIFO 1: Enable: Disabled
       Reception: FIFOs: FIFO 1: Interrupt Mode: Every Frame
       Reception: FIFOs: FIFO 1: Interrupt Threshold: 1/2 full
-      Reception: FIFOs: FIFO 1: Payload Size: 32 bytes
-      Reception: FIFOs: FIFO 1: Depth: 16 stages
+      Reception: FIFOs: FIFO 1: Payload Size: 64 bytes
+      Reception: FIFOs: FIFO 1: Depth: 8 stages
+      Common FIFOs: FIFO 0: Enable: Disabled
+      Common FIFOs: FIFO 0: Mode: Receive
+      Common FIFOs: FIFO 0: RX Interrupt Enable: Disabled
+      Common FIFOs: FIFO 0: TX Interrupt Enable: Disabled
+      Common FIFOs: FIFO 0: Interrupt Mode: Threshold
+      Common FIFOs: FIFO 0: Interrupt Threshold: 1/2 full
+      Common FIFOs: FIFO 0: Payload Size: 8 bytes
+      Common FIFOs: FIFO 0: Depth: 16 stages
+      Common FIFOs: FIFO 0: TX Message Buffer: TX Message Buffer 0
+      Common FIFOs: FIFO 0: Interval TX Delay: 0
+      Common FIFOs: FIFO 0: Interval Timer: Reference clock
+      Common FIFOs: FIFO 0: Interval Timer Reference Clock Resolution: x1
+      
+    Instance "g_timer Timer, General PWM (r_gpt)"
+      General: Name: g_timer
+      General: Channel: 0
+      General: Mode: Periodic
+      General: Period: 0x100000000
+      General: Compare Match: Compare Match A: Status: Disabled
+      General: Compare Match: Compare Match A: Compare match value: 0x10000
+      General: Compare Match: Compare Match B: Status: Disabled
+      General: Compare Match: Compare Match B: Compare match value: 0x10000
+      General: Compare Match: Compare Match C: Status: Disabled
+      General: Compare Match: Compare Match C: Compare match value: 0x10000
+      General: Compare Match: Compare Match D: Status: Disabled
+      General: Compare Match: Compare Match D: Compare match value: 0x10000
+      General: Compare Match: Compare Match E: Status: Disabled
+      General: Compare Match: Compare Match E: Compare match value: 0x10000
+      General: Compare Match: Compare Match F: Status: Disabled
+      General: Compare Match: Compare Match F: Compare match value: 0x10000
+      General: Period Unit: Raw Counts
+      Output: Custom Waveform: GTIOA: Initial Output Level: Pin Level Low
+      Output: Custom Waveform: GTIOA: Cycle End Output Level: Pin Level Retain
+      Output: Custom Waveform: GTIOA: Compare Match Output Level: Pin Level Retain
+      Output: Custom Waveform: GTIOA: Retain Output Level at Count Stop: Disabled
+      Output: Custom Waveform: GTIOB: Initial Output Level: Pin Level Low
+      Output: Custom Waveform: GTIOB: Cycle End Output Level: Pin Level Retain
+      Output: Custom Waveform: GTIOB: Compare Match Output Level: Pin Level Retain
+      Output: Custom Waveform: GTIOB: Retain Output Level at Count Stop: Disabled
+      Output: Custom Waveform: Custom Waveform Enable: Disabled
+      Output: Duty Cycle Percent (only applicable in PWM mode): 50
+      Output: GTIOCA Output Enabled: False
+      Output: GTIOCA Stop Level: Pin Level Low
+      Output: GTIOCB Output Enabled: False
+      Output: GTIOCB Stop Level: Pin Level Low
+      Input: Count Up Source: 
+      Input: Count Down Source: 
+      Input: Start Source: 
+      Input: Stop Source: 
+      Input: Clear Source: 
+      Input: Capture A Source: 
+      Input: Capture B Source: 
+      Input: Noise Filter A Sampling Clock Select: No Filter
+      Input: Noise Filter B Sampling Clock Select: No Filter
+      Pin Polarity: GTIOCnA Polarity: Normal
+      Pin Polarity: GTIOCnB Polarity: Normal
+      Interrupts: Callback: NULL
+      Interrupts: Overflow/Crest Interrupt Priority: Disabled
+      Interrupts: Capture/Compare match A Interrupt Priority: Disabled
+      Interrupts: Capture/Compare match B Interrupt Priority: Disabled
+      Interrupts: Compare Match C Interrupt Priority: Disabled
+      Interrupts: Compare Match D Interrupt Priority: Disabled
+      Interrupts: Compare Match E Interrupt Priority: Disabled
+      Interrupts: Compare Match F Interrupt Priority: Disabled
+      Interrupts: Underflow/Trough Interrupt Priority: Disabled
+      Extra Features: Extra Features: Disabled
+      Extra Features: Output Disable: POEG Link: POEG Channel 0
+      Extra Features: Output Disable: Output Disable POEG Trigger: 
+      Extra Features: ADC Trigger: Start Event Trigger (Channels with GTINTAD only): 
+      Extra Features: ADC Trigger: ADC A Compare Match (Raw Counts): 0
+      Extra Features: ADC Trigger: ADC B Compare Match (Raw Counts): 0
+      Extra Features: Dead Time (Value range varies with Channel): Dead Time Count Up (Raw Counts): 0
+      Extra Features: Dead Time (Value range varies with Channel): Dead Time Count Down (Raw Counts) (Channels with GTDVD only): 0
+      Extra Features: Interrupt Skipping (Channels with GTITC only): Interrupt to Count: None
+      Extra Features: Interrupt Skipping (Channels with GTITC only): Interrupt Skip Count: 0
+      Extra Features: Interrupt Skipping (Channels with GTITC only): Skip ADC Events: None
+      Extra Features: Output Disable: GTIOCA Disable Setting: Disable Prohibited
+      Extra Features: Output Disable: GTIOCB Disable Setting: Disable Prohibited
       

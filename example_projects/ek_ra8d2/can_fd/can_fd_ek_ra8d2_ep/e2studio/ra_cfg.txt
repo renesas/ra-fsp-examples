@@ -7,6 +7,14 @@ FSP Configuration
     data_flash_size_bytes: 0
     package_style: LFBGA
     package_pins: 289
+    ospi0_cs0_start_address: 2147483648
+    ospi0_cs0_size_bytes: 268435456
+    ospi0_cs1_start_address: 2415919104
+    ospi0_cs1_size_bytes: 268435456
+    ospi1_cs0_start_address: 1879048192
+    ospi1_cs0_size_bytes: 134217728
+    ospi1_cs1_start_address: 2013265920
+    ospi1_cs1_size_bytes: 134217728
     number of cores: 2
     
   R7KA8D2KFLCAC
@@ -30,6 +38,7 @@ FSP Configuration
     SDRAM: Endian Mode: Little Endian
     SDRAM: Continuous Access Mode: Enabled
     SDRAM: Bus Width: 32-bit
+    OSPI_B: Startup Support: Disabled
     Security: Exceptions: Exception Response: Non-Maskable Interrupt
     Security: Exceptions: BusFault, HardFault, and NMI Target: Secure State
     Security: System Reset Request Accessibility: Secure State
@@ -59,6 +68,8 @@ FSP Configuration
     Main Oscillator Wait Time: 8163 cycles
     Cache settings: Data cache: Disabled
     Cache settings: Data cache forced write-through: Disabled
+    I/O Ports: Voltage Mode: VCC: High (VCC >= 2.7 V)
+    I/O Ports: Voltage Mode: VCC2: High (VCC2 >= 2.7 V)
     
   RA8D2 Device Options
     OFS Registers: OFS0 (Option Function Select Register 0) Settings: Enabled
@@ -263,7 +274,7 @@ FSP Configuration
     PLL2 Div /3
     PLL2 Mul x280-300|Mul x300|PLL2 Mul x300.00
     PLL2P Div /4
-    PLL2Q Div /3
+    PLL2Q Div /6
     PLL2R Div /5
     Clock Src: PLL1P
     CPUCLK Div /1
@@ -281,22 +292,22 @@ FSP Configuration
     BCLKA Div /6
     SDCLK Enabled
     EBCLK Src: BCLK (Synchronous)
-    EBCLK Div /2
+    EBCLK Disabled
     CLKOUT Src: HOCO
     CLKOUT Div /1
     SCICLK Src: PLL2R
     SCICLK Div /4
     SPICLK Src: PLL1Q
     SPICLK Div /1
-    CANFDCLK Src: PLL2R
-    CANFDCLK Div /6
+    CANFDCLK Src: PLL2Q
+    CANFDCLK Div /10
     GPTCLK Src: PLL2P
     GPTCLK Div /2
     GPT Src: GPTCLK
     LCDCLK Src: PLL2R
     LCDCLK Div /2
     I3CCLK Src: PLL2Q
-    I3CCLK Div /4
+    I3CCLK Div /2
     USBCLK Src: PLL2R
     USBCLK Div /10
     USB60CLK Src: PLL2R
@@ -310,7 +321,7 @@ FSP Configuration
     ESWPHYCLK Src: PLL1P
     ESWPHYCLK Div /2
     ETHPHYCLK Src: PLL2Q
-    ETHPHYCLK Div /32
+    ETHPHYCLK Div /16
     
   Pin Configurations
     RA8D2 EK -> g_bsp_pin_cfg
@@ -352,8 +363,8 @@ FSP Configuration
       P109 D7 - - - - Disabled - - "GPT10: GTIOC10A; IRQ: IRQ23; SDHI0: SD0DAT5" - None - - 
       P110 C8 - - - - Disabled - - "GPT9: GTIOC9B; IRQ: IRQ20; SDHI0: SD0DAT4" - None - - 
       P111 E8 - - - - Disabled - - "GPT9: GTIOC9A; IRQ: IRQ19; SDHI0: SD0DAT3" - None - - 
-      P112 A4 - - - - Disabled - - "ADC0(Digital): ADST0; BUS: D3; GLCDC: LCD_DATA10; GPT3: GTIOC3B; GPT_POEGA: GTETRGA; IRQ: IRQ27; SCI0: TXD0; SDHI0: SD0DAT4; SDRAM: DQ3; SPI0: SSLA2; SSIE0: SSIBCK0; ULPT0: ULPTOB0-DS" - None - - 
-      P113 A2 - - - - Disabled - - "ADC1(Digital): ADST1; BUS: D4; GLCDC: LCD_DATA9; GPT2: GTIOC2A; GPT_POEGB: GTETRGB; IRQ: IRQ28; SCI0: RXD0; SDHI0: SD0DAT5; SDRAM: DQ4; SPI0: SSLA1; SSIE0: SSILRCK0; ULPT0: ULPTOA0-DS" - None - - 
+      P112 A4 SCI0_TXD0 - L None "Peripheral mode" - - "ADC0(Digital): ADST0; BUS: D3; GLCDC: LCD_DATA10; GPT3: GTIOC3B; GPT_POEGA: GTETRGA; IRQ: IRQ27; SCI0: TXD0; SDHI0: SD0DAT4; SDRAM: DQ3; SPI0: SSLA2; SSIE0: SSIBCK0; ULPT0: ULPTOB0-DS" - O - - 
+      P113 A2 SCI0_RXD0 - L None "Peripheral mode" - - "ADC1(Digital): ADST1; BUS: D4; GLCDC: LCD_DATA9; GPT2: GTIOC2A; GPT_POEGB: GTETRGB; IRQ: IRQ28; SCI0: RXD0; SDHI0: SD0DAT5; SDRAM: DQ4; SPI0: SSLA1; SSIE0: SSILRCK0; ULPT0: ULPTOA0-DS" - I - - 
       P114 B3 - - - - Disabled - - "ADC(Digital): ADSYNC; BUS: D5; GLCDC: LCD_DATA8; GPT2: GTIOC2B; GPT_POEGC: GTETRGC; IRQ: IRQ30-DS; SCI0: CTS_RTS0; SCI0: DE0; SDHI0: SD0DAT6; SDRAM: DQ5; SPI0: SSLA0; SSIE0: SSIRXD0" - None - - 
       P115 A3 - - - - Disabled - - "ADC0(Digital): AD0FLAG1; BUS: D6; GLCDC: LCD_DATA7; GPT5: GTIOC5A; GPT_POEGD: GTETRGD; IRQ: IRQ31-DS; SCI0: CTS0; SDHI0: SD0DAT7; SDRAM: DQ6; SPI0: MOSI0; SSIE0: SSITXD0" - None - - 
       P200 C5 - - - - Disabled - - "IRQ: NMI" - None - - 
@@ -517,12 +528,12 @@ FSP Configuration
       PC15 K1 - - - - Disabled - - "BUS: A16; CANFD1: CRX1; GPT: GTADSM0; IRQ: IRQ30; SCI6: CTS6; SDRAM: A16" - None - - 
       PD00 K4 - - - - Disabled - - "BUS: A15; CANFD1: CTX1; GPT5: GTCPPO5; GPT_OPS: GTOWLO; IRQ: IRQ23; SCI5: DE5; SCI5: SCK5; SDRAM: A15" - None - - 
       PD01 B16 - - - - Disabled - - "ESWM_GMII/MII1: ET1_RXD6; GPT2: GTCPPO2; IRQ: IRQ22; SCI8: DE8; SCI8: SCK8; SDHI0: SD0DAT2" - None - - 
-      PD02 B17 - - - - Disabled - - "ESWM_GMII/MII1: ET1_RXD7; GPT1: GTCPPO1; IRQ: IRQ21; SCI8: TXD8; SDHI0: SD0DAT1" - None - - 
-      PD03 C15 - - - - Disabled - - "ESWM_GMII/MII0: ET0_RXD4; GPT3: GTIOC3B; IRQ: IRQ21; SCI8: RXD8; SDHI0: SD0DAT0; USB HS: USBHS_EXICEN" - None - - 
+      PD02 B17 SCI8_TXD8 TRACE_TXD L None "Peripheral mode" - - "ESWM_GMII/MII1: ET1_RXD7; GPT1: GTCPPO1; IRQ: IRQ21; SCI8: TXD8; SDHI0: SD0DAT1" - O - - 
+      PD03 C15 SCI8_RXD8 TRACE_RXD L None "Peripheral mode" - - "ESWM_GMII/MII0: ET0_RXD4; GPT3: GTIOC3B; IRQ: IRQ21; SCI8: RXD8; SDHI0: SD0DAT0; USB HS: USBHS_EXICEN" - I - - 
       PD04 C14 - - - - Disabled - - "ESWM_GMII/MII0: ET0_RXD5; GPT3: GTIOC3A; IRQ: IRQ20; SCI8: CTS_RTS8; SCI8: DE8; SDHI0: SD0CMD; USB HS: USBHS_ID" - None - - 
       PD05 C16 - - - - Disabled - - "ESWM_GMII/MII0: ET0_RXD6; GPT2: GTIOC2B; IRQ: IRQ19; SCI8: CTS8; SDHI0: SD0CLK; USB HS: USBHS_OVRCURB" - None - - 
       PD06 C17 - - - - Disabled - - "ESWM_GMII/MII0: ET0_RXD7; GPT2: GTIOC2A; IRQ: IRQ18; SDHI0: SD0WP; USB HS: USBHS_OVRCURA" - None - - 
-      PD07 E15 - - - - Disabled - - "ESWM_GMII/MII0: ET0_TXD4; GPT0: GTCPPO0; IRQ: IRQ17; SDHI0: SD0CD; USB HS: USBHS_VBUSEN" - None - - 
+      PD07 E15 GPIO USBHS_VBUS_SEL L - "Output mode (Initial Low)" - - "ESWM_GMII/MII0: ET0_TXD4; GPT0: GTCPPO0; IRQ: IRQ17; SDHI0: SD0CD; USB HS: USBHS_VBUSEN" - IO - - 
       RES D5 CGC_RES - - - - - - - - IO "Read only" - 
       USBHS_DM H17 CGC_USBHS_DM - - - - - - - - IO "Read only" - 
       USBHS_DP H16 CGC_USBHS_DP - - - - - - - - IO "Read only" - 
@@ -642,8 +653,8 @@ FSP Configuration
       P109 D7 - - - - Disabled - - "GPT10: GTIOC10A; IRQ: IRQ23; SDHI0: SD0DAT5" - None - - 
       P110 C8 - - - - Disabled - - "GPT9: GTIOC9B; IRQ: IRQ20; SDHI0: SD0DAT4" - None - - 
       P111 E8 - - - - Disabled - - "GPT9: GTIOC9A; IRQ: IRQ19; SDHI0: SD0DAT3" - None - - 
-      P112 A4 - - - - Disabled - - "ADC0(Digital): ADST0; BUS: D3; GLCDC: LCD_DATA10; GPT3: GTIOC3B; GPT_POEGA: GTETRGA; IRQ: IRQ27; SCI0: TXD0; SDHI0: SD0DAT4; SDRAM: DQ3; SPI0: SSLA2; SSIE0: SSIBCK0; ULPT0: ULPTOB0-DS" - None - - 
-      P113 A2 - - - - Disabled - - "ADC1(Digital): ADST1; BUS: D4; GLCDC: LCD_DATA9; GPT2: GTIOC2A; GPT_POEGB: GTETRGB; IRQ: IRQ28; SCI0: RXD0; SDHI0: SD0DAT5; SDRAM: DQ4; SPI0: SSLA1; SSIE0: SSILRCK0; ULPT0: ULPTOA0-DS" - None - - 
+      P112 A4 - - L None Disabled - - "ADC0(Digital): ADST0; BUS: D3; GLCDC: LCD_DATA10; GPT3: GTIOC3B; GPT_POEGA: GTETRGA; IRQ: IRQ27; SCI0: TXD0; SDHI0: SD0DAT4; SDRAM: DQ3; SPI0: SSLA2; SSIE0: SSIBCK0; ULPT0: ULPTOB0-DS" - O - - 
+      P113 A2 - - L None Disabled - - "ADC1(Digital): ADST1; BUS: D4; GLCDC: LCD_DATA9; GPT2: GTIOC2A; GPT_POEGB: GTETRGB; IRQ: IRQ28; SCI0: RXD0; SDHI0: SD0DAT5; SDRAM: DQ4; SPI0: SSLA1; SSIE0: SSILRCK0; ULPT0: ULPTOA0-DS" - I - - 
       P114 B3 - - - - Disabled - - "ADC(Digital): ADSYNC; BUS: D5; GLCDC: LCD_DATA8; GPT2: GTIOC2B; GPT_POEGC: GTETRGC; IRQ: IRQ30-DS; SCI0: CTS_RTS0; SCI0: DE0; SDHI0: SD0DAT6; SDRAM: DQ5; SPI0: SSLA0; SSIE0: SSIRXD0" - None - - 
       P115 A3 - - - - Disabled - - "ADC0(Digital): AD0FLAG1; BUS: D6; GLCDC: LCD_DATA7; GPT5: GTIOC5A; GPT_POEGD: GTETRGD; IRQ: IRQ31-DS; SCI0: CTS0; SDHI0: SD0DAT7; SDRAM: DQ6; SPI0: MOSI0; SSIE0: SSITXD0" - None - - 
       P200 C5 - - - - Disabled - - "IRQ: NMI" - None - - 
@@ -807,12 +818,12 @@ FSP Configuration
       PC15 K1 - - - - Disabled - - "BUS: A16; CANFD1: CRX1; GPT: GTADSM0; IRQ: IRQ30; SCI6: CTS6; SDRAM: A16" - None - - 
       PD00 K4 - - - - Disabled - - "BUS: A15; CANFD1: CTX1; GPT5: GTCPPO5; GPT_OPS: GTOWLO; IRQ: IRQ23; SCI5: DE5; SCI5: SCK5; SDRAM: A15" - None - - 
       PD01 B16 - - - - Disabled - - "ESWM_GMII/MII1: ET1_RXD6; GPT2: GTCPPO2; IRQ: IRQ22; SCI8: DE8; SCI8: SCK8; SDHI0: SD0DAT2" - None - - 
-      PD02 B17 - - - - Disabled - - "ESWM_GMII/MII1: ET1_RXD7; GPT1: GTCPPO1; IRQ: IRQ21; SCI8: TXD8; SDHI0: SD0DAT1" - None - - 
-      PD03 C15 - - - - Disabled - - "ESWM_GMII/MII0: ET0_RXD4; GPT3: GTIOC3B; IRQ: IRQ21; SCI8: RXD8; SDHI0: SD0DAT0; USB HS: USBHS_EXICEN" - None - - 
+      PD02 B17 - TRACE_TXD L None Disabled - - "ESWM_GMII/MII1: ET1_RXD7; GPT1: GTCPPO1; IRQ: IRQ21; SCI8: TXD8; SDHI0: SD0DAT1" - O - - 
+      PD03 C15 - TRACE_RXD L None Disabled - - "ESWM_GMII/MII0: ET0_RXD4; GPT3: GTIOC3B; IRQ: IRQ21; SCI8: RXD8; SDHI0: SD0DAT0; USB HS: USBHS_EXICEN" - I - - 
       PD04 C14 - - - - Disabled - - "ESWM_GMII/MII0: ET0_RXD5; GPT3: GTIOC3A; IRQ: IRQ20; SCI8: CTS_RTS8; SCI8: DE8; SDHI0: SD0CMD; USB HS: USBHS_ID" - None - - 
       PD05 C16 - - - - Disabled - - "ESWM_GMII/MII0: ET0_RXD6; GPT2: GTIOC2B; IRQ: IRQ19; SCI8: CTS8; SDHI0: SD0CLK; USB HS: USBHS_OVRCURB" - None - - 
       PD06 C17 - - - - Disabled - - "ESWM_GMII/MII0: ET0_RXD7; GPT2: GTIOC2A; IRQ: IRQ18; SDHI0: SD0WP; USB HS: USBHS_OVRCURA" - None - - 
-      PD07 E15 - - - - Disabled - - "ESWM_GMII/MII0: ET0_TXD4; GPT0: GTCPPO0; IRQ: IRQ17; SDHI0: SD0CD; USB HS: USBHS_VBUSEN" - None - - 
+      PD07 E15 - USBHS_VBUS_SEL L - Disabled - - "ESWM_GMII/MII0: ET0_TXD4; GPT0: GTCPPO0; IRQ: IRQ17; SDHI0: SD0CD; USB HS: USBHS_VBUSEN" - IO - - 
       RES D5 CGC_RES - - - - - - - - IO "Read only" - 
       USBHS_DM H17 CGC_USBHS_DM - - - - - - - - IO "Read only" - 
       USBHS_DP H16 CGC_USBHS_DP - - - - - - - - IO "Read only" - 
@@ -895,6 +906,10 @@ FSP Configuration
       VSS_USB T17 CGC_VSS_USB - - - - - - - - IO "Read only" - 
     
   User Events
+    SCI8 ERI (Receive error): sci_b_uart_eri_isr
+    SCI8 RXI (Receive data full): sci_b_uart_rxi_isr
+    SCI8 TEI (Transmit end): sci_b_uart_tei_isr
+    SCI8 TXI (Transmit data empty): sci_b_uart_txi_isr
     
   User Event Links
     
@@ -914,6 +929,11 @@ FSP Configuration
     Flexible Data (FD): Protocol Exceptions: Enabled (ISO 11898-1)
     Reception: Acceptance Filtering: Channel 0 Rule Count: 16
     Reception: Acceptance Filtering: Channel 1 Rule Count: 0
+    
+  Module "Timer, General PWM (r_gpt)"
+    Parameter Checking: Default (BSP)
+    Pin Output Support: Disabled
+    Write Protect Enable: Disabled
     
   HAL
     Instance "g_ioport I/O Port (r_ioport)"
@@ -939,13 +959,13 @@ FSP Configuration
       Bitrate: Manual: Data: Time Segment 1 (Tq): 5
       Bitrate: Manual: Data: Time Segment 2 (Tq): 2
       Bitrate: Manual: Data: Sync Jump Width (Tq): 1
-      Bitrate: Manual: Use manual settings: No
+      Bitrate: Manual: Use manual settings: Yes
       Interrupts: Callback: canfd0_callback
       Transmit Interrupts: TXMB 0
       Channel Error Interrupts: Error Warning, Error Passive, Bus-Off Entry, Bus-Off Recovery, Overload
       Interrupts: Channel Interrupt Priority Level: Priority 12
       Filter List Array: p_canfd0_afl
-      Global Error Interrupt: Sources: 
+      Global Error Interrupt: Sources: DLC Check, Message Lost, FD Payload Overflow
       Transmission Priority: Buffer Number
       DLC Check: Disabled
       Flexible Data (FD): Payload Overflow: Reject
@@ -955,13 +975,13 @@ FSP Configuration
       Reception: FIFOs: FIFO 0: Enable: Enabled
       Reception: FIFOs: FIFO 0: Interrupt Mode: Every Frame
       Reception: FIFOs: FIFO 0: Interrupt Threshold: 1/2 full
-      Reception: FIFOs: FIFO 0: Payload Size: 32 bytes
-      Reception: FIFOs: FIFO 0: Depth: 16 stages
+      Reception: FIFOs: FIFO 0: Payload Size: 64 bytes
+      Reception: FIFOs: FIFO 0: Depth: 8 stages
       Reception: FIFOs: FIFO 1: Enable: Disabled
       Reception: FIFOs: FIFO 1: Interrupt Mode: Every Frame
       Reception: FIFOs: FIFO 1: Interrupt Threshold: 1/2 full
-      Reception: FIFOs: FIFO 1: Payload Size: 8 bytes
-      Reception: FIFOs: FIFO 1: Depth: 16 stages
+      Reception: FIFOs: FIFO 1: Payload Size: 64 bytes
+      Reception: FIFOs: FIFO 1: Depth: 8 stages
       Common FIFOs: FIFO 0: Enable: Disabled
       Common FIFOs: FIFO 0: Mode: Receive
       Common FIFOs: FIFO 0: RX Interrupt Enable: Disabled
@@ -974,4 +994,70 @@ FSP Configuration
       Common FIFOs: FIFO 0: Interval TX Delay: 0
       Common FIFOs: FIFO 0: Interval Timer: Reference clock
       Common FIFOs: FIFO 0: Interval Timer Reference Clock Resolution: x1
+      
+    Instance "g_timer Timer, General PWM (r_gpt)"
+      General: Name: g_timer
+      General: Channel: 0
+      General: Mode: Periodic
+      General: Period: 0x100000000
+      General: Compare Match: Compare Match A: Status: Disabled
+      General: Compare Match: Compare Match A: Compare match value: 0x10000
+      General: Compare Match: Compare Match B: Status: Disabled
+      General: Compare Match: Compare Match B: Compare match value: 0x10000
+      General: Compare Match: Compare Match C: Status: Disabled
+      General: Compare Match: Compare Match C: Compare match value: 0x10000
+      General: Compare Match: Compare Match D: Status: Disabled
+      General: Compare Match: Compare Match D: Compare match value: 0x10000
+      General: Compare Match: Compare Match E: Status: Disabled
+      General: Compare Match: Compare Match E: Compare match value: 0x10000
+      General: Compare Match: Compare Match F: Status: Disabled
+      General: Compare Match: Compare Match F: Compare match value: 0x10000
+      General: Period Unit: Raw Counts
+      Output: Custom Waveform: GTIOA: Initial Output Level: Pin Level Low
+      Output: Custom Waveform: GTIOA: Cycle End Output Level: Pin Level Retain
+      Output: Custom Waveform: GTIOA: Compare Match Output Level: Pin Level Retain
+      Output: Custom Waveform: GTIOA: Retain Output Level at Count Stop: Disabled
+      Output: Custom Waveform: GTIOB: Initial Output Level: Pin Level Low
+      Output: Custom Waveform: GTIOB: Cycle End Output Level: Pin Level Retain
+      Output: Custom Waveform: GTIOB: Compare Match Output Level: Pin Level Retain
+      Output: Custom Waveform: GTIOB: Retain Output Level at Count Stop: Disabled
+      Output: Custom Waveform: Custom Waveform Enable: Disabled
+      Output: Duty Cycle Percent (only applicable in PWM mode): 50
+      Output: GTIOCA Output Enabled: False
+      Output: GTIOCA Stop Level: Pin Level Low
+      Output: GTIOCB Output Enabled: False
+      Output: GTIOCB Stop Level: Pin Level Low
+      Input: Count Up Source: 
+      Input: Count Down Source: 
+      Input: Start Source: 
+      Input: Stop Source: 
+      Input: Clear Source: 
+      Input: Capture A Source: 
+      Input: Capture B Source: 
+      Input: Noise Filter A Sampling Clock Select: No Filter
+      Input: Noise Filter B Sampling Clock Select: No Filter
+      Pin Polarity: GTIOCnA Polarity: Normal
+      Pin Polarity: GTIOCnB Polarity: Normal
+      Interrupts: Callback: NULL
+      Interrupts: Overflow/Crest Interrupt Priority: Disabled
+      Interrupts: Capture/Compare match A Interrupt Priority: Disabled
+      Interrupts: Capture/Compare match B Interrupt Priority: Disabled
+      Interrupts: Compare Match C Interrupt Priority: Disabled
+      Interrupts: Compare Match D Interrupt Priority: Disabled
+      Interrupts: Compare Match E Interrupt Priority: Disabled
+      Interrupts: Compare Match F Interrupt Priority: Disabled
+      Interrupts: Underflow/Trough Interrupt Priority: Disabled
+      Extra Features: Extra Features: Disabled
+      Extra Features: Output Disable: POEG Link: POEG Channel 0
+      Extra Features: Output Disable: Output Disable POEG Trigger: 
+      Extra Features: ADC Trigger: Start Event Trigger (Channels with GTINTAD only): 
+      Extra Features: ADC Trigger: ADC A Compare Match (Raw Counts): 0
+      Extra Features: ADC Trigger: ADC B Compare Match (Raw Counts): 0
+      Extra Features: Dead Time (Value range varies with Channel): Dead Time Count Up (Raw Counts): 0
+      Extra Features: Dead Time (Value range varies with Channel): Dead Time Count Down (Raw Counts) (Channels with GTDVD only): 0
+      Extra Features: Interrupt Skipping (Channels with GTITC only): Interrupt to Count: None
+      Extra Features: Interrupt Skipping (Channels with GTITC only): Interrupt Skip Count: 0
+      Extra Features: Interrupt Skipping (Channels with GTITC only): Skip ADC Events: None
+      Extra Features: Output Disable: GTIOCA Disable Setting: Disable Prohibited
+      Extra Features: Output Disable: GTIOCB Disable Setting: Disable Prohibited
       

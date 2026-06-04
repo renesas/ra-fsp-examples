@@ -15,14 +15,14 @@
 	r20qs0097eg Evaluation Kit for RA8T2 Microcontroller Group EK-RA8T2 v1 Quick Start Guide.
 
 2. Software Requirements:
-	Renesas Flexible Software Package (FSP): Version 6.4.0
-	e2 studio: Version 2025-12
+	Renesas Flexible Software Package (FSP): Version 6.5.0
+	e2 studio: Version 2026-04.2
 	Terminal Console Application: Tera Term or a similar application
 	USB Serial Drivers (included in Windows 11)
 	Windows® 11 operating system
   
 3. Hardware settings for the project:
-	Link to access Quick Start Guide - https://www.renesas.com/us/en/document/qsg/ek-ra8t2-quick-start-guide
+	Link to access Quick Start Guide - https://www.renesas.com/en/document/qsg/ek-ra8t2-v1-quick-start-guide
 
 	Configuration switch (SW4) settings
 	    SW4-1 SW4-2 SW4-3 SW4-4 SW4-5 SW4-6 SW4-7 SW4-8

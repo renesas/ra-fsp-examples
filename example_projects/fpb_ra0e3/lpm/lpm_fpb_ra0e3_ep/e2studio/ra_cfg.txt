@@ -1,0 +1,315 @@
+FSP Configuration
+  Board "RA0|RA0E3|FPB-RA0E3"
+  R7FA0E3034ZSD
+    part_number: R7FA0E3034ZSD
+    rom_size_bytes: 16384
+    ram_size_bytes: 2048
+    data_flash_size_bytes: 0
+    package_style: TSSOP
+    package_pins: 20
+    number of cores: 1
+    
+  R7FA0E3034ZSD
+  RA0E3
+    series: 0
+    
+  RA0E3 Family
+    Enable inline BSP IRQ functions: Disabled
+    Use Low Voltage Mode: Not Supported
+    
+  RA0E3 Device Options
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Enabled
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Start Mode: IWDT is stopped after a reset
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Timeout Period: 2048 cycles
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Dedicated Clock Frequency Divisor: 128
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Window End Position:  0% (no window end position)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Window Start Position: 100% (no window start position)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Reset Interrupt Request Select: Reset is enabled
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Stop Control: Stop counting when in Sleep,Snooze modec, or Software Standby
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Enabled
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Voltage Detection 0 Level: 1.86 V
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Enable or disable Flash Read Protection: Disabled
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Flash Read Protection Start: 0x01
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Flash Read Protection End: 0x3F
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: P206/RES pin selection: RES input
+    OFS Registers: OSIS (OCD/Serial Programmer ID setting register) Settings: Disabled
+    OFS Registers: OSIS (OCD/Serial Programmer ID setting register) Settings: ID Code Mode: Unlocked (Ignore ID)
+    OFS Registers: OSIS (OCD/Serial Programmer ID setting register) Settings: ID Code (32 Hex Characters): FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    
+  RA0E3 event data
+  RA Common
+    Main stack size (bytes): 0x400
+    Heap size (bytes): 0
+    Bootloader Secondary XIP: Disabled
+    MCU Vcc (mV): 3300
+    Parameter checking: Disabled
+    Assert Failures: Return FSP_ERR_ASSERTION
+    Clock Registers not Reset Values during Startup: Disabled
+    Main Oscillator Populated: Not Populated
+    PFS Protect: Enabled
+    C Runtime Initialization : Enabled
+    Early BSP Initialization : Disabled
+    Main Oscillator Clock Source: Crystal or Resonator
+    Subclock Populated: Not Populated
+    Subclock Drive (Drive capacitance availability varies by MCU): Standard/Normal mode
+    Subclock Stabilization Time (ms): 1000
+    
+  Clocks
+    HOCO Div /1
+    ICLK Src: HOCO
+    TAU CK00 Div /1
+    TAU CK01 Div /1
+    TAU CK02 Div /2
+    TAU CK03 Div /256
+    SAU CK00 Div /2
+    SAU CK01 Div /1
+    CLKOUT Disabled
+    CLKOUT Div /1
+    FSXP Src: LOCO
+    TML FITL0 Src: FSXP
+    TML FITL1 Src: No BSP Source Clock
+    TML FITL2 Disabled/No BSP Source Clock
+    
+  Pin Configurations
+    RA0E3 FPB -> g_bsp_pin_cfg
+      P010 1 GPIO LED1 - - "Output mode (Initial Low)" - - "ADC0: AN000; SYSTEM: VREFH0" GREEN_ARDUINO_AREF_A5 IO - - 
+      P011 20 GPIO LED2 - - "Output mode (Initial Low)" - - "ADC0: AN001; SYSTEM: VREFL0" GREEN_ARDUINO_D13_A4 IO - - 
+      P012 19 GPIO PMOD_GPIO8 - - "Input mode" - - "ADC0: AN004" ARDUINO_D12_A3 IO - - 
+      P013 18 GPIO PMOD_GPIO9_ARDUINO_A2 - - "Input mode" - - "ADC0: AN005" ARDUINO_D8 IO - - 
+      P100 17 SAU_UART0_RXD0 ARDUINO_D11 - None "Peripheral mode" - - "ADC0: AN022; IICA0: SCLA0; IRQ: IRQ2; SAU_I2C00: SDA00; SAU_SPI00: SI00; SAU_UART0: RXD0; TAU01: TI01; TAU01: TO01; TAU04: TI04; TAU04: TO04" PMOD_MISO_RXD_ARDUINO_A1_VCOM_RXD I - - 
+      P101 16 SAU_UART0_TXD0 PMOD_RESET - None "Peripheral mode" - - "ADC0: AN021; IICA0: SDAA0; IRQ: IRQ3; SAU_SPI00: SO00; SAU_UART0: TXD0; TAU00: TI00; TAU07: TI07; TAU07: TO07" PMOD_MOSI_TXD_ARDUINO_D10_A0_VCOM_TXD O - - 
+      P102 15 GPIO ARDUINO_D9 - None "Input mode" - - "CGC: PCLBUZ0; IRQ: IRQ4; SAU_I2C00: SCL00; SAU_SPI00: SCK00; TAU00: TO00; TAU06: TI06; TAU06: TO06" PMOD_SCK_GPIO4 IO - - 
+      P108 11 JTAG/SWD_SWDIO - - - "Peripheral mode" - - "CGC: PCLBUZ0; IICA0: SCLA0; JTAG/SWD: SWDIO; SAU_SPI00: SCK00; TAU03: TI03; TAU03: TO03" - IO - - 
+      P109 12 GPIO PMOD_GPIO10_ARDUINO_D4 - None "Input mode" - - "IICA0: SDAA0; IRQ: IRQ4; SAU_SPI00: SO00; SAU_UART0: TXD0; TAU02: TI02; TAU02: TO02" - IO - - 
+      P110 13 GPIO ARDUINO_D5 - None "Input mode" - - "IICA0: SCLA0; IRQ: IRQ3; SAU_I2C00: SDA00; SAU_SPI00: SI00; SAU_UART0: RXD0; TAU01: TI01; TAU01: TO01" - IO - - 
+      P112 14 GPIO PMOD_GPIO7_INT_ARDUINO_D6 - None "Input mode" - - "IRQ: IRQ2; SAU_I2C00: SCL00; SAU_SPI00: SCK00; SAU_SPI00: SSI00; TAU03: TI03; TAU03: TO03" - IO - - 
+      P200 9 IRQ_IRQ0 SW - IRQ0 "IRQ mode" - - "IRQ: IRQ0; IRQ: NMI; SAU_SPI00: SSI00; SAU_UART1: RXD1; TAU06: TI06" ARDUINO_D2 I - - 
+      P201 8 GPIO PMOD_INT_GPIO1_ARDUINO_D3 - IRQ5 "Input mode" - - "CGC: PCLBUZ0; IRQ: IRQ5; SAU_I2C11: SCL11; SAU_SPI00: SSI00; SAU_SPI11: SCK11; TAU05: TI05; TAU05: TO05" - IO - - 
+      P206 7 SYSTEM_RES RES - None "Peripheral mode" - - "IRQ: IRQ1; SYSTEM: RES" ARDUINO_RESET I - - 
+      P212 5 IICA0_SCLA0 PMOD_SCL_ARDUINO_SCL - None "Peripheral mode" - - "IICA0: SCLA0; IRQ: IRQ1; SAU_I2C11: SDA11; SAU_SPI11: SI11; SAU_UART1: RXD1; TAU00: TO00; TAU03: TI03; TAU03: TO03" ARDUINO_RX IO - - 
+      P213 4 IICA0_SDAA0 PMOD_SDA_ARDUINO_SDA - None "Peripheral mode" - - "IICA0: SDAA0; IRQ: IRQ0; SAU_SPI11: SO11; SAU_UART1: TXD1; TAU00: TI00; TAU02: TI02; TAU02: TO02" ARDUINO_RX IO - - 
+      P300 10 JTAG/SWD_SWCLK - - - "Peripheral mode" - - "IICA0: SDAA0; JTAG/SWD: SWCLK; SAU_UART1: TXD1; TAU04: TI04; TAU04: TO04" - I - - 
+      VCC 6 SYSTEM_VCC - - - - - - - - I "Read only" - 
+      VCL 2 SYSTEM_VCL - - - - - - - - IO "Read only" - 
+      VSS 3 SYSTEM_VSS - - - - - - - - I "Read only" - 
+    R7FA0E3034ZSD.pincfg -> 
+      P010 1 - LED1 - - Disabled - - "ADC0: AN000; SYSTEM: VREFH0" GREEN_ARDUINO_AREF_A5 IO - - 
+      P011 20 - LED2 - - Disabled - - "ADC0: AN001; SYSTEM: VREFL0" GREEN_ARDUINO_D13_A4 IO - - 
+      P012 19 - PMOD_GPIO8 - - Disabled - - "ADC0: AN004" ARDUINO_D12_A3 IO - - 
+      P013 18 - PMOD_GPIO9_ARDUINO_A2 - - Disabled - - "ADC0: AN005" ARDUINO_D8 IO - - 
+      P100 17 - ARDUINO_D11 - None Disabled - - "ADC0: AN022; IICA0: SCLA0; IRQ: IRQ2; SAU_I2C00: SDA00; SAU_SPI00: SI00; SAU_UART0: RXD0; TAU01: TI01; TAU01: TO01; TAU04: TI04; TAU04: TO04" PMOD_MISO_RXD_ARDUINO_A1_VCOM_RXD I - - 
+      P101 16 - PMOD_RESET - None Disabled - - "ADC0: AN021; IICA0: SDAA0; IRQ: IRQ3; SAU_SPI00: SO00; SAU_UART0: TXD0; TAU00: TI00; TAU07: TI07; TAU07: TO07" PMOD_MOSI_TXD_ARDUINO_D10_A0_VCOM_TXD O - - 
+      P102 15 - ARDUINO_D9 - None Disabled - - "CGC: PCLBUZ0; IRQ: IRQ4; SAU_I2C00: SCL00; SAU_SPI00: SCK00; TAU00: TO00; TAU06: TI06; TAU06: TO06" PMOD_SCK_GPIO4 IO - - 
+      P108 11 JTAG/SWD_SWDIO - - - "Peripheral mode" - - "CGC: PCLBUZ0; IICA0: SCLA0; JTAG/SWD: SWDIO; SAU_SPI00: SCK00; TAU03: TI03; TAU03: TO03" - IO - - 
+      P109 12 - PMOD_GPIO10_ARDUINO_D4 - None Disabled - - "IICA0: SDAA0; IRQ: IRQ4; SAU_SPI00: SO00; SAU_UART0: TXD0; TAU02: TI02; TAU02: TO02" - IO - - 
+      P110 13 - ARDUINO_D5 - None Disabled - - "IICA0: SCLA0; IRQ: IRQ3; SAU_I2C00: SDA00; SAU_SPI00: SI00; SAU_UART0: RXD0; TAU01: TI01; TAU01: TO01" - IO - - 
+      P112 14 - PMOD_GPIO7_INT_ARDUINO_D6 - None Disabled - - "IRQ: IRQ2; SAU_I2C00: SCL00; SAU_SPI00: SCK00; SAU_SPI00: SSI00; TAU03: TI03; TAU03: TO03" - IO - - 
+      P200 9 - SW - None Disabled - - "IRQ: IRQ0; IRQ: NMI; SAU_SPI00: SSI00; SAU_UART1: RXD1; TAU06: TI06" ARDUINO_D2 I - - 
+      P201 8 - PMOD_INT_GPIO1_ARDUINO_D3 - None Disabled - - "CGC: PCLBUZ0; IRQ: IRQ5; SAU_I2C11: SCL11; SAU_SPI00: SSI00; SAU_SPI11: SCK11; TAU05: TI05; TAU05: TO05" - IO - - 
+      P206 7 - RES - None Disabled - - "IRQ: IRQ1; SYSTEM: RES" ARDUINO_RESET I - - 
+      P212 5 - PMOD_SCL_ARDUINO_SCL - None Disabled - - "IICA0: SCLA0; IRQ: IRQ1; SAU_I2C11: SDA11; SAU_SPI11: SI11; SAU_UART1: RXD1; TAU00: TO00; TAU03: TI03; TAU03: TO03" ARDUINO_RX IO - - 
+      P213 4 - PMOD_SDA_ARDUINO_SDA - None Disabled - - "IICA0: SDAA0; IRQ: IRQ0; SAU_SPI11: SO11; SAU_UART1: TXD1; TAU00: TI00; TAU02: TI02; TAU02: TO02" ARDUINO_RX IO - - 
+      P300 10 JTAG/SWD_SWCLK - - - "Peripheral mode" - - "IICA0: SDAA0; JTAG/SWD: SWCLK; SAU_UART1: TXD1; TAU04: TI04; TAU04: TO04" - I - - 
+      VCC 6 SYSTEM_VCC - - - - - - - - I "Read only" - 
+      VCL 2 SYSTEM_VCL - - - - - - - - IO "Read only" - 
+      VSS 3 SYSTEM_VSS - - - - - - - - I "Read only" - 
+    RA0E3 FPB LPM -> g_bsp_pin_lpm_cfg
+      P010 1 - LED1 - - Disabled - - "ADC0: AN000; SYSTEM: VREFH0" GREEN_ARDUINO_AREF_A5 IO - - 
+      P011 20 - LED2 - - Disabled - - "ADC0: AN001; SYSTEM: VREFL0" GREEN_ARDUINO_D13_A4 IO - - 
+      P012 19 - PMOD_GPIO8 - - Disabled - - "ADC0: AN004" ARDUINO_D12_A3 IO - - 
+      P013 18 - PMOD_GPIO9_ARDUINO_A2 - - Disabled - - "ADC0: AN005" ARDUINO_D8 IO - - 
+      P100 17 - ARDUINO_D11 - None Disabled - - "ADC0: AN022; IICA0: SCLA0; IRQ: IRQ2; SAU_I2C00: SDA00; SAU_SPI00: SI00; SAU_UART0: RXD0; TAU01: TI01; TAU01: TO01; TAU04: TI04; TAU04: TO04" PMOD_MISO_RXD_ARDUINO_A1_VCOM_RXD I - - 
+      P101 16 - PMOD_RESET - None Disabled - - "ADC0: AN021; IICA0: SDAA0; IRQ: IRQ3; SAU_SPI00: SO00; SAU_UART0: TXD0; TAU00: TI00; TAU07: TI07; TAU07: TO07" PMOD_MOSI_TXD_ARDUINO_D10_A0_VCOM_TXD O - - 
+      P102 15 - ARDUINO_D9 - None Disabled - - "CGC: PCLBUZ0; IRQ: IRQ4; SAU_I2C00: SCL00; SAU_SPI00: SCK00; TAU00: TO00; TAU06: TI06; TAU06: TO06" PMOD_SCK_GPIO4 IO - - 
+      P108 11 JTAG/SWD_SWDIO - - - "Peripheral mode" - - "CGC: PCLBUZ0; IICA0: SCLA0; JTAG/SWD: SWDIO; SAU_SPI00: SCK00; TAU03: TI03; TAU03: TO03" - IO - - 
+      P109 12 - PMOD_GPIO10_ARDUINO_D4 - None Disabled - - "IICA0: SDAA0; IRQ: IRQ4; SAU_SPI00: SO00; SAU_UART0: TXD0; TAU02: TI02; TAU02: TO02" - IO - - 
+      P110 13 - ARDUINO_D5 - None Disabled - - "IICA0: SCLA0; IRQ: IRQ3; SAU_I2C00: SDA00; SAU_SPI00: SI00; SAU_UART0: RXD0; TAU01: TI01; TAU01: TO01" - IO - - 
+      P112 14 - PMOD_GPIO7_INT_ARDUINO_D6 - None Disabled - - "IRQ: IRQ2; SAU_I2C00: SCL00; SAU_SPI00: SCK00; SAU_SPI00: SSI00; TAU03: TI03; TAU03: TO03" - IO - - 
+      P200 9 - SW - None Disabled - - "IRQ: IRQ0; IRQ: NMI; SAU_SPI00: SSI00; SAU_UART1: RXD1; TAU06: TI06" ARDUINO_D2 I - - 
+      P201 8 - PMOD_INT_GPIO1_ARDUINO_D3 - None Disabled - - "CGC: PCLBUZ0; IRQ: IRQ5; SAU_I2C11: SCL11; SAU_SPI00: SSI00; SAU_SPI11: SCK11; TAU05: TI05; TAU05: TO05" - IO - - 
+      P206 7 - RES - None Disabled - - "IRQ: IRQ1; SYSTEM: RES" ARDUINO_RESET I - - 
+      P212 5 - PMOD_SCL_ARDUINO_SCL - None Disabled - - "IICA0: SCLA0; IRQ: IRQ1; SAU_I2C11: SDA11; SAU_SPI11: SI11; SAU_UART1: RXD1; TAU00: TO00; TAU03: TI03; TAU03: TO03" ARDUINO_RX IO - - 
+      P213 4 - PMOD_SDA_ARDUINO_SDA - None Disabled - - "IICA0: SDAA0; IRQ: IRQ0; SAU_SPI11: SO11; SAU_UART1: TXD1; TAU00: TI00; TAU02: TI02; TAU02: TO02" ARDUINO_RX IO - - 
+      P300 10 JTAG/SWD_SWCLK - - - "Peripheral mode" - - "IICA0: SDAA0; JTAG/SWD: SWCLK; SAU_UART1: TXD1; TAU04: TI04; TAU04: TO04" - I - - 
+      VCC 6 SYSTEM_VCC - - - - - - - - I "Read only" - 
+      VCL 2 SYSTEM_VCL - - - - - - - - IO "Read only" - 
+      VSS 3 SYSTEM_VSS - - - - - - - - I "Read only" - 
+    
+  User Events
+    
+  User Event Links
+    
+  Linker Section Mappings
+    *bsp_linker.?*(.rodata.*): FLASH Constant Data (OFS Gap)
+    *startup.?*(.text.Reset_Handler): FLASH Code (OFS Gap)
+    *system.?*(.text.*): FLASH Code (OFS Gap)
+    *(.bss.g_heap): RAM Uninitialized
+    *(.bss.g_main_stack): RAM Uninitialized
+    
+  Module "I/O Port (r_ioport)"
+    Parameter Checking: Default (BSP)
+    CCD Support: Not Supported
+    
+  Module "Low Power Modes (r_lpm)"
+    Parameter Checking: Default (BSP)
+    Standby Limit: Enabled
+    
+  Module "UART (r_sau_uart)"
+    Parameter Checking: Default (BSP)
+    Critical Section Guarding: Disabled
+    DTC Support: Disable
+    Enable Single Channel: Disable
+    Enable Fixed Baudrate: Enable
+    
+  Module "External IRQ (r_icu)"
+    Parameter Checking: Default (BSP)
+    
+  Module "32-bit Interval Timer (r_tml)"
+    Parameter Checking: Default (BSP)
+    Critical Section Guarding: Disabled
+    16-bit Capture Mode Support: Disabled
+    Enable Single Channel: Disabled
+    Interrupt Support: Enabled
+    
+  Module "Transfer (r_dtc)"
+    Parameter Checking: Default (BSP)
+    Linker section to keep DTC vector table: .fsp_dtc_vector_table
+    
+  HAL
+    Instance "g_ioport I/O Port (r_ioport)"
+      Name: g_ioport
+      1st Port ELC Trigger Source: Disabled
+      2nd Port ELC Trigger Source: Disabled
+      3rd Port ELC Trigger Source: Disabled
+      4th Port ELC Trigger Source: Disabled
+      Pin Configuration Name: g_bsp_pin_cfg
+      
+    Instance "g_lpm_sleep Low Power Modes (r_lpm)"
+      General: Name: g_lpm_sleep
+      General: Low Power Mode: Sleep mode
+      General: Output port state in standby and deep standby: Not Available
+      General: Supply of SOSC clock to peripheral function in standby: Enabled
+      General: Startup speed of the HOCO in Standby and Snooze modes: Normal speed
+      General: Flash mode in sleep or snooze: Flash active
+      Deep Sleep and Standby Options: Wake Sources: 
+      Deep Sleep and Standby Options: Wake Sources 2: 
+      Deep Sleep and Standby Options: Snooze Options (Not available on every MCU): Snooze Request Source: Not Available
+      Deep Sleep and Standby Options: Snooze Options (Not available on every MCU): Snooze End Sources: 
+      Deep Sleep and Standby Options: Snooze Options (Not available on every MCU): DTC state in Snooze Mode: Disabled
+      Deep Sleep and Standby Options: Snooze Options (Not available on every MCU): Snooze Cancel Source: None
+      RAM Retention Control (Not available on every MCU): RAM retention in Standby mode: 
+      RAM Retention Control (Not available on every MCU): TCM retention in Deep Sleep and Standby modes: Not Supported
+      RAM Retention Control (Not available on every MCU): Standby RAM retention in Standby and Deep Standby modes: Not Supported
+      Oscillator LDO Control (Not available on every MCU): PLL1 LDO State in standby mode: Not Supported
+      Oscillator LDO Control (Not available on every MCU): PLL2 LDO State in standby mode: Not Supported
+      Oscillator LDO Control (Not available on every MCU): HOCO LDO State in standby mode: Not Supported
+      Deep Standby Options (Not available on every MCU): I/O Port Retention: Not Available
+      Deep Standby Options (Not available on every MCU): Power-Supply Control: Not Available
+      Deep Standby Options (Not available on every MCU): Cancel Sources: 
+      Deep Standby Options (Not available on every MCU): Cancel Edges: 
+      Deep Standby Options (Not available on every MCU): Soft Start Mode: Not Available
+      
+    Instance "g_lpm_sw_standby Low Power Modes (r_lpm)"
+      General: Name: g_lpm_sw_standby
+      General: Low Power Mode: Software Standby mode
+      General: Output port state in standby and deep standby: Not Available
+      General: Supply of SOSC clock to peripheral function in standby: Enabled
+      General: Startup speed of the HOCO in Standby and Snooze modes: Normal speed
+      General: Flash mode in sleep or snooze: Flash active
+      Deep Sleep and Standby Options: Wake Sources: IRQ0, 32-bit interval timer interrupt
+      Deep Sleep and Standby Options: Wake Sources 2: 
+      Deep Sleep and Standby Options: Snooze Options (Not available on every MCU): Snooze Request Source: Not Available
+      Deep Sleep and Standby Options: Snooze Options (Not available on every MCU): Snooze End Sources: 
+      Deep Sleep and Standby Options: Snooze Options (Not available on every MCU): DTC state in Snooze Mode: Disabled
+      Deep Sleep and Standby Options: Snooze Options (Not available on every MCU): Snooze Cancel Source: None
+      RAM Retention Control (Not available on every MCU): RAM retention in Standby mode: 
+      RAM Retention Control (Not available on every MCU): TCM retention in Deep Sleep and Standby modes: Not Supported
+      RAM Retention Control (Not available on every MCU): Standby RAM retention in Standby and Deep Standby modes: Not Supported
+      Oscillator LDO Control (Not available on every MCU): PLL1 LDO State in standby mode: Not Supported
+      Oscillator LDO Control (Not available on every MCU): PLL2 LDO State in standby mode: Not Supported
+      Oscillator LDO Control (Not available on every MCU): HOCO LDO State in standby mode: Not Supported
+      Deep Standby Options (Not available on every MCU): I/O Port Retention: Not Available
+      Deep Standby Options (Not available on every MCU): Power-Supply Control: Not Available
+      Deep Standby Options (Not available on every MCU): Cancel Sources: 
+      Deep Standby Options (Not available on every MCU): Cancel Edges: 
+      Deep Standby Options (Not available on every MCU): Soft Start Mode: Not Available
+      
+    Instance "g_lpm_sw_standby_with_snooze Low Power Modes (r_lpm)"
+      General: Name: g_lpm_sw_standby_with_snooze
+      General: Low Power Mode: Snooze mode
+      General: Output port state in standby and deep standby: Not Available
+      General: Supply of SOSC clock to peripheral function in standby: Enabled
+      General: Startup speed of the HOCO in Standby and Snooze modes: Normal speed
+      General: Flash mode in sleep or snooze: Flash active
+      Deep Sleep and Standby Options: Wake Sources: IRQ0
+      Deep Sleep and Standby Options: Wake Sources 2: 
+      Deep Sleep and Standby Options: Snooze Options (Not available on every MCU): Snooze Request Source: Not Available
+      Deep Sleep and Standby Options: Snooze Options (Not available on every MCU): Snooze End Sources: 
+      Deep Sleep and Standby Options: Snooze Options (Not available on every MCU): DTC state in Snooze Mode: Enabled
+      Deep Sleep and Standby Options: Snooze Options (Not available on every MCU): Snooze Cancel Source: DTC Transfer Complete
+      RAM Retention Control (Not available on every MCU): RAM retention in Standby mode: 
+      RAM Retention Control (Not available on every MCU): TCM retention in Deep Sleep and Standby modes: Not Supported
+      RAM Retention Control (Not available on every MCU): Standby RAM retention in Standby and Deep Standby modes: Not Supported
+      Oscillator LDO Control (Not available on every MCU): PLL1 LDO State in standby mode: Not Supported
+      Oscillator LDO Control (Not available on every MCU): PLL2 LDO State in standby mode: Not Supported
+      Oscillator LDO Control (Not available on every MCU): HOCO LDO State in standby mode: Not Supported
+      Deep Standby Options (Not available on every MCU): I/O Port Retention: Not Available
+      Deep Standby Options (Not available on every MCU): Power-Supply Control: Not Available
+      Deep Standby Options (Not available on every MCU): Cancel Sources: 
+      Deep Standby Options (Not available on every MCU): Cancel Edges: 
+      Deep Standby Options (Not available on every MCU): Soft Start Mode: Not Available
+      
+    Instance "g_uart UART (r_sau_uart)"
+      General: Name: g_uart
+      General: Channel: 0
+      General: Data Bits: 8 bits
+      General: Parity: None
+      General: Stop Bits: 1 bit
+      General: Bit Order: LSB First
+      Baud: Baud Rate: 115200
+      Extra: Operation Clock: CKm0
+      Extra: Tx Signal Level: Standard
+      Interrupts: Callback: uart_callback
+      Interrupts: Transmit End Interrupt Priority: Priority 2
+      Interrupts: Receive End Interrupt Priority: Priority 2
+      Interrupts: Error Interrupt Priority: Disabled
+      
+    Instance "g_external_irq_cancel_lpm External IRQ (r_icu)"
+      Name: g_external_irq_cancel_lpm
+      Channel: 0
+      Trigger: Falling
+      Digital Filtering: Not Supported
+      Filter Source: Not Supported
+      Digital Filtering Sample Clock (Only valid when Digital Filtering is Enabled): Not Supported
+      Callback: external_irq_cancel_lpm_callback
+      Pin Interrupt Priority: Priority 2
+      
+    Instance "g_timer_cancel_lpm 32-bit Interval Timer (r_tml)"
+      General: Name: g_timer_cancel_lpm
+      General: Mode: 32-bit Counter Mode
+      General: Channel Selection: 0
+      General: ELC event: Not Supported
+      Counter Mode Settings: Period: 10
+      Counter Mode Settings: Period Unit: Seconds
+      Capture Mode Settings: Capture Trigger: Software trigger
+      Capture Mode Settings: Capture Clock Divider: fITL0
+      Capture Mode Settings: Counter Status: Retained after the completion of capturing
+      Capture Mode Settings: 16-Bit Counter Input Settings (when Capture source = Interrupt on compare match with ITLCMP01): Period: 0x10000
+      Capture Mode Settings: 16-Bit Counter Input Settings (when Capture source = Interrupt on compare match with ITLCMP01): Period Unit: Raw Counts
+      Interrupt: Callback function: timer_cancel_lpm_callback
+      Interrupt: Priority: Priority 3
+      
+    Instance "g_dtc_cancel_snooze Transfer (r_dtc) TML0 ITL OR (TML timer event)"
+      Name: g_dtc_cancel_snooze
+      Mode: Normal
+      Transfer Size: 2 Bytes
+      Destination Address Mode: Fixed
+      Source Address Mode: Fixed
+      Repeat Area (Unused in Normal Mode): Source
+      Interrupt Frequency: After each transfer
+      Number of Transfers: 1
+      Number of Blocks (Valid only in Block Mode): 0
+      Number of Transfer Descriptors: 1
+      Activation Source: TML0 ITL OR (TML timer event)
+      

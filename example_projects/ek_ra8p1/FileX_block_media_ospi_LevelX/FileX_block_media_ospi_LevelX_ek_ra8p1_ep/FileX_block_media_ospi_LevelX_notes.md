@@ -43,9 +43,9 @@ In Sector menu, based on the input, user selects operations to perform.
 Please refer to the [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf) for general information on example projects and [readme.txt](./readme.txt) for specifics of operation.
 
 ### Software ###
-* Renesas Flexible Software Package (FSP): Version 6.4.0
-* E2 studio: Version 2025-12
-* SEGGER J-Link RTT Viewer: Version 9.14a
+* Renesas Flexible Software Package (FSP): Version 6.5.0
+* E2 studio: Version 2026-04.2
+* SEGGER J-Link RTT Viewer: Version 9.42
 * LLVM Embedded Toolchain for ARM: Version 21.1.1
 * Terminal Console Application: Tera Term or a similar application
 

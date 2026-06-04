@@ -32,7 +32,8 @@ static void timer_deinit(void);
 static volatile uint32_t g_canfd_event_flag = RESET_VALUE;
 
 /* CANFD error event */
-static const can_error_event_t can_error_events[] = {
+static const can_error_event_t can_error_events[] =
+{
     { CAN_EVENT_ERR_WARNING,            LOG_ERR_WARNING },
     { CAN_EVENT_ERR_PASSIVE,            LOG_ERR_PASSIVE },
     { CAN_EVENT_ERR_BUS_OFF,            LOG_ERR_BUS_OFF },
@@ -60,11 +61,11 @@ uint8_t g_tx_fd_data[CAN_FD_DATA_LENGTH_CODE]   = {RESET_VALUE};
 uint8_t g_rx_fd_data[CAN_FD_DATA_LENGTH_CODE]   = {RESET_VALUE};
 
 /* Acceptance filter array parameters */
-#if defined (BOARD_RA8M2_EK)
+#if defined (BOARD_RA8M2_EK) || defined (BOARD_RA8T2_EK) ||  defined (BOARD_RA8T1_MCK)
 const canfd_afl_entry_t p_canfd0_afl[CANFD_CFG_AFL_CH1_RULE_NUM] =
 #else
 const canfd_afl_entry_t p_canfd0_afl[CANFD_CFG_AFL_CH0_RULE_NUM] =
-#endif /* BOARD_RA8M2_EK */
+#endif /* BOARD_RA8M2_EK || BOARD_RA8T2_EK || BOARD_RA8T1_MCK */
 {
  {
    /* Accept all messages with Extended ID 0x1000-0x1FFF */
@@ -372,7 +373,7 @@ static fsp_err_t can_data_check_operation(void)
         APP_ERR_RET(FSP_SUCCESS != err, err, "timer_get_measure failed\r\n");
 
         /* Print CANFD execution time of Board 2 */
-         APP_PRINT("\r\nPerform CANFD operation on Board 2 successfully in %d microseconds\r\n", execute_time_mcu);
+        APP_PRINT("\r\nPerform CANFD operation on Board 2 successfully in %d microseconds\r\n", execute_time_mcu);
 
         APP_PRINT("\r\nCAN transmission on FD Frame as acknowledgment is successful\r\n");
         APP_PRINT(PERFORM_TRANSMISSION);
@@ -507,7 +508,7 @@ static fsp_err_t timer_start_measure(void)
 
 /***********************************************************************************************************************
  *  Function Name: timer_get_measure.
- *  Description  : This Function measures the timing info by reading the timer.
+ *  Description  : This function measures the timing info by reading the timer.
  *  Arguments    : *p_time          Pointer will be used to store the CANFD operation execution time.
  *  Return Value : FSP_SUCCESS      Upon successful operation.
  *                 Any other error code apart from FSP_SUCCESS Unsuccessful operation.
@@ -540,7 +541,7 @@ static fsp_err_t timer_get_measure(uint32_t * p_time)
 
 /***********************************************************************************************************************
  *  Function Name: timer_init.
- *  Description  : This functions initializes GPT module used to measure CANFD operation execution time.
+ *  Description  : This function initializes GPT module used to measure CANFD operation execution time.
  *  Arguments    : None.
  *  Return Value : FSP_SUCCESS      Upon successful operation.
  *                 Any other error code apart from FSP_SUCCESS Unsuccessful operation.
@@ -582,8 +583,8 @@ static void timer_deinit(void)
 
 /***********************************************************************************************************************
  *  Function Name: led_update.
- *  Description  : This function updates led state as per operation status.
- *  Arguments    : led_state        Selects which led has to be made high.
+ *  Description  : This function updates LED state as per operation status.
+ *  Arguments    : led_state        Selects which LED has to be made high.
  *  Return Value : None.
  **********************************************************************************************************************/
 void led_update(led_state_t led_state)
@@ -601,6 +602,7 @@ void led_update(led_state_t led_state)
                 R_BSP_SoftwareDelay(WAIT_TIME, BSP_DELAY_UNITS_MICROSECONDS);
                 break;
             }
+
             case LED_CASE_2:
             {
                 /* LED 2 state is made ON to show successful state */
@@ -610,6 +612,7 @@ void led_update(led_state_t led_state)
                 R_BSP_SoftwareDelay(WAIT_TIME, BSP_DELAY_UNITS_MICROSECONDS);
                 break;
             }
+
             case LED_CASE_3:
             {
                 /* LED 1 & LED 2 states are made ON to show error state */
@@ -619,6 +622,7 @@ void led_update(led_state_t led_state)
                 R_BSP_SoftwareDelay(WAIT_TIME, BSP_DELAY_UNITS_MICROSECONDS);
                 break;
             }
+
             default:
             {
                 break;
@@ -639,6 +643,7 @@ void led_update(led_state_t led_state)
                 R_BSP_SoftwareDelay(WAIT_TIME, BSP_DELAY_UNITS_MICROSECONDS);
                 break;
             }
+
             case LED_CASE_2:
             {
                 /* LED 2 state is made ON to show successful state */
@@ -649,6 +654,7 @@ void led_update(led_state_t led_state)
                 R_BSP_SoftwareDelay(WAIT_TIME, BSP_DELAY_UNITS_MICROSECONDS);
                 break;
             }
+
             case LED_CASE_3:
             {
                 /* LED 3 state is made ON to show error state */
@@ -659,6 +665,7 @@ void led_update(led_state_t led_state)
                 R_BSP_SoftwareDelay(WAIT_TIME, BSP_DELAY_UNITS_MICROSECONDS);
                 break;
             }
+
             default:
             {
                 break;
@@ -678,12 +685,10 @@ void led_update(led_state_t led_state)
  **********************************************************************************************************************/
 void canfd0_callback(can_callback_args_t *p_args)
 {
-
     if (NULL != p_args)
     {
         /* Store the events */
         g_canfd_event_flag |= p_args->event;
-
     }
 }
 /***********************************************************************************************************************

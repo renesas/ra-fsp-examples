@@ -12,16 +12,32 @@ set "RascVersionHandler=%~dp0rasc_version.bat"
 REM Shift to leave remaining parameters as input parameters to RASC
 shift
 
+set RASC_OPERATION_NAME="%~3"
+
 REM Define input and output files
 set "InputFile=%~dp0configuration.xml"
 set "OutputFile=%~dp0output.rasc"
 
 REM Check if --gensolutionbundle is passed
-if "%~3"=="--gensolutionbundle" (
-set "InputFile=%~dp0solution.xml"
+if %RASC_OPERATION_NAME%=="--gensolutionbundle" (
+	set "InputFile=%~dp0solution.xml"
 )
-REM Check if --gensmartbundle is passed, 9th param is .axf file
-if "%~3"=="--gensmartbundle" (
+
+for %%a in (%*) do (
+    if "%%a"=="--buildconfiguration" (
+    	::  if we have two extra params, shift parameters twice
+        shift
+        shift
+    )
+)
+
+REM Check if --gensmartbundle is passed, the 9th param is .axf file
+if %RASC_OPERATION_NAME%=="--gensmartbundle" (
+    set "InputFile=%~9"
+    set "OutputFile=%~dpn9.sbd"
+)
+REM Check if --gensmartbundleandpartition is passed, the 9th is .axf file
+if %RASC_OPERATION_NAME%=="--gensmartbundleandpartition" (
     set "InputFile=%~9"
     set "OutputFile=%~dpn9.sbd"
 )
@@ -69,8 +85,9 @@ if exist "%RascVersionFile%" (
 
 REM Synchronous behaviour for build pre/post steps
 set "WaitRasc="
-IF "%~3"=="--generate" SET CLI=true
-IF "%~3"=="--gensmartbundle" SET CLI=true
+IF %RASC_OPERATION_NAME%=="--generate" SET CLI=true
+IF %RASC_OPERATION_NAME%=="--gensmartbundle" SET CLI=true
+IF %RASC_OPERATION_NAME%=="--gensmartbundleandpartition" SET CLI=true
 IF "%CLI%"=="true" (
     SET "WaitRasc=/b /wait"
     SET RascExe=%RascExe:rasc.exe=rascc.exe%

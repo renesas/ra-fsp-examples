@@ -21,6 +21,7 @@
 #include "r_uarta.h"
 #include "../r_uart_api.h"
 
+#if !defined(BOARD_RA4C1_EK) && !defined(BOARD_RA4L1_EK)
 /***********************************************************************************************************************
  * Macro definitions
  **********************************************************************************************************************/
@@ -40,6 +41,7 @@ extern const uarta_extended_cfg_t g_serial_cfg_extend;
 void serial_callback(uart_callback_args_t *p_args);
 #endif
 
+#endif /* BOARD_RA4C1_EK & BOARD_RA4L1_EK*/
 #endif /* BSP_PERIPHERAL_UARTA_PRESENT */
 #endif /* USE_VIRTUAL_COM */
 #endif /* R_UARTA_INSTANCE_CFG_H_ */

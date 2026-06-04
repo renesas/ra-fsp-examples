@@ -83,7 +83,7 @@
                                         })
 
 #define APP_ERR_TRAP(err)               ({\
-                                        if(err)\
+                                        if (err)\
                                         {\
                                         APP_PRINT("\r\nReturned Error Code: 0x%x  \r\n", (err));\
                                         TERM_DEINIT();\

@@ -1,59 +1,225 @@
 /***********************************************************************************************************************
  * File Name    : can_fd_ep.c
- * Description  : Contains data structures and functions used in can_fd_ep.c
+ * Description  : Contains data structures and functions used in can_fd_ep.c.
  **********************************************************************************************************************/
 /***********************************************************************************************************************
-* Copyright (c) 2020 - 2025 Renesas Electronics Corporation and/or its affiliates
+* Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
 ***********************************************************************************************************************/
 
-#include "common_utils.h"
-#include "can_fd_ep.h"
+#include "can_fd_change_baudrate.h"
+#include <math.h>
 
-/*******************************************************************************************************************//**
- * @addtogroup can_fd_ep
- * @{
- **********************************************************************************************************************/
- can_frame_t g_canfd_tx_frame;                      /* CAN transmit frame */
- can_frame_t g_canfd_rx_frame;
- /* Variable to store RX frame status information */
- can_info_t g_can_rx_info =
+/* External variable */
+extern bsp_leds_t g_bsp_leds;
+
+/* User defined functions */
+static void led_pin_initialization(void);
+static fsp_err_t can_read_operation(void);
+static fsp_err_t can_write_operation(can_frame_t can_transmit_frame);
+static void can_fd_data_update(void);
+static fsp_err_t can_data_check_operation(void);
+static fsp_err_t canfd_operation(void);
+static void canfd_deinit(void);
+static void handle_error(fsp_err_t err, const char *err_str);
+static fsp_err_t timer_start_measure(void);
+static fsp_err_t timer_get_measure(uint32_t * p_time);
+static fsp_err_t timer_init(void);
+static void timer_deinit(void);
+
+/* CANFD event flag */
+static volatile uint32_t g_canfd_event_flag = RESET_VALUE;
+
+/* CANFD error event */
+static const can_error_event_t can_error_events[] =
+{
+    { CAN_EVENT_ERR_WARNING,            LOG_ERR_WARNING },
+    { CAN_EVENT_ERR_PASSIVE,            LOG_ERR_PASSIVE },
+    { CAN_EVENT_ERR_BUS_OFF,            LOG_ERR_BUS_OFF },
+    { CAN_EVENT_BUS_RECOVERY,           LOG_BUS_RECOVERY },
+    { CAN_EVENT_MAILBOX_MESSAGE_LOST,   LOG_MAILBOX_MESSAGE_LOST },
+    { CAN_EVENT_ERR_BUS_LOCK,           LOG_ERR_BUS_LOCK },
+    { CAN_EVENT_ERR_CHANNEL,            LOG_ERR_CHANNEL },
+    { CAN_EVENT_TX_ABORTED,             LOG_TX_ABORTED },
+    { CAN_EVENT_ERR_GLOBAL,             LOG_ERR_GLOBAL },
+    { CAN_EVENT_TX_FIFO_EMPTY,          LOG_TX_FIFO_EMPTY },
+    { CAN_EVENT_FIFO_MESSAGE_LOST,      LOG_FIFO_MESSAGE_LOST }
+};
+/* Global variables */
+bool g_transmission_start = false;
+volatile uint32_t g_time_out = WAIT_TIME;
+
+/* CANFD transmit and receive frames */
+can_frame_t g_canfd_tx_frame = {RESET_VALUE, RESET_VALUE, RESET_VALUE, RESET_VALUE, RESET_VALUE, {RESET_VALUE}};
+can_frame_t g_canfd_rx_frame = {RESET_VALUE, RESET_VALUE, RESET_VALUE, RESET_VALUE, RESET_VALUE, {RESET_VALUE}};
+
+/* Data to be loaded in Classic CAN and FD frames for transmission and acknowledgment */
+uint8_t g_tx_data[CAN_CLASSIC_FRAME_DATA_BYTES] = "TX_MESG";
+uint8_t g_rx_data[CAN_CLASSIC_FRAME_DATA_BYTES] = "RX_MESG";
+uint8_t g_tx_fd_data[CAN_FD_DATA_LENGTH_CODE]   = {RESET_VALUE};
+uint8_t g_rx_fd_data[CAN_FD_DATA_LENGTH_CODE]   = {RESET_VALUE};
+
+/* Acceptance filter array parameters */
+#if defined (BOARD_RA8M2_EK) || defined (BOARD_RA8T2_EK) ||  defined (BOARD_RA8T1_MCK)
+const canfd_afl_entry_t p_canfd0_afl[CANFD_CFG_AFL_CH1_RULE_NUM] =
+#else
+const canfd_afl_entry_t p_canfd0_afl[CANFD_CFG_AFL_CH0_RULE_NUM] =
+#endif /* BOARD_RA8M2_EK || BOARD_RA8T2_EK || BOARD_RA8T1_MCK */
+{
  {
-  .error_code  = RESET_VALUE,
+   /* Accept all messages with Extended ID 0x1000-0x1FFF */
+   .id =
+   {
+    /* Specify the ID, ID type and frame type to accept */
+    .id         = CANFD_FILTER_ID,
+    .frame_type = CAN_FRAME_TYPE_DATA,
+    .id_mode    = CAN_ID_MODE_EXTENDED
+   },
+
+   .mask =
+   {
+    /* These values mask which ID/mode bits to compare when filtering messages */
+    .mask_id         = MASK_ID,
+    .mask_frame_type = ZERO,
+    .mask_id_mode    = MASK_ID_MODE
+   },
+
+   .destination =
+   {
+    /* If DLC checking is enabled, any messages shorter than the below setting will be rejected */
+    .minimum_dlc = (canfd_minimum_dlc_t)ZERO,
+
+    /* Optionally specify a Receive Message Buffer (RX MB) to store accepted frames. RX MBs do not have an
+     * interrupt or overwrite protection and must be checked with R_CANFD_InfoGet and R_CANFD_Read. */
+    .rx_buffer = CANFD_RX_MB_0,
+
+    /* Specify which FIFO(s) to send filtered messages to. Multiple FIFOs can be OR'd together. */
+    .fifo_select_flags = CANFD_RX_FIFO_0,
+   }
+ },
+};
+
+/* Variable to store RX frame status info */
+can_info_t g_can_rx_info =
+{
+  .error_code = RESET_VALUE,
   .error_count_receive = RESET_VALUE,
   .error_count_transmit = RESET_VALUE,
   .rx_fifo_status = RESET_VALUE,
   .rx_mb_status = RESET_VALUE,
   .status = RESET_VALUE,
- };
+};
 
-/* Data to be loaded into Classic CAN and CAN FD frames for transmission and acknowledgment */
-uint8_t g_tx_data[SIZE_64] = "TX_MESG";
-uint8_t g_rx_data[SIZE_64] = "RX_MESG";
-uint8_t g_tx_fd_data[SIZE_64];
-uint8_t g_rx_fd_data[SIZE_64];
-
-extern bool g_canfd_tx_complete ;
-extern bool g_canfd_rx_complete ;
-extern bool g_canfd_err_status;
-
-extern bsp_leds_t g_bsp_leds;
-extern uint32_t g_time_out;
-
-/* User defined functions */
-static void can_write_operation(can_frame_t can_transmit_frame);
-static void can_fd_data_update(void);
-static void can_data_check_operation(void);
-
-
-/*******************************************************************************************************************//**
- * @brief       Transmits data after receiving user input and performs subsequent operations.
- * @param[in]   None
- * @return      None
+/***********************************************************************************************************************
+ *  Function Name: canfd_entry.
+ *  Description  : This function is used to start the CANFD example operation.
+ *  Arguments    : None.
+ *  Return Value : None.
  **********************************************************************************************************************/
-void canfd_operation(void)
+void canfd_entry(void)
 {
+    fsp_err_t err = FSP_SUCCESS;
+    fsp_pack_version_t version           = {RESET_VALUE};
+    char rtt_input_buf[TERM_BUFFER_SIZE] = {NULL_CHAR};
+    bool is_error                        = false;
+    char can_err_log[BUFF_SIZE]          = {NULL_CHAR};
+
+    /* Initialize UART module first to print log to serial terminal */
+    err = TERM_INIT();
+    if (FSP_SUCCESS != err)
+    {
+        led_update(LED_CASE_3);
+        /* Error trap */
+        ERROR_TRAP;
+    }
+
+    /* Initialization of LED Pins */
+    led_pin_initialization();
+
+    /* Version get API for FLEX pack information */
+    R_FSP_VersionGet(&version);
+
+    /* Example project information printed on the Console */
+    APP_PRINT(BANNER_INFO, EP_VERSION, version.version_id_b.major, version.version_id_b.minor,
+              version.version_id_b.patch);
+    APP_PRINT(EP_INFO);
+
+    /* Initialize timer to measure CANFD operation */
+    err = timer_init();
+    handle_error(err, "timer_init FAILED\r\n");
+
+    /* Initialize CANFD module */
+    err = R_CANFD_Open(&g_canfd0_ctrl, &g_canfd0_cfg);
+    handle_error(err, "R_CANFD_Open API failed\r\n");
+
+    while (true)
+    {
+       /* Configure CANFD baud rate */
+       canfd_baudrate_set();
+
+        while (true == g_transmission_start)
+        {
+            /* Check for user input */
+            if (APP_CHECK_DATA)
+            {
+                /* Clean RTT input buffer */
+                memset(rtt_input_buf, NULL_CHAR, TERM_BUFFER_SIZE);
+                APP_READ(rtt_input_buf, sizeof(rtt_input_buf));
+
+                /* Exit the operation loop to re-configure the CANFD baud rate */
+                if (CHAR_LF == rtt_input_buf[0] || CHAR_CR == rtt_input_buf[0])
+                {
+                    g_transmission_start = false;
+                    break;
+                }
+
+                /* Start measure for Board 1 */
+                err = timer_start_measure();
+                handle_error(err, "timer_start_measure failed\r\n");
+
+                /* Update transmit frame and initiate transmission on CAN frame */
+                canfd_operation();
+            }
+
+            /* Get the status of transmitted frame and read the data */
+            err = can_read_operation();
+            handle_error(err, "can_read_operation failed\r\n");
+
+            /* Handle all occurred error events */
+            for (uint8_t i = 0; i < sizeof(can_error_events) / sizeof(can_error_events[0]); i++)
+            {
+                if (g_canfd_event_flag & can_error_events[i].err_event)
+                {
+                    snprintf(can_err_log, sizeof(can_err_log), "CAN error event: **%s**\r\n",
+                             can_error_events[i].err_log);
+                    APP_ERR_PRINT(can_err_log);
+                    is_error = true;
+                }
+            }
+            if (true == is_error)
+            {
+                is_error = false;
+                handle_error(FSP_ERR_ASSERTION, "CAN communication error detected\r\n");
+            }
+        }
+    }
+}
+/***********************************************************************************************************************
+* End of function canfd_entry
+***********************************************************************************************************************/
+
+/***********************************************************************************************************************
+ *  Function Name: canfd_operation.
+ *  Description  : This function transmits data after receiving user input and performs subsequent operations.
+ *  Arguments    : None.
+ *  Return Value : FSP_SUCCESS      Upon successful operation.
+ *                 Any other error code apart from FSP_SUCCESS Unsuccessful operation.
+ **********************************************************************************************************************/
+static fsp_err_t canfd_operation(void)
+{
+    fsp_err_t err = FSP_SUCCESS;
+
     /* Update transmit frame parameters */
     g_canfd_tx_frame.id = CAN_ID;
     g_canfd_tx_frame.id_mode = CAN_ID_MODE_EXTENDED;
@@ -61,69 +227,82 @@ void canfd_operation(void)
     g_canfd_tx_frame.data_length_code = CAN_CLASSIC_FRAME_DATA_BYTES;
     g_canfd_tx_frame.options = ZERO;
 
-    /* Update transmit frame data by copying payload from g_tx_data */
-    memcpy((uint8_t*)&g_canfd_tx_frame.data[ZERO], (uint8_t*)&g_tx_data[ZERO], CAN_FD_DATA_LENGTH_CODE);
+    /* Update transmit frame data with message */
+    memcpy((uint8_t*)&g_canfd_tx_frame.data[ZERO], (uint8_t*)&g_tx_data[ZERO], CAN_CLASSIC_FRAME_DATA_BYTES);
 
-    APP_PRINT("\r\nTransmitting data over Classic CAN frame...");
+    APP_PRINT("Transmission of data over classic CAN Frame\r\n");
 
-    /* Transmit data over Classic CAN frame */
-    can_write_operation(g_canfd_tx_frame);
+    /* Transmission of data over classic CAN frame */
+    err = can_write_operation(g_canfd_tx_frame);
+    APP_ERR_RET(FSP_SUCCESS != err, err, "can_write_operation failed\r\n");
 
-    APP_PRINT("\r\nCAN transmission is successful");
+    APP_PRINT("\r\nClassic CAN transmission is successful\n");
+
+    return err;
 }
+/***********************************************************************************************************************
+* End of function canfd_operation
+***********************************************************************************************************************/
 
-/*******************************************************************************************************************//**
- * @brief       Transmits data using either a Classic CAN or CAN FD frame.
- * @param[in]   can_transmit_frame    CAN frame structure to be transmitted.
- * @return      None
+/***********************************************************************************************************************
+ *  Function Name: can_write_operation.
+ *  Description  : This function is used to transmit data on classic CAN or CANFD frame.
+ *  Arguments    : can_transmit_frame   Data frame to be transmitted.
+ *  Return Value : FSP_SUCCESS          Upon successful operation.
+ *                 Any other error code apart from FSP_SUCCESS Unsuccessful operation.
  **********************************************************************************************************************/
-static void can_write_operation(can_frame_t can_transmit_frame)
+static fsp_err_t can_write_operation(can_frame_t can_transmit_frame)
 {
     fsp_err_t err = FSP_SUCCESS;
 
-    /* Transmit the data from mailbox #0 with the given transmit frame */
+    /* Re-initialize timeout value */
+    g_time_out = WAIT_TIME;
+
+    /* Transmit the data from mail box #0 with tx_frame */
     err = R_CANFD_Write(&g_canfd0_ctrl, CAN_MAILBOX_NUMBER_0, &can_transmit_frame);
-    /* Handle error */
-    if (FSP_SUCCESS != err)
-    {
-        APP_ERR_PRINT("\r\nR_CANFD_Write API failed");
-        led_update(LED_CASE_3);
-        canfd_deinit();
-        APP_ERR_TRAP(err);
-    }
+    APP_ERR_RET(FSP_SUCCESS != err, err, "R_CANFD_Write API failed\r\n");
 
     led_update(LED_CASE_1);
 
-    /* Wait here for the transmission complete event from the callback */
-    while ((true != g_canfd_tx_complete) && (--g_time_out));
+    /* Wait here for an event from callback */
+    while (!(g_canfd_event_flag & CAN_EVENT_TX_COMPLETE) && (--g_time_out));
     if (RESET_VALUE == g_time_out)
     {
-        APP_ERR_PRINT("\r\nCAN transmission failed due to timeout");
-        led_update(LED_CASE_3);
-        APP_ERR_TRAP(true);
+        err = FSP_ERR_TIMEOUT;
+        APP_ERR_RET(FSP_SUCCESS != err, err, "CAN transmission failed due to timeout\r\n");
     }
+
+    /* Clear CAN_EVENT_TX_COMPLETE bit of g_canfd_event_flag */
+    g_canfd_event_flag &= (uint32_t)(~CAN_EVENT_TX_COMPLETE);
 
     led_update(LED_CASE_2);
 
-    /* Reset transmission complete flag */
-    g_canfd_tx_complete = false;
+    return err;
 }
+/***********************************************************************************************************************
+* End of function can_write_operation
+***********************************************************************************************************************/
 
-/*******************************************************************************************************************//**
- * @brief     Compares transmitted and received CAN/CAN FD frame data, and sends an appropriate acknowledgment.
- * @param[in] None
- * @return    None
+/***********************************************************************************************************************
+ *  Function Name: can_data_check_operation.
+ *  Description  : This function compares transmitted/received data and sends ACK accordingly.
+ *  Arguments    : None.
+ *  Return Value : FSP_SUCCESS      Upon successful operation.
+ *                 Any other error code apart from FSP_SUCCESS Unsuccessful operation.
  **********************************************************************************************************************/
-static void can_data_check_operation(void)
+static fsp_err_t can_data_check_operation(void)
 {
-    /* Update data to be compared with data transmitted/received over CAN FD frame */
+    fsp_err_t err = FSP_SUCCESS;
+    uint32_t execute_time_mcu = RESET_VALUE;
+
+    /* Update data to be compared with data transmitted/received over FD frame */
     can_fd_data_update();
 
-    if(RESET_VALUE == strncmp((char*)&g_canfd_rx_frame.data[ZERO], (char*)&g_tx_data[ZERO],\
-                              CAN_CLASSIC_FRAME_DATA_BYTES))
+    /* Impact to Board 2: Compare received data with transmitted classic CAN data from Board 1 */
+    if (RESET_VALUE == strncmp((char*) &g_canfd_rx_frame.data[ZERO], (char*) &g_tx_data[ZERO],
+                               CAN_CLASSIC_FRAME_DATA_BYTES))
     {
-        APP_PRINT("\r\nReceived \"TX__MESG\" via Classic CAN frame, responding with \"RX__MESG\" using Classic"\
-                  " CAN frame.\r\n");
+        APP_PRINT("\nReceived 'TX__MESG' on classic frame, responding with 'RX__MESG' using classic CAN frame\r\n");
         /* Update the receive frame parameters */
         g_canfd_rx_frame.id = CAN_ID;
         g_canfd_rx_frame.type = CAN_FRAME_TYPE_DATA;
@@ -133,140 +312,280 @@ static void can_data_check_operation(void)
         /* Update receive frame data with message */
         memcpy(&g_canfd_rx_frame.data, &g_rx_data, CAN_CLASSIC_FRAME_DATA_BYTES);
 
+        /* Start measure for Board 2 */
+        err = timer_start_measure();
+        APP_ERR_RET(FSP_SUCCESS != err, err, "\r\ntimer_start_measure FAILED");
+
         /* Transmission of data as acknowledgment */
-        can_write_operation(g_canfd_rx_frame);
+        err = can_write_operation(g_canfd_rx_frame);
+        APP_ERR_RET(FSP_SUCCESS != err, err, "can_write_operation failed\r\n");
 
-        APP_PRINT("\r\nCAN transmission successful. ACK sent via Classic CAN frame.\r\n");
+        APP_PRINT("\nCAN transmission after receive is successful. Sent back the ACK using classic CAN frame\r\n");
     }
-    else if(RESET_VALUE == strncmp((char*)&g_canfd_rx_frame.data[ZERO], (char*)&g_rx_data[ZERO],\
-                                   CAN_CLASSIC_FRAME_DATA_BYTES))
+    /* Impact to Board 1: Compare received data with the responded classic CAN data from Board 2 */
+    else if (RESET_VALUE == strncmp((char*) &g_canfd_rx_frame.data[ZERO], (char*) &g_rx_data[ZERO],
+                                    CAN_CLASSIC_FRAME_DATA_BYTES))
     {
-        APP_PRINT("\r\nReceived acknowledgment \"RX__MESG\" for Classic CAN transmission.\r\n");
-        APP_PRINT("Classic CAN operation successful. Data length = %d bytes\r\n", g_canfd_rx_frame.data_length_code);
-
-        APP_PRINT("\r\nTransmitting data via CAN FD frame...\r\n");
-        /* Updating FD frame parameters */
+        APP_PRINT("\r\nReceived Acknowledgment for Classic CAN Frame transmission.\r\n"\
+                  "CAN operation Successful length = %d\n", g_canfd_rx_frame.data_length_code);
+        APP_PRINT("\r\nData transmission over FD frame");
+        /* Update FD frame parameters */
         g_canfd_rx_frame.options = CANFD_FRAME_OPTION_FD | CANFD_FRAME_OPTION_BRS;
         g_canfd_rx_frame.data_length_code = CAN_FD_DATA_LENGTH_CODE;
 
         /* Fill frame data that is to be sent in FD frame */
-        for(uint16_t j = 0; j < SIZE_64; j++)
+        for (uint16_t j = 0; j < CAN_FD_DATA_LENGTH_CODE; j++)
         {
             g_canfd_rx_frame.data[j] = (uint8_t) (j + 1);
         }
 
-        /* Transmission of data as over FD frame */
-        can_write_operation(g_canfd_rx_frame);
+        /* Transmission of data over FD frame */
+        err = can_write_operation(g_canfd_rx_frame);
+        APP_ERR_RET(FSP_SUCCESS != err, err, "can_write_operation failed\r\n");
 
-        APP_PRINT("\r\nCAN FD transmission successful after receiving Classic CAN ACK.\r\n");
+        APP_PRINT("\r\nCAN transmission on FD Frame after receiving classic CAN frame ACK is successful\r\n");
     }
-    else if(RESET_VALUE == strncmp((char*)&g_canfd_rx_frame.data[ZERO], (char*)&g_tx_fd_data[ZERO],\
-                                   CAN_FD_DATA_LENGTH_CODE))  /* Acknowledgment for second transmission */
+    /* Impact to Board 2: Compare received data with transmitted CANFD data from Board 1 */
+    else if (RESET_VALUE == strncmp((char*) &g_canfd_rx_frame.data[ZERO], (char*) &g_tx_fd_data[ZERO],
+                                    CAN_FD_DATA_LENGTH_CODE))
     {
-        APP_PRINT("\r\nReceived data via CAN FD frame.\r\nData reception successful."\
-                  " Data length = %d bytes\r\n", g_canfd_rx_frame.data_length_code);
-
+        APP_PRINT("\r\nReceived data over FD Frame.\r\nCAN operation Successful, Data length = %d\r\n",
+                  g_canfd_rx_frame.data_length_code);
         led_update(LED_CASE_2);
 
-        APP_PRINT("\r\nTransmitting modified data via CAN FD frame as acknowledgment...\r\n");
+        APP_PRINT("\r\nSending modified data over FD Frame now as acknowledgment for received FD data.\r\n");
 
         g_canfd_rx_frame.data_length_code = CAN_FD_DATA_LENGTH_CODE;
         g_canfd_rx_frame.options = CANFD_FRAME_OPTION_FD | CANFD_FRAME_OPTION_BRS;
 
         /* Fill frame data that is to be sent in FD frame */
-        for( uint16_t j = 0; j < SIZE_64; j++)
+        for (uint16_t j = 0; j < CAN_FD_DATA_LENGTH_CODE; j++)
         {
             g_canfd_rx_frame.data[j] = (uint8_t) (j + 5);
         }
 
         /* Transmission of data as acknowledgment */
-        can_write_operation(g_canfd_rx_frame);
+        err = can_write_operation(g_canfd_rx_frame);
+        APP_ERR_RET(FSP_SUCCESS != err, err, "can_write_operation failed\r\n");
 
-        APP_PRINT("\r\nCAN FD transmission successful. ACK sent via CAN FD frame.\r\n");
+        /* Get execution time */
+        err = timer_get_measure(&execute_time_mcu);
+        APP_ERR_RET(FSP_SUCCESS != err, err, "timer_get_measure failed\r\n");
+
+        /* Print CANFD execution time of Board 2 */
+        APP_PRINT("\r\nPerform CANFD operation on Board 2 successfully in %d microseconds\r\n", execute_time_mcu);
+
+        APP_PRINT("\r\nCAN transmission on FD Frame as acknowledgment is successful\r\n");
+        APP_PRINT(PERFORM_TRANSMISSION);
     }
-    else if(RESET_VALUE == strncmp((char*)&g_canfd_rx_frame.data[ZERO], (char*)&g_rx_fd_data[ZERO],\
-                                   CAN_FD_DATA_LENGTH_CODE)) /* Acknowledgment for second transmission */
+    /* Impact to Board 1: Compare received data with the responded CANFD data from Board 2 */
+    else if (RESET_VALUE == strncmp((char*) &g_canfd_rx_frame.data[ZERO], (char*) &g_rx_fd_data[ZERO],
+                                    CAN_FD_DATA_LENGTH_CODE))
     {
-        APP_PRINT("\r\nReceived acknowledgment via CAN FD frame.\r\nCAN FD operation successful."\
-                  " Data length = %d bytes\r\n", g_canfd_rx_frame.data_length_code);
+        /* Get execution time */
+        err = timer_get_measure(&execute_time_mcu);
+        APP_ERR_RET(FSP_SUCCESS != err, err, "\r\ntimer_get_measure failed");
+        APP_PRINT("\r\nReceived Acknowledgment for FD Frame.\r\nCAN operation Successful, Data length = %d\r\n",
+                  g_canfd_rx_frame.data_length_code);
 
         led_update(LED_CASE_2);
 
-        APP_PRINT("\r\nPlease enter any key on RTT Viewer to initiate CAN transmission\r\n");
-    }
-    else /* Wrong MSG received */
-    {
-        APP_ERR_PRINT("\r\nCAN data mismatch\r\nCAN operation failed\r\n");
-        led_update(LED_CASE_3);
-        APP_ERR_TRAP(true);
-    }
-}
+        /* Print CANFD execution time of Board 1 */
+        APP_PRINT("\r\nPerform CANFD operation on Board 1 successfully in %d microseconds\r\n", execute_time_mcu);
 
-/*******************************************************************************************************************//**
- * @brief       This function reads CAN channel status and received data frame.
- * @param[in]   None
- * @return      None
+        APP_PRINT(PERFORM_TRANSMISSION);
+    }
+    else /* Wrong MSG Received */
+    {
+        err = FSP_ERR_ASSERTION;
+        APP_ERR_RET(FSP_SUCCESS != err, err, "CAN data mismatch\r\nCAN operation failed\r\n");
+    }
+    return err;
+}
+/***********************************************************************************************************************
+* End of function can_data_check_operation
+***********************************************************************************************************************/
+
+/***********************************************************************************************************************
+ *  Function Name: can_read_operation.
+ *  Description  : This function reads channel status info and reads data.
+ *  Arguments    : None.
+ *  Return Value : FSP_SUCCESS      Upon successful operation.
+ *                 Any other error code apart from FSP_SUCCESS Unsuccessful operation.
  **********************************************************************************************************************/
-void can_read_operation(void)
+static fsp_err_t can_read_operation(void)
 {
     fsp_err_t err = FSP_SUCCESS;
 
     /* Get the status information for CAN transmission */
     err = R_CANFD_InfoGet(&g_canfd0_ctrl, &g_can_rx_info);
-    /* Handle error */
-    if (FSP_SUCCESS != err)
-    {
-        APP_ERR_PRINT("\r\nR_CANFD_InfoGet API failed");
-        led_update(LED_CASE_3);
-        canfd_deinit();
-        APP_ERR_TRAP(err);
-    }
+    APP_ERR_RET(FSP_SUCCESS != err, err, "**R_CANFD_InfoGet API failed\r\n**");
 
     /* Check if the data is received in FIFO */
-    if(g_can_rx_info.rx_mb_status)
+    if (g_can_rx_info.rx_mb_status)
     {
-        /* Read the received CAN frame from mailbox 0 */
+        /* Re-initialize timeout value */
+        g_time_out = WAIT_TIME;
+
+        /* Read the input frame received */
         err = R_CANFD_Read(&g_canfd0_ctrl, ZERO, &g_canfd_rx_frame);
-        /* Handle error */
-        if (FSP_SUCCESS != err)
+        APP_ERR_RET(FSP_SUCCESS != err, err, "**R_CANFD_Read API failed\r\n**");
+
+        led_update(LED_CASE_1);
+
+        /* Wait here for an event from callback */
+        while (!(g_canfd_event_flag & CAN_EVENT_RX_COMPLETE) && (--g_time_out));
+        if (RESET_VALUE == g_time_out)
         {
-            APP_ERR_PRINT("\r\nR_CANFD_Read API failed");
-            led_update(LED_CASE_3);
-            canfd_deinit();
-            APP_ERR_TRAP(err);
+            err = FSP_ERR_TIMEOUT;
+            APP_ERR_RET(FSP_SUCCESS != err, err, "CAN reception failed due to timeout\r\n");
         }
 
-        /* Verify received data and send response frame accordingly if valid */
-        can_data_check_operation();
+        /* Clear CAN_EVENT_RX_COMPLETE bit of g_canfd_event_flag */
+        g_canfd_event_flag &= (uint32_t)(~CAN_EVENT_RX_COMPLETE);
+
+        led_update(LED_CASE_2);
+
+        /* Check if the transmitted and received data are the same and send ACK accordingly */
+        err = can_data_check_operation();
+        APP_ERR_RET(FSP_SUCCESS != err, err, "can_data_check_operation failed\r\n");
     }
     else
     {
         /* Do nothing */
     }
+    return err;
 }
+/***********************************************************************************************************************
+* End of function can_read_operation
+***********************************************************************************************************************/
 
-/*******************************************************************************************************************//**
- * @brief     Updates the data buffers used for comparison with transmitted and received CAN FD frame data.
- * @param[in] None
- * @return    None
+/***********************************************************************************************************************
+ *  Function Name: can_fd_data_update.
+ *  Description  : This function updates data buffer that is to be compared with transmitted FD frame data.
+ *  Arguments    : None.
+ *  Return Value : None.
  **********************************************************************************************************************/
 static void can_fd_data_update(void)
 {
-    /* Fill frame data to be compared with data transmitted on CAN FD frame */
-    for(uint16_t i = 0; i < SIZE_64; i++)
+    /* Fill frame data to be compared with data transmitted on CANFD frame */
+    for (uint16_t i = 0; i < CAN_FD_DATA_LENGTH_CODE; i++)
     {
         g_tx_fd_data[i] = (uint8_t) (i + 1);
     }
-    for(uint16_t j = 0; j < SIZE_64; j++)
+    for (uint16_t j = 0; j < CAN_FD_DATA_LENGTH_CODE; j++)
     {
         g_rx_fd_data[j] = (uint8_t) (j + 5);
     }
 }
+/***********************************************************************************************************************
+* End of function can_fd_data_update
+***********************************************************************************************************************/
 
-/*******************************************************************************************************************//**
- * @brief       This function updates LED state as per operation status.
- * @param[in]   led_state       Selects which LED should be turned ON.
- * @retval      None
+/***********************************************************************************************************************
+ *  Function Name: timer_start_measure.
+ *  Description  : This function starts GPT module to measure execution time of an CANFD operation.
+ *  Arguments    : None.
+ *  Return Value : FSP_SUCCESS      Upon successful operation.
+ *                 Any other error code apart from FSP_SUCCESS Unsuccessful operation.
+ **********************************************************************************************************************/
+static fsp_err_t timer_start_measure(void)
+{
+    fsp_err_t err = FSP_SUCCESS;
+
+    /* Clear timer counter */
+    err = R_GPT_Reset(&g_timer_ctrl);
+    APP_ERR_RET(FSP_SUCCESS != err, err, "R_GPT_Reset API failed\r\n");
+
+    /* Start timer */
+    err = R_GPT_Start(&g_timer_ctrl);
+    APP_ERR_RET(FSP_SUCCESS != err, err, "R_GPT_Start API failed\r\n");
+    return err;
+}
+/***********************************************************************************************************************
+* End of function timer_start_measure
+***********************************************************************************************************************/
+
+/***********************************************************************************************************************
+ *  Function Name: timer_get_measure.
+ *  Description  : This function measures the timing info by reading the timer.
+ *  Arguments    : *p_time          Pointer will be used to store the CANFD operation execution time.
+ *  Return Value : FSP_SUCCESS      Upon successful operation.
+ *                 Any other error code apart from FSP_SUCCESS Unsuccessful operation.
+ **********************************************************************************************************************/
+static fsp_err_t timer_get_measure(uint32_t * p_time)
+{
+    fsp_err_t      err          = FSP_SUCCESS;
+    timer_status_t timer_status = {RESET_VALUE, RESET_VALUE};
+    timer_info_t   timer_info   = {RESET_VALUE, RESET_VALUE, RESET_VALUE};
+
+    /* Get status of timer */
+    err = R_GPT_StatusGet(&g_timer_ctrl, &timer_status);
+    APP_ERR_RET(FSP_SUCCESS != err, err, "**R_GPT_StatusGet API failed**\r\n");
+
+    /* Get info of timer */
+    err = R_GPT_InfoGet(&g_timer_ctrl, &timer_info);
+    APP_ERR_RET(FSP_SUCCESS != err, err, "**R_GPT_InfoGet API failed**\r\n");
+
+    /* Stop timer */
+    err = R_GPT_Stop(&g_timer_ctrl);
+    APP_ERR_RET(FSP_SUCCESS != err, err, "**R_GPT_Stop API failed**\r\n");
+
+    /* Convert count value to microseconds unit */
+    *p_time = timer_status.counter / (timer_info.clock_frequency / 1000000);
+    return err;
+}
+/***********************************************************************************************************************
+* End of function timer_get_measure
+***********************************************************************************************************************/
+
+/***********************************************************************************************************************
+ *  Function Name: timer_init.
+ *  Description  : This function initializes GPT module used to measure CANFD operation execution time.
+ *  Arguments    : None.
+ *  Return Value : FSP_SUCCESS      Upon successful operation.
+ *                 Any other error code apart from FSP_SUCCESS Unsuccessful operation.
+ **********************************************************************************************************************/
+static fsp_err_t timer_init(void)
+{
+    fsp_err_t err = FSP_SUCCESS;
+
+    err = R_GPT_Open(&g_timer_ctrl, &g_timer_cfg);
+    APP_ERR_RET(FSP_SUCCESS != err, err, "**R_GPT_Open API failed**\r\n");
+    return err;
+}
+/***********************************************************************************************************************
+* End of function timer_init
+***********************************************************************************************************************/
+
+/***********************************************************************************************************************
+ *  Function Name: timer_deinit.
+ *  Description  : This function de-initializes the opened timer module.
+ *  Arguments    : None.
+ *  Return Value : None.
+ **********************************************************************************************************************/
+static void timer_deinit(void)
+{
+    fsp_err_t err = FSP_SUCCESS;
+    if (MODULE_CLOSE != g_timer_ctrl.open)
+    {
+        /* Close timer module */
+        err = R_GPT_Close(&g_timer_ctrl);
+        if (FSP_SUCCESS != err)
+        {
+            APP_ERR_PRINT("**R_GPT_Close API failed**\r\n");
+        }
+    }
+}
+/***********************************************************************************************************************
+* End of function timer_deinit
+***********************************************************************************************************************/
+
+/***********************************************************************************************************************
+ *  Function Name: led_update.
+ *  Description  : This function updates LED state as per operation status.
+ *  Arguments    : led_state        Selects which LED has to be made high.
+ *  Return Value : None.
  **********************************************************************************************************************/
 void led_update(led_state_t led_state)
 {
@@ -277,70 +596,76 @@ void led_update(led_state_t led_state)
             case LED_CASE_1:
             {
                 /* LED 1 state is made ON to show operation is in progress */
-                R_IOPORT_PinWrite (&g_ioport_ctrl, (bsp_io_port_pin_t) g_bsp_leds.p_leds[0], (bsp_io_level_t) LED_ON);
-                R_IOPORT_PinWrite (&g_ioport_ctrl, (bsp_io_port_pin_t) g_bsp_leds.p_leds[1], (bsp_io_level_t) LED_OFF);
+                R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t) g_bsp_leds.p_leds[0], (bsp_io_level_t) LED_ON);
+                R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t) g_bsp_leds.p_leds[1], (bsp_io_level_t) LED_OFF);
                 /* Delay */
-                R_BSP_SoftwareDelay (WAIT_TIME, BSP_DELAY_UNITS_MICROSECONDS);
+                R_BSP_SoftwareDelay(WAIT_TIME, BSP_DELAY_UNITS_MICROSECONDS);
                 break;
             }
+
             case LED_CASE_2:
             {
                 /* LED 2 state is made ON to show successful state */
-                R_IOPORT_PinWrite (&g_ioport_ctrl, (bsp_io_port_pin_t) g_bsp_leds.p_leds[0], (bsp_io_level_t) LED_OFF);
-                R_IOPORT_PinWrite (&g_ioport_ctrl, (bsp_io_port_pin_t) g_bsp_leds.p_leds[1], (bsp_io_level_t) LED_ON);
+                R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t) g_bsp_leds.p_leds[0], (bsp_io_level_t) LED_OFF);
+                R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t) g_bsp_leds.p_leds[1], (bsp_io_level_t) LED_ON);
                 /* Delay */
-                R_BSP_SoftwareDelay (WAIT_TIME, BSP_DELAY_UNITS_MICROSECONDS);
+                R_BSP_SoftwareDelay(WAIT_TIME, BSP_DELAY_UNITS_MICROSECONDS);
                 break;
             }
+
             case LED_CASE_3:
             {
                 /* LED 1 & LED 2 states are made ON to show error state */
-                R_IOPORT_PinWrite (&g_ioport_ctrl, (bsp_io_port_pin_t) g_bsp_leds.p_leds[0], (bsp_io_level_t) LED_ON);
-                R_IOPORT_PinWrite (&g_ioport_ctrl, (bsp_io_port_pin_t) g_bsp_leds.p_leds[1], (bsp_io_level_t) LED_ON);
+                R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t) g_bsp_leds.p_leds[0], (bsp_io_level_t) LED_ON);
+                R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t) g_bsp_leds.p_leds[1], (bsp_io_level_t) LED_ON);
                 /* Delay */
-                R_BSP_SoftwareDelay (WAIT_TIME, BSP_DELAY_UNITS_MICROSECONDS);
+                R_BSP_SoftwareDelay(WAIT_TIME, BSP_DELAY_UNITS_MICROSECONDS);
                 break;
             }
+
             default:
             {
                 break;
             }
         }
     }
-    else if (g_bsp_leds.led_count == 3)
+    else if (g_bsp_leds.led_count >= 3)
     {
         switch (led_state)
         {
             case LED_CASE_1:
             {
                 /* LED 1 state is made ON to show operation is in progress */
-                R_IOPORT_PinWrite (&g_ioport_ctrl, (bsp_io_port_pin_t) g_bsp_leds.p_leds[0], (bsp_io_level_t) LED_ON);
-                R_IOPORT_PinWrite (&g_ioport_ctrl, (bsp_io_port_pin_t) g_bsp_leds.p_leds[1], (bsp_io_level_t) LED_OFF);
-                R_IOPORT_PinWrite (&g_ioport_ctrl, (bsp_io_port_pin_t) g_bsp_leds.p_leds[2], (bsp_io_level_t) LED_OFF);
+                R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t) g_bsp_leds.p_leds[0], (bsp_io_level_t) LED_ON);
+                R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t) g_bsp_leds.p_leds[1], (bsp_io_level_t) LED_OFF);
+                R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t) g_bsp_leds.p_leds[2], (bsp_io_level_t) LED_OFF);
                 /* Delay */
-                R_BSP_SoftwareDelay (WAIT_TIME, BSP_DELAY_UNITS_MICROSECONDS);
+                R_BSP_SoftwareDelay(WAIT_TIME, BSP_DELAY_UNITS_MICROSECONDS);
                 break;
             }
+
             case LED_CASE_2:
             {
                 /* LED 2 state is made ON to show successful state */
-                R_IOPORT_PinWrite (&g_ioport_ctrl, (bsp_io_port_pin_t) g_bsp_leds.p_leds[0], (bsp_io_level_t) LED_OFF);
-                R_IOPORT_PinWrite (&g_ioport_ctrl, (bsp_io_port_pin_t) g_bsp_leds.p_leds[1], (bsp_io_level_t) LED_ON);
-                R_IOPORT_PinWrite (&g_ioport_ctrl, (bsp_io_port_pin_t) g_bsp_leds.p_leds[2], (bsp_io_level_t) LED_OFF);
+                R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t) g_bsp_leds.p_leds[0], (bsp_io_level_t) LED_OFF);
+                R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t) g_bsp_leds.p_leds[1], (bsp_io_level_t) LED_ON);
+                R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t) g_bsp_leds.p_leds[2], (bsp_io_level_t) LED_OFF);
                 /* Delay */
-                R_BSP_SoftwareDelay (WAIT_TIME, BSP_DELAY_UNITS_MICROSECONDS);
+                R_BSP_SoftwareDelay(WAIT_TIME, BSP_DELAY_UNITS_MICROSECONDS);
                 break;
             }
+
             case LED_CASE_3:
             {
                 /* LED 3 state is made ON to show error state */
-                R_IOPORT_PinWrite (&g_ioport_ctrl, (bsp_io_port_pin_t) g_bsp_leds.p_leds[0], (bsp_io_level_t) LED_OFF);
-                R_IOPORT_PinWrite (&g_ioport_ctrl, (bsp_io_port_pin_t) g_bsp_leds.p_leds[1], (bsp_io_level_t) LED_OFF);
-                R_IOPORT_PinWrite (&g_ioport_ctrl, (bsp_io_port_pin_t) g_bsp_leds.p_leds[2], (bsp_io_level_t) LED_ON);
+                R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t) g_bsp_leds.p_leds[0], (bsp_io_level_t) LED_OFF);
+                R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t) g_bsp_leds.p_leds[1], (bsp_io_level_t) LED_OFF);
+                R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t) g_bsp_leds.p_leds[2], (bsp_io_level_t) LED_ON);
                 /* Delay */
-                R_BSP_SoftwareDelay (WAIT_TIME, BSP_DELAY_UNITS_MICROSECONDS);
+                R_BSP_SoftwareDelay(WAIT_TIME, BSP_DELAY_UNITS_MICROSECONDS);
                 break;
             }
+
             default:
             {
                 break;
@@ -348,60 +673,130 @@ void led_update(led_state_t led_state)
         }
     }
 }
+/***********************************************************************************************************************
+* End of function led_update
+***********************************************************************************************************************/
 
-/*******************************************************************************************************************//**
- * @brief       Callback function for CAN FD events.
- * @param[in]   p_args  Pointer to the CAN callback arguments structure.
- * @retval      None
+/***********************************************************************************************************************
+ *  Function Name: canfd0_callback.
+ *  Description  : CAN FD callback function.
+ *  Arguments    : p_args       Pointer to the callback arguments.
+ *  Return Value : None.
  **********************************************************************************************************************/
 void canfd0_callback(can_callback_args_t *p_args)
 {
-    switch (p_args->event)
+    if (NULL != p_args)
     {
-        case CAN_EVENT_TX_COMPLETE:
-        {
-            g_canfd_tx_complete = true;         /* Set the transmission complete flag */
-            break;
-        }
-        case CAN_EVENT_RX_COMPLETE:     /* Currently unsupported by the driver. This block is unreachable for now. */
-        {
-            g_canfd_rx_complete = true;
-            break;
-        }
-        case CAN_EVENT_ERR_WARNING:             /* Error warning event */
-        case CAN_EVENT_ERR_PASSIVE:             /* Error passive event */
-        case CAN_EVENT_ERR_BUS_OFF:             /* Bus-off error event */
-        case CAN_EVENT_BUS_RECOVERY:            /* Bus recovery error event */
-        case CAN_EVENT_MAILBOX_MESSAGE_LOST:    /* Mailbox message lost (overwrite/overrun) */
-        case CAN_EVENT_ERR_BUS_LOCK:            /* Bus lock detected (32 consecutive dominant bits) */
-        case CAN_EVENT_ERR_CHANNEL:             /* Channel error has occurred */
-        case CAN_EVENT_TX_ABORTED:              /* Transmit abort event */
-        case CAN_EVENT_ERR_GLOBAL:              /* Global error has occurred */
-        case CAN_EVENT_FIFO_MESSAGE_LOST:       /* Receive FIFO overrun */
-        case CAN_EVENT_TX_FIFO_EMPTY:           /* Transmit FIFO is empty */
-        {
-            g_canfd_err_status = true;          /* Set the error status flag */
-            break;
-        }
+        /* Store the events */
+        g_canfd_event_flag |= p_args->event;
     }
 }
+/***********************************************************************************************************************
+* End of function canfd0_callback
+***********************************************************************************************************************/
 
-/*******************************************************************************************************************//**
- * @brief       This function de-initializes the CAN FD module.
- * @param[in]   None
- * @return      None
+/***********************************************************************************************************************
+ *  Function Name: canfd_deinit.
+ *  Description  : This function de-initializes the opened CANFD module.
+ *  Arguments    : None.
+ *  Return Value : None.
  **********************************************************************************************************************/
 void canfd_deinit(void)
 {
     fsp_err_t err = FSP_SUCCESS;
-    /* Close CAN FD channel */
-    err = R_CANFD_Close(&g_canfd0_ctrl);
-    if (FSP_SUCCESS != err)
+    if (MODULE_CLOSE != g_canfd0_ctrl.open)
     {
-        APP_ERR_PRINT("\r\nR_CANFD_Close API failed");
+        /* Close CANFD channel */
+        err = R_CANFD_Close(&g_canfd0_ctrl);
+        if (FSP_SUCCESS != err)
+        {
+            APP_ERR_PRINT("**R_CANFD_Close API failed**\r\n");
+        }
     }
 }
+/***********************************************************************************************************************
+* End of function canfd_deinit
+***********************************************************************************************************************/
 
-/*******************************************************************************************************************//**
- * @} (end addtogroup can_fd_ep)
+/***********************************************************************************************************************
+ *  Function Name: get_user_input.
+ *  Description  : This function gets input from terminal.
+ *  Arguments    : None.
+ *  Return Value : input_value      User input value.
  **********************************************************************************************************************/
+uint32_t get_user_input(void)
+{
+    char user_input[TERM_BUFFER_SIZE] = {NULL_CHAR};
+
+    /* Check for user input */
+    while (!APP_CHECK_DATA)
+    {
+        __NOP();
+    }
+    /* Clean RTT input buffer */
+    memset(user_input, NULL_CHAR, TERM_BUFFER_SIZE);
+    APP_READ(user_input, sizeof(user_input));
+
+    /* Convert input to integer */
+    uint32_t input_value = (uint32_t) atoi(user_input);
+
+    return input_value;
+}
+/***********************************************************************************************************************
+* End of function get_user_input
+***********************************************************************************************************************/
+
+/***********************************************************************************************************************
+ *  Function Name: led_pin_initialization.
+ *  Description  : This function initializes state of LED pins.
+ *  Arguments    : None.
+ *  Return Value : None.
+ **********************************************************************************************************************/
+static void led_pin_initialization(void)
+{
+    /* Set the LED pin state high */
+    R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t) g_bsp_leds.p_leds[0], BSP_IO_LEVEL_HIGH); /* Blue LED */
+    R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t) g_bsp_leds.p_leds[1], BSP_IO_LEVEL_HIGH); /* Green LED */
+    R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t) g_bsp_leds.p_leds[2], BSP_IO_LEVEL_HIGH); /* Red LED */
+
+    R_BSP_SoftwareDelay(WAIT_TIME, BSP_DELAY_UNITS_MICROSECONDS);
+
+    /* Set the LED pin state low */
+    R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t) g_bsp_leds.p_leds[0], BSP_IO_LEVEL_LOW);
+    R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t) g_bsp_leds.p_leds[1], BSP_IO_LEVEL_LOW);
+    R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t) g_bsp_leds.p_leds[2], BSP_IO_LEVEL_LOW);
+}
+/***********************************************************************************************************************
+* End of function led_pin_initialization
+***********************************************************************************************************************/
+
+/***********************************************************************************************************************
+ *  Function Name: handle_error
+ *  Description  : This function handles error if error occurred, closes all opened modules, prints and traps error.
+ *  Arguments    : err          Error status.
+ *                 err_str      Error string.
+ *  Return Value : None.
+ **********************************************************************************************************************/
+static void handle_error(fsp_err_t err, const char *err_str)
+{
+    if (FSP_SUCCESS != err)
+    {
+        /* LED 3 will be turned ON when an error occurs */
+        led_update(LED_CASE_3);
+
+        /* Print error information and error code */
+        APP_ERR_PRINT(err_str);
+
+        /* De-initialize opened CANFD module */
+        canfd_deinit();
+
+        /* De-initialize opened timer module */
+        timer_deinit();
+
+        /* Trap the error */
+        APP_ERR_TRAP(err);
+    }
+}
+/***********************************************************************************************************************
+* End of function handle_error
+***********************************************************************************************************************/

@@ -3,7 +3,7 @@
  * Description  : Contains macros, data structures, and functions commonly used in the EP.
  **********************************************************************************************************************/
 /***********************************************************************************************************************
-* Copyright (c) 2020 - 2025 Renesas Electronics Corporation and/or its affiliates
+* Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
 ***********************************************************************************************************************/
@@ -64,8 +64,8 @@
 #define APP_PRINT(fn_, ...)             (TERM_PRINTF((fn_), ##__VA_ARGS__))
 
 #if LVL_ERR
-  #define APP_ERR_PRINT(fn_, ...)       (APP_PRINT("\r\n[ERR] In Function: %s(), %s", __FUNCTION__,\
-                                        (fn_), ##__VA_ARGS__))
+  #define APP_ERR_PRINT(fn_, ...)       (APP_PRINT("\r\n[ERR] In Function: %s(), %s", __FUNCTION__, \
+                                                   (fn_), ##__VA_ARGS__))
 #else
   #define APP_ERR_PRINT(fn_, ...)
 #endif /* LVL_ERR */
@@ -82,12 +82,12 @@
                                         __asm("BKPT #0\n");\
                                         })
 
+/* Trap upon the error */
 #define APP_ERR_TRAP(err)               ({\
                                         if(err)\
                                         {\
                                         APP_PRINT("\r\nReturned Error Code: 0x%x  \r\n", (err));\
                                         TERM_DEINIT();\
-                                        /* Trap upon the error */\
                                         ERROR_TRAP;\
                                         }\
                                         })

@@ -1,5 +1,5 @@
 /***********************************************************************************************************************
-* Copyright (c) 2020 - 2025 Renesas Electronics Corporation and/or its affiliates
+* Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
 ***********************************************************************************************************************/
@@ -21,6 +21,7 @@
 #include "../r_uart_api.h"
 #include "r_uarta_cfg.h"
 
+#if !defined(BOARD_RA4C1_EK) && !defined(BOARD_RA4L1_EK)
 /* Common macro for FSP header files. There is also a corresponding FSP_FOOTER macro at the end of this file. */
 FSP_HEADER
 
@@ -177,6 +178,7 @@ fsp_err_t R_UARTA_ReceiveResume(uart_ctrl_t * const p_api_ctrl);
 /* Common macro for FSP header files. There is also a corresponding FSP_HEADER macro at the top of this file. */
 FSP_FOOTER
 
+#endif /* EK_BOARD_RA4C1_EK & BOARD_RA4L1_EK */
 #endif
 #endif /* BSP_PERIPHERAL_UARTA_PRESENT */
 #endif /* USE_VIRTUAL_COM */
