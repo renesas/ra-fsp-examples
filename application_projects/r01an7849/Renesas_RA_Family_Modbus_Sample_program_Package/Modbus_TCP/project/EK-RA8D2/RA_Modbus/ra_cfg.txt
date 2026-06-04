@@ -292,7 +292,7 @@ FSP Configuration
     BCLKA Div /6
     SDCLK Enabled
     EBCLK Src: BCLK (Synchronous)
-    EBCLK Div /2
+    EBCLK Disabled
     CLKOUT Src: HOCO
     CLKOUT Div /1
     SCICLK Src: PLL2R
@@ -986,6 +986,7 @@ FSP Configuration
   Module "FreeRTOS Buffer Allocation 2"
   Module "Ethernet MAC (r_rmac)"
     Parameter Checking: Default (BSP)
+    Read Buffer Size Checking: Disabled
     
   Module "Switch (r_layer3_switch)"
     Parameter Checking: Default (BSP)
@@ -1000,10 +1001,10 @@ FSP Configuration
     DP83620 Target: Disabled
     ICS1894 Target: Disabled
     GPY111 Target: Disabled
+    VSC8541 Target: Disabled
     User Own Target: Disabled
     Reference Clock: Default
     
-  Module "FreeRTOS Heap 4"
   Module "Ethernet PHY-LSI"
     Parameter Checking: Default (BSP)
     KSZ8091RNB Target: Disabled
@@ -1011,9 +1012,11 @@ FSP Configuration
     DP83620 Target: Disabled
     ICS1894 Target: Disabled
     GPY111 Target: Disabled
+    VSC8541 Target: Disabled
     User Own Target: Disabled
     Reference Clock: Default
     
+  Module "FreeRTOS Heap 4"
   FreeRTOS
     General: Custom FreeRTOSConfig.h: 
     General: Use Preemption: Enabled
@@ -1142,6 +1145,8 @@ FSP Configuration
               Buffers: Allocate RX buffer: Enable
               Buffers: Number of node num: 24
               Timestamp: TS queue length: 8
+              Forwarding: Transmission descriptor format: Transmission direct descriptor
+              Forwarding: Port based forwarding for reception: Disabled
               
               Instance "g_layer3_switch0 Switch (r_layer3_switch)"
                 Name: g_layer3_switch0
@@ -1149,8 +1154,13 @@ FSP Configuration
                 Context: NULL
                 Callback: NULL
                 Interrupts: Interrupt priority: Priority 12
-                Ports: Port 0: Fowarding: CPU
-                Ports: Port 1: Fowarding: CPU
+                Ports: Port 0: Forwarding: CPU
+                Ports: Port 1: Forwarding: CPU
+                Ports: CPU: Forwarding: 
+                Ports: Port 0: IPV queues for preemptable frames: 
+                Ports: Port 1: IPV queues for preemptable frames: 
+                Ports: Port 0: Minimum fragment size of preemptable frames: 64 bytes
+                Ports: Port 1: Minimum fragment size of preemptable frames: 64 bytes
                 Ports: Port 0: MAC address: 00:11:22:33:44:55
                 Ports: Port 1: MAC address: 00:11:22:33:44:55
                 Ports: Port 0: IPV queue depth: Queue 0: 64
@@ -1222,11 +1232,17 @@ FSP Configuration
                   Flow Control: Disable
                   Management frame format: Clause 22 frame format
                   MDC clock rate (Hz): 2500000
-                  MDIO hold timing adjustment: 7
-                  MDIO capture timing adjustment: 7
+                  MDIO hold timing adjustment: 0
+                  MDIO capture timing adjustment: 0
+                  Frame preemption: Disable
+                  Verify frame interval: 10
+                  Interrupts: Context: NULL
+                  Interrupts: Callback: NULL
+                  Interrupts: ETHA0 status interrupt priority: Disabled
+                  Interrupts: ETHA1 status interrupt priority: Disabled
                   
-                  Instance "g_rmac_phy_lsi0 Ethernet PHY-LSI"
-                    Name: g_rmac_phy_lsi0
+                  Instance "g_rmac_phy_lsi1 Ethernet PHY-LSI"
+                    Name: g_rmac_phy_lsi1
                     PHY-LSI Address: 0
                     PHY-LSI type: Kit Component
                     

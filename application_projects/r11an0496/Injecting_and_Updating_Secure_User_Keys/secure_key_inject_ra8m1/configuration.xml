@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<raConfiguration version="11">
+<raConfiguration version="12">
   <generalSettings>
     <option key="#Board#" value="board.ra8m1ek"/>
     <option key="CPU" value="RA8M1"/>
@@ -9,20 +9,24 @@
     <option key="#DeviceCommand#" value="R7FA8M1AH"/>
     <option key="#RTOS#" value="_none"/>
     <option key="#pinconfiguration#" value="R7FA8M1AHECBD.pincfg"/>
-    <option key="#FSPVersion#" value="6.0.0"/>
+    <option key="#FSPVersion#" value="6.4.0"/>
     <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra8m1_ek##"/>
-    <option key="#SELECTED_TOOLCHAIN#" value="gcc-arm-embedded"/>
-    <option key="#ToolchainVersion#" value="13.2.1.arm-13-7"/>
+    <option key="#SELECTED_TOOLCHAIN#" value="clang_arm"/>
+    <option key="#ToolchainVersion#" value="21.1.1"/>
   </generalSettings>
   <raBspConfiguration>
     <config id="config.bsp.ra8m1.R7FA8M1AHECBD">
       <property id="config.bsp.part_number" value="config.bsp.part_number.value"/>
       <property id="config.bsp.rom_size_bytes" value="config.bsp.rom_size_bytes.value"/>
-      <property id="config.bsp.rom_size_bytes_hidden" value="2064384"/>
+      <property id="config.bsp.rom_size_bytes_hidden" value="config.bsp.rom_size_bytes_hidden.value"/>
       <property id="config.bsp.ram_size_bytes" value="config.bsp.ram_size_bytes.value"/>
       <property id="config.bsp.data_flash_size_bytes" value="config.bsp.data_flash_size_bytes.value"/>
       <property id="config.bsp.package_style" value="config.bsp.package_style.value"/>
       <property id="config.bsp.package_pins" value="config.bsp.package_pins.value"/>
+      <property id="config.bsp.ospi0_cs0_start_address" value="config.bsp.ospi0_cs0_start_address.value"/>
+      <property id="config.bsp.ospi0_cs0_size_bytes" value="config.bsp.ospi0_cs0_size_bytes.value"/>
+      <property id="config.bsp.ospi0_cs1_start_address" value="config.bsp.ospi0_cs1_start_address.value"/>
+      <property id="config.bsp.ospi0_cs1_size_bytes" value="config.bsp.ospi0_cs1_size_bytes.value"/>
       <property id="config.bsp.number_of_cores" value="1"/>
       <property id="config.bsp.irq_count_hidden" value="96"/>
     </config>
@@ -46,6 +50,7 @@
       <property id="config.bsp.fsp.sdram.endian_mode" value="config.bsp.fsp.sdram.endian_mode.little"/>
       <property id="config.bsp.fsp.sdram.continuous_access_mode" value="config.bsp.fsp.sdram.continuous_access_mode.enabled"/>
       <property id="config.bsp.fsp.sdram.bus_width" value="config.bsp.fsp.sdram.bus_width.16"/>
+      <property id="config.bsp.fsp.ospi_b_startup" value="config.bsp.fsp.ospi_b_startup.disabled"/>
       <property id="config.bsp.fsp.tz.exception_response" value="config.bsp.fsp.tz.exception_response.nmi"/>
       <property id="config.bsp.fsp.tz.cmsis.bfhfnmins" value="config.bsp.fsp.tz.cmsis.bfhfnmins.secure"/>
       <property id="config.bsp.fsp.tz.cmsis.sysresetreqs" value="config.bsp.fsp.tz.cmsis.sysresetreqs.secure_only"/>
@@ -67,17 +72,17 @@
       <property id="config.bsp.fsp.settling_delay_us" value="150"/>
       <property id="config.bsp.common.main_osc_wait" value="config.bsp.common.main_osc_wait.wait_8163"/>
       <property id="config.bsp.fsp.mcu.adc.max_freq_hz" value="60000000"/>
-      <property id="config.bsp.fsp.mcu.sci_b_uart.max_baud" value="20000000"/>
+      <property id="config.bsp.fsp.mcu.sci_b_uart.max_baud" value="30000000"/>
       <property id="config.bsp.fsp.mcu.sci_b_uart.ctspen_channels" value="0x021F"/>
       <property id="config.bsp.fsp.mcu.adc.sample_and_hold" value="1"/>
       <property id="config.bsp.fsp.mcu.adc.sensors_are_exclusive" value="0"/>
-      <property id="config.bsp.fsp.mcu.sci_spi.max_bitrate" value="30000000"/>
+      <property id="config.bsp.fsp.mcu.sci_spi.max_bitrate" value="60000000"/>
       <property id="config.bsp.fsp.mcu.spi.max_bitrate" value="60000000"/>
       <property id="config.bsp.fsp.mcu.iic_master.rate.rate_fastplus" value="1"/>
       <property id="config.bsp.fsp.mcu.iic_master.fastplus_channels" value="0x3"/>
       <property id="config.bsp.fsp.mcu.iic_slave.rate.rate_fastplus" value="1"/>
       <property id="config.bsp.fsp.mcu.iic_slave.fastplus_channels" value="0x3"/>
-      <property id="config.bsp.fsp.mcu.gpt.pin_count_source_channels" value="0xFF0F"/>
+      <property id="config.bsp.fsp.mcu.gpt.pin_count_source_channels" value="0x3FFF"/>
       <property id="config.bsp.fsp.mcu.canfd.num_channels" value="2"/>
       <property id="config.bsp.fsp.mcu.canfd.rx_fifos" value="2"/>
       <property id="config.bsp.fsp.mcu.canfd.buffer_ram" value="1216"/>
@@ -90,6 +95,8 @@
       <property id="config.bsp.fsp.dcache" value="config.bsp.fsp.dcache.disabled"/>
       <property id="config.bsp.fsp.mscr.forcewt" value="config.bsp.fsp.mscr.forcewt.enabled"/>
       <property id="config.bsp.fsp.mcu.rtc.err_adjustment_value.max_value" value="63"/>
+      <property id="config.bsp.fsp.ioport.voltage_mode.vcc" value="config.bsp.fsp.ioport.voltage_mode.vcc.high"/>
+      <property id="config.bsp.fsp.ioport.voltage_mode.vcc2" value="config.bsp.fsp.ioport.voltage_mode.vcc2.high"/>
     </config>
     <config id="config.bsp.ra8m1.linker">
       <property id="config.bsp.option_setting.ofs0" value="config.bsp.option_setting.ofs0.enabled"/>
@@ -164,6 +171,22 @@
       <property id="config.bsp.option_setting.bps_sel.1" value=""/>
       <property id="config.bsp.option_setting.bps_sel.2" value=""/>
       <property id="config.bsp.option_setting.bps_sel.3" value=""/>
+      <property id="config.bsp.option_setting_data_flash.fsblctrl0" value="config.bsp.option_setting_data_flash.fsblctrl0.disabled"/>
+      <property id="config.bsp.option_setting_data_flash.fsblctrl0.FSBLEN" value="config.bsp.option_setting_data_flash.fsblctrl0.FSBLEN.disabled"/>
+      <property id="config.bsp.option_setting_data_flash.fsblctrl0.FSBLSKIPSW" value="config.bsp.option_setting_data_flash.fsblctrl0.FSBLSKIPSW.disabled"/>
+      <property id="config.bsp.option_setting_data_flash.fsblctrl0.FSBLSKIPDS" value="config.bsp.option_setting_data_flash.fsblctrl0.FSBLSKIPDS.disabled"/>
+      <property id="config.bsp.option_setting_data_flash.fsblctrl0.FSBLCLK" value="config.bsp.option_setting_data_flash.fsblctrl0.FSBLCLK.7"/>
+      <property id="config.bsp.option_setting_data_flash.fsblctrl1" value="config.bsp.option_setting_data_flash.fsblctrl1.disabled"/>
+      <property id="config.bsp.option_setting_data_flash.fsblctrl1.FSBLEXMD" value="config.bsp.option_setting_data_flash.fsblctrl1.FSBLEXMD.secure_report"/>
+      <property id="config.bsp.option_setting_data_flash.fsblctrl2" value="config.bsp.option_setting_data_flash.fsblctrl2.disabled"/>
+      <property id="config.bsp.option_setting_data_flash.fsblctrl2.PORTPN" value="config.bsp.option_setting_data_flash.fsblctrl2.PORTPN.15"/>
+      <property id="config.bsp.option_setting_data_flash.fsblctrl2.PORTGN" value="config.bsp.option_setting_data_flash.fsblctrl2.PORTGN.reserved"/>
+      <property id="config.bsp.option_setting_data_flash.sacc0" value="config.bsp.option_setting_data_flash.sacc0.disabled"/>
+      <property id="config.bsp.option_setting_data_flash.sacc0.address" value="0xFFFFFFFF"/>
+      <property id="config.bsp.option_setting_data_flash.sacc1" value="config.bsp.option_setting_data_flash.sacc1.disabled"/>
+      <property id="config.bsp.option_setting_data_flash.sacc1.address" value="0xFFFFFFFF"/>
+      <property id="config.bsp.option_setting_data_flash.samr" value="config.bsp.option_setting_data_flash.samr.disabled"/>
+      <property id="config.bsp.option_setting_data_flash.samr.address" value="0xFFFFFFFF"/>
     </config>
     <config id="config.bsp.ra">
       <property id="config.bsp.common.main" value="0x1000"/>
@@ -256,71 +279,76 @@
     <node id="board.clock.uck.display" option="board.clock.uck.display.value"/>
     <node id="board.clock.u60ck.display" option="board.clock.u60ck.display.value"/>
     <node id="board.clock.octaspiclk.display" option="board.clock.octaspiclk.display.value"/>
+    <node id="board.clock.octaspiclk.om_sclk.display" option="board.clock.octaspiclk.om_sclk.display.value"/>
   </raClockConfiguration>
   <raComponentSelection>
-    <component apiversion="" class="BSP" condition="" group="ra8m1" subgroup="device" variant="R7FA8M1AHECBD" vendor="Renesas" version="6.0.0">
-      <description>Board support package for R7FA8M1AHECBD</description>
-      <originalPack>Renesas.RA_mcu_ra8m1.6.0.0.pack</originalPack>
+    <component apiversion="" class="Projects" condition="" group="all" subgroup="common" variant="" vendor="Renesas" version="6.4.0">
+      <description>Common source for all template projects.</description>
+      <originalPack>Renesas.RA_common.6.4.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra8m1" subgroup="device" variant="" vendor="Renesas" version="6.0.0">
-      <description>Board support package for RA8M1</description>
-      <originalPack>Renesas.RA_mcu_ra8m1.6.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra8m1" subgroup="fsp" variant="" vendor="Renesas" version="6.0.0">
-      <description>Board support package for RA8M1 - FSP Data</description>
-      <originalPack>Renesas.RA_mcu_ra8m1.6.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra8m1" subgroup="events" variant="" vendor="Renesas" version="6.0.0">
-      <description>Board support package for RA8M1 - Events</description>
-      <originalPack>Renesas.RA_mcu_ra8m1.6.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra8m1" subgroup="linker" variant="" vendor="Renesas" version="6.0.0">
-      <description>Board support package for RA8M1 - Linker</description>
-      <originalPack>Renesas.RA_mcu_ra8m1.6.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra8m1_ek" variant="" vendor="Renesas" version="6.0.0">
-      <description>RA8M1-EK Board Support Files</description>
-      <originalPack>Renesas.RA_board_ra8m1_ek.6.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="PSA" condition="" group="Crypto" subgroup="mbedCrypto" variant="" vendor="Arm" version="3.6.2+renesas.2.fsp.6.0.0">
-      <description>Arm PSA Crypto Implementation</description>
-      <originalPack>Arm.MbedCrypto.3.6.2+renesas.2.fsp.6.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Mbed" condition="" group="Library" subgroup="LittleFS" variant="" vendor="Arm" version="2.2.1+renesas.1.fsp.6.0.0">
-      <description>Arm Mbed LittleFS</description>
-      <originalPack>Arm.LittleFS.2.2.1+renesas.1.fsp.6.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="CMSIS" condition="" group="Main" subgroup="CoreM" variant="" vendor="Arm" version="6.1.0+fsp.6.0.0">
-      <description>Arm CMSIS Version 6 - Core (M)</description>
-      <originalPack>Arm.CMSIS6.6.1.0+fsp.6.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="6.4.0">
       <description>Board Support Package Common Files</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.6.4.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_flash_hp" variant="" vendor="Renesas" version="6.0.0">
-      <description>Flash Memory High Performance</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="6.4.0">
       <description>I/O Port</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.6.4.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_rsip_e51a_key_injection" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="CMSIS" condition="" group="Main" subgroup="CoreM" variant="" vendor="Arm" version="6.1.0+fsp.6.4.0">
+      <description>Arm CMSIS Version 6 - Core (M)</description>
+      <originalPack>Arm.CMSIS6.6.1.0+fsp.6.4.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra8m1_ek" variant="" vendor="Renesas" version="6.4.0">
+      <description>RA8M1-EK Board Support Files</description>
+      <originalPack>Renesas.RA_board_ra8m1_ek.6.4.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra8m1" subgroup="device" variant="R7FA8M1AHECBD" vendor="Renesas" version="6.4.0">
+      <description>Board support package for R7FA8M1AHECBD</description>
+      <originalPack>Renesas.RA_mcu_ra8m1.6.4.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra8m1" subgroup="device" variant="" vendor="Renesas" version="6.4.0">
+      <description>Board support package for RA8M1</description>
+      <originalPack>Renesas.RA_mcu_ra8m1.6.4.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra8m1" subgroup="fsp" variant="" vendor="Renesas" version="6.4.0">
+      <description>Board support package for RA8M1 - FSP Data</description>
+      <originalPack>Renesas.RA_mcu_ra8m1.6.4.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra8m1" subgroup="events" variant="" vendor="Renesas" version="6.4.0">
+      <description>Board support package for RA8M1 - Events</description>
+      <originalPack>Renesas.RA_mcu_ra8m1.6.4.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra8m1" subgroup="linker" variant="" vendor="Renesas" version="6.4.0">
+      <description>Board support package for RA8M1 - Linker</description>
+      <originalPack>Renesas.RA_mcu_ra8m1.6.4.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Mbed" condition="" group="Library" subgroup="LittleFS" variant="" vendor="Arm" version="2.2.1+renesas.1.fsp.6.4.0">
+      <description>Arm Mbed LittleFS</description>
+      <originalPack>Arm.LittleFS.2.2.1+renesas.1.fsp.6.4.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_flash_hp" variant="" vendor="Renesas" version="6.4.0">
+      <description>Flash Memory High Performance</description>
+      <originalPack>Renesas.RA.6.4.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_rsip_e51a_key_injection" variant="" vendor="Renesas" version="6.4.0">
       <description>Renesas Security IP on RA8 (RSIP-E51A) Key Injection</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.6.4.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_rsip_e51a_ra8_plaintext" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_rsip_e51a_ra8_plaintext" variant="" vendor="Renesas" version="6.4.0">
       <description>Secure Cryptography Engine on RA8 (RSIP-E51A) Compatibility Mode</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.6.4.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_littlefs_flash" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_littlefs_flash" variant="" vendor="Renesas" version="6.4.0">
       <description>LittleFS Flash Port</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.6.4.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="rm_psa_crypto" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="rm_psa_crypto" variant="" vendor="Renesas" version="6.4.0">
       <description>MbedCrypto H/W Acceleration</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.6.4.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="PSA" condition="" group="Crypto" subgroup="mbedCrypto" variant="" vendor="Arm" version="3.6.4+renesas.2.fsp.6.4.0">
+      <description>Arm PSA Crypto Implementation</description>
+      <originalPack>Arm.MbedCrypto.3.6.4+renesas.2.fsp.6.4.0.pack</originalPack>
     </component>
   </raComponentSelection>
   <raElcConfiguration/>
@@ -335,41 +363,42 @@
       <property id="module.driver.ioport.elc_trigger_ioport4" value="_disabled"/>
       <property id="module.driver.ioport.pincfg" value="g_bsp_pin_cfg"/>
     </module>
-    <module id="module.driver.flash_on_flash_hp.1853371583">
-      <property id="module.driver.flash.name" value="g_flash0"/>
-      <property id="module.driver.flash.data_flash_bgo" value="module.driver.flash.data_flash_bgo.enabled"/>
-      <property id="module.driver.flash.p_callback" value="NULL"/>
-      <property id="module.driver.flash.ipl" value="_disabled"/>
-      <property id="module.driver.flash.err_ipl" value="_disabled"/>
+    <module id="module.driver.psa_crypto.941096377"/>
+    <module id="module.driver.rm_psa_crypto.81072568"/>
+    <module id="module.driver.rsip_e51a.plaintext.551026049"/>
+    <module id="module.driver.rsip_e51a_key_injection.2145646030">
+      <property id="module.driver.rsip_e51a_key_injection.name" value="g_rsip_e51a_key_install"/>
     </module>
-    <module id="module.middleware.rm_littlefs.262346017">
+    <module id="module.arm.mbed.littlefs.2084028959"/>
+    <module id="module.middleware.rm_littlefs.1992683569">
       <property id="module.middleware.rm_littlefs.name" value="g_rm_littlefs0"/>
       <property id="module.middleware.rm_littlefs.read_size" value="1"/>
       <property id="module.middleware.rm_littlefs.prog_size" value="4"/>
+      <property id="module.middleware.rm_littlefs.memory_start_address" value="BSP_FEATURE_FLASH_DATA_FLASH_START"/>
       <property id="module.middleware.rm_littlefs.block_size" value="128"/>
       <property id="module.middleware.rm_littlefs.block_count" value="(BSP_DATA_FLASH_SIZE_BYTES/128)"/>
       <property id="module.middleware.rm_littlefs.block_cycles" value="1024"/>
       <property id="module.middleware.rm_littlefs.cache_size" value="64"/>
       <property id="module.middleware.rm_littlefs.lookahead_size" value="16"/>
     </module>
-    <module id="module.arm.mbed.littlefs.268470408"/>
-    <module id="module.driver.rsip_e51a_key_injection.963200852">
-      <property id="module.driver.rsip_e51a_key_injection.name" value="g_rsip_e51a_key_install"/>
+    <module id="module.driver.flash_on_flash_hp.1664773209">
+      <property id="module.driver.flash.name" value="g_flash0"/>
+      <property id="module.driver.flash.data_flash_bgo" value="module.driver.flash.data_flash_bgo.enabled"/>
+      <property id="module.driver.flash.p_callback" value="NULL"/>
+      <property id="module.driver.flash.ipl" value="_disabled"/>
+      <property id="module.driver.flash.err_ipl" value="_disabled"/>
     </module>
-    <module id="module.driver.rsip_e51a.plaintext.1659074970"/>
-    <module id="module.driver.rm_psa_crypto.2034382770"/>
-    <module id="module.driver.psa_crypto.636749066"/>
     <context id="_hal.0">
       <stack module="module.driver.ioport_on_ioport.0"/>
-      <stack module="module.driver.psa_crypto.636749066">
-        <stack module="module.driver.rm_psa_crypto.2034382770" requires="module.driver.rm_psa_crypto">
-          <stack module="module.driver.rsip_e51a.plaintext.1659074970" requires="module.driver.rm_psa_crypto.requires.sce">
-            <stack module="module.driver.rsip_e51a_key_injection.963200852" requires="module.driver.sce.requires.rsip_e51a_key_injection"/>
+      <stack module="module.driver.psa_crypto.941096377">
+        <stack module="module.driver.rm_psa_crypto.81072568" requires="module.driver.rm_psa_crypto">
+          <stack module="module.driver.rsip_e51a.plaintext.551026049" requires="module.driver.rm_psa_crypto.requires.sce">
+            <stack module="module.driver.rsip_e51a_key_injection.2145646030" requires="module.driver.sce.requires.rsip_e51a_key_injection"/>
           </stack>
         </stack>
-        <stack module="module.arm.mbed.littlefs.268470408" requires="module.driver.rm_psa_crypto.requires.middleware.stdio_wrapper">
-          <stack module="module.middleware.rm_littlefs.262346017" requires="module.arm.mbed.littlefs.requires.littlefs_port">
-            <stack module="module.driver.flash_on_flash_hp.1853371583" requires="module.middleware.rm_littlefs.requires.r_flash"/>
+        <stack module="module.arm.mbed.littlefs.2084028959" requires="module.driver.rm_psa_crypto.requires.middleware.stdio_wrapper">
+          <stack module="module.middleware.rm_littlefs.1992683569" requires="module.arm.mbed.littlefs.requires.littlefs_port">
+            <stack module="module.driver.flash_on_flash_hp.1664773209" requires="module.middleware.rm_littlefs.requires.r_flash"/>
           </stack>
         </stack>
       </stack>
@@ -440,8 +469,8 @@
       <property id="config.driver.psa_crypto.mbedtls_aria_alt" value="config.driver.psa_crypto.mbedtls_aria_alt.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_camellia_alt" value="config.driver.psa_crypto.mbedtls_camellia_alt.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_ccm_alt" value="config.driver.psa_crypto.aes_ccm_alt.enabled"/>
-      <property id="config.driver.psa_crypto.mbedtls_chacha20_alt" value="config.driver.psa_crypto.mbedtls_chacha20_alt.disabled"/>
-      <property id="config.driver.psa_crypto.mbedtls_chachapoly_alt" value="config.driver.psa_crypto.mbedtls_chachapoly_alt.disabled"/>
+      <property id="config.driver.psa_crypto.mbedtls_chacha20_alt" value="config.driver.psa_crypto.chacha20_alt.disabled"/>
+      <property id="config.driver.psa_crypto.mbedtls_chachapoly_alt" value="config.driver.psa_crypto.chachapoly_alt.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_cmac_alt" value="config.driver.psa_crypto.mbedtls_cmac_alt.enabled"/>
       <property id="config.driver.psa_crypto.mbedtls_des_alt" value="config.driver.psa_crypto.mbedtls_des_alt.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_dhm_alt" value="config.driver.psa_crypto.mbedtls_dhm_alt.disabled"/>
@@ -488,7 +517,7 @@
       <property id="config.driver.psa_crypto.mbedtls_cipher_padding_zeros" value="config.driver.psa_crypto.mbedtls_cipher_padding_zeros.enabled"/>
       <property id="config.driver.psa_crypto.mbedtls_ecp_dp_secp192r1_enabled" value="config.driver.psa_crypto.mbedtls_ecp_dp_secp192r1_enabled.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_ecp_dp_secp224r1_enabled" value="config.driver.psa_crypto.mbedtls_ecp_dp_secp224r1_enabled.disabled"/>
-      <property id="config.driver.psa_crypto.mbedtls_ecp_dp_secp256r1_enabled" value="config.driver.psa_crypto.mbedtls_ecp_dp_secp256r1_enabled.disabled"/>
+      <property id="config.driver.psa_crypto.mbedtls_ecp_dp_secp256r1_enabled" value="config.driver.psa_crypto.mbedtls_ecp_dp_secp256r1_enabled.enabled"/>
       <property id="config.driver.psa_crypto.mbedtls_ecp_dp_secp384r1_enabled" value="config.driver.psa_crypto.mbedtls_ecp_dp_secp384r1_enabled.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_ecp_dp_secp521r1_enabled" value="config.driver.psa_crypto.mbedtls_ecp_dp_secp521r1_enabled.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_ecp_dp_secp192k1_enabled" value="config.driver.psa_crypto.mbedtls_ecp_dp_secp192k1_enabled.disabled"/>
@@ -545,14 +574,14 @@
       <property id="config.driver.psa_crypto.mbedtls_chacha20_c" value="config.driver.psa_crypto.mbedtls_chacha20_c.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_chachapoly_c" value="config.driver.psa_crypto.mbedtls_chachapoly_c.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_cipher_c" value="config.driver.psa_crypto.mbedtls_cipher_c.enabled"/>
-      <property id="config.driver.psa_crypto.mbedtls_cmac_c" value="config.driver.psa_crypto.mbedtls_cmac_c.enabled"/>
+      <property id="config.driver.psa_crypto.mbedtls_cmac_c" value="config.driver.psa_crypto.mbedtls_cmac_c.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_ctr_drbg_c" value="config.driver.psa_crypto.mbedtls_ctr_drbg_c.enabled"/>
       <property id="config.driver.psa_crypto.mbedtls_ctr_drbg_c_alt" value="config.driver.psa_crypto.mbedtls_ctr_drbg_c_alt.enabled"/>
       <property id="config.driver.psa_crypto.mbedtls_des_c" value="config.driver.psa_crypto.mbedtls_des_c.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_dhm_c" value="config.driver.psa_crypto.mbedtls_dhm_c.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_ecdh_c" value="config.driver.psa_crypto.mbedtls_ecdh_c.disabled"/>
-      <property id="config.driver.psa_crypto.mbedtls_ecdsa_c" value="config.driver.psa_crypto.mbedtls_ecdsa_c.disabled"/>
-      <property id="config.driver.psa_crypto.mbedtls_ecp_c" value="config.driver.psa_crypto.mbedtls_ecp_c.disabled"/>
+      <property id="config.driver.psa_crypto.mbedtls_ecdsa_c" value="config.driver.psa_crypto.mbedtls_ecdsa_c.enabled"/>
+      <property id="config.driver.psa_crypto.mbedtls_ecp_c" value="config.driver.psa_crypto.mbedtls_ecp_c.enabled"/>
       <property id="config.driver.psa_crypto.mbedtls_ecjpake_c" value="config.driver.psa_crypto.mbedtls_ecjpake_c.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_entropy_c" value="config.driver.psa_crypto.mbedtls_entropy_c.enabled"/>
       <property id="config.driver.psa_crypto.mbedtls_error_c" value="config.driver.psa_crypto.mbedtls_error_c.enabled"/>
@@ -566,12 +595,14 @@
       <property id="config.driver.psa_crypto.mbedtls_md_c" value="config.driver.psa_crypto.mbedtls_md_c.enabled"/>
       <property id="config.driver.psa_crypto.mbedtls_md5_c" value="config.driver.psa_crypto.mbedtls_md5_c.enabled"/>
       <property id="config.driver.psa_crypto.mbedtls_memory_buffer_alloc_c" value="config.driver.psa_crypto.mbedtls_memory_buffer_alloc_c.disabled"/>
+      <property id="config.driver.psa_crypto.mbedtls_mlkem_c" value="config.driver.psa_crypto.mbedtls_mlkem_c.disabled"/>
+      <property id="config.driver.psa_crypto.mbedtls_mldsa_c" value="config.driver.psa_crypto.mbedtls_mldsa_c.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_oid_c" value="config.driver.psa_crypto.mbedtls_oid_c.enabled"/>
       <property id="config.driver.psa_crypto.mbedtls_pem_parse_c" value="config.driver.psa_crypto.mbedtls_pem_parse_c.enabled"/>
       <property id="config.driver.psa_crypto.mbedtls_pem_write_c" value="config.driver.psa_crypto.mbedtls_pem_write_c.enabled"/>
-      <property id="config.driver.psa_crypto.mbedtls_pk_c" value="config.driver.psa_crypto.mbedtls_pk_c.disabled"/>
-      <property id="config.driver.psa_crypto.mbedtls_pk_parse_c" value="config.driver.psa_crypto.mbedtls_pk_parse_c.disabled"/>
-      <property id="config.driver.psa_crypto.mbedtls_pk_write_c" value="config.driver.psa_crypto.mbedtls_pk_write_c.disabled"/>
+      <property id="config.driver.psa_crypto.mbedtls_pk_c" value="config.driver.psa_crypto.mbedtls_pk_c.enabled"/>
+      <property id="config.driver.psa_crypto.mbedtls_pk_parse_c" value="config.driver.psa_crypto.mbedtls_pk_parse_c.enabled"/>
+      <property id="config.driver.psa_crypto.mbedtls_pk_write_c" value="config.driver.psa_crypto.mbedtls_pk_write_c.enabled"/>
       <property id="config.driver.psa_crypto.mbedtls_pkcs5_c" value="config.driver.psa_crypto.mbedtls_pkcs5_c.enabled"/>
       <property id="config.driver.psa_crypto.mbedtls_pkcs7_c" value="config.driver.psa_crypto.mbedtls_pkcs7_c.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_pkcs12_c" value="config.driver.psa_crypto.mbedtls_pkcs12_c.enabled"/>
@@ -581,8 +612,9 @@
       <property id="config.driver.psa_crypto.mbedtls_psa_crypto_se_c" value="config.driver.psa_crypto.mbedtls_psa_crypto_se_c.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_psa_crypto_storage_c" value="config.driver.psa_crypto.mbedtls_psa_crypto_storage_c.enabled"/>
       <property id="config.driver.psa_crypto.mbedtls_psa_its_file_c" value="config.driver.psa_crypto.mbedtls_psa_its_file_c.enabled"/>
+      <property id="config.driver.psa_crypto.mbedtls_psa_static_key_slots" value="config.driver.psa_crypto.mbedtls_psa_static_key_slots.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_ripemd160_c" value="config.driver.psa_crypto.mbedtls_ripemd160_c.disabled"/>
-      <property id="config.driver.psa_crypto.mbedtls_rsa_c" value="config.driver.psa_crypto.mbedtls_rsa_c.disabled"/>
+      <property id="config.driver.psa_crypto.mbedtls_rsa_c" value="config.driver.psa_crypto.mbedtls_rsa_c.enabled"/>
       <property id="config.driver.psa_crypto.mbedtls_rsa_gen_key_min_bits" value="config.driver.psa_crypto.mbedtls_rsa_gen_key_min_bits.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_rsa_gen_key_min_bits_value" value="1024"/>
       <property id="config.driver.psa_crypto.mbedtls_sha1_c" value="config.driver.psa_crypto.mbedtls_sha1_c.enabled"/>
@@ -689,12 +721,14 @@
       <property id="config.driver.psa_crypto.mbedtls_platform_zeroize_alt" value="config.driver.psa_crypto.mbedtls_platform_zeroize_alt.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_psa_key_slot_count" value="config.driver.psa_crypto.mbedtls_psa_key_slot_count.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_psa_key_slot_count_value" value="32"/>
+      <property id="config.driver.psa_crypto.mbedtls_psa_static_key_slot_buffer_size_value" value="256"/>
       <property id="config.driver.psa_crypto.mbedtls_platform_gmtime_r_alt" value="config.driver.psa_crypto.mbedtls_platform_gmtime_r_alt.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_ecdh_variant_everest_enabled" value="config.driver.psa_crypto.mbedtls_ecdh_variant_everest_enabled.disabled"/>
       <property id="config.driver.psa_crypto.mbedtls_psa_crypto_config" value="config.driver.psa_crypto.mbedtls_psa_crypto_config.disabled"/>
     </config>
     <config id="config.driver.ioport">
       <property id="config.driver.ioport.checking" value="config.driver.ioport.checking.system"/>
+      <property id="config.driver.ioport.ccd_support_enable" value="config.driver.ioport.ccd_support_enable.disabled"/>
     </config>
   </raModuleConfiguration>
   <raPinConfiguration>

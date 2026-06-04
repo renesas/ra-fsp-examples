@@ -45,7 +45,7 @@ bool arm::app::Model::Init(uint8_t* tensorArenaAddr,
     debug("loading model from @ 0x%p\n", nnModelAddr);
     debug("model size: %" PRIu32 " bytes.\n", nnModelSize);
 
-   
+
     this->m_pModel = ::tflite::GetModel(nnModelAddr);
 
     if (this->m_pModel->version() != TFLITE_SCHEMA_VERSION) {
@@ -207,10 +207,9 @@ void arm::app::Model::LogInterpreterInfo()
     for (size_t i = 0 ; i < nOperators; ++i) {
         const tflite::Operator* op = subgraph->operators()->Get(i);
         const tflite::OperatorCode* opcode = opcodes->Get(op->opcode_index());
-        const TfLiteRegistration* reg = nullptr;
-	tflite::ErrorReporter* err = nullptr;
+        const TFLMRegistration* reg = nullptr;
 
-        tflite::GetRegistrationFromOpCode(opcode, this->GetOpResolver(), err, &reg);
+        tflite::GetRegistrationFromOpCode(opcode, this->GetOpResolver(), &reg);
         std::string opName;
 
         if (reg) {

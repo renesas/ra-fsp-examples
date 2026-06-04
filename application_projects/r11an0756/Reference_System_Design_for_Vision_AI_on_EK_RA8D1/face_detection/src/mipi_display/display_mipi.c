@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
+* Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
 */
@@ -31,7 +31,6 @@
  * Typedef definitions
  ***************************************************************************************************************************/
 
-
 typedef struct st_mipi_setting_table
 {
     const uint8_t              size;
@@ -49,7 +48,6 @@ typedef struct st_mipi_setting_table
  ***************************************************************************************************************************/
 
 volatile mipi_dsi_phy_status_t g_phy_status;
-
 
 void mipi_dsi0_callback(mipi_dsi_callback_args_t *p_args);
 
@@ -236,44 +234,40 @@ __attribute__((section(".itcm_data"))) __attribute__((__used__)) __attribute__((
 /* Callback function */
 void mipi_dsi0_callback(mipi_dsi_callback_args_t *p_args)
 {
-
     switch (p_args->event)
+    {
+       case MIPI_DSI_EVENT_SEQUENCE_0:
        {
-           case MIPI_DSI_EVENT_SEQUENCE_0:
-           {
-        	   BaseType_t xHigherPriorityTaskWoken, xResult;
-        	  	/* xHigherPriorityTaskWoken must be initialized to pdFALSE. */
-        	  	  xHigherPriorityTaskWoken = pdFALSE;
+           BaseType_t xHigherPriorityTaskWoken, xResult;
+            /* xHigherPriorityTaskWoken must be initialized to pdFALSE. */
+              xHigherPriorityTaskWoken = pdFALSE;
 
-        	  	if (MIPI_DSI_SEQUENCE_STATUS_DESCRIPTORS_FINISHED & p_args->event )
-        	  	{
+            if (MIPI_DSI_SEQUENCE_STATUS_DESCRIPTORS_FINISHED & p_args->event)
+            {
+                xResult = xEventGroupSetBitsFromISR(g_ai_app_event, MIPI_MESSAGE_SENT, &xHigherPriorityTaskWoken);
+                /* Was the message posted successfully? */
+                if(xResult != pdFAIL)
+                {
+                  /* If xHigherPriorityTaskWoken is now set to pdTRUE then a context
+                  switch should be requested.  The macro used is port specific and will
+                  be either portYIELD_FROM_ISR() or portEND_SWITCHING_ISR() - refer to
+                  the documentation page for the port being used. */
+                  portYIELD_FROM_ISR( xHigherPriorityTaskWoken );
+                }
+            }
 
-        	  		xResult = xEventGroupSetBitsFromISR(g_ai_app_event, MIPI_MESSAGE_SENT, &xHigherPriorityTaskWoken);
-        	  		/* Was the message posted successfully? */
-        	  		if( xResult != pdFAIL )
-        	  		{
-        	  		  /* If xHigherPriorityTaskWoken is now set to pdTRUE then a context
-        	  		  switch should be requested.  The macro used is port specific and will
-        	  		  be either portYIELD_FROM_ISR() or portEND_SWITCHING_ISR() - refer to
-        	  		  the documentation page for the port being used. */
-        	  		  portYIELD_FROM_ISR( xHigherPriorityTaskWoken );
-        	  		}
-        	  	}
-
-               break;
-           }
-           case MIPI_DSI_EVENT_PHY:
-           {
-               g_phy_status |= p_args->phy_status;
-               break;
-           }
-           default:
-           {
-               break;
-           }
-
+           break;
        }
-
+       case MIPI_DSI_EVENT_PHY:
+       {
+           g_phy_status |= p_args->phy_status;
+           break;
+       }
+       default:
+       {
+           break;
+       }
+   }
 }
 
 /*********************************************************************************************************************
@@ -290,7 +284,7 @@ face_det_err_t display_mipi_focuslcd_init(display_instance_t const * const p_dis
     vTaskDelay(200);
     /* Initialize GLCDC and MIPI DSI */
     err = R_GLCDC_Open(p_display->p_ctrl, p_display->p_cfg);
-    if(FSP_SUCCESS != err)
+    if (FSP_SUCCESS != err)
     {
     	handle_error(FACE_DET_APP_GLCDC_OPEN);
         return face_det_status;
@@ -316,20 +310,19 @@ face_det_err_t display_mipi_focuslcd_init(display_instance_t const * const p_dis
         else
         {
         	err = R_MIPI_DSI_Command(p_mipi_dsi->p_ctrl, &cmd);
-            if(FSP_SUCCESS != err)
+            if (FSP_SUCCESS != err)
 			{
             	handle_error(FACE_DET_APP_MIPI_CMD);
 			   return face_det_status;
 			}
             xEventGroupWaitBits(g_ai_app_event, MIPI_MESSAGE_SENT, pdFALSE, pdTRUE, 1);
-
         }
         p_entry++;
     }
 
     /* Start graphics output */
     err = R_GLCDC_Start(p_display->p_ctrl);
-    if(FSP_SUCCESS != err)
+    if (FSP_SUCCESS != err)
 	{
 		handle_error(FACE_DET_APP_GLCDC_START);
 	    return face_det_status;
@@ -337,4 +330,3 @@ face_det_err_t display_mipi_focuslcd_init(display_instance_t const * const p_dis
 
     return face_det_status;
 }
-

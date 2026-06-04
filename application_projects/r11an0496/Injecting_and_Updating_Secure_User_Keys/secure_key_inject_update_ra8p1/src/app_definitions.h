@@ -2,11 +2,12 @@
  * File Name    : app_definitions.h
  * Description  : Contains macros specific to this application
  ***********************************************************************************************************************/
-/***********************************************************************************************************************
-* Copyright (c) 2020 - 2025 Renesas Electronics Corporation and/or its affiliates
+/*
+* Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
-************************************************************************************************************************/
+*/
+
 #ifndef APP_DEFINITIONS_H_
 #define APP_DEFINITIONS_H_
 

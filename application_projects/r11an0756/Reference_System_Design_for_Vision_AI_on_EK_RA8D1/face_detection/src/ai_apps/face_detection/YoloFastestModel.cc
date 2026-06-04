@@ -44,3 +44,11 @@ bool arm::app::YoloFastestModel::EnlistOperations()
     }
     return true;
 }
+
+namespace tflite {
+
+TFLMRegistration* Register_ETHOSU() { return nullptr; }
+
+const char* GetString_ETHOSU() { return ""; }
+
+}  // namespace tflite

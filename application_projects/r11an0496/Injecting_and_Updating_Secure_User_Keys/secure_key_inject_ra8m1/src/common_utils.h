@@ -2,16 +2,16 @@
  * File Name    : common_utils.h
  * Description  : Contains macros, data structures and functions used  common to the EP
  ***********************************************************************************************************************/
-/***********************************************************************************************************************
-* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
+/*
+* Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
+*/
 
 #ifndef COMMON_UTILS_H_
 #define COMMON_UTILS_H_
 
-/* generic headers */
+/* Generic headers */
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -23,7 +23,7 @@
 #define BIT_SHIFT_8  (8u)
 #define SIZE_64      (64u)
 
-#define LVL_ERR      (1u)       /* error conditions   */
+#define LVL_ERR      (1u)       /* error conditions */
 
 #define RESET_VALUE             (0x00)
 

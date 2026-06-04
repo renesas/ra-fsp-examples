@@ -2,12 +2,11 @@
  * File Name    : crypto_ep.h
  * Description  : Contains data structures and functions used in crypto_ep.h.
  **********************************************************************************************************************/
-
-/***********************************************************************************************************************
-* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
+/*
+* Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
+*/
 
 #ifndef CRYPTO_EP_H_
 #define CRYPTO_EP_H_
@@ -24,10 +23,8 @@
 #define AES_KEY_ID                ((psa_key_id_t) 5)  /* persistent identifier for the key.*/
 #define ECC_KEY_ID                ((psa_key_id_t) 6)
 #define RSA_KEY_ID                ((psa_key_id_t) 7)
-#define AES_KEY_BITS              (256U)             /* key size in bits for AES*/
+#define AES_KEY_BITS              (256U)              /* key size in bits for AES*/
 #define ECC_RSA_PAYLOAD_SIZE      (30U)
-
-
 
 
 /*Function declaration */

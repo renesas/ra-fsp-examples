@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<raConfiguration version="11">
+<raConfiguration version="12">
   <generalSettings>
     <option key="#Board#" value="board.ra8p1ek"/>
     <option key="CPU" value="RA8P1"/>
@@ -9,20 +9,28 @@
     <option key="#DeviceCommand#" value="R7KA8P1KF"/>
     <option key="#RTOS#" value="_none"/>
     <option key="#pinconfiguration#" value="R7KA8P1KFLCAC.pincfg"/>
-    <option key="#FSPVersion#" value="6.0.0"/>
+    <option key="#FSPVersion#" value="6.4.0"/>
     <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra8p1_ek##"/>
-    <option key="#SELECTED_TOOLCHAIN#" value="gcc-arm-embedded"/>
-    <option key="#ToolchainVersion#" value="13.2.1.arm-13-7"/>
+    <option key="#SELECTED_TOOLCHAIN#" value="clang_arm"/>
+    <option key="#ToolchainVersion#" value="21.1.1"/>
   </generalSettings>
   <raBspConfiguration>
     <config id="config.bsp.ra8p1.R7KA8P1KFLCAC">
       <property id="config.bsp.part_number" value="config.bsp.part_number.value"/>
       <property id="config.bsp.rom_size_bytes" value="config.bsp.rom_size_bytes.value"/>
-      <property id="config.bsp.rom_size_bytes_hidden" value="1048576"/>
+      <property id="config.bsp.rom_size_bytes_hidden" value="config.bsp.rom_size_bytes_hidden.value"/>
       <property id="config.bsp.ram_size_bytes" value="config.bsp.ram_size_bytes.value"/>
       <property id="config.bsp.data_flash_size_bytes" value="config.bsp.data_flash_size_bytes.value"/>
       <property id="config.bsp.package_style" value="config.bsp.package_style.value"/>
       <property id="config.bsp.package_pins" value="config.bsp.package_pins.value"/>
+      <property id="config.bsp.ospi0_cs0_start_address" value="config.bsp.ospi0_cs0_start_address.value"/>
+      <property id="config.bsp.ospi0_cs0_size_bytes" value="config.bsp.ospi0_cs0_size_bytes.value"/>
+      <property id="config.bsp.ospi0_cs1_start_address" value="config.bsp.ospi0_cs1_start_address.value"/>
+      <property id="config.bsp.ospi0_cs1_size_bytes" value="config.bsp.ospi0_cs1_size_bytes.value"/>
+      <property id="config.bsp.ospi1_cs0_start_address" value="config.bsp.ospi1_cs0_start_address.value"/>
+      <property id="config.bsp.ospi1_cs0_size_bytes" value="config.bsp.ospi1_cs0_size_bytes.value"/>
+      <property id="config.bsp.ospi1_cs1_start_address" value="config.bsp.ospi1_cs1_start_address.value"/>
+      <property id="config.bsp.ospi1_cs1_size_bytes" value="config.bsp.ospi1_cs1_size_bytes.value"/>
       <property id="config.bsp.number_of_cores" value="2"/>
       <property id="config.bsp.irq_count_hidden" value="96"/>
     </config>
@@ -46,6 +54,7 @@
       <property id="config.bsp.fsp.sdram.endian_mode" value="config.bsp.fsp.sdram.endian_mode.little"/>
       <property id="config.bsp.fsp.sdram.continuous_access_mode" value="config.bsp.fsp.sdram.continuous_access_mode.enabled"/>
       <property id="config.bsp.fsp.sdram.bus_width" value="config.bsp.fsp.sdram.bus_width.32"/>
+      <property id="config.bsp.fsp.ospi_b_startup" value="config.bsp.fsp.ospi_b_startup.disabled"/>
       <property id="config.bsp.fsp.tz.exception_response" value="config.bsp.fsp.tz.exception_response.nmi"/>
       <property id="config.bsp.fsp.tz.cmsis.bfhfnmins" value="config.bsp.fsp.tz.cmsis.bfhfnmins.secure"/>
       <property id="config.bsp.fsp.tz.cmsis.sysresetreqs" value="config.bsp.fsp.tz.cmsis.sysresetreqs.secure_only"/>
@@ -97,9 +106,11 @@
       <property id="config.bsp.fsp.dcache" value="config.bsp.fsp.dcache.disabled"/>
       <property id="config.bsp.fsp.mscr.forcewt" value="config.bsp.fsp.mscr.forcewt.disabled"/>
       <property id="config.bsp.fsp.mcu.rtc.err_adjustment_value.max_value" value="63"/>
+      <property id="config.bsp.fsp.ioport.voltage_mode.vcc" value="config.bsp.fsp.ioport.voltage_mode.vcc.high"/>
+      <property id="config.bsp.fsp.ioport.voltage_mode.vcc2" value="config.bsp.fsp.ioport.voltage_mode.vcc2.high"/>
     </config>
     <config id="config.bsp.ra8p1.linker">
-      <property id="config.bsp.option_setting.ofs0" value="config.bsp.option_setting.ofs0.disabled"/>
+      <property id="config.bsp.option_setting.ofs0" value="config.bsp.option_setting.ofs0.enabled"/>
       <property id="config.bsp.option_setting.ofs0.iwdt_start_mode" value="config.bsp.option_setting.ofs0.iwdt_start_mode.disabled"/>
       <property id="config.bsp.option_setting.ofs0.iwdt_timeout" value="config.bsp.option_setting.ofs0.iwdt_timeout.2048"/>
       <property id="config.bsp.option_setting.ofs0.iwdt_divisor" value="config.bsp.option_setting.ofs0.iwdt_divisor.128"/>
@@ -114,10 +125,10 @@
       <property id="config.bsp.option_setting.ofs0.wdt_window_start" value="config.bsp.option_setting.ofs0.wdt_window_start.100"/>
       <property id="config.bsp.option_setting.ofs0.wdt_reset_interrupt" value="config.bsp.option_setting.ofs0.wdt_reset_interrupt.Reset"/>
       <property id="config.bsp.option_setting.ofs0.wdt_stop_control" value="config.bsp.option_setting.ofs0.wdt_stop_control.stops"/>
-      <property id="config.bsp.option_setting.ofs2" value="config.bsp.option_setting.ofs2.disabled"/>
+      <property id="config.bsp.option_setting.ofs2" value="config.bsp.option_setting.ofs2.enabled"/>
       <property id="config.bsp.option_setting.ofs2.dcdc" value="config.bsp.option_setting.ofs2.dcdc.enabled"/>
-      <property id="config.bsp.option_setting.ofs2.cvm_reset" value="config.bsp.option_setting.ofs2.cvm_reset.enabled"/>
-      <property id="config.bsp.option_setting.ofs2.npusa" value="config.bsp.option_setting.ofs2.npusa.nonsecure"/>
+      <property id="config.bsp.option_setting.ofs2.cvm_reset" value="config.bsp.option_setting.ofs2.cvm_reset.disabled"/>
+      <property id="config.bsp.option_setting.ofs2.npusa" value="config.bsp.option_setting.ofs2.npusa.secure"/>
       <property id="config.bsp.option_setting.ofs2.npupa" value="config.bsp.option_setting.ofs2.npupa.unprivilege"/>
       <property id="config.bsp.option_setting.sas" value="config.bsp.option_setting.sas.disabled"/>
       <property id="config.bsp.option_setting.sas.btsize" value="config.bsp.option_setting.sas.btsize.8k"/>
@@ -128,14 +139,14 @@
       <property id="config.bsp.option_setting.ofs1.voltage_detection0.low_power_consumption" value="config.bsp.option_setting.ofs1.voltage_detection0.low_power_consumption.disabled"/>
       <property id="config.bsp.option_setting.ofs1.swdbg" value="config.bsp.option_setting.ofs1.swdbg.disabled"/>
       <property id="config.bsp.option_setting.ofs1.initeccen" value="config.bsp.option_setting.ofs1.initeccen.disabled"/>
-      <property id="config.bsp.option_setting.ofs1_sec" value="config.bsp.option_setting.ofs1_sec.disabled"/>
+      <property id="config.bsp.option_setting.ofs1_sec" value="config.bsp.option_setting.ofs1_sec.enabled"/>
       <property id="config.bsp.option_setting.ofs1_sec.voltage_detection0.start" value="config.bsp.option_setting.ofs1_sec.voltage_detection0.start.disabled"/>
       <property id="config.bsp.option_setting.ofs1_sec.voltage_detection0_level" value="config.bsp.option_setting.ofs1_sec.voltage_detection0_level.160"/>
       <property id="config.bsp.option_setting.ofs1_sec.hoco_osc" value="config.bsp.option_setting.ofs1_sec.hoco_osc.disabled"/>
       <property id="config.bsp.option_setting.ofs1_sec.voltage_detection0.low_power_consumption" value="config.bsp.option_setting.ofs1_sec.voltage_detection0.low_power_consumption.disabled"/>
       <property id="config.bsp.option_setting.ofs1_sec.swdbg" value="config.bsp.option_setting.ofs1_sec.swdbg.disabled"/>
       <property id="config.bsp.option_setting.ofs1_sec.initeccen" value="config.bsp.option_setting.ofs1_sec.initeccen.disabled"/>
-      <property id="config.bsp.option_setting.ofs1_sel" value="config.bsp.option_setting.ofs1_sel.disabled"/>
+      <property id="config.bsp.option_setting.ofs1_sel" value="config.bsp.option_setting.ofs1_sel.enabled"/>
       <property id="config.bsp.option_setting.ofs1_sel.voltage_detection0_level" value="config.bsp.option_setting.ofs1_sel.voltage_detection0_level.secure"/>
       <property id="config.bsp.option_setting.ofs1_sel.voltage_detection0.start" value="config.bsp.option_setting.ofs1_sel.voltage_detection0.start.secure"/>
       <property id="config.bsp.option_setting.ofs1_sel.voltage_detection0.low_power_consumption" value="config.bsp.option_setting.ofs1_sel.voltage_detection0.low_power_consumption.secure"/>
@@ -149,7 +160,7 @@
       <property id="config.bsp.option_setting.ofs3.wdt1_window_start" value="config.bsp.option_setting.ofs3.wdt1_window_start.100"/>
       <property id="config.bsp.option_setting.ofs3.wdt1_reset_interrupt" value="config.bsp.option_setting.ofs3.wdt1_reset_interrupt.Reset"/>
       <property id="config.bsp.option_setting.ofs3.wdt1_stop_control" value="config.bsp.option_setting.ofs3.wdt1_stop_control.stops"/>
-      <property id="config.bsp.option_setting.ofs3_sec" value="config.bsp.option_setting.ofs3_sec.disabled"/>
+      <property id="config.bsp.option_setting.ofs3_sec" value="config.bsp.option_setting.ofs3_sec.enabled"/>
       <property id="config.bsp.option_setting.ofs3_sec.wdt1_start_mode" value="config.bsp.option_setting.ofs3_sec.wdt1_start_mode.disabled"/>
       <property id="config.bsp.option_setting.ofs3_sec.wdt1_timeout" value="config.bsp.option_setting.ofs3_sec.wdt1_timeout.16384"/>
       <property id="config.bsp.option_setting.ofs3_sec.wdt1_divisor" value="config.bsp.option_setting.ofs3_sec.wdt1_divisor.128"/>
@@ -157,7 +168,7 @@
       <property id="config.bsp.option_setting.ofs3_sec.wdt1_window_start" value="config.bsp.option_setting.ofs3_sec.wdt1_window_start.100"/>
       <property id="config.bsp.option_setting.ofs3_sec.wdt1_reset_interrupt" value="config.bsp.option_setting.ofs3_sec.wdt1_reset_interrupt.Reset"/>
       <property id="config.bsp.option_setting.ofs3_sec.wdt1_stop_control" value="config.bsp.option_setting.ofs3_sec.wdt1_stop_control.stops"/>
-      <property id="config.bsp.option_setting.ofs3_sel" value="config.bsp.option_setting.ofs3_sel.disabled"/>
+      <property id="config.bsp.option_setting.ofs3_sel" value="config.bsp.option_setting.ofs3_sel.enabled"/>
       <property id="config.bsp.option_setting.ofs3_sel.wdt1_start_mode" value="config.bsp.option_setting.ofs3_sel.wdt1_start_mode.secure"/>
       <property id="config.bsp.option_setting.ofs3_sel.wdt1_timeout" value="config.bsp.option_setting.ofs3_sel.wdt1_timeout.secure"/>
       <property id="config.bsp.option_setting.ofs3_sel.wdt1_divisor" value="config.bsp.option_setting.ofs3_sel.wdt1_divisor.secure"/>
@@ -201,6 +212,34 @@
       <property id="config.bsp.option_setting.bps_sec.14" value=""/>
       <property id="config.bsp.option_setting.bps_sec.15" value=""/>
       <property id="config.bsp.option_setting.bps_sec.16" value=""/>
+      <property id="config.bsp.option_setting_otp.fsblctrl0" value="config.bsp.option_setting_otp.fsblctrl0.disabled"/>
+      <property id="config.bsp.option_setting_otp.fsblctrl0.FSBLEN" value="config.bsp.option_setting_otp.fsblctrl0.FSBLEN.disabled"/>
+      <property id="config.bsp.option_setting_otp.fsblctrl0.FSBLSKIPSW" value="config.bsp.option_setting_otp.fsblctrl0.FSBLSKIPSW.disabled"/>
+      <property id="config.bsp.option_setting_otp.fsblctrl0.FSBLSKIPDS" value="config.bsp.option_setting_otp.fsblctrl0.FSBLSKIPDS.disabled"/>
+      <property id="config.bsp.option_setting_otp.fsblctrl0.FSBLCLK" value="config.bsp.option_setting_otp.fsblctrl0.FSBLCLK.7"/>
+      <property id="config.bsp.option_setting_otp.fsblctrl1" value="config.bsp.option_setting_otp.fsblctrl1.disabled"/>
+      <property id="config.bsp.option_setting_otp.fsblctrl1.FSBLEXMD" value="config.bsp.option_setting_otp.fsblctrl1.FSBLEXMD.secure_report"/>
+      <property id="config.bsp.option_setting_otp.fsblctrl2" value="config.bsp.option_setting_otp.fsblctrl2.disabled"/>
+      <property id="config.bsp.option_setting_otp.fsblctrl2.PORTPN" value="config.bsp.option_setting_otp.fsblctrl2.PORTPN.15"/>
+      <property id="config.bsp.option_setting_otp.fsblctrl2.PORTGN" value="config.bsp.option_setting_otp.fsblctrl2.PORTGN.reserved"/>
+      <property id="config.bsp.option_setting_otp.samr" value="config.bsp.option_setting_otp.samr.disabled"/>
+      <property id="config.bsp.option_setting_otp.samr.address" value="0xFFFFFFFF"/>
+      <property id="config.bsp.option_setting_otp.sacc00" value="config.bsp.option_setting_otp.sacc00.disabled"/>
+      <property id="config.bsp.option_setting_otp.sacc00.address" value="0xFFFFFFFF"/>
+      <property id="config.bsp.option_setting_otp.sacc10" value="config.bsp.option_setting_otp.sacc10.disabled"/>
+      <property id="config.bsp.option_setting_otp.sacc10.address" value="0xFFFFFFFF"/>
+      <property id="config.bsp.option_setting_otp.sacc01" value="config.bsp.option_setting_otp.sacc01.disabled"/>
+      <property id="config.bsp.option_setting_otp.sacc01.address" value="0xFFFFFFFF"/>
+      <property id="config.bsp.option_setting_otp.sacc11" value="config.bsp.option_setting_otp.sacc11.disabled"/>
+      <property id="config.bsp.option_setting_otp.sacc11.address" value="0xFFFFFFFF"/>
+      <property id="config.bsp.option_setting_otp.sacc02" value="config.bsp.option_setting_otp.sacc02.disabled"/>
+      <property id="config.bsp.option_setting_otp.sacc02.address" value="0xFFFFFFFF"/>
+      <property id="config.bsp.option_setting_otp.sacc12" value="config.bsp.option_setting_otp.sacc12.disabled"/>
+      <property id="config.bsp.option_setting_otp.sacc12.address" value="0xFFFFFFFF"/>
+      <property id="config.bsp.option_setting_otp.sacc03" value="config.bsp.option_setting_otp.sacc03.disabled"/>
+      <property id="config.bsp.option_setting_otp.sacc03.address" value="0xFFFFFFFF"/>
+      <property id="config.bsp.option_setting_otp.sacc13" value="config.bsp.option_setting_otp.sacc13.disabled"/>
+      <property id="config.bsp.option_setting_otp.sacc13.address" value="0xFFFFFFFF"/>
       <property id="config.bsp.option_setting_otp.pbps_sec" value="config.bsp.option_setting_otp.pbps_sec.disabled"/>
       <property id="config.bsp.option_setting_otp.pbps_sec.0" value=""/>
       <property id="config.bsp.option_setting_otp.pbps_sec.1" value=""/>
@@ -237,6 +276,11 @@
       <property id="config.bsp.option_setting_otp.pbps.14" value=""/>
       <property id="config.bsp.option_setting_otp.pbps.15" value=""/>
       <property id="config.bsp.option_setting_otp.pbps.16" value=""/>
+      <property id="config.bsp.option_setting_otp.zhuk" value="config.bsp.option_setting_otp.zhuk.disabled"/>
+      <property id="config.bsp.option_setting_otp.zhuk.zhuken0" value="config.bsp.option_setting_otp.zhuk.zhuken0.disabled"/>
+      <property id="config.bsp.option_setting_otp.zhuk.zhuken1" value="config.bsp.option_setting_otp.zhuk.zhuken1.disabled"/>
+      <property id="config.bsp.option_setting_otp.zhuk.zhuken2" value="config.bsp.option_setting_otp.zhuk.zhuken2.disabled"/>
+      <property id="config.bsp.option_setting_otp.zhuk.zhuken3" value="config.bsp.option_setting_otp.zhuk.zhuken3.disabled"/>
     </config>
     <config id="config.bsp.ra">
       <property id="config.bsp.common.main" value="0x400"/>
@@ -313,7 +357,7 @@
     <node id="board.clock.sdclkout.enable" option="board.clock.sdclkout.enable.enabled"/>
     <node id="board.clock.sdclkout.display" option="board.clock.sdclkout.display.value"/>
     <node id="board.clock.ebclk.source" option="board.clock.ebclk.source.bclk"/>
-    <node id="board.clock.bclkout.div" option="board.clock.bclkout.div.2"/>
+    <node id="board.clock.bclkout.div" option="board.clock.bclkout.div.0"/>
     <node id="board.clock.bclkout.display" option="board.clock.bclkout.display.value"/>
     <node id="board.clock.clkout.source" option="board.clock.clkout.source.hoco"/>
     <node id="board.clock.clkout.div" option="board.clock.clkout.div.1"/>
@@ -347,6 +391,7 @@
     <node id="board.clock.octaspiclk.source" option="board.clock.octaspiclk.source.pll1q"/>
     <node id="board.clock.octaspiclk.div" option="board.clock.octaspiclk.div.1"/>
     <node id="board.clock.octaspiclk.display" option="board.clock.octaspiclk.display.value"/>
+    <node id="board.clock.octaspiclk.om_sclk.display" option="board.clock.octaspiclk.om_sclk.display.value"/>
     <node id="board.clock.adcclk.source" option="board.clock.adcclk.source.pll2r"/>
     <node id="board.clock.adcclk.div" option="board.clock.adcclk.div.4"/>
     <node id="board.clock.adcclk.display" option="board.clock.adcclk.display.value"/>
@@ -361,49 +406,53 @@
     <node id="board.clock.ethphyclk.display" option="board.clock.ethphyclk.display.value"/>
   </raClockConfiguration>
   <raComponentSelection>
-    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="Projects" condition="" group="all" subgroup="common" variant="" vendor="Renesas" version="6.4.0">
+      <description>Common source for all template projects.</description>
+      <originalPack>Renesas.RA_common.6.4.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="6.4.0">
       <description>Board Support Package Common Files</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.6.4.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="6.4.0">
       <description>I/O Port</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.6.4.0.pack</originalPack>
     </component>
-    <component apiversion="" class="CMSIS" condition="" group="Main" subgroup="CoreM" variant="" vendor="Arm" version="6.1.0+fsp.6.0.0">
+    <component apiversion="" class="CMSIS" condition="" group="Main" subgroup="CoreM" variant="" vendor="Arm" version="6.1.0+fsp.6.4.0">
       <description>Arm CMSIS Version 6 - Core (M)</description>
-      <originalPack>Arm.CMSIS6.6.1.0+fsp.6.0.0.pack</originalPack>
+      <originalPack>Arm.CMSIS6.6.1.0+fsp.6.4.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra8p1" subgroup="device" variant="R7KA8P1KFLCAC" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="BSP" condition="" group="ra8p1" subgroup="device" variant="R7KA8P1KFLCAC" vendor="Renesas" version="6.4.0">
       <description>Board support package for R7KA8P1KFLCAC</description>
-      <originalPack>Renesas.RA_mcu_ra8p1.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra8p1.6.4.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra8p1" subgroup="device" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="BSP" condition="" group="ra8p1" subgroup="device" variant="" vendor="Renesas" version="6.4.0">
       <description>Board support package for RA8P1</description>
-      <originalPack>Renesas.RA_mcu_ra8p1.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra8p1.6.4.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra8p1" subgroup="fsp" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="BSP" condition="" group="ra8p1" subgroup="fsp" variant="" vendor="Renesas" version="6.4.0">
       <description>Board support package for RA8P1 - FSP Data</description>
-      <originalPack>Renesas.RA_mcu_ra8p1.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra8p1.6.4.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra8p1" subgroup="events" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="BSP" condition="" group="ra8p1" subgroup="events" variant="" vendor="Renesas" version="6.4.0">
       <description>Board support package for RA8P1 - Events</description>
-      <originalPack>Renesas.RA_mcu_ra8p1.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra8p1.6.4.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra8p1" subgroup="linker" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="BSP" condition="" group="ra8p1" subgroup="linker" variant="" vendor="Renesas" version="6.4.0">
       <description>Board support package for RA8P1 - Linker</description>
-      <originalPack>Renesas.RA_mcu_ra8p1.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra8p1.6.4.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra8p1_ek" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra8p1_ek" variant="" vendor="Renesas" version="6.4.0">
       <description>RA8P1-EK Board Support Files</description>
-      <originalPack>Renesas.RA_board_ra8p1_ek.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA_board_ra8p1_ek.6.4.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_rsip_e50d_protected" variant="" vendor="Renesas" version="6.0.0">
-      <description>Renesas Secure IP (RSIP-E50D) Protected Mode</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_mram" variant="" vendor="Renesas" version="6.0.0">
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_mram" variant="" vendor="Renesas" version="6.4.0">
       <description>MRAM</description>
-      <originalPack>Renesas.RA.6.0.0.pack</originalPack>
+      <originalPack>Renesas.RA.6.4.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_rsip_e50d_protected" variant="" vendor="Renesas" version="6.4.0">
+      <description>Renesas Secure IP (RSIP-E50D) Protected Mode</description>
+      <originalPack>Renesas.RA.6.4.0.pack</originalPack>
     </component>
   </raComponentSelection>
   <raElcConfiguration/>
@@ -418,58 +467,69 @@
       <property id="module.driver.ioport.elc_trigger_ioport4" value="_disabled"/>
       <property id="module.driver.ioport.pincfg" value="g_bsp_pin_cfg"/>
     </module>
-    <module id="module.driver.rsip_e50d_protected.1188559118">
+    <module id="module.driver.rsip_e50d_protected.825661495">
       <property id="module.driver.rsip_protected.name" value="g_rsip"/>
     </module>
-    <module id="module.driver.flash_on_mram.1348060976">
+    <module id="module.driver.flash_on_mram.1275306738">
       <property id="module.driver.mram.name" value="g_mram"/>
+      <property id="module.driver.mram.p_callback" value="NULL"/>
+      <property id="module.driver.mram.err_ipl" value="_disabled"/>
     </module>
     <context id="_hal.0">
       <stack module="module.driver.ioport_on_ioport.0"/>
-      <stack module="module.driver.rsip_e50d_protected.1188559118"/>
-      <stack module="module.driver.flash_on_mram.1348060976"/>
+      <stack module="module.driver.rsip_e50d_protected.825661495"/>
+      <stack module="module.driver.flash_on_mram.1275306738"/>
     </context>
     <config id="config.driver.rsip_e50d">
       <property id="config.driver.rsip_e50d.param_checking_enable" value="config.driver.rsip_e50d.param_checking_enable.bsp"/>
-      <property id="config.driver.rsip_e50d.algorithms_enable.aes128" value="config.driver.rsip_e50d.algorithms_enable.aes128.disabled"/>
-      <property id="config.driver.rsip_e50d.algorithms_enable.aes192" value="config.driver.rsip_e50d.algorithms_enable.aes192.disabled"/>
-      <property id="config.driver.rsip_e50d.algorithms_enable.aes256" value="config.driver.rsip_e50d.algorithms_enable.aes256.disabled"/>
-      <property id="config.driver.rsip_e50d.algorithms_enable.aes_ecb_cbc_ctr" value="config.driver.rsip_e50d.algorithms_enable.aes_ecb_cbc_ctr.disabled"/>
-      <property id="config.driver.rsip_e50d.algorithms_enable.aes128xts" value="config.driver.rsip_e50d.algorithms_enable.aes128xts.disabled"/>
-      <property id="config.driver.rsip_e50d.algorithms_enable.aes256xts" value="config.driver.rsip_e50d.algorithms_enable.aes256xts.disabled"/>
-      <property id="config.driver.rsip_e50d.algorithms_enable.aes_xts" value="config.driver.rsip_e50d.algorithms_enable.aes_xts.disabled"/>
-      <property id="config.driver.rsip_e50d.algorithms_enable.aes_gcm" value="config.driver.rsip_e50d.algorithms_enable.aes_gcm.disabled"/>
-      <property id="config.driver.rsip_e50d.algorithms_enable.aes_ccm" value="config.driver.rsip_e50d.algorithms_enable.aes_ccm.disabled"/>
+      <property id="config.driver.rsip_e50d.algorithms_enable.aes128" value="config.driver.rsip_e50d.algorithms_enable.aes128.enabled"/>
+      <property id="config.driver.rsip_e50d.algorithms_enable.aes192" value="config.driver.rsip_e50d.algorithms_enable.aes192.enabled"/>
+      <property id="config.driver.rsip_e50d.algorithms_enable.aes256" value="config.driver.rsip_e50d.algorithms_enable.aes256.enabled"/>
+      <property id="config.driver.rsip_e50d.algorithms_enable.aes_ecb_cbc_ctr" value="config.driver.rsip_e50d.algorithms_enable.aes_ecb_cbc_ctr.enabled"/>
+      <property id="config.driver.rsip_e50d.algorithms_enable.aes128xts" value="config.driver.rsip_e50d.algorithms_enable.aes128xts.enabled"/>
+      <property id="config.driver.rsip_e50d.algorithms_enable.aes256xts" value="config.driver.rsip_e50d.algorithms_enable.aes256xts.enabled"/>
+      <property id="config.driver.rsip_e50d.algorithms_enable.aes_xts" value="config.driver.rsip_e50d.algorithms_enable.aes_xts.enabled"/>
+      <property id="config.driver.rsip_e50d.algorithms_enable.aes_gcm" value="config.driver.rsip_e50d.algorithms_enable.aes_gcm.enabled"/>
+      <property id="config.driver.rsip_e50d.algorithms_enable.aes_ccm" value="config.driver.rsip_e50d.algorithms_enable.aes_ccm.enabled"/>
       <property id="config.driver.rsip_e50d.algorithms_enable.aes_cmac" value="config.driver.rsip_e50d.algorithms_enable.aes_cmac.enabled"/>
+      <property id="config.driver.rsip_e50d.algorithms_enable.chacha20" value="config.driver.rsip_e50d.algorithms_enable.chacha20.enabled"/>
+      <property id="config.driver.rsip_e50d.algorithms_enable.chacha20_poly1305" value="config.driver.rsip_e50d.algorithms_enable.chacha20_poly1305.enabled"/>
       <property id="config.driver.rsip_e50d.algorithms_enable.secp256r1" value="config.driver.rsip_e50d.algorithms_enable.secp256r1.enabled"/>
-      <property id="config.driver.rsip_e50d.algorithms_enable.secp384r1" value="config.driver.rsip_e50d.algorithms_enable.secp384r1.disabled"/>
-      <property id="config.driver.rsip_e50d.algorithms_enable.secp521r1" value="config.driver.rsip_e50d.algorithms_enable.secp521r1.disabled"/>
-      <property id="config.driver.rsip_e50d.algorithms_enable.secp256k1" value="config.driver.rsip_e50d.algorithms_enable.secp256k1.disabled"/>
-      <property id="config.driver.rsip_e50d.algorithms_enable.brainpoolp256r1" value="config.driver.rsip_e50d.algorithms_enable.brainpoolp256r1.disabled"/>
-      <property id="config.driver.rsip_e50d.algorithms_enable.brainpoolp384r1" value="config.driver.rsip_e50d.algorithms_enable.brainpoolp384r1.disabled"/>
-      <property id="config.driver.rsip_e50d.algorithms_enable.brainpoolp512r1" value="config.driver.rsip_e50d.algorithms_enable.brainpoolp512r1.disabled"/>
-      <property id="config.driver.rsip_e50d.algorithms_enable.edwards25519" value="config.driver.rsip_e50d.algorithms_enable.edwards25519.disabled"/>
-      <property id="config.driver.rsip_e50d.algorithms_enable.rsa2048" value="config.driver.rsip_e50d.algorithms_enable.rsa2048.disabled"/>
-      <property id="config.driver.rsip_e50d.algorithms_enable.rsa3072" value="config.driver.rsip_e50d.algorithms_enable.rsa3072.disabled"/>
-      <property id="config.driver.rsip_e50d.algorithms_enable.rsa4096" value="config.driver.rsip_e50d.algorithms_enable.rsa4096.disabled"/>
+      <property id="config.driver.rsip_e50d.algorithms_enable.secp384r1" value="config.driver.rsip_e50d.algorithms_enable.secp384r1.enabled"/>
+      <property id="config.driver.rsip_e50d.algorithms_enable.secp521r1" value="config.driver.rsip_e50d.algorithms_enable.secp521r1.enabled"/>
+      <property id="config.driver.rsip_e50d.algorithms_enable.secp256k1" value="config.driver.rsip_e50d.algorithms_enable.secp256k1.enabled"/>
+      <property id="config.driver.rsip_e50d.algorithms_enable.brainpoolp256r1" value="config.driver.rsip_e50d.algorithms_enable.brainpoolp256r1.enabled"/>
+      <property id="config.driver.rsip_e50d.algorithms_enable.brainpoolp384r1" value="config.driver.rsip_e50d.algorithms_enable.brainpoolp384r1.enabled"/>
+      <property id="config.driver.rsip_e50d.algorithms_enable.brainpoolp512r1" value="config.driver.rsip_e50d.algorithms_enable.brainpoolp512r1.enabled"/>
+      <property id="config.driver.rsip_e50d.algorithms_enable.edwards25519" value="config.driver.rsip_e50d.algorithms_enable.edwards25519.enabled"/>
+      <property id="config.driver.rsip_e50d.algorithms_enable.rsa2048" value="config.driver.rsip_e50d.algorithms_enable.rsa2048.enabled"/>
+      <property id="config.driver.rsip_e50d.algorithms_enable.rsa3072" value="config.driver.rsip_e50d.algorithms_enable.rsa3072.enabled"/>
+      <property id="config.driver.rsip_e50d.algorithms_enable.rsa4096" value="config.driver.rsip_e50d.algorithms_enable.rsa4096.enabled"/>
       <property id="config.driver.rsip_e50d.algorithms_enable.sha1" value="config.driver.rsip_e50d.algorithms_enable.sha1.disabled"/>
-      <property id="config.driver.rsip_e50d.algorithms_enable.sha224" value="config.driver.rsip_e50d.algorithms_enable.sha224.disabled"/>
+      <property id="config.driver.rsip_e50d.algorithms_enable.sha224" value="config.driver.rsip_e50d.algorithms_enable.sha224.enabled"/>
       <property id="config.driver.rsip_e50d.algorithms_enable.sha256" value="config.driver.rsip_e50d.algorithms_enable.sha256.enabled"/>
-      <property id="config.driver.rsip_e50d.algorithms_enable.sha384" value="config.driver.rsip_e50d.algorithms_enable.sha384.disabled"/>
-      <property id="config.driver.rsip_e50d.algorithms_enable.sha512" value="config.driver.rsip_e50d.algorithms_enable.sha512.disabled"/>
-      <property id="config.driver.rsip_e50d.algorithms_enable.sha512_224" value="config.driver.rsip_e50d.algorithms_enable.sha512_224.disabled"/>
-      <property id="config.driver.rsip_e50d.algorithms_enable.sha512_256" value="config.driver.rsip_e50d.algorithms_enable.sha512_256.disabled"/>
+      <property id="config.driver.rsip_e50d.algorithms_enable.sha384" value="config.driver.rsip_e50d.algorithms_enable.sha384.enabled"/>
+      <property id="config.driver.rsip_e50d.algorithms_enable.sha512" value="config.driver.rsip_e50d.algorithms_enable.sha512.enabled"/>
+      <property id="config.driver.rsip_e50d.algorithms_enable.sha512_224" value="config.driver.rsip_e50d.algorithms_enable.sha512_224.enabled"/>
+      <property id="config.driver.rsip_e50d.algorithms_enable.sha512_256" value="config.driver.rsip_e50d.algorithms_enable.sha512_256.enabled"/>
+      <property id="config.driver.rsip_e50d.algorithms_enable.sha3_224" value="config.driver.rsip_e50d.algorithms_enable.sha3_224.enabled"/>
+      <property id="config.driver.rsip_e50d.algorithms_enable.sha3_256" value="config.driver.rsip_e50d.algorithms_enable.sha3_256.enabled"/>
+      <property id="config.driver.rsip_e50d.algorithms_enable.sha3_384" value="config.driver.rsip_e50d.algorithms_enable.sha3_384.enabled"/>
+      <property id="config.driver.rsip_e50d.algorithms_enable.sha3_512" value="config.driver.rsip_e50d.algorithms_enable.sha3_512.enabled"/>
       <property id="config.driver.rsip_e50d.algorithms_enable.hmac_sha1" value="config.driver.rsip_e50d.algorithms_enable.hmac_sha1.disabled"/>
-      <property id="config.driver.rsip_e50d.algorithms_enable.hmac_sha224" value="config.driver.rsip_e50d.algorithms_enable.hmac_sha224.disabled"/>
-      <property id="config.driver.rsip_e50d.algorithms_enable.hmac_sha256" value="config.driver.rsip_e50d.algorithms_enable.hmac_sha256.disabled"/>
-      <property id="config.driver.rsip_e50d.algorithms_enable.hmac_sha384" value="config.driver.rsip_e50d.algorithms_enable.hmac_sha384.disabled"/>
-      <property id="config.driver.rsip_e50d.algorithms_enable.hmac_sha512" value="config.driver.rsip_e50d.algorithms_enable.hmac_sha512.disabled"/>
+      <property id="config.driver.rsip_e50d.algorithms_enable.hmac_sha224" value="config.driver.rsip_e50d.algorithms_enable.hmac_sha224.enabled"/>
+      <property id="config.driver.rsip_e50d.algorithms_enable.hmac_sha256" value="config.driver.rsip_e50d.algorithms_enable.hmac_sha256.enabled"/>
+      <property id="config.driver.rsip_e50d.algorithms_enable.hmac_sha384" value="config.driver.rsip_e50d.algorithms_enable.hmac_sha384.enabled"/>
+      <property id="config.driver.rsip_e50d.algorithms_enable.hmac_sha512" value="config.driver.rsip_e50d.algorithms_enable.hmac_sha512.enabled"/>
+      <property id="config.driver.rsip_e50d.algorithms_enable.hmac_sha512_224" value="config.driver.rsip_e50d.algorithms_enable.hmac_sha512_224.enabled"/>
+      <property id="config.driver.rsip_e50d.algorithms_enable.hmac_sha512_256" value="config.driver.rsip_e50d.algorithms_enable.hmac_sha512_256.enabled"/>
     </config>
     <config id="config.driver.mram">
       <property id="config.driver.mram.param_checking_enable" value="config.mram.param_checking_enable.bsp"/>
     </config>
     <config id="config.driver.ioport">
       <property id="config.driver.ioport.checking" value="config.driver.ioport.checking.system"/>
+      <property id="config.driver.ioport.ccd_support_enable" value="config.driver.ioport.ccd_support_enable.disabled"/>
     </config>
   </raModuleConfiguration>
   <raPinConfiguration>
@@ -1065,9 +1125,9 @@
       <configSetting altId="p707.glcdc.lcd_data18" configurationId="p707"/>
       <configSetting altId="p707.gpio_speed.gpio_speed_h" configurationId="p707.gpio_drivecapacity"/>
       <configSetting altId="p707.gpio_mode.gpio_mode_peripheral" configurationId="p707.gpio_mode"/>
-      <configSetting altId="p708.output.low" configurationId="p708"/>
+      <configSetting altId="p708.output.high" configurationId="p708"/>
       <configSetting altId="p708.gpio_speed.gpio_speed_m" configurationId="p708.gpio_drivecapacity"/>
-      <configSetting altId="p708.gpio_mode.gpio_mode_out.low" configurationId="p708.gpio_mode"/>
+      <configSetting altId="p708.gpio_mode.gpio_mode_out.high" configurationId="p708.gpio_mode"/>
       <configSetting altId="p709.output.low" configurationId="p709"/>
       <configSetting altId="p709.gpio_speed.gpio_speed_m" configurationId="p709.gpio_drivecapacity"/>
       <configSetting altId="p709.gpio_mode.gpio_mode_out.low" configurationId="p709.gpio_mode"/>

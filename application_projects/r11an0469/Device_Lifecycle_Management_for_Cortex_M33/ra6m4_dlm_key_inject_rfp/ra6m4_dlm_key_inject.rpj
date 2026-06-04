@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <RfpProject>
   <FileVersion>V1.04.00</FileVersion>
-  <ProductVersion>V3.16.00</ProductVersion>
+  <ProductVersion>V3.22.00</ProductVersion>
   <ParameterFile>R7FA6M4AF3CFB.fcf</ParameterFile>
   <Device>RA</Device>
   <OperationTab>
@@ -69,18 +69,43 @@
     <SetExtraOption>False</SetExtraOption>
     <ExtraOption>FFFFFFFFFFFFFFFFFFFFFFFFFF</ExtraOption>
     <ExtraOptionProtect>False</ExtraOptionProtect>
+    <SetBTBLS>False</SetBTBLS>
+    <BTBLS>0F</BTBLS>
+    <BTBLSProtect>True</BTBLSProtect>
     <SetState>False</SetState>
     <State>SSD</State>
     <SetDLMKeys>True</SetDLMKeys>
-    <KeySECDBG>C:\DLM_Key_Injection\test_gui\SECDBG.rkey</KeySECDBG>
+    <KeySECDBG>
+    </KeySECDBG>
     <KeyNONSECDBG>
     </KeyNONSECDBG>
     <KeyAL2>
     </KeyAL2>
+    <KeyAL2_1>
+    </KeyAL2_1>
+    <KeyAL2_2>
+    </KeyAL2_2>
+    <KeyAL2_3>
+    </KeyAL2_3>
+    <KeyAL2_OTP>False</KeyAL2_OTP>
     <KeyAL1>
     </KeyAL1>
+    <KeyAL1_1>
+    </KeyAL1_1>
+    <KeyAL1_2>
+    </KeyAL1_2>
+    <KeyAL1_3>
+    </KeyAL1_3>
+    <KeyAL1_OTP>False</KeyAL1_OTP>
     <KeyRMA>
     </KeyRMA>
+    <KeyRMA_1>
+    </KeyRMA_1>
+    <KeyRMA_2>
+    </KeyRMA_2>
+    <KeyRMA_3>
+    </KeyRMA_3>
+    <KeyRMA_OTP>False</KeyRMA_OTP>
     <SetBoundary>False</SetBoundary>
     <UseRpdFile>False</UseRpdFile>
     <RpdFile>
@@ -90,12 +115,13 @@
     <BoundaryDFS>0</BoundaryDFS>
     <BoundarySRS>0</BoundarySRS>
     <BoundarySRNSC>0</BoundarySRNSC>
-    <BoundaryDSA>0</BoundaryDSA>
     <SetAntiRollbackConfig>False</SetAntiRollbackConfig>
     <AntiRollbackARCLS>FFFF</AntiRollbackARCLS>
     <AntiRollbackARCCS>FFFF</AntiRollbackARCCS>
     <SetLockBitOption>False</SetLockBitOption>
     <LockBitOption>FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF</LockBitOption>
+    <SetNVMProtectOption>False</SetNVMProtectOption>
+    <NVMProtectOption>FFFFFFFFFFFFFF</NVMProtectOption>
     <SetOemRootPublicKey>False</SetOemRootPublicKey>
     <OemRootPublicKey>
     </OemRootPublicKey>
@@ -112,9 +138,15 @@
     </CodeCertificateFile>
     <KeyCertificateFile>
     </KeyCertificateFile>
+    <CertificateArcMode>Mode1</CertificateArcMode>
     <SetCpuFlags>False</SetCpuFlags>
     <CpuChangeMaster>False</CpuChangeMaster>
     <CpuDisableSecurityExtension>False</CpuDisableSecurityExtension>
+    <SetSipFlash>False</SetSipFlash>
+    <SipFlashStatusReg>00</SipFlashStatusReg>
+    <SipFlashPMR>FF</SipFlashPMR>
+    <SetUserBoot>False</SetUserBoot>
+    <UserBootWriteProtect>False</UserBootWriteProtect>
   </DeviceOptionTab>
   <ConnectOptionTab>
     <Tool>COMMTYPE_JLINK</Tool>
@@ -125,6 +157,7 @@
     <ToolConnectPinLvl>0</ToolConnectPinLvl>
     <ToolDisconnectReset>Low</ToolDisconnectReset>
     <ToolResetSignalFlag>09000000</ToolResetSignalFlag>
+    <ToolFlipFlopResetControl>False</ToolFlipFlopResetControl>
     <ToolInterface>IFTYPE_UART2</ToolInterface>
     <ToolSpeed>9600</ToolSpeed>
     <ToolWideVoltage>False</ToolWideVoltage>

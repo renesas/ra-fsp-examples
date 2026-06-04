@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
+* Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
 */
@@ -8,6 +8,7 @@
  * File Name    : ov3640.c
  * Description  : This file defines the functions to configure and ommunicate with the ov3640.c.
  **********************************************************************************************************************/
+
 /***************************************************************************************************************************
  * Includes   <System Includes> , "Project Includes"
  ***************************************************************************************************************************/
@@ -16,7 +17,6 @@
 #include "hal_data.h"
 #include "common_util.h"
 #include "jlink_console.h"
-
 
 /***************************************************************************************************************************
  * Macro definitions
@@ -44,7 +44,6 @@ typedef struct ov3640_sensor_reg {
  * Imported global variables and functions (from other files)
  ***************************************************************************************************************************/
 
-
 /***************************************************************************************************************************
  * Exported global variables and functions (to be accessed by other files)
  ***************************************************************************************************************************/
@@ -63,7 +62,6 @@ static fsp_err_t i2c_cam_cb_wait(void);
 /* set up the OV3640 register */
 static sensor_reg_t g_ov3640_qvga[] =
 {
-
 	{0x300e, 0x32}, {0x3010, 0x20}, {0x3011, 0x00}, {0x3010, 0x20},
 	{0x3015, 0x12}, {0x3016, 0x82}, {0x3018, 0x38}, {0x3019, 0x30},
 	{0x301a, 0x61}, {0x304c, 0x85}, {0x304d, 0x45}, {0x307d, 0x00},
@@ -81,7 +79,6 @@ static sensor_reg_t g_ov3640_qvga[] =
 	{0x3088, 0x01}, {0x3089, 0x48}, {0x308a, 0x00}, {0x308b, 0xf0},
 	{OV3640_END_OF_ARRAY, 0xff}     //  End of file marker (0xFFFF)
 };
-
 
 /*********************************************************************************************************************
  *  Write to the camera registers from an array until register value is 0xFF.
@@ -102,8 +99,8 @@ static face_det_err_t camera_write_array(sensor_reg_t *array)
     	}
         array++;
      }
-    return face_det_status;
 
+    return face_det_status;
 }
 /*********************************************************************************************************************
  *  Provide the clock to the camera and configure the camera to output QVGA RGB565 image
@@ -145,10 +142,9 @@ face_det_err_t camera_init(void)
 		return FACE_DET_APP_CEU_OPEN;
 	}
 
-
 	face_det_status = camera_write_array((sensor_reg_t *)&g_ov3640_qvga);
 
-   return (face_det_status);
+	return (face_det_status);
 }
 
 /*********************************************************************************************************************
@@ -172,7 +168,7 @@ static fsp_err_t i2c_cam_cb_wait(void)
     fsp_err_t err = validate_i2c_event();
 
     /* handle error */
-    if(FSP_ERR_TRANSFER_ABORTED == err)
+    if (FSP_ERR_TRANSFER_ABORTED == err)
     {
         ret = FSP_ERR_TRANSFER_ABORTED;
     }
@@ -197,18 +193,18 @@ static fsp_err_t validate_i2c_event(void)
         /* This is to avoid infinite loop */
         --local_time_out;
 
-        if(RESET_VALUE == local_time_out)
+        if (RESET_VALUE == local_time_out)
         {
             return FSP_ERR_TRANSFER_ABORTED;
         }
 
-    }while(i2c_event == RESET_VALUE);
+    } while(i2c_event == RESET_VALUE);
 
 
-    if(i2c_event != I2C_MASTER_EVENT_ABORTED)
+    if (i2c_event != I2C_MASTER_EVENT_ABORTED)
     {
         /* Make sure this is always Reset before return*/
-    	i2c_event = (i2c_master_event_t)RESET_VALUE;
+        i2c_event = (i2c_master_event_t)RESET_VALUE;
         return FSP_SUCCESS;
     }
 
@@ -245,5 +241,3 @@ static face_det_err_t wrSensorReg16_8(int regID, int regDat)
 
     return face_det_status;
 }
-
-

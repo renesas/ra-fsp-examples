@@ -1,10 +1,14 @@
+/*
+* Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
+*
+* SPDX-License-Identifier: BSD-3-Clause
+*/
 
 /**********************************************************************************************************************
  * File Name    : display_thread_entry.c
  * Version      : .
  * Description  : The display thread operations.
  *********************************************************************************************************************/
-
 
 /***************************************************************************************************************************
  * Includes   <System Includes> , "Project Includes"
@@ -45,8 +49,6 @@ extern void  do_face_reconition_screen(void);
  * Private global variables and functions
  ***************************************************************************************************************************/
 
-
-
 /*********************************************************************************************************************
  *  display thread entry function
  *  			 This thread initializes all the hardware and display the camera input to the mipi lcd.
@@ -60,9 +62,6 @@ void display_thread_entry(void *pvParameters)
 
     FSP_PARAMETER_NOT_USED(pvParameters);
 
-   	/* Initialize the subsystems other than the camera*/
-    bsp_sdram_init();
-
     status = jlink_console_init();
     if (FSP_SUCCESS != status)
 	{
@@ -70,7 +69,7 @@ void display_thread_entry(void *pvParameters)
 	}
 
 	face_det_status = drw_display_init();
-	if(FACE_DET_APP_SUCCESS != face_det_status)
+	if (FACE_DET_APP_SUCCESS != face_det_status)
 	{
 		handle_error(FACE_DET_APP_GRAPHICS_INIT);
 	}
@@ -88,14 +87,8 @@ void display_thread_entry(void *pvParameters)
 
 	while (true)
 	{
-
 		do_face_reconition_screen();
 
 		vTaskDelay(DISPLAY_THREAD_YIELD);
-
 	}
-
-
 }
-
-

@@ -48,6 +48,7 @@ face_det_err_t ai_init()
 {
 	static bool model_init_obj = false;
 	face_det_err_t face_det_status = FACE_DET_APP_SUCCESS;
+
 	 if(!model_init_obj)
 	    {
 	        if (!model_obj.Init(tensorArena,

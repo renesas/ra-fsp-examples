@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<raConfiguration version="11">
+<raConfiguration version="12">
   <generalSettings>
     <option key="#Board#" value="board.ra6m3ek"/>
     <option key="CPU" value="RA6M3"/>
@@ -9,10 +9,10 @@
     <option key="#DeviceCommand#" value="R7FA6M3AH"/>
     <option key="#RTOS#" value="_none"/>
     <option key="#pinconfiguration#" value="R7FA6M3AH3CFC.pincfg"/>
-    <option key="#FSPVersion#" value="6.0.0"/>
+    <option key="#FSPVersion#" value="6.4.0"/>
     <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra6m3_ek##"/>
-    <option key="#SELECTED_TOOLCHAIN#" value="gcc-arm-embedded"/>
-    <option key="#ToolchainVersion#" value="13.2.1.arm-13-7"/>
+    <option key="#SELECTED_TOOLCHAIN#" value="clang_arm"/>
+    <option key="#ToolchainVersion#" value="21.1.1"/>
   </generalSettings>
   <raBspConfiguration/>
   <raClockConfiguration>
@@ -85,25 +85,139 @@
       <configSetting altId="irq0.irq13.p009" configurationId="irq0.irq13" peripheral="IRQ0"/>
       <configSetting altId="irq0.irq14.p505" configurationId="irq0.irq14" peripheral="IRQ0"/>
       <configSetting altId="irq0.irq15.p506" configurationId="irq0.irq15" peripheral="IRQ0"/>
+      <configSetting altId="p000.gpio_mode.gpio_mode_an" configurationId="p000.gpio_mode"/>
+      <configSetting altId="p001.gpio_mode.gpio_mode_an" configurationId="p001.gpio_mode"/>
+      <configSetting altId="p002.gpio_mode.gpio_mode_an" configurationId="p002.gpio_mode"/>
+      <configSetting altId="p004.gpio_irq.gpio_irq_enabled" configurationId="p004.gpio_irq"/>
+      <configSetting altId="p004.gpio_mode.gpio_mode_irq" configurationId="p004.gpio_mode"/>
+      <configSetting altId="p008.gpio_irq.gpio_irq_enabled" configurationId="p008.gpio_irq"/>
+      <configSetting altId="p008.gpio_mode.gpio_mode_irq" configurationId="p008.gpio_mode"/>
+      <configSetting altId="p009.gpio_irq.gpio_irq_enabled" configurationId="p009.gpio_irq"/>
+      <configSetting altId="p009.gpio_mode.gpio_mode_irq" configurationId="p009.gpio_mode"/>
+      <configSetting altId="p014.gpio_mode.gpio_mode_an" configurationId="p014.gpio_mode"/>
       <configSetting altId="p100.output.low" configurationId="p100"/>
+      <configSetting altId="p100.gpio_mode.gpio_mode_out.low" configurationId="p100.gpio_mode"/>
+      <configSetting altId="p108.gpio_mode.gpio_mode_peripheral" configurationId="p108.gpio_mode"/>
+      <configSetting altId="p109.gpio_mode.gpio_mode_peripheral" configurationId="p109.gpio_mode"/>
+      <configSetting altId="p110.gpio_mode.gpio_mode_peripheral" configurationId="p110.gpio_mode"/>
+      <configSetting altId="p202.gpio_mode.gpio_mode_peripheral" configurationId="p202.gpio_mode"/>
+      <configSetting altId="p203.gpio_mode.gpio_mode_peripheral" configurationId="p203.gpio_mode"/>
+      <configSetting altId="p204.gpio_mode.gpio_mode_peripheral" configurationId="p204.gpio_mode"/>
+      <configSetting altId="p205.gpio_mode.gpio_mode_peripheral" configurationId="p205.gpio_mode"/>
       <configSetting altId="p206.input" configurationId="p206"/>
+      <configSetting altId="p206.gpio_irq.gpio_irq_enabled" configurationId="p206.gpio_irq"/>
+      <configSetting altId="p206.gpio_mode.gpio_mode_in" configurationId="p206.gpio_mode"/>
+      <configSetting altId="p206.gpio_pupd.gpio_pupd_ip_up" configurationId="p206.gpio_pupd"/>
+      <configSetting altId="p208.gpio_speed.gpio_speed_high" configurationId="p208.gpio_drivecapacity"/>
+      <configSetting altId="p208.gpio_mode.gpio_mode_peripheral" configurationId="p208.gpio_mode"/>
+      <configSetting altId="p209.gpio_speed.gpio_speed_high" configurationId="p209.gpio_drivecapacity"/>
+      <configSetting altId="p209.gpio_mode.gpio_mode_peripheral" configurationId="p209.gpio_mode"/>
+      <configSetting altId="p210.gpio_speed.gpio_speed_high" configurationId="p210.gpio_drivecapacity"/>
+      <configSetting altId="p210.gpio_mode.gpio_mode_peripheral" configurationId="p210.gpio_mode"/>
+      <configSetting altId="p211.gpio_speed.gpio_speed_high" configurationId="p211.gpio_drivecapacity"/>
+      <configSetting altId="p211.gpio_mode.gpio_mode_peripheral" configurationId="p211.gpio_mode"/>
+      <configSetting altId="p212.gpio_mode.gpio_mode_peripheral" configurationId="p212.gpio_mode"/>
+      <configSetting altId="p213.gpio_mode.gpio_mode_peripheral" configurationId="p213.gpio_mode"/>
+      <configSetting altId="p214.gpio_speed.gpio_speed_high" configurationId="p214.gpio_drivecapacity"/>
+      <configSetting altId="p214.gpio_mode.gpio_mode_peripheral" configurationId="p214.gpio_mode"/>
+      <configSetting altId="p300.gpio_mode.gpio_mode_peripheral" configurationId="p300.gpio_mode"/>
       <configSetting altId="p304.output.high" configurationId="p304"/>
+      <configSetting altId="p304.gpio_mode.gpio_mode_out.high" configurationId="p304.gpio_mode"/>
+      <configSetting altId="p305.gpio_speed.gpio_speed_high" configurationId="p305.gpio_drivecapacity"/>
+      <configSetting altId="p305.gpio_mode.gpio_mode_peripheral" configurationId="p305.gpio_mode"/>
+      <configSetting altId="p306.gpio_speed.gpio_speed_high" configurationId="p306.gpio_drivecapacity"/>
+      <configSetting altId="p306.gpio_mode.gpio_mode_peripheral" configurationId="p306.gpio_mode"/>
+      <configSetting altId="p307.gpio_speed.gpio_speed_high" configurationId="p307.gpio_drivecapacity"/>
+      <configSetting altId="p307.gpio_mode.gpio_mode_peripheral" configurationId="p307.gpio_mode"/>
+      <configSetting altId="p308.gpio_speed.gpio_speed_high" configurationId="p308.gpio_drivecapacity"/>
+      <configSetting altId="p308.gpio_mode.gpio_mode_peripheral" configurationId="p308.gpio_mode"/>
+      <configSetting altId="p309.gpio_speed.gpio_speed_high" configurationId="p309.gpio_drivecapacity"/>
+      <configSetting altId="p309.gpio_mode.gpio_mode_peripheral" configurationId="p309.gpio_mode"/>
+      <configSetting altId="p310.gpio_speed.gpio_speed_high" configurationId="p310.gpio_drivecapacity"/>
+      <configSetting altId="p310.gpio_mode.gpio_mode_peripheral" configurationId="p310.gpio_mode"/>
       <configSetting altId="p400.output.low" configurationId="p400"/>
+      <configSetting altId="p400.gpio_mode.gpio_mode_out.low" configurationId="p400.gpio_mode"/>
+      <configSetting altId="p401.gpio_speed.gpio_speed_high" configurationId="p401.gpio_drivecapacity"/>
+      <configSetting altId="p401.gpio_mode.gpio_mode_peripheral" configurationId="p401.gpio_mode"/>
+      <configSetting altId="p402.gpio_speed.gpio_speed_high" configurationId="p402.gpio_drivecapacity"/>
+      <configSetting altId="p402.gpio_mode.gpio_mode_peripheral" configurationId="p402.gpio_mode"/>
       <configSetting altId="p403.output.low" configurationId="p403"/>
+      <configSetting altId="p403.gpio_mode.gpio_mode_out.low" configurationId="p403.gpio_mode"/>
       <configSetting altId="p404.output.high" configurationId="p404"/>
+      <configSetting altId="p404.gpio_mode.gpio_mode_out.high" configurationId="p404.gpio_mode"/>
+      <configSetting altId="p405.gpio_speed.gpio_speed_high" configurationId="p405.gpio_drivecapacity"/>
+      <configSetting altId="p405.gpio_mode.gpio_mode_peripheral" configurationId="p405.gpio_mode"/>
+      <configSetting altId="p406.gpio_speed.gpio_speed_high" configurationId="p406.gpio_drivecapacity"/>
+      <configSetting altId="p406.gpio_mode.gpio_mode_peripheral" configurationId="p406.gpio_mode"/>
+      <configSetting altId="p407.gpio_mode.gpio_mode_peripheral" configurationId="p407.gpio_mode"/>
+      <configSetting altId="p408.gpio_mode.gpio_mode_peripheral" configurationId="p408.gpio_mode"/>
+      <configSetting altId="p408.gpio_otype.gpio_otype_n_ch_od" configurationId="p408.gpio_otype"/>
+      <configSetting altId="p409.gpio_mode.gpio_mode_peripheral" configurationId="p409.gpio_mode"/>
+      <configSetting altId="p409.gpio_otype.gpio_otype_n_ch_od" configurationId="p409.gpio_otype"/>
+      <configSetting altId="p410.gpio_mode.gpio_mode_peripheral" configurationId="p410.gpio_mode"/>
+      <configSetting altId="p411.gpio_mode.gpio_mode_peripheral" configurationId="p411.gpio_mode"/>
+      <configSetting altId="p412.gpio_mode.gpio_mode_peripheral" configurationId="p412.gpio_mode"/>
       <configSetting altId="p413.output.low" configurationId="p413"/>
+      <configSetting altId="p413.gpio_mode.gpio_mode_out.low" configurationId="p413.gpio_mode"/>
+      <configSetting altId="p414.gpio_mode.gpio_mode_peripheral" configurationId="p414.gpio_mode"/>
+      <configSetting altId="p415.gpio_mode.gpio_mode_peripheral" configurationId="p415.gpio_mode"/>
+      <configSetting altId="p500.gpio_mode.gpio_mode_peripheral" configurationId="p500.gpio_mode"/>
+      <configSetting altId="p501.gpio_mode.gpio_mode_peripheral" configurationId="p501.gpio_mode"/>
       <configSetting altId="p503.output.low" configurationId="p503"/>
+      <configSetting altId="p503.gpio_mode.gpio_mode_out.low" configurationId="p503.gpio_mode"/>
       <configSetting altId="p504.output.low" configurationId="p504"/>
+      <configSetting altId="p504.gpio_mode.gpio_mode_out.low" configurationId="p504.gpio_mode"/>
+      <configSetting altId="p505.gpio_irq.gpio_irq_enabled" configurationId="p505.gpio_irq"/>
+      <configSetting altId="p505.gpio_mode.gpio_mode_irq" configurationId="p505.gpio_mode"/>
+      <configSetting altId="p506.gpio_irq.gpio_irq_enabled" configurationId="p506.gpio_irq"/>
+      <configSetting altId="p506.gpio_mode.gpio_mode_irq" configurationId="p506.gpio_mode"/>
+      <configSetting altId="p507.gpio_mode.gpio_mode_an" configurationId="p507.gpio_mode"/>
+      <configSetting altId="p508.gpio_mode.gpio_mode_an" configurationId="p508.gpio_mode"/>
+      <configSetting altId="p511.gpio_speed.gpio_speed_medium" configurationId="p511.gpio_drivecapacity"/>
+      <configSetting altId="p511.gpio_mode.gpio_mode_peripheral" configurationId="p511.gpio_mode"/>
+      <configSetting altId="p512.gpio_speed.gpio_speed_medium" configurationId="p512.gpio_drivecapacity"/>
+      <configSetting altId="p512.gpio_mode.gpio_mode_peripheral" configurationId="p512.gpio_mode"/>
       <configSetting altId="p603.output.low" configurationId="p603"/>
+      <configSetting altId="p603.gpio_mode.gpio_mode_out.low" configurationId="p603.gpio_mode"/>
       <configSetting altId="p611.output.low" configurationId="p611"/>
+      <configSetting altId="p611.gpio_mode.gpio_mode_out.low" configurationId="p611.gpio_mode"/>
+      <configSetting altId="p613.gpio_mode.gpio_mode_peripheral" configurationId="p613.gpio_mode"/>
+      <configSetting altId="p614.gpio_mode.gpio_mode_peripheral" configurationId="p614.gpio_mode"/>
+      <configSetting altId="p700.gpio_speed.gpio_speed_high" configurationId="p700.gpio_drivecapacity"/>
+      <configSetting altId="p700.gpio_mode.gpio_mode_peripheral" configurationId="p700.gpio_mode"/>
+      <configSetting altId="p701.gpio_speed.gpio_speed_high" configurationId="p701.gpio_drivecapacity"/>
+      <configSetting altId="p701.gpio_mode.gpio_mode_peripheral" configurationId="p701.gpio_mode"/>
+      <configSetting altId="p702.gpio_speed.gpio_speed_high" configurationId="p702.gpio_drivecapacity"/>
+      <configSetting altId="p702.gpio_mode.gpio_mode_peripheral" configurationId="p702.gpio_mode"/>
+      <configSetting altId="p703.gpio_speed.gpio_speed_high" configurationId="p703.gpio_drivecapacity"/>
+      <configSetting altId="p703.gpio_mode.gpio_mode_peripheral" configurationId="p703.gpio_mode"/>
+      <configSetting altId="p704.gpio_speed.gpio_speed_high" configurationId="p704.gpio_drivecapacity"/>
+      <configSetting altId="p704.gpio_mode.gpio_mode_peripheral" configurationId="p704.gpio_mode"/>
+      <configSetting altId="p705.gpio_speed.gpio_speed_high" configurationId="p705.gpio_drivecapacity"/>
+      <configSetting altId="p705.gpio_mode.gpio_mode_peripheral" configurationId="p705.gpio_mode"/>
+      <configSetting altId="p706.gpio_irq.gpio_irq_enabled" configurationId="p706.gpio_irq"/>
+      <configSetting altId="p706.gpio_mode.gpio_mode_irq" configurationId="p706.gpio_mode"/>
+      <configSetting altId="p707.gpio_mode.gpio_mode_peripheral" configurationId="p707.gpio_mode"/>
+      <configSetting altId="p708.gpio_irq.gpio_irq_enabled" configurationId="p708.gpio_irq"/>
+      <configSetting altId="p708.gpio_mode.gpio_mode_irq" configurationId="p708.gpio_mode"/>
       <configSetting altId="p800.output.low" configurationId="p800"/>
+      <configSetting altId="p800.gpio_mode.gpio_mode_out.low" configurationId="p800.gpio_mode"/>
       <configSetting altId="p801.output.low" configurationId="p801"/>
+      <configSetting altId="p801.gpio_mode.gpio_mode_out.low" configurationId="p801.gpio_mode"/>
       <configSetting altId="p802.output.low" configurationId="p802"/>
+      <configSetting altId="p802.gpio_mode.gpio_mode_out.low" configurationId="p802.gpio_mode"/>
       <configSetting altId="p803.output.low" configurationId="p803"/>
+      <configSetting altId="p803.gpio_mode.gpio_mode_out.low" configurationId="p803.gpio_mode"/>
       <configSetting altId="p804.output.low" configurationId="p804"/>
+      <configSetting altId="p804.gpio_mode.gpio_mode_out.low" configurationId="p804.gpio_mode"/>
       <configSetting altId="p805.output.low" configurationId="p805"/>
+      <configSetting altId="p805.gpio_mode.gpio_mode_out.low" configurationId="p805.gpio_mode"/>
       <configSetting altId="p907.output.low" configurationId="p907"/>
+      <configSetting altId="p907.gpio_mode.gpio_mode_out.low" configurationId="p907.gpio_mode"/>
       <configSetting altId="p908.output.low" configurationId="p908"/>
+      <configSetting altId="p908.gpio_mode.gpio_mode_out.low" configurationId="p908.gpio_mode"/>
+      <configSetting altId="pb00.gpio_mode.gpio_mode_peripheral" configurationId="pb00.gpio_mode"/>
+      <configSetting altId="pb01.gpio_mode.gpio_mode_peripheral" configurationId="pb01.gpio_mode"/>
       <configSetting altId="qspi0.qio0.p307" configurationId="qspi0.qio0" peripheral="QSPI0"/>
       <configSetting altId="qspi0.qio1.p308" configurationId="qspi0.qio1" peripheral="QSPI0"/>
       <configSetting altId="qspi0.qio2.p309" configurationId="qspi0.qio2" peripheral="QSPI0"/>

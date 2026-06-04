@@ -245,8 +245,8 @@ FSP Configuration
   RA8M2 Core 0 Options
   RA8M2 event data
   RA Common
-    Main stack size (bytes): 0x400
-    Heap size (bytes): 0
+    Main stack size (bytes): 0x1000
+    Heap size (bytes): 0x2000
     Bootloader Secondary XIP: Disabled
     MCU Vcc (mV): 3300
     Parameter checking: Disabled
@@ -292,7 +292,7 @@ FSP Configuration
     BCLKA Div /6
     SDCLK Enabled
     EBCLK Src: BCLK (Synchronous)
-    EBCLK Div /2
+    EBCLK Disabled
     CLKOUT Src: HOCO
     CLKOUT Div /1
     SCICLK Src: PLL2R
@@ -932,12 +932,12 @@ FSP Configuration
     Flow Control Support: Disable
     
   Module "Modbus serial wrapper to timer driver(r_modbus_serial_port_timer)"
-  Module "FreeRTOS Heap 4"
   Module "Timer, General PWM (r_gpt)"
     Parameter Checking: Default (BSP)
     Pin Output Support: Disabled
     Write Protect Enable: Disabled
     
+  Module "FreeRTOS Heap 4"
   FreeRTOS
     General: Custom FreeRTOSConfig.h: 
     General: Use Preemption: Enabled
@@ -950,7 +950,7 @@ FSP Configuration
     General: Cpu Clock Hz: SystemCoreClock
     General: Tick Rate Hz: 1000
     General: Max Priorities: 5
-    General: Minimal Stack Size: 128
+    General: Minimal Stack Size: 512
     General: Max Task Name Len: 16
     Stats: Use Trace Facility: Disabled
     Stats: Use Stats Formatting Functions: Disabled
@@ -1052,6 +1052,7 @@ FSP Configuration
           Extra: RS-485: DE Pin Polarity: Active High
           Extra: RS-485: DE Pin Assertion Time: 1
           Extra: RS-485: DE Pin Negation Time: 1
+          Extra: TXI/TEI Synchronization Delay Cycles: 0
           Interrupts: Callback: NULL
           Interrupts: Receive Interrupt Priority: Priority 12
           Interrupts: Transmit Data Empty Interrupt Priority: Priority 12

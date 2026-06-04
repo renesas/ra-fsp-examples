@@ -1,12 +1,13 @@
+/*
+* Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
+*
+* SPDX-License-Identifier: BSD-3-Clause
+*/
+
 /**********************************************************************************************************************
  * File Name    : common_util.c
  * Description  : This file holds common utilities used by other functions.
  *********************************************************************************************************************/
-/*
-* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
-*
-* SPDX-License-Identifier: BSD-3-Clause
-*/
 
 /**********************************************************************************************************************
  * File Name    : common_util.c
@@ -51,7 +52,7 @@ timing_info_t face_det_timing;
   **********************************************************************************************************************/
 int e_printf(const char *format, ...)
 {
-	sprintf(sprintf_buffer, format);
+	sprintf(sprintf_buffer, "%s", format);
 	print_to_console(sprintf_buffer);
     return 0;
 }
@@ -63,10 +64,8 @@ int e_printf(const char *format, ...)
  **********************************************************************************************************************/
 void handle_error (face_det_err_t err)
 {
-
 	switch (err)
 	{
-
 	   case FACE_DET_APP_AI_INIT:
 	   {
 		   /*Suggest debugging into the code to identify the issue. */
@@ -231,6 +230,4 @@ void handle_error (face_det_err_t err)
 	 */
 
 	 #endif
-
-
 }

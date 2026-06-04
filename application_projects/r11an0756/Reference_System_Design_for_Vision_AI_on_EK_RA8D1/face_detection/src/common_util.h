@@ -1,8 +1,13 @@
+/*
+* Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
+*
+* SPDX-License-Identifier: BSD-3-Clause
+*/
+
 /**********************************************************************************************************************
  * File Name    : common_util.h
  * Description  : This file contains the error handling related micro definition and exported function.
  **********************************************************************************************************************/
-
 
 #ifndef COMMON_UTIL_H_
 #define COMMON_UTIL_H_
@@ -92,8 +97,6 @@ typedef enum e_face_det_app_err
 	FACE_DET_APP_JLINK_CONSOLE_OPEN		= 19,					///< jlink uart open error
 	FACE_DET_APP_JLINK_SONSOLE_WRITE	= 20,					///< JLink console write failed
 	FACE_DET_APP_JLINK_SONSOLE_READ		= 21,					///< JLink console read failed
-
-
 } face_det_err_t;
 
 /** timing report */
@@ -106,7 +109,6 @@ typedef struct st_timing_info_t
 	uint32_t pre_inference_image_processing_in_ms; 	///< time usage of image processing prior to inference
 
 } timing_info_t;
-
 
 /**********************************************************************************************************************
  * Exported global variables

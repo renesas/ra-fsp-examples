@@ -1,12 +1,14 @@
 /*
-* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
+* Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
 */
+
 /**********************************************************************************************************************
  * File Name    : bg_font_18_full.c
  * Description  : This file defines the MIPI LCD text print functions.
  **********************************************************************************************************************/
+
 /***************************************************************************************************************************
  * Includes   <System Includes> , "Project Includes"
  ***************************************************************************************************************************/
@@ -371,8 +373,8 @@ const st_gimp_bg_font_18_image_t ascii_table_flash[127] BSP_ALIGN_VARIABLE(128) 
     {FONT_18_DIGIT_6_WIDTH, FONT_18_DIGIT_6_HEIGHT, FONT_18_BYTES_PER_PIXEL, FONT_18_DIGIT_6_DATA}, //54
     {FONT_18_DIGIT_7_WIDTH, FONT_18_DIGIT_7_HEIGHT, FONT_18_BYTES_PER_PIXEL, FONT_18_DIGIT_7_DATA}, //55
     {FONT_18_DIGIT_8_WIDTH, FONT_18_DIGIT_8_HEIGHT, FONT_18_BYTES_PER_PIXEL, FONT_18_DIGIT_8_DATA}, //56
-    {FONT_18_COLON_WIDTH, FONT_18_COLON_HEIGHT, FONT_18_BYTES_PER_PIXEL, FONT_18_COLON_DATA}, //57
-    {}, //58
+    {FONT_18_DIGIT_9_WIDTH, FONT_18_DIGIT_9_HEIGHT, FONT_18_BYTES_PER_PIXEL, FONT_18_DIGIT_9_DATA}, //57
+    {FONT_18_COLON_WIDTH,   FONT_18_COLON_HEIGHT,   FONT_18_BYTES_PER_PIXEL, FONT_18_COLON_DATA},   //58
     {}, //59
     {}, //60
     {}, //61
@@ -405,12 +407,12 @@ const st_gimp_bg_font_18_image_t ascii_table_flash[127] BSP_ALIGN_VARIABLE(128) 
     {FONT_18_UPPER_X_WIDTH, FONT_18_UPPER_X_HEIGHT, FONT_18_BYTES_PER_PIXEL, FONT_18_UPPER_X_DATA}, //88
     {FONT_18_UPPER_Y_WIDTH, FONT_18_UPPER_Y_HEIGHT, FONT_18_BYTES_PER_PIXEL, FONT_18_UPPER_Y_DATA}, //89
     {FONT_18_UPPER_Z_WIDTH, FONT_18_UPPER_Z_HEIGHT, FONT_18_BYTES_PER_PIXEL, FONT_18_UPPER_Z_DATA}, //90
-    {},    //91
-    {},    //92
-    {},    //93
-    {},    //94
-    {},    //95
-    {},    //96
+    {}, //91
+    {}, //92
+    {}, //93
+    {}, //94
+    {}, //95
+    {}, //96
     {FONT_18_LOWER_A_WIDTH, FONT_18_LOWER_A_HEIGHT, FONT_18_BYTES_PER_PIXEL, FONT_18_LOWER_A_DATA}, //97
     {FONT_18_LOWER_B_WIDTH, FONT_18_LOWER_B_HEIGHT, FONT_18_BYTES_PER_PIXEL, FONT_18_LOWER_B_DATA}, //98
     {FONT_18_LOWER_C_WIDTH, FONT_18_LOWER_C_HEIGHT, FONT_18_BYTES_PER_PIXEL, FONT_18_LOWER_C_DATA}, //99
@@ -437,11 +439,10 @@ const st_gimp_bg_font_18_image_t ascii_table_flash[127] BSP_ALIGN_VARIABLE(128) 
     {FONT_18_LOWER_X_WIDTH, FONT_18_LOWER_X_HEIGHT, FONT_18_BYTES_PER_PIXEL, FONT_18_LOWER_X_DATA}, //120
     {FONT_18_LOWER_Y_WIDTH, FONT_18_LOWER_Y_HEIGHT, FONT_18_BYTES_PER_PIXEL, FONT_18_LOWER_Y_DATA}, //121
     {FONT_18_LOWER_Z_WIDTH, FONT_18_LOWER_Z_HEIGHT, FONT_18_BYTES_PER_PIXEL, FONT_18_LOWER_Z_DATA}, //122
-    {},    //123
-    {},    //124
-    {},    //125
-    {},    //126
-
+    {}, //123
+    {}, //124
+    {}, //125
+    {}, //126
 };
 
 /***************************************************************************************************************************
@@ -474,14 +475,14 @@ void print_bg_font_18(d2_device *handle, d2_point _xs, d2_point _ys, char *_str)
     d2_point cur_y = _ys;
     size_t len = strlen(_str);
 
-	for(uint32_t pos = 0; pos < len; pos++)
+	for (uint32_t pos = 0; pos < len; pos++)
 	{
         myc = (char) *(_str + pos);
 
-		if((uint8_t) myc < 127)
+		if ((uint8_t) myc < 127)
 		{
 		    img = (st_gimp_bg_font_18_image_t *)&ascii_table_flash[myc];
-			if(img != NULL)
+			if (img != NULL)
 			{
 				d2_setblitsrc(handle, img->pixel_data, (d2_s32)img->width, (d2_s32)img->width, (d2_s32)img->height, d2_mode_rgb565);
 

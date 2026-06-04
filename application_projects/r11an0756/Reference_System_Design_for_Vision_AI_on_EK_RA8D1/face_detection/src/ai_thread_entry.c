@@ -1,9 +1,8 @@
 /*
-* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
+* Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
 */
-
 
 /**********************************************************************************************************************
  * File Name    : ai_thread_entry.c
@@ -45,6 +44,12 @@ st_ai_detection_point_t g_ai_detection[MAX_DETECTION_NUMS] = {};
 void update_detection_result(uint16_t index, signed short  x, signed short  y, signed short  w, signed short  h);
 bool update_face_count = false;
 
+void _exit(int status __attribute__((unused)))
+{
+    (void)status;
+    while (1);
+}
+
 /***************************************************************************************************************************
  * Private global variables and functions
  ***************************************************************************************************************************/
@@ -61,14 +66,13 @@ bool update_face_count = false;
 ***********************************************************************************************************************/
 void update_detection_result(uint16_t index, signed short  x, signed short  y, signed short  w, signed short  h)
 {
-    if(index < MAX_DETECTION_NUMS)
+    if (index < MAX_DETECTION_NUMS)
     {
         g_ai_detection[index].m_x = x;
         g_ai_detection[index].m_y = y;
         g_ai_detection[index].m_w = w;
         g_ai_detection[index].m_h = h;
     }
-
 }
 
 /*********************************************************************************************************************
@@ -84,12 +88,11 @@ void ai_thread_entry(void *pvParameters)
 
 	face_det_err_t face_det_status = FACE_DET_APP_SUCCESS;
 
-
 	InitCycleCounter();
 	EnableCycleCounter();
 
 	face_det_status = ai_init();
-	if(FACE_DET_APP_SUCCESS != face_det_status )
+	if (FACE_DET_APP_SUCCESS != face_det_status)
 	{
 		handle_error(FACE_DET_APP_AI_INIT);
 	}
@@ -115,11 +118,13 @@ void ai_thread_entry(void *pvParameters)
 
 		/* restart face detection statistics for each inference */
 
-		for(int i=0; i<MAX_DETECTION_NUMS; i++)
+		for (int i = 0; i < MAX_DETECTION_NUMS; i++)
+		{
 			memset(&g_ai_detection[i], 0, sizeof(g_ai_detection[i]));
+		}
 
 		face_det_status = face_detection();
-		if(FACE_DET_APP_INFERENCE == face_det_status)
+		if (FACE_DET_APP_INFERENCE == face_det_status)
 		{
 			handle_error(FACE_DET_APP_INFERENCE);
 		}

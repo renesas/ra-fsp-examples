@@ -21,9 +21,6 @@
 #include <ai_apps/common/TensorFlowLiteMicro.hpp>
 #include <ai_apps/common/Model.hpp>
 
-
-
-
 namespace common {
 
   enum OPCODES {

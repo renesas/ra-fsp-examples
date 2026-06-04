@@ -1,6 +1,6 @@
 
 /*
-* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
+* Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
 */
@@ -10,6 +10,7 @@
  * Version      : .
  * Description  : The face detection screen display on mipi lcd.
  *********************************************************************************************************************/
+
 /***************************************************************************************************************************
  * Includes   <System Includes> , "Project Includes"
  ***************************************************************************************************************************/
@@ -231,7 +232,6 @@ static void print_inf_time_and_number_faces(void)
 	 * This time does not include the pre and post processing routine.
 	 * It is the time used for inference only.
 	 */
-
 	uint32_t time = (uint32_t)(face_detection_inference_time); // ms
 
 	char time_str[8] = {'0', '0', '0', '0', ' ', 'm', 's', '\0'};
@@ -248,7 +248,6 @@ static void print_inf_time_and_number_faces(void)
 	num_str[0] += (char) (face_count / 10);
 	num_str[1] +=  (char) (face_count % 10);
 	print_bg_font_18(d2_handle, 120, 780,  (char*)num_str);
-
 }
 
 /*********************************************************************************************************************

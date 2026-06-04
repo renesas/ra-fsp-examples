@@ -1,8 +1,9 @@
 /*
-* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
+* Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
 */
+
 /**********************************************************************************************************************
  * File Name    : ceu_ctl_and_data_processing.h
  * Description  : This file defines the ceu control and data processing functions.

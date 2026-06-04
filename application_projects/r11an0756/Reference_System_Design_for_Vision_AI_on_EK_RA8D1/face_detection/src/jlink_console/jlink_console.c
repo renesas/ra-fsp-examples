@@ -1,12 +1,14 @@
+/*
+* Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
+*
+* SPDX-License-Identifier: BSD-3-Clause
+*/
+
 /**********************************************************************************************************************
  * File Name    : jlink_console.c
  * Description  : Defines the JLink console input and output functions.
  *********************************************************************************************************************/
-/*
-* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
-*
-* SPDX-License-Identifier: BSD-3-Clause
-*/
+
 /**********************************************************************************************************************
  * File Name    : jlink_console.c
  * Description  : This file defines the jlink console implementations.
@@ -72,12 +74,13 @@ face_det_err_t print_to_console(char * p_data)
     face_det_err_t face_det_status = FACE_DET_APP_SUCCESS;
 
     err = Jlink_console_write(p_data);
-    if(FSP_SUCCESS != err)
+    if (FSP_SUCCESS != err)
     {
     	handle_error(FACE_DET_APP_JLINK_SONSOLE_WRITE);
     	return FACE_DET_APP_JLINK_SONSOLE_WRITE;
     }
-    return (face_det_status);
+
+    return face_det_status;
 }
 /*********************************************************************************************************************
  *  Read user input from the Jlink console
@@ -97,7 +100,7 @@ int8_t input_from_console (void)
     	handle_error(FACE_DET_APP_JLINK_SONSOLE_READ);
     }
 
-    while(key_pressed() == false)
+    while (key_pressed() == false)
     {
         vTaskDelay(1);
     }
@@ -137,7 +140,6 @@ uint8_t get_detected_key(void)
 {
     return (s_rx_buf);
 }
-
 
 static bool key_pressed(void)
 {
@@ -191,6 +193,3 @@ void jlink_console_callback(uart_callback_args_t *p_args)
         }
     }
 }
-
-
-
