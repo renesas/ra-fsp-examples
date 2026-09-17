@@ -99,13 +99,11 @@ float arm_snr_f32(float *pRef, float *pTest, uint32_t buffSize)
   		return(0);
     }
 
-
   SNR = 10 * (float32_t)log10 ((double)EnergySignal / (double)EnergyError);
 
   return (SNR);
 
 }
-
 
 /**
  * @brief  Provide guard bits for Input buffer
@@ -255,8 +253,6 @@ void arm_provide_guard_bits_q7 (q7_t * input_buf,
     }
 }
 
-
-
 /**
  * @brief  Caluclates number of guard bits
  * @param[in]  num_adds 	number of additions
@@ -321,8 +317,6 @@ uint32_t arm_calc_2pow(uint32_t numShifts)
   return(val);
 }
 
-
-
 /**
  * @brief  Converts float to fixed q14
  * @param[in]  pIn         pointer to input buffer
@@ -351,7 +345,6 @@ void arm_float_to_q14 (float *pIn, q15_t *pOut, uint32_t numSamples)
     }
 
 }
-
 
 /**
  * @brief  Converts float to fixed q30 format
@@ -407,7 +400,6 @@ void arm_float_to_q29 (float *pIn, q31_t *pOut, uint32_t numSamples)
     }
 }
 
-
 /**
  * @brief  Converts float to fixed q28 format
  * @param[in]  pIn         pointer to input buffer
@@ -435,12 +427,9 @@ void arm_float_to_q28 (float *pIn, q31_t *pOut, uint32_t numSamples)
     }
 }
 
-
 /*
-
 Conflicting with the new clip functions in CMSIS-DSP and not used
 in the examples.
-
 */
 #if 0
 /**

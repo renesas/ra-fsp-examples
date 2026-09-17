@@ -1,0 +1,563 @@
+  define region RAM = mem:[from RAM_START size RAM_LENGTH];
+  define region FLASH = mem:[from FLASH_START size FLASH_LENGTH];
+  define region DATA_FLASH = mem:[from DATA_FLASH_START size DATA_FLASH_LENGTH];
+  define region QSPI_FLASH = mem:[from QSPI_FLASH_START size QSPI_FLASH_LENGTH];
+  define region OSPI0_CS0 = mem:[from OSPI0_CS0_START size OSPI0_CS0_LENGTH];
+  define region OSPI0_CS1 = mem:[from OSPI0_CS1_START size OSPI0_CS1_LENGTH];
+  define region OPTION_SETTING_OFS0 = mem:[from OPTION_SETTING_OFS0_START size OPTION_SETTING_OFS0_LENGTH];
+  define region OPTION_SETTING_DUALSEL = mem:[from OPTION_SETTING_DUALSEL_START size OPTION_SETTING_DUALSEL_LENGTH];
+  define region OPTION_SETTING_OFS1 = mem:[from OPTION_SETTING_OFS1_START size OPTION_SETTING_OFS1_LENGTH];
+  define region OPTION_SETTING_BANKSEL = mem:[from OPTION_SETTING_BANKSEL_START size OPTION_SETTING_BANKSEL_LENGTH];
+  define region OPTION_SETTING_BPS = mem:[from OPTION_SETTING_BPS_START size OPTION_SETTING_BPS_LENGTH];
+  define region OPTION_SETTING_PBPS = mem:[from OPTION_SETTING_PBPS_START size OPTION_SETTING_PBPS_LENGTH];
+  define region OPTION_SETTING_OFS1_SEC = mem:[from OPTION_SETTING_OFS1_SEC_START size OPTION_SETTING_OFS1_SEC_LENGTH];
+  define region OPTION_SETTING_BANKSEL_SEC = mem:[from OPTION_SETTING_BANKSEL_SEC_START size OPTION_SETTING_BANKSEL_SEC_LENGTH];
+  define region OPTION_SETTING_BPS_SEC = mem:[from OPTION_SETTING_BPS_SEC_START size OPTION_SETTING_BPS_SEC_LENGTH];
+  define region OPTION_SETTING_PBPS_SEC = mem:[from OPTION_SETTING_PBPS_SEC_START size OPTION_SETTING_PBPS_SEC_LENGTH];
+  define region OPTION_SETTING_OFS1_SEL = mem:[from OPTION_SETTING_OFS1_SEL_START size OPTION_SETTING_OFS1_SEL_LENGTH];
+  define region OPTION_SETTING_BANKSEL_SEL = mem:[from OPTION_SETTING_BANKSEL_SEL_START size OPTION_SETTING_BANKSEL_SEL_LENGTH];
+  define region OPTION_SETTING_BPS_SEL = mem:[from OPTION_SETTING_BPS_SEL_START size OPTION_SETTING_BPS_SEL_LENGTH];
+/***** QSPI_FLASH memory section allocations ******/
+define section __ddsc_QSPI_FLASH_START {public __ddsc_QSPI_FLASH_START:};
+keep {section __ddsc_QSPI_FLASH_START};
+define section __ddsc_QSPI_FLASH_END {public __ddsc_QSPI_FLASH_END:};
+keep {section __ddsc_QSPI_FLASH_END};
+define block qspi_flash_BLOCK with fixed order {
+    block .qspi_flash.startof with fixed order {
+      block __ddsc_QSPI_FLASH_START {section __ddsc_QSPI_FLASH_START},},
+    /* ospi0_cs0 initialized from qspi_flash */
+    block __qspi_flash_init_ospi0_cs0_from_qspi_flash with fixed order {
+  /* section.ospi0_cs0.from_qspi_flash */
+        section .ospi0_cs0_from_qspi_flash_init,
+  /* section.ospi0_cs0.code_from_qspi_flash */
+        section .ospi0_cs0_code_from_qspi_flash_init},
+    /* ram initialized from qspi_flash */
+    block __qspi_flash_init_ram_from_qspi_flash with fixed order {
+  /* section.ram.from_qspi_flash */
+        section .ram_from_qspi_flash_init,
+  /* section.ram.code_from_qspi_flash */
+        section .ram_code_from_qspi_flash_init},
+    block __qspi_flash_readonly with fixed order {
+  /* section.qspi_flash.readonly */
+        section .qspi_flash,
+  /* section.qspi_flash.code */
+        section .qspi_flash_code},
+    block __qspi_flash_noinit with fixed order {
+  /* section.qspi_flash.noinit */
+        section .qspi_flash_noinit},
+    block .qspi_flash.endof with alignment = 512, fixed order {
+      block __ddsc_QSPI_FLASH_END {section __ddsc_QSPI_FLASH_END},},
+};
+
+place in QSPI_FLASH { block qspi_flash_BLOCK };
+/***** OSPI0_CS1 memory section allocations ******/
+define section __ddsc_OSPI0_CS1_START {public __ddsc_OSPI0_CS1_START:};
+keep {section __ddsc_OSPI0_CS1_START};
+define section __ddsc_OSPI0_CS1_END {public __ddsc_OSPI0_CS1_END:};
+keep {section __ddsc_OSPI0_CS1_END};
+define block ospi0_cs1_BLOCK with fixed order {
+    block .ospi0_cs1.startof with fixed order {
+      block __ddsc_OSPI0_CS1_START {section __ddsc_OSPI0_CS1_START},},
+    /* ospi0_cs0 initialized from ospi0_cs1 */
+    block __ospi0_cs1_init_ospi0_cs0_from_ospi0_cs1 with fixed order {
+  /* section.ospi0_cs0.from_ospi0_cs1 */
+        section .ospi0_cs0_from_ospi0_cs1_init,
+  /* section.ospi0_cs0.code_from_ospi0_cs1 */
+        section .ospi0_cs0_code_from_ospi0_cs1_init},
+    /* ram initialized from ospi0_cs1 */
+    block __ospi0_cs1_init_ram_from_ospi0_cs1 with fixed order {
+  /* section.ram.from_ospi0_cs1 */
+        section .ram_from_ospi0_cs1_init,
+  /* section.ram.code_from_ospi0_cs1 */
+        section .ram_code_from_ospi0_cs1_init},
+    block __ospi0_cs1_readonly with fixed order {
+  /* section.ospi0_cs1.readonly */
+        section .ospi0_cs1,
+  /* section.ospi0_cs1.code */
+        section .ospi0_cs1_code},
+    block __ospi0_cs1_noinit with fixed order {
+  /* section.ospi0_cs1.noinit */
+        section .ospi0_cs1_noinit},
+    block .ospi0_cs1.endof with alignment = 512, fixed order {
+      block __ddsc_OSPI0_CS1_END {section __ddsc_OSPI0_CS1_END},},
+};
+
+place in OSPI0_CS1 { block ospi0_cs1_BLOCK };
+/***** OSPI0_CS0 memory section allocations ******/
+define section __ddsc_OSPI0_CS0_START {public __ddsc_OSPI0_CS0_START:};
+keep {section __ddsc_OSPI0_CS0_START};
+define section __ddsc_OSPI0_CS0_END {public __ddsc_OSPI0_CS0_END:};
+keep {section __ddsc_OSPI0_CS0_END};
+define block ospi0_cs0_BLOCK with fixed order {
+    block .ospi0_cs0.startof with fixed order {
+      block __ddsc_OSPI0_CS0_START {section __ddsc_OSPI0_CS0_START},},
+    /* ospi0_cs0 initialized from qspi_flash */
+    block __ospi0_cs0_from_qspi_flash with fixed order {
+  /* section.ospi0_cs0.from_qspi_flash */
+        section .ospi0_cs0_from_qspi_flash,
+  /* section.ospi0_cs0.code_from_qspi_flash */
+        section .ospi0_cs0_code_from_qspi_flash},
+    /* ospi0_cs0 initialized from ospi0_cs1 */
+    block __ospi0_cs0_from_ospi0_cs1 with fixed order {
+  /* section.ospi0_cs0.from_ospi0_cs1 */
+        section .ospi0_cs0_from_ospi0_cs1,
+  /* section.ospi0_cs0.code_from_ospi0_cs1 */
+        section .ospi0_cs0_code_from_ospi0_cs1},
+    /* ospi0_cs0 initialized from data_flash */
+    block __ospi0_cs0_from_data_flash with fixed order {
+  /* section.ospi0_cs0.from_data_flash */
+        section .ospi0_cs0_from_data_flash,
+  /* section.ospi0_cs0.code_from_data_flash */
+        section .ospi0_cs0_code_from_data_flash},
+    /* ospi0_cs0 initialized from flash */
+    block __ospi0_cs0_from_flash with fixed order {
+  /* section.ospi0_cs0.from_flash */
+        section .ospi0_cs0_from_flash,
+  /* section.ospi0_cs0.code_from_flash */
+        section .ospi0_cs0_code_from_flash},
+    /* Non-initialized, non-cached ospi0_cs0 */
+    block __ospi0_cs0_noinit_nocache with alignment = 32, fixed order {
+  /* section.ospi0_cs0.noinit_nocache */
+        section .ospi0_cs0_noinit_nocache},
+    /* Zeroed, non-cached ospi0_cs0 */
+    block __ospi0_cs0_zero_nocache with end alignment = 32, fixed order {
+  /* section.ospi0_cs0.zero_nocache */
+        section .ospi0_cs0_nocache},
+    /* Non-initialized ospi0_cs0 */
+    block __ospi0_cs0_noinit with fixed order {
+  /* section.ospi0_cs0.noinit */
+        section .ospi0_cs0_noinit},
+    /* Zeroed ospi0_cs0 */
+    block __ospi0_cs0_zero with fixed order {
+  /* section.ospi0_cs0.zero */
+        section .ospi0_cs0},
+    block .ospi0_cs0.endof with alignment = 512, fixed order {
+      block __ddsc_OSPI0_CS0_END {section __ddsc_OSPI0_CS0_END},},
+};
+
+place in OSPI0_CS0 { block ospi0_cs0_BLOCK };
+/***** DATA_FLASH memory section allocations ******/
+define section __ddsc_DATA_FLASH_START {public __ddsc_DATA_FLASH_START:};
+keep {section __ddsc_DATA_FLASH_START};
+define section __ddsc_DATA_FLASH_END {public __ddsc_DATA_FLASH_END:};
+keep {section __ddsc_DATA_FLASH_END};
+define block data_flash_BLOCK with fixed order {
+    block .data_flash.startof with fixed order {
+      block __ddsc_DATA_FLASH_START {section __ddsc_DATA_FLASH_START},},
+    /* ospi0_cs0 initialized from data_flash */
+    block __data_flash_init_ospi0_cs0_from_data_flash with fixed order {
+  /* section.ospi0_cs0.from_data_flash */
+        section .ospi0_cs0_from_data_flash_init,
+  /* section.ospi0_cs0.code_from_data_flash */
+        section .ospi0_cs0_code_from_data_flash_init},
+    /* ram initialized from data_flash */
+    block __data_flash_init_ram_from_data_flash with fixed order {
+  /* section.ram.from_data_flash */
+        section .ram_from_data_flash_init,
+  /* section.ram.code_from_data_flash */
+        section .ram_code_from_data_flash_init},
+    block __data_flash_readonly with fixed order {
+  /* section.data_flash.readonly */
+        section .data_flash,
+  /* section.data_flash.code */
+        section .data_flash_code},
+    block __data_flash_noinit with fixed order {
+  /* section.data_flash.noinit */
+        section .data_flash_noinit},
+    block .data_flash.endof with alignment = 512, fixed order {
+      block __ddsc_DATA_FLASH_END {section __ddsc_DATA_FLASH_END},},
+};
+
+place in DATA_FLASH { block data_flash_BLOCK };
+/***** FLASH memory section allocations ******/
+define section __ddsc_FLASH_START {public __ddsc_FLASH_START:};
+keep {section __ddsc_FLASH_START};
+define section _VECTORS {public _VECTORS:};
+keep {section _VECTORS};
+define section __ddsc_FLASH_NSC {public __ddsc_FLASH_NSC:};
+keep {section __ddsc_FLASH_NSC};
+define section __ddsc_FLASH_END {public __ddsc_FLASH_END:};
+keep {section __ddsc_FLASH_END};
+define block flash_BLOCK with fixed order {
+    block .flash.startof with fixed order {
+      block __ddsc_FLASH_START {section __ddsc_FLASH_START},},
+    /* MCU vector table */
+    block __flash_vectors with fixed order {
+      block _VECTORS {section _VECTORS},
+        section .fixed_vectors,
+        section .application_vectors},
+    block __flash_noinit with fixed order {
+  /* section.flash.noinit */
+        section .flash_noinit},
+    /* ospi0_cs0 initialized from flash */
+    block __flash_init_ospi0_cs0_from_flash with fixed order {
+  /* section.ospi0_cs0.from_flash */
+        section .ospi0_cs0_from_flash_init,
+  /* section.ospi0_cs0.code_from_flash */
+        section .ospi0_cs0_code_from_flash_init},
+    /* ram initialized from flash */
+    block __flash_init_ram_from_flash with fixed order {
+  /* section.ram.from_flash */
+        section .ram_from_flash_init,
+  /* section.ram.code_from_flash */
+        section .ram_code_from_flash_init,
+        section .data*_init,
+        section vtable_init},
+    block __flash_readonly with fixed order {
+  /* section.flash.readonly */
+        section .flash,
+  /* section.flash.code */
+        section .flash_code,
+        ro code ,
+        ro data ,
+        section .mcuboot_sce9_key,
+        section .version},
+    block __flash_nsc with alignment = 1024, fixed order {
+      block __ddsc_FLASH_NSC {section __ddsc_FLASH_NSC},
+        section Veneer$$CMSE*,
+        section .flash_nsc},
+    block .flash.endof with alignment = 1024, fixed order {
+      block __ddsc_FLASH_END {section __ddsc_FLASH_END},},
+};
+
+place at start of FLASH { block flash_BLOCK };
+/***** RAM memory section allocations ******/
+define section __ddsc_RAM_START {public __ddsc_RAM_START:};
+keep {section __ddsc_RAM_START};
+define section __ddsc_RAM_NSC {public __ddsc_RAM_NSC:};
+keep {section __ddsc_RAM_NSC};
+define section __ddsc_RAM_END {public __ddsc_RAM_END:};
+keep {section __ddsc_RAM_END};
+define block ram_BLOCK with fixed order {
+    block .ram.startof with fixed order {
+      block __ddsc_RAM_START {section __ddsc_RAM_START},},
+    block __ram_dtc_vector with fixed order {
+        section .fsp_dtc_vector_table},
+    /* ram initialized from qspi_flash */
+    block __ram_from_qspi_flash with fixed order {
+  /* section.ram.from_qspi_flash */
+        section .ram_from_qspi_flash,
+  /* section.ram.code_from_qspi_flash */
+        section .ram_code_from_qspi_flash},
+    /* ram initialized from ospi0_cs1 */
+    block __ram_from_ospi0_cs1 with fixed order {
+  /* section.ram.from_ospi0_cs1 */
+        section .ram_from_ospi0_cs1,
+  /* section.ram.code_from_ospi0_cs1 */
+        section .ram_code_from_ospi0_cs1},
+    /* ram initialized from data_flash */
+    block __ram_from_data_flash with fixed order {
+  /* section.ram.from_data_flash */
+        section .ram_from_data_flash,
+  /* section.ram.code_from_data_flash */
+        section .ram_code_from_data_flash},
+    /* ram initialized from flash */
+    block __ram_from_flash with fixed order {
+  /* section.ram.from_flash */
+        section .ram_from_flash,
+  /* section.ram.code_from_flash */
+        section .ram_code_from_flash,
+        section .data*,
+        section vtable},
+    /* Non-initialized, non-cached ram */
+    block __ram_noinit_nocache with alignment = 32, fixed order {
+  /* section.ram.noinit_nocache */
+        section .ram_noinit_nocache},
+    /* Zeroed, non-cached ram */
+    block __ram_zero_nocache with end alignment = 32, fixed order {
+  /* section.ram.zero_nocache */
+         section .bss object * symbol *_fsp_nocache,
+        section .ram_nocache},
+    /* Non-initialized ram */
+    block __ram_noinit with fixed order {
+  /* section.ram.noinit */
+        block HEAP { section .bss object * symbol g_heap},
+         section .bss object * symbol g_main_stack,
+        section .ram_noinit,
+        section .noinit},
+    /* Zeroed ram */
+    block __ram_zero with fixed order {
+  /* section.ram.zero */
+        section .ram,
+        zi },
+    /* Thread Stacks */
+    block __ram_thread_stack with alignment = 8, fixed order {
+        section .stack?*},
+    block __ram_nsc with alignment = 1024, fixed order {
+      block __ddsc_RAM_NSC {section __ddsc_RAM_NSC},
+        section .ram_nsc},
+    block .ram.endof with alignment = 1024, fixed order {
+      block __ddsc_RAM_END {section __ddsc_RAM_END},},
+};
+
+place at start of RAM { block ram_BLOCK };
+/***** OPTION_SETTING_OFS0 memory section allocations ******/
+define section __ddsc_OPTION_SETTING_OFS0_START {public __ddsc_OPTION_SETTING_OFS0_START:};
+keep {section __ddsc_OPTION_SETTING_OFS0_START};
+define section __ddsc_OPTION_SETTING_OFS0_END {public __ddsc_OPTION_SETTING_OFS0_END:};
+keep {section __ddsc_OPTION_SETTING_OFS0_END};
+define block option_setting_ofs0_BLOCK with fixed order {
+    block .option_setting_ofs0.startof with fixed order {
+      block __ddsc_OPTION_SETTING_OFS0_START {section __ddsc_OPTION_SETTING_OFS0_START},},
+    /* Option Function Select Register 0 */
+    block __option_setting_ofs0_reg with fixed order {
+        section .option_setting_ofs0},
+    block .option_setting_ofs0.endof with fixed order {
+      block __ddsc_OPTION_SETTING_OFS0_END {section __ddsc_OPTION_SETTING_OFS0_END},},
+};
+
+place in OPTION_SETTING_OFS0 { block option_setting_ofs0_BLOCK };
+/***** OPTION_SETTING_DUALSEL memory section allocations ******/
+define section __ddsc_OPTION_SETTING_DUALSEL_START {public __ddsc_OPTION_SETTING_DUALSEL_START:};
+keep {section __ddsc_OPTION_SETTING_DUALSEL_START};
+define section __ddsc_OPTION_SETTING_DUALSEL_END {public __ddsc_OPTION_SETTING_DUALSEL_END:};
+keep {section __ddsc_OPTION_SETTING_DUALSEL_END};
+define block option_setting_dualsel_BLOCK with fixed order {
+    block .option_setting_dualsel.startof with fixed order {
+      block __ddsc_OPTION_SETTING_DUALSEL_START {section __ddsc_OPTION_SETTING_DUALSEL_START},},
+    /* Dual Mode Select Register */
+    block __option_setting_dualsel_reg with fixed order {
+        section .option_setting_dualsel},
+    block .option_setting_dualsel.endof with fixed order {
+      block __ddsc_OPTION_SETTING_DUALSEL_END {section __ddsc_OPTION_SETTING_DUALSEL_END},},
+};
+
+place in OPTION_SETTING_DUALSEL { block option_setting_dualsel_BLOCK };
+/***** OPTION_SETTING_OFS1 memory section allocations ******/
+define section __ddsc_OPTION_SETTING_OFS1_START {public __ddsc_OPTION_SETTING_OFS1_START:};
+keep {section __ddsc_OPTION_SETTING_OFS1_START};
+define section __ddsc_OPTION_SETTING_OFS1_END {public __ddsc_OPTION_SETTING_OFS1_END:};
+keep {section __ddsc_OPTION_SETTING_OFS1_END};
+define block option_setting_ofs1_BLOCK with fixed order {
+    block .option_setting_ofs1.startof with fixed order {
+      block __ddsc_OPTION_SETTING_OFS1_START {section __ddsc_OPTION_SETTING_OFS1_START},},
+    /* Option Function Select Register 1 */
+    block __option_setting_ofs1_reg with fixed order {
+        section .option_setting_ofs1},
+    block .option_setting_ofs1.endof with fixed order {
+      block __ddsc_OPTION_SETTING_OFS1_END {section __ddsc_OPTION_SETTING_OFS1_END},},
+};
+
+place in OPTION_SETTING_OFS1 { block option_setting_ofs1_BLOCK };
+/***** OPTION_SETTING_BANKSEL memory section allocations ******/
+define section __ddsc_OPTION_SETTING_BANKSEL_START {public __ddsc_OPTION_SETTING_BANKSEL_START:};
+keep {section __ddsc_OPTION_SETTING_BANKSEL_START};
+define section __ddsc_OPTION_SETTING_BANKSEL_END {public __ddsc_OPTION_SETTING_BANKSEL_END:};
+keep {section __ddsc_OPTION_SETTING_BANKSEL_END};
+define block option_setting_banksel_BLOCK with fixed order {
+    block .option_setting_banksel.startof with fixed order {
+      block __ddsc_OPTION_SETTING_BANKSEL_START {section __ddsc_OPTION_SETTING_BANKSEL_START},},
+    /* Bank Select Register */
+    block __option_setting_banksel_reg with fixed order {
+        section .option_setting_banksel},
+    block .option_setting_banksel.endof with fixed order {
+      block __ddsc_OPTION_SETTING_BANKSEL_END {section __ddsc_OPTION_SETTING_BANKSEL_END},},
+};
+
+place in OPTION_SETTING_BANKSEL { block option_setting_banksel_BLOCK };
+/***** OPTION_SETTING_BPS memory section allocations ******/
+define section __ddsc_OPTION_SETTING_BPS_START {public __ddsc_OPTION_SETTING_BPS_START:};
+keep {section __ddsc_OPTION_SETTING_BPS_START};
+define section __ddsc_OPTION_SETTING_BPS_END {public __ddsc_OPTION_SETTING_BPS_END:};
+keep {section __ddsc_OPTION_SETTING_BPS_END};
+define block option_setting_bps_BLOCK with fixed order {
+    block .option_setting_bps.startof with fixed order {
+      block __ddsc_OPTION_SETTING_BPS_START {section __ddsc_OPTION_SETTING_BPS_START},},
+    /* Block Protect Setting Register */
+    block __option_setting_bps_reg with fixed order {
+        section .option_setting_bps},
+    block .option_setting_bps.endof with fixed order {
+      block __ddsc_OPTION_SETTING_BPS_END {section __ddsc_OPTION_SETTING_BPS_END},},
+};
+
+place in OPTION_SETTING_BPS { block option_setting_bps_BLOCK };
+/***** OPTION_SETTING_PBPS memory section allocations ******/
+define section __ddsc_OPTION_SETTING_PBPS_START {public __ddsc_OPTION_SETTING_PBPS_START:};
+keep {section __ddsc_OPTION_SETTING_PBPS_START};
+define section __ddsc_OPTION_SETTING_PBPS_END {public __ddsc_OPTION_SETTING_PBPS_END:};
+keep {section __ddsc_OPTION_SETTING_PBPS_END};
+define block option_setting_pbps_BLOCK with fixed order {
+    block .option_setting_pbps.startof with fixed order {
+      block __ddsc_OPTION_SETTING_PBPS_START {section __ddsc_OPTION_SETTING_PBPS_START},},
+    /* Permanent Block Protect Setting Register */
+    block __option_setting_pbps_reg with fixed order {
+        section .option_setting_pbps},
+    block .option_setting_pbps.endof with fixed order {
+      block __ddsc_OPTION_SETTING_PBPS_END {section __ddsc_OPTION_SETTING_PBPS_END},},
+};
+
+place in OPTION_SETTING_PBPS { block option_setting_pbps_BLOCK };
+/***** OPTION_SETTING_OFS1_SEC memory section allocations ******/
+define section __ddsc_OPTION_SETTING_OFS1_SEC_START {public __ddsc_OPTION_SETTING_OFS1_SEC_START:};
+keep {section __ddsc_OPTION_SETTING_OFS1_SEC_START};
+define section __ddsc_OPTION_SETTING_OFS1_SEC_END {public __ddsc_OPTION_SETTING_OFS1_SEC_END:};
+keep {section __ddsc_OPTION_SETTING_OFS1_SEC_END};
+define block option_setting_ofs1_sec_BLOCK with fixed order {
+    block .option_setting_ofs1_sec.startof with fixed order {
+      block __ddsc_OPTION_SETTING_OFS1_SEC_START {section __ddsc_OPTION_SETTING_OFS1_SEC_START},},
+    /* Option Function Select Register 1 Secure */
+    block __option_setting_ofs1_sec_reg with fixed order {
+        section .option_setting_ofs1_sec},
+    block .option_setting_ofs1_sec.endof with fixed order {
+      block __ddsc_OPTION_SETTING_OFS1_SEC_END {section __ddsc_OPTION_SETTING_OFS1_SEC_END},},
+};
+
+place in OPTION_SETTING_OFS1_SEC { block option_setting_ofs1_sec_BLOCK };
+/***** OPTION_SETTING_BANKSEL_SEC memory section allocations ******/
+define section __ddsc_OPTION_SETTING_BANKSEL_SEC_START {public __ddsc_OPTION_SETTING_BANKSEL_SEC_START:};
+keep {section __ddsc_OPTION_SETTING_BANKSEL_SEC_START};
+define section __ddsc_OPTION_SETTING_BANKSEL_SEC_END {public __ddsc_OPTION_SETTING_BANKSEL_SEC_END:};
+keep {section __ddsc_OPTION_SETTING_BANKSEL_SEC_END};
+define block option_setting_banksel_sec_BLOCK with fixed order {
+    block .option_setting_banksel_sec.startof with fixed order {
+      block __ddsc_OPTION_SETTING_BANKSEL_SEC_START {section __ddsc_OPTION_SETTING_BANKSEL_SEC_START},},
+    /* Bank Select Register Secure */
+    block __option_setting_banksel_sec_reg with fixed order {
+        section .option_setting_banksel_sec},
+    block .option_setting_banksel_sec.endof with fixed order {
+      block __ddsc_OPTION_SETTING_BANKSEL_SEC_END {section __ddsc_OPTION_SETTING_BANKSEL_SEC_END},},
+};
+
+place in OPTION_SETTING_BANKSEL_SEC { block option_setting_banksel_sec_BLOCK };
+/***** OPTION_SETTING_BPS_SEC memory section allocations ******/
+define section __ddsc_OPTION_SETTING_BPS_SEC_START {public __ddsc_OPTION_SETTING_BPS_SEC_START:};
+keep {section __ddsc_OPTION_SETTING_BPS_SEC_START};
+define section __ddsc_OPTION_SETTING_BPS_SEC_END {public __ddsc_OPTION_SETTING_BPS_SEC_END:};
+keep {section __ddsc_OPTION_SETTING_BPS_SEC_END};
+define block option_setting_bps_sec_BLOCK with fixed order {
+    block .option_setting_bps_sec.startof with fixed order {
+      block __ddsc_OPTION_SETTING_BPS_SEC_START {section __ddsc_OPTION_SETTING_BPS_SEC_START},},
+    /* Block Protect Setting Register Secure */
+    block __option_setting_bps_sec_reg with fixed order {
+        section .option_setting_bps_sec},
+    block .option_setting_bps_sec.endof with fixed order {
+      block __ddsc_OPTION_SETTING_BPS_SEC_END {section __ddsc_OPTION_SETTING_BPS_SEC_END},},
+};
+
+place in OPTION_SETTING_BPS_SEC { block option_setting_bps_sec_BLOCK };
+/***** OPTION_SETTING_PBPS_SEC memory section allocations ******/
+define section __ddsc_OPTION_SETTING_PBPS_SEC_START {public __ddsc_OPTION_SETTING_PBPS_SEC_START:};
+keep {section __ddsc_OPTION_SETTING_PBPS_SEC_START};
+define section __ddsc_OPTION_SETTING_PBPS_SEC_END {public __ddsc_OPTION_SETTING_PBPS_SEC_END:};
+keep {section __ddsc_OPTION_SETTING_PBPS_SEC_END};
+define block option_setting_pbps_sec_BLOCK with fixed order {
+    block .option_setting_pbps_sec.startof with fixed order {
+      block __ddsc_OPTION_SETTING_PBPS_SEC_START {section __ddsc_OPTION_SETTING_PBPS_SEC_START},},
+    /* Permanent Block Protect Setting Register Secure */
+    block __option_setting_pbps_sec_reg with fixed order {
+        section .option_setting_pbps_sec},
+    block .option_setting_pbps_sec.endof with fixed order {
+      block __ddsc_OPTION_SETTING_PBPS_SEC_END {section __ddsc_OPTION_SETTING_PBPS_SEC_END},},
+};
+
+place in OPTION_SETTING_PBPS_SEC { block option_setting_pbps_sec_BLOCK };
+/***** OPTION_SETTING_OFS1_SEL memory section allocations ******/
+define section __ddsc_OPTION_SETTING_OFS1_SEL_START {public __ddsc_OPTION_SETTING_OFS1_SEL_START:};
+keep {section __ddsc_OPTION_SETTING_OFS1_SEL_START};
+define section __ddsc_OPTION_SETTING_OFS1_SEL_END {public __ddsc_OPTION_SETTING_OFS1_SEL_END:};
+keep {section __ddsc_OPTION_SETTING_OFS1_SEL_END};
+define block option_setting_ofs1_sel_BLOCK with fixed order {
+    block .option_setting_ofs1_sel.startof with fixed order {
+      block __ddsc_OPTION_SETTING_OFS1_SEL_START {section __ddsc_OPTION_SETTING_OFS1_SEL_START},},
+    /* OFS1 Security Attribution */
+    block __option_setting_ofs1_sel_reg with fixed order {
+        section .option_setting_ofs1_sel},
+    block .option_setting_ofs1_sel.endof with fixed order {
+      block __ddsc_OPTION_SETTING_OFS1_SEL_END {section __ddsc_OPTION_SETTING_OFS1_SEL_END},},
+};
+
+place in OPTION_SETTING_OFS1_SEL { block option_setting_ofs1_sel_BLOCK };
+/***** OPTION_SETTING_BANKSEL_SEL memory section allocations ******/
+define section __ddsc_OPTION_SETTING_BANKSEL_SEL_START {public __ddsc_OPTION_SETTING_BANKSEL_SEL_START:};
+keep {section __ddsc_OPTION_SETTING_BANKSEL_SEL_START};
+define section __ddsc_OPTION_SETTING_BANKSEL_SEL_END {public __ddsc_OPTION_SETTING_BANKSEL_SEL_END:};
+keep {section __ddsc_OPTION_SETTING_BANKSEL_SEL_END};
+define block option_setting_banksel_sel_BLOCK with fixed order {
+    block .option_setting_banksel_sel.startof with fixed order {
+      block __ddsc_OPTION_SETTING_BANKSEL_SEL_START {section __ddsc_OPTION_SETTING_BANKSEL_SEL_START},},
+    /* Banksel Security Attribution */
+    block __option_setting_banksel_sel_reg with fixed order {
+        section .option_setting_banksel_sel},
+    block .option_setting_banksel_sel.endof with fixed order {
+      block __ddsc_OPTION_SETTING_BANKSEL_SEL_END {section __ddsc_OPTION_SETTING_BANKSEL_SEL_END},},
+};
+
+place in OPTION_SETTING_BANKSEL_SEL { block option_setting_banksel_sel_BLOCK };
+/***** OPTION_SETTING_BPS_SEL memory section allocations ******/
+define section __ddsc_OPTION_SETTING_BPS_SEL_START {public __ddsc_OPTION_SETTING_BPS_SEL_START:};
+keep {section __ddsc_OPTION_SETTING_BPS_SEL_START};
+define section __ddsc_OPTION_SETTING_BPS_SEL_END {public __ddsc_OPTION_SETTING_BPS_SEL_END:};
+keep {section __ddsc_OPTION_SETTING_BPS_SEL_END};
+define block option_setting_bps_sel_BLOCK with fixed order {
+    block .option_setting_bps_sel.startof with fixed order {
+      block __ddsc_OPTION_SETTING_BPS_SEL_START {section __ddsc_OPTION_SETTING_BPS_SEL_START},},
+    /* BPS Security Attribution */
+    block __option_setting_bps_sel_reg with fixed order {
+        section .option_setting_bps_sel},
+    block .option_setting_bps_sel.endof with fixed order {
+      block __ddsc_OPTION_SETTING_BPS_SEL_END {section __ddsc_OPTION_SETTING_BPS_SEL_END},},
+};
+
+place in OPTION_SETTING_BPS_SEL { block option_setting_bps_sel_BLOCK };
+
+
+/***** Selectors that must be kept ******/
+keep{
+  section .fixed_vectors,
+  section .application_vectors,
+  section .mcuboot_sce9_key,
+  section .version,
+  section .stack?*,
+  section .option_setting_ofs0,
+  section .option_setting_dualsel,
+  section .option_setting_ofs1,
+  section .option_setting_banksel,
+  section .option_setting_bps,
+  section .option_setting_pbps,
+  section .option_setting_ofs1_sec,
+  section .option_setting_banksel_sec,
+  section .option_setting_bps_sec,
+  section .option_setting_pbps_sec,
+  section .option_setting_ofs1_sel,
+  section .option_setting_banksel_sel,
+  section .option_setting_bps_sel};
+
+/***** FSP handles all initialization ******/
+initialize manually with alignment preservation{
+  /* section.ospi0_cs0.from_qspi_flash */
+  section .ospi0_cs0_from_qspi_flash,
+  /* section.ospi0_cs0.code_from_qspi_flash */
+  section .ospi0_cs0_code_from_qspi_flash,
+  /* section.ospi0_cs0.from_ospi0_cs1 */
+  section .ospi0_cs0_from_ospi0_cs1,
+  /* section.ospi0_cs0.code_from_ospi0_cs1 */
+  section .ospi0_cs0_code_from_ospi0_cs1,
+  /* section.ospi0_cs0.from_data_flash */
+  section .ospi0_cs0_from_data_flash,
+  /* section.ospi0_cs0.code_from_data_flash */
+  section .ospi0_cs0_code_from_data_flash,
+  /* section.ospi0_cs0.from_flash */
+  section .ospi0_cs0_from_flash,
+  /* section.ospi0_cs0.code_from_flash */
+  section .ospi0_cs0_code_from_flash,
+  /* section.ram.from_qspi_flash */
+  section .ram_from_qspi_flash,
+  /* section.ram.code_from_qspi_flash */
+  section .ram_code_from_qspi_flash,
+  /* section.ram.from_ospi0_cs1 */
+  section .ram_from_ospi0_cs1,
+  /* section.ram.code_from_ospi0_cs1 */
+  section .ram_code_from_ospi0_cs1,
+  /* section.ram.from_data_flash */
+  section .ram_from_data_flash,
+  /* section.ram.code_from_data_flash */
+  section .ram_code_from_data_flash,
+  /* section.ram.from_flash */
+  section .ram_from_flash,
+  /* section.ram.code_from_flash */
+  section .ram_code_from_flash,
+  section .data*,
+  section vtable};
+do not initialize{zi};
+initialize manually with alignment preservation{rw};
+

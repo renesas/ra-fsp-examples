@@ -2,11 +2,11 @@
  * File Name    : s_cache.c
  * Description  : Contains data structures and functions used in s_cache.c
  **********************************************************************************************************************/
-/***********************************************************************************************************************
-* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
+/*
+* Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
+*/
 
 #include "s_cache.h"
 #include "common_utils.h"
@@ -23,7 +23,7 @@ void enable_s_cache(void)
 {
     /* Flush S cache */
     R_CACHE->SCAFCT = 1;
-   /*Enable  S cache */
+    /*Enable S cache */
     R_CACHE->SCACTL = 1;
 }
 
@@ -36,7 +36,7 @@ void disable_s_cache(void)
 {
     /* Flush S cache */
     R_CACHE->SCAFCT = 1;
-    /*Disable  S cache */
+    /*Disable S cache */
     R_CACHE->SCACTL &= 0x00;
 }
 
@@ -58,11 +58,11 @@ void flush_s_cache(void)
 ***********************************************************************************************************************/
 void select_s_cache_line_size(bool line_size_32)
 {
-    /* update the s cache line control register */
-     if(true == line_size_32)
+    /* Update the S cache line control register */
+    if (true == line_size_32)
         R_CACHE->SCALCF = 0x01;
     else
         R_CACHE->SCALCF = 0x02;
- }
+}
 
 

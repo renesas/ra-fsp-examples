@@ -2,11 +2,12 @@
  * File Name    : menu_callbacks.c
  * Description  : Contains user command processing
  ***********************************************************************************************************************/
-/***********************************************************************************************************************
-* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
+/*
+* Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
+*/
+
 #include "stdio.h"
 #include "menu_callbacks.h"
 #include "secure_flash_functions.h"
@@ -16,7 +17,6 @@
 #include "common_utils.h"
 #include "DAR_utilities.h"
 
-
 /******************************************************************************
  global definitions
  ******************************************************************************/
@@ -25,7 +25,7 @@
  local definitions
  ******************************************************************************/
 
-static uint8_t writeBuffer[FLASH_WRITE_LENGTH];    /* buffer for flash writing */
+static uint8_t writeBuffer[FLASH_WRITE_LENGTH];    /* Buffer for flash writing */
 static void provision_test_variables(void);
 static volatile bool success = false;
 
@@ -48,13 +48,12 @@ static void provision_test_variables()
  *
  * return: void
  **********************************************************************************************************************/
-
 static void setup_the_writeBuffer()
 {
-    volatile int i=0;
+    volatile int i = 0;
 
-    for (i=0; i<FLASH_WRITE_LENGTH; i++)
-            writeBuffer[i]=FLASH_WRITE_TEST_DATA;
+    for (i = 0; i < FLASH_WRITE_LENGTH; i++)
+            writeBuffer[i] = FLASH_WRITE_TEST_DATA;
 }
 
 /*******************************************************************************************************************//**
@@ -69,11 +68,9 @@ static void setup_the_writeBuffer()
  *
  * return: void
  **********************************************************************************************************************/
-
 void read_secure_settings(void)
 {
-
-    uint16_t secMpuAc = 0;  /* variable to hold the Security MPU access register setting */
+    uint16_t secMpuAc = 0;  /* Variable to hold the Security MPU access register setting */
     uint32_t start = 0;
     uint32_t end = 0;
     uint32_t fawe = 0;
@@ -97,7 +94,7 @@ void read_secure_settings(void)
     /* PC region 1 */
     if (secMpuAc & (1<<9u))
     {
-    	APP_PRINT("PC Region 1:\t\tdisabled\n\r");
+        APP_PRINT("PC Region 1:\t\tdisabled\n\r");
     }
     else
     {
@@ -109,7 +106,7 @@ void read_secure_settings(void)
     /* Region 0 */
     if (secMpuAc & (1<<0u))
     {
-    	APP_PRINT("Secure Region 0:\tdisabled\n\r");
+        APP_PRINT("Secure Region 0:\tdisabled\n\r");
     }
     else
     {
@@ -118,10 +115,10 @@ void read_secure_settings(void)
         APP_PRINT("Secure Region 0:\tenabled\t[0x%8X | 0x%8X]\n\r", (unsigned int)start, (unsigned int)end);
     }
 
-    /* region 1 */
+    /* Region 1 */
     if (secMpuAc & (1<<1u))
     {
-    	APP_PRINT("Secure Region 1:\tdisabled\n\r");
+        APP_PRINT("Secure Region 1:\tdisabled\n\r");
     }
     else
     {
@@ -130,10 +127,10 @@ void read_secure_settings(void)
         APP_PRINT("Secure Region 1:\tenabled\t[0x%8X | 0x%8X]\n\r", (unsigned int)start, (unsigned int)end);
     }
 
-    /* region 2 */
+    /* Region 2 */
     if (secMpuAc & (1<<2u))
     {
-    	APP_PRINT("Secure Region 2:\tdisabled\n\r");
+        APP_PRINT("Secure Region 2:\tdisabled\n\r");
     }
     else
     {
@@ -142,10 +139,10 @@ void read_secure_settings(void)
         APP_PRINT("Secure Region 2:\tenabled\t[0x%8X | 0x%8X]\n\r", (unsigned int)start, (unsigned int)end);
     }
 
-    /* region 3 */
+    /* Region 3 */
     if (secMpuAc & (1<<3u))
     {
-    	APP_PRINT("Secure Region 3:\tdisabled\n\r");
+        APP_PRINT("Secure Region 3:\tdisabled\n\r");
     }
     else
     {
@@ -154,19 +151,18 @@ void read_secure_settings(void)
         APP_PRINT("Secure Region 3:\tenabled\t[0x%8X | 0x%8X]\n\r", (unsigned int)start, (unsigned int)end);
     }
 
-    /* flash access window */
+    /* Flash access window */
     s_read_faw_settings(&faws, &fawe);
 
     if (faws == fawe)
     {
-    	APP_PRINT("\nAccess Window:\t\tdisabled\n\r");
+        APP_PRINT("\nAccess Window:\t\tdisabled\n\r");
     }
     else
     {
-    	APP_PRINT("\nAccess Window:\t\tenabled\t[0x%8X | 0x%8X]\n\r", (unsigned int)faws, (unsigned int)fawe);
+        APP_PRINT("\nAccess Window:\t\tenabled\t[0x%8X | 0x%8X]\n\r", (unsigned int)faws, (unsigned int)fawe);
     }
 }
-
 
 /*******************************************************************************************************************//**
  * @brief secure_code_read function
@@ -178,7 +174,6 @@ void read_secure_settings(void)
  *
  * return: void
  **********************************************************************************************************************/
-
 void secure_code_read(void)
 {
 	APP_PRINT("**************************\n\r");
@@ -188,51 +183,51 @@ void secure_code_read(void)
     provision_test_variables();
     success = s_readSecureFlash_usingSecureFlashCode();
 
-    if(success)
+    if (success)
     {
-    	APP_PRINT("\nPASS! secure flash program can read secure flash\n\r");
+        APP_PRINT("\nPASS! secure flash program can read secure flash\n\r");
     }
     else
     {
-    	APP_PRINT("\n\n!FAIL! secure flash program cannot read secure flash\n\r");
+        APP_PRINT("\n\n!FAIL! secure flash program cannot read secure flash\n\r");
     }
 
-    /* reset variable to enable valid test */
+    /* Reset variable to enable valid test */
     provision_test_variables();
     success = s_readSecureRam_usingSecureFlashCode();
 
-    if(success)
+    if (success)
     {
-    	APP_PRINT("\nPASS! secure flash program can read secure ram\n\r");
+        APP_PRINT("\nPASS! secure flash program can read secure ram\n\r");
     }
     else
     {
-    	APP_PRINT("\n!FAIL! secure flash program cannot read secure ram\n\r");
+        APP_PRINT("\n!FAIL! secure flash program cannot read secure ram\n\r");
     }
-    /* reset variable to enable valid test */
+    /* Reset variable to enable valid test */
     provision_test_variables();
     success = s_read_non_secureFlash_usingSecureFlashCode();
 
-    if(success)
+    if (success)
     {
-    	APP_PRINT("\nPASS! secure flash program can read non-secure flash\n\r");
-   }
+        APP_PRINT("\nPASS! secure flash program can read non-secure flash\n\r");
+    }
     else
     {
-    	APP_PRINT("\n!FAIL! secure flash program cannot read non-secure flash\n\r");
+        APP_PRINT("\n!FAIL! secure flash program cannot read non-secure flash\n\r");
     }
 
-    /* reset variable to enable valid test */
+    /* Reset variable to enable valid test */
     provision_test_variables();
     success = s_read_non_secureRam_usingSecureFlashCode();
 
-    if(success)
+    if (success)
     {
-    	APP_PRINT("\nPASS! secure flash program can read non-secure ram\n\r");
+        APP_PRINT("\nPASS! secure flash program can read non-secure ram\n\r");
     }
     else
     {
-    	APP_PRINT("\n!FAIL! secure flash program cannot read non-secure ram\n\r");
+        APP_PRINT("\n!FAIL! secure flash program cannot read non-secure ram\n\r");
     }
 }
 
@@ -246,7 +241,6 @@ void secure_code_read(void)
  *
  * return: void
  **********************************************************************************************************************/
-
 void secure_sram_code_read(void)
 {
 	APP_PRINT("\n**************************\n\r");
@@ -256,53 +250,52 @@ void secure_sram_code_read(void)
     provision_test_variables();
     success = s_readSecureFlash_usingSecureRamCode();
 
-    if(success)
+    if (success)
     {
-    	APP_PRINT("\nPASS! secure sram program can read secure flash\n\r");
+        APP_PRINT("\nPASS! secure sram program can read secure flash\n\r");
     }
     else
     {
-    	APP_PRINT("\n!FAIL! secure sram program cannot read secure flash\n\r");
+        APP_PRINT("\n!FAIL! secure sram program cannot read secure flash\n\r");
     }
-    /* reset variable to enable valid test */
+    /* Reset variable to enable valid test */
     provision_test_variables();
     success = s_readSecureRam_usingSecureRamCode();
 
-    if(success)
+    if (success)
     {
-    	APP_PRINT("\nPASS! secure sram program can read secure ram\n\r");
+        APP_PRINT("\nPASS! secure sram program can read secure ram\n\r");
     }
     else
     {
-    	APP_PRINT("\n!FAIL! secure sram program cannot read secure ram\n\r");
+        APP_PRINT("\n!FAIL! secure sram program cannot read secure ram\n\r");
     }
 
-    /* reset variable to enable valid test */
+    /* Reset variable to enable valid test */
     provision_test_variables();
     success = s_read_non_secureFlash_usingSecureRamCode();
 
-    if(success)
+    if (success)
     {
-    	APP_PRINT("\nPASS! secure sram program can read non-secure flash\n\r");
+        APP_PRINT("\nPASS! secure sram program can read non-secure flash\n\r");
     }
     else
     {
-    	APP_PRINT("\n!FAIL! secure sram program cannot read non-secure flash\n\r");
+        APP_PRINT("\n!FAIL! secure sram program cannot read non-secure flash\n\r");
     }
 
-    /* reset variable to enable valid test */
+    /* Reset variable to enable valid test */
     provision_test_variables();
     success = s_read_non_secureRam_usingSecureRamCode();
 
-    if(success)
+    if (success)
     {
-    	APP_PRINT("\nPASS! secure sram program can read non-secure ram\n\r");
+        APP_PRINT("\nPASS! secure sram program can read non-secure ram\n\r");
     }
     else
     {
-    	APP_PRINT("\n!FAIL! secure sram program cannot read non-secure ram\n\r");
+        APP_PRINT("\n!FAIL! secure sram program cannot read non-secure ram\n\r");
     }
-
 }
 
 /*******************************************************************************************************************//**
@@ -315,67 +308,67 @@ void secure_sram_code_read(void)
  *
  * return: void
  **********************************************************************************************************************/
-
 void non_secure_code_read(void)
 {
 	APP_PRINT("**************************\n\r");
 	APP_PRINT("\nnon-secure code reads...running from non-secure flash\n\r");
 
-    /* reset variable to enable valid test */
+    /* Reset variable to enable valid test */
     provision_test_variables();
     success = readSecureFlash_using_non_secureFlashCode();
 
-    if(success)
+    if (success)
     {
-    	APP_PRINT("\n!FAIL! non-secure program can read secure flash (not good)\n\r");
+        APP_PRINT("\n!FAIL! non-secure program can read secure flash (not good)\n\r");
     }
     else
     {
-    	APP_PRINT("\nPASS! non-secure program cannot read secure flash\n\r");
+        APP_PRINT("\nPASS! non-secure program cannot read secure flash\n\r");
     }
 
-    /* reset variable to enable valid test */
+    /* Reset variable to enable valid test */
     provision_test_variables();
     success = readSecureRam_using_non_secureFlashCode();
 
-    if(success)
+    if (success)
     {
-    	APP_PRINT("\nPASS! non-secure program cannot read secure sram \n\r");
+        APP_PRINT("\nPASS! non-secure program cannot read secure sram \n\r");
     }
     else
     {
-    	APP_PRINT("\nFAIL! non-secure program can read secure ram data \n\r");
+        APP_PRINT("\nFAIL! non-secure program can read secure ram data \n\r");
     }
 
-    /* reset variable to enable valid test */
+    /* Reset variable to enable valid test */
     provision_test_variables();
     success = read_non_secureFlash_using_non_secureFlashCode();
 
-    if(success)
+    if (success)
     {
-    	APP_PRINT("\nPASS! non-secure program can read non-secure flash\n\r");
+        APP_PRINT("\nPASS! non-secure program can read non-secure flash\n\r");
     }
     else
     {
-    	APP_PRINT("\n!FAIL! non-secure program cannot read non-secure flash\n\r");
+        APP_PRINT("\n!FAIL! non-secure program cannot read non-secure flash\n\r");
     }
 
-    /* reset variable to enable valid test */
+    /* Reset variable to enable valid test */
     provision_test_variables();
     success = read_non_secureRam_using_non_secureFlashCode();
 
-    if(success)
+    if (success)
     {
-    	APP_PRINT("\nPASS! non-secure program can read non-secure sram\n\r");
+        APP_PRINT("\nPASS! non-secure program can read non-secure sram\n\r");
     }
     else
     {
-    	APP_PRINT("\n!FAIL! non-secure program cannot read non-secure sram\n\r");
-   }
+        APP_PRINT("\n!FAIL! non-secure program cannot read non-secure sram\n\r");
+    }
 
-    /* reset variable to enable valid test */
+    /* Reset variable to enable valid test */
     provision_test_variables();
 }
+
 /*******************************************************************************************************************//**
  * @brief secure_code_write function
  * This function exercise data writing using secure flash code:
@@ -384,39 +377,37 @@ void non_secure_code_read(void)
  *
  * return: void
  **********************************************************************************************************************/
-
 void secure_code_write(void)
 {
 	APP_PRINT("**************************\n\r");
 	APP_PRINT("\nSecure code writes...running from secure flash\n\r");
 
-    /* reset variable to enable valid test */
+    /* Reset variable to enable valid test */
     setTestDatavalueData(DUMMY_VALUE);
     success = s_writeSecureRam_usingSecureFlashCode();
 
-    if(success)
+    if (success)
     {
-    	APP_PRINT("\nPASS! secure flash program can write secure sram data\n\r");
+        APP_PRINT("\nPASS! secure flash program can write secure sram data\n\r");
     }
     else
     {
-    	APP_PRINT("\n!FAIL! secure flash program cannot write secure sram data\n\r");
+        APP_PRINT("\n!FAIL! secure flash program cannot write secure sram data\n\r");
     }
 
-    /* reset variable to enable valid test */
+    /* Reset variable to enable valid test */
     setTestDatavalueData(DUMMY_VALUE);
     success = s_write_non_secureRam_usingSecureFlashCode();
 
-    if(success)
+    if (success)
     {
-    	APP_PRINT("\nPASS! secure flash program  can write non-secure sram data\n\r");
-   }
+        APP_PRINT("\nPASS! secure flash program  can write non-secure sram data\n\r");
+    }
     else
     {
-    	APP_PRINT("\n!FAIL! secure flash program cannot write non-secure sram data\n\r");
-   }
-
-  }
+        APP_PRINT("\n!FAIL! secure flash program cannot write non-secure sram data\n\r");
+    }
+}
 
 /*******************************************************************************************************************//**
  * @brief secure_sram_code_write
@@ -428,7 +419,6 @@ void secure_code_write(void)
  *
  * return: void
  **********************************************************************************************************************/
-
 void secure_sram_code_write(void)
 {
     uint32_t fawe = 0;
@@ -437,118 +427,113 @@ void secure_sram_code_write(void)
     APP_PRINT("**************************\n\r");
     APP_PRINT("\nSecure sram code writes...running from secure sram\n\r");
 
-    /*setup FAW from FAW_START to FAW_END to protect the secure flash data region and portions of the non-secure flash region
+    /* Setup FAW from FAW_START to FAW_END to protect the secure flash data region and portions of the non-secure flash region
     * then write to the secure flash block located at FLASH_WRITE_TEST_BLOCK1 to show
-    * so secure sram code cannot write to the secure data region (0x400 to 0xDFFFF)*/
+    * so secure sram code cannot write to the secure data region (0x400 to 0xDFFFF) */
 
     success = s_setup_faw();
-    /* confirm flash access window */
+    /* Confirm flash access window */
     s_read_faw_settings(&faws, &fawe);
     if (faws == fawe)
     {
-    	APP_PRINT("\nAccess Window:\t\tsetup failed\n\r");
+        APP_PRINT("\nAccess Window:\t\tsetup failed\n\r");
         APP_ERR_TRAP(1);
     }
     else
     {
-    	APP_PRINT("\nAccess Window:\t\tenabled\t[0x%8X | 0x%8X]\n\r", (unsigned int)faws, (unsigned int)fawe );
+        APP_PRINT("\nAccess Window:\t\tenabled\t[0x%8X | 0x%8X]\n\r", (unsigned int)faws, (unsigned int)fawe );
     }
 
-    /* reset variable to enable valid test */
+    /* Reset variable to enable valid test */
     setTestDatavalueData(DUMMY_VALUE);
     success = s_writeSecureRam_usingSecureRamCode();
 
-    if(success)
+    if (success)
     {
-    	APP_PRINT("\nPASS! secure sram program can write secure sram data\n\r");
+        APP_PRINT("\nPASS! secure sram program can write secure sram data\n\r");
     }
     else
     {
-    	APP_PRINT("\n!FAIL! secure sram program cannot write secure sram data\n\r");
+        APP_PRINT("\n!FAIL! secure sram program cannot write secure sram data\n\r");
     }
 
-    /* reset variable to enable valid test */
+    /* Reset variable to enable valid test */
     setTestDatavalueData(DUMMY_VALUE);
     success = s_write_non_secureRam_usingSecureRamCode();
 
-    if(success)
+    if (success)
     {
-    	APP_PRINT("\nPASS! secure sram program can write non-secure sram data\n\r");
+        APP_PRINT("\nPASS! secure sram program can write non-secure sram data\n\r");
     }
     else
     {
-    	APP_PRINT("\n!FAIL! secure sram program cannot write non-secure sram data\n\r");
+        APP_PRINT("\n!FAIL! secure sram program cannot write non-secure sram data\n\r");
     }
 
-    /* prepare flash write */
+    /* Prepare flash write */
     ns_setup_the_writeBuffer();
     success = s_writeSecureFlash_usingSecureRamCode();
-    if(success)
+    if (success)
     {
-        /* if FAW window setting includes FLASH_WRITE_TEST_BLOCK1, then this is successful */
+        /* If FAW window setting includes FLASH_WRITE_TEST_BLOCK1, then this is successful */
         if (FLASH_WRITE_TEST_BLOCK1 > faws)
         {
-            /* if FAW window includes FLASH_WRITE_TEST_BLOCK1, then this is success */
+            /* If FAW window includes FLASH_WRITE_TEST_BLOCK1, then this is success */
             APP_PRINT("\nPASS! secure sram program can write to secure flash FLASH_WRITE_TEST_BLOCK1\n\r      which is modifiable based on FAW setting.\n\r");
-
         }
         else
         {
-            /* if FAW window does not includes FLASH_WRITE_TEST_BLOCK2, then this is failing */
+            /* If FAW window does not includes FLASH_WRITE_TEST_BLOCK2, then this is failing */
             APP_PRINT("\n!FAIL! secure sram program cannot write to secure flash FLASH_WRITE_TEST_BLOCK1\n\r       which is modifiable based on FAW setting\n\r");
         }
     }
     else
     {
-        /* if FAW window includes FLASH_WRITE_TEST_BLOCK1, then this is failing */
+        /* If FAW window includes FLASH_WRITE_TEST_BLOCK1, then this is failing */
         if (FLASH_WRITE_TEST_BLOCK1 > faws)
         {
             APP_PRINT("\n!FAIL! secure sram program cannot program secure flash FLASH_WRITE_TEST_BLOCK1 \n\r      which is modifiable based on FAW setting.\n\r");
         }
         else
         {
-            /* if FAW window does not include BLOCK2, then this is failing */
+            /* If FAW window does not include BLOCK2, then this is failing */
             APP_PRINT("\nPASS! secure sram program cannot write to secure flash region FLASH_WRITE_TEST_BLOCK1\n\r       which is unmodifiable based on FAW setting\n\r");
-
         }
     }
 
-    /*write to the non-secure flash block located at FLASH_WRITE_TEST_BLOCK2 to show
+    /* Write to the non-secure flash block located at FLASH_WRITE_TEST_BLOCK2 to show
     * secure SRAM code can write to the non-secure flash region if
-    * this non-secure flash region is modifiable by FAW (within FAW region from FAW_START to FAW_END)*/
+    * this non-secure flash region is modifiable by FAW (within FAW region from FAW_START to FAW_END) */
     ns_setup_the_writeBuffer();
     success = s_write_non_secureFlash_usingSecureRamCode();
 
-    /* if flash access is successful */
-    if(success)
+    /* If flash access is successful */
+    if (success)
     {
-        /* if FAW window setting includes FLASH_WRITE_TEST_BLOCK2, then this is successful */
+        /* If FAW window setting includes FLASH_WRITE_TEST_BLOCK2, then this is successful */
         if (FLASH_WRITE_TEST_BLOCK2 > faws)
         {
             APP_PRINT("\nPASS! secure sram program can write to non-secure flash FLASH_WRITE_TEST_BLOCK2\n\r      which is modifiable based on FAW setting.\n\r");
         }
         else
         {
-            /* if FAW window does not includes FLASH_WRITE_TEST_BLOCK2, then this is failing */
+            /* If FAW window does not includes FLASH_WRITE_TEST_BLOCK2, then this is failing */
             APP_PRINT("\n!FAIL! secure sram program can program non-secure flash FLASH_WRITE_TEST_BLOCK2\n\r      which is not modifiable based on FAW setting.\n\r");
-
         }
     }
     else
     {
-        /* if FAW window includes FLASH_WRITE_TEST_BLOCK2, then this is failing */
+        /* If FAW window includes FLASH_WRITE_TEST_BLOCK2, then this is failing */
         if (FLASH_WRITE_TEST_BLOCK2 > faws)
         {
             APP_PRINT("\n!FAIL! secure sram program cannot write to non-secure flash FLASH_WRITE_TEST_BLOCK2 \n\r      which is modifiable based on FAW setting.\n\r");
         }
         else
         {
-            /* if FAW window does not include BLOCK2, then this is failing */
+            /* If FAW window does not include BLOCK2, then this is failing */
             APP_PRINT("\nPASS! secure sram program cannot write to non-secure flash FLASH_WRITE_TEST_BLOCK2\n\r       which is unmodifiable by FAW\n\r");
         }
-
     }
-
 }
 
 /*******************************************************************************************************************//**
@@ -565,7 +550,6 @@ void secure_sram_code_write(void)
  *
  * return: void
  **********************************************************************************************************************/
-
 void non_secure_code_write(void)
 {
     uint32_t fawe = 0;
@@ -574,81 +558,80 @@ void non_secure_code_write(void)
     APP_PRINT("**************************\n\r");
     APP_PRINT("\nnon-secure flash code tests...running from non-secure flash\n\r");
 
-    /*setup FAW from FAW_START to FAW_END to protect the secure flash data region and portions of the non-secure flash region
-       then write to the secure flash block located at FLASH_WRITE_TEST_BLOCK1 to show
-       so non-secure code cannot write to the secure data region (0x400 to 0xDFFFF) */
+    /* Setup FAW from FAW_START to FAW_END to protect the secure flash data region and portions of the non-secure flash region
+    * then write to the secure flash block located at FLASH_WRITE_TEST_BLOCK1 to show
+    * so non-secure code cannot write to the secure data region (0x400 to 0xDFFFF) */
     success = s_setup_faw();
-    /* confirm flash access window */
+    /* Confirm flash access window */
     s_read_faw_settings(&faws, &fawe);
     if (faws == fawe)
     {
-    	APP_PRINT("\nAccess Window:\t\tsetup failed\n\r");
+        APP_PRINT("\nAccess Window:\t\tsetup failed\n\r");
         APP_ERR_TRAP(1);
     }
     else
     {
-    	APP_PRINT("\nAccess Window:\t\tenabled\t[0x%8X | 0x%8X]\n\r", (unsigned int)faws, (unsigned int)fawe);
+        APP_PRINT("\nAccess Window:\t\tenabled\t[0x%8X | 0x%8X]\n\r", (unsigned int)faws, (unsigned int)fawe);
     }
     setTestDatavalueData(DUMMY_VALUE);
     success = writeSecureRam_using_non_secureFlashCode();
 
-    if(success)
+    if (success)
     {
-    	APP_PRINT("\n!FAIL! non-secure flash program can write secure sram data(not good)\n\r");
+        APP_PRINT("\n!FAIL! non-secure flash program can write secure sram data(not good)\n\r");
     }
     else
     {
-    	APP_PRINT("\nPASS! non-secure flash program cannot write secure sram data\n\r");
+        APP_PRINT("\nPASS! non-secure flash program cannot write secure sram data\n\r");
     }
     setTestDatavalueData(DUMMY_VALUE);
     success = write_non_secureRam_using_non_secureFlashCode();
 
-    if(success)
+    if (success)
     {
-    	APP_PRINT("\nPASS! non-secure flash program can write to non-secure sram data\n\r");
+        APP_PRINT("\nPASS! non-secure flash program can write to non-secure sram data\n\r");
     }
     else
     {
-    	APP_PRINT("\n!FAIL! non-secure flash program cannot write non-secure sram data\n\r");
+        APP_PRINT("\n!FAIL! non-secure flash program cannot write non-secure sram data\n\r");
     }
     setup_the_writeBuffer();
 
     success = writeSecureFlash_using_non_secureFlashCode(writeBuffer);
 
-
-    if(success)
+    if (success)
     {
-        /* if FAW window setting includes FLASH_WRITE_TEST_BLOCK1, then this is failing */
-       if (FLASH_WRITE_TEST_BLOCK1 > faws)
-       {
-           APP_PRINT("\nPASS! non-secure flash program can write to secure flash region FLASH_WRITE_TEST_BLOCK1\n\r       which is modifiable by FAW\n\r");
-       }
-       else
-       {
-           APP_PRINT("\n!FAIL! Non-secure flash program cannot write to secure flash region FLASH_WRITE_TEST_BLOCK1\n\r      which is modifiable by FAW. \n\r");
-       }
+        /* If FAW window setting includes FLASH_WRITE_TEST_BLOCK1, then this is failing */
+        if (FLASH_WRITE_TEST_BLOCK1 > faws)
+        {
+            APP_PRINT("\nPASS! non-secure flash program can write to secure flash region FLASH_WRITE_TEST_BLOCK1\n\r       which is modifiable by FAW\n\r");
+        }
+        else
+        {
+            APP_PRINT("\n!FAIL! Non-secure flash program cannot write to secure flash region FLASH_WRITE_TEST_BLOCK1\n\r      which is modifiable by FAW. \n\r");
+        }
     }
     else
     {
-        /* if FAW window includes FLASH_WRITE_TEST_BLOCK1, then this is failing */
-       if (FLASH_WRITE_TEST_BLOCK1 > faws)
-       {
-           APP_PRINT("\n!FAIL! Non-secure flash program can write secure flash region FLASH_WRITE_TEST_BLOCK1\n\r      which is unmodifiable based on FAW setting.\n\r");
-       }
-       else
-       {
-           APP_PRINT("\nPASS! non-secure flash program cannot write to secure flash region FLASH_WRITE_TEST_BLOCK1\n\r       which is unmodifiable based on FAW setting.\n\r");
-       }
+        /* If FAW window includes FLASH_WRITE_TEST_BLOCK1, then this is failing */
+        if (FLASH_WRITE_TEST_BLOCK1 > faws)
+        {
+            APP_PRINT("\n!FAIL! Non-secure flash program can write secure flash region FLASH_WRITE_TEST_BLOCK1\n\r      which is unmodifiable based on FAW setting.\n\r");
+        }
+        else
+        {
+            APP_PRINT("\nPASS! non-secure flash program cannot write to secure flash region FLASH_WRITE_TEST_BLOCK1\n\r       which is unmodifiable based on FAW setting.\n\r");
+        }
     }
 
-    /*write to the non-secure flash block located at FLASH_WRITE_TEST_BLOCK2 to show
-      non-secure code can write to the non-secure flash region if
-      this non-secure flash region is modifiable by FAW (within FAW region from FAW_START to FAW_END) */
+    /* Write to the non-secure flash block located at FLASH_WRITE_TEST_BLOCK2 to show
+    * non-secure code can write to the non-secure flash region if
+    * this non-secure flash region is modifiable by FAW (within FAW region from FAW_START to FAW_END) */
 
     success = write_non_secureFlash_using_non_secureFlashCode(writeBuffer);
-    if(success)
+    if (success)
     {
-        /* if FAW window setting includes FLASH_WRITE_TEST_BLOCK2, then this is successful */
+        /* If FAW window setting includes FLASH_WRITE_TEST_BLOCK2, then this is successful */
         if (FLASH_WRITE_TEST_BLOCK2 > faws)
         {
             APP_PRINT("\nPASS! non-secure flash program can write to non-secure flash region FLASH_WRITE_TEST_BLOCK2\n\r       which is modifiable based on FAW setting\n\r");
@@ -660,7 +643,7 @@ void non_secure_code_write(void)
     }
     else
     {
-        /* if FAW window includes FLASH_WRITE_TEST_BLOCK2, then this is failing */
+        /* If FAW window includes FLASH_WRITE_TEST_BLOCK2, then this is failing */
         if (FLASH_WRITE_TEST_BLOCK2 > faws)
         {
             APP_PRINT("\n!FAIL! Non-secure program cannot write to non-secure flash region FLASH_WRITE_TEST_BLOCK2 \n\r      which is modifiable based on FAW setting\n\r");
@@ -668,10 +651,8 @@ void non_secure_code_write(void)
         else
         {
             APP_PRINT("\nPASS! non-secure flash program cannot write to non-secure flash region FLASH_WRITE_TEST_BLOCK2\n\r       which is unmodifiable based on FAW setting\n\r");
-
         }
     }
-
 }
 
 /*******************************************************************************************************************//**
@@ -680,20 +661,19 @@ void non_secure_code_write(void)
  *
  * return: void
  **********************************************************************************************************************/
-
 void setup_faw(void)
 {
 	APP_PRINT("**************************\n\r");
 	APP_PRINT("\nSetup Flash Access Window...running from flash\n\r");
 
     success = s_setup_faw();
-    if(success)
+    if (success)
     {
-    	APP_PRINT("\nPASS secure program => faw is setup from FAW_START to FAW_END\n\r");
+        APP_PRINT("\nPASS secure program => faw is setup from FAW_START to FAW_END\n\r");
     }
     else
     {
-    	APP_PRINT("\n!FAIL! secure program => faw setup failed\n\r");
+        APP_PRINT("\n!FAIL! secure program => faw setup failed\n\r");
     }
     APP_PRINT("**************************\n\r");
 }
@@ -711,14 +691,13 @@ void reset_faw(void)
 
     success = s_reset_faw();
 
-    if(success)
+    if (success)
     {
-    	APP_PRINT("PASS secure program => faw is reset\n\r");
+        APP_PRINT("PASS secure program => faw is reset\n\r");
     }
     else
     {
-    	APP_PRINT("FAIL! secure program => faw reset failed\n\r");
+        APP_PRINT("FAIL! secure program => faw reset failed\n\r");
     }
     APP_PRINT("**************************\n\r");
 }
-

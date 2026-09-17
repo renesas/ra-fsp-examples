@@ -2,16 +2,16 @@
  * File Name    : RTT_User_Interface.h
  * Description  : Contains RTT Viewer input and output related macros and function definition
  ***********************************************************************************************************************/
-/***********************************************************************************************************************
-* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
+/*
+* Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
+*/
 
 #ifndef RTT_USER_INTERFACE_H_
 #define RTT_USER_INTERFACE_H_
 
-#define MAX_NO_TEST_MSG                     (10)
+#define MAX_NO_TEST_MSG                 (10)
 
 /* Switch Commands */
 #define VIEW_SECURITY_SETTING                       '1'

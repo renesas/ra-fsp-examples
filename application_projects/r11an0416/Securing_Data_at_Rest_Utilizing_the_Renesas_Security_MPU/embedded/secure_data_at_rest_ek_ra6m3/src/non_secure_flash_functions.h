@@ -2,12 +2,11 @@
  * File Name    : non_secure_flash_functions.h
  * Description  : Contains test functions defined to run out of non_secure flash regions
  ***********************************************************************************************************************/
-
-/***********************************************************************************************************************
-* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
+/*
+* Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
+*/
 
 #ifndef non_secure_flash_FUNCTIONS_H_
 #define non_secure_flash_FUNCTIONS_H_
@@ -24,7 +23,7 @@ uint32_t getvalueConst(void);
 uint32_t getvalueData(void);
 uint32_t getvalueBss(void);
 
-extern volatile uint32_t dataWritten;
+extern volatile    uint32_t dataWritten;
 extern volatile    uint32_t u_dataInit;
 extern const       uint32_t u_dataConst;
 void setTestDatavalueBss(uint32_t valueBss);
@@ -32,7 +31,7 @@ void setTestDatavalueData(uint32_t valueData);
 void setTestDatavalueConst(uint32_t valueConst);
 void ns_setup_the_writeBuffer(void);
 
-/* tests from non_secure area */
+/* Tests from non_secure area */
 bool  readSecureFlash_using_non_secureFlashCode(void);
 bool  readSecureRam_using_non_secureFlashCode(void);
 bool  read_non_secureFlash_using_non_secureFlashCode(void);

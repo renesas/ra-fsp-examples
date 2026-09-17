@@ -2,12 +2,11 @@
  * File Name    : secure_sram_functions.c
  * Description  : Contains implementations of secure functions running out of secure sram
  ***********************************************************************************************************************/
-
-/***********************************************************************************************************************
-* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
+/*
+* Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
+*/
 
 #include <stdbool.h>
 #include "secure_sram_functions.h"
@@ -27,7 +26,6 @@ extern uint8_t ns_writeBuffer[FLASH_WRITE_LENGTH];
  *
  * return: void
  **********************************************************************************************************************/
-
 bool s_writeSecureRam_usingSecureRamCode(void)
 {
     setTestDatavalueData(SECURE_DATA_WRITE_TEST_VALUE);
@@ -35,7 +33,7 @@ bool s_writeSecureRam_usingSecureRamCode(void)
 
     SECURE_PADDING;
 
-    if(SECURE_DATA_WRITE_TEST_VALUE == s_dataWritten)
+    if (SECURE_DATA_WRITE_TEST_VALUE == s_dataWritten)
     {
         return(true);
     }
@@ -51,7 +49,6 @@ bool s_writeSecureRam_usingSecureRamCode(void)
  *
  * return: void
  **********************************************************************************************************************/
-
 bool s_write_non_secureRam_usingSecureRamCode(void)
 {
 	dataWritten = SECURE_DATA_WRITE_TEST_VALUE;
@@ -59,7 +56,7 @@ bool s_write_non_secureRam_usingSecureRamCode(void)
 
     SECURE_PADDING;
 
-    if(SECURE_DATA_WRITE_TEST_VALUE == getvalueData())
+    if (SECURE_DATA_WRITE_TEST_VALUE == getvalueData())
     {
         return(true);
     }
@@ -74,22 +71,20 @@ bool s_write_non_secureRam_usingSecureRamCode(void)
  * This function shows secure SRAM program can read secure SRAM data s_dataInit when access function is not provided.
  * return: void
  **********************************************************************************************************************/
-
 bool s_readSecureRam_usingSecureRamCode(void)
 {
-
     setTestDatavalueBss(s_dataBss);
     setTestDatavalueData(s_dataInit);
 
     SECURE_PADDING;
 
-    if((0 == getvalueBss()) && (SECURE_DATA_VALUE == getvalueData()))
+    if ((0 == getvalueBss()) && (SECURE_DATA_VALUE == getvalueData()))
     {
         return(true);
     }
     else
     {
-            return(false);
+        return(false);
     }
 }
 
@@ -99,7 +94,6 @@ bool s_readSecureRam_usingSecureRamCode(void)
  *
  * return: void
  **********************************************************************************************************************/
-
 bool s_read_non_secureRam_usingSecureRamCode(void)
 {
     setTestDatavalueBss(getDataBss());
@@ -107,7 +101,7 @@ bool s_read_non_secureRam_usingSecureRamCode(void)
 
     SECURE_PADDING;
 
-    if((0 == getvalueBss()) && (DATA_VALUE == getvalueData()))
+    if ((0 == getvalueBss()) && (DATA_VALUE == getvalueData()))
     {
         return(true);
     }
@@ -123,13 +117,12 @@ bool s_read_non_secureRam_usingSecureRamCode(void)
  *
  * return: void
  **********************************************************************************************************************/
-
 bool s_readSecureFlash_usingSecureRamCode(void)
 {
     setTestDatavalueConst(s_dataConst);
     SECURE_PADDING;
 
-    if(SECURE_DATA_CONST_VALUE == getvalueConst())
+    if (SECURE_DATA_CONST_VALUE == getvalueConst())
     {
         return(true);
     }
@@ -145,13 +138,12 @@ bool s_readSecureFlash_usingSecureRamCode(void)
  *
  * return: void
  **********************************************************************************************************************/
-
 bool s_read_non_secureFlash_usingSecureRamCode(void)
 {
     setTestDatavalueConst(u_dataConst);
     SECURE_PADDING;
 
-    if(DATA_CONST_VALUE == getvalueConst())
+    if (DATA_CONST_VALUE == getvalueConst())
     {
         return(true);
     }
@@ -171,7 +163,6 @@ bool s_read_non_secureFlash_usingSecureRamCode(void)
  *
  * return: void
  **********************************************************************************************************************/
-
 bool s_writeSecureFlash_usingSecureRamCode(void)
 {
 	return !flash_write(FLASH_WRITE_TEST_BLOCK1, ns_writeBuffer);
@@ -189,7 +180,6 @@ bool s_writeSecureFlash_usingSecureRamCode(void)
  *
  * return: void
  **********************************************************************************************************************/
-
 bool s_write_non_secureFlash_usingSecureRamCode(void)
 {
 	return !flash_write(FLASH_WRITE_TEST_BLOCK2, ns_writeBuffer);

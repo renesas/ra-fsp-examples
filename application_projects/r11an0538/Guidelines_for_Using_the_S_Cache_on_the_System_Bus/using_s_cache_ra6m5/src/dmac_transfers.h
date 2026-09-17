@@ -2,11 +2,11 @@
  * File Name    : dmac_transfers.h
  * Description  : Contains data structures and functions used in dmac_transfers.h
  **********************************************************************************************************************/
-/***********************************************************************************************************************
-* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
+/*
+* Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
+*/
 
 #ifndef DMAC_TRANSFERS_H_
 #define DMAC_TRANSFERS_H_
@@ -18,4 +18,4 @@
 void dma_transfer_sine_cosine_operation(void);
 
 
-#endif
+#endif  /* DMAC_TRANSFERS_H_ */

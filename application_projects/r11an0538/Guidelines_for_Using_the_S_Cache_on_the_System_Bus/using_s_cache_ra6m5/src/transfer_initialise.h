@@ -2,11 +2,11 @@
  * File Name    : transfer_initialise.h
  * Description  : Contains data structures and functions used in transfer_initialise.c
  **********************************************************************************************************************/
-/***********************************************************************************************************************
-* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
+/*
+* Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
+*/
 
 #ifndef TRANSFER_INITIALISE_H_
 #define TRANSFER_INITIALISE_H_
@@ -45,4 +45,4 @@ void set_transfer_dst_src_address(transfer_cfg_t const * const p_config,
                                     void const * volatile   p_src,
                                     void const * volatile   p_dest );
 
-#endif
+#endif  /* TRANSFER_INITIALISE_H_ */

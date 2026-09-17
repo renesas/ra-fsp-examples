@@ -2,14 +2,15 @@
  * File Name    : test_cases.h
  * Description  : Contains data structures and functions used in test_cases.h
  **********************************************************************************************************************/
-/***********************************************************************************************************************
-* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
+/*
+* Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
+*/
 
 #ifndef TEST_CASES_H_
 #define TEST_CASES_H_
+
 #include "common_utils.h"
 
 #define FLUSH_IN_DMA_COMPLETE_CALLBACK  0

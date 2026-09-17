@@ -1,5 +1,5 @@
 /***********************************************************************************************************************
-* Copyright (c) 2019 - 2024 Renesas Electronics Corporation and/or its affiliates
+* Copyright (c) 2019 - 2026 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
 ***********************************************************************************************************************/
@@ -36,16 +36,17 @@
 **************************************************************/
 
 // A single RX buffer structure
-typedef struct RxBufferEntry_tag {
+typedef struct RxBufferEntry_tag 
+{
 	// Receive data buffer
 	uint8_t *pData;
 	uint32_t bufferSize;
 	uint32_t bytesInBuffer;
-
 } RxBufferEntry;
 
 // Types of framed protocol connection
-typedef enum FpConnectionType_tag {
+typedef enum FpConnectionType_tag 
+{
 	SERIAL,
 	TCP_CLIENT,
 
@@ -53,23 +54,22 @@ typedef enum FpConnectionType_tag {
 } FpConnectionType;
 
 // Context data for serial connections
-typedef struct FpSerialContext_tag {
-
+typedef struct FpSerialContext_tag 
+{
 	// Serial port number
 	uint8_t portNumber;
-
 } FpSerialContext;
 
 // Context data for TCP/IP connections
-typedef struct FpTcpIpContext_tag {
-
+typedef struct FpTcpIpContext_tag 
+{
 	// Remote address
 	char remoteAddress[80];
-
 } FpTcpIpContext;
 
 // Context data for each framed protocol connection
-typedef struct FpContext_tag {
+typedef struct FpContext_tag 
+{
 	// If this context is in use
 	bool inUse;
 
@@ -1635,6 +1635,3 @@ void fpReceiveByte(const HANDLE handle, const uint8_t byte)
 		}
 	}
 }
-
-
-

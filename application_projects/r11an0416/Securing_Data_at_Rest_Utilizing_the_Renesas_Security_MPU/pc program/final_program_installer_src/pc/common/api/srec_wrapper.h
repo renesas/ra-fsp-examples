@@ -1,5 +1,5 @@
 /***********************************************************************************************************************
-* Copyright (c) 2019 - 2024 Renesas Electronics Corporation and/or its affiliates
+* Copyright (c) 2019 - 2026 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
 ***********************************************************************************************************************/
@@ -25,7 +25,7 @@ typedef struct
 {
 	uint8_t u1NumRegions;
 	SrecRegion *psRegions;
-}SrecImage;
+} SrecImage;
 
 extern bool srecFileRead(const char *pFilename, SrecImage* pImage);
 

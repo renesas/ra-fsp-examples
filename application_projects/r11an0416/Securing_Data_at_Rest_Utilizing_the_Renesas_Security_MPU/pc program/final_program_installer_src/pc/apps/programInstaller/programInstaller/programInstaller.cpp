@@ -1,5 +1,5 @@
 /***********************************************************************************************************************
-* Copyright (c) 2019 - 2024 Renesas Electronics Corporation and/or its affiliates
+* Copyright (c) 2019 - 2026 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
 ***********************************************************************************************************************/
@@ -271,7 +271,7 @@ static bool eraseFlashAndProgram(const FlashDescription *pFlashDesc, const char 
                                     {
                                         fprintf(stderr, "Failed to lock the flash access window\n");
                                     }
-
+                                }
                                 else
                                 {
                                     fprintf(stderr, "Failed to read flash protection register\n");
@@ -287,21 +287,21 @@ static bool eraseFlashAndProgram(const FlashDescription *pFlashDesc, const char 
 #endif
                             /* MOD REA END */
                         }
+                        else
+                        {
+                            fprintf(stderr, "Failed to write flash\n");
+                        }
+                    }
                     else
                     {
-                        fprintf(stderr, "Failed to write flash\n");
+                        fprintf(stderr, "Failed to erase flash\n");
                     }
-                    }
-                else
-                {
-                    fprintf(stderr, "Failed to erase flash\n");
-                }
                 }
             }
-        else
-        {
-            fprintf(stderr, "Failed to create flash programming connection\n");
-        }
+            else
+            {
+                fprintf(stderr, "Failed to create flash programming connection\n");
+            }
         }
 
         free(pBuffer);
@@ -322,7 +322,6 @@ int main(const int argc, const char *argv[])
 {
     int retVal = -1;
 
-  
     if ((argc > 2)  && (argc < (MAX_SREC_FILES + 3)))
     {
         // Initialise framed protocol module
@@ -337,7 +336,6 @@ int main(const int argc, const char *argv[])
     {
         fprintf(stderr, "Usage:\n");
         fprintf(stderr, "   %s <serial port number> <kernel SREC file> [<additional SREC files>]\n", argv[0]);
-
     }
 
     return retVal;

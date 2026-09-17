@@ -2,11 +2,11 @@
  * File Name    : transfer_initialise.c
  * Description  : Contains data structures and functions used in transfer_initialise.c
  **********************************************************************************************************************/
-/***********************************************************************************************************************
-* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
+/*
+* Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
+*/
 
 #include "common_utils.h"
 #include "transfer_initialise.h"
@@ -72,7 +72,6 @@ void dmac_transfer_deinit(dmac_instance_ctrl_t *const p_transfer_ctl, uint8_t tr
         APP_ERR_PRINT("** R_DMAC_Close for transfer%d API failed **  \r\n", transfer_unit);
     }
 }
-
 
 /*******************************************************************************************************************//**
  *  @brief          start dmac transfer

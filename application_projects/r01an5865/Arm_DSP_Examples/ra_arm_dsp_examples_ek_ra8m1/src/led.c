@@ -3,7 +3,7 @@
  * Description  : Contains data structures and functions used in hal_entry.c.
  **********************************************************************************************************************/
 /**********************************************************************************************************************
-* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
+* Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
 *********************************************************************************************************************/
@@ -21,7 +21,6 @@ Private global variables and functions
 Export global variables
 ***********************************************************************************************************************/
 extern const bsp_leds_t g_bsp_leds;
-
 
 /***********************************************************************************************************************
 * Function Name: R_LED_BLUE_OFF

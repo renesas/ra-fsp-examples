@@ -1,0 +1,781 @@
+LOAD_REGION_QSPI_FLASH QSPI_FLASH_START NOCOMPRESS QSPI_FLASH_LENGTH
+{
+  __QSPI_FLASH_start +0 EMPTY 0 {}
+  __QSPI_FLASH_init +0 EMPTY 0 {}
+        
+  
+  __ddsc_QSPI_FLASH_START +0 EMPTY 0 {}
+  .qspi_flash.startof +0 EMPTY 0
+  {
+  }
+  __OSPI0_CS0_start OSPI0_CS0_START +0 EMPTY 0 {}
+  
+  __ddsc_OSPI0_CS0_START +0 EMPTY 0 {}
+  .ospi0_cs0.startof +0 EMPTY 0
+  {
+  }
+
+  ; ospi0_cs0 initialized from qspi_flash
+  __ospi0_cs0_from_qspi_flash +0
+  {
+  ; section.ospi0_cs0.from_qspi_flash
+  *(.ospi0_cs0_from_qspi_flash)
+  ; section.ospi0_cs0.code_from_qspi_flash
+  *(.ospi0_cs0_code_from_qspi_flash)
+  }
+  __RAM_start RAM_START +0 EMPTY 0 {}
+  
+  __ddsc_RAM_START +0 EMPTY 0 {}
+  .ram.startof +0 EMPTY 0
+  {
+  }
+
+  
+  __ram_dtc_vector +0 UNINIT
+  {
+  *(.bss.fsp_dtc_vector_table)
+  }
+
+  ; ram initialized from qspi_flash
+  __ram_from_qspi_flash +0
+  {
+  ; section.ram.from_qspi_flash
+  *(.ram_from_qspi_flash)
+  ; section.ram.code_from_qspi_flash
+  *(.ram_code_from_qspi_flash)
+  }
+        } ; create a root region after the RAM init ERs for remainder of ROM ERs
+         LOAD_REGION_QSPI_FLASH_JUMP +0 NOCOMPRESS
+         {
+  
+  __qspi_flash_readonly +0 FIXED
+  {
+  ; section.qspi_flash.readonly
+  *(.qspi_flash)
+  ; section.qspi_flash.code
+  *(.qspi_flash_code)
+  }
+
+        
+  
+  __qspi_flash_noinit +0 FIXED UNINIT
+  {
+  ; section.qspi_flash.noinit
+  *(.bss.qspi_flash_noinit)
+  }
+
+        
+  
+  __ddsc_QSPI_FLASH_END AlignExpr(+0, 512) EMPTY 0 {}
+  .qspi_flash.endof AlignExpr(+0, 512) EMPTY 0
+  {
+  }
+
+
+  __QSPI_FLASH_end +0 EMPTY 0 {}
+  SCatterAssert( (LoadBase(__QSPI_FLASH_end) - LoadBase(__QSPI_FLASH_start)) <= QSPI_FLASH_LENGTH )
+}
+LOAD_REGION_OSPI0_CS1 OSPI0_CS1_START NOCOMPRESS OSPI0_CS1_LENGTH
+{
+  __OSPI0_CS1_start +0 EMPTY 0 {}
+  __OSPI0_CS1_init +0 EMPTY 0 {}
+        
+  
+  __ddsc_OSPI0_CS1_START +0 EMPTY 0 {}
+  .ospi0_cs1.startof +0 EMPTY 0
+  {
+  }
+    __ospi0_cs0_from_qspi_flash_jump ImageLimit(__ospi0_cs0_from_qspi_flash) EMPTY 0 {}
+  ; ospi0_cs0 initialized from ospi0_cs1
+  __ospi0_cs0_from_ospi0_cs1 +0
+  {
+  ; section.ospi0_cs0.from_ospi0_cs1
+  *(.ospi0_cs0_from_ospi0_cs1)
+  ; section.ospi0_cs0.code_from_ospi0_cs1
+  *(.ospi0_cs0_code_from_ospi0_cs1)
+  }
+    __ram_from_qspi_flash_jump ImageLimit(__ram_from_qspi_flash) EMPTY 0 {}
+  ; ram initialized from ospi0_cs1
+  __ram_from_ospi0_cs1 +0
+  {
+  ; section.ram.from_ospi0_cs1
+  *(.ram_from_ospi0_cs1)
+  ; section.ram.code_from_ospi0_cs1
+  *(.ram_code_from_ospi0_cs1)
+  }
+        } ; create a root region after the RAM init ERs for remainder of ROM ERs
+         LOAD_REGION_OSPI0_CS1_JUMP +0 NOCOMPRESS
+         {
+  
+  __ospi0_cs1_readonly +0 FIXED
+  {
+  ; section.ospi0_cs1.readonly
+  *(.ospi0_cs1)
+  ; section.ospi0_cs1.code
+  *(.ospi0_cs1_code)
+  }
+
+        
+  
+  __ospi0_cs1_noinit +0 FIXED UNINIT
+  {
+  ; section.ospi0_cs1.noinit
+  *(.bss.ospi0_cs1_noinit)
+  }
+
+        
+  
+  __ddsc_OSPI0_CS1_END AlignExpr(+0, 512) EMPTY 0 {}
+  .ospi0_cs1.endof AlignExpr(+0, 512) EMPTY 0
+  {
+  }
+
+
+  __OSPI0_CS1_end +0 EMPTY 0 {}
+  SCatterAssert( (LoadBase(__OSPI0_CS1_end) - LoadBase(__OSPI0_CS1_start)) <= OSPI0_CS1_LENGTH )
+}
+LOAD_REGION_DATA_FLASH DATA_FLASH_START NOCOMPRESS DATA_FLASH_LENGTH
+{
+  __DATA_FLASH_start +0 EMPTY 0 {}
+  __DATA_FLASH_init +0 EMPTY 0 {}
+        
+  
+  __ddsc_DATA_FLASH_START +0 EMPTY 0 {}
+  .data_flash.startof +0 EMPTY 0
+  {
+  }
+    __ospi0_cs0_from_ospi0_cs1_jump ImageLimit(__ospi0_cs0_from_ospi0_cs1) EMPTY 0 {}
+  ; ospi0_cs0 initialized from data_flash
+  __ospi0_cs0_from_data_flash +0
+  {
+  ; section.ospi0_cs0.from_data_flash
+  *(.ospi0_cs0_from_data_flash)
+  ; section.ospi0_cs0.code_from_data_flash
+  *(.ospi0_cs0_code_from_data_flash)
+  }
+    __ram_from_ospi0_cs1_jump ImageLimit(__ram_from_ospi0_cs1) EMPTY 0 {}
+  ; ram initialized from data_flash
+  __ram_from_data_flash +0
+  {
+  ; section.ram.from_data_flash
+  *(.ram_from_data_flash)
+  ; section.ram.code_from_data_flash
+  *(.ram_code_from_data_flash)
+  }
+        } ; create a root region after the RAM init ERs for remainder of ROM ERs
+         LOAD_REGION_DATA_FLASH_JUMP +0 NOCOMPRESS
+         {
+  
+  __data_flash_readonly +0 FIXED
+  {
+  ; section.data_flash.readonly
+  *(.data_flash)
+  ; section.data_flash.code
+  *(.data_flash_code)
+  }
+
+        
+  
+  __data_flash_noinit +0 FIXED UNINIT
+  {
+  ; section.data_flash.noinit
+  *(.bss.data_flash_noinit)
+  }
+
+        
+  
+  __ddsc_DATA_FLASH_END AlignExpr(+0, 512) EMPTY 0 {}
+  .data_flash.endof AlignExpr(+0, 512) EMPTY 0
+  {
+  }
+
+
+  __DATA_FLASH_end +0 EMPTY 0 {}
+  SCatterAssert( (LoadBase(__DATA_FLASH_end) - LoadBase(__DATA_FLASH_start)) <= DATA_FLASH_LENGTH )
+}
+LOAD_REGION_FLASH FLASH_START NOCOMPRESS FLASH_LENGTH
+{
+  __FLASH_start +0 EMPTY 0 {}
+  __FLASH_init +0 EMPTY 0 {}
+        
+  
+  __ddsc_FLASH_START +0 EMPTY 0 {}
+  .flash.startof +0 EMPTY 0
+  {
+  }
+
+        
+  ; MCU vector table
+  _VECTORS +0 EMPTY 0 {}
+  __flash_vectors +0 FIXED
+  {
+  *(.fixed_vectors, +FIRST)
+  *(.application_vectors)
+  }
+
+        
+  
+  __flash_noinit +0 FIXED UNINIT
+  {
+  ; section.flash.noinit
+  *(.bss.flash_noinit)
+  }
+    __ospi0_cs0_from_data_flash_jump ImageLimit(__ospi0_cs0_from_data_flash) EMPTY 0 {}
+  ; ospi0_cs0 initialized from flash
+  __ospi0_cs0_from_flash +0
+  {
+  ; section.ospi0_cs0.from_flash
+  *(.ospi0_cs0_from_flash)
+  ; section.ospi0_cs0.code_from_flash
+  *(.ospi0_cs0_code_from_flash)
+  }
+
+  ; Non-initialized, non-cached ospi0_cs0
+  __ospi0_cs0_noinit_nocache AlignExpr(+0, 32) UNINIT
+  {
+  ; section.ospi0_cs0.noinit_nocache
+  *(.bss.ospi0_cs0_noinit_nocache)
+  }
+
+  ; Zeroed, non-cached ospi0_cs0
+  __ospi0_cs0_zero_nocache +0
+  {
+  ; section.ospi0_cs0.zero_nocache
+  *(.bss.ospi0_cs0_nocache)
+  }
+  ; Execution region required to end align __ospi0_cs0_zero_nocache on ac6
+  __ospi0_cs0_zero_nocache_pad (ImageLimit(__ospi0_cs0_zero_nocache)) EMPTY (AlignExpr(ImageLimit(__ospi0_cs0_zero_nocache),32) - ImageLimit(__ospi0_cs0_zero_nocache)) {}
+
+  ; Non-initialized ospi0_cs0
+  __ospi0_cs0_noinit +0 UNINIT
+  {
+  ; section.ospi0_cs0.noinit
+  *(.bss.ospi0_cs0_noinit)
+  }
+
+  ; Zeroed ospi0_cs0
+  __ospi0_cs0_zero +0
+  {
+  ; section.ospi0_cs0.zero
+  *(.bss.ospi0_cs0)
+  }
+
+  
+  __ddsc_OSPI0_CS0_END AlignExpr(+0, 512) EMPTY 0 {}
+  .ospi0_cs0.endof AlignExpr(+0, 512) EMPTY 0
+  {
+  }
+
+  __OSPI0_CS0_end +0 EMPTY 0 {}
+  SCatterAssert( (LoadBase(__OSPI0_CS0_end) - LoadBase(__OSPI0_CS0_start)) <= OSPI0_CS0_LENGTH )
+    __ram_from_data_flash_jump ImageLimit(__ram_from_data_flash) EMPTY 0 {}
+  ; ram initialized from flash
+  __ram_from_flash +0
+  {
+  ; section.ram.from_flash
+  *(.ram_from_flash)
+  ; section.ram.code_from_flash
+  *(.ram_code_from_flash)
+  .ANY(+RW )
+  *(vtable)
+  }
+
+  ; Non-initialized, non-cached ram
+  __ram_noinit_nocache AlignExpr(+0, 32) UNINIT
+  {
+  ; section.ram.noinit_nocache
+  *(.bss.ram_noinit_nocache)
+  }
+
+  ; Zeroed, non-cached ram
+  __ram_zero_nocache +0
+  {
+  ; section.ram.zero_nocache
+    ; *(.bss.*_fsp_nocache)
+    *(.bss.*_fsp_nocache)
+  *(.bss.ram_nocache)
+  }
+  ; Execution region required to end align __ram_zero_nocache on ac6
+  __ram_zero_nocache_pad (ImageLimit(__ram_zero_nocache)) EMPTY (AlignExpr(ImageLimit(__ram_zero_nocache),32) - ImageLimit(__ram_zero_nocache)) {}
+
+  ; Non-initialized ram
+  __ram_noinit +0 UNINIT
+  {
+  ; section.ram.noinit
+    ; *(.bss.g_heap)
+    ; In case this execution region becomes empty due to heap placement place dummy selector
+    $$.$$(.$$)
+  }
+    ARM_LIB_STACK +0 UNINIT EMPTY 0
+  {
+  }
+  ARM_LIB_HEAP +0 UNINIT
+  {
+    *(.bss.g_heap)
+  }
+  __post_heap +0 UNINIT
+  {
+    ; *(.bss.g_main_stack)
+    *(.bss.g_main_stack)
+  *(.bss.ram_noinit)
+  *(.bss.noinit)
+  }
+
+  ; Zeroed ram
+  __ram_zero +0
+  {
+  ; section.ram.zero
+  *(.bss.ram)
+  .ANY(+ZI )
+  }
+
+  ; Thread Stacks
+  __ram_thread_stack AlignExpr(+0, 8) UNINIT
+  {
+  *(.bss.stack?*)
+  }
+  
+  __ddsc_RAM_NSC AlignExpr(+0, 1024) EMPTY 0 {}
+  __ram_nsc AlignExpr(+0, 1024)
+  {
+  *(.bss.ram_nsc)
+  }
+
+  
+  __ddsc_RAM_END AlignExpr(+0, 1024) EMPTY 0 {}
+  .ram.endof AlignExpr(+0, 1024) EMPTY 0
+  {
+  }
+
+
+  __RAM_end +0 EMPTY 0 {}
+  SCatterAssert( (LoadBase(__RAM_end) - LoadBase(__RAM_start)) <= RAM_LENGTH )
+        } ; create a root region after the RAM init ERs for remainder of ROM ERs
+         LOAD_REGION_FLASH_JUMP +0 NOCOMPRESS
+         {
+  
+  __flash_readonly +0 FIXED
+  {
+  ; section.flash.readonly
+  *(.flash)
+  ; section.flash.code
+  *(.flash_code)
+  .ANY(+RO-CODE )
+  .ANY(+RO-DATA )
+  *(.mcuboot_sce9_key)
+  *(.version)
+  }
+
+        
+  
+  __init_array_start +0 EMPTY 0 {}
+  __flash_init_array +0 FIXED
+  {
+  *(.init_array.*)
+  *(.init_array)
+  }
+  __init_array_end +0 EMPTY 0 {}
+
+        } ; create a root region because of address jump
+           LOAD_REGION_NSC_JUMP +0 NOCOMPRESS
+           {
+  
+  __ddsc_FLASH_NSC AlignExpr(+0, 1024) EMPTY 0 {}
+  __flash_nsc AlignExpr(+0, 1024) FIXED
+  {
+  *(Veneer$$CMSE*)
+  *(.flash_nsc)
+  }
+
+        
+  
+  __ddsc_FLASH_END AlignExpr(+0, 1024) EMPTY 0 {}
+  .flash.endof AlignExpr(+0, 1024) EMPTY 0
+  {
+  }
+
+
+
+
+  __FLASH_end +0 EMPTY 0 {}
+  SCatterAssert( (LoadBase(__FLASH_end) - LoadBase(__FLASH_start)) <= FLASH_LENGTH )
+}
+LOAD_REGION_OPTION_SETTING_OFS0 OPTION_SETTING_OFS0_START NOCOMPRESS OPTION_SETTING_OFS0_LENGTH
+{
+  __OPTION_SETTING_OFS0_start +0 EMPTY 0 {}
+  __OPTION_SETTING_OFS0_init +0 EMPTY 0 {}
+        
+  
+  __ddsc_OPTION_SETTING_OFS0_START +0 EMPTY 0 {}
+  .option_setting_ofs0.startof +0 EMPTY 0
+  {
+  }
+
+        
+  ; Option Function Select Register 0
+  __option_setting_ofs0_reg +0 FIXED
+  {
+  *(.option_setting_ofs0)
+  }
+
+        
+  
+  __ddsc_OPTION_SETTING_OFS0_END +0 EMPTY 0 {}
+  .option_setting_ofs0.endof +0 EMPTY 0
+  {
+  }
+
+
+  __OPTION_SETTING_OFS0_end +0 EMPTY 0 {}
+  SCatterAssert( (LoadBase(__OPTION_SETTING_OFS0_end) - LoadBase(__OPTION_SETTING_OFS0_start)) <= OPTION_SETTING_OFS0_LENGTH )
+}
+LOAD_REGION_OPTION_SETTING_DUALSEL OPTION_SETTING_DUALSEL_START NOCOMPRESS OPTION_SETTING_DUALSEL_LENGTH
+{
+  __OPTION_SETTING_DUALSEL_start +0 EMPTY 0 {}
+  __OPTION_SETTING_DUALSEL_init +0 EMPTY 0 {}
+        
+  
+  __ddsc_OPTION_SETTING_DUALSEL_START +0 EMPTY 0 {}
+  .option_setting_dualsel.startof +0 EMPTY 0
+  {
+  }
+
+        
+  ; Dual Mode Select Register
+  __option_setting_dualsel_reg +0 FIXED
+  {
+  *(.option_setting_dualsel)
+  }
+
+        
+  
+  __ddsc_OPTION_SETTING_DUALSEL_END +0 EMPTY 0 {}
+  .option_setting_dualsel.endof +0 EMPTY 0
+  {
+  }
+
+
+  __OPTION_SETTING_DUALSEL_end +0 EMPTY 0 {}
+  SCatterAssert( (LoadBase(__OPTION_SETTING_DUALSEL_end) - LoadBase(__OPTION_SETTING_DUALSEL_start)) <= OPTION_SETTING_DUALSEL_LENGTH )
+}
+LOAD_REGION_OPTION_SETTING_OFS1 OPTION_SETTING_OFS1_START NOCOMPRESS OPTION_SETTING_OFS1_LENGTH
+{
+  __OPTION_SETTING_OFS1_start +0 EMPTY 0 {}
+  __OPTION_SETTING_OFS1_init +0 EMPTY 0 {}
+        
+  
+  __ddsc_OPTION_SETTING_OFS1_START +0 EMPTY 0 {}
+  .option_setting_ofs1.startof +0 EMPTY 0
+  {
+  }
+
+        
+  ; Option Function Select Register 1
+  __option_setting_ofs1_reg +0 FIXED
+  {
+  *(.option_setting_ofs1)
+  }
+
+        
+  
+  __ddsc_OPTION_SETTING_OFS1_END +0 EMPTY 0 {}
+  .option_setting_ofs1.endof +0 EMPTY 0
+  {
+  }
+
+
+  __OPTION_SETTING_OFS1_end +0 EMPTY 0 {}
+  SCatterAssert( (LoadBase(__OPTION_SETTING_OFS1_end) - LoadBase(__OPTION_SETTING_OFS1_start)) <= OPTION_SETTING_OFS1_LENGTH )
+}
+LOAD_REGION_OPTION_SETTING_BANKSEL OPTION_SETTING_BANKSEL_START NOCOMPRESS OPTION_SETTING_BANKSEL_LENGTH
+{
+  __OPTION_SETTING_BANKSEL_start +0 EMPTY 0 {}
+  __OPTION_SETTING_BANKSEL_init +0 EMPTY 0 {}
+        
+  
+  __ddsc_OPTION_SETTING_BANKSEL_START +0 EMPTY 0 {}
+  .option_setting_banksel.startof +0 EMPTY 0
+  {
+  }
+
+        
+  ; Bank Select Register
+  __option_setting_banksel_reg +0 FIXED
+  {
+  *(.option_setting_banksel)
+  }
+
+        
+  
+  __ddsc_OPTION_SETTING_BANKSEL_END +0 EMPTY 0 {}
+  .option_setting_banksel.endof +0 EMPTY 0
+  {
+  }
+
+
+  __OPTION_SETTING_BANKSEL_end +0 EMPTY 0 {}
+  SCatterAssert( (LoadBase(__OPTION_SETTING_BANKSEL_end) - LoadBase(__OPTION_SETTING_BANKSEL_start)) <= OPTION_SETTING_BANKSEL_LENGTH )
+}
+LOAD_REGION_OPTION_SETTING_BPS OPTION_SETTING_BPS_START NOCOMPRESS OPTION_SETTING_BPS_LENGTH
+{
+  __OPTION_SETTING_BPS_start +0 EMPTY 0 {}
+  __OPTION_SETTING_BPS_init +0 EMPTY 0 {}
+        
+  
+  __ddsc_OPTION_SETTING_BPS_START +0 EMPTY 0 {}
+  .option_setting_bps.startof +0 EMPTY 0
+  {
+  }
+
+        
+  ; Block Protect Setting Register
+  __option_setting_bps_reg +0 FIXED
+  {
+  *(.option_setting_bps)
+  }
+
+        
+  
+  __ddsc_OPTION_SETTING_BPS_END +0 EMPTY 0 {}
+  .option_setting_bps.endof +0 EMPTY 0
+  {
+  }
+
+
+  __OPTION_SETTING_BPS_end +0 EMPTY 0 {}
+  SCatterAssert( (LoadBase(__OPTION_SETTING_BPS_end) - LoadBase(__OPTION_SETTING_BPS_start)) <= OPTION_SETTING_BPS_LENGTH )
+}
+LOAD_REGION_OPTION_SETTING_PBPS OPTION_SETTING_PBPS_START NOCOMPRESS OPTION_SETTING_PBPS_LENGTH
+{
+  __OPTION_SETTING_PBPS_start +0 EMPTY 0 {}
+  __OPTION_SETTING_PBPS_init +0 EMPTY 0 {}
+        
+  
+  __ddsc_OPTION_SETTING_PBPS_START +0 EMPTY 0 {}
+  .option_setting_pbps.startof +0 EMPTY 0
+  {
+  }
+
+        
+  ; Permanent Block Protect Setting Register
+  __option_setting_pbps_reg +0 FIXED
+  {
+  *(.option_setting_pbps)
+  }
+
+        
+  
+  __ddsc_OPTION_SETTING_PBPS_END +0 EMPTY 0 {}
+  .option_setting_pbps.endof +0 EMPTY 0
+  {
+  }
+
+
+  __OPTION_SETTING_PBPS_end +0 EMPTY 0 {}
+  SCatterAssert( (LoadBase(__OPTION_SETTING_PBPS_end) - LoadBase(__OPTION_SETTING_PBPS_start)) <= OPTION_SETTING_PBPS_LENGTH )
+}
+LOAD_REGION_OPTION_SETTING_OFS1_SEC OPTION_SETTING_OFS1_SEC_START NOCOMPRESS OPTION_SETTING_OFS1_SEC_LENGTH
+{
+  __OPTION_SETTING_OFS1_SEC_start +0 EMPTY 0 {}
+  __OPTION_SETTING_OFS1_SEC_init +0 EMPTY 0 {}
+        
+  
+  __ddsc_OPTION_SETTING_OFS1_SEC_START +0 EMPTY 0 {}
+  .option_setting_ofs1_sec.startof +0 EMPTY 0
+  {
+  }
+
+        
+  ; Option Function Select Register 1 Secure
+  __option_setting_ofs1_sec_reg +0 FIXED
+  {
+  *(.option_setting_ofs1_sec)
+  }
+
+        
+  
+  __ddsc_OPTION_SETTING_OFS1_SEC_END +0 EMPTY 0 {}
+  .option_setting_ofs1_sec.endof +0 EMPTY 0
+  {
+  }
+
+
+  __OPTION_SETTING_OFS1_SEC_end +0 EMPTY 0 {}
+  SCatterAssert( (LoadBase(__OPTION_SETTING_OFS1_SEC_end) - LoadBase(__OPTION_SETTING_OFS1_SEC_start)) <= OPTION_SETTING_OFS1_SEC_LENGTH )
+}
+LOAD_REGION_OPTION_SETTING_BANKSEL_SEC OPTION_SETTING_BANKSEL_SEC_START NOCOMPRESS OPTION_SETTING_BANKSEL_SEC_LENGTH
+{
+  __OPTION_SETTING_BANKSEL_SEC_start +0 EMPTY 0 {}
+  __OPTION_SETTING_BANKSEL_SEC_init +0 EMPTY 0 {}
+        
+  
+  __ddsc_OPTION_SETTING_BANKSEL_SEC_START +0 EMPTY 0 {}
+  .option_setting_banksel_sec.startof +0 EMPTY 0
+  {
+  }
+
+        
+  ; Bank Select Register Secure
+  __option_setting_banksel_sec_reg +0 FIXED
+  {
+  *(.option_setting_banksel_sec)
+  }
+
+        
+  
+  __ddsc_OPTION_SETTING_BANKSEL_SEC_END +0 EMPTY 0 {}
+  .option_setting_banksel_sec.endof +0 EMPTY 0
+  {
+  }
+
+
+  __OPTION_SETTING_BANKSEL_SEC_end +0 EMPTY 0 {}
+  SCatterAssert( (LoadBase(__OPTION_SETTING_BANKSEL_SEC_end) - LoadBase(__OPTION_SETTING_BANKSEL_SEC_start)) <= OPTION_SETTING_BANKSEL_SEC_LENGTH )
+}
+LOAD_REGION_OPTION_SETTING_BPS_SEC OPTION_SETTING_BPS_SEC_START NOCOMPRESS OPTION_SETTING_BPS_SEC_LENGTH
+{
+  __OPTION_SETTING_BPS_SEC_start +0 EMPTY 0 {}
+  __OPTION_SETTING_BPS_SEC_init +0 EMPTY 0 {}
+        
+  
+  __ddsc_OPTION_SETTING_BPS_SEC_START +0 EMPTY 0 {}
+  .option_setting_bps_sec.startof +0 EMPTY 0
+  {
+  }
+
+        
+  ; Block Protect Setting Register Secure
+  __option_setting_bps_sec_reg +0 FIXED
+  {
+  *(.option_setting_bps_sec)
+  }
+
+        
+  
+  __ddsc_OPTION_SETTING_BPS_SEC_END +0 EMPTY 0 {}
+  .option_setting_bps_sec.endof +0 EMPTY 0
+  {
+  }
+
+
+  __OPTION_SETTING_BPS_SEC_end +0 EMPTY 0 {}
+  SCatterAssert( (LoadBase(__OPTION_SETTING_BPS_SEC_end) - LoadBase(__OPTION_SETTING_BPS_SEC_start)) <= OPTION_SETTING_BPS_SEC_LENGTH )
+}
+LOAD_REGION_OPTION_SETTING_PBPS_SEC OPTION_SETTING_PBPS_SEC_START NOCOMPRESS OPTION_SETTING_PBPS_SEC_LENGTH
+{
+  __OPTION_SETTING_PBPS_SEC_start +0 EMPTY 0 {}
+  __OPTION_SETTING_PBPS_SEC_init +0 EMPTY 0 {}
+        
+  
+  __ddsc_OPTION_SETTING_PBPS_SEC_START +0 EMPTY 0 {}
+  .option_setting_pbps_sec.startof +0 EMPTY 0
+  {
+  }
+
+        
+  ; Permanent Block Protect Setting Register Secure
+  __option_setting_pbps_sec_reg +0 FIXED
+  {
+  *(.option_setting_pbps_sec)
+  }
+
+        
+  
+  __ddsc_OPTION_SETTING_PBPS_SEC_END +0 EMPTY 0 {}
+  .option_setting_pbps_sec.endof +0 EMPTY 0
+  {
+  }
+
+
+  __OPTION_SETTING_PBPS_SEC_end +0 EMPTY 0 {}
+  SCatterAssert( (LoadBase(__OPTION_SETTING_PBPS_SEC_end) - LoadBase(__OPTION_SETTING_PBPS_SEC_start)) <= OPTION_SETTING_PBPS_SEC_LENGTH )
+}
+LOAD_REGION_OPTION_SETTING_OFS1_SEL OPTION_SETTING_OFS1_SEL_START NOCOMPRESS OPTION_SETTING_OFS1_SEL_LENGTH
+{
+  __OPTION_SETTING_OFS1_SEL_start +0 EMPTY 0 {}
+  __OPTION_SETTING_OFS1_SEL_init +0 EMPTY 0 {}
+        
+  
+  __ddsc_OPTION_SETTING_OFS1_SEL_START +0 EMPTY 0 {}
+  .option_setting_ofs1_sel.startof +0 EMPTY 0
+  {
+  }
+
+        
+  ; OFS1 Security Attribution
+  __option_setting_ofs1_sel_reg +0 FIXED
+  {
+  *(.option_setting_ofs1_sel)
+  }
+
+        
+  
+  __ddsc_OPTION_SETTING_OFS1_SEL_END +0 EMPTY 0 {}
+  .option_setting_ofs1_sel.endof +0 EMPTY 0
+  {
+  }
+
+
+  __OPTION_SETTING_OFS1_SEL_end +0 EMPTY 0 {}
+  SCatterAssert( (LoadBase(__OPTION_SETTING_OFS1_SEL_end) - LoadBase(__OPTION_SETTING_OFS1_SEL_start)) <= OPTION_SETTING_OFS1_SEL_LENGTH )
+}
+LOAD_REGION_OPTION_SETTING_BANKSEL_SEL OPTION_SETTING_BANKSEL_SEL_START NOCOMPRESS OPTION_SETTING_BANKSEL_SEL_LENGTH
+{
+  __OPTION_SETTING_BANKSEL_SEL_start +0 EMPTY 0 {}
+  __OPTION_SETTING_BANKSEL_SEL_init +0 EMPTY 0 {}
+        
+  
+  __ddsc_OPTION_SETTING_BANKSEL_SEL_START +0 EMPTY 0 {}
+  .option_setting_banksel_sel.startof +0 EMPTY 0
+  {
+  }
+
+        
+  ; Banksel Security Attribution
+  __option_setting_banksel_sel_reg +0 FIXED
+  {
+  *(.option_setting_banksel_sel)
+  }
+
+        
+  
+  __ddsc_OPTION_SETTING_BANKSEL_SEL_END +0 EMPTY 0 {}
+  .option_setting_banksel_sel.endof +0 EMPTY 0
+  {
+  }
+
+
+  __OPTION_SETTING_BANKSEL_SEL_end +0 EMPTY 0 {}
+  SCatterAssert( (LoadBase(__OPTION_SETTING_BANKSEL_SEL_end) - LoadBase(__OPTION_SETTING_BANKSEL_SEL_start)) <= OPTION_SETTING_BANKSEL_SEL_LENGTH )
+}
+LOAD_REGION_OPTION_SETTING_BPS_SEL OPTION_SETTING_BPS_SEL_START NOCOMPRESS OPTION_SETTING_BPS_SEL_LENGTH
+{
+  __OPTION_SETTING_BPS_SEL_start +0 EMPTY 0 {}
+  __OPTION_SETTING_BPS_SEL_init +0 EMPTY 0 {}
+        
+  
+  __ddsc_OPTION_SETTING_BPS_SEL_START +0 EMPTY 0 {}
+  .option_setting_bps_sel.startof +0 EMPTY 0
+  {
+  }
+
+        
+  ; BPS Security Attribution
+  __option_setting_bps_sel_reg +0 FIXED
+  {
+  *(.option_setting_bps_sel)
+  }
+
+        
+  
+  __ddsc_OPTION_SETTING_BPS_SEL_END +0 EMPTY 0 {}
+  .option_setting_bps_sel.endof +0 EMPTY 0
+  {
+  }
+
+
+  __OPTION_SETTING_BPS_SEL_end +0 EMPTY 0 {}
+  SCatterAssert( (LoadBase(__OPTION_SETTING_BPS_SEL_end) - LoadBase(__OPTION_SETTING_BPS_SEL_start)) <= OPTION_SETTING_BPS_SEL_LENGTH )
+}
+
+

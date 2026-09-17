@@ -2,12 +2,12 @@
  * File Name    : secure_definitions.h
  * Description  : Contains Secure code region definitions and Security operation related macros
  ***********************************************************************************************************************/
-
-/***********************************************************************************************************************
-* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
+/*
+* Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
+*/
+
 #ifndef SECURE_DEFINITIONS_H_
 #define SECURE_DEFINITIONS_H_
 
@@ -34,10 +34,10 @@
 #define SECURE_FLASH_WRITE_LENGTH		(128)
 #define FLASH_WRITE_LENGTH              (128)
 /*
- * secure data
+ * Secure data
  * they need to be global variables so the security of the secure regions can be verified
  */
-extern SECURE_BSS volatile uint32_t s_dataBss;
+extern SECURE_BSS volatile  uint32_t s_dataBss;
 extern SECURE_CONST const   uint32_t s_dataConst;
 extern SECURE_DATA volatile uint32_t s_dataInit;
 extern SECURE_DATA volatile uint32_t s_dataWritten;

@@ -1,21 +1,32 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <workspace>
     <project>
-        <path>$WS_DIR$\sensor_ns.ewp</path>
+        <path>$WS_DIR$\secure_ns.ewp</path>
     </project>
     <project>
         <path>$WS_DIR$\..\sensor_s\sensor_s.ewp</path>
     </project>
     <batchBuild>
         <batchDefinition>
-            <name>TrustZone Projects</name>
+            <name>TrustZone Projects - Debug</name>
             <member>
                 <project>sensor_s</project>
                 <configuration>Debug</configuration>
             </member>
             <member>
-                <project>sensor_ns</project>
+                <project>secure_ns</project>
                 <configuration>Debug</configuration>
+            </member>
+        </batchDefinition>
+        <batchDefinition>
+            <name>TrustZone Projects - Release</name>
+            <member>
+                <project>sensor_s</project>
+                <configuration>Release</configuration>
+            </member>
+            <member>
+                <project>secure_ns</project>
+                <configuration>Release</configuration>
             </member>
         </batchDefinition>
     </batchBuild>

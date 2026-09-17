@@ -1,0 +1,61 @@
+@startuml
+skinparam backgroundColor #FEFEFE
+
+box "Application" #Orange
+participant "Application" as app
+end box
+
+box "PMU monitor" #Orange
+participant "PMU monitor" as pmumon
+end box
+
+box "Tensorflow" #LightGreen
+participant "TFLu" as tflu
+end box
+
+box "Ethos-U" #LightBlue
+participant "Ethos-U driver" as driver
+end box
+
+box "EventRecorder" #LightBlue
+participant EventRecorder as event
+end box
+
+box "Timer source"
+participant "Timer source" as timer
+end box
+
+app -> event: EventRecorderInitialize()
+
+app -> tflu: Invoke()
+tflu -> driver: ethosu_invoke()
+
+driver -> app ++: ethosu_inference_begin(inference data, driver) [weak]
+app -> pmumon: ethosu_monitor.configure()
+pmumon -> driver: 'Configure PMU'
+pmumon -> timer: Enable timer events
+return
+
+group While the Ethos-U custom op is executing
+group Recurrent: PMU-monitor log events
+  ...
+  timer -> app++: Timer event
+  app -> pmumon: ethosu_monitor.monitorSample()
+  pmumon -> driver: 'Sample PMU registers'
+  driver --> pmumon
+  pmumon -> event : EventRecord2()
+...
+end
+end
+
+driver -> app++: ethosu_inference_end(inference data, driver) [weak]
+app -> timer: 'Disable timer events'
+app -> pmumon: ethosu_monitor.monitorSample()
+pmumon -> driver: 'Sample PMU registers'
+driver --> pmumon
+pmumon -> event : EventRecord2()
+app -> pmumon: ethosu_monitor.release()
+pmumon -> driver: 'Disable PMU'
+return
+
+@enduml

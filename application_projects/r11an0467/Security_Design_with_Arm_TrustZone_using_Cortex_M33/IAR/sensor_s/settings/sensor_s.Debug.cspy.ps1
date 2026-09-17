@@ -23,9 +23,9 @@
 
 if ($debugfile -eq "")
 {
-& "C:\Program Files\IAR Systems\Embedded Workbench 9.2_4\common\bin\cspybat" -f "C:\ra-solutions-rvc\application_projects\r11an0467\IAR\sensor_s\settings\sensor_s.Debug.general.xcl" --backend -f "C:\ra-solutions-rvc\application_projects\r11an0467\IAR\sensor_s\settings\sensor_s.Debug.driver.xcl" 
+& "C:\iar\ewarm-9.70.4\common\bin\cspybat" -f "C:\Users\a5116222\Workspace\SC_workspace\sensor_s\settings\sensor_s.Debug.general.xcl" --backend -f "C:\Users\a5116222\Workspace\SC_workspace\sensor_s\settings\sensor_s.Debug.driver.xcl" 
 }
 else
 {
-& "C:\Program Files\IAR Systems\Embedded Workbench 9.2_4\common\bin\cspybat" -f "C:\ra-solutions-rvc\application_projects\r11an0467\IAR\sensor_s\settings\sensor_s.Debug.general.xcl" --debug_file=$debugfile --backend -f "C:\ra-solutions-rvc\application_projects\r11an0467\IAR\sensor_s\settings\sensor_s.Debug.driver.xcl" 
+& "C:\iar\ewarm-9.70.4\common\bin\cspybat" -f "C:\Users\a5116222\Workspace\SC_workspace\sensor_s\settings\sensor_s.Debug.general.xcl" --debug_file=$debugfile --backend -f "C:\Users\a5116222\Workspace\SC_workspace\sensor_s\settings\sensor_s.Debug.driver.xcl" 
 }

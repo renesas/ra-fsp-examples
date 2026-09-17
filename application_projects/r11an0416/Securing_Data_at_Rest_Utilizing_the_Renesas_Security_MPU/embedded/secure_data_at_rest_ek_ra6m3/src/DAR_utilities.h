@@ -2,11 +2,11 @@
  * File Name    : DAR_utilities.h
  * Description  : Contains macros, and functions definitions used for Security MPU register access
  ***********************************************************************************************************************/
-/***********************************************************************************************************************
-* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
+/*
+* Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
+*/
 
 #ifndef DAR_UTILITIES_H_
 #define DAR_UTILITIES_H_
@@ -50,15 +50,15 @@ extern void SECURE_PROGRAM  s_read_faw_settings(uint32_t * faws, uint32_t * fawe
 #define MAX(a,b) (((a) > (b)) ? (a) : (b))
 #endif
 
-/* two flash blocks used for flash erase and write testing */
-#define FLASH_WRITE_TEST_BLOCK1 		(0xb0000)         // test block located in secure flash FAW unmodifiable region
-#define FLASH_WRITE_TEST_BLOCK2 		(0x120000)            // test block located in non-secure flash FAW modifiable
+/* Two flash blocks used for flash erase and write testing */
+#define FLASH_WRITE_TEST_BLOCK1 		(0xb0000)         // Test block located in secure flash FAW unmodifiable region
+#define FLASH_WRITE_TEST_BLOCK2 		(0x120000)        // Test block located in non-secure flash FAW modifiable
 #define FLASH_WRITE_LENGTH  			(128)
 #define FLASH_WRITE_TEST_DATA           (0x33)
 
-/* change the FAW_START address to demonstrate more use cases of the Security MPU and FAW usage */
-//#define FAW_START   (0x0a0000) // flash access window start
-#define FAW_START   (0x100000) // flash access window start
-#define FAW_END     (0x200000)  // flash access window ends
+/* Change the FAW_START address to demonstrate more use cases of the Security MPU and FAW usage */
+//#define FAW_START   (0x0a0000) // Flash access window start
+#define FAW_START   (0x100000) // Flash access window start
+#define FAW_END     (0x1FFFFF) // Flash access window ends
 
 #endif /* DAR_UTILITIES_H_ */

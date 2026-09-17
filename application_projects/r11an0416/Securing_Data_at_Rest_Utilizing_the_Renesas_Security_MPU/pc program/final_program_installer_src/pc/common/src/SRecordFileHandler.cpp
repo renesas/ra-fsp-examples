@@ -1,3 +1,8 @@
+/***********************************************************************************************************************
+* Copyright (c) 2019 - 2026 Renesas Electronics Corporation and/or its affiliates
+*
+* SPDX-License-Identifier: BSD-3-Clause
+***********************************************************************************************************************/
 #include "SRecordFileHandler.h"
 #include <fstream>
 

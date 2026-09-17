@@ -3,7 +3,7 @@
  * Description  : implementation of sensor IP algorithm non-secure callable APIs
  **********************************************************************************************************************/
 /**********************************************************************************************************************
-* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
+* Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
 *********************************************************************************************************************/
@@ -34,7 +34,7 @@ static void adc_operation(void);
  const uint32_t freq_in_hz = 4;
 
  /* Calculate the delay in terms of bsp_delay_units */
- const uint32_t delay = BSP_DELAY_UNITS_MILLISECONDS / 4;
+ const uint32_t delay = bsp_delay_units / freq_in_hz;
 
  /*****************************************************************************************************************
   *  @brief      adc_operation
@@ -95,29 +95,13 @@ static void toggle_led( uint32_t pin)
 
     /* Holds level to set for pins */
     bsp_io_level_t pin_level = BSP_IO_LEVEL_HIGH;
-
     for (int i = 0; i < 4; i++)
     {
-        /* Enable access to the PFS registers. If using r_ioport module then register protection is automatically
-        * handled. This code uses BSP IO functions to show how it is used.
-        */
-        R_BSP_PinAccessEnable();
+				/* Set the Pin/LED level */
+        R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t)pin, pin_level);
 
-        /* Write to this pin */
-        R_BSP_PinWrite((bsp_io_port_pin_t) pin, pin_level);
-
-        /* Protect PFS registers */
-        R_BSP_PinAccessDisable();
-
-        /* Toggle level for next write */
-        if (BSP_IO_LEVEL_LOW == pin_level)
-        {
-          pin_level = BSP_IO_LEVEL_HIGH;
-        }
-        else
-        {
-          pin_level = BSP_IO_LEVEL_LOW;
-        }
+        pin_level = (BSP_IO_LEVEL_LOW == pin_level) 
+                    ? BSP_IO_LEVEL_HIGH : BSP_IO_LEVEL_LOW;
 
         /* Delay */
         R_BSP_SoftwareDelay(delay, bsp_delay_units);

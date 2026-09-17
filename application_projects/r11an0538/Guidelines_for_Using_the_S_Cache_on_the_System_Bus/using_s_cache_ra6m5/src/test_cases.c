@@ -2,11 +2,11 @@
  * File Name    : test_cases.c
  * Description  : Contains data structures and functions used in test_cases.c
  **********************************************************************************************************************/
-/***********************************************************************************************************************
-* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
+/*
+* Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
+*/
 
 #include "test_cases.h"
 #include "common_utils.h"
@@ -36,17 +36,18 @@ static void set_none_cacheable_regions(void);
 static int32_t calculate_stdev(void)
 {
     int32_t result_std = 0;
-    for(volatile int index = 0; index<180; index++)
+    for (volatile int index = 0; index < 180; index++)
     {
-       R_BSP_SoftwareDelay(10, bsp_delay_units);
-       sine_cosine_sq[index] =(g_dest_sine_cosine_data[index]>>16)*(g_dest_sine_cosine_data[index]>>16) + (g_dest_sine_cosine_data[index] & 0x0000FFFF)*(g_dest_sine_cosine_data[index]&0x0000FFFF);
+        R_BSP_SoftwareDelay(10, bsp_delay_units);
+        sine_cosine_sq[index] = (g_dest_sine_cosine_data[index] >> 16)*(g_dest_sine_cosine_data[index] >> 16) + (g_dest_sine_cosine_data[index] & 0x0000FFFF)*(g_dest_sine_cosine_data[index] & 0x0000FFFF);
 
     }
     arm_std_q31(sine_cosine_sq, DATA_SIZE, &result_std);
 
     return result_std;
 
- }
+}
+
 /*********************************************************************************************************************
  *  @brief       acquire and print the standard deviation with s cache disabled
  *  @param[IN]   None
@@ -62,8 +63,8 @@ void standared_dev_calc_s_cache_disabled(void)
     result_std = calculate_stdev();
 
     dmac_transfer_deinit(&g_transfer_sine_wave_ctrl, SINE_WAVE);
-     /* De-initialize AGT */
-     agt_timer_deinit();
+    /* De-initialize AGT */
+    agt_timer_deinit();
 
     APP_PRINT("\r\nStandard deviation when s cache is disabled is %d\n\n", result_std);
 }
@@ -103,7 +104,7 @@ void standard_dev_calc_s_cache_enabled_flushed(uint32_t method)
 
     dma_transfer_sine_cosine_operation();
 
-    if(FLUSH_IN_APP == method)
+    if (FLUSH_IN_APP == method)
     {
         flush_s_cache();
     }
@@ -111,10 +112,11 @@ void standard_dev_calc_s_cache_enabled_flushed(uint32_t method)
     dmac_transfer_deinit(&g_transfer_sine_wave_ctrl, SINE_WAVE);
     /* De-initialize AGT */
     agt_timer_deinit();
-    if(FLUSH_IN_APP == method)
-   {
+
+    if (FLUSH_IN_APP == method)
+    {
         APP_PRINT("\r\nStandard deviation when s cache is enabled and flushed in app is %d\n\n", result_std);
-   }
+    }
     else
     {
         APP_PRINT("\r\nStandard deviation when s cache is enabled and flushed in dma transfer complete callback is %d\n\n", result_std);
@@ -138,11 +140,12 @@ void track_time_used_s_cache_disabled(void)
     /* De-initialize AGT */
     agt_timer_deinit();
     ResetCycleCounter();
-    for(volatile int new_index = 0; new_index < NUM_CYCLES_TO_CALCULATE; new_index++)
+
+    for (volatile int new_index = 0; new_index < NUM_CYCLES_TO_CALCULATE; new_index++)
     {
-         for(volatile int index = 0; index<180; index++)
+        for (volatile int index = 0; index < 180; index++)
         {
-             sine_cosine_sq[index] =(g_dest_sine_cosine_data[index]>>16)*(g_dest_sine_cosine_data[index]>>16) + (g_dest_sine_cosine_data[index] & 0x0000FFFF)*(g_dest_sine_cosine_data[index]&0x0000FFFF);
+            sine_cosine_sq[index] = (g_dest_sine_cosine_data[index] >> 16)*(g_dest_sine_cosine_data[index] >> 16) + (g_dest_sine_cosine_data[index] & 0x0000FFFF)*(g_dest_sine_cosine_data[index] & 0x0000FFFF);
         }
     }
     cycle_count = GetCycleCounter();
@@ -166,22 +169,21 @@ void track_time_used_s_cache_enabled_flushed(void)
     dmac_transfer_deinit(&g_transfer_sine_wave_ctrl, SINE_WAVE);
     /* De-initialize AGT */
     agt_timer_deinit();
-    if(true == invalidate_app)
+    if (true == invalidate_app)
     {
-       flush_s_cache();
+        flush_s_cache();
     }
     ResetCycleCounter();
-    for(volatile int new_index = 0; new_index < NUM_CYCLES_TO_CALCULATE; new_index++)
+    for (volatile int new_index = 0; new_index < NUM_CYCLES_TO_CALCULATE; new_index++)
     {
-         for(volatile int index = 0; index<180; index++)
+        for (volatile int index = 0; index < 180; index++)
         {
-             sine_cosine_sq[index] =(g_dest_sine_cosine_data[index]>>16)*(g_dest_sine_cosine_data[index]>>16) + (g_dest_sine_cosine_data[index] & 0x0000FFFF)*(g_dest_sine_cosine_data[index]&0x0000FFFF);
+            sine_cosine_sq[index] = (g_dest_sine_cosine_data[index] >> 16)*(g_dest_sine_cosine_data[index] >> 16) + (g_dest_sine_cosine_data[index] & 0x0000FFFF)*(g_dest_sine_cosine_data[index] & 0x0000FFFF);
         }
     }
     cycle_count = GetCycleCounter();
     APP_PRINT("\r\nDWT cycle used is %d\n\n", cycle_count);
     disable_s_cache();
-
 }
 
 /*********************************************************************************************************************
@@ -203,16 +205,16 @@ void track_time_used_s_cache_enabled_sram_used_by_dma_noncacheable(void)
     dmac_transfer_deinit(&g_transfer_sine_wave_ctrl, SINE_WAVE);
     /* De-initialize AGT */
     agt_timer_deinit();
-    if(true == invalidate_app)
+    if (true == invalidate_app)
     {
-       flush_s_cache();
+        flush_s_cache();
     }
     ResetCycleCounter();
-    for(volatile int new_index = 0; new_index < NUM_CYCLES_TO_CALCULATE; new_index++)
+    for (volatile int new_index = 0; new_index < NUM_CYCLES_TO_CALCULATE; new_index++)
     {
-         for(volatile int index = 0; index<180; index++)
+        for (volatile int index = 0; index < 180; index++)
         {
-             sine_cosine_sq[index] =(g_dest_sine_cosine_data[index]>>16)*(g_dest_sine_cosine_data[index]>>16) + (g_dest_sine_cosine_data[index] & 0x0000FFFF)*(g_dest_sine_cosine_data[index]&0x0000FFFF);
+            sine_cosine_sq[index] = (g_dest_sine_cosine_data[index] >> 16)*(g_dest_sine_cosine_data[index] >> 16) + (g_dest_sine_cosine_data[index] & 0x0000FFFF)*(g_dest_sine_cosine_data[index] & 0x0000FFFF);
         }
     }
     cycle_count = GetCycleCounter();
@@ -248,7 +250,6 @@ static void set_none_cacheable_regions(void)
     ARM_MPU_Enable(MPU_CTRL_PRIVDEFENA_Msk | MPU_CTRL_HFNMIENA_Msk);
 
 }
-
 
 /*********************************************************************************************************************
  *  @brief       get the cycle count used when s cache is enabled and flushed and print it on the RTT viewer

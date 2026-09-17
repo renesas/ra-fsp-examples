@@ -1,0 +1,59 @@
+/***********************************************************************************************************************
+ * File Name    : common_utils.h
+ * Description  : Contains downloader communication related macro definitions and function prototypes
+ ***********************************************************************************************************************/
+
+/***********************************************************************************************************************
+* Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
+*
+* SPDX-License-Identifier: BSD-3-Clause
+************************************************************************************************************************/
+
+#ifndef COMMS_H_
+#define COMMS_H_
+
+#include <slot_info.h>
+#include "hal_data.h"
+/* Generic headers */
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+/* SEGGER RTT and error related headers */
+#include "SEGGER_RTT/SEGGER_RTT.h"
+
+#define BIT_SHIFT_8             (8u)
+#define SIZE_64                 (64u)
+
+#define LVL_ERR                 (1u)       /* Error conditions */
+
+
+#define SEGGER_INDEX            (0)
+
+#define APP_PRINT(fn_, ...)     (SEGGER_RTT_printf (SEGGER_INDEX,(fn_), ##__VA_ARGS__))
+
+#define APP_ERR_PRINT(fn_, ...) ({\
+                                if(LVL_ERR)\
+                                SEGGER_RTT_printf (SEGGER_INDEX, "[ERR] In Function: %s(), %s",\
+                                __FUNCTION__,(fn_),##__VA_ARGS__);\
+                                })
+
+#define APP_ERR_TRAP(err)       ({\
+                                if((err)) {\
+                                SEGGER_RTT_printf(SEGGER_INDEX, "\r\nReturned Error Code: 0x%x  \r\n", (err));\
+                                __asm("BKPT #0\n");} /* Trap upon the error */\
+                                })
+
+#define APP_READ(read_data)     (SEGGER_RTT_Read (SEGGER_INDEX, (read_data), sizeof(read_data)))
+
+#define APP_CHECK_DATA          (SEGGER_RTT_HasKey())
+
+#define MAX_DELAY           (0xffffffffUL)
+
+#define COMMS_USB
+
+///* Function prototypes */
+//fsp_err_t comms_open(void);
+//fsp_err_t comms_send(uint8_t * p_src, uint32_t len);
+//fsp_err_t comms_read(uint8_t * p_dest, uint32_t * len, uint32_t timeout_milliseconds);
+
+#endif /* COMMS_H_ */

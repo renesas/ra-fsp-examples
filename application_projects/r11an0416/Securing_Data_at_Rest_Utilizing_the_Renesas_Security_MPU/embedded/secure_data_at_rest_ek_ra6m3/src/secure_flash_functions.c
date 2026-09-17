@@ -2,12 +2,11 @@
  * File Name    : secure_flash_functions.c
  * Description  : Contains implementations of secure functions running out of secure flash
  ***********************************************************************************************************************/
-
-/***********************************************************************************************************************
-* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
+/*
+* Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
+*/
 
 #include <stdbool.h>
 #include "secure_flash_functions.h"
@@ -17,33 +16,31 @@
 #include "DAR_utilities.h"
 
 /*
- * secure data
+ * Secure data
  * If user want the secure variable to be manipulated by other non-secure or secure modules, create static variable
  * and provide secure access interface for these variables
  */
 SECURE_BSS volatile     uint32_t s_dataBss;
 
 /*
- * secure data
+ * Secure data
  * If user wants to hide the secure variables from any other module (non-secure or secure alike), declare them as static variables
  * and do not provide access functions to these variables
  */
 SECURE_DATA volatile uint32_t s_dataInit2 = SECURE_DATA_VALUE;
 
 /*
- * secure data
+ * Secure data
  * to verify secure data can not be read/write from non-secure program
  * define several global variables and DO NOT provide secure access function for them (because non-secure program can call secure functions)
  */
-
 SECURE_CONST const      uint32_t s_dataConst = SECURE_DATA_CONST_VALUE;
 SECURE_DATA  volatile   uint32_t s_dataInit = SECURE_DATA_VALUE;
 SECURE_DATA  volatile   uint32_t s_dataWritten;
 
 
-
 /*
- * this is a helper function to verify write to secure SRAM from non-secure program is not allowed
+ * This is a helper function to verify write to secure SRAM from non-secure program is not allowed
  */
 uint32_t get_s_dataWritten()
 {
@@ -58,7 +55,7 @@ uint32_t get_s_dataWritten()
  **********************************************************************************************************************/
 void SECURE_PROGRAM  s_secureDataInit(void)
 {
-    /* need to do this here since the sections are not yet covered by the standard
+    /* Need to do this here since the sections are not yet covered by the standard
      * BSP initialization
     */
     s_dataBss = 0;
@@ -78,7 +75,7 @@ void SECURE_PROGRAM  s_secureDataInit(void)
 *                    Size of section in bytes
 * Return Value : none
 ***********************************************************************************************************************/
-void secure_sram_section_copy (uint8_t * psource, uint8_t * pdest, uint32_t bytes)
+void secure_sram_section_copy(uint8_t * psource, uint8_t * pdest, uint32_t bytes)
 {
     uint32_t index = 0;
     for (index = 0U; index < bytes; index++,pdest++,psource++)
@@ -95,13 +92,12 @@ void secure_sram_section_copy (uint8_t * psource, uint8_t * pdest, uint32_t byte
  **********************************************************************************************************************/
 bool s_writeSecureRam_usingSecureFlashCode(void)
 {
-
     setTestDatavalueData(SECURE_DATA_WRITE_TEST_VALUE);
     s_dataWritten = getvalueData();
 
     SECURE_PADDING;
 
-    if(SECURE_DATA_WRITE_TEST_VALUE == getvalueData())
+    if (SECURE_DATA_WRITE_TEST_VALUE == getvalueData())
     {
         return(true);
     }
@@ -117,7 +113,6 @@ bool s_writeSecureRam_usingSecureFlashCode(void)
  *
  * return: void
  **********************************************************************************************************************/
-
 bool s_write_non_secureRam_usingSecureFlashCode(void)
 {
 	dataWritten = SECURE_DATA_WRITE_TEST_VALUE;
@@ -126,7 +121,7 @@ bool s_write_non_secureRam_usingSecureFlashCode(void)
 
     SECURE_PADDING;
 
-    if(SECURE_DATA_WRITE_TEST_VALUE == getvalueData())
+    if (SECURE_DATA_WRITE_TEST_VALUE == getvalueData())
     {
         return(true);
     }
@@ -142,7 +137,6 @@ bool s_write_non_secureRam_usingSecureFlashCode(void)
  *
  * return: void
  **********************************************************************************************************************/
-
 bool s_readSecureRam_usingSecureFlashCode(void)
 {
     setTestDatavalueBss(s_dataBss);
@@ -150,7 +144,7 @@ bool s_readSecureRam_usingSecureFlashCode(void)
 
     SECURE_PADDING;
 
-    if((0 == getvalueBss()) && (SECURE_DATA_VALUE == getvalueData()))
+    if ((0 == getvalueBss()) && (SECURE_DATA_VALUE == getvalueData()))
     {
         return(true);
     }
@@ -160,14 +154,12 @@ bool s_readSecureRam_usingSecureFlashCode(void)
     }
 }
 
-
 /*******************************************************************************************************************//**
  * @brief s_read_non_secureRam_usingSecureFlashCode function
  * This function shows secure flash program can read non-secure SRAM region.
  *
  * return: void
  **********************************************************************************************************************/
-
 bool s_read_non_secureRam_usingSecureFlashCode(void)
 {
     setTestDatavalueBss(getDataBss());
@@ -175,7 +167,7 @@ bool s_read_non_secureRam_usingSecureFlashCode(void)
 
     SECURE_PADDING;
 
-    if((0 == getvalueBss()) && (DATA_VALUE == getvalueData()))
+    if ((0 == getvalueBss()) && (DATA_VALUE == getvalueData()))
     {
         return(true);
     }
@@ -191,13 +183,12 @@ bool s_read_non_secureRam_usingSecureFlashCode(void)
  *
  * return: void
  **********************************************************************************************************************/
-
 bool s_readSecureFlash_usingSecureFlashCode(void)
 {
     setTestDatavalueConst(s_dataConst);
     SECURE_PADDING;
 
-    if(SECURE_DATA_CONST_VALUE == getvalueConst())
+    if (SECURE_DATA_CONST_VALUE == getvalueConst())
     {
         return(true);
     }
@@ -213,13 +204,12 @@ bool s_readSecureFlash_usingSecureFlashCode(void)
  *
  * return: void
  **********************************************************************************************************************/
-
 bool s_read_non_secureFlash_usingSecureFlashCode(void)
 {
     setTestDatavalueConst(u_dataConst);
     SECURE_PADDING;
 
-    if(DATA_CONST_VALUE == getvalueConst())
+    if (DATA_CONST_VALUE == getvalueConst())
     {
         return(true);
     }
@@ -235,7 +225,6 @@ bool s_read_non_secureFlash_usingSecureFlashCode(void)
  *
  * return: void
  **********************************************************************************************************************/
-
 bool s_setup_faw(void)
 {
 	static volatile fsp_err_t err;
@@ -243,7 +232,10 @@ bool s_setup_faw(void)
 	err = R_FLASH_HP_Open(&g_flash0_ctrl, &g_flash0_cfg);
 	APP_ERR_TRAP(err);
 
-	/*Setup the access window to be between FAW_START and FAW_END */
+    err = R_FLASH_HP_Reset(&g_flash0_ctrl);
+    APP_ERR_TRAP(err);
+
+	/* Setup the access window to be between FAW_START and FAW_END */
 	err = R_FLASH_HP_AccessWindowSet(&g_flash0_ctrl, FAW_START, FAW_END);
 	APP_ERR_TRAP(err);
 
@@ -252,7 +244,7 @@ bool s_setup_faw(void)
 
     SECURE_PADDING;
 
-    if(FSP_SUCCESS == err )
+    if (FSP_SUCCESS == err)
     {
         return(true);
     }
@@ -268,7 +260,6 @@ bool s_setup_faw(void)
  *
  * return: void
  **********************************************************************************************************************/
-
 bool s_reset_faw(void)
 {
     static volatile fsp_err_t  err;
@@ -281,19 +272,17 @@ bool s_reset_faw(void)
     err = R_FLASH_HP_AccessWindowClear(&g_flash0_ctrl);
     APP_ERR_TRAP(err);
 
-    /* close flash API */
+    /* Close flash API */
     err = R_FLASH_HP_Close(&g_flash0_ctrl);
     APP_ERR_TRAP(err);
 
     SECURE_PADDING;
     if (FSP_SUCCESS == err)
     {
-    	return true;
+        return true;
     }
     else
     {
         return(false);
     }
-
 }
-

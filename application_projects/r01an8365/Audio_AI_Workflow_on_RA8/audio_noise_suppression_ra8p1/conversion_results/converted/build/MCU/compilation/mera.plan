@@ -1,0 +1,252 @@
+{
+  "execution": {
+    "stages": [
+      [
+        [
+          [
+            {
+              "backend": "mera_c99_source_cpu",
+              "binaries_location": "sub_0000__CPU_C_CODEGEN",
+              "name": "sub_0000"
+            },
+            {
+              "input_buffers": {
+                "main_input_int8": 0
+              },
+              "input_order": [
+                "main_input_int8"
+              ],
+              "output_buffers": {
+                "Tensordot_Reshape_model_1_fc1_StatefulPartitionedCall_Tensordot_Reshape_70039": 1
+              },
+              "output_order": [
+                "Tensordot_Reshape_model_1_fc1_StatefulPartitionedCall_Tensordot_Reshape_70039"
+              ]
+            }
+          ]
+        ]
+      ],
+      [
+        [
+          [
+            {
+              "backend": "mera_c99_source_ethos_u55",
+              "binaries_location": "sub_0001__ARM_ETHOS_U55_C_CODEGEN",
+              "name": "sub_0001"
+            },
+            {
+              "input_buffers": {
+                "Tensordot_Reshape_model_1_fc1_StatefulPartitionedCall_Tensordot_Reshape_70039": 1,
+                "denoise_gru_prev_state_int8": 2,
+                "main_input_int8": 0,
+                "noise_gru_prev_state_int8": 3,
+                "vad_gru_prev_state_int8": 4
+              },
+              "input_order": [
+                "Tensordot_Reshape_model_1_fc1_StatefulPartitionedCall_Tensordot_Reshape_70039",
+                "vad_gru_prev_state_int8",
+                "main_input_int8",
+                "noise_gru_prev_state_int8",
+                "denoise_gru_prev_state_int8"
+              ],
+              "output_buffers": {
+                "Identity_1_int8_70152": 8,
+                "Identity_2_int8_70118": 6,
+                "Identity_3_int8_70089": 5,
+                "Identity_4_int8_70156": 9,
+                "Identity_int8_70148": 7
+              },
+              "output_order": [
+                "Identity_1_int8_70152",
+                "Identity_2_int8_70118",
+                "Identity_3_int8_70089",
+                "Identity_4_int8_70156",
+                "Identity_int8_70148"
+              ]
+            }
+          ]
+        ]
+      ]
+    ]
+  },
+  "memory": {
+    "buffers": [
+      {
+        "alignment": 256,
+        "alloc_mode": "linux_malloc",
+        "bytes_size": 42,
+        "data_type": "int8",
+        "name": "main_input_int8",
+        "offset": 0,
+        "shape": [
+          1,
+          1,
+          42
+        ],
+        "size": 42
+      },
+      {
+        "alignment": 256,
+        "alloc_mode": "linux_malloc",
+        "bytes_size": 42,
+        "data_type": "int8",
+        "name": "Tensordot_Reshape_model_1_fc1_StatefulPartitionedCall_Tensordot_Reshape_70039",
+        "offset": 0,
+        "shape": [
+          1,
+          42
+        ],
+        "size": 42
+      },
+      {
+        "alignment": 256,
+        "alloc_mode": "linux_malloc",
+        "bytes_size": 96,
+        "data_type": "int8",
+        "name": "denoise_gru_prev_state_int8",
+        "offset": 0,
+        "shape": [
+          1,
+          96
+        ],
+        "size": 96
+      },
+      {
+        "alignment": 256,
+        "alloc_mode": "linux_malloc",
+        "bytes_size": 48,
+        "data_type": "int8",
+        "name": "noise_gru_prev_state_int8",
+        "offset": 0,
+        "shape": [
+          1,
+          48
+        ],
+        "size": 48
+      },
+      {
+        "alignment": 256,
+        "alloc_mode": "linux_malloc",
+        "bytes_size": 24,
+        "data_type": "int8",
+        "name": "vad_gru_prev_state_int8",
+        "offset": 0,
+        "shape": [
+          1,
+          24
+        ],
+        "size": 24
+      },
+      {
+        "alignment": 256,
+        "alloc_mode": "linux_malloc",
+        "bytes_size": 24,
+        "data_type": "int8",
+        "name": "Identity_3_int8_70089",
+        "offset": 0,
+        "shape": [
+          1,
+          1,
+          24
+        ],
+        "size": 24
+      },
+      {
+        "alignment": 256,
+        "alloc_mode": "linux_malloc",
+        "bytes_size": 48,
+        "data_type": "int8",
+        "name": "Identity_2_int8_70118",
+        "offset": 0,
+        "shape": [
+          1,
+          1,
+          48
+        ],
+        "size": 48
+      },
+      {
+        "alignment": 256,
+        "alloc_mode": "linux_malloc",
+        "bytes_size": 96,
+        "data_type": "int8",
+        "name": "Identity_int8_70148",
+        "offset": 0,
+        "shape": [
+          1,
+          1,
+          96
+        ],
+        "size": 96
+      },
+      {
+        "alignment": 256,
+        "alloc_mode": "linux_malloc",
+        "bytes_size": 22,
+        "data_type": "int8",
+        "name": "Identity_1_int8_70152",
+        "offset": 0,
+        "shape": [
+          1,
+          1,
+          22
+        ],
+        "size": 22
+      },
+      {
+        "alignment": 256,
+        "alloc_mode": "linux_malloc",
+        "bytes_size": 1,
+        "data_type": "int8",
+        "name": "Identity_4_int8_70156",
+        "offset": 0,
+        "shape": [
+          1,
+          1,
+          1
+        ],
+        "size": 1
+      }
+    ],
+    "input_buffers": [
+      [
+        "main_input_int8",
+        0
+      ],
+      [
+        "denoise_gru_prev_state_int8",
+        2
+      ],
+      [
+        "noise_gru_prev_state_int8",
+        3
+      ],
+      [
+        "vad_gru_prev_state_int8",
+        4
+      ]
+    ],
+    "output_buffers": [
+      [
+        "Identity_3_int8_70089",
+        5
+      ],
+      [
+        "Identity_2_int8_70118",
+        6
+      ],
+      [
+        "Identity_int8_70148",
+        7
+      ],
+      [
+        "Identity_1_int8_70152",
+        8
+      ],
+      [
+        "Identity_4_int8_70156",
+        9
+      ]
+    ]
+  }
+}

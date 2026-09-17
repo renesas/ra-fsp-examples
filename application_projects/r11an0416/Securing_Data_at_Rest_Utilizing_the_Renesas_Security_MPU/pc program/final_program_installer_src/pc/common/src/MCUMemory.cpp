@@ -1,3 +1,8 @@
+/***********************************************************************************************************************
+* Copyright (c) 2019 - 2026 Renesas Electronics Corporation and/or its affiliates
+*
+* SPDX-License-Identifier: BSD-3-Clause
+***********************************************************************************************************************/
 #include "MCUMemory.h"
 #include <algorithm>
 
@@ -112,6 +117,7 @@ uint32_t MCUMemory::GetPageAlignedSize(e_memory_type region_type)
 	}
 	return retval;
 }
+
 uint32_t MCUMemory::GetPageAlignedAddress(e_memory_type region_type)
 {
 	MCUMemory::memory_region_t *pRegion = &m_regions[region_type];

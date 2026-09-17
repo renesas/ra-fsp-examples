@@ -2,12 +2,11 @@
  * File Name    : non_secure_flash_functions.c
  * Description  : Contains test routines running out of non_secure flash regions
  ***********************************************************************************************************************/
-
-/***********************************************************************************************************************
-* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
+/*
+* Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
+*/
 
 #include <stdint.h>
 #include <string.h>
@@ -19,8 +18,9 @@
 #include "DAR_utilities.h"
 
 /* global variable */
-/* temporary variable used to exercise the data access to different regions*/
-typedef struct  {
+/* Temporary variable used to exercise the data access to different regions*/
+typedef struct
+{
 	volatile uint32_t valueBss;
 	volatile uint32_t valueData;
 	volatile uint32_t valueConst;
@@ -49,44 +49,44 @@ uint8_t ns_writeBuffer[FLASH_WRITE_LENGTH];
  **********************************************************************************************************************/
 void ns_setup_the_writeBuffer(void)
 {
-    volatile int i=0;
+    volatile int i = 0;
 
-    for (i=0; i<FLASH_WRITE_LENGTH; i++)
-            ns_writeBuffer[i]=FLASH_WRITE_TEST_DATA;
+    for (i = 0; i < FLASH_WRITE_LENGTH; i++)
+            ns_writeBuffer[i] = FLASH_WRITE_TEST_DATA;
 }
-/*get and set function for static variables*/
+/* Get and set function for static variables */
 
-/* get Bss test data*/
+/* Get Bss test data */
 uint32_t getDataBss()
 {
 	return u_dataBss;
 }
-/* set Bss test data*/
+/* Set Bss test data */
 void setTestDatavalueBss(uint32_t valueBss)
 {
 	testData.valueBss = valueBss;
 }
-/* set test data */
+/* Set test data */
 void setTestDatavalueData(uint32_t valueData)
 {
 	testData.valueData = valueData;
 }
-/* set test constant */
+/* Set test constant */
 void setTestDatavalueConst(uint32_t valueConst)
 {
 	testData.valueConst = valueConst;
 }
-/* get test constant*/
+/* Get test constant*/
 uint32_t getvalueConst()
 {
 	return testData.valueConst;
 }
-/* get test data */
+/* Get test data */
 uint32_t getvalueData()
 {
 	return testData.valueData;
 }
-/* get Bss test data */
+/* Get Bss test data */
 uint32_t getvalueBss()
 {
 	return testData.valueBss;
@@ -100,17 +100,16 @@ uint32_t getvalueBss()
  *
  * return: bool
  **********************************************************************************************************************/
-
 bool writeSecureRam_using_non_secureFlashCode(void)
 {
-	/* write to secure SRAM variable from non-secure flash program*/
+	/* Write to secure SRAM variable from non-secure flash program*/
     s_dataWritten = DATA_WRITE_TEST_VALUE;
 
-    /* use the secure access function to retrieve value written */
+    /* Use the secure access function to retrieve value written */
     testData.valueData = get_s_dataWritten();
 
-    /* test to prove that secure SRAM variable is not written */
-    if(DATA_WRITE_TEST_VALUE == testData.valueData)
+    /* Test to prove that secure SRAM variable is not written */
+    if (DATA_WRITE_TEST_VALUE == testData.valueData)
     {
         return(true);
     }
@@ -128,14 +127,12 @@ bool writeSecureRam_using_non_secureFlashCode(void)
  *
  * return: bool
  **********************************************************************************************************************/
-
 bool write_non_secureRam_using_non_secureFlashCode(void)
 {
-
     dataWritten = DATA_WRITE_TEST_VALUE;
     setTestDatavalueData(dataWritten);
 
-    if(DATA_WRITE_TEST_VALUE == getvalueData())
+    if (DATA_WRITE_TEST_VALUE == getvalueData())
     {
         return(true);
     }
@@ -143,23 +140,22 @@ bool write_non_secureRam_using_non_secureFlashCode(void)
     {
         return(false);
     }
-
 }
+
 /*******************************************************************************************************************//**
  * function: flash_write
  * description:
  * write FLASH_WRITE_LENGTH or SECURE_FLASH_WRITE_LENGTH bytes to certain flash address
  * return: bool
  **********************************************************************************************************************/
-
 bool flash_write(uint32_t Flash_address, uint8_t *writeBuffer)
 {
 	static volatile fsp_err_t  err = 0;
 	uint32_t end = 0;
 	flash_result_t blank_check_result = FLASH_RESULT_BLANK;
 
-	/* check SecurityMPU settings */
-    uint16_t secMpuAc = 0;  /* variable to hold the Security MPU access register setting */
+	/* Check SecurityMPU settings */
+    uint16_t secMpuAc = 0;  /* Variable to hold the Security MPU access register setting */
     uint32_t start = 0;
 
     s_readSecureMpuSettings(&secMpuAc);
@@ -174,22 +170,22 @@ bool flash_write(uint32_t Flash_address, uint8_t *writeBuffer)
         s_readRegion0StartAddress(&start);
         s_readRegion0EndAddress(&end);
 
-        if (Flash_address> end )
+        if (Flash_address > end)
         {
-            /*the flash write address in located in non-secure region */
-            /* the erase will succeed if the flash erase/write area in inside FAW */
+            /* The flash write address in located in non-secure region */
+            /* The erase will succeed if the flash erase/write area in inside FAW */
             if (FSP_SUCCESS == R_FLASH_HP_Erase(&g_flash0_ctrl, Flash_address, NUM_OF_FLASH_SECTOR))
             {
-                /*blank check will succeed if the flash region is in non-secure region */
+                /* Blank check will succeed if the flash region is in non-secure region */
                 if (FSP_SUCCESS == R_FLASH_HP_BlankCheck(&g_flash0_ctrl, Flash_address, FLASH_SECTOR_SIZE_32KB, &blank_check_result))
                 {
                     if (FLASH_RESULT_BLANK == blank_check_result)
                     {
                         if (FSP_SUCCESS == R_FLASH_HP_Write(&g_flash0_ctrl, (uint32_t)writeBuffer, Flash_address, FLASH_WRITE_LENGTH))
                         {
-                            /*Read code flash data */
+                            /* Read code flash data */
                             memcpy(readBuffer, (uint8_t *) Flash_address, FLASH_WRITE_LENGTH);
-                            if(!memcmp(writeBuffer, readBuffer, FLASH_WRITE_LENGTH))
+                            if (!memcmp(writeBuffer, readBuffer, FLASH_WRITE_LENGTH))
                             {
                                 err = R_FLASH_HP_Close(&g_flash0_ctrl);
                                 APP_ERR_TRAP(err);
@@ -203,33 +199,32 @@ bool flash_write(uint32_t Flash_address, uint8_t *writeBuffer)
         }
         else
         {
-            /*the flash write address in located in secure region */
-            /* the erase will succeed if the flash erase/write area in inside FAW */
-           if (FSP_SUCCESS == R_FLASH_HP_Erase(&g_flash0_ctrl, Flash_address, NUM_OF_FLASH_SECTOR))
-           {
-               /* flash write should succeed if erase is successful */
-             if (FSP_SUCCESS == R_FLASH_HP_Write(&g_flash0_ctrl, (uint32_t)writeBuffer, Flash_address, FLASH_WRITE_LENGTH))
-               {
-                   err = R_FLASH_HP_Close(&g_flash0_ctrl);
-                   APP_ERR_TRAP(err);
-                   __enable_fault_irq();
-                   return false;
-               }
-           }
+            /* The flash write address in located in secure region */
+            /* The erase will succeed if the flash erase/write area in inside FAW */
+            if (FSP_SUCCESS == R_FLASH_HP_Erase(&g_flash0_ctrl, Flash_address, NUM_OF_FLASH_SECTOR))
+            {
+               /* Flash write should succeed if erase is successful */
+                if (FSP_SUCCESS == R_FLASH_HP_Write(&g_flash0_ctrl, (uint32_t)writeBuffer, Flash_address, FLASH_WRITE_LENGTH))
+                {
+                    err = R_FLASH_HP_Close(&g_flash0_ctrl);
+                    APP_ERR_TRAP(err);
+                    __enable_fault_irq();
+                    return false;
+                }
+            }
         }
         err = R_FLASH_HP_Close(&g_flash0_ctrl);
         APP_ERR_TRAP(err);
         __enable_fault_irq();
     }
-   else
-   {
-       APP_PRINT("Security MPU not enabled, check BSP Configuration\n\r");
-   }
+    else
+    {
+        APP_PRINT("Security MPU not enabled, check BSP Configuration\n\r");
+    }
 
-	/* when one of the above operation fails, system will return flash_write fail */
+	/* When one of the above operation fails, system will return flash_write fail */
     /* notice that this function uses a reverse logic for true false */
     return true;
-
 }
 
 /*******************************************************************************************************************//**
@@ -242,11 +237,11 @@ bool flash_write(uint32_t Flash_address, uint8_t *writeBuffer)
  *    this can be confirmed if FAW region is setup to FAW_STRAT to FAW_END
  * return: bool
  **********************************************************************************************************************/
-
 bool writeSecureFlash_using_non_secureFlashCode(uint8_t *writeBuffer)
 {
 	return !flash_write(FLASH_WRITE_TEST_BLOCK1, writeBuffer);
 }
+
 /*******************************************************************************************************************//**
  * @brief write_non_secureFlash_using_non_secureFlashCode function
  * This function writes FLASH_WRITE_LENGTH or SECURE_FLASH_WRITE_LENGTH bytes of data to the
@@ -270,12 +265,11 @@ bool write_non_secureFlash_using_non_secureFlashCode(uint8_t *writeBuffer)
  *
  * return: bool
  **********************************************************************************************************************/
-
 bool readSecureFlash_using_non_secureFlashCode(void)
 {
 	testData.valueConst = s_dataConst;
 
-    if(SECURE_DATA_CONST_VALUE == testData.valueConst)
+    if (SECURE_DATA_CONST_VALUE == testData.valueConst)
     {
         return(true);
     }
@@ -295,13 +289,12 @@ bool readSecureFlash_using_non_secureFlashCode(void)
  *
  * return: bool
  **********************************************************************************************************************/
-
 bool readSecureRam_using_non_secureFlashCode(void)
 {
     testData.valueBss = s_dataBss;
     testData.valueData = s_dataInit;
 
-    if((0 == testData.valueBss) || (SECURE_DATA_VALUE != testData.valueData))
+    if ((0 == testData.valueBss) || (SECURE_DATA_VALUE != testData.valueData))
     {
         return(true);
     }
@@ -310,6 +303,7 @@ bool readSecureRam_using_non_secureFlashCode(void)
         return(false);
     }
 }
+
 /*******************************************************************************************************************//**
  * @brief read_non_secureFlash_using_non_secureFlashCode function
  * This function reads a non_secure flash variable and shows non-secure flash program can read non-secure flash region.
@@ -319,7 +313,7 @@ bool readSecureRam_using_non_secureFlashCode(void)
 bool read_non_secureFlash_using_non_secureFlashCode(void)
 {
     setTestDatavalueConst(u_dataConst);
-    if(DATA_CONST_VALUE == getvalueConst())
+    if (DATA_CONST_VALUE == getvalueConst())
     {
         return(true);
     }
@@ -328,19 +322,19 @@ bool read_non_secureFlash_using_non_secureFlashCode(void)
         return(false);
     }
 }
+
 /*******************************************************************************************************************//**
  * @brief read_non_secureRam_using_non_secureFlashCode function
  * This function reads a non-secure sram variable and shows non-secure flash program can read non-secure sram region.
  *
  * return: bool
  **********************************************************************************************************************/
-
 bool read_non_secureRam_using_non_secureFlashCode(void)
 {
     setTestDatavalueBss(getDataBss());
     setTestDatavalueData(u_dataInit);
 
-    if((0 == getvalueBss()) && (DATA_VALUE == getvalueData()))
+    if ((0 == getvalueBss()) && (DATA_VALUE == getvalueData()))
     {
         return(true);
     }
@@ -349,7 +343,3 @@ bool read_non_secureRam_using_non_secureFlashCode(void)
         return(false);
     }
 }
-
-
-
-

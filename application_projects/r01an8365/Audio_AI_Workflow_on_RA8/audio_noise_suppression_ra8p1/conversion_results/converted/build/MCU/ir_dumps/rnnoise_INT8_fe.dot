@@ -1,0 +1,711 @@
+digraph g {
+subgraph cluster_graph{
+label = "graph";
+color = red;
+graphGraphOutputs [shape=none, label=<<TABLE BGCOLOR="coral" BORDER="2">
+<TR><TD PORT="Identity_3_int8_70089" BGCOLOR="white">Identity_3_int8_70089 i8(1x1x24)[NHW]</TD><TD PORT="Identity_2_int8_70118" BGCOLOR="white">Identity_2_int8_70118 i8(1x1x48)[NHW]</TD><TD PORT="Identity_int8_70148" BGCOLOR="white">Identity_int8_70148 i8(1x1x96)[NHW]</TD><TD PORT="Identity_1_int8_70152" BGCOLOR="white">Identity_1_int8_70152 i8(1x1x22)[NHW]</TD><TD PORT="Identity_4_int8_70156" BGCOLOR="white">Identity_4_int8_70156 i8(1x1x1)[NHW]</TD></TR>
+</TABLE>>];graphIdentity_1_int8_70152 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input" BGCOLOR="white">input i8(1x1x22)[NHW]</TD></TR>
+<TR><TD COLSPAN="1" BORDER="0">TFLiteSigmoid, Identity_1_int8_70152</TD></TR>
+<TR><TD COLSPAN="1" BGCOLOR="white" PORT="out"> Output i8(1x1x22)[NHW]</TD></TR>
+</TABLE>>];graphIdentity_2_int8_70118 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="in_0" BGCOLOR="white">in_0 i8(1x48)[HW]</TD></TR>
+<TR><TD COLSPAN="1" BORDER="0">TFLitePack, Identity_2_int8_70118<FONT POINT-SIZE="8"><BR/>
+axis = 0<BR/>
+</FONT></TD></TR>
+<TR><TD COLSPAN="1" BGCOLOR="white" PORT="out"> Output i8(1x1x48)[NHW]</TD></TR>
+</TABLE>>];graphIdentity_2_requantized_70119 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input" BGCOLOR="white">input i8(1x1x48)[NHW]</TD></TR>
+<TR><TD COLSPAN="1" BORDER="0">TFLiteQuantize, Identity_2_requantized_70119</TD></TR>
+<TR><TD COLSPAN="1" BGCOLOR="white" PORT="out"> Output i8(1x1x48)[NHW]</TD></TR>
+</TABLE>>];graphIdentity_3_int8_70089 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="in_0" BGCOLOR="white">in_0 i8(1x24)[HW]</TD></TR>
+<TR><TD COLSPAN="1" BORDER="0">TFLitePack, Identity_3_int8_70089<FONT POINT-SIZE="8"><BR/>
+axis = 0<BR/>
+</FONT></TD></TR>
+<TR><TD COLSPAN="1" BGCOLOR="white" PORT="out"> Output i8(1x1x24)[NHW]</TD></TR>
+</TABLE>>];graphIdentity_3_requantized_70090 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input" BGCOLOR="white">input i8(1x1x24)[NHW]</TD></TR>
+<TR><TD COLSPAN="1" BORDER="0">TFLiteQuantize, Identity_3_requantized_70090</TD></TR>
+<TR><TD COLSPAN="1" BGCOLOR="white" PORT="out"> Output i8(1x1x24)[NHW]</TD></TR>
+</TABLE>>];graphIdentity_3_requantized_70120 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input" BGCOLOR="white">input i8(1x1x24)[NHW]</TD></TR>
+<TR><TD COLSPAN="1" BORDER="0">TFLiteQuantize, Identity_3_requantized_70120</TD></TR>
+<TR><TD COLSPAN="1" BGCOLOR="white" PORT="out"> Output i8(1x1x24)[NHW]</TD></TR>
+</TABLE>>];graphIdentity_4_int8_70156 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input" BGCOLOR="white">input i8(1x1x1)[NHW]</TD></TR>
+<TR><TD COLSPAN="1" BORDER="0">TFLiteSigmoid, Identity_4_int8_70156</TD></TR>
+<TR><TD COLSPAN="1" BGCOLOR="white" PORT="out"> Output i8(1x1x1)[NHW]</TD></TR>
+</TABLE>>];graphIdentity_int8_70148 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="in_0" BGCOLOR="white">in_0 i8(1x96)[HW]</TD></TR>
+<TR><TD COLSPAN="1" BORDER="0">TFLitePack, Identity_int8_70148<FONT POINT-SIZE="8"><BR/>
+axis = 0<BR/>
+</FONT></TD></TR>
+<TR><TD COLSPAN="1" BGCOLOR="white" PORT="out"> Output i8(1x1x96)[NHW]</TD></TR>
+</TABLE>>];graphInt32VecConstant_70001 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70001\ni32(22)[C]"];
+graphInt32VecConstant_70002 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70002\ni32(2)[C]"];
+graphInt32VecConstant_70003 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70003\ni32(3)[C]"];
+graphInt32VecConstant_70004 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70004\ni32(24)[C]"];
+graphInt32VecConstant_70005 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70005\ni32(2)[C]"];
+graphInt32VecConstant_70006 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70006\ni32(3)[C]"];
+graphInt32VecConstant_70011 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70011\ni32(1)[C]"];
+graphInt32VecConstant_70012 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70012\ni32(2)[C]"];
+graphInt32VecConstant_70013 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70013\ni32(3)[C]"];
+graphInt32VecConstant_70016 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70016\ni32(288)[C]"];
+graphInt32VecConstant_70017 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70017\ni32(288)[C]"];
+graphInt32VecConstant_70022 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70022\ni32(144)[C]"];
+graphInt32VecConstant_70023 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70023\ni32(144)[C]"];
+graphInt32VecConstant_70025 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70025\ni32(72)[C]"];
+graphInt32VecConstant_70026 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70026\ni32(72)[C]"];
+graphInt32VecConstant_70030 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70030\ni32(2)[C]"];
+graphInt32VecConstant_70031 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70031\ni32(2)[C]"];
+graphInt32VecConstant_70033 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70033\ni32(2)[C]"];
+graphInt32VecConstant_70034 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70034\ni32(2)[C]"];
+graphInt32VecConstant_70036 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70036\ni32(2)[C]"];
+graphInt32VecConstant_70037 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70037\ni32(2)[C]"];
+graphInt32VecConstant_70043 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70043\ni32(3)[C]"];
+graphInt32VecConstant_70044 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70044\ni32(3)[C]"];
+graphInt32VecConstant_70046 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70046\ni32(2)[C]"];
+graphInt32VecConstant_70049 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70049\ni32(2)[C]"];
+graphInt32VecConstant_70050 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70050\ni32(2)[C]"];
+graphInt32VecConstant_70052 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70052\ni32(2)[C]"];
+graphInt32VecConstant_70053 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70053\ni32(2)[C]"];
+graphInt32VecConstant_70055 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70055\ni32(2)[C]"];
+graphInt32VecConstant_70056 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70056\ni32(2)[C]"];
+graphInt32VecConstant_70059 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70059\ni32(2)[C]"];
+graphInt32VecConstant_70060 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70060\ni32(2)[C]"];
+graphInt32VecConstant_70062 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70062\ni32(2)[C]"];
+graphInt32VecConstant_70063 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70063\ni32(2)[C]"];
+graphInt32VecConstant_70065 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70065\ni32(2)[C]"];
+graphInt32VecConstant_70066 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70066\ni32(2)[C]"];
+graphInt32VecConstant_70069 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70069\ni32(2)[C]"];
+graphInt32VecConstant_70070 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70070\ni32(2)[C]"];
+graphInt32VecConstant_70072 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70072\ni32(2)[C]"];
+graphInt32VecConstant_70073 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70073\ni32(2)[C]"];
+graphInt32VecConstant_70075 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70075\ni32(2)[C]"];
+graphInt32VecConstant_70076 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70076\ni32(2)[C]"];
+graphInt32VecConstant_70093 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70093\ni32(3)[C]"];
+graphInt32VecConstant_70094 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70094\ni32(3)[C]"];
+graphInt32VecConstant_70096 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70096\ni32(2)[C]"];
+graphInt32VecConstant_70099 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70099\ni32(2)[C]"];
+graphInt32VecConstant_70100 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70100\ni32(2)[C]"];
+graphInt32VecConstant_70102 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70102\ni32(2)[C]"];
+graphInt32VecConstant_70103 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70103\ni32(2)[C]"];
+graphInt32VecConstant_70105 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70105\ni32(2)[C]"];
+graphInt32VecConstant_70106 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70106\ni32(2)[C]"];
+graphInt32VecConstant_70122 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70122\ni32(3)[C]"];
+graphInt32VecConstant_70123 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70123\ni32(3)[C]"];
+graphInt32VecConstant_70125 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70125\ni32(2)[C]"];
+graphInt32VecConstant_70128 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70128\ni32(2)[C]"];
+graphInt32VecConstant_70129 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70129\ni32(2)[C]"];
+graphInt32VecConstant_70131 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70131\ni32(2)[C]"];
+graphInt32VecConstant_70132 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70132\ni32(2)[C]"];
+graphInt32VecConstant_70134 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70134\ni32(2)[C]"];
+graphInt32VecConstant_70135 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int32VecConstant, Int32VecConstant_70135\ni32(2)[C]"];
+graphInt8VecConstant_70010 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int8VecConstant, Int8VecConstant_70010\ni8(1)[C]"];
+graphInt8VecConstant_70014 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int8VecConstant, Int8VecConstant_70014\ni8(288x114)[HW]"];
+graphInt8VecConstant_70015 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int8VecConstant, Int8VecConstant_70015\ni8(288x96)[HW]"];
+graphInt8VecConstant_70018 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int8VecConstant, Int8VecConstant_70018\ni8(22x96)[HW]"];
+graphInt8VecConstant_70019 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int8VecConstant, Int8VecConstant_70019\ni8(24x42)[HW]"];
+graphInt8VecConstant_70020 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int8VecConstant, Int8VecConstant_70020\ni8(144x90)[HW]"];
+graphInt8VecConstant_70021 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int8VecConstant, Int8VecConstant_70021\ni8(144x48)[HW]"];
+graphInt8VecConstant_70024 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int8VecConstant, Int8VecConstant_70024\ni8(72x24)[HW]"];
+graphInt8VecConstant_70027 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int8VecConstant, Int8VecConstant_70027\ni8(72x24)[HW]"];
+graphInt8VecConstant_70028 [shape=cylinder, fillcolor=antiquewhite, fontsize="12pt", style=filled, label="Int8VecConstant, Int8VecConstant_70028\ni8(1x24)[HW]"];
+graphMatMul_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_MatMul_1_BiasAdd_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_BiasAdd_1_70068 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input" BGCOLOR="white">input i8(1x24)[HW]</TD><TD PORT="kernel" BGCOLOR="white">kernel i8(72x24)[HW]</TD><TD PORT="bias" BGCOLOR="white">bias i32(72)[C]</TD></TR>
+<TR><TD COLSPAN="3" BORDER="0">TFLiteFullyConnectedBias, MatMul_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_MatMul_1_BiasAdd_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_BiasAdd_1_70068<FONT POINT-SIZE="8"><BR/>
+asymmetric_quantize_inputs = 0<BR/>
+fused_activation = NONE<BR/>
+keep_num_dims = 0<BR/>
+quantized_bias_type = dtype(Float32)<BR/>
+</FONT></TD></TR>
+<TR><TD COLSPAN="3" BGCOLOR="white" PORT="out"> Output i8(1x72)[HW]</TD></TR>
+</TABLE>>];graphMatMul_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_MatMul_BiasAdd_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_BiasAdd_70048 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input" BGCOLOR="white">input i8(1x24)[HW]</TD><TD PORT="kernel" BGCOLOR="white">kernel i8(72x24)[HW]</TD><TD PORT="bias" BGCOLOR="white">bias i32(72)[C]</TD></TR>
+<TR><TD COLSPAN="3" BORDER="0">TFLiteFullyConnectedBias, MatMul_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_MatMul_BiasAdd_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_BiasAdd_70048<FONT POINT-SIZE="8"><BR/>
+asymmetric_quantize_inputs = 0<BR/>
+fused_activation = NONE<BR/>
+keep_num_dims = 0<BR/>
+quantized_bias_type = dtype(Float32)<BR/>
+</FONT></TD></TR>
+<TR><TD COLSPAN="3" BGCOLOR="white" PORT="out"> Output i8(1x72)[HW]</TD></TR>
+</TABLE>>];graphSigmoid_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_Sigmoid_1_70082 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input" BGCOLOR="white">input i8(1x24)[HW]</TD></TR>
+<TR><TD COLSPAN="1" BORDER="0">TFLiteSigmoid, Sigmoid_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_Sigmoid_1_70082</TD></TR>
+<TR><TD COLSPAN="1" BGCOLOR="white" PORT="out"> Output i8(1x24)[HW]</TD></TR>
+</TABLE>>];graphSigmoid_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_Sigmoid_70079 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input" BGCOLOR="white">input i8(1x24)[HW]</TD></TR>
+<TR><TD COLSPAN="1" BORDER="0">TFLiteSigmoid, Sigmoid_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_Sigmoid_70079</TD></TR>
+<TR><TD COLSPAN="1" BGCOLOR="white" PORT="out"> Output i8(1x24)[HW]</TD></TR>
+</TABLE>>];graphTanh_model_1_fc1_StatefulPartitionedCall_Tanh_BiasAdd_model_1_fc1_StatefulPartitionedCall_BiasAdd_Tensordot_shape_model_1_fc1_StatefulPartitionedCall_Tensordot_shape_Tensordot_model_1_fc1_StatefulPartitionedCall_Tensordot_model_1_fc1_18691_70042 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="data" BGCOLOR="white">data i8(1x24)[HW]</TD><TD PORT="shape" BGCOLOR="white">shape i32(3)[C]</TD></TR>
+<TR><TD COLSPAN="2" BORDER="0">CanReshape, Tanh_model_1_fc1_StatefulPartitionedCall_Tanh_BiasAdd_model_1_fc1_StatefulPartitionedCall_BiasAdd_Tensordot_shape_model_1_fc1_StatefulPartitionedCall_Tensordot_shape_Tensordot_model_1_fc1_StatefulPartitionedCall_Tensordot_model_1_fc1_18691_70042</TD></TR>
+<TR><TD COLSPAN="2" BGCOLOR="white" PORT="out"> Output i8(1x1x24)[NHW]</TD></TR>
+</TABLE>>];graphTanh_model_1_fc1_StatefulPartitionedCall_Tanh_BiasAdd_model_1_fc1_StatefulPartitionedCall_BiasAdd_Tensordot_shape_model_1_fc1_StatefulPartitionedCall_Tensordot_shape_Tensordot_model_1_fc1_StatefulPartitionedCall_Tensordot_model_1_fc1_18691_requantized_70091 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input" BGCOLOR="white">input i8(1x1x24)[NHW]</TD></TR>
+<TR><TD COLSPAN="1" BORDER="0">TFLiteQuantize, Tanh_model_1_fc1_StatefulPartitionedCall_Tanh_BiasAdd_model_1_fc1_StatefulPartitionedCall_BiasAdd_Tensordot_shape_model_1_fc1_StatefulPartitionedCall_Tensordot_shape_Tensordot_model_1_fc1_StatefulPartitionedCall_Tensordot_model_1_fc1_18691_requantized_70091</TD></TR>
+<TR><TD COLSPAN="1" BGCOLOR="white" PORT="out"> Output i8(1x1x24)[NHW]</TD></TR>
+</TABLE>>];graphTanh_model_1_fc1_StatefulPartitionedCall_Tanh_BiasAdd_model_1_fc1_StatefulPartitionedCall_BiasAdd_Tensordot_shape_model_1_fc1_StatefulPartitionedCall_Tensordot_shape_Tensordot_model_1_fc1_StatefulPartitionedCall_Tensordot_model_1_fc1_1869_70041 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input" BGCOLOR="white">input i8(1x24)[HW]</TD></TR>
+<TR><TD COLSPAN="1" BORDER="0">TFLiteTanh, Tanh_model_1_fc1_StatefulPartitionedCall_Tanh_BiasAdd_model_1_fc1_StatefulPartitionedCall_BiasAdd_Tensordot_shape_model_1_fc1_StatefulPartitionedCall_Tensordot_shape_Tensordot_model_1_fc1_StatefulPartitionedCall_Tensordot_model_1_fc1_1869_70041</TD></TR>
+<TR><TD COLSPAN="1" BGCOLOR="white" PORT="out"> Output i8(1x24)[HW]</TD></TR>
+</TABLE>>];graphTanh_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_Tanh_70085 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input" BGCOLOR="white">input i8(1x24)[HW]</TD></TR>
+<TR><TD COLSPAN="1" BORDER="0">TFLiteTanh, Tanh_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_Tanh_70085</TD></TR>
+<TR><TD COLSPAN="1" BGCOLOR="white" PORT="out"> Output i8(1x24)[HW]</TD></TR>
+</TABLE>>];graphTensordot_MatMul_model_1_fc1_StatefulPartitionedCall_Tensordot_MatMul_BiasAdd_model_1_fc1_StatefulPartitionedCall_BiasAdd_Tensordot_shape_model_1_fc1_StatefulPartitionedCall_Tensordot_shape_Tensordot_model_1_fc1_StatefulPartitionedCall_Tensordot_model_1_fc1_1869_70040 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input" BGCOLOR="white">input i8(1x42)[HW]</TD><TD PORT="kernel" BGCOLOR="white">kernel i8(24x42)[HW]</TD><TD PORT="bias" BGCOLOR="white">bias i32(24)[C]</TD></TR>
+<TR><TD COLSPAN="3" BORDER="0">TFLiteFullyConnectedBias, Tensordot_MatMul_model_1_fc1_StatefulPartitionedCall_Tensordot_MatMul_BiasAdd_model_1_fc1_StatefulPartitionedCall_BiasAdd_Tensordot_shape_model_1_fc1_StatefulPartitionedCall_Tensordot_shape_Tensordot_model_1_fc1_StatefulPartitionedCall_Tensordot_model_1_fc1_1869_70040<FONT POINT-SIZE="8"><BR/>
+asymmetric_quantize_inputs = 0<BR/>
+fused_activation = NONE<BR/>
+keep_num_dims = 0<BR/>
+quantized_bias_type = dtype(Float32)<BR/>
+</FONT></TD></TR>
+<TR><TD COLSPAN="3" BGCOLOR="white" PORT="out"> Output i8(1x24)[HW]</TD></TR>
+</TABLE>>];graphTensordot_Reshape_model_1_fc1_StatefulPartitionedCall_Tensordot_Reshape_70039 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="data" BGCOLOR="white">data i8(1x1x42)[NHW]</TD><TD PORT="shape" BGCOLOR="white">shape i32(2)[C]</TD></TR>
+<TR><TD COLSPAN="2" BORDER="0">CanReshape, Tensordot_Reshape_model_1_fc1_StatefulPartitionedCall_Tensordot_Reshape_70039</TD></TR>
+<TR><TD COLSPAN="2" BGCOLOR="white" PORT="out"> Output i8(1x42)[HW]</TD></TR>
+</TABLE>>];graphadd_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_add_1_70081 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input_lhs" BGCOLOR="white">input_lhs i8(1x24)[HW]</TD><TD PORT="input_rhs" BGCOLOR="white">input_rhs i8(1x24)[HW]</TD></TR>
+<TR><TD COLSPAN="2" BORDER="0">TFLiteQAdd, add_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_add_1_70081<FONT POINT-SIZE="8"><BR/>
+fused_activation = NONE<BR/>
+</FONT></TD></TR>
+<TR><TD COLSPAN="2" BGCOLOR="white" PORT="out"> Output i8(1x24)[HW]</TD></TR>
+</TABLE>>];graphadd_2_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_add_2_70084 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input_lhs" BGCOLOR="white">input_lhs i8(1x24)[HW]</TD><TD PORT="input_rhs" BGCOLOR="white">input_rhs i8(1x24)[HW]</TD></TR>
+<TR><TD COLSPAN="2" BORDER="0">TFLiteQAdd, add_2_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_add_2_70084<FONT POINT-SIZE="8"><BR/>
+fused_activation = NONE<BR/>
+</FONT></TD></TR>
+<TR><TD COLSPAN="2" BGCOLOR="white" PORT="out"> Output i8(1x24)[HW]</TD></TR>
+</TABLE>>];graphadd_3_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_add_3_70088 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input_lhs" BGCOLOR="white">input_lhs i8(1x24)[HW]</TD><TD PORT="input_rhs" BGCOLOR="white">input_rhs i8(1x24)[HW]</TD></TR>
+<TR><TD COLSPAN="2" BORDER="0">TFLiteQAdd, add_3_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_add_3_70088<FONT POINT-SIZE="8"><BR/>
+fused_activation = NONE<BR/>
+</FONT></TD></TR>
+<TR><TD COLSPAN="2" BGCOLOR="white" PORT="out"> Output i8(1x24)[HW]</TD></TR>
+</TABLE>>];graphadd_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_add_70078 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input_lhs" BGCOLOR="white">input_lhs i8(1x24)[HW]</TD><TD PORT="input_rhs" BGCOLOR="white">input_rhs i8(1x24)[HW]</TD></TR>
+<TR><TD COLSPAN="2" BORDER="0">TFLiteQAdd, add_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_add_70078<FONT POINT-SIZE="8"><BR/>
+fused_activation = NONE<BR/>
+</FONT></TD></TR>
+<TR><TD COLSPAN="2" BGCOLOR="white" PORT="out"> Output i8(1x24)[HW]</TD></TR>
+</TABLE>>];graphdenoise_gru_prev_state_int8 [shape=none, label=<<TABLE BGCOLOR="coral" BORDER="2">
+<TR><TD BORDER="0">denoise_gru_prev_state_int8</TD></TR>
+<TR><TD PORT="out" BGCOLOR="white" BORDER="1">Output i8(1x96)[HW]</TD></TR>
+</TABLE>>];graphmain_input_int8 [shape=none, label=<<TABLE BGCOLOR="coral" BORDER="2">
+<TR><TD BORDER="0">main_input_int8</TD></TR>
+<TR><TD PORT="out" BGCOLOR="white" BORDER="1">Output i8(1x1x42)[NHW]</TD></TR>
+</TABLE>>];graphmodel_1_concatenate_2_concat_70092 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="in_0" BGCOLOR="white">in_0 i8(1x1x24)[NHW]</TD><TD PORT="in_1" BGCOLOR="white">in_1 i8(1x1x24)[NHW]</TD><TD PORT="in_2" BGCOLOR="white">in_2 i8(1x1x42)[NHW]</TD></TR>
+<TR><TD COLSPAN="3" BORDER="0">TFLiteConcatenate, model_1_concatenate_2_concat_70092<FONT POINT-SIZE="8"><BR/>
+axis = 2<BR/>
+fused_activation = NONE<BR/>
+</FONT></TD></TR>
+<TR><TD COLSPAN="3" BGCOLOR="white" PORT="out"> Output i8(1x1x90)[NHW]</TD></TR>
+</TABLE>>];graphmodel_1_concatenate_3_concat_70121 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="in_0" BGCOLOR="white">in_0 i8(1x1x24)[NHW]</TD><TD PORT="in_1" BGCOLOR="white">in_1 i8(1x1x48)[NHW]</TD><TD PORT="in_2" BGCOLOR="white">in_2 i8(1x1x42)[NHW]</TD></TR>
+<TR><TD COLSPAN="3" BORDER="0">TFLiteConcatenate, model_1_concatenate_3_concat_70121<FONT POINT-SIZE="8"><BR/>
+axis = 2<BR/>
+fused_activation = NONE<BR/>
+</FONT></TD></TR>
+<TR><TD COLSPAN="3" BGCOLOR="white" PORT="out"> Output i8(1x1x114)[NHW]</TD></TR>
+</TABLE>>];graphmodel_1_denoise_gru_gru_cell_5_MatMul_1_model_1_denoise_gru_gru_cell_5_BiasAdd_1_70029 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input" BGCOLOR="white">input i8(1x96)[HW]</TD><TD PORT="kernel" BGCOLOR="white">kernel i8(288x96)[HW]</TD><TD PORT="bias" BGCOLOR="white">bias i32(288)[C]</TD></TR>
+<TR><TD COLSPAN="3" BORDER="0">TFLiteFullyConnectedBias, model_1_denoise_gru_gru_cell_5_MatMul_1_model_1_denoise_gru_gru_cell_5_BiasAdd_1_70029<FONT POINT-SIZE="8"><BR/>
+asymmetric_quantize_inputs = 0<BR/>
+fused_activation = NONE<BR/>
+keep_num_dims = 0<BR/>
+quantized_bias_type = dtype(Float32)<BR/>
+</FONT></TD></TR>
+<TR><TD COLSPAN="3" BGCOLOR="white" PORT="out"> Output i8(1x288)[HW]</TD></TR>
+</TABLE>>];graphmodel_1_denoise_gru_gru_cell_5_MatMul_model_1_denoise_gru_gru_cell_5_BiasAdd_70127 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input" BGCOLOR="white">input i8(1x114)[HW]</TD><TD PORT="kernel" BGCOLOR="white">kernel i8(288x114)[HW]</TD><TD PORT="bias" BGCOLOR="white">bias i32(288)[C]</TD></TR>
+<TR><TD COLSPAN="3" BORDER="0">TFLiteFullyConnectedBias, model_1_denoise_gru_gru_cell_5_MatMul_model_1_denoise_gru_gru_cell_5_BiasAdd_70127<FONT POINT-SIZE="8"><BR/>
+asymmetric_quantize_inputs = 0<BR/>
+fused_activation = NONE<BR/>
+keep_num_dims = 0<BR/>
+quantized_bias_type = dtype(Float32)<BR/>
+</FONT></TD></TR>
+<TR><TD COLSPAN="3" BGCOLOR="white" PORT="out"> Output i8(1x288)[HW]</TD></TR>
+</TABLE>>];graphmodel_1_denoise_gru_gru_cell_5_Sigmoid_1_70142 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input" BGCOLOR="white">input i8(1x96)[HW]</TD></TR>
+<TR><TD COLSPAN="1" BORDER="0">TFLiteSigmoid, model_1_denoise_gru_gru_cell_5_Sigmoid_1_70142</TD></TR>
+<TR><TD COLSPAN="1" BGCOLOR="white" PORT="out"> Output i8(1x96)[HW]</TD></TR>
+</TABLE>>];graphmodel_1_denoise_gru_gru_cell_5_Sigmoid_70138 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input" BGCOLOR="white">input i8(1x96)[HW]</TD></TR>
+<TR><TD COLSPAN="1" BORDER="0">TFLiteSigmoid, model_1_denoise_gru_gru_cell_5_Sigmoid_70138</TD></TR>
+<TR><TD COLSPAN="1" BGCOLOR="white" PORT="out"> Output i8(1x96)[HW]</TD></TR>
+</TABLE>>];graphmodel_1_denoise_gru_gru_cell_5_Tanh_70145 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input" BGCOLOR="white">input i8(1x96)[HW]</TD></TR>
+<TR><TD COLSPAN="1" BORDER="0">TFLiteTanh, model_1_denoise_gru_gru_cell_5_Tanh_70145</TD></TR>
+<TR><TD COLSPAN="1" BGCOLOR="white" PORT="out"> Output i8(1x96)[HW]</TD></TR>
+</TABLE>>];graphmodel_1_denoise_gru_gru_cell_5_add_1_70141 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input_lhs" BGCOLOR="white">input_lhs i8(1x96)[HW]</TD><TD PORT="input_rhs" BGCOLOR="white">input_rhs i8(1x96)[HW]</TD></TR>
+<TR><TD COLSPAN="2" BORDER="0">TFLiteQAdd, model_1_denoise_gru_gru_cell_5_add_1_70141<FONT POINT-SIZE="8"><BR/>
+fused_activation = NONE<BR/>
+</FONT></TD></TR>
+<TR><TD COLSPAN="2" BGCOLOR="white" PORT="out"> Output i8(1x96)[HW]</TD></TR>
+</TABLE>>];graphmodel_1_denoise_gru_gru_cell_5_add_2_70144 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input_lhs" BGCOLOR="white">input_lhs i8(1x96)[HW]</TD><TD PORT="input_rhs" BGCOLOR="white">input_rhs i8(1x96)[HW]</TD></TR>
+<TR><TD COLSPAN="2" BORDER="0">TFLiteQAdd, model_1_denoise_gru_gru_cell_5_add_2_70144<FONT POINT-SIZE="8"><BR/>
+fused_activation = NONE<BR/>
+</FONT></TD></TR>
+<TR><TD COLSPAN="2" BGCOLOR="white" PORT="out"> Output i8(1x96)[HW]</TD></TR>
+</TABLE>>];graphmodel_1_denoise_gru_gru_cell_5_add_3_70147 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input_lhs" BGCOLOR="white">input_lhs i8(1x96)[HW]</TD><TD PORT="input_rhs" BGCOLOR="white">input_rhs i8(1x96)[HW]</TD></TR>
+<TR><TD COLSPAN="2" BORDER="0">TFLiteQAdd, model_1_denoise_gru_gru_cell_5_add_3_70147<FONT POINT-SIZE="8"><BR/>
+fused_activation = NONE<BR/>
+</FONT></TD></TR>
+<TR><TD COLSPAN="2" BGCOLOR="white" PORT="out"> Output i8(1x96)[HW]</TD></TR>
+</TABLE>>];graphmodel_1_denoise_gru_gru_cell_5_add_70137 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input_lhs" BGCOLOR="white">input_lhs i8(1x96)[HW]</TD><TD PORT="input_rhs" BGCOLOR="white">input_rhs i8(1x96)[HW]</TD></TR>
+<TR><TD COLSPAN="2" BORDER="0">TFLiteQAdd, model_1_denoise_gru_gru_cell_5_add_70137<FONT POINT-SIZE="8"><BR/>
+fused_activation = NONE<BR/>
+</FONT></TD></TR>
+<TR><TD COLSPAN="2" BGCOLOR="white" PORT="out"> Output i8(1x96)[HW]</TD></TR>
+</TABLE>>];graphmodel_1_denoise_gru_gru_cell_5_mul_1_70139 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input_lhs" BGCOLOR="white">input_lhs i8(1x96)[HW]</TD><TD PORT="input_rhs" BGCOLOR="white">input_rhs i8(1x96)[HW]</TD></TR>
+<TR><TD COLSPAN="2" BORDER="0">TFLiteMul, model_1_denoise_gru_gru_cell_5_mul_1_70139<FONT POINT-SIZE="8"><BR/>
+fused_activation = NONE<BR/>
+</FONT></TD></TR>
+<TR><TD COLSPAN="2" BGCOLOR="white" PORT="out"> Output i8(1x96)[HW]</TD></TR>
+</TABLE>>];graphmodel_1_denoise_gru_gru_cell_5_mul_2_70146 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input_lhs" BGCOLOR="white">input_lhs i8(1x96)[HW]</TD><TD PORT="input_rhs" BGCOLOR="white">input_rhs i8(1x96)[HW]</TD></TR>
+<TR><TD COLSPAN="2" BORDER="0">TFLiteMul, model_1_denoise_gru_gru_cell_5_mul_2_70146<FONT POINT-SIZE="8"><BR/>
+fused_activation = NONE<BR/>
+</FONT></TD></TR>
+<TR><TD COLSPAN="2" BGCOLOR="white" PORT="out"> Output i8(1x96)[HW]</TD></TR>
+</TABLE>>];graphmodel_1_denoise_gru_gru_cell_5_mul_70143 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input_lhs" BGCOLOR="white">input_lhs i8(1x96)[HW]</TD><TD PORT="input_rhs" BGCOLOR="white">input_rhs i8(1x96)[HW]</TD></TR>
+<TR><TD COLSPAN="2" BORDER="0">TFLiteMul, model_1_denoise_gru_gru_cell_5_mul_70143<FONT POINT-SIZE="8"><BR/>
+fused_activation = NONE<BR/>
+</FONT></TD></TR>
+<TR><TD COLSPAN="2" BGCOLOR="white" PORT="out"> Output i8(1x96)[HW]</TD></TR>
+</TABLE>>];graphmodel_1_denoise_gru_gru_cell_5_split1_70133 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input" BGCOLOR="white">input i8(1x288)[HW]</TD><TD PORT="begin" BGCOLOR="white">begin i32(2)[C]</TD><TD PORT="size" BGCOLOR="white">size i32(2)[C]</TD></TR>
+<TR><TD COLSPAN="3" BORDER="0">TFLiteSlice, model_1_denoise_gru_gru_cell_5_split1_70133</TD></TR>
+<TR><TD COLSPAN="3" BGCOLOR="white" PORT="out"> Output i8(1x96)[HW]</TD></TR>
+</TABLE>>];graphmodel_1_denoise_gru_gru_cell_5_split2_70136 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input" BGCOLOR="white">input i8(1x288)[HW]</TD><TD PORT="begin" BGCOLOR="white">begin i32(2)[C]</TD><TD PORT="size" BGCOLOR="white">size i32(2)[C]</TD></TR>
+<TR><TD COLSPAN="3" BORDER="0">TFLiteSlice, model_1_denoise_gru_gru_cell_5_split2_70136</TD></TR>
+<TR><TD COLSPAN="3" BGCOLOR="white" PORT="out"> Output i8(1x96)[HW]</TD></TR>
+</TABLE>>];graphmodel_1_denoise_gru_gru_cell_5_split_11_70035 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input" BGCOLOR="white">input i8(1x288)[HW]</TD><TD PORT="begin" BGCOLOR="white">begin i32(2)[C]</TD><TD PORT="size" BGCOLOR="white">size i32(2)[C]</TD></TR>
+<TR><TD COLSPAN="3" BORDER="0">TFLiteSlice, model_1_denoise_gru_gru_cell_5_split_11_70035</TD></TR>
+<TR><TD COLSPAN="3" BGCOLOR="white" PORT="out"> Output i8(1x96)[HW]</TD></TR>
+</TABLE>>];graphmodel_1_denoise_gru_gru_cell_5_split_12_70038 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input" BGCOLOR="white">input i8(1x288)[HW]</TD><TD PORT="begin" BGCOLOR="white">begin i32(2)[C]</TD><TD PORT="size" BGCOLOR="white">size i32(2)[C]</TD></TR>
+<TR><TD COLSPAN="3" BORDER="0">TFLiteSlice, model_1_denoise_gru_gru_cell_5_split_12_70038</TD></TR>
+<TR><TD COLSPAN="3" BGCOLOR="white" PORT="out"> Output i8(1x96)[HW]</TD></TR>
+</TABLE>>];graphmodel_1_denoise_gru_gru_cell_5_split_1_70032 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input" BGCOLOR="white">input i8(1x288)[HW]</TD><TD PORT="begin" BGCOLOR="white">begin i32(2)[C]</TD><TD PORT="size" BGCOLOR="white">size i32(2)[C]</TD></TR>
+<TR><TD COLSPAN="3" BORDER="0">TFLiteSlice, model_1_denoise_gru_gru_cell_5_split_1_70032</TD></TR>
+<TR><TD COLSPAN="3" BGCOLOR="white" PORT="out"> Output i8(1x96)[HW]</TD></TR>
+</TABLE>>];graphmodel_1_denoise_gru_gru_cell_5_split_70130 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input" BGCOLOR="white">input i8(1x288)[HW]</TD><TD PORT="begin" BGCOLOR="white">begin i32(2)[C]</TD><TD PORT="size" BGCOLOR="white">size i32(2)[C]</TD></TR>
+<TR><TD COLSPAN="3" BORDER="0">TFLiteSlice, model_1_denoise_gru_gru_cell_5_split_70130</TD></TR>
+<TR><TD COLSPAN="3" BGCOLOR="white" PORT="out"> Output i8(1x96)[HW]</TD></TR>
+</TABLE>>];graphmodel_1_denoise_gru_gru_cell_5_sub_70140 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input_lhs" BGCOLOR="white">input_lhs i8(1)[C]</TD><TD PORT="input_rhs" BGCOLOR="white">input_rhs i8(1x96)[HW]</TD></TR>
+<TR><TD COLSPAN="2" BORDER="0">TFLiteSub, model_1_denoise_gru_gru_cell_5_sub_70140<FONT POINT-SIZE="8"><BR/>
+fused_activation = NONE<BR/>
+</FONT></TD></TR>
+<TR><TD COLSPAN="2" BGCOLOR="white" PORT="out"> Output i8(1x96)[HW]</TD></TR>
+</TABLE>>];graphmodel_1_denoise_gru_unstack_70126 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="data" BGCOLOR="white">data i8(1x1x114)[NHW]</TD><TD PORT="shape" BGCOLOR="white">shape i32(2)[C]</TD></TR>
+<TR><TD COLSPAN="2" BORDER="0">CanReshape, model_1_denoise_gru_unstack_70126</TD></TR>
+<TR><TD COLSPAN="2" BGCOLOR="white" PORT="out"> Output i8(1x114)[HW]</TD></TR>
+</TABLE>>];graphmodel_1_denoise_gru_unstack_slice_70124 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input" BGCOLOR="white">input i8(1x1x114)[NHW]</TD><TD PORT="begin" BGCOLOR="white">begin i32(3)[C]</TD><TD PORT="size" BGCOLOR="white">size i32(3)[C]</TD></TR>
+<TR><TD COLSPAN="3" BORDER="0">TFLiteSlice, model_1_denoise_gru_unstack_slice_70124</TD></TR>
+<TR><TD COLSPAN="3" BGCOLOR="white" PORT="out"> Output i8(1x1x114)[NHW]</TD></TR>
+</TABLE>>];graphmodel_1_denoise_output_BiasAdd_model_1_denoise_output_Tensordot_shape_model_1_denoise_output_Tensordot_model_1_denoise_output_BiasAdd_ReadVariableOp_resource_70151 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="data" BGCOLOR="white">data i8(1x22)[HW]</TD><TD PORT="shape" BGCOLOR="white">shape i32(3)[C]</TD></TR>
+<TR><TD COLSPAN="2" BORDER="0">CanReshape, model_1_denoise_output_BiasAdd_model_1_denoise_output_Tensordot_shape_model_1_denoise_output_Tensordot_model_1_denoise_output_BiasAdd_ReadVariableOp_resource_70151</TD></TR>
+<TR><TD COLSPAN="2" BGCOLOR="white" PORT="out"> Output i8(1x1x22)[NHW]</TD></TR>
+</TABLE>>];graphmodel_1_denoise_output_Tensordot_MatMul_model_1_denoise_output_BiasAdd_model_1_denoise_output_Tensordot_shape_model_1_denoise_output_Tensordot_model_1_denoise_output_BiasAdd_ReadVariableOp_resource_70150 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input" BGCOLOR="white">input i8(1x96)[HW]</TD><TD PORT="kernel" BGCOLOR="white">kernel i8(22x96)[HW]</TD><TD PORT="bias" BGCOLOR="white">bias i32(22)[C]</TD></TR>
+<TR><TD COLSPAN="3" BORDER="0">TFLiteFullyConnectedBias, model_1_denoise_output_Tensordot_MatMul_model_1_denoise_output_BiasAdd_model_1_denoise_output_Tensordot_shape_model_1_denoise_output_Tensordot_model_1_denoise_output_BiasAdd_ReadVariableOp_resource_70150<FONT POINT-SIZE="8"><BR/>
+asymmetric_quantize_inputs = 0<BR/>
+fused_activation = NONE<BR/>
+keep_num_dims = 0<BR/>
+quantized_bias_type = dtype(Float32)<BR/>
+</FONT></TD></TR>
+<TR><TD COLSPAN="3" BGCOLOR="white" PORT="out"> Output i8(1x22)[HW]</TD></TR>
+</TABLE>>];graphmodel_1_denoise_output_Tensordot_Reshape_70149 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="data" BGCOLOR="white">data i8(1x1x96)[NHW]</TD><TD PORT="shape" BGCOLOR="white">shape i32(2)[C]</TD></TR>
+<TR><TD COLSPAN="2" BORDER="0">CanReshape, model_1_denoise_output_Tensordot_Reshape_70149</TD></TR>
+<TR><TD COLSPAN="2" BGCOLOR="white" PORT="out"> Output i8(1x96)[HW]</TD></TR>
+</TABLE>>];graphmodel_1_noise_gru_gru_cell_4_MatMul_1_model_1_noise_gru_gru_cell_4_BiasAdd_1_70058 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input" BGCOLOR="white">input i8(1x48)[HW]</TD><TD PORT="kernel" BGCOLOR="white">kernel i8(144x48)[HW]</TD><TD PORT="bias" BGCOLOR="white">bias i32(144)[C]</TD></TR>
+<TR><TD COLSPAN="3" BORDER="0">TFLiteFullyConnectedBias, model_1_noise_gru_gru_cell_4_MatMul_1_model_1_noise_gru_gru_cell_4_BiasAdd_1_70058<FONT POINT-SIZE="8"><BR/>
+asymmetric_quantize_inputs = 0<BR/>
+fused_activation = NONE<BR/>
+keep_num_dims = 0<BR/>
+quantized_bias_type = dtype(Float32)<BR/>
+</FONT></TD></TR>
+<TR><TD COLSPAN="3" BGCOLOR="white" PORT="out"> Output i8(1x144)[HW]</TD></TR>
+</TABLE>>];graphmodel_1_noise_gru_gru_cell_4_MatMul_model_1_noise_gru_gru_cell_4_BiasAdd_70098 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input" BGCOLOR="white">input i8(1x90)[HW]</TD><TD PORT="kernel" BGCOLOR="white">kernel i8(144x90)[HW]</TD><TD PORT="bias" BGCOLOR="white">bias i32(144)[C]</TD></TR>
+<TR><TD COLSPAN="3" BORDER="0">TFLiteFullyConnectedBias, model_1_noise_gru_gru_cell_4_MatMul_model_1_noise_gru_gru_cell_4_BiasAdd_70098<FONT POINT-SIZE="8"><BR/>
+asymmetric_quantize_inputs = 0<BR/>
+fused_activation = NONE<BR/>
+keep_num_dims = 0<BR/>
+quantized_bias_type = dtype(Float32)<BR/>
+</FONT></TD></TR>
+<TR><TD COLSPAN="3" BGCOLOR="white" PORT="out"> Output i8(1x144)[HW]</TD></TR>
+</TABLE>>];graphmodel_1_noise_gru_gru_cell_4_Relu_model_1_noise_gru_gru_cell_4_add_2_70115 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input_lhs" BGCOLOR="white">input_lhs i8(1x48)[HW]</TD><TD PORT="input_rhs" BGCOLOR="white">input_rhs i8(1x48)[HW]</TD></TR>
+<TR><TD COLSPAN="2" BORDER="0">TFLiteQAdd, model_1_noise_gru_gru_cell_4_Relu_model_1_noise_gru_gru_cell_4_add_2_70115<FONT POINT-SIZE="8"><BR/>
+fused_activation = RELU<BR/>
+</FONT></TD></TR>
+<TR><TD COLSPAN="2" BGCOLOR="white" PORT="out"> Output i8(1x48)[HW]</TD></TR>
+</TABLE>>];graphmodel_1_noise_gru_gru_cell_4_Sigmoid_1_70113 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input" BGCOLOR="white">input i8(1x48)[HW]</TD></TR>
+<TR><TD COLSPAN="1" BORDER="0">TFLiteSigmoid, model_1_noise_gru_gru_cell_4_Sigmoid_1_70113</TD></TR>
+<TR><TD COLSPAN="1" BGCOLOR="white" PORT="out"> Output i8(1x48)[HW]</TD></TR>
+</TABLE>>];graphmodel_1_noise_gru_gru_cell_4_Sigmoid_70109 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input" BGCOLOR="white">input i8(1x48)[HW]</TD></TR>
+<TR><TD COLSPAN="1" BORDER="0">TFLiteSigmoid, model_1_noise_gru_gru_cell_4_Sigmoid_70109</TD></TR>
+<TR><TD COLSPAN="1" BGCOLOR="white" PORT="out"> Output i8(1x48)[HW]</TD></TR>
+</TABLE>>];graphmodel_1_noise_gru_gru_cell_4_add_1_70112 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input_lhs" BGCOLOR="white">input_lhs i8(1x48)[HW]</TD><TD PORT="input_rhs" BGCOLOR="white">input_rhs i8(1x48)[HW]</TD></TR>
+<TR><TD COLSPAN="2" BORDER="0">TFLiteQAdd, model_1_noise_gru_gru_cell_4_add_1_70112<FONT POINT-SIZE="8"><BR/>
+fused_activation = NONE<BR/>
+</FONT></TD></TR>
+<TR><TD COLSPAN="2" BGCOLOR="white" PORT="out"> Output i8(1x48)[HW]</TD></TR>
+</TABLE>>];graphmodel_1_noise_gru_gru_cell_4_add_3_70117 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input_lhs" BGCOLOR="white">input_lhs i8(1x48)[HW]</TD><TD PORT="input_rhs" BGCOLOR="white">input_rhs i8(1x48)[HW]</TD></TR>
+<TR><TD COLSPAN="2" BORDER="0">TFLiteQAdd, model_1_noise_gru_gru_cell_4_add_3_70117<FONT POINT-SIZE="8"><BR/>
+fused_activation = NONE<BR/>
+</FONT></TD></TR>
+<TR><TD COLSPAN="2" BGCOLOR="white" PORT="out"> Output i8(1x48)[HW]</TD></TR>
+</TABLE>>];graphmodel_1_noise_gru_gru_cell_4_add_70108 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input_lhs" BGCOLOR="white">input_lhs i8(1x48)[HW]</TD><TD PORT="input_rhs" BGCOLOR="white">input_rhs i8(1x48)[HW]</TD></TR>
+<TR><TD COLSPAN="2" BORDER="0">TFLiteQAdd, model_1_noise_gru_gru_cell_4_add_70108<FONT POINT-SIZE="8"><BR/>
+fused_activation = NONE<BR/>
+</FONT></TD></TR>
+<TR><TD COLSPAN="2" BGCOLOR="white" PORT="out"> Output i8(1x48)[HW]</TD></TR>
+</TABLE>>];graphmodel_1_noise_gru_gru_cell_4_mul_1_70110 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input_lhs" BGCOLOR="white">input_lhs i8(1x48)[HW]</TD><TD PORT="input_rhs" BGCOLOR="white">input_rhs i8(1x48)[HW]</TD></TR>
+<TR><TD COLSPAN="2" BORDER="0">TFLiteMul, model_1_noise_gru_gru_cell_4_mul_1_70110<FONT POINT-SIZE="8"><BR/>
+fused_activation = NONE<BR/>
+</FONT></TD></TR>
+<TR><TD COLSPAN="2" BGCOLOR="white" PORT="out"> Output i8(1x48)[HW]</TD></TR>
+</TABLE>>];graphmodel_1_noise_gru_gru_cell_4_mul_2_70116 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input_lhs" BGCOLOR="white">input_lhs i8(1x48)[HW]</TD><TD PORT="input_rhs" BGCOLOR="white">input_rhs i8(1x48)[HW]</TD></TR>
+<TR><TD COLSPAN="2" BORDER="0">TFLiteMul, model_1_noise_gru_gru_cell_4_mul_2_70116<FONT POINT-SIZE="8"><BR/>
+fused_activation = NONE<BR/>
+</FONT></TD></TR>
+<TR><TD COLSPAN="2" BGCOLOR="white" PORT="out"> Output i8(1x48)[HW]</TD></TR>
+</TABLE>>];graphmodel_1_noise_gru_gru_cell_4_mul_70114 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input_lhs" BGCOLOR="white">input_lhs i8(1x48)[HW]</TD><TD PORT="input_rhs" BGCOLOR="white">input_rhs i8(1x48)[HW]</TD></TR>
+<TR><TD COLSPAN="2" BORDER="0">TFLiteMul, model_1_noise_gru_gru_cell_4_mul_70114<FONT POINT-SIZE="8"><BR/>
+fused_activation = NONE<BR/>
+</FONT></TD></TR>
+<TR><TD COLSPAN="2" BGCOLOR="white" PORT="out"> Output i8(1x48)[HW]</TD></TR>
+</TABLE>>];graphmodel_1_noise_gru_gru_cell_4_split1_70104 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input" BGCOLOR="white">input i8(1x144)[HW]</TD><TD PORT="begin" BGCOLOR="white">begin i32(2)[C]</TD><TD PORT="size" BGCOLOR="white">size i32(2)[C]</TD></TR>
+<TR><TD COLSPAN="3" BORDER="0">TFLiteSlice, model_1_noise_gru_gru_cell_4_split1_70104</TD></TR>
+<TR><TD COLSPAN="3" BGCOLOR="white" PORT="out"> Output i8(1x48)[HW]</TD></TR>
+</TABLE>>];graphmodel_1_noise_gru_gru_cell_4_split2_70107 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input" BGCOLOR="white">input i8(1x144)[HW]</TD><TD PORT="begin" BGCOLOR="white">begin i32(2)[C]</TD><TD PORT="size" BGCOLOR="white">size i32(2)[C]</TD></TR>
+<TR><TD COLSPAN="3" BORDER="0">TFLiteSlice, model_1_noise_gru_gru_cell_4_split2_70107</TD></TR>
+<TR><TD COLSPAN="3" BGCOLOR="white" PORT="out"> Output i8(1x48)[HW]</TD></TR>
+</TABLE>>];graphmodel_1_noise_gru_gru_cell_4_split_11_70064 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input" BGCOLOR="white">input i8(1x144)[HW]</TD><TD PORT="begin" BGCOLOR="white">begin i32(2)[C]</TD><TD PORT="size" BGCOLOR="white">size i32(2)[C]</TD></TR>
+<TR><TD COLSPAN="3" BORDER="0">TFLiteSlice, model_1_noise_gru_gru_cell_4_split_11_70064</TD></TR>
+<TR><TD COLSPAN="3" BGCOLOR="white" PORT="out"> Output i8(1x48)[HW]</TD></TR>
+</TABLE>>];graphmodel_1_noise_gru_gru_cell_4_split_12_70067 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input" BGCOLOR="white">input i8(1x144)[HW]</TD><TD PORT="begin" BGCOLOR="white">begin i32(2)[C]</TD><TD PORT="size" BGCOLOR="white">size i32(2)[C]</TD></TR>
+<TR><TD COLSPAN="3" BORDER="0">TFLiteSlice, model_1_noise_gru_gru_cell_4_split_12_70067</TD></TR>
+<TR><TD COLSPAN="3" BGCOLOR="white" PORT="out"> Output i8(1x48)[HW]</TD></TR>
+</TABLE>>];graphmodel_1_noise_gru_gru_cell_4_split_1_70061 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input" BGCOLOR="white">input i8(1x144)[HW]</TD><TD PORT="begin" BGCOLOR="white">begin i32(2)[C]</TD><TD PORT="size" BGCOLOR="white">size i32(2)[C]</TD></TR>
+<TR><TD COLSPAN="3" BORDER="0">TFLiteSlice, model_1_noise_gru_gru_cell_4_split_1_70061</TD></TR>
+<TR><TD COLSPAN="3" BGCOLOR="white" PORT="out"> Output i8(1x48)[HW]</TD></TR>
+</TABLE>>];graphmodel_1_noise_gru_gru_cell_4_split_70101 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input" BGCOLOR="white">input i8(1x144)[HW]</TD><TD PORT="begin" BGCOLOR="white">begin i32(2)[C]</TD><TD PORT="size" BGCOLOR="white">size i32(2)[C]</TD></TR>
+<TR><TD COLSPAN="3" BORDER="0">TFLiteSlice, model_1_noise_gru_gru_cell_4_split_70101</TD></TR>
+<TR><TD COLSPAN="3" BGCOLOR="white" PORT="out"> Output i8(1x48)[HW]</TD></TR>
+</TABLE>>];graphmodel_1_noise_gru_gru_cell_4_sub_70111 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input_lhs" BGCOLOR="white">input_lhs i8(1)[C]</TD><TD PORT="input_rhs" BGCOLOR="white">input_rhs i8(1x48)[HW]</TD></TR>
+<TR><TD COLSPAN="2" BORDER="0">TFLiteSub, model_1_noise_gru_gru_cell_4_sub_70111<FONT POINT-SIZE="8"><BR/>
+fused_activation = NONE<BR/>
+</FONT></TD></TR>
+<TR><TD COLSPAN="2" BGCOLOR="white" PORT="out"> Output i8(1x48)[HW]</TD></TR>
+</TABLE>>];graphmodel_1_noise_gru_unstack_70097 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="data" BGCOLOR="white">data i8(1x1x90)[NHW]</TD><TD PORT="shape" BGCOLOR="white">shape i32(2)[C]</TD></TR>
+<TR><TD COLSPAN="2" BORDER="0">CanReshape, model_1_noise_gru_unstack_70097</TD></TR>
+<TR><TD COLSPAN="2" BGCOLOR="white" PORT="out"> Output i8(1x90)[HW]</TD></TR>
+</TABLE>>];graphmodel_1_noise_gru_unstack_slice_70095 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input" BGCOLOR="white">input i8(1x1x90)[NHW]</TD><TD PORT="begin" BGCOLOR="white">begin i32(3)[C]</TD><TD PORT="size" BGCOLOR="white">size i32(3)[C]</TD></TR>
+<TR><TD COLSPAN="3" BORDER="0">TFLiteSlice, model_1_noise_gru_unstack_slice_70095</TD></TR>
+<TR><TD COLSPAN="3" BGCOLOR="white" PORT="out"> Output i8(1x1x90)[NHW]</TD></TR>
+</TABLE>>];graphmodel_1_vad_gru_unstack_70047 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="data" BGCOLOR="white">data i8(1x1x24)[NHW]</TD><TD PORT="shape" BGCOLOR="white">shape i32(2)[C]</TD></TR>
+<TR><TD COLSPAN="2" BORDER="0">CanReshape, model_1_vad_gru_unstack_70047</TD></TR>
+<TR><TD COLSPAN="2" BGCOLOR="white" PORT="out"> Output i8(1x24)[HW]</TD></TR>
+</TABLE>>];graphmodel_1_vad_gru_unstack_slice_70045 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input" BGCOLOR="white">input i8(1x1x24)[NHW]</TD><TD PORT="begin" BGCOLOR="white">begin i32(3)[C]</TD><TD PORT="size" BGCOLOR="white">size i32(3)[C]</TD></TR>
+<TR><TD COLSPAN="3" BORDER="0">TFLiteSlice, model_1_vad_gru_unstack_slice_70045</TD></TR>
+<TR><TD COLSPAN="3" BGCOLOR="white" PORT="out"> Output i8(1x1x24)[NHW]</TD></TR>
+</TABLE>>];graphmodel_1_vad_output_BiasAdd_model_1_vad_output_Tensordot_shape_model_1_vad_output_Tensordot_model_1_vad_output_BiasAdd_ReadVariableOp_resource_70155 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="data" BGCOLOR="white">data i8(1x1)[HW]</TD><TD PORT="shape" BGCOLOR="white">shape i32(3)[C]</TD></TR>
+<TR><TD COLSPAN="2" BORDER="0">CanReshape, model_1_vad_output_BiasAdd_model_1_vad_output_Tensordot_shape_model_1_vad_output_Tensordot_model_1_vad_output_BiasAdd_ReadVariableOp_resource_70155</TD></TR>
+<TR><TD COLSPAN="2" BGCOLOR="white" PORT="out"> Output i8(1x1x1)[NHW]</TD></TR>
+</TABLE>>];graphmodel_1_vad_output_Tensordot_MatMul_model_1_vad_output_BiasAdd_model_1_vad_output_Tensordot_shape_model_1_vad_output_Tensordot_model_1_vad_output_BiasAdd_ReadVariableOp_resource_70154 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input" BGCOLOR="white">input i8(1x24)[HW]</TD><TD PORT="kernel" BGCOLOR="white">kernel i8(1x24)[HW]</TD><TD PORT="bias" BGCOLOR="white">bias i32(1)[C]</TD></TR>
+<TR><TD COLSPAN="3" BORDER="0">TFLiteFullyConnectedBias, model_1_vad_output_Tensordot_MatMul_model_1_vad_output_BiasAdd_model_1_vad_output_Tensordot_shape_model_1_vad_output_Tensordot_model_1_vad_output_BiasAdd_ReadVariableOp_resource_70154<FONT POINT-SIZE="8"><BR/>
+asymmetric_quantize_inputs = 0<BR/>
+fused_activation = NONE<BR/>
+keep_num_dims = 0<BR/>
+quantized_bias_type = dtype(Float32)<BR/>
+</FONT></TD></TR>
+<TR><TD COLSPAN="3" BGCOLOR="white" PORT="out"> Output i8(1x1)[HW]</TD></TR>
+</TABLE>>];graphmodel_1_vad_output_Tensordot_Reshape_70153 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="data" BGCOLOR="white">data i8(1x1x24)[NHW]</TD><TD PORT="shape" BGCOLOR="white">shape i32(2)[C]</TD></TR>
+<TR><TD COLSPAN="2" BORDER="0">CanReshape, model_1_vad_output_Tensordot_Reshape_70153</TD></TR>
+<TR><TD COLSPAN="2" BGCOLOR="white" PORT="out"> Output i8(1x24)[HW]</TD></TR>
+</TABLE>>];graphmul_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_mul_1_70087 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input_lhs" BGCOLOR="white">input_lhs i8(1x24)[HW]</TD><TD PORT="input_rhs" BGCOLOR="white">input_rhs i8(1x24)[HW]</TD></TR>
+<TR><TD COLSPAN="2" BORDER="0">TFLiteMul, mul_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_mul_1_70087<FONT POINT-SIZE="8"><BR/>
+fused_activation = NONE<BR/>
+</FONT></TD></TR>
+<TR><TD COLSPAN="2" BGCOLOR="white" PORT="out"> Output i8(1x24)[HW]</TD></TR>
+</TABLE>>];graphmul_2_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_mul_2_70086 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input_lhs" BGCOLOR="white">input_lhs i8(1x24)[HW]</TD><TD PORT="input_rhs" BGCOLOR="white">input_rhs i8(1x24)[HW]</TD></TR>
+<TR><TD COLSPAN="2" BORDER="0">TFLiteMul, mul_2_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_mul_2_70086<FONT POINT-SIZE="8"><BR/>
+fused_activation = NONE<BR/>
+</FONT></TD></TR>
+<TR><TD COLSPAN="2" BGCOLOR="white" PORT="out"> Output i8(1x24)[HW]</TD></TR>
+</TABLE>>];graphmul_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_mul_70083 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input_lhs" BGCOLOR="white">input_lhs i8(1x24)[HW]</TD><TD PORT="input_rhs" BGCOLOR="white">input_rhs i8(1x24)[HW]</TD></TR>
+<TR><TD COLSPAN="2" BORDER="0">TFLiteMul, mul_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_mul_70083<FONT POINT-SIZE="8"><BR/>
+fused_activation = NONE<BR/>
+</FONT></TD></TR>
+<TR><TD COLSPAN="2" BGCOLOR="white" PORT="out"> Output i8(1x24)[HW]</TD></TR>
+</TABLE>>];graphnoise_gru_prev_state_int8 [shape=none, label=<<TABLE BGCOLOR="coral" BORDER="2">
+<TR><TD BORDER="0">noise_gru_prev_state_int8</TD></TR>
+<TR><TD PORT="out" BGCOLOR="white" BORDER="1">Output i8(1x48)[HW]</TD></TR>
+</TABLE>>];graphsplit_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_split_11_70074 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input" BGCOLOR="white">input i8(1x72)[HW]</TD><TD PORT="begin" BGCOLOR="white">begin i32(2)[C]</TD><TD PORT="size" BGCOLOR="white">size i32(2)[C]</TD></TR>
+<TR><TD COLSPAN="3" BORDER="0">TFLiteSlice, split_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_split_11_70074</TD></TR>
+<TR><TD COLSPAN="3" BGCOLOR="white" PORT="out"> Output i8(1x24)[HW]</TD></TR>
+</TABLE>>];graphsplit_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_split_12_70077 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input" BGCOLOR="white">input i8(1x72)[HW]</TD><TD PORT="begin" BGCOLOR="white">begin i32(2)[C]</TD><TD PORT="size" BGCOLOR="white">size i32(2)[C]</TD></TR>
+<TR><TD COLSPAN="3" BORDER="0">TFLiteSlice, split_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_split_12_70077</TD></TR>
+<TR><TD COLSPAN="3" BGCOLOR="white" PORT="out"> Output i8(1x24)[HW]</TD></TR>
+</TABLE>>];graphsplit_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_split_1_70071 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input" BGCOLOR="white">input i8(1x72)[HW]</TD><TD PORT="begin" BGCOLOR="white">begin i32(2)[C]</TD><TD PORT="size" BGCOLOR="white">size i32(2)[C]</TD></TR>
+<TR><TD COLSPAN="3" BORDER="0">TFLiteSlice, split_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_split_1_70071</TD></TR>
+<TR><TD COLSPAN="3" BGCOLOR="white" PORT="out"> Output i8(1x24)[HW]</TD></TR>
+</TABLE>>];graphsplit_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_split1_70054 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input" BGCOLOR="white">input i8(1x72)[HW]</TD><TD PORT="begin" BGCOLOR="white">begin i32(2)[C]</TD><TD PORT="size" BGCOLOR="white">size i32(2)[C]</TD></TR>
+<TR><TD COLSPAN="3" BORDER="0">TFLiteSlice, split_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_split1_70054</TD></TR>
+<TR><TD COLSPAN="3" BGCOLOR="white" PORT="out"> Output i8(1x24)[HW]</TD></TR>
+</TABLE>>];graphsplit_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_split2_70057 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input" BGCOLOR="white">input i8(1x72)[HW]</TD><TD PORT="begin" BGCOLOR="white">begin i32(2)[C]</TD><TD PORT="size" BGCOLOR="white">size i32(2)[C]</TD></TR>
+<TR><TD COLSPAN="3" BORDER="0">TFLiteSlice, split_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_split2_70057</TD></TR>
+<TR><TD COLSPAN="3" BGCOLOR="white" PORT="out"> Output i8(1x24)[HW]</TD></TR>
+</TABLE>>];graphsplit_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_split_70051 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input" BGCOLOR="white">input i8(1x72)[HW]</TD><TD PORT="begin" BGCOLOR="white">begin i32(2)[C]</TD><TD PORT="size" BGCOLOR="white">size i32(2)[C]</TD></TR>
+<TR><TD COLSPAN="3" BORDER="0">TFLiteSlice, split_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_split_70051</TD></TR>
+<TR><TD COLSPAN="3" BGCOLOR="white" PORT="out"> Output i8(1x24)[HW]</TD></TR>
+</TABLE>>];graphsub_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_sub_70080 [shape=none, label=<<TABLE BGCOLOR="gray90">
+<TR><TD PORT="input_lhs" BGCOLOR="white">input_lhs i8(1)[C]</TD><TD PORT="input_rhs" BGCOLOR="white">input_rhs i8(1x24)[HW]</TD></TR>
+<TR><TD COLSPAN="2" BORDER="0">TFLiteSub, sub_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_sub_70080<FONT POINT-SIZE="8"><BR/>
+fused_activation = NONE<BR/>
+</FONT></TD></TR>
+<TR><TD COLSPAN="2" BGCOLOR="white" PORT="out"> Output i8(1x24)[HW]</TD></TR>
+</TABLE>>];graphvad_gru_prev_state_int8 [shape=none, label=<<TABLE BGCOLOR="coral" BORDER="2">
+<TR><TD BORDER="0">vad_gru_prev_state_int8</TD></TR>
+<TR><TD PORT="out" BGCOLOR="white" BORDER="1">Output i8(1x24)[HW]</TD></TR>
+</TABLE>>];graphIdentity_1_int8_70152:out:s -> graphGraphOutputs:Identity_1_int8_70152:n;
+graphIdentity_2_int8_70118:out:s -> graphGraphOutputs:Identity_2_int8_70118:n;
+graphIdentity_2_int8_70118:out:s -> graphIdentity_2_requantized_70119:input:n;
+graphIdentity_2_requantized_70119:out:s -> graphmodel_1_concatenate_3_concat_70121:in_1:n;
+graphIdentity_3_int8_70089:out:s -> graphGraphOutputs:Identity_3_int8_70089:n;
+graphIdentity_3_int8_70089:out:s -> graphIdentity_3_requantized_70090:input:n;
+graphIdentity_3_int8_70089:out:s -> graphIdentity_3_requantized_70120:input:n;
+graphIdentity_3_int8_70089:out:s -> graphmodel_1_vad_output_Tensordot_Reshape_70153:data:n;
+graphIdentity_3_requantized_70090:out:s -> graphmodel_1_concatenate_2_concat_70092:in_1:n;
+graphIdentity_3_requantized_70120:out:s -> graphmodel_1_concatenate_3_concat_70121:in_0:n;
+graphIdentity_4_int8_70156:out:s -> graphGraphOutputs:Identity_4_int8_70156:n;
+graphIdentity_int8_70148:out:s -> graphGraphOutputs:Identity_int8_70148:n;
+graphIdentity_int8_70148:out:s -> graphmodel_1_denoise_output_Tensordot_Reshape_70149:data:n;
+graphInt32VecConstant_70001:out:s -> graphmodel_1_denoise_output_Tensordot_MatMul_model_1_denoise_output_BiasAdd_model_1_denoise_output_Tensordot_shape_model_1_denoise_output_Tensordot_model_1_denoise_output_BiasAdd_ReadVariableOp_resource_70150:bias:n;
+graphInt32VecConstant_70002:out:s -> graphmodel_1_denoise_output_Tensordot_Reshape_70149:shape:n;
+graphInt32VecConstant_70003:out:s -> graphmodel_1_denoise_output_BiasAdd_model_1_denoise_output_Tensordot_shape_model_1_denoise_output_Tensordot_model_1_denoise_output_BiasAdd_ReadVariableOp_resource_70151:shape:n;
+graphInt32VecConstant_70004:out:s -> graphTensordot_MatMul_model_1_fc1_StatefulPartitionedCall_Tensordot_MatMul_BiasAdd_model_1_fc1_StatefulPartitionedCall_BiasAdd_Tensordot_shape_model_1_fc1_StatefulPartitionedCall_Tensordot_shape_Tensordot_model_1_fc1_StatefulPartitionedCall_Tensordot_model_1_fc1_1869_70040:bias:n;
+graphInt32VecConstant_70005:out:s -> graphTensordot_Reshape_model_1_fc1_StatefulPartitionedCall_Tensordot_Reshape_70039:shape:n;
+graphInt32VecConstant_70006:out:s -> graphTanh_model_1_fc1_StatefulPartitionedCall_Tanh_BiasAdd_model_1_fc1_StatefulPartitionedCall_BiasAdd_Tensordot_shape_model_1_fc1_StatefulPartitionedCall_Tensordot_shape_Tensordot_model_1_fc1_StatefulPartitionedCall_Tensordot_model_1_fc1_18691_70042:shape:n;
+graphInt32VecConstant_70011:out:s -> graphmodel_1_vad_output_Tensordot_MatMul_model_1_vad_output_BiasAdd_model_1_vad_output_Tensordot_shape_model_1_vad_output_Tensordot_model_1_vad_output_BiasAdd_ReadVariableOp_resource_70154:bias:n;
+graphInt32VecConstant_70012:out:s -> graphmodel_1_vad_output_Tensordot_Reshape_70153:shape:n;
+graphInt32VecConstant_70013:out:s -> graphmodel_1_vad_output_BiasAdd_model_1_vad_output_Tensordot_shape_model_1_vad_output_Tensordot_model_1_vad_output_BiasAdd_ReadVariableOp_resource_70155:shape:n;
+graphInt32VecConstant_70016:out:s -> graphmodel_1_denoise_gru_gru_cell_5_MatMul_model_1_denoise_gru_gru_cell_5_BiasAdd_70127:bias:n;
+graphInt32VecConstant_70017:out:s -> graphmodel_1_denoise_gru_gru_cell_5_MatMul_1_model_1_denoise_gru_gru_cell_5_BiasAdd_1_70029:bias:n;
+graphInt32VecConstant_70022:out:s -> graphmodel_1_noise_gru_gru_cell_4_MatMul_model_1_noise_gru_gru_cell_4_BiasAdd_70098:bias:n;
+graphInt32VecConstant_70023:out:s -> graphmodel_1_noise_gru_gru_cell_4_MatMul_1_model_1_noise_gru_gru_cell_4_BiasAdd_1_70058:bias:n;
+graphInt32VecConstant_70025:out:s -> graphMatMul_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_MatMul_BiasAdd_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_BiasAdd_70048:bias:n;
+graphInt32VecConstant_70026:out:s -> graphMatMul_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_MatMul_1_BiasAdd_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_BiasAdd_1_70068:bias:n;
+graphInt32VecConstant_70030:out:s -> graphmodel_1_denoise_gru_gru_cell_5_split_1_70032:begin:n;
+graphInt32VecConstant_70031:out:s -> graphmodel_1_denoise_gru_gru_cell_5_split_1_70032:size:n;
+graphInt32VecConstant_70033:out:s -> graphmodel_1_denoise_gru_gru_cell_5_split_11_70035:begin:n;
+graphInt32VecConstant_70034:out:s -> graphmodel_1_denoise_gru_gru_cell_5_split_11_70035:size:n;
+graphInt32VecConstant_70036:out:s -> graphmodel_1_denoise_gru_gru_cell_5_split_12_70038:begin:n;
+graphInt32VecConstant_70037:out:s -> graphmodel_1_denoise_gru_gru_cell_5_split_12_70038:size:n;
+graphInt32VecConstant_70043:out:s -> graphmodel_1_vad_gru_unstack_slice_70045:begin:n;
+graphInt32VecConstant_70044:out:s -> graphmodel_1_vad_gru_unstack_slice_70045:size:n;
+graphInt32VecConstant_70046:out:s -> graphmodel_1_vad_gru_unstack_70047:shape:n;
+graphInt32VecConstant_70049:out:s -> graphsplit_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_split_70051:begin:n;
+graphInt32VecConstant_70050:out:s -> graphsplit_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_split_70051:size:n;
+graphInt32VecConstant_70052:out:s -> graphsplit_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_split1_70054:begin:n;
+graphInt32VecConstant_70053:out:s -> graphsplit_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_split1_70054:size:n;
+graphInt32VecConstant_70055:out:s -> graphsplit_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_split2_70057:begin:n;
+graphInt32VecConstant_70056:out:s -> graphsplit_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_split2_70057:size:n;
+graphInt32VecConstant_70059:out:s -> graphmodel_1_noise_gru_gru_cell_4_split_1_70061:begin:n;
+graphInt32VecConstant_70060:out:s -> graphmodel_1_noise_gru_gru_cell_4_split_1_70061:size:n;
+graphInt32VecConstant_70062:out:s -> graphmodel_1_noise_gru_gru_cell_4_split_11_70064:begin:n;
+graphInt32VecConstant_70063:out:s -> graphmodel_1_noise_gru_gru_cell_4_split_11_70064:size:n;
+graphInt32VecConstant_70065:out:s -> graphmodel_1_noise_gru_gru_cell_4_split_12_70067:begin:n;
+graphInt32VecConstant_70066:out:s -> graphmodel_1_noise_gru_gru_cell_4_split_12_70067:size:n;
+graphInt32VecConstant_70069:out:s -> graphsplit_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_split_1_70071:begin:n;
+graphInt32VecConstant_70070:out:s -> graphsplit_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_split_1_70071:size:n;
+graphInt32VecConstant_70072:out:s -> graphsplit_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_split_11_70074:begin:n;
+graphInt32VecConstant_70073:out:s -> graphsplit_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_split_11_70074:size:n;
+graphInt32VecConstant_70075:out:s -> graphsplit_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_split_12_70077:begin:n;
+graphInt32VecConstant_70076:out:s -> graphsplit_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_split_12_70077:size:n;
+graphInt32VecConstant_70093:out:s -> graphmodel_1_noise_gru_unstack_slice_70095:begin:n;
+graphInt32VecConstant_70094:out:s -> graphmodel_1_noise_gru_unstack_slice_70095:size:n;
+graphInt32VecConstant_70096:out:s -> graphmodel_1_noise_gru_unstack_70097:shape:n;
+graphInt32VecConstant_70099:out:s -> graphmodel_1_noise_gru_gru_cell_4_split_70101:begin:n;
+graphInt32VecConstant_70100:out:s -> graphmodel_1_noise_gru_gru_cell_4_split_70101:size:n;
+graphInt32VecConstant_70102:out:s -> graphmodel_1_noise_gru_gru_cell_4_split1_70104:begin:n;
+graphInt32VecConstant_70103:out:s -> graphmodel_1_noise_gru_gru_cell_4_split1_70104:size:n;
+graphInt32VecConstant_70105:out:s -> graphmodel_1_noise_gru_gru_cell_4_split2_70107:begin:n;
+graphInt32VecConstant_70106:out:s -> graphmodel_1_noise_gru_gru_cell_4_split2_70107:size:n;
+graphInt32VecConstant_70122:out:s -> graphmodel_1_denoise_gru_unstack_slice_70124:begin:n;
+graphInt32VecConstant_70123:out:s -> graphmodel_1_denoise_gru_unstack_slice_70124:size:n;
+graphInt32VecConstant_70125:out:s -> graphmodel_1_denoise_gru_unstack_70126:shape:n;
+graphInt32VecConstant_70128:out:s -> graphmodel_1_denoise_gru_gru_cell_5_split_70130:begin:n;
+graphInt32VecConstant_70129:out:s -> graphmodel_1_denoise_gru_gru_cell_5_split_70130:size:n;
+graphInt32VecConstant_70131:out:s -> graphmodel_1_denoise_gru_gru_cell_5_split1_70133:begin:n;
+graphInt32VecConstant_70132:out:s -> graphmodel_1_denoise_gru_gru_cell_5_split1_70133:size:n;
+graphInt32VecConstant_70134:out:s -> graphmodel_1_denoise_gru_gru_cell_5_split2_70136:begin:n;
+graphInt32VecConstant_70135:out:s -> graphmodel_1_denoise_gru_gru_cell_5_split2_70136:size:n;
+graphInt8VecConstant_70010:out:s -> graphmodel_1_denoise_gru_gru_cell_5_sub_70140:input_lhs:n;
+graphInt8VecConstant_70010:out:s -> graphmodel_1_noise_gru_gru_cell_4_sub_70111:input_lhs:n;
+graphInt8VecConstant_70010:out:s -> graphsub_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_sub_70080:input_lhs:n;
+graphInt8VecConstant_70014:out:s -> graphmodel_1_denoise_gru_gru_cell_5_MatMul_model_1_denoise_gru_gru_cell_5_BiasAdd_70127:kernel:n;
+graphInt8VecConstant_70015:out:s -> graphmodel_1_denoise_gru_gru_cell_5_MatMul_1_model_1_denoise_gru_gru_cell_5_BiasAdd_1_70029:kernel:n;
+graphInt8VecConstant_70018:out:s -> graphmodel_1_denoise_output_Tensordot_MatMul_model_1_denoise_output_BiasAdd_model_1_denoise_output_Tensordot_shape_model_1_denoise_output_Tensordot_model_1_denoise_output_BiasAdd_ReadVariableOp_resource_70150:kernel:n;
+graphInt8VecConstant_70019:out:s -> graphTensordot_MatMul_model_1_fc1_StatefulPartitionedCall_Tensordot_MatMul_BiasAdd_model_1_fc1_StatefulPartitionedCall_BiasAdd_Tensordot_shape_model_1_fc1_StatefulPartitionedCall_Tensordot_shape_Tensordot_model_1_fc1_StatefulPartitionedCall_Tensordot_model_1_fc1_1869_70040:kernel:n;
+graphInt8VecConstant_70020:out:s -> graphmodel_1_noise_gru_gru_cell_4_MatMul_model_1_noise_gru_gru_cell_4_BiasAdd_70098:kernel:n;
+graphInt8VecConstant_70021:out:s -> graphmodel_1_noise_gru_gru_cell_4_MatMul_1_model_1_noise_gru_gru_cell_4_BiasAdd_1_70058:kernel:n;
+graphInt8VecConstant_70024:out:s -> graphMatMul_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_MatMul_1_BiasAdd_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_BiasAdd_1_70068:kernel:n;
+graphInt8VecConstant_70027:out:s -> graphMatMul_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_MatMul_BiasAdd_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_BiasAdd_70048:kernel:n;
+graphInt8VecConstant_70028:out:s -> graphmodel_1_vad_output_Tensordot_MatMul_model_1_vad_output_BiasAdd_model_1_vad_output_Tensordot_shape_model_1_vad_output_Tensordot_model_1_vad_output_BiasAdd_ReadVariableOp_resource_70154:kernel:n;
+graphMatMul_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_MatMul_1_BiasAdd_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_BiasAdd_1_70068:out:s -> graphsplit_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_split_11_70074:input:n;
+graphMatMul_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_MatMul_1_BiasAdd_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_BiasAdd_1_70068:out:s -> graphsplit_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_split_12_70077:input:n;
+graphMatMul_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_MatMul_1_BiasAdd_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_BiasAdd_1_70068:out:s -> graphsplit_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_split_1_70071:input:n;
+graphMatMul_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_MatMul_BiasAdd_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_BiasAdd_70048:out:s -> graphsplit_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_split1_70054:input:n;
+graphMatMul_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_MatMul_BiasAdd_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_BiasAdd_70048:out:s -> graphsplit_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_split2_70057:input:n;
+graphMatMul_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_MatMul_BiasAdd_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_BiasAdd_70048:out:s -> graphsplit_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_split_70051:input:n;
+graphSigmoid_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_Sigmoid_1_70082:out:s -> graphmul_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_mul_70083:input_lhs:n;
+graphSigmoid_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_Sigmoid_70079:out:s -> graphmul_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_mul_1_70087:input_lhs:n;
+graphSigmoid_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_Sigmoid_70079:out:s -> graphsub_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_sub_70080:input_rhs:n;
+graphTanh_model_1_fc1_StatefulPartitionedCall_Tanh_BiasAdd_model_1_fc1_StatefulPartitionedCall_BiasAdd_Tensordot_shape_model_1_fc1_StatefulPartitionedCall_Tensordot_shape_Tensordot_model_1_fc1_StatefulPartitionedCall_Tensordot_model_1_fc1_18691_70042:out:s -> graphTanh_model_1_fc1_StatefulPartitionedCall_Tanh_BiasAdd_model_1_fc1_StatefulPartitionedCall_BiasAdd_Tensordot_shape_model_1_fc1_StatefulPartitionedCall_Tensordot_shape_Tensordot_model_1_fc1_StatefulPartitionedCall_Tensordot_model_1_fc1_18691_requantized_70091:input:n;
+graphTanh_model_1_fc1_StatefulPartitionedCall_Tanh_BiasAdd_model_1_fc1_StatefulPartitionedCall_BiasAdd_Tensordot_shape_model_1_fc1_StatefulPartitionedCall_Tensordot_shape_Tensordot_model_1_fc1_StatefulPartitionedCall_Tensordot_model_1_fc1_18691_70042:out:s -> graphmodel_1_vad_gru_unstack_slice_70045:input:n;
+graphTanh_model_1_fc1_StatefulPartitionedCall_Tanh_BiasAdd_model_1_fc1_StatefulPartitionedCall_BiasAdd_Tensordot_shape_model_1_fc1_StatefulPartitionedCall_Tensordot_shape_Tensordot_model_1_fc1_StatefulPartitionedCall_Tensordot_model_1_fc1_18691_requantized_70091:out:s -> graphmodel_1_concatenate_2_concat_70092:in_0:n;
+graphTanh_model_1_fc1_StatefulPartitionedCall_Tanh_BiasAdd_model_1_fc1_StatefulPartitionedCall_BiasAdd_Tensordot_shape_model_1_fc1_StatefulPartitionedCall_Tensordot_shape_Tensordot_model_1_fc1_StatefulPartitionedCall_Tensordot_model_1_fc1_1869_70041:out:s -> graphTanh_model_1_fc1_StatefulPartitionedCall_Tanh_BiasAdd_model_1_fc1_StatefulPartitionedCall_BiasAdd_Tensordot_shape_model_1_fc1_StatefulPartitionedCall_Tensordot_shape_Tensordot_model_1_fc1_StatefulPartitionedCall_Tensordot_model_1_fc1_18691_70042:data:n;
+graphTanh_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_Tanh_70085:out:s -> graphmul_2_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_mul_2_70086:input_rhs:n;
+graphTensordot_MatMul_model_1_fc1_StatefulPartitionedCall_Tensordot_MatMul_BiasAdd_model_1_fc1_StatefulPartitionedCall_BiasAdd_Tensordot_shape_model_1_fc1_StatefulPartitionedCall_Tensordot_shape_Tensordot_model_1_fc1_StatefulPartitionedCall_Tensordot_model_1_fc1_1869_70040:out:s -> graphTanh_model_1_fc1_StatefulPartitionedCall_Tanh_BiasAdd_model_1_fc1_StatefulPartitionedCall_BiasAdd_Tensordot_shape_model_1_fc1_StatefulPartitionedCall_Tensordot_shape_Tensordot_model_1_fc1_StatefulPartitionedCall_Tensordot_model_1_fc1_1869_70041:input:n;
+graphTensordot_Reshape_model_1_fc1_StatefulPartitionedCall_Tensordot_Reshape_70039:out:s -> graphTensordot_MatMul_model_1_fc1_StatefulPartitionedCall_Tensordot_MatMul_BiasAdd_model_1_fc1_StatefulPartitionedCall_BiasAdd_Tensordot_shape_model_1_fc1_StatefulPartitionedCall_Tensordot_shape_Tensordot_model_1_fc1_StatefulPartitionedCall_Tensordot_model_1_fc1_1869_70040:input:n;
+graphadd_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_add_1_70081:out:s -> graphSigmoid_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_Sigmoid_1_70082:input:n;
+graphadd_2_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_add_2_70084:out:s -> graphTanh_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_Tanh_70085:input:n;
+graphadd_3_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_add_3_70088:out:s -> graphIdentity_3_int8_70089:in_0:n;
+graphadd_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_add_70078:out:s -> graphSigmoid_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_Sigmoid_70079:input:n;
+graphdenoise_gru_prev_state_int8:out:s -> graphmodel_1_denoise_gru_gru_cell_5_MatMul_1_model_1_denoise_gru_gru_cell_5_BiasAdd_1_70029:input:n;
+graphdenoise_gru_prev_state_int8:out:s -> graphmodel_1_denoise_gru_gru_cell_5_mul_1_70139:input_rhs:n;
+graphmain_input_int8:out:s -> graphTensordot_Reshape_model_1_fc1_StatefulPartitionedCall_Tensordot_Reshape_70039:data:n;
+graphmain_input_int8:out:s -> graphmodel_1_concatenate_2_concat_70092:in_2:n;
+graphmain_input_int8:out:s -> graphmodel_1_concatenate_3_concat_70121:in_2:n;
+graphmodel_1_concatenate_2_concat_70092:out:s -> graphmodel_1_noise_gru_unstack_slice_70095:input:n;
+graphmodel_1_concatenate_3_concat_70121:out:s -> graphmodel_1_denoise_gru_unstack_slice_70124:input:n;
+graphmodel_1_denoise_gru_gru_cell_5_MatMul_1_model_1_denoise_gru_gru_cell_5_BiasAdd_1_70029:out:s -> graphmodel_1_denoise_gru_gru_cell_5_split_11_70035:input:n;
+graphmodel_1_denoise_gru_gru_cell_5_MatMul_1_model_1_denoise_gru_gru_cell_5_BiasAdd_1_70029:out:s -> graphmodel_1_denoise_gru_gru_cell_5_split_12_70038:input:n;
+graphmodel_1_denoise_gru_gru_cell_5_MatMul_1_model_1_denoise_gru_gru_cell_5_BiasAdd_1_70029:out:s -> graphmodel_1_denoise_gru_gru_cell_5_split_1_70032:input:n;
+graphmodel_1_denoise_gru_gru_cell_5_MatMul_model_1_denoise_gru_gru_cell_5_BiasAdd_70127:out:s -> graphmodel_1_denoise_gru_gru_cell_5_split1_70133:input:n;
+graphmodel_1_denoise_gru_gru_cell_5_MatMul_model_1_denoise_gru_gru_cell_5_BiasAdd_70127:out:s -> graphmodel_1_denoise_gru_gru_cell_5_split2_70136:input:n;
+graphmodel_1_denoise_gru_gru_cell_5_MatMul_model_1_denoise_gru_gru_cell_5_BiasAdd_70127:out:s -> graphmodel_1_denoise_gru_gru_cell_5_split_70130:input:n;
+graphmodel_1_denoise_gru_gru_cell_5_Sigmoid_1_70142:out:s -> graphmodel_1_denoise_gru_gru_cell_5_mul_70143:input_lhs:n;
+graphmodel_1_denoise_gru_gru_cell_5_Sigmoid_70138:out:s -> graphmodel_1_denoise_gru_gru_cell_5_mul_1_70139:input_lhs:n;
+graphmodel_1_denoise_gru_gru_cell_5_Sigmoid_70138:out:s -> graphmodel_1_denoise_gru_gru_cell_5_sub_70140:input_rhs:n;
+graphmodel_1_denoise_gru_gru_cell_5_Tanh_70145:out:s -> graphmodel_1_denoise_gru_gru_cell_5_mul_2_70146:input_rhs:n;
+graphmodel_1_denoise_gru_gru_cell_5_add_1_70141:out:s -> graphmodel_1_denoise_gru_gru_cell_5_Sigmoid_1_70142:input:n;
+graphmodel_1_denoise_gru_gru_cell_5_add_2_70144:out:s -> graphmodel_1_denoise_gru_gru_cell_5_Tanh_70145:input:n;
+graphmodel_1_denoise_gru_gru_cell_5_add_3_70147:out:s -> graphIdentity_int8_70148:in_0:n;
+graphmodel_1_denoise_gru_gru_cell_5_add_70137:out:s -> graphmodel_1_denoise_gru_gru_cell_5_Sigmoid_70138:input:n;
+graphmodel_1_denoise_gru_gru_cell_5_mul_1_70139:out:s -> graphmodel_1_denoise_gru_gru_cell_5_add_3_70147:input_lhs:n;
+graphmodel_1_denoise_gru_gru_cell_5_mul_2_70146:out:s -> graphmodel_1_denoise_gru_gru_cell_5_add_3_70147:input_rhs:n;
+graphmodel_1_denoise_gru_gru_cell_5_mul_70143:out:s -> graphmodel_1_denoise_gru_gru_cell_5_add_2_70144:input_rhs:n;
+graphmodel_1_denoise_gru_gru_cell_5_split1_70133:out:s -> graphmodel_1_denoise_gru_gru_cell_5_add_1_70141:input_lhs:n;
+graphmodel_1_denoise_gru_gru_cell_5_split2_70136:out:s -> graphmodel_1_denoise_gru_gru_cell_5_add_2_70144:input_lhs:n;
+graphmodel_1_denoise_gru_gru_cell_5_split_11_70035:out:s -> graphmodel_1_denoise_gru_gru_cell_5_add_1_70141:input_rhs:n;
+graphmodel_1_denoise_gru_gru_cell_5_split_12_70038:out:s -> graphmodel_1_denoise_gru_gru_cell_5_mul_70143:input_rhs:n;
+graphmodel_1_denoise_gru_gru_cell_5_split_1_70032:out:s -> graphmodel_1_denoise_gru_gru_cell_5_add_70137:input_rhs:n;
+graphmodel_1_denoise_gru_gru_cell_5_split_70130:out:s -> graphmodel_1_denoise_gru_gru_cell_5_add_70137:input_lhs:n;
+graphmodel_1_denoise_gru_gru_cell_5_sub_70140:out:s -> graphmodel_1_denoise_gru_gru_cell_5_mul_2_70146:input_lhs:n;
+graphmodel_1_denoise_gru_unstack_70126:out:s -> graphmodel_1_denoise_gru_gru_cell_5_MatMul_model_1_denoise_gru_gru_cell_5_BiasAdd_70127:input:n;
+graphmodel_1_denoise_gru_unstack_slice_70124:out:s -> graphmodel_1_denoise_gru_unstack_70126:data:n;
+graphmodel_1_denoise_output_BiasAdd_model_1_denoise_output_Tensordot_shape_model_1_denoise_output_Tensordot_model_1_denoise_output_BiasAdd_ReadVariableOp_resource_70151:out:s -> graphIdentity_1_int8_70152:input:n;
+graphmodel_1_denoise_output_Tensordot_MatMul_model_1_denoise_output_BiasAdd_model_1_denoise_output_Tensordot_shape_model_1_denoise_output_Tensordot_model_1_denoise_output_BiasAdd_ReadVariableOp_resource_70150:out:s -> graphmodel_1_denoise_output_BiasAdd_model_1_denoise_output_Tensordot_shape_model_1_denoise_output_Tensordot_model_1_denoise_output_BiasAdd_ReadVariableOp_resource_70151:data:n;
+graphmodel_1_denoise_output_Tensordot_Reshape_70149:out:s -> graphmodel_1_denoise_output_Tensordot_MatMul_model_1_denoise_output_BiasAdd_model_1_denoise_output_Tensordot_shape_model_1_denoise_output_Tensordot_model_1_denoise_output_BiasAdd_ReadVariableOp_resource_70150:input:n;
+graphmodel_1_noise_gru_gru_cell_4_MatMul_1_model_1_noise_gru_gru_cell_4_BiasAdd_1_70058:out:s -> graphmodel_1_noise_gru_gru_cell_4_split_11_70064:input:n;
+graphmodel_1_noise_gru_gru_cell_4_MatMul_1_model_1_noise_gru_gru_cell_4_BiasAdd_1_70058:out:s -> graphmodel_1_noise_gru_gru_cell_4_split_12_70067:input:n;
+graphmodel_1_noise_gru_gru_cell_4_MatMul_1_model_1_noise_gru_gru_cell_4_BiasAdd_1_70058:out:s -> graphmodel_1_noise_gru_gru_cell_4_split_1_70061:input:n;
+graphmodel_1_noise_gru_gru_cell_4_MatMul_model_1_noise_gru_gru_cell_4_BiasAdd_70098:out:s -> graphmodel_1_noise_gru_gru_cell_4_split1_70104:input:n;
+graphmodel_1_noise_gru_gru_cell_4_MatMul_model_1_noise_gru_gru_cell_4_BiasAdd_70098:out:s -> graphmodel_1_noise_gru_gru_cell_4_split2_70107:input:n;
+graphmodel_1_noise_gru_gru_cell_4_MatMul_model_1_noise_gru_gru_cell_4_BiasAdd_70098:out:s -> graphmodel_1_noise_gru_gru_cell_4_split_70101:input:n;
+graphmodel_1_noise_gru_gru_cell_4_Relu_model_1_noise_gru_gru_cell_4_add_2_70115:out:s -> graphmodel_1_noise_gru_gru_cell_4_mul_2_70116:input_rhs:n;
+graphmodel_1_noise_gru_gru_cell_4_Sigmoid_1_70113:out:s -> graphmodel_1_noise_gru_gru_cell_4_mul_70114:input_lhs:n;
+graphmodel_1_noise_gru_gru_cell_4_Sigmoid_70109:out:s -> graphmodel_1_noise_gru_gru_cell_4_mul_1_70110:input_lhs:n;
+graphmodel_1_noise_gru_gru_cell_4_Sigmoid_70109:out:s -> graphmodel_1_noise_gru_gru_cell_4_sub_70111:input_rhs:n;
+graphmodel_1_noise_gru_gru_cell_4_add_1_70112:out:s -> graphmodel_1_noise_gru_gru_cell_4_Sigmoid_1_70113:input:n;
+graphmodel_1_noise_gru_gru_cell_4_add_3_70117:out:s -> graphIdentity_2_int8_70118:in_0:n;
+graphmodel_1_noise_gru_gru_cell_4_add_70108:out:s -> graphmodel_1_noise_gru_gru_cell_4_Sigmoid_70109:input:n;
+graphmodel_1_noise_gru_gru_cell_4_mul_1_70110:out:s -> graphmodel_1_noise_gru_gru_cell_4_add_3_70117:input_lhs:n;
+graphmodel_1_noise_gru_gru_cell_4_mul_2_70116:out:s -> graphmodel_1_noise_gru_gru_cell_4_add_3_70117:input_rhs:n;
+graphmodel_1_noise_gru_gru_cell_4_mul_70114:out:s -> graphmodel_1_noise_gru_gru_cell_4_Relu_model_1_noise_gru_gru_cell_4_add_2_70115:input_rhs:n;
+graphmodel_1_noise_gru_gru_cell_4_split1_70104:out:s -> graphmodel_1_noise_gru_gru_cell_4_add_1_70112:input_lhs:n;
+graphmodel_1_noise_gru_gru_cell_4_split2_70107:out:s -> graphmodel_1_noise_gru_gru_cell_4_Relu_model_1_noise_gru_gru_cell_4_add_2_70115:input_lhs:n;
+graphmodel_1_noise_gru_gru_cell_4_split_11_70064:out:s -> graphmodel_1_noise_gru_gru_cell_4_add_1_70112:input_rhs:n;
+graphmodel_1_noise_gru_gru_cell_4_split_12_70067:out:s -> graphmodel_1_noise_gru_gru_cell_4_mul_70114:input_rhs:n;
+graphmodel_1_noise_gru_gru_cell_4_split_1_70061:out:s -> graphmodel_1_noise_gru_gru_cell_4_add_70108:input_rhs:n;
+graphmodel_1_noise_gru_gru_cell_4_split_70101:out:s -> graphmodel_1_noise_gru_gru_cell_4_add_70108:input_lhs:n;
+graphmodel_1_noise_gru_gru_cell_4_sub_70111:out:s -> graphmodel_1_noise_gru_gru_cell_4_mul_2_70116:input_lhs:n;
+graphmodel_1_noise_gru_unstack_70097:out:s -> graphmodel_1_noise_gru_gru_cell_4_MatMul_model_1_noise_gru_gru_cell_4_BiasAdd_70098:input:n;
+graphmodel_1_noise_gru_unstack_slice_70095:out:s -> graphmodel_1_noise_gru_unstack_70097:data:n;
+graphmodel_1_vad_gru_unstack_70047:out:s -> graphMatMul_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_MatMul_BiasAdd_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_BiasAdd_70048:input:n;
+graphmodel_1_vad_gru_unstack_slice_70045:out:s -> graphmodel_1_vad_gru_unstack_70047:data:n;
+graphmodel_1_vad_output_BiasAdd_model_1_vad_output_Tensordot_shape_model_1_vad_output_Tensordot_model_1_vad_output_BiasAdd_ReadVariableOp_resource_70155:out:s -> graphIdentity_4_int8_70156:input:n;
+graphmodel_1_vad_output_Tensordot_MatMul_model_1_vad_output_BiasAdd_model_1_vad_output_Tensordot_shape_model_1_vad_output_Tensordot_model_1_vad_output_BiasAdd_ReadVariableOp_resource_70154:out:s -> graphmodel_1_vad_output_BiasAdd_model_1_vad_output_Tensordot_shape_model_1_vad_output_Tensordot_model_1_vad_output_BiasAdd_ReadVariableOp_resource_70155:data:n;
+graphmodel_1_vad_output_Tensordot_Reshape_70153:out:s -> graphmodel_1_vad_output_Tensordot_MatMul_model_1_vad_output_BiasAdd_model_1_vad_output_Tensordot_shape_model_1_vad_output_Tensordot_model_1_vad_output_BiasAdd_ReadVariableOp_resource_70154:input:n;
+graphmul_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_mul_1_70087:out:s -> graphadd_3_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_add_3_70088:input_lhs:n;
+graphmul_2_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_mul_2_70086:out:s -> graphadd_3_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_add_3_70088:input_rhs:n;
+graphmul_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_mul_70083:out:s -> graphadd_2_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_add_2_70084:input_rhs:n;
+graphnoise_gru_prev_state_int8:out:s -> graphmodel_1_noise_gru_gru_cell_4_MatMul_1_model_1_noise_gru_gru_cell_4_BiasAdd_1_70058:input:n;
+graphnoise_gru_prev_state_int8:out:s -> graphmodel_1_noise_gru_gru_cell_4_mul_1_70110:input_rhs:n;
+graphsplit_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_split_11_70074:out:s -> graphadd_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_add_1_70081:input_rhs:n;
+graphsplit_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_split_12_70077:out:s -> graphmul_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_mul_70083:input_rhs:n;
+graphsplit_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_split_1_70071:out:s -> graphadd_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_add_70078:input_rhs:n;
+graphsplit_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_split1_70054:out:s -> graphadd_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_add_1_70081:input_lhs:n;
+graphsplit_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_split2_70057:out:s -> graphadd_2_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_add_2_70084:input_lhs:n;
+graphsplit_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_split_70051:out:s -> graphadd_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_add_70078:input_lhs:n;
+graphsub_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_sub_70080:out:s -> graphmul_2_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_mul_2_70086:input_lhs:n;
+graphvad_gru_prev_state_int8:out:s -> graphMatMul_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_MatMul_1_BiasAdd_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_BiasAdd_1_70068:input:n;
+graphvad_gru_prev_state_int8:out:s -> graphmul_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_mul_1_70087:input_rhs:n;
+}}

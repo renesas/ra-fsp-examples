@@ -1,5 +1,5 @@
 /***********************************************************************************************************************
-* Copyright (c) 2019 - 2024 Renesas Electronics Corporation and/or its affiliates
+* Copyright (c) 2019 - 2026 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
 ***********************************************************************************************************************/
@@ -15,8 +15,7 @@ extern "C" {
 
 /* ****************************************************************************************************************
  * Code Flash memory map
- * ****************************************************************************************************************
- */
+ * ***************************************************************************************************************/
 
 #define  ADDR_1ST_RX             0x00010000
 #define  ADDR_1ST_RX_MT_PAGE     0x00018000
@@ -57,13 +56,12 @@ extern "C" {
 
 #define CODE_FLASH_START_ADDR    0x00000000
 #define CODE_FLASH_END_ADDR      0x001FFFFF
-#define CODE_FLASH_SIZE          (CODE_FLASH_END_ADDR - CODE_FLASH_START_ADDR  + 1)
+#define CODE_FLASH_SIZE          (CODE_FLASH_END_ADDR - CODE_FLASH_START_ADDR + 1)
 
 
 /* ****************************************************************************************************************
- * Config Flash memmory map
- * ****************************************************************************************************************
- */
+ * Config Flash memory map
+ * ***************************************************************************************************************/
 
 // Configuration area register address blocks
 #define FSPR_CONFIG_ADDR_START  0x0100A160
@@ -75,13 +73,12 @@ extern "C" {
 
 /* ****************************************************************************************************************
  * RAM memory map
- * ****************************************************************************************************************
- */
+ * ***************************************************************************************************************/
 
 #define KERNEL_RAM_START_ADDR   0x1FFE0000
 #define APP_RAM_START_ADDR      0x1FFE0010
 #define RAM_END_ADDR            0x2007FFFF
-#define APP_RAM_SIZE           (RAM_END_ADDR - APP_RAM_START_ADDR  + 1)
+#define APP_RAM_SIZE           (RAM_END_ADDR - APP_RAM_START_ADDR + 1)
 #endif
 
 #ifdef __cplusplus

@@ -1,5 +1,5 @@
 /*
- * Renesas C-SPY debug macro script for TrustZone devices
+ * Renesas C-SPY debug macro script for RA CM33 TrustZone devices
  */
 
 /*
@@ -28,7 +28,13 @@ evalArgVar(var) {
     __var output;
     __system2("echo " + var, &output);
     // Strip \r\n
-    return __subString(output, 0, (sizeof output) - 2);
+    output = __subString(output, 0, (sizeof output) - 2);
+
+    if (__strFind(output, "\"", 0) == 0 && __strFind(output, "\"", (sizeof output)-1) == (sizeof output)-1) {
+        // " was found at the beginning and end, strip the first and last "
+        output = __subString(output, 1, (sizeof output) - 2);
+    }
+    return output;
 }
 
 /*
@@ -136,8 +142,23 @@ checkRegion(content, region, currVal) {
  */
 getPartitionOutput() {
     __var output;
-    output = launchViaBatchFile("\"" + getRascExePath() + "\" -partition \"" + getCfgXmlPath() + "\" \"" + getTargetPath() + "\"", "$_TEMP_$\\launch_rascpartition.bat", 0);
-    
+    __var filePath;
+    __var fileHandle;
+    __var byte;
+
+    output = "";
+    filePath = evalArgVar("$BUILD_FILES_DIR$\\.rasc_stdout.txt");
+    fileHandle = __openFile(filePath, "r");
+    if (fileHandle) {
+        byte = __readFileByte(fileHandle);
+        while (byte != -1) {
+            output = output + __smessage byte:%c;
+            byte = __readFileByte(fileHandle);
+        }
+        __closeFile(fileHandle);
+    } else {
+        output = launchViaBatchFile("\"" + getRascExePath() + "\" -nosplash --launcher.suppressErrors -partition \"" + getCfgXmlPath() + "\" \"" + getTargetPath() + "\"", "$_TEMP_$\\launch_rascpartition.bat", 0);
+    }
     return output;
 }
 
@@ -185,10 +206,14 @@ execUserPreload() {
 
     __message "Checking required vs current TrustZone partition sizes";
 
-	__var checkResult;
-	checkResult = checkRegions();
+    __var checkResult;
+    checkResult = checkRegions();
     if (checkResult > 0) {
-        if(__messageBoxYesNo("Target device needs TrustZone partition sizes to be changed before debug session can be started.\n\nLaunch the Renesas Device Partition Manager tool?", "Target Device Partitioning")) {
+        if(__messageBoxYesNo("Target device needs TrustZone partition sizes to be changed before debug session can be started,\n" +
+                "do you want to run the Renesas Device Partition Manager?\n\n" +
+                "Click Yes to terminate the debug session and run the Renesas Device Partition Manager.\n\n" +
+                "\t- Once partitions are updated, you can restart the debug session.\n\n" +
+                "Click No to terminate the debug session.", "Target Device Partitioning")) {
             launchDpm();
         }
         __abortLaunch("Aborting debug launch due to TrustZone partition size mismatch");

@@ -1,5 +1,5 @@
 /***********************************************************************************************************************
-* Copyright (c) 2015 - 2024 Renesas Electronics Corporation and/or its affiliates
+* Copyright (c) 2015 - 2026 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
 ***********************************************************************************************************************/
@@ -39,9 +39,9 @@ static bool generatorCallback(const char *pSrec, void *pUserParams)
  * Public API
  */
 
- /*
-  * Reading a S Record file
-  */
+/*
+ * Reading a S Record file
+ */
 
  // Read a S record file.
  //

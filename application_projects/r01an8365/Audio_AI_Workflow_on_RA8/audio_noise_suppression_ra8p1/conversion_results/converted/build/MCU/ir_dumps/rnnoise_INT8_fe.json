@@ -1,0 +1,3995 @@
+{
+  "subgraphs": [
+    {
+      "nodes": [
+        {
+          "attributes": {},
+          "input_names": {
+            "in_0": {
+              "dt": "Int8",
+              "layout": "NHW",
+              "name": "Identity_3_int8_70089",
+              "shape": [
+                1,
+                1,
+                24
+              ]
+            },
+            "in_1": {
+              "dt": "Int8",
+              "layout": "NHW",
+              "name": "Identity_2_int8_70118",
+              "shape": [
+                1,
+                1,
+                48
+              ]
+            },
+            "in_2": {
+              "dt": "Int8",
+              "layout": "NHW",
+              "name": "Identity_int8_70148",
+              "shape": [
+                1,
+                1,
+                96
+              ]
+            },
+            "in_3": {
+              "dt": "Int8",
+              "layout": "NHW",
+              "name": "Identity_1_int8_70152",
+              "shape": [
+                1,
+                1,
+                22
+              ]
+            },
+            "in_4": {
+              "dt": "Int8",
+              "layout": "NHW",
+              "name": "Identity_4_int8_70156",
+              "shape": [
+                1,
+                1,
+                1
+              ]
+            }
+          },
+          "op_name": "OutputNode",
+          "output": {
+            "dt": "UInt8",
+            "layout": "x",
+            "name": "GraphOutputs",
+            "shape": [
+              1
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {
+            "input": {
+              "dt": "Int8",
+              "layout": "NHW",
+              "name": "model_1_denoise_output_BiasAdd_model_1_denoise_output_Tensordot_shape_model_1_denoise_output_Tensordot_model_1_denoise_output_BiasAdd_ReadVariableOp_resource_70151",
+              "shape": [
+                1,
+                1,
+                22
+              ]
+            }
+          },
+          "op_name": "TFLiteSigmoid",
+          "output": {
+            "dt": "Int8",
+            "layout": "NHW",
+            "name": "Identity_1_int8_70152",
+            "shape": [
+              1,
+              1,
+              22
+            ]
+          }
+        },
+        {
+          "attributes": {
+            "axis": "0"
+          },
+          "input_names": {
+            "in_0": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_noise_gru_gru_cell_4_add_3_70117",
+              "shape": [
+                1,
+                48
+              ]
+            }
+          },
+          "op_name": "TFLitePack",
+          "output": {
+            "dt": "Int8",
+            "layout": "NHW",
+            "name": "Identity_2_int8_70118",
+            "shape": [
+              1,
+              1,
+              48
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {
+            "input": {
+              "dt": "Int8",
+              "layout": "NHW",
+              "name": "Identity_2_int8_70118",
+              "shape": [
+                1,
+                1,
+                48
+              ]
+            }
+          },
+          "op_name": "TFLiteQuantize",
+          "output": {
+            "dt": "Int8",
+            "layout": "NHW",
+            "name": "Identity_2_requantized_70119",
+            "shape": [
+              1,
+              1,
+              48
+            ]
+          }
+        },
+        {
+          "attributes": {
+            "axis": "0"
+          },
+          "input_names": {
+            "in_0": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "add_3_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_add_3_70088",
+              "shape": [
+                1,
+                24
+              ]
+            }
+          },
+          "op_name": "TFLitePack",
+          "output": {
+            "dt": "Int8",
+            "layout": "NHW",
+            "name": "Identity_3_int8_70089",
+            "shape": [
+              1,
+              1,
+              24
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {
+            "input": {
+              "dt": "Int8",
+              "layout": "NHW",
+              "name": "Identity_3_int8_70089",
+              "shape": [
+                1,
+                1,
+                24
+              ]
+            }
+          },
+          "op_name": "TFLiteQuantize",
+          "output": {
+            "dt": "Int8",
+            "layout": "NHW",
+            "name": "Identity_3_requantized_70090",
+            "shape": [
+              1,
+              1,
+              24
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {
+            "input": {
+              "dt": "Int8",
+              "layout": "NHW",
+              "name": "Identity_3_int8_70089",
+              "shape": [
+                1,
+                1,
+                24
+              ]
+            }
+          },
+          "op_name": "TFLiteQuantize",
+          "output": {
+            "dt": "Int8",
+            "layout": "NHW",
+            "name": "Identity_3_requantized_70120",
+            "shape": [
+              1,
+              1,
+              24
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {
+            "input": {
+              "dt": "Int8",
+              "layout": "NHW",
+              "name": "model_1_vad_output_BiasAdd_model_1_vad_output_Tensordot_shape_model_1_vad_output_Tensordot_model_1_vad_output_BiasAdd_ReadVariableOp_resource_70155",
+              "shape": [
+                1,
+                1,
+                1
+              ]
+            }
+          },
+          "op_name": "TFLiteSigmoid",
+          "output": {
+            "dt": "Int8",
+            "layout": "NHW",
+            "name": "Identity_4_int8_70156",
+            "shape": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        {
+          "attributes": {
+            "axis": "0"
+          },
+          "input_names": {
+            "in_0": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_denoise_gru_gru_cell_5_add_3_70147",
+              "shape": [
+                1,
+                96
+              ]
+            }
+          },
+          "op_name": "TFLitePack",
+          "output": {
+            "dt": "Int8",
+            "layout": "NHW",
+            "name": "Identity_int8_70148",
+            "shape": [
+              1,
+              1,
+              96
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70001",
+            "shape": [
+              22
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70002",
+            "shape": [
+              2
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70003",
+            "shape": [
+              3
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70004",
+            "shape": [
+              24
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70005",
+            "shape": [
+              2
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70006",
+            "shape": [
+              3
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70011",
+            "shape": [
+              1
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70012",
+            "shape": [
+              2
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70013",
+            "shape": [
+              3
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70016",
+            "shape": [
+              288
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70017",
+            "shape": [
+              288
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70022",
+            "shape": [
+              144
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70023",
+            "shape": [
+              144
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70025",
+            "shape": [
+              72
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70026",
+            "shape": [
+              72
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70030",
+            "shape": [
+              2
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70031",
+            "shape": [
+              2
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70033",
+            "shape": [
+              2
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70034",
+            "shape": [
+              2
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70036",
+            "shape": [
+              2
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70037",
+            "shape": [
+              2
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70043",
+            "shape": [
+              3
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70044",
+            "shape": [
+              3
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70046",
+            "shape": [
+              2
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70049",
+            "shape": [
+              2
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70050",
+            "shape": [
+              2
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70052",
+            "shape": [
+              2
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70053",
+            "shape": [
+              2
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70055",
+            "shape": [
+              2
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70056",
+            "shape": [
+              2
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70059",
+            "shape": [
+              2
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70060",
+            "shape": [
+              2
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70062",
+            "shape": [
+              2
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70063",
+            "shape": [
+              2
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70065",
+            "shape": [
+              2
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70066",
+            "shape": [
+              2
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70069",
+            "shape": [
+              2
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70070",
+            "shape": [
+              2
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70072",
+            "shape": [
+              2
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70073",
+            "shape": [
+              2
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70075",
+            "shape": [
+              2
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70076",
+            "shape": [
+              2
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70093",
+            "shape": [
+              3
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70094",
+            "shape": [
+              3
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70096",
+            "shape": [
+              2
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70099",
+            "shape": [
+              2
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70100",
+            "shape": [
+              2
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70102",
+            "shape": [
+              2
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70103",
+            "shape": [
+              2
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70105",
+            "shape": [
+              2
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70106",
+            "shape": [
+              2
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70122",
+            "shape": [
+              3
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70123",
+            "shape": [
+              3
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70125",
+            "shape": [
+              2
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70128",
+            "shape": [
+              2
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70129",
+            "shape": [
+              2
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70131",
+            "shape": [
+              2
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70132",
+            "shape": [
+              2
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70134",
+            "shape": [
+              2
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int32VecConstant",
+          "output": {
+            "dt": "Int32",
+            "layout": "C",
+            "name": "Int32VecConstant_70135",
+            "shape": [
+              2
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int8VecConstant",
+          "output": {
+            "dt": "Int8",
+            "layout": "C",
+            "name": "Int8VecConstant_70010",
+            "shape": [
+              1
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int8VecConstant",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "Int8VecConstant_70014",
+            "shape": [
+              288,
+              114
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int8VecConstant",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "Int8VecConstant_70015",
+            "shape": [
+              288,
+              96
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int8VecConstant",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "Int8VecConstant_70018",
+            "shape": [
+              22,
+              96
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int8VecConstant",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "Int8VecConstant_70019",
+            "shape": [
+              24,
+              42
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int8VecConstant",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "Int8VecConstant_70020",
+            "shape": [
+              144,
+              90
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int8VecConstant",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "Int8VecConstant_70021",
+            "shape": [
+              144,
+              48
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int8VecConstant",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "Int8VecConstant_70024",
+            "shape": [
+              72,
+              24
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int8VecConstant",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "Int8VecConstant_70027",
+            "shape": [
+              72,
+              24
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Int8VecConstant",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "Int8VecConstant_70028",
+            "shape": [
+              1,
+              24
+            ]
+          }
+        },
+        {
+          "attributes": {
+            "asymmetric_quantize_inputs": "0",
+            "fused_activation": "NONE",
+            "keep_num_dims": "0",
+            "quantized_bias_type": "dtype(Float32)"
+          },
+          "input_names": {
+            "bias": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70026",
+              "shape": [
+                72
+              ]
+            },
+            "input": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "vad_gru_prev_state_int8",
+              "shape": [
+                1,
+                24
+              ]
+            },
+            "kernel": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "Int8VecConstant_70024",
+              "shape": [
+                72,
+                24
+              ]
+            }
+          },
+          "op_name": "TFLiteFullyConnectedBias",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "MatMul_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_MatMul_1_BiasAdd_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_BiasAdd_1_70068",
+            "shape": [
+              1,
+              72
+            ]
+          }
+        },
+        {
+          "attributes": {
+            "asymmetric_quantize_inputs": "0",
+            "fused_activation": "NONE",
+            "keep_num_dims": "0",
+            "quantized_bias_type": "dtype(Float32)"
+          },
+          "input_names": {
+            "bias": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70025",
+              "shape": [
+                72
+              ]
+            },
+            "input": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_vad_gru_unstack_70047",
+              "shape": [
+                1,
+                24
+              ]
+            },
+            "kernel": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "Int8VecConstant_70027",
+              "shape": [
+                72,
+                24
+              ]
+            }
+          },
+          "op_name": "TFLiteFullyConnectedBias",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "MatMul_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_MatMul_BiasAdd_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_BiasAdd_70048",
+            "shape": [
+              1,
+              72
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {
+            "input": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "add_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_add_1_70081",
+              "shape": [
+                1,
+                24
+              ]
+            }
+          },
+          "op_name": "TFLiteSigmoid",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "Sigmoid_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_Sigmoid_1_70082",
+            "shape": [
+              1,
+              24
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {
+            "input": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "add_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_add_70078",
+              "shape": [
+                1,
+                24
+              ]
+            }
+          },
+          "op_name": "TFLiteSigmoid",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "Sigmoid_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_Sigmoid_70079",
+            "shape": [
+              1,
+              24
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {
+            "data": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "Tanh_model_1_fc1_StatefulPartitionedCall_Tanh_BiasAdd_model_1_fc1_StatefulPartitionedCall_BiasAdd_Tensordot_shape_model_1_fc1_StatefulPartitionedCall_Tensordot_shape_Tensordot_model_1_fc1_StatefulPartitionedCall_Tensordot_model_1_fc1_1869_70041",
+              "shape": [
+                1,
+                24
+              ]
+            },
+            "shape": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70006",
+              "shape": [
+                3
+              ]
+            }
+          },
+          "op_name": "CanReshape",
+          "output": {
+            "dt": "Int8",
+            "layout": "NHW",
+            "name": "Tanh_model_1_fc1_StatefulPartitionedCall_Tanh_BiasAdd_model_1_fc1_StatefulPartitionedCall_BiasAdd_Tensordot_shape_model_1_fc1_StatefulPartitionedCall_Tensordot_shape_Tensordot_model_1_fc1_StatefulPartitionedCall_Tensordot_model_1_fc1_18691_70042",
+            "shape": [
+              1,
+              1,
+              24
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {
+            "input": {
+              "dt": "Int8",
+              "layout": "NHW",
+              "name": "Tanh_model_1_fc1_StatefulPartitionedCall_Tanh_BiasAdd_model_1_fc1_StatefulPartitionedCall_BiasAdd_Tensordot_shape_model_1_fc1_StatefulPartitionedCall_Tensordot_shape_Tensordot_model_1_fc1_StatefulPartitionedCall_Tensordot_model_1_fc1_18691_70042",
+              "shape": [
+                1,
+                1,
+                24
+              ]
+            }
+          },
+          "op_name": "TFLiteQuantize",
+          "output": {
+            "dt": "Int8",
+            "layout": "NHW",
+            "name": "Tanh_model_1_fc1_StatefulPartitionedCall_Tanh_BiasAdd_model_1_fc1_StatefulPartitionedCall_BiasAdd_Tensordot_shape_model_1_fc1_StatefulPartitionedCall_Tensordot_shape_Tensordot_model_1_fc1_StatefulPartitionedCall_Tensordot_model_1_fc1_18691_requantized_70091",
+            "shape": [
+              1,
+              1,
+              24
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {
+            "input": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "Tensordot_MatMul_model_1_fc1_StatefulPartitionedCall_Tensordot_MatMul_BiasAdd_model_1_fc1_StatefulPartitionedCall_BiasAdd_Tensordot_shape_model_1_fc1_StatefulPartitionedCall_Tensordot_shape_Tensordot_model_1_fc1_StatefulPartitionedCall_Tensordot_model_1_fc1_1869_70040",
+              "shape": [
+                1,
+                24
+              ]
+            }
+          },
+          "op_name": "TFLiteTanh",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "Tanh_model_1_fc1_StatefulPartitionedCall_Tanh_BiasAdd_model_1_fc1_StatefulPartitionedCall_BiasAdd_Tensordot_shape_model_1_fc1_StatefulPartitionedCall_Tensordot_shape_Tensordot_model_1_fc1_StatefulPartitionedCall_Tensordot_model_1_fc1_1869_70041",
+            "shape": [
+              1,
+              24
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {
+            "input": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "add_2_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_add_2_70084",
+              "shape": [
+                1,
+                24
+              ]
+            }
+          },
+          "op_name": "TFLiteTanh",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "Tanh_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_Tanh_70085",
+            "shape": [
+              1,
+              24
+            ]
+          }
+        },
+        {
+          "attributes": {
+            "asymmetric_quantize_inputs": "0",
+            "fused_activation": "NONE",
+            "keep_num_dims": "0",
+            "quantized_bias_type": "dtype(Float32)"
+          },
+          "input_names": {
+            "bias": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70004",
+              "shape": [
+                24
+              ]
+            },
+            "input": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "Tensordot_Reshape_model_1_fc1_StatefulPartitionedCall_Tensordot_Reshape_70039",
+              "shape": [
+                1,
+                42
+              ]
+            },
+            "kernel": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "Int8VecConstant_70019",
+              "shape": [
+                24,
+                42
+              ]
+            }
+          },
+          "op_name": "TFLiteFullyConnectedBias",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "Tensordot_MatMul_model_1_fc1_StatefulPartitionedCall_Tensordot_MatMul_BiasAdd_model_1_fc1_StatefulPartitionedCall_BiasAdd_Tensordot_shape_model_1_fc1_StatefulPartitionedCall_Tensordot_shape_Tensordot_model_1_fc1_StatefulPartitionedCall_Tensordot_model_1_fc1_1869_70040",
+            "shape": [
+              1,
+              24
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {
+            "data": {
+              "dt": "Int8",
+              "layout": "NHW",
+              "name": "main_input_int8",
+              "shape": [
+                1,
+                1,
+                42
+              ]
+            },
+            "shape": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70005",
+              "shape": [
+                2
+              ]
+            }
+          },
+          "op_name": "CanReshape",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "Tensordot_Reshape_model_1_fc1_StatefulPartitionedCall_Tensordot_Reshape_70039",
+            "shape": [
+              1,
+              42
+            ]
+          }
+        },
+        {
+          "attributes": {
+            "fused_activation": "NONE"
+          },
+          "input_names": {
+            "input_lhs": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "split_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_split1_70054",
+              "shape": [
+                1,
+                24
+              ]
+            },
+            "input_rhs": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "split_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_split_11_70074",
+              "shape": [
+                1,
+                24
+              ]
+            }
+          },
+          "op_name": "TFLiteQAdd",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "add_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_add_1_70081",
+            "shape": [
+              1,
+              24
+            ]
+          }
+        },
+        {
+          "attributes": {
+            "fused_activation": "NONE"
+          },
+          "input_names": {
+            "input_lhs": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "split_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_split2_70057",
+              "shape": [
+                1,
+                24
+              ]
+            },
+            "input_rhs": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "mul_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_mul_70083",
+              "shape": [
+                1,
+                24
+              ]
+            }
+          },
+          "op_name": "TFLiteQAdd",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "add_2_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_add_2_70084",
+            "shape": [
+              1,
+              24
+            ]
+          }
+        },
+        {
+          "attributes": {
+            "fused_activation": "NONE"
+          },
+          "input_names": {
+            "input_lhs": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "mul_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_mul_1_70087",
+              "shape": [
+                1,
+                24
+              ]
+            },
+            "input_rhs": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "mul_2_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_mul_2_70086",
+              "shape": [
+                1,
+                24
+              ]
+            }
+          },
+          "op_name": "TFLiteQAdd",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "add_3_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_add_3_70088",
+            "shape": [
+              1,
+              24
+            ]
+          }
+        },
+        {
+          "attributes": {
+            "fused_activation": "NONE"
+          },
+          "input_names": {
+            "input_lhs": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "split_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_split_70051",
+              "shape": [
+                1,
+                24
+              ]
+            },
+            "input_rhs": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "split_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_split_1_70071",
+              "shape": [
+                1,
+                24
+              ]
+            }
+          },
+          "op_name": "TFLiteQAdd",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "add_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_add_70078",
+            "shape": [
+              1,
+              24
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Var",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "denoise_gru_prev_state_int8",
+            "shape": [
+              1,
+              96
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Var",
+          "output": {
+            "dt": "Int8",
+            "layout": "NHW",
+            "name": "main_input_int8",
+            "shape": [
+              1,
+              1,
+              42
+            ]
+          }
+        },
+        {
+          "attributes": {
+            "axis": "2",
+            "fused_activation": "NONE"
+          },
+          "input_names": {
+            "in_0": {
+              "dt": "Int8",
+              "layout": "NHW",
+              "name": "Tanh_model_1_fc1_StatefulPartitionedCall_Tanh_BiasAdd_model_1_fc1_StatefulPartitionedCall_BiasAdd_Tensordot_shape_model_1_fc1_StatefulPartitionedCall_Tensordot_shape_Tensordot_model_1_fc1_StatefulPartitionedCall_Tensordot_model_1_fc1_18691_requantized_70091",
+              "shape": [
+                1,
+                1,
+                24
+              ]
+            },
+            "in_1": {
+              "dt": "Int8",
+              "layout": "NHW",
+              "name": "Identity_3_requantized_70090",
+              "shape": [
+                1,
+                1,
+                24
+              ]
+            },
+            "in_2": {
+              "dt": "Int8",
+              "layout": "NHW",
+              "name": "main_input_int8",
+              "shape": [
+                1,
+                1,
+                42
+              ]
+            }
+          },
+          "op_name": "TFLiteConcatenate",
+          "output": {
+            "dt": "Int8",
+            "layout": "NHW",
+            "name": "model_1_concatenate_2_concat_70092",
+            "shape": [
+              1,
+              1,
+              90
+            ]
+          }
+        },
+        {
+          "attributes": {
+            "axis": "2",
+            "fused_activation": "NONE"
+          },
+          "input_names": {
+            "in_0": {
+              "dt": "Int8",
+              "layout": "NHW",
+              "name": "Identity_3_requantized_70120",
+              "shape": [
+                1,
+                1,
+                24
+              ]
+            },
+            "in_1": {
+              "dt": "Int8",
+              "layout": "NHW",
+              "name": "Identity_2_requantized_70119",
+              "shape": [
+                1,
+                1,
+                48
+              ]
+            },
+            "in_2": {
+              "dt": "Int8",
+              "layout": "NHW",
+              "name": "main_input_int8",
+              "shape": [
+                1,
+                1,
+                42
+              ]
+            }
+          },
+          "op_name": "TFLiteConcatenate",
+          "output": {
+            "dt": "Int8",
+            "layout": "NHW",
+            "name": "model_1_concatenate_3_concat_70121",
+            "shape": [
+              1,
+              1,
+              114
+            ]
+          }
+        },
+        {
+          "attributes": {
+            "asymmetric_quantize_inputs": "0",
+            "fused_activation": "NONE",
+            "keep_num_dims": "0",
+            "quantized_bias_type": "dtype(Float32)"
+          },
+          "input_names": {
+            "bias": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70017",
+              "shape": [
+                288
+              ]
+            },
+            "input": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "denoise_gru_prev_state_int8",
+              "shape": [
+                1,
+                96
+              ]
+            },
+            "kernel": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "Int8VecConstant_70015",
+              "shape": [
+                288,
+                96
+              ]
+            }
+          },
+          "op_name": "TFLiteFullyConnectedBias",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "model_1_denoise_gru_gru_cell_5_MatMul_1_model_1_denoise_gru_gru_cell_5_BiasAdd_1_70029",
+            "shape": [
+              1,
+              288
+            ]
+          }
+        },
+        {
+          "attributes": {
+            "asymmetric_quantize_inputs": "0",
+            "fused_activation": "NONE",
+            "keep_num_dims": "0",
+            "quantized_bias_type": "dtype(Float32)"
+          },
+          "input_names": {
+            "bias": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70016",
+              "shape": [
+                288
+              ]
+            },
+            "input": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_denoise_gru_unstack_70126",
+              "shape": [
+                1,
+                114
+              ]
+            },
+            "kernel": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "Int8VecConstant_70014",
+              "shape": [
+                288,
+                114
+              ]
+            }
+          },
+          "op_name": "TFLiteFullyConnectedBias",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "model_1_denoise_gru_gru_cell_5_MatMul_model_1_denoise_gru_gru_cell_5_BiasAdd_70127",
+            "shape": [
+              1,
+              288
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {
+            "input": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_denoise_gru_gru_cell_5_add_1_70141",
+              "shape": [
+                1,
+                96
+              ]
+            }
+          },
+          "op_name": "TFLiteSigmoid",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "model_1_denoise_gru_gru_cell_5_Sigmoid_1_70142",
+            "shape": [
+              1,
+              96
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {
+            "input": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_denoise_gru_gru_cell_5_add_70137",
+              "shape": [
+                1,
+                96
+              ]
+            }
+          },
+          "op_name": "TFLiteSigmoid",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "model_1_denoise_gru_gru_cell_5_Sigmoid_70138",
+            "shape": [
+              1,
+              96
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {
+            "input": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_denoise_gru_gru_cell_5_add_2_70144",
+              "shape": [
+                1,
+                96
+              ]
+            }
+          },
+          "op_name": "TFLiteTanh",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "model_1_denoise_gru_gru_cell_5_Tanh_70145",
+            "shape": [
+              1,
+              96
+            ]
+          }
+        },
+        {
+          "attributes": {
+            "fused_activation": "NONE"
+          },
+          "input_names": {
+            "input_lhs": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_denoise_gru_gru_cell_5_split1_70133",
+              "shape": [
+                1,
+                96
+              ]
+            },
+            "input_rhs": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_denoise_gru_gru_cell_5_split_11_70035",
+              "shape": [
+                1,
+                96
+              ]
+            }
+          },
+          "op_name": "TFLiteQAdd",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "model_1_denoise_gru_gru_cell_5_add_1_70141",
+            "shape": [
+              1,
+              96
+            ]
+          }
+        },
+        {
+          "attributes": {
+            "fused_activation": "NONE"
+          },
+          "input_names": {
+            "input_lhs": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_denoise_gru_gru_cell_5_split2_70136",
+              "shape": [
+                1,
+                96
+              ]
+            },
+            "input_rhs": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_denoise_gru_gru_cell_5_mul_70143",
+              "shape": [
+                1,
+                96
+              ]
+            }
+          },
+          "op_name": "TFLiteQAdd",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "model_1_denoise_gru_gru_cell_5_add_2_70144",
+            "shape": [
+              1,
+              96
+            ]
+          }
+        },
+        {
+          "attributes": {
+            "fused_activation": "NONE"
+          },
+          "input_names": {
+            "input_lhs": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_denoise_gru_gru_cell_5_mul_1_70139",
+              "shape": [
+                1,
+                96
+              ]
+            },
+            "input_rhs": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_denoise_gru_gru_cell_5_mul_2_70146",
+              "shape": [
+                1,
+                96
+              ]
+            }
+          },
+          "op_name": "TFLiteQAdd",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "model_1_denoise_gru_gru_cell_5_add_3_70147",
+            "shape": [
+              1,
+              96
+            ]
+          }
+        },
+        {
+          "attributes": {
+            "fused_activation": "NONE"
+          },
+          "input_names": {
+            "input_lhs": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_denoise_gru_gru_cell_5_split_70130",
+              "shape": [
+                1,
+                96
+              ]
+            },
+            "input_rhs": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_denoise_gru_gru_cell_5_split_1_70032",
+              "shape": [
+                1,
+                96
+              ]
+            }
+          },
+          "op_name": "TFLiteQAdd",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "model_1_denoise_gru_gru_cell_5_add_70137",
+            "shape": [
+              1,
+              96
+            ]
+          }
+        },
+        {
+          "attributes": {
+            "fused_activation": "NONE"
+          },
+          "input_names": {
+            "input_lhs": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_denoise_gru_gru_cell_5_Sigmoid_70138",
+              "shape": [
+                1,
+                96
+              ]
+            },
+            "input_rhs": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "denoise_gru_prev_state_int8",
+              "shape": [
+                1,
+                96
+              ]
+            }
+          },
+          "op_name": "TFLiteMul",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "model_1_denoise_gru_gru_cell_5_mul_1_70139",
+            "shape": [
+              1,
+              96
+            ]
+          }
+        },
+        {
+          "attributes": {
+            "fused_activation": "NONE"
+          },
+          "input_names": {
+            "input_lhs": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_denoise_gru_gru_cell_5_sub_70140",
+              "shape": [
+                1,
+                96
+              ]
+            },
+            "input_rhs": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_denoise_gru_gru_cell_5_Tanh_70145",
+              "shape": [
+                1,
+                96
+              ]
+            }
+          },
+          "op_name": "TFLiteMul",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "model_1_denoise_gru_gru_cell_5_mul_2_70146",
+            "shape": [
+              1,
+              96
+            ]
+          }
+        },
+        {
+          "attributes": {
+            "fused_activation": "NONE"
+          },
+          "input_names": {
+            "input_lhs": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_denoise_gru_gru_cell_5_Sigmoid_1_70142",
+              "shape": [
+                1,
+                96
+              ]
+            },
+            "input_rhs": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_denoise_gru_gru_cell_5_split_12_70038",
+              "shape": [
+                1,
+                96
+              ]
+            }
+          },
+          "op_name": "TFLiteMul",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "model_1_denoise_gru_gru_cell_5_mul_70143",
+            "shape": [
+              1,
+              96
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {
+            "begin": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70131",
+              "shape": [
+                2
+              ]
+            },
+            "input": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_denoise_gru_gru_cell_5_MatMul_model_1_denoise_gru_gru_cell_5_BiasAdd_70127",
+              "shape": [
+                1,
+                288
+              ]
+            },
+            "size": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70132",
+              "shape": [
+                2
+              ]
+            }
+          },
+          "op_name": "TFLiteSlice",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "model_1_denoise_gru_gru_cell_5_split1_70133",
+            "shape": [
+              1,
+              96
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {
+            "begin": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70134",
+              "shape": [
+                2
+              ]
+            },
+            "input": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_denoise_gru_gru_cell_5_MatMul_model_1_denoise_gru_gru_cell_5_BiasAdd_70127",
+              "shape": [
+                1,
+                288
+              ]
+            },
+            "size": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70135",
+              "shape": [
+                2
+              ]
+            }
+          },
+          "op_name": "TFLiteSlice",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "model_1_denoise_gru_gru_cell_5_split2_70136",
+            "shape": [
+              1,
+              96
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {
+            "begin": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70033",
+              "shape": [
+                2
+              ]
+            },
+            "input": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_denoise_gru_gru_cell_5_MatMul_1_model_1_denoise_gru_gru_cell_5_BiasAdd_1_70029",
+              "shape": [
+                1,
+                288
+              ]
+            },
+            "size": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70034",
+              "shape": [
+                2
+              ]
+            }
+          },
+          "op_name": "TFLiteSlice",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "model_1_denoise_gru_gru_cell_5_split_11_70035",
+            "shape": [
+              1,
+              96
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {
+            "begin": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70036",
+              "shape": [
+                2
+              ]
+            },
+            "input": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_denoise_gru_gru_cell_5_MatMul_1_model_1_denoise_gru_gru_cell_5_BiasAdd_1_70029",
+              "shape": [
+                1,
+                288
+              ]
+            },
+            "size": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70037",
+              "shape": [
+                2
+              ]
+            }
+          },
+          "op_name": "TFLiteSlice",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "model_1_denoise_gru_gru_cell_5_split_12_70038",
+            "shape": [
+              1,
+              96
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {
+            "begin": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70030",
+              "shape": [
+                2
+              ]
+            },
+            "input": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_denoise_gru_gru_cell_5_MatMul_1_model_1_denoise_gru_gru_cell_5_BiasAdd_1_70029",
+              "shape": [
+                1,
+                288
+              ]
+            },
+            "size": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70031",
+              "shape": [
+                2
+              ]
+            }
+          },
+          "op_name": "TFLiteSlice",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "model_1_denoise_gru_gru_cell_5_split_1_70032",
+            "shape": [
+              1,
+              96
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {
+            "begin": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70128",
+              "shape": [
+                2
+              ]
+            },
+            "input": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_denoise_gru_gru_cell_5_MatMul_model_1_denoise_gru_gru_cell_5_BiasAdd_70127",
+              "shape": [
+                1,
+                288
+              ]
+            },
+            "size": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70129",
+              "shape": [
+                2
+              ]
+            }
+          },
+          "op_name": "TFLiteSlice",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "model_1_denoise_gru_gru_cell_5_split_70130",
+            "shape": [
+              1,
+              96
+            ]
+          }
+        },
+        {
+          "attributes": {
+            "fused_activation": "NONE"
+          },
+          "input_names": {
+            "input_lhs": {
+              "dt": "Int8",
+              "layout": "C",
+              "name": "Int8VecConstant_70010",
+              "shape": [
+                1
+              ]
+            },
+            "input_rhs": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_denoise_gru_gru_cell_5_Sigmoid_70138",
+              "shape": [
+                1,
+                96
+              ]
+            }
+          },
+          "op_name": "TFLiteSub",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "model_1_denoise_gru_gru_cell_5_sub_70140",
+            "shape": [
+              1,
+              96
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {
+            "data": {
+              "dt": "Int8",
+              "layout": "NHW",
+              "name": "model_1_denoise_gru_unstack_slice_70124",
+              "shape": [
+                1,
+                1,
+                114
+              ]
+            },
+            "shape": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70125",
+              "shape": [
+                2
+              ]
+            }
+          },
+          "op_name": "CanReshape",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "model_1_denoise_gru_unstack_70126",
+            "shape": [
+              1,
+              114
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {
+            "begin": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70122",
+              "shape": [
+                3
+              ]
+            },
+            "input": {
+              "dt": "Int8",
+              "layout": "NHW",
+              "name": "model_1_concatenate_3_concat_70121",
+              "shape": [
+                1,
+                1,
+                114
+              ]
+            },
+            "size": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70123",
+              "shape": [
+                3
+              ]
+            }
+          },
+          "op_name": "TFLiteSlice",
+          "output": {
+            "dt": "Int8",
+            "layout": "NHW",
+            "name": "model_1_denoise_gru_unstack_slice_70124",
+            "shape": [
+              1,
+              1,
+              114
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {
+            "data": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_denoise_output_Tensordot_MatMul_model_1_denoise_output_BiasAdd_model_1_denoise_output_Tensordot_shape_model_1_denoise_output_Tensordot_model_1_denoise_output_BiasAdd_ReadVariableOp_resource_70150",
+              "shape": [
+                1,
+                22
+              ]
+            },
+            "shape": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70003",
+              "shape": [
+                3
+              ]
+            }
+          },
+          "op_name": "CanReshape",
+          "output": {
+            "dt": "Int8",
+            "layout": "NHW",
+            "name": "model_1_denoise_output_BiasAdd_model_1_denoise_output_Tensordot_shape_model_1_denoise_output_Tensordot_model_1_denoise_output_BiasAdd_ReadVariableOp_resource_70151",
+            "shape": [
+              1,
+              1,
+              22
+            ]
+          }
+        },
+        {
+          "attributes": {
+            "asymmetric_quantize_inputs": "0",
+            "fused_activation": "NONE",
+            "keep_num_dims": "0",
+            "quantized_bias_type": "dtype(Float32)"
+          },
+          "input_names": {
+            "bias": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70001",
+              "shape": [
+                22
+              ]
+            },
+            "input": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_denoise_output_Tensordot_Reshape_70149",
+              "shape": [
+                1,
+                96
+              ]
+            },
+            "kernel": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "Int8VecConstant_70018",
+              "shape": [
+                22,
+                96
+              ]
+            }
+          },
+          "op_name": "TFLiteFullyConnectedBias",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "model_1_denoise_output_Tensordot_MatMul_model_1_denoise_output_BiasAdd_model_1_denoise_output_Tensordot_shape_model_1_denoise_output_Tensordot_model_1_denoise_output_BiasAdd_ReadVariableOp_resource_70150",
+            "shape": [
+              1,
+              22
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {
+            "data": {
+              "dt": "Int8",
+              "layout": "NHW",
+              "name": "Identity_int8_70148",
+              "shape": [
+                1,
+                1,
+                96
+              ]
+            },
+            "shape": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70002",
+              "shape": [
+                2
+              ]
+            }
+          },
+          "op_name": "CanReshape",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "model_1_denoise_output_Tensordot_Reshape_70149",
+            "shape": [
+              1,
+              96
+            ]
+          }
+        },
+        {
+          "attributes": {
+            "asymmetric_quantize_inputs": "0",
+            "fused_activation": "NONE",
+            "keep_num_dims": "0",
+            "quantized_bias_type": "dtype(Float32)"
+          },
+          "input_names": {
+            "bias": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70023",
+              "shape": [
+                144
+              ]
+            },
+            "input": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "noise_gru_prev_state_int8",
+              "shape": [
+                1,
+                48
+              ]
+            },
+            "kernel": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "Int8VecConstant_70021",
+              "shape": [
+                144,
+                48
+              ]
+            }
+          },
+          "op_name": "TFLiteFullyConnectedBias",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "model_1_noise_gru_gru_cell_4_MatMul_1_model_1_noise_gru_gru_cell_4_BiasAdd_1_70058",
+            "shape": [
+              1,
+              144
+            ]
+          }
+        },
+        {
+          "attributes": {
+            "asymmetric_quantize_inputs": "0",
+            "fused_activation": "NONE",
+            "keep_num_dims": "0",
+            "quantized_bias_type": "dtype(Float32)"
+          },
+          "input_names": {
+            "bias": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70022",
+              "shape": [
+                144
+              ]
+            },
+            "input": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_noise_gru_unstack_70097",
+              "shape": [
+                1,
+                90
+              ]
+            },
+            "kernel": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "Int8VecConstant_70020",
+              "shape": [
+                144,
+                90
+              ]
+            }
+          },
+          "op_name": "TFLiteFullyConnectedBias",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "model_1_noise_gru_gru_cell_4_MatMul_model_1_noise_gru_gru_cell_4_BiasAdd_70098",
+            "shape": [
+              1,
+              144
+            ]
+          }
+        },
+        {
+          "attributes": {
+            "fused_activation": "RELU"
+          },
+          "input_names": {
+            "input_lhs": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_noise_gru_gru_cell_4_split2_70107",
+              "shape": [
+                1,
+                48
+              ]
+            },
+            "input_rhs": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_noise_gru_gru_cell_4_mul_70114",
+              "shape": [
+                1,
+                48
+              ]
+            }
+          },
+          "op_name": "TFLiteQAdd",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "model_1_noise_gru_gru_cell_4_Relu_model_1_noise_gru_gru_cell_4_add_2_70115",
+            "shape": [
+              1,
+              48
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {
+            "input": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_noise_gru_gru_cell_4_add_1_70112",
+              "shape": [
+                1,
+                48
+              ]
+            }
+          },
+          "op_name": "TFLiteSigmoid",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "model_1_noise_gru_gru_cell_4_Sigmoid_1_70113",
+            "shape": [
+              1,
+              48
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {
+            "input": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_noise_gru_gru_cell_4_add_70108",
+              "shape": [
+                1,
+                48
+              ]
+            }
+          },
+          "op_name": "TFLiteSigmoid",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "model_1_noise_gru_gru_cell_4_Sigmoid_70109",
+            "shape": [
+              1,
+              48
+            ]
+          }
+        },
+        {
+          "attributes": {
+            "fused_activation": "NONE"
+          },
+          "input_names": {
+            "input_lhs": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_noise_gru_gru_cell_4_split1_70104",
+              "shape": [
+                1,
+                48
+              ]
+            },
+            "input_rhs": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_noise_gru_gru_cell_4_split_11_70064",
+              "shape": [
+                1,
+                48
+              ]
+            }
+          },
+          "op_name": "TFLiteQAdd",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "model_1_noise_gru_gru_cell_4_add_1_70112",
+            "shape": [
+              1,
+              48
+            ]
+          }
+        },
+        {
+          "attributes": {
+            "fused_activation": "NONE"
+          },
+          "input_names": {
+            "input_lhs": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_noise_gru_gru_cell_4_mul_1_70110",
+              "shape": [
+                1,
+                48
+              ]
+            },
+            "input_rhs": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_noise_gru_gru_cell_4_mul_2_70116",
+              "shape": [
+                1,
+                48
+              ]
+            }
+          },
+          "op_name": "TFLiteQAdd",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "model_1_noise_gru_gru_cell_4_add_3_70117",
+            "shape": [
+              1,
+              48
+            ]
+          }
+        },
+        {
+          "attributes": {
+            "fused_activation": "NONE"
+          },
+          "input_names": {
+            "input_lhs": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_noise_gru_gru_cell_4_split_70101",
+              "shape": [
+                1,
+                48
+              ]
+            },
+            "input_rhs": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_noise_gru_gru_cell_4_split_1_70061",
+              "shape": [
+                1,
+                48
+              ]
+            }
+          },
+          "op_name": "TFLiteQAdd",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "model_1_noise_gru_gru_cell_4_add_70108",
+            "shape": [
+              1,
+              48
+            ]
+          }
+        },
+        {
+          "attributes": {
+            "fused_activation": "NONE"
+          },
+          "input_names": {
+            "input_lhs": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_noise_gru_gru_cell_4_Sigmoid_70109",
+              "shape": [
+                1,
+                48
+              ]
+            },
+            "input_rhs": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "noise_gru_prev_state_int8",
+              "shape": [
+                1,
+                48
+              ]
+            }
+          },
+          "op_name": "TFLiteMul",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "model_1_noise_gru_gru_cell_4_mul_1_70110",
+            "shape": [
+              1,
+              48
+            ]
+          }
+        },
+        {
+          "attributes": {
+            "fused_activation": "NONE"
+          },
+          "input_names": {
+            "input_lhs": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_noise_gru_gru_cell_4_sub_70111",
+              "shape": [
+                1,
+                48
+              ]
+            },
+            "input_rhs": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_noise_gru_gru_cell_4_Relu_model_1_noise_gru_gru_cell_4_add_2_70115",
+              "shape": [
+                1,
+                48
+              ]
+            }
+          },
+          "op_name": "TFLiteMul",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "model_1_noise_gru_gru_cell_4_mul_2_70116",
+            "shape": [
+              1,
+              48
+            ]
+          }
+        },
+        {
+          "attributes": {
+            "fused_activation": "NONE"
+          },
+          "input_names": {
+            "input_lhs": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_noise_gru_gru_cell_4_Sigmoid_1_70113",
+              "shape": [
+                1,
+                48
+              ]
+            },
+            "input_rhs": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_noise_gru_gru_cell_4_split_12_70067",
+              "shape": [
+                1,
+                48
+              ]
+            }
+          },
+          "op_name": "TFLiteMul",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "model_1_noise_gru_gru_cell_4_mul_70114",
+            "shape": [
+              1,
+              48
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {
+            "begin": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70102",
+              "shape": [
+                2
+              ]
+            },
+            "input": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_noise_gru_gru_cell_4_MatMul_model_1_noise_gru_gru_cell_4_BiasAdd_70098",
+              "shape": [
+                1,
+                144
+              ]
+            },
+            "size": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70103",
+              "shape": [
+                2
+              ]
+            }
+          },
+          "op_name": "TFLiteSlice",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "model_1_noise_gru_gru_cell_4_split1_70104",
+            "shape": [
+              1,
+              48
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {
+            "begin": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70105",
+              "shape": [
+                2
+              ]
+            },
+            "input": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_noise_gru_gru_cell_4_MatMul_model_1_noise_gru_gru_cell_4_BiasAdd_70098",
+              "shape": [
+                1,
+                144
+              ]
+            },
+            "size": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70106",
+              "shape": [
+                2
+              ]
+            }
+          },
+          "op_name": "TFLiteSlice",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "model_1_noise_gru_gru_cell_4_split2_70107",
+            "shape": [
+              1,
+              48
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {
+            "begin": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70062",
+              "shape": [
+                2
+              ]
+            },
+            "input": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_noise_gru_gru_cell_4_MatMul_1_model_1_noise_gru_gru_cell_4_BiasAdd_1_70058",
+              "shape": [
+                1,
+                144
+              ]
+            },
+            "size": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70063",
+              "shape": [
+                2
+              ]
+            }
+          },
+          "op_name": "TFLiteSlice",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "model_1_noise_gru_gru_cell_4_split_11_70064",
+            "shape": [
+              1,
+              48
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {
+            "begin": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70065",
+              "shape": [
+                2
+              ]
+            },
+            "input": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_noise_gru_gru_cell_4_MatMul_1_model_1_noise_gru_gru_cell_4_BiasAdd_1_70058",
+              "shape": [
+                1,
+                144
+              ]
+            },
+            "size": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70066",
+              "shape": [
+                2
+              ]
+            }
+          },
+          "op_name": "TFLiteSlice",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "model_1_noise_gru_gru_cell_4_split_12_70067",
+            "shape": [
+              1,
+              48
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {
+            "begin": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70059",
+              "shape": [
+                2
+              ]
+            },
+            "input": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_noise_gru_gru_cell_4_MatMul_1_model_1_noise_gru_gru_cell_4_BiasAdd_1_70058",
+              "shape": [
+                1,
+                144
+              ]
+            },
+            "size": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70060",
+              "shape": [
+                2
+              ]
+            }
+          },
+          "op_name": "TFLiteSlice",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "model_1_noise_gru_gru_cell_4_split_1_70061",
+            "shape": [
+              1,
+              48
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {
+            "begin": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70099",
+              "shape": [
+                2
+              ]
+            },
+            "input": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_noise_gru_gru_cell_4_MatMul_model_1_noise_gru_gru_cell_4_BiasAdd_70098",
+              "shape": [
+                1,
+                144
+              ]
+            },
+            "size": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70100",
+              "shape": [
+                2
+              ]
+            }
+          },
+          "op_name": "TFLiteSlice",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "model_1_noise_gru_gru_cell_4_split_70101",
+            "shape": [
+              1,
+              48
+            ]
+          }
+        },
+        {
+          "attributes": {
+            "fused_activation": "NONE"
+          },
+          "input_names": {
+            "input_lhs": {
+              "dt": "Int8",
+              "layout": "C",
+              "name": "Int8VecConstant_70010",
+              "shape": [
+                1
+              ]
+            },
+            "input_rhs": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_noise_gru_gru_cell_4_Sigmoid_70109",
+              "shape": [
+                1,
+                48
+              ]
+            }
+          },
+          "op_name": "TFLiteSub",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "model_1_noise_gru_gru_cell_4_sub_70111",
+            "shape": [
+              1,
+              48
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {
+            "data": {
+              "dt": "Int8",
+              "layout": "NHW",
+              "name": "model_1_noise_gru_unstack_slice_70095",
+              "shape": [
+                1,
+                1,
+                90
+              ]
+            },
+            "shape": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70096",
+              "shape": [
+                2
+              ]
+            }
+          },
+          "op_name": "CanReshape",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "model_1_noise_gru_unstack_70097",
+            "shape": [
+              1,
+              90
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {
+            "begin": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70093",
+              "shape": [
+                3
+              ]
+            },
+            "input": {
+              "dt": "Int8",
+              "layout": "NHW",
+              "name": "model_1_concatenate_2_concat_70092",
+              "shape": [
+                1,
+                1,
+                90
+              ]
+            },
+            "size": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70094",
+              "shape": [
+                3
+              ]
+            }
+          },
+          "op_name": "TFLiteSlice",
+          "output": {
+            "dt": "Int8",
+            "layout": "NHW",
+            "name": "model_1_noise_gru_unstack_slice_70095",
+            "shape": [
+              1,
+              1,
+              90
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {
+            "data": {
+              "dt": "Int8",
+              "layout": "NHW",
+              "name": "model_1_vad_gru_unstack_slice_70045",
+              "shape": [
+                1,
+                1,
+                24
+              ]
+            },
+            "shape": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70046",
+              "shape": [
+                2
+              ]
+            }
+          },
+          "op_name": "CanReshape",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "model_1_vad_gru_unstack_70047",
+            "shape": [
+              1,
+              24
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {
+            "begin": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70043",
+              "shape": [
+                3
+              ]
+            },
+            "input": {
+              "dt": "Int8",
+              "layout": "NHW",
+              "name": "Tanh_model_1_fc1_StatefulPartitionedCall_Tanh_BiasAdd_model_1_fc1_StatefulPartitionedCall_BiasAdd_Tensordot_shape_model_1_fc1_StatefulPartitionedCall_Tensordot_shape_Tensordot_model_1_fc1_StatefulPartitionedCall_Tensordot_model_1_fc1_18691_70042",
+              "shape": [
+                1,
+                1,
+                24
+              ]
+            },
+            "size": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70044",
+              "shape": [
+                3
+              ]
+            }
+          },
+          "op_name": "TFLiteSlice",
+          "output": {
+            "dt": "Int8",
+            "layout": "NHW",
+            "name": "model_1_vad_gru_unstack_slice_70045",
+            "shape": [
+              1,
+              1,
+              24
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {
+            "data": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_vad_output_Tensordot_MatMul_model_1_vad_output_BiasAdd_model_1_vad_output_Tensordot_shape_model_1_vad_output_Tensordot_model_1_vad_output_BiasAdd_ReadVariableOp_resource_70154",
+              "shape": [
+                1,
+                1
+              ]
+            },
+            "shape": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70013",
+              "shape": [
+                3
+              ]
+            }
+          },
+          "op_name": "CanReshape",
+          "output": {
+            "dt": "Int8",
+            "layout": "NHW",
+            "name": "model_1_vad_output_BiasAdd_model_1_vad_output_Tensordot_shape_model_1_vad_output_Tensordot_model_1_vad_output_BiasAdd_ReadVariableOp_resource_70155",
+            "shape": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        {
+          "attributes": {
+            "asymmetric_quantize_inputs": "0",
+            "fused_activation": "NONE",
+            "keep_num_dims": "0",
+            "quantized_bias_type": "dtype(Float32)"
+          },
+          "input_names": {
+            "bias": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70011",
+              "shape": [
+                1
+              ]
+            },
+            "input": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "model_1_vad_output_Tensordot_Reshape_70153",
+              "shape": [
+                1,
+                24
+              ]
+            },
+            "kernel": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "Int8VecConstant_70028",
+              "shape": [
+                1,
+                24
+              ]
+            }
+          },
+          "op_name": "TFLiteFullyConnectedBias",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "model_1_vad_output_Tensordot_MatMul_model_1_vad_output_BiasAdd_model_1_vad_output_Tensordot_shape_model_1_vad_output_Tensordot_model_1_vad_output_BiasAdd_ReadVariableOp_resource_70154",
+            "shape": [
+              1,
+              1
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {
+            "data": {
+              "dt": "Int8",
+              "layout": "NHW",
+              "name": "Identity_3_int8_70089",
+              "shape": [
+                1,
+                1,
+                24
+              ]
+            },
+            "shape": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70012",
+              "shape": [
+                2
+              ]
+            }
+          },
+          "op_name": "CanReshape",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "model_1_vad_output_Tensordot_Reshape_70153",
+            "shape": [
+              1,
+              24
+            ]
+          }
+        },
+        {
+          "attributes": {
+            "fused_activation": "NONE"
+          },
+          "input_names": {
+            "input_lhs": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "Sigmoid_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_Sigmoid_70079",
+              "shape": [
+                1,
+                24
+              ]
+            },
+            "input_rhs": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "vad_gru_prev_state_int8",
+              "shape": [
+                1,
+                24
+              ]
+            }
+          },
+          "op_name": "TFLiteMul",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "mul_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_mul_1_70087",
+            "shape": [
+              1,
+              24
+            ]
+          }
+        },
+        {
+          "attributes": {
+            "fused_activation": "NONE"
+          },
+          "input_names": {
+            "input_lhs": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "sub_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_sub_70080",
+              "shape": [
+                1,
+                24
+              ]
+            },
+            "input_rhs": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "Tanh_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_Tanh_70085",
+              "shape": [
+                1,
+                24
+              ]
+            }
+          },
+          "op_name": "TFLiteMul",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "mul_2_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_mul_2_70086",
+            "shape": [
+              1,
+              24
+            ]
+          }
+        },
+        {
+          "attributes": {
+            "fused_activation": "NONE"
+          },
+          "input_names": {
+            "input_lhs": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "Sigmoid_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_Sigmoid_1_70082",
+              "shape": [
+                1,
+                24
+              ]
+            },
+            "input_rhs": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "split_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_split_12_70077",
+              "shape": [
+                1,
+                24
+              ]
+            }
+          },
+          "op_name": "TFLiteMul",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "mul_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_mul_70083",
+            "shape": [
+              1,
+              24
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Var",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "noise_gru_prev_state_int8",
+            "shape": [
+              1,
+              48
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {
+            "begin": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70072",
+              "shape": [
+                2
+              ]
+            },
+            "input": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "MatMul_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_MatMul_1_BiasAdd_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_BiasAdd_1_70068",
+              "shape": [
+                1,
+                72
+              ]
+            },
+            "size": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70073",
+              "shape": [
+                2
+              ]
+            }
+          },
+          "op_name": "TFLiteSlice",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "split_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_split_11_70074",
+            "shape": [
+              1,
+              24
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {
+            "begin": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70075",
+              "shape": [
+                2
+              ]
+            },
+            "input": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "MatMul_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_MatMul_1_BiasAdd_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_BiasAdd_1_70068",
+              "shape": [
+                1,
+                72
+              ]
+            },
+            "size": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70076",
+              "shape": [
+                2
+              ]
+            }
+          },
+          "op_name": "TFLiteSlice",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "split_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_split_12_70077",
+            "shape": [
+              1,
+              24
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {
+            "begin": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70069",
+              "shape": [
+                2
+              ]
+            },
+            "input": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "MatMul_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_MatMul_1_BiasAdd_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_BiasAdd_1_70068",
+              "shape": [
+                1,
+                72
+              ]
+            },
+            "size": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70070",
+              "shape": [
+                2
+              ]
+            }
+          },
+          "op_name": "TFLiteSlice",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "split_1_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_split_1_70071",
+            "shape": [
+              1,
+              24
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {
+            "begin": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70052",
+              "shape": [
+                2
+              ]
+            },
+            "input": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "MatMul_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_MatMul_BiasAdd_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_BiasAdd_70048",
+              "shape": [
+                1,
+                72
+              ]
+            },
+            "size": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70053",
+              "shape": [
+                2
+              ]
+            }
+          },
+          "op_name": "TFLiteSlice",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "split_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_split1_70054",
+            "shape": [
+              1,
+              24
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {
+            "begin": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70055",
+              "shape": [
+                2
+              ]
+            },
+            "input": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "MatMul_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_MatMul_BiasAdd_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_BiasAdd_70048",
+              "shape": [
+                1,
+                72
+              ]
+            },
+            "size": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70056",
+              "shape": [
+                2
+              ]
+            }
+          },
+          "op_name": "TFLiteSlice",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "split_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_split2_70057",
+            "shape": [
+              1,
+              24
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {
+            "begin": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70049",
+              "shape": [
+                2
+              ]
+            },
+            "input": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "MatMul_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_MatMul_BiasAdd_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_BiasAdd_70048",
+              "shape": [
+                1,
+                72
+              ]
+            },
+            "size": {
+              "dt": "Int32",
+              "layout": "C",
+              "name": "Int32VecConstant_70050",
+              "shape": [
+                2
+              ]
+            }
+          },
+          "op_name": "TFLiteSlice",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "split_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_split_70051",
+            "shape": [
+              1,
+              24
+            ]
+          }
+        },
+        {
+          "attributes": {
+            "fused_activation": "NONE"
+          },
+          "input_names": {
+            "input_lhs": {
+              "dt": "Int8",
+              "layout": "C",
+              "name": "Int8VecConstant_70010",
+              "shape": [
+                1
+              ]
+            },
+            "input_rhs": {
+              "dt": "Int8",
+              "layout": "HW",
+              "name": "Sigmoid_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_Sigmoid_70079",
+              "shape": [
+                1,
+                24
+              ]
+            }
+          },
+          "op_name": "TFLiteSub",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "sub_model_1_vad_gru_gru_cell_3_StatefulPartitionedCall_sub_70080",
+            "shape": [
+              1,
+              24
+            ]
+          }
+        },
+        {
+          "attributes": {},
+          "input_names": {},
+          "op_name": "Var",
+          "output": {
+            "dt": "Int8",
+            "layout": "HW",
+            "name": "vad_gru_prev_state_int8",
+            "shape": [
+              1,
+              24
+            ]
+          }
+        }
+      ],
+      "subgraph_name": "sub_0",
+      "target_name": "UNDEFINED"
+    }
+  ]
+}

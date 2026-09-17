@@ -119,11 +119,11 @@ const float32_t testRefOutput_sin_cos_f32 = 1.000000000;
 * Declare Global variables
 * ------------------------------------------------------------------- */
 uint32_t sincosblockSize = 32;
-float32_t  testOutput;
-float32_t  cosOutput;
-float32_t  sinOutput;
-float32_t  cosSquareOutput;
-float32_t  sinSquareOutput;
+float32_t testOutput;
+float32_t cosOutput;
+float32_t sinOutput;
+float32_t cosSquareOutput;
+float32_t sinSquareOutput;
 
 /* ----------------------------------------------------------------------
 * Max magnitude FFT Bin test

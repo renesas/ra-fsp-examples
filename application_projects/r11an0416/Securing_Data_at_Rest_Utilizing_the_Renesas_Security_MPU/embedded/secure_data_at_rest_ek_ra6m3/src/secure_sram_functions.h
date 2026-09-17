@@ -2,19 +2,18 @@
  * File Name    : secure_sram_functions.h
  * Description  : Contains implementations of secure functions running out of secure sram
  ***********************************************************************************************************************/
-
-/***********************************************************************************************************************
-* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
+/*
+* Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
+*/
 
 #ifndef SECURE_SRAM_FUNCTIONS_H_
 #define SECURE_SRAM_FUNCTIONS_H_
 
 #include "secure_definitions.h"
 
-/* tests from secure area */
+/* Tests from secure area */
 SECURE_SRAM_PROGRAM bool s_readSecureFlash_usingSecureRamCode(void);
 SECURE_SRAM_PROGRAM bool s_readSecureRam_usingSecureRamCode(void);
 SECURE_SRAM_PROGRAM bool s_read_non_secureFlash_usingSecureRamCode(void);
