@@ -64,6 +64,7 @@
 			AN000(P000)
 		MCK-RA4T1:
 			AN00(P000)
+			For MCK-RA4T1, connect jumper JP8 to use AN00(P000) pin.
 		MCK-RA6T3:
 			AN00(P000)
 		RSSK-RA6T1:

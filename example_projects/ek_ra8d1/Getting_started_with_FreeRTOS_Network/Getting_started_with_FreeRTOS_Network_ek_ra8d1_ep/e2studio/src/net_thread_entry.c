@@ -32,7 +32,7 @@ uint8_t *gp_domain_name       = (uint8_t *)USR_TEST_DOMAIN_NAME;
    /* DHCP populates these IP address, Sub net mask and Gateway Address. So start with this is zeroed out values
     * The MAC address is Test MAC address.
     */
-    uint8_t g_mac_address[MAC_ADDR_SIZE]         = {0x00, 0x11, 0x22, 0x33, 0x44, 0x55};
+    uint8_t g_mac_address[MAC_ADDR_SIZE]         = {0x74, 0x90, 0x50, 0x65, 0x81, 0x64};
     uint8_t g_ip_address[IP_ADDR_SIZE]           = {RESET_VALUE};
     uint8_t g_netmask[NETMASK_SIZE]             = {255, 255, 255, 128};
     uint8_t g_gateway_address[GATEWAY_ADDR_SIZE] = {132, 158, 124, 1};

@@ -32,7 +32,7 @@ UCHAR   g_kit_name[STRING_LEN] = "Renesas";
 
 NXD_ADDRESS g_snmp_manager_module =
 {
- .nxd_ip_address.v4 = IP_ADDRESS(192,168,0,183),
+ .nxd_ip_address.v4 = IP_ADDRESS(10,231,8,199),
  .nxd_ip_version = NX_IP_VERSION_V4,
 };
 

@@ -99,7 +99,7 @@
                 </option>
                 <option>
                     <name>OGLastSavedByProductVersion</name>
-                    <state>9.70.2.18199</state>
+                    <state>9.70.4.21192</state>
                 </option>
                 <option>
                     <name>OGChipSelectEditMenu</name>
@@ -111,7 +111,7 @@
                 </option>
                 <option>
                     <name>GEndianModeBE</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>OGBufferedTerminalOutput</name>
@@ -128,7 +128,7 @@
                 <option>
                     <name>GBECoreSlave</name>
                     <version>35</version>
-                    <state>0</state>
+                    <state>60</state>
                 </option>
                 <option>
                     <name>OGUseCmsis</name>
@@ -308,7 +308,7 @@
                 <option>
                     <name>CCAllowList</name>
                     <version>1</version>
-                    <state>11111111</state>
+                    <state>11111110</state>
                 </option>
                 <option>
                     <name>CCDebugInfo</name>
@@ -389,7 +389,7 @@
                 <option>
                     <name>CCOptStrategy</name>
                     <version>0</version>
-                    <state>1</state>
+                    <state>0</state>
                 </option>
                 <option>
                     <name>CCOptLevelSlave</name>
@@ -446,7 +446,7 @@
                 <option>
                     <name>CCOptStrategySlave</name>
                     <version>0</version>
-                    <state>1</state>
+                    <state>0</state>
                 </option>
                 <option>
                     <name>CCGuardCalls</name>
@@ -628,7 +628,7 @@
                 </option>
                 <option>
                     <name>AOutputFile</name>
-                    <state>$FILE_BNAME$.o</state>
+                    <state></state>
                 </option>
                 <option>
                     <name>ALimitErrorsCheck</name>
@@ -1116,7 +1116,7 @@
             <data>
                 <buildActions>
                     <buildAction>
-                        <cmdline>cmd /c ""$PROJ_DIR$\rasc_launcher.bat" "$PROJ_DIR$\rasc_version.txt" -nosplash --launcher.suppressErrors --generate --compiler IAR --devicefamily $RASC_DEVICE_FAMILY$ "$PROJ_DIR$\configuration.xml" 2&gt; "$BUILD_FILES_DIR$\.rasc_stderr.txt" &amp;&amp; echo. &gt; "$BUILD_FILES_DIR$\$TARGET_BNAME$.rasc""</cmdline>
+                        <cmdline>cmd /c ""$PROJ_DIR$\rasc_launcher.bat" "$PROJ_DIR$\rasc_version.txt" -nosplash --launcher.suppressErrors --generate  --compiler IAR --devicefamily $RASC_DEVICE_FAMILY$ --buildconfiguration $CONFIG_NAME$ "$PROJ_DIR$\configuration.xml" 2&gt; "$BUILD_FILES_DIR$\.rasc_stderr.txt" &amp;&amp; echo. &gt; "$BUILD_FILES_DIR$\$TARGET_BNAME$.rasc""</cmdline>
                         <workingDirectory>$PROJ_DIR$</workingDirectory>
                         <buildSequence>preCompile</buildSequence>
                         <outputs>
@@ -1131,7 +1131,7 @@
                         </dependencies>
                     </buildAction>
                     <buildAction>
-                        <cmdline>cmd /c ""$PROJ_DIR$\rasc_launcher.bat" "$PROJ_DIR$\rasc_version.txt" -nosplash --launcher.suppressErrors --gensmartbundle --compiler IAR --devicefamily $RASC_DEVICE_FAMILY$ "$PROJ_DIR$\configuration.xml" "$TARGET_PATH$" 2&gt; "$BUILD_FILES_DIR$\.rasc_stderr.txt""</cmdline>
+                        <cmdline>cmd /c ""$PROJ_DIR$\rasc_launcher.bat" "$PROJ_DIR$\rasc_version.txt" -nosplash --launcher.suppressErrors --gensmartbundleandpartition --compiler IAR --devicefamily $RASC_DEVICE_FAMILY$ --buildconfiguration $CONFIG_NAME$ "$PROJ_DIR$\configuration.xml" "$TARGET_PATH$" &gt; "$BUILD_FILES_DIR$\.rasc_stdout.txt" 2&gt; "$BUILD_FILES_DIR$\.rasc_stderr.txt""</cmdline>
                         <workingDirectory>$PROJ_DIR$</workingDirectory>
                         <buildSequence>postLink</buildSequence>
                         <outputs>
@@ -2264,7 +2264,7 @@
             <data>
                 <buildActions>
                     <buildAction>
-                        <cmdline>cmd /c ""$PROJ_DIR$\rasc_launcher.bat" "$PROJ_DIR$\rasc_version.txt" -nosplash --launcher.suppressErrors --generate --compiler IAR --devicefamily $RASC_DEVICE_FAMILY$ "$PROJ_DIR$\configuration.xml" 2&gt; "$BUILD_FILES_DIR$\.rasc_stderr.txt" &amp;&amp; echo. &gt; "$BUILD_FILES_DIR$\$TARGET_BNAME$.rasc""</cmdline>
+                        <cmdline>cmd /c ""$PROJ_DIR$\rasc_launcher.bat" "$PROJ_DIR$\rasc_version.txt" -nosplash --launcher.suppressErrors --generate  --compiler IAR --devicefamily $RASC_DEVICE_FAMILY$ --buildconfiguration $CONFIG_NAME$ "$PROJ_DIR$\configuration.xml" 2&gt; "$BUILD_FILES_DIR$\.rasc_stderr.txt" &amp;&amp; echo. &gt; "$BUILD_FILES_DIR$\$TARGET_BNAME$.rasc""</cmdline>
                         <workingDirectory>$PROJ_DIR$</workingDirectory>
                         <buildSequence>preCompile</buildSequence>
                         <outputs>
@@ -2279,12 +2279,27 @@
                         </dependencies>
                     </buildAction>
                     <buildAction>
-                        <cmdline>cmd /c ""$PROJ_DIR$\rasc_launcher.bat" "$PROJ_DIR$\rasc_version.txt" -nosplash --launcher.suppressErrors --gensmartbundle --compiler IAR --devicefamily $RASC_DEVICE_FAMILY$ "$PROJ_DIR$\configuration.xml" "$TARGET_PATH$" 2&gt; "$BUILD_FILES_DIR$\.rasc_stderr.txt""</cmdline>
+                        <cmdline>cmd /c ""$PROJ_DIR$\rasc_launcher.bat" "$PROJ_DIR$\rasc_version.txt" -nosplash --launcher.suppressErrors --gensmartbundleandpartition --compiler IAR --devicefamily $RASC_DEVICE_FAMILY$ --buildconfiguration $CONFIG_NAME$ "$PROJ_DIR$\configuration.xml" "$TARGET_PATH$" &gt; "$BUILD_FILES_DIR$\.rasc_stdout.txt" 2&gt; "$BUILD_FILES_DIR$\.rasc_stderr.txt""</cmdline>
                         <workingDirectory>$PROJ_DIR$</workingDirectory>
                         <buildSequence>postLink</buildSequence>
                         <outputs>
                             <file>
                                 <name>$TARGET_BPATH$.sbd</name>
+                            </file>
+                        </outputs>
+                        <dependencies>
+                            <file>
+                                <name>$TARGET_PATH$</name>
+                            </file>
+                        </dependencies>
+                    </buildAction>
+                    <buildAction>
+                        <cmdline>cmd /c "IF EXIST "$PROJ_DIR$\script\postbuild.bat" set "TARGET_BPATH=$TARGET_BPATH$" &amp;&amp; set "TARGET_PATH=$TARGET_PATH$" &amp;&amp; set "EW_DIR=$EW_DIR$" &amp;&amp; set "PROJ_DIR=$PROJ_DIR$" &amp;&amp; set "RASC_DEVICE_FAMILY=$RASC_DEVICE_FAMILY$" &amp;&amp; set "COMPILER=IAR" &amp;&amp; CALL "$PROJ_DIR$\script\postbuild.bat" "</cmdline>
+                        <workingDirectory>$PROJ_DIR$</workingDirectory>
+                        <buildSequence>postLink</buildSequence>
+                        <outputs>
+                            <file>
+                                <name>$TARGET_PATH$.postbuildout</name>
                             </file>
                         </outputs>
                         <dependencies>

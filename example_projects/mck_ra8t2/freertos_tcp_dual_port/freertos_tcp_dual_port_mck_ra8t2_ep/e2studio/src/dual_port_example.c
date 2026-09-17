@@ -36,7 +36,7 @@ static NetworkEndPoint_t xEndPoint_Eth0;
 static NetworkEndPoint_t xEndPoint_Eth1;
 
 /* MAC addresses */
-static const uint8_t ucMACAddress_Interface0[ipMAC_ADDRESS_LENGTH_BYTES] = { 0x00, 0x11, 0x22, 0x33, 0x44, 0x55 };
+static const uint8_t ucMACAddress_Interface0[ipMAC_ADDRESS_LENGTH_BYTES] = { 0x74, 0x90, 0x50, 0x6D, 0x82, 0x74 };
 static const uint8_t ucMACAddress_Interface1[ipMAC_ADDRESS_LENGTH_BYTES] = { 0x00, 0x11, 0x22, 0x33, 0x44, 0x66 };
 
 /* ETH0 - IPv4 configuration */

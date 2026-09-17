@@ -58,7 +58,7 @@ char remote_ip_address[] = HTTPS_TEST_PING_IP;
 /* DHCP populates these IP address, Sub net mask and Gateway Address. So start with this is zeroed out values
  * The MAC address is Test MAC address.
  */
-uint8_t ucMACAddress[6] = { 0x00, 0x11, 0x22, 0x33, 0x44, 0x54 };
+uint8_t ucMACAddress[6] = { 0x74, 0x90, 0x50, 0x65, 0x81, 0x6D };
 uint8_t ucIPAddress[4] = { RESET_VALUE };
 uint8_t ucNetMask[4] = { 255, 255, 255, 0 };
 uint8_t ucGatewayAddress[4] = { RESET_VALUE };

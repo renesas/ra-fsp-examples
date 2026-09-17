@@ -9,8 +9,8 @@
 	supplied with "MCK-RA8T2".
 
 2. Software Requirements:
-	Renesas Flexible Software Package (FSP): Version 6.5.0
-	e2 studio: Version 2026-04.2
+	Renesas Flexible Software Package (FSP): Version 6.6.0
+	e2 studio: Version 2026-07
 	GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 
 3. Hardware settings for the project:

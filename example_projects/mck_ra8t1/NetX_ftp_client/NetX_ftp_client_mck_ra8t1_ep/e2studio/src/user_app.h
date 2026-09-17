@@ -26,7 +26,7 @@
 
 /**@brief User configurable (ipv4) address. IP address should be provided from where the FTP server is running
  * NOTE: Current IP address is provided according to our test environment.*/
-#define SERVER_ADDRESS  (IP_ADDRESS(10,231,8,90))
+#define SERVER_ADDRESS  (IP_ADDRESS(192,168,1,50))
 
 
 /* Macros for FTP file settings */

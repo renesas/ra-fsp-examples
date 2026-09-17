@@ -1,0 +1,34 @@
+/***********************************************************************************************************************
+ * File Name    : user_app.h
+ * Description  : Contains user configurable macros which is used in ftp_client_thread_entry.c.
+ **********************************************************************************************************************/
+/***********************************************************************************************************************
+* Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
+*
+* SPDX-License-Identifier: BSD-3-Clause
+***********************************************************************************************************************/
+
+#ifndef USER_APP_H_
+#define USER_APP_H_
+
+/*******************************************************************************************************************//**
+ Macro definitions
+ **********************************************************************************************************************/
+/* User configurable macros */
+/* @brief The user has to provide the server IP address from where the FileZilla server running. For FTP Server
+ * setup please refer ftp_client notes under Special Topics.
+ * The user can create their own credentials viz., "username" and "password" according to their settings,
+ * same it should modify in the respective macro fields. */
+#define USERNAME        "pi"                /* User configurable credential i.e., username */
+#define PASSWORD        "tel@1234"          /* User configurable credential i.e., password */
+
+/* @brief User configurable (ipv4) address. IP address should be provided from where the FTP Server is running
+ * Note: Current IP address is provided according to our test environment */
+#define SERVER_ADDRESS  (IP_ADDRESS(132,158,124,22))
+
+/* Macros for FTP file settings */
+#define FTP_TIMEOUT     (5)                 /* Define timeout in seconds for FTP operations */
+#define FILE_SIZE       (1400)              /* Define size of file in bytes */
+#define FILE_NAME       "test_file.txt"     /* File name in txt format */
+
+#endif /* USER_APP_H_ */

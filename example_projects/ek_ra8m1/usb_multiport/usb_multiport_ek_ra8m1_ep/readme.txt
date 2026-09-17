@@ -20,9 +20,9 @@ Hardware Requirements:
 	5) USB OTG cable   - 1Nos.
     
 Software Requirements:: 
-	Renesas Flexible Software Package (FSP): Version 6.5.0
-	e2 studio: Version 2026-04.2
-	SEGGER J-Link RTT Viewer: Version 9.42
+	Renesas Flexible Software Package (FSP): Version 6.6.0
+	e2 studio: Version 2026-07
+	SEGGER J-Link RTT Viewer: Version 9.64
 	Terminal Console Application: Tera Term or a similar application
 	USB Serial Drivers (included in Windows 10) 
 	Windows® 10 operating system
@@ -56,7 +56,7 @@ Note:
 
 4) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x220013c0
+   a. e2studio: 0x220013e0
    b. Keil: 	Not Available 
    c. IAR: 	Not Available
  

@@ -163,18 +163,18 @@
 		For EK-RA8P1, EK-RA8D2:
 			Hardware connection for SDHI channel 0 as below:
 			1 Bit Width:
-				SD0CMD  PD04 (J2:32)   --->    Pmod SD MOSI (J1:2)
-				SD0DAT0 PD03 (J2:31)   --->    Pmod SD MISO (J1:3)
-				SD0CLK  PD05 (J2:27)   --->    Pmod SD SCK  (J1:4)
-				GND          (J2:39)   --->    Pmod SD GND  (J1:5)
-				VCC          (J2:1)    --->    Pmod SD VCC  (J1:6)
-				SD0CD   P503 (J37:14)  --->    Pmod SD CD   (J1:9)
-				SD0WP   PD06 (J3:4)    --->    Pmod SD WP   (J1:10)
+				SD1CMD  P401 (J17:5)    --->   Pmod SD MOSI (J1:2)
+				SD1DAT0 P402 (J17:14)   --->   Pmod SD MISO (J1:3)
+				SD1CLK  P400 (J17:6)    --->   Pmod SD SCK  (J1:4)
+				GND          (J17:19)   --->   Pmod SD GND  (J1:5)
+				+3V3    VCC  (J17:1)    --->   Pmod SD VCC  (J1:6)
+				SD1CD   P406 (J41:1)    --->   Pmod SD CD   (J1:9)
+				SD1WP   P700 (J3:9)     --->   Pmod SD WP   (J1:10)
 			4 Bits Width:
 				Above mentioned connections for 1 Bit Width. In addition below connections
-				SD0DAT1 PD02 (J2:33)   --->    Pmod SD DAT1 (J1:7)
-				SD0DAT2 PD01 (J2:34)   --->    Pmod SD DAT2 (J1:8)
-				SD0DAT3 P111 (J1:3)    --->    Pmod SD CS   (J1:1)
+				SD1DAT1 P403 (J17:7)    --->   Pmod SD DAT1 (J1:7)
+				SD1DAT2 P404 (J17:10)   --->   Pmod SD DAT2 (J1:8)
+				SD1DAT3 P811 (J3:21)    --->   Pmod SD CS   (J1:1)
 
 		For MCK-RA8T2:
 			Connect MicroSD card to MicroSD socket (CN17).

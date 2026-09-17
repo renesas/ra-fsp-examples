@@ -52,7 +52,7 @@ if not exist "%OutputFile%" (
     goto :InvokeRasc
 )
 REM Compare timestamps of input and output files
-xcopy /L /D /Y "%InputFile%" "%OutputFile%" | findstr /B /C:"1 " > nul
+xcopy /L /D /Y "%InputFile%" "%OutputFile%" >nul
 if not errorlevel 1 (
     echo [INFO] Input file "%InputFile%" is newer than output file "%OutputFile%". Proceeding with RASC invocation...
     goto :InvokeRasc

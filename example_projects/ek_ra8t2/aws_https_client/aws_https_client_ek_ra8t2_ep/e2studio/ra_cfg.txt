@@ -236,11 +236,11 @@ FSP Configuration
     OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS14: 
     OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS15: 
     OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS16: 
-    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: ZHUK (Zerorization HUK Register) Settings: Disabled
-    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: ZHUK (Zerorization HUK Register) Settings: Configuration setting for RTCIC0: W-HUK zeroization by RTCIC0 tamper event is disabled
-    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: ZHUK (Zerorization HUK Register) Settings: Configuration setting for RTCIC1: W-HUK zeroization by RTCIC1 tamper event is disabled
-    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: ZHUK (Zerorization HUK Register) Settings: Configuration setting for RTCIC2: W-HUK zeroization by RTCIC2 tamper event is disabled
-    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: ZHUK (Zerorization HUK Register) Settings: Configuration setting for RTCIC3: W-HUK zeroization by RTCIC3 tamper event is disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Configuration setting for RTCIC0: W-HUK zeroization by RTCIC0 tamper event is disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Configuration setting for RTCIC1: W-HUK zeroization by RTCIC1 tamper event is disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Configuration setting for RTCIC2: W-HUK zeroization by RTCIC2 tamper event is disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Configuration setting for RTCIC3: W-HUK zeroization by RTCIC3 tamper event is disabled
     
   RA8T2 Core 0 Options
   RA8T2 event data
@@ -910,6 +910,7 @@ FSP Configuration
   User Event Links
     
   Linker Section Mappings
+    *(.bss.*_fsp_nocache): RAM Zeroed (Uncached)
     *(.bss.g_heap): RAM Uninitialized
     *(.bss.g_main_stack): RAM Uninitialized
     
@@ -1039,8 +1040,6 @@ FSP Configuration
     SSL Options: MBEDTLS_SSL_CID_OUT_LEN_MAX Value: 32
     SSL Options: MBEDTLS_SSL_CID_TLS1_3_PADDING_GRANULARITY: Undefine
     SSL Options: MBEDTLS_SSL_CID_TLS1_3_PADDING_GRANULARITY Value: 16
-    SSL Options: MBEDTLS_SSL_CID_PADDING_GRANULARITY: Undefine
-    SSL Options: MBEDTLS_SSL_CID_PADDING_GRANULARITY Value: 16
     SSL Options: MBEDTLS_SSL_OUT_CONTENT_LEN: Undefine
     SSL Options: MBEDTLS_SSL_OUT_CONTENT_LEN Value: 16384
     SSL Options: MBEDTLS_SSL_DTLS_MAX_BUFFERING: Undefine
@@ -1335,6 +1334,7 @@ FSP Configuration
     Platform: MBEDTLS_PLATFORM_MS_TIME_TYPE_MACRO: Undefine
     Platform: MBEDTLS_PLATFORM_MS_TIME_TYPE_MACRO value: int64_t
     Platform: MBEDTLS_PRINTF_MS_TIME: Undefine
+    Platform: MBEDTLS_PLATFORM_DEV_RANDOM: Undefine
     Platform: MBEDTLS_PRINTF_MS_TIME value: PRId64
     Platform: MBEDTLS_PLATFORM_FPRINTF_MACRO: Undefine
     Platform: MBEDTLS_PLATFORM_FPRINTF_MACRO value: fprintf
@@ -1412,11 +1412,13 @@ FSP Configuration
     The socket semaphore to unblock the MQTT task (USER_SEMAPHORE): Disable
     The socket semaphore to unblock the MQTT task (WAKE_CALLBACK): Enable 
     The socket semaphore  to unblock the MQTT task (USE_CALLBACKS): Disable
-    The socket semaphore to unblock the MQTT task (TX_DRIVER): Disable
-    The socket semaphore to unblock the MQTT task (RX_DRIVER): Disable
+    Enable TX DRIVER for zero copy: Disable
+    Enable RX DRIVER for zero copy: Disable
     Possible optimisation for expert users: Disable
     
   Module "FreeRTOS+TCP Wrapper to ethernet driver (rm_freertos_plus_tcp)"
+    Zero Copy Support: Disable
+    
   Module "FreeRTOS Buffer Allocation 2"
   Module "AWS FreeRTOS+TCP MbedTLS Bio"
   Module "Ethernet MAC (r_rmac)"
@@ -1463,6 +1465,8 @@ FSP Configuration
     Memory-mapping Support: XiP Support: Disable
     DOTF Support: Disable
     Row Addressing Support: Disable
+    Target Reset Support: In-band reset: Disable
+    Target Reset Support: Reset pin: Disable
     
   Module "Transfer (r_dmac)"
     Parameter Checking: Default (BSP)
@@ -2307,8 +2311,8 @@ FSP Configuration
           Instance "FreeRTOS+TCP"
             Instance "g_freertos_plus_tcp0 FreeRTOS+TCP Wrapper to ethernet driver (rm_freertos_plus_tcp)"
               Name: g_freertos_plus_tcp0
-              RX Handler Task Stack Size: configMINIMAL_STACK_SIZE
-              RX Handler Task Priority: configMAX_PRIORITIES - 1
+              Ethernet Deferred Interrupt Handler Task Stack Size: configMINIMAL_STACK_SIZE
+              Ethernet Deferred Interrupt Task Priority: configMAX_PRIORITIES - 1
               Check Link Status Task Stack Size: configMINIMAL_STACK_SIZE
               Check Link Status Task Priority: configMAX_PRIORITIES - 1
               Link check interval: 1000
@@ -2323,7 +2327,7 @@ FSP Configuration
                 Buffers: Padding size: Disable
                 Buffers: Padding offset: 0
                 Filters: Broadcast filter: 0
-                General: MAC address: 00:11:22:33:44:55
+                General: MAC address: 74:90:50:65:82:74
                 Buffers: TX queue length: 4
                 Buffers: RX queue length: 4
                 Buffers: TX queue num: 2
@@ -2338,6 +2342,8 @@ FSP Configuration
                 Timestamp: TS queue length: 8
                 Forwarding: Transmission descriptor format: Transmission direct descriptor
                 Forwarding: Port based forwarding for reception: Disabled
+                Link: Link monitored ports: 
+                Link: Link Detection: Default port (same as Channel)
                 
                 Instance "g_layer3_switch0 Switch (r_layer3_switch)"
                   Name: g_layer3_switch0
@@ -2350,10 +2356,11 @@ FSP Configuration
                   Ports: CPU: Forwarding: 
                   Ports: Port 0: IPV queues for preemptable frames: 
                   Ports: Port 1: IPV queues for preemptable frames: 
+                  Ts Description Length: 8
                   Ports: Port 0: Minimum fragment size of preemptable frames: 64 bytes
                   Ports: Port 1: Minimum fragment size of preemptable frames: 64 bytes
-                  Ports: Port 0: MAC address: 00:11:22:33:44:55
-                  Ports: Port 1: MAC address: 00:11:22:33:44:55
+                  Ports: Port 0: MAC address: 74:90:50:65:82:74
+                  Ports: Port 1: MAC address: 74:90:50:65:82:74
                   Ports: Port 0: IPV queue depth: Queue 0: 64
                   Ports: Port 0: IPV queue depth: Queue 1: 64
                   Ports: Port 0: IPV queue depth: Queue 2: 64
@@ -2437,6 +2444,31 @@ FSP Configuration
                       PHY-LSI Address: 0
                       PHY-LSI type: Kit Component
                       
+                    Instance "g_rmac_phy_lsi1 Ethernet PHY-LSI"
+                      Name: g_rmac_phy_lsi1
+                      PHY-LSI Address: 0
+                      PHY-LSI type: Kit Component
+                      
+                  Instance "g_rmac_phy1 Ethernet (r_rmac_phy)"
+                    Name: g_rmac_phy1
+                    Channel: 0
+                    Default PHY-LSI port: 0
+                    PHY-LSI Reset Completion Timeout: 0x00020000
+                    Select MII type: RMII
+                    Port Custom Init Function: NULL
+                    Port Custom Link Partner Ability Get Function: NULL
+                    Flow Control: Disable
+                    Management frame format: Clause 22 frame format
+                    MDC clock rate (Hz): 2500000
+                    MDIO hold timing adjustment: 0
+                    MDIO capture timing adjustment: 0
+                    Frame preemption: Disable
+                    Verify frame interval: 10
+                    Interrupts: Context: NULL
+                    Interrupts: Callback: NULL
+                    Interrupts: ETHA0 status interrupt priority: 
+                    Interrupts: ETHA1 status interrupt priority: 
+                    
               Instance "FreeRTOS Buffer Allocation 2"
           Instance "AWS FreeRTOS+TCP MbedTLS Bio"
         Instance "AWS PKCS11 to MbedTLS"
@@ -2516,6 +2548,11 @@ FSP Configuration
                   Timing Settings: Chip Select: Command Interval: 2 cycles
                   Timing Settings: Chip Select: Assertion Extension: No extension
                   Timing Settings: Chip Select: Negation Extension: No extension
+                  Timing Settings: In-Band Reset Pattern: Repeat Count: 4 times
+                  Timing Settings: In-Band Reset Pattern: Width: 16 cycles
+                  Timing Settings: In-Band Reset Pattern: SIO Setup Time: 1 cycle
+                  Timing Settings: Reset Pin Hold Time: 1
+                  Timing Settings: Reset Recovery Time: 1
                   Timing Settings: DS Latching Delay: Auto-calibrate
                   Timing Settings: SDR: Drive Timing: Drive 1/2 cycle before CK
                   Timing Settings: SDR: CK Sampling Edge: Falling edge

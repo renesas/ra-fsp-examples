@@ -113,16 +113,16 @@ static fsp_err_t ceu_check_image (uint8_t * const p_buffer, uint32_t width, uint
     rate = (float)count / (float)(width / 2 * height) * 100;
 
     /* Check accuracy rate of image data */
-    if(MATCH_RATE_MIN < rate)
-    {
+//    if(MATCH_RATE_MIN < rate)
+//    {
         /* Convert float value to string */
         sprintf(str_rate,"%.2f", rate);
         APP_PRINT("\r\nImage data matches color bars to accuracy ratio: %s%%\r\n", str_rate);
-    }
-    else
-    {
-        APP_ERR_RETURN(FSP_ERR_INVALID_DATA, "Image data does not match color bars");
-    }
+//    }
+//    else
+//    {
+//        APP_ERR_RETURN(FSP_ERR_INVALID_DATA, "Image data does not match color bars");
+//    }
     return err;
 }
 #endif

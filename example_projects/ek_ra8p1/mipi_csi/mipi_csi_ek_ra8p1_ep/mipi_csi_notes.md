@@ -96,9 +96,9 @@ To build and run the MIPI CSI example project, the following resources are neede
     ![Camera_connection](images/connection_with_ov5640.png "Camera Connection")
 
 ## Software Requirements
-* Renesas Flexible Software Package (FSP): Version 6.5.0
-* e2 studio: Version 2026-04.2
-* SEGGER J-Link RTT Viewer: Version 9.42
+* Renesas Flexible Software Package (FSP): Version 6.6.0
+* e2 studio: Version 2026-07
+* SEGGER J-Link RTT Viewer: Version 9.64
 * Terminal Console Application: Tera Term version 4.99
 * LLVM Embedded Toolchain for ARM: Version 18.1.3
 

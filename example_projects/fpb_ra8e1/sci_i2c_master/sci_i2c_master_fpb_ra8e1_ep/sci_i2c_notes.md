@@ -20,10 +20,10 @@ To build and run the SCI I2C example project, the following resources are needed
 Refer to [readme.txt](./readme.txt) for information on how to connect the hardware.
 
 ### Software ###
-* Renesas Flexible Software Package (FSP): Version 6.5.0
-* e2 studio: Version 2026-04.2
-* SEGGER J-Link RTT Viewer: Version 9.42
-* LLVM Embedded Toolchain for ARM: Version 21.1.1
+* Renesas Flexible Software Package (FSP): Version 6.6.0
+* e2 studio: Version 2026-07
+* SEGGER J-Link RTT Viewer: Version 9.64
+* LLVM Embedded Toolchain for ARM: Version 22.1.0
 
 ### Hardware Connections ###  
   * Connect the USB Debug port on the RA board to the host PC via a micro USB cable.  

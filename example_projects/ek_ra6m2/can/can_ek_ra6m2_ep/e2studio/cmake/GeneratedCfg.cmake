@@ -2,6 +2,7 @@
 # Use CMakeLists.txt to override the settings in this file 
 
 set(RASC_TARGET_DEVICE R7FA6M2AF)
+
 set(RASC_TARGET_ARCH cortex-m4)
 set(RASC_PROJECT_NAME can_ek_ra6m2_ep)
 SET(RASC_TOOLCHAIN_NAME GCC)
@@ -9,7 +10,7 @@ SET(RASC_TOOLCHAIN_NAME GCC)
 SET(RASC_CMAKE_ASM_FLAGS "-mfloat-abi=hard;-mcpu=cortex-m4;-mfpu=fpv4-sp-d16;-Wunused;-Wuninitialized;-Wall;-Wextra;-Wmissing-declarations;-Wconversion;-Wpointer-arith;-Wshadow;-Wlogical-op;-Waggregate-return;-Wfloat-equal;-fmessage-length=0;-fsigned-char;-ffunction-sections;-fdata-sections;-mthumb;-x;assembler-with-cpp;-MMD;-MP")
 SET(RASC_CMAKE_C_FLAGS "-mfloat-abi=hard;-mcpu=cortex-m4;-mfpu=fpv4-sp-d16;-Wunused;-Wuninitialized;-Wall;-Wextra;-Wmissing-declarations;-Wconversion;-Wpointer-arith;-Wshadow;-Wlogical-op;-Waggregate-return;-Wfloat-equal;-fmessage-length=0;-fsigned-char;-ffunction-sections;-fdata-sections;-mthumb;-std=c99;-MMD;-MP")
 SET(RASC_CMAKE_CXX_FLAGS "-mfloat-abi=hard;-mcpu=cortex-m4;-mfpu=fpv4-sp-d16;-Wunused;-Wuninitialized;-Wall;-Wextra;-Wmissing-declarations;-Wconversion;-Wpointer-arith;-Wshadow;-Wlogical-op;-Waggregate-return;-Wfloat-equal;-fmessage-length=0;-fsigned-char;-ffunction-sections;-fdata-sections;-mthumb;-std=c++11;-MMD;-MP")
-SET(RASC_CMAKE_EXE_LINKER_FLAGS "-mfloat-abi=hard;-mcpu=cortex-m4;-mfpu=fpv4-sp-d16;-Wunused;-Wuninitialized;-Wall;-Wextra;-Wmissing-declarations;-Wconversion;-Wpointer-arith;-Wshadow;-Wlogical-op;-Waggregate-return;-Wfloat-equal;-fmessage-length=0;-fsigned-char;-ffunction-sections;-fdata-sections;-mthumb;-T;fsp.ld;-Wl,--gc-sections;-Wl,-Map,${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.map;--specs=nano.specs;-o;${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.elf")
+SET(RASC_CMAKE_EXE_LINKER_FLAGS "-mfloat-abi=hard;-mcpu=cortex-m4;-mfpu=fpv4-sp-d16;-Wunused;-Wuninitialized;-Wall;-Wextra;-Wmissing-declarations;-Wconversion;-Wpointer-arith;-Wshadow;-Wlogical-op;-Waggregate-return;-Wfloat-equal;-fmessage-length=0;-fsigned-char;-ffunction-sections;-fdata-sections;-mthumb;-T;fsp.ld;-Wl,--gc-sections;-Wl,-Map,${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.map;--specs=nano.specs;-o;${PROJECT_NAME}.elf")
 SET(RASC_CMAKE_DEFINITIONS "_RENESAS_RA_;_RA_CORE=CM4;_RA_ORDINAL=1")
 SET(RASC_ASM_FILES "${CMAKE_CURRENT_SOURCE_DIR}/ra_gen/*.asm")
 
@@ -22,7 +23,7 @@ file(RELATIVE_PATH  VAR_CMAKE_BUILD_CONFIG_OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}" 
 
 
 
-if(DEVICE AND (NOT "${RASC_TARGET_DEVICE}" STREQUAL "${DEVICE}"))
+if (DEVICE AND (NOT "${RASC_TARGET_DEVICE}" STREQUAL "${DEVICE}"))
 	message(FATAL_ERROR "Incorrect device specified ${DEVICE} but project is built for ${RASC_TARGET_DEVICE}")
 endif()
 
@@ -42,16 +43,31 @@ SET(RASC_RELEASE_FLAGS "-O2")
 SET(RASC_MIN_SIZE_RELEASE_FLAGS "-Os")
 SET(RASC_RELEASE_WITH_DEBUG_INFO "-g;-O2")
 
+# For legacy e2 studio projects where IDE_SUPPORTS_PRE_POST_BUILD_ACTIONS is not defined
+if (NOT DEFINED IDE_SUPPORTS_PRE_POST_BUILD_ACTIONS AND RENESAS_IDE AND RENESAS_IDE STREQUAL "e2studio")
+    set(IDE_SUPPORTS_PRE_POST_BUILD_ACTIONS TRUE)
+    set(RASC_EXE_PATH "echo")
+endif()
+
 # Custom targets are defined below
 include_guard()
 
-# Create platform-specific command line for running Smart Configurator as a backgrounded
-# process, which avoids blocking any calling IDEs
-file(TO_NATIVE_PATH "${RASC_EXE_PATH}" RASC_EXE_NATIVE_PATH)
-if(CMAKE_HOST_WIN32)
-    set(RASC_COMMAND start "" /b "${RASC_EXE_NATIVE_PATH}" configuration.xml)
+
+if ((NOT DEFINED RASC_UI_EXE_PATH) AND (RASC_EXE_PATH MATCHES "(rasc\\.exe|rasc|rascc|rascc\\.exe)$"))
+    set(RASC_UI_EXE_PATH "${RASC_EXE_PATH}")
+endif()
+
+if ( DEFINED RASC_UI_EXE_PATH)
+	# Create platform-specific command line for running Smart Configurator as a backgrounded
+	# process, which avoids blocking any calling IDEs
+	file(TO_NATIVE_PATH "${RASC_UI_EXE_PATH}" RASC_EXE_NATIVE_PATH)
+	if(CMAKE_HOST_WIN32)
+	    set(RASC_COMMAND start "" /b "${RASC_EXE_NATIVE_PATH}" configuration.xml)
+	else()
+	    set(RASC_COMMAND sh -c \"${RASC_EXE_NATIVE_PATH} configuration.xml &\")
+	endif()
 else()
-    set(RASC_COMMAND sh -c \"${RASC_EXE_NATIVE_PATH} configuration.xml &\")
+	set(RASC_COMMAND "echo please define RASC_UI_EXE_PATH to run FSP Smart Configurator UI")
 endif()
 
 # Make target for opening the FSP Configuration in Smart Configurator

@@ -31,7 +31,7 @@
 
 /**@brief User configurable (ipv4) address. IP address should be provided from where the SNMP Manager is running
  * NOTE: Current IP address is provided according to our test environment.*/
-#define MANAGER_IP_ADDRESS         (IP_ADDRESS(192,168,0,32))
+#define MANAGER_IP_ADDRESS         (IP_ADDRESS(10,231,8,199))
 #define SNMP_V3                    (1)
 #define SNMP_OVERRIDE_HANDLERS     (1)
 #define ONE                        (1)

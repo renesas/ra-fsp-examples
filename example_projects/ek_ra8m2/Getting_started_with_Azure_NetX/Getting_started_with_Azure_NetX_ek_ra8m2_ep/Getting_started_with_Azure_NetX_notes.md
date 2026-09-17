@@ -25,11 +25,11 @@ Notes:
 To build and run the Getting_started_with_Azure_NetX example project, the following resources are needed.
 
 ### Software Requirements ###
-* Renesas Flexible Software Package (FSP): Version 6.5.0
-* e2 studio: Version 2026-04.2
-* LLVM Embedded Toolchain for ARM: Version 21.1.1
+* Renesas Flexible Software Package (FSP): Version 6.6.0
+* e2 studio: Version 2026-07
+* LLVM Embedded Toolchain for ARM: Version 22.1.0
 * Terminal Console Application: Tera Term or a similar application
-* SEGGER J-Link RTT Viewer: Version 9.42
+* SEGGER J-Link RTT Viewer: Version 9.64
 * Socket Application (e.g., sokit version 1.3)
 * Browser Application (e.g., Microsoft Edge, Google Chrome)
 

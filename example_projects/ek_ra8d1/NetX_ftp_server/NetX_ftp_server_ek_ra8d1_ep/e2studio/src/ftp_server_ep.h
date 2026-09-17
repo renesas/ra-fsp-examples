@@ -37,7 +37,7 @@
 #define DEFAULT_SIZE            ((ULONG)40)
 #define SAMPLE_DATA_BYTES       {82,101,110,101,115,97,115,95,102,116,112,95,115,101,114,118,101,114,69,112}
 #define SAMPLE_DATA_SIZE        (20U)
-#define WAIT_OPTION_NETWORK_RETRY      (5000U)
+#define WAIT_OPTION_NETWORK_RETRY   (5000U)
 /* ***************** Azure FileX API documentation ********************
  * fx_media_format API requires memory region long enough to
  * hold several directory entries, a data structure to stack the current

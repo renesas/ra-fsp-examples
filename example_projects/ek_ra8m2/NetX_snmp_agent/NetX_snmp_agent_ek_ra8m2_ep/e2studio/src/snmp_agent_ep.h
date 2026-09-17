@@ -34,7 +34,7 @@
 /* User-configurable IPv4 address of the SNMP Manager.
  * Note: The current IP address is set according to the test environment.
  *       Update this value to match the IP address of the host running the SNMP Manager. */
-#define MANAGER_IP_ADDRESS          (IP_ADDRESS(192, 168, 0, 183))
+#define MANAGER_IP_ADDRESS          (IP_ADDRESS(10, 231, 8, 199))
 #define SNMP_V3                     (1)
 #define SNMP_OVERRIDE_HANDLERS      (1)
 #define ONE                         (1)

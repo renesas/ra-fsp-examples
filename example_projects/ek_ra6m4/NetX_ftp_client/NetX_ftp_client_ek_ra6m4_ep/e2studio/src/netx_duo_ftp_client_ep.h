@@ -36,7 +36,11 @@
 #define PRINT_ERR_STR(str)   app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_ERR_STR, sizeof(str), str);
 #define ERROR_TRAP(err)      app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_ERR_TRAP, sizeof(UINT *), &err);
 
-#define MAX_COUNT_VALUE  0xFF       //Max value for counter
+/* Max value for counter */
+#define MAX_COUNT_VALUE         (0xFF)
+
+/* Timeout option */
+#define LINK_ENABLE_WAIT_TIME   (5000U)
 /******************************************************************************
  Global variables and functions
  ******************************************************************************/

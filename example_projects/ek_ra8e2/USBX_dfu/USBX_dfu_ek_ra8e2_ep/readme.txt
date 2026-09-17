@@ -44,10 +44,10 @@
         	e. The settings and errors will be displayed on the J-Link RTT Viewer.
 
 2. Software Requirements:
-	Renesas Flexible Software Package (FSP): Version 6.1.0
-	e2 studio: Version 2025-07
-	SEGGER J-Link RTT Viewer: Version 8.58
-	LLVM Embedded Toolchain for ARM: Version 18.1.3
+	Renesas Flexible Software Package (FSP): Version 6.6.0
+	e2 studio: Version 2026-07
+	SEGGER J-Link RTT Viewer: Version 9.64
+	LLVM Embedded Toolchain for ARM: Version 22.1.0
 	Zadig.exe - v2.0.1.160 (https://sourceforge.net/projects/libwdi/files/zadig/)
 	dfu-util-0.11-binaries.tar.xz (https://sourceforge.net/projects/dfu-util/files/)
 

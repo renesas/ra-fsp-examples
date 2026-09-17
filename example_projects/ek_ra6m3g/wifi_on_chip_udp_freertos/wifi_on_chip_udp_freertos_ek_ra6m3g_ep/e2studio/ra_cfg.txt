@@ -1,5 +1,5 @@
 FSP Configuration
-  Board "EK-RA6M3G"
+  Board "RA6|RA6M3|EK-RA6M3G"
   R7FA6M3AH3CFC
     part_number: R7FA6M3AH3CFC
     rom_size_bytes: 2097152
@@ -7,58 +7,84 @@ FSP Configuration
     data_flash_size_bytes: 65536
     package_style: LQFP
     package_pins: 176
+    number of cores: 1
     
+  R7FA6M3AH3CFC
   RA6M3
     series: 6
     
   RA6M3 Family
-    OFS0 register settings: Independent WDT: Start Mode: IWDT is Disabled
-    OFS0 register settings: Independent WDT: Timeout Period: 2048 cycles
-    OFS0 register settings: Independent WDT: Dedicated Clock Frequency Divisor: 128
-    OFS0 register settings: Independent WDT: Window End Position:  0% (no window end position)
-    OFS0 register settings: Independent WDT: Window Start Position: 100% (no window start position)
-    OFS0 register settings: Independent WDT: Reset Interrupt Request Select: Reset is enabled
-    OFS0 register settings: Independent WDT: Stop Control: Stop counting when in Sleep, Snooze mode, or Software Standby
-    OFS0 register settings: WDT: Start Mode Select: Stop WDT after a reset (register-start mode)
-    OFS0 register settings: WDT: Timeout Period: 16384 cycles
-    OFS0 register settings: WDT: Clock Frequency Division Ratio: 128
-    OFS0 register settings: WDT: Window End Position:  0% (no window end position)
-    OFS0 register settings: WDT: Window Start Position: 100% (no window start position)
-    OFS0 register settings: WDT: Reset Interrupt Request: Reset
-    OFS0 register settings: WDT: Stop Control: Stop counting when entering Sleep mode
-    OFS1 register settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
-    OFS1 register settings: Voltage Detection 0 Level: 2.80 V
-    OFS1 register settings: HOCO Oscillation Enable: HOCO oscillation is disabled after reset
-    MPU: Enable or disable PC Region 0: Disabled
-    MPU: PC0 Start: 0xFFFFFFFC
-    MPU: PC0 End: 0xFFFFFFFF
-    MPU: Enable or disable PC Region 1: Disabled
-    MPU: PC1 Start: 0xFFFFFFFC
-    MPU: PC1 End: 0xFFFFFFFF
-    MPU: Enable or disable Memory Region 0: Disabled
-    MPU: Memory Region 0 Start: 0x00FFFFFC
-    MPU: Memory Region 0 End: 0x00FFFFFF
-    MPU: Enable or disable Memory Region 1: Disabled
-    MPU: Memory Region 1 Start: 0x200FFFFC
-    MPU: Memory Region 1 End: 0x200FFFFF
-    MPU: Enable or disable Memory Region 2: Disabled
-    MPU: Memory Region 2 Start: 0x407FFFFC
-    MPU: Memory Region 2 End: 0x407FFFFF
-    MPU: Enable or disable Memory Region 3: Disabled
-    MPU: Memory Region 3 Start: 0x400DFFFC
-    MPU: Memory Region 3 End: 0x400DFFFF
+    Enable inline BSP IRQ functions: Enabled
+    SDRAM: SDRAM Support: Disabled
+    SDRAM: Timings: tRAS (cycles): 6 cycles
+    SDRAM: Timings: tRCD (cycles): 3 cycles
+    SDRAM: Timings: tRP (cycles): 3 cycles
+    SDRAM: Timings: tWR (cycles): 2 cycles
+    SDRAM: Timings: tCL (cycles): 3 cycles
+    SDRAM: Timings: tRFC (cycles): 937
+    SDRAM: Timings: tREFW (cycles): 8 cycles
+    SDRAM: Initialization: Auto-Refresh Interval (ARFI): 10 cycles
+    SDRAM: Initialization: Auto-Refresh Count (ARFC): 8 times
+    SDRAM: Initialization: Precharge Cycle Count (PRC): 3 cycles
+    SDRAM: Address Multiplex Shift: 9-bit shift
+    SDRAM: Endian Mode: Little Endian
+    SDRAM: Continuous Access Mode: Enabled
+    SDRAM: Bus Width: 16-bit
     Clocks: HOCO FLL Function: Disabled
-    Main Oscillator Wait Time: 8163 cycles
-    ID Code Mode: Unlocked (Ignore ID)
-    ID Code (32 Hex Characters): FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    Clocks: MOSC Drive Capability Auto Switching: Disabled
+    Clocks: Main Oscillator Wait Time: 8163 cycles
     
+  RA6M3 Device Options
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Enabled
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Start Mode: IWDT is stopped after a reset
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Timeout Period: 2048 cycles
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Dedicated Clock Frequency Divisor: 128
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Window End Position:  0% (no window end position)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Window Start Position: 100% (no window start position)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Reset Interrupt Request Select: Reset is enabled
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Stop Control: Stop counting when in Sleep,Snooze modec, or Software Standby
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT: Start Mode Select: Stop WDT after a reset (register-start mode)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT: Timeout Period: 16384 cycles
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT: Clock Frequency Division Ratio: 128
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT: Window End Position:  0% (no window end position)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT: Window Start Position: 100% (no window start position)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT: Reset Interrupt Request: Reset
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT: Stop Control: Stop counting when entering Sleep mode
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Enabled
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Voltage Detection 0 Level: 2.80 V
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: HOCO Oscillation Enable: HOCO oscillation is disabled after reset
+    OFS Registers: SECMPU (Security MPU Registers) Settings: Disabled
+    OFS Registers: SECMPU (Security MPU Registers) Settings: PC 0 Enable: Disabled
+    OFS Registers: SECMPU (Security MPU Registers) Settings: PC 0 Start: 0xFFFFFFFC
+    OFS Registers: SECMPU (Security MPU Registers) Settings: PC 0 End: 0xFFFFFFFF
+    OFS Registers: SECMPU (Security MPU Registers) Settings: PC 1 Enable: Disabled
+    OFS Registers: SECMPU (Security MPU Registers) Settings: PC 1 Start: 0xFFFFFFFC
+    OFS Registers: SECMPU (Security MPU Registers) Settings: PC 1 End: 0xFFFFFFFF
+    OFS Registers: SECMPU (Security MPU Registers) Settings: Region 0 Enable: Disabled
+    OFS Registers: SECMPU (Security MPU Registers) Settings: Region 0 Start: 0x001FFFFC
+    OFS Registers: SECMPU (Security MPU Registers) Settings: Region 0 End: 0x001FFFFF
+    OFS Registers: SECMPU (Security MPU Registers) Settings: Region 1 Enable: Disabled
+    OFS Registers: SECMPU (Security MPU Registers) Settings: Region 1 Start: 0x2007FFFC
+    OFS Registers: SECMPU (Security MPU Registers) Settings: Region 1 End: 0x2007FFFF
+    OFS Registers: SECMPU (Security MPU Registers) Settings: Region 2 Enable: Disabled
+    OFS Registers: SECMPU (Security MPU Registers) Settings: Region 2 Start: 0x400DFFFC
+    OFS Registers: SECMPU (Security MPU Registers) Settings: Region 2 End: 0x400DFFFF
+    OFS Registers: SECMPU (Security MPU Registers) Settings: Region 3 Enable: Disabled
+    OFS Registers: SECMPU (Security MPU Registers) Settings: Region 3 Start: 0x400DFFFC
+    OFS Registers: SECMPU (Security MPU Registers) Settings: Region 3 End: 0x400DFFFF
+    OFS Registers: OSIS (OCD/Serial Programmer ID setting register) Settings: Disabled
+    OFS Registers: OSIS (OCD/Serial Programmer ID setting register) Settings: ID Code Mode: Unlocked (Ignore ID)
+    OFS Registers: OSIS (OCD/Serial Programmer ID setting register) Settings: ID Code (32 Hex Characters): FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    
+  RA6M3 event data
   RA Common
     Main stack size (bytes): 0x1000
     Heap size (bytes): 0x2500
+    Bootloader Secondary XIP: Disabled
     MCU Vcc (mV): 3300
     Parameter checking: Enabled
     Assert Failures: Return FSP_ERR_ASSERTION
-    Error Log: No Error Log
     Clock Registers not Reset Values during Startup: Disabled
     Main Oscillator Populated: Populated
     PFS Protect: Enabled
@@ -76,6 +102,7 @@ FSP Configuration
     PLL Div /2
     PLL Mul x20.0
     Clock Src: PLL
+    UCLK Src: PLL
     ICLK Div /2
     PCLKA Div /2
     PCLKB Div /4
@@ -626,8 +653,14 @@ FSP Configuration
     
   User Event Links
     
+  Linker Section Mappings
+    *bsp_linker.?*(.rodata.*): FLASH Constant Data (OFS Gap)
+    *(.bss.g_heap): RAM Uninitialized
+    *(.bss.g_main_stack): RAM Uninitialized
+    
   Module "I/O Port (r_ioport)"
     Parameter Checking: Default (BSP)
+    CCD Support: Not Supported
     
   Module "FreeRTOS Port (rm_freertos_port)"
   Module "AWS Core HTTP"
@@ -652,8 +685,6 @@ FSP Configuration
     PKCS11 Malloc: pvPortMalloc
     PKCS11 Free: vPortFree
     PAL Destroy Supported: Disabled
-    Log Name: PKCS11
-    Log Level: LOG_NONE
     OTA Supported: Disabled
     JITP Code Verify Root Cert Supported: Disabled
     HMAC Key: HMAC Key
@@ -663,6 +694,7 @@ FSP Configuration
   Module "LittleFS"
     Custom lfs_util.h: 
     Thread Safe: Disabled
+    Read Only: Disabled
     Use Malloc: Enabled
     Use Assert: Enabled
     Debug Messages: Disabled
@@ -701,10 +733,12 @@ FSP Configuration
     SSL Options: MBEDTLS_SSL_DTLS_CONNECTION_ID_COMPAT: Undefine
     SSL Options: MBEDTLS_SSL_DTLS_CONNECTION_ID_COMPAT Value: Reset
     SSL Options: MBEDTLS_SSL_ASYNC_PRIVATE: Undefine
+    SSL Options: MBEDTLS_SSL_CLI_ALLOW_WEAK_CERTIFICATE_VERIFICATION_WITHOUT_HOSTNAME: Undefine
     SSL Options: MBEDTLS_SSL_DEBUG_ALL: Undefine
     SSL Options: MBEDTLS_SSL_ENCRYPT_THEN_MAC: Undefine
     SSL Options: MBEDTLS_SSL_EXTENDED_MASTER_SECRET: Undefine
     SSL Options: MBEDTLS_SSL_KEEP_PEER_CERTIFICATE: Undefine
+    SSL Options: MBEDTLS_SSL_KEYING_MATERIAL_EXPORT: Undefine
     SSL Options: MBEDTLS_SSL_RENEGOTIATION: Undefine
     SSL Options: MBEDTLS_SSL_MAX_FRAGMENT_LENGTH: Undefine
     SSL Options: MBEDTLS_SSL_PROTO_TLS1_2: Define
@@ -754,8 +788,6 @@ FSP Configuration
     SSL Options: MBEDTLS_SSL_CID_OUT_LEN_MAX Value: 32
     SSL Options: MBEDTLS_SSL_CID_TLS1_3_PADDING_GRANULARITY: Undefine
     SSL Options: MBEDTLS_SSL_CID_TLS1_3_PADDING_GRANULARITY Value: 16
-    SSL Options: MBEDTLS_SSL_CID_PADDING_GRANULARITY: Undefine
-    SSL Options: MBEDTLS_SSL_CID_PADDING_GRANULARITY Value: 16
     SSL Options: MBEDTLS_SSL_OUT_CONTENT_LEN: Undefine
     SSL Options: MBEDTLS_SSL_OUT_CONTENT_LEN Value: 16384
     SSL Options: MBEDTLS_SSL_DTLS_MAX_BUFFERING: Undefine
@@ -778,13 +810,20 @@ FSP Configuration
     Hardware Acceleration: Key Format: ECC: Plaintext Only
     Hardware Acceleration: Key Format: RSA: Plaintext Only
     Hardware Acceleration: Hash: SHA256/224: Use Hardware
+    Hardware Acceleration: Hash: SHA512/384: Use Software
+    Hardware Acceleration: Hash: SHA3_224/256/384/512: Use Software
     Hardware Acceleration: Cipher: AES: Use Hardware
     Hardware Acceleration: Public Key Cryptography (PKC): ECC: Use Hardware
     Hardware Acceleration: Public Key Cryptography (PKC): ECDSA : Use Hardware
     Hardware Acceleration: Public Key Cryptography (PKC): ECDH : Use Hardware
-    Hardware Acceleration: Public Key Cryptography (PKC): RSA: Use Hardware
-    Hardware Acceleration: Public Key Cryptography (PKC): RSA 3072 Verify: Disabled
-    Hardware Acceleration: Public Key Cryptography (PKC): RSA 4096 Verify: Disabled
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA 1024: Use Software
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA 2048: Use Hardware
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA 3072: Key Generation: Disabled
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA 3072: Signing: Disabled
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA 3072: Verification: Disabled
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA 4096: Key Generation: Disabled
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA 4096: Signing: Disabled
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA 4096: Verification: Disabled
     Hardware Acceleration: Crypto Engine Initialization: Enabled
     Platform: MBEDTLS_HAVE_ASM: Undefine
     Platform: MBEDTLS_NO_UDBL_DIVISION: Undefine
@@ -802,6 +841,7 @@ FSP Configuration
     Platform: Alternate: MBEDTLS_PLATFORM_SNPRINTF_ALT: Undefine
     Platform: Alternate: MBEDTLS_PLATFORM_VSNPRINTF_ALT: Undefine
     Platform: Alternate: MBEDTLS_PLATFORM_NV_SEED_ALT: Undefine
+    Platform: Alternate: MBEDTLS_PLATFORM_MS_TIME_ALT: Undefine
     General: MBEDTLS_PSA_CRYPTO_DRIVERS: Undefine
     General: MBEDTLS_DEPRECATED_WARNING: Undefine
     General: MBEDTLS_DEPRECATED_REMOVED: Define
@@ -809,8 +849,8 @@ FSP Configuration
     Cipher: Alternate: MBEDTLS_ARIA_ALT: Undefine
     Cipher: Alternate: MBEDTLS_CAMELLIA_ALT: Undefine
     Cipher: Alternate: MBEDTLS_CCM_ALT: Define
-    Cipher: Alternate: MBEDTLS_CHACHA20_ALT: Undefine
-    Cipher: Alternate: MBEDTLS_CHACHAPOLY_ALT: Undefine
+    Cipher: Alternate: MBEDTLS_CHACHA20_ALT: Use Software
+    Cipher: Alternate: MBEDTLS_CHACHAPOLY_ALT: Use Software
     Cipher: Alternate: MBEDTLS_CMAC_ALT: Undefine
     Cipher: Alternate: MBEDTLS_DES_ALT: Undefine
     Public Key Cryptography (PKC): DHM: Alternate: MBEDTLS_DHM_ALT: Undefine
@@ -821,11 +861,9 @@ FSP Configuration
     Message Authentication Code (MAC): Alternate: MBEDTLS_POLY1305_ALT: Undefine
     Hash: Alternate: MBEDTLS_RIPEMD160_ALT: Undefine
     Hash: Alternate: MBEDTLS_SHA1_ALT: Undefine
-    Hash: Alternate: MBEDTLS_SHA512_ALT: Undefine
     Hash: Alternate: MBEDTLS_MD5_PROCESS_ALT: Undefine
     Hash: Alternate: MBEDTLS_RIPEMD160_PROCESS_ALT: Undefine
     Hash: Alternate: MBEDTLS_SHA1_PROCESS_ALT: Undefine
-    Hash: Alternate: MBEDTLS_SHA512_PROCESS_ALT: Undefine
     Cipher: Alternate: MBEDTLS_DES_SETKEY_ALT: Undefine
     Cipher: Alternate: MBEDTLS_DES_CRYPT_ECB_ALT: Undefine
     Cipher: Alternate: MBEDTLS_DES3_CRYPT_ECB_ALT: Undefine
@@ -844,6 +882,7 @@ FSP Configuration
     Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_NORMALIZE_MXZ_ALT: Undefine
     Cipher: AES: MBEDTLS_AES_ROM_TABLES: Undefine
     Cipher: AES: MBEDTLS_AES_FEWER_TABLES: Undefine
+    Cipher: AES: MBEDTLS_AES_ONLY_128_BIT_KEY_LENGTH: Undefine
     Cipher: MBEDTLS_CAMELLIA_SMALL_MEMORY: Undefine
     General: MBEDTLS_CHECK_RETURN_WARNING: Undefine
     Cipher: MBEDTLS_CIPHER_MODE_CBC: Define
@@ -872,6 +911,7 @@ FSP Configuration
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_NIST_OPTIM: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_RESTARTABLE: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECDSA_DETERMINISTIC: Undefine
+    Public Key Cryptography (PKC): ECC: MBEDTLS_PK_PARSE_EC_COMPRESSED: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_PK_PARSE_EC_EXTENDED: Undefine
     General: MBEDTLS_ERROR_STRERROR_DUMMY: Define
     Public Key Cryptography (PKC): MBEDTLS_GENPRIME: Define
@@ -891,7 +931,9 @@ FSP Configuration
     General: MBEDTLS_PSA_CRYPTO_CLIENT: Undefine
     RNG: MBEDTLS_PSA_CRYPTO_EXTERNAL_RNG: Undefine
     General: MBEDTLS_PSA_CRYPTO_SPM: Undefine
+    General: MBEDTLS_PSA_KEY_STORE_DYNAMIC: Undefine
     RNG: MBEDTLS_PSA_INJECT_ENTROPY: Undefine
+    General: MBEDTLS_PSA_ASSUME_EXCLUSIVE_BUFFERS: Undefine
     Public Key Cryptography (PKC): RSA: MBEDTLS_RSA_NO_CRT: Define
     General: MBEDTLS_SELF_TEST: Undefine
     Hash: MBEDTLS_SHA256_SMALLER: Undefine
@@ -904,6 +946,7 @@ FSP Configuration
     Public Key Cryptography (PKC): MBEDTLS_ASN1_PARSE_C: Define
     Public Key Cryptography (PKC): MBEDTLS_ASN1_WRITE_C: Define
     Public Key Cryptography (PKC): MBEDTLS_BASE64_C: Define
+    Cipher: MBEDTLS_BLOCK_CIPHER_NO_DECRYPT: Undefine
     Public Key Cryptography (PKC): MBEDTLS_BIGNUM_C: Define
     Cipher: MBEDTLS_CAMELLIA_C: Undefine
     Cipher: MBEDTLS_ARIA_C: Undefine
@@ -923,6 +966,7 @@ FSP Configuration
     Platform: MBEDTLS_ENTROPY_C: Define
     General: MBEDTLS_ERROR_C: Define
     Cipher: MBEDTLS_GCM_C: Define
+    Cipher: MBEDTLS_GCM_LARGE_TABLE: Undefine
     Message Authentication Code (MAC): MBEDTLS_HKDF_C: Define
     Message Authentication Code (MAC): MBEDTLS_HMAC_DRBG_C: Undefine
     Public Key Cryptography (PKC): MBEDTLS_LMS_C: Define
@@ -931,6 +975,8 @@ FSP Configuration
     Hash: MBEDTLS_MD_C: Define
     Hash: MBEDTLS_MD5_C: Define
     General: MBEDTLS_MEMORY_BUFFER_ALLOC_C: Undefine
+    Post Quantum Cryptography (PQC): MBEDTLS_MLKEM_C: Undefine
+    Post Quantum Cryptography (PQC): MBEDTLS_ML_DSA_C: Undefine
     Public Key Cryptography (PKC): MBEDTLS_OID_C: Define
     Public Key Cryptography (PKC): MBEDTLS_PEM_PARSE_C: Define
     Public Key Cryptography (PKC): MBEDTLS_PEM_WRITE_C: Define
@@ -946,9 +992,13 @@ FSP Configuration
     General: MBEDTLS_PSA_CRYPTO_SE_C: Undefine
     Storage: MBEDTLS_PSA_CRYPTO_STORAGE_C: Undefine
     Storage: MBEDTLS_PSA_ITS_FILE_C: Undefine
+    Storage: MBEDTLS_PSA_STATIC_KEY_SLOTS: Undefine
     Hash: MBEDTLS_RIPEMD160_C: Undefine
     Public Key Cryptography (PKC): RSA: MBEDTLS_RSA_C: Define
+    Public Key Cryptography (PKC): RSA: MBEDTLS_RSA_GEN_KEY_MIN_BITS: Undefine
+    Public Key Cryptography (PKC): RSA: MBEDTLS_RSA_GEN_KEY_MIN_BITS value: 1024
     Hash: MBEDTLS_SHA1_C: Define
+    Hash: MBEDTLS_SHA3_C: Undefine
     Hash: MBEDTLS_SHA224_C: Define
     Hash: MBEDTLS_SHA256_C: Define
     Hash: MBEDTLS_SHA384_C: Undefine
@@ -1029,6 +1079,11 @@ FSP Configuration
     Platform: MBEDTLS_PLATFORM_TIME_MACRO value: time
     Platform: MBEDTLS_PLATFORM_TIME_TYPE_MACRO: Undefine
     Platform: MBEDTLS_PLATFORM_TIME_TYPE_MACRO value: time_t
+    Platform: MBEDTLS_PLATFORM_MS_TIME_TYPE_MACRO: Undefine
+    Platform: MBEDTLS_PLATFORM_MS_TIME_TYPE_MACRO value: int64_t
+    Platform: MBEDTLS_PRINTF_MS_TIME: Undefine
+    Platform: MBEDTLS_PLATFORM_DEV_RANDOM: Undefine
+    Platform: MBEDTLS_PRINTF_MS_TIME value: PRId64
     Platform: MBEDTLS_PLATFORM_FPRINTF_MACRO: Undefine
     Platform: MBEDTLS_PLATFORM_FPRINTF_MACRO value: fprintf
     Platform: MBEDTLS_PLATFORM_PRINTF_MACRO: Undefine
@@ -1047,16 +1102,18 @@ FSP Configuration
     Platform: Alternate: MBEDTLS_PLATFORM_ZEROIZE_ALT: Undefine
     Key Configuration: MBEDTLS_PSA_KEY_SLOT_COUNT: Undefine
     Key Configuration: MBEDTLS_PSA_KEY_SLOT_COUNT value: 32
+    Key Configuration: MBEDTLS_PSA_STATIC_KEY_SLOT_BUFFER_SIZE value: 256
     Platform: Alternate: MBEDTLS_PLATFORM_GMTIME_R_ALT: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECDH_VARIANT_EVEREST_ENABLED: Undefine
+    General: MBEDTLS_PSA_CRYPTO_CONFIG: Undefine
     
-  Module "Mbed Crypto H/W Acceleration (rm_psa_crypto)"
+  Module "MbedTLS Crypto Port (rm_psa_crypto)"
   Module "SCE7"
   Module "MbedTLS FSP Port (rm_mbedtls)"
   Module "AWS Logging"
   Module "AWS Demo dev_mode_key_provisioning"
   Module "AWS Silex WiFi Sockets Wrapper (rm_aws_sockets_wrapper_silex)"
-  Module "WiFi Onchip Silex Driver using r_sci_uart (rm_wifi_onchip_silex)"
+  Module "WiFi Onchip Silex Driver using UART (rm_wifi_onchip_silex)"
     Parameter Checking: Default (BSP)
     Number of supported socket instances: 1
     Size of RX buffer for socket: 4096
@@ -1079,6 +1136,7 @@ FSP Configuration
     DTC Support: Enable
     Flow Control Support: Disable
     RS-485 Support: Disable
+    IrDA Support: Disabled
     
   Module "FreeRTOS Heap 5"
   Module "Transfer (r_dtc)"
@@ -1105,6 +1163,7 @@ FSP Configuration
     General: Use 16-bit Ticks: Disabled
     General: Idle Should Yield: Enabled
     General: Use Task Notifications: Enabled
+    General: Task Notification Array Entries: 1
     General: Use Mutexes: Enabled
     General: Use Recursive Mutexes: Enabled
     General: Use Counting Semaphores: Enabled
@@ -1150,6 +1209,8 @@ FSP Configuration
     RA: Hardware Stack Monitor: Disabled
     Logging: Print String Function: printf(x)
     Logging: Logging Include Time and Task Name: Disabled
+    Logging: Debug Logging Name: Log Name
+    Logging: Logging Level: LOG_NONE
     
   HAL
     Instance "g_ioport I/O Port (r_ioport)"
@@ -1173,7 +1234,7 @@ FSP Configuration
     Instance "AWS Core HTTP"
       Instance "AWS Transport Interface on MbedTLS/PKCS11 (rm_aws_transport_interface_port)"
         Instance "AWS Silex WiFi Sockets Wrapper (rm_aws_sockets_wrapper_silex)"
-          Instance "WiFi Onchip Silex Driver using r_sci_uart (rm_wifi_onchip_silex)"
+          Instance "WiFi Onchip Silex Driver using UART (rm_wifi_onchip_silex)"
             SNTP server IPv4 address: 0.0.0.0
             SNTP Timezone Offset from UTC Hours: 0
             SNTP Timezone Offset from UTC Minutes: 0
@@ -1196,6 +1257,9 @@ FSP Configuration
               Extra: Start bit detection: Falling Edge
               Extra: Noise Filter: Disable
               Extra: Receive FIFO Trigger Level: Max
+              Extra: IrDA: Enable: Disabled
+              Extra: IrDA: RXD Polarity Switching: Normal
+              Extra: IrDA: TXD Polarity Switching: Normal
               Extra: RS-485: DE Pin: Disable
               Extra: RS-485: DE Pin Polarity: Active High
               Extra: RS-485: DE Port Number: Disabled
@@ -1219,7 +1283,7 @@ FSP Configuration
                 Number of Transfer Descriptors: 1
                 Activation Source: SCI9 TXI (Transmit data empty)
                 
-              Instance "g_transfer1 Transfer (r_dtc) SCI9 RXI (Received data full)"
+              Instance "g_transfer1 Transfer (r_dtc) SCI9 RXI (Receive data full)"
                 Name: g_transfer1
                 Mode: Normal
                 Transfer Size: 1 Byte
@@ -1230,7 +1294,7 @@ FSP Configuration
                 Number of Transfers: 0
                 Number of Blocks (Valid only in Block Mode): 0
                 Number of Transfer Descriptors: 1
-                Activation Source: SCI9 RXI (Received data full)
+                Activation Source: SCI9 RXI (Receive data full)
                 
           Instance "AWS FreeRTOS+TCP MbedTLS Bio"
         Instance "AWS PKCS11 to MbedTLS"
@@ -1241,6 +1305,7 @@ FSP Configuration
                 Name: g_rm_littlefs0
                 Read Size: 1
                 Program Size: 4
+                Memory Start Address: BSP_FEATURE_FLASH_DATA_FLASH_START
                 Block Size (bytes): 128
                 Block Count: (BSP_DATA_FLASH_SIZE_BYTES/128)
                 Block Cycles: 1024
@@ -1257,7 +1322,7 @@ FSP Configuration
           Instance "FreeRTOS MbedTLS Port"
             Instance "MbedTLS"
               Instance "MbedTLS (Crypto Only)"
-                Instance "Mbed Crypto H/W Acceleration (rm_psa_crypto)"
+                Instance "MbedTLS Crypto Port (rm_psa_crypto)"
                   Instance "SCE7"
               Instance "MbedTLS FSP Port (rm_mbedtls)"
         Instance "AWS Logging"

@@ -166,7 +166,7 @@
 
 			SD1DAT1 P403 (J17:7)    --->   Pmod SD DAT1 (J1:7)
 			SD1DAT2 P404 (J17:10)   --->   Pmod SD DAT2 (J1:8)
-			SD1DAT3 P405 (J41:3)    --->   Pmod SD CS   (J1:1)
+			SD1DAT3 P811 (J3:21)    --->   Pmod SD CS   (J1:1)
 
 Note:
 1) Connect Pmod SD to the RA board: Using short wiring connections (Should be shorter than 10cm).

@@ -19,12 +19,12 @@
  * setup please refer ftp_client notes under Special Topics.
  * The user can create their own credentials viz., "username" and "password" according to their settings,
  * same it should modify in the respective macro fields. */
-#define USERNAME        "pi"                /* User configurable credential i.e., username */
-#define PASSWORD        "tel@1234"          /* User configurable credential i.e., password */
+#define USERNAME        "rvc"                /* User configurable credential i.e., username */
+#define PASSWORD        "Pass1234"          /* User configurable credential i.e., password */
 
 /* @brief User configurable (ipv4) address. IP address should be provided from where the FTP Server is running
  * Note: Current IP address is provided according to our test environment */
-#define SERVER_ADDRESS  IP_ADDRESS(132,158,124,22)
+#define SERVER_ADDRESS  IP_ADDRESS(192,168,1,50)
 
 /* Macros for FTP file settings */
 #define FTP_TIMEOUT     (5)                 /* Define timeout in seconds for FTP operations */

@@ -44,7 +44,7 @@ typedef enum
 #define OV3640_END_OF_ARRAY                 (0xFFFF)
 
 /* OV3640 test pattern */
-#define OV3640_TEST_PATTERN                 (1U)
+#define OV3640_TEST_PATTERN                 (0U)
 #define NUM_OF_COLOR                        (8U)
 #define COLOR_ONE                           (0xFF82FF82)
 #define COLOR_TWO                           (0xFF91FF04)

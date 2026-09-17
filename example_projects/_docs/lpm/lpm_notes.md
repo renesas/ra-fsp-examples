@@ -97,9 +97,9 @@ Please refer to the [Example Project Usage Guide](https://github.com/renesas/ra-
     * Connect the RA board's USB debug port to the host PC using the appropriate USB cable.
 
 ### Software Requirements
-* Renesas Flexible Software Package (FSP): Version 6.5.0
-* e2 studio: Version 2026-04.2
-* LLVM Embedded Toolchain for ARM: Version 21.1.1
+* Renesas Flexible Software Package (FSP): Version 6.6.0
+* e2 studio: Version 2026-07
+* LLVM Embedded Toolchain for ARM: Version 22.1.0
 * GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
 * Terminal Console Application: Tera Term or a similar application
 

@@ -15,10 +15,10 @@
 	for Master and other for the Slave.
 
 2. Software Requirements:
-	Renesas Flexible Software Package (FSP): Version 6.5.0
-	e2 studio: Version 2026-04.2
-	SEGGER J-Link RTT Viewer: Version 9.42
-	LLVM Embedded Toolchain for ARM: Version 21.1.1
+	Renesas Flexible Software Package (FSP): Version 6.6.0
+	e2 studio: Version 2026-07
+	SEGGER J-Link RTT Viewer: Version 9.64
+	LLVM Embedded Toolchain for ARM: Version 22.1.0
 
 3. Hardware Requirements:
 	Supported RA boards: EK-RA4M2, EK-RA4M3, EK-RA6M1, EK-RA6M2, EK-RA6M3, EK-RA6M4, EK-RA6M5, EK-RA4E2, EK-RA6E2,

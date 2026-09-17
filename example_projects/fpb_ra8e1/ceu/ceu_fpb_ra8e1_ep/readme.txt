@@ -20,6 +20,8 @@
 	Enter any key to choose QVGA (320 x 240) format and store the image in SRAM.
 	The captured image can be viewed in e2studio using the 'image viewer'.
 
+	Note: For the FPB-RA8E1 board, the Example Project is tested using e² studio by default.
+
 2. Hardware Requirements:
      	Supported RA Boards: EK-RA8D1, FPB-RA8E1.
 	1 x Renesas RA Board.
@@ -45,6 +47,7 @@
 	
 	For FPB-RA8E1:
 		Connect the camera module to the camera connector J4 on the FPB-RA8E1 board.
+
 Note:
 1) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:

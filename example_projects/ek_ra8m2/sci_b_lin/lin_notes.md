@@ -185,11 +185,11 @@ Note:
 
 ### Software Requirements ###
 
-- Renesas Flexible Software Package (FSP): Version 6.5.0
-- e2 studio: Version 2026-04.2
-- LLVM Embedded Toolchain for ARM: Version 21.1.1
+- Renesas Flexible Software Package (FSP): Version 6.6.0
+- e2 studio: Version 2026-07
+- LLVM Embedded Toolchain for ARM: Version 22.1.0
 - Serial Terminal Console Application: Tera Term or a similar application
-- SEGGER J-Link RTT Viewer: Version 9.42
+- SEGGER J-Link RTT Viewer: Version 9.64
 
 Refer to the software required section in [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf)
 

@@ -86,7 +86,7 @@ void ftp_client_thread_entry(void)
     /* Wait for the network link to be enabled. */
     do
     {
-        status = nx_ip_status_check (&g_ip0, NX_IP_LINK_ENABLED, &actual_status, NX_IP_PERIODIC_RATE);
+        status = nx_ip_status_check(&g_ip0, NX_IP_LINK_ENABLED, &actual_status, LINK_ENABLE_WAIT_TIME);
     }
     while (NX_SUCCESS != status);
     PRINT_INFO_STR("Network Initialization completed successfully! ");

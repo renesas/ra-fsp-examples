@@ -17,10 +17,10 @@
 	The status of each of the mode is displayed on J-Link RTT Viewer. The POEG disabled operation is displayed with LED indications.
 
 2. Software Requirements:
-     	Renesas Flexible Software Package (FSP): Version 6.5.0
-     	e2 studio: Version 2026-04.2
-     	SEGGER J-Link RTT Viewer: Version 9.42
-     	LLVM Embedded Toolchain for ARM: Version 21.1.1
+     	Renesas Flexible Software Package (FSP): Version 6.6.0
+     	e2 studio: Version 2026-07
+     	SEGGER J-Link RTT Viewer: Version 9.64
+     	LLVM Embedded Toolchain for ARM: Version 22.1.0
 
 3. Hardware Requirements:
      	Supported RA boards: EK-RA6M1, EK-RA6M2, EK-RA6M3, RSSK-RA6T1, MCK-RA4T1, MCK-RA6T2, MCK-RA6T3, EK-RA8D1, EK-RA8M1,

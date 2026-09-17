@@ -25,23 +25,24 @@
 	Connect micro-USB cable between J10 on RA board and USB port on PC. 
 
 	The following pin connections are required to capture the output signal from the DAC:
-	* RA2L1, RA4M2, RA6M4, RA4E2:
+	* RA2L1, RA4M2, RA6M4:
 		P014 is DA0 ouput
+	* RA4E2:
+		P014 is DA0 ouput
+		On EK-RA4E2, please use the P014 pin at J3:6 for the connection.
 	* RA2A1:
 		P500 is DA12_0 ouptut
 	
 	
 NOTE: 
-	JLink RTT Viewer only supports integer values for user input.
 
-	
-	
+1) JLink RTT Viewer only supports integer values for user input.
 
-1) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
+2) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
    RTT Block address for hex file committed in repository are as follows:
    a. e2studio: 0x20000cc4
    b. Keil: Not Available 
    c. IAR: Not Available
  
-2) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) 
+3) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) 
    in .map file generated in the build configuration folder (Debug/Release).

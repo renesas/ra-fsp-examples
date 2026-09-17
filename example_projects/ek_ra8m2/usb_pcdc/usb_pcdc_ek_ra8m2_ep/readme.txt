@@ -171,9 +171,9 @@
    		6. Follow the instructions displayed in the Tera Term window.
 
 2. Software Requirements:
-	Renesas Flexible Software Package (FSP): Version 6.5.0
-	e2 studio: Version 2026-04.2
-	LLVM Embedded Toolchain for ARM: Version 21.1.1
+	Renesas Flexible Software Package (FSP): Version 6.6.0
+	e2 studio: Version 2026-07
+	LLVM Embedded Toolchain for ARM: Version 22.1.0
 	Terminal Console Application: Tera Term or a similar application
    
 3. Hardware Requirements:

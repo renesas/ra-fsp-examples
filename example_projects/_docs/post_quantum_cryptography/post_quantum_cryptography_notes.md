@@ -84,9 +84,9 @@ Please refer to the [Example Project Usage Guide](https://github.com/renesas/ra-
 Detailed **Hardware Configuration** of each board is described in the [Board-Specific Guide](#supported-boards).
 
 ### Software Requirements
-* Renesas Flexible Software Package (FSP): Version 6.5.0
-* e2 studio: Version 2026-04.2
-* LLVM Embedded Toolchain for ARM: Version 21.1.1
+* Renesas Flexible Software Package (FSP): Version 6.6.0
+* e2 studio: Version 2026-07
+* LLVM Embedded Toolchain for ARM: Version 22.1.0
 * Terminal Console Application: Tera Term or a similar application
 
 **Note:** Refer to the [FSP version requirements](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/version_info_table.md) table per IDE to correctly download the needed [FSP release](https://github.com/renesas/fsp/releases).

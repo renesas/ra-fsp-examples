@@ -1,0 +1,87 @@
+@echo off
+cd /d "%~dp0"
+chcp 65001 >nul
+title TAS Example - Windows Setup
+
+echo ==================================================
+echo           TAS Example - Windows Setup
+echo ==================================================
+echo.
+
+net session >nul 2>&1
+echo [1/4] Checking Python...
+python --version >nul 2>&1
+if %errorLevel% neq 0 (
+    echo [ERROR] Python is not installed!
+    echo Download: https://www.python.org/downloads/
+    echo Make sure to check "Add Python to PATH"
+    pause
+    exit /b 1
+)
+for /f "tokens=*" %%i in ('python --version') do echo [OK] %%i
+
+echo.
+echo [2/4] Checking Npcap...
+reg query "HKLM\SOFTWARE\Npcap" >nul 2>&1
+if %errorLevel% neq 0 reg query "HKLM\SOFTWARE\WOW6432Node\Npcap" >nul 2>&1
+if %errorLevel% neq 0 (
+    echo [WARNING] Npcap is not installed!
+    echo Npcap is required for raw Ethernet operations on Windows
+    echo Download: https://npcap.com
+    echo Enable WinPcap compatibility mode during installation
+    choice /C YN /M "Npcap not detected. Continue anyway?"
+    if %errorLevel% == 2 (
+        start https://npcap.com
+        echo Install Npcap and rerun this script
+        pause
+        exit /b 1
+    )
+) else (
+    echo [OK] Npcap is installed
+)
+
+echo.
+echo [3/4] Setting up virtual environment...
+if not exist "venv\" (
+    echo Creating virtual environment...
+    python -m venv venv
+    if %errorLevel% neq 0 (
+        echo [ERROR] Failed to create virtual environment
+        pause
+        exit /b 1
+    )
+    echo [OK] Virtual environment created
+) else (
+    echo [OK] Virtual environment already exists
+)
+
+call venv\Scripts\activate.bat
+
+echo.
+echo [4/4] Installing dependencies...
+echo Installing scapy...
+pip install scapy
+if %errorLevel% neq 0 (
+    echo [ERROR] Failed to install scapy
+    echo Trying alternative install...
+    pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org scapy
+    if %errorLevel% neq 0 (
+        echo [FATAL] Cannot install scapy
+        pause
+        exit /b 1
+    )
+)
+echo [OK] Scapy installed
+
+echo.
+echo ================================================
+echo Starting tas_example_win.py
+echo Press Ctrl+C to stop
+echo ================================================
+echo.
+
+venv\Scripts\python.exe tas_example_win.py
+
+echo.
+echo Program finished.
+pause

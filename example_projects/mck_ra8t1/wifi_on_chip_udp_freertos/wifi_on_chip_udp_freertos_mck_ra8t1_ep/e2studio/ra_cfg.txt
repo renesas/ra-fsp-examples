@@ -1,5 +1,5 @@
 FSP Configuration
-  Board "MCK-RA8T1"
+  Board "RA8|RA8T1|MCK-RA8T1"
   R7FA8T1AHECBD
     part_number: R7FA8T1AHECBD
     rom_size_bytes: 2064384
@@ -7,12 +7,29 @@ FSP Configuration
     data_flash_size_bytes: 12288
     package_style: FBGA
     package_pins: 224
+    number of cores: 1
     
+  R7FA8T1AHECBD
   RA8T1
     series: 8
     
   RA8T1 Family
     Enable inline BSP IRQ functions: Enabled
+    SDRAM: SDRAM Support: Disabled
+    SDRAM: Timings: tRAS (cycles): 6 cycles
+    SDRAM: Timings: tRCD (cycles): 3 cycles
+    SDRAM: Timings: tRP (cycles): 3 cycles
+    SDRAM: Timings: tWR (cycles): 2 cycles
+    SDRAM: Timings: tCL (cycles): 3 cycles
+    SDRAM: Timings: tRFC (cycles): 937
+    SDRAM: Timings: tREFW (cycles): 8 cycles
+    SDRAM: Initialization: Auto-Refresh Interval (ARFI): 10 cycles
+    SDRAM: Initialization: Auto-Refresh Count (ARFC): 8 times
+    SDRAM: Initialization: Precharge Cycle Count (PRC): 3 cycles
+    SDRAM: Address Multiplex Shift: 9-bit shift
+    SDRAM: Endian Mode: Little Endian
+    SDRAM: Continuous Access Mode: Enabled
+    SDRAM: Bus Width: 16-bit
     Security: Exceptions: Exception Response: Non-Maskable Interrupt
     Security: Exceptions: BusFault, HardFault, and NMI Target: Secure State
     Security: System Reset Request Accessibility: Secure State
@@ -25,53 +42,7 @@ FSP Configuration
     Security: BUS Accessibility: Bus Security Attribution Register A: Both Secure and Non-Secure State
     Security: BUS Accessibility: Bus Security Attribution Register B: Both Secure and Non-Secure State
     Security: BUS Accessibility: Bus Security Attribution Register C: Both Secure and Non-Secure State
-    Security: Flash Bank Select Accessibility: Both Secure and Non-Secure State
     Security: Uninitialized Non-Secure Application Fallback: Enable Uninitialized Non-Secure Application Fallback
-    OFS0 register settings: Independent WDT: Start Mode: IWDT is stopped after a reset (Register-start mode)
-    OFS0 register settings: Independent WDT: Timeout Period: 2048 cycles
-    OFS0 register settings: Independent WDT: Dedicated Clock Frequency Divisor: 128
-    OFS0 register settings: Independent WDT: Window End Position:  0% (no window end position)
-    OFS0 register settings: Independent WDT: Window Start Position: 100% (no window start position)
-    OFS0 register settings: Independent WDT: Reset Interrupt Request Select: Reset is enabled
-    OFS0 register settings: Independent WDT: Stop Control: Stop counting when in Sleep, Deep Sleep, or Software Standby
-    OFS0 register settings: WDT0: Start Mode Select: Stop WDT after a reset (register-start mode)
-    OFS0 register settings: WDT0: Timeout Period: 16384 cycles
-    OFS0 register settings: WDT0: Clock Frequency Division Ratio: 128
-    OFS0 register settings: WDT0: Window End Position:  0% (no window end position)
-    OFS0 register settings: WDT0: Window Start Position: 100% (no window start position)
-    OFS0 register settings: WDT0: Reset Interrupt Request: Reset
-    OFS0 register settings: WDT0: Stop Control: Stop counting when entering Sleep mode
-    OFS1_SEL register settings: Voltage Detection 0 Level Security Attribution: VDSEL setting loads from OFS1_SEC
-    OFS1_SEL register settings: Voltage Detection 0 Circuit Start Security Attribution: PVDAS setting loads from OFS1_SEC
-    OFS1_SEL register settings: Voltage Detection 0 Low Power Consumption Security Attribution: PVDLPSEL setting loads from OFS1_SEC
-    OFS1_SEL register settings: WDT/IWDT Software Debug Control Security Attribution: SWDBG setting loads from OFS1_SEC
-    OFS1_SEL register settings: Tightly Coupled Memory (TCM)/Cache ECC Security Attribution: INITECCEN setting loads from OFS1_SEC
-    OFS1 register settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
-    OFS1 register settings: Voltage Detection 0 Level: 1.60 V
-    OFS1 register settings: Voltage Detection 0 Low Power Consumption: Voltage monitor 0 Low Power Consumption Disabled
-    OFS1 register settings: HOCO Oscillation Enable: HOCO oscillation is disabled after reset
-    OFS1 register settings: WDT/IWDT Software Debug Control: Disabled (WDT and IWDT continue operating while the CPU is in the debug state)
-    OFS1 register settings: Tightly Coupled Memory (TCM)/Cache ECC: Enable ECC function for TCM and Cache
-    OFS2 register settings: DCDC: Enabled
-    Block Protection Settings (BPS): BPS0: 
-    Block Protection Settings (BPS): BPS1: 
-    Block Protection Settings (BPS): BPS2: 
-    Block Protection Settings (BPS): BPS3: 
-    Permanent Block Protection Settings (PBPS): PBPS0: 
-    Permanent Block Protection Settings (PBPS): PBPS1: 
-    Permanent Block Protection Settings (PBPS): PBPS2: 
-    Permanent Block Protection Settings (PBPS): PBPS3: 
-    Dual Bank Mode: Disabled
-    First Stage Bootloader (FSBL): FSBL Control 0 (FSBLCTRL0): FSBLEN: Disabled
-    First Stage Bootloader (FSBL): FSBL Control 0 (FSBLCTRL0): FSBLSKIPSW: Disabled
-    First Stage Bootloader (FSBL): FSBL Control 0 (FSBLCTRL0): FSBLSKIPDS: Disabled
-    First Stage Bootloader (FSBL): FSBL Control 0 (FSBLCTRL0): FSBLCLK: 240 MHz
-    First Stage Bootloader (FSBL): FSBL Control 1 (FSBLCTRL1): FSBLEXMDFSBLEN: Secure boot with report measurement
-    First Stage Bootloader (FSBL): FSBL Control 2 (FSBLCTRL2): PORTPN: PORTn15
-    First Stage Bootloader (FSBL): FSBL Control 2 (FSBLCTRL2): PORTGN: None
-    First Stage Bootloader (FSBL): Code Certificates (SACCn): SACC0: 0xFFFFFFFF
-    First Stage Bootloader (FSBL): Code Certificates (SACCn): SACC1: 0xFFFFFFFF
-    First Stage Bootloader (FSBL): FSBL Measurement Report Address (SAMR): 0xFFFFFFFF
     Clocks: HOCO FLL Function: Disabled
     Clocks: Clock Settling Delay: Enabled
     Clocks: Sleep Mode Entry and Exit Delays: Enabled
@@ -80,15 +51,107 @@ FSP Configuration
     Clocks: Settling Delay (us): 150
     Main Oscillator Wait Time: 8163 cycles
     Cache settings: Data cache: Disabled
+    I/O Ports: Voltage Mode: VCC: High (VCC >= 2.7 V)
+    I/O Ports: Voltage Mode: VCC2: High (VCC2 >= 2.7 V)
+    
+  RA8T1 Device Options
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Enabled
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Start Mode: IWDT is stopped after a reset (Register-start mode)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Timeout Period: 2048 cycles
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Dedicated Clock Frequency Divisor: 128
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Window End Position:  0% (no window end position)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Window Start Position: 100% (no window start position)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Reset Interrupt Request Select: Reset is enabled
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: Independent WDT: Stop Control: Stop counting when in Sleep,Deep SleepSnooze modec, or Software Standby
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT0: Start Mode Select: Stop WDT after a reset (register-start mode)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT0: Timeout Period: 16384 cycles
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT0: Clock Frequency Division Ratio: 128
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT0: Window End Position:  0% (no window end position)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT0: Window Start Position: 100% (no window start position)
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT0: Reset Interrupt Request: Reset
+    OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT0: Stop Control: Stop counting when entering Sleep mode
+    OFS Registers: OFS2 (Option Function Select Register 2) Settings: Enabled
+    OFS Registers: OFS2 (Option Function Select Register 2) Settings: DCDC: Enabled
+    OFS Registers: DUALSEL (Dual Mode Select Register) Settings: Disabled
+    OFS Registers: DUALSEL (Dual Mode Select Register) Settings: Bank Mode: Linear
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Disabled
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Voltage Detection 0 Level: 1.60 V
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: HOCO Oscillation Enable: HOCO oscillation is disabled after reset
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Voltage Detection 0 Low Power Consumption: Voltage monitor 0 Low Power Consumption Disabled
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: WDT/IWDT Software Debug Control: Disabled (WDT and IWDT continue operating while the CPU is in the debug state)
+    OFS Registers: OFS1 (Option Function Select Register 1) Settings: Tightly Coupled Memory (TCM)/Cache ECC: Disable ECC function for TCM and Cache
+    OFS Registers: BANKSEL (Bank Select Register) Settings: Disabled
+    OFS Registers: BANKSEL (Bank Select Register) Settings: Startup Bank Switch: Disabled
+    OFS Registers: BANKSEL (Bank Select Register) Settings: Block Swap Select: Disabled
+    OFS Registers: BPS (Block Protect Setting Register) Settings: Disabled
+    OFS Registers: BPS (Block Protect Setting Register) Settings: BPS0: 
+    OFS Registers: BPS (Block Protect Setting Register) Settings: BPS1: 
+    OFS Registers: BPS (Block Protect Setting Register) Settings: BPS2: 
+    OFS Registers: BPS (Block Protect Setting Register) Settings: BPS3: 
+    OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: Disabled
+    OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS0: 
+    OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS1: 
+    OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS2: 
+    OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS3: 
+    OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: Enabled
+    OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: Voltage Detection 0 Circuit Start: Voltage monitor 0 reset is disabled after reset
+    OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: Voltage Detection 0 Level: 1.60 V
+    OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: HOCO Oscillation Enable: HOCO oscillation is disabled after reset
+    OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: Voltage Detection 0 Low Power Consumption: Voltage monitor 0 Low Power Consumption Disabled
+    OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: WDT/IWDT Software Debug Control: Disabled (WDT and IWDT continue operating while the CPU is in the debug state)
+    OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: Tightly Coupled Memory (TCM)/Cache ECC: Disable ECC function for TCM and Cache
+    OFS Registers: BANKSEL_SEC (Bank Select Register Secure) Settings: Disabled
+    OFS Registers: BANKSEL_SEC (Bank Select Register Secure) Settings: Startup Bank Switch: Disabled
+    OFS Registers: BANKSEL_SEC (Bank Select Register Secure) Settings: Block Swap Select: Disabled
+    OFS Registers: BPS_SEC (Block Protect Setting Register Secure) Settings: Disabled
+    OFS Registers: BPS_SEC (Block Protect Setting Register Secure) Settings: BPS_SEC0: 
+    OFS Registers: BPS_SEC (Block Protect Setting Register Secure) Settings: BPS_SEC1: 
+    OFS Registers: BPS_SEC (Block Protect Setting Register Secure) Settings: BPS_SEC2: 
+    OFS Registers: BPS_SEC (Block Protect Setting Register Secure) Settings: BPS_SEC3: 
+    OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: Disabled
+    OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: PBPS_SEC0: 
+    OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: PBPS_SEC1: 
+    OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: PBPS_SEC2: 
+    OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: PBPS_SEC3: 
+    OFS Registers: OFS1_SEL (OFS1 Security Attribution) Settings: Enabled
+    OFS Registers: OFS1_SEL (OFS1 Security Attribution) Settings: Voltage Detection 0 Level Security Attribution: VDSEL setting loads from OFS1_SEC
+    OFS Registers: OFS1_SEL (OFS1 Security Attribution) Settings: Voltage Detection 0 Circuit Start Security Attribution: PVDAS setting loads from OFS1_SEC
+    OFS Registers: OFS1_SEL (OFS1 Security Attribution) Settings: Voltage Detection 0 Low Power Consumption Security Attribution: PVDLPSEL setting loads from OFS1_SEC
+    OFS Registers: OFS1_SEL (OFS1 Security Attribution) Settings: WDT/IWDT Software Debug Control Security Attribution: SWDBG setting loads from OFS1_SEC
+    OFS Registers: OFS1_SEL (OFS1 Security Attribution) Settings: Tightly Coupled Memory (TCM)/Cache ECC Security Attribution: INITECCEN setting loads from OFS1_SEC
+    OFS Registers: BANKSEL_SEL (Banksel Security Attribution) Settings: Disabled
+    OFS Registers: BANKSEL_SEL (Banksel Security Attribution) Settings: Flash Bank Select Accessibility: Non-Secure State
+    OFS Registers: BPS_SEL (BPS Security Attribution) Settings: Disabled
+    OFS Registers: BPS_SEL (BPS Security Attribution) Settings: BPS_SEL0: 
+    OFS Registers: BPS_SEL (BPS Security Attribution) Settings: BPS_SEL1: 
+    OFS Registers: BPS_SEL (BPS Security Attribution) Settings: BPS_SEL2: 
+    OFS Registers: BPS_SEL (BPS Security Attribution) Settings: BPS_SEL3: 
+    OFS Registers: First Stage Bootloader (FSBL): FSBLCTRL0 (FSBL Control Register 0) Settings: Disabled
+    OFS Registers: First Stage Bootloader (FSBL): FSBLCTRL0 (FSBL Control Register 0) Settings: FSBLEN: Disabled
+    OFS Registers: First Stage Bootloader (FSBL): FSBLCTRL0 (FSBL Control Register 0) Settings: FSBLSKIPSW: Disabled
+    OFS Registers: First Stage Bootloader (FSBL): FSBLCTRL0 (FSBL Control Register 0) Settings: FSBLSKIPDS: Disabled
+    OFS Registers: First Stage Bootloader (FSBL): FSBLCTRL0 (FSBL Control Register 0) Settings: FSBLCLK: 240 MHz
+    OFS Registers: First Stage Bootloader (FSBL): FSBLCTRL1 (FSBL Control Register 1) Settings: Disabled
+    OFS Registers: First Stage Bootloader (FSBL): FSBLCTRL1 (FSBL Control Register 1) Settings: FSBLEXMDFSBLEN: Secure boot with report measurement
+    OFS Registers: First Stage Bootloader (FSBL): FSBLCTRL2 (FSBL Control Register 2) Settings: Disabled
+    OFS Registers: First Stage Bootloader (FSBL): FSBLCTRL2 (FSBL Control Register 2) Settings: PORTPN: PORTn15
+    OFS Registers: First Stage Bootloader (FSBL): FSBLCTRL2 (FSBL Control Register 2) Settings: PORTGN: None
+    OFS Registers: First Stage Bootloader (FSBL): Code Certificate: SACC0 (Start Address of Code Certificate 0) Settings: Disabled
+    OFS Registers: First Stage Bootloader (FSBL): Code Certificate: SACC0 (Start Address of Code Certificate 0) Settings: Address: 0xFFFFFFFF
+    OFS Registers: First Stage Bootloader (FSBL): Code Certificate: SACC1 (Start Address of Code Certificate 1) Settings: Disabled
+    OFS Registers: First Stage Bootloader (FSBL): Code Certificate: SACC1 (Start Address of Code Certificate 1) Settings: Address: 0xFFFFFFFF
+    OFS Registers: First Stage Bootloader (FSBL): SAMR (Start Address of Measurement Report) Settings: Disabled
+    OFS Registers: First Stage Bootloader (FSBL): SAMR (Start Address of Measurement Report) Settings: Address: 0xFFFFFFFF
     
   RA8T1 event data
   RA Common
     Main stack size (bytes): 0x400
     Heap size (bytes): 0x2500
+    Bootloader Secondary XIP: Disabled
     MCU Vcc (mV): 3300
     Parameter checking: Enabled
     Assert Failures: Return FSP_ERR_ASSERTION
-    Error Log: No Error Log
     Clock Registers not Reset Values during Startup: Disabled
     Main Oscillator Populated: Populated
     PFS Protect: Enabled
@@ -119,11 +182,8 @@ FSP Configuration
     SCICLK Src: PLL1P
     SPICLK Disabled
     CANFDCLK Disabled
-    LCDCLK Disabled
     I3CCLK Disabled
-    UCK Disabled
-    U60CK Disabled
-    OCTASPICLK Disabled
+    USBCLK Disabled
     CPUCLK Div /1
     ICLK Div /2
     PCLKA Div /4
@@ -139,11 +199,8 @@ FSP Configuration
     SCICLK Div /4
     SPICLK Div /4
     CANFDCLK Div /8
-    LCDCLK Div /2
     I3CCLK Div /3
-    UCK Div /5
-    U60CK Div /5
-    OCTASPICLK Div /4
+    USBCLK Div /5
     
   Pin Configurations
     RA8T1 MCK -> g_bsp_pin_cfg
@@ -261,7 +318,7 @@ FSP Configuration
       P703 L11 ETHER_RMII_RMII0_RXD1 ETHER_RXD1 L - "Peripheral mode" - - "AGT1: AGTO1; CLKOUT: VCOUT; ETHER_MII: ET0_ERXD0; ETHER_RMII: RMII0_RXD1; GPT6: GTIOC6B; SDHI1: SD1DAT6; SPI0: SSLA0" - IO - - 
       P704 K12 ETHER_RMII_RMII0_RX_ER ETHER_RXER L - "Peripheral mode" - - "AGT0: AGTO0; CANFD0: CTX0; ETHER_MII: ET0_RX_CLK; ETHER_RMII: RMII0_RX_ER; GPT_OPS: GTADSM0; SDHI1: SD1DAT7; SPI0: SSLA1" - IO - - 
       P705 K10 ETHER_RMII_RMII0_CRS_DV ETHER_RXDV L - "Peripheral mode" - - "AGT0: AGTIO0; CANFD0: CRX0; ETHER_MII: ET0_CRS; ETHER_RMII: RMII0_CRS_DV; GPT_OPS: GTADSM1; SCI1: CTS1; SPI0: SSLA2" - IO - - 
-      P706 K13 GPIO ETHER_RST L None "Output mode (Initial Low)" - - "AGT0: AGTIO0; IRQ7: IRQ7; SCI1: RXD1" - IO - - 
+      P706 K13 GPIO ETHER_RST L - "Output mode (Initial Low)" - - "AGT0: AGTIO0; IRQ7: IRQ7; SCI1: RXD1" - IO - - 
       P707 K11 - - - - Disabled - - "IRQ8: IRQ8; SCI1: TXD1" - None - - 
       P708 E13 - P708_PMOD - - Disabled - - "BUS: BC1; BUS: WR1; CAC: CACREF; IRQ11: IRQ11; SCI4: DE4; SCI4: SCK4; SPI1: SSLB3" - None - - 
       P709 E15 SCI4_CTS_RTS4 CTS_RTS4_PMOD L None "Peripheral mode" - - "BUS: CS4#; IRQ10: IRQ10; SCI4: CTS_RTS4; SCI4: DE4" - IO - - 
@@ -486,7 +543,7 @@ FSP Configuration
       P703 L11 - ETHER_RXD1 L - Disabled - - "AGT1: AGTO1; CLKOUT: VCOUT; ETHER_MII: ET0_ERXD0; ETHER_RMII: RMII0_RXD1; GPT6: GTIOC6B; SDHI1: SD1DAT6; SPI0: SSLA0" - IO - - 
       P704 K12 - ETHER_RXER L - Disabled - - "AGT0: AGTO0; CANFD0: CTX0; ETHER_MII: ET0_RX_CLK; ETHER_RMII: RMII0_RX_ER; GPT_OPS: GTADSM0; SDHI1: SD1DAT7; SPI0: SSLA1" - IO - - 
       P705 K10 - ETHER_RXDV L - Disabled - - "AGT0: AGTIO0; CANFD0: CRX0; ETHER_MII: ET0_CRS; ETHER_RMII: RMII0_CRS_DV; GPT_OPS: GTADSM1; SCI1: CTS1; SPI0: SSLA2" - IO - - 
-      P706 K13 - ETHER_RST L None Disabled - - "AGT0: AGTIO0; IRQ7: IRQ7; SCI1: RXD1" - IO - - 
+      P706 K13 - ETHER_RST L - Disabled - - "AGT0: AGTIO0; IRQ7: IRQ7; SCI1: RXD1" - IO - - 
       P707 K11 - - - - Disabled - - "IRQ8: IRQ8; SCI1: TXD1" - None - - 
       P708 E13 - P708_PMOD - - Disabled - - "BUS: BC1; BUS: WR1; CAC: CACREF; IRQ11: IRQ11; SCI4: DE4; SCI4: SCK4; SPI1: SSLB3" - None - - 
       P709 E15 - CTS_RTS4_PMOD L None Disabled - - "BUS: CS4#; IRQ10: IRQ10; SCI4: CTS_RTS4; SCI4: DE4" - IO - - 
@@ -601,8 +658,14 @@ FSP Configuration
     
   User Event Links
     
+  Linker Section Mappings
+    *(.bss.*_fsp_nocache): RAM Zeroed (Uncached)
+    *(.bss.g_heap): RAM Uninitialized
+    *(.bss.g_main_stack): RAM Uninitialized
+    
   Module "I/O Port (r_ioport)"
     Parameter Checking: Default (BSP)
+    CCD Support: Not Supported
     
   Module "FreeRTOS Port (rm_freertos_port)"
   Module "FreeRTOS Heap 5"
@@ -637,6 +700,7 @@ FSP Configuration
   Module "LittleFS"
     Custom lfs_util.h: 
     Thread Safe: Disabled
+    Read Only: Disabled
     Use Malloc: Enabled
     Use Assert: Enabled
     Debug Messages: Disabled
@@ -675,10 +739,12 @@ FSP Configuration
     SSL Options: MBEDTLS_SSL_DTLS_CONNECTION_ID_COMPAT: Undefine
     SSL Options: MBEDTLS_SSL_DTLS_CONNECTION_ID_COMPAT Value: Reset
     SSL Options: MBEDTLS_SSL_ASYNC_PRIVATE: Undefine
+    SSL Options: MBEDTLS_SSL_CLI_ALLOW_WEAK_CERTIFICATE_VERIFICATION_WITHOUT_HOSTNAME: Undefine
     SSL Options: MBEDTLS_SSL_DEBUG_ALL: Undefine
     SSL Options: MBEDTLS_SSL_ENCRYPT_THEN_MAC: Undefine
     SSL Options: MBEDTLS_SSL_EXTENDED_MASTER_SECRET: Undefine
     SSL Options: MBEDTLS_SSL_KEEP_PEER_CERTIFICATE: Undefine
+    SSL Options: MBEDTLS_SSL_KEYING_MATERIAL_EXPORT: Undefine
     SSL Options: MBEDTLS_SSL_RENEGOTIATION: Undefine
     SSL Options: MBEDTLS_SSL_MAX_FRAGMENT_LENGTH: Undefine
     SSL Options: MBEDTLS_SSL_PROTO_TLS1_2: Define
@@ -728,8 +794,6 @@ FSP Configuration
     SSL Options: MBEDTLS_SSL_CID_OUT_LEN_MAX Value: 32
     SSL Options: MBEDTLS_SSL_CID_TLS1_3_PADDING_GRANULARITY: Undefine
     SSL Options: MBEDTLS_SSL_CID_TLS1_3_PADDING_GRANULARITY Value: 16
-    SSL Options: MBEDTLS_SSL_CID_PADDING_GRANULARITY: Undefine
-    SSL Options: MBEDTLS_SSL_CID_PADDING_GRANULARITY Value: 16
     SSL Options: MBEDTLS_SSL_OUT_CONTENT_LEN: Undefine
     SSL Options: MBEDTLS_SSL_OUT_CONTENT_LEN Value: 16384
     SSL Options: MBEDTLS_SSL_DTLS_MAX_BUFFERING: Undefine
@@ -753,14 +817,18 @@ FSP Configuration
     Hardware Acceleration: Key Format: RSA: Plaintext Only
     Hardware Acceleration: Hash: SHA256/224: Use Software
     Hardware Acceleration: Hash: SHA512/384: Use Software
+    Hardware Acceleration: Hash: SHA3_224/256/384/512: Use Software
     Hardware Acceleration: Cipher: AES: Use Software
     Hardware Acceleration: Public Key Cryptography (PKC): ECC: Use Software
     Hardware Acceleration: Public Key Cryptography (PKC): ECDSA : Use Software
     Hardware Acceleration: Public Key Cryptography (PKC): ECDH : Use Software
-    Hardware Acceleration: Public Key Cryptography (PKC): RSA: Use Software
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA 1024: Use Software
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA 2048: Use Software
     Hardware Acceleration: Public Key Cryptography (PKC): RSA 3072: Key Generation: Disabled
     Hardware Acceleration: Public Key Cryptography (PKC): RSA 3072: Signing: Disabled
     Hardware Acceleration: Public Key Cryptography (PKC): RSA 3072: Verification: Disabled
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA 4096: Key Generation: Disabled
+    Hardware Acceleration: Public Key Cryptography (PKC): RSA 4096: Signing: Disabled
     Hardware Acceleration: Public Key Cryptography (PKC): RSA 4096: Verification: Disabled
     Hardware Acceleration: Crypto Engine Initialization: Enabled
     Platform: MBEDTLS_HAVE_ASM: Undefine
@@ -779,6 +847,7 @@ FSP Configuration
     Platform: Alternate: MBEDTLS_PLATFORM_SNPRINTF_ALT: Undefine
     Platform: Alternate: MBEDTLS_PLATFORM_VSNPRINTF_ALT: Undefine
     Platform: Alternate: MBEDTLS_PLATFORM_NV_SEED_ALT: Undefine
+    Platform: Alternate: MBEDTLS_PLATFORM_MS_TIME_ALT: Undefine
     General: MBEDTLS_PSA_CRYPTO_DRIVERS: Undefine
     General: MBEDTLS_DEPRECATED_WARNING: Undefine
     General: MBEDTLS_DEPRECATED_REMOVED: Define
@@ -786,8 +855,8 @@ FSP Configuration
     Cipher: Alternate: MBEDTLS_ARIA_ALT: Undefine
     Cipher: Alternate: MBEDTLS_CAMELLIA_ALT: Undefine
     Cipher: Alternate: MBEDTLS_CCM_ALT: Undefine
-    Cipher: Alternate: MBEDTLS_CHACHA20_ALT: Undefine
-    Cipher: Alternate: MBEDTLS_CHACHAPOLY_ALT: Undefine
+    Cipher: Alternate: MBEDTLS_CHACHA20_ALT: Use Software
+    Cipher: Alternate: MBEDTLS_CHACHAPOLY_ALT: Use Software
     Cipher: Alternate: MBEDTLS_CMAC_ALT: Undefine
     Cipher: Alternate: MBEDTLS_DES_ALT: Undefine
     Public Key Cryptography (PKC): DHM: Alternate: MBEDTLS_DHM_ALT: Undefine
@@ -819,6 +888,7 @@ FSP Configuration
     Public Key Cryptography (PKC): ECC: Alternate: MBEDTLS_ECP_NORMALIZE_MXZ_ALT: Undefine
     Cipher: AES: MBEDTLS_AES_ROM_TABLES: Undefine
     Cipher: AES: MBEDTLS_AES_FEWER_TABLES: Undefine
+    Cipher: AES: MBEDTLS_AES_ONLY_128_BIT_KEY_LENGTH: Undefine
     Cipher: MBEDTLS_CAMELLIA_SMALL_MEMORY: Undefine
     General: MBEDTLS_CHECK_RETURN_WARNING: Undefine
     Cipher: MBEDTLS_CIPHER_MODE_CBC: Define
@@ -847,6 +917,7 @@ FSP Configuration
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_NIST_OPTIM: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECP_RESTARTABLE: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECDSA_DETERMINISTIC: Undefine
+    Public Key Cryptography (PKC): ECC: MBEDTLS_PK_PARSE_EC_COMPRESSED: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_PK_PARSE_EC_EXTENDED: Undefine
     General: MBEDTLS_ERROR_STRERROR_DUMMY: Define
     Public Key Cryptography (PKC): MBEDTLS_GENPRIME: Define
@@ -866,7 +937,9 @@ FSP Configuration
     General: MBEDTLS_PSA_CRYPTO_CLIENT: Undefine
     RNG: MBEDTLS_PSA_CRYPTO_EXTERNAL_RNG: Undefine
     General: MBEDTLS_PSA_CRYPTO_SPM: Undefine
+    General: MBEDTLS_PSA_KEY_STORE_DYNAMIC: Undefine
     RNG: MBEDTLS_PSA_INJECT_ENTROPY: Undefine
+    General: MBEDTLS_PSA_ASSUME_EXCLUSIVE_BUFFERS: Undefine
     Public Key Cryptography (PKC): RSA: MBEDTLS_RSA_NO_CRT: Define
     General: MBEDTLS_SELF_TEST: Undefine
     Hash: MBEDTLS_SHA256_SMALLER: Undefine
@@ -879,6 +952,7 @@ FSP Configuration
     Public Key Cryptography (PKC): MBEDTLS_ASN1_PARSE_C: Define
     Public Key Cryptography (PKC): MBEDTLS_ASN1_WRITE_C: Define
     Public Key Cryptography (PKC): MBEDTLS_BASE64_C: Define
+    Cipher: MBEDTLS_BLOCK_CIPHER_NO_DECRYPT: Undefine
     Public Key Cryptography (PKC): MBEDTLS_BIGNUM_C: Define
     Cipher: MBEDTLS_CAMELLIA_C: Undefine
     Cipher: MBEDTLS_ARIA_C: Undefine
@@ -898,6 +972,7 @@ FSP Configuration
     Platform: MBEDTLS_ENTROPY_C: Define
     General: MBEDTLS_ERROR_C: Define
     Cipher: MBEDTLS_GCM_C: Define
+    Cipher: MBEDTLS_GCM_LARGE_TABLE: Undefine
     Message Authentication Code (MAC): MBEDTLS_HKDF_C: Define
     Message Authentication Code (MAC): MBEDTLS_HMAC_DRBG_C: Undefine
     Public Key Cryptography (PKC): MBEDTLS_LMS_C: Define
@@ -906,6 +981,8 @@ FSP Configuration
     Hash: MBEDTLS_MD_C: Define
     Hash: MBEDTLS_MD5_C: Define
     General: MBEDTLS_MEMORY_BUFFER_ALLOC_C: Undefine
+    Post Quantum Cryptography (PQC): MBEDTLS_MLKEM_C: Undefine
+    Post Quantum Cryptography (PQC): MBEDTLS_ML_DSA_C: Undefine
     Public Key Cryptography (PKC): MBEDTLS_OID_C: Define
     Public Key Cryptography (PKC): MBEDTLS_PEM_PARSE_C: Define
     Public Key Cryptography (PKC): MBEDTLS_PEM_WRITE_C: Define
@@ -921,9 +998,13 @@ FSP Configuration
     General: MBEDTLS_PSA_CRYPTO_SE_C: Undefine
     Storage: MBEDTLS_PSA_CRYPTO_STORAGE_C: Undefine
     Storage: MBEDTLS_PSA_ITS_FILE_C: Undefine
+    Storage: MBEDTLS_PSA_STATIC_KEY_SLOTS: Undefine
     Hash: MBEDTLS_RIPEMD160_C: Undefine
     Public Key Cryptography (PKC): RSA: MBEDTLS_RSA_C: Define
+    Public Key Cryptography (PKC): RSA: MBEDTLS_RSA_GEN_KEY_MIN_BITS: Undefine
+    Public Key Cryptography (PKC): RSA: MBEDTLS_RSA_GEN_KEY_MIN_BITS value: 1024
     Hash: MBEDTLS_SHA1_C: Define
+    Hash: MBEDTLS_SHA3_C: Undefine
     Hash: MBEDTLS_SHA224_C: Define
     Hash: MBEDTLS_SHA256_C: Define
     Hash: MBEDTLS_SHA384_C: Undefine
@@ -1004,6 +1085,11 @@ FSP Configuration
     Platform: MBEDTLS_PLATFORM_TIME_MACRO value: time
     Platform: MBEDTLS_PLATFORM_TIME_TYPE_MACRO: Undefine
     Platform: MBEDTLS_PLATFORM_TIME_TYPE_MACRO value: time_t
+    Platform: MBEDTLS_PLATFORM_MS_TIME_TYPE_MACRO: Undefine
+    Platform: MBEDTLS_PLATFORM_MS_TIME_TYPE_MACRO value: int64_t
+    Platform: MBEDTLS_PRINTF_MS_TIME: Undefine
+    Platform: MBEDTLS_PLATFORM_DEV_RANDOM: Undefine
+    Platform: MBEDTLS_PRINTF_MS_TIME value: PRId64
     Platform: MBEDTLS_PLATFORM_FPRINTF_MACRO: Undefine
     Platform: MBEDTLS_PLATFORM_FPRINTF_MACRO value: fprintf
     Platform: MBEDTLS_PLATFORM_PRINTF_MACRO: Undefine
@@ -1022,16 +1108,18 @@ FSP Configuration
     Platform: Alternate: MBEDTLS_PLATFORM_ZEROIZE_ALT: Undefine
     Key Configuration: MBEDTLS_PSA_KEY_SLOT_COUNT: Undefine
     Key Configuration: MBEDTLS_PSA_KEY_SLOT_COUNT value: 32
+    Key Configuration: MBEDTLS_PSA_STATIC_KEY_SLOT_BUFFER_SIZE value: 256
     Platform: Alternate: MBEDTLS_PLATFORM_GMTIME_R_ALT: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECDH_VARIANT_EVEREST_ENABLED: Undefine
+    General: MBEDTLS_PSA_CRYPTO_CONFIG: Undefine
     
-  Module "Mbed Crypto H/W Acceleration (rm_psa_crypto)"
+  Module "MbedTLS Crypto Port (rm_psa_crypto)"
   Module "RSIP Compatibility Mode"
   Module "MbedTLS FSP Port (rm_mbedtls)"
   Module "AWS Logging"
   Module "AWS Demo dev_mode_key_provisioning"
   Module "AWS Silex WiFi Sockets Wrapper (rm_aws_sockets_wrapper_silex)"
-  Module "WiFi Onchip Silex Driver using r_sci_uart (rm_wifi_onchip_silex)"
+  Module "WiFi Onchip Silex Driver using UART (rm_wifi_onchip_silex)"
     Parameter Checking: Default (BSP)
     Number of supported socket instances: 1
     Size of RX buffer for socket: 4096
@@ -1078,6 +1166,7 @@ FSP Configuration
     General: Use 16-bit Ticks: Disabled
     General: Idle Should Yield: Enabled
     General: Use Task Notifications: Enabled
+    General: Task Notification Array Entries: 1
     General: Use Mutexes: Enabled
     General: Use Recursive Mutexes: Enabled
     General: Use Counting Semaphores: Enabled
@@ -1149,7 +1238,7 @@ FSP Configuration
     Instance "AWS Core HTTP"
       Instance "AWS Transport Interface on MbedTLS/PKCS11 (rm_aws_transport_interface_port)"
         Instance "AWS Silex WiFi Sockets Wrapper (rm_aws_sockets_wrapper_silex)"
-          Instance "WiFi Onchip Silex Driver using r_sci_uart (rm_wifi_onchip_silex)"
+          Instance "WiFi Onchip Silex Driver using UART (rm_wifi_onchip_silex)"
             SNTP server IPv4 address: 0.0.0.0
             SNTP Timezone Offset from UTC Hours: 0
             SNTP Timezone Offset from UTC Minutes: 0
@@ -1176,6 +1265,7 @@ FSP Configuration
               Extra: RS-485: DE Pin Polarity: Active High
               Extra: RS-485: DE Pin Assertion Time: 1
               Extra: RS-485: DE Pin Negation Time: 1
+              Extra: TXI/TEI Synchronization Delay Cycles: 0
               Interrupts: Callback: rm_wifi_onchip_silex_uart_callback
               Interrupts: Receive Interrupt Priority: Priority 12
               Interrupts: Transmit Data Empty Interrupt Priority: Priority 12
@@ -1217,6 +1307,7 @@ FSP Configuration
                 Name: g_rm_littlefs0
                 Read Size: 1
                 Program Size: 4
+                Memory Start Address: BSP_FEATURE_FLASH_DATA_FLASH_START
                 Block Size (bytes): 128
                 Block Count: (BSP_DATA_FLASH_SIZE_BYTES/128)
                 Block Cycles: 1024
@@ -1233,7 +1324,7 @@ FSP Configuration
           Instance "FreeRTOS MbedTLS Port"
             Instance "MbedTLS"
               Instance "MbedTLS (Crypto Only)"
-                Instance "Mbed Crypto H/W Acceleration (rm_psa_crypto)"
+                Instance "MbedTLS Crypto Port (rm_psa_crypto)"
                   Instance "RSIP Compatibility Mode"
               Instance "MbedTLS FSP Port (rm_mbedtls)"
         Instance "AWS Logging"

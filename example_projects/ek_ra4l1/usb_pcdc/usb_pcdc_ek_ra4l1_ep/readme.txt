@@ -101,8 +101,8 @@
    		6. Follow the instructions displayed in the tera term window.
 
 2. Software Requirements:
-	Renesas Flexible Software Package (FSP): Version 6.5.0
-	e2 studio: Version 2026-04.2
+	Renesas Flexible Software Package (FSP): Version 6.6.0
+	e2 studio: Version 2026-07
 	Terminal Console Application: Tera Term or a similar application
 	USB Serial Drivers (included in Windows 10) 
 	Windows 10 operating system

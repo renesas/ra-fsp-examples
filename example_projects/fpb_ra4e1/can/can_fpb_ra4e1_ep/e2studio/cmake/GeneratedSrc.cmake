@@ -1,21 +1,22 @@
 # This file was automatically generated and updated by RASC and should not be edited by the user.
 # Use CMakeLists.txt to override the settings in this file 
 
-if ((NOT RENESAS_IDE) OR (NOT RENESAS_IDE STREQUAL "e2studio"))
+if (NOT IDE_SUPPORTS_PRE_POST_BUILD_ACTIONS)
 
 # Pre-build step: run RASC to generate project content if configuration.xml is changed
 	message("Running RASC for generating project ${PROJECT_NAME} content since modification is detected in configuration.xml:")
-	message("${RASC_EXE_PATH} -nosplash --launcher.suppressErrors --generate --devicefamily ra --compiler GCC --toolchainversion ${CMAKE_C_COMPILER_VERSION} --buildconfiguration ${CMAKE_BUILD_TYPE} ${CMAKE_CURRENT_SOURCE_DIR}/configuration.xml")
-
+	string(TIMESTAMP START_TIME "%s")
 	execute_process(
+		COMMAND_ECHO STDOUT
 		COMMAND
 			${RASC_EXE_PATH} -nosplash --launcher.suppressErrors --generate --devicefamily ra --compiler GCC --toolchainversion ${CMAKE_C_COMPILER_VERSION} --buildconfiguration ${CMAKE_BUILD_TYPE} ${CMAKE_CURRENT_SOURCE_DIR}/configuration.xml
-		OUTPUT_FILE ${CMAKE_CURRENT_BINARY_DIR}/rasc_conf_cmd_out.txt
 		ERROR_FILE  ${CMAKE_CURRENT_BINARY_DIR}/rasc_conf_cmd_err.txt
 		RESULT_VARIABLE resultVar
 		TIMEOUT 600
 	)
-
+	string(TIMESTAMP END_TIME "%s")
+	math(EXPR ELAPSED "${END_TIME} -  ${START_TIME}")
+	message("RASC content generation took:  ${ELAPSED} seconds")
 	if(resultVar AND NOT resultVar EQUAL 0)
 		message(FATAL_ERROR "RASC Execution is failed: ${resultVar}, check rasc_conf_cmd_err.txt")
 	endif()
@@ -65,6 +66,7 @@ SET(COMPANION_FILES ${Companion_Source_Files})
 add_executable(${PROJECT_NAME}.elf ${ALL_FILES})
 
 
+
 target_compile_options(${PROJECT_NAME}.elf
                        PRIVATE
                        $<$<CONFIG:Debug>:${RASC_DEBUG_FLAGS}>
@@ -72,9 +74,9 @@ target_compile_options(${PROJECT_NAME}.elf
                        $<$<CONFIG:MinSizeRel>:${RASC_MIN_SIZE_RELEASE_FLAGS}>
                        $<$<CONFIG:RelWithDebInfo>:${RASC_RELEASE_WITH_DEBUG_INFO}>)
 
-target_compile_options(${PROJECT_NAME}.elf PRIVATE  $<$<COMPILE_LANGUAGE:ASM>:${RASC_CMAKE_ASM_FLAGS}>)
-target_compile_options(${PROJECT_NAME}.elf PRIVATE  $<$<COMPILE_LANGUAGE:C>:${RASC_CMAKE_C_FLAGS}>)
-target_compile_options(${PROJECT_NAME}.elf PRIVATE  $<$<COMPILE_LANGUAGE:CXX>:${RASC_CMAKE_CXX_FLAGS}>)
+target_compile_options(${PROJECT_NAME}.elf PRIVATE $<$<COMPILE_LANGUAGE:ASM>:${RASC_CMAKE_ASM_FLAGS}>)
+target_compile_options(${PROJECT_NAME}.elf PRIVATE $<$<COMPILE_LANGUAGE:C>:${RASC_CMAKE_C_FLAGS}>)
+target_compile_options(${PROJECT_NAME}.elf PRIVATE $<$<COMPILE_LANGUAGE:CXX>:${RASC_CMAKE_CXX_FLAGS}>)
 
 target_link_options(${PROJECT_NAME}.elf PRIVATE $<$<LINK_LANGUAGE:ASM>:${RASC_CMAKE_EXE_LINKER_FLAGS}>)
 target_link_options(${PROJECT_NAME}.elf PRIVATE $<$<LINK_LANGUAGE:C>:${RASC_CMAKE_EXE_LINKER_FLAGS}>)
@@ -98,6 +100,7 @@ target_include_directories(${PROJECT_NAME}.elf
     ${CMAKE_CURRENT_BINARY_DIR}/
 )
 
+#target_link_directories is for gcc/llvm toolchain, is not suitalbe for ccrh toolchain
 target_link_directories(${PROJECT_NAME}.elf
     PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
@@ -127,12 +130,14 @@ add_custom_command(
     COMMENT "Creating S-record file in ${PROJECT_BINARY_DIR}"
 )
 
-
-if ((NOT RENESAS_IDE) OR (NOT RENESAS_IDE STREQUAL "e2studio"))
+if (NOT IDE_SUPPORTS_PRE_POST_BUILD_ACTIONS)
 
 
 	set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/configuration.xml)
 
+	if (NOT RASC_GEN_BUNDLE_CMD)
+		set(RASC_GEN_BUNDLE_CMD --gensmartbundle)
+	endif()
 	# Post-build step: run RASC to generate the SmartBundle file
 	add_custom_command(
 	    OUTPUT
@@ -142,9 +147,9 @@ if ((NOT RENESAS_IDE) OR (NOT RENESAS_IDE STREQUAL "e2studio"))
 	    COMMAND
 	        echo "Running RASC post-build to generate Smart Bundle file for ${PROJECT_NAME}:"
 	    COMMAND
-	        echo ${RASC_EXE_PATH} -nosplash --launcher.suppressErrors --gensmartbundleandpartition --devicefamily ra --compiler GCC --toolchainversion ${CMAKE_C_COMPILER_VERSION} --buildconfiguration ${CMAKE_BUILD_TYPE} ${CMAKE_CURRENT_SOURCE_DIR}/configuration.xml ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.elf 
+	        echo ${RASC_EXE_PATH} -nosplash --launcher.suppressErrors ${RASC_GEN_BUNDLE_CMD} --devicefamily ra --compiler GCC --toolchainversion ${CMAKE_C_COMPILER_VERSION} --buildconfiguration ${CMAKE_BUILD_TYPE} ${CMAKE_CURRENT_SOURCE_DIR}/configuration.xml ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.elf 
 	    COMMAND
-	        ${RASC_EXE_PATH} -nosplash --launcher.suppressErrors --gensmartbundleandpartition --devicefamily ra --compiler GCC --toolchainversion ${CMAKE_C_COMPILER_VERSION} --buildconfiguration ${CMAKE_BUILD_TYPE} ${CMAKE_CURRENT_SOURCE_DIR}/configuration.xml ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.elf  2> rasc_cmd_log.txt
+	        ${RASC_EXE_PATH} -nosplash --launcher.suppressErrors ${RASC_GEN_BUNDLE_CMD} --devicefamily ra --compiler GCC --toolchainversion ${CMAKE_C_COMPILER_VERSION} --buildconfiguration ${CMAKE_BUILD_TYPE} ${CMAKE_CURRENT_SOURCE_DIR}/configuration.xml ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.elf  2> rasc_cmd_log.txt
 	)
 
 	add_custom_target(generate_sbd_${PROJECT_NAME} ALL

@@ -58,8 +58,12 @@ Hardware Connections:
       ADC Unit 0 : AN04-P004, AN05--P005, AN06--P006, AN07--P007 
       ADC Unit 1 : AN00-P000, AN01--P001, AN02--P002, AN16--P500
 
-      EK-RA4E2, EK-RA6E2, MCK-RA4T1, MCK-RA6T3 (Supporting 16 bit GPT timer):
+      EK-RA4E2, EK-RA6E2, MCK-RA6T3 (Supporting 16 bit GPT timer):
       ADC UNIT 0 : AN00-P000, AN01-P001, AN02-P002, AN04-P004
+
+      MCK-RA4T1 (Supporting 16 bit GPT timer):
+      ADC UNIT 0 : AN00-P000, AN01-P001, AN02-P002, AN04-P004
+      For MCK-RA4T1, connect jumpers JP8, JP12, and JP13 to use P000, P001, and P002 respectively.
        
       Connect the above pins to horizontal holes of the breadboard so that all pins are shorted to receive a signal generator Input signal of (800Hz) and 
       connect Ground connect to GND. 
