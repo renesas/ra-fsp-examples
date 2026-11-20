@@ -4,16 +4,16 @@
 **********************************************************************************************************************/
 
 1. Project Overview:
-	This example project demonstrates basic functionalities of SDHI driver with FreeRTOS+FAT file system on Renesas
-	RA MCUs based on Renesas FSP. FreeRTOS+FAT uses the underlying Block media driver which utilizes SDHI driver to
-	perform file operations on the SD Card (except for MCK-RA8T1, MCK-RA8T2 which use MicroSD Card). Error and info
-	messages will be printed on J-Link RTT Viewer.
+	The example project demonstrates basic functionalities of SDHI driver with FreeRTOS+FAT file system on Renesas
+	RA MCUs based on Renesas FSP. FreeRTOS+FAT uses the underlying Block Media driver which utilizes SDHI driver
+	to perform file operations on the SD Card (except for MCK-RA8T1, MCK-RA8T2 which use MicroSD Card). Information
+	and error messages will be printed on the terminal.
 
 2. Hardware Requirements:
 	Supported RA boards: EK-RA6M1, EK-RA6M2, EK-RA6M3, EK-RA6M3G, EK-RA6M4, EK-RA6M5, FPB-RA6E1, EK-RA8M1,
-	                     EK-RA8D1, MCK-RA8T1, EK-RA8P1, MCK-RA8T2, EK-RA8D2.
+	                     EK-RA8D1, MCK-RA8T1, EK-RA8P1, MCK-RA8T2, EK-RA8D2, EK-RA8M2.
 	1 x Renesas RA board.
-	1 x Type-C USB cable for programming and debugging.
+	1 x USB cable for programming and debugging (USB cable type varies by board model).
 	For MCK-RA8T1, MCK-RA8T2:
 		1 x Micro SD Card (e.g., https://shop.sandisk.com/en-ie/products/memory-cards/microsd-cards/sandisk-ultra-lite-uhs-i-microsd?sku=SDSQUNR-032G-GN3MA).
 	For all supported boards except MCK-RA8T1 and MCK-RA8T2:
@@ -30,6 +30,9 @@
 		SD/MMC (r_sdhi) Stack | Bus Width: 1 Bit
 
 4. Hardware Connections:
+	Connect the RA board USB debug port to the host PC using the appropriate USB cable for EP programming and
+	debugging.
+
 	For EK-RA6M3, EK-RA6M3G:
 		For 1 Bit Width:
 			SD0CMD  P412    --->    Pmod SD MOSI (J1:2)
@@ -172,6 +175,26 @@
 	For MCK-RA8T2:
 		Connect microSD Card to microSD Socket (CN17).
 
+	For EK-RA8M2:
+		Note: The user must place jumper J6 on pins 2-3, J8 on pins 1-2, J9 on pins 2-3, and J29 on pins 1-2,
+		      3-4, 5-6, 7-8 to use the on-board debug functionality.
+
+		Hardware connection for SDHI channel 1 as below:
+		For 1 Bit Width:
+			SD1CMD  P202 (J3:29)	--->	Pmod SD MOSI (J1:2)
+			SD1DAT0 P313 (J3:30) 	---> 	Pmod SD MISO (J1:3)
+			SD1CLK  P203 (J3:31) 	---> 	Pmod SD SCK  (J1:4)
+			GND 	     (J3:39)  	---> 	Pmod SD GND  (J1:5)
+			VCC +3V3     (J3:1)	---> 	Pmod SD VCC  (J1:6)
+			SD1CD   P205 (J3:35) 	---> 	Pmod SD CD   (J1:9)
+			SD1WP   P204 (J3:33) 	---> 	Pmod SD WP   (J1:10)
+
+		For 4 Bits Width:
+			Above mentioned connections for 1 Bit Width. In addition below connections
+			SD1DAT1 P314 (J3:27)  	---> 	Pmod SD DAT1 (J1:7)
+			SD1DAT2 P810 (J3:13) 	---> 	Pmod SD DAT2 (J1:8)
+			SD1DAT3 P811 (J3:15) 	---> 	Pmod SD CS   (J1:1)
+
 Note:
 1) Connect the Pmod SD to the RA board: Using short wiring connections (should be shorter than 10cm).
 
@@ -188,16 +211,20 @@ Note:
 6) The user must remove the SD/MicroSD Card after executing option 3 (Safely Remove SD/MicroSD Card), and re-insert
    it after executing option 5 (Initialize FreeRTOS+FAT).
 
-7) The user is expected to enter J-Link RTT Viewer input data not exceeding 20 bytes in size.
+7) Operation is not guaranteed for any user input value other than integer (e.g., char, float, special char) through
+   the terminal.
 
-8) Operation is not guaranteed for any user input value other than integer, char (e.g., float, special char) through
-   J-Link RTT Viewer input.
+8) To view output logs on a serial terminal application (e.g., Tera Term), configure the settings as shown below:
+	a. To make sure the received data shows properly, the user needs to set:
+		[Setup] -> [Terminal...] -> [New-line] -> Select [Receive: CR] & [Transmit: CR].
 
-9) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
-   RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x22000490
-   b. Keil: 	Not Available
-   c. IAR: 	Not Available
- 
-10) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called 
-    _SEGGER_RTT) in .map file generated in the project folder (e2studio\Debug or e2studio\Release).
+	b. To echo back characters typed in Tera Term, the user needs to enable it through:
+		[Setup] -> [Terminal...] -> Check [Local echo].
+
+	c. The configuration parameters of the serial port on the serial terminal application:
+		Port: The port is provided by the J-Link On-Board.
+		Speed: 115200
+		Data: 8 bit
+		Parity: none
+		Stop bits: 1 bit
+		Flow control: none

@@ -1,62 +1,63 @@
 # Introduction #
-
 The example project showcases how the FileX file system operates on the SDRAM block media of the RA MCU. The project will perform various FileX file system operations based on the user's selection from the menu options, such as media management (format), directory management (create, get properties, delete), and file management (create, write, read, delete). The terminal application is used as the user interface. The menu options and system messages (errors and information messages) will be printed on the terminal application during the execution of the project.
 
-**NOTE:**
-- To display information, users can choose between the SEGGER J-Link RTT Viewer and the Serial Terminal (UART) with J-Link OB VCOM. It is important to note that the user should only operate a single terminal application at a time to avoid conflicts or data inconsistencies. 
-- For instructions on how to switch between these options, please refer to the "Verifying Operation" section in this file.
-- By default, EP information is printed to the host PC using the Serial Terminal for boards that support J-Link OB VCOM. Vice versa, for the RA boards that do not support J-Link OB VCOM, EP uses the SEGGER J-Link RTT Viewer by default instead.
-- RA boards supported for J-Link OB VCOM: EK-RA8D1, EK-RA8P1.
+The main menu:
+1. Format media.
+2. Create directory.
+3. Get directory properties.
+4. Delete directory.
+5. Create empty file.
+6. Write to file.
+7. Read from file.
+8. Delete file.
 
-The menu options:
-1. Format Media.
-2. Create Directory.
-3. Get Directory Properties.
-4. Delete Directory.
-5. Create Empty File.
-6. Write To File.
-7. Read From File.
-8. Delete File.
+Please refer to the [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf) for general information on example projects and specifics of operation.
 
-Please refer to the [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf) for general information on example projects and [readme.txt](./readme.txt) for specifics of operation.
-
-## Required Resources ## 
+## Required Resources ##
 The following resources are needed to build and run the FileX_block_media_sdram example project.
 
 ### Software ###
 * Renesas Flexible Software Package (FSP): Version 6.6.0
 * e2 studio: Version 2026-07
-* SEGGER J-Link RTT Viewer: Version 9.64
 * LLVM Embedded Toolchain for ARM: Version 22.1.0
-* Terminal Console Application: Tera Term or a similar application (for boards that support J-Link OB VCOM)
+* Terminal Console Application: Tera Term or a similar application
 
 Refer to the software required section in [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf)
 
 ### Hardware ###
-Supported RA boards: EK-RA8D1, EK-RA8P1
+* Supported RA boards: EK-RA8D1, EK-RA8P1, EK-RA8D2, EK-RA8T2.
+  * 1 x Renesas RA board.
+  * 1 x USB cable for programming and debugging (USB cable type varies by board model).
 
-* 1 x Renesas RA board.
-* 1 x Type-C USB cable for programming and debugging.
+### Hardware Connections ###
+* Connect the RA board USB debug port to the host PC using the appropriate USB cable for EP programming and debugging.
+* For EK-RA8D1: Set the configuration switches (SW1) as below.
 
-### Hardware Connections  ###
-  * Connect the USB Debug port on the RA board to the host PC via a Type-C USB cable. 
-  * For EK-RA8D1: Set the configuration switches (SW1) as below.
+  | SW1-1 PMOD1 | SW1-2 TRACE | SW1-3 CAMERA | SW1-4 ETHA | SW1-5 ETHB | SW1-6 GLCD | SW1-7 SDRAM | SW1-8 I3C |
+  |-------------|-------------|--------------|------------|------------|------------|-------------|-----------|
+  | OFF | OFF | OFF | OFF | OFF | OFF | ON | OFF |
 
-| SW1-1 PMOD1 | SW1-2 TRACE | SW1-3 CAMERA | SW1-4 ETHA | SW1-5 ETHB | SW1-6 GLCD | SW1-7 SDRAM | SW1-8 I3C |
-|-------------|-------------|--------------|------------|------------|------------|-------------|-----------|
-| OFF | OFF | OFF | OFF | OFF | OFF | ON | OFF |
+* For EK-RA8T2: The user must set the configuration switches (SW6 and SW4) as below to use the on-board debug functionality.
+
+	| SW6-1 | SW6-2 | SW6-3 | SW6-4 | SW6-5 | SW6-6 | SW6-7 | SW6-8 | SW6-9 | SW6-10 |
+	|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:------:|
+	|  OFF  |  OFF  |  OFF  |  OFF  |  ON   |  OFF  |  ON   |  ON   |  ON   |  ON    |
+
+	| SW4-1 | SW4-2 | SW4-3 | SW4-4 | SW4-5 | SW4-6 | SW4-7 | SW4-8 |
+	|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
+	|  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |
 
 ## Related Collateral References ##
 The following documents can be referred to for enhancing your understanding of the operation of this example project:
-- [FSP User Manual on GitHub](https://renesas.github.io/fsp/)
-- [FSP Known Issues](https://github.com/renesas/fsp/issues)
+* [FSP User Manual on GitHub](https://renesas.github.io/fsp/)
+* [FSP Known Issues](https://github.com/renesas/fsp/issues)
 
 # Project Notes #
 
 ## System Level Block Diagram ##
  High level block diagram of the system is as shown below:
  
-![FileX_block_media_sdram](images/FileX_block_media_sdram_hld.png "High Level Block Diagram")
+![fileX_block_media_sdram_hld](images/filex_block_media_sdram_hld.png "High Level Block Diagram")
 
 ## FSP Modules Used ##
 List all the various modules that are used in this example project. Refer to the FSP User Manual for further details on each module listed below.
@@ -69,43 +70,31 @@ List all the various modules that are used in this example project. Refer to the
 ## Module Configuration Notes ##
 This section describes FSP configuration properties that are important or different from those selected by default.
 
+**Note: The configuration shown in this document is based on the original target board (e.g., EK-RA8P1). Some settings may differ on other supported boards due to hardware differences.**
+
 **Configuration Properties for using Azure RTOS FileX on Block Media**
 
 |   Module Property Path and Identifier   |   Default Value   |   Used Value   |   Reason   |
 |-----------------------------------------|-------------------|----------------|------------|
-| configuration.xml > Stacks > g_fx_media Azure RTOS FileX on Block Media > Properties > Settings > Property > Module g_fx_media Azure RTOS FileX on Block Media > Volume Name | Volume 1 | RA SDRAM | Set the volume label for the media. |
-| configuration.xml > Stacks > g_fx_media Azure RTOS FileX on Block Media > Properties > Settings > Property > Module g_fx_media Azure RTOS FileX on Block Media > Number of FATs | 1 | 1 | Set the number of FATs in the media to 1. |
-| configuration.xml > Stacks > g_fx_media Azure RTOS FileX on Block Media > Properties > Settings > Property > Module g_fx_media Azure RTOS FileX on Block Media > Directory Entries | 256 | 256 | Set the number of directory entries in the root directory. |
-| configuration.xml > Stacks > g_fx_media Azure RTOS FileX on Block Media > Properties > Settings > Property > Module g_fx_media Azure RTOS FileX on Block Media > Hidden Sectors | 0 | 0 | Set the number of sectors hidden. |
-| configuration.xml > Stacks > g_fx_media Azure RTOS FileX on Block Media > Properties > Settings > Property > Module g_fx_media Azure RTOS FileX on Block Media > Total Sectors | 65536 | 65536 | Set the total number of sectors in the media. |
-| configuration.xml > Stacks > g_fx_media Azure RTOS FileX on Block Media > Properties > Settings > Property > Module g_fx_media Azure RTOS FileX on Block Media > Bytes per Sector | 512 | 512 | Set the number of bytes per sector. |
-| configuration.xml > Stacks > g_fx_media Azure RTOS FileX on Block Media > Properties > Settings > Property > Module g_fx_media Azure RTOS FileX on Block Media > Sectors per Cluster | 1 | 1 | Set the number of sectors in each cluster. |
-| configuration.xml > Stacks > g_fx_media Azure RTOS FileX on Block Media > Properties > Settings > Property > Module g_fx_media Azure RTOS FileX on Block Media > Working media memory size | 512 | 512 | Set the memory allocated for the file system. |
+| configuration.xml > Stacks > Threads > FileX Thread > g_fx_media Azure RTOS FileX on Block Media > Properties > Settings > Property > Module g_fx_media Azure RTOS FileX on Block Media > Volume Name | Volume 1 | RA SDRAM | Set the volume label for the media. |
+| configuration.xml > Stacks > Threads > FileX Thread > g_fx_media Azure RTOS FileX on Block Media > Properties > Settings > Property > Module g_fx_media Azure RTOS FileX on Block Media > Number of FATs | 1 | 1 | Set the number of FATs in the media to 1. |
+| configuration.xml > Stacks > Threads > FileX Thread > g_fx_media Azure RTOS FileX on Block Media > Properties > Settings > Property > Module g_fx_media Azure RTOS FileX on Block Media > Directory Entries | 256 | 256 | Set the number of directory entries in the root directory. |
+| configuration.xml > Stacks > Threads > FileX Thread > g_fx_media Azure RTOS FileX on Block Media > Properties > Settings > Property > Module g_fx_media Azure RTOS FileX on Block Media > Hidden Sectors | 0 | 0 | Set the number of sectors hidden. |
+| configuration.xml > Stacks > Threads > FileX Thread > g_fx_media Azure RTOS FileX on Block Media > Properties > Settings > Property > Module g_fx_media Azure RTOS FileX on Block Media > Total Sectors | 65536 | 131072 | Set the total number of sectors in the media. |
+| configuration.xml > Stacks > Threads > FileX Thread > g_fx_media Azure RTOS FileX on Block Media > Properties > Settings > Property > Module g_fx_media Azure RTOS FileX on Block Media > Bytes per Sector | 512 | 512 | Set the number of bytes per sector. |
+| configuration.xml > Stacks > Threads > FileX Thread > g_fx_media Azure RTOS FileX on Block Media > Properties > Settings > Property > Module g_fx_media Azure RTOS FileX on Block Media > Sectors per Cluster | 1 | 1 | Set the number of sectors in each cluster. |
+| configuration.xml > Stacks > Threads > FileX Thread > g_fx_media Azure RTOS FileX on Block Media > Properties > Settings > Property > Module g_fx_media Azure RTOS FileX on Block Media > Working media memory size | 512 | 512 | Set the memory allocated for the file system. |
 
 **Configuration Properties for using Block Media RAM Implementation**
 
 |   Module Property Path and Identifier   |   Default Value   |   Used Value   |   Reason   |
 |-----------------------------------------|-------------------|----------------|------------|
-| configuration.xml > Stacks > g_rm_block_media Block Media RAM Implementation (rm_block_media_ram) > Properties > Settings > Property > Common > RAM Media Size | 65536 | 33554432 | Select the memory storage size for the block media. |
-| configuration.xml > Stacks > g_rm_block_media Block Media RAM Implementation (rm_block_media_ram) > Properties > Settings > Property > Common > Memory Storage Section |.bss | .sdram_noinit | Select the SDRAM as the memory storage section. |
+| configuration.xml > Stacks > Threads > FileX Thread > g_rm_block_media Block Media RAM Implementation (rm_block_media_ram) > Properties > Settings > Property > Common > RAM Media Size | 65536 | 67108864 | Select the memory storage size for the block media. |
+| configuration.xml > Stacks > Threads > FileX Thread > g_rm_block_media Block Media RAM Implementation (rm_block_media_ram) > Properties > Settings > Property > Common > Memory Storage Section |.bss | .sdram_noinit | Select the SDRAM as the memory storage section. |
 
 **SDRAM setups in BSP Configuration**
 
 ![sdram_bsp_configuration](images/sdram_bsp_configuration.png "SDRAM Configuration in BSP")
-
-**Configuration Properties for using the Serial Terminal (UART):**
-
-|   Configure Interrupt Event Path        |   Default Value   |   Used Value   |   Reason   |
-|-----------------------------------------|-------------------|----------------|------------|
-| configuration.xml > Interrupts > Interrupts Configuration > New User Event > SCI > SCI8 > SCI8 ERI (Receive error) | empty | sci_b_uart_eri_isr | Assign the UART receive ISR (Receive error) to the interrupt vector table. |
-| configuration.xml > Interrupts > Interrupts Configuration > New User Event > SCI > SCI8 > SCI8 RXI (Receive data full) | empty | sci_b_uart_rxi_isr | Assign the UART receive ISR (Receive data full) to the interrupt vector table. |
-| configuration.xml > Interrupts > Interrupts Configuration > New User Event > SCI > SCI8 > SCI8 TEI (Transmit end) | empty | sci_b_uart_tei_isr | Assign the UART transfer ISR (Transfer end) to the interrupt vector table. |
-| configuration.xml > Interrupts > Interrupts Configuration > New User Event > SCI > SCI8 > SCI8 TXI (Transmit data empty) | empty | sci_b_uart_txi_isr | Assign the UART transfer ISR (Transfer data empty) to the interrupt vector table. |
-
-**Configure SCICLK in Clock Configuration**
-|   Configure Clock path   |   Default Value   |   Used Value   |   Reason   |
-|-----------------------------------------|-------------------|----------------|------------|
-| configuration.xml > Clocks > Clocks Configuration | SCICLK Src:PLL2R | SCICLK Src:PLL2R | Enable operating clock for SCI module by PLL2R clock source. |
 
 ## API Usage ##
 The table below lists the FSP provided API used at the application layer in this example project.
@@ -141,35 +130,27 @@ The table below lists the FSP provided API used at the application layer in this
 | fx_file_close | This API is used to close the specified file. |
 | RM_FILEX_BLOCK_MEDIA_Open | This API is used to initialize callbacks and configure the FileX Block Media interface. |
 | RM_FILEX_BLOCK_MEDIA_BlockDriver | This API is used to access block media device functions such as open, close, read, write, and control. |  
-
-For using the Serial Terminal (UART):
-| API Name    | Usage                                                                          |
-|-------------|--------------------------------------------------------------------------------|
-| R_SCI_B_UART_Open | This API is used to initialize the SCI UART module. |
-| R_SCI_B_UART_Write | This API is used to perform a write operation. |
-| R_SCI_B_UART_Close | This API is used to de-initialize the SCI UART module. |
+| RM_FILEX_BLOCK_MEDIA_Close | This API is used to close media device. |
 
 ## Verifying Operation ##
-1. Import the example project.
+1. Import, generate, and build the example project.
+2. Before running the example project, make sure hardware connections are done.
+3. Open a serial terminal application (e.g., Tera Term) to view output log, configure the settings as shown below:
+    * To make sure the received data shows properly, the user needs to set:
+      * [Setup] -> [Terminal...] -> [New-line] -> Select [Receive: CR] & [Transmit: CR].
 
-    By default, the EP supports Serial Terminal for RA boards that support J-Link OB VCOM
+    * To echo back characters typed in Tera Term, the user needs to enable it through:
+      * [Setup] -> [Terminal...] -> Check [Local echo].
 
-    * Define USE_VIRTUAL_COM=1 macro in Project Properties -> C/C++ Build -> Settings -> Tool Settings -> Compiler -> Includes
-
-    To use SEGGER J-Link RTT Viewer, please follow the instructions below:
-
-    * Define USE_VIRTUAL_COM=0 macro in Project Properties -> C/C++ Build -> Settings -> Tool Settings -> Compiler -> Includes
-
-2. Generate, and build the example project.
-3. Before running the example project, make sure hardware connections are done.
-4. Connect the RA MCU debug port to the host PC via a Type-C USB cable.
-5. Open a Serial Terminal application on the host PC and connect to the COM Port provided by the J-Link on-board or open J-Link RTT Viewer (In case the user selected SEGGER J-Link RTT Viewer or RA boards do not support J-Link OB VCOM).
-   * Note: For using the Serial Terminal:
-        * Please ensure that the connection to the SEGGER J-Link RTT Viewer has been terminated.
-        * The COM port is provided by the J-Link onboard, with a baud rate of 115200 bps, a data length of 8 bits, no parity check, one stop bit, and no flow control.
-        * To echo back what was typed in Tera Term, the user needs to enable it through [Setup] -> [Terminal...] -> Check [Local echo].
-6. Debug or flash the EP project to the RA board.
-7. After the main menu is displayed on the terminal application, the user selects options to perform file system management as desired.
+    * The configuration parameters of the serial port on the serial terminal application:
+      * Port: The port is provided by the J-Link On-Board.
+      * Speed: 115200
+      * Data: 8 bit
+      * Parity: none
+      * Stop bits: 1 bit
+      * Flow control: none
+4. Debug or flash the EP to the RA board.
+5. After the main menu is displayed on the terminal application, the user selects options to perform file system management as desired.
     * Type '1' and enter to format the media.
     * Type '2' and enter to create a new directory.
     * Type '3' and enter to get root directory properties.
@@ -179,60 +160,29 @@ For using the Serial Terminal (UART):
     * Type '7' and enter to read the first 1 KB of content in a file.
     * Type '8' and enter to delete a file.
 
-### The images below showcase the output on the Serial Terminal application (Tera Term) ###
+### The images below showcase the output on the serial terminal application (e.g., Tera Term) ###
 The EP information:
 
-![ep_info](images/serial_ep_info.png "EP Information")
+![ep_info](images/ep_info.png "EP Information")
 
-Media Operation:
+Media operation:
 
-![media_format](images/serial_media_format.png "Media Format")
+![media_format](images/media_format.png "Media Format")
 
-Directory Operation:
+Directory operation:
 
-![directory_create](images/serial_directory_create.png "Directory Create")
+![directory_create](images/directory_create.png "Directory Create")
 
-![directory_get_properties](images/serial_directory_get_properties.png "Directory Get Properties")
+![directory_get_properties](images/directory_get_properties.png "Directory Get Properties")
 
-![directory_delete](images/serial_directory_delete.png "Directory Delete")
+![directory_delete](images/directory_delete.png "Directory Delete")
 
-File Operation:
+File operation:
 
-![file_create](images/serial_file_create.png "File Create")
+![file_create](images/file_create.png "File Create")
 
-![file_write](images/serial_file_write.png "File Write")
+![file_write](images/file_write.png "File Write")
 
-![file_read](images/serial_file_read.png "File Read")
+![file_read](images/file_read.png "File Read")
 
-![file_delete](images/serial_file_delete.png "File Delete")
-
-### The images below showcase the output on the SEGGER J-Link RTT Viewer ###
-The EP information:
-
-![ep_info](images/rtt_ep_info.png "EP Information")
-
-Media Operation:
-
-![media_format](images/rtt_media_format.png "Media Format")
-
-Directory Operation:
-
-![directory_create](images/rtt_directory_create.png "Directory Create")
-
-![directory_get_properties](images/rtt_directory_get_properties.png "Directory Get Properties")
-
-![directory_delete](images/rtt_directory_delete.png "Directory Delete")
-
-File Operation:
-
-![file_create](images/rtt_file_create.png "File Create")
-
-![file_write](images/rtt_file_write.png "File Write")
-
-![file_read](images/rtt_file_read.png "File Read")
-
-![file_delete](images/rtt_file_delete.png "File Delete")
-
-## Limitation ##
-Please note that the current configuration supports the FAT12 and FAT16 formats for media storage in SDRAM.  
-Future updates will enhance compatibility by supporting larger SDRAM capacities and the FAT32 format.
+![file_delete](images/file_delete.png "File Delete")

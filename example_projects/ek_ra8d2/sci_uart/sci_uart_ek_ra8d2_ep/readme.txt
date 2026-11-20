@@ -4,20 +4,19 @@
 **********************************************************************************************************************/
 
 1. Project Overview:
-	The example project demonstrates the typical use of the UART HAL module APIs. The project initializes the UART
-	with Baud rate of 115200 bps and GPT in the PWM mode. Using a Terminal Program (like Tera Term), the user can
-	provide a value & press enter key to set the intensity of the on-board LED. The range of input values are
-	displayed on the J-Link RTT Viewer. Any failure will also be displayed using J-Link RTT Viewer. To see the user
-	input values on the Serial terminal, enable the local echo option.
+	The example project demonstrates basic functionalities of SCI UART driver on Renesas RA MCUs based on
+	Renesas FSP. This project initializes the UART with baud rate of 115200 bps and GPT in the PWM mode.
+	Using a serial terminal (e.g., Tera Term), the user can provide a value & press enter key to set the
+	LED intensity. The valid input range and information are displayed on the terminal. To see the user
+	input values on the terminal, enable the local echo option.
 
 2. Software Requirements:
 	Renesas Flexible Software Package (FSP): Version 6.6.0
 	e2 studio: Version 2026-07
-	SEGGER J-Link RTT Viewer: Version 9.64
 	LLVM Embedded Toolchain for ARM: Version 22.1.0
 	Terminal Console Application: Tera Term or a similar application
 
-	In case of using Keil or IAR IDEs, please refer to the Tools section in the Release Notes to ensure that the 
+	In case of using Keil or IAR IDEs, please refer to the Tools section in the Release Notes to ensure that the
 	appropriate software versions are installed: https://github.com/renesas/fsp/releases
 
 3. Hardware Requirements:
@@ -25,108 +24,115 @@
 	                     EK-RA4M3, EK-RA4W1, EK-RA6E2, EK-RA6M1, EK-RA6M2, EK-RA6M3, EK-RA6M3G, EK-RA6M4, EK-RA6M5, 
 	                     EK-RA8D1, EK-RA8M1, FPB-RA2E3, FPB-RA4E1, FPB-RA6E1, MCK-RA4T1, MCK-RA6T2, MCK-RA6T3, 
 	                     MCK-RA8T1, RSSK-RA6T1, FPB-RA8E1, EK-RA4L1, EK-RA8E2, EK-RA2L2, EK-RA8P1, FPB-RA2T1,
-	                     EK-RA4C1, MCK-RA8T2, EK-RA8D2
+	                     EK-RA4C1, MCK-RA8T2, EK-RA8D2, EK-RA8M2, FPB-RA4E2, FPB-RA6E2.
  	1 x Renesas RA board.
-	1 x Type-C USB cable for programming and debugging.
+	1 x USB cable for programming and debugging (USB cable type varies by board model).
 	1 x USB to UART Converter (e.g., Pmod USBUART: https://digilent.com/shop/pmod-usbuart-usb-to-uart-interface/).
-	1 x Micro USB cable used to connect the Pmod USBUART to the RA board.
-	Some jumper wires.
+	1 x Micro USB cable used to connect the Pmod USBUART to the host PC.
+	Some jumper wires used to connect the Pmod USBUART to the RA board.
 
 4. Hardware Connections:
-	- Connect the RA board to the host PC via a Type-C USB cable for programming and debugging.
+	- Connect the RA board USB debug port to the host PC using the appropriate USB cable for EP programming and
+	  debugging.
 	- Connect the Pmod USBUART to the host PC via a Micro USB cable.
 	- For Pmod USBUART: Jumper JP1 placement is LCL-VCC pins (The attached system board is powered independently
 	  from the Pmod USBUART).
 	- Connect the Pmod USBUART to the RA board as shown below:
 		For EK-RA2A1:
 			RXD MISO P301	---> TXD Pin of Pmod USBUART (J2:3)
-			TXD MOSI P302 	---> RXD Pin of Pmod USBUART (J2:2)
+			TXD MOSI P302	---> RXD Pin of Pmod USBUART (J2:2)
 			Common GND
 
 		For EK-RA4M1, EK-RA6M2, EK-RA6M3, EK-RA6M3G, EK-RA6E2, EK-RA4E2, CK-RA6M5, MCK-RA4T1, MCK-RA6T3:
-			RXD MISO P410 	---> TXD Pin of Pmod USBUART (J2:3)
-			TXD MOSI P411 	---> RXD Pin of Pmod USBUART (J2:2)
+			RXD MISO P410	---> TXD Pin of Pmod USBUART (J2:3)
+			TXD MOSI P411	---> RXD Pin of Pmod USBUART (J2:2)
 			Common GND
 
-		For EK-RA6M1, EK-RA6M4, FPB-RA6E1, FPB-RA2E3:
-			RXD MISO P100 	---> TXD Pin of Pmod USBUART (J2:3)
-			TXD MOSI P101 	---> RXD Pin of Pmod USBUART (J2:2)
+		For EK-RA6M1, EK-RA6M4, FPB-RA6E1:
+			RXD MISO P100	---> TXD Pin of Pmod USBUART (J2:3)
+			TXD MOSI P101	---> RXD Pin of Pmod USBUART (J2:2)
 			Common GND
+
+		For FPB-RA2E3:
+			RXD0 P100  (J4:12) ---> TXD Pin of Pmod USBUART (J2:3)
+			TXD0 P101  (J4:11) ---> RXD Pin of Pmod USBUART (J2:2)
+			Common GND (J4:7)  ---> GND Pin of Pmod USBUART (J2:5)
 
 		For RSSK-RA6T1, EK-RA4W1:
-			RXD MISO P206 	---> TXD Pin of Pmod USBUART (J2:3)
-			TXD MOSI P205 	---> RXD Pin of Pmod USBUART (J2:2)
+			RXD MISO P206	---> TXD Pin of Pmod USBUART (J2:3)
+			TXD MOSI P205	---> RXD Pin of Pmod USBUART (J2:2)
 			Common GND
 
 		For EK-RA2L1:
-			RXD MISO P301 	---> TXD Pin of Pmod USBUART (J2:3)
-			TXD MOSI P302 	---> RXD Pin of Pmod USBUART (J2:2)
+			RXD MISO P301	---> TXD Pin of Pmod USBUART (J2:3)
+			TXD MOSI P302	---> RXD Pin of Pmod USBUART (J2:2)
 			Common GND
-			Connect P414  	---> P505
+			Connect P414	---> P505
 
 		For EK-RA4M3:
-			RXD MISO P202 	---> TXD Pin of Pmod USBUART (J2:3)
-			TXD MOSI P203 	---> RXD Pin of Pmod USBUART (J2:2)
+			RXD MISO P202	---> TXD Pin of Pmod USBUART (J2:3)
+			TXD MOSI P203	---> RXD Pin of Pmod USBUART (J2:2)
 			Common GND
 
 		For EK-RA4M2:
-			RXD MISO P601 	---> TXD Pin of Pmod USBUART (J2:3)
-			TXD MOSI P602 	---> RXD Pin of Pmod USBUART (J2:2)
+			RXD MISO P601	---> TXD Pin of Pmod USBUART (J2:3)
+			TXD MOSI P602	---> RXD Pin of Pmod USBUART (J2:2)
 			Common GND
 
 		For EK-RA2E1:
-			RXD MISO P110 	---> TXD Pin of Pmod USBUART (J2:3)
-			TXD MOSI P109 	---> RXD Pin of Pmod USBUART (J2:2)
+			RXD MISO P110	---> TXD Pin of Pmod USBUART (J2:3)
+			TXD MOSI P109	---> RXD Pin of Pmod USBUART (J2:2)
 			Common GND
-			Connect P212  	---> P913
+			Connect P212	---> P913
 
 		For EK-RA6M5:
-			RXD MISO P100 	---> TXD Pin of Pmod USBUART (J2:3)
-			TXD MOSI P101 	---> RXD Pin of Pmod USBUART (J2:2)
+			RXD MISO P100	---> TXD Pin of Pmod USBUART (J2:3)
+			TXD MOSI P101	---> RXD Pin of Pmod USBUART (J2:2)
 			Common GND
-			Connect P104  	---> P006
+			Connect P104	---> P006
 
 		For FPB-RA4E1:
-			RXD MISO P100 	---> TXD Pin of Pmod USBUART (J2:3)
-			TXD MOSI P101 	---> RXD Pin of Pmod USBUART (J2:2)
+			RXD MISO P100	---> TXD Pin of Pmod USBUART (J2:3)
+			TXD MOSI P101	---> RXD Pin of Pmod USBUART (J2:2)
 			Common GND
-			Connect P104  	---> P407     
+			Connect P104	---> P407     
 
 		For EK-RA2E2:
-			RXD MISO P401 	---> TXD Pin of Pmod USBUART (J2:3)
-			TXD MOSI P400 	---> RXD Pin of Pmod USBUART (J2:2)
+			RXD MISO P401	---> TXD Pin of Pmod USBUART (J2:3)
+			TXD MOSI P400	---> RXD Pin of Pmod USBUART (J2:2)
 			Common GND
 
 		For MCK-RA6T2:
-			RXD MISO PA10 	---> TXD Pin of Pmod USBUART (J2:3)
-			TXD MOSI PA09 	---> RXD Pin of Pmod USBUART (J2:2)
+			RXD MISO PA10	---> TXD Pin of Pmod USBUART (J2:3)
+			TXD MOSI PA09	---> RXD Pin of Pmod USBUART (J2:2)
 			Common GND
 
 		For EK-RA8M1, EK-RA8D1:
-			RXD MISO PA02 	---> TXD Pin of Pmod USBUART (J2:3)
-			TXD MOSI PA03 	---> RXD Pin of Pmod USBUART (J2:2)
+			RXD MISO PA02	---> TXD Pin of Pmod USBUART (J2:3)
+			TXD MOSI PA03	---> RXD Pin of Pmod USBUART (J2:2)
 			Common GND
 
 		For MCK-RA8T1:
-			RXD MISO P602 	---> TXD Pin of Pmod USBUART (J2:3)
-			TXD MOSI P603 	---> RXD Pin of Pmod USBUART (J2:2)
-			Common GND    	---> GND Pin of Pmod USBUART (J2:5)
+			RXD MISO P602	---> TXD Pin of Pmod USBUART (J2:3)
+			TXD MOSI P603	---> RXD Pin of Pmod USBUART (J2:2)
+			Common GND	---> GND Pin of Pmod USBUART (J2:5)
 
 		For EK-RA2A2:
-			RXD MISO P500 	---> TXD Pin of Pmod USBUART (J2:3)
-			TXD MOSI P501 	---> RXD Pin of Pmod USBUART (J2:2)
+			RXD MISO P500	---> TXD Pin of Pmod USBUART (J2:3)
+			TXD MOSI P501	---> RXD Pin of Pmod USBUART (J2:2)
 			Common GND
-			Connect P403 	---> P308
+			Connect P403	---> P308
 
 		For FPB-RA8E1:
+			The user must open jumpers J6 and J9 to use the on-board debug functionality.
 			RXD MISO P602 (J3:5)	---> TXD Pin of Pmod USBUART (J2:3)
-			TXD MOSI P603 (J3:6)  	---> RXD Pin of Pmod USBUART (J2:2)
-			Common GND    (J3:20)  	---> GND Pin of Pmod USBUART (J2:5)
+			TXD MOSI P603 (J3:6)	---> RXD Pin of Pmod USBUART (J2:2)
+			Common GND    (J3:20)	---> GND Pin of Pmod USBUART (J2:5)
 
 		For EK-RA4L1:
-			RXD MISO P507 (J1:19)  	---> TXD Pin of Pmod USBUART (J2:3)
-			TXD MOSI P506 (J1:20)  	---> RXD Pin of Pmod USBUART (J2:2)
-			Common GND    (J1:25)  	---> GND Pin of Pmod USBUART (J2:5)
+			RXD MISO P507 (J1:19)	---> TXD Pin of Pmod USBUART (J2:3)
+			TXD MOSI P506 (J1:20)	---> RXD Pin of Pmod USBUART (J2:2)
+			Common GND    (J1:25)	---> GND Pin of Pmod USBUART (J2:5)
 
 		For EK-RA8E2:
 			RXD MISO P414 (J2:21)	---> TXD Pin of Pmod USBUART (J2:3)
@@ -162,34 +168,30 @@
 			TXD0 P603  (CN1:33)	---> RXD Pin of Pmod USBUART (J2:2)
 			Common GND (CN1:34)	---> GND Pin of Pmod USBUART (J2:5)
 
+		For EK-RA8M2:
+			The user must place jumper J6 on pins 2-3, J8 on pins 1-2, J9 on pins 2-3, and J29 on pins 1-2,
+			3-4, 5-6, 7-8 to use the on-board debug functionality.
+			RXD0 P602  (J3:40)	---> TXD Pin of Pmod USBUART (J2:3)
+			TXD0 P603  (J37:3)	---> RXD Pin of Pmod USBUART (J2:2)
+			Common GND (J3:39)	---> GND Pin of Pmod USBUART (J2:5)
+
+		For FPB-RA4E2, FPB-RA6E2:
+			RXD9 P110  (J4:3)	---> TXD Pin of Pmod USBUART (J2:3)
+			TXD9 P109  (J4:2)	---> RXD Pin of Pmod USBUART (J2:2)
+			Common GND (J4:8)	---> GND Pin of Pmod USBUART (J2:5)
+
 Note:
-1) For Serial terminal application:
-   1.1) To echo back characters typed in Tera Term, the user needs to enable it through
-        [Setup] -> [Terminal...] -> Check [Local echo].
+1) To view output logs on a serial terminal application (e.g., Tera Term), configure the settings as shown below:
+	a. To make sure the received data shows properly, the user needs to set:
+		[Setup] -> [Terminal...] -> [New-line] -> Select [Receive: CR] & [Transmit: CR].
 
-   1.2) The configuration parameters of the serial port on the terminal application are as follows:
-        COM port is port provided by the J-Link on-board.
-        Baud rate: 115200 bps
-        Data length: 8-bits  
-        Parity: none
-        Stop bit: 1-bit
-        Flow control: none
+	b. To echo back characters typed in Tera Term, the user needs to enable it through:
+		[Setup] -> [Terminal...] -> Check [Local echo].
 
-2) The user can disable SEGGER RTT features by changing the values of the following macros to 1:
-   DISABLE_APP_PRINT
-   DISABLE_APP_ERR_PRINT
-   DISABLE_APP_ERR_TRAP
-   DISABLE_APP_READ
-   DISABLE_APP_CHECK_DATA
-   These macros are defined in common_utils.h. Please note that disabling part of the application may 
-   break its functionality.
-
-3) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT Viewer.
-   RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x2200044c
-   b. Keil:	0x22000850
-   c. IAR: 0x2200091c
-
-4) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called
-   _SEGGER_RTT) in .map file generated in the project folder (e2studio\Debug or e2studio\Release, keil\Listings,
-   iar\Debug\List).
+	c. The configuration parameters of the serial port on the serial terminal application:
+		Port: Virtual COM Port (Pmod USBUART).
+		Speed: 115200
+		Data: 8 bit
+		Parity: none
+		Stop bits: 1 bit
+		Flow control: none

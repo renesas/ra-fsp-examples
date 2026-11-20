@@ -1,5 +1,5 @@
 # Introduction #
-This project demonstrates the basic functionality of NetX Duo HTTPS Client with ethernet driver on Renesas RA MCUs based on Renesas FSP using AzureRTOS. The EP uses the DHCP Client to get the IP address from the DHCP Server and HTTPS Client to connect to HTTPS Adafruit IO Server which is a cloud platform. On successful connection, the menu is displayed enabling the user to send POST, PUT, GET requests to Adafruit IO server. On POST/PUT request, MCU die temperature is read using ADC and uploaded to server. On GET request, the last MCU die temperature is read from the Adafruit IO server. Error and info messages will be printed on J-Link RTT Viewer.
+The example project demonstrates the basic functionality of NetX Duo HTTPS Client with ethernet driver on Renesas RA MCUs based on Renesas FSP using AzureRTOS. The EP uses the DHCP Client to get the IP address from the DHCP Server and HTTPS Client to connect to HTTPS Adafruit IO Server which is a cloud platform. On successful connection, the menu is displayed enabling the user to send POST, PUT, GET requests to Adafruit IO server. On POST/PUT request, MCU die temperature is read using ADC and uploaded to server. On GET request, the last MCU die temperature is read from the Adafruit IO server. Error and info messages will be printed on the terminal.
 
 Please refer to the [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf) for general information on example projects and [readme.txt](./readme.txt) for specifics of operation.
 
@@ -9,23 +9,25 @@ To build and run the NetX_https_client example project, the following resources 
 ### Software ###
    * Renesas Flexible Software Package (FSP): Version 6.6.0
    * e2 studio: Version 2026-07
-   * SEGGER J-Link RTT Viewer: Version 9.64
+   * Terminal Console Application: Tera Term or a similar application
    * LLVM Embedded Toolchain for ARM: Version 22.1.0
 
    1. Refer to the software required section in [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf)
    2. Refer to **[Special Topics](#special-topics)** for obtaining the certificates and key which is required to update in the code. 
 
 ### Hardware ###
-* Supported RA boards: EK-RA6M3, EK-RA6M4, EK-RA6M5, EK-RA8M1, EK-RA8D1, MCK-RA8T1, EK-RA8P1.
+* Supported RA boards: EK-RA6M3, EK-RA6M4, EK-RA6M5, EK-RA8M1, EK-RA8D1, MCK-RA8T1, EK-RA8D2, EK-RA8M2, EK-RA8P1, MCK-RA8T2, EK-RA8T2.
    * 1 x Renesas RA board.
    * 1 x Host PC.
-   * 1 x USB cable for programming and debugging.
+   * 1 x USB cable for programming and debugging (USB cable type varies by board model).
    * 1 x Ethernet/LAN cable (Ethernet cable CAT5/6).
    * 1 x Ethernet switch.
 
 ### Hardware Connections ###
-* Connect the RA board USB debug port to the host PC via a USB cable.
+* Connect the RA board USB debug port to the host PC using the appropriate USB cable for EP programming and debugging.
 * Connect the RA board ethernet port to the ethernet switch via a LAN cable. Ensure that the ethernet switch is connected to a network with Internet access.
+
+* For MCK-RA8T2, EK-RA8T2: Use the ethernet port 0 of the RA board (CN14 for MCK-RA8T2, J15 for EK-RA8T2) for the connections above.
 
 * For EK-RA8D1:
    * The user must set the configuration switches (SW1) as below to avoid potential failures:
@@ -38,6 +40,27 @@ To build and run the NetX_https_client example project, the following resources 
 
 * For EK-RA8M1:
   * The user must remove jumper J61 to enable Ethernet B.
+
+* For EK-RA8M2:
+   * The user must place jumper J6 on pins 2-3, J8 on pins 1-2, J9 on pins 2-3, and J29 on pins 1-2, 3-4, 5-6, 7-8 to use the on-board debug functionality.
+
+* For EK-RA8P1:
+   * The user must set the configuration switches (SW4) as below to avoid potential failures:
+
+      | SW4-1 PMOD1_SEL0 | SW4-2 PMOD1_SEL1 | SW4-3 OSPI | SW4-4 ARDUINO | SW4-5 I3C | SW4-6 MIPI | SW4-7 USBFS_ROLE | SW4-8 USBHS_ROLE |
+      |------------------|------------------|------------|---------------|-----------|------------|------------------|------------------|
+      |        OFF       |        OFF       |     OFF    |      OFF      |    OFF    |     OFF    |        OFF       |        OFF       |
+
+* For EK-RA8T2:
+   * The user must set the configuration switches (SW6 and SW4) as below to use the on-board debug functionality and enable Ethernet 0:
+
+      | SW6-1 | SW6-2 | SW6-3 | SW6-4 | SW6-5 | SW6-6 | SW6-7 | SW6-8 | SW6-9 | SW6-10 |
+      |-------|-------|-------|-------|-------|-------|-------|-------|-------|--------|
+      |  OFF  |  OFF  |  OFF  |  OFF  |  ON   |  OFF  |  ON   |  ON   |  ON   |   ON   |
+
+      | SW4-1 PMOD1 | SW4-2 PMOD1 | SW4-3 CAN0 | SW4-4 CAN1 | SW4-5 PMIC | SW4-6 ETH0 | SW4-7 USBFS | SW4-8 RS485 |
+      |-------------|-------------|------------|------------|------------|------------|-------------|-------------|
+      |     OFF     |     OFF     |     OFF    |     OFF    |     OFF    |     OFF    |     OFF     |     OFF     |
 
 ## Related Collateral References ##
 The following documents can be referred to for enhancing your understanding of the operation of this example project:
@@ -63,13 +86,14 @@ List all the various modules that are used in this example project. Refer to the
 | NetX Duo DNS Client | DNS Module is used as network service to get the IP address of the Domain (Server) to which the HTTPS client is getting connected. | NetX Duo DNS Client |
 | ADC | ADC module is used to demonstrate that to read internal temperature sensor value and send it to the server. | r_adc |
 
-**For EK-RA8P1:**
+**For EK-RA8P1, MCK-RA8T2, EK-RA8T2:**
 | Module Name | Usage | Searchable Keyword |
 |-------------|-----------------------------------------------|-----------------------------------------------|
 | ADC | ADC_B module is used to demonstrate that to read internal temperature sensor value and send it to the server. | r_adc_b |
 
 ## Module Configuration Notes ##
-This section describes FSP configurator properties which are important or different from those selected by default. 
+This section describes FSP configurator properties which are important or different from those selected by default.  
+**Note: The configuration shown in this document is based on the original target board (e.g., EK-RA8P1). Some settings may differ on other supported boards due to hardware differences.**
 
 |   Module Property Path and Identifier   |   Default Value   |   Used Value   |   Reason   |
 | :-------------------------------------: | :---------------: | :------------: | :--------: |
@@ -89,7 +113,7 @@ This section describes FSP configurator properties which are important or differ
 |configuration.xml > Stacks > Threads > Https Client Thread > Https Client Thread Stacks > g_adc0 ADC Driver on r_adc_b > Properties > Settings > Property > Module g_adc0 ADC Driver on r_adc_b > Virtual Channels > Virtual Channel 0 > Scan Group | None | Scan Group 0 | Select scan group for channel 0. |
 |configuration.xml > Stacks > Threads > Https Client Thread > Https Client Thread Stacks > g_adc0 ADC Driver on r_adc_b > Properties > Settings > Property > Module g_adc0 ADC Driver on r_adc_b > Virtual Channels > Virtual Channel 0 > Channel Select | ADC channel 0 | ADC Channel TEMPERATURE | Select ADC physical channel to scan with virtual channel 0. |
 |configuration.xml > Stacks > Threads > Https Client Thread > Https Client Thread Stacks > g_adc0 ADC Driver on r_adc_b > Properties > Settings > Property > Module g_adc0 ADC Driver on r_adc_b > Scan Groups > Scan Group 0 > Enable | Disable | Enable | Enable the scan group 0. |
-|configuration.xml > Stacks > Threads > rtt_thread > Properties > Settings > Property > Thread > Priority | 1 | 3 | RTT thread priority is lowered to allow the HTTPS Client and IP threads to process incoming packets at the fastest rate possible. |
+|configuration.xml > Stacks > Threads > Terminal Thread > Properties > Settings > Property > Thread > Priority | 1 | 3 | Terminal thread priority is lowered to allow the HTTPS Client and IP threads to process incoming packets at the fastest rate possible. |
 
 ## API Usage ##
 
@@ -98,6 +122,9 @@ The table below lists the FSP provided API used at the application layer by this
 | API Name    | Usage                                                                          |
 |-------------|--------------------------------------------------------------------------------|
 | nx_system_initialize | This API is used to initialize the various components and system data structures. |
+| nx_arp_enable | This API is used to enable the Address Resolution Protocol (ARP) component for the specified IP instance. |
+| nx_tcp_enable | This API is used to enable the Transmission Control Protocol (TCP) component for the specified IP instance. |
+| nx_udp_enable | This API is used to enable the User Datagram Protocol (UDP) component for the specified IP instance. |
 | nx_packet_pool_create | This API is used to create a packet pool of the specified packet size in the memory area supplied by the user. |
 | nx_web_http_client_create | This API is used to create an HTTP Client instance on the specified IP instance. |
 | nx_web_http_client_delete | This API is used to delete a previously created HTTP Client instance. |
@@ -123,44 +150,65 @@ The table below lists the FSP provided API used at the application layer by this
 | nx_dns_packet_pool_set | This API is used to set a previously created packet pool as the DNS Client packet pool. |
 | nx_dns_server_add | This API is used to add an IPv4 DNS Server to the server list. |
 | nx_dns_host_by_name_get | This API is used to request IP address, from one or more DNS Servers previously specified by the application. |
+| nx_secure_tls_initialize | This API is used to initialize the NetX Secure TLS component. |
 | nx_secure_tls_session_create | This API is used to initialize an NX_SECURE_TLS_SESSION structure instance for use in establishing secure TLS communications over a network connection. |
 | nx_secure_tls_session_packet_buffer_set | This API is used to associate a packet reassembly buffer to a TLS session. |
 | nx_secure_x509_certificate_initialize | This API is used to initialize an NX_SECURE_X509_CERT structure from a binary-encoded X.509 digital certificate for use in a TLS session. |
 | nx_secure_tls_trusted_certificate_add | This API is used to add an initialized NX_SECURE_X509_CERT structure instance to a TLS session. |
 | nx_secure_tls_remote_certificate_allocate | This API is used to add an uninitialized NX_SECURE_X509_CERT structure instance to a TLS session for the purpose of allocating space for certificates provided by a remote host during a TLS session. |
 | R_ADC_B_Open | This API is used to open the ADC module. |
-| R_ADC__B_ScanCfg | This API is used to configure the ADC scan parameters. |
+| R_ADC_B_ScanCfg | This API is used to configure the ADC scan parameters. |
+| R_ADC_B_Calibrate | This API is used to start the calibration of the ADC. |
+| R_ADC_B_StatusGet | This API is used to get the status of the ADC, e.g. to check that the calibration is complete. |
 | R_ADC_B_ScanStart | This API is used to start scanning of configured ADC channel. |
 | R_ADC_B_Read | This API is used to read the ADC data from the configured channel. |
 | R_ADC_B_Close | This API is used to close the ADC module. |
 
 ## Verifying Operation ##
+* Import, build and download the EP (see section Starting Development of **FSP User Manual**). After running the EP, open a serial terminal application (e.g., Tera Term) to see the output.
+* Before running the example project:
+   * The user must have an account on the Adafruit (https://io.adafruit.com). The details of creating the Account and getting the required credentials and IO Keys for successful running of the application are described in the **[Special Topics](#special-topics)** Section.
+   * Make sure [Hardware Connections](#hardware-connections) are completed.
+* To view output logs on a serial terminal application (e.g., Tera Term), configure the settings as follows:
+    * To make sure the received data shows properly, the user needs to set:
+      * [Setup] -> [Terminal...] -> [New-line] -> Select [Receive: CR] & [Transmit: CR].
+    * To echo back characters typed in Tera Term, the user needs to enable it through:
+      * [Setup] -> [Terminal...] -> Check [Local echo].
+    * The configuration parameters of the serial port on the serial terminal application:
+      * Port: The port is provided by the J-Link On-Board.
+      * Speed: 115200
+      * Data: 8 bit
+      * Parity: none
+      * Stop bits: 1 bit
+      * Flow control: none
 
-Import, build and debug the EP (*see section Starting Development* of **FSP User Manual**). After running the EP, open RTT Viewer to see the output on the console.
+**Note**:
 
-**Note**: The user must create an account on the Adafruit (https://io.adafruit.com), before running the application. The details of creating the Account and getting the required credentials and IO Keys for successful running of the application are described in the **[Special Topics](#special-topics)** Section.
-
-The images below showcase the output on J-Link RTT Viewer:
+The images below showcase the output on the serial terminal:
 
 EP banner and information:
 
-![NetX_https_client](images/rtt_viewer_banner.jpg "RTT viewer starting page")
+![NetX_https_client](images/terminal_viewer_banner.jpg "Terminal viewer starting page")
+
+After the banner is displayed, the user is expected to enter the feed name, username, and active key.(see section **I. Obtaining Adafruit server credentials** in **[Special Topics](#special-topics)** to create an account if you do not have one yet.)
+
+![NetX_https_client](images/terminal_viewer_server_connect.jpg "Terminal viewer server connect")
 
 Initialization and menu options:
 
-![NetX_https_client](images/rtt_viewer_init.jpg "RTT viewer initialization page")
+![NetX_https_client](images/terminal_viewer_init.jpg "Terminal viewer initialization page")
 
 Post request: 
 
-![NetX_https_client](images/rtt_viewer_post_request.jpg "RTT viewer Post request page")
+![NetX_https_client](images/terminal_viewer_post_request.jpg "Terminal viewer Post request page")
 
 Put request:
 
-![NetX_https_client](images/rtt_viewer_put_request.jpg "RTT viewer Put request page")
+![NetX_https_client](images/terminal_viewer_put_request.jpg "Terminal viewer Put request page")
 
 Get request:
 
-![NetX_https_client](images/rtt_viewer_get_request.jpg "RTT viewer Get request page")
+![NetX_https_client](images/terminal_viewer_get_request.jpg "Terminal viewer Get request page")
 
 After executing the HTTP menu options, the updated data will be shown in the user feed on the Adafruit IO server.
 
@@ -172,40 +220,40 @@ The image below shows the Adafruit server with updated data:
 
 **I. Obtaining Adafruit server credentials**:
 
-Following steps guide you on how to obtain the username and AIO key from Adafruit IO server.
+Following steps guide you how to obtain the username and AIO key.
 
 1. Go to https://io.adafruit.com. Click on **Get Started for Free** option as shown in the image below.
 
-![NetX_https_client](images/adafruit_getstart.jpg "adafruit getting started")
+![aws_https_client](images/adafruit_getstart.jpg "adafruit getting started")
 
-2. Create an account by providing the requested details to obtain user credintails viz., **username** and **password**.
+2. Create an account by providing the requested details to obtain user credintails viz., **username** and **password** 
+3. After successful creation of account. Click on **IO**, dashboard will display username will display on top of the page as shown in the image below. then click on **Feeds** to perform next step.
 
-3. After successful creation of account, username will display on top of the page as shown in the image below.
-   Click on **IO**, Dashboard will display with the following options **Feeds, Dashboards, My key** etc.
-
-![NetX_https_client](images/adafruit_dashboard.jpg "adafruit dashboard")
-
-4. Click on My Key option to see your **username** and **Active key**. These two details are important for communicating with Adafruit server. If the key is compromised, we can generate the new key by clicking on the Regenerate key option as shown in the image below.
-
-![NetX_https_client](images/adafruit_io_key.jpg "adafruit io key")
-
-5. For creating a new feed, go to Feeds > view all, as shown in the image below.
-
-![NetX_https_client](images/create_feed.jpg "creating a feed")
-
-6. Then click on the "+New Feed" button, a dialog box will appear to Create a new Feed. Fill the name and description of feed and click on "Create" button, as shown in the image below.
+![aws_https_client](images/adafruit_dashboard.jpg "adafruit dashboard")
  
-![NetX_https_client](images/create_new_feed.jpg "creating a new feed")
+4. Click on **New Feed**, provide Name, Description (optional) then click on **Create** to create a new feed.
 
-7. After obtaining the username, IO key, feed name from mentioned above steps (3-6). The user has to update the following details at respective URL macros in the **NetX_https_client_ep/src/user_app.h** file as shown in the image below.
+![aws_https_client](images/adafruit_create_new_feed.jpg "adafruit create new feed")
 
-![NetX_https_client](images/user_app_config.jpg "user configuration macros")
+5. After creating the feed, select the feed you have created, and your data will be displayed below.
+
+![aws_https_client](images/adafruit_created_feed.jpg "adafruit feed")
+
+6. Then you should to set Privacy to **Public**. Click on **Privacy**, change **Visibility** to **Public**, then click on **Create**.
+
+![aws_https_client](images/adafruit_change_privacy.jpg "adafruit change privacy")
+
+7. Click on **Key** button option to see your username and Active key. These two details are important for communicating with adafruit server. If the key is compromised, you can generate the new key by clicking on the Regenerate key option as shown in the image below.
+
+![aws_https_client](images/adafruit_io_key.jpg "adafruit io key") 
+ 
+**Note**: The feed name, username, and active key are used to connect to the feed while running the project.
 
 **II. Obtaining Server Certificate:**
 
 1. Open browser and paste the following URL https://cacerts.digicert.com/GeoTrustTLSRSACAG1.crt. Server certificate with .crt extension will be downloaded with the file name **GeoTrustTLSRSACAG1.crt**.
 
-2. After downloaded the .crt file, need to be converted to .pem format using `OpenSSL`.
+2. After downloading the .crt file, it needs to be converted to .pem format using `OpenSSL`.
 
 3. `OpenSSL` can be downloaded from https://www.openssl.org/source/. depends on the Operating System (mainly for Linux), required installer can be downloaded and installed.
 
@@ -235,6 +283,6 @@ Following steps guide you on how to obtain the username and AIO key from Adafrui
 
 ![NetX_https_client](images/converted_certificate.jpg "Converted certificate in .h file")
 
-11. Update the contents of the **ca_cert_der** array in the **...\e2studio\src\https_client_app.c** file using the content from the **GeoTrustTLSRSACAG1.crt.h** file as shown in the image below.
+11. Update the contents of the **g_ca_cert_der** array in the **...\e2studio\src\NetX_https_client_ep.c** file using the content from the **GeoTrustTLSRSACAG1.crt.h** file as shown in the image below.
 
-![NetX_https_client](images/certificate_array.jpg "certificate array in https_client_app.h")
+![NetX_https_client](images/certificate_array.jpg "certificate array in NetX_https_client_ep.c")

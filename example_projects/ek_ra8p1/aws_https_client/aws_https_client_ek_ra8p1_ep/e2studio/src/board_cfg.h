@@ -13,6 +13,7 @@
 
 #include "hal_data.h"
 
+/* Macro for the kit name, based on the board macro */
 #if defined (BOARD_RA6M3_EK) || defined (BOARD_RA6M3G_EK)
 #define KIT_NAME                "EK-RA6M3"
 #elif defined (BOARD_RA8M1_EK)
@@ -25,18 +26,20 @@
 #define KIT_NAME                "MCK-RA8T1"
 #elif defined (BOARD_RA8P1_EK)
 #define KIT_NAME                "EK-RA8P1"
-#endif
+#elif defined (BOARD_RA8P1_EK_V2)
+#define KIT_NAME                "EK-RA8P1 V2"
+#elif defined (BOARD_RA8D2_EK)
+#define KIT_NAME                "EK-RA8D2"
+#elif defined (BOARD_RA8M2_EK)
+#define KIT_NAME                "EK-RA8M2"
+#elif defined (BOARD_RA8T2_EK)
+#define KIT_NAME                "EK-RA8T2"
+#endif /* Specific board */
 
-/* Macro definitions */
-#define ADCTEMP_AS_C(a)         ((((float)a) * 0.298147f) - 287.388f)
-#define ADCTEMP_AS_F(a)         ((((float)a) * 0.536652f) - 485.298f)
+/* Macro for the reset value */
+#define RESET_VALUE             (0x00)
 
-#define ETH_PREINIT     "\r\n \r\n--------------------------------------------------------------------------------"\
-                        "\r\nEthernet adapter Configuration for Renesas "KIT_NAME": Pre IP Init       "\
-                        "\r\n--------------------------------------------------------------------------------\r\n\r\n"
-
-#define ETH_POSTINIT    "\r\n \r\n--------------------------------------------------------------------------------"\
-                        "\r\nEthernet adapter Configuration for Renesas "KIT_NAME": Post IP Init       "\
-                        "\r\n--------------------------------------------------------------------------------\r\n\r\n"
+/* Macro to convert the ADC value of the internal MCU die temperature sensor to degrees Celsius */
+#define ADCTEMP_AS_C(a)         ((((float)(a)) * 0.298147f) - 287.388f)
 
 #endif /* BOARD_CONFIG_H_ */

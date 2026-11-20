@@ -2,63 +2,52 @@
 * File Name    : readme.txt
 * Description  : Contains general information about Example Project and detailed instructions
 **********************************************************************************************************************/
+
 1. Project Overview:
 	This example project demonstrates the basic usage of I2C communication conforming to the SMBus Specification
 	(version 2.0) on Renesas RA MCUs using the Renesas Flexible Software Package (FSP). The project involves
 	writing commands to the MAX31875 sensor and reading the resulting temperature values. The SMBus transmission
-	time is monitored by the GPT module to ensure the MCU acting as a master device complies with the SMBus timeout
-	standard. The Packet Error Check (PEC) byte is calculated in CRC-8 format at both transmission and reception.
-	These temperature values are continuously printed to a terminal. Additionally, status information and error
-	messages are displayed on the host PC. The error LED will turn on if an error occurs.
-
-	Note:
-	- To display information, users can choose between the SEGGER J-Link RTT Viewer and the Serial Terminal (UART)
-	  with J-Link OB VCOM. It is important to note that the user should only operate a single terminal application 
-	  at a time to avoid conflicts or data inconsistencies.
-	- For instructions on how to switch between these options, please refer to the "Verifying Operation" section in
-	  smbus_notes.md file.
-	- By default, EP information is printed to the host PC using the Serial Terminal for boards that support J-Link
-	  OB VCOM. For the RA boards that do not support J-Link OB VCOM, EP uses the SEGGER J-Link RTT Viewer by default
-	  instead.
-	- RA boards supported for J-Link OB VCOM: EK-RA8M1, EK-RA2A2, EK-RA4E2, EK-RA6E2, EK-RA8D1, FPB-RA2E3, MCK-RA4T1,
-	  MCK-RA6T3, MCK-RA8T1, FPB-RA8E1, EK-RA8P1, FPB-RA2T1, EK-RA4C1, MCK-RA8T2.
+	time is monitored by the GPT module to ensure the MCU acting as a master device complies with the SMBus
+	timeout standard. The Packet Error Check (PEC) byte is calculated in CRC-8 format at both transmission and
+	reception. These temperature values are continuously printed to a terminal. Additionally, status information
+	and error messages are displayed on the host PC. The error LED will turn on if an error occurs.
 
 2. Hardware Requirements:
 	Supported RA boards: EK-RA8M1, CK-RA6M5, EK-RA2A1, EK-RA2A2, EK-RA2E1, EK-RA2E2, EK-RA2L1, EK-RA4E2, EK-RA4M1,
 	                     EK-RA4M2, EK-RA4M3, EK-RA4W1, EK-RA6E2, EK-RA6M1, EK-RA6M2, EK-RA6M3, EK-RA6M3G, EK-RA6M4,
 	                     EK-RA6M5, EK-RA8D1, FPB-RA2E3, FPB-RA4E1, FPB-RA6E1, MCK-RA4T1, MCK-RA6T2, MCK-RA6T3,
-	                     MCK-RA8T1, RSSK-RA6T1, FPB-RA8E1, EK-RA8P1, FPB-RA2T1, EK-RA4C1, MCK-RA8T2.
+	                     MCK-RA8T1, RSSK-RA6T1, FPB-RA8E1, EK-RA8P1, FPB-RA2T1, EK-RA4C1, MCK-RA8T2, EK-RA8D2,
+	                     EK-RA8M2, EK-RA8T2, FPB-RA4E2, FPB-RA6E2.
 	1 x Renesas RA board.
-	1 x USB cable for programming and debugging.
-		- 1 x Type-C USB cable: CK-RA6M5, MCK-RA4T1, MCK-RA6T2, MCK-RA6T3, MCK-RA8T1, FPB-RA8E1, EK-RA8P1,
-		                        FPB-RA2T1, EK-RA4C1, MCK-RA8T2.
-		- 1 x Mini USB cable: RSSK-RA6T1
-		- 1 x Micro USB cable: All other boards
+	1 x USB cable for programming and debugging (USB cable type varies by board model).
 	1 x Evaluation Kit for the MAX31875 (https://www.mouser.com/ProductDetail/Analog-Devices-Maxim-Integrated/MAX31875EVKIT?qs=BZBei1rCqCDTW6E3jJcKjw%3D%3D&_gl=1)
-		Manufacturer Product Number: MAX31875EVKIT#
+		Manufacturer Product Number: MAX31875EVKIT#.
 	1 x Host PC.
 
-	- RA boards that do not require external pull-up resistors:
-		For EK-RA8M1, CK-RA6M5, EK-RA2E1, EK-RA2L1, EK-RA4M3, EK-RA6M3, EK-RA6M3G, EK-RA6M4, EK-RA6M5, EK-RA8D1, FPB-RA4E1,
-			FPB-RA6E1, FPB-RA8E1, EK-RA8P1, FPB-RA2T1, EK-RA4C1, MCK-RA8T2:
+	- For the RA boards that do not require external pull-up resistors:
+		For EK-RA8M1, CK-RA6M5, EK-RA2E1, EK-RA2L1, EK-RA4M3, EK-RA6M3, EK-RA6M3G, EK-RA6M4, EK-RA6M5,
+		    EK-RA8D1, FPB-RA4E1, FPB-RA6E1, FPB-RA8E1, EK-RA8P1, FPB-RA2T1, EK-RA4C1, MCK-RA8T2, EK-RA8D2,
+		    EK-RA8M2, EK-RA8T2, FPB-RA4E2:
 			+ 4 x Jumper wires (4 - both ends female).
 
 		For EK-RA2A2, FPB-RA2E3, MCK-RA4T1, MCK-RA6T3, MCK-RA8T1:
 			+ No additional jumper wires required.
 
-	- RA boards that require external resistors for pull-up: EK-RA2A1, EK-RA2E2, EK-RA4E2, EK-RA4M1, EK-RA4M2, EK-RA4W1,
-		EK-RA6E2, EK-RA6M1, EK-RA6M2, MCK-RA6T2, RSSK-RA6T1.
-		2 x Resistors (3.3K ohm or 4.7K ohm).
-		1 x Breadboard.
-		7 x Jumper wires.
-			+ 6 - male to female, 1 - both ends female.
-			+ 4 - male to female, 3 - both ends male (For RSSK-RA6T1).
+	- For the RA boards that require external resistors for pull-up:
+		For EK-RA2A1, EK-RA2E2, EK-RA4E2, EK-RA4M1, EK-RA4M2, EK-RA4W1, EK-RA6E2, EK-RA6M1, EK-RA6M2, MCK-RA6T2,
+		    RSSK-RA6T1.
+			2 x Resistors (3.3K ohm or 4.7K ohm).
+			1 x Breadboard.
+			7 x Jumper wires.
+				+ 6 - male to female, 1 - both ends female.
+				+ 4 - male to female, 3 - both ends male (For RSSK-RA6T1).
 
 3. Hardware Connections:
+	Connect the RA board USB debug port to the host PC using the appropriate USB cable for EP programming and
+	debugging.
 
 	For EK-RA8M1:
 	---------
-		Connect RA board to Host PC by Micro USB cable.
 		Connect RA board to MAX31875PMB1 as below:
 		RA board                      MAX31875PMB1
 		-----------------------------------------------
@@ -69,7 +58,6 @@
 
 	For CK-RA6M5:
 	---------
-		Connect RA board to Host PC by Type-C USB cable.
 		Connect RA board to MAX31875PMB1 as below:
 		RA board                     MAX31875PMB1
 		-----------------------------------------------
@@ -80,7 +68,6 @@
 
 	For EK-RA2A1:
 	---------
-		Connect RA board to Host PC by Micro USB cable.
 		Connect RA board to MAX31875PMB1 as below:
 		RA board                     MAX31875PMB1
 		-----------------------------------------------
@@ -91,23 +78,20 @@
 
 	For EK-RA2A2, FPB-RA2E3:
 	-------------------
-		Connect RA board to Host PC by Micro USB cable.
 		Connect MAX31875PMB1 (JU4:1) to RA board via the PMOD2 (PMOD2:1)
 
 	For EK-RA2E1:
 	---------
-		Connect RA board to Host PC by Micro USB cable.
 		Connect RA board to MAX31875PMB1 as below:
 		RA board                     MAX31875PMB1
 		-----------------------------------------------
-		SCL0 P408 (J2:08) <--------> SCL (J1:3)
+		SCL0 P408 (J2:8)  <--------> SCL (J1:3)
 		SDA0 P407 (J2:9)  <--------> SDA (J1:4)
 		GND       (J2:40) <--------> GND (J1:5)
 		VCC       (J2:1)  <--------> VDD (J1:6)
 
 	For EK-RA2E2:
 	---------
-		Connect RA board to Host PC by Micro USB cable.
 		Connect RA board to MAX31875PMB1 as below:
 		RA board                     MAX31875PMB1
 		-----------------------------------------------
@@ -118,7 +102,6 @@
 
 	For EK-RA2L1:
 	---------
-		Connect RA board to Host PC by Micro USB cable.
 		Connect RA board to MAX31875PMB1 as below:
 		RA board                     MAX31875PMB1
 		-----------------------------------------------
@@ -129,7 +112,6 @@
 
 	For EK-RA4E2, EK-RA6E2:
 	-------------------
-		Connect RA board to Host PC by Micro USB cable.
 		Connect RA board to MAX31875PMB1 as below:
 		RA board                     MAX31875PMB1
 		-----------------------------------------------
@@ -140,7 +122,6 @@
 
 	For EK-RA4M1:
 	---------
-		Connect RA board to Host PC by Micro USB cable.
 		Connect RA board to MAX31875PMB1 as below:
 		RA board                     MAX31875PMB1
 		-----------------------------------------------
@@ -151,7 +132,6 @@
 
 	For EK-RA4M2:
 	---------
-		Connect RA board to Host PC by Micro USB cable.
 		Connect RA board to MAX31875PMB1 as below:
 		RA board                     MAX31875PMB1
 		-----------------------------------------------
@@ -162,7 +142,6 @@
 
 	For EK-RA4M3, EK-RA6M4:
 	-------------------
-		Connect RA board to Host PC by Micro USB cable.
 		Connect RA board to MAX31875PMB1 as below:
 		RA board                     MAX31875PMB1
 		-----------------------------------------------
@@ -173,7 +152,6 @@
 
 	For EK-RA4W1:
 	---------
-		Connect RA board to Host PC by Micro USB cable.
 		Connect RA board to MAX31875PMB1 as below:
 		RA board                      MAX31875PMB1
 		-----------------------------------------------
@@ -184,7 +162,6 @@
 
 	For EK-RA6M1:
 	---------
-		Connect RA board to Host PC by Micro USB cable.
 		Connect RA board to MAX31875PMB1 as below:
 		RA board                     MAX31875PMB1
 		-----------------------------------------------
@@ -195,7 +172,6 @@
 
 	For EK-RA6M2:
 	---------
-		Connect RA board to Host PC by Micro USB cable.
 		Connect RA board to MAX31875PMB1 as below:
 		RA board                     MAX31875PMB1
 		-----------------------------------------------
@@ -206,7 +182,6 @@
 
 	For EK-RA6M3, EK-RA6M3G:
 	-------------------
-		Connect RA board to Host PC by Micro USB cable.
 		Connect RA board to MAX31875PMB1 as below:
 		RA board                     MAX31875PMB1
 		-----------------------------------------------
@@ -217,7 +192,6 @@
 
 	For EK-RA6M5:
 	---------
-		Connect RA board to Host PC by Micro USB cable.
 		Connect RA board to MAX31875PMB1 as below:
 		RA board                     MAX31875PMB1
 		-----------------------------------------------
@@ -228,7 +202,6 @@
 
 	For EK-RA8D1:
 	---------
-		Connect RA board to Host PC by Micro USB cable.
 		Connect RA board to MAX31875PMB1 as below:
 		RA board                      MAX31875PMB1
 		-----------------------------------------------
@@ -239,7 +212,6 @@
 
 	For FPB-RA4E1, FPB-RA6E1:
 	---------------------
-		Connect RA board to Host PC by Micro USB cable.
 		Connect RA board to MAX31875PMB1 as below:
 		RA board                     MAX31875PMB1
 		-----------------------------------------------
@@ -250,7 +222,6 @@
 
 	For FPB-RA8E1:
 	---------
-		Connect RA board to Host PC by Type-C USB cable.
 		Connect RA board to MAX31875PMB1 as below:
 		RA board                      MAX31875PMB1
 		-----------------------------------------------
@@ -261,14 +232,12 @@
 
 	For MCK-RA4T1, MCK-RA6T3:
 	---------------------
-		Connect RA board to Host PC by Type-C USB cable.
 		Connect MAX31875PMB1 (JU4:1) to RA board via the PMOD1 Port (PMOD1:1)
 		Jumper J10 short pin2-3 to select SCL Pin
 		Jumper J11 short pin1-2 to select SDA Pin
 
 	For MCK-RA6T2:
 	---------
-		Connect RA board to Host PC by Type-C USB cable.
 		Connect RA board to MAX31875PMB1 as below:
 		RA board                      MAX31875PMB1
 		-----------------------------------------------
@@ -279,12 +248,10 @@
 
 	For MCK-RA8T1:
 	---------
-		Connect RA board to Host PC by Type-C USB cable.
 		Connect MAX31875PMB1 (JU4:1) to RA board via the PMOD6A (PMOD6A:1)
 
 	For RSSK-RA6T1:
 	-----------
-		Connect RA board to Host PC by Mini USB cable.
 		Connect RA board to MAX31875PMB1 as below:
 		RA board                     MAX31875PMB1
 		-----------------------------------------------
@@ -293,9 +260,8 @@
 		GND       (CN8:5) <--------> GND (J1:5)
 		VCC       (CN8:6) <--------> VDD (J1:6)
 
-	For EK-RA8P1:
+	For EK-RA8P1, EK-RA8D2:
 	-----------
-		Connect RA board to Host PC by Type-C USB cable.
 		Connect RA board to MAX31875PMB1 as below:
 		RA board                     MAX31875PMB1
 		-----------------------------------------------
@@ -307,7 +273,6 @@
 	For FPB-RA2T1:
 	-----------
 		The user must close E7 to use P914 for LED2.
-		Connect RA board to Host PC by Type-C USB cable.
 		Connect RA board to MAX31875PMB1 as below:
 		RA board                     MAX31875PMB1
 		-----------------------------------------------
@@ -320,7 +285,6 @@
 	-----------
 		The user must place jumper J6 on pins 2-3, J8 on pins 1-2, J9 on pins 2-3 and turn OFF SW4-4 to use
 		the on-board debug functionality.
-		Connect RA board to Host PC by Type-C USB cable.
 		Connect RA board to MAX31875PMB1 as below:
 		RA board                     MAX31875PMB1
 		-----------------------------------------------
@@ -331,7 +295,6 @@
 
 	For MCK-RA8T2:
 	-----------
-		Connect RA board to Host PC by Type-C USB cable.
 		Connect RA board to MAX31875PMB1 as below:
 		RA board                      MAX31875PMB1
 		-----------------------------------------------
@@ -340,18 +303,65 @@
 		GND       (CN1:25) <--------> GND (J1:5)
 		VCC       (CN1:23) <--------> VDD (J1:6)
 
-Note:
-1) For using the Serial Terminal (UART):
-   The serial terminal setting parameters are as follows:
-		Select the COM port provided by the J-Link on-board.
-		Baud rate: 115200 bps
-		Data length: 8-bits
-		Parity: none
-		Stop bit: 1-bit
-		Flow control: none
-   To show the degree Celsius symbol (°C), the user needs to select the "Consolas" font through:
-   [Setup] -> [Font...] -> [Font:]
+	For EK-RA8M2:
+	-----------
+		The user must place jumper J6 on pins 2-3, J8 on pins 1-2, J9 on pins 2-3, and J29 on pins 1-2,
+		3-4, 5-6, 7-8 to use the on-board debug functionality.
+		Connect RA board to MAX31875PMB1 as below:
+		RA board                     MAX31875PMB1
+		-----------------------------------------------
+		SCL1 P512 (J4:11) <--------> SCL (J1:3)
+		SDA1 P511 (J4:14) <--------> SDA (J1:4)
+		GND       (J4:19) <--------> GND (J1:5)
+		VCC       (J4:1)  <--------> VDD (J1:6)
 
-2) For using J-Link RTT Viewer:
-   If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT)
-   in .map file generated in the project folder (e2studio\Debug or e2studio\Release).
+	For EK-RA8T2:
+	-----------
+		The user must set the configuration switches (SW6 and SW4) as below to use the on-board debug functionality.
+		+-------+-------+-------+-------+-------+-------+-------+-------+-------+--------+
+		| SW6-1 | SW6-2 | SW6-3 | SW6-4 | SW6-5 | SW6-6 | SW6-7 | SW6-8 | SW6-9 | SW6-10 |
+		+-------+-------+-------+-------+-------+-------+-------+-------+-------+--------+
+		|  OFF  |  OFF  |  OFF  |  OFF  |  ON   |  OFF  |  ON   |  ON   |  ON   |   ON   |
+		+-------+-------+-------+-------+-------+-------+-------+-------+-------+--------+
+
+		+-------+-------+-------+-------+-------+-------+-------+-------+
+		| SW4-1 | SW4-2 | SW4-3 | SW4-4 | SW4-5 | SW4-6 | SW4-7 | SW4-8 |
+		+-------+-------+-------+-------+-------+-------+-------+-------+
+		|  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |
+		+-------+-------+-------+-------+-------+-------+-------+-------+
+		Connect RA board to MAX31875PMB1 as below:
+		RA board                     MAX31875PMB1
+		-----------------------------------------------
+		SCL0 P410 (J2:32) <--------> SCL (J1:3)
+		SDA0 P409 (J2:34) <--------> SDA (J1:4)
+		GND       (J2:39) <--------> GND (J1:5)
+		VCC       (J2:1)  <--------> VDD (J1:6)
+
+	For FPB-RA4E2, FPB-RA6E2:
+	---------------------
+		Connect RA board to MAX31875PMB1 as below:
+		RA board                     MAX31875PMB1
+		-----------------------------------------------
+		SCL P100  (J4:16) <--------> SCL (J1:3)
+		SDA P101  (J4:15) <--------> SDA (J1:4)
+		GND       (J4:8)  <--------> GND (J1:5)
+		VCC       (J4:7)  <--------> VDD (J1:6)
+
+Note:
+1) To view output logs on a serial terminal application (e.g., Tera Term), configure the settings as shown below:
+	a. To make sure the received data shows properly, the user needs to set:
+		[Setup] -> [Terminal...] -> [New-line] -> Select [Receive: CR] & [Transmit: CR].
+
+	b. To echo back characters typed in Tera Term, the user needs to enable it through:
+		[Setup] -> [Terminal...] -> Check [Local echo].
+
+	c. The configuration parameters of the serial port on the serial terminal application:
+		Port: The port is provided by the J-Link On-Board.
+		Speed: 115200
+		Data: 8 bit
+		Parity: none
+		Stop bits: 1 bit
+		Flow control: none
+
+	d. To show the degree Celsius symbol (°C), the user needs to select the "Consolas" font through:
+		[Setup] -> [Font...] -> [Font:]

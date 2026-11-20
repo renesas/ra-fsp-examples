@@ -3,10 +3,10 @@
  * Description  : Contains data structures and functions used in hal_warmstart.c.
  **********************************************************************************************************************/
 /***********************************************************************************************************************
-* Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
-*
-* SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
+ * Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ **********************************************************************************************************************/
 
 #include "hal_data.h"
 
@@ -34,6 +34,14 @@ void R_BSP_WarmStart (bsp_warm_start_event_t event)
          * more than 6us. */
 #endif
     }
+
+#if BSP_CFG_OSPI_B_STARTUP_ENABLED && defined(BSP_CFG_OSPI_B_STARTUP_FN)
+    if (BSP_WARM_START_POST_CLOCK == event)
+    {
+        /* Setup OSPI_B SiP flash and initialize it. */
+        R_BSP_OspiBInit(BSP_CFG_OSPI_B_STARTUP_FN, true);
+    }
+#endif
 
     if (BSP_WARM_START_POST_C == event)
     {

@@ -3,63 +3,47 @@
  * Description  : Contains function definition.
  **********************************************************************************************************************/
 /***********************************************************************************************************************
-* Copyright (c) 2020 - 2025 Renesas Electronics Corporation and/or its affiliates
-*
-* SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
-
-#include "common_utils.h"
-#include "gpt_timer.h"
-
-/*******************************************************************************************************************//**
- * @addtogroup r_gpt_ep
- * @{
+ * Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
  **********************************************************************************************************************/
+
+#include <stdbool.h>
+#include "gpt_timer.h"
 
 /* Boolean flag to determine One-Shot mode timer is expired or not */
 bool volatile g_one_shot_expired = false;
-/* Store timer open state */
-uint8_t g_timer_open_state = RESET_VALUE;
+
+gpt_instance_ctrl_t * gp_active_timer_ctrl = NULL;
 
 /***********************************************************************************************************************
- * @brief       Initialize GPT timer.
- * @param[in]   p_timer_ctl     Timer instance control structure.
- * @param[in]   p_timer_cfg     Timer instance configuration structure.
- * @param[in]   timer_mode      Mode of GPT Timer.
- * @retval      FSP_SUCCESS     Upon successful open of timer.
- * @retval      Any other error code apart from FSP_SUCCESS on unsuccessful open.
+ * @brief     This function initializes GPT timer.
+ * @param[in] p_timer_ctl               Pointer to the control structure.
+ * @param[in] p_timer_cfg               Pointer to a configuration structure.
+ * @param[in] timer_mode                Mode of GPT Timer.
+ * @retval    FSP_SUCCESS               Initialized successfully.
+ * @retval    Any other error codes     Failed to initialize.
  **********************************************************************************************************************/
-fsp_err_t init_gpt_timer(timer_ctrl_t * const p_timer_ctl, timer_cfg_t const * const p_timer_cfg, uint8_t timer_mode)
+fsp_err_t init_gpt_timer(timer_ctrl_t * const p_timer_ctl, timer_cfg_t const * const p_timer_cfg)
 {
     fsp_err_t err = FSP_SUCCESS;
 
-    /* Initialize GPT Timer */
-    err = R_GPT_Open(p_timer_ctl, p_timer_cfg);
-    if (FSP_SUCCESS != err)
+    gp_active_timer_ctrl = (gpt_instance_ctrl_t *) p_timer_ctl;
+
+    if (gp_active_timer_ctrl->open == MODULE_CLOSE)
     {
-        APP_ERR_PRINT("\r\n** R_GPT_Open API FAILED **\r\n");
-        return err;
+        /* Initialize GPT Timer */
+        err = R_GPT_Open(p_timer_ctl, p_timer_cfg);
     }
-    if (PERIODIC_MODE_TIMER == timer_mode)
-    {
-        g_timer_open_state = PERIODIC_MODE;
-    }
-    else if (PWM_MODE_TIMER == timer_mode)
-    {
-        g_timer_open_state = PWM_MODE;
-    }
-    else
-    {
-        g_timer_open_state = ONE_SHOT_MODE;
-    }
+
     return err;
 }
 
 /***********************************************************************************************************************
- * @brief       Start GPT timers in Periodic, One-Shot, PWM modes.
- * @param[in]   p_timer_ctl     Timer instance control structure.
- * @retval      FSP_SUCCESS     Upon successful start of timer.
- * @retval      Any other error code apart from FSP_SUCCESS on unsuccessful start.
+ * @brief     This function starts GPT timer in Periodic, One-Shot, PWM modes.
+ * @param[in] p_timer_ctl               Pointer to the timer control structure.
+ * @retval    FSP_SUCCESS               Started successfully.
+ * @retval    Any other error codes     Failed to start.
  **********************************************************************************************************************/
 fsp_err_t start_gpt_timer(timer_ctrl_t * const p_timer_ctl)
 {
@@ -67,34 +51,28 @@ fsp_err_t start_gpt_timer(timer_ctrl_t * const p_timer_ctl)
 
     /* Starts GPT timer */
     err = R_GPT_Start(p_timer_ctl);
-    if (FSP_SUCCESS != err)
-    {
-        /* In case of GPT_open is successful and start fails, requires a immediate cleanup.
-         * Since, cleanup for GPT open is done in start_gpt_timer, hence cleanup is not required */
-        APP_ERR_PRINT("\r\n** R_GPT_Start API failed **\r\n");
-    }
+
     return err;
 }
 
 /***********************************************************************************************************************
- *  @brief       Set duty cycle of PWM timer.
- *  @param[in]   duty_cycle_percent     Duty cycle percent.
- *  @retval      FSP_SUCCESS on correct duty cycle set.
- *  @retval      FSP_INVALID_ARGUMENT on invalid info.
+ * @brief     This function sets the duty cycle of PWM timer.
+ * @param[in] duty_cycle_percent        Duty cycle percent.
+ * @retval    FSP_SUCCESS               Set successfully.
+ * @retval    Any other error codes     Failed to set.
  **********************************************************************************************************************/
 fsp_err_t set_timer_duty_cycle(uint8_t duty_cycle_percent)
 {
-    fsp_err_t    err                   = FSP_SUCCESS;
-    uint32_t     duty_cycle_counts     = RESET_VALUE;
-    uint32_t     current_period_counts = RESET_VALUE;
-    timer_info_t info                  = {(timer_direction_t)RESET_VALUE, RESET_VALUE, RESET_VALUE};
+    fsp_err_t err = FSP_SUCCESS;
+    uint32_t duty_cycle_counts = RESET_VALUE;
+    uint32_t current_period_counts = RESET_VALUE;
+    timer_info_t info = {(timer_direction_t)RESET_VALUE, RESET_VALUE, RESET_VALUE};
 
     /* Get the current period setting */
     err = R_GPT_InfoGet(&g_timer_pwm_ctrl, &info);
     if (FSP_SUCCESS != err)
     {
-        /* GPT Timer InfoGet failure message */
-        APP_ERR_PRINT("\r\n** R_GPT_InfoGet API failed **\r\n");
+        return err;
     }
     else
     {
@@ -115,83 +93,48 @@ fsp_err_t set_timer_duty_cycle(uint8_t duty_cycle_percent)
         err = R_GPT_DutyCycleSet(&g_timer_pwm_ctrl, duty_cycle_counts, TIMER_PIN);
         if (FSP_SUCCESS != err)
         {
-            /* GPT Timer duty cycle set failure message */
-            /* In case of GPT_open is successful and duty cycle set fails, requires a immediate cleanup.
-             * Since, cleanup for GPT open is done in timer_duty_cycle_set, hence cleanup is not required */
-            APP_ERR_PRINT("\r\n** R_GPT_DutyCycleSet API failed **\r\n");
+            return err;
         }
     }
     return err;
 }
 
 /***********************************************************************************************************************
- *  @brief      Process input string to integer value.
- *  @param[in]  None
- *  @retval     Integer value of input string.
+ * @brief     This function sets period value of Periodic timer.
+ * @param[in] period_counts             Period value.
+ * @retval    FSP_SUCCESS               Set successfully.
+ * @retval    Any other error codes     Failed to set.
  **********************************************************************************************************************/
-uint32_t process_input_data(void)
-{
-    unsigned char buf[BUF_SIZE] = {INITIAL_VALUE};
-    uint32_t num_bytes          = RESET_VALUE;
-    uint32_t value              = RESET_VALUE;
-
-    while (RESET_VALUE == num_bytes)
-    {
-        if (APP_CHECK_DATA)
-        {
-            num_bytes = APP_READ(buf);
-            if (RESET_VALUE == num_bytes)
-            {
-                APP_PRINT("\r\nInvalid Input\r\n");
-            }
-        }
-    }
-
-    /* Conversion from input string to integer value */
-    value = (uint32_t) (atoi((char *)buf));
-
-    return value;
-}
-
-/***********************************************************************************************************************
- * @brief      Close the GPT HAL driver.
- * @param[in]  p_timer_ctl     Timer instance control structure.
- * @retval     None
- **********************************************************************************************************************/
-void deinit_gpt_timer(timer_ctrl_t * const p_timer_ctl)
+fsp_err_t set_period_gpt_timer(timer_ctrl_t * const p_ctrl, uint32_t const period_counts)
 {
     fsp_err_t err = FSP_SUCCESS;
 
-    /* Timer close API call */
-    err = R_GPT_Close(p_timer_ctl);
-    if (FSP_SUCCESS != err)
-    {
-        /* GPT close failure message */
-        APP_ERR_PRINT("\r\n** R_GPT_Close FAILED **\r\n");
-    }
+    /* Set period value */
+    err = R_GPT_PeriodSet(p_ctrl, period_counts);
 
-    /* Reset open state of timer */
-    g_timer_open_state = RESET_VALUE;
+    return err;
 }
 
 /***********************************************************************************************************************
- * @brief      Print GPT Timer menu option.
- * @param[in]  None
- * @retval     None
+ * @brief     This function closes opened GPT module.
+ * @param[in] p_timer_ctl               Pointer to the timer control structure.
+ * @retval    None.
  **********************************************************************************************************************/
-void print_timer_menu(void)
+void deinit_gpt_timer(timer_ctrl_t * const p_timer_ctl)
 {
-    APP_PRINT("\r\nMenu Options");
-    APP_PRINT("\r\n1. Enter 1 for Periodic mode");
-    APP_PRINT("\r\n2. Enter 2 for PWM mode");
-    APP_PRINT("\r\n3. Enter 3 for One-Shot mode\r\n");
-    APP_PRINT("User Input:  ");
+    gpt_instance_ctrl_t * p_instance_ctrl = (gpt_instance_ctrl_t *) p_timer_ctl;
+
+    if (p_instance_ctrl->open != MODULE_CLOSE)
+    {
+        /* Close the opened GPT timer */
+        R_GPT_Close(p_timer_ctl);
+    }
 }
 
 /***********************************************************************************************************************
- *  @brief      The user defined GPT callback in One-Shot mode.
- *  @param[in]  p_args  Callback function parameter data.
- *  @retval     None
+ * @brief      This function is callback for a GPT timer in One-Shot mode.
+ * @param[in]  p_args                   Pointer to the callback function parameter data.
+ * @retval     None.
  **********************************************************************************************************************/
 void user_gpt_one_shot_callback(timer_callback_args_t * p_args)
 {
@@ -204,7 +147,3 @@ void user_gpt_one_shot_callback(timer_callback_args_t * p_args)
         }
     }
 }
-
-/*******************************************************************************************************************//**
- * @} (end addtogroup r_gpt_ep)
- **********************************************************************************************************************/

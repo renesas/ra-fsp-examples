@@ -1,201 +1,165 @@
 /***********************************************************************************************************************
  * File Name    : common_init.c
- * Description  : Common initialization function.
+ * Description  : Contains data structures and functions used in the common_init.c.
  **********************************************************************************************************************/
 /***********************************************************************************************************************
-* Copyright (c) 2020 - 2025 Renesas Electronics Corporation and/or its affiliates
-*
-* SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
+ * Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ **********************************************************************************************************************/
 
 #include "common_init.h"
-#include "board_cfg.h"
+#include "usb_pcdc_board_cfg.h"
 
-#define NUM_RATES             (sizeof(pwm_rates) / sizeof(pwm_rates[0]))
-#define NUM_DCS               (sizeof(pwm_dcs) / sizeof(pwm_dcs[0]))
-#define NUM_SWITCH            (sizeof(irq_pins) / sizeof(irq_pins[0]))
+/* Global variable */
+volatile uint32_t g_curr_led_freq = BLINK_FREQ_1HZ;
 
-uint32_t g_curr_led_freq = BLINK_FREQ_1HZ;
+volatile static uint32_t s_cur_dc = 0;
+volatile static uint32_t s_cur_rate = 0;
+static const uint32_t s_pwm_dcs[3] = {LED_INTENSITY_90, LED_INTENSITY_50, LED_INTENSITY_10};
+static const uint32_t s_pwm_rates[3] = {BLINK_FREQ_1HZ, BLINK_FREQ_5HZ, BLINK_FREQ_10HZ};
 
-static const struct
-{
-    const external_irq_instance_t * const p_irq;
-} irq_pins[] =
-{
-        {&g_external_irq12},
-        {&g_external_irq13},
-};
+/* Private functions */
+static fsp_err_t icu_init(void);
+static fsp_err_t gpt_init(void);
+static fsp_err_t adc_init(void);
 
-static const struct
-{
-    const timer_instance_t * const p_timer;
-    const gpt_io_pin_t              pin;
-} pwm_pins[] =
-{
-    {&g_gpt_blue, GPT_IO_PIN_GTIOCB},
-    {&g_gpt_red_and_green, GPT_IO_PIN_GTIOCA_AND_GTIOCB}
-};
-
-static uint32_t cur_dc = 0, cur_rate = 0;
-
-int curr_led_freq = 0;
-uint32_t pwm_dcs[3] = {LED_INTENSITY_90, LED_INTENSITY_50, LED_INTENSITY_10};
-uint32_t pwm_rates[3] = {BLINK_FREQ_1HZ, BLINK_FREQ_5HZ, BLINK_FREQ_10HZ};
-
-void button_irq13_callback(external_irq_callback_args_t *p_args)
+/*******************************************************************************************************************//**
+ * @brief     This function is a callback of the user button SW2 (IRQ13) and changes the LED blinking frequency.
+ * @param[in] p_args                        Pointer to the callback arguments (unused).
+ * @retval    None.
+ **********************************************************************************************************************/
+void button_irq13_callback(external_irq_callback_args_t * p_args)
 {
     FSP_PARAMETER_NOT_USED(p_args);
 
-    if(++cur_rate > (NUM_RATES - 1))
-        cur_rate = 0;
+    s_cur_rate++;
+    if (s_cur_rate > (NUM_RATES - 1))
+    {
+        s_cur_rate = 0;
+    }
 
-    R_GPT_PeriodSet(g_blinker.p_ctrl, pwm_rates[cur_rate]);
+    R_GPT_PeriodSet(g_blinker.p_ctrl, s_pwm_rates[s_cur_rate]);
 
-    g_curr_led_freq = (uint32_t)pwm_rates[cur_rate];
+    g_curr_led_freq = s_pwm_rates[s_cur_rate];
 }
 
-void button_irq12_callback(external_irq_callback_args_t *p_args)
+/*******************************************************************************************************************//**
+ * @brief     This function is a callback of the user button SW1 (IRQ12) and changes the LED intensity.
+ * @param[in] p_args                        Pointer to the callback arguments (unused).
+ * @retval    None.
+ **********************************************************************************************************************/
+void button_irq12_callback(external_irq_callback_args_t * p_args)
 {
     FSP_PARAMETER_NOT_USED(p_args);
 
-    if(++cur_dc > (NUM_DCS - 1))
-        cur_dc = 0;
-
-    for(uint32_t j = 0; j < (sizeof(pwm_pins) / sizeof(pwm_pins[0])); j++)
+    s_cur_dc++;
+    if (s_cur_dc > (NUM_DCS - 1))
     {
-        R_GPT_DutyCycleSet(pwm_pins[j].p_timer->p_ctrl, pwm_dcs[cur_dc], pwm_pins[j].pin);
+        s_cur_dc = 0;
+    }
+
+    for (uint32_t j = 0; j < (sizeof(s_pwm_pins) / sizeof(s_pwm_pins[0])); j++)
+    {
+        R_GPT_DutyCycleSet(s_pwm_pins[j].p_timer->p_ctrl, s_pwm_dcs[s_cur_dc], s_pwm_pins[j].pin);
     }
 }
 
-static fsp_err_t ICU_Initialize(void)
+/*******************************************************************************************************************//**
+ * @brief     This function is a callback of the blinking timer and starts or stops the PWM timers of the LEDs.
+ * @param[in] p_args                        Pointer to the callback arguments.
+ * @retval    None.
+ **********************************************************************************************************************/
+void gpt_blink_callback(timer_callback_args_t * p_args)
 {
-    fsp_err_t fsp_err = FSP_SUCCESS;
-
-    for(uint32_t i = 0; i < NUM_SWITCH; i++)
-    {
-        fsp_err = R_ICU_ExternalIrqOpen(irq_pins[i].p_irq->p_ctrl, irq_pins[i].p_irq->p_cfg);
-        if(FSP_SUCCESS != fsp_err)
-            return fsp_err;
-
-        fsp_err = R_ICU_ExternalIrqEnable(irq_pins[i].p_irq->p_ctrl);
-        if(FSP_SUCCESS != fsp_err)
-            return fsp_err;
-    }
-
-    return fsp_err;
-}
-
-void gpt_blink_callback(timer_callback_args_t *p_args)
-{
-    if(TIMER_EVENT_CYCLE_END == p_args->event)
+    if (TIMER_EVENT_CYCLE_END == p_args->event)
     {
         timer_status_t status = {0};
 
-        R_GPT_StatusGet(pwm_pins[0].p_timer->p_ctrl, &status);
+        R_GPT_StatusGet(s_pwm_pins[0].p_timer->p_ctrl, &status);
 
-        for(uint32_t i = 0; i < (sizeof(pwm_pins) / sizeof(pwm_pins[0])); i++)
+        for (uint32_t i = 0; i < (sizeof(s_pwm_pins) / sizeof(s_pwm_pins[0])); i++)
         {
             if (TIMER_STATE_COUNTING == status.state)
             {
-                R_GPT_Stop(pwm_pins[i].p_timer->p_ctrl);
+                R_GPT_Stop(s_pwm_pins[i].p_timer->p_ctrl);
             }
             else
             {
-                R_GPT_Start(pwm_pins[i].p_timer->p_ctrl);
+                R_GPT_Start(s_pwm_pins[i].p_timer->p_ctrl);
             }
         }
     }
 }
 
-static fsp_err_t GPT_Initialize(void)
+/*******************************************************************************************************************//**
+ * @brief     This function initializes the GPT, ICU, and ADC modules.
+ * @param[in] None.
+ * @retval    FSP_SUCCESS                   Initialized successfully.
+ * @retval    Any other error codes         Failed to initialize.
+ **********************************************************************************************************************/
+fsp_err_t common_init(void)
 {
-    fsp_err_t fsp_err = FSP_SUCCESS;
+    fsp_err_t err = FSP_SUCCESS;
 
-    for(uint32_t i = 0; i < (sizeof(pwm_pins) / sizeof(pwm_pins[0])); i++)
+    err = gpt_init();
+    if (FSP_SUCCESS != err)
     {
-        fsp_err = R_GPT_Open(pwm_pins[i].p_timer->p_ctrl, pwm_pins[i].p_timer->p_cfg);
-        if(FSP_SUCCESS != fsp_err)
-            return fsp_err;
+        return err;
     }
 
-    fsp_err = R_GPT_Open(g_blinker.p_ctrl, g_blinker.p_cfg);
+    err = icu_init();
+    if (FSP_SUCCESS != err)
     {
-        if(FSP_SUCCESS != fsp_err)
-            return fsp_err;
-    }
-    fsp_err = R_GPT_PeriodSet(g_blinker.p_ctrl, pwm_rates[cur_rate]);
-    {
-        if(FSP_SUCCESS != fsp_err)
-            return fsp_err;
+        return err;
     }
 
-    fsp_err = R_GPT_Start(g_blinker.p_ctrl);
-    if(FSP_SUCCESS != fsp_err)
-    {
-        /* Turn ON red LED to indicate fatal error */
-        TURN_RED_ON;
+    err = adc_init();
 
-        /* Close the GPT timer */
-        R_GPT_Close(g_blinker.p_ctrl);
-
-        return fsp_err;
-    }
-
-    return fsp_err;
+    return err;
 }
 
-static fsp_err_t ADC_Initialize(void)
+/*******************************************************************************************************************//**
+ * @brief      This function reads the MCU die temperature from the ADC.
+ * @param[out] p_adc_data                   Pointer to store the raw ADC value of the temperature channel.
+ * @retval     FSP_SUCCESS                  Read successfully.
+ * @retval     Any other error codes        Failed to read.
+ **********************************************************************************************************************/
+fsp_err_t adc_temperature_get(uint16_t * p_adc_data)
 {
-    fsp_err_t fsp_err = FSP_SUCCESS;
+    fsp_err_t err = FSP_SUCCESS;
 
-#if (BSP_PERIPHERAL_ADC_B_PRESENT)
-    fsp_err = R_ADC_B_Open(&g_adc_b_ctrl, &g_adc_b_cfg);
-#else
-    fsp_err = R_ADC_Open(&g_adc_ctrl, &g_adc_cfg);
-#endif /* BSP_PERIPHERAL_ADC_B_PRESENT */
-    if(FSP_SUCCESS != fsp_err)
-        return fsp_err;
-
-#if (BSP_PERIPHERAL_ADC_B_PRESENT)
-    fsp_err = R_ADC_B_ScanCfg(&g_adc_b_ctrl, &g_adc_b_scan_cfg);
-#else
-    fsp_err = R_ADC_ScanCfg(&g_adc_ctrl, &g_adc_channel_cfg);
-#endif /* BSP_PERIPHERAL_ADC_B_PRESENT */
-    if(FSP_SUCCESS != fsp_err)
-        return fsp_err;
-
-#if (BSP_PERIPHERAL_ADC_B_PRESENT)
-    fsp_err = adc_start_calibration();
-    if(FSP_SUCCESS != fsp_err)
-        return fsp_err;
+#if !(BSP_PERIPHERAL_ADC_B_PRESENT)
+    /* Start the ADC scan again in single scan mode */
+    if (ADC_MODE_SINGLE_SCAN == g_adc_cfg.mode)
+    {
+        err = ADC_SCANSTART(&g_adc_ctrl);
+        if (FSP_SUCCESS != err)
+        {
+            return err;
+        }
+    }
 #endif /* BSP_PERIPHERAL_ADC_B_PRESENT */
 
-#if (BSP_PERIPHERAL_ADC_B_PRESENT)
-    fsp_err = R_ADC_B_ScanStart(&g_adc_b_ctrl);
-#else
-    fsp_err = R_ADC_ScanStart(&g_adc_ctrl);
-#endif /* BSP_PERIPHERAL_ADC_B_PRESENT */
-    if(FSP_SUCCESS != fsp_err)
-        return fsp_err;
+    err = ADC_READ(&g_adc_ctrl, ADC_CHANNEL_TEMPERATURE, p_adc_data);
 
-    return fsp_err;
+    return err;
 }
 
 #if (BSP_PERIPHERAL_ADC_B_PRESENT)
 /*******************************************************************************************************************//**
- * @brief       This function initiates the calibration
- * @param[IN]   None
- * @retval      FSP_SUCCESS                  Upon successful of ADC calibration
- * @retval      Any other error code apart from FSP_SUCCESS  Unsuccessful calibration failure
- ***********************************************************************************************************************/
+ * @brief     This function initiates the ADC calibration and waits until the calibration is finished.
+ * @param[in] None.
+ * @retval    FSP_SUCCESS                   Calibrated successfully.
+ * @retval    Any other error codes         Failed to calibrate.
+ **********************************************************************************************************************/
 fsp_err_t adc_start_calibration(void)
 {
-    fsp_err_t err = FSP_SUCCESS;     /* Error status */
-    adc_status_t adc_status;         /* To get ADC status */
+    fsp_err_t err = FSP_SUCCESS;
+    adc_status_t adc_status;
 
-    /* Initiate ADC calibration */
-    err = R_ADC_B_Calibrate(&g_adc_b_ctrl, NULL);
-    /* Handle error */
+    /* Initiate the ADC calibration */
+    err = ADC_CALIBRATE(&g_adc_ctrl);
     if (FSP_SUCCESS != err)
     {
         return err;
@@ -203,35 +167,116 @@ fsp_err_t adc_start_calibration(void)
 
     do
     {
-        /* To get the ADC status */
-        err = R_ADC_B_StatusGet(&g_adc_b_ctrl, &adc_status);
-        /* Handle error */
+        /* Get the ADC status */
+        err = ADC_STATUSGET(&g_adc_ctrl, &adc_status);
         if (FSP_SUCCESS != err)
         {
             return err;
         }
-    } while (ADC_STATE_IDLE != adc_status.state); /* Wait here till the calibration.
-                                                   * It takes 24 milliseconds to 780 milliseconds based on clock */
+
+        /* Wait here until the calibration is finished, it takes 24 milliseconds to 780 milliseconds based on
+         * the clock */
+    } while (ADC_STATE_IDLE != adc_status.state);
 
     return err;
 }
-#endif
+#endif /* BSP_PERIPHERAL_ADC_B_PRESENT */
 
-fsp_err_t common_init(void)
+/*******************************************************************************************************************//**
+ * @brief     This function opens and enables the external IRQ of the user buttons.
+ * @param[in] None.
+ * @retval    FSP_SUCCESS                   Initialized successfully.
+ * @retval    Any other error codes         Failed to initialize.
+ **********************************************************************************************************************/
+static fsp_err_t icu_init(void)
 {
-    fsp_err_t fsp_err = FSP_SUCCESS;
+    fsp_err_t err = FSP_SUCCESS;
 
-    fsp_err = GPT_Initialize();
-    if(FSP_SUCCESS != fsp_err)
-        return fsp_err;
+    for (uint32_t i = 0; i < NUM_SWITCH; i++)
+    {
+        err = R_ICU_ExternalIrqOpen(s_irq_pins[i].p_irq->p_ctrl, s_irq_pins[i].p_irq->p_cfg);
+        if (FSP_SUCCESS != err)
+        {
+            return err;
+        }
 
-    fsp_err = ICU_Initialize();
-    if(FSP_SUCCESS != fsp_err)
-        return fsp_err;
+        err = R_ICU_ExternalIrqEnable(s_irq_pins[i].p_irq->p_ctrl);
+        if (FSP_SUCCESS != err)
+        {
+            return err;
+        }
+    }
 
-    fsp_err = ADC_Initialize();
-    if(FSP_SUCCESS != fsp_err)
-        return fsp_err;
+    return err;
+}
 
-    return fsp_err;
+/*******************************************************************************************************************//**
+ * @brief     This function opens the GPT timers of the LEDs and starts the blinking timer.
+ * @param[in] None.
+ * @retval    FSP_SUCCESS                   Initialized successfully.
+ * @retval    Any other error codes         Failed to initialize.
+ **********************************************************************************************************************/
+static fsp_err_t gpt_init(void)
+{
+    fsp_err_t err = FSP_SUCCESS;
+
+    for (uint32_t i = 0; i < (sizeof(s_pwm_pins) / sizeof(s_pwm_pins[0])); i++)
+    {
+        err = R_GPT_Open(s_pwm_pins[i].p_timer->p_ctrl, s_pwm_pins[i].p_timer->p_cfg);
+        if (FSP_SUCCESS != err)
+        {
+            return err;
+        }
+    }
+
+    err = R_GPT_Open(g_blinker.p_ctrl, g_blinker.p_cfg);
+    if (FSP_SUCCESS != err)
+    {
+        return err;
+    }
+
+    err = R_GPT_PeriodSet(g_blinker.p_ctrl, s_pwm_rates[s_cur_rate]);
+    if (FSP_SUCCESS != err)
+    {
+        return err;
+    }
+
+    err = R_GPT_Start(g_blinker.p_ctrl);
+
+    return err;
+}
+
+/*******************************************************************************************************************//**
+ * @brief     This function opens, configures, and starts the ADC.
+ * @param[in] None.
+ * @retval    FSP_SUCCESS                   Initialized successfully.
+ * @retval    Any other error codes         Failed to initialize.
+ **********************************************************************************************************************/
+static fsp_err_t adc_init(void)
+{
+    fsp_err_t err = FSP_SUCCESS;
+
+    err = ADC_OPEN(&g_adc_ctrl, &g_adc_cfg);
+    if (FSP_SUCCESS != err)
+    {
+        return err;
+    }
+
+    err = ADC_SCANCFG(&g_adc_ctrl, &ADC_CHANNEL_CONFIG);
+    if (FSP_SUCCESS != err)
+    {
+        return err;
+    }
+
+#if (BSP_PERIPHERAL_ADC_B_PRESENT)
+    err = adc_start_calibration();
+    if (FSP_SUCCESS != err)
+    {
+        return err;
+    }
+#endif /* BSP_PERIPHERAL_ADC_B_PRESENT */
+
+    err = ADC_SCANSTART(&g_adc_ctrl);
+
+    return err;
 }

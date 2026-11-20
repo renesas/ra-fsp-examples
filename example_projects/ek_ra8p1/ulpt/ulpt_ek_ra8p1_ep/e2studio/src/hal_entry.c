@@ -3,14 +3,12 @@
  * Description  : Contains data structures and functions used in hal_entry.c.
  **********************************************************************************************************************/
 /***********************************************************************************************************************
-* Copyright (c) 2023 - 2025 Renesas Electronics Corporation and/or its affiliates
-*
-* SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
+ * Copyright (c) 2023 - 2026 Renesas Electronics Corporation and/or its affiliates
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ **********************************************************************************************************************/
 
-#include "ulpt_ep.h"
-
-bool g_internal_reset_flag = false;
+#include "ulpt_example_app.h"
 
 #if (1 == BSP_MULTICORE_PROJECT) && BSP_TZ_SECURE_BUILD
 bsp_ipc_semaphore_handle_t g_core_start_semaphore =
@@ -25,47 +23,7 @@ bsp_ipc_semaphore_handle_t g_core_start_semaphore =
  **********************************************************************************************************************/
 void hal_entry(void)
 {
-    fsp_err_t err = FSP_SUCCESS;
-    fsp_pack_version_t version = {RESET_VALUE};
-
-    /* First time start */
-    if (false == g_internal_reset_flag)
-    {
-        /* Version get API for FSP pack information */
-        R_FSP_VersionGet(&version);
-
-        /* Example project information printed on the Console */
-        APP_PRINT(BANNER_INFO, EP_VERSION, version.version_id_b.major, version.version_id_b.minor,
-                  version.version_id_b.patch);
-        APP_PRINT_WAIT;
-        APP_PRINT(EP_INFO);
-        APP_PRINT_WAIT;
-    }
-
-    /* Internal reset */
-    else
-    {
-        g_internal_reset_flag = false;
-        APP_PRINT(BANNER_RESET);
-    }
-
-    /* Initialize necessary hardware modules */
-    err = hw_module_init();
-    APP_ERR_HANDLE(err, "hw_module_init failed\r\n");
-
-    /* The user selects the period for both timers */
-    err = ulpt_set_period();
-    APP_ERR_HANDLE(err, "ulpt_set_period failed\r\n");
-
-    /* Main loop */
-    while (true)
-    {
-        err = ulpt_periodic_operation();
-        APP_ERR_HANDLE(err, "ulpt_periodic_operation failed\r\n");
-
-        err = ulpt_one_shot_operation();
-        APP_ERR_HANDLE(err, "ulpt_one_shot_operation failed\r\n");
-    }
+    ulpt_example_app_run();
 
     /* Wake up 2nd core if this is first core and we are inside a multicore project. */
 #if (0 == _RA_CORE) && (1 == BSP_MULTICORE_PROJECT) && !BSP_TZ_NONSECURE_BUILD

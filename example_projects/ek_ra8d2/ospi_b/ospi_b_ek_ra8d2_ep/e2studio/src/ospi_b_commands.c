@@ -1,20 +1,14 @@
 /***********************************************************************************************************************
  * File Name    : ospi_b_commands.c
- * Description  : Contains data structures and functions used in ospi_b_commands.h.
+ * Description  : Contains data structures used in ospi_b_commands.c.
  **********************************************************************************************************************/
 /***********************************************************************************************************************
-* Copyright (c) 2023 - 2025 Renesas Electronics Corporation and/or its affiliates
-*
-* SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
+ * Copyright (c) 2023 - 2026 Renesas Electronics Corporation and/or its affiliates
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ **********************************************************************************************************************/
 
 #include "ospi_b_commands.h"
-#include "ospi_b_ep.h"
-
-/*******************************************************************************************************************//**
- * @addtogroup ospi_b_commands.c
- * @{
- **********************************************************************************************************************/
 
 spi_flash_direct_transfer_t g_ospi_b_direct_transfer [OSPI_B_TRANSFER_MAX] =
 {
@@ -61,7 +55,7 @@ spi_flash_direct_transfer_t g_ospi_b_direct_transfer [OSPI_B_TRANSFER_MAX] =
     .data_length    = OSPI_B_DATA_LENGTH_ONE,
     .dummy_cycles   = OSPI_B_DUMMY_CYCLE_WRITE_SPI
     },
-#elif defined (BOARD_RA8E2_EK) || defined (BOARD_RA8P1_EK)
+#elif defined (BOARD_RA8E2_EK) || defined (BOARD_RA8P1_EK) || defined (BOARD_RA8M2_EK)
     [OSPI_B_TRANSFER_WRITE_CR2_000H_SPI] =
     {
     .command        = OSPI_B_COMMAND_WRITE_REGISTER_SPI,
@@ -82,7 +76,7 @@ spi_flash_direct_transfer_t g_ospi_b_direct_transfer [OSPI_B_TRANSFER_MAX] =
     .data_length    = OSPI_B_DATA_LENGTH_ONE,
     .dummy_cycles   = OSPI_B_DUMMY_CYCLE_WRITE_SPI
     },
-#elif defined (BOARD_RA8D2_EK)
+#elif defined (BOARD_RA8D2_EK) || defined (BOARD_RA8T2_EK)
     [OSPI_B_TRANSFER_WRITE_CR_00H_SPI] =
     {
     .command        = OSPI_B_COMMAND_WRITE_REGISTER_SPI,
@@ -113,7 +107,8 @@ spi_flash_direct_transfer_t g_ospi_b_direct_transfer [OSPI_B_TRANSFER_MAX] =
     .data_length    = OSPI_B_DATA_DUMMY,
     .dummy_cycles   = OSPI_B_DUMMY_CYCLE_WRITE_SPI
     },
-#endif
+#endif /* BOARD_RA8D1_EK || BOARD_RA8M1_EK || BOARD_RA8E2_EK || BOARD_RA8P1_EK || BOARD_RA8M2_EK ||
+        BOARD_RA8D2_EK || BOARD_RA8T2_EK */
 
     [OSPI_B_TRANSFER_READ_STATUS_SPI] =
     {
@@ -158,7 +153,7 @@ spi_flash_direct_transfer_t g_ospi_b_direct_transfer [OSPI_B_TRANSFER_MAX] =
     .dummy_cycles   = OSPI_B_DUMMY_CYCLE_READ_REGISTER_SPI
     },
 
-#elif defined (BOARD_RA8E2_EK) || defined (BOARD_RA8P1_EK)
+#elif defined (BOARD_RA8E2_EK) || defined (BOARD_RA8P1_EK) || defined (BOARD_RA8M2_EK)
     [OSPI_B_TRANSFER_READ_CR2_000H_SPI] =
     {
     .command        = OSPI_B_COMMAND_READ_REGISTER_SPI,
@@ -179,7 +174,7 @@ spi_flash_direct_transfer_t g_ospi_b_direct_transfer [OSPI_B_TRANSFER_MAX] =
     .data_length    = OSPI_B_DATA_LENGTH_ONE,
     .dummy_cycles   = OSPI_B_DUMMY_CYCLE_READ_REGISTER_SPI
     },
-#elif defined (BOARD_RA8D2_EK)
+#elif defined (BOARD_RA8D2_EK) || defined (BOARD_RA8T2_EK)
     [OSPI_B_TRANSFER_READ_CR_00H_SPI] =
     {
     .command        = OSPI_B_COMMAND_READ_REGISTER_SPI,
@@ -200,7 +195,8 @@ spi_flash_direct_transfer_t g_ospi_b_direct_transfer [OSPI_B_TRANSFER_MAX] =
     .data_length    = OSPI_B_DATA_LENGTH_ONE,
     .dummy_cycles   = OSPI_B_DUMMY_CYCLE_READ_REGISTER_SPI
     },
-#endif
+#endif /* BOARD_RA8D1_EK || BOARD_RA8M1_EK || BOARD_RA8E2_EK || BOARD_RA8P1_EK || BOARD_RA8M2_EK ||
+        BOARD_RA8D2_EK || BOARD_RA8T2_EK */
 
     [OSPI_B_TRANSFER_READ_DEVICE_ID_SPI] =
     {
@@ -212,7 +208,8 @@ spi_flash_direct_transfer_t g_ospi_b_direct_transfer [OSPI_B_TRANSFER_MAX] =
 
 #if defined (BOARD_RA8D1_EK) || defined (BOARD_RA8M1_EK)
     .data_length    = OSPI_B_DATA_LENGTH_FOUR,
-#elif defined (BOARD_RA8E2_EK) || defined (BOARD_RA8P1_EK) || defined (BOARD_RA8D2_EK)
+#elif defined (BOARD_RA8E2_EK) || defined (BOARD_RA8P1_EK) || defined (BOARD_RA8D2_EK) || defined (BOARD_RA8M2_EK) ||\
+      defined (BOARD_RA8T2_EK)
     .data_length    = OSPI_B_DATA_LENGTH_THREE,
 #endif
 
@@ -262,7 +259,7 @@ spi_flash_direct_transfer_t g_ospi_b_direct_transfer [OSPI_B_TRANSFER_MAX] =
     .data_length    = OSPI_B_DATA_LENGTH_TWO,
     .dummy_cycles   = OSPI_B_DUMMY_CYCLE_WRITE_OPI
     },
-#elif defined (BOARD_RA8E2_EK) || defined (BOARD_RA8P1_EK)
+#elif defined (BOARD_RA8E2_EK) || defined (BOARD_RA8P1_EK) || defined (BOARD_RA8M2_EK)
     [OSPI_B_TRANSFER_WRITE_CR2_000H_OPI] =
     {
     .command        = OSPI_B_COMMAND_WRITE_REGISTER_OPI,
@@ -273,7 +270,7 @@ spi_flash_direct_transfer_t g_ospi_b_direct_transfer [OSPI_B_TRANSFER_MAX] =
     .data_length    = OSPI_B_DATA_LENGTH_TWO,
     .dummy_cycles   = OSPI_B_DUMMY_CYCLE_WRITE_OPI
     },
-#elif defined (BOARD_RA8D2_EK)
+#elif defined (BOARD_RA8D2_EK) || defined (BOARD_RA8T2_EK)
     [OSPI_B_TRANSFER_WRITE_CR_00H_OPI] =
     {
     .command        = OSPI_B_COMMAND_WRITE_REGISTER_OPI,
@@ -284,7 +281,8 @@ spi_flash_direct_transfer_t g_ospi_b_direct_transfer [OSPI_B_TRANSFER_MAX] =
     .data_length    = OSPI_B_DATA_LENGTH_TWO,
     .dummy_cycles   = OSPI_B_DUMMY_CYCLE_WRITE_OPI
     },
-#endif
+#endif /* BOARD_RA8D1_EK || BOARD_RA8M1_EK || BOARD_RA8E2_EK || BOARD_RA8P1_EK || BOARD_RA8M2_EK ||
+        BOARD_RA8D2_EK || BOARD_RA8T2_EK */
 
     [OSPI_B_TRANSFER_READ_STATUS_OPI] =
     {
@@ -329,7 +327,7 @@ spi_flash_direct_transfer_t g_ospi_b_direct_transfer [OSPI_B_TRANSFER_MAX] =
     .dummy_cycles   = OSPI_B_DUMMY_CYCLE_READ_REGISTER_OPI
     },
 
-#elif defined (BOARD_RA8E2_EK) || defined (BOARD_RA8P1_EK)
+#elif defined (BOARD_RA8E2_EK) || defined (BOARD_RA8P1_EK) || defined (BOARD_RA8M2_EK)
     [OSPI_B_TRANSFER_READ_CR2_000H_OPI] =
     {
     .command        = OSPI_B_COMMAND_READ_REGISTER_OPI,
@@ -351,7 +349,7 @@ spi_flash_direct_transfer_t g_ospi_b_direct_transfer [OSPI_B_TRANSFER_MAX] =
     .dummy_cycles   = OSPI_B_DUMMY_CYCLE_READ_REGISTER_OPI
     },
 
-#elif defined (BOARD_RA8D2_EK)
+#elif defined (BOARD_RA8D2_EK) || defined (BOARD_RA8T2_EK)
     [OSPI_B_TRANSFER_READ_CR_00H_OPI] =
     {
     .command        = OSPI_B_COMMAND_READ_REGISTER_OPI,
@@ -372,7 +370,8 @@ spi_flash_direct_transfer_t g_ospi_b_direct_transfer [OSPI_B_TRANSFER_MAX] =
     .data_length    = OSPI_B_DATA_LENGTH_TWO,
     .dummy_cycles   = OSPI_B_DUMMY_CYCLE_READ_REGISTER_OPI
     },
-#endif
+#endif /* BOARD_RA8D1_EK || BOARD_RA8M1_EK || BOARD_RA8E2_EK || BOARD_RA8P1_EK || BOARD_RA8M2_EK ||
+        BOARD_RA8D2_EK || BOARD_RA8T2_EK */
 
     [OSPI_B_TRANSFER_READ_DEVICE_ID_OPI] =
     {
@@ -384,13 +383,11 @@ spi_flash_direct_transfer_t g_ospi_b_direct_transfer [OSPI_B_TRANSFER_MAX] =
 
 #if defined (BOARD_RA8D1_EK) || defined (BOARD_RA8M1_EK)
     .data_length    = OSPI_B_DATA_LENGTH_FOUR,
-#elif defined (BOARD_RA8E2_EK) || defined (BOARD_RA8P1_EK) || defined (BOARD_RA8D2_EK)
+#elif defined (BOARD_RA8E2_EK) || defined (BOARD_RA8P1_EK) || defined (BOARD_RA8D2_EK) || defined (BOARD_RA8M2_EK) ||\
+      defined (BOARD_RA8T2_EK)
     .data_length    = OSPI_B_DATA_LENGTH_THREE,
-#endif
+#endif /* BOARD_RA8D1_EK || BOARD_RA8M1_EK || BOARD_RA8E2_EK || BOARD_RA8P1_EK || BOARD_RA8M2_EK ||
+        BOARD_RA8D2_EK || BOARD_RA8T2_EK */
     .dummy_cycles   = OSPI_B_DUMMY_CYCLE_READ_STATUS_OPI
     },
 };
-
-/*******************************************************************************************************************//**
- * @} (end addtogroup ospi_b_commands.c)
- **********************************************************************************************************************/

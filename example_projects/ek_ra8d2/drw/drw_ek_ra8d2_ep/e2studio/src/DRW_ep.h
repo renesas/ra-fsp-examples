@@ -1,60 +1,41 @@
 /***********************************************************************************************************************
  * File Name    : drw_ep.h
- * Description  : Contains declarations of data structures used in hal_entry.c.
+ * Description  : Contains macros, variables, and functions used in drw_ep.c.
  **********************************************************************************************************************/
 /***********************************************************************************************************************
-* Copyright (c) 2022 - 2025 Renesas Electronics Corporation and/or its affiliates
-*
-* SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
+ * Copyright (c) 2022 - 2026 Renesas Electronics Corporation and/or its affiliates
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ **********************************************************************************************************************/
 
 #ifndef DRW_EP_H_
 #define DRW_EP_H_
 
-#include "common_utils.h"
+#include <stddef.h>
+#include <stdbool.h>
+#include "hal_data.h"
 #if defined(BOARD_RA8D1_EK)
 #include "r_mipi_dsi_api.h"
 #endif /* BOARD_RA8D1_EK */
 
-#define EP_INFO  "\r\nThe example project demonstrates the basic functionalities of the DRW device driver"\
-                 "\r\non Renesas RA MCUs based on Renesas FSP. On successful initialization of the DRW and"\
-                 "\r\nGLCDC modules, the EP will display the frame buffer configured in the GLCDC module"\
-                 "\r\nand draw various shape and shapes fills to cover the entire screen of an external"\
-                 "\r\nLCD connected to RA MCU."\
-                 "\r\nAdditionally, any API failure messages will be displayed on RTT Viewer.\r\n\n "\
+/* Macro for the reset value */
+#define RESET_VALUE             (0x00)
 
-#define GLCDC_VSYNC_TIMEOUT     (1000)
+/* Macro for GLCDC VSYNC timeout */
+#define GLCDC_VSYNC_TIMEOUT     (1000U)
+
+/* Macro for frame buffer pixel size configuration */
 #if defined(BOARD_RA8E2_EK) || defined(BOARD_RA8P1_EK) || defined(BOARD_RA8D2_EK)
 #define BYTES_PER_PIXEL         (4U)
 #else
 #define BYTES_PER_PIXEL         (2U)
-#endif
+#endif /* Specific board */
+
+/* Macros for general DRW configuration */
 #define ARRAY_INDEX             (0U)
 #define BITFIELD_VALUE          (0U)
-#define RENDER_DELAY            (25U)
-#define SW_DELAY                (15U)
-#define RESET_FLAG              (0U)
-#define SET_FLAG                (1U)
 
-#if defined(BOARD_RA8D1_EK)
-#define MIPI_DSI_DISPLAY_CONFIG_DATA_DELAY_FLAG      ((mipi_dsi_cmd_id_t) 0xFE)
-#define MIPI_DSI_DISPLAY_CONFIG_DATA_END_OF_TABLE    ((mipi_dsi_cmd_id_t) 0xFD)
-
-typedef struct
-{
-    unsigned char        size;
-    unsigned char        buffer[10];
-    mipi_dsi_cmd_id_t    cmd_id;
-    mipi_dsi_cmd_flag_t flags;
-} lcd_table_setting_t;
-
-extern const lcd_table_setting_t g_lcd_init_focuslcd[];
-void mipi_dsi_push_table (const lcd_table_setting_t *table);
-void handle_error (fsp_err_t err,  const char *err_str);
-#endif /* BOARD_RA8D1_EK */
-void DRW_entry(void);
-
-/* Coordinates for various shapes drawn on the display */
+/* Macros for shape position and dimension */
 #if defined(BOARD_RA8D1_EK)
 #define CIRCLE_VAL_X            (360)
 #define CIRCLE_VAL_Y            (165)
@@ -99,6 +80,7 @@ void DRW_entry(void);
 #define LINE_VAL_WIDTH          (SCALE_DIM(4))
 #endif /* BOARD_RA8D1_EK */
 
+/* Macros for DRW rendering configuration */
 #define ALPHA_VALUE             (155U)
 #define ANTI_ALIASING_VAL       (1U)
 #define BUFFER_CLEAR_VAL        (0x000000)
@@ -108,7 +90,7 @@ void DRW_entry(void);
 #define YELLOW_COLOR_VAL        (0xFFFF00)
 #define SHIFT_VALUE             (4U)
 
-#if !defined(BOARD_RA8D1_EK)
+#if (!defined(BOARD_RA8D1_EK))
 /* Macros to calculate scaled values for LCDs other than Graphics Expansion Board P/N RTK7EK6M3B00001BU */
 #define SCALE_X(val)            ((val) * DRW_TEST_IMAGE_RES_H / 480)
 #define SCALE_Y(val)            ((val) * DRW_TEST_IMAGE_RES_V / 272)
@@ -117,23 +99,54 @@ void DRW_entry(void);
 /* Scaling factors for step size of animation */
 #define STEP_X                  (DRW_TEST_IMAGE_RES_H / 480)
 #define STEP_Y                  (DRW_TEST_IMAGE_RES_V / 272)
-#endif
+#endif /* BOARD_RA8D1_EK */
 
+/* Macros for display resolution configuration */
 #if defined(BOARD_RA8P1_EK) || defined(BOARD_RA8D2_EK)
 #define DRW_TEST_IMAGE_RES_H    (1024)
 #define DRW_TEST_IMAGE_RES_V    (600)
-
 #elif defined(BOARD_RA8E2_EK)
 #define DRW_TEST_IMAGE_RES_H    (800)
 #define DRW_TEST_IMAGE_RES_V    (480)
-
 #elif defined(BOARD_RA8D1_EK)
 #define DRW_TEST_IMAGE_RES_H    (480)
 #define DRW_TEST_IMAGE_RES_V    (854)
-
 #else
 #define DRW_TEST_IMAGE_RES_H    (480)
 #define DRW_TEST_IMAGE_RES_V    (272)
-#endif
+#endif /* Specific board */
+
+#if defined(BOARD_RA8D1_EK)
+/* Macros for MIPI DSI LCD initialization */
+#define MIPI_DSI_DISPLAY_CONFIG_DATA_DELAY_FLAG     ((mipi_dsi_cmd_id_t) 0xFE)
+#define MIPI_DSI_DISPLAY_CONFIG_DATA_END_OF_TABLE   ((mipi_dsi_cmd_id_t) 0xFD)
+
+/* LCD initialization command table entry */
+typedef struct
+{
+    unsigned char size;
+    unsigned char buffer[10];
+    mipi_dsi_cmd_id_t cmd_id;
+    mipi_dsi_cmd_flag_t flags;
+} lcd_table_setting_t;
+#endif /* BOARD_RA8D1_EK */
+
+/* External variables - Defined in drw_ep.c */
+extern volatile uint8_t g_vsync_flag;
+extern d2_device * gp_davey;
+
+/* Function declarations */
+fsp_err_t glcdc_init(void);
+fsp_err_t glcdc_buffer_change(display_ctrl_t const * const p_api_ctrl, uint8_t * const framebuffer,
+                              display_frame_layer_t layer);
+fsp_err_t glcdc_stop(void);
+void glcdc_deinit(void);
+d2_s32 drw_init(void);
+void drw_deinit(void);
+#if defined(DISPLAY_IN_FORMAT_32BITS_RGB888_0)
+d2_s32 display_draw(uint32_t * framebuffer);
+#else
+d2_s32 display_draw(uint8_t * framebuffer);
+#endif /* DISPLAY_IN_FORMAT_32BITS_RGB888_0 */
 
 #endif /* DRW_EP_H_ */

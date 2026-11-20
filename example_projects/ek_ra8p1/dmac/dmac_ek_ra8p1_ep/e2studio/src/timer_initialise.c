@@ -1,141 +1,87 @@
 /***********************************************************************************************************************
  * File Name    : timer_initialise.c
- * Description  : Contains data structures and functions used in timer_initialise.c
+ * Description  : Contains data structures and functions used in timer_initialise.c.
  **********************************************************************************************************************/
 /***********************************************************************************************************************
-* Copyright (c) 2020 - 2025 Renesas Electronics Corporation and/or its affiliates
-*
-* SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
+ * Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ **********************************************************************************************************************/
 
-#include "common_utils.h"
 #include "timer_initialise.h"
 
 /*******************************************************************************************************************//**
- * @addtogroup timer_initialise
- * @{
- **********************************************************************************************************************/
-
-/*******************************************************************************************************************//**
- *  @brief       GPT timer initialization function
- *  @param[IN]   None
- *  @retval      FSP_SUCCESS        Upon successful open and start of timer
- *  @retval      Any Other Error code apart from FSP_SUCCESS is  Unsuccessful open or start
+ * @brief     This function initializes the GPT timer.
+ * @param[in] None.
+ * @retval    FSP_SUCCESS               Initialized successfully.
+ * @retval    Any other error codes     Failed to open or start.
  **********************************************************************************************************************/
 fsp_err_t gpt_timer_init(void)
 {
-    /* Variable to help handle error codes from functions */
-    fsp_err_t fsp_err = FSP_SUCCESS;
+    /* Error status */
+    fsp_err_t err = FSP_SUCCESS;
 
     /* Open the GPT timer */
-    fsp_err = R_GPT_Open(&g_gpt_ctrl, &g_gpt_cfg);
-    /* Handle error in-case of failure */
-    if (FSP_SUCCESS != fsp_err)
+    err = R_GPT_Open(&g_gpt_ctrl, &g_gpt_cfg);
+    if (FSP_SUCCESS != err)
     {
-        APP_ERR_PRINT("\r\nGPT timer open failed. Necessary cleanup is done.\r\n");
-        return fsp_err;
+        return err;
     }
 
     /* Start GPT timer */
-    fsp_err = R_GPT_Start(&g_gpt_ctrl);
-    /* Handle error in-case of failure */
-    if (FSP_SUCCESS != fsp_err)
-    {
-        fsp_err_t err = FSP_SUCCESS;
-        err = R_GPT_Close(&g_gpt_ctrl);
-        /* Handle error in-case of failure */
-        if (FSP_SUCCESS != err)
-        {
-            /* RTT failure message */
-            APP_ERR_PRINT("GPT timer close failed.\n\n");
-        }
-        /* RTT failure message */
-        APP_ERR_PRINT("\r\nGPT timer start failed. Necessary cleanup is done.\r\n");
-    }
-    return fsp_err;
+    err = R_GPT_Start(&g_gpt_ctrl);
+
+    return err;
 }
 
 /*******************************************************************************************************************//**
- *  @brief       AGT timer initialization function
- *  @param[IN]   None
- *  @retval      FSP_SUCCESS        Upon successful open and start of timer
- *  @retval      Any Other Error code apart from FSP_SUCCESS is  Unsuccessful open or start
+ * @brief     This function initializes the AGT timer.
+ * @param[in] None.
+ * @retval    FSP_SUCCESS               Initialized successfully.
+ * @retval    Any other error codes     Failed to open or start.
  **********************************************************************************************************************/
 fsp_err_t agt_timer_init(void)
 {
-    /* Variable to help handle error codes from functions */
-    fsp_err_t fsp_err = FSP_SUCCESS;
+    /* Error status */
+    fsp_err_t err = FSP_SUCCESS;
 
-    /* Open and Configure the AGT timer */
-    fsp_err = R_AGT_Open(&g_agt_ctrl, &g_agt_cfg);
-    /* Handle error in-case of failure */
-    if (FSP_SUCCESS != fsp_err)
+    /* Open the AGT timer */
+    err = R_AGT_Open(&g_agt_ctrl, &g_agt_cfg);
+    if (FSP_SUCCESS != err)
     {
-        /* RTT failure message */
-        APP_ERR_PRINT("AGT timer open failed. Necessary cleanup is done.\n\n");
-        return fsp_err;
+        return err;
     }
 
     /* Start the AGT timer */
-    fsp_err = R_AGT_Start(&g_agt_ctrl);
-    /* Handle error in-case of failure */
-    if (FSP_SUCCESS != fsp_err)
-    {
-        fsp_err_t err = FSP_SUCCESS;
-        err = R_AGT_Close(&g_agt_ctrl);
-        /* Handle error in-case of failure */
-        if (FSP_SUCCESS != err)
-        {
-            /* RTT failure message */
-            APP_ERR_PRINT("AGT timer close failed.\n");
-        }
+    err = R_AGT_Start(&g_agt_ctrl);
 
-        /* RTT failure message */
-        APP_ERR_PRINT("\r\nAGT timer start failed. Necessary cleanup is done.\n");
-    }
-    return fsp_err;
+    return err;
 }
 
 /*******************************************************************************************************************//**
- *  @brief       GPT timer de-initialisation function
- *  @param[IN]   None
- *  @retval      None
+ * @brief     This function de-initializes the opened GPT timer.
+ * @param[in] None.
+ * @retval    None.
  **********************************************************************************************************************/
 void gpt_timer_deinit(void)
 {
-    /* Variable to help handle error codes from functions */
-    fsp_err_t fsp_err = FSP_SUCCESS;
-
-    /* Open and Configure the AGT timer */
-    fsp_err = R_GPT_Close(&g_gpt_ctrl);
-    /* Handle error in-case of failure */
-    if (FSP_SUCCESS != fsp_err)
+    /* Close the opened GPT timer */
+    if (g_gpt_ctrl.open)
     {
-        /* RTT failure message */
-        APP_ERR_PRINT("GPT timer close failed.\n\n");
+        R_GPT_Close(&g_gpt_ctrl);
     }
 }
 
 /*******************************************************************************************************************//**
- *  @brief       AGT timer de-initialisation function
- *  @param[IN]   None
- *  @retval      None
+ *  @brief      This function de-initializes the opened AGT timer.
+ *  @param[in]  None.
+ *  @retval     None.
  **********************************************************************************************************************/
 void agt_timer_deinit(void)
 {
-    /* Variable to help handle error codes from functions */
-    fsp_err_t fsp_err = FSP_SUCCESS;
-
-    /* Open and Configure the AGT timer */
-    fsp_err = R_AGT_Close(&g_agt_ctrl);
-    /* Handle error in-case of failure */
-    if (FSP_SUCCESS != fsp_err)
+    /* Close the opened AGT timer */
+    if (g_agt_ctrl.open)
     {
-        /* RTT failure message */
-        APP_ERR_PRINT("AGT timer close failed.\n\n");
+        R_AGT_Close(&g_agt_ctrl);
     }
 }
-
-/*******************************************************************************************************************//**
- * @} (end addtogroup timer_initialise)
- **********************************************************************************************************************/

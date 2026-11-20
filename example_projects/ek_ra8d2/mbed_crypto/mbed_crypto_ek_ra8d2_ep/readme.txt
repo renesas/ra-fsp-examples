@@ -4,16 +4,15 @@
 **********************************************************************************************************************/
 
 1. Project Overview:
-	This example project demonstrates basic functionalities of mbed crypto driver on Renesas RA MCUs based on
-	Renesas FSP. The EP performs following mbed crypto operations:
+	This example project demonstrates basic functionalities of Mbed Crypto driver on Renesas RA MCUs based on
+	Renesas FSP. The EP performs following Mbed Crypto operations:
 	1. AES256 Key generation (for GCM Mode), Encryption and Decryption.
 	2. SHA256 - setup and calculate hash, compare calculated hash value and length with their expected values.
-	3. ECC - P256R1 Key pair generation, Signing the hashed message with private key & verify hashed message with
+	3. ECC - P256R1 Key pair generation, signing the hashed message with private key & verify hashed message with
 	   public key.
-	4. RSA 2048 Key pair generation, Signing the hashed message with private key & verify hashed message with
+	4. RSA 2048 Key pair generation, signing the hashed message with private key & verify hashed message with
 	   public key.
-	On successful completion of each operation, success message will be displayed on the J-Link RTT Viewer.
-	Error and info messages will be printed on J-Link RTT Viewer.
+	Error and info messages will be printed on the terminal.
 
 	Note:
 	1) EK-RA2L1, EK-RA4M1 and EK-RA4W1 boards do not support SHA, ECC, and RSA operations.
@@ -25,12 +24,13 @@
 2. Hardware Requirements:
 	Supported RA boards: EK-RA2L1, EK-RA4M1, EK-RA4M2, EK-RA4M3, EK-RA4W1, EK-RA6M1, EK-RA6M2, EK-RA6M3,
 	                     EK-RA6M3G, EK-RA6M4, EK-RA6M5, RSSK-RA6T1, EK-RA8M1, EK-RA8D1, MCK-RA8T1, FPB-RA8E1,
-	                     EK-RA4L1, EK-RA8P1, EK-RA8E2, EK-RA4C1, EK-RA8M2, EK-RA8D2
+	                     EK-RA4L1, EK-RA8P1, EK-RA8E2, EK-RA4C1, EK-RA8M2, EK-RA8D2.
 	1 x Renesas RA board.
-	1 x Type-C USB cable for programming and debugging.
+	1 x USB cable for programming and debugging (USB cable type varies by board model).
 
 3. Hardware Connections:
-	Connect the USB Debug port on the RA board to the host PC via a Type-C USB cable.
+	Connect the RA board USB debug port to the host PC using the appropriate USB cable for EP programming and
+	debugging.
 
 	For EK-RA4C1:
 		The user must place jumper J6 on pins 2-3, J8 on pins 1-2, J9 on pins 2-3 and turn OFF SW4-4 to use
@@ -53,15 +53,21 @@ Note:
    the debug session:
    - Start E2Studio -> Run -> Renesas Debug Tools -> Renesas Device Partition Manager (Available on e2studio),
      then choose "Connection Type" as SWD.
-   - Initialize device. The user can refer to "Setting up Hardware" section of R11AN0467 application note via link:
+   - Initialize device. The user can refer to the "Setting up Hardware" section of R11AN0467 application note via link:
      https://www.renesas.com/en/document/apn/security-design-arm-trustzone-using-cortex-m33 to perform the action.
    - Launch the Debug session from the example project.
 
-2) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
-   RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x2200456c
-   b. Keil:	Not Available
-   c. IAR:	Not Available
+2) To view output logs on a serial terminal application (e.g., Tera Term), configure the settings as shown below:
+	a. To make sure the received data shows properly, the user needs to set:
+		[Setup] -> [Terminal...] -> [New-line] -> Select [Receive: CR] & [Transmit: CR].
 
-3) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called
-   _SEGGER_RTT) in .map file generated in the project folder (e2studio\Debug or e2studio\Release).
+	b. To echo back characters typed in Tera Term, the user needs to enable it through:
+		[Setup] -> [Terminal...] -> Check [Local echo].
+
+	c. The configuration parameters of the serial port on the serial terminal application:
+		Port: The port is provided by the J-Link On-Board.
+		Speed: 115200
+		Data: 8 bit
+		Parity: none
+		Stop bits: 1 bit
+		Flow control: none

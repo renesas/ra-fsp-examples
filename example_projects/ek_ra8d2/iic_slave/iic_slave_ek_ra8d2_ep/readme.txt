@@ -4,23 +4,29 @@
 **********************************************************************************************************************/
 
 1. Project Overview:
-	The example project demonstrates typical use of the IIC Slave HAL module APIs. The project initializes IIC
-	Slave and IIC Master modules with standard rate and is made interfaced with loop-back mechanism. It performs
-	Slave read and write operations continuously once initialization is successful. On successful I2C transaction
-	(6 bytes), the transmitted and received data are compared. LEDs blink sequentially when the data matches;
-	otherwise, they are turned ON as a sign of failure. Output message for both corresponding Slave operations is
-	displayed on RTT Viewer. Any API/event failure message is also displayed.
+	The example project demonstrates the typical use of the IIC Slave HAL APIs. EP initializes the IIC Slave
+	and IIC Master modules at the standard rate and demonstrates communication through a loopback connection.
+	After successful initialization, it performs Slave read (receive) and Slave write (transmit) operations.
+	Following each successful I2C transaction (6 bytes), the transmitted and received data buffers are compared.
+	LEDs blink when the data matches and tunrn ON if a failure occurs. Status and error messages are displayed
+	on the terminal.
 
 2. Hardware Requirements:
 	Supported RA boards: EK-RA2A1, EK-RA2A2, EK-RA2L1, EK-RA4M1, EK-RA4M2, EK-RA4M3, EK-RA4W1, EK-RA6M1,
 	                     EK-RA6M2, EK-RA6M3, EK-RA6M3G, EK-RA6M4, EK-RA6M5, EK-RA8M1, EK-RA8D1, FPB-RA6E1,
 	                     FPB-RA8E1, MCK-RA6T2, RSSK-RA6T1, FPB-RA0E2, EK-RA8E2, EK-RA8P1, EK-RA4C1, FPB-RA0L1,
-	                     MCK-RA8T2, EK-RA8D2
+	                     MCK-RA8T2, EK-RA8D2, EK-RA8M2.
 	1 x Renesas RA board.
-	1 x Type-C USB cable for programming and debugging.
+	1 x USB cable for programming and debugging (USB cable type varies by board model).
 	2 x Jumper wires.
+	For boards that require external pull-up resistors:
+		2 x 3.9k or 4.7k ohm resistors.
+		Some jumper wires.
 
 3. Hardware Connections:
+	Connect the RA board USB debug port to the host PC using the appropriate USB cable for EP programming and
+	debugging.
+
 	Establish loopback connection along IIC lines within the board with pins as mentioned below.
 	For EK-RA6M3, EK-RA6M3G:
 	--------
@@ -136,6 +142,7 @@
 
 	For FPB-RA8E1:
 	--------
+		The user must open jumpers J6 and J9 to use the on-board debug functionality.
 		Channel 1 has been used by IIC Master and channel 0 has been used by IIC Slave.
 			IIC Master pins         IIC Slave pins
 			SDA1 P511 (J4:4)  ----> SDA0 P409 (J2:11)
@@ -186,22 +193,37 @@
 			SDA2 P514 (CN2:24) ----> SDA1 P204 (CN4:1)
 			SCL2 P515 (CN2:25) ----> SCL1 P205 (CN4:3)
 
+	For EK-RA8M2:
+	--------
+		The user must place jumper J6 on pins 2-3, J8 on pins 1-2, J9 on pins 2-3, and J29 on pins 1-2,
+		3-4, 5-6, 7-8 to use the on-board debug functionality.
+		Channel 1 has been used by IIC Master and channel 0 has been used by IIC Slave.
+			IIC Master pins         IIC Slave pins
+			SDA1 P511 (J4:14) ----> SDA0 P409 (J4:15)
+			SCL1 P512 (J4:11) ----> SCL0 P410 (J2:13)
+
 Note:
-1) DTC transfer support is configurable and is enabled in the configurator. DTC is helpful for minimizing
-   interrupts during large transactions.
+1) DTC transfer support is configurable. In this example project, DTC transfer is enabled in the FSP Configurator.
+   DTC is helpful for minimizing interrupts during large transactions.
    Note: On FPB-RA0E2 and FPB-RA0L1 boards, DTC does not support the IICA module.
 
-2) a. For the functioning of IIC Slave on all the boards except for EK-RA6M3, EK-RA6M3G, FPB-RA6E1, EK-RA2L1,
-      EK-RA8D1, EK-RA8M1, EK-RA2A2, FPB-RA8E1, EK-RA8E2, EK-RA8P1, EK-RA4C1, MCK-RA8T2, EK-RA8D2 external pull-up
-      resistors of value 3.9 or 4.7k ohms are required to be connected on I2C (SDA/SCL) lines.
-   b. The SDA pin and the SCL pin must configure output type as n-ch open drain.
+2) Configuration for SDA and SCL pin:
+	a. For the functioning of IIC Slave on all the boards except for EK-RA6M3, EK-RA6M3G, FPB-RA6E1, EK-RA2L1,
+	   EK-RA8D1, EK-RA8M1, EK-RA2A2, FPB-RA8E1, EK-RA8E2, EK-RA8P1, EK-RA4C1, MCK-RA8T2, EK-RA8D2, EK-RA8M2
+	   external pull-up resistors of value 3.9 or 4.7k ohms are required to be connected on I2C (SDA/SCL) lines.
+	b. The SDA pin and the SCL pin must configure output type as n-ch open drain.
 
-3) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
-   RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x220004ac
-   b. Keil:	0x220008b0
-   c. IAR: 0x220009cc
+3) To view output logs on a serial terminal application (e.g., Tera Term), configure the settings as shown below:
+	a. To make sure the received data shows properly, the user needs to set:
+		[Setup] -> [Terminal...] -> [New-line] -> Select [Receive: CR] & [Transmit: CR].
 
-4) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called
-   _SEGGER_RTT) in .map file generated in the project folder (e2studio\Debug or e2studio\Release, keil\Listings,
-   iar\Debug\List).
+	b. To echo back characters typed in Tera Term, the user needs to enable it through:
+		[Setup] -> [Terminal...] -> Check [Local echo].
+
+	c. The configuration parameters of the serial port on the serial terminal application:
+		Port: The port is provided by the J-Link On-Board.
+		Speed: 115200
+		Data: 8 bit
+		Parity: none
+		Stop bits: 1 bit
+		Flow control: none

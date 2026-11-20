@@ -236,11 +236,11 @@ FSP Configuration
     OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS14: 
     OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS15: 
     OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS16: 
-    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: ZHUK (Zerorization HUK Register) Settings: Disabled
-    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: ZHUK (Zerorization HUK Register) Settings: Configuration setting for RTCIC0: W-HUK zeroization by RTCIC0 tamper event is disabled
-    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: ZHUK (Zerorization HUK Register) Settings: Configuration setting for RTCIC1: W-HUK zeroization by RTCIC1 tamper event is disabled
-    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: ZHUK (Zerorization HUK Register) Settings: Configuration setting for RTCIC2: W-HUK zeroization by RTCIC2 tamper event is disabled
-    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: ZHUK (Zerorization HUK Register) Settings: Configuration setting for RTCIC3: W-HUK zeroization by RTCIC3 tamper event is disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Configuration setting for RTCIC0: W-HUK zeroization by RTCIC0 tamper event is disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Configuration setting for RTCIC1: W-HUK zeroization by RTCIC1 tamper event is disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Configuration setting for RTCIC2: W-HUK zeroization by RTCIC2 tamper event is disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Configuration setting for RTCIC3: W-HUK zeroization by RTCIC3 tamper event is disabled
     
   RA8D2 Core 0 Options
   RA8D2 event data
@@ -292,7 +292,7 @@ FSP Configuration
     BCLKA Div /6
     SDCLK Enabled
     EBCLK Src: BCLK (Synchronous)
-    EBCLK Div /2
+    EBCLK Disabled
     CLKOUT Src: HOCO
     CLKOUT Div /1
     SCICLK Src: PLL2R
@@ -528,8 +528,8 @@ FSP Configuration
       PC15 K1 - SDRAM_BA1 - - Disabled - - "BUS: A16; CANFD1: CRX1; GPT: GTADSM0; IRQ: IRQ30; SCI6: CTS6; SDRAM: A16" - None - - 
       PD00 K4 - SDRAM_BA0 - - Disabled - - "BUS: A15; CANFD1: CTX1; GPT5: GTCPPO5; GPT_OPS: GTOWLO; IRQ: IRQ23; SCI5: DE5; SCI5: SCK5; SDRAM: A15" - None - - 
       PD01 B16 - ARDUINO_D8_MIKROBUS_INT - - Disabled - - "ESWM_GMII/MII1: ET1_RXD6; GPT2: GTCPPO2; IRQ: IRQ22; SCI8: DE8; SCI8: SCK8; SDHI0: SD0DAT2" "Enable when connected" None - - 
-      PD02 B17 - VCOMM_TXD_TO_EXT - - Disabled - - "ESWM_GMII/MII1: ET1_RXD7; GPT1: GTCPPO1; IRQ: IRQ21; SCI8: TXD8; SDHI0: SD0DAT1" - None - - 
-      PD03 C15 - VCOMM_RXD_FROM_EXT - - Disabled - - "ESWM_GMII/MII0: ET0_RXD4; GPT3: GTIOC3B; IRQ: IRQ21; SCI8: RXD8; SDHI0: SD0DAT0; USB HS: USBHS_EXICEN" - None - - 
+      PD02 B17 SCI8_TXD8 VCOMM_TXD_TO_EXT L None "Peripheral mode" - - "ESWM_GMII/MII1: ET1_RXD7; GPT1: GTCPPO1; IRQ: IRQ21; SCI8: TXD8; SDHI0: SD0DAT1" - O - - 
+      PD03 C15 SCI8_RXD8 VCOMM_RXD_FROM_EXT L None "Peripheral mode" - - "ESWM_GMII/MII0: ET0_RXD4; GPT3: GTIOC3B; IRQ: IRQ21; SCI8: RXD8; SDHI0: SD0DAT0; USB HS: USBHS_EXICEN" - I - - 
       PD04 C14 - VCOMM_RTS_FROM_EXT - - Disabled - - "ESWM_GMII/MII0: ET0_RXD5; GPT3: GTIOC3A; IRQ: IRQ20; SCI8: CTS_RTS8; SCI8: DE8; SDHI0: SD0CMD; USB HS: USBHS_ID" "See E17 in manual" None - - 
       PD05 C16 - VCOMM_CTS_TO_EXT - - Disabled - - "ESWM_GMII/MII0: ET0_RXD6; GPT2: GTIOC2B; IRQ: IRQ19; SCI8: CTS8; SDHI0: SD0CLK; USB HS: USBHS_OVRCURB" "See E9 in manual" None - - 
       PD06 C17 - AUDIO_MCLK - - Disabled - - "ESWM_GMII/MII0: ET0_RXD7; GPT2: GTIOC2A; IRQ: IRQ18; SDHI0: SD0WP; USB HS: USBHS_OVRCURA" "Enable when connected" None - - 
@@ -818,8 +818,8 @@ FSP Configuration
       PC15 K1 - SDRAM_BA1 - - Disabled - - "BUS: A16; CANFD1: CRX1; GPT: GTADSM0; IRQ: IRQ30; SCI6: CTS6; SDRAM: A16" - None - - 
       PD00 K4 - SDRAM_BA0 - - Disabled - - "BUS: A15; CANFD1: CTX1; GPT5: GTCPPO5; GPT_OPS: GTOWLO; IRQ: IRQ23; SCI5: DE5; SCI5: SCK5; SDRAM: A15" - None - - 
       PD01 B16 - ARDUINO_D8_MIKROBUS_INT - - Disabled - - "ESWM_GMII/MII1: ET1_RXD6; GPT2: GTCPPO2; IRQ: IRQ22; SCI8: DE8; SCI8: SCK8; SDHI0: SD0DAT2" "Enable when connected" None - - 
-      PD02 B17 - VCOMM_TXD_TO_EXT - - Disabled - - "ESWM_GMII/MII1: ET1_RXD7; GPT1: GTCPPO1; IRQ: IRQ21; SCI8: TXD8; SDHI0: SD0DAT1" - None - - 
-      PD03 C15 - VCOMM_RXD_FROM_EXT - - Disabled - - "ESWM_GMII/MII0: ET0_RXD4; GPT3: GTIOC3B; IRQ: IRQ21; SCI8: RXD8; SDHI0: SD0DAT0; USB HS: USBHS_EXICEN" - None - - 
+      PD02 B17 - VCOMM_TXD_TO_EXT L None Disabled - - "ESWM_GMII/MII1: ET1_RXD7; GPT1: GTCPPO1; IRQ: IRQ21; SCI8: TXD8; SDHI0: SD0DAT1" - O - - 
+      PD03 C15 - VCOMM_RXD_FROM_EXT L None Disabled - - "ESWM_GMII/MII0: ET0_RXD4; GPT3: GTIOC3B; IRQ: IRQ21; SCI8: RXD8; SDHI0: SD0DAT0; USB HS: USBHS_EXICEN" - I - - 
       PD04 C14 - VCOMM_RTS_FROM_EXT - - Disabled - - "ESWM_GMII/MII0: ET0_RXD5; GPT3: GTIOC3A; IRQ: IRQ20; SCI8: CTS_RTS8; SCI8: DE8; SDHI0: SD0CMD; USB HS: USBHS_ID" "See E17 in manual" None - - 
       PD05 C16 - VCOMM_CTS_TO_EXT - - Disabled - - "ESWM_GMII/MII0: ET0_RXD6; GPT2: GTIOC2B; IRQ: IRQ19; SCI8: CTS8; SDHI0: SD0CLK; USB HS: USBHS_OVRCURB" "See E9 in manual" None - - 
       PD06 C17 - AUDIO_MCLK - - Disabled - - "ESWM_GMII/MII0: ET0_RXD7; GPT2: GTIOC2A; IRQ: IRQ18; SDHI0: SD0WP; USB HS: USBHS_OVRCURA" "Enable when connected" None - - 
@@ -910,6 +910,7 @@ FSP Configuration
   User Event Links
     
   Linker Section Mappings
+    *(.bss.*_fsp_nocache): RAM Zeroed (Uncached)
     *(.bss.g_heap): RAM Uninitialized
     *(.bss.g_main_stack): RAM Uninitialized
     
@@ -1195,6 +1196,7 @@ FSP Configuration
     Platform: MBEDTLS_PLATFORM_MS_TIME_TYPE_MACRO: Undefine
     Platform: MBEDTLS_PLATFORM_MS_TIME_TYPE_MACRO value: int64_t
     Platform: MBEDTLS_PRINTF_MS_TIME: Undefine
+    Platform: MBEDTLS_PLATFORM_DEV_RANDOM: Undefine
     Platform: MBEDTLS_PRINTF_MS_TIME value: PRId64
     Platform: MBEDTLS_PLATFORM_FPRINTF_MACRO: Undefine
     Platform: MBEDTLS_PLATFORM_FPRINTF_MACRO value: fprintf
@@ -1246,9 +1248,17 @@ FSP Configuration
     Memory-mapping Support: XiP Support: Disable
     DOTF Support: Disable
     Row Addressing Support: Disable
+    Target Reset Support: In-band reset: Disable
+    Target Reset Support: Reset pin: Disable
     
   Module "Transfer (r_dmac)"
     Parameter Checking: Default (BSP)
+    
+  Module "UART (r_sci_b_uart)"
+    Parameter Checking: Default (BSP)
+    FIFO Support: Disable
+    DTC Support: Disable
+    Flow Control Support: Disable
     
   HAL
     Instance "g_ioport I/O Port (r_ioport)"
@@ -1337,6 +1347,11 @@ FSP Configuration
             Timing Settings: Chip Select: Command Interval: 2 cycles
             Timing Settings: Chip Select: Assertion Extension: No extension
             Timing Settings: Chip Select: Negation Extension: No extension
+            Timing Settings: In-Band Reset Pattern: Repeat Count: 4 times
+            Timing Settings: In-Band Reset Pattern: Width: 16 cycles
+            Timing Settings: In-Band Reset Pattern: SIO Setup Time: 1 cycle
+            Timing Settings: Reset Pin Hold Time: 1
+            Timing Settings: Reset Recovery Time: 1
             Timing Settings: DS Latching Delay: Auto-calibrate
             Timing Settings: SDR: Drive Timing: Drive 1/2 cycle before CK
             Timing Settings: SDR: CK Sampling Edge: Falling edge
@@ -1370,3 +1385,30 @@ FSP Configuration
               Offset value (Valid only when address mode is Offset addition): 0
               Source Buffer Size: 0
               
+    Instance "g_uart_console UART (r_sci_b_uart)"
+      General: Name: g_uart_console
+      General: Channel: 8
+      General: Data Bits: 8bits
+      General: Parity: None
+      General: Stop Bits: 1bit
+      Baud: Baud Rate: 115200
+      Baud: Baud Rate Modulation: Disabled
+      Baud: Max Error (%): 5
+      Flow Control: CTS/RTS Selection: Hardware RTS
+      Flow Control: Software RTS Port: Disabled
+      Flow Control: Software RTS Pin: Disabled
+      Extra: Clock Source: Internal Clock
+      Extra: Start bit detection: Falling Edge
+      Extra: Noise Filter: Disable
+      Extra: Receive FIFO Trigger Level: Max
+      Extra: RS-485: DE Pin: Disable
+      Extra: RS-485: DE Pin Polarity: Active High
+      Extra: RS-485: DE Pin Assertion Time: 1
+      Extra: RS-485: DE Pin Negation Time: 1
+      Extra: TXI/TEI Synchronization Delay Cycles: 0
+      Interrupts: Callback: uart_console_callback
+      Interrupts: Receive Interrupt Priority: Priority 15
+      Interrupts: Transmit Data Empty Interrupt Priority: Priority 15
+      Interrupts: Transmit End Interrupt Priority: Priority 15
+      Interrupts: Error Interrupt Priority: Priority 15
+      

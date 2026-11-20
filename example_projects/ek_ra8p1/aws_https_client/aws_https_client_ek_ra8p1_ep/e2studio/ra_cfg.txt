@@ -925,6 +925,12 @@ FSP Configuration
   Module "ADC (r_adc_b)"
     Parameter Checking: Default (BSP)
     
+  Module "UART (r_sci_b_uart)"
+    Parameter Checking: Default (BSP)
+    FIFO Support: Disable
+    DTC Support: Disable
+    Flow Control Support: Disable
+    
   Module "AWS Core HTTP"
     Custom core_http_config.h: 
     HTTP Receive Retry Timeout (ms): 200
@@ -1548,6 +1554,33 @@ FSP Configuration
       Pin Configuration Name: g_bsp_pin_cfg
       
     Instance "FreeRTOS Port (rm_freertos_port)"
+    Instance "g_uart_console UART (r_sci_b_uart)"
+      General: Name: g_uart_console
+      General: Channel: 8
+      General: Data Bits: 8bits
+      General: Parity: None
+      General: Stop Bits: 1bit
+      Baud: Baud Rate: 115200
+      Baud: Baud Rate Modulation: Disabled
+      Baud: Max Error (%): 5
+      Flow Control: CTS/RTS Selection: Hardware RTS
+      Flow Control: Software RTS Port: Disabled
+      Flow Control: Software RTS Pin: Disabled
+      Extra: Clock Source: Internal Clock
+      Extra: Start bit detection: Falling Edge
+      Extra: Noise Filter: Disable
+      Extra: Receive FIFO Trigger Level: Max
+      Extra: RS-485: DE Pin: Disable
+      Extra: RS-485: DE Pin Polarity: Active High
+      Extra: RS-485: DE Pin Assertion Time: 1
+      Extra: RS-485: DE Pin Negation Time: 1
+      Extra: TXI/TEI Synchronization Delay Cycles: 0
+      Interrupts: Callback: uart_console_callback
+      Interrupts: Receive Interrupt Priority: Priority 15
+      Interrupts: Transmit Data Empty Interrupt Priority: Priority 15
+      Interrupts: Transmit End Interrupt Priority: Priority 15
+      Interrupts: Error Interrupt Priority: Priority 15
+      
   Thread "User App Thread"
     Symbol: user_app_thread
     Name: User App Thread

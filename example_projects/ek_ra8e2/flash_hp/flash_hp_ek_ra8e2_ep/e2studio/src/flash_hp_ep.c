@@ -3,113 +3,179 @@
  * Description  : Contains macros, data structures and functions used in flash_hp_ep.c
  **********************************************************************************************************************/
 /***********************************************************************************************************************
-* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
-*
-* SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
-
-#include "common_utils.h"
-#include "flash_hp_ep.h"
-
-/*******************************************************************************************************************//**
- * @addtogroup FLASH_HP_EP
- * @{
+ * Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
  **********************************************************************************************************************/
 
-/* Flags, set from Callback function */
+#include <stdbool.h>
+#include "flash_hp_ep.h"
+
+/* Flags set from callback function */
 static volatile _Bool g_b_flash_event_not_blank = false;
 static volatile _Bool g_b_flash_event_blank = false;
 static volatile _Bool g_b_flash_event_erase_complete = false;
 static volatile _Bool g_b_flash_event_write_complete = false;
 
-/* Static Function */
+/* Private function */
 static fsp_err_t blankcheck_event_flag(void);
 
 /*******************************************************************************************************************//**
- * @brief This function is called from the RTT input to do the code flash operations.
- * @param[IN]   None
- * @retval      FSP_SUCCESS             Upon successful Flash_HP code flash operations.
- * @retval      Any Other Error code    Upon unsuccessful code flash operations
+ * @brief     This function initializes Flash HP module.
+ * @param[in] None.
+ * @retval    FSP_SUCCESS               Initialized successfully.
+ * @retval    Any other error codes     Failed to initialize.
  **********************************************************************************************************************/
-fsp_err_t flash_hp_code_flash_operations(void)
+fsp_err_t flash_hp_init(void)
 {
+    /* Error status */
+    fsp_err_t err = FSP_SUCCESS;
+
+    /* Open Flash HP */
+    err = R_FLASH_HP_Open(&g_flash_ctrl, &g_flash_cfg);
+
+    return err;
+}
+
+/*******************************************************************************************************************//**
+ * @brief     This function selects block as the startup area.
+ * @param[in] None.
+ * @retval    FSP_SUCCESS               Startup area selected successfully.
+ * @retval    Any other error codes     Failed to select the startup area.
+ **********************************************************************************************************************/
+fsp_err_t flash_hp_startup_block(void)
+{
+    /* Error status */
+    fsp_err_t err = FSP_SUCCESS;
+
+    /* Setup default block 0 as startup setup block */
+    err = R_FLASH_HP_StartUpAreaSelect(&g_flash_ctrl, FLASH_STARTUP_AREA_BLOCK0, true);
+
+    return err;
+}
+
+/*******************************************************************************************************************//**
+ * @brief     This function erases a code flash or data flash block.
+ * @param[in] block_addr                Flash block address to erase.
+ * @retval    FSP_SUCCESS               Erased successfully.
+ * @retval    Any other error codes     Failed to erase flash.
+ **********************************************************************************************************************/
+fsp_err_t flash_hp_erase(uint32_t block_addr)
+{
+    /* Error status */
+    fsp_err_t err = FSP_SUCCESS;
+
+    err = R_FLASH_HP_Erase(&g_flash_ctrl, block_addr, BLOCK_NUM);
+
+    if (FSP_SUCCESS != err)
+    {
+        return err;
+    }
+
+    /* Wait for the erase complete event flag, if BGO is SET (data flash only) */
+    if ((FLASH_HP_DF_BLOCK_0 <= block_addr) && (true == g_flash_cfg.data_flash_bgo))
+    {
+        while (!g_b_flash_event_erase_complete);
+        g_b_flash_event_erase_complete = false;
+    }
+
+    return err;
+}
+
+/*******************************************************************************************************************//**
+ * @brief     This function performs a blank check on a code flash or data flash block.
+ * @param[in] block_addr                Flash block address to blank check.
+ * @param[in] num_bytes                 Number of bytes in the block to check.
+ * @retval    FSP_SUCCESS               Flash block is blank.
+ * @retval    Any other error codes     Failed to perform blank check.
+ **********************************************************************************************************************/
+fsp_err_t flash_hp_blank_check(uint32_t block_addr, uint32_t num_bytes)
+{
+    /* Error status */
     fsp_err_t err = FSP_SUCCESS;
     flash_result_t blank_check_result = FLASH_RESULT_BLANK;
-    uint8_t write_buffer[BLOCK_SIZE] = {RESET_VALUE};
-    uint8_t read_buffer[BLOCK_SIZE] = {RESET_VALUE};
 
-    /* Set write buffer, clear read buffer */
-    for (uint8_t index = 0; index < BLOCK_SIZE; index++)
-    {
-        write_buffer[index] = index;
-    }    
-    
-    /* Disable interrupts to prevent vector table access while code flash is in P/E mode. */
-    __disable_irq();
-    
-    /* Erase Block */
-    err = R_FLASH_HP_Erase(&g_flash_ctrl, FLASH_HP_CF_BLOCK_8, BLOCK_NUM);
-    /* Error Handle */
+    /* Blank check */
+    err = R_FLASH_HP_BlankCheck(&g_flash_ctrl, block_addr, num_bytes, &blank_check_result);
     if (FSP_SUCCESS != err)
     {
-        APP_ERR_PRINT("\r\nErase API failed, Restart the Application");
         return err;
-    }
-    APP_PRINT("\r\nErase successful");
-
-    /* Blank Check */
-#if defined (BOARD_RA4L1_EK)
-    err = R_FLASH_HP_BlankCheck(&g_flash_ctrl, FLASH_HP_CF_BLOCK_8, FLASH_HP_CF_BLOCK_SIZE_2KB, &blank_check_result);
-#else
-    err = R_FLASH_HP_BlankCheck(&g_flash_ctrl, FLASH_HP_CF_BLOCK_8, FLASH_HP_CF_BLOCK_SIZE_8KB, &blank_check_result);
-#endif
-    /* Error Handle */
-    if (FSP_SUCCESS != err)
-    {
-        APP_ERR_PRINT("\r\nBlankCheck API failed, Restart the Application");
-        return err;
-    }
-    APP_PRINT("\r\nBlankCheck API Successful");
-
-    /* Validate the blank check result */
-    if (FLASH_RESULT_BLANK == blank_check_result)
-    {
-        APP_PRINT("\r\n FLASH is blank ");
-    }
-    else if (FLASH_RESULT_NOT_BLANK == blank_check_result)
-    {
-        APP_ERR_PRINT("\r\n Flash is not Blank, not to write the data. Restart the application");
-        return (fsp_err_t)FLASH_RESULT_NOT_BLANK;
-    }
-
-    /* Write code flash data */
-    err = R_FLASH_HP_Write(&g_flash_ctrl, (uint32_t) write_buffer,FLASH_HP_CF_BLOCK_8, BLOCK_SIZE);
-    /* Error Handle */
-    if (FSP_SUCCESS != err)
-    {
-        APP_ERR_PRINT("\r\nWrite API failed, Restart the Application");
-        return err;
-    }
-    APP_PRINT("\r\nWriting flash data is successful\r\n");
-
-    /* Read code flash data */
-    memcpy(read_buffer, (uint8_t *) FLASH_HP_CF_BLOCK_8, BLOCK_SIZE);
-
-    /* Comparing the write_buffer and read_buffer */
-    if (RESET_VALUE == memcmp(read_buffer, write_buffer, BLOCK_SIZE))
-    {
-        APP_PRINT("\r\nRead and Write buffer is verified and successful");
-        /* Print the read data on the RTT terminal */
-        APP_PRINT("\r\nRead Data : \r\n");
-        READ_DATA_PRINT(read_buffer);
     }
     else
     {
-        APP_PRINT("Read and Write buffer is verified and not successful");
-        return FSP_ERR_WRITE_FAILED;
+        /* Validate the blank check result */
+        if (FLASH_RESULT_BLANK == blank_check_result)
+        {
+            return FSP_SUCCESS;
+        }
+        else if (FLASH_RESULT_NOT_BLANK == blank_check_result)
+        {
+            return (fsp_err_t)FLASH_RESULT_NOT_BLANK;
+        }
+        else if (FLASH_RESULT_BGO_ACTIVE == blank_check_result)
+        {
+            /* BlankCheck will update in callback */
+            /* Event flag will be updated in the blank check function when BGO is enabled */
+            err = blankcheck_event_flag();
+            if (FSP_SUCCESS != err)
+            {
+                return err;
+            }
+        }
+        else
+        {
+            /* Do nothing */
+        }
     }
 
-#if (BSP_FEATURE_FLASH_SUPPORTS_ACCESS_WINDOW == 1U) /* Macro for MCU supports Access Window Features */
+    return err;
+}
+
+/*******************************************************************************************************************//**
+ * @brief     This function writes data to a code flash or data flash address.
+ * @param[in] src_address               Source buffer containing data to write.
+ * @param[in] flash_address             Destination flash address.
+ * @param[in] num_bytes                 Number of bytes to write.
+ * @retval    FSP_SUCCESS               Written successfully.
+ * @retval    Any other error codes     Failed to write flash.
+ **********************************************************************************************************************/
+fsp_err_t flash_hp_write(uint8_t * src_address, uint32_t flash_address, uint32_t num_bytes)
+{
+    /* Error status */
+    fsp_err_t err = FSP_SUCCESS;
+
+    err = R_FLASH_HP_Write(&g_flash_ctrl, (uint32_t) src_address, flash_address, num_bytes);
+    if (FSP_SUCCESS != err)
+    {
+        return err;
+    }
+
+    /* Wait for the write complete event flag, if BGO is SET (data flash only) */
+    if ((FLASH_HP_DF_BLOCK_0 <= flash_address) && (true == g_flash_cfg.data_flash_bgo))
+    {
+        while (!g_b_flash_event_write_complete);
+        g_b_flash_event_write_complete = false;
+    }
+
+    return err;
+}
+
+#if (BSP_FEATURE_FLASH_SUPPORTS_ACCESS_WINDOW)
+/*******************************************************************************************************************//**
+ * @brief     This function sets the access window on code flash blocks 3 to 7, erases and writes to block 5,
+ *            then clears the access window.
+ * @param[in] write_buffer              Buffer containing data to write to code flash block 5.
+ * @retval    FSP_SUCCESS               Access window operations completed successfully.
+ * @retval    Any other error codes     Failed to perform access window operations.
+ **********************************************************************************************************************/
+fsp_err_t flash_hp_access_window_operations(uint8_t * write_buffer)
+{
+    /* Error status */
+    fsp_err_t err = FSP_SUCCESS;
+
+    /* Disable interrupts to prevent vector table access while code flash is in P/E mode */
+    __disable_irq();
+
     /* Set Access window.
      * CAUTION: Highly recommended not to use this function if not aware of consequences OR
      * use it with the accessWindowClear API at the end of application.
@@ -119,182 +185,59 @@ fsp_err_t flash_hp_code_flash_operations(void)
      *
      * WORKAROUND: If the user uses accessWindowSet and locks the window. Flash can be unlocked by running
      * different application performing just "open" call and "accessWindowClear()" running from the RAM.
-	 *
-	 * For further information on the Access Window Features refer the Application Note
+     *
+     * For further information on the Access Window Features refer the Application Note
      * https://www.renesas.com/us/en/document/apn/securing-data-rest-utilizing-renesas-security-mpu?language=en
      */
     err = R_FLASH_HP_AccessWindowSet(&g_flash_ctrl, FLASH_HP_CF_BLOCK_3, FLASH_HP_CF_BLOCK_7);
     if (FSP_SUCCESS != err)
     {
-        APP_ERR_PRINT("\r\nAccessWindowSet API failed, Restart the Application");
+        __enable_irq();
         return err;
     }
-    APP_PRINT("\r\nAccessWindowSet successful");
 
-    /* Erase block */
-    APP_PRINT("\r\nErase block");
-
-    err = R_FLASH_HP_Erase(&g_flash_ctrl, FLASH_HP_CF_BLOCK_5, BLOCK_NUM);
-    /* Error Handle */
-    if(FSP_SUCCESS != err)
-    {
-        APP_ERR_PRINT("\r\nErase API failed, Restart the Application");
-        return err;
-    }
-    APP_PRINT("\r\nErase successful");
-
-    /* Write code flash data */
-    err = R_FLASH_HP_Write(&g_flash_ctrl, (uint32_t) write_buffer,FLASH_HP_CF_BLOCK_5, BLOCK_SIZE);
-    /* Error Handle */
+    err = flash_hp_erase(FLASH_HP_CF_BLOCK_5);
     if (FSP_SUCCESS != err)
     {
-        APP_ERR_PRINT("\r\nWrite API failed, Restart the Application");
+        __enable_irq();
         return err;
     }
 
-    APP_PRINT("\r\nWriting flash data is successful");
+    /* Write code flash data */
+    err = flash_hp_write(write_buffer, FLASH_HP_CF_BLOCK_5, BLOCK_SIZE);
+    if (FSP_SUCCESS != err)
+    {
+        __enable_irq();
+        return err;
+    }
 
     /* Clear Flash Access Window */
     err = R_FLASH_HP_AccessWindowClear(&g_flash_ctrl);
-    /* Error Handle */
-    if (FSP_SUCCESS != err)
-    {
-        APP_ERR_PRINT("\r\nAccessWindoeClear API failed, Restart the Application");
-        return err;
-    }
-    APP_PRINT("\r\nAccess Window cleared ");
-#endif
 
-    /* Enable interrupts after code flash operations are complete. */
     __enable_irq();
-    
-    return err;
-}
-
-/*******************************************************************************************************************//**
- * @brief This function is called from the RTT input to do the data flash operations.
- * @param[IN]   None
- * @retval      FSP_SUCCESS             Upon successful FLash_HP data flash operations.
- * @retval      Any Other Error code    Upon unsuccessful Flash_HP data flash operations.
- **********************************************************************************************************************/
-fsp_err_t flash_hp_data_flash_operations(void)
-{
-    fsp_err_t err = FSP_SUCCESS;
-    flash_result_t blank_check_result = FLASH_RESULT_BLANK;
-    uint8_t write_buffer[BLOCK_SIZE] = {RESET_VALUE};
-    uint8_t read_buffer[BLOCK_SIZE]= {RESET_VALUE};
-
-    /* Set write buffer, clear read buffer */
-    for (uint8_t index = 0; index < BLOCK_SIZE; index++)
-    {
-        write_buffer[index] = index;
-    }
-
-    /* Erase Block */
-    err = R_FLASH_HP_Erase(&g_flash_ctrl, FLASH_HP_DF_BLOCK_1, BLOCK_NUM);
-    /* Error Handle */
-    if (FSP_SUCCESS != err)
-    {
-        APP_ERR_PRINT("\r\nErase API failed, Restart the Application");
-        return err;
-    }
-
-    /* Wait for the erase complete event flag, if BGO is SET */
-    if (true == g_flash_cfg.data_flash_bgo)
-    {
-        APP_PRINT("\r\n BGO has enabled");
-        while (!g_b_flash_event_erase_complete);
-        g_b_flash_event_erase_complete = false;
-    }
-    APP_PRINT("\r\nErase successful");
-
-    /* Data flash blank check */
-    err = R_FLASH_HP_BlankCheck(&g_flash_ctrl, FLASH_HP_DF_BLOCK_1,FLASH_HP_DF_BLOCK_SIZE, &blank_check_result);
-    /* Error Handle */
-    if (FSP_SUCCESS != err)
-    {
-        APP_ERR_PRINT("\r\nBlankCheck API failed, Restart the Application");
-        return err;
-    }
-
-    /* Validate the blank check result */
-    if (FLASH_RESULT_BLANK == blank_check_result)
-    {
-        APP_PRINT("\r\n BlankCheck is successful");
-    }
-    else if (FLASH_RESULT_NOT_BLANK == blank_check_result)
-    {
-        APP_ERR_PRINT("\r\n BlankCheck is not blank,not to write the data. Restart the application");
-        return (fsp_err_t)FLASH_RESULT_NOT_BLANK;
-    }
-    else if (FLASH_RESULT_BGO_ACTIVE == blank_check_result)
-    {
-        /* BlankCheck will update in callback */
-        /* Event flag will be updated in the blank check function when BGO is enabled */
-        err = blankcheck_event_flag();
-        if(FSP_SUCCESS != err)
-        {
-            return err;
-        }
-    }
-    else
-    {
-        /* No Operation */
-    }
-
-    /* Write code flash data */
-    err = R_FLASH_HP_Write(&g_flash_ctrl, (uint32_t) write_buffer,FLASH_HP_DF_BLOCK_1, BLOCK_SIZE);
-    /* Error Handle */
-    if (FSP_SUCCESS != err)
-    {
-        APP_ERR_PRINT("\r\nWrite API failed, Restart the Application");
-        return err;
-    }
-    /* Wait for the write complete event flag, if BGO is SET */
-    if (true == g_flash_cfg.data_flash_bgo)
-    {
-        while (!g_b_flash_event_write_complete);
-        g_b_flash_event_write_complete = false;
-    }
-
-    APP_PRINT("\r\nWriting flash data is successful\r\n");
-
-    /* Read code flash data */
-    memcpy(read_buffer, (uint8_t *) FLASH_HP_DF_BLOCK_1, BLOCK_SIZE);
-
-    /* Comparing the write_buffer and read_buffer */
-    if (RESET_VALUE == memcmp(read_buffer, write_buffer, BLOCK_SIZE))
-    {
-        APP_PRINT("\r\nRead and Write buffer is verified and successful");
-        /* Print the read data on the RTT terminal */
-        APP_PRINT("\r\nRead Data : \r\n");
-        READ_DATA_PRINT(read_buffer);
-    }
-    else
-    {
-        APP_PRINT("Read and Write buffer is verified and not successful");
-        return FSP_ERR_WRITE_FAILED;
-    }
 
     return err;
 }
+#endif /* BSP_FEATURE_FLASH_SUPPORTS_ACCESS_WINDOW */
 
 /*******************************************************************************************************************//**
- * @brief       This functions de-initializes Flash_HP module.
+ * @brief     This function closes the opened Flash HP module.
+ * @param[in] None.
+ * @retval    None.
  **********************************************************************************************************************/
 void flash_hp_deinit(void)
 {
-    fsp_err_t err = FSP_SUCCESS;
-    err = R_FLASH_HP_Close(&g_flash_ctrl);
-    /* Error Handle */
-    if (FSP_SUCCESS != err)
+    /* Close the opened Flash HP module */
+    if (g_flash_ctrl.opened)
     {
-        APP_ERR_PRINT("\r\nClose API failed in BlankCheck API");
+        R_FLASH_HP_Close(&g_flash_ctrl);
     }
 }
 
 /*******************************************************************************************************************//**
- * @brief Callback function for FLASH HP HAL
+ * @brief     This function is callback for Flash HP HAL.
+ * @param[in] p_args                    Pointer to the callback function parameter data.
+ * @retval    None.
  **********************************************************************************************************************/
 void bgo_callback(flash_callback_args_t *p_args)
 {
@@ -316,38 +259,38 @@ void bgo_callback(flash_callback_args_t *p_args)
     }
     else
     {
-        /* No operation */
+        /* Do nothing */
     }
 }
 
 /*******************************************************************************************************************//**
- * @brief This function is called to set the blank check event flags
- * @param[IN]   None
- * @retval      FSP_SUCCESS             Upon successful Flash_HP is blank
- * @retval      Any Other Error code    Upon unsuccessful Flash_HP is not blank
+ * @brief     This function is called to set the blank check event flags.
+ * @param[in] None.
+ * @retval    FSP_SUCCESS               Upon successful Flash HP is blank.
+ * @retval    Any other error codes     Upon unsuccessful Flash HP is not blank.
  **********************************************************************************************************************/
 static fsp_err_t blankcheck_event_flag(void)
 {
+    /* Error status */
     fsp_err_t err = FSP_SUCCESS;
+    
     /* Wait for callback function to set flag */
-    while (!(g_b_flash_event_not_blank || g_b_flash_event_blank));
+    while (!(g_b_flash_event_not_blank || g_b_flash_event_blank))
+    {
+        /* Do nothing */
+    }
 
     if (g_b_flash_event_not_blank)
     {
-        APP_ERR_PRINT("\n\rFlash is not blank, not to write the data. Restart the application\n");
-        /* Reset Flag */
+        /* Reset flag */
         g_b_flash_event_not_blank = false;
         return (fsp_err_t)FLASH_EVENT_NOT_BLANK;
     }
     else
     {
-        APP_PRINT("\r\nFlash is blank\n");
-        /* Reset Flag */
+        /* Reset flag */
         g_b_flash_event_blank = false;
     }
+
     return err;
 }
-
-/*******************************************************************************************************************//**
- * @} (end defgroup FLASH_HP_EP)
- **********************************************************************************************************************/

@@ -7,6 +7,14 @@ FSP Configuration
     data_flash_size_bytes: 0
     package_style: LFBGA
     package_pins: 289
+    ospi0_cs0_start_address: 2147483648
+    ospi0_cs0_size_bytes: 268435456
+    ospi0_cs1_start_address: 2415919104
+    ospi0_cs1_size_bytes: 268435456
+    ospi1_cs0_start_address: 1879048192
+    ospi1_cs0_size_bytes: 134217728
+    ospi1_cs1_start_address: 2013265920
+    ospi1_cs1_size_bytes: 134217728
     number of cores: 2
     
   R7KA8P1KFLCAC
@@ -30,6 +38,7 @@ FSP Configuration
     SDRAM: Endian Mode: Little Endian
     SDRAM: Continuous Access Mode: Enabled
     SDRAM: Bus Width: 32-bit
+    OSPI_B: Startup Support: Disabled
     Security: Exceptions: Exception Response: Non-Maskable Interrupt
     Security: Exceptions: BusFault, HardFault, and NMI Target: Secure State
     Security: System Reset Request Accessibility: Secure State
@@ -59,6 +68,8 @@ FSP Configuration
     Main Oscillator Wait Time: 8163 cycles
     Cache settings: Data cache: Disabled
     Cache settings: Data cache forced write-through: Disabled
+    I/O Ports: Voltage Mode: VCC: High (VCC >= 2.7 V)
+    I/O Ports: Voltage Mode: VCC2: High (VCC2 >= 2.7 V)
     
   RA8P1 Device Options
     OFS Registers: OFS0 (Option Function Select Register 0) Settings: Enabled
@@ -97,12 +108,12 @@ FSP Configuration
     OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: Voltage Detection 0 Low Power Consumption: Voltage monitor 0 Low Power Consumption Disabled
     OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: WDT/IWDT Software Debug Control: Disabled (WDT and IWDT continue operating while the CPU is in the debug state)
     OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: Tightly Coupled Memory (TCM)/Cache ECC: Disable ECC function for TCM and Cache
-    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: Enabled
-    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: Voltage Detection 0 Level Security Attribution: VDSEL setting loads from OFS1_SEC
-    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: Voltage Detection 0 Circuit Start Security Attribution: PVDAS setting loads from OFS1_SEC
-    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: Voltage Detection 0 Low Power Consumption Security Attribution: PVDLPSEL setting loads from OFS1_SEC
-    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: WDT/IWDT Software Debug Control Security Attribution: SWDBG setting loads from OFS1_SEC
-    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: Tightly Coupled Memory (TCM)/Cache ECC Security Attribution: INITECCEN setting loads from OFS1_SEC
+    OFS Registers: OFS1_SEL (OFS1 Security Attribution) Settings: Enabled
+    OFS Registers: OFS1_SEL (OFS1 Security Attribution) Settings: Voltage Detection 0 Level Security Attribution: VDSEL setting loads from OFS1_SEC
+    OFS Registers: OFS1_SEL (OFS1 Security Attribution) Settings: Voltage Detection 0 Circuit Start Security Attribution: PVDAS setting loads from OFS1_SEC
+    OFS Registers: OFS1_SEL (OFS1 Security Attribution) Settings: Voltage Detection 0 Low Power Consumption Security Attribution: PVDLPSEL setting loads from OFS1_SEC
+    OFS Registers: OFS1_SEL (OFS1 Security Attribution) Settings: WDT/IWDT Software Debug Control Security Attribution: SWDBG setting loads from OFS1_SEC
+    OFS Registers: OFS1_SEL (OFS1 Security Attribution) Settings: Tightly Coupled Memory (TCM)/Cache ECC Security Attribution: INITECCEN setting loads from OFS1_SEC
     OFS Registers: OFS3 (Option Function Select Register 3) Settings: Disabled
     OFS Registers: OFS3 (Option Function Select Register 3) Settings: WDT1: Start Mode: Stop WDT after a reset (register start mode)
     OFS Registers: OFS3 (Option Function Select Register 3) Settings: WDT1: Timeout Period: 16384 cycles
@@ -119,14 +130,14 @@ FSP Configuration
     OFS Registers: OFS3_SEC (Option Function Select Register 3 Secure) Settings: WDT1: Window Start Position: 100% (no window start position)
     OFS Registers: OFS3_SEC (Option Function Select Register 3 Secure) Settings: WDT1: Reset Interrupt Request: Reset
     OFS Registers: OFS3_SEC (Option Function Select Register 3 Secure) Settings: WDT1: Stop Control: Stop counting when entering Sleep or Deep Sleep mode
-    OFS Registers: OFS3_SEL (OFS3 Register Select) Settings: Enabled
-    OFS Registers: OFS3_SEL (OFS3 Register Select) Settings: WDT1: Start Mode: WDT1STRT setting loads from OFS3_SEC
-    OFS Registers: OFS3_SEL (OFS3 Register Select) Settings: WDT1: Timeout Period: WDT1TOPS setting loads from OFS3_SEC
-    OFS Registers: OFS3_SEL (OFS3 Register Select) Settings: WDT1: Clock Frequency Division Ratio: WDT1CKS setting loads from OFS3_SEC
-    OFS Registers: OFS3_SEL (OFS3 Register Select) Settings: WDT1: Window End Position: WDT1RPES setting loads from OFS3_SEC
-    OFS Registers: OFS3_SEL (OFS3 Register Select) Settings: WDT1: Window Start Position: WDT1RPSS setting loads from OFS3_SEC
-    OFS Registers: OFS3_SEL (OFS3 Register Select) Settings: WDT1: Reset Interrupt Request Select: WDT1RSTIRQS setting loads from OFS3_SEC
-    OFS Registers: OFS3_SEL (OFS3 Register Select) Settings: WDT1: Stop Control: WDT1STPCTL setting loads from OFS3_SEC
+    OFS Registers: OFS3_SEL (OFS3 Security Attribution) Settings: Enabled
+    OFS Registers: OFS3_SEL (OFS3 Security Attribution) Settings: WDT1: Start Mode: WDT1STRT setting loads from OFS3_SEC
+    OFS Registers: OFS3_SEL (OFS3 Security Attribution) Settings: WDT1: Timeout Period: WDT1TOPS setting loads from OFS3_SEC
+    OFS Registers: OFS3_SEL (OFS3 Security Attribution) Settings: WDT1: Clock Frequency Division Ratio: WDT1CKS setting loads from OFS3_SEC
+    OFS Registers: OFS3_SEL (OFS3 Security Attribution) Settings: WDT1: Window End Position: WDT1RPES setting loads from OFS3_SEC
+    OFS Registers: OFS3_SEL (OFS3 Security Attribution) Settings: WDT1: Window Start Position: WDT1RPSS setting loads from OFS3_SEC
+    OFS Registers: OFS3_SEL (OFS3 Security Attribution) Settings: WDT1: Reset Interrupt Request Select: WDT1RSTIRQS setting loads from OFS3_SEC
+    OFS Registers: OFS3_SEL (OFS3 Security Attribution) Settings: WDT1: Stop Control: WDT1STPCTL setting loads from OFS3_SEC
     OFS Registers: BPS (Block Protect Setting Register) Settings: Disabled
     OFS Registers: BPS (Block Protect Setting Register) Settings: BPS0: 
     OFS Registers: BPS (Block Protect Setting Register) Settings: BPS1: 
@@ -163,6 +174,34 @@ FSP Configuration
     OFS Registers: BPS_SEC (Block Protect Setting Register Secure) Settings: BPS_SEC14: 
     OFS Registers: BPS_SEC (Block Protect Setting Register Secure) Settings: BPS_SEC15: 
     OFS Registers: BPS_SEC (Block Protect Setting Register Secure) Settings: BPS_SEC16: 
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: FSBLCTRL0 (FSBL Control Register 0) Settings: Disabled
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: FSBLCTRL0 (FSBL Control Register 0) Settings: FSBLEN: Disabled
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: FSBLCTRL0 (FSBL Control Register 0) Settings: FSBLSKIPSW: Disabled
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: FSBLCTRL0 (FSBL Control Register 0) Settings: FSBLSKIPDS: Disabled
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: FSBLCTRL0 (FSBL Control Register 0) Settings: FSBLCLK: 250 MHz
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: FSBLCTRL1 (FSBL Control Register 1) Settings: Disabled
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: FSBLCTRL1 (FSBL Control Register 1) Settings: FSBLEXMDFSBLEN: Secure boot with report measurement
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: FSBLCTRL2 (FSBL Control Register 2) Settings: Disabled
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: FSBLCTRL2 (FSBL Control Register 2) Settings: PORTPN: PORTn15
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: FSBLCTRL2 (FSBL Control Register 2) Settings: PORTGN: None
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: SAMR (Start Address of Measurement Report) Settings: Disabled
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: SAMR (Start Address of Measurement Report) Settings: Address: 0xFFFFFFFF
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: Code Certificate: SACC00 (Start Address of Code Certificate 00) Settings: Disabled
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: Code Certificate: SACC00 (Start Address of Code Certificate 00) Settings: Address: 0xFFFFFFFF
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: Code Certificate: SACC10 (Start Address of Code Certificate 10) Settings: Disabled
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: Code Certificate: SACC10 (Start Address of Code Certificate 10) Settings: Address: 0xFFFFFFFF
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: Code Certificate: SACC01 (Start Address of Code Certificate 01) Settings: Disabled
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: Code Certificate: SACC01 (Start Address of Code Certificate 01) Settings: Address: 0xFFFFFFFF
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: Code Certificate: SACC11 (Start Address of Code Certificate 11) Settings: Disabled
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: Code Certificate: SACC11 (Start Address of Code Certificate 11) Settings: Address: 0xFFFFFFFF
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: Code Certificate: SACC02 (Start Address of Code Certificate 02) Settings: Disabled
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: Code Certificate: SACC02 (Start Address of Code Certificate 02) Settings: Address: 0xFFFFFFFF
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: Code Certificate: SACC12 (Start Address of Code Certificate 12) Settings: Disabled
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: Code Certificate: SACC12 (Start Address of Code Certificate 12) Settings: Address: 0xFFFFFFFF
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: Code Certificate: SACC03 (Start Address of Code Certificate 03) Settings: Disabled
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: Code Certificate: SACC03 (Start Address of Code Certificate 03) Settings: Address: 0xFFFFFFFF
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: Code Certificate: SACC13 (Start Address of Code Certificate 13) Settings: Disabled
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: Code Certificate: SACC13 (Start Address of Code Certificate 13) Settings: Address: 0xFFFFFFFF
     OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: Disabled
     OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: PBPS_SEC0: 
     OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: PBPS_SEC1: 
@@ -199,6 +238,11 @@ FSP Configuration
     OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS14: 
     OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS15: 
     OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS16: 
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Configuration setting for RTCIC0: W-HUK zeroization by RTCIC0 tamper event is disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Configuration setting for RTCIC1: W-HUK zeroization by RTCIC1 tamper event is disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Configuration setting for RTCIC2: W-HUK zeroization by RTCIC2 tamper event is disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Configuration setting for RTCIC3: W-HUK zeroization by RTCIC3 tamper event is disabled
     
   RA8P1 Core 0 Options
   RA8P1 event data
@@ -251,7 +295,7 @@ FSP Configuration
     BCLKA Div /6
     SDCLK Enabled
     EBCLK Src: BCLK (Synchronous)
-    EBCLK Div /2
+    EBCLK Disabled
     CLKOUT Src: HOCO
     CLKOUT Div /1
     SCICLK Src: PLL2R
@@ -869,9 +913,13 @@ FSP Configuration
   User Event Links
     
   Linker Section Mappings
+    *(.bss.*_fsp_nocache): RAM Zeroed (Uncached)
+    *(.bss.g_heap): RAM Uninitialized
+    *(.bss.g_main_stack): RAM Uninitialized
     
   Module "I/O Port (r_ioport)"
     Parameter Checking: Default (BSP)
+    CCD Support: Not Supported
     
   Module "MbedTLS (Crypto Only)"
     Hardware Acceleration: TRNG: Enabled
@@ -918,8 +966,8 @@ FSP Configuration
     Cipher: Alternate: MBEDTLS_ARIA_ALT: Undefine
     Cipher: Alternate: MBEDTLS_CAMELLIA_ALT: Undefine
     Cipher: Alternate: MBEDTLS_CCM_ALT: Define
-    Cipher: Alternate: MBEDTLS_CHACHA20_ALT: Undefine
-    Cipher: Alternate: MBEDTLS_CHACHAPOLY_ALT: Undefine
+    Cipher: Alternate: MBEDTLS_CHACHA20_ALT: Use Software
+    Cipher: Alternate: MBEDTLS_CHACHAPOLY_ALT: Use Software
     Cipher: Alternate: MBEDTLS_CMAC_ALT: Define
     Cipher: Alternate: MBEDTLS_DES_ALT: Undefine
     Public Key Cryptography (PKC): DHM: Alternate: MBEDTLS_DHM_ALT: Undefine
@@ -1044,6 +1092,8 @@ FSP Configuration
     Hash: MBEDTLS_MD_C: Define
     Hash: MBEDTLS_MD5_C: Define
     General: MBEDTLS_MEMORY_BUFFER_ALLOC_C: Undefine
+    Post Quantum Cryptography (PQC): MBEDTLS_MLKEM_C: Undefine
+    Post Quantum Cryptography (PQC): MBEDTLS_ML_DSA_C: Undefine
     Public Key Cryptography (PKC): MBEDTLS_OID_C: Define
     Public Key Cryptography (PKC): MBEDTLS_PEM_PARSE_C: Define
     Public Key Cryptography (PKC): MBEDTLS_PEM_WRITE_C: Define
@@ -1059,6 +1109,7 @@ FSP Configuration
     General: MBEDTLS_PSA_CRYPTO_SE_C: Undefine
     Storage: MBEDTLS_PSA_CRYPTO_STORAGE_C: Define
     Storage: MBEDTLS_PSA_ITS_FILE_C: Define
+    Storage: MBEDTLS_PSA_STATIC_KEY_SLOTS: Undefine
     Hash: MBEDTLS_RIPEMD160_C: Undefine
     Public Key Cryptography (PKC): RSA: MBEDTLS_RSA_C: Define
     Public Key Cryptography (PKC): RSA: MBEDTLS_RSA_GEN_KEY_MIN_BITS: Undefine
@@ -1148,6 +1199,7 @@ FSP Configuration
     Platform: MBEDTLS_PLATFORM_MS_TIME_TYPE_MACRO: Undefine
     Platform: MBEDTLS_PLATFORM_MS_TIME_TYPE_MACRO value: int64_t
     Platform: MBEDTLS_PRINTF_MS_TIME: Undefine
+    Platform: MBEDTLS_PLATFORM_DEV_RANDOM: Undefine
     Platform: MBEDTLS_PRINTF_MS_TIME value: PRId64
     Platform: MBEDTLS_PLATFORM_FPRINTF_MACRO: Undefine
     Platform: MBEDTLS_PLATFORM_FPRINTF_MACRO value: fprintf
@@ -1167,11 +1219,12 @@ FSP Configuration
     Platform: Alternate: MBEDTLS_PLATFORM_ZEROIZE_ALT: Undefine
     Key Configuration: MBEDTLS_PSA_KEY_SLOT_COUNT: Undefine
     Key Configuration: MBEDTLS_PSA_KEY_SLOT_COUNT value: 32
+    Key Configuration: MBEDTLS_PSA_STATIC_KEY_SLOT_BUFFER_SIZE value: 256
     Platform: Alternate: MBEDTLS_PLATFORM_GMTIME_R_ALT: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECDH_VARIANT_EVEREST_ENABLED: Undefine
     General: MBEDTLS_PSA_CRYPTO_CONFIG: Undefine
     
-  Module "Mbed Crypto H/W Acceleration (rm_psa_crypto)"
+  Module "MbedTLS Crypto Port (rm_psa_crypto)"
   Module "RSIP-E50D Compatibility Mode"
   Module "LittleFS"
     Custom lfs_util.h: 
@@ -1198,9 +1251,17 @@ FSP Configuration
     Memory-mapping Support: XiP Support: Disable
     DOTF Support: Disable
     Row Addressing Support: Disable
+    Target Reset Support: In-band reset: Disable
+    Target Reset Support: Reset pin: Disable
     
   Module "Transfer (r_dmac)"
     Parameter Checking: Default (BSP)
+    
+  Module "UART (r_sci_b_uart)"
+    Parameter Checking: Default (BSP)
+    FIFO Support: Disable
+    DTC Support: Disable
+    Flow Control Support: Disable
     
   HAL
     Instance "g_ioport I/O Port (r_ioport)"
@@ -1212,7 +1273,7 @@ FSP Configuration
       Pin Configuration Name: g_bsp_pin_cfg
       
     Instance "MbedTLS (Crypto Only)"
-      Instance "Mbed Crypto H/W Acceleration (rm_psa_crypto)"
+      Instance "MbedTLS Crypto Port (rm_psa_crypto)"
         Instance "RSIP-E50D Compatibility Mode"
       Instance "LittleFS"
         
@@ -1238,6 +1299,8 @@ FSP Configuration
             General: DS Auto-calibration Pattern Address: 0
             Command Sets: Custom Table: Table Pointer: 
             Command Sets: Custom Table: Table Length: 0
+            Command Sets: Custom Table: Erase Command Table: 
+            Command Sets: Custom Table: Erase Command Table Length: 0
             Command Sets: Erase Sizes: Sector Erase: 4096
             Command Sets: Erase Sizes: Block Erase: 65536
             Command Sets: Initial Mode: Protocol Mode: SPI (1S-1S-1S)
@@ -1246,7 +1309,7 @@ FSP Configuration
             Command Sets: Initial Mode: Address Length: 4 bytes
             Command Sets: Initial Mode: Address MSB Mask: 0xF0
             Command Sets: Initial Mode: Command Code Length: 1 byte
-            Command Sets: Initial Mode: Status Register Address Length: No address
+            Command Sets: Initial Mode: Status Register: No address
             Command Sets: Initial Mode: Status Register Address: 0x00
             Command Sets: Initial Mode: Read: Command Code: 0x13
             Command Sets: Initial Mode: Read: Dummy Cycles: 0
@@ -1268,7 +1331,7 @@ FSP Configuration
             Command Sets: High-speed Mode: Address Length: 4 bytes
             Command Sets: High-speed Mode: Address MSB Mask: 0xF0
             Command Sets: High-speed Mode: Command Code Length: 2 bytes
-            Command Sets: High-speed Mode: Status Register Address Length: 4 bytes
+            Command Sets: High-speed Mode: Status Register: 4 bytes
             Command Sets: High-speed Mode: Status Register Address: 0x00
             Command Sets: High-speed Mode: Read: Command Code: 0xEEEE
             Command Sets: High-speed Mode: Read: Dummy Cycles: 20
@@ -1285,8 +1348,13 @@ FSP Configuration
             Command Sets: High-speed Mode: Block Erase: Command Code: 0xDCDC
             Command Sets: High-speed Mode: Chip Erase: Command Code: 0x6060
             Timing Settings: Chip Select: Command Interval: 2 cycles
-            Timing Settings: Chip Select: Pull-up Timing: No Extension
-            Timing Settings: Chip Select: Pull-down Timing: No Extension
+            Timing Settings: Chip Select: Assertion Extension: No extension
+            Timing Settings: Chip Select: Negation Extension: No extension
+            Timing Settings: In-Band Reset Pattern: Repeat Count: 4 times
+            Timing Settings: In-Band Reset Pattern: Width: 16 cycles
+            Timing Settings: In-Band Reset Pattern: SIO Setup Time: 1 cycle
+            Timing Settings: Reset Pin Hold Time: 1
+            Timing Settings: Reset Recovery Time: 1
             Timing Settings: DS Latching Delay: Auto-calibrate
             Timing Settings: SDR: Drive Timing: Drive 1/2 cycle before CK
             Timing Settings: SDR: CK Sampling Edge: Falling edge
@@ -1299,8 +1367,8 @@ FSP Configuration
             DOTF: AES IV: g_ospi_dotf_iv
             DOTF: AES Key Length: 128
             DOTF: Key Format: Plaintext
-            DOTF: Decryption start address: 0x90000000
-            DOTF: Decryption end address: 0x90001FFF
+            DOTF: Decryption Start Address: 0x90000000
+            DOTF: Decryption End Address: 0x90001FFF
             Row Addressing: Row Address Length: No address
             
             Instance "g_transfer0 Transfer (r_dmac) No ELC Trigger"
@@ -1317,6 +1385,33 @@ FSP Configuration
               Callback: NULL
               Transfer End Interrupt Priority: Disabled
               Interrupt Frequency: Interrupt after all transfers have completed
-              Offset value (Valid only when address mode is \'Offset\'): 0
+              Offset value (Valid only when address mode is Offset addition): 0
               Source Buffer Size: 0
               
+    Instance "g_uart_console UART (r_sci_b_uart)"
+      General: Name: g_uart_console
+      General: Channel: 8
+      General: Data Bits: 8bits
+      General: Parity: None
+      General: Stop Bits: 1bit
+      Baud: Baud Rate: 115200
+      Baud: Baud Rate Modulation: Disabled
+      Baud: Max Error (%): 5
+      Flow Control: CTS/RTS Selection: Hardware RTS
+      Flow Control: Software RTS Port: Disabled
+      Flow Control: Software RTS Pin: Disabled
+      Extra: Clock Source: Internal Clock
+      Extra: Start bit detection: Falling Edge
+      Extra: Noise Filter: Disable
+      Extra: Receive FIFO Trigger Level: Max
+      Extra: RS-485: DE Pin: Disable
+      Extra: RS-485: DE Pin Polarity: Active High
+      Extra: RS-485: DE Pin Assertion Time: 1
+      Extra: RS-485: DE Pin Negation Time: 1
+      Extra: TXI/TEI Synchronization Delay Cycles: 0
+      Interrupts: Callback: uart_console_callback
+      Interrupts: Receive Interrupt Priority: Priority 15
+      Interrupts: Transmit Data Empty Interrupt Priority: Priority 15
+      Interrupts: Transmit End Interrupt Priority: Priority 15
+      Interrupts: Error Interrupt Priority: Priority 15
+      

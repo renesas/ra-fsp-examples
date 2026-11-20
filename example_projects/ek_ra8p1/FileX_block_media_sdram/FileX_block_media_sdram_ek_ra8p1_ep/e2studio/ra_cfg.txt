@@ -7,6 +7,14 @@ FSP Configuration
     data_flash_size_bytes: 0
     package_style: LFBGA
     package_pins: 289
+    ospi0_cs0_start_address: 2147483648
+    ospi0_cs0_size_bytes: 268435456
+    ospi0_cs1_start_address: 2415919104
+    ospi0_cs1_size_bytes: 268435456
+    ospi1_cs0_start_address: 1879048192
+    ospi1_cs0_size_bytes: 134217728
+    ospi1_cs1_start_address: 2013265920
+    ospi1_cs1_size_bytes: 134217728
     number of cores: 2
     
   R7KA8P1KFLCAC
@@ -30,6 +38,7 @@ FSP Configuration
     SDRAM: Endian Mode: Little Endian
     SDRAM: Continuous Access Mode: Enabled
     SDRAM: Bus Width: 32-bit
+    OSPI_B: Startup Support: Disabled
     Security: Exceptions: Exception Response: Non-Maskable Interrupt
     Security: Exceptions: BusFault, HardFault, and NMI Target: Secure State
     Security: System Reset Request Accessibility: Secure State
@@ -59,6 +68,8 @@ FSP Configuration
     Main Oscillator Wait Time: 8163 cycles
     Cache settings: Data cache: Disabled
     Cache settings: Data cache forced write-through: Disabled
+    I/O Ports: Voltage Mode: VCC: High (VCC >= 2.7 V)
+    I/O Ports: Voltage Mode: VCC2: High (VCC2 >= 2.7 V)
     
   RA8P1 Device Options
     OFS Registers: OFS0 (Option Function Select Register 0) Settings: Enabled
@@ -78,8 +89,8 @@ FSP Configuration
     OFS Registers: OFS0 (Option Function Select Register 0) Settings: WDT0: Stop Control: Stop counting when entering Sleep mode
     OFS Registers: OFS2 (Option Function Select Register 2) Settings: Enabled
     OFS Registers: OFS2 (Option Function Select Register 2) Settings: DCDC: Enabled
-    OFS Registers: OFS2 (Option Function Select Register 2) Settings: CVM Reset: Enabled
-    OFS Registers: OFS2 (Option Function Select Register 2) Settings: NPU Security Attribution Initial Value: Non Secure
+    OFS Registers: OFS2 (Option Function Select Register 2) Settings: CVM Reset: Disabled
+    OFS Registers: OFS2 (Option Function Select Register 2) Settings: NPU Security Attribution Initial Value: Secure
     OFS Registers: OFS2 (Option Function Select Register 2) Settings: NPU Privilege Attribution Initial Value: Unprivilege
     OFS Registers: SAS (Startup Area Setting Register) Settings: Disabled
     OFS Registers: SAS (Startup Area Setting Register) Settings: Size of Start-Up Area select: 8KB
@@ -227,11 +238,11 @@ FSP Configuration
     OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS14: 
     OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS15: 
     OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS16: 
-    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: ZHUK (Zerorization HUK Register) Settings: Disabled
-    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: ZHUK (Zerorization HUK Register) Settings: Configuration setting for RTCIC0: W-HUK zeroization by RTCIC0 tamper event is disabled
-    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: ZHUK (Zerorization HUK Register) Settings: Configuration setting for RTCIC1: W-HUK zeroization by RTCIC1 tamper event is disabled
-    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: ZHUK (Zerorization HUK Register) Settings: Configuration setting for RTCIC2: W-HUK zeroization by RTCIC2 tamper event is disabled
-    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: ZHUK (Zerorization HUK Register) Settings: Configuration setting for RTCIC3: W-HUK zeroization by RTCIC3 tamper event is disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Configuration setting for RTCIC0: W-HUK zeroization by RTCIC0 tamper event is disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Configuration setting for RTCIC1: W-HUK zeroization by RTCIC1 tamper event is disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Configuration setting for RTCIC2: W-HUK zeroization by RTCIC2 tamper event is disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Configuration setting for RTCIC3: W-HUK zeroization by RTCIC3 tamper event is disabled
     
   RA8P1 Core 0 Options
   RA8P1 event data
@@ -284,7 +295,7 @@ FSP Configuration
     BCLKA Div /6
     SDCLK Enabled
     EBCLK Src: BCLK (Synchronous)
-    EBCLK Div /2
+    EBCLK Disabled
     CLKOUT Src: HOCO
     CLKOUT Div /1
     SCICLK Src: PLL2R
@@ -440,7 +451,7 @@ FSP Configuration
       P705 F17 - - - - Disabled - - "AGT0: AGTIO0; CANFD0: CRX0; CEU: VIO_D9; ESWM_GMII/MII0: ET0_TX_EN; ESWM_RGMII0: RGMII0_TX_CTL; ESWM_RMII0: RMII0_TX_EN; GPT: GTADSM1; GPT1: GTCPPO1; IRQ: IRQ19; PDM2: PDMCLK2; SCI1: CTS1; SPI0: SSLA2" - None - - 
       P706 E17 - - - - Disabled - - "AGT0: AGTIO0; CEU: VIO_D10; ESWM_GMII/MII0: ET0_GTX_CLK; ESWM_RGMII0: RGMII0_TXC; ETHPHYCLK: ETHPHYCLK; GPT2: GTCPPO2; IRQ: IRQ7; PDM0: PDMDAT0; SCI1: RXD1; USB HS: USBHS_OVRCURB-DS" - None - - 
       P707 F16 GLCDC_LCD_DATA18 PARLCD_D18R2 H None "Peripheral mode" - - "CEU: VIO_D11; ESWM_GMII/MII0: ET0_TX_ER; ETHPHYCLK: ETHPHYCLK; GLCDC: LCD_DATA18; GPT3: GTCPPO3; IRQ: IRQ8; PDM1: PDMDAT1; SCI1: TXD1; USB HS: USBHS_OVRCURA-DS" - IO - - 
-      P708 N12 GPIO ETHERNET_RST M - "Output mode (Initial Low)" - - "BUS: BC1; BUS: WR1; CAC: CACREF; CEU: VIO_VD; ESWM_GMII/MII: ET0_MDC; ESWM_RGMII0: ET0_MDC; ESWM_RMII0: ET0_MDC; GPT6: GTCPPO6; IIC2: SDA2; IRQ: IRQ11; SCI4: DE4; SCI4: SCK4; SPI1: MOSI1; SSIE: AUDIO_CLK" - IO - - 
+      P708 N12 GPIO ETHERNET_RST M - "Output mode (Initial High)" - - "BUS: BC1; BUS: WR1; CAC: CACREF; CEU: VIO_VD; ESWM_GMII/MII: ET0_MDC; ESWM_RGMII0: ET0_MDC; ESWM_RMII0: ET0_MDC; GPT6: GTCPPO6; IIC2: SDA2; IRQ: IRQ11; SCI4: DE4; SCI4: SCK4; SPI1: MOSI1; SSIE: AUDIO_CLK" - IO - - 
       P709 P16 GPIO CAMERA_RESET M - "Output mode (Initial Low)" - - "BUS: CS4; CEU: VIO_D13; ESWM_GMII/MII: ET0_MDIO; ESWM_RGMII0: ET0_MDIO; ESWM_RMII0: ET0_MDIO; GPT5: GTCPPO5; IIC2: SCL2; IRQ: IRQ10; SCI4: CTS_RTS4; SCI4: DE4; SPI1: MISO1" - IO - - 
       P710 M13 GLCDC_LCD_EXTCLK PARLCD_EXTCLK H None "Peripheral mode" - - "BUS: CS5; CEU: VIO_D12; ESWM_GMII/MII: ET0_LINKSTA; ESWM_RGMII0: ET0_LINKSTA; ESWM_RMII0: ET0_LINKSTA; GLCDC: LCD_EXTCLK; GPT11: GTIOC11B; IRQ: IRQ17; SCI4: CTS4; SPI1: SSLB3" - I - - 
       P711 N15 GLCDC_LCD_DATA19 PARLCD_D19R3 H None "Peripheral mode" - - "AGT0: AGTEE0; ESWM_GMII/MII: GPTP0_PPS; ESWM_RGMII0: GPTP0_PPS; ESWM_RMII0: GPTP0_PPS; GLCDC: LCD_DATA19; GPT11: GTIOC11A; IRQ: IRQ3; SCI1: CTS_RTS1; SCI1: DE1; SPI1: SSLB2" - IO - - 
@@ -898,14 +909,11 @@ FSP Configuration
       VSS_USB T17 CGC_VSS_USB - - - - - - - - IO "Read only" - 
     
   User Events
-    SCI8 ERI (Receive error): sci_b_uart_eri_isr
-    SCI8 RXI (Receive data full): sci_b_uart_rxi_isr
-    SCI8 TEI (Transmit end): sci_b_uart_tei_isr
-    SCI8 TXI (Transmit data empty): sci_b_uart_txi_isr
     
   User Event Links
     
   Linker Section Mappings
+    *(.bss.*_fsp_nocache): RAM Zeroed (Uncached)
     *(.bss.g_heap): RAM Uninitialized
     *(.bss.g_main_stack): RAM Uninitialized
     
@@ -952,9 +960,15 @@ FSP Configuration
     
   Module "Block Media RAM Implementation (rm_block_media_ram)"
     Parameter Checking: Default (BSP)
-    RAM Media Size: 33554432
+    RAM Media Size: 67108864
     Memory Storage Section: .sdram_noinit
     Format during mediaInit: Enabled
+    
+  Module "UART (r_sci_b_uart)"
+    Parameter Checking: Default (BSP)
+    FIFO Support: Disable
+    DTC Support: Disable
+    Flow Control Support: Disable
     
   Azure RTOS ThreadX
     General: Custom tx_user.h: 
@@ -1002,6 +1016,33 @@ FSP Configuration
       Pin Configuration Name: g_bsp_pin_cfg
       
     Instance "Azure RTOS ThreadX Port (rm_threadx_port)"
+    Instance "g_uart_console UART (r_sci_b_uart)"
+      General: Name: g_uart_console
+      General: Channel: 8
+      General: Data Bits: 8bits
+      General: Parity: None
+      General: Stop Bits: 1bit
+      Baud: Baud Rate: 115200
+      Baud: Baud Rate Modulation: Disabled
+      Baud: Max Error (%): 5
+      Flow Control: CTS/RTS Selection: Hardware RTS
+      Flow Control: Software RTS Port: Disabled
+      Flow Control: Software RTS Pin: Disabled
+      Extra: Clock Source: Internal Clock
+      Extra: Start bit detection: Falling Edge
+      Extra: Noise Filter: Disable
+      Extra: Receive FIFO Trigger Level: Max
+      Extra: RS-485: DE Pin: Disable
+      Extra: RS-485: DE Pin Polarity: Active High
+      Extra: RS-485: DE Pin Assertion Time: 1
+      Extra: RS-485: DE Pin Negation Time: 1
+      Extra: TXI/TEI Synchronization Delay Cycles: 0
+      Interrupts: Callback: uart_console_callback
+      Interrupts: Receive Interrupt Priority: Priority 15
+      Interrupts: Transmit Data Empty Interrupt Priority: Priority 15
+      Interrupts: Transmit End Interrupt Priority: Priority 15
+      Interrupts: Error Interrupt Priority: Priority 15
+      
   Thread "FileX Thread"
     Symbol: filex_thread
     Name: FileX Thread
@@ -1016,7 +1057,7 @@ FSP Configuration
       Number of FATs: 1
       Directory Entries: 256
       Hidden Sectors: 0
-      Total Sectors: 65536
+      Total Sectors: 131072
       Bytes per Sector: 512
       Sectors per Cluster: 1
       Volume Serial Number (exFAT only): 12345

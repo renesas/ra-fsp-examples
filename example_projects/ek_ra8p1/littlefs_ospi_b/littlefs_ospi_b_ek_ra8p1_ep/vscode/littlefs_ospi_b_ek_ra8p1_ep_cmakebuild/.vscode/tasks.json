@@ -1,0 +1,26 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "shell",
+      "command": "cmake -P cmake/prebuild.cmake",
+      "group": "none",
+      "label": "Regenerate Project Content"
+    },
+    {
+      "type": "cmake",
+      "command": "configure",
+      "group": "none",
+      "label": "Configure Project"
+    },
+    {
+      "type": "cmake",
+      "command": "build",
+      "group": "build",
+      "label": "Build Project",
+      "dependsOn": [
+        "Configure Project"
+      ]
+    }
+  ]
+}

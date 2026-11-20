@@ -1,0 +1,1162 @@
+# Please see README.md for build instructions
+
+cmake_minimum_required(VERSION 3.16.4)
+
+set(CMAKE_SYSTEM_NAME Generic)
+
+set(CMAKE_SYSTEM_PROCESSOR arm)
+
+# Use add_library() with the STATIC option to name the source file in the generated project.
+# This avoids running the linker and is intended for use with cross-compiling toolchains that
+# cannot link without custom flags or linker scripts
+set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
+
+set(CMAKE_CONFIGURATION_TYPES Debug Release RelWithDebInfo MinSizeRel)
+
+if(BUILD_KIT)
+	message(NOTICE "Build Kit is defined as ${BUILD_KIT}")
+endif()
+
+message(NOTICE "CMAKE_CURRENT_BINARY_DIR is defined as ${CMAKE_CURRENT_BINARY_DIR}")
+
+get_property(isMultiConfig GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
+
+if(isMultiConfig)
+    message(NOTICE "Multi-config generator(${CMAKE_GENERATOR}) is active")
+else()
+    message(NOTICE "Single-config generator(${CMAKE_GENERATOR}) is active")
+	if(DEFINED CMAKE_BUILD_TYPE)
+	 	message(NOTICE "CMAKE_BUILD_TYPE is defined as ${CMAKE_BUILD_TYPE}")
+	elseif(DEFINED BUILD_TYPE)
+		set(CMAKE_BUILD_TYPE ${BUILD_TYPE})
+		message(NOTICE "CMAKE_BUILD_TYPE is set to BUILD_TYPE ENV ${CMAKE_BUILD_TYPE}")
+	else()
+		message(FATAL_ERROR "Please specify the CMAKE_BUILD_TYPE with -DCMAKE_BUILD_TYPE=")
+	endif()
+    #set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_BUILD_TYPE})
+	message(NOTICE "CMAKE_RUNTIME_OUTPUT_DIRECTORY is defined as ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
+endif()
+
+cmake_minimum_required(VERSION 3.16.4)
+
+# Project configuration
+project(ethos_u55_face_detection_ruhmi_ek_ra8p1_ep_cmakebuild
+	VERSION 1.0.0
+	LANGUAGES C CXX ASM)
+
+set(CMAKE_CROSSCOMPILING "TRUE")
+set(CMAKE_EXPORT_COMPILE_COMMANDS "TRUE")
+
+include(${CMAKE_CURRENT_LIST_DIR}/Config.cmake)
+
+include(${CMAKE_CURRENT_LIST_DIR}/cmake/GeneratedCfg.cmake)
+# --- Match e2studio Managed-Build compiler flags ---
+# The stray size-optimization flag is "-Os" on the LLVM/clang_arm toolchain but
+# "-Oz" on the GCC/gcc-arm-embedded toolchain - remove both to cover either.
+list(REMOVE_ITEM RASC_CMAKE_C_FLAGS "-Os" "-Oz")
+list(REMOVE_ITEM RASC_CMAKE_CXX_FLAGS "-Os" "-Oz")
+list(REMOVE_ITEM RASC_CMAKE_ASM_FLAGS "-Os" "-Oz")
+# e2studio Managed-Build (config Debug) actually compiles with "-Os", not RASC's own assumed default for this config.
+list(REMOVE_ITEM RASC_DEBUG_FLAGS "-O0" "-O1" "-O2" "-O3" "-Os" "-Oz")
+list(APPEND RASC_DEBUG_FLAGS "-Os")
+if(DEFINED RASC_C_DEBUG_FLAGS)
+    string(REPLACE " " ";" _rasc_opt "${RASC_C_DEBUG_FLAGS}")
+    list(REMOVE_ITEM _rasc_opt "-O0" "-O1" "-O2" "-O3" "-Os" "-Oz")
+    list(APPEND _rasc_opt "-Os")
+    string(REPLACE ";" " " RASC_C_DEBUG_FLAGS "${_rasc_opt}")
+endif()
+if(DEFINED RASC_CXX_DEBUG_FLAGS)
+    string(REPLACE " " ";" _rasc_opt "${RASC_CXX_DEBUG_FLAGS}")
+    list(REMOVE_ITEM _rasc_opt "-O0" "-O1" "-O2" "-O3" "-Os" "-Oz")
+    list(APPEND _rasc_opt "-Os")
+    string(REPLACE ";" " " RASC_CXX_DEBUG_FLAGS "${_rasc_opt}")
+endif()
+# Source .cproject (config Debug) is configured "-funsigned-char", not RASC's default "-fsigned-char".
+list(TRANSFORM RASC_CMAKE_C_FLAGS REPLACE "^-fsigned-char$" "-funsigned-char")
+list(TRANSFORM RASC_CMAKE_CXX_FLAGS REPLACE "^-fsigned-char$" "-funsigned-char")
+list(TRANSFORM RASC_CMAKE_ASM_FLAGS REPLACE "^-fsigned-char$" "-funsigned-char")
+list(TRANSFORM RASC_CMAKE_EXE_LINKER_FLAGS REPLACE "^-fsigned-char$" "-funsigned-char")
+# e2studio Managed-Build actually compiles with "-mcpu=cortex-m85" (RASC's own -mcpu may be missing a device extension modifier like "+nopacbti").
+list(TRANSFORM RASC_CMAKE_C_FLAGS REPLACE "^-mcpu=.*$" "-mcpu=cortex-m85")
+list(TRANSFORM RASC_CMAKE_CXX_FLAGS REPLACE "^-mcpu=.*$" "-mcpu=cortex-m85")
+list(TRANSFORM RASC_CMAKE_ASM_FLAGS REPLACE "^-mcpu=.*$" "-mcpu=cortex-m85")
+list(TRANSFORM RASC_CMAKE_EXE_LINKER_FLAGS REPLACE "^-mcpu=.*$" "-mcpu=cortex-m85")
+# Match e2studio Managed-Build's __FILE__ expansion (affects assert()/configASSERT() in RTOS projects)
+list(APPEND RASC_CMAKE_C_FLAGS "-fmacro-prefix-map=${CMAKE_SOURCE_DIR}/=../")
+list(APPEND RASC_CMAKE_CXX_FLAGS "-fmacro-prefix-map=${CMAKE_SOURCE_DIR}/=../")
+
+
+# If required user can amend RASC generated flags here, e.g. list(REMOVE_ITEM RASC_CMAKE_C_FLAGS "-Wall")
+
+include(${CMAKE_CURRENT_LIST_DIR}/cmake/GeneratedSrc.cmake)
+
+target_compile_definitions(${PROJECT_NAME}.elf PRIVATE $<$<CONFIG:Debug>:
+    ARM_NPU
+    INFERENCE_TIME_MEASUREMENT_ENABLED=1
+    ARM_MODEL_USE_PMU_COUNTERS
+    TF_LITE_STATIC_MEMORY>)
+
+target_compile_definitions(${PROJECT_NAME}.elf PRIVATE $<$<CONFIG:Release>:
+    TF_LITE_STATIC_MEMORY>)
+
+target_include_directories(${PROJECT_NAME}.elf
+    BEFORE
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/src
+)
+
+
+
+target_include_directories(${PROJECT_NAME}.elf
+	PRIVATE
+	${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_app/source/use_case/object_detection/src/mera_deploy_npu
+	${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_app/source/use_case/object_detection/src/mera_deploy_cpu
+	${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_app/common
+	${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_app/generated/object_detection/samples
+	${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_app/generated/object_detection
+	${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_app
+	${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_app/source
+	${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_app/source/use_case/object_detection
+	${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_app/resources/object_detection/samples
+	${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_app/source/use_case
+	${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_app/source/application
+	${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_app/resources_downloaded
+	${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_app/source/application/main/include
+	${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_app/generated
+	${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_app/resources_downloaded/object_detection
+	${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_app/resources/object_detection
+	${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_app/source/use_case/object_detection/include
+	${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_app/source/use_case/object_detection/src
+	${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_app/generated/object_detection/src
+	${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_app/source/application/main
+	${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_app/resources
+	${CMAKE_CURRENT_SOURCE_DIR}/.
+	${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/PrivateInclude
+	${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Include
+	${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/ethos-u-core-software/lib/layer_by_layer_profiler/include
+	${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/ethos-u-core-software/lib/ethosu_monitor/include
+	${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/ethos-u-core-software/lib/ethosu_profiler/include
+	${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/ethos-u-core-driver/include
+	${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/rm_ethosu
+	${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Include
+	${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN
+	${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/flatbuffers/include
+	${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/ruy
+	${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/gemmlowp
+	${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro
+	${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/ethos-u-core-software/lib/crc/include
+	${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/ethos-u-core-software/lib/arm_profiler/include
+	${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-View/EventRecorder/Include
+	${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-View/EventRecorder/Config
+	${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_example_arm_u55
+	${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_example_arm_u55/source/application
+	${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_example_arm_u55/resources/object_detection
+	${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_example_arm_u55/source/application/main/include
+	${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_example_arm_u55/resources
+	${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_example_arm_u55/generated/object_detection/src
+	${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_example_arm_u55/generated/object_detection/samples
+	${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_example_arm_u55/source/application/main
+	${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_example_arm_u55/source/use_case/object_detection/include
+	${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_example_arm_u55/source
+	${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_example_arm_u55/generated
+	${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_example_arm_u55/resources_downloaded
+	${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_example_arm_u55/generated/object_detection
+	${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_example_arm_u55/source/use_case
+	${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_example_arm_u55/source/use_case/object_detection/src
+	${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_example_arm_u55/resources/object_detection/samples
+	${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_example_arm_u55/generated/object_detection/include
+	${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_example_arm_u55/resources_downloaded/object_detection
+	${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_example_arm_u55/source/use_case/object_detection
+	${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_example_arm_u55/common
+)
+
+
+target_compile_options(${PROJECT_NAME}.elf PRIVATE
+    $<$<AND:$<CONFIG:Debug>,$<COMPILE_LANGUAGE:C>>:-flax-vector-conversions>
+)
+
+target_compile_options(${PROJECT_NAME}.elf PRIVATE
+    $<$<AND:$<CONFIG:Release>,$<COMPILE_LANGUAGE:C>>:-flax-vector-conversions>
+)
+
+target_link_libraries(${PROJECT_NAME}.elf PRIVATE
+    crt0
+    semihost
+    c++abi
+)
+
+
+
+# --- Match e2studio Managed-Build link-time optimization flag ---
+# RASC's own per-config target_link_options() calls above never include one
+target_link_options(${PROJECT_NAME}.elf PRIVATE
+    $<$<CONFIG:Debug>:-Os>
+)
+
+
+# --- Always also emit .hex, matching e2studio Managed-Build output ---
+# Some RASC-converted projects only emit .srec/.bin regardless of build
+# config; harmless duplicate if GeneratedSrc.cmake already emits .hex too.
+add_custom_command(
+    TARGET ${PROJECT_NAME}.elf
+    POST_BUILD
+    COMMAND ${CMAKE_OBJCOPY} -O ihex ${PROJECT_NAME}.elf ${PROJECT_NAME}.hex
+    COMMENT "Creating hex file in ${PROJECT_BINARY_DIR}"
+)
+
+
+# --- Match e2studio Managed-Build object link order ---
+set_property(TARGET ${PROJECT_NAME}.elf PROPERTY SOURCES
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_app/source/use_case/object_detection/src/mera_deploy_npu/model.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_app/source/use_case/object_detection/src/mera_deploy_npu/model_io_data.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_app/source/use_case/object_detection/src/mera_deploy_npu/sub_0000_command_stream.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_app/source/use_case/object_detection/src/mera_deploy_npu/sub_0000_invoke.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_app/source/use_case/object_detection/src/mera_deploy_npu/sub_0000_io_data.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_app/source/use_case/object_detection/src/mera_deploy_npu/sub_0000_model_data.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_app/source/use_case/object_detection/src/mera_deploy_npu/sub_0000_tensors.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_app/source/use_case/object_detection/src/mera_deploy_cpu/compute_sub_0000_net1.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_app/source/use_case/object_detection/src/mera_deploy_cpu/kernel_library_int.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_app/source/use_case/object_detection/src/mera_deploy_cpu/kernel_library_utils.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_app/source/use_case/object_detection/src/DetectorPostProcessing.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_app/source/use_case/object_detection/src/MainLoop.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_app/generated/object_detection/samples/boy_standing_beside_girl_outdoors.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_app/generated/object_detection/samples/sample_files.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_app/common/ImageUtils.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/face_detection_app/common/micro_time.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/console/syscalls_gcc.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/console/syscalls_llvm.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/console/uart_console.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/ethos_u55_face_detection_ruhmi_ep.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/ethos_u55_face_detection_ruhmi_example_app.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/hal_entry.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/hal_warmstart.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra_gen/common_data.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra_gen/hal_data.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra_gen/main.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra_gen/pin_data.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra_gen/vector_data.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/tflite_bridge/flatbuffer_conversions_bridge.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/tflite_bridge/micro_error_reporter.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/memory_planner/greedy_memory_planner.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/memory_planner/linear_memory_planner.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/memory_planner/non_persistent_buffer_planner_shim.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/ethos_u/ethosu.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/cmsis_nn/add.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/cmsis_nn/batch_matmul.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/cmsis_nn/conv.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/cmsis_nn/depthwise_conv.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/cmsis_nn/fully_connected.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/cmsis_nn/maximum_minimum.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/cmsis_nn/mul.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/cmsis_nn/pad.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/cmsis_nn/pooling.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/cmsis_nn/softmax.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/cmsis_nn/svdf.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/cmsis_nn/transpose.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/cmsis_nn/transpose_conv.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/cmsis_nn/unidirectional_sequence_lstm.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/activations.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/activations_common.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/add_common.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/add_n.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/arg_min_max.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/assign_variable.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/batch_matmul_common.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/batch_to_space_nd.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/broadcast_args.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/broadcast_to.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/call_once.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/cast.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/ceil.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/circular_buffer.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/circular_buffer_common.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/circular_buffer_flexbuffers_generated_data.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/comparisons.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/concatenation.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/conv_common.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/cumsum.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/decompress.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/decompress_common.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/depth_to_space.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/depthwise_conv_common.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/dequantize.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/dequantize_common.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/detection_postprocess.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/detection_postprocess_flexbuffers_generated_data.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/div.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/elementwise.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/elu.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/embedding_lookup.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/exp.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/expand_dims.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/fill.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/floor.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/floor_div.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/floor_mod.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/fully_connected_common.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/gather.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/gather_nd.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/hard_swish.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/hard_swish_common.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/if.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/kernel_util.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/l2_pool_2d.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/l2norm.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/leaky_relu.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/leaky_relu_common.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/log_softmax.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/logical.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/logical_common.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/logistic.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/logistic_common.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/lstm_eval.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/lstm_eval_common.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/micro_tensor_utils.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/mirror_pad.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/mul_common.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/neg.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/pack.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/pad_common.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/pooling_common.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/prelu.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/prelu_common.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/quantize.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/quantize_common.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/read_variable.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/reduce.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/reduce_common.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/reshape.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/reshape_common.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/resize_bilinear.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/resize_nearest_neighbor.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/round.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/select.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/shape.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/slice.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/softmax_common.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/space_to_batch_nd.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/space_to_depth.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/split.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/split_v.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/squared_difference.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/squeeze.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/strided_slice.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/strided_slice_common.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/sub.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/sub_common.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/svdf_common.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/tanh.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/transpose_common.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/unpack.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/var_handle.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/while.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/kernels/zeros_like.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/cortex_m_generic/debug_log.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/arena_allocator/non_persistent_arena_buffer_allocator.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/arena_allocator/persistent_arena_buffer_allocator.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/arena_allocator/recording_single_arena_buffer_allocator.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/arena_allocator/single_arena_buffer_allocator.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/flatbuffer_utils.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/memory_helpers.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/micro_allocation_info.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/micro_allocator.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/micro_context.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/micro_interpreter.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/micro_interpreter_context.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/micro_interpreter_graph.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/micro_log.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/micro_op_resolver.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/micro_profiler.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/micro_resource_variable.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/micro_utils.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/micro/recording_micro_allocator.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/kernels/internal/reference/comparisons.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/kernels/internal/reference/portable_tensor_utils.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/kernels/internal/common.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/kernels/internal/portable_tensor_utils.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/kernels/internal/quantization_util.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/kernels/internal/runtime_shape.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/kernels/internal/tensor_ctypes.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/kernels/internal/tensor_utils.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/kernels/kernel_util.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/core/c/common.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/core/api/flatbuffer_conversions.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/core/api/tensor_utils.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/lite/array.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/compiler/mlir/lite/schema/schema_utils.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/tflite-micro/tensorflow/compiler/mlir/lite/core/api/error_reporter.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/ethos-u-core-software/lib/layer_by_layer_profiler/src/layer_by_layer_profiler.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/ethos-u-core-software/lib/ethosu_profiler/src/ethosu_profiler.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/ethos-u-core-software/lib/ethosu_monitor/src/ethosu_monitor.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/ethos-u-core-software/lib/arm_profiler/src/arm_profiler.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/ethos-u-core-driver/src/ethosu_device_u55_u65.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/ethos-u-core-driver/src/ethosu_driver.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/npu/ethos-u-core-driver/src/ethosu_pmu.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/rm_ethosu/rm_ethosu.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/r_sci_b_uart/r_sci_b_uart.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/r_ioport/r_ioport.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/r_gpt/r_gpt.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/bsp/mcu/ra8p1/bsp_linker.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/bsp/mcu/all/bsp_clocks.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/bsp/mcu/all/bsp_common.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/bsp/mcu/all/bsp_delay.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/bsp/mcu/all/bsp_group_irq.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/bsp/mcu/all/bsp_guard.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/bsp/mcu/all/bsp_io.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/bsp/mcu/all/bsp_ipc.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/bsp/mcu/all/bsp_irq.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/bsp/mcu/all/bsp_macl.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/bsp/mcu/all/bsp_ospi_b.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/bsp/mcu/all/bsp_register_protection.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/bsp/mcu/all/bsp_sbrk.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/bsp/mcu/all/bsp_sdram.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/bsp/mcu/all/bsp_security.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/bsp/cmsis/Device/RENESAS/Source/startup.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/bsp/cmsis/Device/RENESAS/Source/system.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/board/ra8p1_ek/board_init.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/board/ra8p1_ek/board_leds.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-View/EventRecorder/Source/EventRecorder.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/TransposeFunctions/arm_transpose_s8.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/SoftmaxFunctions/arm_nn_softmax_common_s8.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/SoftmaxFunctions/arm_softmax_s16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/SoftmaxFunctions/arm_softmax_s8.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/SoftmaxFunctions/arm_softmax_s8_s16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/SoftmaxFunctions/arm_softmax_u8.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/SVDFunctions/arm_svdf_get_buffer_sizes_s8.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/SVDFunctions/arm_svdf_s8.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/SVDFunctions/arm_svdf_state_s16_s8.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/ReshapeFunctions/arm_reshape_s8.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/PoolingFunctions/arm_avgpool_get_buffer_sizes_s16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/PoolingFunctions/arm_avgpool_get_buffer_sizes_s8.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/PoolingFunctions/arm_avgpool_s16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/PoolingFunctions/arm_avgpool_s8.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/PoolingFunctions/arm_max_pool_s16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/PoolingFunctions/arm_max_pool_s8.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/PadFunctions/arm_pad_s8.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/NNSupportFunctions/arm_nn_depthwise_conv_nt_t_padded_s8.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/NNSupportFunctions/arm_nn_depthwise_conv_nt_t_s16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/NNSupportFunctions/arm_nn_depthwise_conv_nt_t_s4.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/NNSupportFunctions/arm_nn_depthwise_conv_nt_t_s8.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/NNSupportFunctions/arm_nn_lstm_calculate_gate_s16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/NNSupportFunctions/arm_nn_lstm_calculate_gate_s8_s16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/NNSupportFunctions/arm_nn_lstm_step_s16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/NNSupportFunctions/arm_nn_lstm_step_s8.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/NNSupportFunctions/arm_nn_mat_mul_core_1x_s4.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/NNSupportFunctions/arm_nn_mat_mul_core_1x_s8.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/NNSupportFunctions/arm_nn_mat_mul_core_4x_s8.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/NNSupportFunctions/arm_nn_mat_mult_nt_interleaved_t_even_s4.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/NNSupportFunctions/arm_nn_mat_mult_nt_t_s16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/NNSupportFunctions/arm_nn_mat_mult_nt_t_s4.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/NNSupportFunctions/arm_nn_mat_mult_nt_t_s8.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/NNSupportFunctions/arm_nn_mat_mult_nt_t_s8_s32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/NNSupportFunctions/arm_nn_transpose_conv_row_s8_s32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/NNSupportFunctions/arm_nn_vec_mat_mul_result_acc_s16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/NNSupportFunctions/arm_nn_vec_mat_mul_result_acc_s8_s16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/NNSupportFunctions/arm_nn_vec_mat_mult_t_per_ch_s8.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/NNSupportFunctions/arm_nn_vec_mat_mult_t_s16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/NNSupportFunctions/arm_nn_vec_mat_mult_t_s16_s16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/NNSupportFunctions/arm_nn_vec_mat_mult_t_s4.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/NNSupportFunctions/arm_nn_vec_mat_mult_t_s8.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/NNSupportFunctions/arm_nn_vec_mat_mult_t_svdf_s8.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/NNSupportFunctions/arm_nntables.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/NNSupportFunctions/arm_q7_to_q15_with_offset.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/NNSupportFunctions/arm_s8_to_s16_unordered_with_offset.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/LSTMFunctions/arm_lstm_unidirectional_s16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/LSTMFunctions/arm_lstm_unidirectional_s8.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/FullyConnectedFunctions/arm_batch_matmul_s16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/FullyConnectedFunctions/arm_batch_matmul_s8.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/FullyConnectedFunctions/arm_fully_connected_get_buffer_sizes_s16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/FullyConnectedFunctions/arm_fully_connected_get_buffer_sizes_s8.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/FullyConnectedFunctions/arm_fully_connected_per_channel_s8.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/FullyConnectedFunctions/arm_fully_connected_s16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/FullyConnectedFunctions/arm_fully_connected_s4.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/FullyConnectedFunctions/arm_fully_connected_s8.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/FullyConnectedFunctions/arm_fully_connected_wrapper_s8.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/FullyConnectedFunctions/arm_vector_sum_s8.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/FullyConnectedFunctions/arm_vector_sum_s8_s64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_convolve_1_x_n_s4.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_convolve_1_x_n_s8.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_convolve_1x1_s4.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_convolve_1x1_s4_fast.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_convolve_1x1_s8.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_convolve_1x1_s8_fast.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_convolve_even_s4.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_convolve_get_buffer_sizes_s16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_convolve_get_buffer_sizes_s4.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_convolve_get_buffer_sizes_s8.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_convolve_s16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_convolve_s4.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_convolve_s8.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_convolve_wrapper_s16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_convolve_wrapper_s4.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_convolve_wrapper_s8.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_depthwise_conv_3x3_s8.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_depthwise_conv_fast_s16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_depthwise_conv_get_buffer_sizes_s16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_depthwise_conv_get_buffer_sizes_s4.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_depthwise_conv_get_buffer_sizes_s8.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_depthwise_conv_s16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_depthwise_conv_s4.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_depthwise_conv_s4_opt.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_depthwise_conv_s8.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_depthwise_conv_s8_opt.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_depthwise_conv_wrapper_s16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_depthwise_conv_wrapper_s4.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_depthwise_conv_wrapper_s8.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_nn_depthwise_conv_s8_core.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_nn_mat_mult_kernel_row_offset_s8_s16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_nn_mat_mult_kernel_s16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_nn_mat_mult_kernel_s4_s16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_nn_mat_mult_kernel_s8_s16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_nn_mat_mult_s8.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_transpose_conv_get_buffer_sizes_s8.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_transpose_conv_s8.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/ConvolutionFunctions/arm_transpose_conv_wrapper_s8.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/ConcatenationFunctions/arm_concatenation_s8_w.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/ConcatenationFunctions/arm_concatenation_s8_x.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/ConcatenationFunctions/arm_concatenation_s8_y.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/ConcatenationFunctions/arm_concatenation_s8_z.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/BasicMathFunctions/arm_elementwise_add_s16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/BasicMathFunctions/arm_elementwise_add_s8.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/BasicMathFunctions/arm_elementwise_mul_acc_s16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/BasicMathFunctions/arm_elementwise_mul_s16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/BasicMathFunctions/arm_elementwise_mul_s16_batch_offset.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/BasicMathFunctions/arm_elementwise_mul_s16_s8.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/BasicMathFunctions/arm_elementwise_mul_s8.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/BasicMathFunctions/arm_maximum_s8.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/BasicMathFunctions/arm_minimum_s8.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/ActivationFunctions/arm_nn_activation_s16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/ActivationFunctions/arm_relu6_s8.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/ActivationFunctions/arm_relu_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-NN/Source/ActivationFunctions/arm_relu_q7.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/WindowFunctions/arm_bartlett_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/WindowFunctions/arm_bartlett_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/WindowFunctions/arm_blackman_harris_92db_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/WindowFunctions/arm_blackman_harris_92db_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/WindowFunctions/arm_hamming_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/WindowFunctions/arm_hamming_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/WindowFunctions/arm_hanning_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/WindowFunctions/arm_hanning_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/WindowFunctions/arm_hft116d_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/WindowFunctions/arm_hft116d_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/WindowFunctions/arm_hft144d_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/WindowFunctions/arm_hft144d_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/WindowFunctions/arm_hft169d_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/WindowFunctions/arm_hft169d_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/WindowFunctions/arm_hft196d_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/WindowFunctions/arm_hft196d_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/WindowFunctions/arm_hft223d_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/WindowFunctions/arm_hft223d_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/WindowFunctions/arm_hft248d_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/WindowFunctions/arm_hft248d_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/WindowFunctions/arm_hft90d_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/WindowFunctions/arm_hft90d_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/WindowFunctions/arm_hft95_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/WindowFunctions/arm_hft95_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/WindowFunctions/arm_nuttall3_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/WindowFunctions/arm_nuttall3_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/WindowFunctions/arm_nuttall3a_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/WindowFunctions/arm_nuttall3a_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/WindowFunctions/arm_nuttall3b_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/WindowFunctions/arm_nuttall3b_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/WindowFunctions/arm_nuttall4_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/WindowFunctions/arm_nuttall4_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/WindowFunctions/arm_nuttall4a_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/WindowFunctions/arm_nuttall4a_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/WindowFunctions/arm_nuttall4b_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/WindowFunctions/arm_nuttall4b_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/WindowFunctions/arm_nuttall4c_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/WindowFunctions/arm_nuttall4c_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/WindowFunctions/arm_welch_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/WindowFunctions/arm_welch_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_bitreversal.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_bitreversal2.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_bitreversal_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_cfft_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_cfft_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_cfft_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_cfft_init_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_cfft_init_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_cfft_init_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_cfft_init_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_cfft_init_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_cfft_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_cfft_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_cfft_radix2_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_cfft_radix2_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_cfft_radix2_init_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_cfft_radix2_init_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_cfft_radix2_init_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_cfft_radix2_init_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_cfft_radix2_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_cfft_radix2_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_cfft_radix4_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_cfft_radix4_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_cfft_radix4_init_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_cfft_radix4_init_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_cfft_radix4_init_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_cfft_radix4_init_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_cfft_radix4_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_cfft_radix4_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_cfft_radix8_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_cfft_radix8_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_dct4_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_dct4_init_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_dct4_init_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_dct4_init_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_dct4_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_dct4_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_mfcc_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_mfcc_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_mfcc_init_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_mfcc_init_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_mfcc_init_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_mfcc_init_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_mfcc_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_mfcc_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_rfft_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_rfft_fast_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_rfft_fast_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_rfft_fast_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_rfft_fast_init_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_rfft_fast_init_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_rfft_init_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_rfft_init_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_rfft_init_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_rfft_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/TransformFunctions/arm_rfft_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SupportFunctions/arm_barycenter_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SupportFunctions/arm_barycenter_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SupportFunctions/arm_bubble_sort_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SupportFunctions/arm_copy_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SupportFunctions/arm_copy_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SupportFunctions/arm_copy_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SupportFunctions/arm_copy_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SupportFunctions/arm_copy_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SupportFunctions/arm_copy_q7.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SupportFunctions/arm_f16_to_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SupportFunctions/arm_f16_to_float.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SupportFunctions/arm_f16_to_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SupportFunctions/arm_f64_to_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SupportFunctions/arm_f64_to_float.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SupportFunctions/arm_f64_to_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SupportFunctions/arm_f64_to_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SupportFunctions/arm_f64_to_q7.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SupportFunctions/arm_fill_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SupportFunctions/arm_fill_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SupportFunctions/arm_fill_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SupportFunctions/arm_fill_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SupportFunctions/arm_fill_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SupportFunctions/arm_fill_q7.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SupportFunctions/arm_float_to_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SupportFunctions/arm_float_to_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SupportFunctions/arm_float_to_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SupportFunctions/arm_float_to_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SupportFunctions/arm_float_to_q7.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SupportFunctions/arm_heap_sort_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SupportFunctions/arm_insertion_sort_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SupportFunctions/arm_merge_sort_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SupportFunctions/arm_merge_sort_init_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SupportFunctions/arm_q15_to_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SupportFunctions/arm_q15_to_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SupportFunctions/arm_q15_to_float.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SupportFunctions/arm_q15_to_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SupportFunctions/arm_q15_to_q7.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SupportFunctions/arm_q31_to_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SupportFunctions/arm_q31_to_float.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SupportFunctions/arm_q31_to_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SupportFunctions/arm_q31_to_q7.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SupportFunctions/arm_q7_to_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SupportFunctions/arm_q7_to_float.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SupportFunctions/arm_q7_to_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SupportFunctions/arm_q7_to_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SupportFunctions/arm_quick_sort_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SupportFunctions/arm_selection_sort_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SupportFunctions/arm_sort_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SupportFunctions/arm_sort_init_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SupportFunctions/arm_weighted_average_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SupportFunctions/arm_weighted_average_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_absmax_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_absmax_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_absmax_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_absmax_no_idx_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_absmax_no_idx_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_absmax_no_idx_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_absmax_no_idx_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_absmax_no_idx_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_absmax_no_idx_q7.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_absmax_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_absmax_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_absmax_q7.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_absmin_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_absmin_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_absmin_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_absmin_no_idx_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_absmin_no_idx_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_absmin_no_idx_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_absmin_no_idx_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_absmin_no_idx_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_absmin_no_idx_q7.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_absmin_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_absmin_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_absmin_q7.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_accumulate_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_accumulate_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_accumulate_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_entropy_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_entropy_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_entropy_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_kullback_leibler_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_kullback_leibler_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_logsumexp_dot_prod_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_logsumexp_dot_prod_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_logsumexp_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_logsumexp_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_max_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_max_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_max_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_max_no_idx_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_max_no_idx_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_max_no_idx_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_max_no_idx_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_max_no_idx_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_max_no_idx_q7.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_max_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_max_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_max_q7.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_mean_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_mean_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_mean_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_mean_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_mean_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_mean_q7.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_min_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_min_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_min_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_min_no_idx_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_min_no_idx_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_min_no_idx_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_min_no_idx_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_min_no_idx_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_min_no_idx_q7.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_min_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_min_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_min_q7.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_mse_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_mse_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_mse_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_mse_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_mse_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_mse_q7.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_power_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_power_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_power_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_power_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_power_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_power_q7.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_rms_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_rms_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_rms_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_rms_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_std_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_std_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_std_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_std_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_std_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_var_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_var_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_var_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_var_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/StatisticsFunctions/arm_var_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SVMFunctions/arm_svm_linear_init_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SVMFunctions/arm_svm_linear_init_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SVMFunctions/arm_svm_linear_predict_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SVMFunctions/arm_svm_linear_predict_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SVMFunctions/arm_svm_polynomial_init_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SVMFunctions/arm_svm_polynomial_init_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SVMFunctions/arm_svm_polynomial_predict_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SVMFunctions/arm_svm_polynomial_predict_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SVMFunctions/arm_svm_rbf_init_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SVMFunctions/arm_svm_rbf_init_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SVMFunctions/arm_svm_rbf_predict_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SVMFunctions/arm_svm_sigmoid_init_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SVMFunctions/arm_svm_sigmoid_init_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/QuaternionMathFunctions/arm_quaternion2rotation_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/QuaternionMathFunctions/arm_quaternion_conjugate_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/QuaternionMathFunctions/arm_quaternion_inverse_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/QuaternionMathFunctions/arm_quaternion_norm_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/QuaternionMathFunctions/arm_quaternion_normalize_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/QuaternionMathFunctions/arm_quaternion_product_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/QuaternionMathFunctions/arm_quaternion_product_single_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/QuaternionMathFunctions/arm_rotation2quaternion_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_householder_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_householder_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_householder_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_add_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_add_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_add_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_add_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_cholesky_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_cholesky_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_cholesky_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_cmplx_mult_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_cmplx_mult_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_cmplx_mult_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_cmplx_mult_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_cmplx_trans_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_cmplx_trans_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_cmplx_trans_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_cmplx_trans_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_init_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_init_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_init_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_init_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_init_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_inverse_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_inverse_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_inverse_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_ldlt_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_ldlt_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_mult_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_mult_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_mult_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_mult_fast_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_mult_fast_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_mult_opt_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_mult_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_mult_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_mult_q7.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_qr_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_qr_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_qr_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_scale_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_scale_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_scale_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_scale_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_solve_lower_triangular_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_solve_lower_triangular_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_solve_lower_triangular_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_solve_upper_triangular_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_solve_upper_triangular_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_solve_upper_triangular_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_sub_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_sub_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_sub_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_sub_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_sub_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_trans_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_trans_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_trans_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_trans_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_trans_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_trans_q7.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_vec_mult_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_vec_mult_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_vec_mult_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_vec_mult_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/MatrixFunctions/arm_mat_vec_mult_q7.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/InterpolationFunctions/arm_bilinear_interp_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/InterpolationFunctions/arm_bilinear_interp_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/InterpolationFunctions/arm_bilinear_interp_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/InterpolationFunctions/arm_bilinear_interp_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/InterpolationFunctions/arm_bilinear_interp_q7.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/InterpolationFunctions/arm_linear_interp_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/InterpolationFunctions/arm_linear_interp_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/InterpolationFunctions/arm_linear_interp_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/InterpolationFunctions/arm_linear_interp_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/InterpolationFunctions/arm_linear_interp_q7.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/InterpolationFunctions/arm_spline_interp_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/InterpolationFunctions/arm_spline_interp_init_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_biquad_cascade_df1_32x64_init_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_biquad_cascade_df1_32x64_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_biquad_cascade_df1_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_biquad_cascade_df1_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_biquad_cascade_df1_fast_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_biquad_cascade_df1_fast_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_biquad_cascade_df1_init_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_biquad_cascade_df1_init_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_biquad_cascade_df1_init_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_biquad_cascade_df1_init_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_biquad_cascade_df1_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_biquad_cascade_df1_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_biquad_cascade_df2T_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_biquad_cascade_df2T_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_biquad_cascade_df2T_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_biquad_cascade_df2T_init_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_biquad_cascade_df2T_init_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_biquad_cascade_df2T_init_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_init_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_biquad_cascade_stereo_df2T_init_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_conv_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_conv_fast_opt_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_conv_fast_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_conv_fast_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_conv_opt_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_conv_opt_q7.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_conv_partial_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_conv_partial_fast_opt_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_conv_partial_fast_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_conv_partial_fast_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_conv_partial_opt_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_conv_partial_opt_q7.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_conv_partial_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_conv_partial_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_conv_partial_q7.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_conv_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_conv_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_conv_q7.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_correlate_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_correlate_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_correlate_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_correlate_fast_opt_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_correlate_fast_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_correlate_fast_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_correlate_opt_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_correlate_opt_q7.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_correlate_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_correlate_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_correlate_q7.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_fir_decimate_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_fir_decimate_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_fir_decimate_fast_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_fir_decimate_fast_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_fir_decimate_init_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_fir_decimate_init_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_fir_decimate_init_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_fir_decimate_init_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_fir_decimate_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_fir_decimate_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_fir_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_fir_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_fir_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_fir_fast_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_fir_fast_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_fir_init_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_fir_init_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_fir_init_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_fir_init_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_fir_init_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_fir_init_q7.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_fir_interpolate_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_fir_interpolate_init_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_fir_interpolate_init_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_fir_interpolate_init_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_fir_interpolate_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_fir_interpolate_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_fir_lattice_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_fir_lattice_init_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_fir_lattice_init_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_fir_lattice_init_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_fir_lattice_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_fir_lattice_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_fir_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_fir_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_fir_q7.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_fir_sparse_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_fir_sparse_init_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_fir_sparse_init_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_fir_sparse_init_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_fir_sparse_init_q7.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_fir_sparse_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_fir_sparse_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_fir_sparse_q7.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_iir_lattice_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_iir_lattice_init_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_iir_lattice_init_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_iir_lattice_init_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_iir_lattice_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_iir_lattice_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_levinson_durbin_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_levinson_durbin_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_levinson_durbin_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_lms_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_lms_init_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_lms_init_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_lms_init_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_lms_norm_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_lms_norm_init_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_lms_norm_init_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_lms_norm_init_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_lms_norm_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_lms_norm_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_lms_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FilteringFunctions/arm_lms_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FastMathFunctions/arm_atan2_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FastMathFunctions/arm_atan2_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FastMathFunctions/arm_atan2_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FastMathFunctions/arm_atan2_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FastMathFunctions/arm_cos_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FastMathFunctions/arm_cos_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FastMathFunctions/arm_cos_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FastMathFunctions/arm_divide_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FastMathFunctions/arm_divide_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FastMathFunctions/arm_sin_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FastMathFunctions/arm_sin_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FastMathFunctions/arm_sin_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FastMathFunctions/arm_sqrt_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FastMathFunctions/arm_sqrt_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FastMathFunctions/arm_vexp_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FastMathFunctions/arm_vexp_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FastMathFunctions/arm_vexp_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FastMathFunctions/arm_vinverse_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FastMathFunctions/arm_vlog_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FastMathFunctions/arm_vlog_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FastMathFunctions/arm_vlog_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FastMathFunctions/arm_vlog_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/FastMathFunctions/arm_vlog_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/DistanceFunctions/arm_boolean_distance.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/DistanceFunctions/arm_braycurtis_distance_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/DistanceFunctions/arm_braycurtis_distance_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/DistanceFunctions/arm_canberra_distance_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/DistanceFunctions/arm_chebyshev_distance_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/DistanceFunctions/arm_chebyshev_distance_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/DistanceFunctions/arm_chebyshev_distance_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/DistanceFunctions/arm_cityblock_distance_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/DistanceFunctions/arm_cityblock_distance_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/DistanceFunctions/arm_correlation_distance_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/DistanceFunctions/arm_correlation_distance_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/DistanceFunctions/arm_cosine_distance_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/DistanceFunctions/arm_cosine_distance_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/DistanceFunctions/arm_cosine_distance_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/DistanceFunctions/arm_dice_distance.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/DistanceFunctions/arm_dtw_distance_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/DistanceFunctions/arm_dtw_init_window_q7.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/DistanceFunctions/arm_dtw_path_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/DistanceFunctions/arm_euclidean_distance_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/DistanceFunctions/arm_euclidean_distance_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/DistanceFunctions/arm_euclidean_distance_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/DistanceFunctions/arm_hamming_distance.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/DistanceFunctions/arm_jaccard_distance.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/DistanceFunctions/arm_jensenshannon_distance_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/DistanceFunctions/arm_jensenshannon_distance_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/DistanceFunctions/arm_kulsinski_distance.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/DistanceFunctions/arm_minkowski_distance_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/DistanceFunctions/arm_minkowski_distance_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/DistanceFunctions/arm_rogerstanimoto_distance.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/DistanceFunctions/arm_russellrao_distance.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/DistanceFunctions/arm_sokalmichener_distance.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/DistanceFunctions/arm_sokalsneath_distance.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/DistanceFunctions/arm_yule_distance.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/ControllerFunctions/arm_pid_init_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/ControllerFunctions/arm_pid_init_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/ControllerFunctions/arm_pid_init_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/ControllerFunctions/arm_pid_reset_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/ControllerFunctions/arm_pid_reset_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/ControllerFunctions/arm_pid_reset_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/ControllerFunctions/arm_sin_cos_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/ControllerFunctions/arm_sin_cos_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/ComplexMathFunctions/arm_cmplx_conj_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/ComplexMathFunctions/arm_cmplx_conj_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/ComplexMathFunctions/arm_cmplx_conj_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/ComplexMathFunctions/arm_cmplx_conj_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/ComplexMathFunctions/arm_cmplx_dot_prod_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/ComplexMathFunctions/arm_cmplx_mag_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/ComplexMathFunctions/arm_cmplx_mag_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/ComplexMathFunctions/arm_cmplx_mag_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/ComplexMathFunctions/arm_cmplx_mag_fast_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/ComplexMathFunctions/arm_cmplx_mag_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/ComplexMathFunctions/arm_cmplx_mag_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/ComplexMathFunctions/arm_cmplx_mag_squared_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/ComplexMathFunctions/arm_cmplx_mult_cmplx_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/ComplexMathFunctions/arm_cmplx_mult_cmplx_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/ComplexMathFunctions/arm_cmplx_mult_cmplx_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/ComplexMathFunctions/arm_cmplx_mult_cmplx_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/ComplexMathFunctions/arm_cmplx_mult_cmplx_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/ComplexMathFunctions/arm_cmplx_mult_real_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/CommonTables/arm_common_tables.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/CommonTables/arm_common_tables_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/CommonTables/arm_const_structs.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/CommonTables/arm_const_structs_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/CommonTables/arm_mve_tables.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/CommonTables/arm_mve_tables_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_abs_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_abs_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_abs_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_abs_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_abs_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_abs_q7.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_add_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_add_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_add_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_add_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_add_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_add_q7.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_and_u16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_and_u32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_and_u8.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_clip_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_clip_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_clip_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_clip_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_clip_q7.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_dot_prod_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_dot_prod_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_dot_prod_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_dot_prod_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_dot_prod_q7.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_mult_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_mult_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_mult_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_mult_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_mult_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_mult_q7.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_negate_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_negate_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_negate_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_negate_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_negate_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_negate_q7.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_not_u16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_not_u32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_not_u8.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_offset_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_offset_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_offset_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_offset_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_offset_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_offset_q7.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_or_u16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_or_u32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_or_u8.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_scale_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_scale_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_scale_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_scale_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_scale_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_scale_q7.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_shift_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_shift_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_shift_q7.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_sub_f16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_sub_f32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_sub_f64.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_sub_q15.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_sub_q31.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_sub_q7.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_xor_u16.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_xor_u32.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS-DSP/Source/BasicMathFunctions/arm_xor_u8.c
+)

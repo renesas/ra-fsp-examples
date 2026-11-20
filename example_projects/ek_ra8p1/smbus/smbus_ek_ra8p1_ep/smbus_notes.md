@@ -1,14 +1,6 @@
 # Introduction #
 This example project demonstrates the basic usage of I2C communication conforming to the SMBus Specification (version 2.0) on Renesas RA MCUs using the Renesas Flexible Software Package (FSP). The project involves writing commands to the MAX31875 sensor and reading the resulting temperature values. The SMBus transmission time is monitored by the GPT module to ensure the MCU acting as a master device complies with the SMBus timeout standard. The Packet Error Check (PEC) byte is calculated in CRC-8 format at both transmission and reception. These temperature values are continuously printed to a terminal. Additionally, status information and error messages are displayed on the host PC. The error LED will turn on if an error occurs.
 
-**Note:**
-- To display information, users can choose between the SEGGER J-Link RTT Viewer and the Serial Terminal (UART) with J-Link OB VCOM. It is important to note that the user should only operate a single terminal application at a time to avoid conflicts or data inconsistencies. 
-- For instructions on how to switch between these options, please refer to the "Verifying Operation" section in this file.
-- By default, EP information is printed to the host PC using the Serial Terminal for boards that support J-Link OB VCOM.
-- RA boards support J-Link OB VCOM: EK-RA8M1, EK-RA2A2, EK-RA4E2, EK-RA6E2, EK-RA8D1, FPB-RA2E3, MCK-RA4T1, MCK-RA6T3, MCK-RA8T1, FPB-RA8E1, EK-RA8P1.
-
-**For the RA boards that do not support J-Link OB VCOM, EP uses the SEGGER J-Link RTT Viewer by default instead.**
-
 Please refer to the [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf) for general information on example projects and [readme.txt](./readme.txt) for specifics of operation.
 
 ## Required Resources ## 
@@ -17,41 +9,37 @@ To build and run the SMBus example project, the following resources are needed.
 ### Software ###
 * Renesas Flexible Software Package (FSP): Version 6.6.0
 * e2 studio: Version 2026-07
-* SEGGER J-Link RTT Viewer: Version 9.64
 * LLVM Embedded Toolchain for ARM: Version 22.1.0
-* Serial Terminal Console Application: Tera Term or a similar application (for boards that support J-Link OB VCOM)
+* Terminal Console Application: Tera Term or a similar application
 
 Refer to the software required section in [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf)
 
 ### Hardware Requirements ###
-Supported RA boards: EK-RA8M1, CK-RA6M5, EK-RA2A1, EK-RA2A2, EK-RA2E1, EK-RA2E2, EK-RA2L1, EK-RA4E2, EK-RA4M1, EK-RA4M2, EK-RA4M3, EK-RA4W1, EK-RA6E2, EK-RA6M1, EK-RA6M2, EK-RA6M3, EK-RA6M3G, EK-RA6M4, EK-RA6M5, EK-RA8D1, FPB-RA2E3, FPB-RA4E1, FPB-RA6E1, MCK-RA4T1, MCK-RA6T2, MCK-RA6T3, MCK-RA8T1, RSSK-RA6T1, FPB-RA8E1, EK-RA8P1.
-* 1 x Renesas RA board.
-* 1 x USB cable for programing and debugging.
-    - 1 x Type-C USB cable: CK-RA6M5, MCK-RA4T1, MCK-RA6T2, MCK-RA6T3, MCK-RA8T1 FPB-RA8E1, EK-RA8P1
-    - 1 X Mini USB cable: RSSK-RA6T1
-    - 1 x Micro USB cable: All other boards
-* 1 x Evaluation Kit for the MAX31875
-    * Link Product: https://www.mouser.com/ProductDetail/Analog-Devices-Maxim-Integrated/MAX31875EVKIT?qs=BZBei1rCqCDTW6E3jJcKjw%3D%3D&_gl=1
-    * Manufacturer Product Number: MAX31875EVKIT#
-* 1 x Host PC.
+* Supported RA boards: EK-RA8M1, CK-RA6M5, EK-RA2A1, EK-RA2A2, EK-RA2E1, EK-RA2E2, EK-RA2L1, EK-RA4E2, EK-RA4M1, EK-RA4M2, EK-RA4M3, EK-RA4W1, EK-RA6E2, EK-RA6M1, EK-RA6M2, EK-RA6M3, EK-RA6M3G, EK-RA6M4, EK-RA6M5, EK-RA8D1, FPB-RA2E3, FPB-RA4E1, FPB-RA6E1, MCK-RA4T1, MCK-RA6T2, MCK-RA6T3, MCK-RA8T1, RSSK-RA6T1, FPB-RA8E1, EK-RA8P1, FPB-RA2T1, EK-RA4C1, MCK-RA8T2, EK-RA8M2, EK-RA8D2, EK-RA8T2, FPB-RA4E2, FPB-RA6E2.
+    * 1 x Renesas RA board.
+    * 1 x USB cable for programming and debugging (USB cable type varies by board model).
+    * 1 x Evaluation Kit for the MAX31875 (https://www.mouser.com/ProductDetail/Analog-Devices-Maxim-Integrated/MAX31875EVKIT?qs=BZBei1rCqCDTW6E3jJcKjw%3D%3D&_gl=1)
+        * Manufacturer Product Number: MAX31875EVKIT#.
+    * 1 x Host PC.
 
-**RA boards that do not require external resistors for pull-up:**
-* For EK-RA8M1, CK-RA6M5, EK-RA2E1, EK-RA2L1, EK-RA4M3, EK-RA6M3, EK-RA6M3G, EK-RA6M4, EK-RA6M5, EK-RA8D1, FPB-RA4E1, FPB-RA6E1, FPB-RA8E1, EK-RA8P1:
+**For the RA boards that do not require external resistors for pull-up:**
+* For EK-RA8M1, CK-RA6M5, EK-RA2E1, EK-RA2L1, EK-RA4M3, EK-RA6M3, EK-RA6M3G, EK-RA6M4, EK-RA6M5, EK-RA8D1, FPB-RA4E1, FPB-RA6E1, FPB-RA8E1, EK-RA8P1, FPB-RA2T1, EK-RA4C1, MCK-RA8T2, EK-RA8M2, EK-RA8D2, EK-RA8T2, FPB-RA4E2, FPB-RA6E2:
   * 4 x Jumper wires (4 - both ends female).
 
 * For EK-RA2A2, FPB-RA2E3, MCK-RA4T1, MCK-RA6T3, MCK-RA8T1:
   * No additional jumper wires required.
 
-**RA boards that require external resistors for pull-up:** EK-RA2A1, EK-RA2E2, EK-RA4E2, EK-RA4M1, EK-RA4M2, EK-RA4W1, EK-RA6E2, EK-RA6M1, EK-RA6M2, MCK-RA6T2, RSSK-RA6T1.
-* 2 x Resistors (3.3K ohm or 4.7K ohm).
-* 1 x Breadboard.
-* 7 x Jumper wires.
+**For the RA boards that require external resistors for pull-up:**
+* For EK-RA2A1, EK-RA2E2, EK-RA4E2, EK-RA4M1, EK-RA4M2, EK-RA4W1, EK-RA6E2, EK-RA6M1, EK-RA6M2, MCK-RA6T2, RSSK-RA6T1.
+  * 2 x Resistors (3.3K ohm or 4.7K ohm).
+  * 1 x Breadboard.
+  * 7 x Jumper wires.
     * 6 - male to female, 1 - both ends female.
     * 4 - male to female, 3 - both ends male (For RSSK-RA6T1).
 
 ### Hardware Connections ###
+* Connect the RA board USB debug port to the host PC using the appropriate USB cable for EP programming and debugging.
 * EK-RA8M1:
-    * Connect RA board to Host PC by Micro USB cable.
     * Connect RA board to MAX31875PMB1 as below:
 
         | RA board | MAX31875PMB1 |
@@ -62,7 +50,6 @@ Supported RA boards: EK-RA8M1, CK-RA6M5, EK-RA2A1, EK-RA2A2, EK-RA2E1, EK-RA2E2,
         | VCC (J56:40) | VDD (J1:6) |
 
 * CK-RA6M5:
-    * Connect RA board to Host PC by Type-C USB cable.
     * Connect RA board to MAX31875PMB1 as below:
 
         | RA board | MAX31875PMB1 |
@@ -73,7 +60,6 @@ Supported RA boards: EK-RA8M1, CK-RA6M5, EK-RA2A1, EK-RA2A2, EK-RA2E1, EK-RA2E2,
         | VCC (J6:4) | VDD (J1:6) |
 
 * EK-RA2A1:
-    * Connect RA board to Host PC by Micro USB cable.
     * Connect RA board to MAX31875PMB1 as below:
 
         | RA board | MAX31875PMB1 |
@@ -84,11 +70,9 @@ Supported RA boards: EK-RA8M1, CK-RA6M5, EK-RA2A1, EK-RA2A2, EK-RA2E1, EK-RA2E2,
         | VCC (J1:15) | VDD (J1:6) |
 
 * EK-RA2A2, FPB-RA2E3:
-    * Connect RA board to Host PC by Micro USB cable.
     * Connect MAX31875PMB1 (JU4:1) to RA board via the PMOD2 (PMOD2:1)
 
 * EK-RA2E1:
-    * Connect RA board to Host PC by Micro USB cable.
     * Connect RA board to MAX31875PMB1 as below:
 
         | RA board | MAX31875PMB1 |
@@ -99,7 +83,6 @@ Supported RA boards: EK-RA8M1, CK-RA6M5, EK-RA2A1, EK-RA2A2, EK-RA2E1, EK-RA2E2,
         | VCC (J2:1) | VDD (J1:6) |
 
 * EK-RA2E2:
-    * Connect RA board to Host PC by Micro USB cable.
     * Connect RA board to MAX31875PMB1 as below:
 
         | RA board | MAX31875PMB1 |
@@ -110,7 +93,6 @@ Supported RA boards: EK-RA8M1, CK-RA6M5, EK-RA2A1, EK-RA2A2, EK-RA2E1, EK-RA2E2,
         | VCC (J1:1) | VDD (J1:6) |
 
 * EK-RA2L1:
-    * Connect RA board to Host PC by Micro USB cable.
     * Connect RA board to MAX31875PMB1 as below:
 
         | RA board | MAX31875PMB1 |
@@ -121,7 +103,6 @@ Supported RA boards: EK-RA8M1, CK-RA6M5, EK-RA2A1, EK-RA2A2, EK-RA2E1, EK-RA2E2,
         | VCC (J1:1) | VDD (J1:6) |
 
 * EK-RA4E2, EK-RA6E2:
-    * Connect RA board to Host PC by Micro USB cable.
     * Connect RA board to MAX31875PMB1 as below:
 
         | RA board | MAX31875PMB1 |
@@ -132,7 +113,6 @@ Supported RA boards: EK-RA8M1, CK-RA6M5, EK-RA2A1, EK-RA2A2, EK-RA2E1, EK-RA2E2,
         | VCC (J2:1) | VDD (J1:6) |
 
 * EK-RA4M1:
-    * Connect RA board to Host PC by Micro USB cable.
     * Connect RA board to MAX31875PMB1 as below:
 
         | RA board | MAX31875PMB1 |
@@ -143,7 +123,6 @@ Supported RA boards: EK-RA8M1, CK-RA6M5, EK-RA2A1, EK-RA2A2, EK-RA2E1, EK-RA2E2,
         | VCC (J2:10) | VDD (J1:6) |
 
 * EK-RA4M2:
-    * Connect RA board to Host PC by Micro USB cable.
     * Connect RA board to MAX31875PMB1 as below:
 
         | RA board | MAX31875PMB1 |
@@ -154,7 +133,6 @@ Supported RA boards: EK-RA8M1, CK-RA6M5, EK-RA2A1, EK-RA2A2, EK-RA2E1, EK-RA2E2,
         | VCC (J1:1) | VDD (J1:6) |
 
 * EK-RA4M3, EK-RA6M4:
-    * Connect RA board to Host PC by Micro USB cable.
     * Connect RA board to MAX31875PMB1 as below:
 
         | RA board | MAX31875PMB1 |
@@ -165,7 +143,6 @@ Supported RA boards: EK-RA8M1, CK-RA6M5, EK-RA2A1, EK-RA2A2, EK-RA2E1, EK-RA2E2,
         | VCC (J2:40) | VDD (J1:6) |
 
 * EK-RA4W1:
-    * Connect RA board to Host PC by Micro USB cable.
     * Connect RA board to MAX31875PMB1 as below:
 
         | RA board | MAX31875PMB1 |
@@ -176,7 +153,6 @@ Supported RA boards: EK-RA8M1, CK-RA6M5, EK-RA2A1, EK-RA2A2, EK-RA2E1, EK-RA2E2,
         | VCC (CN7:18) | VDD (J1:6) |
 
 * EK-RA6M1:
-    * Connect RA board to Host PC by Micro USB cable.
     * Connect RA board to MAX31875PMB1 as below:
 
         | RA board | MAX31875PMB1 |
@@ -187,7 +163,6 @@ Supported RA boards: EK-RA8M1, CK-RA6M5, EK-RA2A1, EK-RA2A2, EK-RA2E1, EK-RA2E2,
         | VCC (J1:15) | VDD (J1:6) |
 
 * EK-RA6M2:
-    * Connect RA board to Host PC by Micro USB cable.
     * Connect RA board to MAX31875PMB1 as below:
 
         | RA board | MAX31875PMB1 |
@@ -198,7 +173,6 @@ Supported RA boards: EK-RA8M1, CK-RA6M5, EK-RA2A1, EK-RA2A2, EK-RA2E1, EK-RA2E2,
         | VCC (J4:37) | VDD (J1:6) |
 
 * EK-RA6M3, EK-RA6M3G:
-    * Connect RA board to Host PC by Micro USB cable.
     * Connect RA board to MAX31875PMB1 as below:
 
         | RA board | MAX31875PMB1 |
@@ -209,7 +183,6 @@ Supported RA boards: EK-RA8M1, CK-RA6M5, EK-RA2A1, EK-RA2A2, EK-RA2E1, EK-RA2E2,
         | VCC (J1:36) | VDD (J1:6) |
 
 * EK-RA6M5:
-    * Connect RA board to Host PC by Micro USB cable.
     * Connect RA board to MAX31875PMB1 as below:
 
         | RA board | MAX31875PMB1 |
@@ -220,7 +193,6 @@ Supported RA boards: EK-RA8M1, CK-RA6M5, EK-RA2A1, EK-RA2A2, EK-RA2E1, EK-RA2E2,
         | VCC (J4:1) | VDD (J1:6) |
 
 * EK-RA8D1:
-    * Connect RA board to Host PC by Micro USB cable.
     * Connect RA board to MAX31875PMB1 as below:
 
         | RA board | MAX31875PMB1 |
@@ -231,7 +203,6 @@ Supported RA boards: EK-RA8M1, CK-RA6M5, EK-RA2A1, EK-RA2A2, EK-RA2E1, EK-RA2E2,
         | VCC (J57:5) | VDD (J1:6) |
 
 * FPB-RA4E1, FPB-RA6E1:
-    * Connect RA board to Host PC by Micro USB cable.
     * Connect RA board to MAX31875PMB1 as below:
 
         | RA board | MAX31875PMB1 |
@@ -242,7 +213,6 @@ Supported RA boards: EK-RA8M1, CK-RA6M5, EK-RA2A1, EK-RA2A2, EK-RA2E1, EK-RA2E2,
         | VCC (J3:15) | VDD (J1:6) |
 
 * FPB-RA8E1:
-    * Connect RA board to Host PC by Type-C USB cable.
     * Connect RA board to MAX31875PMB1 as below:
 
         | RA board | MAX31875PMB1 |
@@ -253,13 +223,11 @@ Supported RA boards: EK-RA8M1, CK-RA6M5, EK-RA2A1, EK-RA2A2, EK-RA2E1, EK-RA2E2,
         | VCC (J18:4) | VDD (J1:6) |     
 
 * MCK-RA4T1, MCK-RA6T3:
-    * Connect RA board to Host PC by Type-C USB cable.
     * Connect MAX31875PMB1 (JU4:1) to RA board via the PMOD1 (PMOD1:1)
     * Jumper J10 short pin2-3 to select SCL Pin
     * Jumper J11 short pin1-2 to select SDA Pin
 
 * MCK-RA6T2:
-    * Connect RA board to Host PC by Type-C USB cable.
     * Connect RA board to MAX31875PMB1 as below:
 
         | RA board | MAX31875PMB1 |
@@ -270,11 +238,9 @@ Supported RA boards: EK-RA8M1, CK-RA6M5, EK-RA2A1, EK-RA2A2, EK-RA2E1, EK-RA2E2,
         | VCC (CN4:23) | VDD (J1:6) |
 
 * MCK-RA8T1:
-    * Connect RA board to Host PC by Type-C USB cable.
     * Connect MAX31875PMB1 (JU4:1) to RA board via the PMOD6A (PMOD6A:1)
 
 * RSSK-RA6T1:
-    * Connect RA board to Host PC by Mini USB cable.
     * Connect RA board to MAX31875PMB1 as below:
 
         | RA board | MAX31875PMB1 |
@@ -284,8 +250,7 @@ Supported RA boards: EK-RA8M1, CK-RA6M5, EK-RA2A1, EK-RA2A2, EK-RA2E1, EK-RA2E2,
         | GND (CN8:5) | GND (J1:5) |
         | VCC (CN8:6) | VDD (J1:6) |
 
-* EK-RA8P1:
-    * Connect RA board to Host PC by Type-C USB cable.
+* EK-RA8P1, EK-RA8D2:
     * Connect RA board to MAX31875PMB1 as below:
 
         | RA board | MAX31875PMB1 |
@@ -295,9 +260,80 @@ Supported RA boards: EK-RA8M1, CK-RA6M5, EK-RA2A1, EK-RA2A2, EK-RA2E1, EK-RA2E2,
         | GND (J1:40) | GND (J1:5) |
         | VCC (J1:5) | VDD (J1:6) |
 
+* FPB-RA2T1:
+	* The user must close E7 to use P914 for LED2.
+    * Connect RA board to MAX31875PMB1 as below:
+
+        | RA board | MAX31875PMB1 |
+        |----------|---------------|
+        | SCL0 P400 (J3:1) | SCL (J1:3) |
+        | SDA0 P401 (J3:2) | SDA (J1:4) |
+        | GND (J2:6) | GND (J1:5) |
+        | VCC (J2:4) | VDD (J1:6) |
+
+* EK-RA4C1:
+    * The user must place jumper J6 on pins 2-3, J8 on pins 1-2, J9 on pins 2-3 and turn OFF SW4-4 to use the on-board debug functionality.  
+    * Connect RA board to MAX31875PMB1 as below:
+
+        | RA board | MAX31875PMB1 |
+        |----------|---------------|
+        | SCL1 P400 (J1:3) | SCL (J1:3) |
+        | SDA1 P401 (J1:4) | SDA (J1:4) |
+        | GND (J1:25) | GND (J1:5) |
+        | VCC (J1:1) | VDD (J1:6) |
+
+* MCK-RA8T2:
+    * Connect RA board to MAX31875PMB1 as below:
+
+        | RA board | MAX31875PMB1 |
+        |----------|---------------|
+        | SCL2 P515 (CN2:25) | SCL (J1:3) |
+        | SDA2 P514 (CN2:24) | SDA (J1:4) |
+        | GND (CN1:25) | GND (J1:5) |
+        | VCC (CN1:23) | VDD (J1:6) |
+
+* EK-RA8M2:
+    * The user must place jumper J6 on pins 2-3, J8 on pins 1-2, J9 on pins 2-3, and J29 on 3-4, 5-6, 7-8 to use the on-board debug functionality.
+    * Connect RA board to MAX31875PMB1 as below:
+
+        | RA board | MAX31875PMB1 |
+        |----------|---------------|
+        | SCL1 P512 (J4:11) | SCL (J1:3) |
+        | SDA1 P511 (J4:14) | SDA (J1:4) |
+        | GND (J4:19) | GND (J1:5) |
+        | VCC (J4:1) | VDD (J1:6) |
+
+* EK-RA8T2:
+	* The user must set the configuration switches (SW6 and SW4) as below to use the on-board debug functionality.
+        | SW6-1 | SW6-2 | SW6-3 | SW6-4 | SW6-5 | SW6-6 | SW6-7 | SW6-8 | SW6-9 | SW6-10 |
+        |:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:------:|
+        |  OFF  |  OFF  |  OFF  |  OFF  |  ON   |  OFF  |  ON   |  ON   |  ON   |  ON    |
+
+        | SW4-1 | SW4-2 | SW4-3 | SW4-4 | SW4-5 | SW4-6 | SW4-7 | SW4-8 |
+        |:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
+        |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |
+
+    * Connect RA board to MAX31875PMB1 as below:
+
+        | RA board | MAX31875PMB1 |
+        |----------|---------------|
+        | SCL0 P410 (J2:32) | SCL (J1:3) |
+        | SDA0 P409 (J2:34) | SDA (J1:4) |
+        | GND (J2:39) | GND (J1:5) |
+        | VCC (J2:1) | VDD (J1:6) |
+
+* FPB-RA4E2, FPB-RA6E2:
+    * Connect RA board to MAX31875PMB1 as below:
+
+        | RA board | MAX31875PMB1 |
+        |----------|---------------|
+        | SCL P100 (J4:16) | SCL (J1:3) |
+        | SDA P101 (J4:15) | SDA (J1:4) |
+        | GND (J4:8) | GND (J1:5) |
+        | VCC (J4:7) | VDD (J1:6) |
+
 ## Related Collateral References ##
-The following documents can be referred to for enhancing your understanding of 
-the operation of this example project:
+The following documents can be referred to for enhancing your understanding of the operation of this example project:
 - [FSP User Manual on GitHub](https://renesas.github.io/fsp/)
 - [FSP Known Issues](https://github.com/renesas/fsp/issues)
 
@@ -313,7 +349,7 @@ List all the various modules that are used in this example project. Refer to the
 
 | Module Name | Usage | Searchable Keyword  |
 |-------------|-----------------------------------------------|-----------------------------------------------|
-| SMBus Communication Device | SMBus is used to communicate with the Evaluation Kit for the MAX31875 | rm_comms_smbus |
+| SMBus Communication Device | SMBus is used to communicate with the Evaluation Kit for the MAX31875. | rm_comms_smbus |
 
 **Configuration Properties for SMBus Communication Device**
 
@@ -322,9 +358,9 @@ List all the various modules that are used in this example project. Refer to the
 | configuration.xml > Stacks > g_comms_smbus0 SMBus Communication Device (rm_comms_smbus) > Properties > Settings > Property > Module g_comms_smbus0 SMBus Communication Device (rm_comms_smbus) > Callback | comms_smbus_callback | comms_smbus_callback | Provide a user callback function. |
 | configuration.xml > Stacks > g_comms_smbus0 SMBus Communication Device (rm_comms_smbus) > Properties > Settings > Property > Module g_comms_smbus0 SMBus Communication Device (rm_comms_smbus) > Slave Address | 0x00 | 0x48 | Specify the slave address. |
 | configuration.xml > Stacks > g_comms_smbus0 SMBus Communication Device (rm_comms_smbus) > Properties > Settings > Property > Module g_comms_smbus0 SMBus Communication Device (rm_comms_smbus) > CRC support | Enable | Enable | Enable PEC support and use CRC-8 algorithm to generate PEC byte for SMBus communication. |
-| configuration.xml > Stacks > g_i2c_master0 I2C Master (r_iic_master) > Properties > Settings > Property > Common > DTC on Transmission and Reception | Disabled | Disabled | DTC support must be disabled. |
-| configuration.xml > Stacks > g_comms_smbus_rsc_ctrl0 SMBus Resources control (rm_comms_smbus) > Properties > Settings > Property > Module g_comms_smbus_rsc_ctrl0 SMBus Resources control (rm_comms_smbus) > IIC channel | 0 | 1 | Select IIC channel 1. |
-| configuration.xml > Stacks > g_comms_smbus_rsc_ctrl0 SMBus Resources control (rm_comms_smbus) > Properties > Settings > Property > Module g_comms_smbus_rsc_ctrl0 SMBus Resources control (rm_comms_smbus) > IIC variant | IIC | IIC | Select IIC as IIC variant be used under I2C Shared Bus stack. |
+| configuration.xml > Stacks > g_i2c_master0 I2C Master (r_iic_b_master) > Properties > Settings > Property > Common > DTC on Transmission and Reception | Disabled | Disabled | DTC support must be disabled. |
+| configuration.xml > Stacks > g_comms_smbus_rsc_ctrl0 SMBus Resources control (rm_comms_smbus) > Properties > Settings > Property > Module g_comms_smbus_rsc_ctrl0 SMBus Resources control (rm_comms_smbus) > IIC channel | 0 | 0 | Select IIC channel 0. |
+| configuration.xml > Stacks > g_comms_smbus_rsc_ctrl0 SMBus Resources control (rm_comms_smbus) > Properties > Settings > Property > Module g_comms_smbus_rsc_ctrl0 SMBus Resources control (rm_comms_smbus) > IIC variant | IIC | IIC_B | Select IIC_B as IIC variant be used under I2C Shared Bus stack. |
 
 **Configuration Properties for SMBus timer (GPT)**
 |   Module Property Path and Identifier   |   Default Value   |   Used Value   |   Reason   |
@@ -337,82 +373,57 @@ List all the various modules that are used in this example project. Refer to the
 | configuration.xml > Stacks > g_comms_smbus_rsc_ctrl0_timer Timer, General PWM (r_gpt) > Properties > Settings > Property > Module g_comms_smbus_rsc_ctrl0_timer Timer, General PWM (r_gpt) > Input > Stop Source | GTETRGA Rising Edge | GTETRGA Rising Edge | Select GTETRGA Rising Edge as external source that will stop the timer. |
 | configuration.xml > Stacks > g_comms_smbus_rsc_ctrl0_timer Timer, General PWM (r_gpt) > Properties > Settings > Property > Module g_comms_smbus_rsc_ctrl0_timer Timer, General PWM (r_gpt) > Interrupts > Overflow/Crest Interrupt Priority | Disable | Priority 2 | Select the overflow interrupt priority. |
 
-**Configuration Properties for using the Serial Terminal (UART)**   
-|   Configure interrupt event path   |   Default Value   |   Used Value   |   Reason   |
-|-----------------------------------------|-------------------|----------------|------------|
-| configuration.xml > Interrupts > Interrupts Configuration > New User Event > SCI > SCI8 > SCI8 RXI (Receive data full) | empty | sci_b_uart_rxi_isr | Assign the UART receive ISR (Receive data full) to the interrupt vector table. |
-| configuration.xml > Interrupts > Interrupts Configuration > New User Event > SCI > SCI8 > SCI8 TXI (Transmit data empty) | empty | sci_b_uart_txi_isr | Assign the UART transfer ISR (Transmit data empty) to the interrupt vector table. |
-| configuration.xml > Interrupts > Interrupts Configuration > New User Event > SCI > SCI8 > SCI8 TEI (Transmit end) | empty | sci_b_uart_tei_isr | Assign the UART transfer ISR (Transmit end) to the interrupt vector table. |
-| configuration.xml > Interrupts > Interrupts Configuration > New User Event > SCI > SCI8 > SCI8 ERI (Receive error) | empty | sci_b_uart_eri_isr | Assign the UART receive ISR (Receive error) to the interrupt vector table. |
-
-|   Configure Clock path   |   Default Value   |   Used Value   |   Reason   |
-|-----------------------------------------|-------------------|----------------|------------|
-| configuration.xml > Clocks > Clocks Configuration | SCICLK Disable | SCICLK Src:PLL2P | Enable operating clock for SCI module by PLL2P clock source. |
-
 ## API Usage ##
 The table below lists the FSP provided API used at the application layer in this example project.
 
 | API Name    | Usage                                                                          |
 |-------------|--------------------------------------------------------------------------------|
-| R_IIC_MASTER_Open | This API is used to initialize IIC master module to communicate with sensor. |
+| R_IIC_MASTER_Open | This API is used to initialize IIC Master module to communicate with sensor. |
 | R_GPT_Open | This API is used to initialize GPT module to handle timeout for SMBus standard. |
 | R_ELC_Open | This API is used to initialize ELC module to link IIC event to GPT. |
 | RM_COMMS_SMBus_Open | This API is used to initialize SMBus Middleware driver. |
 | RM_COMMS_SMBus_Write | This API is used to write data to specific register of sensor via SMBus. |
 | RM_COMMS_SMBus_WriteRead | This API is used to read data from specific register of sensor via SMBus. |
-| R_IIC_MASTER_Close | This API is used to de-initialize IIC master module. |
+| R_IIC_MASTER_Close | This API is used to de-initialize IIC Master module. |
 | R_GPT_Close |	This API is used to de-initialize GPT module. |
 | R_ELC_Close |	This API is used to de-initialize ELC module. |
 | RM_COMMS_SMBus_Close | This API is used to de-initialize SMBus Middleware driver. |
 | R_BSP_SoftwareDelay | This API is used to delay a specified period of time. |
 
-**For RA boards use IIC_B version:**
+**For RA boards that use IIC_B version:**
 
 | API Name    | Usage                                                                                |
 |-------------|--------------------------------------------------------------------------------------|
 | R_IIC_B_MASTER_Open | This API is used to initialize IIC master module to communicate with sensor. |
 | R_IIC_B_MASTER_Close | This API is used to de-initialize IIC master module.                        |
 
-**API use for the Serial Terminal (UART):**
-
-* **For RA boards use SCI_B version:**
-
-| API Name    | Usage                                                     |
-|-------------|-----------------------------------------------------------|
-| R_SCI_B_UART_Open | This API is used to initialize SCI UART module.     |
-| R_SCI_B_UART_Write | This API is used to perform a write operation.     |
-| R_SCI_B_UART_Close | This API is used to de-initialize SCI UART module. |
-
-* **For RA boards use SCI version:**
-
-| API Name    | Usage                                                   |
-|-------------|---------------------------------------------------------|
-| R_SCI_UART_Open | This API is used to initialize SCI UART module.     |
-| R_SCI_UART_Write | This API is used to perform a write operation.     |
-| R_SCI_UART_Close | This API is used to de-initialize SCI UART module. |
-
 ## Verifying Operation ##
-1. Import the example project.   
-    By default, the EP supports Serial terminal for RA boards that support J-link OB VCOM
-    * Define USE_VIRTUAL_COM = 1 macro in Project Properties -> C/C++ Build -> Settings -> Tool Settings -> Compiler -> Includes -> Macro Defines (-D)
-
-    To use SEGGER J-Link RTT Viewer, please follow the instructions below:
-    * Define USE_VIRTUAL_COM = 0 macro in Project Properties -> C/C++ Build -> Settings -> Tool Settings -> Compiler -> Includes -> Macro Defines (-D)
-
+1. Import, generate and build the example project.
 2. Before running the example project, make sure hardware connections are completed.
-3. Download the example project to the RA board using the USB Debug Port.
-4. Open the terminal application and view output log.  
-- The below images showcase the output on the Serial terminal application (Tera Term):  
+3. Flash or debug the example project.
+4. Open the serial terminal application (e.g., Tera Term) to see the output, configure the settings as shown below:
+    * To make sure the received data shows properly, the user needs to set:
+        * [Setup] -> [Terminal...] -> [New-line] -> Select [Receive: CR] & [Transmit: CR].
 
-![serial_log: SMBus EP information](images/serial_smbus_ep_info.png "SMBus EP information")  
+    * To echo back characters typed in Tera Term, the user needs to enable it through:
+        * [Setup] -> [Terminal...] -> Check [Local echo].
 
-![serial_log: SMBus operation](images/serial_smbus_operation.png "SMBus operation")  
+    * The configuration parameters of the serial port on the serial terminal application:
+        * Port: The port is provided by the J-Link On-Board.
+        * Speed: 115200
+        * Data: 8 bit
+        * Parity: none
+        * Stop bits: 1 bit
+        * Flow control: none
 
-- The images below showcase the output on the SEGGER J-Link RTT Viewer: 
+    * To show the degree Celsius symbol (°C), the user needs to select the "Consolas" font through:
+        * [Setup] -> [Font...] -> [Font:]
 
-![rtt_log: SMBus EP information](images/rtt_smbus_ep_info.png "SMBus EP information")  
+The images below showcase the output on the terminal:
 
-![rtt_log: SMBus operation](images/rtt_smbus_operation.png "SMBus operation")
+![serial_log: SMBus EP information](images/serial_smbus_ep_info.png "SMBus EP information")
+
+![serial_log: SMBus operation](images/serial_smbus_operation.png "SMBus operation")
 
 ## Special Topics ##
 The SMBus transaction time is monitored by the GPT module to ensure the MCU acting as a master device complies with the SMBus timeout standard.
@@ -421,9 +432,4 @@ The SMBus transaction time is monitored by the GPT module to ensure the MCU acti
 | From start condition to acknowledge bit do not exceed 10 ms. | GPT compare match A |
 | Between acknowledge bits do not exceed 10 ms. | GPT compare match A |
 | From acknowledge bit to stop condition do not exceed 10 ms. | GPT compare match A |
-| The total of above values do not exceed 25 ms. | GPT overflow |
-
-The error LED information:
-* The RA Boards use Red LED as error LED: EK-RA8M1, CK-RA6M5, EK-RA2A2, EK-RA2E1, EK-RA2E2, EK-RA2L1, EK-RA4E2, EK-RA4M2, EK-RA4M3, EK-RA6E2, EK-RA6M3, EK-RA6M3G, EK-RA6M4, EK-RA6M5, EK-RA8D1, EK-RA8P1.
-* The RA Boards use LED 1 as error LED: EK-RA2A1, EK-RA4M1, EK-RA4W1, EK-RA6M1, EK-RA6M2.
-* The RA Boards use LED 2 as error LED: FPB-RA2E3, FPB-RA4E1, FPB-RA6E1, MCK-RA4T1, MCK-RA6T2,  MCK-RA6T3, MCK-RA8T1, RSSK-RA6T1, FPB-RA8E1.
+| The total of the above values does not exceed 25 ms. | GPT overflow |

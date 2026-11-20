@@ -1,32 +1,86 @@
 /***********************************************************************************************************************
  * File Name    : dhcpv4_client_ep.h
- * Description  : Contains data structures and functions used in dhcpv4_client_ep.h.
+ * Description  : Contains macros, data structures, and functions used in dhcpv4_client_ep.c.
  **********************************************************************************************************************/
 /***********************************************************************************************************************
-* Copyright (c) 2020 - 2025 Renesas Electronics Corporation and/or its affiliates
-*
-* SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
+ * Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ **********************************************************************************************************************/
 
 #ifndef DHCPV4_CLIENT_EP_H_
 #define DHCPV4_CLIENT_EP_H_
 
-/* Define the wait limit for getting assigned an IP address.
- * NX_IP_PERIODIC_RATE is defined internally in NetX for converting
- * seconds to timer ticks. This timeout is defined for 2 seconds */
-#define WAIT_TO_BE_BOUND      (20*NX_IP_PERIODIC_RATE)
-#define LINK_ENABLE_WAIT_TIME (1000U)
-#define INITIAL_VALUE         ('\0')
-#define MAX_DNS_SERVERS       (5)
-#define MAX_GATEWAYS          (5)
-#define IP_V4_SIZE            (4)
-#define DHCP_EVENT            (0x1)
+#include <stdbool.h>
+#include "dhcp_client_thread.h"
+#include "terminal.h"
 
-#define EP_INFO        "\r\nThis project demonstrates the basic functionality of Netx Duo DHCPv4 client\r\n"\
-                       "with an ethernet driver on Renesas RA MCUs based on Renesas FSP using AzureRTOS.\r\n"\
-                       "DHCP client is created and started. On successful receiving of IP address from \r\n"\
-                       "DHCPv4 server, it pings the server to verify the received IP address.\r\n"\
-                       "On successful completion, the success status and IP address are displayed\r\n"\
-                       "on RTT Viewer. The error and info messages will be printed on RTT Viewer.\r\n\n\n"
+/* Macro for the reset value */
+#define RESET_VALUE                     (0x00)
+
+/* Macro for the null character */
+#define NULL_CHAR                       ('\0')
+
+/* Macros for the names of the NetX Duo resources */
+#define PACKET_POOL_NAME                "g_packet_pool0 Packet Pool"
+#define IP_NAME                         "g_ip0 IP Instance"
+#define DHCP_CLIENT_NAME                "g_dhcp_client0"
+#define EVENT_FLAGS_NAME                "g_dhcp_event_flags"
+
+/* Macro for the wait time for the link to be enabled. This timeout is defined for 10 seconds */
+#define LINK_ENABLE_WAIT_TIME           (10U * TX_TIMER_TICKS_PER_SECOND)
+
+/* Macro for the DHCP bound event */
+#define DHCP_EVENT                      ((ULONG)0x01)
+
+/* Macro for the wait time for the DHCP bound event. This timeout is defined for 20 seconds */
+#define DHCP_BOUND_WAIT_TIME            (20U * TX_TIMER_TICKS_PER_SECOND)
+
+/* Macro for the wait time for getting assigned an IP address. This timeout is defined for 20 seconds */
+#define WAIT_TO_BE_BOUND                (20U * TX_TIMER_TICKS_PER_SECOND)
+
+/* Macro for the wait time for the ping response in ticks. This timeout is defined for 3 seconds */
+#define PING_TIMEOUT                    (3U * TX_TIMER_TICKS_PER_SECOND)
+
+/* Macros for the DHCP address lists */
+#define MAX_DNS_SERVERS                 (5U)
+#define MAX_GATEWAYS                    (5U)
+#define IP_V4_SIZE                      (4U)
+
+/* Union for splitting an IPv4 address into its four bytes */
+typedef union
+{
+    ULONG ip_address;
+    struct
+    {
+        UCHAR ip_d;
+        UCHAR ip_c;
+        UCHAR ip_b;
+        UCHAR ip_a;
+    } IP_t;
+} ip_address_t;
+
+/* Function declarations */
+void nx_common_init(void);
+UINT packet_pool_init(void);
+UINT ip_init(void);
+UINT ip_link_check(void);
+UINT ip_address_get(ULONG * const p_ip_address);
+UINT ip_address_resolved_wait(void);
+UINT ip_address_ping(ULONG ip_address, char * p_data, ULONG size, ULONG wait);
+UINT dhcp_client_init(void);
+UINT dhcp_client_start(void);
+UINT dhcp_client_stop(void);
+UINT dhcp_client_reinitialize(void);
+UINT dhcp_client_release(void);
+UINT dhcp_client_delete(void);
+void dhcp_client_deinit(void);
+UINT dhcp_event_flags_create(void);
+UINT dhcp_state_change_notify(void);
+UINT dhcp_bound_wait(void);
+UINT dhcp_server_address_get(ULONG * const p_server_address);
+UINT dhcp_lease_time_get(ULONG * const p_lease_time);
+UINT dhcp_address_list_get(UINT option, ULONG * const p_list, UINT max_count, UINT * const p_count);
+UINT ethernet_link_wait(void);
 
 #endif /* DHCPV4_CLIENT_EP_H_ */

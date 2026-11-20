@@ -132,7 +132,7 @@ FSP Configuration
   RA8E2 event data
   RA Common
     Main stack size (bytes): 0x400
-    Heap size (bytes): 0x400
+    Heap size (bytes): 0
     Bootloader Secondary XIP: Disabled
     MCU Vcc (mV): 3300
     Parameter checking: Disabled
@@ -164,7 +164,7 @@ FSP Configuration
     PLL2R Div /2
     Clock Src: PLL1P
     CLKOUT Disabled
-    SCICLK Disabled
+    SCICLK Src: PLL1P
     SPICLK Disabled
     CANFDCLK Disabled
     LCDCLK Disabled
@@ -308,8 +308,8 @@ FSP Configuration
       P706 K13 GPIO CANFD_S - None "Input mode" - - "AGT0: AGTIO0; IRQ7: IRQ7; SCI1: RXD1" - IO - - 
       P707 K11 GLCD_LCD_DATA23 GLCD_DATA23 M None "Peripheral mode" - - "GLCD: LCD_DATA23; IRQ8: IRQ8; SCI1: TXD1" - O - - 
       P708 E13 - - - - Disabled - - "BUS: BC1; BUS: WR1; CAC: CACREF; IRQ11: IRQ11; SCI4: DE4; SCI4: SCK4; SPI1: SSLB3; SSIE: AUDIO_CLK" - None - - 
-      P709 E15 SCI4_CTS_RTS4 DEBUG_SERIAL_CTS_RTS4 L None "Peripheral mode" - - "BUS: CS4#; IRQ10: IRQ10; SCI4: CTS_RTS4; SCI4: DE4" - IO - - 
-      P710 E14 SCI4_CTS4 DEBUG_SERIAL_CTS4 L - "Peripheral mode" - - "BUS: CS5#; SCI4: CTS4" - I - - 
+      P709 E15 - DEBUG_SERIAL_CTS_RTS4 - - Disabled - - "BUS: CS4#; IRQ10: IRQ10; SCI4: CTS_RTS4; SCI4: DE4" - None - - 
+      P710 E14 - DEBUG_SERIAL_CTS4 - - Disabled - - "BUS: CS5#; SCI4: CTS4" - None - - 
       P711 F10 GLCD_LCD_DATA10 GLCD_DATA10 M - "Peripheral mode" - - "AGT0: AGTEE0; GLCD: LCD_DATA10" - O - - 
       P712 E12 GLCD_LCD_DATA11 GLCD_DATA11 M - "Peripheral mode" - - "AGT0: AGTOB0; GLCD: LCD_DATA11; GPT2: GTIOC2B" - O - - 
       P713 G11 GLCD_LCD_DATA12 GLCD_DATA12 M - "Peripheral mode" - - "AGT0: AGTOA0; GLCD: LCD_DATA12; GPT2: GTIOC2A" - O - - 
@@ -533,8 +533,8 @@ FSP Configuration
       P706 K13 - CANFD_S - None Disabled - - "AGT0: AGTIO0; IRQ7: IRQ7; SCI1: RXD1" - IO - - 
       P707 K11 - GLCD_DATA23 L None Disabled - - "GLCD: LCD_DATA23; IRQ8: IRQ8; SCI1: TXD1" - O - - 
       P708 E13 - - - - Disabled - - "BUS: BC1; BUS: WR1; CAC: CACREF; IRQ11: IRQ11; SCI4: DE4; SCI4: SCK4; SPI1: SSLB3; SSIE: AUDIO_CLK" - None - - 
-      P709 E15 - DEBUG_SERIAL_CTS_RTS4 L None Disabled - - "BUS: CS4#; IRQ10: IRQ10; SCI4: CTS_RTS4; SCI4: DE4" - IO - - 
-      P710 E14 - DEBUG_SERIAL_CTS4 L - Disabled - - "BUS: CS5#; SCI4: CTS4" - I - - 
+      P709 E15 - DEBUG_SERIAL_CTS_RTS4 - - Disabled - - "BUS: CS4#; IRQ10: IRQ10; SCI4: CTS_RTS4; SCI4: DE4" - None - - 
+      P710 E14 - DEBUG_SERIAL_CTS4 - - Disabled - - "BUS: CS5#; SCI4: CTS4" - None - - 
       P711 F10 - GLCD_DATA10 L - Disabled - - "AGT0: AGTEE0; GLCD: LCD_DATA10" - O - - 
       P712 E12 - GLCD_DATA11 L - Disabled - - "AGT0: AGTOB0; GLCD: LCD_DATA11; GPT2: GTIOC2B" - O - - 
       P713 G11 - GLCD_DATA12 L - Disabled - - "AGT0: AGTOA0; GLCD: LCD_DATA12; GPT2: GTIOC2A" - O - - 
@@ -646,6 +646,7 @@ FSP Configuration
   User Event Links
     
   Linker Section Mappings
+    *(.bss.*_fsp_nocache): RAM Zeroed (Uncached)
     *(.bss.g_heap): RAM Uninitialized
     *(.bss.g_main_stack): RAM Uninitialized
     
@@ -660,6 +661,12 @@ FSP Configuration
     
   Module "Transfer (r_dmac)"
     Parameter Checking: Default (BSP)
+    
+  Module "UART (r_sci_b_uart)"
+    Parameter Checking: Default (BSP)
+    FIFO Support: Disable
+    DTC Support: Disable
+    Flow Control Support: Disable
     
   HAL
     Instance "g_ioport I/O Port (r_ioport)"
@@ -792,3 +799,30 @@ FSP Configuration
         Offset value (Valid only when address mode is Offset addition): 1
         Source Buffer Size: 1
         
+    Instance "g_uart_console UART (r_sci_b_uart)"
+      General: Name: g_uart_console
+      General: Channel: 4
+      General: Data Bits: 8bits
+      General: Parity: None
+      General: Stop Bits: 1bit
+      Baud: Baud Rate: 115200
+      Baud: Baud Rate Modulation: Disabled
+      Baud: Max Error (%): 5
+      Flow Control: CTS/RTS Selection: Hardware RTS
+      Flow Control: Software RTS Port: Disabled
+      Flow Control: Software RTS Pin: Disabled
+      Extra: Clock Source: Internal Clock
+      Extra: Start bit detection: Falling Edge
+      Extra: Noise Filter: Disable
+      Extra: Receive FIFO Trigger Level: Max
+      Extra: RS-485: DE Pin: Disable
+      Extra: RS-485: DE Pin Polarity: Active High
+      Extra: RS-485: DE Pin Assertion Time: 1
+      Extra: RS-485: DE Pin Negation Time: 1
+      Extra: TXI/TEI Synchronization Delay Cycles: 0
+      Interrupts: Callback: uart_console_callback
+      Interrupts: Receive Interrupt Priority: Priority 15
+      Interrupts: Transmit Data Empty Interrupt Priority: Priority 15
+      Interrupts: Transmit End Interrupt Priority: Priority 15
+      Interrupts: Error Interrupt Priority: Priority 15
+      

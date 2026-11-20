@@ -236,17 +236,17 @@ FSP Configuration
     OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS14: 
     OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS15: 
     OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS16: 
-    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: ZHUK (Zerorization HUK Register) Settings: Disabled
-    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: ZHUK (Zerorization HUK Register) Settings: Configuration setting for RTCIC0: W-HUK zeroization by RTCIC0 tamper event is disabled
-    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: ZHUK (Zerorization HUK Register) Settings: Configuration setting for RTCIC1: W-HUK zeroization by RTCIC1 tamper event is disabled
-    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: ZHUK (Zerorization HUK Register) Settings: Configuration setting for RTCIC2: W-HUK zeroization by RTCIC2 tamper event is disabled
-    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: ZHUK (Zerorization HUK Register) Settings: Configuration setting for RTCIC3: W-HUK zeroization by RTCIC3 tamper event is disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Configuration setting for RTCIC0: W-HUK zeroization by RTCIC0 tamper event is disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Configuration setting for RTCIC1: W-HUK zeroization by RTCIC1 tamper event is disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Configuration setting for RTCIC2: W-HUK zeroization by RTCIC2 tamper event is disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Configuration setting for RTCIC3: W-HUK zeroization by RTCIC3 tamper event is disabled
     
   RA8T2 Core 0 Options
   RA8T2 event data
   RA Common
     Main stack size (bytes): 0x400
-    Heap size (bytes): 0x400
+    Heap size (bytes): 0
     Bootloader Secondary XIP: Disabled
     MCU Vcc (mV): 3300
     Parameter checking: Disabled
@@ -295,7 +295,7 @@ FSP Configuration
     EBCLK Disabled
     CLKOUT Disabled
     CLKOUT Div /1
-    SCICLK Disabled
+    SCICLK Src: PLL1R
     SCICLK Div /4
     SPICLK Disabled
     SPICLK Div /1
@@ -456,16 +456,16 @@ FSP Configuration
       P714 N14 - USER_LED_BLUE L - Disabled - - "ESC: CATSYNC1; ESWM_GMII/MII: GPTP1_PPS; ESWM_RGMII1: GPTP1_PPS; ESWM_RMII1: GPTP1_PPS; GPT12: GTIOC12B; IRQ: IRQ13; SCI4: TXD4" - IO - - 
       P715 T15 - ET_TAS_STA2 L None Disabled - - "ESWM_GMII/MII: ET_TAS_STA2; ESWM_RGMII: ET_TAS_STA2; ESWM_RMII: ET_TAS_STA2; GPT12: GTIOC12A; IRQ: IRQ12; SCI4: RXD4" - IO - - 
       P800 T6 - PMOD1_1_CTS2_IRQ11 - None Disabled - - "AGT0: AGTOA0; DSMIF1: DSM1DAT0; GPT11: GTIOC11A; GPT_OPS: GTIU; IRQ: IRQ11; OSPI0: OM_0_SIO5; SCI2: CTS2" - IO - - 
-      P801 P6 - PMOD1_2_TXD2_MOSI2_RST L None Disabled - - "AGT0: AGTOB0; DSMIF1: DSM1DAT1; ESC: CATRESETOUT; ESWM_GMII/MII: GPTP1_PPS; ESWM_RGMII1: GPTP1_PPS; ESWM_RMII1: GPTP1_PPS; GPT11: GTIOC11B; GPT_OPS: GTIV; IRQ: IRQ12; OSPI0: OM_0_DQS; SCI2: TXD2" - O - - 
-      P802 R6 - PMOD1_3_RXD2_MISO2 L None Disabled - - "DSMIF1: DSM1DAT2; GPT12: GTIOC12A; GPT_OPS: GTIW; IRQ: IRQ18; OSPI0: OM_0_SIO6; SCI2: RXD2" - I - - 
-      P803 P7 - PMOD1_4_SCK2 L None Disabled - - "DSMIF1: DSM1CLK0; GPT12: GTIOC12B; GPT_POEGC: GTETRGC; IRQ: IRQ19; OSPI0: OM_0_SIO1; SCI2: DE2; SCI2: SCK2" - IO - - 
-      P804 R7 - PMOD1_4_RTS2_1_IRQ14 L None Disabled - - "DSMIF1: DSM1CLK1; GPT13: GTIOC13A; GPT_POEGD: GTETRGD; IRQ: IRQ14; OSPI0: OM_0_SIO7; SCI2: CTS_RTS2; SCI2: DE2" - IO - - 
+      P801 P6 - PMOD1_2_TXD2_MOSI2_RST - - Disabled - - "AGT0: AGTOB0; DSMIF1: DSM1DAT1; ESC: CATRESETOUT; ESWM_GMII/MII: GPTP1_PPS; ESWM_RGMII1: GPTP1_PPS; ESWM_RMII1: GPTP1_PPS; GPT11: GTIOC11B; GPT_OPS: GTIV; IRQ: IRQ12; OSPI0: OM_0_DQS; SCI2: TXD2" - None - - 
+      P802 R6 - PMOD1_3_RXD2_MISO2 - - Disabled - - "DSMIF1: DSM1DAT2; GPT12: GTIOC12A; GPT_OPS: GTIW; IRQ: IRQ18; OSPI0: OM_0_SIO6; SCI2: RXD2" - None - - 
+      P803 P7 - PMOD1_4_SCK2 - - Disabled - - "DSMIF1: DSM1CLK0; GPT12: GTIOC12B; GPT_POEGC: GTETRGC; IRQ: IRQ19; OSPI0: OM_0_SIO1; SCI2: DE2; SCI2: SCK2" - None - - 
+      P804 R7 - PMOD1_4_RTS2_1_IRQ14 - - Disabled - - "DSMIF1: DSM1CLK1; GPT13: GTIOC13A; GPT_POEGD: GTETRGD; IRQ: IRQ14; OSPI0: OM_0_SIO7; SCI2: CTS_RTS2; SCI2: DE2" - None - - 
       P805 P12 - JLINK_VCOM_TXD8 L None Disabled - - "ACMPHS: IVCMP0; ADC0: AN017; ADC1: AN017; ESWM_GMII/MII: ET1_MDIO; ESWM_RGMII1: ET1_MDIO; ESWM_RMII1: ET1_MDIO; IRQ: IRQ30; SCI8: TXD8" - O - - 
       P806 T14 - JLINK_VCOM_RXD8 L None Disabled - - "ADC0: AN018; ADC1: AN018; ESWM_GMII/MII: ET1_MDC; ESWM_RGMII1: ET1_MDC; ESWM_RMII1: ET1_MDC; IRQ: IRQ0; SCI8: RXD8" - I - - 
       P807 N11 - PMOD2_8_GPIO_RST - None Disabled - - "GPT13: GTIOC13A; IRQ: IRQ11" - IO - - 
-      P808 U5 - MODBUS_RXD7_ARDUINO_D0 L None Disabled - - "DSMIF1: DSM1CLK2; GPT13: GTIOC13B; IRQ: IRQ15; OSPI0: OM_0_SCLK; SCI7: RXD7" - I - - 
-      P809 T5 - MODBUS_TXD7_ARDUINO_D1 L None Disabled - - "IRQ: IRQ20; OSPI0: OM_0_SCLKN; SCI7: TXD7" - O - - 
-      P810 M9 - MODBUS_DE7_ARDUINO_D4 L None Disabled - - "GPT10: GTIOC10A; IRQ: IRQ21; SCI7: DE7; SCI7: SCK7; SDHI1: SD1DAT2; ULPT0: ULPTOA0" - O - - 
+      P808 U5 - MODBUS_RXD7_ARDUINO_D0 - - Disabled - - "DSMIF1: DSM1CLK2; GPT13: GTIOC13B; IRQ: IRQ15; OSPI0: OM_0_SCLK; SCI7: RXD7" - None - - 
+      P809 T5 - MODBUS_TXD7_ARDUINO_D1 - - Disabled - - "IRQ: IRQ20; OSPI0: OM_0_SCLKN; SCI7: TXD7" - None - - 
+      P810 M9 - MODBUS_DE7_ARDUINO_D4 - - Disabled - - "GPT10: GTIOC10A; IRQ: IRQ21; SCI7: DE7; SCI7: SCK7; SDHI1: SD1DAT2; ULPT0: ULPTOA0" - None - - 
       P811 N8 - ARDUINO_D3 - None Disabled - - "GPT10: GTIOC10B; IRQ: IRQ22; SCI7: CTS7; SDHI1: SD1DAT3; ULPT0: ULPTOB0; USB FS: USB_ID" - IO - - 
       P812 P8 - GPIO_J2_21 - None Disabled - - "ADC0: AN022; ADC1: AN022; GPT11: GTIOC11A; IRQ: IRQ23; SCI7: CTS_RTS7; SCI7: DE7; SDHI1: SD1DAT4; USB FS: USB_EXICEN" - IO - - 
       P813 B1 - SDRAM_CS_L L None Disabled - - "GPT7: GTIOC7B; GPT_POEGA: GTETRGA; IRQ: IRQ15; SCI7: DE7; SCI7: SCK7; SDRAM: SDCS" - O - - 
@@ -529,11 +529,11 @@ FSP Configuration
       PC08 M4 - LED12 L - Disabled - - "BUS: D22; DSMIF1: DSM1DAT0; GPT8: GTCPPO8; IRQ: IRQ29; OSPI1: OM_1_CS0; SDRAM: DQ22" - IO - - 
       PC09 L4 - LED15 L - Disabled - - "BUS: D21; IRQ: IRQ5; OSPI1: OM_1_RSTO1; SDRAM: DQ21" - IO - - 
       PC10 M5 - LED17 L - Disabled - - "BUS: D20; DSMIF1: DSM1CLK2; GPT13: GTCPPO13; IRQ: IRQ4; OSPI1: OM_1_WP1; SDRAM: DQ20" - IO - - 
-      PC11 H5 - PMOD2_4_RTS_1_SS L None Disabled - - "BUS: D19; DSMIF1: DSM1CLK1; ESC: CAT0_MDC; ESWM_GMII/MII: ET0_MDC; ESWM_RGMII0: ET0_MDC; ESWM_RMII0: ET0_MDC; GPT12: GTCPPO12; IRQ: IRQ3; SCI6: CTS_RTS6; SCI6: DE6; SDRAM: DQ19" - IO - - 
+      PC11 H5 - PMOD2_4_RTS_1_SS - - Disabled - - "BUS: D19; DSMIF1: DSM1CLK1; ESC: CAT0_MDC; ESWM_GMII/MII: ET0_MDC; ESWM_RGMII0: ET0_MDC; ESWM_RMII0: ET0_MDC; GPT12: GTCPPO12; IRQ: IRQ3; SCI6: CTS_RTS6; SCI6: DE6; SDRAM: DQ19" - None - - 
       PC12 G5 - PMOD2_4_SCK - None Disabled - - "BUS: D18; DSMIF1: DSM1CLK0; ESC: CAT0_MDIO; ESWM_GMII/MII: ET0_MDIO; ESWM_RGMII0: ET0_MDIO; ESWM_RMII0: ET0_MDIO; GPT11: GTCPPO11; IRQ: IRQ2; SCI6: DE6; SCI6: SCK6; SDRAM: DQ18" - IO - - 
-      PC13 J5 - PMOD2_3_RXD_MISO L None Disabled - - "BUS: D17; DSMIF1: DSM1DAT2; ESWM_GMII/MII: ET0_INT; ESWM_RGMII0: ET0_INT; ESWM_RMII0: ET0_INT; GPT10: GTCPPO10; IRQ: IRQ1; SCI6: RXD6; SDRAM: DQ17" - I - - 
-      PC14 F5 - PMOD2_2_TXD_MOSI L None Disabled - - "BUS: D16; DSMIF1: DSM1DAT1; ESWM_GMII/MII: ET0_WOL; ESWM_RGMII0: ET0_WOL; ESWM_RMII0: ET0_WOL; GPT: GTADSM1; GPT9: GTCPPO9; IRQ: IRQ0; SCI6: TXD6; SDRAM: DQ16" - O - - 
-      PC15 K1 - PMOD2_1_CTS L None Disabled - - "BUS: A16; CANFD1: CRX1; GPT: GTADSM0; IRQ: IRQ30; SCI6: CTS6; SDRAM: A16" - I - - 
+      PC13 J5 - PMOD2_3_RXD_MISO - - Disabled - - "BUS: D17; DSMIF1: DSM1DAT2; ESWM_GMII/MII: ET0_INT; ESWM_RGMII0: ET0_INT; ESWM_RMII0: ET0_INT; GPT10: GTCPPO10; IRQ: IRQ1; SCI6: RXD6; SDRAM: DQ17" - None - - 
+      PC14 F5 - PMOD2_2_TXD_MOSI - - Disabled - - "BUS: D16; DSMIF1: DSM1DAT1; ESWM_GMII/MII: ET0_WOL; ESWM_RGMII0: ET0_WOL; ESWM_RMII0: ET0_WOL; GPT: GTADSM1; GPT9: GTCPPO9; IRQ: IRQ0; SCI6: TXD6; SDRAM: DQ16" - None - - 
+      PC15 K1 - PMOD2_1_CTS - - Disabled - - "BUS: A16; CANFD1: CRX1; GPT: GTADSM0; IRQ: IRQ30; SCI6: CTS6; SDRAM: A16" - None - - 
       PD00 K4 - SDRAM_BA1 L None Disabled - - "BUS: A15; CANFD1: CTX1; GPT5: GTCPPO5; GPT_OPS: GTOWLO; IRQ: IRQ23; SCI5: DE5; SCI5: SCK5; SDRAM: A15" - IO - - 
       PD01 B16 - ENET1_RXD6 L None Disabled - - "ESWM_GMII/MII1: ET1_RXD6; GPT2: GTCPPO2; IRQ: IRQ22; SCI8: DE8; SCI8: SCK8; SDHI0: SD0DAT2" - I - - 
       PD02 B17 - ENET1_RXD7 L None Disabled - - "ESWM_GMII/MII1: ET1_RXD7; GPT1: GTCPPO1; IRQ: IRQ21; SCI8: TXD8; SDHI0: SD0DAT1" - I - - 
@@ -746,16 +746,16 @@ FSP Configuration
       P714 N14 GPIO USER_LED_BLUE H - "Output mode (Initial Low)" - - "ESC: CATSYNC1; ESWM_GMII/MII: GPTP1_PPS; ESWM_RGMII1: GPTP1_PPS; ESWM_RMII1: GPTP1_PPS; GPT12: GTIOC12B; IRQ: IRQ13; SCI4: TXD4" - IO - - 
       P715 T15 ESWM_GMII/MII_ET_TAS_STA2 ET_TAS_STA2 H None "Peripheral mode" - - "ESWM_GMII/MII: ET_TAS_STA2; ESWM_RGMII: ET_TAS_STA2; ESWM_RMII: ET_TAS_STA2; GPT12: GTIOC12A; IRQ: IRQ12; SCI4: RXD4" - IO - - 
       P800 T6 GPIO PMOD1_1_CTS2_IRQ11 - None "Input mode" - - "AGT0: AGTOA0; DSMIF1: DSM1DAT0; GPT11: GTIOC11A; GPT_OPS: GTIU; IRQ: IRQ11; OSPI0: OM_0_SIO5; SCI2: CTS2" - IO - - 
-      P801 P6 SCI2_TXD2 PMOD1_2_TXD2_MOSI2_RST M None "Peripheral mode" - - "AGT0: AGTOB0; DSMIF1: DSM1DAT1; ESC: CATRESETOUT; ESWM_GMII/MII: GPTP1_PPS; ESWM_RGMII1: GPTP1_PPS; ESWM_RMII1: GPTP1_PPS; GPT11: GTIOC11B; GPT_OPS: GTIV; IRQ: IRQ12; OSPI0: OM_0_DQS; SCI2: TXD2" - O - - 
-      P802 R6 SCI2_RXD2 PMOD1_3_RXD2_MISO2 M None "Peripheral mode" - - "DSMIF1: DSM1DAT2; GPT12: GTIOC12A; GPT_OPS: GTIW; IRQ: IRQ18; OSPI0: OM_0_SIO6; SCI2: RXD2" - I - - 
-      P803 P7 SCI2_SCK2 PMOD1_4_SCK2 M None "Peripheral mode" - - "DSMIF1: DSM1CLK0; GPT12: GTIOC12B; GPT_POEGC: GTETRGC; IRQ: IRQ19; OSPI0: OM_0_SIO1; SCI2: DE2; SCI2: SCK2" - IO - - 
-      P804 R7 SCI2_CTS_RTS2 PMOD1_4_RTS2_1_IRQ14 M None "Peripheral mode" - - "DSMIF1: DSM1CLK1; GPT13: GTIOC13A; GPT_POEGD: GTETRGD; IRQ: IRQ14; OSPI0: OM_0_SIO7; SCI2: CTS_RTS2; SCI2: DE2" - IO - - 
+      P801 P6 - PMOD1_2_TXD2_MOSI2_RST - - Disabled - - "AGT0: AGTOB0; DSMIF1: DSM1DAT1; ESC: CATRESETOUT; ESWM_GMII/MII: GPTP1_PPS; ESWM_RGMII1: GPTP1_PPS; ESWM_RMII1: GPTP1_PPS; GPT11: GTIOC11B; GPT_OPS: GTIV; IRQ: IRQ12; OSPI0: OM_0_DQS; SCI2: TXD2" - None - - 
+      P802 R6 - PMOD1_3_RXD2_MISO2 - - Disabled - - "DSMIF1: DSM1DAT2; GPT12: GTIOC12A; GPT_OPS: GTIW; IRQ: IRQ18; OSPI0: OM_0_SIO6; SCI2: RXD2" - None - - 
+      P803 P7 - PMOD1_4_SCK2 - - Disabled - - "DSMIF1: DSM1CLK0; GPT12: GTIOC12B; GPT_POEGC: GTETRGC; IRQ: IRQ19; OSPI0: OM_0_SIO1; SCI2: DE2; SCI2: SCK2" - None - - 
+      P804 R7 - PMOD1_4_RTS2_1_IRQ14 - - Disabled - - "DSMIF1: DSM1CLK1; GPT13: GTIOC13A; GPT_POEGD: GTETRGD; IRQ: IRQ14; OSPI0: OM_0_SIO7; SCI2: CTS_RTS2; SCI2: DE2" - None - - 
       P805 P12 SCI8_TXD8 JLINK_VCOM_TXD8 H None "Peripheral mode" - - "ACMPHS: IVCMP0; ADC0: AN017; ADC1: AN017; ESWM_GMII/MII: ET1_MDIO; ESWM_RGMII1: ET1_MDIO; ESWM_RMII1: ET1_MDIO; IRQ: IRQ30; SCI8: TXD8" - O - - 
       P806 T14 SCI8_RXD8 JLINK_VCOM_RXD8 H None "Peripheral mode" - - "ADC0: AN018; ADC1: AN018; ESWM_GMII/MII: ET1_MDC; ESWM_RGMII1: ET1_MDC; ESWM_RMII1: ET1_MDC; IRQ: IRQ0; SCI8: RXD8" - I - - 
       P807 N11 GPIO PMOD2_8_GPIO_RST - None "Input mode" - - "GPT13: GTIOC13A; IRQ: IRQ11" - IO - - 
-      P808 U5 SCI7_RXD7 MODBUS_RXD7_ARDUINO_D0 M None "Peripheral mode" - - "DSMIF1: DSM1CLK2; GPT13: GTIOC13B; IRQ: IRQ15; OSPI0: OM_0_SCLK; SCI7: RXD7" - I - - 
-      P809 T5 SCI7_TXD7 MODBUS_TXD7_ARDUINO_D1 M None "Peripheral mode" - - "IRQ: IRQ20; OSPI0: OM_0_SCLKN; SCI7: TXD7" - O - - 
-      P810 M9 SCI7_DE7 MODBUS_DE7_ARDUINO_D4 M None "Peripheral mode" - - "GPT10: GTIOC10A; IRQ: IRQ21; SCI7: DE7; SCI7: SCK7; SDHI1: SD1DAT2; ULPT0: ULPTOA0" - O - - 
+      P808 U5 - MODBUS_RXD7_ARDUINO_D0 - - Disabled - - "DSMIF1: DSM1CLK2; GPT13: GTIOC13B; IRQ: IRQ15; OSPI0: OM_0_SCLK; SCI7: RXD7" - None - - 
+      P809 T5 - MODBUS_TXD7_ARDUINO_D1 - - Disabled - - "IRQ: IRQ20; OSPI0: OM_0_SCLKN; SCI7: TXD7" - None - - 
+      P810 M9 - MODBUS_DE7_ARDUINO_D4 - - Disabled - - "GPT10: GTIOC10A; IRQ: IRQ21; SCI7: DE7; SCI7: SCK7; SDHI1: SD1DAT2; ULPT0: ULPTOA0" - None - - 
       P811 N8 GPIO ARDUINO_D3 - None "Input mode" - - "GPT10: GTIOC10B; IRQ: IRQ22; SCI7: CTS7; SDHI1: SD1DAT3; ULPT0: ULPTOB0; USB FS: USB_ID" - IO - - 
       P812 P8 GPIO GPIO_J2_21 - None "Input mode" - - "ADC0: AN022; ADC1: AN022; GPT11: GTIOC11A; IRQ: IRQ23; SCI7: CTS_RTS7; SCI7: DE7; SDHI1: SD1DAT4; USB FS: USB_EXICEN" - IO - - 
       P813 B1 SDRAM_SDCS SDRAM_CS_L H None "Peripheral mode" - - "GPT7: GTIOC7B; GPT_POEGA: GTETRGA; IRQ: IRQ15; SCI7: DE7; SCI7: SCK7; SDRAM: SDCS" - O - - 
@@ -819,11 +819,11 @@ FSP Configuration
       PC08 M4 GPIO LED12 H - "Output mode (Initial Low)" - - "BUS: D22; DSMIF1: DSM1DAT0; GPT8: GTCPPO8; IRQ: IRQ29; OSPI1: OM_1_CS0; SDRAM: DQ22" - IO - - 
       PC09 L4 GPIO LED15 H - "Output mode (Initial Low)" - - "BUS: D21; IRQ: IRQ5; OSPI1: OM_1_RSTO1; SDRAM: DQ21" - IO - - 
       PC10 M5 GPIO LED17 H - "Output mode (Initial Low)" - - "BUS: D20; DSMIF1: DSM1CLK2; GPT13: GTCPPO13; IRQ: IRQ4; OSPI1: OM_1_WP1; SDRAM: DQ20" - IO - - 
-      PC11 H5 SCI6_CTS_RTS6 PMOD2_4_RTS_1_SS M None "Peripheral mode" - - "BUS: D19; DSMIF1: DSM1CLK1; ESC: CAT0_MDC; ESWM_GMII/MII: ET0_MDC; ESWM_RGMII0: ET0_MDC; ESWM_RMII0: ET0_MDC; GPT12: GTCPPO12; IRQ: IRQ3; SCI6: CTS_RTS6; SCI6: DE6; SDRAM: DQ19" - IO - - 
+      PC11 H5 - PMOD2_4_RTS_1_SS - - Disabled - - "BUS: D19; DSMIF1: DSM1CLK1; ESC: CAT0_MDC; ESWM_GMII/MII: ET0_MDC; ESWM_RGMII0: ET0_MDC; ESWM_RMII0: ET0_MDC; GPT12: GTCPPO12; IRQ: IRQ3; SCI6: CTS_RTS6; SCI6: DE6; SDRAM: DQ19" - None - - 
       PC12 G5 GPIO PMOD2_4_SCK - None "Input mode" - - "BUS: D18; DSMIF1: DSM1CLK0; ESC: CAT0_MDIO; ESWM_GMII/MII: ET0_MDIO; ESWM_RGMII0: ET0_MDIO; ESWM_RMII0: ET0_MDIO; GPT11: GTCPPO11; IRQ: IRQ2; SCI6: DE6; SCI6: SCK6; SDRAM: DQ18" - IO - - 
-      PC13 J5 SCI6_RXD6 PMOD2_3_RXD_MISO M None "Peripheral mode" - - "BUS: D17; DSMIF1: DSM1DAT2; ESWM_GMII/MII: ET0_INT; ESWM_RGMII0: ET0_INT; ESWM_RMII0: ET0_INT; GPT10: GTCPPO10; IRQ: IRQ1; SCI6: RXD6; SDRAM: DQ17" - I - - 
-      PC14 F5 SCI6_TXD6 PMOD2_2_TXD_MOSI M None "Peripheral mode" - - "BUS: D16; DSMIF1: DSM1DAT1; ESWM_GMII/MII: ET0_WOL; ESWM_RGMII0: ET0_WOL; ESWM_RMII0: ET0_WOL; GPT: GTADSM1; GPT9: GTCPPO9; IRQ: IRQ0; SCI6: TXD6; SDRAM: DQ16" - O - - 
-      PC15 K1 SCI6_CTS6 PMOD2_1_CTS M None "Peripheral mode" - - "BUS: A16; CANFD1: CRX1; GPT: GTADSM0; IRQ: IRQ30; SCI6: CTS6; SDRAM: A16" - I - - 
+      PC13 J5 - PMOD2_3_RXD_MISO - - Disabled - - "BUS: D17; DSMIF1: DSM1DAT2; ESWM_GMII/MII: ET0_INT; ESWM_RGMII0: ET0_INT; ESWM_RMII0: ET0_INT; GPT10: GTCPPO10; IRQ: IRQ1; SCI6: RXD6; SDRAM: DQ17" - None - - 
+      PC14 F5 - PMOD2_2_TXD_MOSI - - Disabled - - "BUS: D16; DSMIF1: DSM1DAT1; ESWM_GMII/MII: ET0_WOL; ESWM_RGMII0: ET0_WOL; ESWM_RMII0: ET0_WOL; GPT: GTADSM1; GPT9: GTCPPO9; IRQ: IRQ0; SCI6: TXD6; SDRAM: DQ16" - None - - 
+      PC15 K1 - PMOD2_1_CTS - - Disabled - - "BUS: A16; CANFD1: CRX1; GPT: GTADSM0; IRQ: IRQ30; SCI6: CTS6; SDRAM: A16" - None - - 
       PD00 K4 SDRAM_A15 SDRAM_BA1 H None "Peripheral mode" - - "BUS: A15; CANFD1: CTX1; GPT5: GTCPPO5; GPT_OPS: GTOWLO; IRQ: IRQ23; SCI5: DE5; SCI5: SCK5; SDRAM: A15" - IO - - 
       PD01 B16 ESWM_GMII/MII1_ET1_RXD6 ENET1_RXD6 H None "Peripheral mode" - - "ESWM_GMII/MII1: ET1_RXD6; GPT2: GTCPPO2; IRQ: IRQ22; SCI8: DE8; SCI8: SCK8; SDHI0: SD0DAT2" - I - - 
       PD02 B17 ESWM_GMII/MII1_ET1_RXD7 ENET1_RXD7 H None "Peripheral mode" - - "ESWM_GMII/MII1: ET1_RXD7; GPT1: GTCPPO1; IRQ: IRQ21; SCI8: TXD8; SDHI0: SD0DAT1" - I - - 
@@ -910,6 +910,7 @@ FSP Configuration
   User Event Links
     
   Linker Section Mappings
+    *(.bss.*_fsp_nocache): RAM Zeroed (Uncached)
     *(.bss.g_heap): RAM Uninitialized
     *(.bss.g_main_stack): RAM Uninitialized
     
@@ -931,6 +932,12 @@ FSP Configuration
     
   Module "External IRQ (r_icu)"
     Parameter Checking: Default (BSP)
+    
+  Module "UART (r_sci_b_uart)"
+    Parameter Checking: Default (BSP)
+    FIFO Support: Disable
+    DTC Support: Disable
+    Flow Control Support: Disable
     
   HAL
     Instance "g_ioport I/O Port (r_ioport)"
@@ -1008,8 +1015,8 @@ FSP Configuration
       Interrupts: Callback: g_timeout_timer_callback
       Interrupts: Underflow Interrupt Priority: Priority 3
       
-    Instance "g_external_irq_sw2 External IRQ (r_icu)"
-      Name: g_external_irq_sw2
+    Instance "g_external_irq_sw External IRQ (r_icu)"
+      Name: g_external_irq_sw
       Channel: 12
       Trigger: Falling
       Digital Filtering: Enabled
@@ -1017,4 +1024,31 @@ FSP Configuration
       Digital Filtering Sample Clock (Only valid when Digital Filtering is Enabled): PCLK / 64
       Callback: external_irq_callback
       Pin Interrupt Priority: Priority 2
+      
+    Instance "g_uart_console UART (r_sci_b_uart)"
+      General: Name: g_uart_console
+      General: Channel: 8
+      General: Data Bits: 8bits
+      General: Parity: None
+      General: Stop Bits: 1bit
+      Baud: Baud Rate: 115200
+      Baud: Baud Rate Modulation: Disabled
+      Baud: Max Error (%): 5
+      Flow Control: CTS/RTS Selection: Hardware RTS
+      Flow Control: Software RTS Port: Disabled
+      Flow Control: Software RTS Pin: Disabled
+      Extra: Clock Source: Internal Clock
+      Extra: Start bit detection: Falling Edge
+      Extra: Noise Filter: Disable
+      Extra: Receive FIFO Trigger Level: Max
+      Extra: RS-485: DE Pin: Disable
+      Extra: RS-485: DE Pin Polarity: Active High
+      Extra: RS-485: DE Pin Assertion Time: 1
+      Extra: RS-485: DE Pin Negation Time: 1
+      Extra: TXI/TEI Synchronization Delay Cycles: 0
+      Interrupts: Callback: uart_console_callback
+      Interrupts: Receive Interrupt Priority: Priority 15
+      Interrupts: Transmit Data Empty Interrupt Priority: Priority 15
+      Interrupts: Transmit End Interrupt Priority: Priority 15
+      Interrupts: Error Interrupt Priority: Priority 15
       

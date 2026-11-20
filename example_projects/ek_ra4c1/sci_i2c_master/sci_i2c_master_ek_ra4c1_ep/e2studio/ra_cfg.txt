@@ -53,7 +53,7 @@ FSP Configuration
     OFS Registers: OFS1 (Option Function Select Register 1) Settings: Voltage Detection 0 Level: 1.90 V
     OFS Registers: OFS1 (Option Function Select Register 1) Settings: HOCO Oscillation Enable: HOCO oscillation is disabled after reset
     OFS Registers: BANKSEL (Bank Select Register) Settings: Disabled
-    OFS Registers: BANKSEL (Bank Select Register) Settings: Bank Swap Switch: Disabled
+    OFS Registers: BANKSEL (Bank Select Register) Settings: Startup Bank Switch: Disabled
     OFS Registers: BANKSEL (Bank Select Register) Settings: Block Swap Select: Disabled
     OFS Registers: BPS (Block Protect Setting Register) Settings: Disabled
     OFS Registers: BPS (Block Protect Setting Register) Settings: BPS0: 
@@ -66,7 +66,7 @@ FSP Configuration
     OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: Voltage Detection 0 Level: 1.90 V
     OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: HOCO Oscillation Enable: HOCO oscillation is disabled after reset
     OFS Registers: BANKSEL_SEC (Bank Select Register Secure) Settings: Disabled
-    OFS Registers: BANKSEL_SEC (Bank Select Register Secure) Settings: Bank Swap Switch: Disabled
+    OFS Registers: BANKSEL_SEC (Bank Select Register Secure) Settings: Startup Bank Switch: Disabled
     OFS Registers: BANKSEL_SEC (Bank Select Register Secure) Settings: Block Swap Select: Disabled
     OFS Registers: BPS_SEC (Block Protect Setting Register Secure) Settings: Disabled
     OFS Registers: BPS_SEC (Block Protect Setting Register Secure) Settings: BPS_SEC0: 
@@ -74,19 +74,19 @@ FSP Configuration
     OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: Disabled
     OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: PBPS_SEC0: 
     OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: PBPS_SEC2: 
-    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: Enabled
-    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: Voltage Detection 0 Level Security Attribution: VDSEL setting loads from OFS1_SEC
-    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: Voltage Detection 0 Circuit Start Security Attribution: LVDAS setting loads from OFS1_SEC
-    OFS Registers: BANKSEL_SEL (Banksel Register Select) Settings: Disabled
-    OFS Registers: BANKSEL_SEL (Banksel Register Select) Settings: Flash Bank Select Accessibility: Both Secure and Non-Secure State
-    OFS Registers: BPS_SEL (BPS Register Select) Settings: Disabled
-    OFS Registers: BPS_SEL (BPS Register Select) Settings: BPS_SEL0: 
-    OFS Registers: BPS_SEL (BPS Register Select) Settings: BPS_SEL2: 
+    OFS Registers: OFS1_SEL (OFS1 Security Attribution) Settings: Enabled
+    OFS Registers: OFS1_SEL (OFS1 Security Attribution) Settings: Voltage Detection 0 Level Security Attribution: VDSEL setting loads from OFS1_SEC
+    OFS Registers: OFS1_SEL (OFS1 Security Attribution) Settings: Voltage Detection 0 Circuit Start Security Attribution: LVDAS setting loads from OFS1_SEC
+    OFS Registers: BANKSEL_SEL (Banksel Security Attribution) Settings: Disabled
+    OFS Registers: BANKSEL_SEL (Banksel Security Attribution) Settings: Flash Bank Select Accessibility: Non-Secure State
+    OFS Registers: BPS_SEL (BPS Security Attribution) Settings: Disabled
+    OFS Registers: BPS_SEL (BPS Security Attribution) Settings: BPS_SEL0: 
+    OFS Registers: BPS_SEL (BPS Security Attribution) Settings: BPS_SEL2: 
     
   RA4C1 event data
   RA Common
     Main stack size (bytes): 0x400
-    Heap size (bytes): 0x1000
+    Heap size (bytes): 0
     Bootloader Secondary XIP: Disabled
     MCU Vcc (mV): 3300
     Parameter checking: Disabled
@@ -171,8 +171,8 @@ FSP Configuration
       P305 43 - SLCD_SEG20_PMOD2_P8_RST - - Disabled - - "GPT_OPS: GTOWUP; IRQ8: IRQ8; SLCDC: SEG20; UARTA0: RxDA0" - None - - 
       P306 42 - SLCD_SEG19 - - Disabled - - "GPT_OPS: GTOULO; SLCDC: SEG19; UARTA0: TxDA0" - None - - 
       P307 41 - SLCD_SEG18 - - Disabled - - "GPT_OPS: GTOUUP; SLCDC: SEG18" - None - - 
-      P400 1 IIC1_SCL1 IIC_SYSTEM_SCL - None "Peripheral mode" - - "AGT1: AGTIO1; GPT2: GTIOC2A; GPT_POEGB: GTETRGB; IIC1: SCL1; IRQ0: IRQ0; SCI1: TXD1; SLCDC: SEG4" - IO - - 
-      P401 2 IIC1_SDA1 IIC_SYSTEM_SDA - None "Peripheral mode" - - "CANFD0: CRX0; GPT2: GTIOC2B; GPT_POEGA: GTETRGA; IIC1: SDA1; IRQ5: IRQ5; SCI1: RXD1; SLCDC: SEG5" - IO - - 
+      P400 1 - IIC_SYSTEM_SCL - - Disabled - - "AGT1: AGTIO1; GPT2: GTIOC2A; GPT_POEGB: GTETRGB; IIC1: SCL1; IRQ0: IRQ0; SCI1: TXD1; SLCDC: SEG4" - None - - 
+      P401 2 - IIC_SYSTEM_SDA - - Disabled - - "CANFD0: CRX0; GPT2: GTIOC2B; GPT_POEGA: GTETRGA; IIC1: SDA1; IRQ5: IRQ5; SCI1: RXD1; SLCDC: SEG5" - None - - 
       P402 3 - SLCD_SEG6_PMOD1_P8_RST - - Disabled - - "AGT0: AGTIO0; AGT1: AGTIO1; CAC: CACREF; CANFD0: CTX0; GPT_POEGC: GTETRGC; IRQ4: IRQ4; SCI1: CTS_RTS1; SLCDC: SEG6" - None - - 
       P403 4 - SLCDC_SEG7_ARDUINO_D2 - - Disabled - - "AGT0: AGTIO0; AGT1: AGTIO1; IRQ14: IRQ14; SCI1: SCK1; SLCDC: SEG7" - None - - 
       P404 5 GPIO USER_LED3_RED - - "Output mode (Initial Low)" - - "AGT0: AGTIO0; AGT1: AGTIO1; GPT1: GTIOC1B; IRQ15: IRQ15; SCI5: TXD5; SLCDC: SEG23" - IO - - 
@@ -272,8 +272,8 @@ FSP Configuration
       P305 43 - SLCD_SEG20_PMOD2_P8_RST - - Disabled - - "GPT_OPS: GTOWUP; IRQ8: IRQ8; SLCDC: SEG20; UARTA0: RxDA0" - None - - 
       P306 42 - SLCD_SEG19 - - Disabled - - "GPT_OPS: GTOULO; SLCDC: SEG19; UARTA0: TxDA0" - None - - 
       P307 41 - SLCD_SEG18 - - Disabled - - "GPT_OPS: GTOUUP; SLCDC: SEG18" - None - - 
-      P400 1 - IIC_SYSTEM_SCL - None Disabled - - "AGT1: AGTIO1; GPT2: GTIOC2A; GPT_POEGB: GTETRGB; IIC1: SCL1; IRQ0: IRQ0; SCI1: TXD1; SLCDC: SEG4" - IO - - 
-      P401 2 - IIC_SYSTEM_SDA - None Disabled - - "CANFD0: CRX0; GPT2: GTIOC2B; GPT_POEGA: GTETRGA; IIC1: SDA1; IRQ5: IRQ5; SCI1: RXD1; SLCDC: SEG5" - IO - - 
+      P400 1 - IIC_SYSTEM_SCL - - Disabled - - "AGT1: AGTIO1; GPT2: GTIOC2A; GPT_POEGB: GTETRGB; IIC1: SCL1; IRQ0: IRQ0; SCI1: TXD1; SLCDC: SEG4" - None - - 
+      P401 2 - IIC_SYSTEM_SDA - - Disabled - - "CANFD0: CRX0; GPT2: GTIOC2B; GPT_POEGA: GTETRGA; IIC1: SDA1; IRQ5: IRQ5; SCI1: RXD1; SLCDC: SEG5" - None - - 
       P402 3 - SLCD_SEG6_PMOD1_P8_RST - - Disabled - - "AGT0: AGTIO0; AGT1: AGTIO1; CAC: CACREF; CANFD0: CTX0; GPT_POEGC: GTETRGC; IRQ4: IRQ4; SCI1: CTS_RTS1; SLCDC: SEG6" - None - - 
       P403 4 - SLCDC_SEG7_ARDUINO_D2 - - Disabled - - "AGT0: AGTIO0; AGT1: AGTIO1; IRQ14: IRQ14; SCI1: SCK1; SLCDC: SEG7" - None - - 
       P404 5 - USER_LED3_RED - - Disabled - - "AGT0: AGTIO0; AGT1: AGTIO1; GPT1: GTIOC1B; IRQ15: IRQ15; SCI5: TXD5; SLCDC: SEG23" - IO - - 
@@ -331,9 +331,13 @@ FSP Configuration
   User Event Links
     
   Linker Section Mappings
+    *(.bss.*_fsp_nocache): RAM Zeroed (Uncached)
+    *(.bss.g_heap): RAM Uninitialized
+    *(.bss.g_main_stack): RAM Uninitialized
     
   Module "I/O Port (r_ioport)"
     Parameter Checking: Default (BSP)
+    CCD Support: Not Supported
     
   Module "I2C Master (r_sci_i2c)"
     Parameter Checking: Default (BSP)
@@ -346,6 +350,14 @@ FSP Configuration
     
   Module "External IRQ (r_icu)"
     Parameter Checking: Default (BSP)
+    
+  Module "UART (r_sci_uart)"
+    Parameter Checking: Default (BSP)
+    FIFO Support: Disable
+    DTC Support: Disable
+    Flow Control Support: Disable
+    RS-485 Support: Disable
+    IrDA Support: Disabled
     
   HAL
     Instance "g_ioport I/O Port (r_ioport)"
@@ -405,4 +417,33 @@ FSP Configuration
       Digital Filtering Sample Clock (Only valid when Digital Filtering is Enabled): PCLK / 64
       Callback: external_irq_callback
       Pin Interrupt Priority: Priority 12
+      
+    Instance "g_uart_console UART (r_sci_uart)"
+      General: Name: g_uart_console
+      General: Channel: 4
+      General: Data Bits: 8bits
+      General: Parity: None
+      General: Stop Bits: 1bit
+      Baud: Baud Rate: 115200
+      Baud: Baud Rate Modulation: Disabled
+      Baud: Max Error (%): 5
+      Flow Control: CTS/RTS Selection: Hardware RTS
+      Flow Control: Software RTS Port: Disabled
+      Flow Control: Software RTS Pin: Disabled
+      Extra: Clock Source: Internal Clock
+      Extra: Start bit detection: Falling Edge
+      Extra: Noise Filter: Disable
+      Extra: Receive FIFO Trigger Level: Max
+      Extra: IrDA: Enable: Disabled
+      Extra: IrDA: RXD Polarity Switching: Normal
+      Extra: IrDA: TXD Polarity Switching: Normal
+      Extra: RS-485: DE Pin: Disable
+      Extra: RS-485: DE Pin Polarity: Active High
+      Extra: RS-485: DE Port Number: Disabled
+      Extra: RS-485: DE Pin Number: Disabled
+      Interrupts: Callback: uart_console_callback
+      Interrupts: Receive Interrupt Priority: Priority 15
+      Interrupts: Transmit Data Empty Interrupt Priority: Priority 15
+      Interrupts: Transmit End Interrupt Priority: Priority 15
+      Interrupts: Error Interrupt Priority: Priority 15
       

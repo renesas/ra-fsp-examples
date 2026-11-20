@@ -236,17 +236,17 @@ FSP Configuration
     OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS14: 
     OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS15: 
     OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS16: 
-    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: ZHUK (Zerorization HUK Register) Settings: Disabled
-    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: ZHUK (Zerorization HUK Register) Settings: Configuration setting for RTCIC0: W-HUK zeroization by RTCIC0 tamper event is disabled
-    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: ZHUK (Zerorization HUK Register) Settings: Configuration setting for RTCIC1: W-HUK zeroization by RTCIC1 tamper event is disabled
-    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: ZHUK (Zerorization HUK Register) Settings: Configuration setting for RTCIC2: W-HUK zeroization by RTCIC2 tamper event is disabled
-    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: ZHUK (Zerorization HUK Register) Settings: Configuration setting for RTCIC3: W-HUK zeroization by RTCIC3 tamper event is disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Configuration setting for RTCIC0: W-HUK zeroization by RTCIC0 tamper event is disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Configuration setting for RTCIC1: W-HUK zeroization by RTCIC1 tamper event is disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Configuration setting for RTCIC2: W-HUK zeroization by RTCIC2 tamper event is disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Configuration setting for RTCIC3: W-HUK zeroization by RTCIC3 tamper event is disabled
     
   RA8M2 Core 0 Options
   RA8M2 event data
   RA Common
     Main stack size (bytes): 0x400
-    Heap size (bytes): 0x400
+    Heap size (bytes): 0
     Bootloader Secondary XIP: Disabled
     MCU Vcc (mV): 3300
     Parameter checking: Disabled
@@ -292,7 +292,7 @@ FSP Configuration
     BCLKA Div /6
     SDCLK Enabled
     EBCLK Src: BCLK (Synchronous)
-    EBCLK Div /2
+    EBCLK Disabled
     CLKOUT Src: HOCO
     CLKOUT Div /1
     SCICLK Src: PLL2R
@@ -530,8 +530,8 @@ FSP Configuration
       PD01 B16 - ARDUINO_D8 - - Disabled - - "ESWM_GMII/MII1: ET1_RXD6; GPT2: GTCPPO2; IRQ: IRQ22; SCI8: DE8; SCI8: SCK8; SDHI0: SD0DAT2" - None - - 
       PD02 B17 SCI8_TXD8 TRACE_TXD L None "Peripheral mode" - - "ESWM_GMII/MII1: ET1_RXD7; GPT1: GTCPPO1; IRQ: IRQ21; SCI8: TXD8; SDHI0: SD0DAT1" - O - - 
       PD03 C15 SCI8_RXD8 TRACE_RXD L None "Peripheral mode" - - "ESWM_GMII/MII0: ET0_RXD4; GPT3: GTIOC3B; IRQ: IRQ21; SCI8: RXD8; SDHI0: SD0DAT0; USB HS: USBHS_EXICEN" - I - - 
-      PD04 C14 SCI8_CTS_RTS8 TRACE_CTS_RTS L None "Peripheral mode" - - "ESWM_GMII/MII0: ET0_RXD5; GPT3: GTIOC3A; IRQ: IRQ20; SCI8: CTS_RTS8; SCI8: DE8; SDHI0: SD0CMD; USB HS: USBHS_ID" - IO - - 
-      PD05 C16 SCI8_CTS8 TRACE_CTS L None "Peripheral mode" - - "ESWM_GMII/MII0: ET0_RXD6; GPT2: GTIOC2B; IRQ: IRQ19; SCI8: CTS8; SDHI0: SD0CLK; USB HS: USBHS_OVRCURB" - I - - 
+      PD04 C14 - TRACE_CTS_RTS - - Disabled - - "ESWM_GMII/MII0: ET0_RXD5; GPT3: GTIOC3A; IRQ: IRQ20; SCI8: CTS_RTS8; SCI8: DE8; SDHI0: SD0CMD; USB HS: USBHS_ID" - None - - 
+      PD05 C16 - TRACE_CTS - - Disabled - - "ESWM_GMII/MII0: ET0_RXD6; GPT2: GTIOC2B; IRQ: IRQ19; SCI8: CTS8; SDHI0: SD0CLK; USB HS: USBHS_OVRCURB" - None - - 
       PD06 C17 - - - - Disabled - - "ESWM_GMII/MII0: ET0_RXD7; GPT2: GTIOC2A; IRQ: IRQ18; SDHI0: SD0WP; USB HS: USBHS_OVRCURA" - None - - 
       PD07 E15 GPIO USBHS_VBUS_SEL L - "Output mode (Initial Low)" - - "ESWM_GMII/MII0: ET0_TXD4; GPT0: GTCPPO0; IRQ: IRQ17; SDHI0: SD0CD; USB HS: USBHS_VBUSEN" - IO - - 
       RES D5 CGC_RES - - - - - - - - IO "Read only" - 
@@ -820,8 +820,8 @@ FSP Configuration
       PD01 B16 - ARDUINO_D8 - - Disabled - - "ESWM_GMII/MII1: ET1_RXD6; GPT2: GTCPPO2; IRQ: IRQ22; SCI8: DE8; SCI8: SCK8; SDHI0: SD0DAT2" - None - - 
       PD02 B17 - TRACE_TXD L None Disabled - - "ESWM_GMII/MII1: ET1_RXD7; GPT1: GTCPPO1; IRQ: IRQ21; SCI8: TXD8; SDHI0: SD0DAT1" - O - - 
       PD03 C15 - TRACE_RXD L None Disabled - - "ESWM_GMII/MII0: ET0_RXD4; GPT3: GTIOC3B; IRQ: IRQ21; SCI8: RXD8; SDHI0: SD0DAT0; USB HS: USBHS_EXICEN" - I - - 
-      PD04 C14 - TRACE_CTS_RTS L None Disabled - - "ESWM_GMII/MII0: ET0_RXD5; GPT3: GTIOC3A; IRQ: IRQ20; SCI8: CTS_RTS8; SCI8: DE8; SDHI0: SD0CMD; USB HS: USBHS_ID" - IO - - 
-      PD05 C16 - TRACE_CTS L None Disabled - - "ESWM_GMII/MII0: ET0_RXD6; GPT2: GTIOC2B; IRQ: IRQ19; SCI8: CTS8; SDHI0: SD0CLK; USB HS: USBHS_OVRCURB" - I - - 
+      PD04 C14 - TRACE_CTS_RTS - - Disabled - - "ESWM_GMII/MII0: ET0_RXD5; GPT3: GTIOC3A; IRQ: IRQ20; SCI8: CTS_RTS8; SCI8: DE8; SDHI0: SD0CMD; USB HS: USBHS_ID" - None - - 
+      PD05 C16 - TRACE_CTS - - Disabled - - "ESWM_GMII/MII0: ET0_RXD6; GPT2: GTIOC2B; IRQ: IRQ19; SCI8: CTS8; SDHI0: SD0CLK; USB HS: USBHS_OVRCURB" - None - - 
       PD06 C17 - - - - Disabled - - "ESWM_GMII/MII0: ET0_RXD7; GPT2: GTIOC2A; IRQ: IRQ18; SDHI0: SD0WP; USB HS: USBHS_OVRCURA" - None - - 
       PD07 E15 - USBHS_VBUS_SEL L - Disabled - - "ESWM_GMII/MII0: ET0_TXD4; GPT0: GTCPPO0; IRQ: IRQ17; SDHI0: SD0CD; USB HS: USBHS_VBUSEN" - IO - - 
       RES D5 CGC_RES - - - - - - - - IO "Read only" - 
@@ -908,6 +908,7 @@ FSP Configuration
   User Event Links
     
   Linker Section Mappings
+    *(.bss.*_fsp_nocache): RAM Zeroed (Uncached)
     *(.bss.g_heap): RAM Uninitialized
     *(.bss.g_main_stack): RAM Uninitialized
     
@@ -922,6 +923,12 @@ FSP Configuration
     
   Module "Transfer (r_dmac)"
     Parameter Checking: Default (BSP)
+    
+  Module "UART (r_sci_b_uart)"
+    Parameter Checking: Default (BSP)
+    FIFO Support: Disable
+    DTC Support: Disable
+    Flow Control Support: Disable
     
   HAL
     Instance "g_ioport I/O Port (r_ioport)"
@@ -946,6 +953,7 @@ FSP Configuration
       Bit Order: MSB First
       Callback: spi_master_callback
       SPI Mode: Clock Synchronous Operation
+      SPI burst transfer without delay between frames: Disable
       Communication Mode Select: Full Duplex
       Slave Select Polarity: Active Low
       Select SSL(Slave Select): SSL0
@@ -1006,6 +1014,7 @@ FSP Configuration
       Bit Order: MSB First
       Callback: spi_slave_callback
       SPI Mode: Clock Synchronous Operation
+      SPI burst transfer without delay between frames: Disable
       Communication Mode Select: Full Duplex
       Slave Select Polarity: Active Low
       Select SSL(Slave Select): SSL0
@@ -1052,3 +1061,30 @@ FSP Configuration
         Offset value (Valid only when address mode is Offset addition): 1
         Source Buffer Size: 1
         
+    Instance "g_uart_console UART (r_sci_b_uart)"
+      General: Name: g_uart_console
+      General: Channel: 8
+      General: Data Bits: 8bits
+      General: Parity: None
+      General: Stop Bits: 1bit
+      Baud: Baud Rate: 115200
+      Baud: Baud Rate Modulation: Disabled
+      Baud: Max Error (%): 5
+      Flow Control: CTS/RTS Selection: Hardware RTS
+      Flow Control: Software RTS Port: Disabled
+      Flow Control: Software RTS Pin: Disabled
+      Extra: Clock Source: Internal Clock
+      Extra: Start bit detection: Falling Edge
+      Extra: Noise Filter: Disable
+      Extra: Receive FIFO Trigger Level: Max
+      Extra: RS-485: DE Pin: Disable
+      Extra: RS-485: DE Pin Polarity: Active High
+      Extra: RS-485: DE Pin Assertion Time: 1
+      Extra: RS-485: DE Pin Negation Time: 1
+      Extra: TXI/TEI Synchronization Delay Cycles: 0
+      Interrupts: Callback: uart_console_callback
+      Interrupts: Receive Interrupt Priority: Priority 15
+      Interrupts: Transmit Data Empty Interrupt Priority: Priority 15
+      Interrupts: Transmit End Interrupt Priority: Priority 15
+      Interrupts: Error Interrupt Priority: Priority 15
+      

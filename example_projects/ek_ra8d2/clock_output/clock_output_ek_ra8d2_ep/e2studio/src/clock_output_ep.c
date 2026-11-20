@@ -1,178 +1,24 @@
 /***********************************************************************************************************************
  * File Name    : clock_output_ep.c
- * Description  : Contains data structures and functions.
+ * Description  : Contains data structures and functions used in clock_output_ep.c.
  **********************************************************************************************************************/
 /***********************************************************************************************************************
-* Copyright (c) 2024 - 2026 Renesas Electronics Corporation and/or its affiliates
-*
-* SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
+ * Copyright (c) 2024 - 2026 Renesas Electronics Corporation and/or its affiliates
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ **********************************************************************************************************************/
 
-#include "common_utils.h"
 #include "clock_output_ep.h"
-#include "bsp_clocks.h"
-#include "bsp_common.h"
 
-#if (USE_VIRTUAL_COM == 1)
-extern bsp_leds_t g_bsp_leds;
-#endif /* USE_VIRTUAL_COM */
-
-/* The buffer contains user input */
-char g_rx_buffer [TERM_BUFFER_SIZE] = {RESET_VALUE};
-
-/* Private function declarations */
-static void start_main_clock(void);
-static void start_sub_clock(void);
-static void stop_all_clocks(void);
-static void clock_output_operation(void);
-static uint8_t get_user_input(void);
-
-/***********************************************************************************************************************
- *  Function Name: clock_output_ep_entry.
- *  Description  : This function starts the clock output example operation.
- *  Arguments    : None.
- *  Return Value : None.
- **********************************************************************************************************************/
-void clock_output_ep_entry(void)
-{
-    fsp_pack_version_t version = {RESET_VALUE};
-
-    /* Version get API for FLEX pack information */
-    R_FSP_VersionGet(&version);
-
-#if (USE_VIRTUAL_COM == 1)
-    fsp_err_t err = FSP_SUCCESS;
-
-    /* Turn OFF error LED */
-    R_IOPORT_PinWrite(&g_ioport_ctrl, g_bsp_leds.p_leds[ERR_LED], (bsp_io_level_t)BSP_IO_LEVEL_LOW);
-
-    /* Initialize UART module first to print log to serial terminal */
-    err = serial_init();
-    if (FSP_SUCCESS != err)
-    {
-        /* Turn ON error LED to indicate uart_init failed */
-        R_IOPORT_PinWrite(&g_ioport_ctrl, g_bsp_leds.p_leds[ERR_LED], (bsp_io_level_t)BSP_IO_LEVEL_HIGH);
-
-        /* Error trap */
-        __asm("BKPT #0\n");
-    }
-#endif /* USE_VIRTUAL_COM */
-
-    /* Print the EP banner on the RTT Viewer */
-    APP_PRINT(BANNER_INFO, EP_VERSION, version.version_id_b.major, version.version_id_b.minor,\
-              version.version_id_b.patch);
-
-    /* Print the EP information on the RTT Viewer */
-    APP_PRINT(EP_INFO);
-
-    while (true)
-    {
-        /* Print the EP message to indicate user about application status */
-        APP_PRINT("\r\nEnter your test option from Terminal Application\r\n");
-
-        /* Print EP menu for user selection */
-        APP_PRINT(MENU);
-
-        /* Perform clock output operation */
-        clock_output_operation();
-    }
-}
-/***********************************************************************************************************************
-* End of function clock_output_ep_entry
-***********************************************************************************************************************/
-
-/***********************************************************************************************************************
- * Function Name: clock_output_operation.
- * Description  : This function performs clock output operation on user input.
- * Arguments    : None.
- * Return value : None.
- **********************************************************************************************************************/
-static void clock_output_operation(void)
-{
-    uint8_t user_input = RESET_VALUE;
-
-    /* Get user input */
-    user_input = get_user_input();
-
-    /* Configure clock output pin as peripheral clock out pin */
-    R_IOPORT_PinCfg(&g_ioport_ctrl, CLKOUT_PIN, IOPORT_CFG_PERIPHERAL_PIN | \
-                    (uint32_t) IOPORT_PERIPHERAL_CLKOUT_COMP_RTC);
-
-    /* Perform operation on user input */
-    switch (user_input)
-    {
-        case START_MAIN_CLOCK:
-        {
-            start_main_clock();
-            break;
-        }
-
-        case START_SUB_CLOCK:
-        {
-            start_sub_clock();
-            break;
-        }
-
-        case STOP_ALL_CLOCKS:
-        {
-            stop_all_clocks();
-            break;
-        }
-
-        default:
-        {
-            APP_PRINT("\r\n\r\nInvalid Input!!!");
-            APP_PRINT("\r\nPlease provide input from below option\r\n");
-            break;
-        }
-    }
-}
-/***********************************************************************************************************************
-* End of function clock_output_operation
-***********************************************************************************************************************/
-
-/***********************************************************************************************************************
- * Function Name: get_user_input.
- * Description  : This function is called to get user input from Terminal Application.
- * Arguments    : None.
- * Return value : input_value   Return input value after receive enter key.
- **********************************************************************************************************************/
-static uint8_t get_user_input(void)
-{
-    uint8_t input_value = RESET_VALUE;
-    char    user_input[TERM_BUFFER_SIZE + 1];
-
-    /* Clean buffer */
-    memset(&user_input[0], NULL_CHAR, sizeof(user_input));
-
-    /* Wait until there is any user input */
-    while (!APP_CHECK_DATA)
-    {
-        __NOP();
-    }
-
-    /* Read user input from the terminal */
-    APP_READ(&user_input[0], TERM_BUFFER_SIZE);
-
-    /* Convert to integer value */
-    input_value = (uint8_t)atoi((char*) &user_input[0]);
-
-    return input_value;
-}
-/***********************************************************************************************************************
-* End of function get_user_input
-***********************************************************************************************************************/
-
+#if !(defined (BOARD_RA6E2_FPB) || defined (BOARD_RA4E2_FPB))
 /***********************************************************************************************************************
  * Function Name: start_main_clock.
- * Description  : This function performs main clock operation.
+ * Description  : This function performs Main clock operation.
  * Arguments    : None.
- * Return value : None.
+ * Return Value : None.
  **********************************************************************************************************************/
-static void start_main_clock(void)
+void start_main_clock(void)
 {
-    APP_PRINT("\r\n\r\n** Start Main Clock Output **\r\n");
-
     /* Unlock protect register */
     R_SYSTEM->PRCR = (uint16_t) PRV_PRCR_UNLOCK;
 
@@ -184,43 +30,31 @@ static void start_main_clock(void)
 
     /* Select Main clock in Clock Out Control Register */
 #if defined (BOARD_RA8M1_EK) || defined (BOARD_RA8D1_EK)
-    R_SYSTEM->CKOCR = (R_SYSTEM->CKOCR & (uint8_t) ~R_SYSTEM_CKOCR_CKOSEL_Msk)
-    | (BSP_CLOCKS_SOURCE_CLOCK_MAIN_OSC << R_SYSTEM_CKOCR_CKOSEL_Pos);
+    R_SYSTEM->CKOCR = (R_SYSTEM->CKOCR & (uint8_t) ~R_SYSTEM_CKOCR_CKOSEL_MSK)
+    | (BSP_CLOCKS_SOURCE_CLOCK_MAIN_OSC << R_SYSTEM_CKOCR_CKOSEL_POS);
 #else
     R_SYSTEM->CKOCR_b.CKOSEL = BSP_CLOCKS_SOURCE_CLOCK_MAIN_OSC;
-#endif
+#endif /* BOARD_RA8M1_EK, BOARD_RA8D1_EK */
 
     /* Clock out enable */
     R_SYSTEM->CKOCR_b.CKOEN = 0x1;
 
     /* Lock protect register */
     R_SYSTEM->PRCR = (uint16_t) PRV_PRCR_LOCK;
-
-#if (GPT_MEASURE_CLKOUT == 1)
-    fsp_err_t err = FSP_SUCCESS;
-
-    /* Perform GPT capture operation */
-    err = gpt_capture_operation();
-
-    /* Handle error */
-    APP_ERR_HANDLE(err, "\r\ngpt_capture_operation failed!!!\r\n");
-
-#endif /* GPT_MEASURE_CLKOUT */
 }
 /***********************************************************************************************************************
 * End of function start_main_clock
 ***********************************************************************************************************************/
+#endif /* BOARD_RA6E2_FPB, BOARD_RA4E2_FPB */
 
 /***********************************************************************************************************************
  * Function Name: start_sub_clock.
- * Description  : This function performs Sub clock operation.
+ * Description  : This function performs Sub-clock operation.
  * Arguments    : None.
- * Return value : None.
+ * Return Value : None.
  **********************************************************************************************************************/
-static void start_sub_clock(void)
+void start_sub_clock(void)
 {
-    APP_PRINT("\r\n\r\n** Start Sub-Clock Output **\r\n");
-
     /* Unlock protect register */
     R_SYSTEM->PRCR = (uint16_t) PRV_PRCR_UNLOCK;
 
@@ -232,28 +66,17 @@ static void start_sub_clock(void)
 
     /* Select Sub-clock in Clock Out Control Register */
 #if defined (BOARD_RA8M1_EK) || defined (BOARD_RA8D1_EK)
-    R_SYSTEM->CKOCR = (R_SYSTEM->CKOCR & (uint8_t) ~R_SYSTEM_CKOCR_CKOSEL_Msk)
-    | (BSP_CLOCKS_SOURCE_CLOCK_SUBCLOCK << R_SYSTEM_CKOCR_CKOSEL_Pos);
+    R_SYSTEM->CKOCR = (R_SYSTEM->CKOCR & (uint8_t) ~R_SYSTEM_CKOCR_CKOSEL_MSK)
+    | (BSP_CLOCKS_SOURCE_CLOCK_SUBCLOCK << R_SYSTEM_CKOCR_CKOSEL_POS);
 #else
     R_SYSTEM->CKOCR_b.CKOSEL = BSP_CLOCKS_SOURCE_CLOCK_SUBCLOCK;
-#endif
+#endif /* BOARD_RA8M1_EK, BOARD_RA8D1_EK */
 
     /* Clock out enable */
     R_SYSTEM->CKOCR_b.CKOEN = 0x1;
 
     /* Lock protect register */
     R_SYSTEM->PRCR = (uint16_t) PRV_PRCR_LOCK;
-
-#if (GPT_MEASURE_CLKOUT == 1)
-    fsp_err_t err = FSP_SUCCESS;
-
-    /* Perform GPT capture operation */
-    err = gpt_capture_operation();
-
-    /* Handle error */
-    APP_ERR_HANDLE(err, "\r\ngpt_capture_operation failed!!!\r\n");
-
-#endif /* GPT_MEASURE_CLKOUT */
 }
 /***********************************************************************************************************************
 * End of function start_sub_clock
@@ -263,12 +86,10 @@ static void start_sub_clock(void)
  * Function Name: stop_all_clocks.
  * Description  : This function stops all clocks.
  * Arguments    : None.
- * Return value : None.
+ * Return Value : None.
  **********************************************************************************************************************/
-static void stop_all_clocks(void)
+void stop_all_clocks(void)
 {
-    APP_PRINT("\r\n\r\n** Stop all Clocks Output **\r\n");
-
     /* Unlock protect register */
     R_SYSTEM->PRCR = (uint16_t) PRV_PRCR_UNLOCK;
 

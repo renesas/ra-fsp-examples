@@ -7,17 +7,22 @@
 	The example project demonstrates the typical use of the SCI I2C Master HAL module APIs. The project initializes
 	SCI I2C Master module with the standard rate and interfaces with Pmod ACL for ADXL345. On power up, after
 	establishing connection of the sensor with the RA board, the RA MCU will read axis acceleration from the sensor
-	and display it on the RTT Viewer every time new data is detected by an external interrupt.
+	and display it on the terminal every time new data is detected by an external interrupt.
 
 2. Hardware Requirements:
+	Supported RA boards: CK-RA6M5, EK-RA2E2, EK-RA2L2, EK-RA4C1, EK-RA4E2, EK-RA4L1, EK-RA6E2, EK-RA8D2,
+	                     EK-RA8E2, EK-RA8M2, EK-RA8P1, FPB-RA2T1, FPB-RA8E1, MCK-RA4T1, MCK-RA6T3,
+	                     MCK-RA8T1, MCK-RA8T2, FPB-RA4E2, FPB-RA6E2.
 	1 x Renesas RA board.
 	1 x Pmod ACL (e.g., https://digilent.com/reference/pmod/pmodacl/start).
-	1 x Type-C USB cable for programming and debugging.
+	1 x USB cable for programming and debugging (USB cable type varies by board model).
 	2 x Resistors (from 1k to 4.7k ohms).
 	Some jumper wires.
 
 3. Hardware Connections:
-	Connect the USB Debug port on the RA board to the host PC via a Type-C USB cable.
+	Connect the RA board USB debug port to the host PC using the appropriate USB cable for EP programming
+	and debugging.
+
 	Connect the Pmod ACL to the RA board according to the instructions below for each board type:
 	For Pmod ACL:
 	-------- 
@@ -31,7 +36,7 @@
 		SDA3 P707  ----> SDA  (on Pmod ACL J2 - Pin 2/6)
 		GND pin    ----> GND  (on Pmod ACL J2 - Pin 3/7)
 		VCC pin    ----> VCC  (on Pmod ACL J2 - Pin 4/8)
-	
+
 	For EK-RA2E2:
 	--------
 		IRQ4 P102  ----> INT1 (on Pmod ACL J1 - Pin 8)
@@ -39,7 +44,7 @@
 		SDA9 P101  ----> SDA  (on Pmod ACL J2 - Pin 2/6)
 		GND pin    ----> GND  (on Pmod ACL J2 - Pin 3/7)
 		VCC pin    ----> VCC  (on Pmod ACL J2 - Pin 4/8)
-	
+
 	For EK-RA4E2, EK-RA6E2:
 	--------
 		IRQ6 P409  ----> INT1 (on Pmod ACL J1 - Pin 8)
@@ -47,7 +52,7 @@
 		SDA0 P411  ----> SDA  (on Pmod ACL J2 - Pin 2/6)
 		GND pin    ----> GND  (on Pmod ACL J2 - Pin 3/7)
 		VCC pin    ----> VCC  (on Pmod ACL J2 - Pin 4/8)
-	
+
 	For MCK-RA4T1, MCK-RA6T3:
 	--------
 		IRQ6 P301  ----> INT1 (on Pmod ACL J1 - Pin 8)
@@ -55,7 +60,7 @@
 		SDA9 P109  ----> SDA  (on Pmod ACL J2 - Pin 2/6)
 		GND pin    ----> GND  (on Pmod ACL J2 - Pin 3/7)
 		VCC pin    ----> VCC  (on Pmod ACL J2 - Pin 4/8)
-	
+
 	For MCK-RA8T1:
 	--------
 		IRQ2 P100 (CN2:7)   ----> INT1 (on Pmod ACL J1 - Pin 8)
@@ -80,7 +85,7 @@
 		GND pin   (J3:25)  ----> GND  (on Pmod ACL J2 - Pin 3/7)
 		VCC pin   (J3:1)   ----> VCC  (on Pmod ACL J2 - Pin 4/8)
 
-	For FPB-RA2L2:
+	For EK-RA2L2:
 	--------
 		IRQ3 P004 (J1:3)   ----> INT1 (on Pmod ACL J1 - Pin 8) 
 		SCL0 P100 (J2:39)  ----> SCL  (on Pmod ACL J2 - Pin 1/5)
@@ -96,7 +101,7 @@
 		GND pin   (J2:39)  ----> GND  (on Pmod ACL J2 - Pin 3/7)
 		VCC pin   (J2:1)   ----> VCC  (on Pmod ACL J2 - Pin 4/8)
 
-	For EK-RA8P1:
+	For EK-RA8P1, EK-RA8D2:
 	--------
 		IRQ15 P012 (J2:25) ----> INT1 (on Pmod ACL J1 - Pin 8)
 		SCL0  P602 (J4:8)  ----> SCL  (on Pmod ACL J2 - Pin 1/5)
@@ -130,22 +135,49 @@
 		GND pin    (CN1:25) ----> GND  (on Pmod ACL J2 - Pin 3/7)
 		VCC pin    (CN1:23) ----> VCC  (on Pmod ACL J2 - Pin 4/8)
 
+	For EK-RA8M2:
+	--------
+		The user must place jumper J6 on pins 2-3, J8 on pins 1-2, J9 on pins 2-3, and J29 on pins 1-2,
+		3-4, 5-6, 7-8 to use the on-board debug functionality.
+		IRQ0  P806 (J4:12)  ----> INT1 (on Pmod ACL J1 - Pin 8)
+		SCL0  P602 (J3:40)  ----> SCL  (on Pmod ACL J2 - Pin 1/5)
+		SDA0  P603 (J37:3)  ----> SDA  (on Pmod ACL J2 - Pin 2/6)
+		GND pin    (J3:39)  ----> GND  (on Pmod ACL J2 - Pin 3/7)
+		VCC pin    (J3:1)   ----> VCC  (on Pmod ACL J2 - Pin 4/8)
+
+	For FPB-RA4E2, FPB-RA6E2:
+	--------
+		IRQ4 P111 (J4:4)   ----> INT1 (on Pmod ACL J1 - Pin 8)
+		SCL9 P110 (J4:3)   ----> SCL  (on Pmod ACL J2 - Pin 1/5)
+		SDA9 P109 (J4:2)   ----> SDA  (on Pmod ACL J2 - Pin 2/6)
+		GND pin   (J4:8)   ----> GND  (on Pmod ACL J2 - Pin 3/7)
+		VCC pin   (J4:7)   ----> VCC  (on Pmod ACL J2 - Pin 4/8)
+
 Note:
 1) For the functioning of the SCI I2C Master:
    a. SDA pin and SCL pin must configure output type as n-ch open drain.
+   
    b. SDA pin and SCL pin must be connected to external pull-up resistors.
+   
    c. The value of the external pull-up resistor depends on the I2C bus speed. In this EP, the I2C bus
       is configured at standard speed, so the recommended external pull-up resistor value is from 1k to 4.7k ohms.
 
-2) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
-   RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x2200046c
-   b. Keil: 	Not Available
-   c. IAR: 	Not Available
+2) To view output logs on a serial terminal application (e.g., Tera Term), configure the settings as shown below:
+	a. To make sure the received data shows properly, the user needs to set:
+		[Setup] -> [Terminal...] -> [New-line] -> Select [Receive: CR] & [Transmit: CR].
 
-3) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT)
-   in .map file generated in the project folder (e2studio\Debug or e2studio\Release).
+	b. To echo back characters typed in Tera Term, the user needs to enable it through:
+		[Setup] -> [Terminal...] -> Check [Local echo].
 
-4) For GCC ARM Embedded Toolchain: To enable printing floats to the RTT Viewer, edit the project settings and ensure that
-   "Use float with nano printf" is enabled. The setting can be found by:
-   Properties > C/C++ Build > Settings > Tool Settings > GNU Arm Cross C Linker > Miscellaneous > Use float with nano printf
+	c. The configuration parameters of the serial port on the serial terminal application:
+		Port: The port is provided by the J-Link On-Board.
+		Speed: 115200
+		Data: 8 bit
+		Parity: none
+		Stop bits: 1 bit
+		Flow control: none
+
+3) For GCC ARM Embedded Toolchain: To enable printing floats to the terminal, edit the project settings and
+   ensure that "Use float with nano printf" is enabled. The setting can be found by:
+   Properties > C/C++ Build > Settings > Tool Settings > GNU Arm Cross C Linker > Miscellaneous >
+   Use float with nano printf

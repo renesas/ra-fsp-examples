@@ -238,11 +238,11 @@ FSP Configuration
     OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS14: 
     OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS15: 
     OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS16: 
-    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: ZHUK (Zerorization HUK Register) Settings: Disabled
-    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: ZHUK (Zerorization HUK Register) Settings: Configuration setting for RTCIC0: W-HUK zeroization by RTCIC0 tamper event is disabled
-    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: ZHUK (Zerorization HUK Register) Settings: Configuration setting for RTCIC1: W-HUK zeroization by RTCIC1 tamper event is disabled
-    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: ZHUK (Zerorization HUK Register) Settings: Configuration setting for RTCIC2: W-HUK zeroization by RTCIC2 tamper event is disabled
-    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: ZHUK (Zerorization HUK Register) Settings: Configuration setting for RTCIC3: W-HUK zeroization by RTCIC3 tamper event is disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Configuration setting for RTCIC0: W-HUK zeroization by RTCIC0 tamper event is disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Configuration setting for RTCIC1: W-HUK zeroization by RTCIC1 tamper event is disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Configuration setting for RTCIC2: W-HUK zeroization by RTCIC2 tamper event is disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Configuration setting for RTCIC3: W-HUK zeroization by RTCIC3 tamper event is disabled
     
   RA8P1 Core 0 Options
   RA8P1 event data
@@ -295,7 +295,7 @@ FSP Configuration
     BCLKA Div /6
     SDCLK Enabled
     EBCLK Src: BCLK (Synchronous)
-    EBCLK Div /2
+    EBCLK Disabled
     CLKOUT Src: HOCO
     CLKOUT Div /1
     SCICLK Src: PLL2R
@@ -913,6 +913,7 @@ FSP Configuration
   User Event Links
     
   Linker Section Mappings
+    *(.bss.*_fsp_nocache): RAM Zeroed (Uncached)
     *(.bss.g_heap): RAM Uninitialized
     *(.bss.g_main_stack): RAM Uninitialized
     
@@ -1012,6 +1013,7 @@ FSP Configuration
     Common: Checksum computation support on transmitted ICMPv6 packets: Enabled (default)
     Common: Checksum computation support on transmitted ICMP packets: Enabled (default)
     Common: Packet Alignment: 
+    Common: Dual Packet Pool Configuration: Disabled (default)
     Common: Random Number Generator: rand
     Common: Seed Random Number Generator: srand
     DHCP: Common: IPv4: Type of Service for UDP requests: Normal
@@ -1382,6 +1384,7 @@ FSP Configuration
     Common: Checksum computation support on transmitted ICMPv6 packets: Enabled (default)
     Common: Checksum computation support on transmitted ICMP packets: Enabled (default)
     Common: Packet Alignment: 
+    Common: Dual Packet Pool Configuration: Disabled (default)
     Common: Random Number Generator: rand
     Common: Seed Random Number Generator: srand
     DHCP: Common: IPv4: Type of Service for UDP requests: Normal
@@ -1752,6 +1755,7 @@ FSP Configuration
     Common: Checksum computation support on transmitted ICMPv6 packets: Enabled (default)
     Common: Checksum computation support on transmitted ICMP packets: Enabled (default)
     Common: Packet Alignment: 
+    Common: Dual Packet Pool Configuration: Disabled (default)
     Common: Random Number Generator: rand
     Common: Seed Random Number Generator: srand
     DHCP: Common: IPv4: Type of Service for UDP requests: Normal
@@ -2035,6 +2039,7 @@ FSP Configuration
     
   Module "Ethernet MAC (r_rmac)"
     Parameter Checking: Default (BSP)
+    Read Buffer Size Checking: Disabled
     
   Module "Switch (r_layer3_switch)"
     Parameter Checking: Default (BSP)
@@ -2134,6 +2139,7 @@ FSP Configuration
     Common: Checksum computation support on transmitted ICMPv6 packets: Enabled (default)
     Common: Checksum computation support on transmitted ICMP packets: Enabled (default)
     Common: Packet Alignment: 
+    Common: Dual Packet Pool Configuration: Disabled (default)
     Common: Random Number Generator: rand
     Common: Seed Random Number Generator: srand
     DHCP: Common: IPv4: Type of Service for UDP requests: Normal
@@ -2419,6 +2425,7 @@ FSP Configuration
     DP83620 Target: Disabled
     ICS1894 Target: Disabled
     GPY111 Target: Disabled
+    VSC8541 Target: Disabled
     User Own Target: Disabled
     Reference Clock: Default
     
@@ -2429,13 +2436,20 @@ FSP Configuration
     DP83620 Target: Disabled
     ICS1894 Target: Disabled
     GPY111 Target: Disabled
+    VSC8541 Target: Disabled
     User Own Target: Disabled
     Reference Clock: Default
+    
+  Module "UART (r_sci_b_uart)"
+    Parameter Checking: Default (BSP)
+    FIFO Support: Disable
+    DTC Support: Disable
+    Flow Control Support: Disable
     
   Azure RTOS ThreadX
     General: Custom tx_user.h: 
     General: Error Checking: Enabled
-    Timer: Timer Ticks Per Second: 100
+    Timer: Timer Ticks Per Second: 1000
     General: Max Priorities: 32
     General: Minimum Stack: 200
     Timer: Timer Thread Stack Size: 1024
@@ -2477,6 +2491,33 @@ FSP Configuration
       4th Port ELC Trigger Source: Disabled
       Pin Configuration Name: g_bsp_pin_cfg
       
+    Instance "g_uart_console UART (r_sci_b_uart)"
+      General: Name: g_uart_console
+      General: Channel: 8
+      General: Data Bits: 8bits
+      General: Parity: None
+      General: Stop Bits: 1bit
+      Baud: Baud Rate: 115200
+      Baud: Baud Rate Modulation: Disabled
+      Baud: Max Error (%): 5
+      Flow Control: CTS/RTS Selection: Hardware RTS
+      Flow Control: Software RTS Port: Disabled
+      Flow Control: Software RTS Pin: Disabled
+      Extra: Clock Source: Internal Clock
+      Extra: Start bit detection: Falling Edge
+      Extra: Noise Filter: Disable
+      Extra: Receive FIFO Trigger Level: Max
+      Extra: RS-485: DE Pin: Disable
+      Extra: RS-485: DE Pin Polarity: Active High
+      Extra: RS-485: DE Pin Assertion Time: 1
+      Extra: RS-485: DE Pin Negation Time: 1
+      Extra: TXI/TEI Synchronization Delay Cycles: 0
+      Interrupts: Callback: uart_console_callback
+      Interrupts: Receive Interrupt Priority: Priority 15
+      Interrupts: Transmit Data Empty Interrupt Priority: Priority 15
+      Interrupts: Transmit End Interrupt Priority: Priority 15
+      Interrupts: Error Interrupt Priority: Priority 15
+      
   Thread "DHCPv6 Thread"
     Symbol: dhcpv6_thread
     Name: DHCPv6 Thread
@@ -2500,6 +2541,10 @@ FSP Configuration
         IP Helper Thread Priority: 3
         ARP cache storage units: Bytes
             ARP cache size (in storage units): 520
+        Extended Network Interface: IPv4 Address: 192.168.10.2
+        Extended Network Interface: Subnet Mask: 255.255.255.0
+        Extended Network Interface: IPv6 Global Address: 2001:0:0:0:0:0:0:2
+        Extended Network Interface: IPv6 Link Local Address (All zeros means use MAC address): 0:0:0:0:0:0:0:0
         
         Instance "g_packet_pool0 Azure RTOS NetX Duo Packet Pool Instance"
           Name: g_packet_pool0
@@ -2533,6 +2578,10 @@ FSP Configuration
             Buffers: Allocate RX buffer: Disable
             Buffers: Number of node num: 24
             Timestamp: TS queue length: 8
+            Forwarding: Transmission descriptor format: Transmission direct descriptor
+            Forwarding: Port based forwarding for reception: Disabled
+            Link: Link monitored ports: 
+            Link: Link Detection: Default port (same as Channel)
             
             Instance "g_layer3_switch0 Switch (r_layer3_switch)"
               Name: g_layer3_switch0
@@ -2540,8 +2589,14 @@ FSP Configuration
               Context: NULL
               Callback: NULL
               Interrupts: Interrupt priority: Priority 12
-              Ports: Port 0: Fowarding: CPU
-              Ports: Port 1: Fowarding: CPU
+              Ports: Port 0: Forwarding: CPU
+              Ports: Port 1: Forwarding: CPU
+              Ports: CPU: Forwarding: 
+              Ports: Port 0: IPV queues for preemptable frames: 
+              Ports: Port 1: IPV queues for preemptable frames: 
+              Ts Description Length: 8
+              Ports: Port 0: Minimum fragment size of preemptable frames: 64 bytes
+              Ports: Port 1: Minimum fragment size of preemptable frames: 64 bytes
               Ports: Port 0: MAC address: 00:11:22:33:44:66
               Ports: Port 1: MAC address: 00:11:22:33:44:66
               Ports: Port 0: IPV queue depth: Queue 0: 64
@@ -2615,6 +2670,12 @@ FSP Configuration
                 MDC clock rate (Hz): 2500000
                 MDIO hold timing adjustment: 0
                 MDIO capture timing adjustment: 0
+                Frame preemption: Disable
+                Verify frame interval: 10
+                Interrupts: Context: NULL
+                Interrupts: Callback: NULL
+                Interrupts: ETHA0 status interrupt priority: Disabled
+                Interrupts: ETHA1 status interrupt priority: Disabled
                 
                 Instance "g_rmac_phy_lsi1 Ethernet PHY-LSI"
                   Name: g_rmac_phy_lsi1
@@ -2627,9 +2688,9 @@ FSP Configuration
         Packet Size (bytes): 1568
         Number of Packets in Pool: 16
         
-  Thread "RTT_Thread"
-    Symbol: rtt_thread
-    Name: RTT_Thread
+  Thread "Terminal Thread"
+    Symbol: terminal_thread
+    Name: Terminal Thread
     Stack size (bytes): 1024
     Priority: 3
     Auto start: Enabled

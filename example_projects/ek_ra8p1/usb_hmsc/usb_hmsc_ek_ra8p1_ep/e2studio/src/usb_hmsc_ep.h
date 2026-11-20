@@ -1,54 +1,60 @@
 /***********************************************************************************************************************
  * File Name    : usb_hmsc_ep.h
- * Description  : Contains data structures and functions used in usb_hmsc_ep.h.
+ * Description  : Contains declarations of data structures and functions used in usb_hmsc_ep.c.
  **********************************************************************************************************************/
 /***********************************************************************************************************************
-* Copyright (c) 2020 - 2025 Renesas Electronics Corporation and/or its affiliates
-*
-* SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
+ * Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ **********************************************************************************************************************/
 
 #ifndef USB_HMSC_EP_H_
 #define USB_HMSC_EP_H_
 
-/* Macros used in usb_hmsc example project */
-#define EP_INFO     "\r\nThis example project demonstrates basic functionalities of USB Host Mass Storage Class\r\n"\
-		            "(HMSC) driver with FreeRTOS+FAT file system on Renesas RA MCUs based on Renesas FSP.\r\n"\
-                    "FreeRTOS+FAT uses the underlying Block media driver which utilizes USB HMSC driver to perform\r\n"\
-                    "file operations on the USB storage devices.\r\n"\
-                    "Error and info messages will be printed on J-Link RTT Viewer.\r\n"
+#include <stdbool.h>
+#include "hal_data.h"
 
-#define FILE_NAME               "ra_usb.txt"      /* File name */
-#define WRITE_MODE              "w"               /* File write mode */
-#define READ_MODE               "r"               /* File read mode */
+/* Macro for the reset value */
+#define RESET_VALUE             (0x00)
 
-#define USB_WRITE               (1u)              /* RTT input selection for write operation */
-#define USB_FORMAT              (2u)              /* RTT input selection for format operation */
-#define USB_SAFELY_EJECT        (3u)              /* RTT input selection for safely eject operation */
-#define USB_INIT                (4u)              /* RTT input selection for re-initialization of USB */
-                                                  /* Valid only after Safely_Eject option is executed */
+/* Macro for the console input buffer size */
+#define BUFFER_SIZE             (16U)
 
-#define WRITE_ITEM_SIZE         (10240u)          /* The number of elements to read */
-#define SUCCESS                 (0)
-#define READ_WRITE_FAILURE      (0)
+/* Macro for the file name */
+#define FILE_NAME               "ra_usb.txt"
+
+/* Macro for the file write mode */
+#define WRITE_MODE              "w"
+
+/* Macro for the file read mode */
+#define READ_MODE               "r"
+
+/* Macros for the user selection */
+#define USB_WRITE               (1U)
+#define USB_FORMAT              (2U)
+#define USB_SAFELY_EJECT        (3U)
+#define FAT_INIT                (4U)
+
+/* Macro for the number of elements to read/write */
+#define WRITE_ITEM_SIZE         (10240U)
+
+/* Macros for operation results */
+#define READ_FAILURE            (0)
+#define FF_FS_ADD_FAILURE       (0)
+#define DATA_MATCH              (0)
+
+/* Macro for the ASCII value of 'A', used to fill the write buffer */
 #define ASCII_CHAR_A            (65)
 
-/* USB Drive HMSC Menu options */
-#define USB_HMSC_MENU           "\r\nUSB HMSC Menu options\r\n"\
-                                "\r\n 1. Write 10k data from app_buffer to ra_usb.txt file\r\n"\
-                                "\r\n 2. Format USB Drive\r\n"\
-                                "\r\n 3. Safely Eject the USB Drive\r\n"\
-                                "\r\n 4. Initialize FreeRTOS+FAT (Valid only after Safely_Eject option is executed)\r\n"
+/* External variables - Defined in usb_hmsc_ep.c */
+extern FF_Disk_t g_my_disk;
+extern bool g_usb_hmsc_opened;
+extern volatile bool g_media_inserted;
 
 /* Function declarations */
-void process_usb_operation(uint8_t p_input_buffer);     /* Processes USB operations */
-void usb_write_operation(void);                         /* Performs USB write operation */
-void usb_read_operation(void);                          /* Performs USB read operation */
-void format_usb_device(void);                           /* Performs USB format operation */
-bool check_usb_connection(void);                        /* Checks the USB connection status */
-void usb_safely_eject(void);                            /* Performs USB Safely disconnect operation */
-void update_buffer(void);                               /* Update write buffer with data and clear read buffer */
-fsp_err_t usb_init(void);                               /* Initialize USB HMSC device */
-void fat_clean_up(void);                                /* Closes FreeRTOS+FAT */
+fsp_err_t fat_open(void);
+fsp_err_t fat_init(void);
+fsp_err_t fat_deinit(void);
+fsp_err_t disk_deinit(void);
 
 #endif /* USB_HMSC_EP_H_ */

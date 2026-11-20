@@ -1,5 +1,5 @@
 # Introduction #
-This project demonstrates basic functionality of USBX Peripheral Human Interface Device Class module on Renesas RA MCUs based on Renesas FSP using Azure RTOS. The user will be able to use RA board as a keyboard (HID Device) by connecting it to the Host PC. Once the board is connected, the user can provide any input from RTT Viewer to send characters from a - z & numbers 0 - 9 from RA board to host PC. USB status and any error messages are displayed on RTT Viewer.
+The example project demonstrates the basic functionality of the USBX Peripheral Human Interface Device (HID) module running on Renesas RA MCUs based on Renesas FSP using Azure RTOS. The RA board acts as an HID device and is configured as a keyboard. When any key is pressed in the terminal, the RA board sends characters 'a' to 'z' followed by '1' to '9' and '0' to the host PC. USB status and error messages are displayed on the terminal.
 
 Please refer to the [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf) for general information on example projects and [readme.txt](./readme.txt) for specifics of operation.
 
@@ -9,120 +9,139 @@ To build and run the USBX PHID example project, the following resources are need
 ### Software ###
 * Renesas Flexible Software Package (FSP): Version 6.6.0
 * e2 studio: Version 2026-07
-* SEGGER J-Link RTT Viewer: Version 9.64
+* Terminal Console Application: Tera Term or a similar application
 * LLVM Embedded Toolchain for ARM: Version 22.1.0
 
-* Refer to the software required section in [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf)
-* Refer to [Special Topics](#special-topics) for more information of USBX phid setup.
+Refer to the software required section in [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf) and [Special Topics](#special-topics) for more information on the USBX PHID setup.
 
 ### Hardware ###
-* Supported RA boards: EK-RA4M2, EK-RA4M3, EK-RA6M1, EK-RA6M2, EK-RA6M3, EK-RA6M4, EK-RA6M5, EK-RA4E2, EK-RA6E2, EK-RA8M1, EK-RA8D1, MCK-RA8T1, EK-RA4L1, EK-RA8E2, EK-RA8P1
+* Supported RA boards: EK-RA4M2, EK-RA4M3, EK-RA6M1, EK-RA6M2, EK-RA6M3, EK-RA6M4, EK-RA6M5, EK-RA4E2, EK-RA6E2, EK-RA8M1, EK-RA8D1, MCK-RA8T1, EK-RA4L1, EK-RA8E2, EK-RA8P1, MCK-RA8T2, EK-RA8D2, EK-RA8M2.
     * 1 x Renesas RA board.
-    * 2 x Type-C USB cables.
-    * 1 x PC with at least 2 USB ports.
+    * 1 x USB cable for programming and debugging (USB cable type varies by board model).
+    * 1 x USB cable for USB communication between the RA board and the host PC (USB cable type varies by board model).
+    * 1 x Host PC with at least 2 available USB ports (1 for debugging and 1 for the COM port).
 
 ### Hardware Connections ###
-* For EK-RA4M2, EK-RA4M3, EK-RA6M3, EK-RA6M4, EK-RA6M5, EK-RA8M1, EK-RA8D1:	
+* Connect the RA board USB debug port to the host PC using the appropriate USB cable for EP programming and debugging.
+
+* For EK-RA4M2, EK-RA4M3, EK-RA6M3, EK-RA6M4, EK-RA6M5, EK-RA8M1, EK-RA8D1 (Full-Speed):
     * Jumper J12: Connect pins 2-3.
-    * Connect Jumper J15 pins.
-    * Connect the RA board USB FS port (J11) to the PC via a micro USB cable.
-    * Connect the RA board USB debug port (J10) to the PC via a micro USB cable for EP debugging.
+    * Connect jumper J15 pins.
+    * Connect the USB Full-Speed port (J11) of the RA board to the host PC using the appropriate USB cable.
 
-* For EK-RA6M1, EK-RA6M2:
-    * Connect the RA board USB FS port (J11) to the PC via a micro USB cable.
-    * Connect the RA board USB debug port (J9) to the PC via a micro USB cable for EP debugging.
+* For EK-RA6M1, EK-RA6M2, EK-RA4E2, EK-RA6E2 (Full-Speed):
+    * Connect the USB Full-Speed port (J11) of the RA board to the host PC using the appropriate USB cable.
 
-* For EK-RA4E2, EK-RA6E2:
-    * Connect the RA board USB FS port (J11) to the PC via a micro USB cable.
-    * Connect the RA board USB debug port (J10) to the PC via a micro USB cable for EP debugging.
-
-* For MCK-RA8T1:
+* For MCK-RA8T1 (Full-Speed):
     * Jumper JP9: Connect pins 2-3.
-    * Connect Jumper JP10 pins.
-    * Connect the RA board USB FS port (CN14) to the PC via a Type-C USB cable.
-    * Connect the RA board USB debug port (CN11) to the PC via a Type-C USB cable for EP debugging.
+    * Connect jumper JP10 pins.
+    * Connect the USB Full-Speed port (CN14) of the RA board to the host PC using the appropriate USB cable.
 
-* For EK-RA4L1:
+* For EK-RA4L1 (Full-Speed):
     * Turn ON S4-4 to select USB device mode.
-    * Set J17 jumper to pins 2-3, Set J7 jumper to use P407 for USBFS VBUS.
-    * Connect the RA board USB FS port (J11) to the PC via a Type-C USB cable.
-    * Connect the RA board USB debug port (J10) to the PC via a Type-C USB cable for EP debugging.
+    * Set J17 jumper to pins 2-3 and set J7 jumper to use P407 for USBFS VBUS.
+    * Connect the USB Full-Speed port (J11) of the RA board to the host PC using the appropriate USB cable.
 
-* For EK-RA8E2, EK-RA8P1:
-    * Connect the RA board USB FS port (J11) to the PC via a Type-C USB cable.
-    * Connect the RA board USB debug port (J10) to the PC via a Type-C USB cable for EP debugging.
+* For EK-RA8E2, EK-RA8P1, EK-RA8D2, EK-RA8M2 (Full-Speed):
+    * Note: For EK-RA8M2, the user must place jumper J6 on pins 2-3, J8 on pins 1-2, J9 on pins 2-3, and J29 on pins 1-2, 3-4, 5-6, 7-8 to use the on-board debug functionality.
+    * Connect the USB Full-Speed port (J11) of the RA board to the host PC using the appropriate USB cable.
+
+* For MCK-RA8T2 (Full-Speed):
+    * Jumper JP6: Connect pins 2-3.
+    * Connect jumper JP7 pins.
+    * Connect the USB Full-Speed port (CN18) of the RA board to the host PC using the appropriate USB cable.
 
 ## Related Collateral References ##
 The following documents can be referred to for enhancing your understanding of the operation of this example project:
-- [FSP User Manual on GitHub](https://renesas.github.io/fsp/)
-- [FSP Known Issues](https://github.com/renesas/fsp/issues)
+* [FSP User Manual on GitHub](https://renesas.github.io/fsp/).
+* [FSP Known Issues](https://github.com/renesas/fsp/issues).
 
 # Project Notes #
 
 ## System Level Block Diagram ##
  High level block diagram
  
-![usbx_phid](images/usbx_phid_high_level.jpg "High Level Block Diagram")
+![usbx_phid_hld](images/usbx_phid_hld.jpg "High Level Block Diagram")
 
 ## FSP Modules Used ##
 List of all the various modules that are used in this example project. Refer to the FSP User Manual for further details on each module listed below.
 
-| Module Name | Usage | Searchable Keyword  |
+| Module Name | Usage | Searchable Keyword |
 |-------------|-----------------------------------------------|-----------------------------------------------|
-| USBX PHID | USBX PHID is used to communicate with Host machine to send characters from the device class. | rm_usbx_port |
+| USBX PHID | USBX PHID is used to send character data from the device to the host machine over the USB HID interface. | rm_usbx_port |
 | USB Basic Driver | USB driver is required for hardware configuration on RA MCU. | r_usb_basic |
 
 ## Module Configuration Notes ##
-This section describes FSP Configurator properties which are important or different than those selected by default. 
+This section describes FSP Configurator properties which are important or different from those selected by default.
 
-**Common Configuration Properties**  
+**Note: The configuration shown in this document is based on the original target board (e.g., EK-RA8P1). Some settings may differ on other supported boards due to hardware differences.**
+
+**Common Configuration Properties**
 |   Module Property Path and Identifier   |   Default Value   |   Used Value   |   Reason   |
 | :-------------------------------------: | :---------------: | :------------: | :--------: |
-| configuration.xml > Stacks > PHID Thread > Properties > Settings > Property > Common > Timer> Timer Ticks Per Second |100 | 1000 | The default ticks should be 1000 indicating 1 tick per millisecond. |
-| configuration.xml > Stacks > PHID Thread > Properties > Settings > Property > Thread > Priority | 1 | 21 | PHID thread priority is lowered to allow the other usb operations at faster rate. |
-| configuration.xml > Stacks > RTT Thread > Properties > Settings > Property > Thread > Priority | 1 | 22 | RTT thread priority is lowered to allow the USBX PHID data process at the fastest rate possible. |
+| configuration.xml > Stacks > Threads > USBX PHID Thread > Properties > Settings > Property > Common > Timer > Timer Ticks Per Second | 100 | 1000 | Sets the timer tick frequency to 1000 ticks per second, where one tick equals one millisecond. |
+| configuration.xml > Stacks > Threads > USBX PHID Thread > Properties > Settings > Property > Thread > Priority | 1 | 21 | USBX PHID thread priority is lowered to allow other USB operations to run at a higher priority. |
+| configuration.xml > Stacks > Threads > Terminal Thread > Properties > Settings > Property > Thread > Priority | 1 | 22 | Terminal thread priority is lowered to allow USBX PHID data processing to run at a higher priority. |
 
-Refer to [User Callback Handlers](#user-callback-handlers) section for user callback
+Refer to [User Callback Handlers](#user-callback-handlers) section for user callbacks.
 
-The table below lists the FSP provided API used at the application layer by this example project.
-| API Name    | Usage                                                                          |
-|-------------|--------------------------------------------------------------------------------|
-| [ux_system_initialize](https://docs.microsoft.com/en-us/azure/rtos/usbx/usbx-device-stack-2#initialization-of-usbx-resources) | This API is used to initialize the USBX system. |
-| [ux_system_uninitialize](https://docs.microsoft.com/en-us/azure/rtos/usbx/usbx-device-stack-2#uninitialization-of-usbx-resources) | This API is used to uninitialize he USBX system. |
-| [ux_device_stack_initialize](https://docs.microsoft.com/en-us/azure/rtos/usbx/usbx-device-stack-4#ux_device_stack_initialize) | This API is used to initialize the USBX device stack. |
-| [ux_device_stack_uninitialize](https://docs.microsoft.com/en-us/azure/rtos/usbx/usbx-device-stack-4#ux_device_stack_uninitialize) | This API is used to uninitialize the USBX device stack. |
-| [ux_device_stack_class_register](https://docs.microsoft.com/en-us/azure/rtos/usbx/usbx-device-stack-4#ux_device_stack_class_register) | This API is used to register the usb device slave class. |
-| [ux_device_stack_class_unregister](https://docs.microsoft.com/en-us/azure/rtos/usbx/usbx-device-stack-4#ux_device_stack_class_unregister) | This API is used to unregister the usb device class. |
-| [ux_device_class_hid_event_set](https://docs.microsoft.com/en-us/azure/rtos/usbx/usbx-device-stack-5#ux_device_class_hid_event_set) | This API is used to set the PHID event. |
+## API Usage ##
+The table below lists the APIs used at the application layer by this example project.
+
+| API Name | Usage |
+|----------|-------|
+| ux_system_initialize | This API is used to initialize the USBX system. |
+| ux_system_uninitialize | This API is used to uninitialize the USBX system. |
+| ux_device_stack_initialize | This API is used to initialize the USBX device stack. |
+| ux_device_stack_uninitialize | This API is used to uninitialize the USBX device stack. |
+| ux_device_stack_class_register | This API is used to register the USB device class. |
+| ux_device_stack_class_unregister | This API is used to unregister the USB device class. |
+| ux_device_class_hid_event_set | This API is used to set an HID event. |
 | R_USB_Open | This API is used to open the USB basic driver. |
 | R_USB_Close | This API is used to close the USB basic driver. |
 
-Refer to [USBX Device HID Class Considerations](https://docs.microsoft.com/en-us/azure/rtos/usbx/usbx-device-stack-5#usb-device-hid-class) for more details of API used.
+Refer to [USBX Device HID Class Considerations](https://docs.microsoft.com/en-us/azure/rtos/usbx/usbx-device-stack-5#usb-device-hid-class) for more details on the APIs used.
 
-## Verifying operation ##
+## Verifying Operation ##
+1. Import, build, and debug the example project (EP).
+2. Set up the hardware connections properly as mentioned in the [Hardware Connections](#hardware-connections) section.
+3. Open a serial terminal application (e.g., Tera Term) to view output logs and configure the settings as shown below:
 
-Import, Build and Debug the EP (see section Starting Development of FSP User Manual). After running the EP, open the J-Link RTT Viewer to see the output status of EP.
+    * To make sure the received data shows properly, the user needs to set:
+        * [Setup] -> [Terminal...] -> [New-line] -> Select [Receive: CR] & [Transmit: CR].
 
-1. The output on **J-Link RTT Viewer**.
+    * To echo back characters typed in Tera Term, the user needs to enable it through:
+        * [Setup] -> [Terminal...] -> Check [Local echo].
 
- ![usbx_phid](images/rtt_viewer_banner_page.jpg "RTT Output")
+    * The configuration parameters of the serial port on the serial terminal application:
+        * Port: The port is provided by the J-Link On-Board.
+        * Speed: 115200
+        * Data: 8 bit
+        * Parity: none
+        * Stop bits: 1 bit
+        * Flow control: none
+
+4. Debug or flash the EP to the RA board.
+
+The images below show the output on the serial terminal:
+
+![usbx_phid_ep_info](images/usbx_phid_ep_info.jpg "EP Information")
+
+![usbx_phid_ep_operation](images/usbx_phid_ep_operation.jpg "EP Operation")
  
-2. Keyboard keys were printed on the Notepad.
+The device is enumerated under **Device Manager** > **Keyboards**. The user can update the **Vendor ID and Product ID** in the descriptor file.
 
- ![usbx_phid](images/notepad_page.jpg "Keyboard keys on Notepad")
- 
-3. The device enumeration in Device Manager. The user can update the Vendor ID and Product ID of their own devices in descriptor file.
-
- ![usbx_phid](images/descriptor_code.jpg "Descriptor")
+![usbx_phid_descriptor](images/usbx_phid_descriptor.jpg "USBX PHID Descriptor")
 
 ### Special Topics 
 #### Developing Descriptor
-1. Refer **Descriptors** section in [USBX Porting Layer (rm_usbx_port)](https://renesas.github.io/fsp/group___u_s_b_x.html) for developing the descriptor. We can take the template file of required usb combination from mentioned path in above link and use the same in source folder by removing the **.template** file extension.
+1. Refer to the **Descriptors** section in [USBX Porting Layer (rm_usbx_port)](https://renesas.github.io/fsp/group___u_s_b_x.html) for information on developing the descriptor. Use the template file for the required USB combination from the path specified in the documentation, copy it to the source folder, and remove the **.template** file extension.
 
 #### User Callback Handlers
-1. **usbx_status_callback()** which handle the USB Attached and Removed events.
-2. **ux_hid_device_instance_activate()** and **ux_hid_device_instance_deactivate()** which handles the device stack enumeration events.
+1. **usbx_status_callback()** handles USB attach and remove events.
+2. **ux_hid_device_instance_activate()** and **ux_hid_device_instance_deactivate()** handle device stack enumeration events.
 
 #### USBX PHID Example Project Limitations
-1. USBX PHID module does not support High Speed mode.
-2. This example project does not support the out transfer.
+1. Only supported for USB Full-Speed.
+2. This example project does not support OUT transfers (host to device).
+3. The USBX PHID USB Full-Speed example project does not work on PCs with CrowdStrike software installed.

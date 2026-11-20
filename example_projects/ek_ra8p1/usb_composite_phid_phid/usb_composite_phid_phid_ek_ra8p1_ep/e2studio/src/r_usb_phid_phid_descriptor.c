@@ -1,24 +1,19 @@
 /***********************************************************************************************************************
- * File Name    : r_usb_phid_descriptor.c
- * Description  : Contains macros, data structure of USB PHID
+ * File Name    : r_usb_phid_phid_descriptor.c
+ * Description  : Contains macros, data structure of USB PHID + PHID Composite.
  **********************************************************************************************************************/
 /***********************************************************************************************************************
-* Copyright (c) 2022 - 2025 Renesas Electronics Corporation and/or its affiliates
-*
-* SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
+ * Copyright (c) 2022 - 2026 Renesas Electronics Corporation and/or its affiliates
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ **********************************************************************************************************************/
 
-/******************************************************************************
+/*******************************************************************************************************************//**
  Includes   <System Includes> , "Project Includes"
- ******************************************************************************/
+ **********************************************************************************************************************/
 
 #include "r_usb_basic_api.h"
 #include "r_usb_phid_api.h"
-
-/*******************************************************************************************************************//**
- * @addtogroup usb_phid_ep
- * @{
- **********************************************************************************************************************/
 
 /*******************************************************************************************************************//**
  Macro definitions
@@ -60,7 +55,7 @@ uint8_t g_apl_device[] =
     0x00,                                                                /*  4:bDeviceClass */
     0x00,                                                                /*  5:bDeviceSubClass */
     0x00,                                                                /*  6:bDeviceProtocol */
-    (uint8_t) USB_DCPMAXP,                                               /*  7:bMAXPacketSize(for DCP) */
+    (uint8_t) USB_DCPMAXP,                                               /*  7:bMAXPacketSize (for DCP) */
     (uint8_t) (USB_VENDORID & (uint8_t) USB_UCHAR_MAX),                  /*  8:idVendor_lo */
     (uint8_t) ((uint8_t) (USB_VENDORID >> 8) & (uint8_t) USB_UCHAR_MAX), /*  9:idVendor_hi */
     (uint8_t) (USB_PRODUCTID & (uint8_t) USB_UCHAR_MAX),                 /* 10:idProduct_lo */
@@ -80,8 +75,8 @@ uint8_t g_apl_configuration[CD_LEN + (CD_LEN % 2)] =
 {
     USB_CD_BLENGTH,                                             /*  0:bLength */
     USB_DT_CONFIGURATION,                                       /*  1:bDescriptorType */
-    (uint8_t) (CD_LEN % USB_W_TOTAL_LENGTH_MASK),               /*  2:wTotalLength(L) */
-    (uint8_t) (CD_LEN / USB_W_TOTAL_LENGTH_MASK),               /*  3:wTotalLength(H) */
+    (uint8_t) (CD_LEN % USB_W_TOTAL_LENGTH_MASK),               /*  2:wTotalLength (L) */
+    (uint8_t) (CD_LEN / USB_W_TOTAL_LENGTH_MASK),               /*  3:wTotalLength (H) */
     2,                                                          /*  4:bNumInterfaces */
     1,                                                          /*  5:bConfigurationValue */
     4,                                                          /*  6:iConfiguration */
@@ -94,8 +89,8 @@ uint8_t g_apl_configuration[CD_LEN + (CD_LEN % 2)] =
     0,                                                          /*  2:bInterfaceNumber */
     0,                                                          /*  3:bAlternateSetting */
     NUM_EP,                                                     /*  4:bNumEndpoints */
-    USB_IFCLS_HID,                                              /*  5:bInterfaceClass(HID) */
-    USB_IFSUB_NOBOOT,                                           /*  6:bInterfaceSubClass(NonBOOT) */
+    USB_IFCLS_HID,                                              /*  5:bInterfaceClass (HID) */
+    USB_IFSUB_NOBOOT,                                           /*  6:bInterfaceSubClass (NonBOOT) */
     USB_IFPROTOCOL,                                             /*  7:bInterfaceProtocol */
     0,                                                          /*  8:iInterface */
 
@@ -107,8 +102,8 @@ uint8_t g_apl_configuration[CD_LEN + (CD_LEN % 2)] =
     0x00,                                                       /*  4:bCountryCode */
     0x01,                                                       /*  5:bNumDescriptors */
     0x22,                                                       /*  6:bDescriptorType */
-    ITEM_LEN,                                                   /*  7:wItemLength(L) */
-    0x00,                                                       /*  8:wItemLength(H) */
+    ITEM_LEN,                                                   /*  7:wItemLength (L) */
+    0x00,                                                       /*  8:wItemLength (H) */
 
     /* Endpoint Descriptor 0 */
     USB_ED_BLENGTH,                                             /*  0:bLength */
@@ -119,7 +114,7 @@ uint8_t g_apl_configuration[CD_LEN + (CD_LEN % 2)] =
     0,                                                          /*  5:wMaxPacketSize_hi */
     0x0A,                                                       /*  6:bInterval */
 
-/* Human Interface Device Class2 */
+/* Human Interface Device Class 2 */
 
     /* Interface Descriptor */
     USB_ID_BLENGTH,                                             /*  0:bLength */
@@ -127,8 +122,8 @@ uint8_t g_apl_configuration[CD_LEN + (CD_LEN % 2)] =
     1,                                                          /*  2:bInterfaceNumber */
     0,                                                          /*  3:bAlternateSetting */
     NUM_EP,                                                     /*  4:bNumEndpoints */
-    USB_IFCLS_HID,                                              /*  5:bInterfaceClass(HID) */
-    USB_IFSUB_NOBOOT,                                           /*  6:bInterfaceSubClass(NonBOOT) */
+    USB_IFCLS_HID,                                              /*  5:bInterfaceClass (HID) */
+    USB_IFSUB_NOBOOT,                                           /*  6:bInterfaceSubClass (NonBOOT) */
     USB_IFPRO_MSE,                                              /*  7:bInterfaceProtocol */
     0,                                                          /*  8:iInterface */
 
@@ -140,8 +135,8 @@ uint8_t g_apl_configuration[CD_LEN + (CD_LEN % 2)] =
     0x00,                                                       /*  4:bCountryCode */
     0x01,                                                       /*  5:bNumDescriptors */
     0x22,                                                       /*  6:bDescriptorType */
-    ITEM_LEN2,                                                  /*  7:wItemLength(L) */
-    0x00,                                                       /*  8:wItemLength(H) */
+    ITEM_LEN2,                                                  /*  7:wItemLength (L) */
+    0x00,                                                       /*  8:wItemLength (H) */
 
     /* Endpoint Descriptor 1 */
     USB_ED_BLENGTH,                                             /*  0:bLength */
@@ -222,7 +217,7 @@ uint8_t g_apl_string3[] =
 };
 
 /*******************************************************************************************************************//**
- String Descriptor 4(iConfiguration)
+ String Descriptor 4 (iConfiguration)
  **********************************************************************************************************************/
 uint8_t g_apl_string4[] =
 {
@@ -244,7 +239,7 @@ uint8_t g_apl_string4[] =
 };
 
 /*******************************************************************************************************************//**
- String Descriptor 5(iConfiguration)
+ String Descriptor 5 (iConfiguration)
  **********************************************************************************************************************/
 uint8_t g_apl_string5[] =
 {
@@ -303,7 +298,7 @@ const uint8_t g_apl_report_keyboard[] =
     0x95, 0x06,                                     /* Report Count (6) */
     0x75, 0x08,                                     /* Report Size (8) */
     0x15, 0x00,                                     /* Logical Minimum (0) */
-    0x25, 0x65,                                     /* Logical Maximum(101) */
+    0x25, 0x65,                                     /* Logical Maximum (101) */
     0x05, 0x07,                                     /* Usage Page (Key Codes) */
     0x19, 0x00,                                     /* Usage Minimum (0) */
     0x29, 0x65,                                     /* Usage Maximum (101) */
@@ -331,7 +326,7 @@ const uint8_t g_apl_report_mouse[] =
     0xA1, 0x00,                                     /* Collection (Physical) */
     0x05, 0x09,                                     /* Usage Page (Buttons) */
     0x19, 0x01,                                     /* Usage Minimum (01) */
-    0x29, 0x03,                                     /* Usage Maximun (03) */
+    0x29, 0x03,                                     /* Usage Maximum (03) */
     0x15, 0x00,                                     /* Logical Minimum (0) */
     0x25, 0x01,                                     /* Logical Maximum (1) */
     0x95, 0x03,                                     /* Report Count (3) */
@@ -347,7 +342,7 @@ const uint8_t g_apl_report_mouse[] =
     0x25, 0x7F,                                     /* Logical Maximum (127) */
     0x75, 0x08,                                     /* Report Size (8) */
     0x95, 0x02,                                     /* Report Count (2) */
-    0x81, 0x06,                                     /* Input (Data,Variable,Relative): 2position bytes(X & Y) */
+    0x81, 0x06,                                     /* Input (Data,Variable,Relative): 2position bytes (X & Y) */
     0xC0,                                           /* End Collection */
     0xC0,                                           /* End Collection */
 };
@@ -355,16 +350,12 @@ const uint8_t g_apl_report_mouse[] =
 const usb_descriptor_t g_usb_descriptor =
 {
     g_apl_device,                   /* Pointer to the device descriptor */
-    g_apl_configuration,            /* Pointer to the configuration descriptor for Full-speed */
-    NULL,                           /* Pointer to the configuration descriptor for Hi-speed */
+    g_apl_configuration,            /* Pointer to the configuration descriptor for Full-Speed */
+    NULL,                           /* Pointer to the configuration descriptor for Hi-Speed */
     NULL,                           /* Pointer to the qualifier descriptor */
     g_apl_string_table,             /* Pointer to the string descriptor table */
     NUM_STRING_DESCRIPTOR
 };
-
-/*******************************************************************************************************************//**
- * @} (end addtogroup usb_phid_phid)
- **********************************************************************************************************************/
 
 /*******************************************************************************************************************//**
  End  Of File

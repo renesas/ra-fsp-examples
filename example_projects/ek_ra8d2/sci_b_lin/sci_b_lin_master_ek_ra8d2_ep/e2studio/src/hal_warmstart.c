@@ -3,16 +3,15 @@
  * Description  : Contains data structures and functions used in hal_warmstart.c.
  **********************************************************************************************************************/
 /***********************************************************************************************************************
-* Copyright (c) 2025 - 2026  Renesas Electronics Corporation and/or its affiliates
-*
-* SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
+ * Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ **********************************************************************************************************************/
 
 #include "hal_data.h"
 
 FSP_CPP_HEADER
 void R_BSP_WarmStart(bsp_warm_start_event_t event);
-
 FSP_CPP_FOOTER
 
 /*******************************************************************************************************************//**
@@ -30,7 +29,7 @@ void R_BSP_WarmStart (bsp_warm_start_event_t event)
         /* Enable reading from data flash. */
         R_FACI_LP->DFLCTL = 1U;
 
-        /* Would normally have to wait tDSTOP(6us) for data flash recovery. Placing the enable here, before clock and
+        /* Would normally have to wait tDSTOP (6us) for data flash recovery. Placing the enable here, before clock and
          * C runtime initialization, should negate the need for a delay since the initialization will typically take
          * more than 6us. */
 #endif

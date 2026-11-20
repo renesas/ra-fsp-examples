@@ -1,16 +1,7 @@
 # Introduction #
+The example project demonstrates how the FileX file system operates on the internal SRAM block media of the RA MCU. The project will perform various FileX file system operations based on the user's selection from the menu options, such as media management (format), directory management (create, get properties, delete), and file management (create, write, read, delete). The terminal application is used as the user interface. Errors and information messages will be printed on the terminal application.
 
-The example project showcases how the FileX file system operates on the internal SRAM block media of the RA MCU. The project will perform various FileX file system operations based on the user's selection from the menu options, such as media management (format), directory management (create, get properties, delete), and file management (create, write, read, delete). 
-
-The terminal application is used as the user interface. The menu options and system messages (errors and information messages) will be printed on the terminal application during the execution of the project.
-
-Note:   
-* To display information, users can select between the SEGGER J-Link RTT Viewer and the Serial Terminal (UART) with J-Link OB VCOM. 
-* By default, EP information is printed to the host PC using the Serial Terminal for boards that support J-Link OB VCOM. For RA boards that do not support J-Link OB VCOM, EP information is instead printed via the SEGGER J-Link RTT Viewer.
-* RA boards supported for J-Link OB VCOM: EK-RA8M1, MCK-RA8T1, EK-RA8D1, EK-RA8P1.
-* To utilize the SEGGER J-Link RTT Viewer instead of the Serial Terminal, please follow the instructions in Verifying Operation section.
-
-The menu options:
+Main menu:
 1. Format Media.
 2. Create Directory.
 3. Get Directory Properties.
@@ -28,24 +19,18 @@ To build and run the FileX_block_media_sram example project, the following resou
 ### Software ###
 * Renesas Flexible Software Package (FSP): Version 6.6.0
 * e2 studio: Version 2026-07
-* SEGGER J-Link RTT Viewer: Version 9.64
 * LLVM Embedded Toolchain for ARM: Version 22.1.0
 * Terminal Console Application: Tera Term or a similar application  
 Refer to the software required section in [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf)
 
 ### Hardware ###
-Supported RA boards: EK-RA8M1, MCK-RA8T1, EK-RA8D1, EK-RA6M3G, EK-RA6M3, CK-RA6M5, EK-RA6M5, EK-RA6M2, EK-RA6M4, EK-RA6M1, FPB-RA6E1, FPB-RA4E1, EK-RA4M2, EK-RA4M3, EK-RA8P1
-
+Supported RA boards: EK-RA8M1, MCK-RA8T1, EK-RA8D1, EK-RA6M3G, EK-RA6M3, CK-RA6M5, EK-RA6M5, EK-RA6M2, EK-RA6M4, EK-RA6M1, FPB-RA6E1, FPB-RA4E1, EK-RA4M2, EK-RA4M3, EK-RA8P1, EK-RA8M2, EK-RA8D2, MCK-RA8T2  
 * 1 x Renesas RA board.
-* 1 x Type-C USB cable for programming and debugging.
+* 1 x USB cable for programming and debugging (USB cable type varies by board model).
 
 ### Hardware Connections  ###
-* For EK-RA8M1, EK-RA8D1, EK-RA6M3G, EK-RA6M3, CK-RA6M5, EK-RA6M5, EK-RA6M2, EK-RA6M4, EK-RA6M1, FPB-RA6E1, FPB-RA4E1, EK-RA4M2, EK-RA4M3:
-  *	Connect the RA board USB debug port to the PC via a micro USB cable for EP debugging.
-*	For MCK-RA8T1:
-	*	Connect the RA board USB debug port to the PC via a Type-C USB cable for EP debugging.
-* For EK-RA8P1:
-  * Connect the RA board USB debug port (J10) to the PC via a Type-C USB cable for EP debugging.
+* Connect the RA board USB debug port to the host PC using the appropriate USB cable for EP programming and debugging.
+* For EK-RA8M2: The user must place jumper J6 on pins 2-3, J8 on pins 1-2, J9 on pins 2-3, and J29 on pins 1-2, 3-4, 5-6, 7-8 to use the on-board debug functionality.
 
 ## Related Collateral References ##
 The following documents can be referred to for enhancing your understanding of the operation of this example project:
@@ -70,6 +55,8 @@ List all the various modules that are used in this example project. Refer to the
 ## Module Configuration Notes ##
 This section describes FSP configuration properties that are important or different from those selected by default.
 
+**Note: The configuration shown in this document is based on the original target board (e.g., EK-RA8P1). Some settings may differ on other supported boards due to hardware differences.**
+
 **Configuration Properties for using Azure RTOS FileX on Block Media**
 
 |   Module Property Path and Identifier   |   Default Value   |   Used Value   |   Reason   |
@@ -88,41 +75,6 @@ This section describes FSP configuration properties that are important or differ
 |   Module Property Path and Identifier   |   Default Value   |   Used Value   |   Reason   |
 |-----------------------------------------|-------------------|----------------|------------|
 | configuration.xml > Stacks > g_rm_block_media Block Media RAM Implementation (rm_block_media_ram) > Properties > Settings > Property > Common > RAM Media Size | 65536 | 65536 | Select the size of the SRAM used as the media area. |
-
-**Configuration Properties for using the Serial Terminal (UART)**  
-**For EK-RA8M1, EK-RA8D1:**
-
-|   Configure Interrupt Event Path        |   Default Value   |   Used Value   |   Reason   |
-|-----------------------------------------|-------------------|----------------|------------|
-| configuration.xml > Interrupts > Interrupts Configuration > New User Event > SCI > SCI9 > SCI9 RXI (Receive data full) | empty | sci_b_uart_rxi_isr | Assign the UART receive ISR (Receive data full) to the interrupt vector table. |
-| configuration.xml > Interrupts > Interrupts Configuration > New User Event > SCI > SCI9 > SCI9 TXI (Transmit data empty) | empty | sci_b_uart_txi_isr | Assign the UART transfer ISR (Transfer data empty) to the interrupt vector table. |
-| configuration.xml > Interrupts > Interrupts Configuration > New User Event > SCI > SCI9 > SCI9 TEI (Transmit end) | empty | sci_b_uart_tei_isr | Assign the UART transfer ISR (Transfer end) to the interrupt vector table. |
-| configuration.xml > Interrupts > Interrupts Configuration > New User Event > SCI > SCI9 > SCI9 ERI (Receive error) | empty | sci_b_uart_eri_isr | Assign the UART receive ISR (Receive error) to the interrupt vector table. |
-
-**Configuration Properties for using the Serial Terminal (UART)**  
-**For MCK-RA8T1:**
-
-|   Configure Interrupt Event Path        |   Default Value   |   Used Value   |   Reason   |
-|-----------------------------------------|-------------------|----------------|------------|
-| configuration.xml > Interrupts > Interrupts Configuration > New User Event > SCI > SCI3 > SCI3 RXI (Receive data full) | empty | sci_b_uart_rxi_isr | Assign the UART receive ISR (Receive data full) to the interrupt vector table. |
-| configuration.xml > Interrupts > Interrupts Configuration > New User Event > SCI > SCI3 > SCI3 TXI (Transmit data empty) | empty | sci_b_uart_txi_isr | Assign the UART transfer ISR (Transfer data empty) to the interrupt vector table. |
-| configuration.xml > Interrupts > Interrupts Configuration > New User Event > SCI > SCI3 > SCI3 TEI (Transmit end) | empty | sci_b_uart_tei_isr | Assign the UART transfer ISR (Transfer end) to the interrupt vector table. |
-| configuration.xml > Interrupts > Interrupts Configuration > New User Event > SCI > SCI3 > SCI3 ERI (Receive error) | empty | sci_b_uart_eri_isr | Assign the UART receive ISR (Receive error) to the interrupt vector table. |
-
-**Configuration Properties for using the Serial Terminal (UART)**  
-**For EK-RA8P1:**
-
-|   Configure Interrupt Event Path        |   Default Value   |   Used Value   |   Reason   |
-|-----------------------------------------|-------------------|----------------|------------|
-| configuration.xml > Interrupts > Interrupts Configuration > New User Event > SCI > SCI8 > SCI8 RXI (Receive data full) | empty | sci_b_uart_rxi_isr | Assign the UART receive ISR (Receive data full) to the interrupt vector table. |
-| configuration.xml > Interrupts > Interrupts Configuration > New User Event > SCI > SCI8 > SCI8 TXI (Transmit data empty) | empty | sci_b_uart_txi_isr | Assign the UART transfer ISR (Transfer data empty) to the interrupt vector table. |
-| configuration.xml > Interrupts > Interrupts Configuration > New User Event > SCI > SCI8 > SCI8 TEI (Transmit end) | empty | sci_b_uart_tei_isr | Assign the UART transfer ISR (Transfer end) to the interrupt vector table. |
-| configuration.xml > Interrupts > Interrupts Configuration > New User Event > SCI > SCI8 > SCI8 ERI (Receive error) | empty | sci_b_uart_eri_isr | Assign the UART receive ISR (Receive error) to the interrupt vector table. |
-
-|   Configure Clock Path                  |   Default Value   |   Used Value   |   Reason   |
-|-----------------------------------------|-------------------|----------------|------------|
-| configuration.xml > Clocks > Clocks Configuration > SCICLK Disable | SCICLK Disable | SCICLK Src: PLL2P | Enable operating clock for SCI module by PLL2P clock source. |
-
 
 ## API Usage ##
 The table below lists the FSP provided API used at the application layer by this example project.
@@ -158,33 +110,23 @@ The table below lists the FSP provided API used at the application layer by this
 | RM_FILEX_BLOCK_MEDIA_Open | This API is used to initialize callbacks and configure the FileX Block Media interface. |
 | RM_FILEX_BLOCK_MEDIA_BlockDriver | This API is used to access block media device functions such as open, close, read, write, and control. |  
 
-For using the Serial Terminal (UART):
-| API Name    | Usage                                                                          |
-|-------------|--------------------------------------------------------------------------------|
-| R_SCI_B_UART_Open | This API is used to initialize the SCI UART module. |
-| R_SCI_B_UART_Write | This API is used to perform a write operation. |
-| R_SCI_B_UART_Close | This API is used to de-initialize the SCI UART module. |
-
 ## Verifying Operation ##
-1. Import the example project. 
-
-    By default, the EP supports Serial Terminal for RA boards that support J-link OB VCOM
-
-    * Define USE_VIRTUAL_COM=1 macro in Project Properties -> C/C++ Build -> Settings -> Tool Settings -> Compiler -> Includes
-
-    To use SEGGER J-Link RTT Viewer, please follow the instructions as below:
-
-    * Define USE_VIRTUAL_COM=0 macro in Project Properties -> C/C++ Build -> Settings -> Tool Settings -> Compiler -> Includes
-
-2. Generate, build the example project.
-3. Connect the RA MCU debug port to the host PC via a Type-C USB cable.
-4. Open a Serial Terminal application on the host PC and connect to the COM Port provided by the J-Link on-board or Open J-Link RTT Viewer (In case user selected SEGGER J-Link RTT Viewer or RA boards do not support J-Link OB VCOM).
-    * Note: For using the Serial Terminal:
-      * Please ensure that the connection to the SEGGER J-Link RTT Viewer has been terminated.
-      * The COM port is provided by the J-Link onboard, with a baud rate of 115200 bps, a data length of 8 bits, no parity check, one stop bit, and no flow control.
-      * To echo back what was typed in Tera Term, the user needs to enable it through [Setup] -> [Terminal...] -> Check [Local echo].
-5. Debug or flash the EP to the RA board.
-6. After the main menu is displayed on the terminal application, the user selects options to perform file system management as desired.
+1. Import, generate, build the example project.
+2. Before running the example project, make sure [Hardware Connections](#hardware-connections) are completed.
+3. Open a serial terminal application (e.g., Tera Term) to view output log, configure the settings as shown below:  
+    * To make sure the received data shows properly, the user needs to set:
+        * [Setup] -> [Terminal...] -> [New-line] -> Select [Receive: CR] & [Transmit: CR].
+    * To echo back characters typed in Tera Term, the user needs to enable it through:
+        * [Setup] -> [Terminal...] -> Check [Local echo].
+    * The configuration parameters of the serial port on the serial terminal application:
+        * Port: The port is provided by the J-Link On-Board.
+        * Speed: 115200
+        * Data: 8 bit
+        * Parity: none
+        * Stop bits: 1 bit
+        * Flow control: none
+4. Debug or flash the EP to the RA board.
+5. After the main menu is displayed on the terminal application, the user selects options to perform file system management as desired.
     * Type '1' and enter to format the media.
     * Type '2' and enter to create a new directory.
     * Type '3' and enter to get root directory properties.
@@ -220,30 +162,3 @@ File Operation:
 ![file_read](images/serial_file_read.png "File Read")
 
 ![file_delete](images/serial_file_delete.png "File Delete")
-
-### The below images showcase the output on the SEGGER J-Link RTT Viewer ###
-The EP information:
-
-![ep_info](images/rtt_ep_info.png "EP Information")
-
-Media Operation:
-
-![media_format](images/rtt_media_format.png "Media Format")
-
-Directory Operation:
-
-![directory_create](images/rtt_directory_create.png "Directory Create")
-
-![directory_get_properties](images/rtt_directory_get_properties.png "Directory Get Properties")
-
-![directory_delete](images/rtt_directory_delete.png "Directory Delete")
-
-File Operation:
-
-![file_create](images/rtt_file_create.png "File Create")
-
-![file_write](images/rtt_file_write.png "File Write")
-
-![file_read](images/rtt_file_read.png "File Read")
-
-![file_delete](images/rtt_file_delete.png "File Delete")

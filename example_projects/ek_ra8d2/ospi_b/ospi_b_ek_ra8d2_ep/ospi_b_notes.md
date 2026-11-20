@@ -1,16 +1,5 @@
 # Introduction #
-This example project demonstrates basic functionalities of OSPI_B driver on Renesas RA MCUs based on Renesas FSP.  
-In the Main menu, based on RTT Viewer input, the user selects mode for opsi_b module operations.  
-1. SPI 1S-1S-1S protocol mode.
-2. OPI 8D-8D-8D protocol mode.
-
-In the Sub Menu, based on RTT Viewer input, the user selects operations to perform.  
-1. Write data to OSPI flash device.
-2. Read back data from OSPI flash device.
-3. Erase a sector of OSPI flash device.
-4. Go back to main menu.
-
-On successful completion of each operation, a success message and execution time of operation will be displayed on J-link RTT Viewer. Error messages and information will be printed on J-link RTT Viewer.
+This example project demonstrates basic functionalities of OSPI_B driver on Renesas RA MCUs based on Renesas FSP. EP performs read/write/erase operation in SPI mode (1S-1S-1S) or DOPI mode (8D-8D-8D) based on the user input. The information and error messages are displayed on the terminal.
 
 Please refer to the [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf) for general information on example projects and [readme.txt](./readme.txt) for specifics of operation.
 
@@ -20,31 +9,43 @@ To build and run the OSPI_B example project, the following resources are needed.
 ### Software ###
 * Renesas Flexible Software Package (FSP): Version 6.6.0
 * e2 studio: Version 2026-07
-* SEGGER J-Link RTT Viewer: Version 9.64
+* Terminal Console Application: Tera Term or a similar application
 * LLVM Embedded Toolchain for ARM: Version 22.1.0
 
 Refer to the software required section in [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf)
 
 ### Hardware ###
-Supported RA boards: EK-RA8M1, EK-RA8D1, EK-RA8E2, EK-RA8P1, EK-RA8D2
+* Supported RA boards: EK-RA8M1, EK-RA8D1, EK-RA8E2, EK-RA8P1, EK-RA8D2, EK-RA8M2, EK-RA8T2.
 * 1 x Renesas RA board.
-* 1 x Type-C USB cable for programming and debugging.
+* 1 x USB cable for programming and debugging (USB cable type varies by board model).
 
 ### Hardware Connection ###
-* Connect the USB Debug port on the RA board to the host PC via a Type-C USB cable.
+* 	Connect the RA board USB debug port to the host PC using the appropriate USB cable for EP programming and debugging.
 
 ### Hardware Configurations ###
 * For EK-RA8P1: Set the configuration switches (SW4) as below to avoid potential failures.
 
-| SW4-1 PMOD1_SEL0 |SW4-2 PMOD1_SEL1 | SW4-3 OSPI | SW4-4 ARDUINO | SW4-5 I3C | SW4-6 MIPI | SW4-7 USBFS_ROLE | SW4-8 USBHS_ROLE |
-|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|
-| OFF | OFF | OFF | OFF | OFF | OFF | OFF | OFF |
+    | SW4-1 PMOD1_SEL0 |SW4-2 PMOD1_SEL1 | SW4-3 OSPI | SW4-4 ARDUINO | SW4-5 I3C | SW4-6 MIPI | SW4-7 USBFS_ROLE | SW4-8 USBHS_ROLE |
+    |:----------------:|:---------------:|:----------:|:-------------:|:---------:|:----------:|:----------------:|:----------------:|
+    |        OFF       |       OFF       |     OFF    |      OFF      |    OFF    |     OFF    |        OFF       |        OFF       |
 
 * For EK-RA8D2: Set the configuration switches (SW4) as below to avoid potential failures.
 
-| SW4-1 PMOD1 | SW4-2 PMOD1 | SW4-3 Octo-SPI | SW4-4 Arduino/mikroBUS | SW4-5 I3C | SW4-6 MIPI | SW4-7 USBFS | SW4-8 USBHS |
-|:-----------:|:-----------:|:--------------:|:----------------------:|:---------:|:----------:|:-----------:|:-----------:|
-|     OFF     |     OFF     |      OFF       |          OFF           |    OFF    |    OFF     |     OFF     |     OFF     |
+    | SW4-1 PMOD1 | SW4-2 PMOD1 | SW4-3 Octo-SPI | SW4-4 Arduino/mikroBUS | SW4-5 I3C | SW4-6 MIPI | SW4-7 USBFS | SW4-8 USBHS |
+    |:-----------:|:-----------:|:--------------:|:----------------------:|:---------:|:----------:|:-----------:|:-----------:|
+    |     OFF     |     OFF     |      OFF       |          OFF           |    OFF    |    OFF     |     OFF     |     OFF     |
+
+* For EK-RA8M2: The user must place jumper J6 on pins 2-3, J8 on pins 1-2, J9 on pins 2-3, and J29 on pins 1-2, 3-4, 5-6, 7-8 to use the on-board debug functionality.
+
+* For EK-RA8T2: Set the configuration switches (SW6 and SW4) as below to use the on-board debug functionality.
+
+    | SW6-1 | SW6-2 | SW6-3 | SW6-4 | SW6-5 | SW6-6 | SW6-7 | SW6-8 | SW6-9 | SW6-10 |
+    |:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:------:|
+    |  OFF  |  OFF  |  OFF  |  OFF  |  ON   |  OFF  |  ON   |  ON   |  ON   |  ON    |
+
+    | SW4-1 | SW4-2 | SW4-3 | SW4-4 | SW4-5 | SW4-6 | SW4-7 | SW4-8 |
+    |:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
+    |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |
 
 ## Related Collateral References ##
 The following documents can be referred to for enhancing your understanding of the operation of this example project:
@@ -67,7 +68,8 @@ List all the various modules that are used in this example project. Refer to the
 | GPT | GPT is used to measure execution time of OSPI_B module operations. | r_gpt |
 
 ## Module Configuration Notes ##
-This section describes FSP Configurator properties which are important or different from those selected by default. 
+This section describes FSP Configurator properties which are important or different from those selected by default.  
+**Note: The configuration shown in this document is based on the original target board (e.g., EK-RA8D2). Some settings may differ on other supported boards due to hardware differences.** 
 
 **Configuration Properties for using OSPI_B**
 |   Module Property Path and Identifier   |   Default Value   |   Used Value   |   Reason   |
@@ -79,7 +81,7 @@ This section describes FSP Configurator properties which are important or differ
 | configuration.xml > Stacks > g_ospi_b OSPI Flash (r_ospi_b) > Properties > Settings > Property > Module g_ospi_b OSPI Flash (r_ospi_b) > General > Chip Select | CS1 | CS1 | Use OSPI_B Channel 1 to communicate with flash device. |
 | configuration.xml > Stacks > g_ospi_b OSPI Flash (r_ospi_b) > Properties > Settings > Property > Module g_ospi_b OSPI Flash (r_ospi_b) > General > Write Status Bit | b0 | b0 | Position of the status bit in the flash device register. |
 | configuration.xml > Stacks > g_ospi_b OSPI Flash (r_ospi_b) > Properties > Settings > Property > Module g_ospi_b OSPI Flash (r_ospi_b) > General > Write Enable Bit | b1 | b1 | Position of the write enable bit in the flash device register. |
-| configuration.xml > Stacks > g_ospi_b OSPI Flash (r_ospi_b) > Properties > Settings > Property > Module g_ospi_b OSPI Flash (r_ospi_b) > General > DS Auto-calibration Pattern Address | 0x00 | 0x90002000 | Set the address of the read/write destination to be performed for auto-calibration. |
+| configuration.xml > Stacks > g_ospi_b OSPI Flash (r_ospi_b) > Properties > Settings > Property > Module g_ospi_b OSPI Flash (r_ospi_b) > General > DS Auto-calibration Pattern Address | 0x00 | 0x78002000 | Set the address of the read/write destination to be performed for auto-calibration. |
 | configuration.xml > Stacks > g_ospi_b OSPI Flash (r_ospi_b) > Properties > Settings > Property > Module g_ospi_b OSPI Flash (r_ospi_b) > Command Sets > Erase Sizes > Sector Erase | 4096 | 4096 | Sector size of the flash device. |
 | configuration.xml > Stacks > g_ospi_b OSPI Flash (r_ospi_b) > Properties > Settings > Property > Module g_ospi_b OSPI Flash (r_ospi_b) > Command Sets > Erase Sizes > Block Erase | 262144 | 131072 | Block size of the flash device. |
 | configuration.xml > Stacks > g_ospi_b OSPI Flash (r_ospi_b) > Properties > Settings > Property > Module g_ospi_b OSPI Flash (r_ospi_b) > Command Sets > Initial Mode > Read > Command Code | 0x13 | 0x0C | Read Command of flash device in SPI (1S-1S-1S) protocol mode. |
@@ -134,13 +136,39 @@ The table below lists the FSP provided API used at the application layer by this
 | R_BSP_OctaclkUpdate | This API is used to update the clock source for the OSPI_B module. |
 
 ## Verifying Operation ##
-1. Import, generate, build, and flash the example project to the RA board.
-2. Open J-Link RTT Viewer.
-3. After the Main Menu is displayed on J-Link RTT Viewer, type '1' and enter to select SPI 1S-1S-1S protocol mode, or type '2' and enter to select OPI 8D-8D-8D protocol mode.
-4. After the Sub Menu is displayed on J-Link RTT Viewer, type '1' and enter to perform a write operation, type '2' and enter to perform a read operation, type '3' and enter to perform an erase operation, or type '4' and enter to go back to main menu.
+* Import, generate, and build the example project.
+* Before running the example project, make sure [Hardware Configurations](#hardware-configurations) and [Hardware Connections](#hardware-connections) are completed.
+* Open a serial terminal application (e.g., Tera Term) to view output log, configure the settings as shown below:
+    * To make sure the received data shows properly, the user needs to set:
+        * [Setup] -> [Terminal...] -> [New-line] -> Select [Receive: CR] & [Transmit: CR].
+    * To echo back characters typed in Tera Term, the user needs to enable it through:
+        * [Setup] -> [Terminal...] -> Check [Local echo].
+    * The configuration parameters of the serial port on the serial terminal application:
+        * Port: The port is provided by the J-Link On-Board.
+        * Speed: 115200
+        * Data: 8 bit
+        * Parity: none
+        * Stop bits: 1 bit
+        * Flow control: none
+* Debug or flash the EP to the RA board.
 
-![rtt_info](images/ospi_b_rtt_info.jpg "EP information Image")
+### The image below showcases the output log ###
+* EP information:
 
-![rtt_spi_mode](images/ospi_b_rtt_spi_mode.jpg "SPI 1S-1S-1S operation Image")
+![ep_info](images/ospi_b_info.jpg "EP information image")
 
-![rtt_dopi_mode](images/ospi_b_rtt_dopi_mode.jpg "SPI 1S-1S-1S operation Image")
+* SPI 1S-1S-1S protocol mode: 
+    * Press '1' to perform a write operation.
+    * Press '2' to perform a read operation.
+    * Press '3' to perform an erase operation.
+    * Press '4' to go back to main menu.
+
+![spi_mode](images/ospi_b_spi_mode.jpg "SPI 1S-1S-1S operation image")
+
+* OPI 8D-8D-8D protocol mode:
+    * Press '1' to perform a write operation.
+    * Press '2' to perform a read operation.
+    * Press '3' to perform an erase operation.
+    * Press '4' to go back to main menu.
+
+![dopi_mode](images/ospi_b_dopi_mode.jpg "OPI 8D-8D-8D operation image")

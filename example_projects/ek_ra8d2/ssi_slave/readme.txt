@@ -7,31 +7,33 @@
 	This project demonstrates the basic functionalities of SSI driver on Renesas RA MCUs based on Renesas FSP and
 	streaming example of SSI Slave on Renesas RA MCUs based on Renesas FSP. The two RA MCU's will be connected to
 	the host PC. One RA MCU will act as the SSI Master and the other RA MCU will act as the SSI Slave. Both RA MCU
-	will have two modes of operation 1. Master Write - Slave Read, 2. Master Read - Slave Write. On Selecting
-	Master Write - Slave Read on both Master and Slave, the Master starts writing data, and the Slave reads the
-	data. On Selecting Slave Write - Master Read on both Master and Slave, the Slave starts writing data, and the
-	Master reads the data. The result of transfers between SSI Master and SSI Slave is displayed on the J-Link RTT
-	Viewer. The two example projects ssi_master_ep and ssi_slave_ep are provided for the SSI Slave EP, one intended
+	will have two modes of operation 1. Master write - Slave read, 2. Master read - Slave write. On selecting
+	Master write - Slave read on both Master and Slave, the Master starts writing data, and the Slave reads the
+	data. On selecting Slave write - Master read on both Master and Slave, the Slave starts writing data, and the
+	Master reads the data. The result of transfers between SSI Master and SSI Slave is displayed on the terminal.
+	The two example projects ssi_master_ep and ssi_slave_ep are provided for the SSI Slave EP, one intended
 	for Master and other for the Slave.
 
 2. Software Requirements:
 	Renesas Flexible Software Package (FSP): Version 6.6.0
 	e2 studio: Version 2026-07
-	SEGGER J-Link RTT Viewer: Version 9.64
+	Terminal Console Application: Tera Term or a similar application
 	LLVM Embedded Toolchain for ARM: Version 22.1.0
 
 3. Hardware Requirements:
-	Supported RA boards: EK-RA4M2, EK-RA4M3, EK-RA6M1, EK-RA6M2, EK-RA6M3, EK-RA6M4, EK-RA6M5, EK-RA4E2, EK-RA6E2,
-	                     EK-RA8D1, EK-RA8M1, FPB-RA8E1, EK-RA4L1, EK-RA8E2, EK-RA2L2, EK-RA8P1, EK-RA8M2, EK-RA8D2.
+	Supported RA boards: EK-RA4M2, EK-RA4M3, EK-RA6M1, EK-RA6M2, EK-RA6M3, EK-RA6M4, EK-RA6M5, EK-RA4E2,
+	                     EK-RA6E2, EK-RA8D1, EK-RA8M1, FPB-RA8E1, EK-RA4L1, EK-RA8E2, EK-RA2L2, EK-RA8P1,
+	                     EK-RA8M2, EK-RA8D2, EK-RA8P1 V2, FPB-RA4E2, FPB-RA6E2.
 	2 x Renesas RA boards.
-	2 x Type-C USB cables for programming and debugging.
+	2 x USB cables for programming and debugging (USB cable type varies by board model).
 	1 x Host PC with at least 2 USB ports (1 for Master and 1 for Slave).
 	Some jumper wires.
 
 4. Hardware Connections:
-	Connect the debug port of the RA board to the USB port of the host PC via a Type-C USB cable.
+	Connect USB debug ports of the two RA boards to USB ports of the host PC using two appropriate USB cables for
+	EP programming and debugging.
 
-	Pins and Jumper Settings:
+	Pins and jumper settings:
 		For EK-RA6M2, EK-RA6M3:
 			SSISCK P112 (Master) -----> SSISCK P112 (Slave)
 			SSIWS  P113 (Master) -----> SSIWS  P113 (Slave)
@@ -60,7 +62,7 @@
 			SSIRXD0  P110 (Master) -----> SSITXD0  P109 (Slave)
 			GND           (Master) -----> GND	    (Slave)
 			For EK-RA4E2 (Master):
-				GPT1 P105 <--> AUDIO_CLK P100
+			GPT1 P105 <--> AUDIO_CLK P100
 
 		For EK-RA8D1:
 			SSIBCK0  P403 (Master) -----> SSIBCK0  P403 (Slave)
@@ -100,11 +102,11 @@
 			GND           (J14:26) (Master)  -----> GND           (J14:26) (Slave)
 
 		For EK-RA2L2:
-			SSIBCK0  P411 (J2:5)  (Master)  -----> SSIBCK0  P411 (J2:5)  (Slave) 
+			SSIBCK0  P411 (J2:5)  (Master)  -----> SSIBCK0  P411 (J2:5)  (Slave)
 			SSILRCK0 P410 (J2:6)  (Master)  -----> SSILRCK0 P410 (J2:6)  (Slave)
-			SSITXD0  P409 (J2:7)  (Master)  -----> SSIRXD0  P408 (J2:8)  (Slave) 
-			SSIRXD0  P408 (J2:8)  (Master)  -----> SSITXD0  P409 (J2:7)  (Slave) 
-			GND 	      (J2:40) (Master)  -----> GND 	     (J2:40) (Slave) 
+			SSITXD0  P409 (J2:7)  (Master)  -----> SSIRXD0  P408 (J2:8)  (Slave)
+			SSIRXD0  P408 (J2:8)  (Master)  -----> SSITXD0  P409 (J2:7)  (Slave)
+			GND 	      (J2:40) (Master)  -----> GND           (J2:40) (Slave)
 
 		For EK-RA8P1, EK-RA8D2:
 			SSIBCK0  P112 (J37:23) (Master)  -----> SSIBCK0  P112 (J37:23) (Slave)
@@ -120,39 +122,64 @@
 			SSIRXD0  P114 (J1:18) (Master)  -----> SSITXD0  P115 (J1:17) (Slave)
 			GND           (J1:39) (Master)  -----> GND           (J1:39) (Slave)
 
+		For EK-RA8P1 V2:
+			The user must set the configuration switches (SW6) as below to use the on-board
+			debug functionality.
+			+-------+-------+-------+-------+-------+-------+-------+-------+-------+--------+
+			| SW6-1 | SW6-2 | SW6-3 | SW6-4 | SW6-5 | SW6-6 | SW6-7 | SW6-8 | SW6-9 | SW6-10 |
+			+-------+-------+-------+-------+-------+-------+-------+-------+-------+--------+
+			|  OFF  |  OFF  |  OFF  |  OFF  |  ON   |  OFF  |  ON   |  ON   |  ON   |   ON   |
+			+-------+-------+-------+-------+-------+-------+-------+-------+-------+--------+
+			SSIBCK0  P112 (J37:25) (Master)  -----> SSIBCK0  P112 (J37:25) (Slave)
+			SSILRCK0 P113 (J37:23) (Master)  -----> SSILRCK0 P113 (J37:23) (Slave)
+			SSITXD0  P115 (J14:26) (Master)  -----> SSIRXD0  P114 (J37:24) (Slave)
+			SSIRXD0  P114 (J37:24) (Master)  -----> SSITXD0  P115 (J14:26) (Slave)
+			GND           (J2:27)  (Master)  -----> GND           (J2:27)  (Slave)
+
+		For FPB-RA4E2, FPB-RA6E2:
+			SSIBCK0  P102 (J4:14) (Master)  -----> SSIBCK0  P102 (J4:14) (Slave)
+			SSILRCK0 P103 (J4:13) (Master)  -----> SSILRCK0 P103 (J4:13) (Slave)
+			SSITXD0  P109 (J4:2)  (Master)  -----> SSIRXD0  P110 (J4:3)  (Slave)
+			SSIRXD0  P110 (J4:3)  (Master)  -----> SSITXD0  P109 (J4:2)  (Slave)
+			GND           (J4:8)  (Master)  -----> GND           (J4:8)  (Slave)
+
 5. Verifying Operation:
-	To run this example project, the user needs to compile and download the example project to the evaluation kit
-	and then follow below instructions to observe the operation of the system.
-		a. Connect the Master RA MCU and Slave RA MCU device to host PC via two Type-C USB cables and connect
-		   wires as mentioned in the 'Hardware Connections' section above.
+	To run the example project, the user needs to compile and download the Master and Slave projects to the
+	two RA boards and then follow the instructions below to observe the operation of the system.
+		a. Set up hardware connection properly as mentioned in the 'Hardware Connections' section.
 
-		b. Run the example projects on Master and Slave respectively and then open two instances of J-Link RTT
-		   Viewer to see the output status of the example projects for Master and Slave.
+		b. Run the example projects on Master and Slave boards respectively and then open two instances
+		   of the serial terminal application (e.g., Tera Term) to see the output status of the example
+		   projects for Master and Slave.
 
-		c. For Selecting Master Write - Slave Read operation, press "1" on both the EPs (Master and Slave
-		   sequentially).
+		c. To select the Master Write - Slave Read operation, press "1" on the Master EP first, and then
+		   press "1" on the Slave EP.
 			- Master starts writing and Slave reads and both RA MCUs display the data transaction/messages
-			  on J-Link RTT Viewer.
-			- After the transaction is completed, turn off the Slave first by pressing any key and then
-			  for the Master press any key to terminate the process.
+			  on the terminal.
+			- After the transaction is completed, pressing any key to terminate the process.
 
-		d. For Selecting Master Read - Slave Write operation, press "2" on both the EPs (Master and Slave
-		   sequentially).
+		d. To select the Master Read - Slave Write operation, press "2" on the Slave EP first, and then
+		   press "2" on the Master EP.
 			- Master starts reading and Slave writes and both RA MCUs display the data transaction/messages
-			  on J-Link RTT Viewer.
-			- After the transaction is completed, turn off the Master first by pressing any key, and then
-			  for the Slave press any key to terminate the process.
+			  on the terminal.
+			- After the transaction is completed, pressing any key to terminate the process.
 
 Note:
 1) The user cannot change the configuration from Master to Slave at run time.
    The example project ssi_master_ep has Master configuration settings and runs in Master mode and the example
    project ssi_slave_ep has Slave configuration settings and runs in Slave mode.
 
-2) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT Viewer.
-   RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x2200086c
-   b. Keil:	Not Available
-   c. IAR:	Not Available
+2) To view output logs on a serial terminal application (e.g., Tera Term), configure the settings as shown below:
+	a. To make sure the received data shows properly, the user needs to set:
+		[Setup] -> [Terminal...] -> [New-line] -> Select [Receive: CR] & [Transmit: CR].
 
-3) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called
-   _SEGGER_RTT) in .map file generated in the project folder (e2studio\Debug or e2studio\Release).
+	b. To echo back characters typed in Tera Term, the user needs to enable it through:
+		[Setup] -> [Terminal...] -> Check [Local echo].
+
+	c. The configuration parameters of the serial port on the serial terminal application:
+		Port: The port is provided by the J-Link On-Board.
+		Speed: 115200
+		Data: 8 bit
+		Parity: none
+		Stop bits: 1 bit
+		Flow control: none

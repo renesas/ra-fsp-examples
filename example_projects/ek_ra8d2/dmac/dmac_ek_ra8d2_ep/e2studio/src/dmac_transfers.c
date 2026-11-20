@@ -3,29 +3,27 @@
  * Description  : Contains data structures and functions used in dmac_transfers.c.
  **********************************************************************************************************************/
 /***********************************************************************************************************************
-* Copyright (c) 2020 - 2025 Renesas Electronics Corporation and/or its affiliates
-*
-* SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
+ * Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ **********************************************************************************************************************/
 
-#include "common_utils.h"
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdbool.h>
 #include "dmac_transfers.h"
 #include "transfer_initialise.h"
 #include "timer_initialise.h"
 
-/*******************************************************************************************************************//**
- * @addtogroup dmac_transfers
- * @{
- **********************************************************************************************************************/
-
-/* Source and destination array for DMAC transfer */
+/* Source and destination arrays for DMAC transfer */
 extern uint32_t g_source_data[SOURCE_DATA_SIZE];
 extern uint32_t g_dest_data[DEST_DATA_SIZE];
 
 /* Boolean flag to determine if transfer is complete */
 volatile bool g_is_transfer_complete = false;
 
-/* LED port pin control register for port */
+/* LED port pin control register for the specific board */
 #if defined (BOARD_RA6M4_EK) || defined (BOARD_RA6T1_RSSK) || defined (BOARD_RA4M3_EK) ||\
     defined (BOARD_RA4M2_EK) || defined (BOARD_RA8E1_FPB)
 static volatile uint32_t *p_ioport_pnctrl_register = &R_PORT4->PCNTR1;
@@ -34,9 +32,9 @@ static volatile uint32_t *p_ioport_pnctrl_register = &R_PORT0->PCNTR1;
 #elif defined (BOARD_RA8T1_MCK) 
 static volatile uint32_t *p_ioport_pnctrl_register = &R_PORT10->PCNTR1;
 #elif defined (BOARD_RA4L1_EK) || defined (BOARD_RA8P1_EK) || defined (BOARD_RA4C1_EK) ||\
-      defined (BOARD_RA8T2_MCK) || defined (BOARD_RA8D2_EK)
+      defined (BOARD_RA8T2_MCK) || defined (BOARD_RA8D2_EK) || defined (BOARD_RA8M2_EK)
 static volatile uint32_t *p_ioport_pnctrl_register = &R_PORT6->PCNTR1;
-#elif defined (BOARD_RA8E2_EK)
+#elif defined (BOARD_RA8E2_EK) || defined (BOARD_RA6E2_FPB) || defined (BOARD_RA4E2_FPB)
 static volatile uint32_t *p_ioport_pnctrl_register = &R_PORT2->PCNTR1;
 #else
 static volatile uint32_t *p_ioport_pnctrl_register = &R_PORT1->PCNTR1;
@@ -46,125 +44,106 @@ static volatile uint32_t *p_ioport_pnctrl_register = &R_PORT1->PCNTR1;
 static volatile uint32_t *p_gpt_counter_register = &R_GPT0->GTCNT;
 
 /*******************************************************************************************************************//**
- *  @brief       Perform transfer LED blink operation
- *  @param[IN]   None
- *  @retval      None
+ * @brief     This function performs transfer LED blink operation.
+ * @param[in] None.
+ * @retval    FSP_SUCCESS               Operated successfully.
+ * @retval    Any other error codes     Failed to operate.
  **********************************************************************************************************************/
-void transfer_led_blink_operation(void)
+fsp_err_t transfer_led_blink_operation(void)
 {
-    fsp_err_t fsp_err = FSP_SUCCESS;    /* Variable to help handle error codes from functions */
+    /* Error status */
+    fsp_err_t err = FSP_SUCCESS;
 
     /* Set the Source and Destination Addresses for DMAC g_transfer_led_blink.
-     * NOTE: If the source and destination addresses are not set prior to
+     * Note: If the source and destination addresses are not set prior to
      * opening the transfer interface, then the open will fail. */
-    set_transfer_dst_src_address(&g_transfer_led_blink_cfg, (void *)g_source_data , (void *)p_ioport_pnctrl_register);
+    set_transfer_dst_src_address(&g_transfer_led_blink_cfg, (void *)g_source_data, (void *)p_ioport_pnctrl_register);
 
     /* Open and enable DMAC g_transfer_led_blink */
-    fsp_err = dmac_transfer_init(&g_transfer_led_blink_ctrl, &g_transfer_led_blink_cfg, TRANSFER_LED_BLINK);
-    /* Handle error in case of failure */
-    if (FSP_SUCCESS != fsp_err)
+    err = dmac_transfer_init(&g_transfer_led_blink_ctrl, &g_transfer_led_blink_cfg, TRANSFER_LED_BLINK);
+    if (FSP_SUCCESS != err)
     {
-        /* Necessary cleanup is already taken care in initialize function hence no cleanup is required here */
-        APP_ERR_PRINT("** DMAC TRANSFER_LED_BLINK INIT failed **\r\n");
-        APP_ERR_TRAP(fsp_err);
+        return err;
     }
 
     /* Open and start AGT timer */
-    fsp_err = agt_timer_init();
-    /* Handle error in case of failure */
-    if (FSP_SUCCESS != fsp_err)
+    err = agt_timer_init();
+    if (FSP_SUCCESS != err)
     {
-        APP_ERR_PRINT("** AGT Timer INIT failed **\r\n");
-        dmac_transfer_deinit(&g_transfer_led_blink_ctrl, TRANSFER_LED_BLINK);
-        APP_ERR_TRAP(fsp_err);
+        return err;
     }
-    /* Display information about g_transfer_led_blink transfer on RTT display and view on-board LED */
-    APP_PRINT("\r\nDMAC g_transfer_led_blink transfer in progress. Wait for 6 seconds\r\n");
 
     /* Wait for g_transfer_led_blink to complete.
      * This boolean flag is set in transfer_agt_timer_callback */
-    while(false == g_is_transfer_complete)
+    while (false == g_is_transfer_complete)
     {
-        ;
+        /* Do nothing */
     }
+
     /* Reset the flag */
     g_is_transfer_complete = false;
-    APP_PRINT("\r\nDMAC g_transfer_led_blink transfer completed\r\n");
+
+    return err;
 }
 
 /*******************************************************************************************************************//**
- *  @brief       Perform transfer GPT timer operation
- *  @param[IN]   None
- *  @retval      None
+ * @brief     This function performs transfer GPT timer operation.
+ * @param[in] None.
+ * @retval    FSP_SUCCESS               Operated successfully.
+ * @retval    Any other error codes     Failed to operate.
  **********************************************************************************************************************/
-void transfer_gpt_timer_operation(void)
+fsp_err_t transfer_gpt_timer_operation(void)
 {
-    fsp_err_t fsp_err = FSP_SUCCESS;    /* Variable to help handle error codes from functions */
+    /* Error status */
+    fsp_err_t err = FSP_SUCCESS;
 
     /* Set the Source and Destination Addresses for DMAC transfer_gpt_value.
-     * NOTE: If the source and destination addresses are not set prior to
+     * Note: If the source and destination addresses are not set prior to
      * opening the transfer interface, then the open will fail. */
     set_transfer_dst_src_address(&g_transfer_gpt_value_cfg, (void *)p_gpt_counter_register, (void *)&g_dest_data);
 
     /* Open and enable DMAC g_transfer_gpt_value */
-    fsp_err = dmac_transfer_init(&g_transfer_gpt_value_ctrl, &g_transfer_gpt_value_cfg, TRANSFER_GPT_TIMER_VALUE);
-    /* Handle error in case of failure */
-    if (FSP_SUCCESS != fsp_err)
+    err = dmac_transfer_init(&g_transfer_gpt_value_ctrl, &g_transfer_gpt_value_cfg, TRANSFER_GPT_TIMER_VALUE);
+    if (FSP_SUCCESS != err)
     {
-        APP_ERR_PRINT("** DMAC TRANSFER_GPT_TIMER_VALUE INIT failed **\r\n");
-        agt_timer_deinit();
-        dmac_transfer_deinit(&g_transfer_led_blink_ctrl, TRANSFER_LED_BLINK);
-        APP_ERR_TRAP(fsp_err);
+        return err;
     }
 
     /* Open GPT timer and start */
-    fsp_err = gpt_timer_init();
-    /* Handle error in case of failure */
-    if (FSP_SUCCESS != fsp_err)
-    {
-        APP_ERR_PRINT("** GPT timer INIT failed **\r\n");
-        dmac_transfer_deinit(&g_transfer_gpt_value_ctrl, TRANSFER_GPT_TIMER_VALUE);
-        agt_timer_deinit();
-        dmac_transfer_deinit(&g_transfer_led_blink_ctrl, TRANSFER_LED_BLINK);
-        APP_ERR_TRAP(fsp_err);
-    }
+    err = gpt_timer_init();
+
+    return err;
 }
 
 /*******************************************************************************************************************//**
- *  @brief       Perform transfer write IOPORT operation.
- *  @param[IN]   None
- *  @retval      None
+ * @brief     This function performs transfer write IOPORT operation.
+ * @param[in] None.
+ * @retval    FSP_SUCCESS               Operated successfully.
+ * @retval    Any other error codes     Failed to operate.
  **********************************************************************************************************************/
-void transfer_write_ioport_operation(void)
+fsp_err_t transfer_write_ioport_operation(void)
 {
-    fsp_err_t fsp_err = FSP_SUCCESS;    /* Variable to help handle error codes from functions */
+    /* Error status */
+    fsp_err_t err = FSP_SUCCESS;
 
     /* Set the source and destination addresses DMAC, g_transfer_write_ioport
      * is configured to transfer in repeat mode,
-     * from g_source_data to R_IOPORT6->PCNTR1
+     * from g_source_data to R_IOPORTX->PCNTR1. The value X is specific to each board.
      * This is similar to DMAC g_transfer_led_blink
      * However, g_transfer_led_blink was triggered by a peripheral interrupt (AGT0)
      * Here, DMAC g_transfer_write_ioport is configured for Software Activation. */
-    set_transfer_dst_src_address(&g_transfer_write_ioport_cfg, (void *)g_source_data,
-                                 (void *)p_ioport_pnctrl_register);
+    set_transfer_dst_src_address(&g_transfer_write_ioport_cfg, (void *)g_source_data, (void *)p_ioport_pnctrl_register);
 
     /* Open and enable DMAC g_transfer_write_ioport */
-    fsp_err = dmac_transfer_init(&g_transfer_write_ioport_ctrl, &g_transfer_write_ioport_cfg, TRANSFER_WRITE_IOPORT);
-    /* Handle error in case of failure */
-    if (FSP_SUCCESS != fsp_err)
-    {
-        APP_ERR_PRINT("** DMAC TRANSFER_WRITE_IOPORT INIT failed **\r\n");
-        gpt_timer_deinit();
-        dmac_transfer_deinit(&g_transfer_gpt_value_ctrl, TRANSFER_GPT_TIMER_VALUE);
-        agt_timer_deinit();
-        dmac_transfer_deinit(&g_transfer_led_blink_ctrl, TRANSFER_LED_BLINK);
-        APP_ERR_TRAP(fsp_err);
-    }
+    err = dmac_transfer_init(&g_transfer_write_ioport_ctrl, &g_transfer_write_ioport_cfg, TRANSFER_WRITE_IOPORT);
+
+    return err;
 }
 
 /*******************************************************************************************************************//**
- *  @brief      transfer_agt_timer_callback function
- *  @param[in]  callback arguments
+ * @brief     transfer_agt_timer_callback function.
+ * @param[in] p_args    Pointer to the callback argument.
+ * @retval    None.
  **********************************************************************************************************************/
 void transfer_agt_timer_callback(dmac_callback_args_t * p_args)
 {
@@ -173,7 +152,3 @@ void transfer_agt_timer_callback(dmac_callback_args_t * p_args)
     /* Set boolean flag to print data */
     g_is_transfer_complete = true;
 }
-
-/*******************************************************************************************************************//**
- * @} (end addtogroup dmac_transfers)
- **********************************************************************************************************************/

@@ -1,7 +1,7 @@
 # Introduction #
-This example project demonstrates Azure NetX Duo's networking capabilities using the Ethernet physical layer of the RA MCU. It leverages the NetX Duo network stack to execute various network operations, such as sending and receiving data over a network. The RA board will automatically obtain an IP address from the network using a DHCP (Dynamic Host Configuration Protocol) client service.
+The example project demonstrates Azure NetX Duo's networking capabilities using the Ethernet physical layer of the RA MCU. It leverages the NetX Duo network stack to execute various network operations, such as sending and receiving data over a network. The RA board will automatically obtain an IP address from the network using a DHCP (Dynamic Host Configuration Protocol) client service.
 
-Once the RA board successfully acquires the IP address, the user can interact with the system by selecting options from a menu, which is accessible via the RTT Viewer or a terminal application running on the host PC. After the RA board retrieves its IP address from the router, it will display the network configuration details, along with the available menu options, in the terminal application. This enables the user to explore different features and operations supported by the network stack.
+Once the RA board successfully acquires the IP address, the user can interact with the system by selecting options from a menu, which is accessible via a terminal application running on the host PC. After the RA board retrieves its IP address from the router, it will display the network configuration details, along with the available menu options, in the terminal application. This enables the user to explore different features and operations supported by the network stack.
 
 The available operations include:
 * TCP Client Service: Connect to a server, send a request, wait for a response from the server, and disconnect from the server.
@@ -16,10 +16,8 @@ The menu options:
 * Type `4` to start the web HTTP server.
 
 Notes: 
-* To display information, the user can select between the SEGGER J-Link RTT Viewer and the serial terminal (UART) with J-Link OB VCOM. 
-* By default, the EP information is printed to the host PC via the serial terminal.
-* RA boards supported for J-Link OB VCOM: EK-RA8D1, EK-RA8M1, EK-RA8P1.
-* To use the SEGGER J-Link RTT Viewer instead of the serial terminal, please follow the instructions in the [Verifying Operation](#verifying-operation) section.
+* The EP information is printed to the host PC via the serial terminal (UART) with J-Link OB VCOM.
+* RA boards supported for J-Link OB VCOM: EK-RA8D1, EK-RA8M1, EK-RA8P1, EK-RA8D2, EK-RA8M2, EK-RA8T2.
 
 ## Required Resources ## 
 To build and run the Getting_started_with_Azure_NetX example project, the following resources are needed.
@@ -29,24 +27,23 @@ To build and run the Getting_started_with_Azure_NetX example project, the follow
 * e2 studio: Version 2026-07
 * LLVM Embedded Toolchain for ARM: Version 22.1.0
 * Terminal Console Application: Tera Term or a similar application
-* SEGGER J-Link RTT Viewer: Version 9.64
 * Socket Application (e.g., sokit version 1.3)
 * Browser Application (e.g., Microsoft Edge, Google Chrome)
 
 Refer to the software required section in [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf)
 
 ### Hardware Requirements ###
-* Supported RA boards: EK-RA8D1, EK-RA8M1, EK-RA8P1.
+* Supported RA boards: EK-RA8D1, EK-RA8M1, EK-RA8P1, EK-RA8D2, EK-RA8M2, EK-RA8T2.
     * 1 x Renesas RA board.
     * 1 x Ethernet router with an internet connection.
     * 2 x Ethernet cables to connect the RA board and the host PC to the router.
-    * 1 x Type-C USB cable for programming and debugging.
+    * 1 x USB cables for programming and debugging (USB cable type varies by board model).
 
 ### Hardware Connections ###
 * Power on the Router: Ensure the router is powered on and properly connected to the internet. Verify that the router’s LAN ports are active and available for connections.
 * Connect the RA board to the Router: Take an Ethernet cable and connect one end to the Ethernet port on the RA board, and the other end to one of the router's available LAN ports. This connection allows the RA board to communicate with the network and obtain an IP address via DHCP.
 * Connect the host PC to the Router: Using a second Ethernet cable, connect the host PC to another LAN port on the same router. This step ensures that both the RA board and the host PC are on the same network, enabling communication between them for debugging and menu operations.
-* Connect the RA board to the host PC: Using a USB cable, connect the RA board to the host PC. This connection is necessary for programming the RA board, enabling debugging, and displaying runtime information in the terminal or RTT Viewer on the host PC.
+* Connect the RA board to the host PC: Using a USB cable, connect the RA board to the host PC. This connection is necessary for programming the RA board, enabling debugging, and displaying runtime information in the terminal on the host PC.
 * By following these steps, you'll establish proper hardware connections between the RA board, the router, and the host PC, ensuring smooth network communication and debugging capabilities.
 * For EK-RA8D1: Set the configuration switches (SW1) as below.
     | SW1-1 PMOD1 | SW1-2 TRACE | SW1-3 CAMERA | SW1-4 ETHA | SW1-5 ETHB | SW1-6 GLCD | SW1-7 SDRAM | SW1-8 I3C |
@@ -58,6 +55,24 @@ Refer to the software required section in [Example Project Usage Guide](https://
     | SW4-1 PMOD1_SEL0 |SW4-2 PMOD1_SEL1 | SW4-3 OSPI | SW4-4 ARDUINO | SW4-5 I3C | SW4-6 MIPI | SW4-7 USBFS_ROLE | SW4-8 USBHS_ROLE |
     |:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|
     | OFF | OFF | OFF | OFF | OFF | OFF | OFF | OFF |
+
+* For EK-RA8D2: Set the configuration switches (SW4) as below to avoid potential failures.
+
+    | SW4-1 PMOD1 | SW4-2 PMOD1 | SW4-3 Octo-SPI | SW4-4 Arduino/mikroBUS | SW4-5 I3C | SW4-6 MIPI | SW4-7 USBFS | SW4-8 USBHS |
+    |:-----------:|:-----------:|:--------------:|:----------------------:|:---------:|:----------:|:-----------:|:-----------:|
+    |     OFF     |     OFF     |      OFF       |          OFF           |    OFF    |    OFF     |     OFF     |     OFF     |
+
+* For EK-RA8M2: The user must place jumper J6 on pins 2-3, J8 on pins 1-2, J9 on pins 2-3, and J29 on pins 1-2, 3-4, 5-6, 7-8 to use the on-board debug functionality.
+* For EK-RA8T2:
+	* The user must set the configuration switches (SW6 and SW4) as below to use the on-board debug functionality and enable Ethernet 0.
+
+	  | SW6-1 | SW6-2 | SW6-3 | SW6-4 | SW6-5 | SW6-6 | SW6-7 | SW6-8 | SW6-9 | SW6-10 |
+	  |-------|-------|-------|-------|-------|-------|-------|-------|-------|--------|
+	  |  OFF  |  OFF  |  OFF  |  OFF  |  ON   |  OFF  |  ON   |  ON   |  ON   |   ON   |
+
+	  | SW4-1 PMOD1 | SW4-2 PMOD1 | SW4-3 CAN0 | SW4-3 CAN1 | SW4-5 PMIC | SW4-6 ETH0 | SW4-7 USBFS | SW4-8 RS485 |
+	  |-------------|-------------|------------|------------|------------|------------|-------------|-------------|
+	  |     OFF     |     OFF     |     OFF    |     OFF    |     OFF    |     OFF    |     OFF     |      OFF    |
 
 **Note: Sokit (Socket Application) setup on PC as TCP, UDP server**
 1. Download sokit tool form https://www.softpedia.com/get/Network-Tools/Misc-Networking-Tools/sokit.shtml
@@ -105,13 +120,13 @@ The following documents can be referred to for enhancing your understanding of t
 ![Web server homepage](images/index_page.png "The Web server homepage")
 
 ## FSP Modules Used ##
-List all the various modules that are used in this example project. Refer to the FSP User Manual for further details on each module listed below.
+List all the various modules that are used in this example project. Refer to the FSP User Manual for further details on each module listed below.  
 
 | Module Name | Usage | Searchable Keyword  |
 |-------------|-----------------------------------------------|-----------------------------------------------|
 | NetX Duo Web HTTP/HTTPS Server | The NetX Duo Web HTTP/HTTPS Server is used to access the NetX Duo Web HTTP/HTTPS Server library. | NetX Duo Web HTTP/HTTPS Server |
 | NetX Duo DHCP IPv4 Client | The NetX Duo DHCP IPv4 Client is used to obtain IP addresses and network parameters, automating the process of configuring devices on IP networks. | NetX Duo DHCP |
-| NetX Duo IP Instance | The NetX Duo IP instance is used for IP communication. The HTTPS Client uses IPv4. | NetX Duo IP |
+| NetX Duo IP Instance | The NetX Duo IP instance is used for IP communication. The IP instance uses IPv4. | NetX Duo IP |
 | NetX Duo Packet Pool | The NetX Duo Packet Pool is used to send and receive data packets over a TCP network. | NetX Duo Packet Pool |
 | NetX Duo Ethernet Driver | An Ethernet connection is required as a physical connection to the network. | NetX Duo Ethernet Driver |
 | FileX on Block Media | The FileX on Block Media is used to configure the FileX system and media properties. | FileX on Block Media |
@@ -119,12 +134,14 @@ List all the various modules that are used in this example project. Refer to the
 | OSPI Flash | The OSPI Flash is used to communicate directly with the external flash chip. | r_ospi_b |
 
 ## Module Configuration Notes ##
-This section describes FSP configuration properties that are important or different from those selected by default.
+This section describes FSP configuration properties that are important or different from those selected by default.  
+**Note: The configuration shown in this document is based on the original target board (e.g., EK-RA8P1). Some settings may differ on other supported boards due to hardware differences.**
 
 |   Module Property Path and Identifier   |   Default Value  |   Used Value   |   Reason   |
 |-----------------------------------------|-------------------|----------------|------------|
 | configuration.xml > BSP > Properties > Settings > Property > RA Common > Main stack size (bytes) | 0x400 | 0x2000 | The stack size is increased to handle larger local variables required for the main thread. |
 | configuration.xml > BSP > Properties > Settings > Property > RA Common > Heap size (bytes) | 0 | 0x2000 | Heap size is allocated to enable dynamic memory allocation for standard library functions. |
+| configuration.xml > Stacks > Threads > Terminal Thread > Properties > Settings > Property > Thread > Stack size (bytes) | 1024 | 2048 | The Terminal Thread prints the messages with printf, which needs a larger stack. |
 | configuration.xml > Stacks > Threads > Net Link Thread > Properties > Settings > Property > Thread > Auto start | Enabled | Disabled | Manual control of when the Net Link thread starts allows better flow management. |
 | configuration.xml > Stacks > Threads > Net App Thread > Properties > Settings > Property > Thread > Auto start | Enabled | Disabled | Manual control of when the Net App Thread starts to ensure readiness of dependencies. |
 | configuration.xml > Stacks > Threads > Net App Thread > Properties > Settings > Property > Thread > Stack size (bytes) | 1024 | 4096 | Increased stack size to handle more complex operations or a larger number of local variables. |
@@ -174,19 +191,18 @@ The table below lists the FSP provided API used at the application layer in this
 | nx_dhcp_user_option_retrieve | This API is used to retrieve the specified DHCP option from the DHCP options buffer on the first interface enabled for DHCP found on the DHCP Client record. |
 | nx_tcp_socket_create | This API is used to create a TCP client or server socket for the specified IP instance. |
 | nx_tcp_client_socket_bind | This API is used to bind the previously created TCP client socket to the specified TCP port. |
-| nx_tcp_client_socket_unbind | This API is used to release the binding between the TCP client socket and a TCP port. |
 | nx_tcp_client_socket_connect | This API is used to connect the previously created and bound TCP client socket to the specified server's port. |
 | nx_tcp_socket_disconnect | This API is used to disconnect an established client or server socket connection. |
 | nx_tcp_socket_receive | This API is used to receive TCP data from the specified socket. |
 | nx_tcp_socket_send | This API is used to send TCP data through a previously connected TCP socket. |
 | nx_udp_socket_create | This API is used to create a UDP socket for the specified IP instance. |
 | nx_udp_socket_bind | This API is used to bind the previously created UDP socket to the specified UDP port. |
-| nx_udp_socket_unbind | This API is used to release the binding between the UDP socket and a UDP port. |
 | nx_udp_socket_receive | This API is used to receive a UDP data from the specified socket. |
 | nx_udp_socket_send | This API is used to send a UDP data through a previously created and bound UDP socket for IPv4 networks. |
 | nx_web_http_server_create | This API is used to create an HTTP Server instance, which runs in the context of its own ThreadX thread. |
 | nx_web_http_server_start | This API is used to start a previously created HTTP or HTTPS Server instance. |
 | nx_web_http_server_stop | This API is used to stop a previously created HTTP or HTTPS Server instance. |
+| nx_web_http_server_type_get | This API is used to retrieve the content type of the requested resource from its extension. |
 | nx_web_http_server_callback_generate_response_header | This API is used to generate an HTTP response header in the HTTP(S) server callback routine, as defined by the application. |
 | nx_web_http_server_callback_packet_send | This API is used to send a complete HTTP server response from an HTTP callback. |
 | nx_dns_create | This API is used to create a DNS Client instance for the previously created IP instance. |
@@ -201,7 +217,8 @@ The table below lists the FSP provided API used at the application layer in this
 | tx_thread_resume | This API is used to resume a suspended thread. |
 | tx_thread_suspend | This API is used to suspend a currently running thread. |
 | tx_thread_sleep | This API is used to put the current thread to sleep for a specified number of ticks. |
-| tx_thread_info_get | This API is used to retrieve information about a specific thread, such as its state, run count, etc. |
+| tx_thread_identify | This API is used to retrieve the pointer to the currently running thread. |
+| tx_time_get | This API is used to retrieve the current time of the internal system clock, in ticks. |
 | tx_byte_pool_create | This API is used to create a byte memory pool that can be used for dynamic memory allocation. |
 | tx_byte_allocate | This API is used to allocate a block of memory from a byte pool. |
 | tx_byte_release | This API is used to release a previously allocated block of memory back to the byte pool. |
@@ -222,67 +239,63 @@ The table below lists the FSP provided API used at the application layer in this
 
 ## Verifying Operation ##
 1. Import, generate, build, and flash the example project to the RA board using e2 studio on the host PC.
-    * By default, the EP supports serial terminal for RA boards that support J-Link OB VCOM.
+2. Make sure the [Hardware Connections](#hardware-connections) are completed.
+3. Open the terminal application on the host PC and connect to the RA board.
+    * To view output logs on a serial terminal application (e.g., Tera Term), configure the settings as follows:
+        * To make sure the received data shows properly, the user needs to set:
+            * [Setup] -> [Terminal...] -> [New-line] -> Select [Receive: CR] & [Transmit: CR].
+        * To echo back characters typed in Tera Term, the user needs to enable it through:
+            * [Setup] -> [Terminal...] -> Check [Local echo].
+        * The configuration parameters of the serial port on the serial terminal application:
+            * Port: The port is provided by the J-Link OB VCOM.
+            * Speed: 115200
+            * Data: 8 bit
+            * Parity: none
+            * Stop bits: 1 bit
+            * Flow control: none
 
-            Define USE_VIRTUAL_COM=1 macro in Project Properties -> C/C++ Build -> Settings -> Tool Settings -> Compiler -> Includes
-
-    * To use SEGGER J-Link RTT Viewer, please follow the instructions as below:
-
-            Define USE_VIRTUAL_COM=0 macro in Project Properties -> C/C++ Build -> Settings -> Tool Settings -> Compiler -> Includes
-2. Open the terminal application on the host PC and connect to the RA board.  
-Note: Before performing test, please confirm that the host PC has enabled the inbound rule '**File and Printer Sharing (Echo Request - ICMPv4-In)**' for accept ping request from RA MCU to TCP server: **Windows Defender Firewall -> Advanced settings -> Inbound Rules -> Enable File and Printer Sharing (Echo Request - ICMPv4-In).**  
-![ping_enable.png](images/ping_enable.png "Enable Ping action")
-3. Wait for the RA board to obtain the IP address from the router.
-4. The RA board's network configuration details and menu options will be displayed in the terminal application.
-5. Verify TCP Client Operation:
+   Note: Before performing test, please confirm that the host PC has enabled the inbound rule '**File and Printer Sharing (Echo Request - ICMPv4-In)**' for accept ping request from RA MCU to TCP server: **Windows Defender Firewall -> Advanced settings -> Inbound Rules -> Enable File and Printer Sharing (Echo Request - ICMPv4-In).**  
+   ![ping_enable.png](images/ping_enable.png "Enable Ping action")
+4. Wait for the RA board to obtain the IP address from the router.
+5. The RA board's network configuration details and menu options will be displayed in the terminal application.
+6. Verify TCP Client Operation:
     1. Launch a socket application on the host PC.
     2. Set up a TCP server by specifying the server's IP address and port number.
     3. Ensure that the server is configured to listen for incoming connections.
-    4. In the terminal, type the command: `1 <x.x.x.x><port>`. For example, if the server's IP is `192.168.1.12` and the port is `12345`, type: `1 192.168.1.12:12345`.
+    4. In the terminal, type the command: `1 <x.x.x.x>:<port>`. For example, if the server's IP is `192.168.1.12` and the port is `12345`, type: `1 192.168.1.12:12345`.
     5. The RA board will send a TCP request to the server.
     6. The socket application will display the TCP request.
     7. In the socket application, the user should type any data and click Send promptly to respond to the RA board. **Note:** If the user does not complete this step, a timeout error will occur (expected behavior). The operation will then end and return to the menu so the user can retry.
     8. The RA board will display the received data in the terminal application.
-6. Verify UDP Client Operation:
+7. Verify UDP Client Operation:
     1. Launch a socket application on the host PC.
     2. Set up a UDP server by specifying the server's IP address and port number.
     3. Ensure that the server is configured to listen for incoming connections.
-    4. In the terminal, type the command: `2 <x.x.x.x><port>`. For example, if the server's IP is `192.168.1.12` and the port is `12345`, type: `2 192.168.1.12:12345`.
+    4. In the terminal, type the command: `2 <x.x.x.x>:<port>`. For example, if the server's IP is `192.168.1.12` and the port is `12345`, type: `2 192.168.1.12:12345`.
     5. The RA board will send a UDP request to the server.
     6. The socket application will display the UDP request.
     7. In the socket application, the user should type any data and click Send promptly to respond to the RA board. **Note:** If the user does not complete this step, a timeout error will occur (expected behavior). The operation will then end and return to the menu so the user can retry.
     8. The RA board will display the received data in the terminal application.
-7. Verify DNS Client Operation:
+8. Verify DNS Client Operation:
     * Request a PTR record for an IP address:
         1. In the terminal, type: `3 <x.x.x.x>`. For example, if the IP address is `192.168.1.12`, type: `3 192.168.1.12`.
         2. The RA board will receive and display the PTR record data.
     * Request an A record for a domain:
         1. In the terminal, type: `3 <domain>`. For example, if the domain name is `renesas.com`, type: `3 renesas.com`.
         2. The RA board will receive and display the A record data.
-8. Verify Web Server Operation:
-    1. In the terminal, type '4 to start the web server.
+9. Verify Web Server Operation:
+    1. In the terminal, type `4` to start the web server. The terminal displays the address of the web page to open in the browser.
     2. Open a web browser on the host PC.
     3. In the URL bar, type: `<x.x.x.x>/index.html` and press Enter, where `<x.x.x.x>` is the IP address of the RA board.
     4. The browser will display the network configuration and LED control panel.
     5. In the LED control panel on the webpage, click on the SW1 or SW2 buttons to toggle LED1 or LED2 on the RA board.
     6. Click on SW1 or SW2 buttons on the RA board to toggle LED1 or LED2.
     7. The RA board will update the LED states dynamically on the webpage.
-    8. In the terminal, type any character to stop the web server. 
+    8. In the terminal, type any character and press Enter to stop the web server. 
 
 ### Note: ###
 * **x.x.x.x** is a placeholder for an IP address, which may vary depending on the environment, and the use of the same notation does not imply that the values are identical across different steps.
-* By default, the web.bin file containing the website content is flashed to OSPI during debugging. Ensure that it is also flashed when running the project using a hex file to avoid empty content in Option 4.
-* For using the serial terminal application:
-    1. To echo back characters typed in Tera Term, the user needs to enable it through: [Setup] -> [Terminal...] -> Check [Local echo].
-    2. The configuration parameters of the serial port are:
-		- Port: Provided by the J-Link OB VCOM.
-		- Speed: 115200
-		- Data: 8 bit
-		- Parity: none
-		- Stop bits: 1 bit
-		- Flow control: none
-* For the SEGGER RTT Viewer application:
-    * If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) in .map file generated in the project folder (e2studio\Debug or e2studio\Release).
+* By default, the website.bin file containing the website content is flashed to OSPI during debugging. Ensure that it is also flashed when running the project using a hex file to avoid empty content in Option 4.
 
 ### The images below showcase the output on the serial terminal application (Tera Term) ###
 **The EP information**
@@ -311,28 +324,6 @@ Note: Before performing test, please confirm that the host PC has enabled the in
 
 ![The Web page](images/webpage.png "The Web page")
 
-### The images below showcase the output on the SEGGER J-Link RTT Viewer ###
-**The EP information**
-
-![The EP Information](images/rtt_ep_info.png "The EP Information")
-
-**The TCP client operation**
-
-![The TCP client operation](images/rtt_tcp_client.png "The TCP client operation")
-
-**The UDP client operation**
-
-![The UDP client operation](images/rtt_udp_client.png "The UDP client operation")
-
-**The DNS client operation**
-
-![The DNS client operation](images/rtt_dns_client.png "The DNS client operation")
-
-**The Web http server operation**
-
-![The Web http server operation](images/rtt_web_http_server.png "The Web http server operation")
-
-![The Web page](images/webpage.png "The Web page")
 
 ## Special Topics ##
 * The `src/webserver` folder contains all the necessary files for the web HTTP server functionality.

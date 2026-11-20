@@ -7,6 +7,14 @@ FSP Configuration
     data_flash_size_bytes: 0
     package_style: LFBGA
     package_pins: 289
+    ospi0_cs0_start_address: 2147483648
+    ospi0_cs0_size_bytes: 268435456
+    ospi0_cs1_start_address: 2415919104
+    ospi0_cs1_size_bytes: 268435456
+    ospi1_cs0_start_address: 1879048192
+    ospi1_cs0_size_bytes: 134217728
+    ospi1_cs1_start_address: 2013265920
+    ospi1_cs1_size_bytes: 134217728
     number of cores: 2
     
   R7KA8T2LFECAC
@@ -30,6 +38,7 @@ FSP Configuration
     SDRAM: Endian Mode: Little Endian
     SDRAM: Continuous Access Mode: Enabled
     SDRAM: Bus Width: 32-bit
+    OSPI_B: Startup Support: Disabled
     Security: Exceptions: Exception Response: Non-Maskable Interrupt
     Security: Exceptions: BusFault, HardFault, and NMI Target: Secure State
     Security: System Reset Request Accessibility: Secure State
@@ -59,6 +68,8 @@ FSP Configuration
     Main Oscillator Wait Time: 8163 cycles
     Cache settings: Data cache: Disabled
     Cache settings: Data cache forced write-through: Disabled
+    I/O Ports: Voltage Mode: VCC: High (VCC >= 2.7 V)
+    I/O Ports: Voltage Mode: VCC2: High (VCC2 >= 2.7 V)
     
   RA8T2 Device Options
     OFS Registers: OFS0 (Option Function Select Register 0) Settings: Enabled
@@ -95,12 +106,12 @@ FSP Configuration
     OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: Voltage Detection 0 Low Power Consumption: Voltage monitor 0 Low Power Consumption Disabled
     OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: WDT/IWDT Software Debug Control: Disabled (WDT and IWDT continue operating while the CPU is in the debug state)
     OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: Tightly Coupled Memory (TCM)/Cache ECC: Disable ECC function for TCM and Cache
-    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: Enabled
-    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: Voltage Detection 0 Level Security Attribution: VDSEL setting loads from OFS1_SEC
-    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: Voltage Detection 0 Circuit Start Security Attribution: PVDAS setting loads from OFS1_SEC
-    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: Voltage Detection 0 Low Power Consumption Security Attribution: PVDLPSEL setting loads from OFS1_SEC
-    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: WDT/IWDT Software Debug Control Security Attribution: SWDBG setting loads from OFS1_SEC
-    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: Tightly Coupled Memory (TCM)/Cache ECC Security Attribution: INITECCEN setting loads from OFS1_SEC
+    OFS Registers: OFS1_SEL (OFS1 Security Attribution) Settings: Enabled
+    OFS Registers: OFS1_SEL (OFS1 Security Attribution) Settings: Voltage Detection 0 Level Security Attribution: VDSEL setting loads from OFS1_SEC
+    OFS Registers: OFS1_SEL (OFS1 Security Attribution) Settings: Voltage Detection 0 Circuit Start Security Attribution: PVDAS setting loads from OFS1_SEC
+    OFS Registers: OFS1_SEL (OFS1 Security Attribution) Settings: Voltage Detection 0 Low Power Consumption Security Attribution: PVDLPSEL setting loads from OFS1_SEC
+    OFS Registers: OFS1_SEL (OFS1 Security Attribution) Settings: WDT/IWDT Software Debug Control Security Attribution: SWDBG setting loads from OFS1_SEC
+    OFS Registers: OFS1_SEL (OFS1 Security Attribution) Settings: Tightly Coupled Memory (TCM)/Cache ECC Security Attribution: INITECCEN setting loads from OFS1_SEC
     OFS Registers: OFS3 (Option Function Select Register 3) Settings: Disabled
     OFS Registers: OFS3 (Option Function Select Register 3) Settings: WDT1: Start Mode: Stop WDT after a reset (register start mode)
     OFS Registers: OFS3 (Option Function Select Register 3) Settings: WDT1: Timeout Period: 16384 cycles
@@ -117,14 +128,14 @@ FSP Configuration
     OFS Registers: OFS3_SEC (Option Function Select Register 3 Secure) Settings: WDT1: Window Start Position: 100% (no window start position)
     OFS Registers: OFS3_SEC (Option Function Select Register 3 Secure) Settings: WDT1: Reset Interrupt Request: Reset
     OFS Registers: OFS3_SEC (Option Function Select Register 3 Secure) Settings: WDT1: Stop Control: Stop counting when entering Sleep or Deep Sleep mode
-    OFS Registers: OFS3_SEL (OFS3 Register Select) Settings: Enabled
-    OFS Registers: OFS3_SEL (OFS3 Register Select) Settings: WDT1: Start Mode: WDT1STRT setting loads from OFS3_SEC
-    OFS Registers: OFS3_SEL (OFS3 Register Select) Settings: WDT1: Timeout Period: WDT1TOPS setting loads from OFS3_SEC
-    OFS Registers: OFS3_SEL (OFS3 Register Select) Settings: WDT1: Clock Frequency Division Ratio: WDT1CKS setting loads from OFS3_SEC
-    OFS Registers: OFS3_SEL (OFS3 Register Select) Settings: WDT1: Window End Position: WDT1RPES setting loads from OFS3_SEC
-    OFS Registers: OFS3_SEL (OFS3 Register Select) Settings: WDT1: Window Start Position: WDT1RPSS setting loads from OFS3_SEC
-    OFS Registers: OFS3_SEL (OFS3 Register Select) Settings: WDT1: Reset Interrupt Request Select: WDT1RSTIRQS setting loads from OFS3_SEC
-    OFS Registers: OFS3_SEL (OFS3 Register Select) Settings: WDT1: Stop Control: WDT1STPCTL setting loads from OFS3_SEC
+    OFS Registers: OFS3_SEL (OFS3 Security Attribution) Settings: Enabled
+    OFS Registers: OFS3_SEL (OFS3 Security Attribution) Settings: WDT1: Start Mode: WDT1STRT setting loads from OFS3_SEC
+    OFS Registers: OFS3_SEL (OFS3 Security Attribution) Settings: WDT1: Timeout Period: WDT1TOPS setting loads from OFS3_SEC
+    OFS Registers: OFS3_SEL (OFS3 Security Attribution) Settings: WDT1: Clock Frequency Division Ratio: WDT1CKS setting loads from OFS3_SEC
+    OFS Registers: OFS3_SEL (OFS3 Security Attribution) Settings: WDT1: Window End Position: WDT1RPES setting loads from OFS3_SEC
+    OFS Registers: OFS3_SEL (OFS3 Security Attribution) Settings: WDT1: Window Start Position: WDT1RPSS setting loads from OFS3_SEC
+    OFS Registers: OFS3_SEL (OFS3 Security Attribution) Settings: WDT1: Reset Interrupt Request Select: WDT1RSTIRQS setting loads from OFS3_SEC
+    OFS Registers: OFS3_SEL (OFS3 Security Attribution) Settings: WDT1: Stop Control: WDT1STPCTL setting loads from OFS3_SEC
     OFS Registers: BPS (Block Protect Setting Register) Settings: Disabled
     OFS Registers: BPS (Block Protect Setting Register) Settings: BPS0: 
     OFS Registers: BPS (Block Protect Setting Register) Settings: BPS1: 
@@ -161,6 +172,34 @@ FSP Configuration
     OFS Registers: BPS_SEC (Block Protect Setting Register Secure) Settings: BPS_SEC14: 
     OFS Registers: BPS_SEC (Block Protect Setting Register Secure) Settings: BPS_SEC15: 
     OFS Registers: BPS_SEC (Block Protect Setting Register Secure) Settings: BPS_SEC16: 
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: FSBLCTRL0 (FSBL Control Register 0) Settings: Disabled
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: FSBLCTRL0 (FSBL Control Register 0) Settings: FSBLEN: Disabled
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: FSBLCTRL0 (FSBL Control Register 0) Settings: FSBLSKIPSW: Disabled
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: FSBLCTRL0 (FSBL Control Register 0) Settings: FSBLSKIPDS: Disabled
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: FSBLCTRL0 (FSBL Control Register 0) Settings: FSBLCLK: 250 MHz
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: FSBLCTRL1 (FSBL Control Register 1) Settings: Disabled
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: FSBLCTRL1 (FSBL Control Register 1) Settings: FSBLEXMDFSBLEN: Secure boot with report measurement
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: FSBLCTRL2 (FSBL Control Register 2) Settings: Disabled
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: FSBLCTRL2 (FSBL Control Register 2) Settings: PORTPN: PORTn15
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: FSBLCTRL2 (FSBL Control Register 2) Settings: PORTGN: None
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: SAMR (Start Address of Measurement Report) Settings: Disabled
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: SAMR (Start Address of Measurement Report) Settings: Address: 0xFFFFFFFF
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: Code Certificate: SACC00 (Start Address of Code Certificate 00) Settings: Disabled
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: Code Certificate: SACC00 (Start Address of Code Certificate 00) Settings: Address: 0xFFFFFFFF
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: Code Certificate: SACC10 (Start Address of Code Certificate 10) Settings: Disabled
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: Code Certificate: SACC10 (Start Address of Code Certificate 10) Settings: Address: 0xFFFFFFFF
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: Code Certificate: SACC01 (Start Address of Code Certificate 01) Settings: Disabled
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: Code Certificate: SACC01 (Start Address of Code Certificate 01) Settings: Address: 0xFFFFFFFF
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: Code Certificate: SACC11 (Start Address of Code Certificate 11) Settings: Disabled
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: Code Certificate: SACC11 (Start Address of Code Certificate 11) Settings: Address: 0xFFFFFFFF
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: Code Certificate: SACC02 (Start Address of Code Certificate 02) Settings: Disabled
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: Code Certificate: SACC02 (Start Address of Code Certificate 02) Settings: Address: 0xFFFFFFFF
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: Code Certificate: SACC12 (Start Address of Code Certificate 12) Settings: Disabled
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: Code Certificate: SACC12 (Start Address of Code Certificate 12) Settings: Address: 0xFFFFFFFF
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: Code Certificate: SACC03 (Start Address of Code Certificate 03) Settings: Disabled
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: Code Certificate: SACC03 (Start Address of Code Certificate 03) Settings: Address: 0xFFFFFFFF
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: Code Certificate: SACC13 (Start Address of Code Certificate 13) Settings: Disabled
+    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: Code Certificate: SACC13 (Start Address of Code Certificate 13) Settings: Address: 0xFFFFFFFF
     OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: Disabled
     OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: PBPS_SEC0: 
     OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: PBPS_SEC1: 
@@ -197,12 +236,17 @@ FSP Configuration
     OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS14: 
     OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS15: 
     OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS16: 
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Configuration setting for RTCIC0: W-HUK zeroization by RTCIC0 tamper event is disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Configuration setting for RTCIC1: W-HUK zeroization by RTCIC1 tamper event is disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Configuration setting for RTCIC2: W-HUK zeroization by RTCIC2 tamper event is disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Configuration setting for RTCIC3: W-HUK zeroization by RTCIC3 tamper event is disabled
     
   RA8T2 Core 0 Options
   RA8T2 event data
   RA Common
     Main stack size (bytes): 0x400
-    Heap size (bytes): 0x400
+    Heap size (bytes): 0
     Bootloader Secondary XIP: Disabled
     MCU Vcc (mV): 3300
     Parameter checking: Disabled
@@ -248,7 +292,7 @@ FSP Configuration
     BCLKA Div /6
     SDCLK Enabled
     EBCLK Src: BCLK (Synchronous)
-    EBCLK Div /2
+    EBCLK Disabled
     CLKOUT Src: HOCO
     CLKOUT Div /1
     SCICLK Src: PLL2R
@@ -347,8 +391,8 @@ FSP Configuration
       P313 T3 GPIO - - None "Input mode" - - "IRQ: IRQ27; SCI3: TXD3; SDHI1: SD1DAT0; SPI0: MISO0; USB FS: USB_ID" - IO - - 
       P314 U3 IRQ_IRQ28 - - IRQ28 "IRQ mode" - - "ADC0(Digital): ADTRG0; IRQ: IRQ28; SCI3: RXD3; SDHI1: SD1DAT1; SPI0: SSLA2" - IO - - 
       P315 R2 SPI0_SSLA3 - L None "Peripheral mode" - - "IRQ: IRQ29; SCI3: DE3; SCI3: SCK3; SPI0: SSLA3" - O - - 
-      P400 P17 SCI1_TXD1 - L None "Peripheral mode" - - "ADC1(Digital): ADTRG1; AGT1: AGTIO1; GPT6: GTIOC6A; I3C0: I3C_SCL0; IRQ: IRQ0; SCI1: TXD1; SDHI1: SD1CLK" - O - - 
-      P401 N17 SCI1_RXD1 - L None "Peripheral mode" - - "CANFD0: CTX0; GPT6: GTIOC6B; GPT_POEGA: GTETRGA; I3C0: I3C_SDA0; IRQ: IRQ5-DS; SCI1: RXD1; SDHI1: SD1CMD" - I - - 
+      P400 P17 - - - - Disabled - - "ADC1(Digital): ADTRG1; AGT1: AGTIO1; GPT6: GTIOC6A; I3C0: I3C_SCL0; IRQ: IRQ0; SCI1: TXD1; SDHI1: SD1CLK" - None - - 
+      P401 N17 - - - - Disabled - - "CANFD0: CTX0; GPT6: GTIOC6B; GPT_POEGA: GTETRGA; I3C0: I3C_SDA0; IRQ: IRQ5-DS; SCI1: RXD1; SDHI1: SD1CMD" - None - - 
       P402 L14 ESC0_CAT0_LINKSTA - L None "Peripheral mode" - - "CAC: CACREF; CANFD0: CRX0; ESC0: CAT0_LINKSTA; ESWM_GMII/MII: ET0_LINKSTA; ESWM_RGMII0: ET0_LINKSTA; ESWM_RMII0: ET0_LINKSTA; IRQ: IRQ4-DS; RTC: RTCIC0; SCI1: DE1; SCI1: SCK1; SDHI1: SD1DAT0" - I - - 
       P403 H13 ESC_CATI2CCLK - L None "Peripheral mode" - - "ADC0(Digital): AD0FLAG1; ESC: CATI2CCLK; ESWM_GMII/MII: ET1_WOL; ESWM_RGMII1: ET1_WOL; ESWM_RMII1: ET1_WOL; GPT3: GTIOC3A; IRQ: IRQ14-DS; RTC: RTCIC1; SCI1: CTS_RTS1; SCI1: DE1; SDHI1: SD1DAT1" - IO - - 
       P404 J13 ESC_CATI2CDATA - L None "Peripheral mode" - - "ADC1(Digital): AD1FLAG1; DSMIF0: DSM0DAT0; ESC: CATI2CDATA; ESWM_GMII/MII: ET0_WOL; ESWM_RGMII0: ET0_WOL; ESWM_RMII0: ET0_WOL; GPT3: GTIOC3B; IRQ: IRQ15-DS; RTC: RTCIC2; SCI1: CTS1; SDHI1: SD1DAT2" - IO - - 
@@ -361,8 +405,8 @@ FSP Configuration
       P411 M14 GPIO - - None "Input mode" - - "AGT1: AGTOA1; BUS: A20; CAC: CACREF; ESWM_GMII/MII: GPTP_PTPOUT1; ESWM_RGMII: GPTP_PTPOUT1; ESWM_RMII: GPTP_PTPOUT1; GPT9: GTIOC9A; GPT_OPS: GTOVUP; IRQ: IRQ4; SCI3: CTS_RTS3; SCI3: DE3; USB FS: USB_ID" - IO - - 
       P412 M12 GPIO - L - "Output mode (Initial Low)" - - "AGT1: AGTEE1; BUS: A21; ESWM_GMII/MII: GPTP_PTPOUT0; ESWM_RGMII: GPTP_PTPOUT0; ESWM_RMII: GPTP_PTPOUT0; GPT8: GTCPPO8; GPT_OPS: GTOULO; IRQ: IRQ20-DS; SCI3: CTS3; USB FS: USB_EXICEN" - IO - - 
       P413 P14 GPIO - L - "Output mode (Initial Low)" - - "BUS: A22; ESWM_GMII/MII: ET_TAS_STA3; ESWM_RGMII: ET_TAS_STA3; ESWM_RMII: ET_TAS_STA3; GPT7: GTCPPO7; GPT_OPS: GTOUUP; IRQ: IRQ18; ULPT1: ULPTEE1" - IO - - 
-      P414 L13 SCI4_RXD4 - L None "Peripheral mode" - - "BUS: A23; CANFD1: CRX1; ESC: CATLATCH1; ESWM_GMII/MII: ET1_MDIO; ESWM_RGMII1: ET1_MDIO; ESWM_RMII1: ET1_MDIO; GPT0: GTIOC0B; IRQ: IRQ9; SCI4: RXD4; SPI1: SSLB0" - I - - 
-      P415 R15 SCI4_TXD4 - L None "Peripheral mode" - - "BUS: WAIT; CANFD1: CTX1; ESC: CATLATCH0; ESWM_GMII/MII: ET1_MDC; ESWM_RGMII1: ET1_MDC; ESWM_RMII1: ET1_MDC; GPT0: GTIOC0A; IRQ: IRQ8; SCI4: TXD4; SPI1: RSPCK1" - O - - 
+      P414 L13 - - - - Disabled - - "BUS: A23; CANFD1: CRX1; ESC: CATLATCH1; ESWM_GMII/MII: ET1_MDIO; ESWM_RGMII1: ET1_MDIO; ESWM_RMII1: ET1_MDIO; GPT0: GTIOC0B; IRQ: IRQ9; SCI4: RXD4; SPI1: SSLB0" - None - - 
+      P415 R15 - - - - Disabled - - "BUS: WAIT; CANFD1: CTX1; ESC: CATLATCH0; ESWM_GMII/MII: ET1_MDC; ESWM_RGMII1: ET1_MDC; ESWM_RMII1: ET1_MDC; GPT0: GTIOC0A; IRQ: IRQ8; SCI4: TXD4; SPI1: RSPCK1" - None - - 
       P500 U7 ADC0_AN021 - - - "Analog mode" - - "ADC0: AN021; ADC1: AN021; CAC: CACREF; GPT11: GTIOC11B; IRQ: IRQ24; SCI8: RXD8; SDHI1: SD1DAT5; USB FS: USB_VBUSEN" - I - - 
       P501 R8 ADC0_AN020 - - - "Analog mode" - - "ADC0: AN020; ADC1: AN020; GPT12: GTIOC12A; IRQ: IRQ25; SCI8: TXD8; SDHI1: SD1DAT6; USB FS: USB_OVRCURA" - I - - 
       P502 T7 ADC0_AN019 - - - "Analog mode" - - "ADC0: AN019; ADC1: AN019; GPT12: GTIOC12B; IRQ: IRQ26; SCI8: DE8; SCI8: SCK8; SDHI1: SD1DAT7; USB FS: USB_OVRCURB" - I - - 
@@ -405,7 +449,7 @@ FSP Configuration
       P707 F16 IRQ_IRQ8 - - IRQ8 "IRQ mode" - - "DSMIF1: DSM1CLK1; ESWM_GMII/MII0: ET0_TX_ER; ETHPHYCLK: ETHPHYCLK; GPT3: GTCPPO3; IRQ: IRQ8; SCI1: TXD1" - IO - - 
       P708 N12 ESC_CAT0_MDC - L None "Peripheral mode" - - "BUS: BC1; BUS: WR1; CAC: CACREF; ESC: CAT0_MDC; ESWM_GMII/MII: ET0_MDC; ESWM_RGMII0: ET0_MDC; ESWM_RMII0: ET0_MDC; GPT6: GTCPPO6; IIC2: SDA2; IRQ: IRQ11; SCI4: DE4; SCI4: SCK4; SPI1: MOSI1" - IO - - 
       P709 P16 ESC_CAT0_MDIO - L None "Peripheral mode" - - "BUS: CS4; ESC: CAT0_MDIO; ESWM_GMII/MII: ET0_MDIO; ESWM_RGMII0: ET0_MDIO; ESWM_RMII0: ET0_MDIO; GPT5: GTCPPO5; IIC2: SCL2; IRQ: IRQ10; SCI4: CTS_RTS4; SCI4: DE4; SPI1: MISO1" - IO - - 
-      P710 M13 SCI4_CTS4 - L None "Peripheral mode" - - "BUS: CS5; ESC0: CAT0_LINKSTA; ESWM_GMII/MII: ET0_LINKSTA; ESWM_RGMII0: ET0_LINKSTA; ESWM_RMII0: ET0_LINKSTA; GPT11: GTIOC11B; IRQ: IRQ17; SCI4: CTS4; SPI1: SSLB3" - I - - 
+      P710 M13 - - - - Disabled - - "BUS: CS5; ESC0: CAT0_LINKSTA; ESWM_GMII/MII: ET0_LINKSTA; ESWM_RGMII0: ET0_LINKSTA; ESWM_RMII0: ET0_LINKSTA; GPT11: GTIOC11B; IRQ: IRQ17; SCI4: CTS4; SPI1: SSLB3" - None - - 
       P711 N15 ESC_CATRESETOUT - L None "Peripheral mode" - - "AGT0: AGTEE0; ESC: CATRESETOUT; ESWM_GMII/MII: GPTP0_PPS; ESWM_RGMII0: GPTP0_PPS; ESWM_RMII0: GPTP0_PPS; GPT11: GTIOC11A; IRQ: IRQ3; SCI1: CTS_RTS1; SCI1: DE1; SPI1: SSLB2" - IO - - 
       P712 N13 ESC_CATLATCH1 - L None "Peripheral mode" - - "AGT0: AGTOB0; ESC: CATLATCH1; ESWM_GMII/MII: GPTP1_CAPTURE; ESWM_RGMII1: GPTP1_CAPTURE; ESWM_RMII1: GPTP1_CAPTURE; GPT2: GTIOC2B; IRQ: IRQ2; SCI1: CTS1; SPI1: SSLB1" - IO - - 
       P713 N16 ESC_CATLATCH0 - L None "Peripheral mode" - - "AGT0: AGTOA0; ESC: CATLATCH0; ESWM_GMII/MII: GPTP1_MATCH; ESWM_RGMII1: GPTP1_MATCH; ESWM_RMII1: GPTP1_MATCH; GPT2: GTIOC2A; IRQ: IRQ14; SCI4: CTS4" - IO - - 
@@ -445,10 +489,10 @@ FSP Configuration
       P915 A6 - - - - Disabled - - "GPT5: GTIOC5A; IRQ: IRQ8; SCI6: CTS6" - None - - 
       PA00 G1 GPIO - - None "Input mode" - - "ADC1(Digital): AD1FLAG1; BUS: A5; GPT7: GTCPPO7; GPT_OPS: GTOVLO; IRQ: IRQ22; SCI5: CTS_RTS5; SCI5: DE5; SDHI0: SD0DAT7; SDRAM: A5" - IO - - 
       PA01 H4 - - - - Disabled - - "ADC0(Digital): AD0FLAG1; BUS: A4; GPT8: GTCPPO8; GPT_OPS: GTOVUP; IRQ: IRQ21; SCI5: CTS5; SDHI0: SD0DAT6; SDRAM: A4" - None - - 
-      PA02 F1 SCI2_RXD2 - L None "Peripheral mode" - - "ADC(Digital): ADSYNC; BUS: A3; GPT9: GTCPPO9; GPT_OPS: GTIW; IRQ: IRQ31; SCI2: RXD2; SDHI0: SD0DAT5; SDRAM: A3" - I - - 
-      PA03 G2 SCI2_TXD2 - L None "Peripheral mode" - - "ADC1(Digital): ADST1; BUS: A2; GPT10: GTCPPO10; GPT_OPS: GTIV; IRQ: IRQ20; SCI2: TXD2; SDHI0: SD0DAT4; SDRAM: A2" - O - - 
+      PA02 F1 - - - - Disabled - - "ADC(Digital): ADSYNC; BUS: A3; GPT9: GTCPPO9; GPT_OPS: GTIW; IRQ: IRQ31; SCI2: RXD2; SDHI0: SD0DAT5; SDRAM: A3" - None - - 
+      PA03 G2 - - - - Disabled - - "ADC1(Digital): ADST1; BUS: A2; GPT10: GTCPPO10; GPT_OPS: GTIV; IRQ: IRQ20; SCI2: TXD2; SDHI0: SD0DAT4; SDRAM: A2" - None - - 
       PA04 D1 GPIO - L - "Output mode (Initial High)" - - "ADC0(Digital): ADST0; BUS: A1; GPT4: GTIOC4B; GPT_OPS: GTIU; IRQ: IRQ19; SCI2: DE2; SCI2: SCK2; SDHI0: SD0DAT3; SDRAM: A1; SDRAM: DQM3" - IO - - 
-      PA05 G3 SCI2_DE2 - L None "Peripheral mode" - - "BUS: A0; BUS: BC0; GPT4: GTIOC4A; GPT_POEGD: GTETRGD; IRQ: IRQ18; SCI2: CTS_RTS2; SCI2: DE2; SDHI0: SD0DAT2; SDRAM: A0; SDRAM: DQM1" - O - - 
+      PA05 G3 - - - - Disabled - - "BUS: A0; BUS: BC0; GPT4: GTIOC4A; GPT_POEGD: GTETRGD; IRQ: IRQ18; SCI2: CTS_RTS2; SCI2: DE2; SDHI0: SD0DAT2; SDRAM: A0; SDRAM: DQM1" - None - - 
       PA06 C1 GPIO - L - "Output mode (Initial Low)" - - "BUS: CS1; GPT7: GTIOC7B; GPT_POEGC: GTETRGC; IRQ: IRQ17; SCI2: CTS2; SDHI0: SD0DAT1; SDRAM: CKE" - IO - - 
       PA07 G4 GPIO - - None "Input mode" - - "BUS: RD; CMPOUT: VCOUT; GPT7: GTIOC7A; GPT_POEGB: GTETRGB; IRQ: IRQ16; SCI7: CTS7; SDHI0: SD0DAT0" - IO - - 
       PA08 F3 IRQ_IRQ6 - - IRQ6 "IRQ mode" - - "BUS: CS0; GPT11: GTCPPO11; GPT_POEGD: GTETRGD; IRQ: IRQ6; SCI5: RXD5; SDRAM: WE" - IO - - 
@@ -456,7 +500,7 @@ FSP Configuration
       PA10 F2 IRQ_IRQ4 - - IRQ4 "IRQ mode" - - "BUS: CS2; GPT13: GTCPPO13; IRQ: IRQ4; SCI5: DE5; SCI5: SCK5; SDRAM: RAS" - IO - - 
       PA11 B4 GPIO - L - "Output mode (Initial Low)" - - "BUS: D8; GPT6: GTIOC6A; GPT_OPS: GTIV; IRQ: IRQ10; SCI9: DE9; SCI9: SCK9; SDRAM: DQ8" - IO - - 
       PA12 B2 SCI9_RXD9 - L None "Peripheral mode" - - "BUS: D9; GPT6: GTIOC6B; GPT_OPS: GTIW; IRQ: IRQ11; SCI9: RXD9; SDRAM: DQ9" - I - - 
-      PA13 C3 SCI9_CTS_RTS9 - L None "Peripheral mode" - - "BUS: D10; GPT10: GTIOC10A; GPT_OPS: GTOVUP; IRQ: IRQ12; SCI9: CTS_RTS9; SCI9: DE9; SDRAM: DQ10" - IO - - 
+      PA13 C3 - - - - Disabled - - "BUS: D10; GPT10: GTIOC10A; GPT_OPS: GTOVUP; IRQ: IRQ12; SCI9: CTS_RTS9; SCI9: DE9; SDRAM: DQ10" - None - - 
       PA14 D4 SCI9_TXD9 - L None "Peripheral mode" - - "BUS: D11; GPT10: GTIOC10B; GPT_OPS: GTOVLO; IRQ: IRQ13; SCI9: TXD9; SDRAM: DQ11" - O - - 
       PA15 E1 GPIO - L - "Output mode (Initial High)" - - "BUS: EBCLK; GPT7: GTIOC7A; IRQ: IRQ14; SCI9: CTS9; SDRAM: SDCLK" - IO - - 
       PB00 E16 ESC0_CAT0_ETXD0 - L None "Peripheral mode" - - "ADC0(Digital): ADST0; DSMIF1: DSM1CLK2; ESC0: CAT0_ETXD0; ESWM_GMII/MII0: ET0_TXD0; ESWM_RGMII0: RGMII0_TXD0; ESWM_RMII0: RMII0_TXD0; GPT4: GTCPPO4; IRQ: IRQ10; SCI1: DE1; SCI1: SCK1" - O - - 
@@ -637,8 +681,8 @@ FSP Configuration
       P313 T3 - - - None Disabled - - "IRQ: IRQ27; SCI3: TXD3; SDHI1: SD1DAT0; SPI0: MISO0; USB FS: USB_ID" - IO - - 
       P314 U3 - - - None Disabled - - "ADC0(Digital): ADTRG0; IRQ: IRQ28; SCI3: RXD3; SDHI1: SD1DAT1; SPI0: SSLA2" - IO - - 
       P315 R2 - - L None Disabled - - "IRQ: IRQ29; SCI3: DE3; SCI3: SCK3; SPI0: SSLA3" - O - - 
-      P400 P17 - - L None Disabled - - "ADC1(Digital): ADTRG1; AGT1: AGTIO1; GPT6: GTIOC6A; I3C0: I3C_SCL0; IRQ: IRQ0; SCI1: TXD1; SDHI1: SD1CLK" - O - - 
-      P401 N17 - - L None Disabled - - "CANFD0: CTX0; GPT6: GTIOC6B; GPT_POEGA: GTETRGA; I3C0: I3C_SDA0; IRQ: IRQ5-DS; SCI1: RXD1; SDHI1: SD1CMD" - I - - 
+      P400 P17 - - - - Disabled - - "ADC1(Digital): ADTRG1; AGT1: AGTIO1; GPT6: GTIOC6A; I3C0: I3C_SCL0; IRQ: IRQ0; SCI1: TXD1; SDHI1: SD1CLK" - None - - 
+      P401 N17 - - - - Disabled - - "CANFD0: CTX0; GPT6: GTIOC6B; GPT_POEGA: GTETRGA; I3C0: I3C_SDA0; IRQ: IRQ5-DS; SCI1: RXD1; SDHI1: SD1CMD" - None - - 
       P402 L14 - - L None Disabled - - "CAC: CACREF; CANFD0: CRX0; ESC0: CAT0_LINKSTA; ESWM_GMII/MII: ET0_LINKSTA; ESWM_RGMII0: ET0_LINKSTA; ESWM_RMII0: ET0_LINKSTA; IRQ: IRQ4-DS; RTC: RTCIC0; SCI1: DE1; SCI1: SCK1; SDHI1: SD1DAT0" - I - - 
       P403 H13 - - L None Disabled - - "ADC0(Digital): AD0FLAG1; ESC: CATI2CCLK; ESWM_GMII/MII: ET1_WOL; ESWM_RGMII1: ET1_WOL; ESWM_RMII1: ET1_WOL; GPT3: GTIOC3A; IRQ: IRQ14-DS; RTC: RTCIC1; SCI1: CTS_RTS1; SCI1: DE1; SDHI1: SD1DAT1" - IO - - 
       P404 J13 - - L None Disabled - - "ADC1(Digital): AD1FLAG1; DSMIF0: DSM0DAT0; ESC: CATI2CDATA; ESWM_GMII/MII: ET0_WOL; ESWM_RGMII0: ET0_WOL; ESWM_RMII0: ET0_WOL; GPT3: GTIOC3B; IRQ: IRQ15-DS; RTC: RTCIC2; SCI1: CTS1; SDHI1: SD1DAT2" - IO - - 
@@ -651,8 +695,8 @@ FSP Configuration
       P411 M14 - - - None Disabled - - "AGT1: AGTOA1; BUS: A20; CAC: CACREF; ESWM_GMII/MII: GPTP_PTPOUT1; ESWM_RGMII: GPTP_PTPOUT1; ESWM_RMII: GPTP_PTPOUT1; GPT9: GTIOC9A; GPT_OPS: GTOVUP; IRQ: IRQ4; SCI3: CTS_RTS3; SCI3: DE3; USB FS: USB_ID" - IO - - 
       P412 M12 - - L - Disabled - - "AGT1: AGTEE1; BUS: A21; ESWM_GMII/MII: GPTP_PTPOUT0; ESWM_RGMII: GPTP_PTPOUT0; ESWM_RMII: GPTP_PTPOUT0; GPT8: GTCPPO8; GPT_OPS: GTOULO; IRQ: IRQ20-DS; SCI3: CTS3; USB FS: USB_EXICEN" - IO - - 
       P413 P14 - - L - Disabled - - "BUS: A22; ESWM_GMII/MII: ET_TAS_STA3; ESWM_RGMII: ET_TAS_STA3; ESWM_RMII: ET_TAS_STA3; GPT7: GTCPPO7; GPT_OPS: GTOUUP; IRQ: IRQ18; ULPT1: ULPTEE1" - IO - - 
-      P414 L13 - - L None Disabled - - "BUS: A23; CANFD1: CRX1; ESC: CATLATCH1; ESWM_GMII/MII: ET1_MDIO; ESWM_RGMII1: ET1_MDIO; ESWM_RMII1: ET1_MDIO; GPT0: GTIOC0B; IRQ: IRQ9; SCI4: RXD4; SPI1: SSLB0" - I - - 
-      P415 R15 - - L None Disabled - - "BUS: WAIT; CANFD1: CTX1; ESC: CATLATCH0; ESWM_GMII/MII: ET1_MDC; ESWM_RGMII1: ET1_MDC; ESWM_RMII1: ET1_MDC; GPT0: GTIOC0A; IRQ: IRQ8; SCI4: TXD4; SPI1: RSPCK1" - O - - 
+      P414 L13 - - - - Disabled - - "BUS: A23; CANFD1: CRX1; ESC: CATLATCH1; ESWM_GMII/MII: ET1_MDIO; ESWM_RGMII1: ET1_MDIO; ESWM_RMII1: ET1_MDIO; GPT0: GTIOC0B; IRQ: IRQ9; SCI4: RXD4; SPI1: SSLB0" - None - - 
+      P415 R15 - - - - Disabled - - "BUS: WAIT; CANFD1: CTX1; ESC: CATLATCH0; ESWM_GMII/MII: ET1_MDC; ESWM_RGMII1: ET1_MDC; ESWM_RMII1: ET1_MDC; GPT0: GTIOC0A; IRQ: IRQ8; SCI4: TXD4; SPI1: RSPCK1" - None - - 
       P500 U7 - - - - Disabled - - "ADC0: AN021; ADC1: AN021; CAC: CACREF; GPT11: GTIOC11B; IRQ: IRQ24; SCI8: RXD8; SDHI1: SD1DAT5; USB FS: USB_VBUSEN" - I - - 
       P501 R8 - - - - Disabled - - "ADC0: AN020; ADC1: AN020; GPT12: GTIOC12A; IRQ: IRQ25; SCI8: TXD8; SDHI1: SD1DAT6; USB FS: USB_OVRCURA" - I - - 
       P502 T7 - - - - Disabled - - "ADC0: AN019; ADC1: AN019; GPT12: GTIOC12B; IRQ: IRQ26; SCI8: DE8; SCI8: SCK8; SDHI1: SD1DAT7; USB FS: USB_OVRCURB" - I - - 
@@ -695,7 +739,7 @@ FSP Configuration
       P707 F16 - - - None Disabled - - "DSMIF1: DSM1CLK1; ESWM_GMII/MII0: ET0_TX_ER; ETHPHYCLK: ETHPHYCLK; GPT3: GTCPPO3; IRQ: IRQ8; SCI1: TXD1" - IO - - 
       P708 N12 - - L None Disabled - - "BUS: BC1; BUS: WR1; CAC: CACREF; ESC: CAT0_MDC; ESWM_GMII/MII: ET0_MDC; ESWM_RGMII0: ET0_MDC; ESWM_RMII0: ET0_MDC; GPT6: GTCPPO6; IIC2: SDA2; IRQ: IRQ11; SCI4: DE4; SCI4: SCK4; SPI1: MOSI1" - IO - - 
       P709 P16 - - L None Disabled - - "BUS: CS4; ESC: CAT0_MDIO; ESWM_GMII/MII: ET0_MDIO; ESWM_RGMII0: ET0_MDIO; ESWM_RMII0: ET0_MDIO; GPT5: GTCPPO5; IIC2: SCL2; IRQ: IRQ10; SCI4: CTS_RTS4; SCI4: DE4; SPI1: MISO1" - IO - - 
-      P710 M13 - - L None Disabled - - "BUS: CS5; ESC0: CAT0_LINKSTA; ESWM_GMII/MII: ET0_LINKSTA; ESWM_RGMII0: ET0_LINKSTA; ESWM_RMII0: ET0_LINKSTA; GPT11: GTIOC11B; IRQ: IRQ17; SCI4: CTS4; SPI1: SSLB3" - I - - 
+      P710 M13 - - - - Disabled - - "BUS: CS5; ESC0: CAT0_LINKSTA; ESWM_GMII/MII: ET0_LINKSTA; ESWM_RGMII0: ET0_LINKSTA; ESWM_RMII0: ET0_LINKSTA; GPT11: GTIOC11B; IRQ: IRQ17; SCI4: CTS4; SPI1: SSLB3" - None - - 
       P711 N15 - - L None Disabled - - "AGT0: AGTEE0; ESC: CATRESETOUT; ESWM_GMII/MII: GPTP0_PPS; ESWM_RGMII0: GPTP0_PPS; ESWM_RMII0: GPTP0_PPS; GPT11: GTIOC11A; IRQ: IRQ3; SCI1: CTS_RTS1; SCI1: DE1; SPI1: SSLB2" - IO - - 
       P712 N13 - - L None Disabled - - "AGT0: AGTOB0; ESC: CATLATCH1; ESWM_GMII/MII: GPTP1_CAPTURE; ESWM_RGMII1: GPTP1_CAPTURE; ESWM_RMII1: GPTP1_CAPTURE; GPT2: GTIOC2B; IRQ: IRQ2; SCI1: CTS1; SPI1: SSLB1" - IO - - 
       P713 N16 - - L None Disabled - - "AGT0: AGTOA0; ESC: CATLATCH0; ESWM_GMII/MII: GPTP1_MATCH; ESWM_RGMII1: GPTP1_MATCH; ESWM_RMII1: GPTP1_MATCH; GPT2: GTIOC2A; IRQ: IRQ14; SCI4: CTS4" - IO - - 
@@ -735,10 +779,10 @@ FSP Configuration
       P915 A6 - - - - Disabled - - "GPT5: GTIOC5A; IRQ: IRQ8; SCI6: CTS6" - None - - 
       PA00 G1 - - - None Disabled - - "ADC1(Digital): AD1FLAG1; BUS: A5; GPT7: GTCPPO7; GPT_OPS: GTOVLO; IRQ: IRQ22; SCI5: CTS_RTS5; SCI5: DE5; SDHI0: SD0DAT7; SDRAM: A5" - IO - - 
       PA01 H4 - - - - Disabled - - "ADC0(Digital): AD0FLAG1; BUS: A4; GPT8: GTCPPO8; GPT_OPS: GTOVUP; IRQ: IRQ21; SCI5: CTS5; SDHI0: SD0DAT6; SDRAM: A4" - None - - 
-      PA02 F1 - - L None Disabled - - "ADC(Digital): ADSYNC; BUS: A3; GPT9: GTCPPO9; GPT_OPS: GTIW; IRQ: IRQ31; SCI2: RXD2; SDHI0: SD0DAT5; SDRAM: A3" - I - - 
-      PA03 G2 - - L None Disabled - - "ADC1(Digital): ADST1; BUS: A2; GPT10: GTCPPO10; GPT_OPS: GTIV; IRQ: IRQ20; SCI2: TXD2; SDHI0: SD0DAT4; SDRAM: A2" - O - - 
+      PA02 F1 - - - - Disabled - - "ADC(Digital): ADSYNC; BUS: A3; GPT9: GTCPPO9; GPT_OPS: GTIW; IRQ: IRQ31; SCI2: RXD2; SDHI0: SD0DAT5; SDRAM: A3" - None - - 
+      PA03 G2 - - - - Disabled - - "ADC1(Digital): ADST1; BUS: A2; GPT10: GTCPPO10; GPT_OPS: GTIV; IRQ: IRQ20; SCI2: TXD2; SDHI0: SD0DAT4; SDRAM: A2" - None - - 
       PA04 D1 - - L - Disabled - - "ADC0(Digital): ADST0; BUS: A1; GPT4: GTIOC4B; GPT_OPS: GTIU; IRQ: IRQ19; SCI2: DE2; SCI2: SCK2; SDHI0: SD0DAT3; SDRAM: A1; SDRAM: DQM3" - IO - - 
-      PA05 G3 - - L None Disabled - - "BUS: A0; BUS: BC0; GPT4: GTIOC4A; GPT_POEGD: GTETRGD; IRQ: IRQ18; SCI2: CTS_RTS2; SCI2: DE2; SDHI0: SD0DAT2; SDRAM: A0; SDRAM: DQM1" - O - - 
+      PA05 G3 - - - - Disabled - - "BUS: A0; BUS: BC0; GPT4: GTIOC4A; GPT_POEGD: GTETRGD; IRQ: IRQ18; SCI2: CTS_RTS2; SCI2: DE2; SDHI0: SD0DAT2; SDRAM: A0; SDRAM: DQM1" - None - - 
       PA06 C1 - - L - Disabled - - "BUS: CS1; GPT7: GTIOC7B; GPT_POEGC: GTETRGC; IRQ: IRQ17; SCI2: CTS2; SDHI0: SD0DAT1; SDRAM: CKE" - IO - - 
       PA07 G4 - - - None Disabled - - "BUS: RD; CMPOUT: VCOUT; GPT7: GTIOC7A; GPT_POEGB: GTETRGB; IRQ: IRQ16; SCI7: CTS7; SDHI0: SD0DAT0" - IO - - 
       PA08 F3 - - - None Disabled - - "BUS: CS0; GPT11: GTCPPO11; GPT_POEGD: GTETRGD; IRQ: IRQ6; SCI5: RXD5; SDRAM: WE" - IO - - 
@@ -746,7 +790,7 @@ FSP Configuration
       PA10 F2 - - - None Disabled - - "BUS: CS2; GPT13: GTCPPO13; IRQ: IRQ4; SCI5: DE5; SCI5: SCK5; SDRAM: RAS" - IO - - 
       PA11 B4 - - L - Disabled - - "BUS: D8; GPT6: GTIOC6A; GPT_OPS: GTIV; IRQ: IRQ10; SCI9: DE9; SCI9: SCK9; SDRAM: DQ8" - IO - - 
       PA12 B2 - - L None Disabled - - "BUS: D9; GPT6: GTIOC6B; GPT_OPS: GTIW; IRQ: IRQ11; SCI9: RXD9; SDRAM: DQ9" - I - - 
-      PA13 C3 - - L None Disabled - - "BUS: D10; GPT10: GTIOC10A; GPT_OPS: GTOVUP; IRQ: IRQ12; SCI9: CTS_RTS9; SCI9: DE9; SDRAM: DQ10" - IO - - 
+      PA13 C3 - - - - Disabled - - "BUS: D10; GPT10: GTIOC10A; GPT_OPS: GTOVUP; IRQ: IRQ12; SCI9: CTS_RTS9; SCI9: DE9; SDRAM: DQ10" - None - - 
       PA14 D4 - - L None Disabled - - "BUS: D11; GPT10: GTIOC10B; GPT_OPS: GTOVLO; IRQ: IRQ13; SCI9: TXD9; SDRAM: DQ11" - O - - 
       PA15 E1 - - L - Disabled - - "BUS: EBCLK; GPT7: GTIOC7A; IRQ: IRQ14; SCI9: CTS9; SDRAM: SDCLK" - IO - - 
       PB00 E16 - - L None Disabled - - "ADC0(Digital): ADST0; DSMIF1: DSM1CLK2; ESC0: CAT0_ETXD0; ESWM_GMII/MII0: ET0_TXD0; ESWM_RGMII0: RGMII0_TXD0; ESWM_RMII0: RMII0_TXD0; GPT4: GTCPPO4; IRQ: IRQ10; SCI1: DE1; SCI1: SCK1" - O - - 
@@ -866,15 +910,23 @@ FSP Configuration
   User Event Links
     
   Linker Section Mappings
+    *(.bss.*_fsp_nocache): RAM Zeroed (Uncached)
     *(.bss.g_heap): RAM Uninitialized
     *(.bss.g_main_stack): RAM Uninitialized
     
   Module "I/O Port (r_ioport)"
     Parameter Checking: Default (BSP)
+    CCD Support: Not Supported
     
   Module "Realtime Clock (r_rtc)"
     Parameter Checking: Default (BSP)
     Set Source Clock in Open: Enabled
+    
+  Module "UART (r_sci_b_uart)"
+    Parameter Checking: Default (BSP)
+    FIFO Support: Disable
+    DTC Support: Disable
+    Flow Control Support: Disable
     
   HAL
     Instance "g_ioport I/O Port (r_ioport)"
@@ -897,4 +949,31 @@ FSP Configuration
       Alarm Interrupt Priority: Priority 2
       Period Interrupt Priority: Priority 2
       Carry Interrupt Priority: Priority 2
+      
+    Instance "g_uart_console UART (r_sci_b_uart)"
+      General: Name: g_uart_console
+      General: Channel: 9
+      General: Data Bits: 8bits
+      General: Parity: None
+      General: Stop Bits: 1bit
+      Baud: Baud Rate: 115200
+      Baud: Baud Rate Modulation: Disabled
+      Baud: Max Error (%): 5
+      Flow Control: CTS/RTS Selection: Hardware RTS
+      Flow Control: Software RTS Port: Disabled
+      Flow Control: Software RTS Pin: Disabled
+      Extra: Clock Source: Internal Clock
+      Extra: Start bit detection: Falling Edge
+      Extra: Noise Filter: Disable
+      Extra: Receive FIFO Trigger Level: Max
+      Extra: RS-485: DE Pin: Disable
+      Extra: RS-485: DE Pin Polarity: Active High
+      Extra: RS-485: DE Pin Assertion Time: 1
+      Extra: RS-485: DE Pin Negation Time: 1
+      Extra: TXI/TEI Synchronization Delay Cycles: 0
+      Interrupts: Callback: uart_console_callback
+      Interrupts: Receive Interrupt Priority: Priority 15
+      Interrupts: Transmit Data Empty Interrupt Priority: Priority 15
+      Interrupts: Transmit End Interrupt Priority: Priority 15
+      Interrupts: Error Interrupt Priority: Priority 15
       

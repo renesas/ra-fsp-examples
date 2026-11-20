@@ -3,7 +3,7 @@
  * Description  : Contains USB vendor descriptor
  **********************************************************************************************************************/
 /***********************************************************************************************************************
-* Copyright (c) 2020 - 2025 Renesas Electronics Corporation and/or its affiliates
+* Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
 ***********************************************************************************************************************/
@@ -340,7 +340,7 @@ uint8_t g_apl_string6[USB_STRING6_LEN + (USB_STRING6_LEN % 2)] =
     '1', 0x00,
 };
 
-uint8_t * gp_apl_string_table[] =
+uint8_t * g_apl_string_table[] =
 {
     g_apl_string0,
     g_apl_string1,
@@ -357,10 +357,6 @@ const usb_descriptor_t g_usb_descriptor =
     g_apl_configuration,               /* Pointer to the configuration descriptor for Full-speed */
     g_apl_hs_configuration,            /* Pointer to the configuration descriptor for Hi-speed */
     g_apl_qualifier,                   /* Pointer to the qualifier descriptor */
-    gp_apl_string_table,               /* Pointer to the string descriptor table */
+    g_apl_string_table,                /* Pointer to the string descriptor table */
     NUM_STRING_DESCRIPTOR
 };
-
-/*******************************************************************************************************************//**
- * End  Of File
- **********************************************************************************************************************/

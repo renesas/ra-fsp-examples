@@ -1,5 +1,5 @@
 # Introduction #
-This project demonstrates the basic functionality of AWS https client library with ethernet driver on Renesas RA MCUs based on Renesas FSP using FreeRTOS. AWS client is used to connect to https adafruit server which is cloud platform. On successful connection, menu is displayed enabling user to send GET, PUT, POST requests to adafruit server. On POST/PUT request, MCU Die temperature is read via (using) ADC and uploaded to server. On GET request, the last MCU die temperature data is read from the adafruit server. J-Link RTT Viewer is used to display the status and responses of the requests made to server.
+The example project demonstrates the basic functionality of AWS HTTPS client library with Ethernet driver on Renesas RA MCUs based on Renesas FSP using FreeRTOS. AWS client is used to connect to HTTPS Adafruit server which is cloud platform. On successful connection, menu is displayed enabling user to send GET, PUT, POST requests to Adafruit server. On POST/PUT request, MCU Die temperature is read via (using) ADC and uploaded to server. On GET request, the last MCU die temperature data is read from the Adafruit server. The status and responses of the requests made to server are displayed on the serial terminal.
 
 Please refer to the [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf) for general information on example projects and [readme.txt](./readme.txt) for specifics of operation.
 
@@ -7,20 +7,27 @@ Please refer to the [Example Project Usage Guide](https://github.com/renesas/ra-
 To build and run the aws_https_client example project, the following resources are needed.
 
 ### Software ###
+* Renesas Flexible Software Package (FSP): Version 6.6.0
+* e2 studio: Version 2026-07
+* Terminal Console Application: Tera Term or a similar application
+* LLVM Embedded Toolchain for ARM: Version 22.1.0
+
 1. Refer to the software required section in [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf)
 2. Refer to **Special Topics** for obtaining the certificates and key which is required to update in the code.
 
 ### Hardware ###
-* Supported RA boards: EK-RA6M3, EK-RA6M5, EK-RA8M1, EK-RA8D1, MCK-RA8T1, EK-RA8P1.
+* Supported RA boards: EK-RA6M3, EK-RA6M5, EK-RA8M1, EK-RA8D1, MCK-RA8T1, EK-RA8P1, EK-RA8D2, EK-RA8M2, EK-RA8T2, EK-RA8P1 V2.
   * 1 x Renesas RA board.	
-  * 1 x Type-C USB cable for programming and debugging.
+  * 1 x USB cable for programming and debugging (USB cable type varies by board model).
   * 1 x LAN cable.
   * 1 x Ethernet switch.
 
 ### Hardware Connections ###
-* Connect the USB Debug port on the RA board to the host PC via a Type-C USB cable.
-* Connect RA board ethernet port to the ethernet switch/router via a LAN cable.  
-  Note: The Switch should have WAN connection to communicate the server over internet and connect to the router which is connected to the Internet.
+* Connect the RA board USB debug port to the host PC using the appropriate USB cable for EP programming and debugging.
+* Connect RA board Ethernet port to the Ethernet switch/router via a LAN cable.  
+* Note:
+  * The Switch should have WAN connection to communicate the server over internet and connect to the router which is connected to the Internet.
+  * For EK-RA8T2: By default, using Ethernet port 0 (J15). 
 * For EK-RA8D1:
   * Set the configuration switches (SW1) as below to avoid potential failures.
       | SW1-1 PMOD1 | SW1-2 TRACE | SW1-3 CAMERA | SW1-4 ETHA | SW1-5 ETHB | SW1-6 GLCD | SW1-7 SDRAM | SW1-8 I3C |
@@ -28,11 +35,37 @@ To build and run the aws_https_client example project, the following resources a
       | OFF | OFF | OFF | OFF | ON | OFF | OFF | OFF |
   * CAUTION: Do not enable SW1-4 and SW1-5 together.
 * For EK-RA8M1: The user must remove jumper J61 to enable Ethernet B.
+* For EK-RA8M2: The user must place jumper J6 on pins 2-3, J8 on pins 1-2, J9 on pins 2-3, and J29 on pins 1-2, 3-4, 5-6, 7-8 to use the on-board debug functionality.
 * For EK-RA8P1:
   * Set the configuration switches (SW4) as below to avoid potential failures.
-	| SW4-1 PMOD1_SEL0 | SW4-2 PMOD1_SEL1 |    SW4-3 OSPI   |   SW4-4 ARDUINO  |    SW4-5 I3C   |    SW4-6 MIPI  | SW4-7 USBFS_ROLE | SW4-8 USBHS_ROLE |
-	|------------------|------------------|-----------------|------------------|----------------|----------------|------------------|------------------|
-	|       OFF        |       OFF        |       OFF       |       OFF        |      OFF       |      OFF       |       OFF        |       OFF        |
+	  | SW4-1 PMOD1_SEL0 | SW4-2 PMOD1_SEL1 |    SW4-3 OSPI   |   SW4-4 ARDUINO  |    SW4-5 I3C   |    SW4-6 MIPI  | SW4-7 USBFS_ROLE | SW4-8 USBHS_ROLE |
+	  |------------------|------------------|-----------------|------------------|----------------|----------------|------------------|------------------|
+	  |       OFF        |       OFF        |       OFF       |       OFF        |      OFF       |      OFF       |       OFF        |       OFF        |
+* For EK-RA8D2:
+  * Set the configuration switches (SW4) as below to avoid potential failures.
+	  | SW4-1 PMOD1 | SW4-2 PMOD1 | SW4-3 Octo-SPI | SW4-4 Arduino/mikroBUS | SW4-5 I3C | SW4-6 MIPI | SW4-7 USBFS | SW4-8 USBHS |
+	  |-------------|-------------|----------------|------------------------|-----------|------------|-------------|-------------|
+	  |     OFF     |     OFF     |      OFF       |          OFF           |    OFF    |    OFF     |     OFF     |     OFF     |
+* For EK-RA8T2:
+  * The user must set the configuration switches (SW6 and SW4) as below to use the on-board debug functionality and enable Ethernet 0.
+    
+    | SW6-1 | SW6-2 | SW6-3 | SW6-4 | SW6-5 | SW6-6 | SW6-7 | SW6-8 | SW6-9 | SW6-10 |
+	  |:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:------:|
+	  |  OFF  |  OFF  |  OFF  |  OFF  |  ON   |  OFF  |  ON   |  ON   |  ON   |   ON   |
+    
+    | SW4-1 | SW4-2 | SW4-3 | SW4-4 | SW4-5 | SW4-6 | SW4-7 | SW4-8 |
+    |:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
+    |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |
+* For EK-RA8P1 V2:
+  * The user must set the configuration switches (SW6 and SW4) as below to use the on-board debug functionality and enable OSPI.
+
+    | SW6-1 | SW6-2 | SW6-3 | SW6-4 | SW6-5 | SW6-6 | SW6-7 | SW6-8 | SW6-9 | SW6-10 |
+	  |:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:------:|
+	  |  OFF  |  OFF  |  OFF  |  OFF  |  ON   |  OFF  |  ON   |  ON   |  ON   |   ON   |
+    
+    | SW4-1 | SW4-2 | SW4-3 | SW4-4 | SW4-5 | SW4-6 | SW4-7 | SW4-8 |
+    |:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
+    |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |
 
 ## Related Collateral References ##
 The following documents can be referred to for enhancing your understanding of the operation of this example project:
@@ -44,7 +77,7 @@ The following documents can be referred to for enhancing your understanding of t
 ## System Level Block Diagram ##
  High level block diagram
  
-![aws_https_client](images/aws_https_client_high_level.jpg "aws https client Block Diagram")
+![aws_https_client](images/aws_https_client_high_level.jpg "AWS HTTPS client Block Diagram")
 
 ## FSP Modules Used ##
 List all the various modules that are used in this example project. Refer to the FSP User Manual for further details on each module listed below.
@@ -53,7 +86,7 @@ List all the various modules that are used in this example project. Refer to the
 |-------------|-----------------------------------------------|-----------------------------------------------|
 | AWS Core HTTP | To get access of AWS client library for client connection. | AWS Core HTTP |
 | FreeRTOS + TCP | To get access of TCP/IP network library to form network layer. | rm_freertos_plus_tcp |
-| Ethernet Driver | This is dependent module of FreeRTOS+TCP to get access of physical layer of FSP board with the help of ethernet driver. | r_rmac & r_rmac_phy |
+| Ethernet Driver | This is dependent module of FreeRTOS+TCP to get access of physical layer of FSP board with the help of Ethernet driver. | r_rmac & r_rmac_phy |
 | MbedTLS | This is dependent module of FreeRTOS MbedTLS which is used for server/client certificate parsing. | mbedTLS |
 | Mbed Crypto | This is dependent module of MbedTLS which is used for secure TLS connection. | rm_psa_crypto |
 | SCE | This module provides SCE functions for compatibility mode. | r_sce |
@@ -61,7 +94,8 @@ List all the various modules that are used in this example project. Refer to the
 | ADC_B | ADC_B module is used to demonstrate that to read internal temperature sensor value and send it to the server. | r_adc_b |
 
 ## Module Configuration Notes ##
-This section describes FSP configurator properties which are important or different from those selected by default.
+This section describes FSP configurator properties which are important or different from those selected by default.  
+**Note: The configuration shown in this document is based on the original target board (e.g., EK-RA8P1). Some settings may differ on other supported boards due to hardware differences.** 
 
 |   Module Property Path and Identifier   |   Default Value   |   Used Value   |   Reason   |
 | :-------------------------------------: | :---------------: | :------------: | :--------: |
@@ -81,10 +115,10 @@ This section describes FSP configurator properties which are important or differ
 | configuration.xml > User App Thread > AWS Core HTTP > AWS Transport Interface on MbedTLS/PKCS11 (rm_aws_transport_interface_port) > AWS TCP Sockets Wrapper > FreeRTOS+TCP > Properties > Settings > Property > Common > Let TCP use windowing mechanism | Disable | Enable | For Flow control use the TCP windowing mechanism. |
 | configuration.xml > User App Thread > AWS Core HTTP > AWS Transport Interface on MbedTLS/PKCS11 (rm_aws_transport_interface_port) > AWS TCP Sockets Wrapper > FreeRTOS+TCP > Properties > Settings > Property > Common > FreeRTOS_SendPingRequest() is available | Disable | Enable | To support the sending of Ping request this needs to chosen as enabled. |
 | configuration.xml > User App Thread > AWS Core HTTP > AWS Transport Interface on MbedTLS/PKCS11 (rm_aws_transport_interface_port) > AWS TCP Sockets Wrapper > FreeRTOS+TCP > Properties > Settings > Property > Common > DNS Request Attempts | 2 | 5 | Number of attempts for DNS requests. |
-| configuration.xml > User App Thread > AWS Core HTTP > AWS Transport Interface on MbedTLS/PKCS11 (rm_aws_transport_interface_port) > AWS TCP Sockets Wrapper > FreeRTOS+TCP > g_freertos_plus_tcp0 FreeRTOS+TCP Wrapper to ethernet driver (rm_freertos_plus_tcp) > g_ether0 Ethernet MAC (r_rmac) > Properties > Settings > Property > Module g_ether0 Ethernet MAC (r_rmac) > Buffers > Number of TX buffer | 12 | 12 | Buffer size increased for faster processing. |
-| configuration.xml > User App Thread > AWS Core HTTP > AWS Transport Interface on MbedTLS/PKCS11 (rm_aws_transport_interface_port) > AWS TCP Sockets Wrapper > FreeRTOS+TCP > g_freertos_plus_tcp0 FreeRTOS+TCP Wrapper to ethernet driver (rm_freertos_plus_tcp) > g_ether0 Ethernet MAC (r_rmac) > Properties > Settings > Property > Module g_ether0 Ethernet MAC (r_rmac) > Buffers > Number of RX buffer | 12 | 12 | Buffer size increased for faster processing. |
-|configuration.xml > User App Thread > AWS Core HTTP > AWS Transport Interface on MbedTLS/PKCS11 (rm_aws_transport_interface_port) > AWS TCP Sockets Wrapper > FreeRTOS+TCP > g_freertos_plus_tcp0 FreeRTOS+TCP Wrapper to ethernet driver (rm_freertos_plus_tcp) > g_ether0 Ethernet MAC (r_rmac) > g_layer3_switch0 Switch (r_layer3_switch) > g_rmac_phy0 Ethernet (r_rmac_phy) > Properties > Settings > Property > Module g_rmac_phy0 Ethernet (r_rmac_phy) > Channel | 0 | 1 | Select the Ethernet controller channel number. |
-|configuration.xml > User App Thread > AWS Core HTTP > AWS Transport Interface on MbedTLS/PKCS11 (rm_aws_transport_interface_port) > AWS TCP Sockets Wrapper > FreeRTOS+TCP > g_freertos_plus_tcp0 FreeRTOS+TCP Wrapper to ethernet driver (rm_freertos_plus_tcp) > g_ether0 Ethernet MAC (r_rmac) > g_layer3_switch0 Switch (r_layer3_switch) > g_rmac_phy0 Ethernet (r_rmac_phy) > Properties > Settings > Property > Module g_rmac_phy0 Ethernet (r_rmac_phy) > Default PHY-LSI port | 0 | 1 | Specify the default port for PHY-LSI configuration. |
+| configuration.xml > User App Thread > AWS Core HTTP > AWS Transport Interface on MbedTLS/PKCS11 (rm_aws_transport_interface_port) > AWS TCP Sockets Wrapper > FreeRTOS+TCP > g_freertos_plus_tcp0 FreeRTOS+TCP Wrapper to Ethernet driver (rm_freertos_plus_tcp) > g_ether0 Ethernet MAC (r_rmac) > Properties > Settings > Property > Module g_ether0 Ethernet MAC (r_rmac) > Buffers > Number of TX buffer | 12 | 12 | Buffer size increased for faster processing. |
+| configuration.xml > User App Thread > AWS Core HTTP > AWS Transport Interface on MbedTLS/PKCS11 (rm_aws_transport_interface_port) > AWS TCP Sockets Wrapper > FreeRTOS+TCP > g_freertos_plus_tcp0 FreeRTOS+TCP Wrapper to Ethernet driver (rm_freertos_plus_tcp) > g_ether0 Ethernet MAC (r_rmac) > Properties > Settings > Property > Module g_ether0 Ethernet MAC (r_rmac) > Buffers > Number of RX buffer | 12 | 12 | Buffer size increased for faster processing. |
+|configuration.xml > User App Thread > AWS Core HTTP > AWS Transport Interface on MbedTLS/PKCS11 (rm_aws_transport_interface_port) > AWS TCP Sockets Wrapper > FreeRTOS+TCP > g_freertos_plus_tcp0 FreeRTOS+TCP Wrapper to Ethernet driver (rm_freertos_plus_tcp) > g_ether0 Ethernet MAC (r_rmac) > g_layer3_switch0 Switch (r_layer3_switch) > g_rmac_phy0 Ethernet (r_rmac_phy) > Properties > Settings > Property > Module g_rmac_phy0 Ethernet (r_rmac_phy) > Channel | 0 | 1 | Select the Ethernet controller channel number. |
+|configuration.xml > User App Thread > AWS Core HTTP > AWS Transport Interface on MbedTLS/PKCS11 (rm_aws_transport_interface_port) > AWS TCP Sockets Wrapper > FreeRTOS+TCP > g_freertos_plus_tcp0 FreeRTOS+TCP Wrapper to Ethernet driver (rm_freertos_plus_tcp) > g_ether0 Ethernet MAC (r_rmac) > g_layer3_switch0 Switch (r_layer3_switch) > g_rmac_phy0 Ethernet (r_rmac_phy) > Properties > Settings > Property > Module g_rmac_phy0 Ethernet (r_rmac_phy) > Default PHY-LSI port | 0 | 1 | Specify the default port for PHY-LSI configuration. |
 | configuration.xml > User App Thread > AWS Core HTTP > AWS Transport Interface on MbedTLS/PKCS11 (rm_aws_transport_interface_port) > AWS PKCS11 to MbedTLS > FreeRTOS MbedTLS Port > MbedTLS > Properties > Settings > Property > Common > SSL Options > MBEDTLS_SSL_RENEGOTIATION	| Undefine | Define | Enabled support for TLS renegotiation. |
 | configuration.xml > User App Thread > AWS Core HTTP > AWS Transport Interface on MbedTLS/PKCS11 (rm_aws_transport_interface_port) > AWS PKCS11 to MbedTLS > FreeRTOS MbedTLS Port > MbedTLS > MbedTLS (Crypto Only) > Properties > Settings > Property > Common > Message Authentication Code (MAC) > MBEDTLS_CMAC_C | Undefine | Define | Enabled macro MBEDTLS_CMAC_C. |
 | configuration.xml > User App Thread > AWS Core HTTP > AWS Transport Interface on MbedTLS/PKCS11 (rm_aws_transport_interface_port) > AWS PKCS11 to MbedTLS > FreeRTOS MbedTLS Port > MbedTLS > MbedTLS (Crypto Only) > Properties > Settings > Property > Common > Public Key Cryptography (PKC) > ECC > MBEDTLS_ECDH_C | Undefine | Define | Mbed TLS implements ECDH algorithm. |
@@ -101,16 +135,18 @@ The table below lists the FSP provided API used at the application layer by this
 |-------------|--------------------------------------------------------------------------------|
 | R_ADC_B_Open | This API is used to open ADC module. |
 | R_ADC_B_ScanCfg | This API is used to configure the ADC scan parameters. |
+| R_ADC_B_Calibrate | This API is used to start the calibration of the ADC. |
+| R_ADC_B_StatusGet | This API is used to get the status of the ADC, e.g. to check that the calibration is complete. |
 | R_ADC_B_ScanStart | This API is used to start scanning of configured ADC channel. |
 | R_ADC_B_Read |This API is used to read the ADC data from the configured channel. |
 | R_ADC_B_Close | This API is used to close ADC module. |
 | FreeRTOS_IPInit | This API is used to initialize the FreeRTOS-Plus-TCP network stack and initialize the IP-task. |
 | FreeRTOS_gethostbyname | This API is used to resolve the host name to IP address. |
 | FreeRTOS_inet_ntoa | This API is used to convert an IP address expressed in decimal dot notation. |
-| FreeRTOS_inet_addr | This API is used to Convert the IP address from dotted decimal format to the 32-bit format. |
+| FreeRTOS_inet_addr | This API is used to convert the IP address from dotted decimal format to the 32-bit format. |
 | FreeRTOS_SendPingRequest | This API is used to send a ping request to remote PC. |
 | RM_LITTLEFS_FLASH_Open | This API is used to open the LittleFS driver and initializes lower layer driver. | 
-| RM_LITTLEFS_FLASH_Close | This API is used to closes the lower level LittleFS driver. |
+| RM_LITTLEFS_FLASH_Close | This API is used to close the lower level LittleFS driver. |
 | vAlternateKeyProvisioning | This API is used to perform device provisioning using the specified TLS client credentials. |
 | TLS_FreeRTOS_Connect | This API is used to create a TLS connection with FreeRTOS sockets. |
 | TLS_FreeRTOS_send | This API is used to send data over an established TLS connection. |
@@ -120,26 +156,59 @@ The table below lists the FSP provided API used at the application layer by this
 | HTTPClient_strerror | This API is used to convert error code to string for HTTP Client library. | 
 | HTTPClient_Send | This API is used to send the request headers and request body over the transport. | 
 
-## Verifying Operation ##  
-Import, build and download the EP (*see section Starting Development* of **FSP User Manual**). After running the EP, open RTT Viewer to see the output.
+## Verifying Operation ##
+* Import, build and download the EP (see section Starting Development of **FSP User Manual**). After running the EP, open a serial terminal application (e.g., Tera Term) to see the output.
+* Before running the example project:
+   * The user must have an account on the Adafruit (https://io.adafruit.com). The details of creating the Account and getting the required credentials and IO Keys for successful running of the application are described in the **[Special Topics](#special-topics)** Section.
+   * Make sure [Hardware Connections](#hardware-connections) are completed.
+* To view output logs on a serial terminal application (e.g., Tera Term), configure the settings as follows:
+    * To make sure the received data shows properly, the user needs to set:
+      * [Setup] -> [Terminal...] -> [New-line] -> Select [Receive: CR] & [Transmit: CR].
+    * To echo back characters typed in Tera Term, the user needs to enable it through:
+      * [Setup] -> [Terminal...] -> Check [Local echo].
+    * The configuration parameters of the serial port on the serial terminal application:
+      * Port: The port is provided by the J-Link On-Board.
+      * Speed: 115200
+      * Data: 8 bit
+      * Parity: none
+      * Stop bits: 1 bit
+      * Flow control: none
 
-The images below showcase the output on J-Link RTT Viewer:
+The images below showcase the output on the serial terminal:
 
-![aws_https_client](images/rtt_viewer_banner.jpg "RTT viewer starting page")
+EP banner and information:
 
-![aws_https_client](images/rtt_viewer_post_ip_init.jpg "RTT viewer ping page")
+![aws_https_client](images/terminal_viewer_banner.jpg "Terminal viewer starting page")
+
+Initialization and ping:
+
+![aws_https_client](images/terminal_viewer_init.jpg "Terminal viewer initialization page")
+
+After the ping test, the user expected to enter the feed name, username, and active key. (see section **I. Obtaining Adafruit server credentials** in **[Special Topics](#special-topics)** to create an account if you do not have one yet).
+
+![aws_https_client](images/terminal_viewer_server_connect.jpg "Terminal viewer server connect page")
+
+![aws_https_client](images/terminal_viewer_connected_menu.jpg "Terminal viewer connected to server and printed menu")
 
 **Note**: After the initial successful connection, the user should run the POST request first and then the GET request prior to running the PUT request.
 
-![aws_https_client](images/rtt_viewer_post_request.jpg "RTT viewer post request page")
+Post request:
 
-![aws_https_client](images/rtt_viewer_get_request.jpg "RTT viewer get request page")
+![aws_https_client](images/terminal_viewer_post_request.jpg "Terminal viewer Post request page")
 
-![aws_https_client](images/rtt_viewer_put_request.jpg "RTT viewer put request page")
+Get request:
 
-The image below shows the adafruit server with feed data:
+![aws_https_client](images/terminal_viewer_get_request.jpg "Terminal viewer Get request page")
 
-![aws_https_cleint](images/adafruit_feed_data.jpg "adafruit server page")
+Put request:
+
+![aws_https_client](images/terminal_viewer_put_request.jpg "Terminal viewer Put request page")
+
+After executing the HTTP menu options, the updated data will be shown in the user feed on the Adafruit IO server.
+
+The image below shows the Adafruit server with updated data:
+
+![aws_https_client](images/adafruit_feed_data.jpg "Adafruit server page")
 
 ## Special Topics ##
 
@@ -147,39 +216,36 @@ The image below shows the adafruit server with feed data:
 
 Following steps guide you how to obtain the username and AIO key.
 
-1. Go to https://io.adafruit.com. Click on **Get Started for Free** option as shown in the image below
+1. Go to https://io.adafruit.com. Click on **Get Started for Free** option as shown in the image below.
 
-![aws_https_client](images/adafruit_getstart.jpg "adafruit getting started")
+![aws_https_client](images/adafruit_getstart.jpg "Adafruit getting started")
 
 2. Create an account by providing the requested details to obtain user credintails viz., **username** and **password** 
-3. After successful creation of account, username will display on top of the page as shown in the image below. Click on **IO**, dashboard will display with the following options **Feeds, Dashboards, Key** etc.
+3. After successful creation of account. Click on **IO**, dashboard will display username will display on top of the page as shown in the image below. then click on **Feeds** to perform next step.
 
-![aws_https_client](images/adafruit_dashboard.jpg "adafruit dashboard")
+![aws_https_client](images/adafruit_dashboard.jpg "Adafruit dashboard")
  
 4. Click on **New Feed**, provide Name, Description (optional) then click on **Create** to create a new feed.
 
-![aws_https_client](images/adafruit_create_new_feed.jpg "adafruit create new feed")
+![aws_https_client](images/adafruit_create_new_feed.jpg "Adafruit create new feed")
 
 5. After creating the feed, select the feed you have created, and your data will be displayed below.
 
-![aws_https_client](images/adafruit_created_feed.jpg "adafruit feed")
+![aws_https_client](images/adafruit_created_feed.jpg "Adafruit feed")
 
 6. Then you should to set Privacy to **Public**. Click on **Privacy**, change **Visibility** to **Public**, then click on **Create**.
 
-![aws_https_client](images/adafruit_change_privacy.jpg "adafruit change privacy")
+![aws_https_client](images/adafruit_change_privacy.jpg "Adafruit change privacy")
 
-7. Click on **Key** button option to see your username and Active key. These two details are important for communicating with adafruit server. If the key is compromised, you can generate the new key by clicking on the Regenerate key option as shown in the image below.
+7. Click on **Key** button option to see your username and Active key. These two details are important for communicating with Adafruit server. If the key is compromised, you can generate the new key by clicking on the Regenerate key option as shown in the image below.
 
-![aws_https_client](images/adafruit_io_key.jpg "adafruit io key") 
+![aws_https_client](images/adafruit_io_key.jpg "Adafruit io key") 
  
-8. After obtaining the username and io key. The user has to update the following details at respective URL macros in the aws_https_client_ep/src/user_app.h file as shown in the image below.
-Please note that the Key will be changed after a period of time, please update and use the latest key.
-
-![aws_https_cleint](images/user_config_macro.jpg "user configuration macros")
+**Note**: The feed name, username, and active key are used to connect to the feed while running the project.
 
 **II. Obtaining Server Certificate:**
 
-1. Open browser, copy, and paste the following URL https://cacerts.digicert.com/GeoTrustTLSRSACAG1.crt. Server certificate with .crt extension will be downloaded with the file name **GeoTrustTLSRSACAG1.crt**
+1. Open browser, copy, and paste the following URL https://cacerts.digicert.com/GeoTrustTLSRSACAG1.crt. server certificate with .crt extension will be downloaded with the file name **GeoTrustTLSRSACAG1.crt**
 
 2. After downloaded the .crt file, need to be converted to .pem format using OpenSSL.
 
@@ -212,7 +278,7 @@ Please note that the Key will be changed after a period of time, please update a
 ![aws_https_client](images/openssl_win.jpg "OpenSSL window")
 
 2. To generate the private key and CSR certificate use the command **openssl req -newkey rsa:2048 -nodes -keyout clientside.key -x509 -days 365 -out clientside.crt** as shown below.
-**NOTE:** Output file can be any name.
+**Note:** Output file can be any name.
 
 ![aws_https_client](images/open_ssl_client_key.jpg "OpenSSL Client Key")
 
@@ -243,4 +309,4 @@ ii. Copied client key to be updated at the CLIENT_KEY_PEM macro as shown in the 
 
 ![aws_https_client](images/update_client_key.jpg "Update client key pem")
 
-**NOTE:** Client Certificate and client Key are required for AWS Client application to authenticate server in secure connection. If missing of both, then it cannot be connected to server instead return an error as no certificates were found.
+**Note:** Client Certificate and client Key are required for AWS Client application to authenticate server in secure connection. If missing of both, then it cannot be connected to server instead return an error as no certificates were found.

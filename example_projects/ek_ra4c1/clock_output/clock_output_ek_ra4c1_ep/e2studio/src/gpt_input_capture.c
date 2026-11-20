@@ -1,72 +1,87 @@
 /***********************************************************************************************************************
  * File Name    : gpt_input_capture.c
- * Description  : Contains data structures and functions.
+ * Description  : Contains data structures and functions used in gpt_input_capture.c.
  **********************************************************************************************************************/
 /***********************************************************************************************************************
-* Copyright (c) 2024 Renesas Electronics Corporation and/or its affiliates
-*
-* SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
+ * Copyright (c) 2024 - 2026 Renesas Electronics Corporation and/or its affiliates
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ **********************************************************************************************************************/
 
-#if (GPT_MEASURE_CLKOUT == 1)
+#if (GPT_MEASURE_CLKOUT)
 
-#include "common_utils.h"
-#include "clock_output_ep.h"
+#include "clock_output_example_app.h"
+#include "gpt_input_capture.h"
 
-/* Private Variables */
-static volatile bool g_start_measurement   = false;
+/* Global variable */
+uint32_t g_clkout_value = RESET_VALUE;
 
-static uint32_t    g_capture_count = RESET_VALUE;
-static uint32_t    g_frequency     = RESET_VALUE;
+/* Private variables */
+static volatile bool g_start_measurement = false;
+static uint32_t g_capture_count = RESET_VALUE;
+static uint32_t g_frequency = RESET_VALUE;
 
 /* Private function declarations */
-static void gpt_deinit (void);
+static fsp_err_t gpt_init(void);
+static fsp_err_t gpt_info_get(timer_info_t * const p_info);
+static fsp_err_t gpt_enable(void);
+static fsp_err_t gpt_disable(void);
 
 /***********************************************************************************************************************
- *  Function Name: gpt_capture_operation
- *  Description  : This function performs gpt capture operation.
- *  Arguments    : None
- *  Return Value : FSP_SUCCESS  gpt capture operattion runs successfully
- *                 Any Other    Error code apart from FSP_SUCCESS
+ * Function Name: gpt_capture_operation.
+ * Description  : This function performs GPT capture operation.
+ * Arguments    : None.
+ * Return Value : FSP_SUCCESS               Operated successfully.
+ *                Any other error codes     Failed to operate.
  **********************************************************************************************************************/
 fsp_err_t gpt_capture_operation(void)
 {
     fsp_err_t err = FSP_SUCCESS;
 
-    uint32_t clkout_value = RESET_VALUE;
-
     timer_info_t info =
-    { .clock_frequency = RESET_VALUE, .count_direction = RESET_VALUE, .period_counts = RESET_VALUE };
+    {
+        .clock_frequency = RESET_VALUE,
+        .count_direction = RESET_VALUE,
+        .period_counts = RESET_VALUE
+    };
 
-    /* Open GPT instance as input capture */
-    err = R_GPT_Open (&g_input_capture_ctrl, &g_input_capture_cfg);
-    APP_ERR_RET (err,err, "\r\n ** R_GPT_Open API failed ** \r\n");
+    g_clkout_value = RESET_VALUE;
+
+    /* Open GPT module */
+    err = gpt_init();
+    if (FSP_SUCCESS != err)
+    {
+        return err;
+    }
 
     /* Get the GPT information */
-    err = R_GPT_InfoGet (&g_input_capture_ctrl, &info);
-    APP_ERR_RET (err,err, "\r\n ** R_GPT_InfoGet API failed ** \r\n");
+    err = gpt_info_get(&info);
+    if (FSP_SUCCESS != err)
+    {
+        return err;
+    }
 
     /* Get the GPT frequency */
     g_frequency = info.clock_frequency;
 
     /* Enable GPT input capture */
-    err = R_GPT_Enable (&g_input_capture_ctrl);
-    APP_ERR_RET (err,err, "\r\n ** R_GPT_Enable API failed ** \r\n");
+    err = gpt_enable();
+    if (FSP_SUCCESS != err)
+    {
+        return err;
+    }
 
     /* Wait for GPT capture event */
     while (!g_start_measurement)
     {
-        __NOP();
+        /* Do nothing */
     }
 
     /* Reset the flag */
     g_start_measurement = false;
 
     /* Calculate the clock output value */
-    clkout_value = ((g_frequency) / (g_capture_count));
-
-    /* Print clock output value */
-    APP_PRINT ("\r\nCLKOUT frequency measurement value is %d Hz\r\n", clkout_value);
+    g_clkout_value = ((g_frequency) / (g_capture_count));
 
     /* Reset the GPT capture count value */
     g_capture_count = RESET_VALUE;
@@ -78,21 +93,94 @@ fsp_err_t gpt_capture_operation(void)
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
- * Function Name: input_capture_user_callback
- * Description  : User defined callback
- * Arguments    : p_args
- * Return Value : None
+ * Function Name: gpt_init.
+ * Description  : This function initializes the GPT module.
+ * Arguments    : None.
+ * Return Value : FSP_SUCCESS               Initialized successfully.
+ *                Any other error codes     Failed to initialize.
  **********************************************************************************************************************/
-void input_capture_user_callback(timer_callback_args_t *p_args)
+static fsp_err_t gpt_init(void)
 {
     fsp_err_t err = FSP_SUCCESS;
 
+    err = R_GPT_Open(&g_input_capture_ctrl, &g_input_capture_cfg);
+
+    return err;
+}
+/***********************************************************************************************************************
+* End of function gpt_init
+***********************************************************************************************************************/
+
+/***********************************************************************************************************************
+ * Function Name: gpt_info_get.
+ * Description  : This function gets GPT timer information.
+ * Arguments    : p_info                    Pointer to the timer information structure.
+ * Return Value : FSP_SUCCESS               Got successfully.
+ *                Any other error codes     Failed to get.
+ **********************************************************************************************************************/
+static fsp_err_t gpt_info_get(timer_info_t * const p_info)
+{
+    fsp_err_t err = FSP_SUCCESS;
+
+    err = R_GPT_InfoGet(&g_input_capture_ctrl, p_info);
+
+    return err;
+}
+/***********************************************************************************************************************
+* End of function gpt_info_get
+***********************************************************************************************************************/
+
+/***********************************************************************************************************************
+ * Function Name: gpt_enable.
+ * Description  : This function enables external event triggers that start, stop, clear, or capture the counter.
+ * Arguments    : None.
+ * Return Value : FSP_SUCCESS               Enabled successfully.
+ *                Any other error codes     Failed to enable.
+ **********************************************************************************************************************/
+static fsp_err_t gpt_enable(void)
+{
+    fsp_err_t err = FSP_SUCCESS;
+
+    err = R_GPT_Enable(&g_input_capture_ctrl);
+
+    return err;
+}
+/***********************************************************************************************************************
+* End of function gpt_enable
+***********************************************************************************************************************/
+
+/***********************************************************************************************************************
+ * Function Name: gpt_disable.
+ * Description  : This function disables external event triggers that start, stop, clear, or capture the counter.
+ * Arguments    : None.
+ * Return Value : FSP_SUCCESS               Disabled successfully.
+ *                Any other error codes     Failed to disable.
+ **********************************************************************************************************************/
+static fsp_err_t gpt_disable(void)
+{
+    fsp_err_t err = FSP_SUCCESS;
+
+    err = R_GPT_Disable(&g_input_capture_ctrl);
+
+    return err;
+}
+/***********************************************************************************************************************
+* End of function gpt_disable
+***********************************************************************************************************************/
+
+/***********************************************************************************************************************
+ * Function Name: input_capture_user_callback.
+ * Description  : User defined callback.
+ * Arguments    : p_args                    Callback function parameter data.
+ * Return Value : None.
+ **********************************************************************************************************************/
+void input_capture_user_callback(timer_callback_args_t *p_args)
+{
     /* Check for the event */
     switch (p_args->event)
     {
         case TIMER_EVENT_CAPTURE_A:
         {
-
             /* Get GPT capture count value and store in g_capture_count */
             g_capture_count = p_args->capture;
 
@@ -103,11 +191,10 @@ void input_capture_user_callback(timer_callback_args_t *p_args)
                 g_start_measurement = true;
 
                 /* Disable GPT input capture */
-                err = R_GPT_Disable (&g_input_capture_ctrl);
-                APP_ERR_HANDLE (err, "\r\n ** R_GPT_Disable API failed ** \r\n");
+                gpt_disable();
 
-                /* De-initailize GPT input capture */
-                gpt_deinit ();
+                /* De-initialize GPT input capture */
+                gpt_deinit();
             }
             break;
         }
@@ -122,48 +209,21 @@ void input_capture_user_callback(timer_callback_args_t *p_args)
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
- * Function Name: gpt_deinit
- * Description  : De-initialize GPT module
- * Arguments    : None
- * Return Value : None
+ * Function Name: gpt_deinit.
+ * Description  : This function de-initializes the opened GPT module.
+ * Arguments    : None.
+ * Return Value : None.
  **********************************************************************************************************************/
-static void gpt_deinit(void)
+void gpt_deinit(void)
 {
-    fsp_err_t err = FSP_SUCCESS;
-
-    /* De-initialize GPT module if already open */
-    if (MODULE_CLOSE != g_input_capture_ctrl.open)
+    /* De-initialize the opened GPT module */
+    if (g_input_capture_ctrl.open)
     {
-        err = R_GPT_Close (&g_input_capture_ctrl);
-        if (FSP_SUCCESS != err)
-        {
-            APP_ERR_PRINT ("\r\n ** R_GPT_Close API failed ** \r\n");
-        }
+        R_GPT_Close(&g_input_capture_ctrl);
     }
 }
 /***********************************************************************************************************************
 * End of function gpt_deinit
 ***********************************************************************************************************************/
 
-/***********************************************************************************************************************
- * Function Name: handle_error
- * Description  : This function handles error if any error occurred, closes opened GPT module and traps the error.
- * Arguments    : err       error status
- *                err_str   error string
- * Return Value : None
- **********************************************************************************************************************/
-void handle_error(fsp_err_t err, uint8_t * err_str)
-{
-    /* Print error information */
-    APP_ERR_PRINT (err_str);
-
-    /* De-initialize GPT module */
-    gpt_deinit();
-
-    /* Trap the error */
-    APP_ERR_TRAP (err);
-}
-/***********************************************************************************************************************
-* End of function handle_error
-***********************************************************************************************************************/
 #endif /* GPT_MEASURE_CLKOUT */

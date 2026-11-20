@@ -238,11 +238,11 @@ FSP Configuration
     OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS14: 
     OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS15: 
     OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS16: 
-    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: ZHUK (Zerorization HUK Register) Settings: Disabled
-    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: ZHUK (Zerorization HUK Register) Settings: Configuration setting for RTCIC0: W-HUK zeroization by RTCIC0 tamper event is disabled
-    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: ZHUK (Zerorization HUK Register) Settings: Configuration setting for RTCIC1: W-HUK zeroization by RTCIC1 tamper event is disabled
-    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: ZHUK (Zerorization HUK Register) Settings: Configuration setting for RTCIC2: W-HUK zeroization by RTCIC2 tamper event is disabled
-    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: ZHUK (Zerorization HUK Register) Settings: Configuration setting for RTCIC3: W-HUK zeroization by RTCIC3 tamper event is disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Configuration setting for RTCIC0: W-HUK zeroization by RTCIC0 tamper event is disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Configuration setting for RTCIC1: W-HUK zeroization by RTCIC1 tamper event is disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Configuration setting for RTCIC2: W-HUK zeroization by RTCIC2 tamper event is disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Configuration setting for RTCIC3: W-HUK zeroization by RTCIC3 tamper event is disabled
     
   RA8P1 Core 0 Options
   RA8P1 event data
@@ -917,6 +917,7 @@ FSP Configuration
   User Event Links
     
   Linker Section Mappings
+    *(.bss.*_fsp_nocache): RAM Zeroed (Uncached)
     *(.bss.g_heap): RAM Uninitialized
     *(.bss.g_main_stack): RAM Uninitialized
     
@@ -972,11 +973,13 @@ FSP Configuration
     The socket semaphore to unblock the MQTT task (USER_SEMAPHORE): Disable
     The socket semaphore to unblock the MQTT task (WAKE_CALLBACK): Enable 
     The socket semaphore  to unblock the MQTT task (USE_CALLBACKS): Disable
-    The socket semaphore to unblock the MQTT task (TX_DRIVER): Disable
-    The socket semaphore to unblock the MQTT task (RX_DRIVER): Disable
+    Enable TX DRIVER for zero copy: Disable
+    Enable RX DRIVER for zero copy: Disable
     Possible optimisation for expert users: Disable
     
   Module "FreeRTOS+TCP Wrapper to ethernet driver (rm_freertos_plus_tcp)"
+    Zero Copy Support: Disable
+    
   Module "FreeRTOS Buffer Allocation 2"
   Module "FreeRTOS+FAT"
     General: Has CWD: Disabled
@@ -1062,9 +1065,17 @@ FSP Configuration
     Memory-mapping Support: XiP Support: Disable
     DOTF Support: Disable
     Row Addressing Support: Disable
+    Target Reset Support: In-band reset: Disable
+    Target Reset Support: Reset pin: Disable
     
   Module "Transfer (r_dmac)"
     Parameter Checking: Default (BSP)
+    
+  Module "UART (r_sci_b_uart)"
+    Parameter Checking: Default (BSP)
+    FIFO Support: Disable
+    DTC Support: Disable
+    Flow Control Support: Disable
     
   FreeRTOS
     General: Custom FreeRTOSConfig.h: usr_freertos_config.h
@@ -1144,6 +1155,33 @@ FSP Configuration
       Pin Configuration Name: g_bsp_pin_cfg
       
     Instance "FreeRTOS Port (rm_freertos_port)"
+    Instance "g_uart_console UART (r_sci_b_uart)"
+      General: Name: g_uart_console
+      General: Channel: 8
+      General: Data Bits: 8bits
+      General: Parity: None
+      General: Stop Bits: 1bit
+      Baud: Baud Rate: 115200
+      Baud: Baud Rate Modulation: Disabled
+      Baud: Max Error (%): 5
+      Flow Control: CTS/RTS Selection: Hardware RTS
+      Flow Control: Software RTS Port: Disabled
+      Flow Control: Software RTS Pin: Disabled
+      Extra: Clock Source: Internal Clock
+      Extra: Start bit detection: Falling Edge
+      Extra: Noise Filter: Disable
+      Extra: Receive FIFO Trigger Level: Max
+      Extra: RS-485: DE Pin: Disable
+      Extra: RS-485: DE Pin Polarity: Active High
+      Extra: RS-485: DE Pin Assertion Time: 1
+      Extra: RS-485: DE Pin Negation Time: 1
+      Extra: TXI/TEI Synchronization Delay Cycles: 0
+      Interrupts: Callback: uart_console_callback
+      Interrupts: Receive Interrupt Priority: Priority 15
+      Interrupts: Transmit Data Empty Interrupt Priority: Priority 15
+      Interrupts: Transmit End Interrupt Priority: Priority 15
+      Interrupts: Error Interrupt Priority: Priority 15
+      
   Thread "Net Thread"
     Symbol: net_thread
     Name: Net Thread
@@ -1156,8 +1194,8 @@ FSP Configuration
     Instance "FreeRTOS+TCP"
       Instance "g_freertos_plus_tcp0 FreeRTOS+TCP Wrapper to ethernet driver (rm_freertos_plus_tcp)"
         Name: g_freertos_plus_tcp0
-        RX Handler Task Stack Size: configMINIMAL_STACK_SIZE
-        RX Handler Task Priority: configMAX_PRIORITIES - 1
+        Ethernet Deferred Interrupt Handler Task Stack Size: configMINIMAL_STACK_SIZE
+        Ethernet Deferred Interrupt Task Priority: configMAX_PRIORITIES - 1
         Check Link Status Task Stack Size: configMINIMAL_STACK_SIZE
         Check Link Status Task Priority: configMAX_PRIORITIES - 1
         Link check interval: 1000
@@ -1187,6 +1225,8 @@ FSP Configuration
           Timestamp: TS queue length: 8
           Forwarding: Transmission descriptor format: Transmission direct descriptor
           Forwarding: Port based forwarding for reception: Disabled
+          Link: Link monitored ports: 
+          Link: Link Detection: Default port (same as Channel)
           
           Instance "g_layer3_switch0 Switch (r_layer3_switch)"
             Name: g_layer3_switch0
@@ -1199,6 +1239,7 @@ FSP Configuration
             Ports: CPU: Forwarding: 
             Ports: Port 0: IPV queues for preemptable frames: 
             Ports: Port 1: IPV queues for preemptable frames: 
+            Ts Description Length: 8
             Ports: Port 0: Minimum fragment size of preemptable frames: 64 bytes
             Ports: Port 1: Minimum fragment size of preemptable frames: 64 bytes
             Ports: Port 0: MAC address: 74:90:50:65:81:70
@@ -1363,6 +1404,11 @@ FSP Configuration
             Timing Settings: Chip Select: Command Interval: 2 cycles
             Timing Settings: Chip Select: Assertion Extension: No extension
             Timing Settings: Chip Select: Negation Extension: No extension
+            Timing Settings: In-Band Reset Pattern: Repeat Count: 4 times
+            Timing Settings: In-Band Reset Pattern: Width: 16 cycles
+            Timing Settings: In-Band Reset Pattern: SIO Setup Time: 1 cycle
+            Timing Settings: Reset Pin Hold Time: 1
+            Timing Settings: Reset Recovery Time: 1
             Timing Settings: DS Latching Delay: Auto-calibrate
             Timing Settings: SDR: Drive Timing: Drive 1/2 cycle before CK
             Timing Settings: SDR: CK Sampling Edge: Falling edge

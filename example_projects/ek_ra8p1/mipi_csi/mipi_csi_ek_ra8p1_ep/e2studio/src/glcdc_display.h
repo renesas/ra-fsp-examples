@@ -1,23 +1,27 @@
-/*
- * glcdc_display.h
+/***********************************************************************************************************************
+ * File Name    : glcdc_display.h
+ * Description  : Contains variables and functions used in glcdc_display.c.
+ **********************************************************************************************************************/
+/***********************************************************************************************************************
+ * Copyright (c) 2025 - 2026 Renesas Electronics Corporation and/or its affiliates
  *
- *  Created on: Jun 26, 2025
- *      Author: a5145403
- */
+ * SPDX-License-Identifier: BSD-3-Clause
+ **********************************************************************************************************************/
 
 #ifndef GLCDC_DISPLAY_H_
 #define GLCDC_DISPLAY_H_
 
-#include "common_utils.h"
+#include "hal_data.h"
 #include "user_config.h"
 
 #if (DISPLAY_OUTPUT == 1U)
 
-#define RESET_FLAG              (0U)
-#define SET_FLAG                (1U)
+/* External variable - Defined in glcdc_display.c */
+extern volatile uint8_t g_vsync_flag;
 
-/* Public function declarations */
+/* Function declarations */
 fsp_err_t glcdc_init(void);
+fsp_err_t glcdc_buffer_change(uint8_t * const p_buffer);
 
 #endif /* DISPLAY_OUTPUT */
 #endif /* GLCDC_DISPLAY_H_ */

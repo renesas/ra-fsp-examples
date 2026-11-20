@@ -88,7 +88,7 @@
       <property id="config.bsp.fsp.mcu.adc.sample_and_hold" value="1"/>
       <property id="config.bsp.fsp.mcu.adc.sensors_are_exclusive" value="0"/>
       <property id="config.bsp.fsp.mcu.sci_spi.max_bitrate" value="60000000"/>
-      <property id="config.bsp.fsp.mcu.spi.max_bitrate" value="60000000"/>
+      <property id="config.bsp.fsp.mcu.spi.max_bitrate" value="166666666"/>
       <property id="config.bsp.fsp.mcu.iic_master.rate.rate_fastplus" value="1"/>
       <property id="config.bsp.fsp.mcu.iic_master.fastplus_channels" value="0x7"/>
       <property id="config.bsp.fsp.mcu.iic_slave.rate.rate_fastplus" value="1"/>
@@ -127,8 +127,8 @@
       <property id="config.bsp.option_setting.ofs0.wdt_stop_control" value="config.bsp.option_setting.ofs0.wdt_stop_control.stops"/>
       <property id="config.bsp.option_setting.ofs2" value="config.bsp.option_setting.ofs2.enabled"/>
       <property id="config.bsp.option_setting.ofs2.dcdc" value="config.bsp.option_setting.ofs2.dcdc.enabled"/>
-      <property id="config.bsp.option_setting.ofs2.cvm_reset" value="config.bsp.option_setting.ofs2.cvm_reset.enabled"/>
-      <property id="config.bsp.option_setting.ofs2.npusa" value="config.bsp.option_setting.ofs2.npusa.nonsecure"/>
+      <property id="config.bsp.option_setting.ofs2.cvm_reset" value="config.bsp.option_setting.ofs2.cvm_reset.disabled"/>
+      <property id="config.bsp.option_setting.ofs2.npusa" value="config.bsp.option_setting.ofs2.npusa.secure"/>
       <property id="config.bsp.option_setting.ofs2.npupa" value="config.bsp.option_setting.ofs2.npupa.unprivilege"/>
       <property id="config.bsp.option_setting.sas" value="config.bsp.option_setting.sas.disabled"/>
       <property id="config.bsp.option_setting.sas.btsize" value="config.bsp.option_setting.sas.btsize.8k"/>
@@ -284,7 +284,7 @@
     </config>
     <config id="config.bsp.ra">
       <property id="config.bsp.common.main" value="0x400"/>
-      <property id="config.bsp.common.heap" value="0x1000"/>
+      <property id="config.bsp.common.heap" value="0"/>
       <property id="config.bsp.common.bootloader.xip_enable" value="config.bsp.common.bootloader.xip_enable.disabled"/>
       <property id="config.bsp.common.vcc" value="3300"/>
       <property id="config.bsp.common.checking" value="config.bsp.common.checking.disabled"/>
@@ -406,6 +406,10 @@
     <node id="board.clock.ethphyclk.display" option="board.clock.ethphyclk.display.value"/>
   </raClockConfiguration>
   <raComponentSelection>
+    <component apiversion="" class="Projects" condition="" group="all" subgroup="common" variant="" vendor="Renesas" version="6.6.0">
+      <description>Common source for all template projects.</description>
+      <originalPack>Renesas.RA_common.6.6.0.pack</originalPack>
+    </component>
     <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="6.6.0">
       <description>Board Support Package Common Files</description>
       <originalPack>Renesas.RA.6.6.0.pack</originalPack>
@@ -1066,9 +1070,9 @@
       <configSetting altId="p707.glcdc.lcd_data18" configurationId="p707"/>
       <configSetting altId="p707.gpio_speed.gpio_speed_h" configurationId="p707.gpio_drivecapacity"/>
       <configSetting altId="p707.gpio_mode.gpio_mode_peripheral" configurationId="p707.gpio_mode"/>
-      <configSetting altId="p708.output.low" configurationId="p708"/>
+      <configSetting altId="p708.output.high" configurationId="p708"/>
       <configSetting altId="p708.gpio_speed.gpio_speed_m" configurationId="p708.gpio_drivecapacity"/>
-      <configSetting altId="p708.gpio_mode.gpio_mode_out.low" configurationId="p708.gpio_mode"/>
+      <configSetting altId="p708.gpio_mode.gpio_mode_out.high" configurationId="p708.gpio_mode"/>
       <configSetting altId="p709.output.low" configurationId="p709"/>
       <configSetting altId="p709.gpio_speed.gpio_speed_m" configurationId="p709.gpio_drivecapacity"/>
       <configSetting altId="p709.gpio_mode.gpio_mode_out.low" configurationId="p709.gpio_mode"/>

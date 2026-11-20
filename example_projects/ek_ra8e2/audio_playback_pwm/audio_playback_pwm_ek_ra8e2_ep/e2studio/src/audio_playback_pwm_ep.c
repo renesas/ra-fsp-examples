@@ -1,17 +1,16 @@
 /***********************************************************************************************************************
  * File Name    : audio_playback_pwm_ep.c
- * Description  : Contains variables and functions used in audio_playback_pwm_ep.c.
+ * Description  : Contains data structures and functions used in audio_playback_pwm_ep.c.
  **********************************************************************************************************************/
 /***********************************************************************************************************************
-* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
-*
-* SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
+ * Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ **********************************************************************************************************************/
 
-#include "common_utils.h"
 #include "audio_playback_pwm_ep.h"
 
-/* Encoded ADPCM data is generated using 16Khz WAV file.*/
+/* Encoded ADPCM data is generated using 16KHz WAV file */
 const uint8_t g_adpcm_data[ADPCM_BUFFER_DATA_SIZE] =
 {
  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0F,
@@ -235,174 +234,147 @@ const uint8_t g_adpcm_data[ADPCM_BUFFER_DATA_SIZE] =
  0x22, 0x51, 0x08, 0x08, 0x08, 0x99, 0x08, 0x8A, 0xBD, 0xCA, 0xB8, 0xC9,
 };
 
-/* User-defined global buffers */
-int16_t g_pcm_stream[ADPCM_BUFFER_SIZE_BYTES * TWO];
+/* PCM output buffer for ADPCM decoding */
+int16_t g_pcm_stream[ADPCM_BUFFER_SIZE_BYTES * 2U];
+
 /* Variable to storage the 32-bit PCM data */
-#if (AGT_32BIT == 1)
-uint32_t g_unsign_pcm_data[ADPCM_BUFFER_SIZE_BYTES * TWO];
+#if (AGT_32BIT)
+uint32_t g_unsign_pcm_data[ADPCM_BUFFER_SIZE_BYTES * 2U];
 #else
 /* Variable to storage the 16-bit PCM data */
-uint16_t g_unsign_pcm_data[ADPCM_BUFFER_SIZE_BYTES * TWO];
-#endif
+uint16_t g_unsign_pcm_data[ADPCM_BUFFER_SIZE_BYTES * 2U];
+#endif /* AGT_32BIT */
 
-/* User-defined global variables */
-volatile bool g_audio_callback_counter = false; /* Flag used to exit while loop after every playback_completed event */
-volatile bool g_playback_started = false;       /* Flag used for Playback started */
-volatile bool g_audio_stop = false;             /* Flag used for audio stop */
+/* Flag used to exit while loop after every playback_completed event */
+static volatile bool s_audio_callback_counter = false;
 
- /******************************************************************************************************************//**
-  * @brief       This function initializes by opening the  audio Playback PWM module.
-  * @param[IN]   None.
-  * @retval      FSP_SUCCESS                 Upon successful initialization of Audio Playback PWM module.
-  * @retval      Any Other Error code        Unsuccessful open
+/* Flag used for playback started */
+volatile bool g_playback_started = false;
+
+/* Flag used for audio stop */
+volatile bool g_audio_stop = false;
+
+/*******************************************************************************************************************//**
+ * @brief     This function initializes by opening the Audio Playback PWM module.
+ * @param[in] None.
+ * @retval    FSP_SUCCESS               Initialized successfully.
+ * @retval    Any other error codes     Failed to initialize.
  **********************************************************************************************************************/
 fsp_err_t init_audio_playback_pwm(void)
 {
     fsp_err_t err = FSP_SUCCESS;
+
     /* Open Audio Playback PWM */
     err = RM_AUDIO_PLAYBACK_PWM_Open(&g_rm_audio_playback_ctrl, &g_rm_audio_playback_cfg);
+
     return err;
 }
 
 /*******************************************************************************************************************//**
-  * @brief       This function de-initilizes by closing Audio Playback PWM modules
-  * @param[IN]   None.
-  * @retval      FSP_SUCCESS                 Upon successful de-initilization of the Audio Playback PWM modules.
-  * @retval      Any Other Error code        Unsuccessful close
+ * @brief     This function closes the opened Audio Playback PWM module.
+ * @param[in] None.
+ * @retval    None.
  **********************************************************************************************************************/
-fsp_err_t deinit_audio_playback_pwm(void)
+void deinit_audio_playback_pwm(void)
+{
+    /* Close the opened Audio Playback PWM module */
+    if (g_rm_audio_playback_ctrl.open)
+    {
+        RM_AUDIO_PLAYBACK_PWM_Close(&g_rm_audio_playback_ctrl);
+    }
+}
+
+/*******************************************************************************************************************//**
+ * @brief     This function starts the Audio Playback PWM module.
+ * @param[in] None.
+ * @retval    FSP_SUCCESS               Started successfully.
+ * @retval    Any other error codes     Failed to start.
+ **********************************************************************************************************************/
+fsp_err_t audio_playback_start(void)
 {
     fsp_err_t err = FSP_SUCCESS;
-    err = RM_AUDIO_PLAYBACK_PWM_Close(&g_rm_audio_playback_ctrl);
-    if(FSP_SUCCESS != err)
-    {
-        /* Audio Playback PWM close failure message */
-        APP_ERR_PRINT("** RM_AUDIO_PLAYBACK_PWM_Close API failed ** \r\n");
-    }
+
+    /* Start to play the selected audio stream */
+    err = RM_AUDIO_PLAYBACK_PWM_Start(&g_rm_audio_playback_ctrl);
+
     return err;
 }
 
 /*******************************************************************************************************************//**
-  * @brief       This function processes the user input
-  * @param[IN]   input_buffer                input to start/stop audio
-  * @retval      FSP_SUCCESS                 Upon successful processing of the user inputs
-  * @retval      Any Other Error code        Unsuccessful start/stop audio
-  **********************************************************************************************************************/
-fsp_err_t process_user_input(uint8_t input_buffer)
-{
-    fsp_err_t err = FSP_SUCCESS;
-    switch (input_buffer)
-    {
-        case PLAY_AUDIO:
-        {
-           /* Start to the play the selected audio stream */
-            err = RM_AUDIO_PLAYBACK_PWM_Start(&g_rm_audio_playback_ctrl);
-            if(FSP_SUCCESS != err)
-            {
-               /* RM_AUDIO_PLAYBACK_PWM_Start failure message */
-                APP_ERR_PRINT("** RM_AUDIO_PLAYBACK_PWM_Start API failed ** \r\n");
-                break;
-            }
-            /* Start playing audio */
-            err = play_audio();
-            if(FSP_SUCCESS != err)
-            {
-               /* play_audio failure message */
-               APP_ERR_PRINT("** play_audio function failed ** \r\n");
-               break;
-            }
-           APP_PRINT("Started playing audio\n");
-        }
-        break;
-        case STOP_AUDIO:
-        {   /* Stop playing audio */
-            err = stop_audio();
-            if(FSP_SUCCESS != err)
-            {
-                /* Stop_audio failure message */
-                  APP_ERR_PRINT("** stop_audio function failed ** \r\n");
-                  break;
-            }
-            APP_PRINT("\nStopped playing audio\n");
-        }
-        break;
-        default:
-        {
-            APP_PRINT("\nInvalid Input entered\n");
-        }
-        break;
-    }
-    return err;
-}
-
-/*******************************************************************************************************************//**
-  * @brief       This function plays the audio
-  * @param[IN]   None
-  * @retval      FSP_SUCCESS                 Upon successful playing of audio.
-  * @retval      Any Other Error code        Unsuccessful  to play the audio
-  **********************************************************************************************************************/
+ * @brief     This function plays the audio.
+ * @param[in] None.
+ * @retval    FSP_SUCCESS               Played successfully.
+ * @retval    Any other error codes     Failed to play.
+ **********************************************************************************************************************/
 fsp_err_t play_audio(void)
 {
     fsp_err_t err = FSP_SUCCESS;
+
     /* Clear the audio stop flag */
     g_audio_stop = false;
+
     /* Set the 16-bit PCM audio stream to play next */
-    err = RM_AUDIO_PLAYBACK_PWM_Play(&g_rm_audio_playback_ctrl, g_unsign_pcm_data, (ADPCM_BUFFER_SIZE_BYTES * TWO));
-    /* Wait till audio callback flag is set */
-    while(!g_audio_callback_counter);
+    err = RM_AUDIO_PLAYBACK_PWM_Play(&g_rm_audio_playback_ctrl, g_unsign_pcm_data, (ADPCM_BUFFER_SIZE_BYTES * 2U));
+
+    /* Wait until the audio callback flag is set */
+    while (!s_audio_callback_counter);
+
     /* Clear the audio callback flag */
-    g_audio_callback_counter = false;
+    s_audio_callback_counter = false;
+
     return err;
 }
 
 /*******************************************************************************************************************//**
-  * @brief       This function stops the audio
-  * @param[IN]   None
-  * @retval      FSP_SUCCESS                 Upon successful stopping of audio.
-  * @retval      Any Other Error code        Unsuccessful  to stop the audio
-  **********************************************************************************************************************/
+ * @brief     This function stops the audio.
+ * @param[in] None.
+ * @retval    FSP_SUCCESS               Stopped successfully.
+ * @retval    Any other error codes     Failed to stop.
+ **********************************************************************************************************************/
 fsp_err_t stop_audio(void)
 {
     fsp_err_t err = FSP_SUCCESS;
+
     /* Stop the audio play */
     err = RM_AUDIO_PLAYBACK_PWM_Stop(&g_rm_audio_playback_ctrl);
+
     /* Set the audio stop flag */
     g_audio_stop = true;
+
     return err;
 }
 
 /*******************************************************************************************************************//**
-  * @brief       This function is callback function  for the audio playback
-  * @param[IN]   p_args           audio playback complete event
-  * @retval      None
+ * @brief     This function is the callback for the Audio Playback PWM module.
+ * @param[in] p_args                    Callback function parameter data.
+ * @retval    None.
  **********************************************************************************************************************/
 void g_rm_audio_playback_callback(audio_playback_callback_args_t *p_args)
 {
-    /* Check the audio playback complete event */
+    /* Check the Audio Playback complete event */
     if (AUDIO_PLAYBACK_EVENT_PLAYBACK_COMPLETE == (p_args->event))
     {
         /* Set the playback started and completed flag */
-        g_audio_callback_counter = true;
+        s_audio_callback_counter = true;
         g_playback_started = true;
     }
 }
 
 /*******************************************************************************************************************//**
-  * @brief       This function converts signed PCM data into unsigned PCM data
-  * @param[IN]   None
-  * @retval      None
+ * @brief     This function converts the signed PCM data into the unsigned PCM data.
+ * @param[in] None.
+ * @retval    None.
  **********************************************************************************************************************/
-void  sign_to_unsign(void)
+void sign_to_unsign(void)
 {
-    for(uint32_t index = 0; index < (ADPCM_BUFFER_SIZE_BYTES * TWO); index++)
+    for (uint32_t index = 0; index < (ADPCM_BUFFER_SIZE_BYTES * 2U); index++)
     {
-#if (AGT_32BIT == 1)
+#if (AGT_32BIT)
         /* Convert PCM data into 32-bit type */
-        g_unsign_pcm_data[index] = (uint32_t) (((uint32_t)g_pcm_stream[index] + INT16_MAX) >> EIGHT);
+        g_unsign_pcm_data[index] = (uint32_t) (((uint32_t)g_pcm_stream[index] + INT16_MAX) >> 8U);
 #else
         /* Convert PCM data into 16-bit type */
-        g_unsign_pcm_data[index] = (uint16_t) (((uint32_t)g_pcm_stream[index] + INT16_MAX) >> EIGHT);
-#endif
-
+        g_unsign_pcm_data[index] = (uint16_t) (((uint32_t)g_pcm_stream[index] + INT16_MAX) >> 8U);
+#endif /* AGT_32BIT */
     }
 }

@@ -7,6 +7,10 @@ FSP Configuration
     data_flash_size_bytes: 12288
     package_style: BGA
     package_pins: 224
+    ospi0_cs0_start_address: 2147483648
+    ospi0_cs0_size_bytes: 268435456
+    ospi0_cs1_start_address: 2415919104
+    ospi0_cs1_size_bytes: 268435456
     number of cores: 1
     
   R7FA8E2AFDCBD
@@ -30,6 +34,7 @@ FSP Configuration
     SDRAM: Endian Mode: Little Endian
     SDRAM: Continuous Access Mode: Enabled
     SDRAM: Bus Width: 16-bit
+    OSPI_B: Startup Support: Disabled
     Security: Exceptions: Exception Response: Non-Maskable Interrupt
     Security: Exceptions: BusFault, HardFault, and NMI Target: Secure State
     Security: System Reset Request Accessibility: Secure State
@@ -52,7 +57,8 @@ FSP Configuration
     Clocks: Settling Delay (us): 150
     Main Oscillator Wait Time: 8163 cycles
     Cache settings: Data cache: Disabled
-    : Enabled
+    I/O Ports: Voltage Mode: VCC: High (VCC >= 2.7 V)
+    I/O Ports: Voltage Mode: VCC2: High (VCC2 >= 2.7 V)
     
   RA8E2 Device Options
     OFS Registers: OFS0 (Option Function Select Register 0) Settings: Enabled
@@ -82,7 +88,7 @@ FSP Configuration
     OFS Registers: OFS1 (Option Function Select Register 1) Settings: WDT/IWDT Software Debug Control: Disabled (WDT and IWDT continue operating while the CPU is in the debug state)
     OFS Registers: OFS1 (Option Function Select Register 1) Settings: Tightly Coupled Memory (TCM)/Cache ECC: Disable ECC function for TCM and Cache
     OFS Registers: BANKSEL (Bank Select Register) Settings: Disabled
-    OFS Registers: BANKSEL (Bank Select Register) Settings: Bank Swap Switch: Disabled
+    OFS Registers: BANKSEL (Bank Select Register) Settings: Startup Bank Switch: Disabled
     OFS Registers: BANKSEL (Bank Select Register) Settings: Block Swap Select: Disabled
     OFS Registers: BPS (Block Protect Setting Register) Settings: Disabled
     OFS Registers: BPS (Block Protect Setting Register) Settings: BPS0: 
@@ -100,7 +106,7 @@ FSP Configuration
     OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: WDT/IWDT Software Debug Control: Disabled (WDT and IWDT continue operating while the CPU is in the debug state)
     OFS Registers: OFS1_SEC (Option Function Select Register 1 Secure) Settings: Tightly Coupled Memory (TCM)/Cache ECC: Disable ECC function for TCM and Cache
     OFS Registers: BANKSEL_SEC (Bank Select Register Secure) Settings: Disabled
-    OFS Registers: BANKSEL_SEC (Bank Select Register Secure) Settings: Bank Swap Switch: Disabled
+    OFS Registers: BANKSEL_SEC (Bank Select Register Secure) Settings: Startup Bank Switch: Disabled
     OFS Registers: BANKSEL_SEC (Bank Select Register Secure) Settings: Block Swap Select: Disabled
     OFS Registers: BPS_SEC (Block Protect Setting Register Secure) Settings: Disabled
     OFS Registers: BPS_SEC (Block Protect Setting Register Secure) Settings: BPS_SEC0: 
@@ -110,18 +116,18 @@ FSP Configuration
     OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: PBPS_SEC0: 
     OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: PBPS_SEC1: 
     OFS Registers: PBPS_SEC (Permanent Block Protect Setting Register Secure) Settings: PBPS_SEC2: 
-    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: Enabled
-    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: Voltage Detection 0 Level Security Attribution: VDSEL setting loads from OFS1_SEC
-    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: Voltage Detection 0 Circuit Start Security Attribution: PVDAS setting loads from OFS1_SEC
-    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: Voltage Detection 0 Low Power Consumption Security Attribution: PVDLPSEL setting loads from OFS1_SEC
-    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: WDT/IWDT Software Debug Control Security Attribution: SWDBG setting loads from OFS1_SEC
-    OFS Registers: OFS1_SEL (OFS1 Register Select) Settings: Tightly Coupled Memory (TCM)/Cache ECC Security Attribution: INITECCEN setting loads from OFS1_SEC
-    OFS Registers: BANKSEL_SEL (Banksel Register Select) Settings: Disabled
-    OFS Registers: BANKSEL_SEL (Banksel Register Select) Settings: Flash Bank Select Accessibility: Both Secure and Non-Secure State
-    OFS Registers: BPS_SEL (BPS Register Select) Settings: Disabled
-    OFS Registers: BPS_SEL (BPS Register Select) Settings: BPS_SEL0: 
-    OFS Registers: BPS_SEL (BPS Register Select) Settings: BPS_SEL1: 
-    OFS Registers: BPS_SEL (BPS Register Select) Settings: BPS_SEL2: 
+    OFS Registers: OFS1_SEL (OFS1 Security Attribution) Settings: Enabled
+    OFS Registers: OFS1_SEL (OFS1 Security Attribution) Settings: Voltage Detection 0 Level Security Attribution: VDSEL setting loads from OFS1_SEC
+    OFS Registers: OFS1_SEL (OFS1 Security Attribution) Settings: Voltage Detection 0 Circuit Start Security Attribution: PVDAS setting loads from OFS1_SEC
+    OFS Registers: OFS1_SEL (OFS1 Security Attribution) Settings: Voltage Detection 0 Low Power Consumption Security Attribution: PVDLPSEL setting loads from OFS1_SEC
+    OFS Registers: OFS1_SEL (OFS1 Security Attribution) Settings: WDT/IWDT Software Debug Control Security Attribution: SWDBG setting loads from OFS1_SEC
+    OFS Registers: OFS1_SEL (OFS1 Security Attribution) Settings: Tightly Coupled Memory (TCM)/Cache ECC Security Attribution: INITECCEN setting loads from OFS1_SEC
+    OFS Registers: BANKSEL_SEL (Banksel Security Attribution) Settings: Disabled
+    OFS Registers: BANKSEL_SEL (Banksel Security Attribution) Settings: Flash Bank Select Accessibility: Non-Secure State
+    OFS Registers: BPS_SEL (BPS Security Attribution) Settings: Disabled
+    OFS Registers: BPS_SEL (BPS Security Attribution) Settings: BPS_SEL0: 
+    OFS Registers: BPS_SEL (BPS Security Attribution) Settings: BPS_SEL1: 
+    OFS Registers: BPS_SEL (BPS Security Attribution) Settings: BPS_SEL2: 
     
   RA8E2 event data
   RA Common
@@ -158,7 +164,7 @@ FSP Configuration
     PLL2R Div /2
     Clock Src: PLL1P
     CLKOUT Disabled
-    SCICLK Disabled
+    SCICLK Src: PLL1P
     SPICLK Disabled
     CANFDCLK Disabled
     LCDCLK Disabled
@@ -244,8 +250,8 @@ FSP Configuration
       P311 B6 SDRAM_A12 SDRAM_A11 H - "Peripheral mode" - - "AGT1: AGTOB1; BUS: A12; CANFD0: CRX0; GLCD: LCD_DATA17; GPT_POEG: GTADSM1; SCI3: DE3; SCI3: SCK3; SDRAM: A12" - O - - 
       P312 D7 SDRAM_A13 SDRAM_A12 H - "Peripheral mode" - - "AGT1: AGTOA1; BUS: A13; CANFD0: CTX0; GLCD: LCD_DATA18; GPT_POEG: GTADSM0; SCI3: CTS_RTS3; SCI3: DE3; SDRAM: A13" - O - - 
       P313 B10 - PMOD2_1_CTS3 - - Disabled - - "SCI3: CTS3; SPI0: MISO0" - None - - 
-      P314 A10 SCI3_CTS_RTS3 PMOD2_1_PIN4_SS3_CTS_RTS3 L - "Peripheral mode" - - "ADC(Digital): ADTRG0; SCI3: CTS_RTS3; SCI3: DE3" - IO - - 
-      P315 C11 SCI3_SCK3 PMOD2_4_SCK3 L - "Peripheral mode" - - "SCI3: DE3; SCI3: SCK3" - IO - - 
+      P314 A10 - PMOD2_1_PIN4_SS3_CTS_RTS3 - - Disabled - - "ADC(Digital): ADTRG0; SCI3: CTS_RTS3; SCI3: DE3" - None - - 
+      P315 C11 - PMOD2_4_SCK3 - - Disabled - - "SCI3: DE3; SCI3: SCK3" - None - - 
       P400 R15 GPIO ARDUINO_MIKROBUS_TXD1 - None "Input mode" - - "ADC(Digital): ADTRG1; AGT1: AGTIO1; IRQ0: IRQ0; SCI1: TXD1; SSIE: AUDIO_CLK" - IO - - 
       P401 P15 GPIO ARDUINO_MIKROBUS_RXD1 - None "Input mode" - - "CANFD0: CTX0; GPT_POEGA: GTETRGA; IRQ5: IRQ5-DS; SCI1: RXD1" - IO - - 
       P402 M12 - - - - Disabled - - "CAC: CACREF; CANFD0: CRX0; IRQ4: IRQ4-DS; RTC: RTCIC0; SCI1: DE1; SCI1: SCK1; SSIE: AUDIO_CLK" - None - - 
@@ -302,8 +308,8 @@ FSP Configuration
       P706 K13 GPIO CANFD_S - None "Input mode" - - "AGT0: AGTIO0; IRQ7: IRQ7; SCI1: RXD1" - IO - - 
       P707 K11 GLCD_LCD_DATA23 GLCD_DATA23 M None "Peripheral mode" - - "GLCD: LCD_DATA23; IRQ8: IRQ8; SCI1: TXD1" - O - - 
       P708 E13 - - - - Disabled - - "BUS: BC1; BUS: WR1; CAC: CACREF; IRQ11: IRQ11; SCI4: DE4; SCI4: SCK4; SPI1: SSLB3; SSIE: AUDIO_CLK" - None - - 
-      P709 E15 SCI4_CTS_RTS4 DEBUG_SERIAL_CTS_RTS4 L None "Peripheral mode" - - "BUS: CS4#; IRQ10: IRQ10; SCI4: CTS_RTS4; SCI4: DE4" - IO - - 
-      P710 E14 SCI4_CTS4 DEBUG_SERIAL_CTS4 L - "Peripheral mode" - - "BUS: CS5#; SCI4: CTS4" - I - - 
+      P709 E15 - DEBUG_SERIAL_CTS_RTS4 - - Disabled - - "BUS: CS4#; IRQ10: IRQ10; SCI4: CTS_RTS4; SCI4: DE4" - None - - 
+      P710 E14 - DEBUG_SERIAL_CTS4 - - Disabled - - "BUS: CS5#; SCI4: CTS4" - None - - 
       P711 F10 GLCD_LCD_DATA10 GLCD_DATA10 M - "Peripheral mode" - - "AGT0: AGTEE0; GLCD: LCD_DATA10" - O - - 
       P712 E12 GLCD_LCD_DATA11 GLCD_DATA11 M - "Peripheral mode" - - "AGT0: AGTOB0; GLCD: LCD_DATA11; GPT2: GTIOC2B" - O - - 
       P713 G11 GLCD_LCD_DATA12 GLCD_DATA12 M - "Peripheral mode" - - "AGT0: AGTOA0; GLCD: LCD_DATA12; GPT2: GTIOC2A" - O - - 
@@ -325,8 +331,8 @@ FSP Configuration
       P813 J5 - - - - Disabled - - - - None - - 
       P814 A14 "USB FS_USB_DP" USBFS_P L - "Peripheral mode" - - "CANFD0: CRX0; USB FS: USB_DP" - IO - - 
       P815 B14 "USB FS_USB_DM" USBFS_N L - "Peripheral mode" - - "CANFD0: CTX0; USB FS: USB_DM" - IO - - 
-      P900 C10 SCI3_TXD3 PMOD2_2_MOSI3_TXD3 L - "Peripheral mode" - - "SCI3: TXD3" - O - - 
-      P901 B9 SCI3_RXD3 PMOD2_3_MISO3_RXD3 L - "Peripheral mode" - - "AGT1: AGTIO1; SCI3: RXD3" - I - - 
+      P900 C10 - PMOD2_2_MOSI3_TXD3 - - Disabled - - "SCI3: TXD3" - None - - 
+      P901 B9 - PMOD2_3_MISO3_RXD3 - - Disabled - - "AGT1: AGTIO1; SCI3: RXD3" - None - - 
       P902 D10 GLCD_LCD_DATA8 GLCD_DATA8 M - "Peripheral mode" - - "GLCD: LCD_DATA8" - O - - 
       P903 C9 GLCD_LCD_DATA7 GLCD_DATA7 M - "Peripheral mode" - - "GLCD: LCD_DATA7; GPT11: GTIOC11A" - O - - 
       P904 D9 GLCD_LCD_DATA6 GLCD_DATA6 M - "Peripheral mode" - - "GLCD: LCD_DATA6; GPT11: GTIOC11B" - O - - 
@@ -343,10 +349,10 @@ FSP Configuration
       P915 C5 GLCD_LCD_DATA1 GLCD_DATA1 M - "Peripheral mode" - - "GLCD: LCD_DATA1; GPT5: GTIOC5A" - O - - 
       PA00 H4 SDRAM_DQ7 SDRAM_DQ7 H - "Peripheral mode" - - "BUS: D7; GLCD: LCD_CLK; SDRAM: DQ7" - IO - - 
       PA01 H3 GPIO GLCD_RESET_L H - "Output mode (Initial High)" - - "BUS: RD; GLCD: LCD_TCON0" - IO - - 
-      PA02 K6 SCI2_RXD2 PMOD1_3_MISO2_RXD2 L - "Peripheral mode" - - "SCI2: RXD2" - I - - 
-      PA03 G4 SCI2_TXD2 PMOD1_2_MOSI2_TXD2 L - "Peripheral mode" - - "SCI2: TXD2" - O - - 
-      PA04 L6 SCI2_SCK2 PMOD1_4_SCK2 L - "Peripheral mode" - - "SCI2: DE2; SCI2: SCK2" - IO - - 
-      PA05 H5 SCI2_CTS_RTS2 PMOD1_1_PIN4_SS2_CTS_RTS2 L - "Peripheral mode" - - "SCI2: CTS_RTS2; SCI2: DE2" - IO - - 
+      PA02 K6 - PMOD1_3_MISO2_RXD2 - - Disabled - - "SCI2: RXD2" - None - - 
+      PA03 G4 - PMOD1_2_MOSI2_TXD2 - - Disabled - - "SCI2: TXD2" - None - - 
+      PA04 L6 - PMOD1_4_SCK2 - - Disabled - - "SCI2: DE2; SCI2: SCK2" - None - - 
+      PA05 H5 - PMOD1_1_PIN4_SS2_CTS_RTS2 - - Disabled - - "SCI2: CTS_RTS2; SCI2: DE2" - None - - 
       PA06 L5 - PMOD1_1_CTS2 - - Disabled - - "SCI2: CTS2" - None - - 
       PA07 G5 - - - - Disabled - - - - None - - 
       PA08 G3 SDRAM_DQ15 SDRAM_DQ15 H None "Peripheral mode" - - "BUS: D15; GLCD: LCD_TCON3; GPT_POEGD: GTETRGD; IRQ6: IRQ6; SDRAM: DQ15" - IO - - 
@@ -469,8 +475,8 @@ FSP Configuration
       P311 B6 - SDRAM_A11 L - Disabled - - "AGT1: AGTOB1; BUS: A12; CANFD0: CRX0; GLCD: LCD_DATA17; GPT_POEG: GTADSM1; SCI3: DE3; SCI3: SCK3; SDRAM: A12" - O - - 
       P312 D7 - SDRAM_A12 L - Disabled - - "AGT1: AGTOA1; BUS: A13; CANFD0: CTX0; GLCD: LCD_DATA18; GPT_POEG: GTADSM0; SCI3: CTS_RTS3; SCI3: DE3; SDRAM: A13" - O - - 
       P313 B10 - PMOD2_1_CTS3 - - Disabled - - "SCI3: CTS3; SPI0: MISO0" - None - - 
-      P314 A10 - PMOD2_1_PIN4_SS3_CTS_RTS3 L - Disabled - - "ADC(Digital): ADTRG0; SCI3: CTS_RTS3; SCI3: DE3" - IO - - 
-      P315 C11 - PMOD2_4_SCK3 L - Disabled - - "SCI3: DE3; SCI3: SCK3" - IO - - 
+      P314 A10 - PMOD2_1_PIN4_SS3_CTS_RTS3 - - Disabled - - "ADC(Digital): ADTRG0; SCI3: CTS_RTS3; SCI3: DE3" - None - - 
+      P315 C11 - PMOD2_4_SCK3 - - Disabled - - "SCI3: DE3; SCI3: SCK3" - None - - 
       P400 R15 - ARDUINO_MIKROBUS_TXD1 - None Disabled - - "ADC(Digital): ADTRG1; AGT1: AGTIO1; IRQ0: IRQ0; SCI1: TXD1; SSIE: AUDIO_CLK" - IO - - 
       P401 P15 - ARDUINO_MIKROBUS_RXD1 - None Disabled - - "CANFD0: CTX0; GPT_POEGA: GTETRGA; IRQ5: IRQ5-DS; SCI1: RXD1" - IO - - 
       P402 M12 - - - - Disabled - - "CAC: CACREF; CANFD0: CRX0; IRQ4: IRQ4-DS; RTC: RTCIC0; SCI1: DE1; SCI1: SCK1; SSIE: AUDIO_CLK" - None - - 
@@ -527,8 +533,8 @@ FSP Configuration
       P706 K13 - CANFD_S - None Disabled - - "AGT0: AGTIO0; IRQ7: IRQ7; SCI1: RXD1" - IO - - 
       P707 K11 - GLCD_DATA23 L None Disabled - - "GLCD: LCD_DATA23; IRQ8: IRQ8; SCI1: TXD1" - O - - 
       P708 E13 - - - - Disabled - - "BUS: BC1; BUS: WR1; CAC: CACREF; IRQ11: IRQ11; SCI4: DE4; SCI4: SCK4; SPI1: SSLB3; SSIE: AUDIO_CLK" - None - - 
-      P709 E15 - DEBUG_SERIAL_CTS_RTS4 L None Disabled - - "BUS: CS4#; IRQ10: IRQ10; SCI4: CTS_RTS4; SCI4: DE4" - IO - - 
-      P710 E14 - DEBUG_SERIAL_CTS4 L - Disabled - - "BUS: CS5#; SCI4: CTS4" - I - - 
+      P709 E15 - DEBUG_SERIAL_CTS_RTS4 - - Disabled - - "BUS: CS4#; IRQ10: IRQ10; SCI4: CTS_RTS4; SCI4: DE4" - None - - 
+      P710 E14 - DEBUG_SERIAL_CTS4 - - Disabled - - "BUS: CS5#; SCI4: CTS4" - None - - 
       P711 F10 - GLCD_DATA10 L - Disabled - - "AGT0: AGTEE0; GLCD: LCD_DATA10" - O - - 
       P712 E12 - GLCD_DATA11 L - Disabled - - "AGT0: AGTOB0; GLCD: LCD_DATA11; GPT2: GTIOC2B" - O - - 
       P713 G11 - GLCD_DATA12 L - Disabled - - "AGT0: AGTOA0; GLCD: LCD_DATA12; GPT2: GTIOC2A" - O - - 
@@ -550,8 +556,8 @@ FSP Configuration
       P813 J5 - - - - Disabled - - - - None - - 
       P814 A14 - USBFS_P L - Disabled - - "CANFD0: CRX0; USB FS: USB_DP" - IO - - 
       P815 B14 - USBFS_N L - Disabled - - "CANFD0: CTX0; USB FS: USB_DM" - IO - - 
-      P900 C10 - PMOD2_2_MOSI3_TXD3 L - Disabled - - "SCI3: TXD3" - O - - 
-      P901 B9 - PMOD2_3_MISO3_RXD3 L - Disabled - - "AGT1: AGTIO1; SCI3: RXD3" - I - - 
+      P900 C10 - PMOD2_2_MOSI3_TXD3 - - Disabled - - "SCI3: TXD3" - None - - 
+      P901 B9 - PMOD2_3_MISO3_RXD3 - - Disabled - - "AGT1: AGTIO1; SCI3: RXD3" - None - - 
       P902 D10 - GLCD_DATA8 L - Disabled - - "GLCD: LCD_DATA8" - O - - 
       P903 C9 - GLCD_DATA7 L - Disabled - - "GLCD: LCD_DATA7; GPT11: GTIOC11A" - O - - 
       P904 D9 - GLCD_DATA6 L - Disabled - - "GLCD: LCD_DATA6; GPT11: GTIOC11B" - O - - 
@@ -568,10 +574,10 @@ FSP Configuration
       P915 C5 - GLCD_DATA1 L - Disabled - - "GLCD: LCD_DATA1; GPT5: GTIOC5A" - O - - 
       PA00 H4 - SDRAM_DQ7 L - Disabled - - "BUS: D7; GLCD: LCD_CLK; SDRAM: DQ7" - IO - - 
       PA01 H3 - GLCD_RESET_L L - Disabled - - "BUS: RD; GLCD: LCD_TCON0" - IO - - 
-      PA02 K6 - PMOD1_3_MISO2_RXD2 L - Disabled - - "SCI2: RXD2" - I - - 
-      PA03 G4 - PMOD1_2_MOSI2_TXD2 L - Disabled - - "SCI2: TXD2" - O - - 
-      PA04 L6 - PMOD1_4_SCK2 L - Disabled - - "SCI2: DE2; SCI2: SCK2" - IO - - 
-      PA05 H5 - PMOD1_1_PIN4_SS2_CTS_RTS2 L - Disabled - - "SCI2: CTS_RTS2; SCI2: DE2" - IO - - 
+      PA02 K6 - PMOD1_3_MISO2_RXD2 - - Disabled - - "SCI2: RXD2" - None - - 
+      PA03 G4 - PMOD1_2_MOSI2_TXD2 - - Disabled - - "SCI2: TXD2" - None - - 
+      PA04 L6 - PMOD1_4_SCK2 - - Disabled - - "SCI2: DE2; SCI2: SCK2" - None - - 
+      PA05 H5 - PMOD1_1_PIN4_SS2_CTS_RTS2 - - Disabled - - "SCI2: CTS_RTS2; SCI2: DE2" - None - - 
       PA06 L5 - PMOD1_1_CTS2 - - Disabled - - "SCI2: CTS2" - None - - 
       PA07 G5 - - - - Disabled - - - - None - - 
       PA08 G3 - SDRAM_DQ15 L None Disabled - - "BUS: D15; GLCD: LCD_TCON3; GPT_POEGD: GTETRGD; IRQ6: IRQ6; SDRAM: DQ15" - IO - - 
@@ -640,9 +646,13 @@ FSP Configuration
   User Event Links
     
   Linker Section Mappings
+    *(.bss.*_fsp_nocache): RAM Zeroed (Uncached)
+    *(.bss.g_heap): RAM Uninitialized
+    *(.bss.g_main_stack): RAM Uninitialized
     
   Module "I/O Port (r_ioport)"
     Parameter Checking: Default (BSP)
+    CCD Support: Not Supported
     
   Module "MbedTLS (Crypto Only)"
     Hardware Acceleration: TRNG: Enabled
@@ -689,8 +699,8 @@ FSP Configuration
     Cipher: Alternate: MBEDTLS_ARIA_ALT: Undefine
     Cipher: Alternate: MBEDTLS_CAMELLIA_ALT: Undefine
     Cipher: Alternate: MBEDTLS_CCM_ALT: Undefine
-    Cipher: Alternate: MBEDTLS_CHACHA20_ALT: Undefine
-    Cipher: Alternate: MBEDTLS_CHACHAPOLY_ALT: Undefine
+    Cipher: Alternate: MBEDTLS_CHACHA20_ALT: Use Software
+    Cipher: Alternate: MBEDTLS_CHACHAPOLY_ALT: Use Software
     Cipher: Alternate: MBEDTLS_CMAC_ALT: Undefine
     Cipher: Alternate: MBEDTLS_DES_ALT: Undefine
     Public Key Cryptography (PKC): DHM: Alternate: MBEDTLS_DHM_ALT: Undefine
@@ -815,6 +825,8 @@ FSP Configuration
     Hash: MBEDTLS_MD_C: Define
     Hash: MBEDTLS_MD5_C: Define
     General: MBEDTLS_MEMORY_BUFFER_ALLOC_C: Define
+    Post Quantum Cryptography (PQC): MBEDTLS_MLKEM_C: Undefine
+    Post Quantum Cryptography (PQC): MBEDTLS_ML_DSA_C: Undefine
     Public Key Cryptography (PKC): MBEDTLS_OID_C: Define
     Public Key Cryptography (PKC): MBEDTLS_PEM_PARSE_C: Define
     Public Key Cryptography (PKC): MBEDTLS_PEM_WRITE_C: Define
@@ -830,6 +842,7 @@ FSP Configuration
     General: MBEDTLS_PSA_CRYPTO_SE_C: Undefine
     Storage: MBEDTLS_PSA_CRYPTO_STORAGE_C: Define
     Storage: MBEDTLS_PSA_ITS_FILE_C: Define
+    Storage: MBEDTLS_PSA_STATIC_KEY_SLOTS: Undefine
     Hash: MBEDTLS_RIPEMD160_C: Undefine
     Public Key Cryptography (PKC): RSA: MBEDTLS_RSA_C: Define
     Public Key Cryptography (PKC): RSA: MBEDTLS_RSA_GEN_KEY_MIN_BITS: Undefine
@@ -919,6 +932,7 @@ FSP Configuration
     Platform: MBEDTLS_PLATFORM_MS_TIME_TYPE_MACRO: Undefine
     Platform: MBEDTLS_PLATFORM_MS_TIME_TYPE_MACRO value: int64_t
     Platform: MBEDTLS_PRINTF_MS_TIME: Undefine
+    Platform: MBEDTLS_PLATFORM_DEV_RANDOM: Undefine
     Platform: MBEDTLS_PRINTF_MS_TIME value: PRId64
     Platform: MBEDTLS_PLATFORM_FPRINTF_MACRO: Undefine
     Platform: MBEDTLS_PLATFORM_FPRINTF_MACRO value: fprintf
@@ -938,11 +952,12 @@ FSP Configuration
     Platform: Alternate: MBEDTLS_PLATFORM_ZEROIZE_ALT: Undefine
     Key Configuration: MBEDTLS_PSA_KEY_SLOT_COUNT: Undefine
     Key Configuration: MBEDTLS_PSA_KEY_SLOT_COUNT value: 32
+    Key Configuration: MBEDTLS_PSA_STATIC_KEY_SLOT_BUFFER_SIZE value: 256
     Platform: Alternate: MBEDTLS_PLATFORM_GMTIME_R_ALT: Undefine
     Public Key Cryptography (PKC): ECC: MBEDTLS_ECDH_VARIANT_EVEREST_ENABLED: Undefine
     General: MBEDTLS_PSA_CRYPTO_CONFIG: Undefine
     
-  Module "Mbed Crypto H/W Acceleration (rm_psa_crypto)"
+  Module "MbedTLS Crypto Port (rm_psa_crypto)"
   Module "RSIP Compatibility Mode"
   Module "LittleFS"
     Custom lfs_util.h: 
@@ -965,6 +980,12 @@ FSP Configuration
     Code Flash Programming Enable: Disabled
     Data Flash Programming Enable: Enabled
     
+  Module "UART (r_sci_b_uart)"
+    Parameter Checking: Default (BSP)
+    FIFO Support: Disable
+    DTC Support: Disable
+    Flow Control Support: Disable
+    
   HAL
     Instance "g_ioport I/O Port (r_ioport)"
       Name: g_ioport
@@ -975,7 +996,7 @@ FSP Configuration
       Pin Configuration Name: g_bsp_pin_cfg
       
     Instance "MbedTLS (Crypto Only)"
-      Instance "Mbed Crypto H/W Acceleration (rm_psa_crypto)"
+      Instance "MbedTLS Crypto Port (rm_psa_crypto)"
         Instance "RSIP Compatibility Mode"
       Instance "LittleFS"
         
@@ -983,6 +1004,7 @@ FSP Configuration
           Name: g_rm_littlefs0
           Read Size: 1
           Program Size: 4
+          Memory Start Address: BSP_FEATURE_FLASH_DATA_FLASH_START
           Block Size (bytes): 128
           Block Count: (BSP_DATA_FLASH_SIZE_BYTES/128)
           Block Cycles: 1024
@@ -996,3 +1018,30 @@ FSP Configuration
             Flash Ready Interrupt Priority: Disabled
             Flash Error Interrupt Priority: Disabled
             
+    Instance "g_uart_console UART (r_sci_b_uart)"
+      General: Name: g_uart_console
+      General: Channel: 4
+      General: Data Bits: 8bits
+      General: Parity: None
+      General: Stop Bits: 1bit
+      Baud: Baud Rate: 115200
+      Baud: Baud Rate Modulation: Disabled
+      Baud: Max Error (%): 5
+      Flow Control: CTS/RTS Selection: Hardware RTS
+      Flow Control: Software RTS Port: Disabled
+      Flow Control: Software RTS Pin: Disabled
+      Extra: Clock Source: Internal Clock
+      Extra: Start bit detection: Falling Edge
+      Extra: Noise Filter: Disable
+      Extra: Receive FIFO Trigger Level: Max
+      Extra: RS-485: DE Pin: Disable
+      Extra: RS-485: DE Pin Polarity: Active High
+      Extra: RS-485: DE Pin Assertion Time: 1
+      Extra: RS-485: DE Pin Negation Time: 1
+      Extra: TXI/TEI Synchronization Delay Cycles: 0
+      Interrupts: Callback: uart_console_callback
+      Interrupts: Receive Interrupt Priority: Priority 15
+      Interrupts: Transmit Data Empty Interrupt Priority: Priority 15
+      Interrupts: Transmit End Interrupt Priority: Priority 15
+      Interrupts: Error Interrupt Priority: Priority 15
+      

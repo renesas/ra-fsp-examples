@@ -25,7 +25,7 @@ limitations under the License.
 // tensorflow/lite/micro/bluepill/micro_time.cc
 
 #include "tensorflow/lite/micro/micro_time.h"
-#include "ethos_u55.h"
+#include "ethos_u55_face_detection_ep.h"
 
 #if defined(TF_LITE_USE_CTIME)
 #include <ctime>
@@ -50,7 +50,7 @@ uint32_t GetCurrentTimeTicks()
 #if (INFERENCE_TIME_MEASUREMENT_ENABLED == 1)
     uint32_t current_time_us = 0;
 
-    if (timer_get_measure(&current_time_us) != FSP_SUCCESS)
+    if (ethos_u55_timer_get_measure(&current_time_us) != FSP_SUCCESS)
     {
         return 0;
     }

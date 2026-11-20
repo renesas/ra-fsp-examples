@@ -1,7 +1,6 @@
 /***********************************************************************************************************************
  * File Name    : lin_slave_ep.c
- * Description  : This file implements the LIN Slave functionality for the example project.
- *                It handles LIN frame transmission, reception, and error handling.
+ * Description  : Contains data structures and functions used in lin_slave_ep.c.
  **********************************************************************************************************************/
 /***********************************************************************************************************************
  * Copyright (c) 2025 - 2026 Renesas Electronics Corporation and/or its affiliates
@@ -11,444 +10,190 @@
 
 #include "lin_slave_ep.h"
 
-/***********************************************************************************************************************
- * Private global variable
- **********************************************************************************************************************/
-static volatile uint32_t g_lin_event_flags = RESET_VALUE;
-
-#if BSP_PERIPHERAL_SAU_PRESENT
-extern sau_uart_baudrate_setting_t g_uart0_baud_setting;
-extern sau_uart_baudrate_setting_t g_slave_break_field_baud_setting;
-#endif /* BSP_PERIPHERAL_SAU_PRESENT */
-static volatile uint8_t g_received_id    = RESET_VALUE;
-static uint8_t g_rx_buf[TRANSFER_LENGTH] = {RESET_VALUE};
-
-static const uint32_t lin_baudrate_options[LIN_BAUDRATE_COUNT] = {2400, 4800, 9600, 10400, 14400, 19200};
-
+/* Private variables */
 static uint8_t g_slave_tx_buf_id_10h[FRAME_ID_10H_DATA_LENGTH] = {0x01, 0x02};
 static uint8_t g_slave_tx_buf_id_11h[FRAME_ID_11H_DATA_LENGTH] = {0x03, 0x04};
 static uint8_t g_slave_tx_buf_id_12h[FRAME_ID_12H_DATA_LENGTH] = {0x05, 0x06};
 static uint8_t g_slave_tx_buf_id_13h[FRAME_ID_13H_DATA_LENGTH] = {0x07, 0x08};
 
-lin_transfer_params_t lin_slave_transfer_info[] =
-{
- {READ_FRAME_ID_10H, {.p_data = g_slave_tx_buf_id_10h}, FRAME_ID_10H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED},
- {READ_FRAME_ID_11H, {.p_data = g_slave_tx_buf_id_11h}, FRAME_ID_11H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED},
- {READ_FRAME_ID_12H, {.p_data = g_slave_tx_buf_id_12h}, FRAME_ID_12H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED},
- {READ_FRAME_ID_13H, {.p_data = g_slave_tx_buf_id_13h}, FRAME_ID_13H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED},
+/* Global variables */
+uint32_t g_slave_baudrate = LIN_DEFAULT_BAUDRATE;
+uint8_t g_slave_rx_buf[MAX_TRANSFER_LENGTH] = {RESET_VALUE};
+volatile uint8_t g_received_id = RESET_VALUE;
+volatile uint32_t g_lin_event_flags = RESET_VALUE;
 
- {READ_FRAME_ID_20H, {.p_data = g_rx_buf}, FRAME_ID_20H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED},
- {READ_FRAME_ID_21H, {.p_data = g_rx_buf}, FRAME_ID_21H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED},
- {READ_FRAME_ID_22H, {.p_data = g_rx_buf}, FRAME_ID_22H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED},
- {READ_FRAME_ID_23H, {.p_data = g_rx_buf}, FRAME_ID_23H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED},
+lin_transfer_params_t g_lin_slave_transfer_info[MAX_NUMBER_OF_FRAME_ID] =
+{
+    {READ_FRAME_ID_10H, {.p_data = g_slave_tx_buf_id_10h}, FRAME_ID_10H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED},
+    {READ_FRAME_ID_11H, {.p_data = g_slave_tx_buf_id_11h}, FRAME_ID_11H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED},
+    {READ_FRAME_ID_12H, {.p_data = g_slave_tx_buf_id_12h}, FRAME_ID_12H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED},
+    {READ_FRAME_ID_13H, {.p_data = g_slave_tx_buf_id_13h}, FRAME_ID_13H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED},
+
+    {READ_FRAME_ID_20H, {.p_data = g_slave_rx_buf}, FRAME_ID_20H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED},
+    {READ_FRAME_ID_21H, {.p_data = g_slave_rx_buf}, FRAME_ID_21H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED},
+    {READ_FRAME_ID_22H, {.p_data = g_slave_rx_buf}, FRAME_ID_22H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED},
+    {READ_FRAME_ID_23H, {.p_data = g_slave_rx_buf}, FRAME_ID_23H_DATA_LENGTH, LIN_CHECKSUM_TYPE_ENHANCED},
 };
 
-static const uint8_t g_expected_data_id_20h[] = {0x01, 0x02, 0x03};
-static const uint8_t g_expected_data_id_21h[] = {0x11, 0x12, 0x13};
-static const uint8_t g_expected_data_id_22h[] = {0x21, 0x22, 0x23};
-static const uint8_t g_expected_data_id_23h[] = {0x31, 0x32, 0x33};
-
-static const lin_frame_expectation_t g_expected_frames[] =
-{
- {READ_FRAME_ID_20H, g_expected_data_id_20h, sizeof(g_expected_data_id_20h)},
- {READ_FRAME_ID_21H, g_expected_data_id_21h, sizeof(g_expected_data_id_21h)},
- {READ_FRAME_ID_22H, g_expected_data_id_22h, sizeof(g_expected_data_id_22h)},
- {READ_FRAME_ID_23H, g_expected_data_id_23h, sizeof(g_expected_data_id_23h)},
-};
-
-/***********************************************************************************************************************
- * Private function prototypes
- **********************************************************************************************************************/
-static fsp_err_t lin_slave_baudset(uint32_t baud_rate);
-static int find_lin_transfer_index(uint8_t id);
-static fsp_err_t lin_slave_configure_baudrate(void);
+/* Private functions */
+static fsp_err_t lin_slave_write(const lin_transfer_params_t * const p_transfer_params);
+static fsp_err_t lin_slave_read(lin_transfer_params_t * const p_transfer_params);
 static fsp_err_t wait_for_event(uint32_t expected_event);
-static void handle_error(fsp_err_t err, char * err_str);
-static void lin_validate_frame(uint8_t id, const uint8_t * p_data, size_t len);
-#if BSP_PERIPHERAL_SAU_PRESENT
-static fsp_err_t lin_slave_sleep_enter(void);
-static fsp_err_t lin_slave_sleep_exit(void);
-#endif /* BSP_PERIPHERAL_SAU_PRESENT */
 
-/***********************************************************************************************************************
- * @brief       This function initializes the necessary peripherals and enables the LIN Slave for receiving and
- *              transmitting frames.
- * @param[IN]   None.
- * @retval      None.
+/*******************************************************************************************************************//**
+ * @brief     This function initializes LIN Slave module.
+ * @param[in] None.
+ * @retval    FSP_SUCCESS               Initialized successfully.
+ * @retval    Any other error codes     Failed to initialize.
  **********************************************************************************************************************/
-void lin_slave_operation(void)
+fsp_err_t lin_slave_open(void)
 {
-    fsp_pack_version_t version              = {RESET_VALUE};
-    fsp_err_t err                           = FSP_SUCCESS;
-    char recv_str[32]                       = {NULL_CHAR};
-    char trans_str[32]                      = {NULL_CHAR};
-    char *ptr                               = NULL;
-    uint8_t terminal_read[TERM_BUFFER_SIZE] = {RESET_VALUE};
-    int id_index                            = RESET_VALUE;
+    return LIN_OPEN(&g_slave_ctrl, &g_slave_cfg);
+}
 
-    err = TERM_INIT();
+/*******************************************************************************************************************//**
+ * @brief     This function closes the opened LIN Slave module.
+ * @param[in] None.
+ * @retval    None.
+ **********************************************************************************************************************/
+void lin_slave_close(void)
+{
+    if (g_slave_ctrl.open)
+    {
+        LIN_CLOSE(&g_slave_ctrl);
+    }
+}
+
+/*******************************************************************************************************************//**
+ * @brief     This function transmits a LIN frame.
+ * @param[in] p_transfer_params         Pointer to the LIN transfer parameters.
+ * @retval    FSP_SUCCESS               Transmitted successfully.
+ * @retval    Any other error codes     Failed to transmit.
+ **********************************************************************************************************************/
+static fsp_err_t lin_slave_write(const lin_transfer_params_t * const p_transfer_params)
+{
+    fsp_err_t err = FSP_SUCCESS;
+
+    err = LIN_WRITE(&g_slave_ctrl, p_transfer_params);
     if (FSP_SUCCESS != err)
     {
-        ERROR_TRAP;
+        return err;
     }
 
-    /* Version get API for FLEX pack information */
-    R_FSP_VersionGet(&version);
-
-    /* Example project information printed on the console */
-    APP_PRINT(BANNER_INFO, EP_VERSION, version.version_id_b.major, version.version_id_b.minor,
-              version.version_id_b.patch);
-    APP_PRINT(EP_INFO);
-
-    /* Open the LIN instance with initial configuration */
-    err = LIN_OPEN(&g_slave_ctrl, &g_slave_cfg);
-    handle_error(err, "Error: LIN initialization failed.\r\n");
-
-#if BSP_PERIPHERAL_SAU_PRESENT
-    err = R_LPM_Open(&g_lpm_ctrl, &g_lpm_cfg);
-    handle_error(err, "Error: LPM initialization failed.\r\n");
-#endif /* BSP_PERIPHERAL_SAU_PRESENT */
-
-    /* Print main menu option */
-    APP_PRINT(MAIN_MENU);
-    while (true)
-    {
-        /* Check for new input data from terminal */
-        if (APP_CHECK_KEY)
-        {
-            /* Get user input */
-            memset(terminal_read, NULL_CHAR, sizeof(terminal_read));
-            APP_READ(terminal_read, TERMINAL_READ_SIZE);
-
-            /* Handle main menu */
-            switch (terminal_read[MENU_INDEX])
-            {
-                /* Handle LIN baud rate configuration */
-                case SLAVE_SET_BAUDRATE:
-                {
-                    /* Configure the LIN baud rate */
-                    err = lin_slave_configure_baudrate();
-                    handle_error(err, "lin_slave_configure_baudrate failed\r\n");
-                    break;
-                }
-                #if BSP_PERIPHERAL_SAU_PRESENT
-                case SLAVE_ENTER_LPM:
-                {
-                    err = lin_slave_sleep_enter();
-                    handle_error(err, "lin_slave_sleep_enter failed\r\n");
-
-                    err = lin_slave_sleep_exit();
-                    handle_error(err, "lin_slave_sleep_exit failed\r\n");
-                    break;
-                }
-                #endif /* BSP_PERIPHERAL_SAU_PRESENT */
-
-                /* Invalid input */
-                default:
-                {
-                    APP_PRINT("\r\nInvalid input. Provide a valid input\r\n");
-                    break;
-                }
-            }
-
-            /* Reprint the main menu */
-            APP_PRINT(MAIN_MENU);
-        }
-
-        if (g_lin_event_flags & LIN_EVENT_RX_HEADER_COMPLETE)
-        {
-            g_lin_event_flags &= (uint32_t) (~LIN_EVENT_RX_HEADER_COMPLETE);
-            id_index = find_lin_transfer_index(g_received_id);
-
-            if (id_index >= MIN_INDEX_OF_FRAME_ID_WRITE && id_index <= MAX_INDEX_OF_FRAME_ID_WRITE)
-            {
-                memset(g_rx_buf, RESET_VALUE, sizeof(g_rx_buf));
-
-                /* Begin reception of the information frame data */
-                g_lin_event_flags &= (uint32_t) (~LIN_EVENT_RX_DATA_COMPLETE);
-                err = LIN_READ(&g_slave_ctrl, &lin_slave_transfer_info[id_index]);
-                handle_error(err, "Error: Reading LIN information frame failed.\r\n");
-
-                /* Wait for information frame reception to complete */
-                err = wait_for_event(LIN_EVENT_RX_DATA_COMPLETE);
-                handle_error(err, "Error: RX Event timeout!\r\n");
-
-                ptr = recv_str;
-                for (size_t i = 0; i < lin_slave_transfer_info[id_index].num_bytes; i++)
-                {
-                    ptr += sprintf(ptr, "0x%02x ", g_rx_buf[i]);
-                }
-
-                /* Display Slave's received data on terminal */
-                APP_PRINT("\r\nSlave received data with ID=0x%x: %s\r\n", g_received_id, recv_str);
-                lin_validate_frame(g_received_id, g_rx_buf, lin_slave_transfer_info[id_index].num_bytes);
-            }
-            else if (id_index >= MIN_INDEX_OF_FRAME_ID_READ && id_index <= MAX_INDEX_OF_FRAME_ID_READ)
-            {
-                g_lin_event_flags &= (uint32_t)(~LIN_EVENT_TX_DATA_COMPLETE);
-                err = LIN_WRITE(&g_slave_ctrl, &lin_slave_transfer_info[id_index]);
-                handle_error(err, "Error: Writing LIN data frame failed.\r\n");
-
-                /* Wait for LIN data frame transmission to complete */
-                err = wait_for_event(LIN_EVENT_TX_DATA_COMPLETE);
-                handle_error(err, "Error: TX Event timeout!\r\n");
-
-                ptr = trans_str;
-                for (size_t i = 0; i < lin_slave_transfer_info[id_index].num_bytes; i++)
-                {
-                    ptr += sprintf(ptr, "0x%02x ", lin_slave_transfer_info[id_index].p_information[i]);
-                }
-
-                /* Display Slave's transmitted data on terminal */
-                APP_PRINT("\r\nSlave transmitted data with ID=0x%x: %s\r\n", g_received_id, trans_str);
-            }
-            else
-            {
-                /* Skip for this frame ID */
-            }
-        }
-    }
+    return wait_for_event(LIN_EVENT_TX_DATA_COMPLETE);
 }
 
-/***********************************************************************************************************************
- * @brief       Validate the received LIN frame against the expected frame data.
- * @param[IN]   id       The ID of the received frame.
- * @param[IN]   p_data   Pointer to the received frame data.
- * @param[IN]   len      The length of the received frame data.
- * @retval      None.
+/*******************************************************************************************************************//**
+ * @brief      This function receives a LIN frame.
+ * @param[out] p_transfer_params         Pointer to the LIN transfer parameters.
+ * @retval     FSP_SUCCESS               Received successfully.
+ * @retval     Any other error codes     Failed to receive.
  **********************************************************************************************************************/
-static void lin_validate_frame(uint8_t id, const uint8_t *p_data, size_t len)
+static fsp_err_t lin_slave_read(lin_transfer_params_t * const p_transfer_params)
 {
-    for (size_t i = 0; i < sizeof(g_expected_frames) / sizeof(g_expected_frames[0]); ++i)
+    fsp_err_t err = FSP_SUCCESS;
+
+    err = LIN_READ(&g_slave_ctrl, p_transfer_params);
+    if (FSP_SUCCESS != err)
     {
-        const lin_frame_expectation_t *p_frame = &g_expected_frames[i];
-
-        /* Check for length mismatch */
-        if (p_frame->id == id)
-        {
-            if (len != p_frame->length)
-            {
-                APP_PRINT("\r\nFrame 0x%02X: Length mismatch. "
-                          "Expected %d bytes, received %d bytes\r\n", id, p_frame->length, len);
-                return;
-            }
-
-            /* Validate the received data against the expected data */
-            if (memcmp(p_data, p_frame->expected, len) == 0)
-            {
-                APP_PRINT("Frame 0x%02X: Data validation successful\r\n", id);
-            }
-            else
-            {
-                APP_PRINT("Frame 0x%02X: Data mismatch detected\r\n", id);
-            }
-            return;  /* Exit after processing the relevant frame */
-        }
-    }
-}
-
-/***********************************************************************************************************************
- * @brief       This function retrieves the LIN baud rate and updates the baud rate configuration in the LIN driver.
- * @param[IN]   None.
- * @retval      FSP_SUCCESS if the baud rate is successfully configured, otherwise an error code is returned.
- **********************************************************************************************************************/
-static fsp_err_t lin_slave_configure_baudrate(void)
-{
-    uint8_t terminal_read[TERM_BUFFER_SIZE] = {RESET_VALUE};
-    uint8_t selection                       = RESET_VALUE;
-    fsp_err_t err                           = FSP_SUCCESS;
-
-    APP_PRINT(BAUDRATE_OPTION);
-    while (true)
-    {
-        /* Check for new input data from terminal */
-        if (APP_CHECK_KEY)
-        {
-            /* Get user input */
-            memset(terminal_read, NULL_CHAR, sizeof(terminal_read));
-            APP_READ(terminal_read, TERMINAL_READ_SIZE);
-
-            selection = (uint8_t)(terminal_read[0] - '0');
-
-            if (selection >= MIN_BAUDRATE_INDEX && selection <= LIN_BAUDRATE_COUNT)
-            {
-                APP_PRINT("\r\nSelected baud rate: %d bps\r\n", lin_baudrate_options[selection - 1]);
-                err = lin_slave_baudset(lin_baudrate_options[selection - 1]);
-                APP_ERR_RET(FSP_SUCCESS != err, err, "Failed to set LIN baud rate.\r\n");
-
-                APP_PRINT("\r\nLIN baud rate successfully updated.\r\n");
-                break;
-            }
-            else
-            {
-                APP_PRINT("\r\nInvalid selection. Please enter a number between 1 and 6.\r\n");
-            }
-        }
+        return err;
     }
 
-    return err;
+    return wait_for_event(LIN_EVENT_RX_DATA_COMPLETE);
 }
 
-/***********************************************************************************************************************
- * @brief       This function finds the index of a LIN transfer based on the given frame ID and receiving frames.
- * @param[IN]   id   The LIN frame ID to search for.
- * @retval      Index of the LIN transfer if found; otherwise, returns -1.
+/*******************************************************************************************************************//**
+ * @brief     This function transmits a LIN frame with the specified frame ID.
+ * @param[in] frame_id_index            Frame ID index.
+ * @retval    FSP_SUCCESS               Transmitted successfully.
+ * @retval    Any other error codes     Failed to transmit.
  **********************************************************************************************************************/
-static int find_lin_transfer_index(uint8_t id)
+fsp_err_t lin_slave_transmit(uint8_t frame_id_index)
 {
-    for (int i = 0; i < MAX_NUMBER_OF_FRAME_ID; i++)
+    if (frame_id_index >= MAX_NUMBER_OF_FRAME_ID)
     {
-        if (lin_slave_transfer_info[i].id == id)
+        return FSP_ERR_INVALID_ARGUMENT;
+    }
+
+    g_lin_event_flags &= (uint32_t) (~LIN_EVENT_TX_DATA_COMPLETE);
+
+    return lin_slave_write(&g_lin_slave_transfer_info[frame_id_index]);
+}
+
+/*******************************************************************************************************************//**
+ * @brief     This function receives a LIN frame with the specified frame ID.
+ * @param[in] frame_id_index            Frame ID index.
+ * @retval    FSP_SUCCESS               Received successfully.
+ * @retval    Any other error codes     Failed to receive.
+ **********************************************************************************************************************/
+fsp_err_t lin_slave_receive(uint8_t frame_id_index)
+{
+    if (frame_id_index >= MAX_NUMBER_OF_FRAME_ID)
+    {
+        return FSP_ERR_INVALID_ARGUMENT;
+    }
+
+    memset(g_slave_rx_buf, RESET_VALUE, sizeof(g_slave_rx_buf));
+
+    g_lin_event_flags &= (uint32_t) (~LIN_EVENT_RX_DATA_COMPLETE);
+
+    return lin_slave_read(&g_lin_slave_transfer_info[frame_id_index]);
+}
+
+/*******************************************************************************************************************//**
+ * @brief     This function finds the transfer index of the specified frame ID.
+ * @param[in] frame_id                  LIN frame ID.
+ * @retval    Transfer index            Frame ID found.
+ * @retval    -1                        Frame ID not found.
+ **********************************************************************************************************************/
+int32_t lin_slave_find_transfer_index(uint8_t frame_id)
+{
+    for (int32_t index = 0; index < (int32_t) MAX_NUMBER_OF_FRAME_ID; index++)
+    {
+        if (g_lin_slave_transfer_info[index].id == frame_id)
         {
-            return i;
+            return index;
         }
     }
 
     return -1;
 }
 
-/***********************************************************************************************************************
- * @brief       Callback function to handle LIN communication events.
- * @param[IN]   p_args   Pointer to the callback arguments.
- * @retval      None.
+/*******************************************************************************************************************//**
+ * @brief     This function updates the LIN communication baud rate.
+ * @param[in] baud_rate                 LIN communication baud rate.
+ * @retval    FSP_SUCCESS               Updated successfully.
+ * @retval    Any other error codes     Failed to update.
  **********************************************************************************************************************/
-void lin_slave_callback(lin_callback_args_t *p_args)
-{
-    if (p_args != NULL)
-    {
-        /* Store the event */
-        g_lin_event_flags |= p_args->event;
-        if (g_lin_event_flags & LIN_EVENT_RX_HEADER_COMPLETE)
-        {
-            /* Store the received ID */
-            g_received_id = p_args->pid & LIN_PID_MASK_ID;
-        }
-    }
-}
-
-#if BSP_PERIPHERAL_SAU_PRESENT
-/***********************************************************************************************************************
- * @brief       Put the LIN slave into sleep mode and enter low-power mode.
- * @param[IN]   None.
- * @retval      FSP_SUCCESS if the operation was successful; otherwise, an error code is returned.
- **********************************************************************************************************************/
-static fsp_err_t lin_slave_sleep_enter(void)
-{
-    fsp_err_t err = FSP_SUCCESS;
-
-    /* Open IRQ to prepare getting LIN_EVENT_RX_WAKEUP_COMPLETE */
-    err = R_SAU_LIN_SleepEnter(&g_slave_ctrl);
-    APP_ERR_RET(FSP_SUCCESS != err, err, "\r\nR_SAU_LIN_SleepEnter failed\r\n");
-
-    APP_PRINT("\r\nEntering software standby mode...\r\n");
-    R_BSP_SoftwareDelay(50, BSP_DELAY_UNITS_MILLISECONDS);
-
-    err = R_LPM_LowPowerModeEnter(&g_lpm_ctrl);
-    APP_ERR_RET(FSP_SUCCESS != err, err, "\r\nR_LPM_LowPowerModeEnter failed\r\n");
-
-    return err;
-}
-
-/***********************************************************************************************************************
- * @brief       Exit the bus sleep mode for LIN device.
- * @param[IN]   None.
- * @retval      FSP_SUCCESS if the operation was successful; otherwise, an error code is returned.
- **********************************************************************************************************************/
-static fsp_err_t lin_slave_sleep_exit(void)
-{
-    fsp_err_t err = FSP_SUCCESS;
-
-    if (g_lin_event_flags & LIN_EVENT_RX_WAKEUP_COMPLETE)
-    {
-        g_lin_event_flags &= (uint32_t) (~LIN_EVENT_RX_WAKEUP_COMPLETE);
-        APP_PRINT("\r\nWake-up signal detected. Exiting sleep mode.\r\n");
-
-        /* Exit the bus sleep mode for LIN device */
-        err = R_SAU_LIN_SleepExit(&g_slave_ctrl);
-        APP_ERR_RET(FSP_SUCCESS != err, err, "\r\nR_SAU_LIN_SleepExit failed\r\n");
-    }
-
-    return err;
-}
-#endif /* BSP_PERIPHERAL_SAU_PRESENT */
-
-/***********************************************************************************************************************
- * @brief       This function waits for an event flag to be set with timeout handling.
- * @param[IN]   expected_event  The LIN event bit mask to wait for.
- * @retval      FSP_SUCCESS     If the operation was successful; otherwise, an error code is returned.
- **********************************************************************************************************************/
-static fsp_err_t wait_for_event(uint32_t expected_event)
-{
-    uint32_t timeout = RESET_VALUE;
-    fsp_err_t err    = FSP_SUCCESS;
-
-    while (!(g_lin_event_flags & expected_event))
-    {
-        timeout++;
-        if (timeout >= TIMEOUT_LIMIT)
-        {
-            err = LIN_COMMUNICATION_ABORT(&g_slave_ctrl);
-            APP_ERR_RET(FSP_SUCCESS != err, err, "\r\nError: Failed to Abort LIN communication\r\n");
-
-            return FSP_ERR_TIMEOUT;
-        }
-        R_BSP_SoftwareDelay(1, BSP_DELAY_UNITS_MICROSECONDS);
-    }
-
-    return err;
-}
-
-/***********************************************************************************************************************
- * @brief       Calculates the LIN baud rate and restarts the LIN module.
- * @param[IN]   baud_rate    The desired LIN baud rate.
- * @retval      FSP_SUCCESS  If the operation was successful; otherwise, an error code is returned.
- **********************************************************************************************************************/
-static fsp_err_t lin_slave_baudset(uint32_t baud_rate)
+fsp_err_t lin_slave_baudset(uint32_t baud_rate)
 {
     fsp_err_t err = FSP_SUCCESS;
 
 #if BSP_PERIPHERAL_SAU_PRESENT
-    uint32_t breakBaudRate = (9 * baud_rate) / 13;
+
+    uint32_t break_baud_rate = (9U * baud_rate) / 13U;
 
     /* Calculate baud rate for normal communication */
-    err = LIN_BAUD_CALCULATE(&g_uart0_ctrl, baud_rate, &g_uart0_baud_setting);
-    APP_ERR_RET(FSP_SUCCESS != err, err, "Error: Failed to calculate LIN baud rate\r\n");
+    err = LIN_BAUD_CALCULATE(&g_uart0_ctrl,
+                             baud_rate,
+                             &g_uart0_baud_setting);
+    if (FSP_SUCCESS != err)
+    {
+        return err;
+    }
 
     /* Calculate baud rate for break field */
-    err = LIN_BAUD_CALCULATE(&g_uart0_ctrl, breakBaudRate, &g_slave_break_field_baud_setting);
-    APP_ERR_RET(FSP_SUCCESS != err, err, "Error: Failed to calculate LIN baud rate\r\n");
+    err = LIN_BAUD_CALCULATE(&g_uart0_ctrl,
+                             break_baud_rate,
+                             &g_slave_break_field_baud_setting);
+    if (FSP_SUCCESS != err)
+    {
+        return err;
+    }
 
     /* Set calculated baud rate */
-    err = R_SAU_UART_BaudSet(&g_uart0_ctrl, &g_uart0_baud_setting);
-    APP_ERR_RET(FSP_SUCCESS != err, err, "Error: Failed to set LIN baud rate\r\n");
-
-#elif BSP_PERIPHERAL_SCI_PRESENT
-
-    lin_cfg_t lin_slave_cfg;
-    sci_lin_extended_cfg_t lin_slave_cfg_extend;
-
-    /* Copy LIN configuration */
-    memcpy(&lin_slave_cfg, &g_slave_cfg, sizeof(lin_cfg_t));
-    memcpy(&lin_slave_cfg_extend, &g_slave_cfg_extend, sizeof(lin_slave_cfg_extend));
-    lin_slave_cfg.p_extend = &lin_slave_cfg_extend;
-
-    err = LIN_CLOSE(&g_slave_ctrl);
-    APP_ERR_RET(FSP_SUCCESS != err, err, "Error: LIN deinitialization failed.\r\n");
-
-    /* Set baud parameters */
-    sci_lin_baud_params_t user_baud_params = {
-        .baudrate           = baud_rate,
-        .break_bits         = g_slave_cfg_extend.break_bits,
-        .delimiter_bits     = g_slave_cfg_extend.delimiter_bits,
-    };
-
-    /* Calculate the baud rate */
-    err = LIN_BAUD_CALCULATE(&user_baud_params, lin_slave_cfg_extend.p_baud_setting);
-    APP_ERR_RET(FSP_SUCCESS != err, err, "Failed to calculate LIN baud rate\r\n");
-
-    /* Reinitialize LIN */
-    err = LIN_OPEN(&g_slave_ctrl, &lin_slave_cfg);
-    APP_ERR_RET(FSP_SUCCESS != err, err, "Error: LIN initialization failed.\r\n");
+    err = R_SAU_UART_BaudSet(&g_uart0_ctrl,
+                             &g_uart0_baud_setting);
 
 #elif BSP_PERIPHERAL_SCI_B_PRESENT
 
@@ -456,15 +201,21 @@ static fsp_err_t lin_slave_baudset(uint32_t baud_rate)
     sci_b_lin_extended_cfg_t lin_slave_cfg_extend;
 
     /* Copy LIN configuration */
-    memcpy(&lin_slave_cfg, &g_slave_cfg, sizeof(lin_cfg_t));
-    memcpy(&lin_slave_cfg_extend, &g_slave_cfg_extend, sizeof(lin_slave_cfg_extend));
+    memcpy(&lin_slave_cfg,
+           &g_slave_cfg,
+           sizeof(lin_cfg_t));
+
+    memcpy(&lin_slave_cfg_extend,
+           &g_slave_cfg_extend,
+           sizeof(sci_b_lin_extended_cfg_t));
+
     lin_slave_cfg.p_extend = &lin_slave_cfg_extend;
 
-    err = LIN_CLOSE(&g_slave_ctrl);
-    APP_ERR_RET(FSP_SUCCESS != err, err, "Error: LIN deinitialization failed.\r\n");
+    lin_slave_close();
 
     /* Set baud parameters */
-    sci_b_lin_baud_params_t user_baud_params = {
+    sci_b_lin_baud_params_t user_baud_params =
+    {
         .baudrate           = baud_rate,
         .clock_source       = g_slave_cfg_extend.sci_b_settings_b.clock_source,
         .break_bits         = g_slave_cfg_extend.break_bits,
@@ -472,56 +223,191 @@ static fsp_err_t lin_slave_baudset(uint32_t baud_rate)
     };
 
     /* Calculate the baud rate */
-    err = LIN_BAUD_CALCULATE(&user_baud_params, &lin_slave_cfg_extend.baud_setting);
-    APP_ERR_RET(FSP_SUCCESS != err, err, "Failed to calculate LIN baud rate\r\n");
+    err = LIN_BAUD_CALCULATE(&user_baud_params,
+                             &lin_slave_cfg_extend.baud_setting);
+    if (FSP_SUCCESS != err)
+    {
+        return err;
+    }
 
     /* Reinitialize LIN */
     err = LIN_OPEN(&g_slave_ctrl, &lin_slave_cfg);
-    APP_ERR_RET(FSP_SUCCESS != err, err, "Error: LIN initialization failed.\r\n");
 
+#elif BSP_PERIPHERAL_SCI_PRESENT
+
+    lin_cfg_t lin_slave_cfg;
+    sci_lin_extended_cfg_t lin_slave_cfg_extend;
+
+    /* Copy LIN configuration */
+    memcpy(&lin_slave_cfg,
+           &g_slave_cfg,
+           sizeof(lin_cfg_t));
+
+    memcpy(&lin_slave_cfg_extend,
+           &g_slave_cfg_extend,
+           sizeof(sci_lin_extended_cfg_t));
+
+    lin_slave_cfg.p_extend = &lin_slave_cfg_extend;
+
+    lin_slave_close();
+
+    /* Set baud parameters */
+    sci_lin_baud_params_t user_baud_params =
+    {
+        .baudrate       = baud_rate,
+        .break_bits     = g_slave_cfg_extend.break_bits,
+        .delimiter_bits = g_slave_cfg_extend.delimiter_bits,
+    };
+
+    /* Calculate the baud rate */
+    err = LIN_BAUD_CALCULATE(&user_baud_params,
+                             lin_slave_cfg_extend.p_baud_setting);
+    if (FSP_SUCCESS != err)
+    {
+        return err;
+    }
+
+    /* Reinitialize LIN */
+    err = LIN_OPEN(&g_slave_ctrl, &lin_slave_cfg);
 
 #endif /* BSP_PERIPHERAL_SAU_PRESENT || BSP_PERIPHERAL_SCI_PRESENT || BSP_PERIPHERAL_SCI_B_PRESENT */
+
+    if (FSP_SUCCESS == err)
+    {
+        g_slave_baudrate = baud_rate;
+    }
 
     return err;
 }
 
-/***********************************************************************************************************************
- * @brief       Close all modules and perform error trapping if an error occurs.
- * @param[IN]   err     Return values from the API calls.
- * @param[IN]   err_str Error message from the failed API call.
- * @retval      None.
- **********************************************************************************************************************/
-static void handle_error(fsp_err_t err, char *err_str)
-{
-    fsp_err_t close_status = FSP_SUCCESS;
-
-    if (FSP_SUCCESS != err)
-    {
-        APP_ERR_PRINT(err_str);
-
-        if (RESET_VALUE != g_slave_ctrl.open)
-        {
-            close_status = LIN_CLOSE(&g_slave_ctrl);
-            if (FSP_SUCCESS != close_status)
-            {
-                APP_ERR_PRINT("Error: LIN close failed.\r\n");
-            }
-        }
-
 #if BSP_PERIPHERAL_SAU_PRESENT
-        if (RESET_VALUE != g_lpm_ctrl.lpm_open)
-        {
-            close_status = R_LPM_Close(&g_lpm_ctrl);
-            if (FSP_SUCCESS != close_status)
-            {
-                APP_ERR_PRINT("Error: LPM close failed.\r\n");
-            }
-        }
-#endif /* BSP_PERIPHERAL_SAU_PRESENT */
-        APP_ERR_TRAP(err);
+
+/*******************************************************************************************************************//**
+ * @brief     This function initializes the low-power mode module.
+ * @param[in] None.
+ * @retval    FSP_SUCCESS               Initialized successfully.
+ * @retval    Any other error codes     Failed to initialize.
+ **********************************************************************************************************************/
+fsp_err_t lin_slave_lpm_open(void)
+{
+    return R_LPM_Open(&g_lpm_ctrl, &g_lpm_cfg);
+}
+
+/*******************************************************************************************************************//**
+ * @brief     This function closes the low-power mode module.
+ * @param[in] None.
+ * @retval    None.
+ **********************************************************************************************************************/
+void lin_slave_lpm_close(void)
+{
+    if (g_lpm_ctrl.lpm_open)
+    {
+        R_LPM_Close(&g_lpm_ctrl);
     }
 }
 
-/***********************************************************************************************************************
-* End of lin_slave_ep.c
-***********************************************************************************************************************/
+/*******************************************************************************************************************//**
+ * @brief     This function puts the LIN Slave into sleep mode.
+ * @param[in] None.
+ * @retval    FSP_SUCCESS               Entered sleep mode successfully.
+ * @retval    Any other error codes     Failed to enter sleep mode.
+ **********************************************************************************************************************/
+fsp_err_t lin_slave_sleep_enter(void)
+{
+    fsp_err_t err = FSP_SUCCESS;
+
+    /* Clear the wake-up event flag */
+    g_lin_event_flags &= (uint32_t) (~LIN_EVENT_RX_WAKEUP_COMPLETE);
+
+    /* Enable LIN wake-up detection */
+    err = R_SAU_LIN_SleepEnter(&g_slave_ctrl);
+    if (FSP_SUCCESS != err)
+    {
+        return err;
+    }
+
+    R_BSP_SoftwareDelay(50U, BSP_DELAY_UNITS_MILLISECONDS);
+
+    /* Wait for pending UART transmissions to complete */
+    uart_console_flush();
+
+    /* Enter software standby mode */
+    return R_LPM_LowPowerModeEnter(&g_lpm_ctrl);
+}
+
+/*******************************************************************************************************************//**
+ * @brief     This function exits the LIN Slave sleep mode.
+ * @param[in] None.
+ * @retval    FSP_SUCCESS               Exited sleep mode successfully.
+ * @retval    Any other error codes     Failed to exit sleep mode.
+ **********************************************************************************************************************/
+fsp_err_t lin_slave_sleep_exit(void)
+{
+    fsp_err_t err = FSP_SUCCESS;
+
+    if (g_lin_event_flags & LIN_EVENT_RX_WAKEUP_COMPLETE)
+    {
+        /* Clear the wake-up event flag */
+        g_lin_event_flags &= (uint32_t) (~LIN_EVENT_RX_WAKEUP_COMPLETE);
+
+        /* Exit the LIN bus sleep mode */
+        err = R_SAU_LIN_SleepExit(&g_slave_ctrl);
+    }
+
+    return err;
+}
+
+#endif /* BSP_PERIPHERAL_SAU_PRESENT */
+
+/*******************************************************************************************************************//**
+ * @brief     This function waits for the specified LIN event.
+ * @param[in] expected_event            LIN event to wait for.
+ * @retval    FSP_SUCCESS               Completed successfully.
+ * @retval    FSP_ERR_TIMEOUT           Timed out.
+ * @retval    Any other error codes     Failed to complete.
+ **********************************************************************************************************************/
+static fsp_err_t wait_for_event(uint32_t expected_event)
+{
+    fsp_err_t err = FSP_SUCCESS;
+    uint32_t timeout_counter = RESET_VALUE;
+
+    while (!(g_lin_event_flags & expected_event))
+    {
+        timeout_counter++;
+
+        if (timeout_counter >= TIMEOUT_LIMIT)
+        {
+            err = LIN_COMMUNICATION_ABORT(&g_slave_ctrl);
+            if (FSP_SUCCESS != err)
+            {
+                return err;
+            }
+
+            return FSP_ERR_TIMEOUT;
+        }
+
+        R_BSP_SoftwareDelay(1U, BSP_DELAY_UNITS_MICROSECONDS);
+    }
+
+    return err;
+}
+
+/*******************************************************************************************************************//**
+ * @brief     This function handles LIN communication events.
+ * @param[in] p_args                    Pointer to callback arguments.
+ * @retval    None.
+ **********************************************************************************************************************/
+void lin_slave_callback(lin_callback_args_t * p_args)
+{
+    if (NULL != p_args)
+    {
+        /* Store the LIN event */
+        g_lin_event_flags |= p_args->event;
+
+        if (g_lin_event_flags & LIN_EVENT_RX_HEADER_COMPLETE)
+        {
+            /* Store the received frame ID */
+            g_received_id = p_args->pid & LIN_PID_MASK_ID;
+        }
+    }
+}

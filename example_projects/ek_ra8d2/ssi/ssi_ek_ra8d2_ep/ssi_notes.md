@@ -1,5 +1,5 @@
 # Introduction #
-This example project demonstrates audio streaming using the SSI module with a double-buffer mechanism. A sine wave is generated and continuously streamed via a loopback connection between the SSITX and SSIRX pins. The sine wave data is stored in two buffers, alternating between them to ensure continuous and uninterrupted streaming. The transmitted and received audio data are compared to verify the successful completion of the SSI transfer. The results will be displayed on the RTT Viewer. The sample data can be observed using waveform rendering in the memory viewer of e2studio.
+This example project demonstrates audio streaming using the SSI module with a double-buffer mechanism. A sine wave is generated and continuously streamed via a loopback connection between the SSITX and SSIRX pins. The sine wave data is stored in two buffers, alternating between them to ensure continuous and uninterrupted streaming. The transmitted and received audio data are compared to verify the successful completion of the SSI transfer. The results will be displayed on the terminal. The sample data can be observed using waveform rendering in the memory viewer of e2studio.
 
 Please refer to the [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf) for general information on example projects and [readme.txt](./readme.txt) for specifics of operation.
 
@@ -9,23 +9,23 @@ To build and run the SSI example project, the following resources are needed.
 ### Software ###
 * Renesas Flexible Software Package (FSP): Version 6.6.0
 * e2 studio: Version 2026-07
-* SEGGER J-Link RTT Viewer: Version 9.64
 * LLVM Embedded Toolchain for ARM: Version 22.1.0
+* Terminal Console Application: Tera Term or a similar application
 
 Refer to software requirements mentioned in [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf)
 
 ### Hardware ###
-* Supported RA boards: EK-RA4E2, EK-RA4L1, EK-RA4M1, EK-RA4M2, EK-RA4M3, EK-RA6E2, EK-RA6M1, EK-RA6M2, EK-RA6M3, EK-RA6M3G, EK-RA6M4, EK-RA6M5, EK-RA8D1, EK-RA8E2, EK-RA8M1, FPB-RA6E1, FPB-RA8E1, EK-RA2L2, EK-RA8P1, EK-RA8D2.
+* Supported RA boards: EK-RA4E2, EK-RA4L1, EK-RA4M1, EK-RA4M2, EK-RA4M3, EK-RA6E2, EK-RA6M1, EK-RA6M2, EK-RA6M3, EK-RA6M3G, EK-RA6M4, EK-RA6M5, EK-RA8D1, EK-RA8E2, EK-RA8M1, FPB-RA6E1, FPB-RA8E1, EK-RA2L2, EK-RA8P1, EK-RA8D2, EK-RA8M2, EK-RA8P1 V2, PB-RA4E2, FPB-RA6E2.
    * 1 x Renesas RA board.
-   * 1 x Type-C USB cable.
+   * 1 x USB cable for programming and debugging (USB cable type varies by board model).
    * 1 x Host PC.
-   * 1 x Jumper wire (For EK-RA4E2, FPB-RA6E1: 2 x Jumper wires).
+   * 1 x Jumper wire (For EK-RA4E2, FPB-RA6E1, FPB-RA4E2: 2 x Jumper wires).
 
 ### Hardware Connections: ###
-Pin and Jumper Settings:  
+* Connect the RA board USB debug port to the host PC using the appropriate USB cable for EP programming and debugging.
 * For EK-RA4E2:
    * Connect SSITXD P301 (J2:24) <--> SSIRXD P302 (J2:23).
-   * Connect GPT1 P105 (J2:34) <--> AUDIO_CLK P100 (J2:39).
+   * Connect GTIOC1A P105 (J2:34) <--> AUDIO_CLK P100 (J2:39).
 
 * For EK-RA4L1:
    * Connect SSITXD P405 (J2:42) <--> SSIRXD P406 (J2:38).
@@ -69,10 +69,11 @@ Pin and Jumper Settings:
 
 * For FPB-RA6E1:
    * Connect SSITXD P405 (J3:6) <--> SSIRXD P406 (J3:7).
-   * Connect GPT2 P103 (J4:22) <--> AUDIO_CLK P402 (J3:3).
+   * Connect GTIOC2A P103 (J4:22) <--> AUDIO_CLK P402 (J3:3).
 
 * For FPB-RA8E1:
    * Connect SSITXD P405 (J4:14) <--> SSIRXD P406 (J4:13).
+   * The user must open jumpers J6 and J9 to use the on-board debug functionality.
 
 * For EK-RA2L2:
    * Connect SSITXD P409 (J2:7) <--> SSIRXD P408 (J2:8).
@@ -82,6 +83,26 @@ Pin and Jumper Settings:
 
 * For EK-RA8D2:
    * Connect SSITXD0 P115 (J37:22) <--> SSIRXD0 P114 (J37:21).
+
+* For EK-RA8M2:
+	* The user must place jumper J6 on pins 2-3, J8 on pins 1-2, J9 on pins 2-3, and J29 on pins 1-2, 3-4, 5-6, 7-8 to use the on-board debug functionality.
+	* Connect SSITXD P115 (J1:17) <--> SSIRXD P114 (J1:18).
+
+* For EK-RA8P1 V2:
+   * The user must set the configuration switches (SW6) as below to use the on-board debug functionality.
+
+      | SW6-1 | SW6-2 | SW6-3 | SW6-4 | SW6-5 | SW6-6 | SW6-7 | SW6-8 | SW6-9 | SW6-10 |
+      |:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:------:|
+      |  OFF  |  OFF  |  OFF  |  OFF  |  ON   |  OFF  |  ON   |  ON   |  ON   |   ON   |
+
+   * Connect SSITXD0 P115 (J14:26) <--> SSIRXD0 P114 (J37:24).
+
+* For FPB-RA4E2:
+   * Connect SSITXD0 P109 (J4:2) <--> SSIRXD0 P110 (J4:3).
+   * Connect GTIOC4A P302 (J3:27) <--> AUDIO_CLK P213 (J3:9).
+
+* For FPB-RA6E2:
+	* Connect SSITXD0 P109 (J4:2) <--> SSIRXD0 P110 (J4:3).
 
 ## Related Collateral References ##
 Please refer to the [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf) for general information on example projects and [readme.txt](./readme.txt) for specifics of operation.
@@ -94,7 +115,7 @@ High level block diagram
 ![ssi_block_diagram](images/ssi_block_diagram.png "SSI Block Diagram")
 
 ## FSP Modules Used ##
-List of all the various modules that are used in this ssi_ep example project. Refer to the FSP User Manual for more details on each module listed below.
+List of all the various modules that are used in this SSI example project. Refer to the FSP User Manual for more details on each module listed below.
 
 | Module Name | Usage  | Searchable Keyword (using New Stack > Search) |
 |-------------|-----------------------------------------------|-----------------------------------------------|
@@ -119,11 +140,11 @@ This section describes FSP Configurator properties that are important or differe
 | configuration.xml > Stacks > g_i2s I2S (r_ssi) > Properties > Settings > Property > Common > DTC Support | Enabled | Enabled | Enable DTC support for the module. |
 | configuration.xml > Stacks > g_i2s I2S (r_ssi) > Properties > Settings > Property > Module g_i2s I2S (r_ssi) > Channel| 0 | 0 | Specify the I2S channel. |
 | configuration.xml > Stacks > g_i2s I2S (r_ssi) > Properties > Settings > Property > Module g_i2s I2S (r_ssi) > Operating Mode (Master/Slave) | Master Mode | Master Mode | Specify if the MCU is I2S master or slave. |
-| configuration.xml > Stacks > g_i2s I2S (r_ssi) > Properties > Settings > Property > Module g_i2s I2S (r_ssi) > Bit Depth | 16 Bits | 16 bits | Select the bit depth of one sample of audio data. |
-| configuration.xml > Stacks > g_i2s I2S (r_ssi) > Properties > Settings > Property > Module g_i2s I2S (r_ssi) > Word Length | 16 Bits| 16 bits | This property is used to specify Word Length. |
+| configuration.xml > Stacks > g_i2s I2S (r_ssi) > Properties > Settings > Property > Module g_i2s I2S (r_ssi) > Bit Depth | 16 Bits | 16 Bits | Select the bit depth of one sample of audio data. |
+| configuration.xml > Stacks > g_i2s I2S (r_ssi) > Properties > Settings > Property > Module g_i2s I2S (r_ssi) > Word Length | 16 Bits| 16 Bits | This property is used to specify Word Length. |
 | configuration.xml > Stacks > g_i2s I2S (r_ssi) > Properties > Settings > Property > Module g_i2s I2S (r_ssi) > WS Continue Mode | Disabled | Disabled | This property is used to enable/disable WS Continue Mode. |
-| configuration.xml > Stacks > g_i2s I2S (r_ssi) > Properties > Settings > Property > Module g_i2s I2S (r_ssi) > Bit Clock Source (available only in Master mode) | External AUDIO_CLK | Internal AUDIO_CLK | This property is used to set Bit Clock Source. |
-| configuration.xml > Stacks > g_i2s I2S (r_ssi) > Properties > Settings > Property > Module g_i2s I2S (r_ssi) >  Bit Clock Divider (available only in Master mode) | Audio Clock / 1 | Audio Clock/2 | This property is used to set Bit Clock Divider. |
+| configuration.xml > Stacks > g_i2s I2S (r_ssi) > Properties > Settings > Property > Module g_i2s I2S (r_ssi) > Bit Clock Source (available only in Master mode) | External AUDIO_CLK | Internal AUDIO_CLK | This property is used to set Bit Clock Source. For FPB-RA4E2, it is not available. |
+| configuration.xml > Stacks > g_i2s I2S (r_ssi) > Properties > Settings > Property > Module g_i2s I2S (r_ssi) > Bit Clock Divider (available only in Master mode) | Audio Clock / 1 | Audio Clock/ 2 | This property is used to set Bit Clock Divider. |
 | configuration.xml > Stacks > g_i2s I2S (r_ssi) > Properties > Settings > Property > Module g_i2s I2S (r_ssi) > Callback | NULL | i2s_callback | Defined user callback for SSI events. |
 | configuration.xml > Stacks > g_i2s I2S (r_ssi) > Properties > Settings > Property > Module g_i2s I2S (r_ssi) > Transmit Interrupt Priority | Disabled | Priority 2 | This property is used to set Transmit Interrupt Priority. |
 | configuration.xml > Stacks > g_i2s I2S (r_ssi) > Properties > Settings > Property > Module g_i2s I2S (r_ssi) > Receive Interrupt Priority  | Disabled  | Priority 2 | This property is used to set Receive Interrupt Priority. |
@@ -133,7 +154,7 @@ This section describes FSP Configurator properties that are important or differe
 
 |   Module Property Path and Identifier   |   Default Value   |   Used Value   |   Reason   |
 | :-------------------------------------: | :---------------: | :------------: | :--------: |
-| configuration.xml > Stacks > g_timer Timer, General PWM (r_gpt) > Properties > Settings > Property > Module g_timer Timer, General PWM (r_gpt) > General > Channel | 0 | 2 | Channel of GPT to get audio clock for SSI communication. |
+| configuration.xml > Stacks > g_timer Timer, General PWM (r_gpt) > Properties > Settings > Property > Module g_timer Timer, General PWM (r_gpt) > General > Channel | 0 | 2 | Channel of GPT to get audio clock for SSI communication. For FPB-RA4E2, use channel 4. |
 | configuration.xml > Stacks > g_timer Timer, General PWM (r_gpt) > Properties > Settings > Property > Module g_timer Timer, General PWM (r_gpt) > General > Period | 0x10000 | 1411200 | Period to get audio clock for SSI communication. |
 | configuration.xml > Stacks > g_timer Timer, General PWM (r_gpt) > Properties > Settings > Property > Module g_timer Timer, General PWM (r_gpt) > General > Period Unit | Raw Counts | Hertz | Unit of the period specified above. |
 
@@ -143,26 +164,40 @@ The table below lists the basic APIs used at the application layer by this examp
 
 | API Name    | Usage                                                                          |
 |-------------|--------------------------------------------------------------------------------|
-|R_SSI_Open| This API is used to open the SSI instance. |
-|R_SSI_Stop| This API is used to stop SSI. |
-|R_SSI_WriteRead| This API is used to write from source buffer and reads data into destination buffer. |
-|R_SSI_Close| This API is used to close the SSI instance. |
-|R_GPT_Open| This API is used to initialize the General PWM configured as SSI Audio Clock. |
-|R_GPT_Start| This API is used to start SSI Audio Clock. |
-|R_GPT_Close| This API is used to stop the SSI Audio Clock. |
+| R_SSI_Open | This API is used to open the SSI instance. |
+| R_SSI_Stop | This API is used to stop SSI. |
+| R_SSI_WriteRead | This API is used to write from source buffer and reads data into destination buffer. |
+| R_SSI_Close | This API is used to close the SSI instance. |
+| R_GPT_Open | This API is used to initialize the General PWM configured as SSI Audio Clock. |
+| R_GPT_Start | This API is used to start SSI Audio Clock. |
+| R_GPT_Close | This API is used to stop the SSI Audio Clock. |
 
-## Verifying operation ##
-* Connect USB cables and connecting wires as mentioned in the **Hardware Connection** section.
-* Import, Build and Debug the EP (*see section Starting Development* of **FSP User Manual**). After running the EP, open waveform rendering in memory viewer to see the output of sampled data. One can also check the buffer by adding it to the expression tab.
+## Verifying Operation ##
+1. Set up hardware connection as mentioned in the **Hardware Connection** section.
+2. Import, build and download the EP (*see section Starting Development* of **FSP User Manual**). After running the EP, open waveform rendering in memory viewer to see the output of sampled data. One can also check the buffer by adding it to the expression tab.
+3. Open the serial terminal application (e.g., Tera Term) to view output log, configure the settings as shown below:
+   * To make sure the received data shows properly, the user needs to set:
+      * [Setup] -> [Terminal...] -> [New-line] -> Select [Receive: CR] & [Transmit: CR].
+
+   * To echo back characters typed in Tera Term, the user needs to enable it through:
+      * [Setup] -> [Terminal...] -> Check [Local echo].
+
+   * The configuration parameters of the serial port on the serial terminal application:
+      * Port: The port is provided by the J-Link On-Board.
+      * Speed: 115200
+      * Data: 8 bit
+      * Parity: none
+      * Stop bits: 1 bit
+      * Flow control: none
 
 ### Setting up waveform rendering ###
 * While debugging the project, enter the memory view and add "g_src_buff" (transmitted data) and "g_dest_buff" (received data) as variables to monitor.
-* Then click on New Rendering -> Waveform -> Waveform properties
+* Then click on New Rendering -> Waveform -> Waveform properties.
 * Set the waveform properties as Data Size to 16 bit, user-specified minimum and maximum values for Y-axis on signal generator, Channel to Mono, Buffer Size as 2048.
 
 ![waveform_properties](images/waveform_properties.png "Waveform Properties for SSI")
    
-**Note:** User can add the buffer address of each channel in the memory to view the waveform of each channel connected.
+**Note:** The user can add the buffer address of each channel in the memory to view the waveform of each channel connected.
   
 The images below showcase the output of waveform rendering for SSI:
 
@@ -173,16 +208,16 @@ The images below showcase the output of waveform rendering for SSI:
 * Waveform Rendering of SSI destination buffer (g_dest_buff):
    * Note: 
       * The `g_dest_buff` buffer is cleared before new incoming data is stored, which may cause differences between the waveform viewed in **Memory View** and the capture image below. This is expected behavior due to the double-buffering mechanism used in streaming.
-      * For accurate validation, the user should set a breakpoint at **line 143** (This code line used memcmp function to compare `g_src_buff` and `g_dest_buff`) in `...\e2studio\src\ssi_ep.c` to validate the waveform.
+      * For accurate validation, the user should set a breakpoint at **line 106** (This code line used memcmp function to compare `g_src_buff` and `g_dest_buff`) in `...\e2studio\src\ssi_example_app.c` to validate the waveform.
 
 ![waveform_dest_buffer](images/waveform_dest_buffer.png "Waveform Rendering of SSI destination buffer")
 
-* Open an instance of J-Link RTT Viewer to see the output status of the example project.
-* The transaction/status messages will be displayed in J-Link RTT Viewer as depicted below:
+* Open an instance of terminal application to see the output status of the example project.
+* The transaction/status messages will be displayed in the terminal as depicted below:
 
-SSI RTT Viewer log
+SSI terminal log:
 
-![ssi_rtt_log](images/ssi_rtt_log.png "SSI RTT Viewer Log")
+![ssi_terminal_log](images/ssi_terminal_log.png "SSI Terminal Log")
 
 ## Special Topics ##
 ### Calculate Audio Clock Frequency ###

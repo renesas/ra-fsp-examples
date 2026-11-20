@@ -3,11 +3,12 @@
  * Description  : Contains data structures and functions used in hal_warmstart.c.
  **********************************************************************************************************************/
 /***********************************************************************************************************************
-* Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
-*
-* SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
+ * Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ **********************************************************************************************************************/
 
+#include "hal_data.h"
 #include "board_ospi.h"
 
 FSP_CPP_HEADER
@@ -29,7 +30,7 @@ void R_BSP_WarmStart (bsp_warm_start_event_t event)
         /* Enable reading from data flash. */
         R_FACI_LP->DFLCTL = 1U;
 
-        /* Would normally have to wait tDSTOP(6us) for data flash recovery. Placing the enable here, before clock and
+        /* Would normally have to wait tDSTOP (6us) for data flash recovery. Placing the enable here, before clock and
          * C runtime initialization, should negate the need for a delay since the initialization will typically take
          * more than 6us. */
 #endif
@@ -50,11 +51,11 @@ void R_BSP_WarmStart (bsp_warm_start_event_t event)
         /* Configure pins. */
         R_IOPORT_Open(&IOPORT_CFG_CTRL, &IOPORT_CFG_NAME);
 
-        /* Reset flash device by driving OM_RESET pin */
-        R_IOPORT_PinWrite(&g_ioport_ctrl, OM_RESET, BSP_IO_LEVEL_LOW);
-        R_BSP_SoftwareDelay(OSPI_B_TIME_RESET_PULSE, OSPI_B_TIME_UNIT);
-        R_IOPORT_PinWrite(&g_ioport_ctrl, OM_RESET, BSP_IO_LEVEL_HIGH);
-        R_BSP_SoftwareDelay(OSPI_B_TIME_RESET_SETUP, OSPI_B_TIME_UNIT);
+        /* Hardware reset OSPI flash */
+        R_IOPORT_PinWrite(&IOPORT_CFG_CTRL, OM_RESET, BSP_IO_LEVEL_LOW);
+        R_BSP_SoftwareDelay(1000U, BSP_DELAY_UNITS_MICROSECONDS);
+        R_IOPORT_PinWrite(&IOPORT_CFG_CTRL, OM_RESET, BSP_IO_LEVEL_HIGH);
+        R_BSP_SoftwareDelay(100U, BSP_DELAY_UNITS_MICROSECONDS);
 
 #if BSP_CFG_SDRAM_ENABLED
 

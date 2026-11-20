@@ -909,10 +909,6 @@ FSP Configuration
       VSS_USB T17 CGC_VSS_USB - - - - - - - - IO "Read only" - 
     
   User Events
-    SCI8 ERI (Receive error): sci_b_uart_eri_isr
-    SCI8 RXI (Receive data full): sci_b_uart_rxi_isr
-    SCI8 TEI (Transmit end): sci_b_uart_tei_isr
-    SCI8 TXI (Transmit data empty): sci_b_uart_txi_isr
     
   User Event Links
     
@@ -1018,6 +1014,7 @@ FSP Configuration
     Common: Checksum computation support on transmitted ICMPv6 packets: Enabled (default)
     Common: Checksum computation support on transmitted ICMP packets: Enabled (default)
     Common: Packet Alignment: 
+    Common: Dual Packet Pool Configuration: Disabled (default)
     Common: Random Number Generator: rand
     Common: Seed Random Number Generator: srand
     DHCP: Common: IPv4: Type of Service for UDP requests: Normal
@@ -1388,6 +1385,7 @@ FSP Configuration
     Common: Checksum computation support on transmitted ICMPv6 packets: Enabled (default)
     Common: Checksum computation support on transmitted ICMP packets: Enabled (default)
     Common: Packet Alignment: 
+    Common: Dual Packet Pool Configuration: Disabled (default)
     Common: Random Number Generator: rand
     Common: Seed Random Number Generator: srand
     DHCP: Common: IPv4: Type of Service for UDP requests: Normal
@@ -1758,6 +1756,7 @@ FSP Configuration
     Common: Checksum computation support on transmitted ICMPv6 packets: Enabled (default)
     Common: Checksum computation support on transmitted ICMP packets: Enabled (default)
     Common: Packet Alignment: 
+    Common: Dual Packet Pool Configuration: Disabled (default)
     Common: Random Number Generator: rand
     Common: Seed Random Number Generator: srand
     DHCP: Common: IPv4: Type of Service for UDP requests: Normal
@@ -2141,6 +2140,7 @@ FSP Configuration
     Common: Checksum computation support on transmitted ICMPv6 packets: Enabled (default)
     Common: Checksum computation support on transmitted ICMP packets: Enabled (default)
     Common: Packet Alignment: 
+    Common: Dual Packet Pool Configuration: Disabled (default)
     Common: Random Number Generator: rand
     Common: Seed Random Number Generator: srand
     DHCP: Common: IPv4: Type of Service for UDP requests: Normal
@@ -2511,6 +2511,7 @@ FSP Configuration
     Common: Checksum computation support on transmitted ICMPv6 packets: Enabled (default)
     Common: Checksum computation support on transmitted ICMP packets: Enabled (default)
     Common: Packet Alignment: 
+    Common: Dual Packet Pool Configuration: Disabled (default)
     Common: Random Number Generator: rand
     Common: Seed Random Number Generator: srand
     DHCP: Common: IPv4: Type of Service for UDP requests: Normal
@@ -2881,6 +2882,7 @@ FSP Configuration
     Common: Checksum computation support on transmitted ICMPv6 packets: Enabled (default)
     Common: Checksum computation support on transmitted ICMP packets: Enabled (default)
     Common: Packet Alignment: 
+    Common: Dual Packet Pool Configuration: Disabled (default)
     Common: Random Number Generator: rand
     Common: Seed Random Number Generator: srand
     DHCP: Common: IPv4: Type of Service for UDP requests: Normal
@@ -3207,6 +3209,8 @@ FSP Configuration
     Memory-mapping Support: XiP Support: Disable
     DOTF Support: Disable
     Row Addressing Support: Disable
+    Target Reset Support: In-band reset: Disable
+    Target Reset Support: Reset pin: Disable
     
   Module "Transfer (r_dmac)"
     Parameter Checking: Default (BSP)
@@ -3236,10 +3240,16 @@ FSP Configuration
     User Own Target: Disabled
     Reference Clock: Default
     
+  Module "UART (r_sci_b_uart)"
+    Parameter Checking: Default (BSP)
+    FIFO Support: Disable
+    DTC Support: Disable
+    Flow Control Support: Disable
+    
   Azure RTOS ThreadX
     General: Custom tx_user.h: 
     General: Error Checking: Enabled
-    Timer: Timer Ticks Per Second: 100
+    Timer: Timer Ticks Per Second: 1000
     General: Max Priorities: 32
     General: Minimum Stack: 200
     Timer: Timer Thread Stack Size: 1024
@@ -3281,6 +3291,33 @@ FSP Configuration
       4th Port ELC Trigger Source: Disabled
       Pin Configuration Name: g_bsp_pin_cfg
       
+    Instance "g_uart_console UART (r_sci_b_uart)"
+      General: Name: g_uart_console
+      General: Channel: 8
+      General: Data Bits: 8bits
+      General: Parity: None
+      General: Stop Bits: 1bit
+      Baud: Baud Rate: 115200
+      Baud: Baud Rate Modulation: Disabled
+      Baud: Max Error (%): 5
+      Flow Control: CTS/RTS Selection: Hardware RTS
+      Flow Control: Software RTS Port: Disabled
+      Flow Control: Software RTS Pin: Disabled
+      Extra: Clock Source: Internal Clock
+      Extra: Start bit detection: Falling Edge
+      Extra: Noise Filter: Disable
+      Extra: Receive FIFO Trigger Level: Max
+      Extra: RS-485: DE Pin: Disable
+      Extra: RS-485: DE Pin Polarity: Active High
+      Extra: RS-485: DE Pin Assertion Time: 1
+      Extra: RS-485: DE Pin Negation Time: 1
+      Extra: TXI/TEI Synchronization Delay Cycles: 0
+      Interrupts: Callback: uart_console_callback
+      Interrupts: Receive Interrupt Priority: Priority 15
+      Interrupts: Transmit Data Empty Interrupt Priority: Priority 15
+      Interrupts: Transmit End Interrupt Priority: Priority 15
+      Interrupts: Error Interrupt Priority: Priority 15
+      
     Instance "Azure RTOS ThreadX Port (rm_threadx_port)"
   Thread "Net Link Thread"
     Symbol: net_link_thread
@@ -3304,6 +3341,10 @@ FSP Configuration
         IP Helper Thread Priority: 3
         ARP cache storage units: Bytes
             ARP cache size (in storage units): 520
+        Extended Network Interface: IPv4 Address: 192.168.10.2
+        Extended Network Interface: Subnet Mask: 255.255.255.0
+        Extended Network Interface: IPv6 Global Address: 2001:0:0:0:0:0:0:2
+        Extended Network Interface: IPv6 Link Local Address (All zeros means use MAC address): 0:0:0:0:0:0:0:0
         
         Instance "g_packet_pool0 Azure RTOS NetX Duo Packet Pool Instance"
           Name: g_packet_pool0
@@ -3353,6 +3394,7 @@ FSP Configuration
               Ports: CPU: Forwarding: 
               Ports: Port 0: IPV queues for preemptable frames: 
               Ports: Port 1: IPV queues for preemptable frames: 
+              Ts Description Length: 8
               Ports: Port 0: Minimum fragment size of preemptable frames: 64 bytes
               Ports: Port 1: Minimum fragment size of preemptable frames: 64 bytes
               Ports: Port 0: MAC address: 74:90:50:65:81:70
@@ -3468,6 +3510,10 @@ FSP Configuration
         IP Helper Thread Priority: 3
         ARP cache storage units: Bytes
             ARP cache size (in storage units): 520
+        Extended Network Interface: IPv4 Address: 192.168.10.2
+        Extended Network Interface: Subnet Mask: 255.255.255.0
+        Extended Network Interface: IPv6 Global Address: 2001:0:0:0:0:0:0:2
+        Extended Network Interface: IPv6 Link Local Address (All zeros means use MAC address): 0:0:0:0:0:0:0:0
         
         Instance "g_packet_pool0 Azure RTOS NetX Duo Packet Pool Instance"
           Name: g_packet_pool0
@@ -3517,6 +3563,7 @@ FSP Configuration
               Ports: CPU: Forwarding: 
               Ports: Port 0: IPV queues for preemptable frames: 
               Ports: Port 1: IPV queues for preemptable frames: 
+              Ts Description Length: 8
               Ports: Port 0: Minimum fragment size of preemptable frames: 64 bytes
               Ports: Port 1: Minimum fragment size of preemptable frames: 64 bytes
               Ports: Port 0: MAC address: 74:90:50:65:81:70
@@ -3626,6 +3673,10 @@ FSP Configuration
         IP Helper Thread Priority: 3
         ARP cache storage units: Bytes
             ARP cache size (in storage units): 520
+        Extended Network Interface: IPv4 Address: 192.168.10.2
+        Extended Network Interface: Subnet Mask: 255.255.255.0
+        Extended Network Interface: IPv6 Global Address: 2001:0:0:0:0:0:0:2
+        Extended Network Interface: IPv6 Link Local Address (All zeros means use MAC address): 0:0:0:0:0:0:0:0
         
         Instance "g_packet_pool0 Azure RTOS NetX Duo Packet Pool Instance"
           Name: g_packet_pool0
@@ -3675,6 +3726,7 @@ FSP Configuration
               Ports: CPU: Forwarding: 
               Ports: Port 0: IPV queues for preemptable frames: 
               Ports: Port 1: IPV queues for preemptable frames: 
+              Ts Description Length: 8
               Ports: Port 0: Minimum fragment size of preemptable frames: 64 bytes
               Ports: Port 1: Minimum fragment size of preemptable frames: 64 bytes
               Ports: Port 0: MAC address: 74:90:50:65:81:70
@@ -3848,6 +3900,11 @@ FSP Configuration
               Timing Settings: Chip Select: Command Interval: 2 cycles
               Timing Settings: Chip Select: Assertion Extension: No extension
               Timing Settings: Chip Select: Negation Extension: No extension
+              Timing Settings: In-Band Reset Pattern: Repeat Count: 4 times
+              Timing Settings: In-Band Reset Pattern: Width: 16 cycles
+              Timing Settings: In-Band Reset Pattern: SIO Setup Time: 1 cycle
+              Timing Settings: Reset Pin Hold Time: 1
+              Timing Settings: Reset Recovery Time: 1
               Timing Settings: DS Latching Delay: Auto-calibrate
               Timing Settings: SDR: Drive Timing: Drive 1/2 cycle before CK
               Timing Settings: SDR: CK Sampling Edge: Falling edge
@@ -3889,7 +3946,7 @@ FSP Configuration
   Thread "Terminal Thread"
     Symbol: terminal_thread
     Name: Terminal Thread
-    Stack size (bytes): 1024
+    Stack size (bytes): 2048
     Priority: 1
     Auto start: Enabled
     Time slicing interval (ticks): 1

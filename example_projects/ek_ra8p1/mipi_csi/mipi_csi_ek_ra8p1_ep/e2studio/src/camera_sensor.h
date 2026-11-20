@@ -1,12 +1,12 @@
 /***********************************************************************************************************************
  * File Name    : camera_sensor.h
- * Description  : Contains macros, data structures and functions used setup camera sensors.
+ * Description  : Contains macros, variables, data structures, and functions used in camera_sensor.c.
  **********************************************************************************************************************/
 /***********************************************************************************************************************
-* Copyright (c) 2025 Renesas Electronics Corporation and/or its affiliates
-*
-* SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
+ * Copyright (c) 2025 - 2026 Renesas Electronics Corporation and/or its affiliates
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ **********************************************************************************************************************/
 
 #ifndef CAMERA_SENSOR_H_
 #define CAMERA_SENSOR_H_
@@ -14,14 +14,19 @@
 #include "user_config.h"
 #include "i2c_control.h"
 
+/* Macro for special markers used in camera register configuration tables */
 #define CONFIG_TABLE_END_DETECT     (0xFFFF)
-#define REQUEST_SOFTWARE_WAIT       (0xAAAA) /* Please ensure if this value is not listed in command list of your camera. */
 
+/* Macro for software delay entry in a camera register configuration table */
+#define REQUEST_SOFTWARE_WAIT       (0xAAAA)
+
+/* Macros for camera system control register */
 #define SYS_CTRL0_REG               (0x3008)
 #define SYS_CTRL0_SW_PWDN           (0x42)
 #define SYS_CTRL0_SW_PWUP           (0x02)
 #define SYS_CTRL0_SW_RST            (0x82)
 
+/* Macros for camera system initialization register */
 #define SYS_RESET00_REG             (0x3000)
 #define SYS_RESET02_REG             (0x3002)
 #define SYS_CLK_ENABLE00_REG        (0x3004)
@@ -31,11 +36,12 @@
 #define SCCB_SYS_CTRL1_REG          (0x3103)
 #define TIMING_TC_REG20_REG         (0x3820)
 #define TIMING_TC_REG21_REG         (0x3821)
-#define HZ5060_CTRL00_REG           (0x3c00)
-#define HZ5060_CTRL01_REG           (0x3c01)
+#define HZ5060_CTRL00_REG           (0x3C00)
+#define HZ5060_CTRL01_REG           (0x3C01)
 #define ISP_CTRL01_REG              (0x5001)
-#define PRE_ISP_TEST_SET1           (0x503d)
+#define PRE_ISP_TEST_SET1           (0x503D)
 
+/* Macros for camera PLL and clock control register */
 #define SC_PLL_CTRL0_REG            (0x3034)
 #define SC_PLL_CTRL1_REG            (0x3035)
 #define SC_PLL_CTRL2_REG            (0x3036)
@@ -43,6 +49,7 @@
 #define SYS_ROOT_DIV_REG            (0x3108)
 #define PCLK_PERIOD_REG             (0x4837)
 
+/* Macros for AEC register */
 #define AEC_REAL_GAIN_H_REG         (0x350a)
 #define AEC_REAL_GAIN_L_REG         (0x350b)
 #define AEC_PK_MANUAL_REG           (0x3503)
@@ -53,16 +60,20 @@
 #define AEC_CTRL1E_REG              (0x3a1e)
 #define AEC_CTRL1F_REG              (0x3a1f)
 
+/* Macros for BLC register */
 #define BLC_CTRL01_REG              (0x4001)
 #define BLC_CTRL04_REG              (0x4004)
 #define BLC_CTRL05_REG              (0x4005)
 
+/* Macros for Image format control register */
 #define FMT_CTRL00_REG              (0x4300)
 #define FMT_MUX_CTRL_REG            (0x501f)
 
+/* Macros for pixel clock and FIFO control register */
 #define VFIFO_CTRL0C_REG            (0x460C)
 #define PCLK_DIV_REG                (0x3824)
 
+/* Macros for AWB control register */
 #define AWB_CTRL00_REG              (0x5180)
 #define AWB_CTRL01_REG              (0x5181)
 #define AWB_CTRL02_REG              (0x5182)
@@ -78,6 +89,7 @@
 #define AWB_CTRL23_REG              (0x5197)
 #define AWB_CTRL30_REG              (0x519e)
 
+/* Macros for Manual Auto White Balance gain register */
 #define AWB_MAN_CTRL                (0x3406)
 #define AWB_R_GAIN_H                (0x3400)
 #define AWB_R_GAIN_L                (0x3401)
@@ -86,6 +98,7 @@
 #define AWB_B_GAIN_H                (0x3404)
 #define AWB_B_GAIN_L                (0x3405)
 
+/* Macros for Timing control register */
 #define TIMING_X_INC                (0x3814)
 #define TIMING_Y_INC                (0x3815)
 #define TIMING_VS                   (0x3803)
@@ -98,6 +111,7 @@
 #define TIMING_VTS_H                (0x380e)
 #define TIMING_VTS_L                (0x380f)
 
+/* Macros for SDE register */
 #define SDE_CTRL0_REG               (0x5580)
 #define SDE_CTRL1_REG               (0x5581)
 #define SDE_CTRL2_REG               (0x5582)
@@ -111,65 +125,76 @@
 #define SDE_CTRL10_REG              (0x558a)
 #define SDE_CTRL11_REG              (0x558b)
 
+/* Macro for default MIPI virtual channel */
 #define DEFAULT_MIPI_CHANNEL        (0)
 
-/* Camera Register Value */
-typedef struct camera_sensor_reg {
-    uint16_t reg;
-    uint8_t val;
-} sensor_reg_t;
+/* Camera registers, information is in the DS */
+#define REG_CAM_I2C_SLAVE_ADDR      (0x3C)
+#define REG_CAM_RESET_ADDRESS       (0x3008)
+#define REG_CAM_RESET_VALUE         (0x80)
 
-/* Camera Power State */
+/* Macro for camera reset pin */
+#if defined (BOARD_RA8P1_EK)
+#define PIN_CAM_RESET               (BSP_IO_PORT_07_PIN_09)
+#endif /* BOARD_RA8P1_EK */
+
+/* Macros for camera test pattern */
+#define MATCH_RATE_MIN              (99.0F)
+#define MATCH_RATE_STRING_LEN_MAX   (10U)
+
+/* Macro for camera input image size */
+#define CAMERA_IMAGE_WIDTH          (1024U)
+#define CAMERA_IMAGE_HEIGHT         (600U)
+
+/* Macros for camera clock configuration */
+#define MIPI_XCLK_HZ                (24000000U)
+#define PCLK_MAX_HZ                 (96000000U)
+
+/* OV5640 reset pin is active low */
+#define CAMERA_RST_PIN_SET(x)       ({\
+                                    do {\
+                                    R_BSP_PinAccessEnable();\
+                                    R_BSP_PinWrite(PIN_CAM_RESET, (x));\
+                                    R_BSP_PinAccessDisable();\
+                                    } while (0);\
+                                    })
+
+/* Enumerate for image resolution */
 typedef enum
 {
-    CAM_POWER_ON     = BSP_IO_LEVEL_LOW,
-    CAM_POWER_OFF    = BSP_IO_LEVEL_HIGH,
-} camera_power_t;
-
-/* Camera registers, information is in the DS */
-#define REG_CAM_I2C_SLAVE_ADDR               (0x3C)
-#define REG_CAM_RESET_ADDRESS                (0x3008)
-#define REG_CAM_RESET_VALUE                  (0x80)
-
-#if(defined BOARD_RA8P1_EK)
-#define PIN_CAM_RESET                        (BSP_IO_PORT_07_PIN_09)
-#endif
-
-/* Camera test pattern */
-#define MATCH_RATE_MIN                       (99.0F)
-#define MATCH_RATE_STRING_LEN_MAX            (10U)
-
-/* OV5640 Power-down pin is active LOW */
-#define CAMERA_RST_PIN_SET(x) do{ \
-    R_BSP_PinAccessEnable();  \
-    R_BSP_PinWrite(PIN_CAM_RESET, x);  \
-    R_BSP_PinAccessDisable(); \
-}while(0)
-
-/* MACRO for image resolution */
-typedef enum {
     RES_1024x600 = 1,
     RES_VGA,
     RES_QVGA,
     RES_MAX
-}e_image_resolution;
+} image_resolution_t;
 
-typedef struct {
+/* Structure for camera resolution configuration */
+typedef struct
+{
     uint16_t width;
     uint16_t height;
 } camera_config_t;
 
-/* Camera input image size */
-#define CAMERA_IMAGE_WIDTH          (1024U)
-#define CAMERA_IMAGE_HEIGHT         (600U)
+/* Structure for camera register configuration entry */
+typedef struct camera_sensor_reg
+{
+    uint16_t reg;
+    uint8_t val;
+} sensor_reg_t;
 
-#define MIPI_XCLK_HZ                (24000000)
-#define PLCK_MAX_HZ                 (96000000)
+/* Extern variables - Defined in camera_sensor.c */
+extern sensor_reg_t live_camera[];
+extern sensor_reg_t color_bar_test_pattern[];
+extern const uint32_t g_test_pattern_color_one_line_1024x600[];
+extern const uint32_t g_test_pattern_color_one_line_vga[];
+extern const uint32_t g_test_pattern_color_one_line_qvga[];
+extern const camera_config_t g_camera_profiles[RES_MAX];
 
-/* Functions declarations */
-fsp_err_t camera_open (void);
+/* Function declarations */
+fsp_err_t camera_open(void);
 fsp_err_t camera_stream_on(void);
 fsp_err_t camera_stream_off(void);
-fsp_err_t camera_write_array (sensor_reg_t const * p_array);
+fsp_err_t camera_write_array(sensor_reg_t const * p_array);
+void camera_deinit(void);
 
 #endif /* CAMERA_SENSOR_H_ */

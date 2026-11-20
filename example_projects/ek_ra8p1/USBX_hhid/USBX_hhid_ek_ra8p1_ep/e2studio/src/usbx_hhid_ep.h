@@ -1,12 +1,12 @@
 /***********************************************************************************************************************
 * File Name    : usbx_hhid_ep.h
-* Description  : Contains data structures and functions used in usbx_hhid_ep.h.
+* Description  : Contains macros, data structures and functions used in usbx_hhid_ep.h.
 ***********************************************************************************************************************/
 /***********************************************************************************************************************
-* Copyright (c) 2020 - 2025 Renesas Electronics Corporation and/or its affiliates
-*
-* SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
+ * Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ **********************************************************************************************************************/
 
 #ifndef USBX_HHID_EP_H_
 #define USBX_HHID_EP_H_
@@ -18,42 +18,50 @@
 #include "ux_host_class_hid_mouse.h"
 #include "hhid_thread.h"
 
-/* To display EP info on the RTT Viewer */
-#define EP_INFO        "\r\nThis example project demonstrates basic functionalities of USBX Host Human Interface"\
-                       "\r\nDevice module on Renesas RA MCUs based on Renesas FSP using Azure RTOS."\
-                       "\r\nA wired keyboard or mouse will be enumerated by the RA MCU, which is configured as"\
-                       "\r\nUSBX HHID. Upon connecting the keyboard or the mouse, the user can press a key on the"\
-                       "\r\nkeyboard, move and press the mouse. The keyboard character, mouse coordinates (x and y),"\
-                       "\r\nmouse button pressed (left, right), error and information messages will be displayed"\
-                       "\r\non the J-Link RTT Viewer.\r\n"\
+/* Macro for the reset value */
+#define RESET_VALUE                 (0x00)
 
-/* Macros to print info, error and trap the error */
-#define PRINT_INFO_STR(str)  ({app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_INFO_STR, sizeof(str), (str));})
-#define PRINT_ERR_STR(str)   ({app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_ERR_STR, sizeof(str), (str));})
-#define ERROR_TRAP(err)      ({app_rtt_print_data(RTT_OUTPUT_MESSAGE_APP_ERR_TRAP, sizeof(UINT *), &(err));})
+/* Macro for the null char */
+#define NULL_CHAR                   ('\0')
 
+/* Macro for memory pool size */
 #if defined BOARD_RA4L1_EK
-#define     MEMPOOL_SIZE               (32768)    /* Memory pool size */
+#define MEMPOOL_SIZE               (32768U)
 #else
-#define     MEMPOOL_SIZE               (63488)    /* Memory pool size */
-#endif
-#define     DEVICE_INSERTION           (0x01U)    /* Device inserted */
-#define     DEVICE_REMOVAL             (0x02U)    /* Device removed */
-#define     EVENT_USB_PLUG_IN          (1UL << 0) /* Event plugged in */
-#define     EVENT_USB_PLUG_OUT         (1UL << 1) /* Event plugged out */
-#define     UX_NO_KEY_PRESS            (255)      /* No key press */
-#define     NULL_CHAR                  ('\0')     /* NULL character */
-#define     BUFF_SIZE                  (8U)       /* Keyboard buffer size */
-#define     BUFF_INDEX                 (0U)       /* Starting buffer index */
-#define     HID_CLIENT                 (0U)       /* Starting HID client buffer index */
-#define     KEY_HIGH_VAL               (127U)     /* Highest value key supported */
-#define     KEY_LOW_VAL                (32U)      /* Lowest value key supported */
-#define     TEN                        (10U)      /* Time for thread sleep */
+#define MEMPOOL_SIZE               (63488U)
+#endif /* Specific board */
+
+/* Macros for the USB plug-in/plug-out events and device insertion/removal */
+#define EVENT_USB_PLUG_IN          (1UL << 0)
+#define EVENT_USB_PLUG_OUT         (1UL << 1)
+
+/* Macros for keyboard option */
+#define KEY_HIGH_VAL               (127U)
+#define KEY_LOW_VAL                (32U)
+#define UX_NO_KEY_PRESS            (255U)
+#define BUFF_SIZE                  (8U)
 
 typedef struct st_mouse_pos
 {
-    SLONG      mouse_x_position_old;
-    SLONG      mouse_y_position_old;
-}mouse_pos_t;
+    SLONG mouse_x_pos_old;
+    SLONG mouse_y_pos_old;
+} mouse_pos_t;
+
+typedef enum e_usbx_hhid_device
+{
+    NONE = 0,
+    KEYBOARD,
+    MOUSE,
+    UNSUPPORTED
+} usbx_hhid_device_t;
+
+/* Function declarations */
+UINT usbx_hhid_init(void);
+void usbx_hhid_deinit(void);
+UINT usbx_hhid_wait_for_connection(ULONG requested_event, ULONG * actual_flags, ULONG wait_option);
+usbx_hhid_device_t usbx_hhid_device_get(void);
+UINT usbx_hhid_keyboard_key_get(uint8_t * const p_key, ULONG * const p_state);
+UINT usbx_hhid_mouse_buttons_get(ULONG * const p_buttons);
+UINT usbx_hhid_mouse_position_get(SLONG * const p_x, SLONG * const p_y);
 
 #endif /* USBX_HHID_EP_H_ */

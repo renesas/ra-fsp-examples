@@ -1,12 +1,12 @@
 /***********************************************************************************************************************
  * File Name    : g_i2c_master_guard.c
- * Description  : Contains data structures and functions used in g_i2c_master_guard.c.
+ * Description  : Contains functions used in the EP.
  **********************************************************************************************************************/
 /***********************************************************************************************************************
-* Copyright (c) 2020 - 2025 Renesas Electronics Corporation and/or its affiliates
-*
-* SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
+ * Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ **********************************************************************************************************************/
 
 #include "guard.h"
 
@@ -84,10 +84,10 @@ BSP_CMSE_NONSECURE_ENTRY fsp_err_t g_i2c_master_callback_set_guard(i2c_master_ct
                                                                    i2c_master_callback_args_t *const p_callback_memory)
 {
     /* Verify all pointers are in non-secure memory. */
-    void (*p_callback_checked)(i2c_master_callback_args_t*) = (void(*)(i2c_master_callback_args_t *))
-                                                              cmse_check_address_range((void *) p_callback,
-                                                                                       sizeof(void *),
-                                                                                       CMSE_AU_NONSECURE);
+    void(*p_callback_checked)(i2c_master_callback_args_t*) = (void(*)(i2c_master_callback_args_t *))
+                                                             cmse_check_address_range((void *) p_callback,
+                                                                                      sizeof(void *),
+                                                                                      CMSE_AU_NONSECURE);
     FSP_ASSERT(p_callback_checked != NULL);
     i2c_master_callback_args_t *const p_callback_memory_checked = cmse_check_pointed_object(p_callback_memory,
                                                                                             CMSE_AU_NONSECURE);

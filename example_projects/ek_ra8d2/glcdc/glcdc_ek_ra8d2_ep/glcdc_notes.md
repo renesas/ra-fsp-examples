@@ -1,10 +1,7 @@
 # Introduction #
-This example project demonstrates the basic functionalities of the GLCDC device driver on Renesas RA MCUs based on Renesas FSP. On successful initialization of the GLCDC module,
-the EP will read the display resolution and frame buffer set in the GLCDC module and draw color bands to cover the entire screen of external LCD connected to RA MCU.
-The user can view raw image in e2studio IDE. Errors and status information will be printed on J-Link RTT Viewer during the execution of the project.
+This example project demonstrates the basic functionalities of the GLCDC device driver on Renesas RA MCUs based on Renesas FSP. On successful initialization of the GLCDC module, the EP will read the display resolution and frame buffer set in the GLCDC module and draw color bands to cover the entire screen of external LCD connected to RA MCU. The user can view raw image in e2studio IDE. Additionally, the EP information and any failure messages will be displayed on the terminal.
 
-Please refer to the [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf) 
-for general information on example projects and [readme.txt](./readme.txt) for specifics of operation.
+Please refer to the [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf) for general information on example projects and [readme.txt](./readme.txt) for specifics of operation.
 
 ## Required Resources ##
 To build and run the GLCDC example project, the following resources are needed.
@@ -12,26 +9,40 @@ To build and run the GLCDC example project, the following resources are needed.
 ### Software ###
 * Renesas Flexible Software Package (FSP): Version 6.6.0
 * e2 studio: Version 2026-07
-* SEGGER J-Link RTT Viewer: Version 9.64
 * LLVM Embedded Toolchain for ARM: Version 22.1.0
+* Terminal Console Application: Tera Term or a similar application
 
 Refer to software requirements mentioned in [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf)
 
 ### Hardware ###
-* Supported RA boards: EK-RA6M3G, EK-RA8D1, EK-RA8E2, EK-RA8P1, EK-RA8D2
+* Supported RA boards: EK-RA6M3G, EK-RA8D1, EK-RA8E2, EK-RA8P1, EK-RA8D2, EK-RA8P1 V2.
     * 1 x Renesas RA Board.
     * 1 x Graphics Expansion Board:
         * For EK-RA6M3G, EK-RA8D1: Graphics Expansion Board (P/N: RTK7EK6M3B00001BU).
         * For EK-RA8E2: Graphics Expansion Board (P/N: RTKAPPLCDPS02001BE).
-        * For EK-RA8P1, EK-RA8D2: Graphics Expansion Board (P/N: RTKLCDPAR1S00001BE).
-    * 1 x Type-C USB cable.
+        * For EK-RA8P1, EK-RA8D2, EK-RA8P1 V2: Graphics Expansion Board (P/N: RTKLCDPAR1S00001BE).
+    * 1 x USB cable for programming and debugging (USB cable type varies by board model).
     * For EK-RA8D1: 1 x Renesas APP-LCD-CONV1 board or jumper wires used to connect Graphics Expansion Board to the RA board.
 
 Refer to [readme.txt](./readme.txt) for information on how to connect the hardware.
 
 ### Hardware Connection ###
-For EK-RA8D1: When using jumper wires to connect Graphic Expansion Board to RA board manually instead of using APP-LCD-CONV1 board.  
-Please connect EK-RA8D1's pin to Graphics Expansion Board's pin by following the below table. 
+* Connect the RA board USB debug port to the host PC using the appropriate USB cable for EP programming and debugging.
+* For EK-RA6M3G:
+	* Connect Graphics Expansion Board to J1 of the RA board. Please refer to section 8.1 in EK-RA6M3G - User Manual https://www.renesas.com/us/en/document/mat/ek-ra6m3g-v1-users-manual?r=1168091
+* For EK-RA8D1:
+	* Set the configuration switches (SW1) as below to avoid potential failures.
+		| SW1-1 PMOD1 | SW1-2 TRACE | SW1-3 CAMERA | SW1-4 ETHA | SW1-5 ETHB | SW1-6 GLCD | SW1-7 SDRAM | SW1-8 I3C |
+		|-------------|-------------|--------------|------------|------------|------------|-------------|-----------|
+		|     OFF     |     OFF     |      OFF     |     OFF    |     OFF    |     ON     |     ON      |    OFF    |
+
+	* If the user uses Renesas APP-LCD-CONV1 board:
+		* Connect Graphics Expansion Board to APP-LCD-CONV1.
+		* Connect APP-LCD-CONV1 Board to J57.
+
+	* If the user does not have Renesas APP-LCD-CONV1 board:
+		* The user can use Jumper wires to connect Graphic Expansion Board to EK-RA8D1 board manually.
+		* When using jumper wires to connect Graphic Expansion Board to RA board manually instead of using APP-LCD-CONV1 board. Please connect EK-RA8D1's pin to Graphics Expansion Board's pin by following the below table.
 
 |                  |  EK-RA6M3's LCD Board   |               | ------- |                  | EK-RA8D1 Board           |                  |
 | ---------------- | ----------------------- | ------------- | ------- |----------------- | ------------------------ | ---------------- |
@@ -80,11 +91,21 @@ Please connect EK-RA8D1's pin to Graphics Expansion Board's pin by following the
 
 **Note:** If the user wants to use the "Touch function" on the Graphic Expansion Board, the user needs to add a 10K resistor from pin 38 to GND on CN1.
 
+* For EK-RA8E2:
+	* Connect J1 on Graphics Expansion Board to J1 of the RA board. Please carefully align pin 2 on the Graphic Expansion Board with pin 1 on J1 of the RA board.
+
+* For EK-RA8P1, EK-RA8D2, EK-RA8P1 V2:
+	* Connect J1 on Graphics Expansion Board to J1 of the RA board. Please carefully align pin 1 on the Graphic Expansion Board with pin 1 on J1 of the RA board.
+	* For EK-RA8P1 V2:
+		* The user must set the configuration switches (SW6) as below to use the on-board debug functionality.
+		  | SW6-1 | SW6-2 | SW6-3 | SW6-4 | SW6-5 | SW6-6 | SW6-7 | SW6-8 | SW6-9 | SW6-10 |
+		  |-------|-------|-------|-------|-------|-------|-------|-------|-------|--------|
+		  |  OFF  |  OFF  |  OFF  |  OFF  |  ON   |  OFF  |  ON   |  ON   |  ON   |   ON   |
+
 ## Related Collateral References ##
-The following documents can be referred to for enhancing your understanding of 
-the operation of this example project:
-- [FSP User Manual on GitHub](https://renesas.github.io/fsp/)
-- [FSP Known Issues](https://github.com/renesas/fsp/issues)
+The following documents can be referred to for enhancing your understanding of the operation of this example project:
+* [FSP User Manual on GitHub](https://renesas.github.io/fsp/)
+* [FSP Known Issues](https://github.com/renesas/fsp/issues)
 
 # Project Notes #
 
@@ -96,42 +117,41 @@ List all the various modules that are used in this example project. Refer to the
 
 | Module Name | Usage  | Searchable Keyword (using New Stack > Search) |
 |-------------|-----------------------------------------------|-----------------------------------------------|
-| Graphics LCD | With GLCDC driver, the user can reposition, alpha blend, color correct, dither and convert to and from a wide variety of pixel formats.| GLCD |
+| Graphics LCD | With GLCDC driver, the user can reposition, alpha blend, color correct, dither and convert to and from a wide variety of pixel formats. | GLCD |
 
 ## Module Configuration Notes ##
-This section describes FSP Configurator properties that are important or different from those selected by default. 
-
+This section describes FSP Configurator properties that are important or different from those selected by default.  
+**Note: The configuration shown in this document is based on the original target board (e.g., EK-RA8D2). Some settings may differ on other supported boards due to hardware differences.**  
 |   Module Property Path and Identifier   |   Default Value   |   Used Value   |   Reason   |
 | :-------------------------------------: | :---------------: | :------------: | :--------: |
-|   configuration.xml > BSP > Properties > Settings > Property > RA Common > Main Stack Size (bytes)  |  0x400   | 0x800  |  Modified main stack size to accommodate function calls. |
-|   configuration.xml > BSP > Properties > Settings > Property > RA Common > Heap Size (bytes)  |  0   | 0x400  |  Changed heap size to accommodate functions usage in the EP and avoid any runtime errors. |
-|   configuration.xml > Stacks > g_display Graphics LCD (r_glcdc) > Properties > Settings > Property > Module g_display Graphics LCD (r_glcdc)  >  Input > Graphics Layer 1  > General > Enabled | Yes | Yes | Enabling this option to create framebuffer that is required for color band display. |
-|   configuration.xml > Stacks > g_display Graphics LCD (r_glcdc) > Properties > Settings > Property > Module g_display Graphics LCD (r_glcdc) >  Input > Graphics Layer 1  > General > Horizontal size | 480 | 1024 | Horizontal pixel value of LCD used is 1024. |
-|   configuration.xml > Stacks > g_display Graphics LCD (r_glcdc) > Properties > Settings > Property > Module g_display Graphics LCD (r_glcdc) >  Input > Graphics Layer 1  > General > Vertical size | 272 | 600 | Vertical pixel value of LCD used is 600. |
-|   configuration.xml > Stacks > g_display Graphics LCD (r_glcdc) > Properties > Settings > Property > Module g_display Graphics LCD (r_glcdc)  >  Input > Graphics Layer 1  > General > Color format | RGB565 (16-bit) | RGB888 (32-bit) | Specify 32bit Color format input. |
-|   configuration.xml > Stacks > g_display Graphics LCD (r_glcdc) > Properties > Settings > Property > Module g_display Graphics LCD (r_glcdc)  >  Input > Graphics Layer 1  > Framebuffer > Number of framebuffers | 2 | 2 | Using a double-buffer allows one to be output to the LCD while the other is being drawn to memory, eliminating tearing and in some cases reducing bus load. Even though this example does not demonstrate this effect, this is an example of a typical graphics application setting. |
-|   configuration.xml > Stacks > g_display Graphics LCD (r_glcdc) > Properties > Settings > Property > Module g_display Graphics LCD (r_glcdc) > Input > Graphics Layer 1  > Framebuffer > Section for framebuffer allocation | .sdram_noinit | .sdram_noinit | Use sdram instead of bss to prevent RAM overflow. |
-|   configuration.xml > Stacks > g_display Graphics LCD (r_glcdc) > Properties > Settings > Property > Module g_display Graphics LCD (r_glcdc) >  Output > Timing  > Horizontal total cycles  |   525   |   1344  |   Typical value for horizontal period time for parallel RGB input as per LCD datasheet.  |
-|   configuration.xml > Stacks > g_display Graphics LCD (r_glcdc) > Properties > Settings > Property > Module g_display Graphics LCD (r_glcdc) >  Output > Timing  > Horizontal active video cycles  |   480   |   1024  |  Horizontal display area per LCD datasheet. |
-|   configuration.xml > Stacks > g_display Graphics LCD (r_glcdc) > Properties > Settings > Property > Module g_display Graphics LCD (r_glcdc)  >  Output > Timing  > Horizontal back porch cycles  |   40   |   140  |   Typical value of number of HSD back porch cycles for parallel RGB input as per LCD datasheet. |
-|   configuration.xml > Stacks > g_display Graphics LCD (r_glcdc) > Properties > Settings > Property > Module g_display Graphics LCD (r_glcdc)  >  Output > Timing  > Horizontal sync signal cycles |   1   |   1  |   Typical value of number of Hsync signal assertion cycles. |
-|   configuration.xml > Stacks > g_display Graphics LCD (r_glcdc) > Properties > Settings > Property > Module g_display Graphics LCD (r_glcdc)  >  Output > Timing  > Horizontal sync signal polarity |   Low active   |   Low active  |   Hsync polarity is active low as per LCD datasheet. |
-|   configuration.xml > Stacks > g_display Graphics LCD (r_glcdc) > Properties > Settings > Property > Module g_display Graphics LCD (r_glcdc)  >  Output > Timing  > Vertical total lines |   316   |   635  |   Typical value of total lines in a frame. |
-|   configuration.xml > Stacks > g_display Graphics LCD (r_glcdc) > Properties > Settings > Property > Module g_display Graphics LCD (r_glcdc)  >  Output > Timing  > Vertical active video lines |   272   |   600  |   Vertical display area per LCD datasheet. |
-|   configuration.xml > Stacks > g_display Graphics LCD (r_glcdc) > Properties > Settings > Property > Module g_display Graphics LCD (r_glcdc)  >  Output > Timing > Vertical back porch lines |   8   |   20  |  Typical value of number of VSD back porch cycles for parallel RGB input as per LCD datasheet. |
-|   configuration.xml > Stacks > g_display Graphics LCD (r_glcdc) > Properties > Settings > Property > Module g_display Graphics LCD (r_glcdc)  >  Output > Timing > Vertical sync signal lines |   1   |   1  | Typical value of Vsync signal assertion line. |
-|   configuration.xml > Stacks > g_display Graphics LCD (r_glcdc) > Properties > Settings > Property > Module g_display Graphics LCD (r_glcdc)  >  Output > Timing > Vertical sync signal polarity |  Low active | Low active | VSD polarity control bit is low active by default as per LCD datasheet. |
-|   configuration.xml > Stacks > g_display Graphics LCD (r_glcdc) > Properties > Settings > Property > Module g_display Graphics LCD (r_glcdc)  >  Output > Timing > Data Enable Signal Polarity | High active | High active | DE polarity is active high by default as per LCD datasheet. |
-|   configuration.xml > Stacks > g_display Graphics LCD (r_glcdc) > Properties > Settings > Property > Module g_display Graphics LCD (r_glcdc)  >  Output > Timing > Sync edge | Rising edge | Falling edge | Sync signal is rising edge for LCD. |
-|   configuration.xml > Stacks > g_display Graphics LCD (r_glcdc) > Properties > Settings > Property > Module g_display Graphics LCD (r_glcdc) > Output  > Format > Color format | 24bits RGB888 | 24bits RGB888 | Specify 24 bits Color format output to match LCD panel. |
-|   configuration.xml > Stacks > g_display Graphics LCD (r_glcdc) > Properties > Settings > Property > Module g_display Graphics LCD (r_glcdc)  >  TCON > Hsync pin select | LCD_TCON1 | LCD_TCON1 | LCD_TCON1 is selected as the respective pin is Hsync pin for the board. |
-|   configuration.xml > Stacks > g_display Graphics LCD (r_glcdc) > Properties > Settings > Property > Module g_display Graphics LCD (r_glcdc)  >  TCON > Vsync pin select | LCD_TCON0 | LCD_TCON0 | LCD_TCON0 is selected as the respective pin is Vsync pin for the board. |
-|   configuration.xml > Stacks > g_display Graphics LCD (r_glcdc) > Properties > Settings > Property > Module g_display Graphics LCD (r_glcdc)  >  TCON > Data enable (DE) pin select | LCD_TCON2 | LCD_TCON2 | LCD_TCON2 is selected as the respective pin id DE pin for the board. |
-|   configuration.xml > Stacks > g_display Graphics LCD (r_glcdc) > Properties > Settings > Property > Module g_display Graphics LCD (r_glcdc)  >  TCON > Panel clock source | Internal clock (GLCDCCLK) | Internal clock (GLCDCCLK) | Internal clock GLCDCCLK is selected. |
-|   configuration.xml > Stacks > g_display Graphics LCD (r_glcdc) > Properties > Settings > Property > Module g_display Graphics LCD (r_glcdc)  >  TCON > Panel clock division ratio | 1/24 | 1/8 | Divider selection for generation of required specific frequency to the panel. |
+| configuration.xml > BSP > Properties > Settings > Property > RA Common > Main stack size (bytes) | 0x400 | 0x800 | Modified main stack size to accommodate function calls. |
+| configuration.xml > BSP > Properties > Settings > Property > RA Common > Heap size (bytes) | 0 | 0x400 | Changed heap size to accommodate functions usage in the EP and avoid any runtime errors. |
+| configuration.xml > Stacks > g_display Graphics LCD (r_glcdc) > Properties > Settings > Property > Module g_display Graphics LCD (r_glcdc) > Input > Graphics Layer 1 > General > Enabled | Yes | Yes | Enabling this option to create framebuffer that is required for color band display. |
+| configuration.xml > Stacks > g_display Graphics LCD (r_glcdc) > Properties > Settings > Property > Module g_display Graphics LCD (r_glcdc) > Input > Graphics Layer 1 > General > Horizontal size | 480 | 1024 | Horizontal pixel value of LCD used is 1024. |
+| configuration.xml > Stacks > g_display Graphics LCD (r_glcdc) > Properties > Settings > Property > Module g_display Graphics LCD (r_glcdc) > Input > Graphics Layer 1 > General > Vertical size | 272 | 600 | Vertical pixel value of LCD used is 600. |
+| configuration.xml > Stacks > g_display Graphics LCD (r_glcdc) > Properties > Settings > Property > Module g_display Graphics LCD (r_glcdc) > Input > Graphics Layer 1 > General > Color format | RGB565 (16-bit) | RGB888 (32-bit) | Specify 32bit Color format input. |
+| configuration.xml > Stacks > g_display Graphics LCD (r_glcdc) > Properties > Settings > Property > Module g_display Graphics LCD (r_glcdc) > Input > Graphics Layer 1 > Framebuffer > Number of framebuffers | 2 | 2 | Using a double-buffer allows one to be output to the LCD while the other is being drawn to memory, eliminating tearing and in some cases reducing bus load. Even though this example does not demonstrate this effect, this is an example of a typical graphics application setting. |
+| configuration.xml > Stacks > g_display Graphics LCD (r_glcdc) > Properties > Settings > Property > Module g_display Graphics LCD (r_glcdc) > Input > Graphics Layer 1 > Framebuffer > Section for framebuffer allocation | .sdram_noinit | .sdram_noinit | Use sdram instead of bss to prevent RAM overflow. |
+| configuration.xml > Stacks > g_display Graphics LCD (r_glcdc) > Properties > Settings > Property > Module g_display Graphics LCD (r_glcdc) > Output > Timing > Horizontal total cycles | 525 | 1344 | Typical value for horizontal period time for parallel RGB input as per LCD datasheet. |
+| configuration.xml > Stacks > g_display Graphics LCD (r_glcdc) > Properties > Settings > Property > Module g_display Graphics LCD (r_glcdc) > Output > Timing > Horizontal active video cycles | 480 | 1024 | Horizontal display area per LCD datasheet. |
+| configuration.xml > Stacks > g_display Graphics LCD (r_glcdc) > Properties > Settings > Property > Module g_display Graphics LCD (r_glcdc) > Output > Timing > Horizontal back porch cycles | 40 | 140 | Typical value of number of HSD back porch cycles for parallel RGB input as per LCD datasheet. |
+| configuration.xml > Stacks > g_display Graphics LCD (r_glcdc) > Properties > Settings > Property > Module g_display Graphics LCD (r_glcdc) > Output > Timing > Horizontal sync signal cycles | 1 | 1 | Typical value of number of Hsync signal assertion cycles. |
+| configuration.xml > Stacks > g_display Graphics LCD (r_glcdc) > Properties > Settings > Property > Module g_display Graphics LCD (r_glcdc) > Output > Timing > Horizontal sync signal polarity | Low active | Low active |  Hsync polarity is active low as per LCD datasheet. |
+| configuration.xml > Stacks > g_display Graphics LCD (r_glcdc) > Properties > Settings > Property > Module g_display Graphics LCD (r_glcdc) > Output > Timing > Vertical total lines | 316 | 635 | Typical value of total lines in a frame. |
+| configuration.xml > Stacks > g_display Graphics LCD (r_glcdc) > Properties > Settings > Property > Module g_display Graphics LCD (r_glcdc) > Output > Timing > Vertical active video lines | 272 | 600 | Vertical display area per LCD datasheet. |
+| configuration.xml > Stacks > g_display Graphics LCD (r_glcdc) > Properties > Settings > Property > Module g_display Graphics LCD (r_glcdc) > Output > Timing > Vertical back porch lines | 8 | 20 | Typical value of number of VSD back porch cycles for parallel RGB input as per LCD datasheet. |
+| configuration.xml > Stacks > g_display Graphics LCD (r_glcdc) > Properties > Settings > Property > Module g_display Graphics LCD (r_glcdc) > Output > Timing > Vertical sync signal lines | 3 | 1 | Typical value of Vsync signal assertion line. |
+| configuration.xml > Stacks > g_display Graphics LCD (r_glcdc) > Properties > Settings > Property > Module g_display Graphics LCD (r_glcdc) > Output > Timing > Vertical sync signal polarity | Low active | Low active | VSD polarity control bit is low active by default as per LCD datasheet. |
+| configuration.xml > Stacks > g_display Graphics LCD (r_glcdc) > Properties > Settings > Property > Module g_display Graphics LCD (r_glcdc) > Output > Timing > Data Enable Signal Polarity | High active | High active | DE polarity is active high by default as per LCD datasheet. |
+| configuration.xml > Stacks > g_display Graphics LCD (r_glcdc) > Properties > Settings > Property > Module g_display Graphics LCD (r_glcdc) > Output > Timing > Sync edge | Falling edge | Falling edge | Sync signal is falling edge for LCD. |
+| configuration.xml > Stacks > g_display Graphics LCD (r_glcdc) > Properties > Settings > Property > Module g_display Graphics LCD (r_glcdc) > Output > Format > Color format | 24bits RGB888 | 24bits RGB888 | Specify 24 bits Color format output to match LCD panel. |
+| configuration.xml > Stacks > g_display Graphics LCD (r_glcdc) > Properties > Settings > Property > Module g_display Graphics LCD (r_glcdc) > TCON > Hsync pin select | LCD_TCON1 | LCD_TCON1 | LCD_TCON1 is selected as the respective pin is Hsync pin for the board. |
+| configuration.xml > Stacks > g_display Graphics LCD (r_glcdc) > Properties > Settings > Property > Module g_display Graphics LCD (r_glcdc) > TCON > Vsync pin select | LCD_TCON0 | LCD_TCON0 | LCD_TCON0 is selected as the respective pin is Vsync pin for the board. |
+| configuration.xml > Stacks > g_display Graphics LCD (r_glcdc) > Properties > Settings > Property > Module g_display Graphics LCD (r_glcdc) > TCON > Data enable (DE) pin select | LCD_TCON2 | LCD_TCON2 | LCD_TCON2 is selected as the respective pin id DE pin for the board. |
+| configuration.xml > Stacks > g_display Graphics LCD (r_glcdc) > Properties > Settings > Property > Module g_display Graphics LCD (r_glcdc) > TCON > Panel clock source | Internal clock (GLCDCCLK) | Internal clock (GLCDCCLK) | Internal clock GLCDCCLK is selected. |
+| configuration.xml > Stacks > g_display Graphics LCD (r_glcdc) > Properties > Settings > Property > Module g_display Graphics LCD (r_glcdc) > TCON > Panel clock division ratio | 1/8 | 1/8 | Divider selection for generation of required specific frequency to the panel. |
 
 ## API Usage ##
-
 The table below lists the GLCDC API used at the application layer by this example project.
 
 | API Name    | Usage                                                                          |
@@ -140,40 +160,52 @@ The table below lists the GLCDC API used at the application layer by this exampl
 |R_GLCDC_Start| Start GLCDC module. |
 
 ## Verifying operation ##
-Import, build and debug the EP (see section Starting Development of **FSP User Manual**). After running the EP, open the RTT Viewer to view status or check any error messages.  
-The user can view the raw image in e2studio IDE using Memory Monitor, or view the output directly on the LCD screen.
-Before running the example project, refer to the below steps for hardware connections:
-* Connect J1 on Graphics Expansion Board to J1 on EK-RA8D2. Please carefully align pin 1 on the Graphic Expansion Board with pin 1 on the EK-RA8D2.
-* Connect the USB Debug port on EK-RA8D2 to the PC using a Type-C USB cable.
+* Import, build, and debug the EP (see section Starting Development of [FSP User Manual](https://renesas.github.io/fsp/)). Before running the EP, make sure the hardware connections are set up properly as described in the [Hardware Connection](#hardware-connections) section.  
+* After running the EP, open a serial terminal application (e.g., Tera Term) to view output log, configure the settings as shown below:
+    * To make sure the received data shows properly, the user needs to set:
+	    * [Setup] -> [Terminal...] -> [New-line] -> Select [Receive: CR] & [Transmit: CR].
 
-The below image showcases the output on J-Link RTT Viewer:  
-![glcdc_log_](images/rtt_log.jpg "RTT LOG")
+    * To echo back characters typed in Tera Term, the user needs to enable it through:
+	    * [Setup] -> [Terminal...] -> Check [Local echo].
 
-The below image showcases the output on Graphic LCD:  
+    * The configuration parameters of the serial port on the serial terminal application:
+	    * Port: The port is provided by the J-Link On-Board.
+	    * Speed: 115200
+	    * Data: 8 bit
+	    * Parity: none
+	    * Stop bits: 1 bit
+	    * Flow control: none
+
+* The user can view the raw image in e2studio IDE using Memory Monitor, or view the output directly on the LCD screen.
+
+The below image showcases the output on the serial terminal application:  
+![glcdc_terminal_log](images/glcdc_terminal_log.jpg "Terminal log")
+
+The image below showcases the output on Graphic LCD:  
 ![glcdc_raw_image_ra8](images/glcdc_raw_image_graphic_lcd.jpg "GLCDC graphic image")
 
-To view the "Raw Image" in memory monitor of the e2studio IDE using the address of g_framebuffer please follow step as below:  
-- On Debug the project EP by e2studio IDE, open memory view.
+* To view the "Raw Image" in memory monitor of the e2studio IDE using the address of g_framebuffer please follow step as below:  
+* On Debug the project EP by e2studio IDE, open memory view.
 
 ![open_memory_view](images/memory_view_step1.jpg "Open Memory View")
 
-- Add image buffer under memory monitor.
+* Add image buffer under memory monitor.
 
 ![add_buffer](images/memory_view_step2.jpg "Add Buffer")
 
-- Open Raw Image Rendering 
+* Open Raw Image Rendering 
 
 ![raw_image_rendering](images/memory_view_step3.jpg "Raw Image Rendering")
-- Set Raw Image Format:
-    - Width as 1024
-    - Height as 600
-    - Encoding to RGB: 32bpp (8:8:8:8)
-    - Line alignment to 4 bytes
-    - Start Position to Top  
+* Set Raw Image Format:
+    * Width as 1024
+    * Height as 600
+    * Encoding to RGB: 32bpp (8:8:8:8)
+    * Line alignment to 4 bytes
+    * Start Position to Top  
 
 ![glcdc_resolution](images/memory_view_step4.jpg "GLCDC Resolution")
 
-The below image showcase the output in the Memory Monitor view in e2 studio:  
+The image below showcases the output in the Memory Monitor view in e2 studio:  
 ![glcdc_raw_image](images/glcdc_raw_image_op.jpg "GLCDC raw image")
 
 ## Special Topics ##
@@ -186,3 +218,4 @@ However, using the BLEN pin as a PWM output function (GPT's GTIOCA or GTIOCB) is
 | EK-RA8E2         | P404            |
 | EK-RA8P1         | P514            |
 | EK-RA8D2         | P514            |
+| EK-RA8P1 V2      | P109            |

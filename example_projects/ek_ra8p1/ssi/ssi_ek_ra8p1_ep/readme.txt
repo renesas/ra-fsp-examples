@@ -8,28 +8,31 @@
 	A sine wave is generated and continuously streamed via a loopback connection between the SSITX and SSIRX pins.
 	The sine wave data is stored in two buffers, alternating between them to ensure continuous and uninterrupted
 	streaming. The transmitted and received audio data are compared to verify the successful completion of the SSI
-	transfer. The results will be displayed on the RTT Viewer. The sample data can be observed using waveform
+	transfer. The results will be displayed on the terminal. The sample data can be observed using waveform
 	rendering in the memory viewer of e2studio.
 
 2. Software Requirements:
 	Renesas Flexible Software Package (FSP): Version 6.6.0
 	e2 studio: Version 2026-07
-	SEGGER J-Link RTT Viewer: Version 9.64
 	LLVM Embedded Toolchain for ARM: Version 22.1.0
+	Terminal Console Application: Tera Term or a similar application
 
 3. Hardware Requirements:
 	Supported RA boards: EK-RA4E2, EK-RA4L1, EK-RA4M1, EK-RA4M2, EK-RA4M3, EK-RA6E2, EK-RA6M1, EK-RA6M2, EK-RA6M3,
-			     EK-RA6M3G, EK-RA6M4, EK-RA6M5, EK-RA8D1, EK-RA8E2, EK-RA8M1, FPB-RA6E1, FPB-RA8E1, 
-			     EK-RA2L2, EK-RA8P1
+	                     EK-RA6M3G, EK-RA6M4, EK-RA6M5, EK-RA8D1, EK-RA8E2, EK-RA8M1, FPB-RA6E1, FPB-RA8E1,
+	                     EK-RA2L2, EK-RA8P1, EK-RA8D2, EK-RA8M2, FPB-RA4E2, FPB-RA6E2.
 	1 x Renesas RA Board.
-	1 x Type-C USB cable.
+	1 x USB cable for programming and debugging (USB cable type varies by board model).
 	1 x Host PC.
-	1 x Jumper wire (For EK-RA4E2, FPB-RA6E1: 2 x Jumper wires).
+	1 x Jumper wire (For EK-RA4E2, FPB-RA6E1, FPB-RA4E2: 2 x Jumper wires).
 
 4. Hardware Connections:
+	Connect the RA board USB debug port to the host PC using the appropriate USB cable for EP programming and
+	debugging.
+
 	For EK-RA4E2:
-		Connect SSITXD P301 (J2:24) <--> SSIRXD P302 (J2:23).
-		Connect GPT1 P105 (J2:34)   <--> AUDIO_CLK P100 (J2:39).
+		Connect SSITXD P301  (J2:24) <--> SSIRXD P302 (J2:23).
+		Connect GTIOC1A P105 (J2:34) <--> AUDIO_CLK P100 (J2:39).
 
 	For EK-RA4L1:
 		Connect SSITXD P405 (J2:42) <--> SSIRXD P406 (J2:38).
@@ -72,8 +75,8 @@
 		Install jumper J61 to get signal output for SSITXD pin and SSIRXD pin.
 
 	For FPB-RA6E1:
-		Connect SSITXD P405 (J3:6) <--> SSIRXD P406 (J3:7).
-		Connect GPT2 P103 (J4:22)  <--> AUDIO_CLK P402 (J3:3).
+		Connect SSITXD P405 (J3:6)   <--> SSIRXD P406 (J3:7).
+		Connect GTIOC2A P103 (J4:22) <--> AUDIO_CLK P402 (J3:3).
 
 	For FPB-RA8E1:
 		Connect SSITXD P405 (J4:14) <--> SSIRXD P406 (J4:13).
@@ -84,15 +87,36 @@
 	For EK-RA8P1:
 		Connect SSITXD P115 (J37:22) <--> SSIRXD P114 (J37:21).
 
+	For EK-RA8D2:
+		Connect SSITXD0 P115 (J37:22) <--> SSIRXD0 P114 (J37:21).
+
+	For EK-RA8M2:
+		The user must place jumper J6 on pins 2-3, J8 on pins 1-2, J9 on pins 2-3, and J29 on pins 1-2,
+		3-4, 5-6, 7-8 to use the on-board debug functionality.
+		Connect SSITXD P115 (J1:17) <--> SSIRXD P114 (J1:18).
+
+	For FPB-RA4E2:
+		Connect SSITXD0 P109 (J4:2)  <--> SSIRXD0 P110 (J4:3).
+		Connect GTIOC4A P302 (J3:27) <--> AUDIO_CLK P213 (J3:9).
+		
+	For FPB-RA6E2:
+		Connect SSITXD0 P109 (J4:2) <--> SSIRXD0 P110 (J4:3).
+
 Note:
-1) On EK-RA6M3, EK_RA6M3G boards, P403 (which is also connected to SSISCK) is connected to LED1. As a result,
+1) On EK-RA6M3, EK-RA6M3G boards, P403 (which is also connected to SSISCK) is connected to LED1. As a result,
    it will glow while running the SSI application.
 
-2) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT Viewer.
-   RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x2200046c
-   b. Keil:     Not Available
-   c. IAR:      Not Available
+2) To view output logs on a serial terminal application (e.g., Tera Term), configure the settings as shown below:
+	a. To make sure the received data shows properly, the user needs to set:
+		[Setup] -> [Terminal...] -> [New-line] -> Select [Receive: CR] & [Transmit: CR].
 
-3) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT)
-   in .map file generated in the project folder (e2studio\Debug or e2studio\Release).
+	b. To echo back characters typed in Tera Term, the user needs to enable it through:
+		[Setup] -> [Terminal...] -> Check [Local echo].
+
+	c. The configuration parameters of the serial port on the serial terminal application:
+		Port: The port is provided by the J-Link On-Board.
+		Speed: 115200
+		Data: 8 bit
+		Parity: none
+		Stop bits: 1 bit
+		Flow control: none

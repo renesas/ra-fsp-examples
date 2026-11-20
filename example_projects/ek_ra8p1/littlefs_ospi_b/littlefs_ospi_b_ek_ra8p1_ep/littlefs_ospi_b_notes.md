@@ -1,52 +1,32 @@
 # Introduction #
 This example project demonstrates basic functionalities of LittleFS for external flash (e.g., SPI, OSPI, QSPI) on RA MCU based on FSP. The project will perform various file system operations based on the user's selection from menu options, such as erase entire flash, erase 32 KB flash, format file system, directory management (create, get properties, delete), and file management (create, write, read, delete). The terminal application is used as the user interface. The menu options and system messages (errors and information messages) will be printed on the terminal application during the execution of the project.
 
-**Note:**
-- To display information, users can choose between the SEGGER J-Link RTT Viewer and the serial terminal (UART) with J-Link OB VCOM. It is important to note that the user should only operate a single terminal application at a time to avoid conflicts or data inconsistencies. 
-- For instructions on how to switch between these options, please refer to the **[Verifying Operation](#verifying-operation)** section in this file.
-- By default, EP information is printed to the host PC using the serial terminal for boards that support J-Link OB VCOM. Vice versa, for the RA boards that do not support J-Link OB VCOM, EP uses the SEGGER J-Link RTT Viewer by default instead.
-- RA boards supported for J-Link OB VCOM: EK-RA8D1, EK-RA8P1.
+In the main menu, the user selects a sub menu such as flash operations menu, directory operations menu, file operations menu.
+1. Flash operations.
+2. Directory operations.
+3. File operations.
 
-In the Main Menu, the user selects a sub menu such as Flash Operations Menu, Directory Operations Menu, File Operations Menu.
-1. Flash Operations.
-2. Directory Operations.
-3. File Operations.
+In the flash operations menu, the user selects operation to perform.
+1. Erase the entire flash.
+2. Erase the first 32 KB of the flash.
+3. Format the file system.
+4. Go back to the main menu.
 
-In the Flash Operations Menu, the user selects operation to perform.
-1. Erase the entire Flash.
-2. Erase the first 32 KB of the Flash.
-3. Format the File System.
-4. Go back to the Main Menu.
+In the directory operations menu, the user selects operation to perform.
+1. Create the directory.
+2. Get the directory properties.
+3. Delete the directory.
+4. Go back to the main menu.
 
-In the Directory Operations Menu, the user selects operation to perform.
-1. Create the Directory.
-2. Get the Directory Properties.
-3. Delete the Directory.
-4. Go back to the Main Menu.
+In the file operations menu, the user selects operation to perform.
+1. Open the file.
+2. Write to the file.
+3. Read from the file.
+4. Delete the file.
+5. Go back to the main menu.
 
-In the File Operations Menu, the user selects operation to perform.
-1. Open the File.
-2. Write to the File.
-3. Read from the File.
-4. Delete the File.
-5. Go back to the Main Menu.
-
-Please refer to the [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf) for general information on example projects and [readme.txt](./readme.txt) for specifics of operation.
-
-## Required Resources ## 
+## Required Resources ##
 The following resources are needed to build and run the littlefs_ospi_b example project.
-
-### Hardware ###
-Supported RA boards: EK-RA8D1, EK-RA8P1.
-* 1 x Renesas RA board.
-* 1 x USB cable for programming and debugging.
-
-### Hardware Connections  ###
-* Connect the USB Debug port on the RA board to the host PC via a USB cable.
-* For EK-RA8P1: Set the configuration switches (SW4) as below to avoid potential failures.
-	| SW4-1 PMOD1_SEL0 |SW4-2 PMOD1_SEL1 | SW4-3 OSPI | SW4-4 ARDUINO | SW4-5 I3C | SW4-6 MIPI | SW4-7 USBFS_ROLE | SW4-8 USBHS_ROLE |
-	|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|
-	| OFF | OFF | OFF | OFF | OFF | OFF | OFF | OFF |
 
 ### Software ###
 * Renesas Flexible Software Package (FSP): Version 6.6.0
@@ -57,17 +37,46 @@ Supported RA boards: EK-RA8D1, EK-RA8P1.
 
 Refer to the software required section in [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf)
 
+### Hardware ###
+* Supported RA board: EK-RA8D1, EK-RA8D2, EK-RA8M2, EK-RA8P1, EK-RA8T2.
+	* 1 x Renesas RA board.
+	* 1 x USB cable for programming and debugging (USB cable type varies by board model).
+
+### Hardware Connections ###
+* Connect the RA board USB debug port to the host PC using the appropriate USB cable for EP programming and debugging.
+* For EK-RA8P1: Set the configuration switches (SW4) as below to avoid potential failures.
+	| SW4-1 PMOD1_SEL0 |SW4-2 PMOD1_SEL1 | SW4-3 OSPI | SW4-4 ARDUINO | SW4-5 I3C | SW4-6 MIPI | SW4-7 USBFS_ROLE | SW4-8 USBHS_ROLE |
+	|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|
+	| OFF | OFF | OFF | OFF | OFF | OFF | OFF | OFF |
+
+* For EK-RA8D2: Set the configuration switches (SW4) as below to avoid potential failures.
+	| SW4-1 PMOD1 | SW4-2 PMOD1 | SW4-3 Octo-SPI | SW4-4 Arduino/mikroBUS | SW4-5 I3C | SW4-6 MIPI | SW4-7 USBFS | SW4-8 USBHS |
+	|:-----------:|:-----------:|:--------------:|:----------------------:|:---------:|:----------:|:-----------:|:-----------:|
+	|     OFF     |     OFF     |      OFF       |          OFF           |    OFF    |    OFF     |     OFF     |     OFF     |
+
+* For EK-RA8M2:
+	* The user must place jumper J6 on pins 2-3, J8 on pins 1-2, J9 on pins 2-3, and J29 on pins 1-2, 3-4, 5-6, 7-8 to use the on-board debug functionality.
+
+* For EK-RA8T2: The user must set the configuration switches (SW6 and SW4) as below to use the on-board debug functionality.
+	| SW6-1 | SW6-2 | SW6-3 | SW6-4 | SW6-5 | SW6-6 | SW6-7 | SW6-8 | SW6-9 | SW6-10 |
+	|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:------:|
+	|  OFF  |  OFF  |  OFF  |  OFF  |  ON   |  OFF  |  ON   |  ON   |  ON   |  ON    |
+
+	| SW4-1 | SW4-2 | SW4-3 | SW4-4 | SW4-5 | SW4-6 | SW4-7 | SW4-8 |
+	|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
+	|  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |
+
 ## Related Collateral References ##
 The following documents can be referred to for enhancing your understanding of the operation of this example project:
-- [FSP User Manual on GitHub](https://renesas.github.io/fsp/)
-- [FSP Known Issues](https://github.com/renesas/fsp/issues)
+* [FSP User Manual on GitHub](https://renesas.github.io/fsp/)
+* [FSP Known Issues](https://github.com/renesas/fsp/issues)
 
 # Project Notes #
 
 ## System Level Block Diagram ##
  High level block diagram of the system is as shown below:
  
-![littlefs_ospi_b](images/littlefs_external_flash_hld.png "High Level Block Diagram")
+![littlefs_external_flash_hld](images/littlefs_external_flash_hld.png "High Level Block Diagram")
 
 ## FSP Modules Used ##
 List all the various modules that are used in this example project. Refer to the FSP User Manual for further details on each module listed below.
@@ -87,6 +96,7 @@ List all the various modules that are used in this example project. Refer to the
 
 ## Module Configuration Notes ##
 This section describes FSP configuration properties that are important or different from those selected by default.
+**Note: The configuration shown in this document is based on the original target board (e.g., EK-RA8P1). Some settings may differ on other supported boards due to hardware differences.**
 
 **Configuration Properties for using LittleFS**
 
@@ -216,15 +226,6 @@ This section describes FSP configuration properties that are important or differ
 | configuration.xml > Clocks > Clocks Configuration | SCICLK Src: PLL2R | SCICLK Src: PLL1R | Enable operating clock for SCI module by PLL1R clock source. |
 | configuration.xml > Clocks > Clocks Configuration > SCICLK Src: PLL1R | SCICLK Div /4 | SCICLK Div /1 | Select divisor for operating clock SCICLK. |
 
-**Configuration Properties for using the serial terminal (UART)**
-
-|   Configure Interrupt Event Path        |   Default Value   |   Used Value   |   Reason   |
-|-----------------------------------------|-------------------|----------------|------------|
-| configuration.xml > Interrupts > Interrupts Configuration > New User Event > SCI > SCI8 > SCI8 RXI (Receive data full) | empty | sci_b_uart_rxi_isr | Assign the UART receive ISR (Receive data full) to the interrupt vector table. |
-| configuration.xml > Interrupts > Interrupts Configuration > New User Event > SCI > SCI8 > SCI8 TXI (Transmit data empty) | empty | sci_b_uart_txi_isr | Assign the UART transfer ISR (Transfer data empty) to the interrupt vector table. |
-| configuration.xml > Interrupts > Interrupts Configuration > New User Event > SCI > SCI8 > SCI8 TEI (Transmit end) | empty | sci_b_uart_tei_isr | Assign the UART transfer ISR (Transfer end) to the interrupt vector table. |
-| configuration.xml > Interrupts > Interrupts Configuration > New User Event > SCI > SCI8 > SCI8 ERI (Receive error) | empty | sci_b_uart_eri_isr | Assign the UART receive ISR (Receive error) to the interrupt vector table. |
-
 ## API Usage ##
 The table below lists the FSP provided API used at the application layer in this example project.
 
@@ -253,141 +254,124 @@ The table below lists the FSP provided API used at the application layer in this
 | R_OSPI_B_Close | This API is used to de-initialize OSPI_B module. |
 | SCB_InvalidateDCache | This API is used to invalidate DCache. |
 
-**For using the serial terminal (UART)**
-| API Name    | Usage                                                                          |
-|-------------|--------------------------------------------------------------------------------|
-| R_SCI_B_UART_Open | This API is used to initialize the SCI UART module. |
-| R_SCI_B_UART_Write | This API is used to perform a write operation. |
-| R_SCI_B_UART_Close | This API is used to de-initialize the SCI UART module. |
-
 ## Verifying Operation ##
-1. Import the example project. 
+1. Import the example project (EP).
+2. Generate, build the EP.
+3. Set up the hardware connection properly before running the EP.
+4. Open a serial terminal application (e.g., Tera Term) to view output log, configure the settings as shown below:
+	* To make sure the received data shows properly, the user needs to set:
+		* [Setup] -> [Terminal...] -> [New-line] -> Select [Receive: CR] & [Transmit: CR].
 
-    By default, the EP supports serial terminal for RA boards that support J-link OB VCOM
+	* To echo back characters typed in Tera Term, the user needs to enable it through:
+		* [Setup] -> [Terminal...] -> Check [Local echo].
 
-    * Define USE_VIRTUAL_COM=1 macro in Project Properties -> C/C++ Build -> Settings -> Tool Settings -> Compiler -> Includes > Macro Defines (-D)
-
-    To use SEGGER J-Link RTT Viewer, please follow the instructions below:
-
-    * Define USE_VIRTUAL_COM=0 macro in Project Properties -> C/C++ Build -> Settings -> Tool Settings -> Compiler -> Includes > Macro Defines (-D)
-
-2. Generate, build the example project.
-3. Connect the RA MCU debug port to the host PC via a USB cable.
-4. Open a serial terminal application on the host PC and connect to the COM Port provided by the J-Link on-board or open J-Link RTT Viewer (In case the user selected SEGGER J-Link RTT Viewer or RA boards do not support J-Link OB VCOM).
-	* For using the serial terminal application:
-        * Please ensure that the connection to the SEGGER J-Link RTT Viewer has been terminated.
-	    * To echo back what was typed in Tera Term, the user needs to enable it through [Setup] -> [Terminal...] -> Check [Local echo].	
-	    * The configuration parameters of the serial port on the terminal application are as follows:
-		    * COM port is a port provided by the J-Link on-board.  
-		    * Baud rate: 115200 bps  
-			* Data length: 8 bit    
-			* Parity: none  
-			* Stop bit: 1 bit  
-			* Flow control: none  
-	* For using SEGGER J-Link RTT Viewer:
-		* If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) in .map file generated in the project folder (e2studio\Debug or e2studio\Release).
-5. Debug or flash the example project to the RA board.
+	* The configuration parameters of the serial port on the serial terminal application:
+		* Port: The port is provided by the J-Link On-Board.
+		* Speed: 115200
+		* Data: 8 bit
+		* Parity: none
+		* Stop bits: 1 bit
+		* Flow control: none
+5. Debug or flash the EP to the RA board.
 6. After the main menu is displayed on the terminal application, the user selects options to perform file system management as desired.
-    * Type '1' and enter to select Flash Operations Menu.
-	    * Type '1' and enter to erase the entire flash.
+	* Type '1' and enter to select flash operations menu.
+		* Type '1' and enter to erase the entire flash.
 		* Type '2' and enter to erase the first 32 KB of the flash.
 		* Type '3' and enter to format the file system.
-		* Type '4' and enter to go back to the Main Menu.  
-		**Note: After erasing the entire flash or 32 KB flash, the user must format the file system.**
+		* Type '4' and enter to go back to the main menu.
+		* **Note: After erasing the entire flash or 32 KB flash, the user must format the file system.**
 
-	* Type '2' and enter to select Directory Operations Menu.
+	* Type '2' and enter to select directory operations menu.
 		* Type '1' and enter to create a new directory.
 		* Type '2' and enter to get the root directory properties.
 		* Type '3' and enter to delete a directory.
-		* Type '4' and enter to go back to the Main Menu.
+		* Type '4' and enter to go back to the main menu.
 
-	* Type '3' and enter to select File Operations Menu.
+	* Type '3' and enter to select file operations menu.
 		* Type '1' and enter to create an empty file or open an existed file.
 		* Type '2' and enter to write a fixed content into a file.
 		* Type '3' and enter to read the entire file and display the first 1 KB of its content.
 		* Type '4' and enter to delete a file.
-		* Type '5' and enter to go back to the Main Menu.
+		* Type '5' and enter to go back to the main menu.
 
-The images below showcase the output on the serial terminal application (Tera Term):
+The images below showcase the output on the serial terminal application (e.g., Tera Term):
 
 The EP information:
 
-![ep_info](images/Serial_EP_Information.png "EP Information")
+![ep_information](images/ep_information.png "EP information")
 
-The EP Menu
+**The EP menu**
 
-* The Main Menu:
+* The main menu:
 
-![main_menu](images/Serial_Memu_main.png "Main Menu")
+![main_menu](images/main_menu.png "Main menu")
 
-* The Flash Operations Menu:
+* The flash operations menu:
 
-![flash_menu](images/Serial_Menu_Flash_Operations.png "The Flash Operations Menu")
+![flash_menu](images/flash_menu.png "The flash operations menu")
 
-* The Directory Operations Menu:
+* The directory operations menu:
 
-![dir_menu](images/Serial_Menu_Dir_Operations.png "The Directory Operations Menu")
+![dir_menu](images/dir_menu.png "The directory operations menu")
 
-* The File Operations Menu:
+* The file operations menu:
 
-![file_menu](images/Serial_Menu_File_Operations.png "The File Operations Menu")
+![file_menu](images/file_menu.png "The file operations menu")
 
-Flash Operations
+**Flash operations**
 
-* Erase the entire Flash:
+* Erase the entire flash:
 
-![erase_entire_flash](images/Serial_Flash_erase_entire.png "Erase the entire Flash")
+![flash_erase_entire](images/flash_erase_entire.png "Erase the entire flash")
 
 * Erase the first 32 KB of the flash:
 
-![erase_32kb_flash](images/Serial_Flash_erase_32KB.png "Erase the first 32 KB of the flash")
+![flash_erase_32kb](images/flash_erase_32kb.png "Erase the first 32 KB of the flash")
 
-* Format the File System:
+* Format the file system:
 
-![format_file_system](images/Serial_Format_file_system.png "Format the File System")
+![flash_format_file_system](images/flash_format_file_system.png "Format the file system")
 
-* Go back to the Main Menu:
+* Go back to the main menu:
 
-![flash_go_back](images/Serial_Flash_back_to_main_menu.png "Go back to the Main Menu")
+![flash_back_to_main_menu](images/flash_back_to_main_menu.png "Go back to the main menu")
 
+**Directory operations**
 
-Directory Operations
+* Create directory:
 
-* Create Directory:
+![dir_create](images/dir_create.png "Create directory")
 
-![directory_create](images/Serial_Dir_create.png "Directory Create")
+* Get directory properties:
 
-* Get Directory Properties:
+![dir_get_properties](images/dir_get_properties.png "Get directory properties")
 
-![directory_get_properties](images/Serial_Dir_get_properties.png "Directory Get Properties")
+* Delete directory:
 
-* Delete Directory:
+![dir_delete](images/dir_delete.png "Delete directory")
 
-![directory_delete](images/Serial_Dir_delete.png "Directory Delete")
+* Go back to the main menu:
 
-* Go back to the Main Menu:
+![dir_back_to_main_menu](images/dir_back_to_main_menu.png "Go back to the main menu")
 
-![directory_go_back](images/Serial_Dir_back_to_main_menu.png "Go back to the Main Menu")
-
-
-File Operations
+**File operations**
 
 * Create an empty file or open an existed file:
 
-![file_create](images/Serial_File_open.png "Create an empty file or open an existed file")
+![file_open](images/file_open.png "Create an empty file or open an existed file")
 
-* Write to the File:
+* Write to the file:
 
-![file_write](images/Serial_File_write.png "Write to the File")
+![file_write](images/file_write.png "Write to the file")
 
-* Read from the File:
+* Read from the file:
 
-![file_read](images/Serial_File_read.png "Read from the File")
+![file_read](images/file_read.png "Read from the file")
 
-* Delete File:
+* Delete file:
 
-![file_delete](images/Serial_File_delete.png "Delete File")
+![file_delete](images/file_delete.png "Delete file")
 
-* Go back to the Main Menu:
+* Go back to the main menu:
 
-![file_go_back](images/Serial_File_back_to_main_menu.png "Go back to the Main Menu")
+![file_back_to_main_menu](images/file_back_to_main_menu.png "Go back to the main menu")

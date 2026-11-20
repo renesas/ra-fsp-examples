@@ -5,27 +5,18 @@
 
 1. Project Overview:
 	This example project demonstrates basic functionalities of OSPI_B driver on Renesas RA MCUs based on
-	Renesas FSP.
-	In the Main menu, based on RTT Viewer input, the user selects mode for opsi_b module.
-		1. SPI 1S-1S-1S protocol mode.
-		2. OPI 8D-8D-8D protocol mode.
-	In the Sub Menu, based on RTT Viewer input, the user selects operations to perform.
-		1. Write data to OSPI flash device.
-		2. Read back the data from OSPI flash device.
-		3. Erase a sector of OSPI flash device.
-		4. Go back to main menu.
-	On successful completion of each operation, a success message and execution time of operation will be displayed
-	on J-link RTT Viewer.
-	Error messages and information will be printed on J-link RTT Viewer.
+	Renesas FSP. EP performs read/write/erase operation in SPI mode (1S-1S-1S) or DOPI mode (8D-8D-8D)
+	based on the user input. The information and error messages are displayed on the terminal.
 
 2. Hardware Requirements:
-	Supported RA boards: EK-RA8M1, EK-RA8D1, EK-RA8E2, EK-RA8P1, EK-RA8D2
+	Supported RA boards: EK-RA8M1, EK-RA8D1, EK-RA8E2, EK-RA8P1, EK-RA8D2, EK-RA8M2, EK-RA8T2.
 	1 x Renesas RA board.
-	1 x Type-C USB cable for programming and debugging.
+	1 x USB cable for programming and debugging (USB cable type varies by board model).
 
 3. Hardware Connections:
-	Connect the USB Debug port on the RA board to the host PC via a Type-C USB cable.
-	
+	Connect the RA board USB debug port to the host PC using the appropriate USB cable for EP programming and
+	debugging.
+
 4. Hardware Configurations:
 	- For EK-RA8P1: Set the configuration switches (SW4) as below to avoid potential failures.
 	+------------------+------------------+-----------------+------------------+----------------+----------------+------------------+------------------+
@@ -41,12 +32,34 @@
 	|     OFF     |     OFF     |      OFF       |          OFF           |    OFF    |    OFF     |     OFF     |     OFF     |
 	+-------------+-------------+----------------+------------------------+-----------+------------+-------------+-------------+
 
-Note:
-1) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT Viewer.
-   RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x220041cc
-   b. Keil:     Not Available
-   c. IAR:      Not Available
+	- For EK-RA8M2: The user must place jumper J6 on pins 2-3, J8 on pins 1-2, J9 on pins 2-3, and J29 on
+	                pins 1-2, 3-4, 5-6, 7-8 to use the on-board debug functionality.
 
-2) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called
-   _SEGGER_RTT) in .map file generated in the project folder (e2studio\Debug or e2studio\Release).
+	- For EK-RA8T2: Set the configuration switches (SW6 and SW4) as below to use the on-board debug functionality.
+	+-------+-------+-------+-------+-------+-------+-------+-------+-------+--------+
+	| SW6-1 | SW6-2 | SW6-3 | SW6-4 | SW6-5 | SW6-6 | SW6-7 | SW6-8 | SW6-9 | SW6-10 |
+	+-------+-------+-------+-------+-------+-------+-------+-------+-------+--------+
+	|  OFF  |  OFF  |  OFF  |  OFF  |  ON   |  OFF  |  ON   |  ON   |  ON   |   ON   |
+	+-------+-------+-------+-------+-------+-------+-------+-------+-------+--------+
+
+	+-------+-------+-------+-------+-------+-------+-------+-------+
+	| SW4-1 | SW4-2 | SW4-3 | SW4-4 | SW4-5 | SW4-6 | SW4-7 | SW4-8 |
+	+-------+-------+-------+-------+-------+-------+-------+-------+
+	|  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |
+	+-------+-------+-------+-------+-------+-------+-------+-------+
+
+Note:
+1) To view output logs on a serial terminal application (e.g., Tera Term), configure the settings as shown below:
+	a. To make sure the received data shows properly, the user needs to set:
+		[Setup] -> [Terminal...] -> [New-line] -> Select [Receive: CR] & [Transmit: CR].
+
+	b. To echo back characters typed in Tera Term, the user needs to enable it through:
+		[Setup] -> [Terminal...] -> Check [Local echo].
+
+	c. The configuration parameters of the serial port on the serial terminal application:
+		Port: The port is provided by the J-Link On-Board.
+		Speed: 115200
+		Data: 8 bit
+		Parity: none
+		Stop bits: 1 bit
+		Flow control: none

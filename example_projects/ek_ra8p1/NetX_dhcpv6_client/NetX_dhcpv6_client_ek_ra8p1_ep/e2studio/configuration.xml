@@ -283,8 +283,8 @@
       <property id="config.bsp.option_setting_otp.zhuk.zhuken3" value="config.bsp.option_setting_otp.zhuk.zhuken3.disabled" />
     </config>
     <config id="config.bsp.ra">
-      <property id="config.bsp.common.main" value="0x1000" />
-      <property id="config.bsp.common.heap" value="0x2000" />
+      <property id="config.bsp.common.main" value="0x400" />
+      <property id="config.bsp.common.heap" value="0x400" />
       <property id="config.bsp.common.bootloader.xip_enable" value="config.bsp.common.bootloader.xip_enable.disabled" />
       <property id="config.bsp.common.vcc" value="3300" />
       <property id="config.bsp.common.checking" value="config.bsp.common.checking.disabled" />
@@ -429,6 +429,10 @@
     <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra8p1_ek" variant="" vendor="Renesas" version="6.6.0">
       <description>RA8P1-EK Board Support Files</description>
       <originalPack>Renesas.RA_board_ra8p1_ek.6.6.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_sci_b_uart" variant="" vendor="Renesas" version="6.6.0">
+      <description>SCI UART</description>
+      <originalPack>Renesas.RA.6.6.0.pack</originalPack>
     </component>
     <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="6.6.0">
       <description>Board Support Package Common Files</description>
@@ -621,9 +625,37 @@
       <property id="module.driver.ether_phy_lsi.phy_lsi_address" value="0" />
       <property id="module.driver.ether_phy_lsi.phy_lsi_type" value="module.driver.ether_phy_lsi.phy_lsi_type.kit_component" />
     </module>
+    <module id="module.driver.uart_on_sci_b_uart.1232253407">
+      <property id="module.driver.uart.name" value="g_uart_console" />
+      <property id="module.driver.uart.channel" value="8" />
+      <property id="module.driver.uart.data_bits" value="module.driver.uart.data_bits.data_bits_8" />
+      <property id="module.driver.uart.parity" value="module.driver.uart.parity.parity_off" />
+      <property id="module.driver.uart.stop_bits" value="module.driver.uart.stop_bits.stop_bits_1" />
+      <property id="module.driver.uart.baud" value="115200" />
+      <property id="module.driver.uart.baudrate_modulation" value="module.driver.uart.baudrate_modulation.disabled" />
+      <property id="module.driver.uart.baudrate_max_err" value="5" />
+      <property id="module.driver.uart.flow_control" value="module.driver.uart.flow_control.rts" />
+      <property id="module.driver.uart.pin_control_port" value="module.driver.uart.pin_control_port.PORT_DISABLE" />
+      <property id="module.driver.uart.pin_control_pin" value="module.driver.uart.pin_control_pin.PIN_DISABLE" />
+      <property id="module.driver.uart.clk_src" value="module.driver.uart.clk_src.int_clk" />
+      <property id="module.driver.uart.rx_edge_start" value="module.driver.uart.rx_edge_start.falling_edge" />
+      <property id="module.driver.uart.noisecancel_en" value="module.driver.uart.noisecancel_en.disabled" />
+      <property id="module.driver.uart.rx_fifo_trigger" value="module.driver.uart.rx_fifo_trigger.max" />
+      <property id="module.driver.uart.rs485.de_enable" value="module.driver.uart.rs485.de_enable.disabled" />
+      <property id="module.driver.uart.rs485.de_polarity" value="module.driver.uart.rs485.de_polarity.high" />
+      <property id="module.driver.uart.rs485.de_assertion_time" value="1" />
+      <property id="module.driver.uart.rs485.de_negation_time" value="1" />
+      <property id="module.driver.uart.tei_synchronization_delay_cycles" value="0" />
+      <property id="module.driver.uart.callback" value="uart_console_callback" />
+      <property id="module.driver.uart.rxi_ipl" value="board.icu.common.irq.priority15" />
+      <property id="module.driver.uart.txi_ipl" value="board.icu.common.irq.priority15" />
+      <property id="module.driver.uart.tei_ipl" value="board.icu.common.irq.priority15" />
+      <property id="module.driver.uart.eri_ipl" value="board.icu.common.irq.priority15" />
+    </module>
     <context id="_hal.0">
       <stack module="module.driver.ioport_on_ioport.0" />
       <stack module="module.middleware.rm_threadx_port.0" />
+      <stack module="module.driver.uart_on_sci_b_uart.1232253407" />
     </context>
     <context id="rtos.threadx.thread.0">
       <property id="_symbol" value="dhcp_client_thread" />
@@ -650,13 +682,19 @@
       </stack>
     </context>
     <context id="rtos.threadx.thread.800400731">
-      <property id="_symbol" value="rtt_thread" />
-      <property id="rtos.threadx.thread.name" value="RTT_Thread" />
+      <property id="_symbol" value="terminal_thread" />
+      <property id="rtos.threadx.thread.name" value="Terminal Thread" />
       <property id="rtos.threadx.thread.stack" value="1024" />
       <property id="rtos.threadx.thread.priority" value="4" />
       <property id="rtos.threadx.thread.autostart" value="rtos.threadx.thread.autostart.enabled" />
       <property id="rtos.threadx.thread.timeslice" value="1" />
     </context>
+    <config id="config.driver.sci_b_uart">
+      <property id="config.driver.sci_b_uart.param_checking_enable" value="config.driver.sci_b_uart.param_checking_enable.bsp" />
+      <property id="config.driver.sci_b_uart.fifo_support" value="config.driver.sci_b_uart.fifo_support.disabled" />
+      <property id="config.driver.sci_b_uart.dtc_support" value="config.driver.sci_b_uart.dtc_support.disabled" />
+      <property id="config.driver.sci_b_uart.flow_control" value="config.driver.sci_b_uart.flow_control.disabled" />
+    </config>
     <config id="config.driver.rmac_phy">
       <property id="config.driver.rmac_phy.param_checking_enable" value="config.driver.rmac_phy.param_checking_enable.bsp" />
       <property id="config.driver.rmac_phy.target_ksz8091rnb" value="config.driver.rmac_phy.target_ksz8091rnb.disabled" />
@@ -1056,7 +1094,7 @@
     <config id="config.threadx.thread">
       <property id="config.azure.tx.custom_tx_user" value="" />
       <property id="config.azure.tx.error_checking" value="config.azure.tx.error_checking.enabled" />
-      <property id="config.azure.tx.timer_ticks_per_second" value="100" />
+      <property id="config.azure.tx.timer_ticks_per_second" value="1000" />
       <property id="config.azure.tx.max_priorities" value="32" />
       <property id="config.azure.tx.minimum_stack" value="200" />
       <property id="config.azure.tx.timer_thread_stack_size" value="1024" />

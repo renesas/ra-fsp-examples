@@ -11,26 +11,28 @@
 #ifndef LIN_MASTER_EP_H_
 #define LIN_MASTER_EP_H_
 
-#include "common_utils.h"
+#include <stdbool.h>
+#include <string.h>
+#include "hal_data.h"
 
-#define EP_VERSION              ("1.1")
+/* Macro for the reset value */
+#define RESET_VALUE                         (0x00)
 
+/* Macros for user command */
+#define MASTER_SET_BAUDRATE                 ('1')
+#define MASTER_WRITE                        ('2')
+#define MASTER_READ                         ('3')
 #if BSP_PERIPHERAL_SAU_PRESENT
-#define MODULE_NAME             "sau_lin Module  "
-#elif BSP_PERIPHERAL_SCI_PRESENT
-#define MODULE_NAME             "sci_lin Module  "
-#elif BSP_PERIPHERAL_SCI_B_PRESENT
-#define MODULE_NAME             "sci_b_lin Module"
-#endif /* BSP_PERIPHERAL_SAU_PRESENT || BSP_PERIPHERAL_SCI_PRESENT || BSP_PERIPHERAL_SCI_B_PRESENT */
+#define WAKE_UP_SLAVE                       ('4')
+#endif
+#define MIN_BAUDRATE_INDEX                  (1U)
+#define MAX_BAUDRATE_INDEX                  (6U)
+#define MIN_NUMBER_OF_RX_FRAME_ID           (0U)
+#define MAX_NUMBER_OF_RX_FRAME_ID           (4U)
+#define EXIT_INDEX                          (0U)
+#define MAX_NUMBER_OF_TX_FRAME_ID           (4U)
 
-#define BANNER_INFO             "\r\n******************************************************************"\
-                                "\r\n*   Renesas FSP Example Project for "MODULE_NAME"             *"\
-                                "\r\n*   Example Project Version %s                                  *"\
-                                "\r\n*   Flex Software Pack Version %d.%d.%d                             *"\
-                                "\r\n******************************************************************"\
-                                "\r\nRefer to readme.txt file for more details on Example Project and" \
-                                "\r\nFSP User's Manual for more information about "MODULE_NAME" driver\r\n"
-
+/* Macros for frame ID */
 #define ENABLE_MASTER_TIMEOUT_MANAGEMENT    (1U)
 #define WRITE_FRAME_ID_20H                  (0x20)
 #define WRITE_FRAME_ID_21H                  (0x21)
@@ -57,143 +59,66 @@
 #define FRAME_ID_22H_INDEX                  (2)
 #define FRAME_ID_23H_INDEX                  (3)
 
-#define MAX_NUMBER_OF_TX_FRAME_ID           (4)
-#define MAX_NUMBER_OF_RX_FRAME_ID           (4)
-#define MIN_NUMBER_OF_RX_FRAME_ID           (1)
-#define MIN_BAUDRATE_INDEX                  (1)
 #define MAX_TRANSFER_LENGTH                 (8)
-#define MENU_INDEX                          (0)
-#define MASTER_SET_BAUDRATE                 ('1')
-#define MASTER_WRITE                        ('2')
-#define MASTER_READ                         ('3')
-#define WAKE_UP_SLAVE                       ('4')
 #define LIN_BAUDRATE_COUNT                  (8)
 #define LIN_TIMEOUT_FACTOR                  (14U)
 #define LIN_TIMEOUT_DIVISOR                 (10U)
 #define LIN_DEFAULT_BAUDRATE                (19200)
-#define TERMINAL_READ_SIZE                  (8U)
 #define IS_WRITE                            (1U)
 #define IS_READ                             (0U)
-#define EXIT_INDEX                          (0U)
+
 #define TIMEOUT_LIMIT                       (1000000U)
 #define LIN_PID_MASK_ID                     (0x3FU)    /* Mask to extract 6-bit LIN ID from PID */
 
 #if BSP_PERIPHERAL_SAU_PRESENT
 
-#define EP_INFO                  "\r\nThis project demonstrates the basic functionalities of Local Interconnect"\
-                                 "\r\nNetwork (LIN) on Renesas RA MCUs based on the Renesas FSP. The LIN"\
-                                 "\r\nmodules communicate with transceivers that satisfy the ISO9141 protocol."\
-                                 "\r\nThe Master defines four distinct messages, each assigned a unique ID,"\
-                                 "\r\nallowing the user to select and transmit a specific message to the Slave."\
-                                 "\r\nThe Master sends a start frame with the selected ID to retrieve data,"\
-                                 "\r\nand the Slave responds accordingly. The user can select a baud rate"\
-                                 "\r\n(2400, 4800, 9600, 10400, 14400, 19200) from the application menu."\
-                                 "\r\nAdditionally, the LIN module's baud rate can be configured to other"\
-                                 "\r\nsupported values, as specified in the markdown file, by modifying the"\
-                                 "\r\nconfiguration.xml. For the SAU LIN Slave, users can enter Low Power"\
-                                 "\r\nMode (Software Standby) via the EP menu and wake up when triggered"\
-                                 "\r\nby the Master.\r\n\r\n"
-
-#define MAIN_MENU                "\r\n=== LIN Master Main Menu ==="\
-                                 "\r\n1. Configure baud rate"\
-                                 "\r\n2. Transmit LIN data"\
-                                 "\r\n3. Transmit and receive LIN data"\
-                                 "\r\n4. Send a wake-up signal"\
-                                 "\r\n\nSelect an option:"
-
 /* LIN API mapping */
-#define LIN_OPEN                 (R_SAU_LIN_Open)
-#define LIN_WRITE                (R_SAU_LIN_Write)
-#define LIN_COMMUNICATION_ABORT  (R_SAU_LIN_CommunicationAbort)
-#define LIN_READ                 (R_SAU_LIN_Read)
-#define LIN_BAUD_CALCULATE       (R_SAU_UART_BaudCalculate)
-#define LIN_CLOSE                (R_SAU_LIN_Close)
+#define LIN_OPEN                            (R_SAU_LIN_Open)
+#define LIN_WRITE                           (R_SAU_LIN_Write)
+#define LIN_COMMUNICATION_ABORT             (R_SAU_LIN_CommunicationAbort)
+#define LIN_READ                            (R_SAU_LIN_Read)
+#define LIN_BAUD_CALCULATE                  (R_SAU_UART_BaudCalculate)
+#define LIN_CLOSE                           (R_SAU_LIN_Close)
 
-/* Timer API mapping */
-#define TIMER_OPEN               (R_TAU_Open)
-#define TIMER_RESET              (R_TAU_Reset)
-#define TIMER_PERIOD_SET         (R_TAU_PeriodSet)
-#define TIMER_INFO_GET           (R_TAU_InfoGet)
-#define TIMER_START              (R_TAU_Start)
-#define TIMER_STOP               (R_TAU_Stop)
-#define TIMER_CLOSE              (R_TAU_Close)
+/* Timer API mapping */         
+#define TIMER_OPEN                          (R_TAU_Open)
+#define TIMER_RESET                         (R_TAU_Reset)
+#define TIMER_PERIOD_SET                    (R_TAU_PeriodSet)
+#define TIMER_INFO_GET                      (R_TAU_InfoGet)
+#define TIMER_START                         (R_TAU_Start)
+#define TIMER_STOP                          (R_TAU_Stop)
+#define TIMER_CLOSE                         (R_TAU_Close)
 
 #elif BSP_PERIPHERAL_SCI_B_PRESENT || BSP_PERIPHERAL_SCI_PRESENT
 
-#define EP_INFO                  "\r\nThis project demonstrates the basic functionalities of Local Interconnect"\
-                                 "\r\nNetwork (LIN) on Renesas RA MCUs based on the Renesas FSP. The LIN"\
-                                 "\r\nmodules communicate with transceivers that satisfy the ISO9141 protocol."\
-                                 "\r\nThe Master defines four distinct messages, each assigned a unique ID,"\
-                                 "\r\nallowing the user to select and transmit a specific message to the Slave."\
-                                 "\r\nThe Master sends a start frame with the selected ID to retrieve data,"\
-                                 "\r\nand the Slave responds accordingly. The user can select a baud rate"\
-                                 "\r\n(2400, 4800, 9600, 10400, 14400, 19200) from the application menu."\
-                                 "\r\nAdditionally, the LIN module's baud rate can be configured to other"\
-                                 "\r\nsupported values, as specified in the markdown file, by modifying the"\
-                                 "\r\nconfiguration.xml.\r\n\r\n"
-
-#define MAIN_MENU                "\r\n=== LIN Master Main Menu ==="\
-                                 "\r\n1. Configure baud rate"\
-                                 "\r\n2. Transmit LIN data"\
-                                 "\r\n3. Transmit and receive LIN data"\
-                                 "\r\n\nSelect an option:"
+/* Timer API mapping */
+#define TIMER_OPEN                          (R_GPT_Open)
+#define TIMER_RESET                         (R_GPT_Reset)
+#define TIMER_PERIOD_SET                    (R_GPT_PeriodSet)
+#define TIMER_INFO_GET                      (R_GPT_InfoGet)
+#define TIMER_START                         (R_GPT_Start)
+#define TIMER_STOP                          (R_GPT_Stop)
+#define TIMER_CLOSE                         (R_GPT_Close)
 
 /* LIN API mapping */
 #if BSP_PERIPHERAL_SCI_PRESENT
-
-#define LIN_OPEN                 (R_SCI_LIN_Open)
-#define LIN_WRITE                (R_SCI_LIN_Write)
-#define LIN_COMMUNICATION_ABORT  (R_SCI_LIN_CommunicationAbort)
-#define LIN_BAUD_CALCULATE       (R_SCI_LIN_BaudCalculate)
-#define LIN_READ                 (R_SCI_LIN_Read)
-#define LIN_CLOSE                (R_SCI_LIN_Close)
+#define LIN_OPEN                            (R_SCI_LIN_Open)
+#define LIN_WRITE                           (R_SCI_LIN_Write)
+#define LIN_COMMUNICATION_ABORT             (R_SCI_LIN_CommunicationAbort)
+#define LIN_BAUD_CALCULATE                  (R_SCI_LIN_BaudCalculate)
+#define LIN_READ                            (R_SCI_LIN_Read)
+#define LIN_CLOSE                           (R_SCI_LIN_Close)
 
 #elif BSP_PERIPHERAL_SCI_B_PRESENT
-
-#define LIN_OPEN                 (R_SCI_B_LIN_Open)
-#define LIN_WRITE                (R_SCI_B_LIN_Write)
-#define LIN_COMMUNICATION_ABORT  (R_SCI_B_LIN_CommunicationAbort)
-#define LIN_BAUD_CALCULATE       (R_SCI_B_LIN_BaudCalculate)
-#define LIN_READ                 (R_SCI_B_LIN_Read)
-#define LIN_CLOSE                (R_SCI_B_LIN_Close)
-
-#endif
-
-/* Timer API mapping */
-#define TIMER_OPEN               (R_GPT_Open)
-#define TIMER_RESET              (R_GPT_Reset)
-#define TIMER_PERIOD_SET         (R_GPT_PeriodSet)
-#define TIMER_INFO_GET           (R_GPT_InfoGet)
-#define TIMER_START              (R_GPT_Start)
-#define TIMER_STOP               (R_GPT_Stop)
-#define TIMER_CLOSE              (R_GPT_Close)
-
+#define LIN_OPEN                            (R_SCI_B_LIN_Open)
+#define LIN_WRITE                           (R_SCI_B_LIN_Write)
+#define LIN_COMMUNICATION_ABORT             (R_SCI_B_LIN_CommunicationAbort)
+#define LIN_BAUD_CALCULATE                  (R_SCI_B_LIN_BaudCalculate)
+#define LIN_READ                            (R_SCI_B_LIN_Read)
+#define LIN_CLOSE                           (R_SCI_B_LIN_Close)
+#endif          
 #endif /* BSP_PERIPHERAL_SAU_PRESENT || BSP_PERIPHERAL_SCI_PRESENT || BSP_PERIPHERAL_SCI_B_PRESENT */
 
-#define WRITE_MENU          "\r\n=== LIN Write Selection ==="\
-                            "\r\n1. Frame ID: 0x20"\
-                            "\r\n2. Frame ID: 0x21"\
-                            "\r\n3. Frame ID: 0x22"\
-                            "\r\n4. Frame ID: 0x23"\
-                            "\r\n0. Exit"\
-                            "\r\n\nSelect an option:\r\n"
-
-#define READ_MENU          "\r\n=== LIN Read Selection ==="\
-                            "\r\n1. Frame ID: 0x10"\
-                            "\r\n2. Frame ID: 0x11"\
-                            "\r\n3. Frame ID: 0x12"\
-                            "\r\n4. Frame ID: 0x13"\
-                            "\r\n0. Exit"\
-                            "\r\n\nSelect an option:\r\n"
-
-#define BAUDRATE_OPTION     "\r\n\r\n=== LIN Master Baud Rate Selection ==="\
-                            "\r\n[1]. 2400  bps"\
-                            "\r\n[2]. 4800  bps"\
-                            "\r\n[3]. 9600  bps"\
-                            "\r\n[4]. 10400 bps"\
-                            "\r\n[5]. 14400 bps"\
-                            "\r\n[6]. 19200 bps (Default)"\
-                            "\r\n\nSelect an option:"
 typedef struct
 {
     uint32_t header_timeout_us;   /* Header timeout in microseconds */
@@ -203,10 +128,37 @@ typedef struct
 typedef struct
 {
     uint8_t id;
-    const uint8_t *expected;
+    const uint8_t * p_expected;
     size_t length;
 } lin_frame_expectation_t;
 
-void lin_master_operation(void);
+/* External variables - Defined in lin_master_ep.c */
+extern uint32_t g_baudrate;
+extern uint8_t g_master_rx_buf[MAX_TRANSFER_LENGTH];
+extern volatile uint8_t g_received_id;
+extern lin_transfer_params_t g_lin_master_tx_transfer_info[MAX_NUMBER_OF_TX_FRAME_ID];
+extern lin_transfer_params_t g_lin_master_tx_header_transfer[MAX_NUMBER_OF_RX_FRAME_ID];
+extern lin_transfer_params_t g_lin_master_rx_transfer_info[MAX_NUMBER_OF_RX_FRAME_ID];
+
+#if BSP_PERIPHERAL_SAU_PRESENT
+extern sau_uart_baudrate_setting_t g_uart0_baud_setting;
+extern sau_uart_baudrate_setting_t g_master_break_field_baud_setting;
+#endif /* BSP_PERIPHERAL_SAU_PRESENT */
+
+/* Function declarations */
+fsp_err_t lin_master_open(void);
+void lin_master_close(void);
+fsp_err_t lin_master_transmit(uint8_t frame_id_index);
+fsp_err_t lin_master_receive(uint8_t frame_id_index);
+fsp_err_t lin_master_baudset(uint32_t baud_rate);
+
+#if ENABLE_MASTER_TIMEOUT_MANAGEMENT
+fsp_err_t timer_open(void);
+void timer_close(void);
+#endif /* ENABLE_MASTER_TIMEOUT_MANAGEMENT */
+
+#if BSP_PERIPHERAL_SAU_PRESENT
+fsp_err_t lin_master_send_wakeup(void);
+#endif /* BSP_PERIPHERAL_SAU_PRESENT */
 
 #endif /* LIN_MASTER_EP_H_ */

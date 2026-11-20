@@ -186,10 +186,9 @@ Note:
 ### Software Requirements ###
 
 - Renesas Flexible Software Package (FSP): Version 6.6.0
-- e2 studio: Version 2026-4.2
+- e2 studio: Version 2026-07
 - LLVM Embedded Toolchain for ARM: Version 22.1.0
-- Serial Terminal Console Application: Tera Term or a similar application
-- SEGGER J-Link RTT Viewer: Version 9.64
+- Terminal Console Application: Tera Term or a similar application
 
 Refer to the software required section in [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf)
 
@@ -251,7 +250,8 @@ List all the various modules that are used in this example project. Refer to the
 
 ## Module Configuration Notes ##
 
-This section describes FSP configuration properties that are important or different from those selected by default.
+This section describes FSP configuration properties that are important or different from those selected by default.  
+**Note: The configuration shown in this document is based on the original target board (e.g., EK-RA8D2). Some settings may differ on other supported boards due to hardware differences.** 
 
 ### SAU LIN Configuration
 
@@ -362,16 +362,24 @@ The table below lists the FSP provided API used at the application layer in this
 | 17 | R_TAU_Close                  | R_GPT_Close                    | R_GPT_Close                  | Close timer module                                              |
 
 ## Verifying Operation ##
+* Import, generate, and build the example project.
+* Before running the example project, make sure [Hardware Connections](#hardware-connections) are completed.
+* Open a serial terminal application (e.g., Tera Term) to view output log, configure the settings as shown below:
+    * To make sure the received data shows properly, the user needs to set:
+        * [Setup] -> [Terminal...] -> [New-line] -> Select [Receive: CR] & [Transmit: CR].
+    * To echo back characters typed in Tera Term, the user needs to enable it through:
+        * [Setup] -> [Terminal...] -> Check [Local echo].
+    * The configuration parameters of the serial port on the serial terminal application:
+        * Port: The port is provided by the J-Link On-Board.
+        * Speed: 115200
+        * Data: 8 bit
+        * Parity: none
+        * Stop bits: 1 bit
+        * Flow control: none
+* Debug or flash the EP to the RA board.
+* The user selects the appropriate option in the EP menu to initiate the LIN example operation. For further details, please refer to the image below.
 
-1. Import the project into e2 studio, generate project content, build, and flash the compiled project onto the RA board.
-2. Open a terminal application (e.g., Tera Term or SEGGER RTT Viewer) on the host PC and connect to the RA board’s debug port.  
-   - Note: For using the serial terminal:
-        - Please ensure that the connection to the SEGGER J-Link RTT Viewer has been terminated.
-        - The COM port is provided by the J-Link onboard, with a baud rate of 115200 bps, a data length of 8 bits, no parity check, one stop bit, and no flow control.
-        - To echo back typed content in Tera Term, go to [Setup] -> [Terminal...] and check [Local echo].
-3. The user selects the appropriate option in the EP menu to initiate the LIN example operation. For further details, please refer to the image below.
-
-### The below images showcase the output on the terminal application ###
+### The image below showcases the output log ###
 
 **The EP information**
 
@@ -391,24 +399,9 @@ The table below lists the FSP provided API used at the application layer in this
 
 **This applies only to SAU LIN: To initiate Software Standby mode, the user inputs '2' on the slave board. To wake the slave device, the user inputs '4' on the master board.**
 
-![Master reads](images/lin_wakeup.png "Master reads")
+![LIN Wakeup](images/lin_wakeup.png "LIN Wakeup")
 
 ## Special Topics ##
-
-### Select Display Terminal
-
-Information can be displayed using either the SEGGER J-Link RTT Viewer or a serial terminal (UART) via J-Link OB VCOM, depending on availability. If J-Link OB VCOM is unsupported, the example project defaults to the SEGGER J-Link RTT Viewer. If supported, it defaults to the serial terminal (UART).
-
-The board supports J-Link OB VCOM: EK-RA8M1, FPB-RA0E2, EK-RA8D1, EK-RA8D2, EK-RA8E2, EK-RA8M2, FPB-RA8E1, MCK-RA8T1, MCK-RA8T2, EK-RA4C1, EK-RA4L1.
-
-**For UART via J-Link OB VCOM**: Define `USE_VIRTUAL_COM=1`
-
-**For J-Link RTT Viewer**: Define `USE_VIRTUAL_COM=0` (When using the SEGGER J-Link RTT Viewer, the RTT block address may be required to observe the EP's operation. Find the address
-    for the _SEGGER_RTT variable in the .map file (e2studio\Debug).)
-
-Set this in **Project Properties** -> **C/C++ Build** -> **Settings** -> **Tool Settings** -> **Compiler** -> **Includes** -> **Macro Defines (-D)**.
-
-![USE_VIRTUAL_COM settings](images/use_virtual_com_setting.png "USE_VIRTUAL_COM settings")
 
 ### ID Filter Configuration for SCI LIN EP
 

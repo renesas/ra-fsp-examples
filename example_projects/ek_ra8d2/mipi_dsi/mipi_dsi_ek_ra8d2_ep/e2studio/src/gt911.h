@@ -1,29 +1,36 @@
 /***********************************************************************************************************************
  * File Name    : gt911.h
- * Description  : Contains data structures and functions used in mipi_dsi_ep.c.
+ * Description  : Contains macros, data structures, and functions used in gt911.c.
  **********************************************************************************************************************/
 /***********************************************************************************************************************
-* Copyright (c) 2023 - 2025 Renesas Electronics Corporation and/or its affiliates
-*
-* SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
+ * Copyright (c) 2023 - 2026 Renesas Electronics Corporation and/or its affiliates
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ **********************************************************************************************************************/
 
 #ifndef GT911_H_
 #define GT911_H_
 
-#include "common_utils.h"
+#include <stdbool.h>
+#include "hal_data.h"
 
-#define BUFFER_LENGTH                                (10)
-#define GTP_READ_COOR_ADDR                           (0x814E)
-#define GT911_BUFFER_STATUS_READY                    (0x80)
-#define GTP_ADDR_LENGTH                              (2)
+/* Macro for the reset value */
+#define RESET_VALUE                 (0x00)
 
+/* Macros for the gt911 touch controller */
+#define BUFFER_LENGTH               (10)
+#define GTP_READ_COOR_ADDR          (0x814E)
+#define GT911_BUFFER_STATUS_READY   (0x80)
+#define GTP_ADDR_LENGTH             (2)
+
+/* Coordinate value returned by the touch controller */
 typedef struct st_coord
 {
     uint16_t x;
     uint16_t y;
 } coord_t;
 
+/* Touch point payload returned by the touch controller */
 typedef __PACKED_STRUCT st_gt911_point_payload
 {
     uint8_t track_id;
@@ -33,6 +40,7 @@ typedef __PACKED_STRUCT st_gt911_point_payload
     uint8_t reserved;
 } gt911_point_payload_t;
 
-fsp_err_t gt911_get_status(uint8_t* status, coord_t * points, uint32_t num_points);
+/* Function declaration */
+fsp_err_t gt911_get_status(uint8_t * status, coord_t * points, uint32_t num_points);
 
 #endif /* GT911_H_ */

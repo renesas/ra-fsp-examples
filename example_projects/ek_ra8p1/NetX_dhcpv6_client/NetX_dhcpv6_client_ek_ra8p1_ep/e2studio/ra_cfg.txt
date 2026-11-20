@@ -247,8 +247,8 @@ FSP Configuration
   RA8P1 Core 0 Options
   RA8P1 event data
   RA Common
-    Main stack size (bytes): 0x1000
-    Heap size (bytes): 0x2000
+    Main stack size (bytes): 0x400
+    Heap size (bytes): 0x400
     Bootloader Secondary XIP: Disabled
     MCU Vcc (mV): 3300
     Parameter checking: Disabled
@@ -2433,10 +2433,16 @@ FSP Configuration
     User Own Target: Disabled
     Reference Clock: Default
     
+  Module "UART (r_sci_b_uart)"
+    Parameter Checking: Default (BSP)
+    FIFO Support: Disable
+    DTC Support: Disable
+    Flow Control Support: Disable
+    
   Azure RTOS ThreadX
     General: Custom tx_user.h: 
     General: Error Checking: Enabled
-    Timer: Timer Ticks Per Second: 100
+    Timer: Timer Ticks Per Second: 1000
     General: Max Priorities: 32
     General: Minimum Stack: 200
     Timer: Timer Thread Stack Size: 1024
@@ -2479,6 +2485,33 @@ FSP Configuration
       Pin Configuration Name: g_bsp_pin_cfg
       
     Instance "Azure RTOS ThreadX Port (rm_threadx_port)"
+    Instance "g_uart_console UART (r_sci_b_uart)"
+      General: Name: g_uart_console
+      General: Channel: 8
+      General: Data Bits: 8bits
+      General: Parity: None
+      General: Stop Bits: 1bit
+      Baud: Baud Rate: 115200
+      Baud: Baud Rate Modulation: Disabled
+      Baud: Max Error (%): 5
+      Flow Control: CTS/RTS Selection: Hardware RTS
+      Flow Control: Software RTS Port: Disabled
+      Flow Control: Software RTS Pin: Disabled
+      Extra: Clock Source: Internal Clock
+      Extra: Start bit detection: Falling Edge
+      Extra: Noise Filter: Disable
+      Extra: Receive FIFO Trigger Level: Max
+      Extra: RS-485: DE Pin: Disable
+      Extra: RS-485: DE Pin Polarity: Active High
+      Extra: RS-485: DE Pin Assertion Time: 1
+      Extra: RS-485: DE Pin Negation Time: 1
+      Extra: TXI/TEI Synchronization Delay Cycles: 0
+      Interrupts: Callback: uart_console_callback
+      Interrupts: Receive Interrupt Priority: Priority 15
+      Interrupts: Transmit Data Empty Interrupt Priority: Priority 15
+      Interrupts: Transmit End Interrupt Priority: Priority 15
+      Interrupts: Error Interrupt Priority: Priority 15
+      
   Thread "DHCP Client Thread"
     Symbol: dhcp_client_thread
     Name: DHCP Client Thread
@@ -2629,9 +2662,9 @@ FSP Configuration
         Packet Size (bytes): 1568
         Number of Packets in Pool: 16
         
-  Thread "RTT_Thread"
-    Symbol: rtt_thread
-    Name: RTT_Thread
+  Thread "Terminal Thread"
+    Symbol: terminal_thread
+    Name: Terminal Thread
     Stack size (bytes): 1024
     Priority: 4
     Auto start: Enabled

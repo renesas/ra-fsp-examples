@@ -7,6 +7,14 @@ FSP Configuration
     data_flash_size_bytes: 0
     package_style: LFBGA
     package_pins: 289
+    ospi0_cs0_start_address: 2147483648
+    ospi0_cs0_size_bytes: 268435456
+    ospi0_cs1_start_address: 2415919104
+    ospi0_cs1_size_bytes: 268435456
+    ospi1_cs0_start_address: 1879048192
+    ospi1_cs0_size_bytes: 134217728
+    ospi1_cs1_start_address: 2013265920
+    ospi1_cs1_size_bytes: 134217728
     number of cores: 2
     
   R7KA8D2KFLCAC
@@ -30,6 +38,7 @@ FSP Configuration
     SDRAM: Endian Mode: Little Endian
     SDRAM: Continuous Access Mode: Enabled
     SDRAM: Bus Width: 32-bit
+    OSPI_B: Startup Support: Disabled
     Security: Exceptions: Exception Response: Non-Maskable Interrupt
     Security: Exceptions: BusFault, HardFault, and NMI Target: Secure State
     Security: System Reset Request Accessibility: Secure State
@@ -59,6 +68,8 @@ FSP Configuration
     Main Oscillator Wait Time: 8163 cycles
     Cache settings: Data cache: Disabled
     Cache settings: Data cache forced write-through: Disabled
+    I/O Ports: Voltage Mode: VCC: High (VCC >= 2.7 V)
+    I/O Ports: Voltage Mode: VCC2: High (VCC2 >= 2.7 V)
     
   RA8D2 Device Options
     OFS Registers: OFS0 (Option Function Select Register 0) Settings: Enabled
@@ -225,11 +236,11 @@ FSP Configuration
     OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS14: 
     OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS15: 
     OFS Registers: PBPS (Permanent Block Protect Setting Register) Settings: PBPS16: 
-    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: ZHUK (Zerorization HUK Register) Settings: Disabled
-    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: ZHUK (Zerorization HUK Register) Settings: Configuration setting for RTCIC0: W-HUK zeroization by RTCIC0 tamper event is disabled
-    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: ZHUK (Zerorization HUK Register) Settings: Configuration setting for RTCIC1: W-HUK zeroization by RTCIC1 tamper event is disabled
-    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: ZHUK (Zerorization HUK Register) Settings: Configuration setting for RTCIC2: W-HUK zeroization by RTCIC2 tamper event is disabled
-    OFS Registers: First Stage Bootloader (FSBL) [CAUTION OTP!]: ZHUK (Zerorization HUK Register) Settings: Configuration setting for RTCIC3: W-HUK zeroization by RTCIC3 tamper event is disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Configuration setting for RTCIC0: W-HUK zeroization by RTCIC0 tamper event is disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Configuration setting for RTCIC1: W-HUK zeroization by RTCIC1 tamper event is disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Configuration setting for RTCIC2: W-HUK zeroization by RTCIC2 tamper event is disabled
+    OFS Registers: ZHUK (Zerorization HUK Register) Settings [CAUTION OTP!]: Configuration setting for RTCIC3: W-HUK zeroization by RTCIC3 tamper event is disabled
     
   RA8D2 Core 0 Options
   RA8D2 event data
@@ -281,7 +292,7 @@ FSP Configuration
     BCLKA Div /6
     SDCLK Enabled
     EBCLK Src: BCLK (Synchronous)
-    EBCLK Div /2
+    EBCLK Disabled
     CLKOUT Src: HOCO
     CLKOUT Div /1
     SCICLK Src: PLL2R
@@ -517,8 +528,8 @@ FSP Configuration
       PC15 K1 - - - - Disabled - - "BUS: A16; CANFD1: CRX1; GPT: GTADSM0; IRQ: IRQ30; SCI6: CTS6; SDRAM: A16" - None - - 
       PD00 K4 - - - - Disabled - - "BUS: A15; CANFD1: CTX1; GPT5: GTCPPO5; GPT_OPS: GTOWLO; IRQ: IRQ23; SCI5: DE5; SCI5: SCK5; SDRAM: A15" - None - - 
       PD01 B16 - - - - Disabled - - "ESWM_GMII/MII1: ET1_RXD6; GPT2: GTCPPO2; IRQ: IRQ22; SCI8: DE8; SCI8: SCK8; SDHI0: SD0DAT2" - None - - 
-      PD02 B17 - - - - Disabled - - "ESWM_GMII/MII1: ET1_RXD7; GPT1: GTCPPO1; IRQ: IRQ21; SCI8: TXD8; SDHI0: SD0DAT1" - None - - 
-      PD03 C15 - - - - Disabled - - "ESWM_GMII/MII0: ET0_RXD4; GPT3: GTIOC3B; IRQ: IRQ21; SCI8: RXD8; SDHI0: SD0DAT0; USB HS: USBHS_EXICEN" - None - - 
+      PD02 B17 SCI8_TXD8 - L None "Peripheral mode" - - "ESWM_GMII/MII1: ET1_RXD7; GPT1: GTCPPO1; IRQ: IRQ21; SCI8: TXD8; SDHI0: SD0DAT1" - O - - 
+      PD03 C15 SCI8_RXD8 - L None "Peripheral mode" - - "ESWM_GMII/MII0: ET0_RXD4; GPT3: GTIOC3B; IRQ: IRQ21; SCI8: RXD8; SDHI0: SD0DAT0; USB HS: USBHS_EXICEN" - I - - 
       PD04 C14 - - - - Disabled - - "ESWM_GMII/MII0: ET0_RXD5; GPT3: GTIOC3A; IRQ: IRQ20; SCI8: CTS_RTS8; SCI8: DE8; SDHI0: SD0CMD; USB HS: USBHS_ID" - None - - 
       PD05 C16 - - - - Disabled - - "ESWM_GMII/MII0: ET0_RXD6; GPT2: GTIOC2B; IRQ: IRQ19; SCI8: CTS8; SDHI0: SD0CLK; USB HS: USBHS_OVRCURB" - None - - 
       PD06 C17 - - - - Disabled - - "ESWM_GMII/MII0: ET0_RXD7; GPT2: GTIOC2A; IRQ: IRQ18; SDHI0: SD0WP; USB HS: USBHS_OVRCURA" - None - - 
@@ -807,8 +818,8 @@ FSP Configuration
       PC15 K1 - - - - Disabled - - "BUS: A16; CANFD1: CRX1; GPT: GTADSM0; IRQ: IRQ30; SCI6: CTS6; SDRAM: A16" - None - - 
       PD00 K4 - - - - Disabled - - "BUS: A15; CANFD1: CTX1; GPT5: GTCPPO5; GPT_OPS: GTOWLO; IRQ: IRQ23; SCI5: DE5; SCI5: SCK5; SDRAM: A15" - None - - 
       PD01 B16 - - - - Disabled - - "ESWM_GMII/MII1: ET1_RXD6; GPT2: GTCPPO2; IRQ: IRQ22; SCI8: DE8; SCI8: SCK8; SDHI0: SD0DAT2" - None - - 
-      PD02 B17 - - - - Disabled - - "ESWM_GMII/MII1: ET1_RXD7; GPT1: GTCPPO1; IRQ: IRQ21; SCI8: TXD8; SDHI0: SD0DAT1" - None - - 
-      PD03 C15 - - - - Disabled - - "ESWM_GMII/MII0: ET0_RXD4; GPT3: GTIOC3B; IRQ: IRQ21; SCI8: RXD8; SDHI0: SD0DAT0; USB HS: USBHS_EXICEN" - None - - 
+      PD02 B17 - - L None Disabled - - "ESWM_GMII/MII1: ET1_RXD7; GPT1: GTCPPO1; IRQ: IRQ21; SCI8: TXD8; SDHI0: SD0DAT1" - O - - 
+      PD03 C15 - - L None Disabled - - "ESWM_GMII/MII0: ET0_RXD4; GPT3: GTIOC3B; IRQ: IRQ21; SCI8: RXD8; SDHI0: SD0DAT0; USB HS: USBHS_EXICEN" - I - - 
       PD04 C14 - - - - Disabled - - "ESWM_GMII/MII0: ET0_RXD5; GPT3: GTIOC3A; IRQ: IRQ20; SCI8: CTS_RTS8; SCI8: DE8; SDHI0: SD0CMD; USB HS: USBHS_ID" - None - - 
       PD05 C16 - - - - Disabled - - "ESWM_GMII/MII0: ET0_RXD6; GPT2: GTIOC2B; IRQ: IRQ19; SCI8: CTS8; SDHI0: SD0CLK; USB HS: USBHS_OVRCURB" - None - - 
       PD06 C17 - - - - Disabled - - "ESWM_GMII/MII0: ET0_RXD7; GPT2: GTIOC2A; IRQ: IRQ18; SDHI0: SD0WP; USB HS: USBHS_OVRCURA" - None - - 
@@ -899,6 +910,7 @@ FSP Configuration
   User Event Links
     
   Linker Section Mappings
+    *(.bss.*_fsp_nocache): RAM Zeroed (Uncached)
     *(.bss.g_heap): RAM Uninitialized
     *(.bss.g_main_stack): RAM Uninitialized
     
@@ -954,15 +966,18 @@ FSP Configuration
     The socket semaphore to unblock the MQTT task (USER_SEMAPHORE): Disable
     The socket semaphore to unblock the MQTT task (WAKE_CALLBACK): Enable 
     The socket semaphore  to unblock the MQTT task (USE_CALLBACKS): Disable
-    The socket semaphore to unblock the MQTT task (TX_DRIVER): Disable
-    The socket semaphore to unblock the MQTT task (RX_DRIVER): Disable
+    Enable TX DRIVER for zero copy: Disable
+    Enable RX DRIVER for zero copy: Disable
     Possible optimisation for expert users: Disable
     
   Module "FreeRTOS+TCP Wrapper to ethernet driver (rm_freertos_plus_tcp)"
+    Zero Copy Support: Disable
+    
   Module "FreeRTOS Buffer Allocation 2"
   Module "FreeRTOS Heap 4"
   Module "Ethernet MAC (r_rmac)"
     Parameter Checking: Default (BSP)
+    Read Buffer Size Checking: Disabled
     
   Module "Switch (r_layer3_switch)"
     Parameter Checking: Default (BSP)
@@ -977,6 +992,7 @@ FSP Configuration
     DP83620 Target: Disabled
     ICS1894 Target: Disabled
     GPY111 Target: Enabled
+    VSC8541 Target: Disabled
     User Own Target: Disabled
     Reference Clock: Default
     
@@ -987,8 +1003,15 @@ FSP Configuration
     DP83620 Target: Disabled
     ICS1894 Target: Disabled
     GPY111 Target: Enabled
+    VSC8541 Target: Disabled
     User Own Target: Disabled
     Reference Clock: Default
+    
+  Module "UART (r_sci_b_uart)"
+    Parameter Checking: Default (BSP)
+    FIFO Support: Disable
+    DTC Support: Disable
+    Flow Control Support: Disable
     
   FreeRTOS
     General: Custom FreeRTOSConfig.h: 
@@ -1068,6 +1091,33 @@ FSP Configuration
       Pin Configuration Name: g_bsp_pin_cfg
       
     Instance "FreeRTOS Port (rm_freertos_port)"
+    Instance "g_uart_console UART (r_sci_b_uart)"
+      General: Name: g_uart_console
+      General: Channel: 8
+      General: Data Bits: 8bits
+      General: Parity: None
+      General: Stop Bits: 1bit
+      Baud: Baud Rate: 115200
+      Baud: Baud Rate Modulation: Disabled
+      Baud: Max Error (%): 5
+      Flow Control: CTS/RTS Selection: Hardware RTS
+      Flow Control: Software RTS Port: Disabled
+      Flow Control: Software RTS Pin: Disabled
+      Extra: Clock Source: Internal Clock
+      Extra: Start bit detection: Falling Edge
+      Extra: Noise Filter: Disable
+      Extra: Receive FIFO Trigger Level: Max
+      Extra: RS-485: DE Pin: Disable
+      Extra: RS-485: DE Pin Polarity: Active High
+      Extra: RS-485: DE Pin Assertion Time: 1
+      Extra: RS-485: DE Pin Negation Time: 1
+      Extra: TXI/TEI Synchronization Delay Cycles: 0
+      Interrupts: Callback: uart_console_callback
+      Interrupts: Receive Interrupt Priority: Priority 15
+      Interrupts: Transmit Data Empty Interrupt Priority: Priority 15
+      Interrupts: Transmit End Interrupt Priority: Priority 15
+      Interrupts: Error Interrupt Priority: Priority 15
+      
   Thread "Net Thread"
     Symbol: net_thread
     Name: Net Thread
@@ -1080,8 +1130,8 @@ FSP Configuration
     Instance "FreeRTOS+TCP"
       Instance "g_freertos_plus_tcp0 FreeRTOS+TCP Wrapper to ethernet driver (rm_freertos_plus_tcp)"
         Name: g_freertos_plus_tcp0
-        RX Handler Task Stack Size: configMINIMAL_STACK_SIZE
-        RX Handler Task Priority: configMAX_PRIORITIES - 1
+        Ethernet Deferred Interrupt Handler Task Stack Size: configMINIMAL_STACK_SIZE
+        Ethernet Deferred Interrupt Task Priority: configMAX_PRIORITIES - 1
         Check Link Status Task Stack Size: configMINIMAL_STACK_SIZE
         Check Link Status Task Priority: configMAX_PRIORITIES - 1
         Link check interval: 1000
@@ -1101,11 +1151,18 @@ FSP Configuration
           Buffers: RX queue length: 4
           Buffers: TX queue num: 2
           Buffers: RX queue num: 2
+          Buffers: Number of TX buffer: 12
+          Buffers: Number of RX buffer: 12
           Buffers: Buffer size: 1514
           Interrupts: Magic packet interrupt priority: Disabled
           Interrupts: Callback: vEtherISRCallback
           Buffers: Allocate RX buffer: Enable
+          Buffers: Number of node num: 24
           Timestamp: TS queue length: 8
+          Forwarding: Transmission descriptor format: Transmission direct descriptor
+          Forwarding: Port based forwarding for reception: Disabled
+          Link: Link monitored ports: 
+          Link: Link Detection: Default port (same as Channel)
           
           Instance "g_layer3_switch0 Switch (r_layer3_switch)"
             Name: g_layer3_switch0
@@ -1113,8 +1170,14 @@ FSP Configuration
             Context: NULL
             Callback: NULL
             Interrupts: Interrupt priority: Priority 12
-            Ports: Port 0: Fowarding: CPU
-            Ports: Port 1: Fowarding: CPU
+            Ports: Port 0: Forwarding: CPU
+            Ports: Port 1: Forwarding: CPU
+            Ports: CPU: Forwarding: 
+            Ports: Port 0: IPV queues for preemptable frames: 
+            Ports: Port 1: IPV queues for preemptable frames: 
+            Ts Description Length: 8
+            Ports: Port 0: Minimum fragment size of preemptable frames: 64 bytes
+            Ports: Port 1: Minimum fragment size of preemptable frames: 64 bytes
             Ports: Port 0: MAC address: 74:90:50:65:82:64
             Ports: Port 1: MAC address: 74:90:50:65:82:64
             Ports: Port 0: IPV queue depth: Queue 0: 64
@@ -1188,6 +1251,12 @@ FSP Configuration
               MDC clock rate (Hz): 2500000
               MDIO hold timing adjustment: 0
               MDIO capture timing adjustment: 0
+              Frame preemption: Disable
+              Verify frame interval: 10
+              Interrupts: Context: NULL
+              Interrupts: Callback: NULL
+              Interrupts: ETHA0 status interrupt priority: Disabled
+              Interrupts: ETHA1 status interrupt priority: Disabled
               
               Instance "g_rmac_phy_lsi1 Ethernet PHY-LSI"
                 Name: g_rmac_phy_lsi1

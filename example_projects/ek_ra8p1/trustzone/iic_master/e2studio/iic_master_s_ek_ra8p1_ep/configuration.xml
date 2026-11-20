@@ -88,7 +88,7 @@
       <property id="config.bsp.fsp.mcu.adc.sample_and_hold" value="1"/>
       <property id="config.bsp.fsp.mcu.adc.sensors_are_exclusive" value="0"/>
       <property id="config.bsp.fsp.mcu.sci_spi.max_bitrate" value="60000000"/>
-      <property id="config.bsp.fsp.mcu.spi.max_bitrate" value="60000000"/>
+      <property id="config.bsp.fsp.mcu.spi.max_bitrate" value="166666666"/>
       <property id="config.bsp.fsp.mcu.iic_master.rate.rate_fastplus" value="1"/>
       <property id="config.bsp.fsp.mcu.iic_master.fastplus_channels" value="0x7"/>
       <property id="config.bsp.fsp.mcu.iic_slave.rate.rate_fastplus" value="1"/>
@@ -284,7 +284,7 @@
     </config>
     <config id="config.bsp.ra">
       <property id="config.bsp.common.main" value="0x400"/>
-      <property id="config.bsp.common.heap" value="0x400"/>
+      <property id="config.bsp.common.heap" value="0"/>
       <property id="config.bsp.common.bootloader.xip_enable" value="config.bsp.common.bootloader.xip_enable.disabled"/>
       <property id="config.bsp.common.vcc" value="3300"/>
       <property id="config.bsp.common.checking" value="config.bsp.common.checking.disabled"/>
@@ -406,6 +406,22 @@
     <node id="board.clock.ethphyclk.display" option="board.clock.ethphyclk.display.value"/>
   </raClockConfiguration>
   <raComponentSelection>
+    <component apiversion="" class="Projects" condition="" group="all" subgroup="common" variant="" vendor="Renesas" version="6.6.0">
+      <description>Common source for all template projects.</description>
+      <originalPack>Renesas.RA_common.6.6.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="6.6.0">
+      <description>Board Support Package Common Files</description>
+      <originalPack>Renesas.RA.6.6.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="6.6.0">
+      <description>I/O Port</description>
+      <originalPack>Renesas.RA.6.6.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="CMSIS" condition="" group="Main" subgroup="CoreM" variant="" vendor="Arm" version="6.1.0+fsp.6.6.0">
+      <description>Arm CMSIS Version 6 - Core (M)</description>
+      <originalPack>Arm.CMSIS6.6.1.0+fsp.6.6.0.pack</originalPack>
+    </component>
     <component apiversion="" class="BSP" condition="" group="ra8p1" subgroup="device" variant="R7KA8P1KFLCAC" vendor="Renesas" version="6.6.0">
       <description>Board support package for R7KA8P1KFLCAC</description>
       <originalPack>Renesas.RA_mcu_ra8p1.6.6.0.pack</originalPack>
@@ -430,21 +446,9 @@
       <description>RA8P1-EK Board Support Files</description>
       <originalPack>Renesas.RA_board_ra8p1_ek.6.6.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="6.6.0">
-      <description>Board Support Package Common Files</description>
-      <originalPack>Renesas.RA.6.6.0.pack</originalPack>
-    </component>
     <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_iic_master" variant="" vendor="Renesas" version="6.6.0">
       <description>I2C Master Interface</description>
       <originalPack>Renesas.RA.6.6.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="6.6.0">
-      <description>I/O Port</description>
-      <originalPack>Renesas.RA.6.6.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="CMSIS" condition="" group="Main" subgroup="CoreM" variant="" vendor="Arm" version="6.1.0+fsp.6.6.0">
-      <description>Arm CMSIS Version 6 - Core (M)</description>
-      <originalPack>Arm.CMSIS6.6.1.0+fsp.6.6.0.pack</originalPack>
     </component>
   </raComponentSelection>
   <raElcConfiguration/>
@@ -459,7 +463,7 @@
       <property id="module.driver.ioport.elc_trigger_ioport4" value="_disabled"/>
       <property id="module.driver.ioport.pincfg" value="g_bsp_pin_cfg"/>
     </module>
-    <module id="module.driver.i2c_on_iic_master.1380476454" nsc="true">
+    <module id="module.driver.i2c_on_iic_master.144729396" nsc="true">
       <property id="module.driver.i2c_master.name" value="g_i2c_master"/>
       <property id="module.driver.i2c_master.channel" value="1"/>
       <property id="module.driver.i2c_master.rate" value="module.driver.i2c_master.rate.rate_standard"/>
@@ -476,7 +480,7 @@
     </module>
     <context id="_hal.0">
       <stack module="module.driver.ioport_on_ioport.0"/>
-      <stack module="module.driver.i2c_on_iic_master.1380476454"/>
+      <stack module="module.driver.i2c_on_iic_master.144729396"/>
     </context>
     <config id="config.driver.iic_master">
       <property id="config.driver.iic_master.param_checking_enable" value="config.driver.iic_master.param_checking_enable.bsp"/>
@@ -1081,9 +1085,9 @@
       <configSetting altId="p707.glcdc.lcd_data18" configurationId="p707"/>
       <configSetting altId="p707.gpio_speed.gpio_speed_h" configurationId="p707.gpio_drivecapacity"/>
       <configSetting altId="p707.gpio_mode.gpio_mode_peripheral" configurationId="p707.gpio_mode"/>
-      <configSetting altId="p708.output.low" configurationId="p708"/>
+      <configSetting altId="p708.output.high" configurationId="p708"/>
       <configSetting altId="p708.gpio_speed.gpio_speed_m" configurationId="p708.gpio_drivecapacity"/>
-      <configSetting altId="p708.gpio_mode.gpio_mode_out.low" configurationId="p708.gpio_mode"/>
+      <configSetting altId="p708.gpio_mode.gpio_mode_out.high" configurationId="p708.gpio_mode"/>
       <configSetting altId="p709.output.low" configurationId="p709"/>
       <configSetting altId="p709.gpio_speed.gpio_speed_m" configurationId="p709.gpio_drivecapacity"/>
       <configSetting altId="p709.gpio_mode.gpio_mode_out.low" configurationId="p709.gpio_mode"/>

@@ -3,21 +3,13 @@
  * Description  : USB PMSC Descriptor definition.
  **********************************************************************************************************************/
 /***********************************************************************************************************************
-* Copyright (c) 2020 - 2025 Renesas Electronics Corporation and/or its affiliates
-*
-* SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
-
-/*******************************************************************************************************************//**
- * Includes   <System Includes> , "Project Includes"
+ * Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
  **********************************************************************************************************************/
+
 #include "r_usb_basic.h"
 #include "hal_data.h"
-
-/*******************************************************************************************************************//**
- * @addtogroup usb_pmsc_descrriptor
- * @{
- **********************************************************************************************************************/
 
 /*******************************************************************************************************************//**
  * Macro definitions
@@ -82,7 +74,7 @@ uint8_t g_apl_device[USB_DD_BLENGTH + (USB_DD_BLENGTH % 2)] =
     0,                                                           /*  4:bDeviceClass */
     0,                                                           /*  5:bDeviceSubClass */
     0,                                                           /*  6:bDeviceProtocol */
-    (uint8_t) USB_DCPMAXP,                                       /*  7:bMAXPacketSize(for DCP) */
+    (uint8_t) USB_DCPMAXP,                                       /*  7:bMAXPacketSize (for DCP) */
     (USB_VENDORID & (uint8_t) USB_VALUE_FFUH),                   /*  8:idVendor_lo */
     ((uint8_t) (USB_VENDORID >> 8) & (uint8_t) USB_VALUE_FFUH),  /*  9:idVendor_hi */
     ((uint16_t) USB_PRODUCTID & (uint8_t) USB_VALUE_FFUH),       /* 10:idProduct_lo */
@@ -105,7 +97,7 @@ uint8_t g_apl_qualifier_descriptor[USB_PMSC_QD_BLENGTH + (USB_PMSC_QD_BLENGTH % 
     0,                                                        /*  4:bDeviceClass */
     0,                                                        /*  5:bDeviceSubClass */
     0,                                                        /*  6:bDeviceProtocol */
-    (uint8_t) USB_DCPMAXP,                                    /*  7:bMAXPacketSize(for DCP) */
+    (uint8_t) USB_DCPMAXP,                                    /*  7:bMAXPacketSize (for DCP) */
     USB_CONFIGNUM,                                            /*  8:bNumConfigurations */
     0                                                         /*  9:bReserved */
 };
@@ -119,8 +111,8 @@ uint8_t g_apl_configuration[USB_PMSC_CD1_BLENGTH + (USB_PMSC_CD1_BLENGTH % 2)] =
 {
     USB_CD_BLENGTH,                       /*  0:bLength */
     USB_SOFT_CHANGE,                      /*  1:bDescriptorType */
-    USB_PMSC_CD1_BLENGTH % USB_VALUE_256, /*  2:wTotalLength(L) */
-    USB_PMSC_CD1_BLENGTH / USB_VALUE_256, /*  3:wTotalLength(H) */
+    USB_PMSC_CD1_BLENGTH % USB_VALUE_256, /*  2:wTotalLength (L) */
+    USB_PMSC_CD1_BLENGTH / USB_VALUE_256, /*  3:wTotalLength (H) */
     1,                                    /*  4:bNumInterfaces */
     1,                                    /*  5:bConfigurationValue */
     4,                                    /*  6:iConfiguration */
@@ -161,8 +153,8 @@ uint8_t g_apl_hs_configuration[USB_PMSC_CD1_BLENGTH + (USB_PMSC_CD1_BLENGTH % 2)
 {
     9,                                    /*  0:bLength */
     USB_SOFT_CHANGE,                      /*  1:bDescriptorType */
-    USB_PMSC_CD1_BLENGTH % USB_VALUE_256, /*  2:wTotalLength(L) */
-    USB_PMSC_CD1_BLENGTH / USB_VALUE_256, /*  3:wTotalLength(H) */
+    USB_PMSC_CD1_BLENGTH % USB_VALUE_256, /*  2:wTotalLength (L) */
+    USB_PMSC_CD1_BLENGTH / USB_VALUE_256, /*  3:wTotalLength (H) */
     1,                                    /*  4:bNumInterfaces */
     1,                                    /*  5:bConfigurationValue */
     5,                                    /*  6:iConfiguration */
@@ -334,8 +326,4 @@ uint8_t * gp_apl_string_table[] =
 
 /*******************************************************************************************************************//**
  * Renesas Abstracted Peripheral Mass Storage Class Driver API functions
- **********************************************************************************************************************/
-
-/*******************************************************************************************************************//**
- * @} (end addtogroup usb_pmsc_descriptor)
  **********************************************************************************************************************/

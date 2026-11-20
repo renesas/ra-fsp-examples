@@ -1,5 +1,5 @@
 # Introduction #
-This example project demonstrates the basic functionalities of the MIPI DSI device driver on Renesas RA MCUs based on Renesas FSP. On successful initialization of the MIPI DSI module, the EP will display 8-color bars on the MIPI LCD (external LCD connected to RA MCU) using the graphics and MIPI-DSI modules in FSP. A user menu will be provided over the RTT Viewer. The user can select the time to enter Ultra-Low-Power State (ULPS) and touch the screen or wait 30s to exit this mode. Status information and error messages will be printed on J-link RTT Viewer during the execution of the project.
+The example project demonstrates the basic functionalities of the MIPI DSI device driver on Renesas RA MCUs based on Renesas FSP. On successful initialization of the MIPI DSI module, the EP will display 8-color bars on the MIPI LCD (external LCD connected to RA MCU) using the graphics and MIPI-DSI modules in FSP. A user menu will be provided over the terminal. The user can select the time to enter Ultra-Low-Power State (ULPS) and touch the screen or wait 30s to exit this mode. Status information and error messages will be printed on the terminal during the execution of the project.
 
 Please refer to the [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf) for general information on example projects and [readme.txt](./readme.txt) for specifics of operation.
 
@@ -9,44 +9,51 @@ To build and run the MIPI DSI example project, the following resources are neede
 ### Software ###
 * Renesas Flexible Software Package (FSP): Version 6.6.0
 * E2 studio: Version 2026-07
-* SEGGER J-Link RTT Viewer: Version 9.64
 * LLVM Embedded Toolchain for ARM: Version 22.1.0
+* Terminal Console Application: Tera Term or a similar application
 
 Refer to software requirements mentioned in [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf)
 
 ### Hardware ###
-Supported RA boards: EK-RA8D1, EK-RA8P1, EK-RA8D2
-* 1 x Renesas RA board.
-* 1 x MIPI Graphics Expansion Board.
-* 1 x Type-C USB cable for programming and debugging.
+* Supported RA boards: EK-RA8D1, EK-RA8P1, EK-RA8D2, EK-RA8P1 V2.
+    * 1 x Renesas RA board.
+    * 1 x MIPI Graphics Expansion Board.
+    * 1 x USB cable for programming and debugging (USB cable type varies by board model).
 
 ### Hardware Connections ###
+* Connect the RA board USB debug port to the host PC using the appropriate USB cable for EP programming and debugging.
 
 * For EK-RA8D1:
-    * Connect the USB Debug port on RA board to the PC using a micro USB cable.
     * Connect the MIPI Graphics Expansion Board to J58 of RA board.
     * Set the configuration switches (SW1) on the RA board as below:
-        | SW1-1 PMOD1 | SW1-2 TRACE | SW1-3 CAMERA | SW1-4 ETHA | SW1-5 ETHB | SW1-6 GLCD | SW1-7 SDRAM | SW1-8 I3C |
-        |:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|
-        | OFF | OFF | OFF | OFF | OFF | OFF | ON | OFF |
 
-* For EK-RA8P1, EK-RA8D2:
-    * Connect the USB Debug port on RA board to the PC using a Type-C USB cable.
+      | SW1-1 PMOD1 | SW1-2 TRACE | SW1-3 CAMERA | SW1-4 ETHA | SW1-5 ETHB | SW1-6 GLCD | SW1-7 SDRAM | SW1-8 I3C |
+      |:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|
+      | OFF | OFF | OFF | OFF | OFF | OFF | ON | OFF |
+
+* For EK-RA8P1, EK-RA8D2, EK-RA8P1 V2:
     * Connect the MIPI Graphics Expansion Board to J32 of RA board.
     * Set the configuration switches (SW4) on the RA board as below:
-        | SW4-1 PMOD1_SEL0 |SW4-2 PMOD1_SEL1 | SW4-3 OSPI | SW4-4 ARDUINO | SW4-5 I3C | SW4-6 MIPI | SW4-7 USBFS_ROLE | SW4-8 USBHS_ROLE |
-        |:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|
-        | OFF | OFF | OFF | OFF | OFF | ON | OFF | OFF |
+
+      | SW4-1 PMOD1_SEL0 |SW4-2 PMOD1_SEL1 | SW4-3 OSPI | SW4-4 ARDUINO | SW4-5 I3C | SW4-6 MIPI | SW4-7 USBFS_ROLE | SW4-8 USBHS_ROLE |
+      |:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|
+      | OFF | OFF | OFF | OFF | OFF | ON | OFF | OFF |
+
+    * For EK-RA8P1 V2: The user must set the configuration switches (SW6) as below to use the on-board debug functionality.
+
+      | SW6-1 | SW6-2 | SW6-3 | SW6-4 | SW6-5 | SW6-6 | SW6-7 | SW6-8 | SW6-9 | SW6-10 |
+      |:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:------:|
+      |  OFF  |  OFF  |  OFF  |  OFF  |  ON   |  OFF  |  ON   |  ON   |  ON   |   ON   |
 
 ## Related Collateral References ##
 The following documents can be referred to for enhancing your understanding of the operation of this example project:
-- [FSP User Manual on GitHub](https://renesas.github.io/fsp/)
-- [FSP Known Issues](https://github.com/renesas/fsp/issues)
+* [FSP User Manual on GitHub](https://renesas.github.io/fsp/)
+* [FSP Known Issues](https://github.com/renesas/fsp/issues)
 
 # Project Notes #
 
 ## System Level Block Diagram ##
-![mipi_dsi](images/mipi_dsi_ep_block_diagram.jpg "MIPI DSI EP Block Diagram")
+![mipi_dsi_ep_block_diagram](images/mipi_dsi_ep_block_diagram.jpg "MIPI DSI EP Block Diagram")
 
 ## FSP Modules Used ##
 List all the various modules that are used in this example project. Refer to the FSP User Manual for further details on each module listed below.
@@ -61,21 +68,23 @@ List all the various modules that are used in this example project. Refer to the
 | General PWM | GPT is used to generate display time. | r_gpt |
 
 ## Module Configuration Notes ##
-This section describes FSP Configurator properties that are important or different from those selected by default. 
+This section describes FSP Configurator properties that are important or different from those selected by default.
+
+**Note: The configuration shown in this document is based on the original target board (e.g., EK-RA8D2). Some settings may differ on other supported boards due to hardware differences.**
 
 |   Module Property Path and Identifier   |   Default Value   |   Used Value   |   Reason   |
 | :-------------------------------------: | :---------------: | :------------: | :--------: |
-| configuration.xml > Stacks > g_display Graphics LCD (r_glcdc) > Properties > Settings > Property > Module g_display Graphics LCD (r_glcdc) > Interrupts  > Callback Function | NULL | glcdc_callback | Define user callback function. |
+| configuration.xml > Stacks > g_display Graphics LCD (r_glcdc) > Properties > Settings > Property > Module g_display Graphics LCD (r_glcdc) > Interrupts > Callback Function | NULL | glcdc_callback | Define user callback function. |
 | configuration.xml > Stacks > g_display Graphics LCD (r_glcdc) > Properties > Settings > Property > Module g_display Graphics LCD (r_glcdc) > Input > Graphics Layer 1 > General > Color format | RGB565 (16 bit) | RGB888 (32-bit) | Select color format. |
-| configuration.xml > Stacks > g_mipi_dsi0 MIPI Display (r_mipi_dsi) > Properties > Settings > Property > Module g_mipi_dsi0 MIPI Display (r_mipi_dsi) > Interrupts > Physical Lane Interrupt Enable > Data Lane ULPS Enter | ☐ | ☑ |To enable interrupt when Data Lane enters ULPS. |
-| configuration.xml > Stacks > g_mipi_dsi0 MIPI Display (r_mipi_dsi) > Properties > Settings > Property > Module g_mipi_dsi0 MIPI Display (r_mipi_dsi) > Interrupts > Physical Lane Interrupt Enable > Data Lane ULPS Exit | ☐ | ☑ |To enable interrupt when Data Lane exits ULPS. |
+| configuration.xml > Stacks > g_mipi_dsi0 MIPI Display (r_mipi_dsi) > Properties > Settings > Property > Module g_mipi_dsi0 MIPI Display (r_mipi_dsi) > Interrupts > Physical Lane Interrupt Enable > Data Lane ULPS Enter | ☐ | ☑ | To enable interrupt when Data Lane enters ULPS. |
+| configuration.xml > Stacks > g_mipi_dsi0 MIPI Display (r_mipi_dsi) > Properties > Settings > Property > Module g_mipi_dsi0 MIPI Display (r_mipi_dsi) > Interrupts > Physical Lane Interrupt Enable > Data Lane ULPS Exit | ☐ | ☑ | To enable interrupt when Data Lane exits ULPS. |
 | configuration.xml > Stacks > g_external_irq External IRQ (r_icu) > Properties > Settings > Property > Module g_external_irq External IRQ (r_icu) > Channel | 0 | 19 | To select interrupt pin (P111). |
 | configuration.xml > Stacks > g_external_irq External IRQ (r_icu) > Properties > Settings > Property > Module g_external_irq External IRQ (r_icu) > Callback | NULL | external_irq_callback | To assign callback function for the External IRQ event. |
 | configuration.xml > Stacks > g_i2c_master I2C Master (r_iic_master) > Properties > Settings > Property > Module g_i2c_master I2C Master (r_iic_master) > Channel | 0 | 1 | To select the SDA pin (P511) and the SCL pin (P512). |
 | configuration.xml > Stacks > g_i2c_master I2C Master (r_iic_master) > Properties > Settings > Property > Module g_i2c_master I2C Master (r_iic_master) > Slave Address | 0x00 | 0x14 | Set slave device address (gt911). |
 | configuration.xml > Stacks > g_i2c_master I2C Master (r_iic_master) > Properties > Settings > Property > Module g_i2c_master I2C Master (r_iic_master) > Callback | NULL | i2c_master_callback | To assign callback function for the I2C Master event. |
 | configuration.xml > Stacks > g_timer0 Timer, General PWM (r_gpt) > Properties > Settings > Property > Module g_timer0 Timer, General PWM (r_gpt) > Interrupts > Callback | NULL | gpt_callback | To assign callback function for the GPT event. |
-| configuration.xml > Stacks > g_timer0 Timer, General PWM (r_gpt) > Properties > Settings > Property > Module g_timer0 Timer, General PWM (r_gpt) > Interrupts > Overflow/Crest Interrupt Priority | Disable | Priority 1 |To assign interrupt priority for the GPT event. |
+| configuration.xml > Stacks > g_timer0 Timer, General PWM (r_gpt) > Properties > Settings > Property > Module g_timer0 Timer, General PWM (r_gpt) > Interrupts > Overflow/Crest Interrupt Priority | Disable | Priority 1 | To assign interrupt priority for the GPT event. |
 
 **SDRAM setups in BSP Configuration**
 |   Module Property Path and Identifier   |   Default Value   |   Used Value   |   Reason   |
@@ -126,12 +135,23 @@ The table below lists the Callback function used at the application layer by thi
 | external_irq_callback | Callback functions for ICU interrupts. |
 
 ## Verifying Operation ##
-Import, build and debug the EP (see section Starting Development of **FSP User Manual**). After running the EP, open the RTT Viewer to view status or check any error messages.
+Import, build, and debug the example project (EP) (Refer to the Starting Development section of **FSP User Manual**). After running the EP, open a serial terminal application (e.g., Tera Term) to view output logs, configure the settings as follows:
+  * To make sure the received data shows properly, the user needs to set:
+    * [Setup] -> [Terminal...] -> [New-line] -> Select [Receive: CR] & [Transmit: CR].
+  * To echo back characters typed in Tera Term, the user needs to enable it through:
+    * [Setup] -> [Terminal...] -> Check [Local echo].
+  * The configuration parameters of the serial port on the serial terminal application:
+    * Port: The port is provided by the J-Link On-Board.
+    * Speed: 115200
+    * Data: 8 bit
+    * Parity: none
+    * Stop bits: 1 bit
+    * Flow control: none
 
-Project information printed on the RTT Viewer:
+Project information printed on the terminal:
 
-![mipi_dsi_log](images/rtt_log.jpg "RTT_LOG")
+![mipi_dsi_log](images/mipi_dsi_log.jpg "MIPI DSI Log")
 
 The color bars are displayed on the MIPI LCD screen:
 
-![mipi_dsi_image_demo](images/ek_ra8d2_mipi.jpg "MIPI_DSI_IMAGE_DEMO")
+![mipi_dsi_image_demo](images/mipi_dsi_image_demo.jpg "MIPI DSI Image Demo")

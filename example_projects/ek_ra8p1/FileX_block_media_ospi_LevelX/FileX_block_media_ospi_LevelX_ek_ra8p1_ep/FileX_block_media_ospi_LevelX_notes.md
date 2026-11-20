@@ -1,12 +1,6 @@
 # Introduction #
 
-This example project demonstrates the operation of the FileX file system, incorporating LevelX wear leveling features on the OSPI block media of the RA MCU. The project will perform various FileX file system operations based on the user's selection from the menu option, such as erase OSPI Flash, media management (open, format), directory management (create, get properties, delete), file management (create, write, read, delete), and sector level operation (defragment, write, read, erase). The terminal application is used as the user interface. The menu options and system messages (errors and information messages) will be printed on the terminal application during the execution of the project.
-
-**Note:**
-- To display information, users can choose between the SEGGER J-Link RTT Viewer and the serial terminal (UART)with J-Link OB VCOM. It is important to note that the user should only operate a single terminal application at a time to avoid conflicts or data inconsistencies.
-- For instructions on how to switch between these options, please refer to the **[Verifying Operation](#verifying-operation)** section in this file.
-- By default, EP information is printed to the host PC using the serial terminal for boards that support J-Link OB VCOM. Vice versa, for the RA boards that do not support J-Link OB VCOM, EP uses the SEGGER J-Link RTT Viewer by default instead.
-- RA boards supported for J-Link OB VCOM: EK-RA8D1, EK-RA8P1.
+This example project demonstrates the operation of the FileX file system, incorporating LevelX wear leveling features on the OSPI block media of the RA MCU. Based on the user's input in terminal, EP performs various FileX file system operations, such as erase OSPI Flash, media management (open, format), directory management (create, get properties, delete), file management (create, write, read, delete), and sector level operation (defragment, write, read, erase). The terminal application is used as the user interface. Errors and information messages will be printed on the terminal application.
 
 In Main menu, based on the input, user selects sub menu such as media menu, directory menu, file menu, or sector.
 1. Flash Media operation menu.
@@ -45,7 +39,6 @@ Please refer to the [Example Project Usage Guide](https://github.com/renesas/ra-
 ### Software ###
 * Renesas Flexible Software Package (FSP): Version 6.6.0
 * E2 studio: Version 2026-07
-* SEGGER J-Link RTT Viewer: Version 9.64
 * LLVM Embedded Toolchain for ARM: Version 22.1.0
 * Terminal Console Application: Tera Term or a similar application
 
@@ -53,16 +46,33 @@ Please refer to the [Example Project Usage Guide](https://github.com/renesas/ra-
 The following resources are needed to build and run the FileX_block_media_ospi_LevelX example project.
 
 ### Hardware ###
-Supported RA boards: EK-RA8D1, EK-RA8P1
+Supported RA boards: EK-RA8D1, EK-RA8P1, EK-RA8T2, EK-RA8D2, EK-RA8M2. 
 * 1 x Renesas RA board.
-* 1 x USB cable for programming and debugging
+* 1 x USB cable for programming and debugging (USB cable type varies by board model).
 
 ### Hardware Connections ###
-* Connect the USB Debug port on the RA board to the host PC via a USB cable.
+* Connect the RA board USB debug port to the host PC using the appropriate USB cable for EP programming and debugging.
+
 * For EK-RA8P1: Set the configuration switches (SW4) as below to avoid potential failures.
 	| SW4-1 PMOD1_SEL0 |SW4-2 PMOD1_SEL1 | SW4-3 OSPI | SW4-4 ARDUINO | SW4-5 I3C | SW4-6 MIPI | SW4-7 USBFS_ROLE | SW4-8 USBHS_ROLE |
 	|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|
 	| OFF | OFF | OFF | OFF | OFF | OFF | OFF | OFF |
+
+* For EK-RA8T2: The user must set the configuration switches (SW6 and SW4) as below to use the on-board debug functionality.
+	| SW6-1 | SW6-2 | SW6-3 | SW6-4 | SW6-5 | SW6-6 | SW6-7 | SW6-8 | SW6-9 | SW6-10 |
+	|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:------:|
+	|  OFF  |  OFF  |  OFF  |  OFF  |  ON   |  OFF  |  ON   |  ON   |  ON   |  ON    |
+
+	| SW4-1 | SW4-2 | SW4-3 | SW4-4 | SW4-5 | SW4-6 | SW4-7 | SW4-8 |
+	|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
+	|  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |
+
+* For EK-RA8D2: Set the configuration switches (SW4) as below to avoid potential failures.
+	| SW4-1 PMOD1 | SW4-2 PMOD1 | SW4-3 Octo-SPI | SW4-4 Arduino/mikroBUS | SW4-5 I3C | SW4-6 MIPI | SW4-7 USBFS | SW4-8 USBHS |
+	|:-----------:|:-----------:|:--------------:|:----------------------:|:---------:|:----------:|:-----------:|:-----------:|
+	|     OFF     |     OFF     |      OFF       |          OFF           |    OFF    |    OFF     |     OFF     |     OFF     |
+
+* For EK-RA8M2: The user must place jumper J6 on pins 2-3, J8 on pins 1-2, J9 on pins 2-3, and J29 on pins 1-2, 3-4, 5-6, 7-8 to use the on-board debug functionality.
 
 Refer to the software required section in [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf)
 
@@ -88,7 +98,8 @@ List all the various modules that are used in this example project. Refer to the
 | OSPI Flash | OSPI_B is used to configure flash device and perform write, read, or erase operations on flash device's memory array. | r_ospi_b |
 
 ## Module Configuration Notes ##
-This section describes FSP configuration properties that are important or different from those selected by default.
+This section describes FSP configuration properties that are important or different from those selected by default.  
+**Note: The configuration shown in this document is based on the original target board (e.g., EK-RA8P1). Some settings may differ on other supported boards due to hardware differences.** 
 
 **Configuration Properties for using Azure RTOS FileX on LevelX NOR**
 
@@ -195,15 +206,6 @@ This section describes FSP configuration properties that are important or differ
 | configuration.xml > Stacks > g_ospi_b_init OSPI Flash (r_ospi_b) > Properties > Settings > Property > Module g_ospi_b_init OSPI Flash (r_ospi_b) > Command Sets > High-speed Mode > Block Erase > Command Code | 0xDCDC | 0xDC23 | Block Erase command code of flash device in Dual data rate OPI (8D-8D-8D) mode. |
 | configuration.xml > Stacks > g_ospi_b_init OSPI Flash (r_ospi_b) > Properties > Settings > Property > Module g_ospi_b_init OSPI Flash (r_ospi_b) > Command Sets > High-speed Mode > Chip Erase > Command Code | 0x6060 | 0x609F | Chip Erase command code of flash device in Dual data rate OPI (8D-8D-8D) mode. |
 
-**Configuration Properties for using the serial terminal (UART):**
-
-|   Configure Interrupt Event Path        |   Default Value   |   Used Value   |   Reason   |
-|-----------------------------------------|-------------------|----------------|------------|
-| configuration.xml > Interrupts > Interrupts Configuration > New User Event > SCI > SCI8 > SCI8 RXI (Receive data full) | empty | sci_b_uart_rxi_isr | Assign the UART receive ISR (Receive data full) to the interrupt vector table. |
-| configuration.xml > Interrupts > Interrupts Configuration > New User Event > SCI > SCI8 > SCI8 TXI (Transmit data empty) | empty | sci_b_uart_txi_isr | Assign the UART transfer ISR (Transfer data empty) to the interrupt vector table. |
-| configuration.xml > Interrupts > Interrupts Configuration > New User Event > SCI > SCI8 > SCI8 TEI (Transmit end) | empty | sci_b_uart_tei_isr | Assign the UART transfer ISR (Transfer end) to the interrupt vector table. |
-| configuration.xml > Interrupts > Interrupts Configuration > New User Event > SCI > SCI8 > SCI8 ERI (Receive error) | empty | sci_b_uart_eri_isr | Assign the UART receive ISR (Receive error) to the interrupt vector table. |
-
 **Configure SCICLK in Clock Configuration**
 |   Configure Clock path   |   Default Value   |   Used Value   |   Reason   |
 |--------------------------|-------------------|----------------|------------|
@@ -263,134 +265,123 @@ The table below lists the FSP provided API used at the application layer in this
 | R_OSPI_B_Erase | This API is used to erase a Flash device's sector. |
 | R_OSPI_B_Close | This API is used to de-initialize OSPI_B module. |
 
-For using the serial terminal (UART):
-| API Name    | Usage                                                                          |
-|-------------|--------------------------------------------------------------------------------|
-| R_SCI_B_UART_Open | This API is used to initialize the SCI UART module. |
-| R_SCI_B_UART_Write | This API is used to perform a write operation. |
-| R_SCI_B_UART_Close | This API is used to de-initialize the SCI UART module. |
-
 ## Verifying Operation ##
-1. Import the example project. 
-
-    By default, the EP supports serial terminal for RA boards that support J-link OB VCOM
-
-    * Define USE_VIRTUAL_COM=1 macro in Project Properties -> C/C++ Build -> Settings -> Tool Settings -> Compiler -> Includes > Macro Defines (-D)
-
-    To use SEGGER J-Link RTT Viewer, please follow the instructions below:
-
-    * Define USE_VIRTUAL_COM=1 macro in Project Properties -> C/C++ Build -> Settings -> Tool Settings -> Compiler -> Includes > Macro Defines (-D)
-
-2. Generate, and build the example project.
-3. Before running the example project, make sure hardware connections are completed.
-4. Open a serial terminal application on the host PC and connect to the COM Port provided by the J-Link on-board or open J-Link RTT Viewer (In case the user selected SEGGER J-Link RTT Viewer or RA boards do not support J-Link OB VCOM).
-    * Note:
-        * For using the serial terminal:
-            * Please ensure that the connection to the SEGGER J-Link RTT Viewer has been terminated.
-            * The COM port is provided by the J-Link onboard, with a baud rate of 115200 bps, a data length of 8 bits, no parity check, one stop bit, and no flow control.
-            * To echo back what was typed in Tera Term, the user needs to enable it through [Setup] -> [Terminal...] -> Check [Local echo].
-        * For using SEGGER J-Link RTT Viewer:
-            * If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) in .map file generated in the project folder (e2studio\Debug or e2studio\Release).
-6. Debug or flash the example project to the RA board.
-7. After the main menu is displayed on the terminal application, the user selects options to perform file system management as desired.
-
-Note: The user needs to type the menu option and hit enter key according to the Menu details below.  
+* Import, generate, and build the example project.
+* Before running the example project, make sure [Hardware Connections](#hardware-connections) are completed.
+* Open a serial terminal application (e.g., Tera Term) to view output log, configure the settings as shown below:
+    * To make sure the received data shows properly, the user needs to set:
+        * [Setup] -> [Terminal...] -> [New-line] -> Select [Receive: CR] & [Transmit: CR].
+    * To echo back characters typed in Tera Term, the user needs to enable it through:
+        * [Setup] -> [Terminal...] -> Check [Local echo].
+    * The configuration parameters of the serial port on the serial terminal application:
+        * Port: The port is provided by the J-Link On-Board.
+        * Speed: 115200
+        * Data: 8 bit
+        * Parity: none
+        * Stop bits: 1 bit
+        * Flow control: none
+* Debug or flash the EP to the RA board.
+* After the main menu is displayed on the terminal application, the user selects options to perform file system management as desired.
 
 ### Menu details ###
 1. In MAIN MENU: The user input options from the terminal will go to the next menu as follows:
-    * Type '1' and enter to go to FLASH MEDIA MENU.
-    * Type '2' and enter to go to DIRECTORY MENU.
-    * Type '3' and enter to go to FILE MENU.
-    * Type '4' and enter to go to SECTOR MENU.
+    * Type '1' to go to FLASH MEDIA MENU.
+    * Type '2' to go to DIRECTORY MENU.
+    * Type '3' to go to FILE MENU.
+    * Type '4' to go to SECTOR MENU.
 2. In FLASH MEDIA MENU: The user input options will perform flash, media operations as follows:
-    * Type '1' and enter to erase the entire flash.
-    * Type '2' and enter to format the media in FAT32 format.
-    * Type '3' and enter to open the media.
-    * Type '4' and enter to defragment the Flash.
-    * Type '5' and enter to go back MAIN MENU.
+    * Type '1' to erase the entire flash.
+    * Type '2' to format the media in FAT32 format.
+    * Type '3' to open the media.
+    * Type '4' to defragment the Flash.
+    * Type '5' to go back MAIN MENU.
 3. In DIRECTORY MENU: The user input options will perform directory operations as follows:
-    * Type '1' and enter to create a new directory.
-    * Type '2' and enter to get root directory properties.
-    * Type '3' and enter to delete a directory.
-    * Type '4' and enter to go back MAIN MENU.
+    * Type '1' to create a new directory.
+    * Type '2' to get root directory properties.
+    * Type '3' to delete a directory.
+    * Type '4' to go back MAIN MENU.
 4. In FILE MENU: The user input options will perform file operations as follows:
-    * Type '1' and enter to create an empty file.
-    * Type '2' and enter to write a fixed content into a file.
-    * Type '3' and enter to read the first 1 KB of content in a file.
-    * Type '4' and enter to delete a file.
-    * Type '5' and enter to go back MAIN MENU.
+    * Type '1' to create an empty file.
+    * Type '2' to write a fixed content into a file.
+    * Type '3' to read the first 1 KB of content in a file.
+    * Type '4' to delete a file.
+    * Type '5' to go back MAIN MENU.
 5. In SECTOR MENU: The user input options will perform sector operations as follows:
-    * Type '1' and enter to write data into the selected sector.
-    * Type '2' and enter to read and display the data in the selected sector.
-    * Type '3' and enter to erase the selected sector.
-    * Type '4' and enter to go back MAIN MENU.
+    * Type '1' and enter the sector to write data into the selected sector.
+    * Type '2' and enter the sector to read and display the data in the selected sector.
+    * Type '3' and enter the sector to erase the selected sector.
+    * Type '4' and to go back MAIN MENU.
 
-The images below showcase the output on the serial terminal application (Tera Term):
+### The image below showcases the output log ###
 
 The EP information:
 
-![ep_info](images/serial_ep_info.png "EP Information")
+![ep_info](images/ep_info.png "EP Information")
+
+Main Menu:
+
+![main_menu](images/main_menu.png "Main Menu")
 
 Flash Media Operation:
 
 * Erase entire Flash.
 
-![entire_flash_erase](images/serial_entire_flash_erase.png "Entire Flash Erase")
+![entire_flash_erase](images/entire_flash_erase.png "Entire Flash Erase")
 
 * Format Media.
 
-![media_format](images/serial_media_format.png "Media Format")
+![media_format](images/media_format.png "Media Format")
 
 * Open Media.
 
-![media_open](images/serial_media_open.png "Media Open")
+![media_open](images/media_open.png "Media Open")
 
 * Defragment the Flash. 
 
-![flash_defragment](images/serial_flash_defragment.png "Flash Defragment")
+![flash_defragment](images/flash_defragment.png "Flash Defragment")
 
 Directory Operation:
 
 * Create Directory.
 
-![directory_create](images/serial_directory_create.png "Directory Create")
+![directory_create](images/directory_create.png "Directory Create")
 
 * Get Directory Properties.
 
-![directory_get_properties](images/serial_directory_get_properties.png "Directory Get Properties")
+![directory_get_properties](images/directory_get_properties.png "Directory Get Properties")
 
 * Delete Directory.
 
-![directory_delete](images/serial_directory_delete.png "Directory Delete")
+![directory_delete](images/directory_delete.png "Directory Delete")
 
 File Operation:
 
 * Create Empty File.
 
-![file_create](images/serial_file_create.png "File Create")
+![file_create](images/file_create.png "File Create")
 
 * Write To File.
 
-![file_write](images/serial_file_write.png "File Write")
+![file_write](images/file_write.png "File Write")
 
 * Read From File.
 
-![file_read](images/serial_file_read.png "File Read")
+![file_read](images/file_read.png "File Read")
 
 * Delete File.
 
-![file_delete](images/serial_file_delete.png "File Delete")
+![file_delete](images/file_delete.png "File Delete")
 
 Sector Operation:
 
 * Write to Sector.
 
-![sector_write](images/serial_sector_write.png "Sector Write")
+![sector_write](images/sector_write.png "Sector Write")
 
 * Read from Sector.
 
-![sector_read](images/serial_sector_read.png "Sector Read")
+![sector_read](images/sector_read.png "Sector Read")
 
 * Erase Sector.
 
-![sector_erase](images/serial_sector_erase.png "Sector Erase")
+![sector_erase](images/sector_erase.png "Sector Erase")

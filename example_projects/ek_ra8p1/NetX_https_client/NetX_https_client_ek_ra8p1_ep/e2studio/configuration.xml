@@ -462,6 +462,10 @@
       <description>Ethernet MAC</description>
       <originalPack>Renesas.RA.6.6.0.pack</originalPack>
     </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_sci_b_uart" variant="" vendor="Renesas" version="6.6.0">
+      <description>SCI UART</description>
+      <originalPack>Renesas.RA.6.6.0.pack</originalPack>
+    </component>
     <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_netxduo_ether" variant="" vendor="Renesas" version="6.6.0">
       <description>NetX Duo Ethernet Driver</description>
       <originalPack>Renesas.RA.6.6.0.pack</originalPack>
@@ -515,6 +519,10 @@
       <property id="module.azure.nxd.ip.priority" value="3"/>
       <property id="module.azure.nxd.ip.arp_cache_size_units" value="module.azure.nxd.ip.arp_cache_size_units.bytes"/>
       <property id="module.azure.nxd.ip.arp_cache_size" value="520"/>
+      <property id="module.azure.nxd.ip.address_ext" value="192.168.10.2"/>
+      <property id="module.azure.nxd.ip.subnet_mask_ext" value="255.255.255.0"/>
+      <property id="module.azure.nxd.ipv6.address_global_ext" value="2001:0:0:0:0:0:0:2"/>
+      <property id="module.azure.nxd.ipv6.address_local_ext" value="0:0:0:0:0:0:0:0"/>
     </module>
     <module id="module.azure.nxd.packet_pool.1426909900">
       <property id="module.azure.nxd.packet_pool.name" value="g_packet_pool0"/>
@@ -1316,6 +1324,7 @@
       <property id="module.driver.layer3_switch.port_forwarding_cpu" value=""/>
       <property id="module.driver.layer3_switch.p_frame_queue_port0" value=""/>
       <property id="module.driver.layer3_switch.p_frame_queue_port1" value=""/>
+      <property id="module.driver.layer3_switch.Ts_Description_Length" value="8"/>
       <property id="module.driver.layer3_switch.frame_preemption_fragment_size_port0" value="module.driver.layer3_switch.frame_preemption_fragment_size_port0.64"/>
       <property id="module.driver.layer3_switch.frame_preemption_fragment_size_port1" value="module.driver.layer3_switch.frame_preemption_fragment_size_port1.64"/>
       <property id="module.driver.layer3_switch.mac_address0" value="74:90:50:65:81:70"/>
@@ -1407,8 +1416,36 @@
     <module id="module.azure.nxd_nx_secure.174854029"/>
     <module id="module.azure.nxd_nx_crypto.2029561919"/>
     <module id="module.middleware.rm_netx_secure_crypto_sw_port.1490162706"/>
+    <module id="module.driver.uart_on_sci_b_uart.1232253407">
+      <property id="module.driver.uart.name" value="g_uart_console"/>
+      <property id="module.driver.uart.channel" value="8"/>
+      <property id="module.driver.uart.data_bits" value="module.driver.uart.data_bits.data_bits_8"/>
+      <property id="module.driver.uart.parity" value="module.driver.uart.parity.parity_off"/>
+      <property id="module.driver.uart.stop_bits" value="module.driver.uart.stop_bits.stop_bits_1"/>
+      <property id="module.driver.uart.baud" value="115200"/>
+      <property id="module.driver.uart.baudrate_modulation" value="module.driver.uart.baudrate_modulation.disabled"/>
+      <property id="module.driver.uart.baudrate_max_err" value="5"/>
+      <property id="module.driver.uart.flow_control" value="module.driver.uart.flow_control.rts"/>
+      <property id="module.driver.uart.pin_control_port" value="module.driver.uart.pin_control_port.PORT_DISABLE"/>
+      <property id="module.driver.uart.pin_control_pin" value="module.driver.uart.pin_control_pin.PIN_DISABLE"/>
+      <property id="module.driver.uart.clk_src" value="module.driver.uart.clk_src.int_clk"/>
+      <property id="module.driver.uart.rx_edge_start" value="module.driver.uart.rx_edge_start.falling_edge"/>
+      <property id="module.driver.uart.noisecancel_en" value="module.driver.uart.noisecancel_en.disabled"/>
+      <property id="module.driver.uart.rx_fifo_trigger" value="module.driver.uart.rx_fifo_trigger.max"/>
+      <property id="module.driver.uart.rs485.de_enable" value="module.driver.uart.rs485.de_enable.disabled"/>
+      <property id="module.driver.uart.rs485.de_polarity" value="module.driver.uart.rs485.de_polarity.high"/>
+      <property id="module.driver.uart.rs485.de_assertion_time" value="1"/>
+      <property id="module.driver.uart.rs485.de_negation_time" value="1"/>
+      <property id="module.driver.uart.tei_synchronization_delay_cycles" value="0"/>
+      <property id="module.driver.uart.callback" value="uart_console_callback"/>
+      <property id="module.driver.uart.rxi_ipl" value="board.icu.common.irq.priority11"/>
+      <property id="module.driver.uart.txi_ipl" value="board.icu.common.irq.priority15"/>
+      <property id="module.driver.uart.tei_ipl" value="board.icu.common.irq.priority15"/>
+      <property id="module.driver.uart.eri_ipl" value="board.icu.common.irq.priority15"/>
+    </module>
     <context id="_hal.0">
       <stack module="module.driver.ioport_on_ioport.0"/>
+      <stack module="module.driver.uart_on_sci_b_uart.1232253407"/>
       <stack module="module.middleware.rm_threadx_port.0"/>
     </context>
     <context id="rtos.threadx.thread.0">
@@ -1475,8 +1512,8 @@
       <stack module="module.driver.adc_on_adc_b.2123957604"/>
     </context>
     <context id="rtos.threadx.thread.988732010">
-      <property id="_symbol" value="rtt_thread"/>
-      <property id="rtos.threadx.thread.name" value="rtt_thread"/>
+      <property id="_symbol" value="terminal_thread"/>
+      <property id="rtos.threadx.thread.name" value="Terminal Thread"/>
       <property id="rtos.threadx.thread.stack" value="1024"/>
       <property id="rtos.threadx.thread.priority" value="3"/>
       <property id="rtos.threadx.thread.autostart" value="rtos.threadx.thread.autostart.enabled"/>
@@ -1485,6 +1522,12 @@
     <config id="config.middleware.rm_netx_secure_crypto_sw_port">
       <property id="config.middleware.rm_netx_secure_crypto_sw_port.standalone" value="config.middleware.rm_netx_secure_crypto_sw_port.standalone.disabled"/>
       <property id="config.middleware.rm_netx_secure_crypto_sw_port.rsa_modulus_expected" value="config.middleware.rm_netx_secure_crypto_sw_port.rsa_modulus_expected.b4096"/>
+    </config>
+    <config id="config.driver.sci_b_uart">
+      <property id="config.driver.sci_b_uart.param_checking_enable" value="config.driver.sci_b_uart.param_checking_enable.bsp"/>
+      <property id="config.driver.sci_b_uart.fifo_support" value="config.driver.sci_b_uart.fifo_support.disabled"/>
+      <property id="config.driver.sci_b_uart.dtc_support" value="config.driver.sci_b_uart.dtc_support.disabled"/>
+      <property id="config.driver.sci_b_uart.flow_control" value="config.driver.sci_b_uart.flow_control.disabled"/>
     </config>
     <config id="config.driver.rmac_phy">
       <property id="config.driver.rmac_phy.param_checking_enable" value="config.driver.rmac_phy.param_checking_enable.bsp"/>
@@ -1606,6 +1649,7 @@
       <property id="config.azure.nxd_src.icmpv6_tx_checksum" value="config.azure.nxd_src.icmpv6_tx_checksum.enabled"/>
       <property id="config.azure.nxd_src.icmp_tx_checksum" value="config.azure.nxd_src.icmp_tx_checksum.enabled"/>
       <property id="config.azure.nxd_src.packet_alignment" value=""/>
+      <property id="config.azure.nxd_src.dual_packet_pool" value="config.azure.nxd_src.dual_packet_pool.disabled"/>
       <property id="config.azure.nxd_src.rand" value="rand"/>
       <property id="config.azure.nxd_src.srand" value="srand"/>
       <property id="config.azure.nxd_dhcp_common.tos" value="config.azure.nxd_dhcp_common.tos.normal"/>
@@ -1887,7 +1931,7 @@
     <config id="config.threadx.thread">
       <property id="config.azure.tx.custom_tx_user" value=""/>
       <property id="config.azure.tx.error_checking" value="config.azure.tx.error_checking.enabled"/>
-      <property id="config.azure.tx.timer_ticks_per_second" value="100"/>
+      <property id="config.azure.tx.timer_ticks_per_second" value="1000"/>
       <property id="config.azure.tx.max_priorities" value="32"/>
       <property id="config.azure.tx.minimum_stack" value="200"/>
       <property id="config.azure.tx.timer_thread_stack_size" value="1024"/>

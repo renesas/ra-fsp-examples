@@ -1,9 +1,9 @@
 **Note :** MD file is common for both i3c_master and i3c_slave EPs.
 
-# Introduction # 
-The sample code accompanying this file shows the operation of the I3C Driver on Renesas RA MCUs based on Renesas FSP. The I3C master on RA board demonstrates operations associated with an I3C slave running on another RA board. Once initialization is successful, I3C Master device assigns slave address to I3C slave device through DAA (dynamic address assignment) using I3C common command code (CCC). Once Dynamic Address Assignment is completed, the Master EP performs write/read operations, and displays slave device information based on user input. If the on-board switch is pressed on the slave side, it will initiate an IBI transfer request. The application status messages will be displayed in the J-Link RTT Viewer and on-board LEDs. Refer **[LED Status](#led-status)** section for LED observation.
+# Introduction #
+This example project demonstrates the typical use of the I3C Driver on Renesas RA MCUs based on Renesas FSP. The I3C Master on RA board demonstrates operations associated with an I3C slave running on another RA board. Once initialization is successful, I3C Master device assigns slave address to I3C slave device through DAA (Dynamic Address Assignment) using I3C Common Command Code (CCC). Once Dynamic Address Assignment is completed, the Master EP performs write/read operations, and displays slave device information based on user input. If the on-board switch is pressed on the slave side, it will initiate an IBI transfer request. Error and info messages will be printed on the terminal. Refer **[LED Status](#led-status)** section for LED observation.
 
-Note: EK-RA8D1, EK-RA8P1, EK-RA8D2 boards support I3C HDR-DDR mode. The Master EP can perform write/read operations both in the SDR mode and HDR-DDR mode.
+Note: EK-RA8D1, EK-RA8P1, EK-RA8D2, EK-RA8M2, EK-RA8T2, EK-RA8P1 V2 boards support I3C HDR-DDR mode. The Master EP can perform write/read operations both in the SDR mode and HDR-DDR mode.
 
 Please refer to the [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf) 
 for general information on example projects and [readme.txt](./readme.txt) for specifics of operation.
@@ -14,22 +14,22 @@ To build and run the I3C example project, the following resources are needed.
 ### Software ###
 * Renesas Flexible Software Package (FSP): Version 6.6.0
 * e2 studio: Version 2026-07
-* SEGGER J-Link RTT Viewer: Version 9.64
 * LLVM Embedded Toolchain for ARM: Version 22.1.0
+* Terminal Console Application: Tera Term or a similar application
 
 Refer to the software required section in [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf)
 
 ### Hardware ###
-* Supported RA boards: EK-RA2E2, EK-RA4E2, EK-RA6E2, MCK-RA4T1, MCK-RA6T3, EK-RA8M1, EK-RA8D1, EK-RA4L1, EK-RA2L2, EK-RA8P1, EK-RA8D2.
+* Supported RA boards: EK-RA2E2, EK-RA4E2, EK-RA6E2, MCK-RA4T1, MCK-RA6T3, EK-RA8M1, EK-RA8D1, EK-RA4L1, EK-RA2L2, EK-RA8P1, EK-RA8D2, EK-RA8M2, EK-RA8T2, EK-RA8P1 V2, FPB-RA4E2, FPB-RA6E2.
 	* 2 x Renesas RA boards.
-	* 2 x Type-C USB cables for programming and debugging.
-	* 5 x Jumper wires.
+	* 2 x USB cables for programming and debugging (USB cable type varies by board model).
+	* Some jumper wires.
 	* 1 x Resistor (1 kΩ, 3.9 kΩ, or 4.7 kΩ) for the SDA pull-up.
-		* EK-RA8P1, EK-RA8D2: No external 3.3 V pull-up resistor is required.
+		* EK-RA8P1, EK-RA8D2, EK-RA8M2, EK-RA8T2, EK-RA8P1 V2, FPB-RA4E2, FPB-RA6E2: No external 3.3 V pull-up resistor is required.
 		* EK-RA8M1, EK-RA8D1, EK-RA4L1, EK-RA2L2: Use a 1 kΩ resistor.
 
 ### Hardware Connections ###
-* Connect USB debug ports of the two RA boards to USB ports of the host PC via two USB cables.
+* Connect USB debug ports of the two RA boards to USB ports of the host PC using two appropriate USB cables for EP programming and debugging.
 
 * The jumper wires are required to establish loop back connection along I3C lines across the board with pins as mentioned below:  
 	For EK-RA2E2:
@@ -88,7 +88,7 @@ Refer to the software required section in [Example Project Usage Guide](https://
 		I3C_SCL0 P400 (J1:8)      ---->      I3C_SCL0 P400 (J1:8)
 		Common GND
 
-	For EK-RA8P1, EK-RA8D2:
+	For EK-RA8P1, EK-RA8D2, EK-RA8M2, EK-RA8T2, EK-RA8P1 V2:
 
 		Master Board                         Slave Board
 		-------------                        ------------
@@ -96,6 +96,21 @@ Refer to the software required section in [Example Project Usage Guide](https://
 		I3C_SCL0 P400 (J24:10)    ---->      I3C_SCL0 P400 (J24:10)
 		Common GND
 
+	For FPB-RA4E2:
+
+		Master Board                         Slave Board
+		-------------                        ------------
+		I3C_SDA0 P101 (J1:9)      ---->      I3C_SDA0 P101 (J1:9)
+		I3C_SCL0 P100 (J1:10)     ---->      I3C_SCL0 P100 (J1:10)
+		Common GND
+
+	For FPB-RA6E2:
+
+		Master Board                         Slave Board
+		-------------                        ------------
+		I3C_SDA0 P101 (J1:9)      ---->      I3C_SDA0 P101 (J1:9)
+		I3C_SCL0 P100 (J1:10)     ---->      I3C_SCL0 P100 (J1:10)
+		Common GND
 
 ### Hardware Configurations ###
 
@@ -113,6 +128,25 @@ Refer to the software required section in [Example Project Usage Guide](https://
 
 * For EK-RA8D2: The user needs to turn ON S4-5 to use P401, P400 on J24 for I3C function.
 
+* For EK-RA8M2: The user must place jumper J6 on pins 2-3, J8 on pins 1-2, J9 on pins 2-3, and J29 on pins 1-2, 3-4, 5-6, 7-8 to use the on-board debug functionality.
+
+* For EK-RA8T2: The user must set the configuration switches (SW6 and SW4) as below to use the on-board debug functionality.
+	| SW6-1 | SW6-2 | SW6-3 | SW6-4 | SW6-5 | SW6-6 | SW6-7 | SW6-8 | SW6-9 | SW6-10 |
+	|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:------:|
+	|  OFF  |  OFF  |  OFF  |  OFF  |  ON   |  OFF  |  ON   |  ON   |  ON   |  ON    |
+
+	| SW4-1 | SW4-2 | SW4-3 | SW4-4 | SW4-5 | SW4-6 | SW4-7 | SW4-8 |
+	|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
+	|  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |
+
+* For EK-RA8P1 V2:
+	* The user needs to turn ON SW4-5 to use P401, P400 on J24 for I3C function.
+	* The user must set the configuration switches (SW6) as below to use the on-board debug functionality.
+
+		| SW6-1 | SW6-2 | SW6-3 | SW6-4 | SW6-5 | SW6-6 | SW6-7 | SW6-8 | SW6-9 | SW6-10 |
+		|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:------:|
+		|  OFF  |  OFF  |  OFF  |  OFF  |  ON   |  OFF  |  ON   |  ON   |  ON   |   ON   |
+
 ## Related Collateral References ##
 The following documents can be referred to for enhancing your understanding of the operation of this example project:
 - [FSP User Manual on GitHub](https://renesas.github.io/fsp/)
@@ -122,21 +156,20 @@ The following documents can be referred to for enhancing your understanding of t
 
 ## System Level Block Diagram ##
  High level block diagram
-  
-![I3C](images/highLevel_i3c.jpg "High Level Block Diagram")
 
+![I3C](images/i3c_high_level_design.jpg "High Level Block Diagram")
 
 ## FSP Modules Used ##
 List of important modules that are used in this example project. Refer to the FSP User Manual for further details on each module listed below.
 
-| Module Name | Usage | Searchable Keyword  |
+| Module Name | Usage | Searchable Keyword |
 |-------------|-----------------------------------------------|-----------------------------------------------|
-|I3C | Driver for the I3C peripheral to demonstrate Master and Slave mode. | i3c |
-|AGT | Driver for the AGT peripheral is used for demonstrating timeout condition. | agt |
-|ICU | The external_irq interface is for configuring interrupts to fire when a trigger condition is detected on an external IRQ pin. | icu |
+| I3C | Driver for the I3C peripheral to demonstrate Master and Slave mode. | i3c |
+| AGT | Driver for the AGT peripheral is used for demonstrating timeout condition. | agt |
+| ICU | The external_irq interface is for configuring interrupts to fire when a trigger condition is detected on an external IRQ pin. | icu |
 
 ## Module Configuration Notes ##
-This section describes FSP Configurator properties which are important or different than those selected by default. 
+This section describes FSP Configurator properties which are important or different from those selected by default. 
 
 **I3C Master Configuration properties**
 |   Module Property Path and Identifier   |   Default Value   |   Used Value   |   Reason   |
@@ -159,7 +192,6 @@ This section describes FSP Configurator properties which are important or differ
 | configuration.xml > Stacks > g_i3c0 I3C (r_i3c) > Properties > Settings > Property > Module g_i3c0 I3C (r_i3c) > Slave Mode > Command Response Info > SETMWL/GETMWL > Max Write Length | 65535 | 64 | Set the Device Max Write Length. In this EP, the write buffer is 64-byte. |
 | configuration.xml > Stacks > g_i3c0 I3C (r_i3c) > Properties > Settings > Property > Module g_i3c0 I3C (r_i3c) > Slave Mode > Command Response Info > SETMRL/GETMRL > Max Read Length | 65535 | 64 | Set the Device Max Read Length. In this EP, the read buffer is 64-byte. |
 | configuration.xml > Stacks > g_i3c0 I3C (r_i3c) > Properties > Settings > Property > Module g_i3c0 I3C (r_i3c) > Slave Mode > Command Response Info > SETMRL/GETMRL > Max IBI Payload Length | 0 | 32 | Set the Device Max IBI Payload Length. In this EP, the IBI read buffer is 32-byte. |
-| configuration.xml > Stacks > Properties > Settings > Property > g_i3c0 I3C (r_i3c) > Module g_i3c0 I3C (r_i3c) > Slave Mode > Command Response Info > GETCAP/GETHDRCAP > HDR-DDR (Mode 0) | Disable | Enable | Enable HDR-DDR mode. |
 | configuration.xml > Stacks > g_i3c0 I3C (r_i3c) > Properties > Settings > Property > Module g_i3c0 I3C (r_i3c) > Device Type | Slave | Slave | Set the role of the I3C instance on the I3C bus. |
 
 The table below lists the FSP provided API used at the application layer by this example project.  
@@ -188,50 +220,66 @@ The table below lists the FSP provided API used at the application layer by this
 | R_IOPORT_PinWrite | This API is used to write the value on GPIO Pin. |
 
 ## Verifying Operation ##
-1. Import, generate and build both i3c_master and i3c_slave EPs in different workspaces. Before running the example project, make sure hardware connections are done on both master and slave sides.
+1. Import, generate and build both i3c_master and i3c_slave EPs in different workspaces. Before running the example project, make sure hardware connections are done on both Master and Slave sides.
 2. Download i3c_master EP to one RA MCU and run the project.
 3. Download i3c_slave EP to another RA MCU and run the project.
-4. Now open one J-Link RTT Viewer and connect to the master board and open another/second J-Link RTT Viewer and connect it to slave board.
-5. The user can perform Menu option operations on the master side and check corresponding results for the Master and Slave EPs on the respective J-Link RTT Viewer.
-6. Also on slave side the user can perform IBI transfer request using Push button (SW2) and verify result on J-Link RTT Viewer. For MCK-RA4T1/MCK-RA6T3: The user needs to use Toggle switch (S1) instead.
-   
-   The images below showcase the I3C Master output on J-Link RTT Viewer:
+4. Now open a serial terminal application (e.g., Tera Term) and connect to the Master board. Then, open another terminal and connect to the Slave board.
+	* To make sure the received data shows properly, the user needs to set:
+		* [Setup] -> [Terminal...] -> [New-line] -> Select [Receive: CR] & [Transmit: CR].
 
-   ![I3C Master banner snapshot](images/i3c_master_banner_info.jpg "Banner Info")
+	* To echo back characters typed in Tera Term, the user needs to enable it through:
+		* [Setup] -> [Terminal...] -> Check [Local echo].
 
-   ![I3C Master menu snapshot](images/i3c_master_menu.jpg "Menu")
+	* The configuration parameters of the serial port on the serial terminal application:
+		* Port: The port is provided by the J-Link On-Board.
+		* Speed: 115200
+		* Data: 8 bit
+		* Parity: none
+		* Stop bits: 1 bit
+		* Flow control: none
+5. The user can perform Menu option operations on the Master side and check corresponding results for the Master and Slave EPs on the respective terminal application.
+6. Also on slave side the user can perform IBI transfer request using on-board push button (SW2) and verify result on the terminal.
+	* For MCK-RA4T1/MCK-RA6T3: The user needs to use toggle switch (S1) instead.
+	* For FPB-RA4E2/FPB-RA6E2: The user needs to use on-board push button (S1) instead.
 
-   ![I3C Master init DDA snapshot](images/i3c_master_init_DAA.jpg "Initialize DDA")
+The images below showcase the I3C Master output on the terminal:
+
+![I3C Master banner snapshot](images/i3c_master_banner_info.jpg "Banner Info")
+
+![I3C Master menu snapshot](images/i3c_master_menu.jpg "Menu")
+
+![I3C Master init DDA snapshot](images/i3c_master_init_DAA.jpg "Initialize DDA")
  
-   ![I3C Display slave info snapshot](images/i3c_master_display_slave_info.jpg "display slave info")
+![I3C Display slave info snapshot](images/i3c_master_display_slave_info.jpg "display slave info")
  
-   ![I3C Master write/read in SDR mode snapshot](images/i3c_master_write_read_sdr_mode.jpg "Write/Read in SDR mode")
+![I3C Master write/read in SDR mode snapshot](images/i3c_master_write_read_sdr_mode.jpg "Write/Read in SDR mode")
 
-   ![I3C Master write/read in HDR-DDR mode snapshot](images/i3c_master_write_read_hdr_ddr_mode.jpg "Write/Read in HDR-DDR mode")
+![I3C Master write/read in HDR-DDR mode snapshot](images/i3c_master_write_read_hdr_ddr_mode.jpg "Write/Read in HDR-DDR mode")
 
-   ![I3C Master IBI receive](images/i3c_master_ibi_receive.jpg "IBI receive")
+![I3C Master IBI receive](images/i3c_master_ibi_receive.jpg "IBI receive")
 
-   The images below showcase the I3C Slave output on J-Link RTT Viewer:
+The images below showcase the I3C Slave output on the terminal:
 
-   ![I3C Slave banner snapshot](images/i3c_slave_banner_info.jpg "Banner Info")
+![I3C Slave banner snapshot](images/i3c_slave_banner_info.jpg "Banner Info")
 
-   ![I3C Slave dynamic address snapshot](images/i3c_slave_dynamic_address.jpg "Dynamic address")
+![I3C Slave dynamic address snapshot](images/i3c_slave_dynamic_address.jpg "Dynamic address")
 
-   ![I3C Slave write/read in SDR mode snapshot](images/i3c_slave_write_read_sdr_mode.jpg "Write/Read in SDR mode")
+![I3C Slave write/read in SDR mode snapshot](images/i3c_slave_write_read_sdr_mode.jpg "Write/Read in SDR mode")
 
-   ![I3C Slave write/read in HDR-DDR mode snapshot](images/i3c_slave_write_read_hdr_ddr_mode.jpg "Write/Read in HDR-DDR mode")
+![I3C Slave write/read in HDR-DDR mode snapshot](images/i3c_slave_write_read_hdr_ddr_mode.jpg "Write/Read in HDR-DDR mode")
 
-   ![I3C Slave IBI transfer request snapshot](images/i3c_slave_ibi_transfer_request.jpg "IBI transfer request")
+![I3C Slave IBI transfer request snapshot](images/i3c_slave_ibi_transfer_request.jpg "IBI transfer request")
 
 ## LED Status ##
-Below are the observations of the LED operation on slave board:
-* When the Dynamic Address Assignment completes, the onboard LED1 status will be toggled.
-* When the write transfer completes, the onboard LED2 status will be toggled.
-* When the read transfer completes, the onboard LED3 status will be toggled.
-* When the IBI write transfer completes, the onboard LED2 status will be toggled.
+The observations of the LED operation on the slave board are as follows:
+* For MCK-RA4T1, MCK-RA6T3, FPB-RA4E2 and FPB-RA6E2:
+	* When the Dynamic Address Assignment completes, both onboard LED1 and LED2 status will be toggled.
+	* When the writing transfer completes, the onboard LED1 status will be toggled.
+	* When the reading transfer completes, the onboard LED2 status will be toggled.
+	* When the IBI writing transfer completes, the onboard LED1 status will be toggled.
 
-For MCK-RA4T1 and MCK-RA6T3, below are the observations of the LED operation on slave board:  
-* When the Dynamic Address Assignment completes, both onboard LED1 and LED2 status will be toggled.
-* When the write transfer completes, the onboard LED1 status will be toggled.
-* When the read transfer completes, the onboard LED2 status will be toggled.
-* When the IBI write transfer completes, the onboard LED1 status will be toggled.
+* For all other supported boards:
+	* When the Dynamic Address Assignment completes, the onboard LED1 status will be toggled.
+	* When the writing transfer completes, the onboard LED2 status will be toggled.
+	* When the reading transfer completes, the onboard LED3 status will be toggled.
+	* When the IBI writing transfer completes, the onboard LED2 status will be toggled.

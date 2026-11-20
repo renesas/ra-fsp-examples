@@ -1,12 +1,9 @@
 # Introduction #
-This example project demonstrates the typical use of the Multiple Clocks Output. The user inputs key from Terminal Application to start Clocks Output Option to the clock output pin. Enter number 3 in the Terminal Application to stop the clocks output from the clock output pin of the MCU. The EP information or any error messages will be displayed on the Terminal Application.
+This example project demonstrates the typical use of the Clock Output. The user inputs a key from the terminal application to start the clock output source to the clock output pin. Enter number 3 in the terminal application to stop the clock output from the clock output pin of the MCU. The EP information or any error messages will be displayed on the terminal application.
 
-Note:
-* For Terminal Application:
-	* To display information, the user can select between the SEGGER J-Link RTT Viewer and the Serial Terminal (UART) with J-Link OB VCOM. It is important to note that the user should only operate a single Terminal Application at a time to avoid conflicts or data inconsistencies. For instructions on how to switch between these options, please refer the first step in the "Verifying Operation" section.
-	* By default, EP information is printed to the host PC using the Serial Terminal for boards that support J-Link OB VCOM. LED1 is turned ON to indicate the UART initialized unsuccessfully. 
-	* For RA boards that do not support J-Link OB VCOM, EP information is instead printed via the SEGGER J-Link RTT Viewer.
-	* RA boards supported for J-Link OB VCOM: EK-RA2A2, EK-RA4E2, EK-RA6E2, EK-RA8D1, EK-RA8M1, EK-RA8P1, EK-RA8M2.
+**Note:**
+* For FPB-RA4E2 and FPB-RA6E2:
+	* Only support Sub-clock. Enter number 2 in the terminal application to stop the clock output from the clock output pin of the MCU.
 
 * For Verifying Operation:
 	* To verify EP, the user can select between the GPT or oscilloscope.
@@ -20,18 +17,17 @@ To build and run the clock output example project, the following resources are n
 ### Software ###
 * Renesas Flexible Software Package (FSP): Version 6.6.0
 * e2 studio: Version 2026-07
-* SEGGER J-Link RTT Viewer: Version 9.64
 * LLVM Embedded Toolchain for ARM: Version 22.1.0
 * Terminal Console Application: Tera Term or a similar application
 
 ### Hardware ###
-Supported RA boards: EK-RA2A1, EK-RA2A2, EK-RA2E1, EK-RA2L1, EK-RA4E2, EK-RA4M1, EK-RA4M2, EK-RA4M3, EK-RA6E2, EK-RA6M1, EK-RA6M2, EK-RA6M3, EK-RA6M3G, EK-RA6M4, EK-RA6M5, EK-RA8M1, EK-RA8D1, EK-RA8P1, EK-RA8M2.
-* 1 x RA board.
-* 1 x Type-C USB cable.
-* 1 x Signal analyzer to verify the CLKOUT signal (e.g., Saleae logic, Oscilloscope).
+* Supported RA boards: EK-RA2A1, EK-RA2A2, EK-RA2E1, EK-RA2L1, EK-RA4E2, EK-RA4M1, EK-RA4M2, EK-RA4M3, EK-RA6E2, EK-RA6M1, EK-RA6M2, EK-RA6M3, EK-RA6M3G, EK-RA6M4, EK-RA6M5, EK-RA8M1, EK-RA8D1, EK-RA8P1, EK-RA4C1, EK-RA8D2, EK-RA8M2, EK-RA8T2, FPB-RA4E2, FPB-RA6E2.
+	* 1 x Renesas RA board.
+	* 1 x USB cable for programming and debugging (USB cable type varies by board model).
+	* 1 x Signal analyzer to verify the CLKOUT signal (e.g., Saleae logic, Oscilloscope).
 
 ### Hardware Connections ###
-* Connect the RA board USB debug port to the PC via Type-C USB cable for EP debugging.
+* Connect the RA board USB debug port to the host PC using the appropriate USB cable for EP programming and debugging.
 * CLKOUT Pin Configuration for RA Development Kits:  
 	| Development Kit | CLKOUT_PIN | Connector and Pin |
 	|-----------------|------------|-------------------|
@@ -53,7 +49,12 @@ Supported RA boards: EK-RA2A1, EK-RA2A2, EK-RA2E1, EK-RA2L1, EK-RA4E2, EK-RA4M1,
 	| EK-RA8M1        | P205       | J51:36            |
 	| EK-RA8D1        | P913       | J57:19            |
 	| EK-RA8P1        | P611       | J14:19            |
+	| EK-RA4C1        | P600       | J24:2             |
+	| EK-RA8D2        | P611       | J14:19            |
 	| EK-RA8M2        | P611       | J1:6              |
+	| EK-RA8T2        | P205       | J2:13             |
+	| FPB-RA4E2       | P109       | J4:2              |
+	| FPB-RA6E2       | P109       | J4:2              |
 
 For Verifying Operation:
 * Using the GPT to capture clock output value (Default):
@@ -118,13 +119,37 @@ For Verifying Operation:
 	* For EK-RA8P1:
 		* Connect CLKOUT P611 (J14:19) to GTIOC4A P302 (J37:25).
 
+	* For EK-RA4C1:
+		* The user must place jumper J6 on pins 2-3, J8 on pins 1-2, J9 on pins 2-3 and turn OFF SW4-4 to use the on-board debug functionality.
+		* The user must cut E12, E13 and then short E7, E11 to use main clock (MOSC).
+		* The user must cut E10, E14 and then short E15, E16 to use sub-clock (SOSC).
+		* Connect CLKOUT P600 (J24:2) to GTIOC0A P415 (J23:4).
+
+	*  For EK-RA8D2:
+		* Connect CLKOUT P611 (J14:19) to GTIOC0A P415 (J4:17).
+
 	* For EK-RA8M2:
 		* The user must place jumper J6 on pins 2-3, J8 on pins 1-2, J9 on pins 2-3, and J29 on pins 1-2, 3-4, 5-6, 7-8 to use the on-board debug functionality.
 		* Connect CLKOUT P611 (J1:6) to GTIOC0A P415 (J4:20).
 
+	* For EK-RA8T2:
+		* The user must set the configuration switches (SW6 and SW4) as below to use the on-board debug functionality.
+			| SW6-1 | SW6-2 | SW6-3 | SW6-4 | SW6-5 | SW6-6 | SW6-7 | SW6-8 | SW6-9 | SW6-10 |
+			|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:------:|
+			|  OFF  |  OFF  |  OFF  |  OFF  |  ON   |  OFF  |  ON   |  ON   |  ON   |  ON    |
+
+			| SW4-1 | SW4-2 | SW4-3 | SW4-4 | SW4-5 | SW4-6 | SW4-7 | SW4-8 |
+			|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
+			|  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |  OFF  |
+		
+		* Connect CLKOUT P205 (J2:13) to GTIOC0A P415 (J2:29).
+	
+	* For FPB-RA4E2 and FPB-RA6E2:
+		* Connect CLKOUT P109 (J4:2) to GTIOC0A P815 (J3:16).
+
 * Using the oscilloscope to measure clock output waveform:
 	* Connect the ground clip of the oscilloscope probe to a ground point on the RA board.
-	* Connect the probe tip to the CLKOUT pin(CLKOUT_PIN) on the RA board. 
+	* Connect the probe tip to the CLKOUT pin (CLKOUT_PIN) on the RA board.
 
 ## Related Collateral References ##
 The following documents can be referred to for enhancing your understanding of the operation of this example project:
@@ -138,13 +163,16 @@ The following documents can be referred to for enhancing your understanding of t
  
 ![clock_output](images/clock_output_hld.png "High Level Block Diagram")
 
+**Note:**
+* For FPB-RA4E2 and FPB-RA6E2: Only support Sub-clock.
+
 ## Module Configuration Notes ##
 This section describes FSP Configurator properties which are important or different than those selected by default. 
 
 |   Module Property Path and Identifier   |   Default Value   |   Used Value   |   Reason   |
 | :-------------------------------------: | :---------------: | :------------: | :--------: |
 | configuration.xml > Stacks > g_input_capture Timer, General PWM (r_gpt) > Properties > Settings > Property > Module g_input_capture Timer, General PWM (r_gpt) > General > Mode | Periodic | Periodic | Mode selection. |
-| configuration.xml > Stacks > g_input_capture Timer, General PWM (r_gpt) > Properties > Settings > Property > Module g_input_capture Timer, General PWM (r_gpt) > General > Period | 0x10000 | 0x100000000 | Specify the timer period. |
+| configuration.xml > Stacks > g_input_capture Timer, General PWM (r_gpt) > Properties > Settings > Property > Module g_input_capture Timer, General PWM (r_gpt) > General > Period | 0x10000 | 0x10000 | Specify the timer period. |
 | configuration.xml > Stacks > g_input_capture Timer, General PWM (r_gpt) > Properties > Settings > Property > Module g_input_capture Timer, General PWM (r_gpt) > General > Period Unit | Raw Counts | Raw Counts | Unit of the period. |
 | configuration.xml > Stacks > g_input_capture Timer, General PWM (r_gpt) > Properties > Settings > Property > Module g_input_capture Timer, General PWM (r_gpt) > Input > Start Source > GTIOCA Rising Edge While GTIOCB Low | ☐ | ☑ | Select external source that will start the timer. |
 | configuration.xml > Stacks > g_input_capture Timer, General PWM (r_gpt) > Properties > Settings > Property > Module g_input_capture Timer, General PWM (r_gpt) > Input > Clear Source > GTIOCA Rising Edge While GTIOCB Low | ☐ | ☑ | Select external source that will clear the timer. |
@@ -152,18 +180,6 @@ This section describes FSP Configurator properties which are important or differ
 | configuration.xml > Stacks > g_input_capture Timer, General PWM (r_gpt) > Properties > Settings > Property > Module g_input_capture Timer, General PWM (r_gpt) > Interrupts > Callback | NULL | input_capture_user_callback | It is called from the interrupt service routine (ISR) each time the timer period elapses. |
 | configuration.xml > Stacks > g_input_capture Timer, General PWM (r_gpt) > Properties > Settings > Property > Module g_input_capture Timer, General PWM (r_gpt) > Interrupts > Overflow/Crest Interrupt priority | Disabled | Priority 0 (highest) | Select the interrupt priority for Overflow/Crest. |
 | configuration.xml > Stacks > g_input_capture Timer, General PWM (r_gpt) > Properties > Settings > Property > Module g_input_capture Timer, General PWM (r_gpt) > Interrupts > Capture/Compare match A Interrupt priority | Disabled | Priority 0 (highest) | Select the interrupt priority for Capture/Compare match A. |
-
-**Configuration Properties for using the Serial Terminal (UART)**   
-|   Configure Clock Path                  |   Default Value   |   Used Value   |   Reason   |
-|-----------------------------------------|-------------------|----------------|------------|
-| configuration.xml > Clocks > Clocks Configuration > SCICLK Src: PLL2R | SCICLK Src: PLL2R | SCICLK Src: PLL2R | Enable operating clock for SCI module by PLL2R clock source. |
-
-|   Configure Interrupt Event Path        |   Default Value   |   Used Value   |   Reason   |
-|-----------------------------------------|-------------------|----------------|------------|
-| configuration.xml > Interrupts > Interrupts Configuration > New User Event > SCI > SCI8 > SCI8 RXI (Receive data full) | empty | sci_b_uart_rxi_isr | Assign the UART receive ISR (Receive data full) to the interrupt vector table. |
-| configuration.xml > Interrupts > Interrupts Configuration > New User Event > SCI > SCI8 > SCI8 TXI (Transmit data empty) | empty | sci_b_uart_txi_isr | Assign the UART transfer ISR (Transfer data empty) to the interrupt vector table. |
-| configuration.xml > Interrupts > Interrupts Configuration > New User Event > SCI > SCI8 > SCI8 TEI (Transmit end) | empty | sci_b_uart_tei_isr | Assign the UART transfer ISR (Transfer end) to the interrupt vector table. |
-| configuration.xml > Interrupts > Interrupts Configuration > New User Event > SCI > SCI8 > SCI8 ERI (Receive error) | empty | sci_b_uart_eri_isr | Assign the UART receive ISR (Receive error) to the interrupt vector table. |
 
 ## API Usage ##
 
@@ -178,34 +194,32 @@ The table below lists the FSP provided API used at the application layer by this
 | R_GPT_Disable | This API is used to disable external event triggers that start, stop, clear, or capture the counter. |
 | R_GPT_InfoGet | This API is used to get timer information and store it in provided pointer. |
 
-**For using the Serial Terminal (UART)**
-
-| API Name    | Usage                                                                          |
-|-------------|--------------------------------------------------------------------------------|
-| R_SCI_B_UART_Open | This API is used to configure the UART driver based on the input configurations. |
-| R_SCI_B_UART_Write | This API is used to transmit user specified number of bytes from the source buffer pointer. |
-| R_SCI_B_UART_Close | This API is used to abort any in progress transfers, disables interrupts, receiver, and transmitter, close lower level transfer drivers if used and remove power. |
-
 ## Verifying Operation ##
-1. Import the example project. Note that the EP supports the Serial Terminal by default for RA boards that support J-link OB VCOM.
-	* By default, the EP supports Serial Terminal for RA boards that support J-link OB VCOM
-		* Define USE_VIRTUAL_COM=1 macro in Project Properties -> C/C++ Build -> Settings -> Tool Settings -> Compiler -> Includes
-	
-	* To use SEGGER J-Link RTT Viewer, please follow the instructions as below:
-		* Define USE_VIRTUAL_COM=0 macro in Project Properties -> C/C++ Build -> Settings -> Tool Settings -> Compiler -> Includes 
-2. Generate, build the Example project.
-3. Connect the RA board debug port to the host PC via a Type-C USB cable.
-4. Open a Serial Terminal Application on the host PC and connect to the COM Port provided by the J-Link on-board or Open J-Link RTT Viewer (In case user selected SEGGER J-Link RTT Viewer or RA boards do not support J-Link OB VCOM).
-5. Debug or flash the example project to the RA board.
-6. After the main menu is displayed on the Terminal Application, the user can select option to perform clock output operation as desired.  
-	* Type '1' to Start Main_Clock Output
-	* Type '2' to Start Sub_Clock Output
-	* Type '3' to Stop Clock Output
-7. Verifying Operation:
+1. Import, generate, and build the example project.
+2. Set up the hardware connection properly.
+3. Debug or flash the example project to the RA board.
+4. Open a serial terminal application to view the output log: To view output logs on a serial terminal application (e.g., Tera Term), configure the settings as shown below:
+	* To make sure the received data shows properly, the user needs to set:
+		[Setup] -> [Terminal...] -> [New-line] -> Select [Receive: CR] & [Transmit: CR].
+
+	* To echo back characters typed in Tera Term, the user needs to enable it through:
+		[Setup] -> [Terminal...] -> Check [Local echo].
+
+	* The configuration parameters of the serial port on the serial terminal application:
+		* Port: The port is provided by the J-Link On-Board.
+		* Speed: 115200
+		* Data: 8 bit
+		* Parity: none
+		* Stop bits: 1 bit
+		* Flow control: none
+5. After the main menu is displayed on the terminal application, the user can select option to perform clock output operation as desired.
+	* Type '1' to start Sub-clock output.
+	* Type '2' to stop clock output.
+6. Verifying Operation:
 	* By default, the EP uses the GPT to capture clock output value
 		* Define GPT_MEASURE_CLKOUT=1 macro in Project Properties -> C/C++ Build -> Settings -> Tool Settings -> Compiler -> Includes
 		* The user must connect CLKOUT pin to GTIOC0A pin as "Hardware Connections" section.
-		* View clock output value on Terminal Application.
+		* View clock output value on the terminal application.
 
 	* For using the oscilloscope to measure clock output waveform
 		* Define GPT_MEASURE_CLKOUT=0 macro in Project Properties -> C/C++ Build -> Settings -> Tool Settings -> Compiler -> Includes
@@ -218,92 +232,48 @@ The table below lists the FSP provided API used at the application layer by this
 				* Voltage level: 3.3+ Volts  
 				![logic_analyzer_application_setting](images/logic_analyzer_application_setting.png "Logic Analyzer Application Setting")
 
-	* Note:
-		* For Serial Terminal Application:
-			* To echo back characters typed in Tera Term, the user needs to enable it through [Setup] -> [Terminal...] -> Check [Local echo].	
-			* The configuration parameters of the serial port on the Terminal Application are as follows:
-				* COM port is port provided by the J-Link on-board.  
-				* Baud rate: 115200 bps  
-				* Data length: 8-bits    
-				* Parity: none   
-				* Stop bit: 1-bit  
-				* Flow control: none
-		* For SEGGER J-Link RTT Viewer:
-			* If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) in .map file generated in the project folder (e2studio\Debug or e2studio\Release).
-
 ### The images below showcase the output ###
 
 **The EP information:**  
 
-![ep_info](images/rtt_ep_info.png "EP Information")
-
 ![ep_info](images/tera_ep_info.png "EP Information")
 
-**Main clock output operation:**  
-* Using the GPT to capture clock output value:
-
-The two images below respectively show the results from RTT Viewer and Terminal Application:
-
-![Main_Clock_Output](images/rtt_main_clock_gpt_capture.png "Main Clock Output Capture by GPT")
-
-![Main_Clock_Output](images/tera_main_clock_gpt_capture.png "Main Clock Output Capture by GPT")
-
-The image below shows the waveform output:
-
-![Waveform_Main_Clock_Output](images/main_clock_output_waveform_div32.png "Main Clock Output Waveform Divided 32")
-
-* Using the oscilloscope to measure clock output waveform:
-
-The two images below respectively show the results from RTT Viewer and Terminal Application:
-
-![Main_Clock_Output](images/rtt_main_clock_osc_measure.png "Main Clock Output Measure by oscilloscope")
-
-![Main_Clock_Output](images/tera_main_clock_osc_measure.png "Main Clock Output Measure by oscilloscope")
-
-The image below shows the waveform output:
-
-![Waveform_Main_Clock_Output](images/main_clock_output_waveform.png "Main Clock Output Waveform")
-
 **Sub clock output operation:**
+
 * Using the GPT to capture clock output value:
 
-The two images below respectively show the results from RTT Viewer and Terminal Application:
-
-![Sub_Clock_Output](images/rtt_sub_clock_gpt_capture.png "Sub Clock Output Capture by GPT")
+The result on the terminal application:
 
 ![Sub_Clock_Output](images/tera_sub_clock_gpt_capture.png "Sub Clock Output Capture by GPT")
 
-The image below shows the waveform output:
+The waveform output:
 
 ![Waveform_Sub_Clock_Output](images/sub_clock_output_waveform.png "Sub Clock Output Waveform")
 
 * Using the oscilloscope to measure clock output waveform:
 
-The two images below respectively show the results from RTT Viewer and Terminal Application:
-
-![Sub_Clock_Output](images/rtt_sub_clock_osc_measure.png "Sub Clock Output Measure by oscilloscope")
+The result on the terminal application:
 
 ![Sub_Clock_Output](images/tera_sub_clock_osc_measure.png "Sub Clock Output Measure by oscilloscope")
 
-The image below shows the waveform output:
+The waveform output:
 
 ![Waveform_Sub_Clock_Output](images/sub_clock_output_waveform.png "Sub Clock Output Waveform")
 
 **Stop clock output:**
-The two images below respectively show the results from RTT Viewer and Terminal Application:
 
-![Stop_Clock_Output](images/rtt_stop_clocks.png "Stop All Clocks Output")
+The result on the terminal application:
 
 ![Stop_Clock_Output](images/tera_stop_clocks.png "Stop All Clocks Output")
 
-The image below shows the waveform output:
+The waveform output:
 
 ![Waveform_Stop_Clock_Output](images/stop_clock_output_waveform.png "Stop Clock Output Waveform")
 
 ## Special Topics ##
 
 ### Clock Specifications ###
-The Main clock oscillator (MOSC) has to be divided by as least 32 when measured by GPT.
+The Main clock oscillator (MOSC) has to be divided by at least 32 when measured by GPT.
 
 | No. | Board            | Main clock (XTAL) | Sub clock      | Main clock divided by 32  |
 |-----|------------------|-------------------|----------------| --------------------------|
@@ -325,4 +295,9 @@ The Main clock oscillator (MOSC) has to be divided by as least 32 when measured 
 | 16  | EK-RA8M1         | 20 MHz            | 32.768 KHz     | 625 KHz					  |
 | 17  | EK-RA8D1         | 20 MHz            | 32.768 KHz     | 625 KHz					  |
 | 18  | EK-RA8P1         | 24 MHz            | 32.768 KHz     | 750 KHz					  |
-| 19  | EK-RA8M2         | 24 MHz            | 32.768 KHz     | 750 KHz					  |
+| 19  | EK-RA4C1         | 8 MHz             | 32.768 KHz     | 250 KHz					  |
+| 20  | EK-RA8D2         | 24 MHz            | 32.768 KHz     | 750 KHz					  |
+| 21  | EK-RA8M2         | 24 MHz            | 32.768 KHz     | 750 KHz					  |
+| 22  | EK-RA8T2         | 24 MHz            | 32.768 KHz     | 750 KHz					  |
+| 23  | FPB-RA4E2        | Not support       | 32.768 KHz     | Not support				  |
+| 24  | FPB-RA6E2        | Not support       | 32.768 KHz     | Not support				  |

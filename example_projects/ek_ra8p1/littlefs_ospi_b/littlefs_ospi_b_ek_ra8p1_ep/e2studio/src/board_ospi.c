@@ -1,27 +1,26 @@
 /***********************************************************************************************************************
  * File Name    : board_ospi.c
- * Description  : Contains macros data structures and functions used in board_ospi.c and littlefs_ospi_ep.c.
+ * Description  : Contains data structures and functions used in board_ospi.c.
  **********************************************************************************************************************/
 /***********************************************************************************************************************
-* Copyright (c) 2024 - 2026 Renesas Electronics Corporation and/or its affiliates
-*
-* SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
+ * Copyright (c) 2024 - 2026 Renesas Electronics Corporation and/or its affiliates
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ **********************************************************************************************************************/
 
+#include <string.h>
 #include "board_ospi.h"
 
-/* Function declarations */
+/* Private functions */
 static fsp_err_t ospi_b_write_enable(void);
-static fsp_err_t ospi_b_wait_operation(uint32_t timeout);
 static fsp_err_t ospi_b_setup_calibrate_data(void);
 static fsp_err_t ospi_b_set_protocol_to_opi(void);
+static fsp_err_t ospi_b_wait_operation(uint32_t timeout);
 
-/* Variable declarations */
-static ospi_b_instance_ctrl_t * g_ospi_b_ctrl;
-static spi_flash_cfg_t g_ospi_b_cfg;
-
-/* External variables */
-spi_flash_direct_transfer_t g_ospi_b_direct_transfer [OSPI_B_TRANSFER_MAX] =
+/* Private variables */
+static ospi_b_instance_ctrl_t * s_ospi_b_ctrl;
+static spi_flash_cfg_t s_ospi_b_cfg;
+static const spi_flash_direct_transfer_t s_ospi_b_direct_transfer[OSPI_B_TRANSFER_MAX] =
 {
     /* Transfer structure for SPI mode */
     [OSPI_B_TRANSFER_ENTER_4_ADDR_SPI] =
@@ -76,28 +75,59 @@ spi_flash_direct_transfer_t g_ospi_b_direct_transfer [OSPI_B_TRANSFER_MAX] =
         .data_length    = OSPI_B_DATA_LENGTH_ONE,
         .dummy_cycles   = OSPI_B_DUMMY_CYCLE_WRITE_SPI
     },
-#elif defined (BOARD_RA8P1_EK)
+#elif defined (BOARD_RA8T2_EK) || defined (BOARD_RA8D2_EK)
+    [OSPI_B_TRANSFER_WRITE_CR_00H_SPI] =
+    {
+        .command        = OSPI_B_COMMAND_WRITE_REGISTER_SPI,
+        .address        = OSPI_B_ADDRESS_CR_00H_REGISTER,
+        .data           = OSPI_B_DATA_DUMMY,
+        .command_length = OSPI_B_COMMAND_LENGTH_SPI,
+        .address_length = OSPI_B_ADDRESS_LENGTH_FOUR,
+        .data_length    = OSPI_B_DATA_LENGTH_ONE,
+        .dummy_cycles   = OSPI_B_DUMMY_CYCLE_WRITE_SPI
+    },
+    [OSPI_B_TRANSFER_WRITE_CR_01H_SPI] =
+    {
+        .command        = OSPI_B_COMMAND_WRITE_REGISTER_SPI,
+        .address        = OSPI_B_ADDRESS_CR_01H_REGISTER,
+        .data           = OSPI_B_DATA_DUMMY,
+        .command_length = OSPI_B_COMMAND_LENGTH_SPI,
+        .address_length = OSPI_B_ADDRESS_LENGTH_FOUR,
+        .data_length    = OSPI_B_DATA_LENGTH_ONE,
+        .dummy_cycles   = OSPI_B_DUMMY_CYCLE_WRITE_SPI
+    },
+    [OSPI_B_TRANSFER_ENTER_4BYTES_ADDRESS] =
+    {
+        .command        = OSPI_B_COMMAND_ENTER_4BYTES_ADDR,
+        .address        = OSPI_B_ADDRESS_DUMMY,
+        .data           = OSPI_B_DATA_DUMMY,
+        .command_length = OSPI_B_COMMAND_LENGTH_SPI,
+        .address_length = OSPI_B_ADDRESS_DUMMY,
+        .data_length    = OSPI_B_DATA_DUMMY,
+        .dummy_cycles   = OSPI_B_DUMMY_CYCLE_WRITE_SPI
+    },
+#elif defined (BOARD_RA8M2_EK) || defined (BOARD_RA8P1_EK)
     [OSPI_B_TRANSFER_WRITE_CR2_000H_SPI] =
     {
-         .command        = OSPI_B_COMMAND_WRITE_REGISTER_SPI,
-         .address        = OSPI_B_ADDRESS_CR2_000H_REGISTER,
-         .data           = OSPI_B_DATA_DUMMY,
-         .command_length = OSPI_B_COMMAND_LENGTH_SPI,
-         .address_length = OSPI_B_ADDRESS_LENGTH_FOUR,
-         .data_length    = OSPI_B_DATA_LENGTH_ONE,
-         .dummy_cycles   = OSPI_B_DUMMY_CYCLE_WRITE_SPI
+        .command        = OSPI_B_COMMAND_WRITE_REGISTER_SPI,
+        .address        = OSPI_B_ADDRESS_CR2_000H_REGISTER,
+        .data           = OSPI_B_DATA_DUMMY,
+        .command_length = OSPI_B_COMMAND_LENGTH_SPI,
+        .address_length = OSPI_B_ADDRESS_LENGTH_FOUR,
+        .data_length    = OSPI_B_DATA_LENGTH_ONE,
+        .dummy_cycles   = OSPI_B_DUMMY_CYCLE_WRITE_SPI
     },
     [OSPI_B_TRANSFER_WRITE_CR2_300H_SPI] =
     {
-         .command        = OSPI_B_COMMAND_WRITE_REGISTER_SPI,
-         .address        = OSPI_B_ADDRESS_CR2_300H_REGISTER,
-         .data           = OSPI_B_DATA_DUMMY,
-         .command_length = OSPI_B_COMMAND_LENGTH_SPI,
-         .address_length = OSPI_B_ADDRESS_LENGTH_FOUR,
-         .data_length    = OSPI_B_DATA_LENGTH_ONE,
-         .dummy_cycles   = OSPI_B_DUMMY_CYCLE_WRITE_SPI
+        .command        = OSPI_B_COMMAND_WRITE_REGISTER_SPI,
+        .address        = OSPI_B_ADDRESS_CR2_300H_REGISTER,
+        .data           = OSPI_B_DATA_DUMMY,
+        .command_length = OSPI_B_COMMAND_LENGTH_SPI,
+        .address_length = OSPI_B_ADDRESS_LENGTH_FOUR,
+        .data_length    = OSPI_B_DATA_LENGTH_ONE,
+        .dummy_cycles   = OSPI_B_DUMMY_CYCLE_WRITE_SPI
     },
-#endif
+#endif /* Specific board */
 
     [OSPI_B_TRANSFER_READ_STATUS_SPI] =
     {
@@ -140,28 +170,49 @@ spi_flash_direct_transfer_t g_ospi_b_direct_transfer [OSPI_B_TRANSFER_MAX] =
         .dummy_cycles   = OSPI_B_DUMMY_CYCLE_READ_STATUS_SPI
     },
 
-#if defined (BOARD_RA8P1_EK)
+#if defined (BOARD_RA8T2_EK) || defined (BOARD_RA8D2_EK)
+    [OSPI_B_TRANSFER_READ_CR_00H_SPI] =
+    {
+        .command        = OSPI_B_COMMAND_READ_REGISTER_SPI,
+        .address        = OSPI_B_ADDRESS_CR_00H_REGISTER,
+        .data           = OSPI_B_DATA_DUMMY,
+        .command_length = OSPI_B_COMMAND_LENGTH_SPI,
+        .address_length = OSPI_B_ADDRESS_LENGTH_FOUR,
+        .data_length    = OSPI_B_DATA_LENGTH_ONE,
+        .dummy_cycles   = OSPI_B_DUMMY_CYCLE_READ_REGISTER_SPI
+    },
+    [OSPI_B_TRANSFER_READ_CR_01H_SPI] =
+    {
+        .command        = OSPI_B_COMMAND_READ_REGISTER_SPI,
+        .address        = OSPI_B_ADDRESS_CR_01H_REGISTER,
+        .data           = OSPI_B_DATA_DUMMY,
+        .command_length = OSPI_B_COMMAND_LENGTH_SPI,
+        .address_length = OSPI_B_ADDRESS_LENGTH_FOUR,
+        .data_length    = OSPI_B_DATA_LENGTH_ONE,
+        .dummy_cycles   = OSPI_B_DUMMY_CYCLE_READ_REGISTER_SPI
+    },
+#elif defined (BOARD_RA8M2_EK) || defined (BOARD_RA8P1_EK)
     [OSPI_B_TRANSFER_READ_CR2_000H_SPI] =
     {
-         .command        = OSPI_B_COMMAND_READ_REGISTER_SPI,
-         .address        = OSPI_B_ADDRESS_CR2_000H_REGISTER,
-         .data           = OSPI_B_DATA_DUMMY,
-         .command_length = OSPI_B_COMMAND_LENGTH_SPI,
-         .address_length = OSPI_B_ADDRESS_LENGTH_FOUR,
-         .data_length    = OSPI_B_DATA_LENGTH_ONE,
-         .dummy_cycles   = OSPI_B_DUMMY_CYCLE_READ_REGISTER_SPI
+        .command        = OSPI_B_COMMAND_READ_REGISTER_SPI,
+        .address        = OSPI_B_ADDRESS_CR2_000H_REGISTER,
+        .data           = OSPI_B_DATA_DUMMY,
+        .command_length = OSPI_B_COMMAND_LENGTH_SPI,
+        .address_length = OSPI_B_ADDRESS_LENGTH_FOUR,
+        .data_length    = OSPI_B_DATA_LENGTH_ONE,
+        .dummy_cycles   = OSPI_B_DUMMY_CYCLE_READ_REGISTER_SPI
     },
     [OSPI_B_TRANSFER_READ_CR2_300H_SPI] =
     {
-         .command        = OSPI_B_COMMAND_READ_REGISTER_SPI,
-         .address        = OSPI_B_ADDRESS_CR2_300H_REGISTER,
-         .data           = OSPI_B_DATA_DUMMY,
-         .command_length = OSPI_B_COMMAND_LENGTH_SPI,
-         .address_length = OSPI_B_ADDRESS_LENGTH_FOUR,
-         .data_length    = OSPI_B_DATA_LENGTH_ONE,
-         .dummy_cycles   = OSPI_B_DUMMY_CYCLE_READ_REGISTER_SPI
+        .command        = OSPI_B_COMMAND_READ_REGISTER_SPI,
+        .address        = OSPI_B_ADDRESS_CR2_300H_REGISTER,
+        .data           = OSPI_B_DATA_DUMMY,
+        .command_length = OSPI_B_COMMAND_LENGTH_SPI,
+        .address_length = OSPI_B_ADDRESS_LENGTH_FOUR,
+        .data_length    = OSPI_B_DATA_LENGTH_ONE,
+        .dummy_cycles   = OSPI_B_DUMMY_CYCLE_READ_REGISTER_SPI
     },
-#endif
+#endif /* Specific board */
 
     /* Transfer structure for OPI mode */
     [OSPI_B_TRANSFER_WRITE_ENABLE_OPI] =
@@ -216,7 +267,28 @@ spi_flash_direct_transfer_t g_ospi_b_direct_transfer [OSPI_B_TRANSFER_MAX] =
         .data_length    = OSPI_B_DATA_LENGTH_TWO,
         .dummy_cycles   = OSPI_B_DUMMY_CYCLE_READ_REGISTER_OPI
     },
-#elif defined (BOARD_RA8P1_EK)
+#elif defined (BOARD_RA8T2_EK) || defined (BOARD_RA8D2_EK)
+    [OSPI_B_TRANSFER_READ_CR_00H_OPI] =
+    {
+        .command        = OSPI_B_COMMAND_READ_REGISTER_OPI,
+        .address        = OSPI_B_ADDRESS_CR_00H_REGISTER,
+        .data           = OSPI_B_DATA_DUMMY,
+        .command_length = OSPI_B_COMMAND_LENGTH_OPI,
+        .address_length = OSPI_B_ADDRESS_LENGTH_FOUR,
+        .data_length    = OSPI_B_DATA_LENGTH_TWO,
+        .dummy_cycles   = OSPI_B_DUMMY_CYCLE_READ_REGISTER_OPI
+    },
+    [OSPI_B_TRANSFER_READ_CR_01H_OPI] =
+    {
+        .command        = OSPI_B_COMMAND_READ_REGISTER_OPI,
+        .address        = OSPI_B_ADDRESS_CR_01H_REGISTER,
+        .data           = OSPI_B_DATA_DUMMY,
+        .command_length = OSPI_B_COMMAND_LENGTH_OPI,
+        .address_length = OSPI_B_ADDRESS_LENGTH_FOUR,
+        .data_length    = OSPI_B_DATA_LENGTH_TWO,
+        .dummy_cycles   = OSPI_B_DUMMY_CYCLE_READ_REGISTER_OPI
+    },
+#elif defined (BOARD_RA8M2_EK) || defined (BOARD_RA8P1_EK)
     [OSPI_B_TRANSFER_READ_CR2_000H_OPI] =
     {
         .command        = OSPI_B_COMMAND_READ_REGISTER_OPI,
@@ -237,7 +309,7 @@ spi_flash_direct_transfer_t g_ospi_b_direct_transfer [OSPI_B_TRANSFER_MAX] =
         .data_length    = OSPI_B_DATA_LENGTH_TWO,
         .dummy_cycles   = OSPI_B_DUMMY_CYCLE_READ_REGISTER_OPI
     },
-#endif
+#endif /* Specific board */
 
     [OSPI_B_TRANSFER_READ_DEVICE_ID_OPI] =
     {
@@ -248,104 +320,19 @@ spi_flash_direct_transfer_t g_ospi_b_direct_transfer [OSPI_B_TRANSFER_MAX] =
         .address_length = OSPI_B_ADDRESS_LENGTH_FOUR,
 #if defined (BOARD_RA8D1_EK)
         .data_length    = OSPI_B_DATA_LENGTH_FOUR,
-#elif defined (BOARD_RA8P1_EK)
+#elif defined (BOARD_RA8T2_EK) || defined (BOARD_RA8D2_EK) || defined (BOARD_RA8M2_EK) || defined (BOARD_RA8P1_EK)
         .data_length    = OSPI_B_DATA_LENGTH_THREE,
-#endif
+#endif /* Specific board */
         .dummy_cycles   = OSPI_B_DUMMY_CYCLE_READ_STATUS_OPI
     },
 };
 
 /***********************************************************************************************************************
- *  Function Name: ospi_b_write_enable
- *  Description  : This function enables write and verify the read data.
- *  Arguments    : None.
- *  Return Value : FSP_SUCCESS     Upon successful operation.
- *                 FSP_ERR_ABORTED Upon incorrect read data.
- *                 Any other error code apart from FSP_SUCCESS Unsuccessful operation.
- **********************************************************************************************************************/
-static fsp_err_t ospi_b_write_enable(void)
-{
-    fsp_err_t err = FSP_SUCCESS;
-    spi_flash_direct_transfer_t transfer =
-    {
-        .command        = RESET_VALUE,
-        .address        = RESET_VALUE,
-        .data           = RESET_VALUE,
-        .command_length = RESET_VALUE,
-        .address_length = RESET_VALUE,
-        .data_length    = RESET_VALUE,
-        .dummy_cycles   = RESET_VALUE
-    };
-
-    /* Transfer write enable command */
-    transfer = (SPI_FLASH_PROTOCOL_EXTENDED_SPI == g_ospi_b_ctrl->spi_protocol)
-               ? g_ospi_b_direct_transfer[OSPI_B_TRANSFER_WRITE_ENABLE_SPI]
-               : g_ospi_b_direct_transfer[OSPI_B_TRANSFER_WRITE_ENABLE_OPI];
-    err = R_OSPI_B_DirectTransfer(g_ospi_b_ctrl, &transfer, SPI_FLASH_DIRECT_TRANSFER_DIR_WRITE);
-    APP_ERR_RET(FSP_SUCCESS != err, err, "**R_OSPI_B_DirectTransfer API FAILED!!!**\r\n");
-
-    /* Read Status Register */
-    transfer = (SPI_FLASH_PROTOCOL_EXTENDED_SPI == g_ospi_b_ctrl->spi_protocol)
-               ? g_ospi_b_direct_transfer[OSPI_B_TRANSFER_READ_STATUS_SPI]
-               : g_ospi_b_direct_transfer[OSPI_B_TRANSFER_READ_STATUS_OPI];
-    err = R_OSPI_B_DirectTransfer(g_ospi_b_ctrl, &transfer, SPI_FLASH_DIRECT_TRANSFER_DIR_READ);
-    APP_ERR_RET(FSP_SUCCESS != err, err, "**R_OSPI_B_DirectTransfer API FAILED!!!**\r\n");
-
-    /* Check Write Enable bit in Status Register */
-    if (OSPI_B_WEN_BIT_MASK != (transfer.data & OSPI_B_WEN_BIT_MASK))
-    {
-        err = FSP_ERR_ABORTED;
-        APP_ERR_RET(FSP_SUCCESS != err, err, "Write enable FAILED!!!\r\n");
-    }
-
-    return err;
-}
-/***********************************************************************************************************************
-* End of function ospi_b_write_enable
-***********************************************************************************************************************/
-
-/***********************************************************************************************************************
- *  Function Name: ospi_b_wait_operation
- *  Description  : This function waits until OSPI operation completes.
- *  Arguments    : timeout         Maximum waiting time.
- *  Return Value : FSP_SUCCESS     Upon successful operation.
- *                 FSP_ERR_TIMEOUT Upon time out.
- *                 Any other error code apart from FSP_SUCCESS Unsuccessful operation.
- **********************************************************************************************************************/
-static fsp_err_t ospi_b_wait_operation(uint32_t timeout)
-{
-    fsp_err_t          err    = FSP_SUCCESS;
-    spi_flash_status_t status = {RESET_VALUE};
-
-    status.write_in_progress = true;
-    while (status.write_in_progress)
-    {
-        /* Get device status */
-        R_OSPI_B_StatusGet(g_ospi_b_ctrl, &status);
-        APP_ERR_RET(FSP_SUCCESS != err, err, "**R_OSPI_B_StatusGet API FAILED!!!**\r\n");
-        if (RESET_VALUE == timeout)
-        {
-            err = FSP_ERR_TIMEOUT;
-            APP_ERR_RET(FSP_SUCCESS != err, err, "OSPI time out occurred!!!\r\n");
-        }
-        R_BSP_SoftwareDelay(1, OSPI_B_TIME_UNIT);
-        timeout --;
-
-        APP_PRINT(RESET_VALUE == (timeout % PERIODIC_PRINT_OUT) ? ".":"");
-        APP_PRINT(RESET_VALUE == (timeout % PERIODIC_LINE_FEED) ? "\r\n":"");
-    }
-    return err;
-}
-/***********************************************************************************************************************
-* End of function ospi_b_wait_operation
-***********************************************************************************************************************/
-
-/***********************************************************************************************************************
- *  Function Name: ospi_b_init
- *  Description  : This function initializes OSPI module and Flash device.
- *  Arguments    : None.
- *  Return Value : FSP_SUCCESS     Upon successful initialization of OSPI module and Flash device.
- *                 Any other error code apart from FSP_SUCCESS Unsuccessful operation.
+ * Function Name: ospi_b_init
+ * Description  : This function initializes OSPI module and flash device.
+ * Arguments    : None.
+ * Return Value : FSP_SUCCESS               Initialized successfully.
+ *                Any other error codes     Failed to initialize.
  **********************************************************************************************************************/
 fsp_err_t ospi_b_init(void)
 {
@@ -362,131 +349,216 @@ fsp_err_t ospi_b_init(void)
         .dummy_cycles   = RESET_VALUE
     };
 
-    /* Set active OSPI instance for initialize */
-    g_ospi_b_ctrl = &g_ospi_b_init_ctrl;
-    memset(&g_ospi_b_cfg, RESET_VALUE, sizeof(spi_flash_cfg_t));
-    memcpy(&g_ospi_b_cfg, &g_ospi_b_init_cfg, sizeof(spi_flash_cfg_t));
+    /* Set the active OSPI instance for initialization */
+    s_ospi_b_ctrl = &g_ospi_b_init_ctrl;
+    memcpy(&s_ospi_b_cfg, &g_ospi_b_init_cfg, sizeof(spi_flash_cfg_t));
 
     /* Open OSPI module */
-    err = R_OSPI_B_Open(g_ospi_b_ctrl, &g_ospi_b_cfg);
-    APP_ERR_RET(FSP_SUCCESS != err, err, "**R_OSPI_B_Open API FAILED!!!**\r\n");
+    err = R_OSPI_B_Open(s_ospi_b_ctrl, &s_ospi_b_cfg);
+    if (FSP_SUCCESS != err)
+    {
+        return err;
+    }
 
-    /* Transfer write enable command */
+    /* Send the Write Enable command */
     err = ospi_b_write_enable();
-    APP_ERR_RET(FSP_SUCCESS != err, err, "ospi_b_write_enable FAILED!!!\r\n");
+    if (FSP_SUCCESS != err)
+    {
+        return err;
+    }
 
 #if defined (BOARD_RA8D1_EK)
-    /* Transfer enter 4 byte address command */
-    transfer = g_ospi_b_direct_transfer[OSPI_B_TRANSFER_ENTER_4_ADDR_SPI];
-    err = R_OSPI_B_DirectTransfer(g_ospi_b_ctrl, &transfer, SPI_FLASH_DIRECT_TRANSFER_DIR_WRITE);
-    APP_ERR_RET(FSP_SUCCESS != err, err, "**R_OSPI_B_DirectTransfer API FAILED!!!**\r\n");
+    /* Send the Enter 4-Byte Address command */
+    transfer = s_ospi_b_direct_transfer[OSPI_B_TRANSFER_ENTER_4_ADDR_SPI];
 
-    /* Read back and verify CFR2V register data to confirm 4 byte address mode */
-    transfer = g_ospi_b_direct_transfer[OSPI_B_TRANSFER_READ_VOL_REG_SPI];
+    err = R_OSPI_B_DirectTransfer(s_ospi_b_ctrl, &transfer, SPI_FLASH_DIRECT_TRANSFER_DIR_WRITE);
+    if (FSP_SUCCESS != err)
+    {
+        return err;
+    }
+
+    /* Read back and verify CFR2V register data to confirm 4-Byte Address mode */
+    transfer = s_ospi_b_direct_transfer[OSPI_B_TRANSFER_READ_VOL_REG_SPI];
     transfer.address = OSPI_B_ADDRESS_CFR2V_REGISTER;
-    err = R_OSPI_B_DirectTransfer(g_ospi_b_ctrl, &transfer, SPI_FLASH_DIRECT_TRANSFER_DIR_READ);
-    APP_ERR_RET(FSP_SUCCESS != err, err, "**R_OSPI_B_DirectTransfer API FAILED!!!**\r\n");
+
+    err = R_OSPI_B_DirectTransfer(s_ospi_b_ctrl, &transfer, SPI_FLASH_DIRECT_TRANSFER_DIR_READ);
+    if (FSP_SUCCESS != err)
+    {
+        return err;
+    }
+
     if (OSPI_B_DATA_CFR2V_REGISTER != (uint8_t)transfer.data)
     {
-        err = FSP_ERR_ABORTED;
-        APP_ERR_RET(FSP_SUCCESS != err, err, "Verify CFR2V register data FAILED!!!\r\n");
+        return FSP_ERR_ABORTED;
     }
 
     /* Read back and verify CFR3V register data */
-    transfer = g_ospi_b_direct_transfer[OSPI_B_TRANSFER_READ_VOL_REG_SPI];
+    transfer = s_ospi_b_direct_transfer[OSPI_B_TRANSFER_READ_VOL_REG_SPI];
     transfer.address = OSPI_B_ADDRESS_CFR3V_REGISTER;
-    err = R_OSPI_B_DirectTransfer(g_ospi_b_ctrl, &transfer, SPI_FLASH_DIRECT_TRANSFER_DIR_READ);
-    APP_ERR_RET(FSP_SUCCESS != err, err, "**R_OSPI_B_DirectTransfer API FAILED!!!**\r\n");
+
+    err = R_OSPI_B_DirectTransfer(s_ospi_b_ctrl, &transfer, SPI_FLASH_DIRECT_TRANSFER_DIR_READ);
+    if (FSP_SUCCESS != err)
+    {
+        return err;
+    }
+
     if (OSPI_B_DATA_DEFAULT_CFR3V_REGISTER != (uint8_t)transfer.data)
     {
-        err = FSP_ERR_ABORTED;
-        APP_ERR_RET(FSP_SUCCESS != err, err, "Verify CFR3V register data FAILED!!!\r\n");
+        return FSP_ERR_ABORTED;
     }
 
     /* Read back and verify CFR4V register data */
-    transfer = g_ospi_b_direct_transfer[OSPI_B_TRANSFER_READ_VOL_REG_SPI];
+    transfer = s_ospi_b_direct_transfer[OSPI_B_TRANSFER_READ_VOL_REG_SPI];
     transfer.address = OSPI_B_ADDRESS_CFR4V_REGISTER;
-    err = R_OSPI_B_DirectTransfer(g_ospi_b_ctrl, &transfer, SPI_FLASH_DIRECT_TRANSFER_DIR_READ);
-    APP_ERR_RET(FSP_SUCCESS != err, err, "**R_OSPI_B_DirectTransfer API FAILED!!!**\r\n");
+
+    err = R_OSPI_B_DirectTransfer(s_ospi_b_ctrl, &transfer, SPI_FLASH_DIRECT_TRANSFER_DIR_READ);
+    if (FSP_SUCCESS != err)
+    {
+        return err;
+    }
+
     if (OSPI_B_DATA_CFR4V_REGISTER != (uint8_t)transfer.data)
     {
         if (OSPI_B_DATA_DEFAULT_CFR4V_REGISTER != (uint8_t)transfer.data)
         {
-            err = FSP_ERR_ABORTED;
-            APP_ERR_RET(FSP_SUCCESS != err, err, "Verify CFR4V register default data FAILED!!!\r\n");
+            return FSP_ERR_ABORTED;
         }
-        APP_PRINT("The CFR4V register still in default data\r\n");
 
-        /* Transfer write enable command */
+        /* Send the Write Enable command */
         err = ospi_b_write_enable();
-        APP_ERR_RET(FSP_SUCCESS != err, err, "ospi_b_write_enable FAILED!!!\r\n");
+        if (FSP_SUCCESS != err)
+        {
+            return err;
+        }
 
         /* Write to CFR4N to configure Error Correction Code */
-        transfer = g_ospi_b_direct_transfer[OSPI_B_TRANSFER_WRITE_REG_SPI];
+        transfer = s_ospi_b_direct_transfer[OSPI_B_TRANSFER_WRITE_REG_SPI];
         transfer.address = OSPI_B_ADDRESS_CFR4N_REGISTER;
         transfer.data = OSPI_B_DATA_CFR4V_REGISTER;
 
-        err = R_OSPI_B_DirectTransfer(g_ospi_b_ctrl, &transfer, SPI_FLASH_DIRECT_TRANSFER_DIR_WRITE);
-        APP_ERR_RET(FSP_SUCCESS != err, err, "**R_OSPI_B_DirectTransfer API FAILED!!!**\r\n");
-
-        err = ospi_b_wait_operation(UINT16_MAX);
-        APP_ERR_RET(FSP_SUCCESS != err, err, "ospi_b_wait_operation FAILED!!!\r\n");
-
-        /* Read back and verify CFR4V register data */
-        transfer = g_ospi_b_direct_transfer[OSPI_B_TRANSFER_READ_VOL_REG_SPI];
-        transfer.address = OSPI_B_ADDRESS_CFR4V_REGISTER;
-
-        err = R_OSPI_B_DirectTransfer(g_ospi_b_ctrl, &transfer, SPI_FLASH_DIRECT_TRANSFER_DIR_READ);
-        APP_ERR_RET(FSP_SUCCESS != err, err, "**R_OSPI_B_DirectTransfer API FAILED!!!**\r\n");
-        if (OSPI_B_DATA_CFR4V_REGISTER != (uint8_t)transfer.data)
+        err = R_OSPI_B_DirectTransfer(s_ospi_b_ctrl, &transfer, SPI_FLASH_DIRECT_TRANSFER_DIR_WRITE);
+        if (FSP_SUCCESS != err)
         {
-            err = FSP_ERR_ABORTED;
-            APP_ERR_RET(FSP_SUCCESS != err, err, "Verify CFR4V register data FAILED!!!\r\n");
+            return err;
         }
 
-        APP_PRINT("Erase Chip after configure Error Correction Code\r\n");
+        err = ospi_b_wait_operation(UINT16_MAX);
+        if (FSP_SUCCESS != err)
+        {
+            return err;
+        }
 
-        err = R_OSPI_B_Erase(g_ospi_b_ctrl, (uint8_t *)OSPI_B_CS1_START_ADDRESS, SPI_FLASH_ERASE_SIZE_CHIP_ERASE);
-        APP_ERR_RET(FSP_SUCCESS != err, err, "**R_OSPI_B_Erase API FAILED!!!**\r\n");
+        /* Read back and verify CFR4V register data */
+        transfer = s_ospi_b_direct_transfer[OSPI_B_TRANSFER_READ_VOL_REG_SPI];
+        transfer.address = OSPI_B_ADDRESS_CFR4V_REGISTER;
+
+        err = R_OSPI_B_DirectTransfer(s_ospi_b_ctrl, &transfer, SPI_FLASH_DIRECT_TRANSFER_DIR_READ);
+        if (FSP_SUCCESS != err)
+        {
+            return err;
+        }
+
+        if (OSPI_B_DATA_CFR4V_REGISTER != (uint8_t)transfer.data)
+        {
+            return FSP_ERR_ABORTED;
+        }
+
+        err = R_OSPI_B_Erase(s_ospi_b_ctrl, (uint8_t *)OSPI_B_CS1_START_ADDRESS, SPI_FLASH_ERASE_SIZE_CHIP_ERASE);
+        if (FSP_SUCCESS != err)
+        {
+            return err;
+        }
 
         err = ospi_b_wait_operation(UINT32_MAX);
-        APP_ERR_RET(FSP_SUCCESS != err, err, "ospi_b_wait_operation FAILED!!!\r\n");
+        if (FSP_SUCCESS != err)
+        {
+            return err;
+        }
     }
-#elif defined (BOARD_RA8P1_EK)
+#elif defined (BOARD_RA8T2_EK) || defined (BOARD_RA8D2_EK)
+
+    /* Send the Enter 4-Byte Address command */
+    transfer = s_ospi_b_direct_transfer[OSPI_B_TRANSFER_ENTER_4BYTES_ADDRESS];
+
+    err = R_OSPI_B_DirectTransfer(s_ospi_b_ctrl, &transfer, SPI_FLASH_DIRECT_TRANSFER_DIR_WRITE);
+    if (FSP_SUCCESS != err)
+    {
+        return err;
+    }
+
+    /* Write to ADDR 00000001H of CR to configure dummy cycle */
+    transfer = s_ospi_b_direct_transfer[OSPI_B_TRANSFER_WRITE_CR_01H_SPI];
+    transfer.data = OSPI_B_DATA_SET_CR_01H;
+
+    err = R_OSPI_B_DirectTransfer(s_ospi_b_ctrl, &transfer, SPI_FLASH_DIRECT_TRANSFER_DIR_WRITE);
+    if (FSP_SUCCESS != err)
+    {
+        return err;
+    }
+
+    /* Read back and verify CR register data */
+    transfer = s_ospi_b_direct_transfer[OSPI_B_TRANSFER_READ_CR_01H_SPI];
+
+    err = R_OSPI_B_DirectTransfer(s_ospi_b_ctrl, &transfer, SPI_FLASH_DIRECT_TRANSFER_DIR_READ);
+    if (FSP_SUCCESS != err)
+    {
+        return err;
+    }
+
+    if (OSPI_B_DATA_SET_CR_01H != (uint8_t)transfer.data)
+    {
+        return FSP_ERR_ABORTED;
+    }
+#elif defined (BOARD_RA8M2_EK) || defined (BOARD_RA8P1_EK)
     /* Write to ADDR 00000300H of CR2 to configure dummy cycle */
-    transfer = g_ospi_b_direct_transfer[OSPI_B_TRANSFER_WRITE_CR2_300H_SPI];
+    transfer = s_ospi_b_direct_transfer[OSPI_B_TRANSFER_WRITE_CR2_300H_SPI];
     transfer.data = OSPI_B_DATA_SET_CR2_300H;
-    err = R_OSPI_B_DirectTransfer(g_ospi_b_ctrl, &transfer, SPI_FLASH_DIRECT_TRANSFER_DIR_WRITE);
-    APP_ERR_RET(FSP_SUCCESS != err, err, "**R_OSPI_B_DirectTransfer API FAILED!!!**\r\n");
+
+    err = R_OSPI_B_DirectTransfer(s_ospi_b_ctrl, &transfer, SPI_FLASH_DIRECT_TRANSFER_DIR_WRITE);
+    if (FSP_SUCCESS != err)
+    {
+        return err;
+    }
 
     /* Read back and verify CR2 register data */
-    transfer = g_ospi_b_direct_transfer[OSPI_B_TRANSFER_READ_CR2_300H_SPI];
-    err = R_OSPI_B_DirectTransfer(g_ospi_b_ctrl, &transfer, SPI_FLASH_DIRECT_TRANSFER_DIR_READ);
-    APP_ERR_RET(FSP_SUCCESS != err, err, "**R_OSPI_B_DirectTransfer API FAILED!!!**\r\n");
+    transfer = s_ospi_b_direct_transfer[OSPI_B_TRANSFER_READ_CR2_300H_SPI];
+
+    err = R_OSPI_B_DirectTransfer(s_ospi_b_ctrl, &transfer, SPI_FLASH_DIRECT_TRANSFER_DIR_READ);
+    if (FSP_SUCCESS != err)
+    {
+        return err;
+    }
 
     if (OSPI_B_DATA_SET_CR2_300H != (uint8_t)transfer.data)
     {
-        err = FSP_ERR_ABORTED;
-        APP_ERR_RET(FSP_SUCCESS != err, err, "Verify CR2 register data FAILED!!!\r\n");
+        return FSP_ERR_ABORTED;
     }
-#endif
+#endif /* Specific board */
 
-    /* Setup calibrate data */
+    /* Set up auto-calibration data */
     err = ospi_b_setup_calibrate_data();
-    APP_ERR_RET(FSP_SUCCESS != err, err, "ospi_b_setup_calibrate_data FAILED!!!\r\n");
+    if (FSP_SUCCESS != err)
+    {
+        return err;
+    }
 
-    /* Configure OSPI flash to OPI mode */
+    /* Configure the OSPI flash device to OPI mode */
     err = ospi_b_set_protocol_to_opi();
-    APP_ERR_RET(FSP_SUCCESS != err, err, "ospi_b_set_protocol_to_opi FAILED!!!\r\n");
+    if (FSP_SUCCESS != err)
+    {
+        return err;
+    }
 
     /* Close OSPI flash */
-    err = R_OSPI_B_Close(g_ospi_b_ctrl);
-    APP_ERR_RET(FSP_SUCCESS != err, err, "**R_OSPI_B_Close API FAILED!!!**\r\n");
+    err = R_OSPI_B_Close(s_ospi_b_ctrl);
+    if (FSP_SUCCESS != err)
+    {
+        return err;
+    }
 
-    /* Set active OSPI instance for LittleFS */
-    g_ospi_b_ctrl = &g_ospi_b_littlefs_ctrl;
-    memset(&g_ospi_b_cfg, RESET_VALUE, sizeof(spi_flash_cfg_t));
-    memcpy(&g_ospi_b_cfg, &g_ospi_b_littlefs_cfg, sizeof(spi_flash_cfg_t));
+    /* Set the active OSPI instance for LittleFS */
+    s_ospi_b_ctrl = &g_ospi_b_littlefs_ctrl;
+    memcpy(&s_ospi_b_cfg, &g_ospi_b_littlefs_cfg, sizeof(spi_flash_cfg_t));
 
     return err;
 }
@@ -495,72 +567,68 @@ fsp_err_t ospi_b_init(void)
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
- *  Function Name: erase_ospi_flash
- *  Description  : This function erases the flash memory using lower level flash APIs.
- *  Arguments    : erase_size      The size of flash to be erased.
- *  Return Value : FSP_SUCCESS     Upon successful operation.
- *                 Any other error code apart from FSP_SUCCESS Unsuccessful operation.
+ * Function Name: erase_ospi_flash
+ * Description  : This function erases the flash memory using lower level flash APIs.
+ * Arguments    : erase_size                The size of flash to be erased.
+ * Return Value : FSP_SUCCESS               Erased successfully.
+ *                Any other error codes     Failed to erase.
  **********************************************************************************************************************/
 fsp_err_t erase_ospi_flash(uint32_t erase_size)
 {
     fsp_err_t err = FSP_SUCCESS;
 
     /* Open OSPI module */
-    if (MODULE_CLOSE == g_ospi_b_ctrl->open)
+    if (!s_ospi_b_ctrl->open)
     {
-        err = R_OSPI_B_Open(g_ospi_b_ctrl, &g_ospi_b_cfg);
-        APP_ERR_RET(FSP_SUCCESS != err, err, "**R_OSPI_B_Open API FAILED!!!**\r\n");
+        err = R_OSPI_B_Open(s_ospi_b_ctrl, &s_ospi_b_cfg);
+        if (FSP_SUCCESS != err)
+        {
+            return err;
+        }
     }
 
     /* Erase flash */
     if (SPI_FLASH_ERASE_SIZE_CHIP_ERASE == erase_size)
     {
-        APP_PRINT("\r\n\r\nErase the entire ospi flash...\r\n\r\n");
-        APP_PRINT("\r\nThis operation will take several minutes. Please wait!\r\n");
-
-        err = R_OSPI_B_Erase(g_ospi_b_ctrl, (uint8_t*) OSPI_B_CS1_START_ADDRESS, erase_size);
-        APP_ERR_RET(FSP_SUCCESS != err, err, "**R_OSPI_B_Erase API FAILED!!!**\r\n");
+        err = R_OSPI_B_Erase(s_ospi_b_ctrl, (uint8_t *)OSPI_B_CS1_START_ADDRESS, erase_size);
+        if (FSP_SUCCESS != err)
+        {
+            return err;
+        }
 
         err = ospi_b_wait_operation(UINT32_MAX);
-        APP_ERR_RET(FSP_SUCCESS != err, err, "ospi_b_wait_operation FAILED!!!\r\n");
+        if (FSP_SUCCESS != err)
+        {
+            return err;
+        }
     }
     else if (OSPI_B_32K_SIZE == erase_size)
     {
-        APP_PRINT("\r\n\r\nErase the first 32 KB of the OSPI flash...\r\n\r\n");
-
-        uint8_t * p_current_add = (uint8_t*) OSPI_B_CS1_START_ADDRESS;
+        uint8_t * p_current_add = (uint8_t *)OSPI_B_CS1_START_ADDRESS;
         for (uint8_t i = 0; i < (erase_size/OSPI_B_SECTOR_4K_SIZE); ++i)
         {
-            err = R_OSPI_B_Erase(g_ospi_b_ctrl, p_current_add, OSPI_B_SECTOR_4K_SIZE);
-            APP_ERR_RET(FSP_SUCCESS != err, err, "**R_OSPI_B_Erase API FAILED!!!**\r\n");
+            err = R_OSPI_B_Erase(s_ospi_b_ctrl, p_current_add, OSPI_B_SECTOR_4K_SIZE);
+            if (FSP_SUCCESS != err)
+            {
+                return err;
+            }
 
             err = ospi_b_wait_operation(OSPI_B_TIME_ERASE_4K);
-            APP_ERR_RET(FSP_SUCCESS != err, err, "ospi_b_wait_operation FAILED!!!\r\n");
+            if (FSP_SUCCESS != err)
+            {
+                return err;
+            }
 
             p_current_add += OSPI_B_SECTOR_4K_SIZE;
         }
     }
     else
     {
-        APP_PRINT("\r\n\r\nThis EP only supports erase entire flash or 32 KB flash!\r\n\r\n");
-        return err;
+        return FSP_ERR_INVALID_ARGUMENT;
     }
 
-    /* Re-setup calibrate data after erase OSPI Flash */
+    /* Reconfigure auto-calibration data after erasing the OSPI flash */
     err = ospi_b_setup_calibrate_data();
-    APP_ERR_RET(FSP_SUCCESS != err, err, "ospi_b_setup_calibrate_data FAILED!!!\r\n");
-
-    /* Erase OSPI flash successful */
-    if (SPI_FLASH_ERASE_SIZE_CHIP_ERASE == erase_size)
-    {
-        APP_PRINT("\r\n\r\nErased entire OSPI flash successfully!\r\n");
-        APP_PRINT("\r\nPlease FORMAT FILE SYSTEM after erase the entire OSPI flash!\r\n");
-    }
-    else
-    {
-        APP_PRINT("\r\n\r\nErased the first 32 KB of the OSPI flash successfully!\r\n");
-        APP_PRINT("\r\nPlease FORMAT FILE SYSTEM after erase the first 32 KB of the OSPI flash!\r\n");
-    }
 
     return err;
 }
@@ -569,11 +637,66 @@ fsp_err_t erase_ospi_flash(uint32_t erase_size)
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
- *  Function Name: ospi_b_setup_calibrate_data
- *  Description  : This function sets up the auto-calibrate data for the flash.
- *  Arguments    : None.
- *  Return Value : FSP_SUCCESS     Upon successful operation.
- *                 Any other error code apart from FSP_SUCCESS Unsuccessful operation.
+ * Function Name: ospi_b_write_enable
+ * Description  : This function enables write operations on the OSPI flash device.
+ * Arguments    : None.
+ * Return Value : FSP_SUCCESS               Enabled successfully.
+ *                Any other error codes     Failed to enable.
+ **********************************************************************************************************************/
+static fsp_err_t ospi_b_write_enable(void)
+{
+    fsp_err_t err = FSP_SUCCESS;
+    spi_flash_direct_transfer_t transfer =
+    {
+        .command        = RESET_VALUE,
+        .address        = RESET_VALUE,
+        .data           = RESET_VALUE,
+        .command_length = RESET_VALUE,
+        .address_length = RESET_VALUE,
+        .data_length    = RESET_VALUE,
+        .dummy_cycles   = RESET_VALUE
+    };
+
+    /* Send the Write Enable command */
+    transfer = (SPI_FLASH_PROTOCOL_EXTENDED_SPI == s_ospi_b_ctrl->spi_protocol)
+               ? s_ospi_b_direct_transfer[OSPI_B_TRANSFER_WRITE_ENABLE_SPI]
+               : s_ospi_b_direct_transfer[OSPI_B_TRANSFER_WRITE_ENABLE_OPI];
+
+    err = R_OSPI_B_DirectTransfer(s_ospi_b_ctrl, &transfer, SPI_FLASH_DIRECT_TRANSFER_DIR_WRITE);
+    if (FSP_SUCCESS != err)
+    {
+        return err;
+    }
+
+    /* Read the Status Register */
+    transfer = (SPI_FLASH_PROTOCOL_EXTENDED_SPI == s_ospi_b_ctrl->spi_protocol)
+               ? s_ospi_b_direct_transfer[OSPI_B_TRANSFER_READ_STATUS_SPI]
+               : s_ospi_b_direct_transfer[OSPI_B_TRANSFER_READ_STATUS_OPI];
+
+    err = R_OSPI_B_DirectTransfer(s_ospi_b_ctrl, &transfer, SPI_FLASH_DIRECT_TRANSFER_DIR_READ);
+    if (FSP_SUCCESS != err)
+    {
+        return err;
+    }
+
+    /* Check the Write Enable bit in the Status Register */
+    if (OSPI_B_WEN_BIT_MASK != (transfer.data & OSPI_B_WEN_BIT_MASK))
+    {
+        return FSP_ERR_ABORTED;
+    }
+
+    return err;
+}
+/***********************************************************************************************************************
+* End of function ospi_b_write_enable
+***********************************************************************************************************************/
+
+/***********************************************************************************************************************
+ * Function Name: ospi_b_setup_calibrate_data
+ * Description  : This function sets up the auto-calibration data for the flash.
+ * Arguments    : None.
+ * Return Value : FSP_SUCCESS               Set up successfully.
+ *                Any other error codes     Failed to set up.
  **********************************************************************************************************************/
 static fsp_err_t ospi_b_setup_calibrate_data(void)
 {
@@ -581,46 +704,61 @@ static fsp_err_t ospi_b_setup_calibrate_data(void)
 
     /* Calibration pattern data, which is set in both the OSPI_B Command Calibration Control register
      * and OSPI_B_AUTO_CALIB_ADDRESS. Refer to the OSPI_B_PRV_AUTOCALIBRATION_PREAMBLE_PATTERN in r_ospi_b.c */
-#if defined (BOARD_RA8D1_EK)
-    uint32_t g_auto_calibration_data[] =
+#if defined (BOARD_RA8D1_EK) || defined (BOARD_RA8T2_EK) || defined (BOARD_RA8D2_EK)
+    uint32_t auto_calibration_data[] =
     {
         0xFFFF0000U,
         0x000800FFU,
         0x00FFF700U,
         0xF700F708U
     };
-#elif defined (BOARD_RA8P1_EK)
-    uint32_t g_auto_calibration_data[] =
+#elif defined (BOARD_RA8M2_EK) || defined (BOARD_RA8P1_EK)
+    uint32_t auto_calibration_data[] =
     {
         0xFFFF0000U,
         0x0800FF00U,
         0xFF0000F7U,
         0x00F708F7U
     };
-#endif
+#endif /* Specific board */
 
     int32_t compare_result = memcmp((uint8_t *)OSPI_B_AUTO_CALIB_ADDRESS,
-                                    &g_auto_calibration_data, sizeof(g_auto_calibration_data));
+                                    auto_calibration_data,
+                                    sizeof(auto_calibration_data));
 
     /* Verify auto-calibration data */
     if (RESET_VALUE != compare_result)
     {
         /* Erase the flash sector that stores auto-calibration data */
-        err = R_OSPI_B_Erase(g_ospi_b_ctrl, (uint8_t *)OSPI_B_AUTO_CALIB_ADDRESS, OSPI_B_SECTOR_4K_SIZE);
-        APP_ERR_RET(FSP_SUCCESS != err, err, "**R_OSPI_B_Erase API FAILED!!!**\r\n");
+        err = R_OSPI_B_Erase(s_ospi_b_ctrl, (uint8_t *)OSPI_B_AUTO_CALIB_ADDRESS, OSPI_B_SECTOR_4K_SIZE);
+        if (FSP_SUCCESS != err)
+        {
+            return err;
+        }
 
         /* Wait until erase operation completes */
         err = ospi_b_wait_operation(OSPI_B_TIME_ERASE_4K);
-        APP_ERR_RET(FSP_SUCCESS != err, err, "ospi_b_wait_operation FAILED!!!\r\n");
+        if (FSP_SUCCESS != err)
+        {
+            return err;
+        }
 
         /* Write auto-calibration data to the flash */
-        err = R_OSPI_B_Write(g_ospi_b_ctrl, (uint8_t *)&g_auto_calibration_data,
-                             (uint8_t *)OSPI_B_AUTO_CALIB_ADDRESS, sizeof(g_auto_calibration_data));
-        APP_ERR_RET(FSP_SUCCESS != err, err, "**R_OSPI_B_Write API FAILED!!!**\r\n");
+        err = R_OSPI_B_Write(s_ospi_b_ctrl,
+                             (uint8_t *)auto_calibration_data,
+                             (uint8_t *)OSPI_B_AUTO_CALIB_ADDRESS,
+                             sizeof(auto_calibration_data));
+        if (FSP_SUCCESS != err)
+        {
+            return err;
+        }
 
         /* Wait until write operation completes */
         err = ospi_b_wait_operation(OSPI_B_TIME_WRITE);
-        APP_ERR_RET(FSP_SUCCESS != err, err, "ospi_b_wait_operation FAILED!!!\r\n");
+        if (FSP_SUCCESS != err)
+        {
+            return err;
+        }
     }
 
     return err;
@@ -630,11 +768,11 @@ static fsp_err_t ospi_b_setup_calibrate_data(void)
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
- *  Function Name: ospi_b_set_protocol_to_opi
- *  Description  : This function configures OSPI to OPI mode.
- *  Arguments    : None.
- *  Return Value : FSP_SUCCESS     Upon successful operation.
- *                 Any other error code apart from FSP_SUCCESS Unsuccessful operation.
+ * Function Name: ospi_b_set_protocol_to_opi
+ * Description  : This function configures OSPI to OPI mode.
+ * Arguments    : None.
+ * Return Value : FSP_SUCCESS               Configured successfully.
+ *                Any other error codes     Failed to configure.
  **********************************************************************************************************************/
 static fsp_err_t ospi_b_set_protocol_to_opi(void)
 {
@@ -656,77 +794,172 @@ static fsp_err_t ospi_b_set_protocol_to_opi(void)
         .divider      = RESET_VALUE
     };
 
-    if (SPI_FLASH_PROTOCOL_8D_8D_8D == g_ospi_b_ctrl->spi_protocol)
+    if (SPI_FLASH_PROTOCOL_8D_8D_8D == s_ospi_b_ctrl->spi_protocol)
     {
         /* Do nothing */
     }
-    else if (SPI_FLASH_PROTOCOL_EXTENDED_SPI == g_ospi_b_ctrl->spi_protocol)
+    else if (SPI_FLASH_PROTOCOL_EXTENDED_SPI == s_ospi_b_ctrl->spi_protocol)
     {
-        /* Transfer write enable command */
+        /* Send the Write Enable command */
         err = ospi_b_write_enable();
-        APP_ERR_RET(FSP_SUCCESS != err, err, "ospi_b_write_enable FAILED!!!\r\n");
+        if (FSP_SUCCESS != err)
+        {
+            return err;
+        }
 
 #if  defined (BOARD_RA8D1_EK)
-        /* Write to CFR5V Register to Configure flash device interface mode */
-        transfer = g_ospi_b_direct_transfer[OSPI_B_TRANSFER_WRITE_CFR5V_SPI];
+        /* Write to CFR5V Register to configure the flash device interface mode */
+        transfer = s_ospi_b_direct_transfer[OSPI_B_TRANSFER_WRITE_CFR5V_SPI];
         transfer.data = OSPI_B_DATA_SET_OPI_CFR5V_REGISTER;
-        err = R_OSPI_B_DirectTransfer(g_ospi_b_ctrl, &transfer, SPI_FLASH_DIRECT_TRANSFER_DIR_WRITE);
-        APP_ERR_RET(FSP_SUCCESS != err, err, "**R_OSPI_B_DirectTransfer API FAILED!!!**\r\n");
 
-        /* Change the OCTACLK clock to 200 MHz in DDR mode */
+        err = R_OSPI_B_DirectTransfer(s_ospi_b_ctrl, &transfer, SPI_FLASH_DIRECT_TRANSFER_DIR_WRITE);
+        if (FSP_SUCCESS != err)
+        {
+            return err;
+        }
+
+        /* Configure OCTACLK to 200 MHz in DDR mode */
         octaclk.source_clock = BSP_CLOCKS_SOURCE_CLOCK_PLL2P;
         octaclk.divider      = BSP_CLOCKS_OCTA_CLOCK_DIV_2;
         R_BSP_OctaclkUpdate(&octaclk);
 
         /* Switch OSPI module mode to OPI mode */
-        err = R_OSPI_B_SpiProtocolSet(g_ospi_b_ctrl, SPI_FLASH_PROTOCOL_8D_8D_8D);
-        APP_ERR_RET(FSP_SUCCESS != err, err, "**R_OSPI_SpiProtocolSet API FAILED!!!**\r\n");
+        err = R_OSPI_B_SpiProtocolSet(s_ospi_b_ctrl, SPI_FLASH_PROTOCOL_8D_8D_8D);
+        if (FSP_SUCCESS != err)
+        {
+            return err;
+        }
 
         /* Read back and verify CFR5V register data */
-        transfer = g_ospi_b_direct_transfer[OSPI_B_TRANSFER_READ_CFR5V_OPI];
-        err = R_OSPI_B_DirectTransfer(g_ospi_b_ctrl, &transfer, SPI_FLASH_DIRECT_TRANSFER_DIR_READ);
-        APP_ERR_RET(FSP_SUCCESS != err, err, "**R_OSPI_B_DirectTransfer API FAILED!!!**\r\n");
+        transfer = s_ospi_b_direct_transfer[OSPI_B_TRANSFER_READ_CFR5V_OPI];
+
+        err = R_OSPI_B_DirectTransfer(s_ospi_b_ctrl, &transfer, SPI_FLASH_DIRECT_TRANSFER_DIR_READ);
+        if (FSP_SUCCESS != err)
+        {
+            return err;
+        }
+
         if (OSPI_B_DATA_SET_OPI_CFR5V_REGISTER != (uint8_t)transfer.data)
         {
-            err = FSP_ERR_ABORTED;
-            APP_ERR_RET(FSP_SUCCESS != err, err, "Verify CFR5V register data FAILED!!!\r\n");
+            return FSP_ERR_ABORTED;
         }
-#elif defined (BOARD_RA8P1_EK)
-        /* Write to CR2 Register to Configure flash device interface mode */
-        transfer = g_ospi_b_direct_transfer[OSPI_B_TRANSFER_WRITE_CR2_000H_SPI];
-        transfer.data = OSPI_B_DATA_SET_OPI_CR2_000H;
-        err = R_OSPI_B_DirectTransfer(g_ospi_b_ctrl, &transfer, SPI_FLASH_DIRECT_TRANSFER_DIR_WRITE);
-        APP_ERR_RET(FSP_SUCCESS != err, err, "**R_OSPI_B_DirectTransfer API FAILED!!!**\r\n");
+#elif defined (BOARD_RA8T2_EK) || defined (BOARD_RA8D2_EK)
+        /* Change to OPI mode */
+        transfer = s_ospi_b_direct_transfer[OSPI_B_TRANSFER_WRITE_CR_00H_SPI];
+        transfer.data = OSPI_B_DATA_SET_OPI_CR_00H;
 
-        /* Change the OCTACLK clock to 266 MHz in DDR mode */
+        err = R_OSPI_B_DirectTransfer(s_ospi_b_ctrl, &transfer, SPI_FLASH_DIRECT_TRANSFER_DIR_WRITE);
+        if (FSP_SUCCESS != err)
+        {
+            return err;
+        }
+
+        /* Configure OCTACLK to 266 MHz in DDR mode */
         octaclk.source_clock = BSP_CLOCKS_SOURCE_CLOCK_PLL2P;
         octaclk.divider      = BSP_CLOCKS_OCTA_CLOCK_DIV_1;
         R_BSP_OctaclkUpdate(&octaclk);
 
         /* Switch OSPI module mode to OPI mode */
-        err = R_OSPI_B_SpiProtocolSet(g_ospi_b_ctrl, SPI_FLASH_PROTOCOL_8D_8D_8D);
-        APP_ERR_RET(FSP_SUCCESS != err, err, "**R_OSPI_SpiProtocolSet API FAILED!!!**\r\n");
+        err = R_OSPI_B_SpiProtocolSet(s_ospi_b_ctrl, SPI_FLASH_PROTOCOL_8D_8D_8D);
+        if (FSP_SUCCESS != err)
+        {
+            return err;
+        }
+
+        /* Read back and verify CR register data */
+        transfer = s_ospi_b_direct_transfer[OSPI_B_TRANSFER_READ_CR_00H_OPI];
+
+        err = R_OSPI_B_DirectTransfer(s_ospi_b_ctrl, &transfer, SPI_FLASH_DIRECT_TRANSFER_DIR_READ);
+        if (FSP_SUCCESS != err)
+        {
+            return err;
+        }
+
+        if (OSPI_B_DATA_SET_OPI_CR_00H != (uint8_t) transfer.data)
+        {
+            return FSP_ERR_ABORTED;
+        }
+#elif defined (BOARD_RA8M2_EK) || defined (BOARD_RA8P1_EK)
+        /* Write to CR2 Register to configure the flash device interface mode */
+        transfer = s_ospi_b_direct_transfer[OSPI_B_TRANSFER_WRITE_CR2_000H_SPI];
+        transfer.data = OSPI_B_DATA_SET_OPI_CR2_000H;
+
+        err = R_OSPI_B_DirectTransfer(s_ospi_b_ctrl, &transfer, SPI_FLASH_DIRECT_TRANSFER_DIR_WRITE);
+        if (FSP_SUCCESS != err)
+        {
+            return err;
+        }
+
+        /* Configure OCTACLK to 266 MHz in DDR mode */
+        octaclk.source_clock = BSP_CLOCKS_SOURCE_CLOCK_PLL2P;
+        octaclk.divider      = BSP_CLOCKS_OCTA_CLOCK_DIV_1;
+        R_BSP_OctaclkUpdate(&octaclk);
+
+        /* Switch OSPI module mode to OPI mode */
+        err = R_OSPI_B_SpiProtocolSet(s_ospi_b_ctrl, SPI_FLASH_PROTOCOL_8D_8D_8D);
+        if (FSP_SUCCESS != err)
+        {
+            return err;
+        }
 
         /* Read back and verify CR2 register data */
-        transfer = g_ospi_b_direct_transfer[OSPI_B_TRANSFER_READ_CR2_000H_OPI];
-        err = R_OSPI_B_DirectTransfer(g_ospi_b_ctrl, &transfer, SPI_FLASH_DIRECT_TRANSFER_DIR_READ);
-        APP_ERR_RET(FSP_SUCCESS != err, err, "R_OSPI_B_DirectTransfer API FAILED!!!\r\n");
+        transfer = s_ospi_b_direct_transfer[OSPI_B_TRANSFER_READ_CR2_000H_OPI];
+
+        err = R_OSPI_B_DirectTransfer(s_ospi_b_ctrl, &transfer, SPI_FLASH_DIRECT_TRANSFER_DIR_READ);
+        if (FSP_SUCCESS != err)
+        {
+            return err;
+        }
 
         if (OSPI_B_DATA_SET_OPI_CR2_000H != (uint8_t)transfer.data)
         {
-            err = FSP_ERR_ABORTED;
-            APP_ERR_RET(FSP_SUCCESS != err, err, "Verify CR2 register data FAILED!!!\r\n");
+            return FSP_ERR_ABORTED;
         }
-#endif
+#endif /* Specific board */
     }
     else
     {
-        err = FSP_ERR_INVALID_MODE;
-        APP_ERR_RET(FSP_SUCCESS != err, err, "Flash device do not support this mode!\r\n");
+        return FSP_ERR_INVALID_MODE;
     }
 
     return err;
 }
 /***********************************************************************************************************************
 * End of function ospi_b_set_protocol_to_opi
+***********************************************************************************************************************/
+
+/***********************************************************************************************************************
+ * Function Name: ospi_b_wait_operation
+ * Description  : This function waits until OSPI operation completes.
+ * Arguments    : timeout                   Maximum waiting time.
+ * Return Value : FSP_SUCCESS               Operated successfully.
+ *                Any other error codes     Failed to operate.
+ **********************************************************************************************************************/
+static fsp_err_t ospi_b_wait_operation(uint32_t timeout)
+{
+    fsp_err_t err = FSP_SUCCESS;
+    spi_flash_status_t status = {RESET_VALUE};
+    status.write_in_progress = true;
+
+    while (status.write_in_progress)
+    {
+        /* Get device status */
+        err = R_OSPI_B_StatusGet(s_ospi_b_ctrl, &status);
+        if (FSP_SUCCESS != err)
+        {
+            return err;
+        }
+
+        if (RESET_VALUE == timeout)
+        {
+            return FSP_ERR_TIMEOUT;
+        }
+        R_BSP_SoftwareDelay(1, OSPI_B_TIME_UNIT);
+        timeout --;
+    }
+
+    return err;
+}
+/***********************************************************************************************************************
+* End of function ospi_b_wait_operation
 ***********************************************************************************************************************/
