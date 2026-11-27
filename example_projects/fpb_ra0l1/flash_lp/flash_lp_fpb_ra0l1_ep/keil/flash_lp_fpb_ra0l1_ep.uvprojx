@@ -16,7 +16,7 @@
         <TargetCommonOption>
           <Device>R7FA0L107</Device>
           <Vendor>Renesas</Vendor>
-          <PackID>Renesas.RA_DFP.6.6.0</PackID>
+          <PackID>Renesas.RA_DFP.6.7.0</PackID>
           <PackURL>https://www2.renesas.eu/Keil_MDK_Packs/</PackURL>
           <Cpu>CPUTYPE("Cortex-M23")      CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -393,11 +393,6 @@
               <FilePath>.\src\hal_entry.c</FilePath>
             </File>
             <File>
-              <FileName>common_utils.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\common_utils.h</FilePath>
-            </File>
-            <File>
               <FileName>flash_lp_ep.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\src\flash_lp_ep.c</FilePath>
@@ -408,24 +403,34 @@
               <FilePath>.\src\flash_lp_ep.h</FilePath>
             </File>
             <File>
-              <FileName>SEGGER_RTT.c</FileName>
+              <FileName>syscalls_keil.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\src\SEGGER_RTT\SEGGER_RTT.c</FilePath>
+              <FilePath>.\src\console\syscalls_keil.c</FilePath>
             </File>
             <File>
-              <FileName>SEGGER_RTT.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\SEGGER_RTT\SEGGER_RTT.h</FilePath>
-            </File>
-            <File>
-              <FileName>SEGGER_RTT_Conf.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\SEGGER_RTT\SEGGER_RTT_Conf.h</FilePath>
-            </File>
-            <File>
-              <FileName>SEGGER_RTT_printf.c</FileName>
+              <FileName>uart_console.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\src\SEGGER_RTT\SEGGER_RTT_printf.c</FilePath>
+              <FilePath>.\src\console\uart_console.c</FilePath>
+            </File>
+            <File>
+              <FileName>uart_console.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\console\uart_console.h</FilePath>
+            </File>
+            <File>
+              <FileName>flash_lp_example_app.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\flash_lp_example_app.c</FilePath>
+            </File>
+            <File>
+              <FileName>flash_lp_example_app.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\flash_lp_example_app.h</FilePath>
+            </File>
+            <File>
+              <FileName>hal_warmstart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\hal_warmstart.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -446,7 +451,7 @@
     </gpdscs>
     <apis/>
     <components>
-      <component Cclass="Flex Software" Cgroup="RA Configuration" Cvendor="Renesas" Cversion="1.0.0" condition="RA Device" generator="Renesas RA Smart Configurator">
+      <component Cclass="Flex Software" Cgroup="RA Configuration" Cvendor="Renesas" Cversion="1.0.0" condition="RA Device" generator="Renesas RA Smart Configurator" ymlID="Flex Software:RA Configuration">
         <package name="RA_DFP" schemaVersion="1.6.0" url="www.renesas.com/RA/MDK_pack/" vendor="Renesas" version="6.1.0-rc.0"/>
         <targetInfos>
           <targetInfo name="Target_1"/>

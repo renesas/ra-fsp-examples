@@ -41,7 +41,7 @@ FSP Configuration
   RA0L1 event data
   RA Common
     Main stack size (bytes): 0x400
-    Heap size (bytes): 0x1000
+    Heap size (bytes): 0
     Bootloader Secondary XIP: Disabled
     MCU Vcc (mV): 3300
     Parameter checking: Disabled
@@ -75,7 +75,7 @@ FSP Configuration
     CLKOUT0 Div /1
     CLKOUT1 Disabled
     CLKOUT1 Div /1
-    UTASEL Disabled
+    UTASEL Src: HOCO
     UARTA0 Src: UTASEL
     UARTA1 Src: UTASEL
     FSXP Src: SUBCLK
@@ -211,6 +211,11 @@ FSP Configuration
     Data Flash Background Operation Support: Enabled
     Instant Bank Swap (No Reset Required): Not Supported
     
+  Module "UART (r_uarta)"
+    Parameter Checking: Default (BSP)
+    DTC Support: Disable
+    Receive Error Interrupt Mode: Enabled
+    
   HAL
     Instance "g_ioport I/O Port (r_ioport)"
       Name: g_ioport
@@ -235,3 +240,18 @@ FSP Configuration
         Callback: rm_vee_flash_callback
         Flash Ready Interrupt Priority: Priority 2
         
+    Instance "g_uart_console UART (r_uarta)"
+      General: Name: g_uart_console
+      General: Channel: 1
+      General: Data Bits: 8bits
+      General: Parity: None
+      General: Stop Bits: 1bit
+      Baud: Baud Rate: 115200
+      Extra: Transfer Order: LSB first
+      Extra: Transfer level: Positive logic
+      Extra: Clock output: Not Available
+      Interrupts: Callback: uart_console_callback
+      Interrupts: Receive Interrupt Priority: Priority 3
+      Interrupts: Transmit Interrupt Priority: Priority 3
+      Interrupts: Error Interrupt Priority: Priority 3
+      

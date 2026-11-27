@@ -1,0 +1,44 @@
+{
+  "tasks": [
+    {
+      "type": "cmake",
+      "command": "build",
+      "group": "none",
+      "label": "FSP Smart Configurator",
+      "detail": "Edit configuration in FSP Smart Configurator",
+      "targets": [
+        "open_rasc_tml_fpb_ra0l1_ep_cmakebuild"
+      ],
+      "presentation": {
+        "showReuseMessage": false,
+        "reveal": "silent",
+        "focus": false,
+        "echo": false,
+        "panel": "shared",
+        "clear": false
+      }
+    },
+    {
+      "type": "shell",
+      "command": "cmake -P cmake/prebuild.cmake",
+      "group": "none",
+      "label": "Regenerate Project Content"
+    },
+    {
+      "type": "cmake",
+      "command": "configure",
+      "group": "none",
+      "label": "Configure Project"
+    },
+    {
+      "type": "cmake",
+      "command": "build",
+      "group": "build",
+      "label": "Build Project",
+      "dependsOn": [
+        "Configure Project"
+      ]
+    }
+  ],
+  "version": "2.0.0"
+}

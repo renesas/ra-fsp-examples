@@ -16,7 +16,7 @@
         <TargetCommonOption>
           <Device>R7FA0L107</Device>
           <Vendor>Renesas</Vendor>
-          <PackID>Renesas.RA_DFP.6.6.0</PackID>
+          <PackID>Renesas.RA_DFP.6.7.0</PackID>
           <PackURL>https://www2.renesas.eu/Keil_MDK_Packs/</PackURL>
           <Cpu>CPUTYPE("Cortex-M23")      CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -89,7 +89,7 @@
             <nStopA1X>2</nStopA1X>
             <nStopA2X>0</nStopA2X>
           </AfterMake>
-          <SelectedForBatchBuild>0</SelectedForBatchBuild>
+          <SelectedForBatchBuild>1</SelectedForBatchBuild>
           <SVCSIdString></SVCSIdString>
         </TargetCommonOption>
         <CommonProperty>
@@ -337,7 +337,7 @@
             <v6WtE>0</v6WtE>
             <v6Rtti>0</v6Rtti>
             <VariousControls>
-              <MiscControls>@via/rasc_armclang.via</MiscControls>
+              <MiscControls>@./via/rasc_armclang.via</MiscControls>
               <Define></Define>
               <Undefine></Undefine>
               <IncludePath></IncludePath>
@@ -355,7 +355,7 @@
             <useXO>0</useXO>
             <ClangAsOpt>4</ClangAsOpt>
             <VariousControls>
-              <MiscControls>--via=via/rasc_armasm.via</MiscControls>
+              <MiscControls>--via=./via/rasc_armasm.via</MiscControls>
               <Define></Define>
               <Undefine></Undefine>
               <IncludePath></IncludePath>
@@ -374,7 +374,7 @@
             <ScatterFile>.\script\fsp.scat</ScatterFile>
             <IncludeLibs></IncludeLibs>
             <IncludeLibsPath></IncludeLibsPath>
-            <Misc>--via=via/rasc_armlink.via</Misc>
+            <Misc>--via=./via/rasc_armlink.via</Misc>
             <LinkerInputFile></LinkerInputFile>
             <DisabledWarnings></DisabledWarnings>
           </LDads>
@@ -388,14 +388,29 @@
           <GroupName>:Renesas RA Smart Configurator:Common Sources</GroupName>
           <Files>
             <File>
-              <FileName>common_utils.h</FileName>
+              <FileName>syscalls_keil.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\console\syscalls_keil.c</FilePath>
+            </File>
+            <File>
+              <FileName>uart_console.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\console\uart_console.c</FilePath>
+            </File>
+            <File>
+              <FileName>uart_console.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\src\common_utils.h</FilePath>
+              <FilePath>.\src\console\uart_console.h</FilePath>
             </File>
             <File>
               <FileName>hal_entry.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\src\hal_entry.c</FilePath>
+            </File>
+            <File>
+              <FileName>hal_warmstart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\hal_warmstart.c</FilePath>
             </File>
             <File>
               <FileName>rtc_ep.c</FileName>
@@ -408,24 +423,14 @@
               <FilePath>.\src\rtc_ep.h</FilePath>
             </File>
             <File>
-              <FileName>SEGGER_RTT.c</FileName>
+              <FileName>rtc_example_app.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\src\SEGGER_RTT\SEGGER_RTT.c</FilePath>
+              <FilePath>.\src\rtc_example_app.c</FilePath>
             </File>
             <File>
-              <FileName>SEGGER_RTT.h</FileName>
+              <FileName>rtc_example_app.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\src\SEGGER_RTT\SEGGER_RTT.h</FilePath>
-            </File>
-            <File>
-              <FileName>SEGGER_RTT_Conf.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\SEGGER_RTT\SEGGER_RTT_Conf.h</FilePath>
-            </File>
-            <File>
-              <FileName>SEGGER_RTT_printf.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\src\SEGGER_RTT\SEGGER_RTT_printf.c</FilePath>
+              <FilePath>.\src\rtc_example_app.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -446,8 +451,8 @@
     </gpdscs>
     <apis/>
     <components>
-      <component Cclass="Flex Software" Cgroup="RA Configuration" Cvendor="Renesas" Cversion="1.0.0" condition="RA Device" generator="Renesas RA Smart Configurator">
-        <package name="RA_DFP" schemaVersion="1.6.0" url="www.renesas.com/RA/MDK_pack/" vendor="Renesas" version="6.1.0-rc.0"/>
+      <component Cclass="Flex Software" Cgroup="RA Configuration" Cvendor="Renesas" Cversion="1.0.0" condition="RA Device" generator="Renesas RA Smart Configurator" ymlID="Flex Software:RA Configuration">
+        <package name="RA_DFP" schemaVersion="1.6.0" url="www.renesas.com/RA/MDK_pack/" vendor="Renesas" version="6.5.0"/>
         <targetInfos>
           <targetInfo name="Target_1"/>
         </targetInfos>

@@ -4,29 +4,22 @@
 **********************************************************************************************************************/
 
 1. Project Overview:
-	This example project demonstrates the basic usage of TAU driver on Renesas RA MCUs based on Renesas FSP.
+	The example project demonstrates the basic usage of TAU driver on Renesas RA MCUs based on Renesas FSP.
 	It consists of 7 independent operations coordinated together to create 3 sequences. They include setting the
-	period for LED on and off times, counting external events, and measuring low-level pulse width. The user will
+	period for LED ON and OFF times, counting external events, and measuring low-level pulse width. The user will
 	input the required parameters for each sequence to configure the corresponding independent channel operation
-	function of TAU. The EP information and error messages will be printed to the Host PC.
-
-	Note:
-		- To display information, the user can select between the SEGGER J-Link RTT Viewer and the Serial
-		  Terminal (UART) with J-Link OB VCOM.
-		- By default, EP information is printed to the host PC via the Serial Terminal.
-		- To utilize the SEGGER J-Link RTT Viewer instead of the Serial Terminal, please follow the
-		  instructions in tau_notes.md file.
-		- RA boards support J-Link OB VCOM: FPB-RA0E1, FPB-RA0E2, FPB-RA0L1.
+	function of TAU. The EP information and error messages will be printed to the terminal.
 
 2. Hardware Requirements:
-	Supported RA boards: FPB-RA0E1, FPB-RA0E2, FPB-RA0L1
+	Supported RA boards: FPB-RA0E1, FPB-RA0E2, FPB-RA0L1, FPB-RA0E3.
 	1 x Renesas RA board.
-	1 x Type-C USB cable for programming and debugging.
+	1 x USB cable for programming and debugging (USB cable type varies by board model).
 	5 x Jumper wires.
 	1 x Host PC.
 
 3. Hardware Connections:
-	Connect the RA board to the host PC via a Type-C USB cable.
+	Connect the RA board USB debug port to the host PC using the appropriate USB cable for EP programming and
+	debugging.
 
 	For FPB-RA0E1:
 		1. To use J-Link OB VCOM for Serial Terminal (UART):
@@ -60,22 +53,33 @@
 			LED2 P104 (J2:8)  <--------> TI05 P201 (J1:20)
 			TO06 P301 (J1:23) <--------> TI07 P111 (J2:4)
 
-Note:
-1) For GCC ARM Embedded Toolchain: To enable printing floats to the RTT Viewer, edit the project settings and ensure that
-   "Use float with nano printf" is enabled. The setting can be found by:
-   Properties > C/C++ Build > Settings > Tool Settings > GNU Arm Cross C Linker > Miscellaneous > Use float with nano printf
+	For FPB-RA0E3:
+		1. To use the on-board debug functionality, the user must turn OFF S3.
+		2. To use P010 and P011 for LED1 and LED2, the user must close E48, E49.
+		3. Pin connection:
+			LED1 P010 (J1:1)  <--------> TI03 P112 (J2:4)
+			TO01 P110 (J2:3)  <--------> TI00 P213 (J1:4)
+			TO00 P212 (J1:5)  <--------> TI04 P100 (J2:7)
+			LED2 P011 (J2:10) <--------> TI05 P201 (J1:8)
+			TO06 P102 (J2:5)  <--------> TI07 P101 (J2:6)
 
-2) For using the Serial Terminal (UART):
-	a) To echo back what was typed in Tera Term, the user needs to enable it through:
+Note:
+1) To view output logs on a serial terminal application (e.g., Tera Term), configure the settings as shown below:
+	a. To make sure the received data shows properly, the user needs to set:
+		[Setup] -> [Terminal...] -> [New-line] -> Select [Receive: CR] & [Transmit: CR].
+
+	b. To echo back characters typed in Tera Term, the user needs to enable it through:
 		[Setup] -> [Terminal...] -> Check [Local echo].
-	b) The serial terminal setting parameters are as follows:
-		Select the COM port provided by the J-Link on-board.
-		Baud rate: 115200 bps
-		Data length: 8-bits
+
+	c. The configuration parameters of the serial port on the serial terminal application:
+		Port: The port is provided by the J-Link On-Board.
+		Speed: 115200
+		Data: 8 bit
 		Parity: none
-		Stop bit: 1-bit
+		Stop bits: 1 bit
 		Flow control: none
 
-3) For using the J-Link RTT Viewer:
-   If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT)
-   in .map file generated in the project folder (e2studio\Debug or e2studio\Release).
+2) For GCC ARM Embedded Toolchain (except for FPB-RA0E3 board): To enable printing floats to the terminal,
+   edit the project settings and ensure that "Use float with nano printf" is enabled. The setting can be found by:
+   Properties > C/C++ Build > Settings > Tool Settings > GNU Arm Cross C Linker > Miscellaneous >
+   Use float with nano printf.

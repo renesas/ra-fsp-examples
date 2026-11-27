@@ -75,7 +75,7 @@ FSP Configuration
     CLKOUT0 Div /1
     CLKOUT1 Disabled
     CLKOUT1 Div /1
-    UTASEL Disabled
+    UTASEL Src: HOCO
     UARTA0 Src: UTASEL
     UARTA1 Src: UTASEL
     FSXP Src: SUBCLK
@@ -104,8 +104,8 @@ FSP Configuration
       P105 31 UARTA1_RXDA1 VCOM_RXD - None "Peripheral mode" - - "CTSU: TS6; IRQ: IRQ1; SAU_I2C10: SDA10; SAU_SPI10: SI10; TAU00: TO00; TAU01: TI01; TAU01: TO01; UARTA1: RXDA1" - I - - 
       P106 30 UARTA1_TXDA1 VCOM_TXD - None "Peripheral mode" - - "CTSU: TS5; IRQ: IRQ0; SAU_SPI10: SO10; UARTA1: TXDA1" - O - - 
       P108 25 JTAG/SWD_SWDIO - - - "Peripheral mode" - - "JTAG/SWD: SWDIO; TAU03: TI03; TAU03: TO03" - IO - - 
-      P109 26 GPIO ARDUINO_D8 - None "Input mode" - - "CCD: CCD3; CGC: PCLBUZ1; CTSU: TS2; IICA0: SDAA0; IRQ: IRQ4; SAU_SPI20: SO20; SAU_UART2: TXD2; TAU02: TI02; TAU02: TO02; UARTA0: TXDA0" PMOD1_SDA IO - - 
-      P110 27 GPIO ARDUINO_D10 - None "Input mode" - - "CCD: CCD2; CTSU: TS3; IICA0: SCLA0; IRQ: IRQ3; SAU_I2C20: SDA20; SAU_SPI20: SI20; SAU_UART2: RXD2; TAU01: TI01; TAU01: TO01; UARTA0: RXDA0" PMOD1_SCL IO - - 
+      P109 26 - ARDUINO_D8 - - Disabled - - "CCD: CCD3; CGC: PCLBUZ1; CTSU: TS2; IICA0: SDAA0; IRQ: IRQ4; SAU_SPI20: SO20; SAU_UART2: TXD2; TAU02: TI02; TAU02: TO02; UARTA0: TXDA0" PMOD1_SDA None - - 
+      P110 27 - ARDUINO_D10 - - Disabled - - "CCD: CCD2; CTSU: TS3; IICA0: SCLA0; IRQ: IRQ3; SAU_I2C20: SDA20; SAU_SPI20: SI20; SAU_UART2: RXD2; TAU01: TI01; TAU01: TO01; UARTA0: RXDA0" PMOD1_SCL None - - 
       P111 28 GPIO ARDUINO_D2 - None "Input mode" - - "CTSU: TS4; IRQ: IRQ1; TAU07: TI07; TAU07: TO07" - IO - - 
       P112 29 CTSU_TSCAP TSCAP - None "Peripheral mode" - - "CTSU: TSCAP; IRQ: IRQ2; SAU_I2C20: SCL20; SAU_SPI00: SSI00; SAU_SPI20: SCK20; TAU03: TI03; TAU03: TO03" - IO - - 
       P200 21 IRQ_IRQ0 SW1 - IRQ0 "IRQ mode" - - "IRQ: IRQ0; IRQ: NMI" - I - - 
@@ -153,8 +153,8 @@ FSP Configuration
       P105 31 - VCOM_RXD - None Disabled - - "CTSU: TS6; IRQ: IRQ1; SAU_I2C10: SDA10; SAU_SPI10: SI10; TAU00: TO00; TAU01: TI01; TAU01: TO01; UARTA1: RXDA1" - I - - 
       P106 30 - VCOM_TXD - None Disabled - - "CTSU: TS5; IRQ: IRQ0; SAU_SPI10: SO10; UARTA1: TXDA1" - O - - 
       P108 25 JTAG/SWD_SWDIO - - - "Peripheral mode" - - "JTAG/SWD: SWDIO; TAU03: TI03; TAU03: TO03" - IO - - 
-      P109 26 - ARDUINO_D8 - None Disabled - - "CCD: CCD3; CGC: PCLBUZ1; CTSU: TS2; IICA0: SDAA0; IRQ: IRQ4; SAU_SPI20: SO20; SAU_UART2: TXD2; TAU02: TI02; TAU02: TO02; UARTA0: TXDA0" PMOD1_SDA IO - - 
-      P110 27 - ARDUINO_D10 - None Disabled - - "CCD: CCD2; CTSU: TS3; IICA0: SCLA0; IRQ: IRQ3; SAU_I2C20: SDA20; SAU_SPI20: SI20; SAU_UART2: RXD2; TAU01: TI01; TAU01: TO01; UARTA0: RXDA0" PMOD1_SCL IO - - 
+      P109 26 - ARDUINO_D8 - - Disabled - - "CCD: CCD3; CGC: PCLBUZ1; CTSU: TS2; IICA0: SDAA0; IRQ: IRQ4; SAU_SPI20: SO20; SAU_UART2: TXD2; TAU02: TI02; TAU02: TO02; UARTA0: TXDA0" PMOD1_SDA None - - 
+      P110 27 - ARDUINO_D10 - - Disabled - - "CCD: CCD2; CTSU: TS3; IICA0: SCLA0; IRQ: IRQ3; SAU_I2C20: SDA20; SAU_SPI20: SI20; SAU_UART2: RXD2; TAU01: TI01; TAU01: TO01; UARTA0: RXDA0" PMOD1_SCL None - - 
       P111 28 - ARDUINO_D2 - None Disabled - - "CTSU: TS4; IRQ: IRQ1; TAU07: TI07; TAU07: TO07" - IO - - 
       P112 29 - TSCAP - None Disabled - - "CTSU: TSCAP; IRQ: IRQ2; SAU_I2C20: SCL20; SAU_SPI00: SSI00; SAU_SPI20: SCK20; TAU03: TI03; TAU03: TO03" - IO - - 
       P200 21 - SW1 - None Disabled - - "IRQ: IRQ0; IRQ: NMI" - I - - 
@@ -201,7 +201,12 @@ FSP Configuration
   Module "IICA Master (r_iica_master)"
     Parameter Checking: Default (BSP)
     10-bit slave addressing: Disabled
-    Enable Single Channel: 0
+    Enable Single Channel: Disabled
+    
+  Module "UART (r_uarta)"
+    Parameter Checking: Default (BSP)
+    DTC Support: Disable
+    Receive Error Interrupt Mode: Enabled
     
   HAL
     Instance "g_ioport I/O Port (r_ioport)"
@@ -212,8 +217,8 @@ FSP Configuration
       4th Port ELC Trigger Source: Disabled
       Pin Configuration Name: g_bsp_pin_cfg
       
-    Instance "g_iica_master IICA Master (r_iica_master)"
-      Name: g_iica_master
+    Instance "g_i2c_master IICA Master (r_iica_master)"
+      Name: g_i2c_master
       Channel: 0
       Rate: Standard
       Custom Rate (bps): 0
@@ -225,4 +230,19 @@ FSP Configuration
       Slave Address: 0x1D
       Callback: i2c_master_callback
       Interrupt Priority Level: Priority 2
+      
+    Instance "g_uart_console UART (r_uarta)"
+      General: Name: g_uart_console
+      General: Channel: 1
+      General: Data Bits: 8bits
+      General: Parity: None
+      General: Stop Bits: 1bit
+      Baud: Baud Rate: 115200
+      Extra: Transfer Order: LSB first
+      Extra: Transfer level: Positive logic
+      Extra: Clock output: Not Available
+      Interrupts: Callback: uart_console_callback
+      Interrupts: Receive Interrupt Priority: Priority 3
+      Interrupts: Transmit Interrupt Priority: Priority 3
+      Interrupts: Error Interrupt Priority: Priority 3
       

@@ -4,86 +4,247 @@
 **********************************************************************************************************************/
 
 1. Project Overview:
-	This project demonstrates the basic functionalities of POEG driver on Renesas RA MCUs based on Renesas FSP.
-	RA MCU is used to demonstrate the various operating modes of a POEG driver.
-	GPT channels are configured to generate output via the GTIOCxA and GTIOCxB pins.
-	The Port Output can be disabled using the below four options:
-	1. Using POEG trigger pin - This mode supports disabling GPT output pins based on GTETRG input pin level.
-	2. Using POEG software API - This mode supports disabling GPT output pins by R_POEG_OutputDisable() software API request.
-	3. Using POEG trigger GPT output level - This mode supports disabling GPT output pins when GTIOC pins are the same level.
-	4. Using POEG trigger ACMPHS Mode - This mode disabling GPT output pins based on comparator crossing event.
-	5. Reset the POEG status - This option resets the POEG0 and POEG1 status.
-	The Port Output can be enabled using the POEG Reset API.
-	The status of each of the mode is displayed on J-Link RTT Viewer. The POEG disabled operation is displayed with LED indications.
+	This project demonstrates the basic functionalities of the Port Output Enable for GPT (POEG) driver on Renesas
+ 	RA MCUs based on Renesas FSP. The user can disable the GPT output pins using one of the following options:
+	1. Disable GPT output pins based on the GTETRG input pin level.
+	2. Disable GPT output pins by software API.
+	3. Disable GPT output pins when GTIOC pins are at the same logic level.
+	4. Disable GPT output pins based on comparator (ACMPHS) crossing events.
+	5. Reset the POEG status.
+	Information, guideline and error messages are displayed on the terminal. LED1 is turned ON when the GPT
+	output pin is disabled successfully. LED1 is turned OFF when POEG reset successfully. Additionally, the user
+	can verify the EP operation using a logic analyzer.
+
+	Note:
+		- EK-RA4L1, EK-RA2L2, EK-RA4C1 boards do not support disabling GPT output pins based on
+		  comparator (ACMPHS) crossing events.
+		- The user can refer the "Verifying Operation" section to run the example project properly.
 
 2. Software Requirements:
-     	Renesas Flexible Software Package (FSP): Version 6.6.0
-     	e2 studio: Version 2026-07
-     	SEGGER J-Link RTT Viewer: Version 9.64
-     	LLVM Embedded Toolchain for ARM: Version 22.1.0
+	Renesas Flexible Software Package (FSP): Version 6.5.0
+	e2 studio: Version 2026-04.2
+	LLVM Embedded Toolchain for ARM: Version 21.1.1
+	Terminal Console Application: Tera Term or a similar application
 
 3. Hardware Requirements:
-     	Supported RA boards: EK-RA6M1, EK-RA6M2, EK-RA6M3, RSSK-RA6T1, MCK-RA4T1, MCK-RA6T2, MCK-RA6T3, EK-RA8D1, EK-RA8M1,
-			     MCK-RA8T1, FPB-RA8E1
+	Supported RA boards: EK-RA6M1, EK-RA6M2, EK-RA6M3, RSSK-RA6T1, MCK-RA4T1, MCK-RA6T2, MCK-RA6T3, EK-RA8D1,
+	                     EK-RA8M1, MCK-RA8T1, FPB-RA8E1, EK-RA4L1, EK-RA8E2, EK-RA2L2, FPB-RA2T1, EK-RA8P1,
+	                     EK-RA4C1, MCK-RA8T2, EK-RA8M2, EK-RA8D2.
 	1 x Renesas RA board.
-	1 x Type-C USB cable for programming and debugging.
-	1 x Logic Analyzer (Optional).
+	1 x USB cable for programming and debugging (USB cable type varies by board model).
+	1 x External Variable DC Power supply (For FPB-RA2T1).
+	1 x Logic Analyzer (e.g., Saleae logic) (Optional).
 	Some jumper wires.
 
 4. Hardware Connections:
-	Connect the USB Debug port on the RA board to the host PC via a Type-C USB cable.
-	For MCK-RA6T2:
-		Connect PA07(CN4:11) --> PA00(CN4:9)
+	- Connect the RA board USB debug port to the host PC using the appropriate USB cable for EP programming
+	  and debugging.
 
-	For FPB-RA8E1:
-		Connect DA0 - P014 (J1:P34) to IVCMP0_2 (AN000) - P004 (J1:P20)
- 
-5. Verifying Operation
-	To run this example project, the user needs to compile and download the example project to the evaluation kit and then
-	follow below instructions to observe the operation of the system.
-	
-	1. Connect the USB Debug port on the RA board to the host PC via a Type-C USB cable.
+	- After selecting option 1, the user needs to give active LOW for GTETRG pin by:
+		For EK-RA6M1, EK-RA6M2:
+			Connect GTETRG P104 (J3:39) to GND.
 
-	2. Open the J-Link RTT Viewer to view the application status/transfer messages.	
+		For EK-RA6M3:
+			Connect GTETRG P104 (J1:3) to GND.
 
-	3. For Selecting POEG Trigger on GTETRG Input pin level, enter "1": The POEG1 channel number corresponds to the GTETRG
-	   input pin which is used with this channel. GTETRG pin level (active LOW or active HIGH based on configuration) disables
-	   GPT output pins on the input level. Then reset the resepective POEG status by entering Menu option "5".
-		
-	4. For Selecting POEG Output disable using Software API, enter "2": The GPT output pins are disabled on R_POEG_OutputDisable()
-	   software API. Then reset the resepective POEG status by entering Menu option "5".
+		For RSSK-RA6T1:
+			Connect GTETRG P104 (CNC:16) to GND.
 
-	5. For Selecting POEG Output disable on GPT output level, enter "3": The GPT output pins are disabled when the GTIOC pins are
-	   on the same level. Then reset the resepective POEG status by entering Menu option "5".
-	
-	6. For Selecting POEG Output disbale on ACMPHS events, enter "4": The GPT output pins are disabled on comparator crossing events.
-	   Then reset the resepective POEG status by entering Menu option "5".
-	   Reset of application is needed prior to continuous selection of the menu option "4" to restart the DAC0 and DAC1 and ACMPHS.
-	   Note: Take out the Jumper Cable (use in option 1) if it is still connected while testing Menu option "4".
+		For MCK-RA4T1:
+			Connect GTETRG P104 (CN3:12) to GND.
 
-	   For FPB-RA8E1:
-	   	a. Internal Reference Voltage (Vref) is used as reference voltage source and AN000 is used as input voltage source for ACMPHS
-	   	   module, which is supplied by output of DAC0. The user can enter DAC0 value within permitted range to provide an analog 
-	           signal input for AN000.
-	   	   Reset of application is needed prior to continuous selection of the menu option "4" to restart the DAC0 and ACMPHS.
-	   	b. Internal Reference Voltage (Vref) is used as reference voltage source, it is set to 1.18V (Equivalent to a digital value 1465).
-   		c. The user has to input DAC0 value in between (0 - 1400) or (1600 - 4095) to prevent voltage fluctuations caused by electrical
-		   noise, which may affect the comparator output.
-		d. Connect DA0 - P014 (J1:P34) to IVCMP0_2 (AN000) - P004 (J1:P20) while testing Menu option "4".
-	
-	7. For Selecting POEG Reset of channels, enter "5", and then Enter option "1" or "2" to reset POEG 0 or POEG 1 respectively.
-	
-	8. The EP performs the GPT output disable functioning using the above mentioned options.
-	   Verify the GPT operation using either an Logic analyzer or an LED output.
+		For MCK-RA6T2:
+			Connect GTETRG PA12 (CN6:12) to GND.
+
+		For MCK-RA6T3:
+			Connect GTETRG P104 (J4:12) to GND.
+
+		For EK-RA8D1:
+			Connect GTETRG P401 (J51:7) to GND.
+
+		For EK-RA8M1:
+			Connect GTETRG P614 (J54:27) to GND.
+
+		For MCK-RA8T1:
+			Connect GTETRG P104 (CN4:8) to GND.
+
+		For FPB-RA8E1:
+			Connect GTETRG P104 (J1:45) to GND.
+
+		For EK-RA4L1:
+			Connect GTETRG P104 (J3:9) to GND.
+
+		For EK-RA8E2:
+			Connect GTETRG P614 (J37:9) to GND.
+
+		For EK-RA2L2:
+			Connect GTETRG P104 (J2:35) to GND.
+
+		For FPB-RA2T1:
+			Connect GTETRG P104 (J4:8) to GND.
+			The user must close E8, E15 and cut E10 to use P213 for LED1.
+
+		For EK-RA8P1, EK-RA8D2:
+			Connect GTETRG P614 (J14:20) to GND.
+
+		For EK-RA4C1:
+			The user must place jumper J6 on pins 2-3, J8 on pins 1-2, J9 on pins 2-3 and turn OFF SW4-4
+			to use the on-board debug functionality.
+		 	The user must close E63 to use P104.
+			Connect GTETRG P104 (J2:20) to GND.
+
+		For MCK-RA8T2:
+			Connect GTETRG PA07 (CN2:17) to GND.
+
+ 		For EK-RA8M2:
+			The user must place jumper J6 on pins 2-3, J8 on pins 1-2, J9 on pins 2-3, and J29 on pins 1-2,
+			3-4, 5-6, 7-8 to use the on-board debug functionality.
+			Connect GTETRG P113 (J1:15) to GND.
+
+	- Before selecting Option "Disable GPT output pins based on comparator (ACMPHS) crossing events",
+	  the user needs to set up as shown below:
+		For MCK-RA6T2:
+			Connect PA07 (CN4:11) to PA00 (CN4:9).
+
+		For FPB-RA8E1:
+			Connect DA0 P014 (J1:34) to IVCMP0_2 (AN000) P004 (J1:20).
+
+ 		For EK-RA8E2:
+			Connect DA0 P014 (J17:2) to IVCMP0_2 (AN000) P004 (J4:12).
+
+		For FPB-RA2T1:
+			- Connect the positive output pin (V+) of the External Variable DC Power supply to
+			  CMPIN01 P015 (J4:14) of the RA board.
+			- Connect the ground (GND) of the External Variable DC Power supply to the ground (GND) of
+			  the RA board.
+
+	- Connect GPT output pins to Logic Analyzer to verify operations:
+		For EK-RA8E2:
+			Connect GTIOC0A P415 (J2:22) to Logic Analyzer Channel 0.
+			Connect GTIOC0B P414 (J2:21) to Logic Analyzer Channel 1.
+			Connect GTIOC5B P202 (J2:36) to Logic Analyzer Channel 2.
+			Connect GND (J2:39) to Logic Analyzer GND.
+
+		For EK-RA2L2:
+			Connect GTIOC7A P302 (J2:23) to Logic Analyzer Channel 0.
+			Connect GTIOC7B P301 (J2:24) to Logic Analyzer Channel 1.
+			Connect GTIOC5B P501 (J3:4) to Logic Analyzer Channel 2.
+			Connect GND (J2:40) to Logic Analyzer GND.
+
+		For EK-RA8P1, EK-RA8D2:
+			Connect GTIOC0A P415 (J4:17) to Logic Analyzer Channel 0.
+			Connect GTIOC0B P414 (J17:20) to Logic Analyzer Channel 1.
+			Connect GTIOC5B P609 (J14:22) to Logic Analyzer Channel 2.
+			Connect GND (J4:19) to Logic Analyzer GND.
+
+		For FPB-RA2T1:
+			Connect GPT output pins to Logic Analyzer to verify operations:
+			Connect GTIOC0A P208 (J3:16) to Logic Analyzer Channel 0.
+			Connect GTIOC0B P407 (J3:12) to Logic Analyzer Channel 1.
+			Connect GTIOC1B P913 (J3:15) to Logic Analyzer Channel 2.
+			Connect GND (J3:6) to Logic Analyzer GND.
+
+		For EK-RA4C1:
+			Connect GPT output pins to Logic Analyzer to verify operations:
+			The user must close E58, E79 to use P415, P414.
+			Connect GTIOC0A P415 (J2:33) to Logic Analyzer Channel 0.
+			Connect GTIOC0B P414 (J2:40) to Logic Analyzer Channel 1.
+			Connect GTIOC1B P110 (J4:20) to Logic Analyzer Channel 2.
+			Connect GND (J4:5) to Logic Analyzer GND.
+
+		For MCK-RA8T2:
+			Connect GTIOC4A P205 (CN4:3) to Logic Analyzer Channel 0.
+			Connect GTIOC4B P204 (CN4:1) to Logic Analyzer Channel 1.
+			Connect GTIOC5B P202 (CN3:27) to Logic Analyzer Channel 2.
+			Connect GND (CN3:25) to Logic Analyzer GND.
+
+		For EK-RA8M2:
+			Connect GTIOC0A P415 (J4:20) to Logic Analyzer Channel 0.
+			Connect GTIOC0B P414 (J2:12) to Logic Analyzer Channel 1.
+			Connect GTIOC5B P609 (J1:13) to Logic Analyzer Channel 2.
+			Connect GND (J4:19) to Logic Analyzer GND.
+
+		For FPB-RA8E1:
+			Connect GTIOC5A P203 (J2:19) to Logic Analyzer Channel 0.
+			Connect GTIOC5B P202 (J2:22) to Logic Analyzer Channel 1.
+			Connect GTIOC0B P212 (J2:6) to Logic Analyzer Channel 2.
+			Connect GND (J2:50) to Logic Analyzer GND.
+
+5. Verifying Operation:
+	To run this example project, follow instructions below to observe the EP operation:
+
+	1. Import, generate and build the example project.
+
+	2. Connect the RA board USB debug port to the host PC using the appropriate USB cable for EP programming
+	   and debugging.
+
+	3. Download/debug the example project to the RA board.
+
+	4. Run the project and open the serial terminal application (e.g., Tera Term) to see the output status.
+
+	5. To disable GPT output pins based on the GTETRG input pin level, enter "1": The POEG1 channel number
+	   corresponds to the GTETRG input pin which is used with this channel. GTETRG pin level (active LOW or
+	   active HIGH based on configuration) disables GPT output pins on the input level.
+	   - After selecting Option 1, refer to the guideline on the terminal or "Hardware Connection" section
+	     to connect hardware properly. Then reset the respective POEG status by selecting
+		 Menu option "Reset the POEG status".
+	   - Remove connection of GTETRG pin and reset of application are needed prior to repeatedly selecting
+	     menu option "1", or selecting other options from the menu (except option "Reset the POEG status.").
+
+	6. To disable GPT output pins by software API, enter "2": The GPT output pins are disabled on
+	   R_POEG_OutputDisable() software API. Then reset the respective POEG status by selecting
+	   Menu option "Reset the POEG status".
+
+	7. To disable GPT output pins when GTIOC pins are at the same logic level, enter "3": The GPT output
+	   pins are disabled when the GTIOC pins are on the same level. Then reset the respective POEG status
+	   by selecting Menu option "Reset the POEG status".
+
+	8. Before running menu option "4", refer to "Hardware Connections" section to connect hardware correctly.
+ 	   To disable GPT output pins based on comparator (ACMPHS) crossing events, enter "4": The GPT output pins
+	   are disabled on comparator crossing events. Then reset the respective POEG status by entering Menu option 
+	   "Reset the POEG status".
+	   - Reset of the application is needed prior to repeatedly selecting menu option "4" or selecting other menu
+	     options (except option "Reset the POEG status") to restart DAC0, DAC1, and ACMPHS.
+	   - For FPB-RA8E1, EK-RA8E2:
+	     a. Internal Reference Voltage (Vref) is used as reference voltage source and AN000 is used as input voltage
+	        source for ACMPHS module, which is supplied by output of DAC0. The user can enter DAC0 value within
+	        permitted range to provide an analog signal input for AN000. Reset of the application is needed prior 
+	        to repeatedly selecting menu option "4" or selecting other menu options (except option "Reset the POEG status")
+		to restart DAC0 and ACMPHS.
+	     b. Internal Reference Voltage (Vref) is used as reference voltage source, it is set to 1.18V (Equivalent to
+	        a digital value 1465).
+	     c. The user has to input DAC0 value in between (0 - 1400) or (1600 - 4095) to prevent voltage fluctuations
+	        caused by electrical noise, which may affect the comparator output.
+	   - For FPB- RA2T1:
+	     a. Internal Reference Voltage (Vref: 1.44V) is used as reference voltage source and CMPIN01 is used as input
+	        voltage source for ACMPHS module, which is supplied by external DC power supply. Reset of the application
+	        is needed prior to repeatedly selecting menu option "4" or selecting other menu options (except option
+		"Reset the POEG status") to restart ACMPHS.
+	     b. The user needs to provide an analog signal by using an external variable DC power supply, instead of
+	        inputting DAC values through the terminal. 
+	     c. When the input voltage source is greater than the reference voltage (1.44V), POEG is triggered to request
+	        stopping the output in response to detection by the comparator.
+
+	9. To reset POEG channel 0 (Required after running option 3): select "Reset the POEG status", then enter "1".
+	   To reset POEG channel 1 (Required after running options 1, 2): select "Reset the POEG status", then enter "2".
+
+	10. Verify the POEG operation through output status on the terminal, LED behavior or waveform on
+	    a Logic Analyzer (optional).
 
 Note:
-1) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
-   RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x2206044c
-   b. Keil:     Not Available
-   c. IAR:      Not Available
- 
-2) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) 
-   in .map file generated in the build configuration folder (Debug/Release).
+1) To verify the EP operation waveform with a Logic Analyzer, see the 'Special Topics' section in the poeg_notes.md file.
 
+2) To view output logs on a serial terminal application (e.g., Tera Term), configure the settings as shown below:
+	a. To make sure the received data shows properly, the user needs to set:
+		[Setup] -> [Terminal...] -> [New-line] -> Select [Receive: CR] & [Transmit: CR].
 
+	b. To echo back characters typed in Tera Term, the user needs to enable it through:
+		[Setup] -> [Terminal...] -> Check [Local echo].
+
+	c. The configuration parameters of the serial port on the serial terminal application:
+		Port: The port is provided by the J-Link On-Board.
+		Speed: 115200
+		Data: 8 bit
+		Parity: none
+		Stop bits: 1 bit
+		Flow control: none

@@ -1,0 +1,917 @@
+# Please see README.md for build instructions
+
+cmake_minimum_required(VERSION 3.16.4)
+
+set(CMAKE_SYSTEM_NAME Generic)
+
+set(CMAKE_SYSTEM_PROCESSOR arm)
+
+# Use add_library() with the STATIC option to name the source file in the generated project.
+# This avoids running the linker and is intended for use with cross-compiling toolchains that
+# cannot link without custom flags or linker scripts
+set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
+
+set(CMAKE_CONFIGURATION_TYPES Debug Release RelWithDebInfo MinSizeRel)
+
+if(BUILD_KIT)
+	message(NOTICE "Build Kit is defined as ${BUILD_KIT}")
+endif()
+
+message(NOTICE "CMAKE_CURRENT_BINARY_DIR is defined as ${CMAKE_CURRENT_BINARY_DIR}")
+
+get_property(isMultiConfig GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
+
+if(isMultiConfig)
+    message(NOTICE "Multi-config generator(${CMAKE_GENERATOR}) is active")
+else()
+    message(NOTICE "Single-config generator(${CMAKE_GENERATOR}) is active")
+	if(DEFINED CMAKE_BUILD_TYPE)
+	 	message(NOTICE "CMAKE_BUILD_TYPE is defined as ${CMAKE_BUILD_TYPE}")
+	elseif(DEFINED BUILD_TYPE)
+		set(CMAKE_BUILD_TYPE ${BUILD_TYPE})
+		message(NOTICE "CMAKE_BUILD_TYPE is set to BUILD_TYPE ENV ${CMAKE_BUILD_TYPE}")
+	else()
+		message(FATAL_ERROR "Please specify the CMAKE_BUILD_TYPE with -DCMAKE_BUILD_TYPE=")
+	endif()
+    #set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_BUILD_TYPE})
+	message(NOTICE "CMAKE_RUNTIME_OUTPUT_DIRECTORY is defined as ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
+endif()
+
+cmake_minimum_required(VERSION 3.16.4)
+
+# Project configuration
+project(NetX_wifi_fpb_ra4e2_ep_cmakebuild
+	VERSION 1.0.0
+	LANGUAGES C CXX ASM)
+
+set(CMAKE_CROSSCOMPILING "TRUE")
+set(CMAKE_EXPORT_COMPILE_COMMANDS "TRUE")
+
+include(${CMAKE_CURRENT_LIST_DIR}/Config.cmake)
+
+include(${CMAKE_CURRENT_LIST_DIR}/cmake/GeneratedCfg.cmake)
+# --- Match e2studio Managed-Build compiler flags ---
+# The stray size-optimization flag is "-Os" on the LLVM/clang_arm toolchain but
+# "-Oz" on the GCC/gcc-arm-embedded toolchain - remove both to cover either.
+list(REMOVE_ITEM RASC_CMAKE_C_FLAGS "-Os" "-Oz")
+list(REMOVE_ITEM RASC_CMAKE_CXX_FLAGS "-Os" "-Oz")
+list(REMOVE_ITEM RASC_CMAKE_ASM_FLAGS "-Os" "-Oz")
+# e2studio Managed-Build (config Debug) actually compiles with "-Os", not RASC's own assumed default for this config.
+list(REMOVE_ITEM RASC_DEBUG_FLAGS "-O0" "-O1" "-O2" "-O3" "-Os" "-Oz")
+list(APPEND RASC_DEBUG_FLAGS "-Os")
+# Source .cproject (config Debug) is configured "-funsigned-char", not RASC's default "-fsigned-char".
+list(TRANSFORM RASC_CMAKE_C_FLAGS REPLACE "^-fsigned-char$" "-funsigned-char")
+list(TRANSFORM RASC_CMAKE_CXX_FLAGS REPLACE "^-fsigned-char$" "-funsigned-char")
+list(TRANSFORM RASC_CMAKE_ASM_FLAGS REPLACE "^-fsigned-char$" "-funsigned-char")
+list(TRANSFORM RASC_CMAKE_EXE_LINKER_FLAGS REPLACE "^-fsigned-char$" "-funsigned-char")
+
+
+# If required user can amend RASC generated flags here, e.g. list(REMOVE_ITEM RASC_CMAKE_C_FLAGS "-Wall")
+
+include(${CMAKE_CURRENT_LIST_DIR}/cmake/GeneratedSrc.cmake)
+
+target_include_directories(${PROJECT_NAME}.elf
+    BEFORE
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/src
+)
+
+
+
+target_include_directories(${PROJECT_NAME}.elf
+	PRIVATE
+	${CMAKE_CURRENT_SOURCE_DIR}/.
+	${CMAKE_CURRENT_SOURCE_DIR}/ra_cfg/fsp_cfg/middleware
+	${CMAKE_CURRENT_SOURCE_DIR}/ra_cfg/fsp_cfg/azure/nxd
+	${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/rm_netxduo_wifi
+	${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/rm_wifi_onchip_silex
+	${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/addons/pop3
+	${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/addons/snmp
+	${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/addons/nat
+	${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/addons/mqtt
+	${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/addons/ftp
+	${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/addons/tftp
+	${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/addons/sntp
+	${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/addons/smtp
+	${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/addons/web
+	${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/addons/auto_ip
+	${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/addons/telnet
+	${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/addons/dns
+	${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/addons/dhcp
+	${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/addons/http
+	${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/inc
+	${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/ports/cortex_m4
+	${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/addons/cloud
+	${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/rm_netxduo_ether
+)
+
+target_link_options(${PROJECT_NAME}.elf
+    PRIVATE
+        $<$<CONFIG:Debug>:
+            "SHELL:-Wl,-z,norelro"
+        >
+)
+
+target_link_options(${PROJECT_NAME}.elf
+    PRIVATE
+        $<$<CONFIG:Release>:
+            "SHELL:-Wl,-z,norelro"
+        >
+)
+
+
+target_link_libraries(${PROJECT_NAME}.elf PRIVATE
+    crt0
+    c++abi
+)
+
+
+
+# --- Always also emit .hex, matching e2studio Managed-Build output ---
+# Some RASC-converted projects only emit .srec/.bin regardless of build
+# config; harmless duplicate if GeneratedSrc.cmake already emits .hex too.
+add_custom_command(
+    TARGET ${PROJECT_NAME}.elf
+    POST_BUILD
+    COMMAND ${CMAKE_OBJCOPY} -O ihex ${PROJECT_NAME}.elf ${PROJECT_NAME}.hex
+    COMMENT "Creating hex file in ${PROJECT_BINARY_DIR}"
+)
+
+
+# --- Match e2studio Managed-Build object link order ---
+set_property(TARGET ${PROJECT_NAME}.elf PROPERTY SOURCES
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/console/syscalls_gcc.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/console/syscalls_llvm.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/console/uart_console.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/NetX_wifi_ep.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/NetX_wifi_example_app.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/azure_wifi_thread_entry.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/hal_warmstart.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/tcp_socket.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/terminal.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/terminal_thread_entry.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra_gen/azure_wifi_thread.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra_gen/common_data.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra_gen/hal_data.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra_gen/main.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra_gen/pin_data.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra_gen/terminal_thread.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra_gen/vector_data.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_block_allocate.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_block_pool_cleanup.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_block_pool_create.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_block_pool_delete.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_block_pool_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_block_pool_initialize.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_block_pool_performance_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_block_pool_performance_system_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_block_pool_prioritize.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_block_release.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_byte_allocate.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_byte_pool_cleanup.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_byte_pool_create.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_byte_pool_delete.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_byte_pool_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_byte_pool_initialize.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_byte_pool_performance_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_byte_pool_performance_system_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_byte_pool_prioritize.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_byte_pool_search.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_byte_release.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_event_flags_cleanup.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_event_flags_create.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_event_flags_delete.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_event_flags_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_event_flags_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_event_flags_initialize.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_event_flags_performance_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_event_flags_performance_system_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_event_flags_set.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_event_flags_set_notify.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_initialize_high_level.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_initialize_kernel_enter.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_initialize_kernel_setup.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_mutex_cleanup.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_mutex_create.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_mutex_delete.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_mutex_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_mutex_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_mutex_initialize.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_mutex_performance_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_mutex_performance_system_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_mutex_prioritize.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_mutex_priority_change.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_mutex_put.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_queue_cleanup.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_queue_create.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_queue_delete.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_queue_flush.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_queue_front_send.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_queue_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_queue_initialize.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_queue_performance_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_queue_performance_system_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_queue_prioritize.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_queue_receive.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_queue_send.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_queue_send_notify.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_semaphore_ceiling_put.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_semaphore_cleanup.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_semaphore_create.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_semaphore_delete.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_semaphore_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_semaphore_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_semaphore_initialize.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_semaphore_performance_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_semaphore_performance_system_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_semaphore_prioritize.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_semaphore_put.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_semaphore_put_notify.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_thread_create.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_thread_delete.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_thread_entry_exit_notify.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_thread_identify.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_thread_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_thread_initialize.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_thread_performance_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_thread_performance_system_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_thread_preemption_change.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_thread_priority_change.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_thread_relinquish.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_thread_reset.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_thread_resume.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_thread_shell_entry.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_thread_sleep.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_thread_stack_analyze.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_thread_stack_error_handler.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_thread_stack_error_notify.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_thread_suspend.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_thread_system_preempt_check.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_thread_system_resume.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_thread_system_suspend.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_thread_terminate.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_thread_time_slice.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_thread_time_slice_change.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_thread_timeout.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_thread_wait_abort.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_time_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_time_set.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_timer_activate.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_timer_change.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_timer_create.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_timer_deactivate.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_timer_delete.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_timer_expiration_process.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_timer_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_timer_initialize.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_timer_performance_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_timer_performance_system_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_timer_system_activate.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_timer_system_deactivate.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_timer_thread_entry.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_trace_buffer_full_notify.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_trace_disable.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_trace_enable.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_trace_event_filter.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_trace_event_unfilter.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_trace_initialize.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_trace_interrupt_control.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_trace_isr_enter_insert.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_trace_isr_exit_insert.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_trace_object_register.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_trace_object_unregister.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/tx_trace_user_event_insert.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_block_allocate.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_block_pool_create.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_block_pool_delete.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_block_pool_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_block_pool_prioritize.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_block_release.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_byte_allocate.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_byte_pool_create.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_byte_pool_delete.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_byte_pool_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_byte_pool_prioritize.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_byte_release.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_event_flags_create.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_event_flags_delete.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_event_flags_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_event_flags_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_event_flags_set.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_event_flags_set_notify.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_mutex_create.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_mutex_delete.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_mutex_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_mutex_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_mutex_prioritize.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_mutex_put.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_queue_create.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_queue_delete.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_queue_flush.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_queue_front_send.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_queue_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_queue_prioritize.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_queue_receive.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_queue_send.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_queue_send_notify.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_semaphore_ceiling_put.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_semaphore_create.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_semaphore_delete.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_semaphore_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_semaphore_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_semaphore_prioritize.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_semaphore_put.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_semaphore_put_notify.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_thread_create.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_thread_delete.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_thread_entry_exit_notify.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_thread_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_thread_preemption_change.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_thread_priority_change.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_thread_relinquish.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_thread_reset.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_thread_resume.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_thread_suspend.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_thread_terminate.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_thread_time_slice_change.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_thread_wait_abort.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_timer_activate.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_timer_change.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_timer_create.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_timer_deactivate.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_timer_delete.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/threadx/common/src/txe_timer_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_arp_announce_send.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_arp_dynamic_entries_invalidate.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_arp_dynamic_entry_delete.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_arp_dynamic_entry_set.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_arp_enable.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_arp_entry_allocate.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_arp_entry_delete.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_arp_gratuitous_send.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_arp_hardware_address_find.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_arp_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_arp_initialize.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_arp_interface_entries_delete.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_arp_ip_address_find.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_arp_packet_deferred_receive.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_arp_packet_receive.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_arp_packet_send.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_arp_periodic_update.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_arp_probe_send.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_arp_queue_process.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_arp_queue_send.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_arp_static_entries_delete.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_arp_static_entry_create.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_arp_static_entry_delete.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_arp_static_entry_delete_internal.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_http_proxy_client.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_icmp_cleanup.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_icmp_enable.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_icmp_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_icmp_interface_ping.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_icmp_interface_ping6.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_icmp_packet_process.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_icmp_packet_receive.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_icmp_ping.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_icmp_ping6.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_icmp_queue_process.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_icmpv4_packet_process.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_icmpv4_process_echo_reply.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_icmpv4_process_echo_request.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_icmpv4_send_error_message.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_icmpv6_DAD_clear_NDCache_entry.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_icmpv6_DAD_failure.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_icmpv6_dest_table_add.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_icmpv6_dest_table_find.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_icmpv6_destination_table_periodic_update.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_icmpv6_packet_process.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_icmpv6_perform_DAD.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_icmpv6_process_echo_reply.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_icmpv6_process_echo_request.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_icmpv6_process_na.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_icmpv6_process_ns.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_icmpv6_process_packet_too_big.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_icmpv6_process_ra.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_icmpv6_process_redirect.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_icmpv6_send_error_message.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_icmpv6_send_ns.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_icmpv6_send_queued_packets.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_icmpv6_send_rs.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_icmpv6_validate_neighbor_message.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_icmpv6_validate_options.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_icmpv6_validate_ra.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_igmp_enable.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_igmp_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_igmp_interface_report_send.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_igmp_loopback_disable.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_igmp_loopback_enable.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_igmp_multicast_check.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_igmp_multicast_interface_join.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_igmp_multicast_interface_join_internal.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_igmp_multicast_interface_leave.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_igmp_multicast_interface_leave_internal.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_igmp_multicast_join.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_igmp_multicast_leave.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_igmp_packet_process.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_igmp_packet_receive.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_igmp_periodic_processing.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_igmp_queue_process.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_invalidate_destination_entry.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_address_change_notify.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_address_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_address_set.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_auxiliary_packet_pool_set.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_checksum_compute.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_create.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_deferred_link_status_process.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_delete.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_delete_queue_clear.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_dispatch_process.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_driver_deferred_enable.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_driver_deferred_processing.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_driver_deferred_receive.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_driver_direct_command.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_driver_interface_direct_command.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_driver_link_status_event.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_driver_packet_send.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_fast_periodic_timer_entry.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_forward_packet_process.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_forwarding_disable.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_forwarding_enable.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_fragment_assembly.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_fragment_disable.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_fragment_enable.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_fragment_forward_packet.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_fragment_packet.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_fragment_timeout_check.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_gateway_address_clear.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_gateway_address_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_gateway_address_set.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_header_add.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_initialize.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_interface_address_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_interface_address_mapping_configure.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_interface_address_set.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_interface_attach.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_interface_capability_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_interface_capability_set.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_interface_detach.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_interface_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_interface_mtu_set.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_interface_physical_address_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_interface_physical_address_set.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_interface_status_check.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_link_status_change_notify_set.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_max_payload_size_find.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_packet_checksum_compute.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_packet_deferred_receive.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_packet_receive.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_packet_send.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_periodic_timer_entry.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_raw_packet_cleanup.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_raw_packet_disable.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_raw_packet_enable.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_raw_packet_filter_set.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_raw_packet_processing.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_raw_packet_receive.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_raw_packet_send.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_raw_packet_source_send.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_raw_receive_queue_max_set.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_route_find.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_static_route_add.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_static_route_delete.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_status_check.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ip_thread_entry.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ipv4_multicast_interface_join.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ipv4_multicast_interface_leave.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ipv4_option_process.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ipv4_packet_receive.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ipv6_fragment_process.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ipv6_header_add.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ipv6_multicast_join.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ipv6_multicast_leave.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ipv6_option_error.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ipv6_packet_copy.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ipv6_packet_receive.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ipv6_packet_send.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ipv6_prefix_list_add_entry.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ipv6_prefix_list_delete.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ipv6_prefix_list_delete_entry.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ipv6_process_fragment_option.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ipv6_process_hop_by_hop_option.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ipv6_process_routing_option.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ipv6_util.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_link.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_md5.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_nd_cache_add.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_nd_cache_add_entry.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_nd_cache_delete_internal.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_nd_cache_fast_periodic_update.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_nd_cache_find_entry.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_nd_cache_find_entry_by_mac_addr.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_nd_cache_interface_entries_delete.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_nd_cache_slow_periodic_update.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_packet_allocate.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_packet_copy.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_packet_data_adjust.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_packet_data_append.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_packet_data_extract_offset.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_packet_data_retrieve.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_packet_debug_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_packet_length_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_packet_pool_cleanup.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_packet_pool_create.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_packet_pool_delete.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_packet_pool_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_packet_pool_initialize.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_packet_pool_low_watermark_set.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_packet_release.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_packet_transmit_release.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_packet_vlan_priority_set.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_ram_network_driver.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_rarp_disable.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_rarp_enable.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_rarp_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_rarp_packet_deferred_receive.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_rarp_packet_receive.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_rarp_packet_send.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_rarp_periodic_update.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_rarp_queue_process.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_system_initialize.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_cleanup_deferred.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_client_bind_cleanup.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_client_socket_bind.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_client_socket_connect.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_client_socket_port_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_client_socket_unbind.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_connect_cleanup.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_deferred_cleanup_check.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_disconnect_cleanup.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_enable.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_fast_periodic_processing.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_free_port_find.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_initialize.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_mss_option_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_no_connection_reset.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_packet_process.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_packet_receive.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_packet_send_ack.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_packet_send_control.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_packet_send_fin.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_packet_send_probe.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_packet_send_rst.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_packet_send_syn.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_periodic_processing.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_queue_process.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_receive_cleanup.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_server_socket_accept.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_server_socket_driver_listen.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_server_socket_listen.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_server_socket_relisten.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_server_socket_unaccept.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_server_socket_unlisten.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_socket_block_cleanup.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_socket_bytes_available.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_socket_connection_reset.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_socket_create.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_socket_delete.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_socket_disconnect.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_socket_disconnect_complete_notify.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_socket_driver_establish.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_socket_driver_packet_receive.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_socket_establish_notify.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_socket_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_socket_mss_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_socket_mss_peer_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_socket_mss_set.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_socket_packet_process.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_socket_peer_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_socket_queue_depth_notify_set.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_socket_receive.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_socket_receive_notify.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_socket_receive_queue_flush.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_socket_receive_queue_max_set.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_socket_retransmit.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_socket_send.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_socket_send_internal.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_socket_state_ack_check.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_socket_state_closing.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_socket_state_data_check.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_socket_state_established.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_socket_state_fin_wait1.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_socket_state_fin_wait2.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_socket_state_last_ack.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_socket_state_syn_received.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_socket_state_syn_sent.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_socket_state_transmit_check.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_socket_state_wait.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_socket_thread_resume.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_socket_thread_suspend.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_socket_timed_wait_callback.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_socket_transmit_configure.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_socket_transmit_queue_flush.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_socket_vlan_priority_set.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_socket_window_update_notify_set.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_transmit_cleanup.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_tcp_window_scaling_option_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_trace_event_insert.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_trace_event_update.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_trace_object_register.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_trace_object_unregister.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_udp_bind_cleanup.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_udp_enable.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_udp_free_port_find.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_udp_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_udp_packet_info_extract.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_udp_packet_receive.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_udp_receive_cleanup.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_udp_socket_bind.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_udp_socket_bytes_available.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_udp_socket_checksum_disable.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_udp_socket_checksum_enable.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_udp_socket_create.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_udp_socket_delete.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_udp_socket_driver_packet_receive.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_udp_socket_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_udp_socket_port_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_udp_socket_receive.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_udp_socket_receive_notify.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_udp_socket_send.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_udp_socket_source_send.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_udp_socket_unbind.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_udp_socket_vlan_priority_set.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_udp_source_extract.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nx_utility.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxd_icmp_enable.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxd_icmp_ping.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxd_icmp_source_ping.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxd_icmpv6_ra_flag_callback_set.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxd_ip_raw_packet_send.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxd_ip_raw_packet_source_send.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxd_ipv6_address_change_notify.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxd_ipv6_address_delete.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxd_ipv6_address_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxd_ipv6_address_set.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxd_ipv6_default_router_add.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxd_ipv6_default_router_add_internal.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxd_ipv6_default_router_delete.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxd_ipv6_default_router_entry_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxd_ipv6_default_router_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxd_ipv6_default_router_number_of_entries_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxd_ipv6_default_router_table_init.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxd_ipv6_destination_table_find_next_hop.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxd_ipv6_disable.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxd_ipv6_enable.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxd_ipv6_find_default_router_from_address.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxd_ipv6_find_max_prefix_length.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxd_ipv6_interface_find.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxd_ipv6_multicast_interface_join.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxd_ipv6_multicast_interface_leave.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxd_ipv6_prefix_router_timer_tick.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxd_ipv6_raw_packet_send_internal.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxd_ipv6_router_lookup.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxd_ipv6_router_solicitation_check.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxd_ipv6_search_onlink.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxd_ipv6_stateless_address_autoconfig_disable.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxd_ipv6_stateless_address_autoconfig_enable.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxd_nd_cache_entry_delete.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxd_nd_cache_entry_set.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxd_nd_cache_hardware_address_find.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxd_nd_cache_invalidate.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxd_nd_cache_ip_address_find.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxd_tcp_client_socket_connect.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxd_tcp_socket_peer_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxd_udp_packet_info_extract.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxd_udp_socket_send.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxd_udp_socket_source_send.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxd_udp_source_extract.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxde_icmp_enable.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxde_icmp_ping.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxde_icmp_source_ping.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxde_icmpv6_ra_flag_callback_set.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxde_ip_raw_packet_send.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxde_ip_raw_packet_source_send.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxde_ipv6_address_change_notify.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxde_ipv6_address_delete.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxde_ipv6_address_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxde_ipv6_address_set.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxde_ipv6_default_router_add.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxde_ipv6_default_router_delete.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxde_ipv6_default_router_entry_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxde_ipv6_default_router_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxde_ipv6_default_router_number_of_entries_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxde_ipv6_disable.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxde_ipv6_enable.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxde_ipv6_multicast_interface_join.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxde_ipv6_multicast_interface_leave.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxde_ipv6_stateless_address_autoconfig_disable.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxde_ipv6_stateless_address_autoconfig_enable.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxde_nd_cache_entry_delete.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxde_nd_cache_entry_set.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxde_nd_cache_hardware_address_find.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxde_nd_cache_invalidate.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxde_nd_cache_ip_address_find.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxde_tcp_client_socket_connect.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxde_tcp_socket_peer_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxde_udp_packet_info_extract.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxde_udp_socket_send.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxde_udp_socket_source_send.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxde_udp_source_extract.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_arp_dynamic_entries_invalidate.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_arp_dynamic_entry_set.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_arp_enable.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_arp_entry_delete.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_arp_gratuitous_send.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_arp_hardware_address_find.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_arp_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_arp_ip_address_find.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_arp_static_entries_delete.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_arp_static_entry_create.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_arp_static_entry_delete.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_icmp_enable.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_icmp_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_icmp_ping.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_igmp_enable.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_igmp_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_igmp_loopback_disable.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_igmp_loopback_enable.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_igmp_multicast_interface_join.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_igmp_multicast_interface_leave.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_igmp_multicast_join.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_igmp_multicast_leave.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_ip_address_change_notify.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_ip_address_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_ip_address_set.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_ip_auxiliary_packet_pool_set.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_ip_create.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_ip_delete.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_ip_driver_direct_command.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_ip_driver_interface_direct_command.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_ip_forwarding_disable.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_ip_forwarding_enable.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_ip_fragment_disable.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_ip_fragment_enable.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_ip_gateway_address_clear.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_ip_gateway_address_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_ip_gateway_address_set.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_ip_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_ip_interface_address_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_ip_interface_address_mapping_configure.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_ip_interface_address_set.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_ip_interface_attach.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_ip_interface_capability_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_ip_interface_capability_set.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_ip_interface_detach.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_ip_interface_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_ip_interface_mtu_set.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_ip_interface_physical_address_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_ip_interface_physical_address_set.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_ip_interface_status_check.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_ip_link_status_change_notify_set.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_ip_max_payload_size_find.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_ip_raw_packet_disable.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_ip_raw_packet_enable.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_ip_raw_packet_filter_set.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_ip_raw_packet_receive.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_ip_raw_packet_send.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_ip_raw_packet_source_send.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_ip_raw_receive_queue_max_set.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_ip_static_route_add.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_ip_static_route_delete.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_ip_status_check.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_ipv4_multicast_interface_join.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_ipv4_multicast_interface_leave.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_packet_allocate.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_packet_copy.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_packet_data_append.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_packet_data_extract_offset.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_packet_data_retrieve.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_packet_length_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_packet_pool_create.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_packet_pool_delete.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_packet_pool_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_packet_pool_low_watermark_set.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_packet_release.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_packet_transmit_release.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_packet_vlan_priority_set.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_rarp_disable.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_rarp_enable.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_rarp_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_tcp_client_socket_bind.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_tcp_client_socket_connect.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_tcp_client_socket_port_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_tcp_client_socket_unbind.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_tcp_enable.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_tcp_free_port_find.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_tcp_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_tcp_server_socket_accept.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_tcp_server_socket_listen.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_tcp_server_socket_relisten.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_tcp_server_socket_unaccept.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_tcp_server_socket_unlisten.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_tcp_socket_bytes_available.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_tcp_socket_create.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_tcp_socket_delete.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_tcp_socket_disconnect.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_tcp_socket_disconnect_complete_notify.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_tcp_socket_establish_notify.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_tcp_socket_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_tcp_socket_mss_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_tcp_socket_mss_peer_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_tcp_socket_mss_set.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_tcp_socket_peer_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_tcp_socket_queue_depth_notify_set.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_tcp_socket_receive.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_tcp_socket_receive_notify.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_tcp_socket_receive_queue_max_set.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_tcp_socket_send.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_tcp_socket_state_wait.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_tcp_socket_timed_wait_callback.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_tcp_socket_transmit_configure.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_tcp_socket_vlan_priority_set.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_tcp_socket_window_update_notify_set.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_udp_enable.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_udp_free_port_find.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_udp_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_udp_packet_info_extract.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_udp_socket_bind.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_udp_socket_bytes_available.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_udp_socket_checksum_disable.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_udp_socket_checksum_enable.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_udp_socket_create.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_udp_socket_delete.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_udp_socket_info_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_udp_socket_port_get.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_udp_socket_receive.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_udp_socket_receive_notify.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_udp_socket_send.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_udp_socket_source_send.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_udp_socket_unbind.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_udp_socket_vlan_priority_set.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/common/src/nxe_udp_source_extract.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/addons/web/nx_web_http_client.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/addons/tftp/nxd_tftp_client.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/addons/telnet/nxd_telnet_client.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/addons/telnet/nxd_telnet_server.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/addons/sntp/nxd_sntp_client.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/addons/snmp/nx_des.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/addons/snmp/nx_sha1.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/addons/snmp/nxd_snmp.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/addons/smtp/nxd_smtp_client.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/addons/pop3/nxd_pop3_client.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/addons/nat/nx_nat.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/addons/mqtt/nxd_mqtt_client.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/addons/http/nxd_http_client.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/addons/ftp/nxd_ftp_client.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/addons/dns/nxd_dns.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/addons/dhcp/nxd_dhcp_client.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/addons/dhcp/nxd_dhcp_server.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/addons/dhcp/nxd_dhcpv6_client.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/addons/dhcp/nxd_dhcpv6_server.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/addons/cloud/nx_cloud.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/microsoft/azure-rtos/netxduo/addons/auto_ip/nx_auto_ip.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/rm_wifi_onchip_silex/rm_wifi_api_silex.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/rm_wifi_onchip_silex/rm_wifi_onchip_silex.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/rm_threadx_port/tx_iar.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/rm_threadx_port/tx_initialize_low_level.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/rm_threadx_port/tx_isr_end.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/rm_threadx_port/tx_isr_start.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/rm_threadx_port/tx_port_wait_thread_ready.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/rm_threadx_port/tx_thread_interrupt_control.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/rm_threadx_port/tx_thread_interrupt_disable.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/rm_threadx_port/tx_thread_interrupt_restore.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/rm_threadx_port/tx_thread_schedule.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/rm_threadx_port/tx_thread_secure_stack_allocate.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/rm_threadx_port/tx_thread_secure_stack_free.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/rm_threadx_port/tx_thread_stack_build.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/rm_threadx_port/tx_thread_system_return.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/rm_threadx_port/tx_timer_interrupt.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/rm_threadx_port/txe_thread_secure_stack_allocate.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/rm_threadx_port/txe_thread_secure_stack_free.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/rm_netxduo_wifi/rm_netxduo_wifi.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/r_sci_uart/r_sci_uart.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/r_ioport/r_ioport.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/r_dtc/r_dtc.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/bsp/mcu/ra4e2/bsp_linker.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/bsp/mcu/all/bsp_clocks.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/bsp/mcu/all/bsp_common.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/bsp/mcu/all/bsp_delay.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/bsp/mcu/all/bsp_group_irq.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/bsp/mcu/all/bsp_guard.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/bsp/mcu/all/bsp_io.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/bsp/mcu/all/bsp_ipc.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/bsp/mcu/all/bsp_irq.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/bsp/mcu/all/bsp_macl.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/bsp/mcu/all/bsp_ospi_b.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/bsp/mcu/all/bsp_register_protection.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/bsp/mcu/all/bsp_sbrk.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/bsp/mcu/all/bsp_sdram.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/bsp/mcu/all/bsp_security.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/bsp/cmsis/Device/RENESAS/Source/startup.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/src/bsp/cmsis/Device/RENESAS/Source/system.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/board/ra4e2_fpb/board_init.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/board/ra4e2_fpb/board_leds.c
+)

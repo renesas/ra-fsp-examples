@@ -4,87 +4,113 @@
 **********************************************************************************************************************/
 
 1. Project Overview:
-
-This example project demonstrates audio streaming using the SSI module with a double-buffer mechanism. A sine wave 
-is generated and continuously streamed via a loopback connection between the SSITX and SSIRX pins. The sine wave data 
-is stored in two buffers, alternating between them to ensure continuous and uninterrupted streaming. The transmitted 
-and received audio data are compared to verify the successful completion of the SSI transfer. The results will be displayed 
-on the RTT viewer. The sample data can be observed using waveform rendering in the memory viewer of e2studio.
+	This example project demonstrates audio streaming using the SSI module with a double-buffer mechanism.
+	A sine wave is generated and continuously streamed via a loopback connection between the SSITX and SSIRX pins.
+	The sine wave data is stored in two buffers, alternating between them to ensure continuous and uninterrupted
+	streaming. The transmitted and received audio data are compared to verify the successful completion of the SSI
+	transfer. The results will be displayed on the terminal. The sample data can be observed using waveform
+	rendering in the memory viewer of e2studio.
 
 2. Software Requirements:
-	Renesas Flexible Software Package (FSP): Version 6.6.0
-	e2 studio: Version 2026-07
-	SEGGER J-Link RTT Viewer: Version 9.64
-	GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
+	Renesas Flexible Software Package (FSP): Version 6.5.0
+	e2 studio: Version 2026-04.2
+	LLVM Embedded Toolchain for ARM: Version 21.1.1
+	Terminal Console Application: Tera Term or a similar application
 
 3. Hardware Requirements:
-	1) 1 x Renesas RA board (EK-RA4E2, EK-RA4L1, EK-RA4M1, EK-RA4M2, EK-RA4M3, EK-RA6E2, EK-RA6M1, EK-RA6M2, 
-	EK-RA6M3, EK-RA6M3G, EK-RA6M4, EK-RA6M5, EK-RA8D1, EK-RA8E2, EK-RA8M1, FPB-RA6E1, FPB-RA8E1). 
-	2) 1 x Micro USB cable or Type-C USB cable (for EK-RA4L1, EK-RA8E2, FPB-RA8E1).
-	3) 1 x Host PC.
-	4) 1 x Jumper wire.
+	Supported RA boards: EK-RA4E2, EK-RA4L1, EK-RA4M1, EK-RA4M2, EK-RA4M3, EK-RA6E2, EK-RA6M1, EK-RA6M2, EK-RA6M3,
+	                     EK-RA6M3G, EK-RA6M4, EK-RA6M5, EK-RA8D1, EK-RA8E2, EK-RA8M1, FPB-RA6E1, FPB-RA8E1,
+	                     EK-RA2L2, EK-RA8P1, EK-RA8D2, EK-RA8M2.
+	1 x Renesas RA Board.
+	1 x USB cable for programming and debugging (USB cable type varies by board model).
+	1 x Host PC.
+	1 x Jumper wire (For EK-RA4E2, FPB-RA6E1: 2 x Jumper wires).
 
 4. Hardware Connections:
+	Connect the RA board USB debug port to the host PC using the appropriate USB cable for EP programming and
+	debugging.
+
 	For EK-RA4E2:
-		Connect P301 (J2:24) (SSITXD pin)	<--> P302 (J2:23) (SSIRXD pin)
-				P105 (J2:34) (GPT1)	<--> P100 (J2:39) (AUDIO_CLK)
+		Connect SSITXD P301  (J2:24) <--> SSIRXD P302 (J2:23).
+		Connect GTIOC1A P105 (J2:34) <--> AUDIO_CLK P100 (J2:39).
 
 	For EK-RA4L1:
-		Connect P405 (J2:42) (SSITXD pin)	<--> P406 (J2:38) (SSIRXD pin)
+		Connect SSITXD P405 (J2:42) <--> SSIRXD P406 (J2:38).
 
 	For EK-RA4M1:
-		Connect P405 (J2:31) (SSITXD pin)	<--> P406 (J2:15) (SSIRXD pin)
-		
+		Connect SSITXD P405 (J2:31) <--> SSIRXD P406 (J2:15).
+
 	For EK-RA4M2:
-		Connect P405 (J1:7) (SSITXD pin)	<--> P406 (J1:10) (SSIRXD pin)
+		Connect SSITXD P405 (J1:7) <--> SSIRXD P406 (J1:10).
 
 	For EK-RA6E2:
-		Connect P301 (J2:24) (SSITXD pin)	<--> P302 (J2:23) (SSIRXD pin)
+		Connect SSITXD P301 (J2:24) <--> SSIRXD P302 (J2:23).
 
 	For EK-RA6M1:
-		Connect P405 (J1:16) (SSITXD pin)	<--> P406 (J1:18) (SSIRXD pin)
+		Connect SSITXD P405 (J1:16) <--> SSIRXD P406 (J1:18).
 
 	For EK-RA6M2:
-		Connect P405 (J1:6) (SSITXD pin)	<--> P406 (J1:8) (SSIRXD pin)
+		Connect SSITXD P405 (J1:6) <--> SSIRXD P406 (J1:8).
 
 	For EK-RA6M3, EK-RA6M3G:
-		Connect P405 (J3:13) (SSITXD pin)	<--> P406 (J3:16) (SSIRXD pin)
+		Connect SSITXD P405 (J3:13) <--> SSIRXD P406 (J3:16).
 		Cut E14 to get signal output for SSITXD pin and SSIRXD pin.
 
 	For EK-RA4M3, EK-RA6M4:
-		Connect P405 (J1:7) (SSITXD pin)	<--> P406 (J1:8) (SSIRXD pin)
+		Connect SSITXD P405 (J1:7) <--> SSIRXD P406 (J1:8).
 
 	For EK-RA6M5:
-		Connect P405 (J1:8) (SSITXD pin)	<--> P406 (J3:9) (SSIRXD pin)
+		Connect SSITXD P405 (J1:8) <--> SSIRXD P406 (J3:9).
 		Cut E22 to get signal output for SSITXD pin and SSIRXD pin.
 
 	For EK-RA8D1:
-		Connect P405 (J51:8) (SSITXD pin)	<--> P406 (J51:5) (SSIRXD pin)
+		Connect SSITXD P405 (J51:8) <--> SSIRXD P406 (J51:5).
 		Turn OFF SW1-3 and SW1-5 to get signal output for SSITXD pin and SSIRXD pin.
 
 	For EK-RA8E2:
-		Connect P114 (J14:10) (SSITXD pin)	<--> P115 (J14:8) (SSIRXD pin)
+		Connect SSITXD P114 (J14:10) <--> SSIRXD P115 (J14:8).
 
 	For EK-RA8M1:
-		Connect P405 (J56:29) (SSITXD pin)	<--> P406 (J56:27) (SSIRXD pin)
+		Connect SSITXD P405 (J56:29) <--> SSIRXD P406 (J56:27).
 		Install jumper J61 to get signal output for SSITXD pin and SSIRXD pin.
 
 	For FPB-RA6E1:
-		Connect P405 (J3:6) (SSITXD pin)	<--> P406 (J3:7) (SSIRXD pin)
-				P103 (J4:22) (GPT2)	<--> P402 (J3:3) (AUDIO_CLK)
+		Connect SSITXD P405 (J3:6)   <--> SSIRXD P406 (J3:7).
+		Connect GTIOC2A P103 (J4:22) <--> AUDIO_CLK P402 (J3:3).
 
 	For FPB-RA8E1:
-		Connect P405 (J4:14) (SSITXD pin)	<--> P406 (J4:13) (SSIRXD pin)
+		Connect SSITXD P405 (J4:14) <--> SSIRXD P406 (J4:13).
+		The user must open jumpers J6 and J9 to use the on-board debug functionality.
+
+	For EK-RA2L2:
+		Connect SSITXD P409 (J2:7) <--> SSIRXD P408 (J2:8).
+
+	For EK-RA8P1:
+		Connect SSITXD P115 (J37:22) <--> SSIRXD P114 (J37:21).
+
+	For EK-RA8D2:
+		Connect SSITXD0 P115 (J37:22) <--> SSIRXD0 P114 (J37:21).
+
+	For EK-RA8M2:
+		The user must place jumper J6 on pins 2-3, J8 on pins 1-2, J9 on pins 2-3, and J29 on pins 1-2,
+		3-4, 5-6, 7-8 to use the on-board debug functionality.
+		Connect SSITXD P115 (J1:17) <--> SSIRXD P114 (J1:18).
 
 Note:
-1) On EK-RA6M3, EK_RA6M3G boards, P403 (which is also connected to SSISCK) is connected to LED1. As a result, it will glow while running 
-   the SSI application.
+1) On EK-RA6M3, EK-RA6M3G boards, P403 (which is also connected to SSISCK) is connected to LED1. As a result,
+   it will glow while running the SSI application.
 
-2) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT Viewer.
-   RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x2206046c
-   b. Keil:     Not Available 
-   c. IAR:      Not Available
- 
-3) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) 
-   in .map file generated in the build configuration folder (Debug/Release).
+2) To view output logs on a serial terminal application (e.g., Tera Term), configure the settings as shown below:
+	a. To make sure the received data shows properly, the user needs to set:
+		[Setup] -> [Terminal...] -> [New-line] -> Select [Receive: CR] & [Transmit: CR].
+
+	b. To echo back characters typed in Tera Term, the user needs to enable it through:
+		[Setup] -> [Terminal...] -> Check [Local echo].
+
+	c. The configuration parameters of the serial port on the serial terminal application:
+		Port: The port is provided by the J-Link On-Board.
+		Speed: 115200
+		Data: 8 bit
+		Parity: none
+		Stop bits: 1 bit
+		Flow control: none

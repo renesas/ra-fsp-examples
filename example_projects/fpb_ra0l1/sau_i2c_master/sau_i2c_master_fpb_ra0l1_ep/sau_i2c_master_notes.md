@@ -1,31 +1,30 @@
 # Introduction #
-The example project demonstrates the typical use of the SAU I2C master HAL module APIs. The project initializes the SAU I2C master module with the standard rate of 100 kHz and communicates with the Pmod ACL Board for ADXL345. On power-up, after initializing the SAU I2C master module and configuring the ADXL345 sensor, the RA MCU will read the axis acceleration data from the sensor and display it on the RTT Viewer every time new data is detected by an external interrupt.
+The example project demonstrates the basic functionality of the SAU I2C driver on Renesas RA MCUs based on FSP. The project initializes the SAU I2C master module with the standard rate of 100 kHz and communicates with the Pmod ACL Board for ADXL345. On power-up, after initializing the SAU I2C master module and configuring the ADXL345 sensor, the RA MCU will read the axis acceleration data from the sensor and display it on the terminal every time new data is detected by an external interrupt.
 
-Please refer to the [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf) 
-for general information on example projects and [readme.txt](./readme.txt) for specifics of operation.
+Please refer to the [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf) for general information on example projects and [readme.txt](./readme.txt) for specifics of operation.
 
-## Required Resources ## 
+## Required Resources ##
 To build and run the SAU I2C Master example project, the following resources are needed.
 
 ### Software ###
-* Renesas Flexible Software Package (FSP): Version 6.6.0
-* e2 studio: Version 2026-07
-* SEGGER J-Link RTT Viewer: Version 9.64
-* GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
+* Renesas Flexible Software Package (FSP): Version 6.5.0
+* e2 studio: Version 2026-04.2
+* LLVM Embedded Toolchain for ARM: Version 21.1.1
+* Terminal Console Application: Tera Term or a similar application
 
 Refer to the software required section in [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf) for basic information on setting up and using the above software.
 
 ### Hardware ###
-Supported RA Boards: FPB-RA0E1, FPB-RA0E2, FPB-RA0L1
-* 1 x Renesas RA board.
-* 1 x Type-C USB cable for programming and debugging.
-* 1 x Pmod ACL (e.g., https://digilent.com/reference/pmod/pmodacl/start).
-* 2 x Resistor (From 1k to 4.7k ohms) used to pull up the I2C bus.
-* 1 x Breadboard.
-* Some jumper wires used to connect the RA board to the Pmod ACL and pull up the I2C bus.
+* Supported RA Boards: FPB-RA0E1, FPB-RA0E2, FPB-RA0L1, FPB-RA0E3.
+  * 1 x Renesas RA board.
+  * 1 x USB cable for programming and debugging (USB cable type varies by board model).
+  * 1 x Pmod ACL (e.g., https://digilent.com/reference/pmod/pmodacl/start).
+  * 2 x Resistors (From 1k to 4.7k ohms) used to pull up the I2C bus.
+  * 1 x Breadboard.
+  * Some jumper wires used to connect the RA board to the Pmod ACL and pull up the I2C bus.
 
 ### Hardware Connections ###
-* Connect the USB Debug port on the RA board to the host PC via a Type-C USB cable.
+* Connect the RA board USB debug port to the host PC using the appropriate USB cable for EP programming and debugging.
 * Connect the Pmod ACL to the RA board according to the instructions below for each board type.
 * Pmod ACL:
   * J2 is used for I2C interface.
@@ -35,35 +34,45 @@ Supported RA Boards: FPB-RA0E1, FPB-RA0E2, FPB-RA0L1
 * For FPB-RA0E1:
   | FPB-RA0E1 | Pmod ACL |
   |-----------|----------|
-  |IRQ4/P109 (J2:18) | INT1 (J1:8) |
-  |SCL20/P112 (J2:20) | SCL (J2:1/5) |
-  |SDA20/P110 (J2:19) | SDA (J2:2/6) |
+  |IRQ4 P109 (J2:18) | INT1 (J1:8) |
+  |SCL20 P112 (J2:20) | SCL (J2:1/5) |
+  |SDA20 P110 (J2:19) | SDA (J2:2/6) |
   |GND pin | GND (J2:3/7) |
   |VCC pin (3V3) | VCC (J2:4/8) |
 
 * For FPB-RA0E2:
   | FPB-RA0E2 | Pmod ACL |
   |-----------|----------|
-  |IRQ4/P109 (J2:2) | INT1 (J1:8) |
-  |SCL20/P112 (J2:5) | SCL (J2:1/5) |
-  |SDA20/P110 (J2:3) | SDA (J2:2/6) |
+  |IRQ4 P109 (J2:2) | INT1 (J1:8) |
+  |SCL20 P112 (J2:5) | SCL (J2:1/5) |
+  |SDA20 P110 (J2:3) | SDA (J2:2/6) |
   |GND pin | GND (J2:3/7) |
   |VCC pin (3V3) | VCC (J2:4/8) |
 
 * For FPB-RA0L1:
   | FPB-RA0L1 | Pmod ACL |
   |-----------|----------|
-  |IRQ4/P109 (J2:2) | INT1 (J1:8) |
-  |SCL00/P102 (J2:10) | SCL (J2:1/5) |
-  |SDA00/P100 (J2:12) | SDA (J2:2/6) |
+  |IRQ4 P109 (J2:2) | INT1 (J1:8) |
+  |SCL00 P102 (J2:10) | SCL (J2:1/5) |
+  |SDA00 P100 (J2:12) | SDA (J2:2/6) |
   |GND pin | GND (J2:3/7) |
   |VCC pin (3V3) | VCC (J2:4/8) |
   * The user must place jumper J9 on pins 1-2 to use the on-board debug functionality.
 
+* For FPB-RA0E3:
+  | FPB-RA0E3 | Pmod ACL |
+  |-----------|----------|
+  |IRQ4 P109 (J2:2) | INT1 (J1:8) |
+  |SCL00 P102 (J2:5) | SCL (J2:1/5) |
+  |SDA00 P100 (J2:7) | SDA (J2:2/6) |
+  |GND pin | GND (J2:3/7) |
+  |VCC pin (3V3) | VCC (J2:4/8) |
+  * The user must turn OFF S3 to use the on-board debug functionality.
+
 ## Related Collateral References ##
 The following documents can be referred to for enhancing your understanding of the operation of this example project:
-- [FSP User Manual on GitHub](https://renesas.github.io/fsp/)
-- [FSP Known Issues](https://github.com/renesas/fsp/issues)
+* [FSP User Manual on GitHub](https://renesas.github.io/fsp/)
+* [FSP Known Issues](https://github.com/renesas/fsp/issues)
 
 # Project Notes #
 
@@ -119,15 +128,29 @@ The table below lists the FSP provided API used at the application layer by this
 | R_BSP_SoftwareDelay | This API is used to delay a specified period of time. |
 
 ## Verifying Operation ##
-1. Import, generate and build the example project.
-2. Connect the Pmod ACL to the RA board.
-3. Connect the RA board to the Host PC.
-4. Flash or debug the EP.
-5. Open the RTT Viewer and view output log.
-  
-  ![rtt_ep_info](images/rtt_ep_info.png "EP information")
+1. Import, generate, and build the example project.
+2. Before running the EP, make sure set up the hardware connection properly mentioned in [Hardware Connections](#hardware-connections).
+3. Flash or debug the EP.
+4. Open a serial terminal application (e.g., Tera Term) to view output log, configure the settings as shown below:
+    * To make sure the received data shows properly, the user needs to set:
+      * [Setup] -> [Terminal...] -> [New-line] -> Select [Receive: CR] & [Transmit: CR].
 
-  ![rtt_sensor_data](images/rtt_sensor_data.png "Sensor Data")
+    * To echo back characters typed in Tera Term, the user needs to enable it through:
+      * [Setup] -> [Terminal...] -> Check [Local echo].
+
+    * The configuration parameters of the serial port on the serial terminal application:
+      * Port: The port is provided by the J-Link On-Board.
+      * Speed: 115200
+      * Data: 8 bit
+      * Parity: none
+      * Stop bits: 1 bit
+      * Flow control: none
+
+The EP operation:
+
+![sau_i2c_master_banner_info](images/sau_i2c_master_banner_info.png "EP information")
+
+![sau_i2c_master_sensor_data](images/sau_i2c_master_sensor_data.png "Sensor Data")
 
 ## Special Topics ##
 * The files sau_i2c_master_ep.c and sau_i2c_master_ep.h contains the API for initialization, configuration and communication of the Pmod ACL module.
@@ -135,3 +158,4 @@ The table below lists the FSP provided API used at the application layer by this
   1. SDA pin and SCL pin must configure output type as n-ch open drain.
   2. SDA pin and SCL pin must be connected to external pull-up resistors.
   3. The value of the external pull-up resistor depends on the I2C bus speed. In this EP, the I2C bus is configured at standard speed of 100 kHz, so the recommended external pull-up resistor value is from 1k to 4.7k ohms.
+* For GCC ARM Embedded Toolchain (Except for FPB-RA0E3): To enable printing floats via printf, edit the project settings and ensure that "Use float with nano printf" is enabled. The setting can be found by: Properties > C/C++ Build > Settings > Tool Settings > GNU Arm Cross C Linker > Miscellaneous > Use float with nano printf

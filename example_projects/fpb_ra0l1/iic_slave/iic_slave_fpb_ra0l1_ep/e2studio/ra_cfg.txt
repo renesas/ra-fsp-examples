@@ -41,7 +41,7 @@ FSP Configuration
   RA0L1 event data
   RA Common
     Main stack size (bytes): 0x400
-    Heap size (bytes): 0x400
+    Heap size (bytes): 0
     Bootloader Secondary XIP: Disabled
     MCU Vcc (mV): 3300
     Parameter checking: Disabled
@@ -75,7 +75,7 @@ FSP Configuration
     CLKOUT0 Div /1
     CLKOUT1 Disabled
     CLKOUT1 Div /1
-    UTASEL Disabled
+    UTASEL Src: HOCO
     UARTA0 Src: UTASEL
     UARTA1 Src: UTASEL
     FSXP Src: SUBCLK
@@ -207,7 +207,13 @@ FSP Configuration
     Parameter Checking: Default (BSP)
     10-bit slave addressing: Disabled
     General call addressing: Disabled
+    All address match: Disabled
     Enable Single Channel: Disabled
+    
+  Module "UART (r_uarta)"
+    Parameter Checking: Default (BSP)
+    DTC Support: Disable
+    Receive Error Interrupt Mode: Enabled
     
   HAL
     Instance "g_ioport I/O Port (r_ioport)"
@@ -218,8 +224,8 @@ FSP Configuration
       4th Port ELC Trigger Source: Disabled
       Pin Configuration Name: g_bsp_pin_cfg
       
-    Instance "g_iica_master IICA Master (r_iica_master)"
-      Name: g_iica_master
+    Instance "g_i2c_master IICA Master (r_iica_master)"
+      Name: g_i2c_master
       Channel: 1
       Rate: Standard
       Custom Rate (bps): 0
@@ -232,8 +238,8 @@ FSP Configuration
       Callback: i2c_master_callback
       Interrupt Priority Level: Priority 2
       
-    Instance "g_iica_slave IICA Slave (r_iica_slave)"
-      Name: g_iica_slave
+    Instance "g_i2c_slave IICA Slave (r_iica_slave)"
+      Name: g_i2c_slave
       Channel: 0
       Rate: Standard
       Internal Reference Clock: PCLKB / 1
@@ -245,4 +251,19 @@ FSP Configuration
       Slave Address: 0x4A
       Callback: i2c_slave_callback
       Interrupt Priority Level: Priority 2
+      
+    Instance "g_uart_console UART (r_uarta)"
+      General: Name: g_uart_console
+      General: Channel: 1
+      General: Data Bits: 8bits
+      General: Parity: None
+      General: Stop Bits: 1bit
+      Baud: Baud Rate: 115200
+      Extra: Transfer Order: LSB first
+      Extra: Transfer level: Positive logic
+      Extra: Clock output: Not Available
+      Interrupts: Callback: uart_console_callback
+      Interrupts: Receive Interrupt Priority: Priority 3
+      Interrupts: Transmit Interrupt Priority: Priority 3
+      Interrupts: Error Interrupt Priority: Priority 3
       

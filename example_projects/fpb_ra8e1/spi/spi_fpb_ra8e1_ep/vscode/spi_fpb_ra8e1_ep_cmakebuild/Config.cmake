@@ -1,0 +1,16 @@
+# Configuration file for custom user settings
+
+if(RENESAS_IDE AND RENESAS_IDE STREQUAL "e2studio")
+    set(IDE_SUPPORTS_PRE_POST_BUILD_ACTIONS TRUE)
+endif()
+if(IDE_SUPPORTS_PRE_POST_BUILD_ACTIONS)
+    set(RASC_EXE_PATH "echo")
+    message(NOTICE "IDE handles pre/post build, so RASC_EXE_PATH set to echo for information purposes")
+elseif(DEFINED RASC_EXE_PATH)
+    message("Using RASC_EXE_PATH defined via CLI -D: ${RASC_EXE_PATH}")
+elseif(DEFINED ENV{RASC_EXE_PATH})
+    set(RASC_EXE_PATH $ENV{RASC_EXE_PATH})
+    message("Using RASC_EXE_PATH defined in environment: ${RASC_EXE_PATH}")
+else ()
+	message(FATAL_ERROR "RASC_EXE_PATH variable is not set!")
+endif()

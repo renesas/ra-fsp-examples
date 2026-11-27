@@ -3,115 +3,97 @@
  * Description  : Contains data structures and functions used in agt_ep.c.
  **********************************************************************************************************************/
 /***********************************************************************************************************************
-* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
-*
-* SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
+ * Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ **********************************************************************************************************************/
 
-#include "common_utils.h"
 #include "agt_ep.h"
 
+/* Global variables */
+volatile uint8_t g_periodic_timer_flag = RESET_FLAG;    /* Flag to check Timer1 is enabled or not */
+volatile bool g_error_flag = false;                     /* Flag to capture error in ISR's */
+
 /*******************************************************************************************************************//**
- * @addtogroup agt_ns_ep
- * @{
- **********************************************************************************************************************/
-extern bsp_leds_t g_bsp_leds;
-extern volatile uint8_t g_periodic_timer_flag ;
-extern volatile uint32_t g_error_flag ;
-/*******************************************************************************************************************//**
- * @brief       This functions initializes AGT module.
- * @param[IN]   None
- * @retval      FSP_SUCCESS                  Upon successful open of AGT module
- * @retval      Any Other Error code apart from FSP_SUCCESS  Unsuccessful open
+ * @brief     This function initializes AGT module.
+ * @param[in] None.
+ * @retval    FSP_SUCCESS               Initialized successfully.
+ * @retval    Any other error codes     Failed to initialize.
  **********************************************************************************************************************/
 fsp_err_t agt_init(void)
 {
-    fsp_err_t err = FSP_SUCCESS;     // Error status
+    /* Error status */
+    fsp_err_t err = FSP_SUCCESS;
 
-    /*
-       Open Timer0 in One Shot Mode
-       Notes:
-       Arguments are passed in as NULL since the guard functions will ignore them.
-       The guard functions are generated in the secure project agt_s_ek_ra6m4_ep:
-        - src/g_timer_one_shot_guard.c
-        - src/g_timer_one_shot_guard.c
-    */
+    /* Open Timer0 in One-Shot mode
+     * Notes:
+     * Arguments are passed in as NULL since the guard functions will ignore them.
+     * The guard functions are generated in the secure project:
+     * - src/g_timer_one_shot_guard.c
+     * - src/g_timer_periodic_guard.c */
 
     err = g_timer_one_shot_open_guard(NULL, NULL);
-    /* Handle error */
     if (FSP_SUCCESS != err)
     {
-        APP_ERR_PRINT ("\r\nAGT0 timer open failed.\r\nRestart the Application\r\n");
         return err;
     }
 
     /* Open Timer1 in Periodic mode */
     err = g_timer_periodic_open_guard(NULL, NULL);
-    /* Handle error */
-    if (FSP_SUCCESS != err)
-    {
-        /* Close Timer0 in One Shot Mode */
-        if ( (FSP_SUCCESS != g_timer_one_shot_close_guard(NULL)))
-        {
-            APP_ERR_PRINT ("\r\nOne shot timer close failed.\r\nRestart the Application\r\n");
-        }
-        APP_ERR_PRINT ("\r\nAGT1 timer open failed.\r\nRestart the Application\r\n");
-    }
+
     return err;
 }
+
 /*******************************************************************************************************************//**
- * @brief       This functions starts AGT0 in one-shot mode.
- * @param[IN]   None
- * @retval      FSP_SUCCESS                  Timer started successfully
- * @retval      Any Other Error code apart from FSP_SUCCESS  
+ * @brief     This function starts AGT Timer0 in One-Shot mode.
+ * @param[in] None.
+ * @retval    FSP_SUCCESS               Started successfully.
+ * @retval    Any other error codes     Failed to start.
  **********************************************************************************************************************/
 fsp_err_t agt_start_oneshot_timer(void)
 {
     fsp_err_t err = FSP_SUCCESS;
 
-    /* Start Timer0 in one-shot mode */
+    /* Start Timer0 in One-Shot mode */
     err = g_timer_one_shot_start_guard(NULL);
-    /* Handle error */
-    if (FSP_SUCCESS != err)
-    {
-        APP_ERR_PRINT("\r\n AGT0 timer start failed.\r\n");
-    }
+
     return err;
 }
 
 /*******************************************************************************************************************//**
- * @brief This function is callback for one-shot mode timer and starts AGT1 timer in Periodic mode.
- *
- * @param[in] (timer_callback_args_t *)
+ * @brief     This function is a callback for One-Shot mode AGT Timer0 and starts AGT Timer1 in Periodic mode.
+ * @param[in] p_args                    Callback argument.
+ * @retval    None.
  **********************************************************************************************************************/
 void one_shot_timer_callback(timer_callback_args_t *p_args)
 {
-    if(TIMER_EVENT_CYCLE_END == p_args->event)
+    if (TIMER_EVENT_CYCLE_END == p_args->event)
     {
+        /* Error status */
         fsp_err_t err = FSP_SUCCESS;
+
         timer_status_t periodic_timer_status;
 
-        /* Retrieve the status of timer running in periodic mode */
+        /* Retrieve the status of Timer1 running in Periodic mode */
         err = g_timer_periodic_status_get_guard(NULL, &periodic_timer_status);
         if (FSP_SUCCESS != err)
         {
-            g_error_flag = SET_FLAG;
+            g_error_flag = true;
         }
         else
         {
             if (TIMER_STATE_COUNTING != periodic_timer_status.state)
             {
-                /* Start the timer in periodic mode only if the timer is in stooped state */
+                /* Start the Timer1 in Periodic mode only if the timer is in stopped state */
                 err = g_timer_periodic_start_guard(NULL);
-                /* Handle error */
                 if (FSP_SUCCESS != err)
                 {
-                    g_error_flag = SET_FLAG;
-                    APP_ERR_PRINT("\r\nAGT1 Cannot be started in Periodic mode");
+                    g_error_flag = true;
                 }
                 else
                 {
-                    g_periodic_timer_flag = SET_FLAG;   //Set the flag since timer1 is started in periodic mode
+                    /* Set the flag since Timer1 is started in Periodic mode */
+                    g_periodic_timer_flag = SET_FLAG;
                 }
             }
             else
@@ -123,73 +105,42 @@ void one_shot_timer_callback(timer_callback_args_t *p_args)
 }
 
 /*******************************************************************************************************************//**
- * @brief This function is callback for periodic timer and blinks LED on every 1 Second.
- *
- * @param[in] (timer_callback_args_t *)
+ * @brief     This function is a callback for Periodic timer and blinks LED on every 1 second.
+ * @param[in] p_args                    Callback argument.
+ * @retval    None.
  **********************************************************************************************************************/
 void periodic_timer_callback(timer_callback_args_t *p_args)
 {
-    static volatile bsp_io_level_t led_level = BSP_IO_LEVEL_HIGH;
-
-    /* If this board has no LEDs then trap here */
-    if (LED_COUNT_ZERO == g_bsp_leds.led_count)
-    {
-        g_error_flag = SET_FLAG;
-        APP_ERR_PRINT ("\r\nError: No Led's Found on the board");
-        return;
-    }
+#if defined (BOARD_RA4T1_MCK) || defined (BOARD_RA6T3_MCK) || defined (BOARD_RA8T1_MCK) || defined (BOARD_RA8T2_MCK)
+static volatile bsp_io_level_t led_level = BSP_IO_LEVEL_LOW;
+#else
+static volatile bsp_io_level_t led_level = BSP_IO_LEVEL_HIGH;
+#endif /* Specific board */
 
     /* Change the state of the LED write value */
     led_level ^= BSP_IO_LEVEL_HIGH;
 
-    if(TIMER_EVENT_CYCLE_END == p_args->event)
+    if (TIMER_EVENT_CYCLE_END == p_args->event)
     {
         /* Change LED state */
         fsp_err_t err = R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t) g_bsp_leds.p_leds[RESET_FLAG], led_level);
-        /* Handle error */
         if (FSP_SUCCESS != err)
         {
-            g_error_flag = SET_FLAG;
-            APP_ERR_PRINT("\r\nLED_PIN state cannot be toggled");
-            return;
+            g_error_flag = true;
         }
     }
 }
 
 /*******************************************************************************************************************//**
- * @brief This function closes opened AGT module before the project ends up in an Error Trap.
- * @param[IN]   None
- * @retval      None
+ * @brief     This function closes the opened AGT modules.
+ * @param[in] None.
+ * @retval    None.
  **********************************************************************************************************************/
 void agt_deinit(void)
 {
-    fsp_err_t err = FSP_SUCCESS;
+    /* Close the opened AGT Timer0 */
+    g_timer_one_shot_close_guard(NULL);
 
-    /* Close AGT0 module */
-    err = g_timer_one_shot_close_guard(NULL);
-    /* handle error */
-    if (FSP_SUCCESS != err)
-    {
-        /* AGT0 Close failure message */
-        APP_ERR_PRINT("** R_AGT_Close API for channel 0 failed **  \r\n");
-    }
-
-    /* Close AGT1 module */
-    err = g_timer_periodic_start_guard(NULL);
-    /* handle error */
-    if (FSP_SUCCESS != err)
-    {
-        /* AGT1 Close failure message */
-        APP_ERR_PRINT("** R_AGT_Close API for channel 1 failed **  \r\n");
-    }
-
+    /* Close the opened AGT Timer1 */
+    g_timer_periodic_close_guard(NULL);
 }
-
-/*******************************************************************************************************************//**
- * @} (end addtogroup agt_ns_ep)
- **********************************************************************************************************************/
-
-
-
-
-

@@ -78,9 +78,9 @@ FSP Configuration
     UTASEL Src: HOCO
     UARTA0 Src: UTASEL
     UARTA1 Src: UTASEL
-    FSXP Src: SUBCLK
-    TML FITL0 Src: HOCO
-    TML FITL1 Src: HOCO
+    FSXP Src: LOCO
+    TML FITL0 Src: FSXP
+    TML FITL1 Src: FSXP
     TML FITL2 Disabled/No BSP Source Clock
     
   Pin Configurations
@@ -302,6 +302,7 @@ FSP Configuration
       Deep Standby Options (Not available on every MCU): Power-Supply Control: Not Available
       Deep Standby Options (Not available on every MCU): Cancel Sources: 
       Deep Standby Options (Not available on every MCU): Cancel Edges: 
+      Deep Standby Options (Not available on every MCU): Soft Start Mode: Not Available
       
     Instance "g_lpm_sw_standby Low Power Modes (r_lpm)"
       General: Name: g_lpm_sw_standby
@@ -326,6 +327,7 @@ FSP Configuration
       Deep Standby Options (Not available on every MCU): Power-Supply Control: Not Available
       Deep Standby Options (Not available on every MCU): Cancel Sources: 
       Deep Standby Options (Not available on every MCU): Cancel Edges: 
+      Deep Standby Options (Not available on every MCU): Soft Start Mode: Not Available
       
     Instance "g_lpm_sw_standby_with_snooze Low Power Modes (r_lpm)"
       General: Name: g_lpm_sw_standby_with_snooze
@@ -350,9 +352,10 @@ FSP Configuration
       Deep Standby Options (Not available on every MCU): Power-Supply Control: Not Available
       Deep Standby Options (Not available on every MCU): Cancel Sources: 
       Deep Standby Options (Not available on every MCU): Cancel Edges: 
+      Deep Standby Options (Not available on every MCU): Soft Start Mode: Not Available
       
-    Instance "g_uart UART (r_uarta)"
-      General: Name: g_uart
+    Instance "g_uart_console UART (r_uarta)"
+      General: Name: g_uart_console
       General: Channel: 1
       General: Data Bits: 8bits
       General: Parity: None
@@ -361,10 +364,10 @@ FSP Configuration
       Extra: Transfer Order: LSB first
       Extra: Transfer level: Positive logic
       Extra: Clock output: Not Available
-      Interrupts: Callback: uart_callback
-      Interrupts: Receive Interrupt Priority: Priority 2
-      Interrupts: Transmit Interrupt Priority: Priority 2
-      Interrupts: Error Interrupt Priority: Priority 2
+      Interrupts: Callback: uart_console_callback
+      Interrupts: Receive Interrupt Priority: Priority 3
+      Interrupts: Transmit Interrupt Priority: Priority 3
+      Interrupts: Error Interrupt Priority: Priority 3
       
     Instance "g_external_irq_cancel_lpm External IRQ (r_icu)"
       Name: g_external_irq_cancel_lpm

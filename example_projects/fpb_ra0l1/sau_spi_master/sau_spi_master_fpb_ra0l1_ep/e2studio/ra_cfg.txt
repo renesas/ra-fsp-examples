@@ -184,9 +184,6 @@ FSP Configuration
       VSS 6 SYSTEM_VSS - - - - - - - - IO "Read only" - 
     
   User Events
-    UARTA1 ERRI (UARTA1 reception communication error occurrence): uarta_eri_isr
-    UARTA1 RXI (UARTA1 reception transfer end): uarta_rxi_isr
-    UARTA1 TXI (UARTA1 transmission transfer end or buffer empty interrupt): uarta_txi_isr
     
   User Event Links
     
@@ -213,6 +210,11 @@ FSP Configuration
   Module "Transfer (r_dtc)"
     Parameter Checking: Default (BSP)
     Linker section to keep DTC vector table: .fsp_dtc_vector_table
+    
+  Module "UART (r_uarta)"
+    Parameter Checking: Default (BSP)
+    DTC Support: Disable
+    Receive Error Interrupt Mode: Enabled
     
   HAL
     Instance "g_ioport I/O Port (r_ioport)"
@@ -249,3 +251,18 @@ FSP Configuration
         Number of Transfer Descriptors: 0
         Activation Source: SAU0 SPI TXRXI00 (SAU UART TX 0/I2C 00/SPI 00)
         
+    Instance "g_uart_console UART (r_uarta)"
+      General: Name: g_uart_console
+      General: Channel: 1
+      General: Data Bits: 8bits
+      General: Parity: None
+      General: Stop Bits: 1bit
+      Baud: Baud Rate: 115200
+      Extra: Transfer Order: LSB first
+      Extra: Transfer level: Positive logic
+      Extra: Clock output: Not Available
+      Interrupts: Callback: uart_console_callback
+      Interrupts: Receive Interrupt Priority: Priority 3
+      Interrupts: Transmit Interrupt Priority: Priority 3
+      Interrupts: Error Interrupt Priority: Priority 3
+      

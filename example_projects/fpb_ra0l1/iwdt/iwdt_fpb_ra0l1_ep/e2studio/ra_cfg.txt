@@ -75,7 +75,7 @@ FSP Configuration
     CLKOUT0 Div /1
     CLKOUT1 Disabled
     CLKOUT1 Div /1
-    UTASEL Disabled
+    UTASEL Src: HOCO
     UARTA0 Src: UTASEL
     UARTA1 Src: UTASEL
     FSXP Src: SUBCLK
@@ -210,6 +210,11 @@ FSP Configuration
     Extra Input Mode Support: Disabled
     8-Bit Mode Support: Disabled
     
+  Module "UART (r_uarta)"
+    Parameter Checking: Default (BSP)
+    DTC Support: Disable
+    Receive Error Interrupt Mode: Enabled
+    
   HAL
     Instance "g_ioport I/O Port (r_ioport)"
       Name: g_ioport
@@ -247,4 +252,19 @@ FSP Configuration
       Interrupts: Callback: tau_callback
       Interrupts: Interrupt Priority: Priority 2
       Interrupts: Higher 8-bit Interrupt Priority: Disabled
+      
+    Instance "g_uart_console UART (r_uarta)"
+      General: Name: g_uart_console
+      General: Channel: 1
+      General: Data Bits: 8bits
+      General: Parity: None
+      General: Stop Bits: 1bit
+      Baud: Baud Rate: 115200
+      Extra: Transfer Order: LSB first
+      Extra: Transfer level: Positive logic
+      Extra: Clock output: Not Available
+      Interrupts: Callback: uart_console_callback
+      Interrupts: Receive Interrupt Priority: Priority 3
+      Interrupts: Transmit Interrupt Priority: Priority 3
+      Interrupts: Error Interrupt Priority: Priority 3
       

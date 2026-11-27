@@ -1,0 +1,85 @@
+/***********************************************************************************************************************
+ * File Name    : can_fd_change_baudrate.h
+ * Description  : Contains macros, variables, data structures, and functions used in can_fd_change_baudrate.c.
+ **********************************************************************************************************************/
+/***********************************************************************************************************************
+ * Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ **********************************************************************************************************************/
+
+#ifndef CAN_FD_CHANGE_BAUDRATE_H_
+#define CAN_FD_CHANGE_BAUDRATE_H_
+
+#include "can_fd_ep.h"
+
+/* Macros for baudrate values */
+#define KBPS_250_VAL                        (250000U)
+#define KBPS_500_VAL                        (500000U)
+#define MBPS_1_VAL                          (1000000U)
+#define MBPS_2_VAL                          (2000000U)
+#if defined (SUPPORT_MAX_DATA_RATE_5MBPS)
+#define MBPS_5_VAL                          (5000000U)
+#elif defined (SUPPORT_MAX_DATA_RATE_8MBPS)
+#define MBPS_8_VAL                          (8000000U)
+#endif /* SUPPORT_MAX_DATA_RATE */
+
+/* Macro for CANFD clock */
+#define CANFD_CLOCK                         (40000000U)
+
+/* Macros for nominal baudrate timings limitation */
+#define CAN_SYNC_SEG                        (1U)
+#define NOMINAL_BAUDRATE_MIN                (20000U)
+#define NOMINAL_BAUDRATE_MAX                (MBPS_1_VAL)
+#define NOMINAL_TSEG1_MIN                   (2U)
+#define NOMINAL_TSEG1_MAX                   (256U)
+#define NOMINAL_TSEG2_MIN                   (2U)
+#define NOMINAL_TSEG2_MAX                   (128U)
+#define NOMINAL_SJW_MIN                     (1U)
+#define NOMINAL_SJW_MAX                     (128U)
+#define NOMINAL_PRESCALER_MIN               (1U)
+#define NOMINAL_PRESCALER_MAX               (1024U)
+
+/* Macros for data baudrate timings limitation */
+#define DATA_BAUDRATE_MIN                   (MBPS_1_VAL)
+#if defined (SUPPORT_MAX_DATA_RATE_5MBPS)
+#define DATA_BAUDRATE_MAX                   (MBPS_5_VAL)
+#elif defined (SUPPORT_MAX_DATA_RATE_8MBPS)
+#define DATA_BAUDRATE_MAX                   (MBPS_8_VAL)
+#endif /* SUPPORT_MAX_DATA_RATE */
+#define DATA_TSEG1_MIN                      (2U)
+#define DATA_TSEG1_MAX                      (32U)
+#define DATA_TSEG2_MIN                      (2U)
+#define DATA_TSEG2_MAX                      (16U)
+#define DATA_SJW_MIN                        (1U)
+#define DATA_SJW_MAX                        (16U)
+#define DATA_PRESCALER_MIN                  (1U)
+#define DATA_PRESCALER_MAX                  (256U)
+
+/* Macros for sample point limitation */
+#define SAMPLE_POINT_MIN                    (60U)
+#define SAMPLE_POINT_MAX                    (99U)
+
+/* Macros for CANFD baudrate default */
+#define NOMINAL_BAUDRATE_DEFAULT            (KBPS_250_VAL)
+#define DATA_BAUDRATE_DEFAULT               (MBPS_1_VAL)
+#define SAMPLE_POINT_DEFAULT                (75U)
+
+/* Structure representing a CAN timing */
+typedef struct st_can_timing
+{
+    uint16_t sjw;
+    uint16_t phase_seg1;
+    uint16_t phase_seg2;
+    uint16_t prescaler;
+    uint32_t baudrate;
+} can_timing_t;
+
+/* External variable */
+extern canfd_extended_cfg_t g_canfd0_extended_cfg;
+
+/* Function declaration */
+fsp_err_t canfd_change_baudrate(uint32_t nominal_rate_req, uint32_t data_rate_req, uint16_t sample_pnt_req,
+                                can_timing_t * p_nominal_actual, can_timing_t * p_data_actual);
+
+#endif /* CAN_FD_CHANGE_BAUDRATE_H_ */

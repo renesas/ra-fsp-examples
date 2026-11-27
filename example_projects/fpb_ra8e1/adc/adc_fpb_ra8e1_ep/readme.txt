@@ -4,83 +4,144 @@
 **********************************************************************************************************************/
 
 1. Project Overview:
-        The example project demonstrates the typical use of the ADC HAL module APIs.
-        The project initializes the ADC in single scan or continuous scan mode based on user selection in RA configurator.
-        Once initialized,user can initiate the ADC scan and also stop the scan (in the case of continuous scan mode) using 
-	J-Link RTT Viewer by sending commands. User provide ADC channel input voltage from 0V to 3.3V with a voltage supply unit 
-	at the ADC channel voltage input pin. Once ADC scan is initialized, Window Compare Mode is enabled and compares the	
-	ADC channel input voltage with the upper and lower limits. The upper limit and lower limit are configured in RA 
-	Configurator. If the ADC channel input voltage is above the upper limit or below the lower limit, it triggers an event 
-	and notifies the user to act accordingly. Result and ADC status is displayed on the J-Link RTT Viewer.
+	This example project demonstrates basic functionalities of ADC driver, including the ADC's Window Compare Mode
+	on Renesas RA MCUs based on Renesas FSP. A terminal input command triggers the ADC scan to read the analog
+	data of ADC channel and outputs the converted data onto the terminal output. The project initializes the ADC
+	in Single Scan or Continuous Scan mode based on the user selection in RA Configuration. Once initialized, the
+	user can initiate the ADC scan and also stop the scan (in the case of Continuous Scan mode) using Tera Term by
+	sending commands. The user provides ADC channel input voltage from 0V to 3.3V with a variable power supply unit
+	at the ADC channel voltage input pin. Once ADC scan is initialized, Window Compare Mode is enabled and compares
+	the ADC channel input voltage with the upper and lower limits. The upper limit and lower limit are configured
+	in RA Configurator. If the ADC channel input voltage is above the upper limit or below the lower limit, it
+	triggers an event and notifies the user to act accordingly. Result and ADC status is displayed on the terminal.
 
-	Note: FPB-RA0E1 does not support Window Compare Mode and operates with One-shot or Sequential mode.
+	Note:
+	      FPB-RA0E1, FPB-RA0E2, FPB-RA0L1, FPB-RA0E3 do not support Window Compare Mode and operate with One-shot
+	      or Sequential mode.
+	      MCK-RA6T2 does not support Window Compare Mode and operates with internal temperature sensor.
+	      EK-RA8P1, MCK-RA8T2, EK-RA8D2, EK-RA8M2 do not support Window Compare Mode.
 
 2. Hardware Requirements:
-        Supported RA Boards: EK-RA2A1, EK-RA2E1, EK-RA2E2, EK-RA2L1, EK-RA4E2, EK-RA4M1, EK-RA4M2, EK-RA4M3, EK-RA4W1, MCK-RA4T1, 
-			     MCK-RA6T2, MCK-RA6T3, EK-RA6E2, EK-RA6M1, EK-RA6M2, EK-RA6M3, EK-RA6M3G, EK-RA6M4, EK-RA6M5, 
-			     RSSK-RA6T1, FPB-RA4E1, FPB-RA6E1, EK-RA8M1, EK-RA8D1, FPB-RA2E3, MCK-RA8T1, EK-RA2A2, FPB-RA0E1, 
-			     FPB-RA8E1
-
+	Supported RA boards: EK-RA2A1, EK-RA2E1, EK-RA2E2, EK-RA2L1, EK-RA4E2, EK-RA4M1, EK-RA4M2, EK-RA4M3, EK-RA4W1,
+			     MCK-RA4T1, MCK-RA6T2, MCK-RA6T3, EK-RA6E2, EK-RA6M1, EK-RA6M2, EK-RA6M3, EK-RA6M3G,
+			     EK-RA6M4, EK-RA6M5, RSSK-RA6T1, FPB-RA4E1, FPB-RA6E1, EK-RA8M1, EK-RA8D1, FPB-RA2E3,
+			     MCK-RA8T1, EK-RA2A2, FPB-RA0E1, FPB-RA8E1, EK-RA4L1, FPB-RA0E2, EK-RA8E2, EK-RA2L2,
+			     EK-RA8P1, FPB-RA2T1, EK-RA4C1, FPB-RA0L1, MCK-RA8T2, EK-RA8D2, EK-RA8M2, FPB-RA0E3.
 	1 x Renesas RA board.
-	1 x Type-C USB cable for programming and debugging.
+	1 x USB cable for programming and debugging (USB cable type varies by board model).
 	1 x External Variable DC Power supply.
-	Some jumper wires to connect External Variable DC Power supply with RA board.
+	Some jumper wires to connect External Variable DC Power supply to the RA board.
 
-3. Hardware Connections:	
-	ADC Channel Voltage Input Pin:
+3. Hardware Connections:
+	Connect External Variable DC Power supply to the RA board as shown below:
+	- Connect the positive output pin (V+) of the External Variable DC Power supply to ADC Channel Voltage
+	  input pin of the RA board.
+	- Connect the ground (GND) of the External Variable DC Power supply to the ground (GND) of the RA board.
+
+	Connect the RA board USB debug port to the host PC using the appropriate USB cable for EP programming and
+	debugging.
+
+	ADC Channel Voltage input pin of each the RA board:
 	For EK-RA2A1:
-		AN01(P501)
-		J2 Connector Pin no:36(AVSS0)--------> Pin no: 34(VREFL0) with Jumper or wire
+		AN01 P501.
+		Connect AVSS0 (J2:36) to VREFL0 (J2:34) using a jumper or wire.
 
-	For EK-RA2E1, EK-RA2L1, EK-RA4E2, EK-RA4M1, EK-RA4M2, EK-RA4M3, EK-RA6E2, EK-RA6M1, EK-RA6M2, EK-RA6M3, EK-RA6M3G, EK-RA6M4, 
-	    EK-RA6M5, FPB-RA6E1, FPB-RA4E1, MCK-RA4T1, MCK-RA6T3, FPB-RA2E3:
-		AN000(P000)
+	For EK-RA2E1, EK-RA2L1, EK-RA4E2, EK-RA4M1, EK-RA4M2, EK-RA4M3, EK-RA6E2, EK-RA6M1, EK-RA6M2, EK-RA6M3, 
+	    EK-RA6M3G, EK-RA6M4, EK-RA6M5, FPB-RA6E1, FPB-RA4E1, MCK-RA4T1, MCK-RA6T3, FPB-RA2E3:
+		AN000 P000.
 
 	For EK-RA2E2:
-		AN009(P014)
+		AN009 P014.
 
 	For EK-RA4W1:
-		AN04(P004)
+		AN04 P004.
 
 	For RSSK-RA6T1:
-		AN002(P002)
+		AN002 P002.
 
 	For EK-RA8M1, EK-RA8D1:
-		AN00(P004)
+		AN00 P004.
 
 	For MCK-RA8T1:
-		AN002(P006) (CN1 Pin 9)
+		AN002 P006 (CN1:9).
 
 	For EK-RA2A2:
-		AN000(P014)
+		AN000 P014.
 
 	For FPB-RA0E1:
-		AN000(P010)
+		AN000 P010.
 
 	For FPB-RA8E1:
-		AN00(P004) (J1 pin 20)
+		AN00 P004 (J1:20).
+		The user must open jumpers J6 and J9 to use the on-board debug functionality.
+
+	For EK-RA4L1:
+		AN002 P004 (J1:7).
+
+	For FPB-RA0E2:
+		To use P011 on J2: The soldering bridge E48 must be closed.
+		AN001 P011 (J2:26).
+
+	For EK-RA8E2:
+		AN000 P004 (J4:12).
+
+	For EK-RA2L2:
+		AN000 P000 (J1:7).
+
+	For EK-RA8P1:
+		AN001 P001 (J2:11).
+
+   	For FPB-RA2T1:
+		AN000 P013 (J4:16).
+
+	For EK-RA4C1:
+		The user must place jumper J6 on pins 2-3, J8 on pins 1-2, J9 on pins 2-3 and turn OFF SW4-4 to use
+		the on-board debug functionality.
+		AN002 P004 (J3:7).
+
+	For FPB-RA0L1:
+		The user must place jumper J9 on pins 1-2 to use the on-board debug functionality.  
+		AN002 P008 (J2:19).
+
+	For MCK-RA8T2:
+		AN002 P002 (CN3:5).
+
+	For EK-RA8D2:
+		AN000 P000 (J2:15).
+
+	For EK-RA8M2:
+		The user must place jumper J6 on pins 2-3, J8 on pins 1-2, J9 on pins 2-3, and J29 on pins 1-2,
+		3-4, 5-6, 7-8 to use the on-board debug functionality.
+		AN002 P002 (J4:9).
+
+	For FPB-RA0E3:
+		The user must turn OFF S3 to use the on-board debug functionality.
+		AN000 P010 (J1:1).
 
 4. Configuration Settings:
-	By default, the example project runs in continuous scan mode on the boards.
-	In order to switch the scan mode, change the 'Mode' field of ADC Driver in the RA configurator to Single Scan.
+	By default, the example project runs in Continuous Scan mode on the boards.
+	In order to switch the scan mode, change the "Mode" field of ADC Driver in the RA Configurator to Single Scan.
 	
-	For FPB-RA0E1: By default the example project runs in Sequential mode on the board. 
-		       In order to switch the scan mode, change the 'Conversion operation' field of ADC_D Driver in the 
-		       RA configurator to One-shot.
+	For FPB-RA0E1, FPB-RA0E2, FPB-RA0L1, FPB-RA0E3:
+		By default, the example project runs in Sequential mode on the board. In order to switch the scan mode,
+		change the "Conversion operation" field of ADC_D Driver in the RA Configurator to One-shot.
 
-Note: 
-1) MCK-RA6T2 does not support Window Compare Mode and operates with internal temperature sensor.
+	For MCK-RA6T2, EK-RA8P1, MCK-RA8T2, EK-RA8D2, EK-RA8M2:
+		By default, the example project runs in Continuous Scan mode on the board. In order to switch the scan
+		mode, change the "Scan mode" field of ADC_B Driver in the RA Configurator to Single Scan.
 
-2) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
-   RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x2206042c
-   b. Keil: 	Not Available
-   c. IAR: 	Not Available
- 
-3) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) 
-   in .map file generated in the build configuration folder (Debug/Release).
+Note:
+1) To view output logs on a serial terminal application (e.g., Tera Term), configure the settings as shown below:
+	a. To make sure the received data shows properly, the user needs to set:
+		[Setup] -> [Terminal...] -> [New-line] -> Select [Receive: CR] & [Transmit: CR].
 
-4) For GCC ARM Embedded Toolchain: To enable printing floats to RTT Viewer, edit the project settings and ensure that
-   "Use float with nano printf" is enabled. The setting can be found by 
-   Properties > C/C++ Build > Settings > Tool Settings > GNU Arm Cross C Linker > Misc > Use float with nano printf
- 
+	b. To echo back characters typed in Tera Term, the user needs to enable it through:
+		[Setup] -> [Terminal...] -> Check [Local echo].
+
+	c. The configuration parameters of the serial port on the serial terminal application:
+		Port: The port is provided by the J-Link On-Board.
+		Speed: 115200
+		Data: 8 bit
+		Parity: none
+		Stop bits: 1 bit
+		Flow control: none

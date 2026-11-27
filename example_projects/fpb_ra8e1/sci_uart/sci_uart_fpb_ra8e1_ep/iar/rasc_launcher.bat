@@ -12,6 +12,56 @@ set "RascVersionHandler=%~dp0rasc_version.bat"
 REM Shift to leave remaining parameters as input parameters to RASC
 shift
 
+set RASC_OPERATION_NAME="%~3"
+
+REM Define input and output files
+set "InputFile=%~dp0configuration.xml"
+set "OutputFile=%~dp0output.rasc"
+
+REM Check if --gensolutionbundle is passed
+if %RASC_OPERATION_NAME%=="--gensolutionbundle" (
+	set "InputFile=%~dp0solution.xml"
+)
+
+for %%a in (%*) do (
+    if "%%a"=="--buildconfiguration" (
+    	::  if we have two extra params, shift parameters twice
+        shift
+        shift
+    )
+)
+
+REM Check if --gensmartbundle is passed, the 9th param is .axf file
+if %RASC_OPERATION_NAME%=="--gensmartbundle" (
+    set "InputFile=%~9"
+    set "OutputFile=%~dpn9.sbd"
+)
+REM Check if --gensmartbundleandpartition is passed, the 9th is .axf file
+if %RASC_OPERATION_NAME%=="--gensmartbundleandpartition" (
+    set "InputFile=%~9"
+    set "OutputFile=%~dpn9.sbd"
+)
+REM Check if input file exists
+if not exist "%InputFile%" (
+    echo [ERROR] Input file "%InputFile%" does not exist. Exiting.
+    exit /b 1
+)
+REM Check if output file exists
+if not exist "%OutputFile%" (
+    echo [INFO] Output file "%OutputFile%" does not exist. Proceeding with RASC invocation...
+    goto :InvokeRasc
+)
+REM Compare timestamps of input and output files
+xcopy /L /D /Y "%InputFile%" "%OutputFile%" | findstr /B /C:"1 " > nul
+if not errorlevel 1 (
+    echo [INFO] Input file "%InputFile%" is newer than output file "%OutputFile%". Proceeding with RASC invocation...
+    goto :InvokeRasc
+) else (
+    echo [INFO] Input file "%InputFile%" is older than output file "%OutputFile%". Skipping RASC invocation.
+    exit /b 0
+)
+:InvokeRasc
+
 REM Invoke rasc_version.bat to check rasc_version.txt and update it if required
 REM If user selection of RASC version is required then the first non-interactive call will exit with error status
 REM In that case we re-invoke in a new command shell to allow user interaction
@@ -35,8 +85,9 @@ if exist "%RascVersionFile%" (
 
 REM Synchronous behaviour for build pre/post steps
 set "WaitRasc="
-IF "%~3"=="--generate" SET CLI=true
-IF "%~3"=="--gensmartbundle" SET CLI=true
+IF %RASC_OPERATION_NAME%=="--generate" SET CLI=true
+IF %RASC_OPERATION_NAME%=="--gensmartbundle" SET CLI=true
+IF %RASC_OPERATION_NAME%=="--gensmartbundleandpartition" SET CLI=true
 IF "%CLI%"=="true" (
     SET "WaitRasc=/b /wait"
     SET RascExe=%RascExe:rasc.exe=rascc.exe%

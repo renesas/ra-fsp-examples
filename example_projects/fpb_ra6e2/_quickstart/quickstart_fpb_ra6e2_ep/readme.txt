@@ -9,9 +9,9 @@
         Once programmed the user can control the board by button presses on device.
 
 2. Software Requirements:
-        Renesas Flexible Software Package (FSP): Version 4.4.0
-        e2 studio: Version 2023-04
-        GCC ARM Embedded Toolchain: Version 10.3-2021.10
+        Renesas Flexible Software Package (FSP): Version 6.6.0
+        e2 studio: Version 2026-07
+        GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
         Windows® 10 operating system
 
 3. Hardware settings for the project:

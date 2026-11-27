@@ -3,38 +3,21 @@
  * Description  : Contains data structures and functions used in sau_spi_slave_ep.c.
  **********************************************************************************************************************/
 /***********************************************************************************************************************
-* Copyright (c) 2025 Renesas Electronics Corporation and/or its affiliates
-*
-* SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
+ * Copyright (c) 2025 - 2026 Renesas Electronics Corporation and/or its affiliates
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ **********************************************************************************************************************/
 
 #ifndef SAU_SPI_SLAVE_EP_H_
 #define SAU_SPI_SLAVE_EP_H_
 
-/* Macro for example project information */
-#define EP_INFO                "\r\nThis example project demonstrates the basic usage of the SAU SPI"\
-                               "\r\ndriver in slave configuration on Renesas RA MCUs using Renesas FSP."\
-                               "\r\nThe project follows a command protocol similar to that of the"\
-                               "\r\nMAX31723 sensor. During the communication, the MCU#1, which is"\
-                               "\r\nrunning the sau_spi_slave_ep project, uses an IRQ to detect the"\
-                               "\r\nslave select pin signal of MCU#2, which is running the"\
-                               "\r\nsau_spi_master_ep, and MCU#1 reads commands and data sent from MCU#2"\
-                               "\r\nwhen the signal transitions from LOW to HIGH. When MCU#2 sends"\
-                               "\r\na \"read data\" command, MCU#1 reads the internal die temperature"\
-                               "\r\nusing the ADC and sends the temperature back to the master MCU#2."\
-                               "\r\nThe temperature values are continuously printed to the terminal to"\
-                               "\r\nverify correct data transmission. Additionally, status information"\
-                               "\r\nand error messages are displayed on the terminal during execution.\r\n\r\n"
+#include <stdio.h>
+#include <stdbool.h>
+#include <string.h>
+#include "hal_data.h"
 
-#define EP_VERSION              ("1.0")
-#define MODULE_NAME             "r_sau_spi_slave"
-#define BANNER_INFO             "\r\n******************************************************************"\
-                                "\r\n*   Renesas FSP Example Project for "MODULE_NAME" Module       *"\
-                                "\r\n*   Example Project Version %s                                  *"\
-                                "\r\n*   Flex Software Pack Version %d.%d.%d                             *"\
-                                "\r\n******************************************************************"\
-                                "\r\nRefer to readme.txt file for more details on Example Project and"\
-                                "\r\nFSP User's Manual for more information about "MODULE_NAME" driver\r\n"
+/* Macro for the reset value */
+#define RESET_VALUE                 (0x00)
 
 /* The commands used in this EP are derived from the purpose of sau_spi_master_ep
  * communicating with the PMOD MAX31723PMB1
@@ -47,35 +30,50 @@
 #define DATA_READ_CMD               (0x01)
 #define CFG_VALUE_EXPECT            (0x06)
 
-/* Macros for SPI data frame */
-#define INDEX_ZERO                  (0U)
-#define INDEX_ONE                   (1U)
-#define INDEX_TWO                   (2U)
+/* Macro for SPI data frame */
 #define FRAME_DATA_SIZE             (3U)
 
 /* Max wait count for time-out operation */
-#define MAX_COUNT                   (180000000)
+#define MAX_COUNT                   (180000000UL)
 
 /* Macros for manipulating the temperature values */
+#ifdef BOARD_RA0E3_FPB
+#define MCU_TEMP_TO_C(a)            (((((float)(a)) * (-0.977517f)) + 343.182f))
+#else
 #define MCU_TEMP_TO_C(a)            (((((float)(a)) * (-0.220784f)) + 312.671f))
+#endif /* BOARD_RA0E3_FPB */
 #define DEGREE_SYMBOL               ("\xB0")
 #define FLOAT_DIVISOR               (16.0F)
 #define SHIFT_FOUR_BITS             (4U)
-#define INTERGER_PART               (2U)
+#define INTEGER_PART                (2U)
 #define FRACTIONAL_PART             (1U)
 
-/* Macros for used channels of modules */
+/* Macros for the used SAU SPI channel */
+#ifdef BOARD_RA0E3_FPB
+#define DETECT_SS_SIGNAL_CHANNEL    (2U)
+#define SAU_SPI_CHANNEL             (3U)
+#else
 #define DETECT_SS_SIGNAL_CHANNEL    (5U)
-#define SAU_SPI_00_CHANNEL          (0U)
+#define SAU_SPI_CHANNEL             (0U)
+#endif /* BOARD_RA0E3_FPB */
 
-/* Enumeration for SAU SPI Slave directions */
-typedef enum e_spi_direct
+/* Enumeration for user-visible events produced by sau_spi_slave_communicate() */
+typedef enum e_sau_spi_slave_event
 {
-    SLAVE_READ  = 1,
-    SLAVE_WRITE = 2,
-} spi_dir_t;
+    SAU_SPI_SLAVE_EVENT_NONE = 0,           /* No user-visible event this cycle */
+    SAU_SPI_SLAVE_EVENT_CFG_RECEIVED,       /* CFG_WRITE_CMD received as expected */
+    SAU_SPI_SLAVE_EVENT_READ_CFG_RECEIVED,  /* CFG_READ_CMD received, ready to transmit temperature */
+    SAU_SPI_SLAVE_EVENT_TEMP_SENT,          /* Temperature transmitted */
+} sau_spi_slave_event_t;
 
-/* User defined function */
-void sau_spi_slave_entry(void);
+/* External variable - Defined in sau_spi_slave_ep.c */
+extern volatile bool g_active_transfer;
+
+/* Function declarations */
+fsp_err_t sau_spi_slave_init(void);
+fsp_err_t sau_spi_slave_communicate(sau_spi_slave_event_t * p_event, char * p_temp_str, uint32_t temp_str_size);
+void sau_spi_slave_deinit(void);
+fsp_err_t active_transfer_init(void);
+void active_transfer_deinit(void);
 
 #endif /* SAU_SPI_SLAVE_EP_H_ */

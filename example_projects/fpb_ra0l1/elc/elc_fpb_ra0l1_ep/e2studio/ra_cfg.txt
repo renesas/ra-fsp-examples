@@ -41,7 +41,7 @@ FSP Configuration
   RA0L1 event data
   RA Common
     Main stack size (bytes): 0x400
-    Heap size (bytes): 0x400
+    Heap size (bytes): 0
     Bootloader Secondary XIP: Disabled
     MCU Vcc (mV): 3300
     Parameter checking: Disabled
@@ -53,7 +53,7 @@ FSP Configuration
     Early BSP Initialization : Disabled
     Main Oscillator Clock Source: Crystal or Resonator
     Subclock Populated: Populated
-    Subclock Drive (Drive capacitance availability varies by MCU): Standard/Normal mode
+    Subclock Drive (Drive capacitance availability varies by MCU): Low/Low power mode 1
     Subclock Stabilization Time (ms): 1000
     
   Clocks
@@ -87,7 +87,7 @@ FSP Configuration
     FPB-RA0L1 -> g_bsp_pin_cfg
       P000 48 CTSU_TS23 BUTTON2 - None "Peripheral mode" - - "ADC0: AN008; CTSU: TS23; IRQ: IRQ6" - IO - - 
       P001 47 CTSU_TS22 BUTTON1 - None "Peripheral mode" - - "ADC0: AN009; CTSU: TS22; IRQ: IRQ7" - IO - - 
-      P002 46 - LED1 - - Disabled - - "ADC0: AN010; CTSU: TS21; IRQ: IRQ7" "Green, Hi: Turn on" None - - 
+      P002 46 GPIO LED1 - None "Input mode" - - "ADC0: AN010; CTSU: TS21; IRQ: IRQ7" "Green, Hi: Turn on" IO - - 
       P008 43 ADC0_AN002 ARDUINO_A5 - - "Analog mode" - - "ADC0: AN002; CTSU: TS18" - I - - 
       P009 42 ADC0_AN003 PMOD1_GPIO10_ARDUINO_A4 - - "Analog mode" - - "ADC0: AN003; CTSU: TS17" - I - - 
       P010 45 ADC0_AN000 ARDUINO_AREF - - "Analog mode" - - "ADC0: AN000; CTSU: TS20; SYSTEM: VREFH0" - I - - 
@@ -136,7 +136,7 @@ FSP Configuration
     R7FA0L1074CFL.pincfg -> 
       P000 48 - BUTTON2 - None Disabled - - "ADC0: AN008; CTSU: TS23; IRQ: IRQ6" - IO - - 
       P001 47 - BUTTON1 - None Disabled - - "ADC0: AN009; CTSU: TS22; IRQ: IRQ7" - IO - - 
-      P002 46 - LED1 - - Disabled - - "ADC0: AN010; CTSU: TS21; IRQ: IRQ7" "Green, Hi: Turn on" None - - 
+      P002 46 - LED1 - None Disabled - - "ADC0: AN010; CTSU: TS21; IRQ: IRQ7" "Green, Hi: Turn on" IO - - 
       P008 43 - ARDUINO_A5 - - Disabled - - "ADC0: AN002; CTSU: TS18" - I - - 
       P009 42 - PMOD1_GPIO10_ARDUINO_A4 - - Disabled - - "ADC0: AN003; CTSU: TS17" - I - - 
       P010 45 - ARDUINO_AREF - - Disabled - - "ADC0: AN000; CTSU: TS20; SYSTEM: VREFH0" - I - - 
@@ -203,6 +203,7 @@ FSP Configuration
     
   Module "Timer, Simultaneous Channel Operation (r_tau_pwm)"
     Parameter Checking: Default (BSP)
+    Interrupt Support: Enabled
     One-shot Pulse Output Mode Support: Enabled
     PWM Output Mode Support: Enabled
     Multi-Slave: Disabled
@@ -216,6 +217,9 @@ FSP Configuration
     8-Bit Mode Support: Disabled
     
   Module "TAU PWM Channel  Configuration (r_tau_pwm)"
+  Module "External IRQ (r_icu)"
+    Parameter Checking: Default (BSP)
+    
   HAL
     Instance "g_ioport I/O Port (r_ioport)"
       Name: g_ioport
@@ -267,4 +271,14 @@ FSP Configuration
       Interrupts: Callback: NULL
       Interrupts: Interrupt Priority: Priority 2
       Interrupts: Higher 8-bit Interrupt Priority: Disabled
+      
+    Instance "g_external_irq External IRQ (r_icu)"
+      Name: g_external_irq
+      Channel: 0
+      Trigger: Falling
+      Digital Filtering: Not Supported
+      Filter Source: Not Supported
+      Digital Filtering Sample Clock (Only valid when Digital Filtering is Enabled): Not Supported
+      Callback: external_irq_callback
+      Pin Interrupt Priority: Priority 2
       

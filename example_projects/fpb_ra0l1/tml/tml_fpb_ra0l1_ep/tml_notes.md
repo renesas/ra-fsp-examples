@@ -1,7 +1,5 @@
 # Introduction #
-The example project showcases how the TML driver operates on Renesas RA MCUs. The demonstration includes showcasing the TML timer with counter operation, capture operation in normal mode, and counter operation in low power mode. In TML counter operation (normal mode), three TML instances (which are configured as 8-bit, 16-bit, and 32-bit counter modes) operate for the input duration by the user. In TML 16-bit capture operation, user can trigger an ELC software event to get the raw counts value of 16-bit timer. In TML counter operation (low power modes), the 32-bit timer is configured as counter mode with input period time. Once the 32-bit timer has expired, the RA board is woken up from LPM to normal mode. The EP information and error messages will be printed to the Host PC.
-
-**Note:** To display information, users can select between the SEGGER J-Link RTT Viewer and the Serial Terminal (UART) with J-Link OB VCOM. By default, the Example Project information is printed to the host PC via the Serial Terminal. To utilize SEGGER RTT instead of the Serial Terminal, please follow the instructions in "Verifying Operation" section.
+This example project demonstrates the TML HAL module on Renesas RA MCUs. The user can select different TML operating modes through the terminal, including counter operation, capture operation, and counter operation in low power mode. In counter operation in normal mode, three TML instances are configured as 8-bit, 16-bit, and 32-bit counters. The 16-bit capture mode uses an ELC software event to capture the raw timer count value. In counter operation in low power mode, the 32-bit timer is configured as counter mode with input period time, and the RA board wakes up from LPM to normal mode when the timer expires. EP information and error messages are displayed on the terminal.
 
 Please refer to the [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf) for general information on example projects and [readme.txt](./readme.txt) for specifics of operation.
 
@@ -9,43 +7,41 @@ Please refer to the [Example Project Usage Guide](https://github.com/renesas/ra-
 To build and run the TML example project, the following resources are needed.
 
 ### Software ###
-* Renesas Flexible Software Package (FSP): Version 6.6.0
-* e2 studio: Version 2026-07
-* SEGGER J-Link RTT Viewer: Version 9.64
-* GCC ARM Embedded Toolchain: Version 13.2.1.arm-13-7
+* Renesas Flexible Software Package (FSP): Version 6.5.0
+* e2 studio: Version 2026-04.2
+* LLVM Embedded Toolchain for ARM: Version 21.1.1
 * Terminal Console Application: Tera Term or a similar application
 
 Refer to the software required section in [Example Project Usage Guide](https://github.com/renesas/ra-fsp-examples/blob/master/example_projects/Example%20Project%20Usage%20Guide.pdf)
 
 ### Hardware ###
-Supported RA Boards: FPB-RA0E1, FPB-RA0E2, FPB-RA0L1
-* 1 x Renesas RA board.
-* 1 x Type-C USB cable.
-* 1 x Host PC.
+* Supported RA Boards: FPB-RA0E1, FPB-RA0E2, FPB-RA0L1.
+	* 1 x Renesas RA board.
+	* 1 x USB cable for programming and debugging (USB cable type varies by board model).
 
 ### Hardware Connections ###
-* Connect the RA board to the host PC via a Type-C USB cable.
+* Connect the RA board USB debug port to the host PC using the appropriate USB cable for EP programming and debugging.
 
 * For FPB-RA0E1:
-  * To use J-Link OB VCOM for Serial Terminal (UART):
-    * The soldering bridge E4 must be closed.
-    * Populate R10 with a resistor ranging from 0 to 150 ohms.
+	* The user must close E4, and populate R10 with a resistor ranging from 0 to 150 ohms to use J-Link OB VCOM for Serial Terminal (UART).
+
 * For FPB-RA0E2:
-  * To use J-Link OB VCOM for Serial Terminal (UART), the user must close E46, E47.
+	* The user must close E46, E47 to use J-Link OB VCOM for Serial Terminal (UART).
+
 * For FPB-RA0L1:
-  * To use J-Link OB VCOM for Serial Terminal (UART), the user must close E28, E29.
-  * To use the on-board debug functionality, the user must place jumper J9 on pins 1-2.
+	* The user must close E28, E29 to use J-Link OB VCOM for Serial Terminal (UART).
+	* The user must place jumper J9 on pins 1-2 to use the on-board debug functionality.
 
 ## Related Collateral References ##
 The following documents can be referred to for enhancing your understanding of the operation of this example project:
-- [FSP User Manual on GitHub](https://renesas.github.io/fsp/)
-- [FSP Known Issues](https://github.com/renesas/fsp/issues)
+* [FSP User Manual on GitHub](https://renesas.github.io/fsp/)
+* [FSP Known Issues](https://github.com/renesas/fsp/issues)
 
 # Project Notes #
 ## System Level Block Diagram ##
 High level block diagram of the system is shown below:
  
-![tml](images/tml_hld.PNG "High Level Block Diagram")
+![tml_high_level_design](images/tml_hld.png "High Level Block Diagram")
 
 ## FSP Modules Used ##
 List all the various modules that are used in this example project. Refer to the FSP User Manual for further details on each module listed below.
@@ -55,7 +51,7 @@ List all the various modules that are used in this example project. Refer to the
 | 32-bit Interval Timer | Operating in 8-bit, 16-bit, 32-bit counter modes and 16-bit capture mode. | r_tml |
 | Event Link Controller | ELC is used to capture the raw count value of 16-bit timer. | r_elc |
 | Low Power Modes | LPM is used to configure power cancellation, mode selection and return the MCU to low power mode to reduce power consumption. | r_lpm |
-| I/O Port | I/O Port is used to control LED onboard. | r_ioport |
+| I/O Port | I/O Port is used to control on-board LED. | r_ioport |
 
 **Common Configuration Properties for 32-bit Interval Timer**
 |   Configure Clock path   |   Default Value   |   Used Value   |   Reason   |
@@ -70,8 +66,8 @@ List all the various modules that are used in this example project. Refer to the
 | configuration.xml > Stacks > g_timer_8bit 32-bit Interval Timer (r_tml) > Properties > Settings > Property > Common > 16-bit Capture Mode Support | Disabled | Enabled | Enable 16-bit capture mode support. |
 | configuration.xml > Stacks > g_timer_8bit 32-bit Interval Timer (r_tml) > Properties > Settings > Property > Common > Interrupt Support | Disabled | Enabled | Enable TML interrupt support. |
 | configuration.xml > Stacks > g_timer_8bit 32-bit Interval Timer (r_tml) > Properties > Settings > Property > Module g_timer_8bit 32-bit Interval Timer (r_tml) > General > Mode | 8-bit Counter Mode | 8-bit Counter Mode | Select TML 8-bit Counter mode. |
-| configuration.xml > Stacks > g_timer_8bit 32-bit Interval Timer (r_tml) > Properties > Settings > Property > Module g_timer_8bit 32-bit Interval Timer (r_tml)  > Counter Mode Settings > Period | 0x10000 | 1 | Select specific the timer period is 1. |
-| configuration.xml > Stacks > g_timer_8bit 32-bit Interval Timer (r_tml) > Properties > Settings > Property > Module g_timer_8bit 32-bit Interval Timer (r_tml)  > Counter Mode Settings > Period Unit | Raw Counts | Milliseconds | Select Unit of period is Milliseconds. |
+| configuration.xml > Stacks > g_timer_8bit 32-bit Interval Timer (r_tml) > Properties > Settings > Property > Module g_timer_8bit 32-bit Interval Timer (r_tml)  > Counter Mode Settings > Period | 0x10000 | 1 | Set specific the timer period is 1. |
+| configuration.xml > Stacks > g_timer_8bit 32-bit Interval Timer (r_tml) > Properties > Settings > Property > Module g_timer_8bit 32-bit Interval Timer (r_tml)  > Counter Mode Settings > Period Unit | Raw Counts | Milliseconds | Set unit of period is milliseconds. |
 | configuration.xml > Stacks > g_timer_8bit 32-bit Interval Timer (r_tml) > Properties > Settings > Property > Module g_timer_8bit 32-bit Interval Timer (r_tml)  > Interrupt > Callback function | NULL | timer_8bit_callback | A user callback function. It is called from the interrupt service routine (ISR) each time when event occurs. |
 | configuration.xml > Stacks > g_timer_8bit 32-bit Interval Timer (r_tml) > Properties > Settings > Property > Module g_timer_8bit 32-bit Interval Timer (r_tml)  > Interrupt > Priority | Disabled | Priority 2 | Select the interrupt priority is 2. |
 
@@ -80,8 +76,8 @@ List all the various modules that are used in this example project. Refer to the
 |   Module Property Path and Identifier   |   Default Value   |   Used Value   |   Reason   |
 |-----------------------------------------|-------------------|----------------|------------|
 | configuration.xml > Stacks > g_timer_16bit 32-bit Interval Timer (r_tml) > Properties > Settings > Property > Module g_timer_16bit 32-bit Interval Timer (r_tml) > General > Mode | 8-bit Counter Mode | 16-bit Counter Mode | Select TML 16-bit Counter mode. |
-| configuration.xml > Stacks > g_timer_16bit 32-bit Interval Timer (r_tml) > Properties > Settings > Property > Module g_timer_16bit 32-bit Interval Timer (r_tml) > Counter Mode Settings > Period | 0x10000 | 100 | Select specific the timer period is 100. |
-| configuration.xml > Stacks > g_timer_16bit 32-bit Interval Timer (r_tml) > Properties > Settings > Property > Module g_timer_16bit 32-bit Interval Timer (r_tml) > Counter Mode Settings > Period Unit | Raw Counts | Milliseconds | Select Unit of period is Milliseconds. |
+| configuration.xml > Stacks > g_timer_16bit 32-bit Interval Timer (r_tml) > Properties > Settings > Property > Module g_timer_16bit 32-bit Interval Timer (r_tml) > Counter Mode Settings > Period | 0x10000 | 100 | Set specific the timer period is 100. |
+| configuration.xml > Stacks > g_timer_16bit 32-bit Interval Timer (r_tml) > Properties > Settings > Property > Module g_timer_16bit 32-bit Interval Timer (r_tml) > Counter Mode Settings > Period Unit | Raw Counts | Milliseconds | Set unit of period is milliseconds. |
 | configuration.xml > Stacks > g_timer_16bit 32-bit Interval Timer (r_tml) > Properties > Settings > Property > Module g_timer_16bit 32-bit Interval Timer (r_tml) > Interrupt > Callback function | NULL | timer_16bit_callback | A user callback function. It is called from the interrupt service routine (ISR) each time when event occurs. |
 | configuration.xml > Stacks > g_timer_16bit 32-bit Interval Timer (r_tml) > Properties > Settings > Property > Module g_timer_16bit 32-bit Interval Timer (r_tml) > Interrupt > Priority | Disabled | Priority 2 | Select the interrupt priority is 2. |
 
@@ -90,8 +86,8 @@ List all the various modules that are used in this example project. Refer to the
 |   Module Property Path and Identifier   |   Default Value   |   Used Value   |   Reason   |
 |-----------------------------------------|-------------------|----------------|------------|
 | configuration.xml > Stacks > g_timer_32bit 32-bit Interval Timer (r_tml) > Properties > Settings > Property > Module g_timer_32bit 32-bit Interval Timer (r_tml) > General > Mode | 8-bit Counter Mode | 32-bit Counter Mode | Select TML 32-bit Counter mode. |
-| configuration.xml > Stacks > g_timer_32bit 32-bit Interval Timer (r_tml) > Properties > Settings > Property > Module g_timer_32bit 32-bit Interval Timer (r_tml) > Counter Mode Settings > Period | 0x10000 | 1 | Select specific the timer period is 1. |
-| configuration.xml > Stacks > g_timer_32bit 32-bit Interval Timer (r_tml) > Properties > Settings > Property > Module g_timer_32bit 32-bit Interval Timer (r_tml) > Counter Mode Settings > Period Unit | Raw Counts | Seconds | Select Unit of period is Seconds. |
+| configuration.xml > Stacks > g_timer_32bit 32-bit Interval Timer (r_tml) > Properties > Settings > Property > Module g_timer_32bit 32-bit Interval Timer (r_tml) > Counter Mode Settings > Period | 0x10000 | 1 | Set specific the timer period is 1. |
+| configuration.xml > Stacks > g_timer_32bit 32-bit Interval Timer (r_tml) > Properties > Settings > Property > Module g_timer_32bit 32-bit Interval Timer (r_tml) > Counter Mode Settings > Period Unit | Raw Counts | Seconds | Set unit of period is seconds. |
 | configuration.xml > Stacks > g_timer_32bit 32-bit Interval Timer (r_tml) > Properties > Settings > Property > Module g_timer_32bit 32-bit Interval Timer (r_tml) > Interrupt > Callback function | NULL | timer_32bit_callback | A user callback function. It is called from the interrupt service routine (ISR) each time when event occurs. |
 | configuration.xml > Stacks > g_timer_32bit 32-bit Interval Timer (r_tml) > Properties > Settings > Property > Module g_timer_32bit 32-bit Interval Timer (r_tml) > Interrupt > Priority | Disabled | Priority 2 | Select the interrupt priority is 2. |
 
@@ -125,17 +121,6 @@ List all the various modules that are used in this example project. Refer to the
 | configuration.xml > Stacks > g_lpm_sw_standby Low Power Modes (r_lpm) > Properties > Settings > Property > Module g_lpm_sw_standby Low Power Modes (r_lpm) > General > Low Power Mode | Sleep mode | Software Standby mode | Select Software Standby mode for this LPM instance. |
 | configuration.xml > Stacks > g_lpm_sw_standby Low Power Modes (r_lpm) > Properties > Settings > Property > Module g_lpm_sw_standby Low Power Modes (r_lpm) > Deep Sleep and Standby Options > Wake Sources > 32-bit interval timer interrupt | ☐ | ☑ | Select 32-bit interval timer interrupt as the source to cancel SW Standby mode. |
 
-**Configuration Properties for using the Serial Terminal (UART)**
-|   Configure interrupt event path   |   Default Value   |   Used Value   |   Reason   |
-|-----------------------------------------|-------------------|----------------|------------|
-| configuration.xml > Interrupts > Interrupts Configuration > New User Event > UARTA > UARTA1 > UARTA1 ERRI | empty | uarta_eri_isr | Assign the UART error ISR (Reception error interrupt) to the interrupt vector table. |
-| configuration.xml > Interrupts > Interrupts Configuration > New User Event > UARTA > UARTA1 > UARTA1 RXI | empty | uarta_rxi_isr | Assign the UART receive ISR (Reception transfer end) to the interrupt vector table. |
-| configuration.xml > Interrupts > Interrupts Configuration > New User Event > UARTA > UARTA1 > UARTA1 TXI | empty | uarta_txi_isr | Assign the UART transfer ISR (Transfer completion interrupt) to the interrupt vector table. |
-
-|   Configure Clock path   |   Default Value   |   Used Value   |   Reason   |
-|-----------------------------------------|-------------------|----------------|------------|
-| configuration.xml > Clocks > Clocks Configuration | UTASEL Disabled | UTASEL Src: HOCO | Select HOCO clock source as the source operating clock for UARTA module. |
-
 ## API Usage ##
 The table below lists the FSP provided API used at the application layer in this example project.
 
@@ -158,63 +143,38 @@ The table below lists the FSP provided API used at the application layer in this
 | R_IOPORT_PinWrite | This API is used to control LED state. |
 | R_BSP_SoftwareDelay | This API is used to delay a specified period of time. |
 
-For using the Serial Terminal (UART):
-| API Name    | Usage                                                                          |
-|-------------|--------------------------------------------------------------------------------|
-| R_UARTA_Open | This API is used to initialize UARTA module. |
-| R_UARTA_Write | This API is used to perform a write operation. |
-| R_UARTA_Close | This API is used to de-initialize UARTA module. |
-
 ## Verifying Operation ##
-1. Import, generate and build the example project. Note that the EP supports the Serial terminal by default.
-2. Before running the EP, make sure hardware connections are done.
-3. Download the EP to the RA board using the USB Debug Port.
-4. Open the terminal application and view output log.
+1. Set up the hardware connection properly mentioned in [Hardware Connections](#hardware-connections).
+2. Import, generate, build, and download project to the RA board.
+3. Open a serial terminal application (e.g., Tera Term) to view output, configure the settings as follows:
+	* To make sure the received data shows properly, the user needs to set:
+		* [Setup] -> [Terminal...] -> [New-line] -> Select [Receive: CR] & [Transmit: CR].
 
-**Note:** To debug or use J-Link RTT Viewer in Low Power Modes, please refer to "Special Topics" section.
+	* To echo back characters typed in Tera Term, the user needs to enable it through:
+		* [Setup] -> [Terminal...] -> Check [Local echo].
 
-For using the Serial Terminal (UART):
-* The settings for the serial terminal are as follows: The COM port is provided by the J-Link onboard, with a baud rate of 115200 bps, a data length of 8 bits, no parity check, one stop bit, and no flow control.
-* To echo back what was typed in Tera Term, the user needs to enable it through [Setup] -> [Terminal...] -> Check [Local echo].
+	* The configuration parameters of the serial port on the serial terminal application:
+		* Port: The port is provided by the J-Link On-Board.
+		* Speed: 115200
+		* Data: 8 bit
+		* Parity: none
+		* Stop bits: 1 bit
+		* Flow control: none
 
-![serial_log_1](images/tml_serial_ep_info.PNG "TML EP information")
+**The images below showcase the output**
 
-![serial_log_2](images/tml_serial_counter_mode.PNG "TML counter mode operation")
+The EP information:
 
-![serial_log_3](images/tml_serial_capture_mode.PNG "TML capture mode operation")
-  
-![serial_log_4](images/tml_serial_counter_mode_in_lpm.PNG "TML counter mode operates in Low Power Mode")
+![ep_information](images/tml_ep_info.png "TML EP information")
 
-For using the SEGGER J-Link RTT Viewer:
-* To utilize SEGGER RTT instead of the Serial Terminal, please follow the instructions below:
+TML counter mode operation:
 
- In e2studio: Project Properties -> C/C++ Build -> Settings -> Tool Settings -> GNU ARM Cross C Compiler -> Preprocessor -> Modify the macro USE_VIRTUAL_COM=1 to USE_VIRTUAL_COM=0.
+![tml_counter_mode](images/tml_counter_mode.png "TML counter mode operation")
 
-![rtt_log_1](images/tml_rtt_ep_info.PNG "TML EP information")
+TML capture mode operation:
 
-![rtt_log_2](images/tml_rtt_counter_mode.PNG "TML counter mode operation")
+![tml_capture_mode](images/tml_capture_mode.png "TML capture mode operation")
 
-![rtt_log_3](images/tml_rtt_capture_mode.PNG "TML capture mode operation")
-  
-![rtt_log_4](images/tml_rtt_counter_mode_in_lpm.PNG "TML counter mode operates in Low Power Mode")
+TML counter mode operates in low power mode:
 
-## Special Topics ##
-### SEGGER J-Link RTT Viewer in Low Power Modes ###
-The RTT console comes in handy to view the application messages while running/debugging the application. While you are using the RTT console, the debugger script for the LPM must be selected
-
-Open J-Link RTT Viewer console -> File -> Connect -> Script file (optional) -> Select the RA_MCU_low_power_mode.JLinkScript, which is attached as part of this project.
-
-![add_jlink_script_in RTT](images/add_jlink_script_in_rtt.PNG "Add JlinkScript file to perform EP operations in Low Power Modes")
-
-### Debugging Low Power Modes ###
-By default, it is not possible to debug the low power modes of an RA device. If an application tries to enter Sleep mode, pending a peripheral interrupt to wake it, this will not happen as it will be woken almost immediately by a debug interrupt.
-
-If the application tries to enter Software or Deep Software Standby modes, then the connection between the CPU and the IDE will be lost, closing the debug session within the IDE.
-
-However, if the supplied debug script is specified then it will be possible to debug the low power modes.
-
-**Note:** Follow the below introduction to add the debugger script to E2Studio.
-
-Open E2studio -> Run -> Debug Configurations and configure the debugger as shown in the figure below.
-
-![add_jlink_script_in_e2studio](images/add_jlink_script_in_e2studio.PNG "Add JlinkScript file to debug in Low Power Modes")
+![tml_counter_mode_in_lpm](images/tml_counter_mode_in_lpm.png "TML counter mode operates in low power mode")

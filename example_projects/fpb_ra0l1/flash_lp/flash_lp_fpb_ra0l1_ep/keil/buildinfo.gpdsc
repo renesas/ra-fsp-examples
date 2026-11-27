@@ -11,14 +11,15 @@
     <generator id="Renesas RA Smart Configurator">
       <project_files>
         <file category="include" name="src/"/>
-        <file category="header" name="src/common_utils.h" path=""/>
+        <file category="source" name="src/console/syscalls_keil.c"/>
+        <file category="source" name="src/console/uart_console.c"/>
+        <file category="header" name="src/console/uart_console.h" path=""/>
         <file category="source" name="src/flash_lp_ep.c"/>
         <file category="header" name="src/flash_lp_ep.h" path=""/>
+        <file category="source" name="src/flash_lp_example_app.c"/>
+        <file category="header" name="src/flash_lp_example_app.h" path=""/>
         <file category="source" name="src/hal_entry.c"/>
-        <file category="source" name="src/SEGGER_RTT/SEGGER_RTT.c"/>
-        <file category="header" name="src/SEGGER_RTT/SEGGER_RTT.h" path=""/>
-        <file category="header" name="src/SEGGER_RTT/SEGGER_RTT_Conf.h" path=""/>
-        <file category="source" name="src/SEGGER_RTT/SEGGER_RTT_printf.c"/>
+        <file category="source" name="src/hal_warmstart.c"/>
       </project_files>
     </generator>
   </generators>
@@ -81,10 +82,13 @@
         <file category="header" name="ra/fsp/inc/api/r_cgc_api.h" path=""/>
         <file category="header" name="ra/fsp/inc/api/r_flash_api.h" path=""/>
         <file category="header" name="ra/fsp/inc/api/r_ioport_api.h" path=""/>
+        <file category="header" name="ra/fsp/inc/api/r_transfer_api.h" path=""/>
+        <file category="header" name="ra/fsp/inc/api/r_uart_api.h" path=""/>
         <file category="header" name="ra/fsp/inc/fsp_features.h" path=""/>
         <file category="header" name="ra/fsp/inc/fsp_version.h" path=""/>
         <file category="header" name="ra/fsp/inc/instances/r_flash_lp.h" path=""/>
         <file category="header" name="ra/fsp/inc/instances/r_ioport.h" path=""/>
+        <file category="header" name="ra/fsp/inc/instances/r_uarta.h" path=""/>
         <file category="header" name="ra/fsp/src/bsp/cmsis/Device/RENESAS/Include/R7FA0L107.h" path=""/>
         <file category="header" name="ra/fsp/src/bsp/cmsis/Device/RENESAS/Include/renesas.h" path=""/>
         <file category="header" name="ra/fsp/src/bsp/cmsis/Device/RENESAS/Include/system.h" path=""/>
@@ -131,6 +135,7 @@
         <file category="header" name="ra/fsp/src/bsp/mcu/ra0l1/bsp_peripheral.h" path=""/>
         <file category="source" name="ra/fsp/src/r_flash_lp/r_flash_lp.c"/>
         <file category="source" name="ra/fsp/src/r_ioport/r_ioport.c"/>
+        <file category="source" name="ra/fsp/src/r_uarta/r_uarta.c"/>
       </files>
     </component>
     <component Cclass="Flex Software" Cgroup="Build Configuration">
@@ -146,6 +151,7 @@
         <file category="header" name="ra_cfg/fsp_cfg/bsp/bsp_pin_cfg.h" path=""/>
         <file category="header" name="ra_cfg/fsp_cfg/r_flash_lp_cfg.h" path=""/>
         <file category="header" name="ra_cfg/fsp_cfg/r_ioport_cfg.h" path=""/>
+        <file category="header" name="ra_cfg/fsp_cfg/r_uarta_cfg.h" path=""/>
       </files>
     </component>
     <component Cclass="Flex Software" Cgroup="Generated Data">

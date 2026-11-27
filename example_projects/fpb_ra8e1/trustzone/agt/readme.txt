@@ -4,43 +4,86 @@
 **********************************************************************************************************************/
 
 1. Project Overview:
-	This Example Project demonstrates the functionality of AGT in periodic mode and one-shot mode. On providing any 
-	input on the RTT Viewer, AGT channel 0 starts in one-shot mode. AGT channel 1 starts in periodic mode when AGT 
-	channel 0 expires. Timer in periodic mode expires periodically at a time period specified by user and toggles the 
-	on-board LED.
+	This example project demonstrates the functionality of AGT in Periodic mode and One-Shot mode. On providing
+	any input on the terminal, AGT channel 0 starts in One-Shot mode. AGT channel 1 starts in Periodic mode when
+	AGT channel 0 expires. Timer in Periodic mode expires periodically at a time period specified by the user and
+	toggles the on-board LED.
 
 2. Software Requirements:
-	Refer to the Tools section in the Release Notes for set up suitable Software version.
+	Refer to the "Tools" section in the FSP release notes to set up all the required software via the link below:
 	https://github.com/renesas/fsp/releases
-	
+
+3. Hardware Requirements:
+	Supported RA boards: EK-RA4C1, EK-RA4E2, EK-RA4L1, EK-RA4M2, EK-RA4M3, EK-RA6E2, EK-RA6M4, EK-RA6M5, EK-RA8D1,
+			     EK-RA8D2, EK-RA8E2, EK-RA8M1, EK-RA8M2, EK-RA8P1, FPB-RA8E1, MCK-RA4T1, MCK-RA6T3,
+			     MCK-RA8T1, MCK-RA8T2.
+	1 x Renesas RA board.
+	1 x USB cable for programming and debugging (USB cable type varies by board model).
+
+4. Hardware Connections:
+	Connect the RA board USB debug port to the host PC using the appropriate USB cable for EP programming and
+	debugging.
+
+	For EK-RA4C1:
+		The user must place jumper J6 on pins 2-3, J8 on pins 1-2, J9 on pins 2-3 and turn OFF SW4-4 to use
+		the on-board debug functionality.
+
+	For EK-RA8M2:
+		The user must place jumper J6 on pins 2-3, J8 on pins 1-2, J9 on pins 2-3, and J29 on pins 1-2,
+		3-4, 5-6, 7-8 to use the on-board debug functionality.
+
+5. Verifying Operation:
+	a) Import and build projects: the user must build secure project (_s) first, then build non-secure (_ns) project.
+	b) After the projects are built successfully, the user should follow these steps in sequence to launch the debug
+	   session:
+		- Open Renesas Device Partition Manager (RDPM): In e2studio or IAR and Keil using RASC -> Run ->
+		  Renesas Debug Tools -> Renesas Device Partition Manager, then choose "Connection Type" as SWD.
+		- Initialize the MCU: On RDPM, select only "Initialize device" option, then click "Run". If successful,
+		  go to the next steps.
+		- Set Trustzone secure/ non-secure boundaries: On RDPM, uncheck "Initialize device", select only
+		  "Set Trustzone secure/ non-secure boundaries" -> Select "Use Renesas Partition Data file" ->
+		  Use "Browse" to select the .rpd file generated from the secure project (For "e2studio":
+		  e2studio\secure_project\Debug, for "Keil": keil\secure_project\Objects, and for "IAR":
+		  iar\secure_project\Debug\Exe), then click "Run". If successful, go to the next steps.
+		- Only setting used for IAR project: The user can change setting in the Tools -> Option -> Stack ->
+		  Uncheck "Stack pointer(s) not valid until program reaches" option to ignore Stack Warning at launch.
+		- Launch the debug session from the non-secure project.
+	c) Open a serial terminal application (e.g., Tera Term) to view the example project operation.
+
 Note:
-1) User is expected to enter data of size not exceeding above 15 bytes.
-   Operation is not guaranteed for any user input value other than integer,char(i.e. float, special char) through RTT.
+1) The user is expected to enter data not exceeding 15 bytes in size.
 
-2) User should view section 5 of application note R11AN0467 on how to build and run a trustzone project.
-   https://www.renesas.com/us/en/document/apn/renesas-ra-security-design-arm-trustzone-ip-protection
+2) Operation is not guaranteed for any user input value other than integer, char (e.g., float, special char)
+   through the terminal.
 
-3) For the IAR project, user can launch the Workspace using the .eww workspace file in the non-secure project folder. 
-   It included multiple workspace which has both secure (_s) and non-secure (_ns) project.
+3) The user should view "Example Project for IP Protection" section of application note R11AN0467 on how to build
+   and run a trustzone project via link:
+   https://www.renesas.com/en/document/apn/security-design-arm-trustzone-using-cortex-m33
 
-4) For the KEIL project, user can launch the Workspace using the .uvmpw file in keil folder. It included multiple workspace 
-   which has both secure (_s) and non-secure (_ns) project.
+4) The user should refer to the "RASC User Guide for MDK and IAR" section for instructions on using RASC for IAR
+   and Keil via link: https://renesas.github.io/fsp/_s_t_a_r_t__d_e_v.html#RASC-MDK-IAR-user-guide
 
-5) User must build secure project (_s) first, then build non-secure (_ns) project. 
+5) For the IAR project, the user can launch the workspace using the .eww file in the non-secure project folder.
+   It included multiple workspaces which has both secure (_s) and non-secure (_ns) projects.
 
-6) After the projects are built successfully, user should follow these three steps in sequence to launch the debug session:
-   - Initialize device back to factory default. Refer to the corresponding screen shots in the R11AN0467 to perform the action.
-   - Set Trustzone secure / non-secure boundaries. Refer to the corresponding screen shots in the R11AN0467 to perform the action.
-   - Launch the Debug session from the non-secure project.
+6) For the KEIL project, the user can launch the workspace using the .uvmpw file in keil folder.
+   It included multiple workspaces which has both secure (_s) and non-secure (_ns) projects.
 
-7) For IAR project, User can change setting in the Tools -> Option -> Stack -> Uncheck "Stack pointer(s) not
-   valid until program reaches" option to ignore Stack Warning at launch.
-﻿
-8) Segger RTT block address may needed to download and observe EP operation using a hex file with RTT-Viewer.
-   RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x3206244c
-   b. Keil:	0x32062850
-   c. IAR: 0x320628cc
- 
-9) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called _SEGGER_RTT) 
-   in .map file generated in the build configuration folder (Debug/Release).
+7) For EK-RA8P1, MCK-RA8T2, EK-RA8M2, EK-RA8D2: When using SEGGER J-Flash Lite to flash the hex file of the non-secure
+   project into the RA board, make sure to select the correct flash bank in the "Flash banks" section of the SEGGER
+   J-Flash Lite by ticking the checkbox: 0x12000000 MRAM (Non-Secure) (Loader: Default).
+
+8) To view output logs on a serial terminal application (e.g., Tera Term), configure the settings as shown below:
+	a. To make sure the received data shows properly, the user needs to set:
+		[Setup] -> [Terminal...] -> [New-line] -> Select [Receive: CR] & [Transmit: CR].
+
+	b. To echo back characters typed in Tera Term, the user needs to enable it through:
+		[Setup] -> [Terminal...] -> Check [Local echo].
+
+	c. The configuration parameters of the serial port on the serial terminal application:
+		Port: The port is provided by the J-Link On-Board.
+		Speed: 115200
+		Data: 8 bit
+		Parity: none
+		Stop bits: 1 bit
+		Flow control: none

@@ -3,36 +3,34 @@
  * Description  : Contains data structures and functions used in transfer_initialise.c
  **********************************************************************************************************************/
 /***********************************************************************************************************************
-* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
-*
-* SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
-#include "common_utils.h"
-#include "transfer_initialise.h"
-
-/*******************************************************************************************************************//**
- * @addtogroup transfer_initialise
- * @{
+ * Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
  **********************************************************************************************************************/
 
-/* Variable to flag for printing data on RTT console */
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include "transfer_initialise.h"
+
+/* Variable to flag for printing data on the terminal */
 volatile bool g_send_data_to_console_flag = false;
 
 /* Destination array to which the DMAC writes GPT timer values */
 uint32_t g_dest_data[DEST_DATA_SIZE];
 
-/* Source data that will be transferred by the DMAC g_transfer_led_blink     .
- * This data will be tran to IOPORT PCNTR1 register,
- * which specifies the input/output statesferred of a pin.
- * The register is a 32-bit register - bits[15: 0] = direction (input/output)
- *                                   - bits[31:16] = output level (high/low)
- * The User LEDs on board are connected to I/O pins
- * Therefore, writing array data to IOPORT PCNTR1 sets pins  = direction output,
- * pin [1] high, pin [0] low state
- */
+/* Source data that will be transferred by the DMAC g_transfer_led_blink.
+ * This data will be transferred to the IOPORT PCNTR1 register,
+ * which configures the pin direction and output level.
+ * The register is a 32-bit register - bits [15:0]  = direction (input/output)
+ *                                   - bits [31:16] = output level (high/low)
+ * The user LEDs on board are connected to I/O pins
+ * Therefore, writing the array values to the IOPORT PCNTR1 register sets the pins
+ * as outputs and sets pin[1] high, pin[0] low (for example). */
 
 #if defined(BOARD_RA6M1_EK)
-/* LED Port data array for EK-RA6M1 board */
+/* LED Port data array for EK-RA6M1 */
 uint32_t g_source_data[SOURCE_DATA_SIZE]=
 {
  0x00001000,0x10001000,
@@ -46,7 +44,7 @@ uint32_t g_source_data[SOURCE_DATA_SIZE]=
  0x00001000,0x10001000
 };
 #elif defined(BOARD_RA4M1_EK) || defined(BOARD_RA6M2_EK) || defined(BOARD_RA4W1_EK)
-/* LED Port data array for EK-RA4M1, EK-RA4W1 and EK-RA6M2 */
+/* LED Port data array for EK-RA4M1, EK-RA4W1, EK-RA6M2 */
 uint32_t g_source_data[SOURCE_DATA_SIZE]=
 {
  0x00000040,0x00400040,
@@ -59,8 +57,9 @@ uint32_t g_source_data[SOURCE_DATA_SIZE]=
  0x00000040,0x00400040,0x00000040,0x00400040,0x00000040,0x00400040,0x00000040,0x00400040,
  0x00000040,0x00400040
 };
-#elif defined(BOARD_RA6M4_EK) || defined (BOARD_RA4M3_EK)
-/* LED Port data array for EK-RA6M4, EK-RA4M3  */
+#elif defined(BOARD_RA6M4_EK) || defined (BOARD_RA4M3_EK) || defined (BOARD_RA8P1_EK) || defined (BOARD_RA8D2_EK) ||\
+	  defined (BOARD_RA8M2_EK)
+/* LED Port data array for EK-RA6M4, EK-RA4M3, EK-RA8P1, EK-RA8D2, EK-RA8M2 */
 uint32_t g_source_data[SOURCE_DATA_SIZE]=
 {
  0x00000001,0x00010001,
@@ -73,8 +72,36 @@ uint32_t g_source_data[SOURCE_DATA_SIZE]=
  0x00000001,0x00010001,0x00000001,0x00010001,0x00000001,0x00010001,0x00000001,0x00010001,
  0x00000001,0x00010001
 };
+#elif defined (BOARD_RA4E2_EK)
+/* LED Port data array for EK-RA4E2 */
+uint32_t g_source_data[SOURCE_DATA_SIZE]=
+{
+  0x10001000,0x00001000,
+  0x10001000,0x00001000,0x10001000,0x00001000,0x10001000,0x00001000,0x10001000,0x00001000,
+  0x10001000,0x00001000,0x10001000,0x00001000,0x10001000,0x00001000,0x10001000,0x00001000,
+  0x10001000,0x00001000,0x10001000,0x00001000,0x10001000,0x00001000,0x10001000,0x00001000,
+  0x10001000,0x00001000,0x10001000,0x00001000,0x10001000,0x00001000,0x10001000,0x00001000,
+  0x10001000,0x00001000,0x10001000,0x00001000,0x10001000,0x00001000,0x10001000,0x00001000,
+  0x10001000,0x00001000,0x10001000,0x00001000,0x10001000,0x00001000,0x10001000,0x00001000,
+  0x10001000,0x00001000,0x10001000,0x00001000,0x10001000,0x00001000,0x10001000,0x00001000,
+  0x10001000,0x00001000
+};
+#elif defined (BOARD_RA6E2_EK)
+/* LED Port data array for EK-RA6E2 */
+uint32_t g_source_data[SOURCE_DATA_SIZE]=
+{
+ 0x20002000,0x00002000,
+ 0x20002000,0x00002000,0x20002000,0x00002000,0x20002000,0x00002000,0x20002000,0x00002000,
+ 0x20002000,0x00002000,0x20002000,0x00002000,0x20002000,0x00002000,0x20002000,0x00002000,
+ 0x20002000,0x00002000,0x20002000,0x00002000,0x20002000,0x00002000,0x20002000,0x00002000,
+ 0x20002000,0x00002000,0x20002000,0x00002000,0x20002000,0x00002000,0x20002000,0x00002000,
+ 0x20002000,0x00002000,0x20002000,0x00002000,0x20002000,0x00002000,0x20002000,0x00002000,
+ 0x20002000,0x00002000,0x20002000,0x00002000,0x20002000,0x00002000,0x20002000,0x00002000,
+ 0x20002000,0x00002000,0x20002000,0x00002000,0x20002000,0x00002000,0x20002000,0x00002000,
+ 0x20002000,0x00002000
+};
 #elif defined(BOARD_RA6T1_RSSK)
-/*LED Port data array for RSSK-RA6T1 */
+/* LED Port data array for RSSK-RA6T1 */
 uint32_t g_source_data[SOURCE_DATA_SIZE]=
 {
   0x00000100,0x01000100,
@@ -87,8 +114,8 @@ uint32_t g_source_data[SOURCE_DATA_SIZE]=
   0x00000100,0x01000100,0x00000100,0x01000100,0x00000100,0x01000100,0x00000100,0x01000100,
   0x00000100,0x01000100
 };
-#elif defined (BOARD_RA4M2_EK)
-/* LED Port data array for EK-RA4M2 */
+#elif defined (BOARD_RA4M2_EK) || defined (BOARD_RA8E2_EK)
+/* LED Port data array for EK-RA4M2, EK-RA8E2 */
 uint32_t g_source_data[SOURCE_DATA_SIZE]=
 {
  0x00000020,0x00200020,
@@ -115,8 +142,8 @@ uint32_t g_source_data[SOURCE_DATA_SIZE]=
  0x01000100,0x00000100,0x01000100,0x00000100,0x01000100,0x00000100,0x01000100,0x00000100,
  0x01000100,0x00000100
 };
-#elif defined (BOARD_RA8D1_EK) || defined (BOARD_RA8M1_EK)
-/* LED Port data array for EK-RA8D1 and EK-RA8M1 */
+#elif defined (BOARD_RA6E1_FPB) || defined (BOARD_RA4E1_FPB) || defined (BOARD_RA8D1_EK) || defined (BOARD_RA8M1_EK)
+/* LED Port data array for FPB-RA6E1, FPB-RA4E1, EK-RA8D1, EK-RA8M1 */
 uint32_t g_source_data[SOURCE_DATA_SIZE]=
 {
  0x00000080,0x00800080,
@@ -127,7 +154,35 @@ uint32_t g_source_data[SOURCE_DATA_SIZE]=
  0x00000080,0x00800080,0x00000080,0x00800080,0x00000080,0x00800080,0x00000080,0x00800080,
  0x00000080,0x00800080,0x00000080,0x00800080,0x00000080,0x00800080,0x00000080,0x00800080,
  0x00000080,0x00800080,0x00000080,0x00800080,0x00000080,0x00800080,0x00000080,0x00800080,
- 0x00000080,0x00800080,
+ 0x00000080,0x00800080
+};
+#elif defined (BOARD_RA6T2_MCK)
+/* LED Port data array for MCK-RA6T2 */
+uint32_t g_source_data[SOURCE_DATA_SIZE]=
+{
+ 0x00000002,0x00020002,
+ 0x00000002,0x00020002,0x00000002,0x00020002,0x00000002,0x00020002,0x00000002,0x00020002,
+ 0x00000002,0x00020002,0x00000002,0x00020002,0x00000002,0x00020002,0x00000002,0x00020002,
+ 0x00000002,0x00020002,0x00000002,0x00020002,0x00000002,0x00020002,0x00000002,0x00020002,
+ 0x00000002,0x00020002,0x00000002,0x00020002,0x00000002,0x00020002,0x00000002,0x00020002,
+ 0x00000002,0x00020002,0x00000002,0x00020002,0x00000002,0x00020002,0x00000002,0x00020002,
+ 0x00000002,0x00020002,0x00000002,0x00020002,0x00000002,0x00020002,0x00000002,0x00020002,
+ 0x00000002,0x00020002,0x00000002,0x00020002,0x00000002,0x00020002,0x00000002,0x00020002,
+ 0x00000002,0x00020002
+};
+#elif defined (BOARD_RA4T1_MCK) || defined (BOARD_RA6T3_MCK)
+/* LED Port data array for MCK-RA4T1, MCK-RA6T3 */
+uint32_t g_source_data[SOURCE_DATA_SIZE]=
+{
+ 0x00002000,0x20002000,
+ 0x00002000,0x20002000,0x00002000,0x20002000,0x00002000,0x20002000,0x00002000,0x20002000,
+ 0x00002000,0x20002000,0x00002000,0x20002000,0x00002000,0x20002000,0x00002000,0x20002000,
+ 0x00002000,0x20002000,0x00002000,0x20002000,0x00002000,0x20002000,0x00002000,0x20002000,
+ 0x00002000,0x20002000,0x00002000,0x20002000,0x00002000,0x20002000,0x00002000,0x20002000,
+ 0x00002000,0x20002000,0x00002000,0x20002000,0x00002000,0x20002000,0x00002000,0x20002000,
+ 0x00002000,0x20002000,0x00002000,0x20002000,0x00002000,0x20002000,0x00002000,0x20002000,
+ 0x00002000,0x20002000,0x00002000,0x20002000,0x00002000,0x20002000,0x00002000,0x20002000,
+ 0x00002000,0x20002000
 };
 #elif defined (BOARD_RA8T1_MCK)
 /* LED Port data array for MCK-RA8T1 */
@@ -157,8 +212,50 @@ uint32_t g_source_data[SOURCE_DATA_SIZE]=
  0x00000010,0x00100010,0x00000010,0x00100010,0x00000010,0x00100010,0x00000010,0x00100010,
  0x00000010,0x00100010,
 };
+#elif defined (BOARD_RA4L1_EK)
+/* LED Port data array for EK-RA4L1 */
+uint32_t g_source_data[SOURCE_DATA_SIZE]=
+{
+ 0x00000200,0x02000200,
+ 0x00000200,0x02000200,0x00000200,0x02000200,0x00000200,0x02000200,0x00000200,0x02000200,
+ 0x00000200,0x02000200,0x00000200,0x02000200,0x00000200,0x02000200,0x00000200,0x02000200,
+ 0x00000200,0x02000200,0x00000200,0x02000200,0x00000200,0x02000200,0x00000200,0x02000200,
+ 0x00000200,0x02000200,0x00000200,0x02000200,0x00000200,0x02000200,0x00000200,0x02000200,
+ 0x00000200,0x02000200,0x00000200,0x02000200,0x00000200,0x02000200,0x00000200,0x02000200,
+ 0x00000200,0x02000200,0x00000200,0x02000200,0x00000200,0x02000200,0x00000200,0x02000200,
+ 0x00000200,0x02000200,0x00000200,0x02000200,0x00000200,0x02000200,0x00000200,0x02000200,
+ 0x00000200,0x02000200,
+};
+#elif defined (BOARD_RA4C1_EK)
+/* LED Port data array for EK-RA4C1 */
+uint32_t g_source_data[SOURCE_DATA_SIZE]=
+{
+ 0x00000400,0x04000400,
+ 0x00000400,0x04000400,0x00000400,0x04000400,0x00000400,0x04000400,0x00000400,0x04000400,
+ 0x00000400,0x04000400,0x00000400,0x04000400,0x00000400,0x04000400,0x00000400,0x04000400,
+ 0x00000400,0x04000400,0x00000400,0x04000400,0x00000400,0x04000400,0x00000400,0x04000400,
+ 0x00000400,0x04000400,0x00000400,0x04000400,0x00000400,0x04000400,0x00000400,0x04000400,
+ 0x00000400,0x04000400,0x00000400,0x04000400,0x00000400,0x04000400,0x00000400,0x04000400,
+ 0x00000400,0x04000400,0x00000400,0x04000400,0x00000400,0x04000400,0x00000400,0x04000400,
+ 0x00000400,0x04000400,0x00000400,0x04000400,0x00000400,0x04000400,0x00000400,0x04000400,
+ 0x00000400,0x04000400,
+};
+#elif defined (BOARD_RA8T2_MCK)
+/* LED Port data array for BOARD_RA8T2_MCK */
+uint32_t g_source_data[SOURCE_DATA_SIZE]=
+{
+ 0x00004000,0x40004000,
+ 0x00004000,0x40004000,0x00004000,0x40004000,0x00004000,0x40004000,0x00004000,0x40004000,
+ 0x00004000,0x40004000,0x00004000,0x40004000,0x00004000,0x40004000,0x00004000,0x40004000,
+ 0x00004000,0x40004000,0x00004000,0x40004000,0x00004000,0x40004000,0x00004000,0x40004000,
+ 0x00004000,0x40004000,0x00004000,0x40004000,0x00004000,0x40004000,0x00004000,0x40004000,
+ 0x00004000,0x40004000,0x00004000,0x40004000,0x00004000,0x40004000,0x00004000,0x40004000,
+ 0x00004000,0x40004000,0x00004000,0x40004000,0x00004000,0x40004000,0x00004000,0x40004000,
+ 0x00004000,0x40004000,0x00004000,0x40004000,0x00004000,0x40004000,0x00004000,0x40004000,
+ 0x00004000,0x40004000
+};
 #else
-/* LED Port data array for EK-RA6M3 and Ek-RA6M3G board */
+/* LED Port data array for EK-RA6M3, EK-RA6M3G */
 uint32_t g_source_data[SOURCE_DATA_SIZE]=
 {
  0x00000007,0x00070007,
@@ -173,128 +270,98 @@ uint32_t g_source_data[SOURCE_DATA_SIZE]=
 };
 #endif
 
-
 /*******************************************************************************************************************//**
- *  @brief      Initializing dmac transfer instance based on transfer unit and enable for transfer
- *  @param[in]  p_transfer_ctl       Transfer instance control structure
- *  @param[in]  p_transfer_cfg       Transfer instance configuration structure
- *  @param[in]  transfer_unit        DMAC transfer unit
- *  @retval     FSP_SUCCESS          On successful initialization of dmac_tranfer
- *  @retval     Any Other Error code apart from FSP_SUCCESS if Unsuccessful open or enable
+ * @brief     This function initializes DMAC transfer instance based on transfer unit and enables for transfer.
+ * @param[in] p_transfer_ctl            Pointer to the transfer instance control structure.
+ * @param[in] p_transfer_cfg            Pointer to the transfer configuration structure.
+ * @param[in] transfer_unit             DMAC transfer unit.
+ * @retval    FSP_SUCCESS               Initialized and enabled successfully.
+ * @retval    Any other error codes     Failed to open or enable.
  **********************************************************************************************************************/
 fsp_err_t dmac_transfer_init(dmac_instance_ctrl_t *const p_transfer_ctl,
-        transfer_cfg_t const *const p_transfer_cfg, uint8_t transfer_unit)
+                             transfer_cfg_t const *const p_transfer_cfg, uint8_t transfer_unit)
 {
-    /* Variable to help handle error codes */
-    fsp_err_t fsp_err = FSP_SUCCESS;
+    FSP_PARAMETER_NOT_USED(transfer_unit);
+
+    /* Error status */
+    fsp_err_t err = FSP_SUCCESS;
 
     /* Open the transfer instance */
-    fsp_err = R_DMAC_Open(p_transfer_ctl, p_transfer_cfg);
-    /* Handle error in-case of failure */
-    if (FSP_SUCCESS != fsp_err)
+    err = R_DMAC_Open(p_transfer_ctl, p_transfer_cfg);
+    if (FSP_SUCCESS != err)
     {
-        APP_ERR_PRINT("**R_DMAC_Open API for transfer%d failed ** \r\n",transfer_unit);
-        return fsp_err;
+        return err;
     }
 
-    /* Enable transfer for the configured activation source*/
-    fsp_err = R_DMAC_Enable(p_transfer_ctl);
-    /* Handle error in-case of failure */
-    if (FSP_SUCCESS != fsp_err)
-    {
-        fsp_err_t err = FSP_SUCCESS;
-        /* In case of DMAC_open is successful and enabling fails, requires a immediate cleanup.
-         * Since, cleanup for dmac open is done here, cleanup in dmac_transfer_deinit for open is not required */
-        err = R_DMAC_Close(p_transfer_ctl);
-        /* handle error */
-        if (FSP_SUCCESS != err)
-        {
-            /* DMAC Close failure message */
-            APP_ERR_PRINT("** R_DMAC_Close for transfer%d API failed **  \r\n", transfer_unit);
-        }
-    }
-    return fsp_err;
+    /* Enable transfer for the configured activation source */
+    err = R_DMAC_Enable(p_transfer_ctl);
+
+    return err;
 }
 
 /*******************************************************************************************************************//**
- *  @brief     Deinitializing dmac transfer instance based on transfer unit and enable for transfer
- *  @param[in] p_transfer_ctl       Transfer instance control structure
- *  @param[in] transfer_unit        DMAC transfer unit
- *  @retval    None
+ * @brief     This function de-initializes the opened DMAC transfer instance based on transfer unit.
+ * @param[in] p_transfer_ctl    Pointer to the transfer instance control structure.
+ * @param[in] transfer_unit     DMAC transfer unit.
+ * @retval    None.
  **********************************************************************************************************************/
 void dmac_transfer_deinit(dmac_instance_ctrl_t *const p_transfer_ctl, uint8_t transfer_unit)
 {
-    /* Variable to help handle error codes from functions */
-    fsp_err_t fsp_err = FSP_SUCCESS;
+    FSP_PARAMETER_NOT_USED(transfer_unit);
 
-    fsp_err = R_DMAC_Close(p_transfer_ctl);
-    /* handle error */
-    if (FSP_SUCCESS != fsp_err)
+    /* Close the opened DMAC transfer instance based on transfer unit */
+    if (p_transfer_ctl->open)
     {
-        /* DMAC Close failure message */
-        APP_ERR_PRINT("** R_DMAC_Close for transfer%d API failed **  \r\n", transfer_unit);
+        R_DMAC_Close(p_transfer_ctl);
     }
 }
 
-
 /*******************************************************************************************************************//**
- *  @brief          start dmac transfer
- *  @param[in]      transfer_ctrl_t
- *  @retval         FSP_SUCCESS      Upon successful start of dmac
- *  @retval         Any Other Error code apart from FSP_SUCCESS is  Unsuccessful  start
+ * @brief     This function starts DMAC transfer.
+ * @param[in] p_transfer_ctrl           Pointer to the transfer instance control structure.
+ * @retval    FSP_SUCCESS               Started successfully.
+ * @retval    Any other error codes     Failed to start.
  **********************************************************************************************************************/
 fsp_err_t dmac_transfer_software_start(transfer_ctrl_t * const p_transfer_ctrl)
 {
-
-    /* Variable to help handle error codes from functions */
-    fsp_err_t fsp_err = FSP_SUCCESS;
+    /* Error status */
+    fsp_err_t err = FSP_SUCCESS;
 
     /* Start DMAC transfer by software */
-    fsp_err = R_DMAC_SoftwareStart(p_transfer_ctrl, TRANSFER_START_MODE_SINGLE);
-    /* Handle error in-case of failure */
-    if (FSP_SUCCESS != fsp_err)
-    {
-        APP_ERR_PRINT("\r\nDMAC dmac transfer software start failed.\n");
-    }
-    return fsp_err;
+    err = R_DMAC_SoftwareStart(p_transfer_ctrl, TRANSFER_START_MODE_SINGLE);
+
+    return err;
 }
 
 /*******************************************************************************************************************//**
- *  @brief       Print dmac data transfered by g_transfer_write_ioport on User RTT input
- *  @param[IN]   None
- *  @retval      None
+ * @brief     This function prints DMAC data transferred by g_transfer_write_ioport based on user input.
+ * @param[in] None.
+ * @retval    None.
  **********************************************************************************************************************/
 void dmac_transfer_print_data(void)
 {
-
-    APP_PRINT("\r\n*** Data transfered through g_transfer_gpt_timer *** \n");
-    APP_PRINT("data[0]=%05d\n", (int)g_dest_data[0]);
-    APP_PRINT("data[1]=%05d\n", (int)g_dest_data[1]);
-    APP_PRINT("data[2]=%05d\n", (int)g_dest_data[2]);
-    APP_PRINT("data[3]=%05d\n", (int)g_dest_data[3]);
-    APP_PRINT("data[4]=%05d\n", (int)g_dest_data[4]);
-    APP_PRINT("data[5]=%05d\n", (int)g_dest_data[5]);
-    APP_PRINT("data[6]=%05d\n", (int)g_dest_data[6]);
-    APP_PRINT("data[7]=%05d\n", (int)g_dest_data[7]);
-    APP_PRINT("-------------\n");
-
-
+    printf("\r\n\r\n*** Data transferred through g_transfer_gpt_timer ***\r\n");
+    printf("data[0]=%05d\n", (int)g_dest_data[0]);
+    printf("data[1]=%05d\n", (int)g_dest_data[1]);
+    printf("data[2]=%05d\n", (int)g_dest_data[2]);
+    printf("data[3]=%05d\n", (int)g_dest_data[3]);
+    printf("data[4]=%05d\n", (int)g_dest_data[4]);
+    printf("data[5]=%05d\n", (int)g_dest_data[5]);
+    printf("data[6]=%05d\n", (int)g_dest_data[6]);
+    printf("data[7]=%05d\n", (int)g_dest_data[7]);
+    printf("-------------\n");
 }
 
 /*******************************************************************************************************************//**
- *  @brief       Set the source and destination address for the DMAC transfer instance
- *  @param[IN]   p_config       Transfer instance configuration structure
- *  @param[IN]   p_src          Source address
- *  @param[IN]   p_dest         Destination address
- *  @retval      None
+ * @brief     This function sets the source and destination addresses for the DMAC transfer instance.
+ * @param[in] p_config      Pointer to the transfer instance configuration structure.
+ * @param[in] p_src         Source address.
+ * @param[in] p_dest        Destination address.
+ * @retval    None.
  **********************************************************************************************************************/
 void set_transfer_dst_src_address(transfer_cfg_t const * const p_config,
-        void const * volatile p_src, void const * volatile p_dest )
+                                  void const * volatile p_src, void const * volatile p_dest)
 {
-    p_config->p_info->p_src = (void *) p_src;
+    p_config->p_info->p_src  = (void *) p_src;
     p_config->p_info->p_dest = (void *) p_dest;
 }
-
-/*******************************************************************************************************************//**
- * @} (end addtogroup transfer_initialise)
- **********************************************************************************************************************/

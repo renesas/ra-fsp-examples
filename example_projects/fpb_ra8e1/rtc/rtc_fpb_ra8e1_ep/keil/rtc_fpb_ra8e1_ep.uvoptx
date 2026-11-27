@@ -12,7 +12,7 @@
     <lExt>*.lib</lExt>
     <tExt>*.txt; *.h; *.inc; *.md</tExt>
     <pExt>*.plm</pExt>
-    <CppX>*.cpp</CppX>
+    <CppX>*.cpp; *.cc; *.cxx</CppX>
     <nMigrate>0</nMigrate>
   </Extensions>
 
@@ -22,7 +22,7 @@
   </DaveTm>
 
   <Target>
-    <TargetName>Target 1</TargetName>
+    <TargetName>Target_1</TargetName>
     <ToolsetNumber>0x4</ToolsetNumber>
     <ToolsetName>ARM-ADS</ToolsetName>
     <TargetOption>
@@ -119,13 +119,28 @@
       <TargetDriverDllRegistry>
         <SetRegEntry>
           <Number>0</Number>
+          <Key>DLGTARM</Key>
+          <Name>(6010=-1,-1,-1,-1,0)(6018=-1,-1,-1,-1,0)(6019=-1,-1,-1,-1,0)(6008=-1,-1,-1,-1,0)(6009=-1,-1,-1,-1,0)(6014=-1,-1,-1,-1,0)(6015=-1,-1,-1,-1,0)(6003=-1,-1,-1,-1,0)(6000=-1,-1,-1,-1,0)(6020=-1,-1,-1,-1,0)</Name>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>ARMDBGFLAGS</Key>
+          <Name></Name>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>DLGUARM</Key>
+          <Name>d</Name>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
           <Key>UL2CM3</Key>
           <Name>UL2CM3(-S0 -C0 -P0 ) </Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
           <Key>JL2CM3</Key>
-          <Name>-U-O111 -O111 -S2 -ZTIFSpeedSel5000 -A0 -C-1 -JU1 -JI127.0.0.1 -JP0 -RST0 -N00("ARM CoreSight SW-DP") -D00(00000000) -L00(0) -TO18 -TC10000000 -TP21 -TDS8007 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -TB1 -TFE0 -FO7 -FD22060000 -FC8000 -FN3 -FF0RA8E1_1M.FLM -FS02000000 -FL0100000 -FP0($$Device:R7FA8E1AF$Flash\RA8E1_1M.FLM) -FF1RA8E1_CCONF.FLM -FS1300A100 -FL1200 -FP1($$Device:R7FA8E1AF$Flash\RA8E1_CCONF.FLM) -FF2RA8E1_DATA_C1M.FLM -FS227000000 -FL23000 -FP2($$Device:R7FA8E1AF$Flash\RA8E1_DATA_C1M.FLM)</Name>
+          <Name>-U-O111 -O111 -S2 -ZTIFSpeedSel5000 -A0 -C0 -JU1 -JI127.0.0.1 -JP0 -RST0 -N00("ARM CoreSight SW-DP") -D00(6BA02477) -L00(0) -TO18 -TC10000000 -TP21 -TDS8007 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -TB1 -TFE0 -FO7 -FD22060000 -FC8000 -FN3 -FF0RA8E1_1M.FLM -FS02000000 -FL0100000 -FP0($$Device:R7FA8E1AF$Flash\RA8E1_1M.FLM) -FF1RA8E1_CCONF.FLM -FS1300A100 -FL1200 -FP1($$Device:R7FA8E1AF$Flash\RA8E1_CCONF.FLM) -FF2RA8E1_DATA_C1M.FLM -FS227000000 -FL23000 -FP2($$Device:R7FA8E1AF$Flash\RA8E1_DATA_C1M.FLM)</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -140,12 +155,12 @@
       <DebugFlag>
         <trace>0</trace>
         <periodic>1</periodic>
-        <aLwin>0</aLwin>
+        <aLwin>1</aLwin>
         <aCover>0</aCover>
         <aSer1>0</aSer1>
         <aSer2>0</aSer2>
         <aPa>0</aPa>
-        <viewmode>0</viewmode>
+        <viewmode>1</viewmode>
         <vrSel>0</vrSel>
         <aSym>0</aSym>
         <aTbox>0</aTbox>
@@ -208,18 +223,54 @@
     <File>
       <GroupNumber>2</GroupNumber>
       <FileNumber>2</FileNumber>
-      <FileType>5</FileType>
+      <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\src\common_utils.h</PathWithFileName>
-      <FilenameWithoutPath>common_utils.h</FilenameWithoutPath>
+      <PathWithFileName>.\src\hal_warmstart.c</PathWithFileName>
+      <FilenameWithoutPath>hal_warmstart.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
     <File>
       <GroupNumber>2</GroupNumber>
       <FileNumber>3</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>.\src\console\syscalls_keil.c</PathWithFileName>
+      <FilenameWithoutPath>syscalls_keil.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>2</GroupNumber>
+      <FileNumber>4</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>.\src\console\uart_console.c</PathWithFileName>
+      <FilenameWithoutPath>uart_console.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>2</GroupNumber>
+      <FileNumber>5</FileNumber>
+      <FileType>5</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>.\src\console\uart_console.h</PathWithFileName>
+      <FilenameWithoutPath>uart_console.h</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>2</GroupNumber>
+      <FileNumber>6</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -231,7 +282,7 @@
     </File>
     <File>
       <GroupNumber>2</GroupNumber>
-      <FileNumber>4</FileNumber>
+      <FileNumber>7</FileNumber>
       <FileType>5</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -243,49 +294,25 @@
     </File>
     <File>
       <GroupNumber>2</GroupNumber>
-      <FileNumber>5</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>.\src\SEGGER_RTT\SEGGER_RTT.c</PathWithFileName>
-      <FilenameWithoutPath>SEGGER_RTT.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>2</GroupNumber>
-      <FileNumber>6</FileNumber>
-      <FileType>5</FileType>
-      <tvExp>0</tvExp>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>.\src\SEGGER_RTT\SEGGER_RTT.h</PathWithFileName>
-      <FilenameWithoutPath>SEGGER_RTT.h</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>2</GroupNumber>
-      <FileNumber>7</FileNumber>
-      <FileType>5</FileType>
-      <tvExp>0</tvExp>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>.\src\SEGGER_RTT\SEGGER_RTT_Conf.h</PathWithFileName>
-      <FilenameWithoutPath>SEGGER_RTT_Conf.h</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>2</GroupNumber>
       <FileNumber>8</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\src\SEGGER_RTT\SEGGER_RTT_printf.c</PathWithFileName>
-      <FilenameWithoutPath>SEGGER_RTT_printf.c</FilenameWithoutPath>
+      <PathWithFileName>.\src\rtc_example_app.c</PathWithFileName>
+      <FilenameWithoutPath>rtc_example_app.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>2</GroupNumber>
+      <FileNumber>9</FileNumber>
+      <FileType>5</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>.\src\rtc_example_app.h</PathWithFileName>
+      <FilenameWithoutPath>rtc_example_app.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

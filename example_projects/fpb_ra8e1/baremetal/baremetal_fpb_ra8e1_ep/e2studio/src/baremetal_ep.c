@@ -1,89 +1,36 @@
 /***********************************************************************************************************************
-* Copyright (c) 2021 - 2024 Renesas Electronics Corporation and/or its affiliates
-*
-* SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
-/*******************************************************************************************************************//**
- * @addtogroup BAREMETAL_EP
- * @{
- **********************************************************************************************************************/
-/**********************************************************************************************************************
  * File Name    : baremetal_ep.c
- * Version      : 1.0
- * Description  : .
- *********************************************************************************************************************/
-/**********************************************************************************************************************
- * History : DD.MM.YYYY Version  Description
- *         : 09.03.2021 1.00     First Release
- *********************************************************************************************************************/
+ * Description  : Contains data structures and functions used in baremetal_ep.c.
+ **********************************************************************************************************************/
+/***********************************************************************************************************************
+ * Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ **********************************************************************************************************************/
 
-/**********************************************************************************************************************
- Includes   <System Includes> , "Project Includes"
- *********************************************************************************************************************/
-#include "common_utils.h"
-/**********************************************************************************************************************
- Macro definitions
- *********************************************************************************************************************/
+#include "baremetal_ep.h"
 
-/** Data written to DOC register for comparison match event */
-#define DOC_DATA_COMPARISON_MATCH       (0xA5A5U)
+/* Variable declaration */
+static volatile bool s_b_baremetal_doc_isr_executed = false;
 
-/** Data written to DOC register for comparison mismatch event */
-#define DOC_DATA_COMPARISON_MISMATCH    (0xB5B5U)
+/* Private function declaration */
+static void led_update(led_state_t led_state);
 
-/** LED Pin connections of MCU */
-#define LED_1                        (0U)
-#define LED_2                        (1U)
-#define ALL_LED                      (2U)
-
-#define IRQ_WAIT_TIME                (10UL)
-
-extern bsp_leds_t g_bsp_leds;            // LED Structure used to blink on board LED
-
-/**
- * Turn ON LED at a time.
- * Note: LEDs are initialized by R_BSP_WarmStart function in hal_entry.c
- */
-#define LED_TURN_ON(x)                                                                                  \
-({                                                                                                      \
-        R_IOPORT_PinWrite(&g_ioport_ctrl, g_bsp_leds.p_leds[LED_1], BSP_IO_LEVEL_LOW);                  \
-        R_IOPORT_PinWrite(&g_ioport_ctrl, g_bsp_leds.p_leds[LED_2], BSP_IO_LEVEL_LOW);                  \
-        if((x) == LED_1 || (x) == LED_2)                                                                \
-        {                                                                                               \
-            R_IOPORT_PinWrite(&g_ioport_ctrl, g_bsp_leds.p_leds[(x)], BSP_IO_LEVEL_HIGH);               \
-        }                                                                                               \
-        else                                                                                            \
-        {                                                                                               \
-            R_IOPORT_PinWrite(&g_ioport_ctrl, g_bsp_leds.p_leds[LED_1], BSP_IO_LEVEL_HIGH);             \
-            R_IOPORT_PinWrite(&g_ioport_ctrl, g_bsp_leds.p_leds[LED_2], BSP_IO_LEVEL_HIGH);             \
-        }                                                                                               \
-})                                                                                                      \
-
-
-/**********************************************************************************************************************
- Local Typedef definitions
- *********************************************************************************************************************/
-
-/**********************************************************************************************************************
- Exported global variables
- *********************************************************************************************************************/
-
-/**********************************************************************************************************************
- Private (static) variables and functions
- *********************************************************************************************************************/
-static volatile bool s_baremetal_doc_isr_executed = false;
-
-//void baremetal_ep(void);
-
-void baremetal_ep(void)
+/*******************************************************************************************************************//**
+ * @brief     This function runs the baremetal DOC comparison match process.
+ * @param[in] None.
+ * @retval    FSP_SUCCESS               Verified successfully.
+ * @retval    Any other error codes     Failed to verify.
+ **********************************************************************************************************************/
+fsp_err_t baremetal_process(void)
 {
     volatile uint32_t execution_counter = UINT32_MAX;
 
-    /** Disable Module-Stop Function */
+    /* Disable Module-stop function */
     R_MSTP->MSTPCRC_b.MSTPC13 = 0;
 
-    /** Configure the DOC to signal on successful compare match */
-#if defined (BOARD_RA8E1_FPB)
+    /* Configure the DOC to signal on successful compare match */
+#if (BSP_FEATURE_DOC_VERSION == 2)
     R_DOC_B->DOCR_b.OMS = 0;
     R_DOC_B->DOCR_b.DCSEL = 1;
     R_DOC_B->DOCR_b.DOBW = 0;
@@ -92,123 +39,201 @@ void baremetal_ep(void)
     R_DOC->DOCR_b.OMS = 0;
     R_DOC->DOCR_b.DCSEL = 1;
     R_DOC->DOCR_b.DOPCFCL = 1;
-#endif
+#endif /* BSP_FEATURE_DOC_VERSION */
 
-    /** Set the value which should result in a comparison match */
-#if defined (BOARD_RA8E1_FPB)
+    /* Set the value which should result in a comparison match */
+#if (BSP_FEATURE_DOC_VERSION == 2)
     R_DOC_B->DODSR0 = DOC_DATA_COMPARISON_MATCH;
 #else
     R_DOC->DODSR = DOC_DATA_COMPARISON_MATCH;
-#endif
+#endif /* BSP_FEATURE_DOC_VERSION */
 
-    /** Enable the interrupt */
+    /* Enable the interrupt */
     R_BSP_IrqEnable(DOC_INT_IRQn);
 
-    /** Pass invalid data */
-#if defined (BOARD_RA8E1_FPB)
+    /* Turn on LED case 1 to indicate an operation in progress */
+    led_update(LED_CASE_1);
+
+    /* Pass invalid data */
+#if (BSP_FEATURE_DOC_VERSION == 2)
     R_DOC_B->DODIR = DOC_DATA_COMPARISON_MISMATCH;
 #else
     R_DOC->DODIR = DOC_DATA_COMPARISON_MISMATCH;
-#endif
+#endif /* BSP_FEATURE_DOC_VERSION */
 
-    /** Check if interrupt to occurred */
     execution_counter = IRQ_WAIT_TIME;
     do
     {
         --execution_counter;
-    } while ((false == s_baremetal_doc_isr_executed) && (execution_counter > 0));
+    } while ((false == s_b_baremetal_doc_isr_executed) && (0U < execution_counter));
 
-#if defined (BOARD_RA8E1_FPB)
-    if ((1U == R_DOC_B->DOSR_b.DOPCF) || (true == s_baremetal_doc_isr_executed))
-    {
-        APP_ERR_TRAP(FSP_ERR_INVALID_STATE);
-    }
+#if (BSP_FEATURE_DOC_VERSION == 2)
+    if ((1U == R_DOC_B->DOSR_b.DOPCF) || (true == s_b_baremetal_doc_isr_executed))
 #else
-    if ((1U == R_DOC->DOCR_b.DOPCF) || (true == s_baremetal_doc_isr_executed))
+    if ((1U == R_DOC->DOCR_b.DOPCF) || (true == s_b_baremetal_doc_isr_executed))
+#endif /* BSP_FEATURE_DOC_VERSION */
     {
-        APP_ERR_TRAP(FSP_ERR_INVALID_STATE);
+        return FSP_ERR_INVALID_STATE;
     }
-#endif
 
-    /** Pass valid data */
-#if defined (BOARD_RA8E1_FPB)
+    /* Pass valid data */
+#if (BSP_FEATURE_DOC_VERSION == 2)
     R_DOC_B->DODIR = DOC_DATA_COMPARISON_MATCH;
 #else
     R_DOC->DODIR = DOC_DATA_COMPARISON_MATCH;
-#endif
+#endif /* BSP_FEATURE_DOC_VERSION */
 
-    /** Wait until the ISR executes and modifies the flag */
-    LED_TURN_ON(LED_1);
-
+    /* Wait until the ISR executes and modifies the flag */
     execution_counter = UINT32_MAX;
     do
     {
         --execution_counter;
-    } while ((false == s_baremetal_doc_isr_executed) && (execution_counter > 0));
+    } while ((false == s_b_baremetal_doc_isr_executed) && (0U < execution_counter));
 
-    if((execution_counter <= 0) && (false == s_baremetal_doc_isr_executed))
+    if ((0U >= execution_counter) && (false == s_b_baremetal_doc_isr_executed))
     {
-        LED_TURN_ON(ALL_LED);
-        APP_ERR_TRAP(FSP_ERR_INVALID_STATE);
-        return;
+        /* Turn on LED case 3 to indicate an error */
+        led_update(LED_CASE_3);
+        return FSP_ERR_INVALID_STATE;
     }
 
-    /** Check if DOC operation resulted in successful comparison */
-#if defined (BOARD_RA8E1_FPB)
+    /* Check if DOC operation resulted in a successful comparison */
+#if (BSP_FEATURE_DOC_VERSION == 2)
     if (0U == R_DOC_B->DOSR_b.DOPCF)
-    {
-        LED_TURN_ON(ALL_LED);
-        APP_ERR_TRAP(FSP_ERR_INVALID_STATE);
-        return;
-    }
 #else
     if (0U == R_DOC->DOCR_b.DOPCF)
+#endif /* BSP_FEATURE_DOC_VERSION */
     {
-        LED_TURN_ON(ALL_LED);
-        APP_ERR_TRAP(FSP_ERR_INVALID_STATE);
-        return;
+        /* Turn on LED case 3 to indicate an error */
+        led_update(LED_CASE_3);
+        return FSP_ERR_INVALID_STATE;
     }
-#endif
 
-    /** Clear the DOPCF bit & the flag */
-#if defined (BOARD_RA8E1_FPB)
-     R_DOC_B->DOSCR_b.DOPCFCL = 1;
- #else
-     R_DOC->DOCR |= R_DOC_DOCR_DOPCFCL_Msk;
- #endif
+    /* Clear the DOPCF bit and the flag */
+#if (BSP_FEATURE_DOC_VERSION == 2)
+    R_DOC_B->DOSCR_b.DOPCFCL = 1;
+#else
+    R_DOC->DOCR |= R_DOC_DOCR_DOPCFCL_Msk;
+#endif /* BSP_FEATURE_DOC_VERSION */
 
-    s_baremetal_doc_isr_executed = false;
+    /* Reset the flag */
+    s_b_baremetal_doc_isr_executed = false;
 
-    /** Turn on LED 2 to indicate success. */
-    LED_TURN_ON(LED_2);
+    /* Turn on LED case 2 to indicate successful completion */
+    led_update(LED_CASE_2);
 
+    return FSP_SUCCESS;
 }
-/**********************************************************************************************************************
- End of function baremetal_ep
- *********************************************************************************************************************/
 
+/*******************************************************************************************************************//**
+ * @brief     This function updates the LED state based on the operation status.
+ * @param[in] led_state                 Specifies which LED pattern to apply.
+ * @retval    None.
+ **********************************************************************************************************************/
+static void led_update(led_state_t led_state)
+{
+    if (2U == g_bsp_leds.led_count)
+    {
+        switch (led_state)
+        {
+            case LED_CASE_1:
+            {
+                /* Turn ON LED1 to indicate an operation in progress */
+                R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t)g_bsp_leds.p_leds[0], (bsp_io_level_t)LED_ON);
+                R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t)g_bsp_leds.p_leds[1], (bsp_io_level_t)LED_OFF);
 
+                /* Delay 500 microseconds */
+                R_BSP_SoftwareDelay(WAIT_TIME, BSP_DELAY_UNITS_MICROSECONDS);
+                break;
+            }
+            case LED_CASE_2:
+            {
+                /* Turn ON LED2 to indicate successful completion */
+                R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t)g_bsp_leds.p_leds[0], (bsp_io_level_t)LED_OFF);
+                R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t)g_bsp_leds.p_leds[1], (bsp_io_level_t)LED_ON);
 
-/**********************************************************************************************************************
- * Function Name: baremetal_doc_isr
- * Description  : Interrupt Service Routine to execute when the DOC.
- * Return Value : None.
- *********************************************************************************************************************/
+                /* Delay 500 microseconds */
+                R_BSP_SoftwareDelay(WAIT_TIME, BSP_DELAY_UNITS_MICROSECONDS);
+                break;
+            }
+            case LED_CASE_3:
+            {
+                /* Turn ON LED1 and LED2 to indicate an error */
+                R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t)g_bsp_leds.p_leds[0], (bsp_io_level_t)LED_ON);
+                R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t)g_bsp_leds.p_leds[1], (bsp_io_level_t)LED_ON);
+
+                /* Delay 500 microseconds */
+                R_BSP_SoftwareDelay(WAIT_TIME, BSP_DELAY_UNITS_MICROSECONDS);
+                break;
+            }
+            default:
+            {
+                break;
+            }
+        }
+    }
+    else if (g_bsp_leds.led_count >= 3U)
+    {
+        switch (led_state)
+        {
+            case LED_CASE_1:
+            {
+                /* Turn ON LED1 to indicate an operation in progress */
+                R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t)g_bsp_leds.p_leds[0], (bsp_io_level_t)LED_ON);
+                R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t)g_bsp_leds.p_leds[1], (bsp_io_level_t)LED_OFF);
+                R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t)g_bsp_leds.p_leds[2], (bsp_io_level_t)LED_OFF);
+
+                /* Delay 500 microseconds */
+                R_BSP_SoftwareDelay(WAIT_TIME, BSP_DELAY_UNITS_MICROSECONDS);
+                break;
+            }
+            case LED_CASE_2:
+            {
+                /* Turn ON LED2 to indicate successful completion */
+                R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t)g_bsp_leds.p_leds[0], (bsp_io_level_t)LED_OFF);
+                R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t)g_bsp_leds.p_leds[1], (bsp_io_level_t)LED_ON);
+                R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t)g_bsp_leds.p_leds[2], (bsp_io_level_t)LED_OFF);
+
+                /* Delay 500 microseconds */
+                R_BSP_SoftwareDelay(WAIT_TIME, BSP_DELAY_UNITS_MICROSECONDS);
+                break;
+            }
+            case LED_CASE_3:
+            {
+                /* Turn ON LED3 to indicate an error */
+                R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t)g_bsp_leds.p_leds[0], (bsp_io_level_t)LED_OFF);
+                R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t)g_bsp_leds.p_leds[1], (bsp_io_level_t)LED_OFF);
+                R_IOPORT_PinWrite(&g_ioport_ctrl, (bsp_io_port_pin_t)g_bsp_leds.p_leds[2], (bsp_io_level_t)LED_ON);
+
+                /* Delay 500 microseconds */
+                R_BSP_SoftwareDelay(WAIT_TIME, BSP_DELAY_UNITS_MICROSECONDS);
+                break;
+            }
+            default:
+            {
+                break;
+            }
+        }
+    }
+    else
+    {
+        /* Do nothing */
+    }
+}
+
+/*******************************************************************************************************************//**
+ * @brief     This function handles the DOC interrupt by setting the executed flag and clearing the IRQ status.
+ * @param[in] None.
+ * @retval    None.
+ **********************************************************************************************************************/
 void baremetal_doc_isr(void)
 {
-    /** Get the IRQ Number */
+    /* Get the IRQ Number */
     IRQn_Type irq = R_FSP_CurrentIrqGet();
 
-    /** Clear the flag */
-    s_baremetal_doc_isr_executed = true;
+    /* Set the flag */
+    s_b_baremetal_doc_isr_executed = true;
 
-    /** Clear the IR flag in the ICU */
+    /* Clear the IR flag in the ICU */
     R_BSP_IrqStatusClear(irq);
 }
-/**********************************************************************************************************************
- End of function baremetal_doc_isr
- *********************************************************************************************************************/
-/*******************************************************************************************************************//**
- * @} (end defgroup BAREMETAL_EP)
- **********************************************************************************************************************/
-

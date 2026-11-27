@@ -1,0 +1,61 @@
+{
+  "cmake.configureOnOpen": true,
+  "cmake.configureOnEdit": true,
+  "cmake.useCMakePresets": "never",
+  "cmake.options.statusBarVisibility": "visible",
+  "cmake.sourceDirectory": "${workspaceFolder}",
+  "cmake.buildDirectory": "${workspaceFolder}/build/${buildType}",
+  "cmake.preferredGenerators": [
+    "Ninja",
+    "MinGW Makefiles",
+    "Unix Makefiles"
+  ],
+  "cmake.debugConfig": {
+    "name": "Renesas GDB Debugging",
+    "type": "renesas-hardware",
+    "request": "launch",
+    "target": {
+      "deviceFamily": "RA",
+      "device": "R7FA8E1AF",
+      "debuggerType": "SEGGERJLINKARM",
+      "board": "FPB-RA8E1"
+    },
+    "cwd": "${command:renesas.debug.supportFolder}",
+    "images": []
+  },
+  "clangd.arguments": [
+    "--query-driver=${env:ARM_LLVM_TOOLCHAIN_PATH}*",
+    "--compile-commands-dir=${workspaceFolder}",
+    "--background-index"
+  ],
+  "cmake.copyCompileCommands": "${workspaceFolder}/compile_commands.json",
+  "cmake.options.advanced": {
+    "testPreset": {
+      "statusBarVisibility": "hidden"
+    },
+    "packagePreset": {
+      "statusBarVisibility": "hidden"
+    },
+    "cpack": {
+      "statusBarVisibility": "hidden"
+    },
+    "ctest": {
+      "statusBarVisibility": "hidden"
+    },
+    "workflow": {
+      "statusBarVisibility": "hidden"
+    },
+    "workflowPreset": {
+      "statusBarVisibility": "hidden"
+    },
+    "build": {
+      "statusBarVisibility": "inherit"
+    },
+    "launch": {
+      "statusBarVisibility": "inherit"
+    },
+    "debug": {
+      "statusBarVisibility": "inherit"
+    }
+  }
+}

@@ -3,7 +3,7 @@
  * Description  : Contains declarations of data structures and functions used in rtc_ep.c.
  **********************************************************************************************************************/
 /***********************************************************************************************************************
-* Copyright (c) 2020 - 2025 Renesas Electronics Corporation and/or its affiliates
+* Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
 *
 * SPDX-License-Identifier: BSD-3-Clause
 ***********************************************************************************************************************/
@@ -11,47 +11,35 @@
 #ifndef RTC_EP_H_
 #define RTC_EP_H_
 
-/***********************************************************************************************************************
- * Macros definition
- **********************************************************************************************************************/
-/* Macros for commands to be received through RTT input */
-#define SET_TIME            (1U)
-#define SET_ALARM           (2U)
-#define SET_PERIODIC_IRQ    (3U)
-#define GET_CURRENT_TIME    (4U)
+#include <stdbool.h>
+#include "hal_data.h"
 
-#define EP_INFO             "\r\nThe example project demonstrates RTC module."\
-                            "\r\nUsing RTT input, the user can set RTC calendar time and calendar alarm."\
-							"\r\nThe user can enable periodic interrupt and view the current RTC calendar time.\r\n"
+/* Macros for RTC operation command */
+#define SET_TIME                        (1U)
+#define SET_ALARM                       (2U)
+#define SET_PERIODIC_IRQ                (3U)
+#define GET_CURRENT_TIME                (4U)
 
-#define MENU_INFO           "\r\n**************** RTC Application Menu ****************\r\n"\
-                            "1 :  Set RTC calendar Date and Time\r\n"\
-							"2 :  Set RTC calendar Alarm Date and Time\r\n"\
-							"3 :  Set RTC periodic IRQ rate and start it\r\n"\
-							"4 :  Get current RTC Date and Time\r\n"\
-							"User input :  "
+/* Macro for commands to be received through terminal input */
+#define BUFFER_SIZE                     (32)
+
+#define RESET_VALUE                     (0x00)
 
 /* Macros to flag the status */
-#define SET_FLAG                (0x01)
-#define RESET_FLAG              (0x00)
+#define SET_FLAG                        (0x01)
+#define RESET_FLAG                      (0x00)
 
 /* Macro for ASCII value of zero */
-#define ASCII_ZERO              (48)
+#define ASCII_ZERO                      (48)
+
 /* Macro for null character */
-#define NULL_CHAR               ('\0')
+#define NULL_CHAR                       ('\0')
 
 /* Macro for checking if no byte is received */
-#define BYTES_RECEIVED_ZERO     (0U)
+#define BYTES_RECEIVED_ZERO             (0U)
 
 /* Macro for delay to be added */
-#define LED_DELAY               (2U)
-
-/* Macro for RTC version */
-#if (BSP_PERIPHERAL_RTC_C_PRESENT)
-#define  RTC_TYPE               "RTC_C"
-#else
-#define  RTC_TYPE               "RTC"
-#endif /* BSP_PERIPHERAL_RTC_C_PRESENT */
+#define LED_DELAY                       (2U)
 
 #if (BSP_PERIPHERAL_RTC_C_PRESENT)
 /* In Zeller algorithm value of (-[Y/100] + [Y/400]) is 15 for Y = 2000 to Y = 2099) */
@@ -62,6 +50,7 @@
 #define MARCH_MONTH                     (3U)
 
 #define FIRST_DAY_OF_A_MONTH            (1)
+
 /* Month: Valid range between 0 to 11 */
 #define MONTHS_IN_A_YEAR                (11)
 #define LAST_DAY_OF_LEAP_FEB_MONTH      (29U)
@@ -76,22 +65,42 @@
 /* Macro to enable 7 bit used to set days of Alarm Day-of-Week Register to 0111 1111 */
 #define ALARMWW                         (127)
 
-/* Macros for RTT input processing */
+/* Macros for user input processing */
 #define PLACE_VALUE_TEN                 (10)
 #define PLACE_VALUE_HUNDRED             (100)
 #define PLACE_VALUE_THOUSAND            (1000)
 
-/***********************************************************************************************************************
- * User-defined APIs
- **********************************************************************************************************************/
+#if (BSP_PERIPHERAL_RTC_C_PRESENT)
+#define MODULE_NAME                                 "r_rtc_c"
+#define MODULE_PADDING                              "          "
+#define R_RTC_OPEN(ctrl, cfg)                       (R_RTC_C_Open((ctrl), (cfg)))
+#define R_RTC_CALENDAR_TIME_SET(ctrl, time)         (R_RTC_C_CalendarTimeSet((ctrl), (time)))
+#define R_RTC_CALENDAR_TIME_GET(ctrl, time)         (R_RTC_C_CalendarTimeGet((ctrl), (time)))
+#define R_RTC_CALENDAR_ALARM_SET(ctrl, alarm)       (R_RTC_C_CalendarAlarmSet((ctrl), (alarm)))
+#define R_RTC_CALENDAR_ALARM_GET(ctrl, alarm)       (R_RTC_C_CalendarAlarmGet((ctrl), (alarm)))
+#define R_RTC_PERIODIC_IRQ_RATE_SET(ctrl, rate)     (R_RTC_C_PeriodicIrqRateSet((ctrl), (rate)))
+#define R_RTC_CLOSE(ctrl)                           (R_RTC_C_Close(ctrl))
+#elif (BSP_PERIPHERAL_RTC_PRESENT)
+#define MODULE_NAME                                 "r_rtc"
+#define MODULE_PADDING                              "            "
+#define R_RTC_OPEN(ctrl, cfg)                       (R_RTC_Open((ctrl), (cfg)))
+#define R_RTC_CALENDAR_TIME_SET(ctrl, time)         (R_RTC_CalendarTimeSet((ctrl), (time)))
+#define R_RTC_CALENDAR_TIME_GET(ctrl, time)         (R_RTC_CalendarTimeGet((ctrl), (time)))
+#define R_RTC_CALENDAR_ALARM_SET(ctrl, alarm)       (R_RTC_CalendarAlarmSet((ctrl), (alarm)))
+#define R_RTC_CALENDAR_ALARM_GET(ctrl, alarm)       (R_RTC_CalendarAlarmGet((ctrl), (alarm)))
+#define R_RTC_PERIODIC_IRQ_RATE_SET(ctrl, rate)     (R_RTC_PeriodicIrqRateSet((ctrl), (rate)))
+#define R_RTC_CLOSE(ctrl)                           (R_RTC_Close(ctrl))
+#endif /* BSP_PERIPHERAL_RTC_C_PRESENT || BSP_PERIPHERAL_RTC_PRESENT */
 
 /* Function declarations */
 fsp_err_t rtc_init(void);
-fsp_err_t set_rtc_calendar_time(void);
-fsp_err_t set_rtc_calendar_alarm(void);
+fsp_err_t set_rtc_calendar_time(char read_time[], rtc_time_t *time);
+fsp_err_t set_rtc_calendar_alarm(char read_alarm[], rtc_alarm_time_t *alarm_time);
 fsp_err_t set_rtc_periodic_rate(void);
-fsp_err_t get_rtc_calendar_time(void);
-void rtc_date_readability_update(rtc_time_t * time);
+fsp_err_t get_rtc_calendar_time(rtc_time_t *time);
+fsp_err_t led_level_toggle(void);
+fsp_err_t led_level_set(bsp_io_level_t led_level);
+void rtc_date_readability_update(rtc_time_t *time);
 void rtc_deinit(void);
 
 #endif /* RTC_EP_H_ */

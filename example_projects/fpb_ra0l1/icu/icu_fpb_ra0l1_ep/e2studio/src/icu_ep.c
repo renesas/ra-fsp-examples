@@ -1,29 +1,23 @@
 /***********************************************************************************************************************
  * File Name    : icu_ep.c
- * Description  : Contains function definition.
+ * Description  : Contains data structures and functions used in icu_ep.c.
  **********************************************************************************************************************/
 /***********************************************************************************************************************
-* Copyright (c) 2020 - 2025 Renesas Electronics Corporation and/or its affiliates
-*
-* SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
-
-#include "common_utils.h"
-#include "icu_ep.h"
-
-/*******************************************************************************************************************//**
- * @addtogroup icu_ep
- * @{
+ * Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
  **********************************************************************************************************************/
+
+#include "icu_ep.h"
 
 /* Boolean flag to determine switch is pressed or not */
 volatile bool g_sw_press = false;
 
 /*******************************************************************************************************************//**
- * @brief       This function initializes ICU module.
- * @param[IN]   None
- * @retval      FSP_SUCCESS     Upon successful open of ICU module.
- * @retval      Any other error code apart from FSP_SUCCESS  Unsuccessful open.
+ * @brief     This function initializes ICU module.
+ * @param[in] None.
+ * @retval    FSP_SUCCESS               Initialized successfully.
+ * @retval    Any other error codes     Failed to initialize.
  **********************************************************************************************************************/
 fsp_err_t icu_init(void)
 {
@@ -31,20 +25,15 @@ fsp_err_t icu_init(void)
 
     /* Open ICU module */
     err = R_ICU_ExternalIrqOpen(&g_external_irq_ctrl, &g_external_irq_cfg);
-    /* Handle error */
-    if (FSP_SUCCESS != err)
-    {
-        /* ICU open failure message */
-        APP_ERR_PRINT("\r\n**R_ICU_ExternalIrqOpen API FAILED**\r\n");
-    }
+
     return err;
 }
 
 /*******************************************************************************************************************//**
- * @brief       This function enables external interrupt for specified channel.
- * @param[IN]   None
- * @retval      FSP_SUCCESS     Upon successful enable of ICU module.
- * @retval      Any other error code apart from FSP_SUCCESS  Unsuccessful open.
+ * @brief     This function enables external interrupt for specified channel.
+ * @param[in] None.
+ * @retval    FSP_SUCCESS               Enabled successfully.
+ * @retval    Any other error codes     Failed to enable.
  **********************************************************************************************************************/
 fsp_err_t icu_enable(void)
 {
@@ -52,38 +41,28 @@ fsp_err_t icu_enable(void)
 
     /* Enable ICU module */
     err = R_ICU_ExternalIrqEnable(&g_external_irq_ctrl);
-    /* Handle error */
-    if (FSP_SUCCESS != err)
-    {
-        /* ICU enable failure message */
-        APP_ERR_PRINT("\r\n**R_ICU_ExternalIrqEnable API FAILED**\r\n");
-    }
+
     return err;
 }
 
 /*******************************************************************************************************************//**
- * @brief       This function closes opened ICU module before the project ends up in an error trap.
- * @param[IN]   None
- * @retval      None
+ * @brief     This function closes the opened ICU module.
+ * @param[in] None.
+ * @retval    None.
  **********************************************************************************************************************/
 void icu_deinit(void)
 {
-    fsp_err_t err = FSP_SUCCESS;
-
-    /* Close ICU module */
-    err = R_ICU_ExternalIrqClose(&g_external_irq_ctrl);
-    /* Handle error */
-    if (FSP_SUCCESS != err)
+    /* Close the opened ICU module */
+    if (g_external_irq_ctrl.open)
     {
-        /* ICU close failure message */
-        APP_ERR_PRINT("\r\n**R_ICU_ExternalIrqClose API FAILED**\r\n");
+        R_ICU_ExternalIrqClose(&g_external_irq_ctrl);
     }
 }
 
 /*******************************************************************************************************************//**
- * @brief      User defined external IRQ callback.
- * @param[IN]  p_args
- * @retval     None
+ * @brief     User defined external IRQ callback.
+ * @param[in] p_args                    Pointer to the callback argument.
+ * @retval    None.
  **********************************************************************************************************************/
 void irq_ep_callback(external_irq_callback_args_t *p_args)
 {
@@ -93,7 +72,3 @@ void irq_ep_callback(external_irq_callback_args_t *p_args)
         g_sw_press = true;
     }
 }
-
-/*******************************************************************************************************************//**
- * @} (end addtogroup icu_ep)
- **********************************************************************************************************************/

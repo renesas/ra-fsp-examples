@@ -114,10 +114,10 @@ FSP Configuration
   RA8E1 event data
   RA Common
     Main stack size (bytes): 0x400
-    Heap size (bytes): 0x400
+    Heap size (bytes): 0
     Bootloader Secondary XIP: Disabled
     MCU Vcc (mV): 3300
-    Parameter checking: Enabled
+    Parameter checking: Disabled
     Assert Failures: Return FSP_ERR_ASSERTION
     Clock Registers not Reset Values during Startup: Disabled
     Main Oscillator Populated: Not Populated
@@ -146,7 +146,7 @@ FSP Configuration
     PLL2R Div /2
     Clock Src: PLL1P
     CLKOUT Disabled
-    SCICLK Disabled
+    SCICLK Src: PLL1P
     SPICLK Disabled
     CANFDCLK Disabled
     USBCLK Disabled
@@ -185,8 +185,8 @@ FSP Configuration
       P014 120 - Arduino_A4 - - Disabled - - "ADC0: AN007; DAC120: DA0" - None - - 
       P015 119 - Arduino_A5 - - Disabled - - "ADC1: AN105; IRQ13: IRQ13" - None - - 
       P100 108 - - - - Disabled - - "AGT0: AGTIO0; GPT_POEGA: GTETRGA; IRQ2: IRQ2; OSPI: OM_SIO0; SCI9: DE9; SCI9: SCK9; SPI1: MISO1" - None - - 
-      P101 105 - JLINK_VCOM_RXD - - Disabled - - "AGT0: AGTEE0; GPT_POEGB: GTETRGB; IRQ1: IRQ1; OSPI: OM_SIO3; SCI9: RXD9; SPI1: MOSI1" - None - - 
-      P102 104 - JLINK_VCOM_TXD - - Disabled - - "ADC(Digital): ADTRG0; AGT0: AGTO0; CANFD0: CRX0; GPT2: GTIOC2B; OSPI: OM_SIO4; SCI9: TXD9; SPI1: RSPCK1" - None - - 
+      P101 105 SCI9_RXD9 JLINK_VCOM_RXD L None "Peripheral mode" - - "AGT0: AGTEE0; GPT_POEGB: GTETRGB; IRQ1: IRQ1; OSPI: OM_SIO3; SCI9: RXD9; SPI1: MOSI1" - I - - 
+      P102 104 SCI9_TXD9 JLINK_VCOM_TXD L - "Peripheral mode" - - "ADC(Digital): ADTRG0; AGT0: AGTO0; CANFD0: CRX0; GPT2: GTIOC2B; OSPI: OM_SIO4; SCI9: TXD9; SPI1: RSPCK1" - O - - 
       P103 103 - JLINK_VCOM_CTS_RTS - - Disabled - - "CANFD0: CTX0; GPT2: GTIOC2A; OSPI: OM_SIO2; SCI9: CTS_RTS9; SCI9: DE9; SPI1: SSLB0" - None - - 
       P104 102 - JLINK_VCOM_CTS - - Disabled - - "GPT1: GTIOC1B; GPT_POEGB: GTETRGB; IRQ1: IRQ1; OSPI: OM_CS1; SCI9: CTS9; SPI1: SSLB1" - None - - 
       P105 101 - Ardiuno_RST - - Disabled - - "GPT1: GTIOC1A; IRQ0: IRQ0; OSPI: OM_ECSINT1; SPI1: SSLB2; ULPT1: ULPTO1_A-DS" - None - - 
@@ -227,7 +227,7 @@ FSP Configuration
       P401 2 - CAM_D1 - - Disabled - - "CANFD0: CTX0; CEU: VIO_D1; ETHER_MII: ET0_MDC; ETHER_RMII: ET0_MDC; GPT_POEGA: GTETRGA; IRQ5: IRQ5-DS; SCI1: RXD1" - None - - 
       P402 3 - - - - Disabled - - "CAC: CACREF; CANFD0: CRX0; ETHER_MII: ET0_MDIO; ETHER_RMII: ET0_MDIO; IRQ4: IRQ4-DS; RTC: RTCIC0; SCI1: DE1; SCI1: SCK1; SSIE: AUDIO_CLK" - None - - 
       P403 4 - CAM_XCLK - - Disabled - - "ETHER_MII: ET0_LINKSTA; ETHER_RMII: ET0_LINKSTA; GPT3: GTIOC3A; IRQ14: IRQ14-DS; RTC: RTCIC1; SCI1: CTS_RTS1; SCI1: DE1; SSIE: SSIBLK0" - None - - 
-      P404 5 GPIO LED_G2 - - "Output mode (Initial Low)" - - "CEU: VIO_D3; ETHER_MII: ET0_EXOUT; ETHER_RMII: ET0_EXOUT; GPT3: GTIOC3B; IRQ15: IRQ15-DS; RTC: RTCIC2; SCI1: CTS1; SSIE: SSIFS0; SSIE: SSILRCK0" - None - - 
+      P404 5 GPIO LED_G2 L - "Output mode (Initial Low)" - - "CEU: VIO_D3; ETHER_MII: ET0_EXOUT; ETHER_RMII: ET0_EXOUT; GPT3: GTIOC3B; IRQ15: IRQ15-DS; RTC: RTCIC2; SCI1: CTS1; SSIE: SSIFS0; SSIE: SSILRCK0" - IO - - 
       P405 6 - CAM_D2 - - Disabled - - "AGT1: AGTIO1; CEU: VIO_D2; ETHER_MII: ET0_TX_EN; ETHER_RMII: RMII0_TXD_EN; GPT1: GTIOC1A; SCI2: DE2; SCI2: SCK2; SSIE0: SSITXD0" - None - - 
       P406 7 - CAM_D3 - - Disabled - - "CEU: VIO_D3; CGC: EXCIN; ETHER_MII: ET0_RX_ER; ETHER_RMII: RMII0_TXD1; GPT1: GTIOC1B; SCI2: TXD2; SPI0: SSLA3; SSIE0: SSIRXD0" - None - - 
       P407 36 - - - - Disabled - - "ADC(Digital): ADTRG0; AGT0: AGTIO0; GPT10: GTIOC10B; IIC0: SDA0; RTC: RTCOUT; SCI4: CTS_RTS4; SCI4: DE4; SPI0: SSLA3; USB FS: USB_VBUS" - None - - 
@@ -242,7 +242,7 @@ FSP Configuration
       P511 144 - IIC_SYSTEM_SDA1 - - Disabled - - "CANFD1: CRX1; GPT0: GTIOC0B; IIC1: SDA1; IRQ15: IRQ15" - None - - 
       P512 143 - IIC_SYSTEM_SCL1 - - Disabled - - "CANFD1: CTX1; GPT0: GTIOC0A; IIC1: SCL1; IRQ14: IRQ14" - None - - 
       P513 142 - - - - Disabled - - "ACMPHS1: IVCMP1_0; CEU: VIO_FLD" - None - - 
-      P600 98 GPIO - - - "Input mode" - - "CAC: CACREF; OSPI: OM_RSTO1; ULPT1: ULPTEVI1_A-DS" - None - - 
+      P600 98 GPIO - - - "Input mode" - - "CAC: CACREF; OSPI: OM_RSTO1; ULPT1: ULPTEVI1_A-DS" - IO - - 
       P601 97 - - - - Disabled - - "OSPI: OM_WP1; RTC: RTCOUT; SCI0: DE0; SCI0: SCK0; ULPT0: ULPTEVI0" - None - - 
       P602 96 - - - - Disabled - - "SCI0: RXD0; ULPT0: ULPTEE0" - None - - 
       P603 95 - - - - Disabled - - "SCI0: TXD0; ULPT0: ULPTO0" - None - - 
@@ -330,8 +330,8 @@ FSP Configuration
       P014 120 - Arduino_A4 - - Disabled - - "ADC0: AN007; DAC120: DA0" - None - - 
       P015 119 - Arduino_A5 - - Disabled - - "ADC1: AN105; IRQ13: IRQ13" - None - - 
       P100 108 - - - - Disabled - - "AGT0: AGTIO0; GPT_POEGA: GTETRGA; IRQ2: IRQ2; OSPI: OM_SIO0; SCI9: DE9; SCI9: SCK9; SPI1: MISO1" - None - - 
-      P101 105 - JLINK_VCOM_RXD - - Disabled - - "AGT0: AGTEE0; GPT_POEGB: GTETRGB; IRQ1: IRQ1; OSPI: OM_SIO3; SCI9: RXD9; SPI1: MOSI1" - None - - 
-      P102 104 - JLINK_VCOM_TXD - - Disabled - - "ADC(Digital): ADTRG0; AGT0: AGTO0; CANFD0: CRX0; GPT2: GTIOC2B; OSPI: OM_SIO4; SCI9: TXD9; SPI1: RSPCK1" - None - - 
+      P101 105 - JLINK_VCOM_RXD L None Disabled - - "AGT0: AGTEE0; GPT_POEGB: GTETRGB; IRQ1: IRQ1; OSPI: OM_SIO3; SCI9: RXD9; SPI1: MOSI1" - I - - 
+      P102 104 - JLINK_VCOM_TXD L - Disabled - - "ADC(Digital): ADTRG0; AGT0: AGTO0; CANFD0: CRX0; GPT2: GTIOC2B; OSPI: OM_SIO4; SCI9: TXD9; SPI1: RSPCK1" - O - - 
       P103 103 - JLINK_VCOM_CTS_RTS - - Disabled - - "CANFD0: CTX0; GPT2: GTIOC2A; OSPI: OM_SIO2; SCI9: CTS_RTS9; SCI9: DE9; SPI1: SSLB0" - None - - 
       P104 102 - JLINK_VCOM_CTS - - Disabled - - "GPT1: GTIOC1B; GPT_POEGB: GTETRGB; IRQ1: IRQ1; OSPI: OM_CS1; SCI9: CTS9; SPI1: SSLB1" - None - - 
       P105 101 - Ardiuno_RST - - Disabled - - "GPT1: GTIOC1A; IRQ0: IRQ0; OSPI: OM_ECSINT1; SPI1: SSLB2; ULPT1: ULPTO1_A-DS" - None - - 
@@ -372,7 +372,7 @@ FSP Configuration
       P401 2 - CAM_D1 - - Disabled - - "CANFD0: CTX0; CEU: VIO_D1; ETHER_MII: ET0_MDC; ETHER_RMII: ET0_MDC; GPT_POEGA: GTETRGA; IRQ5: IRQ5-DS; SCI1: RXD1" - None - - 
       P402 3 - - - - Disabled - - "CAC: CACREF; CANFD0: CRX0; ETHER_MII: ET0_MDIO; ETHER_RMII: ET0_MDIO; IRQ4: IRQ4-DS; RTC: RTCIC0; SCI1: DE1; SCI1: SCK1; SSIE: AUDIO_CLK" - None - - 
       P403 4 - CAM_XCLK - - Disabled - - "ETHER_MII: ET0_LINKSTA; ETHER_RMII: ET0_LINKSTA; GPT3: GTIOC3A; IRQ14: IRQ14-DS; RTC: RTCIC1; SCI1: CTS_RTS1; SCI1: DE1; SSIE: SSIBLK0" - None - - 
-      P404 5 - LED_G2 - - Disabled - - "CEU: VIO_D3; ETHER_MII: ET0_EXOUT; ETHER_RMII: ET0_EXOUT; GPT3: GTIOC3B; IRQ15: IRQ15-DS; RTC: RTCIC2; SCI1: CTS1; SSIE: SSIFS0; SSIE: SSILRCK0" - None - - 
+      P404 5 - LED_G2 L - Disabled - - "CEU: VIO_D3; ETHER_MII: ET0_EXOUT; ETHER_RMII: ET0_EXOUT; GPT3: GTIOC3B; IRQ15: IRQ15-DS; RTC: RTCIC2; SCI1: CTS1; SSIE: SSIFS0; SSIE: SSILRCK0" - IO - - 
       P405 6 - CAM_D2 - - Disabled - - "AGT1: AGTIO1; CEU: VIO_D2; ETHER_MII: ET0_TX_EN; ETHER_RMII: RMII0_TXD_EN; GPT1: GTIOC1A; SCI2: DE2; SCI2: SCK2; SSIE0: SSITXD0" - None - - 
       P406 7 - CAM_D3 - - Disabled - - "CEU: VIO_D3; CGC: EXCIN; ETHER_MII: ET0_RX_ER; ETHER_RMII: RMII0_TXD1; GPT1: GTIOC1B; SCI2: TXD2; SPI0: SSLA3; SSIE0: SSIRXD0" - None - - 
       P407 36 - - - - Disabled - - "ADC(Digital): ADTRG0; AGT0: AGTIO0; GPT10: GTIOC10B; IIC0: SDA0; RTC: RTCOUT; SCI4: CTS_RTS4; SCI4: DE4; SPI0: SSLA3; USB FS: USB_VBUS" - None - - 
@@ -387,7 +387,7 @@ FSP Configuration
       P511 144 - IIC_SYSTEM_SDA1 - - Disabled - - "CANFD1: CRX1; GPT0: GTIOC0B; IIC1: SDA1; IRQ15: IRQ15" - None - - 
       P512 143 - IIC_SYSTEM_SCL1 - - Disabled - - "CANFD1: CTX1; GPT0: GTIOC0A; IIC1: SCL1; IRQ14: IRQ14" - None - - 
       P513 142 - - - - Disabled - - "ACMPHS1: IVCMP1_0; CEU: VIO_FLD" - None - - 
-      P600 98 - - - - Disabled - - "CAC: CACREF; OSPI: OM_RSTO1; ULPT1: ULPTEVI1_A-DS" - None - - 
+      P600 98 - - - - Disabled - - "CAC: CACREF; OSPI: OM_RSTO1; ULPT1: ULPTEVI1_A-DS" - IO - - 
       P601 97 - - - - Disabled - - "OSPI: OM_WP1; RTC: RTCOUT; SCI0: DE0; SCI0: SCK0; ULPT0: ULPTEVI0" - None - - 
       P602 96 - - - - Disabled - - "SCI0: RXD0; ULPT0: ULPTEE0" - None - - 
       P603 95 - - - - Disabled - - "SCI0: TXD0; ULPT0: ULPTO0" - None - - 
@@ -477,6 +477,12 @@ FSP Configuration
     Parameter Checking: Default (BSP)
     CCD Support: Not Supported
     
+  Module "UART (r_sci_b_uart)"
+    Parameter Checking: Default (BSP)
+    FIFO Support: Disable
+    DTC Support: Disable
+    Flow Control Support: Disable
+    
   HAL
     Instance "g_ioport I/O Port (r_ioport)"
       Name: g_ioport
@@ -523,4 +529,31 @@ FSP Configuration
       Input: Trigger Edge: Trigger Edge Rising
       Interrupts: Callback: NULL
       Interrupts: Underflow Interrupt Priority: Priority 2
+      
+    Instance "g_uart_console UART (r_sci_b_uart)"
+      General: Name: g_uart_console
+      General: Channel: 9
+      General: Data Bits: 8bits
+      General: Parity: None
+      General: Stop Bits: 1bit
+      Baud: Baud Rate: 115200
+      Baud: Baud Rate Modulation: Disabled
+      Baud: Max Error (%): 5
+      Flow Control: CTS/RTS Selection: Hardware RTS
+      Flow Control: Software RTS Port: Disabled
+      Flow Control: Software RTS Pin: Disabled
+      Extra: Clock Source: Internal Clock
+      Extra: Start bit detection: Falling Edge
+      Extra: Noise Filter: Disable
+      Extra: Receive FIFO Trigger Level: Max
+      Extra: RS-485: DE Pin: Disable
+      Extra: RS-485: DE Pin Polarity: Active High
+      Extra: RS-485: DE Pin Assertion Time: 1
+      Extra: RS-485: DE Pin Negation Time: 1
+      Extra: TXI/TEI Synchronization Delay Cycles: 0
+      Interrupts: Callback: uart_console_callback
+      Interrupts: Receive Interrupt Priority: Priority 15
+      Interrupts: Transmit Data Empty Interrupt Priority: Priority 15
+      Interrupts: Transmit End Interrupt Priority: Priority 15
+      Interrupts: Error Interrupt Priority: Priority 15
       

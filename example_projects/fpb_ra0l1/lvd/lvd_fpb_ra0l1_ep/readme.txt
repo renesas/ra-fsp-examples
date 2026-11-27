@@ -10,32 +10,36 @@
 	To detect this reset, the user has to increase the input voltage value back to above LVD0 threshold value.
 	By doing this, board gets powered up and LED will turn ON indicating LVD0 reset detection.
 	Ex: 2.8V is LVD0 threshold value. When input voltage is dropped from 2.9V to 2.7V, LVD0 resets MCU.
-	The user has to raise input voltage above 2.8V again to detect LVD0 reset.
+	The user has to raise input voltage above 2.8V again to detect LVD0 reset. The example project status and
+	any failures will be displayed on the terminal (Expect for FPB-RA0L1, FPB-RA2E3, FPB-RA8E1).
 
 	LVD1 generates a maskable interrupt only when input voltage is raised above LVD1 threshold value.
 	Ex: 2.9V is LVD1 threshold value. When input voltage is raised from 2.8V to 3.0V,
 	LVD1 generates the maskable interrupt.
 
-	Please note that no interrupt will be generated when voltage is already above the threshold value and increased
-	further.
+	Please note that no interrupt will be generated when voltage is already above the threshold value and
+	increased further.
 	Ex: When input voltage is raised from 3.0V to 3.1V with 2.9V as threshold voltage, no interrupt is generated.
 
-	LVD0 is configured in OFS1 register via the properties dialog of BSP tab of FSP configurator.
-
-	The example project status and any failures will be displayed on J-Link RTT Viewer.
+	LVD0 is configured in OFS1 (or OFS1_SEC for EK-RA8P1, EK-RA8M2, EK-RA8D2, MCK-RA8T2) register via
+	the properties dialog of BSP tab of FSP configurator.
 
 2. Hardware Requirements:
+	Supported RA boards: EK-RA2A1, EK-RA2A2, EK-RA2E2, EK-RA2L2, EK-RA4C1, EK-RA4E2, EK-RA4L1, EK-RA4M1, EK-RA4M3,
+	                     EK-RA6E2, EK-RA6M1, EK-RA6M2, EK-RA6M3, EK-RA6M3G, EK-RA6M4, EK-RA6M5, EK-RA8D1, EK-RA8D2,
+	                     EK-RA8E2, EK-RA8M1, EK-RA8M2, EK-RA8P1, FPB-RA0E1, FPB-RA0E2, FPB-RA0E3, FPB-RA0L1,
+	                     FPB-RA2E3, FPB-RA2T1, FPB-RA8E1, MCK-RA4T1, MCK-RA6T3, MCK-RA8T1, MCK-RA8T2.
 	1 x Renesas RA board.
 	1 x Variable DC Power supply.
-	1 x External J-Link Segger with 9 pins (19 pins for MCK-RA8T1, FPB-RA0E1) connector and Type-B USB to connect
-	    J-Link with PC.
-	External Capacitor if power supply generates spikes.
-	Some jumper wires.
+	Additional Requirement:
+		1 x External J-Link Segger with 9 pins (19 pins for MCK-RA8T1, FPB-RA0E1, MCK-RA8T2) connector and
+		    Type-B USB to connect J-Link with PC (e.g., https://www.mouser.com/ProductDetail/SeggerMicrocontroller/8.08.00qs=sGAEpiMZZMuRZxwUfDU0mj7SZp0j2IIkjt1vgBTHRyw%3D).
+		External Capacitor if power supply generates spikes.
+		Some jumper wires.
 
 3. Hardware Connections:
-	Connect External J-Link with PC via a Type-B USB cable.
 	Connect DC Power supply +ve pin  ---> Any on board VCC pin.
-	Connect DC Power supply -ve pin  ---> Any on board VSS(GND) pin.
+	Connect DC Power supply -ve pin  ---> Any on board VSS (GND) pin.
 
 	For EK-RA2A1, EK-RA4M1:
 		Connect External J-Link connector ---> J10 JTAG point (Near Debug USB).
@@ -113,7 +117,7 @@
 		LVD1 generates an interrupt when input voltage raises above 2.90V.
 		LVD0 resets the MCU when input voltage drops below 2.51V.
 
-	For EK-RA8P1:
+	For EK-RA8P1, EK-RA8D2:
 		Note: The user must place jumper J6 on pins 2-3, jumper J8, J9 on pins 1-2, and jumper J29
 		      on pins 1-2, 3-4, 5-6, 7-8 to use external debug.
 		Connect External J-Link connector ---> J13 JTAG point (Near Debug USB).
@@ -127,32 +131,62 @@
 		LVD1 generates an interrupt when input voltage raises above 3.00V.
 		LVD0 resets the MCU when input voltage drops below 2.85V.
 
-	For FPB-RA0L1:
-		Note: The user must place jumper J9 on pins 2-3 to use external debug.
+	For FPB-RA0L1, FPB-RA0E3:
+		Note: For FPB-RA0L1, the user must place jumper J9 on pins 2-3 to use external debug.
+		      For FPB-RA0E3, the user must turn ON S3 to use external debug.
 		Connect External J-Link connector ---> J13 JTAG point (Near Debug USB).
 		LVD1 generates an interrupt when input voltage raises above 2.91V.
 		LVD0 resets the MCU when input voltage drops below 2.62V.
 
+	For EK-RA8M2:
+		Note: The user must place jumper J6 on pins 1-2, jumper J8, J9 on pins 1-2, and jumper J29
+		      on pins 1-2, 3-4, 5-6, 7-8 to use external debug.
+		Connect External J-Link connector ---> J13 JTAG point (Near Debug USB).
+		LVD1 generates an interrupt when input voltage raises above 3.08V.
+		LVD0 resets the MCU when input voltage drops below 2.85V.
+
+	For MCK-RA8T2:
+		Connect External J-Link connector ---> CN10 JTAG point.
+		LVD1 generates an interrupt when input voltage raises above 3.08V.
+		LVD0 resets the MCU when input voltage drops below 2.85V.
+
 Note:
 1) To run LVD example project, use external debugger for flashing the code, disconnect debugging mode, push on board
-   reset button and open J-Link RTT Viewer to see the output by changing input voltage values.
+   reset button and open the terminal to see the output by changing input voltage values.
 
-2) For EK-RA2E2, FPB-RA2E3, EK-RA2A2 boards, use external debugger for flashing the code, disconnect debugging mode,
+2) For FPB-RA0L1, FPB-RA2E3, FPB-RA8E1 boards, the EP operates as follows:
+	- The EP does not support terminal log output.
+	- LED behavior is used instead to indicate system events:
+		+ LED1 turns ON when LVD0 resets the MCU.
+		+ LED2 toggles when LVD1 generates an interrupt.
+
+3) For EK-RA2E2, FPB-RA2E3, EK-RA2A2 boards, use external debugger for flashing the code, disconnect debugging mode,
    push the onboard reset button. The user needs to decrease the input voltage below 1.7V (Power-on Reset Voltage -
-   VPOR) then raise the input voltage to 3.3V and open J-Link RTT Viewer to see the output by changing input voltage
+   VPOR) then raise the input voltage to 3.3V and open the terminal to see the output by changing input voltage
    values.
 
-3) For EK-RA8M1, EK-RA8D1, MCK-RA8T1, FPB-RA8E1, EK-RA8E2, EK-RA8P1, after changing input voltage values from below
-   low threshold (ex: 2.8V) to above high threshold (ex: 3.3V), re-connect J-Link RTT Viewer to show log.
+4) For EK-RA8M1, EK-RA8D1, MCK-RA8T1, FPB-RA8E1, EK-RA8E2, EK-RA8P1, EK-RA8M2, EK-RA8D2, MCK-RA8T2 after changing
+   input voltage values from below low threshold (ex: 2.8V) to above high threshold (ex: 3.3V), re-connect the
+   terminal to show log.
 
-4) Use external capacitors on PMODA or PMODB (pins 5, 6 or 11, 12) if input power supply is not accurate and
+5) Use external capacitors on PMODA or PMODB (pins 5, 6 or 11, 12) if input power supply is not accurate and
    create unwanted spikes in voltage.
 
-5) Segger RTT block address may be needed to download and observe EP operation using a hex file with RTT-Viewer.
-   RTT Block address for hex file committed in repository are as follows:
-   a. e2studio: 0x20004c40
-   b. Keil:	Not Available
-   c. IAR:	Not Available
+6) For EK-RA8P1, EK-RA8M2, EK-RA8D2, MCK-RA8T2: When using SEGGER J-Flash Lite to program the hex file, select the
+   correct flash banks in the "Flash banks" section by ticking both 0x02000000 MRAM (Secure) and 0x02C9F020
+   Configuration (Secure) checkboxes to ensure OFS settings (for LVD) are properly written.
 
-6) If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called 
-   _SEGGER_RTT) in .map file generated in the project folder (e2studio\Debug or e2studio\Release).
+7) To view output logs on a serial terminal application (e.g., Tera Term), configure the settings as shown below:
+	a. To make sure the received data shows properly, the user needs to set:
+		[Setup] -> [Terminal...] -> [New-line] -> Select [Receive: CR] & [Transmit: CR].
+
+	b. To echo back characters typed in Tera Term, the user needs to enable it through:
+		[Setup] -> [Terminal...] -> Check [Local echo].
+
+	c. The configuration parameters of the serial port on the serial terminal application:
+		Port: The port is provided by the J-Link On-Board.
+		Speed: 115200
+		Data: 8 bit
+		Parity: none
+		Stop bits: 1 bit
+		Flow control: none

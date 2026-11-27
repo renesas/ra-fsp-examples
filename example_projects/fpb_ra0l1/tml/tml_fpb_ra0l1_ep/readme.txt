@@ -4,59 +4,49 @@
 **********************************************************************************************************************/
 
 1. Project Overview:
-	The example project showcases how the TML driver operates on Renesas RA MCUs. The demonstration includes
-	showcasing the TML timer with counter operation, capture operation in normal mode, and counter operation
-	in low power mode. In TML counter operation (normal mode), three TML instances (which are configured as 8-bit,
-	16-bit, and 32-bit counter modes) operate for the input duration by the user. In TML 16-bit capture operation,
-	user can trigger an ELC software event to get the raw counts value of 16-bit timer. In TML counter operation
-	(low power modes), the 32-bit timer is configured as counter mode with input period time. Once the 32-bit timer
-	has expired, the RA board is woken up from LPM to normal mode. The EP information and error messages will be
-	printed to the Host PC.
-
-	Note: 
-		- To display information, users can select between the SEGGER J-Link RTT Viewer and
-		  the Serial Terminal (UART) with J-Link OB VCOM.
-		- By default, EP information is printed to the host PC via the Serial Terminal.
-		- To utilize the SEGGER J-Link RTT Viewer instead of the Serial Terminal, please follow the instructions
-		  in tml_notes.md file.
-		- RA boards support J-Link OB VCOM: FPB-RA0E1, FPB-RA0E2, FPB-RA0L1.
+	This example project demonstrates the TML HAL module on Renesas RA MCUs. The user can select different TML
+	operating modes through the terminal, including counter operation, capture operation, and counter operation
+	in low power mode. In counter operation in normal mode, three TML instances are configured as 8-bit, 16-bit,
+	and 32-bit counters. The 16-bit capture mode uses an ELC software event to capture the raw timer count value.
+	In counter operation in low power mode, the 32-bit timer is configured as counter mode with input period time,
+	and the RA board wakes up from LPM to normal mode when the timer expires. EP information and error messages
+	are displayed on the terminal.
 
 2. Hardware Requirements:
-	Supported RA Boards: FPB-RA0E1, FPB-RA0E2, FPB-RA0L1
+	Supported RA Boards: FPB-RA0E1, FPB-RA0E2, FPB-RA0L1.
 	1 x Renesas RA board.
-	1 x Type-C USB cable.
-	1 x Host PC.
+	1 x USB cable for programming and debugging (USB cable type varies by board model).
 
 3. Hardware Connections:
-	Connect the RA board to the host PC via a Type-C USB cable.
-
+	Connect the RA board USB debug port to the host PC using the appropriate USB cable for EP programming and
+	debugging.
+	
 	For FPB-RA0E1:
 	---------
-		To use J-Link OB VCOM for Serial Terminal (UART):
-			- The soldering bridge E4 must be closed.
-			- Populate R10 with a resistor ranging from 0 to 150 ohms.
+		The user must close E4, and populate R10 with a resistor ranging from 0 to 150 ohms
+		to use J-Link OB VCOM for Serial Terminal (UART).
 
 	For FPB-RA0E2:
 	---------
-		To use J-Link OB VCOM for Serial Terminal (UART), the user must close E46, E47.
+		The user must close E46, E47 to use J-Link OB VCOM for Serial Terminal (UART).
 
 	For FPB-RA0L1:
 	---------
-		To use J-Link OB VCOM for Serial Terminal (UART), the user must close E28, E29.
-		To use the on-board debug functionality, the user must place jumper J9 on pins 1-2.
+		The user must close E28, E29 to use J-Link OB VCOM for Serial Terminal (UART).
+		The user must place jumper J9 on pins 1-2 to use the on-board debug functionality. 
 
 Note:
-1) For using the Serial Terminal (UART):
-	a) To echo back what was typed in Tera Term, the user needs to enable it through:
-	   [Setup] -> [Terminal...] -> Check [Local echo].
-	b) The serial terminal setting parameters are as follows:
-		Select the COM port provided by the J-Link on-board.
-		Baud rate: 115200 bps
-		Data length: 8-bits
-		Parity: none
-		Stop bit: 1-bit
-		Flow control: none
+1) To view output logs on a serial terminal application (e.g., Tera Term), configure the settings as shown below:
+	a. To make sure the received data shows properly, the user needs to set:
+		[Setup] -> [Terminal...] -> [New-line] -> Select [Receive: CR] & [Transmit: CR].
 
-2) For using the J-Link RTT Viewer:
-   If an EP is modified, compiled, and downloaded please find the block address (for the variable in RAM called
-   _SEGGER_RTT) in .map file generated in the project folder (e2studio\Debug or e2studio\Release).
+	b. To echo back characters typed in Tera Term, the user needs to enable it through:
+		[Setup] -> [Terminal...] -> Check [Local echo].
+
+	c. The configuration parameters of the serial port on the serial terminal application:
+		Port: The port is provided by the J-Link On-Board.
+		Speed: 115200
+		Data: 8 bit
+		Parity: none
+		Stop bits: 1 bit
+		Flow control: none

@@ -5,14 +5,13 @@
 
 1. Project Overview:
         The example project demonstrates some of the capabilities of the FPB and FSP by using multiple peripherals.
-        The project initializes the IRQ and GPIO modules and uses SW1 to control the flashing frequency of the User LEDs.
+        The project initializes the IRQ and GPIO modules and uses S1 to control the flashing frequency of the User LEDs.
         Once programmed the user can control the board by button presses on device.
 
 2. Software Requirements:
-        Renesas Flexible Software Package (FSP): Version 4.4.0
-        e2 studio: Version 2023-04
-        GCC ARM Embedded Toolchain: Version 10.3-2021.10
-        Windows® 10 operating system
+        Renesas Flexible Software Package (FSP): Version 6.6.0
+        e2 studio: Version 2026-07
+        Windows® 11 operating system
 
 3. Hardware settings for the project:
 	Link to access Quick Start Guide - https://www.renesas.com/en/document/qsg/fpb-ra4e2-quick-start-guide

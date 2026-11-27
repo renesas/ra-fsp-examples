@@ -1,0 +1,32 @@
+{
+  "cmake.configureOnOpen": true,
+  "cmake.configureOnEdit": true,
+  "cmake.useCMakePresets": "never",
+  "cmake.options.statusBarVisibility": "visible",
+  "cmake.sourceDirectory": "${workspaceFolder}",
+  "cmake.buildDirectory": "${workspaceFolder}/build/${buildType}",
+  "cmake.preferredGenerators": [
+    "Ninja",
+    "MinGW Makefiles",
+    "Unix Makefiles"
+  ],
+  "cmake.debugConfig": {
+    "name": "Renesas GDB Debugging",
+    "type": "renesas-hardware",
+    "request": "launch",
+    "target": {
+      "board": "FPB-RA8E1",
+      "deviceFamily": "RA",
+      "debuggerType": "SEGGERJLINKARM",
+      "device": "R7FA8E1AF"
+    },
+    "cwd": "${command:renesas.debug.supportFolder}",
+    "images": []
+  },
+  "clangd.arguments": [
+    "--query-driver=${env:ARM_LLVM_TOOLCHAIN_PATH}*",
+    "--compile-commands-dir=${workspaceFolder}",
+    "--background-index"
+  ],
+  "cmake.copyCompileCommands": "${workspaceFolder}/compile_commands.json"
+}

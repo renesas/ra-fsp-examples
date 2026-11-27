@@ -1,134 +1,149 @@
 /***********************************************************************************************************************
  * File Name    : timer_setup.c
- * Description  : Contains data structures and functions used in timer_setup.c
+ * Description  : Contains data structures and functions used in timer_setup.c.
  **********************************************************************************************************************/
 /***********************************************************************************************************************
-* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
-*
-* SPDX-License-Identifier: BSD-3-Clause
-***********************************************************************************************************************/
-
-#include "common_utils.h"
-#include "timer_setup.h"
-
-/*******************************************************************************************************************//**
- * @addtogroup r_iwdt_ep
- * @{
+ * Copyright (c) 2020 - 2026 Renesas Electronics Corporation and/or its affiliates
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
  **********************************************************************************************************************/
 
-/* External Global Variables */
+#include "timer_setup.h"
+#include "iwdt_ep.h"
+
+/* External global variable */
 /* LED Structure used to blink on board LED */
 extern bsp_leds_t g_bsp_leds;
 
-/* Global Variables */
-/* Variable to capture timer overflow counts and print IWDT status */
-volatile uint32_t g_timer_overflow_counter = RESET_VALUE;
+/* Global variable */
+/* Variable to capture timer underflow counts and print IWDT refresh status */
+volatile uint32_t g_timer_underflow_counter = RESET_VALUE;
 
 /*******************************************************************************************************************//**
- * @brief     Initialize the GPT timer in Periodic mode.
- * @param[IN]   None
- * @retval FSP_SUCCESS        Upon successful open
- * @retval Any Other Error code apart from FSP_SUCCES  Unsuccessful open
- ***********************************************************************************************************************/
-fsp_err_t init_gpt_module(void)
+ * @brief     This function initializes the timer module used to periodically refresh the IWDT.
+ * @param[in] None.
+ * @retval    FSP_SUCCESS               Initialized timer module successfully.
+ * @retval    Any other error codes     Failed to initialize timer module.
+ **********************************************************************************************************************/
+fsp_err_t init_timer_module(void)
 {
-    /* variable to track error and return values */
+    /* Error status */
     fsp_err_t err = FSP_SUCCESS;
 
-    /* Open GPT module */
-    err = R_GPT_Open(&g_timer_ctrl, &g_timer_cfg);
-    if (FSP_SUCCESS != err)
-    {
-        /* Print Error on RTT console */
-        APP_ERR_PRINT ("\r\n ** R_GPT_Open API failed ** \r\n");
-    }
+    err = R_TIMER_OPEN(&g_timer_ctrl, &g_timer_cfg);
     return err;
 }
 
 /*******************************************************************************************************************//**
- * @brief    Start the GPT HAL timer and return the error to the Application.
- * @param[IN]   None
- * @retval FSP_SUCCESS                 Timer started successfully.
- * @retval Any Other Error code apart from FSP_SUCCES  Unsuccessful to start timer
- ***********************************************************************************************************************/
+ * @brief     This function starts the timer that periodically refreshes the IWDT.
+ * @param[in] None.
+ * @retval    FSP_SUCCESS               Started timer successfully.
+ * @retval    Any other error codes     Failed to start timer.
+ **********************************************************************************************************************/
 fsp_err_t timer_start(void)
 {
-    /* variable to track error and return values */
+    /* Error status */
     fsp_err_t err = FSP_SUCCESS;
 
-    /* Start GPT timer */
-    err = R_GPT_Start(&g_timer_ctrl);
-    if (FSP_SUCCESS != err)
-    {
-        /* Print Error on RTT console */
-        APP_ERR_PRINT ("\r\n ** R_GPT_Start API failed ** \r\n");
-    }
+    err = R_TIMER_START(&g_timer_ctrl);
     return err;
 }
 
 /*******************************************************************************************************************//**
- * @brief    Close the GPT HAL driver and Handle the return closing API error, to the Application.
- * @param[IN]   None
- * @retval      None
- ***********************************************************************************************************************/
-void deinit_gpt_module(void)
+ * @brief     This function stops the timer that periodically refreshes the IWDT.
+ * @param[in] None.
+ * @retval    FSP_SUCCESS               Stopped timer successfully.
+ * @retval    Any other error codes     Failed to stop timer.
+ **********************************************************************************************************************/
+fsp_err_t timer_stop(void)
 {
-    /* variable to track error and return values */
+    /* Error status */
     fsp_err_t err = FSP_SUCCESS;
 
-    /* Close the GPT module */
-    err=  R_GPT_Close(&g_timer_ctrl);
-    if (FSP_SUCCESS != err)
-    {
-        /* Print Error on RTT console */
-        APP_ERR_PRINT ("\r\n ** R_GPT_Close API failed ** \r\n");
-    }
+    err = R_TIMER_STOP(&g_timer_ctrl);
+    return err;
 }
 
 /*******************************************************************************************************************//**
- * This function is called when gpt timer's counter wrapped around.
- * @brief    Refresh IWDT counter and toggle LED state.
- * @param[IN]   p_args   Callback function parameter data
- * @retval      None
+ * @brief     This function closes the opened timer module.
+ * @param[in] None.
+ * @retval    None.
+ **********************************************************************************************************************/
+void deinit_timer_module(void)
+{
+    /* Close the opened timer module */
+    if (g_timer_ctrl.open)
+    {
+        R_TIMER_CLOSE(&g_timer_ctrl);
+    }
+}
+
+#if (BSP_PERIPHERAL_TAU_PRESENT)
+/*******************************************************************************************************************//**
+ * @brief     This function is called when the TAU timer counter wraps around.
+ *            Refreshes the IWDT counter and toggles the LED state.
+ * @param[in] p_args                    Pointer to the callback function parameter data.
+ * @retval    None.
+ **********************************************************************************************************************/
+void tau_callback(timer_callback_args_t *p_args)
+{
+    FSP_PARAMETER_NOT_USED(p_args);
+
+    /* Error status */
+    fsp_err_t err = FSP_SUCCESS;
+
+    /* Variable to toggle LED */
+    static bsp_io_level_t level_led = LED_OFF;
+
+    /* Refresh IWDT */
+    err = iwdt_refresh();
+    if (FSP_SUCCESS != err)
+    {
+        /* Turn ON LED to indicate error */
+        R_IOPORT_PinWrite(&g_ioport_ctrl, g_bsp_leds.p_leds[0], LED_ON);
+    }
+    else
+    {
+        /* Counter is used to count the number of times TAU callback triggered */
+        g_timer_underflow_counter++;
+
+        /* Toggle LED */
+        level_led ^= BSP_IO_LEVEL_HIGH;
+        R_IOPORT_PinWrite(&g_ioport_ctrl, g_bsp_leds.p_leds[0], level_led);
+    }
+}
+#else
+/*******************************************************************************************************************//**
+ * @brief     This function is called when the GPT timer counter wraps around.
+ *            Refreshes the IWDT counter and toggles the LED state.
+ * @param[in] p_args                    Pointer to the callback function parameter data.
+ * @retval    None.
  **********************************************************************************************************************/
 void gpt_callback(timer_callback_args_t *p_args)
 {
-    /* variable to track error and return values */
+    /* Error status */
     fsp_err_t err = FSP_SUCCESS;
 
-    /* variable to toggle LED */
-    static bsp_io_level_t level_led = BSP_IO_LEVEL_HIGH;
+    /* Variable to toggle LED */
+    static bsp_io_level_t level_led = LED_OFF;
 
     FSP_PARAMETER_NOT_USED(p_args);
 
     /* Refresh IWDT */
-    err = R_IWDT_Refresh(&g_iwdt_ctrl);
+    err = iwdt_refresh();
     if (FSP_SUCCESS != err)
     {
-        /* Turn ON LED to indicate error, along with output on RTT*/
-#if defined (BOARD_RA6T1_RSSK) || defined (BOARD_RA4W1_EK)
-        R_IOPORT_PinWrite(&g_ioport_ctrl, g_bsp_leds.p_leds[0], BSP_IO_LEVEL_LOW);
-#else
-        R_IOPORT_PinWrite(&g_ioport_ctrl, g_bsp_leds.p_leds[0], BSP_IO_LEVEL_HIGH);
-#endif
-        /* Print Error on RTT console */
-        APP_ERR_PRINT ("\r\n ** R_WDT_Refresh API failed ** \r\n");
+        /* Turn ON LED to indicate error */
+        R_IOPORT_PinWrite(&g_ioport_ctrl, g_bsp_leds.p_leds[0], LED_ON);
     }
     else
     {
-        /* Counter is used to count the number of times GPT callback triggered. */
-        g_timer_overflow_counter++;
+        /* Counter is used to count the number of times GPT callback triggered */
+        g_timer_underflow_counter++;
 
         /* Toggle LED */
-#if defined (BOARD_RA6T1_RSSK) || defined (BOARD_RA4W1_EK)
-        level_led ^= BSP_IO_LEVEL_LOW;
-#else
         level_led ^= BSP_IO_LEVEL_HIGH;
-#endif
         R_IOPORT_PinWrite(&g_ioport_ctrl, g_bsp_leds.p_leds[0], level_led);
     }
 }
-
-/*******************************************************************************************************************//**
- * @} (end addtogroup r_iwdt_ep)
- **********************************************************************************************************************/
+#endif /* BSP_PERIPHERAL_TAU_PRESENT */
